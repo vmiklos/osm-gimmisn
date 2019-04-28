@@ -151,6 +151,8 @@ def handleMain(relations):
         output += "</li>"
     output += "</ul>"
 
+    output += "<hr/> Data © OpenStreetMap contributors. Source code on <a href=\"https://github.com/vmiklos/osm-gimmisn\">GitHub</a>."
+
     output = "<html><body>" + output + "</body></html>"
 
     return output
