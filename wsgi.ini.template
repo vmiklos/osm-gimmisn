@@ -1,0 +1,2 @@
+[wsgi]
+workdir = /path/to/workdir
