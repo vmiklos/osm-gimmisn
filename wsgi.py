@@ -6,10 +6,11 @@
 #
 
 import configparser
+import datetime
 import os
-import yaml
-import suspicious_streets
 import overpass_query
+import suspicious_streets
+import yaml
 
 
 def getWorkdir():
@@ -97,6 +98,7 @@ def handleSuspiciousStreets(requestUri, workdir):
     if action == "view-result":
         output += "<pre>"
         # TODO this API is far from nice
+        cwd = os.getcwd()
         os.chdir(workdir)
         suspicious_streets.suffix = "-%s" % relation
         suspicious_streets.normalizers = {}
@@ -107,12 +109,18 @@ def handleSuspiciousStreets(requestUri, workdir):
                 output += "%s\t%s\n" % (result[0], len(result[1]))
                 # onlyInReference items.
                 output += str(result[1]) + "\n"
+        os.chdir(cwd)
         output += "</pre>"
 
     return output
 
 
-def handleMain(relations):
+def getLastModified(workdir, path):
+    t = os.path.getmtime(os.path.join(workdir, path))
+    return datetime.datetime.fromtimestamp(t).isoformat()
+
+
+def handleMain(relations, workdir):
     output = ""
 
     output += "<h1>osm scripts</h1>"
@@ -122,11 +130,12 @@ def handleMain(relations):
     output += "<ul>"
     for k, v in relations.items():
         output += "<li>"
-        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: "
-        output += "<a href=\"/osm/streets/" + k + "/view-query\">view query</a>, "
-        output += "<a href=\"/osm/streets/" + k + "/view-result\">view result</a>, "
-        output += "<a href=\"/osm/streets/" + k + "/update-result\">update result</a>"
-        output += "</li>"
+        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: <ul>"
+        output += "<li><a href=\"/osm/streets/" + k + "/view-query\">view query</a></li>"
+        date = getLastModified(workdir, "streets-" + k + ".csv")
+        output += "<li><a href=\"/osm/streets/" + k + "/view-result\">view result</a> (updated on " + date + ")</li>"
+        output += "<li><a href=\"/osm/streets/" + k + "/update-result\">update result</a></li>"
+        output += "</ul></li>"
     output += "</ul>"
 
     output += "<h2>street-housenumbers</h2>"
@@ -134,11 +143,12 @@ def handleMain(relations):
     output += "<ul>"
     for k, v in relations.items():
         output += "<li>"
-        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: "
-        output += "<a href=\"/osm/street-housenumbers/" + k + "/view-query\">view query</a>, "
-        output += "<a href=\"/osm/street-housenumbers/" + k + "/view-result\">view result</a>, "
-        output += "<a href=\"/osm/street-housenumbers/" + k + "/update-result\">update result</a>"
-        output += "</li>"
+        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: <ul>"
+        output += "<li><a href=\"/osm/street-housenumbers/" + k + "/view-query\">view query</a></li>"
+        date = getLastModified(workdir, "street-housenumbers-" + k + ".csv")
+        output += "<li><a href=\"/osm/street-housenumbers/" + k + "/view-result\">view result</a> (updated on " + date + ")</li>"
+        output += "<li><a href=\"/osm/street-housenumbers/" + k + "/update-result\">update result</a></li>"
+        output += "</ul></li>"
     output += "</ul>"
 
     output += "<h2>suspicious-streets</h2>"
@@ -147,7 +157,7 @@ def handleMain(relations):
     for k, v in relations.items():
         output += "<li>"
         output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: "
-        output += "<a href=\"/osm/suspicious-streets/" + k + "/view-result\">view result</a>"
+        output += "<a href=\"/osm/suspicious-streets/" + k + "/view-result\">update and view result</a>"
         output += "</li>"
     output += "</ul>"
 
@@ -174,7 +184,7 @@ def application(environ, start_response):
     elif requestUri.startswith("/osm/suspicious-streets/"):
         output = handleSuspiciousStreets(requestUri, workdir)
     else:
-        output = handleMain(relations)
+        output = handleMain(relations, workdir)
 
     outputBytes = output.encode('utf-8')
     response_headers = [('Content-type', 'text/html; charset=utf-8'),
