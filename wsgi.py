@@ -7,10 +7,8 @@
 
 import configparser
 import os
-import sys
 import yaml
-sys.path.append(os.path.dirname(__file__))
-from qa import suspicious_streets
+import suspicious_streets
 import overpass_query
 
 
