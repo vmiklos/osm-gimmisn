@@ -111,9 +111,14 @@ def handleSuspiciousStreets(requestUri, workdir):
                 # onlyInReference items.
                 output += str(result[1]) + "\n"
                 houseNrCount += len(result[1])
+        doneNrCount = 0
+        for result in finder.doneStreets:
+            doneNrCount += len(result[1])
         os.chdir(cwd)
         output += "</pre>"
-        output += str(len(finder.suspiciousStreets)) + " suspicious streets, " + str(houseNrCount) + " missing house numbers in total.\n"
+        output += str(len(finder.suspiciousStreets)) + " suspicious streets, " + str(houseNrCount) + " missing house numbers in total"
+        percent = "%.2f" % (doneNrCount / (doneNrCount + houseNrCount) * 100)
+        output += " (vs " + str(doneNrCount) + " present, ie " + str(percent) + "% complete).\n"
 
     return output
 

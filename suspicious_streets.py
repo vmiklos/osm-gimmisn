@@ -121,6 +121,14 @@ def getOnlyInFirst(first, second):
     return ret
 
 
+def getInBoth(first, second):
+    ret = []
+    for i in first:
+        if i in second:
+            ret.append(i)
+    return ret
+
+
 class Finder:
     def __init__(self):
         streetsSock = open("streets%s.csv" % getArea())
@@ -137,18 +145,23 @@ class Finder:
         streetNames = sorted(set(streetNames))
 
         results = []
+        bothResults = []
 
         for streetName in streetNames:
             referenceHouseNumbers = getHouseNumbersFromLst(streetName)
             osmHouseNumbers = getHouseNumbersFromCsv(streetName)
             onlyInReference = getOnlyInFirst(referenceHouseNumbers, osmHouseNumbers)
+            inBoth = getInBoth(referenceHouseNumbers, osmHouseNumbers)
             if len(onlyInReference):
                 results.append((streetName, onlyInReference))
+            if len(inBoth):
+                bothResults.append((streetName, inBoth))
 
         # Sort by length.
         results.sort(key=lambda result: len(result[1]), reverse=True)
 
         self.suspiciousStreets = results
+        self.doneStreets = bothResults
 
 
 class Test(unittest.TestCase):
