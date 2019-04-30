@@ -1,0 +1,46 @@
+filters:
+  csiki-hegyek_utca:
+    ranges:
+    - {end: '15', isOdd: 'true', start: '1'}
+    - {end: '26', isOdd: 'false', start: '2'}
+  gazdagreti_ter:
+    ranges:
+    - {end: '5', isOdd: 'true', start: '1'}
+    - {end: '2', isOdd: 'false', start: '2'}
+  gazdagreti_ut:
+    comment: "just the Gazdagr\xE9t part"
+    ranges:
+    - {end: '9', isOdd: 'true', start: '5'}
+  kaptarko_utca:
+    ranges:
+    - {end: '11', isOdd: 'true', start: '1'}
+    - {end: '12', isOdd: 'false', start: '2'}
+  nagyszeben_ter:
+    ranges:
+    - {end: '3', isOdd: 'true', start: '1'}
+  naprozsa_utca:
+    ranges:
+    - {end: '11', isOdd: 'true', start: '1'}
+    - {end: '14', isOdd: 'false', start: '2'}
+  regos_koz:
+    ranges:
+    - {end: '7', isOdd: 'true', start: '1'}
+    - {end: '6', isOdd: 'false', start: '2'}
+  regos_utca:
+    ranges:
+    - {end: '15', isOdd: 'true', start: '1'}
+    - {end: '16', isOdd: 'false', start: '2'}
+  retkoz_utca:
+    comment: "just the Gazdagr\xE9t part"
+    ranges:
+    - {end: '9', isOdd: 'true', start: '7'}
+    - {end: '22', isOdd: 'false', start: '2'}
+  szurdok_utca:
+    ranges:
+    - {end: '5', isOdd: 'true', start: '1'}
+    - {end: '18', isOdd: 'false', start: '2'}
+  torokugrato_utca:
+    ranges:
+    - {end: '15', isOdd: 'true', start: '1'}
+    - {end: '26', isOdd: 'false', start: '2'}
+source: survey

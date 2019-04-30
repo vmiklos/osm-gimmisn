@@ -1,0 +1,74 @@
+filters:
+  budaorsi_ut:
+    ranges:
+    - {end: '64', isOdd: 'false', start: '62'}
+    - {end: '78', isOdd: 'false', start: '78'}
+    - {end: '90', isOdd: 'false', start: '88'}
+    - {end: '156', isOdd: 'false', start: '96'}
+  cirmos_utca:
+    ranges:
+    - {end: '3', isOdd: 'true', start: '1'}
+    - {end: '8', isOdd: 'false', start: '4'}
+  csarda_utca:
+    ranges:
+    - {end: '15', isOdd: 'true', start: '1'}
+    - {end: '12', isOdd: 'false', start: '2'}
+  herics_utca:
+    ranges:
+    - {end: '11', isOdd: 'true', start: '1'}
+    - {end: '22', isOdd: 'false', start: '2'}
+  igmandi_utca:
+    ranges:
+    - {end: '65', isOdd: 'true', start: '1'}
+    - {end: '30', isOdd: 'false', start: '2'}
+    - {end: '44', isOdd: 'false', start: '34'}
+  kero_utca:
+    ranges:
+    - {end: '20', isOdd: 'false', start: '2'}
+  letra_utca:
+    ranges:
+    - {end: '1', isOdd: 'true', start: '1'}
+    - {end: '9', isOdd: 'true', start: '5'}
+  majus_utca:
+    ranges:
+    - {end: '3', isOdd: 'true', start: '1'}
+    - {end: '4', isOdd: 'false', start: '2'}
+  menyecske_utca:
+    ranges:
+    - {end: '11', isOdd: 'true', start: '1'}
+    - {end: '37', isOdd: 'true', start: '15'}
+    - {end: '2', isOdd: 'false', start: '2'}
+    - {end: '16', isOdd: 'false', start: '10'}
+  mikes_kelemen_utca:
+    ranges:
+    - {end: '21', isOdd: 'true', start: '3'}
+    - {end: '77', isOdd: 'true', start: '35'}
+    - {end: '6', isOdd: 'false', start: '2'}
+    - {end: '16', isOdd: 'false', start: '16'}
+    - {end: '28', isOdd: 'false', start: '20'}
+    - {end: '60', isOdd: 'false', start: '42'}
+  neszmelyi_ut:
+    ranges:
+    - {end: '13', isOdd: 'true', start: '9'}
+    - {end: '37', isOdd: 'true', start: '31'}
+    - {end: '44', isOdd: 'false', start: '10'}
+    - {end: '70', isOdd: 'false', start: '56'}
+    - {end: '82', isOdd: 'false', start: '74'}
+    - {end: '102', isOdd: 'false', start: '90'}
+  ormezei_ut:
+    ranges:
+    - {end: '27', isOdd: 'true', start: '23'}
+    - {end: '43', isOdd: 'true', start: '39'}
+    - {end: '49', isOdd: 'true', start: '47'}
+    - {end: '61', isOdd: 'true', start: '53'}
+  peterhegyi_ut:
+    ranges:
+    - {end: '54', isOdd: 'false', start: '40'}
+  rimaszombati_ut:
+    ranges:
+    - {end: '17', isOdd: 'true', start: '5'}
+  vizsla_utca:
+    ranges:
+    - {end: '3', isOdd: 'true', start: '1'}
+    - {end: '4', isOdd: 'false', start: '2'}
+source: survey

@@ -1,0 +1,70 @@
+filters:
+  bod_peter_lejto:
+    ranges:
+    - {end: '6', isOdd: 'false', start: '2'}
+  bod_peter_utca:
+    ranges:
+    - {end: '27', isOdd: 'true', start: '1'}
+    - {end: '22', isOdd: 'false', start: '2'}
+  brezno_koz:
+    ranges:
+    - {end: '13', isOdd: 'true', start: '1'}
+    - {end: '14', isOdd: 'false', start: '2'}
+  budaorsi_ut:
+    comment: this is just the sashegy part
+    ranges:
+    - {end: '45', isOdd: 'true', start: '1'}
+  elopatak_utca:
+    comment: this is just the sashegy part, would be <6 but there is no 4
+    ranges:
+    - {end: '2', isOdd: 'false', start: '2'}
+  harasztos_ut:
+    ranges:
+    - {end: '1', isOdd: 'true', start: '1'}
+  hegyalja_ut:
+    ranges:
+    - {end: '93', isOdd: 'true', start: '47'}
+    - {end: '182', isOdd: 'false', start: '70'}
+  homonna_utca:
+    comment: this is just the sashegy part; the range is till 21, but the last actual
+      number is 13
+    ranges:
+    - {end: '13', isOdd: 'true', start: '1'}
+  jagello_ut:
+    comment: this is just the sashegy part
+    ranges:
+    - {end: '4', isOdd: 'false', start: '2'}
+  kallo_esperes_utca:
+    comment: this is just the sashegy part; the even side
+    ranges:
+    - {end: '18', isOdd: 'false', start: '2'}
+  kond_vezer_utca:
+    ranges:
+    - {end: '15', isOdd: 'true', start: '1'}
+    - {end: '16', isOdd: 'false', start: '2'}
+  muskotaly_koz:
+    ranges:
+    - {end: '3', isOdd: 'true', start: '1'}
+    - {end: '6', isOdd: 'false', start: '2'}
+  muskotaly_utca:
+    ranges:
+    - {end: '37', isOdd: 'true', start: '1'}
+    - {end: '30', isOdd: 'false', start: '2'}
+  radvany_utca:
+    ranges:
+    - {end: '35', isOdd: 'true', start: '1'}
+    - {end: '38', isOdd: 'false', start: '2'}
+  somorjai_utca:
+    comment: this is just the sashegy part
+    ranges:
+    - {end: '23', isOdd: 'true', start: '19'}
+    - {end: '18', isOdd: 'false', start: '18'}
+  tajek_utca:
+    ranges:
+    - {end: '11', isOdd: 'true', start: '1'}
+    - {end: '24', isOdd: 'false', start: '2'}
+  zolyomi_ut:
+    ranges:
+    - {end: '49', isOdd: 'true', start: '1'}
+    - {end: '44', isOdd: 'false', start: '4'}
+source: survey
