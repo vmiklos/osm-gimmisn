@@ -103,15 +103,17 @@ def handleSuspiciousStreets(requestUri, workdir):
         suspicious_streets.loadNormalizers()
         os.chdir(workdir)
         finder = suspicious_streets.Finder()
+        houseNrCount = 0
         for result in finder.suspiciousStreets:
             if len(result[1]):
                 # House number, # of onlyInReference items.
                 output += "%s\t%s\n" % (result[0], len(result[1]))
                 # onlyInReference items.
                 output += str(result[1]) + "\n"
+                houseNrCount += len(result[1])
         os.chdir(cwd)
         output += "</pre>"
-        output += str(len(finder.suspiciousStreets)) + " suspicious streets in total.\n"
+        output += str(len(finder.suspiciousStreets)) + " suspicious streets, " + str(houseNrCount) + " missing house numbers in total.\n"
 
     return output
 
