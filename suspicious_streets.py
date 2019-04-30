@@ -17,6 +17,7 @@ import unittest
 import yaml
 
 suffix = ""
+normalizers = {}
 
 
 # A Ranges object contains an item if any of its Range objects contains it.
@@ -164,11 +165,10 @@ class Test(unittest.TestCase):
         self.assertEqual([], finder.suspiciousStreets)
 
 
-if __name__ == '__main__':
-    normalizers = {}
-    if len(sys.argv) > 1:
-        suffix = sys.argv[1]
-        sys.argv = sys.argv[:1]
+def loadNormalizers():
+    global normalizers
+    cwd = os.getcwd()
+    os.chdir(os.path.dirname(__file__))
     if os.path.exists("housenumber-filters%s.yaml" % getArea()):
         with open("housenumber-filters%s.yaml" % getArea()) as sock:
             normalizers = yaml.load(sock)
@@ -182,6 +182,14 @@ if __name__ == '__main__':
             for r in filters[street]["ranges"]:
                 i.append(Range(int(r["start"]), int(r["end"]), r["isOdd"] == "true"))
             normalizers[street] = Ranges(i)
+    os.chdir(cwd)
+
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        suffix = sys.argv[1]
+        sys.argv = sys.argv[:1]
+    loadNormalizers()
     os.chdir("workdir")
     unittest.main()
 

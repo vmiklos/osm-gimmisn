@@ -25,7 +25,7 @@ def getWorkdir():
 #
 # "ormezo: 2713749
 # terezvaros: 3229919"
-def getRelations(workdir):
+def getRelations():
     return yaml.load(open(os.path.join(os.path.dirname(__file__), "relations.yaml")))
 
 
@@ -99,9 +99,9 @@ def handleSuspiciousStreets(requestUri, workdir):
         output += "<pre>"
         # TODO this API is far from nice
         cwd = os.getcwd()
-        os.chdir(workdir)
         suspicious_streets.suffix = "-%s" % relation
-        suspicious_streets.normalizers = {}
+        suspicious_streets.loadNormalizers()
+        os.chdir(workdir)
         finder = suspicious_streets.Finder()
         for result in finder.suspiciousStreets:
             if len(result[1]):
@@ -111,6 +111,7 @@ def handleSuspiciousStreets(requestUri, workdir):
                 output += str(result[1]) + "\n"
         os.chdir(cwd)
         output += "</pre>"
+        output += str(len(finder.suspiciousStreets)) + " suspicious streets in total.\n"
 
     return output
 
@@ -175,7 +176,7 @@ def application(environ, start_response):
 
     workdir = getWorkdir()
 
-    relations = getRelations(workdir)
+    relations = getRelations()
 
     if requestUri.startswith("/osm/streets/"):
         output = handleStreets(requestUri, workdir)
