@@ -55,7 +55,7 @@ def handleStreets(requestUri, workdir):
             sock.write(result)
             output += "update finished. <a href=\"/osm/streets/" + relation + "/view-result\">view</a>"
 
-    return output
+    return getHeader() + output + getFooter()
 
 
 # Expected requestUri: e.g. /osm/street-housenumbers/ormezo/view-query
@@ -84,7 +84,7 @@ def handleStreetHousenumbers(requestUri, workdir):
             sock.write(result)
             output += "update finished. <a href=\"/osm/street-housenumbers/" + relation + "/view-result\">view</a>"
 
-    return output
+    return getHeader() + output + getFooter()
 
 
 # Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-result
@@ -120,7 +120,7 @@ def handleSuspiciousStreets(requestUri, workdir):
         percent = "%.2f" % (doneNrCount / (doneNrCount + houseNrCount) * 100)
         output += " (vs " + str(doneNrCount) + " present, ie " + str(percent) + "% complete).\n"
 
-    return output
+    return getHeader() + output + getFooter()
 
 
 def getLastModified(workdir, path):
@@ -169,10 +169,18 @@ def handleMain(relations, workdir):
         output += "</li>"
     output += "</ul>"
 
-    output += "<hr/> OSM data © OpenStreetMap contributors. Source code on <a href=\"https://github.com/vmiklos/osm-gimmisn\">GitHub</a>."
+    return getHeader() + output + getFooter()
 
-    output = "<html><body>" + output + "</body></html>"
 
+def getHeader():
+    output = "<html><body>"
+    output += "<div><a href=\"/osm\">index</a> &brvbar; <a href=\"https://github.com/vmiklos/osm-gimmisn\">github</a></div><hr/>"
+    return output
+
+
+def getFooter():
+    output = "<hr/><div>OSM data © OpenStreetMap contributors.</div>"
+    output += "</body></html>"
     return output
 
 

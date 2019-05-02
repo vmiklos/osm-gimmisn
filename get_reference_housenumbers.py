@@ -58,6 +58,8 @@ def getStreetURL(street, prefix):
         district = "xii"
     elif suffix == "-magasut":
         district = "xii"
+    elif suffix == "-farkasret":
+        district = "xii"
     elif suffix == "-terezvaros":
         district = "vi"
     return prefix + "/budapest%20" + district + ".ker./" + simplifiedStreet + "/all.json"
