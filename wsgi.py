@@ -142,7 +142,7 @@ def handleMain(relations, workdir):
         output += "<li><a href=\"/osm/streets/" + k + "/view-query\">view query</a></li>"
         date = getLastModified(workdir, "streets-" + k + ".csv")
         output += "<li><a href=\"/osm/streets/" + k + "/view-result\">view result</a> (updated on " + date + ")</li>"
-        output += "<li><a href=\"/osm/streets/" + k + "/update-result\">update result</a></li>"
+        output += "<li><strong><a href=\"/osm/streets/" + k + "/update-result\">query overpass</a></strong></li>"
         output += "</ul></li>"
     output += "</ul>"
 
@@ -155,7 +155,7 @@ def handleMain(relations, workdir):
         output += "<li><a href=\"/osm/street-housenumbers/" + k + "/view-query\">view query</a></li>"
         date = getLastModified(workdir, "street-housenumbers-" + k + ".csv")
         output += "<li><a href=\"/osm/street-housenumbers/" + k + "/view-result\">view result</a> (updated on " + date + ")</li>"
-        output += "<li><a href=\"/osm/street-housenumbers/" + k + "/update-result\">update result</a></li>"
+        output += "<li><strong><a href=\"/osm/street-housenumbers/" + k + "/update-result\">query overpass</a></strong></li>"
         output += "</ul></li>"
     output += "</ul>"
 
@@ -165,7 +165,7 @@ def handleMain(relations, workdir):
     for k, v in relations.items():
         output += "<li>"
         output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: "
-        output += "<a href=\"/osm/suspicious-streets/" + k + "/view-result\">update and view result</a>"
+        output += "<strong><a href=\"/osm/suspicious-streets/" + k + "/view-result\">view result</a></strong>"
         output += "</li>"
     output += "</ul>"
 
