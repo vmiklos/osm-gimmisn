@@ -54,7 +54,7 @@ ehhez (jelenleg kézzel) egy új lekérdezés generálódik. Ez igaz mind az utc
 Ezzel neked nem kell foglalkoznod (kivéve ha kézzel akarsz helyben tesztelni), a pull request
 jóváhagyásakor ez a generálás megtörténik a https://vmiklos.pythonanywhere.com/osm[weboldalon].
 
-== Hibás riasztés hozzáadása
+== Hibás riasztás hozzáadása
 
 Ez hasonló az új reláció felvételéhez, csak a reláció nevéből származtatott szűrő file-ba kell
 felvenni információt, például `housenumber-filters-magasut.yaml`. Tegyük fel, hogy Magasúton a
