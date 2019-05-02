@@ -117,7 +117,10 @@ def handleSuspiciousStreets(requestUri, workdir):
         os.chdir(cwd)
         output += "</pre>"
         output += str(len(finder.suspiciousStreets)) + " suspicious streets, " + str(houseNrCount) + " missing house numbers in total"
-        percent = "%.2f" % (doneNrCount / (doneNrCount + houseNrCount) * 100)
+        if doneNrCount > 0 or houseNrCount > 0:
+            percent = "%.2f" % (doneNrCount / (doneNrCount + houseNrCount) * 100)
+        else:
+            percent = "100"
         output += " (vs " + str(doneNrCount) + " present, ie " + str(percent) + "% complete).\n"
 
     return getHeader() + output + getFooter()
