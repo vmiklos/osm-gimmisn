@@ -1,0 +1,6 @@
+filters:
+  comment: hosszúréti páratlan madárhegy, páros hosszúrtét, helyrajzi számok kiszűrése kerülnek (18xx)
+  hosszureti_utca:
+    ranges:
+    - {end: '34', isOdd: 'false', start: '2'}
+source: survey
