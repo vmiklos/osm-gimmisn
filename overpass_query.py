@@ -19,7 +19,7 @@ def overpassQuery(query):
     return buf.decode('utf-8')
 
 
-if __name__ == "__main__":
+def main():
     sock = open(sys.argv[1])
     query = sock.read()
     sock.close()
@@ -27,5 +27,9 @@ if __name__ == "__main__":
     buf = overpassQuery(query)
 
     sys.stdout.write(buf)
+
+
+if __name__ == "__main__":
+    main()
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

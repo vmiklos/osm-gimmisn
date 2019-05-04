@@ -43,7 +43,7 @@ class Range:
     def __contains__(self, n):
         if self.isOdd != (n % 2 == 1):
             return False
-        if n >= self.start and n <= self.end:
+        if self.start <= n <= self.end:
             return True
         return False
 
@@ -122,9 +122,9 @@ class Finder:
             osmHouseNumbers = getHouseNumbersFromCsv(streetName)
             onlyInReference = helpers.get_only_in_first(referenceHouseNumbers, osmHouseNumbers)
             inBoth = helpers.get_in_both(referenceHouseNumbers, osmHouseNumbers)
-            if len(onlyInReference):
+            if onlyInReference:
                 results.append((streetName, onlyInReference))
-            if len(inBoth):
+            if inBoth:
                 bothResults.append((streetName, inBoth))
 
         # Sort by length.
@@ -139,7 +139,7 @@ class Test(unittest.TestCase):
         finder = Finder()
 
         for result in finder.suspiciousStreets:
-            if len(result[1]):
+            if result[1]:
                 # House number, # of onlyInReference items.
                 print("%s\t%s" % (result[0], len(result[1])))
                 # onlyInReference items.
