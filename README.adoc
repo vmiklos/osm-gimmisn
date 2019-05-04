@@ -1,5 +1,7 @@
 = osm-gimmisn
 
+image:https://travis-ci.org/vmiklos/osm-gimmisn.svg?branch=master["Build Status", link="https://travis-ci.org/vmiklos/osm-gimmisn"]
+
 Finds objects missing from the OSM DB. As a start, it finds missing house numbers based on a
 reference list.
 
