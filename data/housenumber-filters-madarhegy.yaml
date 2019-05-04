@@ -8,7 +8,7 @@ filters:
     ranges:
     - {end: '999', isOdd: 'true', start: '225'}
   torokbalinti_ut:
-    ranges: 
+    ranges:
     # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a spanyolret
     - {end: '998', isOdd: 'false', start: '80'}
   nagyida_utca:
@@ -21,14 +21,14 @@ filters:
   keltike_lejto:
     # kcr-ben 34-ig van szamozva
     ranges:
-    - {end: '99', isOdd: 'true', start: '1'}    
+    - {end: '99', isOdd: 'true', start: '1'}
     - {end: '98', isOdd: 'false', start: '2'}
   madarhegy_utca:
     ranges:
-    - {end: '99', isOdd: 'true', start: '1'}    
+    - {end: '99', isOdd: 'true', start: '1'}
     - {end: '98', isOdd: 'false', start: '2'}
   cickafark_utca:
     ranges:
-    - {end: '99', isOdd: 'true', start: '1'}    
+    - {end: '99', isOdd: 'true', start: '1'}
     - {end: '98', isOdd: 'false', start: '2'}
 source: survey
