@@ -4,7 +4,7 @@ check-full: check
 	  *.py tests/*.py
 
 check:
-	yamllint data/*.yaml
+	yamllint data/*.yaml .travis.yml
 	shellcheck *.sh
 	flake8 *.py tests/*.py
 	pylint \
