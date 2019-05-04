@@ -13,6 +13,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
+import helpers
 
 suffix = ""
 mode = ""
@@ -41,7 +42,7 @@ def getStreets():
 
 # Returns URL of a street based on config.
 def getStreetURL(street, prefix):
-    simplifiedStreet = simplify(street, spaceDecode=True)
+    simplifiedStreet = helpers.simplify(street, spaceDecode=True)
     if simplifiedStreet == "zolyomi_koz":
         # Really strange, survey confirms OSM is correct here, so map it
         # instead.
@@ -74,25 +75,6 @@ def getStreetURL(street, prefix):
 # Returns SHA256 hash of an URL.
 def getURLHash(url):
     return hashlib.sha256(url.encode('utf-8')).hexdigest()
-
-
-# Handles normalization of a street name.
-def simplify(s, spaceDecode=False):
-    s = s.replace('Á', 'A').replace('á', 'a')
-    s = s.replace('É', 'E').replace('é', 'e')
-    s = s.replace('Í', 'I').replace('í', 'i')
-    s = s.replace('Ó', 'O').replace('ó', 'o')
-    s = s.replace('Ö', 'O').replace('ö', 'o')
-    s = s.replace('Ő', 'O').replace('ő', 'o')
-    s = s.replace('Ú', 'U').replace('ú', 'u')
-    s = s.replace('Ü', 'U').replace('ü', 'u')
-    s = s.replace('Ű', 'U').replace('ű', 'u')
-    if spaceDecode:
-        s = s.replace(' ', '%20')
-    else:
-        s = s.replace(' ', '_')
-    s = s.lower()
-    return s
 
 
 # Gets known house numbers for a single street
@@ -132,7 +114,7 @@ def getReferenceHouseNumbers(street, prefix):
         j = json.loads(buf)
     except Exception:
         return []
-    return [simplify(street + " " + i["label"]) for i in j]
+    return [helpers.simplify(street + " " + i["label"]) for i in j]
 
 
 # Gets known house numbers (not their coordinates) from a reference site, based
