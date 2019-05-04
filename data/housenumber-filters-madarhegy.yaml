@@ -1,6 +1,34 @@
 filters:
-  # hosszúréti páratlan madárhegy, páros hosszúrtét, helyrajzi számok kiszűrése kerülnek (18xx)
+  # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
   hosszureti_utca:
+    # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
     - {end: '65', isOdd: 'true', start: '1'}
+  budaorsi_ut:
+    ranges:
+    - {end: '999', isOdd: 'true', start: '225'}
+  torokbalinti_ut:
+    ranges: 
+    # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a spanyolret
+    - {end: '998', isOdd: 'false', start: '80'}
+  nagyida_utca:
+    ranges:
+    - {end: '14', isOdd: 'false', start: '6'}
+  rupphegyi_ut:
+    # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a posingermajor
+    ranges:
+    - {end: '999', isOdd: 'true', start: '1'}
+  keltike_lejto:
+    # kcr-ben 34-ig van szamozva
+    ranges:
+    - {end: '99', isOdd: 'true', start: '1'}    
+    - {end: '98', isOdd: 'false', start: '2'}
+  madarhegy_utca:
+    ranges:
+    - {end: '99', isOdd: 'true', start: '1'}    
+    - {end: '98', isOdd: 'false', start: '2'}
+  cickafark_utca:
+    ranges:
+    - {end: '99', isOdd: 'true', start: '1'}    
+    - {end: '98', isOdd: 'false', start: '2'}
 source: survey
