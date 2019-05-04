@@ -38,3 +38,19 @@ def simplify(s, spaceDecode=False):
         s = s.replace(' ', '_')
     s = s.lower()
     return s
+
+
+def get_only_in_first(first, second):
+    ret = []
+    for i in first:
+        if i not in second:
+            ret.append(i)
+    return ret
+
+
+def get_in_both(first, second):
+    ret = []
+    for i in first:
+        if i in second:
+            ret.append(i)
+    return ret

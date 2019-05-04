@@ -99,22 +99,6 @@ def getHouseNumbersFromLst(streetName):
     return helpers.sort_numerically(set(houseNumbers))
 
 
-def getOnlyInFirst(first, second):
-    ret = []
-    for i in first:
-        if i not in second:
-            ret.append(i)
-    return ret
-
-
-def getInBoth(first, second):
-    ret = []
-    for i in first:
-        if i in second:
-            ret.append(i)
-    return ret
-
-
 class Finder:
     def __init__(self):
         streetsSock = open("streets%s.csv" % getArea())
@@ -136,8 +120,8 @@ class Finder:
         for streetName in streetNames:
             referenceHouseNumbers = getHouseNumbersFromLst(streetName)
             osmHouseNumbers = getHouseNumbersFromCsv(streetName)
-            onlyInReference = getOnlyInFirst(referenceHouseNumbers, osmHouseNumbers)
-            inBoth = getInBoth(referenceHouseNumbers, osmHouseNumbers)
+            onlyInReference = helpers.get_only_in_first(referenceHouseNumbers, osmHouseNumbers)
+            inBoth = helpers.get_in_both(referenceHouseNumbers, osmHouseNumbers)
             if len(onlyInReference):
                 results.append((streetName, onlyInReference))
             if len(inBoth):
