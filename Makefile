@@ -1,5 +1,18 @@
+check-full: check
+	pylint \
+	  --max-line-length=120 \
+	  *.py tests/*.py
+
 check:
-	flake8 get_reference_housenumbers.py overpass_query.py suspicious_streets.py wsgi.py
+	yamllint data/*.yaml
+	shellcheck *.sh
+	flake8 *.py tests/*.py
+	pylint \
+	  --max-line-length=120 \
+	  --disable=missing-docstring,fixme,invalid-name,too-few-public-methods,global-statement \
+	  *.py tests/*.py
+	pycodestyle --max-line-length=120 *.py tests/*.py
+	python3 -m unittest discover tests
 
 server:
 	@echo 'Open <http://localhost:8000/osm> in your browser.'
