@@ -5,9 +5,11 @@ filters:
     ranges:
     - {end: '34', isOdd: 'false', start: '2'}
   retkerulo_ut:
+    # nincs vegig epitve, 42 hianyzik
     ranges:
     - {end: '99', isOdd: 'true', start: '1'}
-    - {end: '98', isOdd: 'false', start: '2'}
+    - {end: '40', isOdd: 'false', start: '14'}
+    - {end: '98', isOdd: 'false', start: '44'}
   gazdagreti_ut:
     ranges:
     # paratlan gazdagret
