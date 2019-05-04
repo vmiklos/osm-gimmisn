@@ -15,6 +15,7 @@ import re
 import sys
 import unittest
 import yaml
+import helpers
 
 suffix = ""
 normalizers = {}
@@ -97,7 +98,7 @@ def getHouseNumbersFromCsv(streetName):
             continue
         houseNumbers += normalize(tokens[2], simplify(streetName))
     streetHouseNumbersSock.close()
-    return sorted(set(houseNumbers))
+    return helpers.sort_numerically(set(houseNumbers))
 
 
 def getHouseNumbersFromLst(streetName):
@@ -110,7 +111,7 @@ def getHouseNumbersFromLst(streetName):
         if line.startswith(prefix):
             houseNumbers += normalize(line.replace(prefix, ''), lstStreetName)
     sock.close()
-    return sorted(set(houseNumbers))
+    return helpers.sort_numerically(set(houseNumbers))
 
 
 def getOnlyInFirst(first, second):
