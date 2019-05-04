@@ -1,6 +1,23 @@
 filters:
-  # hosszúréti páratlan madárhegy, páros hosszúrtét, helyrajzi számok kiszűrése kerülnek (18xx)
+  # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
   hosszureti_utca:
+    # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
     - {end: '34', isOdd: 'false', start: '2'}
+  retkerulo_ut:
+    ranges:
+    - {end: '99', isOdd: 'true', start: '1'}
+    - {end: '98', isOdd: 'false', start: '2'}
+  gazdagreti_ut:
+    ranges:
+    # paratlan gazdagret
+    - {end: '44', isOdd: 'false', start: '2'}
+  rozsabarack_utca:
+    # tobbi hazszam madarhegy
+    ranges:
+    - {end: '7', isOdd: 'true', start: '1'}
+  nevegy_koz:
+    ranges:
+    - {end: '7', isOdd: 'true', start: '1'}
+    - {end: '10', isOdd: 'false', start: '2'}
 source: survey
