@@ -26,7 +26,7 @@ def getWorkdir():
 # "ormezo: 2713749
 # terezvaros: 3229919"
 def getRelations():
-    return yaml.load(open(os.path.join(os.path.dirname(__file__), "relations.yaml")))
+    return yaml.load(open(os.path.join(os.path.dirname(__file__), "data", "relations.yaml")))
 
 
 # Expected requestUri: e.g. /osm/streets/ormezo/view-query
