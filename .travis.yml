@@ -1,0 +1,7 @@
+language: python
+dist: xenial
+addons:
+  apt:
+    packages:
+      - yamllint
+script: make check
