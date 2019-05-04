@@ -1,0 +1,6 @@
+[out:csv(::id, name)]  [timeout:425];
+area(360@RELATION@);
+// generated from: highway=* and bridge!=yes and note!=no-house-numbers
+way(area)[highway]["bridge"!~".*"]["note"!="no-house-numbers"];
+out;
+// vim: ft=javascript
