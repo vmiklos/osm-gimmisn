@@ -1,0 +1,9 @@
+filters:
+  andrassy_ut:
+    comment: exclude following numbers ['106', '108', '94']
+    ranges:
+    - {end: '127', isOdd: 'true', start: '1'}
+    - {end: '92', isOdd: 'false', start: '2'}
+    - {end: '104', isOdd: 'false', start: '96'}
+    - {end: '132', isOdd: 'false', start: '110'}
+source: survey

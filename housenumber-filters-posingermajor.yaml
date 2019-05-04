@@ -1,0 +1,62 @@
+filters:
+  # helyrajzi számok kiszűrése kerülnek
+  ordogorom_lejto:
+    ranges:
+    - {end: '77', isOdd: 'true', start: '1'}  
+    - {end: '72', isOdd: 'false', start: '2'}
+  ordogorom_ut: 
+    ranges:
+    - {end: '19', isOdd: 'true', start: '1'}  
+    - {end: '24', isOdd: 'false', start: '2'}
+  kakukkhegyi_ut: 
+    # csak hrsz szures
+    ranges:
+    - {end: '999', isOdd: 'true', start: '1'}  
+    - {end: '998', isOdd: 'false', start: '2'}
+  rupphegyi_ut: 
+    # csak hrsz szures
+    ranges:
+    - {end: '999', isOdd: 'true', start: '1'}  
+    - {end: '998', isOdd: 'false', start: '2'}
+  spanyolret_ut: 
+    # csak hrsz szures
+    ranges:
+    - {end: '999', isOdd: 'true', start: '1'}  
+    - {end: '998', isOdd: 'false', start: '2'}
+  nagymakfa_utca: 
+    ranges:
+    - {end: '11', isOdd: 'true', start: '1'}  
+    - {end: '16', isOdd: 'false', start: '2'}
+  szelesdomb_utca: 
+    # 4 a vege de van meg egy szamozatlan haz
+    ranges:
+    - {end: '11', isOdd: 'true', start: '1'}  
+    - {end: '6', isOdd: 'false', start: '2'}
+  varjuhaj_utca: 
+    ranges:
+    # csak hrsz szures
+    - {end: '99', isOdd: 'true', start: '1'}  
+    - {end: '98', isOdd: 'false', start: '2'}
+  makvirag_koz: 
+    ranges:
+    # csak hrsz szures
+    - {end: '1', isOdd: 'true', start: '1'}  
+  rupphegyi_koz: 
+    # nincs ide szamozva haz
+    ranges: []
+  barackmag_utca: 
+    # csak hrsz szures
+    ranges:
+    - {end: '99', isOdd: 'true', start: '1'}  
+    - {end: '98', isOdd: 'false', start: '2'}
+  csillagoszirozsa_utca: 
+    # csak hrsz szures
+    ranges:
+    - {end: '99', isOdd: 'true', start: '1'}  
+    - {end: '98', isOdd: 'false', start: '2'}
+  irhas_koz: 
+    # csak hrsz szures
+    ranges:
+    - {end: '9', isOdd: 'true', start: '1'}  
+    - {end: '14', isOdd: 'false', start: '2'}
+source: survey    
