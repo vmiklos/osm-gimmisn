@@ -52,21 +52,6 @@ def getArea():
     return suffix
 
 
-def simplify(s):
-    """ Handles normalization of a street name."""
-    s = s.replace('Á', 'A').replace('á', 'a')
-    s = s.replace('É', 'E').replace('é', 'e')
-    s = s.replace('Í', 'I').replace('í', 'i')
-    s = s.replace('Ó', 'O').replace('ó', 'o')
-    s = s.replace('Ö', 'O').replace('ö', 'o')
-    s = s.replace('Ő', 'O').replace('ő', 'o')
-    s = s.replace('Ú', 'U').replace('ú', 'u')
-    s = s.replace('Ü', 'U').replace('ü', 'u')
-    s = s.replace('Ű', 'U').replace('ű', 'u')
-    s = s.replace(' ', '_').lower()
-    return s
-
-
 def normalize(houseNumbers, streetName):
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
@@ -96,14 +81,14 @@ def getHouseNumbersFromCsv(streetName):
             continue
         if tokens[1] != streetName:
             continue
-        houseNumbers += normalize(tokens[2], simplify(streetName))
+        houseNumbers += normalize(tokens[2], helpers.simplify(streetName))
     streetHouseNumbersSock.close()
     return helpers.sort_numerically(set(houseNumbers))
 
 
 def getHouseNumbersFromLst(streetName):
     houseNumbers = []
-    lstStreetName = simplify(streetName)
+    lstStreetName = helpers.simplify(streetName)
     prefix = lstStreetName + "_"
     sock = open("street-housenumbers-reference%s.lst" % getArea())
     for line in sock.readlines():
