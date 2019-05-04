@@ -123,23 +123,12 @@ def handleSuspiciousStreets(requestUri, workdir):
             percent = "100"
         output += " (vs " + str(doneNrCount) + " present, ie " + str(percent) + "% complete).\n"
 
-        # Write the bottom line to a file, so the index page show it fast.
-        with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
-            sock.write(percent)
-
     return getHeader() + output + getFooter()
 
 
 def getLastModified(workdir, path):
     t = os.path.getmtime(os.path.join(workdir, path))
     return datetime.datetime.fromtimestamp(t).isoformat()
-
-
-def getContent(workdir, path):
-    ret = ""
-    with open(os.path.join(workdir, path)) as sock:
-        ret = sock.read()
-    return ret
 
 
 def handleMain(relations, workdir):
@@ -180,11 +169,6 @@ def handleMain(relations, workdir):
         output += "<li>"
         output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: "
         output += "<strong><a href=\"/osm/suspicious-streets/" + k + "/view-result\">view result</a></strong>"
-        percentFile = k + ".percent"
-        if os.path.exists(os.path.join(workdir, percentFile)):
-            percent = getContent(workdir, percentFile)
-            date = getLastModified(workdir, percentFile)
-            output += ": " + percent + "% (updated on " + date + ")"
         output += "</li>"
     output += "</ul>"
 
