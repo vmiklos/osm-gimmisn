@@ -8,9 +8,9 @@
 import configparser
 import datetime
 import os
+import yaml
 import overpass_query
 import suspicious_streets
-import yaml
 
 
 def getWorkdir():
@@ -105,7 +105,7 @@ def handleSuspiciousStreets(requestUri, workdir):
         finder = suspicious_streets.Finder()
         houseNrCount = 0
         for result in finder.suspiciousStreets:
-            if len(result[1]):
+            if result[1]:
                 # House number, # of onlyInReference items.
                 output += "%s\t%s\n" % (result[0], len(result[1]))
                 # onlyInReference items.
@@ -116,7 +116,8 @@ def handleSuspiciousStreets(requestUri, workdir):
             doneNrCount += len(result[1])
         os.chdir(cwd)
         output += "</pre>"
-        output += str(len(finder.suspiciousStreets)) + " suspicious streets, " + str(houseNrCount) + " missing house numbers in total"
+        output += str(len(finder.suspiciousStreets)) + " suspicious streets, "
+        output += str(houseNrCount) + " missing house numbers in total"
         if doneNrCount > 0 or houseNrCount > 0:
             percent = "%.2f" % (doneNrCount / (doneNrCount + houseNrCount) * 100)
         else:
@@ -168,8 +169,10 @@ def handleMain(relations, workdir):
         output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: <ul>"
         output += "<li><a href=\"/osm/street-housenumbers/" + k + "/view-query\">view query</a></li>"
         date = getLastModified(workdir, "street-housenumbers-" + k + ".csv")
-        output += "<li><a href=\"/osm/street-housenumbers/" + k + "/view-result\">view result</a> (updated on " + date + ")</li>"
-        output += "<li><strong><a href=\"/osm/street-housenumbers/" + k + "/update-result\">query overpass</a></strong></li>"
+        output += "<li><a href=\"/osm/street-housenumbers/" + k + \
+                  "/view-result\">view result</a> (updated on " + date + ")</li>"
+        output += "<li><strong><a href=\"/osm/street-housenumbers/" + k + \
+                  "/update-result\">query overpass</a></strong></li>"
         output += "</ul></li>"
     output += "</ul>"
 
@@ -193,7 +196,8 @@ def handleMain(relations, workdir):
 
 def getHeader():
     output = "<html><body>"
-    output += "<div><a href=\"/osm\">index</a> &brvbar; <a href=\"https://github.com/vmiklos/osm-gimmisn\">github</a></div><hr/>"
+    output += "<div><a href=\"/osm\">index</a> &brvbar; "\
+              "<a href=\"https://github.com/vmiklos/osm-gimmisn\">github</a></div><hr/>"
     return output
 
 

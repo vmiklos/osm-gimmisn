@@ -50,7 +50,8 @@ def getStreetURL(street, prefix):
     elif simplifiedStreet == "kiss_janos_altabornagy_utca":
         simplifiedStreet = "kiss_janos_altb._utca"
     district = "xi"
-    if suffix == "-sashegy" and simplifiedStreet in ("brezno_lepcso", "kallo_esperes_utca", "sasfiok_utca", "sion_lepcso", "somorjai_utca"):
+    sashegy_extra_streets = ("brezno_lepcso", "kallo_esperes_utca", "sasfiok_utca", "sion_lepcso", "somorjai_utca")
+    if suffix == "-sashegy" and simplifiedStreet in sashegy_extra_streets:
         # This city part isn't a strict subset of a city district, these are the exceptions.
         district = "xii"
     elif suffix == "-nemetvolgy":
@@ -98,7 +99,7 @@ def getReferenceHouseNumbers(street, prefix):
             sys.stderr.write(" not found.\n")
         cacheSock = open(cachePath, "w")
         buf = urlSock.read()
-        if type(buf) == bytes:
+        if isinstance(buf, bytes):
             buf = buf.decode('utf-8')
         cacheSock.write(buf)
         cacheSock.close()
@@ -112,7 +113,7 @@ def getReferenceHouseNumbers(street, prefix):
 
     try:
         j = json.loads(buf)
-    except Exception:
+    except json.decoder.JSONDecodeError:
         return []
     return [helpers.simplify(street + " " + i["label"]) for i in j]
 
