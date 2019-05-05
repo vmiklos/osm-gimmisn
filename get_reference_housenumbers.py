@@ -40,6 +40,23 @@ def getStreets():
     return sorted(set(ret))
 
 
+suffixToDistricts = {
+    "-nemetvolgy": "xii",
+    "-farkasvolgy": "xii",
+    "-magasut": "xii",
+    "-farkasret": "xii",
+    "-terezvaros": "vi",
+    "-madarhegy": "xi",
+    "-hosszuret": "xi",
+    "-spanyolret": "xi",
+    "-csilleberc": "xii",
+    "-dobogo": "xi",
+    "-kelenfold": "xi",
+    "-orsod": "xi",
+    "-szechenyihegy": "xii",
+}
+
+
 # Returns URL of a street based on config.
 def getStreetURL(street, prefix):
     simplifiedStreet = helpers.simplify(street, spaceDecode=True)
@@ -57,32 +74,8 @@ def getStreetURL(street, prefix):
     if suffix == "-sashegy" and simplifiedStreet in sashegy_extra_streets:
         # This city part isn't a strict subset of a city district, these are the exceptions.
         district = "xii"
-    elif suffix == "-nemetvolgy":
-        district = "xii"
-    elif suffix == "-farkasvolgy":
-        district = "xii"
-    elif suffix == "-magasut":
-        district = "xii"
-    elif suffix == "-farkasret":
-        district = "xii"
-    elif suffix == "-terezvaros":
-        district = "vi"
-    elif suffix == "-madarhegy":
-        district = "xi"
-    elif suffix == "-hosszuret":
-        district = "xi"
-    elif suffix == "-spanyolret":
-        district = "xi"
-    elif suffix == "-csilleberc":
-        district = "xii"
-    elif suffix == "-dobogo":
-        district = "xi"
-    elif suffix == "-kelenfold":
-        district = "xi"
-    elif suffix == "-orsod":
-        district = "xi"
-    elif suffix == "-szechenyihegy":
-        district = "xii"
+    elif suffix in suffixToDistricts.keys():
+        district = suffixToDistricts[suffix]
     return prefix + "/budapest%20" + district + ".ker./" + simplifiedStreet + "/all.json"
 
 
