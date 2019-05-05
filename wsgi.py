@@ -8,6 +8,7 @@
 import configparser
 import datetime
 import os
+import traceback
 import yaml
 import helpers
 import overpass_query
@@ -204,7 +205,7 @@ def getFooter():
     return output
 
 
-def application(environ, start_response):
+def our_application(environ, start_response):
     status = '200 OK'
 
     requestUri = environ.get("REQUEST_URI")
@@ -227,5 +228,27 @@ def application(environ, start_response):
                         ('Content-Length', str(len(outputBytes)))]
     start_response(status, response_headers)
     return [outputBytes]
+
+
+def handle_exception(environ, start_response):
+    status = '500 Internal Server Error'
+    requestUri = environ.get("REQUEST_URI")
+    body = "<pre>Internal error when serving " + requestUri + "\n" + \
+           traceback.format_exc() + "</pre>"
+    output = getHeader() + body + getFooter()
+    outputBytes = output.encode('utf-8')
+    response_headers = [('Content-type', 'text/html; charset=utf-8'),
+                        ('Content-Length', str(len(outputBytes)))]
+    start_response(status, response_headers)
+    return [outputBytes]
+
+
+def application(environ, start_response):
+    try:
+        return our_application(environ, start_response)
+
+    # pylint: disable=broad-except
+    except Exception:
+        return handle_exception(environ, start_response)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
