@@ -49,6 +49,9 @@ def getStreetURL(street, prefix):
         simplifiedStreet = "zolyom_koz"
     elif simplifiedStreet == "kiss_janos_altabornagy_utca":
         simplifiedStreet = "kiss_janos_altb._utca"
+    elif simplifiedStreet == "felsohatar_ut":
+        # OSM survey confirms the difference
+        simplifiedStreet = "felso_hatar_ut"
     district = "xi"
     sashegy_extra_streets = ("brezno_lepcso", "kallo_esperes_utca", "sasfiok_utca", "sion_lepcso", "somorjai_utca")
     if suffix == "-sashegy" and simplifiedStreet in sashegy_extra_streets:
@@ -70,6 +73,16 @@ def getStreetURL(street, prefix):
         district = "xi"
     elif suffix == "-spanyolret":
         district = "xi"
+    elif suffix == "-csilleberc":
+        district = "xii"
+    elif suffix == "-dobogo":
+        district = "xi"
+    elif suffix == "-kelenfold":
+        district = "xi"
+    elif suffix == "-orsod":
+        district = "xi"
+    elif suffix == "-szechenyihegy":
+        district = "xii"
     return prefix + "/budapest%20" + district + ".ker./" + simplifiedStreet + "/all.json"
 
 
