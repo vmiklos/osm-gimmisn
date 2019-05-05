@@ -64,7 +64,7 @@ def split_housenumber_line(line):
     postcode = get_array_nth(field, 3)
     housename = get_array_nth(field, 4)
     cons = get_array_nth(field, 5)
-    tail = field[6:] if len(field) > 6 else ''
+    tail = field[6:] if len(field) > 6 else []
 
     have_housenumber = housenumber != ''
     have_houseid = have_housenumber or housename != '' or cons != ''
