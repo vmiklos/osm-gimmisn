@@ -9,6 +9,7 @@ import configparser
 import datetime
 import os
 import yaml
+import helpers
 import overpass_query
 import suspicious_streets
 
@@ -50,7 +51,7 @@ def handleStreets(requestUri, workdir):
     elif action == "update-result":
         with open(os.path.join(workdir, "streets-%s.txt" % relation)) as sock:
             query = sock.read()
-        result = overpass_query.overpassQuery(query)
+        result = helpers.sort_streets_csv(overpass_query.overpassQuery(query))
         with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
             output += "update finished. <a href=\"/osm/streets/" + relation + "/view-result\">view</a>"
@@ -79,7 +80,7 @@ def handleStreetHousenumbers(requestUri, workdir):
     elif action == "update-result":
         with open(os.path.join(workdir, "street-housenumbers-%s.txt" % relation)) as sock:
             query = sock.read()
-        result = overpass_query.overpassQuery(query)
+        result = helpers.sort_housenumbers_csv(overpass_query.overpassQuery(query))
         with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
             output += "update finished. <a href=\"/osm/street-housenumbers/" + relation + "/view-result\">view</a>"

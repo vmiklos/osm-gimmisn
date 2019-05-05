@@ -33,5 +33,72 @@ class TestSplitHouseNumber(unittest.TestCase):
         self.assertEqual(helpers.split_house_number('a'), (0, 'a'))
 
 
+class TestSortStreetsCsv(unittest.TestCase):
+    def test_single_field(self):
+        unsorted = 'head\n2\n1'
+        expected = 'head\n1\n2'
+        self.assertEqual(helpers.sort_streets_csv(unsorted), expected)
+
+    def test_two_fields(self):
+        unsorted = 'head\n1\tb\n2\ta'
+        expected = 'head\n2\ta\n1\tb'
+        self.assertEqual(helpers.sort_streets_csv(unsorted), expected)
+
+
+class TestSortStreets(unittest.TestCase):
+    def test_primary(self):
+        unsorted = [
+            '0\t\tprimary',
+            '1\tPear\tprimary',
+            '2\tApple\tsecondary',
+            '3\tApple\tprimary',
+        ]
+        expected = [
+            '3\tApple\tprimary',
+            '2\tApple\tsecondary',
+            '1\tPear\tprimary',
+            '0\t\tprimary',
+        ]
+        self.assertEqual(helpers.sort_streets(unsorted), expected)
+
+    def test_service(self):
+        unsorted = [
+            '4\tMine\tservice\tdriveway',
+            '5\tMine\tservice\tallay',
+        ]
+        sort = [
+            '5\tMine\tservice\tallay',
+            '4\tMine\tservice\tdriveway',
+        ]
+        self.assertEqual(helpers.sort_streets(unsorted), sort)
+
+
+class TestSortHousenumbers(unittest.TestCase):
+    def test_happy(self):
+        unsorted = [
+            '0\t\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '1\tApple ave\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '2\tPear ave\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '3\tApple ave\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tBase of OpenStreetMap',
+            '4\tApple ave\t5\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '5\tApple ave\t\t1234\t\t\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '6\tApple ave\t\t1234\t\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '7\tApple ave\t\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '8\tApple ave\t42\t\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+        ]
+        expected = [
+            '8\tApple ave\t42\t\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '5\tApple ave\t\t1234\t\t\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '6\tApple ave\t\t1234\t\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '7\tApple ave\t\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '0\t\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '4\tApple ave\t5\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '3\tApple ave\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tBase of OpenStreetMap',
+            '1\tApple ave\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+            '2\tPear ave\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
+        ]
+        self.assertEqual(helpers.sort_housenumbers(unsorted), expected)
+
+
 if __name__ == '__main__':
     unittest.main()
