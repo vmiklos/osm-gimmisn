@@ -1,9 +1,13 @@
-[out:csv(::id, name)]  [timeout:425];
+[out:csv(::id, name, highway, service)]  [timeout:425];
 area(360@RELATION@);
-// generated from: highway=* and bridge!=yes and note!=no-house-numbers
-way(area)[highway]["bridge"!~".*"]["note"!="no-house-numbers"];
+way(area)[highway][highway!="service"]["bridge"!~".*"]["note"!="no-house-numbers"];
+out;
+way(area)[highway=service][name]["bridge"!~".*"]["note"!="no-house-numbers"];
 out;
 rel(@RELATION@);
-way(r)[highway]["bridge"!~".*"]["note"!="no-house-numbers"];
+way(r)[highway][highway!="service"]["bridge"!~".*"]["note"!="no-house-numbers"];
 out;
+way(r)[highway=service][name]["bridge"!~".*"]["note"!="no-house-numbers"];
+out;
+// highway=track can also be anonymous, but many mistag based on road surface
 // vim: ft=javascript
