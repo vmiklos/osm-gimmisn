@@ -1,0 +1,18 @@
+filters:
+  # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
+  budaorsi_ut:
+    ranges:
+    - {end: '999', isOdd: 'true', start: '267'}
+  rupphegyi_ut:
+    # paratlan oldalnal a 39 talalomra, mivel nincs beepitve
+    ranges:
+    - {end: '39', isOdd: 'true', start: '1'}
+    - {end: '44', isOdd: 'false', start: '2'}
+  torokbalinti_ut:
+    ranges:
+    # jelenleg nincs beepitve, nem lehet tudni meddig tart madarhegy es hol kezdodik a spanyolret
+    - {end: '998', isOdd: 'false', start: '80'}
+  felsohatar_ut:
+    ranges:
+    - {end: '36', isOdd: 'false', start: '2'}
+source: survey
