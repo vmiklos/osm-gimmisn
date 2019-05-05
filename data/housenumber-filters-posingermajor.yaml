@@ -14,10 +14,9 @@ filters:
     - {end: '999', isOdd: 'true', start: '1'}
     - {end: '998', isOdd: 'false', start: '2'}
   rupphegyi_ut:
-    # csak hrsz szures
-    ranges:
-    - {end: '999', isOdd: 'true', start: '1'}
-    - {end: '998', isOdd: 'false', start: '2'}
+    # paratlan oldalnal a 41 talalomra, mivel nincs beepitve
+    - {end: '999', isOdd: 'true', start: '41'}
+    - {end: '998', isOdd: 'false', start: '46'}
   spanyolret_ut:
     # csak hrsz szures
     ranges:
@@ -59,4 +58,7 @@ filters:
     ranges:
     - {end: '9', isOdd: 'true', start: '1'}
     - {end: '14', isOdd: 'false', start: '2'}
+  felsohatar_ut:
+    ranges:
+    - {end: '998', isOdd: 'false', start: '38'}
 source: survey
