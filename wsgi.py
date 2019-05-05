@@ -121,7 +121,7 @@ def handleSuspiciousStreets(requestUri, workdir):
         if doneNrCount > 0 or houseNrCount > 0:
             percent = "%.2f" % (doneNrCount / (doneNrCount + houseNrCount) * 100)
         else:
-            percent = "100"
+            percent = "N/A"
         output += " (vs " + str(doneNrCount) + " present, ie " + str(percent) + "% complete).\n"
 
         # Write the bottom line to a file, so the index page show it fast.
