@@ -36,7 +36,7 @@ def split_street_line(line):
     highway = get_array_nth(field, 2)
     service = get_array_nth(field, 3)
     missing_name = name == ''
-    return (missing_name, name, highway, service, oid)
+    return (missing_name, name, highway, service, split_house_number(oid))
 
 
 def process_csv_body(fun, data):
@@ -70,7 +70,7 @@ def split_housenumber_line(line):
     have_houseid = have_housenumber or housename != '' or cons != ''
     return (postcode, have_houseid, have_housenumber, street,
             split_house_number(housenumber),
-            housename, split_house_number(cons), tail, oid)
+            housename, split_house_number(cons), tail, split_house_number(oid))
 
 
 def get_array_nth(arr, n):
