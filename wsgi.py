@@ -21,11 +21,7 @@ def getWorkdir():
     return config.get('wsgi', 'workdir').strip()
 
 
-# Returns a name -> relation ID dictionary.
-# Expected YAML format (without quotes):
-#
-# "ormezo: 2713749
-# terezvaros: 3229919"
+# Returns a name -> properties dictionary.
 def getRelations():
     return yaml.load(open(os.path.join(os.path.dirname(__file__), "data", "relations.yaml")))
 
@@ -154,7 +150,7 @@ def handleMain(relations, workdir):
     output += "<ul>"
     for k, v in relations.items():
         output += "<li>"
-        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: <ul>"
+        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v["osmrelation"]) + "\">" + k + "</a>: <ul>"
         output += "<li><a href=\"/osm/streets/" + k + "/view-query\">view query</a></li>"
         date = getLastModified(workdir, "streets-" + k + ".csv")
         output += "<li><a href=\"/osm/streets/" + k + "/view-result\">view result</a> (updated on " + date + ")</li>"
@@ -167,7 +163,7 @@ def handleMain(relations, workdir):
     output += "<ul>"
     for k, v in relations.items():
         output += "<li>"
-        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: <ul>"
+        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v["osmrelation"]) + "\">" + k + "</a>: <ul>"
         output += "<li><a href=\"/osm/street-housenumbers/" + k + "/view-query\">view query</a></li>"
         date = getLastModified(workdir, "street-housenumbers-" + k + ".csv")
         output += "<li><a href=\"/osm/street-housenumbers/" + k + \
@@ -182,7 +178,7 @@ def handleMain(relations, workdir):
     output += "<ul>"
     for k, v in relations.items():
         output += "<li>"
-        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v) + "\">" + k + "</a>: "
+        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v["osmrelation"]) + "\">" + k + "</a>: "
         output += "<strong><a href=\"/osm/suspicious-streets/" + k + "/view-result\">view result</a></strong>"
         percentFile = k + ".percent"
         if os.path.exists(os.path.join(workdir, percentFile)):

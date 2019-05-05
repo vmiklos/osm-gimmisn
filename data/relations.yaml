@@ -1,18 +1,18 @@
-csilleberc: 2805998
-dobogo: 2713968
-farkasret: 2787964
-farkasvolgy: 2788020
-gazdagret: 2713748
-hosszuret: 2713782
-kelenfold: 2700869
-madarhegy: 2713839
-magasut: 2805999
-nemetvolgy: 2806940
-ormezo: 2713749
-orsod: 2714011
-posingermajor: 2714365
-sasad: 2714372
-sashegy: 2714524
-spanyolret: 2713840
-szechenyihegy: 2806000
-terezvaros: 3229919
+csilleberc: {osmrelation: 2805998}
+dobogo: {osmrelation: 2713968}
+farkasret: {osmrelation: 2787964}
+farkasvolgy: {osmrelation: 2788020}
+gazdagret: {osmrelation: 2713748}
+hosszuret: {osmrelation: 2713782}
+kelenfold: {osmrelation: 2700869}
+madarhegy: {osmrelation: 2713839}
+magasut: {osmrelation: 2805999}
+nemetvolgy: {osmrelation: 2806940}
+ormezo: {osmrelation: 2713749}
+orsod: {osmrelation: 2714011}
+posingermajor: {osmrelation: 2714365}
+sasad: {osmrelation: 2714372}
+sashegy: {osmrelation: 2714524}
+spanyolret: {osmrelation: 2713840}
+szechenyihegy: {osmrelation: 2806000}
+terezvaros: {osmrelation: 3229919, refmegye: "01", reftelepules: "006"}
