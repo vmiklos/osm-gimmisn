@@ -34,5 +34,5 @@ filters:
   racz_aladar_ut:
     ranges:
     - {start: '93', end: '999', isOdd: 'true'}
-    - {start: '', end: '998', isOdd: 'false'}
+    - {start: '156', end: '998', isOdd: 'false'}
 source: survey
