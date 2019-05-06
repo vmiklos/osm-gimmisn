@@ -85,7 +85,7 @@ def handleStreetHousenumbers(requestUri, workdir):
     return getHeader() + output + getFooter()
 
 
-# Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-result
+# Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-[result|query].
 def handleSuspiciousStreets(requestUri, workdir):
     output = ""
 
@@ -125,6 +125,11 @@ def handleSuspiciousStreets(requestUri, workdir):
         # Write the bottom line to a file, so the index page show it fast.
         with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
             sock.write(percent)
+    elif action == "view-query":
+        output += "<pre>"
+        with open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation)) as sock:
+            output += sock.read()
+        output += "</pre>"
 
     return getHeader() + output + getFooter()
 
