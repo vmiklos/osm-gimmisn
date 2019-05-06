@@ -14,6 +14,7 @@ import urllib.error
 import urllib.request
 # pylint: disable=unused-import
 from typing import List
+import yaml
 import helpers
 
 suffix = ""
@@ -41,43 +42,48 @@ def getStreets():
     return sorted(set(ret))
 
 
-suffixToDistricts = {
-    "-nemetvolgy": "xii",
-    "-farkasvolgy": "xii",
-    "-magasut": "xii",
-    "-farkasret": "xii",
-    "-terezvaros": "vi",
-    "-madarhegy": "xi",
-    "-hosszuret": "xi",
-    "-spanyolret": "xi",
-    "-csilleberc": "xii",
-    "-dobogo": "xi",
-    "-kelenfold": "xi",
-    "-orsod": "xi",
-    "-szechenyihegy": "xii",
-}
-
-
 # Returns URL of a street based on config.
 def getStreetURL(street, prefix):
-    simplifiedStreet = helpers.simplify(street, spaceDecode=True)
-    if simplifiedStreet == "zolyomi_koz":
+    relations = yaml.load(open("data/relations.yaml"))
+    relation = relations[suffix[1:]]
+    if street == "Zólyomi köz":
         # Really strange, survey confirms OSM is correct here, so map it
         # instead.
-        simplifiedStreet = "zolyom_koz"
-    elif simplifiedStreet == "kiss_janos_altabornagy_utca":
-        simplifiedStreet = "kiss_janos_altb._utca"
-    elif simplifiedStreet == "felsohatar_ut":
+        street = "Zólyom köz"
+    elif street == "Felsőhatár út":
         # OSM survey confirms the difference
-        simplifiedStreet = "felso_hatar_ut"
-    district = "xi"
-    sashegy_extra_streets = ("brezno_lepcso", "kallo_esperes_utca", "sasfiok_utca", "sion_lepcso", "somorjai_utca")
-    if suffix == "-sashegy" and simplifiedStreet in sashegy_extra_streets:
+        street = "Felső határ út"
+    refmegye = relation["refmegye"]
+    reftelepules = relation["reftelepules"]
+    sashegy_extra_streets = ("Breznó lépcső", "Kálló esperes utca", "Sasfiók utca", "Sion lépcső", "Somorjai utca")
+    if suffix == "-sashegy" and street in sashegy_extra_streets:
         # This city part isn't a strict subset of a city district, these are the exceptions.
-        district = "xii"
-    elif suffix in suffixToDistricts.keys():
-        district = suffixToDistricts[suffix]
-    return prefix + "/budapest%20" + district + ".ker./" + simplifiedStreet + "/all.json"
+        reftelepules = "012"
+
+    tokens = street.split(' ')
+    streetName = " ".join(tokens[:-1])
+    streetType = tokens[-1]
+
+    url = prefix
+    d = {
+        "p_p_id": "wardsearch_WAR_nvinvrportlet",
+        "p_p_lifecycle": "2",
+        "p_p_state": "normal",
+        "p_p_mode": "view",
+        "p_p_resource_id": "resourceIdGetHazszam",
+        "p_p_cacheability": "cacheLevelPage",
+        "p_p_col_id": "column-2",
+        "p_p_col_count": "1",
+        "_wardsearch_WAR_nvinvrportlet_vlId": "291",
+        "_wardsearch_WAR_nvinvrportlet_vltId": "684",
+        "_wardsearch_WAR_nvinvrportlet_keywords": "",
+        "_wardsearch_WAR_nvinvrportlet_megyeKod": refmegye,
+        "_wardsearch_WAR_nvinvrportlet_telepulesKod": reftelepules,
+        "_wardsearch_WAR_nvinvrportlet_kozterNev": streetName,
+        "_wardsearch_WAR_nvinvrportlet_kozterJelleg": streetType,
+    }
+    url += "?" + urllib.parse.urlencode(d)  # type: ignore
+    return url
 
 
 # Returns SHA256 hash of an URL.
@@ -110,9 +116,6 @@ def getReferenceHouseNumbers(street, prefix):
         cacheSock.write(string)
         cacheSock.close()
         urlSock.close()
-    elif mode == "-delete":
-        os.unlink(cachePath)
-        return []
 
     sock = open(cachePath)
     string = sock.read()
@@ -121,7 +124,7 @@ def getReferenceHouseNumbers(street, prefix):
         j = json.loads(string)
     except json.decoder.JSONDecodeError:
         return []
-    return [helpers.simplify(street + " " + i["label"]) for i in j]
+    return [helpers.simplify(street + " " + i["displayValueHouseNumber"]) for i in j]
 
 
 # Gets known house numbers (not their coordinates) from a reference site, based
