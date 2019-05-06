@@ -36,4 +36,3 @@ filters:
     - {start: '93', end: '999', isOdd: 'true'}
     - {start: '', end: '998', isOdd: 'false'}
 source: survey
-
