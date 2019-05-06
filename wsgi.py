@@ -127,9 +127,12 @@ def handleSuspiciousStreets(requestUri, workdir):
             sock.write(percent)
     elif action == "view-query":
         output += "<pre>"
-        with open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation)) as sock:
+        path = "street-housenumbers-reference-%s.lst" % relation
+        with open(os.path.join(workdir, path)) as sock:
             output += sock.read()
         output += "</pre>"
+        date = getLastModified(workdir, path)
+        output += "<div>updated on " + date + "</div>"
 
     return getHeader() + output + getFooter()
 
