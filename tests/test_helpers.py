@@ -73,6 +73,13 @@ class TestSortStreets(unittest.TestCase):
         self.assertEqual(helpers.sort_streets(unsorted), sort)
 
 
+class TestSortHouseNumbersCsv(unittest.TestCase):
+    def test_happy(self):
+        unsorted = 'head\n2\n1'
+        expected = 'head\n1\n2'
+        self.assertEqual(helpers.sort_housenumbers_csv(unsorted), expected)
+
+
 class TestSortHousenumbers(unittest.TestCase):
     def test_happy(self):
         unsorted = [
@@ -100,6 +107,28 @@ class TestSortHousenumbers(unittest.TestCase):
             '2\tPear ave\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
         ]
         self.assertEqual(helpers.sort_housenumbers(unsorted), expected)
+
+
+class TestSimplify(unittest.TestCase):
+    def test_no_space_decode(self):
+        original = 'árvíztűrőtükörfúrógép ÁRVÍZTŰRŐTÜKÖRFÚRÓGÉP'
+        expected = 'arvizturotukorfurogep_arvizturotukorfurogep'
+        self.assertEqual(helpers.simplify(original), expected)
+
+    def test_space_decode(self):
+        original = 'árvíztűrőtükörfúrógép ÁRVÍZTŰRŐTÜKÖRFÚRÓGÉP'
+        expected = 'arvizturotukorfurogep%20arvizturotukorfurogep'
+        self.assertEqual(helpers.simplify(original, spaceDecode=True), expected)
+
+
+class TestInBoth(unittest.TestCase):
+    def test_happy(self):
+        self.assertEqual(helpers.get_in_both([1, 2, 3], [2, 3, 4]), [2, 3])
+
+
+class TestOnlyInFirst(unittest.TestCase):
+    def test_happy(self):
+        self.assertEqual(helpers.get_only_in_first([1, 2, 3], [3, 4]), [1, 2])
 
 
 if __name__ == '__main__':
