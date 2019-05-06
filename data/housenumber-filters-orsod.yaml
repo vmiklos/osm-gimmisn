@@ -1,0 +1,54 @@
+filters:
+  # csak hrsz szures a legtobbnel
+  balatoni_ut:
+    ranges: []
+  budaorsi_ut:
+    ranges:
+    - {start: '162', end: '998', isOdd: 'false'}
+  eger_ut:
+    ranges:
+    - {start: '1', end: '499', isOdd: 'true'}
+    - {start: '2', end: '498', isOdd: 'false'}
+  felsoorsod_utca:
+    ranges:
+    - {start: '1', end: '999', isOdd: 'true'}
+    - {start: '2', end: '998', isOdd: 'false'}
+  jegcsap_ut:
+    ranges:
+    - {start: '1', end: '99', isOdd: 'true'}
+    - {start: '2', end: '98', isOdd: 'false'}
+  keseruviz_utca:
+    ranges:
+    - {start: '1', end: '999', isOdd: 'true'}
+    - {start: '2', end: '998', isOdd: 'false'}
+  koerberki_ut:
+    # felmerendo hogy meddig hazszam es honnan helyrajzi, gyanusan sok haromjegyu
+    ranges:
+    - {start: '1', end: '99', isOdd: 'true'}
+    - {start: '2', end: '88', isOdd: 'false'}
+  orsoddulo_ut:
+    ranges:
+    - {start: '1', end: '999', isOdd: 'true'}
+    - {start: '2', end: '998', isOdd: 'false'}
+  popradi_ut:
+    # dobogo, orsod, peterhegy
+    ranges:
+    - {start: '1', end: '999', isOdd: 'true'}
+    - {start: '2', end: '998', isOdd: 'false'}
+  repulo_utca:
+    ranges:
+    - {start: '1', end: '999', isOdd: 'true'}
+    - {start: '2', end: '998', isOdd: 'false'}
+  repuloteri_ut:
+    ranges:
+    - {start: '1', end: '999', isOdd: 'true'}
+    - {start: '2', end: '998', isOdd: 'false'}
+  vitorlazo_ut:
+    ranges:
+    - {start: '1', end: '999', isOdd: 'true'}
+    - {start: '2', end: '998', isOdd: 'false'}
+  vocsok_utca:
+    ranges:
+    - {start: '1', end: '999', isOdd: 'true'}
+    - {start: '2', end: '998', isOdd: 'false'}
+source: survey
