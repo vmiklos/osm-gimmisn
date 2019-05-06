@@ -13,7 +13,8 @@ check:
 	  --disable=missing-docstring,fixme,invalid-name,too-few-public-methods,global-statement \
 	  *.py tests/*.py
 	mypy *.py tests/*.py
-	python3 -m unittest discover tests
+	coverage run --branch --module unittest discover tests
+	coverage report --show-missing --fail-under=100
 
 server:
 	@echo 'Open <http://localhost:8000/osm> in your browser.'
