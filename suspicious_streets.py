@@ -154,13 +154,14 @@ def loadNormalizers():
     global normalizers
     cwd = os.getcwd()
     os.chdir(os.path.dirname(__file__))
+    config = None
     if os.path.exists("data/housenumber-filters%s.yaml" % getArea()):
         with open("data/housenumber-filters%s.yaml" % getArea()) as sock:
             config = yaml.load(sock)
     elif os.path.exists("data/housenumber-filters%s.json" % getArea()):
         with open("data/housenumber-filters%s.json" % getArea()) as sock:
             config = json.load(sock)
-    if "filters" in config.keys():
+    if config and "filters" in config.keys():
         filters = config["filters"]
         for street in filters.keys():
             i = []
