@@ -5,37 +5,37 @@ filters:
     ranges: []
   irhas_arok:
     ranges:
-    - {start: '33', end: '105', isOdd: 'true'}
+      - {start: '33', end: '105', isOdd: 'true'}
   kakukkhegyi_ut:
     ranges:
-    - {start: '1', end: '13', isOdd: 'true'}
+      - {start: '1', end: '13', isOdd: 'true'}
   konkoly-thege_miklos_ut:
     ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
   # itt a helyszinen telhes a kaosz valtakozik a magas ut es a magasut dulo
   magas_ut:
     ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
   magasut_dulo:
     ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
   moha_koz:
     ranges:
-    - {start: '1', end: '11', isOdd: 'true'}
-    - {start: '2', end: '6', isOdd: 'false'}
+      - {start: '1', end: '11', isOdd: 'true'}
+      - {start: '2', end: '6', isOdd: 'false'}
   moha_utca:
     ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
   nagykapos_utca:
     ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
   tatarvirag_utca:
     ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
 source: survey

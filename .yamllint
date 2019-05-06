@@ -1,7 +1,11 @@
 extends: relaxed
 
 rules:
+  empty-lines:
+    level: error
   document-start:
     present: no
+  indentation:
+    level: error
   line-length:
     max: 120
