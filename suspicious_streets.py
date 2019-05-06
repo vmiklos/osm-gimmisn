@@ -14,11 +14,12 @@ import os
 import re
 import sys
 import unittest
+from typing import Dict, List
 import yaml
 import helpers
 
 suffix = ""
-normalizers = {}
+normalizers = {}  # type: Dict[str, Ranges]
 
 
 # A Ranges object contains an item if any of its Range objects contains it.
@@ -69,7 +70,7 @@ def normalize(houseNumbers, streetName):
 
 
 def getHouseNumbersFromCsv(streetName):
-    houseNumbers = []
+    houseNumbers = []  # type: List[int]
     streetHouseNumbersSock = open("street-housenumbers%s.csv" % getArea())
     first = True
     for line in streetHouseNumbersSock.readlines():
@@ -87,7 +88,7 @@ def getHouseNumbersFromCsv(streetName):
 
 
 def getHouseNumbersFromLst(streetName):
-    houseNumbers = []
+    houseNumbers = []  # type: List[int]
     lstStreetName = helpers.simplify(streetName)
     prefix = lstStreetName + "_"
     sock = open("street-housenumbers-reference%s.lst" % getArea())
@@ -154,12 +155,12 @@ def loadNormalizers():
     os.chdir(os.path.dirname(__file__))
     if os.path.exists("data/housenumber-filters%s.yaml" % getArea()):
         with open("data/housenumber-filters%s.yaml" % getArea()) as sock:
-            normalizers = yaml.load(sock)
+            config = yaml.load(sock)
     elif os.path.exists("data/housenumber-filters%s.json" % getArea()):
         with open("data/housenumber-filters%s.json" % getArea()) as sock:
-            normalizers = json.load(sock)
-    if "filters" in normalizers.keys():
-        filters = normalizers["filters"]
+            config = json.load(sock)
+    if "filters" in config.keys():
+        filters = config["filters"]
         for street in filters.keys():
             i = []
             for r in filters[street]["ranges"]:
