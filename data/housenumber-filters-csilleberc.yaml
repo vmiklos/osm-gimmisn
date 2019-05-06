@@ -1,6 +1,7 @@
 filters:
   adorjan_ut:
-    - {start: '2', end: '12', isOdd: 'false'}
+    ranges:
+      - {start: '2', end: '12', isOdd: 'false'}
   edvi_illes_ut:
     ranges: []
   irhas_arok:
