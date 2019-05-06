@@ -2,6 +2,7 @@ check-full: check
 	pylint \
 	  --max-line-length=120 \
 	  *.py tests/*.py
+	yamllint -c .yamllint.strict .travis.yml data/*.yaml
 
 check:
 	yamllint data/*.yaml .travis.yml
