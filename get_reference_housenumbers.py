@@ -7,12 +7,12 @@
 
 import configparser
 import hashlib
-import io
 import json
 import os
 import sys
 import urllib.error
 import urllib.request
+from typing import List
 import helpers
 
 suffix = ""
@@ -99,15 +99,14 @@ def getReferenceHouseNumbers(street, prefix):
         sys.stderr.write("downloading '" + url + "'...")
         try:
             urlSock = urllib.request.urlopen(url)
+            buf = urlSock.read()
             sys.stderr.write(" done.\n")
         except urllib.error.HTTPError:
-            urlSock = io.StringIO("")
+            buf = b''
             sys.stderr.write(" not found.\n")
         cacheSock = open(cachePath, "w")
-        buf = urlSock.read()
-        if isinstance(buf, bytes):
-            buf = buf.decode('utf-8')
-        cacheSock.write(buf)
+        string = buf.decode('utf-8')
+        cacheSock.write(string)
         cacheSock.close()
         urlSock.close()
     elif mode == "-delete":
@@ -115,10 +114,10 @@ def getReferenceHouseNumbers(street, prefix):
         return []
 
     sock = open(cachePath)
-    buf = sock.read()
+    string = sock.read()
 
     try:
-        j = json.loads(buf)
+        j = json.loads(string)
     except json.decoder.JSONDecodeError:
         return []
     return [helpers.simplify(street + " " + i["label"]) for i in j]
@@ -142,7 +141,7 @@ def main():
     prefix = config.get('get-reference-housenumbers', 'prefix').strip()
     streets = getStreets()
 
-    lst = []
+    lst = []  # type: List[str]
     for street in streets:
         lst += getReferenceHouseNumbers(street, prefix)
 

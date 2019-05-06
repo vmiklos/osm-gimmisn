@@ -13,6 +13,8 @@ def sort_numerically(strings):
 
 def split_house_number(house_number):
     match = re.search(r"^([0-9]*)([^0-9].*|)$", house_number)
+    if not match:
+        return (0, '')
     number = 0
     try:
         number = int(match.group(1))
