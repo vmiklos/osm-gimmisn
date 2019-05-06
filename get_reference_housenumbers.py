@@ -12,6 +12,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
+# pylint: disable=unused-import
 from typing import List
 import helpers
 
