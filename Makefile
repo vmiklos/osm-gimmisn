@@ -11,7 +11,6 @@ check:
 	  --max-line-length=120 \
 	  --disable=missing-docstring,fixme,invalid-name,too-few-public-methods,global-statement \
 	  *.py tests/*.py
-	pycodestyle --max-line-length=120 *.py tests/*.py
 	python3 -m unittest discover tests
 
 server:
