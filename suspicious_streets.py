@@ -9,7 +9,6 @@
 # Tries to find streets which do have at least one house number, but suspicious
 # as lots of house numbers are probably missing.
 
-import json
 import os
 import re
 import sys
@@ -158,9 +157,6 @@ def loadNormalizers():
     if os.path.exists("data/housenumber-filters%s.yaml" % getArea()):
         with open("data/housenumber-filters%s.yaml" % getArea()) as sock:
             config = yaml.load(sock)
-    elif os.path.exists("data/housenumber-filters%s.json" % getArea()):
-        with open("data/housenumber-filters%s.json" % getArea()) as sock:
-            config = json.load(sock)
     if config and "filters" in config.keys():
         filters = config["filters"]
         for street in filters.keys():
