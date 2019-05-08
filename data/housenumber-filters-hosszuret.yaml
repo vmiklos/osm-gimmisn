@@ -13,12 +13,12 @@ filters:
       - {start: '2', end: '34', isOdd: 'false'}
   nevegy_koz:
     ranges:
-      - {start: '1', end:  '7', isOdd: 'true'}
+      - {start: '1', end: '7', isOdd: 'true'}
       - {start: '2', end: '10', isOdd: 'false'}
   retkerulo_ut:
     # nincs vegig epitve, 42 hianyzik
     ranges:
-      - {start:  '1', end: '99', isOdd: 'true'}
+      - {start: '1', end: '99', isOdd: 'true'}
       - {start: '14', end: '40', isOdd: 'false'}
       - {start: '44', end: '98', isOdd: 'false'}
   rozsabarack_utca:
