@@ -39,20 +39,28 @@ szerkesztés].
 első találat lesz valószínűleg egy reláció link, pl. https://www.openstreetmap.org/relation/2700869.
 Innen tudod a reláció OSM azonosítóját.
 
-3) A git repó `relations.yaml` file-jába vegyél fel egy új sort `név: azonosító` formában, ahol a
-név alapvetően szabadon választható, pl `kelenfold` megfelel, az azonosító pedig fontos, hogy
-stimmeljen az előző pontban kinyert számmal.
+Szükséged lesz még a terület megye és település referenciájára, ezzel kapcsolatban a
+https://wiki.openstreetmap.org/wiki/WikiProject_Hungary/Tal%C3%A1lkoz%C3%B3k/2019-04-29_Oktogon_sv%C3%A9dasztal_%C3%A9s_k%C3%B6rny%C3%A9ke#Hi.C3.A1nyz.C3.B3_h.C3.A1zsz.C3.A1mok[wikiben]
+találsz segítséget.
+
+3) A git repó `data/relations.yaml` file-jába vegyél fel egy új sort a következő formában:
+
+----
+kelenfold: {osmrelation: 2700869, refmegye: "01", reftelepules: "011"}
+----
+
+Ahol a név alapvetően szabadon választható, pl `kelenfold` megfelel, a többi mező pedig fontos, hogy
+stimmeljen az előző pontban kinyert értékekkel.
 
 4) Ez után a módosítást https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] formájában
 beküldheted, jóváhagyás után be fog kerülni.
 
-Megjegyzések:
-
-A lekérdezés minden reláció esetén megegyezik, leszámítva a reláció azonosítóját. A webes felületen
-le tudod kérdezni a pontos overpass lekérdezést; ha a `relations.yaml` file-ba új sor kerül, akkor
-ehhez (jelenleg kézzel) egy új lekérdezés generálódik. Ez igaz mind az utcákra, mind a házszámokra.
-Ezzel neked nem kell foglalkoznod (kivéve ha kézzel akarsz helyben tesztelni), a pull request
-jóváhagyásakor ez a generálás megtörténik a https://vmiklos.pythonanywhere.com/osm[weboldalon].
+Megjegyzés: a lekérdezés minden reláció esetén megegyezik, leszámítva a reláció azonosítóját. A
+webes felületen le tudod kérdezni a pontos overpass lekérdezést; ha a `relations.yaml` file-ba új
+sor kerül, akkor ehhez (automatikusan) egy új lekérdezés generálódik. Ez igaz mind az utcákra, mind
+a házszámokra.  Ezzel neked nem kell foglalkoznod (kivéve ha helyben tesztelni, kézzel generálva a
+referenciát), a pull request jóváhagyásakor ez a generálás megtörténik a
+https://vmiklos.pythonanywhere.com/osm[weboldalon].
 
 == Hibás riasztás hozzáadása
 
