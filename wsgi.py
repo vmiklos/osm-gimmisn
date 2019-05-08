@@ -31,6 +31,11 @@ def getStreetsQuery(relations, relation):
         return sock.read().replace("@RELATION@", str(relations[relation]["osmrelation"]))
 
 
+def getStreetHousenumbersQuery(relations, relation):
+    with open(os.path.join(getDatadir(), "street-housenumbers-template.txt")) as sock:
+        return sock.read().replace("@RELATION@", str(relations[relation]["osmrelation"]))
+
+
 # Returns a name -> properties dictionary.
 def getRelations():
     return yaml.load(open(os.path.join(getDatadir(), "relations.yaml")))
@@ -64,7 +69,7 @@ def handleStreets(requestUri, workdir, relations):
 
 
 # Expected requestUri: e.g. /osm/street-housenumbers/ormezo/view-query
-def handleStreetHousenumbers(requestUri, workdir):
+def handleStreetHousenumbers(requestUri, workdir, relations):
     output = ""
 
     tokens = requestUri.split("/")
@@ -73,8 +78,7 @@ def handleStreetHousenumbers(requestUri, workdir):
 
     if action == "view-query":
         output += "<pre>"
-        with open(os.path.join(workdir, "street-housenumbers-%s.txt" % relation)) as sock:
-            output += sock.read()
+        output += getStreetHousenumbersQuery(relations, relation)
         output += "</pre>"
     elif action == "view-result":
         output += "<pre>"
@@ -82,8 +86,7 @@ def handleStreetHousenumbers(requestUri, workdir):
             output += sock.read()
         output += "</pre>"
     elif action == "update-result":
-        with open(os.path.join(workdir, "street-housenumbers-%s.txt" % relation)) as sock:
-            query = sock.read()
+        query = getStreetHousenumbersQuery(relations, relation)
         result = helpers.sort_housenumbers_csv(overpass_query.overpassQuery(query))
         with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
@@ -232,7 +235,7 @@ def our_application(environ, start_response):
     if requestUri.startswith("/osm/streets/"):
         output = handleStreets(requestUri, workdir, relations)
     elif requestUri.startswith("/osm/street-housenumbers/"):
-        output = handleStreetHousenumbers(requestUri, workdir)
+        output = handleStreetHousenumbers(requestUri, workdir, relations)
     elif requestUri.startswith("/osm/suspicious-streets/"):
         output = handleSuspiciousStreets(requestUri, workdir)
     else:

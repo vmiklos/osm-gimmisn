@@ -6,7 +6,6 @@ check-full: check
 
 check:
 	yamllint data/*.yaml .travis.yml
-	shellcheck *.sh
 	flake8 *.py tests/*.py
 	pylint \
 	  --max-line-length=120 \
