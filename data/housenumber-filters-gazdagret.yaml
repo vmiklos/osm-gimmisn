@@ -1,46 +1,54 @@
 filters:
+  budaorsi_ut:
+    ranges:
+      - {start: '137', end: '165', isOdd: 'true'}
   csiki-hegyek_utca:
     ranges:
-    - {end: '15', isOdd: 'true', start: '1'}
-    - {end: '26', isOdd: 'false', start: '2'}
+      - {start: '1', end: '15', isOdd: 'true'}
+      - {start: '2', end: '26', isOdd: 'false'}
   gazdagreti_ter:
     ranges:
-    - {end: '5', isOdd: 'true', start: '1'}
-    - {end: '2', isOdd: 'false', start: '2'}
+      - {start: '1', end: '5', isOdd: 'true'}
+      - {start: '2', end: '2', isOdd: 'false'}
   gazdagreti_ut:
-    comment: "just the Gazdagr\xE9t part"
+    # csak a gazdagréti rész
     ranges:
-    - {end: '9', isOdd: 'true', start: '5'}
+      - {start: '5', end: '9', isOdd: 'true'} 
   kaptarko_utca:
     ranges:
-    - {end: '11', isOdd: 'true', start: '1'}
-    - {end: '12', isOdd: 'false', start: '2'}
+      - {start: '1', end: '11', isOdd: 'true', }
+      - {end: '12', isOdd: 'false', start: '2'}
   nagyszeben_ter:
     ranges:
-    - {end: '3', isOdd: 'true', start: '1'}
+      - {start: '1', end: '3', isOdd: 'true'}
+  nagyszeben_ut:
+    ranges:
+      - {start: '2', end: '24', isOdd: 'false'}
   naprozsa_utca:
     ranges:
-    - {end: '11', isOdd: 'true', start: '1'}
-    - {end: '14', isOdd: 'false', start: '2'}
+      - {start: '1', end: '11', isOdd: 'true'}
+      - {start: '2', end: '14', isOdd: 'false'}
   regos_koz:
     ranges:
-    - {end: '7', isOdd: 'true', start: '1'}
-    - {end: '6', isOdd: 'false', start: '2'}
+      - {start: '1', end: '7', isOdd: 'true'}
+      - {start: '2', end: '6', isOdd: 'false'}
   regos_utca:
     ranges:
-    - {end: '15', isOdd: 'true', start: '1'}
-    - {end: '16', isOdd: 'false', start: '2'}
+      - {start: '1', end: '15', isOdd: 'true'}
+      - {start: '2', end: '16', isOdd: 'false'}
   retkoz_utca:
-    comment: "just the Gazdagr\xE9t part"
+    # csak a gazdagréti rész
     ranges:
-    - {end: '9', isOdd: 'true', start: '7'}
-    - {end: '22', isOdd: 'false', start: '2'}
+      - {start: '7', end: '9', isOdd: 'true'}
+      - {start: '2', end: '22', isOdd: 'false'}
+  rodosto_utca:
+    ranges: []
   szurdok_utca:
     ranges:
-    - {end: '5', isOdd: 'true', start: '1'}
-    - {end: '18', isOdd: 'false', start: '2'}
+      - {start: '1', end:  '5', isOdd: 'true'}
+      - {start: '2', end: '18', isOdd: 'false'}
   torokugrato_utca:
     ranges:
-    - {end: '15', isOdd: 'true', start: '1'}
-    - {end: '26', isOdd: 'false', start: '2'}
+      - {start: '1', end: '15', isOdd: 'true'}
+      - {start: '2', end: '26', isOdd: 'false'}
 source: survey
