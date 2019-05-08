@@ -1,34 +1,48 @@
 filters:
   # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
+  budaorsi_ut:
+    ranges:
+      - {start: '225', end: '265', isOdd: 'true'}
+  cickafark_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
   hosszureti_utca:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
-    - {end: '65', isOdd: 'true', start: '1'}
-  budaorsi_ut:
-    ranges:
-    - {end: '265', isOdd: 'true', start: '225'}
-  torokbalinti_ut:
-    ranges:
-    # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a spanyolret
-    - {end: '998', isOdd: 'false', start: '80'}
-  nagyida_utca:
-    ranges:
-    - {end: '14', isOdd: 'false', start: '6'}
-  rupphegyi_ut:
-    # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a posingermajor
-    ranges:
-    - {end: '999', isOdd: 'true', start: '1'}
+      - {start: '1', end: '65', isOdd: 'true'}
   keltike_lejto:
     # kcr-ben 34-ig van szamozva
     ranges:
-    - {end: '99', isOdd: 'true', start: '1'}
-    - {end: '98', isOdd: 'false', start: '2'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
   madarhegy_utca:
     ranges:
-    - {end: '99', isOdd: 'true', start: '1'}
-    - {end: '98', isOdd: 'false', start: '2'}
-  cickafark_utca:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  medvetalp_utca:
     ranges:
-    - {end: '99', isOdd: 'true', start: '1'}
-    - {end: '98', isOdd: 'false', start: '2'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  molnarfecske_utca:
+    # https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/ujbudahu/2018_09/kmbt28220180914083648.pdf
+    ranges:
+      - {start: '1', end: '7', isOdd: 'true'}
+      - {start: '2', end: '8', isOdd: 'false'}
+  nagyida_utca:
+    ranges:
+      - {end: '14', isOdd: 'false', start: '6'}
+  rozsaszolo_utca:
+    # https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/wwwujbudahu/2016_11/hatarozat1.pdf
+    ranges:
+      - {start: '1', end: '9', isOdd: 'true'}
+      - {start: '2', end: '4', isOdd: 'false'}
+  torokbalinti_ut:
+    ranges:
+    # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a spanyolret
+      - {start: '80', end: '998', isOdd: 'false'}
+  rupphegyi_ut:
+    # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a posingermajor
+    ranges:
+      - {start: '1', end: '999', isOdd: 'true'}
 source: survey
