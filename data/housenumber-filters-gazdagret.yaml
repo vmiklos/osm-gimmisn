@@ -13,7 +13,7 @@ filters:
   gazdagreti_ut:
     # csak a gazdagréti rész
     ranges:
-      - {start: '5', end: '9', isOdd: 'true'} 
+      - {start: '5', end: '9', isOdd: 'true'}
   kaptarko_utca:
     ranges:
       - {start: '1', end: '11', isOdd: 'true', }
@@ -45,7 +45,7 @@ filters:
     ranges: []
   szurdok_utca:
     ranges:
-      - {start: '1', end:  '5', isOdd: 'true'}
+      - {start: '1', end: '5', isOdd: 'true'}
       - {start: '2', end: '18', isOdd: 'false'}
   torokugrato_utca:
     ranges:
