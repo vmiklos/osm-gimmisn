@@ -9,7 +9,7 @@ check: check-filters
 	flake8 *.py tests/*.py
 	pylint \
 	  --max-line-length=120 \
-	  --disable=missing-docstring,fixme,invalid-name,too-few-public-methods,global-statement \
+	  --disable=missing-docstring,fixme,invalid-name,too-few-public-methods,global-statement,too-many-locals \
 	  *.py tests/*.py
 	mypy *.py tests/*.py
 	coverage run --branch --module unittest discover tests

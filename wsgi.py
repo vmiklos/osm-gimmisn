@@ -63,9 +63,18 @@ def handleStreets(requestUri, workdir, relations):
         result = helpers.sort_streets_csv(overpass_query.overpassQuery(query))
         with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
-            output += "update finished. <a href=\"/osm/streets/" + relation + "/view-result\">view</a>"
+            output += "Frissítés sikeres."
 
-    return getHeader() + output + getFooter()
+    date = get_streets_last_modified(workdir, relation)
+    title = " - " + relation + " meglévő utcák"
+    links = "Frissítve " + date + "&brvbar; " \
+            "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
+            "Meglévő utcák</a> &brvbar; " + \
+            "<a href=\"/osm/streets/" + relation + "/update-result\">" + \
+            "Frissítés Overpass hívásával</a> (másodpercekig tarthat) &brvbar; " + \
+            "<a href=\"/osm/streets/" + relation + "/view-query\">" + \
+            "Lekérdezés megtekintése</a> &brvbar; "
+    return getHeader(add_title=title, add_links=links) + output + getFooter()
 
 
 # Expected requestUri: e.g. /osm/street-housenumbers/ormezo/view-query
@@ -90,9 +99,18 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
         result = helpers.sort_housenumbers_csv(overpass_query.overpassQuery(query))
         with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
-            output += "update finished. <a href=\"/osm/street-housenumbers/" + relation + "/view-result\">view</a>"
+            output += "Frissítés sikeres."
 
-    return getHeader() + output + getFooter()
+    date = get_housenumbers_last_modified(workdir, relation)
+    title = " - " + relation + " meglévő házszámok"
+    links = "Frissítve " + date + "&brvbar; " \
+            "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
+            "Meglévő házszámok</a> &brvbar; " + \
+            "<a href=\"/osm/street-housenumbers/" + relation + "/update-result\">" + \
+            "Frissítés Overpass hívásával</a> (másodpercekig tarthat) &brvbar; " + \
+            "<a href=\"/osm/street-housenumbers/" + relation + "/view-query\">" + \
+            "Lekérdezés megtekintése</a> &brvbar; "
+    return getHeader(add_title=title, add_links=links) + output + getFooter()
 
 
 # Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-[result|query].
@@ -124,13 +142,16 @@ def handleSuspiciousStreets(requestUri, workdir):
             doneNrCount += len(result[1])
         os.chdir(cwd)
         output += "</pre>"
-        output += str(len(finder.suspiciousStreets)) + " suspicious streets, "
-        output += str(houseNrCount) + " missing house numbers in total"
+        output += "Elképzelhető, hogy az OpenStreetMap nem tartalmazza a fenti "
+        output += str(len(finder.suspiciousStreets)) + " utcához tartozó "
+        output += str(houseNrCount) + " házszámot."
         if doneNrCount > 0 or houseNrCount > 0:
             percent = "%.2f" % (doneNrCount / (doneNrCount + houseNrCount) * 100)
         else:
             percent = "N/A"
-        output += " (vs " + str(doneNrCount) + " present, ie " + str(percent) + "% complete).\n"
+        output += " (meglévő: " + str(doneNrCount) + ", készültség: " + str(percent) + "%).<br>"
+        output += "Téves információ jelentése: <a href=\"doc/hu#hibás-riasztás-hozzáadása\">" + \
+                  "\"Hibás riasztás hozzáadása\"</a>."
 
         # Write the bottom line to a file, so the index page show it fast.
         with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
@@ -144,12 +165,25 @@ def handleSuspiciousStreets(requestUri, workdir):
         date = getLastModified(workdir, path)
         output += "<div>updated on " + date + "</div>"
 
-    return getHeader() + output + getFooter()
+    title = " - " + relation + " hiányzó házszámok"
+    links = "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
+            "Meglévő házszámok a környéken</a> &brvbar; " + \
+            "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
+            "Meglévő utcák a környéken</a> &brvbar; "
+    return getHeader(add_title=title, add_links=links) + output + getFooter()
 
 
 def getLastModified(workdir, path):
     t = os.path.getmtime(os.path.join(workdir, path))
     return datetime.datetime.fromtimestamp(t).isoformat()
+
+
+def get_housenumbers_last_modified(workdir, name):
+    return getLastModified(workdir, "street-housenumbers-" + name + ".csv")
+
+
+def get_streets_last_modified(workdir, name):
+    return getLastModified(workdir, "streets-" + name + ".csv")
 
 
 def getContent(workdir, path):
@@ -162,63 +196,55 @@ def getContent(workdir, path):
 def handleMain(relations, workdir):
     output = ""
 
-    output += "<h1>osm scripts</h1>"
-
-    output += "<h2>streets</h2>"
-
-    output += "<ul>"
+    output += "<h1>Hol térképezzek?</h1>"
+    output += "<table>"
     for k, v in relations.items():
-        output += "<li>"
-        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v["osmrelation"]) + "\">" + k + "</a>: <ul>"
-        output += "<li><a href=\"/osm/streets/" + k + "/view-query\">view query</a></li>"
-        date = getLastModified(workdir, "streets-" + k + ".csv")
-        output += "<li><a href=\"/osm/streets/" + k + "/view-result\">view result</a> (updated on " + date + ")</li>"
-        output += "<li><strong><a href=\"/osm/streets/" + k + "/update-result\">query overpass</a></strong></li>"
-        output += "</ul></li>"
-    output += "</ul>"
-
-    output += "<h2>street-housenumbers</h2>"
-
-    output += "<ul>"
-    for k, v in relations.items():
-        output += "<li>"
-        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v["osmrelation"]) + "\">" + k + "</a>: <ul>"
-        output += "<li><a href=\"/osm/street-housenumbers/" + k + "/view-query\">view query</a></li>"
-        date = getLastModified(workdir, "street-housenumbers-" + k + ".csv")
-        output += "<li><a href=\"/osm/street-housenumbers/" + k + \
-                  "/view-result\">view result</a> (updated on " + date + ")</li>"
-        output += "<li><strong><a href=\"/osm/street-housenumbers/" + k + \
-                  "/update-result\">query overpass</a></strong></li>"
-        output += "</ul></li>"
-    output += "</ul>"
-
-    output += "<h2>suspicious-streets</h2>"
-
-    output += "<ul>"
-    for k, v in relations.items():
-        output += "<li>"
-        output += "<a href=\"https://www.openstreetmap.org/relation/" + str(v["osmrelation"]) + "\">" + k + "</a>: "
-        output += "<strong><a href=\"/osm/suspicious-streets/" + k + "/view-result\">view result</a></strong>"
+        output += "<tr>"
+        output += "<td>" + k + "</td>"
         percentFile = k + ".percent"
+        url = "\"/osm/suspicious-streets/" + k + "/view-result\""
+        percent = "N/A"
         if os.path.exists(os.path.join(workdir, percentFile)):
             percent = getContent(workdir, percentFile)
+
+        if percent != "N/A":
             date = getLastModified(workdir, percentFile)
-            output += ": " + percent + "% (updated on " + date + ")"
-        output += "</li>"
-    output += "</ul>"
+            output += "<td><strong><a href=" + url + " title=\"frissítve " + date + "\">"
+            output += percent + "% kész"
+            output += "</a></strong></td>"
+        else:
+            output += "<td><strong><a href=" + url + ">"
+            output += "hiányzó házszámok"
+            output += "</a></strong></td>"
+
+        date = get_housenumbers_last_modified(workdir, k)
+        output += "<td><a href=\"/osm/street-housenumbers/" + k + "/view-result\"" \
+                  "title=\"frissítve " + date + "\" >meglévő házszámok</a></td>"
+
+        date = get_streets_last_modified(workdir, k)
+        output += "<td><a href=\"/osm/streets/" + k + "/view-result\"" \
+                  "title=\"frissítve " + date + "\" >meglévő utcák</a></td>"
+
+        output += "<td><a href=\"https://www.openstreetmap.org/relation/" + str(v["osmrelation"]) + \
+                  "\">terület határa</a></td>"
+
+        output += "</tr>"
+    output += "</table>"
+    output += "Új terület hozzáadása: <a href=\"doc/hu#új-reláció-hozzáadása\">" + \
+              "\"Új reláció hozzáadása\"</a>."
 
     return getHeader() + output + getFooter()
 
 
-def getHeader():
-    output = "<html><body>"
-    output += "<div><a href=\"/osm\">index</a> &brvbar; "\
+def getHeader(add_title='', add_links=''):
+    output = "<html><head><title>Hol térképezzek?" + add_title + "</title></head><body>"
+    output += "<div><a href=\"/osm\">Területek listája</a> &brvbar; " + add_links + \
               "<a href=\"https://github.com/vmiklos/osm-gimmisn\">github</a></div><hr/>"
     return output
 
 
 def getFooter():
-    output = "<hr/><div>OSM data © OpenStreetMap contributors.</div>"
+    output = "<hr/><div>OSM adatok © OpenStreetMap közreműködők.</div>"
     output += "</body></html>"
     return output
 
