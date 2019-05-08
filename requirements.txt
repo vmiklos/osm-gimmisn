@@ -4,3 +4,4 @@ mypy
 pycodestyle
 pylint
 pyyaml
+yamale
