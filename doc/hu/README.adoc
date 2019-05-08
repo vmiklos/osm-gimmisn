@@ -58,8 +58,8 @@ beküldheted, jóváhagyás után be fog kerülni.
 Megjegyzés: a lekérdezés minden reláció esetén megegyezik, leszámítva a reláció azonosítóját. A
 webes felületen le tudod kérdezni a pontos overpass lekérdezést; ha a `relations.yaml` file-ba új
 sor kerül, akkor ehhez (automatikusan) egy új lekérdezés generálódik. Ez igaz mind az utcákra, mind
-a házszámokra.  Ezzel neked nem kell foglalkoznod (kivéve ha helyben tesztelni, kézzel generálva a
-referenciát), a pull request jóváhagyásakor ez a generálás megtörténik a
+a házszámokra.  Ezzel neked nem kell foglalkoznod (kivéve ha helyben szeretnél tesztelni, kézzel
+generálva a referenciát), a pull request jóváhagyásakor ez a generálás megtörténik a
 https://vmiklos.pythonanywhere.com/osm[weboldalon].
 
 == Hibás riasztás hozzáadása
