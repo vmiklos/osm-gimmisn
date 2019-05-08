@@ -1,0 +1,10 @@
+filters: map(str(), include('filter'))
+source: str()
+---
+filter:
+  comment: str(required=False)
+  ranges: list(include('range'))
+range:
+  start: regex('^[0-9]+$')
+  end: regex('^[0-9]+$')
+  isOdd: enum('true', 'false')
