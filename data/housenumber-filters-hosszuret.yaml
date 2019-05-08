@@ -1,25 +1,28 @@
 filters:
   # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
+  budaorsi_ut:
+    ranges:
+      - {start: '167', end: '223', isOdd: 'true'}
+  gazdagreti_ut:
+    # paratlan gazdagret, paros hosszuret
+    ranges:
+      - {start: '2', end: '44', isOdd: 'false'}
   hosszureti_utca:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
-    - {end: '34', isOdd: 'false', start: '2'}
+      - {start: '2', end: '34', isOdd: 'false'}
+  nevegy_koz:
+    ranges:
+      - {start: '1', end:  '7', isOdd: 'true'}
+      - {start: '2', end: '10', isOdd: 'false'}
   retkerulo_ut:
     # nincs vegig epitve, 42 hianyzik
     ranges:
-    - {end: '99', isOdd: 'true', start: '1'}
-    - {end: '40', isOdd: 'false', start: '14'}
-    - {end: '98', isOdd: 'false', start: '44'}
-  gazdagreti_ut:
-    ranges:
-    # paratlan gazdagret
-    - {end: '44', isOdd: 'false', start: '2'}
+      - {start:  '1', end: '99', isOdd: 'true'}
+      - {start: '14', end: '40', isOdd: 'false'}
+      - {start: '44', end: '98', isOdd: 'false'}
   rozsabarack_utca:
-    # tobbi hazszam madarhegy
+    # 1-7 hoszuret, 9- es a paros madarhegy
     ranges:
-    - {end: '7', isOdd: 'true', start: '1'}
-  nevegy_koz:
-    ranges:
-    - {end: '7', isOdd: 'true', start: '1'}
-    - {end: '10', isOdd: 'false', start: '2'}
+      - {start: '1', end: '7', isOdd: 'true'}
 source: survey
