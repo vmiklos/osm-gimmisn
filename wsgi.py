@@ -150,7 +150,9 @@ def handleSuspiciousStreets(requestUri, workdir):
         else:
             percent = "N/A"
         output += " (meglévő: " + str(doneNrCount) + ", készültség: " + str(percent) + "%).<br>"
-        output += "Téves információ jelentése: <a href=\"doc/hu#hibás-riasztás-hozzáadása\">" + \
+        output += "Téves információ jelentése: <a href=\"" + \
+                  "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
+                  "#hib%C3%A1s-riaszt%C3%A1s-hozz%C3%A1ad%C3%A1sa\">" + \
                   "\"Hibás riasztás hozzáadása\"</a>."
 
         # Write the bottom line to a file, so the index page show it fast.
@@ -230,7 +232,9 @@ def handleMain(relations, workdir):
 
         output += "</tr>"
     output += "</table>"
-    output += "Új terület hozzáadása: <a href=\"doc/hu#új-reláció-hozzáadása\">" + \
+    output += "Új terület hozzáadása: <a href=\"" + \
+              "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
+              "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
               "\"Új reláció hozzáadása\"</a>."
 
     return getHeader() + output + getFooter()
