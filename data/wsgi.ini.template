@@ -1,2 +1,3 @@
 [wsgi]
 workdir = /path/to/workdir
+reference = http://www.example.com/hol-szavazhatok-

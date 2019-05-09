@@ -133,9 +133,9 @@ def main():
     # [get-reference-housenumbers]
     # prefix = ...
     config = configparser.ConfigParser()
-    rc = os.path.join(os.environ['HOME'], '.get-reference-housenumbersrc')
-    config.read(rc)
-    prefix = config.get('get-reference-housenumbers', 'prefix').strip()
+    configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config.read(configPath)
+    prefix = config.get('wsgi', 'reference').strip()
     streets = getStreets(relationName)
 
     lst = []  # type: List[str]
