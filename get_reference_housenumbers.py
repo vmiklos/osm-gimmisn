@@ -17,15 +17,12 @@ from typing import List
 import yaml
 import helpers
 
-suffix = ""
-mode = ""
-
 
 # Reads list of streets for an area from OSM.
-def getStreets():
+def getStreets(relationName):
     ret = []
 
-    sock = open("workdir/streets%s.csv" % suffix)
+    sock = open("workdir/streets-%s.csv" % relationName)
     first = True
     for line in sock.readlines():
         if first:
@@ -43,9 +40,9 @@ def getStreets():
 
 
 # Returns URL of a street based on config.
-def getStreetURL(street, prefix):
+def getStreetURL(street, prefix, relationName):
     relations = yaml.load(open("data/relations.yaml"))
-    relation = relations[suffix[1:]]
+    relation = relations[relationName]
     if street == "Zólyomi köz":
         # Really strange, survey confirms OSM is correct here, so map it
         # instead.
@@ -56,7 +53,7 @@ def getStreetURL(street, prefix):
     refmegye = relation["refmegye"]
     reftelepules = relation["reftelepules"]
     sashegy_extra_streets = ("Breznó lépcső", "Kálló esperes utca", "Sasfiók utca", "Sion lépcső", "Somorjai utca")
-    if suffix == "-sashegy" and street in sashegy_extra_streets:
+    if relationName == "sashegy" and street in sashegy_extra_streets:
         # This city part isn't a strict subset of a city district, these are the exceptions.
         reftelepules = "012"
 
@@ -92,8 +89,8 @@ def getURLHash(url):
 
 
 # Gets known house numbers for a single street
-def getReferenceHouseNumbers(street, prefix):
-    url = getStreetURL(street, prefix)
+def getReferenceHouseNumbers(street, prefix, relationName):
+    url = getStreetURL(street, prefix, relationName)
     print("considering '" + url + "'")
     urlHash = getURLHash(url)
 
@@ -130,12 +127,8 @@ def getReferenceHouseNumbers(street, prefix):
 # Gets known house numbers (not their coordinates) from a reference site, based
 # on street names from OSM.
 def main():
-    global suffix
-    global mode
     if len(sys.argv) > 1:
-        suffix = sys.argv[1]
-    if len(sys.argv) > 2:
-        mode = sys.argv[2]
+        relationName = sys.argv[1]
     # Sample config:
     # [get-reference-housenumbers]
     # prefix = ...
@@ -143,14 +136,14 @@ def main():
     rc = os.path.join(os.environ['HOME'], '.get-reference-housenumbersrc')
     config.read(rc)
     prefix = config.get('get-reference-housenumbers', 'prefix').strip()
-    streets = getStreets()
+    streets = getStreets(relationName)
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += getReferenceHouseNumbers(street, prefix)
+        lst += getReferenceHouseNumbers(street, prefix, relationName)
 
     lst = sorted(set(lst))
-    sock = open("workdir/street-housenumbers-reference%s.lst" % suffix, "w")
+    sock = open("workdir/street-housenumbers-reference-%s.lst" % relationName, "w")
     for l in lst:
         sock.write(l + "\n")
     sock.close()
