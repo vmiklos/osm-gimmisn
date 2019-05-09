@@ -2,28 +2,29 @@
 
 == Hiányzó házszámok naprakész listája
 
-A https://vmiklos.pythonanywhere.com/osm[weboldalon] több szekciót is találsz:
+A https://vmiklos.pythonanywhere.com/osm[weboldalon] ötleteketsz találsz, hogy hol érdemes
+házszámokat felmérni. A főoldalnak 3 oszlopa van:
 
-1) Utcalista (streets) egy területre, ez az OSM adatbázisból származik.
+1) Hiányzó házszám (suspicious-streets) kereső.
 
-2) Házszámlista (street-housenumbers) egy területre, ez is az OSM adatbázisból származik.
+2) Házszámlista (street-housenumbers) egy területre, ez az OSM adatbázisból származik.
 
-3) Hiányzó házszám (suspicious-streets) kereső.
+3) Utcalista (streets) egy területre, ez is az OSM adatbázisból származik.
 
 A suspicious-streets szekciót érdemes elsőre nézni, ha ott szerepel olyan terület ami érdekel, akkor
 ott találsz javaslatot arra, hogy milyen hiányzó házszámokat próbálj meg felmérni. Tegyük fel, hogy
 a terület már szerepel a listában, a házszám valóban hiányzott, és most szerkesztetted fel az
 OSM-re.  A weboldal nem frissül automatikusan, ehhez a következőt kell tenned:
 
-1) Várj pár percet, ha most szerkesztettél, akkor ha azonnal fut egy overpass lekérdezés, valószínű,
+1) Várj pár percet. Ha most szerkesztettél, akkor ha azonnal fut egy overpass lekérdezés, valószínű,
 hogy még nem dolgozik a te szerkesztésed eredményével.
 
 2) A street-housenumbers szekcióban keresd ki a területed és kattints az overpass lekérdezés
 (overpass query) linkre. Ez egy kis időt vesz igénybe, addig ne töltsd újra az oldalt, a böngészőt
 ne zárd be.
 
-3) Ez után keresd ki a területet a suspicious-streets szekcióban és az eredmény megtekintése (view
-result) linkre kattintva most már el kell tűnjön a listából a felszerkesztett házszámod.
+3) Ez után keresd ki a területet a suspicious-streets szekcióban és a linkre kattintva most már el
+kell tűnjön a listából a felszerkesztett házszámod.
 
 == Új reláció hozzáadása
 
