@@ -140,6 +140,8 @@ def getReferenceHousenumbers(workdir, prefix, relationName):
         lst += getHouseNumbersOfStreet(datadir, workdir, prefix, relationName, street)
 
     lst = sorted(set(lst))
+    if not lst:
+        return
     sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relationName), "w")
     for l in lst:
         sock.write(l + "\n")
