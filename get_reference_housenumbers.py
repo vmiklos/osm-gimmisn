@@ -18,11 +18,14 @@ import yaml
 import helpers
 
 
+verbose = False
+
+
 # Reads list of streets for an area from OSM.
-def getStreets(relationName):
+def getStreets(workdir, relationName):
     ret = []
 
-    sock = open("workdir/streets-%s.csv" % relationName)
+    sock = open(os.path.join(workdir, "streets-%s.csv" % relationName))
     first = True
     for line in sock.readlines():
         if first:
@@ -40,8 +43,8 @@ def getStreets(relationName):
 
 
 # Returns URL of a street based on config.
-def getStreetURL(street, prefix, relationName):
-    relations = yaml.load(open("data/relations.yaml"))
+def getStreetURL(datadir, street, prefix, relationName):
+    relations = yaml.load(open(os.path.join(datadir, "relations.yaml")))
     relation = relations[relationName]
     if street == "Zólyomi köz":
         # Really strange, survey confirms OSM is correct here, so map it
@@ -89,25 +92,29 @@ def getURLHash(url):
 
 
 # Gets known house numbers for a single street
-def getReferenceHouseNumbers(street, prefix, relationName):
-    url = getStreetURL(street, prefix, relationName)
-    print("considering '" + url + "'")
+def getHouseNumbersOfStreet(datadir, workdir, prefix, relationName, street):
+    url = getStreetURL(datadir, street, prefix, relationName)
+    if verbose:
+        print("considering '" + url + "'")
     urlHash = getURLHash(url)
 
-    if not os.path.exists("workdir/cache"):
-        os.makedirs("workdir/cache")
+    if not os.path.exists(os.path.join(workdir, "cache")):
+        os.makedirs(os.path.join(workdir, "cache"))
 
-    cachePath = "workdir/cache/" + urlHash
+    cachePath = os.path.join(workdir, "cache", urlHash)
     if not os.path.exists(cachePath):
         # Not in cache, download.
-        sys.stderr.write("downloading '" + url + "'...")
+        if verbose:
+            sys.stderr.write("downloading '" + url + "'...")
         try:
             urlSock = urllib.request.urlopen(url)
             buf = urlSock.read()
-            sys.stderr.write(" done.\n")
+            if verbose:
+                sys.stderr.write(" done.\n")
         except urllib.error.HTTPError:
             buf = b''
-            sys.stderr.write(" not found.\n")
+            if verbose:
+                sys.stderr.write(" not found.\n")
         cacheSock = open(cachePath, "w")
         string = buf.decode('utf-8')
         cacheSock.write(string)
@@ -124,29 +131,37 @@ def getReferenceHouseNumbers(street, prefix, relationName):
     return [helpers.simplify(street + " " + i["displayValueHouseNumber"]) for i in j]
 
 
+def getReferenceHousenumbers(workdir, prefix, relationName):
+    datadir = os.path.join(os.path.dirname(__file__), "data")
+    streets = getStreets(workdir, relationName)
+
+    lst = []  # type: List[str]
+    for street in streets:
+        lst += getHouseNumbersOfStreet(datadir, workdir, prefix, relationName, street)
+
+    lst = sorted(set(lst))
+    sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relationName), "w")
+    for l in lst:
+        sock.write(l + "\n")
+    sock.close()
+
+
 # Gets known house numbers (not their coordinates) from a reference site, based
 # on street names from OSM.
 def main():
-    if len(sys.argv) > 1:
-        relationName = sys.argv[1]
-    # Sample config:
-    # [get-reference-housenumbers]
-    # prefix = ...
+    global verbose
+
     config = configparser.ConfigParser()
     configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(configPath)
     prefix = config.get('wsgi', 'reference').strip()
-    streets = getStreets(relationName)
+    workdir = config.get('wsgi', 'workdir').strip()
 
-    lst = []  # type: List[str]
-    for street in streets:
-        lst += getReferenceHouseNumbers(street, prefix, relationName)
+    if len(sys.argv) > 1:
+        relationName = sys.argv[1]
 
-    lst = sorted(set(lst))
-    sock = open("workdir/street-housenumbers-reference-%s.lst" % relationName, "w")
-    for l in lst:
-        sock.write(l + "\n")
-    sock.close()
+    verbose = True
+    getReferenceHousenumbers(workdir, prefix, relationName)
 
 
 if __name__ == "__main__":
