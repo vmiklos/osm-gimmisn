@@ -111,6 +111,7 @@ def getHouseNumbersOfStreet(datadir, workdir, prefix, relationName, street):
             buf = urlSock.read()
             if verbose:
                 sys.stderr.write(" done.\n")
+            urlSock.close()
         except urllib.error.HTTPError:
             buf = b''
             if verbose:
@@ -119,7 +120,6 @@ def getHouseNumbersOfStreet(datadir, workdir, prefix, relationName, street):
         string = buf.decode('utf-8')
         cacheSock.write(string)
         cacheSock.close()
-        urlSock.close()
 
     sock = open(cachePath)
     string = sock.read()
