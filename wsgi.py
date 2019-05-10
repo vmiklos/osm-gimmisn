@@ -13,13 +13,22 @@ import yaml
 import helpers
 import overpass_query
 import suspicious_streets
+import get_reference_housenumbers
 
 
-def getWorkdir():
+def getConfig():
     config = configparser.ConfigParser()
     configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(configPath)
-    return config.get('wsgi', 'workdir').strip()
+    return config
+
+
+def getWorkdir():
+    return getConfig().get('wsgi', 'workdir').strip()
+
+
+def getReference():
+    return getConfig().get('wsgi', 'reference').strip()
 
 
 def getDatadir():
@@ -166,12 +175,17 @@ def handleSuspiciousStreets(requestUri, workdir):
         output += "</pre>"
         date = getLastModified(workdir, path)
         output += "<div>updated on " + date + "</div>"
+    elif action == "update-result":
+        get_reference_housenumbers.getReferenceHousenumbers(workdir, getReference(), relation)
+        output += "Frissítés sikeres."
 
     title = " - " + relation + " hiányzó házszámok"
     links = "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
             "Meglévő házszámok a környéken</a> &brvbar; " + \
             "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
-            "Meglévő utcák a környéken</a> &brvbar; "
+            "Meglévő utcák a környéken</a> &brvbar; " + \
+            "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">" + \
+            "Frissítés referenciából</a> (másodpercekig tarthat) &brvbar; "
     return getHeader(add_title=title, add_links=links) + output + getFooter()
 
 
