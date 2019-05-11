@@ -11,7 +11,7 @@ filters:
       - {start: '1', end: '5', isOdd: 'true'}
       - {start: '2', end: '2', isOdd: 'false'}
   gazdagreti_ut:
-    # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44 
+    # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44
     ranges:
       - {start: '5', end: '9', isOdd: 'true'}
   kaptarko_utca:
