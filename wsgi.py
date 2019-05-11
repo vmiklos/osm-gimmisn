@@ -112,7 +112,7 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
 
     date = get_housenumbers_last_modified(workdir, relation)
     title = " - " + relation + " meglévő házszámok"
-    links = "Frissítve " + date + "&brvbar; " \
+    links = "Frissítve " + date + "&brvbar; " + \
             "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
             "Meglévő házszámok</a> &brvbar; " + \
             "<a href=\"/osm/street-housenumbers/" + relation + "/update-result\">" + \
@@ -123,7 +123,7 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
 
 
 # Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-[result|query].
-def handleSuspiciousStreets(requestUri, workdir):
+def handleSuspiciousStreets(requestUri, workdir, relations):
     output = ""
 
     tokens = requestUri.split("/")
@@ -180,18 +180,26 @@ def handleSuspiciousStreets(requestUri, workdir):
         output += "Frissítés sikeres."
 
     title = " - " + relation + " hiányzó házszámok"
-    links = "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
+    date = get_ref_housenumbers_last_modified(workdir, relation)
+    osmurl = "https://www.openstreetmap.org/relation/" + str(relations[relation]["osmrelation"])
+    links = "Frissítve " + date + "&brvbar; " + \
+            "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
             "Meglévő házszámok a környéken</a> &brvbar; " + \
             "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
             "Meglévő utcák a környéken</a> &brvbar; " + \
             "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">" + \
-            "Frissítés referenciából</a> (másodpercekig tarthat) &brvbar; "
+            "Frissítés referenciából</a> (másodpercekig tarthat) &brvbar; " + \
+            "<a href=\"" + osmurl + "\">terület határa</a> &brvbar; "
     return getHeader(add_title=title, add_links=links) + output + getFooter()
 
 
 def getLastModified(workdir, path):
     t = os.path.getmtime(os.path.join(workdir, path))
     return datetime.datetime.fromtimestamp(t).isoformat()
+
+
+def get_ref_housenumbers_last_modified(workdir, name):
+    return getLastModified(workdir, "street-housenumbers-reference-" + name + ".lst")
 
 
 def get_housenumbers_last_modified(workdir, name):
@@ -281,7 +289,7 @@ def our_application(environ, start_response):
     elif requestUri.startswith("/osm/street-housenumbers/"):
         output = handleStreetHousenumbers(requestUri, workdir, relations)
     elif requestUri.startswith("/osm/suspicious-streets/"):
-        output = handleSuspiciousStreets(requestUri, workdir)
+        output = handleSuspiciousStreets(requestUri, workdir, relations)
     else:
         output = handleMain(relations, workdir)
 
