@@ -4,17 +4,24 @@ filters:
     ranges:
       - {start: '167', end: '223', isOdd: 'true'}
   gazdagreti_ut:
-    # paratlan gazdagret, paros hosszuret
+    # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44 
     ranges:
-      - {start: '2', end: '44', isOdd: 'false'}
+      - {start: '2', end: '36', isOdd: 'false'}
   hosszureti_utca:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
       - {start: '2', end: '34', isOdd: 'false'}
+  nagyida_utca:
+    ranges:
+      - {start: '2', end: '4', isOdd: 'false'}
   nevegy_koz:
     ranges:
       - {start: '1', end: '7', isOdd: 'true'}
       - {start: '2', end: '10', isOdd: 'false'}
+  nevegy_utca:
+    ranges:
+      - {start: '1', end: '37', isOdd: 'true'}
+      - {start: '2', end: '24', isOdd: 'false'}
   retkerulo_ut:
     # nincs vegig epitve, 42 hianyzik
     ranges:
