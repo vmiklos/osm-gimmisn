@@ -65,9 +65,13 @@ filters:
     ranges:
     - {end: '77', isOdd: 'true', start: '1'}
     - {end: '56', isOdd: 'false', start: '2'}
+  erdi_ut:
+    ranges:
+      - {start: '2', end: '16', isOdd: 'false'}
   gazdagreti_ut:
-    comment: no house numbers for Sasad
-    ranges: []
+    # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44 
+    ranges:
+      - {start: '38', end: '44', isOdd: 'false'}
   gorbe_utca:
     ranges:
     - {end: '9', isOdd: 'true', start: '1'}
@@ -96,8 +100,11 @@ filters:
     ranges:
     - {end: '9', isOdd: 'true', start: '1'}
     - {end: '12', isOdd: 'false', start: '2'}
+  hegyalja_ut:
+    ranges:
+      - {start: '184', end: '190', isOdd: 'false'}
   homonna_utca:
-    comment: 13 could be 21, but it's in fact 13-21
+    # 13 could be 21, but it's in fact 13-21
     ranges:
     - {end: '13', isOdd: 'true', start: '1'}
     - {end: '20', isOdd: 'false', start: '2'}
@@ -125,6 +132,17 @@ filters:
     ranges:
     - {end: '57', isOdd: 'true', start: '1'}
     - {end: '68', isOdd: 'false', start: '2'}
+  nagyida_utca:
+    ranges:
+      - {start: '1', end: '19', isOdd: 'true'}
+  nagyszeben_ut:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+  nagyszolos_utca:
+    ranges: []
+  nemetvolgyi_ut:
+    ranges:
+      - {start: '132', end: '150', isOdd: 'false'}
   olt_utca:
     ranges:
     - {end: '41', isOdd: 'true', start: '1'}
@@ -171,6 +189,9 @@ filters:
     ranges:
     - {end: '13', isOdd: 'true', start: '1'}
     - {end: '18', isOdd: 'false', start: '8'}
+  retkoz_utca:
+    ranges:
+      - {start: '11', end: '75', isOdd: 'true'}
   rodosto_utca:
     ranges:
     - {end: '17', isOdd: 'true', start: '7'}
