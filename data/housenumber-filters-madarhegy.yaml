@@ -31,7 +31,7 @@ filters:
       - {start: '2', end: '8', isOdd: 'false'}
   nagyida_utca:
     ranges:
-      - {end: '14', isOdd: 'false', start: '6'}
+      - {start: '6', end: '14', isOdd: 'false'}
   rozsaszolo_utca:
     # https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/wwwujbudahu/2016_11/hatarozat1.pdf
     ranges:
