@@ -7,4 +7,4 @@ addons:
   apt:
     packages:
       - yamllint
-script: make check
+script: make --jobs check || make --keep-going check
