@@ -8,7 +8,7 @@ filters:
       - {start: '67', end: '79', isOdd: 'true'}
       - {start: '2', end: '146', isOdd: 'false'}
   budafoki_ut:
-    # paratlan: utolso ismert paratlan a 215, de meg vannak telkek, 
+    # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
     # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
     ranges:
       - {start: '91', end: '229', isOdd: 'false'}
