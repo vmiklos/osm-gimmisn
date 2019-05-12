@@ -3,21 +3,19 @@ filters:
     ranges: []
   budaorsi_ut:
     ranges:
-    - {start: '154', end: '160', isOdd: 'false'}
+      - {start: '154', end: '160', isOdd: 'false'}
   dobogo_ut:
     ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
-  jegcsap_ut:
-    ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  jegcsap_utca:
+    ranges: []
   koerberki_ut:
     ranges: []
   gazdagreti_ut:
     ranges: []
   popradi_ut:
     ranges:
-    - {start: '1', end: '99', isOdd: 'true'}
-    - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
 source: survey
