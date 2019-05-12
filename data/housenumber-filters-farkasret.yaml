@@ -1,0 +1,23 @@
+filters:
+  agnes_ut:
+    ranges: []
+  burok_utca:
+    ranges:
+      - {start: '38', end: '998', isOdd: 'false'}
+  denever_ut:
+    ranges:
+      - {start: '1', end: '5', isOdd: 'true'}
+      - {start: '2', end: '18', isOdd: 'false'}
+  ho_utca:
+    ranges:
+      - {start: '1', end: '1', isOdd: 'true'}
+  hovirag_ut:
+    ranges:
+    - {start: '1', end: '1', isOdd: 'true'}
+  nemetvolgyi_ut:
+    ranges:
+      - {start: '99', end: '999', isOdd: 'true'}
+  racz_aladar_ut:
+    ranges:
+      - {start: '1', end: '3', isOdd: 'true'}
+source: survey
