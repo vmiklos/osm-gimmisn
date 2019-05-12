@@ -13,12 +13,14 @@ import sys
 import urllib.error
 import urllib.request
 # pylint: disable=unused-import
+from typing import Dict
 from typing import List
 import yaml
 import helpers
 
 
 verbose = False
+memoryCache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
 
 # Reads list of streets for an area from OSM.
@@ -100,27 +102,46 @@ def getHouseNumbersOfStreet(datadir, config, relationName, street):
     try:
         local = config.get('wsgi', 'reference_local').strip()
         return getHouseNumbersOfStreetLocal(datadir, local, relationName, street)
-    except:
+    except configparser.NoOptionError:
         prefix = config.get('wsgi', 'reference').strip()
         workdir = config.get('wsgi', 'workdir').strip()
         return getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street)
 
 
 def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
+    global memoryCache
+
+    if not memoryCache:
+        if verbose:
+            print("building in-memory cache")
+        with open(local, "r") as sock:
+            first = True
+            while True:
+                line = sock.readline()
+                if first:
+                    first = False
+                    continue
+
+                if not line:
+                    break
+
+                refmegye, reftelepules, street, num = line.strip().split("\t")
+                if refmegye not in memoryCache.keys():
+                    memoryCache[refmegye] = {}
+                if reftelepules not in memoryCache[refmegye].keys():
+                    memoryCache[refmegye][reftelepules] = {}
+                if street not in memoryCache[refmegye][reftelepules].keys():
+                    memoryCache[refmegye][reftelepules][street] = []
+                memoryCache[refmegye][reftelepules][street].append(num)
+
     if verbose:
         print("searching '" + street + "'")
     refmegye, reftelepules, _, _ = getStreetDetails(datadir, street, relationName)
-    ret = []
-    with open(local, "rb") as sock:
-        prefix = "\t".join([refmegye, reftelepules, street, ""]).encode("utf-8")
-        while True:
-            line = sock.readline()
-            if not line:
-                break
-            if line.startswith(prefix):
-                houseNumber = line[len(prefix):].decode("utf-8").strip()
-                ret.append(helpers.simplify(street + " " + houseNumber))
-    return ret
+    if street in memoryCache[refmegye][reftelepules].keys():
+        houseNumbers = memoryCache[refmegye][reftelepules][street]
+        return [helpers.simplify(street + " " + i) for i in houseNumbers]
+
+    return []
 
 
 def getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street):
