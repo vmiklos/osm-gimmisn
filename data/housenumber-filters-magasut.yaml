@@ -1,26 +1,37 @@
 filters:
+  adorjan_ut:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+  irhas_arok:
+    ranges:
+      - {start: '1', end: '31', isOdd: 'true'}
   kikerics_utca:
     ranges:
-    - {start: '1', end: '21', isOdd: 'true'}
-    - {start: '2', end: '20', isOdd: 'false'}
+      - {start: '1', end: '21', isOdd: 'true'}
+      - {start: '2', end: '20', isOdd: 'false'}
   liderc_koz:
     ranges:
-    - {start: '1', end: '7', isOdd: 'true'}
-    - {start: '2', end: '10', isOdd: 'false'}
-  magasuti_lejto:
-    ranges:
-    - {start: '1', end: '15', isOdd: 'true'}
-    - {start: '2', end: '16', isOdd: 'false'}
-  noszirom_utca:
-    ranges:
-    - {start: '1', end: '9', isOdd: 'true'}
-    - {start: '6', end: '18', isOdd: 'false'}
-  sun_utca:
-    ranges:
-    - {start: '1', end: '11', isOdd: 'true'}
-    - {start: '2', end: '12', isOdd: 'false'}
+      - {start: '1', end: '7', isOdd: 'true'}
+      - {start: '2', end: '10', isOdd: 'false'}
   magasuti_koz:
     ranges:
-    - {start: '1', end: '9', isOdd: 'true'}
-    - {start: '2', end: '8', isOdd: 'false'}
+      - {start: '1', end: '9', isOdd: 'true'}
+      - {start: '2', end: '8', isOdd: 'false'}
+  magasuti_lejto:
+    ranges:
+      - {start: '1', end: '15', isOdd: 'true'}
+      - {start: '2', end: '16', isOdd: 'false'}
+  moha_utca:
+    ranges: []
+  noszirom_utca:
+    ranges:
+      - {start: '1', end: '9', isOdd: 'true'}
+      - {start: '6', end: '18', isOdd: 'false'}
+  sun_utca:
+    ranges:
+      - {start: '1', end: '11', isOdd: 'true'}
+      - {start: '2', end: '12', isOdd: 'false'}
+  torokbalinti_ut:
+    ranges:
+      - {start: '17', end: '75', isOdd: 'true'}
 source: survey
