@@ -179,11 +179,12 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
         get_reference_housenumbers.getReferenceHousenumbers(getConfig(), relation)
         output += "Frissítés sikeres."
 
-    title = " - " + relation + " hiányzó házszámok"
     date = get_ref_housenumbers_last_modified(workdir, relation)
+    output += "<p>Frissítve " + date + "</p>"
+
+    title = " - " + relation + " hiányzó házszámok"
     osmurl = "https://www.openstreetmap.org/relation/" + str(relations[relation]["osmrelation"])
-    links = "Frissítve " + date + "&brvbar; " + \
-            "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
+    links = "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
             "Meglévő házszámok a környéken</a> &brvbar; " + \
             "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
             "Meglévő utcák a környéken</a> &brvbar; " + \
