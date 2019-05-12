@@ -42,8 +42,7 @@ def getStreets(workdir, relationName):
     return sorted(set(ret))
 
 
-# Returns URL of a street based on config.
-def getStreetURL(datadir, street, prefix, relationName):
+def getStreetDetails(datadir, street, relationName):
     relations = yaml.load(open(os.path.join(datadir, "relations.yaml")))
     relation = relations[relationName]
     if street == "Zólyomi köz":
@@ -63,7 +62,12 @@ def getStreetURL(datadir, street, prefix, relationName):
     tokens = street.split(' ')
     streetName = " ".join(tokens[:-1])
     streetType = tokens[-1]
+    return refmegye, reftelepules, streetName, streetType
 
+
+# Returns URL of a street based on config.
+def getStreetURL(datadir, street, prefix, relationName):
+    refmegye, reftelepules, streetName, streetType = getStreetDetails(datadir, street, relationName)
     url = prefix
     d = {
         "p_p_id": "wardsearch_WAR_nvinvrportlet",
