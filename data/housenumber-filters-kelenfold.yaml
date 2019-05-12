@@ -1,0 +1,65 @@
+filters:
+  bartok_bela_ut:
+    ranges:
+      - {start: '69', end: '149', isOdd: 'true'}
+      - {start: '84', end: '160', isOdd: 'false'}
+  bocskai_ut:
+    ranges:
+      - {start: '67', end: '79', isOdd: 'true'}
+      - {start: '2', end: '146', isOdd: 'false'}
+  budafoki_ut:
+    # paratlan: utolso ismert paratlan a 215, de meg vannak telkek, 
+    # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
+    ranges:
+      - {start: '91', end: '229', isOdd: 'false'}
+      - {start: '52', end: '198', isOdd: 'false'}
+  budaorsi_ut:
+    ranges:
+      - {start: '26', end: '60', isOdd: 'false'}
+  eger_ut:
+    ranges: []
+  fadrusz_utca:
+    ranges:
+      - {start: '9', end: '31', isOdd: 'true'}
+      - {start: '18', end: '38', isOdd: 'false'}
+  fehervari_ut:
+    ranges:
+      - {start: '23', end: '191', isOdd: 'true'}
+      - {start: '40', end: '166', isOdd: 'false'}
+  karolina_ut:
+    ranges:
+      - {start: '1', end: '69', isOdd: 'true'}
+      - {start: '56', end: '72', isOdd: 'false'}
+  kelenvolgyi_hatarsor:
+    ranges: []
+  kondorosi_ut:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+  kosztolanyi_dezso_ter:
+    ranges:
+      - {start: '5', end: '11', isOdd: 'true'}
+      - {start: '6', end: '10', isOdd: 'false'}
+  solt_utca:
+    ranges:
+      - {start: '24', end: '98', isOdd: 'false'}
+  szeremi_ut:
+    # elso ismert a 63 albertfalvan
+    ranges:
+      - {start: '1', end: '61', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  tas_vezer_utca:
+    ranges:
+      - {start: '15', end: '99', isOdd: 'true'}
+      - {start: '22', end: '28', isOdd: 'false'}
+  villanyi_ut:
+    ranges:
+      - {start: '76', end: '86', isOdd: 'false'}
+  vinceller_utca:
+    ranges:
+      - {start: '26', end: '50', isOdd: 'true'}
+      - {start: '27', end: '47', isOdd: 'false'}
+  zsombolyai_utca:
+    ranges:
+      - {start: '8', end: '20', isOdd: 'true'}
+      - {start: '7', end: '17', isOdd: 'false'}
+source: survey
