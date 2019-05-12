@@ -159,10 +159,10 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
         else:
             percent = "N/A"
         output += " (meglévő: " + str(doneNrCount) + ", készültség: " + str(percent) + "%).<br>"
-        output += "Téves információ jelentése: <a href=\"" + \
+        output += "<a href=\"" + \
                   "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
                   "#hib%C3%A1s-riaszt%C3%A1s-hozz%C3%A1ad%C3%A1sa\">" + \
-                  "\"Hibás riasztás hozzáadása\"</a>."
+                  "Téves információ jelentése</a>."
 
         # Write the bottom line to a file, so the index page show it fast.
         with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
@@ -254,10 +254,13 @@ def handleMain(relations, workdir):
 
         output += "</tr>"
     output += "</table>"
-    output += "Új terület hozzáadása: <a href=\"" + \
+    output += "<a href=\"" + \
+              "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu#az-osm-gimmisn-haszn%C3%A1lata\">" + \
+              "Segítség a használathoz</a> &brvbar; "
+    output += "<a href=\"" + \
               "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
               "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
-              "\"Új reláció hozzáadása\"</a>."
+              "Új terület hozzáadása</a>."
 
     return getHeader() + output + getFooter()
 
