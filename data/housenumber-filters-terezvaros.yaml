@@ -1,9 +1,18 @@
 filters:
   andrassy_ut:
-    comment: exclude following numbers ['106', '108', '94']
+    # exclude following numbers ['106', '108', '94']
     ranges:
-    - {end: '127', isOdd: 'true', start: '1'}
-    - {end: '92', isOdd: 'false', start: '2'}
-    - {end: '104', isOdd: 'false', start: '96'}
-    - {end: '132', isOdd: 'false', start: '110'}
+      - {start: '1', end: '127', isOdd: 'true'}
+      - {start: '2', end: '92', isOdd: 'false'}
+      - {start: '96', end: '104', isOdd: 'false'}
+      - {start: '110', end: '132', isOdd: 'false'}
+  bajcsy-zsilinszky_ut:
+    ranges:
+      - {start: '1', end: '65', isOdd: 'true'}
+  lehel_utca:
+    ranges:
+      - {start: '1', end: '5', isOdd: 'true'}
+  vaci_ut:
+    ranges:
+      - {start: '1', end: '3', isOdd: 'true'}
 source: survey
