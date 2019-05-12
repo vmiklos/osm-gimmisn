@@ -176,7 +176,7 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
         date = getLastModified(workdir, path)
         output += "<div>updated on " + date + "</div>"
     elif action == "update-result":
-        get_reference_housenumbers.getReferenceHousenumbers(workdir, getReference(), relation)
+        get_reference_housenumbers.getReferenceHousenumbers(getConfig(), relation)
         output += "Frissítés sikeres."
 
     title = " - " + relation + " hiányzó házszámok"

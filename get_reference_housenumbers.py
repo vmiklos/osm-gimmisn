@@ -96,7 +96,34 @@ def getURLHash(url):
 
 
 # Gets known house numbers for a single street
-def getHouseNumbersOfStreet(datadir, workdir, prefix, relationName, street):
+def getHouseNumbersOfStreet(datadir, config, relationName, street):
+    try:
+        local = config.get('wsgi', 'reference_local').strip()
+        return getHouseNumbersOfStreetLocal(datadir, local, relationName, street)
+    except:
+        prefix = config.get('wsgi', 'reference').strip()
+        workdir = config.get('wsgi', 'workdir').strip()
+        return getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street)
+
+
+def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
+    if verbose:
+        print("searching '" + street + "'")
+    refmegye, reftelepules, _, _ = getStreetDetails(datadir, street, relationName)
+    ret = []
+    with open(local, "rb") as sock:
+        prefix = "\t".join([refmegye, reftelepules, street, ""]).encode("utf-8")
+        while True:
+            line = sock.readline()
+            if not line:
+                break
+            if line.startswith(prefix):
+                houseNumber = line[len(prefix):].decode("utf-8").strip()
+                ret.append(helpers.simplify(street + " " + houseNumber))
+    return ret
+
+
+def getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street):
     url = getStreetURL(datadir, street, prefix, relationName)
     if verbose:
         print("considering '" + url + "'")
@@ -135,17 +162,16 @@ def getHouseNumbersOfStreet(datadir, workdir, prefix, relationName, street):
     return [helpers.simplify(street + " " + i["displayValueHouseNumber"]) for i in j]
 
 
-def getReferenceHousenumbers(workdir, prefix, relationName):
+def getReferenceHousenumbers(config, relationName):
     datadir = os.path.join(os.path.dirname(__file__), "data")
+    workdir = config.get('wsgi', 'workdir').strip()
     streets = getStreets(workdir, relationName)
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += getHouseNumbersOfStreet(datadir, workdir, prefix, relationName, street)
+        lst += getHouseNumbersOfStreet(datadir, config, relationName, street)
 
     lst = sorted(set(lst))
-    if not lst:
-        return
     sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relationName), "w")
     for l in lst:
         sock.write(l + "\n")
@@ -160,14 +186,12 @@ def main():
     config = configparser.ConfigParser()
     configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(configPath)
-    prefix = config.get('wsgi', 'reference').strip()
-    workdir = config.get('wsgi', 'workdir').strip()
 
     if len(sys.argv) > 1:
         relationName = sys.argv[1]
 
     verbose = True
-    getReferenceHousenumbers(workdir, prefix, relationName)
+    getReferenceHousenumbers(config, relationName)
 
 
 if __name__ == "__main__":
