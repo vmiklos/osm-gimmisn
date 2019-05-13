@@ -174,7 +174,6 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
             output += sock.read()
         output += "</pre>"
         date = getLastModified(workdir, path)
-        output += "<div>updated on " + date + "</div>"
     elif action == "update-result":
         get_reference_housenumbers.getReferenceHousenumbers(getConfig(), relation)
         output += "Frissítés sikeres."
