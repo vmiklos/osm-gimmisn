@@ -13,6 +13,9 @@ filters:
     ranges:
     - {end: '15', isOdd: 'true', start: '1'}
     - {end: '12', isOdd: 'false', start: '2'}
+  dobogo_ut:
+    ranges:
+    - {start: '53', end: '57', isOdd: 'true'}
   herics_utca:
     ranges:
     - {end: '11', isOdd: 'true', start: '1'}
@@ -46,7 +49,9 @@ filters:
     - {end: '6', isOdd: 'false', start: '2'}
     - {end: '16', isOdd: 'false', start: '16'}
     - {end: '28', isOdd: 'false', start: '20'}
-    - {end: '60', isOdd: 'false', start: '42'}
+    - {end: '62', isOdd: 'false', start: '42'}
+  nagyszolos_utca:
+    ranges: []
   neszmelyi_ut:
     ranges:
     - {end: '13', isOdd: 'true', start: '9'}
