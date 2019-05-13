@@ -222,7 +222,8 @@ def handleMain(relations, workdir):
 
     output += "<h1>Hol térképezzek?</h1>"
     output += "<table>"
-    for k, v in relations.items():
+    for k in sorted(relations):
+        v = relations[k]
         output += "<tr>"
         output += "<td>" + k + "</td>"
         percentFile = k + ".percent"
