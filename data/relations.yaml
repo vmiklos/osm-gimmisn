@@ -1,19 +1,76 @@
-csilleberc: {osmrelation: 2805998, refmegye: "01", reftelepules: "012"}
-dobogo: {osmrelation: 2713968, refmegye: "01", reftelepules: "011"}
-farkasret: {osmrelation: 2787964, refmegye: "01", reftelepules: "012"}
-farkasvolgy: {osmrelation: 2788020, refmegye: "01", reftelepules: "012"}
-gazdagret: {osmrelation: 2713748, refmegye: "01", reftelepules: "011"}
-hosszuret: {osmrelation: 2713782, refmegye: "01", reftelepules: "011"}
-kelenfold: {osmrelation: 2700869, refmegye: "01", reftelepules: "011"}
-madarhegy: {osmrelation: 2713839, refmegye: "01", reftelepules: "011"}
-magasut: {osmrelation: 2805999, refmegye: "01", reftelepules: "012"}
-nemetvolgy: {osmrelation: 2806940, refmegye: "01", reftelepules: "012"}
-ormezo: {osmrelation: 2713749, refmegye: "01", reftelepules: "011"}
-orsod: {osmrelation: 2714011, refmegye: "01", reftelepules: "011"}
-posingermajor: {osmrelation: 2714365, refmegye: "01", reftelepules: "011"}
-sasad: {osmrelation: 2714372, refmegye: "01", reftelepules: "011"}
-sashegy: {osmrelation: 2714524, refmegye: "01", reftelepules: "011"}
-spanyolret: {osmrelation: 2713840, refmegye: "01", reftelepules: "011"}
-szechenyihegy: {osmrelation: 2806000, refmegye: "01", reftelepules: "012"}
-terezvaros: {osmrelation: 3229919, refmegye: "01", reftelepules: "006"}
-szentantalfa: {osmrelation: 1078476, refmegye: "19", reftelepules: "177"}
+csilleberc:
+    osmrelation: 2805998
+    refmegye: "01"
+    reftelepules: "012"
+dobogo:
+    osmrelation: 2713968
+    refmegye: "01"
+    reftelepules: "011"
+farkasret:
+    osmrelation: 2787964
+    refmegye: "01"
+    reftelepules: "012"
+farkasvolgy:
+    osmrelation: 2788020
+    refmegye: "01"
+    reftelepules: "012"
+gazdagret:
+    osmrelation: 2713748
+    refmegye: "01"
+    reftelepules: "011"
+hosszuret:
+    osmrelation: 2713782
+    refmegye: "01"
+    reftelepules: "011"
+kelenfold:
+    osmrelation: 2700869
+    refmegye: "01"
+    reftelepules: "011"
+madarhegy:
+    osmrelation: 2713839
+    refmegye: "01"
+    reftelepules: "011"
+magasut:
+    osmrelation: 2805999
+    refmegye: "01"
+    reftelepules: "012"
+nemetvolgy:
+    osmrelation: 2806940
+    refmegye: "01"
+    reftelepules: "012"
+ormezo:
+    osmrelation: 2713749
+    refmegye: "01"
+    reftelepules: "011"
+orsod:
+    osmrelation: 2714011
+    refmegye: "01"
+    reftelepules: "011"
+posingermajor:
+    osmrelation: 2714365
+    refmegye: "01"
+    reftelepules: "011"
+sasad:
+    osmrelation: 2714372
+    refmegye: "01"
+    reftelepules: "011"
+sashegy:
+    osmrelation: 2714524
+    refmegye: "01"
+    reftelepules: "011"
+spanyolret:
+    osmrelation: 2713840
+    refmegye: "01"
+    reftelepules: "011"
+szechenyihegy:
+    osmrelation: 2806000
+    refmegye: "01"
+    reftelepules: "012"
+terezvaros:
+    osmrelation: 3229919
+    refmegye: "01"
+    reftelepules: "006"
+szentantalfa:
+    osmrelation: 1078476
+    refmegye: "19"
+    reftelepules: "177"
