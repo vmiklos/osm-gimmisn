@@ -74,4 +74,8 @@ filters:
     ranges:
       - {start: '1', end: '49', isOdd: 'true'}
       - {start: '4', end: '44', isOdd: 'false'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # 'OSM Name 2': 'Ref Name 2'
+  'Zólyomi köz': 'Zólyom köz'
 source: survey

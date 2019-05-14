@@ -47,13 +47,18 @@ def getStreets(workdir, relationName):
 def getStreetDetails(datadir, street, relationName):
     relations = yaml.load(open(os.path.join(datadir, "relations.yaml")))
     relation = relations[relationName]
-    if street == "Zólyomi köz":
-        # Really strange, survey confirms OSM is correct here, so map it
-        # instead.
-        street = "Zólyom köz"
-    elif street == "Felsőhatár út":
-        # OSM survey confirms the difference
-        street = "Felső határ út"
+
+    # See if config wants to map from OSM name to ref name.
+    refstreets = {}  # type: Dict[str, str]
+    if os.path.exists("data/housenumber-filters-%s.yaml" % relationName):
+        with open("data/housenumber-filters-%s.yaml" % relationName) as sock:
+            y = yaml.load(sock)
+            if "refstreets" in y.keys():
+                refstreets = y["refstreets"]
+
+    if street in refstreets.keys():
+        street = refstreets[street]
+
     refmegye = relation["refmegye"]
     reftelepules = relation["reftelepules"]
     sashegy_extra_streets = ("Breznó lépcső", "Kálló esperes utca", "Sasfiók utca", "Sion lépcső", "Somorjai utca")
@@ -136,7 +141,8 @@ def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
 
     if verbose:
         print("searching '" + street + "'")
-    refmegye, reftelepules, _, _ = getStreetDetails(datadir, street, relationName)
+    refmegye, reftelepules, streetName, streetType = getStreetDetails(datadir, street, relationName)
+    street = streetName + " " + streetType
     if street in memoryCache[refmegye][reftelepules].keys():
         houseNumbers = memoryCache[refmegye][reftelepules][street]
         return [helpers.simplify(street + " " + i) for i in houseNumbers]
