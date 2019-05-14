@@ -1,3 +1,8 @@
+# budapest
+barossgabortelep:
+    osmrelation: 3186063
+    refmegye: "01"
+    reftelepules: "022"
 csilleberc:
     osmrelation: 2805998
     refmegye: "01"
@@ -70,6 +75,11 @@ terezvaros:
     osmrelation: 3229919
     refmegye: "01"
     reftelepules: "006"
+# videk
+biatorbagy:
+    osmrelation: 113461
+    refmegye: "14"
+    reftelepules: "011"
 szentantalfa:
     osmrelation: 1078476
     refmegye: "19"
