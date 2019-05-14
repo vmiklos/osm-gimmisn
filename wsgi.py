@@ -35,14 +35,22 @@ def getDatadir():
     return os.path.join(os.path.dirname(__file__), "data")
 
 
+def processTemplate(buf, osmrelation):
+    buf = buf.replace("@RELATION@", str(osmrelation))
+    # area is relation + 3600000000 (3600000000 == relation), see js/ide.js
+    # in https://github.com/tyrasd/overpass-turbo
+    buf = buf.replace("@AREA@", str(3600000000 + osmrelation))
+    return buf
+
+
 def getStreetsQuery(relations, relation):
     with open(os.path.join(getDatadir(), "streets-template.txt")) as sock:
-        return sock.read().replace("@RELATION@", str(relations[relation]["osmrelation"]))
+        return processTemplate(sock.read(), relations[relation]["osmrelation"])
 
 
 def getStreetHousenumbersQuery(relations, relation):
     with open(os.path.join(getDatadir(), "street-housenumbers-template.txt")) as sock:
-        return sock.read().replace("@RELATION@", str(relations[relation]["osmrelation"]))
+        return processTemplate(sock.read(), relations[relation]["osmrelation"])
 
 
 # Returns a name -> properties dictionary.

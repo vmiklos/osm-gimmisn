@@ -1,5 +1,5 @@
 [out:csv(::id, name, highway, service)]  [timeout:425];
-area(360@RELATION@);
+area(@AREA@);
 way(area)[highway][highway!="service"]["bridge"!~".*"]["note"!="no-house-numbers"];
 out;
 way(area)[highway=service][name]["bridge"!~".*"]["note"!="no-house-numbers"];
