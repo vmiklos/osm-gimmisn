@@ -50,8 +50,8 @@ def getStreetDetails(datadir, street, relationName):
 
     # See if config wants to map from OSM name to ref name.
     refstreets = {}  # type: Dict[str, str]
-    if os.path.exists("data/housenumber-filters-%s.yaml" % relationName):
-        with open("data/housenumber-filters-%s.yaml" % relationName) as sock:
+    if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)):
+        with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)) as sock:
             y = yaml.load(sock)
             if "refstreets" in y.keys():
                 refstreets = y["refstreets"]
