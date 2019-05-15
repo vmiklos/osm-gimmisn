@@ -18,6 +18,6 @@ filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # 'OSM Name 2': 'Ref Name 2'
-'Felsőhatár utca': 'Felső határ út'
-'Felső határút': 'Felső határ út'
+  'Felsőhatár utca': 'Felső határ út'
+  'Felső határút': 'Felső határ út'
 source: survey
