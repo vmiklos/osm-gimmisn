@@ -1,136 +1,136 @@
 filters:
   alkotas_utca:
     ranges:
-    - {end: '53', isOdd: 'true', start: '39'}
-    - {end: '44', isOdd: 'false', start: '42'}
-    - {end: '58', isOdd: 'false', start: '50'}
+      - {start: '39', end: '53', isOdd: 'true'}
+      - {start: '42', end: '44', isOdd: 'false'}
+      - {start: '50', end: '58', isOdd: 'false'}
   apor_vilmos_ter:
     ranges:
-    - {end: '25', isOdd: 'true', start: '1'}
-    - {end: '26', isOdd: 'false', start: '2'}
+      - {start: '1', end: '25', isOdd: 'true'}
+      - {start: '2', end: '26', isOdd: 'false'}
   ban_utca:
     ranges:
-    - {end: '5', isOdd: 'true', start: '1'}
-    - {end: '10', isOdd: 'false', start: '2'}
+      - {start: '1', end: '5', isOdd: 'true'}
+      - {start: '2', end: '10', isOdd: 'false'}
   boszormenyi_ut:
     ranges:
-    - {end: '37', isOdd: 'true', start: '3'}
-    - {end: '46', isOdd: 'false', start: '16'}
+      - {start: '3', end: '37', isOdd: 'true'}
+      - {start: '16', end: '46', isOdd: 'false'}
   brassai_samuel_utca:
     ranges:
-    - {end: '5', isOdd: 'true', start: '1'}
-    - {end: '16', isOdd: 'false', start: '2'}
+      - {start: '1', end: '5', isOdd: 'true'}
+      - {start: '2', end: '16', isOdd: 'false'}
   csorsz_utca:
     ranges:
-    - {end: '57', isOdd: 'true', start: '1'}
-    - {end: '18', isOdd: 'false', start: '2'}
+      - {start: '1', end: '57', isOdd: 'true'}
+      - {start: '2', end: '18', isOdd: 'false'}
   derkovits_utca:
     ranges:
-    - {end: '13', isOdd: 'true', start: '1'}
-    - {end: '12', isOdd: 'false', start: '2'}
+      - {start: '1', end: '13', isOdd: 'true'}
+      - {start: '2', end: '12', isOdd: 'false'}
   dolgos_utca:
     ranges:
-    - {end: '21', isOdd: 'true', start: '1'}
-    - {end: '2', isOdd: 'false', start: '2'}
+      - {start: '1', end: '21', isOdd: 'true'}
+      - {start: '2', end: '2', isOdd: 'false'}
   furj_utca:
     ranges:
-    - {end: '33', isOdd: 'true', start: '1'}
-    - {end: '46', isOdd: 'false', start: '2'}
+      - {start: '1', end: '33', isOdd: 'true'}
+      - {start: '2', end: '46', isOdd: 'false'}
   gyori_ut:
-    comment: this is just the nemetvolgy part
+    # this is just the nemetvolgy part
     ranges:
-    - {end: '19', isOdd: 'true', start: '9'}
-    - {end: '20', isOdd: 'false', start: '2'}
+      - {start: '9', end: '19', isOdd: 'true'}
+      - {start: '2', end: '20', isOdd: 'false'}
   hegyalja_ut:
-    comment: this is just the nemetvolgy part
+    # this is just the nemetvolgy part
     ranges:
-    - {end: '139', isOdd: 'true', start: '95'}
+      - {start: '95', end: '139', isOdd: 'true'}
   jagello_ut:
     ranges:
-    - {end: '5', isOdd: 'true', start: '1'}
-    - {end: '15', isOdd: 'true', start: '9'}
-    - {end: '52', isOdd: 'false', start: '2'}
+      - {start: '1', end: '5', isOdd: 'true'}
+      - {start: '9', end: '15', isOdd: 'true'}
+      - {start: '2', end: '52', isOdd: 'false'}
   kapitany_utca:
     ranges:
-    - {end: '3', isOdd: 'true', start: '1'}
-    - {end: '6', isOdd: 'false', start: '2'}
+      - {start: '1', end: '3', isOdd: 'true'}
+      - {start: '2', end: '6', isOdd: 'false'}
   kiss_janos_altabornagy_utca:
-    comment: this is just the nemetvolgy part
+    # this is just the nemetvolgy part
     ranges:
-    - {end: '59', isOdd: 'true', start: '25'}
-    - {end: '2', isOdd: 'false', start: '2'}
-    - {end: '88', isOdd: 'false', start: '6'}
+      - {start: '25', end: '59', isOdd: 'true'}
+      - {start: '2', end: '2', isOdd: 'false'}
+      - {start: '6', end: '88', isOdd: 'false'}
   korompai_utca:
     ranges:
-    - {end: '13', isOdd: 'true', start: '1'}
-    - {end: '18', isOdd: 'false', start: '2'}
+      - {start: '1', end: '13', isOdd: 'true'}
+      - {start: '2', end: '18', isOdd: 'false'}
   koszta_jozsef_utca:
     ranges:
-    - {end: '51', isOdd: 'true', start: '1'}
-    - {end: '42', isOdd: 'false', start: '2'}
+      - {start: '1', end: '51', isOdd: 'true'}
+      - {start: '2', end: '42', isOdd: 'false'}
   lejto_ut:
     ranges:
-    - {end: '51', isOdd: 'true', start: '1'}
-    - {end: '28', isOdd: 'false', start: '2'}
+      - {start: '1', end: '51', isOdd: 'true'}
+      - {start: '2', end: '28', isOdd: 'false'}
   lipto_utca:
     ranges:
-    - {end: '15', isOdd: 'true', start: '1'}
-    - {end: '14', isOdd: 'false', start: '2'}
+      - {start: '1', end: '15', isOdd: 'true'}
+      - {start: '2', end: '14', isOdd: 'false'}
   nemetvolgyi_ut:
-    comment: this is just the nemetvolgy part
+    # this is just the nemetvolgy part
     ranges:
-    - {end: '42', isOdd: 'false', start: '2'}
-    - {end: '130', isOdd: 'false', start: '46'}
+      - {start: '2', end: '42', isOdd: 'false'}
+      - {start: '46', end: '130', isOdd: 'false'}
   sashegyi_ut:
     ranges:
-    - {end: '39', isOdd: 'true', start: '1'}
-    - {end: '30', isOdd: 'false', start: '2'}
+      - {start: '1', end: '39', isOdd: 'true'}
+      - {start: '2', end: '30', isOdd: 'false'}
   siraly_utca:
     ranges:
-    - {end: '13', isOdd: 'true', start: '1'}
-    - {end: '20', isOdd: 'false', start: '4'}
+      - {start: '1', end: '13', isOdd: 'true'}
+      - {start: '4', end: '20', isOdd: 'false'}
   somorjai_utca:
     ranges:
-    - {end: '17', isOdd: 'true', start: '1'}
-    - {end: '16', isOdd: 'false', start: '2'}
+      - {start: '1', end: '17', isOdd: 'true'}
+      - {start: '2', end: '16', isOdd: 'false'}
   stromfeld_aurel_ut:
     ranges:
-    - {end: '9', isOdd: 'true', start: '1'}
-    - {end: '10', isOdd: 'false', start: '2'}
+      - {start: '1', end: '9', isOdd: 'true'}
+      - {start: '2', end: '10', isOdd: 'false'}
   szendi_arok:
     ranges:
-    - {end: '11', isOdd: 'true', start: '1'}
-    - {end: '10', isOdd: 'false', start: '8'}
+      - {start: '1', end: '11', isOdd: 'true'}
+      - {start: '8', end: '10', isOdd: 'false'}
   szoboszlai_utca:
     ranges:
-    - {end: '21', isOdd: 'true', start: '11'}
-    - {end: '4', isOdd: 'false', start: '2'}
+      - {start: '11', end: '21', isOdd: 'true'}
+      - {start: '2', end: '4', isOdd: 'false'}
   taltos_utca:
     ranges:
-    - {end: '15', isOdd: 'true', start: '1'}
-    - {end: '22', isOdd: 'false', start: '2'}
+      - {start: '1', end: '15', isOdd: 'true'}
+      - {start: '2', end: '22', isOdd: 'false'}
   tartsay_vilmos_utca:
     ranges:
-    - {end: '21', isOdd: 'true', start: '1'}
-    - {end: '30', isOdd: 'false', start: '2'}
+      - {start: '1', end: '21', isOdd: 'true'}
+      - {start: '2', end: '30', isOdd: 'false'}
   torpe_utca:
     ranges:
-    - {end: '9', isOdd: 'true', start: '1'}
-    - {end: '12', isOdd: 'false', start: '2'}
+      - {start: '1', end: '9', isOdd: 'true'}
+      - {start: '2', end: '12', isOdd: 'false'}
   vas_gereben_utca:
     ranges:
-    - {end: '39', isOdd: 'true', start: '1'}
-    - {end: '40', isOdd: 'false', start: '2'}
+      - {start: '1', end: '39', isOdd: 'true'}
+      - {start: '2', end: '40', isOdd: 'false'}
   vercse_koz:
     ranges:
-    - {end: '5', isOdd: 'true', start: '1'}
-    - {end: '6', isOdd: 'false', start: '2'}
+      - {start: '1', end: '5', isOdd: 'true'}
+      - {start: '2', end: '6', isOdd: 'false'}
   vercse_utca:
     ranges:
-    - {end: '45', isOdd: 'true', start: '1'}
-    - {end: '32', isOdd: 'false', start: '2'}
+      - {start: '1', end: '45', isOdd: 'true'}
+      - {start: '2', end: '32', isOdd: 'false'}
   zsambeki_utca:
     ranges:
-    - {end: '17', isOdd: 'true', start: '1'}
-    - {end: '14', isOdd: 'false', start: '2'}
+      - {start: '1', end: '17', isOdd: 'true'}
+      - {start: '2', end: '14', isOdd: 'false'}
 source: survey
