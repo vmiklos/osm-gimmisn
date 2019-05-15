@@ -20,6 +20,8 @@ import helpers
 
 suffix = ""
 normalizers = {}  # type: Dict[str, Ranges]
+# OSM name -> ref name map
+refStreets = {}  # type: Dict[str, str]
 
 
 # A Ranges object contains an item if any of its Range objects contains it.
@@ -119,6 +121,11 @@ class Finder:
         bothResults = []
 
         for streetName in streetNames:
+
+            # See if we need to map the OSM name to ref name.
+            if streetName in refStreets.keys():
+                streetName = refStreets[streetName]
+
             referenceHouseNumbers = getHouseNumbersFromLst(streetName)
             osmHouseNumbers = getHouseNumbersFromCsv(streetName)
             onlyInReference = helpers.get_only_in_first(referenceHouseNumbers, osmHouseNumbers)
@@ -151,6 +158,7 @@ class Test(unittest.TestCase):
 
 def loadNormalizers():
     global normalizers
+    global refStreets
     cwd = os.getcwd()
     os.chdir(os.path.dirname(__file__))
     config = None
@@ -164,6 +172,8 @@ def loadNormalizers():
             for r in filters[street]["ranges"]:
                 i.append(Range(int(r["start"]), int(r["end"]), r["isOdd"] == "true"))
             normalizers[street] = Ranges(i)
+    if config and "refstreets" in config.keys():
+        refStreets = config["refstreets"]
     os.chdir(cwd)
 
 
