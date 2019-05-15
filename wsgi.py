@@ -141,12 +141,7 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
 
     if action == "view-result":
         output += "<pre>"
-        # TODO this API is far from nice
-        cwd = os.getcwd()
-        suspicious_streets.suffix = "-%s" % relation
-        suspicious_streets.loadNormalizers()
-        os.chdir(workdir)
-        finder = suspicious_streets.Finder()
+        finder = suspicious_streets.Finder(getDatadir(), workdir, relation)
         houseNrCount = 0
         for result in finder.suspiciousStreets:
             if result[1]:
@@ -158,7 +153,6 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
         doneNrCount = 0
         for result in finder.doneStreets:
             doneNrCount += len(result[1])
-        os.chdir(cwd)
         output += "</pre>"
         output += "Elképzelhető, hogy az OpenStreetMap nem tartalmazza a fenti "
         output += str(len(finder.suspiciousStreets)) + " utcához tartozó "

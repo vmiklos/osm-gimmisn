@@ -12,16 +12,11 @@
 import os
 import re
 import sys
-import unittest
 # pylint: disable=unused-import
 from typing import Dict, List
+import configparser
 import yaml
 import helpers
-
-suffix = ""
-normalizers = {}  # type: Dict[str, Ranges]
-# OSM name -> ref name map
-refStreets = {}  # type: Dict[str, str]
 
 
 # A Ranges object contains an item if any of its Range objects contains it.
@@ -51,60 +46,14 @@ class Range:
         return False
 
 
-def getArea():
-    return suffix
-
-
-def normalize(houseNumbers, streetName):
-    """Strips down string input to bare minimum that can be interpreted as an
-    actual number. Think about a/b, a-b, and so on."""
-    ret = []
-    for houseNumber in houseNumbers.split('-'):
-        try:
-            n = int(re.sub(r"([0-9]+).*", r"\1", houseNumber))
-        except ValueError:
-            continue
-        if streetName in normalizers.keys():
-            if not normalizers[streetName](n):
-                continue
-        ret.append(str(n))
-    return ret
-
-
-def getHouseNumbersFromCsv(streetName):
-    houseNumbers = []  # type: List[int]
-    streetHouseNumbersSock = open("street-housenumbers%s.csv" % getArea())
-    first = True
-    for line in streetHouseNumbersSock.readlines():
-        if first:
-            first = False
-            continue
-        tokens = line.strip().split('\t')
-        if len(tokens) < 3:
-            continue
-        if tokens[1] != streetName:
-            continue
-        houseNumbers += normalize(tokens[2], helpers.simplify(streetName))
-    streetHouseNumbersSock.close()
-    return helpers.sort_numerically(set(houseNumbers))
-
-
-def getHouseNumbersFromLst(streetName):
-    houseNumbers = []  # type: List[int]
-    lstStreetName = helpers.simplify(streetName)
-    prefix = lstStreetName + "_"
-    sock = open("street-housenumbers-reference%s.lst" % getArea())
-    for line in sock.readlines():
-        line = line.strip()
-        if line.startswith(prefix):
-            houseNumbers += normalize(line.replace(prefix, ''), lstStreetName)
-    sock.close()
-    return helpers.sort_numerically(set(houseNumbers))
-
-
 class Finder:
-    def __init__(self):
-        streetsSock = open("streets%s.csv" % getArea())
+    def __init__(self, datadir, workdir, relationName):
+        self.normalizers = {}  # type: Dict[str, Ranges]
+        # OSM name -> ref name map
+        self.refStreets = {}  # type: Dict[str, str]
+
+        self.loadNormalizers(datadir, relationName)
+        streetsSock = open(os.path.join(workdir, "streets-%s.csv" % relationName))
         streetNames = []
         firstStreet = True
         for streetLine in streetsSock.readlines():
@@ -124,11 +73,11 @@ class Finder:
 
             refStreet = streetName
             # See if we need to map the OSM name to ref name.
-            if streetName in refStreets.keys():
-                refStreet = refStreets[streetName]
+            if streetName in self.refStreets.keys():
+                refStreet = self.refStreets[streetName]
 
-            referenceHouseNumbers = getHouseNumbersFromLst(refStreet)
-            osmHouseNumbers = getHouseNumbersFromCsv(streetName)
+            referenceHouseNumbers = self.getHouseNumbersFromLst(workdir, relationName, refStreet)
+            osmHouseNumbers = self.getHouseNumbersFromCsv(workdir, relationName, streetName)
             onlyInReference = helpers.get_only_in_first(referenceHouseNumbers, osmHouseNumbers)
             inBoth = helpers.get_in_both(referenceHouseNumbers, osmHouseNumbers)
             if onlyInReference:
@@ -142,48 +91,87 @@ class Finder:
         self.suspiciousStreets = results
         self.doneStreets = bothResults
 
+    def loadNormalizers(self, datadir, relationName):
+        config = None
+        if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)):
+            with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)) as sock:
+                config = yaml.load(sock)
+        if config and "filters" in config.keys():
+            filters = config["filters"]
+            for street in filters.keys():
+                i = []
+                for r in filters[street]["ranges"]:
+                    i.append(Range(int(r["start"]), int(r["end"]), r["isOdd"] == "true"))
+                self.normalizers[street] = Ranges(i)
+        if config and "refstreets" in config.keys():
+            self.refStreets = config["refstreets"]
 
-class Test(unittest.TestCase):
-    def test_none(self):
-        finder = Finder()
+    def normalize(self, houseNumbers, streetName):
+        """Strips down string input to bare minimum that can be interpreted as an
+        actual number. Think about a/b, a-b, and so on."""
+        ret = []
+        for houseNumber in houseNumbers.split('-'):
+            try:
+                n = int(re.sub(r"([0-9]+).*", r"\1", houseNumber))
+            except ValueError:
+                continue
+            if streetName in self.normalizers.keys():
+                if not self.normalizers[streetName](n):
+                    continue
+            ret.append(str(n))
+        return ret
 
-        for result in finder.suspiciousStreets:
-            if result[1]:
-                # House number, # of onlyInReference items.
-                print("%s\t%s" % (result[0], len(result[1])))
-                # onlyInReference items.
-                print(result[1])
+    def getHouseNumbersFromCsv(self, workdir, relationName, streetName):
+        houseNumbers = []  # type: List[int]
+        streetHouseNumbersSock = open(os.path.join(workdir, "street-housenumbers-%s.csv" % relationName))
+        first = True
+        for line in streetHouseNumbersSock.readlines():
+            if first:
+                first = False
+                continue
+            tokens = line.strip().split('\t')
+            if len(tokens) < 3:
+                continue
+            if tokens[1] != streetName:
+                continue
+            houseNumbers += self.normalize(tokens[2], helpers.simplify(streetName))
+        streetHouseNumbersSock.close()
+        return helpers.sort_numerically(set(houseNumbers))
 
-        self.assertEqual([], finder.suspiciousStreets)
+    def getHouseNumbersFromLst(self, workdir, relationName, streetName):
+        houseNumbers = []  # type: List[int]
+        lstStreetName = helpers.simplify(streetName)
+        prefix = lstStreetName + "_"
+        sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relationName))
+        for line in sock.readlines():
+            line = line.strip()
+            if line.startswith(prefix):
+                houseNumbers += self.normalize(line.replace(prefix, ''), lstStreetName)
+        sock.close()
+        return helpers.sort_numerically(set(houseNumbers))
 
 
-def loadNormalizers():
-    global normalizers
-    global refStreets
-    cwd = os.getcwd()
-    os.chdir(os.path.dirname(__file__))
-    config = None
-    if os.path.exists("data/housenumber-filters%s.yaml" % getArea()):
-        with open("data/housenumber-filters%s.yaml" % getArea()) as sock:
-            config = yaml.load(sock)
-    if config and "filters" in config.keys():
-        filters = config["filters"]
-        for street in filters.keys():
-            i = []
-            for r in filters[street]["ranges"]:
-                i.append(Range(int(r["start"]), int(r["end"]), r["isOdd"] == "true"))
-            normalizers[street] = Ranges(i)
-    if config and "refstreets" in config.keys():
-        refStreets = config["refstreets"]
-    os.chdir(cwd)
+def main():
+    config = configparser.ConfigParser()
+    configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config.read(configPath)
+    workdir = config.get('wsgi', 'workdir').strip()
+    datadir = os.path.join(os.path.dirname(__file__), "data")
+
+    if len(sys.argv) > 1:
+        relationName = sys.argv[1]
+
+    finder = Finder(datadir, workdir, relationName)
+
+    for result in finder.suspiciousStreets:
+        if result[1]:
+            # House number, # of onlyInReference items.
+            print("%s\t%s" % (result[0], len(result[1])))
+            # onlyInReference items.
+            print(result[1])
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        suffix = sys.argv[1]
-        sys.argv = sys.argv[:1]
-    loadNormalizers()
-    os.chdir("workdir")
-    unittest.main()
+    main()
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
