@@ -16,6 +16,6 @@ filters:
     ranges:
       - {start: '2', end: '36', isOdd: 'false'}
 refstreets:
-  'Felsőhatár utca': 'Felső határ út'
-  'Felső határút': 'Felső határ út'
+  'Felsőhatár utca': 'Felső Határ út'
+  'Felső határút': 'Felső Határ út'
 source: survey
