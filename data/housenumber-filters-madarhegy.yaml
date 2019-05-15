@@ -39,7 +39,7 @@ filters:
       - {start: '2', end: '4', isOdd: 'false'}
   torokbalinti_ut:
     ranges:
-    # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a spanyolret
+      # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a spanyolret
       - {start: '80', end: '998', isOdd: 'false'}
   rupphegyi_ut:
     # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a posingermajor
