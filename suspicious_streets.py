@@ -122,11 +122,12 @@ class Finder:
 
         for streetName in streetNames:
 
+            refStreet = streetName
             # See if we need to map the OSM name to ref name.
             if streetName in refStreets.keys():
-                streetName = refStreets[streetName]
+                refStreet = refStreets[streetName]
 
-            referenceHouseNumbers = getHouseNumbersFromLst(streetName)
+            referenceHouseNumbers = getHouseNumbersFromLst(refStreet)
             osmHouseNumbers = getHouseNumbersFromCsv(streetName)
             onlyInReference = helpers.get_only_in_first(referenceHouseNumbers, osmHouseNumbers)
             inBoth = helpers.get_in_both(referenceHouseNumbers, osmHouseNumbers)
