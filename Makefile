@@ -1,3 +1,8 @@
+all: version.py
+
+version.py: .git/$(shell git symbolic-ref HEAD)
+	echo "version = '$(shell git describe)'" > $@
+
 check: check-filters check-flake8 check-mypy check-unit check-pylint
 
 check-full: check check-full-pylint check-full-filters

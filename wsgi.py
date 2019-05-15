@@ -14,6 +14,7 @@ import helpers
 import overpass_query
 import suspicious_streets
 import get_reference_housenumbers
+import version
 
 
 def getConfig():
@@ -282,7 +283,9 @@ def getHeader(add_title='', add_links=''):
 
 
 def getFooter():
-    output = "<hr/><div>OSM adatok © OpenStreetMap közreműködők.</div>"
+    output = "<hr/><div>OSM adatok © OpenStreetMap közreműködők. Verzió: "
+    output += version.version
+    output += "</div>"
     output += "</body></html>"
     return output
 
