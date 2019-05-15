@@ -15,4 +15,9 @@ filters:
   felsohatar_ut:
     ranges:
     - {end: '36', isOdd: 'false', start: '2'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # 'OSM Name 2': 'Ref Name 2'
+'Felsőhatár utca': 'Felső határ út'
+'Felső határút': 'Felső határ út'
 source: survey
