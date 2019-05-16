@@ -43,9 +43,8 @@ filters:
     ranges:
       - {start: '24', end: '98', isOdd: 'false'}
   szeremi_ut:
-    # elso ismert a 63 albertfalvan
     ranges:
-      - {start: '1', end: '61', isOdd: 'true'}
+      - {start: '1', end: '59', isOdd: 'true'}
       - {start: '2', end: '98', isOdd: 'false'}
   tas_vezer_utca:
     ranges:
