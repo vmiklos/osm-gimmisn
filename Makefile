@@ -5,20 +5,17 @@ version.py: .git/$(shell git symbolic-ref HEAD)
 
 check: check-filters check-flake8 check-mypy check-unit check-pylint
 
-check-full: check check-full-pylint check-full-filters
+check-full: check check-full-pylint
 
 check-full-pylint:
 	pylint \
 	  --max-line-length=120 \
 	  *.py tests/*.py
 
-check-full-filters:
-	yamllint -c .yamllint.strict .travis.yml data/*.yaml
-
 check-filters: check-filters-syntax check-filters-schema
 
 check-filters-syntax:
-	yamllint data/relations.yaml data/housenumber-filters-*.yaml .travis.yml
+	yamllint .travis.yml data/*.yaml
 
 check-flake8:
 	flake8 *.py tests/*.py
