@@ -112,3 +112,8 @@ def get_in_both(first, second):
         if i in second:
             ret.append(i)
     return ret
+
+
+def git_link(version, prefix):
+    commit_hash = re.sub(".*-g", "", version)
+    return "<a href=\"" + prefix + commit_hash + "\">" + version + "</a>"

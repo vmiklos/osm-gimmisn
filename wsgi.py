@@ -278,7 +278,7 @@ def getHeader(add_title='', add_links=''):
 
 def getFooter():
     output = "<hr/><div>OSM adatok © OpenStreetMap közreműködők. Verzió: "
-    output += version.version
+    output += helpers.git_link(version.version, "https://github.com/vmiklos/osm-gimmisn/commit/")
     output += "</div>"
     output += "</body></html>"
     return output

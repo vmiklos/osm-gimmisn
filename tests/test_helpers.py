@@ -131,5 +131,12 @@ class TestOnlyInFirst(unittest.TestCase):
         self.assertEqual(helpers.get_only_in_first([1, 2, 3], [3, 4]), [1, 2])
 
 
+class TestGitLink(unittest.TestCase):
+    def test_happy(self):
+        actual = helpers.git_link("v1-151-g64ecc85", "http://www.example.com/")
+        expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>"
+        self.assertEqual(actual, expected)
+
+
 if __name__ == '__main__':
     unittest.main()
