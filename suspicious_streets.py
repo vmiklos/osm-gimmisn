@@ -65,7 +65,7 @@ class Finder:
             if streetName in self.refStreets.keys():
                 refStreet = self.refStreets[streetName]
 
-            referenceHouseNumbers = self.getHouseNumbersFromLst(workdir, relationName, refStreet)
+            referenceHouseNumbers = self.getHouseNumbersFromLst(workdir, relationName, streetName, refStreet)
             osmHouseNumbers = self.getHouseNumbersFromCsv(workdir, relationName, streetName)
             onlyInReference = helpers.get_only_in_first(referenceHouseNumbers, osmHouseNumbers)
             inBoth = helpers.get_in_both(referenceHouseNumbers, osmHouseNumbers)
@@ -127,15 +127,15 @@ class Finder:
         streetHouseNumbersSock.close()
         return helpers.sort_numerically(set(houseNumbers))
 
-    def getHouseNumbersFromLst(self, workdir, relationName, streetName):
+    def getHouseNumbersFromLst(self, workdir, relationName, streetName, refStreet):
         houseNumbers = []  # type: List[int]
-        lstStreetName = helpers.simplify(streetName)
+        lstStreetName = helpers.simplify(refStreet)
         prefix = lstStreetName + "_"
         sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relationName))
         for line in sock.readlines():
             line = line.strip()
             if line.startswith(prefix):
-                houseNumbers += self.normalize(line.replace(prefix, ''), lstStreetName)
+                houseNumbers += self.normalize(line.replace(prefix, ''), helpers.simplify(streetName))
         sock.close()
         return helpers.sort_numerically(set(houseNumbers))
 

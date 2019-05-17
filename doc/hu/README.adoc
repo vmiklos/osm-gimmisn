@@ -99,7 +99,8 @@ legegyszerűbb ha egy letezőt lemásolsz, és kitörlöd az összes utcát.
       - {start: '2', end: '8', isOdd: 'false'}
 ----
 
-Ez program által értelmezhetően a 2) pontban leírt információt rögzíti.
+Ez program által értelmezhetően a 2) pontban leírt információt rögzíti. Ha az utca OSM-beli és
+referenciabeli neve eltér, itt az OSM-beli nevet használd.
 
 5) https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] formájában visszaküldheted az
 információt, és akkor a webes felület is ennek megfelelően frissül.
