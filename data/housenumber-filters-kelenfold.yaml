@@ -50,6 +50,12 @@ filters:
     ranges:
       - {start: '15', end: '99', isOdd: 'true'}
       - {start: '22', end: '28', isOdd: 'false'}
+  tetenyi_ut:
+    ranges:
+      # vege felmerendo
+      - {start: '1', end: '48', isOdd: 'true'}
+      - {start: '62', end: '198', isOdd: 'false'}
+      - {start: '1', end: '199', isOdd: 'false'}
   villanyi_ut:
     ranges:
       - {start: '76', end: '86', isOdd: 'false'}
