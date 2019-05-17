@@ -53,18 +53,7 @@ class Finder:
         self.refStreets = {}  # type: Dict[str, str]
 
         self.loadNormalizers(datadir, relationName)
-        streetsSock = open(os.path.join(workdir, "streets-%s.csv" % relationName))
-        streetNames = []
-        firstStreet = True
-        for streetLine in streetsSock.readlines():
-            if firstStreet:
-                firstStreet = False
-                continue
-            streetTokens = streetLine.strip().split('\t')
-            if len(streetTokens) > 1:
-                streetNames.append(streetTokens[1])
-        streetsSock.close()
-        streetNames = sorted(set(streetNames))
+        streetNames = helpers.get_streets(workdir, relationName)
 
         results = []
         bothResults = []

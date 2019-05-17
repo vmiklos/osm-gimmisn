@@ -5,6 +5,7 @@
 # found in the LICENSE file.
 
 import re
+import os
 
 
 def sort_numerically(strings):
@@ -117,3 +118,29 @@ def get_in_both(first, second):
 def git_link(version, prefix):
     commit_hash = re.sub(".*-g", "", version)
     return "<a href=\"" + prefix + commit_hash + "\">" + version + "</a>"
+
+
+def get_nth_column(path, column):
+    ret = []
+
+    with open(path) as sock:
+        first = True
+        for line in sock.readlines():
+            if first:
+                first = False
+                continue
+
+            tokens = line.strip().split('\t')
+            if len(tokens) < column + 1:
+                continue
+
+            ret.append(tokens[column])
+
+    return ret
+
+
+# Reads list of streets for an area from OSM.
+def get_streets(workdir, relation_name):
+    ret = get_nth_column(os.path.join(workdir, "streets-%s.csv" % relation_name), 1)
+    ret += get_nth_column(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name), 1)
+    return sorted(set(ret))

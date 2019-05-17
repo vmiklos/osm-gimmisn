@@ -51,4 +51,6 @@ filters:
     ranges:
       - {start: '1', end: '999', isOdd: 'true'}
       - {start: '2', end: '998', isOdd: 'false'}
+refstreets:
+  'Alsó határút': 'Alsóhatár utca'
 source: survey

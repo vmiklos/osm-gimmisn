@@ -23,27 +23,6 @@ verbose = False
 memoryCache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
 
-# Reads list of streets for an area from OSM.
-def getStreets(workdir, relationName):
-    ret = []
-
-    sock = open(os.path.join(workdir, "streets-%s.csv" % relationName))
-    first = True
-    for line in sock.readlines():
-        if first:
-            first = False
-            continue
-
-        tokens = line.strip().split('\t')
-        if len(tokens) < 2:
-            continue
-
-        ret.append(tokens[1])
-
-    sock.close()
-    return sorted(set(ret))
-
-
 def getStreetDetails(datadir, street, relationName):
     relations = yaml.load(open(os.path.join(datadir, "relations.yaml")))
     relation = relations[relationName]
@@ -113,31 +92,35 @@ def getHouseNumbersOfStreet(datadir, config, relationName, street):
         return getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street)
 
 
-def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
+def buildMemoryCache(local):
     global memoryCache
 
+    with open(local, "r") as sock:
+        first = True
+        while True:
+            line = sock.readline()
+            if first:
+                first = False
+                continue
+
+            if not line:
+                break
+
+            refmegye, reftelepules, street, num = line.strip().split("\t")
+            if refmegye not in memoryCache.keys():
+                memoryCache[refmegye] = {}
+            if reftelepules not in memoryCache[refmegye].keys():
+                memoryCache[refmegye][reftelepules] = {}
+            if street not in memoryCache[refmegye][reftelepules].keys():
+                memoryCache[refmegye][reftelepules][street] = []
+            memoryCache[refmegye][reftelepules][street].append(num)
+
+
+def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
     if not memoryCache:
         if verbose:
             print("building in-memory cache")
-        with open(local, "r") as sock:
-            first = True
-            while True:
-                line = sock.readline()
-                if first:
-                    first = False
-                    continue
-
-                if not line:
-                    break
-
-                refmegye, reftelepules, street, num = line.strip().split("\t")
-                if refmegye not in memoryCache.keys():
-                    memoryCache[refmegye] = {}
-                if reftelepules not in memoryCache[refmegye].keys():
-                    memoryCache[refmegye][reftelepules] = {}
-                if street not in memoryCache[refmegye][reftelepules].keys():
-                    memoryCache[refmegye][reftelepules][street] = []
-                memoryCache[refmegye][reftelepules][street].append(num)
+        buildMemoryCache(local)
 
     if verbose:
         print("searching '" + street + "'")
@@ -192,7 +175,7 @@ def getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street
 def getReferenceHousenumbers(config, relationName):
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = config.get('wsgi', 'workdir').strip()
-    streets = getStreets(workdir, relationName)
+    streets = helpers.get_streets(workdir, relationName)
 
     lst = []  # type: List[str]
     for street in streets:

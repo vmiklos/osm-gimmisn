@@ -5,6 +5,9 @@
 # found in the LICENSE file.
 
 import unittest
+import os
+# pylint: disable=unused-import
+from typing import List
 import helpers
 
 
@@ -135,6 +138,14 @@ class TestGitLink(unittest.TestCase):
     def test_happy(self):
         actual = helpers.git_link("v1-151-g64ecc85", "http://www.example.com/")
         expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>"
+        self.assertEqual(actual, expected)
+
+
+class TestGetStreets(unittest.TestCase):
+    def test_happy(self):
+        workdir = os.path.join(os.path.dirname(__file__), "data")
+        actual = helpers.get_streets(workdir, "test")
+        expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
 
