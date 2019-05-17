@@ -52,6 +52,10 @@ filters:
       - {start: '42', end: '62', isOdd: 'false'}
   nagyszolos_utca:
     ranges: []
+  neszmelyi_koz:
+    ranges:
+      - {start: '1', end: '3', isOdd: 'true'}
+      - {start: '2', end: '4', isOdd: 'false'}
   neszmelyi_ut:
     ranges:
       - {start: '9', end: '13', isOdd: 'true'}
