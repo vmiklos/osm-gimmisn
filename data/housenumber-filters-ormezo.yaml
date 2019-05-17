@@ -4,7 +4,8 @@ filters:
       - {start: '62', end: '64', isOdd: 'false'}
       - {start: '78', end: '78', isOdd: 'false'}
       - {start: '88', end: '90', isOdd: 'false'}
-      - {start: '96', end: '156', isOdd: 'false'}
+      - {start: '112', end: '112', isOdd: 'false'}
+      - {start: '118', end: '156', isOdd: 'false'}
   cirmos_utca:
     ranges:
       - {start: '1', end: '3', isOdd: 'true'}
@@ -16,6 +17,8 @@ filters:
   dobogo_ut:
     ranges:
       - {start: '53', end: '57', isOdd: 'true'}
+  gazdagreti_ut:
+    ranges: []
   herics_utca:
     ranges:
       - {start: '1', end: '11', isOdd: 'true'}
@@ -25,6 +28,10 @@ filters:
       - {start: '1', end: '65', isOdd: 'true'}
       - {start: '2', end: '30', isOdd: 'false'}
       - {start: '34', end: '44', isOdd: 'false'}
+  jegcsap_utca:
+    ranges:
+      - {start: '1', end: '15', isOdd: 'true'}
+      - {start: '2', end: '24', isOdd: 'false'}
   kero_utca:
     ranges:
       - {start: '2', end: '20', isOdd: 'false'}
