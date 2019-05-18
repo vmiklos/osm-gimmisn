@@ -24,7 +24,7 @@ class Ranges:
     def __init__(self, items):
         self.items = items
 
-    def __call__(self, item):
+    def __contains__(self, item):
         for i in self.items:
             if item in i:
                 return True
@@ -105,7 +105,7 @@ class Finder:
             except ValueError:
                 continue
             if streetName in self.normalizers.keys():
-                if not self.normalizers[streetName](n):
+                if n not in self.normalizers[streetName]:
                     continue
             ret.append(str(n))
         return ret
