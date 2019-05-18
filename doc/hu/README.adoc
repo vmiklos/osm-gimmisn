@@ -3,13 +3,15 @@
 == Hiányzó házszámok naprakész listája
 
 A https://vmiklos.pythonanywhere.com/osm[weboldalon] ötleteketsz találsz, hogy hol érdemes
-házszámokat felmérni. A főoldalnak 3 oszlopa van:
+házszámokat felmérni. A főoldalnak a következő oszlopai vannak:
 
 1) Hiányzó házszám (suspicious-streets) kereső.
 
 2) Házszámlista (street-housenumbers) egy területre, ez az OSM adatbázisból származik.
 
 3) Utcalista (streets) egy területre, ez is az OSM adatbázisból származik.
+
+4) A terület az OSM weboldalán, ahol jól látszik a határa.
 
 A suspicious-streets szekciót érdemes elsőre nézni, ha ott szerepel olyan terület ami érdekel, akkor
 ott találsz javaslatot arra, hogy milyen hiányzó házszámokat próbálj meg felmérni. Tegyük fel, hogy
@@ -44,10 +46,13 @@ Szükséged lesz még a terület megye és település referenciájára, ezzel k
 https://wiki.openstreetmap.org/wiki/WikiProject_Hungary/Tal%C3%A1lkoz%C3%B3k/2019-04-29_Oktogon_sv%C3%A9dasztal_%C3%A9s_k%C3%B6rny%C3%A9ke#Hi.C3.A1nyz.C3.B3_h.C3.A1zsz.C3.A1mok[wikiben]
 találsz segítséget.
 
-3) A git repó `data/relations.yaml` file-jába vegyél fel egy új sort a következő formában:
+3) A git repó `data/relations.yaml` file-jába vegyél fel egy új bejegyzést a következő formában:
 
 ----
-kelenfold: {osmrelation: 2700869, refmegye: "01", reftelepules: "011"}
+kelenfold:
+    osmrelation: 2700869
+    refmegye: "01"
+    reftelepules: "011"
 ----
 
 Ahol a név alapvetően szabadon választható, pl `kelenfold` megfelel, a többi mező pedig fontos, hogy
@@ -56,12 +61,17 @@ stimmeljen az előző pontban kinyert értékekkel.
 4) Ez után a módosítást https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] formájában
 beküldheted, jóváhagyás után be fog kerülni.
 
-Megjegyzés: a lekérdezés minden reláció esetén megegyezik, leszámítva a reláció azonosítóját. A
-webes felületen le tudod kérdezni a pontos overpass lekérdezést; ha a `relations.yaml` file-ba új
-sor kerül, akkor ehhez (automatikusan) egy új lekérdezés generálódik. Ez igaz mind az utcákra, mind
-a házszámokra.  Ezzel neked nem kell foglalkoznod (kivéve ha helyben szeretnél tesztelni, kézzel
-generálva a referenciát), a pull request jóváhagyásakor ez a generálás megtörténik a
-https://vmiklos.pythonanywhere.com/osm[weboldalon].
+A lekérdezés minden reláció esetén megegyezik, leszámítva a reláció azonosítóját. A webes felületen
+le tudod kérdezni a pontos overpass lekérdezést; ha a `relations.yaml` file-ba új sor kerül, akkor
+ehhez (automatikusan) egy új lekérdezés generálódik. Ez igaz mind az utcákra, mind a házszámokra.
+Ezzel neked nem kell foglalkoznod, a pull request jóváhagyásakor ez a generálás megtörténik a
+https://vmiklos.pythonanywhere.com/osm[weboldalon] a következő linkeken.
+
+Ha helyben szeretnél tesztelni, látogasd meg a következő útvonalakat ebben a sorrendben:
+
+- /osm/streets/kelenfold/update-result
+- /osm/street-housenumbers/kelenfold/update-result
+- /osm/suspicious-streets/kelenfold/update-result
 
 == Hibás riasztás hozzáadása
 
@@ -85,15 +95,16 @@ legegyszerűbb ha egy letezőt lemásolsz, és kitörlöd az összes utcát.
 ----
   magasuti_koz:
     ranges:
-    - {start: '1', end: '9', isOdd: 'true'}
-    - {start: '2', end: '8', isOdd: 'false'}
+      - {start: '1', end: '9', isOdd: 'true'}
+      - {start: '2', end: '8', isOdd: 'false'}
 ----
 
-Ez program által értelmezhetően a 2) pontban leírt információt rögzíti.
+Ez program által értelmezhetően a 2) pontban leírt információt rögzíti. Ha az utca OSM-beli és
+referenciabeli neve eltér, itt az OSM-beli nevet használd.
 
 5) https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] formájában visszaküldheted az
 információt, és akkor a webes felület is ennek megfelelően frissül.
 
-Megjegyzés: más szavakkal, alapból nincs szűrés a potenciálisan hiányzó házszámokon, a hibás
-javaslatot úgy lehet kiszűrni, hogy lefedjük a valós tartományokat, és ami ebbe nem tartozik bele,
-az kiszűrésre kerül.
+Más szavakkal, alapból nincs szűrés a potenciálisan hiányzó házszámokon, a hibás javaslatot úgy
+lehet kiszűrni, hogy lefedjük a valós tartományokat, és ami ebbe nem tartozik bele, az kiszűrésre
+kerül.

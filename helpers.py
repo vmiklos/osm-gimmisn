@@ -6,6 +6,7 @@
 
 import re
 import os
+import hashlib
 
 
 def sort_numerically(strings):
@@ -144,3 +145,8 @@ def get_streets(workdir, relation_name):
     ret = get_nth_column(os.path.join(workdir, "streets-%s.csv" % relation_name), 1)
     ret += get_nth_column(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name), 1)
     return sorted(set(ret))
+
+
+# Returns SHA256 hash of an URL.
+def get_url_hash(url):
+    return hashlib.sha256(url.encode('utf-8')).hexdigest()

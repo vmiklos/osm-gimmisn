@@ -33,11 +33,10 @@ check-unit:
 	coverage run --branch --module unittest discover tests
 	coverage report --show-missing --fail-under=100
 
-check-filters-schema:
-	for F in data/housenumber-filters-*.yaml; do \
-		yamale -s data/housenumber-filters.schema.yaml $$F \
-		  || exit $?; \
-	done
+check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/housenumber-filters-*.yaml))
+
+%.validyaml : %.yaml
+	yamale -s data/housenumber-filters.schema.yaml $< && touch $@
 
 server:
 	@echo 'Open <http://localhost:8000/osm> in your browser.'

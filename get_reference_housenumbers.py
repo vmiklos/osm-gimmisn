@@ -6,7 +6,6 @@
 #
 
 import configparser
-import hashlib
 import json
 import os
 import sys
@@ -76,11 +75,6 @@ def getStreetURL(datadir, street, prefix, relationName):
     return url
 
 
-# Returns SHA256 hash of an URL.
-def getURLHash(url):
-    return hashlib.sha256(url.encode('utf-8')).hexdigest()
-
-
 # Gets known house numbers for a single street
 def getHouseNumbersOfStreet(datadir, config, relationName, street):
     try:
@@ -137,7 +131,7 @@ def getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street
     url = getStreetURL(datadir, street, prefix, relationName)
     if verbose:
         print("considering '" + url + "'")
-    urlHash = getURLHash(url)
+    urlHash = helpers.get_url_hash(url)
 
     if not os.path.exists(os.path.join(workdir, "cache")):
         os.makedirs(os.path.join(workdir, "cache"))

@@ -149,5 +149,12 @@ class TestGetStreets(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestGetUrlHash(unittest.TestCase):
+    def test_happy(self):
+        actual = helpers.get_url_hash("http://www.example.com/")
+        expected = "14b570acce51451285fa2340e01f97344efe518c8770f5bbc0a794d9bcd55f01"
+        self.assertEqual(actual, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -106,3 +106,6 @@ venv.bak/
 # wsgi
 wsgi.ini
 version.py
+
+# yamale
+*.validyaml
