@@ -12,10 +12,11 @@ filters:
     ranges:
       # jelenleg nincs beepitve, nem lehet tudni meddig tart madarhegy es hol kezdodik a spanyolret
       - {start: '80', end: '998', isOdd: 'false'}
-  felsohatar_ut:
+  felsohatar_utca:
+    ranges: []
+  felso_hatarut:
     ranges:
       - {start: '2', end: '36', isOdd: 'false'}
 refstreets:
-  'Felsőhatár utca': 'Felső Határ út'
   'Felső határút': 'Felső Határ út'
 source: survey
