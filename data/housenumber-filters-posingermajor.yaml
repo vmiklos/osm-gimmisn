@@ -9,9 +9,9 @@ filters:
     ranges:
       - {start: '1', end: '99', isOdd: 'true'}
       - {start: '2', end: '98', isOdd: 'false'}
-  felsohatar_ut:
+  felso_hatarut:
     ranges:
-      - {start: '38', end: '998', isOdd: 'false'}
+      - {start: '38', end: '198', isOdd: 'false'}
   irhas_arok:
     ranges:
       - {start: '2', end: '36', isOdd: 'false'}
@@ -69,4 +69,6 @@ filters:
     ranges:
       - {start: '1', end: '99', isOdd: 'true'}
       - {start: '2', end: '98', isOdd: 'false'}
+refstreets:
+  'Felső határút': 'Felső Határ út'
 source: survey
