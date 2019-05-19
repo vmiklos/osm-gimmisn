@@ -172,5 +172,23 @@ class TestRange(unittest.TestCase):
         self.assertTrue(5 in r)
 
 
+class TestRanges(unittest.TestCase):
+    def test_a(self):
+        r = helpers.Ranges([[0], [1]])
+        self.assertTrue(0 in r)
+
+    def test_b(self):
+        r = helpers.Ranges([[0], [1]])
+        self.assertTrue(1 in r)
+
+    def test_ab(self):
+        r = helpers.Ranges([[1], [1]])
+        self.assertTrue(1 in r)
+
+    def test_none(self):
+        r = helpers.Ranges([[0], [1]])
+        self.assertFalse(2 in r)
+
+
 if __name__ == '__main__':
     unittest.main()

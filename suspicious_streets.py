@@ -19,21 +19,9 @@ import yaml
 import helpers
 
 
-# A Ranges object contains an item if any of its Range objects contains it.
-class Ranges:
-    def __init__(self, items):
-        self.items = items
-
-    def __contains__(self, item):
-        for i in self.items:
-            if item in i:
-                return True
-        return False
-
-
 class Finder:
     def __init__(self, datadir, workdir, relationName):
-        self.normalizers = {}  # type: Dict[str, Ranges]
+        self.normalizers = {}  # type: Dict[str, helpers.Ranges]
         # OSM name -> ref name map
         self.refStreets = {}  # type: Dict[str, str]
 
@@ -76,7 +64,7 @@ class Finder:
                 i = []
                 for r in filters[street]["ranges"]:
                     i.append(helpers.Range(int(r["start"]), int(r["end"]), r["isOdd"] == "true"))
-                self.normalizers[street] = Ranges(i)
+                self.normalizers[street] = helpers.Ranges(i)
         if config and "refstreets" in config.keys():
             self.refStreets = config["refstreets"]
 

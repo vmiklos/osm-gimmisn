@@ -27,6 +27,18 @@ class Range:
         return False
 
 
+class Ranges:
+    """A Ranges object contains an item if any of its Range objects contains it."""
+    def __init__(self, items):
+        self.items = items
+
+    def __contains__(self, item):
+        for i in self.items:
+            if item in i:
+                return True
+        return False
+
+
 def sort_numerically(strings: Iterable[str]) -> List[str]:
     """Sorts strings according to their numerical value, not alphabetically."""
     return sorted(strings, key=split_house_number)
