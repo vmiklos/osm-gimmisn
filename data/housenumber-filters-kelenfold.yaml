@@ -1,4 +1,9 @@
 filters:
+  alsohegy_utca:
+    ranges
+      - {start: '46', end: '50', isOdd: 'false'}
+  badacsonyi_utca:
+    ranges: []
   bartok_bela_ut:
     ranges:
       - {start: '69', end: '149', isOdd: 'true'}
@@ -11,13 +16,22 @@ filters:
     # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
     # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
     ranges:
-      - {start: '91', end: '229', isOdd: 'false'}
+      - {start: '91', end: '229', isOdd: 'true'}
       - {start: '52', end: '198', isOdd: 'false'}
   budaorsi_ut:
     ranges:
       - {start: '26', end: '60', isOdd: 'false'}
+  dioszegi_ut:
+    ranges:
+      - {start: '65', end: '67', isOdd: 'true'}
+      - {start: '62', end: '64', isOdd: 'false'}
   eger_ut:
     ranges: []
+  etele_ter:
+    ranges:
+      # 8 nem biztos hogy van, a bodeknak talan nincs hazszama
+      - {start: '1', end: '7', isOdd: 'true'}
+      - {start: '2', end: '8', isOdd: 'false'}
   fadrusz_utca:
     ranges:
       - {start: '9', end: '31', isOdd: 'true'}
@@ -26,12 +40,33 @@ filters:
     ranges:
       - {start: '23', end: '191', isOdd: 'true'}
       - {start: '40', end: '166', isOdd: 'false'}
+  fejer_lipot_utca:
+    ranges:
+      - {start: '1', end: '67', isOdd: 'true'}
+      - {start: '2', end: '70', isOdd: 'false'}
+  galamboc_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  galvani_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  hamzsabegi_ut:
+    # folyamatos hazszamok
+    ranges:
+      - {start: '23', end: '63', isOdd: 'true'}
+      - {start: '22', end: '64', isOdd: 'false'}
   karolina_ut:
     ranges:
       - {start: '1', end: '69', isOdd: 'true'}
       - {start: '56', end: '72', isOdd: 'false'}
   kelenvolgyi_hatarsor:
     ranges: []
+  kevehaza_utca:
+    ranges:
+      - {start: '1', end: '21', isOdd: 'true'}
+      - {start: '2', end: '10', isOdd: 'false'}
   kondorosi_ut:
     ranges:
       - {start: '1', end: '99', isOdd: 'true'}
@@ -39,6 +74,18 @@ filters:
     ranges:
       - {start: '5', end: '11', isOdd: 'true'}
       - {start: '6', end: '10', isOdd: 'false'}
+  mohai_ut:
+    ranges:
+      - {start: '1', end: '55', isOdd: 'true'}
+      - {start: '2', end: '56', isOdd: 'false'}
+  pajkos_utca:
+    ranges:
+      - {start: '1', end: '19', isOdd: 'true'}
+      - {start: '2', end: '56', isOdd: 'false'}
+  ratz_laszlo_utca:
+    ranges:
+      - {start: '1', end: '85', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
   solt_utca:
     ranges:
       - {start: '24', end: '98', isOdd: 'false'}
