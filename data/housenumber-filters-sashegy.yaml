@@ -8,7 +8,7 @@ filters:
       - {start: '2', end: '22', isOdd: 'false'}
   brasso_ut:
     ranges:
-      - {start: '154', end: '998', isOdd: 'false'}
+      - {start: '154', end: '154', isOdd: 'false'}
   brezno_koz:
     ranges:
       - {start: '1', end: '13', isOdd: 'true'}
