@@ -28,7 +28,7 @@ check-pylint: $(patsubst %.py,%.py.pylinted,$(wildcard *.py tests/*.py))
 	  --disable=missing-docstring,fixme,invalid-name,too-few-public-methods,global-statement,too-many-locals \
 	  $< && touch $@
 
-check-mypy:
+check-mypy: version.py
 	mypy *.py tests/*.py
 
 check-unit:
