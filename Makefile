@@ -20,11 +20,13 @@ check-filters-syntax:
 check-flake8:
 	flake8 *.py tests/*.py
 
-check-pylint:
+check-pylint: $(patsubst %.py,%.py.pylinted,$(wildcard *.py tests/*.py))
+
+%.py.pylinted : %.py
 	pylint \
 	  --max-line-length=120 \
 	  --disable=missing-docstring,fixme,invalid-name,too-few-public-methods,global-statement,too-many-locals \
-	  *.py tests/*.py
+	  $< && touch $@
 
 check-mypy:
 	mypy *.py tests/*.py
