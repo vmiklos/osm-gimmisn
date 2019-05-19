@@ -1,6 +1,6 @@
 filters:
   alsohegy_utca:
-    ranges
+    ranges:
       - {start: '46', end: '50', isOdd: 'false'}
   badacsonyi_utca:
     ranges: []
