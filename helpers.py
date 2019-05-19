@@ -4,13 +4,15 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+"""The helpers module contains functionality shared between other modules."""
+
 import re
 import os
 import hashlib
 
 
-# A range object represents an odd or even range of integer numbers.
 class Range:
+    """A range object represents an odd or even range of integer numbers."""
     def __init__(self, start, end, isOdd):
         self.start = start
         self.end = end
@@ -25,10 +27,12 @@ class Range:
 
 
 def sort_numerically(strings):
+    """Sorts strings according to their numerical value, not alphabetically."""
     return sorted(strings, key=split_house_number)
 
 
 def split_house_number(house_number):
+    """Splits house_number into a numerical and a remainder part."""
     match = re.search(r"^([0-9]*)([^0-9].*|)$", house_number)
     if not match:  # pragma: no cover
         return (0, '')
@@ -93,6 +97,7 @@ def split_housenumber_line(line):
 
 
 def get_array_nth(arr, n):
+    """Gets the nth element of arr, returns en empty string on error."""
     return arr[n] if len(arr) > n else ''
 
 
@@ -116,6 +121,7 @@ def simplify(s, spaceDecode=False):
 
 
 def get_only_in_first(first, second):
+    """Returns items which are in first, but not in second."""
     ret = []
     for i in first:
         if i not in second:
@@ -124,6 +130,7 @@ def get_only_in_first(first, second):
 
 
 def get_in_both(first, second):
+    """Returns items which are in both first and second."""
     ret = []
     for i in first:
         if i in second:
@@ -132,11 +139,14 @@ def get_in_both(first, second):
 
 
 def git_link(version, prefix):
+    """Generates a HTML link based on a website prefix and a git-describe version."""
     commit_hash = re.sub(".*-g", "", version)
     return "<a href=\"" + prefix + commit_hash + "\">" + version + "</a>"
 
 
 def get_nth_column(path, column):
+    """Reads the content of path, interprets its content as tab-separated values, finally returns
+    the values of the nth column. If a row has less columns, that's silentely ignored."""
     ret = []
 
     with open(path) as sock:
@@ -155,13 +165,13 @@ def get_nth_column(path, column):
     return ret
 
 
-# Reads list of streets for an area from OSM.
 def get_streets(workdir, relation_name):
+    """Reads list of streets for an area from OSM."""
     ret = get_nth_column(os.path.join(workdir, "streets-%s.csv" % relation_name), 1)
     ret += get_nth_column(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name), 1)
     return sorted(set(ret))
 
 
-# Returns SHA256 hash of an URL.
 def get_url_hash(url):
+    """Returns SHA256 hash of an URL."""
     return hashlib.sha256(url.encode('utf-8')).hexdigest()
