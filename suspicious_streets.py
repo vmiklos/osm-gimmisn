@@ -80,7 +80,7 @@ class Finder:
         if config and "refstreets" in config.keys():
             self.refStreets = config["refstreets"]
 
-    def normalize(self, houseNumbers, streetName):
+    def normalize(self, houseNumbers: str, streetName: str) -> List[str]:
         """Strips down string input to bare minimum that can be interpreted as an
         actual number. Think about a/b, a-b, and so on."""
         ret = []
@@ -96,7 +96,7 @@ class Finder:
         return ret
 
     def getHouseNumbersFromCsv(self, workdir, relationName, streetName):
-        houseNumbers = []  # type: List[int]
+        houseNumbers = []  # type: List[str]
         streetHouseNumbersSock = open(os.path.join(workdir, "street-housenumbers-%s.csv" % relationName))
         first = True
         for line in streetHouseNumbersSock.readlines():
@@ -113,7 +113,7 @@ class Finder:
         return helpers.sort_numerically(set(houseNumbers))
 
     def getHouseNumbersFromLst(self, workdir, relationName, streetName, refStreet):
-        houseNumbers = []  # type: List[int]
+        houseNumbers = []  # type: List[str]
         lstStreetName = helpers.simplify(refStreet)
         prefix = lstStreetName + "_"
         sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relationName))
