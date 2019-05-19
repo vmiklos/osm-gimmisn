@@ -7,4 +7,4 @@ addons:
   apt:
     packages:
       - yamllint
-script: make && make -j check
+script: make -j check
