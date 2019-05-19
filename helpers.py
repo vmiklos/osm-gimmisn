@@ -45,14 +45,31 @@ def split_house_number(house_number):
 
 
 def sort_streets_csv(data):
+    """
+    Sorts TSV Overpass street name result with visual partitioning.
+
+    See split_street_line for sorting rules.
+    """
     return process_csv_body(sort_streets, data)
 
 
 def sort_streets(lines):
+    """
+    Sorts the body of a TSV Overpass street name result with visual partitioning.
+
+    See split_street_line for sorting rules.
+    """
     return sorted(lines, key=split_street_line)
 
 
 def split_street_line(line):
+    """
+    Augment TSV Overpass street name result lines to aid sorting.
+
+    It prepends a bool to indicate whether the street is missing a name, thus
+    streets with missing names are ordered last.
+    oid is interpreted numerically while other fields are taken alphabetically.
+    """
     field = line.split('\t')
     oid = get_array_nth(field, 0)
     name = get_array_nth(field, 1)
@@ -63,6 +80,9 @@ def split_street_line(line):
 
 
 def process_csv_body(fun, data):
+    """
+    Process the body of a CSV/TSV with the given function while keeping the header intact.
+    """
     lines = data.split('\n')
     header = lines[0] if lines else ''
     body = lines[1:] if lines else ''
@@ -71,14 +91,32 @@ def process_csv_body(fun, data):
 
 
 def sort_housenumbers_csv(data):
+    """
+    Sorts TSV Overpass house numbers result with visual partitioning.
+
+    See split_housenumber_line for sorting rules.
+    """
     return process_csv_body(sort_housenumbers, data)
 
 
 def sort_housenumbers(lines):
+    """
+    Sorts the body of a TSV Overpass house numbers result with visual partitioning.
+
+    See split_housenumber_line for sorting rules.
+    """
     return sorted(lines, key=split_housenumber_line)
 
 
 def split_housenumber_line(line):
+    """
+    Augment TSV Overpass house numbers result lines to aid sorting.
+
+    It prepends two bools to indicate whether an entry is missing either a house number, a house name
+    or a conscription number.
+    Entries lacking either a house number or all of the above IDs come first.
+    The following fields are interpreted numerically: oid, house number, conscription number.
+    """
     field = line.split('\t')
 
     oid = get_array_nth(field, 0)
