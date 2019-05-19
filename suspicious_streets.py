@@ -31,21 +31,6 @@ class Ranges:
         return False
 
 
-# A range object represents an odd or even range of integer numbers.
-class Range:
-    def __init__(self, start, end, isOdd):
-        self.start = start
-        self.end = end
-        self.isOdd = isOdd
-
-    def __contains__(self, n):
-        if self.isOdd != (n % 2 == 1):
-            return False
-        if self.start <= n <= self.end:
-            return True
-        return False
-
-
 class Finder:
     def __init__(self, datadir, workdir, relationName):
         self.normalizers = {}  # type: Dict[str, Ranges]
@@ -90,7 +75,7 @@ class Finder:
             for street in filters.keys():
                 i = []
                 for r in filters[street]["ranges"]:
-                    i.append(Range(int(r["start"]), int(r["end"]), r["isOdd"] == "true"))
+                    i.append(helpers.Range(int(r["start"]), int(r["end"]), r["isOdd"] == "true"))
                 self.normalizers[street] = Ranges(i)
         if config and "refstreets" in config.keys():
             self.refStreets = config["refstreets"]

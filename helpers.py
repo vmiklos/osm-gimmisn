@@ -9,6 +9,21 @@ import os
 import hashlib
 
 
+# A range object represents an odd or even range of integer numbers.
+class Range:
+    def __init__(self, start, end, isOdd):
+        self.start = start
+        self.end = end
+        self.isOdd = isOdd
+
+    def __contains__(self, n):
+        if self.isOdd != (n % 2 == 1):
+            return False
+        if self.start <= n <= self.end:
+            return True
+        return False
+
+
 def sort_numerically(strings):
     return sorted(strings, key=split_house_number)
 

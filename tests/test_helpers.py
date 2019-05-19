@@ -156,5 +156,21 @@ class TestGetUrlHash(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestRange(unittest.TestCase):
+    def test_isodd_bad(self):
+        r = helpers.Range(1, 3, True)
+        self.assertFalse(2 in r)
+
+    def test_range_bad(self):
+        r = helpers.Range(1, 3, True)
+        self.assertFalse(5 in r)
+
+    def test_happy(self):
+        r = helpers.Range(1, 5, True)
+        self.assertTrue(1 in r)
+        self.assertTrue(3 in r)
+        self.assertTrue(5 in r)
+
+
 if __name__ == '__main__':
     unittest.main()
