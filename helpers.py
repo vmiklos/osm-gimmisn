@@ -9,6 +9,7 @@
 import re
 import os
 import hashlib
+from typing import Callable, Iterable, List, Sequence, Tuple
 
 
 class Range:
@@ -26,12 +27,12 @@ class Range:
         return False
 
 
-def sort_numerically(strings):
+def sort_numerically(strings: Iterable[str]) -> List[str]:
     """Sorts strings according to their numerical value, not alphabetically."""
     return sorted(strings, key=split_house_number)
 
 
-def split_house_number(house_number):
+def split_house_number(house_number: str) -> Tuple[int, str]:
     """Splits house_number into a numerical and a remainder part."""
     match = re.search(r"^([0-9]*)([^0-9].*|)$", house_number)
     if not match:  # pragma: no cover
@@ -44,7 +45,7 @@ def split_house_number(house_number):
     return (number, match.group(2))
 
 
-def sort_streets_csv(data):
+def sort_streets_csv(data: str) -> str:
     """
     Sorts TSV Overpass street name result with visual partitioning.
 
@@ -53,7 +54,7 @@ def sort_streets_csv(data):
     return process_csv_body(sort_streets, data)
 
 
-def sort_streets(lines):
+def sort_streets(lines: Iterable[str]) -> List[str]:
     """
     Sorts the body of a TSV Overpass street name result with visual partitioning.
 
@@ -62,7 +63,7 @@ def sort_streets(lines):
     return sorted(lines, key=split_street_line)
 
 
-def split_street_line(line):
+def split_street_line(line: str) -> Tuple[bool, str, str, str, Tuple[int, str]]:
     """
     Augment TSV Overpass street name result lines to aid sorting.
 
@@ -79,7 +80,7 @@ def split_street_line(line):
     return (missing_name, name, highway, service, split_house_number(oid))
 
 
-def process_csv_body(fun, data):
+def process_csv_body(fun: Callable[[Iterable[str]], List[str]], data: str) -> str:
     """
     Process the body of a CSV/TSV with the given function while keeping the header intact.
     """
@@ -90,7 +91,7 @@ def process_csv_body(fun, data):
     return '\n'.join(result)
 
 
-def sort_housenumbers_csv(data):
+def sort_housenumbers_csv(data: str) -> str:
     """
     Sorts TSV Overpass house numbers result with visual partitioning.
 
@@ -99,7 +100,7 @@ def sort_housenumbers_csv(data):
     return process_csv_body(sort_housenumbers, data)
 
 
-def sort_housenumbers(lines):
+def sort_housenumbers(lines: Iterable[str]) -> List[str]:
     """
     Sorts the body of a TSV Overpass house numbers result with visual partitioning.
 
@@ -108,7 +109,8 @@ def sort_housenumbers(lines):
     return sorted(lines, key=split_housenumber_line)
 
 
-def split_housenumber_line(line):
+def split_housenumber_line(line: str) -> Tuple[str, bool, bool, str, Tuple[int, str], str,
+                                               Tuple[int, str], Iterable[str], Tuple[int, str]]:
     """
     Augment TSV Overpass house numbers result lines to aid sorting.
 
@@ -134,12 +136,12 @@ def split_housenumber_line(line):
             housename, split_house_number(cons), tail, split_house_number(oid))
 
 
-def get_array_nth(arr, n):
+def get_array_nth(arr: Sequence[str], n: int) -> str:
     """Gets the nth element of arr, returns en empty string on error."""
     return arr[n] if len(arr) > n else ''
 
 
-def simplify(s, spaceDecode=False):
+def simplify(s: str, spaceDecode: bool = False) -> str:
     """ Handles normalization of a street name."""
     s = s.replace('Á', 'A').replace('á', 'a')
     s = s.replace('É', 'E').replace('é', 'e')
@@ -176,13 +178,13 @@ def get_in_both(first, second):
     return ret
 
 
-def git_link(version, prefix):
+def git_link(version: str, prefix: str) -> str:
     """Generates a HTML link based on a website prefix and a git-describe version."""
     commit_hash = re.sub(".*-g", "", version)
     return "<a href=\"" + prefix + commit_hash + "\">" + version + "</a>"
 
 
-def get_nth_column(path, column):
+def get_nth_column(path: str, column: int) -> List[str]:
     """Reads the content of path, interprets its content as tab-separated values, finally returns
     the values of the nth column. If a row has less columns, that's silentely ignored."""
     ret = []
@@ -203,13 +205,13 @@ def get_nth_column(path, column):
     return ret
 
 
-def get_streets(workdir, relation_name):
+def get_streets(workdir: str, relation_name: str) -> List[str]:
     """Reads list of streets for an area from OSM."""
     ret = get_nth_column(os.path.join(workdir, "streets-%s.csv" % relation_name), 1)
     ret += get_nth_column(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name), 1)
     return sorted(set(ret))
 
 
-def get_url_hash(url):
+def get_url_hash(url: str) -> str:
     """Returns SHA256 hash of an URL."""
     return hashlib.sha256(url.encode('utf-8')).hexdigest()
