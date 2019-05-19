@@ -5,6 +5,8 @@
 # found in the LICENSE file.
 #
 
+"""The wsgi module contains functionality specific to the web interface."""
+
 import configparser
 import datetime
 import os
@@ -18,6 +20,7 @@ import version
 
 
 def getConfig():
+    """Gets access to information which are specific to this installation."""
     config = configparser.ConfigParser()
     configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(configPath)
@@ -25,18 +28,22 @@ def getConfig():
 
 
 def getWorkdir():
+    """Gets the directory which is writable."""
     return getConfig().get('wsgi', 'workdir').strip()
 
 
 def getReference():
+    """Gets the directory which contains local reference data."""
     return getConfig().get('wsgi', 'reference').strip()
 
 
 def getDatadir():
+    """Gets the directory which is tracked (in version control) data."""
     return os.path.join(os.path.dirname(__file__), "data")
 
 
 def processTemplate(buf, osmrelation):
+    """Turns an overpass query template to an actual query."""
     buf = buf.replace("@RELATION@", str(osmrelation))
     # area is relation + 3600000000 (3600000000 == relation), see js/ide.js
     # in https://github.com/tyrasd/overpass-turbo
@@ -45,22 +52,24 @@ def processTemplate(buf, osmrelation):
 
 
 def getStreetsQuery(relations, relation):
+    """Produces a query which lists streets in relation."""
     with open(os.path.join(getDatadir(), "streets-template.txt")) as sock:
         return processTemplate(sock.read(), relations[relation]["osmrelation"])
 
 
 def getStreetHousenumbersQuery(relations, relation):
+    """Produces a query which lists house numbers in relation."""
     with open(os.path.join(getDatadir(), "street-housenumbers-template.txt")) as sock:
         return processTemplate(sock.read(), relations[relation]["osmrelation"])
 
 
-# Returns a name -> properties dictionary.
 def getRelations():
+    """Returns a name -> properties dictionary."""
     return yaml.load(open(os.path.join(getDatadir(), "relations.yaml")))
 
 
-# Expected requestUri: e.g. /osm/streets/ormezo/view-query
 def handleStreets(requestUri, workdir, relations):
+    """Expected requestUri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
 
     tokens = requestUri.split("/")
@@ -95,8 +104,8 @@ def handleStreets(requestUri, workdir, relations):
     return getHeader(add_title=title, add_links=links) + output + getFooter()
 
 
-# Expected requestUri: e.g. /osm/street-housenumbers/ormezo/view-query
 def handleStreetHousenumbers(requestUri, workdir, relations):
+    """Expected requestUri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     output = ""
 
     tokens = requestUri.split("/")
@@ -131,8 +140,8 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
     return getHeader(add_title=title, add_links=links) + output + getFooter()
 
 
-# Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-[result|query].
 def handleSuspiciousStreets(requestUri, workdir, relations):
+    """Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
     output = ""
 
     tokens = requestUri.split("/")
@@ -197,23 +206,28 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
 
 
 def getLastModified(workdir, path):
+    """Gets the update date of a file in workdir."""
     t = os.path.getmtime(os.path.join(workdir, path))
     return datetime.datetime.fromtimestamp(t).isoformat()
 
 
 def get_ref_housenumbers_last_modified(workdir, name):
+    """Gets the update date of house number references for a relation."""
     return getLastModified(workdir, "street-housenumbers-reference-" + name + ".lst")
 
 
 def get_housenumbers_last_modified(workdir, name):
+    """Gets the update date of house numbers for a relation."""
     return getLastModified(workdir, "street-housenumbers-" + name + ".csv")
 
 
 def get_streets_last_modified(workdir, name):
+    """Gets the update date of streets for a relation."""
     return getLastModified(workdir, "streets-" + name + ".csv")
 
 
 def getContent(workdir, path):
+    """Gets the content of a file in workdir."""
     ret = ""
     with open(os.path.join(workdir, path)) as sock:
         ret = sock.read()
@@ -221,6 +235,7 @@ def getContent(workdir, path):
 
 
 def handleMain(relations, workdir):
+    """Handles the main wsgi page."""
     output = ""
 
     output += "<h1>Hol térképezzek?</h1>"
@@ -270,6 +285,7 @@ def handleMain(relations, workdir):
 
 
 def getHeader(add_title='', add_links=''):
+    """Produces the start of the page."""
     output = "<html><head><title>Hol térképezzek?" + add_title + "</title></head><body>"
     output += "<div><a href=\"/osm\">Területek listája</a> &brvbar; " + add_links + \
               "<a href=\"https://github.com/vmiklos/osm-gimmisn\">github</a></div><hr/>"
@@ -277,6 +293,7 @@ def getHeader(add_title='', add_links=''):
 
 
 def getFooter():
+    """Produces the end of the page."""
     output = "<hr/><div>OSM adatok © OpenStreetMap közreműködők. Verzió: "
     output += helpers.git_link(version.version, "https://github.com/vmiklos/osm-gimmisn/commit/")
     output += "</div>"
@@ -285,6 +302,7 @@ def getFooter():
 
 
 def our_application(environ, start_response):
+    """Dispatches the request based on its URI."""
     status = '200 OK'
 
     requestUri = environ.get("REQUEST_URI")
@@ -310,6 +328,7 @@ def our_application(environ, start_response):
 
 
 def handle_exception(environ, start_response):
+    """Displays an unhandled exception on the page."""
     status = '500 Internal Server Error'
     requestUri = environ.get("REQUEST_URI")
     body = "<pre>Internal error when serving " + requestUri + "\n" + \
@@ -323,6 +342,7 @@ def handle_exception(environ, start_response):
 
 
 def application(environ, start_response):
+    """The entry point of this WSGI app."""
     try:
         return our_application(environ, start_response)
 
