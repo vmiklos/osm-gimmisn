@@ -11,7 +11,9 @@ filters:
   bocskai_ut:
     ranges:
       - {start: '67', end: '79', isOdd: 'true'}
-      - {start: '2', end: '146', isOdd: 'false'}
+      - {start: '2', end: '54', isOdd: 'false'}
+      - {start: '74', end: '90', isOdd: 'false'}
+      - {start: '134', end: '146', isOdd: 'false'}
   budafoki_ut:
     # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
     # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
@@ -21,6 +23,11 @@ filters:
   budaorsi_ut:
     ranges:
       - {start: '26', end: '60', isOdd: 'false'}
+  daroczi_ut:
+    ranges:
+      - {start: '1', end: '17', isOdd: 'true'}
+      - {start: '23', end: '49', isOdd: 'true'}
+      - {start: '2', end: '84', isOdd: 'false'}
   dioszegi_ut:
     ranges:
       - {start: '65', end: '67', isOdd: 'true'}
@@ -44,6 +51,10 @@ filters:
     ranges:
       - {start: '1', end: '67', isOdd: 'true'}
       - {start: '2', end: '70', isOdd: 'false'}
+  frakno_utca:
+    ranges:
+      - {start: '1', end: '29', isOdd: 'true'}
+      - {start: '2', end: '50', isOdd: 'false'}
   galamboc_utca:
     ranges:
       - {start: '1', end: '99', isOdd: 'true'}
@@ -57,6 +68,18 @@ filters:
     ranges:
       - {start: '23', end: '63', isOdd: 'true'}
       - {start: '22', end: '64', isOdd: 'false'}
+  harcos_ter:
+    ranges:
+      - {start: '5', end: '5', isOdd: 'true'}
+      - {start: '2', end: '2', isOdd: 'false'}
+  harcos_utca:
+    ranges:
+      - {start: '5', end: '11', isOdd: 'true'}
+      - {start: '2', end: '8', isOdd: 'false'}
+  holloko_utca:
+    ranges:
+      - {start: '1', end: '9', isOdd: 'true'}
+      - {start: '2', end: '6', isOdd: 'false'}
   karolina_ut:
     ranges:
       - {start: '1', end: '69', isOdd: 'true'}
@@ -78,6 +101,11 @@ filters:
     ranges:
       - {start: '1', end: '55', isOdd: 'true'}
       - {start: '2', end: '56', isOdd: 'false'}
+  nagyszolos_utca:
+    ranges:
+      - {start: '1', end: '21', isOdd: 'true'}
+      - {start: '31', end: '45', isOdd: 'true'}
+      - {start: '2', end: '20', isOdd: 'false'}
   pajkos_utca:
     ranges:
       - {start: '1', end: '19', isOdd: 'true'}
@@ -89,6 +117,14 @@ filters:
   solt_utca:
     ranges:
       - {start: '24', end: '98', isOdd: 'false'}
+  szadelo_koz:
+    ranges:
+      - {start: '1', end: '19', isOdd: 'true'}
+      - {start: '2', end: '16', isOdd: 'false'}
+  szentpetery_utca:
+    ranges:
+      - {start: '1', end: '15', isOdd: 'true'}
+      - {start: '2', end: '26', isOdd: 'false'}
   szeremi_ut:
     ranges:
       - {start: '1', end: '59', isOdd: 'true'}
@@ -97,6 +133,10 @@ filters:
     ranges:
       - {start: '15', end: '99', isOdd: 'true'}
       - {start: '22', end: '28', isOdd: 'false'}
+  tetenyi_koz:
+    ranges:
+      - {start: '1', end: '7', isOdd: 'true'}
+      - {start: '2', end: '10', isOdd: 'false'}
   tetenyi_ut:
     ranges:
       # vege felmerendo
