@@ -31,6 +31,10 @@ kelenfold:
     osmrelation: 2700869
     refmegye: "01"
     reftelepules: "011"
+lagymanyos:
+    osmrelation: 2702615
+    refmegye: "01"
+    reftelepules: "011"
 madarhegy:
     osmrelation: 2713839
     refmegye: "01"
@@ -71,6 +75,10 @@ szechenyihegy:
     osmrelation: 2806000
     refmegye: "01"
     reftelepules: "012"
+szentimrevaros:
+    osmrelation: 2702616
+    refmegye: "01"
+    reftelepules: "011"
 terezvaros:
     osmrelation: 3229919
     refmegye: "01"
