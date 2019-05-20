@@ -12,6 +12,7 @@ import datetime
 import os
 import traceback
 import yaml
+import pytz
 import helpers
 import overpass_query
 import suspicious_streets
@@ -205,10 +206,24 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
     return getHeader(add_title=title, add_links=links) + output + getFooter()
 
 
+def local_to_ui_tz(localDt):
+    """Converts from local date-time to UI date-time, based on config."""
+    config = getConfig()
+    if config.has_option("wsgi", "timezone"):
+        uiTz = pytz.timezone(config.get("wsgi", "timezone"))
+    else:
+        uiTz = pytz.timezone("Europe/Budapest")
+
+    return localDt.astimezone(uiTz)
+
+
 def getLastModified(workdir, path):
     """Gets the update date of a file in workdir."""
     t = os.path.getmtime(os.path.join(workdir, path))
-    return datetime.datetime.fromtimestamp(t).isoformat()
+    localDt = datetime.datetime.fromtimestamp(t)
+    uiDt = local_to_ui_tz(localDt)
+    fmt = '%Y-%m-%d %H:%M'
+    return uiDt.strftime(fmt)
 
 
 def get_ref_housenumbers_last_modified(workdir, name):

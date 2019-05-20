@@ -3,5 +3,6 @@ flake8
 mypy
 pycodestyle
 pylint
+pytz
 pyyaml
 yamale
