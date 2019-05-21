@@ -84,7 +84,7 @@ terezvaros:
     refmegye: "01"
     reftelepules: "006"
 csepel-belvaros:
-    osmrelation: 905027788
+    osmrelation: 3244191
     refmegye: "01"
     reftelepules: "021"
 # videk
