@@ -149,18 +149,18 @@ filters:
   tetenyi_ut:
     ranges:
       # vege felmerendo
-      - {start: '1', end: '48', isOdd: 'true'}
+      - {start: '1', end: '199', isOdd: 'true'}
+      - {start: '2', end: '48', isOdd: 'false'}
       - {start: '62', end: '198', isOdd: 'false'}
-      - {start: '1', end: '199', isOdd: 'false'}
   villanyi_ut:
     ranges:
       - {start: '76', end: '86', isOdd: 'false'}
   vinceller_utca:
     ranges:
-      - {start: '26', end: '50', isOdd: 'true'}
-      - {start: '27', end: '47', isOdd: 'false'}
+      - {start: '27', end: '47', isOdd: 'true'}
+      - {start: '26', end: '50', isOdd: 'false'}
   zsombolyai_utca:
     ranges:
-      - {start: '8', end: '20', isOdd: 'true'}
-      - {start: '7', end: '17', isOdd: 'false'}
+      - {start: '7', end: '17', isOdd: 'true'}
+      - {start: '8', end: '20', isOdd: 'false'}
 source: survey
