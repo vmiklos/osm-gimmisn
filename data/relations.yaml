@@ -83,6 +83,10 @@ terezvaros:
     osmrelation: 3229919
     refmegye: "01"
     reftelepules: "006"
+csepel-belvaros:
+    osmrelation: 905027788
+    refmegye: "01"
+    reftelepules: "021"
 # videk
 biatorbagy:
     osmrelation: 113461
