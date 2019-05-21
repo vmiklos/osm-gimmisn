@@ -63,11 +63,20 @@ filters:
     ranges:
       - {start: '1', end: '99', isOdd: 'true'}
       - {start: '2', end: '98', isOdd: 'false'}
+  gyorok_utca:
+    ranges:
+      - {start: '1', end: '35', isOdd: 'true'}
+      - {start: '2', end: '26', isOdd: 'false'}
   hamzsabegi_ut:
     # folyamatos hazszamok
     ranges:
       - {start: '23', end: '63', isOdd: 'true'}
       - {start: '22', end: '64', isOdd: 'false'}
+  ibrahim_utca:
+    ranges:
+      - {start: '1', end: '35', isOdd: 'true'}
+      - {start: '2', end: '26', isOdd: 'false'}
+      - {start: '30', end: '38', isOdd: 'false'}
   harcos_ter:
     ranges:
       - {start: '5', end: '5', isOdd: 'true'}
