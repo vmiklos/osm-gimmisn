@@ -4,6 +4,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import configparser
 import unittest
 import os
 # pylint: disable=unused-import
@@ -188,6 +189,15 @@ class TestRanges(unittest.TestCase):
     def test_none(self):
         r = helpers.Ranges([[0], [1]])
         self.assertFalse(2 in r)
+
+
+class TestGetWorkdir(unittest.TestCase):
+    def test_happy(self):
+        config = configparser.ConfigParser()
+        config.read_dict({"wsgi": {"workdir": "/path/to/workdir"}})
+        actual = helpers.get_workdir(config)
+        expected = "/path/to/workdir"
+        self.assertEqual(actual, expected)
 
 
 if __name__ == '__main__':

@@ -28,16 +28,6 @@ def getConfig():
     return config
 
 
-def getWorkdir():
-    """Gets the directory which is writable."""
-    return getConfig().get('wsgi', 'workdir').strip()
-
-
-def getReference():
-    """Gets the directory which contains local reference data."""
-    return getConfig().get('wsgi', 'reference').strip()
-
-
 def getDatadir():
     """Gets the directory which is tracked (in version control) data."""
     return os.path.join(os.path.dirname(__file__), "data")
@@ -322,7 +312,9 @@ def our_application(environ, start_response):
 
     requestUri = environ.get("REQUEST_URI")
 
-    workdir = getWorkdir()
+    config = getConfig()
+
+    workdir = helpers.get_workdir(config)
 
     relations = getRelations()
 

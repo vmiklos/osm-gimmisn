@@ -227,3 +227,8 @@ def get_streets(workdir: str, relation_name: str) -> List[str]:
 def get_url_hash(url: str) -> str:
     """Returns SHA256 hash of an URL."""
     return hashlib.sha256(url.encode('utf-8')).hexdigest()
+
+
+def get_workdir(config):
+    """Gets the directory which is writable."""
+    return config.get('wsgi', 'workdir').strip()
