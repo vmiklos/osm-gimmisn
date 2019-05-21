@@ -1,0 +1,37 @@
+filters:
+  bartok_bela_ut:
+    ranges:
+      - {start: '2', end: '56', isOdd: 'false'}
+  bocskai_ut:
+    ranges: []
+  bogdanfy_utca:
+    ranges:
+      - {start: '1', end: '7', isOdd: 'true'}
+      - {start: '2', end: '8', isOdd: 'false'}
+  budafoki_ut:
+    ranges:
+      - {start: '1', end: '89', isOdd: 'true'}
+      - {start: '2', end: '50', isOdd: 'false'}
+  fehervari_ut:
+    ranges:
+      - {start: '2', end: '38', isOdd: 'false'}
+  hamzsabegi_ut:
+    # folyamatos hazszamok
+    ranges:
+      - {start: '1', end: '21', isOdd: 'true'}
+      - {start: '2', end: '20', isOdd: 'false'}
+  moricz_zsigmond_korter:
+    ranges:
+      - {start: '15', end: '17', isOdd: 'true'}
+      - {start: '14', end: '18', isOdd: 'false'}
+  orlay_utca:
+    ranges: []
+  szent_gellert_ter:
+    ranges:
+      - {start: '3', end: '3', isOdd: 'true'}
+      - {start: '4', end: '4', isOdd: 'false'}
+  szeremi_sor:
+    ranges:
+      - {start: '1', end: '11', isOdd: 'true'}
+      - {start: '2', end: '12', isOdd: 'false'}
+source: survey
