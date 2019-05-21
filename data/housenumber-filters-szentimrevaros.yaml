@@ -1,0 +1,81 @@
+filters:
+  alsohegy_utca:
+    ranges:
+      - {start: '32', end: '44', isOdd: 'false'}
+  bartok_bela_ut:
+    ranges:
+      - {start: '1', end: '67', isOdd: 'true'}
+      - {start: '60', end: '82', isOdd: 'false'}
+  bocskai_ut:
+    ranges:
+      - {start: '1', end: '65', isOdd: 'true'}
+  csetneki_utca:
+    ranges:
+      - {start: '1', end: '13', isOdd: 'true'}
+      - {start: '2', end: '12', isOdd: 'false'}
+  dioszegi_ut:
+    ranges:
+      - {start: '35', end: '63', isOdd: 'true'}
+      - {start: '36', end: '60', isOdd: 'false'}
+  fadrusz_utca:
+    ranges:
+      - {start: '1', end: '7', isOdd: 'true'}
+      - {start: '2', end: '16', isOdd: 'false'}
+  fehervari_ut:
+    ranges:
+      - {start: '1', end: '21', isOdd: 'true'}
+  karolina_ut:
+    ranges:
+      - {start: '2', end: '38', isOdd: 'false'}
+  kelenhegyi_ut:
+    ranges:
+      - {start: '2', end: '10', isOdd: 'false'}
+  kemenes_utca:
+    ranges:
+      # paratlan felmerendo
+      - {start: '1', end: '9', isOdd: 'false'}
+      - {start: '2', end: '14', isOdd: 'false'}
+  kobolkut_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  kosztolanyi_dezso_ter:
+    ranges:
+      - {start: '1', end: '3', isOdd: 'true'}
+      - {start: '2', end: '4', isOdd: 'false'}
+      - {start: '12', end: '12', isOdd: 'false'}
+  manyoki_ut:
+    ranges:
+      - {start: '2', end: '98', isOdd: 'false'}
+  menesi_ut:
+    ranges:
+      - {start: '1', end: '3', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  moricz_zsigmond_korter:
+    ranges:
+      - {start: '1', end: '13', isOdd: 'true'}
+      - {start: '2', end: '12', isOdd: 'false'}
+  szent_gellert_ter:
+    ranges:
+      - {start: '1', end: '1', isOdd: 'true'}
+      - {start: '2', end: '2', isOdd: 'false'}
+  szuret_utca:
+    ranges:
+      - {start: '19', end: '29', isOdd: 'true'}
+  tas_vezer_utca:
+    ranges:
+      - {start: '1', end: '13', isOdd: 'true'}
+      - {start: '2', end: '20', isOdd: 'false'}
+  villanyi_ut:
+    ranges:
+      - {start: '1', end: '87', isOdd: 'true'}
+      - {start: '2', end: '76', isOdd: 'false'}
+  vinceller_utca:
+    ranges:
+      - {start: '23', end: '25', isOdd: 'true'}
+      - {start: '16', end: '24', isOdd: 'false'}
+  zsombolyai_utca:
+    ranges:
+      - {start: '1', end: '5', isOdd: 'true'}
+      - {start: '2', end: '6', isOdd: 'false'}
+source: survey
