@@ -1,0 +1,191 @@
+filters:
+  barackvirag_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  barackos_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  bibor_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  boglarka_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  bokros_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  cserje_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  csokor_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  deak_ferenc_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  estike_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  ferenc_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  forras_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  fuzes_utca:
+    ranges:
+      - {start: '1', end: '199', isOdd: 'true'}
+      - {start: '2', end: '198', isOdd: 'false'}
+  fenyo_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  gabor_aron_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  gyongyvirag_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  hatar_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  heja_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  hold_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  horhos_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  karo_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  kertbaratok_utja:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  keserukut_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  kokeny_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  kokorcsin_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  kossuth_lajos_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  majus_1._utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  maria_kiralyno_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  narcisz_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  petofi_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  ret_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  szent_laszlo_utca:
+    ranges:
+      - {start: '1', end: '199', isOdd: 'true'}
+      - {start: '2', end: '198', isOdd: 'false'}
+  szel_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  szily_kalman_ut:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  szirom_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  topart_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  tovis_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  moricz_zsigmond_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  naphegy_koz:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  pecato_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  uray_geza_ut:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  vadvirag_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  vihar_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+  zsigmond_kiraly_utca:
+    ranges:
+      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '2', end: '98', isOdd: 'false'}
+refstreets:
+  'Angeli András utca': 'Angeli András út'
+  'Dévay Gyula utca': 'Dévay Gyula utca'
+  'Dózsa György utca': 'Dózsa György út'
+  'Juhász Gyula utca': 'Juhász Gyula út'
+  'Hunyadi utca': 'Hunyadi János utca'
+  'Losonczi utca': 'Losonci utca'
+  'Katalin utca': 'Katalin út'
+  'Pátyi út': 'Pátyi utca'
+  'Petőfi Sándor köz': 'Petőfi köz'
+  'Ritsmann Pál utca': 'Ritsman Pál utca'
+  'Sasbérc utca': 'Sasbérc út'
+  'Szabadság utca': 'Szabadság út'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Tas vezér utca': 'Tas utca'
+  'Vízipók utca': 'Vizipók utca'
+  'Zugor utca': 'Zugor István utca'
+  'Óvoda köz': 'Óvóda köz'
