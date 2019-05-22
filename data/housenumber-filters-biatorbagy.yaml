@@ -171,6 +171,7 @@ filters:
     ranges:
       - {start: '1', end: '99', isOdd: 'true'}
       - {start: '2', end: '98', isOdd: 'false'}
+source: survey
 refstreets:
   'Angeli András utca': 'Angeli András út'
   'Dévay Gyula utca': 'Dévay Gyula utca'
