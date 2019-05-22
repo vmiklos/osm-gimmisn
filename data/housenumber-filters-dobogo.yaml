@@ -3,7 +3,7 @@ filters:
     ranges: []
   budaorsi_ut:
     ranges:
-      - {start: '154', end: '160', isOdd: 'false'}
+      - {start: '154', end: '160'}
   dobogo_ut:
     # paratlan oldal, nincs beepitve
     ranges: []
@@ -15,6 +15,6 @@ filters:
     ranges: []
   popradi_ut:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
 source: survey

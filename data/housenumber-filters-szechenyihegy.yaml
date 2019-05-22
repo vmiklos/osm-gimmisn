@@ -1,41 +1,41 @@
 filters:
   agancs_utca:
     ranges:
-      - {start: '11', end: '999', isOdd: 'true'}
-      - {start: '16', end: '998', isOdd: 'false'}
+      - {start: '11', end: '999'}
+      - {start: '16', end: '998'}
   burok_utca:
     ranges:
-      - {start: '93', end: '999', isOdd: 'true'}
+      - {start: '93', end: '999'}
   denever_ut:
     ranges:
-      - {start: '20', end: '98', isOdd: 'false'}
+      - {start: '20', end: '98'}
   diana_utca:
     ranges: []
   fodor_utca:
     ranges:
-      - {start: '117', end: '999', isOdd: 'true'}
-      - {start: '118', end: '998', isOdd: 'false'}
+      - {start: '117', end: '999'}
+      - {start: '118', end: '998'}
   hegyhat_ut:
     ranges:
-      - {start: '1', end: '3', isOdd: 'true'}
+      - {start: '1', end: '3'}
   hovirag_ut:
     ranges:
-      - {start: '3', end: '999', isOdd: 'true'}
+      - {start: '3', end: '999'}
   janos_zsigmond_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '1', end: '99'}
   karthauzi_utca:
     ranges:
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '2', end: '998'}
   kazmer_ut:
     ranges:
-      - {start: '39', end: '999', isOdd: 'true'}
-      - {start: '56', end: '998', isOdd: 'false'}
+      - {start: '39', end: '999'}
+      - {start: '56', end: '998'}
   martonhegyi_ut:
     ranges:
-      - {start: '1', end: '11', isOdd: 'true'}
+      - {start: '1', end: '11'}
   racz_aladar_ut:
     ranges:
-      - {start: '93', end: '999', isOdd: 'true'}
-      - {start: '156', end: '998', isOdd: 'false'}
+      - {start: '93', end: '999'}
+      - {start: '156', end: '998'}
 source: survey

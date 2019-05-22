@@ -1,176 +1,176 @@
 filters:
   barackvirag_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   barackos_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   bibor_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   boglarka_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   bokros_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   cserje_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   csokor_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   deak_ferenc_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   estike_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   ferenc_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   forras_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   fuzes_utca:
     ranges:
-      - {start: '1', end: '199', isOdd: 'true'}
-      - {start: '2', end: '198', isOdd: 'false'}
+      - {start: '1', end: '199'}
+      - {start: '2', end: '198'}
   fenyo_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   gabor_aron_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   gyongyvirag_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   hatar_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   heja_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   hold_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   horhos_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   karo_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   kertbaratok_utja:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   keserukut_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   kokeny_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   kokorcsin_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   kossuth_lajos_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   majus_1_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   maria_kiralyno_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   narcisz_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   petofi_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   ret_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   szent_laszlo_utca:
     ranges:
-      - {start: '1', end: '199', isOdd: 'true'}
-      - {start: '2', end: '198', isOdd: 'false'}
+      - {start: '1', end: '199'}
+      - {start: '2', end: '198'}
   szel_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   szily_kalman_ut:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   szirom_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   topart_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   tovis_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   moricz_zsigmond_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   naphegy_koz:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   pecato_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   uray_geza_ut:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   vadvirag_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   vihar_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   zsigmond_kiraly_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
 source: survey
 refstreets:
   'Angeli András utca': 'Angeli András út'

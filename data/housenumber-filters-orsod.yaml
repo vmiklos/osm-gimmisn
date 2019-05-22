@@ -4,53 +4,53 @@ filters:
     ranges: []
   budaorsi_ut:
     ranges:
-      - {start: '162', end: '998', isOdd: 'false'}
+      - {start: '162', end: '998'}
   eger_ut:
     ranges:
-      - {start: '1', end: '499', isOdd: 'true'}
-      - {start: '2', end: '498', isOdd: 'false'}
+      - {start: '1', end: '499'}
+      - {start: '2', end: '498'}
   felsoorsod_utca:
     ranges:
-      - {start: '1', end: '999', isOdd: 'true'}
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '1', end: '999'}
+      - {start: '2', end: '998'}
   jegcsap_ut:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   keseruviz_utca:
     ranges:
-      - {start: '1', end: '999', isOdd: 'true'}
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '1', end: '999'}
+      - {start: '2', end: '998'}
   koerberki_ut:
     # felmerendo hogy meddig hazszam es honnan helyrajzi, gyanusan sok haromjegyu
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '88', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '88'}
   orsoddulo_ut:
     ranges:
-      - {start: '1', end: '999', isOdd: 'true'}
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '1', end: '999'}
+      - {start: '2', end: '998'}
   popradi_ut:
     # dobogo, orsod, peterhegy
     ranges:
-      - {start: '1', end: '999', isOdd: 'true'}
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '1', end: '999'}
+      - {start: '2', end: '998'}
   repulo_utca:
     ranges:
-      - {start: '1', end: '999', isOdd: 'true'}
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '1', end: '999'}
+      - {start: '2', end: '998'}
   repuloteri_ut:
     ranges:
-      - {start: '1', end: '999', isOdd: 'true'}
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '1', end: '999'}
+      - {start: '2', end: '998'}
   vitorlazo_ut:
     ranges:
-      - {start: '1', end: '999', isOdd: 'true'}
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '1', end: '999'}
+      - {start: '2', end: '998'}
   vocsok_utca:
     ranges:
-      - {start: '1', end: '999', isOdd: 'true'}
-      - {start: '2', end: '998', isOdd: 'false'}
+      - {start: '1', end: '999'}
+      - {start: '2', end: '998'}
 refstreets:
   'Alsó határút': 'Alsóhatár utca'
 source: survey

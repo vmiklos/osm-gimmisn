@@ -95,8 +95,8 @@ legegyszerűbb ha egy letezőt lemásolsz, és kitörlöd az összes utcát.
 ----
   magasuti_koz:
     ranges:
-      - {start: '1', end: '9', isOdd: 'true'}
-      - {start: '2', end: '8', isOdd: 'false'}
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
 ----
 
 Ez program által értelmezhetően a 2) pontban leírt információt rögzíti. Ha az utca OSM-beli és

@@ -3,21 +3,21 @@ filters:
     ranges: []
   burok_utca:
     ranges:
-      - {start: '38', end: '998', isOdd: 'false'}
+      - {start: '38', end: '998'}
   denever_ut:
     ranges:
-      - {start: '1', end: '5', isOdd: 'true'}
-      - {start: '2', end: '18', isOdd: 'false'}
+      - {start: '1', end: '5'}
+      - {start: '2', end: '18'}
   ho_utca:
     ranges:
-      - {start: '1', end: '1', isOdd: 'true'}
+      - {start: '1', end: '1'}
   hovirag_ut:
     ranges:
-      - {start: '1', end: '1', isOdd: 'true'}
+      - {start: '1', end: '1'}
   nemetvolgyi_ut:
     ranges:
-      - {start: '99', end: '999', isOdd: 'true'}
+      - {start: '99', end: '999'}
   racz_aladar_ut:
     ranges:
-      - {start: '1', end: '3', isOdd: 'true'}
+      - {start: '1', end: '3'}
 source: survey

@@ -1,166 +1,166 @@
 filters:
   alsohegy_utca:
     ranges:
-      - {start: '46', end: '50', isOdd: 'false'}
+      - {start: '46', end: '50'}
   badacsonyi_utca:
     ranges: []
   bartok_bela_ut:
     ranges:
-      - {start: '69', end: '149', isOdd: 'true'}
-      - {start: '84', end: '160', isOdd: 'false'}
+      - {start: '69', end: '149'}
+      - {start: '84', end: '160'}
   bocskai_ut:
     ranges:
-      - {start: '67', end: '79', isOdd: 'true'}
-      - {start: '2', end: '54', isOdd: 'false'}
-      - {start: '74', end: '90', isOdd: 'false'}
-      - {start: '134', end: '146', isOdd: 'false'}
+      - {start: '67', end: '79'}
+      - {start: '2', end: '54'}
+      - {start: '74', end: '90'}
+      - {start: '134', end: '146'}
   budafoki_ut:
     # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
     # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
     ranges:
-      - {start: '91', end: '229', isOdd: 'true'}
-      - {start: '52', end: '198', isOdd: 'false'}
+      - {start: '91', end: '229'}
+      - {start: '52', end: '198'}
   budaorsi_ut:
     ranges:
-      - {start: '26', end: '60', isOdd: 'false'}
+      - {start: '26', end: '60'}
   daroczi_ut:
     ranges:
-      - {start: '1', end: '17', isOdd: 'true'}
-      - {start: '23', end: '49', isOdd: 'true'}
-      - {start: '2', end: '84', isOdd: 'false'}
+      - {start: '1', end: '17'}
+      - {start: '23', end: '49'}
+      - {start: '2', end: '84'}
   dioszegi_ut:
     ranges:
-      - {start: '65', end: '67', isOdd: 'true'}
-      - {start: '62', end: '64', isOdd: 'false'}
+      - {start: '65', end: '67'}
+      - {start: '62', end: '64'}
   eger_ut:
     ranges: []
   etele_ter:
     ranges:
       # 8 nem biztos hogy van, a bodeknak talan nincs hazszama
-      - {start: '1', end: '7', isOdd: 'true'}
-      - {start: '2', end: '8', isOdd: 'false'}
+      - {start: '1', end: '7'}
+      - {start: '2', end: '8'}
   fadrusz_utca:
     ranges:
-      - {start: '9', end: '31', isOdd: 'true'}
-      - {start: '18', end: '38', isOdd: 'false'}
+      - {start: '9', end: '31'}
+      - {start: '18', end: '38'}
   fehervari_ut:
     ranges:
-      - {start: '23', end: '191', isOdd: 'true'}
-      - {start: '40', end: '166', isOdd: 'false'}
+      - {start: '23', end: '191'}
+      - {start: '40', end: '166'}
   fejer_lipot_utca:
     ranges:
-      - {start: '1', end: '67', isOdd: 'true'}
-      - {start: '2', end: '70', isOdd: 'false'}
+      - {start: '1', end: '67'}
+      - {start: '2', end: '70'}
   frakno_utca:
     ranges:
-      - {start: '1', end: '29', isOdd: 'true'}
-      - {start: '2', end: '50', isOdd: 'false'}
+      - {start: '1', end: '29'}
+      - {start: '2', end: '50'}
   galamboc_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   galvani_utca:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   gyorok_utca:
     ranges:
-      - {start: '1', end: '35', isOdd: 'true'}
-      - {start: '2', end: '26', isOdd: 'false'}
+      - {start: '1', end: '35'}
+      - {start: '2', end: '26'}
   hamzsabegi_ut:
     # folyamatos hazszamok
     ranges:
-      - {start: '23', end: '63', isOdd: 'true'}
-      - {start: '22', end: '64', isOdd: 'false'}
+      - {start: '23', end: '63'}
+      - {start: '22', end: '64'}
   ibrahim_utca:
     ranges:
-      - {start: '1', end: '35', isOdd: 'true'}
-      - {start: '2', end: '26', isOdd: 'false'}
-      - {start: '30', end: '38', isOdd: 'false'}
+      - {start: '1', end: '35'}
+      - {start: '2', end: '26'}
+      - {start: '30', end: '38'}
   harcos_ter:
     ranges:
-      - {start: '5', end: '5', isOdd: 'true'}
-      - {start: '2', end: '2', isOdd: 'false'}
+      - {start: '5', end: '5'}
+      - {start: '2', end: '2'}
   harcos_utca:
     ranges:
-      - {start: '5', end: '11', isOdd: 'true'}
-      - {start: '2', end: '8', isOdd: 'false'}
+      - {start: '5', end: '11'}
+      - {start: '2', end: '8'}
   holloko_utca:
     ranges:
-      - {start: '1', end: '9', isOdd: 'true'}
-      - {start: '2', end: '6', isOdd: 'false'}
+      - {start: '1', end: '9'}
+      - {start: '2', end: '6'}
   karolina_ut:
     ranges:
-      - {start: '1', end: '69', isOdd: 'true'}
-      - {start: '56', end: '72', isOdd: 'false'}
+      - {start: '1', end: '69'}
+      - {start: '56', end: '72'}
   kelenvolgyi_hatarsor:
     ranges: []
   kevehaza_utca:
     ranges:
-      - {start: '1', end: '21', isOdd: 'true'}
-      - {start: '2', end: '10', isOdd: 'false'}
+      - {start: '1', end: '21'}
+      - {start: '2', end: '10'}
   kondorosi_ut:
     ranges:
-      - {start: '1', end: '99', isOdd: 'true'}
+      - {start: '1', end: '99'}
   kosztolanyi_dezso_ter:
     ranges:
-      - {start: '5', end: '11', isOdd: 'true'}
-      - {start: '6', end: '10', isOdd: 'false'}
+      - {start: '5', end: '11'}
+      - {start: '6', end: '10'}
   mohai_ut:
     ranges:
-      - {start: '1', end: '55', isOdd: 'true'}
-      - {start: '2', end: '56', isOdd: 'false'}
+      - {start: '1', end: '55'}
+      - {start: '2', end: '56'}
   nagyszolos_utca:
     ranges:
-      - {start: '1', end: '21', isOdd: 'true'}
-      - {start: '31', end: '45', isOdd: 'true'}
-      - {start: '2', end: '20', isOdd: 'false'}
+      - {start: '1', end: '21'}
+      - {start: '31', end: '45'}
+      - {start: '2', end: '20'}
   pajkos_utca:
     ranges:
-      - {start: '1', end: '19', isOdd: 'true'}
-      - {start: '2', end: '56', isOdd: 'false'}
+      - {start: '1', end: '19'}
+      - {start: '2', end: '56'}
   ratz_laszlo_utca:
     ranges:
-      - {start: '1', end: '85', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '85'}
+      - {start: '2', end: '98'}
   solt_utca:
     ranges:
-      - {start: '24', end: '98', isOdd: 'false'}
+      - {start: '24', end: '98'}
   szadelo_koz:
     ranges:
-      - {start: '1', end: '19', isOdd: 'true'}
-      - {start: '2', end: '16', isOdd: 'false'}
+      - {start: '1', end: '19'}
+      - {start: '2', end: '16'}
   szentpetery_utca:
     ranges:
-      - {start: '1', end: '15', isOdd: 'true'}
-      - {start: '2', end: '26', isOdd: 'false'}
+      - {start: '1', end: '15'}
+      - {start: '2', end: '26'}
   szeremi_ut:
     ranges:
-      - {start: '1', end: '59', isOdd: 'true'}
-      - {start: '2', end: '98', isOdd: 'false'}
+      - {start: '1', end: '59'}
+      - {start: '2', end: '98'}
   tas_vezer_utca:
     ranges:
-      - {start: '15', end: '99', isOdd: 'true'}
-      - {start: '22', end: '28', isOdd: 'false'}
+      - {start: '15', end: '99'}
+      - {start: '22', end: '28'}
   tetenyi_koz:
     ranges:
-      - {start: '1', end: '7', isOdd: 'true'}
-      - {start: '2', end: '10', isOdd: 'false'}
+      - {start: '1', end: '7'}
+      - {start: '2', end: '10'}
   tetenyi_ut:
     ranges:
       # vege felmerendo
-      - {start: '1', end: '199', isOdd: 'true'}
-      - {start: '2', end: '48', isOdd: 'false'}
-      - {start: '62', end: '198', isOdd: 'false'}
+      - {start: '1', end: '199'}
+      - {start: '2', end: '48'}
+      - {start: '62', end: '198'}
   villanyi_ut:
     ranges:
-      - {start: '76', end: '86', isOdd: 'false'}
+      - {start: '76', end: '86'}
   vinceller_utca:
     ranges:
-      - {start: '27', end: '47', isOdd: 'true'}
-      - {start: '26', end: '50', isOdd: 'false'}
+      - {start: '27', end: '47'}
+      - {start: '26', end: '50'}
   zsombolyai_utca:
     ranges:
-      - {start: '7', end: '17', isOdd: 'true'}
-      - {start: '8', end: '20', isOdd: 'false'}
+      - {start: '7', end: '17'}
+      - {start: '8', end: '20'}
 source: survey
