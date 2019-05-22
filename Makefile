@@ -1,7 +1,8 @@
 all: version.py
 
-version.py: .git/$(shell git symbolic-ref HEAD)
-	echo "version = '$(shell git describe)'" > $@
+version.py: .git/$(shell git symbolic-ref HEAD) Makefile
+	echo '"""The version module allows tracking the last reload of the app server."""' > $@
+	echo "version = '$(shell git describe)'" >> $@
 
 check: check-filters check-flake8 check-mypy check-unit check-pylint
 

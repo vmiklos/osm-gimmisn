@@ -5,9 +5,8 @@
 # found in the LICENSE file.
 #
 
-# What it does:
-# Tries to find streets which do have at least one house number, but suspicious
-# as lots of house numbers are probably missing.
+"""The suspicious_streets module tries to find streets which do have at least one house number, but
+suspicious as lots of house numbers are probably missing."""
 
 import os
 import re
@@ -20,6 +19,7 @@ import helpers
 
 
 class Finder:
+    """Compares reference house numbers with OSM ones and shows the diff."""
     def __init__(self, datadir, workdir, relationName):
         self.normalizers = {}  # type: Dict[str, helpers.Ranges]
         # OSM name -> ref name map
@@ -54,6 +54,7 @@ class Finder:
         self.doneStreets = bothResults
 
     def loadNormalizers(self, datadir, relationName):
+        """Loads filters which allow silencing false positives."""
         config = None
         if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)):
             with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)) as sock:
@@ -84,6 +85,7 @@ class Finder:
         return ret
 
     def getHouseNumbersFromCsv(self, workdir, relationName, streetName):
+        """Gets house numbers from the overpass query."""
         houseNumbers = []  # type: List[str]
         streetHouseNumbersSock = open(os.path.join(workdir, "street-housenumbers-%s.csv" % relationName))
         first = True
@@ -101,6 +103,7 @@ class Finder:
         return helpers.sort_numerically(set(houseNumbers))
 
     def getHouseNumbersFromLst(self, workdir, relationName, streetName, refStreet):
+        """Gets house numbers from reference."""
         houseNumbers = []  # type: List[str]
         lstStreetName = helpers.simplify(refStreet)
         prefix = lstStreetName + "_"
@@ -114,6 +117,7 @@ class Finder:
 
 
 def main():
+    """Commandline interface to this module."""
     config = configparser.ConfigParser()
     configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(configPath)
