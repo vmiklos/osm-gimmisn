@@ -99,7 +99,7 @@ filters:
     ranges:
       - {start: '1', end: '99', isOdd: 'true'}
       - {start: '2', end: '98', isOdd: 'false'}
-  majus_1._utca:
+  'majus_1._utca':
     ranges:
       - {start: '1', end: '99', isOdd: 'true'}
       - {start: '2', end: '98', isOdd: 'false'}
