@@ -63,7 +63,7 @@ class Finder:
             for street in filters.keys():
                 i = []
                 for r in filters[street]["ranges"]:
-                    i.append(helpers.Range(int(r["start"]), int(r["end"]), r["isOdd"] == "true"))
+                    i.append(helpers.Range(int(r["start"]), int(r["end"])))
                 self.normalizers[street] = helpers.Ranges(i)
         if config and "refstreets" in config.keys():
             self.refStreets = config["refstreets"]

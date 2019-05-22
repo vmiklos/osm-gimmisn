@@ -159,15 +159,15 @@ class TestGetUrlHash(unittest.TestCase):
 
 class TestRange(unittest.TestCase):
     def test_isodd_bad(self):
-        r = helpers.Range(1, 3, True)
+        r = helpers.Range(1, 3)
         self.assertFalse(2 in r)
 
     def test_range_bad(self):
-        r = helpers.Range(1, 3, True)
+        r = helpers.Range(1, 3)
         self.assertFalse(5 in r)
 
     def test_happy(self):
-        r = helpers.Range(1, 5, True)
+        r = helpers.Range(1, 5)
         self.assertTrue(1 in r)
         self.assertTrue(3 in r)
         self.assertTrue(5 in r)

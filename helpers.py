@@ -14,10 +14,10 @@ from typing import Callable, Iterable, List, Sequence, Tuple
 
 class Range:
     """A range object represents an odd or even range of integer numbers."""
-    def __init__(self, start, end, isOdd):
+    def __init__(self, start, end):
         self.start = start
         self.end = end
-        self.isOdd = isOdd
+        self.isOdd = start % 2 == 1
 
     def __contains__(self, n):
         if self.isOdd != (n % 2 == 1):
