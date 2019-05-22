@@ -33,25 +33,16 @@ def getDatadir():
     return os.path.join(os.path.dirname(__file__), "data")
 
 
-def processTemplate(buf, osmrelation):
-    """Turns an overpass query template to an actual query."""
-    buf = buf.replace("@RELATION@", str(osmrelation))
-    # area is relation + 3600000000 (3600000000 == relation), see js/ide.js
-    # in https://github.com/tyrasd/overpass-turbo
-    buf = buf.replace("@AREA@", str(3600000000 + osmrelation))
-    return buf
-
-
 def getStreetsQuery(relations, relation):
     """Produces a query which lists streets in relation."""
     with open(os.path.join(getDatadir(), "streets-template.txt")) as sock:
-        return processTemplate(sock.read(), relations[relation]["osmrelation"])
+        return helpers.process_template(sock.read(), relations[relation]["osmrelation"])
 
 
 def getStreetHousenumbersQuery(relations, relation):
     """Produces a query which lists house numbers in relation."""
     with open(os.path.join(getDatadir(), "street-housenumbers-template.txt")) as sock:
-        return processTemplate(sock.read(), relations[relation]["osmrelation"])
+        return helpers.process_template(sock.read(), relations[relation]["osmrelation"])
 
 
 def getRelations():
