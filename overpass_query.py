@@ -5,11 +5,14 @@
 # found in the LICENSE file.
 #
 
+"""The overpass_query module allows getting data out of the OSM DB without a full download."""
+
 from urllib.request import urlopen
 import sys
 
 
 def overpassQuery(query):
+    """Posts the query string to the overpass API and returns the result string."""
     url = "http://overpass-api.de/api/interpreter"
 
     sock = urlopen(url, bytes(query, "utf-8"))
@@ -20,6 +23,7 @@ def overpassQuery(query):
 
 
 def main():
+    """Commandline interface to this module."""
     sock = open(sys.argv[1])
     query = sock.read()
     sock.close()
