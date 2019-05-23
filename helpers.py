@@ -164,6 +164,7 @@ def simplify(s: str, spaceDecode: bool = False) -> str:
     s = s.replace('Ú', 'U').replace('ú', 'u')
     s = s.replace('Ü', 'U').replace('ü', 'u')
     s = s.replace('Ű', 'U').replace('ű', 'u')
+    s = s.replace('.', '')
     if spaceDecode:
         s = s.replace(' ', '%20')
     else:

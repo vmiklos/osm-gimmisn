@@ -124,6 +124,11 @@ class TestSimplify(unittest.TestCase):
         expected = 'arvizturotukorfurogep%20arvizturotukorfurogep'
         self.assertEqual(helpers.simplify(original, spaceDecode=True), expected)
 
+    def test_dot(self):
+        original = 'Május 1. utca'
+        expected = 'majus_1_utca'
+        self.assertEqual(helpers.simplify(original), expected)
+
 
 class TestInBoth(unittest.TestCase):
     def test_happy(self):
