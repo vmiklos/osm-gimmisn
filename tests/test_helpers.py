@@ -213,5 +213,13 @@ class TestProcessTemplate(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestGetContent(unittest.TestCase):
+    def test_happy(self):
+        workdir = os.path.join(os.path.dirname(__file__), "data")
+        actual = helpers.get_content(workdir, "gazdagret.percent")
+        expected = "99.44"
+        self.assertEqual(actual, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

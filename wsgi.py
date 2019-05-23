@@ -222,14 +222,6 @@ def get_streets_last_modified(workdir, name):
     return getLastModified(workdir, "streets-" + name + ".csv")
 
 
-def getContent(workdir, path):
-    """Gets the content of a file in workdir."""
-    ret = ""
-    with open(os.path.join(workdir, path)) as sock:
-        ret = sock.read()
-    return ret
-
-
 def handleMain(relations, workdir):
     """Handles the main wsgi page."""
     output = ""
@@ -244,7 +236,7 @@ def handleMain(relations, workdir):
         url = "\"/osm/suspicious-streets/" + k + "/view-result\""
         percent = "N/A"
         if os.path.exists(os.path.join(workdir, percentFile)):
-            percent = getContent(workdir, percentFile)
+            percent = helpers.get_content(workdir, percentFile)
 
         if percent != "N/A":
             date = getLastModified(workdir, percentFile)

@@ -242,3 +242,11 @@ def process_template(buf, osmrelation):
     # in https://github.com/tyrasd/overpass-turbo
     buf = buf.replace("@AREA@", str(3600000000 + osmrelation))
     return buf
+
+
+def get_content(workdir, path):
+    """Gets the content of a file in workdir."""
+    ret = ""
+    with open(os.path.join(workdir, path)) as sock:
+        ret = sock.read()
+    return ret
