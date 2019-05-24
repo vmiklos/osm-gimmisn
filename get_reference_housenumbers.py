@@ -5,6 +5,8 @@
 # found in the LICENSE file.
 #
 
+"""The get_reference_housenumbers module allows fetching referene house numbers for a relation."""
+
 import configparser
 import json
 import os
@@ -17,12 +19,12 @@ from typing import List
 import yaml
 import helpers
 
-
 verbose = False
 memoryCache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
 
 def getStreetDetails(datadir, street, relationName):
+    """Determines the ref codes, street name and type for a street in a relation."""
     relations = yaml.load(open(os.path.join(datadir, "relations.yaml")))
     relation = relations[relationName]
 
@@ -50,8 +52,8 @@ def getStreetDetails(datadir, street, relationName):
     return refmegye, reftelepules, streetName, streetType
 
 
-# Returns URL of a street based on config.
 def getStreetURL(datadir, street, prefix, relationName):
+    """Returns URL of a street based on config."""
     refmegye, reftelepules, streetName, streetType = getStreetDetails(datadir, street, relationName)
     url = prefix
     d = {
@@ -75,8 +77,8 @@ def getStreetURL(datadir, street, prefix, relationName):
     return url
 
 
-# Gets known house numbers for a single street
 def getHouseNumbersOfStreet(datadir, config, relationName, street):
+    """Gets known house numbers for a single street."""
     try:
         local = config.get('wsgi', 'reference_local').strip()
         return getHouseNumbersOfStreetLocal(datadir, local, relationName, street)
@@ -87,6 +89,7 @@ def getHouseNumbersOfStreet(datadir, config, relationName, street):
 
 
 def buildMemoryCache(local):
+    """Builds an in-memory cache from the reference on-disk TSV."""
     global memoryCache
 
     with open(local, "r") as sock:
@@ -111,6 +114,7 @@ def buildMemoryCache(local):
 
 
 def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
+    """Gets house numbers for a street locally."""
     if not memoryCache:
         if verbose:
             print("building in-memory cache")
@@ -128,6 +132,7 @@ def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
 
 
 def getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street):
+    """Gets house numbers for a street remotely."""
     url = getStreetURL(datadir, street, prefix, relationName)
     if verbose:
         print("considering '" + url + "'")
@@ -167,6 +172,8 @@ def getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street
 
 
 def getReferenceHousenumbers(config, relationName):
+    """Gets known house numbers (not their coordinates) from a reference site, based on street names
+    from OSM."""
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = config.get('wsgi', 'workdir').strip()
     streets = helpers.get_streets(workdir, relationName)
@@ -182,9 +189,8 @@ def getReferenceHousenumbers(config, relationName):
     sock.close()
 
 
-# Gets known house numbers (not their coordinates) from a reference site, based
-# on street names from OSM.
 def main():
+    """Commandline interface to this module."""
     global verbose
 
     config = configparser.ConfigParser()
