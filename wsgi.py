@@ -200,7 +200,16 @@ def local_to_ui_tz(localDt):
 
 def getLastModified(workdir, path):
     """Gets the update date of a file in workdir."""
-    t = os.path.getmtime(os.path.join(workdir, path))
+    return format_timestamp(get_timestamp(workdir, path))
+
+
+def get_timestamp(workdir, path):
+    """Gets the timestamp of a file in workdir."""
+    return os.path.getmtime(os.path.join(workdir, path))
+
+
+def format_timestamp(t):
+    """Formats timestamp as UI date-time."""
     localDt = datetime.datetime.fromtimestamp(t)
     uiDt = local_to_ui_tz(localDt)
     fmt = '%Y-%m-%d %H:%M'
@@ -208,8 +217,10 @@ def getLastModified(workdir, path):
 
 
 def get_ref_housenumbers_last_modified(workdir, name):
-    """Gets the update date of house number references for a relation."""
-    return getLastModified(workdir, "street-housenumbers-reference-" + name + ".lst")
+    """Gets the update date for suspicious streets."""
+    tRef = get_timestamp(workdir, "street-housenumbers-reference-" + name + ".lst")
+    tHousenumbers = get_timestamp(workdir, "street-housenumbers-" + name + ".csv")
+    return format_timestamp(max(tRef, tHousenumbers))
 
 
 def get_housenumbers_last_modified(workdir, name):
