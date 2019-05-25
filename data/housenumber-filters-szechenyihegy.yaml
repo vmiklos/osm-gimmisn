@@ -5,7 +5,7 @@ filters:
       - {start: '16', end: '998'}
   burok_utca:
     ranges:
-      - {start: '93', end: '999'}
+      - {start: '93', end: '111'}
   denever_ut:
     ranges:
       - {start: '20', end: '98'}
