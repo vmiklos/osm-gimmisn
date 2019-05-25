@@ -9,7 +9,8 @@
 import re
 import os
 import hashlib
-from typing import Callable, Iterable, List, Sequence, Tuple
+from typing import Callable, Dict, Iterable, List, Sequence, Tuple
+import yaml
 
 
 class Range:
@@ -26,6 +27,16 @@ class Range:
             return True
         return False
 
+    def __repr__(self):
+        return "Range(start=%s, end=%s, isOdd=%s)" % (self.start, self.end, self.isOdd)
+
+    def __eq__(self, other):
+        if self.start != other.start:
+            return False
+        if self.end != other.end:
+            return False
+        return True
+
 
 class Ranges:
     """A Ranges object contains an item if any of its Range objects contains it."""
@@ -37,6 +48,12 @@ class Ranges:
             if item in i:
                 return True
         return False
+
+    def __repr__(self):
+        return "Ranges(items=%s)" % self.items
+
+    def __eq__(self, other):
+        return self.items == other.items
 
 
 def sort_numerically(strings: Iterable[str]) -> List[str]:
@@ -250,3 +267,29 @@ def get_content(workdir, path):
     with open(os.path.join(workdir, path)) as sock:
         ret = sock.read()
     return ret
+
+
+def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str]]:
+    """Loads filters which allow silencing false positives."""
+    filter_dict = {}  # type: Dict[str, Ranges]
+    ref_streets = {}  # type: Dict[str, str]
+
+    path = os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)
+    if not os.path.exists(path):
+        return filter_dict, ref_streets
+
+    with open(path) as sock:
+        root = yaml.load(sock)
+
+    if "filters" in root.keys():
+        filters = root["filters"]
+        for street in filters.keys():
+            i = []
+            for r in filters[street]["ranges"]:
+                i.append(Range(int(r["start"]), int(r["end"])))
+            filter_dict[street] = Ranges(i)
+
+    if "refstreets" in root.keys():
+        ref_streets = root["refstreets"]
+
+    return filter_dict, ref_streets

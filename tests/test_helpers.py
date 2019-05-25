@@ -177,6 +177,10 @@ class TestRange(unittest.TestCase):
         self.assertTrue(3 in r)
         self.assertTrue(5 in r)
 
+    def test_eq(self):
+        self.assertTrue(helpers.Range(1, 5) != helpers.Range(3, 5))
+        self.assertTrue(helpers.Range(1, 5) != helpers.Range(1, 3))
+
 
 class TestRanges(unittest.TestCase):
     def test_a(self):
@@ -219,6 +223,34 @@ class TestGetContent(unittest.TestCase):
         actual = helpers.get_content(workdir, "gazdagret.percent")
         expected = "99.44"
         self.assertEqual(actual, expected)
+
+
+class TestLoadNormalizers(unittest.TestCase):
+    def test_happy(self):
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        filters, ref_streets = helpers.load_normalizers(datadir, "gazdagret")
+        expected_filters = {
+            "budaorsi_ut": helpers.Ranges([helpers.Range(137, 165)]),
+            "csiki-hegyek_utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
+        }
+        self.assertEqual(filters, expected_filters)
+        expected_streets = {
+            'OSM Name 1': 'Ref Name 1',
+            'OSM Name 2': 'Ref Name 2'
+        }
+        self.assertEqual(ref_streets, expected_streets)
+
+    def test_nosuchname(self):
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        filters, ref_streets = helpers.load_normalizers(datadir, "nosuchname")
+        self.assertEqual(filters, {})
+        self.assertEqual(ref_streets, {})
+
+    def test_empty(self):
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        filters, ref_streets = helpers.load_normalizers(datadir, "empty")
+        self.assertEqual(filters, {})
+        self.assertEqual(ref_streets, {})
 
 
 if __name__ == '__main__':
