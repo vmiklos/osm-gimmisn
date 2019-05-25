@@ -25,7 +25,7 @@ class Finder:
         # OSM name -> ref name map
         self.refStreets = {}  # type: Dict[str, str]
 
-        self.loadNormalizers(datadir, relationName)
+        self.normalizers, self.refStreets = helpers.load_normalizers(datadir, relationName)
         streetNames = helpers.get_streets(workdir, relationName)
 
         results = []
@@ -52,22 +52,6 @@ class Finder:
 
         self.suspiciousStreets = results
         self.doneStreets = bothResults
-
-    def loadNormalizers(self, datadir, relationName):
-        """Loads filters which allow silencing false positives."""
-        config = None
-        if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)):
-            with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)) as sock:
-                config = yaml.load(sock)
-        if config and "filters" in config.keys():
-            filters = config["filters"]
-            for street in filters.keys():
-                i = []
-                for r in filters[street]["ranges"]:
-                    i.append(helpers.Range(int(r["start"]), int(r["end"])))
-                self.normalizers[street] = helpers.Ranges(i)
-        if config and "refstreets" in config.keys():
-            self.refStreets = config["refstreets"]
 
     def normalize(self, houseNumbers: str, streetName: str) -> List[str]:
         """Strips down string input to bare minimum that can be interpreted as an

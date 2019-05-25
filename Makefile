@@ -33,8 +33,8 @@ check-mypy: version.py
 	mypy *.py tests/*.py
 
 check-unit:
-	coverage run --branch --module unittest discover tests
-	coverage report --show-missing --fail-under=100
+	coverage run --branch --module unittest tests/test_helpers.py
+	coverage report --show-missing --fail-under=100 helpers.py tests/test_helpers.py
 
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/housenumber-filters-*.yaml))
 
