@@ -30,9 +30,9 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
   nagyida_utca:
-    # hosszuret 2-4, 6-10 között nincsenek számok, ellenőrizendő még egyszer
+    # hosszuret 2-4, 6-10 között nincsenek számok
     ranges:
-      - {start: '6', end: '14'}
+      - {start: '12', end: '14'}
   rozsabarack_utca:
     # 1-7 hoszuret, 9- es a paros madarhegy
     ranges:
