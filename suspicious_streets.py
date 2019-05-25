@@ -78,9 +78,17 @@ class Finder:
                 n = int(re.sub(r"([0-9]+).*", r"\1", houseNumber))
             except ValueError:
                 continue
+
             if streetName in self.normalizers.keys():
-                if n not in self.normalizers[streetName]:
-                    continue
+                # Have a custom filter.
+                normalizer = self.normalizers[streetName]
+            else:
+                # Default sanity checks.
+                default = [helpers.Range(1, 999), helpers.Range(2, 998)]
+                normalizer = helpers.Ranges(default)
+            if n not in normalizer:
+                continue
+
             ret.append(str(n))
         return ret
 
