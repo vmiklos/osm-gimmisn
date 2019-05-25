@@ -6,8 +6,11 @@ filters:
     ranges: []
   bartok_bela_ut:
     ranges:
-      - {start: '69', end: '149'}
-      - {start: '84', end: '160'}
+      # 105-113; 117-121 hazak vannak
+      - {start: '69', end: '105'}
+      - {start: '113', end: '117'}
+      - {start: '121', end: '149'}
+      - {start: '86', end: '160'}
   bocskai_ut:
     ranges:
       - {start: '67', end: '79'}
@@ -57,8 +60,9 @@ filters:
       - {start: '2', end: '50'}
   galamboc_utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      # 1-13 Lidl oldala, 15 nem letezik csak az utcatablan
+      - {start: '17', end: '45'}
+      - {start: '2', end: '36'}
   galvani_utca:
     ranges:
       - {start: '1', end: '99'}
@@ -115,9 +119,18 @@ filters:
       - {start: '1', end: '21'}
       - {start: '31', end: '45'}
       - {start: '2', end: '20'}
+  nadorfejervari_ut:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '13', end: '51'}
+      - {start: '2', end: '54'}
   pajkos_utca:
     ranges:
       - {start: '1', end: '19'}
+      - {start: '2', end: '56'}
+  petzval_jozsef_utca:
+    ranges:
+      - {start: '1', end: '43'}
       - {start: '2', end: '56'}
   ratz_laszlo_utca:
     ranges:
