@@ -1,39 +1,45 @@
 filters:
   amor_utca:
     ranges:
-      - {end: '9', start: '1'}
-      - {end: '10', start: '2'}
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
   arato_koz:
     ranges:
-      - {end: '5', start: '1'}
+      - {start: '1', end: '5'}
   arato_utca:
     ranges:
-      - {end: '45', start: '1'}
-      - {end: '44', start: '2'}
+      - {start: '1', end: '45'}
+      - {start: '2', end: '44'}
   edvi_illes_ut:
     ranges:
-      - {end: '49', start: '1'}
+      - {start: '1', end: '49'}
   hajnalka_utca:
     ranges:
-      - {end: '19', start: '1'}
-      - {end: '30', start: '2'}
+      - {start: '1', end: '19'}
+      - {start: '2', end: '30'}
+  janos_zsigmond_ut:
+    ranges:
+      - {start: '2', end: '44'}
   kazmer_lejto:
     ranges:
-      - {end: '21', start: '1'}
-      - {end: '12', start: '2'}
+      - {start: '1', end: '21'}
+      - {start: '2', end: '12'}
   kazmer_ut:
     ranges:
-      - {end: '37', start: '1'}
-      - {end: '54', start: '2'}
+      - {start: '1', end: '37'}
+      - {start: '2', end: '54'}
   kulacs_utca:
     ranges:
-      - {end: '20', start: '2'}
+      - {start: '2', end: '20'}
   racz_aladar_ut:
     ranges:
-      - {end: '95', start: '5'}
-      - {end: '154', start: '2'}
+      - {start: '5', end: '95'}
+      - {start: '2', end: '154'}
+  torokbalinti_ut:
+    ranges:
+      - {start: '1', end: '15'}
   zsigmondy_vilmos_utca:
     ranges:
-      - {end: '10', start: '2'}
-      - {end: '29', start: '1'}
+      - {start: '1', end: '29'}
+      - {start: '2', end: '10'}
 source: survey
