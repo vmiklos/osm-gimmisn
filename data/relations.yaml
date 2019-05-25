@@ -92,6 +92,10 @@ biatorbagy:
     osmrelation: 113461
     refmegye: "14"
     reftelepules: "011"
+felsotarkany:
+    osmrelation: 1418232
+    refmegye: "10"
+    reftelepules: "037"
 szentantalfa:
     osmrelation: 1078476
     refmegye: "19"
