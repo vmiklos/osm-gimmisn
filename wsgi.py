@@ -76,14 +76,13 @@ def handleStreets(requestUri, workdir, relations):
 
     date = get_streets_last_modified(workdir, relation)
     title = " - " + relation + " meglévő utcák"
-    links = "Frissítve " + date + "&brvbar; " \
-            "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
+    links = "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
             "Meglévő utcák</a> &brvbar; " + \
             "<a href=\"/osm/streets/" + relation + "/update-result\">" + \
             "Frissítés Overpass hívásával</a> (másodpercekig tarthat) &brvbar; " + \
             "<a href=\"/osm/streets/" + relation + "/view-query\">" + \
             "Lekérdezés megtekintése</a> &brvbar; "
-    return getHeader(add_title=title, add_links=links) + output + getFooter()
+    return getHeader(add_title=title, add_links=links) + output + getFooter(date)
 
 
 def handleStreetHousenumbers(requestUri, workdir, relations):
@@ -112,14 +111,13 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
 
     date = get_housenumbers_last_modified(workdir, relation)
     title = " - " + relation + " meglévő házszámok"
-    links = "Frissítve " + date + "&brvbar; " + \
-            "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
+    links = "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
             "Meglévő házszámok</a> &brvbar; " + \
             "<a href=\"/osm/street-housenumbers/" + relation + "/update-result\">" + \
             "Frissítés Overpass hívásával</a> (másodpercekig tarthat) &brvbar; " + \
             "<a href=\"/osm/street-housenumbers/" + relation + "/view-query\">" + \
             "Lekérdezés megtekintése</a> &brvbar; "
-    return getHeader(add_title=title, add_links=links) + output + getFooter()
+    return getHeader(add_title=title, add_links=links) + output + getFooter(date)
 
 
 def handleSuspiciousStreets(requestUri, workdir, relations):
@@ -167,13 +165,11 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
         with open(os.path.join(workdir, path)) as sock:
             output += sock.read()
         output += "</pre>"
-        date = getLastModified(workdir, path)
     elif action == "update-result":
         get_reference_housenumbers.getReferenceHousenumbers(getConfig(), relation)
         output += "Frissítés sikeres."
 
     date = get_ref_housenumbers_last_modified(workdir, relation)
-    output += "<p>Frissítve " + date + "</p>"
 
     title = " - " + relation + " hiányzó házszámok"
     osmurl = "https://www.openstreetmap.org/relation/" + str(relations[relation]["osmrelation"])
@@ -184,7 +180,7 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
             "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">" + \
             "Frissítés referenciából</a> (másodpercekig tarthat) &brvbar; " + \
             "<a href=\"" + osmurl + "\">terület határa</a> &brvbar; "
-    return getHeader(add_title=title, add_links=links) + output + getFooter()
+    return getHeader(add_title=title, add_links=links) + output + getFooter(date)
 
 
 def local_to_ui_tz(localDt):
@@ -291,10 +287,15 @@ def getHeader(add_title='', add_links=''):
     return output
 
 
-def getFooter():
+def getFooter(last_updated=None):
     """Produces the end of the page."""
-    output = "<hr/><div>OSM adatok © OpenStreetMap közreműködők. Verzió: "
-    output += helpers.git_link(version.version, "https://github.com/vmiklos/osm-gimmisn/commit/")
+    items = []
+    items.append("Verzió: " + helpers.git_link(version.version, "https://github.com/vmiklos/osm-gimmisn/commit/"))
+    items.append("OSM adatok © OpenStreetMap közreműködők.")
+    if last_updated:
+        items.append("Utolsó frissítés: " + last_updated)
+    output = "<hr/><div>"
+    output += " &brvbar; ".join(items)
     output += "</div>"
     output += "</body></html>"
     return output
