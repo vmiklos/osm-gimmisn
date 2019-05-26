@@ -1,4 +1,9 @@
 filters:
+  antonia_utca:
+    ranges:
+      # not sure about the 5, definitely <7
+      - {start: '1', end: '5'}
+      - {start: '2', end: '10'}
   arnika_utca:
     # not sure about the 2
     ranges:
