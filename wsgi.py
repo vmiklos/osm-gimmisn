@@ -74,15 +74,9 @@ def handleStreets(requestUri, workdir, relations):
             sock.write(result)
             output += "Frissítés sikeres."
 
+    osmrelation = relations[relation]["osmrelation"]
     date = get_streets_last_modified(workdir, relation)
-    title = " - " + relation + " meglévő utcák"
-    links = "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
-            "Meglévő utcák</a> &brvbar; " + \
-            "<a href=\"/osm/streets/" + relation + "/update-result\">" + \
-            "Frissítés Overpass hívásával</a> (másodpercekig tarthat) &brvbar; " + \
-            "<a href=\"/osm/streets/" + relation + "/view-query\">" + \
-            "Lekérdezés megtekintése</a> &brvbar; "
-    return getHeader(add_title=title, add_links=links) + output + getFooter(date)
+    return getHeader("streets", relation, osmrelation) + output + getFooter(date)
 
 
 def handleStreetHousenumbers(requestUri, workdir, relations):
@@ -109,15 +103,9 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
             sock.write(result)
             output += "Frissítés sikeres."
 
+    osmrelation = relations[relation]["osmrelation"]
     date = get_housenumbers_last_modified(workdir, relation)
-    title = " - " + relation + " meglévő házszámok"
-    links = "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
-            "Meglévő házszámok</a> &brvbar; " + \
-            "<a href=\"/osm/street-housenumbers/" + relation + "/update-result\">" + \
-            "Frissítés Overpass hívásával</a> (másodpercekig tarthat) &brvbar; " + \
-            "<a href=\"/osm/street-housenumbers/" + relation + "/view-query\">" + \
-            "Lekérdezés megtekintése</a> &brvbar; "
-    return getHeader(add_title=title, add_links=links) + output + getFooter(date)
+    return getHeader("street-housenumbers", relation, osmrelation) + output + getFooter(date)
 
 
 def handleSuspiciousStreets(requestUri, workdir, relations):
@@ -169,18 +157,9 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
         get_reference_housenumbers.getReferenceHousenumbers(getConfig(), relation)
         output += "Frissítés sikeres."
 
+    osmrelation = relations[relation]["osmrelation"]
     date = get_ref_housenumbers_last_modified(workdir, relation)
-
-    title = " - " + relation + " hiányzó házszámok"
-    osmurl = "https://www.openstreetmap.org/relation/" + str(relations[relation]["osmrelation"])
-    links = "<a href=\"/osm/street-housenumbers/" + relation + "/view-result\">" + \
-            "Meglévő házszámok a környéken</a> &brvbar; " + \
-            "<a href=\"/osm/streets/" + relation + "/view-result\">" + \
-            "Meglévő utcák a környéken</a> &brvbar; " + \
-            "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">" + \
-            "Frissítés referenciából</a> (másodpercekig tarthat) &brvbar; " + \
-            "<a href=\"" + osmurl + "\">terület határa</a> &brvbar; "
-    return getHeader(add_title=title, add_links=links) + output + getFooter(date)
+    return getHeader("suspicious-streets", relation, osmrelation) + output + getFooter(date)
 
 
 def local_to_ui_tz(localDt):
@@ -269,9 +248,6 @@ def handleMain(relations, workdir):
         output += "</tr>"
     output += "</table>"
     output += "<a href=\"" + \
-              "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu#az-osm-gimmisn-haszn%C3%A1lata\">" + \
-              "Segítség a használathoz</a> &brvbar; "
-    output += "<a href=\"" + \
               "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
               "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
               "Új terület hozzáadása</a>."
@@ -279,11 +255,43 @@ def handleMain(relations, workdir):
     return getHeader() + output + getFooter()
 
 
-def getHeader(add_title='', add_links=''):
-    """Produces the start of the page."""
-    output = "<html><head><title>Hol térképezzek?" + add_title + "</title></head><body>"
-    output += "<div><a href=\"/osm\">Területek listája</a> &brvbar; " + add_links + \
-              "<a href=\"https://github.com/vmiklos/osm-gimmisn\">github</a></div><hr/>"
+def getHeader(function=None, relation_name=None, relation_osmid=None):
+    """Produces the start of the page. Note that the contnt depends on the function and the
+    relation, but not on the action to keep a balance between too generic and too specific
+    content."""
+    title = ""
+    items = []
+
+    items.append("<a href=\"/osm\">Területek listája</a>")
+    if relation_name:
+        items.append("<a href=\"/osm/suspicious-streets/" + relation_name + "/view-result\">Hiányzó házszámok</a>")
+        items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\">Meglévő házszámok</a>")
+        items.append("<a href=\"/osm/streets/" + relation_name + "/view-result\">Meglévő utcák</a>")
+
+    if function == "suspicious-streets":
+        title = " - " + relation_name + " hiányzó házszámok"
+        items.append("<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
+                     + "Frissítés referenciából</a> (másodpercekig tarthat)")
+    elif function == "street-housenumbers":
+        title = " - " + relation_name + " meglévő házszámok"
+        items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/update-result\">"
+                     + "Frissítés Overpass hívásával</a> (másodpercekig tarthat)")
+        items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-query\">"
+                     + "Lekérdezés megtekintése</a>")
+    elif function == "streets":
+        title = " - " + relation_name + " meglévő utcák"
+        items.append("<a href=\"/osm/streets/" + relation_name + "/update-result\">"
+                     + "Frissítés Overpass hívásával</a> (másodpercekig tarthat)")
+        items.append("<a href=\"/osm/streets/" + relation_name + "/view-query\">Lekérdezés megtekintése</a>")
+
+    if relation_osmid:
+        items.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation_osmid) + "\">"
+                     + "Terület határa</a>")
+    items.append("<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu\">Dokumentáció</a>")
+
+    output = "<html><head><title>Hol térképezzek?" + title + "</title></head><body><div>"
+    output += " &brvbar; ".join(items)
+    output += "</div><hr/>"
     return output
 
 
