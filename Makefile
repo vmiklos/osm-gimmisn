@@ -26,7 +26,7 @@ check-pylint: $(patsubst %.py,%.py.pylinted,$(wildcard *.py tests/*.py))
 %.py.pylinted : %.py Makefile
 	pylint \
 	  --max-line-length=120 \
-	  --disable=missing-docstring,fixme,invalid-name,too-few-public-methods,global-statement,too-many-locals \
+	  --disable=invalid-name,too-few-public-methods,global-statement,too-many-locals \
 	  $< && touch $@
 
 check-mypy: version.py

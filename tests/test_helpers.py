@@ -4,6 +4,8 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+"""The test_helpers module covers the helpers module."""
+
 import configparser
 import unittest
 import os
@@ -13,44 +15,57 @@ import helpers
 
 
 class TestSortNumerically(unittest.TestCase):
-    def test_numers(self):
+    """Tests sort_numerically()."""
+    def test_numbers(self):
+        """Tests numbers."""
         ascending = helpers.sort_numerically(['1', '20', '3'])
         self.assertEqual(ascending, ['1', '3', '20'])
 
     def test_alpha_suffix(self):
+        """Tests numbers with suffixes."""
         ascending = helpers.sort_numerically(['1a', '20a', '3a'])
         self.assertEqual(ascending, ['1a', '3a', '20a'])
 
     def test_alpha(self):
+        """Tests just suffixes."""
         ascending = helpers.sort_numerically(['a', 'c', 'b'])
         self.assertEqual(ascending, ['a', 'b', 'c'])
 
 
 class TestSplitHouseNumber(unittest.TestCase):
+    """Tests split_house_number()."""
     def test_only_number(self):
+        """Tests just numbers."""
         self.assertEqual(helpers.split_house_number('42'), (42, ''))
 
     def test_number_alpha(self):
+        """Tests numbers and suffixes."""
         self.assertEqual(helpers.split_house_number('42ab'), (42, 'ab'))
 
     def test_alpha(self):
+        """Tests just suffixes."""
         self.assertEqual(helpers.split_house_number('a'), (0, 'a'))
 
 
 class TestSortStreetsCsv(unittest.TestCase):
+    """Tests sort_streets_csv()."""
     def test_single_field(self):
+        """Tests a single column."""
         unsorted = 'head\n2\n1'
         expected = 'head\n1\n2'
         self.assertEqual(helpers.sort_streets_csv(unsorted), expected)
 
     def test_two_fields(self):
+        """Tests 2 columns."""
         unsorted = 'head\n1\tb\n2\ta'
         expected = 'head\n2\ta\n1\tb'
         self.assertEqual(helpers.sort_streets_csv(unsorted), expected)
 
 
 class TestSortStreets(unittest.TestCase):
+    """Tests sort_streets()."""
     def test_primary(self):
+        """Tests that missing 2nd col is ordered last."""
         unsorted = [
             '0\t\tprimary',
             '1\tPear\tprimary',
@@ -66,6 +81,7 @@ class TestSortStreets(unittest.TestCase):
         self.assertEqual(helpers.sort_streets(unsorted), expected)
 
     def test_service(self):
+        """Tests that matching 2nd and 3rd col means ordering by 4th col."""
         unsorted = [
             '4\tMine\tservice\tdriveway',
             '5\tMine\tservice\tallay',
@@ -78,14 +94,18 @@ class TestSortStreets(unittest.TestCase):
 
 
 class TestSortHouseNumbersCsv(unittest.TestCase):
+    """Tests sort_housenumbers_csv()."""
     def test_happy(self):
+        """Tests the happy path."""
         unsorted = 'head\n2\n1'
         expected = 'head\n1\n2'
         self.assertEqual(helpers.sort_housenumbers_csv(unsorted), expected)
 
 
 class TestSortHousenumbers(unittest.TestCase):
+    """Tests sort_housenumbers()."""
     def test_happy(self):
+        """Tests the happy path."""
         unsorted = [
             '0\t\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
             '1\tApple ave\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
@@ -114,41 +134,53 @@ class TestSortHousenumbers(unittest.TestCase):
 
 
 class TestSimplify(unittest.TestCase):
+    """Tests simplify()."""
     def test_no_space_decode(self):
+        """Tests that space is replaced with underscore."""
         original = 'árvíztűrőtükörfúrógép ÁRVÍZTŰRŐTÜKÖRFÚRÓGÉP'
         expected = 'arvizturotukorfurogep_arvizturotukorfurogep'
         self.assertEqual(helpers.simplify(original), expected)
 
     def test_space_decode(self):
+        """Tests that space is decoded."""
         original = 'árvíztűrőtükörfúrógép ÁRVÍZTŰRŐTÜKÖRFÚRÓGÉP'
         expected = 'arvizturotukorfurogep%20arvizturotukorfurogep'
         self.assertEqual(helpers.simplify(original, spaceDecode=True), expected)
 
     def test_dot(self):
+        """Tests what happens with dot characters."""
         original = 'Május 1. utca'
         expected = 'majus_1_utca'
         self.assertEqual(helpers.simplify(original), expected)
 
 
 class TestInBoth(unittest.TestCase):
+    """Tests get_in_both()."""
     def test_happy(self):
+        """Tests that happy path."""
         self.assertEqual(helpers.get_in_both([1, 2, 3], [2, 3, 4]), [2, 3])
 
 
 class TestOnlyInFirst(unittest.TestCase):
+    """Tests get_only_in_first()."""
     def test_happy(self):
+        """Tests the happy path."""
         self.assertEqual(helpers.get_only_in_first([1, 2, 3], [3, 4]), [1, 2])
 
 
 class TestGitLink(unittest.TestCase):
+    """Tests git_link()."""
     def test_happy(self):
+        """Tests the happy path."""
         actual = helpers.git_link("v1-151-g64ecc85", "http://www.example.com/")
         expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>"
         self.assertEqual(actual, expected)
 
 
 class TestGetStreets(unittest.TestCase):
+    """Tests get_streets()."""
     def test_happy(self):
+        """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "data")
         actual = helpers.get_streets(workdir, "test")
         expected = ['B1', 'B2', 'HB1', 'HB2']
@@ -156,52 +188,66 @@ class TestGetStreets(unittest.TestCase):
 
 
 class TestGetUrlHash(unittest.TestCase):
+    """Tests get_url_hash()."""
     def test_happy(self):
+        """Tests the happy path."""
         actual = helpers.get_url_hash("http://www.example.com/")
         expected = "14b570acce51451285fa2340e01f97344efe518c8770f5bbc0a794d9bcd55f01"
         self.assertEqual(actual, expected)
 
 
 class TestRange(unittest.TestCase):
+    """Tests Range."""
     def test_isodd_bad(self):
+        """Tests an odd range with an even number."""
         r = helpers.Range(1, 3)
         self.assertFalse(2 in r)
 
     def test_range_bad(self):
+        """Tests an odd range with a large number."""
         r = helpers.Range(1, 3)
         self.assertFalse(5 in r)
 
     def test_happy(self):
+        """Tests the happy path."""
         r = helpers.Range(1, 5)
         self.assertTrue(1 in r)
         self.assertTrue(3 in r)
         self.assertTrue(5 in r)
 
     def test_eq(self):
+        """Tests equality code."""
         self.assertTrue(helpers.Range(1, 5) != helpers.Range(3, 5))
         self.assertTrue(helpers.Range(1, 5) != helpers.Range(1, 3))
 
 
 class TestRanges(unittest.TestCase):
+    """Tests Ranges."""
     def test_a(self):
+        """Tests when the arg is in the first range."""
         r = helpers.Ranges([[0], [1]])
         self.assertTrue(0 in r)
 
     def test_b(self):
+        """Tests when the arg is in the second range."""
         r = helpers.Ranges([[0], [1]])
         self.assertTrue(1 in r)
 
     def test_ab(self):
+        """Tests when the arg is in both ranges."""
         r = helpers.Ranges([[1], [1]])
         self.assertTrue(1 in r)
 
     def test_none(self):
+        """Tests when the arg is in neither ranges."""
         r = helpers.Ranges([[0], [1]])
         self.assertFalse(2 in r)
 
 
 class TestGetWorkdir(unittest.TestCase):
+    """Tests get_workdir()."""
     def test_happy(self):
+        """Tests the happy path."""
         config = configparser.ConfigParser()
         config.read_dict({"wsgi": {"workdir": "/path/to/workdir"}})
         actual = helpers.get_workdir(config)
@@ -210,7 +256,9 @@ class TestGetWorkdir(unittest.TestCase):
 
 
 class TestProcessTemplate(unittest.TestCase):
+    """Tests process_template()."""
     def test_happy(self):
+        """Tests the happy path."""
         template = "aaa @RELATION@ bbb @AREA@ ccc"
         expected = "aaa 42 bbb 3600000042 ccc"
         actual = helpers.process_template(template, 42)
@@ -218,7 +266,9 @@ class TestProcessTemplate(unittest.TestCase):
 
 
 class TestGetContent(unittest.TestCase):
+    """Tests get_content()."""
     def test_happy(self):
+        """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "data")
         actual = helpers.get_content(workdir, "gazdagret.percent")
         expected = "99.44"
@@ -226,7 +276,9 @@ class TestGetContent(unittest.TestCase):
 
 
 class TestLoadNormalizers(unittest.TestCase):
+    """Tests load_normalizers()."""
     def test_happy(self):
+        """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         filters, ref_streets = helpers.load_normalizers(datadir, "gazdagret")
         expected_filters = {
@@ -241,12 +293,14 @@ class TestLoadNormalizers(unittest.TestCase):
         self.assertEqual(ref_streets, expected_streets)
 
     def test_nosuchname(self):
+        """Tests when there is no filters file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         filters, ref_streets = helpers.load_normalizers(datadir, "nosuchname")
         self.assertEqual(filters, {})
         self.assertEqual(ref_streets, {})
 
     def test_empty(self):
+        """Tests when the filter file is empty."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         filters, ref_streets = helpers.load_normalizers(datadir, "empty")
         self.assertEqual(filters, {})
