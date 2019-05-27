@@ -62,8 +62,7 @@ stimmeljen az előző pontban kinyert értékekkel.
 beküldheted, jóváhagyás után be fog kerülni.
 
 A lekérdezés minden reláció esetén megegyezik, leszámítva a reláció azonosítóját. A webes felületen
-le tudod kérdezni a pontos overpass lekérdezést; ha a `relations.yaml` file-ba új sor kerül, akkor
-ehhez (automatikusan) egy új lekérdezés generálódik. Ez igaz mind az utcákra, mind a házszámokra.
+meg tudod nézni a pontos overpass lekérdezéseket.
 
 == Hibás riasztás hozzáadása
 
