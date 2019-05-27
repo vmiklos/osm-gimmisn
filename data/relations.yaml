@@ -87,6 +87,10 @@ csepel-belvaros:
     osmrelation: 3244191
     refmegye: "01"
     reftelepules: "021"
+martonhegy:
+    osmrelation: 2787965
+    refmegye: "01"
+    reftelepules: "012"
 # videk
 biatorbagy:
     osmrelation: 113461
