@@ -107,6 +107,8 @@ filters:
   hegyalja_ut:
     ranges:
       - {start: '184', end: '190'}
+  homonna_koz:
+    ranges: []
   homonna_utca:
     # 13 could be 21, but it's in fact 13-21
     ranges:
