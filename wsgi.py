@@ -343,7 +343,7 @@ def getFooter(last_updated=None):
 def handle_github_webhook(environ):
     """Handles a GitHub style webhook."""
 
-    body = urllib.parse.parse_qs(environ["wsgi.input"].read())
+    body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
     payload = body["payload"][0]
     root = json.loads(payload)
     if root["ref"] == "refs/heads/master":
