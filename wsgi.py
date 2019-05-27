@@ -11,8 +11,13 @@ import configparser
 import datetime
 import os
 import traceback
+import urllib.parse
+import json
+import subprocess
 import yaml
+
 import pytz
+
 import helpers
 import overpass_query
 import suspicious_streets
@@ -335,11 +340,15 @@ def getFooter(last_updated=None):
     return output
 
 
-def handle_github_webhook(environ, workdir):
+def handle_github_webhook(environ):
     """Handles a GitHub style webhook."""
-    # Just dump the request for now.
-    with open(os.path.join(workdir, "github.json"), "wb") as sock:
-        sock.write(environ["wsgi.input"].read())
+
+    body = urllib.parse.parse_qs(environ["wsgi.input"].read())
+    payload = body["payload"][0]
+    root = json.loads(payload)
+    if root["ref"] == "refs/heads/master":
+        subprocess.run(["make", "-C", version.git_dir, "deploy-pythonanywhere"], check=True)
+
     return ""
 
 
@@ -362,7 +371,7 @@ def our_application(environ, start_response):
     elif requestUri.startswith("/osm/suspicious-streets/"):
         output = handleSuspiciousStreets(requestUri, workdir, relations)
     elif requestUri.startswith("/osm/webhooks/github"):
-        output = handle_github_webhook(environ, workdir)
+        output = handle_github_webhook(environ)
     else:
         output = handleMain(relations, workdir)
 
