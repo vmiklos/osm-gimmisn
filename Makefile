@@ -3,6 +3,7 @@ all: version.py
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	echo '"""The version module allows tracking the last reload of the app server."""' > $@
 	echo "version = '$(shell git describe)'" >> $@
+	echo "git_dir = '${PWD}'" >> $@
 
 check: check-filters check-flake8 check-mypy check-unit check-pylint
 
@@ -44,3 +45,8 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/housenumber-
 server:
 	@echo 'Open <http://localhost:8000/osm> in your browser.'
 	uwsgi --plugins http,python3 --http :8000 --wsgi-file wsgi.py
+
+deploy-pythonanywhere:
+	git pull -r
+	make
+	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py

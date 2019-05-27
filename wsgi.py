@@ -335,6 +335,14 @@ def getFooter(last_updated=None):
     return output
 
 
+def handle_github_webhook(environ, workdir):
+    """Handles a GitHub style webhook."""
+    # Just dump the request for now.
+    with open(os.path.join(workdir, "github.json"), "wb") as sock:
+        sock.write(environ["wsgi.input"].read())
+    return ""
+
+
 def our_application(environ, start_response):
     """Dispatches the request based on its URI."""
     status = '200 OK'
@@ -353,6 +361,8 @@ def our_application(environ, start_response):
         output = handleStreetHousenumbers(requestUri, workdir, relations)
     elif requestUri.startswith("/osm/suspicious-streets/"):
         output = handleSuspiciousStreets(requestUri, workdir, relations)
+    elif requestUri.startswith("/osm/webhooks/github"):
+        output = handle_github_webhook(environ, workdir)
     else:
         output = handleMain(relations, workdir)
 
