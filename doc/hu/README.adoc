@@ -64,14 +64,6 @@ beküldheted, jóváhagyás után be fog kerülni.
 A lekérdezés minden reláció esetén megegyezik, leszámítva a reláció azonosítóját. A webes felületen
 le tudod kérdezni a pontos overpass lekérdezést; ha a `relations.yaml` file-ba új sor kerül, akkor
 ehhez (automatikusan) egy új lekérdezés generálódik. Ez igaz mind az utcákra, mind a házszámokra.
-Ezzel neked nem kell foglalkoznod, a pull request jóváhagyásakor ez a generálás megtörténik a
-https://vmiklos.pythonanywhere.com/osm[weboldalon] a következő linkeken.
-
-Ha helyben szeretnél tesztelni, látogasd meg a következő útvonalakat ebben a sorrendben:
-
-- /osm/streets/kelenfold/update-result
-- /osm/street-housenumbers/kelenfold/update-result
-- /osm/suspicious-streets/kelenfold/update-result
 
 == Hibás riasztás hozzáadása
 

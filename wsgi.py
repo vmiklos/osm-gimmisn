@@ -108,15 +108,25 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
     return getHeader("street-housenumbers", relation, osmrelation) + output + getFooter(date)
 
 
-def handleSuspiciousStreets(requestUri, workdir, relations):
-    """Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
-    output = ""
-
+def handleSuspiciousStreetsViewResult(requestUri, workdir):
+    """Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-result."""
     tokens = requestUri.split("/")
     relation = tokens[-2]
-    action = tokens[-1]
 
-    if action == "view-result":
+    output = ""
+    if not os.path.exists(os.path.join(workdir, "streets-" + relation + ".csv")):
+        output += "Nincsenek meglévő utcák: "
+        output += "<a href=\"/osm/streets/" + relation + "/update-result\">"
+        output += "Létrehozás Overpass hívásával</a>"
+    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation + ".csv")):
+        output += "Nincsenek meglévő házszámok: "
+        output += "<a href=\"/osm/street-housenumbers/" + relation + "/update-result\">"
+        output += "Létrehozás Overpass hívásával</a>"
+    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-reference-" + relation + ".lst")):
+        output += "Nincsenek hiányzó házszámok: "
+        output += "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">"
+        output += "Létrehozás referenciából</a>"
+    else:
         output += "<pre>"
         finder = suspicious_streets.Finder(getDatadir(), workdir, relation)
         houseNrCount = 0
@@ -147,6 +157,19 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
         # Write the bottom line to a file, so the index page show it fast.
         with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
             sock.write(percent)
+    return output
+
+
+def handleSuspiciousStreets(requestUri, workdir, relations):
+    """Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
+    output = ""
+
+    tokens = requestUri.split("/")
+    relation = tokens[-2]
+    action = tokens[-1]
+
+    if action == "view-result":
+        output += handleSuspiciousStreetsViewResult(requestUri, workdir)
     elif action == "view-query":
         output += "<pre>"
         path = "street-housenumbers-reference-%s.lst" % relation
@@ -180,7 +203,10 @@ def getLastModified(workdir, path):
 
 def get_timestamp(workdir, path):
     """Gets the timestamp of a file in workdir."""
-    return os.path.getmtime(os.path.join(workdir, path))
+    try:
+        return os.path.getmtime(os.path.join(workdir, path))
+    except FileNotFoundError:
+        return 0
 
 
 def format_timestamp(t):
