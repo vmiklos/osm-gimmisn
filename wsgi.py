@@ -149,7 +149,7 @@ def handleSuspiciousStreetsViewResult(requestUri, workdir):
         doneNrCount = 0
         for result in finder.doneStreets:
             doneNrCount += len(result[1])
-        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a fenti "
+        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
         output += str(len(finder.suspiciousStreets)) + " utcához tartozó "
         output += str(houseNrCount) + " házszámot."
         if doneNrCount > 0 or houseNrCount > 0:
