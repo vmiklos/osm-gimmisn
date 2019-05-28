@@ -18,17 +18,17 @@ class Range:
     def __init__(self, start, end):
         self.start = start
         self.end = end
-        self.isOdd = start % 2 == 1
+        self.is_odd = start % 2 == 1
 
-    def __contains__(self, n):
-        if self.isOdd != (n % 2 == 1):
+    def __contains__(self, item):
+        if self.is_odd != (item % 2 == 1):
             return False
-        if self.start <= n <= self.end:
+        if self.start <= item <= self.end:
             return True
         return False
 
     def __repr__(self):
-        return "Range(start=%s, end=%s, isOdd=%s)" % (self.start, self.end, self.isOdd)
+        return "Range(start=%s, end=%s, is_odd=%s)" % (self.start, self.end, self.is_odd)
 
     def __eq__(self, other):
         if self.start != other.start:
@@ -165,29 +165,29 @@ def split_housenumber_line(line: str) -> Tuple[str, bool, bool, str, Tuple[int, 
             housename, split_house_number(cons), tail, split_house_number(oid))
 
 
-def get_array_nth(arr: Sequence[str], n: int) -> str:
+def get_array_nth(arr: Sequence[str], index: int) -> str:
     """Gets the nth element of arr, returns en empty string on error."""
-    return arr[n] if len(arr) > n else ''
+    return arr[index] if len(arr) > index else ''
 
 
-def simplify(s: str, spaceDecode: bool = False) -> str:
+def simplify(name: str, space_decode: bool = False) -> str:
     """ Handles normalization of a street name."""
-    s = s.replace('Á', 'A').replace('á', 'a')
-    s = s.replace('É', 'E').replace('é', 'e')
-    s = s.replace('Í', 'I').replace('í', 'i')
-    s = s.replace('Ó', 'O').replace('ó', 'o')
-    s = s.replace('Ö', 'O').replace('ö', 'o')
-    s = s.replace('Ő', 'O').replace('ő', 'o')
-    s = s.replace('Ú', 'U').replace('ú', 'u')
-    s = s.replace('Ü', 'U').replace('ü', 'u')
-    s = s.replace('Ű', 'U').replace('ű', 'u')
-    s = s.replace('.', '')
-    if spaceDecode:
-        s = s.replace(' ', '%20')
+    name = name.replace('Á', 'A').replace('á', 'a')
+    name = name.replace('É', 'E').replace('é', 'e')
+    name = name.replace('Í', 'I').replace('í', 'i')
+    name = name.replace('Ó', 'O').replace('ó', 'o')
+    name = name.replace('Ö', 'O').replace('ö', 'o')
+    name = name.replace('Ő', 'O').replace('ő', 'o')
+    name = name.replace('Ú', 'U').replace('ú', 'u')
+    name = name.replace('Ü', 'U').replace('ü', 'u')
+    name = name.replace('Ű', 'U').replace('ű', 'u')
+    name = name.replace('.', '')
+    if space_decode:
+        name = name.replace(' ', '%20')
     else:
-        s = s.replace(' ', '_')
-    s = s.lower()
-    return s
+        name = name.replace(' ', '_')
+    name = name.lower()
+    return name
 
 
 def get_only_in_first(first, second):
@@ -285,8 +285,8 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
         filters = root["filters"]
         for street in filters.keys():
             i = []
-            for r in filters[street]["ranges"]:
-                i.append(Range(int(r["start"]), int(r["end"])))
+            for start_end in filters[street]["ranges"]:
+                i.append(Range(int(start_end["start"]), int(start_end["end"])))
             filter_dict[street] = Ranges(i)
 
     if "refstreets" in root.keys():

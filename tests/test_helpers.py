@@ -145,7 +145,7 @@ class TestSimplify(unittest.TestCase):
         """Tests that space is decoded."""
         original = 'árvíztűrőtükörfúrógép ÁRVÍZTŰRŐTÜKÖRFÚRÓGÉP'
         expected = 'arvizturotukorfurogep%20arvizturotukorfurogep'
-        self.assertEqual(helpers.simplify(original, spaceDecode=True), expected)
+        self.assertEqual(helpers.simplify(original, space_decode=True), expected)
 
     def test_dot(self):
         """Tests what happens with dot characters."""
