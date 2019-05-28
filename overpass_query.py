@@ -11,7 +11,7 @@ from urllib.request import urlopen
 import sys
 
 
-def overpassQuery(query):
+def overpass_query(query):
     """Posts the query string to the overpass API and returns the result string."""
     url = "http://overpass-api.de/api/interpreter"
 
@@ -28,7 +28,7 @@ def main():
     query = sock.read()
     sock.close()
 
-    buf = overpassQuery(query)
+    buf = overpass_query(query)
 
     sys.stdout.write(buf)
 

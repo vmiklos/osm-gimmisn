@@ -74,7 +74,7 @@ def handleStreets(requestUri, workdir, relations):
         output += "</pre>"
     elif action == "update-result":
         query = getStreetsQuery(relations, relation)
-        result = helpers.sort_streets_csv(overpass_query.overpassQuery(query))
+        result = helpers.sort_streets_csv(overpass_query.overpass_query(query))
         with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
             output += "Frissítés sikeres."
@@ -103,7 +103,7 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
         output += "</pre>"
     elif action == "update-result":
         query = getStreetHousenumbersQuery(relations, relation)
-        result = helpers.sort_housenumbers_csv(overpass_query.overpassQuery(query))
+        result = helpers.sort_housenumbers_csv(overpass_query.overpass_query(query))
         with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
             output += "Frissítés sikeres."
