@@ -132,21 +132,24 @@ def handleSuspiciousStreetsViewResult(requestUri, workdir):
         output += "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        output += "<pre>"
         finder = suspicious_streets.Finder(getDatadir(), workdir, relation)
         houseNrCount = 0
+        table = []
+        table.append(["Utcanév", "Hiányzik db", "Házszámok"])
         for result in finder.suspiciousStreets:
             if result[1]:
                 # House number, # of onlyInReference items.
-                output += "%s\t%s\n" % (result[0], len(result[1]))
+                row = []
+                row.append(result[0])
+                row.append(str(len(result[1])))
                 # onlyInReference items.
-                output += str(result[1]) + "\n"
+                row.append(", ".join(result[1]))
                 houseNrCount += len(result[1])
+                table.append(row)
         doneNrCount = 0
         for result in finder.doneStreets:
             doneNrCount += len(result[1])
-        output += "</pre>"
-        output += "Elképzelhető, hogy az OpenStreetMap nem tartalmazza a fenti "
+        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a fenti "
         output += str(len(finder.suspiciousStreets)) + " utcához tartozó "
         output += str(houseNrCount) + " házszámot."
         if doneNrCount > 0 or houseNrCount > 0:
@@ -157,7 +160,15 @@ def handleSuspiciousStreetsViewResult(requestUri, workdir):
         output += "<a href=\"" + \
                   "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
                   "#hib%C3%A1s-riaszt%C3%A1s-hozz%C3%A1ad%C3%A1sa\">" + \
-                  "Téves információ jelentése</a>."
+                  "Téves információ jelentése</a>.</p>"
+
+        output += '<table rules="all" frame="border" cellpadding="4">'
+        for row in table:
+            output += "<tr>"
+            for cell in row:
+                output += '<td align="left" valign="top"><p>' + cell + "</p></td>"
+            output += "</tr>"
+        output += "</table>"
 
         # Write the bottom line to a file, so the index page show it fast.
         with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
