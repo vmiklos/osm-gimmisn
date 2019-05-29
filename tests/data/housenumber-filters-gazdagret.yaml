@@ -6,6 +6,8 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '26'}
+  teszt_utca:
+    reftelepules: "012"
 refstreets:
   'OSM Name 1': 'Ref Name 1'
   'OSM Name 2': 'Ref Name 2'

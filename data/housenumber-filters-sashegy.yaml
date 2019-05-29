@@ -43,6 +43,7 @@ filters:
     # this is just the sashegy part; the even side
     ranges:
       - {start: '2', end: '18'}
+    reftelepules: "012"
   kond_vezer_utca:
     ranges:
       - {start: '1', end: '15'}
@@ -66,6 +67,7 @@ filters:
     ranges:
       - {start: '19', end: '23'}
       - {start: '18', end: '18'}
+    reftelepules: "012"
   tajek_utca:
     ranges:
       - {start: '1', end: '11'}
@@ -74,6 +76,12 @@ filters:
     ranges:
       - {start: '1', end: '49'}
       - {start: '4', end: '44'}
+  brezno_lepcso:
+    reftelepules: "012"
+  sasfiok_utca:
+    reftelepules: "012"
+  sion_lepcso:
+    reftelepules: "012"
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # 'OSM Name 2': 'Ref Name 2'

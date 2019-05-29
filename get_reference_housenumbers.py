@@ -27,6 +27,10 @@ def getStreetDetails(datadir, street, relationName):
     """Determines the ref codes, street name and type for a street in a relation."""
     relations = yaml.load(open(os.path.join(datadir, "relations.yaml")))
     relation = relations[relationName]
+    refmegye = relation["refmegye"]
+    reftelepules = relation["reftelepules"]
+
+    street_simple = helpers.simplify(street)
 
     # See if config wants to map from OSM name to ref name.
     refstreets = {}  # type: Dict[str, str]
@@ -35,16 +39,14 @@ def getStreetDetails(datadir, street, relationName):
             y = yaml.load(sock)
             if "refstreets" in y.keys():
                 refstreets = y["refstreets"]
+            if "filters" in y.keys():
+                filters = y["filters"]
+                for filter_street, value in filters.items():
+                    if filter_street == street_simple and "reftelepules" in value.keys():
+                        reftelepules = value["reftelepules"]
 
     if street in refstreets.keys():
         street = refstreets[street]
-
-    refmegye = relation["refmegye"]
-    reftelepules = relation["reftelepules"]
-    sashegy_extra_streets = ("Breznó lépcső", "Kálló esperes utca", "Sasfiók utca", "Sion lépcső", "Somorjai utca")
-    if relationName == "sashegy" and street in sashegy_extra_streets:
-        # This city part isn't a strict subset of a city district, these are the exceptions.
-        reftelepules = "012"
 
     tokens = street.split(' ')
     streetName = " ".join(tokens[:-1])

@@ -285,6 +285,8 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
         filters = root["filters"]
         for street in filters.keys():
             i = []
+            if "ranges" not in filters[street]:
+                continue
             for start_end in filters[street]["ranges"]:
                 i.append(Range(int(start_end["start"]), int(start_end["end"])))
             filter_dict[street] = Ranges(i)

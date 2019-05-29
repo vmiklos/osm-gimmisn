@@ -99,3 +99,15 @@ információt, és akkor a webes felület is ennek megfelelően frissül.
 Más szavakkal, alapból nincs szűrés a potenciálisan hiányzó házszámokon, a hibás javaslatot úgy
 lehet kiszűrni, hogy lefedjük a valós tartományokat, és ami ebbe nem tartozik bele, az kiszűrésre
 kerül.
+
+== Haladóbb témák
+
+A hibás riasztások kiszűrésén kívül még más beállításokat is meg tudsz adni, bár ezekre ritkábban
+van szükség:
+
+- `refstreets`: ez a kulcs a file gyökerében adható meg, akkor használatos ha az OSM jól tartalmazza
+  egy utca nevét, de a referenciában más néven szerepel. (Példa: `sashegy`.)
+
+- `reftelepules`: ez a kulcs egy utcára adható meg. Ha egy reláció többségében egy adott
+  `reftelepules` értékkel rendelkezik, az megadható az összes utcára. Ezt a felülbírálást akkor
+  érdemes használni ha az utcák közül néhánynak más a `reftelepules` értéke. (Példa: `sashegy`.)

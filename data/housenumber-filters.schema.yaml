@@ -3,7 +3,8 @@ source: str()
 ---
 filter:
   comment: str(required=False)
-  ranges: list(include('range'))
+  ranges: list(include('range'), required=False)
+  reftelepules: str(required=False)
 range:
   start: regex('^[0-9]+$')
   end: regex('^[0-9]+$')
