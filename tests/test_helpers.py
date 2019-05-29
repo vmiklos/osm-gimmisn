@@ -307,5 +307,63 @@ class TestLoadNormalizers(unittest.TestCase):
         self.assertEqual(ref_streets, {})
 
 
+class TestGetStreetDetails(unittest.TestCase):
+    """Tests get_street_details()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        street = "Budaörsi út"
+        relationName = "gazdagret"
+        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        self.assertEqual("01", refmegye)
+        self.assertEqual("011", reftelepules)
+        self.assertEqual("Budaörsi", streetName)
+        self.assertEqual("út", streetType)
+
+    def test_reftelepules_override(self):
+        """Tests street-specific reftelepules override."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        street = "Teszt utca"
+        relationName = "gazdagret"
+        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        self.assertEqual("01", refmegye)
+        self.assertEqual("012", reftelepules)
+        self.assertEqual("Teszt", streetName)
+        self.assertEqual("utca", streetType)
+
+    def test_refstreets(self):
+        """Tests OSM -> ref name mapping."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        street = "OSM Name 1"
+        relationName = "gazdagret"
+        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        self.assertEqual("01", refmegye)
+        self.assertEqual("011", reftelepules)
+        self.assertEqual("Ref Name", streetName)
+        self.assertEqual("1", streetType)
+
+    def test_nosuchrelation(self):
+        """Tests a relation without a filter file."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        street = "OSM Name 1"
+        relationName = "nosuchrelation"
+        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        self.assertEqual("01", refmegye)
+        self.assertEqual("011", reftelepules)
+        self.assertEqual("OSM Name", streetName)
+        self.assertEqual("1", streetType)
+
+    def test_emptyrelation(self):
+        """Tests a relation with an empty filter file."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        street = "OSM Name 1"
+        relationName = "empty"
+        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        self.assertEqual("01", refmegye)
+        self.assertEqual("011", reftelepules)
+        self.assertEqual("OSM Name", streetName)
+        self.assertEqual("1", streetType)
+
+
 if __name__ == '__main__':
     unittest.main()

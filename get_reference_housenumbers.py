@@ -23,40 +23,9 @@ verbose = False
 memoryCache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
 
-def getStreetDetails(datadir, street, relationName):
-    """Determines the ref codes, street name and type for a street in a relation."""
-    relations = yaml.load(open(os.path.join(datadir, "relations.yaml")))
-    relation = relations[relationName]
-    refmegye = relation["refmegye"]
-    reftelepules = relation["reftelepules"]
-
-    street_simple = helpers.simplify(street)
-
-    # See if config wants to map from OSM name to ref name.
-    refstreets = {}  # type: Dict[str, str]
-    if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)):
-        with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)) as sock:
-            y = yaml.load(sock)
-            if "refstreets" in y.keys():
-                refstreets = y["refstreets"]
-            if "filters" in y.keys():
-                filters = y["filters"]
-                for filter_street, value in filters.items():
-                    if filter_street == street_simple and "reftelepules" in value.keys():
-                        reftelepules = value["reftelepules"]
-
-    if street in refstreets.keys():
-        street = refstreets[street]
-
-    tokens = street.split(' ')
-    streetName = " ".join(tokens[:-1])
-    streetType = tokens[-1]
-    return refmegye, reftelepules, streetName, streetType
-
-
 def getStreetURL(datadir, street, prefix, relationName):
     """Returns URL of a street based on config."""
-    refmegye, reftelepules, streetName, streetType = getStreetDetails(datadir, street, relationName)
+    refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
     url = prefix
     d = {
         "p_p_id": "wardsearch_WAR_nvinvrportlet",
@@ -124,7 +93,7 @@ def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
 
     if verbose:
         print("searching '" + street + "'")
-    refmegye, reftelepules, streetName, streetType = getStreetDetails(datadir, street, relationName)
+    refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
     street = streetName + " " + streetType
     if street in memoryCache[refmegye][reftelepules].keys():
         houseNumbers = memoryCache[refmegye][reftelepules][street]

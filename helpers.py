@@ -56,6 +56,40 @@ class Ranges:
         return self.items == other.items
 
 
+def get_street_details(datadir, street, relationName):
+    """Determines the ref codes, street name and type for a street in a relation."""
+    with open(os.path.join(datadir, "relations.yaml")) as sock:
+        relations = yaml.load(sock)
+    relation = relations[relationName]
+    refmegye = relation["refmegye"]
+    reftelepules = relation["reftelepules"]
+
+    street_simple = simplify(street)
+
+    refstreets = {}  # type: Dict[str, str]
+    if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)):
+        with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relationName)) as sock:
+            # See if config wants to map:
+            y = yaml.load(sock)
+            if "refstreets" in y.keys():
+                # From OSM name to ref name.
+                refstreets = y["refstreets"]
+            if "filters" in y.keys():
+                # street-specific reftelepules override.
+                filters = y["filters"]
+                for filter_street, value in filters.items():
+                    if filter_street == street_simple and "reftelepules" in value.keys():
+                        reftelepules = value["reftelepules"]
+
+    if street in refstreets.keys():
+        street = refstreets[street]
+
+    tokens = street.split(' ')
+    streetName = " ".join(tokens[:-1])
+    streetType = tokens[-1]
+    return refmegye, reftelepules, streetName, streetType
+
+
 def sort_numerically(strings: Iterable[str]) -> List[str]:
     """Sorts strings according to their numerical value, not alphabetically."""
     return sorted(strings, key=split_house_number)

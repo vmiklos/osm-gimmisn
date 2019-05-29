@@ -1,0 +1,14 @@
+gazdagret:
+    osmrelation: 2713748
+    refmegye: "01"
+    reftelepules: "011"
+# this relation has no filter file
+nosuchrelation:
+    osmrelation: 42
+    refmegye: "01"
+    reftelepules: "011"
+# this relation has an empty filter file
+empty:
+    osmrelation: 13
+    refmegye: "01"
+    reftelepules: "011"
