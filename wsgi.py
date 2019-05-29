@@ -25,47 +25,47 @@ import get_reference_housenumbers
 import version
 
 
-def getConfig():
+def get_config():
     """Gets access to information which are specific to this installation."""
     config = configparser.ConfigParser()
-    configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
-    config.read(configPath)
+    config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config.read(config_path)
     return config
 
 
-def getDatadir():
+def get_datadir():
     """Gets the directory which is tracked (in version control) data."""
     return os.path.join(os.path.dirname(__file__), "data")
 
 
-def getStreetsQuery(relations, relation):
+def get_streets_query(relations, relation):
     """Produces a query which lists streets in relation."""
-    with open(os.path.join(getDatadir(), "streets-template.txt")) as sock:
+    with open(os.path.join(get_datadir(), "streets-template.txt")) as sock:
         return helpers.process_template(sock.read(), relations[relation]["osmrelation"])
 
 
-def getStreetHousenumbersQuery(relations, relation):
+def get_street_housenumbers_query(relations, relation):
     """Produces a query which lists house numbers in relation."""
-    with open(os.path.join(getDatadir(), "street-housenumbers-template.txt")) as sock:
+    with open(os.path.join(get_datadir(), "street-housenumbers-template.txt")) as sock:
         return helpers.process_template(sock.read(), relations[relation]["osmrelation"])
 
 
-def getRelations():
+def get_relations():
     """Returns a name -> properties dictionary."""
-    return yaml.load(open(os.path.join(getDatadir(), "relations.yaml")))
+    return yaml.load(open(os.path.join(get_datadir(), "relations.yaml")))
 
 
-def handleStreets(requestUri, workdir, relations):
-    """Expected requestUri: e.g. /osm/streets/ormezo/view-query."""
+def handle_streets(request_uri, workdir, relations):
+    """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
 
-    tokens = requestUri.split("/")
+    tokens = request_uri.split("/")
     relation = tokens[-2]
     action = tokens[-1]
 
     if action == "view-query":
         output += "<pre>"
-        output += getStreetsQuery(relations, relation)
+        output += get_streets_query(relations, relation)
         output += "</pre>"
     elif action == "view-result":
         output += "<pre>"
@@ -73,7 +73,7 @@ def handleStreets(requestUri, workdir, relations):
             output += sock.read()
         output += "</pre>"
     elif action == "update-result":
-        query = getStreetsQuery(relations, relation)
+        query = get_streets_query(relations, relation)
         result = helpers.sort_streets_csv(overpass_query.overpass_query(query))
         with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
@@ -81,20 +81,20 @@ def handleStreets(requestUri, workdir, relations):
 
     osmrelation = relations[relation]["osmrelation"]
     date = get_streets_last_modified(workdir, relation)
-    return getHeader("streets", relation, osmrelation) + output + getFooter(date)
+    return get_header("streets", relation, osmrelation) + output + get_footer(date)
 
 
-def handleStreetHousenumbers(requestUri, workdir, relations):
-    """Expected requestUri: e.g. /osm/street-housenumbers/ormezo/view-query."""
+def handle_street_housenumbers(request_uri, workdir, relations):
+    """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     output = ""
 
-    tokens = requestUri.split("/")
+    tokens = request_uri.split("/")
     relation = tokens[-2]
     action = tokens[-1]
 
     if action == "view-query":
         output += "<pre>"
-        output += getStreetHousenumbersQuery(relations, relation)
+        output += get_street_housenumbers_query(relations, relation)
         output += "</pre>"
     elif action == "view-result":
         output += "<pre>"
@@ -102,7 +102,7 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
             output += sock.read()
         output += "</pre>"
     elif action == "update-result":
-        query = getStreetHousenumbersQuery(relations, relation)
+        query = get_street_housenumbers_query(relations, relation)
         result = helpers.sort_housenumbers_csv(overpass_query.overpass_query(query))
         with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
             sock.write(result)
@@ -110,12 +110,12 @@ def handleStreetHousenumbers(requestUri, workdir, relations):
 
     osmrelation = relations[relation]["osmrelation"]
     date = get_housenumbers_last_modified(workdir, relation)
-    return getHeader("street-housenumbers", relation, osmrelation) + output + getFooter(date)
+    return get_header("street-housenumbers", relation, osmrelation) + output + get_footer(date)
 
 
-def handleSuspiciousStreetsViewResult(requestUri, workdir):
-    """Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-result."""
-    tokens = requestUri.split("/")
+def suspicious_streets_view_result(request_uri, workdir):
+    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result."""
+    tokens = request_uri.split("/")
     relation = tokens[-2]
 
     output = ""
@@ -132,8 +132,8 @@ def handleSuspiciousStreetsViewResult(requestUri, workdir):
         output += "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        finder = suspicious_streets.Finder(getDatadir(), workdir, relation)
-        houseNrCount = 0
+        finder = suspicious_streets.Finder(get_datadir(), workdir, relation)
+        house_nr_count = 0
         table = []
         table.append(["Utcanév", "Hiányzik db", "Házszámok"])
         for result in finder.suspiciousStreets:
@@ -144,19 +144,19 @@ def handleSuspiciousStreetsViewResult(requestUri, workdir):
                 row.append(str(len(result[1])))
                 # onlyInReference items.
                 row.append(", ".join(result[1]))
-                houseNrCount += len(result[1])
+                house_nr_count += len(result[1])
                 table.append(row)
-        doneNrCount = 0
+        done_nr_count = 0
         for result in finder.doneStreets:
-            doneNrCount += len(result[1])
+            done_nr_count += len(result[1])
         output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
         output += str(len(finder.suspiciousStreets)) + " utcához tartozó "
-        output += str(houseNrCount) + " házszámot."
-        if doneNrCount > 0 or houseNrCount > 0:
-            percent = "%.2f" % (doneNrCount / (doneNrCount + houseNrCount) * 100)
+        output += str(house_nr_count) + " házszámot."
+        if done_nr_count > 0 or house_nr_count > 0:
+            percent = "%.2f" % (done_nr_count / (done_nr_count + house_nr_count) * 100)
         else:
             percent = "N/A"
-        output += " (meglévő: " + str(doneNrCount) + ", készültség: " + str(percent) + "%).<br>"
+        output += " (meglévő: " + str(done_nr_count) + ", készültség: " + str(percent) + "%).<br>"
         output += "<a href=\"" + \
                   "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
                   "#hib%C3%A1s-riaszt%C3%A1s-hozz%C3%A1ad%C3%A1sa\">" + \
@@ -176,16 +176,16 @@ def handleSuspiciousStreetsViewResult(requestUri, workdir):
     return output
 
 
-def handleSuspiciousStreets(requestUri, workdir, relations):
-    """Expected requestUri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
+def handle_suspicious_streets(request_uri, workdir, relations):
+    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
     output = ""
 
-    tokens = requestUri.split("/")
+    tokens = request_uri.split("/")
     relation = tokens[-2]
     action = tokens[-1]
 
     if action == "view-result":
-        output += handleSuspiciousStreetsViewResult(requestUri, workdir)
+        output += suspicious_streets_view_result(request_uri, workdir)
     elif action == "view-query":
         output += "<pre>"
         path = "street-housenumbers-reference-%s.lst" % relation
@@ -193,26 +193,26 @@ def handleSuspiciousStreets(requestUri, workdir, relations):
             output += sock.read()
         output += "</pre>"
     elif action == "update-result":
-        get_reference_housenumbers.getReferenceHousenumbers(getConfig(), relation)
+        get_reference_housenumbers.getReferenceHousenumbers(get_config(), relation)
         output += "Frissítés sikeres."
 
     osmrelation = relations[relation]["osmrelation"]
-    date = get_ref_housenumbers_last_modified(workdir, relation)
-    return getHeader("suspicious-streets", relation, osmrelation) + output + getFooter(date)
+    date = ref_housenumbers_last_modified(workdir, relation)
+    return get_header("suspicious-streets", relation, osmrelation) + output + get_footer(date)
 
 
-def local_to_ui_tz(localDt):
+def local_to_ui_tz(local_dt):
     """Converts from local date-time to UI date-time, based on config."""
-    config = getConfig()
+    config = get_config()
     if config.has_option("wsgi", "timezone"):
-        uiTz = pytz.timezone(config.get("wsgi", "timezone"))
+        ui_tz = pytz.timezone(config.get("wsgi", "timezone"))
     else:
-        uiTz = pytz.timezone("Europe/Budapest")
+        ui_tz = pytz.timezone("Europe/Budapest")
 
-    return localDt.astimezone(uiTz)
+    return local_dt.astimezone(ui_tz)
 
 
-def getLastModified(workdir, path):
+def get_last_modified(workdir, path):
     """Gets the update date of a file in workdir."""
     return format_timestamp(get_timestamp(workdir, path))
 
@@ -225,49 +225,49 @@ def get_timestamp(workdir, path):
         return 0
 
 
-def format_timestamp(t):
+def format_timestamp(timestamp):
     """Formats timestamp as UI date-time."""
-    localDt = datetime.datetime.fromtimestamp(t)
-    uiDt = local_to_ui_tz(localDt)
+    local_dt = datetime.datetime.fromtimestamp(timestamp)
+    ui_dt = local_to_ui_tz(local_dt)
     fmt = '%Y-%m-%d %H:%M'
-    return uiDt.strftime(fmt)
+    return ui_dt.strftime(fmt)
 
 
-def get_ref_housenumbers_last_modified(workdir, name):
+def ref_housenumbers_last_modified(workdir, name):
     """Gets the update date for suspicious streets."""
-    tRef = get_timestamp(workdir, "street-housenumbers-reference-" + name + ".lst")
-    tHousenumbers = get_timestamp(workdir, "street-housenumbers-" + name + ".csv")
-    return format_timestamp(max(tRef, tHousenumbers))
+    t_ref = get_timestamp(workdir, "street-housenumbers-reference-" + name + ".lst")
+    t_housenumbers = get_timestamp(workdir, "street-housenumbers-" + name + ".csv")
+    return format_timestamp(max(t_ref, t_housenumbers))
 
 
 def get_housenumbers_last_modified(workdir, name):
     """Gets the update date of house numbers for a relation."""
-    return getLastModified(workdir, "street-housenumbers-" + name + ".csv")
+    return get_last_modified(workdir, "street-housenumbers-" + name + ".csv")
 
 
 def get_streets_last_modified(workdir, name):
     """Gets the update date of streets for a relation."""
-    return getLastModified(workdir, "streets-" + name + ".csv")
+    return get_last_modified(workdir, "streets-" + name + ".csv")
 
 
-def handleMain(relations, workdir):
+def handle_main(relations, workdir):
     """Handles the main wsgi page."""
     output = ""
 
     output += "<h1>Hol térképezzek?</h1>"
     output += "<table>"
     for k in sorted(relations):
-        v = relations[k]
+        relation = relations[k]
         output += "<tr>"
         output += "<td>" + k + "</td>"
-        percentFile = k + ".percent"
+        percent_file = k + ".percent"
         url = "\"/osm/suspicious-streets/" + k + "/view-result\""
         percent = "N/A"
-        if os.path.exists(os.path.join(workdir, percentFile)):
-            percent = helpers.get_content(workdir, percentFile)
+        if os.path.exists(os.path.join(workdir, percent_file)):
+            percent = helpers.get_content(workdir, percent_file)
 
         if percent != "N/A":
-            date = getLastModified(workdir, percentFile)
+            date = get_last_modified(workdir, percent_file)
             output += "<td><strong><a href=" + url + " title=\"frissítve " + date + "\">"
             output += percent + "% kész"
             output += "</a></strong></td>"
@@ -284,7 +284,7 @@ def handleMain(relations, workdir):
         output += "<td><a href=\"/osm/streets/" + k + "/view-result\"" \
                   "title=\"frissítve " + date + "\" >meglévő utcák</a></td>"
 
-        output += "<td><a href=\"https://www.openstreetmap.org/relation/" + str(v["osmrelation"]) + \
+        output += "<td><a href=\"https://www.openstreetmap.org/relation/" + str(relation["osmrelation"]) + \
                   "\">terület határa</a></td>"
 
         output += "</tr>"
@@ -294,10 +294,10 @@ def handleMain(relations, workdir):
               "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
               "Új terület hozzáadása</a>."
 
-    return getHeader() + output + getFooter()
+    return get_header() + output + get_footer()
 
 
-def getHeader(function=None, relation_name=None, relation_osmid=None):
+def get_header(function=None, relation_name=None, relation_osmid=None):
     """Produces the start of the page. Note that the contnt depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
@@ -337,7 +337,7 @@ def getHeader(function=None, relation_name=None, relation_osmid=None):
     return output
 
 
-def getFooter(last_updated=None):
+def get_footer(last_updated=None):
     """Produces the end of the page."""
     items = []
     items.append("Verzió: " + helpers.git_link(version.version, "https://github.com/vmiklos/osm-gimmisn/commit/"))
@@ -367,44 +367,44 @@ def our_application(environ, start_response):
     """Dispatches the request based on its URI."""
     status = '200 OK'
 
-    requestUri = environ.get("REQUEST_URI")
+    request_uri = environ.get("REQUEST_URI")
 
-    config = getConfig()
+    config = get_config()
 
     workdir = helpers.get_workdir(config)
 
-    relations = getRelations()
+    relations = get_relations()
 
-    if requestUri.startswith("/osm/streets/"):
-        output = handleStreets(requestUri, workdir, relations)
-    elif requestUri.startswith("/osm/street-housenumbers/"):
-        output = handleStreetHousenumbers(requestUri, workdir, relations)
-    elif requestUri.startswith("/osm/suspicious-streets/"):
-        output = handleSuspiciousStreets(requestUri, workdir, relations)
-    elif requestUri.startswith("/osm/webhooks/github"):
+    if request_uri.startswith("/osm/streets/"):
+        output = handle_streets(request_uri, workdir, relations)
+    elif request_uri.startswith("/osm/street-housenumbers/"):
+        output = handle_street_housenumbers(request_uri, workdir, relations)
+    elif request_uri.startswith("/osm/suspicious-streets/"):
+        output = handle_suspicious_streets(request_uri, workdir, relations)
+    elif request_uri.startswith("/osm/webhooks/github"):
         output = handle_github_webhook(environ)
     else:
-        output = handleMain(relations, workdir)
+        output = handle_main(relations, workdir)
 
-    outputBytes = output.encode('utf-8')
+    output_bytes = output.encode('utf-8')
     response_headers = [('Content-type', 'text/html; charset=utf-8'),
-                        ('Content-Length', str(len(outputBytes)))]
+                        ('Content-Length', str(len(output_bytes)))]
     start_response(status, response_headers)
-    return [outputBytes]
+    return [output_bytes]
 
 
 def handle_exception(environ, start_response):
     """Displays an unhandled exception on the page."""
     status = '500 Internal Server Error'
-    requestUri = environ.get("REQUEST_URI")
-    body = "<pre>Internal error when serving " + requestUri + "\n" + \
+    request_uri = environ.get("REQUEST_URI")
+    body = "<pre>Internal error when serving " + request_uri + "\n" + \
            traceback.format_exc() + "</pre>"
-    output = getHeader() + body + getFooter()
-    outputBytes = output.encode('utf-8')
+    output = get_header() + body + get_footer()
+    output_bytes = output.encode('utf-8')
     response_headers = [('Content-type', 'text/html; charset=utf-8'),
-                        ('Content-Length', str(len(outputBytes)))]
+                        ('Content-Length', str(len(output_bytes)))]
     start_response(status, response_headers)
-    return [outputBytes]
+    return [output_bytes]
 
 
 def application(environ, start_response):
