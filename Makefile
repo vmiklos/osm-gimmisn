@@ -43,8 +43,7 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/housenumber-
 	yamale -s data/housenumber-filters.schema.yaml $< && touch $@
 
 server:
-	@echo 'Open <http://localhost:8000/osm> in your browser.'
-	uwsgi --plugins http,python3 --http :8000 --wsgi-file wsgi.py
+	@./wsgi.py
 
 deploy-pythonanywhere:
 	git pull -r

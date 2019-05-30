@@ -14,6 +14,7 @@ import traceback
 import urllib.parse
 import json
 import subprocess
+import wsgiref.simple_server
 import yaml
 
 import pytz
@@ -385,7 +386,7 @@ def our_application(environ, start_response):
     """Dispatches the request based on its URI."""
     status = '200 OK'
 
-    request_uri = environ.get("REQUEST_URI")
+    request_uri = environ.get("PATH_INFO")
 
     config = get_config()
 
@@ -420,7 +421,7 @@ def our_application(environ, start_response):
 def handle_exception(environ, start_response):
     """Displays an unhandled exception on the page."""
     status = '500 Internal Server Error'
-    request_uri = environ.get("REQUEST_URI")
+    request_uri = environ.get("PATH_INFO")
     body = "<pre>Internal error when serving " + request_uri + "\n" + \
            traceback.format_exc() + "</pre>"
     output = get_header() + body + get_footer()
@@ -439,5 +440,16 @@ def application(environ, start_response):
     # pylint: disable=broad-except
     except Exception:
         return handle_exception(environ, start_response)
+
+
+def main():
+    """Commandline interface to this module."""
+    httpd = wsgiref.simple_server.make_server('', 8000, application)
+    print("Open <http://localhost:8000/osm> in your browser.")
+    httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    main()
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
