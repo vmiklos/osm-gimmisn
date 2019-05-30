@@ -13,6 +13,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
+import urllib.parse
 # pylint: disable=unused-import
 from typing import Dict
 from typing import List
@@ -44,7 +45,7 @@ def getStreetURL(datadir, street, prefix, relationName):
         "_wardsearch_WAR_nvinvrportlet_kozterNev": streetName,
         "_wardsearch_WAR_nvinvrportlet_kozterJelleg": streetType,
     }
-    url += "?" + urllib.parse.urlencode(d)  # type: ignore
+    url += "?" + urllib.parse.urlencode(d)
     return url
 
 
