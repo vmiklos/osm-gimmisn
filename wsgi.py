@@ -38,6 +38,11 @@ def get_datadir():
     return os.path.join(os.path.dirname(__file__), "data")
 
 
+def get_staticdir():
+    """Gets the directory which is static data."""
+    return os.path.join(os.path.dirname(__file__), "static")
+
+
 def get_streets_query(relations, relation):
     """Produces a query which lists streets in relation."""
     with open(os.path.join(get_datadir(), "streets-template.txt")) as sock:
@@ -162,11 +167,11 @@ def suspicious_streets_view_result(request_uri, workdir):
                   "#hib%C3%A1s-riaszt%C3%A1s-hozz%C3%A1ad%C3%A1sa\">" + \
                   "Téves információ jelentése</a>.</p>"
 
-        output += '<table rules="all" frame="border" cellpadding="4">'
+        output += '<table rules="all" frame="border" cellpadding="4" class="sortable">'
         for row in table:
             output += "<tr>"
             for cell in row:
-                output += '<td align="left" valign="top"><p>' + cell + "</p></td>"
+                output += '<td align="left" valign="top">' + cell + "</td>"
             output += "</tr>"
         output += "</table>"
 
@@ -331,7 +336,9 @@ def get_header(function=None, relation_name=None, relation_osmid=None):
                      + "Terület határa</a>")
     items.append("<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu\">Dokumentáció</a>")
 
-    output = "<html><head><title>Hol térképezzek?" + title + "</title></head><body><div>"
+    output = "<html><head><title>Hol térképezzek?" + title + "</title>"
+    output += '<script src="/osm/static/sorttable.js"></script>'
+    output += "</head><body><div>"
     output += " &brvbar; ".join(items)
     output += "</div><hr/>"
     return output
@@ -363,6 +370,17 @@ def handle_github_webhook(environ):
     return ""
 
 
+def handle_static(request_uri):
+    """Handles serving static content."""
+    tokens = request_uri.split("/")
+    path = tokens[-1]
+
+    if path.endswith(".js"):
+        return helpers.get_content(get_staticdir(), path)
+
+    return ""
+
+
 def our_application(environ, start_response):
     """Dispatches the request based on its URI."""
     status = '200 OK'
@@ -375,6 +393,8 @@ def our_application(environ, start_response):
 
     relations = get_relations()
 
+    content_type = "text/html"
+
     if request_uri.startswith("/osm/streets/"):
         output = handle_streets(request_uri, workdir, relations)
     elif request_uri.startswith("/osm/street-housenumbers/"):
@@ -383,11 +403,15 @@ def our_application(environ, start_response):
         output = handle_suspicious_streets(request_uri, workdir, relations)
     elif request_uri.startswith("/osm/webhooks/github"):
         output = handle_github_webhook(environ)
+    elif request_uri.startswith("/osm/static/"):
+        output = handle_static(request_uri)
+        if request_uri.endswith(".js"):
+            content_type = "application/x-javascript"
     else:
         output = handle_main(relations, workdir)
 
     output_bytes = output.encode('utf-8')
-    response_headers = [('Content-type', 'text/html; charset=utf-8'),
+    response_headers = [('Content-type', content_type + '; charset=utf-8'),
                         ('Content-Length', str(len(output_bytes)))]
     start_response(status, response_headers)
     return [output_bytes]
