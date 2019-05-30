@@ -340,7 +340,7 @@ def get_header(function=None, relation_name=None, relation_osmid=None):
 def get_footer(last_updated=None):
     """Produces the end of the page."""
     items = []
-    items.append("Verzió: " + helpers.git_link(version.version, "https://github.com/vmiklos/osm-gimmisn/commit/"))
+    items.append("Verzió: " + helpers.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/"))
     items.append("OSM adatok © OpenStreetMap közreműködők.")
     if last_updated:
         items.append("Utolsó frissítés: " + last_updated)
@@ -358,7 +358,7 @@ def handle_github_webhook(environ):
     payload = body["payload"][0]
     root = json.loads(payload)
     if root["ref"] == "refs/heads/master":
-        subprocess.run(["make", "-C", version.git_dir, "deploy-pythonanywhere"], check=True)
+        subprocess.run(["make", "-C", version.GIT_DIR, "deploy-pythonanywhere"], check=True)
 
     return ""
 
