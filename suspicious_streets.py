@@ -20,112 +20,111 @@ import helpers
 
 class Finder:
     """Compares reference house numbers with OSM ones and shows the diff."""
-    def __init__(self, datadir, workdir, relationName):
+    def __init__(self, datadir, workdir, relation_name):
         self.normalizers = {}  # type: Dict[str, helpers.Ranges]
         # OSM name -> ref name map
-        self.refStreets = {}  # type: Dict[str, str]
+        self.ref_streets = {}  # type: Dict[str, str]
 
-        self.normalizers, self.refStreets = helpers.load_normalizers(datadir, relationName)
-        streetNames = helpers.get_streets(workdir, relationName)
+        self.normalizers, self.ref_streets = helpers.load_normalizers(datadir, relation_name)
+        street_names = helpers.get_streets(workdir, relation_name)
 
         results = []
-        bothResults = []
+        both_results = []
 
-        for streetName in streetNames:
+        for street_name in street_names:
 
-            refStreet = streetName
+            ref_street = street_name
             # See if we need to map the OSM name to ref name.
-            if streetName in self.refStreets.keys():
-                refStreet = self.refStreets[streetName]
+            if street_name in self.ref_streets.keys():
+                ref_street = self.ref_streets[street_name]
 
-            referenceHouseNumbers = self.getHouseNumbersFromLst(workdir, relationName, streetName, refStreet)
-            osmHouseNumbers = self.getHouseNumbersFromCsv(workdir, relationName, streetName)
-            onlyInReference = helpers.get_only_in_first(referenceHouseNumbers, osmHouseNumbers)
-            inBoth = helpers.get_in_both(referenceHouseNumbers, osmHouseNumbers)
-            if onlyInReference:
-                results.append((streetName, onlyInReference))
-            if inBoth:
-                bothResults.append((streetName, inBoth))
+            reference_house_numbers = self.get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street)
+            osm_house_numbers = self.get_house_numbers_from_csv(workdir, relation_name, street_name)
+            only_in_reference = helpers.get_only_in_first(reference_house_numbers, osm_house_numbers)
+            in_both = helpers.get_in_both(reference_house_numbers, osm_house_numbers)
+            if only_in_reference:
+                results.append((street_name, only_in_reference))
+            if in_both:
+                both_results.append((street_name, in_both))
 
         # Sort by length.
         results.sort(key=lambda result: len(result[1]), reverse=True)
 
-        self.suspiciousStreets = results
-        self.doneStreets = bothResults
+        self.suspicious_streets = results
+        self.done_streets = both_results
 
-    def normalize(self, houseNumbers: str, streetName: str) -> List[str]:
+    def normalize(self, house_numbers: str, street_name: str) -> List[str]:
         """Strips down string input to bare minimum that can be interpreted as an
         actual number. Think about a/b, a-b, and so on."""
         ret = []
-        for houseNumber in houseNumbers.split('-'):
+        for house_number in house_numbers.split('-'):
             try:
-                n = int(re.sub(r"([0-9]+).*", r"\1", houseNumber))
+                number = int(re.sub(r"([0-9]+).*", r"\1", house_number))
             except ValueError:
                 continue
 
-            if streetName in self.normalizers.keys():
+            if street_name in self.normalizers.keys():
                 # Have a custom filter.
-                normalizer = self.normalizers[streetName]
+                normalizer = self.normalizers[street_name]
             else:
                 # Default sanity checks.
                 default = [helpers.Range(1, 999), helpers.Range(2, 998)]
                 normalizer = helpers.Ranges(default)
-            if n not in normalizer:
+            if number not in normalizer:
                 continue
 
-            ret.append(str(n))
+            ret.append(str(number))
         return ret
 
-    def getHouseNumbersFromCsv(self, workdir, relationName, streetName):
+    def get_house_numbers_from_csv(self, workdir, relation_name, street_name):
         """Gets house numbers from the overpass query."""
-        houseNumbers = []  # type: List[str]
-        streetHouseNumbersSock = open(os.path.join(workdir, "street-housenumbers-%s.csv" % relationName))
-        first = True
-        for line in streetHouseNumbersSock.readlines():
-            if first:
-                first = False
-                continue
-            tokens = line.strip().split('\t')
-            if len(tokens) < 3:
-                continue
-            if tokens[1] != streetName:
-                continue
-            houseNumbers += self.normalize(tokens[2], helpers.simplify(streetName))
-        streetHouseNumbersSock.close()
-        return helpers.sort_numerically(set(houseNumbers))
+        house_numbers = []  # type: List[str]
+        with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)) as sock:
+            first = True
+            for line in sock.readlines():
+                if first:
+                    first = False
+                    continue
+                tokens = line.strip().split('\t')
+                if len(tokens) < 3:
+                    continue
+                if tokens[1] != street_name:
+                    continue
+                house_numbers += self.normalize(tokens[2], helpers.simplify(street_name))
+        return helpers.sort_numerically(set(house_numbers))
 
-    def getHouseNumbersFromLst(self, workdir, relationName, streetName, refStreet):
+    def get_house_numbers_from_lst(self, workdir, relation_name, street_name, ref_street):
         """Gets house numbers from reference."""
-        houseNumbers = []  # type: List[str]
-        lstStreetName = helpers.simplify(refStreet)
-        prefix = lstStreetName + "_"
-        sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relationName))
+        house_numbers = []  # type: List[str]
+        lst_street_name = helpers.simplify(ref_street)
+        prefix = lst_street_name + "_"
+        sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name))
         for line in sock.readlines():
             line = line.strip()
             if line.startswith(prefix):
-                houseNumbers += self.normalize(line.replace(prefix, ''), helpers.simplify(streetName))
+                house_numbers += self.normalize(line.replace(prefix, ''), helpers.simplify(street_name))
         sock.close()
-        return helpers.sort_numerically(set(houseNumbers))
+        return helpers.sort_numerically(set(house_numbers))
 
 
 def main():
     """Commandline interface to this module."""
     config = configparser.ConfigParser()
-    configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
-    config.read(configPath)
+    config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config.read(config_path)
     workdir = config.get('wsgi', 'workdir').strip()
     datadir = os.path.join(os.path.dirname(__file__), "data")
 
     if len(sys.argv) > 1:
-        relationName = sys.argv[1]
+        relation_name = sys.argv[1]
 
-    finder = Finder(datadir, workdir, relationName)
+    finder = Finder(datadir, workdir, relation_name)
 
-    for result in finder.suspiciousStreets:
+    for result in finder.suspicious_streets:
         if result[1]:
-            # House number, # of onlyInReference items.
+            # House number, # of only_in_reference items.
             print("%s\t%s" % (result[0], len(result[1])))
-            # onlyInReference items.
+            # only_in_reference items.
             print(result[1])
 
 

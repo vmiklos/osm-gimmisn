@@ -161,7 +161,7 @@ def suspicious_streets_view_result(request_uri, workdir):
         house_nr_count = 0
         table = []
         table.append(["Utcanév", "Hiányzik db", "Házszámok"])
-        for result in finder.suspiciousStreets:
+        for result in finder.suspicious_streets:
             if result[1]:
                 # House number, # of onlyInReference items.
                 row = []
@@ -172,10 +172,10 @@ def suspicious_streets_view_result(request_uri, workdir):
                 house_nr_count += len(result[1])
                 table.append(row)
         done_nr_count = 0
-        for result in finder.doneStreets:
+        for result in finder.done_streets:
             done_nr_count += len(result[1])
         output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
-        output += str(len(finder.suspiciousStreets)) + " utcához tartozó "
+        output += str(len(finder.suspicious_streets)) + " utcához tartozó "
         output += str(house_nr_count) + " házszámot."
         if done_nr_count > 0 or house_nr_count > 0:
             percent = "%.2f" % (done_nr_count / (done_nr_count + house_nr_count) * 100)
