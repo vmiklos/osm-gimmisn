@@ -342,3 +342,19 @@ def tsv_to_list(sock):
         table.append(cells)
 
     return table
+
+
+def html_table_from_list(table):
+    """Produces a HTML table from a list of lists."""
+    ret = []
+    ret.append('<table rules="all" frame="border" cellpadding="4" class="sortable">')
+    for row_index, row_content in enumerate(table):
+        ret.append("<tr>")
+        for cell in row_content:
+            if row_index == 0:
+                ret.append('<th align="left" valign="center"><a href="#">' + cell + "</a></th>")
+            else:
+                ret.append('<td align="left" valign="top">' + cell + "</td>")
+        ret.append("</tr>")
+    ret.append("</table>")
+    return "".join(ret)
