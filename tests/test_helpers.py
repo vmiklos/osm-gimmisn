@@ -7,10 +7,12 @@
 """The test_helpers module covers the helpers module."""
 
 import configparser
-import unittest
+import io
 import os
+import unittest
 # pylint: disable=unused-import
 from typing import List
+
 import helpers
 
 
@@ -363,6 +365,15 @@ class TestGetStreetDetails(unittest.TestCase):
         self.assertEqual("011", reftelepules)
         self.assertEqual("OSM Name", streetName)
         self.assertEqual("1", streetType)
+
+
+class TestTsvToList(unittest.TestCase):
+    """Tests tsv_to_list()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        sock = io.StringIO("h1\th2\n\nv1\tv2\n")
+        ret = helpers.tsv_to_list(sock)
+        self.assertEqual(ret, [['h1', 'h2\n'], ['v1', 'v2\n']])
 
 
 if __name__ == '__main__':

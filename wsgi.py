@@ -74,10 +74,9 @@ def handle_streets(request_uri, workdir, relations):
         output += get_streets_query(relations, relation)
         output += "</pre>"
     elif action == "view-result":
-        output += "<pre>"
         with open(os.path.join(workdir, "streets-%s.csv" % relation)) as sock:
-            output += sock.read()
-        output += "</pre>"
+            table = helpers.tsv_to_list(sock)
+            output += html_table_from_list(table)
     elif action == "update-result":
         query = get_streets_query(relations, relation)
         result = helpers.sort_streets_csv(overpass_query.overpass_query(query))
@@ -103,10 +102,9 @@ def handle_street_housenumbers(request_uri, workdir, relations):
         output += get_street_housenumbers_query(relations, relation)
         output += "</pre>"
     elif action == "view-result":
-        output += "<pre>"
         with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation)) as sock:
-            output += sock.read()
-        output += "</pre>"
+            table = helpers.tsv_to_list(sock)
+            output += html_table_from_list(table)
     elif action == "update-result":
         query = get_street_housenumbers_query(relations, relation)
         result = helpers.sort_housenumbers_csv(overpass_query.overpass_query(query))
@@ -117,6 +115,19 @@ def handle_street_housenumbers(request_uri, workdir, relations):
     osmrelation = relations[relation]["osmrelation"]
     date = get_housenumbers_last_modified(workdir, relation)
     return get_header("street-housenumbers", relation, osmrelation) + output + get_footer(date)
+
+
+def html_table_from_list(table):
+    """Produces a HTML table from a list of lists."""
+    ret = []
+    ret.append('<table rules="all" frame="border" cellpadding="4" class="sortable">')
+    for row in table:
+        ret.append("<tr>")
+        for cell in row:
+            ret.append('<td align="left" valign="top">' + cell + "</td>")
+        ret.append("</tr>")
+    ret.append("</table>")
+    return "".join(ret)
 
 
 def suspicious_streets_view_result(request_uri, workdir):
@@ -168,13 +179,7 @@ def suspicious_streets_view_result(request_uri, workdir):
                   "#hib%C3%A1s-riaszt%C3%A1s-hozz%C3%A1ad%C3%A1sa\">" + \
                   "Téves információ jelentése</a>.</p>"
 
-        output += '<table rules="all" frame="border" cellpadding="4" class="sortable">'
-        for row in table:
-            output += "<tr>"
-            for cell in row:
-                output += '<td align="left" valign="top">' + cell + "</td>"
-            output += "</tr>"
-        output += "</table>"
+        output += html_table_from_list(table)
 
         # Write the bottom line to a file, so the index page show it fast.
         with open(os.path.join(workdir, relation + ".percent"), "w") as sock:

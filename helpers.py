@@ -329,3 +329,16 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
         ref_streets = root["refstreets"]
 
     return filter_dict, ref_streets
+
+
+def tsv_to_list(sock):
+    """Turns a tab-separated table into a list of lists."""
+    table = []
+
+    for line in sock.readlines():
+        if not line.strip():
+            continue
+        cells = line.split("\t")
+        table.append(cells)
+
+    return table
