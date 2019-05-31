@@ -31,6 +31,11 @@ def get_config():
     config = configparser.ConfigParser()
     config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(config_path)
+    if not config.has_option("wsgi", "workdir"):
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        if not os.path.exists(workdir):
+            os.makedirs(workdir)
+        config.set("wsgi", "workdir", workdir)
     return config
 
 

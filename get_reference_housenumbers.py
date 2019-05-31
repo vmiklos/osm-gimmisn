@@ -51,13 +51,13 @@ def getStreetURL(datadir, street, prefix, relationName):
 
 def getHouseNumbersOfStreet(datadir, config, relationName, street):
     """Gets known house numbers for a single street."""
-    try:
+    if config.has_option('wsgi', 'reference_local'):
         local = config.get('wsgi', 'reference_local').strip()
         return getHouseNumbersOfStreetLocal(datadir, local, relationName, street)
-    except configparser.NoOptionError:
-        prefix = config.get('wsgi', 'reference').strip()
-        workdir = config.get('wsgi', 'workdir').strip()
-        return getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street)
+
+    prefix = config.get('wsgi', 'reference').strip()
+    workdir = config.get('wsgi', 'workdir').strip()
+    return getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street)
 
 
 def buildMemoryCache(local):
