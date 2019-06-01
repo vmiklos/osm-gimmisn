@@ -147,11 +147,11 @@ def suspicious_streets_view_result(request_uri, workdir):
         table.append(["Utcanév", "Hiányzik db", "Házszámok"])
         for result in finder.suspicious_streets:
             if result[1]:
-                # House number, # of onlyInReference items.
+                # House number, # of only_in_reference items.
                 row = []
                 row.append(result[0])
                 row.append(str(len(result[1])))
-                # onlyInReference items.
+                # only_in_reference items.
                 row.append(", ".join(result[1]))
                 house_nr_count += len(result[1])
                 table.append(row)
@@ -179,6 +179,31 @@ def suspicious_streets_view_result(request_uri, workdir):
     return output
 
 
+def suspicious_streets_view_result_txt(request_uri, workdir):
+    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result.txt."""
+    tokens = request_uri.split("/")
+    relation = tokens[-2]
+
+    output = ""
+    if not os.path.exists(os.path.join(workdir, "streets-" + relation + ".csv")):
+        output += "Nincsenek meglévő utcák"
+    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation + ".csv")):
+        output += "Nincsenek meglévő házszámok"
+    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-reference-" + relation + ".lst")):
+        output += "Nincsenek referencia házszámok"
+    else:
+        finder = suspicious_streets.Finder(get_datadir(), workdir, relation)
+        table = []
+        for result in finder.suspicious_streets:
+            if result[1]:
+                # House number, only_in_reference items.
+                row = result[0] + "[" + ", ".join(result[1]) + "]"
+                table.append(row)
+        table.sort()
+        output += "\n".join(table)
+    return output
+
+
 def handle_suspicious_streets(request_uri, workdir, relations):
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
     output = ""
@@ -186,16 +211,20 @@ def handle_suspicious_streets(request_uri, workdir, relations):
     tokens = request_uri.split("/")
     relation = tokens[-2]
     action = tokens[-1]
+    action_noext, _, ext = action.partition('.')
 
-    if action == "view-result":
+    if action_noext == "view-result":
+        if ext == "txt":
+            return suspicious_streets_view_result_txt(request_uri, workdir)
+
         output += suspicious_streets_view_result(request_uri, workdir)
-    elif action == "view-query":
+    elif action_noext == "view-query":
         output += "<pre>"
         path = "street-housenumbers-reference-%s.lst" % relation
         with open(os.path.join(workdir, path)) as sock:
             output += sock.read()
         output += "</pre>"
-    elif action == "update-result":
+    elif action_noext == "update-result":
         get_reference_housenumbers.getReferenceHousenumbers(get_config(), relation)
         output += "Frissítés sikeres."
 
@@ -309,7 +338,9 @@ def get_header(function=None, relation_name=None, relation_osmid=None):
 
     items.append("<a href=\"/osm\">Területek listája</a>")
     if relation_name:
-        items.append("<a href=\"/osm/suspicious-streets/" + relation_name + "/view-result\">Hiányzó házszámok</a>")
+        suspicious = '<a href="/osm/suspicious-streets/' + relation_name + '/view-result">Hiányzó házszámok</a>'
+        suspicious += ' (<a href="/osm/suspicious-streets/' + relation_name + '/view-result.txt">txt</a>)'
+        items.append(suspicious)
         items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\">Meglévő házszámok</a>")
         items.append("<a href=\"/osm/streets/" + relation_name + "/view-result\">Meglévő utcák</a>")
 
@@ -384,6 +415,7 @@ def our_application(environ, start_response):
     status = '200 OK'
 
     request_uri = environ.get("PATH_INFO")
+    _, _, ext = request_uri.partition('.')
 
     config = get_config()
 
@@ -392,6 +424,8 @@ def our_application(environ, start_response):
     relations = get_relations()
 
     content_type = "text/html"
+    if ext == "txt":
+        content_type = "text/plain"
 
     if request_uri.startswith("/osm/streets/"):
         output = handle_streets(request_uri, workdir, relations)
