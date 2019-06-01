@@ -204,7 +204,7 @@ def get_array_nth(arr: Sequence[str], index: int) -> str:
     return arr[index] if len(arr) > index else ''
 
 
-def simplify(name: str, space_decode: bool = False) -> str:
+def simplify(name: str) -> str:
     """ Handles normalization of a street name."""
     name = name.replace('Á', 'A').replace('á', 'a')
     name = name.replace('É', 'E').replace('é', 'e')
@@ -216,10 +216,7 @@ def simplify(name: str, space_decode: bool = False) -> str:
     name = name.replace('Ü', 'U').replace('ü', 'u')
     name = name.replace('Ű', 'U').replace('ű', 'u')
     name = name.replace('.', '')
-    if space_decode:
-        name = name.replace(' ', '%20')
-    else:
-        name = name.replace(' ', '_')
+    name = name.replace(' ', '_')
     name = name.lower()
     return name
 
