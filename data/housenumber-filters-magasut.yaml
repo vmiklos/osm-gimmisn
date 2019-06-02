@@ -35,3 +35,4 @@ filters:
     ranges:
       - {start: '17', end: '75'}
 source: survey
+simplify: true

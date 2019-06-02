@@ -35,3 +35,4 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
 source: survey
+simplify: true

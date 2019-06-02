@@ -1,13 +1,15 @@
 filters:
-  'Budaörsi út':
+  budaorsi_ut:
     ranges:
       - {start: '137', end: '165'}
-  'Csiki-hegyek utca':
+  csiki-hegyek_utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '26'}
-  'Teszt utca':
+  teszt_utca:
     reftelepules: "012"
 refstreets:
   'OSM Name 1': 'Ref Name 1'
   'OSM Name 2': 'Ref Name 2'
+# Legacy.
+simplify: true

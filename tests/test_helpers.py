@@ -276,7 +276,23 @@ class TestLoadNormalizers(unittest.TestCase):
     def test_happy(self):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets = helpers.load_normalizers(datadir, "gazdagret")
+        filters, ref_streets, simplify = helpers.load_normalizers(datadir, "gazdagret")
+        expected_filters = {
+            "Budaörsi út": helpers.Ranges([helpers.Range(137, 165)]),
+            "Csiki-hegyek utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
+        }
+        self.assertEqual(filters, expected_filters)
+        expected_streets = {
+            'OSM Name 1': 'Ref Name 1',
+            'OSM Name 2': 'Ref Name 2'
+        }
+        self.assertEqual(ref_streets, expected_streets)
+        self.assertEqual(simplify, False)
+
+    def test_legacy(self):
+        """Tests the legacy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        filters, ref_streets, simplify = helpers.load_normalizers(datadir, "gazdagretlegacy")
         expected_filters = {
             "budaorsi_ut": helpers.Ranges([helpers.Range(137, 165)]),
             "csiki-hegyek_utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
@@ -287,20 +303,23 @@ class TestLoadNormalizers(unittest.TestCase):
             'OSM Name 2': 'Ref Name 2'
         }
         self.assertEqual(ref_streets, expected_streets)
+        self.assertEqual(simplify, True)
 
     def test_nosuchname(self):
         """Tests when there is no filters file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets = helpers.load_normalizers(datadir, "nosuchname")
+        filters, ref_streets, simplify = helpers.load_normalizers(datadir, "nosuchname")
         self.assertEqual(filters, {})
         self.assertEqual(ref_streets, {})
+        self.assertEqual(simplify, False)
 
     def test_empty(self):
         """Tests when the filter file is empty."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets = helpers.load_normalizers(datadir, "empty")
+        filters, ref_streets, simplify = helpers.load_normalizers(datadir, "empty")
         self.assertEqual(filters, {})
         self.assertEqual(ref_streets, {})
+        self.assertEqual(simplify, False)
 
 
 class TestGetStreetDetails(unittest.TestCase):
@@ -321,6 +340,17 @@ class TestGetStreetDetails(unittest.TestCase):
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Teszt utca"
         relationName = "gazdagret"
+        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        self.assertEqual("01", refmegye)
+        self.assertEqual("012", reftelepules)
+        self.assertEqual("Teszt", streetName)
+        self.assertEqual("utca", streetType)
+
+    def test_reftelepules_override_legacy(self):
+        """Tests street-specific reftelepules override (legacy)."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        street = "Teszt utca"
+        relationName = "gazdagretlegacy"
         refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
         self.assertEqual("01", refmegye)
         self.assertEqual("012", reftelepules)

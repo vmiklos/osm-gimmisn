@@ -234,3 +234,4 @@ filters:
       - {end: '15', start: '1'}
       - {end: '24', start: '2'}
 source: survey
+simplify: true

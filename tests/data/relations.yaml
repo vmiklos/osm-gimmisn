@@ -2,6 +2,11 @@ gazdagret:
     osmrelation: 2713748
     refmegye: "01"
     reftelepules: "011"
+# this relation still uses simplify()
+gazdagretlegacy:
+    osmrelation: 2713748
+    refmegye: "01"
+    reftelepules: "011"
 # this relation has no filter file
 nosuchrelation:
     osmrelation: 42

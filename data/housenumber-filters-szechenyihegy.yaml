@@ -39,3 +39,4 @@ filters:
       - {start: '93', end: '999'}
       - {start: '156', end: '998'}
 source: survey
+simplify: true

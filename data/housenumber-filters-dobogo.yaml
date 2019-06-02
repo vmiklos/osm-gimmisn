@@ -18,3 +18,4 @@ filters:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
 source: survey
+simplify: true

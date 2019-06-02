@@ -88,3 +88,4 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
 source: survey
+simplify: true

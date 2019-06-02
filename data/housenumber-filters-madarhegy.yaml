@@ -57,3 +57,4 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
 source: survey
+simplify: true

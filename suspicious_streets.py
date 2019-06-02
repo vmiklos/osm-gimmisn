@@ -25,7 +25,7 @@ class Finder:
         # OSM name -> ref name map
         self.ref_streets = {}  # type: Dict[str, str]
 
-        self.normalizers, self.ref_streets = helpers.load_normalizers(datadir, relation_name)
+        self.normalizers, self.ref_streets, self.simplify = helpers.load_normalizers(datadir, relation_name)
         street_names = helpers.get_streets(workdir, relation_name)
 
         results = []
@@ -63,9 +63,14 @@ class Finder:
             except ValueError:
                 continue
 
-            if helpers.simplify(street_name) in self.normalizers.keys():
+            street_simple = street_name
+            if self.simplify:
+                # Old code path
+                street_simple = helpers.simplify(street_name)
+
+            if street_simple in self.normalizers.keys():
                 # Have a custom filter.
-                normalizer = self.normalizers[helpers.simplify(street_name)]
+                normalizer = self.normalizers[street_simple]
             else:
                 # Default sanity checks.
                 default = [helpers.Range(1, 999), helpers.Range(2, 998)]

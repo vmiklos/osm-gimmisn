@@ -65,8 +65,6 @@ def get_street_details(datadir, street, relation_name):
     refmegye = relation["refmegye"]
     reftelepules = relation["reftelepules"]
 
-    street_simple = simplify(street)
-
     refstreets = {}  # type: Dict[str, str]
     if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)):
         with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)) as sock:
@@ -79,8 +77,15 @@ def get_street_details(datadir, street, relation_name):
                 # street-specific reftelepules override.
                 filters = root["filters"]
                 for filter_street, value in filters.items():
-                    if filter_street == street_simple and "reftelepules" in value.keys():
-                        reftelepules = value["reftelepules"]
+                    if "simplify" not in root.keys():
+                        # New code path.
+                        if filter_street == street and "reftelepules" in value.keys():
+                            reftelepules = value["reftelepules"]
+                    else:
+                        # Old code path
+                        street_simple = simplify(street)
+                        if filter_street == street_simple and "reftelepules" in value.keys():
+                            reftelepules = value["reftelepules"]
 
     if street in refstreets.keys():
         street = refstreets[street]
@@ -301,14 +306,14 @@ def get_content(workdir, path):
     return ret
 
 
-def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str]]:
+def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str], bool]:
     """Loads filters which allow silencing false positives."""
     filter_dict = {}  # type: Dict[str, Ranges]
     ref_streets = {}  # type: Dict[str, str]
 
     path = os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)
     if not os.path.exists(path):
-        return filter_dict, ref_streets
+        return filter_dict, ref_streets, False
 
     with open(path) as sock:
         root = yaml.load(sock)
@@ -326,7 +331,11 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
     if "refstreets" in root.keys():
         ref_streets = root["refstreets"]
 
-    return filter_dict, ref_streets
+    use_simplify = False
+    if "simplify" in root.keys():
+        use_simplify = root["simplify"]
+
+    return filter_dict, ref_streets, use_simplify
 
 
 def tsv_to_list(sock):

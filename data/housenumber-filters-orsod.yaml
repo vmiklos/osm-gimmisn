@@ -54,3 +54,4 @@ filters:
 refstreets:
   'Alsó határút': 'Alsóhatár utca'
 source: survey
+simplify: true
