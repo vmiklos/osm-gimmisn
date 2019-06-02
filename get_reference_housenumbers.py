@@ -24,31 +24,6 @@ VERBOSE = False
 MEMORY_CACHE = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
 
-def get_street_url(datadir, street, prefix, relation_name):
-    """Returns URL of a street based on config."""
-    refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
-    url = prefix
-    parameters = {
-        "p_p_id": "wardsearch_WAR_nvinvrportlet",
-        "p_p_lifecycle": "2",
-        "p_p_state": "normal",
-        "p_p_mode": "view",
-        "p_p_resource_id": "resourceIdGetHazszam",
-        "p_p_cacheability": "cacheLevelPage",
-        "p_p_col_id": "column-2",
-        "p_p_col_count": "1",
-        "_wardsearch_WAR_nvinvrportlet_vlId": "291",
-        "_wardsearch_WAR_nvinvrportlet_vltId": "684",
-        "_wardsearch_WAR_nvinvrportlet_keywords": "",
-        "_wardsearch_WAR_nvinvrportlet_megyeKod": refmegye,
-        "_wardsearch_WAR_nvinvrportlet_telepulesKod": reftelepules,
-        "_wardsearch_WAR_nvinvrportlet_kozterNev": street_name,
-        "_wardsearch_WAR_nvinvrportlet_kozterJelleg": street_type,
-    }
-    url += "?" + urllib.parse.urlencode(parameters)
-    return url
-
-
 def get_house_numbers_of_street(datadir, config, relation_name, street):
     """Gets known house numbers for a single street."""
     if config.has_option('wsgi', 'reference_local'):
@@ -105,7 +80,7 @@ def house_numbers_of_street_local(datadir, local, relation_name, street):
 
 def house_numbers_of_street_remote(datadir, prefix, workdir, relation_name, street):
     """Gets house numbers for a street remotely."""
-    url = get_street_url(datadir, street, prefix, relation_name)
+    url = helpers.get_street_url(datadir, street, prefix, relation_name)
     if VERBOSE:
         print("considering '" + url + "'")
     url_hash = helpers.get_url_hash(url)

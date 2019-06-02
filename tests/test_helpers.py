@@ -383,5 +383,23 @@ class TestTsvToList(unittest.TestCase):
         self.assertEqual(ret, [['h1', 'h2\n'], ['v1', 'v2\n']])
 
 
+class TestGetStreetUrl(unittest.TestCase):
+    """Tests get_street_url()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        street = "Budaörsi út"
+        relationName = "gazdagret"
+        url = "http://www.example.com/?p_p_id=wardsearch_WAR_nvinvrportlet&p_p_lifecycle=2&p_p_state=normal"
+        url += "&p_p_mode=view&p_p_resource_id=resourceIdGetHazszam&p_p_cacheability=cacheLevelPage"
+        url += "&p_p_col_id=column-2&p_p_col_count=1&_wardsearch_WAR_nvinvrportlet_vlId=291"
+        url += "&_wardsearch_WAR_nvinvrportlet_vltId=684&_wardsearch_WAR_nvinvrportlet_keywords="
+        url += "&_wardsearch_WAR_nvinvrportlet_megyeKod=01&_wardsearch_WAR_nvinvrportlet_telepulesKod=011"
+        url += "&_wardsearch_WAR_nvinvrportlet_kozterNev=Buda%C3%B6rsi"
+        url += "&_wardsearch_WAR_nvinvrportlet_kozterJelleg=%C3%BAt"
+        actual = helpers.get_street_url(datadir, street, "http://www.example.com/", relationName)
+        self.assertEqual(actual, url)
+
+
 if __name__ == '__main__':
     unittest.main()
