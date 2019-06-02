@@ -20,15 +20,15 @@ from typing import List
 import yaml
 import helpers
 
-verbose = False
-memoryCache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
+VERBOSE = False
+MEMORY_CACHE = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
 
-def getStreetURL(datadir, street, prefix, relationName):
+def get_street_url(datadir, street, prefix, relation_name):
     """Returns URL of a street based on config."""
-    refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+    refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
     url = prefix
-    d = {
+    parameters = {
         "p_p_id": "wardsearch_WAR_nvinvrportlet",
         "p_p_lifecycle": "2",
         "p_p_state": "normal",
@@ -42,27 +42,27 @@ def getStreetURL(datadir, street, prefix, relationName):
         "_wardsearch_WAR_nvinvrportlet_keywords": "",
         "_wardsearch_WAR_nvinvrportlet_megyeKod": refmegye,
         "_wardsearch_WAR_nvinvrportlet_telepulesKod": reftelepules,
-        "_wardsearch_WAR_nvinvrportlet_kozterNev": streetName,
-        "_wardsearch_WAR_nvinvrportlet_kozterJelleg": streetType,
+        "_wardsearch_WAR_nvinvrportlet_kozterNev": street_name,
+        "_wardsearch_WAR_nvinvrportlet_kozterJelleg": street_type,
     }
-    url += "?" + urllib.parse.urlencode(d)
+    url += "?" + urllib.parse.urlencode(parameters)
     return url
 
 
-def getHouseNumbersOfStreet(datadir, config, relationName, street):
+def get_house_numbers_of_street(datadir, config, relation_name, street):
     """Gets known house numbers for a single street."""
     if config.has_option('wsgi', 'reference_local'):
         local = config.get('wsgi', 'reference_local').strip()
-        return getHouseNumbersOfStreetLocal(datadir, local, relationName, street)
+        return house_numbers_of_street_local(datadir, local, relation_name, street)
 
     prefix = config.get('wsgi', 'reference').strip()
     workdir = config.get('wsgi', 'workdir').strip()
-    return getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street)
+    return house_numbers_of_street_remote(datadir, prefix, workdir, relation_name, street)
 
 
-def buildMemoryCache(local):
+def build_memory_cache(local):
     """Builds an in-memory cache from the reference on-disk TSV."""
-    global memoryCache
+    global MEMORY_CACHE
 
     with open(local, "r") as sock:
         first = True
@@ -76,64 +76,62 @@ def buildMemoryCache(local):
                 break
 
             refmegye, reftelepules, street, num = line.strip().split("\t")
-            if refmegye not in memoryCache.keys():
-                memoryCache[refmegye] = {}
-            if reftelepules not in memoryCache[refmegye].keys():
-                memoryCache[refmegye][reftelepules] = {}
-            if street not in memoryCache[refmegye][reftelepules].keys():
-                memoryCache[refmegye][reftelepules][street] = []
-            memoryCache[refmegye][reftelepules][street].append(num)
+            if refmegye not in MEMORY_CACHE.keys():
+                MEMORY_CACHE[refmegye] = {}
+            if reftelepules not in MEMORY_CACHE[refmegye].keys():
+                MEMORY_CACHE[refmegye][reftelepules] = {}
+            if street not in MEMORY_CACHE[refmegye][reftelepules].keys():
+                MEMORY_CACHE[refmegye][reftelepules][street] = []
+            MEMORY_CACHE[refmegye][reftelepules][street].append(num)
 
 
-def getHouseNumbersOfStreetLocal(datadir, local, relationName, street):
+def house_numbers_of_street_local(datadir, local, relation_name, street):
     """Gets house numbers for a street locally."""
-    if not memoryCache:
-        if verbose:
+    if not MEMORY_CACHE:
+        if VERBOSE:
             print("building in-memory cache")
-        buildMemoryCache(local)
+        build_memory_cache(local)
 
-    if verbose:
+    if VERBOSE:
         print("searching '" + street + "'")
-    refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
-    street = streetName + " " + streetType
-    if street in memoryCache[refmegye][reftelepules].keys():
-        houseNumbers = memoryCache[refmegye][reftelepules][street]
-        return [helpers.simplify(street + " " + i) for i in houseNumbers]
+    refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
+    street = street_name + " " + street_type
+    if street in MEMORY_CACHE[refmegye][reftelepules].keys():
+        house_numbers = MEMORY_CACHE[refmegye][reftelepules][street]
+        return [helpers.simplify(street + " " + i) for i in house_numbers]
 
     return []
 
 
-def getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street):
+def house_numbers_of_street_remote(datadir, prefix, workdir, relation_name, street):
     """Gets house numbers for a street remotely."""
-    url = getStreetURL(datadir, street, prefix, relationName)
-    if verbose:
+    url = get_street_url(datadir, street, prefix, relation_name)
+    if VERBOSE:
         print("considering '" + url + "'")
-    urlHash = helpers.get_url_hash(url)
+    url_hash = helpers.get_url_hash(url)
 
     if not os.path.exists(os.path.join(workdir, "cache")):
         os.makedirs(os.path.join(workdir, "cache"))
 
-    cachePath = os.path.join(workdir, "cache", urlHash)
-    if not os.path.exists(cachePath):
+    cache_path = os.path.join(workdir, "cache", url_hash)
+    if not os.path.exists(cache_path):
         # Not in cache, download.
-        if verbose:
+        if VERBOSE:
             sys.stderr.write("downloading '" + url + "'...")
         try:
-            urlSock = urllib.request.urlopen(url)
-            buf = urlSock.read()
-            if verbose:
-                sys.stderr.write(" done.\n")
-            urlSock.close()
+            with urllib.request.urlopen(url) as url_sock:
+                buf = url_sock.read()
+                if VERBOSE:
+                    sys.stderr.write(" done.\n")
         except urllib.error.HTTPError:
             buf = b''
-            if verbose:
+            if VERBOSE:
                 sys.stderr.write(" not found.\n")
-        cacheSock = open(cachePath, "w")
-        string = buf.decode('utf-8')
-        cacheSock.write(string)
-        cacheSock.close()
+        with open(cache_path, "w") as cache_sock:
+            string = buf.decode('utf-8')
+            cache_sock.write(string)
 
-    sock = open(cachePath)
+    sock = open(cache_path)
     string = sock.read()
 
     try:
@@ -143,37 +141,37 @@ def getHouseNumbersOfStreetRemote(datadir, prefix, workdir, relationName, street
     return [helpers.simplify(street + " " + i["displayValueHouseNumber"]) for i in j]
 
 
-def getReferenceHousenumbers(config, relationName):
+def get_reference_housenumbers(config, relation_name):
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = config.get('wsgi', 'workdir').strip()
-    streets = helpers.get_streets(workdir, relationName)
+    streets = helpers.get_streets(workdir, relation_name)
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += getHouseNumbersOfStreet(datadir, config, relationName, street)
+        lst += get_house_numbers_of_street(datadir, config, relation_name, street)
 
     lst = sorted(set(lst))
-    sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relationName), "w")
-    for l in lst:
-        sock.write(l + "\n")
+    sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")
+    for line in lst:
+        sock.write(line + "\n")
     sock.close()
 
 
 def main():
     """Commandline interface to this module."""
-    global verbose
+    global VERBOSE
 
     config = configparser.ConfigParser()
-    configPath = os.path.join(os.path.dirname(__file__), "wsgi.ini")
-    config.read(configPath)
+    config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config.read(config_path)
 
     if len(sys.argv) > 1:
-        relationName = sys.argv[1]
+        relation_name = sys.argv[1]
 
-    verbose = True
-    getReferenceHousenumbers(config, relationName)
+    VERBOSE = True
+    get_reference_housenumbers(config, relation_name)
 
 
 if __name__ == "__main__":

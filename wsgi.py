@@ -179,7 +179,7 @@ def suspicious_streets_view_result(request_uri, workdir):
     return output
 
 
-def suspicious_streets_view_result_txt(request_uri, workdir):
+def suspicious_streets_view_txt(request_uri, workdir):
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
     relation = tokens[-2]
@@ -215,7 +215,7 @@ def handle_suspicious_streets(request_uri, workdir, relations):
 
     if action_noext == "view-result":
         if ext == "txt":
-            return suspicious_streets_view_result_txt(request_uri, workdir)
+            return suspicious_streets_view_txt(request_uri, workdir)
 
         output += suspicious_streets_view_result(request_uri, workdir)
     elif action_noext == "view-query":
@@ -225,7 +225,7 @@ def handle_suspicious_streets(request_uri, workdir, relations):
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
-        get_reference_housenumbers.getReferenceHousenumbers(get_config(), relation)
+        get_reference_housenumbers.get_reference_housenumbers(get_config(), relation)
         output += "Frissítés sikeres."
 
     osmrelation = relations[relation]["osmrelation"]
