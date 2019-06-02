@@ -1,53 +1,53 @@
 filters:
-  antonia_utca:
+  Antónia utca:
     ranges:
       # not sure about the 5, definitely <7
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
-  arnika_utca:
+  Árnika utca:
     # not sure about the 2
     ranges:
       - {end: '9', start: '1'}
       - {end: '2', start: '2'}
-  barackfa_utca:
+  Barackfa utca:
     ranges:
       - {end: '23', start: '1'}
       - {end: '24', start: '2'}
-  barackos_koz:
+  Barackos köz:
     ranges:
       - {end: '7', start: '1'}
       - {end: '10', start: '2'}
-  beregszasz_ut:
+  Beregszász út:
     ranges:
       - {end: '101', start: '1'}
       - {end: '100', start: '4'}
-  bodajk_utca:
+  Budajk utca:
     ranges:
       - {end: '37', start: '1'}
       - {end: '32', start: '2'}
-  botfalu_koz:
+  Botfalu köz:
     ranges:
       - {end: '23', start: '1'}
       - {end: '20', start: '2'}
-  brasso_ut:
+  Brassó út:
     # <=152 is just the Sasad part, 169 is actually 169-179
     ranges:
       - {end: '169', start: '1'}
       - {end: '152', start: '2'}
-  budaorsi_ut:
+  Budaörsi út:
     # this is just the Sasad part
     ranges:
       - {end: '135', start: '77'}
-  cseresznye_koz:
+  Cseresznye köz:
     ranges:
       - {end: '3', start: '1'}
       - {end: '4', start: '2'}
-  cseresznye_utca:
+  Cseresznye utca:
     ranges:
       - {end: '61', start: '1'}
       - {end: '36', start: '2'}
       - {end: '64', start: '40'}
-  dayka_gabor_utca:
+  Dayka Gábor utca:
     # 21-91 is outside Sasad
     ranges:
       - {end: '19', start: '1'}
@@ -55,183 +55,182 @@ filters:
       - {end: '48', start: '26'}
       - {end: '62', start: '58'}
       - {end: '104', start: '72'}
-  elopatak_utca:
+  Előpatak utca:
     ranges:
       - {end: '57', start: '1'}
       - {end: '75', start: '61'}
       - {end: '26', start: '6'}
       - {end: '82', start: '30'}
-  eper_koz:
+  Eper köz:
     ranges:
       - {end: '17', start: '1'}
       - {end: '14', start: '2'}
-  eper_utca:
+  Eper utca:
     ranges:
       - {end: '77', start: '1'}
       - {end: '56', start: '2'}
-  erdi_ut:
+  Érdi út:
     ranges:
       - {start: '2', end: '16'}
-  gazdagreti_ut:
+  Gazdagréti út:
     # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44
     ranges:
       - {start: '38', end: '44'}
-  gorbe_utca:
+  Görbe utca:
     ranges:
       - {end: '9', start: '1'}
       - {end: '14', start: '2'}
-  gulyas_koz:
+  Gulyás köz:
     ranges:
       - {end: '9', start: '1'}
       - {end: '8', start: '2'}
-  gulyas_utca:
+  Gulyás utca:
     ranges:
       - {end: '27', start: '1'}
       - {end: '24', start: '2'}
-  haraszt_utca:
+  Haraszt utca:
     ranges:
       - {end: '29', start: '1'}
       - {end: '28', start: '2'}
-  harasztos_ut:
+  Harasztos út:
     ranges:
       - {end: '7', start: '1'}
       - {end: '8', start: '2'}
-  haromszek_utca:
+  Háromszék utca:
     ranges:
       - {end: '43', start: '1'}
       - {end: '56', start: '2'}
-  harta_utca:
+  Harta utca:
     ranges:
       - {end: '9', start: '1'}
       - {end: '12', start: '2'}
-  hegyalja_ut:
+  Hegyalja út:
     ranges:
       - {start: '184', end: '190'}
-  homonna_koz:
+  Homonna köz:
     ranges: []
-  homonna_utca:
+  Homonna utca:
     # 13 could be 21, but it's in fact 13-21
     ranges:
       - {end: '13', start: '1'}
       - {end: '20', start: '2'}
-  kohalom_utca:
+  Kőhalom utca:
     ranges:
       - {end: '13', start: '1'}
       - {end: '16', start: '2'}
-  komondor_utca:
+  Komondor utca:
     ranges:
       - {end: '11', start: '1'}
       - {end: '12', start: '2'}
-  maderspach_karolyne_utca:
+  Maderspach Károlyné utca:
     ranges:
       - {end: '25', start: '1'}
       - {end: '28', start: '2'}
-  nagyida_koz:
+  Nagyida köz:
     ranges:
       - {end: '21', start: '1'}
       - {end: '18', start: '2'}
-  nagyszalonta_koz:
+  Nagyszalonta köz:
     ranges:
       - {end: '7', start: '1'}
       - {end: '8', start: '2'}
-  nagyszalonta_utca:
+  Nagyszalonta utca:
     ranges:
       - {end: '57', start: '1'}
       - {end: '68', start: '2'}
-  nagyida_utca:
+  Nagyida utca:
     ranges:
       - {start: '1', end: '19'}
-  nagyszeben_ut:
+  Nagyszeben út:
     ranges:
       # 7-ig biztosan van, 13 mar nincs
       - {start: '1', end: '11'}
-  nagyszolos_utca:
+  Nagyszőlős utca:
     ranges: []
-  nemetvolgyi_ut:
+  Németvölgyi út:
     ranges:
       - {start: '132', end: '150'}
-  olt_utca:
+  Olt utca:
     ranges:
       - {end: '41', start: '1'}
       - {end: '40', start: '2'}
-  oltvany_arok:
+  Oltvány árok:
     ranges:
       - {end: '43', start: '1'}
       - {end: '34', start: '4'}
-  oltvany_utca:
+  Oltvány utca:
     ranges:
       - {end: '19', start: '3'}
       - {end: '32', start: '2'}
-  orseg_utca:
+  Őrség utca:
     ranges:
       - {end: '29', start: '1'}
       - {end: '40', start: '2'}
-  ortahaza_utca:
+  Ortaháza utca:
     ranges:
       - {end: '7', start: '1'}
       - {end: '14', start: '2'}
-  pannonhalmi_ut:
+  Pannonhalmi út:
     ranges:
       - {end: '47', start: '1'}
       - {end: '61', start: '51'}
       - {end: '44', start: '2'}
       - {end: '58', start: '50'}
-  raho_utca:
+  Rahó utca:
     ranges:
       - {end: '15', start: '1'}
       - {end: '32', start: '2'}
-  rako_utca:
+  Rákó utca:
     ranges:
       - {end: '57', start: '1'}
       - {end: '60', start: '2'}
-  ramocsa_utca:
+  Ramocsa utca:
     ranges:
       - {end: '29', start: '1'}
       - {end: '30', start: '2'}
-  ratkoc_koz:
+  Ratkóc köz:
     ranges:
       - {end: '5', start: '1'}
       - {end: '8', start: '2'}
-  ratkoc_utca:
+  Ratkóc utca:
     ranges:
       - {end: '13', start: '1'}
       - {end: '18', start: '8'}
-  retkoz_utca:
+  Rétköz utca:
     ranges:
       - {start: '11', end: '75'}
-  rodosto_utca:
+  Rodostó utca:
     ranges:
       - {end: '17', start: '7'}
-  rozmaring_utca:
+  Rozmaring utca:
     # not sure about the 16
     ranges:
       - {end: '19', start: '3'}
       - {end: '16', start: '2'}
-  rozsato_utca:
+  Rózsatő utca:
     # not sure about the 12
     ranges:
       - {end: '9', start: '1'}
       - {end: '12', start: '2'}
-  sasadi_koz:
+  Sasadi köz:
     ranges:
       - {end: '1', start: '1'}
       - {end: '4', start: '2'}
-  suveg_utca:
+  Süveg utca:
     ranges:
       - {end: '15', start: '1'}
       - {end: '16', start: '2'}
-  szent_kristof_utca:
+  Szent Kristóf utca:
     # not sure about the 4
     ranges:
       - {end: '3', start: '1'}
       - {end: '4', start: '2'}
-  torokbalinti_ut:
+  Törökbálinti út:
     # just the Sasad part
     ranges:
       - {end: '54', start: '2'}
-  zajzon_utca:
+  Zajzon utca:
     ranges:
       - {end: '15', start: '1'}
       - {end: '24', start: '2'}
 source: survey
-simplify: true
