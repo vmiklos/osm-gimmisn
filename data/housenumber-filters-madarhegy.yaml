@@ -22,8 +22,9 @@ filters:
       - {start: '2', end: '98'}
   medvetalp_utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '17'}
+      # 8-ig biztosan van, 12 mar nincs
+      - {start: '2', end: '10'}
   molnarfecske_utca:
     # https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/ujbudahu/2018_09/kmbt28220180914083648.pdf
     ranges:
