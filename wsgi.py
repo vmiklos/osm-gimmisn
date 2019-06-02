@@ -197,7 +197,7 @@ def suspicious_streets_view_txt(request_uri, workdir):
         for result in finder.suspicious_streets:
             if result[1]:
                 # House number, only_in_reference items.
-                row = result[0] + "[" + ", ".join(result[1]) + "]"
+                row = result[0] + "\t[" + ", ".join(result[1]) + "]"
                 table.append(row)
         table.sort()
         output += "\n".join(table)
