@@ -98,7 +98,7 @@ def house_numbers_of_street_local(datadir, local, relation_name, street):
     street = street_name + " " + street_type
     if street in MEMORY_CACHE[refmegye][reftelepules].keys():
         house_numbers = MEMORY_CACHE[refmegye][reftelepules][street]
-        return [helpers.simplify(street + " " + i) for i in house_numbers]
+        return [street + " " + i for i in house_numbers]
 
     return []
 
@@ -138,7 +138,7 @@ def house_numbers_of_street_remote(datadir, prefix, workdir, relation_name, stre
         j = json.loads(string)
     except json.decoder.JSONDecodeError:
         return []
-    return [helpers.simplify(street + " " + i["displayValueHouseNumber"]) for i in j]
+    return [street + " " + i["displayValueHouseNumber"] for i in j]
 
 
 def get_reference_housenumbers(config, relation_name):

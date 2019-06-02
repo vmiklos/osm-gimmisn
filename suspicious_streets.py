@@ -63,9 +63,9 @@ class Finder:
             except ValueError:
                 continue
 
-            if street_name in self.normalizers.keys():
+            if helpers.simplify(street_name) in self.normalizers.keys():
                 # Have a custom filter.
-                normalizer = self.normalizers[street_name]
+                normalizer = self.normalizers[helpers.simplify(street_name)]
             else:
                 # Default sanity checks.
                 default = [helpers.Range(1, 999), helpers.Range(2, 998)]
@@ -90,19 +90,19 @@ class Finder:
                     continue
                 if tokens[1] != street_name:
                     continue
-                house_numbers += self.normalize(tokens[2], helpers.simplify(street_name))
+                house_numbers += self.normalize(tokens[2], street_name)
         return helpers.sort_numerically(set(house_numbers))
 
     def get_house_numbers_from_lst(self, workdir, relation_name, street_name, ref_street):
         """Gets house numbers from reference."""
         house_numbers = []  # type: List[str]
-        lst_street_name = helpers.simplify(ref_street)
-        prefix = lst_street_name + "_"
+        lst_street_name = ref_street
+        prefix = lst_street_name + " "
         sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name))
         for line in sock.readlines():
             line = line.strip()
             if line.startswith(prefix):
-                house_numbers += self.normalize(line.replace(prefix, ''), helpers.simplify(street_name))
+                house_numbers += self.normalize(line.replace(prefix, ''), street_name)
         sock.close()
         return helpers.sort_numerically(set(house_numbers))
 
