@@ -196,20 +196,20 @@ class TestRange(unittest.TestCase):
     """Tests Range."""
     def test_isodd_bad(self):
         """Tests an odd range with an even number."""
-        r = helpers.Range(1, 3)
-        self.assertFalse(2 in r)
+        test = helpers.Range(1, 3)
+        self.assertFalse(2 in test)
 
     def test_range_bad(self):
         """Tests an odd range with a large number."""
-        r = helpers.Range(1, 3)
-        self.assertFalse(5 in r)
+        test = helpers.Range(1, 3)
+        self.assertFalse(5 in test)
 
     def test_happy(self):
         """Tests the happy path."""
-        r = helpers.Range(1, 5)
-        self.assertTrue(1 in r)
-        self.assertTrue(3 in r)
-        self.assertTrue(5 in r)
+        test = helpers.Range(1, 5)
+        self.assertTrue(1 in test)
+        self.assertTrue(3 in test)
+        self.assertTrue(5 in test)
 
     def test_eq(self):
         """Tests equality code."""
@@ -221,23 +221,23 @@ class TestRanges(unittest.TestCase):
     """Tests Ranges."""
     def test_a(self):
         """Tests when the arg is in the first range."""
-        r = helpers.Ranges([[0], [1]])
-        self.assertTrue(0 in r)
+        test = helpers.Ranges([[0], [1]])
+        self.assertTrue(0 in test)
 
     def test_b(self):
         """Tests when the arg is in the second range."""
-        r = helpers.Ranges([[0], [1]])
-        self.assertTrue(1 in r)
+        test = helpers.Ranges([[0], [1]])
+        self.assertTrue(1 in test)
 
     def test_ab(self):
         """Tests when the arg is in both ranges."""
-        r = helpers.Ranges([[1], [1]])
-        self.assertTrue(1 in r)
+        test = helpers.Ranges([[1], [1]])
+        self.assertTrue(1 in test)
 
     def test_none(self):
         """Tests when the arg is in neither ranges."""
-        r = helpers.Ranges([[0], [1]])
-        self.assertFalse(2 in r)
+        test = helpers.Ranges([[0], [1]])
+        self.assertFalse(2 in test)
 
 
 class TestGetWorkdir(unittest.TestCase):
@@ -328,67 +328,67 @@ class TestGetStreetDetails(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Budaörsi út"
-        relationName = "gazdagret"
-        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        relation_name = "gazdagret"
+        refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
         self.assertEqual("011", reftelepules)
-        self.assertEqual("Budaörsi", streetName)
-        self.assertEqual("út", streetType)
+        self.assertEqual("Budaörsi", street_name)
+        self.assertEqual("út", street_type)
 
     def test_reftelepules_override(self):
         """Tests street-specific reftelepules override."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Teszt utca"
-        relationName = "gazdagret"
-        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        relation_name = "gazdagret"
+        refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
         self.assertEqual("012", reftelepules)
-        self.assertEqual("Teszt", streetName)
-        self.assertEqual("utca", streetType)
+        self.assertEqual("Teszt", street_name)
+        self.assertEqual("utca", street_type)
 
-    def test_reftelepules_override_legacy(self):
+    def test_reftelepules_override_old(self):
         """Tests street-specific reftelepules override (legacy)."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Teszt utca"
-        relationName = "gazdagretlegacy"
-        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        relation_name = "gazdagretlegacy"
+        refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
         self.assertEqual("012", reftelepules)
-        self.assertEqual("Teszt", streetName)
-        self.assertEqual("utca", streetType)
+        self.assertEqual("Teszt", street_name)
+        self.assertEqual("utca", street_type)
 
     def test_refstreets(self):
         """Tests OSM -> ref name mapping."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "OSM Name 1"
-        relationName = "gazdagret"
-        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        relation_name = "gazdagret"
+        refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
         self.assertEqual("011", reftelepules)
-        self.assertEqual("Ref Name", streetName)
-        self.assertEqual("1", streetType)
+        self.assertEqual("Ref Name", street_name)
+        self.assertEqual("1", street_type)
 
     def test_nosuchrelation(self):
         """Tests a relation without a filter file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "OSM Name 1"
-        relationName = "nosuchrelation"
-        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        relation_name = "nosuchrelation"
+        refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
         self.assertEqual("011", reftelepules)
-        self.assertEqual("OSM Name", streetName)
-        self.assertEqual("1", streetType)
+        self.assertEqual("OSM Name", street_name)
+        self.assertEqual("1", street_type)
 
     def test_emptyrelation(self):
         """Tests a relation with an empty filter file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "OSM Name 1"
-        relationName = "empty"
-        refmegye, reftelepules, streetName, streetType = helpers.get_street_details(datadir, street, relationName)
+        relation_name = "empty"
+        refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
         self.assertEqual("011", reftelepules)
-        self.assertEqual("OSM Name", streetName)
-        self.assertEqual("1", streetType)
+        self.assertEqual("OSM Name", street_name)
+        self.assertEqual("1", street_type)
 
 
 class TestHtmlTableFromList(unittest.TestCase):
@@ -419,7 +419,7 @@ class TestGetStreetUrl(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Budaörsi út"
-        relationName = "gazdagret"
+        relation_name = "gazdagret"
         url = "http://www.example.com/?p_p_id=wardsearch_WAR_nvinvrportlet&p_p_lifecycle=2&p_p_state=normal"
         url += "&p_p_mode=view&p_p_resource_id=resourceIdGetHazszam&p_p_cacheability=cacheLevelPage"
         url += "&p_p_col_id=column-2&p_p_col_count=1&_wardsearch_WAR_nvinvrportlet_vlId=291"
@@ -427,7 +427,7 @@ class TestGetStreetUrl(unittest.TestCase):
         url += "&_wardsearch_WAR_nvinvrportlet_megyeKod=01&_wardsearch_WAR_nvinvrportlet_telepulesKod=011"
         url += "&_wardsearch_WAR_nvinvrportlet_kozterNev=Buda%C3%B6rsi"
         url += "&_wardsearch_WAR_nvinvrportlet_kozterJelleg=%C3%BAt"
-        actual = helpers.get_street_url(datadir, street, "http://www.example.com/", relationName)
+        actual = helpers.get_street_url(datadir, street, "http://www.example.com/", relation_name)
         self.assertEqual(actual, url)
 
 
