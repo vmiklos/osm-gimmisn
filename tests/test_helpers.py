@@ -431,5 +431,36 @@ class TestGetStreetUrl(unittest.TestCase):
         self.assertEqual(actual, url)
 
 
+class TestNormalize(unittest.TestCase):
+    """Tests normalize()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
+        house_numbers = helpers.normalize("139", "Budaörsi út", False, normalizers)
+        self.assertEqual(house_numbers, ["139"])
+
+    def test_not_a_number(self):
+        """Tests the case when the house number is not a number."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
+        house_numbers = helpers.normalize("x", "Budaörsi út", False, normalizers)
+        self.assertEqual(house_numbers, [])
+
+    def test_simplify(self):
+        """Tests the case when the filter name is encoded using legacy simplify()."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagretlegacy")
+        house_numbers = helpers.normalize("1", "Budaörsi út", True, normalizers)
+        self.assertEqual(house_numbers, [])
+
+    def test_nofilter(self):
+        """Tests the case when there is no filter for this street."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
+        house_numbers = helpers.normalize("1", "Budaörs út", False, normalizers)
+        self.assertEqual(house_numbers, ["1"])
+
+
 if __name__ == '__main__':
     unittest.main()

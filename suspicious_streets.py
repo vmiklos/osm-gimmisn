@@ -9,12 +9,10 @@
 suspicious as lots of house numbers are probably missing."""
 
 import os
-import re
 import sys
 # pylint: disable=unused-import
 from typing import Dict, List
 import configparser
-import yaml
 import helpers
 
 
@@ -53,34 +51,6 @@ class Finder:
         self.suspicious_streets = results
         self.done_streets = both_results
 
-    def normalize(self, house_numbers: str, street_name: str) -> List[str]:
-        """Strips down string input to bare minimum that can be interpreted as an
-        actual number. Think about a/b, a-b, and so on."""
-        ret = []
-        for house_number in house_numbers.split('-'):
-            try:
-                number = int(re.sub(r"([0-9]+).*", r"\1", house_number))
-            except ValueError:
-                continue
-
-            street_simple = street_name
-            if self.simplify:
-                # Old code path
-                street_simple = helpers.simplify(street_name)
-
-            if street_simple in self.normalizers.keys():
-                # Have a custom filter.
-                normalizer = self.normalizers[street_simple]
-            else:
-                # Default sanity checks.
-                default = [helpers.Range(1, 999), helpers.Range(2, 998)]
-                normalizer = helpers.Ranges(default)
-            if number not in normalizer:
-                continue
-
-            ret.append(str(number))
-        return ret
-
     def get_house_numbers_from_csv(self, workdir, relation_name, street_name):
         """Gets house numbers from the overpass query."""
         house_numbers = []  # type: List[str]
@@ -95,7 +65,7 @@ class Finder:
                     continue
                 if tokens[1] != street_name:
                     continue
-                house_numbers += self.normalize(tokens[2], street_name)
+                house_numbers += helpers.normalize(tokens[2], street_name, self.simplify, self.normalizers)
         return helpers.sort_numerically(set(house_numbers))
 
     def get_house_numbers_from_lst(self, workdir, relation_name, street_name, ref_street):
@@ -107,7 +77,8 @@ class Finder:
         for line in sock.readlines():
             line = line.strip()
             if line.startswith(prefix):
-                house_numbers += self.normalize(line.replace(prefix, ''), street_name)
+                house_number = line.replace(prefix, '')
+                house_numbers += helpers.normalize(house_number, street_name, self.simplify, self.normalizers)
         sock.close()
         return helpers.sort_numerically(set(house_numbers))
 

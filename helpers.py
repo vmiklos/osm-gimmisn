@@ -390,3 +390,35 @@ def get_street_url(datadir, street, prefix, relation_name):
     }
     url += "?" + urllib.parse.urlencode(parameters)
     return url
+
+
+def normalize(house_numbers: str, street_name: str, use_simplify: bool,
+              normalizers: Dict[str, Ranges]) -> List[str]:
+    """Strips down string input to bare minimum that can be interpreted as an
+    actual number. Think about a/b, a-b, and so on."""
+    ret = []
+    for house_number in house_numbers.split('-'):
+        try:
+            number = int(re.sub(r"([0-9]+).*", r"\1", house_number))
+        except ValueError:
+            continue
+
+        street_simple = street_name
+        if use_simplify:
+            # Old code path
+            street_simple = simplify(street_name)
+
+        if street_simple in normalizers.keys():
+            # Have a custom filter.
+            normalizer = normalizers[street_simple]
+        else:
+            # Default sanity checks.
+            default = [Range(1, 999), Range(2, 998)]
+            normalizer = Ranges(default)
+        if number not in normalizer:
+            continue
+
+        ret.append(str(number))
+    return ret
+
+# vim:set shiftwidth=4 softtabstop=4 expandtab:
