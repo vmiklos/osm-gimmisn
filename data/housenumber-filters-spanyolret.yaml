@@ -1,23 +1,26 @@
 filters:
   # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
-  budaorsi_ut:
+  Budaörsi út:
     ranges:
       - {start: '267', end: '999'}
-  rupphegyi_ut:
+  Felsőhatár utca:
+    ranges: []
+  Felső határút:
+    ranges:
+      - {start: '2', end: '36'}
+  Kőoltár utca:
+    ranges:
+      - {start: '5', end: '5'}
+      - {start: '6', end: '6'}
+  Rupphegyi út:
     # paratlan oldalnal a 39 talalomra, mivel nincs beepitve
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '44'}
-  torokbalinti_ut:
+  Törökbálinti út:
     ranges:
       # jelenleg nincs beepitve, nem lehet tudni meddig tart madarhegy es hol kezdodik a spanyolret
-      - {start: '80', end: '998'}
-  felsohatar_utca:
-    ranges: []
-  felso_hatarut:
-    ranges:
-      - {start: '2', end: '36'}
+      - {start: '90', end: '998'}
 refstreets:
   'Felső határút': 'Felső Határ út'
 source: survey
-simplify: true
