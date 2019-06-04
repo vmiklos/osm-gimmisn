@@ -1,82 +1,84 @@
 filters:
-  alsohegy_utca:
+  Alsóhegy utca:
     ranges:
       - {start: '32', end: '44'}
-  bartok_bela_ut:
+  Bartók Béla út:
     ranges:
       - {start: '1', end: '67'}
       - {start: '60', end: '82'}
-  bocskai_ut:
+  Bocskai út:
     ranges:
       - {start: '1', end: '65'}
-  csetneki_utca:
+  Csetneki utca:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
-  dioszegi_ut:
+  Diószegi út:
     ranges:
       - {start: '35', end: '63'}
       - {start: '36', end: '60'}
-  fadrusz_utca:
+  Fadrusz utca:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '16'}
-  fehervari_ut:
+  Fehérvári út:
     ranges:
       - {start: '1', end: '21'}
-  karolina_ut:
+  Karolina út:
     ranges:
       - {start: '2', end: '38'}
-  kelenhegyi_ut:
+  Kelenhegyi út:
     ranges:
       - {start: '2', end: '10'}
-  kemenes_utca:
+  Kemenes utca:
     ranges:
       # paratlan felmerendo
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
-  kobolkut_utca:
+  Köbölkút utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  kosztolanyi_dezso_ter:
+  Kosztolányi Dezső tér:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
       - {start: '12', end: '12'}
-  manyoki_ut:
+  Mányoki út:
     ranges:
-      - {start: '2', end: '98'}
-  menesi_ut:
+      - {start: '2', end: '24'}
+  Ménesi út:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '98'}
-  moricz_zsigmond_korter:
+  Móricz Zsigmond körtér:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
-  szent_gellert_ter:
+  Szent Gellért tér:
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '2'}
-  szuret_utca:
+  Szüret utca:
     ranges:
       - {start: '19', end: '29'}
-  tas_vezer_utca:
+  Tas vezér utca:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '20'}
-  villanyi_ut:
+  Villányi út:
     ranges:
-      - {start: '1', end: '87'}
+      # Edutus 11-13, Templom 25, Szie 29-43 (31, 35-43)
+      - {start: '1', end: '13'}
+      - {start: '25', end: '29'}
+      - {start: '43', end: '87'}
       - {start: '2', end: '74'}
-  vinceller_utca:
+  Vincellér utca:
     ranges:
       - {start: '23', end: '25'}
       - {start: '16', end: '24'}
-  zsombolyai_utca:
+  Zsombolyai utca:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
 source: survey
-simplify: true
