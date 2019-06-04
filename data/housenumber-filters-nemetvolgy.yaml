@@ -1,137 +1,141 @@
 filters:
-  alkotas_utca:
+  Alkotás utca:
     ranges:
       - {start: '39', end: '53'}
       - {start: '42', end: '44'}
       - {start: '50', end: '58'}
-  apor_vilmos_ter:
+  Apor Vilmos tér:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '26'}
-  ban_utca:
+  Bán utca:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
-  boszormenyi_ut:
+  Böszörményi út:
     ranges:
       - {start: '3', end: '37'}
       - {start: '16', end: '46'}
-  brassai_samuel_utca:
+  Brassai Sámuel utca:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '16'}
-  csorsz_utca:
+  Csörsz utca:
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '18'}
-  derkovits_utca:
+  Derkovits utca:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
-  dolgos_utca:
+  Dolgos utca:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '2'}
-  furj_utca:
+  Fürj utca:
     ranges:
       - {start: '1', end: '33'}
       - {start: '2', end: '46'}
-  gyori_ut:
+  Győri út:
     # this is just the nemetvolgy part
     ranges:
       - {start: '9', end: '19'}
       - {start: '2', end: '20'}
-  hegyalja_ut:
+  Hegyalja út:
     # this is just the nemetvolgy part
     ranges:
       - {start: '95', end: '139'}
-  jagello_ut:
+  Istenhegyi út:
+    ranges: []
+  Jagelló út:
     ranges:
       - {start: '1', end: '5'}
       - {start: '9', end: '15'}
       - {start: '2', end: '52'}
-  kapitany_utca:
+  Kapitány utca:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
-  kiss_janos_altabornagy_utca:
+  Kálló esperes utca:
+    ranges:
+      - {start: '1', end: '23'}
+  Kiss János altábornagy utca:
     # this is just the nemetvolgy part
     ranges:
       - {start: '25', end: '59'}
       - {start: '2', end: '2'}
       - {start: '6', end: '88'}
-  korompai_utca:
+  Korompai utca:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '18'}
-  koszta_jozsef_utca:
+  Koszta József utca:
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '42'}
-  lejto_ut:
+  Lejtő út:
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '28'}
-  lipto_utca:
+  Liptó utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '14'}
-  nemetvolgyi_ut:
+  Németvölgyi út:
     # this is just the nemetvolgy part
     ranges:
       - {start: '2', end: '42'}
       - {start: '46', end: '130'}
-  sashegyi_ut:
+  Sashegyi út:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '30'}
-  siraly_utca:
+  Sirály utca:
     ranges:
       - {start: '1', end: '13'}
       - {start: '4', end: '20'}
-  somorjai_utca:
+  Somorjai utca:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '16'}
-  stromfeld_aurel_ut:
+  Stromfeld Aurél út:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '10'}
-  szendi_arok:
+  Szendi árok:
     ranges:
       - {start: '1', end: '11'}
       - {start: '8', end: '10'}
-  szoboszlai_utca:
+  Szoboszlai utca:
     ranges:
       - {start: '11', end: '21'}
       - {start: '2', end: '4'}
-  taltos_utca:
+  Táltos utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '22'}
-  tartsay_vilmos_utca:
+  Tartsay Vilmos utca:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '30'}
-  torpe_utca:
+  Törpe utca:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '12'}
-  vas_gereben_utca:
+  Vas Gereben utca:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '40'}
-  vercse_koz:
+  Vércse köz:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
-  vercse_utca:
+  Vércse utca:
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '32'}
-  zsambeki_utca:
+  Zsámbéki utca:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '14'}
 source: survey
-simplify: true
