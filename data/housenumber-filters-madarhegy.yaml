@@ -49,7 +49,8 @@ filters:
   torokbalinti_ut:
     ranges:
       # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a spanyolret
-      - {start: '80', end: '998'}
+      # 90-es szamot 1x hozzuk ki hibanak, ott epultek hazak
+      - {start: '80', end: '88'}
   rupphegyi_ut:
     # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a posingermajor
     ranges:
