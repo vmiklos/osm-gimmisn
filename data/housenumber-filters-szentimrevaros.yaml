@@ -37,8 +37,8 @@ filters:
       - {start: '2', end: '14'}
   Köbölkút utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '43'}
+      - {start: '2', end: '40'}
   Kosztolányi Dezső tér:
     ranges:
       - {start: '1', end: '3'}
@@ -50,7 +50,7 @@ filters:
   Ménesi út:
     ranges:
       - {start: '1', end: '3'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '104'}
   Móricz Zsigmond körtér:
     ranges:
       - {start: '1', end: '13'}
