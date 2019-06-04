@@ -1,173 +1,169 @@
 filters:
-  barackvirag_utca:
+  Barackvirág utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  barackos_utca:
+  Barackos utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  bibor_utca:
+  Bíbor utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  boglarka_utca:
+  Boglárka utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  bokros_utca:
+  Bokros utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  cserje_utca:
+  Cserje utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  csokor_utca:
+  Csokor utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  deak_ferenc_utca:
+  Deák Ferenc utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  estike_utca:
+  Estike utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  ferenc_utca:
+  Ferenc utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  forras_utca:
+  Forrás utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  fuzes_utca:
+  Füzes utca:
     ranges:
       - {start: '1', end: '199'}
       - {start: '2', end: '198'}
-  fenyo_utca:
+  Fenyő utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  gabor_aron_utca:
+  Gábor Áron utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  gyongyvirag_utca:
+  Gyüngyvirág utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  hatar_utca:
+  Határ utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  heja_utca:
+  Héja utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  hold_utca:
+  Hold utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  horhos_utca:
+  Horhos utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  karo_utca:
+  Karó utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  kertbaratok_utja:
+  Kertbarátok útja:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  keserukut_utca:
+  Keserűkút utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  kokeny_utca:
+  Kökény utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  kokorcsin_utca:
+  Kökörcsin utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  kossuth_lajos_utca:
+  Kossuth Lajos utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  majus_1_utca:
+  Mária királynő utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  maria_kiralyno_utca:
+  Móricz Zsigmond_utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  moricz_zsigmond_utca:
+  Naphegy köz:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  naphegy_koz:
+  Nárcisz utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  narcisz_utca:
+  Petőfi utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  petofi_utca:
+  Rét utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  ret_utca:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
-  szent_laszlo_utca:
+  Szent László utca:
     ranges:
       - {start: '1', end: '199'}
       - {start: '2', end: '198'}
-  szel_utca:
+  Szél utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  szily_kalman_ut:
+  Szily Kálmán út:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  szirom_utca:
+  Szirom utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  topart_utca:
+  Tópart utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  tovis_utca:
+  Tövis utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  pecato_utca:
+  Pecató utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  uray_geza_ut:
+  Uray Géza út:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  vadvirag_utca:
+  Vadvirág utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  vihar_utca:
+  Vihar utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  zsigmond_kiraly_utca:
+  Zsigmond Király utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
@@ -190,4 +186,3 @@ refstreets:
   'Vízipók utca': 'Vizipók utca'
   'Zugor utca': 'Zugor István utca'
   'Óvoda köz': 'Óvóda köz'
-simplify: true
