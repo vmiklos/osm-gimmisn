@@ -1,43 +1,42 @@
 filters:
   # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
-  bordezsma_utca:
+  Bordézsma utca:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '6'}
-  budaorsi_ut:
+  Budaörsi út:
     # 201-223 kozt semmi nincs, kiszedtem
     ranges:
       - {start: '167', end: '179'}
       - {start: '185', end: '185'}
       - {start: '195', end: '199'}
-  gazdagreti_ut:
+  Gazdagréti út:
     # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44
     ranges:
       - {start: '2', end: '36'}
-  hosszureti_utca:
+  Hosszúréti utca:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
       - {start: '2', end: '34'}
-  nagyida_utca:
+  Nagyida utca:
     ranges:
       - {start: '2', end: '4'}
-  nevegy_koz:
+  Nevegy köz:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
-  nevegy_utca:
+  Nevegy utca:
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '24'}
-  retkerulo_ut:
+  Rétkerülő út:
     # nincs vegig epitve, 42 hianyzik
     ranges:
       - {start: '1', end: '99'}
       - {start: '14', end: '40'}
       - {start: '44', end: '98'}
-  rozsabarack_utca:
+  Rózsabarack utca:
     # 1-7 hoszuret, 9- es a paros madarhegy
     ranges:
       - {start: '1', end: '7'}
 source: survey
-simplify: true
