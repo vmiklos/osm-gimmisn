@@ -77,15 +77,8 @@ def get_street_details(datadir, street, relation_name):
                 # street-specific reftelepules override.
                 filters = root["filters"]
                 for filter_street, value in filters.items():
-                    if "simplify" not in root.keys():
-                        # New code path.
-                        if filter_street == street and "reftelepules" in value.keys():
-                            reftelepules = value["reftelepules"]
-                    else:
-                        # Old code path
-                        street_simple = simplify(street)
-                        if filter_street == street_simple and "reftelepules" in value.keys():
-                            reftelepules = value["reftelepules"]
+                    if filter_street == street and "reftelepules" in value.keys():
+                        reftelepules = value["reftelepules"]
 
     if street in refstreets.keys():
         street = refstreets[street]
@@ -210,23 +203,6 @@ def get_array_nth(arr: Sequence[str], index: int) -> str:
     return arr[index] if len(arr) > index else ''
 
 
-def simplify(name: str) -> str:
-    """ Handles normalization of a street name."""
-    name = name.replace('Á', 'A').replace('á', 'a')
-    name = name.replace('É', 'E').replace('é', 'e')
-    name = name.replace('Í', 'I').replace('í', 'i')
-    name = name.replace('Ó', 'O').replace('ó', 'o')
-    name = name.replace('Ö', 'O').replace('ö', 'o')
-    name = name.replace('Ő', 'O').replace('ő', 'o')
-    name = name.replace('Ú', 'U').replace('ú', 'u')
-    name = name.replace('Ü', 'U').replace('ü', 'u')
-    name = name.replace('Ű', 'U').replace('ű', 'u')
-    name = name.replace('.', '')
-    name = name.replace(' ', '_')
-    name = name.lower()
-    return name
-
-
 def get_only_in_first(first, second):
     """Returns items which are in first, but not in second."""
     ret = []
@@ -306,14 +282,14 @@ def get_content(workdir, path):
     return ret
 
 
-def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str], bool]:
+def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str]]:
     """Loads filters which allow silencing false positives."""
     filter_dict = {}  # type: Dict[str, Ranges]
     ref_streets = {}  # type: Dict[str, str]
 
     path = os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)
     if not os.path.exists(path):
-        return filter_dict, ref_streets, False
+        return filter_dict, ref_streets
 
     with open(path) as sock:
         root = yaml.load(sock)
@@ -331,11 +307,7 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
     if "refstreets" in root.keys():
         ref_streets = root["refstreets"]
 
-    use_simplify = False
-    if "simplify" in root.keys():
-        use_simplify = root["simplify"]
-
-    return filter_dict, ref_streets, use_simplify
+    return filter_dict, ref_streets
 
 
 def tsv_to_list(sock):
@@ -392,7 +364,7 @@ def get_street_url(datadir, street, prefix, relation_name):
     return url
 
 
-def normalize(house_numbers: str, street_name: str, use_simplify: bool,
+def normalize(house_numbers: str, street_name: str,
               normalizers: Dict[str, Ranges]) -> List[str]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
@@ -403,14 +375,9 @@ def normalize(house_numbers: str, street_name: str, use_simplify: bool,
         except ValueError:
             continue
 
-        street_simple = street_name
-        if use_simplify:
-            # Old code path
-            street_simple = simplify(street_name)
-
-        if street_simple in normalizers.keys():
+        if street_name in normalizers.keys():
             # Have a custom filter.
-            normalizer = normalizers[street_simple]
+            normalizer = normalizers[street_name]
         else:
             # Default sanity checks.
             default = [Range(1, 999), Range(2, 998)]

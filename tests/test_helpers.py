@@ -135,21 +135,6 @@ class TestSortHousenumbers(unittest.TestCase):
         self.assertEqual(helpers.sort_housenumbers(unsorted), expected)
 
 
-class TestSimplify(unittest.TestCase):
-    """Tests simplify()."""
-    def test_no_space_decode(self):
-        """Tests that space is replaced with underscore."""
-        original = 'árvíztűrőtükörfúrógép ÁRVÍZTŰRŐTÜKÖRFÚRÓGÉP'
-        expected = 'arvizturotukorfurogep_arvizturotukorfurogep'
-        self.assertEqual(helpers.simplify(original), expected)
-
-    def test_dot(self):
-        """Tests what happens with dot characters."""
-        original = 'Május 1. utca'
-        expected = 'majus_1_utca'
-        self.assertEqual(helpers.simplify(original), expected)
-
-
 class TestInBoth(unittest.TestCase):
     """Tests get_in_both()."""
     def test_happy(self):
@@ -276,7 +261,7 @@ class TestLoadNormalizers(unittest.TestCase):
     def test_happy(self):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets, simplify = helpers.load_normalizers(datadir, "gazdagret")
+        filters, ref_streets = helpers.load_normalizers(datadir, "gazdagret")
         expected_filters = {
             "Budaörsi út": helpers.Ranges([helpers.Range(137, 165)]),
             "Csiki-hegyek utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
@@ -287,39 +272,20 @@ class TestLoadNormalizers(unittest.TestCase):
             'OSM Name 2': 'Ref Name 2'
         }
         self.assertEqual(ref_streets, expected_streets)
-        self.assertEqual(simplify, False)
-
-    def test_legacy(self):
-        """Tests the legacy path."""
-        datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets, simplify = helpers.load_normalizers(datadir, "gazdagretlegacy")
-        expected_filters = {
-            "budaorsi_ut": helpers.Ranges([helpers.Range(137, 165)]),
-            "csiki-hegyek_utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
-        }
-        self.assertEqual(filters, expected_filters)
-        expected_streets = {
-            'OSM Name 1': 'Ref Name 1',
-            'OSM Name 2': 'Ref Name 2'
-        }
-        self.assertEqual(ref_streets, expected_streets)
-        self.assertEqual(simplify, True)
 
     def test_nosuchname(self):
         """Tests when there is no filters file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets, simplify = helpers.load_normalizers(datadir, "nosuchname")
+        filters, ref_streets = helpers.load_normalizers(datadir, "nosuchname")
         self.assertEqual(filters, {})
         self.assertEqual(ref_streets, {})
-        self.assertEqual(simplify, False)
 
     def test_empty(self):
         """Tests when the filter file is empty."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets, simplify = helpers.load_normalizers(datadir, "empty")
+        filters, ref_streets = helpers.load_normalizers(datadir, "empty")
         self.assertEqual(filters, {})
         self.assertEqual(ref_streets, {})
-        self.assertEqual(simplify, False)
 
 
 class TestGetStreetDetails(unittest.TestCase):
@@ -340,17 +306,6 @@ class TestGetStreetDetails(unittest.TestCase):
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Teszt utca"
         relation_name = "gazdagret"
-        refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
-        self.assertEqual("01", refmegye)
-        self.assertEqual("012", reftelepules)
-        self.assertEqual("Teszt", street_name)
-        self.assertEqual("utca", street_type)
-
-    def test_reftelepules_override_old(self):
-        """Tests street-specific reftelepules override (legacy)."""
-        datadir = os.path.join(os.path.dirname(__file__), "data")
-        street = "Teszt utca"
-        relation_name = "gazdagretlegacy"
         refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
         self.assertEqual("012", reftelepules)
@@ -436,29 +391,29 @@ class TestNormalize(unittest.TestCase):
     def test_happy(self):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
-        house_numbers = helpers.normalize("139", "Budaörsi út", False, normalizers)
+        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        house_numbers = helpers.normalize("139", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, ["139"])
+
+    def test_not_in_range(self):
+        """Tests when the number is not in range."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        house_numbers = helpers.normalize("999", "Budaörsi út", normalizers)
+        self.assertEqual(house_numbers, [])
 
     def test_not_a_number(self):
         """Tests the case when the house number is not a number."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
-        house_numbers = helpers.normalize("x", "Budaörsi út", False, normalizers)
-        self.assertEqual(house_numbers, [])
-
-    def test_simplify(self):
-        """Tests the case when the filter name is encoded using legacy simplify()."""
-        datadir = os.path.join(os.path.dirname(__file__), "data")
-        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagretlegacy")
-        house_numbers = helpers.normalize("1", "Budaörsi út", True, normalizers)
+        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        house_numbers = helpers.normalize("x", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_nofilter(self):
         """Tests the case when there is no filter for this street."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
-        house_numbers = helpers.normalize("1", "Budaörs út", False, normalizers)
+        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        house_numbers = helpers.normalize("1", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["1"])
 
 

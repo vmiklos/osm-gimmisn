@@ -23,7 +23,7 @@ class Finder:
         # OSM name -> ref name map
         self.ref_streets = {}  # type: Dict[str, str]
 
-        self.normalizers, self.ref_streets, self.simplify = helpers.load_normalizers(datadir, relation_name)
+        self.normalizers, self.ref_streets = helpers.load_normalizers(datadir, relation_name)
         street_names = helpers.get_streets(workdir, relation_name)
 
         results = []
@@ -65,7 +65,7 @@ class Finder:
                     continue
                 if tokens[1] != street_name:
                     continue
-                house_numbers += helpers.normalize(tokens[2], street_name, self.simplify, self.normalizers)
+                house_numbers += helpers.normalize(tokens[2], street_name, self.normalizers)
         return helpers.sort_numerically(set(house_numbers))
 
     def get_house_numbers_from_lst(self, workdir, relation_name, street_name, ref_street):
@@ -78,7 +78,7 @@ class Finder:
             line = line.strip()
             if line.startswith(prefix):
                 house_number = line.replace(prefix, '')
-                house_numbers += helpers.normalize(house_number, street_name, self.simplify, self.normalizers)
+                house_numbers += helpers.normalize(house_number, street_name, self.normalizers)
         sock.close()
         return helpers.sort_numerically(set(house_numbers))
 
