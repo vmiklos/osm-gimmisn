@@ -1,75 +1,54 @@
 filters:
-  barackmag_utca:
-    # csak hrsz szures
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
-  csillagoszirozsa_utca:
-    # csak hrsz szures
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
-  felso_hatarut:
+  Felső határút:
     ranges:
       - {start: '38', end: '198'}
-  irhas_arok:
+  Irhás árok:
     ranges:
       - {start: '2', end: '36'}
-  irhas_koz:
+  Irhás köz:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
-  kakukkhegyi_erdosor:
+  Kakukkhegyi erdősor:
     ranges:
       - {start: '15', end: '99'}
       - {start: '2', end: '998'}
-  kakukkhegyi_ut:
+  Kakukkhegyi út:
     ranges:
-      - {end: '999', start: '15'}
-      - {end: '998', start: '2'}
-  makvirag_koz:
+      - {start: '15', end: '999'}
+      - {start: '2', end: '998'}
+  Mákvirág köz:
     ranges:
       - {start: '1', end: '1'}
-  nagymakfa_utca:
+  Nagymákfa utca:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '16'}
-  ordogorom_lejto:
+  Ördögorom lejtő:
     ranges:
       - {start: '1', end: '77'}
       - {start: '2', end: '72'}
-  ordogorom_ut:
+  Ördögorom út:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '24'}
-  rupphegyi_koz:
+  Rupphegyi köz:
     # nincs ide szamozva haz
     ranges: []
-  rupphegyi_ut:
+  Rupphegyi út:
     # paratlan oldalnal a 41 talalomra, mivel nincs beepitve
     ranges:
       - {start: '41', end: '999'}
       - {start: '46', end: '998'}
-  spanyolret_ut:
-    # csak hrsz szures
-    ranges:
-      - {start: '1', end: '999'}
-      - {start: '2', end: '998'}
-  szelesdomb_utca:
+  Szelesdomb utca:
     # 4 a vege de van meg egy szamozatlan haz
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
-  torokbalinti_ut:
+  Törökbálinti út:
     # 105 most az utolso felmert, de meg vannak telkek
     ranges:
       - {start: '77', end: '119'}
-  varjuhaj_utca:
-    # csak hrsz szures
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
 refstreets:
   'Felső határút': 'Felső Határ út'
 source: survey
-simplify: true
