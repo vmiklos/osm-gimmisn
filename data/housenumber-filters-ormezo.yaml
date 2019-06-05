@@ -1,4 +1,8 @@
 filters:
+  Balatoni út:
+    # terinfo.ujbuda.hu alapjan, valosagban nincs haz
+    ranges:
+      - {start: '2', end: '24'}
   Budaörsi út:
     ranges:
       - {start: '62', end: '64'}
