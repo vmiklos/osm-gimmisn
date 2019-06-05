@@ -1,180 +1,179 @@
 filters:
-  alsohegy_utca:
+  Alsóhegy utca:
     ranges:
       - {start: '46', end: '50'}
-  badacsonyi_utca:
+  Badacsonyi utca:
     ranges: []
-  bartok_bela_ut:
+  Bartók Béla út:
     ranges:
       # 105-113; 117-121 hazak vannak
       - {start: '69', end: '105'}
       - {start: '113', end: '117'}
       - {start: '121', end: '149'}
       - {start: '86', end: '160'}
-  bocskai_ut:
+  Bocskai út:
     ranges:
       - {start: '67', end: '79'}
       - {start: '2', end: '54'}
       - {start: '74', end: '90'}
       - {start: '134', end: '146'}
-  budafoki_ut:
+  Budafoki út:
     # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
     # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
     ranges:
       - {start: '91', end: '229'}
       - {start: '52', end: '198'}
-  budaorsi_ut:
+  Budaörsi út:
     ranges:
       - {start: '26', end: '60'}
-  daroczi_ut:
+  Daróczi út:
     ranges:
       - {start: '1', end: '17'}
       - {start: '23', end: '49'}
       - {start: '2', end: '84'}
-  dioszegi_ut:
+  Diószegi út:
     ranges:
       - {start: '65', end: '67'}
       - {start: '62', end: '64'}
-  eger_ut:
+  Egér út:
     ranges: []
-  etele_ter:
+  Etele tér:
     ranges:
       # 8 nem biztos hogy van, a bodeknak talan nincs hazszama
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
-  fadrusz_utca:
+  Fadrusz utca:
     ranges:
       - {start: '9', end: '31'}
       - {start: '18', end: '38'}
-  fehervari_ut:
+  Fehérvári út:
     ranges:
       - {start: '23', end: '191'}
       - {start: '40', end: '166'}
-  fejer_lipot_utca:
+  Fejér Lipót utca:
     ranges:
       - {start: '1', end: '67'}
       - {start: '2', end: '70'}
-  frakno_utca:
+  Fraknó utca:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '50'}
-  galamboc_utca:
+  Galambóc utca:
     ranges:
       # 1-13 Lidl oldala, 15 nem letezik csak az utcatablan
       - {start: '17', end: '45'}
       - {start: '2', end: '36'}
-  galvani_utca:
+  Galvani utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  gyorok_utca:
+  Györök utca:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
-  hamzsabegi_ut:
+  Hamzsabégi út:
     # folyamatos hazszamok
     ranges:
       - {start: '23', end: '63'}
       - {start: '22', end: '64'}
-  ibrahim_utca:
+  Harcos tér:
+    ranges:
+      - {start: '5', end: '5'}
+      - {start: '2', end: '2'}
+  Harcos utca:
+    ranges:
+      - {start: '5', end: '11'}
+      - {start: '2', end: '8'}
+  Hollókő utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '6'}
+  Ibrahim utca:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
       - {start: '30', end: '38'}
-  harcos_ter:
-    ranges:
-      - {start: '5', end: '5'}
-      - {start: '2', end: '2'}
-  harcos_utca:
-    ranges:
-      - {start: '5', end: '11'}
-      - {start: '2', end: '8'}
-  holloko_utca:
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '6'}
-  karolina_ut:
+  Karolina út:
     ranges:
       - {start: '1', end: '69'}
       - {start: '56', end: '72'}
-  kelenvolgyi_hatarsor:
+  Kelenvölgyi határsor:
     ranges: []
-  kevehaza_utca:
+  Keveháza utca:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '10'}
-  kondorosi_ut:
+  Kondorosi út:
     ranges:
       - {start: '1', end: '99'}
-  kosztolanyi_dezso_ter:
+  Kosztolányi Dezső tér:
     ranges:
       - {start: '5', end: '11'}
       - {start: '6', end: '10'}
-  mohai_ut:
+  Mohai út:
     ranges:
       - {start: '1', end: '55'}
       - {start: '2', end: '56'}
-  nagyszolos_utca:
+  Nagyszőlős utca:
     ranges:
       - {start: '1', end: '21'}
       - {start: '31', end: '45'}
       - {start: '2', end: '20'}
-  nadorfejervari_ut:
+  Nándorfejérvári út:
     ranges:
       - {start: '1', end: '9'}
       - {start: '13', end: '51'}
       - {start: '2', end: '54'}
-  pajkos_utca:
+  Pajkos utca:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '56'}
-  petzval_jozsef_utca:
+  Petzvál József utca:
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '56'}
-  ratz_laszlo_utca:
+  Rátz László utca:
     ranges:
       - {start: '1', end: '85'}
       - {start: '2', end: '98'}
-  solt_utca:
+  Solt utca:
     ranges:
       - {start: '24', end: '98'}
-  szadelo_koz:
+  Szádelő köz:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '16'}
-  szentpetery_utca:
+  Szentpétery utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '26'}
-  szeremi_ut:
+  Szerémi út:
     ranges:
       - {start: '1', end: '59'}
       - {start: '2', end: '98'}
-  tas_vezer_utca:
+  Tas vezér utca:
     ranges:
       - {start: '15', end: '99'}
       - {start: '22', end: '28'}
-  tetenyi_koz:
+  Tétényi köz:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
-  tetenyi_ut:
+  Tétényi út:
     ranges:
       # vege felmerendo
       - {start: '1', end: '199'}
       - {start: '2', end: '48'}
       - {start: '62', end: '198'}
-  villanyi_ut:
+  Villányi út:
     ranges:
       - {start: '76', end: '86'}
-  vinceller_utca:
+  Vincellér utca:
     ranges:
       - {start: '27', end: '47'}
       - {start: '26', end: '50'}
-  zsombolyai_utca:
+  Zsombolyai utca:
     ranges:
       - {start: '7', end: '17'}
       - {start: '8', end: '20'}
 source: survey
-simplify: true
