@@ -1,21 +1,21 @@
 filters:
   balatoni_ut:
     ranges: []
-  budaorsi_ut:
+  Budaörsi út:
     ranges:
       - {start: '154', end: '160'}
-  dobogo_ut:
+  Dobogó út:
     # paratlan oldal, nincs beepitve
     ranges: []
-  jegcsap_utca:
+  Jégcsap utca:
     ranges: []
-  koerberki_ut:
+  Kőérberki út:
     ranges: []
-  gazdagreti_ut:
+  Gazdagréti út:
     ranges: []
-  popradi_ut:
+  Poprádi út:
+    # 708/2 hrsz. miatt kell a filter
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
 source: survey
-simplify: true
