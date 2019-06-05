@@ -417,5 +417,18 @@ class TestNormalize(unittest.TestCase):
         self.assertEqual(house_numbers, ["1"])
 
 
+class TestGetHouseNumbersFromLst(unittest.TestCase):
+    """Tests get_house_numbers_from_lst()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relation_name = "gazdagret"
+        street_name = "Törökugrató utca"
+        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        ref_street = "Törökugrató utca"
+        house_numbers = helpers.get_house_numbers_from_lst(datadir, relation_name, street_name, ref_street, normalizers)
+        self.assertEqual(house_numbers, ["1", "2", "7", "10"])
+
+
 if __name__ == '__main__':
     unittest.main()

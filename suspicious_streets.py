@@ -36,7 +36,8 @@ class Finder:
             if street_name in self.ref_streets.keys():
                 ref_street = self.ref_streets[street_name]
 
-            reference_house_numbers = self.get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street)
+            reference_house_numbers = helpers.get_house_numbers_from_lst(workdir, relation_name, street_name,
+                                                                         ref_street, self.normalizers)
             osm_house_numbers = self.get_house_numbers_from_csv(workdir, relation_name, street_name)
             only_in_reference = helpers.get_only_in_first(reference_house_numbers, osm_house_numbers)
             in_both = helpers.get_in_both(reference_house_numbers, osm_house_numbers)
@@ -66,20 +67,6 @@ class Finder:
                 if tokens[1] != street_name:
                     continue
                 house_numbers += helpers.normalize(tokens[2], street_name, self.normalizers)
-        return helpers.sort_numerically(set(house_numbers))
-
-    def get_house_numbers_from_lst(self, workdir, relation_name, street_name, ref_street):
-        """Gets house numbers from reference."""
-        house_numbers = []  # type: List[str]
-        lst_street_name = ref_street
-        prefix = lst_street_name + " "
-        sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name))
-        for line in sock.readlines():
-            line = line.strip()
-            if line.startswith(prefix):
-                house_number = line.replace(prefix, '')
-                house_numbers += helpers.normalize(house_number, street_name, self.normalizers)
-        sock.close()
         return helpers.sort_numerically(set(house_numbers))
 
 

@@ -388,4 +388,19 @@ def normalize(house_numbers: str, street_name: str,
         ret.append(str(number))
     return ret
 
+
+def get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street, normalizers):
+    """Gets house numbers from reference."""
+    house_numbers = []  # type: List[str]
+    lst_street_name = ref_street
+    prefix = lst_street_name + " "
+    with open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name)) as sock:
+        for line in sock.readlines():
+            line = line.strip()
+            if line.startswith(prefix):
+                house_number = line.replace(prefix, '')
+                house_numbers += normalize(house_number, street_name, normalizers)
+    return sort_numerically(set(house_numbers))
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
