@@ -1,0 +1,15 @@
+# folyamatban
+filters:
+  Bürök utca:
+    ranges:
+      - {start: '1', end: '91'}
+      - {start: '2', end: '36'}
+  Denevér út:
+    ranges:
+      - {start: '7', end: '99'}
+  Mártonhegyi út:
+    # felmerendo a vege
+    ranges:
+      - {start: '13', end: '51'}
+      - {start: '14', end: '36'}
+source: survey
