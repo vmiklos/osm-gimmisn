@@ -403,4 +403,21 @@ def get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street, 
     return sort_numerically(set(house_numbers))
 
 
+def get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers):
+    """Gets house numbers from the overpass query."""
+    house_numbers = []  # type: List[str]
+    with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)) as sock:
+        first = True
+        for line in sock.readlines():
+            if first:
+                first = False
+                continue
+            tokens = line.strip().split('\t')
+            if len(tokens) < 3:
+                continue
+            if tokens[1] != street_name:
+                continue
+            house_numbers += normalize(tokens[2], street_name, normalizers)
+    return sort_numerically(set(house_numbers))
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -38,7 +38,8 @@ class Finder:
 
             reference_house_numbers = helpers.get_house_numbers_from_lst(workdir, relation_name, street_name,
                                                                          ref_street, self.normalizers)
-            osm_house_numbers = self.get_house_numbers_from_csv(workdir, relation_name, street_name)
+            osm_house_numbers = helpers.get_house_numbers_from_csv(workdir, relation_name, street_name,
+                                                                   self.normalizers)
             only_in_reference = helpers.get_only_in_first(reference_house_numbers, osm_house_numbers)
             in_both = helpers.get_in_both(reference_house_numbers, osm_house_numbers)
             if only_in_reference:
@@ -51,23 +52,6 @@ class Finder:
 
         self.suspicious_streets = results
         self.done_streets = both_results
-
-    def get_house_numbers_from_csv(self, workdir, relation_name, street_name):
-        """Gets house numbers from the overpass query."""
-        house_numbers = []  # type: List[str]
-        with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)) as sock:
-            first = True
-            for line in sock.readlines():
-                if first:
-                    first = False
-                    continue
-                tokens = line.strip().split('\t')
-                if len(tokens) < 3:
-                    continue
-                if tokens[1] != street_name:
-                    continue
-                house_numbers += helpers.normalize(tokens[2], street_name, self.normalizers)
-        return helpers.sort_numerically(set(house_numbers))
 
 
 def main():

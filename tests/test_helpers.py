@@ -430,5 +430,17 @@ class TestGetHouseNumbersFromLst(unittest.TestCase):
         self.assertEqual(house_numbers, ["1", "2", "7", "10"])
 
 
+class TestGetHouseNumbersFromCsv(unittest.TestCase):
+    """Tests get_house_numbers_from_csv()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relation_name = "gazdagret"
+        street_name = "Törökugrató utca"
+        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        house_numbers = helpers.get_house_numbers_from_csv(datadir, relation_name, street_name, normalizers)
+        self.assertEqual(house_numbers, ["1", "2"])
+
+
 if __name__ == '__main__':
     unittest.main()
