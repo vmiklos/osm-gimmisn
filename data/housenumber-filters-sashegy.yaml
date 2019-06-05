@@ -1,90 +1,89 @@
 filters:
-  bod_peter_lejto:
+  Bod Péter lejtő:
     ranges:
       - {start: '2', end: '6'}
-  bod_peter_utca:
+  Bod Péter utca:
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '22'}
-  brasso_ut:
+  Brassó út:
     ranges:
       - {start: '154', end: '154'}
-  brezno_koz:
+  Breznó köz:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '14'}
-  budaorsi_ut:
+  Breznó lépcső:
+    reftelepules: "012"
+  Budaörsi út:
     # this is just the sashegy part
     ranges:
       - {start: '1', end: '45'}
-  dayka_gabor_utca:
+  Dayka Gábor utca:
     ranges:
       - {end: '21', start: '91'}
-  elopatak_utca:
+  Előpatak utca:
     # this is just the sashegy part, would be <6 but there is no 4
     ranges:
       - {start: '2', end: '2'}
-  harasztos_ut:
+  Harasztos út:
     ranges:
       - {start: '1', end: '1'}
-  hegyalja_ut:
+  Hegyalja út:
     ranges:
       - {start: '47', end: '93'}
       - {start: '70', end: '182'}
-  homonna_utca:
+  Homonna utca:
     # this is just the sashegy part; the range is till 21, but the last actual number is 13
     ranges:
       - {start: '1', end: '13'}
-  jagello_ut:
+  Jagelló út:
     # this is just the sashegy part
     ranges:
       - {start: '2', end: '4'}
-  kallo_esperes_utca:
+  Kálló esperes utca:
     # this is just the sashegy part; the even side
     ranges:
       - {start: '2', end: '18'}
     reftelepules: "012"
-  kond_vezer_utca:
+  Kond vezér utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
-  muskotaly_koz:
+  Muskotály köz:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
-  muskotaly_utca:
+  Muskotály utca:
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '30'}
-  orseg_utca:
+  Őrség utca:
     ranges: []
-  radvany_utca:
+  Radvány utca:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '38'}
-  somorjai_utca:
+  Sasfiók utca:
+    reftelepules: "012"
+  Sion lépcső:
+    reftelepules: "012"
+  Somorjai utca:
     # this is just the sashegy part
     ranges:
       - {start: '19', end: '23'}
       - {start: '18', end: '18'}
     reftelepules: "012"
-  tajek_utca:
+  Tájék utca:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
-  zolyomi_ut:
+  Zólyomi út:
     ranges:
       - {start: '1', end: '49'}
       - {start: '4', end: '44'}
-  brezno_lepcso:
-    reftelepules: "012"
-  sasfiok_utca:
-    reftelepules: "012"
-  sion_lepcso:
-    reftelepules: "012"
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # 'OSM Name 2': 'Ref Name 2'
   'Zólyomi köz': 'Zólyom köz'
 source: survey
-simplify: true
