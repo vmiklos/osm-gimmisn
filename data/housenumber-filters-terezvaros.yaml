@@ -1,19 +1,18 @@
 filters:
-  andrassy_ut:
+  Andrássy út:
     # exclude following numbers ['106', '108', '94']
     ranges:
       - {start: '1', end: '127'}
       - {start: '2', end: '92'}
       - {start: '96', end: '104'}
       - {start: '110', end: '132'}
-  bajcsy-zsilinszky_ut:
+  Bajcsy-Zsilinszky út:
     ranges:
       - {start: '1', end: '65'}
-  lehel_utca:
+  Lehel utca:
     ranges:
       - {start: '1', end: '5'}
-  vaci_ut:
+  Váci út:
     ranges:
       - {start: '1', end: '3'}
 source: survey
-simplify: true
