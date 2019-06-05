@@ -5,11 +5,18 @@ filters:
   Budaörsi út:
     ranges:
       - {start: '162', end: '998'}
+  Egér út:
+    ranges:
+      - {start: '1', end: '499'}
+      - {start: '2', end: '498'}
   Kőérberki út:
     # felmerendo hogy meddig hazszam es honnan helyrajzi, gyanusan sok haromjegyu
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '88'}
+  Repülőtéri út:
+    ranges:
+      - {start: '2', end: '2'}
 refstreets:
   'Alsó határút': 'Alsóhatár utca'
 source: survey
