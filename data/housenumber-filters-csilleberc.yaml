@@ -1,45 +1,28 @@
 filters:
-  adorjan_ut:
+  Adorján út:
     ranges:
       - {start: '2', end: '12'}
-  edvi_illes_ut:
+  Edvi Illés út:
     ranges: []
-  irhas_arok:
+  Irhás árok:
     ranges:
       - {start: '48', end: '58'}
-  kakukkhegyi_ut:
+  Kakukkhegyi út:
     ranges:
       - {start: '1', end: '13'}
-  konkoly-thege_miklos_ut:
+  # itt a helyszinen es a refben is teljes a kaosz valtakozik a magas ut es a magasut dulo
+  Magas út:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  # itt a helyszinen telhes a kaosz valtakozik a magas ut es a magasut dulo
-  magas_ut:
+  Magasút dűlő:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  magasut_dulo:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
-  moha_koz:
+  Moha köz:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
-  moha_utca:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
-  nagykapos_utca:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
-  noszirom_utca:
+  Nőszirom utca:
     ranges: []
-  tatarvirag_utca:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
 source: survey
-simplify: true
