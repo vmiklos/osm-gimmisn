@@ -1,38 +1,37 @@
 filters:
-  adorjan_ut:
+  Adorján út:
     ranges:
       - {start: '1', end: '99'}
-  irhas_arok:
+  Irhás árok:
     ranges:
       - {start: '1', end: '31'}
-  kikerics_utca:
+  Kikerics utca:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '20'}
-  liderc_koz:
+  Lidérc köz:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
-  magasuti_koz:
+  Magasúti köz:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
-  magasuti_lejto:
+  Magasúti lejtő:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
-  moha_utca:
+  Moha utca:
     ranges: []
-  noszirom_utca:
+  Nőszirom utca:
     ranges:
       - {start: '1', end: '9'}
       - {start: '6', end: '18'}
-  sun_utca:
+  Sün utca:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
-  torokbalinti_ut:
+  Törökbálinti út:
     ranges:
       - {start: '17', end: '75'}
 source: survey
-simplify: true
