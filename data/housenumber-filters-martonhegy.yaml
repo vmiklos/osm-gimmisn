@@ -1,15 +1,37 @@
-# folyamatban
 filters:
   Bürök utca:
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '36'}
+  Csorna utca:
+    ranges:
+      - {start: '2', end: '98'}
   Denevér út:
     ranges:
       - {start: '7', end: '99'}
+  Fodor utca:
+    ranges:
+      - {start: '51', end: '115'}
+      - {start: '44', end: '116'}
+  Hangya utca:
+    ranges:
+      - {start: '32', end: '98'}
+  Költő utca:
+    ranges:
+      - {start: '42', end: '98'}
   Mártonhegyi út:
     # felmerendo a vege
     ranges:
       - {start: '13', end: '51'}
       - {start: '14', end: '36'}
+  Nárcisz utca:
+    ranges:
+      - {start: '47', end: '99'}
+      - {start: '50', end: '98'}
+  Németvölgyi út:
+    ranges:
+      - {start: '69', end: '97'}
+  Tamási Áron utca:
+    ranges:
+      - {start: '2', end: '42'}
 source: survey
