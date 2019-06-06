@@ -442,5 +442,17 @@ class TestGetHouseNumbersFromCsv(unittest.TestCase):
         self.assertEqual(house_numbers, ["1", "2"])
 
 
+class TestGetSuspiciousStreets(unittest.TestCase):
+    """Tests get_suspicious_streets()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relation_name = "gazdagret"
+        suspicious_streets, done_streets = helpers.get_suspicious_streets(datadir, datadir, relation_name)
+        self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']), ('Tűzkő utca', ['1', '2'])])
+        expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
+        self.assertEqual(done_streets, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

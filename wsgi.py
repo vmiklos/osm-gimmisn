@@ -21,7 +21,6 @@ import pytz
 
 import helpers
 import overpass_query
-import suspicious_streets
 import get_reference_housenumbers
 import version
 
@@ -141,11 +140,11 @@ def suspicious_streets_view_result(request_uri, workdir):
         output += "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        todo_streets, done_streets = suspicious_streets.get_suspicious_streets(get_datadir(), workdir, relation)
+        suspicious_streets, done_streets = helpers.get_suspicious_streets(get_datadir(), workdir, relation)
         house_nr_count = 0
         table = []
         table.append(["Utcanév", "Hiányzik db", "Házszámok"])
-        for result in todo_streets:
+        for result in suspicious_streets:
             if result[1]:
                 # House number, # of only_in_reference items.
                 row = []
@@ -159,7 +158,7 @@ def suspicious_streets_view_result(request_uri, workdir):
         for result in done_streets:
             done_nr_count += len(result[1])
         output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
-        output += str(len(todo_streets)) + " utcához tartozó "
+        output += str(len(suspicious_streets)) + " utcához tartozó "
         output += str(house_nr_count) + " házszámot."
         if done_nr_count > 0 or house_nr_count > 0:
             percent = "%.2f" % (done_nr_count / (done_nr_count + house_nr_count) * 100)
@@ -192,9 +191,9 @@ def suspicious_streets_view_txt(request_uri, workdir):
     elif not os.path.exists(os.path.join(workdir, "street-housenumbers-reference-" + relation + ".lst")):
         output += "Nincsenek referencia házszámok"
     else:
-        todo_streets, _ = suspicious_streets.get_suspicious_streets(get_datadir(), workdir, relation)
+        suspicious_streets, _ = helpers.get_suspicious_streets(get_datadir(), workdir, relation)
         table = []
-        for result in todo_streets:
+        for result in suspicious_streets:
             if result[1]:
                 # House number, only_in_reference items.
                 row = result[0] + "\t[" + ", ".join(result[1]) + "]"

@@ -283,7 +283,8 @@ def get_content(workdir, path):
 
 
 def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str]]:
-    """Loads filters which allow silencing false positives."""
+    """Loads filters which allow silencing false positives. The return value is a tuple of the
+    normalizers itself and an OSM name -> ref name dictionary."""
     filter_dict = {}  # type: Dict[str, Ranges]
     ref_streets = {}  # type: Dict[str, str]
 
@@ -419,5 +420,34 @@ def get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers)
                 continue
             house_numbers += normalize(tokens[2], street_name, normalizers)
     return sort_numerically(set(house_numbers))
+
+
+def get_suspicious_streets(datadir, workdir, relation_name):
+    """Tries to find streets which do have at least one house number, but are suspicious as other
+    house numbers are probably missing."""
+    suspicious_streets = []
+    done_streets = []
+
+    street_names = get_streets(workdir, relation_name)
+    normalizers, ref_streets = load_normalizers(datadir, relation_name)
+    for street_name in street_names:
+        ref_street = street_name
+        # See if we need to map the OSM name to ref name.
+        if street_name in ref_streets.keys():
+            ref_street = ref_streets[street_name]
+
+        reference_house_numbers = get_house_numbers_from_lst(workdir, relation_name, street_name,
+                                                             ref_street, normalizers)
+        osm_house_numbers = get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers)
+        only_in_reference = get_only_in_first(reference_house_numbers, osm_house_numbers)
+        in_both = get_in_both(reference_house_numbers, osm_house_numbers)
+        if only_in_reference:
+            suspicious_streets.append((street_name, only_in_reference))
+        if in_both:
+            done_streets.append((street_name, in_both))
+    # Sort by length.
+    suspicious_streets.sort(key=lambda result: len(result[1]), reverse=True)
+
+    return suspicious_streets, done_streets
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

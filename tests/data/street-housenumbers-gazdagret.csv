@@ -1,6 +1,9 @@
-@id	addr:street	addr:housenumber	addr:postcode
+@id	addr:street	addr:housenumber
 
-1	Törökugrató utca	1	1118
-2	Törökugrató utca	2	1118
-3	Tűzkő utca	9	1118
-4	Tűzkő utca	10	1118
+1	Törökugrató utca	1
+2	Törökugrató utca	2
+3	Tűzkő utca	9
+4	Tűzkő utca	10
+5	OSM Name 1	1
+6	OSM Name 1	2
+7	Only In OSM utca	1
