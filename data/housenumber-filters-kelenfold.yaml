@@ -122,7 +122,8 @@ filters:
   Nándorfejérvári út:
     ranges:
       - {start: '1', end: '9'}
-      - {start: '13', end: '51'}
+      - {start: '13', end: '25'}
+      - {start: '31', end: '51'}
       - {start: '2', end: '54'}
   Pajkos utca:
     ranges:
