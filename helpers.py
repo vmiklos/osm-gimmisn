@@ -8,9 +8,7 @@
 
 import re
 import os
-import hashlib
 from typing import Callable, Dict, Iterable, List, Sequence, Tuple
-import urllib.parse
 import yaml
 
 
@@ -255,11 +253,6 @@ def get_streets(workdir: str, relation_name: str) -> List[str]:
     return sorted(set(ret))
 
 
-def get_url_hash(url: str) -> str:
-    """Returns SHA256 hash of an URL."""
-    return hashlib.sha256(url.encode('utf-8')).hexdigest()
-
-
 def get_workdir(config):
     """Gets the directory which is writable."""
     return config.get('wsgi', 'workdir').strip()
@@ -338,31 +331,6 @@ def html_table_from_list(table):
         ret.append("</tr>")
     ret.append("</table>")
     return "".join(ret)
-
-
-def get_street_url(datadir, street, prefix, relation_name):
-    """Returns URL of a street based on config."""
-    refmegye, reftelepules, street_name, street_type = get_street_details(datadir, street, relation_name)
-    url = prefix
-    parameters = {
-        "p_p_id": "wardsearch_WAR_nvinvrportlet",
-        "p_p_lifecycle": "2",
-        "p_p_state": "normal",
-        "p_p_mode": "view",
-        "p_p_resource_id": "resourceIdGetHazszam",
-        "p_p_cacheability": "cacheLevelPage",
-        "p_p_col_id": "column-2",
-        "p_p_col_count": "1",
-        "_wardsearch_WAR_nvinvrportlet_vlId": "291",
-        "_wardsearch_WAR_nvinvrportlet_vltId": "684",
-        "_wardsearch_WAR_nvinvrportlet_keywords": "",
-        "_wardsearch_WAR_nvinvrportlet_megyeKod": refmegye,
-        "_wardsearch_WAR_nvinvrportlet_telepulesKod": reftelepules,
-        "_wardsearch_WAR_nvinvrportlet_kozterNev": street_name,
-        "_wardsearch_WAR_nvinvrportlet_kozterJelleg": street_type,
-    }
-    url += "?" + urllib.parse.urlencode(parameters)
-    return url
 
 
 def normalize(house_numbers: str, street_name: str,

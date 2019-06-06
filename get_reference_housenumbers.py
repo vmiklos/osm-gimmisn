@@ -8,31 +8,15 @@
 """The get_reference_housenumbers module allows fetching referene house numbers for a relation."""
 
 import configparser
-import json
 import os
 import sys
-import urllib.error
-import urllib.request
-import urllib.parse
 # pylint: disable=unused-import
 from typing import Dict
 from typing import List
-import yaml
 import helpers
 
 VERBOSE = False
 MEMORY_CACHE = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
-
-
-def get_house_numbers_of_street(datadir, config, relation_name, street):
-    """Gets known house numbers for a single street."""
-    if config.has_option('wsgi', 'reference_local'):
-        local = config.get('wsgi', 'reference_local').strip()
-        return house_numbers_of_street_local(datadir, local, relation_name, street)
-
-    prefix = config.get('wsgi', 'reference').strip()
-    workdir = config.get('wsgi', 'workdir').strip()
-    return house_numbers_of_street_remote(datadir, prefix, workdir, relation_name, street)
 
 
 def build_memory_cache(local):
@@ -60,7 +44,7 @@ def build_memory_cache(local):
             MEMORY_CACHE[refmegye][reftelepules][street].append(num)
 
 
-def house_numbers_of_street_local(datadir, local, relation_name, street):
+def house_numbers_of_street(datadir, local, relation_name, street):
     """Gets house numbers for a street locally."""
     if not MEMORY_CACHE:
         if VERBOSE:
@@ -78,44 +62,6 @@ def house_numbers_of_street_local(datadir, local, relation_name, street):
     return []
 
 
-def house_numbers_of_street_remote(datadir, prefix, workdir, relation_name, street):
-    """Gets house numbers for a street remotely."""
-    url = helpers.get_street_url(datadir, street, prefix, relation_name)
-    if VERBOSE:
-        print("considering '" + url + "'")
-    url_hash = helpers.get_url_hash(url)
-
-    if not os.path.exists(os.path.join(workdir, "cache")):
-        os.makedirs(os.path.join(workdir, "cache"))
-
-    cache_path = os.path.join(workdir, "cache", url_hash)
-    if not os.path.exists(cache_path):
-        # Not in cache, download.
-        if VERBOSE:
-            sys.stderr.write("downloading '" + url + "'...")
-        try:
-            with urllib.request.urlopen(url) as url_sock:
-                buf = url_sock.read()
-                if VERBOSE:
-                    sys.stderr.write(" done.\n")
-        except urllib.error.HTTPError:
-            buf = b''
-            if VERBOSE:
-                sys.stderr.write(" not found.\n")
-        with open(cache_path, "w") as cache_sock:
-            string = buf.decode('utf-8')
-            cache_sock.write(string)
-
-    sock = open(cache_path)
-    string = sock.read()
-
-    try:
-        j = json.loads(string)
-    except json.decoder.JSONDecodeError:
-        return []
-    return [street + " " + i["displayValueHouseNumber"] for i in j]
-
-
 def get_reference_housenumbers(config, relation_name):
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
@@ -125,7 +71,8 @@ def get_reference_housenumbers(config, relation_name):
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += get_house_numbers_of_street(datadir, config, relation_name, street)
+        reference = config.get('wsgi', 'reference_local').strip()
+        lst += house_numbers_of_street(datadir, reference, relation_name, street)
 
     lst = sorted(set(lst))
     sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")

@@ -1,4 +1,3 @@
 [wsgi]
 # workdir = /path/to/workdir
-# reference = http://www.example.com/hol-szavazhatok-
 reference_local = /path/to/my.tsv
