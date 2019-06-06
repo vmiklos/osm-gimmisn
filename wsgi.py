@@ -9,6 +9,7 @@
 
 import configparser
 import datetime
+import locale
 import os
 import traceback
 import urllib.parse
@@ -198,7 +199,7 @@ def suspicious_streets_view_txt(request_uri, workdir):
                 # House number, only_in_reference items.
                 row = result[0] + "\t[" + ", ".join(result[1]) + "]"
                 table.append(row)
-        table.sort()
+        table.sort(key=locale.strxfrm)
         output += "\n".join(table)
     return output
 
@@ -411,6 +412,8 @@ def handle_static(request_uri):
 
 def our_application(environ, start_response):
     """Dispatches the request based on its URI."""
+    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+
     status = '200 OK'
 
     request_uri = environ.get("PATH_INFO")
