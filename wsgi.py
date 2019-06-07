@@ -412,7 +412,12 @@ def handle_static(request_uri):
 
 def our_application(environ, start_response):
     """Dispatches the request based on its URI."""
-    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+    config = get_config()
+    if config.has_option("wsgi", "locale"):
+        ui_locale = config.get("wsgi", "locale")
+    else:
+        ui_locale = "hu_HU.UTF-8"
+    locale.setlocale(locale.LC_ALL, ui_locale)
 
     status = '200 OK'
 
