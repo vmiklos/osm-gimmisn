@@ -56,13 +56,25 @@ class Ranges:
         return self.items == other.items
 
 
+def get_reftelepules_list_from_yaml(reftelepules_list, value):
+    """Determines street-level and range-level reftelepules overrides."""
+    if "reftelepules" in value.keys():
+        reftelepules_list = [value["reftelepules"]]
+    if "ranges" in value.keys():
+        for street_range in value["ranges"]:
+            if "reftelepules" in street_range.keys():
+                reftelepules_list.append(street_range["reftelepules"])
+
+    return reftelepules_list
+
+
 def get_street_details(datadir, street, relation_name):
     """Determines the ref codes, street name and type for a street in a relation."""
     with open(os.path.join(datadir, "relations.yaml")) as sock:
         relations = yaml.load(sock)
     relation = relations[relation_name]
     refmegye = relation["refmegye"]
-    reftelepules = relation["reftelepules"]
+    reftelepules_list = [relation["reftelepules"]]
 
     refstreets = {}  # type: Dict[str, str]
     if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)):
@@ -76,8 +88,8 @@ def get_street_details(datadir, street, relation_name):
                 # street-specific reftelepules override.
                 filters = root["filters"]
                 for filter_street, value in filters.items():
-                    if filter_street == street and "reftelepules" in value.keys():
-                        reftelepules = value["reftelepules"]
+                    if filter_street == street:
+                        reftelepules_list = get_reftelepules_list_from_yaml(reftelepules_list, value)
 
     if street in refstreets.keys():
         street = refstreets[street]
@@ -85,7 +97,7 @@ def get_street_details(datadir, street, relation_name):
     tokens = street.split(' ')
     street_name = " ".join(tokens[:-1])
     street_type = tokens[-1]
-    return refmegye, reftelepules, street_name, street_type
+    return refmegye, sorted(set(reftelepules_list)), street_name, street_type
 
 
 def sort_numerically(strings: Iterable[str]) -> List[str]:

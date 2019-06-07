@@ -4,9 +4,11 @@ filters:
       - {start: '137', end: '165'}
   'Csiki-hegyek utca':
     ranges:
-      - {start: '1', end: '15'}
+      # test: this would be 011 by default, but here it's overwritten at a range level
+      - {start: '1', end: '15', reftelepules: '013'}
       - {start: '2', end: '26'}
   'Teszt utca':
+    # test: this would be 011 by default, but here it's overwritten at a street level
     reftelepules: "012"
 refstreets:
   'OSM Name 1': 'Ref Name 1'

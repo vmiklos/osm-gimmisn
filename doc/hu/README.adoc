@@ -111,3 +111,6 @@ van szükség:
 - `reftelepules`: ez a kulcs egy utcára adható meg. Ha egy reláció többségében egy adott
   `reftelepules` értékkel rendelkezik, az megadható az összes utcára. Ezt a felülbírálást akkor
   érdemes használni ha az utcák közül néhánynak más a `reftelepules` értéke. (Példa: `sashegy`.)
+
+- `reftelepules` tartomány szinten: ez akkor hasznos ha egy utca két oldala más
+  településhez/kerülethez tartozik. (Példa: `krisztinavaros`.)

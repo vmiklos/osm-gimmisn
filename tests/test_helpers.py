@@ -289,7 +289,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relation_name = "gazdagret"
         refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
-        self.assertEqual("011", reftelepules)
+        self.assertEqual(["011"], reftelepules)
         self.assertEqual("Budaörsi", street_name)
         self.assertEqual("út", street_type)
 
@@ -300,7 +300,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relation_name = "gazdagret"
         refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
-        self.assertEqual("012", reftelepules)
+        self.assertEqual(["012"], reftelepules)
         self.assertEqual("Teszt", street_name)
         self.assertEqual("utca", street_type)
 
@@ -311,7 +311,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relation_name = "gazdagret"
         refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
-        self.assertEqual("011", reftelepules)
+        self.assertEqual(["011"], reftelepules)
         self.assertEqual("Ref Name", street_name)
         self.assertEqual("1", street_type)
 
@@ -322,7 +322,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relation_name = "nosuchrelation"
         refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
-        self.assertEqual("011", reftelepules)
+        self.assertEqual(["011"], reftelepules)
         self.assertEqual("OSM Name", street_name)
         self.assertEqual("1", street_type)
 
@@ -333,9 +333,20 @@ class TestGetStreetDetails(unittest.TestCase):
         relation_name = "empty"
         refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
         self.assertEqual("01", refmegye)
-        self.assertEqual("011", reftelepules)
+        self.assertEqual(["011"], reftelepules)
         self.assertEqual("OSM Name", street_name)
         self.assertEqual("1", street_type)
+
+    def test_range_level_override(self):
+        """Tests the reftelepules range-level override."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        street = "Csiki-hegyek utca"
+        relation_name = "gazdagret"
+        refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
+        self.assertEqual("01", refmegye)
+        self.assertEqual(["011", "013"], reftelepules)
+        self.assertEqual("Csiki-hegyek", street_name)
+        self.assertEqual("utca", street_type)
 
 
 class TestHtmlTableFromList(unittest.TestCase):

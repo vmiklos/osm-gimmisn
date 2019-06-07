@@ -17,13 +17,15 @@ import helpers
 
 def house_numbers_of_street(datadir, reference, relation_name, street):
     """Gets house numbers for a street locally."""
-    refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
+    refmegye, reftelepules_list, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
     street = street_name + " " + street_type
-    if street in reference[refmegye][reftelepules].keys():
-        house_numbers = reference[refmegye][reftelepules][street]
-        return [street + " " + i for i in house_numbers]
+    ret = []  # type: List[str]
+    for reftelepules in reftelepules_list:
+        if street in reference[refmegye][reftelepules].keys():
+            house_numbers = reference[refmegye][reftelepules][street]
+            ret += [street + " " + i for i in house_numbers]
 
-    return []
+    return ret
 
 
 def get_reference_housenumbers(config, relation_name):
