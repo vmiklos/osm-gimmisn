@@ -96,7 +96,7 @@ filters:
   Karolina út:
     ranges:
       - {start: '1', end: '69'}
-      - {start: '56', end: '72'}
+      - {start: '50', end: '72'}
   Kelenvölgyi határsor:
     ranges: []
   Keveháza utca:
@@ -172,7 +172,8 @@ filters:
   Vincellér utca:
     ranges:
       - {start: '27', end: '47'}
-      - {start: '26', end: '50'}
+      - {start: '26', end: '32'}
+      - {start: '40', end: '50'}
   Zsombolyai utca:
     ranges:
       - {start: '7', end: '17'}
