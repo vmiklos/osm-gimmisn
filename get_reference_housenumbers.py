@@ -9,6 +9,7 @@
 
 import configparser
 import os
+import pickle
 import sys
 # pylint: disable=unused-import
 from typing import Dict
@@ -22,6 +23,11 @@ MEMORY_CACHE = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 def build_memory_cache(local):
     """Builds an in-memory cache from the reference on-disk TSV."""
     global MEMORY_CACHE
+
+    disk_cache = local + ".pickle"
+    if os.path.exists(disk_cache):
+        MEMORY_CACHE = pickle.load(open(disk_cache, "rb"))
+        return
 
     with open(local, "r") as sock:
         first = True
@@ -42,6 +48,7 @@ def build_memory_cache(local):
             if street not in MEMORY_CACHE[refmegye][reftelepules].keys():
                 MEMORY_CACHE[refmegye][reftelepules][street] = []
             MEMORY_CACHE[refmegye][reftelepules][street].append(num)
+    pickle.dump(MEMORY_CACHE, open(disk_cache, "wb"))
 
 
 def house_numbers_of_street(datadir, local, relation_name, street):
