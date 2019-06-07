@@ -163,7 +163,7 @@ class TestGetStreets(unittest.TestCase):
     """Tests get_streets()."""
     def test_happy(self):
         """Tests the happy path."""
-        workdir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
         actual = helpers.get_streets(workdir, "test")
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
@@ -242,7 +242,7 @@ class TestGetContent(unittest.TestCase):
     """Tests get_content()."""
     def test_happy(self):
         """Tests the happy path."""
-        workdir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
         actual = helpers.get_content(workdir, "gazdagret.percent")
         expected = "99.44"
         self.assertEqual(actual, expected)
@@ -396,11 +396,12 @@ class TestGetHouseNumbersFromLst(unittest.TestCase):
     def test_happy(self):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
         street_name = "Törökugrató utca"
         normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
         ref_street = "Törökugrató utca"
-        house_numbers = helpers.get_house_numbers_from_lst(datadir, relation_name, street_name, ref_street, normalizers)
+        house_numbers = helpers.get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street, normalizers)
         self.assertEqual(house_numbers, ["1", "2", "7", "10"])
 
 
@@ -409,10 +410,11 @@ class TestGetHouseNumbersFromCsv(unittest.TestCase):
     def test_happy(self):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
         street_name = "Törökugrató utca"
         normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
-        house_numbers = helpers.get_house_numbers_from_csv(datadir, relation_name, street_name, normalizers)
+        house_numbers = helpers.get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers)
         self.assertEqual(house_numbers, ["1", "2"])
 
 
@@ -421,8 +423,9 @@ class TestGetSuspiciousStreets(unittest.TestCase):
     def test_happy(self):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
-        suspicious_streets, done_streets = helpers.get_suspicious_streets(datadir, datadir, relation_name)
+        suspicious_streets, done_streets = helpers.get_suspicious_streets(datadir, workdir, relation_name)
         self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']), ('Tűzkő utca', ['1', '2'])])
         expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
         self.assertEqual(done_streets, expected)
