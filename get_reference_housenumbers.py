@@ -16,17 +16,14 @@ from typing import Dict
 from typing import List
 import helpers
 
-MEMORY_CACHE = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
-
-def build_memory_cache(local):
+def build_reference_cache(local):
     """Builds an in-memory cache from the reference on-disk TSV."""
-    global MEMORY_CACHE
+    memory_cache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
     disk_cache = local + ".pickle"
     if os.path.exists(disk_cache):
-        MEMORY_CACHE = pickle.load(open(disk_cache, "rb"))
-        return
+        return pickle.load(open(disk_cache, "rb"))
 
     with open(local, "r") as sock:
         first = True
@@ -40,14 +37,15 @@ def build_memory_cache(local):
                 break
 
             refmegye, reftelepules, street, num = line.strip().split("\t")
-            if refmegye not in MEMORY_CACHE.keys():
-                MEMORY_CACHE[refmegye] = {}
-            if reftelepules not in MEMORY_CACHE[refmegye].keys():
-                MEMORY_CACHE[refmegye][reftelepules] = {}
-            if street not in MEMORY_CACHE[refmegye][reftelepules].keys():
-                MEMORY_CACHE[refmegye][reftelepules][street] = []
-            MEMORY_CACHE[refmegye][reftelepules][street].append(num)
-    pickle.dump(MEMORY_CACHE, open(disk_cache, "wb"))
+            if refmegye not in memory_cache.keys():
+                memory_cache[refmegye] = {}
+            if reftelepules not in memory_cache[refmegye].keys():
+                memory_cache[refmegye][reftelepules] = {}
+            if street not in memory_cache[refmegye][reftelepules].keys():
+                memory_cache[refmegye][reftelepules][street] = []
+            memory_cache[refmegye][reftelepules][street].append(num)
+    pickle.dump(memory_cache, open(disk_cache, "wb"))
+    return memory_cache
 
 
 def house_numbers_of_street(datadir, reference, relation_name, street):
@@ -65,8 +63,7 @@ def get_reference_housenumbers(config, relation_name):
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
     reference = config.get('wsgi', 'reference_local').strip()
-    if not MEMORY_CACHE:
-        build_memory_cache(reference)
+    memory_cache = build_reference_cache(reference)
 
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = config.get('wsgi', 'workdir').strip()
@@ -74,7 +71,7 @@ def get_reference_housenumbers(config, relation_name):
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += house_numbers_of_street(datadir, MEMORY_CACHE, relation_name, street)
+        lst += house_numbers_of_street(datadir, memory_cache, relation_name, street)
 
     lst = sorted(set(lst))
     sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")
