@@ -51,19 +51,14 @@ def build_memory_cache(local):
     pickle.dump(MEMORY_CACHE, open(disk_cache, "wb"))
 
 
-def house_numbers_of_street(datadir, local, relation_name, street):
+def house_numbers_of_street(datadir, reference, relation_name, street):
     """Gets house numbers for a street locally."""
-    if not MEMORY_CACHE:
-        if VERBOSE:
-            print("building in-memory cache")
-        build_memory_cache(local)
-
     if VERBOSE:
         print("searching '" + street + "'")
     refmegye, reftelepules, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
     street = street_name + " " + street_type
-    if street in MEMORY_CACHE[refmegye][reftelepules].keys():
-        house_numbers = MEMORY_CACHE[refmegye][reftelepules][street]
+    if street in reference[refmegye][reftelepules].keys():
+        house_numbers = reference[refmegye][reftelepules][street]
         return [street + " " + i for i in house_numbers]
 
     return []
@@ -72,14 +67,19 @@ def house_numbers_of_street(datadir, local, relation_name, street):
 def get_reference_housenumbers(config, relation_name):
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
+    reference = config.get('wsgi', 'reference_local').strip()
+    if not MEMORY_CACHE:
+        if VERBOSE:
+            print("building in-memory cache")
+        build_memory_cache(reference)
+
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = config.get('wsgi', 'workdir').strip()
     streets = helpers.get_streets(workdir, relation_name)
 
     lst = []  # type: List[str]
     for street in streets:
-        reference = config.get('wsgi', 'reference_local').strip()
-        lst += house_numbers_of_street(datadir, reference, relation_name, street)
+        lst += house_numbers_of_street(datadir, MEMORY_CACHE, relation_name, street)
 
     lst = sorted(set(lst))
     sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")
