@@ -11,6 +11,7 @@ import io
 import os
 import unittest
 # pylint: disable=unused-import
+from typing import Dict
 from typing import List
 
 import helpers
@@ -425,6 +426,32 @@ class TestGetSuspiciousStreets(unittest.TestCase):
         self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']), ('Tűzkő utca', ['1', '2'])])
         expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
         self.assertEqual(done_streets, expected)
+
+
+class TestBuildReferenceCache(unittest.TestCase):
+    """Tests build_reference_cache()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
+        memory_cache = helpers.build_reference_cache(refpath)
+        expected = {'01': {'011': {'Ref Name 1': ['1', '2'],
+                                   'Törökugrató utca': ['1', '10', '2', '7'],
+                                   'Tűzkő utca': ['1', '10', '2', '9']}}}
+        self.assertEqual(memory_cache, expected)
+        os.unlink(refpath + ".pickle")
+
+    def test_cached(self):
+        """Tests the case when the pickle cache is already available."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
+        helpers.build_reference_cache(refpath)
+        memory_cache = helpers.build_reference_cache(refpath)
+        expected = {'01': {'011': {'Ref Name 1': ['1', '2'],
+                                   'Törökugrató utca': ['1', '10', '2', '7'],
+                                   'Tűzkő utca': ['1', '10', '2', '9']}}}
+        self.assertEqual(memory_cache, expected)
+        os.unlink(refpath + ".pickle")
 
 
 if __name__ == '__main__':

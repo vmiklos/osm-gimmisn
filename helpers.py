@@ -8,6 +8,7 @@
 
 import re
 import os
+import pickle
 from typing import Callable, Dict, Iterable, List, Sequence, Tuple
 import yaml
 
@@ -417,5 +418,38 @@ def get_suspicious_streets(datadir, workdir, relation_name):
     suspicious_streets.sort(key=lambda result: len(result[1]), reverse=True)
 
     return suspicious_streets, done_streets
+
+
+def build_reference_cache(local):
+    """Builds an in-memory cache from the reference on-disk TSV."""
+    memory_cache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
+
+    disk_cache = local + ".pickle"
+    if os.path.exists(disk_cache):
+        with open(disk_cache, "rb") as sock_cache:
+            return pickle.load(sock_cache)
+
+    with open(local, "r") as sock:
+        first = True
+        while True:
+            line = sock.readline()
+            if first:
+                first = False
+                continue
+
+            if not line:
+                break
+
+            refmegye, reftelepules, street, num = line.strip().split("\t")
+            if refmegye not in memory_cache.keys():
+                memory_cache[refmegye] = {}
+            if reftelepules not in memory_cache[refmegye].keys():
+                memory_cache[refmegye][reftelepules] = {}
+            if street not in memory_cache[refmegye][reftelepules].keys():
+                memory_cache[refmegye][reftelepules][street] = []
+            memory_cache[refmegye][reftelepules][street].append(num)
+    with open(disk_cache, "wb") as sock_cache:
+        pickle.dump(memory_cache, sock_cache)
+    return memory_cache
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

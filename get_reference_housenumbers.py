@@ -9,43 +9,10 @@
 
 import configparser
 import os
-import pickle
 import sys
 # pylint: disable=unused-import
-from typing import Dict
 from typing import List
 import helpers
-
-
-def build_reference_cache(local):
-    """Builds an in-memory cache from the reference on-disk TSV."""
-    memory_cache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
-
-    disk_cache = local + ".pickle"
-    if os.path.exists(disk_cache):
-        return pickle.load(open(disk_cache, "rb"))
-
-    with open(local, "r") as sock:
-        first = True
-        while True:
-            line = sock.readline()
-            if first:
-                first = False
-                continue
-
-            if not line:
-                break
-
-            refmegye, reftelepules, street, num = line.strip().split("\t")
-            if refmegye not in memory_cache.keys():
-                memory_cache[refmegye] = {}
-            if reftelepules not in memory_cache[refmegye].keys():
-                memory_cache[refmegye][reftelepules] = {}
-            if street not in memory_cache[refmegye][reftelepules].keys():
-                memory_cache[refmegye][reftelepules][street] = []
-            memory_cache[refmegye][reftelepules][street].append(num)
-    pickle.dump(memory_cache, open(disk_cache, "wb"))
-    return memory_cache
 
 
 def house_numbers_of_street(datadir, reference, relation_name, street):
@@ -63,7 +30,7 @@ def get_reference_housenumbers(config, relation_name):
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
     reference = config.get('wsgi', 'reference_local').strip()
-    memory_cache = build_reference_cache(reference)
+    memory_cache = helpers.build_reference_cache(reference)
 
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = config.get('wsgi', 'workdir').strip()
