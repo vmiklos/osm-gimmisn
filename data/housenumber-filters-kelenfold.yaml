@@ -37,6 +37,10 @@ filters:
       - {start: '62', end: '64'}
   Egér út:
     ranges: []
+  Ercsi út:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '24'}
   Etele tér:
     ranges:
       # 8 nem biztos hogy van, a bodeknak talan nincs hazszama
