@@ -495,4 +495,10 @@ def get_reference_housenumbers(reference, datadir, workdir, relation_name):
         sock.write(line + "\n")
     sock.close()
 
+
+def get_relations(datadir):
+    """Returns a name -> properties dictionary."""
+    with open(os.path.join(datadir, "relations.yaml")) as sock:
+        return yaml.load(sock)
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

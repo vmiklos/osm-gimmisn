@@ -508,5 +508,14 @@ class TestGetReferenceHousenumbers(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestGetRelations(unittest.TestCase):
+    """Tests get_relations()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relations = helpers.get_relations(datadir)
+        self.assertEqual(sorted(relations.keys()), ['empty', 'gazdagret', 'nosuchrelation'])
+
+
 if __name__ == '__main__':
     unittest.main()

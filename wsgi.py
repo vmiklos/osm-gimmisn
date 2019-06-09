@@ -16,7 +16,6 @@ import urllib.parse
 import json
 import subprocess
 import wsgiref.simple_server
-import yaml
 
 import pytz
 
@@ -58,11 +57,6 @@ def get_street_housenumbers_query(relations, relation):
     """Produces a query which lists house numbers in relation."""
     with open(os.path.join(get_datadir(), "street-housenumbers-template.txt")) as sock:
         return helpers.process_template(sock.read(), relations[relation]["osmrelation"])
-
-
-def get_relations():
-    """Returns a name -> properties dictionary."""
-    return yaml.load(open(os.path.join(get_datadir(), "relations.yaml")))
 
 
 def handle_streets(request_uri, workdir, relations):
@@ -429,7 +423,7 @@ def our_application(environ, start_response):
 
     workdir = helpers.get_workdir(config)
 
-    relations = get_relations()
+    relations = helpers.get_relations(get_datadir())
 
     content_type = "text/html"
     if ext == "txt":
