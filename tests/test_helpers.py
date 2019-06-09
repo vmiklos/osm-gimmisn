@@ -10,9 +10,6 @@ import configparser
 import io
 import os
 import unittest
-# pylint: disable=unused-import
-from typing import Dict
-from typing import List
 
 import helpers
 
