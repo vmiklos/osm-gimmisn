@@ -493,5 +493,20 @@ class TestHouseNumbersOfStreet(unittest.TestCase):
         self.assertEqual(ret, [])
 
 
+class TestGetReferenceHousenumbers(unittest.TestCase):
+    """Tests get_reference_housenumbers()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation_name = "gazdagret"
+        expected = helpers.get_content(workdir, "street-housenumbers-reference-gazdagret.lst")
+        helpers.get_reference_housenumbers(refpath, datadir, workdir, relation_name)
+        actual = helpers.get_content(workdir, "street-housenumbers-reference-gazdagret.lst")
+        self.assertEqual(actual, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

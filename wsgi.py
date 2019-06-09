@@ -22,7 +22,6 @@ import pytz
 
 import helpers
 import overpass_query
-import get_reference_housenumbers
 import version
 
 
@@ -225,7 +224,9 @@ def handle_suspicious_streets(request_uri, workdir, relations):
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
-        get_reference_housenumbers.get_reference_housenumbers(get_config(), relation)
+        datadir = get_datadir()
+        reference = get_config().get('wsgi', 'reference_local').strip()
+        helpers.get_reference_housenumbers(reference, datadir, workdir, relation)
         output += "Frissítés sikeres."
 
     osmrelation = relations[relation]["osmrelation"]

@@ -10,30 +10,7 @@
 import configparser
 import os
 import sys
-# pylint: disable=unused-import
-from typing import List
 import helpers
-
-
-def get_reference_housenumbers(config, relation_name):
-    """Gets known house numbers (not their coordinates) from a reference site, based on street names
-    from OSM."""
-    reference = config.get('wsgi', 'reference_local').strip()
-    memory_cache = helpers.build_reference_cache(reference)
-
-    datadir = os.path.join(os.path.dirname(__file__), "data")
-    workdir = config.get('wsgi', 'workdir').strip()
-    streets = helpers.get_streets(workdir, relation_name)
-
-    lst = []  # type: List[str]
-    for street in streets:
-        lst += helpers.house_numbers_of_street(datadir, memory_cache, relation_name, street)
-
-    lst = sorted(set(lst))
-    sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")
-    for line in lst:
-        sock.write(line + "\n")
-    sock.close()
 
 
 def main():
@@ -46,7 +23,10 @@ def main():
     if len(sys.argv) > 1:
         relation_name = sys.argv[1]
 
-    get_reference_housenumbers(config, relation_name)
+    reference = config.get('wsgi', 'reference_local').strip()
+    datadir = os.path.join(os.path.dirname(__file__), "data")
+    workdir = config.get('wsgi', 'workdir').strip()
+    helpers.get_reference_housenumbers(reference, datadir, workdir, relation_name)
 
 
 if __name__ == "__main__":

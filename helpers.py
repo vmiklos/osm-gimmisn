@@ -477,4 +477,22 @@ def house_numbers_of_street(datadir, reference, relation_name, street):
 
     return ret
 
+
+def get_reference_housenumbers(reference, datadir, workdir, relation_name):
+    """Gets known house numbers (not their coordinates) from a reference site, based on street names
+    from OSM."""
+    memory_cache = build_reference_cache(reference)
+
+    streets = get_streets(workdir, relation_name)
+
+    lst = []  # type: List[str]
+    for street in streets:
+        lst += house_numbers_of_street(datadir, memory_cache, relation_name, street)
+
+    lst = sorted(set(lst))
+    sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")
+    for line in lst:
+        sock.write(line + "\n")
+    sock.close()
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
