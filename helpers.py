@@ -464,4 +464,17 @@ def build_reference_cache(local):
         pickle.dump(memory_cache, sock_cache)
     return memory_cache
 
+
+def house_numbers_of_street(datadir, reference, relation_name, street):
+    """Gets house numbers for a street locally."""
+    refmegye, reftelepules_list, street_name, street_type = get_street_details(datadir, street, relation_name)
+    street = street_name + " " + street_type
+    ret = []  # type: List[str]
+    for reftelepules in reftelepules_list:
+        if street in reference[refmegye][reftelepules].keys():
+            house_numbers = reference[refmegye][reftelepules][street]
+            ret += [street + " " + i for i in house_numbers]
+
+    return ret
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -468,5 +468,30 @@ class TestBuildReferenceCache(unittest.TestCase):
         os.unlink(refpath + ".pickle")
 
 
+class TestHouseNumbersOfStreet(unittest.TestCase):
+    """Tests house_numbers_of_street()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
+        memory_cache = helpers.build_reference_cache(refpath)
+        relation_name = "gazdagret"
+        street = "Törökugrató utca"
+        ret = helpers.house_numbers_of_street(datadir, memory_cache, relation_name, street)
+        self.assertEqual(ret, ['Törökugrató utca 1', 'Törökugrató utca 10', 'Törökugrató utca 2', 'Törökugrató utca 7'])
+
+    def test_missing(self):
+        """Tests the case when the street is not in the reference."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
+        memory_cache = helpers.build_reference_cache(refpath)
+        relation_name = "gazdagret"
+        street = "No such utca"
+        ret = helpers.house_numbers_of_street(datadir, memory_cache, relation_name, street)
+        self.assertEqual(ret, [])
+
+
 if __name__ == '__main__':
     unittest.main()

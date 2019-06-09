@@ -15,19 +15,6 @@ from typing import List
 import helpers
 
 
-def house_numbers_of_street(datadir, reference, relation_name, street):
-    """Gets house numbers for a street locally."""
-    refmegye, reftelepules_list, street_name, street_type = helpers.get_street_details(datadir, street, relation_name)
-    street = street_name + " " + street_type
-    ret = []  # type: List[str]
-    for reftelepules in reftelepules_list:
-        if street in reference[refmegye][reftelepules].keys():
-            house_numbers = reference[refmegye][reftelepules][street]
-            ret += [street + " " + i for i in house_numbers]
-
-    return ret
-
-
 def get_reference_housenumbers(config, relation_name):
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
@@ -40,7 +27,7 @@ def get_reference_housenumbers(config, relation_name):
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += house_numbers_of_street(datadir, memory_cache, relation_name, street)
+        lst += helpers.house_numbers_of_street(datadir, memory_cache, relation_name, street)
 
     lst = sorted(set(lst))
     sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")
