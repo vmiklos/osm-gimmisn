@@ -507,4 +507,11 @@ def get_streets_query(datadir, relations, relation):
     with open(os.path.join(datadir, "streets-template.txt")) as sock:
         return process_template(sock.read(), relations[relation]["osmrelation"])
 
+
+def write_streets_result(workdir, relation, result_from_overpass):
+    """Writes the result for overpass of get_streets_query()."""
+    result = sort_streets_csv(result_from_overpass)
+    with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
+        sock.write(result)
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

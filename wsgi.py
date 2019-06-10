@@ -71,10 +71,8 @@ def handle_streets(request_uri, workdir, relations):
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
         query = helpers.get_streets_query(get_datadir(), relations, relation)
-        result = helpers.sort_streets_csv(overpass_query.overpass_query(query))
-        with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
-            sock.write(result)
-            output += "Frissítés sikeres."
+        helpers.write_streets_result(workdir, relation, overpass_query.overpass_query(query))
+        output += "Frissítés sikeres."
 
     osmrelation = relations[relation]["osmrelation"]
     date = get_streets_last_modified(workdir, relation)

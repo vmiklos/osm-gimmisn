@@ -246,6 +246,19 @@ class TestGetStreetsQuery(unittest.TestCase):
         self.assertEqual(ret, 'aaa 2713748 bbb 3602713748 ccc\n')
 
 
+class TestWriteStreetsRequlst(unittest.TestCase):
+    """Tests write_streets_result()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation = "gazdagret"
+        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n"
+        expected = helpers.get_content(workdir, "streets-gazdagret.csv")
+        helpers.write_streets_result(workdir, relation, result_from_overpass)
+        actual = helpers.get_content(workdir, "streets-gazdagret.csv")
+        self.assertEqual(actual, expected)
+
+
 class TestGetContent(unittest.TestCase):
     """Tests get_content()."""
     def test_happy(self):
