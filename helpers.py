@@ -501,4 +501,10 @@ def get_relations(datadir):
     with open(os.path.join(datadir, "relations.yaml")) as sock:
         return yaml.load(sock)
 
+
+def get_streets_query(datadir, relations, relation):
+    """Produces a query which lists streets in relation."""
+    with open(os.path.join(datadir, "streets-template.txt")) as sock:
+        return process_template(sock.read(), relations[relation]["osmrelation"])
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

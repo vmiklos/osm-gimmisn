@@ -47,12 +47,6 @@ def get_staticdir():
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def get_streets_query(relations, relation):
-    """Produces a query which lists streets in relation."""
-    with open(os.path.join(get_datadir(), "streets-template.txt")) as sock:
-        return helpers.process_template(sock.read(), relations[relation]["osmrelation"])
-
-
 def get_street_housenumbers_query(relations, relation):
     """Produces a query which lists house numbers in relation."""
     with open(os.path.join(get_datadir(), "street-housenumbers-template.txt")) as sock:
@@ -69,14 +63,14 @@ def handle_streets(request_uri, workdir, relations):
 
     if action == "view-query":
         output += "<pre>"
-        output += get_streets_query(relations, relation)
+        output += helpers.get_streets_query(get_datadir(), relations, relation)
         output += "</pre>"
     elif action == "view-result":
         with open(os.path.join(workdir, "streets-%s.csv" % relation)) as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
-        query = get_streets_query(relations, relation)
+        query = helpers.get_streets_query(get_datadir(), relations, relation)
         result = helpers.sort_streets_csv(overpass_query.overpass_query(query))
         with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
             sock.write(result)

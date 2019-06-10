@@ -235,6 +235,17 @@ class TestProcessTemplate(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestGetStreetsQuery(unittest.TestCase):
+    """Tests get_streets_query()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relations = helpers.get_relations(datadir)
+        relation = "gazdagret"
+        ret = helpers.get_streets_query(datadir, relations, relation)
+        self.assertEqual(ret, 'aaa 2713748 bbb 3602713748 ccc\n')
+
+
 class TestGetContent(unittest.TestCase):
     """Tests get_content()."""
     def test_happy(self):
