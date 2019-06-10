@@ -514,4 +514,17 @@ def write_streets_result(workdir, relation, result_from_overpass):
     with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
         sock.write(result)
 
+
+def get_street_housenumbers_query(datadir, relations, relation):
+    """Produces a query which lists house numbers in relation."""
+    with open(os.path.join(datadir, "street-housenumbers-template.txt")) as sock:
+        return process_template(sock.read(), relations[relation]["osmrelation"])
+
+
+def write_street_housenumbers(workdir, relation, result_from_overpass):
+    """Writes the result for overpass of get_street_housenumbers_query()."""
+    result = sort_housenumbers_csv(result_from_overpass)
+    with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
+        sock.write(result)
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

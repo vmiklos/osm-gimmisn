@@ -246,7 +246,18 @@ class TestGetStreetsQuery(unittest.TestCase):
         self.assertEqual(ret, 'aaa 2713748 bbb 3602713748 ccc\n')
 
 
-class TestWriteStreetsRequlst(unittest.TestCase):
+class TestGetStreetHousenumbersQuery(unittest.TestCase):
+    """Tests get_street_housenumbers_query()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relations = helpers.get_relations(datadir)
+        relation = "gazdagret"
+        ret = helpers.get_street_housenumbers_query(datadir, relations, relation)
+        self.assertEqual(ret, 'housenr aaa 2713748 bbb 3602713748 ccc\n')
+
+
+class TestWriteStreetsResult(unittest.TestCase):
     """Tests write_streets_result()."""
     def test_happy(self):
         """Tests the happy path."""
@@ -256,6 +267,26 @@ class TestWriteStreetsRequlst(unittest.TestCase):
         expected = helpers.get_content(workdir, "streets-gazdagret.csv")
         helpers.write_streets_result(workdir, relation, result_from_overpass)
         actual = helpers.get_content(workdir, "streets-gazdagret.csv")
+        self.assertEqual(actual, expected)
+
+
+class TestWriteStreetHousenumbersResult(unittest.TestCase):
+    """Tests write_street_housenumbers()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation = "gazdagret"
+        result_from_overpass = "@id\taddr:street\taddr:housenumber\n"
+        result_from_overpass += "1\tTörökugrató utca\t1\n"
+        result_from_overpass += "1\tTörökugrató utca\t2\n"
+        result_from_overpass += "1\tTűzkő utca\t9\n"
+        result_from_overpass += "1\tTűzkő utca\t10\n"
+        result_from_overpass += "1\tOSM Name 1\t1\n"
+        result_from_overpass += "1\tOSM Name 1\t2\n"
+        result_from_overpass += "1\tOnly In OSM utca\t1\n"
+        expected = helpers.get_content(workdir, "street-housenumbers-gazdagret.csv")
+        helpers.write_street_housenumbers(workdir, relation, result_from_overpass)
+        actual = helpers.get_content(workdir, "street-housenumbers-gazdagret.csv")
         self.assertEqual(actual, expected)
 
 

@@ -8,6 +8,7 @@
 """The cron module allows doing nightly tasks."""
 
 import configparser
+import datetime
 import logging
 import os
 import time
@@ -41,6 +42,21 @@ def update_streets(workdir):
         logging.info("update_streets: end: %s", relation)
 
 
+def update_street_housenumbers(workdir):
+    """Update the existing street housenumber list of all relations."""
+    datadir = get_srcdir("data")
+    relations = helpers.get_relations(datadir)
+    for relation in relations.keys():
+        logging.info("update_street_housenumbers: start: %s", relation)
+        sleep = overpass_query.overpass_query_need_sleep()
+        if sleep:
+            logging.info("update_street_housenumbers: sleeping for %s seconds", sleep)
+            time.sleep(sleep)
+        query = helpers.get_street_housenumbers_query(datadir, relations, relation)
+        helpers.write_street_housenumbers(workdir, relation, overpass_query.overpass_query(query))
+        logging.info("update_street_housenumbers: end: %s", relation)
+
+
 def main():
     """Commandline interface to this module."""
 
@@ -56,7 +72,11 @@ def main():
                         datefmt='%Y-%m-%d %H:%M:%S')
     logging.getLogger().addHandler(logging.StreamHandler())
 
+    start = time.time()
     update_streets(workdir)
+    update_street_housenumbers(workdir)
+    delta = time.time() - start
+    logging.info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
 
 
 if __name__ == "__main__":

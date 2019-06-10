@@ -47,12 +47,6 @@ def get_staticdir():
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def get_street_housenumbers_query(relations, relation):
-    """Produces a query which lists house numbers in relation."""
-    with open(os.path.join(get_datadir(), "street-housenumbers-template.txt")) as sock:
-        return helpers.process_template(sock.read(), relations[relation]["osmrelation"])
-
-
 def handle_streets(request_uri, workdir, relations):
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
@@ -89,18 +83,16 @@ def handle_street_housenumbers(request_uri, workdir, relations):
 
     if action == "view-query":
         output += "<pre>"
-        output += get_street_housenumbers_query(relations, relation)
+        output += helpers.get_street_housenumbers_query(get_datadir(), relations, relation)
         output += "</pre>"
     elif action == "view-result":
         with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation)) as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
-        query = get_street_housenumbers_query(relations, relation)
-        result = helpers.sort_housenumbers_csv(overpass_query.overpass_query(query))
-        with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
-            sock.write(result)
-            output += "Frissítés sikeres."
+        query = helpers.get_street_housenumbers_query(get_datadir(), relations, relation)
+        helpers.write_street_housenumbers(workdir, relation, overpass_query.overpass_query(query))
+        output += "Frissítés sikeres."
 
     osmrelation = relations[relation]["osmrelation"]
     date = get_housenumbers_last_modified(workdir, relation)
