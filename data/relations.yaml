@@ -1,26 +1,20 @@
-# budapest
-barossgabortelep:
-    osmrelation: 3186063
+# buda
+# 01
+krisztinavaros:
+    osmrelation: 2786310
     refmegye: "01"
-    reftelepules: "022"
-csilleberc:
-    osmrelation: 2805998
-    refmegye: "01"
-    reftelepules: "012"
+    reftelepules: "001"
+# 11
 dobogo:
     osmrelation: 2713968
     refmegye: "01"
     reftelepules: "011"
-farkasret:
-    osmrelation: 2787964
-    refmegye: "01"
-    reftelepules: "012"
-farkasvolgy:
-    osmrelation: 2788020
-    refmegye: "01"
-    reftelepules: "012"
 gazdagret:
     osmrelation: 2713748
+    refmegye: "01"
+    reftelepules: "011"
+gellerthegy:
+    osmrelation: 2702687
     refmegye: "01"
     reftelepules: "011"
 hosszuret:
@@ -39,14 +33,6 @@ madarhegy:
     osmrelation: 2713839
     refmegye: "01"
     reftelepules: "011"
-magasut:
-    osmrelation: 2805999
-    refmegye: "01"
-    reftelepules: "012"
-nemetvolgy:
-    osmrelation: 2806940
-    refmegye: "01"
-    reftelepules: "012"
 ormezo:
     osmrelation: 2713749
     refmegye: "01"
@@ -71,30 +57,62 @@ spanyolret:
     osmrelation: 2713840
     refmegye: "01"
     reftelepules: "011"
-szechenyihegy:
-    osmrelation: 2806000
-    refmegye: "01"
-    reftelepules: "012"
 szentimrevaros:
     osmrelation: 2702616
     refmegye: "01"
     reftelepules: "011"
-terezvaros:
-    osmrelation: 3229919
+#12
+csilleberc:
+    osmrelation: 2805998
     refmegye: "01"
-    reftelepules: "006"
-csepel-belvaros:
-    osmrelation: 3244191
+    reftelepules: "012"
+farkasret:
+    osmrelation: 2787964
     refmegye: "01"
-    reftelepules: "021"
+    reftelepules: "012"
+farkasvolgy:
+    osmrelation: 2788020
+    refmegye: "01"
+    reftelepules: "012"
+magasut:
+    osmrelation: 2805999
+    refmegye: "01"
+    reftelepules: "012"
 martonhegy:
     osmrelation: 2787965
     refmegye: "01"
     reftelepules: "012"
-krisztinavaros:
-    osmrelation: 2786310
+nemetvolgy:
+    osmrelation: 2806940
     refmegye: "01"
-    reftelepules: "001"
+    reftelepules: "012"
+szechenyihegy:
+    osmrelation: 2806000
+    refmegye: "01"
+    reftelepules: "012"
+#22
+barossgabortelep:
+    osmrelation: 3186063
+    refmegye: "01"
+    reftelepules: "022"
+# pest-belvaros
+belvaros:
+    osmrelation: 3228574
+    refmegye: "01"
+    reftelepules: "005"
+terezvaros:
+    osmrelation: 3229919
+    refmegye: "01"
+    reftelepules: "006"
+erzsebetvaros:
+    osmrelation: 3229918
+    refmegye: "01"
+    reftelepules: "007"
+# pest-kulvaros
+csepel-belvaros:
+    osmrelation: 3244191
+    refmegye: "01"
+    reftelepules: "021"
 # videk
 biatorbagy:
     osmrelation: 113461
