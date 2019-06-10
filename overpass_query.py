@@ -8,6 +8,7 @@
 """The overpass_query module allows getting data out of the OSM DB without a full download."""
 
 from urllib.request import urlopen
+import re
 import sys
 
 
@@ -20,6 +21,24 @@ def overpass_query(query):
     sock.close()
 
     return buf.decode('utf-8')
+
+
+def overpass_query_need_sleep():
+    """Checks if we need to sleep before executing an overpass query."""
+    with urlopen("https://overpass-api.de/api/status") as sock:
+        buf = sock.read()
+    status = buf.decode('utf-8')
+    sleep = 0
+    available = False
+    for line in status.splitlines():
+        if line.startswith("Slot available after:"):
+            # Wait one more second just to be safe.
+            sleep = int(re.sub(r".*in (\d+) seconds.*", r"\1", line.strip())) + 1
+        elif "available now" in line:
+            available = True
+    if available:
+        return 0
+    return sleep
 
 
 def main():

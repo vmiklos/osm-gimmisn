@@ -10,6 +10,35 @@
 import configparser
 import logging
 import os
+import time
+
+import helpers
+import overpass_query
+
+
+def get_srcdir(subdir=""):
+    """Gets the directory which is tracked in version control."""
+    dirname = os.path.dirname(__file__)
+
+    if subdir:
+        dirname = os.path.join(dirname, subdir)
+
+    return dirname
+
+
+def update_streets(workdir):
+    """Update the existing street list of all relations."""
+    datadir = get_srcdir("data")
+    relations = helpers.get_relations(datadir)
+    for relation in relations.keys():
+        logging.info("update_streets: start: %s", relation)
+        sleep = overpass_query.overpass_query_need_sleep()
+        if sleep:
+            logging.info("update_streets: sleeping for %s seconds", sleep)
+            time.sleep(sleep)
+        query = helpers.get_streets_query(datadir, relations, relation)
+        helpers.write_streets_result(workdir, relation, overpass_query.overpass_query(query))
+        logging.info("update_streets: end: %s", relation)
 
 
 def main():
@@ -27,8 +56,7 @@ def main():
                         datefmt='%Y-%m-%d %H:%M:%S')
     logging.getLogger().addHandler(logging.StreamHandler())
 
-    logging.info("main() start")
-    logging.info("main() end")
+    update_streets(workdir)
 
 
 if __name__ == "__main__":
