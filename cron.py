@@ -27,16 +27,23 @@ def get_srcdir(subdir=""):
     return dirname
 
 
+def overpass_sleep():
+    """Sleeps to respect overpass rate limit."""
+    while True:
+        sleep = overpass_query.overpass_query_need_sleep()
+        if not sleep:
+            break
+        logging.info("overpass_sleep: waiting for %s seconds", sleep)
+        time.sleep(sleep)
+
+
 def update_streets(workdir):
     """Update the existing street list of all relations."""
     datadir = get_srcdir("data")
     relations = helpers.get_relations(datadir)
     for relation in relations.keys():
         logging.info("update_streets: start: %s", relation)
-        sleep = overpass_query.overpass_query_need_sleep()
-        if sleep:
-            logging.info("update_streets: sleeping for %s seconds", sleep)
-            time.sleep(sleep)
+        overpass_sleep()
         query = helpers.get_streets_query(datadir, relations, relation)
         helpers.write_streets_result(workdir, relation, overpass_query.overpass_query(query))
         logging.info("update_streets: end: %s", relation)
@@ -48,10 +55,7 @@ def update_street_housenumbers(workdir):
     relations = helpers.get_relations(datadir)
     for relation in relations.keys():
         logging.info("update_street_housenumbers: start: %s", relation)
-        sleep = overpass_query.overpass_query_need_sleep()
-        if sleep:
-            logging.info("update_street_housenumbers: sleeping for %s seconds", sleep)
-            time.sleep(sleep)
+        overpass_sleep()
         query = helpers.get_street_housenumbers_query(datadir, relations, relation)
         helpers.write_street_housenumbers(workdir, relation, overpass_query.overpass_query(query))
         logging.info("update_street_housenumbers: end: %s", relation)
