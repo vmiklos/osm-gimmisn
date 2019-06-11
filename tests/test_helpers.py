@@ -296,7 +296,7 @@ class TestGetContent(unittest.TestCase):
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         actual = helpers.get_content(workdir, "gazdagret.percent")
-        expected = "99.44"
+        expected = "60.00"
         self.assertEqual(actual, expected)
 
 
@@ -492,6 +492,37 @@ class TestGetSuspiciousStreets(unittest.TestCase):
         self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']), ('Tűzkő utca', ['1', '2'])])
         expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
         self.assertEqual(done_streets, expected)
+
+
+class TestWriteSuspicousStreetsResult(unittest.TestCase):
+    """Tests write_suspicious_streets_result()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation_name = "gazdagret"
+        expected = helpers.get_content(workdir, "gazdagret.percent")
+        ret = helpers.write_suspicious_streets_result(datadir, workdir, relation_name)
+        todo_street_count, todo_count, done_count, percent, table = ret
+        self.assertEqual(todo_street_count, 2)
+        self.assertEqual(todo_count, 4)
+        self.assertEqual(done_count, 6)
+        self.assertEqual(percent, '60.00')
+        self.assertEqual(table, [['Utcanév', 'Hiányzik db', 'Házszámok'],
+                                 ['Törökugrató utca', '2', '7, 10'],
+                                 ['Tűzkő utca', '2', '1, 2']])
+        actual = helpers.get_content(workdir, "gazdagret.percent")
+        self.assertEqual(actual, expected)
+
+    def test_empty(self):
+        """Tests the case when percent can't be determined."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation_name = "empty"
+        ret = helpers.write_suspicious_streets_result(datadir, workdir, relation_name)
+        _todo_street_count, _todo_count, _done_count, percent, _table = ret
+        self.assertEqual(percent, 'N/A')
+        os.unlink(os.path.join(workdir, "empty.percent"))
 
 
 class TestBuildReferenceCache(unittest.TestCase):

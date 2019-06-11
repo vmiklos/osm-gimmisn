@@ -527,4 +527,35 @@ def write_street_housenumbers(workdir, relation, result_from_overpass):
     with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
         sock.write(result)
 
+
+def write_suspicious_streets_result(datadir, workdir, relation):
+    """Calculate a write stat for the house number coverage of a relation."""
+    suspicious_streets, done_streets = get_suspicious_streets(datadir, workdir, relation)
+    todo_count = 0
+    table = []
+    table.append(["Utcanév", "Hiányzik db", "Házszámok"])
+    for result in suspicious_streets:
+        # House number, # of only_in_reference items.
+        row = []
+        row.append(result[0])
+        row.append(str(len(result[1])))
+        # only_in_reference items.
+        row.append(", ".join(result[1]))
+        todo_count += len(result[1])
+        table.append(row)
+    done_count = 0
+    for result in done_streets:
+        done_count += len(result[1])
+    if done_count > 0 or todo_count > 0:
+        percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
+    else:
+        percent = "N/A"
+
+    # Write the bottom line to a file, so the index page show it fast.
+    with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
+        sock.write(percent)
+
+    todo_street_count = len(suspicious_streets)
+    return todo_street_count, todo_count, done_count, percent, table
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
