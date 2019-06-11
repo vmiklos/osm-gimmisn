@@ -61,6 +61,16 @@ def update_street_housenumbers(workdir):
         logging.info("update_street_housenumbers: end: %s", relation)
 
 
+def update_suspicious_streets_stats(workdir):
+    """Update the relation's house number coverage stats."""
+    datadir = get_srcdir("data")
+    relations = helpers.get_relations(datadir)
+    logging.info("update_suspicious_streets_stats: start")
+    for relation in relations.keys():
+        helpers.write_suspicious_streets_result(datadir, workdir, relation)
+    logging.info("update_suspicious_streets_stats: end")
+
+
 def main():
     """Commandline interface to this module."""
 
@@ -79,6 +89,7 @@ def main():
     start = time.time()
     update_streets(workdir)
     update_street_housenumbers(workdir)
+    update_suspicious_streets_stats(workdir)
     delta = time.time() - start
     logging.info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
 
