@@ -99,6 +99,38 @@ def handle_street_housenumbers(request_uri, workdir, relations):
     return get_header("street-housenumbers", relation, osmrelation) + output + get_footer(date)
 
 
+def write_suspicious_streets_result(workdir, relation):
+    """Calculate a write stat for the house number coverage of a relation."""
+    suspicious_streets, done_streets = helpers.get_suspicious_streets(get_datadir(), workdir, relation)
+    todo_count = 0
+    table = []
+    table.append(["Utcanév", "Hiányzik db", "Házszámok"])
+    for result in suspicious_streets:
+        if result[1]:
+            # House number, # of only_in_reference items.
+            row = []
+            row.append(result[0])
+            row.append(str(len(result[1])))
+            # only_in_reference items.
+            row.append(", ".join(result[1]))
+            todo_count += len(result[1])
+            table.append(row)
+    done_count = 0
+    for result in done_streets:
+        done_count += len(result[1])
+    if done_count > 0 or todo_count > 0:
+        percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
+    else:
+        percent = "N/A"
+
+    # Write the bottom line to a file, so the index page show it fast.
+    with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
+        sock.write(percent)
+
+    todo_street_count = len(suspicious_streets)
+    return todo_street_count, todo_count, done_count, percent, table
+
+
 def suspicious_streets_view_result(request_uri, workdir):
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result."""
     tokens = request_uri.split("/")
@@ -118,41 +150,18 @@ def suspicious_streets_view_result(request_uri, workdir):
         output += "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        suspicious_streets, done_streets = helpers.get_suspicious_streets(get_datadir(), workdir, relation)
-        house_nr_count = 0
-        table = []
-        table.append(["Utcanév", "Hiányzik db", "Házszámok"])
-        for result in suspicious_streets:
-            if result[1]:
-                # House number, # of only_in_reference items.
-                row = []
-                row.append(result[0])
-                row.append(str(len(result[1])))
-                # only_in_reference items.
-                row.append(", ".join(result[1]))
-                house_nr_count += len(result[1])
-                table.append(row)
-        done_nr_count = 0
-        for result in done_streets:
-            done_nr_count += len(result[1])
+        todo_street_count, todo_count, done_count, percent, table = write_suspicious_streets_result(workdir, relation)
+
         output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
-        output += str(len(suspicious_streets)) + " utcához tartozó "
-        output += str(house_nr_count) + " házszámot."
-        if done_nr_count > 0 or house_nr_count > 0:
-            percent = "%.2f" % (done_nr_count / (done_nr_count + house_nr_count) * 100)
-        else:
-            percent = "N/A"
-        output += " (meglévő: " + str(done_nr_count) + ", készültség: " + str(percent) + "%).<br>"
+        output += str(todo_street_count) + " utcához tartozó "
+        output += str(todo_count) + " házszámot."
+        output += " (meglévő: " + str(done_count) + ", készültség: " + str(percent) + "%).<br>"
         output += "<a href=\"" + \
                   "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
                   "#hib%C3%A1s-riaszt%C3%A1s-hozz%C3%A1ad%C3%A1sa\">" + \
                   "Téves információ jelentése</a>.</p>"
 
         output += helpers.html_table_from_list(table)
-
-        # Write the bottom line to a file, so the index page show it fast.
-        with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
-            sock.write(percent)
     return output
 
 
