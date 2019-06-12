@@ -16,24 +16,32 @@ import yaml
 class Range:
     """A range object represents an odd or even range of integer numbers."""
     def __init__(self, start, end):
-        self.start = start
-        self.end = end
-        self.is_odd = start % 2 == 1
+        self.__start = start
+        self.__end = end
+        self.__is_odd = start % 2 == 1
+
+    def get_start(self):
+        """The smallest integer."""
+        return self.__start
+
+    def get_end(self):
+        """The largest integer."""
+        return self.__end
 
     def __contains__(self, item):
-        if self.is_odd != (item % 2 == 1):
+        if self.__is_odd != (item % 2 == 1):
             return False
-        if self.start <= item <= self.end:
+        if self.__start <= item <= self.__end:
             return True
         return False
 
     def __repr__(self):
-        return "Range(start=%s, end=%s, is_odd=%s)" % (self.start, self.end, self.is_odd)
+        return "Range(start=%s, end=%s, is_odd=%s)" % (self.__start, self.__end, self.__is_odd)
 
     def __eq__(self, other):
-        if self.start != other.start:
+        if self.__start != other.get_start():
             return False
-        if self.end != other.end:
+        if self.__end != other.get_end():
             return False
         return True
 

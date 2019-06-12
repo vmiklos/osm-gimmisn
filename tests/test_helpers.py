@@ -184,6 +184,8 @@ class TestRange(unittest.TestCase):
         self.assertTrue(1 in test)
         self.assertTrue(3 in test)
         self.assertTrue(5 in test)
+        self.assertEqual(test.get_start(), 1)
+        self.assertEqual(test.get_end(), 5)
 
     def test_eq(self):
         """Tests equality code."""
