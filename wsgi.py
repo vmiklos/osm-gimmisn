@@ -159,6 +159,14 @@ def suspicious_streets_view_txt(request_uri, workdir):
     return output
 
 
+def suspicious_streets_update(workdir, relation):
+    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
+    datadir = get_datadir()
+    reference = get_config().get('wsgi', 'reference_local').strip()
+    helpers.get_reference_housenumbers(reference, datadir, workdir, relation)
+    return "Frissítés sikeres."
+
+
 def handle_suspicious_streets(request_uri, workdir, relations):
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
     output = ""
@@ -180,10 +188,7 @@ def handle_suspicious_streets(request_uri, workdir, relations):
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
-        datadir = get_datadir()
-        reference = get_config().get('wsgi', 'reference_local').strip()
-        helpers.get_reference_housenumbers(reference, datadir, workdir, relation)
-        output += "Frissítés sikeres."
+        output += suspicious_streets_update(workdir, relation)
 
     osmrelation = relations[relation]["osmrelation"]
     date = ref_housenumbers_last_modified(workdir, relation)
