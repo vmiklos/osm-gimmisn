@@ -1,0 +1,61 @@
+filters:
+  Alsóhegy utca:
+    ranges:
+      - {start: '1', end: '11', reftelepules: "001"}
+      - {start: '13', end: '29'}
+      - {start: '2', end: '18', reftelepules: "001"}
+      - {start: '20', end: '30'}
+  Antal utca:
+    reftelepules: "001"
+  Avar utca:
+    ranges:
+      - {start: '4', end: '98', reftelepules: "001"}
+      - {start: '31', end: '37'}
+  Bérc utca:
+    reftelepules: "001"
+  Berényi utca:
+    reftelepules: "001"
+  Budaörsi út:
+    ranges:
+      - {start: '2', end: '24'}
+  Gyula utca:
+    ranges:
+      - {start: '1', end: '99', reftelepules: "001"}
+      - {start: '2', end: '98'}
+  Harkály utca:
+    reftelepules: "001"
+  Hegyalja út:
+    ranges:
+      - {start: '2', end: '30', reftelepules: "001"}
+      - {start: '32', end: '64'}
+  Mihály utca:
+    ranges:
+      - {start: '1', end: '99', reftelepules: "001"}
+      - {start: '2', end: '16', reftelepules: "001"}
+      - {start: '16', end: '18'}
+  Orom utca:
+    reftelepules: "001"
+  Sánc utca:
+    reftelepules: "001"
+  Somlói út:
+    ranges:
+      - {start: '1', end: '47'}
+      - {start: '49', end: '99', reftelepules: "001"}
+      - {start: '2', end: '98'}
+  Szent Sebestyén köz:
+    reftelepules: "001"
+  Szirom utca:
+    reftelepules: "001"
+  Számadó utca:
+    ranges:
+      - {start: '1', end: '17', reftelepules: "001"}
+      - {start: '19', end: '19'}
+      - {start: '2', end: '98'}
+  Szirtes út:
+    reftelepules: "001"
+  Tündérlaki mélyút:
+    reftelepules: "001"
+  Villányi út:
+    ranges:
+      - {start: '89', end: '113'}
+source: survey
