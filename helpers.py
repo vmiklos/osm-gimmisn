@@ -68,6 +68,21 @@ def get_reftelepules_list_from_yaml(reftelepules_list, value):
     return reftelepules_list
 
 
+def parse_relation_yaml(root, street, refstreets, reftelepules_list):
+    """Parses the yaml of a single relation."""
+    if "refstreets" in root.keys():
+        # From OSM name to ref name.
+        refstreets = root["refstreets"]
+    if "filters" in root.keys():
+        # street-specific reftelepules override.
+        filters = root["filters"]
+        for filter_street, value in filters.items():
+            if filter_street == street:
+                reftelepules_list = get_reftelepules_list_from_yaml(reftelepules_list, value)
+
+    return refstreets, reftelepules_list
+
+
 def get_street_details(datadir, street, relation_name):
     """Determines the ref codes, street name and type for a street in a relation."""
     with open(os.path.join(datadir, "relations.yaml")) as sock:
@@ -81,15 +96,7 @@ def get_street_details(datadir, street, relation_name):
         with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)) as sock:
             # See if config wants to map:
             root = yaml.load(sock)
-            if "refstreets" in root.keys():
-                # From OSM name to ref name.
-                refstreets = root["refstreets"]
-            if "filters" in root.keys():
-                # street-specific reftelepules override.
-                filters = root["filters"]
-                for filter_street, value in filters.items():
-                    if filter_street == street:
-                        reftelepules_list = get_reftelepules_list_from_yaml(reftelepules_list, value)
+            refstreets, reftelepules_list = parse_relation_yaml(root, street, refstreets, reftelepules_list)
 
     if street in refstreets.keys():
         street = refstreets[street]
