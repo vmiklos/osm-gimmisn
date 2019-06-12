@@ -13,6 +13,10 @@ filters:
     reftelepules: '012'
   Árkay Bertalan sétány:
     reftelepules: '012'
+  Attila út:
+    ranges:
+      - {start: '33', end: '135'}
+      - {start: '4', end: '98'}
   Avar utca:
     ranges:
       - {start: '2', end: '2'}
@@ -86,7 +90,7 @@ filters:
   Ostrom utca:
     ranges: []
   Pethényi út:
-    reftelepules: '012'
+    ranges: []
   Ráth György utca:
     ranges:
       - {start: '7', end: '11'}
