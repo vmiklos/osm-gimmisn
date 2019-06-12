@@ -1,6 +1,133 @@
 filters:
+  Acsády Ignác utca:
+    reftelepules: '012'
   Alkotás utca:
     ranges:
-      - {start: '1', end: '999', reftelepules: "012"}
-      - {start: '2', end: '998'}
+      - {start: '1', end: '37', reftelepules: '012'}
+      - {start: '2', end: '38'}
+  Alma utca:
+    ranges:
+      - {start: '2', end: '2'}
+    reftelepules: '012'
+  Árkay Aladár sétány:
+    reftelepules: '012'
+  Árkay Bertalan sétány:
+    reftelepules: '012'
+  Avar utca:
+    ranges:
+      - {start: '2', end: '2'}
+  Bíró utca:
+    ranges:
+      - {start: '1', end: '29'}
+    reftelepules: '012'
+  Böszörményi út:
+    ranges:
+      - {start: '2', end: '14'}
+    reftelepules: '012'
+  Czakó utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Csaba utca:
+    ranges:
+      - {start: '3', end: '15'}
+      - {start: '4', end: '22'}
+    reftelepules: '012'
+  Gaál József út:
+    ranges:
+      - {start: '1', end: '11'}
+    reftelepules: '012'
+  Greguss utca:
+    reftelepules: '012'
+  Gyógyfű utca:
+    reftelepules: '012'
+  Győri út:
+    ranges:
+      - {start: '1', end: '7', reftelepules: '012'}
+  Hajnóczy József utca:
+    reftelepules: '012'
+  Határőr út:
+    ranges:
+      - {start: '2', end: '20'}
+    reftelepules: '012'
+  Hegyalja út:
+    ranges:
+      - {start: '1', end: '27'}
+  Ignotus utca:
+    reftelepules: '012'
+  Istenhegyi út:
+    ranges: []
+  Királyhágó utca:
+    reftelepules: '012'
+  Kiss János altábornagy utca:
+    ranges:
+      - {start: '1', end: '23'}
+    reftelepules: '012'
+  Kék Golyó utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '98'}
+    reftelepules: '012'
+  Magyar jakobinusok tere:
+    reftelepules: '012'
+  Maros utca:
+    reftelepules: '012'
+  Márvány utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '20'}
+      - {start: '19', end: '35', reftelepules: '012'}
+      - {start: '22', end: '50', reftelepules: '012'}
+  Nagyenyed utca:
+    reftelepules: '012'
+  Naphegy utca:
+    ranges:
+      - {start: '1', end: '65'}
+      - {start: '2', end: '98'}
+  Ostrom utca:
+    ranges: []
+  Pethényi út:
+    reftelepules: '012'
+  Ráth György utca:
+    ranges:
+      - {start: '7', end: '11'}
+    reftelepules: '012'
+  Roskovics utca:
+    ranges:
+      - {start: '1', end: '99'}
+    reftelepules: '012'
+  Schwartzer Ferenc utca:
+    reftelepules: '012'
+  Szamos utca:
+    reftelepules: '012'
+  Szilágyi Erzsébet fasor:
+    ranges:
+      - {start: '2', end: '16'}
+    reftelepules: '012'
+  Széll Kálmán tér:
+    ranges:
+      - {start: '13', end: '21'}
+      - {start: '12', end: '20'}
+    reftelepules: '012'
+  Sándy Gyula köz:
+    reftelepules: '012'
+  Temes utca:
+    reftelepules: '012'
+  Ugocsa utca:
+    ranges:
+      - {start: '1', end: '11'}
+    reftelepules: '012'
+  Várfok utca:
+    ranges:
+      - {start: '2', end: '18'}
+      - {start: '20', end: '26', reftelepules: '012'}
+  Városmajor utca:
+    ranges:
+      - {start: '1', end: '79'}
+      - {start: '2', end: '84'}
+    reftelepules: '012'
+  Vérmező:
+    ranges: []
+  Vérmező út:
+    ranges:
+      - {start: '16', end: '98'}
 source: survey
