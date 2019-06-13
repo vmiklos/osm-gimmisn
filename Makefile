@@ -7,13 +7,6 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 
 check: check-filters check-flake8 check-mypy check-unit check-pylint
 
-check-full: check check-full-pylint
-
-check-full-pylint:
-	pylint \
-	  --max-line-length=120 \
-	  *.py tests/*.py
-
 check-filters: check-filters-syntax check-filters-schema
 
 check-filters-syntax:
@@ -40,7 +33,7 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/housenumber-
 	yamale -s data/housenumber-filters.schema.yaml $< && touch $@
 
 server:
-	@./wsgi.py
+	./wsgi.py
 
 deploy-pythonanywhere:
 	git pull -r
