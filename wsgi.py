@@ -249,11 +249,12 @@ def handle_main(relations, workdir):
     output = ""
 
     output += "<h1>Hol térképezzek?</h1>"
-    output += "<table>"
+    table = []
+    table.append(["Terület", "Házszám lefedettség", "Meglévő házszámok", "Meglévő utcák", "Terület határa"])
     for k in sorted(relations):
         relation = relations[k]
-        output += "<tr>"
-        output += "<td>" + k + "</td>"
+        row = []
+        row.append(k)
         percent_file = k + ".percent"
         url = "\"/osm/suspicious-streets/" + k + "/view-result\""
         percent = "N/A"
@@ -262,27 +263,29 @@ def handle_main(relations, workdir):
 
         if percent != "N/A":
             date = get_last_modified(workdir, percent_file)
-            output += "<td><strong><a href=" + url + " title=\"frissítve " + date + "\">"
-            output += "hiányzó házszámok: " + percent + "% kész"
-            output += "</a></strong></td>"
+            cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
+            cell += percent + "%"
+            cell += "</a></strong>"
+            row.append(cell)
         else:
-            output += "<td><strong><a href=" + url + ">"
-            output += "hiányzó házszámok"
-            output += "</a></strong></td>"
+            cell = "<strong><a href=" + url + ">"
+            cell += "hiányzó házszámok"
+            cell += "</a></strong>"
+            row.append(cell)
 
         date = get_housenumbers_last_modified(workdir, k)
-        output += "<td><a href=\"/osm/street-housenumbers/" + k + "/view-result\"" \
-                  "title=\"frissítve " + date + "\" >meglévő házszámok</a></td>"
+        row.append("<a href=\"/osm/street-housenumbers/" + k + "/view-result\""
+                   "title=\"frissítve " + date + "\" >meglévő házszámok</a>")
 
         date = get_streets_last_modified(workdir, k)
-        output += "<td><a href=\"/osm/streets/" + k + "/view-result\"" \
-                  "title=\"frissítve " + date + "\" >meglévő utcák</a></td>"
+        row.append("<a href=\"/osm/streets/" + k + "/view-result\""
+                   "title=\"frissítve " + date + "\" >meglévő utcák</a>")
 
-        output += "<td><a href=\"https://www.openstreetmap.org/relation/" + str(relation["osmrelation"]) + \
-                  "\">terület határa</a></td>"
+        row.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation["osmrelation"])
+                   + "\">terület határa</a>")
 
-        output += "</tr>"
-    output += "</table>"
+        table.append(row)
+    output += helpers.html_table_from_list(table)
     output += "<a href=\"" + \
               "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
               "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
