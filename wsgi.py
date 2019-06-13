@@ -263,7 +263,7 @@ def handle_main(relations, workdir):
         if percent != "N/A":
             date = get_last_modified(workdir, percent_file)
             output += "<td><strong><a href=" + url + " title=\"frissítve " + date + "\">"
-            output += percent + "% kész"
+            output += "hiányzó házszámok: " + percent + "% kész"
             output += "</a></strong></td>"
         else:
             output += "<td><strong><a href=" + url + ">"
@@ -286,7 +286,7 @@ def handle_main(relations, workdir):
     output += "<a href=\"" + \
               "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
               "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
-              "Új terület hozzáadása</a>."
+              "Új terület hozzáadása</a>"
 
     return get_header() + output + get_footer()
 
