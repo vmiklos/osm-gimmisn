@@ -24,11 +24,8 @@ check-flake8:
 
 check-pylint: $(patsubst %.py,%.py.pylinted,$(wildcard *.py tests/*.py))
 
-%.py.pylinted : %.py Makefile
-	pylint \
-	  --max-line-length=120 \
-	  --disable=too-few-public-methods \
-	  $< && touch $@
+%.py.pylinted : %.py Makefile .pylintrc
+	pylint $< && touch $@
 
 check-mypy: version.py
 	mypy *.py tests/*.py
