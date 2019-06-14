@@ -553,6 +553,34 @@ class TestBuildReferenceCache(unittest.TestCase):
         os.unlink(refpath + ".pickle")
 
 
+class TestBuildStreetReferenceCache(unittest.TestCase):
+    """Tests build_street_reference_cache()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "utcak_20190514.tsv")
+        memory_cache = helpers.build_street_reference_cache(refpath)
+        expected = {'01': {'011': ['Törökugrató utca',
+                                   'Tűzkő utca',
+                                   'Ref Name 1',
+                                   'Only In Ref utca']}}
+        self.assertEqual(memory_cache, expected)
+        os.unlink(refpath + ".pickle")
+
+    def test_cached(self):
+        """Tests the case when the pickle cache is already available."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "utcak_20190514.tsv")
+        helpers.build_street_reference_cache(refpath)
+        memory_cache = helpers.build_street_reference_cache(refpath)
+        expected = {'01': {'011': ['Törökugrató utca',
+                                   'Tűzkő utca',
+                                   'Ref Name 1',
+                                   'Only In Ref utca']}}
+        self.assertEqual(memory_cache, expected)
+        os.unlink(refpath + ".pickle")
+
+
 class TestHouseNumbersOfStreet(unittest.TestCase):
     """Tests house_numbers_of_street()."""
     def test_happy(self):
