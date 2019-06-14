@@ -1,0 +1,6 @@
+filters: {}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # 'OSM Name 2': 'Ref Name 2'
+  'Zólyomi köz': 'Zólyom köz'
+source: survey

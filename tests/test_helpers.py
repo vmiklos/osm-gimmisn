@@ -517,14 +517,14 @@ class TestGetSuspiciousRelations(unittest.TestCase):
     """Tests get_suspicious_relations()."""
     def test_happy(self):
         """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
-        only_in_reference, in_both = helpers.get_suspicious_relations(workdir, relation_name)
+        only_in_reference, in_both = helpers.get_suspicious_relations(datadir, workdir, relation_name)
 
-        # This is actually not correct, will have to map 'Ref Name 1' later.
-        self.assertEqual(only_in_reference, ['Only In Ref utca', 'Ref Name 1'])
+        self.assertEqual(only_in_reference, ['Only In Ref utca'])
 
-        self.assertEqual(in_both, ['Törökugrató utca', 'Tűzkő utca'])
+        self.assertEqual(in_both, ['Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
 
 class TestWriteSuspicousStreetsResult(unittest.TestCase):

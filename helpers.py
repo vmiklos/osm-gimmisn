@@ -463,10 +463,15 @@ def get_suspicious_streets(datadir, workdir, relation_name):
     return suspicious_streets, done_streets
 
 
-def get_suspicious_relations(workdir, relation_name):
+def get_suspicious_relations(datadir, workdir, relation_name):
     """Tries to find missing streets in a relation."""
-    osm_streets = get_streets(workdir, relation_name)
     reference_streets = get_streets_from_lst(workdir, relation_name)
+    _, ref_streets = load_normalizers(datadir, relation_name)
+    osm_streets = []
+    for street in get_streets(workdir, relation_name):
+        if street in ref_streets.keys():
+            street = ref_streets[street]
+        osm_streets.append(street)
 
     only_in_reference = get_only_in_first(reference_streets, osm_streets)
     in_both = get_in_both(reference_streets, osm_streets)

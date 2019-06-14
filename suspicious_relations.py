@@ -19,11 +19,12 @@ def main():
     config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(config_path)
     workdir = config.get('wsgi', 'workdir').strip()
+    datadir = os.path.join(os.path.dirname(__file__), "data")
 
     if len(sys.argv) > 1:
         relation_name = sys.argv[1]
 
-    only_in_reference, _ = helpers.get_suspicious_relations(workdir, relation_name)
+    only_in_reference, _ = helpers.get_suspicious_relations(datadir, workdir, relation_name)
 
     for street in only_in_reference:
         print(street)
