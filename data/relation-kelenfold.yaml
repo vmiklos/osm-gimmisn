@@ -119,6 +119,10 @@ filters:
     ranges:
       - {start: '5', end: '11'}
       - {start: '6', end: '10'}
+  Lecke utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '6'}
   Mohai út:
     ranges:
       - {start: '1', end: '55'}
@@ -149,6 +153,10 @@ filters:
   Solt utca:
     ranges:
       - {start: '24', end: '98'}
+  Sopron út:
+    ranges:
+      - {start: '1', end: '71'}
+      - {start: '2', end: '72'}
   Szádelő köz:
     ranges:
       - {start: '1', end: '19'}
@@ -161,6 +169,10 @@ filters:
     ranges:
       - {start: '1', end: '59'}
       - {start: '2', end: '98'}
+  Sztregova utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '32'}
   Tas vezér utca:
     ranges:
       - {start: '15', end: '99'}
