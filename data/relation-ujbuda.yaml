@@ -2,5 +2,7 @@ filters: {}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # 'OSM Name 2': 'Ref Name 2'
+  'Felső határút': 'Felső Határ út'
   'Zólyomi köz': 'Zólyom köz'
+  'Október huszonharmadika utca': 'Október Huszonharmad utca'
 source: survey
