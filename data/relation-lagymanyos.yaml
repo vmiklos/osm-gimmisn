@@ -34,4 +34,6 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
+refstreets:
+  'Október huszonharmadika utca': 'Október Huszonharmad utca'
 source: survey
