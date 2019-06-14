@@ -5,6 +5,11 @@ krisztinavaros:
     refmegye: "01"
     reftelepules: "001"
 # 11
+ujbuda:
+    osmrelation: 221998
+    refmegye: "01"
+    reftelepules: "011"
+    suspicious-relations: only
 dobogo:
     osmrelation: 2713968
     refmegye: "01"

@@ -253,6 +253,11 @@ def handle_main(relations, workdir):
     table.append(["Terület", "Házszám lefedettség", "Meglévő házszámok", "Meglévő utcák", "Terület határa"])
     for k in sorted(relations):
         relation = relations[k]
+
+        if "suspicious-relations" in relation.keys():
+            if relation["suspicious-relations"] == "only":
+                continue
+
         row = []
         row.append(k)
         percent_file = k + ".percent"

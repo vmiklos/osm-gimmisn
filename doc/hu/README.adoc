@@ -114,3 +114,11 @@ van szükség:
 
 - `reftelepules` tartomány szinten: ez akkor hasznos ha egy utca két oldala más
   településhez/kerülethez tartozik. (Példa: `krisztinavaros`.)
+
+== Hiányzó utcák keresése
+
+Ez egy folyamatban lévő erőfeszítés, egyelőre a yaml formátum így néz ki:
+
+- `suspicious-relations: only`: ezt a `relations.yaml` reláció listájában lehet megadni egy
+  relációra. Azt jelzi, hogy ebben a relációban csak hiányzó utcákat szándékozol keresni, hiányzó
+  házszámokat nem.
