@@ -404,6 +404,16 @@ def get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street, 
     return sort_numerically(set(house_numbers))
 
 
+def get_streets_from_lst(workdir, relation_name):
+    """Gets streets from reference."""
+    streets = []  # type: List[str]
+    with open(os.path.join(workdir, "streets-reference-%s.lst" % relation_name)) as sock:
+        for line in sock.readlines():
+            line = line.strip()
+            streets.append(line)
+    return sorted(set(streets))
+
+
 def get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers):
     """Gets house numbers from the overpass query."""
     house_numbers = []  # type: List[str]

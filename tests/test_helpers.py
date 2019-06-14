@@ -470,6 +470,16 @@ class TestGetHouseNumbersFromLst(unittest.TestCase):
         self.assertEqual(house_numbers, ["1", "2", "7", "10"])
 
 
+class TestGetStreetsFromLst(unittest.TestCase):
+    """Tests get_streets_from_lst()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation_name = "gazdagret"
+        house_numbers = helpers.get_streets_from_lst(workdir, relation_name)
+        self.assertEqual(house_numbers, ['Only In Ref utca', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
+
+
 class TestGetHouseNumbersFromCsv(unittest.TestCase):
     """Tests get_house_numbers_from_csv()."""
     def test_happy(self):
