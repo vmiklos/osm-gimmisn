@@ -281,7 +281,9 @@ def get_nth_column(path: str, column: int) -> List[str]:
 def get_streets(workdir: str, relation_name: str) -> List[str]:
     """Reads list of streets for an area from OSM."""
     ret = get_nth_column(os.path.join(workdir, "streets-%s.csv" % relation_name), 1)
-    ret += get_nth_column(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name), 1)
+    house_numbers = os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)
+    if os.path.exists(house_numbers):
+        ret += get_nth_column(house_numbers, 1)
     return sorted(set(ret))
 
 
@@ -459,6 +461,17 @@ def get_suspicious_streets(datadir, workdir, relation_name):
     suspicious_streets.sort(key=lambda result: len(result[1]), reverse=True)
 
     return suspicious_streets, done_streets
+
+
+def get_suspicious_relations(workdir, relation_name):
+    """Tries to find missing streets in a relation."""
+    osm_streets = get_streets(workdir, relation_name)
+    reference_streets = get_streets_from_lst(workdir, relation_name)
+
+    only_in_reference = get_only_in_first(reference_streets, osm_streets)
+    in_both = get_in_both(reference_streets, osm_streets)
+
+    return only_in_reference, in_both
 
 
 def build_reference_cache(local):

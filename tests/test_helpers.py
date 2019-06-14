@@ -165,6 +165,13 @@ class TestGetStreets(unittest.TestCase):
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
+    def test_no_house_number(self):
+        """Tests the case when we have streets, but no house numbers."""
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        actual = helpers.get_streets(workdir, "ujbuda")
+        expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
+        self.assertEqual(actual, expected)
+
 
 class TestRange(unittest.TestCase):
     """Tests Range."""
@@ -504,6 +511,20 @@ class TestGetSuspiciousStreets(unittest.TestCase):
         self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']), ('Tűzkő utca', ['1', '2'])])
         expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
         self.assertEqual(done_streets, expected)
+
+
+class TestGetSuspiciousRelations(unittest.TestCase):
+    """Tests get_suspicious_relations()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation_name = "gazdagret"
+        only_in_reference, in_both = helpers.get_suspicious_relations(workdir, relation_name)
+
+        # This is actually not correct, will have to map 'Ref Name 1' later.
+        self.assertEqual(only_in_reference, ['Only In Ref utca', 'Ref Name 1'])
+
+        self.assertEqual(in_both, ['Törökugrató utca', 'Tűzkő utca'])
 
 
 class TestWriteSuspicousStreetsResult(unittest.TestCase):
