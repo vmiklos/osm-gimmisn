@@ -27,10 +27,10 @@ check-unit:
 	coverage run --branch --module unittest tests/test_helpers.py
 	coverage report --show-missing --fail-under=100 helpers.py tests/test_helpers.py
 
-check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/housenumber-filters-*.yaml))
+check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relation-*.yaml))
 
 %.validyaml : %.yaml
-	yamale -s data/housenumber-filters.schema.yaml $< && touch $@
+	yamale -s data/relation.schema.yaml $< && touch $@
 
 server:
 	./wsgi.py

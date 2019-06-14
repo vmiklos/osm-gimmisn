@@ -67,7 +67,7 @@ meg tudod nézni a pontos overpass lekérdezéseket.
 == Hibás riasztás hozzáadása
 
 Ez hasonló az új reláció felvételéhez, csak a reláció nevéből származtatott szűrő file-ba kell
-felvenni információt, például `housenumber-filters-magasut.yaml`. Tegyük fel, hogy Magasúton a
+felvenni információt, például `relation-magasut.yaml`. Tegyük fel, hogy Magasúton a
 Magasúti köz páratlan oldalán az osm-gimmisn javasol egy 999 házszámot, és ez hibásnak bizonyul.
 Lépések ennek elnémításához:
 
@@ -78,7 +78,7 @@ mérni.
 2) Például azt találtad, hogy a páratlan oldalon 1-9 a tartomány, a páros oldalon pedig 2-8. Most
 már csak ezt az információt kell rögzíteni, és ezzel automatikusan el fog tűnni a hibás 999 jelzés.
 
-3) Szerkesszed a `housenumber-filters-magasut.yaml` file-t. Ha még nincs ilyen, akkor a
+3) Szerkesszed a `relation-magasut.yaml` file-t. Ha még nincs ilyen, akkor a
 legegyszerűbb ha egy letezőt lemásolsz, és kitörlöd az összes utcát.
 
 4) A Magasúti közt így tudod leírni:
@@ -117,7 +117,7 @@ van szükség:
 
 == Hiányzó utcák keresése
 
-Ez egy folyamatban lévő erőfeszítés, egyelőre a yaml formátum így néz ki:
+Ez egy új erőfeszítés, egyelőre a yaml formátum így néz ki:
 
 - `suspicious-relations: only`: ezt a `relations.yaml` reláció listájában lehet megadni egy
   relációra. Azt jelzi, hogy ebben a relációban csak hiányzó utcákat szándékozol keresni, hiányzó

@@ -104,8 +104,8 @@ def get_street_details(datadir, street, relation_name):
     reftelepules_list = [relation["reftelepules"]]
 
     refstreets = {}  # type: Dict[str, str]
-    if os.path.exists(os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)):
-        with open(os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)) as sock:
+    if os.path.exists(os.path.join(datadir, "relation-%s.yaml" % relation_name)):
+        with open(os.path.join(datadir, "relation-%s.yaml" % relation_name)) as sock:
             # See if config wants to map:
             root = yaml.load(sock)
             refstreets, reftelepules_list = parse_relation_yaml(root, street, refstreets, reftelepules_list)
@@ -315,7 +315,7 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
     filter_dict = {}  # type: Dict[str, Ranges]
     ref_streets = {}  # type: Dict[str, str]
 
-    path = os.path.join(datadir, "housenumber-filters-%s.yaml" % relation_name)
+    path = os.path.join(datadir, "relation-%s.yaml" % relation_name)
     if not os.path.exists(path):
         return filter_dict, ref_streets
 
