@@ -606,6 +606,19 @@ class TestHouseNumbersOfStreet(unittest.TestCase):
         self.assertEqual(ret, [])
 
 
+class TestStreetsOfRelation(unittest.TestCase):
+    """Tests streets_of_relation()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "utcak_20190514.tsv")
+        memory_cache = helpers.build_street_reference_cache(refpath)
+        relation_name = "gazdagret"
+        ret = helpers.streets_of_relation(datadir, memory_cache, relation_name)
+        self.assertEqual(ret, ['Törökugrató utca', 'Tűzkő utca', 'Ref Name 1', 'Only In Ref utca'])
+
+
 class TestGetReferenceHousenumbers(unittest.TestCase):
     """Tests get_reference_housenumbers()."""
     def test_happy(self):
@@ -618,6 +631,21 @@ class TestGetReferenceHousenumbers(unittest.TestCase):
         expected = helpers.get_content(workdir, "street-housenumbers-reference-gazdagret.lst")
         helpers.get_reference_housenumbers(refpath, datadir, workdir, relation_name)
         actual = helpers.get_content(workdir, "street-housenumbers-reference-gazdagret.lst")
+        self.assertEqual(actual, expected)
+
+
+class TestGetReferenceStreets(unittest.TestCase):
+    """Tests get_reference_streets()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "utcak_20190514.tsv")
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation_name = "gazdagret"
+        expected = helpers.get_content(workdir, "streets-reference-gazdagret.lst")
+        helpers.get_reference_streets(refpath, datadir, workdir, relation_name)
+        actual = helpers.get_content(workdir, "streets-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 
 

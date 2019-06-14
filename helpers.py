@@ -528,6 +528,17 @@ def house_numbers_of_street(datadir, reference, relation_name, street):
     return ret
 
 
+def streets_of_relation(datadir, reference, relation_name):
+    """Gets street names for a relation from a reference."""
+    with open(os.path.join(datadir, "relations.yaml")) as sock:
+        relations = yaml.load(sock)
+    relation = relations[relation_name]
+    refmegye = relation["refmegye"]
+    reftelepules = relation["reftelepules"]
+
+    return reference[refmegye][reftelepules]
+
+
 def get_reference_housenumbers(reference, datadir, workdir, relation_name):
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
@@ -541,6 +552,20 @@ def get_reference_housenumbers(reference, datadir, workdir, relation_name):
 
     lst = sorted(set(lst))
     sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")
+    for line in lst:
+        sock.write(line + "\n")
+    sock.close()
+
+
+def get_reference_streets(reference, datadir, workdir, relation_name):
+    """Gets known streets (not their coordinates) from a reference site, based on relation names
+    from OSM."""
+    memory_cache = build_street_reference_cache(reference)
+
+    lst = streets_of_relation(datadir, memory_cache, relation_name)
+
+    lst = sorted(set(lst))
+    sock = open(os.path.join(workdir, "streets-reference-%s.lst" % relation_name), "w")
     for line in lst:
         sock.write(line + "\n")
     sock.close()
