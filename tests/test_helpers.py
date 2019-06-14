@@ -558,6 +558,35 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         os.unlink(os.path.join(workdir, "empty.percent"))
 
 
+class TestWriteMissingRelationssResult(unittest.TestCase):
+    """Tests write_missing_relations_result()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation_name = "gazdagret"
+        expected = helpers.get_content(workdir, "gazdagret-streets.percent")
+        ret = helpers.write_missing_relations_result(datadir, workdir, relation_name)
+        todo_count, done_count, percent, table = ret
+        self.assertEqual(todo_count, 1)
+        self.assertEqual(done_count, 3)
+        self.assertEqual(percent, '75.00')
+        self.assertEqual(table, [['Utcanév'],
+                                 ['Only In Ref utca']])
+        actual = helpers.get_content(workdir, "gazdagret-streets.percent")
+        self.assertEqual(actual, expected)
+
+    def test_empty(self):
+        """Tests the case when percent can't be determined."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relation_name = "empty"
+        ret = helpers.write_missing_relations_result(datadir, workdir, relation_name)
+        _todo_count, _done_count, percent, _table = ret
+        self.assertEqual(percent, 'N/A')
+        os.unlink(os.path.join(workdir, "empty-streets.percent"))
+
+
 class TestBuildReferenceCache(unittest.TestCase):
     """Tests build_reference_cache()."""
     def test_happy(self):
