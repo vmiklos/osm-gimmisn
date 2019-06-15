@@ -9,39 +9,40 @@
 import re
 import os
 import pickle
-from typing import Callable, Dict, Iterable, List, Sequence, Tuple
+from typing import Callable, Dict, Iterable, List, Sequence, Tuple, cast
 import yaml
 
 
 class Range:
     """A range object represents an odd or even range of integer numbers."""
-    def __init__(self, start, end):
+    def __init__(self, start: int, end: int) -> None:
         self.__start = start
         self.__end = end
         self.__is_odd = start % 2 == 1
 
-    def get_start(self):
+    def get_start(self) -> int:
         """The smallest integer."""
         return self.__start
 
-    def get_end(self):
+    def get_end(self) -> int:
         """The largest integer."""
         return self.__end
 
-    def __contains__(self, item):
+    def __contains__(self, item: int) -> bool:
         if self.__is_odd != (item % 2 == 1):
             return False
         if self.__start <= item <= self.__end:
             return True
         return False
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Range(start=%s, end=%s, is_odd=%s)" % (self.__start, self.__end, self.__is_odd)
 
-    def __eq__(self, other):
-        if self.__start != other.get_start():
+    def __eq__(self, other: object) -> bool:
+        other_range = cast(Range, other)
+        if self.__start != other_range.get_start():
             return False
-        if self.__end != other.get_end():
+        if self.__end != other_range.get_end():
             return False
         return True
 
