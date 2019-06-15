@@ -4,6 +4,8 @@ way(area)[highway][highway!="service"]["bridge"!~".*"];
 out;
 way(area)[highway=service][name]["bridge"!~".*"];
 out;
+way(area)["leisure"="park"][name];
+out;
 rel(@RELATION@);
 way(r)[highway][highway!="service"]["bridge"!~".*"];
 out;
