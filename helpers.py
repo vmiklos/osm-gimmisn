@@ -49,24 +49,25 @@ class Range:
 
 class Ranges:
     """A Ranges object contains an item if any of its Range objects contains it."""
-    def __init__(self, items):
+    def __init__(self, items: List[Range]) -> None:
         self.__items = items
 
-    def get_items(self):
+    def get_items(self) -> List[Range]:
         """The list of contained Range objects."""
         return self.__items
 
-    def __contains__(self, item):
+    def __contains__(self, item: int) -> bool:
         for i in self.__items:
             if item in i:
                 return True
         return False
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Ranges(items=%s)" % self.__items
 
-    def __eq__(self, other):
-        return self.__items == other.get_items()
+    def __eq__(self, other: object) -> bool:
+        other_ranges = cast(Ranges, other)
+        return self.__items == other_ranges.get_items()
 
 
 def get_reftelepules_list_from_yaml(reftelepules_list, value):

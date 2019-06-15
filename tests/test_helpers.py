@@ -204,22 +204,22 @@ class TestRanges(unittest.TestCase):
     """Tests Ranges."""
     def test_a(self):
         """Tests when the arg is in the first range."""
-        test = helpers.Ranges([[0], [1]])
+        test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
         self.assertTrue(0 in test)
 
     def test_b(self):
         """Tests when the arg is in the second range."""
-        test = helpers.Ranges([[0], [1]])
+        test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
         self.assertTrue(1 in test)
 
     def test_ab(self):
         """Tests when the arg is in both ranges."""
-        test = helpers.Ranges([[1], [1]])
+        test = helpers.Ranges([helpers.Range(1, 1), helpers.Range(1, 1)])
         self.assertTrue(1 in test)
 
     def test_none(self):
         """Tests when the arg is in neither ranges."""
-        test = helpers.Ranges([[0], [1]])
+        test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
         self.assertFalse(2 in test)
 
 
