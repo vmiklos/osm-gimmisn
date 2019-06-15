@@ -1,8 +1,22 @@
 filters: {}
+street-filters:
+  - Alsóhatár utca # Budaörsön fut nem a határon
+  - Alsóhegyi lépcső # csak házszám van, az utca helye a susnyában
+  - Talaj köz # nem létezik
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # 'OSM Name 2': 'Ref Name 2'
+  'Csíkihegyek utca': 'Csiki-hegyek utca'
   'Felső határút': 'Felső Határ út'
-  'Zólyomi köz': 'Zólyom köz'
+  'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
+  'Károly Ireneusz József utca': 'Károly Ireneusz J. utca'
+  'Keserűvíz utca': 'Keserűviz utca'
+  'Mesterházi utca': 'Mesterházy utca'
   'Október huszonharmadika utca': 'Október Huszonharmad utca'
+  'Stoczek József utca': 'Stoczek utca'
+  'Új barázda utca': 'Új Barázda utca'
+  'Zólyomi köz': 'Zólyom köz'
+  #resurvey:
+  'Tóváros utca': 'Tóváros út'
+  'Törökverő utca': 'Törökverő út'
 source: survey
