@@ -17,11 +17,13 @@ check-flake8:
 
 check-pylint: $(patsubst %.py,%.py.pylinted,$(wildcard *.py tests/*.py))
 
+check-mypy: $(patsubst %.py,%.mypy,$(wildcard *.py tests/*.py))
+
 %.py.pylinted : %.py Makefile .pylintrc
 	pylint $< && touch $@
 
-check-mypy: version.py
-	mypy *.py tests/*.py
+%.mypy: %.py Makefile all
+	mypy $< && touch $@
 
 check-unit:
 	coverage run --branch --module unittest tests/test_helpers.py
