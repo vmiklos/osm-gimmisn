@@ -2,7 +2,7 @@ filters:
   Budaörsi út:
     ranges:
       - {start: '137', end: '165'}
-  Csíki-hegyek utca:
+  Csíkihegyek utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '26'}
