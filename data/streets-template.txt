@@ -1,4 +1,4 @@
-[out:csv(::id, name, highway, service)]  [timeout:425];
+[out:csv(::id, name, highway, service, surface, leisure)]  [timeout:425];
 area(@AREA@)->.searchArea;
 way(area.searchArea)[highway][highway!="service"]["bridge"!~".*"];
 out;
