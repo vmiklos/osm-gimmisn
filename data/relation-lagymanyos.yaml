@@ -36,4 +36,5 @@ filters:
       - {start: '2', end: '12'}
 refstreets:
   'Október huszonharmadika utca': 'Október Huszonharmad utca'
+  'Stoczek József utca': 'Stoczek utca'
 source: survey
