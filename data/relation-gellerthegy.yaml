@@ -67,4 +67,6 @@ filters:
   Villányi út:
     ranges:
       - {start: '89', end: '113'}
+refstreets:
+  'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
 source: survey
