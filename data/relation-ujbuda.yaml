@@ -1,3 +1,4 @@
+suspicious-relations: only
 filters: {}
 street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon

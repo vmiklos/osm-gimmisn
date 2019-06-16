@@ -70,7 +70,7 @@ def handle_streets(request_uri, workdir, relations):
 
     osmrelation = relations[relation]["osmrelation"]
     date = get_streets_last_modified(workdir, relation)
-    return get_header("streets", relation, osmrelation, relations) + output + get_footer(date)
+    return get_header("streets", relation, osmrelation) + output + get_footer(date)
 
 
 def handle_street_housenumbers(request_uri, workdir, relations):
@@ -96,7 +96,7 @@ def handle_street_housenumbers(request_uri, workdir, relations):
 
     osmrelation = relations[relation]["osmrelation"]
     date = get_housenumbers_last_modified(workdir, relation)
-    return get_header("street-housenumbers", relation, osmrelation, relations) + output + get_footer(date)
+    return get_header("street-housenumbers", relation, osmrelation) + output + get_footer(date)
 
 
 def suspicious_streets_view_result(request_uri, workdir):
@@ -243,7 +243,7 @@ def handle_suspicious_streets(request_uri, workdir, relations):
 
     osmrelation = relations[relation]["osmrelation"]
     date = ref_housenumbers_last_modified(workdir, relation)
-    return get_header("suspicious-streets", relation, osmrelation, relations) + output + get_footer(date)
+    return get_header("suspicious-streets", relation, osmrelation) + output + get_footer(date)
 
 
 def handle_suspicious_relations(request_uri, workdir, relations):
@@ -271,7 +271,7 @@ def handle_suspicious_relations(request_uri, workdir, relations):
 
     osmrelation = relations[relation]["osmrelation"]
     date = ref_streets_last_modified(workdir, relation)
-    return get_header("suspicious-relations", relation, osmrelation, relations) + output + get_footer(date)
+    return get_header("suspicious-relations", relation, osmrelation) + output + get_footer(date)
 
 
 def local_to_ui_tz(local_dt):
@@ -366,10 +366,7 @@ def handle_main(relations, workdir):
     for k in sorted(relations):
         relation = relations[k]
 
-        # streets can be yes, no and only. Current default is "no", and "yes" is not yet handled.
-        streets = "no"
-        if "suspicious-relations" in relation.keys():
-            streets = relation["suspicious-relations"]
+        streets = helpers.get_relation_missing_streets(get_datadir(), k)
 
         row = []
         row.append(k)
@@ -424,18 +421,15 @@ def handle_main(relations, workdir):
     return get_header() + output + get_footer()
 
 
-def get_header(function=None, relation_name=None, relation_osmid=None, relations=None):
+def get_header(function=None, relation_name=None, relation_osmid=None):
     """Produces the start of the page. Note that the contnt depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
     title = ""
     items = []
 
-    streets = "no"
-    if relations and relation_name in relations.keys():
-        relation = relations[relation_name]
-        if "suspicious-relations" in relation.keys():
-            streets = relation["suspicious-relations"]
+    if relation_name:
+        streets = helpers.get_relation_missing_streets(get_datadir(), relation_name)
 
     items.append("<a href=\"/osm\">Területek listája</a>")
     if relation_name:

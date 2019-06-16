@@ -729,7 +729,31 @@ class TestGetRelations(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         relations = helpers.get_relations(datadir)
-        self.assertEqual(sorted(relations.keys()), ['empty', 'gazdagret', 'nosuchrelation'])
+        self.assertEqual(sorted(relations.keys()), ['empty', 'gazdagret', 'nosuchrelation', "ujbuda"])
+
+
+class TestGetRelationMissingStreets(unittest.TestCase):
+    """Tests get_relation_missing_streets()."""
+    def test_happy(self):
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relation_name = "ujbuda"
+        ret = helpers.get_relation_missing_streets(datadir, relation_name)
+        self.assertEqual(ret, "only")
+
+    def test_empty(self):
+        """Tests the default value."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relation_name = "empty"
+        ret = helpers.get_relation_missing_streets(datadir, relation_name)
+        self.assertEqual(ret, "no")
+
+    def test_nosuchrelation(self):
+        """Tests a relation without a filter file."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relation_name = "nosuchrelation"
+        ret = helpers.get_relation_missing_streets(datadir, relation_name)
+        self.assertEqual(ret, "no")
 
 
 if __name__ == '__main__':

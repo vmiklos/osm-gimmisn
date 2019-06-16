@@ -70,6 +70,19 @@ class Ranges:
         return self.__items == other_ranges.get_items()
 
 
+def get_relation_missing_streets(datadir: str, relation_name: str) -> str:
+    """Return value can be yes, no and only. Current default is "no", and "yes" is not yet handled."""
+    relation_path = os.path.join(datadir, "relation-%s.yaml" % relation_name)
+    if os.path.exists(relation_path):
+        with open(relation_path) as sock:
+            # See if config wants to map:
+            root = yaml.load(sock)
+            if "suspicious-relations" in root:
+                return cast(str, root["suspicious-relations"])
+
+    return "no"
+
+
 def get_reftelepules_list_from_yaml(
         reftelepules_list: List[str],
         value: Dict[str, Any]

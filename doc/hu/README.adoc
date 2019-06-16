@@ -9,14 +9,17 @@ házszámokat felmérni. A főoldalnak a következő oszlopai vannak:
 
 2) Házszámlista (street-housenumbers) egy területre, ez az OSM adatbázisból származik.
 
-3) Utcalista (streets) egy területre, ez is az OSM adatbázisból származik.
 
-4) A terület az OSM weboldalán, ahol jól látszik a határa.
+3) Hiányzó utca (suspicious-relations) kereső.
+
+4) Utcalista (streets) egy területre, ez is az OSM adatbázisból származik.
+
+5) A terület az OSM weboldalán, ahol jól látszik a határa.
 
 A suspicious-streets szekciót érdemes elsőre nézni, ha ott szerepel olyan terület ami érdekel, akkor
 ott találsz javaslatot arra, hogy milyen hiányzó házszámokat próbálj meg felmérni. Tegyük fel, hogy
 a terület már szerepel a listában, a házszám valóban hiányzott, és most szerkesztetted fel az
-OSM-re.  A weboldal nem frissül automatikusan, ehhez a következőt kell tenned:
+OSM-re.  A weboldal automatikusan frissül naponta, kézi frissítéshez a következőt kell tenned:
 
 1) Várj pár percet. Ha most szerkesztettél, akkor ha azonnal fut egy overpass lekérdezés, valószínű,
 hogy még nem dolgozik a te szerkesztésed eredményével.
@@ -119,6 +122,6 @@ van szükség:
 
 Ez egy új erőfeszítés, egyelőre a yaml formátum így néz ki:
 
-- `suspicious-relations: only`: ezt a `relations.yaml` reláció listájában lehet megadni egy
+- `suspicious-relations: only`: ezt a `relation-....yaml` file gyökrében lehet megadni egy
   relációra. Azt jelzi, hogy ebben a relációban csak hiányzó utcákat szándékozol keresni, hiányzó
   házszámokat nem.
