@@ -9,7 +9,7 @@
 import re
 import os
 import pickle
-from typing import Callable, Dict, Iterable, List, Sequence, Tuple, Union, cast
+from typing import Any, Callable, Dict, Iterable, List, Sequence, Tuple, cast
 import yaml
 
 
@@ -72,7 +72,7 @@ class Ranges:
 
 def get_reftelepules_list_from_yaml(
         reftelepules_list: List[str],
-        value: Dict[str, Union[List[Dict[str, str]], str]]
+        value: Dict[str, Any]
 ) -> List[str]:
     """Determines street-level and range-level reftelepules overrides."""
     if "reftelepules" in value.keys():
@@ -87,14 +87,19 @@ def get_reftelepules_list_from_yaml(
     return reftelepules_list
 
 
-def parse_relation_yaml(root, street, refstreets, reftelepules_list):
+def parse_relation_yaml(
+        root: Dict[str, Any],
+        street: str,
+        refstreets: Dict[str, str],
+        reftelepules_list: List[str]
+) -> Tuple[Dict[str, str], List[str]]:
     """Parses the yaml of a single relation."""
     if "refstreets" in root.keys():
         # From OSM name to ref name.
-        refstreets = root["refstreets"]
+        refstreets = cast(Dict[str, str], root["refstreets"])
     if "filters" in root.keys():
         # street-specific reftelepules override.
-        filters = root["filters"]
+        filters = cast(Dict[str, Any], root["filters"])
         for filter_street, value in filters.items():
             if filter_street == street:
                 reftelepules_list = get_reftelepules_list_from_yaml(reftelepules_list, value)
