@@ -10,6 +10,8 @@ filters:
   'Teszt utca':
     # test: this would be 011 by default, but here it's overwritten at a street level
     reftelepules: "012"
+street-filters:
+  - Only In Ref Nonsense utca
 refstreets:
   'OSM Name 1': 'Ref Name 1'
   'OSM Name 2': 'Ref Name 2'

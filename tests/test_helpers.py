@@ -314,7 +314,7 @@ class TestLoadNormalizers(unittest.TestCase):
     def test_happy(self):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets = helpers.load_normalizers(datadir, "gazdagret")
+        filters, ref_streets, street_blacklist = helpers.load_normalizers(datadir, "gazdagret")
         expected_filters = {
             "Budaörsi út": helpers.Ranges([helpers.Range(137, 165)]),
             "Csiki-hegyek utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
@@ -325,20 +325,23 @@ class TestLoadNormalizers(unittest.TestCase):
             'OSM Name 2': 'Ref Name 2'
         }
         self.assertEqual(ref_streets, expected_streets)
+        self.assertEqual(street_blacklist, ['Only In Ref Nonsense utca'])
 
     def test_nosuchname(self):
         """Tests when there is no filters file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets = helpers.load_normalizers(datadir, "nosuchname")
+        filters, ref_streets, street_blacklist = helpers.load_normalizers(datadir, "nosuchname")
         self.assertEqual(filters, {})
         self.assertEqual(ref_streets, {})
+        self.assertEqual(street_blacklist, [])
 
     def test_empty(self):
         """Tests when the filter file is empty."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        filters, ref_streets = helpers.load_normalizers(datadir, "empty")
+        filters, ref_streets, street_blacklist = helpers.load_normalizers(datadir, "empty")
         self.assertEqual(filters, {})
         self.assertEqual(ref_streets, {})
+        self.assertEqual(street_blacklist, [])
 
 
 class TestGetStreetDetails(unittest.TestCase):
@@ -437,28 +440,28 @@ class TestNormalize(unittest.TestCase):
     def test_happy(self):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         house_numbers = helpers.normalize("139", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, ["139"])
 
     def test_not_in_range(self):
         """Tests when the number is not in range."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         house_numbers = helpers.normalize("999", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_not_a_number(self):
         """Tests the case when the house number is not a number."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         house_numbers = helpers.normalize("x", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_nofilter(self):
         """Tests the case when there is no filter for this street."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         house_numbers = helpers.normalize("1", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["1"])
 
@@ -471,7 +474,7 @@ class TestGetHouseNumbersFromLst(unittest.TestCase):
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
         street_name = "Törökugrató utca"
-        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         ref_street = "Törökugrató utca"
         house_numbers = helpers.get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street, normalizers)
         self.assertEqual(house_numbers, ["1", "2", "7", "10"])
@@ -484,7 +487,11 @@ class TestGetStreetsFromLst(unittest.TestCase):
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
         house_numbers = helpers.get_streets_from_lst(workdir, relation_name)
-        self.assertEqual(house_numbers, ['Only In Ref utca', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
+        self.assertEqual(house_numbers, ['Only In Ref Nonsense utca',
+                                         'Only In Ref utca',
+                                         'Ref Name 1',
+                                         'Törökugrató utca',
+                                         'Tűzkő utca'])
 
 
 class TestGetHouseNumbersFromCsv(unittest.TestCase):
@@ -495,7 +502,7 @@ class TestGetHouseNumbersFromCsv(unittest.TestCase):
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
         street_name = "Törökugrató utca"
-        normalizers, _ = helpers.load_normalizers(datadir, "gazdagret")
+        normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         house_numbers = helpers.get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers)
         self.assertEqual(house_numbers, ["1", "2"])
 
@@ -522,6 +529,7 @@ class TestGetSuspiciousRelations(unittest.TestCase):
         relation_name = "gazdagret"
         only_in_reference, in_both = helpers.get_suspicious_relations(datadir, workdir, relation_name)
 
+        # Not that 'Only In Ref Nonsense utca' is missing from this list.
         self.assertEqual(only_in_reference, ['Only In Ref utca'])
 
         self.assertEqual(in_both, ['Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
@@ -623,7 +631,8 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
         expected = {'01': {'011': ['Törökugrató utca',
                                    'Tűzkő utca',
                                    'Ref Name 1',
-                                   'Only In Ref utca']}}
+                                   'Only In Ref utca',
+                                   'Only In Ref Nonsense utca']}}
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 
@@ -636,7 +645,8 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
         expected = {'01': {'011': ['Törökugrató utca',
                                    'Tűzkő utca',
                                    'Ref Name 1',
-                                   'Only In Ref utca']}}
+                                   'Only In Ref utca',
+                                   'Only In Ref Nonsense utca']}}
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 
@@ -676,7 +686,11 @@ class TestStreetsOfRelation(unittest.TestCase):
         memory_cache = helpers.build_street_reference_cache(refpath)
         relation_name = "gazdagret"
         ret = helpers.streets_of_relation(datadir, memory_cache, relation_name)
-        self.assertEqual(ret, ['Törökugrató utca', 'Tűzkő utca', 'Ref Name 1', 'Only In Ref utca'])
+        self.assertEqual(ret, ['Törökugrató utca',
+                               'Tűzkő utca',
+                               'Ref Name 1',
+                               'Only In Ref utca',
+                               'Only In Ref Nonsense utca'])
 
 
 class TestGetReferenceHousenumbers(unittest.TestCase):

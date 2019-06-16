@@ -311,15 +311,16 @@ def get_content(workdir, path):
     return ret
 
 
-def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str]]:
+def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str], List[str]]:
     """Loads filters which allow silencing false positives. The return value is a tuple of the
     normalizers itself and an OSM name -> ref name dictionary."""
     filter_dict = {}  # type: Dict[str, Ranges]
     ref_streets = {}  # type: Dict[str, str]
+    street_filters = []  # type: List[str]
 
     path = os.path.join(datadir, "relation-%s.yaml" % relation_name)
     if not os.path.exists(path):
-        return filter_dict, ref_streets
+        return filter_dict, ref_streets, street_filters
 
     with open(path) as sock:
         root = yaml.load(sock)
@@ -337,7 +338,10 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
     if "refstreets" in root.keys():
         ref_streets = root["refstreets"]
 
-    return filter_dict, ref_streets
+    if "street-filters" in root.keys():
+        street_filters = root["street-filters"]
+
+    return filter_dict, ref_streets, street_filters
 
 
 def tsv_to_list(sock):
@@ -443,7 +447,7 @@ def get_suspicious_streets(datadir, workdir, relation_name):
     done_streets = []
 
     street_names = get_streets(workdir, relation_name)
-    normalizers, ref_streets = load_normalizers(datadir, relation_name)
+    normalizers, ref_streets, _street_filters = load_normalizers(datadir, relation_name)
     for street_name in street_names:
         ref_street = street_name
         # See if we need to map the OSM name to ref name.
@@ -468,7 +472,7 @@ def get_suspicious_streets(datadir, workdir, relation_name):
 def get_suspicious_relations(datadir, workdir, relation_name):
     """Tries to find missing streets in a relation."""
     reference_streets = get_streets_from_lst(workdir, relation_name)
-    _, ref_streets = load_normalizers(datadir, relation_name)
+    _, ref_streets, street_blacklist = load_normalizers(datadir, relation_name)
     osm_streets = []
     for street in get_streets(workdir, relation_name):
         if street in ref_streets.keys():
@@ -476,6 +480,7 @@ def get_suspicious_relations(datadir, workdir, relation_name):
         osm_streets.append(street)
 
     only_in_reference = get_only_in_first(reference_streets, osm_streets)
+    only_in_reference = [i for i in only_in_reference if i not in street_blacklist]
     in_both = get_in_both(reference_streets, osm_streets)
 
     return only_in_reference, in_both
