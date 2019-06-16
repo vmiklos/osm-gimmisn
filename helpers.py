@@ -6,6 +6,7 @@
 
 """The helpers module contains functionality shared between other modules."""
 
+import configparser
 import re
 import os
 import pickle
@@ -120,7 +121,7 @@ def parse_relation_yaml(
     return refstreets, reftelepules_list
 
 
-def get_street_details(datadir, street, relation_name):
+def get_street_details(datadir: str, street: str, relation_name: str) -> Tuple[str, List[str], str, str]:
     """Determines the ref codes, street name and type for a street in a relation."""
     with open(os.path.join(datadir, "relations.yaml")) as sock:
         relations = yaml.load(sock)
@@ -258,7 +259,7 @@ def get_array_nth(arr: Sequence[str], index: int) -> str:
     return arr[index] if len(arr) > index else ''
 
 
-def get_only_in_first(first, second):
+def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
     """Returns items which are in first, but not in second."""
     ret = []
     for i in first:
@@ -267,7 +268,7 @@ def get_only_in_first(first, second):
     return ret
 
 
-def get_in_both(first, second):
+def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
     """Returns items which are in both first and second."""
     ret = []
     for i in first:
@@ -312,7 +313,7 @@ def get_streets(workdir: str, relation_name: str) -> List[str]:
     return sorted(set(ret))
 
 
-def get_workdir(config):
+def get_workdir(config: configparser.ConfigParser) -> str:
     """Gets the directory which is writable."""
     return config.get('wsgi', 'workdir').strip()
 
