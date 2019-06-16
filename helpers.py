@@ -10,7 +10,15 @@ import configparser
 import re
 import os
 import pickle
-from typing import Any, Callable, Dict, Iterable, List, Sequence, Tuple, cast
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import Iterable
+from typing import List
+from typing import Sequence
+from typing import TextIO
+from typing import Tuple
+from typing import cast
 import yaml
 
 
@@ -318,7 +326,7 @@ def get_workdir(config: configparser.ConfigParser) -> str:
     return config.get('wsgi', 'workdir').strip()
 
 
-def process_template(buf, osmrelation):
+def process_template(buf: str, osmrelation: int) -> str:
     """Turns an overpass query template to an actual query."""
     buf = buf.replace("@RELATION@", str(osmrelation))
     # area is relation + 3600000000 (3600000000 == relation), see js/ide.js
@@ -327,7 +335,7 @@ def process_template(buf, osmrelation):
     return buf
 
 
-def get_content(workdir, path):
+def get_content(workdir: str, path: str) -> str:
     """Gets the content of a file in workdir."""
     ret = ""
     with open(os.path.join(workdir, path)) as sock:
@@ -368,7 +376,7 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
     return filter_dict, ref_streets, street_filters
 
 
-def tsv_to_list(sock):
+def tsv_to_list(sock: TextIO) -> List[List[str]]:
     """Turns a tab-separated table into a list of lists."""
     table = []
 
@@ -381,7 +389,7 @@ def tsv_to_list(sock):
     return table
 
 
-def html_table_from_list(table):
+def html_table_from_list(table: List[List[str]]) -> str:
     """Produces a HTML table from a list of lists."""
     ret = []
     ret.append('<table rules="all" frame="border" cellpadding="4" class="sortable">')
@@ -422,7 +430,13 @@ def normalize(house_numbers: str, street_name: str,
     return ret
 
 
-def get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street, normalizers):
+def get_house_numbers_from_lst(
+        workdir: str,
+        relation_name: str,
+        street_name: str,
+        ref_street: str,
+        normalizers: Dict[str, Ranges]
+) -> List[str]:
     """Gets house numbers from reference."""
     house_numbers = []  # type: List[str]
     lst_street_name = ref_street
@@ -436,7 +450,7 @@ def get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street, 
     return sort_numerically(set(house_numbers))
 
 
-def get_streets_from_lst(workdir, relation_name):
+def get_streets_from_lst(workdir: str, relation_name: str) -> List[str]:
     """Gets streets from reference."""
     streets = []  # type: List[str]
     with open(os.path.join(workdir, "streets-reference-%s.lst" % relation_name)) as sock:
@@ -446,7 +460,12 @@ def get_streets_from_lst(workdir, relation_name):
     return sorted(set(streets))
 
 
-def get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers):
+def get_house_numbers_from_csv(
+        workdir: str,
+        relation_name: str,
+        street_name: str,
+        normalizers: Dict[str, Ranges]
+) -> List[str]:
     """Gets house numbers from the overpass query."""
     house_numbers = []  # type: List[str]
     with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)) as sock:
@@ -464,7 +483,11 @@ def get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers)
     return sort_numerically(set(house_numbers))
 
 
-def get_suspicious_streets(datadir, workdir, relation_name):
+def get_suspicious_streets(
+        datadir: str,
+        workdir: str,
+        relation_name: str
+) -> Tuple[List[Tuple[str, List[str]]], List[Tuple[str, List[str]]]]:
     """Tries to find streets which do have at least one house number, but are suspicious as other
     house numbers are probably missing."""
     suspicious_streets = []
@@ -493,7 +516,7 @@ def get_suspicious_streets(datadir, workdir, relation_name):
     return suspicious_streets, done_streets
 
 
-def get_suspicious_relations(datadir, workdir, relation_name):
+def get_suspicious_relations(datadir: str, workdir: str, relation_name: str) -> Tuple[List[str], List[str]]:
     """Tries to find missing streets in a relation."""
     reference_streets = get_streets_from_lst(workdir, relation_name)
     _, ref_streets, street_blacklist = load_normalizers(datadir, relation_name)
@@ -510,14 +533,15 @@ def get_suspicious_relations(datadir, workdir, relation_name):
     return only_in_reference, in_both
 
 
-def build_reference_cache(local):
+def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
     memory_cache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
 
     disk_cache = local + ".pickle"
     if os.path.exists(disk_cache):
         with open(disk_cache, "rb") as sock_cache:
-            return pickle.load(sock_cache)
+            memory_cache = pickle.load(sock_cache)
+            return memory_cache
 
     with open(local, "r") as sock:
         first = True
@@ -543,14 +567,15 @@ def build_reference_cache(local):
     return memory_cache
 
 
-def build_street_reference_cache(local_streets):
+def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     memory_cache = {}  # type: Dict[str, Dict[str, List[str]]]
 
     disk_cache = local_streets + ".pickle"
     if os.path.exists(disk_cache):
         with open(disk_cache, "rb") as sock_cache:
-            return pickle.load(sock_cache)
+            memory_cache = pickle.load(sock_cache)
+            return memory_cache
 
     with open(local_streets, "r") as sock:
         first = True
@@ -574,7 +599,12 @@ def build_street_reference_cache(local_streets):
     return memory_cache
 
 
-def house_numbers_of_street(datadir, reference, relation_name, street):
+def house_numbers_of_street(
+        datadir: str,
+        reference: Dict[str, Dict[str, Dict[str, List[str]]]],
+        relation_name: str,
+        street: str
+) -> List[str]:
     """Gets house numbers for a street locally."""
     refmegye, reftelepules_list, street_name, street_type = get_street_details(datadir, street, relation_name)
     street = street_name + " " + street_type
@@ -587,7 +617,7 @@ def house_numbers_of_street(datadir, reference, relation_name, street):
     return ret
 
 
-def streets_of_relation(datadir, reference, relation_name):
+def streets_of_relation(datadir: str, reference: Dict[str, Dict[str, List[str]]], relation_name: str) -> List[str]:
     """Gets street names for a relation from a reference."""
     with open(os.path.join(datadir, "relations.yaml")) as sock:
         relations = yaml.load(sock)
@@ -598,7 +628,7 @@ def streets_of_relation(datadir, reference, relation_name):
     return reference[refmegye][reftelepules]
 
 
-def get_reference_housenumbers(reference, datadir, workdir, relation_name):
+def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relation_name: str) -> None:
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
     memory_cache = build_reference_cache(reference)
@@ -616,7 +646,7 @@ def get_reference_housenumbers(reference, datadir, workdir, relation_name):
     sock.close()
 
 
-def get_reference_streets(reference, datadir, workdir, relation_name):
+def get_reference_streets(reference: str, datadir: str, workdir: str, relation_name: str) -> None:
     """Gets known streets (not their coordinates) from a reference site, based on relation names
     from OSM."""
     memory_cache = build_street_reference_cache(reference)
@@ -630,39 +660,45 @@ def get_reference_streets(reference, datadir, workdir, relation_name):
     sock.close()
 
 
-def get_relations(datadir):
+def get_relations(datadir: str) -> Dict[str, Any]:
     """Returns a name -> properties dictionary."""
     with open(os.path.join(datadir, "relations.yaml")) as sock:
-        return yaml.load(sock)
+        root = {}  # type: Dict[str, Any]
+        root = yaml.load(sock)
+        return root
 
 
-def get_streets_query(datadir, relations, relation):
+def get_streets_query(datadir: str, relations: Dict[str, Any], relation: str) -> str:
     """Produces a query which lists streets in relation."""
     with open(os.path.join(datadir, "streets-template.txt")) as sock:
         return process_template(sock.read(), relations[relation]["osmrelation"])
 
 
-def write_streets_result(workdir, relation, result_from_overpass):
+def write_streets_result(workdir: str, relation: str, result_from_overpass: str) -> None:
     """Writes the result for overpass of get_streets_query()."""
     result = sort_streets_csv(result_from_overpass)
     with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
         sock.write(result)
 
 
-def get_street_housenumbers_query(datadir, relations, relation):
+def get_street_housenumbers_query(datadir: str, relations: Dict[str, Any], relation: str) -> str:
     """Produces a query which lists house numbers in relation."""
     with open(os.path.join(datadir, "street-housenumbers-template.txt")) as sock:
         return process_template(sock.read(), relations[relation]["osmrelation"])
 
 
-def write_street_housenumbers(workdir, relation, result_from_overpass):
+def write_street_housenumbers(workdir: str, relation: str, result_from_overpass: str) -> None:
     """Writes the result for overpass of get_street_housenumbers_query()."""
     result = sort_housenumbers_csv(result_from_overpass)
     with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
         sock.write(result)
 
 
-def write_suspicious_streets_result(datadir, workdir, relation):
+def write_suspicious_streets_result(
+        datadir: str,
+        workdir: str,
+        relation: str
+) -> Tuple[int, int, int, str, List[List[str]]]:
     """Calculate a write stat for the house number coverage of a relation."""
     suspicious_streets, done_streets = get_suspicious_streets(datadir, workdir, relation)
     todo_count = 0
@@ -693,7 +729,7 @@ def write_suspicious_streets_result(datadir, workdir, relation):
     return todo_street_count, todo_count, done_count, percent, table
 
 
-def write_missing_relations_result(datadir, workdir, relation):
+def write_missing_relations_result(datadir: str, workdir: str, relation: str) -> Tuple[int, int, str, List[List[str]]]:
     """Calculate a write stat for the street coverage of a relation."""
     todo_streets, done_streets = get_suspicious_relations(datadir, workdir, relation)
     table = []
