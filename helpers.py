@@ -9,7 +9,7 @@
 import re
 import os
 import pickle
-from typing import Callable, Dict, Iterable, List, Sequence, Tuple, cast
+from typing import Callable, Dict, Iterable, List, Sequence, Tuple, Union, cast
 import yaml
 
 
@@ -70,14 +70,19 @@ class Ranges:
         return self.__items == other_ranges.get_items()
 
 
-def get_reftelepules_list_from_yaml(reftelepules_list, value):
+def get_reftelepules_list_from_yaml(
+        reftelepules_list: List[str],
+        value: Dict[str, Union[List[Dict[str, str]], str]]
+) -> List[str]:
     """Determines street-level and range-level reftelepules overrides."""
     if "reftelepules" in value.keys():
-        reftelepules_list = [value["reftelepules"]]
+        reftelepules = cast(str, value["reftelepules"])
+        reftelepules_list = [reftelepules]
     if "ranges" in value.keys():
         for street_range in value["ranges"]:
-            if "reftelepules" in street_range.keys():
-                reftelepules_list.append(street_range["reftelepules"])
+            street_range_dict = cast(Dict[str, str], street_range)
+            if "reftelepules" in street_range_dict.keys():
+                reftelepules_list.append(street_range_dict["reftelepules"])
 
     return reftelepules_list
 
