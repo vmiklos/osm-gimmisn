@@ -16,4 +16,6 @@ filters:
   Váci út:
     ranges:
       - {start: '1', end: '3'}
+refstreets:
+  'Oktogon': 'Oktogon tér'
 source: survey
