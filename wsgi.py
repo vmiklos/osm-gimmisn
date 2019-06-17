@@ -16,6 +16,8 @@ import urllib.parse
 import json
 import subprocess
 import wsgiref.simple_server
+from typing import Any
+from typing import Dict
 
 import pytz
 
@@ -24,7 +26,7 @@ import overpass_query
 import version
 
 
-def get_config():
+def get_config() -> configparser.ConfigParser:
     """Gets access to information which are specific to this installation."""
     config = configparser.ConfigParser()
     config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
@@ -37,17 +39,17 @@ def get_config():
     return config
 
 
-def get_datadir():
+def get_datadir() -> str:
     """Gets the directory which is tracked (in version control) data."""
     return os.path.join(os.path.dirname(__file__), "data")
 
 
-def get_staticdir():
+def get_staticdir() -> str:
     """Gets the directory which is static data."""
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def handle_streets(request_uri, workdir, relations):
+def handle_streets(request_uri: str, workdir: str, relations: Dict[str, Any]) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
 
@@ -421,7 +423,7 @@ def handle_main(relations, workdir):
     return get_header() + output + get_footer()
 
 
-def get_header(function=None, relation_name=None, relation_osmid=None):
+def get_header(function: str = "", relation_name: str = "", relation_osmid: int = 0) -> str:
     """Produces the start of the page. Note that the contnt depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
@@ -477,7 +479,7 @@ def get_header(function=None, relation_name=None, relation_osmid=None):
     return output
 
 
-def get_footer(last_updated=None):
+def get_footer(last_updated: str = "") -> str:
     """Produces the end of the page."""
     items = []
     items.append("Verzió: " + helpers.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/"))
