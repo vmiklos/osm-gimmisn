@@ -11,7 +11,8 @@ filters:
       - {start: '112', end: '112'}
       # autokereskedes 120, MOL kut 126, autoklub 138, epulet 142, koztuk nincs semmi kitablazva
       - {start: '118', end: '120'}
-      - {start: '126', end: '138'}
+      - {start: '126', end: '126'}
+      - {start: '138', end: '138'}
       - {start: '142', end: '156'}
   Cirmos utca:
     ranges:
