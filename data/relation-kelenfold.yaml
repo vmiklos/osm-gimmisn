@@ -4,6 +4,16 @@ filters:
       - {start: '46', end: '50'}
   Badacsonyi utca:
     ranges: []
+  Ballagi Mór utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '14'}
+  Bánk bán utca:
+    # 12-20 egyben
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '12'}
+      - {start: '20', end: '20'}
   Bartók Béla út:
     ranges:
       # 105-113; 117-121 hazak vannak
@@ -20,6 +30,10 @@ filters:
       - {start: '2', end: '54'}
       - {start: '74', end: '90'}
       - {start: '134', end: '146'}
+  Bogyó utca:
+    # valosagban 1-7 a kiirt, de van meg egy epulet
+    ranges:
+      - {start: '1', end: '9'}
   Budafoki út:
     # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
     # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
@@ -29,6 +43,10 @@ filters:
   Budaörsi út:
     ranges:
       - {start: '26', end: '60'}
+  Csóka utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '4'}
   Daróczi út:
     ranges:
       - {start: '1', end: '17'}
@@ -46,9 +64,15 @@ filters:
       - {start: '2', end: '24'}
   Etele tér:
     ranges:
-      # 8 nem biztos hogy van, a bodeknak talan nincs hazszama
+      # 8 nincs, de 12-13 a posta szerint igen, talan az Etele plaza oldala
       - {start: '1', end: '7'}
-      - {start: '2', end: '8'}
+      - {start: '2', end: '6'}
+      - {start: '9', end: '13'}
+      - {start: '10', end: '12'}
+  Etele út:
+    ranges:
+      - {start: '1', end: '73'}
+      - {start: '2', end: '68'}
   Fadrusz utca:
     ranges:
       - {start: '9', end: '31'}
@@ -80,6 +104,10 @@ filters:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
+  Halmi utca:
+    ranges:
+      - {start: '1', end: '67'}
+      - {start: '2', end: '46'}
   Hamzsabégi út:
     # folyamatos hazszamok
     ranges:
@@ -102,10 +130,22 @@ filters:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
       - {start: '30', end: '38'}
+  Ildikó utca:
+    ranges:
+      - {start: '5', end: '33'}
+      - {start: '4', end: '28'}
   Karolina út:
     ranges:
       - {start: '1', end: '69'}
       - {start: '50', end: '72'}
+  Kelenföldi út:
+    # 1-13 egyben
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '13', end: '21'}
+      - {start: '31', end: '45'}
+      - {start: '2', end: '2'}
+      - {start: '18', end: '52'}
   Kelenvölgyi határsor:
     ranges: []
   Keveháza utca:
@@ -153,6 +193,11 @@ filters:
   Solt utca:
     ranges:
       - {start: '24', end: '98'}
+  Somogyi út:
+    # 2-4 nem letezik, 35-ös az Etele tér buszpályaudvar
+    ranges:
+      - {start: '6', end: '30'}
+      - {start: '3', end: '35'}
   Sopron út:
     ranges:
       - {start: '1', end: '71'}
@@ -187,6 +232,11 @@ filters:
       - {start: '1', end: '199'}
       - {start: '2', end: '48'}
       - {start: '62', end: '198'}
+  Thallóczy Lajos utca:
+    ranges:
+      # 1-21 a remiz oldala, nincs haz
+      - {start: '23', end: '29'}
+      - {start: '2', end: '36'}
   Villányi út:
     ranges:
       - {start: '76', end: '86'}
