@@ -12,7 +12,7 @@ import re
 import sys
 
 
-def overpass_query(query):
+def overpass_query(query: str) -> str:
     """Posts the query string to the overpass API and returns the result string."""
     url = "http://overpass-api.de/api/interpreter"
 
@@ -23,7 +23,7 @@ def overpass_query(query):
     return buf.decode('utf-8')
 
 
-def overpass_query_need_sleep():
+def overpass_query_need_sleep() -> int:
     """Checks if we need to sleep before executing an overpass query."""
     with urlopen("https://overpass-api.de/api/status") as sock:
         buf = sock.read()
@@ -41,7 +41,7 @@ def overpass_query_need_sleep():
     return sleep
 
 
-def main():
+def main() -> None:
     """Commandline interface to this module."""
     sock = open(sys.argv[1])
     query = sock.read()
