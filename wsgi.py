@@ -17,7 +17,10 @@ import json
 import subprocess
 import wsgiref.simple_server
 from typing import Any
+from typing import Callable
 from typing import Dict
+from typing import List
+from typing import Tuple
 
 import pytz
 
@@ -220,7 +223,7 @@ def suspicious_relations_update(workdir: str, relation_name: str) -> str:
     return "Frissítés sikeres."
 
 
-def handle_suspicious_streets(request_uri, workdir, relations):
+def handle_suspicious_streets(request_uri: str, workdir: str, relations: Dict[str, Any]) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
     output = ""
 
@@ -248,7 +251,7 @@ def handle_suspicious_streets(request_uri, workdir, relations):
     return get_header("suspicious-streets", relation, osmrelation) + output + get_footer(date)
 
 
-def handle_suspicious_relations(request_uri, workdir, relations):
+def handle_suspicious_relations(request_uri: str, workdir: str, relations: Dict[str, Any]) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-[result|query]."""
     output = ""
 
@@ -292,7 +295,7 @@ def get_last_modified(workdir: str, path: str) -> str:
     return format_timestamp(get_timestamp(workdir, path))
 
 
-def get_timestamp(workdir, path):
+def get_timestamp(workdir: str, path: str) -> float:
     """Gets the timestamp of a file in workdir."""
     try:
         return os.path.getmtime(os.path.join(workdir, path))
@@ -300,7 +303,7 @@ def get_timestamp(workdir, path):
         return 0
 
 
-def format_timestamp(timestamp: int) -> str:
+def format_timestamp(timestamp: float) -> str:
     """Formats timestamp as UI date-time."""
     local_dt = datetime.datetime.fromtimestamp(timestamp)
     ui_dt = local_to_ui_tz(local_dt)
@@ -308,14 +311,14 @@ def format_timestamp(timestamp: int) -> str:
     return ui_dt.strftime(fmt)
 
 
-def ref_housenumbers_last_modified(workdir, name):
+def ref_housenumbers_last_modified(workdir: str, name: str) -> str:
     """Gets the update date for suspicious streets."""
     t_ref = get_timestamp(workdir, "street-housenumbers-reference-" + name + ".lst")
     t_housenumbers = get_timestamp(workdir, "street-housenumbers-" + name + ".csv")
     return format_timestamp(max(t_ref, t_housenumbers))
 
 
-def ref_streets_last_modified(workdir, name):
+def ref_streets_last_modified(workdir: str, name: str) -> str:
     """Gets the update date for missing streets."""
     t_ref = get_timestamp(workdir, "streets-reference-" + name + ".lst")
     t_osm = get_timestamp(workdir, "streets-" + name + ".csv")
@@ -332,7 +335,7 @@ def get_streets_last_modified(workdir: str, name: str) -> str:
     return get_last_modified(workdir, "streets-" + name + ".csv")
 
 
-def handle_main_housenr_percent(workdir, relation_name):
+def handle_main_housenr_percent(workdir: str, relation_name: str) -> str:
     """Handles the house number percent part of the main page."""
     percent_file = relation_name + ".percent"
     url = "\"/osm/suspicious-streets/" + relation_name + "/view-result\""
@@ -353,7 +356,7 @@ def handle_main_housenr_percent(workdir, relation_name):
     return cell
 
 
-def handle_main(relations, workdir):
+def handle_main(relations: Dict[str, Any], workdir: str) -> str:
     """Handles the main wsgi page."""
     output = ""
 
@@ -493,7 +496,7 @@ def get_footer(last_updated: str = "") -> str:
     return output
 
 
-def handle_github_webhook(environ):
+def handle_github_webhook(environ: Dict[str, Any]) -> str:
     """Handles a GitHub style webhook."""
 
     body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
@@ -505,7 +508,7 @@ def handle_github_webhook(environ):
     return ""
 
 
-def handle_static(request_uri):
+def handle_static(request_uri: str) -> str:
     """Handles serving static content."""
     tokens = request_uri.split("/")
     path = tokens[-1]
@@ -516,7 +519,10 @@ def handle_static(request_uri):
     return ""
 
 
-def our_application(environ, start_response):
+def our_application(
+        environ: Dict[str, Any],
+        start_response: Callable[[str, List[Tuple[str, str]]], None]
+) -> List[bytes]:
     """Dispatches the request based on its URI."""
     config = get_config()
     if config.has_option("wsgi", "locale"):
@@ -527,7 +533,9 @@ def our_application(environ, start_response):
 
     status = '200 OK'
 
-    request_uri = environ.get("PATH_INFO")
+    path_info = environ.get("PATH_INFO")
+    if path_info:
+        request_uri = path_info  # type: str
     _, _, ext = request_uri.partition('.')
 
     config = get_config()
@@ -564,10 +572,15 @@ def our_application(environ, start_response):
     return [output_bytes]
 
 
-def handle_exception(environ, start_response):
+def handle_exception(
+        environ: Dict[str, Any],
+        start_response: Callable[[str, List[Tuple[str, str]]], None]
+) -> List[bytes]:
     """Displays an unhandled exception on the page."""
     status = '500 Internal Server Error'
-    request_uri = environ.get("PATH_INFO")
+    path_info = environ.get("PATH_INFO")
+    if path_info:
+        request_uri = path_info
     body = "<pre>Internal error when serving " + request_uri + "\n" + \
            traceback.format_exc() + "</pre>"
     output = get_header() + body + get_footer()
