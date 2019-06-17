@@ -589,6 +589,8 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
                 break
 
             refmegye, reftelepules, street = line.strip().split("\t")
+            # Filter out invalid street type.
+            street = re.sub(" null$", "", street)
             if refmegye not in memory_cache.keys():
                 memory_cache[refmegye] = {}
             if reftelepules not in memory_cache[refmegye].keys():
