@@ -75,7 +75,7 @@ def handle_streets(request_uri: str, workdir: str, relations: Dict[str, Any]) ->
     return get_header("streets", relation, osmrelation) + output + get_footer(date)
 
 
-def handle_street_housenumbers(request_uri, workdir, relations):
+def handle_street_housenumbers(request_uri: str, workdir: str, relations: Dict[str, Any]) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     output = ""
 
@@ -101,7 +101,7 @@ def handle_street_housenumbers(request_uri, workdir, relations):
     return get_header("street-housenumbers", relation, osmrelation) + output + get_footer(date)
 
 
-def suspicious_streets_view_result(request_uri, workdir):
+def suspicious_streets_view_result(request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result."""
     tokens = request_uri.split("/")
     relation = tokens[-2]
@@ -136,7 +136,7 @@ def suspicious_streets_view_result(request_uri, workdir):
     return output
 
 
-def missing_relations_view_result(request_uri, workdir):
+def missing_relations_view_result(request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result."""
     tokens = request_uri.split("/")
     relation = tokens[-2]
@@ -162,7 +162,7 @@ def missing_relations_view_result(request_uri, workdir):
     return output
 
 
-def suspicious_streets_view_txt(request_uri, workdir):
+def suspicious_streets_view_txt(request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
     relation = tokens[-2]
@@ -187,7 +187,7 @@ def suspicious_streets_view_txt(request_uri, workdir):
     return output
 
 
-def suspicious_relations_view_txt(request_uri, workdir):
+def suspicious_relations_view_txt(request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation = tokens[-2]
@@ -204,19 +204,19 @@ def suspicious_relations_view_txt(request_uri, workdir):
     return output
 
 
-def suspicious_streets_update(workdir, relation):
+def suspicious_streets_update(workdir: str, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
     datadir = get_datadir()
     reference = get_config().get('wsgi', 'reference_local').strip()
-    helpers.get_reference_housenumbers(reference, datadir, workdir, relation)
+    helpers.get_reference_housenumbers(reference, datadir, workdir, relation_name)
     return "Frissítés sikeres."
 
 
-def suspicious_relations_update(workdir, relation):
+def suspicious_relations_update(workdir: str, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
     datadir = get_datadir()
     reference = get_config().get('wsgi', 'reference_street').strip()
-    helpers.get_reference_streets(reference, datadir, workdir, relation)
+    helpers.get_reference_streets(reference, datadir, workdir, relation_name)
     return "Frissítés sikeres."
 
 
@@ -276,7 +276,7 @@ def handle_suspicious_relations(request_uri, workdir, relations):
     return get_header("suspicious-relations", relation, osmrelation) + output + get_footer(date)
 
 
-def local_to_ui_tz(local_dt):
+def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
     """Converts from local date-time to UI date-time, based on config."""
     config = get_config()
     if config.has_option("wsgi", "timezone"):
@@ -287,7 +287,7 @@ def local_to_ui_tz(local_dt):
     return local_dt.astimezone(ui_tz)
 
 
-def get_last_modified(workdir, path):
+def get_last_modified(workdir: str, path: str) -> str:
     """Gets the update date of a file in workdir."""
     return format_timestamp(get_timestamp(workdir, path))
 
@@ -300,7 +300,7 @@ def get_timestamp(workdir, path):
         return 0
 
 
-def format_timestamp(timestamp):
+def format_timestamp(timestamp: int) -> str:
     """Formats timestamp as UI date-time."""
     local_dt = datetime.datetime.fromtimestamp(timestamp)
     ui_dt = local_to_ui_tz(local_dt)
@@ -322,12 +322,12 @@ def ref_streets_last_modified(workdir, name):
     return format_timestamp(max(t_ref, t_osm))
 
 
-def get_housenumbers_last_modified(workdir, name):
+def get_housenumbers_last_modified(workdir: str, name: str) -> str:
     """Gets the update date of house numbers for a relation."""
     return get_last_modified(workdir, "street-housenumbers-" + name + ".csv")
 
 
-def get_streets_last_modified(workdir, name):
+def get_streets_last_modified(workdir: str, name: str) -> str:
     """Gets the update date of streets for a relation."""
     return get_last_modified(workdir, "streets-" + name + ".csv")
 
