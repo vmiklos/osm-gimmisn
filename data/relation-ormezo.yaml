@@ -9,7 +9,10 @@ filters:
       - {start: '78', end: '78'}
       - {start: '88', end: '90'}
       - {start: '112', end: '112'}
-      - {start: '118', end: '156'}
+      # autokereskedes 120, MOL kut 126, autoklub 138, epulet 142, koztuk nincs semmi kitablazva
+      - {start: '118', end: '120'}
+      - {start: '126', end: '138'}
+      - {start: '142', end: '156'}
   Cirmos utca:
     ranges:
       - {start: '1', end: '3'}
@@ -91,4 +94,7 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
+  Vőfély utca:
+    ranges:
+      - {start: '1', end: '3'}
 source: survey
