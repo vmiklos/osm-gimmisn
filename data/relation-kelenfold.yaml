@@ -38,6 +38,9 @@ filters:
     # valosagban 1-7 a kiirt, de van meg egy epulet
     ranges:
       - {start: '1', end: '9'}
+  Borszéki utca:
+    # semmi kiiras sehol
+    ranges: []
   Budafoki út:
     # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
     # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
@@ -82,7 +85,7 @@ filters:
       - {start: '9', end: '31'}
       - {start: '18', end: '38'}
   Fehérvári út:
-    # Fehervári 58-68 egyben
+    # Fehervari 58-68 egyben
     ranges:
       - {start: '23', end: '191'}
       - {start: '44', end: '58'}
@@ -94,7 +97,8 @@ filters:
       - {start: '2', end: '70'}
   Fraknó utca:
     ranges:
-      - {start: '1', end: '23'}
+      - {start: '1', end: '7'}
+      - {start: '11', end: '23'}
       - {start: '2', end: '50'}
   Galambóc utca:
     ranges:
@@ -109,6 +113,12 @@ filters:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
+  Hadak útja:
+    ranges:
+      - {start: '5', end: '13'}
+      - {start: '17', end: '65'}
+      - {start: '2', end: '6'}
+      - {start: '30', end: '68'}
   Halmi utca:
     ranges:
       - {start: '1', end: '67'}
@@ -204,6 +214,11 @@ filters:
     ranges:
       - {start: '1', end: '85'}
       - {start: '2', end: '98'}
+  Sárbogárdi út:
+    # folyamatos hazszamozas
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '26'}
   Solt utca:
     ranges:
       - {start: '24', end: '98'}
