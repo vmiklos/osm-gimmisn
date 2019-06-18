@@ -15,18 +15,21 @@ import traceback
 import urllib.parse
 import json
 import subprocess
-import wsgiref.simple_server
 from typing import Any
-from typing import Callable
 from typing import Dict
-from typing import List
-from typing import Tuple
+from typing import Iterable
+from typing import TYPE_CHECKING
+import wsgiref.simple_server
 
 import pytz
 
 import helpers
 import overpass_query
 import version
+
+if TYPE_CHECKING:
+    # pylint: disable=no-name-in-module,import-error,unused-import
+    from wsgiref.types import StartResponse
 
 
 def get_config() -> configparser.ConfigParser:
@@ -521,8 +524,8 @@ def handle_static(request_uri: str) -> str:
 
 def our_application(
         environ: Dict[str, Any],
-        start_response: Callable[[str, List[Tuple[str, str]]], None]
-) -> List[bytes]:
+        start_response: 'StartResponse'
+) -> Iterable[bytes]:
     """Dispatches the request based on its URI."""
     config = get_config()
     if config.has_option("wsgi", "locale"):
@@ -574,8 +577,8 @@ def our_application(
 
 def handle_exception(
         environ: Dict[str, Any],
-        start_response: Callable[[str, List[Tuple[str, str]]], None]
-) -> List[bytes]:
+        start_response: 'StartResponse'
+) -> Iterable[bytes]:
     """Displays an unhandled exception on the page."""
     status = '500 Internal Server Error'
     path_info = environ.get("PATH_INFO")
@@ -591,7 +594,10 @@ def handle_exception(
     return [output_bytes]
 
 
-def application(environ, start_response):
+def application(
+        environ: Dict[str, Any],
+        start_response: 'StartResponse'
+) -> Iterable[bytes]:
     """The entry point of this WSGI app."""
     try:
         return our_application(environ, start_response)
@@ -601,7 +607,7 @@ def application(environ, start_response):
         return handle_exception(environ, start_response)
 
 
-def main():
+def main() -> None:
     """Commandline interface to this module."""
     httpd = wsgiref.simple_server.make_server('', 8000, application)
     print("Open <http://localhost:8000/osm> in your browser.")
