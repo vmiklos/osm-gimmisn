@@ -14,6 +14,10 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '12'}
       - {start: '20', end: '20'}
+  Bártfai utca:
+    ranges:
+      - {start: '1', end: '65'}
+      - {start: '2', end: '52'}
   Bartók Béla út:
     ranges:
       # 105-113; 117-121 hazak vannak
@@ -85,11 +89,12 @@ filters:
       - {start: '68', end: '166'}
   Fejér Lipót utca:
     ranges:
-      - {start: '1', end: '67'}
+      - {start: '13', end: '15'}
+      - {start: '55', end: '67'}
       - {start: '2', end: '70'}
   Fraknó utca:
     ranges:
-      - {start: '1', end: '29'}
+      - {start: '1', end: '23'}
       - {start: '2', end: '50'}
   Galambóc utca:
     ranges:
@@ -159,13 +164,18 @@ filters:
     ranges:
       - {start: '5', end: '11'}
       - {start: '6', end: '10'}
+  Kovászna utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '16'}
   Lecke utca:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
   Mohai út:
     ranges:
-      - {start: '1', end: '55'}
+      - {start: '1', end: '17'}
+      - {start: '23', end: '55'}
       - {start: '2', end: '56'}
   Nagyszőlős utca:
     ranges:
@@ -185,7 +195,11 @@ filters:
   Petzvál József utca:
     ranges:
       - {start: '1', end: '43'}
-      - {start: '2', end: '56'}
+      - {start: '2', end: '18'}
+      - {start: '22', end: '56'}
+  Pór Bertalan köz:
+    ranges:
+      - {start: '2', end: '12'}
   Rátz László utca:
     ranges:
       - {start: '1', end: '85'}
@@ -237,6 +251,9 @@ filters:
       # 1-21 a remiz oldala, nincs haz
       - {start: '23', end: '29'}
       - {start: '2', end: '36'}
+  Újházy utca:
+    ranges:
+      - {start: '2', end: '12'}
   Villányi út:
     ranges:
       - {start: '76', end: '86'}
