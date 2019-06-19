@@ -23,7 +23,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(wildcard *.py tests/*.py))
 	pylint $< && touch $@
 
 %.mypy: %.py Makefile all
-	mypy $< && touch $@
+	mypy --python-version 3.5 --strict $< && touch $@
 
 check-unit:
 	coverage run --branch --module unittest tests/test_helpers.py
