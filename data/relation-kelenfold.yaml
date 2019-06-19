@@ -4,6 +4,10 @@ filters:
       - {start: '46', end: '50'}
   Badacsonyi utca:
     ranges: []
+  Bajmóci utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '4', end: '6'}
   Ballagi Mór utca:
     ranges:
       - {start: '1', end: '5'}
@@ -99,7 +103,7 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '11', end: '23'}
-      - {start: '2', end: '50'}
+      - {start: '4', end: '50'}
   Galambóc utca:
     ranges:
       # 1-13 Lidl oldala, 15 nem letezik csak az utcatablan
@@ -151,7 +155,9 @@ filters:
       - {start: '4', end: '28'}
   Karolina út:
     ranges:
-      - {start: '1', end: '69'}
+      - {start: '1', end: '5'}
+      - {start: '17', end: '21'}
+      - {start: '27', end: '69'}
       - {start: '50', end: '72'}
   Kelenföldi út:
     # 1-13 egyben
