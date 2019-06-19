@@ -1,6 +1,6 @@
 coverage
 flake8
-mypy
+mypy==0.670
 pycodestyle
 pylint
 pytz
