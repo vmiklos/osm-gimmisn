@@ -16,17 +16,17 @@ import helpers
 
 class TestSortNumerically(unittest.TestCase):
     """Tests sort_numerically()."""
-    def test_numbers(self):
+    def test_numbers(self) -> None:
         """Tests numbers."""
         ascending = helpers.sort_numerically(['1', '20', '3'])
         self.assertEqual(ascending, ['1', '3', '20'])
 
-    def test_alpha_suffix(self):
+    def test_alpha_suffix(self) -> None:
         """Tests numbers with suffixes."""
         ascending = helpers.sort_numerically(['1a', '20a', '3a'])
         self.assertEqual(ascending, ['1a', '3a', '20a'])
 
-    def test_alpha(self):
+    def test_alpha(self) -> None:
         """Tests just suffixes."""
         ascending = helpers.sort_numerically(['a', 'c', 'b'])
         self.assertEqual(ascending, ['a', 'b', 'c'])
@@ -34,28 +34,28 @@ class TestSortNumerically(unittest.TestCase):
 
 class TestSplitHouseNumber(unittest.TestCase):
     """Tests split_house_number()."""
-    def test_only_number(self):
+    def test_only_number(self) -> None:
         """Tests just numbers."""
         self.assertEqual(helpers.split_house_number('42'), (42, ''))
 
-    def test_number_alpha(self):
+    def test_number_alpha(self) -> None:
         """Tests numbers and suffixes."""
         self.assertEqual(helpers.split_house_number('42ab'), (42, 'ab'))
 
-    def test_alpha(self):
+    def test_alpha(self) -> None:
         """Tests just suffixes."""
         self.assertEqual(helpers.split_house_number('a'), (0, 'a'))
 
 
 class TestSortStreetsCsv(unittest.TestCase):
     """Tests sort_streets_csv()."""
-    def test_single_field(self):
+    def test_single_field(self) -> None:
         """Tests a single column."""
         unsorted = 'head\n2\n1'
         expected = 'head\n1\n2'
         self.assertEqual(helpers.sort_streets_csv(unsorted), expected)
 
-    def test_two_fields(self):
+    def test_two_fields(self) -> None:
         """Tests 2 columns."""
         unsorted = 'head\n1\tb\n2\ta'
         expected = 'head\n2\ta\n1\tb'
@@ -64,7 +64,7 @@ class TestSortStreetsCsv(unittest.TestCase):
 
 class TestSortStreets(unittest.TestCase):
     """Tests sort_streets()."""
-    def test_primary(self):
+    def test_primary(self) -> None:
         """Tests that missing 2nd col is ordered last."""
         unsorted = [
             '0\t\tprimary',
@@ -80,7 +80,7 @@ class TestSortStreets(unittest.TestCase):
         ]
         self.assertEqual(helpers.sort_streets(unsorted), expected)
 
-    def test_service(self):
+    def test_service(self) -> None:
         """Tests that matching 2nd and 3rd col means ordering by 4th col."""
         unsorted = [
             '4\tMine\tservice\tdriveway',
@@ -95,7 +95,7 @@ class TestSortStreets(unittest.TestCase):
 
 class TestSortHouseNumbersCsv(unittest.TestCase):
     """Tests sort_housenumbers_csv()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         unsorted = 'head\n2\n1'
         expected = 'head\n1\n2'
@@ -104,7 +104,7 @@ class TestSortHouseNumbersCsv(unittest.TestCase):
 
 class TestSortHousenumbers(unittest.TestCase):
     """Tests sort_housenumbers()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         unsorted = [
             '0\t\t42\t1234\tPalace\t1000/11\t8\t0\t2\tA\tMinistry of OpenStreetMap',
@@ -135,21 +135,21 @@ class TestSortHousenumbers(unittest.TestCase):
 
 class TestInBoth(unittest.TestCase):
     """Tests get_in_both()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests that happy path."""
         self.assertEqual(helpers.get_in_both([1, 2, 3], [2, 3, 4]), [2, 3])
 
 
 class TestOnlyInFirst(unittest.TestCase):
     """Tests get_only_in_first()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         self.assertEqual(helpers.get_only_in_first([1, 2, 3], [3, 4]), [1, 2])
 
 
 class TestGitLink(unittest.TestCase):
     """Tests git_link()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         actual = helpers.git_link("v1-151-g64ecc85", "http://www.example.com/")
         expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>"
@@ -158,14 +158,14 @@ class TestGitLink(unittest.TestCase):
 
 class TestGetStreets(unittest.TestCase):
     """Tests get_streets()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         actual = helpers.get_streets(workdir, "test")
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
-    def test_no_house_number(self):
+    def test_no_house_number(self) -> None:
         """Tests the case when we have streets, but no house numbers."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         actual = helpers.get_streets(workdir, "ujbuda")
@@ -175,17 +175,17 @@ class TestGetStreets(unittest.TestCase):
 
 class TestRange(unittest.TestCase):
     """Tests Range."""
-    def test_isodd_bad(self):
+    def test_isodd_bad(self) -> None:
         """Tests an odd range with an even number."""
         test = helpers.Range(1, 3)
         self.assertFalse(2 in test)
 
-    def test_range_bad(self):
+    def test_range_bad(self) -> None:
         """Tests an odd range with a large number."""
         test = helpers.Range(1, 3)
         self.assertFalse(5 in test)
 
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         test = helpers.Range(1, 5)
         self.assertTrue(1 in test)
@@ -194,7 +194,7 @@ class TestRange(unittest.TestCase):
         self.assertEqual(test.get_start(), 1)
         self.assertEqual(test.get_end(), 5)
 
-    def test_eq(self):
+    def test_eq(self) -> None:
         """Tests equality code."""
         self.assertTrue(helpers.Range(1, 5) != helpers.Range(3, 5))
         self.assertTrue(helpers.Range(1, 5) != helpers.Range(1, 3))
@@ -202,22 +202,22 @@ class TestRange(unittest.TestCase):
 
 class TestRanges(unittest.TestCase):
     """Tests Ranges."""
-    def test_a(self):
+    def test_a(self) -> None:
         """Tests when the arg is in the first range."""
         test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
         self.assertTrue(0 in test)
 
-    def test_b(self):
+    def test_b(self) -> None:
         """Tests when the arg is in the second range."""
         test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
         self.assertTrue(1 in test)
 
-    def test_ab(self):
+    def test_ab(self) -> None:
         """Tests when the arg is in both ranges."""
         test = helpers.Ranges([helpers.Range(1, 1), helpers.Range(1, 1)])
         self.assertTrue(1 in test)
 
-    def test_none(self):
+    def test_none(self) -> None:
         """Tests when the arg is in neither ranges."""
         test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
         self.assertFalse(2 in test)
@@ -225,7 +225,7 @@ class TestRanges(unittest.TestCase):
 
 class TestGetWorkdir(unittest.TestCase):
     """Tests get_workdir()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         config = configparser.ConfigParser()
         config.read_dict({"wsgi": {"workdir": "/path/to/workdir"}})
@@ -236,7 +236,7 @@ class TestGetWorkdir(unittest.TestCase):
 
 class TestProcessTemplate(unittest.TestCase):
     """Tests process_template()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         template = "aaa @RELATION@ bbb @AREA@ ccc"
         expected = "aaa 42 bbb 3600000042 ccc"
@@ -246,7 +246,7 @@ class TestProcessTemplate(unittest.TestCase):
 
 class TestGetStreetsQuery(unittest.TestCase):
     """Tests get_streets_query()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         relations = helpers.get_relations(datadir)
@@ -257,7 +257,7 @@ class TestGetStreetsQuery(unittest.TestCase):
 
 class TestGetStreetHousenumbersQuery(unittest.TestCase):
     """Tests get_street_housenumbers_query()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         relations = helpers.get_relations(datadir)
@@ -268,7 +268,7 @@ class TestGetStreetHousenumbersQuery(unittest.TestCase):
 
 class TestWriteStreetsResult(unittest.TestCase):
     """Tests write_streets_result()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation = "gazdagret"
@@ -281,7 +281,7 @@ class TestWriteStreetsResult(unittest.TestCase):
 
 class TestWriteStreetHousenumbersResult(unittest.TestCase):
     """Tests write_street_housenumbers()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation = "gazdagret"
@@ -301,7 +301,7 @@ class TestWriteStreetHousenumbersResult(unittest.TestCase):
 
 class TestGetContent(unittest.TestCase):
     """Tests get_content()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         actual = helpers.get_content(workdir, "gazdagret.percent")
@@ -311,7 +311,7 @@ class TestGetContent(unittest.TestCase):
 
 class TestLoadNormalizers(unittest.TestCase):
     """Tests load_normalizers()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         filters, ref_streets, street_blacklist = helpers.load_normalizers(datadir, "gazdagret")
@@ -327,7 +327,7 @@ class TestLoadNormalizers(unittest.TestCase):
         self.assertEqual(ref_streets, expected_streets)
         self.assertEqual(street_blacklist, ['Only In Ref Nonsense utca'])
 
-    def test_nosuchname(self):
+    def test_nosuchname(self) -> None:
         """Tests when there is no filters file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         filters, ref_streets, street_blacklist = helpers.load_normalizers(datadir, "nosuchname")
@@ -335,7 +335,7 @@ class TestLoadNormalizers(unittest.TestCase):
         self.assertEqual(ref_streets, {})
         self.assertEqual(street_blacklist, [])
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         """Tests when the filter file is empty."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         filters, ref_streets, street_blacklist = helpers.load_normalizers(datadir, "empty")
@@ -346,7 +346,7 @@ class TestLoadNormalizers(unittest.TestCase):
 
 class TestGetStreetDetails(unittest.TestCase):
     """Tests get_street_details()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Budaörsi út"
@@ -357,7 +357,7 @@ class TestGetStreetDetails(unittest.TestCase):
         self.assertEqual("Budaörsi", street_name)
         self.assertEqual("út", street_type)
 
-    def test_reftelepules_override(self):
+    def test_reftelepules_override(self) -> None:
         """Tests street-specific reftelepules override."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Teszt utca"
@@ -368,7 +368,7 @@ class TestGetStreetDetails(unittest.TestCase):
         self.assertEqual("Teszt", street_name)
         self.assertEqual("utca", street_type)
 
-    def test_refstreets(self):
+    def test_refstreets(self) -> None:
         """Tests OSM -> ref name mapping."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "OSM Name 1"
@@ -379,7 +379,7 @@ class TestGetStreetDetails(unittest.TestCase):
         self.assertEqual("Ref Name", street_name)
         self.assertEqual("1", street_type)
 
-    def test_nosuchrelation(self):
+    def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "OSM Name 1"
@@ -390,7 +390,7 @@ class TestGetStreetDetails(unittest.TestCase):
         self.assertEqual("OSM Name", street_name)
         self.assertEqual("1", street_type)
 
-    def test_emptyrelation(self):
+    def test_emptyrelation(self) -> None:
         """Tests a relation with an empty filter file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "OSM Name 1"
@@ -401,7 +401,7 @@ class TestGetStreetDetails(unittest.TestCase):
         self.assertEqual("OSM Name", street_name)
         self.assertEqual("1", street_type)
 
-    def test_range_level_override(self):
+    def test_range_level_override(self) -> None:
         """Tests the reftelepules range-level override."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         street = "Csiki-hegyek utca"
@@ -415,7 +415,7 @@ class TestGetStreetDetails(unittest.TestCase):
 
 class TestHtmlTableFromList(unittest.TestCase):
     """Tests html_table_from_list()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         fro = [["A1", "B1"], ["A2", "B2"]]
         expected = '<table rules="all" frame="border" cellpadding="4" class="sortable">'
@@ -428,7 +428,7 @@ class TestHtmlTableFromList(unittest.TestCase):
 
 class TestTsvToList(unittest.TestCase):
     """Tests tsv_to_list()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         sock = io.StringIO("h1\th2\n\nv1\tv2\n")
         ret = helpers.tsv_to_list(sock)
@@ -437,28 +437,28 @@ class TestTsvToList(unittest.TestCase):
 
 class TestNormalize(unittest.TestCase):
     """Tests normalize()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         house_numbers = helpers.normalize("139", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, ["139"])
 
-    def test_not_in_range(self):
+    def test_not_in_range(self) -> None:
         """Tests when the number is not in range."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         house_numbers = helpers.normalize("999", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
-    def test_not_a_number(self):
+    def test_not_a_number(self) -> None:
         """Tests the case when the house number is not a number."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         house_numbers = helpers.normalize("x", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
-    def test_nofilter(self):
+    def test_nofilter(self) -> None:
         """Tests the case when there is no filter for this street."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
@@ -468,7 +468,7 @@ class TestNormalize(unittest.TestCase):
 
 class TestGetHouseNumbersFromLst(unittest.TestCase):
     """Tests get_house_numbers_from_lst()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
@@ -482,7 +482,7 @@ class TestGetHouseNumbersFromLst(unittest.TestCase):
 
 class TestGetStreetsFromLst(unittest.TestCase):
     """Tests get_streets_from_lst()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
@@ -496,7 +496,7 @@ class TestGetStreetsFromLst(unittest.TestCase):
 
 class TestGetHouseNumbersFromCsv(unittest.TestCase):
     """Tests get_house_numbers_from_csv()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
@@ -509,7 +509,7 @@ class TestGetHouseNumbersFromCsv(unittest.TestCase):
 
 class TestGetSuspiciousStreets(unittest.TestCase):
     """Tests get_suspicious_streets()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
@@ -522,7 +522,7 @@ class TestGetSuspiciousStreets(unittest.TestCase):
 
 class TestGetSuspiciousRelations(unittest.TestCase):
     """Tests get_suspicious_relations()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
@@ -537,7 +537,7 @@ class TestGetSuspiciousRelations(unittest.TestCase):
 
 class TestWriteSuspicousStreetsResult(unittest.TestCase):
     """Tests write_suspicious_streets_result()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
@@ -555,7 +555,7 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         actual = helpers.get_content(workdir, "gazdagret.percent")
         self.assertEqual(actual, expected)
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
@@ -568,7 +568,7 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
 
 class TestWriteMissingRelationssResult(unittest.TestCase):
     """Tests write_missing_relations_result()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
@@ -584,7 +584,7 @@ class TestWriteMissingRelationssResult(unittest.TestCase):
         actual = helpers.get_content(workdir, "gazdagret-streets.percent")
         self.assertEqual(actual, expected)
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
@@ -597,7 +597,7 @@ class TestWriteMissingRelationssResult(unittest.TestCase):
 
 class TestBuildReferenceCache(unittest.TestCase):
     """Tests build_reference_cache()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
@@ -608,7 +608,7 @@ class TestBuildReferenceCache(unittest.TestCase):
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 
-    def test_cached(self):
+    def test_cached(self) -> None:
         """Tests the case when the pickle cache is already available."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
@@ -623,7 +623,7 @@ class TestBuildReferenceCache(unittest.TestCase):
 
 class TestBuildStreetReferenceCache(unittest.TestCase):
     """Tests build_street_reference_cache()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "utcak_20190514.tsv")
@@ -636,7 +636,7 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 
-    def test_cached(self):
+    def test_cached(self) -> None:
         """Tests the case when the pickle cache is already available."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "utcak_20190514.tsv")
@@ -653,7 +653,7 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
 
 class TestHouseNumbersOfStreet(unittest.TestCase):
     """Tests house_numbers_of_street()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
@@ -664,7 +664,7 @@ class TestHouseNumbersOfStreet(unittest.TestCase):
         ret = helpers.house_numbers_of_street(datadir, memory_cache, relation_name, street)
         self.assertEqual(ret, ['Törökugrató utca 1', 'Törökugrató utca 10', 'Törökugrató utca 2', 'Törökugrató utca 7'])
 
-    def test_missing(self):
+    def test_missing(self) -> None:
         """Tests the case when the street is not in the reference."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
@@ -678,7 +678,7 @@ class TestHouseNumbersOfStreet(unittest.TestCase):
 
 class TestStreetsOfRelation(unittest.TestCase):
     """Tests streets_of_relation()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
@@ -695,7 +695,7 @@ class TestStreetsOfRelation(unittest.TestCase):
 
 class TestGetReferenceHousenumbers(unittest.TestCase):
     """Tests get_reference_housenumbers()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
@@ -710,7 +710,7 @@ class TestGetReferenceHousenumbers(unittest.TestCase):
 
 class TestGetReferenceStreets(unittest.TestCase):
     """Tests get_reference_streets()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "utcak_20190514.tsv")
@@ -725,7 +725,7 @@ class TestGetReferenceStreets(unittest.TestCase):
 
 class TestGetRelations(unittest.TestCase):
     """Tests get_relations()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         relations = helpers.get_relations(datadir)
@@ -734,21 +734,21 @@ class TestGetRelations(unittest.TestCase):
 
 class TestGetRelationMissingStreets(unittest.TestCase):
     """Tests get_relation_missing_streets()."""
-    def test_happy(self):
+    def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         relation_name = "ujbuda"
         ret = helpers.get_relation_missing_streets(datadir, relation_name)
         self.assertEqual(ret, "only")
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         """Tests the default value."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         relation_name = "empty"
         ret = helpers.get_relation_missing_streets(datadir, relation_name)
         self.assertEqual(ret, "no")
 
-    def test_nosuchrelation(self):
+    def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         relation_name = "nosuchrelation"

@@ -17,7 +17,7 @@ import helpers
 import overpass_query
 
 
-def get_srcdir(subdir=""):
+def get_srcdir(subdir: str = "") -> str:
     """Gets the directory which is tracked in version control."""
     dirname = os.path.dirname(__file__)
 
@@ -27,7 +27,7 @@ def get_srcdir(subdir=""):
     return dirname
 
 
-def overpass_sleep():
+def overpass_sleep() -> None:
     """Sleeps to respect overpass rate limit."""
     while True:
         sleep = overpass_query.overpass_query_need_sleep()
@@ -37,7 +37,7 @@ def overpass_sleep():
         time.sleep(sleep)
 
 
-def update_streets(workdir):
+def update_streets(workdir: str) -> None:
     """Update the existing street list of all relations."""
     datadir = get_srcdir("data")
     relations = helpers.get_relations(datadir)
@@ -49,7 +49,7 @@ def update_streets(workdir):
         logging.info("update_streets: end: %s", relation)
 
 
-def update_street_housenumbers(workdir):
+def update_street_housenumbers(workdir: str) -> None:
     """Update the existing street housenumber list of all relations."""
     datadir = get_srcdir("data")
     relations = helpers.get_relations(datadir)
@@ -61,7 +61,7 @@ def update_street_housenumbers(workdir):
         logging.info("update_street_housenumbers: end: %s", relation)
 
 
-def update_suspicious_streets_stats(workdir):
+def update_suspicious_streets_stats(workdir: str) -> None:
     """Update the relation's house number coverage stats."""
     datadir = get_srcdir("data")
     relations = helpers.get_relations(datadir)
@@ -71,7 +71,7 @@ def update_suspicious_streets_stats(workdir):
     logging.info("update_suspicious_streets_stats: end")
 
 
-def main():
+def main() -> None:
     """Commandline interface to this module."""
 
     config = configparser.ConfigParser()
