@@ -275,6 +275,10 @@ filters:
   Újházy utca:
     ranges:
       - {start: '2', end: '12'}
+  Ulászló utca:
+    ranges:
+      - {start: '1', end: '59'}
+      - {start: '2', end: '80'}
   Villányi út:
     ranges:
       - {start: '76', end: '86'}
