@@ -13,7 +13,7 @@ import configparser
 import helpers
 
 
-def main():
+def main() -> None:
     """Commandline interface."""
     config = configparser.ConfigParser()
     config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")

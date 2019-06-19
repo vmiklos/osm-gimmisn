@@ -13,7 +13,7 @@ import sys
 import helpers
 
 
-def main():
+def main() -> None:
     """Commandline interface to this module."""
 
     config = configparser.ConfigParser()
