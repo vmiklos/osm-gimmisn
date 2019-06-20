@@ -391,7 +391,7 @@ def handle_main(relations: Dict[str, Any], workdir: str) -> str:
         if streets != "only":
             date = get_housenumbers_last_modified(workdir, k)
             row.append("<a href=\"/osm/street-housenumbers/" + k + "/view-result\""
-                       "title=\"frissítve " + date + "\" >meglévő házszámok</a>")
+                       " title=\"frissítve " + date + "\" >meglévő házszámok</a>")
         else:
             row.append("")
 
@@ -418,7 +418,7 @@ def handle_main(relations: Dict[str, Any], workdir: str) -> str:
 
         date = get_streets_last_modified(workdir, k)
         row.append("<a href=\"/osm/streets/" + k + "/view-result\""
-                   "title=\"frissítve " + date + "\" >meglévő utcák</a>")
+                   " title=\"frissítve " + date + "\" >meglévő utcák</a>")
 
         row.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation["osmrelation"])
                    + "\">terület határa</a>")
@@ -481,7 +481,13 @@ def get_header(function: str = "", relation_name: str = "", relation_osmid: int 
                      + "Terület határa</a>")
     items.append("<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu\">Dokumentáció</a>")
 
-    output = "<html><head><title>Hol térképezzek?" + title + "</title>"
+    config = get_config()
+    if config.has_option("wsgi", "lang"):
+        lang = config.get("wsgi", "lang")
+    else:
+        lang = "hu"
+    output = '<!DOCTYPE html>\n<html lang="' + lang + '"><head><title>Hol térképezzek?' + title + '</title>'
+    output += '<meta charset="UTF-8">'
     output += '<script src="/osm/static/sorttable.js"></script>'
     output += "</head><body><div>"
     output += " &brvbar; ".join(items)
