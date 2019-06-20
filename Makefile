@@ -1,3 +1,15 @@
+PYTHON_OBJECTS = \
+	cron.py \
+	get_reference_housenumbers.py \
+	get_reference_streets.py \
+	helpers.py \
+	overpass_query.py \
+	suspicious_relations.py \
+	suspicious_streets.py \
+	version.py \
+	wsgi.py \
+	tests/test_helpers.py \
+
 all: version.py
 
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
@@ -15,11 +27,11 @@ check-filters-syntax:
 check-flake8:
 	flake8 *.py tests/*.py
 
-check-pylint: $(patsubst %.py,%.py.pylinted,$(wildcard *.py tests/*.py))
+check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
-check-mypy: $(patsubst %.py,%.mypy,$(wildcard *.py tests/*.py))
+check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
-%.py.pylinted : %.py Makefile .pylintrc
+%.pylint : %.py Makefile .pylintrc
 	pylint $< && touch $@
 
 %.mypy: %.py Makefile all
