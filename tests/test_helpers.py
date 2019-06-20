@@ -575,12 +575,11 @@ class TestWriteMissingRelationssResult(unittest.TestCase):
         relation_name = "gazdagret"
         expected = helpers.get_content(workdir, "gazdagret-streets.percent")
         ret = helpers.write_missing_relations_result(datadir, workdir, relation_name)
-        todo_count, done_count, percent, table = ret
+        todo_count, done_count, percent, streets = ret
         self.assertEqual(todo_count, 1)
         self.assertEqual(done_count, 3)
         self.assertEqual(percent, '75.00')
-        self.assertEqual(table, [['Utcanév'],
-                                 ['Only In Ref utca']])
+        self.assertEqual(streets, ['Only In Ref utca'])
         actual = helpers.get_content(workdir, "gazdagret-streets.percent")
         self.assertEqual(actual, expected)
 
@@ -590,7 +589,7 @@ class TestWriteMissingRelationssResult(unittest.TestCase):
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "empty"
         ret = helpers.write_missing_relations_result(datadir, workdir, relation_name)
-        _todo_count, _done_count, percent, _table = ret
+        _todo_count, _done_count, percent, _streets = ret
         self.assertEqual(percent, 'N/A')
         os.unlink(os.path.join(workdir, "empty-streets.percent"))
 

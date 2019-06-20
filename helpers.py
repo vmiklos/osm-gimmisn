@@ -731,13 +731,12 @@ def write_suspicious_streets_result(
     return todo_street_count, todo_count, done_count, percent, table
 
 
-def write_missing_relations_result(datadir: str, workdir: str, relation: str) -> Tuple[int, int, str, List[List[str]]]:
+def write_missing_relations_result(datadir: str, workdir: str, relation: str) -> Tuple[int, int, str, List[str]]:
     """Calculate a write stat for the street coverage of a relation."""
     todo_streets, done_streets = get_suspicious_relations(datadir, workdir, relation)
-    table = []
-    table.append(["Utcanév"])
+    streets = []
     for street in todo_streets:
-        table.append([street])
+        streets.append(street)
     todo_count = len(todo_streets)
     done_count = len(done_streets)
     if done_count > 0 or todo_count > 0:
@@ -749,6 +748,6 @@ def write_missing_relations_result(datadir: str, workdir: str, relation: str) ->
     with open(os.path.join(workdir, relation + "-streets.percent"), "w") as sock:
         sock.write(percent)
 
-    return todo_count, done_count, percent, table
+    return todo_count, done_count, percent, streets
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

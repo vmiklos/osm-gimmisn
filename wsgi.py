@@ -158,7 +158,11 @@ def missing_relations_view_result(request_uri: str, workdir: str) -> str:
         output += "Létrehozás referenciából</a>"
     else:
         ret = helpers.write_missing_relations_result(get_datadir(), workdir, relation)
-        todo_count, done_count, percent, table = ret
+        todo_count, done_count, percent, streets = ret
+        streets.sort(key=locale.strxfrm)
+        table = [["Utcanév"]]
+        for street in streets:
+            table.append([street])
 
         output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
         output += str(todo_count) + " utcát."
