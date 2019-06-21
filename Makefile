@@ -24,18 +24,20 @@ check-filters: check-filters-syntax check-filters-schema
 check-filters-syntax:
 	yamllint .travis.yml data/*.yaml
 
-check-flake8:
-	flake8 *.py tests/*.py
+check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 
 check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
 check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
-%.pylint : %.py Makefile .pylintrc
+%.pylint : %.py Makefile .pylintrc all
 	pylint $< && touch $@
 
 %.mypy: %.py Makefile all
 	mypy --python-version 3.5 --strict $< && touch $@
+
+%.flake8: %.py Makefile all
+	flake8 $< && touch $@
 
 check-unit:
 	coverage run --branch --module unittest tests/test_helpers.py
