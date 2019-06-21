@@ -19,6 +19,7 @@ from typing import Any
 from typing import Dict
 from typing import Iterable
 from typing import TYPE_CHECKING
+from typing import Tuple
 import wsgiref.simple_server
 
 import pytz
@@ -488,6 +489,7 @@ def get_header(function: str = "", relation_name: str = "", relation_osmid: int 
         lang = "hu"
     output = '<!DOCTYPE html>\n<html lang="' + lang + '"><head><title>Hol térképezzek?' + title + '</title>'
     output += '<meta charset="UTF-8">'
+    output += '<link rel="stylesheet" type="text/css" href="/osm/static/osm.css">'
     output += '<script src="/osm/static/sorttable.js"></script>'
     output += "</head><body><div>"
     output += " &brvbar; ".join(items)
@@ -521,15 +523,20 @@ def handle_github_webhook(environ: Dict[str, Any]) -> str:
     return ""
 
 
-def handle_static(request_uri: str) -> str:
+def handle_static(request_uri: str) -> Tuple[str, str]:
     """Handles serving static content."""
     tokens = request_uri.split("/")
     path = tokens[-1]
 
-    if path.endswith(".js"):
-        return helpers.get_content(get_staticdir(), path)
+    if request_uri.endswith(".js"):
+        content_type = "application/x-javascript"
+    elif request_uri.endswith(".css"):
+        content_type = "text/css"
 
-    return ""
+    if path.endswith(".js") or path.endswith(".css"):
+        return helpers.get_content(get_staticdir(), path), content_type
+
+    return "", ""
 
 
 def our_application(
@@ -572,9 +579,7 @@ def our_application(
     elif request_uri.startswith("/osm/webhooks/github"):
         output = handle_github_webhook(environ)
     elif request_uri.startswith("/osm/static/"):
-        output = handle_static(request_uri)
-        if request_uri.endswith(".js"):
-            content_type = "application/x-javascript"
+        output, content_type = handle_static(request_uri)
     else:
         output = handle_main(relations, workdir)
 

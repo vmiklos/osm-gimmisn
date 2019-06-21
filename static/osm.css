@@ -1,0 +1,11 @@
+th {
+    text-align: left;
+    vertical-align: center;
+}
+
+td {
+    text-align: left;
+    vertical-align: top;
+}
+
+/* vim:set shiftwidth=4 softtabstop=4 expandtab: */

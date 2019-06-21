@@ -397,9 +397,9 @@ def html_table_from_list(table: List[List[str]]) -> str:
         ret.append("<tr>")
         for cell in row_content:
             if row_index == 0:
-                ret.append('<th align="left" valign="center"><a href="#">' + cell + "</a></th>")
+                ret.append('<th><a href="#">' + cell + "</a></th>")
             else:
-                ret.append('<td align="left" valign="top">' + cell + "</td>")
+                ret.append('<td>' + cell + "</td>")
         ret.append("</tr>")
     ret.append("</table>")
     return "".join(ret)
