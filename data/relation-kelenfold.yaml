@@ -53,7 +53,7 @@ filters:
       - {start: '52', end: '198'}
   Budaörsi út:
     ranges:
-      - {start: '26', end: '60'}
+      - {start: '26', end: '56'}
   Csóka utca:
     ranges:
       - {start: '1', end: '13'}
