@@ -102,13 +102,21 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+*.mypy
 
 # wsgi
 wsgi.ini
 version.py
+*.pickle
 
 # yamale
 *.validyaml
 
 # pylint
-*.py.pylinted
+*.pylint
+
+# flake8
+*.flake8
+
+# vim
+.*.swp
