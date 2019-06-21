@@ -696,6 +696,15 @@ def write_street_housenumbers(workdir: str, relation: str, result_from_overpass:
         sock.write(result)
 
 
+def format_even_odd(only_in_ref: List[str]) -> str:
+    """Separate even and odd numbers, this helps survey in most cases."""
+    even = sorted([i for i in only_in_ref if int(i) % 2 == 0], key=int)
+    even_string = ", ".join(even)
+    odd = sorted([i for i in only_in_ref if int(i) % 2 == 1], key=int)
+    odd_string = ", ".join(odd)
+    return "<br/>".join([odd_string, even_string])
+
+
 def write_suspicious_streets_result(
         datadir: str,
         workdir: str,
@@ -710,10 +719,10 @@ def write_suspicious_streets_result(
         # House number, # of only_in_reference items.
         row = []
         row.append(result[0])
-        row.append(str(len(result[1])))
-        # only_in_reference items.
-        row.append(", ".join(result[1]))
-        todo_count += len(result[1])
+        only_in_ref = result[1]
+        row.append(str(len(only_in_ref)))
+        row.append(format_even_odd(only_in_ref))
+        todo_count += len(only_in_ref)
         table.append(row)
     done_count = 0
     for result in done_streets:

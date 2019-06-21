@@ -550,8 +550,8 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         self.assertEqual(done_count, 6)
         self.assertEqual(percent, '60.00')
         self.assertEqual(table, [['Utcanév', 'Hiányzik db', 'Házszámok'],
-                                 ['Törökugrató utca', '2', '7, 10'],
-                                 ['Tűzkő utca', '2', '1, 2']])
+                                 ['Törökugrató utca', '2', '7<br/>10'],
+                                 ['Tűzkő utca', '2', '1<br/>2']])
         actual = helpers.get_content(workdir, "gazdagret.percent")
         self.assertEqual(actual, expected)
 
