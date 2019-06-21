@@ -5,4 +5,4 @@ pycodestyle
 pylint
 pytz
 pyyaml
-yamale
+yamale==1.10.0
