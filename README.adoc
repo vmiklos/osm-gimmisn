@@ -2,10 +2,10 @@
 
 image:https://travis-ci.org/vmiklos/osm-gimmisn.svg?branch=master["Build Status", link="https://travis-ci.org/vmiklos/osm-gimmisn"]
 
-Finds objects missing from the OSM DB. As a start, it finds missing house numbers based on a
-reference list.
+Finds objects missing from the OSM DB. As a start, it finds missing streets and house numbers based
+on a reference list.
 
 It works by fetching the street and house number list for a relation (area), then suggesting what
-possibly missing house numbers are a good idea to survey.
+possibly missing objects are a good idea to survey.
 
 You can see this in action at https://vmiklos.pythonanywhere.com/osm[PythonAnywhere].

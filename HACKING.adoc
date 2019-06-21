@@ -1,0 +1,9 @@
+== Checklist
+
+Ideally CI checks everything before a commit hits master, but here are a few
+things which are not part of CI:
+
+- HTML validation: https://validator.w3.org/nu/?doc=https%3A%2F%2Fvmiklos.pythonanywhere.com%2Fosm
+
+- CSS validation:
+  http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fvmiklos.pythonanywhere.com%2Fosm%2Fstatic%2Fosm.css
