@@ -12,12 +12,12 @@ PYTHON_OBJECTS = \
 
 all: version.py
 
+check: all check-filters check-flake8 check-mypy check-unit check-pylint
+
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	echo '"""The version module allows tracking the last reload of the app server."""' > $@
 	echo "VERSION = '$(shell git describe)'" >> $@
 	echo "GIT_DIR = '$(shell pwd)'" >> $@
-
-check: check-filters check-flake8 check-mypy check-unit check-pylint
 
 check-filters: check-filters-syntax check-filters-schema
 
@@ -30,13 +30,13 @@ check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
 check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
-%.pylint : %.py Makefile .pylintrc all
+%.pylint : %.py Makefile .pylintrc
 	pylint $< && touch $@
 
-%.mypy: %.py Makefile all
+%.mypy: %.py Makefile
 	mypy --python-version 3.5 --strict $< && touch $@
 
-%.flake8: %.py Makefile all
+%.flake8: %.py Makefile
 	flake8 $< && touch $@
 
 check-unit:
