@@ -343,7 +343,7 @@ def get_streets_last_modified(workdir: str, name: str) -> str:
     return get_last_modified(workdir, "streets-" + name + ".csv")
 
 
-def handle_main_housenr_percent(workdir: str, relation_name: str) -> str:
+def handle_main_housenr_percent(workdir: str, relation_name: str) -> Tuple[str, str]:
     """Handles the house number percent part of the main page."""
     percent_file = relation_name + ".percent"
     url = "\"/osm/suspicious-streets/" + relation_name + "/view-result\""
@@ -356,19 +356,49 @@ def handle_main_housenr_percent(workdir: str, relation_name: str) -> str:
         cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
         cell += percent + "%"
         cell += "</a></strong>"
-        return cell
+        return cell, percent
 
     cell = "<strong><a href=" + url + ">"
     cell += "hiányzó házszámok"
     cell += "</a></strong>"
-    return cell
+    return cell, "0"
 
 
-def handle_main(relations: Dict[str, Any], workdir: str) -> str:
-    """Handles the main wsgi page."""
+def handle_main_street_percent(workdir: str, relation_name: str) -> Tuple[str, str]:
+    """Handles the street percent part of the main page."""
+    percent_file = relation_name + "-streets.percent"
+    url = "\"/osm/suspicious-relations/" + relation_name + "/view-result\""
+    percent = "N/A"
+    if os.path.exists(os.path.join(workdir, percent_file)):
+        percent = helpers.get_content(workdir, percent_file)
+
+    if percent != "N/A":
+        date = get_last_modified(workdir, percent_file)
+        cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
+        cell += percent + "%"
+        cell += "</a></strong>"
+        return cell, percent
+
+    cell = "<strong><a href=" + url + ">"
+    cell += "hiányzó utcák"
+    cell += "</a></strong>"
+    return cell, "0"
+
+
+def handle_main(request_uri: str, relations: Dict[str, Any], workdir: str) -> str:
+    """Handles the main wsgi page.
+
+    Also handles /osm/filter-for/incomplete which filters out complete relations."""
+    tokens = request_uri.split("/")
+    filter_for_incomplete = False
+    if len(tokens) >= 2 and tokens[-2] == "filter-for" and tokens[-1] == "incomplete":
+        filter_for_incomplete = True
+
     output = ""
 
     output += "<h1>Hol térképezzek?</h1>"
+    if not filter_for_incomplete:
+        output += '<p><a href="/osm/filter-for/incomplete">Kész területek elrejtése</a></p>'
     table = []
     table.append(["Terület",
                   "Házszám lefedettség",
@@ -378,6 +408,7 @@ def handle_main(relations: Dict[str, Any], workdir: str) -> str:
                   "Terület határa"])
     for k in sorted(relations):
         relation = relations[k]
+        complete = True
 
         streets = helpers.get_relation_missing_streets(get_datadir(), k)
 
@@ -385,7 +416,10 @@ def handle_main(relations: Dict[str, Any], workdir: str) -> str:
         row.append(k)
 
         if streets != "only":
-            row.append(handle_main_housenr_percent(workdir, k))
+            cell, percent = handle_main_housenr_percent(workdir, k)
+            row.append(cell)
+            if float(percent) < 100.0:
+                complete = False
         else:
             row.append("")
 
@@ -397,23 +431,10 @@ def handle_main(relations: Dict[str, Any], workdir: str) -> str:
             row.append("")
 
         if streets != "no":
-            percent_file = k + "-streets.percent"
-            url = "\"/osm/suspicious-relations/" + k + "/view-result\""
-            percent = "N/A"
-            if os.path.exists(os.path.join(workdir, percent_file)):
-                percent = helpers.get_content(workdir, percent_file)
-
-            if percent != "N/A":
-                date = get_last_modified(workdir, percent_file)
-                cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
-                cell += percent + "%"
-                cell += "</a></strong>"
-                row.append(cell)
-            else:
-                cell = "<strong><a href=" + url + ">"
-                cell += "hiányzó utcák"
-                cell += "</a></strong>"
-                row.append(cell)
+            cell, percent = handle_main_street_percent(workdir, k)
+            row.append(cell)
+            if float(percent) < 100.0:
+                complete = False
         else:
             row.append("")
 
@@ -424,7 +445,8 @@ def handle_main(relations: Dict[str, Any], workdir: str) -> str:
         row.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation["osmrelation"])
                    + "\">terület határa</a>")
 
-        table.append(row)
+        if filter_for_incomplete is False or complete is False:
+            table.append(row)
     output += helpers.html_table_from_list(table)
     output += "<a href=\"" + \
               "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
@@ -581,7 +603,7 @@ def our_application(
     elif request_uri.startswith("/osm/static/"):
         output, content_type = handle_static(request_uri)
     else:
-        output = handle_main(relations, workdir)
+        output = handle_main(request_uri, relations, workdir)
 
     output_bytes = output.encode('utf-8')
     response_headers = [('Content-type', content_type + '; charset=utf-8'),
