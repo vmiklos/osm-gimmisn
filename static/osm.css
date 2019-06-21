@@ -1,3 +1,7 @@
+table {
+    border-collapse: collapse;
+}
+
 th {
     text-align: left;
     vertical-align: center;
@@ -6,6 +10,15 @@ th {
 td {
     text-align: left;
     vertical-align: top;
+}
+
+th, td {
+    padding: 4px;
+}
+
+table, th, td {
+    border-width: thin;
+    border-style: solid;
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

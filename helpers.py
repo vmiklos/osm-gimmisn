@@ -392,7 +392,7 @@ def tsv_to_list(sock: TextIO) -> List[List[str]]:
 def html_table_from_list(table: List[List[str]]) -> str:
     """Produces a HTML table from a list of lists."""
     ret = []
-    ret.append('<table rules="all" frame="border" cellpadding="4" class="sortable">')
+    ret.append('<table class="sortable">')
     for row_index, row_content in enumerate(table):
         ret.append("<tr>")
         for cell in row_content:

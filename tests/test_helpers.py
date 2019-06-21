@@ -418,7 +418,7 @@ class TestHtmlTableFromList(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         fro = [["A1", "B1"], ["A2", "B2"]]
-        expected = '<table rules="all" frame="border" cellpadding="4" class="sortable">'
+        expected = '<table class="sortable">'
         expected += '<tr><th><a href="#">A1</a></th>'
         expected += '<th><a href="#">B1</a></th></tr>'
         expected += '<tr><td>A2</td><td>B2</td></tr></table>'
