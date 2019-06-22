@@ -10,7 +10,8 @@ filters:
       - {start: '2', end: '8'}
   Budafoki út:
     ranges:
-      - {start: '1', end: '83'}
+      - {start: '1', end: '21'}
+      - {start: '27', end: '83'}
       - {start: '2', end: '34'}
       - {start: '38', end: '38'}
   Fehérvári út:
