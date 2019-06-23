@@ -65,7 +65,7 @@ filters:
   Tas vezér utca:
     ranges:
       - {start: '1', end: '13'}
-      - {start: '2', end: '20'}
+      - {start: '16', end: '20'}
   Villányi út:
     ranges:
       # Edutus 11-13, Templom 25, Szie 29-43 (31, 35-43)
