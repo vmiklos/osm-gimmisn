@@ -35,7 +35,7 @@ filters:
   Bocskai út:
     ranges:
       - {start: '67', end: '79'}
-      - {start: '2', end: '54'}
+      - {start: '2', end: '52'}
       - {start: '74', end: '90'}
       - {start: '134', end: '146'}
   Bogyó utca:
@@ -255,7 +255,7 @@ filters:
       - {start: '2', end: '32'}
   Tas vezér utca:
     ranges:
-      - {start: '15', end: '99'}
+      - {start: '15', end: '23'}
       - {start: '22', end: '28'}
   Tétényi köz:
     ranges:
