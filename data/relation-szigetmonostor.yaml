@@ -4,4 +4,24 @@ filters:
       # at least 65 is definitely out of range
       - {start: '1', end: '29'}
       - {start: '2', end: '28'}
+  Hársfa utca:
+    ranges:
+      # at least 8, 18 and 19 are out of range
+      - {start: '1', end: '17'}
+      - {start: '2', end: '6'}
+      - {start: '10', end: '16'}
+      - {start: '20', end: '32'}
+  Tölgyfa utca:
+    ranges:
+      # at least 4, 14 and 15 are out of range
+      - {start: '1', end: '11'}
+      - {start: '2', end: '2'}
+      - {start: '6', end: '12'}
+      - {start: '16', end: '16'}
+  Fürj utca:
+    ranges:
+      # at least 16 is out of range
+      - {start: '1', end: '5'}
+      - {start: '2', end: '14'}
+      - {start: '18', end: '22'}
 source: survey
