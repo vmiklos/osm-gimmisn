@@ -24,4 +24,30 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '14'}
       - {start: '18', end: '22'}
+  Boglárka utca:
+    ranges:
+      # at least 1, 27, 30, 34, 37, 40 and 42 are out of range
+      - {start: '3', end: '25'}
+      - {start: '29', end: '35'}
+      - {start: '39', end: '45'}
+      - {start: '2', end: '28'}
+      - {start: '32', end: '32'}
+      - {start: '36', end: '38'}
+      - {start: '44', end: '44'}
+  Repkény utca:
+    ranges:
+      # at least 4 is out of range
+      - {start: '2', end: '2'}
+      - {start: '6', end: '6'}
+  Csillagfürt utca:
+    ranges:
+      # at least 6, 7 and 8 are out of range
+      - {start: '5', end: '5'}
+      - {start: '9', end: '9'}
+      - {start: '4', end: '4'}
+      - {start: '10', end: '10'}
+  Árvácska utca:
+    ranges:
+      # at least 2 is out of range
+      - {start: '1', end: '17'}
 source: survey
