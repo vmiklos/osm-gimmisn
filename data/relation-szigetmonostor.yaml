@@ -110,4 +110,28 @@ filters:
       - {start: '2', end: '8'}
       - {start: '14', end: '20'}
       - {start: '24', end: '32'}
+  Horánygyöngye utca:
+    ranges:
+      - {start: '3', end: '11'}
+      - {start: '15', end: '27'}
+      - {start: '33', end: '35'}
+      - {start: '39', end: '57'}
+      - {start: '61', end: '63'}
+      - {start: '67', end: '75'}
+      - {start: '79', end: '97'}
+      - {start: '101', end: '107'}
+      - {start: '115', end: '117'}
+      - {start: '121', end: '123'}
+      - {start: '131', end: '131'}
+      - {start: '135', end: '149'}
+      - {start: '2', end: '64'}
+      - {start: '68', end: '70'}
+      - {start: '78', end: '84'}
+      - {start: '88', end: '98'}
+      - {start: '102', end: '104'}
+      - {start: '108', end: '112'}
+      - {start: '116', end: '158'}
+      - {start: '162', end: '166'}
+      - {start: '170', end: '186'}
+      - {start: '200', end: '200'}
 source: survey
