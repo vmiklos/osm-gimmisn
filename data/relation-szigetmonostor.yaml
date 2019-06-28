@@ -134,4 +134,25 @@ filters:
       - {start: '162', end: '166'}
       - {start: '170', end: '186'}
       - {start: '200', end: '200'}
+  Nagyduna sétány:
+    ranges:
+      - {start: '21', end: '41'}
+      - {start: '45', end: '57'}
+      - {start: '61', end: '65'}
+      - {start: '69', end: '77'}
+      - {start: '83', end: '83'}
+      - {start: '87', end: '89'}
+      - {start: '10', end: '14'}
+      - {start: '20', end: '24'}
+      - {start: '28', end: '36'}
+      - {start: '40', end: '54'}
+      - {start: '58', end: '66'}
+      - {start: '74', end: '78'}
+      - {start: '82', end: '88'}
+  Bem utca:
+    ranges:
+      - {start: '3', end: '25'}
+      - {start: '29', end: '31'}
+      - {start: '6', end: '18'}
+      - {start: '22', end: '44'}
 source: survey
