@@ -155,4 +155,36 @@ filters:
       - {start: '29', end: '31'}
       - {start: '6', end: '18'}
       - {start: '22', end: '44'}
+  Viola utca:
+    ranges:
+      - {start: '3', end: '17'}
+      - {start: '23', end: '23'}
+      - {start: '29', end: '29'}
+      - {start: '33', end: '39'}
+      - {start: '43', end: '55'}
+      - {start: '6', end: '8'}
+      - {start: '14', end: '18'}
+      - {start: '24', end: '28'}
+      - {start: '32', end: '32'}
+  Damjanich utca:
+    ranges:
+      - {start: '1', end: '39'}
+      - {start: '4', end: '14'}
+      - {start: '18', end: '18'}
+  Martinovics utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '11', end: '15'}
+      - {start: '19', end: '23'}
+      - {start: '29', end: '29'}
+      - {start: '2', end: '10'}
+      - {start: '14', end: '32'}
+  Mókus utca:
+    ranges:
+      - {start: '5', end: '5'}
+      - {start: '9', end: '9'}
+      - {start: '13', end: '25'}
+      - {start: '2', end: '2'}
+      - {start: '6', end: '18'}
+      - {start: '24', end: '26'}
 source: survey
