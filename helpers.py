@@ -759,4 +759,16 @@ def write_missing_relations_result(datadir: str, workdir: str, relation: str) ->
 
     return todo_count, done_count, percent, streets
 
+
+def refmegye_get_name(refmegye: str) -> str:
+    """Produces a UI name for a refmegye."""
+    names = {
+        '01': 'Budapest',
+        '14': 'Pest megye',
+    }
+    if refmegye in names.keys():
+        return names[refmegye]
+
+    return ""
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

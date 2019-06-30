@@ -17,6 +17,7 @@ import json
 import subprocess
 from typing import Any
 from typing import Dict
+from typing import Callable
 from typing import Iterable
 from typing import TYPE_CHECKING
 from typing import Tuple
@@ -385,20 +386,52 @@ def handle_main_street_percent(workdir: str, relation_name: str) -> Tuple[str, s
     return cell, "0"
 
 
+def filter_for_everything(_complete: bool, _refmegye: str) -> bool:
+    """Does not filter out anything."""
+    return True
+
+
+def filter_for_incomplete(complete: bool, _refmegye: str) -> bool:
+    """Filters out complete items."""
+    return not complete
+
+
+def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, str], bool]:
+    """Creates a function that filters for a single refmegye."""
+    return lambda _complete, refmegye: refmegye == refmegye_filter
+
+
+def handle_main_filters(relations: Dict[str, Any]) -> str:
+    """Handlers the filter part of the main wsgi page."""
+    items = []
+    items.append('<a href="/osm/filter-for/incomplete">Kész területek elrejtése</a>')
+    # Sorted set of refmegye values of all relations.
+    for refmegye in sorted({relation["refmegye"] for relation in relations.values()}):
+        name = helpers.refmegye_get_name(refmegye)
+        if not name:
+            continue
+
+        items.append('<a href="/osm/filter-for/refmegye/' + refmegye + '">' + name + '</a>')
+    return '<p>Szűrők: ' + " &brvbar; ".join(items) + '</p>'
+
+
 def handle_main(request_uri: str, relations: Dict[str, Any], workdir: str) -> str:
     """Handles the main wsgi page.
 
-    Also handles /osm/filter-for/incomplete which filters out complete relations."""
+    Also handles /osm/filter-for/* which filters for a condition."""
     tokens = request_uri.split("/")
-    filter_for_incomplete = False
+    filter_for = filter_for_everything  # type: Callable[[bool, str], bool]
     if len(tokens) >= 2 and tokens[-2] == "filter-for" and tokens[-1] == "incomplete":
-        filter_for_incomplete = True
+        # /osm/filter-for/incomplete
+        filter_for = filter_for_incomplete
+    elif len(tokens) >= 3 and tokens[-3] == "filter-for" and tokens[-2] == "refmegye":
+        # /osm/filter-for/refmegye/<value>.
+        filter_for = create_filter_for_refmegye(tokens[-1])
 
     output = ""
 
     output += "<h1>Hol térképezzek?</h1>"
-    if not filter_for_incomplete:
-        output += '<p><a href="/osm/filter-for/incomplete">Kész területek elrejtése</a></p>'
+    output += handle_main_filters(relations)
     table = []
     table.append(["Terület",
                   "Házszám lefedettség",
@@ -445,13 +478,13 @@ def handle_main(request_uri: str, relations: Dict[str, Any], workdir: str) -> st
         row.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation["osmrelation"])
                    + "\">terület határa</a>")
 
-        if filter_for_incomplete is False or complete is False:
+        if filter_for(complete, relation["refmegye"]):
             table.append(row)
     output += helpers.html_table_from_list(table)
-    output += "<a href=\"" + \
+    output += "<p><a href=\"" + \
               "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
               "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
-              "Új terület hozzáadása</a>"
+              "Új terület hozzáadása</a></p>"
 
     return get_header() + output + get_footer()
 

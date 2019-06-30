@@ -755,5 +755,13 @@ class TestGetRelationMissingStreets(unittest.TestCase):
         self.assertEqual(ret, "no")
 
 
+class TestRefmegyeGetName(unittest.TestCase):
+    """Tests refmegye_get_name()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        self.assertEqual(helpers.refmegye_get_name("01"), "Budapest")
+        self.assertEqual(helpers.refmegye_get_name("99"), "")
+
+
 if __name__ == '__main__':
     unittest.main()
