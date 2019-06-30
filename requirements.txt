@@ -1,7 +1,6 @@
 coverage==4.4.2
 flake8==3.7.7
 mypy==0.670
-pycodestyle
 pylint
 pytz
 pyyaml
