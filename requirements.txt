@@ -3,5 +3,5 @@ flake8==3.7.7
 mypy==0.670
 pylint
 pytz==2018.5
-pyyaml
+pyyaml==3.13
 yamale==1.10.0
