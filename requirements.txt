@@ -2,6 +2,6 @@ coverage==4.4.2
 flake8==3.7.7
 mypy==0.670
 pylint
-pytz
+pytz==2018.5
 pyyaml
 yamale==1.10.0
