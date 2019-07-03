@@ -35,7 +35,8 @@ filters:
   Bocskai út:
     ranges:
       - {start: '67', end: '79'}
-      - {start: '2', end: '52'}
+      - {start: '2', end: '24'}
+      - {start: '30', end: '52'}
       - {start: '74', end: '90'}
       - {start: '134', end: '146'}
   Bogyó utca:
@@ -53,9 +54,6 @@ filters:
       - {start: '105', end: '115'}
       - {start: '183', end: '229'}
       - {start: '52', end: '198'}
-  Budaörsi út:
-    ranges:
-      - {start: '26', end: '56'}
   Csóka utca:
     ranges:
       - {start: '1', end: '13'}
