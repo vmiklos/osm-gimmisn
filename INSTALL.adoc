@@ -2,7 +2,7 @@
 
 == Linux (openSUSE Leap 15.1)
 
-Install dependencies, so that you can run `make check`:
+Install dependencies, so that you can run the tests:
 
 ----
 sudo zypper install mypy
@@ -13,6 +13,19 @@ sudo zypper install python3-pylint
 sudo zypper install python3-pytz
 sudo zypper install python3-yamllint
 pip install --user yamale
+make check
 ----
 
-TODO document how to set up `wsgi.ini`, etc.
+Then you can create a local config:
+
+----
+cp data/wsgi.ini.template wsgi.ini
+----
+
+Populate the reference directory with TSV files for the house number and street list, then run:
+
+----
+make server
+----
+
+This allows accessing your local instance for development.

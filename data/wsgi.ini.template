@@ -1,3 +1,4 @@
 [wsgi]
-# workdir = /path/to/workdir
-reference_local = /path/to/my.tsv
+workdir = workdir
+reference_local = refdir/hazszamok_20190511.tsv
+reference_street = refdir/utcak_20190514.tsv
