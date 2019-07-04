@@ -702,7 +702,12 @@ def format_even_odd(only_in_ref: List[str]) -> str:
     even_string = ", ".join(even)
     odd = sorted([i for i in only_in_ref if int(i) % 2 == 1], key=int)
     odd_string = ", ".join(odd)
-    return "<br/>".join([odd_string, even_string])
+    elements = []
+    if odd_string:
+        elements.append(odd_string)
+    if even_string:
+        elements.append(even_string)
+    return "<br/>".join(elements)
 
 
 def write_suspicious_streets_result(
