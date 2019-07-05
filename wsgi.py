@@ -76,8 +76,11 @@ def handle_streets(request_uri: str, workdir: str, relations: Dict[str, Any]) ->
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
         query = helpers.get_streets_query(get_datadir(), relations, relation)
-        helpers.write_streets_result(workdir, relation, overpass_query.overpass_query(query))
-        output += "Frissítés sikeres."
+        try:
+            helpers.write_streets_result(workdir, relation, overpass_query.overpass_query(query))
+            output += "Frissítés sikeres."
+        except urllib.error.HTTPError as http_error:
+            output += "Overpass hiba: " + str(http_error)
 
     osmrelation = relations[relation]["osmrelation"]
     date = get_streets_last_modified(workdir, relation)
@@ -102,8 +105,11 @@ def handle_street_housenumbers(request_uri: str, workdir: str, relations: Dict[s
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
         query = helpers.get_street_housenumbers_query(get_datadir(), relations, relation)
-        helpers.write_street_housenumbers(workdir, relation, overpass_query.overpass_query(query))
-        output += "Frissítés sikeres."
+        try:
+            helpers.write_street_housenumbers(workdir, relation, overpass_query.overpass_query(query))
+            output += "Frissítés sikeres."
+        except urllib.error.HTTPError as http_error:
+            output += "Overpass hiba: " + str(http_error)
 
     osmrelation = relations[relation]["osmrelation"]
     date = get_housenumbers_last_modified(workdir, relation)

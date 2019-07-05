@@ -8,6 +8,7 @@
 """The overpass_query module allows getting data out of the OSM DB without a full download."""
 
 from urllib.request import urlopen
+import urllib.error
 import re
 import sys
 
@@ -47,9 +48,12 @@ def main() -> None:
     query = sock.read()
     sock.close()
 
-    buf = overpass_query(query)
+    try:
+        buf = overpass_query(query)
 
-    sys.stdout.write(buf)
+        sys.stdout.write(buf)
+    except urllib.error.HTTPError as http_error:
+        print("overpass query failed: " + str(http_error))
 
 
 if __name__ == "__main__":
