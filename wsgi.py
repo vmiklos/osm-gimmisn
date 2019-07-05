@@ -497,7 +497,7 @@ def handle_main(request_uri: str, relations: Dict[str, Any], workdir: str) -> st
 
 
 def get_header(function: str = "", relation_name: str = "", relation_osmid: int = 0) -> str:
-    """Produces the start of the page. Note that the contnt depends on the function and the
+    """Produces the start of the page. Note that the content depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
     title = ""
