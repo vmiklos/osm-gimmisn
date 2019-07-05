@@ -4,4 +4,4 @@ rules:
   document-start:
     present: no
   line-length:
-    max: 120
+    max: 999
