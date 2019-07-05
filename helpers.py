@@ -293,7 +293,7 @@ def git_link(version: str, prefix: str) -> str:
 
 def get_nth_column(path: str, column: int) -> List[str]:
     """Reads the content of path, interprets its content as tab-separated values, finally returns
-    the values of the nth column. If a row has less columns, that's silentely ignored."""
+    the values of the nth column. If a row has less columns, that's silently ignored."""
     ret = []
 
     with open(path) as sock:
