@@ -29,3 +29,48 @@ make server
 ----
 
 This allows accessing your local instance for development.
+
+== Windows (10)
+
+Install dependencies:
+
+- Install git from <https://git-scm.com/download/win>, so you can clone the repo in the Command
+  Prompt:
+
+----
+git clone <this repo URL>
+----
+
+- Install Python (3.7) from the Microsoft Store.
+
+- Install Python dependencies:
+
+----
+cd osm-gimmisn
+pip install -r requirements.txt
+----
+
+- Install `make`, you can find an executable via mingw, see
+  <http://www.mingw.org/wiki/Getting_Started>.
+
+- Build the generated code:
+
+----
+make
+----
+
+Check `version.py`, remove leftover quotes at line start/end from Windows' `echo` command.
+
+Then you can create a local config:
+
+----
+copy data\wsgi.ini.template wsgi.ini
+----
+
+Populate the reference directory with TSV files for the house number and street list, then run:
+
+----
+python wsgi.py
+----
+
+This allows accessing your local instance for development.

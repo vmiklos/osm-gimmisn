@@ -15,6 +15,7 @@ import traceback
 import urllib.parse
 import json
 import subprocess
+import sys
 from typing import Any
 from typing import Dict
 from typing import Callable
@@ -679,6 +680,11 @@ def application(
 
 def main() -> None:
     """Commandline interface to this module."""
+    if sys.platform.startswith("win"):
+        import _locale
+        # pylint: disable=protected-access
+        _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
+
     httpd = wsgiref.simple_server.make_server('', 8000, application)
     print("Open <http://localhost:8000/osm> in your browser.")
     httpd.serve_forever()
