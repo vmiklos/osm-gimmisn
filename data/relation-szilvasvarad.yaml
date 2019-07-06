@@ -1,4 +1,5 @@
 suspicious-relations: yes
+filters: {}
 refstreets:
   'Szalajka utca': 'Szalajka út'
 source: survey
