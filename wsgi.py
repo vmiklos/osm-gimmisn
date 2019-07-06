@@ -199,7 +199,8 @@ def suspicious_streets_view_txt(request_uri: str, workdir: str) -> str:
         for result in suspicious_streets:
             if result[1]:
                 # House number, only_in_reference items.
-                row = result[0] + "\t[" + ", ".join(result[1]) + "]"
+                elements = helpers.format_even_odd(result[1])
+                row = result[0] + "\t[" + "], [".join(elements) + "]"
                 table.append(row)
         table.sort(key=locale.strxfrm)
         output += "\n".join(table)

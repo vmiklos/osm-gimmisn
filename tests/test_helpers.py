@@ -767,15 +767,15 @@ class TestFormatEvenOdd(unittest.TestCase):
     """Tests format_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        self.assertEqual(helpers.format_even_odd(["1", "2"]), "1<br/>2")
+        self.assertEqual(helpers.format_even_odd(["1", "2"]), ["1", "2"])
 
     def test_only_odd(self) -> None:
         """Tests when we have odd numbers only."""
-        self.assertEqual(helpers.format_even_odd(["1", "3"]), "1, 3")
+        self.assertEqual(helpers.format_even_odd(["1", "3"]), ["1, 3"])
 
     def test_only_even(self) -> None:
         """Tests when we have even numbers only."""
-        self.assertEqual(helpers.format_even_odd(["2", "4"]), "2, 4")
+        self.assertEqual(helpers.format_even_odd(["2", "4"]), ["2, 4"])
 
 
 if __name__ == '__main__':
