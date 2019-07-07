@@ -15,6 +15,7 @@ from typing import Callable
 from typing import Dict
 from typing import Iterable
 from typing import List
+from typing import Optional
 from typing import Sequence
 from typing import TextIO
 from typing import Tuple
@@ -24,10 +25,12 @@ import yaml
 
 class Range:
     """A range object represents an odd or even range of integer numbers."""
-    def __init__(self, start: int, end: int) -> None:
+    def __init__(self, start: int, end: int, interpolation: str = "") -> None:
         self.__start = start
         self.__end = end
-        self.__is_odd = start % 2 == 1
+        self.__is_odd = start % 2 == 1  # type: Optional[bool]
+        if interpolation == "all":
+            self.__is_odd = None
 
     def get_start(self) -> int:
         """The smallest integer."""
@@ -37,8 +40,12 @@ class Range:
         """The largest integer."""
         return self.__end
 
+    def is_odd(self) -> Optional[bool]:
+        """None for all house numbers on one side, bool otherwise."""
+        return self.__is_odd
+
     def __contains__(self, item: int) -> bool:
-        if self.__is_odd != (item % 2 == 1):
+        if (self.__is_odd is not None) and self.__is_odd != (item % 2 == 1):
             return False
         if self.__start <= item <= self.__end:
             return True
@@ -52,6 +59,8 @@ class Range:
         if self.__start != other_range.get_start():
             return False
         if self.__end != other_range.get_end():
+            return False
+        if self.__is_odd != other_range.is_odd():
             return False
         return True
 
@@ -360,11 +369,14 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
     if "filters" in root.keys():
         filters = root["filters"]
         for street in filters.keys():
+            interpolation = ""
+            if "interpolation" in filters[street]:
+                interpolation = filters[street]["interpolation"]
             i = []
             if "ranges" not in filters[street]:
                 continue
             for start_end in filters[street]["ranges"]:
-                i.append(Range(int(start_end["start"]), int(start_end["end"])))
+                i.append(Range(int(start_end["start"]), int(start_end["end"]), interpolation))
             filter_dict[street] = Ranges(i)
 
     if "refstreets" in root.keys():

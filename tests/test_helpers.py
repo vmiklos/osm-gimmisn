@@ -198,6 +198,12 @@ class TestRange(unittest.TestCase):
         """Tests equality code."""
         self.assertTrue(helpers.Range(1, 5) != helpers.Range(3, 5))
         self.assertTrue(helpers.Range(1, 5) != helpers.Range(1, 3))
+        self.assertTrue(helpers.Range(1, 3) != helpers.Range(1, 3, interpolation="all"))
+
+    def test_interpolation_all(self) -> None:
+        """Tests the interpolation modes."""
+        self.assertFalse(2 in helpers.Range(1, 3))
+        self.assertTrue(2 in helpers.Range(1, 3, interpolation="all"))
 
 
 class TestRanges(unittest.TestCase):
@@ -318,6 +324,7 @@ class TestLoadNormalizers(unittest.TestCase):
         expected_filters = {
             "Budaörsi út": helpers.Ranges([helpers.Range(137, 165)]),
             "Csiki-hegyek utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
+            'Hamzsabégi út': helpers.Ranges([helpers.Range(start=23, end=64, interpolation="all")])
         }
         self.assertEqual(filters, expected_filters)
         expected_streets = {

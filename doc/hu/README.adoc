@@ -118,6 +118,9 @@ van szükség:
 - `reftelepules` tartomány szinten: ez akkor hasznos ha egy utca két oldala más
   településhez/kerülethez tartozik. (Példa: `krisztinavaros`.)
 
+- `interpolation`: ez a kulcs egy utcára adható meg. Ha az értéke `all`, akkor páros/páratlan oldal
+  helyett egyetlen tartományt elég megadni ahol folyamatos a számozás.
+
 == Hiányzó utcák keresése
 
 Ez egy új erőfeszítés, egyelőre a yaml formátum így néz ki:

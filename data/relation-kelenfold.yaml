@@ -141,10 +141,9 @@ filters:
       - {start: '1', end: '67'}
       - {start: '2', end: '46'}
   Hamzsabégi út:
-    # folyamatos hazszamok
+    interpolation: 'all'
     ranges:
-      - {start: '23', end: '63'}
-      - {start: '22', end: '64'}
+      - {start: '23', end: '64'}
   Harcos tér:
     ranges:
       - {start: '5', end: '5'}
