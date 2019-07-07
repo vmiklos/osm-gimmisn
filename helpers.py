@@ -682,6 +682,40 @@ def get_relations(datadir: str) -> Dict[str, Any]:
         return root
 
 
+def relation_init(datadir: str, relation: str) -> Dict[str, Any]:
+    """Returns a relation from a yaml path."""
+    with open(os.path.join(datadir, "relation-%s.yaml" % relation)) as sock:
+        root = {}  # type: Dict[str, Any]
+        root = yaml.load(sock)
+        return root
+
+
+def relation_get_filters(relation: Dict[str, Any]) -> Dict[str, Any]:
+    """Returns filters from a relation."""
+    if "filters" in relation.keys():
+        return cast(Dict[str, Any], relation["filters"])
+
+    return {}
+
+
+def relation_filters_get_street(filters: Dict[str, Any], street: str) -> Dict[str, Any]:
+    """Returns a street from relation filters."""
+    if street in filters.keys():
+        return cast(Dict[str, Any], filters[street])
+
+    return {}
+
+
+def relation_street_is_even_odd(street: Dict[str, Any]) -> bool:
+    """Determines in a relation's street is interpolation=all or not."""
+    interpolation_all = False
+    if "interpolation" in street:
+        if street["interpolation"] == "all":
+            interpolation_all = True
+
+    return not interpolation_all
+
+
 def get_streets_query(datadir: str, relations: Dict[str, Any], relation: str) -> str:
     """Produces a query which lists streets in relation."""
     with open(os.path.join(datadir, "streets-template.txt")) as sock:
@@ -729,16 +763,24 @@ def write_suspicious_streets_result(
 ) -> Tuple[int, int, int, str, List[List[str]]]:
     """Calculate a write stat for the house number coverage of a relation."""
     suspicious_streets, done_streets = get_suspicious_streets(datadir, workdir, relation)
+
+    relation_filters = relation_get_filters(relation_init(datadir, relation))
+
     todo_count = 0
     table = []
     table.append(["Utcanév", "Hiányzik db", "Házszámok"])
     for result in suspicious_streets:
-        # House number, # of only_in_reference items.
+        # Street name, # of only_in_reference items.
         row = []
         row.append(result[0])
         only_in_ref = result[1]
         row.append(str(len(only_in_ref)))
-        row.append("<br/>".join(format_even_odd(only_in_ref)))
+
+        if not relation_street_is_even_odd(relation_filters_get_street(relation_filters, result[0])):
+            row.append(", ".join(only_in_ref))
+        else:
+            row.append("<br/>".join(format_even_odd(only_in_ref)))
+
         todo_count += len(only_in_ref)
         table.append(row)
     done_count = 0

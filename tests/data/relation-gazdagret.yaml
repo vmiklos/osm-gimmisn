@@ -8,12 +8,13 @@ filters:
       - {start: '1', end: '15', reftelepules: '013'}
       - {start: '2', end: '26'}
   'Teszt utca':
+    interpolation: 'notall'
     # test: this would be 011 by default, but here it's overwritten at a street level
     reftelepules: "012"
-  Hamzsabégi út:
+  'Hamzsabégi út':
     interpolation: 'all'
     ranges:
-      - {start: '23', end: '64'}
+      - {start: '1', end: '2'}
 street-filters:
   - Only In Ref Nonsense utca
 refstreets:

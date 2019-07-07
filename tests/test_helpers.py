@@ -278,7 +278,7 @@ class TestWriteStreetsResult(unittest.TestCase):
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation = "gazdagret"
-        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n"
+        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
         expected = helpers.get_content(workdir, "streets-gazdagret.csv")
         helpers.write_streets_result(workdir, relation, result_from_overpass)
         actual = helpers.get_content(workdir, "streets-gazdagret.csv")
@@ -311,7 +311,7 @@ class TestGetContent(unittest.TestCase):
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         actual = helpers.get_content(workdir, "gazdagret.percent")
-        expected = "60.00"
+        expected = "54.55"
         self.assertEqual(actual, expected)
 
 
@@ -324,7 +324,7 @@ class TestLoadNormalizers(unittest.TestCase):
         expected_filters = {
             "Budaörsi út": helpers.Ranges([helpers.Range(137, 165)]),
             "Csiki-hegyek utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
-            'Hamzsabégi út': helpers.Ranges([helpers.Range(start=23, end=64, interpolation="all")])
+            'Hamzsabégi út': helpers.Ranges([helpers.Range(start=1, end=2, interpolation="all")])
         }
         self.assertEqual(filters, expected_filters)
         expected_streets = {
@@ -494,7 +494,8 @@ class TestGetStreetsFromLst(unittest.TestCase):
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
         house_numbers = helpers.get_streets_from_lst(workdir, relation_name)
-        self.assertEqual(house_numbers, ['Only In Ref Nonsense utca',
+        self.assertEqual(house_numbers, ['Hamzsabégi út',
+                                         'Only In Ref Nonsense utca',
                                          'Only In Ref utca',
                                          'Ref Name 1',
                                          'Törökugrató utca',
@@ -522,7 +523,9 @@ class TestGetSuspiciousStreets(unittest.TestCase):
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
         suspicious_streets, done_streets = helpers.get_suspicious_streets(datadir, workdir, relation_name)
-        self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']), ('Tűzkő utca', ['1', '2'])])
+        self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']),
+                                              ('Tűzkő utca', ['1', '2']),
+                                              ('Hamzsabégi út', ['1'])])
         expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
         self.assertEqual(done_streets, expected)
 
@@ -539,7 +542,7 @@ class TestGetSuspiciousRelations(unittest.TestCase):
         # Not that 'Only In Ref Nonsense utca' is missing from this list.
         self.assertEqual(only_in_reference, ['Only In Ref utca'])
 
-        self.assertEqual(in_both, ['Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
+        self.assertEqual(in_both, ['Hamzsabégi út', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
 
 class TestWriteSuspicousStreetsResult(unittest.TestCase):
@@ -552,13 +555,14 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         expected = helpers.get_content(workdir, "gazdagret.percent")
         ret = helpers.write_suspicious_streets_result(datadir, workdir, relation_name)
         todo_street_count, todo_count, done_count, percent, table = ret
-        self.assertEqual(todo_street_count, 2)
-        self.assertEqual(todo_count, 4)
+        self.assertEqual(todo_street_count, 3)
+        self.assertEqual(todo_count, 5)
         self.assertEqual(done_count, 6)
-        self.assertEqual(percent, '60.00')
+        self.assertEqual(percent, '54.55')
         self.assertEqual(table, [['Utcanév', 'Hiányzik db', 'Házszámok'],
                                  ['Törökugrató utca', '2', '7<br/>10'],
-                                 ['Tűzkő utca', '2', '1<br/>2']])
+                                 ['Tűzkő utca', '2', '1<br/>2'],
+                                 ['Hamzsabégi út', '1', '1']])
         actual = helpers.get_content(workdir, "gazdagret.percent")
         self.assertEqual(actual, expected)
 
@@ -573,7 +577,7 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         os.unlink(os.path.join(workdir, "empty.percent"))
 
 
-class TestWriteMissingRelationssResult(unittest.TestCase):
+class TestWriteMissingRelationsResult(unittest.TestCase):
     """Tests write_missing_relations_result()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -584,8 +588,8 @@ class TestWriteMissingRelationssResult(unittest.TestCase):
         ret = helpers.write_missing_relations_result(datadir, workdir, relation_name)
         todo_count, done_count, percent, streets = ret
         self.assertEqual(todo_count, 1)
-        self.assertEqual(done_count, 3)
-        self.assertEqual(percent, '75.00')
+        self.assertEqual(done_count, 4)
+        self.assertEqual(percent, '80.00')
         self.assertEqual(streets, ['Only In Ref utca'])
         actual = helpers.get_content(workdir, "gazdagret-streets.percent")
         self.assertEqual(actual, expected)
@@ -610,7 +614,8 @@ class TestBuildReferenceCache(unittest.TestCase):
         memory_cache = helpers.build_reference_cache(refpath)
         expected = {'01': {'011': {'Ref Name 1': ['1', '2'],
                                    'Törökugrató utca': ['1', '10', '2', '7'],
-                                   'Tűzkő utca': ['1', '10', '2', '9']}}}
+                                   'Tűzkő utca': ['1', '10', '2', '9'],
+                                   'Hamzsabégi út': ['1']}}}
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 
@@ -620,7 +625,8 @@ class TestBuildReferenceCache(unittest.TestCase):
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         helpers.build_reference_cache(refpath)
         memory_cache = helpers.build_reference_cache(refpath)
-        expected = {'01': {'011': {'Ref Name 1': ['1', '2'],
+        expected = {'01': {'011': {'Hamzsabégi út': ['1'],
+                                   'Ref Name 1': ['1', '2'],
                                    'Törökugrató utca': ['1', '10', '2', '7'],
                                    'Tűzkő utca': ['1', '10', '2', '9']}}}
         self.assertEqual(memory_cache, expected)
@@ -638,7 +644,8 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
                                    'Tűzkő utca',
                                    'Ref Name 1',
                                    'Only In Ref utca',
-                                   'Only In Ref Nonsense utca']}}
+                                   'Only In Ref Nonsense utca',
+                                   'Hamzsabégi út']}}
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 
@@ -652,7 +659,8 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
                                    'Tűzkő utca',
                                    'Ref Name 1',
                                    'Only In Ref utca',
-                                   'Only In Ref Nonsense utca']}}
+                                   'Only In Ref Nonsense utca',
+                                   'Hamzsabégi út']}}
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 
@@ -696,7 +704,8 @@ class TestStreetsOfRelation(unittest.TestCase):
                                'Tűzkő utca',
                                'Ref Name 1',
                                'Only In Ref utca',
-                               'Only In Ref Nonsense utca'])
+                               'Only In Ref Nonsense utca',
+                               'Hamzsabégi út'])
 
 
 class TestGetReferenceHousenumbers(unittest.TestCase):
@@ -783,6 +792,20 @@ class TestFormatEvenOdd(unittest.TestCase):
     def test_only_even(self) -> None:
         """Tests when we have even numbers only."""
         self.assertEqual(helpers.format_even_odd(["2", "4"]), ["2, 4"])
+
+
+class TestRelationStreetIsEvenOdd(unittest.TestCase):
+    """Tests relation_street_is_even_odd()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
+        relation = helpers.relation_init(datadir, "gazdagret")
+        filters = helpers.relation_get_filters(relation)
+        street = helpers.relation_filters_get_street(filters, "Hamzsabégi út")
+        self.assertFalse(helpers.relation_street_is_even_odd(street))
+
+        street = helpers.relation_filters_get_street(filters, "Teszt utca")
+        self.assertTrue(helpers.relation_street_is_even_odd(street))
 
 
 if __name__ == '__main__':

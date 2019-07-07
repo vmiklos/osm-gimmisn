@@ -195,12 +195,20 @@ def suspicious_streets_view_txt(request_uri: str, workdir: str) -> str:
         output += "Nincsenek referencia házszámok"
     else:
         suspicious_streets, _ = helpers.get_suspicious_streets(get_datadir(), workdir, relation)
+
+        relation_root = helpers.relation_init(get_datadir(), relation)
+        relation_filters = helpers.relation_get_filters(relation_root)
+
         table = []
         for result in suspicious_streets:
             if result[1]:
-                # House number, only_in_reference items.
-                elements = helpers.format_even_odd(result[1])
-                row = result[0] + "\t[" + "], [".join(elements) + "]"
+                # Street name, only_in_reference items.
+                relation_street = helpers.relation_filters_get_street(relation_filters, result[0])
+                if not helpers.relation_street_is_even_odd(relation_street):
+                    row = result[0] + "\t[" + ", ".join(result[1]) + "]"
+                else:
+                    elements = helpers.format_even_odd(result[1])
+                    row = result[0] + "\t[" + "], [".join(elements) + "]"
                 table.append(row)
         table.sort(key=locale.strxfrm)
         output += "\n".join(table)
