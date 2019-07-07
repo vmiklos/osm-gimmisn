@@ -136,8 +136,7 @@ def parse_relation_yaml(
 
 def get_street_details(datadir: str, street: str, relation_name: str) -> Tuple[str, List[str], str, str]:
     """Determines the ref codes, street name and type for a street in a relation."""
-    with open(os.path.join(datadir, "relations.yaml")) as sock:
-        relations = yaml.load(sock)
+    relations = get_relations(datadir)
     relation = relations[relation_name]
     refmegye = relation["refmegye"]
     reftelepules_list = [relation["reftelepules"]]
@@ -624,8 +623,7 @@ def house_numbers_of_street(
 
 def streets_of_relation(datadir: str, reference: Dict[str, Dict[str, List[str]]], relation_name: str) -> List[str]:
     """Gets street names for a relation from a reference."""
-    with open(os.path.join(datadir, "relations.yaml")) as sock:
-        relations = yaml.load(sock)
+    relations = get_relations(datadir)
     relation = relations[relation_name]
     refmegye = relation["refmegye"]
     reftelepules = relation["reftelepules"]
