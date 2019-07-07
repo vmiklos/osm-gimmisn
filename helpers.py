@@ -90,13 +90,9 @@ class Ranges:
 
 def get_relation_missing_streets(datadir: str, relation_name: str) -> str:
     """Return value can be yes, no and only. Current default is "no", and "yes" is not yet handled."""
-    relation_path = os.path.join(datadir, "relation-%s.yaml" % relation_name)
-    if os.path.exists(relation_path):
-        with open(relation_path) as sock:
-            # See if config wants to map:
-            root = yaml.load(sock)
-            if "suspicious-relations" in root:
-                return cast(str, root["suspicious-relations"])
+    root = relation_init(datadir, relation_name)
+    if "suspicious-relations" in root:
+        return cast(str, root["suspicious-relations"])
 
     return "no"
 
@@ -147,11 +143,9 @@ def get_street_details(datadir: str, street: str, relation_name: str) -> Tuple[s
     reftelepules_list = [relation["reftelepules"]]
 
     refstreets = {}  # type: Dict[str, str]
-    if os.path.exists(os.path.join(datadir, "relation-%s.yaml" % relation_name)):
-        with open(os.path.join(datadir, "relation-%s.yaml" % relation_name)) as sock:
-            # See if config wants to map:
-            root = yaml.load(sock)
-            refstreets, reftelepules_list = parse_relation_yaml(root, street, refstreets, reftelepules_list)
+    root = relation_init(datadir, relation_name)
+    if root:
+        refstreets, reftelepules_list = parse_relation_yaml(root, street, refstreets, reftelepules_list)
 
     if street in refstreets.keys():
         street = refstreets[street]
@@ -359,12 +353,9 @@ def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges
     ref_streets = {}  # type: Dict[str, str]
     street_filters = []  # type: List[str]
 
-    path = os.path.join(datadir, "relation-%s.yaml" % relation_name)
-    if not os.path.exists(path):
+    root = relation_init(datadir, relation_name)
+    if not root:
         return filter_dict, ref_streets, street_filters
-
-    with open(path) as sock:
-        root = yaml.load(sock)
 
     if "filters" in root.keys():
         filters = root["filters"]
@@ -682,12 +673,16 @@ def get_relations(datadir: str) -> Dict[str, Any]:
         return root
 
 
-def relation_init(datadir: str, relation: str) -> Dict[str, Any]:
+def relation_init(datadir: str, relation_name: str) -> Dict[str, Any]:
     """Returns a relation from a yaml path."""
-    with open(os.path.join(datadir, "relation-%s.yaml" % relation)) as sock:
-        root = {}  # type: Dict[str, Any]
-        root = yaml.load(sock)
-        return root
+    relation_path = os.path.join(datadir, "relation-%s.yaml" % relation_name)
+    if os.path.exists(relation_path):
+        with open(relation_path) as sock:
+            root = {}  # type: Dict[str, Any]
+            root = yaml.load(sock)
+            return root
+
+    return {}
 
 
 def relation_get_filters(relation: Dict[str, Any]) -> Dict[str, Any]:
