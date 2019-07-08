@@ -293,33 +293,35 @@ def git_link(version: str, prefix: str) -> str:
     return "<a href=\"" + prefix + commit_hash + "\">" + version + "</a>"
 
 
-def get_nth_column(path: str, column: int) -> List[str]:
-    """Reads the content of path, interprets its content as tab-separated values, finally returns
+def get_nth_column(sock: TextIO, column: int) -> List[str]:
+    """Reads the content from sock, interprets its content as tab-separated values, finally returns
     the values of the nth column. If a row has less columns, that's silently ignored."""
     ret = []
 
-    with open(path) as sock:
-        first = True
-        for line in sock.readlines():
-            if first:
-                first = False
-                continue
+    first = True
+    for line in sock.readlines():
+        if first:
+            first = False
+            continue
 
-            tokens = line.strip().split('\t')
-            if len(tokens) < column + 1:
-                continue
+        tokens = line.strip().split('\t')
+        if len(tokens) < column + 1:
+            continue
 
-            ret.append(tokens[column])
+        ret.append(tokens[column])
 
     return ret
 
 
 def get_osm_streets(workdir: str, relation_name: str) -> List[str]:
     """Reads list of streets for an area from OSM."""
-    ret = get_nth_column(os.path.join(workdir, "streets-%s.csv" % relation_name), 1)
+    ret = []  # type: List[str]
+    with open(os.path.join(workdir, "streets-%s.csv" % relation_name)) as sock:
+        ret += get_nth_column(sock, 1)
     house_numbers = os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)
     if os.path.exists(house_numbers):
-        ret += get_nth_column(house_numbers, 1)
+        with open(house_numbers) as sock:
+            ret += get_nth_column(sock, 1)
     return sorted(set(ret))
 
 
