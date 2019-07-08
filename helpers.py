@@ -314,7 +314,7 @@ def get_nth_column(path: str, column: int) -> List[str]:
     return ret
 
 
-def get_streets(workdir: str, relation_name: str) -> List[str]:
+def get_osm_streets(workdir: str, relation_name: str) -> List[str]:
     """Reads list of streets for an area from OSM."""
     ret = get_nth_column(os.path.join(workdir, "streets-%s.csv" % relation_name), 1)
     house_numbers = os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)
@@ -495,7 +495,7 @@ def get_suspicious_streets(
     suspicious_streets = []
     done_streets = []
 
-    street_names = get_streets(workdir, relation_name)
+    street_names = get_osm_streets(workdir, relation_name)
     normalizers, ref_streets, _street_filters = load_normalizers(datadir, relation_name)
     for street_name in street_names:
         ref_street = street_name
@@ -523,7 +523,7 @@ def get_suspicious_relations(datadir: str, workdir: str, relation_name: str) -> 
     reference_streets = get_streets_from_lst(workdir, relation_name)
     _, ref_streets, street_blacklist = load_normalizers(datadir, relation_name)
     osm_streets = []
-    for street in get_streets(workdir, relation_name):
+    for street in get_osm_streets(workdir, relation_name):
         if street in ref_streets.keys():
             street = ref_streets[street]
         osm_streets.append(street)
@@ -636,7 +636,7 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
     from OSM."""
     memory_cache = build_reference_cache(reference)
 
-    streets = get_streets(workdir, relation_name)
+    streets = get_osm_streets(workdir, relation_name)
 
     lst = []  # type: List[str]
     for street in streets:

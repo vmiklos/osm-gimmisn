@@ -156,19 +156,19 @@ class TestGitLink(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestGetStreets(unittest.TestCase):
-    """Tests get_streets()."""
+class TestGetOsmStreets(unittest.TestCase):
+    """Tests get_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = helpers.get_streets(workdir, "test")
+        actual = helpers.get_osm_streets(workdir, "test")
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
     def test_no_house_number(self) -> None:
         """Tests the case when we have streets, but no house numbers."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = helpers.get_streets(workdir, "ujbuda")
+        actual = helpers.get_osm_streets(workdir, "ujbuda")
         expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
         self.assertEqual(actual, expected)
 
