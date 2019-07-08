@@ -74,11 +74,11 @@ filters:
       - {start: '62', end: '64'}
   Dombóvári út:
     # folyamatos, 6-8, 9-et epitik, 10-11, 13-14, 17-19
+    interpolation: 'all'
     ranges:
       - {start: '1', end: '3'}
-      - {start: '9', end: '13'}
-      - {start: '17', end: '19'}
-      - {start: '2', end: '20'}
+      - {start: '9', end: '14'}
+      - {start: '17', end: '20'}
   Egér út:
     ranges: []
   Ercsi út:
@@ -246,10 +246,9 @@ filters:
       - {start: '1', end: '85'}
       - {start: '2', end: '98'}
   Sárbogárdi út:
-    # folyamatos hazszamozas
+    interpolation: 'all'
     ranges:
-      - {start: '1', end: '25'}
-      - {start: '2', end: '26'}
+      - {start: '1', end: '26'}
   Solt utca:
     ranges:
       - {start: '24', end: '98'}
