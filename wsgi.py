@@ -71,7 +71,7 @@ def handle_streets(request_uri: str, workdir: str, relations: Dict[str, Any]) ->
         output += helpers.get_streets_query(get_datadir(), relations, relation)
         output += "</pre>"
     elif action == "view-result":
-        with open(os.path.join(workdir, "streets-%s.csv" % relation)) as sock:
+        with helpers.get_streets(workdir, relation, "r") as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":

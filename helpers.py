@@ -97,6 +97,12 @@ def get_relation_missing_streets(datadir: str, relation_name: str) -> str:
     return "no"
 
 
+def get_streets(workdir: str, relation_name: str, mode: str) -> TextIO:
+    """Opens the OSM street list of a relation for writing."""
+    path = os.path.join(workdir, "streets-%s.csv" % relation_name)
+    return cast(TextIO, open(path, mode=mode))
+
+
 def get_reftelepules_list_from_yaml(
         reftelepules_list: List[str],
         value: Dict[str, Any]
@@ -316,7 +322,7 @@ def get_nth_column(sock: TextIO, column: int) -> List[str]:
 def get_osm_streets(workdir: str, relation_name: str) -> List[str]:
     """Reads list of streets for an area from OSM."""
     ret = []  # type: List[str]
-    with open(os.path.join(workdir, "streets-%s.csv" % relation_name)) as sock:
+    with get_streets(workdir, relation_name, "r") as sock:
         ret += get_nth_column(sock, 1)
     house_numbers = os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)
     if os.path.exists(house_numbers):
@@ -720,7 +726,7 @@ def get_streets_query(datadir: str, relations: Dict[str, Any], relation: str) ->
 def write_streets_result(workdir: str, relation: str, result_from_overpass: str) -> None:
     """Writes the result for overpass of get_streets_query()."""
     result = sort_streets_csv(result_from_overpass)
-    with open(os.path.join(workdir, "streets-%s.csv" % relation), mode="w") as sock:
+    with get_streets(workdir, relation, "w") as sock:
         sock.write(result)
 
 
