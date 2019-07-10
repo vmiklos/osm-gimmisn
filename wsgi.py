@@ -130,7 +130,7 @@ def suspicious_streets_view_result(request_uri: str, workdir: str) -> str:
         output += "Nincsenek meglévő házszámok: "
         output += "<a href=\"/osm/street-housenumbers/" + relation + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-reference-" + relation + ".lst")):
+    elif not os.path.exists(helpers.get_housenumbers_reference_path(workdir, relation)):
         output += "Nincsenek hiányzó házszámok: "
         output += "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">"
         output += "Létrehozás referenciából</a>"
@@ -191,7 +191,7 @@ def suspicious_streets_view_txt(request_uri: str, workdir: str) -> str:
         output += "Nincsenek meglévő utcák"
     elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation + ".csv")):
         output += "Nincsenek meglévő házszámok"
-    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-reference-" + relation + ".lst")):
+    elif not os.path.exists(helpers.get_housenumbers_reference_path(workdir, relation)):
         output += "Nincsenek referencia házszámok"
     else:
         suspicious_streets, _ = helpers.get_suspicious_streets(get_datadir(), workdir, relation)
@@ -264,8 +264,7 @@ def handle_suspicious_streets(request_uri: str, workdir: str, relations: Dict[st
         output += suspicious_streets_view_result(request_uri, workdir)
     elif action_noext == "view-query":
         output += "<pre>"
-        path = "street-housenumbers-reference-%s.lst" % relation
-        with open(os.path.join(workdir, path)) as sock:
+        with helpers.get_housenumbers_reference(workdir, relation, "r") as sock:
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
@@ -320,10 +319,14 @@ def get_last_modified(workdir: str, path: str) -> str:
     return format_timestamp(get_timestamp(workdir, path))
 
 
-def get_timestamp(workdir: str, path: str) -> float:
+def get_timestamp(workdir: str, path: str = "") -> float:
     """Gets the timestamp of a file in workdir."""
+    if path:
+        path = os.path.join(workdir, path)
+    else:
+        path = workdir
     try:
-        return os.path.getmtime(os.path.join(workdir, path))
+        return os.path.getmtime(path)
     except FileNotFoundError:
         return 0
 
@@ -338,7 +341,7 @@ def format_timestamp(timestamp: float) -> str:
 
 def ref_housenumbers_last_modified(workdir: str, name: str) -> str:
     """Gets the update date for suspicious streets."""
-    t_ref = get_timestamp(workdir, "street-housenumbers-reference-" + name + ".lst")
+    t_ref = get_timestamp(helpers.get_housenumbers_reference_path(workdir, name))
     t_housenumbers = get_timestamp(workdir, "street-housenumbers-" + name + ".csv")
     return format_timestamp(max(t_ref, t_housenumbers))
 

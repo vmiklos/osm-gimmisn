@@ -98,8 +98,19 @@ def get_relation_missing_streets(datadir: str, relation_name: str) -> str:
 
 
 def get_streets(workdir: str, relation_name: str, mode: str) -> TextIO:
-    """Opens the OSM street list of a relation for writing."""
+    """Opens the OSM street list of a relation."""
     path = os.path.join(workdir, "streets-%s.csv" % relation_name)
+    return cast(TextIO, open(path, mode=mode))
+
+
+def get_housenumbers_reference_path(workdir: str, relation_name: str) -> str:
+    """Build the file name of the reference house number list of a relation."""
+    return os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name)
+
+
+def get_housenumbers_reference(workdir: str, relation_name: str, mode: str) -> TextIO:
+    """Opens the reference house number list of a relation."""
+    path = get_housenumbers_reference_path(workdir, relation_name)
     return cast(TextIO, open(path, mode=mode))
 
 
@@ -451,7 +462,7 @@ def get_house_numbers_from_lst(
     house_numbers = []  # type: List[str]
     lst_street_name = ref_street
     prefix = lst_street_name + " "
-    with open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name)) as sock:
+    with get_housenumbers_reference(workdir, relation_name, "r") as sock:
         for line in sock.readlines():
             line = line.strip()
             if line.startswith(prefix):
@@ -651,10 +662,9 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
         lst += house_numbers_of_street(datadir, memory_cache, relation_name, street)
 
     lst = sorted(set(lst))
-    sock = open(os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name), "w")
-    for line in lst:
-        sock.write(line + "\n")
-    sock.close()
+    with get_housenumbers_reference(workdir, relation_name, "w") as sock:
+        for line in lst:
+            sock.write(line + "\n")
 
 
 def get_reference_streets(reference: str, datadir: str, workdir: str, relation_name: str) -> None:
