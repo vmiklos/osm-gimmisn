@@ -114,6 +114,17 @@ def get_housenumbers_reference(workdir: str, relation_name: str, mode: str) -> T
     return cast(TextIO, open(path, mode=mode))
 
 
+def get_housenumbers_path(workdir: str, relation_name: str) -> str:
+    """Build the file name of the OSM house number list of a relation."""
+    return os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)
+
+
+def get_housenumbers(workdir: str, relation_name: str, mode: str) -> TextIO:
+    """Opens the OSM house number list of a relation."""
+    path = get_housenumbers_path(workdir, relation_name)
+    return cast(TextIO, open(path, mode=mode))
+
+
 def get_reftelepules_list_from_yaml(
         reftelepules_list: List[str],
         value: Dict[str, Any]
@@ -335,9 +346,8 @@ def get_osm_streets(workdir: str, relation_name: str) -> List[str]:
     ret = []  # type: List[str]
     with get_streets(workdir, relation_name, "r") as sock:
         ret += get_nth_column(sock, 1)
-    house_numbers = os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)
-    if os.path.exists(house_numbers):
-        with open(house_numbers) as sock:
+    if os.path.exists(get_housenumbers_path(workdir, relation_name)):
+        with get_housenumbers(workdir, relation_name, "r") as sock:
             ret += get_nth_column(sock, 1)
     return sorted(set(ret))
 
@@ -487,9 +497,9 @@ def get_house_numbers_from_csv(
         street_name: str,
         normalizers: Dict[str, Ranges]
 ) -> List[str]:
-    """Gets house numbers from the overpass query."""
+    """Gets the OSM house number list of a street."""
     house_numbers = []  # type: List[str]
-    with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation_name)) as sock:
+    with get_housenumbers(workdir, relation_name, mode="r") as sock:
         first = True
         for line in sock.readlines():
             if first:
@@ -749,7 +759,7 @@ def get_street_housenumbers_query(datadir: str, relations: Dict[str, Any], relat
 def write_street_housenumbers(workdir: str, relation: str, result_from_overpass: str) -> None:
     """Writes the result for overpass of get_street_housenumbers_query()."""
     result = sort_housenumbers_csv(result_from_overpass)
-    with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation), mode="w") as sock:
+    with get_housenumbers(workdir, relation, mode="w") as sock:
         sock.write(result)
 
 

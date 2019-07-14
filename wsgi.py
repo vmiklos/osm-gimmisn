@@ -100,7 +100,7 @@ def handle_street_housenumbers(request_uri: str, workdir: str, relations: Dict[s
         output += helpers.get_street_housenumbers_query(get_datadir(), relations, relation)
         output += "</pre>"
     elif action == "view-result":
-        with open(os.path.join(workdir, "street-housenumbers-%s.csv" % relation)) as sock:
+        with helpers.get_housenumbers(workdir, relation, mode="r") as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
