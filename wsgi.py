@@ -161,7 +161,7 @@ def missing_relations_view_result(request_uri: str, workdir: str) -> str:
         output += "Nincsenek meglévő utcák: "
         output += "<a href=\"/osm/streets/" + relation + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(os.path.join(workdir, "streets-reference-" + relation + ".lst")):
+    elif not os.path.exists(helpers.get_reference_streets_path(workdir, relation)):
         output += "Nincsen utcalista: "
         output += "<a href=\"/osm/suspicious-relations/" + relation + "/update-result\">"
         output += "Létrehozás referenciából</a>"
@@ -223,7 +223,7 @@ def suspicious_relations_view_txt(request_uri: str, workdir: str) -> str:
     output = ""
     if not os.path.exists(os.path.join(workdir, "streets-" + relation + ".csv")):
         output += "Nincsenek meglévő utcák"
-    elif not os.path.exists(os.path.join(workdir, "streets-reference-" + relation + ".lst")):
+    elif not os.path.exists(helpers.get_reference_streets_path(workdir, relation)):
         output += "Nincsenek referencia utcák"
     else:
         todo_streets, _ = helpers.get_suspicious_relations(get_datadir(), workdir, relation)
@@ -291,8 +291,7 @@ def handle_suspicious_relations(request_uri: str, workdir: str, relations: Dict[
         output += missing_relations_view_result(request_uri, workdir)
     elif action_noext == "view-query":
         output += "<pre>"
-        path = "streets-reference-%s.lst" % relation
-        with open(os.path.join(workdir, path)) as sock:
+        with helpers.get_reference_streets(workdir, relation, "r") as sock:
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
@@ -348,7 +347,7 @@ def ref_housenumbers_last_modified(workdir: str, name: str) -> str:
 
 def ref_streets_last_modified(workdir: str, name: str) -> str:
     """Gets the update date for missing streets."""
-    t_ref = get_timestamp(workdir, "streets-reference-" + name + ".lst")
+    t_ref = get_timestamp(helpers.get_reference_streets_path(workdir, name))
     t_osm = get_timestamp(workdir, "streets-" + name + ".csv")
     return format_timestamp(max(t_ref, t_osm))
 

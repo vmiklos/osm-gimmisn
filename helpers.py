@@ -481,10 +481,21 @@ def get_house_numbers_from_lst(
     return sort_numerically(set(house_numbers))
 
 
+def get_reference_streets_path(workdir: str, relation_name: str) -> str:
+    """Build the file name of the reference street list of a relation."""
+    return os.path.join(workdir, "streets-reference-%s.lst" % relation_name)
+
+
+def get_reference_streets(workdir: str, relation_name: str, mode: str) -> TextIO:
+    """Opens the reference street list of a relation."""
+    path = get_reference_streets_path(workdir, relation_name)
+    return cast(TextIO, open(path, mode=mode))
+
+
 def get_streets_from_lst(workdir: str, relation_name: str) -> List[str]:
     """Gets streets from reference."""
     streets = []  # type: List[str]
-    with open(os.path.join(workdir, "streets-reference-%s.lst" % relation_name)) as sock:
+    with get_reference_streets(workdir, relation_name, "r") as sock:
         for line in sock.readlines():
             line = line.strip()
             streets.append(line)
@@ -685,10 +696,9 @@ def get_sorted_reference_streets(reference: str, datadir: str, workdir: str, rel
     lst = streets_of_relation(datadir, memory_cache, relation_name)
 
     lst = sorted(set(lst))
-    sock = open(os.path.join(workdir, "streets-reference-%s.lst" % relation_name), "w")
-    for line in lst:
-        sock.write(line + "\n")
-    sock.close()
+    with get_reference_streets(workdir, relation_name, "w") as sock:
+        for line in lst:
+            sock.write(line + "\n")
 
 
 def get_relations(datadir: str) -> Dict[str, Any]:
