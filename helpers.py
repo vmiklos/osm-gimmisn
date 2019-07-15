@@ -677,7 +677,7 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
             sock.write(line + "\n")
 
 
-def get_reference_streets(reference: str, datadir: str, workdir: str, relation_name: str) -> None:
+def get_sorted_reference_streets(reference: str, datadir: str, workdir: str, relation_name: str) -> None:
     """Gets known streets (not their coordinates) from a reference site, based on relation names
     from OSM."""
     memory_cache = build_street_reference_cache(reference)

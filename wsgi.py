@@ -244,7 +244,7 @@ def suspicious_relations_update(workdir: str, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
     datadir = get_datadir()
     reference = get_config().get('wsgi', 'reference_street').strip()
-    helpers.get_reference_streets(reference, datadir, workdir, relation_name)
+    helpers.get_sorted_reference_streets(reference, datadir, workdir, relation_name)
     return "Frissítés sikeres."
 
 
