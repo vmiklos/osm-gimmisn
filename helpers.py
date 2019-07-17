@@ -88,6 +88,25 @@ class Ranges:
         return self.__items == other_ranges.get_items()
 
 
+class Relations:
+    """A relations object is a container of named relation objects."""
+    def __init__(self, datadir: str) -> None:
+        with open(os.path.join(datadir, "relations.yaml")) as sock:
+            self.__dict = yaml.load(sock)
+
+    def get_relation(self, relation: str) -> Dict[str, Any]:
+        """Gets the relation that has the specified name."""
+        return cast(Dict[str, Any], self.__dict[relation])
+
+    def get_names(self) -> List[str]:
+        """Gets a sorted list of relation names."""
+        return sorted(self.__dict.keys())
+
+    def get_values(self) -> List[Any]:
+        """Gets a list of relations."""
+        return cast(List[Any], self.__dict.values())
+
+
 def get_relation_missing_streets(datadir: str, relation_name: str) -> str:
     """Return value can be yes, no and only. Current default is "no", and "yes" is not yet handled."""
     root = relation_init(datadir, relation_name)
@@ -164,8 +183,8 @@ def parse_relation_yaml(
 
 def get_street_details(datadir: str, street: str, relation_name: str) -> Tuple[str, List[str], str, str]:
     """Determines the ref codes, street name and type for a street in a relation."""
-    relations = get_relations(datadir)
-    relation = relations[relation_name]
+    relations = Relations(datadir)
+    relation = relations.get_relation(relation_name)
     refmegye = relation["refmegye"]
     reftelepules_list = [relation["reftelepules"]]
 
@@ -663,8 +682,8 @@ def house_numbers_of_street(
 
 def streets_of_relation(datadir: str, reference: Dict[str, Dict[str, List[str]]], relation_name: str) -> List[str]:
     """Gets street names for a relation from a reference."""
-    relations = get_relations(datadir)
-    relation = relations[relation_name]
+    relations = Relations(datadir)
+    relation = relations.get_relation(relation_name)
     refmegye = relation["refmegye"]
     reftelepules = relation["reftelepules"]
 
@@ -699,14 +718,6 @@ def get_sorted_reference_streets(reference: str, datadir: str, workdir: str, rel
     with get_reference_streets(workdir, relation_name, "w") as sock:
         for line in lst:
             sock.write(line + "\n")
-
-
-def get_relations(datadir: str) -> Dict[str, Any]:
-    """Returns a name -> properties dictionary."""
-    with open(os.path.join(datadir, "relations.yaml")) as sock:
-        root = {}  # type: Dict[str, Any]
-        root = yaml.load(sock)
-        return root
 
 
 def relation_init(datadir: str, relation_name: str) -> Dict[str, Any]:
@@ -747,10 +758,10 @@ def relation_street_is_even_odd(street: Dict[str, Any]) -> bool:
     return not interpolation_all
 
 
-def get_streets_query(datadir: str, relations: Dict[str, Any], relation: str) -> str:
+def get_streets_query(datadir: str, relations: Relations, relation: str) -> str:
     """Produces a query which lists streets in relation."""
     with open(os.path.join(datadir, "streets-template.txt")) as sock:
-        return process_template(sock.read(), relations[relation]["osmrelation"])
+        return process_template(sock.read(), relations.get_relation(relation)["osmrelation"])
 
 
 def write_streets_result(workdir: str, relation: str, result_from_overpass: str) -> None:
@@ -760,10 +771,10 @@ def write_streets_result(workdir: str, relation: str, result_from_overpass: str)
         sock.write(result)
 
 
-def get_street_housenumbers_query(datadir: str, relations: Dict[str, Any], relation: str) -> str:
+def get_street_housenumbers_query(datadir: str, relations: Relations, relation: str) -> str:
     """Produces a query which lists house numbers in relation."""
     with open(os.path.join(datadir, "street-housenumbers-template.txt")) as sock:
-        return process_template(sock.read(), relations[relation]["osmrelation"])
+        return process_template(sock.read(), relations.get_relation(relation)["osmrelation"])
 
 
 def write_street_housenumbers(workdir: str, relation: str, result_from_overpass: str) -> None:

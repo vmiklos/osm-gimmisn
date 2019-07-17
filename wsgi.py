@@ -58,7 +58,7 @@ def get_staticdir() -> str:
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def handle_streets(request_uri: str, workdir: str, relations: Dict[str, Any]) -> str:
+def handle_streets(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
 
@@ -82,12 +82,12 @@ def handle_streets(request_uri: str, workdir: str, relations: Dict[str, Any]) ->
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
-    osmrelation = relations[relation]["osmrelation"]
+    osmrelation = relations.get_relation(relation)["osmrelation"]
     date = get_streets_last_modified(workdir, relation)
     return get_header("streets", relation, osmrelation) + output + get_footer(date)
 
 
-def handle_street_housenumbers(request_uri: str, workdir: str, relations: Dict[str, Any]) -> str:
+def handle_street_housenumbers(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     output = ""
 
@@ -111,7 +111,7 @@ def handle_street_housenumbers(request_uri: str, workdir: str, relations: Dict[s
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
-    osmrelation = relations[relation]["osmrelation"]
+    osmrelation = relations.get_relation(relation)["osmrelation"]
     date = get_housenumbers_last_modified(workdir, relation)
     return get_header("street-housenumbers", relation, osmrelation) + output + get_footer(date)
 
@@ -248,7 +248,7 @@ def suspicious_relations_update(workdir: str, relation_name: str) -> str:
     return "Frissítés sikeres."
 
 
-def handle_suspicious_streets(request_uri: str, workdir: str, relations: Dict[str, Any]) -> str:
+def handle_suspicious_streets(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
     output = ""
 
@@ -270,12 +270,12 @@ def handle_suspicious_streets(request_uri: str, workdir: str, relations: Dict[st
     elif action_noext == "update-result":
         output += suspicious_streets_update(workdir, relation)
 
-    osmrelation = relations[relation]["osmrelation"]
+    osmrelation = relations.get_relation(relation)["osmrelation"]
     date = ref_housenumbers_last_modified(workdir, relation)
     return get_header("suspicious-streets", relation, osmrelation) + output + get_footer(date)
 
 
-def handle_suspicious_relations(request_uri: str, workdir: str, relations: Dict[str, Any]) -> str:
+def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-[result|query]."""
     output = ""
 
@@ -297,7 +297,7 @@ def handle_suspicious_relations(request_uri: str, workdir: str, relations: Dict[
     elif action_noext == "update-result":
         output += suspicious_relations_update(workdir, relation)
 
-    osmrelation = relations[relation]["osmrelation"]
+    osmrelation = relations.get_relation(relation)["osmrelation"]
     date = ref_streets_last_modified(workdir, relation)
     return get_header("suspicious-relations", relation, osmrelation) + output + get_footer(date)
 
@@ -419,12 +419,12 @@ def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, str], bo
     return lambda _complete, refmegye: refmegye == refmegye_filter
 
 
-def handle_main_filters(relations: Dict[str, Any]) -> str:
+def handle_main_filters(relations: helpers.Relations) -> str:
     """Handlers the filter part of the main wsgi page."""
     items = []
     items.append('<a href="/osm/filter-for/incomplete">Kész területek elrejtése</a>')
     # Sorted set of refmegye values of all relations.
-    for refmegye in sorted({relation["refmegye"] for relation in relations.values()}):
+    for refmegye in sorted({relation["refmegye"] for relation in relations.get_values()}):
         name = helpers.refmegye_get_name(refmegye)
         if not name:
             continue
@@ -433,7 +433,7 @@ def handle_main_filters(relations: Dict[str, Any]) -> str:
     return '<p>Szűrők: ' + " &brvbar; ".join(items) + '</p>'
 
 
-def handle_main(request_uri: str, relations: Dict[str, Any], workdir: str) -> str:
+def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) -> str:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
@@ -457,17 +457,17 @@ def handle_main(request_uri: str, relations: Dict[str, Any], workdir: str) -> st
                   "Utca lefedettség",
                   "Meglévő utcák",
                   "Terület határa"])
-    for k in sorted(relations):
-        relation = relations[k]
+    for relation_name in relations.get_names():
+        relation = relations.get_relation(relation_name)
         complete = True
 
-        streets = helpers.get_relation_missing_streets(get_datadir(), k)
+        streets = helpers.get_relation_missing_streets(get_datadir(), relation_name)
 
         row = []
-        row.append(k)
+        row.append(relation_name)
 
         if streets != "only":
-            cell, percent = handle_main_housenr_percent(workdir, k)
+            cell, percent = handle_main_housenr_percent(workdir, relation_name)
             row.append(cell)
             if float(percent) < 100.0:
                 complete = False
@@ -475,22 +475,22 @@ def handle_main(request_uri: str, relations: Dict[str, Any], workdir: str) -> st
             row.append("")
 
         if streets != "only":
-            date = get_housenumbers_last_modified(workdir, k)
-            row.append("<a href=\"/osm/street-housenumbers/" + k + "/view-result\""
+            date = get_housenumbers_last_modified(workdir, relation_name)
+            row.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\""
                        " title=\"frissítve " + date + "\" >meglévő házszámok</a>")
         else:
             row.append("")
 
         if streets != "no":
-            cell, percent = handle_main_street_percent(workdir, k)
+            cell, percent = handle_main_street_percent(workdir, relation_name)
             row.append(cell)
             if float(percent) < 100.0:
                 complete = False
         else:
             row.append("")
 
-        date = get_streets_last_modified(workdir, k)
-        row.append("<a href=\"/osm/streets/" + k + "/view-result\""
+        date = get_streets_last_modified(workdir, relation_name)
+        row.append("<a href=\"/osm/streets/" + relation_name + "/view-result\""
                    " title=\"frissítve " + date + "\" >meglévő utcák</a>")
 
         row.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation["osmrelation"])
@@ -635,7 +635,7 @@ def our_application(
 
     workdir = helpers.get_workdir(config)
 
-    relations = helpers.get_relations(get_datadir())
+    relations = helpers.Relations(get_datadir())
 
     content_type = "text/html"
     if ext == "txt":

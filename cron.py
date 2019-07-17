@@ -40,8 +40,8 @@ def overpass_sleep() -> None:
 def update_streets(workdir: str) -> None:
     """Update the existing street list of all relations."""
     datadir = get_srcdir("data")
-    relations = helpers.get_relations(datadir)
-    for relation in relations.keys():
+    relations = helpers.Relations(datadir)
+    for relation in relations.get_names():
         logging.info("update_streets: start: %s", relation)
         overpass_sleep()
         query = helpers.get_streets_query(datadir, relations, relation)
@@ -52,8 +52,8 @@ def update_streets(workdir: str) -> None:
 def update_street_housenumbers(workdir: str) -> None:
     """Update the existing street housenumber list of all relations."""
     datadir = get_srcdir("data")
-    relations = helpers.get_relations(datadir)
-    for relation in relations.keys():
+    relations = helpers.Relations(datadir)
+    for relation in relations.get_names():
         logging.info("update_street_housenumbers: start: %s", relation)
         overpass_sleep()
         query = helpers.get_street_housenumbers_query(datadir, relations, relation)
@@ -64,9 +64,9 @@ def update_street_housenumbers(workdir: str) -> None:
 def update_suspicious_streets_stats(workdir: str) -> None:
     """Update the relation's house number coverage stats."""
     datadir = get_srcdir("data")
-    relations = helpers.get_relations(datadir)
+    relations = helpers.Relations(datadir)
     logging.info("update_suspicious_streets_stats: start")
-    for relation in relations.keys():
+    for relation in relations.get_names():
         streets = helpers.get_relation_missing_streets(datadir, relation)
         if streets == "only":
             continue
@@ -78,9 +78,9 @@ def update_suspicious_streets_stats(workdir: str) -> None:
 def update_missing_streets_stats(workdir: str) -> None:
     """Update the relation's street coverage stats."""
     datadir = get_srcdir("data")
-    relations = helpers.get_relations(datadir)
+    relations = helpers.Relations(datadir)
     logging.info("update_missing_streets_stats: start")
-    for relation in relations.keys():
+    for relation in relations.get_names():
         streets = helpers.get_relation_missing_streets(datadir, relation)
         if streets == "no":
             continue

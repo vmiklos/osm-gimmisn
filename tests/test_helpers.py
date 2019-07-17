@@ -255,7 +255,7 @@ class TestGetStreetsQuery(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        relations = helpers.get_relations(datadir)
+        relations = helpers.Relations(datadir)
         relation = "gazdagret"
         ret = helpers.get_streets_query(datadir, relations, relation)
         self.assertEqual(ret, 'aaa 2713748 bbb 3602713748 ccc\n')
@@ -266,7 +266,7 @@ class TestGetStreetHousenumbersQuery(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        relations = helpers.get_relations(datadir)
+        relations = helpers.Relations(datadir)
         relation = "gazdagret"
         ret = helpers.get_street_housenumbers_query(datadir, relations, relation)
         self.assertEqual(ret, 'housenr aaa 2713748 bbb 3602713748 ccc\n')
@@ -738,13 +738,14 @@ class TestGetSortedReferenceStreets(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestGetRelations(unittest.TestCase):
-    """Tests get_relations()."""
+class TestRelations(unittest.TestCase):
+    """Tests the Relations class."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
-        relations = helpers.get_relations(datadir)
-        self.assertEqual(sorted(relations.keys()), ['empty', 'gazdagret', 'nosuchrelation', "ujbuda"])
+        relations = helpers.Relations(datadir)
+        self.assertEqual(relations.get_names(), ['empty', 'gazdagret', 'nosuchrelation', "ujbuda"])
+        self.assertEqual([2713748, 42, 13, 221998], [i["osmrelation"] for i in relations.get_values()])
 
 
 class TestGetRelationMissingStreets(unittest.TestCase):
