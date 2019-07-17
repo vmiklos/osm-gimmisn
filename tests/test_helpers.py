@@ -745,7 +745,7 @@ class TestRelations(unittest.TestCase):
         datadir = os.path.join(os.path.dirname(__file__), "data")
         relations = helpers.Relations(datadir)
         self.assertEqual(relations.get_names(), ['empty', 'gazdagret', 'nosuchrelation', "ujbuda"])
-        self.assertEqual([2713748, 42, 13, 221998], [i["osmrelation"] for i in relations.get_values()])
+        self.assertEqual([13, 42, 221998, 2713748], sorted([i["osmrelation"] for i in relations.get_values()]))
 
 
 class TestGetRelationMissingStreets(unittest.TestCase):
