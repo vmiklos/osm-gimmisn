@@ -82,7 +82,7 @@ def handle_streets(request_uri: str, workdir: str, relations: helpers.Relations)
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
-    osmrelation = relations.get_relation(relation)["osmrelation"]
+    osmrelation = relations.get_relation(relation).get_property("osmrelation")
     date = get_streets_last_modified(workdir, relation)
     return get_header("streets", relation, osmrelation) + output + get_footer(date)
 
@@ -111,7 +111,7 @@ def handle_street_housenumbers(request_uri: str, workdir: str, relations: helper
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
-    osmrelation = relations.get_relation(relation)["osmrelation"]
+    osmrelation = relations.get_relation(relation).get_property("osmrelation")
     date = get_housenumbers_last_modified(workdir, relation)
     return get_header("street-housenumbers", relation, osmrelation) + output + get_footer(date)
 
@@ -270,7 +270,7 @@ def handle_suspicious_streets(request_uri: str, workdir: str, relations: helpers
     elif action_noext == "update-result":
         output += suspicious_streets_update(workdir, relation)
 
-    osmrelation = relations.get_relation(relation)["osmrelation"]
+    osmrelation = relations.get_relation(relation).get_property("osmrelation")
     date = ref_housenumbers_last_modified(workdir, relation)
     return get_header("suspicious-streets", relation, osmrelation) + output + get_footer(date)
 
@@ -297,7 +297,7 @@ def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpe
     elif action_noext == "update-result":
         output += suspicious_relations_update(workdir, relation)
 
-    osmrelation = relations.get_relation(relation)["osmrelation"]
+    osmrelation = relations.get_relation(relation).get_property("osmrelation")
     date = ref_streets_last_modified(workdir, relation)
     return get_header("suspicious-relations", relation, osmrelation) + output + get_footer(date)
 
@@ -493,10 +493,10 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
         row.append("<a href=\"/osm/streets/" + relation_name + "/view-result\""
                    " title=\"frissítve " + date + "\" >meglévő utcák</a>")
 
-        row.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation["osmrelation"])
+        row.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation.get_property("osmrelation"))
                    + "\">terület határa</a>")
 
-        if filter_for(complete, relation["refmegye"]):
+        if filter_for(complete, relation.get_property("refmegye")):
             table.append(row)
     output += helpers.html_table_from_list(table)
     output += "<p><a href=\"" + \

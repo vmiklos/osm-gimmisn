@@ -88,15 +88,34 @@ class Ranges:
         return self.__items == other_ranges.get_items()
 
 
+class Relation:
+    """A relation is a closed polygon on the map."""
+    def __init__(self, datadir: str, name: str, parent: Dict[str, Any]) -> None:
+        self.__parent = parent
+        self.__dict = {}  # type: Dict[str, Any]
+        relation_path = os.path.join(datadir, "relation-%s.yaml" % name)
+        if os.path.exists(relation_path):
+            with open(relation_path) as sock:
+                self.__dict = yaml.load(sock)
+
+    def get_property(self, key: str) -> Any:
+        """Gets the value of a property transparently."""
+        if key in self.__dict.keys():
+            return self.__dict[key]
+
+        return self.__parent[key]
+
+
 class Relations:
     """A relations object is a container of named relation objects."""
     def __init__(self, datadir: str) -> None:
+        self.__datadir = datadir
         with open(os.path.join(datadir, "relations.yaml")) as sock:
             self.__dict = yaml.load(sock)
 
-    def get_relation(self, relation: str) -> Dict[str, Any]:
+    def get_relation(self, name: str) -> Relation:
         """Gets the relation that has the specified name."""
-        return cast(Dict[str, Any], self.__dict[relation])
+        return Relation(self.__datadir, name, self.__dict[name])
 
     def get_names(self) -> List[str]:
         """Gets a sorted list of relation names."""
@@ -185,8 +204,8 @@ def get_street_details(datadir: str, street: str, relation_name: str) -> Tuple[s
     """Determines the ref codes, street name and type for a street in a relation."""
     relations = Relations(datadir)
     relation = relations.get_relation(relation_name)
-    refmegye = relation["refmegye"]
-    reftelepules_list = [relation["reftelepules"]]
+    refmegye = relation.get_property("refmegye")
+    reftelepules_list = [relation.get_property("reftelepules")]
 
     refstreets = {}  # type: Dict[str, str]
     root = relation_init(datadir, relation_name)
@@ -684,8 +703,8 @@ def streets_of_relation(datadir: str, reference: Dict[str, Dict[str, List[str]]]
     """Gets street names for a relation from a reference."""
     relations = Relations(datadir)
     relation = relations.get_relation(relation_name)
-    refmegye = relation["refmegye"]
-    reftelepules = relation["reftelepules"]
+    refmegye = relation.get_property("refmegye")
+    reftelepules = relation.get_property("reftelepules")
 
     return reference[refmegye][reftelepules]
 
@@ -761,7 +780,7 @@ def relation_street_is_even_odd(street: Dict[str, Any]) -> bool:
 def get_streets_query(datadir: str, relations: Relations, relation: str) -> str:
     """Produces a query which lists streets in relation."""
     with open(os.path.join(datadir, "streets-template.txt")) as sock:
-        return process_template(sock.read(), relations.get_relation(relation)["osmrelation"])
+        return process_template(sock.read(), relations.get_relation(relation).get_property("osmrelation"))
 
 
 def write_streets_result(workdir: str, relation: str, result_from_overpass: str) -> None:
@@ -774,7 +793,7 @@ def write_streets_result(workdir: str, relation: str, result_from_overpass: str)
 def get_street_housenumbers_query(datadir: str, relations: Relations, relation: str) -> str:
     """Produces a query which lists house numbers in relation."""
     with open(os.path.join(datadir, "street-housenumbers-template.txt")) as sock:
-        return process_template(sock.read(), relations.get_relation(relation)["osmrelation"])
+        return process_template(sock.read(), relations.get_relation(relation).get_property("osmrelation"))
 
 
 def write_street_housenumbers(workdir: str, relation: str, result_from_overpass: str) -> None:

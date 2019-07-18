@@ -746,6 +746,7 @@ class TestRelations(unittest.TestCase):
         relations = helpers.Relations(datadir)
         self.assertEqual(relations.get_names(), ['empty', 'gazdagret', 'nosuchrelation', "ujbuda"])
         self.assertEqual([13, 42, 221998, 2713748], sorted([i["osmrelation"] for i in relations.get_values()]))
+        self.assertEqual("only", relations.get_relation("ujbuda").get_property("suspicious-relations"))
 
 
 class TestGetRelationMissingStreets(unittest.TestCase):
