@@ -259,6 +259,7 @@ class TestGetStreetsQuery(unittest.TestCase):
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relations = helpers.Relations(datadir, workdir)
+        self.assertEqual(workdir, relations.get_workdir())
         relation = "gazdagret"
         ret = helpers.get_streets_query(datadir, relations, relation)
         self.assertEqual(ret, 'aaa 2713748 bbb 3602713748 ccc\n')
@@ -500,7 +501,12 @@ class TestGetHouseNumbersFromLst(unittest.TestCase):
         street_name = "Törökugrató utca"
         normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
         ref_street = "Törökugrató utca"
-        house_numbers = helpers.get_house_numbers_from_lst(workdir, relation_name, street_name, ref_street, normalizers)
+        relations = helpers.Relations(datadir, workdir)
+        house_numbers = helpers.get_house_numbers_from_lst(relations,
+                                                           relation_name,
+                                                           street_name,
+                                                           ref_street,
+                                                           normalizers)
         self.assertEqual(house_numbers, ["1", "2", "7", "10"])
 
 

@@ -120,23 +120,25 @@ def handle_street_housenumbers(request_uri: str, workdir: str, relations: helper
 def suspicious_streets_view_result(request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result."""
     tokens = request_uri.split("/")
-    relation = tokens[-2]
+    relation_name = tokens[-2]
 
     output = ""
-    if not os.path.exists(os.path.join(workdir, "streets-" + relation + ".csv")):
+    relations = helpers.Relations(get_datadir(), workdir)
+    relation = relations.get_relation(relation_name)
+    if not os.path.exists(os.path.join(workdir, "streets-" + relation_name + ".csv")):
         output += "Nincsenek meglévő utcák: "
-        output += "<a href=\"/osm/streets/" + relation + "/update-result\">"
+        output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation + ".csv")):
+    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation_name + ".csv")):
         output += "Nincsenek meglévő házszámok: "
-        output += "<a href=\"/osm/street-housenumbers/" + relation + "/update-result\">"
+        output += "<a href=\"/osm/street-housenumbers/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(helpers.get_housenumbers_reference_path(workdir, relation)):
+    elif not os.path.exists(relation.get_ref_housenumbers_path()):
         output += "Nincsenek hiányzó házszámok: "
-        output += "<a href=\"/osm/suspicious-streets/" + relation + "/update-result\">"
+        output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        ret = helpers.write_suspicious_streets_result(get_datadir(), workdir, relation)
+        ret = helpers.write_suspicious_streets_result(get_datadir(), workdir, relation_name)
         todo_street_count, todo_count, done_count, percent, table = ret
 
         output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
@@ -185,19 +187,20 @@ def missing_relations_view_result(request_uri: str, workdir: str) -> str:
 def suspicious_streets_view_txt(request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
-    relation = tokens[-2]
+    relation_name = tokens[-2]
 
+    relations = helpers.Relations(get_datadir(), workdir)
     output = ""
-    if not os.path.exists(os.path.join(workdir, "streets-" + relation + ".csv")):
+    if not os.path.exists(os.path.join(workdir, "streets-" + relation_name + ".csv")):
         output += "Nincsenek meglévő utcák"
-    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation + ".csv")):
+    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation_name + ".csv")):
         output += "Nincsenek meglévő házszámok"
-    elif not os.path.exists(helpers.get_housenumbers_reference_path(workdir, relation)):
+    elif not os.path.exists(relations.get_relation(relation_name).get_ref_housenumbers_path()):
         output += "Nincsenek referencia házszámok"
     else:
-        suspicious_streets, _ = helpers.get_suspicious_streets(get_datadir(), workdir, relation)
+        suspicious_streets, _ = helpers.get_suspicious_streets(get_datadir(), workdir, relation_name)
 
-        relation_root = helpers.relation_init(get_datadir(), relation)
+        relation_root = helpers.relation_init(get_datadir(), relation_name)
         relation_filters = helpers.relation_get_filters(relation_root)
 
         table = []
@@ -254,10 +257,11 @@ def handle_suspicious_streets(request_uri: str, workdir: str, relations: helpers
     output = ""
 
     tokens = request_uri.split("/")
-    relation = tokens[-2]
+    relation_name = tokens[-2]
     action = tokens[-1]
     action_noext, _, ext = action.partition('.')
 
+    relation = relations.get_relation(relation_name)
     if action_noext == "view-result":
         if ext == "txt":
             return suspicious_streets_view_txt(request_uri, workdir)
@@ -265,15 +269,15 @@ def handle_suspicious_streets(request_uri: str, workdir: str, relations: helpers
         output += suspicious_streets_view_result(request_uri, workdir)
     elif action_noext == "view-query":
         output += "<pre>"
-        with helpers.get_housenumbers_reference(workdir, relation, "r") as sock:
+        with helpers.get_housenumbers_reference(relation, "r") as sock:
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
-        output += suspicious_streets_update(workdir, relation)
+        output += suspicious_streets_update(workdir, relation_name)
 
-    osmrelation = relations.get_relation(relation).get_property("osmrelation")
-    date = ref_housenumbers_last_modified(workdir, relation)
-    return get_header("suspicious-streets", relation, osmrelation) + output + get_footer(date)
+    osmrelation = relations.get_relation(relation_name).get_property("osmrelation")
+    date = ref_housenumbers_last_modified(relations, relation_name)
+    return get_header("suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
 
 
 def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
@@ -339,10 +343,10 @@ def format_timestamp(timestamp: float) -> str:
     return ui_dt.strftime(fmt)
 
 
-def ref_housenumbers_last_modified(workdir: str, name: str) -> str:
+def ref_housenumbers_last_modified(relations: helpers.Relations, name: str) -> str:
     """Gets the update date for suspicious streets."""
-    t_ref = get_timestamp(helpers.get_housenumbers_reference_path(workdir, name))
-    t_housenumbers = get_timestamp(workdir, "street-housenumbers-" + name + ".csv")
+    t_ref = get_timestamp(relations.get_relation(name).get_ref_housenumbers_path())
+    t_housenumbers = get_timestamp(relations.get_workdir(), "street-housenumbers-" + name + ".csv")
     return format_timestamp(max(t_ref, t_housenumbers))
 
 

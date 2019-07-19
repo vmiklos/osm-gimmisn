@@ -126,6 +126,10 @@ class Relation:
         path = os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
         return cast(TextIO, open(path, mode=mode))
 
+    def get_ref_housenumbers_path(self) -> str:
+        """Build the file name of the reference house number list of a relation."""
+        return os.path.join(self.__workdir, "street-housenumbers-reference-%s.lst" % self.__name)
+
 
 class Relations:
     """A relations object is a container of named relation objects."""
@@ -134,6 +138,10 @@ class Relations:
         self.__workdir = workdir
         with open(os.path.join(datadir, "relations.yaml")) as sock:
             self.__dict = yaml.load(sock)
+
+    def get_workdir(self) -> str:
+        """Gets the workdir directory path."""
+        return self.__workdir
 
     def get_relation(self, name: str) -> Relation:
         """Gets the relation that has the specified name."""
@@ -148,14 +156,9 @@ class Relations:
         return cast(List[Any], self.__dict.values())
 
 
-def get_housenumbers_reference_path(workdir: str, relation_name: str) -> str:
-    """Build the file name of the reference house number list of a relation."""
-    return os.path.join(workdir, "street-housenumbers-reference-%s.lst" % relation_name)
-
-
-def get_housenumbers_reference(workdir: str, relation_name: str, mode: str) -> TextIO:
+def get_housenumbers_reference(relation: Relation, mode: str) -> TextIO:
     """Opens the reference house number list of a relation."""
-    path = get_housenumbers_reference_path(workdir, relation_name)
+    path = relation.get_ref_housenumbers_path()
     return cast(TextIO, open(path, mode=mode))
 
 
@@ -509,7 +512,7 @@ def normalize(house_numbers: str, street_name: str,
 
 
 def get_house_numbers_from_lst(
-        workdir: str,
+        relations: Relations,
         relation_name: str,
         street_name: str,
         ref_street: str,
@@ -519,7 +522,8 @@ def get_house_numbers_from_lst(
     house_numbers = []  # type: List[str]
     lst_street_name = ref_street
     prefix = lst_street_name + " "
-    with get_housenumbers_reference(workdir, relation_name, "r") as sock:
+    relation = relations.get_relation(relation_name)
+    with get_housenumbers_reference(relation, "r") as sock:
         for line in sock.readlines():
             line = line.strip()
             if line.startswith(prefix):
@@ -590,7 +594,7 @@ def get_suspicious_streets(
         if street_name in ref_streets.keys():
             ref_street = ref_streets[street_name]
 
-        reference_house_numbers = get_house_numbers_from_lst(workdir, relation_name, street_name,
+        reference_house_numbers = get_house_numbers_from_lst(Relations(datadir, workdir), relation_name, street_name,
                                                              ref_street, normalizers)
         osm_house_numbers = get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers)
         only_in_reference = get_only_in_first(reference_house_numbers, osm_house_numbers)
@@ -727,6 +731,8 @@ def streets_of_relation(
 def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relation_name: str) -> None:
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
+    relations = Relations(datadir, workdir)
+    relation = relations.get_relation(relation_name)
     memory_cache = build_reference_cache(reference)
 
     streets = get_osm_streets(datadir, workdir, relation_name)
@@ -736,7 +742,7 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
         lst += house_numbers_of_street(datadir, workdir, memory_cache, relation_name, street)
 
     lst = sorted(set(lst))
-    with get_housenumbers_reference(workdir, relation_name, "w") as sock:
+    with get_housenumbers_reference(relation, "w") as sock:
         for line in lst:
             sock.write(line + "\n")
 
