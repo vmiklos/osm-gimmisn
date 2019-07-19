@@ -269,7 +269,7 @@ def handle_suspicious_streets(request_uri: str, workdir: str, relations: helpers
         output += suspicious_streets_view_result(request_uri, workdir)
     elif action_noext == "view-query":
         output += "<pre>"
-        with helpers.get_housenumbers_reference(relation, "r") as sock:
+        with relation.get_ref_housenumbers_stream("r") as sock:
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":

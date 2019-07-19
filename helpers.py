@@ -130,6 +130,10 @@ class Relation:
         """Build the file name of the reference house number list of a relation."""
         return os.path.join(self.__workdir, "street-housenumbers-reference-%s.lst" % self.__name)
 
+    def get_ref_housenumbers_stream(self, mode: str) -> TextIO:
+        """Opens the reference house number list of a relation."""
+        return cast(TextIO, open(self.get_ref_housenumbers_path(), mode=mode))
+
 
 class Relations:
     """A relations object is a container of named relation objects."""
@@ -154,12 +158,6 @@ class Relations:
     def get_values(self) -> List[Any]:
         """Gets a list of relations."""
         return cast(List[Any], self.__dict.values())
-
-
-def get_housenumbers_reference(relation: Relation, mode: str) -> TextIO:
-    """Opens the reference house number list of a relation."""
-    path = relation.get_ref_housenumbers_path()
-    return cast(TextIO, open(path, mode=mode))
 
 
 def get_housenumbers_path(workdir: str, relation_name: str) -> str:
@@ -523,7 +521,7 @@ def get_house_numbers_from_lst(
     lst_street_name = ref_street
     prefix = lst_street_name + " "
     relation = relations.get_relation(relation_name)
-    with get_housenumbers_reference(relation, "r") as sock:
+    with relation.get_ref_housenumbers_stream("r") as sock:
         for line in sock.readlines():
             line = line.strip()
             if line.startswith(prefix):
@@ -742,7 +740,7 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
         lst += house_numbers_of_street(datadir, workdir, memory_cache, relation_name, street)
 
     lst = sorted(set(lst))
-    with get_housenumbers_reference(relation, "w") as sock:
+    with relation.get_ref_housenumbers_stream("w") as sock:
         for line in lst:
             sock.write(line + "\n")
 
