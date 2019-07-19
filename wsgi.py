@@ -461,7 +461,7 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
         relation = relations.get_relation(relation_name)
         complete = True
 
-        streets = helpers.get_relation_missing_streets(get_datadir(), relation_name)
+        streets = relation.get_missing_streets()
 
         row = []
         row.append(relation_name)
@@ -515,7 +515,9 @@ def get_header(function: str = "", relation_name: str = "", relation_osmid: int 
     items = []
 
     if relation_name:
-        streets = helpers.get_relation_missing_streets(get_datadir(), relation_name)
+        relations = helpers.Relations(get_datadir())
+        relation = relations.get_relation(relation_name)
+        streets = relation.get_missing_streets()
 
     items.append("<a href=\"/osm\">Területek listája</a>")
     if relation_name:

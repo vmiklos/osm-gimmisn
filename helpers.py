@@ -105,6 +105,20 @@ class Relation:
 
         return self.__parent[key]
 
+    def has_property(self, key: str) -> bool:
+        """Finds out if a given property is available, transparently."""
+        if key in self.__dict.keys():
+            return True
+
+        return key in self.__parent.keys()
+
+    def get_missing_streets(self) -> str:
+        """Return value can be yes, no and only. Current default is "no"."""
+        if self.has_property("suspicious-relations"):
+            return cast(str, self.get_property("suspicious-relations"))
+
+        return "no"
+
 
 class Relations:
     """A relations object is a container of named relation objects."""
@@ -124,15 +138,6 @@ class Relations:
     def get_values(self) -> List[Any]:
         """Gets a list of relations."""
         return cast(List[Any], self.__dict.values())
-
-
-def get_relation_missing_streets(datadir: str, relation_name: str) -> str:
-    """Return value can be yes, no and only. Current default is "no", and "yes" is not yet handled."""
-    root = relation_init(datadir, relation_name)
-    if "suspicious-relations" in root:
-        return cast(str, root["suspicious-relations"])
-
-    return "no"
 
 
 def get_streets(workdir: str, relation_name: str, mode: str) -> TextIO:

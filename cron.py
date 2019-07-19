@@ -66,12 +66,13 @@ def update_suspicious_streets_stats(workdir: str) -> None:
     datadir = get_srcdir("data")
     relations = helpers.Relations(datadir)
     logging.info("update_suspicious_streets_stats: start")
-    for relation in relations.get_names():
-        streets = helpers.get_relation_missing_streets(datadir, relation)
+    for relation_name in relations.get_names():
+        relation = relations.get_relation(relation_name)
+        streets = relation.get_missing_streets()
         if streets == "only":
             continue
 
-        helpers.write_suspicious_streets_result(datadir, workdir, relation)
+        helpers.write_suspicious_streets_result(datadir, workdir, relation_name)
     logging.info("update_suspicious_streets_stats: end")
 
 
@@ -80,12 +81,13 @@ def update_missing_streets_stats(workdir: str) -> None:
     datadir = get_srcdir("data")
     relations = helpers.Relations(datadir)
     logging.info("update_missing_streets_stats: start")
-    for relation in relations.get_names():
-        streets = helpers.get_relation_missing_streets(datadir, relation)
+    for relation_name in relations.get_names():
+        relation = relations.get_relation(relation_name)
+        streets = relation.get_missing_streets()
         if streets == "no":
             continue
 
-        helpers.write_missing_relations_result(datadir, workdir, relation)
+        helpers.write_missing_relations_result(datadir, workdir, relation_name)
     logging.info("update_missing_streets_stats: end")
 
 
