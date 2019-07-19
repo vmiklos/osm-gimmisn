@@ -93,28 +93,29 @@ def handle_street_housenumbers(request_uri: str, workdir: str, relations: helper
     output = ""
 
     tokens = request_uri.split("/")
-    relation = tokens[-2]
+    relation_name = tokens[-2]
     action = tokens[-1]
+    relation = relations.get_relation(relation_name)
 
     if action == "view-query":
         output += "<pre>"
-        output += helpers.get_street_housenumbers_query(get_datadir(), relations, relation)
+        output += helpers.get_street_housenumbers_query(get_datadir(), relations, relation_name)
         output += "</pre>"
     elif action == "view-result":
-        with helpers.get_housenumbers(workdir, relation, mode="r") as sock:
+        with helpers.get_housenumbers(relation, mode="r") as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
-        query = helpers.get_street_housenumbers_query(get_datadir(), relations, relation)
+        query = helpers.get_street_housenumbers_query(get_datadir(), relations, relation_name)
         try:
-            helpers.write_street_housenumbers(workdir, relation, overpass_query.overpass_query(query))
+            helpers.write_street_housenumbers(relation, overpass_query.overpass_query(query))
             output += "Frissítés sikeres."
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
-    osmrelation = relations.get_relation(relation).get_property("osmrelation")
-    date = get_housenumbers_last_modified(workdir, relation)
-    return get_header("street-housenumbers", relation, osmrelation) + output + get_footer(date)
+    osmrelation = relation.get_property("osmrelation")
+    date = get_housenumbers_last_modified(workdir, relation_name)
+    return get_header("street-housenumbers", relation_name, osmrelation) + output + get_footer(date)
 
 
 def suspicious_streets_view_result(request_uri: str, workdir: str) -> str:

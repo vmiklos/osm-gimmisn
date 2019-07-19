@@ -295,8 +295,9 @@ class TestWriteStreetHousenumbersResult(unittest.TestCase):
     """Tests write_street_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
+        datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        relation = "gazdagret"
+        relation_name = "gazdagret"
         result_from_overpass = "@id\taddr:street\taddr:housenumber\n"
         result_from_overpass += "1\tTörökugrató utca\t1\n"
         result_from_overpass += "1\tTörökugrató utca\t2\n"
@@ -306,7 +307,9 @@ class TestWriteStreetHousenumbersResult(unittest.TestCase):
         result_from_overpass += "1\tOSM Name 1\t2\n"
         result_from_overpass += "1\tOnly In OSM utca\t1\n"
         expected = helpers.get_content(workdir, "street-housenumbers-gazdagret.csv")
-        helpers.write_street_housenumbers(workdir, relation, result_from_overpass)
+        relations = helpers.Relations(datadir, workdir)
+        relation = relations.get_relation(relation_name)
+        helpers.write_street_housenumbers(relation, result_from_overpass)
         actual = helpers.get_content(workdir, "street-housenumbers-gazdagret.csv")
         self.assertEqual(actual, expected)
 
@@ -534,7 +537,9 @@ class TestGetHouseNumbersFromCsv(unittest.TestCase):
         relation_name = "gazdagret"
         street_name = "Törökugrató utca"
         normalizers, _, _ = helpers.load_normalizers(datadir, "gazdagret")
-        house_numbers = helpers.get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers)
+        relations = helpers.Relations(datadir, workdir)
+        relation = relations.get_relation(relation_name)
+        house_numbers = helpers.get_house_numbers_from_csv(relation, street_name, normalizers)
         self.assertEqual(house_numbers, ["1", "2"])
 
 
