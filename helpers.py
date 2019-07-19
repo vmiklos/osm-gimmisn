@@ -142,6 +142,7 @@ class Relations:
         self.__workdir = workdir
         with open(os.path.join(datadir, "relations.yaml")) as sock:
             self.__dict = yaml.load(sock)
+        self.__relations = {}  # type: Dict[str, Relation]
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
@@ -149,7 +150,9 @@ class Relations:
 
     def get_relation(self, name: str) -> Relation:
         """Gets the relation that has the specified name."""
-        return Relation(self.__datadir, self.__workdir, name, self.__dict[name])
+        if name not in self.__relations.keys():
+            self.__relations[name] = Relation(self.__datadir, self.__workdir, name, self.__dict[name])
+        return self.__relations[name]
 
     def get_names(self) -> List[str]:
         """Gets a sorted list of relation names."""
@@ -585,14 +588,15 @@ def get_suspicious_streets(
     done_streets = []
 
     street_names = get_osm_streets(datadir, workdir, relation_name)
-    normalizers, ref_streets, _street_filters = load_normalizers(datadir, relation_name)
+    normalizers, ref_streets = load_normalizers(datadir, relation_name)[:2]
+    relations = Relations(datadir, workdir)
     for street_name in street_names:
         ref_street = street_name
         # See if we need to map the OSM name to ref name.
         if street_name in ref_streets.keys():
             ref_street = ref_streets[street_name]
 
-        reference_house_numbers = get_house_numbers_from_lst(Relations(datadir, workdir), relation_name, street_name,
+        reference_house_numbers = get_house_numbers_from_lst(relations, relation_name, street_name,
                                                              ref_street, normalizers)
         osm_house_numbers = get_house_numbers_from_csv(workdir, relation_name, street_name, normalizers)
         only_in_reference = get_only_in_first(reference_house_numbers, osm_house_numbers)
