@@ -17,3 +17,8 @@ ujbuda:
     osmrelation: 221998
     refmegye: "01"
     reftelepules: "011"
+# just so that we can test its osm street list
+test:
+    osmrelation: 66
+    refmegye: "67"
+    reftelepules: "68"

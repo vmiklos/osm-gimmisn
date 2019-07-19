@@ -90,7 +90,9 @@ class Ranges:
 
 class Relation:
     """A relation is a closed polygon on the map."""
-    def __init__(self, datadir: str, name: str, parent: Dict[str, Any]) -> None:
+    def __init__(self, datadir: str, workdir: str, name: str, parent: Dict[str, Any]) -> None:
+        self.__workdir = workdir
+        self.__name = name
         self.__parent = parent
         self.__dict = {}  # type: Dict[str, Any]
         relation_path = os.path.join(datadir, "relation-%s.yaml" % name)
@@ -119,17 +121,23 @@ class Relation:
 
         return "no"
 
+    def get_osm_streets_stream(self, mode: str) -> TextIO:
+        """Opens the OSM street list of a relation."""
+        path = os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
+        return cast(TextIO, open(path, mode=mode))
+
 
 class Relations:
     """A relations object is a container of named relation objects."""
-    def __init__(self, datadir: str) -> None:
+    def __init__(self, datadir: str, workdir: str) -> None:
         self.__datadir = datadir
+        self.__workdir = workdir
         with open(os.path.join(datadir, "relations.yaml")) as sock:
             self.__dict = yaml.load(sock)
 
     def get_relation(self, name: str) -> Relation:
         """Gets the relation that has the specified name."""
-        return Relation(self.__datadir, name, self.__dict[name])
+        return Relation(self.__datadir, self.__workdir, name, self.__dict[name])
 
     def get_names(self) -> List[str]:
         """Gets a sorted list of relation names."""
@@ -138,12 +146,6 @@ class Relations:
     def get_values(self) -> List[Any]:
         """Gets a list of relations."""
         return cast(List[Any], self.__dict.values())
-
-
-def get_streets(workdir: str, relation_name: str, mode: str) -> TextIO:
-    """Opens the OSM street list of a relation."""
-    path = os.path.join(workdir, "streets-%s.csv" % relation_name)
-    return cast(TextIO, open(path, mode=mode))
 
 
 def get_housenumbers_reference_path(workdir: str, relation_name: str) -> str:
@@ -205,9 +207,9 @@ def parse_relation_yaml(
     return refstreets, reftelepules_list
 
 
-def get_street_details(datadir: str, street: str, relation_name: str) -> Tuple[str, List[str], str, str]:
+def get_street_details(datadir: str, workdir: str, street: str, relation_name: str) -> Tuple[str, List[str], str, str]:
     """Determines the ref codes, street name and type for a street in a relation."""
-    relations = Relations(datadir)
+    relations = Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     refmegye = relation.get_property("refmegye")
     reftelepules_list = [relation.get_property("reftelepules")]
@@ -384,10 +386,12 @@ def get_nth_column(sock: TextIO, column: int) -> List[str]:
     return ret
 
 
-def get_osm_streets(workdir: str, relation_name: str) -> List[str]:
+def get_osm_streets(datadir: str, workdir: str, relation_name: str) -> List[str]:
     """Reads list of streets for an area from OSM."""
     ret = []  # type: List[str]
-    with get_streets(workdir, relation_name, "r") as sock:
+    relations = Relations(datadir, workdir)
+    relation = relations.get_relation(relation_name)
+    with relation.get_osm_streets_stream("r") as sock:
         ret += get_nth_column(sock, 1)
     if os.path.exists(get_housenumbers_path(workdir, relation_name)):
         with get_housenumbers(workdir, relation_name, "r") as sock:
@@ -578,7 +582,7 @@ def get_suspicious_streets(
     suspicious_streets = []
     done_streets = []
 
-    street_names = get_osm_streets(workdir, relation_name)
+    street_names = get_osm_streets(datadir, workdir, relation_name)
     normalizers, ref_streets, _street_filters = load_normalizers(datadir, relation_name)
     for street_name in street_names:
         ref_street = street_name
@@ -606,7 +610,7 @@ def get_suspicious_relations(datadir: str, workdir: str, relation_name: str) -> 
     reference_streets = get_streets_from_lst(workdir, relation_name)
     _, ref_streets, street_blacklist = load_normalizers(datadir, relation_name)
     osm_streets = []
-    for street in get_osm_streets(workdir, relation_name):
+    for street in get_osm_streets(datadir, workdir, relation_name):
         if street in ref_streets.keys():
             street = ref_streets[street]
         osm_streets.append(street)
@@ -688,12 +692,13 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
 
 def house_numbers_of_street(
         datadir: str,
+        workdir: str,
         reference: Dict[str, Dict[str, Dict[str, List[str]]]],
         relation_name: str,
         street: str
 ) -> List[str]:
     """Gets house numbers for a street locally."""
-    refmegye, reftelepules_list, street_name, street_type = get_street_details(datadir, street, relation_name)
+    refmegye, reftelepules_list, street_name, street_type = get_street_details(datadir, workdir, street, relation_name)
     street = street_name + " " + street_type
     ret = []  # type: List[str]
     for reftelepules in reftelepules_list:
@@ -704,9 +709,14 @@ def house_numbers_of_street(
     return ret
 
 
-def streets_of_relation(datadir: str, reference: Dict[str, Dict[str, List[str]]], relation_name: str) -> List[str]:
+def streets_of_relation(
+        datadir: str,
+        workdir: str,
+        reference: Dict[str, Dict[str, List[str]]],
+        relation_name: str
+) -> List[str]:
     """Gets street names for a relation from a reference."""
-    relations = Relations(datadir)
+    relations = Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     refmegye = relation.get_property("refmegye")
     reftelepules = relation.get_property("reftelepules")
@@ -719,11 +729,11 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
     from OSM."""
     memory_cache = build_reference_cache(reference)
 
-    streets = get_osm_streets(workdir, relation_name)
+    streets = get_osm_streets(datadir, workdir, relation_name)
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += house_numbers_of_street(datadir, memory_cache, relation_name, street)
+        lst += house_numbers_of_street(datadir, workdir, memory_cache, relation_name, street)
 
     lst = sorted(set(lst))
     with get_housenumbers_reference(workdir, relation_name, "w") as sock:
@@ -736,7 +746,7 @@ def get_sorted_reference_streets(reference: str, datadir: str, workdir: str, rel
     from OSM."""
     memory_cache = build_street_reference_cache(reference)
 
-    lst = streets_of_relation(datadir, memory_cache, relation_name)
+    lst = streets_of_relation(datadir, workdir, memory_cache, relation_name)
 
     lst = sorted(set(lst))
     with get_reference_streets(workdir, relation_name, "w") as sock:
@@ -788,10 +798,12 @@ def get_streets_query(datadir: str, relations: Relations, relation: str) -> str:
         return process_template(sock.read(), relations.get_relation(relation).get_property("osmrelation"))
 
 
-def write_streets_result(workdir: str, relation: str, result_from_overpass: str) -> None:
+def write_streets_result(datadir: str, workdir: str, relation_name: str, result_from_overpass: str) -> None:
     """Writes the result for overpass of get_streets_query()."""
     result = sort_streets_csv(result_from_overpass)
-    with get_streets(workdir, relation, "w") as sock:
+    relations = Relations(datadir, workdir)
+    relation = relations.get_relation(relation_name)
+    with relation.get_osm_streets_stream("w") as sock:
         sock.write(result)
 
 

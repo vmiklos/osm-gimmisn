@@ -63,28 +63,29 @@ def handle_streets(request_uri: str, workdir: str, relations: helpers.Relations)
     output = ""
 
     tokens = request_uri.split("/")
-    relation = tokens[-2]
+    relation_name = tokens[-2]
     action = tokens[-1]
 
+    relation = relations.get_relation(relation_name)
     if action == "view-query":
         output += "<pre>"
-        output += helpers.get_streets_query(get_datadir(), relations, relation)
+        output += helpers.get_streets_query(get_datadir(), relations, relation_name)
         output += "</pre>"
     elif action == "view-result":
-        with helpers.get_streets(workdir, relation, "r") as sock:
+        with relation.get_osm_streets_stream("r") as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
-        query = helpers.get_streets_query(get_datadir(), relations, relation)
+        query = helpers.get_streets_query(get_datadir(), relations, relation_name)
         try:
-            helpers.write_streets_result(workdir, relation, overpass_query.overpass_query(query))
+            helpers.write_streets_result(get_datadir(), workdir, relation_name, overpass_query.overpass_query(query))
             output += "Frissítés sikeres."
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
-    osmrelation = relations.get_relation(relation).get_property("osmrelation")
-    date = get_streets_last_modified(workdir, relation)
-    return get_header("streets", relation, osmrelation) + output + get_footer(date)
+    osmrelation = relation.get_property("osmrelation")
+    date = get_streets_last_modified(workdir, relation_name)
+    return get_header("streets", relation_name, osmrelation) + output + get_footer(date)
 
 
 def handle_street_housenumbers(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
@@ -515,7 +516,9 @@ def get_header(function: str = "", relation_name: str = "", relation_osmid: int 
     items = []
 
     if relation_name:
-        relations = helpers.Relations(get_datadir())
+        config = get_config()
+        workdir = helpers.get_workdir(config)
+        relations = helpers.Relations(get_datadir(), workdir)
         relation = relations.get_relation(relation_name)
         streets = relation.get_missing_streets()
 
@@ -634,10 +637,9 @@ def our_application(
     _, _, ext = request_uri.partition('.')
 
     config = get_config()
-
     workdir = helpers.get_workdir(config)
 
-    relations = helpers.Relations(get_datadir())
+    relations = helpers.Relations(get_datadir(), workdir)
 
     content_type = "text/html"
     if ext == "txt":

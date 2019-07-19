@@ -40,19 +40,19 @@ def overpass_sleep() -> None:
 def update_streets(workdir: str) -> None:
     """Update the existing street list of all relations."""
     datadir = get_srcdir("data")
-    relations = helpers.Relations(datadir)
+    relations = helpers.Relations(datadir, workdir)
     for relation in relations.get_names():
         logging.info("update_streets: start: %s", relation)
         overpass_sleep()
         query = helpers.get_streets_query(datadir, relations, relation)
-        helpers.write_streets_result(workdir, relation, overpass_query.overpass_query(query))
+        helpers.write_streets_result(datadir, workdir, relation, overpass_query.overpass_query(query))
         logging.info("update_streets: end: %s", relation)
 
 
 def update_street_housenumbers(workdir: str) -> None:
     """Update the existing street housenumber list of all relations."""
     datadir = get_srcdir("data")
-    relations = helpers.Relations(datadir)
+    relations = helpers.Relations(datadir, workdir)
     for relation in relations.get_names():
         logging.info("update_street_housenumbers: start: %s", relation)
         overpass_sleep()
@@ -64,7 +64,7 @@ def update_street_housenumbers(workdir: str) -> None:
 def update_suspicious_streets_stats(workdir: str) -> None:
     """Update the relation's house number coverage stats."""
     datadir = get_srcdir("data")
-    relations = helpers.Relations(datadir)
+    relations = helpers.Relations(datadir, workdir)
     logging.info("update_suspicious_streets_stats: start")
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
@@ -79,7 +79,7 @@ def update_suspicious_streets_stats(workdir: str) -> None:
 def update_missing_streets_stats(workdir: str) -> None:
     """Update the relation's street coverage stats."""
     datadir = get_srcdir("data")
-    relations = helpers.Relations(datadir)
+    relations = helpers.Relations(datadir, workdir)
     logging.info("update_missing_streets_stats: start")
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
