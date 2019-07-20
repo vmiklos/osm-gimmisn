@@ -130,6 +130,11 @@ class Relation:
         """Build the file name of the OSM house number list of a relation."""
         return os.path.join(self.__workdir, "street-housenumbers-%s.csv" % self.__name)
 
+    def get_osm_housenumbers_stream(self, mode: str) -> TextIO:
+        """Opens the OSM house number list of a relation."""
+        path = self.get_osm_housenumbers_path()
+        return cast(TextIO, open(path, mode=mode))
+
     def get_ref_housenumbers_path(self) -> str:
         """Build the file name of the reference house number list of a relation."""
         return os.path.join(self.__workdir, "street-housenumbers-reference-%s.lst" % self.__name)
@@ -165,12 +170,6 @@ class Relations:
     def get_values(self) -> List[Any]:
         """Gets a list of relations."""
         return cast(List[Any], self.__dict.values())
-
-
-def get_housenumbers(relation: Relation, mode: str) -> TextIO:
-    """Opens the OSM house number list of a relation."""
-    path = relation.get_osm_housenumbers_path()
-    return cast(TextIO, open(path, mode=mode))
 
 
 def get_reftelepules_list_from_yaml(
@@ -397,7 +396,7 @@ def get_osm_streets(datadir: str, workdir: str, relation_name: str) -> List[str]
     with relation.get_osm_streets_stream("r") as sock:
         ret += get_nth_column(sock, 1)
     if os.path.exists(relation.get_osm_housenumbers_path()):
-        with get_housenumbers(relation, "r") as sock:
+        with relation.get_osm_housenumbers_stream("r") as sock:
             ret += get_nth_column(sock, 1)
     return sorted(set(ret))
 
@@ -560,7 +559,7 @@ def get_house_numbers_from_csv(
 ) -> List[str]:
     """Gets the OSM house number list of a street."""
     house_numbers = []  # type: List[str]
-    with get_housenumbers(relation, mode="r") as sock:
+    with relation.get_osm_housenumbers_stream(mode="r") as sock:
         first = True
         for line in sock.readlines():
             if first:
@@ -824,7 +823,7 @@ def get_street_housenumbers_query(datadir: str, relations: Relations, relation: 
 def write_street_housenumbers(relation: Relation, result_from_overpass: str) -> None:
     """Writes the result for overpass of get_street_housenumbers_query()."""
     result = sort_housenumbers_csv(result_from_overpass)
-    with get_housenumbers(relation, mode="w") as sock:
+    with relation.get_osm_housenumbers_stream(mode="w") as sock:
         sock.write(result)
 
 
