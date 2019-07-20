@@ -782,7 +782,7 @@ class TestRelations(unittest.TestCase):
 
 
 class TestRelationMissingStreets(unittest.TestCase):
-    """Tests Relation.get_missing_streets()."""
+    """Tests Relation.should_check_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
@@ -790,7 +790,7 @@ class TestRelationMissingStreets(unittest.TestCase):
         relation_name = "ujbuda"
         relations = helpers.Relations(datadir, workdir)
         relation = relations.get_relation(relation_name)
-        ret = relation.get_missing_streets()
+        ret = relation.should_check_missing_streets()
         self.assertEqual(ret, "only")
 
     def test_empty(self) -> None:
@@ -800,7 +800,7 @@ class TestRelationMissingStreets(unittest.TestCase):
         relation_name = "empty"
         relations = helpers.Relations(datadir, workdir)
         relation = relations.get_relation(relation_name)
-        ret = relation.get_missing_streets()
+        ret = relation.should_check_missing_streets()
         self.assertEqual(ret, "no")
 
     def test_nosuchrelation(self) -> None:
@@ -810,7 +810,7 @@ class TestRelationMissingStreets(unittest.TestCase):
         relation_name = "nosuchrelation"
         relations = helpers.Relations(datadir, workdir)
         relation = relations.get_relation(relation_name)
-        ret = relation.get_missing_streets()
+        ret = relation.should_check_missing_streets()
         self.assertEqual(ret, "no")
 
 

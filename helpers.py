@@ -114,7 +114,7 @@ class Relation:
 
         return key in self.__parent.keys()
 
-    def get_missing_streets(self) -> str:
+    def should_check_missing_streets(self) -> str:
         """Return value can be yes, no and only. Current default is "no"."""
         if self.has_property("suspicious-relations"):
             return cast(str, self.get_property("suspicious-relations"))
