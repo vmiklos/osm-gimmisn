@@ -366,9 +366,10 @@ class TestGetStreetDetails(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         street = "Budaörsi út"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(datadir, workdir, street, relation_name)
+        ret = helpers.get_street_details(datadir, relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011"], reftelepules)
@@ -379,9 +380,10 @@ class TestGetStreetDetails(unittest.TestCase):
         """Tests street-specific reftelepules override."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         street = "Teszt utca"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(datadir, workdir, street, relation_name)
+        ret = helpers.get_street_details(datadir, relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["012"], reftelepules)
@@ -392,9 +394,10 @@ class TestGetStreetDetails(unittest.TestCase):
         """Tests OSM -> ref name mapping."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         street = "OSM Name 1"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(datadir, workdir, street, relation_name)
+        ret = helpers.get_street_details(datadir, relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011"], reftelepules)
@@ -405,9 +408,10 @@ class TestGetStreetDetails(unittest.TestCase):
         """Tests a relation without a filter file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         street = "OSM Name 1"
         relation_name = "nosuchrelation"
-        ret = helpers.get_street_details(datadir, workdir, street, relation_name)
+        ret = helpers.get_street_details(datadir, relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011"], reftelepules)
@@ -418,9 +422,10 @@ class TestGetStreetDetails(unittest.TestCase):
         """Tests a relation with an empty filter file."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         street = "OSM Name 1"
         relation_name = "empty"
-        ret = helpers.get_street_details(datadir, workdir, street, relation_name)
+        ret = helpers.get_street_details(datadir, relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011"], reftelepules)
@@ -431,9 +436,10 @@ class TestGetStreetDetails(unittest.TestCase):
         """Tests the reftelepules range-level override."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         street = "Csiki-hegyek utca"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(datadir, workdir, street, relation_name)
+        ret = helpers.get_street_details(datadir, relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011", "013"], reftelepules)

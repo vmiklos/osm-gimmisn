@@ -209,9 +209,13 @@ def parse_relation_yaml(
     return refstreets, reftelepules_list
 
 
-def get_street_details(datadir: str, workdir: str, street: str, relation_name: str) -> Tuple[str, List[str], str, str]:
+def get_street_details(
+        datadir: str,
+        relations: Relations,
+        street: str,
+        relation_name: str
+) -> Tuple[str, List[str], str, str]:
     """Determines the ref codes, street name and type for a street in a relation."""
-    relations = Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     refmegye = relation.get_property("refmegye")
     reftelepules_list = [relation.get_property("reftelepules")]
@@ -703,7 +707,11 @@ def house_numbers_of_street(
         street: str
 ) -> List[str]:
     """Gets house numbers for a street locally."""
-    refmegye, reftelepules_list, street_name, street_type = get_street_details(datadir, workdir, street, relation_name)
+    relations = Relations(datadir, workdir)
+    refmegye, reftelepules_list, street_name, street_type = get_street_details(datadir,
+                                                                               relations,
+                                                                               street,
+                                                                               relation_name)
     street = street_name + " " + street_type
     ret = []  # type: List[str]
     for reftelepules in reftelepules_list:
