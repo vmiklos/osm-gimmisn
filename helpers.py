@@ -153,6 +153,10 @@ class Relations:
             self.__dict = yaml.load(sock)
         self.__relations = {}  # type: Dict[str, Relation]
 
+    def get_datadir(self) -> str:
+        """Gets the datadir directory path."""
+        return self.__datadir
+
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
         return self.__workdir
@@ -612,12 +616,11 @@ def get_suspicious_streets(
     return suspicious_streets, done_streets
 
 
-def get_suspicious_relations(datadir: str, workdir: str, relation_name: str) -> Tuple[List[str], List[str]]:
+def get_suspicious_relations(relations: Relations, relation_name: str) -> Tuple[List[str], List[str]]:
     """Tries to find missing streets in a relation."""
-    reference_streets = get_streets_from_lst(workdir, relation_name)
-    _, ref_streets, street_blacklist = load_normalizers(datadir, relation_name)
+    reference_streets = get_streets_from_lst(relations.get_workdir(), relation_name)
+    _, ref_streets, street_blacklist = load_normalizers(relations.get_datadir(), relation_name)
     osm_streets = []
-    relations = Relations(datadir, workdir)
     for street in get_osm_streets(relations, relation_name):
         if street in ref_streets.keys():
             street = ref_streets[street]
@@ -893,7 +896,8 @@ def write_suspicious_streets_result(
 
 def write_missing_relations_result(datadir: str, workdir: str, relation: str) -> Tuple[int, int, str, List[str]]:
     """Calculate a write stat for the street coverage of a relation."""
-    todo_streets, done_streets = get_suspicious_relations(datadir, workdir, relation)
+    relations = Relations(datadir, workdir)
+    todo_streets, done_streets = get_suspicious_relations(relations, relation)
     streets = []
     for street in todo_streets:
         streets.append(street)

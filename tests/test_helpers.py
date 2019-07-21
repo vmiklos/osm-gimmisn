@@ -573,8 +573,9 @@ class TestGetSuspiciousRelations(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation_name = "gazdagret"
-        only_in_reference, in_both = helpers.get_suspicious_relations(datadir, workdir, relation_name)
+        only_in_reference, in_both = helpers.get_suspicious_relations(relations, relation_name)
 
         # Not that 'Only In Ref Nonsense utca' is missing from this list.
         self.assertEqual(only_in_reference, ['Only In Ref utca'])

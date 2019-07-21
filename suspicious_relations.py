@@ -24,7 +24,8 @@ def main() -> None:
     if len(sys.argv) > 1:
         relation_name = sys.argv[1]
 
-    only_in_reference, _ = helpers.get_suspicious_relations(datadir, workdir, relation_name)
+    relations = helpers.Relations(datadir, workdir)
+    only_in_reference, _ = helpers.get_suspicious_relations(relations, relation_name)
 
     for street in only_in_reference:
         print(street)

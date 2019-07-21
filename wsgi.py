@@ -224,6 +224,7 @@ def suspicious_relations_view_txt(request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation = tokens[-2]
+    relations = helpers.Relations(get_datadir(), workdir)
 
     output = ""
     if not os.path.exists(os.path.join(workdir, "streets-" + relation + ".csv")):
@@ -231,7 +232,7 @@ def suspicious_relations_view_txt(request_uri: str, workdir: str) -> str:
     elif not os.path.exists(helpers.get_reference_streets_path(workdir, relation)):
         output += "Nincsenek referencia utcák"
     else:
-        todo_streets, _ = helpers.get_suspicious_relations(get_datadir(), workdir, relation)
+        todo_streets, _ = helpers.get_suspicious_relations(relations, relation)
         todo_streets.sort(key=locale.strxfrm)
         output += "\n".join(todo_streets)
     return output
