@@ -579,7 +579,7 @@ def get_house_numbers_from_csv(
 
 def get_suspicious_streets(
         datadir: str,
-        workdir: str,
+        relations: Relations,
         relation_name: str
 ) -> Tuple[List[Tuple[str, List[str]]], List[Tuple[str, List[str]]]]:
     """Tries to find streets which do have at least one house number, but are suspicious as other
@@ -587,7 +587,6 @@ def get_suspicious_streets(
     suspicious_streets = []
     done_streets = []
 
-    relations = Relations(datadir, workdir)
     street_names = get_osm_streets(relations, relation_name)
     normalizers, ref_streets = load_normalizers(datadir, relation_name)[:2]
     for street_name in street_names:
@@ -855,7 +854,8 @@ def write_suspicious_streets_result(
         relation: str
 ) -> Tuple[int, int, int, str, List[List[str]]]:
     """Calculate a write stat for the house number coverage of a relation."""
-    suspicious_streets, done_streets = get_suspicious_streets(datadir, workdir, relation)
+    relations = Relations(datadir, workdir)
+    suspicious_streets, done_streets = get_suspicious_streets(datadir, relations, relation)
 
     relation_filters = relation_get_filters(relation_init(datadir, relation))
 
@@ -863,18 +863,17 @@ def write_suspicious_streets_result(
     table = []
     table.append(["Utcanév", "Hiányzik db", "Házszámok"])
     for result in suspicious_streets:
-        # Street name, # of only_in_reference items.
+        # street_name, only_in_ref
         row = []
         row.append(result[0])
-        only_in_ref = result[1]
-        row.append(str(len(only_in_ref)))
+        row.append(str(len(result[1])))
 
         if not relation_street_is_even_odd(relation_filters_get_street(relation_filters, result[0])):
-            row.append(", ".join(only_in_ref))
+            row.append(", ".join(result[1]))
         else:
-            row.append("<br/>".join(format_even_odd(only_in_ref)))
+            row.append("<br/>".join(format_even_odd(result[1])))
 
-        todo_count += len(only_in_ref)
+        todo_count += len(result[1])
         table.append(row)
     done_count = 0
     for result in done_streets:

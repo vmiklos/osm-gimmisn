@@ -557,8 +557,9 @@ class TestGetSuspiciousStreets(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation_name = "gazdagret"
-        suspicious_streets, done_streets = helpers.get_suspicious_streets(datadir, workdir, relation_name)
+        suspicious_streets, done_streets = helpers.get_suspicious_streets(datadir, relations, relation_name)
         self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']),
                                               ('Tűzkő utca', ['1', '2']),
                                               ('Hamzsabégi út', ['1'])])

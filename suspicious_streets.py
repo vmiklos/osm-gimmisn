@@ -24,7 +24,8 @@ def main() -> None:
     if len(sys.argv) > 1:
         relation_name = sys.argv[1]
 
-    suspicious_streets, _ = helpers.get_suspicious_streets(datadir, workdir, relation_name)
+    relations = helpers.Relations(datadir, workdir)
+    suspicious_streets, _ = helpers.get_suspicious_streets(datadir, relations, relation_name)
 
     for result in suspicious_streets:
         if result[1]:
