@@ -710,23 +710,25 @@ class TestHouseNumbersOfStreet(unittest.TestCase):
         datadir = os.path.join(os.path.dirname(__file__), "data")
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         memory_cache = helpers.build_reference_cache(refpath)
         relation_name = "gazdagret"
         street = "Törökugrató utca"
-        ret = helpers.house_numbers_of_street(datadir, workdir, memory_cache, relation_name, street)
+        ret = helpers.house_numbers_of_street(relations, memory_cache, relation_name, street)
         self.assertEqual(ret, ['Törökugrató utca 1', 'Törökugrató utca 10', 'Törökugrató utca 2', 'Törökugrató utca 7'])
 
     def test_missing(self) -> None:
         """Tests the case when the street is not in the reference."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         memory_cache = helpers.build_reference_cache(refpath)
         relation_name = "gazdagret"
         street = "No such utca"
-        ret = helpers.house_numbers_of_street(datadir, workdir, memory_cache, relation_name, street)
+        ret = helpers.house_numbers_of_street(relations, memory_cache, relation_name, street)
         self.assertEqual(ret, [])
 
 

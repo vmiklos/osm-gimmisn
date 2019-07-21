@@ -702,15 +702,13 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
 
 
 def house_numbers_of_street(
-        datadir: str,
-        workdir: str,
+        relations: Relations,
         reference: Dict[str, Dict[str, Dict[str, List[str]]]],
         relation_name: str,
         street: str
 ) -> List[str]:
     """Gets house numbers for a street locally."""
-    relations = Relations(datadir, workdir)
-    refmegye, reftelepules_list, street_name, street_type = get_street_details(datadir,
+    refmegye, reftelepules_list, street_name, street_type = get_street_details(relations.get_datadir(),
                                                                                relations,
                                                                                street,
                                                                                relation_name)
@@ -750,7 +748,7 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += house_numbers_of_street(datadir, workdir, memory_cache, relation_name, street)
+        lst += house_numbers_of_street(relations, memory_cache, relation_name, street)
 
     lst = sorted(set(lst))
     with relation.get_ref_housenumbers_stream("w") as sock:
