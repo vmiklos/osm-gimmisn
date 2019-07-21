@@ -1,6 +1,10 @@
 filters:
   Acsády Ignác utca:
     reftelepules: '012'
+    ranges:
+      # 7-15 and 6-12 is not Krisztinaváros
+      - {start: '1', end: '5'}
+      - {start: '2', end: '6'}
   Alkotás utca:
     ranges:
       - {start: '1', end: '37', reftelepules: '012'}
