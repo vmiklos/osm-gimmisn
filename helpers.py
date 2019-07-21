@@ -392,10 +392,9 @@ def get_nth_column(sock: TextIO, column: int) -> List[str]:
     return ret
 
 
-def get_osm_streets(datadir: str, workdir: str, relation_name: str) -> List[str]:
+def get_osm_streets(relations: Relations, relation_name: str) -> List[str]:
     """Reads list of streets for an area from OSM."""
     ret = []  # type: List[str]
-    relations = Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     with relation.get_osm_streets_stream("r") as sock:
         ret += get_nth_column(sock, 1)
@@ -588,9 +587,9 @@ def get_suspicious_streets(
     suspicious_streets = []
     done_streets = []
 
-    street_names = get_osm_streets(datadir, workdir, relation_name)
-    normalizers, ref_streets = load_normalizers(datadir, relation_name)[:2]
     relations = Relations(datadir, workdir)
+    street_names = get_osm_streets(relations, relation_name)
+    normalizers, ref_streets = load_normalizers(datadir, relation_name)[:2]
     for street_name in street_names:
         ref_street = street_name
         # See if we need to map the OSM name to ref name.
@@ -619,7 +618,8 @@ def get_suspicious_relations(datadir: str, workdir: str, relation_name: str) -> 
     reference_streets = get_streets_from_lst(workdir, relation_name)
     _, ref_streets, street_blacklist = load_normalizers(datadir, relation_name)
     osm_streets = []
-    for street in get_osm_streets(datadir, workdir, relation_name):
+    relations = Relations(datadir, workdir)
+    for street in get_osm_streets(relations, relation_name):
         if street in ref_streets.keys():
             street = ref_streets[street]
         osm_streets.append(street)
@@ -744,7 +744,7 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
     relation = relations.get_relation(relation_name)
     memory_cache = build_reference_cache(reference)
 
-    streets = get_osm_streets(datadir, workdir, relation_name)
+    streets = get_osm_streets(relations, relation_name)
 
     lst = []  # type: List[str]
     for street in streets:

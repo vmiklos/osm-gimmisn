@@ -162,7 +162,8 @@ class TestGetOsmStreets(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = helpers.get_osm_streets(datadir, workdir, "test")
+        relations = helpers.Relations(datadir, workdir)
+        actual = helpers.get_osm_streets(relations, "test")
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
@@ -170,7 +171,8 @@ class TestGetOsmStreets(unittest.TestCase):
         """Tests the case when we have streets, but no house numbers."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = helpers.get_osm_streets(datadir, workdir, "ujbuda")
+        relations = helpers.Relations(datadir, workdir)
+        actual = helpers.get_osm_streets(relations, "ujbuda")
         expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
         self.assertEqual(actual, expected)
 
