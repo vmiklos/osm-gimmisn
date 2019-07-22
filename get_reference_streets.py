@@ -26,7 +26,8 @@ def main() -> None:
     reference = config.get('wsgi', 'reference_street').strip()
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = config.get('wsgi', 'workdir').strip()
-    helpers.get_sorted_reference_streets(reference, datadir, workdir, relation_name)
+    relations = helpers.Relations(datadir, workdir)
+    helpers.get_sorted_reference_streets(relations, reference, relation_name)
 
 
 if __name__ == "__main__":

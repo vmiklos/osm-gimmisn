@@ -285,10 +285,11 @@ class TestWriteStreetsResult(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation = "gazdagret"
         result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
         expected = helpers.get_content(workdir, "streets-gazdagret.csv")
-        helpers.write_streets_result(datadir, workdir, relation, result_from_overpass)
+        helpers.write_streets_result(relations, relation, result_from_overpass)
         actual = helpers.get_content(workdir, "streets-gazdagret.csv")
         self.assertEqual(actual, expected)
 
@@ -589,9 +590,10 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation_name = "gazdagret"
         expected = helpers.get_content(workdir, "gazdagret.percent")
-        ret = helpers.write_suspicious_streets_result(datadir, workdir, relation_name)
+        ret = helpers.write_suspicious_streets_result(relations, relation_name)
         todo_street_count, todo_count, done_count, percent, table = ret
         self.assertEqual(todo_street_count, 3)
         self.assertEqual(todo_count, 5)
@@ -608,8 +610,9 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         """Tests the case when percent can't be determined."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation_name = "empty"
-        ret = helpers.write_suspicious_streets_result(datadir, workdir, relation_name)
+        ret = helpers.write_suspicious_streets_result(relations, relation_name)
         _todo_street_count, _todo_count, _done_count, percent, _table = ret
         self.assertEqual(percent, 'N/A')
         os.unlink(os.path.join(workdir, "empty.percent"))
@@ -621,9 +624,10 @@ class TestWriteMissingRelationsResult(unittest.TestCase):
         """Tests the happy path."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation_name = "gazdagret"
         expected = helpers.get_content(workdir, "gazdagret-streets.percent")
-        ret = helpers.write_missing_relations_result(datadir, workdir, relation_name)
+        ret = helpers.write_missing_relations_result(relations, relation_name)
         todo_count, done_count, percent, streets = ret
         self.assertEqual(todo_count, 1)
         self.assertEqual(done_count, 4)
@@ -636,8 +640,9 @@ class TestWriteMissingRelationsResult(unittest.TestCase):
         """Tests the case when percent can't be determined."""
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation_name = "empty"
-        ret = helpers.write_missing_relations_result(datadir, workdir, relation_name)
+        ret = helpers.write_missing_relations_result(relations, relation_name)
         _todo_count, _done_count, percent, _streets = ret
         self.assertEqual(percent, 'N/A')
         os.unlink(os.path.join(workdir, "empty-streets.percent"))
@@ -742,7 +747,8 @@ class TestStreetsOfRelation(unittest.TestCase):
         refpath = os.path.join(refdir, "utcak_20190514.tsv")
         memory_cache = helpers.build_street_reference_cache(refpath)
         relation_name = "gazdagret"
-        ret = helpers.streets_of_relation(datadir, workdir, memory_cache, relation_name)
+        relations = helpers.Relations(datadir, workdir)
+        ret = helpers.streets_of_relation(relations, memory_cache, relation_name)
         self.assertEqual(ret, ['Törökugrató utca',
                                'Tűzkő utca',
                                'Ref Name 1',
@@ -759,9 +765,10 @@ class TestGetReferenceHousenumbers(unittest.TestCase):
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation_name = "gazdagret"
         expected = helpers.get_content(workdir, "street-housenumbers-reference-gazdagret.lst")
-        helpers.get_reference_housenumbers(refpath, datadir, workdir, relation_name)
+        helpers.get_reference_housenumbers(relations, refpath, relation_name)
         actual = helpers.get_content(workdir, "street-housenumbers-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 
@@ -774,9 +781,10 @@ class TestGetSortedReferenceStreets(unittest.TestCase):
         refpath = os.path.join(refdir, "utcak_20190514.tsv")
         datadir = os.path.join(os.path.dirname(__file__), "data")
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        relations = helpers.Relations(datadir, workdir)
         relation_name = "gazdagret"
         expected = helpers.get_content(workdir, "streets-reference-gazdagret.lst")
-        helpers.get_sorted_reference_streets(refpath, datadir, workdir, relation_name)
+        helpers.get_sorted_reference_streets(relations, refpath, relation_name)
         actual = helpers.get_content(workdir, "streets-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 

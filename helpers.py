@@ -723,13 +723,11 @@ def house_numbers_of_street(
 
 
 def streets_of_relation(
-        datadir: str,
-        workdir: str,
+        relations: Relations,
         reference: Dict[str, Dict[str, List[str]]],
         relation_name: str
 ) -> List[str]:
     """Gets street names for a relation from a reference."""
-    relations = Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     refmegye = relation.get_property("refmegye")
     reftelepules = relation.get_property("reftelepules")
@@ -737,10 +735,9 @@ def streets_of_relation(
     return reference[refmegye][reftelepules]
 
 
-def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relation_name: str) -> None:
+def get_reference_housenumbers(relations: Relations, reference: str, relation_name: str) -> None:
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
-    relations = Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     memory_cache = build_reference_cache(reference)
 
@@ -756,15 +753,15 @@ def get_reference_housenumbers(reference: str, datadir: str, workdir: str, relat
             sock.write(line + "\n")
 
 
-def get_sorted_reference_streets(reference: str, datadir: str, workdir: str, relation_name: str) -> None:
+def get_sorted_reference_streets(relations: Relations, reference: str, relation_name: str) -> None:
     """Gets known streets (not their coordinates) from a reference site, based on relation names
     from OSM."""
     memory_cache = build_street_reference_cache(reference)
 
-    lst = streets_of_relation(datadir, workdir, memory_cache, relation_name)
+    lst = streets_of_relation(relations, memory_cache, relation_name)
 
     lst = sorted(set(lst))
-    with get_reference_streets(workdir, relation_name, "w") as sock:
+    with get_reference_streets(relations.get_workdir(), relation_name, "w") as sock:
         for line in lst:
             sock.write(line + "\n")
 
@@ -813,10 +810,9 @@ def get_streets_query(datadir: str, relations: Relations, relation: str) -> str:
         return process_template(sock.read(), relations.get_relation(relation).get_property("osmrelation"))
 
 
-def write_streets_result(datadir: str, workdir: str, relation_name: str, result_from_overpass: str) -> None:
+def write_streets_result(relations: Relations, relation_name: str, result_from_overpass: str) -> None:
     """Writes the result for overpass of get_streets_query()."""
     result = sort_streets_csv(result_from_overpass)
-    relations = Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     with relation.get_osm_streets_stream("w") as sock:
         sock.write(result)
@@ -850,15 +846,13 @@ def format_even_odd(only_in_ref: List[str]) -> List[str]:
 
 
 def write_suspicious_streets_result(
-        datadir: str,
-        workdir: str,
+        relations: Relations,
         relation: str
 ) -> Tuple[int, int, int, str, List[List[str]]]:
     """Calculate a write stat for the house number coverage of a relation."""
-    relations = Relations(datadir, workdir)
-    suspicious_streets, done_streets = get_suspicious_streets(datadir, relations, relation)
+    suspicious_streets, done_streets = get_suspicious_streets(relations.get_datadir(), relations, relation)
 
-    relation_filters = relation_get_filters(relation_init(datadir, relation))
+    relation_filters = relation_get_filters(relation_init(relations.get_datadir(), relation))
 
     todo_count = 0
     table = []
@@ -885,16 +879,15 @@ def write_suspicious_streets_result(
         percent = "N/A"
 
     # Write the bottom line to a file, so the index page show it fast.
-    with open(os.path.join(workdir, relation + ".percent"), "w") as sock:
+    with open(os.path.join(relations.get_workdir(), relation + ".percent"), "w") as sock:
         sock.write(percent)
 
     todo_street_count = len(suspicious_streets)
     return todo_street_count, todo_count, done_count, percent, table
 
 
-def write_missing_relations_result(datadir: str, workdir: str, relation: str) -> Tuple[int, int, str, List[str]]:
+def write_missing_relations_result(relations: Relations, relation: str) -> Tuple[int, int, str, List[str]]:
     """Calculate a write stat for the street coverage of a relation."""
-    relations = Relations(datadir, workdir)
     todo_streets, done_streets = get_suspicious_relations(relations, relation)
     streets = []
     for street in todo_streets:
@@ -907,7 +900,7 @@ def write_missing_relations_result(datadir: str, workdir: str, relation: str) ->
         percent = "N/A"
 
     # Write the bottom line to a file, so the index page show it fast.
-    with open(os.path.join(workdir, relation + "-streets.percent"), "w") as sock:
+    with open(os.path.join(relations.get_workdir(), relation + "-streets.percent"), "w") as sock:
         sock.write(percent)
 
     return todo_count, done_count, percent, streets

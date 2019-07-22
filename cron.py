@@ -45,7 +45,7 @@ def update_streets(workdir: str) -> None:
         logging.info("update_streets: start: %s", relation)
         overpass_sleep()
         query = helpers.get_streets_query(datadir, relations, relation)
-        helpers.write_streets_result(datadir, workdir, relation, overpass_query.overpass_query(query))
+        helpers.write_streets_result(relations, relation, overpass_query.overpass_query(query))
         logging.info("update_streets: end: %s", relation)
 
 
@@ -73,7 +73,7 @@ def update_suspicious_streets_stats(workdir: str) -> None:
         if streets == "only":
             continue
 
-        helpers.write_suspicious_streets_result(datadir, workdir, relation_name)
+        helpers.write_suspicious_streets_result(relations, relation_name)
     logging.info("update_suspicious_streets_stats: end")
 
 
@@ -88,7 +88,7 @@ def update_missing_streets_stats(workdir: str) -> None:
         if streets == "no":
             continue
 
-        helpers.write_missing_relations_result(datadir, workdir, relation_name)
+        helpers.write_missing_relations_result(relations, relation_name)
     logging.info("update_missing_streets_stats: end")
 
 

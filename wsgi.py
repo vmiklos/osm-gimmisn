@@ -78,7 +78,7 @@ def handle_streets(request_uri: str, workdir: str, relations: helpers.Relations)
     elif action == "update-result":
         query = helpers.get_streets_query(get_datadir(), relations, relation_name)
         try:
-            helpers.write_streets_result(get_datadir(), workdir, relation_name, overpass_query.overpass_query(query))
+            helpers.write_streets_result(relations, relation_name, overpass_query.overpass_query(query))
             output += "Frissítés sikeres."
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
@@ -139,7 +139,7 @@ def suspicious_streets_view_result(request_uri: str, workdir: str) -> str:
         output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        ret = helpers.write_suspicious_streets_result(get_datadir(), workdir, relation_name)
+        ret = helpers.write_suspicious_streets_result(relations, relation_name)
         todo_street_count, todo_count, done_count, percent, table = ret
 
         output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
@@ -155,7 +155,7 @@ def suspicious_streets_view_result(request_uri: str, workdir: str) -> str:
     return output
 
 
-def missing_relations_view_result(request_uri: str, workdir: str) -> str:
+def missing_relations_view_result(relations: helpers.Relations, request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result."""
     tokens = request_uri.split("/")
     relation = tokens[-2]
@@ -170,7 +170,7 @@ def missing_relations_view_result(request_uri: str, workdir: str) -> str:
         output += "<a href=\"/osm/suspicious-relations/" + relation + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        ret = helpers.write_missing_relations_result(get_datadir(), workdir, relation)
+        ret = helpers.write_missing_relations_result(relations, relation)
         todo_count, done_count, percent, streets = ret
         streets.sort(key=locale.strxfrm)
         table = [["Utcanév"]]
@@ -242,7 +242,8 @@ def suspicious_streets_update(workdir: str, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
     datadir = get_datadir()
     reference = get_config().get('wsgi', 'reference_local').strip()
-    helpers.get_reference_housenumbers(reference, datadir, workdir, relation_name)
+    relations = helpers.Relations(datadir, workdir)
+    helpers.get_reference_housenumbers(relations, reference, relation_name)
     return "Frissítés sikeres."
 
 
@@ -250,7 +251,8 @@ def suspicious_relations_update(workdir: str, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
     datadir = get_datadir()
     reference = get_config().get('wsgi', 'reference_street').strip()
-    helpers.get_sorted_reference_streets(reference, datadir, workdir, relation_name)
+    relations = helpers.Relations(datadir, workdir)
+    helpers.get_sorted_reference_streets(relations, reference, relation_name)
     return "Frissítés sikeres."
 
 
@@ -295,7 +297,7 @@ def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpe
         if ext == "txt":
             return suspicious_relations_view_txt(request_uri, workdir)
 
-        output += missing_relations_view_result(request_uri, workdir)
+        output += missing_relations_view_result(relations, request_uri, workdir)
     elif action_noext == "view-query":
         output += "<pre>"
         with helpers.get_reference_streets(workdir, relation, "r") as sock:
