@@ -37,10 +37,9 @@ def overpass_sleep() -> None:
         time.sleep(sleep)
 
 
-def update_streets(workdir: str) -> None:
+def update_streets(relations: helpers.Relations) -> None:
     """Update the existing street list of all relations."""
     datadir = get_srcdir("data")
-    relations = helpers.Relations(datadir, workdir)
     for relation in relations.get_names():
         logging.info("update_streets: start: %s", relation)
         overpass_sleep()
@@ -49,10 +48,9 @@ def update_streets(workdir: str) -> None:
         logging.info("update_streets: end: %s", relation)
 
 
-def update_street_housenumbers(workdir: str) -> None:
+def update_street_housenumbers(relations: helpers.Relations) -> None:
     """Update the existing street housenumber list of all relations."""
     datadir = get_srcdir("data")
-    relations = helpers.Relations(datadir, workdir)
     for relation_name in relations.get_names():
         logging.info("update_street_housenumbers: start: %s", relation_name)
         overpass_sleep()
@@ -62,10 +60,8 @@ def update_street_housenumbers(workdir: str) -> None:
         logging.info("update_street_housenumbers: end: %s", relation_name)
 
 
-def update_suspicious_streets_stats(workdir: str) -> None:
+def update_suspicious_streets_stats(relations: helpers.Relations) -> None:
     """Update the relation's house number coverage stats."""
-    datadir = get_srcdir("data")
-    relations = helpers.Relations(datadir, workdir)
     logging.info("update_suspicious_streets_stats: start")
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
@@ -77,10 +73,8 @@ def update_suspicious_streets_stats(workdir: str) -> None:
     logging.info("update_suspicious_streets_stats: end")
 
 
-def update_missing_streets_stats(workdir: str) -> None:
+def update_missing_streets_stats(relations: helpers.Relations) -> None:
     """Update the relation's street coverage stats."""
-    datadir = get_srcdir("data")
-    relations = helpers.Relations(datadir, workdir)
     logging.info("update_missing_streets_stats: start")
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
@@ -99,7 +93,9 @@ def main() -> None:
     config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(config_path)
 
+    datadir = get_srcdir("data")
     workdir = config.get('wsgi', 'workdir').strip()
+    relations = helpers.Relations(datadir, workdir)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
                         level=logging.INFO,
@@ -108,10 +104,10 @@ def main() -> None:
     logging.getLogger().addHandler(logging.StreamHandler())
 
     start = time.time()
-    update_streets(workdir)
-    update_street_housenumbers(workdir)
-    update_suspicious_streets_stats(workdir)
-    update_missing_streets_stats(workdir)
+    update_streets(relations)
+    update_street_housenumbers(relations)
+    update_suspicious_streets_stats(relations)
+    update_missing_streets_stats(relations)
     delta = time.time() - start
     logging.info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
 
