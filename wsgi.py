@@ -20,6 +20,7 @@ from typing import Any
 from typing import Dict
 from typing import Callable
 from typing import Iterable
+from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 import wsgiref.simple_server
@@ -58,7 +59,7 @@ def get_staticdir() -> str:
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def handle_streets(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
+def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
 
@@ -84,11 +85,11 @@ def handle_streets(request_uri: str, workdir: str, relations: helpers.Relations)
             output += "Overpass hiba: " + str(http_error)
 
     osmrelation = relation.get_property("osmrelation")
-    date = get_streets_last_modified(workdir, relation_name)
-    return get_header("streets", relation_name, osmrelation) + output + get_footer(date)
+    date = get_streets_last_modified(relations.get_workdir(), relation_name)
+    return get_header(relations, "streets", relation_name, osmrelation) + output + get_footer(date)
 
 
-def handle_street_housenumbers(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
+def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     output = ""
 
@@ -114,23 +115,22 @@ def handle_street_housenumbers(request_uri: str, workdir: str, relations: helper
             output += "Overpass hiba: " + str(http_error)
 
     osmrelation = relation.get_property("osmrelation")
-    date = get_housenumbers_last_modified(workdir, relation_name)
-    return get_header("street-housenumbers", relation_name, osmrelation) + output + get_footer(date)
+    date = get_housenumbers_last_modified(relations.get_workdir(), relation_name)
+    return get_header(relations, "street-housenumbers", relation_name, osmrelation) + output + get_footer(date)
 
 
-def suspicious_streets_view_result(request_uri: str, workdir: str) -> str:
+def suspicious_streets_view_result(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
 
     output = ""
-    relations = helpers.Relations(get_datadir(), workdir)
     relation = relations.get_relation(relation_name)
-    if not os.path.exists(os.path.join(workdir, "streets-" + relation_name + ".csv")):
+    if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
         output += "Nincsenek meglévő utcák: "
         output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation_name + ".csv")):
+    elif not os.path.exists(os.path.join(relations.get_workdir(), "street-housenumbers-" + relation_name + ".csv")):
         output += "Nincsenek meglévő házszámok: "
         output += "<a href=\"/osm/street-housenumbers/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
@@ -185,16 +185,15 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
     return output
 
 
-def suspicious_streets_view_txt(request_uri: str, workdir: str) -> str:
+def suspicious_streets_view_txt(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
 
-    relations = helpers.Relations(get_datadir(), workdir)
     output = ""
-    if not os.path.exists(os.path.join(workdir, "streets-" + relation_name + ".csv")):
+    if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
         output += "Nincsenek meglévő utcák"
-    elif not os.path.exists(os.path.join(workdir, "street-housenumbers-" + relation_name + ".csv")):
+    elif not os.path.exists(os.path.join(relations.get_workdir(), "street-housenumbers-" + relation_name + ".csv")):
         output += "Nincsenek meglévő házszámok"
     elif not os.path.exists(relations.get_relation(relation_name).get_ref_housenumbers_path()):
         output += "Nincsenek referencia házszámok"
@@ -220,16 +219,15 @@ def suspicious_streets_view_txt(request_uri: str, workdir: str) -> str:
     return output
 
 
-def suspicious_relations_view_txt(request_uri: str, workdir: str) -> str:
+def suspicious_relations_view_txt(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation = tokens[-2]
-    relations = helpers.Relations(get_datadir(), workdir)
 
     output = ""
-    if not os.path.exists(os.path.join(workdir, "streets-" + relation + ".csv")):
+    if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation + ".csv")):
         output += "Nincsenek meglévő utcák"
-    elif not os.path.exists(helpers.get_reference_streets_path(workdir, relation)):
+    elif not os.path.exists(helpers.get_reference_streets_path(relations.get_workdir(), relation)):
         output += "Nincsenek referencia utcák"
     else:
         todo_streets, _ = helpers.get_suspicious_relations(relations, relation)
@@ -238,25 +236,21 @@ def suspicious_relations_view_txt(request_uri: str, workdir: str) -> str:
     return output
 
 
-def suspicious_streets_update(workdir: str, relation_name: str) -> str:
+def suspicious_streets_update(relations: helpers.Relations, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
-    datadir = get_datadir()
     reference = get_config().get('wsgi', 'reference_local').strip()
-    relations = helpers.Relations(datadir, workdir)
     helpers.get_reference_housenumbers(relations, reference, relation_name)
     return "Frissítés sikeres."
 
 
-def suspicious_relations_update(workdir: str, relation_name: str) -> str:
+def suspicious_relations_update(relations: helpers.Relations, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
-    datadir = get_datadir()
     reference = get_config().get('wsgi', 'reference_street').strip()
-    relations = helpers.Relations(datadir, workdir)
     helpers.get_sorted_reference_streets(relations, reference, relation_name)
     return "Frissítés sikeres."
 
 
-def handle_suspicious_streets(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
+def handle_suspicious_streets(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
     output = ""
 
@@ -268,20 +262,20 @@ def handle_suspicious_streets(request_uri: str, workdir: str, relations: helpers
     relation = relations.get_relation(relation_name)
     if action_noext == "view-result":
         if ext == "txt":
-            return suspicious_streets_view_txt(request_uri, workdir)
+            return suspicious_streets_view_txt(relations, request_uri)
 
-        output += suspicious_streets_view_result(request_uri, workdir)
+        output += suspicious_streets_view_result(relations, request_uri)
     elif action_noext == "view-query":
         output += "<pre>"
         with relation.get_ref_housenumbers_stream("r") as sock:
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
-        output += suspicious_streets_update(workdir, relation_name)
+        output += suspicious_streets_update(relations, relation_name)
 
     osmrelation = relations.get_relation(relation_name).get_property("osmrelation")
     date = ref_housenumbers_last_modified(relations, relation_name)
-    return get_header("suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
+    return get_header(relations, "suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
 
 
 def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
@@ -295,7 +289,7 @@ def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpe
 
     if action_noext == "view-result":
         if ext == "txt":
-            return suspicious_relations_view_txt(request_uri, workdir)
+            return suspicious_relations_view_txt(relations, request_uri)
 
         output += missing_relations_view_result(relations, request_uri, workdir)
     elif action_noext == "view-query":
@@ -304,11 +298,11 @@ def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpe
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
-        output += suspicious_relations_update(workdir, relation)
+        output += suspicious_relations_update(relations, relation)
 
     osmrelation = relations.get_relation(relation).get_property("osmrelation")
     date = ref_streets_last_modified(workdir, relation)
-    return get_header("suspicious-relations", relation, osmrelation) + output + get_footer(date)
+    return get_header(relations, "suspicious-relations", relation, osmrelation) + output + get_footer(date)
 
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
@@ -513,20 +507,22 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
               "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
               "Új terület hozzáadása</a></p>"
 
-    return get_header() + output + get_footer()
+    return get_header(relations) + output + get_footer()
 
 
-def get_header(function: str = "", relation_name: str = "", relation_osmid: int = 0) -> str:
+def get_header(
+        relations: Optional[helpers.Relations] = None,
+        function: str = "",
+        relation_name: str = "",
+        relation_osmid: int = 0
+) -> str:
     """Produces the start of the page. Note that the content depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
     title = ""
     items = []
 
-    if relation_name:
-        config = get_config()
-        workdir = helpers.get_workdir(config)
-        relations = helpers.Relations(get_datadir(), workdir)
+    if relations and relation_name:
         relation = relations.get_relation(relation_name)
         streets = relation.should_check_missing_streets()
 
@@ -654,13 +650,13 @@ def our_application(
         content_type = "text/plain"
 
     if request_uri.startswith("/osm/streets/"):
-        output = handle_streets(request_uri, workdir, relations)
+        output = handle_streets(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-relations/"):
         output = handle_suspicious_relations(request_uri, workdir, relations)
     elif request_uri.startswith("/osm/street-housenumbers/"):
-        output = handle_street_housenumbers(request_uri, workdir, relations)
+        output = handle_street_housenumbers(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-streets/"):
-        output = handle_suspicious_streets(request_uri, workdir, relations)
+        output = handle_suspicious_streets(relations, request_uri)
     elif request_uri.startswith("/osm/webhooks/github"):
         output = handle_github_webhook(environ)
     elif request_uri.startswith("/osm/static/"):
