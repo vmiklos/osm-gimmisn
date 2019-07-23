@@ -155,6 +155,30 @@ class Relation:
 
         return ret
 
+    def get_street_filters(self) -> List[str]:
+        """Gets list of streets which are only in reference, but have to be filtered out."""
+        if self.has_property("street-filters"):
+            return cast(List[str], self.get_property("street-filters"))
+        return []
+
+    def get_street_ranges(self) -> Dict[str, Ranges]:
+        """Gets a street name -> ranges map, which allows silencing false positives."""
+        filter_dict = {}  # type: Dict[str, Ranges]
+
+        filters = self.get_filters()
+        for street in filters.keys():
+            interpolation = ""
+            if "interpolation" in filters[street]:
+                interpolation = filters[street]["interpolation"]
+            i = []
+            if "ranges" not in filters[street]:
+                continue
+            for start_end in filters[street]["ranges"]:
+                i.append(Range(int(start_end["start"]), int(start_end["end"]), interpolation))
+            filter_dict[street] = Ranges(i)
+
+        return filter_dict
+
     def get_osm_streets_stream(self, mode: str) -> TextIO:
         """Opens the OSM street list of a relation."""
         path = os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
@@ -423,39 +447,6 @@ def get_content(workdir: str, path: str) -> str:
     return ret
 
 
-def load_normalizers(datadir: str, relation_name: str) -> Tuple[Dict[str, Ranges], Dict[str, str], List[str]]:
-    """Loads filters which allow silencing false positives. The return value is a tuple of the
-    normalizers itself and an OSM name -> ref name dictionary."""
-    filter_dict = {}  # type: Dict[str, Ranges]
-    ref_streets = {}  # type: Dict[str, str]
-    street_filters = []  # type: List[str]
-
-    root = relation_init(datadir, relation_name)
-    if not root:
-        return filter_dict, ref_streets, street_filters
-
-    if "filters" in root.keys():
-        filters = root["filters"]
-        for street in filters.keys():
-            interpolation = ""
-            if "interpolation" in filters[street]:
-                interpolation = filters[street]["interpolation"]
-            i = []
-            if "ranges" not in filters[street]:
-                continue
-            for start_end in filters[street]["ranges"]:
-                i.append(Range(int(start_end["start"]), int(start_end["end"]), interpolation))
-            filter_dict[street] = Ranges(i)
-
-    if "refstreets" in root.keys():
-        ref_streets = root["refstreets"]
-
-    if "street-filters" in root.keys():
-        street_filters = root["street-filters"]
-
-    return filter_dict, ref_streets, street_filters
-
-
 def tsv_to_list(sock: TextIO) -> List[List[str]]:
     """Turns a tab-separated table into a list of lists."""
     table = []
@@ -575,7 +566,6 @@ def get_house_numbers_from_csv(
 
 
 def get_suspicious_streets(
-        datadir: str,
         relations: Relations,
         relation_name: str
 ) -> Tuple[List[Tuple[str, List[str]]], List[Tuple[str, List[str]]]]:
@@ -585,7 +575,9 @@ def get_suspicious_streets(
     done_streets = []
 
     street_names = get_osm_streets(relations, relation_name)
-    normalizers, ref_streets = load_normalizers(datadir, relation_name)[:2]
+    relation = relations.get_relation(relation_name)
+    normalizers = relation.get_street_ranges()
+    ref_streets = relation.get_refstreets()
     for street_name in street_names:
         ref_street = street_name
         # See if we need to map the OSM name to ref name.
@@ -611,8 +603,11 @@ def get_suspicious_streets(
 
 def get_suspicious_relations(relations: Relations, relation_name: str) -> Tuple[List[str], List[str]]:
     """Tries to find missing streets in a relation."""
+    relation = relations.get_relation(relation_name)
     reference_streets = get_streets_from_lst(relations.get_workdir(), relation_name)
-    _, ref_streets, street_blacklist = load_normalizers(relations.get_datadir(), relation_name)
+    street_blacklist = relation.get_street_filters()
+    relation = relations.get_relation(relation_name)
+    ref_streets = relation.get_refstreets()
     osm_streets = []
     for street in get_osm_streets(relations, relation_name):
         if street in ref_streets.keys():
@@ -842,7 +837,7 @@ def write_suspicious_streets_result(
         relation: str
 ) -> Tuple[int, int, int, str, List[List[str]]]:
     """Calculate a write stat for the house number coverage of a relation."""
-    suspicious_streets, done_streets = get_suspicious_streets(relations.get_datadir(), relations, relation)
+    suspicious_streets, done_streets = get_suspicious_streets(relations, relation)
 
     relation_filters = relation_get_filters(relation_init(relations.get_datadir(), relation))
 

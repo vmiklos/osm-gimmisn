@@ -25,7 +25,7 @@ def main() -> None:
         relation_name = sys.argv[1]
 
     relations = helpers.Relations(datadir, workdir)
-    suspicious_streets, _ = helpers.get_suspicious_streets(datadir, relations, relation_name)
+    suspicious_streets, _ = helpers.get_suspicious_streets(relations, relation_name)
 
     for result in suspicious_streets:
         if result[1]:
