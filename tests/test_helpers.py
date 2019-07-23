@@ -352,79 +352,79 @@ class TestRelationGetStreetRanges(unittest.TestCase):
         self.assertEqual(filters, {})
 
 
-class TestGetStreetDetails(unittest.TestCase):
-    """Tests get_street_details()."""
+class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
+    """Tests Relation.get_ref_street_from_osm_street()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
         street = "Budaörsi út"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(relations, street, relation_name)
-        refmegye, reftelepules, street_name, street_type = ret
+        relation = relations.get_relation(relation_name)
+        refmegye = relation.get_property("refmegye")
+        street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011"], reftelepules)
-        self.assertEqual("Budaörsi", street_name)
-        self.assertEqual("út", street_type)
+        self.assertEqual(["011"], relation.get_street_reftelepules(street))
+        self.assertEqual("Budaörsi út", street)
 
     def test_reftelepules_override(self) -> None:
         """Tests street-specific reftelepules override."""
         relations = get_relations()
         street = "Teszt utca"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(relations, street, relation_name)
-        refmegye, reftelepules, street_name, street_type = ret
+        relation = relations.get_relation(relation_name)
+        refmegye = relation.get_property("refmegye")
+        street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["012"], reftelepules)
-        self.assertEqual("Teszt", street_name)
-        self.assertEqual("utca", street_type)
+        self.assertEqual(["012"], relation.get_street_reftelepules(street))
+        self.assertEqual("Teszt utca", street)
 
     def test_refstreets(self) -> None:
         """Tests OSM -> ref name mapping."""
         relations = get_relations()
         street = "OSM Name 1"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(relations, street, relation_name)
-        refmegye, reftelepules, street_name, street_type = ret
+        relation = relations.get_relation(relation_name)
+        refmegye = relation.get_property("refmegye")
+        street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011"], reftelepules)
-        self.assertEqual("Ref Name", street_name)
-        self.assertEqual("1", street_type)
+        self.assertEqual(["011"], relation.get_street_reftelepules(street))
+        self.assertEqual("Ref Name 1", street)
 
     def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
         relations = get_relations()
         street = "OSM Name 1"
         relation_name = "nosuchrelation"
-        ret = helpers.get_street_details(relations, street, relation_name)
-        refmegye, reftelepules, street_name, street_type = ret
+        relation = relations.get_relation(relation_name)
+        refmegye = relation.get_property("refmegye")
+        street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011"], reftelepules)
-        self.assertEqual("OSM Name", street_name)
-        self.assertEqual("1", street_type)
+        self.assertEqual(["011"], relation.get_street_reftelepules(street))
+        self.assertEqual("OSM Name 1", street)
 
     def test_emptyrelation(self) -> None:
         """Tests a relation with an empty filter file."""
         relations = get_relations()
         street = "OSM Name 1"
         relation_name = "empty"
-        ret = helpers.get_street_details(relations, street, relation_name)
-        refmegye, reftelepules, street_name, street_type = ret
+        relation = relations.get_relation(relation_name)
+        refmegye = relation.get_property("refmegye")
+        street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011"], reftelepules)
-        self.assertEqual("OSM Name", street_name)
-        self.assertEqual("1", street_type)
+        self.assertEqual(["011"], relation.get_street_reftelepules(street))
+        self.assertEqual("OSM Name 1", street)
 
     def test_range_level_override(self) -> None:
         """Tests the reftelepules range-level override."""
         relations = get_relations()
         street = "Csiki-hegyek utca"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(relations, street, relation_name)
-        refmegye, reftelepules, street_name, street_type = ret
+        relation = relations.get_relation(relation_name)
+        refmegye = relation.get_property("refmegye")
+        street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011", "013"], reftelepules)
-        self.assertEqual("Csiki-hegyek", street_name)
-        self.assertEqual("utca", street_type)
+        self.assertEqual(["011", "013"], relation.get_street_reftelepules(street))
+        self.assertEqual("Csiki-hegyek utca", street)
 
 
 class TestHtmlTableFromList(unittest.TestCase):

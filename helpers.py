@@ -153,7 +153,7 @@ class Relation:
                     if "reftelepules" in street_range_dict.keys():
                         ret.append(street_range_dict["reftelepules"])
 
-        return ret
+        return sorted(set(ret))
 
     def get_street_filters(self) -> List[str]:
         """Gets list of streets which are only in reference, but have to be filtered out."""
@@ -178,6 +178,15 @@ class Relation:
             filter_dict[street] = Ranges(i)
 
         return filter_dict
+
+    def get_ref_street_from_osm_street(self, osm_street_name: str) -> str:
+        """Maps an OSM street name to a ref street name."""
+        refstreets = self.get_refstreets()
+
+        if osm_street_name in refstreets.keys():
+            return refstreets[osm_street_name]
+
+        return osm_street_name
 
     def get_osm_streets_stream(self, mode: str) -> TextIO:
         """Opens the OSM street list of a relation."""
@@ -232,27 +241,6 @@ class Relations:
     def get_values(self) -> List[Any]:
         """Gets a list of relations."""
         return cast(List[Any], self.__dict.values())
-
-
-def get_street_details(
-        relations: Relations,
-        street: str,
-        relation_name: str
-) -> Tuple[str, List[str], str, str]:
-    """Determines the ref codes, street name and type for a street in a relation."""
-    relation = relations.get_relation(relation_name)
-    refmegye = relation.get_property("refmegye")
-
-    refstreets = relation.get_refstreets()
-    reftelepules_list = relation.get_street_reftelepules(street)
-
-    if street in refstreets.keys():
-        street = refstreets[street]
-
-    tokens = street.split(' ')
-    street_name = " ".join(tokens[:-1])
-    street_type = tokens[-1]
-    return refmegye, sorted(set(reftelepules_list)), street_name, street_type
 
 
 def sort_numerically(strings: Iterable[str]) -> List[str]:
@@ -696,12 +684,11 @@ def house_numbers_of_street(
         street: str
 ) -> List[str]:
     """Gets house numbers for a street locally."""
-    refmegye, reftelepules_list, street_name, street_type = get_street_details(relations,
-                                                                               street,
-                                                                               relation_name)
-    street = street_name + " " + street_type
+    relation = relations.get_relation(relation_name)
+    refmegye = relation.get_property("refmegye")
+    street = relation.get_ref_street_from_osm_street(street)
     ret = []  # type: List[str]
-    for reftelepules in reftelepules_list:
+    for reftelepules in relation.get_street_reftelepules(street):
         if street in reference[refmegye][reftelepules].keys():
             house_numbers = reference[refmegye][reftelepules][street]
             ret += [street + " " + i for i in house_numbers]
