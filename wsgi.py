@@ -189,6 +189,7 @@ def suspicious_streets_view_txt(relations: helpers.Relations, request_uri: str) 
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
+    relation = relations.get_relation(relation_name)
 
     output = ""
     if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
@@ -200,8 +201,7 @@ def suspicious_streets_view_txt(relations: helpers.Relations, request_uri: str) 
     else:
         suspicious_streets, _ = helpers.get_suspicious_streets(relations, relation_name)
 
-        relation_root = helpers.relation_init(get_datadir(), relation_name)
-        relation_filters = helpers.relation_get_filters(relation_root)
+        relation_filters = relation.get_filters()
 
         table = []
         for result in suspicious_streets:

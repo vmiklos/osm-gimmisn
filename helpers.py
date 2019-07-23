@@ -753,26 +753,6 @@ def get_sorted_reference_streets(relations: Relations, reference: str, relation_
             sock.write(line + "\n")
 
 
-def relation_init(datadir: str, relation_name: str) -> Dict[str, Any]:
-    """Returns a relation from a yaml path."""
-    relation_path = os.path.join(datadir, "relation-%s.yaml" % relation_name)
-    if os.path.exists(relation_path):
-        with open(relation_path) as sock:
-            root = {}  # type: Dict[str, Any]
-            root = yaml.load(sock)
-            return root
-
-    return {}
-
-
-def relation_get_filters(relation: Dict[str, Any]) -> Dict[str, Any]:
-    """Returns filters from a relation."""
-    if "filters" in relation.keys():
-        return cast(Dict[str, Any], relation["filters"])
-
-    return {}
-
-
 def relation_filters_get_street(filters: Dict[str, Any], street: str) -> Dict[str, Any]:
     """Returns a street from relation filters."""
     if street in filters.keys():
@@ -834,12 +814,13 @@ def format_even_odd(only_in_ref: List[str]) -> List[str]:
 
 def write_suspicious_streets_result(
         relations: Relations,
-        relation: str
+        relation_name: str
 ) -> Tuple[int, int, int, str, List[List[str]]]:
     """Calculate a write stat for the house number coverage of a relation."""
-    suspicious_streets, done_streets = get_suspicious_streets(relations, relation)
+    suspicious_streets, done_streets = get_suspicious_streets(relations, relation_name)
 
-    relation_filters = relation_get_filters(relation_init(relations.get_datadir(), relation))
+    relation = relations.get_relation(relation_name)
+    relation_filters = relation.get_filters()
 
     todo_count = 0
     table = []
@@ -866,7 +847,7 @@ def write_suspicious_streets_result(
         percent = "N/A"
 
     # Write the bottom line to a file, so the index page show it fast.
-    with open(os.path.join(relations.get_workdir(), relation + ".percent"), "w") as sock:
+    with open(os.path.join(relations.get_workdir(), relation_name + ".percent"), "w") as sock:
         sock.write(percent)
 
     todo_street_count = len(suspicious_streets)

@@ -344,12 +344,6 @@ class TestRelationGetStreetRanges(unittest.TestCase):
         street_blacklist = relations.get_relation("gazdagret").get_street_filters()
         self.assertEqual(street_blacklist, ['Only In Ref Nonsense utca'])
 
-    def test_nosuchname(self) -> None:
-        """Tests when there is no filters file."""
-        relations = get_relations()
-        ret = helpers.relation_init(relations.get_datadir(), "nosuchname")
-        self.assertEqual(ret, {})
-
     def test_empty(self) -> None:
         """Tests when the filter file is empty."""
         relations = get_relations()
@@ -819,9 +813,9 @@ class TestRelationStreetIsEvenOdd(unittest.TestCase):
     """Tests relation_street_is_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        datadir = os.path.join(os.path.dirname(__file__), "data")
-        relation = helpers.relation_init(datadir, "gazdagret")
-        filters = helpers.relation_get_filters(relation)
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        filters = relation.get_filters()
         street = helpers.relation_filters_get_street(filters, "Hamzsabégi út")
         self.assertFalse(helpers.relation_street_is_even_odd(street))
 
