@@ -365,7 +365,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relations = get_relations()
         street = "Budaörsi út"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(relations.get_datadir(), relations, street, relation_name)
+        ret = helpers.get_street_details(relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011"], reftelepules)
@@ -377,7 +377,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relations = get_relations()
         street = "Teszt utca"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(relations.get_datadir(), relations, street, relation_name)
+        ret = helpers.get_street_details(relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["012"], reftelepules)
@@ -389,7 +389,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relations = get_relations()
         street = "OSM Name 1"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(relations.get_datadir(), relations, street, relation_name)
+        ret = helpers.get_street_details(relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011"], reftelepules)
@@ -401,7 +401,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relations = get_relations()
         street = "OSM Name 1"
         relation_name = "nosuchrelation"
-        ret = helpers.get_street_details(relations.get_datadir(), relations, street, relation_name)
+        ret = helpers.get_street_details(relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011"], reftelepules)
@@ -413,7 +413,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relations = get_relations()
         street = "OSM Name 1"
         relation_name = "empty"
-        ret = helpers.get_street_details(relations.get_datadir(), relations, street, relation_name)
+        ret = helpers.get_street_details(relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011"], reftelepules)
@@ -425,7 +425,7 @@ class TestGetStreetDetails(unittest.TestCase):
         relations = get_relations()
         street = "Csiki-hegyek utca"
         relation_name = "gazdagret"
-        ret = helpers.get_street_details(relations.get_datadir(), relations, street, relation_name)
+        ret = helpers.get_street_details(relations, street, relation_name)
         refmegye, reftelepules, street_name, street_type = ret
         self.assertEqual("01", refmegye)
         self.assertEqual(["011", "013"], reftelepules)
@@ -585,10 +585,12 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         """Tests the case when percent can't be determined."""
         relations = get_relations()
         relation_name = "empty"
+        relation = relations.get_relation(relation_name)
         ret = helpers.write_suspicious_streets_result(relations, relation_name)
         _todo_street_count, _todo_count, _done_count, percent, _table = ret
         self.assertEqual(percent, 'N/A')
         os.unlink(os.path.join(relations.get_workdir(), "empty.percent"))
+        self.assertEqual({}, relation.get_filters())
 
 
 class TestWriteMissingRelationsResult(unittest.TestCase):

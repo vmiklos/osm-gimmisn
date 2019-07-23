@@ -121,6 +121,40 @@ class Relation:
 
         return "no"
 
+    def get_refstreets(self) -> Dict[str, str]:
+        """Returns an OSM name -> ref name map."""
+        if self.has_property("refstreets"):
+            return cast(Dict[str, str], self.get_property("refstreets"))
+        return {}
+
+    def get_filters(self) -> Dict[str, Any]:
+        """Returns a street name -> properties map."""
+        if self.has_property("filters"):
+            return cast(Dict[str, Any], self.get_property("filters"))
+        return {}
+
+    def get_street_reftelepules(self, street: str) -> List[str]:
+        """Returns a list of reftelepules values specific to a street."""
+        ret = [self.get_property("reftelepules")]
+        if not self.has_property("filters"):
+            return ret
+
+        relation_filters = self.get_filters()
+        for filter_street, value in relation_filters.items():
+            if filter_street != street:
+                continue
+
+            if "reftelepules" in value.keys():
+                reftelepules = cast(str, value["reftelepules"])
+                ret = [reftelepules]
+            if "ranges" in value.keys():
+                for street_range in value["ranges"]:
+                    street_range_dict = cast(Dict[str, str], street_range)
+                    if "reftelepules" in street_range_dict.keys():
+                        ret.append(street_range_dict["reftelepules"])
+
+        return ret
+
     def get_osm_streets_stream(self, mode: str) -> TextIO:
         """Opens the OSM street list of a relation."""
         path = os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
@@ -176,45 +210,7 @@ class Relations:
         return cast(List[Any], self.__dict.values())
 
 
-def get_reftelepules_list_from_yaml(
-        reftelepules_list: List[str],
-        value: Dict[str, Any]
-) -> List[str]:
-    """Determines street-level and range-level reftelepules overrides."""
-    if "reftelepules" in value.keys():
-        reftelepules = cast(str, value["reftelepules"])
-        reftelepules_list = [reftelepules]
-    if "ranges" in value.keys():
-        for street_range in value["ranges"]:
-            street_range_dict = cast(Dict[str, str], street_range)
-            if "reftelepules" in street_range_dict.keys():
-                reftelepules_list.append(street_range_dict["reftelepules"])
-
-    return reftelepules_list
-
-
-def parse_relation_yaml(
-        root: Dict[str, Any],
-        street: str,
-        refstreets: Dict[str, str],
-        reftelepules_list: List[str]
-) -> Tuple[Dict[str, str], List[str]]:
-    """Parses the yaml of a single relation."""
-    if "refstreets" in root.keys():
-        # From OSM name to ref name.
-        refstreets = cast(Dict[str, str], root["refstreets"])
-    if "filters" in root.keys():
-        # street-specific reftelepules override.
-        filters = cast(Dict[str, Any], root["filters"])
-        for filter_street, value in filters.items():
-            if filter_street == street:
-                reftelepules_list = get_reftelepules_list_from_yaml(reftelepules_list, value)
-
-    return refstreets, reftelepules_list
-
-
 def get_street_details(
-        datadir: str,
         relations: Relations,
         street: str,
         relation_name: str
@@ -222,12 +218,9 @@ def get_street_details(
     """Determines the ref codes, street name and type for a street in a relation."""
     relation = relations.get_relation(relation_name)
     refmegye = relation.get_property("refmegye")
-    reftelepules_list = [relation.get_property("reftelepules")]
 
-    refstreets = {}  # type: Dict[str, str]
-    root = relation_init(datadir, relation_name)
-    if root:
-        refstreets, reftelepules_list = parse_relation_yaml(root, street, refstreets, reftelepules_list)
+    refstreets = relation.get_refstreets()
+    reftelepules_list = relation.get_street_reftelepules(street)
 
     if street in refstreets.keys():
         street = refstreets[street]
@@ -708,8 +701,7 @@ def house_numbers_of_street(
         street: str
 ) -> List[str]:
     """Gets house numbers for a street locally."""
-    refmegye, reftelepules_list, street_name, street_type = get_street_details(relations.get_datadir(),
-                                                                               relations,
+    refmegye, reftelepules_list, street_name, street_type = get_street_details(relations,
                                                                                street,
                                                                                relation_name)
     street = street_name + " " + street_type
