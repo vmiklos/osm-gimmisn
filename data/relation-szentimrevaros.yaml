@@ -4,7 +4,9 @@ filters:
       - {start: '32', end: '44'}
   Bartók Béla út:
     ranges:
-      - {start: '1', end: '67'}
+      # 43-47 egyben
+      - {start: '1', end: '43'}
+      - {start: '47', end: '67'}
       - {start: '60', end: '82'}
   Bocskai út:
     ranges:
@@ -32,17 +34,16 @@ filters:
       - {start: '2', end: '10'}
   Kemenes utca:
     ranges:
-      # paratlan felmerendo
-      - {start: '1', end: '9'}
-      - {start: '2', end: '14'}
+      - {start: '2', end: '10'}
+      - {start: '14', end: '14'}
   Köbölkút utca:
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '40'}
   Kosztolányi Dezső tér:
+    interpolation: 'all'
     ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '4'}
+      - {start: '1', end: '4'}
       - {start: '12', end: '12'}
   Mányoki út:
     ranges:
@@ -52,13 +53,13 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '104'}
   Móricz Zsigmond körtér:
+    interpolation: 'all'
     ranges:
       - {start: '1', end: '13'}
-      - {start: '2', end: '12'}
   Szent Gellért tér:
+    interpolation: 'all'
     ranges:
-      - {start: '1', end: '1'}
-      - {start: '2', end: '2'}
+      - {start: '1', end: '2'}
   Szüret utca:
     ranges:
       - {start: '19', end: '29'}
@@ -79,6 +80,7 @@ filters:
       - {start: '16', end: '24'}
   Zsombolyai utca:
     ranges:
-      - {start: '1', end: '5'}
+      - {start: '1', end: '1'}
+      - {start: '5', end: '5'}
       - {start: '2', end: '6'}
 source: survey
