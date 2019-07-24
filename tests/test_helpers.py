@@ -513,17 +513,15 @@ class TestGetStreetsFromLst(unittest.TestCase):
                                          'Tűzkő utca'])
 
 
-class TestGetHouseNumbersFromCsv(unittest.TestCase):
-    """Tests get_house_numbers_from_csv()."""
+class TestRelationGetOsmHouseNumbers(unittest.TestCase):
+    """Tests Relation.get_osm_house_numbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relation_name = "gazdagret"
         street_name = "Törökugrató utca"
         relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        normalizers = relation.get_street_ranges()
         relation = relations.get_relation(relation_name)
-        house_numbers = helpers.get_house_numbers_from_csv(relation, street_name, normalizers)
+        house_numbers = relation.get_osm_housenumbers(street_name)
         self.assertEqual(house_numbers, ["1", "2"])
 
 

@@ -203,6 +203,23 @@ class Relation:
         path = os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
         return cast(TextIO, open(path, mode=mode))
 
+    def get_osm_housenumbers(self, street_name: str) -> List[str]:
+        """Gets the OSM house number list of a street."""
+        house_numbers = []  # type: List[str]
+        with self.get_osm_housenumbers_stream(mode="r") as sock:
+            first = True
+            for line in sock.readlines():
+                if first:
+                    first = False
+                    continue
+                tokens = line.strip().split('\t')
+                if len(tokens) < 3:
+                    continue
+                if tokens[1] != street_name:
+                    continue
+                house_numbers += normalize(tokens[2], street_name, self.get_street_ranges())
+        return sort_numerically(set(house_numbers))
+
     def get_osm_housenumbers_path(self) -> str:
         """Build the file name of the OSM house number list of a relation."""
         return os.path.join(self.__workdir, "street-housenumbers-%s.csv" % self.__name)
@@ -521,28 +538,6 @@ def get_streets_from_lst(workdir: str, relation_name: str) -> List[str]:
     return sorted(set(streets))
 
 
-def get_house_numbers_from_csv(
-        relation: Relation,
-        street_name: str,
-        normalizers: Dict[str, Ranges]
-) -> List[str]:
-    """Gets the OSM house number list of a street."""
-    house_numbers = []  # type: List[str]
-    with relation.get_osm_housenumbers_stream(mode="r") as sock:
-        first = True
-        for line in sock.readlines():
-            if first:
-                first = False
-                continue
-            tokens = line.strip().split('\t')
-            if len(tokens) < 3:
-                continue
-            if tokens[1] != street_name:
-                continue
-            house_numbers += normalize(tokens[2], street_name, normalizers)
-    return sort_numerically(set(house_numbers))
-
-
 def get_suspicious_streets(
         relations: Relations,
         relation_name: str
@@ -554,14 +549,11 @@ def get_suspicious_streets(
 
     relation = relations.get_relation(relation_name)
     street_names = relation.get_osm_streets()
-    normalizers = relation.get_street_ranges()
     for street_name in street_names:
-        reference_house_numbers = relation.get_ref_housenumbers(street_name)
-        osm_house_numbers = get_house_numbers_from_csv(relations.get_relation(relation_name),
-                                                       street_name,
-                                                       normalizers)
-        only_in_reference = get_only_in_first(reference_house_numbers, osm_house_numbers)
-        in_both = get_in_both(reference_house_numbers, osm_house_numbers)
+        ref_house_numbers = relation.get_ref_housenumbers(street_name)
+        osm_house_numbers = relation.get_osm_housenumbers(street_name)
+        only_in_reference = get_only_in_first(ref_house_numbers, osm_house_numbers)
+        in_both = get_in_both(ref_house_numbers, osm_house_numbers)
         if only_in_reference:
             suspicious_streets.append((street_name, only_in_reference))
         if in_both:
