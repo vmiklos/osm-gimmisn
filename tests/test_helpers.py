@@ -163,19 +163,21 @@ class TestGitLink(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestGetOsmStreets(unittest.TestCase):
-    """Tests get_osm_streets()."""
+class TestRelationGetOsmStreets(unittest.TestCase):
+    """Tests Relation.get_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
-        actual = helpers.get_osm_streets(relations, "test")
+        relation = relations.get_relation("test")
+        actual = relation.get_osm_streets()
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
     def test_no_house_number(self) -> None:
         """Tests the case when we have streets, but no house numbers."""
         relations = get_relations()
-        actual = helpers.get_osm_streets(relations, "ujbuda")
+        relation = relations.get_relation("ujbuda")
+        actual = relation.get_osm_streets()
         expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
         self.assertEqual(actual, expected)
 

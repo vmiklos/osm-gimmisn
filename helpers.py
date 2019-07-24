@@ -188,6 +188,16 @@ class Relation:
 
         return osm_street_name
 
+    def get_osm_streets(self) -> List[str]:
+        """Reads list of streets for an area from OSM."""
+        ret = []  # type: List[str]
+        with self.get_osm_streets_stream("r") as sock:
+            ret += get_nth_column(sock, 1)
+        if os.path.exists(self.get_osm_housenumbers_path()):
+            with self.get_osm_housenumbers_stream("r") as sock:
+                ret += get_nth_column(sock, 1)
+        return sorted(set(ret))
+
     def get_osm_streets_stream(self, mode: str) -> TextIO:
         """Opens the OSM street list of a relation."""
         path = os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
@@ -401,18 +411,6 @@ def get_nth_column(sock: TextIO, column: int) -> List[str]:
     return ret
 
 
-def get_osm_streets(relations: Relations, relation_name: str) -> List[str]:
-    """Reads list of streets for an area from OSM."""
-    ret = []  # type: List[str]
-    relation = relations.get_relation(relation_name)
-    with relation.get_osm_streets_stream("r") as sock:
-        ret += get_nth_column(sock, 1)
-    if os.path.exists(relation.get_osm_housenumbers_path()):
-        with relation.get_osm_housenumbers_stream("r") as sock:
-            ret += get_nth_column(sock, 1)
-    return sorted(set(ret))
-
-
 def get_workdir(config: configparser.ConfigParser) -> str:
     """Gets the directory which is writable."""
     return config.get('wsgi', 'workdir').strip()
@@ -562,8 +560,8 @@ def get_suspicious_streets(
     suspicious_streets = []
     done_streets = []
 
-    street_names = get_osm_streets(relations, relation_name)
     relation = relations.get_relation(relation_name)
+    street_names = relation.get_osm_streets()
     normalizers = relation.get_street_ranges()
     ref_streets = relation.get_refstreets()
     for street_name in street_names:
@@ -597,7 +595,7 @@ def get_suspicious_relations(relations: Relations, relation_name: str) -> Tuple[
     relation = relations.get_relation(relation_name)
     ref_streets = relation.get_refstreets()
     osm_streets = []
-    for street in get_osm_streets(relations, relation_name):
+    for street in relation.get_osm_streets():
         if street in ref_streets.keys():
             street = ref_streets[street]
         osm_streets.append(street)
@@ -715,7 +713,7 @@ def get_reference_housenumbers(relations: Relations, reference: str, relation_na
     relation = relations.get_relation(relation_name)
     memory_cache = build_reference_cache(reference)
 
-    streets = get_osm_streets(relations, relation_name)
+    streets = relation.get_osm_streets()
 
     lst = []  # type: List[str]
     for street in streets:
