@@ -20,6 +20,14 @@ filters:
     ranges:
       - {start: '35', end: '63'}
       - {start: '36', end: '60'}
+  Elek utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '28'}
+  Eszék utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '20'}
   Fadrusz utca:
     ranges:
       - {start: '1', end: '7'}
