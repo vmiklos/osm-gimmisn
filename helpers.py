@@ -212,6 +212,19 @@ class Relation:
         path = self.get_osm_housenumbers_path()
         return cast(TextIO, open(path, mode=mode))
 
+    def get_ref_housenumbers(self, osm_street_name: str) -> List[str]:
+        """Gets house numbers from reference."""
+        house_numbers = []  # type: List[str]
+        ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
+        prefix = ref_street_name + " "
+        with self.get_ref_housenumbers_stream("r") as sock:
+            for line in sock.readlines():
+                line = line.strip()
+                if line.startswith(prefix):
+                    house_number = line.replace(prefix, '')
+                    house_numbers += normalize(house_number, osm_street_name, self.get_street_ranges())
+        return sort_numerically(set(house_numbers))
+
     def get_ref_housenumbers_path(self) -> str:
         """Build the file name of the reference house number list of a relation."""
         return os.path.join(self.__workdir, "street-housenumbers-reference-%s.lst" % self.__name)
@@ -487,27 +500,6 @@ def normalize(house_numbers: str, street_name: str,
     return ret
 
 
-def get_house_numbers_from_lst(
-        relations: Relations,
-        relation_name: str,
-        street_name: str,
-        ref_street: str,
-        normalizers: Dict[str, Ranges]
-) -> List[str]:
-    """Gets house numbers from reference."""
-    house_numbers = []  # type: List[str]
-    lst_street_name = ref_street
-    prefix = lst_street_name + " "
-    relation = relations.get_relation(relation_name)
-    with relation.get_ref_housenumbers_stream("r") as sock:
-        for line in sock.readlines():
-            line = line.strip()
-            if line.startswith(prefix):
-                house_number = line.replace(prefix, '')
-                house_numbers += normalize(house_number, street_name, normalizers)
-    return sort_numerically(set(house_numbers))
-
-
 def get_reference_streets_path(workdir: str, relation_name: str) -> str:
     """Build the file name of the reference street list of a relation."""
     return os.path.join(workdir, "streets-reference-%s.lst" % relation_name)
@@ -563,15 +555,8 @@ def get_suspicious_streets(
     relation = relations.get_relation(relation_name)
     street_names = relation.get_osm_streets()
     normalizers = relation.get_street_ranges()
-    ref_streets = relation.get_refstreets()
     for street_name in street_names:
-        ref_street = street_name
-        # See if we need to map the OSM name to ref name.
-        if street_name in ref_streets.keys():
-            ref_street = ref_streets[street_name]
-
-        reference_house_numbers = get_house_numbers_from_lst(relations, relation_name, street_name,
-                                                             ref_street, normalizers)
+        reference_house_numbers = relation.get_ref_housenumbers(street_name)
         osm_house_numbers = get_house_numbers_from_csv(relations.get_relation(relation_name),
                                                        street_name,
                                                        normalizers)
