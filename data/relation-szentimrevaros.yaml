@@ -3,14 +3,15 @@ filters:
     ranges:
       - {start: '32', end: '44'}
   Bartók Béla út:
-    # 43-47 egyben
     ranges:
+      # 43-47 egyben
       - {start: '1', end: '43'}
       - {start: '47', end: '67'}
       - {start: '60', end: '82'}
   Bocskai út:
     ranges:
-      - {start: '1', end: '65'}
+      - {start: '1', end: '51'}
+      - {start: '65', end: '65'}
   Csetneki utca:
     ranges:
       - {start: '1', end: '13'}
