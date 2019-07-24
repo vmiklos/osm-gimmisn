@@ -525,17 +525,17 @@ class TestRelationGetOsmHouseNumbers(unittest.TestCase):
         self.assertEqual(house_numbers, ["1", "2"])
 
 
-class TestGetSuspiciousStreets(unittest.TestCase):
-    """Tests get_suspicious_streets()."""
+class TestRelationGetMissingHousenumbers(unittest.TestCase):
+    """Tests Relation.get_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
         relation_name = "gazdagret"
-        suspicious_streets, done_streets = helpers.get_suspicious_streets(relations,
-                                                                          relation_name)
-        self.assertEqual(suspicious_streets, [('Törökugrató utca', ['7', '10']),
-                                              ('Tűzkő utca', ['1', '2']),
-                                              ('Hamzsabégi út', ['1'])])
+        relation = relations.get_relation(relation_name)
+        ongoing_streets, done_streets = relation.get_missing_housenumbers()
+        self.assertEqual(ongoing_streets, [('Törökugrató utca', ['7', '10']),
+                                           ('Tűzkő utca', ['1', '2']),
+                                           ('Hamzsabégi út', ['1'])])
         expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
         self.assertEqual(done_streets, expected)
 

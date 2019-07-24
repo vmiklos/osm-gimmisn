@@ -199,12 +199,12 @@ def suspicious_streets_view_txt(relations: helpers.Relations, request_uri: str) 
     elif not os.path.exists(relations.get_relation(relation_name).get_ref_housenumbers_path()):
         output += "Nincsenek referencia házszámok"
     else:
-        suspicious_streets, _ = helpers.get_suspicious_streets(relations, relation_name)
+        ongoing_streets, _ = relation.get_missing_housenumbers()
 
         relation_filters = relation.get_filters()
 
         table = []
-        for result in suspicious_streets:
+        for result in ongoing_streets:
             if result[1]:
                 # Street name, only_in_reference items.
                 relation_street = helpers.relation_filters_get_street(relation_filters, result[0])

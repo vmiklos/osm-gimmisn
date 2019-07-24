@@ -250,6 +250,30 @@ class Relation:
         """Opens the reference house number list of a relation."""
         return cast(TextIO, open(self.get_ref_housenumbers_path(), mode=mode))
 
+    def get_missing_housenumbers(self) -> Tuple[List[Tuple[str, List[str]]], List[Tuple[str, List[str]]]]:
+        """
+        Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
+        Return value is a pair of ongoing and done streets.
+        Each of of these is a pair of a street name and a house number list.
+        """
+        ongoing_streets = []
+        done_streets = []
+
+        street_names = self.get_osm_streets()
+        for street_name in street_names:
+            ref_house_numbers = self.get_ref_housenumbers(street_name)
+            osm_house_numbers = self.get_osm_housenumbers(street_name)
+            only_in_reference = get_only_in_first(ref_house_numbers, osm_house_numbers)
+            in_both = get_in_both(ref_house_numbers, osm_house_numbers)
+            if only_in_reference:
+                ongoing_streets.append((street_name, only_in_reference))
+            if in_both:
+                done_streets.append((street_name, in_both))
+        # Sort by length.
+        ongoing_streets.sort(key=lambda result: len(result[1]), reverse=True)
+
+        return ongoing_streets, done_streets
+
 
 class Relations:
     """A relations object is a container of named relation objects."""
@@ -538,32 +562,6 @@ def get_streets_from_lst(workdir: str, relation_name: str) -> List[str]:
     return sorted(set(streets))
 
 
-def get_suspicious_streets(
-        relations: Relations,
-        relation_name: str
-) -> Tuple[List[Tuple[str, List[str]]], List[Tuple[str, List[str]]]]:
-    """Tries to find streets which do have at least one house number, but are suspicious as other
-    house numbers are probably missing."""
-    suspicious_streets = []
-    done_streets = []
-
-    relation = relations.get_relation(relation_name)
-    street_names = relation.get_osm_streets()
-    for street_name in street_names:
-        ref_house_numbers = relation.get_ref_housenumbers(street_name)
-        osm_house_numbers = relation.get_osm_housenumbers(street_name)
-        only_in_reference = get_only_in_first(ref_house_numbers, osm_house_numbers)
-        in_both = get_in_both(ref_house_numbers, osm_house_numbers)
-        if only_in_reference:
-            suspicious_streets.append((street_name, only_in_reference))
-        if in_both:
-            done_streets.append((street_name, in_both))
-    # Sort by length.
-    suspicious_streets.sort(key=lambda result: len(result[1]), reverse=True)
-
-    return suspicious_streets, done_streets
-
-
 def get_suspicious_relations(relations: Relations, relation_name: str) -> Tuple[List[str], List[str]]:
     """Tries to find missing streets in a relation."""
     relation = relations.get_relation(relation_name)
@@ -779,15 +777,15 @@ def write_suspicious_streets_result(
         relation_name: str
 ) -> Tuple[int, int, int, str, List[List[str]]]:
     """Calculate a write stat for the house number coverage of a relation."""
-    suspicious_streets, done_streets = get_suspicious_streets(relations, relation_name)
-
     relation = relations.get_relation(relation_name)
+    ongoing_streets, done_streets = relation.get_missing_housenumbers()
+
     relation_filters = relation.get_filters()
 
     todo_count = 0
     table = []
     table.append(["Utcanév", "Hiányzik db", "Házszámok"])
-    for result in suspicious_streets:
+    for result in ongoing_streets:
         # street_name, only_in_ref
         row = []
         row.append(result[0])
@@ -812,7 +810,7 @@ def write_suspicious_streets_result(
     with open(os.path.join(relations.get_workdir(), relation_name + ".percent"), "w") as sock:
         sock.write(percent)
 
-    todo_street_count = len(suspicious_streets)
+    todo_street_count = len(ongoing_streets)
     return todo_street_count, todo_count, done_count, percent, table
 
 

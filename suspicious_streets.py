@@ -25,9 +25,10 @@ def main() -> None:
         relation_name = sys.argv[1]
 
     relations = helpers.Relations(datadir, workdir)
-    suspicious_streets, _ = helpers.get_suspicious_streets(relations, relation_name)
+    relation = relations.get_relation(relation_name)
+    ongoing_streets, _ = relation.get_missing_housenumbers()
 
-    for result in suspicious_streets:
+    for result in ongoing_streets:
         if result[1]:
             # House number, # of only_in_reference items.
             print("%s\t%s" % (result[0], len(result[1])))
