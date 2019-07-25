@@ -25,7 +25,8 @@ def main() -> None:
         relation_name = sys.argv[1]
 
     relations = helpers.Relations(datadir, workdir)
-    only_in_reference, _ = helpers.get_suspicious_relations(relations, relation_name)
+    relation = relations.get_relation(relation_name)
+    only_in_reference, _ = relation.get_missing_streets()
 
     for street in only_in_reference:
         print(street)

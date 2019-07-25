@@ -274,6 +274,18 @@ class Relation:
 
         return ongoing_streets, done_streets
 
+    def get_missing_streets(self) -> Tuple[List[str], List[str]]:
+        """Tries to find missing streets in a relation."""
+        reference_streets = get_streets_from_lst(self.__workdir, self.__name)
+        street_blacklist = self.get_street_filters()
+        osm_streets = [self.get_ref_street_from_osm_street(street) for street in self.get_osm_streets()]
+
+        only_in_reference = get_only_in_first(reference_streets, osm_streets)
+        only_in_reference = [i for i in only_in_reference if i not in street_blacklist]
+        in_both = get_in_both(reference_streets, osm_streets)
+
+        return only_in_reference, in_both
+
 
 class Relations:
     """A relations object is a container of named relation objects."""
@@ -562,26 +574,6 @@ def get_streets_from_lst(workdir: str, relation_name: str) -> List[str]:
     return sorted(set(streets))
 
 
-def get_suspicious_relations(relations: Relations, relation_name: str) -> Tuple[List[str], List[str]]:
-    """Tries to find missing streets in a relation."""
-    relation = relations.get_relation(relation_name)
-    reference_streets = get_streets_from_lst(relations.get_workdir(), relation_name)
-    street_blacklist = relation.get_street_filters()
-    relation = relations.get_relation(relation_name)
-    ref_streets = relation.get_refstreets()
-    osm_streets = []
-    for street in relation.get_osm_streets():
-        if street in ref_streets.keys():
-            street = ref_streets[street]
-        osm_streets.append(street)
-
-    only_in_reference = get_only_in_first(reference_streets, osm_streets)
-    only_in_reference = [i for i in only_in_reference if i not in street_blacklist]
-    in_both = get_in_both(reference_streets, osm_streets)
-
-    return only_in_reference, in_both
-
-
 def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
     memory_cache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
@@ -814,9 +806,10 @@ def write_suspicious_streets_result(
     return todo_street_count, todo_count, done_count, percent, table
 
 
-def write_missing_relations_result(relations: Relations, relation: str) -> Tuple[int, int, str, List[str]]:
+def write_missing_relations_result(relations: Relations, relation_name: str) -> Tuple[int, int, str, List[str]]:
     """Calculate a write stat for the street coverage of a relation."""
-    todo_streets, done_streets = get_suspicious_relations(relations, relation)
+    relation = relations.get_relation(relation_name)
+    todo_streets, done_streets = relation.get_missing_streets()
     streets = []
     for street in todo_streets:
         streets.append(street)
@@ -828,7 +821,7 @@ def write_missing_relations_result(relations: Relations, relation: str) -> Tuple
         percent = "N/A"
 
     # Write the bottom line to a file, so the index page show it fast.
-    with open(os.path.join(relations.get_workdir(), relation + "-streets.percent"), "w") as sock:
+    with open(os.path.join(relations.get_workdir(), relation_name + "-streets.percent"), "w") as sock:
         sock.write(percent)
 
     return todo_count, done_count, percent, streets

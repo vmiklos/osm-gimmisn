@@ -222,15 +222,16 @@ def suspicious_streets_view_txt(relations: helpers.Relations, request_uri: str) 
 def suspicious_relations_view_txt(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
-    relation = tokens[-2]
+    relation_name = tokens[-2]
+    relation = relations.get_relation(relation_name)
 
     output = ""
-    if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation + ".csv")):
+    if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
         output += "Nincsenek meglévő utcák"
-    elif not os.path.exists(helpers.get_reference_streets_path(relations.get_workdir(), relation)):
+    elif not os.path.exists(helpers.get_reference_streets_path(relations.get_workdir(), relation_name)):
         output += "Nincsenek referencia utcák"
     else:
-        todo_streets, _ = helpers.get_suspicious_relations(relations, relation)
+        todo_streets, _ = relation.get_missing_streets()
         todo_streets.sort(key=locale.strxfrm)
         output += "\n".join(todo_streets)
     return output

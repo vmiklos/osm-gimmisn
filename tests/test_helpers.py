@@ -540,13 +540,14 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
         self.assertEqual(done_streets, expected)
 
 
-class TestGetSuspiciousRelations(unittest.TestCase):
-    """Tests get_suspicious_relations()."""
+class TestRelationGetMissingStreets(unittest.TestCase):
+    """Tests Relation.get_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
         relation_name = "gazdagret"
-        only_in_reference, in_both = helpers.get_suspicious_relations(relations, relation_name)
+        relation = relations.get_relation(relation_name)
+        only_in_reference, in_both = relation.get_missing_streets()
 
         # Not that 'Only In Ref Nonsense utca' is missing from this list.
         self.assertEqual(only_in_reference, ['Only In Ref utca'])
