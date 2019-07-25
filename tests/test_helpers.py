@@ -502,9 +502,10 @@ class TestGetStreetsFromLst(unittest.TestCase):
     """Tests get_streets_from_lst()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        workdir = os.path.join(os.path.dirname(__file__), "workdir")
         relation_name = "gazdagret"
-        house_numbers = helpers.get_streets_from_lst(workdir, relation_name)
+        relations = get_relations()
+        relation = relations.get_relation(relation_name)
+        house_numbers = helpers.get_streets_from_lst(relation)
         self.assertEqual(house_numbers, ['Hamzsabégi út',
                                          'Only In Ref Nonsense utca',
                                          'Only In Ref utca',

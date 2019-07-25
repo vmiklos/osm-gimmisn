@@ -279,14 +279,15 @@ def handle_suspicious_streets(relations: helpers.Relations, request_uri: str) ->
     return get_header(relations, "suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
 
 
-def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpers.Relations) -> str:
+def handle_suspicious_relations(relations: helpers.Relations, request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-[result|query]."""
     output = ""
 
     tokens = request_uri.split("/")
-    relation = tokens[-2]
+    relation_name = tokens[-2]
     action = tokens[-1]
     action_noext, _, ext = action.partition('.')
+    relation = relations.get_relation(relation_name)
 
     if action_noext == "view-result":
         if ext == "txt":
@@ -295,15 +296,15 @@ def handle_suspicious_relations(request_uri: str, workdir: str, relations: helpe
         output += missing_relations_view_result(relations, request_uri, workdir)
     elif action_noext == "view-query":
         output += "<pre>"
-        with helpers.get_reference_streets(workdir, relation, "r") as sock:
+        with relation.get_ref_streets_stream("r") as sock:
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
-        output += suspicious_relations_update(relations, relation)
+        output += suspicious_relations_update(relations, relation_name)
 
-    osmrelation = relations.get_relation(relation).get_property("osmrelation")
-    date = ref_streets_last_modified(workdir, relation)
-    return get_header(relations, "suspicious-relations", relation, osmrelation) + output + get_footer(date)
+    osmrelation = relation.get_property("osmrelation")
+    date = ref_streets_last_modified(workdir, relation_name)
+    return get_header(relations, "suspicious-relations", relation_name, osmrelation) + output + get_footer(date)
 
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
@@ -653,7 +654,7 @@ def our_application(
     if request_uri.startswith("/osm/streets/"):
         output = handle_streets(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-relations/"):
-        output = handle_suspicious_relations(request_uri, workdir, relations)
+        output = handle_suspicious_relations(relations, request_uri, workdir)
     elif request_uri.startswith("/osm/street-housenumbers/"):
         output = handle_street_housenumbers(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-streets/"):

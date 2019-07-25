@@ -188,6 +188,11 @@ class Relation:
 
         return osm_street_name
 
+    def get_ref_streets_stream(self, mode: str) -> TextIO:
+        """Opens the reference street list of a relation."""
+        path = get_reference_streets_path(self.__workdir, self.__name)
+        return cast(TextIO, open(path, mode=mode))
+
     def get_osm_streets(self) -> List[str]:
         """Reads list of streets for an area from OSM."""
         ret = []  # type: List[str]
@@ -276,7 +281,7 @@ class Relation:
 
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
-        reference_streets = get_streets_from_lst(self.__workdir, self.__name)
+        reference_streets = get_streets_from_lst(self)
         street_blacklist = self.get_street_filters()
         osm_streets = [self.get_ref_street_from_osm_street(street) for street in self.get_osm_streets()]
 
@@ -558,16 +563,10 @@ def get_reference_streets_path(workdir: str, relation_name: str) -> str:
     return os.path.join(workdir, "streets-reference-%s.lst" % relation_name)
 
 
-def get_reference_streets(workdir: str, relation_name: str, mode: str) -> TextIO:
-    """Opens the reference street list of a relation."""
-    path = get_reference_streets_path(workdir, relation_name)
-    return cast(TextIO, open(path, mode=mode))
-
-
-def get_streets_from_lst(workdir: str, relation_name: str) -> List[str]:
+def get_streets_from_lst(relation: Relation) -> List[str]:
     """Gets streets from reference."""
     streets = []  # type: List[str]
-    with get_reference_streets(workdir, relation_name, "r") as sock:
+    with relation.get_ref_streets_stream("r") as sock:
         for line in sock.readlines():
             line = line.strip()
             streets.append(line)
@@ -700,7 +699,8 @@ def get_sorted_reference_streets(relations: Relations, reference: str, relation_
     lst = streets_of_relation(relations, memory_cache, relation_name)
 
     lst = sorted(set(lst))
-    with get_reference_streets(relations.get_workdir(), relation_name, "w") as sock:
+    relation = relations.get_relation(relation_name)
+    with relation.get_ref_streets_stream("w") as sock:
         for line in lst:
             sock.write(line + "\n")
 
