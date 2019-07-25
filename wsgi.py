@@ -73,7 +73,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
         output += helpers.get_streets_query(get_datadir(), relations, relation_name)
         output += "</pre>"
     elif action == "view-result":
-        with relation.get_osm_streets_stream("r") as sock:
+        with relation.get_files().get_osm_streets_stream("r") as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
@@ -103,7 +103,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
         output += helpers.get_street_housenumbers_query(get_datadir(), relations, relation_name)
         output += "</pre>"
     elif action == "view-result":
-        with relation.get_osm_housenumbers_stream(mode="r") as sock:
+        with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
@@ -134,7 +134,7 @@ def suspicious_streets_view_result(relations: helpers.Relations, request_uri: st
         output += "Nincsenek meglévő házszámok: "
         output += "<a href=\"/osm/street-housenumbers/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(relation.get_ref_housenumbers_path()):
+    elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         output += "Nincsenek hiányzó házszámok: "
         output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
         output += "Létrehozás referenciából</a>"
@@ -166,7 +166,7 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
         output += "Nincsenek meglévő utcák: "
         output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(relation.get_ref_streets_path()):
+    elif not os.path.exists(relation.get_files().get_ref_streets_path()):
         output += "Nincsen utcalista: "
         output += "<a href=\"/osm/suspicious-relations/" + relation_name + "/update-result\">"
         output += "Létrehozás referenciából</a>"
@@ -197,7 +197,7 @@ def suspicious_streets_view_txt(relations: helpers.Relations, request_uri: str) 
         output += "Nincsenek meglévő utcák"
     elif not os.path.exists(os.path.join(relations.get_workdir(), "street-housenumbers-" + relation_name + ".csv")):
         output += "Nincsenek meglévő házszámok"
-    elif not os.path.exists(relations.get_relation(relation_name).get_ref_housenumbers_path()):
+    elif not os.path.exists(relations.get_relation(relation_name).get_files().get_ref_housenumbers_path()):
         output += "Nincsenek referencia házszámok"
     else:
         ongoing_streets, _ = relation.get_missing_housenumbers()
@@ -229,7 +229,7 @@ def suspicious_relations_view_txt(relations: helpers.Relations, request_uri: str
     output = ""
     if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
         output += "Nincsenek meglévő utcák"
-    elif not os.path.exists(relation.get_ref_streets_path()):
+    elif not os.path.exists(relation.get_files().get_ref_streets_path()):
         output += "Nincsenek referencia utcák"
     else:
         todo_streets, _ = relation.get_missing_streets()
@@ -269,7 +269,7 @@ def handle_suspicious_streets(relations: helpers.Relations, request_uri: str) ->
         output += suspicious_streets_view_result(relations, request_uri)
     elif action_noext == "view-query":
         output += "<pre>"
-        with relation.get_ref_housenumbers_stream("r") as sock:
+        with relation.get_files().get_ref_housenumbers_stream("r") as sock:
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
@@ -297,7 +297,7 @@ def handle_suspicious_relations(relations: helpers.Relations, request_uri: str, 
         output += missing_relations_view_result(relations, request_uri, workdir)
     elif action_noext == "view-query":
         output += "<pre>"
-        with relation.get_ref_streets_stream("r") as sock:
+        with relation.get_files().get_ref_streets_stream("r") as sock:
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
@@ -346,14 +346,14 @@ def format_timestamp(timestamp: float) -> str:
 
 def ref_housenumbers_last_modified(relations: helpers.Relations, name: str) -> str:
     """Gets the update date for suspicious streets."""
-    t_ref = get_timestamp(relations.get_relation(name).get_ref_housenumbers_path())
+    t_ref = get_timestamp(relations.get_relation(name).get_files().get_ref_housenumbers_path())
     t_housenumbers = get_timestamp(relations.get_workdir(), "street-housenumbers-" + name + ".csv")
     return format_timestamp(max(t_ref, t_housenumbers))
 
 
 def ref_streets_last_modified(relation: helpers.Relation, workdir: str, name: str) -> str:
     """Gets the update date for missing streets."""
-    t_ref = get_timestamp(relation.get_ref_streets_path())
+    t_ref = get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = get_timestamp(workdir, "streets-" + name + ".csv")
     return format_timestamp(max(t_ref, t_osm))
 
