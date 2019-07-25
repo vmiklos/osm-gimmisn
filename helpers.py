@@ -105,38 +105,34 @@ class Relation:
         if key in self.__dict.keys():
             return self.__dict[key]
 
-        return self.__parent[key]
+        if key in self.__parent.keys():
+            return self.__parent[key]
 
-    def has_property(self, key: str) -> bool:
-        """Finds out if a given property is available, transparently."""
-        if key in self.__dict.keys():
-            return True
-
-        return key in self.__parent.keys()
+        return None
 
     def should_check_missing_streets(self) -> str:
         """Return value can be yes, no and only. Current default is "no"."""
-        if self.has_property("suspicious-relations"):
+        if self.get_property("suspicious-relations"):
             return cast(str, self.get_property("suspicious-relations"))
 
         return "no"
 
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""
-        if self.has_property("refstreets"):
+        if self.get_property("refstreets"):
             return cast(Dict[str, str], self.get_property("refstreets"))
         return {}
 
     def get_filters(self) -> Dict[str, Any]:
         """Returns a street name -> properties map."""
-        if self.has_property("filters"):
+        if self.get_property("filters"):
             return cast(Dict[str, Any], self.get_property("filters"))
         return {}
 
     def get_street_reftelepules(self, street: str) -> List[str]:
         """Returns a list of reftelepules values specific to a street."""
         ret = [self.get_property("reftelepules")]
-        if not self.has_property("filters"):
+        if not self.get_property("filters"):
             return ret
 
         relation_filters = self.get_filters()
@@ -157,7 +153,7 @@ class Relation:
 
     def get_street_filters(self) -> List[str]:
         """Gets list of streets which are only in reference, but have to be filtered out."""
-        if self.has_property("street-filters"):
+        if self.get_property("street-filters"):
             return cast(List[str], self.get_property("street-filters"))
         return []
 
@@ -188,9 +184,13 @@ class Relation:
 
         return osm_street_name
 
+    def get_ref_streets_path(self) -> str:
+        """Build the file name of the reference street list of a relation."""
+        return os.path.join(self.__workdir, "streets-reference-%s.lst" % self.__name)
+
     def get_ref_streets_stream(self, mode: str) -> TextIO:
         """Opens the reference street list of a relation."""
-        path = get_reference_streets_path(self.__workdir, self.__name)
+        path = self.get_ref_streets_path()
         return cast(TextIO, open(path, mode=mode))
 
     def get_osm_streets(self) -> List[str]:
@@ -556,11 +556,6 @@ def normalize(house_numbers: str, street_name: str,
 
         ret.append(str(number))
     return ret
-
-
-def get_reference_streets_path(workdir: str, relation_name: str) -> str:
-    """Build the file name of the reference street list of a relation."""
-    return os.path.join(workdir, "streets-reference-%s.lst" % relation_name)
 
 
 def get_streets_from_lst(relation: Relation) -> List[str]:

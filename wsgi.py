@@ -158,19 +158,20 @@ def suspicious_streets_view_result(relations: helpers.Relations, request_uri: st
 def missing_relations_view_result(relations: helpers.Relations, request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result."""
     tokens = request_uri.split("/")
-    relation = tokens[-2]
+    relation_name = tokens[-2]
+    relation = relations.get_relation(relation_name)
 
     output = ""
-    if not os.path.exists(os.path.join(workdir, "streets-" + relation + ".csv")):
+    if not os.path.exists(os.path.join(workdir, "streets-" + relation_name + ".csv")):
         output += "Nincsenek meglévő utcák: "
-        output += "<a href=\"/osm/streets/" + relation + "/update-result\">"
+        output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(helpers.get_reference_streets_path(workdir, relation)):
+    elif not os.path.exists(relation.get_ref_streets_path()):
         output += "Nincsen utcalista: "
-        output += "<a href=\"/osm/suspicious-relations/" + relation + "/update-result\">"
+        output += "<a href=\"/osm/suspicious-relations/" + relation_name + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        ret = helpers.write_missing_relations_result(relations, relation)
+        ret = helpers.write_missing_relations_result(relations, relation_name)
         todo_count, done_count, percent, streets = ret
         streets.sort(key=locale.strxfrm)
         table = [["Utcanév"]]
@@ -228,7 +229,7 @@ def suspicious_relations_view_txt(relations: helpers.Relations, request_uri: str
     output = ""
     if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
         output += "Nincsenek meglévő utcák"
-    elif not os.path.exists(helpers.get_reference_streets_path(relations.get_workdir(), relation_name)):
+    elif not os.path.exists(relation.get_ref_streets_path()):
         output += "Nincsenek referencia utcák"
     else:
         todo_streets, _ = relation.get_missing_streets()
@@ -303,7 +304,7 @@ def handle_suspicious_relations(relations: helpers.Relations, request_uri: str, 
         output += suspicious_relations_update(relations, relation_name)
 
     osmrelation = relation.get_property("osmrelation")
-    date = ref_streets_last_modified(workdir, relation_name)
+    date = ref_streets_last_modified(relation, workdir, relation_name)
     return get_header(relations, "suspicious-relations", relation_name, osmrelation) + output + get_footer(date)
 
 
@@ -350,9 +351,9 @@ def ref_housenumbers_last_modified(relations: helpers.Relations, name: str) -> s
     return format_timestamp(max(t_ref, t_housenumbers))
 
 
-def ref_streets_last_modified(workdir: str, name: str) -> str:
+def ref_streets_last_modified(relation: helpers.Relation, workdir: str, name: str) -> str:
     """Gets the update date for missing streets."""
-    t_ref = get_timestamp(helpers.get_reference_streets_path(workdir, name))
+    t_ref = get_timestamp(relation.get_ref_streets_path())
     t_osm = get_timestamp(workdir, "streets-" + name + ".csv")
     return format_timestamp(max(t_ref, t_osm))
 
