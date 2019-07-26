@@ -498,14 +498,14 @@ class TestRelationGetRefHousenumbers(unittest.TestCase):
         self.assertEqual(house_numbers, ["1", "2", "7", "10"])
 
 
-class TestGetStreetsFromLst(unittest.TestCase):
-    """Tests get_streets_from_lst()."""
+class TestRelationGetRefStreets(unittest.TestCase):
+    """Tests Relation.GetRefStreets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relation_name = "gazdagret"
         relations = get_relations()
         relation = relations.get_relation(relation_name)
-        house_numbers = helpers.get_streets_from_lst(relation)
+        house_numbers = relation.get_ref_streets()
         self.assertEqual(house_numbers, ['Hamzsabégi út',
                                          'Only In Ref Nonsense utca',
                                          'Only In Ref utca',

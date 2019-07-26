@@ -255,6 +255,15 @@ class Relation:
                 house_numbers += normalize(tokens[2], street_name, self.get_street_ranges())
         return sort_numerically(set(house_numbers))
 
+    def get_ref_streets(self) -> List[str]:
+        """Gets streets from reference."""
+        streets = []  # type: List[str]
+        with self.get_files().get_ref_streets_stream("r") as sock:
+            for line in sock.readlines():
+                line = line.strip()
+                streets.append(line)
+        return sorted(set(streets))
+
     def get_ref_housenumbers(self, osm_street_name: str) -> List[str]:
         """Gets house numbers from reference."""
         house_numbers = []  # type: List[str]
@@ -294,7 +303,7 @@ class Relation:
 
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
-        reference_streets = get_streets_from_lst(self)
+        reference_streets = self.get_ref_streets()
         street_blacklist = self.get_street_filters()
         osm_streets = [self.get_ref_street_from_osm_street(street) for street in self.get_osm_streets()]
 
@@ -569,16 +578,6 @@ def normalize(house_numbers: str, street_name: str,
 
         ret.append(str(number))
     return ret
-
-
-def get_streets_from_lst(relation: Relation) -> List[str]:
-    """Gets streets from reference."""
-    streets = []  # type: List[str]
-    with relation.get_files().get_ref_streets_stream("r") as sock:
-        for line in sock.readlines():
-            line = line.strip()
-            streets.append(line)
-    return sorted(set(streets))
 
 
 def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]]]]:
