@@ -279,6 +279,7 @@ class Relation:
     ) -> List[str]:
         """
         Builds a list of housenumbers from a reference cache.
+        This is serialized to disk by write_ref_housenumbers().
         """
         refmegye = self.get_property("refmegye")
         street = self.get_ref_street_from_osm_street(street)
@@ -290,8 +291,27 @@ class Relation:
 
         return ret
 
+    def write_ref_housenumbers(self, reference: str) -> None:
+        """
+        Writes known house numbers (not their coordinates) from a reference, based on street names
+        from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
+        used by get_ref_housenumbers().
+        """
+        memory_cache = build_reference_cache(reference)
+
+        streets = self.get_osm_streets()
+
+        lst = []  # type: List[str]
+        for street in streets:
+            lst += self.build_ref_housenumbers(memory_cache, street)
+
+        lst = sorted(set(lst))
+        with self.get_files().get_ref_housenumbers_stream("w") as sock:
+            for line in lst:
+                sock.write(line + "\n")
+
     def get_ref_housenumbers(self, osm_street_name: str) -> List[str]:
-        """Gets house numbers from reference."""
+        """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         house_numbers = []  # type: List[str]
         ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
         prefix = ref_street_name + " "
@@ -672,24 +692,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     with open(disk_cache, "wb") as sock_cache:
         pickle.dump(memory_cache, sock_cache)
     return memory_cache
-
-
-def get_reference_housenumbers(relations: Relations, reference: str, relation_name: str) -> None:
-    """Gets known house numbers (not their coordinates) from a reference site, based on street names
-    from OSM."""
-    relation = relations.get_relation(relation_name)
-    memory_cache = build_reference_cache(reference)
-
-    streets = relation.get_osm_streets()
-
-    lst = []  # type: List[str]
-    for street in streets:
-        lst += relation.build_ref_housenumbers(memory_cache, street)
-
-    lst = sorted(set(lst))
-    with relation.get_files().get_ref_housenumbers_stream("w") as sock:
-        for line in lst:
-            sock.write(line + "\n")
 
 
 def get_sorted_reference_streets(relations: Relations, reference: str, relation_name: str) -> None:

@@ -720,8 +720,8 @@ class TestRelationBuildRefStreets(unittest.TestCase):
                                'Hamzsabégi út'])
 
 
-class TestGetReferenceHousenumbers(unittest.TestCase):
-    """Tests get_reference_housenumbers()."""
+class TestRelationWriteRefHousenumbers(unittest.TestCase):
+    """Tests Relation.write_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
@@ -729,7 +729,8 @@ class TestGetReferenceHousenumbers(unittest.TestCase):
         relations = get_relations()
         relation_name = "gazdagret"
         expected = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
-        helpers.get_reference_housenumbers(relations, refpath, relation_name)
+        relation = relations.get_relation(relation_name)
+        relation.write_ref_housenumbers(refpath)
         actual = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 

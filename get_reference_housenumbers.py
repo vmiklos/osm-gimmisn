@@ -27,7 +27,8 @@ def main() -> None:
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = config.get('wsgi', 'workdir').strip()
     relations = helpers.Relations(datadir, workdir)
-    helpers.get_reference_housenumbers(relations, reference, relation_name)
+    relation = relations.get_relation(relation_name)
+    relation.write_ref_housenumbers(reference)
 
 
 if __name__ == "__main__":
