@@ -485,6 +485,14 @@ class TestNormalize(unittest.TestCase):
         house_numbers = helpers.normalize("1", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["1"])
 
+    def test_separator_semicolon(self) -> None:
+        """Tests the case when ';' is a separator."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        normalizers = relation.get_street_ranges()
+        house_numbers = helpers.normalize("1;2", "Budaörs út", normalizers)
+        self.assertEqual(house_numbers, ["1", "2"])
+
 
 class TestRelationGetRefHousenumbers(unittest.TestCase):
     """Tests Relation.get_house_numbers_from_lst()."""

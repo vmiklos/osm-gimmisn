@@ -606,7 +606,11 @@ def normalize(house_numbers: str, street_name: str,
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
     ret = []
-    for house_number in house_numbers.split('-'):
+    if ';' in house_numbers:
+        separator = ';'
+    else:
+        separator = '-'
+    for house_number in house_numbers.split(separator):
         try:
             number = int(re.sub(r"([0-9]+).*", r"\1", house_number))
         except ValueError:
