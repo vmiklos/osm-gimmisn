@@ -674,8 +674,8 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
         os.unlink(refpath + ".pickle")
 
 
-class TestHouseNumbersOfStreet(unittest.TestCase):
-    """Tests house_numbers_of_street()."""
+class TestRelationBuildRefHousenumbers(unittest.TestCase):
+    """Tests Relation.build_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
@@ -684,7 +684,8 @@ class TestHouseNumbersOfStreet(unittest.TestCase):
         memory_cache = helpers.build_reference_cache(refpath)
         relation_name = "gazdagret"
         street = "Törökugrató utca"
-        ret = helpers.house_numbers_of_street(relations, memory_cache, relation_name, street)
+        relation = relations.get_relation(relation_name)
+        ret = relation.build_ref_housenumbers(memory_cache, street)
         self.assertEqual(ret, ['Törökugrató utca 1', 'Törökugrató utca 10', 'Törökugrató utca 2', 'Törökugrató utca 7'])
 
     def test_missing(self) -> None:
@@ -695,7 +696,8 @@ class TestHouseNumbersOfStreet(unittest.TestCase):
         memory_cache = helpers.build_reference_cache(refpath)
         relation_name = "gazdagret"
         street = "No such utca"
-        ret = helpers.house_numbers_of_street(relations, memory_cache, relation_name, street)
+        relation = relations.get_relation(relation_name)
+        ret = relation.build_ref_housenumbers(memory_cache, street)
         self.assertEqual(ret, [])
 
 

@@ -264,6 +264,24 @@ class Relation:
                 streets.append(line)
         return sorted(set(streets))
 
+    def build_ref_housenumbers(
+            self,
+            reference: Dict[str, Dict[str, Dict[str, List[str]]]],
+            street: str
+    ) -> List[str]:
+        """
+        Builds a list of housenumbers from a reference cache.
+        """
+        refmegye = self.get_property("refmegye")
+        street = self.get_ref_street_from_osm_street(street)
+        ret = []  # type: List[str]
+        for reftelepules in self.get_street_reftelepules(street):
+            if street in reference[refmegye][reftelepules].keys():
+                house_numbers = reference[refmegye][reftelepules][street]
+                ret += [street + " " + i for i in house_numbers]
+
+        return ret
+
     def get_ref_housenumbers(self, osm_street_name: str) -> List[str]:
         """Gets house numbers from reference."""
         house_numbers = []  # type: List[str]
@@ -648,25 +666,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def house_numbers_of_street(
-        relations: Relations,
-        reference: Dict[str, Dict[str, Dict[str, List[str]]]],
-        relation_name: str,
-        street: str
-) -> List[str]:
-    """Gets house numbers for a street locally."""
-    relation = relations.get_relation(relation_name)
-    refmegye = relation.get_property("refmegye")
-    street = relation.get_ref_street_from_osm_street(street)
-    ret = []  # type: List[str]
-    for reftelepules in relation.get_street_reftelepules(street):
-        if street in reference[refmegye][reftelepules].keys():
-            house_numbers = reference[refmegye][reftelepules][street]
-            ret += [street + " " + i for i in house_numbers]
-
-    return ret
-
-
 def streets_of_relation(
         relations: Relations,
         reference: Dict[str, Dict[str, List[str]]],
@@ -690,7 +689,7 @@ def get_reference_housenumbers(relations: Relations, reference: str, relation_na
 
     lst = []  # type: List[str]
     for street in streets:
-        lst += house_numbers_of_street(relations, memory_cache, relation_name, street)
+        lst += relation.build_ref_housenumbers(memory_cache, street)
 
     lst = sorted(set(lst))
     with relation.get_files().get_ref_housenumbers_stream("w") as sock:
