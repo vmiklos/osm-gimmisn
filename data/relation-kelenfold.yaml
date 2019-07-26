@@ -18,10 +18,20 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '12'}
       - {start: '20', end: '20'}
+  Barázda utca:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '2', end: '10'}
+      - {start: '14', end: '44'}
   Bártfai utca:
     ranges:
       - {start: '1', end: '65'}
       - {start: '2', end: '52'}
+  Bikszádi utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '25', end: '39'}
+      - {start: '6', end: '24'}
   Bartók Béla út:
     ranges:
       # 105-113; 117-121 hazak vannak
@@ -106,7 +116,8 @@ filters:
     ranges:
       - {start: '23', end: '191'}
       - {start: '44', end: '58'}
-      - {start: '68', end: '166'}
+      - {start: '68', end: '98'}
+      - {start: '104', end: '166'}
   Fejér Lipót utca:
     ranges:
       - {start: '13', end: '15'}
