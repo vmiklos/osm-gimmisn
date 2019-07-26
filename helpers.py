@@ -255,6 +255,14 @@ class Relation:
                 house_numbers += normalize(tokens[2], street_name, self.get_street_ranges())
         return sort_numerically(set(house_numbers))
 
+    def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
+        """
+        Builds a list of streets from a reference cache.
+        """
+        refmegye = self.get_property("refmegye")
+        reftelepules = self.get_property("reftelepules")
+        return reference[refmegye][reftelepules]
+
     def get_ref_streets(self) -> List[str]:
         """Gets streets from reference."""
         streets = []  # type: List[str]
@@ -666,19 +674,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def streets_of_relation(
-        relations: Relations,
-        reference: Dict[str, Dict[str, List[str]]],
-        relation_name: str
-) -> List[str]:
-    """Gets street names for a relation from a reference."""
-    relation = relations.get_relation(relation_name)
-    refmegye = relation.get_property("refmegye")
-    reftelepules = relation.get_property("reftelepules")
-
-    return reference[refmegye][reftelepules]
-
-
 def get_reference_housenumbers(relations: Relations, reference: str, relation_name: str) -> None:
     """Gets known house numbers (not their coordinates) from a reference site, based on street names
     from OSM."""
@@ -702,10 +697,10 @@ def get_sorted_reference_streets(relations: Relations, reference: str, relation_
     from OSM."""
     memory_cache = build_street_reference_cache(reference)
 
-    lst = streets_of_relation(relations, memory_cache, relation_name)
+    relation = relations.get_relation(relation_name)
+    lst = relation.build_ref_streets(memory_cache)
 
     lst = sorted(set(lst))
-    relation = relations.get_relation(relation_name)
     with relation.get_files().get_ref_streets_stream("w") as sock:
         for line in lst:
             sock.write(line + "\n")

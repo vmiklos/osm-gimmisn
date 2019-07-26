@@ -701,8 +701,8 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
         self.assertEqual(ret, [])
 
 
-class TestStreetsOfRelation(unittest.TestCase):
-    """Tests streets_of_relation()."""
+class TestRelationBuildRefStreets(unittest.TestCase):
+    """Tests Relation.build_ref_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
@@ -710,7 +710,8 @@ class TestStreetsOfRelation(unittest.TestCase):
         memory_cache = helpers.build_street_reference_cache(refpath)
         relation_name = "gazdagret"
         relations = get_relations()
-        ret = helpers.streets_of_relation(relations, memory_cache, relation_name)
+        relation = relations.get_relation(relation_name)
+        ret = relation.build_ref_streets(memory_cache)
         self.assertEqual(ret, ['Törökugrató utca',
                                'Tűzkő utca',
                                'Ref Name 1',
