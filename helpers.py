@@ -263,6 +263,18 @@ class Relation:
         reftelepules = self.get_property("reftelepules")
         return reference[refmegye][reftelepules]
 
+    def write_ref_streets(self, reference: str) -> None:
+        """Gets known streets (not their coordinates) from a reference site, based on relation names
+        from OSM."""
+        memory_cache = build_street_reference_cache(reference)
+
+        lst = self.build_ref_streets(memory_cache)
+
+        lst = sorted(set(lst))
+        with self.get_files().get_ref_streets_stream("w") as sock:
+            for line in lst:
+                sock.write(line + "\n")
+
     def get_ref_streets(self) -> List[str]:
         """Gets streets from reference."""
         streets = []  # type: List[str]
@@ -696,20 +708,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     with open(disk_cache, "wb") as sock_cache:
         pickle.dump(memory_cache, sock_cache)
     return memory_cache
-
-
-def get_sorted_reference_streets(relations: Relations, reference: str, relation_name: str) -> None:
-    """Gets known streets (not their coordinates) from a reference site, based on relation names
-    from OSM."""
-    memory_cache = build_street_reference_cache(reference)
-
-    relation = relations.get_relation(relation_name)
-    lst = relation.build_ref_streets(memory_cache)
-
-    lst = sorted(set(lst))
-    with relation.get_files().get_ref_streets_stream("w") as sock:
-        for line in lst:
-            sock.write(line + "\n")
 
 
 def relation_filters_get_street(filters: Dict[str, Any], street: str) -> Dict[str, Any]:

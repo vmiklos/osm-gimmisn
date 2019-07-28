@@ -743,16 +743,17 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestGetSortedReferenceStreets(unittest.TestCase):
-    """Tests get_sorted_reference_streets()."""
+class TestRelationWriteRefStreets(unittest.TestCase):
+    """Tests Relation.WriteRefStreets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "utcak_20190514.tsv")
         relations = get_relations()
         relation_name = "gazdagret"
+        relation = relations.get_relation(relation_name)
         expected = helpers.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
-        helpers.get_sorted_reference_streets(relations, refpath, relation_name)
+        relation.write_ref_streets(refpath)
         actual = helpers.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 

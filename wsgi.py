@@ -249,7 +249,8 @@ def suspicious_streets_update(relations: helpers.Relations, relation_name: str) 
 def suspicious_relations_update(relations: helpers.Relations, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
     reference = get_config().get('wsgi', 'reference_street').strip()
-    helpers.get_sorted_reference_streets(relations, reference, relation_name)
+    relation = relations.get_relation(relation_name)
+    relation.write_ref_streets(reference)
     return "Frissítés sikeres."
 
 
