@@ -39,13 +39,13 @@ def overpass_sleep() -> None:
 
 def update_streets(relations: helpers.Relations) -> None:
     """Update the existing street list of all relations."""
-    datadir = get_srcdir("data")
-    for relation in relations.get_names():
-        logging.info("update_streets: start: %s", relation)
+    for relation_name in relations.get_names():
+        logging.info("update_streets: start: %s", relation_name)
+        relation = relations.get_relation(relation_name)
         overpass_sleep()
-        query = helpers.get_streets_query(datadir, relations, relation)
-        helpers.write_streets_result(relations, relation, overpass_query.overpass_query(query))
-        logging.info("update_streets: end: %s", relation)
+        query = relation.get_osm_streets_query()
+        helpers.write_streets_result(relations, relation_name, overpass_query.overpass_query(query))
+        logging.info("update_streets: end: %s", relation_name)
 
 
 def update_street_housenumbers(relations: helpers.Relations) -> None:

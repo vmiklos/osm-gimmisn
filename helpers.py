@@ -130,6 +130,7 @@ class RelationFiles:
 class Relation:
     """A relation is a closed polygon on the map."""
     def __init__(self, datadir: str, workdir: str, name: str, parent: Dict[str, Any]) -> None:
+        self.__datadir = datadir
         self.__workdir = workdir
         self.__name = name
         self.__parent = parent
@@ -237,6 +238,11 @@ class Relation:
             with self.get_files().get_osm_housenumbers_stream("r") as sock:
                 ret += get_nth_column(sock, 1)
         return sorted(set(ret))
+
+    def get_osm_streets_query(self) -> str:
+        """Produces a query which lists streets in relation."""
+        with open(os.path.join(self.__datadir, "streets-template.txt")) as stream:
+            return process_template(stream.read(), self.get_property("osmrelation"))
 
     def get_osm_housenumbers(self, street_name: str) -> List[str]:
         """Gets the OSM house number list of a street."""
@@ -728,14 +734,8 @@ def relation_street_is_even_odd(street: Dict[str, Any]) -> bool:
     return not interpolation_all
 
 
-def get_streets_query(datadir: str, relations: Relations, relation: str) -> str:
-    """Produces a query which lists streets in relation."""
-    with open(os.path.join(datadir, "streets-template.txt")) as sock:
-        return process_template(sock.read(), relations.get_relation(relation).get_property("osmrelation"))
-
-
 def write_streets_result(relations: Relations, relation_name: str, result_from_overpass: str) -> None:
-    """Writes the result for overpass of get_streets_query()."""
+    """Writes the result for overpass of Relation.get_osm_streets_query()."""
     result = sort_streets_csv(result_from_overpass)
     relation = relations.get_relation(relation_name)
     with relation.get_files().get_osm_streets_stream("w") as sock:
