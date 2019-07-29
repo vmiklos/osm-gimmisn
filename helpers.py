@@ -127,23 +127,11 @@ class RelationFiles:
         return cast(TextIO, open(self.get_ref_housenumbers_path(), mode=mode))
 
 
-class Relation:
-    """A relation is a closed polygon on the map."""
-    def __init__(self, datadir: str, workdir: str, name: str, parent: Dict[str, Any]) -> None:
-        self.__datadir = datadir
-        self.__workdir = workdir
-        self.__name = name
-        self.__parent = parent
-        self.__dict = {}  # type: Dict[str, Any]
-        self.__file = RelationFiles(datadir, workdir, name)
-        relation_path = os.path.join(datadir, "relation-%s.yaml" % name)
-        if os.path.exists(relation_path):
-            with open(relation_path) as sock:
-                self.__dict = yaml.load(sock)
-
-    def get_files(self) -> RelationFiles:
-        """Gets access to the file interface."""
-        return self.__file
+class RelationConfig:
+    """A relation configuration comes directly from static data, not a result of some external query."""
+    def __init__(self, parent_config: Dict[str, Any], my_config: Dict[str, Any]) -> None:
+        self.__parent = parent_config
+        self.__dict = my_config
 
     def get_property(self, key: str) -> Any:
         """Gets the value of a property transparently."""
@@ -202,11 +190,34 @@ class Relation:
             return cast(List[str], self.get_property("street-filters"))
         return []
 
+
+class Relation:
+    """A relation is a closed polygon on the map."""
+    def __init__(self, datadir: str, workdir: str, name: str, parent_config: Dict[str, Any]) -> None:
+        self.__datadir = datadir
+        self.__workdir = workdir
+        self.__name = name
+        my_config = {}  # type: Dict[str, Any]
+        self.__file = RelationFiles(datadir, workdir, name)
+        relation_path = os.path.join(datadir, "relation-%s.yaml" % name)
+        if os.path.exists(relation_path):
+            with open(relation_path) as sock:
+                my_config = yaml.load(sock)
+        self.__config = RelationConfig(parent_config, my_config)
+
+    def get_files(self) -> RelationFiles:
+        """Gets access to the file interface."""
+        return self.__file
+
+    def get_config(self) -> RelationConfig:
+        """Gets access to the config interface."""
+        return self.__config
+
     def get_street_ranges(self) -> Dict[str, Ranges]:
         """Gets a street name -> ranges map, which allows silencing false positives."""
         filter_dict = {}  # type: Dict[str, Ranges]
 
-        filters = self.get_filters()
+        filters = self.get_config().get_filters()
         for street in filters.keys():
             interpolation = ""
             if "interpolation" in filters[street]:
@@ -222,7 +233,7 @@ class Relation:
 
     def get_ref_street_from_osm_street(self, osm_street_name: str) -> str:
         """Maps an OSM street name to a ref street name."""
-        refstreets = self.get_refstreets()
+        refstreets = self.get_config().get_refstreets()
 
         if osm_street_name in refstreets.keys():
             return refstreets[osm_street_name]
@@ -242,7 +253,7 @@ class Relation:
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
         with open(os.path.join(self.__datadir, "streets-template.txt")) as stream:
-            return process_template(stream.read(), self.get_property("osmrelation"))
+            return process_template(stream.read(), self.get_config().get_property("osmrelation"))
 
     def get_osm_housenumbers(self, street_name: str) -> List[str]:
         """Gets the OSM house number list of a street."""
@@ -265,8 +276,8 @@ class Relation:
         """
         Builds a list of streets from a reference cache.
         """
-        refmegye = self.get_property("refmegye")
-        reftelepules = self.get_property("reftelepules")
+        refmegye = self.get_config().get_property("refmegye")
+        reftelepules = self.get_config().get_property("reftelepules")
         return reference[refmegye][reftelepules]
 
     def write_ref_streets(self, reference: str) -> None:
@@ -299,10 +310,10 @@ class Relation:
         Builds a list of housenumbers from a reference cache.
         This is serialized to disk by write_ref_housenumbers().
         """
-        refmegye = self.get_property("refmegye")
+        refmegye = self.get_config().get_property("refmegye")
         street = self.get_ref_street_from_osm_street(street)
         ret = []  # type: List[str]
-        for reftelepules in self.get_street_reftelepules(street):
+        for reftelepules in self.get_config().get_street_reftelepules(street):
             if street in reference[refmegye][reftelepules].keys():
                 house_numbers = reference[refmegye][reftelepules][street]
                 ret += [street + " " + i for i in house_numbers]
@@ -368,7 +379,7 @@ class Relation:
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
         reference_streets = self.get_ref_streets()
-        street_blacklist = self.get_street_filters()
+        street_blacklist = self.get_config().get_street_filters()
         osm_streets = [self.get_ref_street_from_osm_street(street) for street in self.get_osm_streets()]
 
         only_in_reference = get_only_in_first(reference_streets, osm_streets)
@@ -745,7 +756,7 @@ def write_streets_result(relations: Relations, relation_name: str, result_from_o
 def get_street_housenumbers_query(datadir: str, relations: Relations, relation: str) -> str:
     """Produces a query which lists house numbers in relation."""
     with open(os.path.join(datadir, "street-housenumbers-template.txt")) as sock:
-        return process_template(sock.read(), relations.get_relation(relation).get_property("osmrelation"))
+        return process_template(sock.read(), relations.get_relation(relation).get_config().get_property("osmrelation"))
 
 
 def write_street_housenumbers(relation: Relation, result_from_overpass: str) -> None:
@@ -777,7 +788,7 @@ def write_suspicious_streets_result(
     relation = relations.get_relation(relation_name)
     ongoing_streets, done_streets = relation.get_missing_housenumbers()
 
-    relation_filters = relation.get_filters()
+    relation_filters = relation.get_config().get_filters()
 
     todo_count = 0
     table = []

@@ -343,8 +343,8 @@ class TestRelationGetStreetRanges(unittest.TestCase):
             'OSM Name 2': 'Ref Name 2'
         }
         relations = get_relations()
-        self.assertEqual(relations.get_relation("gazdagret").get_refstreets(), expected_streets)
-        street_blacklist = relations.get_relation("gazdagret").get_street_filters()
+        self.assertEqual(relations.get_relation("gazdagret").get_config().get_refstreets(), expected_streets)
+        street_blacklist = relations.get_relation("gazdagret").get_config().get_street_filters()
         self.assertEqual(street_blacklist, ['Only In Ref Nonsense utca'])
 
     def test_empty(self) -> None:
@@ -363,10 +363,10 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
         street = "Budaörsi út"
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        refmegye = relation.get_property("refmegye")
+        refmegye = relation.get_config().get_property("refmegye")
         street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011"], relation.get_street_reftelepules(street))
+        self.assertEqual(["011"], relation.get_config().get_street_reftelepules(street))
         self.assertEqual("Budaörsi út", street)
 
     def test_reftelepules_override(self) -> None:
@@ -375,10 +375,10 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
         street = "Teszt utca"
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        refmegye = relation.get_property("refmegye")
+        refmegye = relation.get_config().get_property("refmegye")
         street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["012"], relation.get_street_reftelepules(street))
+        self.assertEqual(["012"], relation.get_config().get_street_reftelepules(street))
         self.assertEqual("Teszt utca", street)
 
     def test_refstreets(self) -> None:
@@ -387,10 +387,10 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
         street = "OSM Name 1"
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        refmegye = relation.get_property("refmegye")
+        refmegye = relation.get_config().get_property("refmegye")
         street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011"], relation.get_street_reftelepules(street))
+        self.assertEqual(["011"], relation.get_config().get_street_reftelepules(street))
         self.assertEqual("Ref Name 1", street)
 
     def test_nosuchrelation(self) -> None:
@@ -399,10 +399,10 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
         street = "OSM Name 1"
         relation_name = "nosuchrelation"
         relation = relations.get_relation(relation_name)
-        refmegye = relation.get_property("refmegye")
+        refmegye = relation.get_config().get_property("refmegye")
         street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011"], relation.get_street_reftelepules(street))
+        self.assertEqual(["011"], relation.get_config().get_street_reftelepules(street))
         self.assertEqual("OSM Name 1", street)
 
     def test_emptyrelation(self) -> None:
@@ -411,10 +411,10 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
         street = "OSM Name 1"
         relation_name = "empty"
         relation = relations.get_relation(relation_name)
-        refmegye = relation.get_property("refmegye")
+        refmegye = relation.get_config().get_property("refmegye")
         street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011"], relation.get_street_reftelepules(street))
+        self.assertEqual(["011"], relation.get_config().get_street_reftelepules(street))
         self.assertEqual("OSM Name 1", street)
 
     def test_range_level_override(self) -> None:
@@ -423,10 +423,10 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
         street = "Csiki-hegyek utca"
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        refmegye = relation.get_property("refmegye")
+        refmegye = relation.get_config().get_property("refmegye")
         street = relation.get_ref_street_from_osm_street(street)
         self.assertEqual("01", refmegye)
-        self.assertEqual(["011", "013"], relation.get_street_reftelepules(street))
+        self.assertEqual(["011", "013"], relation.get_config().get_street_reftelepules(street))
         self.assertEqual("Csiki-hegyek utca", street)
 
 
@@ -594,7 +594,7 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         _todo_street_count, _todo_count, _done_count, percent, _table = ret
         self.assertEqual(percent, 'N/A')
         os.unlink(os.path.join(relations.get_workdir(), "empty.percent"))
-        self.assertEqual({}, relation.get_filters())
+        self.assertEqual({}, relation.get_config().get_filters())
 
 
 class TestWriteMissingRelationsResult(unittest.TestCase):
@@ -766,17 +766,17 @@ class TestRelations(unittest.TestCase):
         relations = get_relations()
         self.assertEqual(relations.get_names(), ['empty', 'gazdagret', 'nosuchrelation', "test", "ujbuda"])
         self.assertEqual([13, 42, 66, 221998, 2713748], sorted([i["osmrelation"] for i in relations.get_values()]))
-        self.assertEqual("only", relations.get_relation("ujbuda").get_property("suspicious-relations"))
+        self.assertEqual("only", relations.get_relation("ujbuda").get_config().get_property("suspicious-relations"))
 
 
-class TestRelationMissingStreets(unittest.TestCase):
-    """Tests Relation.should_check_missing_streets()."""
+class TestRelationConfigMissingStreets(unittest.TestCase):
+    """Tests RelationConfig.should_check_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relation_name = "ujbuda"
         relations = get_relations()
         relation = relations.get_relation(relation_name)
-        ret = relation.should_check_missing_streets()
+        ret = relation.get_config().should_check_missing_streets()
         self.assertEqual(ret, "only")
 
     def test_empty(self) -> None:
@@ -784,7 +784,7 @@ class TestRelationMissingStreets(unittest.TestCase):
         relation_name = "empty"
         relations = get_relations()
         relation = relations.get_relation(relation_name)
-        ret = relation.should_check_missing_streets()
+        ret = relation.get_config().should_check_missing_streets()
         self.assertEqual(ret, "no")
 
     def test_nosuchrelation(self) -> None:
@@ -792,7 +792,7 @@ class TestRelationMissingStreets(unittest.TestCase):
         relation_name = "nosuchrelation"
         relations = get_relations()
         relation = relations.get_relation(relation_name)
-        ret = relation.should_check_missing_streets()
+        ret = relation.get_config().should_check_missing_streets()
         self.assertEqual(ret, "no")
 
 
@@ -825,7 +825,7 @@ class TestRelationStreetIsEvenOdd(unittest.TestCase):
         """Tests the happy path."""
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_filters()
+        filters = relation.get_config().get_filters()
         street = helpers.relation_filters_get_street(filters, "Hamzsabégi út")
         self.assertFalse(helpers.relation_street_is_even_odd(street))
 

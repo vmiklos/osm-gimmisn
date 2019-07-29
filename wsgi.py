@@ -84,7 +84,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
-    osmrelation = relation.get_property("osmrelation")
+    osmrelation = relation.get_config().get_property("osmrelation")
     date = get_streets_last_modified(relations.get_workdir(), relation_name)
     return get_header(relations, "streets", relation_name, osmrelation) + output + get_footer(date)
 
@@ -114,7 +114,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
-    osmrelation = relation.get_property("osmrelation")
+    osmrelation = relation.get_config().get_property("osmrelation")
     date = get_housenumbers_last_modified(relations.get_workdir(), relation_name)
     return get_header(relations, "street-housenumbers", relation_name, osmrelation) + output + get_footer(date)
 
@@ -202,7 +202,7 @@ def suspicious_streets_view_txt(relations: helpers.Relations, request_uri: str) 
     else:
         ongoing_streets, _ = relation.get_missing_housenumbers()
 
-        relation_filters = relation.get_filters()
+        relation_filters = relation.get_config().get_filters()
 
         table = []
         for result in ongoing_streets:
@@ -277,7 +277,7 @@ def handle_suspicious_streets(relations: helpers.Relations, request_uri: str) ->
     elif action_noext == "update-result":
         output += suspicious_streets_update(relations, relation_name)
 
-    osmrelation = relations.get_relation(relation_name).get_property("osmrelation")
+    osmrelation = relations.get_relation(relation_name).get_config().get_property("osmrelation")
     date = ref_housenumbers_last_modified(relations, relation_name)
     return get_header(relations, "suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
 
@@ -305,7 +305,7 @@ def handle_suspicious_relations(relations: helpers.Relations, request_uri: str, 
     elif action_noext == "update-result":
         output += suspicious_relations_update(relations, relation_name)
 
-    osmrelation = relation.get_property("osmrelation")
+    osmrelation = relation.get_config().get_property("osmrelation")
     date = ref_streets_last_modified(relation, workdir, relation_name)
     return get_header(relations, "suspicious-relations", relation_name, osmrelation) + output + get_footer(date)
 
@@ -469,7 +469,7 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
         relation = relations.get_relation(relation_name)
         complete = True
 
-        streets = relation.should_check_missing_streets()
+        streets = relation.get_config().should_check_missing_streets()
 
         row = []
         row.append(relation_name)
@@ -501,10 +501,11 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
         row.append("<a href=\"/osm/streets/" + relation_name + "/view-result\""
                    " title=\"frissítve " + date + "\" >meglévő utcák</a>")
 
-        row.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation.get_property("osmrelation"))
+        row.append("<a href=\"https://www.openstreetmap.org/relation/"
+                   + str(relation.get_config().get_property("osmrelation"))
                    + "\">terület határa</a>")
 
-        if filter_for(complete, relation.get_property("refmegye")):
+        if filter_for(complete, relation.get_config().get_property("refmegye")):
             table.append(row)
     output += helpers.html_table_from_list(table)
     output += "<p><a href=\"" + \
@@ -529,7 +530,7 @@ def get_header(
 
     if relations and relation_name:
         relation = relations.get_relation(relation_name)
-        streets = relation.should_check_missing_streets()
+        streets = relation.get_config().should_check_missing_streets()
 
     items.append("<a href=\"/osm\">Területek listája</a>")
     if relation_name:

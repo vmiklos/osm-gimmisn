@@ -65,7 +65,7 @@ def update_suspicious_streets_stats(relations: helpers.Relations) -> None:
     logging.info("update_suspicious_streets_stats: start")
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
-        streets = relation.should_check_missing_streets()
+        streets = relation.get_config().should_check_missing_streets()
         if streets == "only":
             continue
 
@@ -78,7 +78,7 @@ def update_missing_streets_stats(relations: helpers.Relations) -> None:
     logging.info("update_missing_streets_stats: start")
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
-        streets = relation.should_check_missing_streets()
+        streets = relation.get_config().should_check_missing_streets()
         if streets == "no":
             continue
 
