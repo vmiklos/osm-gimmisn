@@ -825,11 +825,10 @@ class TestRelationStreetIsEvenOdd(unittest.TestCase):
         """Tests the happy path."""
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
-        street = helpers.relation_filters_get_street(filters, "Hamzsabégi út")
+        street = relation.get_config().get_filter_street("Hamzsabégi út")
         self.assertFalse(helpers.relation_street_is_even_odd(street))
 
-        street = helpers.relation_filters_get_street(filters, "Teszt utca")
+        street = relation.get_config().get_filter_street("Teszt utca")
         self.assertTrue(helpers.relation_street_is_even_odd(street))
 
 

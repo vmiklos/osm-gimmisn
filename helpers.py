@@ -162,6 +162,14 @@ class RelationConfig:
             return cast(Dict[str, Any], self.get_property("filters"))
         return {}
 
+    def get_filter_street(self, street: str) -> Dict[str, Any]:
+        """Returns a street from relation filters."""
+        filters = self.get_filters()
+        if street in filters.keys():
+            return cast(Dict[str, Any], filters[street])
+
+        return {}
+
     def get_street_reftelepules(self, street: str) -> List[str]:
         """Returns a list of reftelepules values specific to a street."""
         ret = [self.get_property("reftelepules")]
@@ -727,14 +735,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def relation_filters_get_street(filters: Dict[str, Any], street: str) -> Dict[str, Any]:
-    """Returns a street from relation filters."""
-    if street in filters.keys():
-        return cast(Dict[str, Any], filters[street])
-
-    return {}
-
-
 def relation_street_is_even_odd(street: Dict[str, Any]) -> bool:
     """Determines in a relation's street is interpolation=all or not."""
     interpolation_all = False
@@ -788,8 +788,6 @@ def write_suspicious_streets_result(
     relation = relations.get_relation(relation_name)
     ongoing_streets, done_streets = relation.get_missing_housenumbers()
 
-    relation_filters = relation.get_config().get_filters()
-
     todo_count = 0
     table = []
     table.append(["Utcanév", "Hiányzik db", "Házszámok"])
@@ -799,7 +797,7 @@ def write_suspicious_streets_result(
         row.append(result[0])
         row.append(str(len(result[1])))
 
-        if not relation_street_is_even_odd(relation_filters_get_street(relation_filters, result[0])):
+        if not relation_street_is_even_odd(relation.get_config().get_filter_street(result[0])):
             row.append(", ".join(result[1]))
         else:
             row.append("<br/>".join(format_even_odd(result[1])))

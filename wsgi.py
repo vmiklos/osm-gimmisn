@@ -202,13 +202,11 @@ def suspicious_streets_view_txt(relations: helpers.Relations, request_uri: str) 
     else:
         ongoing_streets, _ = relation.get_missing_housenumbers()
 
-        relation_filters = relation.get_config().get_filters()
-
         table = []
         for result in ongoing_streets:
             if result[1]:
                 # Street name, only_in_reference items.
-                relation_street = helpers.relation_filters_get_street(relation_filters, result[0])
+                relation_street = relation.get_config().get_filter_street(result[0])
                 if not helpers.relation_street_is_even_odd(relation_street):
                     row = result[0] + "\t[" + ", ".join(result[1]) + "]"
                 else:
