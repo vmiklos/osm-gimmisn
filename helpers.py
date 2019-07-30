@@ -170,6 +170,16 @@ class RelationConfig:
 
         return {}
 
+    def get_street_is_even_odd(self, street: str) -> bool:
+        """Determines in a relation's street is interpolation=all or not."""
+        street_props = self.get_filter_street(street)
+        interpolation_all = False
+        if "interpolation" in street_props:
+            if street_props["interpolation"] == "all":
+                interpolation_all = True
+
+        return not interpolation_all
+
     def get_street_reftelepules(self, street: str) -> List[str]:
         """Returns a list of reftelepules values specific to a street."""
         ret = [self.get_property("reftelepules")]
@@ -735,16 +745,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def relation_street_is_even_odd(street: Dict[str, Any]) -> bool:
-    """Determines in a relation's street is interpolation=all or not."""
-    interpolation_all = False
-    if "interpolation" in street:
-        if street["interpolation"] == "all":
-            interpolation_all = True
-
-    return not interpolation_all
-
-
 def write_streets_result(relations: Relations, relation_name: str, result_from_overpass: str) -> None:
     """Writes the result for overpass of Relation.get_osm_streets_query()."""
     result = sort_streets_csv(result_from_overpass)
@@ -797,7 +797,7 @@ def write_suspicious_streets_result(
         row.append(result[0])
         row.append(str(len(result[1])))
 
-        if not relation_street_is_even_odd(relation.get_config().get_filter_street(result[0])):
+        if not relation.get_config().get_street_is_even_odd(result[0]):
             row.append(", ".join(result[1]))
         else:
             row.append("<br/>".join(format_even_odd(result[1])))

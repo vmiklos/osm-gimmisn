@@ -820,16 +820,14 @@ class TestFormatEvenOdd(unittest.TestCase):
 
 
 class TestRelationStreetIsEvenOdd(unittest.TestCase):
-    """Tests relation_street_is_even_odd()."""
+    """Tests RelationConfig.get_street_is_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
-        street = relation.get_config().get_filter_street("Hamzsabégi út")
-        self.assertFalse(helpers.relation_street_is_even_odd(street))
+        self.assertFalse(relation.get_config().get_street_is_even_odd("Hamzsabégi út"))
 
-        street = relation.get_config().get_filter_street("Teszt utca")
-        self.assertTrue(helpers.relation_street_is_even_odd(street))
+        self.assertTrue(relation.get_config().get_street_is_even_odd("Teszt utca"))
 
 
 if __name__ == '__main__':
