@@ -271,13 +271,14 @@ class TestRelationGetOsmStreetsQuery(unittest.TestCase):
         self.assertEqual(ret, 'aaa 2713748 bbb 3602713748 ccc\n')
 
 
-class TestGetStreetHousenumbersQuery(unittest.TestCase):
-    """Tests get_street_housenumbers_query()."""
+class TestRelationGetOsmHousenumbersQuery(unittest.TestCase):
+    """Tests Relation.get_osm_housenumbers_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
-        relation = "gazdagret"
-        ret = helpers.get_street_housenumbers_query(relations.get_datadir(), relations, relation)
+        relation_name = "gazdagret"
+        relation = relations.get_relation(relation_name)
+        ret = relation.get_osm_housenumbers_query()
         self.assertEqual(ret, 'housenr aaa 2713748 bbb 3602713748 ccc\n')
 
 

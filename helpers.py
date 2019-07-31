@@ -412,6 +412,11 @@ class Relation:
 
         return only_in_reference, in_both
 
+    def get_osm_housenumbers_query(self) -> str:
+        """Produces a query which lists house numbers in relation."""
+        with open(os.path.join(self.__datadir, "street-housenumbers-template.txt")) as stream:
+            return process_template(stream.read(), self.get_config().get_property("osmrelation"))
+
 
 class Relations:
     """A relations object is a container of named relation objects."""
@@ -421,10 +426,6 @@ class Relations:
         with open(os.path.join(datadir, "relations.yaml")) as sock:
             self.__dict = yaml.load(sock)
         self.__relations = {}  # type: Dict[str, Relation]
-
-    def get_datadir(self) -> str:
-        """Gets the datadir directory path."""
-        return self.__datadir
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
@@ -751,14 +752,8 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def get_street_housenumbers_query(datadir: str, relations: Relations, relation: str) -> str:
-    """Produces a query which lists house numbers in relation."""
-    with open(os.path.join(datadir, "street-housenumbers-template.txt")) as sock:
-        return process_template(sock.read(), relations.get_relation(relation).get_config().get_property("osmrelation"))
-
-
 def write_street_housenumbers(relation: Relation, result_from_overpass: str) -> None:
-    """Writes the result for overpass of get_street_housenumbers_query()."""
+    """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
     result = sort_housenumbers_csv(result_from_overpass)
     with relation.get_files().get_osm_housenumbers_stream(mode="w") as sock:
         sock.write(result)

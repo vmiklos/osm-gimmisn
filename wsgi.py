@@ -100,14 +100,14 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
 
     if action == "view-query":
         output += "<pre>"
-        output += helpers.get_street_housenumbers_query(get_datadir(), relations, relation_name)
+        output += relation.get_osm_housenumbers_query()
         output += "</pre>"
     elif action == "view-result":
         with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             table = helpers.tsv_to_list(sock)
             output += helpers.html_table_from_list(table)
     elif action == "update-result":
-        query = helpers.get_street_housenumbers_query(get_datadir(), relations, relation_name)
+        query = relation.get_osm_housenumbers_query()
         try:
             helpers.write_street_housenumbers(relation, overpass_query.overpass_query(query))
             output += "Frissítés sikeres."

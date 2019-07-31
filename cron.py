@@ -50,12 +50,11 @@ def update_streets(relations: helpers.Relations) -> None:
 
 def update_street_housenumbers(relations: helpers.Relations) -> None:
     """Update the existing street housenumber list of all relations."""
-    datadir = get_srcdir("data")
     for relation_name in relations.get_names():
         logging.info("update_street_housenumbers: start: %s", relation_name)
         overpass_sleep()
-        query = helpers.get_street_housenumbers_query(datadir, relations, relation_name)
         relation = relations.get_relation(relation_name)
+        query = relation.get_osm_housenumbers_query()
         helpers.write_street_housenumbers(relation, overpass_query.overpass_query(query))
         logging.info("update_street_housenumbers: end: %s", relation_name)
 
