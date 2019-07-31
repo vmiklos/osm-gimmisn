@@ -55,7 +55,7 @@ def update_street_housenumbers(relations: helpers.Relations) -> None:
         overpass_sleep()
         relation = relations.get_relation(relation_name)
         query = relation.get_osm_housenumbers_query()
-        helpers.write_street_housenumbers(relation, overpass_query.overpass_query(query))
+        relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
         logging.info("update_street_housenumbers: end: %s", relation_name)
 
 

@@ -296,8 +296,8 @@ class TestRelationFilesWriteOsmStreets(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestWriteStreetHousenumbersResult(unittest.TestCase):
-    """Tests write_street_housenumbers()."""
+class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
+    """Tests RelationFiles.write_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
@@ -312,7 +312,7 @@ class TestWriteStreetHousenumbersResult(unittest.TestCase):
         result_from_overpass += "1\tOnly In OSM utca\t1\n"
         expected = helpers.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         relation = relations.get_relation(relation_name)
-        helpers.write_street_housenumbers(relation, result_from_overpass)
+        relation.get_files().write_osm_housenumbers(result_from_overpass)
         actual = helpers.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         self.assertEqual(actual, expected)
 

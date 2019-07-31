@@ -109,7 +109,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:
-            helpers.write_street_housenumbers(relation, overpass_query.overpass_query(query))
+            relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
             output += "Frissítés sikeres."
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
