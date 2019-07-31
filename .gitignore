@@ -112,6 +112,9 @@ version.py
 # yamale
 *.validyaml
 
+# yamllint
+*.yamllint
+
 # pylint
 *.pylint
 

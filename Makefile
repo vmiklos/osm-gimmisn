@@ -21,8 +21,7 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 
 check-filters: check-filters-syntax check-filters-schema
 
-check-filters-syntax:
-	yamllint .travis.yml data/*.yaml
+check-filters-syntax: $(patsubst %.yaml,%.yamllint,$(wildcard .travis.yml data/relation-*.yaml))
 
 check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 
@@ -47,6 +46,9 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relation-*.y
 
 %.validyaml : %.yaml
 	yamale -s data/relation.schema.yaml $< && touch $@
+
+%.yamllint : %.yaml
+	yamllint $< && touch $@
 
 server:
 	./wsgi.py
