@@ -281,15 +281,16 @@ class TestGetStreetHousenumbersQuery(unittest.TestCase):
         self.assertEqual(ret, 'housenr aaa 2713748 bbb 3602713748 ccc\n')
 
 
-class TestWriteStreetsResult(unittest.TestCase):
-    """Tests write_streets_result()."""
+class TestRelationFilesWriteOsmStreets(unittest.TestCase):
+    """Tests RelationFiles.write_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
-        relation = "gazdagret"
+        relation_name = "gazdagret"
+        relation = relations.get_relation(relation_name)
         result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
         expected = helpers.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-        helpers.write_streets_result(relations, relation, result_from_overpass)
+        relation.get_files().write_osm_streets(result_from_overpass)
         actual = helpers.get_content(relations.get_workdir(), "streets-gazdagret.csv")
         self.assertEqual(actual, expected)
 

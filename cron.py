@@ -44,7 +44,7 @@ def update_streets(relations: helpers.Relations) -> None:
         relation = relations.get_relation(relation_name)
         overpass_sleep()
         query = relation.get_osm_streets_query()
-        helpers.write_streets_result(relations, relation_name, overpass_query.overpass_query(query))
+        relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
         logging.info("update_streets: end: %s", relation_name)
 
 

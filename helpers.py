@@ -109,6 +109,12 @@ class RelationFiles:
         path = os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
         return cast(TextIO, open(path, mode=mode))
 
+    def write_osm_streets(self, result_from_overpass: str) -> None:
+        """Writes the result for overpass of Relation.get_osm_streets_query()."""
+        result = sort_streets_csv(result_from_overpass)
+        with self.get_osm_streets_stream("w") as sock:
+            sock.write(result)
+
     def get_osm_housenumbers_path(self) -> str:
         """Build the file name of the OSM house number list of a relation."""
         return os.path.join(self.__workdir, "street-housenumbers-%s.csv" % self.__name)
@@ -743,14 +749,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     with open(disk_cache, "wb") as sock_cache:
         pickle.dump(memory_cache, sock_cache)
     return memory_cache
-
-
-def write_streets_result(relations: Relations, relation_name: str, result_from_overpass: str) -> None:
-    """Writes the result for overpass of Relation.get_osm_streets_query()."""
-    result = sort_streets_csv(result_from_overpass)
-    relation = relations.get_relation(relation_name)
-    with relation.get_files().get_osm_streets_stream("w") as sock:
-        sock.write(result)
 
 
 def get_street_housenumbers_query(datadir: str, relations: Relations, relation: str) -> str:

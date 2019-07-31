@@ -79,7 +79,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
-            helpers.write_streets_result(relations, relation_name, overpass_query.overpass_query(query))
+            relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
             output += "Frissítés sikeres."
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
