@@ -318,9 +318,13 @@ def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
     return local_dt.astimezone(ui_tz)
 
 
-def get_last_modified(workdir: str, path: str) -> str:
+def get_last_modified(workdir: str, path: str = "") -> str:
     """Gets the update date of a file in workdir."""
-    return format_timestamp(get_timestamp(workdir, path))
+    if path:
+        path = os.path.join(workdir, path)
+    else:
+        path = workdir
+    return format_timestamp(get_timestamp(path))
 
 
 def get_timestamp(workdir: str, path: str = "") -> float:
@@ -367,16 +371,15 @@ def get_streets_last_modified(workdir: str, name: str) -> str:
     return get_last_modified(workdir, "streets-" + name + ".csv")
 
 
-def handle_main_housenr_percent(workdir: str, relation_name: str) -> Tuple[str, str]:
+def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[str, str]:
     """Handles the house number percent part of the main page."""
-    percent_file = relation_name + ".percent"
-    url = "\"/osm/suspicious-streets/" + relation_name + "/view-result\""
+    url = "\"/osm/suspicious-streets/" + relation.get_name() + "/view-result\""
     percent = "N/A"
-    if os.path.exists(os.path.join(workdir, percent_file)):
-        percent = helpers.get_content(workdir, percent_file)
+    if os.path.exists(relation.get_files().get_housenumbers_percent_path()):
+        percent = helpers.get_content(relation.get_files().get_housenumbers_percent_path())
 
     if percent != "N/A":
-        date = get_last_modified(workdir, percent_file)
+        date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
         cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
         cell += percent + "%"
         cell += "</a></strong>"
@@ -472,7 +475,7 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
         row.append(relation_name)
 
         if streets != "only":
-            cell, percent = handle_main_housenr_percent(workdir, relation_name)
+            cell, percent = handle_main_housenr_percent(relation)
             row.append(cell)
             if float(percent) < 100.0:
                 complete = False

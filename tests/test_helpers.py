@@ -326,6 +326,13 @@ class TestGetContent(unittest.TestCase):
         expected = "54.55"
         self.assertEqual(actual, expected)
 
+    def test_one_arg(self) -> None:
+        """Tests the case when only one argument is given."""
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        actual = helpers.get_content(os.path.join(workdir, "gazdagret.percent"))
+        expected = "54.55"
+        self.assertEqual(actual, expected)
+
 
 class TestRelationGetStreetRanges(unittest.TestCase):
     """Tests Relation.get_street_ranges()."""
@@ -786,6 +793,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
         relation_name = "empty"
         relations = get_relations()
         relation = relations.get_relation(relation_name)
+        self.assertEqual(relation.get_name(), "empty")
         ret = relation.get_config().should_check_missing_streets()
         self.assertEqual(ret, "no")
 

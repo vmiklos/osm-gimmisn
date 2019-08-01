@@ -138,6 +138,14 @@ class RelationFiles:
         """Opens the reference house number list of a relation."""
         return cast(TextIO, open(self.get_ref_housenumbers_path(), mode=mode))
 
+    def get_housenumbers_percent_path(self) -> str:
+        """Builds the file name of the house number percent file of a relation."""
+        return os.path.join(self.__workdir, "%s.percent" % self.__name)
+
+    def get_housenumbers_percent_stream(self, mode: str) -> TextIO:
+        """Opens the house number percent file of a relation."""
+        return cast(TextIO, open(self.get_housenumbers_percent_path(), mode=mode))
+
 
 class RelationConfig:
     """A relation configuration comes directly from static data, not a result of some external query."""
@@ -234,6 +242,10 @@ class Relation:
             with open(relation_path) as sock:
                 my_config = yaml.load(sock)
         self.__config = RelationConfig(parent_config, my_config)
+
+    def get_name(self) -> str:
+        """Gets the name of the relation."""
+        return self.__name
 
     def get_files(self) -> RelationFiles:
         """Gets access to the file interface."""
@@ -624,10 +636,14 @@ def process_template(buf: str, osmrelation: int) -> str:
     return buf
 
 
-def get_content(workdir: str, path: str) -> str:
+def get_content(workdir: str, path: str = "") -> str:
     """Gets the content of a file in workdir."""
     ret = ""
-    with open(os.path.join(workdir, path)) as sock:
+    if path:
+        path = os.path.join(workdir, path)
+    else:
+        path = workdir
+    with open(path) as sock:
         ret = sock.read()
     return ret
 
@@ -805,8 +821,8 @@ def write_suspicious_streets_result(
         percent = "N/A"
 
     # Write the bottom line to a file, so the index page show it fast.
-    with open(os.path.join(relations.get_workdir(), relation_name + ".percent"), "w") as sock:
-        sock.write(percent)
+    with relation.get_files().get_housenumbers_percent_stream("w") as stream:
+        stream.write(percent)
 
     todo_street_count = len(ongoing_streets)
     return todo_street_count, todo_count, done_count, percent, table
