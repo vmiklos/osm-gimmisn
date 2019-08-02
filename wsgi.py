@@ -139,7 +139,7 @@ def suspicious_streets_view_result(relations: helpers.Relations, request_uri: st
         output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        ret = helpers.write_suspicious_streets_result(relations, relation_name)
+        ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
 
         output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "

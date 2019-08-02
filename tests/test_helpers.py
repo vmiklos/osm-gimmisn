@@ -574,14 +574,15 @@ class TestRelationGetMissingStreets(unittest.TestCase):
         self.assertEqual(in_both, ['Hamzsabégi út', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
 
-class TestWriteSuspicousStreetsResult(unittest.TestCase):
-    """Tests write_suspicious_streets_result()."""
+class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
+    """Tests Relation.write_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
         relation_name = "gazdagret"
+        relation = relations.get_relation(relation_name)
         expected = helpers.get_content(relations.get_workdir(), "gazdagret.percent")
-        ret = helpers.write_suspicious_streets_result(relations, relation_name)
+        ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
         self.assertEqual(todo_street_count, 3)
         self.assertEqual(todo_count, 5)
@@ -599,7 +600,7 @@ class TestWriteSuspicousStreetsResult(unittest.TestCase):
         relations = get_relations()
         relation_name = "empty"
         relation = relations.get_relation(relation_name)
-        ret = helpers.write_suspicious_streets_result(relations, relation_name)
+        ret = relation.write_missing_housenumbers()
         _todo_street_count, _todo_count, _done_count, percent, _table = ret
         self.assertEqual(percent, 'N/A')
         os.unlink(os.path.join(relations.get_workdir(), "empty.percent"))

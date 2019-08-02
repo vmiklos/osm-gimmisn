@@ -418,6 +418,41 @@ class Relation:
 
         return ongoing_streets, done_streets
 
+    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[str]]]:
+        """Calculate a write stat for the house number coverage of a relation."""
+        ongoing_streets, done_streets = self.get_missing_housenumbers()
+
+        todo_count = 0
+        table = []
+        table.append(["Utcanév", "Hiányzik db", "Házszámok"])
+        for result in ongoing_streets:
+            # street_name, only_in_ref
+            row = []
+            row.append(result[0])
+            row.append(str(len(result[1])))
+
+            if not self.get_config().get_street_is_even_odd(result[0]):
+                row.append(", ".join(result[1]))
+            else:
+                row.append("<br/>".join(format_even_odd(result[1])))
+
+            todo_count += len(result[1])
+            table.append(row)
+        done_count = 0
+        for result in done_streets:
+            done_count += len(result[1])
+        if done_count > 0 or todo_count > 0:
+            percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
+        else:
+            percent = "N/A"
+
+        # Write the bottom line to a file, so the index page show it fast.
+        with self.get_files().get_housenumbers_percent_stream("w") as stream:
+            stream.write(percent)
+
+        todo_street_count = len(ongoing_streets)
+        return todo_street_count, todo_count, done_count, percent, table
+
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
         reference_streets = self.get_ref_streets()
@@ -786,46 +821,6 @@ def format_even_odd(only_in_ref: List[str]) -> List[str]:
     if even_string:
         elements.append(even_string)
     return elements
-
-
-def write_suspicious_streets_result(
-        relations: Relations,
-        relation_name: str
-) -> Tuple[int, int, int, str, List[List[str]]]:
-    """Calculate a write stat for the house number coverage of a relation."""
-    relation = relations.get_relation(relation_name)
-    ongoing_streets, done_streets = relation.get_missing_housenumbers()
-
-    todo_count = 0
-    table = []
-    table.append(["Utcanév", "Hiányzik db", "Házszámok"])
-    for result in ongoing_streets:
-        # street_name, only_in_ref
-        row = []
-        row.append(result[0])
-        row.append(str(len(result[1])))
-
-        if not relation.get_config().get_street_is_even_odd(result[0]):
-            row.append(", ".join(result[1]))
-        else:
-            row.append("<br/>".join(format_even_odd(result[1])))
-
-        todo_count += len(result[1])
-        table.append(row)
-    done_count = 0
-    for result in done_streets:
-        done_count += len(result[1])
-    if done_count > 0 or todo_count > 0:
-        percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
-    else:
-        percent = "N/A"
-
-    # Write the bottom line to a file, so the index page show it fast.
-    with relation.get_files().get_housenumbers_percent_stream("w") as stream:
-        stream.write(percent)
-
-    todo_street_count = len(ongoing_streets)
-    return todo_street_count, todo_count, done_count, percent, table
 
 
 def write_missing_relations_result(relations: Relations, relation_name: str) -> Tuple[int, int, str, List[str]]:

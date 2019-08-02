@@ -68,7 +68,7 @@ def update_suspicious_streets_stats(relations: helpers.Relations) -> None:
         if streets == "only":
             continue
 
-        helpers.write_suspicious_streets_result(relations, relation_name)
+        relation.write_missing_housenumbers()
     logging.info("update_suspicious_streets_stats: end")
 
 
