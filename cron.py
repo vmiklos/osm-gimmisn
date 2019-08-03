@@ -81,7 +81,7 @@ def update_missing_streets_stats(relations: helpers.Relations) -> None:
         if streets == "no":
             continue
 
-        helpers.write_missing_relations_result(relations, relation_name)
+        relation.write_missing_streets()
     logging.info("update_missing_streets_stats: end")
 
 

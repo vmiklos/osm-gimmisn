@@ -607,14 +607,15 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         self.assertEqual({}, relation.get_config().get_filters())
 
 
-class TestWriteMissingRelationsResult(unittest.TestCase):
-    """Tests write_missing_relations_result()."""
+class TestRelationWriteMissingStreets(unittest.TestCase):
+    """Tests Relation.write_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
         relation_name = "gazdagret"
+        relation = relations.get_relation(relation_name)
         expected = helpers.get_content(relations.get_workdir(), "gazdagret-streets.percent")
-        ret = helpers.write_missing_relations_result(relations, relation_name)
+        ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
         self.assertEqual(todo_count, 1)
         self.assertEqual(done_count, 4)
@@ -627,7 +628,8 @@ class TestWriteMissingRelationsResult(unittest.TestCase):
         """Tests the case when percent can't be determined."""
         relations = get_relations()
         relation_name = "empty"
-        ret = helpers.write_missing_relations_result(relations, relation_name)
+        relation = relations.get_relation(relation_name)
+        ret = relation.write_missing_streets()
         _todo_count, _done_count, percent, _streets = ret
         self.assertEqual(percent, 'N/A')
         os.unlink(os.path.join(relations.get_workdir(), "empty-streets.percent"))

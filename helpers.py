@@ -465,6 +465,25 @@ class Relation:
 
         return only_in_reference, in_both
 
+    def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
+        """Calculate a write stat for the street coverage of a relation."""
+        todo_streets, done_streets = self.get_missing_streets()
+        streets = []
+        for street in todo_streets:
+            streets.append(street)
+        todo_count = len(todo_streets)
+        done_count = len(done_streets)
+        if done_count > 0 or todo_count > 0:
+            percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
+        else:
+            percent = "N/A"
+
+        # Write the bottom line to a file, so the index page show it fast.
+        with open(os.path.join(self.__workdir, self.__name + "-streets.percent"), "w") as stream:
+            stream.write(percent)
+
+        return todo_count, done_count, percent, streets
+
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
         with open(os.path.join(self.__datadir, "street-housenumbers-template.txt")) as stream:
@@ -821,27 +840,6 @@ def format_even_odd(only_in_ref: List[str]) -> List[str]:
     if even_string:
         elements.append(even_string)
     return elements
-
-
-def write_missing_relations_result(relations: Relations, relation_name: str) -> Tuple[int, int, str, List[str]]:
-    """Calculate a write stat for the street coverage of a relation."""
-    relation = relations.get_relation(relation_name)
-    todo_streets, done_streets = relation.get_missing_streets()
-    streets = []
-    for street in todo_streets:
-        streets.append(street)
-    todo_count = len(todo_streets)
-    done_count = len(done_streets)
-    if done_count > 0 or todo_count > 0:
-        percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
-    else:
-        percent = "N/A"
-
-    # Write the bottom line to a file, so the index page show it fast.
-    with open(os.path.join(relations.get_workdir(), relation_name + "-streets.percent"), "w") as sock:
-        sock.write(percent)
-
-    return todo_count, done_count, percent, streets
 
 
 def refmegye_get_name(refmegye: str) -> str:

@@ -171,7 +171,7 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
         output += "<a href=\"/osm/suspicious-relations/" + relation_name + "/update-result\">"
         output += "Létrehozás referenciából</a>"
     else:
-        ret = helpers.write_missing_relations_result(relations, relation_name)
+        ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
         streets.sort(key=locale.strxfrm)
         table = [["Utcanév"]]
