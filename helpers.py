@@ -153,7 +153,7 @@ class RelationConfig:
         self.__parent = parent_config
         self.__dict = my_config
 
-    def get_property(self, key: str) -> Any:
+    def __get_property(self, key: str) -> Any:
         """Gets the value of a property transparently."""
         if key in self.__dict.keys():
             return self.__dict[key]
@@ -163,23 +163,35 @@ class RelationConfig:
 
         return None
 
+    def get_osmrelation(self) -> int:
+        """Gets the OSM relation object's ID."""
+        return cast(int, self.__get_property("osmrelation"))
+
+    def get_refmegye(self) -> str:
+        """Gets the relation's refmegye identifier from reference."""
+        return cast(str, self.__get_property("refmegye"))
+
+    def get_reftelepules(self) -> str:
+        """Gets the relation's reftelepules identifier from reference."""
+        return cast(str, self.__get_property("reftelepules"))
+
     def should_check_missing_streets(self) -> str:
         """Return value can be yes, no and only. Current default is "no"."""
-        if self.get_property("suspicious-relations"):
-            return cast(str, self.get_property("suspicious-relations"))
+        if self.__get_property("suspicious-relations"):
+            return cast(str, self.__get_property("suspicious-relations"))
 
         return "no"
 
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""
-        if self.get_property("refstreets"):
-            return cast(Dict[str, str], self.get_property("refstreets"))
+        if self.__get_property("refstreets"):
+            return cast(Dict[str, str], self.__get_property("refstreets"))
         return {}
 
     def get_filters(self) -> Dict[str, Any]:
         """Returns a street name -> properties map."""
-        if self.get_property("filters"):
-            return cast(Dict[str, Any], self.get_property("filters"))
+        if self.__get_property("filters"):
+            return cast(Dict[str, Any], self.__get_property("filters"))
         return {}
 
     def get_filter_street(self, street: str) -> Dict[str, Any]:
@@ -202,8 +214,8 @@ class RelationConfig:
 
     def get_street_reftelepules(self, street: str) -> List[str]:
         """Returns a list of reftelepules values specific to a street."""
-        ret = [self.get_property("reftelepules")]
-        if not self.get_property("filters"):
+        ret = [self.__get_property("reftelepules")]
+        if not self.__get_property("filters"):
             return ret
 
         relation_filters = self.get_filters()
@@ -224,8 +236,8 @@ class RelationConfig:
 
     def get_street_filters(self) -> List[str]:
         """Gets list of streets which are only in reference, but have to be filtered out."""
-        if self.get_property("street-filters"):
-            return cast(List[str], self.get_property("street-filters"))
+        if self.__get_property("street-filters"):
+            return cast(List[str], self.__get_property("street-filters"))
         return []
 
 
@@ -295,7 +307,7 @@ class Relation:
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
         with open(os.path.join(self.__datadir, "streets-template.txt")) as stream:
-            return process_template(stream.read(), self.get_config().get_property("osmrelation"))
+            return process_template(stream.read(), self.get_config().get_osmrelation())
 
     def get_osm_housenumbers(self, street_name: str) -> List[str]:
         """Gets the OSM house number list of a street."""
@@ -318,8 +330,8 @@ class Relation:
         """
         Builds a list of streets from a reference cache.
         """
-        refmegye = self.get_config().get_property("refmegye")
-        reftelepules = self.get_config().get_property("reftelepules")
+        refmegye = self.get_config().get_refmegye()
+        reftelepules = self.get_config().get_reftelepules()
         return reference[refmegye][reftelepules]
 
     def write_ref_streets(self, reference: str) -> None:
@@ -352,7 +364,7 @@ class Relation:
         Builds a list of housenumbers from a reference cache.
         This is serialized to disk by write_ref_housenumbers().
         """
-        refmegye = self.get_config().get_property("refmegye")
+        refmegye = self.get_config().get_refmegye()
         street = self.get_ref_street_from_osm_street(street)
         ret = []  # type: List[str]
         for reftelepules in self.get_config().get_street_reftelepules(street):
@@ -487,7 +499,7 @@ class Relation:
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
         with open(os.path.join(self.__datadir, "street-housenumbers-template.txt")) as stream:
-            return process_template(stream.read(), self.get_config().get_property("osmrelation"))
+            return process_template(stream.read(), self.get_config().get_osmrelation())
 
 
 class Relations:
