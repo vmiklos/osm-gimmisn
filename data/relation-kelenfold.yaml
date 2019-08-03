@@ -163,6 +163,12 @@ filters:
     ranges:
       - {start: '5', end: '11'}
       - {start: '2', end: '8'}
+  Hauszmann Alajos utca:
+    # Budapart egy része éríntett: 13-19, 12-20 Nádorkerthez tartozik
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '9', end: '19'}
+      - {start: '2', end: '10'}
   Hengermalom út:
     ranges:
       - {start: '1', end: '5'}
@@ -209,6 +215,9 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '10'}
+  Kocsis utca:
+    ranges:
+      - {start: '1', end: '11'}
   Kondorosi út:
     ranges:
       - {start: '1', end: '99'}
