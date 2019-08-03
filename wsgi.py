@@ -432,7 +432,7 @@ def handle_main_filters(relations: helpers.Relations) -> str:
     items = []
     items.append('<a href="/osm/filter-for/incomplete">Kész területek elrejtése</a>')
     # Sorted set of refmegye values of all relations.
-    for refmegye in sorted({relation["refmegye"] for relation in relations.get_values()}):
+    for refmegye in sorted({relation.get_config().get_refmegye() for relation in relations.get_relations()}):
         name = helpers.refmegye_get_name(refmegye)
         if not name:
             continue

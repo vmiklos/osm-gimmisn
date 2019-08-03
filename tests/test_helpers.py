@@ -777,7 +777,8 @@ class TestRelations(unittest.TestCase):
         """Tests the happy path."""
         relations = get_relations()
         self.assertEqual(relations.get_names(), ['empty', 'gazdagret', 'nosuchrelation', "test", "ujbuda"])
-        self.assertEqual([13, 42, 66, 221998, 2713748], sorted([i["osmrelation"] for i in relations.get_values()]))
+        osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
+        self.assertEqual([13, 42, 66, 221998, 2713748], osmids)
         self.assertEqual("only", relations.get_relation("ujbuda").get_config().should_check_missing_streets())
 
 

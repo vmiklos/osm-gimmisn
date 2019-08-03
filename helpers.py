@@ -525,9 +525,12 @@ class Relations:
         """Gets a sorted list of relation names."""
         return sorted(self.__dict.keys())
 
-    def get_values(self) -> List[Any]:
+    def get_relations(self) -> List[Relation]:
         """Gets a list of relations."""
-        return cast(List[Any], self.__dict.values())
+        ret = []  # type: List[Relation]
+        for name in self.get_names():
+            ret.append(self.get_relation(name))
+        return ret
 
 
 def sort_numerically(strings: Iterable[str]) -> List[str]:
