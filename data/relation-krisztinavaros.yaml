@@ -144,4 +144,7 @@ filters:
       - {start: '1', end: '1'}
       - {start: '5', end: '11'}
       - {start: '2', end: '10'}
+  Sánc utca:
+    # all house numbers are part of Gellérthegy
+    ranges: []
 source: survey
