@@ -12,6 +12,7 @@ import datetime
 import logging
 import os
 import time
+import traceback
 
 import helpers
 import overpass_query
@@ -85,6 +86,14 @@ def update_missing_streets_stats(relations: helpers.Relations) -> None:
     logging.info("update_missing_streets_stats: end")
 
 
+def our_main(relations: helpers.Relations) -> None:
+    """Performs the actual nightly task."""
+    update_streets(relations)
+    update_street_housenumbers(relations)
+    update_suspicious_streets_stats(relations)
+    update_missing_streets_stats(relations)
+
+
 def main() -> None:
     """Commandline interface to this module."""
 
@@ -103,10 +112,11 @@ def main() -> None:
     logging.getLogger().addHandler(logging.StreamHandler())
 
     start = time.time()
-    update_streets(relations)
-    update_street_housenumbers(relations)
-    update_suspicious_streets_stats(relations)
-    update_missing_streets_stats(relations)
+    try:
+        our_main(relations)
+    # pylint: disable=broad-except
+    except Exception:
+        logging.error("main: unhandled exception: %s", traceback.format_exc())
     delta = time.time() - start
     logging.info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
 
