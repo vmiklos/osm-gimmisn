@@ -13,6 +13,7 @@ import logging
 import os
 import time
 import traceback
+import urllib.error
 
 import helpers
 import overpass_query
@@ -38,14 +39,28 @@ def overpass_sleep() -> None:
         time.sleep(sleep)
 
 
+def should_retry(retry: int) -> bool:
+    """Decides if we should retry a query or not."""
+    return retry < 20
+
+
 def update_streets(relations: helpers.Relations) -> None:
     """Update the existing street list of all relations."""
     for relation_name in relations.get_names():
         logging.info("update_streets: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
-        overpass_sleep()
-        query = relation.get_osm_streets_query()
-        relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
+        retry = 0
+        while should_retry(retry):
+            if retry > 0:
+                logging.info("update_streets: try #%s", retry)
+            retry += 1
+            try:
+                overpass_sleep()
+                query = relation.get_osm_streets_query()
+                relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
+                break
+            except urllib.error.HTTPError as http_error:
+                logging.info("update_streets: http error: %s", str(http_error))
         logging.info("update_streets: end: %s", relation_name)
 
 
@@ -53,10 +68,19 @@ def update_street_housenumbers(relations: helpers.Relations) -> None:
     """Update the existing street housenumber list of all relations."""
     for relation_name in relations.get_names():
         logging.info("update_street_housenumbers: start: %s", relation_name)
-        overpass_sleep()
-        relation = relations.get_relation(relation_name)
-        query = relation.get_osm_housenumbers_query()
-        relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
+        retry = 0
+        while should_retry(retry):
+            if retry > 0:
+                logging.info("update_street_housenumbers: try #%s", retry)
+            retry += 1
+            try:
+                overpass_sleep()
+                relation = relations.get_relation(relation_name)
+                query = relation.get_osm_housenumbers_query()
+                relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
+                break
+            except urllib.error.HTTPError as http_error:
+                logging.info("update_street_housenumbers: http error: %s", str(http_error))
         logging.info("update_street_housenumbers: end: %s", relation_name)
 
 
