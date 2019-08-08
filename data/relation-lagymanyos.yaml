@@ -52,6 +52,11 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
+  Váli utca:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '5', end: '5'}
+      - {start: '2', end: '14'}
 refstreets:
   'Október huszonharmadika utca': 'Október Huszonharmad utca'
   'Stoczek József utca': 'Stoczek utca'
