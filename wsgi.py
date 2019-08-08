@@ -303,7 +303,7 @@ def handle_suspicious_relations(relations: helpers.Relations, request_uri: str, 
         output += suspicious_relations_update(relations, relation_name)
 
     osmrelation = relation.get_config().get_osmrelation()
-    date = ref_streets_last_modified(relation, workdir, relation_name)
+    date = ref_streets_last_modified(relation)
     return get_header(relations, "suspicious-relations", relation_name, osmrelation) + output + get_footer(date)
 
 
@@ -349,15 +349,16 @@ def format_timestamp(timestamp: float) -> str:
 
 def ref_housenumbers_last_modified(relations: helpers.Relations, name: str) -> str:
     """Gets the update date for suspicious streets."""
-    t_ref = get_timestamp(relations.get_relation(name).get_files().get_ref_housenumbers_path())
-    t_housenumbers = get_timestamp(relations.get_workdir(), "street-housenumbers-" + name + ".csv")
+    relation = relations.get_relation(name)
+    t_ref = get_timestamp(relation.get_files().get_ref_housenumbers_path())
+    t_housenumbers = get_timestamp(relation.get_files().get_osm_housenumbers_path())
     return format_timestamp(max(t_ref, t_housenumbers))
 
 
-def ref_streets_last_modified(relation: helpers.Relation, workdir: str, name: str) -> str:
+def ref_streets_last_modified(relation: helpers.Relation) -> str:
     """Gets the update date for missing streets."""
     t_ref = get_timestamp(relation.get_files().get_ref_streets_path())
-    t_osm = get_timestamp(workdir, "streets-" + name + ".csv")
+    t_osm = get_timestamp(relation.get_files().get_osm_streets_path())
     return format_timestamp(max(t_ref, t_osm))
 
 

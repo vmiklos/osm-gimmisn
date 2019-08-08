@@ -104,9 +104,13 @@ class RelationFiles:
         path = self.get_ref_streets_path()
         return cast(TextIO, open(path, mode=mode))
 
+    def get_osm_streets_path(self) -> str:
+        """Build the file name of the OSM street list of a relation."""
+        return os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
+
     def get_osm_streets_stream(self, mode: str) -> TextIO:
         """Opens the OSM street list of a relation."""
-        path = os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
+        path = self.get_osm_streets_path()
         return cast(TextIO, open(path, mode=mode))
 
     def write_osm_streets(self, result_from_overpass: str) -> None:
