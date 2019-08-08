@@ -23,7 +23,8 @@ filters:
   Fehérvári út:
     ranges:
       - {start: '2', end: '2'}
-      - {start: '10', end: '38'}
+      - {start: '10', end: '12'}
+      - {start: '22', end: '38'}
   Hamzsabégi út:
     interpolation: 'all'
     ranges:
@@ -38,6 +39,11 @@ filters:
       - {start: '14', end: '18'}
   Orlay utca:
     ranges: []
+  Szabolcska Mihály utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '2'}
+      - {start: '6', end: '20'}
   Szent Gellért tér:
     ranges:
       - {start: '3', end: '3'}
