@@ -225,6 +225,8 @@ filters:
     ranges:
       - {end: '3', start: '1'}
       - {end: '4', start: '2'}
+  Telekes utca:
+    ranges: []
   Törökbálinti út:
     # just the Sasad part
     ranges:
