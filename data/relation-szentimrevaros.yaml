@@ -65,6 +65,11 @@ filters:
     interpolation: 'all'
     ranges:
       - {start: '1', end: '13'}
+  Szabolcska Mihály utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '2'}
+      - {start: '6', end: '20'}
   Szent Gellért tér:
     interpolation: 'all'
     ranges:
