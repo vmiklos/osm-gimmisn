@@ -3,9 +3,11 @@ filters:
     # terinfo.ujbuda.hu alapjan, valosagban nincs haz
     ranges:
       - {start: '2', end: '24'}
+  Boldizsár út:
+    ranges: []
   Budaörsi út:
     ranges:
-      - {start: '62', end: '64'}
+      - {start: '60', end: '66'}
       - {start: '78', end: '78'}
       - {start: '88', end: '90'}
       - {start: '112', end: '112'}
@@ -25,12 +27,16 @@ filters:
   Dobogó út:
     ranges:
       - {start: '53', end: '57'}
+  Egér út:
+    ranges: []
   Gazdagréti út:
     ranges: []
   Hérics utca:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '22'}
+  Igmándi köz:
+    ranges: []
   Igmándi utca:
     ranges:
       - {start: '1', end: '65'}
