@@ -35,7 +35,7 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
-  XI utca:
+  XI. utca:
     # Pontositando, egy szakasz Budatétény
     ranges:
       - {start: '1', end: '27'}
