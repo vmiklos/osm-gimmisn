@@ -2,4 +2,9 @@ filters:
   Háros utca:
     ranges:
       - {start: '2', end: '998'}
+  Nagytétényi út:
+    # Pontositando, nagyobb szamok Budatétény
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '118'}
 source: survey
