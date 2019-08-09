@@ -16,6 +16,8 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
+  Magasút dűlő:
+    ranges: []
   Magasúti köz:
     ranges:
       - {start: '1', end: '9'}
