@@ -30,7 +30,7 @@ filters:
   Szabadkai utca:
     ranges:
       - {start: '1', end: '999'}
-  X utca:
+  X. utca:
     # Pontositando, egy szakasz Budatétény
     ranges:
       - {start: '1', end: '23'}
