@@ -27,12 +27,12 @@ filters:
   Szabadkai utca:
     ranges:
       - {start: '2', end: '998'}
-  X utca:
+  X. utca:
     # Pontositando, egy szakasz Baross-Gabor-telep
     ranges:
       - {start: '25', end: '999'}
       - {start: '26', end: '998'}
-  XI utca:
+  XI. utca:
     # Pontositando, egy szakasz Baross-Gabor-telep
     ranges:
       - {start: '29', end: '999'}
