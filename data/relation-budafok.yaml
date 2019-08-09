@@ -1,0 +1,5 @@
+filters:
+  Háros utca:
+    ranges:
+      - {start: '2', end: '998'}
+source: survey
