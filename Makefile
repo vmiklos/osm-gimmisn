@@ -10,10 +10,6 @@ PYTHON_OBJECTS = \
 	wsgi.py \
 	tests/test_helpers.py \
 
-YAML_SKIP_VALIDATE = \
-	data/relation-barossgabortelep.yaml \
-	data/relation-budateteny.yaml \
-
 all: version.py
 
 check: all check-filters check-flake8 check-mypy check-unit check-pylint
@@ -46,7 +42,7 @@ check-unit:
 	coverage run --branch --module unittest tests/test_helpers.py
 	coverage report --show-missing --fail-under=100 helpers.py tests/test_helpers.py
 
-check-filters-schema: $(patsubst %.yaml,%.validyaml,$(filter-out $(YAML_SKIP_VALIDATE),$(wildcard data/relation-*.yaml)))
+check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relation-*.yaml))
 
 %.validyaml : %.yaml
 	yamale -s data/relation.schema.yaml $< && touch $@
