@@ -6,9 +6,7 @@ filters:
     ranges:
       - {start: '162', end: '998'}
   Egér út:
-    ranges:
-      - {start: '1', end: '499'}
-      - {start: '2', end: '498'}
+    ranges: []
   Kőérberki út:
     # felmerendo hogy meddig hazszam es honnan helyrajzi, gyanusan sok haromjegyu
     ranges:
