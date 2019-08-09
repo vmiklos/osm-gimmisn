@@ -1,0 +1,39 @@
+filters:
+  Bíbic utca:
+    # Pontositando, egy szakasz Baross-Gabor telep
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '22'}
+  Csiperke utca:
+    ranges:
+      - {start: '1', end: '999'}
+  Háros utca:
+    ranges:
+      - {start: '1', end: '999'}
+  Klauzál Gábor utca:
+    ranges:
+      - {start: '1', end: '999'}
+  Növény utca:
+    ranges:
+      - {start: '2', end: '998'}
+  Rákóczi út:
+    # Pontositando, egy szakasz Baross-Gabor telep
+    ranges:
+      - {start: '1', end: '31'}
+      - {start: '2', end: '22'}
+  Rózsakert utca:
+    ranges:
+      - {start: '1', end: '999'}
+  Szabadkai utca:
+    ranges:
+      - {start: '2', end: '998'}
+  X. utca:
+    # Pontositando, egy szakasz Baross-Gabor-telep
+    ranges:
+      - {start: '25', end: '999'}
+      - {start: '26', end: '998'}
+  XI. utca:
+    # Pontositando, egy szakasz Baross-Gabor-telep
+    ranges:
+      - {start: '29', end: '999'}
+source: survey
