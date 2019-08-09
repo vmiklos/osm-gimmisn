@@ -13,6 +13,11 @@ filters:
   Klauzál Gábor utca:
     ranges:
       - {start: '1', end: '999'}
+  Nagytétényi út:
+    # Pontositando, kis szamok Budafok, nagy szamok Nagytétény
+    ranges:
+      - {start: '21', end: '47'}
+      - {start: '120', end: '200'}
   Növény utca:
     ranges:
       - {start: '2', end: '998'}
