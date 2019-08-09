@@ -99,6 +99,18 @@ barossgabortelep:
     osmrelation: 3186063
     refmegye: "01"
     reftelepules: "022"
+budafok:
+    osmrelation: 3186370
+    refmegye: "01"
+    reftelepules: "022"
+budateteny:
+    osmrelation: 3186116
+    refmegye: "01"
+    reftelepules: "022"
+nagyteteny:
+    osmrelation: 3186376
+    refmegye: "01"
+    reftelepules: "022"
 # pest-belvaros
 belvaros:
     osmrelation: 3228574
