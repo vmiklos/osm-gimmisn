@@ -5,7 +5,7 @@ PYTHON_OBJECTS = \
 	helpers.py \
 	overpass_query.py \
 	suspicious_relations.py \
-	suspicious_streets.py \
+	missing_housenumbers.py \
 	version.py \
 	wsgi.py \
 	tests/test_helpers.py \

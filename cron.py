@@ -84,9 +84,9 @@ def update_street_housenumbers(relations: helpers.Relations) -> None:
         logging.info("update_street_housenumbers: end: %s", relation_name)
 
 
-def update_suspicious_streets_stats(relations: helpers.Relations) -> None:
+def update_missing_housenumbers(relations: helpers.Relations) -> None:
     """Update the relation's house number coverage stats."""
-    logging.info("update_suspicious_streets_stats: start")
+    logging.info("update_missing_housenumbers: start")
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
         streets = relation.get_config().should_check_missing_streets()
@@ -94,7 +94,7 @@ def update_suspicious_streets_stats(relations: helpers.Relations) -> None:
             continue
 
         relation.write_missing_housenumbers()
-    logging.info("update_suspicious_streets_stats: end")
+    logging.info("update_missing_housenumbers: end")
 
 
 def update_missing_streets_stats(relations: helpers.Relations) -> None:
@@ -114,7 +114,7 @@ def our_main(relations: helpers.Relations) -> None:
     """Performs the actual nightly task."""
     update_streets(relations)
     update_street_housenumbers(relations)
-    update_suspicious_streets_stats(relations)
+    update_missing_housenumbers(relations)
     update_missing_streets_stats(relations)
 
 
