@@ -22,12 +22,17 @@ filters:
       - {start: '1', end: '1'}
   Nagymákfa utca:
     ranges:
-      - {start: '1', end: '11'}
+      - {start: '1', end: '5'}
+      - {start: '9', end: '11'}
       - {start: '2', end: '16'}
   Ördögorom lejtő:
     ranges:
-      - {start: '1', end: '77'}
-      - {start: '2', end: '72'}
+      # 45-53 között telkek hazszam nelkul
+      - {start: '1', end: '47'}
+      - {start: '51', end: '77'}
+      # 52-64 után között telkek hazszam nelkul
+      - {start: '2', end: '54'}
+      - {start: '60', end: '72'}
   Ördögorom út:
     ranges:
       - {start: '1', end: '19'}
@@ -49,6 +54,10 @@ filters:
     # 105 most az utolso felmert, de meg vannak telkek
     ranges:
       - {start: '77', end: '119'}
+  Varjútövis köz:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '2', end: '4'}
 refstreets:
   'Felső határút': 'Felső Határ út'
 source: survey
