@@ -147,4 +147,10 @@ filters:
   Sánc utca:
     # all house numbers are part of Gellérthegy
     ranges: []
+  Aladár utca:
+    # No 11 and 13
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '15', end: '21'}
+      - {start: '2', end: '26'}
 source: survey
