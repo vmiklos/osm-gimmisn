@@ -217,7 +217,7 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
     return output
 
 
-def suspicious_relations_view_txt(relations: helpers.Relations, request_uri: str) -> str:
+def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -243,7 +243,7 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
     return "Frissítés sikeres."
 
 
-def suspicious_relations_update(relations: helpers.Relations, relation_name: str) -> str:
+def missing_streets_update(relations: helpers.Relations, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
     reference = get_config().get('wsgi', 'reference_street').strip()
     relation = relations.get_relation(relation_name)
@@ -279,7 +279,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     return get_header(relations, "suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
 
 
-def handle_suspicious_relations(relations: helpers.Relations, request_uri: str, workdir: str) -> str:
+def handle_missing_streets(relations: helpers.Relations, request_uri: str, workdir: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-[result|query]."""
     output = ""
 
@@ -291,7 +291,7 @@ def handle_suspicious_relations(relations: helpers.Relations, request_uri: str, 
 
     if action_noext == "view-result":
         if ext == "txt":
-            return suspicious_relations_view_txt(relations, request_uri)
+            return missing_streets_view_txt(relations, request_uri)
 
         output += missing_relations_view_result(relations, request_uri, workdir)
     elif action_noext == "view-query":
@@ -300,7 +300,7 @@ def handle_suspicious_relations(relations: helpers.Relations, request_uri: str, 
             output += sock.read()
         output += "</pre>"
     elif action_noext == "update-result":
-        output += suspicious_relations_update(relations, relation_name)
+        output += missing_streets_update(relations, relation_name)
 
     osmrelation = relation.get_config().get_osmrelation()
     date = ref_streets_last_modified(relation)
@@ -659,7 +659,7 @@ def our_application(
     if request_uri.startswith("/osm/streets/"):
         output = handle_streets(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-relations/"):
-        output = handle_suspicious_relations(relations, request_uri, workdir)
+        output = handle_missing_streets(relations, request_uri, workdir)
     elif request_uri.startswith("/osm/street-housenumbers/"):
         output = handle_street_housenumbers(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-streets/"):

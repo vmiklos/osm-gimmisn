@@ -4,7 +4,7 @@ PYTHON_OBJECTS = \
 	get_reference_streets.py \
 	helpers.py \
 	overpass_query.py \
-	suspicious_relations.py \
+	missing_streets.py \
 	missing_housenumbers.py \
 	version.py \
 	wsgi.py \
