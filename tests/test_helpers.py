@@ -504,18 +504,6 @@ class TestNormalize(unittest.TestCase):
         self.assertEqual(house_numbers, ["1", "2"])
 
 
-class TestRelationGetRefHousenumbers(unittest.TestCase):
-    """Tests Relation.get_house_numbers_from_lst()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        relation_name = "gazdagret"
-        street_name = "Törökugrató utca"
-        relations = get_relations()
-        relation = relations.get_relation(relation_name)
-        house_numbers = relation.get_ref_housenumbers(street_name)
-        self.assertEqual(house_numbers, ["1", "2", "7", "10"])
-
-
 class TestRelationGetRefStreets(unittest.TestCase):
     """Tests Relation.GetRefStreets()."""
     def test_happy(self) -> None:

@@ -382,7 +382,7 @@ class Relation:
         """
         Writes known house numbers (not their coordinates) from a reference, based on street names
         from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
-        used by get_ref_housenumbers().
+        used by __get_ref_housenumbers().
         """
         memory_cache = build_reference_cache(reference)
 
@@ -397,7 +397,7 @@ class Relation:
             for line in lst:
                 sock.write(line + "\n")
 
-    def get_ref_housenumbers(self, osm_street_name: str) -> List[str]:
+    def __get_ref_housenumbers(self, osm_street_name: str) -> List[str]:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         house_numbers = []  # type: List[str]
         ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
@@ -421,7 +421,7 @@ class Relation:
 
         street_names = self.get_osm_streets()
         for street_name in street_names:
-            ref_house_numbers = self.get_ref_housenumbers(street_name)
+            ref_house_numbers = self.__get_ref_housenumbers(street_name)
             osm_house_numbers = self.get_osm_housenumbers(street_name)
             only_in_reference = get_only_in_first(ref_house_numbers, osm_house_numbers)
             in_both = get_in_both(ref_house_numbers, osm_house_numbers)
