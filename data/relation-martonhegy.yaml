@@ -7,8 +7,9 @@ filters:
     ranges:
       - {start: '2', end: '98'}
   Denevér út:
+    # 19-31 szakaszon nincs ház
     ranges:
-      - {start: '7', end: '99'}
+      - {start: '7', end: '17'}
   Fodor utca:
     ranges:
       - {start: '51', end: '115'}
