@@ -85,7 +85,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
             output += "Overpass hiba: " + str(http_error)
 
     osmrelation = relation.get_config().get_osmrelation()
-    date = get_streets_last_modified(relations.get_workdir(), relation_name)
+    date = get_streets_last_modified(relation)
     return get_header(relations, "streets", relation_name, osmrelation) + output + get_footer(date)
 
 
@@ -115,7 +115,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
             output += "Overpass hiba: " + str(http_error)
 
     osmrelation = relation.get_config().get_osmrelation()
-    date = get_housenumbers_last_modified(relations.get_workdir(), relation_name)
+    date = get_housenumbers_last_modified(relation)
     return get_header(relations, "street-housenumbers", relation_name, osmrelation) + output + get_footer(date)
 
 
@@ -126,11 +126,11 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
 
     output = ""
     relation = relations.get_relation(relation_name)
-    if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
+    if not os.path.exists(relation.get_files().get_osm_streets_path()):
         output += "Nincsenek meglévő utcák: "
         output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
-    elif not os.path.exists(os.path.join(relations.get_workdir(), "street-housenumbers-" + relation_name + ".csv")):
+    elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
         output += "Nincsenek meglévő házszámok: "
         output += "<a href=\"/osm/street-housenumbers/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
@@ -155,14 +155,14 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
     return output
 
 
-def missing_relations_view_result(relations: helpers.Relations, request_uri: str, workdir: str) -> str:
+def missing_relations_view_result(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
 
     output = ""
-    if not os.path.exists(os.path.join(workdir, "streets-" + relation_name + ".csv")):
+    if not os.path.exists(relation.get_files().get_osm_streets_path()):
         output += "Nincsenek meglévő utcák: "
         output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
         output += "Létrehozás Overpass hívásával</a>"
@@ -193,11 +193,11 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
     relation = relations.get_relation(relation_name)
 
     output = ""
-    if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
+    if not os.path.exists(relation.get_files().get_osm_streets_path()):
         output += "Nincsenek meglévő utcák"
-    elif not os.path.exists(os.path.join(relations.get_workdir(), "street-housenumbers-" + relation_name + ".csv")):
+    elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
         output += "Nincsenek meglévő házszámok"
-    elif not os.path.exists(relations.get_relation(relation_name).get_files().get_ref_housenumbers_path()):
+    elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         output += "Nincsenek referencia házszámok"
     else:
         ongoing_streets, _ = relation.get_missing_housenumbers()
@@ -224,7 +224,7 @@ def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> 
     relation = relations.get_relation(relation_name)
 
     output = ""
-    if not os.path.exists(os.path.join(relations.get_workdir(), "streets-" + relation_name + ".csv")):
+    if not os.path.exists(relation.get_files().get_osm_streets_path()):
         output += "Nincsenek meglévő utcák"
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
         output += "Nincsenek referencia utcák"
@@ -279,7 +279,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     return get_header(relations, "suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
 
 
-def handle_missing_streets(relations: helpers.Relations, request_uri: str, workdir: str) -> str:
+def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-[result|query]."""
     output = ""
 
@@ -293,7 +293,7 @@ def handle_missing_streets(relations: helpers.Relations, request_uri: str, workd
         if ext == "txt":
             return missing_streets_view_txt(relations, request_uri)
 
-        output += missing_relations_view_result(relations, request_uri, workdir)
+        output += missing_relations_view_result(relations, request_uri)
     elif action_noext == "view-query":
         output += "<pre>"
         with relation.get_files().get_ref_streets_stream("r") as sock:
@@ -362,14 +362,14 @@ def ref_streets_last_modified(relation: helpers.Relation) -> str:
     return format_timestamp(max(t_ref, t_osm))
 
 
-def get_housenumbers_last_modified(workdir: str, name: str) -> str:
+def get_housenumbers_last_modified(relation: helpers.Relation) -> str:
     """Gets the update date of house numbers for a relation."""
-    return get_last_modified(workdir, "street-housenumbers-" + name + ".csv")
+    return get_last_modified(relation.get_files().get_osm_housenumbers_path())
 
 
-def get_streets_last_modified(workdir: str, name: str) -> str:
+def get_streets_last_modified(relation: helpers.Relation) -> str:
     """Gets the update date of streets for a relation."""
-    return get_last_modified(workdir, "streets-" + name + ".csv")
+    return get_last_modified(relation.get_files().get_osm_streets_path())
 
 
 def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[str, str]:
@@ -484,7 +484,7 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
             row.append("")
 
         if streets != "only":
-            date = get_housenumbers_last_modified(workdir, relation_name)
+            date = get_housenumbers_last_modified(relation)
             row.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\""
                        " title=\"frissítve " + date + "\" >meglévő házszámok</a>")
         else:
@@ -498,7 +498,7 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
         else:
             row.append("")
 
-        date = get_streets_last_modified(workdir, relation_name)
+        date = get_streets_last_modified(relation)
         row.append("<a href=\"/osm/streets/" + relation_name + "/view-result\""
                    " title=\"frissítve " + date + "\" >meglévő utcák</a>")
 
@@ -659,7 +659,7 @@ def our_application(
     if request_uri.startswith("/osm/streets/"):
         output = handle_streets(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-relations/"):
-        output = handle_missing_streets(relations, request_uri, workdir)
+        output = handle_missing_streets(relations, request_uri)
     elif request_uri.startswith("/osm/street-housenumbers/"):
         output = handle_street_housenumbers(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-streets/"):
