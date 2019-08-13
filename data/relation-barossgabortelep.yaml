@@ -40,4 +40,25 @@ filters:
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '998'}
+  XII. utca:
+    ranges:
+      - {start: '1', end: '51'}
+      - {start: '59', end: '73'}
+      - {start: '2', end: '72'}
+  XIV. utca:
+    ranges:
+      - {start: '1', end: '79'}
+      - {start: '2', end: '88'}
+  XV. utca:
+    ranges:
+      - {start: '1', end: '79'}
+      - {start: '2', end: '88'}
+  XVI. utca:
+    ranges:
+      - {start: '1', end: '39'}
+      - {start: '2', end: '32'}
+  XVII. utca:
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '28'}
 source: survey
