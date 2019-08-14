@@ -5,13 +5,14 @@
 # found in the LICENSE file.
 #
 
-"""The validate_yaml module validates yaml files under data/."""
+"""The validator module validates yaml files under data/."""
 
 import os
 import sys
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import Tuple
 import yaml
 
 
@@ -23,6 +24,9 @@ def validate_range(parent: str, range_data: Dict[str, Any]) -> str:
             if not isinstance(value, str):
                 return "expected value type for '%s%s' is str" % (context, key)
         elif key == "end":
+            if not isinstance(value, str):
+                return "expected value type for '%s%s' is str" % (context, key)
+        elif key == "reftelepules":
             if not isinstance(value, str):
                 return "expected value type for '%s%s' is str" % (context, key)
         else:
@@ -53,6 +57,9 @@ def validate_filter(parent: str, filter_data: Dict[str, Any]) -> str:
         elif key == "reftelepules":
             if not isinstance(value, str):
                 return "expected value type for '%s%s' is str" % (context, key)
+        elif key == "interpolation":
+            if not isinstance(value, str):
+                return "expected value type for '%s%s' is str" % (context, key)
         else:
             return "unexpected key '%s%s'" % (context, key)
     return ""
@@ -77,6 +84,15 @@ def validate_refstreets(parent: str, refstreets: Dict[str, Any]) -> str:
     return ""
 
 
+def validate_street_filters(parent: str, street_filters: List[Any]) -> str:
+    """Validates a street filter list."""
+    context = parent
+    for index, street_filter in enumerate(street_filters):
+        if not isinstance(street_filter, str):
+            return "expected value type for '%s[%s]' is str" % (context, index)
+    return ""
+
+
 def validate_relation(parent: str, relation: Dict[str, Any]) -> str:
     """Validates a toplevel or a nested relation."""
     context = ""
@@ -90,36 +106,28 @@ def validate_relation(parent: str, relation: Dict[str, Any]) -> str:
                 return "missing key '%s%s'" % (context, key)
 
     ret = ""
+
+    handlers = {
+        "osmrelation": (int, None),
+        "refmegye": (str, None),
+        "reftelepules": (str, None),
+        "source": (str, None),
+        "filters": (dict, validate_filters),
+        "refstreets": (dict, validate_refstreets),
+        "suspicious-relations": (str, None),
+        "street-filters": (list, validate_street_filters),
+    }  # type: Dict[str, Tuple[Any, Any]]
+
     for key, value in relation.items():
-        if key == "osmrelation":
-            if not isinstance(value, int):
-                ret = "expected value type for '%s%s' is int" % (context, key)
+        if key in handlers.keys():
+            value_type, handler = handlers[key]
+            if not isinstance(value, value_type):
+                ret = "expected value type for '%s%s' is %s" % (context, key, value_type)
                 break
-        elif key == "refmegye":
-            if not isinstance(value, str):
-                ret = "expected value type for '%s%s' is str" % (context, key)
-                break
-        elif key == "reftelepules":
-            if not isinstance(value, str):
-                ret = "expected value type for '%s%s' is str" % (context, key)
-                break
-        elif key == "filters":
-            if not isinstance(value, dict):
-                ret = "expected value type for '%s%s' is dict" % (context, key)
-                break
-            ret = validate_filters(context + key, value)
-            if ret:
-                break
-        elif key == "refstreets":
-            if not isinstance(value, dict):
-                return "expected value type for '%s%s' is dict" % (context, key)
-            ret = validate_refstreets(context + key, value)
-            if ret:
-                break
-        elif key == "source":
-            if not isinstance(value, str):
-                ret = "expected value type for '%s%s' is str" % (context, key)
-                break
+            if handler:
+                ret = handler(context + key, value)
+                if ret:
+                    break
         else:
             ret = "unexpected key '%s%s'" % (context, key)
             break

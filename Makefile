@@ -6,6 +6,7 @@ PYTHON_OBJECTS = \
 	overpass_query.py \
 	missing_streets.py \
 	missing_housenumbers.py \
+	validator.py \
 	version.py \
 	wsgi.py \
 	tests/test_helpers.py \
