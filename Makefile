@@ -15,8 +15,8 @@ all: version.py
 
 clean:
 	rm -f version.py
-	rm -f $(patsubst %.yaml,%.yamllint,$(wildcard data/relation-*.yaml))
-	rm -f $(patsubst %.yaml,%.validyaml,$(wildcard data/relation-*.yaml))
+	rm -f $(patsubst %.yaml,%.yamllint,$(wildcard data/relations.yaml data/relation-*.yaml))
+	rm -f $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
@@ -30,7 +30,7 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 
 check-filters: check-filters-syntax check-filters-schema
 
-check-filters-syntax: $(patsubst %.yaml,%.yamllint,$(wildcard .travis.yml data/relation-*.yaml))
+check-filters-syntax: $(patsubst %.yaml,%.yamllint,$(wildcard data/relations.yaml data/relation-*.yaml))
 
 check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 
@@ -51,10 +51,10 @@ check-unit:
 	coverage run --branch --module unittest tests/test_helpers.py
 	coverage report --show-missing --fail-under=100 helpers.py tests/test_helpers.py
 
-check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relation-*.yaml))
+check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
 
-%.validyaml : %.yaml
-	yamale -s data/relation.schema.yaml $< && touch $@
+%.validyaml : %.yaml Makefile
+	./validator.py $< && touch $@
 
 %.yamllint : %.yaml
 	yamllint $< && touch $@

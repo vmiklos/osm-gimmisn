@@ -109,7 +109,7 @@ wsgi.ini
 version.py
 *.pickle
 
-# yamale
+# validator
 *.validyaml
 
 # yamllint
