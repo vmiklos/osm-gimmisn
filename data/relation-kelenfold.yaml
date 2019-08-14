@@ -49,7 +49,8 @@ filters:
   Bocskai út:
     ranges:
       - {start: '67', end: '79'}
-      - {start: '2', end: '24'}
+      - {start: '2', end: '18'}
+      - {start: '22', end: '24'}
       - {start: '30', end: '52'}
       - {start: '74', end: '90'}
       - {start: '134', end: '146'}
