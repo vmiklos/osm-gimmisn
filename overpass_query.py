@@ -34,7 +34,9 @@ def overpass_query_need_sleep() -> int:
     for line in status.splitlines():
         if line.startswith("Slot available after:"):
             # Wait one more second just to be safe.
-            sleep = int(re.sub(r".*in (\d+) seconds.*", r"\1", line.strip())) + 1
+            sleep = int(re.sub(r".*in (-?\d+) seconds.*", r"\1", line.strip())) + 1
+            if sleep <= 0:
+                sleep = 1
         elif "available now" in line:
             available = True
     if available:
