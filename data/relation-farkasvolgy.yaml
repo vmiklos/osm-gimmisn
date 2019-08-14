@@ -10,7 +10,7 @@ filters:
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '44'}
-  Borbála lépcsõ:
+  Borbála lépcső:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
@@ -21,7 +21,7 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '30'}
-  Hegyhát lépcsõ:
+  Hegyhát lépcső:
     ranges: []
   Hóvirág út:
     ranges:
@@ -30,7 +30,7 @@ filters:
     ranges:
       - {start: '2', end: '36'}
       - {start: '42', end: '44'}
-  Kázmér lejtõ:
+  Kázmér lejtő:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '12'}
