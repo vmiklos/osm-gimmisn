@@ -1,4 +1,4 @@
-suspicious-relations: yes
+suspicious-relations: 'yes'
 filters: {}
 refstreets:
   'Alsó erdősor utca': 'Alsó erdősor'
