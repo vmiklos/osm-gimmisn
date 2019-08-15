@@ -262,7 +262,7 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '56'}
-  Pázmány Péter sétány
+  Pázmány Péter sétány:
     ranges: []
   Petzvál József utca:
     ranges:
