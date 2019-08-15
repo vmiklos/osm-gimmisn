@@ -48,6 +48,15 @@ filters:
       - {start: '3', end: '9'}
   Orlay utca:
     ranges: []
+  Pázmány Péter sétány:
+    # gyakorlatilag csak 1-es szám van, a 9-es terinfo.ujbuda.hu szertin lezetik
+    ranges:
+      - {start: '1', end: '9'}
+  Stoczek József utca:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '7', end: '19'}
+      - {start: '2', end: '4'}
   Szent Gellért tér:
     ranges:
       - {start: '3', end: '3'}
