@@ -39,6 +39,11 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '20'}
+  Magyar tudósok körútja:
+    # 9- inforpark
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '2'}
   Móricz Zsigmond körtér:
     interpolation: 'all'
     ranges:
@@ -46,6 +51,9 @@ filters:
   Műegyetem rakpart:
     ranges:
       - {start: '3', end: '9'}
+  Neumann János utca:
+    ranges:
+      - {start: '2', end: '2'}
   Orlay utca:
     ranges: []
   Pázmány Péter sétány:
