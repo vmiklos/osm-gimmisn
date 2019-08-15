@@ -7,7 +7,7 @@
 
 """The overpass_query module allows getting data out of the OSM DB without a full download."""
 
-from urllib.request import urlopen
+import urllib.request
 import urllib.error
 import re
 import sys
@@ -17,7 +17,7 @@ def overpass_query(query: str) -> str:
     """Posts the query string to the overpass API and returns the result string."""
     url = "http://overpass-api.de/api/interpreter"
 
-    sock = urlopen(url, bytes(query, "utf-8"))
+    sock = urllib.request.urlopen(url, bytes(query, "utf-8"))
     buf = sock.read()
     sock.close()
 
@@ -26,7 +26,7 @@ def overpass_query(query: str) -> str:
 
 def overpass_query_need_sleep() -> int:
     """Checks if we need to sleep before executing an overpass query."""
-    with urlopen("https://overpass-api.de/api/status") as sock:
+    with urllib.request.urlopen("https://overpass-api.de/api/status") as sock:
         buf = sock.read()
     status = buf.decode('utf-8')
     sleep = 0
