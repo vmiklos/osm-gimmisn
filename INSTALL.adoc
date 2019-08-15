@@ -9,6 +9,7 @@ sudo zypper install mypy
 sudo zypper install python3-PyYAML
 sudo zypper install python3-coverage
 sudo zypper install python3-flake8
+sudo zypper install python3-mock
 sudo zypper install python3-pylint
 sudo zypper install python3-pytz
 sudo zypper install python3-yamllint

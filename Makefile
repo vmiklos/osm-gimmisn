@@ -9,6 +9,7 @@ PYTHON_OBJECTS = \
 	validator.py \
 	version.py \
 	wsgi.py \
+	tests/test_overpass_query.py \
 	tests/test_helpers.py \
 
 all: version.py
@@ -48,7 +49,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 	flake8 $< && touch $@
 
 check-unit:
-	coverage run --branch --module unittest tests/test_helpers.py
+	coverage run --branch --module unittest tests/test_overpass_query.py tests/test_helpers.py
 	coverage report --show-missing --fail-under=100 helpers.py tests/test_helpers.py
 
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
