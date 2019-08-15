@@ -9,6 +9,10 @@ ujbuda:
     osmrelation: 221998
     refmegye: "01"
     reftelepules: "011"
+albertfalva:
+    osmrelation: 2700782
+    refmegye: "01"
+    reftelepules: "011"
 dobogo:
     osmrelation: 2713968
     refmegye: "01"
@@ -25,8 +29,20 @@ hosszuret:
     osmrelation: 2713782
     refmegye: "01"
     reftelepules: "011"
+infopark:
+    osmrelation: 2702614
+    refmegye: "01"
+    reftelepules: "011"
 kelenfold:
     osmrelation: 2700869
+    refmegye: "01"
+    reftelepules: "011"
+kelenvolgy:
+    osmrelation: 2700740
+    refmegye: "01"
+    reftelepules: "011"
+koerberek:
+    osmrelation: 2714089
     refmegye: "01"
     reftelepules: "011"
 lagymanyos:
@@ -43,6 +59,10 @@ ormezo:
     reftelepules: "011"
 orsod:
     osmrelation: 2714011
+    refmegye: "01"
+    reftelepules: "011"
+peterhegy:
+    osmrelation: 2713951
     refmegye: "01"
     reftelepules: "011"
 posingermajor:
