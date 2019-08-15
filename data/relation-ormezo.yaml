@@ -3,7 +3,7 @@ filters:
     # terinfo.ujbuda.hu alapjan, valosagban nincs haz
     ranges:
       - {start: '2', end: '24'}
-  Boldizsár út:
+  Boldizsár utca:
     ranges: []
   Budaörsi út:
     ranges:
@@ -105,4 +105,6 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '2'}
+refstreets:
+  'Boldizsár utca': 'Boldizsár út'
 source: survey
