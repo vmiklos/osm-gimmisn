@@ -8,10 +8,9 @@ filters:
   Egér út:
     ranges: []
   Kőérberki út:
-    # felmerendo hogy meddig hazszam es honnan helyrajzi, gyanusan sok haromjegyu
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '88'}
+      - {start: '2', end: '36'}
+      - {start: '1', end: '17'}
   Repülőtéri út:
     ranges:
       - {start: '2', end: '2'}
