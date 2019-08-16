@@ -1,5 +1,9 @@
 filters:
+  Albert utca:
+    ranges: []
   Budafoki út:
+    ranges: []
+  Csorbai utca:
     ranges: []
   Fehérvári út:
     ranges:
@@ -8,6 +12,10 @@ filters:
   Kondorosi út:
     ranges:
       - {start: '2', end: '82'}
+  Kővirág sor:
+    ranges: []
+  Rátz László utca:
+    ranges: []
   Szerémi út:
     # paros nincs szamozva, de a lehetoseget meghagyjuk
     ranges:
