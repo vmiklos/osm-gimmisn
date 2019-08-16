@@ -3,6 +3,21 @@ filters:
     ranges:
       - {start: '141', end: '151'}
       - {start: '26', end: '44'}
+  Bolygó utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Dobogó út:
+    ranges:
+      - {start: '2', end: '98'}
+  Péterhegyi köz:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Péterhegyi lejtő:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '34'}
   Péterhegyi út:
     ranges:
       - {start: '43', end: '99'}
