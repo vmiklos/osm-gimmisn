@@ -37,6 +37,7 @@ def overpass_query_need_sleep() -> int:
             sleep = int(re.sub(r".*in (-?\d+) seconds.*", r"\1", line.strip())) + 1
             if sleep <= 0:
                 sleep = 1
+            break
         elif "available now" in line:
             available = True
     if available:

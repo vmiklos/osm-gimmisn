@@ -28,6 +28,16 @@ class TestOverpassQueryNeedSleeep(unittest.TestCase):
         with mock.patch('urllib.request.urlopen', mock_urlopen("overpass-status-happy")):
             self.assertEqual(overpass_query.overpass_query_need_sleep(), 0)
 
+    def test_wait(self) -> None:
+        """Tests the wait path."""
+        with mock.patch('urllib.request.urlopen', mock_urlopen("overpass-status-wait")):
+            self.assertEqual(overpass_query.overpass_query_need_sleep(), 12)
+
+    def test_wait_negative(self) -> None:
+        """Tests the wait for negative amount path."""
+        with mock.patch('urllib.request.urlopen', mock_urlopen("overpass-status-wait-negative")):
+            self.assertEqual(overpass_query.overpass_query_need_sleep(), 1)
+
 
 class TestOverpassQuery(unittest.TestCase):
     """Tests overpass_query()."""
