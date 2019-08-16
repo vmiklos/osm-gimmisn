@@ -3,7 +3,7 @@ filters:
     # pontositando
     ranges:
       - {start: '56', end: '198'}
-  Ringló út
+  Ringló út:
     ranges:
       - {start: '2', end: '22'}
       - {start: '26', end: '198'}
