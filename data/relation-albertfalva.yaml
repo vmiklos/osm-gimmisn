@@ -1,0 +1,19 @@
+filters:
+  Budafoki út:
+    ranges: []
+  Fehérvári út:
+    ranges:
+      - {start: '193', end: '247'}
+      - {start: '168', end: '204'}
+  Kondorosi út:
+    ranges:
+      - {start: '2', end: '82'}
+  Szerémi út:
+    # paros nincs szamozva, de a lehetoseget meghagyjuk
+    ranges:
+      - {start: '61', end: '99'}
+      - {start: '48', end: '98'}
+  Solt utca:
+    ranges:
+      - {start: '2', end: '22'}
+source: survey
