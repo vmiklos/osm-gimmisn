@@ -5,6 +5,6 @@ filters:
       - {start: '46', end: '158'}
       - {start: '146', end: '158'}
       - {start: '198', end: '202'}
-  Kőérberki út
+  Kőérberki út:
     ranges: []
 source: survey
