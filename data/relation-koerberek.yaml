@@ -1,0 +1,10 @@
+filters:
+  Balatoni út:
+    # ref-ben levo hrsz-ek kiszurese
+    ranges:
+      - {start: '46', end: '158'}
+      - {start: '146', end: '158'}
+      - {start: '198', end: '202'}
+  Kőérberki út
+    ranges: []
+source: survey
