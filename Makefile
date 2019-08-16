@@ -50,7 +50,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
 check-unit:
 	coverage run --branch --module unittest tests/test_overpass_query.py tests/test_helpers.py
-	coverage report --show-missing --fail-under=100 helpers.py tests/test_helpers.py
+	coverage report --show-missing --fail-under=100 helpers.py overpass_query.py
 
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
 
