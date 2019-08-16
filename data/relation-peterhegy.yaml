@@ -1,0 +1,9 @@
+filters:
+  Balatoni út:
+    ranges:
+      - {start: '141', end: '151'}
+      - {start: '26', end: '44'}
+  Péterhegyi út:
+    ranges:
+      - {start: '43', end: '99'}
+source: survey
