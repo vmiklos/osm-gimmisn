@@ -65,7 +65,7 @@ def update_streets(relations: helpers.Relations) -> None:
 
 
 def update_street_housenumbers(relations: helpers.Relations) -> None:
-    """Update the existing street housenumber list of all relations."""
+    """Update the existing OSM street housenumber list of all relations."""
     for relation_name in relations.get_names():
         logging.info("update_street_housenumbers: start: %s", relation_name)
         retry = 0
@@ -82,6 +82,16 @@ def update_street_housenumbers(relations: helpers.Relations) -> None:
             except urllib.error.HTTPError as http_error:
                 logging.info("update_street_housenumbers: http error: %s", str(http_error))
         logging.info("update_street_housenumbers: end: %s", relation_name)
+
+
+def update_street_housenumbers_ref(relations: helpers.Relations, config: configparser.ConfigParser) -> None:
+    """Update the existing reference street housenumber list of all relations."""
+    for relation_name in relations.get_names():
+        logging.info("update_street_housenumbers_ref: start: %s", relation_name)
+        relation = relations.get_relation(relation_name)
+        reference = config.get('wsgi', 'reference_local').strip()
+        relation.write_ref_housenumbers(reference)
+        logging.info("update_street_housenumbers_ref: end: %s", relation_name)
 
 
 def update_missing_housenumbers(relations: helpers.Relations) -> None:
@@ -110,10 +120,11 @@ def update_missing_streets_stats(relations: helpers.Relations) -> None:
     logging.info("update_missing_streets_stats: end")
 
 
-def our_main(relations: helpers.Relations) -> None:
+def our_main(relations: helpers.Relations, config: configparser.ConfigParser) -> None:
     """Performs the actual nightly task."""
     update_streets(relations)
     update_street_housenumbers(relations)
+    update_street_housenumbers_ref(relations, config)
     update_missing_housenumbers(relations)
     update_missing_streets_stats(relations)
 
@@ -137,7 +148,7 @@ def main() -> None:
 
     start = time.time()
     try:
-        our_main(relations)
+        our_main(relations, config)
     # pylint: disable=broad-except
     except Exception:
         logging.error("main: unhandled exception: %s", traceback.format_exc())
