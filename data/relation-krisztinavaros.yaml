@@ -130,7 +130,8 @@ filters:
       - {start: '20', end: '26', reftelepules: '012'}
   Városmajor utca:
     ranges:
-      - {start: '1', end: '79'}
+      - {start: '1', end: '59'}
+      - {start: '71', end: '79'}
       - {start: '2', end: '84'}
     reftelepules: '012'
   Vérmező:
