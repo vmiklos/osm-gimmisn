@@ -259,6 +259,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     relation_name = tokens[-2]
     action = tokens[-1]
     action_noext, _, ext = action.partition('.')
+    date = None
 
     relation = relations.get_relation(relation_name)
     if action_noext == "view-result":
@@ -271,11 +272,13 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
         with relation.get_files().get_ref_housenumbers_stream("r") as sock:
             output += sock.read()
         output += "</pre>"
+        date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
     elif action_noext == "update-result":
         output += missing_housenumbers_update(relations, relation_name)
 
     osmrelation = relation.get_config().get_osmrelation()
-    date = ref_housenumbers_last_modified(relations, relation_name)
+    if not date:
+        date = ref_housenumbers_last_modified(relations, relation_name)
     return get_header(relations, "suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
 
 
