@@ -1,16 +1,20 @@
+PYTHON_TEST_OBJECTS = \
+	tests/test_helpers.py \
+	tests/test_overpass_query.py \
+	tests/test_validator.py \
+
 PYTHON_OBJECTS = \
+	$(PYTHON_TEST_OBJECTS) \
 	cron.py \
 	get_reference_housenumbers.py \
 	get_reference_streets.py \
 	helpers.py \
-	overpass_query.py \
-	missing_streets.py \
 	missing_housenumbers.py \
+	missing_streets.py \
+	overpass_query.py \
 	validator.py \
 	version.py \
 	wsgi.py \
-	tests/test_overpass_query.py \
-	tests/test_helpers.py \
 
 all: version.py
 
@@ -49,7 +53,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 	flake8 $< && touch $@
 
 check-unit:
-	coverage run --branch --module unittest tests/test_overpass_query.py tests/test_helpers.py
+	coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	coverage report --show-missing --fail-under=100 helpers.py overpass_query.py
 
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
