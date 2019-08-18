@@ -35,7 +35,7 @@ class TestValidatorMain(unittest.TestCase):
     def test_relations_missing_osmrelation(self) -> None:
         """Tests the missing-osmrelation relations path."""
         # Set up arguments.
-        argv = ["", "tests/data/relations-missing-osmrelation.yaml"]
+        argv = ["", "tests/data/relations-missing-osmrelation/relations.yaml"]
         with unittest.mock.patch('sys.argv', argv):
             # Capture standard output.
             buf = io.StringIO()
@@ -46,9 +46,25 @@ class TestValidatorMain(unittest.TestCase):
                     validator.main()
                     self.assertEqual(ret, [1])
                     buf.seek(0)
-                    expected = "failed to validate tests/data/relations-missing-osmrelation.yaml"
-                    expected += ": unexpected key 'gazdagret'\n"
+                    expected = "failed to validate tests/data/relations-missing-osmrelation/relations.yaml"
+                    expected += ": missing key 'gazdagret.osmrelation'\n"
                     self.assertEqual(buf.read(), expected)
+
+    def test_relation_happy(self) -> None:
+        """Tests the happy relation path."""
+        # Set up arguments.
+        argv = ["", "tests/data/relation-gazdagret.yaml"]
+        with unittest.mock.patch('sys.argv', argv):
+            # Capture standard output.
+            buf = io.StringIO()
+            with unittest.mock.patch('sys.stdout', buf):
+                # Capture exit code.
+                ret = []  # type: List[int]
+                with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
+                    validator.main()
+                    self.assertEqual(ret, [])
+                    buf.seek(0)
+                    self.assertEqual(buf.read(), "")
 
 
 if __name__ == '__main__':
