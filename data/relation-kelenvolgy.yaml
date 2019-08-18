@@ -1,4 +1,9 @@
 filters:
+  Olajbogyó utca:
+    ranges:
+      - {start: '3', end: '7'}
+      - {start: '13', end: '15'}
+      - {start: '2', end: '10'}
   Péterhegyi út:
     # pontositando
     ranges:
@@ -7,6 +12,10 @@ filters:
     ranges:
       - {start: '2', end: '22'}
       - {start: '26', end: '198'}
+  Rendőr utca:
+    ranges:
+      - {start: '3', end: '3'}
+      - {start: '6', end: '6'}
   Solt utca:
     ranges:
       - {start: '1', end: '37'}
