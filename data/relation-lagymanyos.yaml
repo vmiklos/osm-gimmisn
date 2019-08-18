@@ -31,14 +31,20 @@ filters:
       - {start: '1', end: '21'}
   Irinyi József utca:
     ranges:
-      # Kollegium 1-17
+      # Kollegium 1-17, Science Park 4-20
       - {start: '1', end: '1'}
       - {start: '17', end: '47'}
-      - {start: '2', end: '42'}
+      - {start: '2', end: '4'}
+      - {start: '20', end: '42'}
   Kende utca:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '20'}
+  Kőrösy József utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '13', end: '17'}
+      - {start: '2', end: '14'}
   Magyar tudósok körútja:
     # 9 inforpark
     ranges:
