@@ -6,6 +6,7 @@
 
 """The test_validator module covers the validator module."""
 
+import io
 from typing import Any
 from typing import List
 import unittest
@@ -36,13 +37,18 @@ class TestValidatorMain(unittest.TestCase):
         # Set up arguments.
         argv = ["", "tests/data/relations-missing-osmrelation.yaml"]
         with unittest.mock.patch('sys.argv', argv):
-            # Silence error message.
-            with unittest.mock.patch('sys.stdout.write', lambda _value: None):
+            # Capture standard output.
+            buf = io.StringIO()
+            with unittest.mock.patch('sys.stdout', buf):
                 # Capture exit code.
                 ret = []  # type: List[int]
                 with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
                     validator.main()
                     self.assertEqual(ret, [1])
+                    buf.seek(0)
+                    expected = "failed to validate tests/data/relations-missing-osmrelation.yaml"
+                    expected += ": unexpected key 'gazdagret'\n"
+                    self.assertEqual(buf.read(), expected)
 
 
 if __name__ == '__main__':
