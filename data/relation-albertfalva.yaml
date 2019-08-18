@@ -7,8 +7,13 @@ filters:
     ranges: []
   Fehérvári út:
     ranges:
-      - {start: '193', end: '247'}
-      - {start: '168', end: '204'}
+      # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
+      - {start: '193', end: '243'}
+      - {start: '247', end: '247'}
+      # 168-178, 182-190 egyben
+      - {start: '168', end: '168'}
+      - {start: '178', end: '182'}
+      - {start: '190', end: '204'}
   Kondorosi út:
     ranges:
       - {start: '2', end: '82'}
