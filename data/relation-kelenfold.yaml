@@ -275,7 +275,9 @@ filters:
   Rátz László utca:
     ranges:
       - {start: '1', end: '85'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '76'}
+      - {start: '80', end: '82'}
+      - {start: '86', end: '86'}
   Sárbogárdi út:
     interpolation: 'all'
     ranges:
@@ -319,9 +321,12 @@ filters:
   Tétényi út:
     ranges:
       # vege felmerendo
-      - {start: '1', end: '199'}
+      - {start: '1', end: '141'}
       - {start: '2', end: '48'}
-      - {start: '62', end: '198'}
+      - {start: '62', end: '76'}
+      # 78 helyen epitkeznek
+      - {start: '80', end: '92'}
+      - {start: '96', end: '198'}
   Thallóczy Lajos utca:
     ranges:
       # 1-21 a remiz oldala, nincs haz
