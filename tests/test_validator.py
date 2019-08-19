@@ -66,6 +66,24 @@ class TestValidatorMain(unittest.TestCase):
                     buf.seek(0)
                     self.assertEqual(buf.read(), "")
 
+    def test_relation_source_bad_type(self) -> None:
+        """Tests the relation path: bad source type."""
+        # Set up arguments.
+        argv = ["", "tests/data/relation-gazdagret-source-int.yaml"]
+        with unittest.mock.patch('sys.argv', argv):
+            # Capture standard output.
+            buf = io.StringIO()
+            with unittest.mock.patch('sys.stdout', buf):
+                # Capture exit code.
+                ret = []  # type: List[int]
+                with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
+                    validator.main()
+                    self.assertEqual(ret, [1])
+                    buf.seek(0)
+                    expected = "failed to validate tests/data/relation-gazdagret-source-int.yaml"
+                    expected += ": expected value type for 'source' is <class 'str'>\n"
+                    self.assertEqual(buf.read(), expected)
+
 
 if __name__ == '__main__':
     unittest.main()
