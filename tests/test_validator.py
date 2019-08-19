@@ -66,10 +66,10 @@ class TestValidatorMain(unittest.TestCase):
                     buf.seek(0)
                     self.assertEqual(buf.read(), "")
 
-    def test_relation_source_bad_type(self) -> None:
-        """Tests the relation path: bad source type."""
+    def assert_failure_msg(self, path: str, expected: str) -> None:
+        """Asserts that a given input fails with a given error message."""
         # Set up arguments.
-        argv = ["", "tests/data/relation-gazdagret-source-int.yaml"]
+        argv = ["", path]
         with unittest.mock.patch('sys.argv', argv):
             # Capture standard output.
             buf = io.StringIO()
@@ -80,45 +80,31 @@ class TestValidatorMain(unittest.TestCase):
                     validator.main()
                     self.assertEqual(ret, [1])
                     buf.seek(0)
-                    expected = "failed to validate tests/data/relation-gazdagret-source-int.yaml"
-                    expected += ": expected value type for 'source' is <class 'str'>\n"
                     self.assertEqual(buf.read(), expected)
+
+    def test_relation_source_bad_type(self) -> None:
+        """Tests the relation path: bad source type."""
+        expected = "failed to validate tests/data/relation-gazdagret-source-int.yaml"
+        expected += ": expected value type for 'source' is <class 'str'>\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-source-int.yaml", expected)
 
     def test_relation_filters_bad_type(self) -> None:
         """Tests the relation path: bad filters type."""
-        # Set up arguments.
-        argv = ["", "tests/data/relation-gazdagret-filters-bad.yaml"]
-        with unittest.mock.patch('sys.argv', argv):
-            # Capture standard output.
-            buf = io.StringIO()
-            with unittest.mock.patch('sys.stdout', buf):
-                # Capture exit code.
-                ret = []  # type: List[int]
-                with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
-                    validator.main()
-                    self.assertEqual(ret, [1])
-                    buf.seek(0)
-                    expected = "failed to validate tests/data/relation-gazdagret-filters-bad.yaml"
-                    expected += ": expected value type for 'filters.Budaörsi út.ranges' is list\n"
-                    self.assertEqual(buf.read(), expected)
+        expected = "failed to validate tests/data/relation-gazdagret-filters-bad.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.ranges' is list\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filters-bad.yaml", expected)
 
     def test_relation_bad_key_name(self) -> None:
         """Tests the relation path: bad toplevel key name."""
-        # Set up arguments.
-        argv = ["", "tests/data/relation-gazdagret-bad-key.yaml"]
-        with unittest.mock.patch('sys.argv', argv):
-            # Capture standard output.
-            buf = io.StringIO()
-            with unittest.mock.patch('sys.stdout', buf):
-                # Capture exit code.
-                ret = []  # type: List[int]
-                with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
-                    validator.main()
-                    self.assertEqual(ret, [1])
-                    buf.seek(0)
-                    expected = "failed to validate tests/data/relation-gazdagret-bad-key.yaml"
-                    expected += ": unexpected key 'invalid'\n"
-                    self.assertEqual(buf.read(), expected)
+        expected = "failed to validate tests/data/relation-gazdagret-bad-key.yaml"
+        expected += ": unexpected key 'invalid'\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-bad-key.yaml", expected)
+
+    def test_relation_strfilters_bad_type(self) -> None:
+        """Tests the relation path: bad strfilters value type."""
+        expected = "failed to validate tests/data/relation-gazdagret-street-filters-bad.yaml"
+        expected += ": expected value type for 'street-filters[0]' is str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-street-filters-bad.yaml", expected)
 
 
 if __name__ == '__main__':
