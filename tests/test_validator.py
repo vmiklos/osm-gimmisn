@@ -102,6 +102,24 @@ class TestValidatorMain(unittest.TestCase):
                     expected += ": expected value type for 'filters.Budaörsi út.ranges' is list\n"
                     self.assertEqual(buf.read(), expected)
 
+    def test_relation_bad_key_name(self) -> None:
+        """Tests the relation path: bad toplevel key name."""
+        # Set up arguments.
+        argv = ["", "tests/data/relation-gazdagret-bad-key.yaml"]
+        with unittest.mock.patch('sys.argv', argv):
+            # Capture standard output.
+            buf = io.StringIO()
+            with unittest.mock.patch('sys.stdout', buf):
+                # Capture exit code.
+                ret = []  # type: List[int]
+                with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
+                    validator.main()
+                    self.assertEqual(ret, [1])
+                    buf.seek(0)
+                    expected = "failed to validate tests/data/relation-gazdagret-bad-key.yaml"
+                    expected += ": unexpected key 'invalid'\n"
+                    self.assertEqual(buf.read(), expected)
+
 
 if __name__ == '__main__':
     unittest.main()
