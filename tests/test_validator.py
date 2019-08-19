@@ -84,6 +84,24 @@ class TestValidatorMain(unittest.TestCase):
                     expected += ": expected value type for 'source' is <class 'str'>\n"
                     self.assertEqual(buf.read(), expected)
 
+    def test_relation_filters_bad_type(self) -> None:
+        """Tests the relation path: bad filters type."""
+        # Set up arguments.
+        argv = ["", "tests/data/relation-gazdagret-filters-bad.yaml"]
+        with unittest.mock.patch('sys.argv', argv):
+            # Capture standard output.
+            buf = io.StringIO()
+            with unittest.mock.patch('sys.stdout', buf):
+                # Capture exit code.
+                ret = []  # type: List[int]
+                with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
+                    validator.main()
+                    self.assertEqual(ret, [1])
+                    buf.seek(0)
+                    expected = "failed to validate tests/data/relation-gazdagret-filters-bad.yaml"
+                    expected += ": expected value type for 'filters.Budaörsi út.ranges' is list\n"
+                    self.assertEqual(buf.read(), expected)
+
 
 if __name__ == '__main__':
     unittest.main()
