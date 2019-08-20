@@ -106,6 +106,12 @@ class TestValidatorMain(unittest.TestCase):
         expected += ": expected value type for 'street-filters[0]' is str\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-street-filters-bad.yaml", expected)
 
+    def test_relation_refstreets_bad_value_type(self) -> None:
+        """Tests the relation path: bad refstreets value type."""
+        expected = "failed to validate tests/data/relation-gazdagret-refstreets-bad-value.yaml"
+        expected += ": expected value type for 'refstreets.OSM Name 1' is str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-refstreets-bad-value.yaml", expected)
+
 
 if __name__ == '__main__':
     unittest.main()
