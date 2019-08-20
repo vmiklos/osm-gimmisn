@@ -20,6 +20,8 @@ filters:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
       - {start: '32', end: '40'}
+  Egyetemisták parkja:
+    ranges: []
   Fehérvári út:
     ranges:
       - {start: '2', end: '2'}
@@ -35,7 +37,8 @@ filters:
       - {start: '1', end: '1'}
       - {start: '17', end: '47'}
       - {start: '2', end: '4'}
-      - {start: '20', end: '42'}
+      - {start: '20', end: '20'}
+      - {start: '28', end: '42'}
   Kende utca:
     ranges:
       - {start: '1', end: '19'}
