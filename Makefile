@@ -3,16 +3,20 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_overpass_query.py \
 	tests/test_validator.py \
 
+# These have good coverage.
+PYTHON_SAFE_OBJECTS = \
+	helpers.py \
+	overpass_query.py \
+	validator.py \
+
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
+	$(PYTHON_SAFE_OBJECTS) \
 	cron.py \
 	get_reference_housenumbers.py \
 	get_reference_streets.py \
-	helpers.py \
 	missing_housenumbers.py \
 	missing_streets.py \
-	overpass_query.py \
-	validator.py \
 	version.py \
 	wsgi.py \
 
@@ -54,7 +58,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
 check-unit:
 	coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
-	coverage report --show-missing --fail-under=100 helpers.py overpass_query.py
+	coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
 

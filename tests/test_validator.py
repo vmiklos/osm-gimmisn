@@ -136,6 +136,24 @@ class TestValidatorMain(unittest.TestCase):
         expected += ": unexpected key 'filters.Budaörsi út.ranges[0].unexpected'\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad.yaml", expected)
 
+    def test_relation_filters_ranges_bad_type(self) -> None:
+        """Tests the relation path: bad filters -> ... -> ranges subkey type."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-type.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].reftelepules' is str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-type.yaml", expected)
+
+    def test_relation_filters_ranges_bad_end(self) -> None:
+        """Tests the relation path: bad filters -> ... -> ranges -> end type."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].end' is str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-end.yaml", expected)
+
+    def test_relation_filters_ranges_bad_start(self) -> None:
+        """Tests the relation path: bad filters -> ... -> ranges -> start type."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].start' is str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-start.yaml", expected)
+
 
 if __name__ == '__main__':
     unittest.main()
