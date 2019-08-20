@@ -2,6 +2,12 @@ filters:
   Alsóhegy utca:
     ranges:
       - {start: '46', end: '50'}
+  Andor utca:
+    # 27-31 egyben
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '31', end: '49'}
+      - {start: '2', end: '98'}
   Badacsonyi utca:
     ranges: []
   Bajmóci utca:
@@ -105,12 +111,11 @@ filters:
       - {start: '1', end: '21'}
       - {start: '2', end: '24'}
   Etele tér:
+    interpolation: 'all'
     ranges:
       # 8 nincs, de 12-13 a posta szerint igen, talan az Etele plaza oldala
-      - {start: '1', end: '7'}
-      - {start: '2', end: '6'}
+      - {start: '3', end: '7'}
       - {start: '9', end: '13'}
-      - {start: '10', end: '12'}
   Etele út:
     ranges:
       - {start: '1', end: '3'}
@@ -126,7 +131,8 @@ filters:
       - {start: '23', end: '191'}
       - {start: '44', end: '58'}
       - {start: '68', end: '98'}
-      - {start: '104', end: '166'}
+      - {start: '104', end: '124'}
+      - {start: '130', end: '166'}
   Fejér Lipót utca:
     ranges:
       - {start: '13', end: '15'}
@@ -264,6 +270,10 @@ filters:
       - {start: '2', end: '56'}
   Pázmány Péter sétány:
     ranges: []
+  Puskás Tivadar utca:
+    ranges:
+      - {start: '1', end: '37'}
+      - {start: '4', end: '26'}
   Petzvál József utca:
     ranges:
       - {start: '1', end: '43'}
@@ -306,6 +316,10 @@ filters:
     ranges:
       - {start: '1', end: '59'}
       - {start: '2', end: '48'}
+  Szombathelyi tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '1', end: '15'}
   Sztregova utca:
     ranges:
       - {start: '1', end: '7'}
