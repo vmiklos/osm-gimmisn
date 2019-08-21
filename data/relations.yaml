@@ -86,6 +86,10 @@ szentimrevaros:
     refmegye: "01"
     reftelepules: "011"
 # 12
+hegyvidek:
+    osmrelation: 221995
+    refmegye: "01"
+    reftelepules: "012"
 csilleberc:
     osmrelation: 2805998
     refmegye: "01"
@@ -115,6 +119,10 @@ szechenyihegy:
     refmegye: "01"
     reftelepules: "012"
 # 22
+budafokteteny:
+    osmrelation: 215621
+    refmegye: "01"
+    reftelepules: "022"
 barossgabortelep:
     osmrelation: 3186063
     refmegye: "01"
