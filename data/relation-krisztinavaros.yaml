@@ -15,7 +15,7 @@ filters:
     reftelepules: '012'
   Alsóhegy utca:
     # all house numbers are part of Gellérthegy or Kelenföld
-    ranges:
+    ranges: []
   Árkay Aladár sétány:
     reftelepules: '012'
   Árkay Bertalan sétány:
