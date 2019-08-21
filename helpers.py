@@ -150,6 +150,14 @@ class RelationFiles:
         """Opens the house number percent file of a relation."""
         return cast(TextIO, open(self.get_housenumbers_percent_path(), mode=mode))
 
+    def get_streets_percent_path(self) -> str:
+        """Builds the file name of the street percent file of a relation."""
+        return os.path.join(self.__workdir, "%s-streets.percent" % self.__name)
+
+    def get_streets_percent_stream(self, mode: str) -> TextIO:
+        """Opens the street percent file of a relation."""
+        return cast(TextIO, open(self.get_streets_percent_path(), mode=mode))
+
 
 class RelationConfig:
     """A relation configuration comes directly from static data, not a result of some external query."""
@@ -503,7 +511,7 @@ class Relation:
             percent = "N/A"
 
         # Write the bottom line to a file, so the index page show it fast.
-        with open(os.path.join(self.__workdir, self.__name + "-streets.percent"), "w") as stream:
+        with self.get_files().get_streets_percent_stream("w") as stream:
             stream.write(percent)
 
         return todo_count, done_count, percent, streets

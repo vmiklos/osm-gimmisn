@@ -395,16 +395,15 @@ def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[str, str]:
     return cell, "0"
 
 
-def handle_main_street_percent(workdir: str, relation_name: str) -> Tuple[str, str]:
+def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
     """Handles the street percent part of the main page."""
-    percent_file = relation_name + "-streets.percent"
-    url = "\"/osm/suspicious-relations/" + relation_name + "/view-result\""
+    url = "\"/osm/suspicious-relations/" + relation.get_name() + "/view-result\""
     percent = "N/A"
-    if os.path.exists(os.path.join(workdir, percent_file)):
-        percent = helpers.get_content(workdir, percent_file)
+    if os.path.exists(relation.get_files().get_streets_percent_path()):
+        percent = helpers.get_content(relation.get_files().get_streets_percent_path())
 
     if percent != "N/A":
-        date = get_last_modified(workdir, percent_file)
+        date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
         cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
         cell += percent + "%"
         cell += "</a></strong>"
@@ -445,7 +444,7 @@ def handle_main_filters(relations: helpers.Relations) -> str:
     return '<p>Szűrők: ' + " &brvbar; ".join(items) + '</p>'
 
 
-def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) -> str:
+def handle_main(request_uri: str, relations: helpers.Relations) -> str:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
@@ -494,7 +493,7 @@ def handle_main(request_uri: str, relations: helpers.Relations, workdir: str) ->
             row.append("")
 
         if streets != "no":
-            cell, percent = handle_main_street_percent(workdir, relation_name)
+            cell, percent = handle_main_street_percent(relation)
             row.append(cell)
             if float(percent) < 100.0:
                 complete = False
@@ -672,7 +671,7 @@ def our_application(
     elif request_uri.startswith("/osm/static/"):
         output, content_type = handle_static(request_uri)
     else:
-        output = handle_main(request_uri, relations, workdir)
+        output = handle_main(request_uri, relations)
 
     output_bytes = output.encode('utf-8')
     response_headers = [('Content-type', content_type + '; charset=utf-8'),
