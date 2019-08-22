@@ -17,7 +17,7 @@ def main() -> None:
     """Commandline interface to this module."""
 
     config = configparser.ConfigParser()
-    config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config_path = os.path.join(os.getcwd(), "wsgi.ini")
     config.read(config_path)
 
     if len(sys.argv) > 1:
