@@ -5,7 +5,7 @@
 # found in the LICENSE file.
 #
 
-"""The get_reference_streets module allows fetching referene streets for a relation."""
+"""The get_reference_streets module allows fetching reference streets for a relation."""
 
 import configparser
 import os
