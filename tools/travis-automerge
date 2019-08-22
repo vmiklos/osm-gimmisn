@@ -24,6 +24,8 @@ git checkout "$BRANCH_TO_MERGE_INTO"
 
 printf 'Merging %s\n' "$TRAVIS_COMMIT" >&2
 git merge --ff-only "$TRAVIS_COMMIT"
+OLD_MSG=$(git log --format=%B -n1)
+git commit --amend -m"$OLD_MSG" -m"Tested-by: Travis" --no-edit
 
 printf 'Pushing to %s\n' "$GITHUB_REPO" >&2
 
