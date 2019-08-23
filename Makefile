@@ -1,10 +1,12 @@
 PYTHON_TEST_OBJECTS = \
+	tests/test_get_reference_housenumbers.py \
 	tests/test_helpers.py \
 	tests/test_overpass_query.py \
 	tests/test_validator.py \
 
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
+	get_reference_housenumbers.py \
 	helpers.py \
 	overpass_query.py \
 	validator.py \
@@ -13,7 +15,6 @@ PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
 	cron.py \
-	get_reference_housenumbers.py \
 	get_reference_streets.py \
 	missing_housenumbers.py \
 	missing_streets.py \
