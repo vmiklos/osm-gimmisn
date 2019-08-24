@@ -91,9 +91,10 @@ filters:
   Nagyenyed utca:
     reftelepules: '012'
   Naphegy utca:
+    # last segment is outside the relation
     ranges:
       - {start: '1', end: '65'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '48'}
   Ostrom utca:
     ranges: []
   Pethényi út:
