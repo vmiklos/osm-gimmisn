@@ -1,3 +1,11 @@
 suspicious-relations: only
 filters: {}
+street-filters:
+  # Nem valós utcák
+  - Albertfalvai MÁV őrház
+  - Nagytétény-Diósd őrház
+  - Máv őrház
+  - Lőtér
+  # Megváltozott
+  - 868. utca # Virágoskert utca, ez is szerepel, nem kell mappelni
 source: survey
