@@ -64,9 +64,6 @@ stimmeljen az előző pontban kinyert értékekkel.
 4) Ez után a módosítást https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] formájában
 beküldheted, jóváhagyás után be fog kerülni.
 
-A lekérdezés minden reláció esetén megegyezik, leszámítva a reláció azonosítóját. A webes felületen
-meg tudod nézni a pontos overpass lekérdezéseket.
-
 == Hibás riasztás hozzáadása
 
 Ez hasonló az új reláció felvételéhez, csak a reláció nevéből származtatott szűrő file-ba kell
