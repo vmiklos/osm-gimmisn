@@ -1,4 +1,8 @@
 filters:
+  Kelenvölgyi határsor:
+    interpolation: 'all'
+    ranges:
+      - {start: '3', end: '8'}
   Olajbogyó utca:
     ranges:
       - {start: '3', end: '7'}
