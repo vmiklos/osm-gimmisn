@@ -6,8 +6,10 @@ filters:
     # 27-31 egyben
     ranges:
       - {start: '1', end: '27'}
-      - {start: '31', end: '49'}
-      - {start: '2', end: '98'}
+      - {start: '31', end: '31'}
+      - {start: '47', end: '49'}
+      - {start: '2', end: '54'}
+      - {start: '60', end: '60'}
   Badacsonyi utca:
     ranges: []
   Bajmóci utca:
@@ -64,17 +66,31 @@ filters:
     # valosagban 1-7 a kiirt, de van meg egy epulet
     ranges:
       - {start: '1', end: '9'}
+  Bor utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '8'}
+  Bornemissza tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '12', end: '20'}
+  Borszék köz:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '13', end: '17'}
   Borszéki utca:
-    # semmi kiiras sehol
-    ranges: []
+    ranges:
+      - {start: '32', end: '32'}
   Budafoki út:
     # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
-    # paros: 52 az eromu, Budapart miatt valtozhat, 70-ig van kiirva a vege, valosagban meg vannak telkek
+    # paros: 52 az eromu, Budapart miatt valtozhat, 84 Albertfalva
     ranges:
       - {start: '91', end: '97'}
       - {start: '105', end: '115'}
       - {start: '183', end: '229'}
-      - {start: '52', end: '198'}
+      - {start: '52', end: '60'}
+      - {start: '64', end: '74'}
   Budaörsi út:
     ranges:
       - {start: '26', end: '56'}
@@ -235,7 +251,7 @@ filters:
       - {start: '1', end: '11'}
   Kondorosi út:
     ranges:
-      - {start: '1', end: '69'}
+      - {start: '3', end: '69'}
   Kosztolányi Dezső tér:
     ranges:
       - {start: '5', end: '11'}
@@ -248,6 +264,9 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
+  Major köz:
+    ranges:
+      - {start: '6', end: '12'}
   Mohai út:
     ranges:
       - {start: '1', end: '17'}
@@ -272,7 +291,7 @@ filters:
     ranges: []
   Puskás Tivadar utca:
     ranges:
-      - {start: '1', end: '37'}
+      - {start: '1', end: '35'}
       - {start: '4', end: '26'}
   Petzvál József utca:
     ranges:
@@ -353,6 +372,9 @@ filters:
     ranges:
       - {start: '1', end: '59'}
       - {start: '2', end: '80'}
+  Vasút utca:
+    ranges:
+      - {start: '1', end: '1'}
   Villányi út:
     ranges:
       - {start: '76', end: '86'}
