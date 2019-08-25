@@ -35,4 +35,7 @@ filters:
   Solt utca:
     ranges:
       - {start: '2', end: '22'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
 source: survey
