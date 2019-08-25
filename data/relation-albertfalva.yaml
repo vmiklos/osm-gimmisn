@@ -6,6 +6,9 @@ filters:
       - {start: '84', end: '84'}
   Csorbai utca:
     ranges: []
+  Érem utca:
+    ranges:
+      - {start: '2', end: '12'}
   Fehérvári út:
     ranges:
       # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
