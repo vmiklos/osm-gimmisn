@@ -2,7 +2,8 @@ filters:
   Albert utca:
     ranges: []
   Budafoki út:
-    ranges: []
+    ranges:
+      - {start: '84', end: '84'}
   Csorbai utca:
     ranges: []
   Fehérvári út:
@@ -16,7 +17,9 @@ filters:
       - {start: '190', end: '204'}
   Kondorosi út:
     ranges:
-      - {start: '2', end: '82'}
+      - {start: '2', end: '14'}
+      - {start: '18', end: '18'}
+      - {start: '28', end: '82'}
   Kővirág sor:
     ranges: []
   Rátz László utca:
