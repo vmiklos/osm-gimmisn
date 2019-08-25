@@ -7,5 +7,5 @@ street-filters:
   - Máv őrház
   - Lőtér
   # Megváltozott
-  - 868. utca # Virágoskert utca, ez is szerepel, nem kell mappelni
+  - 868. utca  # Virágoskert utca, ez is szerepel, nem kell mappelni
 source: survey
