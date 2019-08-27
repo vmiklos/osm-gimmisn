@@ -89,7 +89,7 @@ def update_street_housenumbers_ref(relations: helpers.Relations, config: configp
     for relation_name in relations.get_names():
         logging.info("update_street_housenumbers_ref: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
-        reference = config.get('wsgi', 'reference_local').strip()
+        reference = config.get('wsgi', 'reference_housenumbers').strip().split(' ')
         relation.write_ref_housenumbers(reference)
         logging.info("update_street_housenumbers_ref: end: %s", relation_name)
 

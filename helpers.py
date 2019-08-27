@@ -386,19 +386,20 @@ class Relation:
 
         return ret
 
-    def write_ref_housenumbers(self, reference: str) -> None:
+    def write_ref_housenumbers(self, references: List[str]) -> None:
         """
         Writes known house numbers (not their coordinates) from a reference, based on street names
         from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
         used by __get_ref_housenumbers().
         """
-        memory_cache = build_reference_cache(reference)
+        memory_caches = build_reference_caches(references)
 
         streets = self.get_osm_streets()
 
         lst = []  # type: List[str]
         for street in streets:
-            lst += self.build_ref_housenumbers(memory_cache, street)
+            for memory_cache in memory_caches:
+                lst += self.build_ref_housenumbers(memory_cache, street)
 
         lst = sorted(set(lst))
         with self.get_files().get_ref_housenumbers_stream("w") as sock:
@@ -793,6 +794,11 @@ def normalize(house_numbers: str, street_name: str,
 
         ret.append(str(number))
     return ret
+
+
+def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[str]]]]]:
+    """Handles a list of references for build_reference_cache()."""
+    return [build_reference_cache(reference) for reference in references]
 
 
 def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]]]]:

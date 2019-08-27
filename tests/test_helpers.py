@@ -739,7 +739,7 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         relation_name = "gazdagret"
         expected = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         relation = relations.get_relation(relation_name)
-        relation.write_ref_housenumbers(refpath)
+        relation.write_ref_housenumbers([refpath])
         actual = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 

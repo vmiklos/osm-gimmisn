@@ -237,7 +237,7 @@ def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> 
 
 def missing_housenumbers_update(relations: helpers.Relations, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
-    reference = get_config().get('wsgi', 'reference_local').strip()
+    reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
     return "Frissítés sikeres."
