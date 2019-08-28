@@ -2,6 +2,10 @@ filters:
   Alsóhegy utca:
     ranges:
       - {start: '46', end: '50'}
+  Andor köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '4', end: '12'}
   Andor utca:
     # 27-31 egyben
     ranges:
@@ -101,6 +105,11 @@ filters:
       - {start: '2', end: '4'}
   Csonka János tér:
     ranges: []
+  Csorbai utca:
+    ranges:
+      - {start: '3', end: '23'}
+      - {start: '2', end: '2'}
+      - {start: '12', end: '28'}
   Csurgói út:
     ranges:
       - {start: '1', end: '39'}
@@ -293,8 +302,8 @@ filters:
       - {start: '2', end: '54'}
   Pajkos utca:
     ranges:
-      - {start: '1', end: '19'}
-      - {start: '2', end: '56'}
+      - {start: '1', end: '41'}
+      - {start: '2', end: '86'}
   Pázmány Péter sétány:
     ranges: []
   Puskás Tivadar utca:
@@ -334,8 +343,12 @@ filters:
       - {start: '2', end: '72'}
   Szádelő köz:
     ranges:
-      - {start: '1', end: '19'}
-      - {start: '2', end: '16'}
+      - {start: '1', end: '15'}
+      - {start: '4', end: '16'}
+  Szádelő utca:
+    ranges:
+      - {start: '11', end: '19'}
+      - {start: '12', end: '12'}
   Szentpétery utca:
     ranges:
       - {start: '1', end: '15'}
