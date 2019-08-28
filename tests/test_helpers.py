@@ -694,7 +694,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
         relation_name = "gazdagret"
         street = "Törökugrató utca"
         relation = relations.get_relation(relation_name)
-        ret = relation.build_ref_housenumbers(memory_cache, street)
+        ret = relation.build_ref_housenumbers(memory_cache, street, "")
         self.assertEqual(ret, ['Törökugrató utca 1', 'Törökugrató utca 10', 'Törökugrató utca 2', 'Törökugrató utca 7'])
 
     def test_missing(self) -> None:
@@ -706,7 +706,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
         relation_name = "gazdagret"
         street = "No such utca"
         relation = relations.get_relation(relation_name)
-        ret = relation.build_ref_housenumbers(memory_cache, street)
+        ret = relation.build_ref_housenumbers(memory_cache, street, "")
         self.assertEqual(ret, [])
 
 
@@ -735,11 +735,12 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
+        refpath2 = os.path.join(refdir, "hazszamok_kieg_20190808.tsv")
         relations = get_relations()
         relation_name = "gazdagret"
         expected = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         relation = relations.get_relation(relation_name)
-        relation.write_ref_housenumbers([refpath])
+        relation.write_ref_housenumbers([refpath, refpath2])
         actual = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 

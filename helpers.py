@@ -370,7 +370,8 @@ class Relation:
     def build_ref_housenumbers(
             self,
             reference: Dict[str, Dict[str, Dict[str, List[str]]]],
-            street: str
+            street: str,
+            suffix: str
     ) -> List[str]:
         """
         Builds a list of housenumbers from a reference cache.
@@ -382,9 +383,17 @@ class Relation:
         for reftelepules in self.get_config().get_street_reftelepules(street):
             if street in reference[refmegye][reftelepules].keys():
                 house_numbers = reference[refmegye][reftelepules][street]
-                ret += [street + " " + i for i in house_numbers]
+                ret += [street + " " + i + suffix for i in house_numbers]
 
         return ret
+
+    @staticmethod
+    def __get_ref_suffix(index: int) -> str:
+        """Determines what suffix should the Nth reference use for hours numbers."""
+        if index == 0:
+            return ""
+
+        return "*"
 
     def write_ref_housenumbers(self, references: List[str]) -> None:
         """
@@ -398,8 +407,9 @@ class Relation:
 
         lst = []  # type: List[str]
         for street in streets:
-            for memory_cache in memory_caches:
-                lst += self.build_ref_housenumbers(memory_cache, street)
+            for index, memory_cache in enumerate(memory_caches):
+                suffix = Relation.__get_ref_suffix(index)
+                lst += self.build_ref_housenumbers(memory_cache, street, suffix)
 
         lst = sorted(set(lst))
         with self.get_files().get_ref_housenumbers_stream("w") as sock:
