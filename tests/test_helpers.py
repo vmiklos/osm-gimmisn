@@ -744,6 +744,30 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         actual = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 
+    def test_nosuchrefmegye(self) -> None:
+        """Tests the case when the refmegye code is missing in the reference."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
+        relations = get_relations()
+        relation_name = "nosuchrefmegye"
+        relation = relations.get_relation(relation_name)
+        try:
+            relation.write_ref_housenumbers([refpath])
+        except KeyError:
+            self.fail("write_ref_housenumbers() raised KeyError unexpectedly")
+
+    def test_nosuchreftelepules(self) -> None:
+        """Tests the case when the reftelepules code is missing in the reference."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
+        relations = get_relations()
+        relation_name = "nosuchreftelepules"
+        relation = relations.get_relation(relation_name)
+        try:
+            relation.write_ref_housenumbers([refpath])
+        except KeyError:
+            self.fail("write_ref_housenumbers() raised KeyError unexpectedly")
+
 
 class TestRelationWriteRefStreets(unittest.TestCase):
     """Tests Relation.WriteRefStreets()."""
@@ -765,9 +789,18 @@ class TestRelations(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = get_relations()
-        self.assertEqual(relations.get_names(), ['empty', 'gazdagret', 'nosuchrelation', "test", "ujbuda"])
+        expected_relation_names = [
+            "empty",
+            "gazdagret",
+            "nosuchrefmegye",
+            "nosuchreftelepules",
+            "nosuchrelation",
+            "test",
+            "ujbuda"
+        ]
+        self.assertEqual(relations.get_names(), expected_relation_names)
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
-        self.assertEqual([13, 42, 66, 221998, 2713748], osmids)
+        self.assertEqual([13, 42, 43, 44, 66, 221998, 2713748], osmids)
         self.assertEqual("only", relations.get_relation("ujbuda").get_config().should_check_missing_streets())
 
 

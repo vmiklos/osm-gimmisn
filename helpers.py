@@ -381,7 +381,13 @@ class Relation:
         street = self.get_ref_street_from_osm_street(street)
         ret = []  # type: List[str]
         for reftelepules in self.get_config().get_street_reftelepules(street):
-            if street in reference[refmegye][reftelepules].keys():
+            if refmegye not in reference.keys():
+                continue
+            refmegye_dict = reference[refmegye]
+            if reftelepules not in refmegye_dict.keys():
+                continue
+            reftelepules_dict = refmegye_dict[reftelepules]
+            if street in reftelepules_dict.keys():
                 house_numbers = reference[refmegye][reftelepules][street]
                 ret += [street + " " + i + suffix for i in house_numbers]
 

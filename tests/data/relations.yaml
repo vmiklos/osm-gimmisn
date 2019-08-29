@@ -22,3 +22,11 @@ test:
     osmrelation: 66
     refmegye: "67"
     reftelepules: "68"
+nosuchrefmegye:
+    osmrelation: 43
+    refmegye: "98"
+    reftelepules: "99"
+nosuchreftelepules:
+    osmrelation: 44
+    refmegye: "01"
+    reftelepules: "99"
