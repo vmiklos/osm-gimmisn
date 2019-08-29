@@ -24,6 +24,11 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '14'}
+  Bánát utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '14'}
+      - {start: '18', end: '20'}
   Bánk bán utca:
     # 12-20 egyben
     ranges:
@@ -154,7 +159,8 @@ filters:
   Fehérvári út:
     # Fehervari 58-68, 132-144 egyben
     ranges:
-      - {start: '23', end: '191'}
+      - {start: '23', end: '79'}
+      - {start: '83', end: '191'}
       - {start: '44', end: '58'}
       - {start: '68', end: '88'}
       - {start: '98', end: '98'}
@@ -166,6 +172,8 @@ filters:
       - {start: '13', end: '15'}
       - {start: '55', end: '67'}
       - {start: '2', end: '70'}
+  Fiatal utca:
+    ranges: []
   Fraknó utca:
     ranges:
       - {start: '1', end: '7'}
@@ -276,6 +284,9 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
+  Leiningen út:
+    ranges:
+      - {start: '27', end: '53'}
   Major köz:
     ranges:
       - {start: '6', end: '12'}
@@ -289,6 +300,10 @@ filters:
       - {start: '1', end: '17'}
       - {start: '23', end: '55'}
       - {start: '2', end: '56'}
+  Nagysurány utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '14'}
   Nagyszőlős utca:
     ranges:
       - {start: '1', end: '21'}
