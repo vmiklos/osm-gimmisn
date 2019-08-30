@@ -209,7 +209,7 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
                 if not relation.get_config().get_street_is_even_odd(result[0]):
                     row = result[0] + "\t[" + ", ".join(result[1]) + "]"
                 else:
-                    elements = helpers.format_even_odd(result[1])
+                    elements = helpers.format_even_odd(result[1], html=False)
                     row = result[0] + "\t[" + "], [".join(elements) + "]"
                 table.append(row)
         table.sort(key=locale.strxfrm)

@@ -483,7 +483,7 @@ class Relation:
             if not self.get_config().get_street_is_even_odd(result[0]):
                 row.append(", ".join(result[1]))
             else:
-                row.append("<br/>".join(format_even_odd(result[1])))
+                row.append("<br/>".join(format_even_odd(result[1], html=True)))
 
             todo_count += len(result[1])
             table.append(row)
@@ -899,11 +899,22 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def format_even_odd(only_in_ref: List[str]) -> List[str]:
+def color_house_number(fro: str) -> str:
+    """Colors a house number according to its suffix."""
+    if not fro.endswith("*"):
+        return fro
+    return '<span style="color: blue;">' + fro[:-1] + '</span>'
+
+
+def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
     even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=split_house_number)
+    if html:
+        even = [color_house_number(i) for i in even]
     even_string = ", ".join(even)
     odd = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 1], key=split_house_number)
+    if html:
+        odd = [color_house_number(i) for i in odd]
     odd_string = ", ".join(odd)
     elements = []
     if odd_string:
