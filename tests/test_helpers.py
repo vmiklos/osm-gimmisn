@@ -144,14 +144,14 @@ class TestInBoth(unittest.TestCase):
     """Tests get_in_both()."""
     def test_happy(self) -> None:
         """Tests that happy path."""
-        self.assertEqual(helpers.get_in_both([1, 2, 3], [2, 3, 4]), [2, 3])
+        self.assertEqual(helpers.get_in_both(["1", "2", "3"], ["2", "3", "4"]), ["2", "3"])
 
 
 class TestOnlyInFirst(unittest.TestCase):
     """Tests get_only_in_first()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        self.assertEqual(helpers.get_only_in_first([1, 2, 3], [3, 4]), [1, 2])
+        self.assertEqual(helpers.get_only_in_first(["1", "2", "3"], ["3", "4"]), ["1", "2"])
 
 
 class TestGitLink(unittest.TestCase):
@@ -502,6 +502,16 @@ class TestNormalize(unittest.TestCase):
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize("1;2", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["1", "2"])
+
+    def test_keep_suffix(self) -> None:
+        """Tests that the * suffix is preserved."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        normalizers = relation.get_street_ranges()
+        house_number = helpers.normalize("1*", "Budaörs út", normalizers)
+        self.assertEqual(house_number, ["1*"])
+        house_number = helpers.normalize("2", "Budaörs út", normalizers)
+        self.assertEqual(house_number, ["2"])
 
 
 class TestRelationGetRefStreets(unittest.TestCase):

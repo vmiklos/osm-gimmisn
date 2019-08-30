@@ -684,21 +684,29 @@ def get_array_nth(arr: Sequence[str], index: int) -> str:
     return arr[index] if len(arr) > index else ''
 
 
-def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
+def get_only_in_first(first: List[str], second: List[str]) -> List[str]:
     """Returns items which are in first, but not in second."""
+    # Strip suffix that is ignored.
+    first_stripped = [re.sub(r"\*$", "", i) for i in first]
+    second_stripped = [re.sub(r"\*$", "", i) for i in second]
+
     ret = []
-    for i in first:
-        if i not in second:
-            ret.append(i)
+    for index, item in enumerate(first_stripped):
+        if item not in second_stripped:
+            ret.append(first[index])
     return ret
 
 
-def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
+def get_in_both(first: List[str], second: List[str]) -> List[str]:
     """Returns items which are in both first and second."""
+    # Strip suffix that is ignored.
+    first_stripped = [re.sub(r"\*$", "", i) for i in first]
+    second_stripped = [re.sub(r"\*$", "", i) for i in second]
+
     ret = []
-    for i in first:
-        if i in second:
-            ret.append(i)
+    for index, item in enumerate(first_stripped):
+        if item in second_stripped:
+            ret.append(first[index])
     return ret
 
 
@@ -792,6 +800,12 @@ def normalize(house_numbers: str, street_name: str,
         separator = ';'
     else:
         separator = '-'
+
+    # Determine suffix which is not normalized away.
+    suffix = ""
+    if house_numbers.endswith("*"):
+        suffix = house_numbers[-1]
+
     for house_number in house_numbers.split(separator):
         try:
             number = int(re.sub(r"([0-9]+).*", r"\1", house_number))
@@ -808,7 +822,7 @@ def normalize(house_numbers: str, street_name: str,
         if number not in normalizer:
             continue
 
-        ret.append(str(number))
+        ret.append(str(number) + suffix)
     return ret
 
 
@@ -887,9 +901,9 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
 
 def format_even_odd(only_in_ref: List[str]) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
-    even = sorted([i for i in only_in_ref if int(i) % 2 == 0], key=int)
+    even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=split_house_number)
     even_string = ", ".join(even)
-    odd = sorted([i for i in only_in_ref if int(i) % 2 == 1], key=int)
+    odd = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 1], key=split_house_number)
     odd_string = ", ".join(odd)
     elements = []
     if odd_string:
