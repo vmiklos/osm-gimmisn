@@ -25,7 +25,7 @@ filters:
     ranges: []
   Hóvirág út:
     ranges:
-      - {start: '2', end: '50'}
+      - {start: '2', end: '48'}
   János Zsigmond utca:
     ranges:
       - {start: '2', end: '36'}
