@@ -90,6 +90,10 @@ hegyvidek:
     osmrelation: 221995
     refmegye: "01"
     reftelepules: "012"
+budakeszierdo:
+    osmrelation: 2805997
+    refmegye: "01"
+    reftelepules: "012"
 csilleberc:
     osmrelation: 2805998
     refmegye: "01"
@@ -100,6 +104,22 @@ farkasret:
     reftelepules: "012"
 farkasvolgy:
     osmrelation: 2788020
+    refmegye: "01"
+    reftelepules: "012"
+istenhegy:
+    osmrelation: 2807348
+    refmegye: "01"
+    reftelepules: "012"
+janoshegy:
+    osmrelation: 2806169
+    refmegye: "01"
+    reftelepules: "012"
+kissvabhegy:
+    osmrelation: 2807349
+    refmegye: "01"
+    reftelepules: "012"
+kutvolgy:
+    osmrelation: 2807350
     refmegye: "01"
     reftelepules: "012"
 magasut:
@@ -114,10 +134,23 @@ nemetvolgy:
     osmrelation: 2806940
     refmegye: "01"
     reftelepules: "012"
+orbanhegy:
+    osmrelation: 2806937
+    refmegye: "01"
+    reftelepules: "012"
+svabhegy:
+    osmrelation: 2806878
+    refmegye: "01"
+    reftelepules: "012"
 szechenyihegy:
     osmrelation: 2806000
     refmegye: "01"
     reftelepules: "012"
+viranyos:
+    osmrelation: 2807351
+    refmegye: "01"
+    reftelepules: "012"
+zugliget:
 # 22
 budafokteteny:
     osmrelation: 215621
