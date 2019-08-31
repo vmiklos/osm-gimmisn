@@ -1,3 +1,12 @@
 suspicious-relations: only
 filters: {}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Adonis utca': 'Adonisz utca'
+  'Széchenyi-emlék út': 'Széchenyi- emlék út'
+  'Szépkilátás út': 'Szép kilátás út'
+  'Hunyad-orom lépcső': 'Hunyadorom lépcső'
+  # Felmérendő melyik a helyes
+  # 'Tearózsa út': 'Tearózsa utca'
+  # 'Janka utca': 'Janka út'
 source: survey
