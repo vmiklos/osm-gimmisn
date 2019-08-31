@@ -1,0 +1,5 @@
+filters: {}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Adonis utca': 'Adonisz utca'
+source: survey
