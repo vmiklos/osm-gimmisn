@@ -151,6 +151,9 @@ viranyos:
     refmegye: "01"
     reftelepules: "012"
 zugliget:
+    osmrelation: 2806170
+    refmegye: "01"
+    reftelepules: "012"
 # 22
 budafokteteny:
     osmrelation: 215621
