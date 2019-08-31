@@ -1,10 +1,9 @@
 filters:
-  # csak hrsz szures a legtobbnel
   Balatoni út:
     ranges: []
   Budaörsi út:
     ranges:
-      - {start: '162', end: '998'}
+      - {start: '170', end: '180'}
   Egér út:
     ranges: []
   Kőérberki út:
