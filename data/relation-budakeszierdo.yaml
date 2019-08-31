@@ -1,0 +1,17 @@
+filters:
+  # Budakeszi, Alma utca
+  Alma utca:
+    ranges: []
+  Budakeszi út:
+    ranges:
+      - {start: '95', end: '101'}
+  # Budakeszi, Futrinka utca
+  Futrinka utca:
+    ranges: []
+  Konkoly-Thege Miklós út:
+    ranges:
+      - {start: '1', end: '19'}
+  Szanatórium utca:
+    ranges:
+      - {start: '1', end: '19'}
+source: survey
