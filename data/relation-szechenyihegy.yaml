@@ -39,3 +39,6 @@ filters:
       - {start: '93', end: '999'}
       - {start: '156', end: '998'}
 source: survey
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Széchenyi-emlék út': 'Széchenyi- emlék út'
