@@ -15,6 +15,9 @@ filters:
     ranges:
       - {start: '117', end: '999'}
       - {start: '118', end: '998'}
+  Fülemile út:
+    ranges:
+      - {start: '2', end: '2'}
   Hegyhát út:
     ranges:
       - {start: '1', end: '3'}
@@ -34,6 +37,9 @@ filters:
   Mártonhegyi út:
     ranges:
       - {start: '1', end: '11'}
+  Ordas út:
+    ranges:
+      - {start: '14', end: '98'}
   Rácz Aladár út:
     ranges:
       - {start: '93', end: '999'}
