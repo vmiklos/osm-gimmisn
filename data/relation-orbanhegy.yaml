@@ -1,0 +1,41 @@
+filters:
+  Bürök utca:
+    ranges: []
+  Csorna utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Diana utca:
+    # pontositando
+    ranges:
+      - {start: '17', end: '99'}
+  Fodor utca:
+    ranges:
+      - {start: '1', end: '49'}
+      - {start: '2', end: '42'}
+  Istenhegyi út:
+    ranges:
+      - {start: '2', end: '42'}
+  Mártonhegyi út:
+    ranges:
+      - {start: '53', end: '67'}
+      - {start: '38', end: '58'}
+  Mártonlak utca:
+    # talán, de lehet, hogy semmi
+    ranges:
+      - {start: '20', end: '22'}
+  Németvölgyi út:
+    ranges:
+      - {start: '1', end: '67'}
+  Nárcisz utca:
+    ranges:
+      - {start: '1', end: '45'}
+      - {start: '2', end: '48'}
+  Tamási Áron utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '44', end: '98'}
+  Tóth Lőrinc utca
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '16'}
+source: survey
