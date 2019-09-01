@@ -1,0 +1,29 @@
+filters:
+  Alkony út:
+    ranges:
+      - {start: '1', end: '99'}
+  Árnyas út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '36'}
+  Béla király út:
+    ranges:
+      - {start: '59', end: '99'}
+      - {start: '38', end: '98'}
+  Budakeszi út:
+    ranges:
+      - {start: '30', end: '46'}
+  Csermely út:
+    ranges:
+      - {start: '1', end: '15'}
+  Kuruclesi út:
+    ranges:
+      - {start: '2', end: '2'}
+  Mátyás király út:
+    ranges:
+      - {start: '41', end: '99'}
+  Zugligeti út:
+    ranges:
+      - {start: '43', end: '199'}
+      - {start: '100', end: '198'}
+source: survey
