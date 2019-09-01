@@ -15,7 +15,7 @@ filters:
     ranges:
       - {start: '21', end: '21'}
       - {start: '29', end: '33'}
-      - {start: '2', end: '62'}
+      - {start: '20', end: '62'}
   # itt a helyszinen es a refben is teljes a kaosz valtakozik a magas ut es a magasut dulo
   Magas út:
     ranges:
