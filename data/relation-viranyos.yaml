@@ -1,4 +1,33 @@
-filters: {}
+filters:
+  Béla király út:
+    ranges:
+      - {start: '57', end: '57'}
+  Budakeszi út:
+    ranges:
+      - {start: '2', end: '28'}
+  Csermely út:
+    ranges:
+      - {start: '17', end: '99'}
+      - {start: '2', end: '98'}
+  Fészek utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
+  György Aladár utca:
+    ranges:
+      - {start: '17', end: '99'}
+      - {start: '20', end: '98'}
+  Kuruclesi út:
+    ranges:
+      - {start: '2', end: '2'}
+  Kútvölgyi út:
+    ranges:
+      - {start: '1', end: '103'}
+  Zugligeti út:
+    # 100+ Zugliget
+    ranges:
+      - {start: '1', end: '41'}
+      - {start: '2', end: '98'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Hunyad-orom lépcső': 'Hunyadorom lépcső'
