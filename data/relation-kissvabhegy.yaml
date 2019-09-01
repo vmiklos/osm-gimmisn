@@ -1,0 +1,50 @@
+filters:
+  Acsády Ignác utca:
+    ranges:
+      - {start: '7', end: '15'}
+      - {start: '6', end: '12'}
+  Alma utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '4', end: '98'}
+  Bíró utca:
+    ranges:
+      - {start: '2', end: '16'}
+  Csaba utca:
+    ranges:
+      - {start: '17', end: '99'}
+      - {start: '24', end: '98'}
+  Gaál József út:
+    ranges:
+      - {start: '13', end: '99'}
+      - {start: '2', end: '98'}
+  Határőr út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '22', end: '98'}
+  Istenhegyi út:
+    ranges:
+      - {start: '1', end: '33'}
+  Kék Golyó utca:
+    ranges:
+      - {start: '15', end: '99'}
+  Pethényi köz:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '2', end: '8'}
+  Pethényi út:
+    ranges:
+      - {start: '2', end: '98'}
+  Ráth György utca:
+    ranges:
+      - {start: '13', end: '99'}
+      - {start: '2', end: '98'}
+  Tóth Lőrinc utca
+    ranges:
+      - {start: '27', end: '99'}
+      - {start: '18', end: '98'}
+  Trencséni utca
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '10'}
+source: survey
