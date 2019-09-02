@@ -180,6 +180,10 @@ belvaros:
     osmrelation: 3228574
     refmegye: "01"
     reftelepules: "005"
+lipotvaros:
+    osmrelation: 3228576
+    refmegye: "01"
+    reftelepules: "005"
 terezvaros:
     osmrelation: 3229919
     refmegye: "01"
