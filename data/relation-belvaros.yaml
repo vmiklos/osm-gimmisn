@@ -6,6 +6,10 @@ filters:
   Deák Ferenc utca:
     ranges:
       - {start: '2', end: '98'}
+  Deák Ferenc tér:
+    interpolation: all
+    ranges:
+      - {start: '3', end: '5'}
   Vörösmarty tér:
     interpolation: all
     ranges:
