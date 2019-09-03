@@ -1,0 +1,7 @@
+filters:
+  Batsányi utca:
+    ranges:
+      # 6-8 is out of range
+      - {start: '1', end: '7'}
+      - {start: '2', end: '4'}
+source: survey
