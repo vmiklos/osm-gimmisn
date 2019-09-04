@@ -81,8 +81,8 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
         try:
             relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
             output += "Frissítés sikeres: "
-            output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/view-result\">"
-            output += "Hiányzó házszámok megtekintése</a>"
+            output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
+                               "Hiányzó házszámok megtekintése")
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
@@ -113,14 +113,22 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
         try:
             relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
             output += "Frissítés sikeres: "
-            output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/view-result\">"
-            output += "Hiányzó házszámok megtekintése</a>"
+            output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
+                               "Hiányzó házszámok megtekintése")
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
     osmrelation = relation.get_config().get_osmrelation()
     date = get_housenumbers_last_modified(relation)
     return get_header(relations, "street-housenumbers", relation_name, osmrelation) + output + get_footer(date)
+
+
+def gen_link(url: str, label: str) -> str:
+    """Generates a link to a URL with a given label."""
+    ret = '<a href="%s">' % url
+    ret += label
+    ret += "</a>"
+    return ret
 
 
 def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str) -> str:
@@ -132,16 +140,16 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
     relation = relations.get_relation(relation_name)
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         output += "Nincsenek meglévő utcák: "
-        output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
-        output += "Létrehozás Overpass hívásával</a>"
+        output += gen_link("/osm/streets/" + relation_name + "/update-result",
+                           "Létrehozás Overpass hívásával")
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
         output += "Nincsenek meglévő házszámok: "
-        output += "<a href=\"/osm/street-housenumbers/" + relation_name + "/update-result\">"
-        output += "Létrehozás Overpass hívásával</a>"
+        output += gen_link("/osm/street-housenumbers/" + relation_name + "/update-result",
+                           "Létrehozás Overpass hívásával")
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         output += "Nincsenek hiányzó házszámok: "
-        output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
-        output += "Létrehozás referenciából</a>"
+        output += gen_link("/osm/suspicious-streets/" + relation_name + "/update-result",
+                           "Létrehozás referenciából")
     else:
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
@@ -245,8 +253,8 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
     output = "Frissítés sikeres: "
-    output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/view-result\">"
-    output += "Hiányzó házszámok megtekintése</a>"
+    output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
+                       "Hiányzó házszámok megtekintése")
     return output
 
 
