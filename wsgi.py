@@ -126,8 +126,12 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
 def gen_link(url: str, label: str) -> str:
     """Generates a link to a URL with a given label."""
     ret = '<a href="%s">' % url
-    ret += label
+    ret += label + "..."
     ret += "</a>"
+
+    # Always auto-visit the link for now.
+    ret += '<script type="text/javascript">window.location.href = "%s";</script>' % url
+
     return ret
 
 
