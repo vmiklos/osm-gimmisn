@@ -80,7 +80,9 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
         query = relation.get_osm_streets_query()
         try:
             relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
-            output += "Frissítés sikeres."
+            output += "Frissítés sikeres: "
+            output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/view-result\">"
+            output += "Hiányzó házszámok megtekintése</a>"
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
@@ -110,7 +112,9 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
         query = relation.get_osm_housenumbers_query()
         try:
             relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
-            output += "Frissítés sikeres."
+            output += "Frissítés sikeres: "
+            output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/view-result\">"
+            output += "Hiányzó házszámok megtekintése</a>"
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
@@ -240,7 +244,10 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
     reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
-    return "Frissítés sikeres."
+    output = "Frissítés sikeres: "
+    output += "<a href=\"/osm/suspicious-streets/" + relation_name + "/view-result\">"
+    output += "Hiányzó házszámok megtekintése</a>"
+    return output
 
 
 def missing_streets_update(relations: helpers.Relations, relation_name: str) -> str:
