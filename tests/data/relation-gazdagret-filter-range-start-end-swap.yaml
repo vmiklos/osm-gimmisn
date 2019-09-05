@@ -1,0 +1,4 @@
+filters:
+  'Budaörsi út':
+    ranges:
+      - {start: '142', end: '42'}

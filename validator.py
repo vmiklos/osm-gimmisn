@@ -16,6 +16,20 @@ from typing import Tuple
 import yaml
 
 
+def validate_range_missing_keys(parent: str, range_data: Dict[str, Any]) -> str:
+    """Validates a range description: check for missing keys."""
+    if "start" not in range_data.keys():
+        return "unexpected missing key 'start' for '%s'" % parent
+
+    if "end" not in range_data.keys():
+        return "unexpected missing key 'end' for '%s'" % parent
+
+    if int(range_data["start"]) > int(range_data["end"]):
+        return "expected end >= start for '%s'" % parent
+
+    return ""
+
+
 def validate_range(parent: str, range_data: Dict[str, Any]) -> str:
     """Validates a range description."""
     context = parent + "."
@@ -31,7 +45,7 @@ def validate_range(parent: str, range_data: Dict[str, Any]) -> str:
                 return "expected value type for '%s%s' is str" % (context, key)
         else:
             return "unexpected key '%s%s'" % (context, key)
-    return ""
+    return validate_range_missing_keys(parent, range_data)
 
 
 def validate_ranges(parent: str, ranges: List[Any]) -> str:

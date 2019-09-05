@@ -63,7 +63,7 @@ check-unit:
 
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
 
-%.validyaml : %.yaml Makefile
+%.validyaml : %.yaml validator.py
 	./validator.py $< && touch $@
 
 %.yamllint : %.yaml

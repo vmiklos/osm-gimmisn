@@ -21,7 +21,7 @@ filters:
       - {start: '1', end: '45'}
   Dayka Gábor utca:
     ranges:
-      - {end: '21', start: '91'}
+      - {start: '21', end: '91'}
   Előpatak utca:
     # this is just the sashegy part, would be <6 but there is no 4
     ranges:
