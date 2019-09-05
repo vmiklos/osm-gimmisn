@@ -129,7 +129,7 @@ filters:
   Márton Áron tér:
     interpolation: 'all'
     ranges:
-      - {end: '1', start: '4'}
+      - {end: '1', start: '14'}
   Nagyida köz:
     ranges:
       - {end: '21', start: '1'}
