@@ -127,7 +127,7 @@ filters:
       - {end: '25', start: '1'}
       - {end: '28', start: '2'}
   Márton Áron tér:
-    interpolation: 'all'
+    #interpolation: 'all'
     ranges:
       - {end: '1', start: '14'}
   Nagyida köz:
