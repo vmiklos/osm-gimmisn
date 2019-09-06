@@ -9,7 +9,6 @@ házszámokat felmérni. A főoldalnak a következő oszlopai vannak:
 
 2) Házszámlista (street-housenumbers) egy területre, ez az OSM adatbázisból származik.
 
-
 3) Hiányzó utca (suspicious-relations) kereső.
 
 4) Utcalista (streets) egy területre, ez is az OSM adatbázisból származik.
@@ -28,8 +27,8 @@ hogy még nem dolgozik a te szerkesztésed eredményével.
 (overpass query) linkre. Ez egy kis időt vesz igénybe, addig ne töltsd újra az oldalt, a böngészőt
 ne zárd be.
 
-3) Ez után keresd ki a területet a suspicious-streets szekcióban és a linkre kattintva most már el
-kell tűnjön a listából a felszerkesztett házszámod.
+3) A lekérdezés lefutása után az osm-gimmisn automatikusan átirányit a suspicious-streets szekcióban
+a terület oldalára és most már el kell tűnjön a listából a felszerkesztett házszámod.
 
 == Új reláció hozzáadása
 
@@ -64,7 +63,7 @@ stimmeljen az előző pontban kinyert értékekkel.
 4) Ez után a módosítást https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] formájában
 beküldheted, jóváhagyás után be fog kerülni.
 
-== Hibás riasztás hozzáadása
+== Téves információ kiszűrése
 
 Ez hasonló az új reláció felvételéhez, csak a reláció nevéből származtatott szűrő file-ba kell
 felvenni információt, például `relation-magasut.yaml`. Tegyük fel, hogy Magasúton a
@@ -105,8 +104,8 @@ bele, az kiszűrésre kerül.
 A hibás riasztások kiszűrésén kívül még más beállításokat is meg tudsz adni, bár ezekre ritkábban
 van szükség:
 
-- `refstreets`: ez a kulcs a file gyökerében adható meg, akkor használatos ha az OSM jól tartalmazza
-  egy utca nevét, de a referenciában más néven szerepel. (Példa: `sashegy`.)
+- `refstreets`: ez a kulcs a reláció file gyökerében adható meg, akkor használatos ha az OSM jól
+  tartalmazza egy utca nevét, de a referenciában más néven szerepel. (Példa: `sashegy`.)
 
 - `reftelepules`: ez a kulcs egy utcára adható meg. Ha egy reláció többségében egy adott
   `reftelepules` értékkel rendelkezik, az megadható az összes utcára. Ezt a felülbírálást akkor
@@ -120,8 +119,8 @@ van szükség:
 
 == Hiányzó utcák keresése
 
-Ez egy új erőfeszítés, egyelőre a yaml formátum így néz ki:
+A yaml formátum így néz ki:
 
-- `suspicious-relations: only`: ezt a `relation-....yaml` file gyökrében lehet megadni egy
+- `suspicious-relations: only`: ezt a `relation-NÉV.yaml` file gyökrében lehet megadni egy
   relációra. Azt jelzi, hogy ebben a relációban csak hiányzó utcákat szándékozol keresni, hiányzó
-  házszámokat nem.
+  házszámokat nem. Érvényes még a `yes` érték, valamint a `no`. Ez utóbbi az alapértelmezés.
