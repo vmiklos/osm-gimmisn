@@ -154,6 +154,12 @@ class TestValidatorMain(unittest.TestCase):
         expected += ": expected end >= start for 'filters.Budaörsi út.ranges[0]'\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-start-end-swap.yaml", expected)
 
+    def test_relation_filters_ranges_start_end_even_odd(self) -> None:
+        """Tests the relation path: bad filters -> ... -> ranges -> if start/end is either both even/odd or not."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-range-start-end-even-odd.yaml"
+        expected += ": expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-start-end-even-odd.yaml", expected)
+
     def test_relation_filters_ranges_bad_start(self) -> None:
         """Tests the relation path: bad filters -> ... -> ranges -> start type."""
         expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml"

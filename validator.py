@@ -16,7 +16,7 @@ from typing import Tuple
 import yaml
 
 
-def validate_range_missing_keys(parent: str, range_data: Dict[str, Any]) -> str:
+def validate_range_missing_keys(parent: str, range_data: Dict[str, Any], filter_data: Dict[str, Any]) -> str:
     """Validates a range description: check for missing keys."""
     if "start" not in range_data.keys():
         return "unexpected missing key 'start' for '%s'" % parent
@@ -24,13 +24,19 @@ def validate_range_missing_keys(parent: str, range_data: Dict[str, Any]) -> str:
     if "end" not in range_data.keys():
         return "unexpected missing key 'end' for '%s'" % parent
 
-    if int(range_data["start"]) > int(range_data["end"]):
+    start = int(range_data["start"])
+    end = int(range_data["end"])
+    if int(start > end):
         return "expected end >= start for '%s'" % parent
+
+    if "interpolation" not in filter_data.keys():
+        if start % 2 != end % 2:
+            return "expected start % 2 == end % 2 for '" + parent + "'"
 
     return ""
 
 
-def validate_range(parent: str, range_data: Dict[str, Any]) -> str:
+def validate_range(parent: str, range_data: Dict[str, Any], filter_data: Dict[str, Any]) -> str:
     """Validates a range description."""
     context = parent + "."
     for key, value in range_data.items():
@@ -45,14 +51,14 @@ def validate_range(parent: str, range_data: Dict[str, Any]) -> str:
                 return "expected value type for '%s%s' is str" % (context, key)
         else:
             return "unexpected key '%s%s'" % (context, key)
-    return validate_range_missing_keys(parent, range_data)
+    return validate_range_missing_keys(parent, range_data, filter_data)
 
 
-def validate_ranges(parent: str, ranges: List[Any]) -> str:
+def validate_ranges(parent: str, ranges: List[Any], filter_data: Dict[str, Any]) -> str:
     """Validates a range list."""
     context = parent
     for index, range_data in enumerate(ranges):
-        ret = validate_range("%s[%s]" % (context, index), range_data)
+        ret = validate_range("%s[%s]" % (context, index), range_data, filter_data)
         if ret:
             return ret
     return ""
@@ -65,7 +71,7 @@ def validate_filter(parent: str, filter_data: Dict[str, Any]) -> str:
         if key == "ranges":
             if not isinstance(value, list):
                 return "expected value type for '%s%s' is list" % (context, key)
-            ret = validate_ranges(context + "ranges", value)
+            ret = validate_ranges(context + "ranges", value, filter_data)
             if ret:
                 return ret
         elif key == "reftelepules":
