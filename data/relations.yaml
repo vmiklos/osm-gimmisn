@@ -8,11 +8,6 @@ vizivaros:
     osmrelation: 2786368
     refmegye: "01"
     reftelepules: "001"
-# atmenetileg, a filter osszerakashoz
-vizivaros2:
-    osmrelation: 2786368
-    refmegye: "01"
-    reftelepules: "002"
 # 02
 felheviz:
     osmrelation: 3166410
