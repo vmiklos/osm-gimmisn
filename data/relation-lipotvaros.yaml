@@ -8,6 +8,10 @@ filters:
   Deák Ferenc utca:
     ranges:
       - {start: '1', end: '99'}
+  Vadász utca:
+    ranges:
+      - {start: '9', end: '39'}
+      - {start: '10', end: '44'}
   Vörösmarty tér:
     interpolation: all
     ranges:
