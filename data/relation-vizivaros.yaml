@@ -70,7 +70,7 @@ filters:
   Margit körút:
     reftelepules: '002'
     ranges:
-      - {start: '2', end: '40'}
+      - {start: '40', end: '64'}
   Medve utca:
     reftelepules: '002'
   Nagy Imre tér:
