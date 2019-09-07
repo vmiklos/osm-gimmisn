@@ -3,6 +3,8 @@ filters:
     ranges: []
   Bajvívó utca:
     reftelepules: '002'
+  Bakfark Bálint utca:
+    reftelepules: '002'
   Bem József tér:
     reftelepules: '002'
     interpolation: 'all'
