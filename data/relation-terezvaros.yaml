@@ -10,12 +10,21 @@ filters:
   Bajcsy-Zsilinszky út:
     ranges:
       - {start: '1', end: '65'}
+  Hajós utca:
+    ranges:
+      - {start: '1', end: '43'}
+      - {start: '2', end: '36'}
   Lehel utca:
     ranges:
       - {start: '1', end: '5'}
   Váci út:
     ranges:
       - {start: '1', end: '3'}
+  Zichy Jenő utca:
+    ranges:
+      - {start: '1', end: '49'}
+      - {start: '2', end: '22'}
+      - {start: '30', end: '46'}
 refstreets:
   'Oktogon': 'Oktogon tér'
   'Felsőerdősor utca': 'Felső erdősor'
