@@ -63,8 +63,8 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
-      - {start: '6', end: '99', reftelepules: '002'}
-      - {start: '5', end: '98', reftelepules: '002'}
+      - {start: '5', end: '99', reftelepules: '002'}
+      - {start: '6', end: '98', reftelepules: '002'}
   Margit körút:
     reftelepules: '002'
     ranges:
