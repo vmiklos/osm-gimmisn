@@ -4,6 +4,44 @@ krisztinavaros:
     osmrelation: 2786310
     refmegye: "01"
     reftelepules: "001"
+vizivaros:
+    osmrelation: 2786368
+    refmegye: "01"
+    reftelepules: "001"
+# atmenetileg, a filter osszerakashoz
+vizivaros2:
+    osmrelation: 2786368
+    refmegye: "01"
+    reftelepules: "002"
+# 02
+felheviz:
+    osmrelation: 3166410
+    refmegye: "01"
+    reftelepules: "002"
+orszagut:
+    osmrelation: 3176172
+    refmegye: "01"
+    reftelepules: "002"
+rezmal:
+    osmrelation: 3176180
+    refmegye: "01"
+    reftelepules: "002"
+pasaret:
+    osmrelation: 3174480
+    refmegye: "01"
+    reftelepules: "002"
+rozsadomb:
+    osmrelation: 3176173
+    refmegye: "01"
+    reftelepules: "002"
+szemlohegy:
+    osmrelation: 3174398
+    refmegye: "01"
+    reftelepules: "002"
+torokvesz:
+    osmrelation: 3176186
+    refmegye: "01"
+    reftelepules: "002"
 # 11
 ujbuda:
     osmrelation: 221998
