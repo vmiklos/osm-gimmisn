@@ -146,6 +146,10 @@ class TestValidatorMain(unittest.TestCase):
         """Tests the relation path: bad filters -> ... -> ranges -> end type."""
         expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml"
         expected += ": expected value type for 'filters.Budaörsi út.ranges[0].end' is str\n"
+        expected += "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml"
+        expected += ": expected end >= start for 'filters.Budaörsi út.ranges[0]'\n"
+        expected += "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml"
+        expected += ": expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-end.yaml", expected)
 
     def test_relation_filters_ranges_start_end_swap(self) -> None:
@@ -164,6 +168,8 @@ class TestValidatorMain(unittest.TestCase):
         """Tests the relation path: bad filters -> ... -> ranges -> start type."""
         expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml"
         expected += ": expected value type for 'filters.Budaörsi út.ranges[0].start' is str\n"
+        expected += "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml"
+        expected += ": expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-start.yaml", expected)
 
     def test_relation_filters_ranges_missing_start(self) -> None:

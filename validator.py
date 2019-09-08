@@ -16,104 +16,100 @@ from typing import Tuple
 import yaml
 
 
-def validate_range_missing_keys(parent: str, range_data: Dict[str, Any], filter_data: Dict[str, Any]) -> str:
+def validate_range_missing_keys(
+        errors: List[str],
+        parent: str,
+        range_data: Dict[str, Any],
+        filter_data: Dict[str, Any]
+) -> None:
     """Validates a range description: check for missing keys."""
     if "start" not in range_data.keys():
-        return "unexpected missing key 'start' for '%s'" % parent
+        errors.append("unexpected missing key 'start' for '%s'" % parent)
 
     if "end" not in range_data.keys():
-        return "unexpected missing key 'end' for '%s'" % parent
+        errors.append("unexpected missing key 'end' for '%s'" % parent)
+
+    if "start" not in range_data.keys() or "end" not in range_data.keys():
+        return
 
     start = int(range_data["start"])
     end = int(range_data["end"])
     if int(start > end):
-        return "expected end >= start for '%s'" % parent
+        errors.append("expected end >= start for '%s'" % parent)
 
     if "interpolation" not in filter_data.keys():
         if start % 2 != end % 2:
-            return "expected start % 2 == end % 2 for '" + parent + "'"
-
-    return ""
+            errors.append("expected start % 2 == end % 2 for '" + parent + "'")
 
 
-def validate_range(parent: str, range_data: Dict[str, Any], filter_data: Dict[str, Any]) -> str:
+def validate_range(errors: List[str], parent: str, range_data: Dict[str, Any], filter_data: Dict[str, Any]) -> None:
     """Validates a range description."""
     context = parent + "."
     for key, value in range_data.items():
         if key == "start":
             if not isinstance(value, str):
-                return "expected value type for '%s%s' is str" % (context, key)
+                errors.append("expected value type for '%s%s' is str" % (context, key))
         elif key == "end":
             if not isinstance(value, str):
-                return "expected value type for '%s%s' is str" % (context, key)
+                errors.append("expected value type for '%s%s' is str" % (context, key))
         elif key == "reftelepules":
             if not isinstance(value, str):
-                return "expected value type for '%s%s' is str" % (context, key)
+                errors.append("expected value type for '%s%s' is str" % (context, key))
         else:
-            return "unexpected key '%s%s'" % (context, key)
-    return validate_range_missing_keys(parent, range_data, filter_data)
+            errors.append("unexpected key '%s%s'" % (context, key))
+    validate_range_missing_keys(errors, parent, range_data, filter_data)
 
 
-def validate_ranges(parent: str, ranges: List[Any], filter_data: Dict[str, Any]) -> str:
+def validate_ranges(errors: List[str], parent: str, ranges: List[Any], filter_data: Dict[str, Any]) -> None:
     """Validates a range list."""
     context = parent
     for index, range_data in enumerate(ranges):
-        ret = validate_range("%s[%s]" % (context, index), range_data, filter_data)
-        if ret:
-            return ret
-    return ""
+        validate_range(errors, "%s[%s]" % (context, index), range_data, filter_data)
 
 
-def validate_filter(parent: str, filter_data: Dict[str, Any]) -> str:
+def validate_filter(errors: List[str], parent: str, filter_data: Dict[str, Any]) -> None:
     """Validates a filter dictionary."""
     context = parent + "."
     for key, value in filter_data.items():
         if key == "ranges":
             if not isinstance(value, list):
-                return "expected value type for '%s%s' is list" % (context, key)
-            ret = validate_ranges(context + "ranges", value, filter_data)
-            if ret:
-                return ret
+                errors.append("expected value type for '%s%s' is list" % (context, key))
+                continue
+            validate_ranges(errors, context + "ranges", value, filter_data)
         elif key == "reftelepules":
             if not isinstance(value, str):
-                return "expected value type for '%s%s' is str" % (context, key)
+                errors.append("expected value type for '%s%s' is str" % (context, key))
         elif key == "interpolation":
             if not isinstance(value, str):
-                return "expected value type for '%s%s' is str" % (context, key)
+                errors.append("expected value type for '%s%s' is str" % (context, key))
         else:
-            return "unexpected key '%s%s'" % (context, key)
-    return ""
+            errors.append("unexpected key '%s%s'" % (context, key))
 
 
-def validate_filters(parent: str, filters: Dict[str, Any]) -> str:
+def validate_filters(errors: List[str], parent: str, filters: Dict[str, Any]) -> None:
     """Validates a filter list."""
     context = parent + "."
     for key, value in filters.items():
-        ret = validate_filter(context + key, value)
-        if ret:
-            return ret
-    return ""
+        validate_filter(errors, context + key, value)
 
 
-def validate_refstreets(parent: str, refstreets: Dict[str, Any]) -> str:
+def validate_refstreets(errors: List[str], parent: str, refstreets: Dict[str, Any]) -> None:
     """Validates a reference streets list."""
     context = parent + "."
     for key, value in refstreets.items():
         if not isinstance(value, str):
-            return "expected value type for '%s%s' is str" % (context, key)
-    return ""
+            errors.append("expected value type for '%s%s' is str" % (context, key))
 
 
-def validate_street_filters(parent: str, street_filters: List[Any]) -> str:
+def validate_street_filters(errors: List[str], parent: str, street_filters: List[Any]) -> None:
     """Validates a street filter list."""
     context = parent
     for index, street_filter in enumerate(street_filters):
         if not isinstance(street_filter, str):
-            return "expected value type for '%s[%s]' is str" % (context, index)
-    return ""
+            errors.append("expected value type for '%s[%s]' is str" % (context, index))
 
 
-def validate_relation(parent: str, relation: Dict[str, Any]) -> str:
+def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) -> None:
     """Validates a toplevel or a nested relation."""
     context = ""
     if parent:
@@ -123,9 +119,7 @@ def validate_relation(parent: str, relation: Dict[str, Any]) -> str:
         # handle having them there on in relation-foo.yaml as well.
         for key in ("osmrelation", "refmegye", "reftelepules"):
             if key not in relation.keys():
-                return "missing key '%s%s'" % (context, key)
-
-    ret = ""
+                errors.append("missing key '%s%s'" % (context, key))
 
     handlers = {
         "osmrelation": (int, None),
@@ -142,25 +136,17 @@ def validate_relation(parent: str, relation: Dict[str, Any]) -> str:
         if key in handlers.keys():
             value_type, handler = handlers[key]
             if not isinstance(value, value_type):
-                ret = "expected value type for '%s%s' is %s" % (context, key, value_type)
-                break
+                errors.append("expected value type for '%s%s' is %s" % (context, key, value_type))
             if handler:
-                ret = handler(context + key, value)
-                if ret:
-                    break
+                handler(errors, context + key, value)
         else:
-            ret = "unexpected key '%s%s'" % (context, key)
-            break
-    return ret
+            errors.append("unexpected key '%s%s'" % (context, key))
 
 
-def validate_relations(relations: Dict[str, Any]) -> str:
+def validate_relations(errors: List[str], relations: Dict[str, Any]) -> None:
     """Validates a relation list."""
     for key, value in relations.items():
-        ret = validate_relation(key, value)
-        if ret:
-            return ret
-    return ""
+        validate_relation(errors, key, value)
 
 
 def main() -> None:
@@ -170,14 +156,15 @@ def main() -> None:
     _, basename = os.path.split(yaml_path)
     with open(yaml_path) as stream:
         yaml_data = yaml.load(stream)
-        ret = ""
+        errors = []  # type: List[str]
         if basename == "relations.yaml":
-            ret = validate_relations(yaml_data)
+            validate_relations(errors, yaml_data)
         else:
             parent = ""
-            ret = validate_relation(parent, yaml_data)
-        if ret:
-            print("failed to validate %s: %s" % (yaml_path, ret))
+            validate_relation(errors, parent, yaml_data)
+        if errors:
+            for error in errors:
+                print("failed to validate %s: %s" % (yaml_path, error))
             sys.exit(1)
 
 
