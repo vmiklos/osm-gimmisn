@@ -1,4 +1,8 @@
 filters:
+  Apáczai Csere János utca:
+    ranges:
+      - {start: '11', end: '17'}
+      - {start: '10', end: '14'}
   Belgrád rakpart:
     ranges: []
   Deák Ferenc tér:
