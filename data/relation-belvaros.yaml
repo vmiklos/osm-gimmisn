@@ -1,4 +1,8 @@
 filters:
+  Apáczai Csere János utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
   Belgrád rakpart:
     interpolation: all
     ranges:
