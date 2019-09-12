@@ -1,0 +1,68 @@
+filters:
+  Ady Endre utca:
+    ranges:
+      - {start: '1', end: '1'}
+  Bem József tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '3', end: '3'}
+  Bem József utca:
+    ranges:
+      - {start: '1', end: '9'}
+  Bimbó út:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '10'}
+  Fillér utca:
+    ranges:
+      - {start: '1', end: '31'}
+      - {start: '2', end: '24'}
+  Frankel Leó út:
+    ranges:
+      - {start: '2', end: '22'}
+  Garas utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Keleti Károly utca utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '54'}
+  Kitaibel Pál utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '6'}
+  Lorántffy Zsuzsanna lépcső:
+    ranges:
+      - {start: '1', end: '7'}
+  Margit körút:
+    ranges:
+      - {start: '7', end: '105'}
+      - {start: '6', end: '38'}
+  Margit utca:
+    ranges:
+      - {start: '2', end: '4'}
+  Mecset utca:
+    ranges:
+      - {start: '1', end: '13'}
+  Rómer Flóris utca:
+    ranges:
+      - {start: '2', end: '32'}
+  Rózsahegy utca:
+    ranges:
+      - {start: '2', end: '32'}
+  Szász Károly utca:
+    ranges: []
+  Szilágyi Erzsébet fasor:
+    ranges:
+      - {start: '1', end: '47'}
+  Széna tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '4', end: '5'}
+  Trombitás út:
+    ranges:
+      - {start: '2', end: '20'}
+  Zivatar utca:
+    ranges:
+      - {start: '1', end: '11'}
+source: survey
