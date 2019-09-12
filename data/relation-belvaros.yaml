@@ -15,9 +15,14 @@ filters:
     ranges:
       - {start: '3', end: '5'}
   Ferenciek tere:
+    # Klotild paloták valószínű az 1,12, nincs kiírva
     interpolation: all
     ranges:
       - {start: '2', end: '11'}
+  Szabad Sajtó út:
+    # Klotild paloták valószínű a 6, nincs kiírva
+    ranges:
+      - {start: '2', end: '4'}
   Vigadó tér:
     interpolation: all
     ranges:
