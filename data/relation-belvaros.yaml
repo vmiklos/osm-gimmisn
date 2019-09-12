@@ -3,6 +3,10 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
+  Bécsi utca:
+    ranges:
+      - {start: '2', end: '4'}
+      - {start: '1', end: '5'}
   Belgrád rakpart:
     interpolation: all
     ranges:
