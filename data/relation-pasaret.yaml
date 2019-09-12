@@ -1,0 +1,50 @@
+filters:
+  Battai út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '14', end: '98'}
+  Cirok utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Csalán út:
+    ranges:
+      - {start: '10', end: '42'}
+  Gábor Áron utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '16'}
+  Herman Ottó út:
+    ranges:
+      - {start: '2', end: '4'}
+  Hidász utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '2'}
+  Hűvösvölgyi út:
+    ranges:
+      - {start: '67', end: '105'}
+  Lorántffy Zsuzsanna lépcső:
+    # vége felmérendő
+    ranges:
+      - {start: '2', end: '22'}
+  Páfrányliget utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Pasaréti út:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '171', end: '203'}
+      - {start: '2', end: '126'}
+  Radna utca:
+    ranges:
+      - {start: '1', end: '7'}
+  Szerb Antal utca:
+    ranges:
+      - {start: '2', end: '8'}
+  Szilágyi Erzsébet fasor:
+    ranges:
+      - {start: '49', end: '131'}
+  Trombitás út:
+    ranges:
+      - {start: '2', end: '20'}
+source: survey
