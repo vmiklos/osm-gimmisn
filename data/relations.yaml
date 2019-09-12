@@ -1,3 +1,24 @@
+# budapest
+budapest_01:
+    osmrelation: 221984
+    refmegye: "01"
+    reftelepules: "001"
+budapest_02:
+    osmrelation: 221980
+    refmegye: "01"
+    reftelepules: "002"
+budapest_11:
+    osmrelation: 221998
+    refmegye: "01"
+    reftelepules: "011"
+budapest_12:
+    osmrelation: 221995
+    refmegye: "01"
+    reftelepules: "012"
+budapest_22:
+    osmrelation: 215621
+    refmegye: "01"
+    reftelepules: "022"
 # buda
 # 01
 krisztinavaros:
@@ -38,10 +59,6 @@ torokvesz:
     refmegye: "01"
     reftelepules: "002"
 # 11
-ujbuda:
-    osmrelation: 221998
-    refmegye: "01"
-    reftelepules: "011"
 albertfalva:
     osmrelation: 2700782
     refmegye: "01"
@@ -119,10 +136,6 @@ szentimrevaros:
     refmegye: "01"
     reftelepules: "011"
 # 12
-hegyvidek:
-    osmrelation: 221995
-    refmegye: "01"
-    reftelepules: "012"
 budakeszierdo:
     osmrelation: 2805997
     refmegye: "01"
@@ -188,10 +201,6 @@ zugliget:
     refmegye: "01"
     reftelepules: "012"
 # 22
-budafokteteny:
-    osmrelation: 215621
-    refmegye: "01"
-    reftelepules: "022"
 barossgabortelep:
     osmrelation: 3186063
     refmegye: "01"
