@@ -9,7 +9,8 @@ filters:
       - {start: '1', end: '99'}
   Deák Ferenc utca:
     ranges:
-      - {start: '1', end: '23'}
+      - {start: '5', end: '9'}
+      - {start: '15', end: '23'}
   Deák Ferenc tér:
     interpolation: all
     ranges:
