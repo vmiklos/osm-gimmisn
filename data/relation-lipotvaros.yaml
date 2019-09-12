@@ -3,6 +3,9 @@ filters:
     ranges:
       - {start: '11', end: '17'}
       - {start: '10', end: '14'}
+  Bécsi utca:
+    ranges:
+      - {start: '6', end: '10'}
   Belgrád rakpart:
     ranges: []
   Deák Ferenc tér:
