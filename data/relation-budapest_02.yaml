@@ -1,3 +1,16 @@
 suspicious-relations: only
 filters: {}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Alsó Völgy utca': 'Alsó völgy utca'
+  'Díszfű utca': 'Diszfű utca'
+  'Hármashatárhegyi út': 'Hármashatár-hegyi út'
+  'Labanc út': 'Labanc utca'
+  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'
+  'Rézsű utca': 'Rézsü utca'
+  'Szép Ilona utca': 'Szépilona utca'
+  'Templomkert': 'Templom kert'
+  # felmérendő
+  'Felhévízi utca': 'Felhévizi utca'
+  'Remetevölgy utca': 'Remetevölgyi utca'
 source: survey
