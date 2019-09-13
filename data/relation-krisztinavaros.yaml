@@ -122,6 +122,9 @@ filters:
   Schwartzer Ferenc utca:
     reftelepules: '012'
   Szamos utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
     reftelepules: '012'
   Szilágyi Erzsébet fasor:
     ranges:
