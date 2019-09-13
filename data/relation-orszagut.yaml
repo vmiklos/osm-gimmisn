@@ -23,7 +23,7 @@ filters:
   Garas utca:
     ranges:
       - {start: '1', end: '99'}
-  Keleti Károly utca utca:
+  Keleti Károly utca:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '54'}
