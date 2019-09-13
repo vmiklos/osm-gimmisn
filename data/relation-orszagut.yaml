@@ -9,6 +9,8 @@ filters:
   Bem József utca:
     ranges:
       - {start: '1', end: '9'}
+  Bem rakpart:
+    ranges: []
   Bimbó út:
     ranges:
       - {start: '1', end: '13'}
