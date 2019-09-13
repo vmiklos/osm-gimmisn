@@ -47,4 +47,8 @@ filters:
   Trombitás út:
     ranges:
       - {start: '2', end: '20'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Alsó Völgy utca': 'Alsó völgy utca'
+  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'
 source: survey
