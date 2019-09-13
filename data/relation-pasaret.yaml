@@ -1,4 +1,7 @@
 filters:
+  Alsó Völgy utca:
+    ranges:
+      - {start: '2', end: '8'}
   Battai út:
     ranges:
       - {start: '1', end: '99'}
@@ -27,6 +30,9 @@ filters:
     # vége felmérendő
     ranges:
       - {start: '2', end: '22'}
+  Lorántffy Zsuzsanna utca:
+    ranges:
+      - {start: '2', end: '12'}
   Páfrányliget utca:
     ranges:
       - {start: '1', end: '99'}
