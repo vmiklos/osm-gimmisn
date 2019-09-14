@@ -80,9 +80,13 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
         query = relation.get_osm_streets_query()
         try:
             relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
-            output += "Frissítés sikeres: "
-            output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
-                               "Hiányzó házszámok megtekintése")
+            streets = relation.get_config().should_check_missing_streets()
+            if streets != "only":
+                output += "Frissítés sikeres: "
+                output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
+                                   "Hiányzó házszámok megtekintése")
+            else:
+                output += "Frissítés sikeres."
         except urllib.error.HTTPError as http_error:
             output += "Overpass hiba: " + str(http_error)
 
