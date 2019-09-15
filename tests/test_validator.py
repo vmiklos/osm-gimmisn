@@ -66,6 +66,9 @@ class TestValidatorMain(unittest.TestCase):
                     buf.seek(0)
                     self.assertEqual(buf.read(), "")
 
+
+class TestValidatorMainFailureMsg(unittest.TestCase):
+    """Tests main(), the way it fails."""
     def assert_failure_msg(self, path: str, expected: str) -> None:
         """Asserts that a given input fails with a given error message."""
         # Set up arguments.
@@ -111,6 +114,14 @@ class TestValidatorMain(unittest.TestCase):
         expected = "failed to validate tests/data/relation-gazdagret-refstreets-bad-value.yaml"
         expected += ": expected value type for 'refstreets.OSM Name 1' is str\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-refstreets-bad-value.yaml", expected)
+
+    def test_relation_refstreets_quote(self) -> None:
+        """Tests the relation path: quote in refstreets key or value."""
+        expected = "failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml"
+        expected += ": expected no quotes in 'refstreets.OSM Name 1''\n"
+        expected += "failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml"
+        expected += ": expected no quotes in value of 'refstreets.OSM Name 1''\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-refstreets-quote.yaml", expected)
 
     def test_relation_filters_interpolation_bad(self) -> None:
         """Tests the relation path: bad filters -> interpolation value type."""

@@ -99,6 +99,11 @@ def validate_refstreets(errors: List[str], parent: str, refstreets: Dict[str, An
     for key, value in refstreets.items():
         if not isinstance(value, str):
             errors.append("expected value type for '%s%s' is str" % (context, key))
+            continue
+        if "'" in key or "\"" in key:
+            errors.append("expected no quotes in '%s%s'" % (context, key))
+        if "'" in value or "\"" in value:
+            errors.append("expected no quotes in value of '%s%s'" % (context, key))
 
 
 def validate_street_filters(errors: List[str], parent: str, street_filters: List[Any]) -> None:
