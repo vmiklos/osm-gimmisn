@@ -7,4 +7,12 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '118'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Enyedi utca': 'Enyedy utca'
+  'Felső Sas utca': 'Felsősas utca'
+  'Hegyfok köz': 'hegyfok köz'
+  'Ménes utca': 'Ménesi utca'
+  'Nagy Kőbánya utca': 'Nagykőbánya utca'
+  'Tomori utca': Tomori Pál utca'
 source: survey
