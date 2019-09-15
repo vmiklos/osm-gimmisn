@@ -45,4 +45,7 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Kamaraerdei út': 'Kamaraerdei utca'
 source: survey
