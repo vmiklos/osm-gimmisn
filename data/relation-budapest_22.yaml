@@ -6,6 +6,24 @@ street-filters:
   - Nagytétény-Diósd őrház
   - Máv őrház
   - Lőtér
+  # Megszűnt
+  - Fazekas forduló
+  # Ismeretlen
+  - Száva utca
+  - Vízmosás utca
   # Megváltozott
   - 868. utca  # Virágoskert utca, ez is szerepel, nem kell mappelni
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Báthory utca': 'Báthori utca'
+  'Csút utca': 'Csut utca'
+  'Enyedi utca': 'Enyedy utca'
+  'Felső Sas utca': 'Felsősas utca'
+  'Gyepű utca': 'Gyepü utca'
+  'Hegyfok köz': 'hegyfok köz'
+  'Kamaraerdei út': 'Kamaraerdei utca'
+  'Kőház sor': 'Kőházsor'
+  'Ménes utca': 'Ménesi utca'
+  'Nagy Kőbánya utca': 'Nagykőbánya utca'
+  'Tomori utca': Tomori Pál utca'
 source: survey
