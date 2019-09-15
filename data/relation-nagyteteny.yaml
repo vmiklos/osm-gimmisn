@@ -13,4 +13,9 @@ filters:
   Növény utca:
     ranges:
       - {start: '1', end: '999'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Báthory utca': 'Báthori utca'
+  'Csút utca': 'Csut utca'
+  'Gyepű utca': 'Gyepü utca'
 source: survey
