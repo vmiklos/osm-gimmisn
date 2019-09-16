@@ -1,0 +1,29 @@
+filters:
+  # felmerendo
+  Alsó Törökvész út:
+    ranges:
+      - {start: '3', end: '13'}
+  Alvinci út:
+    ranges:
+      - {start: '1', end: '37'}
+  Aranka utca:
+    ranges:
+      - {start: '2', end: '12'}
+  Balogvár utca:
+    ranges: []
+  Bimbó út:
+    ranges:
+      - {start: '67', end: '101'}
+      - {start: '44', end: '96'}
+  Bogár lépcső:
+    # vege felmerendo
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '10'}
+  Bogár utca:
+    ranges:
+      - {start: '2', end: '40'}
+  Endrődi Sándor utca:
+    ranges:
+      - {start: '1', end: '7'}
+source: survey
