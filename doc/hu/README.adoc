@@ -117,6 +117,9 @@ van szükség:
 - `interpolation`: ez a kulcs egy utcára adható meg. Ha az értéke `all`, akkor páros/páratlan oldal
   helyett egyetlen tartományt elég megadni ahol folyamatos a számozás.
 
+- `inactive: true`: ez egy relációra adható meg, kikapcsolja az esetleg pazarló napi frissítést
+  (hasznos, ha amúgy is 100%-on van a terület például).
+
 == Hiányzó utcák keresése
 
 A yaml formátum így néz ki:

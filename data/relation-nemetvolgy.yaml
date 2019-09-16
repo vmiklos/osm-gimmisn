@@ -139,3 +139,4 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '14'}
 source: survey
+inactive: true

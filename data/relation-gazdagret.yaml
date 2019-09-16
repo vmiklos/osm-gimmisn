@@ -54,3 +54,4 @@ filters:
 refstreets:
   'Csíkihegyek utca': 'Csiki-hegyek utca'
 source: survey
+inactive: true

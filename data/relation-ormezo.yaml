@@ -108,3 +108,4 @@ filters:
 refstreets:
   'Boldizsár utca': 'Boldizsár út'
 source: survey
+inactive: true

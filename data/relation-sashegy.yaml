@@ -90,3 +90,4 @@ refstreets:
   # 'OSM Name 2': 'Ref Name 2'
   'Zólyomi köz': 'Zólyom köz'
 source: survey
+inactive: true

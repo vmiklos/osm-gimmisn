@@ -22,3 +22,4 @@ filters:
     ranges:
       - {start: '1', end: '3'}
 source: survey
+inactive: true
