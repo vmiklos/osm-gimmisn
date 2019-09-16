@@ -46,7 +46,7 @@ def should_retry(retry: int) -> bool:
 
 def update_streets(relations: helpers.Relations) -> None:
     """Update the existing street list of all relations."""
-    for relation_name in relations.get_names():
+    for relation_name in relations.get_active_names():
         logging.info("update_streets: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
         retry = 0
@@ -66,7 +66,7 @@ def update_streets(relations: helpers.Relations) -> None:
 
 def update_street_housenumbers(relations: helpers.Relations) -> None:
     """Update the existing OSM street housenumber list of all relations."""
-    for relation_name in relations.get_names():
+    for relation_name in relations.get_active_names():
         logging.info("update_street_housenumbers: start: %s", relation_name)
         retry = 0
         while should_retry(retry):
@@ -86,7 +86,7 @@ def update_street_housenumbers(relations: helpers.Relations) -> None:
 
 def update_street_housenumbers_ref(relations: helpers.Relations, config: configparser.ConfigParser) -> None:
     """Update the existing reference street housenumber list of all relations."""
-    for relation_name in relations.get_names():
+    for relation_name in relations.get_active_names():
         logging.info("update_street_housenumbers_ref: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
         reference = config.get('wsgi', 'reference_housenumbers').strip().split(' ')
@@ -97,7 +97,7 @@ def update_street_housenumbers_ref(relations: helpers.Relations, config: configp
 def update_missing_housenumbers(relations: helpers.Relations) -> None:
     """Update the relation's house number coverage stats."""
     logging.info("update_missing_housenumbers: start")
-    for relation_name in relations.get_names():
+    for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         streets = relation.get_config().should_check_missing_streets()
         if streets == "only":
@@ -110,7 +110,7 @@ def update_missing_housenumbers(relations: helpers.Relations) -> None:
 def update_missing_streets_stats(relations: helpers.Relations) -> None:
     """Update the relation's street coverage stats."""
     logging.info("update_missing_streets_stats: start")
-    for relation_name in relations.get_names():
+    for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         streets = relation.get_config().should_check_missing_streets()
         if streets == "no":

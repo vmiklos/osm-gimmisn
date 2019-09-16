@@ -802,6 +802,7 @@ class TestRelations(unittest.TestCase):
         expected_relation_names = [
             "empty",
             "gazdagret",
+            "inactiverelation",
             "nosuchrefmegye",
             "nosuchreftelepules",
             "nosuchrelation",
@@ -809,8 +810,9 @@ class TestRelations(unittest.TestCase):
             "ujbuda"
         ]
         self.assertEqual(relations.get_names(), expected_relation_names)
+        self.assertTrue("inactiverelation" not in relations.get_active_names())
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
-        self.assertEqual([13, 42, 43, 44, 66, 221998, 2713748], osmids)
+        self.assertEqual([13, 42, 43, 44, 45, 66, 221998, 2713748], osmids)
         self.assertEqual("only", relations.get_relation("ujbuda").get_config().should_check_missing_streets())
 
 
@@ -878,6 +880,15 @@ class TestRelationStreetIsEvenOdd(unittest.TestCase):
         self.assertFalse(relation.get_config().get_street_is_even_odd("Hamzsabégi út"))
 
         self.assertTrue(relation.get_config().get_street_is_even_odd("Teszt utca"))
+
+
+class TestRelationIsActive(unittest.TestCase):
+    """Tests RelationConfig.is_active()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        self.assertTrue(relation.get_config().is_active())
 
 
 if __name__ == '__main__':

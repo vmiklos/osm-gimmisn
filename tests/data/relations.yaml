@@ -30,3 +30,7 @@ nosuchreftelepules:
     osmrelation: 44
     refmegye: "01"
     reftelepules: "99"
+inactiverelation:
+    osmrelation: 45
+    refmegye: "01"
+    reftelepules: "98"

@@ -175,6 +175,10 @@ class RelationConfig:
 
         return None
 
+    def is_active(self) -> bool:
+        """Gets if the relation is active."""
+        return not cast(bool, self.__get_property("inactive"))
+
     def get_osmrelation(self) -> int:
         """Gets the OSM relation object's ID."""
         return cast(int, self.__get_property("osmrelation"))
@@ -561,6 +565,14 @@ class Relations:
     def get_names(self) -> List[str]:
         """Gets a sorted list of relation names."""
         return sorted(self.__dict.keys())
+
+    def get_active_names(self) -> List[str]:
+        """Gets a sorted list of active relation names."""
+        ret = []  # type: List[Relation]
+        for relation in self.get_relations():
+            if relation.get_config().is_active():
+                ret.append(relation)
+        return sorted([relation.get_name() for relation in ret])
 
     def get_relations(self) -> List[Relation]:
         """Gets a list of relations."""
