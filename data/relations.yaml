@@ -268,3 +268,11 @@ keszthely:
     osmrelation: 1360484
     refmegye: "20"
     reftelepules: "093"
+budaors:
+    osmrelation: 113463
+    refmegye: "14"
+    reftelepules: "015"
+nemesgulacs:
+    osmrelation: 1078632
+    refmegye: "19"
+    reftelepules: "134"
