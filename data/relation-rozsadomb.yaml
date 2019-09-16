@@ -1,0 +1,60 @@
+filters:
+  Alsó Törökvész út:
+    ranges:
+      - {start: '2', end: '18'}
+  Ady Endre utca:
+    ranges:
+      - {start: '3', end: '99'}
+      - {start: '2', end: '98'}
+  Apostol utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '18'}
+  Aranka utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Bimbó út:
+    ranges:
+      - {start: '15', end: '65'}
+      - {start: '12', end: '42'}
+  Gül Baba utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Keleti Károly utca:
+    ranges:
+      - {start: '15', end: '99'}
+  Kitaibel Pál utca:
+    ranges:
+      - {start: '8', end: '12'}
+  Margit körút:
+    ranges: []
+  Margit utca:
+    ranges:
+      - {start: '1', end: '27'}
+  Rómer Flóris utca:
+    ranges:
+      - {start: '39', end: '99'}
+      - {start: '34', end: '98'}
+  Rózsahegy utca:
+    ranges: []
+  Szemlőhegy utca:
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '24'}
+  Török utca:
+    ranges:
+      - {start: '2', end: '14'}
+  Vérhalom tér:
+    interpolation: all
+    ranges:
+      - {start: '8', end: '12'}
+  Vérhalom utca:
+    ranges:
+      - {start: '2', end: '36'}
+  Zivatar utca:
+    ranges:
+      - {start: '2', end: '16'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'
+source: survey
