@@ -1,0 +1,88 @@
+filters:
+  Alvinci út:
+    ranges:
+      - {start: '2', end: '60'}
+  Battai út:
+    ranges:
+      - {start: '2', end: '12'}
+  Bimbó köz:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '4'}
+  Bimbó út:
+    ranges:
+      - {start: '102', end: '234'}
+      - {start: '103', end: '207'}
+  Cirok utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Csalán út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '8'}
+  Endrődi köz:
+    ranges: []
+  Endrődi Sándor utca:
+    ranges:
+      - {start: '61', end: '99'}
+      - {start: '2', end: '98'}
+  Fillér lépcső:
+    ranges: []
+  Fillér utca:
+    ranges:
+      - {start: '33', end: '99'}
+      - {start: '26', end: '98'}
+  Gábor Áron utca:
+    ranges:
+      - {start: '46', end: '98'}
+  Garas utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Gárdonyi Géza út:
+    ranges:
+      - {start: '2', end: '98'}
+      - {start: '2', end: '98'}
+  Herman Ottó út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '6', end: '98'}
+  Hidász utca:
+    ranges:
+      - {start: '19', end: '99'}
+      - {start: '4', end: '98'}
+  Kapy utca:
+    ranges:
+      - {start: '1', end: '55'}
+      - {start: '2', end: '52'}
+  Lorántffy Zsuzsanna utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '14', end: '22'}
+  Nagyajtai utca:
+    ranges:
+      - {start: '13', end: '99'}
+      - {start: '14', end: '98'}
+  Nagybányai lépcső:
+    ranges: []
+  Nagybányai út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '60'}
+  Pasaréti tér:
+    ranges: []
+  Pasaréti út:
+    ranges:
+      - {start: '15', end: '169'}
+  Radna utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Törökvész út:
+    ranges:
+      - {start: '84', end: '198'}
+  Trombitás út:
+    ranges:
+      - {start: '1', end: '23'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'
+source: survey
