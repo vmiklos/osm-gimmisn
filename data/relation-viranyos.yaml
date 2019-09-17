@@ -32,3 +32,4 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Hunyad-orom lépcső': 'Hunyadorom lépcső'
 source: survey
+inactive: true

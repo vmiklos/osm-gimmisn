@@ -22,3 +22,4 @@ filters:
 refstreets:
   'Felső határút': 'Felső Határ út'
 source: survey
+inactive: true

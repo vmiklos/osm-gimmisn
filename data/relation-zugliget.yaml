@@ -27,3 +27,4 @@ filters:
       - {start: '43', end: '199'}
       - {start: '100', end: '198'}
 source: survey
+inactive: true

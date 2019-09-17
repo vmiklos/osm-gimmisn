@@ -168,3 +168,4 @@ filters:
       - {start: '5', end: '11'}
       - {start: '2', end: '10'}
 source: survey
+inactive: false

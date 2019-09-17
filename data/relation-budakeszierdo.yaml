@@ -15,3 +15,4 @@ filters:
     ranges:
       - {start: '1', end: '19'}
 source: survey
+inactive: true

@@ -48,3 +48,4 @@ source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Széchenyi-emlék út': 'Széchenyi- emlék út'
+inactive: true

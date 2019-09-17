@@ -19,3 +19,4 @@ filters:
   Városmajor utca:
     ranges: []
 source: survey
+inactive: true

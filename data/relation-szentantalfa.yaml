@@ -4,3 +4,4 @@ filters:
   Barcfa dűlő:
     ranges: []
 source: survey
+inactive: true

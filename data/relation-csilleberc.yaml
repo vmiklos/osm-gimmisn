@@ -32,3 +32,4 @@ filters:
   Nőszirom utca:
     ranges: []
 source: survey
+inactive: true

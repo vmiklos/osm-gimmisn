@@ -19,3 +19,4 @@ refstreets:
   'Csút utca': 'Csut utca'
   'Gyepű utca': 'Gyepü utca'
 source: survey
+inactive: true

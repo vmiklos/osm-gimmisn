@@ -57,3 +57,4 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Felhévízi utca': 'Felhévizi utca'
 source: survey
+inactive: true

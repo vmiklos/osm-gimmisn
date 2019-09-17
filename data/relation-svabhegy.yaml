@@ -34,3 +34,4 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Szépkilátás út': 'Szép kilátás út'
 source: survey
+inactive: true

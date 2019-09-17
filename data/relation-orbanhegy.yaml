@@ -39,3 +39,4 @@ filters:
       - {start: '1', end: '25'}
       - {start: '2', end: '16'}
 source: survey
+inactive: true
