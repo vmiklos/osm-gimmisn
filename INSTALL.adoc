@@ -2,9 +2,20 @@
 
 == Linux (openSUSE Leap 15.1)
 
-Install dependencies, so that you can run the tests:
+- Install git
+
+- Clone the repo:
 
 ----
+git clone <this repo URL>
+----
+
+- Install Python (3.5 or 3.7)
+
+- Install Python dependencies (you can also use `pip` instead, see below):
+
+----
+cd osm-gimmisn
 sudo zypper install mypy
 sudo zypper install python3-PyYAML
 sudo zypper install python3-coverage
@@ -12,10 +23,23 @@ sudo zypper install python3-flake8
 sudo zypper install python3-pylint
 sudo zypper install python3-pytz
 sudo zypper install python3-yamllint
+----
+
+- Install `make`
+
+- Build the generated code:
+
+----
+make
+----
+
+- Run the tests:
+
+----
 make check
 ----
 
-Then you can create a local config:
+- Create a local config:
 
 ----
 cp data/wsgi.ini.template wsgi.ini
@@ -31,10 +55,10 @@ This allows accessing your local instance for development.
 
 == Windows (10)
 
-Install dependencies:
-
 - Install git from <https://git-scm.com/download/win>, so you can clone the repo in the Command
-  Prompt:
+  Prompt
+
+- Clone the repo:
 
 ----
 git clone <this repo URL>
@@ -60,7 +84,9 @@ make
 
 Check `version.py`, remove leftover quotes at line start/end from Windows' `echo` command.
 
-Then you can create a local config:
+- Run the tests: not supported on Windows at the moment
+
+- Create a local config:
 
 ----
 copy data\wsgi.ini.template wsgi.ini
