@@ -13,3 +13,4 @@ filters:
   Kőérberki út:
     ranges: []
 source: survey
+inactive: true

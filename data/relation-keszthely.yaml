@@ -1,3 +1,4 @@
+suspicious-relations: 'yes'
 filters:
   Batsányi utca:
     ranges:
@@ -5,3 +6,4 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '4'}
 source: survey
+inactive: true

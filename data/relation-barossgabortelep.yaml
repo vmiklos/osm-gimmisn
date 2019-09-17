@@ -69,3 +69,4 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Kőház sor': 'Kőházsor'
 source: survey
+inactive: true

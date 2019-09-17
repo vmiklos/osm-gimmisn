@@ -17,3 +17,4 @@ refstreets:
   'Alsó határút': 'Alsóhatár utca'
   'Keserűvíz utca': 'Keserűviz utca'
 source: survey
+inactive: true

@@ -14,3 +14,4 @@ refstreets:
   'Felhévízi utca': 'Felhévizi utca'
   'Remetevölgy utca': 'Remetevölgyi utca'
 source: survey
+inactive: true

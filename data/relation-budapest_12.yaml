@@ -10,3 +10,4 @@ refstreets:
   # 'Tearózsa út': 'Tearózsa utca'
   # 'Janka utca': 'Janka út'
 source: survey
+inactive: true

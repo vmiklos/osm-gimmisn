@@ -27,3 +27,4 @@ refstreets:
   'Nagy Kőbánya utca': 'Nagykőbánya utca'
   'Tomori utca': 'Tomori Pál utca'
 source: survey
+inactive: true
