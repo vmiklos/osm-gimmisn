@@ -68,8 +68,10 @@ filters:
       - {start: '2', end: '20'}
     reftelepules: '012'
   Hegyalja út:
+    # 7-13 egyben
     ranges:
-      - {start: '1', end: '27'}
+      - {start: '1', end: '7'}
+      - {start: '13', end: '27'}
   Ignotus utca:
     reftelepules: '012'
   Istenhegyi út:
@@ -100,6 +102,14 @@ filters:
       - {start: '2', end: '20'}
       - {start: '19', end: '35', reftelepules: '012'}
       - {start: '22', end: '50', reftelepules: '012'}
+  Mészáros utca:
+    # 28-32, 36-40, 48-54 egyben; 19 a benzinkút, utána nincs semmi
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '28'}
+      - {start: '32', end: '36'}
+      - {start: '40', end: '48'}
+      - {start: '54', end: '64'}
   Nagyenyed utca:
     reftelepules: '012'
   Naphegy utca:
