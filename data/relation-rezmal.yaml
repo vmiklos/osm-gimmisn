@@ -26,5 +26,9 @@ filters:
   Endrődi Sándor utca:
     ranges:
       - {start: '1', end: '7'}
+  Marczibányi tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '6', end: '7'}
 source: survey
 inactive: true
