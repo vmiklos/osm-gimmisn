@@ -4,14 +4,14 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-"""The test_get_reference_housenumbers module covers the get_reference_housenumbers module."""
+"""The test_get_reference_streets module covers the get_reference_streets module."""
 
 import os
 import unittest
 import unittest.mock
 from typing import Any
+import get_reference_streets
 import helpers
-import get_reference_housenumbers
 
 
 class ChdirContext:
@@ -37,13 +37,13 @@ class TestMain(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         with ChdirContext("tests"):
-            expected = helpers.get_content("workdir/street-housenumbers-reference-gazdagret.lst")
+            expected = helpers.get_content("workdir/streets-reference-gazdagret.lst")
 
             argv = ["", "gazdagret"]
             with unittest.mock.patch('sys.argv', argv):
-                get_reference_housenumbers.main()
+                get_reference_streets.main()
 
-            actual = helpers.get_content("workdir/street-housenumbers-reference-gazdagret.lst")
+            actual = helpers.get_content("workdir/streets-reference-gazdagret.lst")
             self.assertEqual(actual, expected)
 
 

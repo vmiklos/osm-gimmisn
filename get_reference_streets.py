@@ -17,14 +17,13 @@ def main() -> None:
     """Commandline interface to this module."""
 
     config = configparser.ConfigParser()
-    config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config_path = os.path.join(os.getcwd(), "wsgi.ini")
     config.read(config_path)
 
-    if len(sys.argv) > 1:
-        relation_name = sys.argv[1]
+    relation_name = sys.argv[1]
 
     reference = config.get('wsgi', 'reference_street').strip()
-    datadir = os.path.join(os.path.dirname(__file__), "data")
+    datadir = os.path.join(os.getcwd(), "data")
     workdir = config.get('wsgi', 'workdir').strip()
     relations = helpers.Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
