@@ -19,12 +19,21 @@ filters:
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '24'}
+  Fény utca:
+    ranges:
+      - {start: '15', end: '21'}
+      - {start: '2', end: '4'}
+      - {start: '8', end: '22'}
   Frankel Leó út:
     ranges:
       - {start: '2', end: '22'}
   Garas utca:
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '11'}
+  Káplár utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '12'}
   Keleti Károly utca:
     ranges:
       - {start: '1', end: '13'}
@@ -36,16 +45,31 @@ filters:
   Lorántffy Zsuzsanna lépcső:
     ranges:
       - {start: '1', end: '7'}
+  Lövőház utca:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '5', end: '39'}
+      - {start: '2', end: '34'}
   Margit körút:
     ranges:
       - {start: '7', end: '105'}
       - {start: '6', end: '38'}
+  Marczibányi tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '13', end: '16'}
   Margit utca:
     ranges:
       - {start: '2', end: '4'}
   Mecset utca:
     ranges:
       - {start: '1', end: '13'}
+  Pengő utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '2'}
+      - {start: '6', end: '8'}
   Rómer Flóris utca:
     ranges:
       - {start: '2', end: '32'}
