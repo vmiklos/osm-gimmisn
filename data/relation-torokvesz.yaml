@@ -59,9 +59,7 @@ filters:
       - {start: '1', end: '99'}
       - {start: '14', end: '22'}
   Marczibányi tér:
-    interpolation: 'all'
-    ranges:
-      - {start: '6', end: '7'}
+    ranges: []
   Nagyajtai utca:
     ranges:
       - {start: '13', end: '99'}
