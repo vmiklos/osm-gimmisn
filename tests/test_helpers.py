@@ -815,6 +815,9 @@ class TestRelations(unittest.TestCase):
         self.assertEqual([13, 42, 43, 44, 45, 66, 221998, 2713748], osmids)
         self.assertEqual("only", relations.get_relation("ujbuda").get_config().should_check_missing_streets())
 
+        relations.activate_all(True)
+        self.assertTrue("inactiverelation" in relations.get_active_names())
+
 
 class TestRelationConfigMissingStreets(unittest.TestCase):
     """Tests RelationConfig.should_check_missing_streets()."""

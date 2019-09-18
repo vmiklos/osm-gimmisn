@@ -147,6 +147,8 @@ def main() -> None:
     logging.getLogger().addHandler(logging.StreamHandler())
 
     start = time.time()
+    # Query inactive relations once a month.
+    relations.activate_all(time.localtime(start).tm_mday == 1)
     try:
         our_main(relations, config)
     # pylint: disable=broad-except

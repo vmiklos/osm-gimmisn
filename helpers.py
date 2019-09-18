@@ -551,6 +551,7 @@ class Relations:
         with open(os.path.join(datadir, "relations.yaml")) as sock:
             self.__dict = yaml.load(sock)
         self.__relations = {}  # type: Dict[str, Relation]
+        self.__activate_all = False
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
@@ -570,7 +571,7 @@ class Relations:
         """Gets a sorted list of active relation names."""
         ret = []  # type: List[Relation]
         for relation in self.get_relations():
-            if relation.get_config().is_active():
+            if self.__activate_all or relation.get_config().is_active():
                 ret.append(relation)
         return sorted([relation.get_name() for relation in ret])
 
@@ -580,6 +581,10 @@ class Relations:
         for name in self.get_names():
             ret.append(self.get_relation(name))
         return ret
+
+    def activate_all(self, flag: bool) -> None:
+        """Sets if inactive=true is ignored or not."""
+        self.__activate_all = flag
 
 
 def sort_numerically(strings: Iterable[str]) -> List[str]:
