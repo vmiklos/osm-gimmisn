@@ -26,6 +26,10 @@ filters:
   Kitaibel Pál utca:
     ranges:
       - {start: '8', end: '12'}
+  Marczibányi tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '8', end: '12'}
   Margit körút:
     ranges: []
   Margit utca:
