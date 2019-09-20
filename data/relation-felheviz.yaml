@@ -1,8 +1,8 @@
 filters:
   Apostol utca:
     ranges:
-      - {start: '15', end: '98'}
-      - {start: '19', end: '99'}
+      - {start: '15', end: '99'}
+      - {start: '20', end: '98'}
   Árpád fejedelem útja:
     interpolation: 'all'
     ranges:
