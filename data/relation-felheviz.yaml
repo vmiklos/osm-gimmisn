@@ -1,0 +1,41 @@
+filters:
+  Apostol utca:
+    ranges:
+      - {start: '15', end: '99'}
+      - {start: '19', end: '98'}
+  Árpád fejedelem útja:
+    interpolation: 'all'
+    ranges:
+      - {start: '1', end: '13'}
+  Bem rakpart:
+    interpolation: 'all'
+    ranges:
+      - {start: '50', end: '55'}
+  Bem József tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '1', end: '2'}
+  Frankel Leó út:
+    ranges:
+      - {start: '1', end: '45'}
+      - {start: '24', end: '72'}
+  Gül Baba utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Kavics utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Margit körút:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '4'}
+  Török utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Vérhalom utca:
+    ranges:
+      - {start: '1', end: '27'}
+  Zsigmond köz:
+    ranges: []
+source: survey
+inactive: true
