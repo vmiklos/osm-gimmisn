@@ -7,6 +7,10 @@ budapest_02:
     osmrelation: 221980
     refmegye: "01"
     reftelepules: "002"
+budapest_05:
+    osmrelation: 1606103
+    refmegye: "01"
+    reftelepules: "005"
 budapest_11:
     osmrelation: 221998
     refmegye: "01"
