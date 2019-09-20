@@ -16,8 +16,8 @@ filters:
     ranges: []
   Naphegy utca:
     ranges:
-      - {start: '67', end: '65'}
-      - {start: '50', end: '48'}
+      - {start: '67', end: '99'}
+      - {start: '50', end: '98'}
   Váralja utca:
     ranges:
       - {start: '18', end: '98'}
