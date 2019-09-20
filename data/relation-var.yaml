@@ -1,6 +1,8 @@
 filters:
   Hunyadi János út:
     ranges: []
+  Ostrom utca:
+    ranges: []
   Palota út:
     ranges: []
 source: survey
