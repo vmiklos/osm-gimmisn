@@ -1,0 +1,7 @@
+filters:
+  Hunyadi János út:
+    ranges: []
+  Palota út:
+    ranges: []
+source: survey
+inactive: true
