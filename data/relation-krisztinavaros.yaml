@@ -157,6 +157,10 @@ filters:
     ranges:
       - {start: '1', end: '11'}
     reftelepules: '012'
+  Váralja utca:
+    ranges:
+      - {start: '2', end: '16'}
+      - {start: '1', end: '21'}
   Várfok utca:
     ranges:
       - {start: '2', end: '18'}
