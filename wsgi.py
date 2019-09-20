@@ -426,7 +426,7 @@ def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
         percent = helpers.get_content(relation.get_files().get_streets_percent_path())
 
     if percent != "N/A":
-        date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
+        date = get_last_modified(relation.get_files().get_streets_percent_path())
         cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
         cell += percent + "%"
         cell += "</a></strong>"
