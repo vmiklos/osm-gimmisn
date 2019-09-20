@@ -1,0 +1,11 @@
+filters:
+  Attila út:
+    ranges:
+      - {start: '33', end: '135'}
+      - {start: '4', end: '98'}
+  Orom utca:
+    ranges: []
+  Sánc utca:
+    ranges: []
+source: survey
+inactive: true
