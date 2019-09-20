@@ -25,6 +25,14 @@ krisztinavaros:
     osmrelation: 2786310
     refmegye: "01"
     reftelepules: "001"
+taban:
+    osmrelation: 2714681
+    refmegye: "01"
+    reftelepules: "001"
+var:
+    osmrelation: 2786100
+    refmegye: "01"
+    reftelepules: "001"
 vizivaros:
     osmrelation: 2786368
     refmegye: "01"
