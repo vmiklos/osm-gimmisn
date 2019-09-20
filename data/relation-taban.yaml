@@ -1,8 +1,27 @@
 filters:
   Attila út:
     ranges:
-      - {start: '33', end: '135'}
-      - {start: '4', end: '98'}
+      - {start: '1', end: '31'}
+      - {start: '2', end: '2'}
+  Czakó utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Gellérthegy utca:
+    ranges: []
+  Hegyalja út:
+    ranges: []
+  Kereszt utca:
+    ranges: []
+  Krisztina körút:
+    ranges: []
+  Naphegy utca:
+    ranges:
+      - {start: '67', end: '65'}
+      - {start: '50', end: '48'}
+  Váralja utca:
+    ranges:
+      - {start: '18', end: '98'}
+      - {start: '23', end: '99'}
   Orom utca:
     ranges: []
   Sánc utca:
