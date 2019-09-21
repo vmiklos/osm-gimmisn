@@ -262,6 +262,10 @@ filters:
   Kocsis utca:
     ranges:
       - {start: '1', end: '11'}
+  Kondorfa utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '6', end: '10'}
   Kondorosi út:
     ranges:
       - {start: '3', end: '69'}
@@ -293,6 +297,11 @@ filters:
       - {start: '1', end: '17'}
       - {start: '23', end: '55'}
       - {start: '2', end: '56'}
+  Nádorliget utca:
+    ranges:
+      - {start: '5', end: '7'}
+      - {start: '11', end: '11'}
+      - {start: '8', end: '8'}
   Nagykikinda utca:
     ranges:
       - {start: '10', end: '14'}
@@ -335,6 +344,11 @@ filters:
   Pór Bertalan köz:
     ranges:
       - {start: '2', end: '12'}
+  Prielle Kornélia utca:
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '45', end: '55'}
+      - {start: '2', end: '16'}
   Rátz László utca:
     # 3-7 egyben
     ranges:
@@ -375,8 +389,9 @@ filters:
       - {start: '2', end: '26'}
   Szerémi út:
     ranges:
-      - {start: '1', end: '59'}
-      - {start: '2', end: '48'}
+      - {start: '5', end: '17'}
+      - {start: '21', end: '59'}
+      # {start: '2', end: '48'} # nincs pároson semmi csak egy fals cím ESTILO bútoház
   Szombathelyi tér:
     interpolation: 'all'
     ranges:
