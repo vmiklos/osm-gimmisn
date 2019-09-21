@@ -10,7 +10,7 @@ filters:
   Belgrád rakpart:
     interpolation: all
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '2', end: '99'}
   Deák Ferenc utca:
     ranges:
       - {start: '5', end: '9'}
@@ -24,10 +24,50 @@ filters:
     interpolation: all
     ranges:
       - {start: '2', end: '11'}
+  Ferenczy István utca:
+    ranges:
+      - {start: '5', end: '7'}
+      - {start: '2', end: '28'}
+  Fővám tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '5'}
+  Havas utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '8'}
+  Irányi utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '12'}
+      - {start: '18', end: '20'}
+  Magyar utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '9', end: '13'}
+      # 15-19 Karolyi kert
+      - {start: '21', end: '33'}
+      - {start: '2', end: '14'}
+      - {start: '18', end: '52'}
   Szabad sajtó út:
     # Klotild paloták valószínű a 6, nincs kiírva
     ranges:
       - {start: '2', end: '4'}
+  Szarka utca:
+    ranges:
+      - {start: '1', end: '8'}
+      - {start: '7', end: '9'}
+      - {start: '2', end: '98'}
+  Szerb utca:
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '4'}
+      - {start: '8', end: '10'}
+  Veres Pálné utca:
+    ranges:
+      - {start: '3', end: '41'}
+      - {start: '2', end: '20'}
+      - {start: '24', end: '44'}
   Vigadó tér:
     interpolation: all
     ranges:
