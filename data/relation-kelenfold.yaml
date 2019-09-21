@@ -9,8 +9,7 @@ filters:
   Andor utca:
     # 27-31 egyben
     ranges:
-      - {start: '1', end: '27'}
-      - {start: '31', end: '31'}
+      - {start: '1', end: '31'}
       - {start: '47', end: '49'}
       - {start: '2', end: '54'}
       - {start: '60', end: '60'}
@@ -33,8 +32,7 @@ filters:
     # 12-20 egyben
     ranges:
       - {start: '1', end: '17'}
-      - {start: '2', end: '12'}
-      - {start: '20', end: '20'}
+      - {start: '2', end: '20'}
   Barázda utca:
     ranges:
       - {start: '1', end: '1'}
@@ -51,9 +49,7 @@ filters:
   Bartók Béla út:
     ranges:
       # 105-113; 117-121 hazak vannak
-      - {start: '69', end: '105'}
-      - {start: '113', end: '117'}
-      - {start: '121', end: '149'}
+      - {start: '69', end: '149'}
       - {start: '86', end: '104'}
       - {start: '112', end: '136'}
       - {start: '152', end: '152'}
@@ -161,12 +157,10 @@ filters:
     ranges:
       - {start: '23', end: '79'}
       - {start: '83', end: '191'}
-      - {start: '44', end: '58'}
-      - {start: '68', end: '88'}
+      - {start: '44', end: '88'}
       - {start: '98', end: '98'}
       - {start: '104', end: '124'}
-      - {start: '130', end: '132'}
-      - {start: '144', end: '166'}
+      - {start: '130', end: '166'}
   Fejér Lipót utca:
     ranges:
       - {start: '13', end: '15'}
@@ -255,8 +249,7 @@ filters:
   Kelenföldi út:
     # 1-13 egyben
     ranges:
-      - {start: '1', end: '1'}
-      - {start: '13', end: '21'}
+      - {start: '1', end: '21'}
       - {start: '31', end: '45'}
       - {start: '2', end: '2'}
       - {start: '18', end: '52'}
@@ -345,8 +338,7 @@ filters:
   Rátz László utca:
     # 3-7 egyben
     ranges:
-      - {start: '3', end: '3'}
-      - {start: '7', end: '21'}
+      - {start: '3', end: '21'}
       - {start: '25', end: '85'}
       - {start: '4', end: '4'}
       - {start: '10', end: '76'}
