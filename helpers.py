@@ -812,7 +812,7 @@ def normalize(house_numbers: str, street_name: str,
               normalizers: Dict[str, Ranges]) -> List[str]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
-    ret = []
+    ret_numbers = []
     if ';' in house_numbers:
         separator = ';'
     else:
@@ -839,8 +839,14 @@ def normalize(house_numbers: str, street_name: str,
         if number not in normalizer:
             continue
 
-        ret.append(str(number) + suffix)
-    return ret
+        ret_numbers.append(number)
+    if separator == "-" and len(ret_numbers) == 2:
+        # Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
+        start = ret_numbers[0]
+        stop = ret_numbers[1]
+        # Closed interval, assume even only or odd only for now.
+        ret_numbers = [number for number in range(start, stop + 2, 2)]
+    return [str(number) + suffix for number in ret_numbers]
 
 
 def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[str]]]]]:

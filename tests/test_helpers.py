@@ -503,6 +503,14 @@ class TestNormalize(unittest.TestCase):
         house_numbers = helpers.normalize("1;2", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["1", "2"])
 
+    def test_separator_interval(self) -> None:
+        """Tests the 2-6 case: means implicit 4."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        normalizers = relation.get_street_ranges()
+        house_numbers = helpers.normalize("2-6", "Budaörs út", normalizers)
+        self.assertEqual(house_numbers, ["2", "4", "6"])
+
     def test_keep_suffix(self) -> None:
         """Tests that the * suffix is preserved."""
         relations = get_relations()
