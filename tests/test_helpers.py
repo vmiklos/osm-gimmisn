@@ -519,6 +519,16 @@ class TestNormalize(unittest.TestCase):
         house_numbers = helpers.normalize(relation, "2-5", "Hamzsabégi út", normalizers)
         self.assertEqual(house_numbers, ["2", "3", "4", "5"])
 
+    def test_separator_interval_filter(self) -> None:
+        """Tests the case where x-y is partially filtered out."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        normalizers = relation.get_street_ranges()
+        # filter is 137-165
+        house_numbers = helpers.normalize(relation, "163-167", "Budaörsi út", normalizers)
+        # Make sure there is no 167.
+        self.assertEqual(house_numbers, ["163", "165"])
+
     def test_keep_suffix(self) -> None:
         """Tests that the * suffix is preserved."""
         relations = get_relations()

@@ -813,6 +813,9 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
     ret_numbers = []
+    # Same as ret_numbers, but if the range is 2-6 and we filter for 2-4, then 6 would be lost, so
+    # in-range 4 would not be detected, so this one does not drop 6.
+    ret_numbers_nofilter = []
     if ';' in house_numbers:
         separator = ';'
     else:
@@ -823,34 +826,39 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     if house_numbers.endswith("*"):
         suffix = house_numbers[-1]
 
+    if street_name in normalizers.keys():
+        # Have a custom filter.
+        normalizer = normalizers[street_name]
+    else:
+        # Default sanity checks.
+        default = [Range(1, 999), Range(2, 998)]
+        normalizer = Ranges(default)
+
     for house_number in house_numbers.split(separator):
         try:
             number = int(re.sub(r"([0-9]+).*", r"\1", house_number))
         except ValueError:
             continue
 
-        if street_name in normalizers.keys():
-            # Have a custom filter.
-            normalizer = normalizers[street_name]
-        else:
-            # Default sanity checks.
-            default = [Range(1, 999), Range(2, 998)]
-            normalizer = Ranges(default)
+        ret_numbers_nofilter.append(number)
+
         if number not in normalizer:
             continue
 
         ret_numbers.append(number)
-    if separator == "-" and len(ret_numbers) == 2:
+
+    if separator == "-" and len(ret_numbers_nofilter) == 2:
         street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
-        start = ret_numbers[0]
-        stop = ret_numbers[1]
+        start = ret_numbers_nofilter[0]
+        stop = ret_numbers_nofilter[1]
         if street_is_even_odd:
             # Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
             # Closed interval, even only or odd only case.
-            ret_numbers = [number for number in range(start, stop + 2, 2)]
+            ret_numbers = [number for number in range(start, stop + 2, 2) if number in normalizer]
         else:
             # Closed interval, but mixed even and odd.
-            ret_numbers = [number for number in range(start, stop + 1, 1)]
+            ret_numbers = [number for number in range(start, stop + 1, 1) if number in normalizer]
+
     return [str(number) + suffix for number in ret_numbers]
 
 
