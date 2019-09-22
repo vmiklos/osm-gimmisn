@@ -37,7 +37,8 @@ filters:
   Budaörsi út:
     # this is just the Sasad part
     ranges:
-      - {start: '77', end: '135'}
+      - {start: '77', end: '95'}
+      - {start: '101', end: '135'}
   Cseresznye köz:
     ranges:
       - {start: '1', end: '3'}
