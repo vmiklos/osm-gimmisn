@@ -344,7 +344,7 @@ class TestRelationGetStreetRanges(unittest.TestCase):
         expected_filters = {
             "Budaörsi út": helpers.Ranges([helpers.Range(137, 165)]),
             "Csiki-hegyek utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
-            'Hamzsabégi út': helpers.Ranges([helpers.Range(start=1, end=2, interpolation="all")])
+            'Hamzsabégi út': helpers.Ranges([helpers.Range(start=1, end=12, interpolation="all")])
         }
         self.assertEqual(filters, expected_filters)
         expected_streets = {
@@ -468,7 +468,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize("139", "Budaörsi út", normalizers)
+        house_numbers = helpers.normalize(relation, "139", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, ["139"])
 
     def test_not_in_range(self) -> None:
@@ -476,7 +476,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize("999", "Budaörsi út", normalizers)
+        house_numbers = helpers.normalize(relation, "999", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_not_a_number(self) -> None:
@@ -484,7 +484,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize("x", "Budaörsi út", normalizers)
+        house_numbers = helpers.normalize(relation, "x", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_nofilter(self) -> None:
@@ -492,7 +492,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize("1", "Budaörs út", normalizers)
+        house_numbers = helpers.normalize(relation, "1", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["1"])
 
     def test_separator_semicolon(self) -> None:
@@ -500,7 +500,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize("1;2", "Budaörs út", normalizers)
+        house_numbers = helpers.normalize(relation, "1;2", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["1", "2"])
 
     def test_separator_interval(self) -> None:
@@ -508,17 +508,25 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize("2-6", "Budaörs út", normalizers)
+        house_numbers = helpers.normalize(relation, "2-6", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["2", "4", "6"])
+
+    def test_separator_interval_interp_all(self) -> None:
+        """Tests the 2-5 case: means implicit 3 and 4."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        normalizers = relation.get_street_ranges()
+        house_numbers = helpers.normalize(relation, "2-5", "Hamzsabégi út", normalizers)
+        self.assertEqual(house_numbers, ["2", "3", "4", "5"])
 
     def test_keep_suffix(self) -> None:
         """Tests that the * suffix is preserved."""
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_number = helpers.normalize("1*", "Budaörs út", normalizers)
+        house_number = helpers.normalize(relation, "1*", "Budaörs út", normalizers)
         self.assertEqual(house_number, ["1*"])
-        house_number = helpers.normalize("2", "Budaörs út", normalizers)
+        house_number = helpers.normalize(relation, "2", "Budaörs út", normalizers)
         self.assertEqual(house_number, ["2"])
 
 

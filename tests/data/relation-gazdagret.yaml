@@ -14,7 +14,7 @@ filters:
   'Hamzsabégi út':
     interpolation: 'all'
     ranges:
-      - {start: '1', end: '2'}
+      - {start: '1', end: '12'}
 street-filters:
   - Only In Ref Nonsense utca
 refstreets:

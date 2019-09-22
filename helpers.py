@@ -339,7 +339,7 @@ class Relation:
                     continue
                 if tokens[1] != street_name:
                     continue
-                house_numbers += normalize(tokens[2], street_name, self.get_street_ranges())
+                house_numbers += normalize(self, tokens[2], street_name, self.get_street_ranges())
         return sort_numerically(set(house_numbers))
 
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
@@ -442,7 +442,7 @@ class Relation:
             for line in lines:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')
-                    house_numbers += normalize(house_number, osm_street_name, street_ranges)
+                    house_numbers += normalize(self, house_number, osm_street_name, street_ranges)
             ret[osm_street_name] = sort_numerically(set(house_numbers))
         return ret
 
@@ -808,7 +808,7 @@ def html_table_from_list(table: List[List[str]]) -> str:
     return "".join(ret)
 
 
-def normalize(house_numbers: str, street_name: str,
+def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, Ranges]) -> List[str]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
@@ -841,11 +841,16 @@ def normalize(house_numbers: str, street_name: str,
 
         ret_numbers.append(number)
     if separator == "-" and len(ret_numbers) == 2:
-        # Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
+        street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
         start = ret_numbers[0]
         stop = ret_numbers[1]
-        # Closed interval, assume even only or odd only for now.
-        ret_numbers = [number for number in range(start, stop + 2, 2)]
+        if street_is_even_odd:
+            # Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
+            # Closed interval, even only or odd only case.
+            ret_numbers = [number for number in range(start, stop + 2, 2)]
+        else:
+            # Closed interval, but mixed even and odd.
+            ret_numbers = [number for number in range(start, stop + 1, 1)]
     return [str(number) + suffix for number in ret_numbers]
 
 
