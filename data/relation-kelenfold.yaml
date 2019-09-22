@@ -37,7 +37,8 @@ filters:
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '10'}
-      - {start: '14', end: '44'}
+      - {start: '14', end: '30'}
+      - {start: '38', end: '44'}
   Bártfai utca:
     ranges:
       - {start: '1', end: '65'}
@@ -159,7 +160,8 @@ filters:
       - {start: '83', end: '191'}
       - {start: '44', end: '88'}
       - {start: '98', end: '98'}
-      - {start: '104', end: '124'}
+      - {start: '104', end: '120'}
+      - {start: '124', end: '124'}
       - {start: '130', end: '166'}
   Fejér Lipót utca:
     ranges:
@@ -175,9 +177,10 @@ filters:
       - {start: '4', end: '50'}
   Galambóc utca:
     ranges:
-      # 1-13 Lidl oldala, 15 nem letezik csak az utcatablan
+      # 1-13 Lidl oldala, 15 nem letezik csak az utcatablan, 26-30 helyett külön 26,30
       - {start: '17', end: '45'}
-      - {start: '2', end: '36'}
+      - {start: '2', end: '26'}
+      - {start: '30', end: '36'}
   Galvani utca:
     ranges:
       - {start: '1', end: '99'}
@@ -188,8 +191,9 @@ filters:
       - {start: '2', end: '26'}
   Hadak útja:
     ranges:
-      - {start: '5', end: '13'}
-      - {start: '17', end: '65'}
+      - {start: '5', end: '11'}
+      - {start: '17', end: '19'}
+      - {start: '29', end: '65'}
       - {start: '2', end: '6'}
       - {start: '30', end: '68'}
   Halmi utca:
@@ -237,7 +241,7 @@ filters:
       - {start: '4', end: '28'}
   Kaposvár utca:
     ranges:
-      - {start: '5', end: '9'}
+      - {start: '5', end: '7'}
       - {start: '13', end: '15'}
       - {start: '8', end: '18'}
   Karolina út:
