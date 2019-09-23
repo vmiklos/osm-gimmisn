@@ -847,7 +847,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
         ret_numbers.append(number)
 
-    if separator == "-" and len(ret_numbers_nofilter) == 2:
+    if separator == "-" and len(ret_numbers_nofilter) == 2 and ret_numbers_nofilter[1] < 1000:
         street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
         start = ret_numbers_nofilter[0]
         stop = ret_numbers_nofilter[1]
