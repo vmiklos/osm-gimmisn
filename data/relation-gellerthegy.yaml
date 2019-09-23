@@ -46,6 +46,10 @@ filters:
     reftelepules: '001'
   Sánc utca:
     reftelepules: '001'
+  Schweidel utca:
+    ranges:
+      - {start: '1', end: '43'}
+      - {start: '2', end: '24'}
   Somlói út:
     ranges:
       - {start: '1', end: '47'}
