@@ -64,6 +64,10 @@ filters:
   Neumann János utca:
     ranges:
       - {start: '2', end: '2'}
+  Október huszonharmadika utca:
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '8', end: '18'}
   Orlay utca:
     ranges: []
   Pázmány Péter sétány:
@@ -92,3 +96,4 @@ refstreets:
   'Október huszonharmadika utca': 'Október Huszonharmad utca'
   'Stoczek József utca': 'Stoczek utca'
 source: survey
+inactive: true
