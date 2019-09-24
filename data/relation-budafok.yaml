@@ -25,8 +25,7 @@ filters:
       - {start: '3', end: '9'}
       - {start: '6', end: '6'}
   Kurucz köz:
-    ranges:
-      - []
+    ranges: []
   Leányka utca:
     ranges:
       - {start: '1', end: '13'}
@@ -38,8 +37,7 @@ filters:
       - {start: '2', end: '28'}
       - {start: '60', end: '78'}
   Mihalik Sándor utca:
-    ranges:
-      - []
+    ranges: []
   Nagytétényi út:
     # Pontositando, nagyobb szamok Budatétény
     ranges:
