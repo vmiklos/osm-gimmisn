@@ -252,6 +252,22 @@ csepel-belvaros:
     refmegye: "01"
     reftelepules: "021"
 # videk
+balatonlelle:
+    osmrelation: 1368026
+    refmegye: "15"
+    reftelepules: "012"
+balatonoszod:
+    osmrelation: 1368008
+    refmegye: "15"
+    reftelepules: "014"
+balatonszarszo:
+    osmrelation: 1367894
+    refmegye: "15"
+    reftelepules: "016"
+balatonszemes:
+    osmrelation: 1367995
+    refmegye: "15"
+    reftelepules: "017"
 biatorbagy:
     osmrelation: 113461
     refmegye: "14"
