@@ -539,6 +539,15 @@ class TestNormalize(unittest.TestCase):
         # 2-2000 range would be too large.
         self.assertEqual(house_numbers, ["2"])
 
+    def test_separator_interval_block2(self) -> None:
+        """Tests the case where x-y is nonsense: y-x is too large."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        normalizers = relation.get_street_ranges()
+        house_numbers = helpers.normalize(relation, "2-56", "Budaörs út", normalizers)
+        # No expansions for 4, 6, etc.
+        self.assertEqual(house_numbers, ["2", "56"])
+
     def test_keep_suffix(self) -> None:
         """Tests that the * suffix is preserved."""
         relations = get_relations()

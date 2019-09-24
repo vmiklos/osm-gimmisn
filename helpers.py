@@ -808,6 +808,21 @@ def html_table_from_list(table: List[List[str]]) -> str:
     return "".join(ret)
 
 
+def should_expand_range(numbers: List[int]) -> bool:
+    """Decides if an x-y range should be expanded."""
+    if len(numbers) != 2:
+        return False
+
+    # Ranges larger than this are typically just noise in the input data.
+    if numbers[1] > 1000:
+        return False
+
+    if numbers[1] - numbers[0] > 24:
+        return False
+
+    return True
+
+
 def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, Ranges]) -> List[str]:
     """Strips down string input to bare minimum that can be interpreted as an
@@ -847,7 +862,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
         ret_numbers.append(number)
 
-    if separator == "-" and len(ret_numbers_nofilter) == 2 and ret_numbers_nofilter[1] < 1000:
+    if separator == "-" and should_expand_range(ret_numbers_nofilter):
         street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
         start = ret_numbers_nofilter[0]
         stop = ret_numbers_nofilter[1]
