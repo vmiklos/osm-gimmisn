@@ -813,6 +813,10 @@ def should_expand_range(numbers: List[int]) -> bool:
     if len(numbers) != 2:
         return False
 
+    # Assume that 0 is just noise.
+    if numbers[0] == 0:
+        return False
+
     # Ranges larger than this are typically just noise in the input data.
     if numbers[1] > 1000:
         return False

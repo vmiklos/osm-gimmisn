@@ -548,6 +548,15 @@ class TestNormalize(unittest.TestCase):
         # No expansions for 4, 6, etc.
         self.assertEqual(house_numbers, ["2", "56"])
 
+    def test_separator_interval_block3(self) -> None:
+        """Tests the case where x-y is nonsense: x is 0."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        normalizers = relation.get_street_ranges()
+        house_numbers = helpers.normalize(relation, "0-42", "Budaörs út", normalizers)
+        # No expansion like 0, 2, 4, etc.
+        self.assertEqual(house_numbers, ["42"])
+
     def test_keep_suffix(self) -> None:
         """Tests that the * suffix is preserved."""
         relations = get_relations()
