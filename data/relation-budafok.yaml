@@ -1,12 +1,56 @@
 filters:
+  Arany János út:
+    # A 48-50 egyetlen épület közös telken, de a házszám csak 48.
+    # A 120 egy üres saroktelek, nem egyértelmű az utca emiatt.
+    ranges:
+      - {start: '1', end: '157'}
+      - {start: '2', end: '48'}
+      - {start: '52', end: '118'}
+      - {start: '122', end: '152'}
+  Duna utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '2'}
   Háros utca:
     ranges:
       - {start: '2', end: '998'}
+  Játék utca:
+    ranges:
+      - {start: '17', end: '19'}
+      - {start: '2', end: '12'}
+      - {start: '16', end: '16'}
+      - {start: '22', end: '36'}
+  Káldor Adolf utca:
+    ranges:
+      - {start: '3', end: '9'}
+      - {start: '6', end: '6'}
+  Kurucz köz:
+    ranges:
+      - []
+  Leányka utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '14', end: '40'}
+  Mária Terézia utca:
+    ranges:
+      - {start: '9', end: '11'}
+      - {start: '25', end: '27'}
+      - {start: '2', end: '28'}
+      - {start: '60', end: '78'}
+  Mihalik Sándor utca:
+    ranges:
+      - []
   Nagytétényi út:
     # Pontositando, nagyobb szamok Budatétény
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '118'}
+  Pécsi utca:
+    # A páros oldalon nagy a bozót, de mintha 2-10 között lenne.
+    # Az utcatáblán 2-12 van, de 12 biztosan nincs. A 10 is kétséges.
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '10'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Enyedi utca': 'Enyedy utca'
