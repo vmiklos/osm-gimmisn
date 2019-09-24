@@ -640,7 +640,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         self.assertEqual(todo_count, 5)
         self.assertEqual(done_count, 6)
         self.assertEqual(percent, '54.55')
-        self.assertEqual(table, [['Utcanév', 'Hiányzik db', 'Házszámok'],
+        self.assertEqual(table, [['Street name', 'Missing count', 'House numbers'],
                                  ['Törökugrató utca', '2', '7<br/>10'],
                                  ['Tűzkő utca', '2', '1<br/>2'],
                                  ['Hamzsabégi út', '1', '1']])

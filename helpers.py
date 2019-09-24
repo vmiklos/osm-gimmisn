@@ -21,6 +21,7 @@ from typing import TextIO
 from typing import Tuple
 from typing import cast
 import yaml
+from i18n import translate as _
 
 
 class Range:
@@ -477,7 +478,7 @@ class Relation:
 
         todo_count = 0
         table = []
-        table.append(["Utcanév", "Hiányzik db", "Házszámok"])
+        table.append([_("Street name"), _("Missing count"), _("House numbers")])
         for result in ongoing_streets:
             # street_name, only_in_ref
             row = []

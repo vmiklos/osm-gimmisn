@@ -21,6 +21,7 @@ PYTHON_OBJECTS = \
 	missing_streets.py \
 	version.py \
 	wsgi.py \
+	i18n.py \
 
 all: version.py
 
