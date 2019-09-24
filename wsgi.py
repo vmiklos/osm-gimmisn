@@ -17,9 +17,10 @@ import json
 import subprocess
 import sys
 from typing import Any
-from typing import Dict
 from typing import Callable
+from typing import Dict
 from typing import Iterable
+from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
@@ -162,14 +163,12 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
 
-        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
-        output += str(todo_street_count) + " utcához tartozó "
-        output += str(todo_count) + " házszámot."
-        output += " (meglévő: " + str(done_count) + ", készültség: " + str(percent) + "%).<br>"
-        output += "<a href=\"" + \
-                  "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
-                  "#hib%C3%A1s-riaszt%C3%A1s-hozz%C3%A1ad%C3%A1sa\">" + \
-                  "Téves információ jelentése</a>.</p>"
+        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti {0} utcához tartozó {1} házszámot." \
+            .format(str(todo_street_count), str(todo_count))
+        output += " (meglévő: {0}, készültség: {1}%).<br>".format(str(done_count), str(percent))
+        output += "<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">"
+        output += "Téves információ szűrése"
+        output += "</a>.</p>"
 
         output += helpers.html_table_from_list(table)
     return output
@@ -185,11 +184,13 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         output += "Nincsenek meglévő utcák: "
         output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
-        output += "Létrehozás Overpass hívásával</a>"
+        output += "Létrehozás Overpass hívásával"
+        output += "</a>"
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
         output += "Nincsen utcalista: "
         output += "<a href=\"/osm/suspicious-relations/" + relation_name + "/update-result\">"
-        output += "Létrehozás referenciából</a>"
+        output += "Létrehozás referenciából"
+        output += "</a>"
     else:
         ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
@@ -198,9 +199,8 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
         for street in streets:
             table.append([street])
 
-        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti "
-        output += str(todo_count) + " utcát."
-        output += " (meglévő: " + str(done_count) + ", készültség: " + str(percent) + "%).<br>"
+        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti {0} utcát.".format(str(todo_count))
+        output += " (meglévő: {0}, készültség: {1}%).<br>".format(str(done_count), str(percent))
 
         output += helpers.html_table_from_list(table)
     return output
@@ -407,7 +407,7 @@ def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[str, str]:
 
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
-        cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
+        cell = "<strong><a href=" + url + " title=\"" + "frissítve" + " " + date + "\">"
         cell += percent + "%"
         cell += "</a></strong>"
         return cell, percent
@@ -427,7 +427,7 @@ def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
 
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_streets_percent_path())
-        cell = "<strong><a href=" + url + " title=\"frissítve " + date + "\">"
+        cell = "<strong><a href=" + url + " title=\"" + "frissítve" + " " + date + "\">"
         cell += percent + "%"
         cell += "</a></strong>"
         return cell, percent
@@ -456,7 +456,7 @@ def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, str], bo
 def handle_main_filters(relations: helpers.Relations) -> str:
     """Handlers the filter part of the main wsgi page."""
     items = []
-    items.append('<a href="/osm/filter-for/incomplete">Kész területek elrejtése</a>')
+    items.append('<a href="/osm/filter-for/incomplete">' + "Kész területek elrejtése" + '</a>')
     # Sorted set of refmegye values of all relations.
     for refmegye in sorted({relation.get_config().get_refmegye() for relation in relations.get_relations()}):
         name = helpers.refmegye_get_name(refmegye)
@@ -464,7 +464,7 @@ def handle_main_filters(relations: helpers.Relations) -> str:
             continue
 
         items.append('<a href="/osm/filter-for/refmegye/' + refmegye + '">' + name + '</a>')
-    return '<p>Szűrők: ' + " &brvbar; ".join(items) + '</p>'
+    return '<p>' + "Szűrők: " + " &brvbar; ".join(items) + '</p>'
 
 
 def handle_main(request_uri: str, relations: helpers.Relations) -> str:
@@ -511,7 +511,7 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
         if streets != "only":
             date = get_housenumbers_last_modified(relation)
             row.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\""
-                       " title=\"frissítve " + date + "\" >meglévő házszámok</a>")
+                       " title=\"" + "frissítve" + " " + date + "\" >" + "meglévő házszámok" + "</a>")
         else:
             row.append("")
 
@@ -525,21 +525,37 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
 
         date = get_streets_last_modified(relation)
         row.append("<a href=\"/osm/streets/" + relation_name + "/view-result\""
-                   " title=\"frissítve " + date + "\" >meglévő utcák</a>")
+                   " title=\"" + "frissítve" + " " + date + "\" >" + "meglévő utcák" + "</a>")
 
         row.append("<a href=\"https://www.openstreetmap.org/relation/"
                    + str(relation.get_config().get_osmrelation())
-                   + "\">terület határa</a>")
+                   + "\">" + "terület határa" + "</a>")
 
         if filter_for(complete, relation.get_config().get_refmegye()):
             table.append(row)
     output += helpers.html_table_from_list(table)
-    output += "<p><a href=\"" + \
-              "https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu" + \
-              "#%C3%BAj-rel%C3%A1ci%C3%B3-hozz%C3%A1ad%C3%A1sa\">" + \
-              "Új terület hozzáadása</a></p>"
+    output += "<p><a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">"
+    output += "Új terület hozzáadása"
+    output += "</a></p>"
 
     return get_header(relations) + output + get_footer()
+
+
+def fill_missing_header_items(streets: str, relation_name: str, items: List[str]) -> None:
+    """Generates the 'missing house numbers/streets' part of the header."""
+    if streets != "only":
+        suspicious = '<a href="/osm/suspicious-streets/' + relation_name + '/view-result">'
+        suspicious += "Hiányzó házszámok" + '</a>'
+        suspicious += ' (<a href="/osm/suspicious-streets/' + relation_name + '/view-result.txt">txt</a>)'
+        items.append(suspicious)
+        existing = "<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\">"
+        existing += "Meglévő házszámok" + "</a>"
+        items.append(existing)
+    if streets != "no":
+        suspicious = '<a href="/osm/suspicious-relations/' + relation_name + '/view-result">'
+        suspicious += "Hiányzó utcák" + '</a>'
+        suspicious += ' (<a href="/osm/suspicious-relations/' + relation_name + '/view-result.txt">txt</a>)'
+        items.append(suspicious)
 
 
 def get_header(
@@ -558,21 +574,13 @@ def get_header(
         relation = relations.get_relation(relation_name)
         streets = relation.get_config().should_check_missing_streets()
 
-    items.append("<a href=\"/osm\">Területek listája</a>")
+    items.append("<a href=\"/osm\">" + "Területek listája" + "</a>")
     if relation_name:
-        if streets != "only":
-            suspicious = '<a href="/osm/suspicious-streets/' + relation_name + '/view-result">Hiányzó házszámok</a>'
-            suspicious += ' (<a href="/osm/suspicious-streets/' + relation_name + '/view-result.txt">txt</a>)'
-            items.append(suspicious)
-            items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\">Meglévő házszámok</a>")
-        if streets != "no":
-            suspicious = '<a href="/osm/suspicious-relations/' + relation_name + '/view-result">Hiányzó utcák</a>'
-            suspicious += ' (<a href="/osm/suspicious-relations/' + relation_name + '/view-result.txt">txt</a>)'
-            items.append(suspicious)
-        items.append("<a href=\"/osm/streets/" + relation_name + "/view-result\">Meglévő utcák</a>")
+        fill_missing_header_items(streets, relation_name, items)
+        items.append("<a href=\"/osm/streets/" + relation_name + "/view-result\">" + "Meglévő utcák" + "</a>")
 
     if function == "suspicious-streets":
-        title = " - " + relation_name + " hiányzó házszámok"
+        title = " - " + "{0} hiányzó házszámok".format(relation_name)
         items.append("<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
                      + "Frissítés referenciából</a> (másodpercekig tarthat)")
     elif function == "suspicious-relations":
