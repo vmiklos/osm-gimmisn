@@ -1,6 +1,10 @@
 filters:
   Albert utca:
     ranges: []
+  Bodola Lajos utca:
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '46'}
   Budafoki út:
     ranges:
       - {start: '84', end: '84'}
@@ -18,6 +22,12 @@ filters:
       - {start: '168', end: '168'}
       - {start: '178', end: '182'}
       - {start: '190', end: '204'}
+  Gerezd utca:
+    ranges: []
+  Kiskőrös utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '10', end: '12'}
   Kondorosi út:
     ranges:
       - {start: '2', end: '14'}
@@ -25,8 +35,25 @@ filters:
       - {start: '28', end: '82'}
   Kővirág sor:
     ranges: []
+  Nyírbátor utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '18'}
+  Pentele utca:
+    ranges:
+      - {start: '1', end: '9'}
   Rátz László utca:
     ranges: []
+  Sáfrány utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '23', end: '81'}
+      - {start: '2', end: '46'}
+      - {start: '50', end: '54'}
+  Szatmárhegy utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '11', end: '17'}
   Szerémi út:
     # paros nincs szamozva, de a lehetoseget meghagyjuk
     ranges:
