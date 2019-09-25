@@ -78,3 +78,6 @@ deploy-pythonanywhere:
 	git pull -r
 	make
 	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py
+
+po/osm-gimmisn.pot: helpers.py wsgi.py Makefile
+	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o $@ $(filter %.py,$^)
