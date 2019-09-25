@@ -31,6 +31,7 @@ import pytz
 import helpers
 import overpass_query
 import version
+from i18n import translate as _
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -83,13 +84,13 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
             relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
             streets = relation.get_config().should_check_missing_streets()
             if streets != "only":
-                output += "Frissítés sikeres: "
+                output += _("Update successful: ")
                 output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
-                                   "Hiányzó házszámok megtekintése")
+                                   _("View missing house numbers"))
             else:
-                output += "Frissítés sikeres."
+                output += _("Update successful.")
         except urllib.error.HTTPError as http_error:
-            output += "Overpass hiba: " + str(http_error)
+            output += _("Overpass error: {0}").format(str(http_error))
 
     osmrelation = relation.get_config().get_osmrelation()
     date = get_streets_last_modified(relation)
@@ -117,11 +118,11 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
         query = relation.get_osm_housenumbers_query()
         try:
             relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
-            output += "Frissítés sikeres: "
+            output += _("Update successful: ")
             output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
-                               "Hiányzó házszámok megtekintése")
+                               _("View missing house numbers"))
         except urllib.error.HTTPError as http_error:
-            output += "Overpass hiba: " + str(http_error)
+            output += _("Overpass error: {0}").format(str(http_error))
 
     osmrelation = relation.get_config().get_osmrelation()
     date = get_housenumbers_last_modified(relation)
@@ -148,26 +149,27 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
     output = ""
     relation = relations.get_relation(relation_name)
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += "Nincsenek meglévő utcák: "
+        output += _("No existing streets: ")
         output += gen_link("/osm/streets/" + relation_name + "/update-result",
-                           "Létrehozás Overpass hívásával")
+                           _("Call Overpass to create"))
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
-        output += "Nincsenek meglévő házszámok: "
+        output += _("No existing house numbers: ")
         output += gen_link("/osm/street-housenumbers/" + relation_name + "/update-result",
-                           "Létrehozás Overpass hívásával")
+                           _("Call Overpass to create"))
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
-        output += "Nincsenek hiányzó házszámok: "
+        output += _("No missing house numbers: ")
         output += gen_link("/osm/suspicious-streets/" + relation_name + "/update-result",
-                           "Létrehozás referenciából")
+                           _("Create from reference"))
     else:
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
 
-        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti {0} utcához tartozó {1} házszámot." \
-            .format(str(todo_street_count), str(todo_count))
-        output += " (meglévő: {0}, készültség: {1}%).<br>".format(str(done_count), str(percent))
+        output += "<p>"
+        output += _("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.") \
+            .format(str(todo_count), str(todo_street_count))
+        output += _(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)) + "<br>"
         output += "<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">"
-        output += "Téves információ szűrése"
+        output += _("Filter incorrect information")
         output += "</a>.</p>"
 
         output += helpers.html_table_from_list(table)
@@ -182,25 +184,27 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
 
     output = ""
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += "Nincsenek meglévő utcák: "
+        output += _("No existing streets: ")
         output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
-        output += "Létrehozás Overpass hívásával"
+        output += _("Call Overpass to create")
         output += "</a>"
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
-        output += "Nincsen utcalista: "
+        output += _("No street list: ")
         output += "<a href=\"/osm/suspicious-relations/" + relation_name + "/update-result\">"
-        output += "Létrehozás referenciából"
+        output += _("Create from reference")
         output += "</a>"
     else:
         ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
         streets.sort(key=locale.strxfrm)
-        table = [["Utcanév"]]
+        table = [[_("Street name")]]
         for street in streets:
             table.append([street])
 
-        output += "<p>Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti {0} utcát.".format(str(todo_count))
-        output += " (meglévő: {0}, készültség: {1}%).<br>".format(str(done_count), str(percent))
+        output += "<p>"
+        output += _("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count))
+        output += _(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent))
+        output += "</p>"
 
         output += helpers.html_table_from_list(table)
     return output
@@ -214,13 +218,13 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
 
     output = ""
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += "Nincsenek meglévő utcák"
+        output += _("No existing streets")
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
-        output += "Nincsenek meglévő házszámok"
+        output += _("No existing house numbers")
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
-        output += "Nincsenek referencia házszámok"
+        output += _("No reference house numbers")
     else:
-        ongoing_streets, _ = relation.get_missing_housenumbers()
+        ongoing_streets, _ignore = relation.get_missing_housenumbers()
 
         table = []
         for result in ongoing_streets:
@@ -245,11 +249,11 @@ def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> 
 
     output = ""
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += "Nincsenek meglévő utcák"
+        output += _("No existing streets")
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
-        output += "Nincsenek referencia utcák"
+        output += _("No reference streets")
     else:
-        todo_streets, _ = relation.get_missing_streets()
+        todo_streets, _ignore = relation.get_missing_streets()
         todo_streets.sort(key=locale.strxfrm)
         output += "\n".join(todo_streets)
     return output
@@ -260,9 +264,9 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
     reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
-    output = "Frissítés sikeres: "
+    output = _("Update successful: ")
     output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
-                       "Hiányzó házszámok megtekintése")
+                       _("View missing house numbers"))
     return output
 
 
@@ -271,7 +275,7 @@ def missing_streets_update(relations: helpers.Relations, relation_name: str) -> 
     reference = get_config().get('wsgi', 'reference_street').strip()
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
-    return "Frissítés sikeres."
+    return _("Update successful.")
 
 
 def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
@@ -407,13 +411,13 @@ def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[str, str]:
 
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
-        cell = "<strong><a href=" + url + " title=\"" + "frissítve" + " " + date + "\">"
+        cell = "<strong><a href=" + url + " title=\"" + _("updated") + " " + date + "\">"
         cell += percent + "%"
         cell += "</a></strong>"
         return cell, percent
 
     cell = "<strong><a href=" + url + ">"
-    cell += "hiányzó házszámok"
+    cell += _("missing house numbers")
     cell += "</a></strong>"
     return cell, "0"
 
@@ -427,13 +431,13 @@ def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
 
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_streets_percent_path())
-        cell = "<strong><a href=" + url + " title=\"" + "frissítve" + " " + date + "\">"
+        cell = "<strong><a href=" + url + " title=\"" + _("updated") + " " + date + "\">"
         cell += percent + "%"
         cell += "</a></strong>"
         return cell, percent
 
     cell = "<strong><a href=" + url + ">"
-    cell += "hiányzó utcák"
+    cell += _("missing streets")
     cell += "</a></strong>"
     return cell, "0"
 
@@ -456,7 +460,7 @@ def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, str], bo
 def handle_main_filters(relations: helpers.Relations) -> str:
     """Handlers the filter part of the main wsgi page."""
     items = []
-    items.append('<a href="/osm/filter-for/incomplete">' + "Kész területek elrejtése" + '</a>')
+    items.append('<a href="/osm/filter-for/incomplete">' + _("Hide complete areas") + '</a>')
     # Sorted set of refmegye values of all relations.
     for refmegye in sorted({relation.get_config().get_refmegye() for relation in relations.get_relations()}):
         name = helpers.refmegye_get_name(refmegye)
@@ -464,7 +468,7 @@ def handle_main_filters(relations: helpers.Relations) -> str:
             continue
 
         items.append('<a href="/osm/filter-for/refmegye/' + refmegye + '">' + name + '</a>')
-    return '<p>' + "Szűrők: " + " &brvbar; ".join(items) + '</p>'
+    return '<p>' + _("Filters:") + " &brvbar; ".join(items) + '</p>'
 
 
 def handle_main(request_uri: str, relations: helpers.Relations) -> str:
@@ -482,15 +486,15 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
 
     output = ""
 
-    output += "<h1>Hol térképezzek?</h1>"
+    output += "<h1>" + _("Where to map?") + "</h1>"
     output += handle_main_filters(relations)
     table = []
-    table.append(["Terület",
-                  "Házszám lefedettség",
-                  "Meglévő házszámok",
-                  "Utca lefedettség",
-                  "Meglévő utcák",
-                  "Terület határa"])
+    table.append([_("Area"),
+                  _("House number coverage"),
+                  _("Existing house numbers"),
+                  _("Street coverage"),
+                  _("Existing streets"),
+                  _("Area boundary")])
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
         complete = True
@@ -511,7 +515,7 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
         if streets != "only":
             date = get_housenumbers_last_modified(relation)
             row.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\""
-                       " title=\"" + "frissítve" + " " + date + "\" >" + "meglévő házszámok" + "</a>")
+                       " title=\"" + _("updated") + " " + date + "\" >" + _("existing house numbers") + "</a>")
         else:
             row.append("")
 
@@ -525,17 +529,17 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
 
         date = get_streets_last_modified(relation)
         row.append("<a href=\"/osm/streets/" + relation_name + "/view-result\""
-                   " title=\"" + "frissítve" + " " + date + "\" >" + "meglévő utcák" + "</a>")
+                   " title=\"" + _("updated") + " " + date + "\" >" + _("existing streets") + "</a>")
 
         row.append("<a href=\"https://www.openstreetmap.org/relation/"
                    + str(relation.get_config().get_osmrelation())
-                   + "\">" + "terület határa" + "</a>")
+                   + "\">" + _("area boundary") + "</a>")
 
         if filter_for(complete, relation.get_config().get_refmegye()):
             table.append(row)
     output += helpers.html_table_from_list(table)
     output += "<p><a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">"
-    output += "Új terület hozzáadása"
+    output += _("Add new area")
     output += "</a></p>"
 
     return get_header(relations) + output + get_footer()
@@ -545,15 +549,15 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[str]
     """Generates the 'missing house numbers/streets' part of the header."""
     if streets != "only":
         suspicious = '<a href="/osm/suspicious-streets/' + relation_name + '/view-result">'
-        suspicious += "Hiányzó házszámok" + '</a>'
+        suspicious += _("Missing house numbers") + '</a>'
         suspicious += ' (<a href="/osm/suspicious-streets/' + relation_name + '/view-result.txt">txt</a>)'
         items.append(suspicious)
         existing = "<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\">"
-        existing += "Meglévő házszámok" + "</a>"
+        existing += _("Existing house numbers") + "</a>"
         items.append(existing)
     if streets != "no":
         suspicious = '<a href="/osm/suspicious-relations/' + relation_name + '/view-result">'
-        suspicious += "Hiányzó utcák" + '</a>'
+        suspicious += _("Missing streets") + '</a>'
         suspicious += ' (<a href="/osm/suspicious-relations/' + relation_name + '/view-result.txt">txt</a>)'
         items.append(suspicious)
 
@@ -574,42 +578,42 @@ def get_header(
         relation = relations.get_relation(relation_name)
         streets = relation.get_config().should_check_missing_streets()
 
-    items.append("<a href=\"/osm\">" + "Területek listája" + "</a>")
+    items.append("<a href=\"/osm\">" + _("Area list") + "</a>")
     if relation_name:
         fill_missing_header_items(streets, relation_name, items)
-        items.append("<a href=\"/osm/streets/" + relation_name + "/view-result\">" + "Meglévő utcák" + "</a>")
+        items.append("<a href=\"/osm/streets/" + relation_name + "/view-result\">" + _("Existing streets") + "</a>")
 
     if function == "suspicious-streets":
-        title = " - " + "{0} hiányzó házszámok".format(relation_name)
+        title = " - " + _("{0} missing house numbers").format(relation_name)
         items.append("<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
-                     + "Frissítés referenciából</a> (másodpercekig tarthat)")
+                     + _("Update from reference") + "</a> " + _("(may take seconds)"))
     elif function == "suspicious-relations":
-        title = " - " + relation_name + " hiányzó utcák"
+        title = " - " + relation_name + " " + _("missing streets")
         items.append("<a href=\"/osm/suspicious-relations/" + relation_name + "/update-result\">"
-                     + "Frissítés referenciából</a>")
+                     + _("Update from reference") + "</a>")
     elif function == "street-housenumbers":
-        title = " - " + relation_name + " meglévő házszámok"
+        title = " - " + relation_name + " " + _("existing house numbers")
         items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/update-result\">"
-                     + "Frissítés Overpass hívásával</a> (másodpercekig tarthat)")
+                     + _("Call Overpass to update") + "</a> " + _("(may take seconds)"))
         items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-query\">"
-                     + "Lekérdezés megtekintése</a>")
+                     + _("View query") + "</a>")
     elif function == "streets":
-        title = " - " + relation_name + " meglévő utcák"
+        title = " - " + relation_name + " " + _("existing streets")
         items.append("<a href=\"/osm/streets/" + relation_name + "/update-result\">"
-                     + "Frissítés Overpass hívásával</a> (másodpercekig tarthat)")
-        items.append("<a href=\"/osm/streets/" + relation_name + "/view-query\">Lekérdezés megtekintése</a>")
+                     + _("Call Overpass to update") + "</a> " + _("(may take seconds)"))
+        items.append("<a href=\"/osm/streets/" + relation_name + "/view-query\">" + _("View query") + "</a>")
 
     if relation_osmid:
         items.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation_osmid) + "\">"
-                     + "Terület határa</a>")
-    items.append("<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc/hu\">Dokumentáció</a>")
+                     + _("Area boundary") + "</a>")
+    items.append("<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">" + _("Documentation") + "</a>")
 
     config = get_config()
     if config.has_option("wsgi", "lang"):
         lang = config.get("wsgi", "lang")
     else:
         lang = "hu"
-    output = '<!DOCTYPE html>\n<html lang="' + lang + '"><head><title>Hol térképezzek?' + title + '</title>'
+    output = '<!DOCTYPE html>\n<html lang="' + lang + '"><head><title>' + _("Where to map?") + title + '</title>'
     output += '<meta charset="UTF-8">'
     output += '<link rel="stylesheet" type="text/css" href="/osm/static/osm.css">'
     output += '<script src="/osm/static/sorttable.js"></script>'
@@ -622,10 +626,10 @@ def get_header(
 def get_footer(last_updated: str = "") -> str:
     """Produces the end of the page."""
     items = []
-    items.append("Verzió: " + helpers.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/"))
-    items.append("OSM adatok © OpenStreetMap közreműködők.")
+    items.append(_("Version: ") + helpers.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/"))
+    items.append(_("OSM data © OpenStreetMap contributors."))
     if last_updated:
-        items.append("Utolsó frissítés: " + last_updated)
+        items.append(_("Last update: ") + last_updated)
     output = "<hr/><div>"
     output += " &brvbar; ".join(items)
     output += "</div>"
@@ -678,7 +682,7 @@ def our_application(
     path_info = environ.get("PATH_INFO")
     if path_info:
         request_uri = path_info  # type: str
-    _, _, ext = request_uri.partition('.')
+    _ignore, _ignore, ext = request_uri.partition('.')
 
     config = get_config()
     workdir = helpers.get_workdir(config)
@@ -720,7 +724,7 @@ def handle_exception(
     path_info = environ.get("PATH_INFO")
     if path_info:
         request_uri = path_info
-    body = "<pre>Internal error when serving " + request_uri + "\n" + \
+    body = "<pre>" + _("Internal error when serving {0}").format(request_uri) + "\n" + \
            traceback.format_exc() + "</pre>"
     output = get_header() + body + get_footer()
     output_bytes = output.encode('utf-8')
