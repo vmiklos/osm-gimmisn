@@ -984,7 +984,12 @@ def refmegye_get_name(refmegye: str) -> str:
     """Produces a UI name for a refmegye."""
     names = {
         '01': 'Budapest',
-        '14': 'Pest megye',
+        '05': 'Borsod-Abaúj-Zemplén',
+        '10': 'Heves',
+        '14': 'Pest',
+        '15': 'Somogy',
+        '19': 'Veszprém',
+        '20': 'Zala'
     }
     if refmegye in names.keys():
         return names[refmegye]
