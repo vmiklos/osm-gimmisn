@@ -23,7 +23,7 @@ PYTHON_OBJECTS = \
 	wsgi.py \
 	i18n.py \
 
-all: version.py
+all: version.py po/hu/osm-gimmisn.mo
 
 clean:
 	rm -f version.py
@@ -81,3 +81,9 @@ deploy-pythonanywhere:
 
 po/osm-gimmisn.pot: helpers.py wsgi.py Makefile
 	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o $@ $(filter %.py,$^)
+
+po/hu/osm-gimmisn.po: po/osm-gimmisn.pot Makefile
+	msgmerge --update $@ $<
+
+po/hu/osm-gimmisn.mo: po/hu/osm-gimmisn.po Makefile
+	msgfmt --output-file=$@ $<
