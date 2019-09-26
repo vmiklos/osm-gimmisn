@@ -28,10 +28,12 @@ import wsgiref.simple_server
 
 import pytz
 
+import accept_language
 import helpers
+import i18n
+from i18n import translate as _
 import overpass_query
 import version
-from i18n import translate as _
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -665,6 +667,16 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
     return "", ""
 
 
+def setup_localization(environ: Dict[str, Any]) -> None:
+    """Provides localized strings for this thread."""
+    # Set up localization.
+    languages = environ.get("HTTP_ACCEPT_LANGUAGE")
+    if languages:
+        parsed = accept_language.parse_accept_language(languages)
+        if parsed:
+            i18n.set_language(parsed[0].language)
+
+
 def our_application(
         environ: Dict[str, Any],
         start_response: 'StartResponse'
@@ -676,6 +688,8 @@ def our_application(
     else:
         ui_locale = "hu_HU.UTF-8"
     locale.setlocale(locale.LC_ALL, ui_locale)
+
+    setup_localization(environ)
 
     status = '200 OK'
 
