@@ -10,13 +10,12 @@ filters:
   Jégcsap utca:
     ranges: []
   Kőérberki út:
-    ranges: []
+    ranges:
+      - {start: '2', end: '2'}
   Gazdagréti út:
     ranges: []
   Poprádi út:
-    # 708/2 hrsz. miatt kell a filter
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '7'}
 source: survey
 inactive: true
