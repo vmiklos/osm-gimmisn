@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 #
+# Version: 0.1.2
 # Author: Chatbot Developers
 # License: Apache License 2.0
-# Description: https://github.com/Babylonpartners/parse-accept-language
 
-"""The accept_language module parses an Accept-Language HTTP header."""
+"""
+The accept_language module parses an Accept-Language HTTP header, originally from
+<https://github.com/Babylonpartners/parse-accept-language>.
+"""
 
 
 import re
 
 from collections import namedtuple
 from operator import attrgetter
+from typing import List
+from typing import Optional
 
 VALIDATE_LANG_REGEX = re.compile('^[a-z]+$', flags=re.IGNORECASE)
 QUALITY_VAL_SUB_REGEX = re.compile('^q=', flags=re.IGNORECASE)
@@ -19,7 +24,7 @@ MAX_HEADER_LEN = 8192
 Lang = namedtuple('Lang', ('language', 'locale', 'quality'))
 
 
-def parse_accept_language(accept_language_str, default_quality=None):
+def parse_accept_language(accept_language_str: str, default_quality: Optional[float] = None) -> List[Lang]:
     """
     Parse a RFC 2616 Accept-Language string.
     https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14
@@ -49,8 +54,8 @@ def parse_accept_language(accept_language_str, default_quality=None):
         quality_value = default_quality or DEFAULT_QUALITY_VALUE
         lang_code = accept_lang_segment.strip()
         if ';' in accept_lang_segment:
-            lang_code, quality_value = accept_lang_segment.split(';')
-            quality_value = float(QUALITY_VAL_SUB_REGEX.sub('', quality_value))
+            lang_code, quality_value_string = accept_lang_segment.split(';')
+            quality_value = float(QUALITY_VAL_SUB_REGEX.sub('', quality_value_string))
 
         lang_code_components = re.split('-|_', lang_code)
         if not all(VALIDATE_LANG_REGEX.match(c) for c in lang_code_components):

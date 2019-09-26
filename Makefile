@@ -16,12 +16,13 @@ PYTHON_SAFE_OBJECTS = \
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
+	accept_language.py \
 	cron.py \
+	i18n.py \
 	missing_housenumbers.py \
 	missing_streets.py \
 	version.py \
 	wsgi.py \
-	i18n.py \
 
 all: version.py locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
