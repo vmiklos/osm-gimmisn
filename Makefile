@@ -87,4 +87,4 @@ update-po: po/osm-gimmisn.pot Makefile
 	msgmerge --update po/hu/osm-gimmisn.po po/osm-gimmisn.pot
 
 locale/hu/LC_MESSAGES/osm-gimmisn.mo: po/hu/osm-gimmisn.po Makefile
-	msgfmt --statistics --output-file=$@ $<
+	msgfmt --check --statistics --output-file=$@ $<
