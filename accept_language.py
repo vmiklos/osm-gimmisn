@@ -1,4 +1,12 @@
-import logging
+#!/usr/bin/env python3
+#
+# Author: Chatbot Developers
+# License: Apache License 2.0
+# Description: https://github.com/Babylonpartners/parse-accept-language
+
+"""The accept_language module parses an Accept-Language HTTP header."""
+
+
 import re
 
 from collections import namedtuple
@@ -9,8 +17,6 @@ QUALITY_VAL_SUB_REGEX = re.compile('^q=', flags=re.IGNORECASE)
 DEFAULT_QUALITY_VALUE = 1.0
 MAX_HEADER_LEN = 8192
 Lang = namedtuple('Lang', ('language', 'locale', 'quality'))
-
-logger = logging.getLogger(__name__)
 
 
 def parse_accept_language(accept_language_str, default_quality=None):
@@ -64,3 +70,5 @@ def parse_accept_language(accept_language_str, default_quality=None):
             Lang(locale=locale, language=language, quality=quality_value)
         )
     return sorted(parsed_langs, key=attrgetter('quality'), reverse=True)
+
+# vim:set shiftwidth=4 softtabstop=4 expandtab:
