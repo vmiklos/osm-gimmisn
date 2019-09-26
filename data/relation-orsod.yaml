@@ -12,6 +12,8 @@ filters:
     ranges:
       - {start: '4', end: '36'}
       - {start: '1', end: '3'}
+  Poprádi út:
+    ranges: []
   Repülőtéri út:
     ranges:
       - {start: '2', end: '2'}
