@@ -6,10 +6,12 @@ filters:
       - {start: '170', end: '180'}
   Egér út:
     ranges: []
+  Keserűvíz utca:
+    ranges: []
   Kőérberki út:
     ranges:
-      - {start: '2', end: '36'}
-      - {start: '1', end: '17'}
+      - {start: '4', end: '36'}
+      - {start: '1', end: '3'}
   Repülőtéri út:
     ranges:
       - {start: '2', end: '2'}
