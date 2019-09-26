@@ -23,7 +23,7 @@ PYTHON_OBJECTS = \
 	wsgi.py \
 	i18n.py \
 
-all: version.py po/hu/osm-gimmisn.mo
+all: version.py locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py
@@ -79,11 +79,11 @@ deploy-pythonanywhere:
 	make
 	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py
 
-po/osm-gimmisn.pot: helpers.py wsgi.py Makefile
-	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o $@ $(filter %.py,$^)
+update-pot: helpers.py wsgi.py Makefile
+	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)
 
-po/hu/osm-gimmisn.po: po/osm-gimmisn.pot Makefile
-	msgmerge --update $@ $<
+update-po: po/osm-gimmisn.pot Makefile
+	msgmerge --update po/hu/osm-gimmisn.po po/osm-gimmisn.pot
 
-po/hu/osm-gimmisn.mo: po/hu/osm-gimmisn.po Makefile
-	msgfmt --output-file=$@ $<
+locale/hu/LC_MESSAGES/osm-gimmisn.mo: po/hu/osm-gimmisn.po Makefile
+	msgfmt --statistics --output-file=$@ $<

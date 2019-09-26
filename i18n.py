@@ -7,8 +7,23 @@
 """The i18n module allows UI translation via gettext."""
 
 
+from typing import cast
+import gettext
+import threading
+
+
+def set_language(language: str) -> None:
+    """Sets the language of the current thread."""
+    tls = threading.current_thread.__dict__
+    tls["translations"] = gettext.translation("osm-gimmisn", localedir="locale", languages=[language], fallback=True)
+
+
 def translate(fro: str) -> str:
     """Translates input according to the current UI language."""
-    return fro
+    tls = threading.current_thread.__dict__
+    if "translations" not in tls.keys():
+        return fro
+
+    return cast(str, tls["translations"].gettext(fro))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
