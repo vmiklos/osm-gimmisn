@@ -553,6 +553,15 @@ class Relations:
             self.__dict = yaml.load(sock)
         self.__relations = {}  # type: Dict[str, Relation]
         self.__activate_all = False
+        self.__refmegye_names = {
+            '01': 'Budapest',
+            '05': 'Borsod-Abaúj-Zemplén',
+            '10': 'Heves',
+            '14': 'Pest',
+            '15': 'Somogy',
+            '19': 'Veszprém',
+            '20': 'Zala'
+        }
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
@@ -586,6 +595,13 @@ class Relations:
     def activate_all(self, flag: bool) -> None:
         """Sets if inactive=true is ignored or not."""
         self.__activate_all = flag
+
+    def refmegye_get_name(self, refmegye: str) -> str:
+        """Produces a UI name for a refmegye."""
+        if refmegye in self.__refmegye_names:
+            return self.__refmegye_names[refmegye]
+
+        return ""
 
 
 def sort_numerically(strings: Iterable[str]) -> List[str]:
@@ -978,22 +994,5 @@ def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
     if even_string:
         elements.append(even_string)
     return elements
-
-
-def refmegye_get_name(refmegye: str) -> str:
-    """Produces a UI name for a refmegye."""
-    names = {
-        '01': 'Budapest',
-        '05': 'Borsod-Abaúj-Zemplén',
-        '10': 'Heves',
-        '14': 'Pest',
-        '15': 'Somogy',
-        '19': 'Veszprém',
-        '20': 'Zala'
-    }
-    if refmegye in names.keys():
-        return names[refmegye]
-
-    return ""
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

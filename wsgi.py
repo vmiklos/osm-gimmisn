@@ -465,7 +465,7 @@ def handle_main_filters(relations: helpers.Relations) -> str:
     items.append('<a href="/osm/filter-for/incomplete">' + _("Hide complete areas") + '</a>')
     # Sorted set of refmegye values of all relations.
     for refmegye in sorted({relation.get_config().get_refmegye() for relation in relations.get_relations()}):
-        name = helpers.refmegye_get_name(refmegye)
+        name = relations.refmegye_get_name(refmegye)
         if not name:
             continue
 
