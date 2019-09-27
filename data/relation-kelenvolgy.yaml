@@ -24,3 +24,5 @@ filters:
     ranges:
       - {start: '1', end: '37'}
 source: survey
+inactive: true
+
