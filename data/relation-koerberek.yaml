@@ -11,6 +11,7 @@ filters:
     ranges:
       - {start: '12', end: '18'}
   Kőérberki út:
-    ranges: []
+    ranges:
+      - {start: '36', end: '36'}
 source: survey
 inactive: true
