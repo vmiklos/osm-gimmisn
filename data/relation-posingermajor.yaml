@@ -9,14 +9,12 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
-  Kakukkhegyi erdősor:
+  Kakukkhegyi út:
+    # 34 után csak hrsz.
     ranges:
       - {start: '15', end: '99'}
-      - {start: '2', end: '998'}
-  Kakukkhegyi út:
-    ranges:
-      - {start: '15', end: '999'}
-      - {start: '2', end: '998'}
+      - {start: '2', end: '10'}
+      - {start: '16', end: '46'}
   Mákvirág köz:
     ranges:
       - {start: '1', end: '1'}
@@ -28,7 +26,7 @@ filters:
   Ördögorom lejtő:
     ranges:
       # 45-53 között telkek hazszam nelkul
-      - {start: '1', end: '47'}
+      - {start: '1', end: '45'}
       - {start: '51', end: '77'}
       # 52-64 után között telkek hazszam nelkul
       - {start: '2', end: '54'}
@@ -61,3 +59,4 @@ filters:
 refstreets:
   'Felső határút': 'Felső Határ út'
 source: survey
+inactive: true
