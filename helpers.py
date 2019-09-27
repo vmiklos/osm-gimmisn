@@ -22,6 +22,7 @@ from typing import Tuple
 from typing import cast
 import yaml
 from i18n import translate as _
+import util
 
 
 class Range:
@@ -488,7 +489,7 @@ class Relation:
             if not self.get_config().get_street_is_even_odd(result[0]):
                 row.append(", ".join(result[1]))
             else:
-                row.append("<br/>".join(format_even_odd(result[1], html=True)))
+                row.append("<br/>".join(util.format_even_odd(result[1], html=True)))
 
             todo_count += len(result[1])
             table.append(row)
@@ -976,23 +977,5 @@ def color_house_number(fro: str) -> str:
     if not fro.endswith("*"):
         return fro
     return '<span style="color: blue;">' + fro[:-1] + '</span>'
-
-
-def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
-    """Separate even and odd numbers, this helps survey in most cases."""
-    even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=split_house_number)
-    if html:
-        even = [color_house_number(i) for i in even]
-    even_string = ", ".join(even)
-    odd = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 1], key=split_house_number)
-    if html:
-        odd = [color_house_number(i) for i in odd]
-    odd_string = ", ".join(odd)
-    elements = []
-    if odd_string:
-        elements.append(odd_string)
-    if even_string:
-        elements.append(even_string)
-    return elements
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -3,6 +3,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_get_reference_streets.py \
 	tests/test_helpers.py \
 	tests/test_overpass_query.py \
+	tests/test_util.py \
 	tests/test_validator.py \
 
 # These have good coverage.
@@ -11,6 +12,7 @@ PYTHON_SAFE_OBJECTS = \
 	get_reference_streets.py \
 	helpers.py \
 	overpass_query.py \
+	util.py \
 	validator.py \
 
 PYTHON_OBJECTS = \
