@@ -554,15 +554,8 @@ class Relations:
             self.__dict = yaml.load(sock)
         self.__relations = {}  # type: Dict[str, Relation]
         self.__activate_all = False
-        self.__refmegye_names = {
-            '01': 'Budapest',
-            '05': 'Borsod-Abaúj-Zemplén',
-            '10': 'Heves',
-            '14': 'Pest',
-            '15': 'Somogy',
-            '19': 'Veszprém',
-            '20': 'Zala'
-        }
+        with open(os.path.join(datadir, "refmegye-names.yaml")) as stream:
+            self.__refmegye_names = yaml.load(stream)
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
@@ -600,7 +593,7 @@ class Relations:
     def refmegye_get_name(self, refmegye: str) -> str:
         """Produces a UI name for a refmegye."""
         if refmegye in self.__refmegye_names:
-            return self.__refmegye_names[refmegye]
+            return cast(str, self.__refmegye_names[refmegye])
 
         return ""
 
