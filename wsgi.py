@@ -620,6 +620,7 @@ def get_header(
     output += '<meta charset="UTF-8">'
     output += '<link rel="stylesheet" type="text/css" href="/osm/static/osm.css">'
     output += '<script src="/osm/static/sorttable.js"></script>'
+    output += '<meta name="viewport" content="width=device-width, initial-scale=1">'
     output += "</head><body><div>"
     output += " &brvbar; ".join(items)
     output += "</div><hr/>"
