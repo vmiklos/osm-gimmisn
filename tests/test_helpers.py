@@ -511,6 +511,14 @@ class TestNormalize(unittest.TestCase):
         house_numbers = helpers.normalize(relation, "2-6", "Budaörs út", normalizers)
         self.assertEqual(house_numbers, ["2", "4", "6"])
 
+    def test_separator_interval_parity(self) -> None:
+        """Tests the 5-8 case: means just 5 and 8 as the parity doesn't match."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        normalizers = relation.get_street_ranges()
+        house_numbers = helpers.normalize(relation, "5-8", "Budaörs út", normalizers)
+        self.assertEqual(house_numbers, ["5", "8"])
+
     def test_separator_interval_interp_all(self) -> None:
         """Tests the 2-5 case: means implicit 3 and 4."""
         relations = get_relations()

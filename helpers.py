@@ -819,9 +819,13 @@ def html_table_from_list(table: List[List[str]]) -> str:
     return "".join(ret)
 
 
-def should_expand_range(numbers: List[int]) -> bool:
+def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
     """Decides if an x-y range should be expanded."""
     if len(numbers) != 2:
+        return False
+
+    # If there is a parity mismatch, ignore.
+    if street_is_even_odd and numbers[0] % 2 != numbers[1] % 2:
         return False
 
     # Assume that 0 is just noise.
@@ -877,8 +881,8 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
         ret_numbers.append(number)
 
-    if separator == "-" and should_expand_range(ret_numbers_nofilter):
-        street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
+    street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
+    if separator == "-" and should_expand_range(ret_numbers_nofilter, street_is_even_odd):
         start = ret_numbers_nofilter[0]
         stop = ret_numbers_nofilter[1]
         if street_is_even_odd:
