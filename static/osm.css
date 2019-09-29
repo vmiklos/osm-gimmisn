@@ -21,11 +21,4 @@ table, th, td {
     border-style: solid;
 }
 
-@media only screen and (max-width: 960px) {
-  body {
-    margin: 40px auto;
-    max-width: 650px;
-  }
-}
-
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
