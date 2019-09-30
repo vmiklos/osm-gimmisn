@@ -824,6 +824,11 @@ def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
     if len(numbers) != 2:
         return False
 
+    if numbers[1] < numbers[0]:
+        # E.g. 42-1, -1 is just a suffix to be ignored.
+        numbers[1] = 0
+        return True
+
     # If there is a parity mismatch, ignore.
     if street_is_even_odd and numbers[0] % 2 != numbers[1] % 2:
         return False
@@ -833,10 +838,7 @@ def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
         return False
 
     # Ranges larger than this are typically just noise in the input data.
-    if numbers[1] > 1000:
-        return False
-
-    if numbers[1] - numbers[0] > 24:
+    if numbers[1] > 1000 or numbers[1] - numbers[0] > 24:
         return False
 
     return True
@@ -885,7 +887,9 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     if separator == "-" and should_expand_range(ret_numbers_nofilter, street_is_even_odd):
         start = ret_numbers_nofilter[0]
         stop = ret_numbers_nofilter[1]
-        if street_is_even_odd:
+        if stop == 0:
+            ret_numbers = [number for number in [start] if number in normalizer]
+        elif street_is_even_odd:
             # Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
             # Closed interval, even only or odd only case.
             ret_numbers = [number for number in range(start, stop + 2, 2) if number in normalizer]
