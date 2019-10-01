@@ -1,4 +1,6 @@
 filters:
+  Dévér park:
+    ranges: []
   Dózsa György út:
     ranges:
       - {start: '2', end: '998'}
