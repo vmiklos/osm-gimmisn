@@ -19,7 +19,6 @@ refstreets:
   'Új barázda utca': 'Új Barázda utca'
   'Zólyomi köz': 'Zólyom köz'
   # resurvey:
-  'Tóváros utca': 'Tóváros út'
   'Törökverő utca': 'Törökverő út'
 source: survey
 inactive: true
