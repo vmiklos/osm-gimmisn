@@ -1,3 +1,4 @@
+suspicious-relations: 'no'
 filters:
   Árnyas út:
     ranges:

@@ -1,3 +1,4 @@
+suspicious-relations: 'no'
 filters:
   Arany János út:
     # A 48-50 egyetlen épület közös telken, de a házszám csak 48.
