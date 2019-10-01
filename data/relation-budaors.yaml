@@ -1,4 +1,36 @@
 suspicious-relations: 'yes'
 filters: {}
 source: survey
+street-filters:
+  - Csiki dűlő
+  - Erdő utca  # Nincs
+  - Frank-hegy
+  - Frankhegyi utca  # Nincs
+  - Geisbardt dűlő  # megszűnt
+  - Malom dűlő  # igazából már Törökbálint, lehet a határ van rossz helyen
+  - MÁV állomás
+  - Méhecske utca  # Törökbálintra esik, lehet a határ van rossz helyen
+  - Som köz
+  - Torockó utca  # Rossz helyen megy a Bp határ szerintem
+  - Törökugrató dűlő
+  # OSM hiányzók:
+  # Kassai köz - Kassait útról nyílik
+  # Kereskedők útja - Garibaldi utca folytatása lehet
+  # Légimentő utca - Légimentő bázis M1 14 km lehajtónál
+  # Lenz József tér - Kinizsi utca/Raktár utca
+  # Vasútáll.és körny. dűlő - Vasút dűlő folytatása
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  Aszú utca: Aszu utca
+  Árokpart utca: Árokparti utca
+  Írisz utca: Irisz utca
+  Jókai Mór utca: Jókai utca
+  Kamaraerdei út: Kamaraerdei utca
+  Kamilla utca: Kamilla köz
+  Munkácsy Mihály utca: Munkácsy utca
+  Odvashegyi út: Odvas-hegy utca
+  Petőfi Sándor utca: Petőfi utca
+  Ribiszke utca: Ribizke utca
+  Széchenyi utca: Széchenyi István utca
+  Turista utca: Turistaház utca
 inactive: false
