@@ -52,13 +52,15 @@ találsz segítséget.
 
 ----
 kelenfold:
+    suspicious-relations: "no"
     osmrelation: 2700869
     refmegye: "01"
     reftelepules: "011"
 ----
 
 Ahol a név alapvetően szabadon választható, pl `kelenfold` megfelel, a többi mező pedig fontos, hogy
-stimmeljen az előző pontban kinyert értékekkel.
+stimmeljen az előző pontban kinyert értékekkel. (A suspicious-relations azt jelzi, hogy ez a reláció
+nem felel meg egy valós világbeli teljes településnek, tehát hiányzó utcákat nem keresünk benne.)
 
 4) Ez után a módosítást https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] formájában
 beküldheted, jóváhagyás után be fog kerülni.
@@ -126,4 +128,4 @@ A yaml formátum így néz ki:
 
 - `suspicious-relations: only`: ezt a `relation-NÉV.yaml` file gyökrében lehet megadni egy
   relációra. Azt jelzi, hogy ebben a relációban csak hiányzó utcákat szándékozol keresni, hiányzó
-  házszámokat nem. Érvényes még a `yes` érték, valamint a `no`. Ez utóbbi az alapértelmezés.
+  házszámokat nem. Érvényes még a `yes` érték (alapértelmezés), valamint a `no`.

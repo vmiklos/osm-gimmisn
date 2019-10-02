@@ -907,7 +907,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
         relation = relations.get_relation(relation_name)
         self.assertEqual(relation.get_name(), "empty")
         ret = relation.get_config().should_check_missing_streets()
-        self.assertEqual(ret, "no")
+        self.assertEqual(ret, "yes")
 
     def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
@@ -915,7 +915,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation(relation_name)
         ret = relation.get_config().should_check_missing_streets()
-        self.assertEqual(ret, "no")
+        self.assertEqual(ret, "yes")
 
 
 class TestRefmegyeGetName(unittest.TestCase):

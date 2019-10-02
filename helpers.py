@@ -194,11 +194,11 @@ class RelationConfig:
         return cast(str, self.__get_property("reftelepules"))
 
     def should_check_missing_streets(self) -> str:
-        """Return value can be yes, no and only. Current default is "no"."""
+        """Return value can be 'yes', 'no' and 'only'."""
         if self.__get_property("suspicious-relations"):
             return cast(str, self.__get_property("suspicious-relations"))
 
-        return "no"
+        return "yes"
 
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""
