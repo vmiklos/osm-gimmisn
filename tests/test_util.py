@@ -6,6 +6,7 @@
 
 """The test_util module covers the util module."""
 
+import os
 import unittest
 
 import util
@@ -28,6 +29,38 @@ class TestFormatEvenOdd(unittest.TestCase):
     def test_html(self) -> None:
         """Tests HTML coloring."""
         self.assertEqual(util.format_even_odd(["2*", "4"], html=True), ['<span style="color: blue;">2</span>, 4'])
+
+
+class TestBuildStreetReferenceCache(unittest.TestCase):
+    """Tests build_street_reference_cache()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "utcak_20190514.tsv")
+        memory_cache = util.build_street_reference_cache(refpath)
+        expected = {'01': {'011': ['Törökugrató utca',
+                                   'Tűzkő utca',
+                                   'Ref Name 1',
+                                   'Only In Ref utca',
+                                   'Only In Ref Nonsense utca',
+                                   'Hamzsabégi út']}}
+        self.assertEqual(memory_cache, expected)
+        os.unlink(refpath + ".pickle")
+
+    def test_cached(self) -> None:
+        """Tests the case when the pickle cache is already available."""
+        refdir = os.path.join(os.path.dirname(__file__), "refdir")
+        refpath = os.path.join(refdir, "utcak_20190514.tsv")
+        util.build_street_reference_cache(refpath)
+        memory_cache = util.build_street_reference_cache(refpath)
+        expected = {'01': {'011': ['Törökugrató utca',
+                                   'Tűzkő utca',
+                                   'Ref Name 1',
+                                   'Only In Ref utca',
+                                   'Only In Ref Nonsense utca',
+                                   'Hamzsabégi út']}}
+        self.assertEqual(memory_cache, expected)
+        os.unlink(refpath + ".pickle")
 
 
 if __name__ == '__main__':

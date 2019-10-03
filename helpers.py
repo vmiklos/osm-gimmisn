@@ -355,7 +355,7 @@ class Relation:
     def write_ref_streets(self, reference: str) -> None:
         """Gets known streets (not their coordinates) from a reference site, based on relation names
         from OSM."""
-        memory_cache = build_street_reference_cache(reference)
+        memory_cache = util.build_street_reference_cache(reference)
 
         lst = self.build_ref_streets(memory_cache)
 
@@ -934,40 +934,6 @@ def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]
             if street not in memory_cache[refmegye][reftelepules].keys():
                 memory_cache[refmegye][reftelepules][street] = []
             memory_cache[refmegye][reftelepules][street].append(num)
-    with open(disk_cache, "wb") as sock_cache:
-        pickle.dump(memory_cache, sock_cache)
-    return memory_cache
-
-
-def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
-    """Builds an in-memory cache from the reference on-disk TSV (street version)."""
-    memory_cache = {}  # type: Dict[str, Dict[str, List[str]]]
-
-    disk_cache = local_streets + ".pickle"
-    if os.path.exists(disk_cache):
-        with open(disk_cache, "rb") as sock_cache:
-            memory_cache = pickle.load(sock_cache)
-            return memory_cache
-
-    with open(local_streets, "r") as sock:
-        first = True
-        while True:
-            line = sock.readline()
-            if first:
-                first = False
-                continue
-
-            if not line:
-                break
-
-            refmegye, reftelepules, street = line.strip().split("\t")
-            # Filter out invalid street type.
-            street = re.sub(" null$", "", street)
-            if refmegye not in memory_cache.keys():
-                memory_cache[refmegye] = {}
-            if reftelepules not in memory_cache[refmegye].keys():
-                memory_cache[refmegye][reftelepules] = []
-            memory_cache[refmegye][reftelepules].append(street)
     with open(disk_cache, "wb") as sock_cache:
         pickle.dump(memory_cache, sock_cache)
     return memory_cache

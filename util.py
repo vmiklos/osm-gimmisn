@@ -6,7 +6,11 @@
 
 """The util module contains free functions shared between other modules."""
 
+from typing import Dict
 from typing import List
+import os
+import pickle
+import re
 
 import helpers
 
@@ -35,5 +39,40 @@ def color_house_number(fro: str) -> str:
     if not fro.endswith("*"):
         return fro
     return '<span style="color: blue;">' + fro[:-1] + '</span>'
+
+
+def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
+    """Builds an in-memory cache from the reference on-disk TSV (street version)."""
+    memory_cache = {}  # type: Dict[str, Dict[str, List[str]]]
+
+    disk_cache = local_streets + ".pickle"
+    if os.path.exists(disk_cache):
+        with open(disk_cache, "rb") as sock_cache:
+            memory_cache = pickle.load(sock_cache)
+            return memory_cache
+
+    with open(local_streets, "r") as sock:
+        first = True
+        while True:
+            line = sock.readline()
+            if first:
+                first = False
+                continue
+
+            if not line:
+                break
+
+            refmegye, reftelepules, street = line.strip().split("\t")
+            # Filter out invalid street type.
+            street = re.sub(" null$", "", street)
+            if refmegye not in memory_cache.keys():
+                memory_cache[refmegye] = {}
+            if reftelepules not in memory_cache[refmegye].keys():
+                memory_cache[refmegye][reftelepules] = []
+            memory_cache[refmegye][reftelepules].append(street)
+    with open(disk_cache, "wb") as sock_cache:
+        pickle.dump(memory_cache, sock_cache)
+    return memory_cache
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
