@@ -16,11 +16,11 @@ def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
     key = helpers.split_house_number
     even = sorted([i for i in only_in_ref if int(helpers.split_house_number(i)[0]) % 2 == 0], key=key)
     if html:
-        even = [helpers.color_house_number(i) for i in even]
+        even = [color_house_number(i) for i in even]
     even_string = ", ".join(even)
     odd = sorted([i for i in only_in_ref if int(helpers.split_house_number(i)[0]) % 2 == 1], key=key)
     if html:
-        odd = [helpers.color_house_number(i) for i in odd]
+        odd = [color_house_number(i) for i in odd]
     odd_string = ", ".join(odd)
     elements = []
     if odd_string:
@@ -28,5 +28,12 @@ def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
     if even_string:
         elements.append(even_string)
     return elements
+
+
+def color_house_number(fro: str) -> str:
+    """Colors a house number according to its suffix."""
+    if not fro.endswith("*"):
+        return fro
+    return '<span style="color: blue;">' + fro[:-1] + '</span>'
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

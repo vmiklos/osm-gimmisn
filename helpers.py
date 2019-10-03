@@ -973,10 +973,4 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def color_house_number(fro: str) -> str:
-    """Colors a house number according to its suffix."""
-    if not fro.endswith("*"):
-        return fro
-    return '<span style="color: blue;">' + fro[:-1] + '</span>'
-
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
