@@ -75,4 +75,38 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
+def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]]]]:
+    """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
+    memory_cache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
+
+    disk_cache = local + ".pickle"
+    if os.path.exists(disk_cache):
+        with open(disk_cache, "rb") as sock_cache:
+            memory_cache = pickle.load(sock_cache)
+            return memory_cache
+
+    with open(local, "r") as sock:
+        first = True
+        while True:
+            line = sock.readline()
+            if first:
+                first = False
+                continue
+
+            if not line:
+                break
+
+            refmegye, reftelepules, street, num = line.strip().split("\t")
+            if refmegye not in memory_cache.keys():
+                memory_cache[refmegye] = {}
+            if reftelepules not in memory_cache[refmegye].keys():
+                memory_cache[refmegye][reftelepules] = {}
+            if street not in memory_cache[refmegye][reftelepules].keys():
+                memory_cache[refmegye][reftelepules][street] = []
+            memory_cache[refmegye][reftelepules][street].append(num)
+    with open(disk_cache, "wb") as sock_cache:
+        pickle.dump(memory_cache, sock_cache)
+    return memory_cache
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

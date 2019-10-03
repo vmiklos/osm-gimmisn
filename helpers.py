@@ -9,7 +9,6 @@
 import configparser
 import re
 import os
-import pickle
 from typing import Any
 from typing import Callable
 from typing import Dict
@@ -902,41 +901,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
 def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[str]]]]]:
     """Handles a list of references for build_reference_cache()."""
-    return [build_reference_cache(reference) for reference in references]
-
-
-def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]]]]:
-    """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    memory_cache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
-
-    disk_cache = local + ".pickle"
-    if os.path.exists(disk_cache):
-        with open(disk_cache, "rb") as sock_cache:
-            memory_cache = pickle.load(sock_cache)
-            return memory_cache
-
-    with open(local, "r") as sock:
-        first = True
-        while True:
-            line = sock.readline()
-            if first:
-                first = False
-                continue
-
-            if not line:
-                break
-
-            refmegye, reftelepules, street, num = line.strip().split("\t")
-            if refmegye not in memory_cache.keys():
-                memory_cache[refmegye] = {}
-            if reftelepules not in memory_cache[refmegye].keys():
-                memory_cache[refmegye][reftelepules] = {}
-            if street not in memory_cache[refmegye][reftelepules].keys():
-                memory_cache[refmegye][reftelepules][street] = []
-            memory_cache[refmegye][reftelepules][street].append(num)
-    with open(disk_cache, "wb") as sock_cache:
-        pickle.dump(memory_cache, sock_cache)
-    return memory_cache
+    return [util.build_reference_cache(reference) for reference in references]
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
