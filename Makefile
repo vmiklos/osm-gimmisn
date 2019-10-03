@@ -1,4 +1,5 @@
 PYTHON_TEST_OBJECTS = \
+	tests/test_accept_language.py \
 	tests/test_get_reference_housenumbers.py \
 	tests/test_get_reference_streets.py \
 	tests/test_helpers.py \
@@ -8,6 +9,7 @@ PYTHON_TEST_OBJECTS = \
 
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
+	accept_language.py \
 	get_reference_housenumbers.py \
 	get_reference_streets.py \
 	helpers.py \
@@ -18,7 +20,6 @@ PYTHON_SAFE_OBJECTS = \
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
-	accept_language.py \
 	cron.py \
 	i18n.py \
 	missing_housenumbers.py \
