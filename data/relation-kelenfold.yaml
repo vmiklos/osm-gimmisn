@@ -2,7 +2,8 @@ suspicious-relations: 'no'
 filters:
   Albert utca:
     ranges:
-      - {start: '1', end: '51'}
+      - {start: '1', end: '33'}
+      - {start: '37', end: '51'}
       - {start: '2', end: '30'}
       - {start: '34', end: '48'}
   Alsóhegy utca:
@@ -303,7 +304,7 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '17', end: '69'}
-      - {start: '2', end: '42'}
+      - {start: '12', end: '42'}
   Mérnök utca:
     ranges:
       - {start: '33', end: '39'}
