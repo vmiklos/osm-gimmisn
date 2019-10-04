@@ -1,0 +1,142 @@
+= Using osm-gimmisn
+
+== Up to date list of missing streets and house numbers
+
+The https://vmiklos.pythonanywhere.com/osm[website] provides you with hints regarding where to map
+house numbers. The main page has the following columns:
+
+- House number coverage: lists missing house numbers.
+
+- Existing house numbers for an area: this is from the OSM database.
+
+- Street coverage: lists missing streets.
+
+- Existing streets for an area: this is from the OSM database.
+
+- Area on the OSM website, you can see its boundary clearly there.
+
+It is recommended to focus on the house number coverage, at least initially. If you see an
+interesting area there, then you can find hints regarding what to survey. Consider the case when the
+area is already in the list, the house number is indeed missing, and you just created an OSM change
+to add it. The website is automatically updated in this case on a daily basis. You can refresh
+manually if you want faster feedback:
+
+- Wait a few minutes. If you just edited OSM, then running an overpass query right now will likely
+  work with outdated data.
+
+- Go to the existing house numbers section of your area, and click on the 'Call Overpass to update'
+  link.
+
+- Once the query is complete, you'll be redirected to the house number coverage page, and the
+  updated content should no longer mention your contributed house number(s) as missing anymore.
+
+The missing house numbers are colored:
+
+- black means a residential house number
+
+- blue means a commercial house number
+
+== How to add a new area
+
+A settlement, village or district of a large city is represented in the OSM database as relations.
+Based on this, osm-gimmisn refers to managed areas as relations. To add a new relation, you need to
+do the following steps:
+
+- Be prepared to edit the https://github.com/vmiklos/osm-gimmisn[git repository]. This is possible
+  via command-line `git clone` or via
+  https://help.github.com/en/articles/editing-files-in-your-repository[web-based editing].
+
+- Search for the relation on https://www.openstreetmap.org[osm.org], e.g. 'Kelenföld, Budapest'. The
+  first hit is usually a relation link, e.g. https://www.openstreetmap.org/relation/2700869. Now you
+  know the OSM identifier of the relation.
+
+You'll also need the county reference ('refmegye' below) and settlement reference ('reftelepules'
+below) of the area, you can find help regarding this in the
+https://wiki.openstreetmap.org/wiki/WikiProject_Hungary/Tal%C3%A1lkoz%C3%B3k/2019-04-29_Oktogon_sv%C3%A9dasztal_%C3%A9s_k%C3%B6rny%C3%A9ke#Hi.C3.A1nyz.C3.B3_h.C3.A1zsz.C3.A1mok[wiki].
+
+(These codes are specific to Hungary, but in case your country has a larger and smaller container
+for streets and house numbers, it's easy to adapt.)
+
+- Add a new entry to the `data/relations.yaml` file in the git repository, using the following form:
+
+----
+kelenfold:
+    suspicious-relations: "no"
+    osmrelation: 2700869
+    refmegye: "01"
+    reftelepules: "011"
+----
+
+Names are snake_case by convention, e.g. `kelenfold`. The other fields should match the values you
+obtained in the previous bullet point. (`suspicious-relations: "no"` means that this OSM relation is
+only a subset of the referenced settlement, so it's pointless to search for missing streets here.)
+
+- Finally you can send your modification as a https://github.com/vmiklos/osm-gimmisn/pull/new[pull
+  request], it'll be probably accepted after review.
+
+== Filtering (out) incorrect information
+
+This action is similar to adding a new relation, but in this case you'll need to work with a file
+dedicated to detailed information about the relation. The path derives from the relation name, e.g.
+`relation-magasut.yaml`. Consider the case when you browse the Magasút (area) house number coverage
+and you see a hint that the odd side of Magasúti köz (street) misses a house number: 999. Let's also
+assume that you did your survey and you know that there is no such house number to be added to the
+OSM database. The following steps area needed to silence this hint of osm-gimmisn:
+
+- Survey the Magasúti köz street and note down which odd and even house number ranges are present
+  for the street. Usually there are tables at the corners showing this information.
+
+- Let's assume you found that the odd side is 1 to 9, the even side is 2 to 8. Now you just need to
+  describe this, and osm-gimmisn will infer that 999 is noise in the reference data.
+
+- Edit the `relation-magasut.yaml` file. If there is no such file, then the easiest is to copy an
+  existing one and delete all streets.
+
+- You can describe the Magasúti köz street like this:
+
+----
+  Magasúti köz:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
+----
+
+This is a machine-readable way of describing your survey result. In case the OSM and the reference
+name of the street differs, use the OSM name here.
+
+- Send a https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] to contribute your created
+  filter, and then the website will be updated accordingly.
+
+In other words, there is only minimal filtering for the reference data (1-999 and 2-998 is
+accepted) by default. If you want to filter out noise, then you need to cover the correct house
+numbers with ranges, and whatever is not in this range will be filtered out.
+
+== Searching for missing streets
+
+The yaml format is like this:
+
+- `suspicious-relations: only`: this is provided in the root of the `relation-NAME.yaml` file (by
+  convention). It denotes that you only want to search for streets in this (potentially large)
+  relation. Other valid values are `yes` (which is the default) and `no`.
+
+== Advanced topics
+
+Apart from filtering out noise, you can also specify other settings, though these are needed less
+frequently:
+
+- `refstreets`: this key can be used in the root of a relation file, it's used to describe street
+  name mappings, in case the OSM name and reference name differs and the OSM one is the correct
+  name.
+
+- `reftelepules`: this key can be used for a street. In case the majority of a relation has a given
+  `reftelepules` value, but there are a few exceptions, then you can use this markup to override the
+  relation-level value with a street-level one.
+
+- Range-level `reftelepules`: this is useful in case the two sides of a street has different
+  `reftelepules` values (that side of the street belongs to a different district or settlement).
+
+- `interpolation`: this key can be specified for a street. Its `all` value means that the street has
+  continuous numbering instead of even and odd sides.
+
+- `inactive: true`: this key can be used for a relation, it disables the daily update (which would
+  be a waste if e.g. the relation already has 100% coverage.) Manual updates are still possible.
