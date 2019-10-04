@@ -1,5 +1,10 @@
 suspicious-relations: 'no'
 filters:
+  Albert utca:
+    ranges:
+      - {start: '1', end: '51'}
+      - {start: '2', end: '30'}
+      - {start: '34', end: '48'}
   Alsóhegy utca:
     ranges:
       - {start: '46', end: '50'}
@@ -114,9 +119,10 @@ filters:
       - {start: '2', end: '2'}
       - {start: '12', end: '28'}
   Csurgói út:
+    # 1-7 Ventura oldala, nincs hazszam, 9 nincs, 2-16 masik utcakra szamozva
     ranges:
-      - {start: '1', end: '39'}
-      - {start: '2', end: '40'}
+      - {start: '11', end: '39'}
+      - {start: '18', end: '40'}
   Daróczi út:
     ranges:
       - {start: '1', end: '17'}
@@ -293,6 +299,11 @@ filters:
   Major köz:
     ranges:
       - {start: '6', end: '12'}
+  Major utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '17', end: '69'}
+      - {start: '2', end: '42'}
   Mérnök utca:
     ranges:
       - {start: '33', end: '39'}
@@ -333,7 +344,8 @@ filters:
       - {start: '18', end: '28'}
   Pajkos utca:
     ranges:
-      - {start: '1', end: '41'}
+      - {start: '1', end: '19'}
+      - {start: '23', end: '41'}
       - {start: '2', end: '86'}
   Pázmány Péter sétány:
     ranges: []
@@ -383,7 +395,7 @@ filters:
       - {start: '60', end: '72'}
   Szádelő köz:
     ranges:
-      - {start: '1', end: '15'}
+      - {start: '1', end: '9'}
       - {start: '4', end: '16'}
   Szádelő utca:
     ranges:
@@ -428,6 +440,9 @@ filters:
       # 1-21 a remiz oldala, nincs haz
       - {start: '23', end: '29'}
       - {start: '2', end: '36'}
+  Tornagörgő utca:
+    ranges:
+      - {start: '2', end: '10'}
   Újházy utca:
     ranges:
       - {start: '2', end: '12'}
