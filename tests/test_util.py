@@ -91,5 +91,20 @@ class TestBuildReferenceCache(unittest.TestCase):
         os.unlink(refpath + ".pickle")
 
 
+class TestSplitHouseNumber(unittest.TestCase):
+    """Tests split_house_number()."""
+    def test_only_number(self) -> None:
+        """Tests just numbers."""
+        self.assertEqual(util.split_house_number('42'), (42, ''))
+
+    def test_number_alpha(self) -> None:
+        """Tests numbers and suffixes."""
+        self.assertEqual(util.split_house_number('42ab'), (42, 'ab'))
+
+    def test_alpha(self) -> None:
+        """Tests just suffixes."""
+        self.assertEqual(util.split_house_number('a'), (0, 'a'))
+
+
 if __name__ == '__main__':
     unittest.main()

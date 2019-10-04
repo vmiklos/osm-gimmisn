@@ -599,20 +599,7 @@ class Relations:
 
 def sort_numerically(strings: Iterable[str]) -> List[str]:
     """Sorts strings according to their numerical value, not alphabetically."""
-    return sorted(strings, key=split_house_number)
-
-
-def split_house_number(house_number: str) -> Tuple[int, str]:
-    """Splits house_number into a numerical and a remainder part."""
-    match = re.search(r"^([0-9]*)([^0-9].*|)$", house_number)
-    if not match:  # pragma: no cover
-        return (0, '')
-    number = 0
-    try:
-        number = int(match.group(1))
-    except ValueError:
-        pass
-    return (number, match.group(2))
+    return sorted(strings, key=util.split_house_number)
 
 
 def sort_streets_csv(data: str) -> str:
@@ -647,7 +634,7 @@ def split_street_line(line: str) -> Tuple[bool, str, str, str, Tuple[int, str]]:
     highway = get_array_nth(field, 2)
     service = get_array_nth(field, 3)
     missing_name = name == ''
-    return (missing_name, name, highway, service, split_house_number(oid))
+    return (missing_name, name, highway, service, util.split_house_number(oid))
 
 
 def process_csv_body(fun: Callable[[Iterable[str]], List[str]], data: str) -> str:
@@ -702,8 +689,8 @@ def split_housenumber_line(line: str) -> Tuple[str, bool, bool, str, Tuple[int, 
     have_housenumber = housenumber != ''
     have_houseid = have_housenumber or housename != '' or cons != ''
     return (postcode, have_houseid, have_housenumber, street,
-            split_house_number(housenumber),
-            housename, split_house_number(cons), tail, split_house_number(oid))
+            util.split_house_number(housenumber),
+            housename, util.split_house_number(cons), tail, util.split_house_number(oid))
 
 
 def get_array_nth(arr: Sequence[str], index: int) -> str:

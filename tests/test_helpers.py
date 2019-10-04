@@ -40,21 +40,6 @@ class TestSortNumerically(unittest.TestCase):
         self.assertEqual(ascending, ['a', 'b', 'c'])
 
 
-class TestSplitHouseNumber(unittest.TestCase):
-    """Tests split_house_number()."""
-    def test_only_number(self) -> None:
-        """Tests just numbers."""
-        self.assertEqual(helpers.split_house_number('42'), (42, ''))
-
-    def test_number_alpha(self) -> None:
-        """Tests numbers and suffixes."""
-        self.assertEqual(helpers.split_house_number('42ab'), (42, 'ab'))
-
-    def test_alpha(self) -> None:
-        """Tests just suffixes."""
-        self.assertEqual(helpers.split_house_number('a'), (0, 'a'))
-
-
 class TestSortStreetsCsv(unittest.TestCase):
     """Tests sort_streets_csv()."""
     def test_single_field(self) -> None:

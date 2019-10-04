@@ -8,21 +8,20 @@
 
 from typing import Dict
 from typing import List
+from typing import Tuple
 import os
 import pickle
 import re
 
-import helpers
-
 
 def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
-    key = helpers.split_house_number
-    even = sorted([i for i in only_in_ref if int(helpers.split_house_number(i)[0]) % 2 == 0], key=key)
+    key = split_house_number
+    even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=key)
     if html:
         even = [color_house_number(i) for i in even]
     even_string = ", ".join(even)
-    odd = sorted([i for i in only_in_ref if int(helpers.split_house_number(i)[0]) % 2 == 1], key=key)
+    odd = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 1], key=key)
     if html:
         odd = [color_house_number(i) for i in odd]
     odd_string = ", ".join(odd)
@@ -112,6 +111,19 @@ def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]
 def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[str]]]]]:
     """Handles a list of references for build_reference_cache()."""
     return [build_reference_cache(reference) for reference in references]
+
+
+def split_house_number(house_number: str) -> Tuple[int, str]:
+    """Splits house_number into a numerical and a remainder part."""
+    match = re.search(r"^([0-9]*)([^0-9].*|)$", house_number)
+    if not match:  # pragma: no cover
+        return (0, '')
+    number = 0
+    try:
+        number = int(match.group(1))
+    except ValueError:
+        pass
+    return (number, match.group(2))
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
