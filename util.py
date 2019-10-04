@@ -109,4 +109,9 @@ def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]
     return memory_cache
 
 
+def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[str]]]]]:
+    """Handles a list of references for build_reference_cache()."""
+    return [build_reference_cache(reference) for reference in references]
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -412,7 +412,7 @@ class Relation:
         from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
         used by __get_ref_housenumbers().
         """
-        memory_caches = build_reference_caches(references)
+        memory_caches = util.build_reference_caches(references)
 
         streets = self.get_osm_streets()
 
@@ -897,11 +897,6 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
             ret_numbers = [number for number in range(start, stop + 1, 1) if number in normalizer]
 
     return [str(number) + suffix for number in ret_numbers]
-
-
-def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[str]]]]]:
-    """Handles a list of references for build_reference_cache()."""
-    return [util.build_reference_cache(reference) for reference in references]
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
