@@ -644,8 +644,8 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         self.assertEqual(done_count, 6)
         self.assertEqual(percent, '54.55')
         self.assertEqual(table, [['Street name', 'Missing count', 'House numbers'],
-                                 ['Törökugrató utca', '2', '7<br/>10'],
-                                 ['Tűzkő utca', '2', '1<br/>2'],
+                                 ['Törökugrató utca', '2', '7<br />10'],
+                                 ['Tűzkő utca', '2', '1<br />2'],
                                  ['Hamzsabégi út', '1', '1']])
         actual = helpers.get_content(relations.get_workdir(), "gazdagret.percent")
         self.assertEqual(actual, expected)

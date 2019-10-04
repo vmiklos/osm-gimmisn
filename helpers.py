@@ -20,6 +20,7 @@ from typing import TextIO
 from typing import Tuple
 from typing import cast
 import yaml
+import yattag  # type: ignore
 from i18n import translate as _
 import util
 
@@ -479,6 +480,8 @@ class Relation:
         todo_count = 0
         table = []
         table.append([_("Street name"), _("Missing count"), _("House numbers")])
+        doc = yattag.Doc()
+        doc.stag("br")
         for result in ongoing_streets:
             # street_name, only_in_ref
             row = []
@@ -488,7 +491,7 @@ class Relation:
             if not self.get_config().get_street_is_even_odd(result[0]):
                 row.append(", ".join(result[1]))
             else:
-                row.append("<br/>".join(util.format_even_odd(result[1], html=True)))
+                row.append(doc.getvalue().join(util.format_even_odd(result[1], html=True)))
 
             todo_count += len(result[1])
             table.append(row)
@@ -727,7 +730,10 @@ def get_in_both(first: List[str], second: List[str]) -> List[str]:
 def git_link(version: str, prefix: str) -> str:
     """Generates a HTML link based on a website prefix and a git-describe version."""
     commit_hash = re.sub(".*-g", "", version)
-    return "<a href=\"" + prefix + commit_hash + "\">" + version + "</a>"
+    doc = yattag.Doc()
+    with doc.tag("a", href=prefix + commit_hash):
+        doc.text(version)
+    return cast(str, doc.getvalue())
 
 
 def get_nth_column(sock: TextIO, column: int) -> List[str]:
@@ -791,18 +797,19 @@ def tsv_to_list(sock: TextIO) -> List[List[str]]:
 
 def html_table_from_list(table: List[List[str]]) -> str:
     """Produces a HTML table from a list of lists."""
-    ret = []
-    ret.append('<table class="sortable">')
-    for row_index, row_content in enumerate(table):
-        ret.append("<tr>")
-        for cell in row_content:
-            if row_index == 0:
-                ret.append('<th><a href="#">' + cell + "</a></th>")
-            else:
-                ret.append('<td>' + cell + "</td>")
-        ret.append("</tr>")
-    ret.append("</table>")
-    return "".join(ret)
+    doc = yattag.Doc()
+    with doc.tag("table", klass="sortable"):
+        for row_index, row_content in enumerate(table):
+            with doc.tag("tr"):
+                for cell in row_content:
+                    if row_index == 0:
+                        with doc.tag("th"):
+                            with doc.tag("a", href="#"):
+                                doc.text(cell)
+                    else:
+                        with doc.tag("td"):
+                            doc.asis(cell)
+    return cast(str, doc.getvalue())
 
 
 def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
