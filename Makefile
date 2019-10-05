@@ -75,8 +75,10 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.ya
 %.yamllint : %.yaml
 	yamllint $< && touch $@
 
+# Make sure that the current directory is *not* the repo root but the home directory, this matches
+# the environment of the PythonAnywhere instance.
 server:
-	./wsgi.py
+	cd $(HOME) && $(PWD)/wsgi.py
 
 deploy-pythonanywhere:
 	git pull -r
