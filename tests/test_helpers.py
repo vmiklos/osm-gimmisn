@@ -235,6 +235,15 @@ class TestGetWorkdir(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestGetAbspath(unittest.TestCase):
+    """Tests get_abspath()."""
+    def test_happy(self) -> None:
+        """Tests the happy path, when the input is relative."""
+        actual = helpers.get_abspath("foo")
+        expected = os.path.join(os.getcwd(), "foo")
+        self.assertEqual(actual, expected)
+
+
 class TestProcessTemplate(unittest.TestCase):
     """Tests process_template()."""
     def test_happy(self) -> None:

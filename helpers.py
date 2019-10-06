@@ -756,9 +756,17 @@ def get_nth_column(sock: TextIO, column: int) -> List[str]:
     return ret
 
 
+def get_abspath(path: str) -> str:
+    """Make a path absolute, taking the repo root as a base dir."""
+    if os.path.isabs(path):
+        return path
+
+    return os.path.join(os.path.dirname(__file__), path)
+
+
 def get_workdir(config: configparser.ConfigParser) -> str:
     """Gets the directory which is writable."""
-    return config.get('wsgi', 'workdir').strip()
+    return get_abspath(config.get('wsgi', 'workdir').strip())
 
 
 def process_template(buf: str, osmrelation: int) -> str:

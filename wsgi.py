@@ -46,11 +46,6 @@ def get_config() -> configparser.ConfigParser:
     config = configparser.ConfigParser()
     config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
     config.read(config_path)
-    if not config.has_option("wsgi", "workdir"):
-        workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        if not os.path.exists(workdir):
-            os.makedirs(workdir)
-        config.set("wsgi", "workdir", workdir)
     return config
 
 
@@ -265,6 +260,7 @@ def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> 
 def missing_housenumbers_update(relations: helpers.Relations, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
     reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
+    reference = [helpers.get_abspath(i) for i in reference]
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
     output = _("Update successful: ")
@@ -275,7 +271,7 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
 
 def missing_streets_update(relations: helpers.Relations, relation_name: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
-    reference = get_config().get('wsgi', 'reference_street').strip()
+    reference = helpers.get_abspath(get_config().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
     return _("Update successful.")
