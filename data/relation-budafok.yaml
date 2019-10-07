@@ -2,17 +2,31 @@ suspicious-relations: 'no'
 filters:
   Arany János út:
     # A 48-50 egyetlen épület közös telken, de a házszám csak 48.
-    # A 120 egy üres saroktelek, nem egyértelmű az utca emiatt.
+    # A 118-120 egyetlen telek, de a házszám csak 118.
     ranges:
       - {start: '1', end: '157'}
       - {start: '2', end: '48'}
       - {start: '52', end: '118'}
       - {start: '122', end: '152'}
+  Balatoni út:
+    ranges: []
+  Bimbó utca:
+    # A Bimbó utca 2. és az Eperszem utca 4. közös telken van, házszám az Eperszem utcáról van csak.
+    # TODO: A Bimbó utca 8. és a Szebeni utca 3. ugyanaz a telek. Új ház épült, még nincs házszám. A régi épület Szebeni utca 3. volt.
+    ranges:
+      - {start: '3', end: '9'}
+      - {start: '4', end: '6'}
   Duna utca:
+    # Ezek a valós házszámok, a többi csak utcanévtáblán létezik.
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '2'}
+  Hajó utca:
+    # A páros oldalon nincsenek épületek, a DunaFok Szabadidőpark van ott.
+    ranges:
+      - {start: '1', end: '3'}
   Háros utca:
+    # Területhatár, a páratlan oldal nem Budafok.
     ranges:
       - {start: '2', end: '998'}
   Játék utca:
@@ -25,7 +39,11 @@ filters:
     ranges:
       - {start: '3', end: '9'}
       - {start: '6', end: '6'}
-  Kurucz köz:
+  Kőérberki út:
+    ranges:
+      - {start: '1', end: '33'}
+      - {start: '4', end: '28'}
+  Kuruc köz:
     ranges: []
   Leányka utca:
     ranges:
@@ -50,11 +68,23 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '10'}
+  Ringló út:
+    # Területhatár, a páros oldal nem Budafok.
+    ranges:
+      - {start: '1', end: '139'}
+  Vértanú utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '16'}
+  Vöröskúti határsor:
+    # Az utca elejét átnevezték Pedellus utcára, ezért csak 22-től indulnak a házszámok.
+    interpolation: 'all'
+    ranges:
+      - {start: '22', end: '36'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Enyedi utca': 'Enyedy utca'
   'Felső Sas utca': 'Felsősas utca'
   'Hegyfok köz': 'hegyfok köz'
   'Ménes utca': 'Ménesi utca'
-  'Nagy Kőbánya utca': 'Nagykőbánya utca'
 source: survey
