@@ -1,0 +1,8 @@
+# First-level keys are refmegye IDs
+# Second-level keys are reftelepules IDs
+# Values are names for a specific refmegye + reftelepules combination.
+
+# Budapest
+'01':
+    '011': 'Újbuda'
+    '012': 'Hegyvidék'

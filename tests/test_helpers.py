@@ -862,6 +862,16 @@ class TestRefmegyeGetName(unittest.TestCase):
         self.assertEqual(relations.refmegye_get_name("99"), "")
 
 
+class TestReftelepulesGetName(unittest.TestCase):
+    """Tests reftelepules_get_name()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = get_relations()
+        self.assertEqual(relations.reftelepules_get_name("01", "011"), "Újbuda")
+        self.assertEqual(relations.reftelepules_get_name("99", ""), "")
+        self.assertEqual(relations.reftelepules_get_name("01", "99"), "")
+
+
 class TestRelationStreetIsEvenOdd(unittest.TestCase):
     """Tests RelationConfig.get_street_is_even_odd()."""
     def test_happy(self) -> None:

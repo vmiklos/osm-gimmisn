@@ -558,6 +558,8 @@ class Relations:
         self.__activate_all = False
         with open(os.path.join(datadir, "refmegye-names.yaml")) as stream:
             self.__refmegye_names = yaml.load(stream)
+        with open(os.path.join(datadir, "reftelepules-names.yaml")) as stream:
+            self.__reftelepules_names = yaml.load(stream)
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
@@ -598,6 +600,17 @@ class Relations:
             return cast(str, self.__refmegye_names[refmegye])
 
         return ""
+
+    def reftelepules_get_name(self, refmegye_name: str, reftelepules: str) -> str:
+        """Produces a UI name for a reftelepules in refmegye."""
+        if refmegye_name not in self.__reftelepules_names:
+            return ""
+
+        refmegye = self.__reftelepules_names[refmegye_name]
+        if reftelepules not in refmegye:
+            return ""
+
+        return cast(str, refmegye[reftelepules])
 
 
 def sort_numerically(strings: Iterable[str]) -> List[str]:
