@@ -3,9 +3,8 @@ filters:
   Ágnes út:
     ranges: []
   Bürök utca:
-    # valosagban nincs paros oldalon hazszam, de a refben sem
-    ranges:
-      - {start: '38', end: '998'}
+    # valosagban nincs paros oldalon hazszam
+    ranges: []
   Denevér út:
     ranges:
       - {start: '1', end: '5'}
