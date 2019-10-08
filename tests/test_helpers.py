@@ -862,6 +862,15 @@ class TestRefmegyeGetName(unittest.TestCase):
         self.assertEqual(relations.refmegye_get_name("99"), "")
 
 
+class TestRefmegyeGetReftelepulesIds(unittest.TestCase):
+    """Tests refmegye_get_reftelepules_ids()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = get_relations()
+        self.assertEqual(relations.refmegye_get_reftelepules_ids("01"), ["011"])
+        self.assertEqual(relations.refmegye_get_reftelepules_ids("99"), [])
+
+
 class TestReftelepulesGetName(unittest.TestCase):
     """Tests reftelepules_get_name()."""
     def test_happy(self) -> None:

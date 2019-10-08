@@ -601,6 +601,14 @@ class Relations:
 
         return ""
 
+    def refmegye_get_reftelepules_ids(self, refmegye_name: str) -> List[str]:
+        """Produces reftelepules IDs of a refmegye."""
+        if refmegye_name not in self.__reftelepules_names:
+            return []
+
+        refmegye = self.__reftelepules_names[refmegye_name]
+        return list(refmegye.keys())
+
     def reftelepules_get_name(self, refmegye_name: str, reftelepules: str) -> str:
         """Produces a UI name for a reftelepules in refmegye."""
         if refmegye_name not in self.__reftelepules_names:
