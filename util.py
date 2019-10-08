@@ -126,4 +126,28 @@ def split_house_number(house_number: str) -> Tuple[int, str]:
     return (number, match.group(2))
 
 
+def parse_filters(tokens: List[str]) -> Dict[str, str]:
+    """Parses a filter description, like 'filter-for', 'refmegye', '42'."""
+    ret = {}  # type: Dict[str, str]
+    filter_for = False
+    for index, value in enumerate(tokens):
+        if value == "filter-for":
+            filter_for = True
+            continue
+
+        if not filter_for:
+            continue
+
+        if value == "incomplete":
+            ret[value] = ""
+
+        if index + 1 >= len(tokens):
+            continue
+
+        if value in ("refmegye", "reftelepules"):
+            ret[value] = tokens[index + 1]
+
+    return ret
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

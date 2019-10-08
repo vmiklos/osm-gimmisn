@@ -441,19 +441,30 @@ def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
     return cell, "0"
 
 
-def filter_for_everything(_complete: bool, _refmegye: str) -> bool:
+def filter_for_everything(_complete: bool, _relation: helpers.Relation) -> bool:
     """Does not filter out anything."""
     return True
 
 
-def filter_for_incomplete(complete: bool, _refmegye: str) -> bool:
+def filter_for_incomplete(complete: bool, _relation: helpers.Relation) -> bool:
     """Filters out complete items."""
     return not complete
 
 
-def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, str], bool]:
+def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, helpers.Relation], bool]:
     """Creates a function that filters for a single refmegye."""
-    return lambda _complete, refmegye: refmegye == refmegye_filter
+    return lambda _complete, relation: relation.get_config().get_refmegye() == refmegye_filter
+
+
+def create_filter_for_refmegye_reftelepules(
+        refmegye_filter: str,
+        reftelepules_filter: str
+) -> Callable[[bool, helpers.Relation], bool]:
+    """Creates a function that filters for a single reftelepules in a refmegye."""
+    def filter_for(_complete: bool, relation: helpers.Relation) -> bool:
+        config = relation.get_config()
+        return config.get_refmegye() == refmegye_filter and config.get_reftelepules() == reftelepules_filter
+    return filter_for
 
 
 def handle_main_filters(relations: helpers.Relations) -> str:
@@ -470,18 +481,28 @@ def handle_main_filters(relations: helpers.Relations) -> str:
     return '<p>' + _("Filters:") + " &brvbar; ".join(items) + '</p>'
 
 
+def setup_main_filter_for(request_uri: str) -> Callable[[bool, helpers.Relation], bool]:
+    """Sets up a filter-for function from request uri: only certain areas are shown then."""
+    tokens = request_uri.split("/")
+    filter_for = filter_for_everything  # type: Callable[[bool, helpers.Relation], bool]
+    filters = util.parse_filters(tokens)
+    if "incomplete" in filters:
+        # /osm/filter-for/incomplete
+        filter_for = filter_for_incomplete
+    elif "refmegye" in filters and "reftelepules" in filters:
+        # /osm/filter-for/refmegye/<value>/reftelepules/<value>.
+        filter_for = create_filter_for_refmegye_reftelepules(filters["refmegye"], filters["reftelepules"])
+    elif "refmegye" in filters:
+        # /osm/filter-for/refmegye/<value>.
+        filter_for = create_filter_for_refmegye(filters["refmegye"])
+    return filter_for
+
+
 def handle_main(request_uri: str, relations: helpers.Relations) -> str:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
-    tokens = request_uri.split("/")
-    filter_for = filter_for_everything  # type: Callable[[bool, str], bool]
-    if len(tokens) >= 2 and tokens[-2] == "filter-for" and tokens[-1] == "incomplete":
-        # /osm/filter-for/incomplete
-        filter_for = filter_for_incomplete
-    elif len(tokens) >= 3 and tokens[-3] == "filter-for" and tokens[-2] == "refmegye":
-        # /osm/filter-for/refmegye/<value>.
-        filter_for = create_filter_for_refmegye(tokens[-1])
+    filter_for = setup_main_filter_for(request_uri)
 
     output = ""
 
@@ -534,7 +555,7 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
                    + str(relation.get_config().get_osmrelation())
                    + "\">" + _("area boundary") + "</a>")
 
-        if filter_for(complete, relation.get_config().get_refmegye()):
+        if filter_for(complete, relation):
             table.append(row)
     output += helpers.html_table_from_list(table)
     output += "<p><a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">"

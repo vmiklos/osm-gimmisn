@@ -106,5 +106,26 @@ class TestSplitHouseNumber(unittest.TestCase):
         self.assertEqual(util.split_house_number('a'), (0, 'a'))
 
 
+class TestParseFilters(unittest.TestCase):
+    """Tests parse_filters()."""
+    def test_incomplete(self) -> None:
+        """Tests the incomplete case."""
+        fro = ["osm", "filter-for", "incomplete"]
+        self.assertTrue("incomplete" in util.parse_filters(fro))
+
+    def test_refmegye(self) -> None:
+        """Tests the refmegye case."""
+        fro = ["osm", "filter-for", "refmegye", "42"]
+        self.assertEqual(util.parse_filters(fro), {"refmegye": "42"})
+
+    def test_reftelepules(self) -> None:
+        """Tests the reftelepules case."""
+        fro = ["osm", "filter-for", "refmegye", "42", "reftelepules", "43"]
+        filters = util.parse_filters(fro)
+        self.assertEqual(filters["refmegye"], "42")
+        filters = util.parse_filters(fro)
+        self.assertEqual(filters["reftelepules"], "43")
+
+
 if __name__ == '__main__':
     unittest.main()
