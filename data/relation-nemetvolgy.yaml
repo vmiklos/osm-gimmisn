@@ -89,7 +89,8 @@ filters:
       - {start: '46', end: '130'}
   Sashegyi út:
     ranges:
-      - {start: '1', end: '39'}
+      - {start: '1', end: '11'}
+      - {start: '15', end: '39'}
       - {start: '2', end: '30'}
   Sirály utca:
     ranges:
