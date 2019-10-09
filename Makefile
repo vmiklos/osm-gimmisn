@@ -37,14 +37,6 @@ clean:
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
-clean:
-	rm -f version.py
-	rm -f $(patsubst %.yaml,%.yamllint,$(wildcard data/relation-*.yaml))
-	rm -f $(patsubst %.yaml,%.validyaml,$(wildcard data/relation-*.yaml))
-	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
-	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
-	rm -f $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
-
 check: all check-filters check-flake8 check-mypy check-unit check-pylint
 
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
