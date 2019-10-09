@@ -467,7 +467,7 @@ def create_filter_for_refmegye_reftelepules(
     return filter_for
 
 
-def handle_main_filters(relations: helpers.Relations) -> str:
+def handle_main_filters(relations: helpers.Relations, refmegye_id: str) -> str:
     """Handlers the filter part of the main wsgi page."""
     items = []
     items.append('<a href="/osm/filter-for/incomplete">' + _("Hide complete areas") + '</a>')
@@ -477,37 +477,52 @@ def handle_main_filters(relations: helpers.Relations) -> str:
         if not name:
             continue
 
-        items.append('<a href="/osm/filter-for/refmegye/' + refmegye + '">' + name + '</a>')
-    return '<p>' + _("Filters:") + " &brvbar; ".join(items) + '</p>'
+        item = '<a href="/osm/filter-for/refmegye/' + refmegye + '">' + name + '</a>'
+        if refmegye_id and refmegye == refmegye_id:
+            reftelepules_ids = relations.refmegye_get_reftelepules_ids(refmegye_id)
+            if reftelepules_ids:
+                names = []
+                for reftelepules_id in reftelepules_ids:
+                    name = relations.reftelepules_get_name(refmegye_id, reftelepules_id)
+                    if name:
+                        a_format = '<a href="/osm/filter-for/refmegye/{}/reftelepules/{}">'
+                        names.append(a_format.format(refmegye, reftelepules_id) + name + '</a>')
+                if names:
+                    item += " (" + ", ".join(names) + ")"
+        items.append(item)
+    return '<p>' + _("Filters:") + " " + " &brvbar; ".join(items) + '</p>'
 
 
-def setup_main_filter_for(request_uri: str) -> Callable[[bool, helpers.Relation], bool]:
+def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, helpers.Relation], bool], str]:
     """Sets up a filter-for function from request uri: only certain areas are shown then."""
     tokens = request_uri.split("/")
     filter_for = filter_for_everything  # type: Callable[[bool, helpers.Relation], bool]
     filters = util.parse_filters(tokens)
+    refmegye = ""
     if "incomplete" in filters:
         # /osm/filter-for/incomplete
         filter_for = filter_for_incomplete
     elif "refmegye" in filters and "reftelepules" in filters:
         # /osm/filter-for/refmegye/<value>/reftelepules/<value>.
+        refmegye = filters["refmegye"]
         filter_for = create_filter_for_refmegye_reftelepules(filters["refmegye"], filters["reftelepules"])
     elif "refmegye" in filters:
         # /osm/filter-for/refmegye/<value>.
-        filter_for = create_filter_for_refmegye(filters["refmegye"])
-    return filter_for
+        refmegye = filters["refmegye"]
+        filter_for = create_filter_for_refmegye(refmegye)
+    return filter_for, refmegye
 
 
 def handle_main(request_uri: str, relations: helpers.Relations) -> str:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
-    filter_for = setup_main_filter_for(request_uri)
+    filter_for, refmegye = setup_main_filter_for(request_uri)
 
     output = ""
 
     output += "<h1>" + _("Where to map?") + "</h1>"
-    output += handle_main_filters(relations)
+    output += handle_main_filters(relations, refmegye)
     table = []
     table.append([_("Area"),
                   _("House number coverage"),
