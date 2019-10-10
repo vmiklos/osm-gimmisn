@@ -27,12 +27,24 @@ PYTHON_OBJECTS = \
 	version.py \
 	wsgi.py \
 
+# These are valid.
+YAML_SAFE_OBJECTS = \
+	$(wildcard data/relation-*.yaml) \
+	data/relations.yaml \
+
+# These are well-formed.
+YAML_OBJECTS = \
+	$(YAML_SAFE_OBJECTS) \
+	.travis.yml \
+	data/refmegye-names.yaml \
+	data/reftelepules-names.yaml \
+
 all: version.py locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py
-	rm -f $(patsubst %.yaml,%.yamllint,$(wildcard data/relations.yaml data/relation-*.yaml))
-	rm -f $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
+	rm -f $(patsubst %.yaml,%.yamllint,$(YAML_OBJECTS))
+	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
@@ -46,7 +58,7 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 
 check-filters: check-filters-syntax check-filters-schema
 
-check-filters-syntax: $(patsubst %.yaml,%.yamllint,$(wildcard data/relations.yaml data/relation-*.yaml))
+check-filters-syntax: $(patsubst %.yaml,%.yamllint,$(YAML_OBJECTS))
 
 check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 
@@ -67,7 +79,7 @@ check-unit:
 	coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 
-check-filters-schema: $(patsubst %.yaml,%.validyaml,$(wildcard data/relations.yaml data/relation-*.yaml))
+check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
 %.validyaml : %.yaml validator.py
 	./validator.py $< && touch $@
