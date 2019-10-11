@@ -22,11 +22,11 @@ def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[s
     key = split_house_number
     even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=key)
     if doc:
-        even = [color_house_number(i) for i in even]
+        even = [color_house_number(i).getvalue() for i in even]
     even_string = ", ".join(even)
     odd = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 1], key=key)
     if doc:
-        odd = [color_house_number(i) for i in odd]
+        odd = [color_house_number(i).getvalue() for i in odd]
     odd_string = ", ".join(odd)
     elements = []
     if odd_string:
@@ -41,11 +41,15 @@ def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[s
     return elements
 
 
-def color_house_number(fro: str) -> str:
+def color_house_number(fro: str) -> yattag.Doc:
     """Colors a house number according to its suffix."""
+    doc = yattag.Doc()
     if not fro.endswith("*"):
-        return fro
-    return '<span style="color: blue;">' + fro[:-1] + '</span>'
+        doc.text(fro)
+        return doc
+    with doc.tag("span", style="color: blue;"):
+        doc.text(fro[:-1])
+    return doc
 
 
 def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
