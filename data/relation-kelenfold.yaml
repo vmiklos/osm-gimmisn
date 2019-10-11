@@ -9,6 +9,10 @@ filters:
   Alsóhegy utca:
     ranges:
       - {start: '46', end: '50'}
+  Alsókubin utca:
+    ranges:
+      - {start: '3', end: '11'}
+      - {start: '4', end: '8'}
   Andor köz:
     ranges:
       - {start: '1', end: '5'}
@@ -88,6 +92,11 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '12', end: '20'}
+  Bornemissza utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '33', end: '37'}
+      - {start: '2', end: '34'}
   Borszék köz:
     ranges:
       - {start: '1', end: '3'}
@@ -314,7 +323,8 @@ filters:
   Major utca:
     ranges:
       - {start: '1', end: '7'}
-      - {start: '17', end: '69'}
+      - {start: '17', end: '23'}
+      - {start: '27', end: '69'}
       - {start: '12', end: '42'}
   Mérnök utca:
     ranges:
@@ -333,7 +343,7 @@ filters:
       - {start: '8', end: '8'}
   Nagykikinda utca:
     ranges:
-      - {start: '10', end: '14'}
+      - {start: '10', end: '12'}
   Nagysurány utca:
     ranges:
       - {start: '1', end: '15'}
