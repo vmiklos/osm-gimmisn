@@ -27,6 +27,7 @@ from typing import Tuple
 import wsgiref.simple_server
 
 import pytz
+import yattag  # type: ignore
 
 import accept_language
 import helpers
@@ -59,6 +60,23 @@ def get_staticdir() -> str:
     return os.path.join(os.path.dirname(__file__), "static")
 
 
+def table_escape(table: List[List[str]], escape: bool = True) -> List[List[yattag.Doc]]:
+    """Escapes all content of a table."""
+    table_content = []
+    for row in table:
+        row_content = []
+        for cell in row:
+            if escape:
+                row_content.append(util.html_escape(cell))
+            else:
+                # Write cell content as-is, allowed for now.
+                doc = yattag.Doc()
+                doc.asis(cell)
+                row_content.append(doc)
+        table_content.append(row_content)
+    return table_content
+
+
 def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
@@ -75,7 +93,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     elif action == "view-result":
         with relation.get_files().get_osm_streets_stream("r") as sock:
             table = helpers.tsv_to_list(sock)
-            output += helpers.html_table_from_list(table)
+            output += helpers.html_table_from_list(table_escape(table))
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
@@ -111,7 +129,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
     elif action == "view-result":
         with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             table = helpers.tsv_to_list(sock)
-            output += helpers.html_table_from_list(table)
+            output += helpers.html_table_from_list(table_escape(table))
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:
@@ -170,12 +188,12 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
         output += _("Filter incorrect information")
         output += "</a>.</p>"
 
-        output += helpers.html_table_from_list(table)
+        output += helpers.html_table_from_list(table_escape(table, False))
     return output
 
 
 def missing_relations_view_result(relations: helpers.Relations, request_uri: str) -> str:
-    """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result."""
+    """Expected request_uri: e.g. /osm/suspicious-relations/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
@@ -195,9 +213,9 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
         ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
         streets.sort(key=locale.strxfrm)
-        table = [[_("Street name")]]
+        table = [[util.html_escape(_("Street name"))]]
         for street in streets:
-            table.append([street])
+            table.append([util.html_escape(street)])
 
         output += "<p>"
         output += _("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count))
@@ -524,12 +542,12 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
     output += "<h1>" + _("Where to map?") + "</h1>"
     output += handle_main_filters(relations, refmegye)
     table = []
-    table.append([_("Area"),
-                  _("House number coverage"),
-                  _("Existing house numbers"),
-                  _("Street coverage"),
-                  _("Existing streets"),
-                  _("Area boundary")])
+    table.append([util.html_escape(_("Area")),
+                  util.html_escape(_("House number coverage")),
+                  util.html_escape(_("Existing house numbers")),
+                  util.html_escape(_("Street coverage")),
+                  util.html_escape(_("Existing streets")),
+                  util.html_escape(_("Area boundary"))])
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
         complete = True
@@ -537,38 +555,48 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
         streets = relation.get_config().should_check_missing_streets()
 
         row = []
-        row.append(relation_name)
+        row.append(util.html_escape(relation_name))
 
         if streets != "only":
             cell, percent = handle_main_housenr_percent(relation)
-            row.append(cell)
+            doc = yattag.Doc()
+            doc.asis(cell)
+            row.append(doc)
             if float(percent) < 100.0:
                 complete = False
         else:
-            row.append("")
+            row.append(yattag.Doc())
 
         if streets != "only":
             date = get_housenumbers_last_modified(relation)
-            row.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\""
-                       " title=\"" + _("updated") + " " + date + "\" >" + _("existing house numbers") + "</a>")
+            doc = yattag.Doc()
+            doc.asis("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\""
+                     " title=\"" + _("updated") + " " + date + "\" >" + _("existing house numbers") + "</a>")
+            row.append(doc)
         else:
-            row.append("")
+            row.append(yattag.Doc())
 
         if streets != "no":
             cell, percent = handle_main_street_percent(relation)
-            row.append(cell)
+            doc = yattag.Doc()
+            doc.asis(cell)
+            row.append(doc)
             if float(percent) < 100.0:
                 complete = False
         else:
-            row.append("")
+            row.append(yattag.Doc())
 
         date = get_streets_last_modified(relation)
-        row.append("<a href=\"/osm/streets/" + relation_name + "/view-result\""
-                   " title=\"" + _("updated") + " " + date + "\" >" + _("existing streets") + "</a>")
+        doc = yattag.Doc()
+        doc.asis("<a href=\"/osm/streets/" + relation_name + "/view-result\""
+                 " title=\"" + _("updated") + " " + date + "\" >" + _("existing streets") + "</a>")
+        row.append(doc)
 
-        row.append("<a href=\"https://www.openstreetmap.org/relation/"
-                   + str(relation.get_config().get_osmrelation())
-                   + "\">" + _("area boundary") + "</a>")
+        doc = yattag.Doc()
+        doc.asis("<a href=\"https://www.openstreetmap.org/relation/"
+                 + str(relation.get_config().get_osmrelation())
+                 + "\">" + _("area boundary") + "</a>")
+        row.append(doc)
 
         if filter_for(complete, relation):
             table.append(row)

@@ -824,7 +824,7 @@ def tsv_to_list(sock: TextIO) -> List[List[str]]:
     return table
 
 
-def html_table_from_list(table: List[List[str]]) -> str:
+def html_table_from_list(table: List[List[yattag.Doc]]) -> str:
     """Produces a HTML table from a list of lists."""
     doc = yattag.Doc()
     with doc.tag("table", klass="sortable"):
@@ -834,10 +834,10 @@ def html_table_from_list(table: List[List[str]]) -> str:
                     if row_index == 0:
                         with doc.tag("th"):
                             with doc.tag("a", href="#"):
-                                doc.text(cell)
+                                doc.text(cell.getvalue())
                     else:
                         with doc.tag("td"):
-                            doc.asis(cell)
+                            doc.asis(cell.getvalue())
     return cast(str, doc.getvalue())
 
 

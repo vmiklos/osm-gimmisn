@@ -13,6 +13,8 @@ import os
 import pickle
 import re
 
+import yattag  # type: ignore
+
 
 def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
@@ -148,6 +150,13 @@ def parse_filters(tokens: List[str]) -> Dict[str, str]:
             ret[value] = tokens[index + 1]
 
     return ret
+
+
+def html_escape(text: str) -> yattag.Doc:
+    """Factory of yattag.Doc from a string."""
+    doc = yattag.Doc()
+    doc.text(text)
+    return doc
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
