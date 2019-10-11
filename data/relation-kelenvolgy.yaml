@@ -1,18 +1,44 @@
 suspicious-relations: 'no'
 filters:
+  Bácsalmás utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '6', end: '12'}
+  Borszéki utca:
+    ranges: []
+  Hajtány sor:
+    interpolation: 'all'
+    ranges:
+      - {start: '1', end: '11'}
+  Induló utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '8'}
   Kelenvölgyi határsor:
     interpolation: 'all'
     ranges:
       - {start: '3', end: '8'}
+  Madaras utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '4'}
   Olajbogyó utca:
     ranges:
       - {start: '3', end: '7'}
       - {start: '13', end: '15'}
       - {start: '2', end: '10'}
+  Parittya utca:
+    ranges:
+      - {start: '3', end: '3'}
+      - {start: '4', end: '4'}
   Péterhegyi út:
     # pontositando
     ranges:
       - {start: '56', end: '198'}
+  Postás utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '10'}
   Ringló út:
     ranges:
       - {start: '2', end: '22'}
