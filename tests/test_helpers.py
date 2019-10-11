@@ -9,7 +9,10 @@
 import configparser
 import io
 import os
+from typing import List
 import unittest
+
+import yattag  # type: ignore
 
 import helpers
 import util
@@ -645,6 +648,17 @@ class TestRelationGetMissingStreets(unittest.TestCase):
         self.assertEqual(in_both, ['Hamzsabégi út', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
 
+def table_doc_to_string(table: List[List[yattag.Doc]]) -> List[List[str]]:
+    """Unwraps an escaped matrix of yattag documents into a string matrix."""
+    table_content = []
+    for row in table:
+        row_content = []
+        for cell in row:
+            row_content.append(cell.getvalue())
+        table_content.append(row_content)
+    return table_content
+
+
 class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
     """Tests Relation.write_missing_housenumbers()."""
     def test_happy(self) -> None:
@@ -659,6 +673,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         self.assertEqual(todo_count, 5)
         self.assertEqual(done_count, 6)
         self.assertEqual(percent, '54.55')
+        table = table_doc_to_string(table)
         self.assertEqual(table, [['Street name', 'Missing count', 'House numbers'],
                                  ['Törökugrató utca', '2', '7<br />10'],
                                  ['Tűzkő utca', '2', '1<br />2'],

@@ -473,25 +473,27 @@ class Relation:
 
         return ongoing_streets, done_streets
 
-    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[str]]]:
+    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.Doc]]]:
         """Calculate a write stat for the house number coverage of a relation."""
         ongoing_streets, done_streets = self.get_missing_housenumbers()
 
         todo_count = 0
         table = []
-        table.append([_("Street name"), _("Missing count"), _("House numbers")])
-        doc = yattag.Doc()
-        doc.stag("br")
+        table.append([util.html_escape(_("Street name")),
+                      util.html_escape(_("Missing count")),
+                      util.html_escape(_("House numbers"))])
         for result in ongoing_streets:
             # street_name, only_in_ref
             row = []
-            row.append(result[0])
-            row.append(str(len(result[1])))
+            row.append(util.html_escape(result[0]))
+            row.append(util.html_escape(str(len(result[1]))))
 
             if not self.get_config().get_street_is_even_odd(result[0]):
-                row.append(", ".join(result[1]))
+                row.append(util.html_escape(", ".join(result[1])))
             else:
-                row.append(doc.getvalue().join(util.format_even_odd(result[1], html=True)))
+                doc = yattag.Doc()
+                util.format_even_odd(result[1], doc)
+                row.append(doc)
 
             todo_count += len(result[1])
             table.append(row)

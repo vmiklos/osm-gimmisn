@@ -60,23 +60,6 @@ def get_staticdir() -> str:
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def table_escape(table: List[List[str]], escape: bool = True) -> List[List[yattag.Doc]]:
-    """Escapes all content of a table."""
-    table_content = []
-    for row in table:
-        row_content = []
-        for cell in row:
-            if escape:
-                row_content.append(util.html_escape(cell))
-            else:
-                # Write cell content as-is, allowed for now.
-                doc = yattag.Doc()
-                doc.asis(cell)
-                row_content.append(doc)
-        table_content.append(row_content)
-    return table_content
-
-
 def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
@@ -188,7 +171,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
         output += _("Filter incorrect information")
         output += "</a>.</p>"
 
-        output += helpers.html_table_from_list(table_escape(table, False))
+        output += helpers.html_table_from_list(table)
     return output
 
 
@@ -249,7 +232,7 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
                 if not relation.get_config().get_street_is_even_odd(result[0]):
                     row = result[0] + "\t[" + ", ".join(result[1]) + "]"
                 else:
-                    elements = util.format_even_odd(result[1], html=False)
+                    elements = util.format_even_odd(result[1], doc=None)
                     row = result[0] + "\t[" + "], [".join(elements) + "]"
                 table.append(row)
         table.sort(key=locale.strxfrm)

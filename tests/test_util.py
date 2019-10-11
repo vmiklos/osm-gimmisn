@@ -9,6 +9,8 @@
 import os
 import unittest
 
+import yattag  # type: ignore
+
 import util
 
 
@@ -16,19 +18,21 @@ class TestFormatEvenOdd(unittest.TestCase):
     """Tests format_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        self.assertEqual(util.format_even_odd(["1", "2"], html=False), ["1", "2"])
+        self.assertEqual(util.format_even_odd(["1", "2"], doc=None), ["1", "2"])
 
     def test_only_odd(self) -> None:
         """Tests when we have odd numbers only."""
-        self.assertEqual(util.format_even_odd(["1", "3"], html=False), ["1, 3"])
+        self.assertEqual(util.format_even_odd(["1", "3"], doc=None), ["1, 3"])
 
     def test_only_even(self) -> None:
         """Tests when we have even numbers only."""
-        self.assertEqual(util.format_even_odd(["2", "4"], html=False), ["2, 4"])
+        self.assertEqual(util.format_even_odd(["2", "4"], doc=None), ["2, 4"])
 
     def test_html(self) -> None:
         """Tests HTML coloring."""
-        self.assertEqual(util.format_even_odd(["2*", "4"], html=True), ['<span style="color: blue;">2</span>, 4'])
+        doc = yattag.Doc()
+        util.format_even_odd(["2*", "4"], doc)
+        self.assertEqual(doc.getvalue(), '<span style="color: blue;">2</span>, 4')
 
 
 class TestBuildStreetReferenceCache(unittest.TestCase):

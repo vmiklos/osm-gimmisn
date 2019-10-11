@@ -8,6 +8,7 @@
 
 from typing import Dict
 from typing import List
+from typing import Optional
 from typing import Tuple
 import os
 import pickle
@@ -16,15 +17,15 @@ import re
 import yattag  # type: ignore
 
 
-def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
+def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
     key = split_house_number
     even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=key)
-    if html:
+    if doc:
         even = [color_house_number(i) for i in even]
     even_string = ", ".join(even)
     odd = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 1], key=key)
-    if html:
+    if doc:
         odd = [color_house_number(i) for i in odd]
     odd_string = ", ".join(odd)
     elements = []
@@ -32,6 +33,11 @@ def format_even_odd(only_in_ref: List[str], html: bool) -> List[str]:
         elements.append(odd_string)
     if even_string:
         elements.append(even_string)
+    if doc:
+        for index, element in enumerate(elements):
+            if index:
+                doc.stag("br")
+            doc.asis(element)
     return elements
 
 
