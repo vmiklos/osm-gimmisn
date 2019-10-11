@@ -495,7 +495,7 @@ filters:
   Zsombor utca:
     ranges:
       - {start: '1', end: '29'}
-      - {start: '31', end: '39'}
+      - {start: '33', end: '39'}
       - {start: '2', end: '36'}
 source: survey
 inactive: false
