@@ -456,7 +456,11 @@ class TestTsvToList(unittest.TestCase):
         """Tests the happy path."""
         sock = io.StringIO("h1\th2\n\nv1\tv2\n")
         ret = helpers.tsv_to_list(sock)
-        self.assertEqual(ret, [['h1', 'h2\n'], ['v1', 'v2\n']])
+        self.assertEqual(len(ret), 2)
+        row1 = [cell.getvalue() for cell in ret[0]]
+        self.assertEqual(row1, ['h1', 'h2\n'])
+        row2 = [cell.getvalue() for cell in ret[1]]
+        self.assertEqual(row2, ['v1', 'v2\n'])
 
 
 class TestNormalize(unittest.TestCase):

@@ -93,7 +93,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     elif action == "view-result":
         with relation.get_files().get_osm_streets_stream("r") as sock:
             table = helpers.tsv_to_list(sock)
-            output += helpers.html_table_from_list(table_escape(table))
+            output += helpers.html_table_from_list(table)
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
@@ -129,7 +129,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
     elif action == "view-result":
         with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             table = helpers.tsv_to_list(sock)
-            output += helpers.html_table_from_list(table_escape(table))
+            output += helpers.html_table_from_list(table)
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:

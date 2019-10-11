@@ -811,14 +811,14 @@ def get_content(workdir: str, path: str = "") -> str:
     return ret
 
 
-def tsv_to_list(sock: TextIO) -> List[List[str]]:
+def tsv_to_list(sock: TextIO) -> List[List[yattag.Doc]]:
     """Turns a tab-separated table into a list of lists."""
     table = []
 
     for line in sock.readlines():
         if not line.strip():
             continue
-        cells = line.split("\t")
+        cells = [util.html_escape(cell) for cell in line.split("\t")]
         table.append(cells)
 
     return table
