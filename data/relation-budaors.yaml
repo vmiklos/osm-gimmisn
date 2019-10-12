@@ -1,5 +1,9 @@
 suspicious-relations: 'yes'
-filters: {}
+filters:
+  # Páros oldal Budapest: Felső határ út néven
+  Felsőhatár utca:
+    ranges:
+      - {start: '1', end: '137'}
 source: survey
 street-filters:
   - Csiki dűlő
@@ -22,9 +26,9 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Aszú utca: Aszu utca
-  Árokpart utca: Árokparti utca
+  # Árokpart utca: Árokparti utca - OSM javítva
   Írisz utca: Irisz utca
-  Jókai Mór utca: Jókai utca
+  Jókai Mór utca: Jókai utca  # OSM helyes
   Kamaraerdei út: Kamaraerdei utca
   Kamilla utca: Kamilla köz
   Munkácsy Mihály utca: Munkácsy utca
