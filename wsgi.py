@@ -60,6 +60,16 @@ def get_staticdir() -> str:
     return os.path.join(os.path.dirname(__file__), "static")
 
 
+def handle_overpass_error(http_error: urllib.error.HTTPError) -> str:
+    """Handles a HTTP error from Overpass."""
+    ret = _("Overpass error: {0}").format(str(http_error))
+    sleep = overpass_query.overpass_query_need_sleep()
+    if sleep:
+        ret += "<br>"
+        ret += _("Note: wait for {} seconds").format(sleep)
+    return ret
+
+
 def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     output = ""
@@ -89,7 +99,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
             else:
                 output += _("Update successful.")
         except urllib.error.HTTPError as http_error:
-            output += _("Overpass error: {0}").format(str(http_error))
+            output += handle_overpass_error(http_error)
 
     osmrelation = relation.get_config().get_osmrelation()
     date = get_streets_last_modified(relation)
@@ -121,7 +131,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
             output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
                                _("View missing house numbers"))
         except urllib.error.HTTPError as http_error:
-            output += _("Overpass error: {0}").format(str(http_error))
+            output += handle_overpass_error(http_error)
 
     osmrelation = relation.get_config().get_osmrelation()
     date = get_housenumbers_last_modified(relation)
