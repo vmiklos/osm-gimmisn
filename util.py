@@ -21,23 +21,29 @@ def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[s
     """Separate even and odd numbers, this helps survey in most cases."""
     key = split_house_number
     even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=key)
-    if doc:
-        even = [color_house_number(i).getvalue() for i in even]
-    even_string = ", ".join(even)
     odd = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 1], key=key)
     if doc:
-        odd = [color_house_number(i).getvalue() for i in odd]
+        if odd:
+            for index, elem in enumerate(odd):
+                if index:
+                    doc.text(", ")
+                doc.asis(color_house_number(elem).getvalue())
+        if even:
+            if odd:
+                doc.stag("br")
+            for index, elem in enumerate(even):
+                if index:
+                    doc.text(", ")
+                doc.asis(color_house_number(elem).getvalue())
+        return []
+
+    even_string = ", ".join(even)
     odd_string = ", ".join(odd)
     elements = []
     if odd_string:
         elements.append(odd_string)
     if even_string:
         elements.append(even_string)
-    if doc:
-        for index, element in enumerate(elements):
-            if index:
-                doc.stag("br")
-            doc.asis(element)
     return elements
 
 
