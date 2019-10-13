@@ -501,7 +501,7 @@ def handle_main_filters(relations: helpers.Relations, refmegye_id: str) -> str:
                 if names:
                     item += " (" + ", ".join(names) + ")"
         items.append(item)
-    return '<p>' + _("Filters:") + " " + " &brvbar; ".join(items) + '</p>'
+    return '<p>' + _("Filters:") + " " + " ¦ ".join(items) + '</p>'
 
 
 def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, helpers.Relation], bool], str]:
@@ -675,7 +675,7 @@ def get_header(
     output += '<script src="/osm/static/sorttable.js"></script>'
     output += '<meta name="viewport" content="width=device-width, initial-scale=1">'
     output += "</head><body><div>"
-    output += " &brvbar; ".join(items)
+    output += " ¦ ".join(items)
     output += "</div><hr/>"
     return output
 
@@ -688,7 +688,7 @@ def get_footer(last_updated: str = "") -> str:
     if last_updated:
         items.append(_("Last update: ") + last_updated)
     output = "<hr/><div>"
-    output += " &brvbar; ".join(items)
+    output += " ¦ ".join(items)
     output += "</div>"
     output += "</body></html>"
     return output
