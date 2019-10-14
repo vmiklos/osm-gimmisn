@@ -629,6 +629,7 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
 
 def fill_header_function(function: str, relation_name: str, items: List[yattag.Doc]) -> str:
     """Fills items with function-specific links in the header. Returns a title."""
+    title = ""
     if function == "suspicious-streets":
         title = " - " + _("{0} missing house numbers").format(relation_name)
         doc = yattag.Doc()
