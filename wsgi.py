@@ -668,6 +668,11 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.D
     return title
 
 
+def write_html_header(doc: yattag.Doc) -> None:
+    """Produces the verify first line of a HTML output."""
+    doc.asis("<!DOCTYPE html>\n")
+
+
 def get_header(
         relations: Optional[helpers.Relations] = None,
         function: str = "",
@@ -712,7 +717,7 @@ def get_header(
         lang = config.get("wsgi", "lang")
     else:
         lang = "hu"
-    output = '<!DOCTYPE html>\n<html lang="' + lang + '"><head><title>' + _("Where to map?") + title + '</title>'
+    output = '<html lang="' + lang + '"><head><title>' + _("Where to map?") + title + '</title>'
     output += '<meta charset="UTF-8">'
     output += '<link rel="stylesheet" type="text/css" href="/osm/static/osm.css">'
     output += '<script src="/osm/static/sorttable.js"></script>'
@@ -792,8 +797,6 @@ def our_application(
 
     setup_localization(environ)
 
-    status = '200 OK'
-
     path_info = environ.get("PATH_INFO")
     if path_info:
         request_uri = path_info  # type: str
@@ -823,10 +826,14 @@ def our_application(
     else:
         output = handle_main(request_uri, relations)
 
+    if content_type == "text/html":
+        doc = yattag.Doc()
+        write_html_header(doc)
+        output = doc.getvalue() + output
     output_bytes = output.encode('utf-8')
     response_headers = [('Content-type', content_type + '; charset=utf-8'),
                         ('Content-Length', str(len(output_bytes)))]
-    start_response(status, response_headers)
+    start_response("200 OK", response_headers)
     return [output_bytes]
 
 
@@ -841,7 +848,9 @@ def handle_exception(
         request_uri = path_info
     body = "<pre>" + _("Internal error when serving {0}").format(request_uri) + "\n" + \
            traceback.format_exc() + "</pre>"
-    output = get_header() + body + get_footer()
+    doc = yattag.Doc()
+    write_html_header(doc)
+    output = doc.getvalue() + get_header() + body + get_footer()
     output_bytes = output.encode('utf-8')
     response_headers = [('Content-type', 'text/html; charset=utf-8'),
                         ('Content-Length', str(len(output_bytes)))]
