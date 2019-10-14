@@ -783,6 +783,15 @@ def setup_localization(environ: Dict[str, Any]) -> None:
             i18n.set_language(parsed[0].language)
 
 
+def send_response(start_response: 'StartResponse', content_type: str, status: str, output: str) -> Iterable[bytes]:
+    """Turns an output string into a byte array and sends it."""
+    output_bytes = output.encode('utf-8')
+    response_headers = [('Content-type', content_type + '; charset=utf-8'),
+                        ('Content-Length', str(len(output_bytes)))]
+    start_response(status, response_headers)
+    return [output_bytes]
+
+
 def our_application(
         environ: Dict[str, Any],
         start_response: 'StartResponse'
@@ -830,11 +839,7 @@ def our_application(
         doc = yattag.Doc()
         write_html_header(doc)
         output = doc.getvalue() + output
-    output_bytes = output.encode('utf-8')
-    response_headers = [('Content-type', content_type + '; charset=utf-8'),
-                        ('Content-Length', str(len(output_bytes)))]
-    start_response("200 OK", response_headers)
-    return [output_bytes]
+    return send_response(start_response, content_type, "200 OK", output)
 
 
 def handle_exception(
@@ -851,11 +856,7 @@ def handle_exception(
     doc = yattag.Doc()
     write_html_header(doc)
     output = doc.getvalue() + get_header() + body + get_footer()
-    output_bytes = output.encode('utf-8')
-    response_headers = [('Content-type', 'text/html; charset=utf-8'),
-                        ('Content-Length', str(len(output_bytes)))]
-    start_response(status, response_headers)
-    return [output_bytes]
+    return send_response(start_response, "text/html", status, output)
 
 
 def application(
