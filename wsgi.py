@@ -601,21 +601,70 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
     return get_header(relations) + output + get_footer()
 
 
-def fill_missing_header_items(streets: str, relation_name: str, items: List[str]) -> None:
+def fill_missing_header_items(streets: str, relation_name: str, items: List[yattag.Doc]) -> None:
     """Generates the 'missing house numbers/streets' part of the header."""
     if streets != "only":
-        suspicious = '<a href="/osm/suspicious-streets/' + relation_name + '/view-result">'
-        suspicious += _("Missing house numbers") + '</a>'
-        suspicious += ' (<a href="/osm/suspicious-streets/' + relation_name + '/view-result.txt">txt</a>)'
-        items.append(suspicious)
-        existing = "<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\">"
-        existing += _("Existing house numbers") + "</a>"
-        items.append(existing)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/suspicious-streets/" + relation_name + "/view-result"):
+            doc.text(_("Missing house numbers"))
+        doc.text(" (")
+        with doc.tag("a", href="/osm/suspicious-streets/" + relation_name + "/view-result.txt"):
+            doc.text("txt")
+        doc.text(")")
+        items.append(doc)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/view-result"):
+            doc.text(_("Existing house numbers"))
+        items.append(doc)
     if streets != "no":
-        suspicious = '<a href="/osm/suspicious-relations/' + relation_name + '/view-result">'
-        suspicious += _("Missing streets") + '</a>'
-        suspicious += ' (<a href="/osm/suspicious-relations/' + relation_name + '/view-result.txt">txt</a>)'
-        items.append(suspicious)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/view-result"):
+            doc.text(_("Missing streets"))
+        doc.text(" (")
+        with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/view-result.txt"):
+            doc.text("txt")
+        doc.text(")")
+        items.append(doc)
+
+
+def fill_header_function(function: str, relation_name: str, items: List[yattag.Doc]) -> str:
+    """Fills items with function-specific links in the header. Returns a title."""
+    if function == "suspicious-streets":
+        title = " - " + _("{0} missing house numbers").format(relation_name)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/suspicious-streets/" + relation_name + "/update-result"):
+            doc.text(_("Update from reference"))
+        doc.text(" " + _("(may take seconds)"))
+        items.append(doc)
+    elif function == "suspicious-relations":
+        title = " - " + relation_name + " " + _("missing streets")
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/update-result"):
+            doc.text(_("Update from reference"))
+        items.append(doc)
+    elif function == "street-housenumbers":
+        title = " - " + relation_name + " " + _("existing house numbers")
+        doc = yattag.Doc()
+        with doc.tag("a", "/osm/street-housenumbers/" + relation_name + "/update-result"):
+            doc.text(_("Call Overpass to update"))
+        doc.text(" " + _("(may take seconds)"))
+        items.append(doc)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/view-query"):
+            doc.text(_("View query"))
+        items.append(doc)
+    elif function == "streets":
+        title = " - " + relation_name + " " + _("existing streets")
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/streets/" + relation_name + "/update-result"):
+            doc.text(_("Call Overpass to update"))
+        doc.text(" " + _("(may take seconds)"))
+        items.append(doc)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/streets/" + relation_name + "/view-query"):
+            doc.text(_("View query"))
+        items.append(doc)
+    return title
 
 
 def get_header(
@@ -628,41 +677,34 @@ def get_header(
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
     title = ""
-    items = []
+    items = []  # type: List[yattag.Doc]
 
     if relations and relation_name:
         relation = relations.get_relation(relation_name)
         streets = relation.get_config().should_check_missing_streets()
 
-    items.append("<a href=\"/osm\">" + _("Area list") + "</a>")
+    doc = yattag.Doc()
+    with doc.tag("a", href="/osm"):
+        doc.text(_("Area list"))
+    items.append(doc)
     if relation_name:
         fill_missing_header_items(streets, relation_name, items)
-        items.append("<a href=\"/osm/streets/" + relation_name + "/view-result\">" + _("Existing streets") + "</a>")
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/streets/" + relation_name + "/view-result"):
+            doc.text(_("Existing streets"))
+        items.append(doc)
 
-    if function == "suspicious-streets":
-        title = " - " + _("{0} missing house numbers").format(relation_name)
-        items.append("<a href=\"/osm/suspicious-streets/" + relation_name + "/update-result\">"
-                     + _("Update from reference") + "</a> " + _("(may take seconds)"))
-    elif function == "suspicious-relations":
-        title = " - " + relation_name + " " + _("missing streets")
-        items.append("<a href=\"/osm/suspicious-relations/" + relation_name + "/update-result\">"
-                     + _("Update from reference") + "</a>")
-    elif function == "street-housenumbers":
-        title = " - " + relation_name + " " + _("existing house numbers")
-        items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/update-result\">"
-                     + _("Call Overpass to update") + "</a> " + _("(may take seconds)"))
-        items.append("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-query\">"
-                     + _("View query") + "</a>")
-    elif function == "streets":
-        title = " - " + relation_name + " " + _("existing streets")
-        items.append("<a href=\"/osm/streets/" + relation_name + "/update-result\">"
-                     + _("Call Overpass to update") + "</a> " + _("(may take seconds)"))
-        items.append("<a href=\"/osm/streets/" + relation_name + "/view-query\">" + _("View query") + "</a>")
+    title = fill_header_function(function, relation_name, items)
 
     if relation_osmid:
-        items.append("<a href=\"https://www.openstreetmap.org/relation/" + str(relation_osmid) + "\">"
-                     + _("Area boundary") + "</a>")
-    items.append("<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">" + _("Documentation") + "</a>")
+        doc = yattag.Doc()
+        with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation_osmid)):
+            doc.text(_("Area boundary"))
+        items.append(doc)
+    doc = yattag.Doc()
+    with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
+        doc.text(_("Documentation"))
+    items.append(doc)
 
     config = get_config()
     if config.has_option("wsgi", "lang"):
@@ -675,7 +717,10 @@ def get_header(
     output += '<script src="/osm/static/sorttable.js"></script>'
     output += '<meta name="viewport" content="width=device-width, initial-scale=1">'
     output += "</head><body><div>"
-    output += " ¦ ".join(items)
+    for index, item in enumerate(items):
+        if index:
+            output += " ¦ "
+        output += item.getvalue()
     output += "</div><hr/>"
     return output
 
