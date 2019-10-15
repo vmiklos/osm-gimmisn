@@ -833,7 +833,10 @@ def our_application(
     if ext == "txt":
         return our_application_txt(start_response, relations, request_uri)
 
-    content_type = "text/html"
+    if request_uri.startswith("/osm/static/"):
+        output, content_type = handle_static(request_uri)
+        return send_response(start_response, content_type, "200 OK", output)
+
     if request_uri.startswith("/osm/streets/"):
         output = handle_streets(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-relations/"):
@@ -844,16 +847,13 @@ def our_application(
         output = handle_missing_housenumbers(relations, request_uri)
     elif request_uri.startswith("/osm/webhooks/github"):
         output = handle_github_webhook(environ)
-    elif request_uri.startswith("/osm/static/"):
-        output, content_type = handle_static(request_uri)
     else:
         output = handle_main(request_uri, relations)
 
-    if content_type == "text/html":
-        doc = yattag.Doc()
-        write_html_header(doc)
-        output = doc.getvalue() + output
-    return send_response(start_response, content_type, "200 OK", output)
+    doc = yattag.Doc()
+    write_html_header(doc)
+    output = doc.getvalue() + output
+    return send_response(start_response, "text/html", "200 OK", output)
 
 
 def handle_exception(
