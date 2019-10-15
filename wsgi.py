@@ -865,12 +865,12 @@ def handle_exception(
     path_info = environ.get("PATH_INFO")
     if path_info:
         request_uri = path_info
-    body = "<pre>" + _("Internal error when serving {0}").format(request_uri) + "\n" + \
-           traceback.format_exc() + "</pre>"
     doc = yattag.Doc()
     write_html_header(doc)
-    output = doc.getvalue() + get_header() + body + get_footer()
-    return send_response(start_response, "text/html", status, output)
+    with doc.tag("pre"):
+        doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
+        doc.text(traceback.format_exc())
+    return send_response(start_response, "text/html", status, doc.getvalue())
 
 
 def application(
