@@ -24,6 +24,7 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
+from typing import cast
 import wsgiref.simple_server
 
 import pytz
@@ -712,12 +713,7 @@ def get_header(
         doc.text(_("Documentation"))
     items.append(doc)
 
-    config = get_config()
-    if config.has_option("wsgi", "lang"):
-        lang = config.get("wsgi", "lang")
-    else:
-        lang = "hu"
-    output = '<html lang="' + lang + '"><head><title>' + _("Where to map?") + title + '</title>'
+    output = '<head><title>' + _("Where to map?") + title + '</title>'
     output += '<meta charset="UTF-8">'
     output += '<link rel="stylesheet" type="text/css" href="/osm/static/osm.css">'
     output += '<script src="/osm/static/sorttable.js"></script>'
@@ -741,7 +737,7 @@ def get_footer(last_updated: str = "") -> str:
     output = "<hr/><div>"
     output += " ¦ ".join(items)
     output += "</div>"
-    output += "</body></html>"
+    output += "</body>"
     return output
 
 
@@ -773,14 +769,17 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
     return "", ""
 
 
-def setup_localization(environ: Dict[str, Any]) -> None:
+def setup_localization(environ: Dict[str, Any]) -> str:
     """Provides localized strings for this thread."""
     # Set up localization.
     languages = environ.get("HTTP_ACCEPT_LANGUAGE")
     if languages:
         parsed = accept_language.parse_accept_language(languages)
         if parsed:
-            i18n.set_language(parsed[0].language)
+            language = parsed[0].language
+            i18n.set_language(language)
+            return cast(str, language)
+    return ""
 
 
 def send_response(start_response: 'StartResponse', content_type: str, status: str, output: str) -> Iterable[bytes]:
@@ -818,7 +817,9 @@ def our_application(
         ui_locale = "hu_HU.UTF-8"
     locale.setlocale(locale.LC_ALL, ui_locale)
 
-    setup_localization(environ)
+    language = setup_localization(environ)
+    if not language:
+        language = "hu"
 
     path_info = environ.get("PATH_INFO")
     if path_info:
@@ -837,23 +838,24 @@ def our_application(
         output, content_type = handle_static(request_uri)
         return send_response(start_response, content_type, "200 OK", output)
 
-    if request_uri.startswith("/osm/streets/"):
-        output = handle_streets(relations, request_uri)
-    elif request_uri.startswith("/osm/suspicious-relations/"):
-        output = handle_missing_streets(relations, request_uri)
-    elif request_uri.startswith("/osm/street-housenumbers/"):
-        output = handle_street_housenumbers(relations, request_uri)
-    elif request_uri.startswith("/osm/suspicious-streets/"):
-        output = handle_missing_housenumbers(relations, request_uri)
-    elif request_uri.startswith("/osm/webhooks/github"):
-        output = handle_github_webhook(environ)
-    else:
-        output = handle_main(request_uri, relations)
-
     doc = yattag.Doc()
     write_html_header(doc)
-    output = doc.getvalue() + output
-    return send_response(start_response, "text/html", "200 OK", output)
+    with doc.tag("html", lang=language):
+        if request_uri.startswith("/osm/streets/"):
+            output = handle_streets(relations, request_uri)
+        elif request_uri.startswith("/osm/suspicious-relations/"):
+            output = handle_missing_streets(relations, request_uri)
+        elif request_uri.startswith("/osm/street-housenumbers/"):
+            output = handle_street_housenumbers(relations, request_uri)
+        elif request_uri.startswith("/osm/suspicious-streets/"):
+            output = handle_missing_housenumbers(relations, request_uri)
+        elif request_uri.startswith("/osm/webhooks/github"):
+            output = handle_github_webhook(environ)
+        else:
+            output = handle_main(request_uri, relations)
+        doc.asis(output)
+
+    return send_response(start_response, "text/html", "200 OK", doc.getvalue())
 
 
 def handle_exception(
