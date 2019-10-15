@@ -792,6 +792,20 @@ def send_response(start_response: 'StartResponse', content_type: str, status: st
     return [output_bytes]
 
 
+def our_application_txt(
+        start_response: 'StartResponse',
+        relations: helpers.Relations,
+        request_uri: str
+) -> Iterable[bytes]:
+    """Dispatches plain text requests based on their URIs."""
+    content_type = "text/plain"
+    if request_uri.startswith("/osm/suspicious-relations/"):
+        output = handle_missing_streets(relations, request_uri)
+    elif request_uri.startswith("/osm/suspicious-streets/"):
+        output = handle_missing_housenumbers(relations, request_uri)
+    return send_response(start_response, content_type, "200 OK", output)
+
+
 def our_application(
         environ: Dict[str, Any],
         start_response: 'StartResponse'
@@ -816,10 +830,10 @@ def our_application(
 
     relations = helpers.Relations(get_datadir(), workdir)
 
-    content_type = "text/html"
     if ext == "txt":
-        content_type = "text/plain"
+        return our_application_txt(start_response, relations, request_uri)
 
+    content_type = "text/html"
     if request_uri.startswith("/osm/streets/"):
         output = handle_streets(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-relations/"):
