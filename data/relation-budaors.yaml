@@ -1,9 +1,23 @@
 suspicious-relations: 'yes'
 filters:
-  # Páros oldal Budapest: Felső határ út néven
+  Avar utca:
+    # újraszámozva, keveredik páros/páratlan
+    ranges:
+      - {start: '1', end: '37'}
+      - {start: '2', end: '18'}
+      - {start: '22', end: '24'}
+  Akácfa utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '137'}
   Felsőhatár utca:
+    # Páros oldal Budapest: Felső határ út néven
     ranges:
       - {start: '1', end: '137'}
+  Láng utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '10'}
 source: survey
 street-filters:
   - Csiki dűlő
