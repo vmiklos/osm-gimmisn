@@ -738,7 +738,7 @@ def get_header(
         doc.text(_("Documentation"))
     items.append(doc)
 
-    output = "<body><div>"
+    output = "<div>"
     for index, item in enumerate(items):
         if index:
             output += " ¦ "
@@ -757,7 +757,6 @@ def get_footer(last_updated: str = "") -> str:
     output = "<hr/><div>"
     output += " ¦ ".join(items)
     output += "</div>"
-    output += "</body>"
     return output
 
 
@@ -867,19 +866,20 @@ def our_application(
     with doc.tag("html", lang=language):
         write_html_head(doc, get_html_title(request_uri))
 
-        if request_uri.startswith("/osm/streets/"):
-            output = handle_streets(relations, request_uri)
-        elif request_uri.startswith("/osm/suspicious-relations/"):
-            output = handle_missing_streets(relations, request_uri)
-        elif request_uri.startswith("/osm/street-housenumbers/"):
-            output = handle_street_housenumbers(relations, request_uri)
-        elif request_uri.startswith("/osm/suspicious-streets/"):
-            output = handle_missing_housenumbers(relations, request_uri)
-        elif request_uri.startswith("/osm/webhooks/github"):
-            output = handle_github_webhook(environ)
-        else:
-            output = handle_main(request_uri, relations)
-        doc.asis(output)
+        with doc.tag("body"):
+            if request_uri.startswith("/osm/streets/"):
+                output = handle_streets(relations, request_uri)
+            elif request_uri.startswith("/osm/suspicious-relations/"):
+                output = handle_missing_streets(relations, request_uri)
+            elif request_uri.startswith("/osm/street-housenumbers/"):
+                output = handle_street_housenumbers(relations, request_uri)
+            elif request_uri.startswith("/osm/suspicious-streets/"):
+                output = handle_missing_housenumbers(relations, request_uri)
+            elif request_uri.startswith("/osm/webhooks/github"):
+                output = handle_github_webhook(environ)
+            else:
+                output = handle_main(request_uri, relations)
+            doc.asis(output)
 
     return send_response(start_response, "text/html", "200 OK", doc.getvalue())
 
