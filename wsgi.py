@@ -674,6 +674,18 @@ def write_html_header(doc: yattag.Doc) -> None:
     doc.asis("<!DOCTYPE html>\n")
 
 
+def write_html_head(doc: yattag.Doc, title: str) -> None:
+    """Produces the <head> tag and its contents."""
+    with doc.tag("head"):
+        with doc.tag("title"):
+            doc.text(_("Where to map?") + title)
+        doc.stag("meta", charset="UTF-8")
+        doc.stag("link", rel="stylesheet", type="text/css", href="/osm/static/osm.css")
+        with doc.tag("script", src="/osm/static/sorttable.js"):
+            pass
+        doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
+
+
 def get_header(
         relations: Optional[helpers.Relations] = None,
         function: str = "",
@@ -713,12 +725,10 @@ def get_header(
         doc.text(_("Documentation"))
     items.append(doc)
 
-    output = '<head><title>' + _("Where to map?") + title + '</title>'
-    output += '<meta charset="UTF-8">'
-    output += '<link rel="stylesheet" type="text/css" href="/osm/static/osm.css">'
-    output += '<script src="/osm/static/sorttable.js"></script>'
-    output += '<meta name="viewport" content="width=device-width, initial-scale=1">'
-    output += "</head><body><div>"
+    doc = yattag.Doc()
+    write_html_head(doc, title)
+    output = cast(str, doc.getvalue())
+    output += "<body><div>"
     for index, item in enumerate(items):
         if index:
             output += " ¦ "
