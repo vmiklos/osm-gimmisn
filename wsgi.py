@@ -628,24 +628,40 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
         items.append(doc)
 
 
-def fill_header_function(function: str, relation_name: str, items: List[yattag.Doc]) -> str:
-    """Fills items with function-specific links in the header. Returns a title."""
+def get_html_title(request_uri: str) -> str:
+    """Determines the HTML title for a given function and relation name."""
+    tokens = request_uri.split("/")
+    function = ""
+    relation_name = ""
+    if len(tokens) > 3:
+        function = tokens[2]
+        relation_name = tokens[3]
     title = ""
     if function == "suspicious-streets":
         title = " - " + _("{0} missing house numbers").format(relation_name)
+    elif function == "suspicious-relations":
+        title = " - " + relation_name + " " + _("missing streets")
+    elif function == "street-housenumbers":
+        title = " - " + relation_name + " " + _("existing house numbers")
+    elif function == "streets":
+        title = " - " + relation_name + " " + _("existing streets")
+    return title
+
+
+def fill_header_function(function: str, relation_name: str, items: List[yattag.Doc]) -> None:
+    """Fills items with function-specific links in the header. Returns a title."""
+    if function == "suspicious-streets":
         doc = yattag.Doc()
         with doc.tag("a", href="/osm/suspicious-streets/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
         doc.text(" " + _("(may take seconds)"))
         items.append(doc)
     elif function == "suspicious-relations":
-        title = " - " + relation_name + " " + _("missing streets")
         doc = yattag.Doc()
         with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
         items.append(doc)
     elif function == "street-housenumbers":
-        title = " - " + relation_name + " " + _("existing house numbers")
         doc = yattag.Doc()
         with doc.tag("a", "/osm/street-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Call Overpass to update"))
@@ -656,7 +672,6 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.D
             doc.text(_("View query"))
         items.append(doc)
     elif function == "streets":
-        title = " - " + relation_name + " " + _("existing streets")
         doc = yattag.Doc()
         with doc.tag("a", href="/osm/streets/" + relation_name + "/update-result"):
             doc.text(_("Call Overpass to update"))
@@ -666,7 +681,6 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.D
         with doc.tag("a", href="/osm/streets/" + relation_name + "/view-query"):
             doc.text(_("View query"))
         items.append(doc)
-    return title
 
 
 def write_html_header(doc: yattag.Doc) -> None:
@@ -695,7 +709,6 @@ def get_header(
     """Produces the start of the page. Note that the content depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
-    title = ""
     items = []  # type: List[yattag.Doc]
 
     if relations and relation_name:
@@ -713,7 +726,7 @@ def get_header(
             doc.text(_("Existing streets"))
         items.append(doc)
 
-    title = fill_header_function(function, relation_name, items)
+    fill_header_function(function, relation_name, items)
 
     if relation_osmid:
         doc = yattag.Doc()
@@ -725,10 +738,7 @@ def get_header(
         doc.text(_("Documentation"))
     items.append(doc)
 
-    doc = yattag.Doc()
-    write_html_head(doc, title)
-    output = cast(str, doc.getvalue())
-    output += "<body><div>"
+    output = "<body><div>"
     for index, item in enumerate(items):
         if index:
             output += " ¦ "
@@ -815,6 +825,15 @@ def our_application_txt(
     return send_response(start_response, content_type, "200 OK", output)
 
 
+def get_request_uri(environ: Dict[str, Any]) -> str:
+    """Finds out the request URI."""
+    request_uri = ""
+    path_info = environ.get("PATH_INFO")
+    if path_info:
+        request_uri = path_info
+    return request_uri
+
+
 def our_application(
         environ: Dict[str, Any],
         start_response: 'StartResponse'
@@ -831,15 +850,10 @@ def our_application(
     if not language:
         language = "hu"
 
-    path_info = environ.get("PATH_INFO")
-    if path_info:
-        request_uri = path_info  # type: str
+    request_uri = get_request_uri(environ)
     _ignore, _ignore, ext = request_uri.partition('.')
 
-    config = get_config()
-    workdir = helpers.get_workdir(config)
-
-    relations = helpers.Relations(get_datadir(), workdir)
+    relations = helpers.Relations(get_datadir(), helpers.get_workdir(config))
 
     if ext == "txt":
         return our_application_txt(start_response, relations, request_uri)
@@ -851,6 +865,8 @@ def our_application(
     doc = yattag.Doc()
     write_html_header(doc)
     with doc.tag("html", lang=language):
+        write_html_head(doc, get_html_title(request_uri))
+
         if request_uri.startswith("/osm/streets/"):
             output = handle_streets(relations, request_uri)
         elif request_uri.startswith("/osm/suspicious-relations/"):
