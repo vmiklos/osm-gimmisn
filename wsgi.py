@@ -73,13 +73,17 @@ def handle_overpass_error(http_error: urllib.error.HTTPError) -> str:
 
 def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
-    output = ""
-
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     action = tokens[-1]
 
     relation = relations.get_relation(relation_name)
+    osmrelation = relation.get_config().get_osmrelation()
+
+    doc = yattag.Doc()
+    doc.asis(get_toolbar(relations, "streets", relation_name, osmrelation).getvalue())
+    output = doc.getvalue()  # type: str
+
     if action == "view-query":
         output += "<pre>"
         output += relation.get_osm_streets_query()
@@ -102,19 +106,22 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
         except urllib.error.HTTPError as http_error:
             output += handle_overpass_error(http_error)
 
-    osmrelation = relation.get_config().get_osmrelation()
     date = get_streets_last_modified(relation)
-    return get_header(relations, "streets", relation_name, osmrelation) + output + get_footer(date)
+    return output + get_footer(date)
 
 
 def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
-    output = ""
-
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     action = tokens[-1]
+
     relation = relations.get_relation(relation_name)
+    osmrelation = relation.get_config().get_osmrelation()
+
+    doc = yattag.Doc()
+    doc.asis(get_toolbar(relations, "street-housenumbers", relation_name, osmrelation).getvalue())
+    output = doc.getvalue()  # type: str
 
     if action == "view-query":
         output += "<pre>"
@@ -134,9 +141,8 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
         except urllib.error.HTTPError as http_error:
             output += handle_overpass_error(http_error)
 
-    osmrelation = relation.get_config().get_osmrelation()
     date = get_housenumbers_last_modified(relation)
-    return get_header(relations, "street-housenumbers", relation_name, osmrelation) + output + get_footer(date)
+    return output + get_footer(date)
 
 
 def gen_link(url: str, label: str) -> str:
@@ -291,8 +297,6 @@ def missing_streets_update(relations: helpers.Relations, relation_name: str) -> 
 
 def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
-    output = ""
-
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     action = tokens[-1]
@@ -300,6 +304,11 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     date = None
 
     relation = relations.get_relation(relation_name)
+    osmrelation = relation.get_config().get_osmrelation()
+    doc = yattag.Doc()
+    doc.asis(get_toolbar(relations, "suspicious-streets", relation_name, osmrelation).getvalue())
+    output = doc.getvalue()  # type: str
+
     if action_noext == "view-result":
         if ext == "txt":
             return missing_housenumbers_view_txt(relations, request_uri)
@@ -314,21 +323,24 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     elif action_noext == "update-result":
         output += missing_housenumbers_update(relations, relation_name)
 
-    osmrelation = relation.get_config().get_osmrelation()
     if not date:
         date = ref_housenumbers_last_modified(relations, relation_name)
-    return get_header(relations, "suspicious-streets", relation_name, osmrelation) + output + get_footer(date)
+    return output + get_footer(date)
 
 
 def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-[result|query]."""
-    output = ""
-
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     action = tokens[-1]
     action_noext, _, ext = action.partition('.')
+
     relation = relations.get_relation(relation_name)
+    osmrelation = relation.get_config().get_osmrelation()
+
+    doc = yattag.Doc()
+    doc.asis(get_toolbar(relations, "suspicious-relations", relation_name, osmrelation).getvalue())
+    output = doc.getvalue()  # type: str
 
     if action_noext == "view-result":
         if ext == "txt":
@@ -343,9 +355,8 @@ def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> st
     elif action_noext == "update-result":
         output += missing_streets_update(relations, relation_name)
 
-    osmrelation = relation.get_config().get_osmrelation()
     date = ref_streets_last_modified(relation)
-    return get_header(relations, "suspicious-relations", relation_name, osmrelation) + output + get_footer(date)
+    return output + get_footer(date)
 
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
@@ -531,7 +542,9 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
     Also handles /osm/filter-for/* which filters for a condition."""
     filter_for, refmegye = setup_main_filter_for(request_uri)
 
-    output = ""
+    doc = yattag.Doc()
+    doc.asis(get_toolbar(relations).getvalue())
+    output = doc.getvalue()  # type: str
 
     output += "<h1>" + _("Where to map?") + "</h1>"
     output += handle_main_filters(relations, refmegye)
@@ -558,16 +571,15 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
             row.append(doc)
             if float(percent) < 100.0:
                 complete = False
-        else:
-            row.append(yattag.Doc())
 
-        if streets != "only":
             date = get_housenumbers_last_modified(relation)
             doc = yattag.Doc()
             doc.asis("<a href=\"/osm/street-housenumbers/" + relation_name + "/view-result\""
                      " title=\"" + _("updated") + " " + date + "\" >" + _("existing house numbers") + "</a>")
             row.append(doc)
         else:
+            row.append(yattag.Doc())
+
             row.append(yattag.Doc())
 
         if streets != "no":
@@ -599,7 +611,7 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
     output += _("Add new area")
     output += "</a></p>"
 
-    return get_header(relations) + output + get_footer()
+    return output + get_footer()
 
 
 def fill_missing_header_items(streets: str, relation_name: str, items: List[yattag.Doc]) -> None:
@@ -700,12 +712,12 @@ def write_html_head(doc: yattag.Doc, title: str) -> None:
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
 
 
-def get_header(
+def get_toolbar(
         relations: Optional[helpers.Relations] = None,
         function: str = "",
         relation_name: str = "",
         relation_osmid: int = 0
-) -> str:
+) -> yattag.Doc:
     """Produces the start of the page. Note that the content depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
@@ -738,13 +750,14 @@ def get_header(
         doc.text(_("Documentation"))
     items.append(doc)
 
-    output = "<div>"
-    for index, item in enumerate(items):
-        if index:
-            output += " ¦ "
-        output += item.getvalue()
-    output += "</div><hr/>"
-    return output
+    doc = yattag.Doc()
+    with doc.tag("div"):
+        for index, item in enumerate(items):
+            if index:
+                doc.text(" ¦ ")
+            doc.asis(item.getvalue())
+    doc.stag("hr")
+    return doc
 
 
 def get_footer(last_updated: str = "") -> str:
