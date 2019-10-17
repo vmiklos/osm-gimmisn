@@ -490,30 +490,57 @@ def create_filter_for_refmegye_reftelepules(
     return filter_for
 
 
-def handle_main_filters(relations: helpers.Relations, refmegye_id: str) -> str:
+def handle_main_filters_refmegye(relations: helpers.Relations, refmegye_id: str, refmegye: str) -> yattag.Doc:
+    """Handles one refmegye in the filter part of the main wsgi page."""
+    doc = yattag.Doc()
+    name = relations.refmegye_get_name(refmegye)
+    if not name:
+        return doc
+
+    with doc.tag("a", href="/osm/filter-for/refmegye/" + refmegye):
+        doc.text(name)
+    if refmegye_id and refmegye == refmegye_id:
+        reftelepules_ids = relations.refmegye_get_reftelepules_ids(refmegye_id)
+        if reftelepules_ids:
+            names = []  # type: List[yattag.Doc]
+            for reftelepules_id in reftelepules_ids:
+                name = relations.reftelepules_get_name(refmegye_id, reftelepules_id)
+                if name:
+                    name_doc = yattag.Doc()
+                    href_format = "/osm/filter-for/refmegye/{}/reftelepules/{}"
+                    with name_doc.tag("a", href=href_format.format(refmegye, reftelepules_id)):
+                        name_doc.text(name)
+                    names.append(name_doc)
+            if names:
+                doc.text(" (")
+                for index, item in enumerate(names):
+                    if index:
+                        doc.text(", ")
+                    doc.asis(item.getvalue())
+                doc.text(")")
+    return doc
+
+
+def handle_main_filters(relations: helpers.Relations, refmegye_id: str) -> yattag.Doc:
     """Handlers the filter part of the main wsgi page."""
-    items = []
-    items.append('<a href="/osm/filter-for/incomplete">' + _("Hide complete areas") + '</a>')
+    items = []  # type: List[yattag.Doc]
+    doc = yattag.Doc()
+    with doc.tag("a", href="/osm/filter-for/incomplete"):
+        doc.text(_("Hide complete areas"))
+    items.append(doc)
     # Sorted set of refmegye values of all relations.
     for refmegye in sorted({relation.get_config().get_refmegye() for relation in relations.get_relations()}):
-        name = relations.refmegye_get_name(refmegye)
-        if not name:
-            continue
-
-        item = '<a href="/osm/filter-for/refmegye/' + refmegye + '">' + name + '</a>'
-        if refmegye_id and refmegye == refmegye_id:
-            reftelepules_ids = relations.refmegye_get_reftelepules_ids(refmegye_id)
-            if reftelepules_ids:
-                names = []
-                for reftelepules_id in reftelepules_ids:
-                    name = relations.reftelepules_get_name(refmegye_id, reftelepules_id)
-                    if name:
-                        a_format = '<a href="/osm/filter-for/refmegye/{}/reftelepules/{}">'
-                        names.append(a_format.format(refmegye, reftelepules_id) + name + '</a>')
-                if names:
-                    item += " (" + ", ".join(names) + ")"
-        items.append(item)
-    return '<p>' + _("Filters:") + " " + " ¦ ".join(items) + '</p>'
+        items.append(handle_main_filters_refmegye(relations, refmegye_id, refmegye))
+    doc = yattag.Doc()
+    with doc.tag("h1"):
+        doc.text(_("Where to map?"))
+    with doc.tag("p"):
+        doc.text(_("Filters:") + " ")
+        for index, item in enumerate(items):
+            if index:
+                doc.text(" ¦ ")
+            doc.asis(item.getvalue())
+    return doc
 
 
 def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, helpers.Relation], bool], str]:
@@ -544,10 +571,9 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
 
     doc = yattag.Doc()
     doc.asis(get_toolbar(relations).getvalue())
-    output = doc.getvalue()  # type: str
 
-    output += "<h1>" + _("Where to map?") + "</h1>"
-    output += handle_main_filters(relations, refmegye)
+    doc.asis(handle_main_filters(relations, refmegye).getvalue())
+    output = doc.getvalue()  # type: str
     table = []
     table.append([util.html_escape(_("Area")),
                   util.html_escape(_("House number coverage")),
