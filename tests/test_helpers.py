@@ -449,7 +449,7 @@ class TestHtmlTableFromList(unittest.TestCase):
         expected += '<tr><th><a href="#">A1</a></th>'
         expected += '<th><a href="#">B1</a></th></tr>'
         expected += '<tr><td>A2</td><td>B2</td></tr></table>'
-        ret = helpers.html_table_from_list(fro)
+        ret = helpers.html_table_from_list(fro).getvalue()
         self.assertEqual(ret, expected)
 
 

@@ -826,7 +826,7 @@ def tsv_to_list(sock: TextIO) -> List[List[yattag.Doc]]:
     return table
 
 
-def html_table_from_list(table: List[List[yattag.Doc]]) -> str:
+def html_table_from_list(table: List[List[yattag.Doc]]) -> yattag.Doc:
     """Produces a HTML table from a list of lists."""
     doc = yattag.Doc()
     with doc.tag("table", klass="sortable"):
@@ -840,7 +840,7 @@ def html_table_from_list(table: List[List[yattag.Doc]]) -> str:
                     else:
                         with doc.tag("td"):
                             doc.asis(cell.getvalue())
-    return cast(str, doc.getvalue())
+    return doc
 
 
 def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:

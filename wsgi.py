@@ -91,7 +91,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
     elif action == "view-result":
         with relation.get_files().get_osm_streets_stream("r") as sock:
             table = helpers.tsv_to_list(sock)
-            output += helpers.html_table_from_list(table)
+            output += helpers.html_table_from_list(table).getvalue()
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
@@ -130,7 +130,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
     elif action == "view-result":
         with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             table = helpers.tsv_to_list(sock)
-            output += helpers.html_table_from_list(table)
+            output += helpers.html_table_from_list(table).getvalue()
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:
@@ -188,7 +188,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
         output += _("Filter incorrect information")
         output += "</a>.</p>"
 
-        output += helpers.html_table_from_list(table)
+        output += helpers.html_table_from_list(table).getvalue()
     return output
 
 
@@ -222,7 +222,7 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
         output += _(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent))
         output += "</p>"
 
-        output += helpers.html_table_from_list(table)
+        output += helpers.html_table_from_list(table).getvalue()
     return output
 
 
@@ -632,7 +632,7 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
 
         if filter_for(complete, relation):
             table.append(row)
-    output += helpers.html_table_from_list(table)
+    output += helpers.html_table_from_list(table).getvalue()
     output += "<p><a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">"
     output += _("Add new area")
     output += "</a></p>"
