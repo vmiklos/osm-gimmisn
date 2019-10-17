@@ -633,7 +633,6 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
     doc.asis(get_toolbar(relations).getvalue())
 
     doc.asis(handle_main_filters(relations, refmegye).getvalue())
-    output = doc.getvalue()  # type: str
     table = []
     table.append([util.html_escape(_("Area")),
                   util.html_escape(_("House number coverage")),
@@ -645,11 +644,12 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
         row = handle_main_relation(relations, filter_for, relation_name)
         if row:
             table.append(row)
-    output += helpers.html_table_from_list(table).getvalue()
-    output += "<p><a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">"
-    output += _("Add new area")
-    output += "</a></p>"
+    doc.asis(helpers.html_table_from_list(table).getvalue())
+    with doc.tag("p"):
+        with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
+            doc.text(_("Add new area"))
 
+    output = doc.getvalue()  # type: str
     return output + get_footer()
 
 
