@@ -147,14 +147,15 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
 
 def gen_link(url: str, label: str) -> str:
     """Generates a link to a URL with a given label."""
-    ret = '<a href="%s">' % url
-    ret += label + "..."
-    ret += "</a>"
+    doc = yattag.Doc()
+    with doc.tag("a", href=url):
+        doc.text(label + "...")
 
     # Always auto-visit the link for now.
-    ret += '<script type="text/javascript">window.location.href = "%s";</script>' % url
+    with doc.tag("script", type="text/javascript"):
+        doc.text("window.location.href = \"%s\";" % url)
 
-    return ret
+    return cast(str, doc.getvalue())
 
 
 def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str) -> str:
