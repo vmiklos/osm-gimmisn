@@ -205,8 +205,10 @@ filters:
       - {start: '30', end: '36'}
   Galvani utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      # 7-9 egy bozótos terület, a Duna fele a páros oldalon a Budafokiról számozódik
+      - {start: '1', end: '5'}
+      - {start: '11', end: '17'}
+      - {start: '2', end: '52'}
   Györök utca:
     ranges:
       - {start: '1', end: '35'}
@@ -431,7 +433,7 @@ filters:
     ranges:
       - {start: '5', end: '17'}
       - {start: '21', end: '59'}
-      # {start: '2', end: '48'} # nincs pároson semmi csak egy fals cím ESTILO bútoház
+      - {start: '46', end: '46'}  # nincs pároson semmi csak egy fals cím ESTILO bútoház
   Szombathelyi tér:
     interpolation: 'all'
     ranges:
@@ -498,4 +500,4 @@ filters:
       - {start: '33', end: '39'}
       - {start: '2', end: '36'}
 source: survey
-inactive: false
+inactive: true
