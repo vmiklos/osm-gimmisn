@@ -107,7 +107,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
             output += handle_overpass_error(http_error)
 
     date = get_streets_last_modified(relation)
-    return output + get_footer(date)
+    return output + cast(str, get_footer(date).getvalue())
 
 
 def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
@@ -142,7 +142,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
             output += handle_overpass_error(http_error)
 
     date = get_housenumbers_last_modified(relation)
-    return output + get_footer(date)
+    return output + cast(str, get_footer(date).getvalue())
 
 
 def gen_link(url: str, label: str) -> str:
@@ -325,7 +325,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
 
     if not date:
         date = ref_housenumbers_last_modified(relations, relation_name)
-    return output + get_footer(date)
+    return output + cast(str, get_footer(date).getvalue())
 
 
 def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> str:
@@ -356,7 +356,7 @@ def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> st
         output += missing_streets_update(relations, relation_name)
 
     date = ref_streets_last_modified(relation)
-    return output + get_footer(date)
+    return output + cast(str, get_footer(date).getvalue())
 
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
@@ -623,7 +623,7 @@ def handle_main_relation(
     return row
 
 
-def handle_main(request_uri: str, relations: helpers.Relations) -> str:
+def handle_main(request_uri: str, relations: helpers.Relations) -> yattag.Doc:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
@@ -649,8 +649,8 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> str:
         with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
             doc.text(_("Add new area"))
 
-    output = doc.getvalue()  # type: str
-    return output + get_footer()
+    doc.asis(get_footer().getvalue())
+    return doc
 
 
 def fill_missing_header_items(streets: str, relation_name: str, items: List[yattag.Doc]) -> None:
@@ -799,17 +799,24 @@ def get_toolbar(
     return doc
 
 
-def get_footer(last_updated: str = "") -> str:
+def get_footer(last_updated: str = "") -> yattag.Doc:
     """Produces the end of the page."""
-    items = []
-    items.append(_("Version: ") + helpers.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/"))
-    items.append(_("OSM data © OpenStreetMap contributors."))
+    items = []  # type: List[yattag.Doc]
+    doc = yattag.Doc()
+    doc.text(_("Version: "))
+    doc.asis(helpers.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/").getvalue())
+    items.append(doc)
+    items.append(util.html_escape(_("OSM data © OpenStreetMap contributors.")))
     if last_updated:
-        items.append(_("Last update: ") + last_updated)
-    output = "<hr/><div>"
-    output += " ¦ ".join(items)
-    output += "</div>"
-    return output
+        items.append(util.html_escape(_("Last update: ") + last_updated))
+    doc = yattag.Doc()
+    doc.stag("hr")
+    with doc.tag("div"):
+        for index, item in enumerate(items):
+            if index:
+                doc.text(" ¦ ")
+            doc.asis(item.getvalue())
+    return doc
 
 
 def handle_github_webhook(environ: Dict[str, Any]) -> str:
@@ -930,7 +937,7 @@ def our_application(
             elif request_uri.startswith("/osm/webhooks/github"):
                 output = handle_github_webhook(environ)
             else:
-                output = handle_main(request_uri, relations)
+                output = handle_main(request_uri, relations).getvalue()
             doc.asis(output)
 
     return send_response(start_response, "text/html", "200 OK", doc.getvalue())

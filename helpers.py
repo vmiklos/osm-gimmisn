@@ -750,13 +750,13 @@ def get_in_both(first: List[str], second: List[str]) -> List[str]:
     return ret
 
 
-def git_link(version: str, prefix: str) -> str:
+def git_link(version: str, prefix: str) -> yattag.Doc:
     """Generates a HTML link based on a website prefix and a git-describe version."""
     commit_hash = re.sub(".*-g", "", version)
     doc = yattag.Doc()
     with doc.tag("a", href=prefix + commit_hash):
         doc.text(version)
-    return cast(str, doc.getvalue())
+    return doc
 
 
 def get_nth_column(sock: TextIO, column: int) -> List[str]:
