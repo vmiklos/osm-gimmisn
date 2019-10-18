@@ -61,14 +61,15 @@ def get_staticdir() -> str:
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def handle_overpass_error(http_error: urllib.error.HTTPError) -> str:
+def handle_overpass_error(http_error: urllib.error.HTTPError) -> yattag.Doc:
     """Handles a HTTP error from Overpass."""
-    ret = _("Overpass error: {0}").format(str(http_error))
+    doc = yattag.Doc()
+    doc.text(_("Overpass error: {0}").format(str(http_error)))
     sleep = overpass_query.overpass_query_need_sleep()
     if sleep:
-        ret += "<br>"
-        ret += _("Note: wait for {} seconds").format(sleep)
-    return ret
+        doc.stag("br")
+        doc.text(_("Note: wait for {} seconds").format(sleep))
+    return doc
 
 
 def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
@@ -104,7 +105,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
             else:
                 output += _("Update successful.")
         except urllib.error.HTTPError as http_error:
-            output += handle_overpass_error(http_error)
+            output += cast(str, handle_overpass_error(http_error).getvalue())
 
     date = get_streets_last_modified(relation)
     return output + cast(str, get_footer(date).getvalue())
