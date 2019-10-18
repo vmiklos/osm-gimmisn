@@ -714,7 +714,7 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.D
         items.append(doc)
     elif function == "street-housenumbers":
         doc = yattag.Doc()
-        with doc.tag("a", "/osm/street-housenumbers/" + relation_name + "/update-result"):
+        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Call Overpass to update"))
         doc.text(" " + _("(may take seconds)"))
         items.append(doc)
