@@ -6,6 +6,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_overpass_query.py \
 	tests/test_util.py \
 	tests/test_validator.py \
+	tests/test_wsgi.py \
 
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \

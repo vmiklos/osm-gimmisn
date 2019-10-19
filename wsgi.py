@@ -9,13 +9,13 @@
 
 import configparser
 import datetime
+import json
 import locale
 import os
-import traceback
-import urllib.parse
-import json
 import subprocess
 import sys
+import traceback
+import urllib.parse
 from typing import Any
 from typing import Callable
 from typing import Dict
@@ -791,7 +791,7 @@ def get_toolbar(
     items.append(doc)
 
     doc = yattag.Doc()
-    with doc.tag("div"):
+    with doc.tag("div", id="toolbar"):
         for index, item in enumerate(items):
             if index:
                 doc.text(" ¦ ")
@@ -903,7 +903,11 @@ def our_application(
         ui_locale = config.get("wsgi", "locale")
     else:
         ui_locale = "hu_HU.UTF-8"
-    locale.setlocale(locale.LC_ALL, ui_locale)
+    try:
+        locale.setlocale(locale.LC_ALL, ui_locale)
+    except locale.Error:
+        # Ignore, this happens only on the cut-down CI environment.
+        pass
 
     language = setup_localization(environ)
     if not language:
