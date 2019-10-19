@@ -83,32 +83,31 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
 
     doc = yattag.Doc()
     doc.asis(get_toolbar(relations, "streets", relation_name, osmrelation).getvalue())
-    output = doc.getvalue()  # type: str
 
     if action == "view-query":
-        output += "<pre>"
-        output += relation.get_osm_streets_query()
-        output += "</pre>"
+        with doc.tag("pre"):
+            doc.text(relation.get_osm_streets_query())
     elif action == "view-result":
         with relation.get_files().get_osm_streets_stream("r") as sock:
             table = helpers.tsv_to_list(sock)
-            output += helpers.html_table_from_list(table).getvalue()
+            doc.asis(helpers.html_table_from_list(table).getvalue())
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
             relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
             streets = relation.get_config().should_check_missing_streets()
             if streets != "only":
-                output += _("Update successful: ")
-                output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
-                                   _("View missing house numbers"))
+                doc.text(_("Update successful: "))
+                doc.asis(gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
+                                  _("View missing house numbers")))
             else:
-                output += _("Update successful.")
+                doc.text(_("Update successful."))
         except urllib.error.HTTPError as http_error:
-            output += cast(str, handle_overpass_error(http_error).getvalue())
+            doc.asis(handle_overpass_error(http_error).getvalue())
 
     date = get_streets_last_modified(relation)
-    return output + cast(str, get_footer(date).getvalue())
+    doc.asis(get_footer(date).getvalue())
+    return cast(str, doc.getvalue())
 
 
 def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
