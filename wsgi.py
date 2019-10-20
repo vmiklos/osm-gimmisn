@@ -121,28 +121,27 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
 
     doc = yattag.Doc()
     doc.asis(get_toolbar(relations, "street-housenumbers", relation_name, osmrelation).getvalue())
-    output = doc.getvalue()  # type: str
 
     if action == "view-query":
-        output += "<pre>"
-        output += relation.get_osm_housenumbers_query()
-        output += "</pre>"
+        with doc.tag("pre"):
+            doc.text(relation.get_osm_housenumbers_query())
     elif action == "view-result":
         with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             table = helpers.tsv_to_list(sock)
-            output += helpers.html_table_from_list(table).getvalue()
+            doc.asis(helpers.html_table_from_list(table).getvalue())
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:
             relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
-            output += _("Update successful: ")
-            output += gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
-                               _("View missing house numbers"))
+            doc.text(_("Update successful: "))
+            doc.asis(gen_link("/osm/suspicious-streets/" + relation_name + "/view-result",
+                              _("View missing house numbers")))
         except urllib.error.HTTPError as http_error:
-            output += handle_overpass_error(http_error)
+            doc.asis(handle_overpass_error(http_error))
 
     date = get_housenumbers_last_modified(relation)
-    return output + cast(str, get_footer(date).getvalue())
+    doc.asis(get_footer(date).getvalue())
+    return cast(str, doc.getvalue())
 
 
 def gen_link(url: str, label: str) -> str:
