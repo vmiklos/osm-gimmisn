@@ -199,17 +199,15 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
 
-    output = ""
+    doc = yattag.Doc()
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += _("No existing streets: ")
-        output += "<a href=\"/osm/streets/" + relation_name + "/update-result\">"
-        output += _("Call Overpass to create")
-        output += "</a>"
+        doc.text(_("No existing streets: "))
+        with doc.tag("a", href="/osm/streets/" + relation_name + "/update-result"):
+            doc.text(_("Call Overpass to create"))
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
-        output += _("No street list: ")
-        output += "<a href=\"/osm/suspicious-relations/" + relation_name + "/update-result\">"
-        output += _("Create from reference")
-        output += "</a>"
+        doc.text(_("No street list: "))
+        with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/update-result"):
+            doc.text(_("Create from reference"))
     else:
         ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
@@ -218,13 +216,12 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
         for street in streets:
             table.append([util.html_escape(street)])
 
-        output += "<p>"
-        output += _("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count))
-        output += _(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent))
-        output += "</p>"
+        with doc.tag("p"):
+            doc.text(_("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
+            doc.text(_(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)))
 
-        output += helpers.html_table_from_list(table).getvalue()
-    return output
+        doc.asis(helpers.html_table_from_list(table).getvalue())
+    return cast(str, doc.getvalue())
 
 
 def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str) -> str:
