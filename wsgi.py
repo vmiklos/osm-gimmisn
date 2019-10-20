@@ -162,34 +162,35 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
 
-    output = ""
+    doc = yattag.Doc()
     relation = relations.get_relation(relation_name)
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += _("No existing streets: ")
-        output += gen_link("/osm/streets/" + relation_name + "/update-result",
-                           _("Call Overpass to create"))
+        doc.text(_("No existing streets: "))
+        doc.asis(gen_link("/osm/streets/" + relation_name + "/update-result",
+                          _("Call Overpass to create")))
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
-        output += _("No existing house numbers: ")
-        output += gen_link("/osm/street-housenumbers/" + relation_name + "/update-result",
-                           _("Call Overpass to create"))
+        doc.text(_("No existing house numbers: "))
+        doc.asis(gen_link("/osm/street-housenumbers/" + relation_name + "/update-result",
+                          _("Call Overpass to create")))
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
-        output += _("No missing house numbers: ")
-        output += gen_link("/osm/suspicious-streets/" + relation_name + "/update-result",
-                           _("Create from reference"))
+        doc.text(_("No missing house numbers: "))
+        doc.asis(gen_link("/osm/suspicious-streets/" + relation_name + "/update-result",
+                          _("Create from reference")))
     else:
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
 
-        output += "<p>"
-        output += _("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.") \
-            .format(str(todo_count), str(todo_street_count))
-        output += _(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)) + "<br>"
-        output += "<a href=\"https://github.com/vmiklos/osm-gimmisn/tree/master/doc\">"
-        output += _("Filter incorrect information")
-        output += "</a>.</p>"
+        with doc.tag("p"):
+            doc.text(_("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
+                     .format(str(todo_count), str(todo_street_count)))
+            doc.text(_(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)))
+            doc.stag("br")
+            with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
+                doc.text(_("Filter incorrect information"))
+            doc.text(".")
 
-        output += helpers.html_table_from_list(table).getvalue()
-    return output
+        doc.asis(helpers.html_table_from_list(table).getvalue())
+    return cast(str, doc.getvalue())
 
 
 def missing_relations_view_result(relations: helpers.Relations, request_uri: str) -> str:
