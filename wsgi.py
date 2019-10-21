@@ -422,22 +422,23 @@ def get_streets_last_modified(relation: helpers.Relation) -> str:
 
 def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[str, str]:
     """Handles the house number percent part of the main page."""
-    url = "\"/osm/suspicious-streets/" + relation.get_name() + "/view-result\""
+    url = "/osm/suspicious-streets/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_housenumbers_percent_path()):
         percent = helpers.get_content(relation.get_files().get_housenumbers_percent_path())
 
+    doc = yattag.Doc()
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
-        cell = "<strong><a href=" + url + " title=\"" + _("updated") + " " + date + "\">"
-        cell += percent + "%"
-        cell += "</a></strong>"
-        return cell, percent
+        with doc.tag("strong"):
+            with doc.tag("a", href=url, title=_("updated") + " " + date):
+                doc.text(percent + "%")
+        return cast(str, doc.getvalue()), percent
 
-    cell = "<strong><a href=" + url + ">"
-    cell += _("missing house numbers")
-    cell += "</a></strong>"
-    return cell, "0"
+    with doc.tag("strong"):
+        with doc.tag("a", href=url):
+            doc.text(_("missing house numbers"))
+    return cast(str, doc.getvalue()), "0"
 
 
 def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
