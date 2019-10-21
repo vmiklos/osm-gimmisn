@@ -443,22 +443,23 @@ def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[str, str]:
 
 def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
     """Handles the street percent part of the main page."""
-    url = "\"/osm/suspicious-relations/" + relation.get_name() + "/view-result\""
+    url = "/osm/suspicious-relations/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_streets_percent_path()):
         percent = helpers.get_content(relation.get_files().get_streets_percent_path())
 
+    doc = yattag.Doc()
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_streets_percent_path())
-        cell = "<strong><a href=" + url + " title=\"" + _("updated") + " " + date + "\">"
-        cell += percent + "%"
-        cell += "</a></strong>"
-        return cell, percent
+        with doc.tag("strong"):
+            with doc.tag("a", href=url, title=_("updated") + " " + date):
+                doc.text(percent + "%")
+        return cast(str, doc.getvalue()), percent
 
-    cell = "<strong><a href=" + url + ">"
-    cell += _("missing streets")
-    cell += "</a></strong>"
-    return cell, "0"
+    with doc.tag("strong"):
+        with doc.tag("a", href=url):
+            doc.text(_("missing streets"))
+    return cast(str, doc.getvalue()), "0"
 
 
 def filter_for_everything(_complete: bool, _relation: helpers.Relation) -> bool:
