@@ -3,6 +3,7 @@ filters: {}
 street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon
   - Alsóhegyi lépcső  # csak házszám van, az utca helye a susnyában
+  - Báthori utca  # nem létezik
   - Talaj köz  # nem létezik
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
