@@ -171,7 +171,7 @@ filters:
       - {start: '9', end: '31'}
       - {start: '18', end: '38'}
   Fehérvári út:
-    # Fehervari 58-68, 132-144 egyben. 152 utan 160 jon
+    # Fehervari 58-68, 132-144 egyben. 152 utan 160 jon, majd 166 a benzikút
     # 161 Andor utca sarka-179 Ventura kozott semmit, 183-tol jon a panel
     ranges:
       - {start: '23', end: '79'}
@@ -184,7 +184,8 @@ filters:
       - {start: '124', end: '124'}
       - {start: '130', end: '148'}
       - {start: '152', end: '152'}
-      - {start: '160', end: '166'}
+      - {start: '160', end: '160'}
+      - {start: '166', end: '166'}
   Fejér Lipót utca:
     ranges:
       - {start: '13', end: '15'}
