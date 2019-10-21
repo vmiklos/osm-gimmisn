@@ -337,23 +337,22 @@ def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> st
 
     doc = yattag.Doc()
     doc.asis(get_toolbar(relations, "suspicious-relations", relation_name, osmrelation).getvalue())
-    output = doc.getvalue()  # type: str
 
     if action_noext == "view-result":
         if ext == "txt":
             return missing_streets_view_txt(relations, request_uri)
 
-        output += missing_relations_view_result(relations, request_uri)
+        doc.asis(missing_relations_view_result(relations, request_uri))
     elif action_noext == "view-query":
-        output += "<pre>"
-        with relation.get_files().get_ref_streets_stream("r") as sock:
-            output += sock.read()
-        output += "</pre>"
+        with doc.tag("pre"):
+            with relation.get_files().get_ref_streets_stream("r") as sock:
+                doc.asis(sock.read())
     elif action_noext == "update-result":
-        output += missing_streets_update(relations, relation_name)
+        doc.asis(missing_streets_update(relations, relation_name))
 
     date = ref_streets_last_modified(relation)
-    return output + cast(str, get_footer(date).getvalue())
+    doc.asis(get_footer(date).getvalue())
+    return cast(str, doc.getvalue())
 
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
