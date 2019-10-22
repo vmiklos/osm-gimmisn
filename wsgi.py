@@ -137,7 +137,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
             link = "/osm/suspicious-streets/" + relation_name + "/view-result"
             doc.asis(gen_link(link, _("View missing house numbers")).getvalue())
         except urllib.error.HTTPError as http_error:
-            doc.asis(handle_overpass_error(http_error))
+            doc.asis(handle_overpass_error(http_error).getvalue())
 
     date = get_housenumbers_last_modified(relation)
     doc.asis(get_footer(date).getvalue())
@@ -157,7 +157,7 @@ def gen_link(url: str, label: str) -> yattag.Doc:
     return doc
 
 
-def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str) -> str:
+def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -190,7 +190,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
             doc.text(".")
 
         doc.asis(helpers.html_table_from_list(table).getvalue())
-    return cast(str, doc.getvalue())
+    return doc
 
 
 def missing_relations_view_result(relations: helpers.Relations, request_uri: str) -> str:
@@ -310,7 +310,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
         if ext == "txt":
             return missing_housenumbers_view_txt(relations, request_uri)
 
-        doc.asis(missing_housenumbers_view_res(relations, request_uri))
+        doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
     elif action_noext == "view-query":
         with doc.tag("pre"):
             with relation.get_files().get_ref_housenumbers_stream("r") as sock:
