@@ -193,7 +193,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
     return doc
 
 
-def missing_relations_view_result(relations: helpers.Relations, request_uri: str) -> str:
+def missing_relations_view_result(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/suspicious-relations/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -221,7 +221,7 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
             doc.text(_(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)))
 
         doc.asis(helpers.html_table_from_list(table).getvalue())
-    return cast(str, doc.getvalue())
+    return doc
 
 
 def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str) -> str:
@@ -343,7 +343,7 @@ def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> st
         if ext == "txt":
             return missing_streets_view_txt(relations, request_uri)
 
-        doc.asis(missing_relations_view_result(relations, request_uri))
+        doc.asis(missing_relations_view_result(relations, request_uri).getvalue())
     elif action_noext == "view-query":
         with doc.tag("pre"):
             with relation.get_files().get_ref_streets_stream("r") as sock:
