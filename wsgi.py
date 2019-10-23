@@ -273,16 +273,17 @@ def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> 
     return output
 
 
-def missing_housenumbers_update(relations: helpers.Relations, relation_name: str) -> str:
+def missing_housenumbers_update(relations: helpers.Relations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
     reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
     reference = [helpers.get_abspath(i) for i in reference]
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
-    output = _("Update successful: ")
+    doc = yattag.Doc()
+    doc.text(_("Update successful: "))
     link = "/osm/suspicious-streets/" + relation_name + "/view-result"
-    output += gen_link(link, _("View missing house numbers")).getvalue()
-    return output
+    doc.asis(gen_link(link, _("View missing house numbers")).getvalue())
+    return doc
 
 
 def missing_streets_update(relations: helpers.Relations, relation_name: str) -> str:
@@ -317,7 +318,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
                 doc.text(sock.read())
         date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
     elif action_noext == "update-result":
-        doc.asis(missing_housenumbers_update(relations, relation_name))
+        doc.asis(missing_housenumbers_update(relations, relation_name).getvalue())
 
     if not date:
         date = ref_housenumbers_last_modified(relations, relation_name)
