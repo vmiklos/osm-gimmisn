@@ -1,0 +1,16 @@
+suspicious-relations: 'no'
+filters:
+  Budafoki út:
+    # paros: 52 az eromu
+    ranges:
+      - {start: '40', end: '50'}
+  Dombóvári út:
+    # 1-23 kelenföld, 28+ kelenföld
+    interpolation: 'all'
+    ranges:
+      - {start: '24', end: '27'}
+  Hauszmann Alajos utca:
+    ranges:
+      - {start: '12', end: '20'}
+source: survey
+inactive: true
