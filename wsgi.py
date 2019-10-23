@@ -286,12 +286,12 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
     return doc
 
 
-def missing_streets_update(relations: helpers.Relations, relation_name: str) -> str:
+def missing_streets_update(relations: helpers.Relations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
     reference = helpers.get_abspath(get_config().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
-    return _("Update successful.")
+    return util.html_escape(_("Update successful."))
 
 
 def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
@@ -347,9 +347,9 @@ def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> st
     elif action_noext == "view-query":
         with doc.tag("pre"):
             with relation.get_files().get_ref_streets_stream("r") as sock:
-                doc.asis(sock.read())
+                doc.text(sock.read())
     elif action_noext == "update-result":
-        doc.asis(missing_streets_update(relations, relation_name))
+        doc.asis(missing_streets_update(relations, relation_name).getvalue())
 
     date = ref_streets_last_modified(relation)
     doc.asis(get_footer(date).getvalue())
