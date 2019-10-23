@@ -137,7 +137,7 @@ def main() -> None:
     config.read(config_path)
 
     datadir = get_srcdir("data")
-    workdir = config.get('wsgi', 'workdir').strip()
+    workdir = helpers.get_workdir(config)
     relations = helpers.Relations(datadir, workdir)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
