@@ -8,8 +8,25 @@ filters:
       - {start: '2', end: '48'}
       - {start: '52', end: '118'}
       - {start: '122', end: '152'}
+  Avar utca:
+    # Az Avar utca 2. és a Kiránduló utca 5. közös telken van, házszám a Kiránduló utcáról van csak.
+    # A páratlan oldalon a 7. az utolsó telek.
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '2'}
+      - {start: '6', end: '10'}
   Balatoni út:
     ranges: []
+  Bem József utca:
+    # A Bem József utca 5. és az Avar utca 10. közös telken van, házszám az Avar utcáról van csak.
+    # TODO: A Bem József utca 7. és az Avar utca 7. közös telken van, nem egyértelmű, hogy a házszám melyik utcához tartozik. Valószínűleg az Avar utcához.
+    # A Bem József utca 9. és a Görög utca 1. közös telken van, házszám a Görög utcáról van csak.
+    # A 19 és a 21 összenyitott telken van, de a házszám csak 19.
+    # A Bem József utca 23. és a Gádor utca 84. közös telken van, házszám a Gádor utcáról van csak.
+    ranges:
+      - {start: '3', end: '3'}
+      - {start: '11', end: '19'}
+      - {start: '2', end: '18'}
   Bimbó utca:
     # A Bimbó utca 2. és az Eperszem utca 4. közös telken van, házszám az Eperszem utcáról van csak.
     # TODO: A Bimbó utca 8. és a Szebeni utca 3. ugyanaz a telek. Új ház épült, még nincs házszám. A régi épület Szebeni utca 3. volt.
@@ -29,6 +46,21 @@ filters:
     # Területhatár, a páratlan oldal nem Budafok.
     ranges:
       - {start: '2', end: '998'}
+  Hollandi utca:
+    # A Hollandi utca 1. és a Szepesi utca 6. közös telken van, házszám a Szepesi utcáról van csak.
+    # A Hollandi utca 2-4. és a Szepesi utca 4. közös telken van, házszám a Szepesi utcáról van csak.
+    # A Hollandi utca 13. és a Kazinczy utca 5. közös telken van, házszám a Kazinczy utcáról van csak.
+    # A Hollandi utca 25. és a Turóci utca 2. közös telken van, házszám a Turóci utcáról van csak.
+    # A Hollandi utca 33. és a Rugó utca 1. közös telken van, házszám a Rugó utcáról van csak.
+    # A Hollandi utca 37. és a Karácsony utca 5. közös telken van, házszám a Karácsony utcáról van csak.
+    # A Hollandi utca 39. és a Karácsony utca 8. közös telken van, házszám a Karácsony utcáról van csak.
+    ranges:
+      - {start: '3', end: '11'}
+      - {start: '15', end: '23'}
+      - {start: '27', end: '31'}
+      - {start: '35', end: '35'}
+      - {start: '41', end: '47'}
+      - {start: '6', end: '62'}
   Játék utca:
     ranges:
       - {start: '17', end: '19'}
@@ -39,6 +71,18 @@ filters:
     ranges:
       - {start: '3', end: '9'}
       - {start: '6', end: '6'}
+  Kossuth Lajos utca:
+    # A 19-et teljesen elbontották, murvával szórták fel és bekerítették.
+    # A 33-35 nem létezik.
+    # A 49-73 nem létezik, játszótér, parkoló és a Donszki Árpád utca van ott.
+    # A páros oldal utolsó épülete a 88.
+    # A páratlan oldal utolsó épülte a 93.
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '21', end: '31'}
+      - {start: '37', end: '47'}
+      - {start: '75', end: '93'}
+      - {start: '2', end: '88'}
   Kőérberki út:
     ranges:
       - {start: '1', end: '33'}
@@ -46,15 +90,36 @@ filters:
   Kuruc köz:
     ranges: []
   Leányka utca:
+    # van egy közösségi kert Leányka utca 60. számmal.
     ranges:
       - {start: '1', end: '13'}
       - {start: '14', end: '40'}
+      - {start: '60', end: '60'}
+  Liszt Ferenc út:
+    # A Liszt Ferenc út 1. és a Bem József utca 6/A. közös telken van, házszám a Bem József utcáról van csak.
+    # A 9, 11, 13/A egybenyitott telek, de csak 13/A házszám van.
+    # TODO: A 21, 53, 55 nem található.
+    # A 40-42 egybenyitott telek, de csak 40. házszám van.
+    # A 44. a Szepesi utca helyén van, nincs telek.
+    # TODO: A Liszt Ferenc út 74. és a Zöldike utca ???. közös telken van, házszámot sehol sem látok, de a bejárat a Zöldike utca felől van.
+    ranges:
+      - {start: '3', end: '7'}
+      - {start: '13', end: '19'}
+      - {start: '23', end: '51'}
+      - {start: '57', end: '83'}
+      - {start: '2', end: '40'}
+      - {start: '46', end: '72'}
+      - {start: '76', end: '104'}
   Mária Terézia utca:
     ranges:
       - {start: '9', end: '11'}
       - {start: '25', end: '27'}
       - {start: '2', end: '28'}
       - {start: '60', end: '78'}
+  Márvány utca:
+    # A páratlan oldal telkei nem ide nyílnak.
+    ranges:
+      - {start: '4', end: '8'}
   Mihalik Sándor utca:
     ranges: []
   Nagytétényi út:
@@ -62,25 +127,55 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '118'}
+  Páva utca:
+    # A Páva utca 1. és a Bem József utca 13-15. közös telken van, házszám a Bem József utcáról van csak.
+    # A Páva utca 2. és a Bem József utca 17. közös telken van, házszám a Bem József utcáról van csak.
+    # A Páva utca 3. és a Görög utca 8. közös telken van, de mindkét utcáról van házszám.
+    # A Páva utca 4. és a Görög utca 10. közös telken van, házszám a Görög utcáról van csak.
+    ranges:
+      - {start: '3', end: '3'}
   Pécsi utca:
     # A páros oldalon nagy a bozót, de mintha 2-10 között lenne.
     # Az utcatáblán 2-12 van, de 12 biztosan nincs. A 10 is kétséges.
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '10'}
+  Püspök utca:
+    # TODO: A Püspök utca 1. és a Ják utca 19. közös telken van, házszámot sehol sem látok, de a bejárat a Püspök utca felől van.
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '6'}
   Ringló út:
     # Területhatár, a páros oldal nem Budafok.
     ranges:
       - {start: '1', end: '139'}
+  Rugó utca:
+    # A Rugó utca 2. és a Hollandi utca 35. közös telken van, házszám a Hollandi utcáról van csak.
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '4', end: '12'}
+  Szentkorona utca:
+    # A Szentkorona utca 2. és a Tordai utca 42. közös telken van, házszám a Tordai útról van csak.
+    # Az utolsó telkek a 31 és 34, nincsenek nagyobb házszámok.
+    ranges:
+      - {start: '1', end: '31'}
+      - {start: '4', end: '34'}
+  Turóci utca:
+    # A Turóci utca 1. és a Hollandi utca 23. közös telken van, házszám a Hollandi utcáról van csak.
+    ranges:
+      - {start: '3', end: '7'}
+      - {start: '2', end: '14'}
   Vértanú utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
   Vöröskúti határsor:
     # Az utca elejét átnevezték Pedellus utcára, ezért csak 22-től indulnak a házszámok.
+    # A 34 nem létezik, talán közös telken van a 35-tel?
     interpolation: 'all'
     ranges:
-      - {start: '22', end: '36'}
+      - {start: '22', end: '33'}
+      - {start: '35', end: '35'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Enyedi utca': 'Enyedy utca'
