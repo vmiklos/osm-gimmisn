@@ -72,7 +72,7 @@ def handle_overpass_error(http_error: urllib.error.HTTPError) -> yattag.Doc:
     return doc
 
 
-def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
+def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -107,7 +107,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> str:
 
     date = get_streets_last_modified(relation)
     doc.asis(get_footer(date).getvalue())
-    return cast(str, doc.getvalue())
+    return doc
 
 
 def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
@@ -928,7 +928,7 @@ def our_application(
 
         with doc.tag("body"):
             if request_uri.startswith("/osm/streets/"):
-                output = handle_streets(relations, request_uri)
+                output = handle_streets(relations, request_uri).getvalue()
             elif request_uri.startswith("/osm/suspicious-relations/"):
                 output = handle_missing_streets(relations, request_uri)
             elif request_uri.startswith("/osm/street-housenumbers/"):
