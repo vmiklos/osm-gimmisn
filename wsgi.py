@@ -442,7 +442,7 @@ def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[yattag.Doc,
     return doc, "0"
 
 
-def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
+def handle_main_street_percent(relation: helpers.Relation) -> Tuple[yattag.Doc, str]:
     """Handles the street percent part of the main page."""
     url = "/osm/suspicious-relations/" + relation.get_name() + "/view-result"
     percent = "N/A"
@@ -455,12 +455,12 @@ def handle_main_street_percent(relation: helpers.Relation) -> Tuple[str, str]:
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(percent + "%")
-        return cast(str, doc.getvalue()), percent
+        return doc, percent
 
     with doc.tag("strong"):
         with doc.tag("a", href=url):
             doc.text(_("missing streets"))
-    return cast(str, doc.getvalue()), "0"
+    return doc, "0"
 
 
 def filter_for_everything(_complete: bool, _relation: helpers.Relation) -> bool:
@@ -597,9 +597,7 @@ def handle_main_relation(
 
     if streets != "no":
         cell, percent = handle_main_street_percent(relation)
-        doc = yattag.Doc()
-        doc.asis(cell)
-        row.append(doc)
+        row.append(cell)
         if float(percent) < 100.0:
             complete = False
     else:
