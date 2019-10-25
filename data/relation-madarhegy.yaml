@@ -13,10 +13,11 @@ filters:
     ranges:
       - {start: '1', end: '65'}
   Keltike lejtő:
-    # kcr-ben 34-ig van szamozva
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      # kcr-ben 34-ig van szamozva
+      - {start: '1', end: '7'}
+      - {start: '11', end: '99'}
+      - {start: '2', end: '34'}
   Medvetalp utca:
     ranges:
       - {start: '1', end: '17'}
