@@ -110,7 +110,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc
     return doc
 
 
-def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -> str:
+def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -141,7 +141,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
 
     date = get_housenumbers_last_modified(relation)
     doc.asis(get_footer(date).getvalue())
-    return cast(str, doc.getvalue())
+    return doc
 
 
 def gen_link(url: str, label: str) -> yattag.Doc:
@@ -924,7 +924,7 @@ def our_application(
             elif request_uri.startswith("/osm/suspicious-relations/"):
                 output = handle_missing_streets(relations, request_uri).getvalue()
             elif request_uri.startswith("/osm/street-housenumbers/"):
-                output = handle_street_housenumbers(relations, request_uri)
+                output = handle_street_housenumbers(relations, request_uri).getvalue()
             elif request_uri.startswith("/osm/suspicious-streets/"):
                 output = handle_missing_housenumbers(relations, request_uri)
             elif request_uri.startswith("/osm/webhooks/github"):
