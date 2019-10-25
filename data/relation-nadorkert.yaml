@@ -1,13 +1,13 @@
 suspicious-relations: 'no'
 filters:
   Budafoki út:
-    # paros: 52 az eromu
-    ranges:
-      - {start: '40', end: '50'}
+    ranges: []
+    # paros: 52 az eromu, jelenleg nincs kiadott házszám
+    #      - {start: '40', end: '50'}
   Dombóvári út:
-    # 1-23 kelenföld, 28+ kelenföld
     interpolation: 'all'
     ranges:
+      # 1-23 kelenföld, 28+ kelenföld
       - {start: '24', end: '27'}
   Hauszmann Alajos utca:
     ranges:
