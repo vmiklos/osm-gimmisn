@@ -299,7 +299,6 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     action = tokens[-1]
-    action_noext, _, ext = action.partition('.')
     date = None
 
     relation = relations.get_relation(relation_name)
@@ -307,17 +306,14 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     doc = yattag.Doc()
     doc.asis(get_toolbar(relations, "suspicious-streets", relation_name, osmrelation).getvalue())
 
-    if action_noext == "view-result":
-        if ext == "txt":
-            return missing_housenumbers_view_txt(relations, request_uri)
-
+    if action == "view-result":
         doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
-    elif action_noext == "view-query":
+    elif action == "view-query":
         with doc.tag("pre"):
             with relation.get_files().get_ref_housenumbers_stream("r") as sock:
                 doc.text(sock.read())
         date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
-    elif action_noext == "update-result":
+    elif action == "update-result":
         doc.asis(missing_housenumbers_update(relations, relation_name).getvalue())
 
     if not date:
@@ -872,7 +868,7 @@ def our_application_txt(
     if request_uri.startswith("/osm/suspicious-relations/"):
         output = missing_streets_view_txt(relations, request_uri)
     elif request_uri.startswith("/osm/suspicious-streets/"):
-        output = handle_missing_housenumbers(relations, request_uri)
+        output = missing_housenumbers_view_txt(relations, request_uri)
     return send_response(start_response, content_type, "200 OK", output)
 
 
