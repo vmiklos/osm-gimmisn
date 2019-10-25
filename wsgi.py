@@ -808,7 +808,7 @@ def get_footer(last_updated: str = "") -> yattag.Doc:
     return doc
 
 
-def handle_github_webhook(environ: Dict[str, Any]) -> str:
+def handle_github_webhook(environ: Dict[str, Any]) -> yattag.Doc:
     """Handles a GitHub style webhook."""
 
     body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
@@ -817,7 +817,7 @@ def handle_github_webhook(environ: Dict[str, Any]) -> str:
     if root["ref"] == "refs/heads/master":
         subprocess.run(["make", "-C", version.GIT_DIR, "deploy-pythonanywhere"], check=True)
 
-    return ""
+    return util.html_escape("")
 
 
 def handle_static(request_uri: str) -> Tuple[str, str]:
@@ -920,18 +920,17 @@ def our_application(
 
         with doc.tag("body"):
             if request_uri.startswith("/osm/streets/"):
-                output = handle_streets(relations, request_uri).getvalue()
+                doc.asis(handle_streets(relations, request_uri).getvalue())
             elif request_uri.startswith("/osm/suspicious-relations/"):
-                output = handle_missing_streets(relations, request_uri).getvalue()
+                doc.asis(handle_missing_streets(relations, request_uri).getvalue())
             elif request_uri.startswith("/osm/street-housenumbers/"):
-                output = handle_street_housenumbers(relations, request_uri).getvalue()
+                doc.asis(handle_street_housenumbers(relations, request_uri).getvalue())
             elif request_uri.startswith("/osm/suspicious-streets/"):
-                output = handle_missing_housenumbers(relations, request_uri).getvalue()
+                doc.asis(handle_missing_housenumbers(relations, request_uri).getvalue())
             elif request_uri.startswith("/osm/webhooks/github"):
-                output = handle_github_webhook(environ)
+                doc.asis(handle_github_webhook(environ).getvalue())
             else:
-                output = handle_main(request_uri, relations).getvalue()
-            doc.asis(output)
+                doc.asis(handle_main(request_uri, relations).getvalue())
 
     return send_response(start_response, "text/html", "200 OK", doc.getvalue())
 
