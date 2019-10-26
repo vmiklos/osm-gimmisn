@@ -4,6 +4,7 @@ street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon
   - Alsóhegyi lépcső  # csak házszám van, az utca helye a susnyában
   - Báthori utca  # nem létezik
+  - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
   - Talaj köz  # nem létezik
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
