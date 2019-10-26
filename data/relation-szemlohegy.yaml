@@ -15,7 +15,7 @@ filters:
   Felhévízi utca:
     # felmerendo
     ranges:
-      - {start: '14', end: '98'}
+      - {start: '16', end: '98'}
   Felső Zöldmáli út:
     ranges:
       - {start: '2', end: '14'}

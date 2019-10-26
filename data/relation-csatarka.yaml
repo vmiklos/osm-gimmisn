@@ -1,0 +1,39 @@
+suspicious-relations: 'no'
+filters:
+  Csatárka út:
+    ranges:
+      - {start: '47', end: '99'}
+  Cseppkő utca:
+    ranges:
+      - {start: '33', end: '99'}
+      - {start: '52', end: '74'}
+  Pitypang utca:
+    ranges:
+      - {start: '13', end: '99'}
+      - {start: '14', end: '98'}
+  Szalamandra út:
+    ranges:
+      - {start: '1', end: '13'}
+  Törökvész út:
+    ranges:
+      - {start: '95', end: '147'}
+  Verecke lépcső:
+    # felmérendő
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '24'}
+      - {start: '28', end: '98'}
+  Verecke út:
+    # felmérendő
+    ranges:
+      - {start: '1', end: '63'}
+      - {start: '2', end: '114'}
+  Zöldkert út:
+    ranges:
+      - {start: '6', end: '98'}
+  Zöldkő utca:
+    ranges:
+      - {start: '21', end: '99'}
+      - {start: '20', end: '98'}
+source: survey
+inactive: true
