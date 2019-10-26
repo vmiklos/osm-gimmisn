@@ -1,0 +1,46 @@
+suspicious-relations: 'no'
+filters:
+  Alsó Törökvész út:
+    ranges:
+      - {start: '1', end: '1'}
+  Bogár utca:
+    ranges:
+      - {start: '1', end: '39'}
+  Cimbalom utca:
+    ranges:
+      - {start: '2', end: '24'}
+  Endrődi köz:
+    ranges: []
+  Endrődi Sándor utca:
+    ranges:
+      - {start: '9', end: '59'}
+  Ferenchegyi út:
+    ranges:
+      - {start: '2', end: '98'}
+  Gábor Áron utca:
+    ranges:
+      - {start: '51', end: '99'}
+      - {start: '56', end: '98'}
+  Gárdonyi Géza út:
+    ranges:
+      - {start: '2', end: '44'}
+  Kapy utca:
+    ranges:
+      - {start: '57', end: '63'}
+  Pusztaszeri út:
+    ranges:
+      - {start: '59', end: '99'}
+      - {start: '68', end: '98'}
+  Törökvész út:
+    ranges:
+      - {start: '1', end: '61'}
+      - {start: '2', end: '82'}
+  Vérhalom tér:
+    interpolation: all
+    ranges:
+      - {start: '5', end: '7'}
+  Vérhalom utca:
+    ranges:
+      - {start: '35', end: '43'}
+source: survey
+inactive: true
