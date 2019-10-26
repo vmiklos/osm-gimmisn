@@ -35,14 +35,15 @@ filters:
       - {start: '26', end: '98'}
   Gábor Áron utca:
     ranges:
-      - {start: '46', end: '98'}
+      - {start: '13', end: '49'}
+      - {start: '18', end: '54'}
   Garas utca:
     ranges:
       - {start: '2', end: '98'}
   Gárdonyi Géza út:
     ranges:
-      - {start: '2', end: '98'}
-      - {start: '2', end: '98'}
+      - {start: '46', end: '50'}
+      - {start: '58', end: '66'}
   Herman Ottó út:
     ranges:
       - {start: '1', end: '99'}
