@@ -106,3 +106,6 @@ update-po: po/osm-gimmisn.pot Makefile
 
 locale/hu/LC_MESSAGES/osm-gimmisn.mo: po/hu/osm-gimmisn.po Makefile
 	msgfmt --check --statistics --output-file=$@ $<
+
+tags:
+	ctags --python-kinds=-iv --fields=+l --extra=+q -R --totals=yes *
