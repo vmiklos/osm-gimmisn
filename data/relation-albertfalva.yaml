@@ -23,8 +23,25 @@ filters:
       - {start: '168', end: '168'}
       - {start: '178', end: '182'}
       - {start: '190', end: '204'}
+  Fonyód utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '17', end: '17'}
+      - {start: '2', end: '14'}
   Gerezd utca:
     ranges: []
+  Herend utca:
+    ranges:
+      - {start: '13', end: '29'}
+      - {start: '10', end: '28'}
+  Kapuvár utca:
+    ranges:
+      - {start: '11', end: '17'}
+      - {start: '14', end: '20'}
+  Kisbér utca:
+    ranges:
+      - {start: '9', end: '9'}
+      - {start: '10', end: '10'}
   Kiskőrös utca:
     ranges:
       - {start: '1', end: '5'}
@@ -34,7 +51,14 @@ filters:
       - {start: '2', end: '14'}
       - {start: '18', end: '18'}
       - {start: '28', end: '82'}
+  Körmend utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '11', end: '15'}
+      - {start: '2', end: '20'}
   Kővirág sor:
+    ranges: []
+  Mahunka Imre tér:
     ranges: []
   Nyírbátor utca:
     ranges:
@@ -51,6 +75,12 @@ filters:
       - {start: '23', end: '81'}
       - {start: '2', end: '46'}
       - {start: '50', end: '54'}
+  Sipos Pál utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '23', end: '47'}
+      - {start: '2', end: '24'}
+      - {start: '28', end: '50'}
   Szatmárhegy utca:
     ranges:
       - {start: '1', end: '7'}
@@ -60,9 +90,24 @@ filters:
     ranges:
       - {start: '61', end: '99'}
       - {start: '48', end: '98'}
+  Szerelmey Miklós utca:
+    # páros oldalon a vonat van, nincs ház
+    ranges:
+      - {start: '1', end: '61'}
   Solt utca:
     ranges:
       - {start: '2', end: '22'}
+  Tóth Ágoston utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '7', end: '13'}
+      - {start: '2', end: '14'}
+  Verbéna utca:
+    # páros oldalt újraszámozták az utcát 62 -> 48; 54-> 36 stb..
+    ranges:
+      - {start: '1', end: '53'}
+      - {start: '57', end: '67'}
+      - {start: '2', end: '50'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
