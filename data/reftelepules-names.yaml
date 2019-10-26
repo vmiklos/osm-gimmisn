@@ -4,5 +4,8 @@
 
 # Budapest
 '01':
+    '001': 'Budavár'
+    '002': 'Második'
     '011': 'Újbuda'
     '012': 'Hegyvidék'
+    '022': 'Budafok-Tétény'
