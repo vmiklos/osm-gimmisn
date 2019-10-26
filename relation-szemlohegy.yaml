@@ -1,0 +1,61 @@
+suspicious-relations: 'no'
+filters:
+  Alsó Zöldmáli út:
+    ranges: []
+  Barlang utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Cimbalom utca:
+    ranges:
+      - {start: '1', end: '19'}
+  Daru utca:
+    # felmerendo
+    ranges:
+      - {start: '2', end: '6'}
+  Felhévízi utca:
+    # felmerendo
+    ranges:
+      - {start: '16', end: '98'}
+  Felső Zöldmáli út:
+    ranges:
+      - {start: '2', end: '14'}
+  Ferenchegyi út:
+    ranges:
+      - {start: '1', end: '15'}
+  # Józsefhegyi lépcső	[4]
+  Kavics utca:
+    ranges:
+      - {start: '17', end: '21'}
+  Kolozsvári Tamás utca:
+    # felmerendo
+    ranges:
+      - {start: '5', end: '99'}
+      - {start: '6', end: '98'}
+  Mecenzéf utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Pusztaszeri köz:
+    # felmerendo
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '4'}
+  Pusztaszeri út:
+    ranges:
+      - {start: '33', end: '57'}
+      - {start: '12', end: '66'}
+  Szemlőhegy utca:
+    ranges:
+      - {start: '25', end: '99'}
+      - {start: '26', end: '98'}
+  Vérhalom tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '4'}
+  Vérhalom utca:
+    ranges:
+      - {start: '29', end: '33'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Felhévízi utca': 'Felhévizi utca'
+source: survey
+inactive: true
