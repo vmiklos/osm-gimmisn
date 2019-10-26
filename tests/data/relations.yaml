@@ -34,3 +34,7 @@ inactiverelation:
     osmrelation: 45
     refmegye: "01"
     reftelepules: "98"
+budafok:
+    osmrelation: 42
+    refmegye: "43"
+    reftelepules: "44"

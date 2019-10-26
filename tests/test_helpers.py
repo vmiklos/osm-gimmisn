@@ -703,6 +703,17 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         os.unlink(os.path.join(relations.get_workdir(), "empty.percent"))
         self.assertEqual({}, relation.get_config().get_filters())
 
+    def test_interpolation_all(self) -> None:
+        """Tests the case when the street is interpolation=all and coloring is wanted."""
+        relations = get_relations()
+        relation_name = "budafok"
+        relation = relations.get_relation(relation_name)
+        ret = relation.write_missing_housenumbers()
+        _todo_street_count, _todo_count, _done_count, _percent, table = ret
+        table = table_doc_to_string(table)
+        self.assertEqual(table, [['Street name', 'Missing count', 'House numbers'],
+                                 ['Vöröskúti határsor', '2', '34, <span style="color: blue;">36</span>']])
+
 
 class TestRelationWriteMissingStreets(unittest.TestCase):
     """Tests Relation.write_missing_streets()."""
@@ -839,6 +850,7 @@ class TestRelations(unittest.TestCase):
         """Tests the happy path."""
         relations = get_relations()
         expected_relation_names = [
+            "budafok",
             "empty",
             "gazdagret",
             "inactiverelation",
@@ -851,7 +863,7 @@ class TestRelations(unittest.TestCase):
         self.assertEqual(relations.get_names(), expected_relation_names)
         self.assertTrue("inactiverelation" not in relations.get_active_names())
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
-        self.assertEqual([13, 42, 43, 44, 45, 66, 221998, 2713748], osmids)
+        self.assertEqual([13, 42, 42, 43, 44, 45, 66, 221998, 2713748], osmids)
         self.assertEqual("only", relations.get_relation("ujbuda").get_config().should_check_missing_streets())
 
         relations.activate_all(True)

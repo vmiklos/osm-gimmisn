@@ -491,12 +491,15 @@ class Relation:
             row.append(util.html_escape(result[0]))
             row.append(util.html_escape(str(len(result[1]))))
 
+            doc = yattag.Doc()
             if not self.get_config().get_street_is_even_odd(result[0]):
-                row.append(util.html_escape(", ".join(result[1])))
+                for index, item in enumerate(result[1]):
+                    if index:
+                        doc.text(", ")
+                    doc.asis(util.color_house_number(item).getvalue())
             else:
-                doc = yattag.Doc()
                 util.format_even_odd(result[1], doc)
-                row.append(doc)
+            row.append(doc)
 
             todo_count += len(result[1])
             table.append(row)
