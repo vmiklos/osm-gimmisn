@@ -509,7 +509,7 @@ class Relation:
         if done_count > 0 or todo_count > 0:
             percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
         else:
-            percent = "N/A"
+            percent = "100.00"
 
         # Write the bottom line to a file, so the index page show it fast.
         with self.get_files().get_housenumbers_percent_stream("w") as stream:
@@ -541,7 +541,7 @@ class Relation:
         if done_count > 0 or todo_count > 0:
             percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
         else:
-            percent = "N/A"
+            percent = "100.00"
 
         # Write the bottom line to a file, so the index page show it fast.
         with self.get_files().get_streets_percent_stream("w") as stream:

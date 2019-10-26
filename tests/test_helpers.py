@@ -699,7 +699,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_housenumbers()
         _todo_street_count, _todo_count, _done_count, percent, _table = ret
-        self.assertEqual(percent, 'N/A')
+        self.assertEqual(percent, '100.00')
         os.unlink(os.path.join(relations.get_workdir(), "empty.percent"))
         self.assertEqual({}, relation.get_config().get_filters())
 
@@ -739,7 +739,7 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_streets()
         _todo_count, _done_count, percent, _streets = ret
-        self.assertEqual(percent, 'N/A')
+        self.assertEqual(percent, '100.00')
         os.unlink(os.path.join(relations.get_workdir(), "empty-streets.percent"))
 
 
