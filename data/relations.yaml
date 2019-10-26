@@ -42,6 +42,10 @@ vizivaros:
     refmegye: "01"
     reftelepules: "001"
 # 02
+csatarka:
+    osmrelation: 3247356
+    refmegye: "01"
+    reftelepules: "002"
 felheviz:
     osmrelation: 3166410
     refmegye: "01"
@@ -52,6 +56,10 @@ orszagut:
     reftelepules: "002"
 rezmal:
     osmrelation: 3176180
+    refmegye: "01"
+    reftelepules: "002"
+palvolgy:
+    osmrelation: 3263306
     refmegye: "01"
     reftelepules: "002"
 pasaret:
@@ -68,6 +76,24 @@ szemlohegy:
     reftelepules: "002"
 torokvesz:
     osmrelation: 3176186
+    refmegye: "01"
+    reftelepules: "002"
+ujlak:
+    osmrelation: 3263570
+    refmegye: "01"
+    reftelepules: "002"
+# atmenetileg
+ujlak3:
+    osmrelation: 3263570
+    refmegye: "01"
+    reftelepules: "003"
+#
+verhalom:
+    osmrelation: 3174429
+    refmegye: "01"
+    reftelepules: "002"
+zoldmal:
+    osmrelation: 3174399
     refmegye: "01"
     reftelepules: "002"
 # 11
