@@ -1,5 +1,7 @@
 suspicious-relations: 'no'
 filters:
+  Árokpart sor:
+    ranges: []
   Balatoni út:
     # terinfo.ujbuda.hu alapjan, valosagban nincs haz
     ranges:
