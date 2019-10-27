@@ -24,6 +24,45 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
+class TestMain(unittest.TestCase):
+    """Tests handle_main()."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
+            self.assertEqual(status, "200 OK")
+            header_dict = {key: value for (key, value) in response_headers}
+            self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
+
+        def get_config() -> configparser.ConfigParser:
+            config = configparser.ConfigParser()
+            config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+            config.read(config_path)
+            return config
+
+        def get_datadir() -> str:
+            return os.path.join(os.path.dirname(__file__), "data")
+
+        def get_workdir(_config: configparser.ConfigParser) -> str:
+            return os.path.join(os.path.dirname(__file__), "workdir")
+        output = ""
+        with unittest.mock.patch('wsgi.get_config', get_config):
+            with unittest.mock.patch('wsgi.get_datadir', get_datadir):
+                with unittest.mock.patch('helpers.get_workdir', get_workdir):
+                    environ = {
+                        "PATH_INFO": "/osm"
+                    }
+                    callback = cast('StartResponse', start_response)  # type: StartResponse
+                    output_iterable = wsgi.application(environ, callback)
+                    output_list = cast(List[bytes], output_iterable)
+                    self.assertTrue(output_list)
+                    output = output_list[0].decode('utf-8')
+        stream = io.StringIO(output)
+        tree = ET.parse(stream)
+        root = tree.getroot()
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
+
 class TestStreetHousenumbers(unittest.TestCase):
     """Tests handle_street_housenumbers()."""
     def test_view_result_update_result_link(self) -> None:
