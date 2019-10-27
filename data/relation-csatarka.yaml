@@ -7,6 +7,8 @@ filters:
     ranges:
       - {start: '33', end: '99'}
       - {start: '52', end: '74'}
+  Görgényi út:
+    ranges: []
   Pitypang utca:
     ranges:
       - {start: '13', end: '99'}
@@ -35,5 +37,7 @@ filters:
     ranges:
       - {start: '21', end: '99'}
       - {start: '20', end: '98'}
+  Zöldlomb utca:
+    ranges: []
 source: survey
 inactive: true
