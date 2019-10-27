@@ -6,46 +6,80 @@ filters:
       - {start: '2', end: '10'}
   Árpád fejedelem útja:
     interpolation: all
-    reftelepules: '003'
     ranges:
-      - {start: '1', end: '69'}
+      - {start: '14', end: '47', reftelepules: '002'}
+      - {start: '48', end: '69', reftelepules: '003'}
   Bécsi út:
-    reftelepules: '003'
     ranges:
-      - {start: '1', end: '85'}
-      - {start: '2', end: '92'}
+      - {start: '1', end: '35', reftelepules: '002'}
+      - {start: '2', end: '32', reftelepules: '002'}
+      - {start: '37', end: '85', reftelepules: '003'}
+      - {start: '34', end: '92', reftelepules: '003'}
+  Bokor utca:
+    reftelepules: '003'
+  Csemete utca:
+    reftelepules: '003'
   Daru utca:
     # felmerendo
     ranges:
       - {start: '1', end: '99'}
       - {start: '8', end: '98'}
+  Dereglye utca:
+    reftelepules: '003'
   Doberdó út:
     reftelepules: '003'
     ranges:
       - {start: '2', end: '4'}
+  Evező utca:
+    reftelepules: '003'
   Felhévízi utca:
     # felmerendo
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '14'}
+  Folyóka utca:
+    reftelepules: '003'
   Folyondár utca:
     reftelepules: '003'
     ranges:
       - {start: '1', end: '11'}
-  Folyóka utca:
+  Frankel Leó út:
+    ranges:
+      - {start: '47', end: '57'}
+      - {start: '74', end: '112'}
+  Galagonya utca:
+    reftelepules: '003'
+  Harcsa utca:
     reftelepules: '003'
   Kavics utca:
     ranges:
       - {start: '1', end: '15'}
+  Kecske köz:
+    reftelepules: '003'
+  Kecske utca:
+    # Alsóbb házszámokból Makocecz Imre utca lett, kérdés át lett-e számozva
+    reftelepules: '003'
+  Kolosy tér:
+    reftelepules: '003'
   Kolozsvári Tamás utca:
     # felmerendo
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
+  Lajos utca:
+    ranges:
+      - {start: '1', end: '41'}
+      - {start: '2', end: '34'}
+      - {start: '43', end: '91', reftelepules: '003'}
+      - {start: '36', end: '90', reftelepules: '003'}
+  Makovecz Imre utca:
+    reftelepules: '003'
   Mikoviny utca:
     reftelepules: '003'
     ranges:
       - {start: '1', end: '99'}
+  Montevideo utca:
+    reftelepules: '003'
   Mecenzéf utca:
     ranges:
       - {start: '1', end: '99'}
@@ -53,12 +87,27 @@ filters:
     reftelepules: '003'
     ranges:
       - {start: '2', end: '98'}
+  Pacsirtamező utca:
+    reftelepules: '003'
+    ranges: []
+  Puskás Öcsi tér:
+    reftelepules: '003'
   Pusztaszeri út:
     ranges:
       - {start: '2', end: '10'}
+  Seregély köz:
+    reftelepules: '003'
+  Seregély utca:
+    reftelepules: '003'
+  Szent XXIII. János pápa park:
+    reftelepules: '003'
   Szépvölgyi út:
     ranges:
       - {start: '2', end: '50', reftelepules: '002'}
       - {start: '1', end: '45', reftelepules: '003'}
+  Uszály utca:
+    reftelepules: '003'
+  Végvár utca:
+    reftelepules: '003'
 source: survey
 inactive: true
