@@ -82,12 +82,6 @@ ujlak:
     osmrelation: 3263570
     refmegye: "01"
     reftelepules: "002"
-# atmenetileg
-ujlak3:
-    osmrelation: 3263570
-    refmegye: "01"
-    reftelepules: "003"
-#
 verhalom:
     osmrelation: 3174429
     refmegye: "01"
