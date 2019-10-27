@@ -105,6 +105,8 @@ filters:
     ranges:
       - {start: '2', end: '50', reftelepules: '002'}
       - {start: '1', end: '45', reftelepules: '003'}
+  Szeréna út:
+    ranges: []
   Uszály utca:
     reftelepules: '003'
   Végvár utca:
