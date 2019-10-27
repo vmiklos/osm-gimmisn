@@ -9,8 +9,16 @@ filters:
   Budafoki út:
     ranges:
       - {start: '84', end: '84'}
+  Bükköny utca:
+    ranges:
+      - {start: '3', end: '31'}
+      - {start: '2', end: '28'}
   Csorbai utca:
     ranges: []
+  Derzsi utca:
+    ranges:
+      - {start: '1', end: '49'}
+      - {start: '2', end: '54'}
   Érem utca:
     ranges:
       - {start: '2', end: '12'}
@@ -38,10 +46,21 @@ filters:
     ranges:
       - {start: '11', end: '17'}
       - {start: '14', end: '20'}
+  Karcag utca:
+    ranges:
+      - {start: '1', end: '61'}
+      - {start: '2', end: '54'}
+      - {start: '62', end: '64'}
+      - {start: '70', end: '70'}
   Kisbér utca:
     ranges:
       - {start: '9', end: '9'}
       - {start: '10', end: '10'}
+  Kisköre tér:
+    interpolation: all
+    ranges:
+      - {start: '2', end: '4'}
+      - {start: '8', end: '10'}
   Kiskőrös utca:
     ranges:
       - {start: '1', end: '5'}
@@ -60,6 +79,11 @@ filters:
     ranges: []
   Mahunka Imre tér:
     ranges: []
+  Mezőkövesd út:
+    # MOL kút házszáma a Hunyadi János úton kérdéses
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '4', end: '16'}
   Nyírbátor utca:
     ranges:
       - {start: '1', end: '11'}
