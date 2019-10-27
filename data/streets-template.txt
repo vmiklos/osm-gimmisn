@@ -1,4 +1,4 @@
-[out:csv(::id, name, highway, service, surface, leisure)]  [timeout:425];
+[out:csv(::id, name, highway, service, surface, leisure, ::type)]  [timeout:425];
 area(@AREA@)->.searchArea;
 way(area.searchArea)[highway][highway!="service"]["bridge"!~".*"];
 out;
@@ -12,4 +12,3 @@ out;
 way(r.searchRelation)[highway=service][name]["bridge"!~".*"];
 out;
 // highway=track can also be anonymous, but many mistag based on road surface
-// vim: ft=javascript
