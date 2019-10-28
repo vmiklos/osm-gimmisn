@@ -24,80 +24,61 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-class TestMain(unittest.TestCase):
-    """Tests handle_main()."""
-    def test_well_formed(self) -> None:
-        """Tests if the output is well-formed."""
+class TestWsgi(unittest.TestCase):
+    """Base class for wsgi tests."""
+    def get_dom_for_path(self, path: str) -> ET.Element:
+        """Generates an XML DOM for a given wsgi path."""
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
+            # Make sure the built-in exception catcher is not kicking in.
             self.assertEqual(status, "200 OK")
             header_dict = {key: value for (key, value) in response_headers}
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
         def get_config() -> configparser.ConfigParser:
+            """Makes sure that the test config is used."""
             config = configparser.ConfigParser()
             config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
             config.read(config_path)
             return config
 
         def get_datadir() -> str:
+            """Makes sure that the test data is used."""
             return os.path.join(os.path.dirname(__file__), "data")
 
         def get_workdir(_config: configparser.ConfigParser) -> str:
+            """Makes sure that the test workdir is used."""
             return os.path.join(os.path.dirname(__file__), "workdir")
-        output = ""
         with unittest.mock.patch('wsgi.get_config', get_config):
             with unittest.mock.patch('wsgi.get_datadir', get_datadir):
                 with unittest.mock.patch('helpers.get_workdir', get_workdir):
                     environ = {
-                        "PATH_INFO": "/osm"
+                        "PATH_INFO": path
                     }
                     callback = cast('StartResponse', start_response)  # type: StartResponse
                     output_iterable = wsgi.application(environ, callback)
                     output_list = cast(List[bytes], output_iterable)
                     self.assertTrue(output_list)
                     output = output_list[0].decode('utf-8')
-        stream = io.StringIO(output)
-        tree = ET.parse(stream)
-        root = tree.getroot()
+                    stream = io.StringIO(output)
+                    tree = ET.parse(stream)
+                    root = tree.getroot()
+                    return root
+
+
+class TestMain(TestWsgi):
+    """Tests handle_main()."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        root = self.get_dom_for_path("/osm")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
 
-class TestStreetHousenumbers(unittest.TestCase):
+class TestStreetHousenumbers(TestWsgi):
     """Tests handle_street_housenumbers()."""
     def test_view_result_update_result_link(self) -> None:
         """Tests view result: the update-result link."""
-        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
-            self.assertEqual(status, "200 OK")
-            header_dict = {key: value for (key, value) in response_headers}
-            self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
-
-        def get_config() -> configparser.ConfigParser:
-            config = configparser.ConfigParser()
-            config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
-            config.read(config_path)
-            return config
-
-        def get_datadir() -> str:
-            return os.path.join(os.path.dirname(__file__), "data")
-
-        def get_workdir(_config: configparser.ConfigParser) -> str:
-            return os.path.join(os.path.dirname(__file__), "workdir")
-        output = ""
-        with unittest.mock.patch('wsgi.get_config', get_config):
-            with unittest.mock.patch('wsgi.get_datadir', get_datadir):
-                with unittest.mock.patch('helpers.get_workdir', get_workdir):
-                    environ = {
-                        "PATH_INFO": "/osm/street-housenumbers/gazdagret/view-result"
-                    }
-                    callback = cast('StartResponse', start_response)  # type: StartResponse
-                    output_iterable = wsgi.application(environ, callback)
-                    output_list = cast(List[bytes], output_iterable)
-                    self.assertTrue(output_list)
-                    output = output_list[0].decode('utf-8')
-        stream = io.StringIO(output)
-        tree = ET.parse(stream)
-        root = tree.getroot()
+        root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='toolbar']/a[@href='/osm/suspicious-streets/gazdagret/view-result']")
         self.assertTrue(results)
 
