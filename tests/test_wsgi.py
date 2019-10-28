@@ -65,11 +65,11 @@ class TestWsgi(unittest.TestCase):
                     return root
 
 
-class TestMain(TestWsgi):
-    """Tests handle_main()."""
+class TestStreets(TestWsgi):
+    """Tests handle_streets()."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm")
+        root = self.get_dom_for_path("/osm/streets/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
@@ -81,6 +81,15 @@ class TestStreetHousenumbers(TestWsgi):
         root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='toolbar']/a[@href='/osm/suspicious-streets/gazdagret/view-result']")
         self.assertTrue(results)
+
+
+class TestMain(TestWsgi):
+    """Tests handle_main()."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        root = self.get_dom_for_path("/osm")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
 
 
 if __name__ == '__main__':
