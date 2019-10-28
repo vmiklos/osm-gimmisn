@@ -2,6 +2,12 @@ suspicious-relations: 'no'
 filters:
   Albert utca:
     ranges: []
+  Albertfalva utca:
+    ranges:
+      - {start: '2', end: '4'}
+      - {start: '8', end: '8'}
+      - {start: '12', end: '40'}
+      - {start: '1', end: '43'}
   Bodola Lajos utca:
     ranges:
       - {start: '1', end: '25'}
@@ -22,15 +28,19 @@ filters:
   Érem utca:
     ranges:
       - {start: '2', end: '12'}
+  Fegyvernek utca:
+    # panel építés megszűntette a 14-50 közti házszámokat
+    ranges:
+      - {start: '1', end: '123'}
+      - {start: '2', end: '12'}
+      - {start: '52', end: '58'}
   Fehérvári út:
     ranges:
       # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
       - {start: '193', end: '243'}
       - {start: '247', end: '247'}
       # 168-178, 182-190 egyben
-      - {start: '168', end: '168'}
-      - {start: '178', end: '182'}
-      - {start: '190', end: '204'}
+      - {start: '168', end: '204'}
   Fonyód utca:
     ranges:
       - {start: '1', end: '7'}
@@ -48,7 +58,8 @@ filters:
       - {start: '14', end: '20'}
   Karcag utca:
     ranges:
-      - {start: '1', end: '61'}
+      - {start: '1', end: '51'}
+      - {start: '55', end: '61'}
       - {start: '2', end: '54'}
       - {start: '62', end: '64'}
       - {start: '70', end: '70'}
@@ -61,6 +72,11 @@ filters:
     ranges:
       - {start: '2', end: '4'}
       - {start: '8', end: '10'}
+  Kisköre utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '11', end: '17'}
+      - {start: '2', end: '20'}
   Kiskőrös utca:
     ranges:
       - {start: '1', end: '5'}
