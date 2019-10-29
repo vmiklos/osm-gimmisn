@@ -74,6 +74,15 @@ class TestStreets(TestWsgi):
         self.assertEqual(len(results), 1)
 
 
+class TestMissingHouseNumbers(TestWsgi):
+    """Tests the missing house numbers page."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        root = self.get_dom_for_path("/osm/suspicious-streets/gazdagret/view-result")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
+
 class TestStreetHousenumbers(TestWsgi):
     """Tests handle_street_housenumbers()."""
     def test_view_result_update_result_link(self) -> None:
