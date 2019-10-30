@@ -13,8 +13,12 @@ from typing import Tuple
 import os
 import pickle
 import re
+import urllib.error
 
 import yattag  # type: ignore
+
+from i18n import translate as _
+import overpass_query
 
 
 def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
@@ -172,6 +176,17 @@ def html_escape(text: str) -> yattag.Doc:
     """Factory of yattag.Doc from a string."""
     doc = yattag.Doc()
     doc.text(text)
+    return doc
+
+
+def handle_overpass_error(http_error: urllib.error.HTTPError) -> yattag.Doc:
+    """Handles a HTTP error from Overpass."""
+    doc = yattag.Doc()
+    doc.text(_("Overpass error: {0}").format(str(http_error)))
+    sleep = overpass_query.overpass_query_need_sleep()
+    if sleep:
+        doc.stag("br")
+        doc.text(_("Note: wait for {} seconds").format(sleep))
     return doc
 
 

@@ -61,17 +61,6 @@ def get_staticdir() -> str:
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def handle_overpass_error(http_error: urllib.error.HTTPError) -> yattag.Doc:
-    """Handles a HTTP error from Overpass."""
-    doc = yattag.Doc()
-    doc.text(_("Overpass error: {0}").format(str(http_error)))
-    sleep = overpass_query.overpass_query_need_sleep()
-    if sleep:
-        doc.stag("br")
-        doc.text(_("Note: wait for {} seconds").format(sleep))
-    return doc
-
-
 def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
@@ -103,7 +92,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc
             else:
                 doc.text(_("Update successful."))
         except urllib.error.HTTPError as http_error:
-            doc.asis(handle_overpass_error(http_error).getvalue())
+            doc.asis(util.handle_overpass_error(http_error).getvalue())
 
     date = get_streets_last_modified(relation)
     doc.asis(get_footer(date).getvalue())
@@ -137,7 +126,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
             link = "/osm/suspicious-streets/" + relation_name + "/view-result"
             doc.asis(gen_link(link, _("View missing house numbers")).getvalue())
         except urllib.error.HTTPError as http_error:
-            doc.asis(handle_overpass_error(http_error).getvalue())
+            doc.asis(util.handle_overpass_error(http_error).getvalue())
 
     date = get_housenumbers_last_modified(relation)
     doc.asis(get_footer(date).getvalue())

@@ -8,6 +8,8 @@
 
 import os
 import unittest
+import unittest.mock
+import urllib.error
 
 import yattag  # type: ignore
 
@@ -135,6 +137,28 @@ class TestParseFilters(unittest.TestCase):
         self.assertEqual(filters["refmegye"], "42")
         filters = util.parse_filters(fro)
         self.assertEqual(filters["reftelepules"], "43")
+
+
+class TestHandleOverpassError(unittest.TestCase):
+    """Tests handle_overpass_error()."""
+    def test_no_sleep(self) -> None:
+        """Tests the case when no sleep is needed."""
+        def need_sleep() -> int:
+            return 0
+        error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, None)
+        with unittest.mock.patch('overpass_query.overpass_query_need_sleep', need_sleep):
+            doc = util.handle_overpass_error(error)
+            self.assertEqual(doc.getvalue(), "Overpass error: HTTP Error 404: no such file")
+
+    def test_need_sleep(self) -> None:
+        """Tests the case when sleep is needed."""
+        def need_sleep() -> int:
+            return 42
+        error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, None)
+        with unittest.mock.patch('overpass_query.overpass_query_need_sleep', need_sleep):
+            doc = util.handle_overpass_error(error)
+            expected = "Overpass error: HTTP Error 404: no such file<br />Note: wait for 42 seconds"
+            self.assertEqual(doc.getvalue(), expected)
 
 
 if __name__ == '__main__':
