@@ -804,7 +804,7 @@ def handle_github_webhook(environ: Dict[str, Any]) -> yattag.Doc:
     payload = body["payload"][0]
     root = json.loads(payload)
     if root["ref"] == "refs/heads/master":
-        subprocess.run(["make", "-C", version.GIT_DIR, "deploy-pythonanywhere"], check=True)
+        subprocess.run(["make", "-C", helpers.get_abspath(""), "deploy-pythonanywhere"], check=True)
 
     return util.html_escape("")
 

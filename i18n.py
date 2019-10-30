@@ -9,16 +9,14 @@
 
 from typing import cast
 import gettext
-import os
 import threading
-
-import version
 
 
 def set_language(language: str) -> None:
     """Sets the language of the current thread."""
     tls = threading.current_thread.__dict__
-    localedir = os.path.join(version.GIT_DIR, "locale")
+    import helpers
+    localedir = helpers.get_abspath("locale")
     tls["translations"] = gettext.translation("osm-gimmisn", localedir=localedir, languages=[language], fallback=True)
 
 
