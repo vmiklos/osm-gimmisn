@@ -5,7 +5,7 @@
 # found in the LICENSE file.
 #
 
-"""The get_reference_housenumbers module allows fetching referene house numbers for a relation."""
+"""The get_reference_housenumbers module allows fetching reference house numbers for a relation."""
 
 import configparser
 import os
