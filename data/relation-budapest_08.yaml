@@ -1,0 +1,11 @@
+suspicious-relations: only
+filters: {}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Krúdy Gyula utca': 'Krúdy utca'
+  'Golgota út': 'Golgota utca'
+  'Nagyfuvaros utca': 'Nagy Fuvaros utca'
+  'Magyarok Nagyasszonya tér': 'Rezső tér'
+  'Szenes Iván tér': 'Rezső tér'
+source: survey
+inactive: true
