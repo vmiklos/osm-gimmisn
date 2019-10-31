@@ -8,7 +8,6 @@
 """The get_reference_housenumbers module allows fetching reference house numbers for a relation."""
 
 import configparser
-import os
 import sys
 import helpers
 
@@ -17,14 +16,14 @@ def main() -> None:
     """Commandline interface to this module."""
 
     config = configparser.ConfigParser()
-    config_path = os.path.join(os.getcwd(), "wsgi.ini")
+    config_path = helpers.get_abspath("wsgi.ini")
     config.read(config_path)
 
     relation_name = sys.argv[1]
 
     reference = config.get('wsgi', 'reference_housenumbers').strip().split(' ')
-    datadir = os.path.join(os.getcwd(), "data")
-    workdir = config.get('wsgi', 'workdir').strip()
+    datadir = helpers.get_abspath("data")
+    workdir = helpers.get_abspath(config.get('wsgi', 'workdir').strip())
     relations = helpers.Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
