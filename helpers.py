@@ -950,4 +950,26 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     return [str(number) + suffix for number in ret_numbers]
 
 
+def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.Doc]]) -> str:
+    """Creates an overpass query that shows all streets from a missing housenumbers table."""
+    streets = []  # type: List[str]
+    first = True
+    for row in table:
+        if first:
+            first = False
+            continue
+        streets.append(row[0].getvalue())
+    header = """[out:json][timeout:425];
+area(@AREA@)->.searchArea;
+("""
+    query = process_template(header, relation.get_config().get_osmrelation())
+    for street in streets:
+        query += 'nwr["name"="' + street + '"](area.searchArea);\n'
+    query += """);
+out body;
+>;
+out skel qt;"""
+    return query
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

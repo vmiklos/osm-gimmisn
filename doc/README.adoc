@@ -140,3 +140,8 @@ frequently:
 
 - `inactive: true`: this key can be used for a relation, it disables the daily update (which would
   be a waste if e.g. the relation already has 100% coverage.) Manual updates are still possible.
+
+- You can download a GPX file showing the streets of the missing house numbers if you follow the
+  'Overpass turbo query for the below streets' link on the missing housenumbers page. To do this,
+  visit the 'Overpass turbo' site from the toolbar, copy the query, run it, choose Export -> Download
+  as GPX, and e.g. load the result into OsmAnd on your phone.

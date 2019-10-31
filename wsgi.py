@@ -146,6 +146,22 @@ def gen_link(url: str, label: str) -> yattag.Doc:
     return doc
 
 
+def missing_housenumbers_view_turbo(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
+    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-turbo."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+
+    doc = yattag.Doc()
+    relation = relations.get_relation(relation_name)
+    ret = relation.write_missing_housenumbers()
+    _todo_street_count, _todo_count, _done_count, _percent, table = ret
+    query = helpers.make_turbo_query_for_streets(relation, table)
+
+    with doc.tag("pre"):
+        doc.text(query)
+    return doc
+
+
 def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result."""
     tokens = request_uri.split("/")
@@ -176,6 +192,10 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
             doc.stag("br")
             with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
                 doc.text(_("Filter incorrect information"))
+            doc.text(".")
+            doc.stag("br")
+            with doc.tag("a", href="/osm/suspicious-streets/{}/view-turbo".format(relation_name)):
+                doc.text(_("Overpass turbo query for the below streets"))
             doc.text(".")
 
         doc.asis(helpers.html_table_from_list(table).getvalue())
@@ -297,6 +317,8 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
 
     if action == "view-result":
         doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
+    elif action == "view-turbo":
+        doc.asis(missing_housenumbers_view_turbo(relations, request_uri).getvalue())
     elif action == "view-query":
         with doc.tag("pre"):
             with relation.get_files().get_ref_housenumbers_stream("r") as sock:
@@ -684,6 +706,10 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.D
         with doc.tag("a", href="/osm/suspicious-streets/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
         doc.text(" " + _("(may take seconds)"))
+        items.append(doc)
+        doc = yattag.Doc()
+        with doc.tag("a", href="https://overpass-turbo.eu/"):
+            doc.text(_("Overpass turbo"))
         items.append(doc)
     elif function == "suspicious-relations":
         doc = yattag.Doc()

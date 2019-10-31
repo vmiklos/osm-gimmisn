@@ -946,5 +946,26 @@ class TestRelationIsActive(unittest.TestCase):
         self.assertTrue(relation.get_config().is_active())
 
 
+class TestMakeTurboQueryForStreets(unittest.TestCase):
+    """Tests make_turbo_query_for_streets()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        fro = [[util.html_escape("A1"),
+                util.html_escape("B1")],
+               [util.html_escape("A2"),
+                util.html_escape("B2")]]
+        ret = helpers.make_turbo_query_for_streets(relation, fro)
+        expected = """[out:json][timeout:425];
+area(3602713748)->.searchArea;
+(nwr["name"="A2"](area.searchArea);
+);
+out body;
+>;
+out skel qt;"""
+        self.assertEqual(ret, expected)
+
+
 if __name__ == '__main__':
     unittest.main()
