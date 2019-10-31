@@ -46,14 +46,14 @@ if TYPE_CHECKING:
 def get_config() -> configparser.ConfigParser:
     """Gets access to information which are specific to this installation."""
     config = configparser.ConfigParser()
-    config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config_path = helpers.get_abspath("wsgi.ini")
     config.read(config_path)
     return config
 
 
 def get_datadir() -> str:
     """Gets the directory which is tracked (in version control) data."""
-    return os.path.join(os.path.dirname(__file__), "data")
+    return helpers.get_abspath("data")
 
 
 def get_staticdir() -> str:

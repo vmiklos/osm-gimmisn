@@ -10,7 +10,6 @@ from typing import List
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
-import configparser
 import io
 import os
 import unittest
@@ -34,35 +33,23 @@ class TestWsgi(unittest.TestCase):
             header_dict = {key: value for (key, value) in response_headers}
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        def get_config() -> configparser.ConfigParser:
-            """Makes sure that the test config is used."""
-            config = configparser.ConfigParser()
-            config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
-            config.read(config_path)
-            return config
-
-        def get_datadir() -> str:
-            """Makes sure that the test data is used."""
-            return os.path.join(os.path.dirname(__file__), "data")
-
-        def get_workdir(_config: configparser.ConfigParser) -> str:
-            """Makes sure that the test workdir is used."""
-            return os.path.join(os.path.dirname(__file__), "workdir")
-        with unittest.mock.patch('wsgi.get_config', get_config):
-            with unittest.mock.patch('wsgi.get_datadir', get_datadir):
-                with unittest.mock.patch('helpers.get_workdir', get_workdir):
-                    environ = {
-                        "PATH_INFO": path
-                    }
-                    callback = cast('StartResponse', start_response)  # type: StartResponse
-                    output_iterable = wsgi.application(environ, callback)
-                    output_list = cast(List[bytes], output_iterable)
-                    self.assertTrue(output_list)
-                    output = output_list[0].decode('utf-8')
-                    stream = io.StringIO(output)
-                    tree = ET.parse(stream)
-                    root = tree.getroot()
-                    return root
+        def get_abspath(path: str) -> str:
+            if os.path.isabs(path):
+                return path
+            return os.path.join(os.path.dirname(__file__), path)
+        with unittest.mock.patch('helpers.get_abspath', get_abspath):
+            environ = {
+                "PATH_INFO": path
+            }
+            callback = cast('StartResponse', start_response)  # type: StartResponse
+            output_iterable = wsgi.application(environ, callback)
+            output_list = cast(List[bytes], output_iterable)
+            self.assertTrue(output_list)
+            output = output_list[0].decode('utf-8')
+            stream = io.StringIO(output)
+            tree = ET.parse(stream)
+            root = tree.getroot()
+            return root
 
 
 class TestStreets(TestWsgi):
