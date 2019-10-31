@@ -282,6 +282,10 @@ palotanegyed:
     osmrelation: 3177466
     refmegye: "01"
     reftelepules: "008"
+tisztviselotelep:
+    osmrelation: 3182106
+    refmegye: "01"
+    reftelepules: "008"
 belso-ferencvaros:
     osmrelation: 3229950
     refmegye: "01"
