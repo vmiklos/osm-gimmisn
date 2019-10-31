@@ -11,8 +11,8 @@ refstreets:
   'Szép Ilona utca': 'Szépilona utca'
   'Templomkert': 'Templom kert'
   'Bocskai utca': 'Bocskai István útja'
+  'Felhévízi utca': 'Felhévizi utca'  # 6 táblából 5-ön hosszú í
   # felmérendő
-  'Felhévízi utca': 'Felhévizi utca'
   'Remetevölgy utca': 'Remetevölgyi utca'
 source: survey
 inactive: true
