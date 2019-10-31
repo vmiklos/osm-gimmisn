@@ -19,16 +19,6 @@ import helpers
 import overpass_query
 
 
-def get_srcdir(subdir: str = "") -> str:
-    """Gets the directory which is tracked in version control."""
-    dirname = os.path.dirname(__file__)
-
-    if subdir:
-        dirname = os.path.join(dirname, subdir)
-
-    return dirname
-
-
 def overpass_sleep() -> None:
     """Sleeps to respect overpass rate limit."""
     while True:
@@ -133,10 +123,10 @@ def main() -> None:
     """Commandline interface to this module."""
 
     config = configparser.ConfigParser()
-    config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config_path = helpers.get_abspath("wsgi.ini")
     config.read(config_path)
 
-    datadir = get_srcdir("data")
+    datadir = helpers.get_abspath("data")
     workdir = helpers.get_workdir(config)
     relations = helpers.Relations(datadir, workdir)
     logpath = os.path.join(workdir, "cron.log")
