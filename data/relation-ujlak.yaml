@@ -111,5 +111,8 @@ filters:
     reftelepules: '003'
   Végvár utca:
     reftelepules: '003'
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Felhévízi utca': 'Felhévizi utca'  # 6 táblából 5-ön hosszú í
 source: survey
 inactive: true
