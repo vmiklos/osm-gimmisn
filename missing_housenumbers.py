@@ -7,7 +7,6 @@
 
 """Compares reference house numbers with OSM ones and shows the diff."""
 
-import os
 import sys
 import configparser
 import helpers
@@ -16,10 +15,10 @@ import helpers
 def main() -> None:
     """Commandline interface."""
     config = configparser.ConfigParser()
-    config_path = os.path.join(os.path.dirname(__file__), "wsgi.ini")
+    config_path = helpers.get_abspath("wsgi.ini")
     config.read(config_path)
     workdir = config.get('wsgi', 'workdir').strip()
-    datadir = os.path.join(os.path.dirname(__file__), "data")
+    datadir = helpers.get_abspath("data")
 
     if len(sys.argv) > 1:
         relation_name = sys.argv[1]
