@@ -13,6 +13,11 @@ git grep -n -w asis|grep -v getvalue
 
 Exception to this rule is the HTML DOCTYPE header.
 
+- Path handling: make relative paths absolute using helpers.get_abspath() and avoid `__file__`. This
+  has the benefit that real and test config/data (under `/` and `tests/`) can be separated.
+
+Exception to this rule is the `static/` directory, which has no separate test instance.
+
 == Checklist
 
 Ideally CI checks everything before a commit hits master, but here are a few
