@@ -15,14 +15,10 @@ budapest_08:
     osmrelation: 1606100
     refmegye: "01"
     reftelepules: "008"
-    inactive: true
-    suspicious-relations: only
 budapest_09:
     osmrelation: 1552462
     refmegye: "01"
     reftelepules: "009"
-    inactive: true
-    suspicious-relations: only
 budapest_11:
     osmrelation: 221998
     refmegye: "01"
@@ -286,14 +282,10 @@ palotanegyed:
     osmrelation: 3177466
     refmegye: "01"
     reftelepules: "008"
-    suspicious-relations: 'no'
-    inactive: true
 belso-ferencvaros:
     osmrelation: 3229950
     refmegye: "01"
     reftelepules: "009"
-    suspicious-relations: 'no'
-    inactive: true
 vizafogo:
     osmrelation: 3217068
     refmegye: "01"
