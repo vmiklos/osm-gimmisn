@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-31 15:11+0100\n"
+"POT-Creation-Date: 2019-10-31 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,6 +139,10 @@ msgstr ""
 msgid "No street list: "
 msgstr ""
 
+#: util.py:189
+msgid "Note: wait for {} seconds"
+msgstr ""
+
 #: wsgi.py:813
 msgid "OSM data © OpenStreetMap contributors."
 msgstr ""
@@ -153,6 +157,11 @@ msgstr ""
 #: wsgi.py:229
 #, python-brace-format
 msgid "OpenStreetMap is possibly missing the below {0} streets."
+msgstr ""
+
+#: util.py:185
+#, python-brace-format
+msgid "Overpass error: {0}"
 msgstr ""
 
 #: wsgi.py:712

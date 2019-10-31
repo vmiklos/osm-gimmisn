@@ -97,7 +97,7 @@ deploy-pythonanywhere:
 	make
 	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py
 
-update-pot: helpers.py wsgi.py Makefile
+update-pot: helpers.py wsgi.py util.py Makefile
 	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)
 
 update-po: po/osm-gimmisn.pot Makefile

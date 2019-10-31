@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: osm-gimmisn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-31 15:11+0100\n"
-"PO-Revision-Date: 2019-10-31 15:12+0100\n"
+"POT-Creation-Date: 2019-10-31 15:19+0100\n"
+"PO-Revision-Date: 2019-10-31 15:19+0100\n"
 "Last-Translator: Miklos Vajna <osm-gimmisn@vmiklos.hu>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -139,6 +139,10 @@ msgstr "Nincsenek referencia utcák"
 msgid "No street list: "
 msgstr "Nincsen utcalista: "
 
+#: util.py:189
+msgid "Note: wait for {} seconds"
+msgstr "Megjegyzés: {} másodperc várakozás szükséges"
+
 #: wsgi.py:813
 msgid "OSM data © OpenStreetMap contributors."
 msgstr "OSM adatok © OpenStreetMap közreműködők."
@@ -156,6 +160,11 @@ msgstr ""
 #, python-brace-format
 msgid "OpenStreetMap is possibly missing the below {0} streets."
 msgstr "Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti {0} utcát."
+
+#: util.py:185
+#, python-brace-format
+msgid "Overpass error: {0}"
+msgstr "Overpass error: {0}"
 
 #: wsgi.py:712
 msgid "Overpass turbo"
@@ -229,6 +238,3 @@ msgstr "frissítve"
 #, python-brace-format
 msgid "{0} missing house numbers"
 msgstr "{0} hiányzó házszámok"
-
-#~ msgid "Note: wait for {} seconds"
-#~ msgstr "Megjegyzés: {} másodperc várakozás szükséges"
