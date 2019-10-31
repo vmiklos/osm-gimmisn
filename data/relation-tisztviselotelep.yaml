@@ -1,0 +1,28 @@
+suspicious-relations: 'no'
+filters:
+  Bláthy Ottó utca:
+    ranges:
+      - {start: '1', end: '33'}
+      - {start: '2', end: '40'}
+  Delej utca:
+    ranges:
+      - {start: '1', end: '47'}
+      - {start: '2', end: '46'}
+  Könyves Kálmán körút:
+    ranges:
+      - {start: '38', end: '84'}
+  Orczy út:
+    ranges:
+      - {start: '1', end: '49'}
+      - {start: '2', end: '54'}
+  Üllői út:
+    ranges:
+      - {start: '84', end: '102'}
+  Vajda Péter utca:
+    ranges:
+      - {start: '1', end: '49'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Magyarok Nagyasszonya tér': 'Rezső tér'
+source: survey
+inactive: true
