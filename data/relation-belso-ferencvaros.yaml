@@ -1,0 +1,14 @@
+suspicious-relations: 'no'
+filters:
+  Ferenc körút:
+    ranges:
+      - {start: '2', end: '44'}
+  Tompa utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '4'}
+  Üllői út:
+    ranges:
+      - {start: '1', end: '43'}
+source: survey
+inactive: true

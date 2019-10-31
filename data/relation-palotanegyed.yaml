@@ -1,0 +1,17 @@
+suspicious-relations: 'no'
+filters:
+  Baross utca:
+    ranges:
+      - {start: '1', end: '49'}
+      - {start: '2', end: '54'}
+  József körút:
+    ranges:
+      - {start: '1', end: '87'}
+  Üllői út:
+    ranges:
+      - {start: '2', end: '36'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Krúdy Gyula utca': 'Krúdy utca'
+source: survey
+inactive: true
