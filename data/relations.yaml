@@ -27,6 +27,10 @@ budapest_12:
     osmrelation: 221995
     refmegye: "01"
     reftelepules: "012"
+budapest_13:
+    osmrelation: 1605916
+    refmegye: "01"
+    reftelepules: "013"
 budapest_22:
     osmrelation: 215621
     refmegye: "01"
@@ -294,8 +298,6 @@ vizafogo:
     osmrelation: 3217068
     refmegye: "01"
     reftelepules: "013"
-    suspicious-relations: 'no'
-    inactive: true
 # pest-kulvaros
 csepel-belvaros:
     osmrelation: 3244191
