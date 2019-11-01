@@ -1,5 +1,9 @@
 suspicious-relations: 'no'
 filters:
+  Abádi tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '17'}
   Albert utca:
     ranges: []
   Albertfalva utca:
@@ -18,7 +22,8 @@ filters:
   Bükköny utca:
     ranges:
       - {start: '3', end: '31'}
-      - {start: '2', end: '28'}
+      - {start: '2', end: '6'}
+      - {start: '26', end: '28'}
   Csorbai utca:
     ranges: []
   Derzsi utca:
@@ -60,7 +65,8 @@ filters:
     ranges:
       - {start: '1', end: '51'}
       - {start: '55', end: '61'}
-      - {start: '2', end: '54'}
+      - {start: '28', end: '28'}
+      - {start: '54', end: '54'}
       - {start: '62', end: '64'}
       - {start: '70', end: '70'}
   Kisbér utca:
@@ -93,6 +99,10 @@ filters:
       - {start: '2', end: '20'}
   Kővirág sor:
     ranges: []
+  Kunghegyes utca:
+    # páratlan 1-7 keresztutcákra számozva
+    ranges:
+      - {start: '2', end: '14'}
   Mahunka Imre tér:
     ranges: []
   Mezőkövesd út:
