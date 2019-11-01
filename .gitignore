@@ -122,3 +122,9 @@ version.py
 
 # vim
 .*.swp
+
+# gettext
+*.po~
+
+# ctags
+tags
