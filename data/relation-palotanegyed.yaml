@@ -7,6 +7,9 @@ filters:
   József körút:
     ranges:
       - {start: '1', end: '87'}
+  Rákóczi út:
+    ranges:
+      - {start: '1', end: '37'}
   Üllői út:
     ranges:
       - {start: '2', end: '36'}
