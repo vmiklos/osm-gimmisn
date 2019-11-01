@@ -958,8 +958,10 @@ class TestMakeTurboQueryForStreets(unittest.TestCase):
                 util.html_escape("B2")]]
         ret = helpers.make_turbo_query_for_streets(relation, fro)
         expected = """[out:json][timeout:425];
+rel(2713748)->.searchRelation;
 area(3602713748)->.searchArea;
-(nwr["name"="A2"](area.searchArea);
+(way["name"="A2"](r.searchRelation);
+way["name"="A2"](area.searchArea);
 );
 out body;
 >;

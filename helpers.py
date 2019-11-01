@@ -960,11 +960,13 @@ def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.Doc
             continue
         streets.append(row[0].getvalue())
     header = """[out:json][timeout:425];
+rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
 ("""
     query = process_template(header, relation.get_config().get_osmrelation())
     for street in streets:
-        query += 'nwr["name"="' + street + '"](area.searchArea);\n'
+        query += 'way["name"="' + street + '"](r.searchRelation);\n'
+        query += 'way["name"="' + street + '"](area.searchArea);\n'
     query += """);
 out body;
 >;
