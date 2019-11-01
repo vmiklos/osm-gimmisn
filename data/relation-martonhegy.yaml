@@ -7,6 +7,10 @@ filters:
   Csorna utca:
     ranges:
       - {start: '2', end: '98'}
+  Denevér köz:
+    ranges:
+      - {start: '3', end: '5'}
+      - {start: '2', end: '8'}
   Denevér út:
     # 19-31 szakaszon nincs ház
     ranges:
