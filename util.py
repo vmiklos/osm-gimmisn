@@ -6,10 +6,12 @@
 
 """The util module contains free functions shared between other modules."""
 
+from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import cast
 import os
 import pickle
 import re
@@ -17,7 +19,9 @@ import urllib.error
 
 import yattag  # type: ignore
 
+import accept_language
 from i18n import translate as _
+import i18n
 import overpass_query
 
 
@@ -188,6 +192,19 @@ def handle_overpass_error(http_error: urllib.error.HTTPError) -> yattag.Doc:
         doc.stag("br")
         doc.text(_("Note: wait for {} seconds").format(sleep))
     return doc
+
+
+def setup_localization(environ: Dict[str, Any]) -> str:
+    """Provides localized strings for this thread."""
+    # Set up localization.
+    languages = environ.get("HTTP_ACCEPT_LANGUAGE")
+    if languages:
+        parsed = accept_language.parse_accept_language(languages)
+        if parsed:
+            language = parsed[0].language
+            i18n.set_language(language)
+            return cast(str, language)
+    return ""
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

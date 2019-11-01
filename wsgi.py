@@ -24,15 +24,12 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
-from typing import cast
 import wsgiref.simple_server
 
 import pytz
 import yattag  # type: ignore
 
-import accept_language
 import helpers
-import i18n
 from i18n import translate as _
 import overpass_query
 import version
@@ -851,19 +848,6 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
     return "", ""
 
 
-def setup_localization(environ: Dict[str, Any]) -> str:
-    """Provides localized strings for this thread."""
-    # Set up localization.
-    languages = environ.get("HTTP_ACCEPT_LANGUAGE")
-    if languages:
-        parsed = accept_language.parse_accept_language(languages)
-        if parsed:
-            language = parsed[0].language
-            i18n.set_language(language)
-            return cast(str, language)
-    return ""
-
-
 def send_response(start_response: 'StartResponse', content_type: str, status: str, output: str) -> Iterable[bytes]:
     """Turns an output string into a byte array and sends it."""
     output_bytes = output.encode('utf-8')
@@ -912,7 +896,7 @@ def our_application(
         # Ignore, this happens only on the cut-down CI environment.
         pass
 
-    language = setup_localization(environ)
+    language = util.setup_localization(environ)
     if not language:
         language = "hu"
 

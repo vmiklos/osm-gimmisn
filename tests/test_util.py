@@ -161,5 +161,24 @@ class TestHandleOverpassError(unittest.TestCase):
             self.assertEqual(doc.getvalue(), expected)
 
 
+class TestSetupLocalization(unittest.TestCase):
+    """Tests setup_localization()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        def set_language(language: str) -> None:
+            self.assertEqual(language, "en")
+        environ = {"HTTP_ACCEPT_LANGUAGE": "en-US,el;q=0.8"}
+        with unittest.mock.patch('i18n.set_language', set_language):
+            util.setup_localization(environ)
+
+    def test_parse_error(self) -> None:
+        """Tests the error path."""
+        def set_language(_language: str) -> None:
+            self.fail("unexpected call")
+        environ = {"HTTP_ACCEPT_LANGUAGE": ","}
+        with unittest.mock.patch('i18n.set_language', set_language):
+            util.setup_localization(environ)
+
+
 if __name__ == '__main__':
     unittest.main()
