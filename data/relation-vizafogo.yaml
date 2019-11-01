@@ -1,0 +1,43 @@
+suspicious-relations: 'no'
+filters:
+  Árboc utca:
+    ranges:
+      - {start: '2', end: '18'}
+  Dráva utca:
+    ranges:
+      - {start: '1', end: '13'}
+  Hegedűs Gyula utca:
+    ranges:
+      - {start: '111', end: '127'}
+      - {start: '96', end: '112'}
+  Kárpát utca:
+    ranges:
+      - {start: '41', end: '45'}
+      - {start: '66', end: '70'}
+  Meder utca:
+    ranges:
+      - {start: '2', end: '12'}
+  Pannónia utca:
+    ranges:
+      - {start: '97', end: '107'}
+      - {start: '110', end: '118'}
+  Róbert Károly körút:
+    ranges:
+      - {start: '2', end: '24'}
+  Turbina utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '8'}
+  Váci út:
+    ranges:
+      - {start: '76', end: '114'}
+      - {start: '132', end: '176'}
+  Visegrádi utca:
+    ranges:
+      - {start: '81', end: '117'}
+      - {start: '96', end: '116'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Árboc utca': 'Árbóc utca'
+source: survey
+inactive: true
