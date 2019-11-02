@@ -207,4 +207,17 @@ def setup_localization(environ: Dict[str, Any]) -> str:
     return ""
 
 
+def gen_link(url: str, label: str) -> yattag.Doc:
+    """Generates a link to a URL with a given label."""
+    doc = yattag.Doc()
+    with doc.tag("a", href=url):
+        doc.text(label + "...")
+
+    # Always auto-visit the link for now.
+    with doc.tag("script", type="text/javascript"):
+        doc.text("window.location.href = \"%s\";" % url)
+
+    return doc
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

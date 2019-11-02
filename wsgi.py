@@ -85,7 +85,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc
             if streets != "only":
                 doc.text(_("Update successful: "))
                 link = "/osm/suspicious-streets/" + relation_name + "/view-result"
-                doc.asis(gen_link(link, _("View missing house numbers")).getvalue())
+                doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
             else:
                 doc.text(_("Update successful."))
         except urllib.error.HTTPError as http_error:
@@ -121,25 +121,12 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
             relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
             doc.text(_("Update successful: "))
             link = "/osm/suspicious-streets/" + relation_name + "/view-result"
-            doc.asis(gen_link(link, _("View missing house numbers")).getvalue())
+            doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
         except urllib.error.HTTPError as http_error:
             doc.asis(util.handle_overpass_error(http_error).getvalue())
 
     date = get_housenumbers_last_modified(relation)
     doc.asis(get_footer(date).getvalue())
-    return doc
-
-
-def gen_link(url: str, label: str) -> yattag.Doc:
-    """Generates a link to a URL with a given label."""
-    doc = yattag.Doc()
-    with doc.tag("a", href=url):
-        doc.text(label + "...")
-
-    # Always auto-visit the link for now.
-    with doc.tag("script", type="text/javascript"):
-        doc.text("window.location.href = \"%s\";" % url)
-
     return doc
 
 
@@ -169,15 +156,15 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         doc.text(_("No existing streets: "))
         link = "/osm/streets/" + relation_name + "/update-result"
-        doc.asis(gen_link(link, _("Call Overpass to create")).getvalue())
+        doc.asis(util.gen_link(link, _("Call Overpass to create")).getvalue())
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
         doc.text(_("No existing house numbers: "))
         link = "/osm/street-housenumbers/" + relation_name + "/update-result"
-        doc.asis(gen_link(link, _("Call Overpass to create")).getvalue())
+        doc.asis(util.gen_link(link, _("Call Overpass to create")).getvalue())
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         doc.text(_("No missing house numbers: "))
         link = "/osm/suspicious-streets/" + relation_name + "/update-result"
-        doc.asis(gen_link(link, _("Create from reference")).getvalue())
+        doc.asis(util.gen_link(link, _("Create from reference")).getvalue())
     else:
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
@@ -288,7 +275,7 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
     doc = yattag.Doc()
     doc.text(_("Update successful: "))
     link = "/osm/suspicious-streets/" + relation_name + "/view-result"
-    doc.asis(gen_link(link, _("View missing house numbers")).getvalue())
+    doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
     return doc
 
 

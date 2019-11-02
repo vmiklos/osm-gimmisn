@@ -180,5 +180,15 @@ class TestSetupLocalization(unittest.TestCase):
             util.setup_localization(environ)
 
 
+class TestGenLink(unittest.TestCase):
+    """Tests gen_link()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        doc = util.gen_link("http://www.example.com", "label")
+        expected = '<a href="http://www.example.com">label...</a>'
+        expected += '<script type="text/javascript">window.location.href = "http://www.example.com";</script>'
+        self.assertEqual(doc.getvalue(), expected)
+
+
 if __name__ == '__main__':
     unittest.main()
