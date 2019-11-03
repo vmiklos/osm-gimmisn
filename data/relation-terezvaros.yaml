@@ -1,4 +1,4 @@
-suspicious-relations: 'yes'
+missing-streets: 'yes'
 filters:
   Andrássy út:
     # exclude following numbers ['106', '108', '94']

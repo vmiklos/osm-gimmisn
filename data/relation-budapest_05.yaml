@@ -1,4 +1,4 @@
-suspicious-relations: only
+missing-streets: only
 filters: {}
 source: survey
 inactive: true

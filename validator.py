@@ -133,7 +133,7 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
         "source": (str, None),
         "filters": (dict, validate_filters),
         "refstreets": (dict, validate_refstreets),
-        "suspicious-relations": (str, None),
+        "missing-streets": (str, None),
         "street-filters": (list, validate_street_filters),
         "inactive": (bool, None),
     }  # type: Dict[str, Tuple[Any, Any]]

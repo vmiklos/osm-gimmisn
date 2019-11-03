@@ -12,7 +12,7 @@ empty:
     osmrelation: 13
     refmegye: "01"
     reftelepules: "011"
-# this relation has 'suspicious-relations: only' set
+# this relation has 'missing-streets: only' set
 ujbuda:
     osmrelation: 221998
     refmegye: "01"

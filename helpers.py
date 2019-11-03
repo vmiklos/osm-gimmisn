@@ -195,8 +195,8 @@ class RelationConfig:
 
     def should_check_missing_streets(self) -> str:
         """Return value can be 'yes', 'no' and 'only'."""
-        if self.__get_property("suspicious-relations"):
-            return cast(str, self.__get_property("suspicious-relations"))
+        if self.__get_property("missing-streets"):
+            return cast(str, self.__get_property("missing-streets"))
 
         return "yes"
 

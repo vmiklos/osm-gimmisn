@@ -1,4 +1,4 @@
-suspicious-relations: 'no'
+missing-streets: 'no'
 filters:
   Antónia utca:
     ranges:

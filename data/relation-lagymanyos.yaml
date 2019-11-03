@@ -1,4 +1,4 @@
-suspicious-relations: 'no'
+missing-streets: 'no'
 filters:
   Bartók Béla út:
     ranges:

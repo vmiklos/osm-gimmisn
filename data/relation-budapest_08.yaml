@@ -1,4 +1,4 @@
-suspicious-relations: 'yes'
+missing-streets: 'yes'
 filters: {}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
