@@ -61,14 +61,14 @@ for streets and house numbers, it's easy to adapt.)
 
 ----
 kelenfold:
-    suspicious-relations: "no"
+    missing-streets: "no"
     osmrelation: 2700869
     refmegye: "01"
     reftelepules: "011"
 ----
 
 Names are snake_case by convention, e.g. `kelenfold`. The other fields should match the values you
-obtained in the previous bullet point. (`suspicious-relations: "no"` means that this OSM relation is
+obtained in the previous bullet point. (`missing-streets: "no"` means that this OSM relation is
 only a subset of the referenced settlement, so it's pointless to search for missing streets here.)
 
 - Finally you can send your modification as a https://github.com/vmiklos/osm-gimmisn/pull/new[pull
@@ -115,7 +115,7 @@ numbers with ranges, and whatever is not in this range will be filtered out.
 
 The yaml format is like this:
 
-- `suspicious-relations: only`: this is provided in the root of the `relation-NAME.yaml` file (by
+- `missing-streets: only`: this is provided in the root of the `relation-NAME.yaml` file (by
   convention). It denotes that you only want to search for streets in this (potentially large)
   relation. Other valid values are `yes` (which is the default) and `no`.
 
