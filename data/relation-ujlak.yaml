@@ -3,16 +3,19 @@ filters:
   Alsó Zöldmáli út:
     ranges:
       - {start: '1', end: '11'}
-      - {start: '2', end: '10'}
+      - {start: '4', end: '10'}
   Árpád fejedelem útja:
     interpolation: all
     ranges:
       - {start: '14', end: '47', reftelepules: '002'}
       - {start: '48', end: '69', reftelepules: '003'}
   Bécsi út:
+    # 10-14 helyén parkoló
     ranges:
-      - {start: '1', end: '35', reftelepules: '002'}
-      - {start: '2', end: '32', reftelepules: '002'}
+      - {start: '1', end: '27', reftelepules: '002'}
+      - {start: '31', end: '35', reftelepules: '002'}
+      - {start: '2', end: '12', reftelepules: '002'}
+      - {start: '16', end: '32', reftelepules: '002'}
       - {start: '37', end: '85', reftelepules: '003'}
       - {start: '34', end: '92', reftelepules: '003'}
   Bokor utca:
@@ -109,8 +112,24 @@ filters:
     ranges: []
   Uszály utca:
     reftelepules: '003'
+  Ürömi utca:
+    # sok lebontott vagy romos ház, ezért lyukas a számozás
+    # 60-62 kérdéses, nincs kiírva semmi
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '15', end: '59'}
+      - {start: '2', end: '2'}
+      - {start: '8', end: '14'}
+      - {start: '18', end: '34'}
+      - {start: '38', end: '66'}
   Végvár utca:
     reftelepules: '003'
+  Zsigmond tér:
+    # Óbuda Gate 5-7 alatt, de nem ezt a címet használja
+    interpolation: all
+    ranges:
+      - {start: '1', end: '4'}
+      - {start: '8', end: '13'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Felhévízi utca': 'Felhévizi utca'  # 6 táblából 5-ön hosszú í
