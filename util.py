@@ -220,4 +220,9 @@ def gen_link(url: str, label: str) -> yattag.Doc:
     return doc
 
 
+def write_html_header(doc: yattag.Doc) -> None:
+    """Produces the verify first line of a HTML output."""
+    doc.asis("<!DOCTYPE html>\n")
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -722,11 +722,6 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.D
         items.append(doc)
 
 
-def write_html_header(doc: yattag.Doc) -> None:
-    """Produces the verify first line of a HTML output."""
-    doc.asis("<!DOCTYPE html>\n")
-
-
 def write_html_head(doc: yattag.Doc, title: str) -> None:
     """Produces the <head> tag and its contents."""
     with doc.tag("head"):
@@ -900,7 +895,7 @@ def our_application(
         return send_response(start_response, content_type, "200 OK", output)
 
     doc = yattag.Doc()
-    write_html_header(doc)
+    util.write_html_header(doc)
     with doc.tag("html", lang=language):
         write_html_head(doc, get_html_title(request_uri))
 
@@ -931,7 +926,7 @@ def handle_exception(
     if path_info:
         request_uri = path_info
     doc = yattag.Doc()
-    write_html_header(doc)
+    util.write_html_header(doc)
     with doc.tag("pre"):
         doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
         doc.text(traceback.format_exc())
