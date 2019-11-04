@@ -190,5 +190,15 @@ class TestGenLink(unittest.TestCase):
         self.assertEqual(doc.getvalue(), expected)
 
 
+class TestProcessTemplate(unittest.TestCase):
+    """Tests process_template()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        template = "aaa @RELATION@ bbb @AREA@ ccc"
+        expected = "aaa 42 bbb 3600000042 ccc"
+        actual = util.process_template(template, 42)
+        self.assertEqual(actual, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

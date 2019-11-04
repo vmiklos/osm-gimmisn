@@ -225,4 +225,13 @@ def write_html_header(doc: yattag.Doc) -> None:
     doc.asis("<!DOCTYPE html>\n")
 
 
+def process_template(buf: str, osmrelation: int) -> str:
+    """Turns an overpass query template to an actual query."""
+    buf = buf.replace("@RELATION@", str(osmrelation))
+    # area is relation + 3600000000 (3600000000 == relation), see js/ide.js
+    # in https://github.com/tyrasd/overpass-turbo
+    buf = buf.replace("@AREA@", str(3600000000 + osmrelation))
+    return buf
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

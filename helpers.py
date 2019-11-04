@@ -325,7 +325,7 @@ class Relation:
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
         with open(os.path.join(self.__datadir, "streets-template.txt")) as stream:
-            return process_template(stream.read(), self.get_config().get_osmrelation())
+            return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
     def get_osm_housenumbers(self, street_name: str) -> List[str]:
         """Gets the OSM house number list of a street."""
@@ -552,7 +552,7 @@ class Relation:
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
         with open(os.path.join(self.__datadir, "street-housenumbers-template.txt")) as stream:
-            return process_template(stream.read(), self.get_config().get_osmrelation())
+            return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
 
 class Relations:
@@ -798,15 +798,6 @@ def get_workdir(config: configparser.ConfigParser) -> str:
     return get_abspath(config.get('wsgi', 'workdir').strip())
 
 
-def process_template(buf: str, osmrelation: int) -> str:
-    """Turns an overpass query template to an actual query."""
-    buf = buf.replace("@RELATION@", str(osmrelation))
-    # area is relation + 3600000000 (3600000000 == relation), see js/ide.js
-    # in https://github.com/tyrasd/overpass-turbo
-    buf = buf.replace("@AREA@", str(3600000000 + osmrelation))
-    return buf
-
-
 def get_content(workdir: str, path: str = "") -> str:
     """Gets the content of a file in workdir."""
     ret = ""
@@ -963,7 +954,7 @@ def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.Doc
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
 ("""
-    query = process_template(header, relation.get_config().get_osmrelation())
+    query = util.process_template(header, relation.get_config().get_osmrelation())
     for street in streets:
         query += 'way["name"="' + street + '"](r.searchRelation);\n'
         query += 'way["name"="' + street + '"](area.searchArea);\n'

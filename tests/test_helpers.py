@@ -247,16 +247,6 @@ class TestGetAbspath(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestProcessTemplate(unittest.TestCase):
-    """Tests process_template()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        template = "aaa @RELATION@ bbb @AREA@ ccc"
-        expected = "aaa 42 bbb 3600000042 ccc"
-        actual = helpers.process_template(template, 42)
-        self.assertEqual(actual, expected)
-
-
 class TestRelationGetOsmStreetsQuery(unittest.TestCase):
     """Tests Relation.get_osm_streets_query()."""
     def test_happy(self) -> None:
