@@ -234,4 +234,29 @@ def process_template(buf: str, osmrelation: int) -> str:
     return buf
 
 
+def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
+    """Decides if an x-y range should be expanded."""
+    if len(numbers) != 2:
+        return False
+
+    if numbers[1] < numbers[0]:
+        # E.g. 42-1, -1 is just a suffix to be ignored.
+        numbers[1] = 0
+        return True
+
+    # If there is a parity mismatch, ignore.
+    if street_is_even_odd and numbers[0] % 2 != numbers[1] % 2:
+        return False
+
+    # Assume that 0 is just noise.
+    if numbers[0] == 0:
+        return False
+
+    # Ranges larger than this are typically just noise in the input data.
+    if numbers[1] > 1000 or numbers[1] - numbers[0] > 24:
+        return False
+
+    return True
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

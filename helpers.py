@@ -860,31 +860,6 @@ def html_table_from_list(table: List[List[yattag.Doc]]) -> yattag.Doc:
     return doc
 
 
-def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
-    """Decides if an x-y range should be expanded."""
-    if len(numbers) != 2:
-        return False
-
-    if numbers[1] < numbers[0]:
-        # E.g. 42-1, -1 is just a suffix to be ignored.
-        numbers[1] = 0
-        return True
-
-    # If there is a parity mismatch, ignore.
-    if street_is_even_odd and numbers[0] % 2 != numbers[1] % 2:
-        return False
-
-    # Assume that 0 is just noise.
-    if numbers[0] == 0:
-        return False
-
-    # Ranges larger than this are typically just noise in the input data.
-    if numbers[1] > 1000 or numbers[1] - numbers[0] > 24:
-        return False
-
-    return True
-
-
 def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, Ranges]) -> List[str]:
     """Strips down string input to bare minimum that can be interpreted as an
@@ -925,7 +900,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
         ret_numbers.append(number)
 
     street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
-    if separator == "-" and should_expand_range(ret_numbers_nofilter, street_is_even_odd):
+    if separator == "-" and util.should_expand_range(ret_numbers_nofilter, street_is_even_odd):
         start = ret_numbers_nofilter[0]
         stop = ret_numbers_nofilter[1]
         if stop == 0:
