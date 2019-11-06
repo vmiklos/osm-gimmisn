@@ -843,23 +843,6 @@ def tsv_to_list(sock: TextIO) -> List[List[yattag.Doc]]:
     return table
 
 
-def html_table_from_list(table: List[List[yattag.Doc]]) -> yattag.Doc:
-    """Produces a HTML table from a list of lists."""
-    doc = yattag.Doc()
-    with doc.tag("table", klass="sortable"):
-        for row_index, row_content in enumerate(table):
-            with doc.tag("tr"):
-                for cell in row_content:
-                    if row_index == 0:
-                        with doc.tag("th"):
-                            with doc.tag("a", href="#"):
-                                doc.text(cell.getvalue())
-                    else:
-                        with doc.tag("td"):
-                            doc.asis(cell.getvalue())
-    return doc
-
-
 def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, Ranges]) -> List[str]:
     """Strips down string input to bare minimum that can be interpreted as an

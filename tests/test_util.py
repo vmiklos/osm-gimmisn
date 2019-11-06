@@ -200,5 +200,21 @@ class TestProcessTemplate(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestHtmlTableFromList(unittest.TestCase):
+    """Tests html_table_from_list()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        fro = [[util.html_escape("A1"),
+                util.html_escape("B1")],
+               [util.html_escape("A2"),
+                util.html_escape("B2")]]
+        expected = '<table class="sortable">'
+        expected += '<tr><th><a href="#">A1</a></th>'
+        expected += '<th><a href="#">B1</a></th></tr>'
+        expected += '<tr><td>A2</td><td>B2</td></tr></table>'
+        ret = util.html_table_from_list(fro).getvalue()
+        self.assertEqual(ret, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

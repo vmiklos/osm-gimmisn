@@ -76,7 +76,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc
     elif action == "view-result":
         with relation.get_files().get_osm_streets_stream("r") as sock:
             table = helpers.tsv_to_list(sock)
-            doc.asis(helpers.html_table_from_list(table).getvalue())
+            doc.asis(util.html_table_from_list(table).getvalue())
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
@@ -114,7 +114,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
     elif action == "view-result":
         with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             table = helpers.tsv_to_list(sock)
-            doc.asis(helpers.html_table_from_list(table).getvalue())
+            doc.asis(util.html_table_from_list(table).getvalue())
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:
@@ -182,7 +182,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
                 doc.text(_("Overpass turbo query for the below streets"))
             doc.text(".")
 
-        doc.asis(helpers.html_table_from_list(table).getvalue())
+        doc.asis(util.html_table_from_list(table).getvalue())
     return doc
 
 
@@ -213,7 +213,7 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
             doc.text(_("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
             doc.text(_(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)))
 
-        doc.asis(helpers.html_table_from_list(table).getvalue())
+        doc.asis(util.html_table_from_list(table).getvalue())
     return doc
 
 
@@ -628,7 +628,7 @@ def handle_main(request_uri: str, relations: helpers.Relations) -> yattag.Doc:
         row = handle_main_relation(relations, filter_for, relation_name)
         if row:
             table.append(row)
-    doc.asis(helpers.html_table_from_list(table).getvalue())
+    doc.asis(util.html_table_from_list(table).getvalue())
     with doc.tag("p"):
         with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
             doc.text(_("Add new area"))
