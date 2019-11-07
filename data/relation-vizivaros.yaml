@@ -6,6 +6,8 @@ filters:
     reftelepules: '002'
   Bakfark Bálint utca:
     reftelepules: '002'
+  Batthyány tér:
+    interpolation: 'all'
   Bem József tér:
     reftelepules: '002'
     interpolation: 'all'
@@ -21,6 +23,8 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '30', end: '48', reftelepules: '002'}
+  Corvin tér:
+    interpolation: 'all'
   Csalogány utca:
     ranges:
       - {start: '2', end: '44'}
@@ -99,5 +103,7 @@ filters:
   Vérmező út:
     ranges:
       - {start: '2', end: '14'}
+  Ybl Miklós tér:
+    interpolation: all
 source: survey
 inactive: true
