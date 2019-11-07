@@ -98,7 +98,8 @@ filters:
   Liszt Ferenc út:
     # A Liszt Ferenc út 1. és a Bem József utca 6/A. közös telken van, házszám a Bem József utcáról van csak.
     # A 9, 11, 13/A egybenyitott telek, de csak 13/A házszám van.
-    # TODO: A 21, 53, 55 nem található.
+    # A Liszt Ferenc út 21. és a Kazinczy utca 1/A. közös telken van, házszám a Kazinczy utcáról van csak.
+    # TODO: Az 53, 55 nem található.
     # A 40-42 egybenyitott telek, de csak 40. házszám van.
     # A 44. a Szepesi utca helyén van, nincs telek.
     # TODO: A Liszt Ferenc út 74. és a Zöldike utca ???. közös telken van, házszámot sehol sem látok, de a bejárat a Zöldike utca felől van.
@@ -110,6 +111,11 @@ filters:
       - {start: '2', end: '40'}
       - {start: '46', end: '72'}
       - {start: '76', end: '104'}
+  Május 1. utca:
+    # A Május 1. utca 33. és a Dombóvári utca 8/B. közös telken van, házszám a Dombóvári utcáról van csak.
+    ranges:
+      - {start: '3', end: '31'}
+      - {start: '2', end: '26'}
   Mária Terézia utca:
     ranges:
       - {start: '9', end: '11'}
@@ -137,6 +143,10 @@ filters:
   Pécsi utca:
     # A páros oldalon nagy a bozót, de mintha 2-10 között lenne.
     # Az utcatáblán 2-12 van, de 12 biztosan nincs. A 10 is kétséges.
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '10'}
+  Pogány utca:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '10'}
@@ -176,6 +186,10 @@ filters:
     ranges:
       - {start: '22', end: '33'}
       - {start: '35', end: '35'}
+  Zakariás József utca:
+    ranges:
+      - {start: '3', end: '9'}
+      - {start: '8', end: '10'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Enyedi utca': 'Enyedy utca'
