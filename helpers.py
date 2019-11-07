@@ -810,39 +810,6 @@ def get_content(workdir: str, path: str = "") -> str:
     return ret
 
 
-def tsv_to_list(sock: TextIO) -> List[List[yattag.Doc]]:
-    """Turns a tab-separated table into a list of lists."""
-    table = []
-
-    first = True
-    type_index = 0
-    for line in sock.readlines():
-        if not line.strip():
-            continue
-        if first:
-            first = False
-            for index, column in enumerate(line.split("\t")):
-                if column.strip() == "@type":
-                    type_index = index
-        cells = [util.html_escape(cell.strip()) for cell in line.split("\t")]
-        if cells and type_index:
-            # We know the first column is an OSM ID.
-            try:
-                osm_id = int(cells[0].getvalue())
-                osm_type = cells[type_index].getvalue()
-                doc = yattag.Doc()
-                href = "https://www.openstreetmap.org/{}/{}".format(osm_type, osm_id)
-                with doc.tag("a", href=href, target="_blank"):
-                    doc.text(osm_id)
-                cells[0] = doc
-            except ValueError:
-                # Not an int, ignore.
-                pass
-        table.append(cells)
-
-    return table
-
-
 def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, Ranges]) -> List[str]:
     """Strips down string input to bare minimum that can be interpreted as an

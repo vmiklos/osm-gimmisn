@@ -6,6 +6,7 @@
 
 """The test_util module covers the util module."""
 
+import io
 import os
 import unittest
 import unittest.mock
@@ -214,6 +215,30 @@ class TestHtmlTableFromList(unittest.TestCase):
         expected += '<tr><td>A2</td><td>B2</td></tr></table>'
         ret = util.html_table_from_list(fro).getvalue()
         self.assertEqual(ret, expected)
+
+
+class TestTsvToList(unittest.TestCase):
+    """Tests tsv_to_list()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        sock = io.StringIO("h1\th2\n\nv1\tv2\n")
+        ret = util.tsv_to_list(sock)
+        self.assertEqual(len(ret), 2)
+        row1 = [cell.getvalue() for cell in ret[0]]
+        self.assertEqual(row1, ['h1', 'h2'])
+        row2 = [cell.getvalue() for cell in ret[1]]
+        self.assertEqual(row2, ['v1', 'v2'])
+
+    def test_type(self) -> None:
+        """Tests when a @type column is available."""
+        stream = io.StringIO("@id\t@type\n42\tnode\n")
+        ret = util.tsv_to_list(stream)
+        self.assertEqual(len(ret), 2)
+        row1 = [cell.getvalue() for cell in ret[0]]
+        self.assertEqual(row1, ["@id", "@type"])
+        row2 = [cell.getvalue() for cell in ret[1]]
+        cell_a2 = '<a href="https://www.openstreetmap.org/node/42" target="_blank">42</a>'
+        self.assertEqual(row2, [cell_a2, "node"])
 
 
 if __name__ == '__main__':

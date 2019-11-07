@@ -7,7 +7,6 @@
 """The test_helpers module covers the helpers module."""
 
 import configparser
-import io
 import os
 from typing import List
 import unittest
@@ -425,30 +424,6 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
         self.assertEqual("01", refmegye)
         self.assertEqual(["011", "013"], relation.get_config().get_street_reftelepules(street))
         self.assertEqual("Csiki-hegyek utca", street)
-
-
-class TestTsvToList(unittest.TestCase):
-    """Tests tsv_to_list()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        sock = io.StringIO("h1\th2\n\nv1\tv2\n")
-        ret = helpers.tsv_to_list(sock)
-        self.assertEqual(len(ret), 2)
-        row1 = [cell.getvalue() for cell in ret[0]]
-        self.assertEqual(row1, ['h1', 'h2'])
-        row2 = [cell.getvalue() for cell in ret[1]]
-        self.assertEqual(row2, ['v1', 'v2'])
-
-    def test_type(self) -> None:
-        """Tests when a @type column is available."""
-        stream = io.StringIO("@id\t@type\n42\tnode\n")
-        ret = helpers.tsv_to_list(stream)
-        self.assertEqual(len(ret), 2)
-        row1 = [cell.getvalue() for cell in ret[0]]
-        self.assertEqual(row1, ["@id", "@type"])
-        row2 = [cell.getvalue() for cell in ret[1]]
-        cell_a2 = '<a href="https://www.openstreetmap.org/node/42" target="_blank">42</a>'
-        self.assertEqual(row2, [cell_a2, "node"])
 
 
 class TestNormalize(unittest.TestCase):

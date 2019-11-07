@@ -10,6 +10,7 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import TextIO
 from typing import Tuple
 from typing import cast
 import os
@@ -274,6 +275,39 @@ def html_table_from_list(table: List[List[yattag.Doc]]) -> yattag.Doc:
                         with doc.tag("td"):
                             doc.asis(cell.getvalue())
     return doc
+
+
+def tsv_to_list(stream: TextIO) -> List[List[yattag.Doc]]:
+    """Turns a tab-separated table into a list of lists."""
+    table = []
+
+    first = True
+    type_index = 0
+    for line in stream.readlines():
+        if not line.strip():
+            continue
+        if first:
+            first = False
+            for index, column in enumerate(line.split("\t")):
+                if column.strip() == "@type":
+                    type_index = index
+        cells = [html_escape(cell.strip()) for cell in line.split("\t")]
+        if cells and type_index:
+            # We know the first column is an OSM ID.
+            try:
+                osm_id = int(cells[0].getvalue())
+                osm_type = cells[type_index].getvalue()
+                doc = yattag.Doc()
+                href = "https://www.openstreetmap.org/{}/{}".format(osm_type, osm_id)
+                with doc.tag("a", href=href, target="_blank"):
+                    doc.text(osm_id)
+                cells[0] = doc
+            except ValueError:
+                # Not an int, ignore.
+                pass
+        table.append(cells)
+
+    return table
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

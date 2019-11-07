@@ -75,7 +75,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc
             doc.text(relation.get_osm_streets_query())
     elif action == "view-result":
         with relation.get_files().get_osm_streets_stream("r") as sock:
-            table = helpers.tsv_to_list(sock)
+            table = util.tsv_to_list(sock)
             doc.asis(util.html_table_from_list(table).getvalue())
     elif action == "update-result":
         query = relation.get_osm_streets_query()
@@ -113,7 +113,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
             doc.text(relation.get_osm_housenumbers_query())
     elif action == "view-result":
         with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
-            table = helpers.tsv_to_list(sock)
+            table = util.tsv_to_list(sock)
             doc.asis(util.html_table_from_list(table).getvalue())
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
