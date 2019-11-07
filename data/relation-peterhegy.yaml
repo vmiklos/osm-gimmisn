@@ -11,18 +11,45 @@ filters:
   Dobogó út:
     ranges:
       - {start: '2', end: '98'}
+  Éva utca:
+    # Az Éva utca 1. és a Péterhegyi út 51/B. közös telken van, házszám a Péterhegyi útról van csak.
+    # Az Éva utca 2. és a Péterhegyi út 53. közös telken van, házszám a Péterhegyi útról van csak.
+    ranges:
+      - {start: '3', end: '35'}
+      - {start: '4', end: '46'}
+  Kapolcs utca:
+    # Nincs 12 és 14, a 10 után közvetlenül a 16 következik.
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '10'}
+      - {start: '16', end: '16'}
+  Kápolna köz:
+    # Nincs 1 és 3, az 5-7 az első épület a páratlan oldalon.
+    # Nincs 2, 4, 6, 8, a 10 az első épület a páros oldalon.
+    ranges:
+      - {start: '5', end: '23'}
+      - {start: '10', end: '22'}
   Kápolna út:
+    # A Kápolna út 1. és a Péterhegyi út 65. közös telken van, házszám a Péterhegyi útról van csak.
+    # A Kápolna út 2. és a Péterhegyi út 67. közös telken van, házszám a Péterhegyi útról van csak.
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '3', end: '53'}
+      - {start: '4', end: '56'}
   Péterhegyi köz:
+    # A páros oldal érdekesen számozódik: …, 8, 10, 12, 10/A, 12/A, 14, 20, …, 34, 38, …
+    # Nincs 16 és 18, a 14 után közvetlenül a 20 következik.
+    # Nincs 36, a 34 után közvetlenül a 38 következik.
     ranges:
       - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '14'}
+      - {start: '20', end: '34'}
+      - {start: '38', end: '98'}
   Péterhegyi lejtő:
+    # Nincs 43, a Kápolna köz van a helyén. A Kápolna köz előtt 41, a Kápolna köz után 45 van.
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '34'}
+      - {start: '1', end: '41'}
+      - {start: '45', end: '73'}
+      - {start: '2', end: '36'}
   Péterhegyi út:
     ranges:
       - {start: '43', end: '99'}
