@@ -341,7 +341,8 @@ class Relation:
                     continue
                 if tokens[1] != street_name:
                     continue
-                house_numbers += normalize(self, tokens[2], street_name, self.get_street_ranges())
+                house_number_objects = normalize(self, tokens[2], street_name, self.get_street_ranges())
+                house_numbers += [i.get_number() for i in house_number_objects]
         return sort_numerically(set(house_numbers))
 
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
@@ -447,7 +448,8 @@ class Relation:
             for line in lines:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')
-                    house_numbers += normalize(self, house_number, osm_street_name, street_ranges)
+                    house_number_objects = normalize(self, house_number, osm_street_name, street_ranges)
+                    house_numbers += [i.get_number() for i in house_number_objects]
             ret[osm_street_name] = sort_numerically(set(house_numbers))
         return ret
 
@@ -793,7 +795,7 @@ def get_content(workdir: str, path: str = "") -> str:
 
 
 def normalize(relation: Relation, house_numbers: str, street_name: str,
-              normalizers: Dict[str, Ranges]) -> List[str]:
+              normalizers: Dict[str, Ranges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
     ret_numbers = []
@@ -845,7 +847,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
             # Closed interval, but mixed even and odd.
             ret_numbers = [number for number in range(start, stop + 1, 1) if number in normalizer]
 
-    return [str(number) + suffix for number in ret_numbers]
+    return [util.HouseNumber(str(number) + suffix, house_numbers) for number in ret_numbers]
 
 
 def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.Doc]]) -> str:

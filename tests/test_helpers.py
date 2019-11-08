@@ -434,7 +434,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize(relation, "139", "Budaörsi út", normalizers)
-        self.assertEqual(house_numbers, ["139"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["139"])
 
     def test_not_in_range(self) -> None:
         """Tests when the number is not in range."""
@@ -458,7 +458,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize(relation, "1", "Budaörs út", normalizers)
-        self.assertEqual(house_numbers, ["1"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["1"])
 
     def test_separator_semicolon(self) -> None:
         """Tests the case when ';' is a separator."""
@@ -466,7 +466,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize(relation, "1;2", "Budaörs út", normalizers)
-        self.assertEqual(house_numbers, ["1", "2"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["1", "2"])
 
     def test_separator_interval(self) -> None:
         """Tests the 2-6 case: means implicit 4."""
@@ -474,7 +474,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize(relation, "2-6", "Budaörs út", normalizers)
-        self.assertEqual(house_numbers, ["2", "4", "6"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["2", "4", "6"])
 
     def test_separator_interval_parity(self) -> None:
         """Tests the 5-8 case: means just 5 and 8 as the parity doesn't match."""
@@ -482,14 +482,14 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize(relation, "5-8", "Budaörs út", normalizers)
-        self.assertEqual(house_numbers, ["5", "8"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["5", "8"])
 
     def test_separator_interval_interp_all(self) -> None:
         """Tests the 2-5 case: means implicit 3 and 4."""
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "2-5", "Hamzsabégi út", normalizers)
+        house_numbers = [i.get_number() for i in helpers.normalize(relation, "2-5", "Hamzsabégi út", normalizers)]
         self.assertEqual(house_numbers, ["2", "3", "4", "5"])
 
     def test_separator_interval_filter(self) -> None:
@@ -500,7 +500,7 @@ class TestNormalize(unittest.TestCase):
         # filter is 137-165
         house_numbers = helpers.normalize(relation, "163-167", "Budaörsi út", normalizers)
         # Make sure there is no 167.
-        self.assertEqual(house_numbers, ["163", "165"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["163", "165"])
 
     def test_separator_interval_block(self) -> None:
         """Tests the case where x-y is nonsense: y is too large."""
@@ -510,7 +510,7 @@ class TestNormalize(unittest.TestCase):
         house_numbers = helpers.normalize(relation, "2-2000", "Budaörs út", normalizers)
         # Make sure that we simply ignore 2000: it's larger than the default <998 filter and the
         # 2-2000 range would be too large.
-        self.assertEqual(house_numbers, ["2"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["2"])
 
     def test_separator_interval_block2(self) -> None:
         """Tests the case where x-y is nonsense: y-x is too large."""
@@ -519,7 +519,7 @@ class TestNormalize(unittest.TestCase):
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize(relation, "2-56", "Budaörs út", normalizers)
         # No expansions for 4, 6, etc.
-        self.assertEqual(house_numbers, ["2", "56"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["2", "56"])
 
     def test_separator_interval_block3(self) -> None:
         """Tests the case where x-y is nonsense: x is 0."""
@@ -528,7 +528,7 @@ class TestNormalize(unittest.TestCase):
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize(relation, "0-42", "Budaörs út", normalizers)
         # No expansion like 0, 2, 4, etc.
-        self.assertEqual(house_numbers, ["42"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["42"])
 
     def test_separator_interval_block4(self) -> None:
         """Tests the case where x-y is only partially useful: x is OK, but y is a suffix."""
@@ -537,7 +537,7 @@ class TestNormalize(unittest.TestCase):
         normalizers = relation.get_street_ranges()
         house_numbers = helpers.normalize(relation, "42-1", "Budaörs út", normalizers)
         # No "1", just "42".
-        self.assertEqual(house_numbers, ["42"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["42"])
 
     def test_keep_suffix(self) -> None:
         """Tests that the * suffix is preserved."""
@@ -545,9 +545,9 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_number = helpers.normalize(relation, "1*", "Budaörs út", normalizers)
-        self.assertEqual(house_number, ["1*"])
+        self.assertEqual([i.get_number() for i in house_number], ["1*"])
         house_number = helpers.normalize(relation, "2", "Budaörs út", normalizers)
-        self.assertEqual(house_number, ["2"])
+        self.assertEqual([i.get_number() for i in house_number], ["2"])
 
 
 class TestRelationGetRefStreets(unittest.TestCase):
