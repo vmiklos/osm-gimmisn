@@ -576,6 +576,8 @@ class Relations:
     def get_relation(self, name: str) -> Relation:
         """Gets the relation that has the specified name."""
         if name not in self.__relations.keys():
+            if name not in self.__dict.keys():
+                self.__dict[name] = {}
             self.__relations[name] = Relation(self.__datadir, self.__workdir, name, self.__dict[name])
         return self.__relations[name]
 

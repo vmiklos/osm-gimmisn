@@ -818,6 +818,9 @@ class TestRelations(unittest.TestCase):
         relations.activate_all(True)
         self.assertTrue("inactiverelation" in relations.get_active_names())
 
+        # Allow seeing data of a relation even if it's not in relations.yaml.
+        relations.get_relation("gh195")
+
 
 class TestRelationConfigMissingStreets(unittest.TestCase):
     """Tests RelationConfig.should_check_missing_streets()."""
