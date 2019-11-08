@@ -316,10 +316,10 @@ class Relation:
         """Reads list of streets for an area from OSM."""
         ret = []  # type: List[str]
         with self.get_files().get_osm_streets_stream("r") as sock:
-            ret += get_nth_column(sock, 1)
+            ret += util.get_nth_column(sock, 1)
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
             with self.get_files().get_osm_housenumbers_stream("r") as sock:
-                ret += get_nth_column(sock, 1)
+                ret += util.get_nth_column(sock, 1)
         return sorted(set(ret))
 
     def get_osm_streets_query(self) -> str:
@@ -763,26 +763,6 @@ def git_link(version: str, prefix: str) -> yattag.Doc:
     with doc.tag("a", href=prefix + commit_hash):
         doc.text(version)
     return doc
-
-
-def get_nth_column(sock: TextIO, column: int) -> List[str]:
-    """Reads the content from sock, interprets its content as tab-separated values, finally returns
-    the values of the nth column. If a row has less columns, that's silently ignored."""
-    ret = []
-
-    first = True
-    for line in sock.readlines():
-        if first:
-            first = False
-            continue
-
-        tokens = line.strip().split('\t')
-        if len(tokens) < column + 1:
-            continue
-
-        ret.append(tokens[column])
-
-    return ret
 
 
 def get_abspath(path: str) -> str:

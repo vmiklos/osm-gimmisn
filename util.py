@@ -310,4 +310,24 @@ def tsv_to_list(stream: TextIO) -> List[List[yattag.Doc]]:
     return table
 
 
+def get_nth_column(sock: TextIO, column: int) -> List[str]:
+    """Reads the content from sock, interprets its content as tab-separated values, finally returns
+    the values of the nth column. If a row has less columns, that's silently ignored."""
+    ret = []
+
+    first = True
+    for line in sock.readlines():
+        if first:
+            first = False
+            continue
+
+        tokens = line.strip().split('\t')
+        if len(tokens) < column + 1:
+            continue
+
+        ret.append(tokens[column])
+
+    return ret
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
