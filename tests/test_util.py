@@ -241,5 +241,18 @@ class TestTsvToList(unittest.TestCase):
         self.assertEqual(row2, [cell_a2, "node"])
 
 
+class TestHouseNumber(unittest.TestCase):
+    """Tests the HouseNumber class."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        house_number = util.HouseNumber("1", "1-2")
+        self.assertEqual(house_number.get_number(), "1")
+        self.assertEqual(house_number.get_source(), "1-2")
+        self.assertTrue(util.HouseNumber("1", "1-2") != util.HouseNumber("2", "1-2"))
+        self.assertEqual(len(set([util.HouseNumber("1", "1-2"),
+                                  util.HouseNumber("2", "1-2"),
+                                  util.HouseNumber("2", "1-2")])), 2)
+
+
 if __name__ == '__main__':
     unittest.main()

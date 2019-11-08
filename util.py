@@ -26,6 +26,36 @@ import i18n
 import overpass_query
 
 
+class HouseNumber:
+    """
+    A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
+    can generate 3 house numbers, all of them with the same range.
+    """
+    def __init__(self, number: str, source: str) -> None:
+        self.__number = number
+        self.__source = source
+
+    def get_number(self) -> str:
+        """Returns the house number string."""
+        return self.__number
+
+    def get_source(self) -> str:
+        """Returns the source range."""
+        return self.__source
+
+    def __repr__(self) -> str:
+        return "HouseNumber(number=%s, source=%s)" % (self.__number, self.__source)
+
+    def __eq__(self, other: object) -> bool:
+        """Source is explicitly non-interesting."""
+        other_house_number = cast(HouseNumber, other)
+        return self.__number == other_house_number.get_number()
+
+    def __hash__(self) -> int:
+        """Source is explicitly non-interesting."""
+        return hash(self.__number)
+
+
 def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
     key = split_house_number
