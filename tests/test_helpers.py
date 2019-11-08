@@ -41,6 +41,13 @@ class TestSortNumerically(unittest.TestCase):
         ascending = helpers.sort_numerically(['a', 'c', 'b'])
         self.assertEqual(ascending, ['a', 'b', 'c'])
 
+    def test_objects(self) -> None:
+        """Tests house number objects."""
+        ascending = helpers.sort_numerically([util.HouseNumber('1', '1'),
+                                              util.HouseNumber('20', '20'),
+                                              util.HouseNumber('3', '3')])
+        self.assertEqual([i.get_number() for i in ascending], ['1', '3', '20'])
+
 
 class TestSortStreetsCsv(unittest.TestCase):
     """Tests sort_streets_csv()."""

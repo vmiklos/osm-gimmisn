@@ -442,15 +442,14 @@ class Relation:
                 lines.append(line)
         street_ranges = self.get_street_ranges()
         for osm_street_name in self.get_osm_streets():
-            house_numbers = []  # type: List[str]
+            house_numbers = []  # type: List[util.HouseNumber]
             ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
             prefix = ref_street_name + " "
             for line in lines:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')
-                    house_number_objects = normalize(self, house_number, osm_street_name, street_ranges)
-                    house_numbers += [i.get_number() for i in house_number_objects]
-            ret[osm_street_name] = sort_numerically(set(house_numbers))
+                    house_numbers += normalize(self, house_number, osm_street_name, street_ranges)
+            ret[osm_street_name] = [i.get_number() for i in sort_numerically(set(house_numbers))]
         return ret
 
     def get_missing_housenumbers(self) -> Tuple[List[Tuple[str, List[str]]], List[Tuple[str, List[str]]]]:
@@ -633,9 +632,16 @@ class Relations:
         return cast(str, refmegye[reftelepules])
 
 
-def sort_numerically(strings: Iterable[str]) -> List[str]:
+def sort_numerically(strings: Iterable[Any]) -> List[Any]:
     """Sorts strings according to their numerical value, not alphabetically."""
-    return sorted(strings, key=util.split_house_number)
+    first = next((i for i in strings), None)
+    if not first:
+        return []
+
+    if isinstance(first, str):
+        return sorted(strings, key=util.split_house_number)
+
+    return sorted(strings, key=lambda x: util.split_house_number(x.get_number()))
 
 
 def sort_streets_csv(data: str) -> str:
