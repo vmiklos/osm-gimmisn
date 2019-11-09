@@ -432,9 +432,9 @@ class Relation:
             for line in lst:
                 sock.write(line + "\n")
 
-    def __get_ref_housenumbers(self) -> Dict[str, List[str]]:
+    def __get_ref_housenumbers(self) -> Dict[str, List[util.HouseNumber]]:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
-        ret = {}  # type: Dict[str, List[str]]
+        ret = {}  # type: Dict[str, List[util.HouseNumber]]
         lines = []  # type: List[str]
         with self.get_files().get_ref_housenumbers_stream("r") as sock:
             for line in sock.readlines():
@@ -449,7 +449,7 @@ class Relation:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')
                     house_numbers += normalize(self, house_number, osm_street_name, street_ranges)
-            ret[osm_street_name] = [i.get_number() for i in sort_numerically(set(house_numbers))]
+            ret[osm_street_name] = sort_numerically(set(house_numbers))
         return ret
 
     def get_missing_housenumbers(self) -> Tuple[List[Tuple[str, List[str]]], List[Tuple[str, List[str]]]]:
@@ -466,8 +466,8 @@ class Relation:
         for street_name in street_names:
             ref_house_numbers = all_ref_house_numbers[street_name]
             osm_house_numbers = self.get_osm_housenumbers(street_name)
-            only_in_reference = get_only_in_first(ref_house_numbers, osm_house_numbers)
-            in_both = get_in_both(ref_house_numbers, osm_house_numbers)
+            only_in_reference = get_only_in_first([i.get_number() for i in ref_house_numbers], osm_house_numbers)
+            in_both = get_in_both([i.get_number() for i in ref_house_numbers], osm_house_numbers)
             if only_in_reference:
                 ongoing_streets.append((street_name, only_in_reference))
             if in_both:
