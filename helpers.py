@@ -464,11 +464,12 @@ class Relation:
         all_ref_house_numbers = self.__get_ref_housenumbers()
         for street_name in street_names:
             ref_house_numbers = all_ref_house_numbers[street_name]
-            osm_house_numbers = [i.get_number() for i in self.get_osm_housenumbers(street_name)]
-            only_in_reference = get_only_in_first([i.get_number() for i in ref_house_numbers], osm_house_numbers)
-            in_both = get_in_both([i.get_number() for i in ref_house_numbers], osm_house_numbers)
+            osm_house_numbers = self.get_osm_housenumbers(street_name)
+            only_in_reference = get_only_in_first(ref_house_numbers, osm_house_numbers)
+            in_both = get_in_both([i.get_number() for i in ref_house_numbers],
+                                  [i.get_number() for i in osm_house_numbers])
             if only_in_reference:
-                ongoing_streets.append((street_name, only_in_reference))
+                ongoing_streets.append((street_name, [i.get_number() for i in only_in_reference]))
             if in_both:
                 done_streets.append((street_name, in_both))
         # Sort by length.
@@ -732,11 +733,21 @@ def get_array_nth(arr: Sequence[str], index: int) -> str:
     return arr[index] if len(arr) > index else ''
 
 
-def get_only_in_first(first: List[str], second: List[str]) -> List[str]:
-    """Returns items which are in first, but not in second."""
+def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
+    """
+    Returns items which are in first, but not in second.
+    Any means util.HouseNumber or str.
+    """
     # Strip suffix that is ignored.
-    first_stripped = [re.sub(r"\*$", "", i) for i in first]
-    second_stripped = [re.sub(r"\*$", "", i) for i in second]
+    if not first:
+        return []
+
+    if isinstance(first[0], util.HouseNumber):
+        first_stripped = [re.sub(r"\*$", "", i.get_number()) for i in first]
+        second_stripped = [re.sub(r"\*$", "", i.get_number()) for i in second]
+    else:
+        first_stripped = [re.sub(r"\*$", "", i) for i in first]
+        second_stripped = [re.sub(r"\*$", "", i) for i in second]
 
     ret = []
     for index, item in enumerate(first_stripped):
