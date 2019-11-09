@@ -44,7 +44,9 @@ filters:
   Fő utca:
     ranges:
       - {start: '1', end: '45'}
-      - {start: '2', end: '60'}
+      - {start: '2', end: '20'}
+      - {start: '24', end: '36'}
+      - {start: '38', end: '60'}
       - {start: '47', end: '83', reftelepules: '002'}
       - {start: '62', end: '92', reftelepules: '002'}
   Frankel Leó út:
@@ -58,6 +60,10 @@ filters:
       - {start: '2', end: '18'}
       - {start: '17', end: '31', reftelepules: '002'}
       - {start: '20', end: '48', reftelepules: '002'}
+  Halász utca:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '2', end: '2'}
   Horvát utca:
     reftelepules: '002'
   Jurányi utca:
@@ -80,6 +86,10 @@ filters:
     reftelepules: '002'
   Nagy Imre tér:
     reftelepules: '002'
+  Ponty utca:
+    ranges:
+      - {start: '3', end: '7'}
+      - {start: '2', end: '16'}
   Szász Károly utca:
     reftelepules: '002'
   Széna tér:
