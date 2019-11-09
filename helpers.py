@@ -327,9 +327,9 @@ class Relation:
         with open(os.path.join(self.__datadir, "streets-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
-    def get_osm_housenumbers(self, street_name: str) -> List[str]:
+    def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
         """Gets the OSM house number list of a street."""
-        house_numbers = []  # type: List[str]
+        house_numbers = []  # type: List[util.HouseNumber]
         with self.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             first = True
             for line in sock.readlines():
@@ -341,8 +341,7 @@ class Relation:
                     continue
                 if tokens[1] != street_name:
                     continue
-                house_number_objects = normalize(self, tokens[2], street_name, self.get_street_ranges())
-                house_numbers += [i.get_number() for i in house_number_objects]
+                house_numbers += normalize(self, tokens[2], street_name, self.get_street_ranges())
         return sort_numerically(set(house_numbers))
 
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
@@ -465,7 +464,7 @@ class Relation:
         all_ref_house_numbers = self.__get_ref_housenumbers()
         for street_name in street_names:
             ref_house_numbers = all_ref_house_numbers[street_name]
-            osm_house_numbers = self.get_osm_housenumbers(street_name)
+            osm_house_numbers = [i.get_number() for i in self.get_osm_housenumbers(street_name)]
             only_in_reference = get_only_in_first([i.get_number() for i in ref_house_numbers], osm_house_numbers)
             in_both = get_in_both([i.get_number() for i in ref_house_numbers], osm_house_numbers)
             if only_in_reference:
@@ -632,15 +631,8 @@ class Relations:
         return cast(str, refmegye[reftelepules])
 
 
-def sort_numerically(strings: Iterable[Any]) -> List[Any]:
+def sort_numerically(strings: Iterable[util.HouseNumber]) -> List[util.HouseNumber]:
     """Sorts strings according to their numerical value, not alphabetically."""
-    first = next((i for i in strings), None)
-    if not first:
-        return []
-
-    if isinstance(first, str):
-        return sorted(strings, key=util.split_house_number)
-
     return sorted(strings, key=lambda x: util.split_house_number(x.get_number()))
 
 

@@ -28,25 +28,24 @@ class TestSortNumerically(unittest.TestCase):
     """Tests sort_numerically()."""
     def test_numbers(self) -> None:
         """Tests numbers."""
-        ascending = helpers.sort_numerically(['1', '20', '3'])
-        self.assertEqual(ascending, ['1', '3', '20'])
+        ascending = helpers.sort_numerically([util.HouseNumber('1', ''),
+                                              util.HouseNumber('20', ''),
+                                              util.HouseNumber('3', '')])
+        self.assertEqual([i.get_number() for i in ascending], ['1', '3', '20'])
 
     def test_alpha_suffix(self) -> None:
         """Tests numbers with suffixes."""
-        ascending = helpers.sort_numerically(['1a', '20a', '3a'])
-        self.assertEqual(ascending, ['1a', '3a', '20a'])
+        ascending = helpers.sort_numerically([util.HouseNumber('1a', ''),
+                                              util.HouseNumber('20a', ''),
+                                              util.HouseNumber('3a', '')])
+        self.assertEqual([i.get_number() for i in ascending], ['1a', '3a', '20a'])
 
     def test_alpha(self) -> None:
         """Tests just suffixes."""
-        ascending = helpers.sort_numerically(['a', 'c', 'b'])
-        self.assertEqual(ascending, ['a', 'b', 'c'])
-
-    def test_objects(self) -> None:
-        """Tests house number objects."""
-        ascending = helpers.sort_numerically([util.HouseNumber('1', '1'),
-                                              util.HouseNumber('20', '20'),
-                                              util.HouseNumber('3', '3')])
-        self.assertEqual([i.get_number() for i in ascending], ['1', '3', '20'])
+        ascending = helpers.sort_numerically([util.HouseNumber('a', ''),
+                                              util.HouseNumber('c', ''),
+                                              util.HouseNumber('b', '')])
+        self.assertEqual([i.get_number() for i in ascending], ['a', 'b', 'c'])
 
 
 class TestSortStreetsCsv(unittest.TestCase):
@@ -582,7 +581,7 @@ class TestRelationGetOsmHouseNumbers(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation(relation_name)
         house_numbers = relation.get_osm_housenumbers(street_name)
-        self.assertEqual(house_numbers, ["1", "2"])
+        self.assertEqual([i.get_number() for i in house_numbers], ["1", "2"])
 
 
 class TestRelationGetMissingHousenumbers(unittest.TestCase):
