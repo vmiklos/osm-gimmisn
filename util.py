@@ -360,4 +360,12 @@ def get_nth_column(sock: TextIO, column: int) -> List[str]:
     return ret
 
 
+def get_housenumber_ranges(house_numbers: List[HouseNumber]) -> List[str]:
+    """Gets a reference range list for a house number list by looking at what range provided a givne
+    house number."""
+    ret = []
+    for house_number in house_numbers:
+        ret.append(house_number.get_source())
+    return sorted(set(ret))
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

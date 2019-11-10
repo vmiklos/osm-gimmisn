@@ -254,5 +254,23 @@ class TestHouseNumber(unittest.TestCase):
                                   util.HouseNumber("2", "1-2")])), 2)
 
 
+class TestGetHousenumberRanges(unittest.TestCase):
+    """Tests get_housenumber_ranges()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        house_numbers = [
+            util.HouseNumber("25", "25"),
+            util.HouseNumber("27", "27-37"),
+            util.HouseNumber("29", "27-37"),
+            util.HouseNumber("31", "27-37"),
+            util.HouseNumber("33", "27-37"),
+            util.HouseNumber("35", "27-37"),
+            util.HouseNumber("37", "27-37"),
+            util.HouseNumber("31*", "31*"),
+        ]
+        ranges = util.get_housenumber_ranges(house_numbers)
+        self.assertEqual(ranges, ["25", "27-37", "31*"])
+
+
 if __name__ == '__main__':
     unittest.main()

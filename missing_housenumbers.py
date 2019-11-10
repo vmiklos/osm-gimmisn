@@ -10,6 +10,7 @@
 import sys
 import configparser
 import helpers
+import util
 
 
 def main() -> None:
@@ -32,7 +33,7 @@ def main() -> None:
             # House number, # of only_in_reference items.
             print("%s\t%s" % (result[0], len(result[1])))
             # only_in_reference items.
-            print([i.get_number() for i in result[1]])
+            print(util.get_housenumber_ranges(result[1]))
 
 
 if __name__ == '__main__':
