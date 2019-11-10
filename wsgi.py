@@ -236,7 +236,7 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
         table = []
         for result in ongoing_streets:
             if result[1]:
-                result_strings = [i.get_number() for i in result[1]]
+                result_strings = util.get_housenumber_ranges(result[1])
                 # Street name, only_in_reference items.
                 if not relation.get_config().get_street_is_even_odd(result[0]):
                     row = result[0] + "\t[" + ", ".join(result_strings) + "]"
