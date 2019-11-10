@@ -479,7 +479,10 @@ class Relation:
         return ongoing_streets, done_streets
 
     def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.Doc]]]:
-        """Calculate a write stat for the house number coverage of a relation."""
+        """
+        Calculate a write stat for the house number coverage of a relation.
+        Returns a tuple of: todo street count, todo count, done count, percent and table.
+        """
         ongoing_streets, done_streets = self.get_missing_housenumbers()
 
         todo_count = 0
@@ -491,23 +494,25 @@ class Relation:
             # street_name, only_in_ref
             row = []
             row.append(util.html_escape(result[0]))
-            row.append(util.html_escape(str(len(result[1]))))
+            ranges = util.get_housenumber_ranges(result[1])
+            row.append(util.html_escape(str(len(ranges))))
 
             doc = yattag.Doc()
             if not self.get_config().get_street_is_even_odd(result[0]):
-                for index, item in enumerate(result[1]):
+                for index, item in enumerate(ranges):
                     if index:
                         doc.text(", ")
-                    doc.asis(util.color_house_number(item.get_number()).getvalue())
+                    doc.asis(util.color_house_number(item).getvalue())
             else:
-                util.format_even_odd([i.get_number() for i in result[1]], doc)
+                util.format_even_odd(ranges, doc)
             row.append(doc)
 
-            todo_count += len(result[1])
+            todo_count += len(ranges)
             table.append(row)
         done_count = 0
         for result in done_streets:
-            done_count += len(result[1])
+            ranges = util.get_housenumber_ranges(result[1])
+            done_count += len(ranges)
         if done_count > 0 or todo_count > 0:
             percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
         else:
@@ -517,8 +522,7 @@ class Relation:
         with self.get_files().get_housenumbers_percent_stream("w") as stream:
             stream.write(percent)
 
-        todo_street_count = len(ongoing_streets)
-        return todo_street_count, todo_count, done_count, percent, table
+        return len(ongoing_streets), todo_count, done_count, percent, table
 
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
