@@ -57,6 +57,13 @@ filters:
     ranges:
       - {start: '13', end: '29'}
       - {start: '10', end: '28'}
+  Hunyadi János út:
+    # 19 Savoya, 23 OBI, 162 volt házgyár
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '23', end: '23'}
+      - {start: '2', end: '18'}
+      - {start: '162', end: '162'}
   Kapuvár utca:
     ranges:
       - {start: '11', end: '17'}
