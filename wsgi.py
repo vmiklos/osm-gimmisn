@@ -236,11 +236,12 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
         table = []
         for result in ongoing_streets:
             if result[1]:
+                result_strings = [i.get_number() for i in result[1]]
                 # Street name, only_in_reference items.
                 if not relation.get_config().get_street_is_even_odd(result[0]):
-                    row = result[0] + "\t[" + ", ".join(result[1]) + "]"
+                    row = result[0] + "\t[" + ", ".join(result_strings) + "]"
                 else:
-                    elements = util.format_even_odd(result[1], doc=None)
+                    elements = util.format_even_odd(result_strings, doc=None)
                     row = result[0] + "\t[" + "], [".join(elements) + "]"
                 table.append(row)
         table.sort(key=locale.strxfrm)

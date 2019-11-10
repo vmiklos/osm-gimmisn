@@ -592,11 +592,15 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         ongoing_streets, done_streets = relation.get_missing_housenumbers()
-        self.assertEqual(ongoing_streets, [('Törökugrató utca', ['7', '10']),
-                                           ('Tűzkő utca', ['1', '2']),
-                                           ('Hamzsabégi út', ['1'])])
+        ongoing_streets_strs = [(name, [i.get_number()
+                                        for i in house_numbers]) for name, house_numbers in ongoing_streets]
+        self.assertEqual(ongoing_streets_strs, [('Törökugrató utca', ['7', '10']),
+                                                ('Tűzkő utca', ['1', '2']),
+                                                ('Hamzsabégi út', ['1'])])
         expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
-        self.assertEqual(done_streets, expected)
+        done_streets_strs = [(name, [i.get_number()
+                                     for i in house_numbers]) for name, house_numbers in done_streets]
+        self.assertEqual(done_streets_strs, expected)
 
 
 class TestRelationGetMissingStreets(unittest.TestCase):

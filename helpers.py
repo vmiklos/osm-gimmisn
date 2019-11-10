@@ -451,7 +451,9 @@ class Relation:
             ret[osm_street_name] = sort_numerically(set(house_numbers))
         return ret
 
-    def get_missing_housenumbers(self) -> Tuple[List[Tuple[str, List[str]]], List[Tuple[str, List[str]]]]:
+    def get_missing_housenumbers(
+            self
+    ) -> Tuple[List[Tuple[str, List[util.HouseNumber]]], List[Tuple[str, List[util.HouseNumber]]]]:
         """
         Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
         Return value is a pair of ongoing and done streets.
@@ -468,9 +470,9 @@ class Relation:
             only_in_reference = get_only_in_first(ref_house_numbers, osm_house_numbers)
             in_both = get_in_both(ref_house_numbers, osm_house_numbers)
             if only_in_reference:
-                ongoing_streets.append((street_name, [i.get_number() for i in only_in_reference]))
+                ongoing_streets.append((street_name, only_in_reference))
             if in_both:
-                done_streets.append((street_name, [i.get_number() for i in in_both]))
+                done_streets.append((street_name, in_both))
         # Sort by length.
         ongoing_streets.sort(key=lambda result: len(result[1]), reverse=True)
 
@@ -496,9 +498,9 @@ class Relation:
                 for index, item in enumerate(result[1]):
                     if index:
                         doc.text(", ")
-                    doc.asis(util.color_house_number(item).getvalue())
+                    doc.asis(util.color_house_number(item.get_number()).getvalue())
             else:
-                util.format_even_odd(result[1], doc)
+                util.format_even_odd([i.get_number() for i in result[1]], doc)
             row.append(doc)
 
             todo_count += len(result[1])

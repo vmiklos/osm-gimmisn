@@ -32,7 +32,7 @@ def main() -> None:
             # House number, # of only_in_reference items.
             print("%s\t%s" % (result[0], len(result[1])))
             # only_in_reference items.
-            print(result[1])
+            print([i.get_number() for i in result[1]])
 
 
 if __name__ == '__main__':
