@@ -368,4 +368,14 @@ def get_housenumber_ranges(house_numbers: List[HouseNumber]) -> List[str]:
         ret.append(house_number.get_source())
     return sorted(set(ret))
 
+
+def git_link(version: str, prefix: str) -> yattag.Doc:
+    """Generates a HTML link based on a website prefix and a git-describe version."""
+    commit_hash = re.sub(".*-g", "", version)
+    doc = yattag.Doc()
+    with doc.tag("a", href=prefix + commit_hash):
+        doc.text(version)
+    return doc
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

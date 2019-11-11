@@ -272,5 +272,14 @@ class TestGetHousenumberRanges(unittest.TestCase):
         self.assertEqual(ranges, ["25", "27-37", "31*"])
 
 
+class TestGitLink(unittest.TestCase):
+    """Tests git_link()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        actual = util.git_link("v1-151-g64ecc85", "http://www.example.com/").getvalue()
+        expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>"
+        self.assertEqual(actual, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

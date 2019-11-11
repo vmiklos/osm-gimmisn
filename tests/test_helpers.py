@@ -148,15 +148,6 @@ class TestOnlyInFirst(unittest.TestCase):
         self.assertEqual(helpers.get_only_in_first(["1", "2", "3"], ["3", "4"]), ["1", "2"])
 
 
-class TestGitLink(unittest.TestCase):
-    """Tests git_link()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        actual = helpers.git_link("v1-151-g64ecc85", "http://www.example.com/").getvalue()
-        expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>"
-        self.assertEqual(actual, expected)
-
-
 class TestRelationGetOsmStreets(unittest.TestCase):
     """Tests Relation.get_osm_streets()."""
     def test_happy(self) -> None:

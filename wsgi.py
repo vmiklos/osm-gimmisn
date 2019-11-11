@@ -788,7 +788,7 @@ def get_footer(last_updated: str = "") -> yattag.Doc:
     items = []  # type: List[yattag.Doc]
     doc = yattag.Doc()
     doc.text(_("Version: "))
-    doc.asis(helpers.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/").getvalue())
+    doc.asis(util.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/").getvalue())
     items.append(doc)
     items.append(util.html_escape(_("OSM data © OpenStreetMap contributors.")))
     if last_updated:

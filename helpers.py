@@ -784,15 +784,6 @@ def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
     return ret
 
 
-def git_link(version: str, prefix: str) -> yattag.Doc:
-    """Generates a HTML link based on a website prefix and a git-describe version."""
-    commit_hash = re.sub(".*-g", "", version)
-    doc = yattag.Doc()
-    with doc.tag("a", href=prefix + commit_hash):
-        doc.text(version)
-    return doc
-
-
 def get_abspath(path: str) -> str:
     """Make a path absolute, taking the repo root as a base dir."""
     if os.path.isabs(path):
