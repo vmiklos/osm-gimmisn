@@ -9,6 +9,9 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '26'}
+  Avar utca:
+    ranges:
+      - {start: '1', end: '27'}
   Bán utca:
     ranges:
       - {start: '1', end: '5'}
@@ -101,8 +104,10 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '16'}
   Stromfeld Aurél út:
+    # 5 egy saroktelek, bejarát a Zsámbéki utca 14 felől
     ranges:
-      - {start: '1', end: '9'}
+      - {start: '1', end: '3'}
+      - {start: '7', end: '9'}
       - {start: '2', end: '10'}
   Szendi árok:
     ranges:
