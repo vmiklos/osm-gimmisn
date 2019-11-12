@@ -11,14 +11,6 @@ budapest_05:
     osmrelation: 1606103
     refmegye: "01"
     reftelepules: "005"
-budapest_08:
-    osmrelation: 1606100
-    refmegye: "01"
-    reftelepules: "008"
-budapest_09:
-    osmrelation: 1552462
-    refmegye: "01"
-    reftelepules: "009"
 budapest_11:
     osmrelation: 221998
     refmegye: "01"
@@ -282,6 +274,11 @@ erzsebetvaros:
     osmrelation: 3229918
     refmegye: "01"
     reftelepules: "007"
+# 8 kerulet eleg, nem kell tovabb bontani
+jozsefvaros:
+    osmrelation: 1606100
+    refmegye: "01"
+    reftelepules: "008"
 palotanegyed:
     osmrelation: 3177466
     refmegye: "01"
@@ -290,6 +287,11 @@ tisztviselotelep:
     osmrelation: 3182106
     refmegye: "01"
     reftelepules: "008"
+# 9 kerulet szinten eleg, nem kell tovabb bontani
+ferencvaros:
+    osmrelation: 1552462
+    refmegye: "01"
+    reftelepules: "009"
 belso-ferencvaros:
     osmrelation: 3229950
     refmegye: "01"
