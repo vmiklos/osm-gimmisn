@@ -18,22 +18,21 @@ def main() -> None:
     config = configparser.ConfigParser()
     config_path = helpers.get_abspath("wsgi.ini")
     config.read(config_path)
-    workdir = config.get('wsgi', 'workdir').strip()
+    workdir = helpers.get_abspath(config.get('wsgi', 'workdir').strip())
     datadir = helpers.get_abspath("data")
 
-    if len(sys.argv) > 1:
-        relation_name = sys.argv[1]
+    relation_name = sys.argv[1]
 
     relations = helpers.Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     ongoing_streets, _ = relation.get_missing_housenumbers()
 
     for result in ongoing_streets:
-        if result[1]:
-            # House number, # of only_in_reference items.
-            print("%s\t%s" % (result[0], len(result[1])))
-            # only_in_reference items.
-            print(util.get_housenumber_ranges(result[1]))
+        # House number, # of only_in_reference items.
+        ranges = util.get_housenumber_ranges(result[1])
+        print("%s\t%s" % (result[0], len(ranges)))
+        # only_in_reference items.
+        print(ranges)
 
 
 if __name__ == '__main__':
