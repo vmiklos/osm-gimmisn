@@ -1,0 +1,43 @@
+= Changelog
+
+== 2019-11-10
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/195>: track what source range generated what house
+  numbers for more compact results.
+
+== 2019-10-31
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/224>: a way to generate the gpx of all streets
+  missing house numbers.
+
+== 2019-10-26
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/241>: better handling of 0/0 done/total house
+  numbers of a relation.
+
+== 2019-10-22
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/237>: make OSM IDs of existing house numbers
+  clickable.
+
+== 2019-10-18
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/234>: audit the whole codebase to perform HTML
+  escpaing everywhere.
+
+== 2019-10-12
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/228>: added time internal hint when the overpass
+  query errors out due to not waiting enough.
+
+== 2019-10-09
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/204>: added possibility to list certain
+  reftelepules names when a specific refmegye is selected on the main page.
+
+<<<<
+
+== 2019-10-07
+
+- Initial release, presented at the meetup of
+  https://www.meetup.com/OpenStreetMap-Hungary/events/265262964/[OpenStreetMap Hungary]
