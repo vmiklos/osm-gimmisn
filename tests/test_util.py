@@ -281,5 +281,14 @@ class TestGitLink(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestGetAbspath(unittest.TestCase):
+    """Tests get_abspath()."""
+    def test_happy(self) -> None:
+        """Tests the happy path, when the input is relative."""
+        actual = util.get_abspath("foo")
+        expected = os.path.join(os.getcwd(), "foo")
+        self.assertEqual(actual, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

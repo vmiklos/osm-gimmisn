@@ -22,7 +22,7 @@ class TestMain(unittest.TestCase):
             if os.path.isabs(path):
                 return path
             return os.path.join(os.path.dirname(__file__), path)
-        with unittest.mock.patch('helpers.get_abspath', get_abspath):
+        with unittest.mock.patch('util.get_abspath', get_abspath):
             argv = ["", "gh195"]
             buf = io.StringIO()
             with unittest.mock.patch('sys.argv', argv):

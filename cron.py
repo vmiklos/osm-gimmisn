@@ -17,6 +17,7 @@ import urllib.error
 
 import helpers
 import overpass_query
+import util
 
 
 def overpass_sleep() -> None:
@@ -123,10 +124,10 @@ def main() -> None:
     """Commandline interface to this module."""
 
     config = configparser.ConfigParser()
-    config_path = helpers.get_abspath("wsgi.ini")
+    config_path = util.get_abspath("wsgi.ini")
     config.read(config_path)
 
-    datadir = helpers.get_abspath("data")
+    datadir = util.get_abspath("data")
     workdir = helpers.get_workdir(config)
     relations = helpers.Relations(datadir, workdir)
     logpath = os.path.join(workdir, "cron.log")

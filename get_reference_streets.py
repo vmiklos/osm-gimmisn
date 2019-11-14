@@ -10,20 +10,21 @@
 import configparser
 import sys
 import helpers
+import util
 
 
 def main() -> None:
     """Commandline interface to this module."""
 
     config = configparser.ConfigParser()
-    config_path = helpers.get_abspath("wsgi.ini")
+    config_path = util.get_abspath("wsgi.ini")
     config.read(config_path)
 
     relation_name = sys.argv[1]
 
-    reference = helpers.get_abspath(config.get('wsgi', 'reference_street').strip())
-    datadir = helpers.get_abspath("data")
-    workdir = helpers.get_abspath(config.get('wsgi', 'workdir').strip())
+    reference = util.get_abspath(config.get('wsgi', 'reference_street').strip())
+    datadir = util.get_abspath("data")
+    workdir = util.get_abspath(config.get('wsgi', 'workdir').strip())
     relations = helpers.Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)

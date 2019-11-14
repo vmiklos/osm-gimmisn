@@ -414,7 +414,7 @@ class Relation:
         used by __get_ref_housenumbers().
         """
         # Convert relative paths to absolute ones.
-        references = [get_abspath(reference) for reference in references]
+        references = [util.get_abspath(reference) for reference in references]
 
         memory_caches = util.build_reference_caches(references)
 
@@ -784,17 +784,9 @@ def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
     return ret
 
 
-def get_abspath(path: str) -> str:
-    """Make a path absolute, taking the repo root as a base dir."""
-    if os.path.isabs(path):
-        return path
-
-    return os.path.join(os.path.dirname(__file__), path)
-
-
 def get_workdir(config: configparser.ConfigParser) -> str:
     """Gets the directory which is writable."""
-    return get_abspath(config.get('wsgi', 'workdir').strip())
+    return util.get_abspath(config.get('wsgi', 'workdir').strip())
 
 
 def get_content(workdir: str, path: str = "") -> str:

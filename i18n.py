@@ -15,8 +15,9 @@ import threading
 def set_language(language: str) -> None:
     """Sets the language of the current thread."""
     tls = threading.current_thread.__dict__
-    import helpers
-    localedir = helpers.get_abspath("locale")
+    # Import only inside the function, as util imports a function from this module.
+    import util
+    localedir = util.get_abspath("locale")
     tls["translations"] = gettext.translation("osm-gimmisn", localedir=localedir, languages=[language], fallback=True)
 
 

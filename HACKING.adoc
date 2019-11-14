@@ -13,7 +13,7 @@ git grep -n -w asis|grep -v getvalue
 
 Exception to this rule is the HTML DOCTYPE header.
 
-- Path handling: make relative paths absolute using helpers.get_abspath() and avoid `__file__`,
+- Path handling: make relative paths absolute using util.get_abspath() and avoid `__file__`,
   `os.getcwd()` or `os.chdir()`. This has the benefit that real and test config/data (under `/` and
   `tests/`) can be separated.
 

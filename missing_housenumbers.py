@@ -16,10 +16,10 @@ import util
 def main() -> None:
     """Commandline interface."""
     config = configparser.ConfigParser()
-    config_path = helpers.get_abspath("wsgi.ini")
+    config_path = util.get_abspath("wsgi.ini")
     config.read(config_path)
-    workdir = helpers.get_abspath(config.get('wsgi', 'workdir').strip())
-    datadir = helpers.get_abspath("data")
+    workdir = util.get_abspath(config.get('wsgi', 'workdir').strip())
+    datadir = util.get_abspath("data")
 
     relation_name = sys.argv[1]
 

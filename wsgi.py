@@ -43,14 +43,14 @@ if TYPE_CHECKING:
 def get_config() -> configparser.ConfigParser:
     """Gets access to information which are specific to this installation."""
     config = configparser.ConfigParser()
-    config_path = helpers.get_abspath("wsgi.ini")
+    config_path = util.get_abspath("wsgi.ini")
     config.read(config_path)
     return config
 
 
 def get_datadir() -> str:
     """Gets the directory which is tracked (in version control) data."""
-    return helpers.get_abspath("data")
+    return util.get_abspath("data")
 
 
 def get_staticdir() -> str:
@@ -270,7 +270,7 @@ def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> 
 def missing_housenumbers_update(relations: helpers.Relations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
     reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
-    reference = [helpers.get_abspath(i) for i in reference]
+    reference = [util.get_abspath(i) for i in reference]
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
     doc = yattag.Doc()
@@ -282,7 +282,7 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
 
 def missing_streets_update(relations: helpers.Relations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
-    reference = helpers.get_abspath(get_config().get('wsgi', 'reference_street').strip())
+    reference = util.get_abspath(get_config().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
     return util.html_escape(_("Update successful."))
@@ -810,7 +810,7 @@ def handle_github_webhook(environ: Dict[str, Any]) -> yattag.Doc:
     payload = body["payload"][0]
     root = json.loads(payload)
     if root["ref"] == "refs/heads/master":
-        subprocess.run(["make", "-C", helpers.get_abspath(""), "deploy-pythonanywhere"], check=True)
+        subprocess.run(["make", "-C", util.get_abspath(""), "deploy-pythonanywhere"], check=True)
 
     return util.html_escape("")
 

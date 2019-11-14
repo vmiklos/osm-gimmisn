@@ -37,7 +37,7 @@ class TestWsgi(unittest.TestCase):
             if os.path.isabs(path):
                 return path
             return os.path.join(os.path.dirname(__file__), path)
-        with unittest.mock.patch('helpers.get_abspath', get_abspath):
+        with unittest.mock.patch('util.get_abspath', get_abspath):
             environ = {
                 "PATH_INFO": path
             }

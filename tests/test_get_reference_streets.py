@@ -21,7 +21,7 @@ class TestMain(unittest.TestCase):
             if os.path.isabs(path):
                 return path
             return os.path.join(os.path.dirname(__file__), path)
-        with unittest.mock.patch('helpers.get_abspath', get_abspath):
+        with unittest.mock.patch('util.get_abspath', get_abspath):
             expected = helpers.get_content(get_abspath("workdir/streets-reference-gazdagret.lst"))
 
             argv = ["", "gazdagret"]
