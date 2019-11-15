@@ -342,7 +342,7 @@ class Relation:
                 if tokens[1] != street_name:
                     continue
                 house_numbers += normalize(self, tokens[2], street_name, self.get_street_ranges())
-        return sort_numerically(set(house_numbers))
+        return util.sort_numerically(set(house_numbers))
 
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
         """
@@ -448,7 +448,7 @@ class Relation:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')
                     house_numbers += normalize(self, house_number, osm_street_name, street_ranges)
-            ret[osm_street_name] = sort_numerically(set(house_numbers))
+            ret[osm_street_name] = util.sort_numerically(set(house_numbers))
         return ret
 
     def get_missing_housenumbers(
@@ -635,11 +635,6 @@ class Relations:
             return ""
 
         return cast(str, refmegye[reftelepules])
-
-
-def sort_numerically(strings: Iterable[util.HouseNumber]) -> List[util.HouseNumber]:
-    """Sorts strings according to their numerical value, not alphabetically."""
-    return sorted(strings, key=lambda x: util.split_house_number(x.get_number()))
 
 
 def sort_streets_csv(data: str) -> str:

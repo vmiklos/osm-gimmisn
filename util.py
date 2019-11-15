@@ -9,6 +9,7 @@
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import Iterable
 from typing import Optional
 from typing import TextIO
 from typing import Tuple
@@ -384,6 +385,11 @@ def get_abspath(path: str) -> str:
         return path
 
     return os.path.join(os.path.dirname(__file__), path)
+
+
+def sort_numerically(strings: Iterable[HouseNumber]) -> List[HouseNumber]:
+    """Sorts strings according to their numerical value, not alphabetically."""
+    return sorted(strings, key=lambda x: split_house_number(x.get_number()))
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
