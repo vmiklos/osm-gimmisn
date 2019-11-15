@@ -65,7 +65,7 @@ class TestMissingHousenumbers(TestWsgi):
     """Tests the missing house numbers page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm/suspicious-streets/gazdagret/view-result")
+        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
@@ -75,7 +75,7 @@ class TestStreetHousenumbers(TestWsgi):
     def test_view_result_update_result_link(self) -> None:
         """Tests view result: the update-result link."""
         root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/view-result")
-        results = root.findall("body/div[@id='toolbar']/a[@href='/osm/suspicious-streets/gazdagret/view-result']")
+        results = root.findall("body/div[@id='toolbar']/a[@href='/osm/missing-housenumbers/gazdagret/view-result']")
         self.assertTrue(results)
 
 
@@ -83,7 +83,7 @@ class TestMissingStreets(TestWsgi):
     """Tests the missing streets page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm/suspicious-relations/gazdagret/view-result")
+        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 

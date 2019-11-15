@@ -84,7 +84,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc
             streets = relation.get_config().should_check_missing_streets()
             if streets != "only":
                 doc.text(_("Update successful: "))
-                link = "/osm/suspicious-streets/" + relation_name + "/view-result"
+                link = "/osm/missing-housenumbers/" + relation_name + "/view-result"
                 doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
             else:
                 doc.text(_("Update successful."))
@@ -120,7 +120,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
         try:
             relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
             doc.text(_("Update successful: "))
-            link = "/osm/suspicious-streets/" + relation_name + "/view-result"
+            link = "/osm/missing-housenumbers/" + relation_name + "/view-result"
             doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
         except urllib.error.HTTPError as http_error:
             doc.asis(util.handle_overpass_error(http_error).getvalue())
@@ -131,7 +131,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
 
 
 def missing_housenumbers_view_turbo(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-turbo."""
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
 
@@ -147,7 +147,7 @@ def missing_housenumbers_view_turbo(relations: helpers.Relations, request_uri: s
 
 
 def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result."""
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
 
@@ -163,7 +163,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
         doc.asis(util.gen_link(link, _("Call Overpass to create")).getvalue())
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         doc.text(_("No missing house numbers: "))
-        link = "/osm/suspicious-streets/" + relation_name + "/update-result"
+        link = "/osm/missing-housenumbers/" + relation_name + "/update-result"
         doc.asis(util.gen_link(link, _("Create from reference")).getvalue())
     else:
         ret = relation.write_missing_housenumbers()
@@ -178,7 +178,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
                 doc.text(_("Filter incorrect information"))
             doc.text(".")
             doc.stag("br")
-            with doc.tag("a", href="/osm/suspicious-streets/{}/view-turbo".format(relation_name)):
+            with doc.tag("a", href="/osm/missing-housenumbers/{}/view-turbo".format(relation_name)):
                 doc.text(_("Overpass turbo query for the below streets"))
             doc.text(".")
 
@@ -187,7 +187,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
 
 
 def missing_relations_view_result(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/suspicious-relations/budapest_11/view-result."""
+    """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
@@ -199,7 +199,7 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
             doc.text(_("Call Overpass to create"))
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
         doc.text(_("No street list: "))
-        with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/update-result"):
+        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/update-result"):
             doc.text(_("Create from reference"))
     else:
         ret = relation.write_missing_streets()
@@ -218,7 +218,7 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
 
 
 def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str) -> str:
-    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-result.txt."""
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
@@ -250,7 +250,7 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
 
 
 def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> str:
-    """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-result.txt."""
+    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
@@ -268,20 +268,20 @@ def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> 
 
 
 def missing_housenumbers_update(relations: helpers.Relations, relation_name: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/update-result."""
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result."""
     reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
     reference = [util.get_abspath(i) for i in reference]
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
     doc = yattag.Doc()
     doc.text(_("Update successful: "))
-    link = "/osm/suspicious-streets/" + relation_name + "/view-result"
+    link = "/osm/missing-housenumbers/" + relation_name + "/view-result"
     doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
     return doc
 
 
 def missing_streets_update(relations: helpers.Relations, relation_name: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/update-result."""
+    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
     reference = util.get_abspath(get_config().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
@@ -289,7 +289,7 @@ def missing_streets_update(relations: helpers.Relations, relation_name: str) -> 
 
 
 def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/suspicious-streets/ormezo/view-[result|query]."""
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     action = tokens[-1]
@@ -298,7 +298,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     relation = relations.get_relation(relation_name)
     osmrelation = relation.get_config().get_osmrelation()
     doc = yattag.Doc()
-    doc.asis(get_toolbar(relations, "suspicious-streets", relation_name, osmrelation).getvalue())
+    doc.asis(get_toolbar(relations, "missing-housenumbers", relation_name, osmrelation).getvalue())
 
     if action == "view-result":
         doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
@@ -319,7 +319,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
 
 
 def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/suspicious-relations/ujbuda/view-[result|query]."""
+    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     action = tokens[-1]
@@ -328,7 +328,7 @@ def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> ya
     osmrelation = relation.get_config().get_osmrelation()
 
     doc = yattag.Doc()
-    doc.asis(get_toolbar(relations, "suspicious-relations", relation_name, osmrelation).getvalue())
+    doc.asis(get_toolbar(relations, "missing-streets", relation_name, osmrelation).getvalue())
 
     if action == "view-result":
         doc.asis(missing_relations_view_result(relations, request_uri).getvalue())
@@ -385,7 +385,7 @@ def format_timestamp(timestamp: float) -> str:
 
 
 def ref_housenumbers_last_modified(relations: helpers.Relations, name: str) -> str:
-    """Gets the update date for suspicious streets."""
+    """Gets the update date for missing house numbers."""
     relation = relations.get_relation(name)
     t_ref = get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_housenumbers = get_timestamp(relation.get_files().get_osm_housenumbers_path())
@@ -411,7 +411,7 @@ def get_streets_last_modified(relation: helpers.Relation) -> str:
 
 def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[yattag.Doc, str]:
     """Handles the house number percent part of the main page."""
-    url = "/osm/suspicious-streets/" + relation.get_name() + "/view-result"
+    url = "/osm/missing-housenumbers/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_housenumbers_percent_path()):
         percent = helpers.get_content(relation.get_files().get_housenumbers_percent_path())
@@ -432,7 +432,7 @@ def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[yattag.Doc,
 
 def handle_main_street_percent(relation: helpers.Relation) -> Tuple[yattag.Doc, str]:
     """Handles the street percent part of the main page."""
-    url = "/osm/suspicious-relations/" + relation.get_name() + "/view-result"
+    url = "/osm/missing-streets/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_streets_percent_path()):
         percent = helpers.get_content(relation.get_files().get_streets_percent_path())
@@ -642,10 +642,10 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
     """Generates the 'missing house numbers/streets' part of the header."""
     if streets != "only":
         doc = yattag.Doc()
-        with doc.tag("a", href="/osm/suspicious-streets/" + relation_name + "/view-result"):
+        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result"):
             doc.text(_("Missing house numbers"))
         doc.text(" (")
-        with doc.tag("a", href="/osm/suspicious-streets/" + relation_name + "/view-result.txt"):
+        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result.txt"):
             doc.text("txt")
         doc.text(")")
         items.append(doc)
@@ -655,10 +655,10 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
         items.append(doc)
     if streets != "no":
         doc = yattag.Doc()
-        with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/view-result"):
+        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/view-result"):
             doc.text(_("Missing streets"))
         doc.text(" (")
-        with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/view-result.txt"):
+        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/view-result.txt"):
             doc.text("txt")
         doc.text(")")
         items.append(doc)
@@ -673,9 +673,9 @@ def get_html_title(request_uri: str) -> str:
         function = tokens[2]
         relation_name = tokens[3]
     title = ""
-    if function == "suspicious-streets":
+    if function == "missing-housenumbers":
         title = " - " + _("{0} missing house numbers").format(relation_name)
-    elif function == "suspicious-relations":
+    elif function == "missing-streets":
         title = " - " + relation_name + " " + _("missing streets")
     elif function == "street-housenumbers":
         title = " - " + relation_name + " " + _("existing house numbers")
@@ -686,9 +686,9 @@ def get_html_title(request_uri: str) -> str:
 
 def fill_header_function(function: str, relation_name: str, items: List[yattag.Doc]) -> None:
     """Fills items with function-specific links in the header. Returns a title."""
-    if function == "suspicious-streets":
+    if function == "missing-housenumbers":
         doc = yattag.Doc()
-        with doc.tag("a", href="/osm/suspicious-streets/" + relation_name + "/update-result"):
+        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
         doc.text(" " + _("(may take seconds)"))
         items.append(doc)
@@ -696,9 +696,9 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.D
         with doc.tag("a", href="https://overpass-turbo.eu/"):
             doc.text(_("Overpass turbo"))
         items.append(doc)
-    elif function == "suspicious-relations":
+    elif function == "missing-streets":
         doc = yattag.Doc()
-        with doc.tag("a", href="/osm/suspicious-relations/" + relation_name + "/update-result"):
+        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
         items.append(doc)
     elif function == "street-housenumbers":
@@ -847,9 +847,9 @@ def our_application_txt(
 ) -> Iterable[bytes]:
     """Dispatches plain text requests based on their URIs."""
     content_type = "text/plain"
-    if request_uri.startswith("/osm/suspicious-relations/"):
+    if request_uri.startswith("/osm/missing-streets/"):
         output = missing_streets_view_txt(relations, request_uri)
-    elif request_uri.startswith("/osm/suspicious-streets/"):
+    elif request_uri.startswith("/osm/missing-housenumbers/"):
         output = missing_housenumbers_view_txt(relations, request_uri)
     return send_response(start_response, content_type, "200 OK", output)
 
@@ -860,6 +860,14 @@ def get_request_uri(environ: Dict[str, Any]) -> str:
     path_info = environ.get("PATH_INFO")
     if path_info:
         request_uri = path_info
+
+    if request_uri:
+        # Compatibility.
+        if request_uri.startswith("/osm/suspicious-streets/"):
+            request_uri = request_uri.replace('suspicious-streets', 'missing-housenumbers')
+        elif request_uri.startswith("/osm/suspicious-relations/"):
+            request_uri = request_uri.replace('suspicious-relations', 'missing-streets')
+
     return request_uri
 
 
@@ -903,11 +911,11 @@ def our_application(
         with doc.tag("body"):
             if request_uri.startswith("/osm/streets/"):
                 doc.asis(handle_streets(relations, request_uri).getvalue())
-            elif request_uri.startswith("/osm/suspicious-relations/"):
+            elif request_uri.startswith("/osm/missing-streets/"):
                 doc.asis(handle_missing_streets(relations, request_uri).getvalue())
             elif request_uri.startswith("/osm/street-housenumbers/"):
                 doc.asis(handle_street_housenumbers(relations, request_uri).getvalue())
-            elif request_uri.startswith("/osm/suspicious-streets/"):
+            elif request_uri.startswith("/osm/missing-housenumbers/"):
                 doc.asis(handle_missing_housenumbers(relations, request_uri).getvalue())
             elif request_uri.startswith("/osm/webhooks/github"):
                 doc.asis(handle_github_webhook(environ).getvalue())
