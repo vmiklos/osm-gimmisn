@@ -1,5 +1,10 @@
 = Changelog
 
+== 2019-11-15
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/269>: noise in the reference can be now cleaned by
+  filtering out house numbers explicitly, rather than filtering for valid ranges.
+
 == 2019-11-10
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/195>: track what source range generated what house
