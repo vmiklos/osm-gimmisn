@@ -84,7 +84,7 @@ class TestBuildReferenceCache(unittest.TestCase):
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         memory_cache = util.build_reference_cache(refpath)
         expected = {'01': {'011': {'Ref Name 1': ['1', '2'],
-                                   'Törökugrató utca': ['1', '10', '2', '7'],
+                                   'Törökugrató utca': ['1', '10', '11', '12', '2', '7'],
                                    'Tűzkő utca': ['1', '10', '2', '9'],
                                    'Hamzsabégi út': ['1']}}}
         self.assertEqual(memory_cache, expected)
@@ -98,7 +98,7 @@ class TestBuildReferenceCache(unittest.TestCase):
         memory_cache = util.build_reference_cache(refpath)
         expected = {'01': {'011': {'Hamzsabégi út': ['1'],
                                    'Ref Name 1': ['1', '2'],
-                                   'Törökugrató utca': ['1', '10', '2', '7'],
+                                   'Törökugrató utca': ['1', '10', '11', '12', '2', '7'],
                                    'Tűzkő utca': ['1', '10', '2', '9']}}}
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")

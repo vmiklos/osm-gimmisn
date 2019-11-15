@@ -552,6 +552,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
         ongoing_streets, done_streets = relation.get_missing_housenumbers()
         ongoing_streets_strs = [(name, [i.get_number()
                                         for i in house_numbers]) for name, house_numbers in ongoing_streets]
+        # Notice how 11 and 12 is filtered out by the 'invalid' mechanism for 'Törökugrató utca'.
         self.assertEqual(ongoing_streets_strs, [('Törökugrató utca', ['7', '10']),
                                                 ('Tűzkő utca', ['1', '2']),
                                                 ('Hamzsabégi út', ['1'])])
@@ -672,7 +673,15 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
         street = "Törökugrató utca"
         relation = relations.get_relation(relation_name)
         ret = relation.build_ref_housenumbers(memory_cache, street, "")
-        self.assertEqual(ret, ['Törökugrató utca 1', 'Törökugrató utca 10', 'Törökugrató utca 2', 'Törökugrató utca 7'])
+        expected = [
+            'Törökugrató utca 1',
+            'Törökugrató utca 10',
+            'Törökugrató utca 11',
+            'Törökugrató utca 12',
+            'Törökugrató utca 2',
+            'Törökugrató utca 7',
+        ]
+        self.assertEqual(ret, expected)
 
     def test_missing(self) -> None:
         """Tests the case when the street is not in the reference."""

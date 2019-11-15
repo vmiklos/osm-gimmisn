@@ -141,6 +141,18 @@ class TestValidatorMainFailureMsg(unittest.TestCase):
         expected += ": expected value type for 'filters.Hamzsabégi út.reftelepules' is str\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-reftelepules-bad.yaml", expected)
 
+    def test_relation_filters_invalid_bad(self) -> None:
+        """Tests the relation path: bad filters -> ... -> invalid subkey."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.invalid[0]' is str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-invalid-bad.yaml", expected)
+
+    def test_relation_filters_invalid_bad_type(self) -> None:
+        """Tests the relation path: bad type for the filters -> ... -> invalid subkey."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad-type.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.invalid' is list\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-invalid-bad-type.yaml", expected)
+
     def test_relation_filters_ranges_bad(self) -> None:
         """Tests the relation path: bad filters -> ... -> ranges subkey."""
         expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad.yaml"

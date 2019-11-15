@@ -303,6 +303,18 @@ class Relation:
 
         return filter_dict
 
+    def get_street_invalid(self) -> Dict[str, List[str]]:
+        """Gets a street name -> invalid map, which allows silencing individual false positives."""
+        invalid_dict = {}  # type: Dict[str, List[str]]
+
+        filters = self.get_config().get_filters()
+        for street in filters.keys():
+            if "invalid" not in filters[street]:
+                continue
+            invalid_dict[street] = filters[street]["invalid"]
+
+        return invalid_dict
+
     def get_ref_street_from_osm_street(self, osm_street_name: str) -> str:
         """Maps an OSM street name to a ref street name."""
         refstreets = self.get_config().get_refstreets()
@@ -440,13 +452,19 @@ class Relation:
                 line = line.strip()
                 lines.append(line)
         street_ranges = self.get_street_ranges()
+        streets_invalid = self.get_street_invalid()
         for osm_street_name in self.get_osm_streets():
             house_numbers = []  # type: List[util.HouseNumber]
             ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
             prefix = ref_street_name + " "
+            street_invalid = []  # type: List[str]
+            if osm_street_name in streets_invalid.keys():
+                street_invalid = streets_invalid[osm_street_name]
             for line in lines:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')
+                    if house_number in street_invalid:
+                        continue
                     house_numbers += normalize(self, house_number, osm_street_name, street_ranges)
             ret[osm_street_name] = util.sort_numerically(set(house_numbers))
         return ret

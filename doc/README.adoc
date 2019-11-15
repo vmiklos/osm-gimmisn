@@ -111,6 +111,16 @@ In other words, there is only minimal filtering for the reference data (1-999 an
 accepted) by default. If you want to filter out noise, then you need to cover the correct house
 numbers with ranges, and whatever is not in this range will be filtered out.
 
+An alternative way of filtering out invalid data from the reference is explicitly stating what items
+are invalid:
+
+----
+  Magasúti köz:
+    invalid: ['7', '11']
+----
+
+Sometimes this results in a more compact filter than the above presented `ranges` way.
+
 == Searching for missing streets
 
 The yaml format is like this:
