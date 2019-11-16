@@ -21,8 +21,8 @@ filters:
       - {start: '2', end: '8'}
   Bogár utca:
     ranges:
-      - {start: '2', end: '40'}
-    invalid: ['30']
+      - {start: '2', end: '28'}
+      - {start: '32', end: '40'}
   Endrődi Sándor utca:
     ranges:
       - {start: '1', end: '7'}
