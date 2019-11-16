@@ -16,7 +16,7 @@ filters:
       - {start: '1', end: '99'}
   Bimbó út:
     ranges:
-      - {start: '15', end: '65'}
+      - {start: '15', end: '63'}
       - {start: '12', end: '42'}
   Gül Baba utca:
     ranges:
