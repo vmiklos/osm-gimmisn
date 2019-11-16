@@ -1,6 +1,5 @@
 missing-streets: 'no'
 filters:
-  # felmerendo
   Alsó Törökvész út:
     ranges:
       - {start: '3', end: '13'}
@@ -14,19 +13,21 @@ filters:
     ranges: []
   Bimbó út:
     ranges:
-      - {start: '67', end: '101'}
+      - {start: '65', end: '101'}
       - {start: '44', end: '96'}
   Bogár lépcső:
-    # vege felmerendo
     ranges:
-      - {start: '1', end: '15'}
-      - {start: '2', end: '10'}
+      - {start: '1', end: '3'}
+      - {start: '2', end: '8'}
   Bogár utca:
     ranges:
       - {start: '2', end: '40'}
+    invalid: ['30']
   Endrődi Sándor utca:
     ranges:
       - {start: '1', end: '7'}
+  Kapor utca:
+    invalid: ['2']
   Marczibányi tér:
     interpolation: 'all'
     ranges:
