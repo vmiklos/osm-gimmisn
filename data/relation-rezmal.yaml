@@ -32,5 +32,9 @@ filters:
     interpolation: 'all'
     ranges:
       - {start: '6', end: '7'}
+  Tapolcsányi utca:
+    ranges:
+      - {start: '3', end: '13'}
+      - {start: '4', end: '18'}
 source: survey
 inactive: true
