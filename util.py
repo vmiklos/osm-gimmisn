@@ -7,6 +7,7 @@
 """The util module contains free functions shared between other modules."""
 
 from typing import Any
+from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Iterable
@@ -390,6 +391,17 @@ def get_abspath(path: str) -> str:
 def sort_numerically(strings: Iterable[HouseNumber]) -> List[HouseNumber]:
     """Sorts strings according to their numerical value, not alphabetically."""
     return sorted(strings, key=lambda x: split_house_number(x.get_number()))
+
+
+def process_csv_body(fun: Callable[[Iterable[str]], List[str]], data: str) -> str:
+    """
+    Process the body of a CSV/TSV with the given function while keeping the header intact.
+    """
+    lines = data.split('\n')
+    header = lines[0] if lines else ''
+    body = lines[1:] if lines else ''
+    result = [header] + fun(body)
+    return '\n'.join(result)
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

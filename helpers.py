@@ -10,7 +10,6 @@ import configparser
 import re
 import os
 from typing import Any
-from typing import Callable
 from typing import Dict
 from typing import Iterable
 from typing import List
@@ -661,7 +660,7 @@ def sort_streets_csv(data: str) -> str:
 
     See split_street_line for sorting rules.
     """
-    return process_csv_body(sort_streets, data)
+    return util.process_csv_body(sort_streets, data)
 
 
 def sort_streets(lines: Iterable[str]) -> List[str]:
@@ -690,24 +689,13 @@ def split_street_line(line: str) -> Tuple[bool, str, str, str, Tuple[int, str]]:
     return (missing_name, name, highway, service, util.split_house_number(oid))
 
 
-def process_csv_body(fun: Callable[[Iterable[str]], List[str]], data: str) -> str:
-    """
-    Process the body of a CSV/TSV with the given function while keeping the header intact.
-    """
-    lines = data.split('\n')
-    header = lines[0] if lines else ''
-    body = lines[1:] if lines else ''
-    result = [header] + fun(body)
-    return '\n'.join(result)
-
-
 def sort_housenumbers_csv(data: str) -> str:
     """
     Sorts TSV Overpass house numbers result with visual partitioning.
 
     See split_housenumber_line for sorting rules.
     """
-    return process_csv_body(sort_housenumbers, data)
+    return util.process_csv_body(sort_housenumbers, data)
 
 
 def sort_housenumbers(lines: Iterable[str]) -> List[str]:
