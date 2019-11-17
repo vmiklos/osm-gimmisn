@@ -12,6 +12,7 @@ from typing import Dict
 from typing import List
 from typing import Iterable
 from typing import Optional
+from typing import Sequence
 from typing import TextIO
 from typing import Tuple
 from typing import cast
@@ -402,6 +403,11 @@ def process_csv_body(fun: Callable[[Iterable[str]], List[str]], data: str) -> st
     body = lines[1:] if lines else ''
     result = [header] + fun(body)
     return '\n'.join(result)
+
+
+def get_array_nth(arr: Sequence[str], index: int) -> str:
+    """Gets the nth element of arr, returns en empty string on error."""
+    return arr[index] if len(arr) > index else ''
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

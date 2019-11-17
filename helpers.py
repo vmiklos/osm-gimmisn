@@ -14,7 +14,6 @@ from typing import Dict
 from typing import Iterable
 from typing import List
 from typing import Optional
-from typing import Sequence
 from typing import TextIO
 from typing import Tuple
 from typing import cast
@@ -681,10 +680,10 @@ def split_street_line(line: str) -> Tuple[bool, str, str, str, Tuple[int, str]]:
     oid is interpreted numerically while other fields are taken alphabetically.
     """
     field = line.split('\t')
-    oid = get_array_nth(field, 0)
-    name = get_array_nth(field, 1)
-    highway = get_array_nth(field, 2)
-    service = get_array_nth(field, 3)
+    oid = util.get_array_nth(field, 0)
+    name = util.get_array_nth(field, 1)
+    highway = util.get_array_nth(field, 2)
+    service = util.get_array_nth(field, 3)
     missing_name = name == ''
     return (missing_name, name, highway, service, util.split_house_number(oid))
 
@@ -719,12 +718,12 @@ def split_housenumber_line(line: str) -> Tuple[str, bool, bool, str, Tuple[int, 
     """
     field = line.split('\t')
 
-    oid = get_array_nth(field, 0)
-    street = get_array_nth(field, 1)
-    housenumber = get_array_nth(field, 2)
-    postcode = get_array_nth(field, 3)
-    housename = get_array_nth(field, 4)
-    cons = get_array_nth(field, 5)
+    oid = util.get_array_nth(field, 0)
+    street = util.get_array_nth(field, 1)
+    housenumber = util.get_array_nth(field, 2)
+    postcode = util.get_array_nth(field, 3)
+    housename = util.get_array_nth(field, 4)
+    cons = util.get_array_nth(field, 5)
     tail = field[6:] if len(field) > 6 else []
 
     have_housenumber = housenumber != ''
@@ -732,11 +731,6 @@ def split_housenumber_line(line: str) -> Tuple[str, bool, bool, str, Tuple[int, 
     return (postcode, have_houseid, have_housenumber, street,
             util.split_house_number(housenumber),
             housename, util.split_house_number(cons), tail, util.split_house_number(oid))
-
-
-def get_array_nth(arr: Sequence[str], index: int) -> str:
-    """Gets the nth element of arr, returns en empty string on error."""
-    return arr[index] if len(arr) > index else ''
 
 
 def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
