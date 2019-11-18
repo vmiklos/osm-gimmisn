@@ -14,6 +14,7 @@ import unittest
 import yattag  # type: ignore
 
 import helpers
+import ranges
 import util
 
 
@@ -143,62 +144,6 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestRange(unittest.TestCase):
-    """Tests Range."""
-    def test_isodd_bad(self) -> None:
-        """Tests an odd range with an even number."""
-        test = helpers.Range(1, 3)
-        self.assertFalse(2 in test)
-
-    def test_range_bad(self) -> None:
-        """Tests an odd range with a large number."""
-        test = helpers.Range(1, 3)
-        self.assertFalse(5 in test)
-
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        test = helpers.Range(1, 5)
-        self.assertTrue(1 in test)
-        self.assertTrue(3 in test)
-        self.assertTrue(5 in test)
-        self.assertEqual(test.get_start(), 1)
-        self.assertEqual(test.get_end(), 5)
-
-    def test_eq(self) -> None:
-        """Tests equality code."""
-        self.assertTrue(helpers.Range(1, 5) != helpers.Range(3, 5))
-        self.assertTrue(helpers.Range(1, 5) != helpers.Range(1, 3))
-        self.assertTrue(helpers.Range(1, 3) != helpers.Range(1, 3, interpolation="all"))
-
-    def test_interpolation_all(self) -> None:
-        """Tests the interpolation modes."""
-        self.assertFalse(2 in helpers.Range(1, 3))
-        self.assertTrue(2 in helpers.Range(1, 3, interpolation="all"))
-
-
-class TestRanges(unittest.TestCase):
-    """Tests Ranges."""
-    def test_a(self) -> None:
-        """Tests when the arg is in the first range."""
-        test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
-        self.assertTrue(0 in test)
-
-    def test_b(self) -> None:
-        """Tests when the arg is in the second range."""
-        test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
-        self.assertTrue(1 in test)
-
-    def test_ab(self) -> None:
-        """Tests when the arg is in both ranges."""
-        test = helpers.Ranges([helpers.Range(1, 1), helpers.Range(1, 1)])
-        self.assertTrue(1 in test)
-
-    def test_none(self) -> None:
-        """Tests when the arg is in neither ranges."""
-        test = helpers.Ranges([helpers.Range(0, 0), helpers.Range(1, 1)])
-        self.assertFalse(2 in test)
-
-
 class TestGetWorkdir(unittest.TestCase):
     """Tests get_workdir()."""
     def test_happy(self) -> None:
@@ -293,9 +238,9 @@ class TestRelationGetStreetRanges(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         filters = relation.get_street_ranges()
         expected_filters = {
-            "Budaörsi út": helpers.Ranges([helpers.Range(137, 165)]),
-            "Csiki-hegyek utca": helpers.Ranges([helpers.Range(1, 15), helpers.Range(2, 26)]),
-            'Hamzsabégi út': helpers.Ranges([helpers.Range(start=1, end=12, interpolation="all")])
+            "Budaörsi út": ranges.Ranges([ranges.Range(137, 165)]),
+            "Csiki-hegyek utca": ranges.Ranges([ranges.Range(1, 15), ranges.Range(2, 26)]),
+            'Hamzsabégi út': ranges.Ranges([ranges.Range(start=1, end=12, interpolation="all")])
         }
         self.assertEqual(filters, expected_filters)
         expected_streets = {

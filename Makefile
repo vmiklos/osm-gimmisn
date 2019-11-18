@@ -5,6 +5,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_helpers.py \
 	tests/test_missing_housenumbers.py \
 	tests/test_overpass_query.py \
+	tests/test_ranges.py \
 	tests/test_util.py \
 	tests/test_validator.py \
 	tests/test_wsgi.py \
@@ -17,6 +18,7 @@ PYTHON_SAFE_OBJECTS = \
 	helpers.py \
 	missing_housenumbers.py \
 	overpass_query.py \
+	ranges.py \
 	util.py \
 	validator.py \
 

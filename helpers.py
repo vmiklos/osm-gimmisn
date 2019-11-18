@@ -13,79 +13,15 @@ from typing import Any
 from typing import Dict
 from typing import Iterable
 from typing import List
-from typing import Optional
 from typing import TextIO
 from typing import Tuple
 from typing import cast
 import yaml
 import yattag  # type: ignore
+
 from i18n import translate as _
+import ranges
 import util
-
-
-class Range:
-    """A range object represents an odd or even range of integer numbers."""
-    def __init__(self, start: int, end: int, interpolation: str = "") -> None:
-        self.__start = start
-        self.__end = end
-        self.__is_odd = start % 2 == 1  # type: Optional[bool]
-        if interpolation == "all":
-            self.__is_odd = None
-
-    def get_start(self) -> int:
-        """The smallest integer."""
-        return self.__start
-
-    def get_end(self) -> int:
-        """The largest integer."""
-        return self.__end
-
-    def is_odd(self) -> Optional[bool]:
-        """None for all house numbers on one side, bool otherwise."""
-        return self.__is_odd
-
-    def __contains__(self, item: int) -> bool:
-        if (self.__is_odd is not None) and self.__is_odd != (item % 2 == 1):
-            return False
-        if self.__start <= item <= self.__end:
-            return True
-        return False
-
-    def __repr__(self) -> str:
-        return "Range(start=%s, end=%s, is_odd=%s)" % (self.__start, self.__end, self.__is_odd)
-
-    def __eq__(self, other: object) -> bool:
-        other_range = cast(Range, other)
-        if self.__start != other_range.get_start():
-            return False
-        if self.__end != other_range.get_end():
-            return False
-        if self.__is_odd != other_range.is_odd():
-            return False
-        return True
-
-
-class Ranges:
-    """A Ranges object contains an item if any of its Range objects contains it."""
-    def __init__(self, items: List[Range]) -> None:
-        self.__items = items
-
-    def get_items(self) -> List[Range]:
-        """The list of contained Range objects."""
-        return self.__items
-
-    def __contains__(self, item: int) -> bool:
-        for i in self.__items:
-            if item in i:
-                return True
-        return False
-
-    def __repr__(self) -> str:
-        return "Ranges(items=%s)" % self.__items
-
-    def __eq__(self, other: object) -> bool:
-        other_ranges = cast(Ranges, other)
-        return self.__items == other_ranges.get_items()
 
 
 class RelationFiles:
@@ -283,9 +219,9 @@ class Relation:
         """Gets access to the config interface."""
         return self.__config
 
-    def get_street_ranges(self) -> Dict[str, Ranges]:
+    def get_street_ranges(self) -> Dict[str, ranges.Ranges]:
         """Gets a street name -> ranges map, which allows silencing false positives."""
-        filter_dict = {}  # type: Dict[str, Ranges]
+        filter_dict = {}  # type: Dict[str, ranges.Ranges]
 
         filters = self.get_config().get_filters()
         for street in filters.keys():
@@ -296,8 +232,8 @@ class Relation:
             if "ranges" not in filters[street]:
                 continue
             for start_end in filters[street]["ranges"]:
-                i.append(Range(int(start_end["start"]), int(start_end["end"]), interpolation))
-            filter_dict[street] = Ranges(i)
+                i.append(ranges.Range(int(start_end["start"]), int(start_end["end"]), interpolation))
+            filter_dict[street] = ranges.Ranges(i)
 
         return filter_dict
 
@@ -510,25 +446,25 @@ class Relation:
             # street_name, only_in_ref
             row = []
             row.append(util.html_escape(result[0]))
-            ranges = util.get_housenumber_ranges(result[1])
-            row.append(util.html_escape(str(len(ranges))))
+            number_ranges = util.get_housenumber_ranges(result[1])
+            row.append(util.html_escape(str(len(number_ranges))))
 
             doc = yattag.Doc()
             if not self.get_config().get_street_is_even_odd(result[0]):
-                for index, item in enumerate(ranges):
+                for index, item in enumerate(number_ranges):
                     if index:
                         doc.text(", ")
                     doc.asis(util.color_house_number(item).getvalue())
             else:
-                util.format_even_odd(ranges, doc)
+                util.format_even_odd(number_ranges, doc)
             row.append(doc)
 
-            todo_count += len(ranges)
+            todo_count += len(number_ranges)
             table.append(row)
         done_count = 0
         for result in done_streets:
-            ranges = util.get_housenumber_ranges(result[1])
-            done_count += len(ranges)
+            number_ranges = util.get_housenumber_ranges(result[1])
+            done_count += len(number_ranges)
         if done_count > 0 or todo_count > 0:
             percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
         else:
@@ -797,7 +733,7 @@ def get_content(workdir: str, path: str = "") -> str:
 
 
 def normalize(relation: Relation, house_numbers: str, street_name: str,
-              normalizers: Dict[str, Ranges]) -> List[util.HouseNumber]:
+              normalizers: Dict[str, ranges.Ranges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
     ret_numbers = []
@@ -819,8 +755,8 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
         normalizer = normalizers[street_name]
     else:
         # Default sanity checks.
-        default = [Range(1, 999), Range(2, 998)]
-        normalizer = Ranges(default)
+        default = [ranges.Range(1, 999), ranges.Range(2, 998)]
+        normalizer = ranges.Ranges(default)
 
     for house_number in house_numbers.split(separator):
         try:
