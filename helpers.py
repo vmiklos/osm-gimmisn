@@ -604,24 +604,7 @@ def sort_streets(lines: Iterable[str]) -> List[str]:
 
     See split_street_line for sorting rules.
     """
-    return sorted(lines, key=split_street_line)
-
-
-def split_street_line(line: str) -> Tuple[bool, str, str, str, Tuple[int, str]]:
-    """
-    Augment TSV Overpass street name result lines to aid sorting.
-
-    It prepends a bool to indicate whether the street is missing a name, thus
-    streets with missing names are ordered last.
-    oid is interpreted numerically while other fields are taken alphabetically.
-    """
-    field = line.split('\t')
-    oid = util.get_array_nth(field, 0)
-    name = util.get_array_nth(field, 1)
-    highway = util.get_array_nth(field, 2)
-    service = util.get_array_nth(field, 3)
-    missing_name = name == ''
-    return (missing_name, name, highway, service, util.split_house_number(oid))
+    return sorted(lines, key=util.split_street_line)
 
 
 def sort_housenumbers_csv(data: str) -> str:

@@ -410,4 +410,21 @@ def get_array_nth(arr: Sequence[str], index: int) -> str:
     return arr[index] if len(arr) > index else ''
 
 
+def split_street_line(line: str) -> Tuple[bool, str, str, str, Tuple[int, str]]:
+    """
+    Augment TSV Overpass street name result lines to aid sorting.
+
+    It prepends a bool to indicate whether the street is missing a name, thus
+    streets with missing names are ordered last.
+    oid is interpreted numerically while other fields are taken alphabetically.
+    """
+    field = line.split('\t')
+    oid = get_array_nth(field, 0)
+    name = get_array_nth(field, 1)
+    highway = get_array_nth(field, 2)
+    service = get_array_nth(field, 3)
+    missing_name = name == ''
+    return (missing_name, name, highway, service, split_house_number(oid))
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
