@@ -60,6 +60,12 @@ class TestStreets(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_view_query_well_formed(self) -> None:
+        """Tests if the view-query output is well-formed."""
+        root = self.get_dom_for_path("/osm/streets/gazdagret/view-query")
+        results = root.findall("body/pre")
+        self.assertEqual(len(results), 1)
+
 
 class TestMissingHousenumbers(TestWsgi):
     """Tests the missing house numbers page."""
