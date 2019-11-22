@@ -253,6 +253,15 @@ class TestHouseNumber(unittest.TestCase):
                                   util.HouseNumber("2", "1-2"),
                                   util.HouseNumber("2", "1-2")])), 2)
 
+    def test_is_invalid(self) -> None:
+        """Tests is_invalid()."""
+        self.assertTrue(util.HouseNumber.is_invalid("15 a", ["15a"]))
+        self.assertTrue(util.HouseNumber.is_invalid("15/a", ["15a"]))
+        self.assertTrue(util.HouseNumber.is_invalid("15A", ["15a"]))
+
+        # Make sure we don't throw an exception on input which does not start with a number.
+        self.assertFalse(util.HouseNumber.is_invalid("A", ["15a"]))
+
 
 class TestGetHousenumberRanges(unittest.TestCase):
     """Tests get_housenumber_ranges()."""

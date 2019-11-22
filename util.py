@@ -58,6 +58,24 @@ class HouseNumber:
         """Source is explicitly non-interesting."""
         return hash(self.__number)
 
+    @staticmethod
+    def is_invalid(house_number: str, invalids: List[str]) -> bool:
+        """Decides if house_number is invalid according to invalids."""
+        if house_number in invalids:
+            return True
+
+        number = ""
+        match = re.match(r"([0-9]+).*", house_number)
+        if match:
+            number = match.group(1)
+        suffix = ""
+        match = re.match(r".*([A-Za-z]+)", house_number)
+        if match:
+            suffix = match.group(1).lower()
+
+        house_number = number + suffix
+        return house_number in invalids
+
 
 def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""

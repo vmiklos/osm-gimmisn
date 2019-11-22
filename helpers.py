@@ -397,7 +397,7 @@ class Relation:
             for line in lines:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')
-                    if house_number in street_invalid:
+                    if util.HouseNumber.is_invalid(house_number, street_invalid):
                         continue
                     house_numbers += normalize(self, house_number, osm_street_name, street_ranges)
             ret[osm_street_name] = util.sort_numerically(set(house_numbers))
