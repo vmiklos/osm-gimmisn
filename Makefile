@@ -4,6 +4,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_get_reference_streets.py \
 	tests/test_helpers.py \
 	tests/test_missing_housenumbers.py \
+	tests/test_missing_streets.py \
 	tests/test_overpass_query.py \
 	tests/test_ranges.py \
 	tests/test_util.py \
@@ -17,6 +18,7 @@ PYTHON_SAFE_OBJECTS = \
 	get_reference_streets.py \
 	helpers.py \
 	missing_housenumbers.py \
+	missing_streets.py \
 	overpass_query.py \
 	ranges.py \
 	util.py \
@@ -27,7 +29,6 @@ PYTHON_OBJECTS = \
 	$(PYTHON_SAFE_OBJECTS) \
 	cron.py \
 	i18n.py \
-	missing_streets.py \
 	version.py \
 	wsgi.py \
 

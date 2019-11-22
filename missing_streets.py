@@ -18,11 +18,10 @@ def main() -> None:
     config = configparser.ConfigParser()
     config_path = util.get_abspath("wsgi.ini")
     config.read(config_path)
-    workdir = config.get('wsgi', 'workdir').strip()
+    workdir = util.get_abspath(config.get('wsgi', 'workdir').strip())
     datadir = util.get_abspath("data")
 
-    if len(sys.argv) > 1:
-        relation_name = sys.argv[1]
+    relation_name = sys.argv[1]
 
     relations = helpers.Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
