@@ -82,8 +82,6 @@ pip install -r requirements.txt
 make
 ----
 
-Check `version.py`, remove leftover quotes at line start/end from Windows' `echo` command.
-
 - Run the tests: not supported on Windows at the moment
 
 - Create a local config:
