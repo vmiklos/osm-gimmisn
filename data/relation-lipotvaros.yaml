@@ -16,10 +16,30 @@ filters:
   Deák Ferenc utca:
     ranges:
       - {start: '2', end: '98'}
+  Erzsébet tér:
+    interpolation: all
+  Honvéd tér:
+    interpolation: all
+  Jászai Mari tér:
+    interpolation: all
+  József nádor tér:
+    interpolation: all
+  Kossuth Lajos tér:
+    interpolation: all
+  Nyugati tér:
+    interpolation: all
+  Szabadság tér:
+    interpolation: all
+  Széchenyi rakpart:
+    interpolation: all
+  Szent István tér:
+    interpolation: all
   Vadász utca:
     ranges:
       - {start: '9', end: '39'}
       - {start: '10', end: '44'}
+  Vértanúk tere:
+    interpolation: all
   Vigadó tér:
     interpolation: all
     ranges:
