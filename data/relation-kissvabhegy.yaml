@@ -21,11 +21,12 @@ filters:
       - {start: '2', end: '98'}
   Határőr út:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '22', end: '98'}
+      - {start: '1', end: '65'}
+      - {start: '22', end: '84'}
   Istenhegyi út:
     ranges:
-      - {start: '1', end: '33'}
+      - {start: '1', end: '15'}
+      - {start: '23', end: '33'}
   Kék Golyó utca:
     ranges:
       - {start: '15', end: '99'}
