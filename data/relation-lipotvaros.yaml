@@ -30,6 +30,7 @@ filters:
     interpolation: all
   Szabadság tér:
     interpolation: all
+    invalid: ['10', '11']  # USA nagykövetség foglalja el ezeket is
   Széchenyi rakpart:
     interpolation: all
   Szent István tér:
