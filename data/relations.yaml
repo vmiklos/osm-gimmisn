@@ -305,8 +305,7 @@ csepel-belvaros:
     osmrelation: 3244191
     refmegye: "01"
     reftelepules: "021"
-
-# 04- Békés megye
+# 04 - Békés megye
 bekes:
     osmrelation: 1026148
     refmegye: "04"
@@ -324,7 +323,7 @@ gyula:
     refmegye: "04"
     reftelepules: "026"
 kamut:
-    osmrelation: 1026205
+    osmrelation: 1026195
     refmegye: "04"
     reftelepules: "028"
 mezobereny:
@@ -335,7 +334,23 @@ murony:
     osmrelation: 1026205
     refmegye: "04"
     reftelepules: "054"
-
+# 14 - Pest megye
+biatorbagy:
+    osmrelation: 113461
+    refmegye: "14"
+    reftelepules: "011"
+budaors:
+    osmrelation: 113463
+    refmegye: "14"
+    reftelepules: "015"
+szigetmonostor:
+    osmrelation: 216157
+    refmegye: "14"
+    reftelepules: "132"
+veresegyhaz:
+    osmrelation: 1390690
+    refmegye: "14"
+    reftelepules: "178"
 # Egyéb videk
 balatonlelle:
     osmrelation: 1368026
@@ -353,10 +368,6 @@ balatonszemes:
     osmrelation: 1367995
     refmegye: "15"
     reftelepules: "017"
-biatorbagy:
-    osmrelation: 113461
-    refmegye: "14"
-    reftelepules: "011"
 bogacs:
     osmrelation: 1418454
     refmegye: "05"
@@ -369,10 +380,6 @@ szentantalfa:
     osmrelation: 1078476
     refmegye: "19"
     reftelepules: "177"
-szigetmonostor:
-    osmrelation: 216157
-    refmegye: "14"
-    reftelepules: "132"
 szilvasvarad:
     osmrelation: 1418234
     refmegye: "10"
@@ -381,15 +388,7 @@ keszthely:
     osmrelation: 1360484
     refmegye: "20"
     reftelepules: "093"
-budaors:
-    osmrelation: 113463
-    refmegye: "14"
-    reftelepules: "015"
 nemesgulacs:
     osmrelation: 1078632
     refmegye: "19"
     reftelepules: "134"
-veresegyhaz:
-    osmrelation: 1390690
-    refmegye: "14"
-    reftelepules: "178"
