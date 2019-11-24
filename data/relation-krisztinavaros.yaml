@@ -188,5 +188,10 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '6'}
+  Krisztina tér:
+    interpolation: 'all'
+    ranges:
+      - {start: '1', end: '4'}
+      - {start: '7', end: '10'}
 source: survey
 inactive: false
