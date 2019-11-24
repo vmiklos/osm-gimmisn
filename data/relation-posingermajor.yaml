@@ -36,6 +36,8 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '24'}
+  Spanyolrét út:
+    invalid: ['34']
   Rupphegyi köz:
     # nincs ide szamozva haz
     ranges: []
