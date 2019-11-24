@@ -451,7 +451,7 @@ class Relation:
 
             doc = yattag.Doc()
             if not self.get_config().get_street_is_even_odd(result[0]):
-                for index, item in enumerate(number_ranges):
+                for index, item in enumerate(sorted(number_ranges, key=util.split_house_number)):
                     if index:
                         doc.text(", ")
                     doc.asis(util.color_house_number(item).getvalue())

@@ -574,8 +574,9 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         ret = relation.write_missing_housenumbers()
         _todo_street_count, _todo_count, _done_count, _percent, table = ret
         table = table_doc_to_string(table)
+        # Note how "12" is ordered after "2", even if a string sort would do the opposite.
         self.assertEqual(table, [['Street name', 'Missing count', 'House numbers'],
-                                 ['Vöröskúti határsor', '2', '34, <span style="color: blue;">36</span>']])
+                                 ['Vöröskúti határsor', '4', '2, 12, 34, <span style="color: blue;">36</span>']])
 
 
 class TestRelationWriteMissingStreets(unittest.TestCase):
