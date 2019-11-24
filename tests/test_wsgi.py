@@ -84,6 +84,12 @@ class TestStreetHousenumbers(TestWsgi):
         results = root.findall("body/div[@id='toolbar']/a[@href='/osm/missing-housenumbers/gazdagret/view-result']")
         self.assertTrue(results)
 
+    def test_view_query_well_formed(self) -> None:
+        """Tests if the view-query output is well-formed."""
+        root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/view-query")
+        results = root.findall("body/pre")
+        self.assertEqual(len(results), 1)
+
 
 class TestMissingStreets(TestWsgi):
     """Tests the missing streets page."""
