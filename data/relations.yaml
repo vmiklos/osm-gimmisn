@@ -305,7 +305,38 @@ csepel-belvaros:
     osmrelation: 3244191
     refmegye: "01"
     reftelepules: "021"
-# videk
+
+# 04- Békés megye
+bekes:
+    osmrelation: 1026148
+    refmegye: "04"
+    reftelepules: "003"
+bekescsaba:
+    osmrelation: 1026172
+    refmegye: "04"
+    reftelepules: "004"
+gyomaendrod:
+    osmrelation: 1026166
+    refmegye: "04"
+    reftelepules: "025"
+gyula:
+    osmrelation: 1026161
+    refmegye: "04"
+    reftelepules: "026"
+kamut:
+    osmrelation: 1026205
+    refmegye: "04"
+    reftelepules: "028"
+mezobereny:
+    osmrelation: 1026145
+    refmegye: "04"
+    reftelepules: "049"
+murony:
+    osmrelation: 1026205
+    refmegye: "04"
+    reftelepules: "054"
+
+# Egyéb videk
 balatonlelle:
     osmrelation: 1368026
     refmegye: "15"
