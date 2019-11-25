@@ -106,7 +106,7 @@ filters:
       - {start: '2', end: '20'}
   Kővirág sor:
     ranges: []
-  Kunghegyes utca:
+  Kunhegyes utca:
     # páratlan 1-7 keresztutcákra számozva
     ranges:
       - {start: '2', end: '14'}
