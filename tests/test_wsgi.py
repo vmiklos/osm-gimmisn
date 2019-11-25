@@ -51,6 +51,29 @@ class TestWsgi(unittest.TestCase):
             root = tree.getroot()
             return root
 
+    def get_txt_for_path(self, path: str) -> str:
+        """Generates a string for a given wsgi path."""
+        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
+            # Make sure the built-in exception catcher is not kicking in.
+            self.assertEqual(status, "200 OK")
+            header_dict = {key: value for (key, value) in response_headers}
+            self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
+
+        def get_abspath(path: str) -> str:
+            if os.path.isabs(path):
+                return path
+            return os.path.join(os.path.dirname(__file__), path)
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            environ = {
+                "PATH_INFO": path
+            }
+            callback = cast('StartResponse', start_response)  # type: StartResponse
+            output_iterable = wsgi.application(environ, callback)
+            output_list = cast(List[bytes], output_iterable)
+            self.assertTrue(output_list)
+            output = output_list[0].decode('utf-8')
+            return output
+
 
 class TestStreets(TestWsgi):
     """Tests handle_streets()."""
@@ -74,6 +97,12 @@ class TestMissingHousenumbers(TestWsgi):
         root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
+
+    def test_view_result_txt(self) -> None:
+        """Tests if the output is well-formed."""
+        result = self.get_txt_for_path("/osm/missing-housenumbers/budafok/view-result.txt")
+        # Note how 12 is ordered after 2.
+        self.assertEqual(result, "Vöröskúti határsor\t[2, 12, 34, 36*]")
 
 
 class TestStreetHousenumbers(TestWsgi):

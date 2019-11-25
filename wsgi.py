@@ -239,7 +239,8 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
                 result_strings = util.get_housenumber_ranges(result[1])
                 # Street name, only_in_reference items.
                 if not relation.get_config().get_street_is_even_odd(result[0]):
-                    row = result[0] + "\t[" + ", ".join(result_strings) + "]"
+                    result_sorted = sorted(result_strings, key=util.split_house_number)
+                    row = result[0] + "\t[" + ", ".join(result_sorted) + "]"
                 else:
                     elements = util.format_even_odd(result_strings, doc=None)
                     row = result[0] + "\t[" + "], [".join(elements) + "]"
