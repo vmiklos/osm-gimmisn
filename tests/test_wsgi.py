@@ -104,6 +104,12 @@ class TestMissingHousenumbers(TestWsgi):
         # Note how 12 is ordered after 2.
         self.assertEqual(result, "Vöröskúti határsor\t[2, 12, 34, 36*]")
 
+    def test_view_turbo_well_formed(self) -> None:
+        """Tests if the view-turbo output is well-formed."""
+        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-turbo")
+        results = root.findall("body/pre")
+        self.assertEqual(len(results), 1)
+
 
 class TestStreetHousenumbers(TestWsgi):
     """Tests handle_street_housenumbers()."""
