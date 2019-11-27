@@ -130,7 +130,7 @@ class TestMissingStreets(TestWsgi):
     """Tests the missing streets page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+        root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
