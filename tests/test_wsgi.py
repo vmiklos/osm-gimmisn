@@ -99,10 +99,18 @@ class TestMissingHousenumbers(TestWsgi):
         self.assertEqual(len(results), 1)
 
     def test_view_result_txt(self) -> None:
-        """Tests if the output is well-formed."""
+        """Tests the txt output."""
         result = self.get_txt_for_path("/osm/missing-housenumbers/budafok/view-result.txt")
         # Note how 12 is ordered after 2.
         self.assertEqual(result, "Vöröskúti határsor\t[2, 12, 34, 36*]")
+
+    def test_view_result_txt_even_odd(self) -> None:
+        """Tests the txt output (even-odd streets)."""
+        result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+        expected = """Hamzsabégi út	[1]
+Törökugrató utca	[7], [10]
+Tűzkő utca	[1], [2]"""
+        self.assertEqual(result, expected)
 
     def test_view_turbo_well_formed(self) -> None:
         """Tests if the view-turbo output is well-formed."""
