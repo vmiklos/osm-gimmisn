@@ -76,6 +76,26 @@ class HouseNumber:
         house_number = number + suffix
         return house_number in invalids
 
+    @staticmethod
+    def has_letter_suffix(house_number: str) -> bool:
+        """
+        Determines if the input is a house number, allowing letter suffixes. This means not only
+        '42' is allowed, but also '42a', '42/a' and '42 a'. Everything else is still considered just
+        junk after the numbers.
+        """
+        return bool(re.match(r"^([0-9]+)( |/)?[A-Za-z]$", house_number))
+
+    @staticmethod
+    def normalize_letter_suffix(house_number: str) -> str:
+        """
+        Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
+        """
+        match = re.match(r"^([0-9]+)( |/)?([A-Za-z])$", house_number)
+        if not match:
+            raise ValueError
+        groups = match.groups()
+        return groups[0] + "/" + groups[2].upper()
+
 
 def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""

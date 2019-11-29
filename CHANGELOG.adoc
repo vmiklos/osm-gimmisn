@@ -1,5 +1,15 @@
 = Changelog
 
+== 2019-11-29
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/267>: it is now possible to opt in for a more
+  strict behavior where 42/B is not considered mapped when 42/A is already mapped.
+
+== 2019-11-24
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/274>: fixed numeric sort for interpolation=all
+  streets on the missing housenumbers page.
+
 == 2019-11-15
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/269>: noise in the reference can be now cleaned by

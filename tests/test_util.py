@@ -262,6 +262,24 @@ class TestHouseNumber(unittest.TestCase):
         # Make sure we don't throw an exception on input which does not start with a number.
         self.assertFalse(util.HouseNumber.is_invalid("A", ["15a"]))
 
+    def test_has_letter_suffix(self) -> None:
+        """Tests has_letter_suffix()."""
+        self.assertTrue(util.HouseNumber.has_letter_suffix("42a"))
+        self.assertTrue(util.HouseNumber.has_letter_suffix("42 a"))
+        self.assertTrue(util.HouseNumber.has_letter_suffix("42/a"))
+        self.assertTrue(util.HouseNumber.has_letter_suffix("42A"))
+        self.assertFalse(util.HouseNumber.has_letter_suffix("42 AB"))
+
+    def test_normalize_letter_suffix(self) -> None:
+        """Tests normalize_letter_suffix()."""
+        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42a"), "42/A")
+        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42 a"), "42/A")
+        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42/a"), "42/A")
+        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42/A"), "42/A")
+        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42 A"), "42/A")
+        with self.assertRaises(ValueError):
+            util.HouseNumber.normalize_letter_suffix("x")
+
 
 class TestGetHousenumberRanges(unittest.TestCase):
     """Tests get_housenumber_ranges()."""

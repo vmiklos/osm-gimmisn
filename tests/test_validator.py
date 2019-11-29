@@ -67,7 +67,7 @@ class TestValidatorMain(unittest.TestCase):
                     self.assertEqual(buf.read(), "")
 
 
-class TestValidatorMainFailureMsg(unittest.TestCase):
+class TestValidatorMainFailureMsgBase(unittest.TestCase):
     """Tests main(), the way it fails."""
     def assert_failure_msg(self, path: str, expected: str) -> None:
         """Asserts that a given input fails with a given error message."""
@@ -85,6 +85,9 @@ class TestValidatorMainFailureMsg(unittest.TestCase):
                     buf.seek(0)
                     self.assertEqual(buf.read(), expected)
 
+
+class TestValidatorMainFailureMsg1(TestValidatorMainFailureMsgBase):
+    """First suite of expected error messages."""
     def test_relation_source_bad_type(self) -> None:
         """Tests the relation path: bad source type."""
         expected = "failed to validate tests/data/relation-gazdagret-source-int.yaml"
@@ -206,6 +209,15 @@ class TestValidatorMainFailureMsg(unittest.TestCase):
         expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-end.yaml"
         expected += ": unexpected missing key 'end' for 'filters.Budaörsi út.ranges[0]'\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-missing-end.yaml", expected)
+
+
+class TestValidatorMainFailureMsg2(TestValidatorMainFailureMsgBase):
+    """Second suite of expected error messages."""
+    def test_relation_housenumber_letters_bad(self) -> None:
+        """"Tests the housenumber-letters key: bad type."""
+        expected = "failed to validate tests/data/relation-gazdagret-housenumber-letters-bad.yaml"
+        expected += ": expected value type for 'housenumber-letters' is <class 'bool'>\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-housenumber-letters-bad.yaml", expected)
 
 
 if __name__ == '__main__':

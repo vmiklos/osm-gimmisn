@@ -155,3 +155,7 @@ frequently:
   'Overpass turbo query for the below streets' link on the missing housenumbers page. To do this,
   visit the 'Overpass turbo' site from the toolbar, copy the query, run it, choose Export -> Download
   as GPX, and e.g. load the result into OsmAnd on your phone.
+
+- `housenumber-letters: true`: this key can be used to do micro-mapping, i.e. detect that e.g. 42/B
+  is missing, even if 42/A is already mapped. (The default behavior is to ignore any noise after the
+  numeric value of the house numbers.)

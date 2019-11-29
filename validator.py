@@ -149,6 +149,7 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
         "missing-streets": (str, None),
         "street-filters": (list, validate_street_filters),
         "inactive": (bool, None),
+        "housenumber-letters": (bool, None),
     }  # type: Dict[str, Tuple[Any, Any]]
 
     for key, value in relation.items():

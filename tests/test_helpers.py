@@ -506,6 +506,20 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
                                      for i in house_numbers]) for name, house_numbers in done_streets]
         self.assertEqual(done_streets_strs, expected)
 
+    def test_letter_suffix(self) -> None:
+        """Tests that 7/A is detected when 7/B is already mapped."""
+        relations = get_relations()
+        relation_name = "gh267"
+        relation = relations.get_relation(relation_name)
+        # Opt-in, this is not the default behavior.
+        relation.get_config().set_housenumber_letters(True)
+        ongoing_streets, _done_streets = relation.get_missing_housenumbers()
+        ongoing_street = ongoing_streets[0]
+        housenumber_ranges = util.get_housenumber_ranges(ongoing_street[1])
+        housenumber_ranges = sorted(housenumber_ranges, key=util.split_house_number)
+        expected = ['1', '3', '5', '7', '7/A', '7/B', '7/C', '9', '11', '13', '13-15']
+        self.assertEqual(housenumber_ranges, expected)
+
 
 class TestRelationGetMissingStreets(unittest.TestCase):
     """Tests Relation.get_missing_streets()."""

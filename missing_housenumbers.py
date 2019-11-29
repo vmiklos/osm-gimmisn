@@ -30,6 +30,7 @@ def main() -> None:
     for result in ongoing_streets:
         # House number, # of only_in_reference items.
         ranges = util.get_housenumber_ranges(result[1])
+        ranges = sorted(ranges, key=util.split_house_number)
         print("%s\t%s" % (result[0], len(ranges)))
         # only_in_reference items.
         print(ranges)

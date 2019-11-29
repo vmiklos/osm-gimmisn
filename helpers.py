@@ -134,6 +134,17 @@ class RelationConfig:
 
         return "yes"
 
+    def should_check_housenumber_letters(self) -> bool:
+        """Do we care if 42/B is missing when 42/A is provided?."""
+        if self.__get_property("housenumber-letters"):
+            return cast(bool, self.__get_property("housenumber-letters"))
+
+        return False
+
+    def set_housenumber_letters(self, housenumber_letters: bool) -> None:
+        """Sets the housenumber_letters property from code."""
+        self.__dict["housenumber-letters"] = housenumber_letters
+
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""
         if self.__get_property("refstreets"):
@@ -715,6 +726,18 @@ def get_content(workdir: str, path: str = "") -> str:
     return ret
 
 
+def get_normalizer(street_name: str, normalizers: Dict[str, ranges.Ranges]) -> ranges.Ranges:
+    """Determines the normalizer for a given street."""
+    if street_name in normalizers.keys():
+        # Have a custom filter.
+        normalizer = normalizers[street_name]
+    else:
+        # Default sanity checks.
+        default = [ranges.Range(1, 999), ranges.Range(2, 998)]
+        normalizer = ranges.Ranges(default)
+    return normalizer
+
+
 def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, ranges.Ranges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
@@ -733,13 +756,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     if house_numbers.endswith("*"):
         suffix = house_numbers[-1]
 
-    if street_name in normalizers.keys():
-        # Have a custom filter.
-        normalizer = normalizers[street_name]
-    else:
-        # Default sanity checks.
-        default = [ranges.Range(1, 999), ranges.Range(2, 998)]
-        normalizer = ranges.Ranges(default)
+    normalizer = get_normalizer(street_name, normalizers)
 
     for house_number in house_numbers.split(separator):
         try:
@@ -768,6 +785,9 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
             # Closed interval, but mixed even and odd.
             ret_numbers = [number for number in range(start, stop + 1, 1) if number in normalizer]
 
+    check_housenumber_letters = relation.get_config().should_check_housenumber_letters()
+    if len(ret_numbers) == 1 and check_housenumber_letters and util.HouseNumber.has_letter_suffix(house_numbers):
+        return [util.HouseNumber(house_numbers, util.HouseNumber.normalize_letter_suffix(house_numbers))]
     return [util.HouseNumber(str(number) + suffix, house_numbers) for number in ret_numbers]
 
 
