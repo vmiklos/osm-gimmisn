@@ -55,3 +55,4 @@ filters:
       - {start: '1', end: '39'}
 source: survey
 inactive: true
+housenumber-letters: true
