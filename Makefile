@@ -25,12 +25,12 @@ PYTHON_SAFE_OBJECTS = \
 	ranges.py \
 	util.py \
 	validator.py \
+	version.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
 	cron.py \
-	version.py \
 	wsgi.py \
 
 # These are valid.
