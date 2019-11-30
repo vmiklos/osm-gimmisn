@@ -12,6 +12,7 @@ filters:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
       - {start: '1', end: '65'}
+    invalid: ['27g']
   Keltike lejtő:
     ranges:
       # kcr-ben 34-ig van szamozva
