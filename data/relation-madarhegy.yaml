@@ -1,6 +1,5 @@
 missing-streets: 'no'
 filters:
-  # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
   Budaörsi út:
     ranges:
       - {start: '225', end: '265'}
@@ -12,6 +11,7 @@ filters:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
       - {start: '1', end: '65'}
+    # Madárhegy lakópark G épület = 27, nem a házszám része (E=25, F,H=Bakfű utca 4-6, A-D Pacsirtafű utca 2-8 nincs kiírva)
     invalid: ['27g']
   Keltike lejtő:
     ranges:
@@ -19,6 +19,9 @@ filters:
       - {start: '1', end: '7'}
       - {start: '11', end: '99'}
       - {start: '2', end: '34'}
+  Kőoltár utca:
+    # van a és b épület de a házszám csak 4
+    invalid: ['4a', '4b']
   Medvetalp utca:
     ranges:
       - {start: '1', end: '17'}
@@ -26,6 +29,8 @@ filters:
       - {start: '2', end: '10'}
       # 22-is van
       - {start: '14', end: '22'}
+    # van a és b épület de külön házszámon. A épület Medvetalp utca 3, B épület Keserűfű utca 4
+    invalid: ['3a', '3b']
   Molnárfecske utca:
     # https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/ujbudahu/2018_09/kmbt28220180914083648.pdf
     ranges:
