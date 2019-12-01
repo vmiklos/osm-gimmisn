@@ -520,6 +520,21 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
         expected = ['1', '3', '5', '7', '7/A', '7/B', '7/C', '9', '11', '13', '13-15']
         self.assertEqual(housenumber_ranges, expected)
 
+    def test_letter_suffix_normalize(self) -> None:
+        """Tests that '42 A' vs '42/A' is recognized as a match."""
+        relations = get_relations()
+        relation_name = "gh286"
+        relation = relations.get_relation(relation_name)
+        # Opt-in, this is not the default behavior.
+        relation.get_config().set_housenumber_letters(True)
+        ongoing_streets, _done_streets = relation.get_missing_housenumbers()
+        ongoing_street = ongoing_streets[0]
+        housenumber_ranges = util.get_housenumber_ranges(ongoing_street[1])
+        housenumber_ranges = sorted(housenumber_ranges, key=util.split_house_number)
+        # Note how 10/B is not in this list.
+        expected = ['10/A']
+        self.assertEqual(housenumber_ranges, expected)
+
 
 class TestRelationGetMissingStreets(unittest.TestCase):
     """Tests Relation.get_missing_streets()."""

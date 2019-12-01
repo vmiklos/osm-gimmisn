@@ -738,25 +738,17 @@ def get_normalizer(street_name: str, normalizers: Dict[str, ranges.Ranges]) -> r
     return normalizer
 
 
-def normalize(relation: Relation, house_numbers: str, street_name: str,
-              normalizers: Dict[str, ranges.Ranges]) -> List[util.HouseNumber]:
-    """Strips down string input to bare minimum that can be interpreted as an
-    actual number. Think about a/b, a-b, and so on."""
+def split_house_number_by_separator(
+        house_numbers: str,
+        separator: str,
+        normalizer: ranges.Ranges
+) -> Tuple[List[int], List[int]]:
+    """Splits a house number string (possibly a range) by a given separator.
+    Returns a filtered and a not filtered list of ints."""
     ret_numbers = []
     # Same as ret_numbers, but if the range is 2-6 and we filter for 2-4, then 6 would be lost, so
     # in-range 4 would not be detected, so this one does not drop 6.
     ret_numbers_nofilter = []
-    if ';' in house_numbers:
-        separator = ';'
-    else:
-        separator = '-'
-
-    # Determine suffix which is not normalized away.
-    suffix = ""
-    if house_numbers.endswith("*"):
-        suffix = house_numbers[-1]
-
-    normalizer = get_normalizer(street_name, normalizers)
 
     for house_number in house_numbers.split(separator):
         try:
@@ -770,6 +762,27 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
             continue
 
         ret_numbers.append(number)
+
+    return ret_numbers, ret_numbers_nofilter
+
+
+def normalize(relation: Relation, house_numbers: str, street_name: str,
+              normalizers: Dict[str, ranges.Ranges]) -> List[util.HouseNumber]:
+    """Strips down string input to bare minimum that can be interpreted as an
+    actual number. Think about a/b, a-b, and so on."""
+    if ';' in house_numbers:
+        separator = ';'
+    else:
+        separator = '-'
+
+    # Determine suffix which is not normalized away.
+    suffix = ""
+    if house_numbers.endswith("*"):
+        suffix = house_numbers[-1]
+
+    normalizer = get_normalizer(street_name, normalizers)
+
+    ret_numbers, ret_numbers_nofilter = split_house_number_by_separator(house_numbers, separator, normalizer)
 
     street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
     if separator == "-" and util.should_expand_range(ret_numbers_nofilter, street_is_even_odd):
@@ -787,7 +800,8 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
     check_housenumber_letters = relation.get_config().should_check_housenumber_letters()
     if len(ret_numbers) == 1 and check_housenumber_letters and util.HouseNumber.has_letter_suffix(house_numbers):
-        return [util.HouseNumber(house_numbers, util.HouseNumber.normalize_letter_suffix(house_numbers))]
+        normalized = util.HouseNumber.normalize_letter_suffix(house_numbers)
+        return [util.HouseNumber(normalized, normalized)]
     return [util.HouseNumber(str(number) + suffix, house_numbers) for number in ret_numbers]
 
 
