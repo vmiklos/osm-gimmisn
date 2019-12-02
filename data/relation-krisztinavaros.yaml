@@ -193,5 +193,9 @@ filters:
     ranges:
       - {start: '1', end: '4'}
       - {start: '7', end: '10'}
+  Körmöci utca:
+    ranges:
+      - {start: '3', end: '3'}
+      - {start: '2', end: '2'}
 source: survey
 inactive: false
