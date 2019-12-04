@@ -142,6 +142,11 @@ class TestMissingStreets(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_view_result_txt(self) -> None:
+        """Tests the txt output."""
+        result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
+        self.assertEqual(result, "Only In Ref utca")
+
 
 class TestMain(TestWsgi):
     """Tests handle_main()."""
