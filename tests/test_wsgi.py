@@ -118,6 +118,12 @@ Tűzkő utca	[1], [2]"""
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
+    def test_view_query_well_formed(self) -> None:
+        """Tests if the view-query output is well-formed."""
+        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-query")
+        results = root.findall("body/pre")
+        self.assertEqual(len(results), 1)
+
 
 class TestStreetHousenumbers(TestWsgi):
     """Tests handle_street_housenumbers()."""
