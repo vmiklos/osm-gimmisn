@@ -153,6 +153,12 @@ class TestMissingStreets(TestWsgi):
         result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
         self.assertEqual(result, "Only In Ref utca")
 
+    def test_view_query_well_formed(self) -> None:
+        """Tests if the view-query output is well-formed."""
+        root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-query")
+        results = root.findall("body/pre")
+        self.assertEqual(len(results), 1)
+
 
 class TestMain(TestWsgi):
     """Tests handle_main()."""

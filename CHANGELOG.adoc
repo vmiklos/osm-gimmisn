@@ -1,5 +1,10 @@
 = Changelog
 
+== 2019-12-01
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/286>: fix reference vs osm diff when
+  `housenumber-letters: true` is enabled
+
 == 2019-11-29
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/267>: it is now possible to opt in for a more
