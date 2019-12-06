@@ -272,13 +272,15 @@ class TestHouseNumber(unittest.TestCase):
 
     def test_normalize_letter_suffix(self) -> None:
         """Tests normalize_letter_suffix()."""
-        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42a"), "42/A")
-        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42 a"), "42/A")
-        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42/a"), "42/A")
-        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42/A"), "42/A")
-        self.assertEqual(util.HouseNumber.normalize_letter_suffix("42 A"), "42/A")
+        normalize = util.HouseNumber.normalize_letter_suffix
+        self.assertEqual(normalize("42a", util.LetterSuffixStyle.UPPER), "42/A")
+        self.assertEqual(normalize("42 a", util.LetterSuffixStyle.UPPER), "42/A")
+        self.assertEqual(normalize("42/a", util.LetterSuffixStyle.UPPER), "42/A")
+        self.assertEqual(normalize("42/A", util.LetterSuffixStyle.UPPER), "42/A")
+        self.assertEqual(normalize("42 A", util.LetterSuffixStyle.UPPER), "42/A")
         with self.assertRaises(ValueError):
-            util.HouseNumber.normalize_letter_suffix("x")
+            util.HouseNumber.normalize_letter_suffix("x", util.LetterSuffixStyle.UPPER)
+        self.assertEqual(normalize("42/A", util.LetterSuffixStyle.LOWER), "42a")
 
 
 class TestGetHousenumberRanges(unittest.TestCase):

@@ -1,5 +1,11 @@
 = Changelog
 
+== 2019-12-06
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/285>: HTML output uses 42/A style for
+  letter-suffixed house numbers, but plain text output uses 42a to help turning the output into
+  `invalid` configs.
+
 == 2019-12-01
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/286>: fix reference vs osm diff when

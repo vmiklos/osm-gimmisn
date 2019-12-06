@@ -222,6 +222,7 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
+    relation.get_config().set_letter_suffix_style(util.LetterSuffixStyle.LOWER)
 
     output = ""
     if not os.path.exists(relation.get_files().get_osm_streets_path()):

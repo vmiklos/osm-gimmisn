@@ -20,6 +20,7 @@ import os
 import pickle
 import re
 import urllib.error
+from enum import Enum
 
 import yattag  # type: ignore
 
@@ -27,6 +28,15 @@ import accept_language
 from i18n import translate as _
 import i18n
 import overpass_query
+
+
+class LetterSuffixStyle(Enum):
+    """Specifies the style of the output of normalize_letter_suffix()."""
+
+    # "42/A"
+    UPPER = 1
+    # "42a"
+    LOWER = 2
 
 
 class HouseNumber:
@@ -86,7 +96,7 @@ class HouseNumber:
         return bool(re.match(r"^([0-9]+)( |/)?[A-Za-z]$", house_number))
 
     @staticmethod
-    def normalize_letter_suffix(house_number: str) -> str:
+    def normalize_letter_suffix(house_number: str, style: LetterSuffixStyle) -> str:
         """
         Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
         """
@@ -94,7 +104,9 @@ class HouseNumber:
         if not match:
             raise ValueError
         groups = match.groups()
-        return groups[0] + "/" + groups[2].upper()
+        if style == LetterSuffixStyle.UPPER:
+            return groups[0] + "/" + groups[2].upper()
+        return groups[0] + groups[2].lower()
 
 
 def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:

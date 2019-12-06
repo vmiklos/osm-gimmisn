@@ -802,6 +802,18 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
         self.assertEqual(ret, "yes")
 
 
+class TestRelationConfigLetterSuffixStyle(unittest.TestCase):
+    """Tests RelationConfig.get_letter_suffix_style()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relation_name = "empty"
+        relations = get_relations()
+        relation = relations.get_relation(relation_name)
+        self.assertEqual(relation.get_config().get_letter_suffix_style(), util.LetterSuffixStyle.UPPER)
+        relation.get_config().set_letter_suffix_style(util.LetterSuffixStyle.LOWER)
+        self.assertEqual(relation.get_config().get_letter_suffix_style(), util.LetterSuffixStyle.LOWER)
+
+
 class TestRefmegyeGetName(unittest.TestCase):
     """Tests refmegye_get_name()."""
     def test_happy(self) -> None:

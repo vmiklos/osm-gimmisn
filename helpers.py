@@ -145,6 +145,16 @@ class RelationConfig:
         """Sets the housenumber_letters property from code."""
         self.__dict["housenumber-letters"] = housenumber_letters
 
+    def set_letter_suffix_style(self, letter_suffix_style: util.LetterSuffixStyle) -> None:
+        """Sets the letter suffix style."""
+        self.__dict["letter-suffix-style"] = letter_suffix_style
+
+    def get_letter_suffix_style(self) -> util.LetterSuffixStyle:
+        """Gets the letter suffix style."""
+        if self.__get_property("letter-suffix-style"):
+            return cast(util.LetterSuffixStyle, self.__get_property("letter-suffix-style"))
+        return util.LetterSuffixStyle.UPPER
+
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""
         if self.__get_property("refstreets"):
@@ -800,7 +810,8 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
     check_housenumber_letters = relation.get_config().should_check_housenumber_letters()
     if len(ret_numbers) == 1 and check_housenumber_letters and util.HouseNumber.has_letter_suffix(house_numbers):
-        normalized = util.HouseNumber.normalize_letter_suffix(house_numbers)
+        style = relation.get_config().get_letter_suffix_style()
+        normalized = util.HouseNumber.normalize_letter_suffix(house_numbers, style)
         return [util.HouseNumber(normalized, normalized)]
     return [util.HouseNumber(str(number) + suffix, house_numbers) for number in ret_numbers]
 
