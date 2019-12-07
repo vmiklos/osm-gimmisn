@@ -30,6 +30,11 @@ filters:
     ranges:
       - {start: '1', end: '49'}
       - {start: '2', end: '54'}
+  Építész utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '28'}
+      - {start: '40', end: '44'}
   Érem utca:
     ranges:
       - {start: '2', end: '12'}
@@ -62,7 +67,7 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '23', end: '23'}
-      - {start: '2', end: '18'}
+      - {start: '2', end: '16'}
       - {start: '162', end: '162'}
   Kapuvár utca:
     ranges:
@@ -76,6 +81,15 @@ filters:
       - {start: '54', end: '54'}
       - {start: '62', end: '64'}
       - {start: '70', end: '70'}
+  Kármán Tódor:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '5', end: '5'}
+      - {start: '4', end: '6'}
+  Kenderes utca:
+    ranges:
+      - {start: '4', end: '8'}
+      - {start: '1', end: '13'}
   Kisbér utca:
     ranges:
       - {start: '9', end: '9'}
@@ -112,6 +126,8 @@ filters:
       - {start: '2', end: '14'}
   Mahunka Imre tér:
     ranges: []
+  Makó Pál utca:
+    invalid: ['2']
   Mezőkövesd út:
     # MOL kút házszáma a Hunyadi János úton kérdéses
     ranges:
@@ -121,6 +137,9 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '18'}
+  Panel utca:
+    # 162 valójában Hunyadi János út 162, erre nincs számozva semmi
+    ranges: []
   Pentele utca:
     ranges:
       - {start: '1', end: '9'}
@@ -154,6 +173,9 @@ filters:
   Solt utca:
     ranges:
       - {start: '2', end: '22'}
+  Tomaj utca:
+    # 22 és 24 közt van meg egy ház, nincs kiirva, 24 a sarok lenne másik oldalról számozódik
+    invalid: ['10', '12', '24', '28']
   Tóth Ágoston utca:
     ranges:
       - {start: '1', end: '3'}
@@ -169,4 +191,4 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
 source: survey
-inactive: false
+inactive: true
