@@ -477,4 +477,13 @@ def split_street_line(line: str) -> Tuple[bool, str, str, str, Tuple[int, str]]:
     return (missing_name, name, highway, service, split_house_number(oid))
 
 
+def sort_streets(lines: Iterable[str]) -> List[str]:
+    """
+    Sorts the body of a TSV Overpass street name result with visual partitioning.
+
+    See split_street_line for sorting rules.
+    """
+    return sorted(lines, key=split_street_line)
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

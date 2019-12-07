@@ -616,16 +616,7 @@ def sort_streets_csv(data: str) -> str:
 
     See split_street_line for sorting rules.
     """
-    return util.process_csv_body(sort_streets, data)
-
-
-def sort_streets(lines: Iterable[str]) -> List[str]:
-    """
-    Sorts the body of a TSV Overpass street name result with visual partitioning.
-
-    See split_street_line for sorting rules.
-    """
-    return sorted(lines, key=util.split_street_line)
+    return util.process_csv_body(util.sort_streets, data)
 
 
 def sort_housenumbers_csv(data: str) -> str:

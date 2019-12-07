@@ -40,37 +40,6 @@ class TestSortStreetsCsv(unittest.TestCase):
         self.assertEqual(helpers.sort_streets_csv(unsorted), expected)
 
 
-class TestSortStreets(unittest.TestCase):
-    """Tests sort_streets()."""
-    def test_primary(self) -> None:
-        """Tests that missing 2nd col is ordered last."""
-        unsorted = [
-            '0\t\tprimary',
-            '1\tPear\tprimary',
-            '2\tApple\tsecondary',
-            '3\tApple\tprimary',
-        ]
-        expected = [
-            '3\tApple\tprimary',
-            '2\tApple\tsecondary',
-            '1\tPear\tprimary',
-            '0\t\tprimary',
-        ]
-        self.assertEqual(helpers.sort_streets(unsorted), expected)
-
-    def test_service(self) -> None:
-        """Tests that matching 2nd and 3rd col means ordering by 4th col."""
-        unsorted = [
-            '4\tMine\tservice\tdriveway',
-            '5\tMine\tservice\tallay',
-        ]
-        sort = [
-            '5\tMine\tservice\tallay',
-            '4\tMine\tservice\tdriveway',
-        ]
-        self.assertEqual(helpers.sort_streets(unsorted), sort)
-
-
 class TestSortHouseNumbersCsv(unittest.TestCase):
     """Tests sort_housenumbers_csv()."""
     def test_happy(self) -> None:
