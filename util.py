@@ -486,4 +486,13 @@ def sort_streets(lines: Iterable[str]) -> List[str]:
     return sorted(lines, key=split_street_line)
 
 
+def sort_streets_csv(data: str) -> str:
+    """
+    Sorts TSV Overpass street name result with visual partitioning.
+
+    See split_street_line for sorting rules.
+    """
+    return process_csv_body(sort_streets, data)
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -51,7 +51,7 @@ class RelationFiles:
 
     def write_osm_streets(self, result_from_overpass: str) -> None:
         """Writes the result for overpass of Relation.get_osm_streets_query()."""
-        result = sort_streets_csv(result_from_overpass)
+        result = util.sort_streets_csv(result_from_overpass)
         with self.get_osm_streets_stream("w") as sock:
             sock.write(result)
 
@@ -608,15 +608,6 @@ class Relations:
             return ""
 
         return cast(str, refmegye[reftelepules])
-
-
-def sort_streets_csv(data: str) -> str:
-    """
-    Sorts TSV Overpass street name result with visual partitioning.
-
-    See split_street_line for sorting rules.
-    """
-    return util.process_csv_body(util.sort_streets, data)
 
 
 def sort_housenumbers_csv(data: str) -> str:

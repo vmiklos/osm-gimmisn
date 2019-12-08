@@ -25,21 +25,6 @@ def get_relations() -> helpers.Relations:
     return helpers.Relations(datadir, workdir)
 
 
-class TestSortStreetsCsv(unittest.TestCase):
-    """Tests sort_streets_csv()."""
-    def test_single_field(self) -> None:
-        """Tests a single column."""
-        unsorted = 'head\n2\n1'
-        expected = 'head\n1\n2'
-        self.assertEqual(helpers.sort_streets_csv(unsorted), expected)
-
-    def test_two_fields(self) -> None:
-        """Tests 2 columns."""
-        unsorted = 'head\n1\tb\n2\ta'
-        expected = 'head\n2\ta\n1\tb'
-        self.assertEqual(helpers.sort_streets_csv(unsorted), expected)
-
-
 class TestSortHouseNumbersCsv(unittest.TestCase):
     """Tests sort_housenumbers_csv()."""
     def test_happy(self) -> None:
