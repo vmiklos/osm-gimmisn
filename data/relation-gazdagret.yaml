@@ -1,6 +1,7 @@
 missing-streets: 'no'
 filters:
   Budaörsi út:
+    invalid: ['141a', '149', '151', '163']  # 141-145; 149a,149b; 151a,151b, 163a-163b
     ranges:
       - {start: '137', end: '165'}
   Csíkihegyek utca:
@@ -15,6 +16,8 @@ filters:
     # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44
     ranges:
       - {start: '5', end: '9'}
+  Higany utca:
+    invalid: ['3', '5', '6']  # 3a,3b; 5a,5b; 6a,6b
   Kaptárkő utca:
     ranges:
       - {start: '1', end: '11'}
@@ -39,6 +42,7 @@ filters:
       - {start: '2', end: '16'}
   Rétköz utca:
     # csak a gazdagréti rész
+    invalid: ['9']  # 9a,9b
     ranges:
       - {start: '7', end: '9'}
       - {start: '2', end: '22'}
