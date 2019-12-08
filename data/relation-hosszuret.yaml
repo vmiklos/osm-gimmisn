@@ -13,6 +13,7 @@ filters:
       - {start: '195', end: '199'}
   Gazdagréti út:
     # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44
+    invalid: ['2']  # 2a,2b
     ranges:
       - {start: '2', end: '36'}
   Hosszúréti utca:
@@ -36,6 +37,8 @@ filters:
       - {start: '1', end: '99'}
       - {start: '14', end: '40'}
       - {start: '44', end: '98'}
+  Repcsény utca:
+    invalid: ['7']  # 7a,7b
   Rózsabarack utca:
     # 1-7 hoszuret, 9- es a paros madarhegy
     ranges:
