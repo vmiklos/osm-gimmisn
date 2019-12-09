@@ -128,7 +128,7 @@ def main() -> None:
     config.read(config_path)
 
     datadir = util.get_abspath("data")
-    workdir = helpers.get_workdir(config)
+    workdir = util.get_workdir(config)
     relations = helpers.Relations(datadir, workdir)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,

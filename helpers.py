@@ -6,8 +6,6 @@
 
 """The helpers module contains functionality shared between other modules."""
 
-import configparser
-import re
 import os
 from typing import Any
 from typing import Dict
@@ -439,8 +437,8 @@ class Relation:
         for street_name in street_names:
             ref_house_numbers = all_ref_house_numbers[street_name]
             osm_house_numbers = self.get_osm_housenumbers(street_name)
-            only_in_reference = get_only_in_first(ref_house_numbers, osm_house_numbers)
-            in_both = get_in_both(ref_house_numbers, osm_house_numbers)
+            only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
+            in_both = util.get_in_both(ref_house_numbers, osm_house_numbers)
             if only_in_reference:
                 ongoing_streets.append((street_name, only_in_reference))
             if in_both:
@@ -502,9 +500,9 @@ class Relation:
         street_blacklist = self.get_config().get_street_filters()
         osm_streets = [self.get_ref_street_from_osm_street(street) for street in self.get_osm_streets()]
 
-        only_in_reference = get_only_in_first(reference_streets, osm_streets)
+        only_in_reference = util.get_only_in_first(reference_streets, osm_streets)
         only_in_reference = [i for i in only_in_reference if i not in street_blacklist]
-        in_both = get_in_both(reference_streets, osm_streets)
+        in_both = util.get_in_both(reference_streets, osm_streets)
 
         return only_in_reference, in_both
 
@@ -609,109 +607,6 @@ class Relations:
         return cast(str, refmegye[reftelepules])
 
 
-def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
-    """
-    Returns items which are in first, but not in second.
-    Any means util.HouseNumber or str.
-    """
-    # Strip suffix that is ignored.
-    if not first:
-        return []
-
-    if isinstance(first[0], util.HouseNumber):
-        first_stripped = [re.sub(r"\*$", "", i.get_number()) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i.get_number()) for i in second]
-    else:
-        first_stripped = [re.sub(r"\*$", "", i) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i) for i in second]
-
-    ret = []
-    for index, item in enumerate(first_stripped):
-        if item not in second_stripped:
-            ret.append(first[index])
-    return ret
-
-
-def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
-    """
-    Returns items which are in both first and second.
-    Any means util.HouseNumber or str.
-    """
-    # Strip suffix that is ignored.
-    if not first:
-        return []
-
-    if isinstance(first[0], util.HouseNumber):
-        first_stripped = [re.sub(r"\*$", "", i.get_number()) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i.get_number()) for i in second]
-    else:
-        first_stripped = [re.sub(r"\*$", "", i) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i) for i in second]
-
-    ret = []
-    for index, item in enumerate(first_stripped):
-        if item in second_stripped:
-            ret.append(first[index])
-    return ret
-
-
-def get_workdir(config: configparser.ConfigParser) -> str:
-    """Gets the directory which is writable."""
-    return util.get_abspath(config.get('wsgi', 'workdir').strip())
-
-
-def get_content(workdir: str, path: str = "") -> str:
-    """Gets the content of a file in workdir."""
-    ret = ""
-    if path:
-        path = os.path.join(workdir, path)
-    else:
-        path = workdir
-    with open(path) as sock:
-        ret = sock.read()
-    return ret
-
-
-def get_normalizer(street_name: str, normalizers: Dict[str, ranges.Ranges]) -> ranges.Ranges:
-    """Determines the normalizer for a given street."""
-    if street_name in normalizers.keys():
-        # Have a custom filter.
-        normalizer = normalizers[street_name]
-    else:
-        # Default sanity checks.
-        default = [ranges.Range(1, 999), ranges.Range(2, 998)]
-        normalizer = ranges.Ranges(default)
-    return normalizer
-
-
-def split_house_number_by_separator(
-        house_numbers: str,
-        separator: str,
-        normalizer: ranges.Ranges
-) -> Tuple[List[int], List[int]]:
-    """Splits a house number string (possibly a range) by a given separator.
-    Returns a filtered and a not filtered list of ints."""
-    ret_numbers = []
-    # Same as ret_numbers, but if the range is 2-6 and we filter for 2-4, then 6 would be lost, so
-    # in-range 4 would not be detected, so this one does not drop 6.
-    ret_numbers_nofilter = []
-
-    for house_number in house_numbers.split(separator):
-        try:
-            number = int(re.sub(r"([0-9]+).*", r"\1", house_number))
-        except ValueError:
-            continue
-
-        ret_numbers_nofilter.append(number)
-
-        if number not in normalizer:
-            continue
-
-        ret_numbers.append(number)
-
-    return ret_numbers, ret_numbers_nofilter
-
-
 def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, ranges.Ranges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
@@ -726,9 +621,9 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     if house_numbers.endswith("*"):
         suffix = house_numbers[-1]
 
-    normalizer = get_normalizer(street_name, normalizers)
+    normalizer = util.get_normalizer(street_name, normalizers)
 
-    ret_numbers, ret_numbers_nofilter = split_house_number_by_separator(house_numbers, separator, normalizer)
+    ret_numbers, ret_numbers_nofilter = util.split_house_number_by_separator(house_numbers, separator, normalizer)
 
     street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
     if separator == "-" and util.should_expand_range(ret_numbers_nofilter, street_is_even_odd):

@@ -6,7 +6,6 @@
 
 """The test_helpers module covers the helpers module."""
 
-import configparser
 import os
 from typing import List
 import unittest
@@ -25,20 +24,6 @@ def get_relations() -> helpers.Relations:
     return helpers.Relations(datadir, workdir)
 
 
-class TestInBoth(unittest.TestCase):
-    """Tests get_in_both()."""
-    def test_happy(self) -> None:
-        """Tests that happy path."""
-        self.assertEqual(helpers.get_in_both(["1", "2", "3"], ["2", "3", "4"]), ["2", "3"])
-
-
-class TestOnlyInFirst(unittest.TestCase):
-    """Tests get_only_in_first()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        self.assertEqual(helpers.get_only_in_first(["1", "2", "3"], ["3", "4"]), ["1", "2"])
-
-
 class TestRelationGetOsmStreets(unittest.TestCase):
     """Tests Relation.get_osm_streets()."""
     def test_happy(self) -> None:
@@ -55,17 +40,6 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         relation = relations.get_relation("ujbuda")
         actual = relation.get_osm_streets()
         expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
-        self.assertEqual(actual, expected)
-
-
-class TestGetWorkdir(unittest.TestCase):
-    """Tests get_workdir()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        config = configparser.ConfigParser()
-        config.read_dict({"wsgi": {"workdir": "/path/to/workdir"}})
-        actual = helpers.get_workdir(config)
-        expected = "/path/to/workdir"
         self.assertEqual(actual, expected)
 
 
@@ -100,9 +74,9 @@ class TestRelationFilesWriteOsmStreets(unittest.TestCase):
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
-        expected = helpers.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
         relation.get_files().write_osm_streets(result_from_overpass)
-        actual = helpers.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
         self.assertEqual(actual, expected)
 
 
@@ -120,27 +94,10 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
         result_from_overpass += "1\tOSM Name 1\t1\n"
         result_from_overpass += "1\tOSM Name 1\t2\n"
         result_from_overpass += "1\tOnly In OSM utca\t1\n"
-        expected = helpers.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+        expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         relation = relations.get_relation(relation_name)
         relation.get_files().write_osm_housenumbers(result_from_overpass)
-        actual = helpers.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
-        self.assertEqual(actual, expected)
-
-
-class TestGetContent(unittest.TestCase):
-    """Tests get_content()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = helpers.get_content(workdir, "gazdagret.percent")
-        expected = "54.55"
-        self.assertEqual(actual, expected)
-
-    def test_one_arg(self) -> None:
-        """Tests the case when only one argument is given."""
-        workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = helpers.get_content(os.path.join(workdir, "gazdagret.percent"))
-        expected = "54.55"
+        actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         self.assertEqual(actual, expected)
 
 
@@ -483,7 +440,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         relations = get_relations()
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        expected = helpers.get_content(relations.get_workdir(), "gazdagret.percent")
+        expected = util.get_content(relations.get_workdir(), "gazdagret.percent")
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
         self.assertEqual(todo_street_count, 3)
@@ -495,7 +452,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
                                  ['Törökugrató utca', '2', '7<br />10'],
                                  ['Tűzkő utca', '2', '1<br />2'],
                                  ['Hamzsabégi út', '1', '1']])
-        actual = helpers.get_content(relations.get_workdir(), "gazdagret.percent")
+        actual = util.get_content(relations.get_workdir(), "gazdagret.percent")
         self.assertEqual(actual, expected)
 
     def test_empty(self) -> None:
@@ -529,14 +486,14 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
         relations = get_relations()
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        expected = helpers.get_content(relations.get_workdir(), "gazdagret-streets.percent")
+        expected = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
         ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
         self.assertEqual(todo_count, 1)
         self.assertEqual(done_count, 4)
         self.assertEqual(percent, '80.00')
         self.assertEqual(streets, ['Only In Ref utca'])
-        actual = helpers.get_content(relations.get_workdir(), "gazdagret-streets.percent")
+        actual = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
         self.assertEqual(actual, expected)
 
     def test_empty(self) -> None:
@@ -613,10 +570,10 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         refpath2 = os.path.join(refdir, "hazszamok_kieg_20190808.tsv")
         relations = get_relations()
         relation_name = "gazdagret"
-        expected = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
+        expected = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         relation = relations.get_relation(relation_name)
         relation.write_ref_housenumbers([refpath, refpath2])
-        actual = helpers.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
+        actual = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 
     def test_nosuchrefmegye(self) -> None:
@@ -653,9 +610,9 @@ class TestRelationWriteRefStreets(unittest.TestCase):
         relations = get_relations()
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        expected = helpers.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
+        expected = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
         relation.write_ref_streets(refpath)
-        actual = helpers.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
+        actual = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 
 

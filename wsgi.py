@@ -416,7 +416,7 @@ def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[yattag.Doc,
     url = "/osm/missing-housenumbers/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_housenumbers_percent_path()):
-        percent = helpers.get_content(relation.get_files().get_housenumbers_percent_path())
+        percent = util.get_content(relation.get_files().get_housenumbers_percent_path())
 
     doc = yattag.Doc()
     if percent != "N/A":
@@ -437,7 +437,7 @@ def handle_main_street_percent(relation: helpers.Relation) -> Tuple[yattag.Doc, 
     url = "/osm/missing-streets/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_streets_percent_path()):
-        percent = helpers.get_content(relation.get_files().get_streets_percent_path())
+        percent = util.get_content(relation.get_files().get_streets_percent_path())
 
     doc = yattag.Doc()
     if percent != "N/A":
@@ -828,7 +828,7 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
         content_type = "text/css"
 
     if path.endswith(".js") or path.endswith(".css"):
-        return helpers.get_content(get_staticdir(), path), content_type
+        return util.get_content(get_staticdir(), path), content_type
 
     return "", ""
 
@@ -896,7 +896,7 @@ def our_application(
     request_uri = get_request_uri(environ)
     _ignore, _ignore, ext = request_uri.partition('.')
 
-    relations = helpers.Relations(get_datadir(), helpers.get_workdir(config))
+    relations = helpers.Relations(get_datadir(), util.get_workdir(config))
 
     if ext == "txt":
         return our_application_txt(start_response, relations, request_uri)

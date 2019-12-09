@@ -6,6 +6,7 @@
 
 """The test_util module covers the util module."""
 
+import configparser
 import io
 import os
 import unittest
@@ -427,6 +428,48 @@ class TestSortHouseNumbersCsv(unittest.TestCase):
         unsorted = 'head\n2\n1'
         expected = 'head\n1\n2'
         self.assertEqual(util.sort_housenumbers_csv(unsorted), expected)
+
+
+class TestOnlyInFirst(unittest.TestCase):
+    """Tests get_only_in_first()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        self.assertEqual(util.get_only_in_first(["1", "2", "3"], ["3", "4"]), ["1", "2"])
+
+
+class TestInBoth(unittest.TestCase):
+    """Tests get_in_both()."""
+    def test_happy(self) -> None:
+        """Tests that happy path."""
+        self.assertEqual(util.get_in_both(["1", "2", "3"], ["2", "3", "4"]), ["2", "3"])
+
+
+class TestGetWorkdir(unittest.TestCase):
+    """Tests get_workdir()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        config = configparser.ConfigParser()
+        config.read_dict({"wsgi": {"workdir": "/path/to/workdir"}})
+        actual = util.get_workdir(config)
+        expected = "/path/to/workdir"
+        self.assertEqual(actual, expected)
+
+
+class TestGetContent(unittest.TestCase):
+    """Tests get_content()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        actual = util.get_content(workdir, "gazdagret.percent")
+        expected = "54.55"
+        self.assertEqual(actual, expected)
+
+    def test_one_arg(self) -> None:
+        """Tests the case when only one argument is given."""
+        workdir = os.path.join(os.path.dirname(__file__), "workdir")
+        actual = util.get_content(os.path.join(workdir, "gazdagret.percent"))
+        expected = "54.55"
+        self.assertEqual(actual, expected)
 
 
 if __name__ == '__main__':

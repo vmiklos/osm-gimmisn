@@ -9,8 +9,8 @@
 import os
 import unittest
 import unittest.mock
-import helpers
 import get_reference_housenumbers
+import util
 
 
 class TestMain(unittest.TestCase):
@@ -22,13 +22,13 @@ class TestMain(unittest.TestCase):
                 return path
             return os.path.join(os.path.dirname(__file__), path)
         with unittest.mock.patch('util.get_abspath', get_abspath):
-            expected = helpers.get_content(get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
+            expected = util.get_content(get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
 
             argv = ["", "gazdagret"]
             with unittest.mock.patch('sys.argv', argv):
                 get_reference_housenumbers.main()
 
-            actual = helpers.get_content(get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
+            actual = util.get_content(get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
             self.assertEqual(actual, expected)
 
 
