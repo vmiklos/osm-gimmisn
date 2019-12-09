@@ -522,4 +522,13 @@ def split_housenumber_line(line: str) -> Tuple[str, bool, bool, str, Tuple[int, 
             housename, split_house_number(cons), tail, split_house_number(oid))
 
 
+def sort_housenumbers(lines: Iterable[str]) -> List[str]:
+    """
+    Sorts the body of a TSV Overpass house numbers result with visual partitioning.
+
+    See split_housenumber_line for sorting rules.
+    """
+    return sorted(lines, key=split_housenumber_line)
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

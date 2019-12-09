@@ -11,7 +11,6 @@ import re
 import os
 from typing import Any
 from typing import Dict
-from typing import Iterable
 from typing import List
 from typing import TextIO
 from typing import Tuple
@@ -616,16 +615,7 @@ def sort_housenumbers_csv(data: str) -> str:
 
     See split_housenumber_line for sorting rules.
     """
-    return util.process_csv_body(sort_housenumbers, data)
-
-
-def sort_housenumbers(lines: Iterable[str]) -> List[str]:
-    """
-    Sorts the body of a TSV Overpass house numbers result with visual partitioning.
-
-    See split_housenumber_line for sorting rules.
-    """
-    return sorted(lines, key=util.split_housenumber_line)
+    return util.process_csv_body(util.sort_housenumbers, data)
 
 
 def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
