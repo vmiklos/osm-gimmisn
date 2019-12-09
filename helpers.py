@@ -65,7 +65,7 @@ class RelationFiles:
 
     def write_osm_housenumbers(self, result_from_overpass: str) -> None:
         """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
-        result = sort_housenumbers_csv(result_from_overpass)
+        result = util.sort_housenumbers_csv(result_from_overpass)
         with self.get_osm_housenumbers_stream(mode="w") as stream:
             stream.write(result)
 
@@ -607,15 +607,6 @@ class Relations:
             return ""
 
         return cast(str, refmegye[reftelepules])
-
-
-def sort_housenumbers_csv(data: str) -> str:
-    """
-    Sorts TSV Overpass house numbers result with visual partitioning.
-
-    See split_housenumber_line for sorting rules.
-    """
-    return util.process_csv_body(util.sort_housenumbers, data)
 
 
 def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:

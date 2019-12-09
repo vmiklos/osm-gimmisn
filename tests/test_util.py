@@ -420,5 +420,14 @@ class TestSortHousenumbers(unittest.TestCase):
         self.assertEqual(util.sort_housenumbers(unsorted), expected)
 
 
+class TestSortHouseNumbersCsv(unittest.TestCase):
+    """Tests sort_housenumbers_csv()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        unsorted = 'head\n2\n1'
+        expected = 'head\n1\n2'
+        self.assertEqual(util.sort_housenumbers_csv(unsorted), expected)
+
+
 if __name__ == '__main__':
     unittest.main()

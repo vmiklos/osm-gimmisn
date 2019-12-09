@@ -25,15 +25,6 @@ def get_relations() -> helpers.Relations:
     return helpers.Relations(datadir, workdir)
 
 
-class TestSortHouseNumbersCsv(unittest.TestCase):
-    """Tests sort_housenumbers_csv()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        unsorted = 'head\n2\n1'
-        expected = 'head\n1\n2'
-        self.assertEqual(helpers.sort_housenumbers_csv(unsorted), expected)
-
-
 class TestInBoth(unittest.TestCase):
     """Tests get_in_both()."""
     def test_happy(self) -> None:

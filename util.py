@@ -531,4 +531,13 @@ def sort_housenumbers(lines: Iterable[str]) -> List[str]:
     return sorted(lines, key=split_housenumber_line)
 
 
+def sort_housenumbers_csv(data: str) -> str:
+    """
+    Sorts TSV Overpass house numbers result with visual partitioning.
+
+    See split_housenumber_line for sorting rules.
+    """
+    return process_csv_body(sort_housenumbers, data)
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
