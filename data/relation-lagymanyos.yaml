@@ -98,3 +98,4 @@ refstreets:
   'Stoczek József utca': 'Stoczek utca'
 source: survey
 inactive: true
+housenumber-letters: true
