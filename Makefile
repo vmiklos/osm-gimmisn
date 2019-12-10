@@ -49,7 +49,7 @@ all: version.py locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py
-	rm -f $(patsubst %.yaml,%.yamllint,$(YAML_OBJECTS))
+	rm -f $(patsubst %.yaml,%.yamllint,$(filter-out .travis.yml,$(YAML_OBJECTS)))
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
