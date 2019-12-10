@@ -391,6 +391,29 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
         expected = ['1', '3', '5', '7', '7/A', '7/B', '7/C', '9', '11', '13', '13-15']
         self.assertEqual(housenumber_ranges, expected)
 
+    def test_letter_suffix_invalid(self) -> None:
+        """Tests how 'invalid' interacts with normalization."""
+        relations = get_relations()
+        relation_name = "gh296"
+        relation = relations.get_relation(relation_name)
+        # Opt-in, this is not the default behavior.
+        relation.get_config().set_housenumber_letters(True)
+        # Set custom 'invalid' map.
+        filters = {
+            "Rétköz utca": {
+                "invalid": ["9"]
+            }
+        }
+        relation.get_config().set_filters(filters)
+        ongoing_streets, _done_streets = relation.get_missing_housenumbers()
+        ongoing_street = ongoing_streets[0]
+        housenumber_ranges = util.get_housenumber_ranges(ongoing_street[1])
+        housenumber_ranges = sorted(housenumber_ranges, key=util.split_house_number)
+        # Notice how '9 A 1' is missing here: it's not a simple house number, so it gets normalized
+        # to just '9' and the above filter silences it.
+        expected = ['9/A']
+        self.assertEqual(housenumber_ranges, expected)
+
     def test_letter_suffix_normalize(self) -> None:
         """Tests that '42 A' vs '42/A' is recognized as a match."""
         relations = get_relations()

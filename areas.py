@@ -158,6 +158,10 @@ class RelationConfig:
             return cast(Dict[str, str], self.__get_property("refstreets"))
         return {}
 
+    def set_filters(self, filters: Dict[str, Any]) -> None:
+        """Sets the 'filters' key from code."""
+        self.__dict["filters"] = filters
+
     def get_filters(self) -> Dict[str, Any]:
         """Returns a street name -> properties map."""
         if self.__get_property("filters"):
@@ -415,9 +419,10 @@ class Relation:
             for line in lines:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')
-                    if util.HouseNumber.is_invalid(house_number, street_invalid):
-                        continue
-                    house_numbers += normalize(self, house_number, osm_street_name, street_ranges)
+                    normalized = normalize(self, house_number, osm_street_name, street_ranges)
+                    normalized = \
+                        [i for i in normalized if not util.HouseNumber.is_invalid(i.get_number(), street_invalid)]
+                    house_numbers += normalized
             ret[osm_street_name] = util.sort_numerically(set(house_numbers))
         return ret
 
