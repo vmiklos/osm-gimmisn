@@ -6,7 +6,9 @@
 
 """The test_wsgi module covers the wsgi module."""
 
+from typing import BinaryIO
 from typing import List
+from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
@@ -88,6 +90,20 @@ class TestStreets(TestWsgi):
         root = self.get_dom_for_path("/osm/streets/gazdagret/view-query")
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
+
+    def test_update_result_well_formed(self) -> None:
+        """Tests if the update-result output is well-formed."""
+        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
+
+        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+            buf = io.BytesIO()
+            buf.write(result_from_overpass.encode('utf-8'))
+            buf.seek(0)
+            return buf
+        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+            root = self.get_dom_for_path("/osm/streets/gazdagret/update-result")
+            results = root.findall("body")
+            self.assertEqual(len(results), 1)
 
 
 class TestMissingHousenumbers(TestWsgi):
