@@ -4,7 +4,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-"""The util module contains free functions shared between other modules."""
+"""The util module contains functionality shared between other modules."""
 
 from typing import Any
 from typing import Callable

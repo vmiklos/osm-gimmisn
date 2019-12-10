@@ -1,8 +1,8 @@
 PYTHON_TEST_OBJECTS = \
 	tests/test_accept_language.py \
+	tests/test_areas.py \
 	tests/test_get_reference_housenumbers.py \
 	tests/test_get_reference_streets.py \
-	tests/test_helpers.py \
 	tests/test_i18n.py \
 	tests/test_missing_housenumbers.py \
 	tests/test_missing_streets.py \
@@ -15,9 +15,9 @@ PYTHON_TEST_OBJECTS = \
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
 	accept_language.py \
+	areas.py \
 	get_reference_housenumbers.py \
 	get_reference_streets.py \
-	helpers.py \
 	i18n.py \
 	missing_housenumbers.py \
 	missing_streets.py \
@@ -102,7 +102,7 @@ deploy-pythonanywhere:
 	make
 	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py
 
-update-pot: helpers.py wsgi.py util.py Makefile
+update-pot: areas.py wsgi.py util.py Makefile
 	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)
 
 update-po: po/osm-gimmisn.pot Makefile

@@ -15,7 +15,7 @@ import time
 import traceback
 import urllib.error
 
-import helpers
+import areas
 import overpass_query
 import util
 
@@ -35,7 +35,7 @@ def should_retry(retry: int) -> bool:
     return retry < 20
 
 
-def update_streets(relations: helpers.Relations) -> None:
+def update_streets(relations: areas.Relations) -> None:
     """Update the existing street list of all relations."""
     for relation_name in relations.get_active_names():
         logging.info("update_streets: start: %s", relation_name)
@@ -55,7 +55,7 @@ def update_streets(relations: helpers.Relations) -> None:
         logging.info("update_streets: end: %s", relation_name)
 
 
-def update_street_housenumbers(relations: helpers.Relations) -> None:
+def update_street_housenumbers(relations: areas.Relations) -> None:
     """Update the existing OSM street housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         logging.info("update_street_housenumbers: start: %s", relation_name)
@@ -75,7 +75,7 @@ def update_street_housenumbers(relations: helpers.Relations) -> None:
         logging.info("update_street_housenumbers: end: %s", relation_name)
 
 
-def update_street_housenumbers_ref(relations: helpers.Relations, config: configparser.ConfigParser) -> None:
+def update_street_housenumbers_ref(relations: areas.Relations, config: configparser.ConfigParser) -> None:
     """Update the existing reference street housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         logging.info("update_street_housenumbers_ref: start: %s", relation_name)
@@ -85,7 +85,7 @@ def update_street_housenumbers_ref(relations: helpers.Relations, config: configp
         logging.info("update_street_housenumbers_ref: end: %s", relation_name)
 
 
-def update_missing_housenumbers(relations: helpers.Relations) -> None:
+def update_missing_housenumbers(relations: areas.Relations) -> None:
     """Update the relation's house number coverage stats."""
     logging.info("update_missing_housenumbers: start")
     for relation_name in relations.get_active_names():
@@ -98,7 +98,7 @@ def update_missing_housenumbers(relations: helpers.Relations) -> None:
     logging.info("update_missing_housenumbers: end")
 
 
-def update_missing_streets_stats(relations: helpers.Relations) -> None:
+def update_missing_streets_stats(relations: areas.Relations) -> None:
     """Update the relation's street coverage stats."""
     logging.info("update_missing_streets_stats: start")
     for relation_name in relations.get_active_names():
@@ -111,7 +111,7 @@ def update_missing_streets_stats(relations: helpers.Relations) -> None:
     logging.info("update_missing_streets_stats: end")
 
 
-def our_main(relations: helpers.Relations, config: configparser.ConfigParser) -> None:
+def our_main(relations: areas.Relations, config: configparser.ConfigParser) -> None:
     """Performs the actual nightly task."""
     update_streets(relations)
     update_street_housenumbers(relations)
@@ -129,7 +129,7 @@ def main() -> None:
 
     datadir = util.get_abspath("data")
     workdir = util.get_workdir(config)
-    relations = helpers.Relations(datadir, workdir)
+    relations = areas.Relations(datadir, workdir)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
                         level=logging.INFO,

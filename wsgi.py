@@ -29,7 +29,7 @@ import wsgiref.simple_server
 import pytz
 import yattag  # type: ignore
 
-import helpers
+import areas
 from i18n import translate as _
 import overpass_query
 import version
@@ -58,7 +58,7 @@ def get_staticdir() -> str:
     return os.path.join(os.path.dirname(__file__), "static")
 
 
-def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
+def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -96,7 +96,7 @@ def handle_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc
     return doc
 
 
-def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
+def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -130,7 +130,7 @@ def handle_street_housenumbers(relations: helpers.Relations, request_uri: str) -
     return doc
 
 
-def missing_housenumbers_view_turbo(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
+def missing_housenumbers_view_turbo(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -139,14 +139,14 @@ def missing_housenumbers_view_turbo(relations: helpers.Relations, request_uri: s
     relation = relations.get_relation(relation_name)
     ret = relation.write_missing_housenumbers()
     _todo_street_count, _todo_count, _done_count, _percent, table = ret
-    query = helpers.make_turbo_query_for_streets(relation, table)
+    query = areas.make_turbo_query_for_streets(relation, table)
 
     with doc.tag("pre"):
         doc.text(query)
     return doc
 
 
-def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
+def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -186,7 +186,7 @@ def missing_housenumbers_view_res(relations: helpers.Relations, request_uri: str
     return doc
 
 
-def missing_relations_view_result(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
+def missing_relations_view_result(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -217,7 +217,7 @@ def missing_relations_view_result(relations: helpers.Relations, request_uri: str
     return doc
 
 
-def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str) -> str:
+def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -251,7 +251,7 @@ def missing_housenumbers_view_txt(relations: helpers.Relations, request_uri: str
     return output
 
 
-def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> str:
+def missing_streets_view_txt(relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -269,7 +269,7 @@ def missing_streets_view_txt(relations: helpers.Relations, request_uri: str) -> 
     return output
 
 
-def missing_housenumbers_update(relations: helpers.Relations, relation_name: str) -> yattag.Doc:
+def missing_housenumbers_update(relations: areas.Relations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result."""
     reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
     reference = [util.get_abspath(i) for i in reference]
@@ -282,7 +282,7 @@ def missing_housenumbers_update(relations: helpers.Relations, relation_name: str
     return doc
 
 
-def missing_streets_update(relations: helpers.Relations, relation_name: str) -> yattag.Doc:
+def missing_streets_update(relations: areas.Relations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
     reference = util.get_abspath(get_config().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
@@ -290,7 +290,7 @@ def missing_streets_update(relations: helpers.Relations, relation_name: str) -> 
     return util.html_escape(_("Update successful."))
 
 
-def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
+def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -320,7 +320,7 @@ def handle_missing_housenumbers(relations: helpers.Relations, request_uri: str) 
     return doc
 
 
-def handle_missing_streets(relations: helpers.Relations, request_uri: str) -> yattag.Doc:
+def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -386,7 +386,7 @@ def format_timestamp(timestamp: float) -> str:
     return ui_dt.strftime(fmt)
 
 
-def ref_housenumbers_last_modified(relations: helpers.Relations, name: str) -> str:
+def ref_housenumbers_last_modified(relations: areas.Relations, name: str) -> str:
     """Gets the update date for missing house numbers."""
     relation = relations.get_relation(name)
     t_ref = get_timestamp(relation.get_files().get_ref_housenumbers_path())
@@ -394,24 +394,24 @@ def ref_housenumbers_last_modified(relations: helpers.Relations, name: str) -> s
     return format_timestamp(max(t_ref, t_housenumbers))
 
 
-def ref_streets_last_modified(relation: helpers.Relation) -> str:
+def ref_streets_last_modified(relation: areas.Relation) -> str:
     """Gets the update date for missing streets."""
     t_ref = get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = get_timestamp(relation.get_files().get_osm_streets_path())
     return format_timestamp(max(t_ref, t_osm))
 
 
-def get_housenumbers_last_modified(relation: helpers.Relation) -> str:
+def get_housenumbers_last_modified(relation: areas.Relation) -> str:
     """Gets the update date of house numbers for a relation."""
     return get_last_modified(relation.get_files().get_osm_housenumbers_path())
 
 
-def get_streets_last_modified(relation: helpers.Relation) -> str:
+def get_streets_last_modified(relation: areas.Relation) -> str:
     """Gets the update date of streets for a relation."""
     return get_last_modified(relation.get_files().get_osm_streets_path())
 
 
-def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[yattag.Doc, str]:
+def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.Doc, str]:
     """Handles the house number percent part of the main page."""
     url = "/osm/missing-housenumbers/" + relation.get_name() + "/view-result"
     percent = "N/A"
@@ -432,7 +432,7 @@ def handle_main_housenr_percent(relation: helpers.Relation) -> Tuple[yattag.Doc,
     return doc, "0"
 
 
-def handle_main_street_percent(relation: helpers.Relation) -> Tuple[yattag.Doc, str]:
+def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.Doc, str]:
     """Handles the street percent part of the main page."""
     url = "/osm/missing-streets/" + relation.get_name() + "/view-result"
     percent = "N/A"
@@ -453,17 +453,17 @@ def handle_main_street_percent(relation: helpers.Relation) -> Tuple[yattag.Doc, 
     return doc, "0"
 
 
-def filter_for_everything(_complete: bool, _relation: helpers.Relation) -> bool:
+def filter_for_everything(_complete: bool, _relation: areas.Relation) -> bool:
     """Does not filter out anything."""
     return True
 
 
-def filter_for_incomplete(complete: bool, _relation: helpers.Relation) -> bool:
+def filter_for_incomplete(complete: bool, _relation: areas.Relation) -> bool:
     """Filters out complete items."""
     return not complete
 
 
-def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, helpers.Relation], bool]:
+def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, areas.Relation], bool]:
     """Creates a function that filters for a single refmegye."""
     return lambda _complete, relation: relation.get_config().get_refmegye() == refmegye_filter
 
@@ -471,15 +471,15 @@ def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, helpers.
 def create_filter_for_refmegye_reftelepules(
         refmegye_filter: str,
         reftelepules_filter: str
-) -> Callable[[bool, helpers.Relation], bool]:
+) -> Callable[[bool, areas.Relation], bool]:
     """Creates a function that filters for a single reftelepules in a refmegye."""
-    def filter_for(_complete: bool, relation: helpers.Relation) -> bool:
+    def filter_for(_complete: bool, relation: areas.Relation) -> bool:
         config = relation.get_config()
         return config.get_refmegye() == refmegye_filter and config.get_reftelepules() == reftelepules_filter
     return filter_for
 
 
-def handle_main_filters_refmegye(relations: helpers.Relations, refmegye_id: str, refmegye: str) -> yattag.Doc:
+def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, refmegye: str) -> yattag.Doc:
     """Handles one refmegye in the filter part of the main wsgi page."""
     doc = yattag.Doc()
     name = relations.refmegye_get_name(refmegye)
@@ -510,7 +510,7 @@ def handle_main_filters_refmegye(relations: helpers.Relations, refmegye_id: str,
     return doc
 
 
-def handle_main_filters(relations: helpers.Relations, refmegye_id: str) -> yattag.Doc:
+def handle_main_filters(relations: areas.Relations, refmegye_id: str) -> yattag.Doc:
     """Handlers the filter part of the main wsgi page."""
     items = []  # type: List[yattag.Doc]
     doc = yattag.Doc()
@@ -532,10 +532,10 @@ def handle_main_filters(relations: helpers.Relations, refmegye_id: str) -> yatta
     return doc
 
 
-def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, helpers.Relation], bool], str]:
+def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relation], bool], str]:
     """Sets up a filter-for function from request uri: only certain areas are shown then."""
     tokens = request_uri.split("/")
-    filter_for = filter_for_everything  # type: Callable[[bool, helpers.Relation], bool]
+    filter_for = filter_for_everything  # type: Callable[[bool, areas.Relation], bool]
     filters = util.parse_filters(tokens)
     refmegye = ""
     if "incomplete" in filters:
@@ -553,8 +553,8 @@ def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, helpers.Rel
 
 
 def handle_main_relation(
-        relations: helpers.Relations,
-        filter_for: Callable[[bool, helpers.Relation], bool],
+        relations: areas.Relations,
+        filter_for: Callable[[bool, areas.Relation], bool],
         relation_name: str
 ) -> List[yattag.Doc]:
     """Handles one relation (one table row) on the main page."""
@@ -610,7 +610,7 @@ def handle_main_relation(
     return row
 
 
-def handle_main(request_uri: str, relations: helpers.Relations) -> yattag.Doc:
+def handle_main(request_uri: str, relations: areas.Relations) -> yattag.Doc:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
@@ -738,7 +738,7 @@ def write_html_head(doc: yattag.Doc, title: str) -> None:
 
 
 def get_toolbar(
-        relations: Optional[helpers.Relations] = None,
+        relations: Optional[areas.Relations] = None,
         function: str = "",
         relation_name: str = "",
         relation_osmid: int = 0
@@ -844,7 +844,7 @@ def send_response(start_response: 'StartResponse', content_type: str, status: st
 
 def our_application_txt(
         start_response: 'StartResponse',
-        relations: helpers.Relations,
+        relations: areas.Relations,
         request_uri: str
 ) -> Iterable[bytes]:
     """Dispatches plain text requests based on their URIs."""
@@ -896,7 +896,7 @@ def our_application(
     request_uri = get_request_uri(environ)
     _ignore, _ignore, ext = request_uri.partition('.')
 
-    relations = helpers.Relations(get_datadir(), util.get_workdir(config))
+    relations = areas.Relations(get_datadir(), util.get_workdir(config))
 
     if ext == "txt":
         return our_application_txt(start_response, relations, request_uri)

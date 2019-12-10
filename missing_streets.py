@@ -9,7 +9,7 @@
 
 import sys
 import configparser
-import helpers
+import areas
 import util
 
 
@@ -23,7 +23,7 @@ def main() -> None:
 
     relation_name = sys.argv[1]
 
-    relations = helpers.Relations(datadir, workdir)
+    relations = areas.Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     only_in_reference, _ = relation.get_missing_streets()
 

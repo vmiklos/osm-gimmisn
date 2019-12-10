@@ -4,7 +4,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-"""The test_helpers module covers the helpers module."""
+"""The test_areas module covers the areas module."""
 
 import os
 from typing import List
@@ -12,16 +12,16 @@ import unittest
 
 import yattag  # type: ignore
 
-import helpers
+import areas
 import ranges
 import util
 
 
-def get_relations() -> helpers.Relations:
+def get_relations() -> areas.Relations:
     """Returns a Relations object that uses the test data and workdir."""
     datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = os.path.join(os.path.dirname(__file__), "workdir")
-    return helpers.Relations(datadir, workdir)
+    return areas.Relations(datadir, workdir)
 
 
 class TestRelationGetOsmStreets(unittest.TestCase):
@@ -213,7 +213,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "139", "Budaörsi út", normalizers)
+        house_numbers = areas.normalize(relation, "139", "Budaörsi út", normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["139"])
 
     def test_not_in_range(self) -> None:
@@ -221,7 +221,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "999", "Budaörsi út", normalizers)
+        house_numbers = areas.normalize(relation, "999", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_not_a_number(self) -> None:
@@ -229,7 +229,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "x", "Budaörsi út", normalizers)
+        house_numbers = areas.normalize(relation, "x", "Budaörsi út", normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_nofilter(self) -> None:
@@ -237,7 +237,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "1", "Budaörs út", normalizers)
+        house_numbers = areas.normalize(relation, "1", "Budaörs út", normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["1"])
 
     def test_separator_semicolon(self) -> None:
@@ -245,7 +245,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "1;2", "Budaörs út", normalizers)
+        house_numbers = areas.normalize(relation, "1;2", "Budaörs út", normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["1", "2"])
 
     def test_separator_interval(self) -> None:
@@ -253,7 +253,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "2-6", "Budaörs út", normalizers)
+        house_numbers = areas.normalize(relation, "2-6", "Budaörs út", normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "4", "6"])
 
     def test_separator_interval_parity(self) -> None:
@@ -261,7 +261,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "5-8", "Budaörs út", normalizers)
+        house_numbers = areas.normalize(relation, "5-8", "Budaörs út", normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["5", "8"])
 
     def test_separator_interval_interp_all(self) -> None:
@@ -269,7 +269,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = [i.get_number() for i in helpers.normalize(relation, "2-5", "Hamzsabégi út", normalizers)]
+        house_numbers = [i.get_number() for i in areas.normalize(relation, "2-5", "Hamzsabégi út", normalizers)]
         self.assertEqual(house_numbers, ["2", "3", "4", "5"])
 
     def test_separator_interval_filter(self) -> None:
@@ -278,7 +278,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         # filter is 137-165
-        house_numbers = helpers.normalize(relation, "163-167", "Budaörsi út", normalizers)
+        house_numbers = areas.normalize(relation, "163-167", "Budaörsi út", normalizers)
         # Make sure there is no 167.
         self.assertEqual([i.get_number() for i in house_numbers], ["163", "165"])
 
@@ -287,7 +287,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "2-2000", "Budaörs út", normalizers)
+        house_numbers = areas.normalize(relation, "2-2000", "Budaörs út", normalizers)
         # Make sure that we simply ignore 2000: it's larger than the default <998 filter and the
         # 2-2000 range would be too large.
         self.assertEqual([i.get_number() for i in house_numbers], ["2"])
@@ -297,7 +297,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "2-56", "Budaörs út", normalizers)
+        house_numbers = areas.normalize(relation, "2-56", "Budaörs út", normalizers)
         # No expansions for 4, 6, etc.
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "56"])
 
@@ -306,7 +306,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "0-42", "Budaörs út", normalizers)
+        house_numbers = areas.normalize(relation, "0-42", "Budaörs út", normalizers)
         # No expansion like 0, 2, 4, etc.
         self.assertEqual([i.get_number() for i in house_numbers], ["42"])
 
@@ -315,7 +315,7 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_numbers = helpers.normalize(relation, "42-1", "Budaörs út", normalizers)
+        house_numbers = areas.normalize(relation, "42-1", "Budaörs út", normalizers)
         # No "1", just "42".
         self.assertEqual([i.get_number() for i in house_numbers], ["42"])
 
@@ -324,9 +324,9 @@ class TestNormalize(unittest.TestCase):
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
-        house_number = helpers.normalize(relation, "1*", "Budaörs út", normalizers)
+        house_number = areas.normalize(relation, "1*", "Budaörs út", normalizers)
         self.assertEqual([i.get_number() for i in house_number], ["1*"])
-        house_number = helpers.normalize(relation, "2", "Budaörs út", normalizers)
+        house_number = areas.normalize(relation, "2", "Budaörs út", normalizers)
         self.assertEqual([i.get_number() for i in house_number], ["2"])
 
 
@@ -743,7 +743,7 @@ class TestMakeTurboQueryForStreets(unittest.TestCase):
                 util.html_escape("B1")],
                [util.html_escape("A2"),
                 util.html_escape("B2")]]
-        ret = helpers.make_turbo_query_for_streets(relation, fro)
+        ret = areas.make_turbo_query_for_streets(relation, fro)
         expected = """[out:json][timeout:425];
 rel(2713748)->.searchRelation;
 area(3602713748)->.searchArea;

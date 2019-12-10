@@ -4,7 +4,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-"""The helpers module contains functionality shared between other modules."""
+"""The areas module contains the Relations class and associated functionality."""
 
 import os
 from typing import Any

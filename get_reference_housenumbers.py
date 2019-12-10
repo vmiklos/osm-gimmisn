@@ -9,7 +9,7 @@
 
 import configparser
 import sys
-import helpers
+import areas
 import util
 
 
@@ -25,7 +25,7 @@ def main() -> None:
     reference = config.get('wsgi', 'reference_housenumbers').strip().split(' ')
     datadir = util.get_abspath("data")
     workdir = util.get_abspath(config.get('wsgi', 'workdir').strip())
-    relations = helpers.Relations(datadir, workdir)
+    relations = areas.Relations(datadir, workdir)
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
 
