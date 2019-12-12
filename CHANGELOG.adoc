@@ -1,5 +1,10 @@
 = Changelog
 
+== 2019-12-12
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/291> added error handling for not valid relation
+  names.
+
 == 2019-12-10
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/296> the "invalid" way of filtering out noise is

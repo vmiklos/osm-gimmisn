@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-09 10:00+0100\n"
+"POT-Creation-Date: 2019-12-12 15:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,144 +17,149 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: wsgi.py:175 wsgi.py:214
+#: wsgi.py:165 wsgi.py:204
 #, python-brace-format
 msgid " (existing: {0}, ready: {1}%)."
 msgstr ""
 
-#: wsgi.py:695 wsgi.py:710 wsgi.py:720
+#: wsgi.py:685 wsgi.py:700 wsgi.py:710
 msgid "(may take seconds)"
 msgstr ""
 
-#: wsgi.py:637
+#: wsgi.py:627
 msgid "Add new area"
 msgstr ""
 
-#: wsgi.py:624
+#: wsgi.py:614
 msgid "Area"
 msgstr ""
 
-#: wsgi.py:629 wsgi.py:771
+#: wsgi.py:619 wsgi.py:761
 msgid "Area boundary"
 msgstr ""
 
-#: wsgi.py:757
+#: wsgi.py:747
 msgid "Area list"
 msgstr ""
 
-#: wsgi.py:159 wsgi.py:163 wsgi.py:199
+#: wsgi.py:149 wsgi.py:153 wsgi.py:189
 msgid "Call Overpass to create"
 msgstr ""
 
-#: wsgi.py:709 wsgi.py:719
+#: wsgi.py:699 wsgi.py:709
 msgid "Call Overpass to update"
 msgstr ""
 
-#: wsgi.py:167 wsgi.py:203
+#: wsgi.py:157 wsgi.py:193
 msgid "Create from reference"
 msgstr ""
 
-#: wsgi.py:775
+#: wsgi.py:765
 msgid "Documentation"
 msgstr ""
 
-#: wsgi.py:626 wsgi.py:656
+#: wsgi.py:616 wsgi.py:646
 msgid "Existing house numbers"
 msgstr ""
 
-#: wsgi.py:628 wsgi.py:763
+#: wsgi.py:618 wsgi.py:753
 msgid "Existing streets"
 msgstr ""
 
-#: wsgi.py:178
+#: wsgi.py:168
 msgid "Filter incorrect information"
 msgstr ""
 
-#: wsgi.py:527
+#: wsgi.py:517
 msgid "Filters:"
 msgstr ""
 
-#: wsgi.py:518
+#: wsgi.py:508
 msgid "Hide complete areas"
 msgstr ""
 
-#: wsgi.py:625
+#: wsgi.py:615
 msgid "House number coverage"
 msgstr ""
 
-#: areas.py:462
+#: areas.py:467
 msgid "House numbers"
 msgstr ""
 
-#: wsgi.py:942
+#: wsgi.py:966
 #, python-brace-format
 msgid "Internal error when serving {0}"
 msgstr ""
 
-#: wsgi.py:797
+#: wsgi.py:787
 msgid "Last update: "
 msgstr ""
 
-#: areas.py:461
+#: areas.py:466
 msgid "Missing count"
 msgstr ""
 
-#: wsgi.py:648
+#: wsgi.py:638
 msgid "Missing house numbers"
 msgstr ""
 
-#: wsgi.py:661
+#: wsgi.py:651
 msgid "Missing streets"
 msgstr ""
 
-#: wsgi.py:231
+#: wsgi.py:221
 msgid "No existing house numbers"
 msgstr ""
 
-#: wsgi.py:161
+#: wsgi.py:151
 msgid "No existing house numbers: "
 msgstr ""
 
-#: wsgi.py:229 wsgi.py:262
+#: wsgi.py:219 wsgi.py:252
 msgid "No existing streets"
 msgstr ""
 
-#: wsgi.py:157 wsgi.py:197
+#: wsgi.py:147 wsgi.py:187
 msgid "No existing streets: "
 msgstr ""
 
-#: wsgi.py:165
+#: wsgi.py:155
 msgid "No missing house numbers: "
 msgstr ""
 
-#: wsgi.py:233
+#: wsgi.py:223
 msgid "No reference house numbers"
 msgstr ""
 
-#: wsgi.py:264
+#: wsgi.py:254
 msgid "No reference streets"
 msgstr ""
 
-#: wsgi.py:201
+#: wsgi.py:191
 msgid "No street list: "
+msgstr ""
+
+#: wsgi.py:882
+#, python-brace-format
+msgid "No such relation: {0}"
 msgstr ""
 
 #: util.py:279
 msgid "Note: wait for {} seconds"
 msgstr ""
 
-#: wsgi.py:795
+#: wsgi.py:785
 msgid "OSM data © OpenStreetMap contributors."
 msgstr ""
 
-#: wsgi.py:173
+#: wsgi.py:163
 #, python-brace-format
 msgid ""
 "OpenStreetMap is possibly missing the below {0} house numbers for {1} "
 "streets."
 msgstr ""
 
-#: wsgi.py:213
+#: wsgi.py:203
 #, python-brace-format
 msgid "OpenStreetMap is possibly missing the below {0} streets."
 msgstr ""
@@ -164,75 +169,75 @@ msgstr ""
 msgid "Overpass error: {0}"
 msgstr ""
 
-#: wsgi.py:699
+#: wsgi.py:689
 msgid "Overpass turbo"
 msgstr ""
 
-#: wsgi.py:182
+#: wsgi.py:172
 msgid "Overpass turbo query for the below streets"
 msgstr ""
 
-#: wsgi.py:627
+#: wsgi.py:617
 msgid "Street coverage"
 msgstr ""
 
-#: areas.py:460 wsgi.py:208
+#: areas.py:465 wsgi.py:198
 msgid "Street name"
 msgstr ""
 
-#: wsgi.py:694 wsgi.py:704
+#: wsgi.py:684 wsgi.py:694
 msgid "Update from reference"
 msgstr ""
 
-#: wsgi.py:90 wsgi.py:290
+#: wsgi.py:80 wsgi.py:280
 msgid "Update successful."
 msgstr ""
 
-#: wsgi.py:86 wsgi.py:122 wsgi.py:279
+#: wsgi.py:76 wsgi.py:112 wsgi.py:269
 msgid "Update successful: "
 msgstr ""
 
-#: wsgi.py:792
+#: wsgi.py:782
 msgid "Version: "
 msgstr ""
 
-#: wsgi.py:88 wsgi.py:124 wsgi.py:281
+#: wsgi.py:78 wsgi.py:114 wsgi.py:271
 msgid "View missing house numbers"
 msgstr ""
 
-#: wsgi.py:714 wsgi.py:724
+#: wsgi.py:704 wsgi.py:714
 msgid "View query"
 msgstr ""
 
-#: wsgi.py:525 wsgi.py:732
+#: wsgi.py:515 wsgi.py:722
 msgid "Where to map?"
 msgstr ""
 
-#: wsgi.py:604
+#: wsgi.py:594
 msgid "area boundary"
 msgstr ""
 
-#: wsgi.py:581 wsgi.py:683
+#: wsgi.py:571 wsgi.py:673
 msgid "existing house numbers"
 msgstr ""
 
-#: wsgi.py:599 wsgi.py:685
+#: wsgi.py:589 wsgi.py:675
 msgid "existing streets"
 msgstr ""
 
-#: wsgi.py:431
+#: wsgi.py:421
 msgid "missing house numbers"
 msgstr ""
 
-#: wsgi.py:452 wsgi.py:681
+#: wsgi.py:442 wsgi.py:671
 msgid "missing streets"
 msgstr ""
 
-#: wsgi.py:425 wsgi.py:446 wsgi.py:580 wsgi.py:598
+#: wsgi.py:415 wsgi.py:436 wsgi.py:570 wsgi.py:588
 msgid "updated"
 msgstr ""
 
-#: wsgi.py:679
+#: wsgi.py:669
 #, python-brace-format
 msgid "{0} missing house numbers"
 msgstr ""
