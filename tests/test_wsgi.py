@@ -202,14 +202,5 @@ class TestMain(TestWsgi):
         self.assertEqual(len(results), 1)
 
 
-class TestGetStaticdir(unittest.TestCase):
-    """Tests get_staticdir()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        actual = wsgi.get_staticdir()
-        expected = os.path.join(os.getcwd(), "static")
-        self.assertEqual(actual, expected)
-
-
 if __name__ == '__main__':
     unittest.main()

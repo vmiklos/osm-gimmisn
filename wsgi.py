@@ -48,16 +48,6 @@ def get_config() -> configparser.ConfigParser:
     return config
 
 
-def get_datadir() -> str:
-    """Gets the directory which is tracked (in version control) data."""
-    return util.get_abspath("data")
-
-
-def get_staticdir() -> str:
-    """Gets the directory which is static data."""
-    return os.path.join(os.path.dirname(__file__), "static")
-
-
 def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
@@ -828,7 +818,7 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
         content_type = "text/css"
 
     if path.endswith(".js") or path.endswith(".css"):
-        return util.get_content(get_staticdir(), path), content_type
+        return util.get_content(util.get_abspath("static"), path), content_type
 
     return "", ""
 
@@ -873,6 +863,42 @@ def get_request_uri(environ: Dict[str, Any]) -> str:
     return request_uri
 
 
+def check_existing_relation(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+    """Prevents serving outdated data from a relation that has been renamed."""
+    doc = yattag.Doc()
+    if not request_uri.startswith("/osm/streets/") \
+            and not request_uri.startswith("/osm/missing-streets/") \
+            and not request_uri.startswith("/osm/street-housenumbers/") \
+            and not request_uri.startswith("/osm/missing-housenumbers/"):
+        return doc
+
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+    if relation_name in relations.get_names():
+        return doc
+
+    util.write_html_header(doc)
+    with doc.tag("div", id="no-such-relation-error"):
+        doc.text(_("No such relation: {0}").format(relation_name))
+    return doc
+
+
+HANDLERS = {
+    "/osm/streets/": handle_streets,
+    "/osm/missing-streets/": handle_missing_streets,
+    "/osm/street-housenumbers/": handle_street_housenumbers,
+    "/osm/missing-housenumbers/": handle_missing_housenumbers,
+}
+
+
+def get_handler(request_uri: str) -> Optional[Callable[[areas.Relations, str], yattag.Doc]]:
+    """Decides request_uri matches what handler."""
+    for key, value in HANDLERS.items():
+        if request_uri.startswith(key):
+            return value
+    return None
+
+
 def our_application(
         environ: Dict[str, Any],
         start_response: 'StartResponse'
@@ -896,7 +922,7 @@ def our_application(
     request_uri = get_request_uri(environ)
     _ignore, _ignore, ext = request_uri.partition('.')
 
-    relations = areas.Relations(get_datadir(), util.get_workdir(config))
+    relations = areas.Relations(util.get_abspath("data"), util.get_workdir(config))
 
     if ext == "txt":
         return our_application_txt(start_response, relations, request_uri)
@@ -911,14 +937,12 @@ def our_application(
         write_html_head(doc, get_html_title(request_uri))
 
         with doc.tag("body"):
-            if request_uri.startswith("/osm/streets/"):
-                doc.asis(handle_streets(relations, request_uri).getvalue())
-            elif request_uri.startswith("/osm/missing-streets/"):
-                doc.asis(handle_missing_streets(relations, request_uri).getvalue())
-            elif request_uri.startswith("/osm/street-housenumbers/"):
-                doc.asis(handle_street_housenumbers(relations, request_uri).getvalue())
-            elif request_uri.startswith("/osm/missing-housenumbers/"):
-                doc.asis(handle_missing_housenumbers(relations, request_uri).getvalue())
+            no_such_relation = check_existing_relation(relations, request_uri)
+            handler = get_handler(request_uri)
+            if no_such_relation.getvalue():
+                doc.asis(no_such_relation.getvalue())
+            elif handler:
+                doc.asis(handler(relations, request_uri).getvalue())
             elif request_uri.startswith("/osm/webhooks/github"):
                 doc.asis(handle_github_webhook(environ).getvalue())
             else:
