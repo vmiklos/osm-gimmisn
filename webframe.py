@@ -36,4 +36,43 @@ def get_footer(last_updated: str = "") -> yattag.Doc:
     return doc
 
 
+def fill_header_function(function: str, relation_name: str, items: List[yattag.Doc]) -> None:
+    """Fills items with function-specific links in the header. Returns a title."""
+    if function == "missing-housenumbers":
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/update-result"):
+            doc.text(_("Update from reference"))
+        doc.text(" " + _("(may take seconds)"))
+        items.append(doc)
+        doc = yattag.Doc()
+        with doc.tag("a", href="https://overpass-turbo.eu/"):
+            doc.text(_("Overpass turbo"))
+        items.append(doc)
+    elif function == "missing-streets":
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/update-result"):
+            doc.text(_("Update from reference"))
+        items.append(doc)
+    elif function == "street-housenumbers":
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/update-result"):
+            doc.text(_("Call Overpass to update"))
+        doc.text(" " + _("(may take seconds)"))
+        items.append(doc)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/view-query"):
+            doc.text(_("View query"))
+        items.append(doc)
+    elif function == "streets":
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/streets/" + relation_name + "/update-result"):
+            doc.text(_("Call Overpass to update"))
+        doc.text(" " + _("(may take seconds)"))
+        items.append(doc)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/streets/" + relation_name + "/view-query"):
+            doc.text(_("View query"))
+        items.append(doc)
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
