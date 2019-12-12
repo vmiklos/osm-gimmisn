@@ -31,6 +31,7 @@ PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
 	cron.py \
+	webframe.py \
 	wsgi.py \
 
 # These are valid.
@@ -102,7 +103,7 @@ deploy-pythonanywhere:
 	make
 	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py
 
-update-pot: areas.py wsgi.py util.py Makefile
+update-pot: areas.py webframe.py wsgi.py util.py Makefile
 	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)
 
 update-po: po/osm-gimmisn.pot Makefile

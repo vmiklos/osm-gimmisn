@@ -32,8 +32,8 @@ import yattag  # type: ignore
 import areas
 from i18n import translate as _
 import overpass_query
-import version
 import util
+import webframe
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -82,7 +82,7 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
             doc.asis(util.handle_overpass_error(http_error).getvalue())
 
     date = get_streets_last_modified(relation)
-    doc.asis(get_footer(date).getvalue())
+    doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
@@ -116,7 +116,7 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
             doc.asis(util.handle_overpass_error(http_error).getvalue())
 
     date = get_housenumbers_last_modified(relation)
-    doc.asis(get_footer(date).getvalue())
+    doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
@@ -306,7 +306,7 @@ def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) ->
 
     if not date:
         date = ref_housenumbers_last_modified(relations, relation_name)
-    doc.asis(get_footer(date).getvalue())
+    doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
@@ -332,7 +332,7 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
         doc.asis(missing_streets_update(relations, relation_name).getvalue())
 
     date = ref_streets_last_modified(relation)
-    doc.asis(get_footer(date).getvalue())
+    doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
@@ -626,7 +626,7 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.Doc:
         with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
             doc.text(_("Add new area"))
 
-    doc.asis(get_footer().getvalue())
+    doc.asis(webframe.get_footer().getvalue())
     return doc
 
 
@@ -772,26 +772,6 @@ def get_toolbar(
                 doc.text(" ¦ ")
             doc.asis(item.getvalue())
     doc.stag("hr")
-    return doc
-
-
-def get_footer(last_updated: str = "") -> yattag.Doc:
-    """Produces the end of the page."""
-    items = []  # type: List[yattag.Doc]
-    doc = yattag.Doc()
-    doc.text(_("Version: "))
-    doc.asis(util.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/").getvalue())
-    items.append(doc)
-    items.append(util.html_escape(_("OSM data © OpenStreetMap contributors.")))
-    if last_updated:
-        items.append(util.html_escape(_("Last update: ") + last_updated))
-    doc = yattag.Doc()
-    doc.stag("hr")
-    with doc.tag("div"):
-        for index, item in enumerate(items):
-            if index:
-                doc.text(" ¦ ")
-            doc.asis(item.getvalue())
     return doc
 
 
