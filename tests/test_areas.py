@@ -429,6 +429,17 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
         expected = ['10/A']
         self.assertEqual(housenumber_ranges, expected)
 
+    def test_letter_suffix_source_suffix(self) -> None:
+        """Tests that '42/A*' and '42/a' matches."""
+        relations = get_relations()
+        relation_name = "gh299"
+        relation = relations.get_relation(relation_name)
+        # Opt-in, this is not the default behavior.
+        relation.get_config().set_housenumber_letters(True)
+        ongoing_streets, _done_streets = relation.get_missing_housenumbers()
+        # Note how '52/B*' is not in this list.
+        self.assertEqual(ongoing_streets, [])
+
 
 class TestRelationGetMissingStreets(unittest.TestCase):
     """Tests Relation.get_missing_streets()."""

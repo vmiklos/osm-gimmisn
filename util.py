@@ -89,19 +89,23 @@ class HouseNumber:
         return house_number in invalids
 
     @staticmethod
-    def has_letter_suffix(house_number: str) -> bool:
+    def has_letter_suffix(house_number: str, source_suffix: str) -> bool:
         """
         Determines if the input is a house number, allowing letter suffixes. This means not only
         '42' is allowed, but also '42a', '42/a' and '42 a'. Everything else is still considered just
         junk after the numbers.
         """
+        if source_suffix:
+            house_number = house_number[0:-len(source_suffix)]
         return bool(re.match(r"^([0-9]+)( |/)?[A-Za-z]$", house_number))
 
     @staticmethod
-    def normalize_letter_suffix(house_number: str, style: LetterSuffixStyle) -> str:
+    def normalize_letter_suffix(house_number: str, source_suffix: str, style: LetterSuffixStyle) -> str:
         """
         Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
         """
+        if source_suffix:
+            house_number = house_number[0:-len(source_suffix)]
         match = re.match(r"^([0-9]+)( |/)?([A-Za-z])$", house_number)
         if not match:
             raise ValueError

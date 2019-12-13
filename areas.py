@@ -644,10 +644,10 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
             # Closed interval, but mixed even and odd.
             ret_numbers = [number for number in range(start, stop + 1, 1) if number in normalizer]
 
-    check_housenumber_letters = relation.get_config().should_check_housenumber_letters()
-    if len(ret_numbers) == 1 and check_housenumber_letters and util.HouseNumber.has_letter_suffix(house_numbers):
+    check_housenumber_letters = len(ret_numbers) == 1 and relation.get_config().should_check_housenumber_letters()
+    if check_housenumber_letters and util.HouseNumber.has_letter_suffix(house_numbers, suffix):
         style = relation.get_config().get_letter_suffix_style()
-        normalized = util.HouseNumber.normalize_letter_suffix(house_numbers, style)
+        normalized = util.HouseNumber.normalize_letter_suffix(house_numbers, suffix, style)
         return [util.HouseNumber(normalized, normalized)]
     return [util.HouseNumber(str(number) + suffix, house_numbers) for number in ret_numbers]
 

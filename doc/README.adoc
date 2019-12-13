@@ -34,7 +34,10 @@ The missing house numbers are colored:
 
 - black means a residential house number
 
-- blue means a commercial house number
+- blue means a commercial house number (text view: '*' suffix)
+
+NOTE: in case there is both a letter suffix and a source suffix, then the syntax is '42/A*', i.e.
+first the letter suffix, and then the source suffix.
 
 == How to add a new area
 

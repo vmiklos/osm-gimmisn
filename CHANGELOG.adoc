@@ -1,5 +1,10 @@
 = Changelog
 
+== 2019-12-13
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/299> made "source suffix" ('*' at the end of house
+  numbers) work together with "letter suffix" ('/A' at the end of house numbers), e.g. '42/A*'.
+
 == 2019-12-12
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/291> added error handling for not valid relation
