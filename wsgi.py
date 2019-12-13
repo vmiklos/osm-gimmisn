@@ -176,7 +176,7 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
     return doc
 
 
-def missing_relations_view_result(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def missing_streets_view_result(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -323,7 +323,7 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     doc.asis(webframe.get_toolbar(relations, "missing-streets", relation_name, osmrelation).getvalue())
 
     if action == "view-result":
-        doc.asis(missing_relations_view_result(relations, request_uri).getvalue())
+        doc.asis(missing_streets_view_result(relations, request_uri).getvalue())
     elif action == "view-query":
         with doc.tag("pre"):
             with relation.get_files().get_ref_streets_stream("r") as sock:
