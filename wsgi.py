@@ -58,7 +58,7 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     osmrelation = relation.get_config().get_osmrelation()
 
     doc = yattag.Doc()
-    doc.asis(get_toolbar(relations, "streets", relation_name, osmrelation).getvalue())
+    doc.asis(webframe.get_toolbar(relations, "streets", relation_name, osmrelation).getvalue())
 
     if action == "view-query":
         with doc.tag("pre"):
@@ -96,7 +96,7 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
     osmrelation = relation.get_config().get_osmrelation()
 
     doc = yattag.Doc()
-    doc.asis(get_toolbar(relations, "street-housenumbers", relation_name, osmrelation).getvalue())
+    doc.asis(webframe.get_toolbar(relations, "street-housenumbers", relation_name, osmrelation).getvalue())
 
     if action == "view-query":
         with doc.tag("pre"):
@@ -290,7 +290,7 @@ def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) ->
     relation = relations.get_relation(relation_name)
     osmrelation = relation.get_config().get_osmrelation()
     doc = yattag.Doc()
-    doc.asis(get_toolbar(relations, "missing-housenumbers", relation_name, osmrelation).getvalue())
+    doc.asis(webframe.get_toolbar(relations, "missing-housenumbers", relation_name, osmrelation).getvalue())
 
     if action == "view-result":
         doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
@@ -320,7 +320,7 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     osmrelation = relation.get_config().get_osmrelation()
 
     doc = yattag.Doc()
-    doc.asis(get_toolbar(relations, "missing-streets", relation_name, osmrelation).getvalue())
+    doc.asis(webframe.get_toolbar(relations, "missing-streets", relation_name, osmrelation).getvalue())
 
     if action == "view-result":
         doc.asis(missing_relations_view_result(relations, request_uri).getvalue())
@@ -607,7 +607,7 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.Doc:
     filter_for, refmegye = setup_main_filter_for(request_uri)
 
     doc = yattag.Doc()
-    doc.asis(get_toolbar(relations).getvalue())
+    doc.asis(webframe.get_toolbar(relations).getvalue())
 
     doc.asis(handle_main_filters(relations, refmegye).getvalue())
     table = []
@@ -628,32 +628,6 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.Doc:
 
     doc.asis(webframe.get_footer().getvalue())
     return doc
-
-
-def fill_missing_header_items(streets: str, relation_name: str, items: List[yattag.Doc]) -> None:
-    """Generates the 'missing house numbers/streets' part of the header."""
-    if streets != "only":
-        doc = yattag.Doc()
-        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result"):
-            doc.text(_("Missing house numbers"))
-        doc.text(" (")
-        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result.txt"):
-            doc.text("txt")
-        doc.text(")")
-        items.append(doc)
-        doc = yattag.Doc()
-        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/view-result"):
-            doc.text(_("Existing house numbers"))
-        items.append(doc)
-    if streets != "no":
-        doc = yattag.Doc()
-        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/view-result"):
-            doc.text(_("Missing streets"))
-        doc.text(" (")
-        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/view-result.txt"):
-            doc.text("txt")
-        doc.text(")")
-        items.append(doc)
 
 
 def get_html_title(request_uri: str) -> str:
@@ -686,54 +660,6 @@ def write_html_head(doc: yattag.Doc, title: str) -> None:
         with doc.tag("script", src="/osm/static/sorttable.js"):
             pass
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
-
-
-def get_toolbar(
-        relations: Optional[areas.Relations] = None,
-        function: str = "",
-        relation_name: str = "",
-        relation_osmid: int = 0
-) -> yattag.Doc:
-    """Produces the start of the page. Note that the content depends on the function and the
-    relation, but not on the action to keep a balance between too generic and too specific
-    content."""
-    items = []  # type: List[yattag.Doc]
-
-    if relations and relation_name:
-        relation = relations.get_relation(relation_name)
-        streets = relation.get_config().should_check_missing_streets()
-
-    doc = yattag.Doc()
-    with doc.tag("a", href="/osm"):
-        doc.text(_("Area list"))
-    items.append(doc)
-    if relation_name:
-        fill_missing_header_items(streets, relation_name, items)
-        doc = yattag.Doc()
-        with doc.tag("a", href="/osm/streets/" + relation_name + "/view-result"):
-            doc.text(_("Existing streets"))
-        items.append(doc)
-
-    webframe.fill_header_function(function, relation_name, items)
-
-    if relation_osmid:
-        doc = yattag.Doc()
-        with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation_osmid)):
-            doc.text(_("Area boundary"))
-        items.append(doc)
-    doc = yattag.Doc()
-    with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
-        doc.text(_("Documentation"))
-    items.append(doc)
-
-    doc = yattag.Doc()
-    with doc.tag("div", id="toolbar"):
-        for index, item in enumerate(items):
-            if index:
-                doc.text(" ¦ ")
-            doc.asis(item.getvalue())
-    doc.stag("hr")
-    return doc
 
 
 def handle_github_webhook(environ: Dict[str, Any]) -> yattag.Doc:

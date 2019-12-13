@@ -8,12 +8,14 @@
 """The webframe module provides the header, toolbar and footer code."""
 
 from typing import List
+from typing import Optional
 
 import yattag  # type: ignore
 
 from i18n import translate as _
-import version
+import areas
 import util
+import version
 
 
 def get_footer(last_updated: str = "") -> yattag.Doc:
@@ -73,6 +75,80 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.D
         with doc.tag("a", href="/osm/streets/" + relation_name + "/view-query"):
             doc.text(_("View query"))
         items.append(doc)
+
+
+def fill_missing_header_items(streets: str, relation_name: str, items: List[yattag.Doc]) -> None:
+    """Generates the 'missing house numbers/streets' part of the header."""
+    if streets != "only":
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result"):
+            doc.text(_("Missing house numbers"))
+        doc.text(" (")
+        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result.txt"):
+            doc.text("txt")
+        doc.text(")")
+        items.append(doc)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/view-result"):
+            doc.text(_("Existing house numbers"))
+        items.append(doc)
+    if streets != "no":
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/view-result"):
+            doc.text(_("Missing streets"))
+        doc.text(" (")
+        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/view-result.txt"):
+            doc.text("txt")
+        doc.text(")")
+        items.append(doc)
+
+
+def get_toolbar(
+        relations: Optional[areas.Relations] = None,
+        function: str = "",
+        relation_name: str = "",
+        relation_osmid: int = 0
+) -> yattag.Doc:
+    """Produces the start of the page. Note that the content depends on the function and the
+    relation, but not on the action to keep a balance between too generic and too specific
+    content."""
+    items = []  # type: List[yattag.Doc]
+
+    if relations and relation_name:
+        relation = relations.get_relation(relation_name)
+        streets = relation.get_config().should_check_missing_streets()
+
+    doc = yattag.Doc()
+    with doc.tag("a", href="/osm"):
+        doc.text(_("Area list"))
+    items.append(doc)
+    if relation_name:
+        fill_missing_header_items(streets, relation_name, items)
+        doc = yattag.Doc()
+        with doc.tag("a", href="/osm/streets/" + relation_name + "/view-result"):
+            doc.text(_("Existing streets"))
+        items.append(doc)
+
+    fill_header_function(function, relation_name, items)
+
+    if relation_osmid:
+        doc = yattag.Doc()
+        with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation_osmid)):
+            doc.text(_("Area boundary"))
+        items.append(doc)
+    doc = yattag.Doc()
+    with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
+        doc.text(_("Documentation"))
+    items.append(doc)
+
+    doc = yattag.Doc()
+    with doc.tag("div", id="toolbar"):
+        for index, item in enumerate(items):
+            if index:
+                doc.text(" ¦ ")
+            doc.asis(item.getvalue())
+    doc.stag("hr")
+    return doc
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
