@@ -14,7 +14,6 @@ import locale
 import os
 import subprocess
 import sys
-import traceback
 import urllib.parse
 from typing import Any
 from typing import Callable
@@ -674,31 +673,6 @@ def handle_github_webhook(environ: Dict[str, Any]) -> yattag.Doc:
     return util.html_escape("")
 
 
-def handle_static(request_uri: str) -> Tuple[str, str]:
-    """Handles serving static content."""
-    tokens = request_uri.split("/")
-    path = tokens[-1]
-
-    if request_uri.endswith(".js"):
-        content_type = "application/x-javascript"
-    elif request_uri.endswith(".css"):
-        content_type = "text/css"
-
-    if path.endswith(".js") or path.endswith(".css"):
-        return util.get_content(util.get_abspath("static"), path), content_type
-
-    return "", ""
-
-
-def send_response(start_response: 'StartResponse', content_type: str, status: str, output: str) -> Iterable[bytes]:
-    """Turns an output string into a byte array and sends it."""
-    output_bytes = output.encode('utf-8')
-    response_headers = [('Content-type', content_type + '; charset=utf-8'),
-                        ('Content-Length', str(len(output_bytes)))]
-    start_response(status, response_headers)
-    return [output_bytes]
-
-
 def our_application_txt(
         start_response: 'StartResponse',
         relations: areas.Relations,
@@ -710,7 +684,7 @@ def our_application_txt(
         output = missing_streets_view_txt(relations, request_uri)
     elif request_uri.startswith("/osm/missing-housenumbers/"):
         output = missing_housenumbers_view_txt(relations, request_uri)
-    return send_response(start_response, content_type, "200 OK", output)
+    return webframe.send_response(start_response, content_type, "200 OK", output)
 
 
 def get_request_uri(environ: Dict[str, Any]) -> str:
@@ -795,8 +769,8 @@ def our_application(
         return our_application_txt(start_response, relations, request_uri)
 
     if request_uri.startswith("/osm/static/"):
-        output, content_type = handle_static(request_uri)
-        return send_response(start_response, content_type, "200 OK", output)
+        output, content_type = webframe.handle_static(request_uri)
+        return webframe.send_response(start_response, content_type, "200 OK", output)
 
     doc = yattag.Doc()
     util.write_html_header(doc)
@@ -815,24 +789,7 @@ def our_application(
             else:
                 doc.asis(handle_main(request_uri, relations).getvalue())
 
-    return send_response(start_response, "text/html", "200 OK", doc.getvalue())
-
-
-def handle_exception(
-        environ: Dict[str, Any],
-        start_response: 'StartResponse'
-) -> Iterable[bytes]:
-    """Displays an unhandled exception on the page."""
-    status = '500 Internal Server Error'
-    path_info = environ.get("PATH_INFO")
-    if path_info:
-        request_uri = path_info
-    doc = yattag.Doc()
-    util.write_html_header(doc)
-    with doc.tag("pre"):
-        doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
-        doc.text(traceback.format_exc())
-    return send_response(start_response, "text/html", status, doc.getvalue())
+    return webframe.send_response(start_response, "text/html", "200 OK", doc.getvalue())
 
 
 def application(
@@ -845,7 +802,7 @@ def application(
 
     # pylint: disable=broad-except
     except Exception:
-        return handle_exception(environ, start_response)
+        return webframe.handle_exception(environ, start_response)
 
 
 def main() -> None:

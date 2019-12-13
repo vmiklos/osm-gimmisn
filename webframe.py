@@ -7,8 +7,14 @@
 
 """The webframe module provides the header, toolbar and footer code."""
 
+from typing import Any
+from typing import Dict
+from typing import Iterable
 from typing import List
 from typing import Optional
+from typing import TYPE_CHECKING
+from typing import Tuple
+import traceback
 
 import yattag  # type: ignore
 
@@ -16,6 +22,10 @@ from i18n import translate as _
 import areas
 import util
 import version
+
+if TYPE_CHECKING:
+    # pylint: disable=no-name-in-module,import-error,unused-import
+    from wsgiref.types import StartResponse
 
 
 def get_footer(last_updated: str = "") -> yattag.Doc:
@@ -149,6 +159,48 @@ def get_toolbar(
             doc.asis(item.getvalue())
     doc.stag("hr")
     return doc
+
+
+def handle_static(request_uri: str) -> Tuple[str, str]:
+    """Handles serving static content."""
+    tokens = request_uri.split("/")
+    path = tokens[-1]
+
+    if request_uri.endswith(".js"):
+        content_type = "application/x-javascript"
+    elif request_uri.endswith(".css"):
+        content_type = "text/css"
+
+    if path.endswith(".js") or path.endswith(".css"):
+        return util.get_content(util.get_abspath("static"), path), content_type
+
+    return "", ""
+
+
+def send_response(start_response: 'StartResponse', content_type: str, status: str, output: str) -> Iterable[bytes]:
+    """Turns an output string into a byte array and sends it."""
+    output_bytes = output.encode('utf-8')
+    response_headers = [('Content-type', content_type + '; charset=utf-8'),
+                        ('Content-Length', str(len(output_bytes)))]
+    start_response(status, response_headers)
+    return [output_bytes]
+
+
+def handle_exception(
+        environ: Dict[str, Any],
+        start_response: 'StartResponse'
+) -> Iterable[bytes]:
+    """Displays an unhandled exception on the page."""
+    status = '500 Internal Server Error'
+    path_info = environ.get("PATH_INFO")
+    if path_info:
+        request_uri = path_info
+    doc = yattag.Doc()
+    util.write_html_header(doc)
+    with doc.tag("pre"):
+        doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
+        doc.text(traceback.format_exc())
+    return send_response(start_response, "text/html", status, doc.getvalue())
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
