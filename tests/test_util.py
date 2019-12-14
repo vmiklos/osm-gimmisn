@@ -279,7 +279,7 @@ class TestHouseNumber(unittest.TestCase):
         self.assertEqual(normalize("42 a", "", util.LetterSuffixStyle.UPPER), "42/A")
         self.assertEqual(normalize("42/a", "", util.LetterSuffixStyle.UPPER), "42/A")
         self.assertEqual(normalize("42/A", "", util.LetterSuffixStyle.UPPER), "42/A")
-        self.assertEqual(normalize("42/A*", "*", util.LetterSuffixStyle.UPPER), "42/A")
+        self.assertEqual(normalize("42/A*", "*", util.LetterSuffixStyle.UPPER), "42/A*")
         self.assertEqual(normalize("42 A", "", util.LetterSuffixStyle.UPPER), "42/A")
         with self.assertRaises(ValueError):
             util.HouseNumber.normalize_letter_suffix("x", "", util.LetterSuffixStyle.UPPER)

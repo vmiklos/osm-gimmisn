@@ -111,8 +111,8 @@ class HouseNumber:
             raise ValueError
         groups = match.groups()
         if style == LetterSuffixStyle.UPPER:
-            return groups[0] + "/" + groups[2].upper()
-        return groups[0] + groups[2].lower()
+            return groups[0] + "/" + groups[2].upper() + source_suffix
+        return groups[0] + groups[2].lower() + source_suffix
 
 
 def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
