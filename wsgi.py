@@ -7,7 +7,6 @@
 
 """The wsgi module contains functionality specific to the web interface."""
 
-import configparser
 import datetime
 import json
 import locale
@@ -37,14 +36,6 @@ import webframe
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
     from wsgiref.types import StartResponse
-
-
-def get_config() -> configparser.ConfigParser:
-    """Gets access to information which are specific to this installation."""
-    config = configparser.ConfigParser()
-    config_path = util.get_abspath("wsgi.ini")
-    config.read(config_path)
-    return config
 
 
 def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
@@ -260,7 +251,7 @@ def missing_streets_view_txt(relations: areas.Relations, request_uri: str) -> st
 
 def missing_housenumbers_update(relations: areas.Relations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result."""
-    reference = get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
+    reference = webframe.get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
     reference = [util.get_abspath(i) for i in reference]
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
@@ -273,7 +264,7 @@ def missing_housenumbers_update(relations: areas.Relations, relation_name: str) 
 
 def missing_streets_update(relations: areas.Relations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
-    reference = util.get_abspath(get_config().get('wsgi', 'reference_street').strip())
+    reference = util.get_abspath(webframe.get_config().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
     return util.html_escape(_("Update successful."))
@@ -337,7 +328,7 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
     """Converts from local date-time to UI date-time, based on config."""
-    config = get_config()
+    config = webframe.get_config()
     if config.has_option("wsgi", "timezone"):
         ui_tz = pytz.timezone(config.get("wsgi", "timezone"))
     else:
@@ -745,7 +736,7 @@ def our_application(
         start_response: 'StartResponse'
 ) -> Iterable[bytes]:
     """Dispatches the request based on its URI."""
-    config = get_config()
+    config = webframe.get_config()
     if config.has_option("wsgi", "locale"):
         ui_locale = config.get("wsgi", "locale")
     else:

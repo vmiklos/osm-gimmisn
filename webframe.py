@@ -14,6 +14,7 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
+import configparser
 import traceback
 
 import yattag  # type: ignore
@@ -201,6 +202,14 @@ def handle_exception(
         doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
         doc.text(traceback.format_exc())
     return send_response(start_response, "text/html", status, doc.getvalue())
+
+
+def get_config() -> configparser.ConfigParser:
+    """Gets access to information which are specific to this installation."""
+    config = configparser.ConfigParser()
+    config_path = util.get_abspath("wsgi.ini")
+    config.read(config_path)
+    return config
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
