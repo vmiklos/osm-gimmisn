@@ -199,5 +199,3 @@ filters:
       - {start: '2', end: '2'}
 source: survey
 inactive: false
-housenumber-letters: true
-
