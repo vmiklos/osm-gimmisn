@@ -24,7 +24,6 @@ from typing import TYPE_CHECKING
 from typing import Tuple
 import wsgiref.simple_server
 
-import pytz
 import yattag  # type: ignore
 
 import areas
@@ -326,17 +325,6 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     return doc
 
 
-def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
-    """Converts from local date-time to UI date-time, based on config."""
-    config = webframe.get_config()
-    if config.has_option("wsgi", "timezone"):
-        ui_tz = pytz.timezone(config.get("wsgi", "timezone"))
-    else:
-        ui_tz = pytz.timezone("Europe/Budapest")
-
-    return local_dt.astimezone(ui_tz)
-
-
 def get_last_modified(workdir: str, path: str = "") -> str:
     """Gets the update date of a file in workdir."""
     if path:
@@ -361,7 +349,7 @@ def get_timestamp(workdir: str, path: str = "") -> float:
 def format_timestamp(timestamp: float) -> str:
     """Formats timestamp as UI date-time."""
     local_dt = datetime.datetime.fromtimestamp(timestamp)
-    ui_dt = local_to_ui_tz(local_dt)
+    ui_dt = webframe.local_to_ui_tz(local_dt)
     fmt = '%Y-%m-%d %H:%M'
     return ui_dt.strftime(fmt)
 

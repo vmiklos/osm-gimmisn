@@ -15,8 +15,10 @@ from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 import configparser
+import datetime
 import traceback
 
+import pytz
 import yattag  # type: ignore
 
 from i18n import translate as _
@@ -210,6 +212,17 @@ def get_config() -> configparser.ConfigParser:
     config_path = util.get_abspath("wsgi.ini")
     config.read(config_path)
     return config
+
+
+def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
+    """Converts from local date-time to UI date-time, based on config."""
+    config = get_config()
+    if config.has_option("wsgi", "timezone"):
+        ui_tz = pytz.timezone(config.get("wsgi", "timezone"))
+    else:
+        ui_tz = pytz.timezone("Europe/Budapest")
+
+    return local_dt.astimezone(ui_tz)
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
