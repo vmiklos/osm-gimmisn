@@ -7,7 +7,6 @@
 
 """The wsgi module contains functionality specific to the web interface."""
 
-import datetime
 import json
 import locale
 import os
@@ -331,7 +330,7 @@ def get_last_modified(workdir: str, path: str = "") -> str:
         path = os.path.join(workdir, path)
     else:
         path = workdir
-    return format_timestamp(get_timestamp(path))
+    return webframe.format_timestamp(get_timestamp(path))
 
 
 def get_timestamp(workdir: str, path: str = "") -> float:
@@ -346,27 +345,19 @@ def get_timestamp(workdir: str, path: str = "") -> float:
         return 0
 
 
-def format_timestamp(timestamp: float) -> str:
-    """Formats timestamp as UI date-time."""
-    local_dt = datetime.datetime.fromtimestamp(timestamp)
-    ui_dt = webframe.local_to_ui_tz(local_dt)
-    fmt = '%Y-%m-%d %H:%M'
-    return ui_dt.strftime(fmt)
-
-
 def ref_housenumbers_last_modified(relations: areas.Relations, name: str) -> str:
     """Gets the update date for missing house numbers."""
     relation = relations.get_relation(name)
     t_ref = get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_housenumbers = get_timestamp(relation.get_files().get_osm_housenumbers_path())
-    return format_timestamp(max(t_ref, t_housenumbers))
+    return webframe.format_timestamp(max(t_ref, t_housenumbers))
 
 
 def ref_streets_last_modified(relation: areas.Relation) -> str:
     """Gets the update date for missing streets."""
     t_ref = get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = get_timestamp(relation.get_files().get_osm_streets_path())
-    return format_timestamp(max(t_ref, t_osm))
+    return webframe.format_timestamp(max(t_ref, t_osm))
 
 
 def get_housenumbers_last_modified(relation: areas.Relation) -> str:

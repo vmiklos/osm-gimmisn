@@ -225,4 +225,12 @@ def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
     return local_dt.astimezone(ui_tz)
 
 
+def format_timestamp(timestamp: float) -> str:
+    """Formats timestamp as UI date-time."""
+    local_dt = datetime.datetime.fromtimestamp(timestamp)
+    ui_dt = local_to_ui_tz(local_dt)
+    fmt = '%Y-%m-%d %H:%M'
+    return ui_dt.strftime(fmt)
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
