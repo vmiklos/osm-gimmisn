@@ -7,17 +7,29 @@
 # Don't build HTML strings manually where escaping can be forgotten.
 git grep "'<" *.py
 git grep '"<' *.py
-# Ensure unescaped string can be added do a document as-is, only in case it's an escaped string.
+# Ensure unescaped string can be added do a document as-is only in case it's an escaped string.
 git grep -n -w asis|grep -v getvalue
 ----
 
 Exception to this rule is the HTML DOCTYPE header.
 
-- Path handling: make relative paths absolute using util.get_abspath() and avoid `__file__`,
-  `os.getcwd()` or `os.chdir()`. This has the benefit that real and test config/data (under `/` and
-  `tests/`) can be separated.
+- Path handling: make relative paths absolute using `util.get_abspath()`:
 
-Exception to this rule is the `static/` directory, which has no separate test instance.
+----
+git grep __file__ *.py
+git grep os.getcwd *.py
+git grep os.chdir *.py
+----
+
+This has the benefit that real and test config/data (under `/` and `tests/`) can be separated via
+the tests mocking that single function.
+
+- Try to keep module size under 800 lines, so a random small improvement does not trigger the CI
+  failure at 1000 lines:
+
+----
+for i in *.py; do lines=$(wc -l < $i); if [ $lines -gt 800 ]; then echo "$i is too large: $lines lines"; fi; done
+----
 
 == Checklist
 
