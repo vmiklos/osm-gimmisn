@@ -30,7 +30,7 @@ filters:
   Árkay Bertalan sétány:
     reftelepules: '012'
   Attila út:
-    invalid: ['4a', '12b', '14a', '16b','57a', '61a', '65a', '65b']
+    invalid: ['4a', '12b', '14a', '16b', '57a', '61a', '65a', '65b']
     ranges:
       - {start: '33', end: '135'}
       - {start: '4', end: '98'}
