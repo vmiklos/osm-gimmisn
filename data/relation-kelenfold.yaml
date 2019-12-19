@@ -1,6 +1,7 @@
 missing-streets: 'no'
 filters:
   Albert utca:
+    invalid: ['43a']
     ranges:
       - {start: '1', end: '33'}
       - {start: '37', end: '51'}
@@ -19,6 +20,7 @@ filters:
       - {start: '4', end: '12'}
   Andor utca:
     # 27-31 egyben
+    invalid: ['23/A 1', '52']
     ranges:
       - {start: '1', end: '31'}
       - {start: '47', end: '49'}
@@ -51,6 +53,7 @@ filters:
       - {start: '14', end: '30'}
       - {start: '38', end: '44'}
   Bártfai utca:
+    invalid: ['2a', '8', '9', '12', '22', '26b', '35b', '38b', '49b', '59b']
     ranges:
       - {start: '1', end: '65'}
       - {start: '2', end: '52'}
@@ -59,6 +62,7 @@ filters:
     ranges:
       - {start: '2', end: '4'}
   Bartók Béla út:
+    invalid: ['91a', '91b', '95', '103b', '109a', '117a', '119a', '127', '127d', '127e', '129', '131', '88a', '88b', '88j', '114a', '126a', '128a', '132b', '152a', '152d', '152e']
     ranges:
       # 105-113; 117-121 hazak vannak
       - {start: '69', end: '149'}
@@ -67,11 +71,13 @@ filters:
       - {start: '152', end: '152'}
       - {start: '156', end: '160'}
   Bikszádi utca:
+    invalid: ['3', '5', '6', '8', '9', '12']
     ranges:
       - {start: '1', end: '15'}
       - {start: '25', end: '39'}
       - {start: '6', end: '24'}
   Bocskai út:
+    invalid: ['73b']
     ranges:
       - {start: '67', end: '79'}
       - {start: '2', end: '18'}
@@ -93,6 +99,7 @@ filters:
       - {start: '1', end: '9'}
       - {start: '12', end: '20'}
   Bornemissza utca:
+    invalid: ['20', '34a', '35a', '35b']
     ranges:
       - {start: '1', end: '29'}
       - {start: '33', end: '37'}
@@ -124,12 +131,14 @@ filters:
   Csonka János tér:
     ranges: []
   Csorbai utca:
+    invalid: ['2', '2a', '3', '5/E 1', '13a', '16c', '18', '22', '28a']
     ranges:
       - {start: '3', end: '23'}
       - {start: '2', end: '2'}
       - {start: '12', end: '28'}
   Csurgói út:
-    # 1-7 Ventura oldala, nincs hazszam, 9 nincs, 2-16 masik utcakra szamozva
+    # 1-7 Ventura oldala, nincs hazszam, 9 nincs, 2-16 masik utcakra szamozva; 22-32-t felbontották úgy, hogy minden háznak külön házszáma van, de közben megmaradt a betűje is
+    invalid: ['18', '20', '21a', '22a', '24e', '24o', '38', '38b', '39']
     ranges:
       - {start: '11', end: '39'}
       - {start: '18', end: '40'}
@@ -174,6 +183,7 @@ filters:
   Fehérvári út:
     # Fehervari 58-68, 132-144 egyben. 152 utan 160 jon, majd 166 a benzikút
     # 161 Andor utca sarka-179 Ventura kozott semmit, 183-tol jon a panel
+    invalid: ['79a', '83b', '85c', '106', '114', '118', '130a', 145a, '146a', '146b', '146z', '179a', '179c', '179d', '189a']
     ranges:
       - {start: '23', end: '79'}
       - {start: '83', end: '161'}
@@ -188,6 +198,7 @@ filters:
       - {start: '160', end: '160'}
       - {start: '166', end: '166'}
   Fejér Lipót utca:
+    invalid: ['2b', '8a']
     ranges:
       - {start: '13', end: '15'}
       - {start: '55', end: '67'}
@@ -195,6 +206,7 @@ filters:
   Fiatal utca:
     ranges: []
   Fraknó utca:
+    invalid: ['4a', '6', '8', '10', '10h', '12', '14', '16', '16d', '18', '18c', '20', '22', '22d', '24', '26', '28', '30', '40']
     ranges:
       - {start: '1', end: '7'}
       - {start: '11', end: '23'}
@@ -216,6 +228,7 @@ filters:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
   Hadak útja:
+    invalid: ['4a', '35b', '45a', '45b', '63', '63b', '64', '66', '65', '65c']  # 45-nél nincs kiírva semmi
     ranges:
       - {start: '5', end: '11'}
       - {start: '17', end: '19'}
@@ -223,6 +236,7 @@ filters:
       - {start: '2', end: '6'}
       - {start: '30', end: '68'}
   Halmi utca:
+    invalid: ['3a', '3b', '5b', '8']
     ranges:
       - {start: '1', end: '67'}
       - {start: '2', end: '46'}
@@ -293,6 +307,7 @@ filters:
   Kelenvölgyi határsor:
     ranges: []
   Keveháza utca:
+    invalid: ['6c']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '10'}
@@ -304,6 +319,7 @@ filters:
       - {start: '1', end: '3'}
       - {start: '6', end: '10'}
   Kondorosi út:
+    invalid: ['17b']
     ranges:
       - {start: '3', end: '69'}
   Kosztolányi Dezső tér:
@@ -311,6 +327,7 @@ filters:
       - {start: '5', end: '11'}
       - {start: '6', end: '10'}
   Kovászna utca:
+    invalid: ['4', '4c']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '16'}
@@ -319,23 +336,27 @@ filters:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
   Leiningen út:
+    invalid: ['51a']
     ranges:
       - {start: '27', end: '53'}
   Major köz:
     ranges:
       - {start: '6', end: '12'}
   Major utca:
+    invalid: ['12', '16a', '18a', '40b', '57']
     ranges:
       - {start: '1', end: '7'}
       - {start: '17', end: '23'}
       - {start: '27', end: '69'}
       - {start: '12', end: '42'}
   Mérnök utca:
+    invalid: ['37']  # a-d
     ranges:
       - {start: '33', end: '39'}
       - {start: '10', end: '14'}
       - {start: '28', end: '42'}
   Mohai út:
+    invalid: ['2', '5b', '23a', '27a', '34a', '34b', '49', '51', '53', '55']  # 49/a-b,51/a-b;53/a-b,55/a-b
     ranges:
       - {start: '1', end: '17'}
       - {start: '23', end: '55'}
@@ -369,6 +390,7 @@ filters:
       - {start: '4', end: '14'}
       - {start: '18', end: '28'}
   Pajkos utca:
+    invalid: ['22', '23c', '32d', '34c', '38a']
     ranges:
       - {start: '1', end: '19'}
       - {start: '23', end: '41'}
@@ -380,12 +402,14 @@ filters:
       - {start: '1', end: '35'}
       - {start: '4', end: '26'}
   Petzvál József utca:
+    invalid: ['2a', '8a', '9', '11', '14', '17', '18-22', '22c', '22d', '22e', '23']
     ranges:
       - {start: '1', end: '27'}
       - {start: '31', end: '43'}
       - {start: '2', end: '18'}
       - {start: '22', end: '56'}
   Pór Bertalan köz:
+    invalid: ['10b']
     ranges:
       - {start: '2', end: '12'}
   Prielle Kornélia utca:
@@ -395,9 +419,9 @@ filters:
       - {start: '2', end: '16'}
   Rátz László utca:
     # 3-7 egyben
+    invalid: ['9b', '12b', '16b', '22a', '23c', '25', '77b', '85c']
     ranges:
-      - {start: '3', end: '21'}
-      - {start: '25', end: '85'}
+      - {start: '3', end: '85'}
       - {start: '4', end: '4'}
       - {start: '10', end: '76'}
       - {start: '80', end: '82'}
@@ -407,6 +431,7 @@ filters:
     ranges:
       - {start: '1', end: '26'}
   Solt utca:
+    invalid: ['26b']
     ranges:
       - {start: '24', end: '98'}
   Somogyi út:
@@ -419,6 +444,8 @@ filters:
       - {start: '1', end: '71'}
       - {start: '2', end: '50'}
       - {start: '60', end: '72'}
+  Sósfürdő utca:
+    invalid: ['3']
   Szádelő köz:
     ranges:
       - {start: '1', end: '9'}
@@ -440,6 +467,8 @@ filters:
     interpolation: 'all'
     ranges:
       - {start: '1', end: '15'}
+  Szováta utca:
+    invalid: ['2b']
   Sztregova utca:
     ranges:
       - {start: '1', end: '7'}
@@ -448,6 +477,8 @@ filters:
     ranges:
       - {start: '15', end: '23'}
       - {start: '22', end: '28'}
+  Takács Menyhért utca:
+    invalid: ['27']
   Temesvár utca:
     ranges:
       - {start: '1', end: '9'}
@@ -458,8 +489,8 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
   Tétényi út:
+    invalid: ['3', '21', 71b, '98', '98-102', '101', '111a', '115', '117', '126b']
     ranges:
-      # vege felmerendo
       - {start: '1', end: '141'}
       - {start: '2', end: '48'}
       - {start: '62', end: '76'}
@@ -475,9 +506,11 @@ filters:
     ranges:
       - {start: '2', end: '10'}
   Újházy utca:
+    invalid: ['2', '4b']
     ranges:
       - {start: '2', end: '12'}
   Ulászló utca:
+    invalid: ['4b', '37a']
     ranges:
       - {start: '1', end: '59'}
       - {start: '2', end: '80'}
@@ -492,11 +525,14 @@ filters:
       - {start: '27', end: '47'}
       - {start: '26', end: '32'}
       - {start: '40', end: '50'}
+  Zámori utca:
+    invalid: ['4', '6a', '6b']
   Zsombolyai utca:
     ranges:
       - {start: '7', end: '17'}
       - {start: '8', end: '20'}
   Zsombor utca:
+    invalid: ['37', '39', '39a']
     ranges:
       - {start: '1', end: '29'}
       - {start: '33', end: '39'}
