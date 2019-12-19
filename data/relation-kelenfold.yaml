@@ -20,7 +20,7 @@ filters:
       - {start: '4', end: '12'}
   Andor utca:
     # 27-31 egyben
-    invalid: ['23/A 1', '52']
+    invalid: ['23', '52']  # 23/A: I,II,III lépcsőházak
     ranges:
       - {start: '1', end: '31'}
       - {start: '47', end: '49'}
@@ -131,7 +131,7 @@ filters:
   Csonka János tér:
     ranges: []
   Csorbai utca:
-    invalid: ['2', '2a', '3', '5/E 1', '13a', '16c', '18', '22', '28a']
+    invalid: ['2', '2a', '3', '5', '13a', '16c', '18', '22', '28a']
     ranges:
       - {start: '3', end: '23'}
       - {start: '2', end: '2'}
@@ -236,7 +236,7 @@ filters:
       - {start: '2', end: '6'}
       - {start: '30', end: '68'}
   Halmi utca:
-    invalid: ['3a', '3b', '5b', '8']
+    invalid: ['3a', '3b', '5b', '6', '8']
     ranges:
       - {start: '1', end: '67'}
       - {start: '2', end: '46'}
@@ -402,11 +402,11 @@ filters:
       - {start: '1', end: '35'}
       - {start: '4', end: '26'}
   Petzvál József utca:
-    invalid: ['2a', '8a', '9', '11', '14', '17', '18-22', '22c', '22d', '22e', '23']
+    invalid: ['8a', '9', '11', '14', '17', '18', '22', '22c', '22d', '22e', '23']
     ranges:
       - {start: '1', end: '27'}
       - {start: '31', end: '43'}
-      - {start: '2', end: '18'}
+      - {start: '4', end: '18'}
       - {start: '22', end: '56'}
   Pór Bertalan köz:
     invalid: ['10b']
