@@ -1,5 +1,10 @@
 = Changelog
 
+== 2019-12-21
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/303> ';' separator can be now used in combination
+  with letter suffixes, e.g. '42/A;42/B'.
+
 == 2019-12-13
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/299> made "source suffix" ('*' at the end of house

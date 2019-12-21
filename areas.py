@@ -309,7 +309,8 @@ class Relation:
                     continue
                 if tokens[1] != street_name:
                     continue
-                house_numbers += normalize(self, tokens[2], street_name, self.get_street_ranges())
+                for house_number in tokens[2].split(';'):
+                    house_numbers += normalize(self, house_number, street_name, self.get_street_ranges())
         return util.sort_numerically(set(house_numbers))
 
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:

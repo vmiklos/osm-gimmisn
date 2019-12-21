@@ -440,6 +440,21 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
         # Note how '52/B*' is not in this list.
         self.assertEqual(ongoing_streets, [])
 
+    def test_letter_suffix_normalize_semicolon(self) -> None:
+        """Tests that 'a' is not stripped from '1;3a'."""
+        relations = get_relations()
+        relation_name = "gh303"
+        relation = relations.get_relation(relation_name)
+        # Opt-in, this is not the default behavior.
+        relation.get_config().set_housenumber_letters(True)
+        ongoing_streets, _done_streets = relation.get_missing_housenumbers()
+        ongoing_street = ongoing_streets[0]
+        housenumber_ranges = util.get_housenumber_ranges(ongoing_street[1])
+        housenumber_ranges = sorted(housenumber_ranges, key=util.split_house_number)
+        # Note how 43/B and 43/C is not here.
+        expected = ['43/A', '43/D']
+        self.assertEqual(housenumber_ranges, expected)
+
 
 class TestRelationGetMissingStreets(unittest.TestCase):
     """Tests Relation.get_missing_streets()."""
