@@ -205,6 +205,8 @@ filters:
       - {start: '2', end: '70'}
   Fiatal utca:
     ranges: []
+  Fogócska utca:
+    invalid: ['1b', '3b', '11b', '15b']
   Fraknó utca:
     invalid: ['4a', '6', '8', '10', '10h', '12', '14', '16', '16d', '18', '18c', '20', '22', '22d', '24', '26', '28', '30', '40']
     ranges:
@@ -398,6 +400,7 @@ filters:
   Pázmány Péter sétány:
     ranges: []
   Puskás Tivadar utca:
+    invalid: ['3c', '4c', '8b', '21a', '22', '23b', '24a']
     ranges:
       - {start: '1', end: '35'}
       - {start: '4', end: '26'}
@@ -489,7 +492,7 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
   Tétényi út:
-    invalid: ['3', '21', 71b, '98', '98-102', '101', '111a', '115', '117', '126b']
+    invalid: ['3', '21', 71b, '98', '101', '102', '111a', '115', '117', '126b']
     ranges:
       - {start: '1', end: '141'}
       - {start: '2', end: '48'}
