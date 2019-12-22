@@ -173,6 +173,8 @@ filters:
     reftelepules: '012'
   Temes utca:
     reftelepules: '012'
+    ranges:
+      - {start: '2', end: '2'}
   Ugocsa utca:
     # 1 is only block end
     ranges:
