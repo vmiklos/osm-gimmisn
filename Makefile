@@ -10,6 +10,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_ranges.py \
 	tests/test_util.py \
 	tests/test_validator.py \
+	tests/test_webframe.py \
 	tests/test_wsgi.py \
 
 # These have good coverage.
