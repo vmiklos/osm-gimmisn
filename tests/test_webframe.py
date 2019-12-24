@@ -15,10 +15,16 @@ import webframe
 class TestHandleStatic(unittest.TestCase):
     """Tests handle_static()."""
     def test_happy(self) -> None:
-        """Tests the happy path: css / javascript case."""
+        """Tests the happy path: css case."""
         content, content_type = webframe.handle_static("/osm/static/osm.css")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "text/css")
+
+    def test_javascript(self) -> None:
+        """Tests the javascript case."""
+        content, content_type = webframe.handle_static("/osm/static/sorttable.js")
+        self.assertTrue(len(content))
+        self.assertEqual(content_type, "application/x-javascript")
 
 
 if __name__ == '__main__':
