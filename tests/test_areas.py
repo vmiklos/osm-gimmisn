@@ -496,11 +496,11 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         self.assertEqual(todo_count, 5)
         self.assertEqual(done_count, 6)
         self.assertEqual(percent, '54.55')
-        table = table_doc_to_string(table)
-        self.assertEqual(table, [['Street name', 'Missing count', 'House numbers'],
-                                 ['Törökugrató utca', '2', '7<br />10'],
-                                 ['Tűzkő utca', '2', '1<br />2'],
-                                 ['Hamzsabégi út', '1', '1']])
+        string_table = table_doc_to_string(table)
+        self.assertEqual(string_table, [['Street name', 'Missing count', 'House numbers'],
+                                        ['Törökugrató utca', '2', '7<br />10'],
+                                        ['Tűzkő utca', '2', '1<br />2'],
+                                        ['Hamzsabégi út', '1', '1']])
         actual = util.get_content(relations.get_workdir(), "gazdagret.percent")
         self.assertEqual(actual, expected)
 
@@ -522,10 +522,10 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_housenumbers()
         _todo_street_count, _todo_count, _done_count, _percent, table = ret
-        table = table_doc_to_string(table)
+        string_table = table_doc_to_string(table)
         # Note how "12" is ordered after "2", even if a string sort would do the opposite.
-        self.assertEqual(table, [['Street name', 'Missing count', 'House numbers'],
-                                 ['Vöröskúti határsor', '4', '2, 12, 34, <span style="color: blue;">36</span>']])
+        self.assertEqual(string_table, [['Street name', 'Missing count', 'House numbers'],
+                                        ['Vöröskúti határsor', '4', '2, 12, 34, <span style="color: blue;">36</span>']])
 
 
 class TestRelationWriteMissingStreets(unittest.TestCase):

@@ -389,7 +389,7 @@ def tsv_to_list(stream: TextIO) -> List[List[yattag.Doc]]:
                 doc = yattag.Doc()
                 href = "https://www.openstreetmap.org/{}/{}".format(osm_type, osm_id)
                 with doc.tag("a", href=href, target="_blank"):
-                    doc.text(osm_id)
+                    doc.text(str(osm_id))
                 cells[0] = doc
             except ValueError:
                 # Not an int, ignore.
