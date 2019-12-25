@@ -283,6 +283,8 @@ filters:
       - {start: '2', end: '2'}
       - {start: '6', end: '26'}
       - {start: '60', end: '60'}
+  Holdvilág utca:
+    invalid: ['13']
   Hollókő utca:
     ranges:
       - {start: '1', end: '9'}
@@ -461,7 +463,7 @@ filters:
       - {start: '24', end: '98'}
   Somogyi út:
     # 2-4 nem letezik, 35-ös az Etele tér buszpályaudvar
-    invalid: ['28a', '28b', '30b']  # 28-30 A,B,C lh.
+    invalid: ['15', '17', '23', '28a', '28b', '30b']  # 28-30 A,B,C lh.
     ranges:
       - {start: '6', end: '30'}
       - {start: '3', end: '35'}
