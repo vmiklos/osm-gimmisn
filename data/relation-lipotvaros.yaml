@@ -52,5 +52,5 @@ filters:
       - {start: '3', end: '9'}
   Zoltán utca:
     # 1 és 15 sarokházak, másik utcáról számozódnak
-    invalid: ['1a', '15']
+    invalid: ['1', '1a', '15']
 source: survey
