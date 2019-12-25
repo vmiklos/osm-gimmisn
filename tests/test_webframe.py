@@ -26,6 +26,12 @@ class TestHandleStatic(unittest.TestCase):
         self.assertTrue(len(content))
         self.assertEqual(content_type, "application/x-javascript")
 
+    def test_else(self) -> None:
+        """Tests the case when the content type is not recognized."""
+        content, content_type = webframe.handle_static("/osm/static/test.xyz")
+        self.assertFalse(len(content))
+        self.assertFalse(len(content_type))
+
 
 if __name__ == '__main__':
     unittest.main()
