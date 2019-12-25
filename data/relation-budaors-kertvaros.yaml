@@ -16,9 +16,8 @@ filters:
   Budapesti út:
     invalid: ['25', '43']
     ranges:
-      - {start: '1', end: '33'}
-      - {start: '39', end: '133'}
-      - {start: '2', end: '140'}
+      - {start: '89', end: '133'}
+      - {start: '90', end: '140'}
   Cserebogár utca:
     ranges:
       - {start: '1', end: '21'}
@@ -58,6 +57,10 @@ filters:
     # páratlan belváros, páros kertváros
     ranges:
       - {start: '2', end: '98'}
+  Tűzkőhegyi utca:
+    # 1-15 kertváros
+    ranges:
+      - {start: '1', end: '15'}
 source: survey
 street-filters:
   - Csiki dűlő
