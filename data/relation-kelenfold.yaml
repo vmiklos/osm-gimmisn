@@ -33,6 +33,7 @@ filters:
       - {start: '1', end: '17'}
       - {start: '4', end: '6'}
   Ballagi Mór utca:
+    invalid: ['14a', '14b', '14c', '14d']
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '14'}
@@ -77,7 +78,7 @@ filters:
       - {start: '25', end: '39'}
       - {start: '6', end: '24'}
   Bocskai út:
-    invalid: ['73b']
+    invalid: ['42a', '50a', '73b']
     ranges:
       - {start: '67', end: '79'}
       - {start: '2', end: '18'}
@@ -87,6 +88,7 @@ filters:
       - {start: '134', end: '146'}
   Bogyó utca:
     # valosagban 1-7 a kiirt, de van meg egy epulet
+    invalid: ['7a']
     ranges:
       - {start: '1', end: '9'}
   Bor utca:
@@ -115,6 +117,8 @@ filters:
   Budafoki út:
     # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
     # paros: 52 az eromu, Budapart miatt valtozhat, 84 Albertfalva
+    # 107 I,II,II épület, illetve 107-109 a-b épület
+    invalid: ['52a', '56c', '107a', '107b']
     ranges:
       - {start: '91', end: '97'}
       - {start: '103', end: '115'}
@@ -122,9 +126,12 @@ filters:
       - {start: '52', end: '60'}
       - {start: '64', end: '74'}
   Budaörsi út:
+    # 36-nál lekopott házszámok, 44a kint van a kapun, de a házon 44 van és nincs 44b kiírva; 48-50 az irodaház
+    invalid: ['32', '32e', '36a', '36b', '36d', '40', '44a', '44b', '48a', '48b', '50b']
     ranges:
       - {start: '26', end: '56'}
   Csóka utca:
+    invalid: ['2a', '3', '3h', '5b', '9j']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '4'}
@@ -153,6 +160,7 @@ filters:
       - {start: '62', end: '64'}
   Dombóvári út:
     # folyamatos, 6-8, 9-et epitik, 10-11, 13-14, 17-19; 24-27 nadorkert, majd 28- ismet kelenfold
+    invalid: ['1a']
     interpolation: 'all'
     ranges:
       - {start: '1', end: '3'}
@@ -172,6 +180,7 @@ filters:
       - {start: '3', end: '7'}
       - {start: '9', end: '13'}
   Etele út:
+    invalid: ['32']
     ranges:
       - {start: '1', end: '3'}
       - {start: '15', end: '73'}
@@ -181,9 +190,10 @@ filters:
       - {start: '9', end: '31'}
       - {start: '18', end: '38'}
   Fehérvári út:
+    # 44 A épület, de 44 van csak kiírva
     # Fehervari 58-68, 132-144 egyben. 152 utan 160 jon, majd 166 a benzikút
     # 161 Andor utca sarka-179 Ventura kozott semmit, 183-tol jon a panel
-    invalid: ['79a', '83b', '85c', '106', '114', '118', '130a', 145a, '146a', '146b', '146z', '179a', '179c', '179d', '189a']
+    invalid: ['44a', '44h', '64a', '79a', '83b', '85c', '106', '114', '118', '130a', 145a, '146a', '146b', '146z', '179a', '179c', '179d', '189a']
     ranges:
       - {start: '23', end: '79'}
       - {start: '83', end: '161'}
@@ -238,7 +248,8 @@ filters:
       - {start: '2', end: '6'}
       - {start: '30', end: '68'}
   Halmi utca:
-    invalid: ['3a', '3b', '5b', '6', '8']
+    # 55-57
+    invalid: ['3a', '3b', '5b', '6', '8', '55a']
     ranges:
       - {start: '1', end: '67'}
       - {start: '2', end: '46'}
@@ -262,6 +273,9 @@ filters:
       - {start: '9', end: '19'}
       - {start: '2', end: '10'}
   Hengermalom út:
+    # Új Buda Center 19-21; köv. házszám a 43
+    # 6 a-b-c, 8 a-b-c, 12/I, 12/II
+    invalid: ['6', '8', '12b', '12c', '14e', '18b']
     ranges:
       - {start: '1', end: '5'}
       - {start: '13', end: '21'}
@@ -294,13 +308,15 @@ filters:
       - {start: '13', end: '15'}
       - {start: '8', end: '18'}
   Karolina út:
+    invalid: ['33', '33d', '35', '55a']
     ranges:
       - {start: '1', end: '5'}
       - {start: '17', end: '21'}
       - {start: '27', end: '69'}
       - {start: '50', end: '72'}
   Kelenföldi út:
-    # 1-13 egyben
+    # 1-13 egyben, 33-45 között majd minden lebontva a 35/a kivételével
+    invalid: ['35', '35b', '52a', '52b']
     ranges:
       - {start: '1', end: '21'}
       - {start: '31', end: '45'}
@@ -334,6 +350,7 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '16'}
   Lecke utca:
+    invalid: ['1a', '2a', '3a', '5b', '7a', '9a']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
@@ -364,11 +381,13 @@ filters:
       - {start: '23', end: '55'}
       - {start: '2', end: '56'}
   Nádorliget utca:
+    invalid: ['7', '8', '8e', '8f']  # 7 A-D; 8 A-D
     ranges:
       - {start: '5', end: '7'}
       - {start: '11', end: '11'}
       - {start: '8', end: '8'}
   Nagykikinda utca:
+    invalid: ['10']  # 10a, 10b
     ranges:
       - {start: '10', end: '12'}
   Nagysurány utca:
@@ -376,11 +395,13 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '14'}
   Nagyszőlős utca:
+    invalid: ['2', '21']
     ranges:
       - {start: '1', end: '21'}
       - {start: '31', end: '45'}
       - {start: '2', end: '20'}
   Nándorfejérvári út:
+    invalid: ['7', '8', '15a', '16a', '17b', '20c', '31a', '31b', '31c', '31d']
     ranges:
       - {start: '1', end: '9'}
       - {start: '13', end: '25'}
@@ -416,6 +437,7 @@ filters:
     ranges:
       - {start: '2', end: '12'}
   Prielle Kornélia utca:
+    invalid: ['19']
     ranges:
       - {start: '1', end: '35'}
       - {start: '45', end: '55'}
@@ -439,10 +461,12 @@ filters:
       - {start: '24', end: '98'}
   Somogyi út:
     # 2-4 nem letezik, 35-ös az Etele tér buszpályaudvar
+    invalid: ['28a', '28b', '30b']  # 28-30 A,B,C lh.
     ranges:
       - {start: '6', end: '30'}
       - {start: '3', end: '35'}
   Sopron út:
+    invalid: ['21a']  # Avanti: A épület
     ranges:
       - {start: '1', end: '71'}
       - {start: '2', end: '50'}
@@ -462,6 +486,7 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '26'}
   Szerémi út:
+    invalid: ['7', '21d', '23c', '25b', '27a', '29c', '31b', '35c', '37b', '39a', '41c', '43b', '45a']
     ranges:
       - {start: '5', end: '17'}
       - {start: '21', end: '59'}
@@ -518,6 +543,7 @@ filters:
       - {start: '1', end: '59'}
       - {start: '2', end: '80'}
   Vasút utca:
+    invalid: ['1', '1b', '1c']
     ranges:
       - {start: '1', end: '1'}
   Villányi út:
