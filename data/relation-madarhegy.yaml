@@ -1,6 +1,7 @@
 missing-streets: 'no'
 filters:
   Budaörsi út:
+    invalid: ['259b']
     ranges:
       - {start: '225', end: '265'}
   Csonttollú utca:
