@@ -14,7 +14,7 @@ from typing import TextIO
 from typing import Tuple
 from typing import cast
 import yaml
-import yattag  # type: ignore
+import yattag
 
 from i18n import translate as _
 import ranges

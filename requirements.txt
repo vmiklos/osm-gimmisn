@@ -4,4 +4,4 @@ mypy==0.670
 pylint==2.3.1
 pytz==2018.5
 pyyaml==4.2b1
-yattag==1.13.0
+yattag==1.13.1

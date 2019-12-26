@@ -19,7 +19,7 @@ import datetime
 import traceback
 
 import pytz
-import yattag  # type: ignore
+import yattag
 
 from i18n import translate as _
 import areas

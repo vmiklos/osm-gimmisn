@@ -13,7 +13,7 @@ import unittest
 import unittest.mock
 import urllib.error
 
-import yattag  # type: ignore
+import yattag
 
 import util
 

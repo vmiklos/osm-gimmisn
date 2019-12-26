@@ -10,7 +10,7 @@ import os
 from typing import List
 import unittest
 
-import yattag  # type: ignore
+import yattag
 
 import areas
 import ranges

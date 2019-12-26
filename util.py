@@ -23,7 +23,7 @@ import re
 import urllib.error
 from enum import Enum
 
-import yattag  # type: ignore
+import yattag
 
 import accept_language
 from i18n import translate as _

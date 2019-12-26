@@ -23,7 +23,7 @@ from typing import TYPE_CHECKING
 from typing import Tuple
 import wsgiref.simple_server
 
-import yattag  # type: ignore
+import yattag
 
 import areas
 from i18n import translate as _
