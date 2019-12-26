@@ -207,6 +207,9 @@ filters:
       - {start: '2', end: '10'}
   Zerge lépcső:
     ranges: []
+  Palota út:
+    # this is outside the relation
+    invalid: ['1']
 source: survey
 inactive: false
 housenumber-letters: false
