@@ -27,6 +27,15 @@ filters:
   Fenyves utca:
     # erdő
     ranges: []
+  Kertész köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '6'}
+  Kikelet utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '21', end: '41'}
+      - {start: '2', end: '32'}
   Láng utca:
     ranges:
       - {start: '1', end: '11'}
@@ -38,6 +47,11 @@ filters:
     ranges:
       - {start: '3', end: '29'}
       - {start: '2', end: '20'}
+  Szellő köz:
+    # nem femérhető: magánterületen van a 7-21, 8-14
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '6'}
 source: survey
 street-filters:
   - Csiki dűlő
