@@ -569,12 +569,12 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
         relation = relations.get_relation(relation_name)
         ret = relation.build_ref_housenumbers(memory_cache, street, "")
         expected = [
-            'Törökugrató utca 1',
-            'Törökugrató utca 10',
-            'Törökugrató utca 11',
-            'Törökugrató utca 12',
-            'Törökugrató utca 2',
-            'Törökugrató utca 7',
+            'Törökugrató utca\t1',
+            'Törökugrató utca\t10',
+            'Törökugrató utca\t11',
+            'Törökugrató utca\t12',
+            'Törökugrató utca\t2',
+            'Törökugrató utca\t7',
         ]
         self.assertEqual(ret, expected)
 

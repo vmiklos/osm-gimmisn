@@ -364,7 +364,7 @@ class Relation:
             reftelepules_dict = refmegye_dict[reftelepules]
             if street in reftelepules_dict.keys():
                 house_numbers = reference[refmegye][reftelepules][street]
-                ret += [street + " " + i + suffix for i in house_numbers]
+                ret += [street + "\t" + i + suffix for i in house_numbers]
 
         return ret
 
@@ -413,7 +413,7 @@ class Relation:
         for osm_street_name in self.get_osm_streets():
             house_numbers = []  # type: List[util.HouseNumber]
             ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
-            prefix = ref_street_name + " "
+            prefix = ref_street_name + "\t"
             street_invalid = []  # type: List[str]
             if osm_street_name in streets_invalid.keys():
                 street_invalid = streets_invalid[osm_street_name]
