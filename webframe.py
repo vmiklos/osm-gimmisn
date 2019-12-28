@@ -196,8 +196,7 @@ def handle_exception(
     """Displays an unhandled exception on the page."""
     status = '500 Internal Server Error'
     path_info = environ.get("PATH_INFO")
-    if path_info:
-        request_uri = path_info
+    request_uri = path_info
     doc = yattag.Doc()
     util.write_html_header(doc)
     with doc.tag("pre"):
