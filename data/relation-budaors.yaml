@@ -52,6 +52,11 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
+  Szellő utca:
+    invalid: ['45']
+    ranges:
+      - {start: '1', end: '47'}
+      - {start: '2', end: '26'}
 source: survey
 street-filters:
   - Csiki dűlő
