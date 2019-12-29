@@ -49,5 +49,8 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '10'}
+  Székács utca:
+    # Even side starts at 8.
+    invalid: ['2']
 source: survey
 inactive: true
