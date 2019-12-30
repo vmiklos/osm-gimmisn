@@ -16,6 +16,7 @@ import io
 import os
 import unittest
 import unittest.mock
+import urllib.error
 import xml.etree.ElementTree as ET
 
 import wsgi
@@ -104,6 +105,16 @@ class TestStreets(TestWsgi):
             root = self.get_dom_for_path("/osm/streets/gazdagret/update-result")
             results = root.findall("body")
             self.assertEqual(len(results), 1)
+
+    def test_update_result_error_well_formed(self) -> None:
+        """Tests if the update-result output on error is well-formed."""
+
+        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+            raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
+        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+            root = self.get_dom_for_path("/osm/streets/gazdagret/update-result")
+            results = root.findall("body/div[@id='overpass-error']")
+            self.assertTrue(results)
 
     def test_update_result_missing_streets_well_formed(self) -> None:
         """

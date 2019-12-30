@@ -26,8 +26,11 @@ def overpass_query(query: str) -> str:
 
 def overpass_query_need_sleep() -> int:
     """Checks if we need to sleep before executing an overpass query."""
-    with urllib.request.urlopen("https://overpass-api.de/api/status") as sock:
-        buf = sock.read()
+    try:
+        with urllib.request.urlopen("https://overpass-api.de/api/status") as sock:
+            buf = sock.read()
+    except urllib.error.HTTPError:
+        return 0
     status = buf.decode('utf-8')
     sleep = 0
     available = False

@@ -276,11 +276,12 @@ def html_escape(text: str) -> yattag.Doc:
 def handle_overpass_error(http_error: urllib.error.HTTPError) -> yattag.Doc:
     """Handles a HTTP error from Overpass."""
     doc = yattag.Doc()
-    doc.text(_("Overpass error: {0}").format(str(http_error)))
-    sleep = overpass_query.overpass_query_need_sleep()
-    if sleep:
-        doc.stag("br")
-        doc.text(_("Note: wait for {} seconds").format(sleep))
+    with doc.tag("div", id="overpass-error"):
+        doc.text(_("Overpass error: {0}").format(str(http_error)))
+        sleep = overpass_query.overpass_query_need_sleep()
+        if sleep:
+            doc.stag("br")
+            doc.text(_("Note: wait for {} seconds").format(sleep))
     return doc
 
 
