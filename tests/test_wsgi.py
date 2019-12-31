@@ -183,6 +183,27 @@ class TestStreetHousenumbers(TestWsgi):
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
+    def test_update_result_well_formed(self) -> None:
+        """Tests if the update-result output is well-formed."""
+        result_from_overpass = "@id\taddr:street\taddr:housenumber\n"
+        result_from_overpass += "1\tTörökugrató utca\t1\n"
+        result_from_overpass += "1\tTörökugrató utca\t2\n"
+        result_from_overpass += "1\tTűzkő utca\t9\n"
+        result_from_overpass += "1\tTűzkő utca\t10\n"
+        result_from_overpass += "1\tOSM Name 1\t1\n"
+        result_from_overpass += "1\tOSM Name 1\t2\n"
+        result_from_overpass += "1\tOnly In OSM utca\t1\n"
+
+        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+            buf = io.BytesIO()
+            buf.write(result_from_overpass.encode('utf-8'))
+            buf.seek(0)
+            return buf
+        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+            root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/update-result")
+            results = root.findall("body")
+            self.assertEqual(len(results), 1)
+
 
 class TestMissingStreets(TestWsgi):
     """Tests the missing streets page."""
