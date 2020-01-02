@@ -50,7 +50,7 @@ filters:
       - {start: '1', end: '16'}
   Rétköz utca:
     # csak a gazdagréti rész
-    invalid: ['9']  # 9a,9b
+    invalid: ['7f', '9']  # 9a,9b
     ranges:
       - {start: '7', end: '9'}
       - {start: '2', end: '22'}
