@@ -132,9 +132,10 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
     doc = yattag.Doc()
     relation = relations.get_relation(relation_name)
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        doc.text(_("No existing streets: "))
-        link = "/osm/streets/" + relation_name + "/update-result"
-        doc.asis(util.gen_link(link, _("Call Overpass to create")).getvalue())
+        with doc.tag("div", id="no-osm-streets"):
+            doc.text(_("No existing streets: "))
+            link = "/osm/streets/" + relation_name + "/update-result"
+            doc.asis(util.gen_link(link, _("Call Overpass to create")).getvalue())
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
         doc.text(_("No existing house numbers: "))
         link = "/osm/street-housenumbers/" + relation_name + "/update-result"

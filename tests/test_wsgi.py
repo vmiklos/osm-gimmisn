@@ -19,11 +19,19 @@ import unittest.mock
 import urllib.error
 import xml.etree.ElementTree as ET
 
+import areas
 import wsgi
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
     from wsgiref.types import StartResponse
+
+
+def get_relations() -> areas.Relations:
+    """Returns a Relations object that uses the test data and workdir."""
+    datadir = os.path.join(os.path.dirname(__file__), "data")
+    workdir = os.path.join(os.path.dirname(__file__), "workdir")
+    return areas.Relations(datadir, workdir)
 
 
 class TestWsgi(unittest.TestCase):
@@ -141,6 +149,22 @@ class TestMissingHousenumbers(TestWsgi):
         root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
+
+    def test_no_osm_streets_well_formed(self) -> None:
+        """Tests if the output is well-formed, no osm streets case."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        hide_path = relation.get_files().get_osm_streets_path()
+        real_exists = os.path.exists
+
+        def mock_exists(path: str) -> bool:
+            if path == hide_path:
+                return False
+            return real_exists(path)
+        with unittest.mock.patch('os.path.exists', mock_exists):
+            root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+            results = root.findall("body/div[@id='no-osm-streets']")
+            self.assertEqual(len(results), 1)
 
     def test_view_result_txt(self) -> None:
         """Tests the txt output."""
