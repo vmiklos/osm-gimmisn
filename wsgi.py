@@ -142,9 +142,10 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
             link = "/osm/street-housenumbers/" + relation_name + "/update-result"
             doc.asis(util.gen_link(link, _("Call Overpass to create")).getvalue())
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
-        doc.text(_("No missing house numbers: "))
-        link = "/osm/missing-housenumbers/" + relation_name + "/update-result"
-        doc.asis(util.gen_link(link, _("Create from reference")).getvalue())
+        with doc.tag("div", id="no-ref-housenumbers"):
+            doc.text(_("No missing house numbers: "))
+            link = "/osm/missing-housenumbers/" + relation_name + "/update-result"
+            doc.asis(util.gen_link(link, _("Create from reference")).getvalue())
     else:
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
