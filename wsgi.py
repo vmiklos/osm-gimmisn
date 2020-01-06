@@ -180,9 +180,10 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
             with doc.tag("a", href="/osm/streets/" + relation_name + "/update-result"):
                 doc.text(_("Call Overpass to create"))
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
-        doc.text(_("No street list: "))
-        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/update-result"):
-            doc.text(_("Create from reference"))
+        with doc.tag("div", id="no-ref-streets"):
+            doc.text(_("No street list: "))
+            with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/update-result"):
+                doc.text(_("Create from reference"))
     else:
         ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
