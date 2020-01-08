@@ -23,6 +23,10 @@ budapest_13:
     osmrelation: 1605916
     refmegye: "01"
     reftelepules: "013"
+budapest_14:
+    osmrelation: 1606043
+    refmegye: "01"
+    reftelepules: "014"
 budapest_22:
     osmrelation: 215621
     refmegye: "01"
