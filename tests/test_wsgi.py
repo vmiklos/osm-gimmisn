@@ -227,6 +227,21 @@ Tűzkő utca	[1], [2]"""
             result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
             self.assertEqual(result, "No existing streets")
 
+    def test_view_result_txt_no_osm_housenumbers(self) -> None:
+        """Tests the txt output, no osm housenumbers case."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        hide_path = relation.get_files().get_osm_housenumbers_path()
+        real_exists = os.path.exists
+
+        def mock_exists(path: str) -> bool:
+            if path == hide_path:
+                return False
+            return real_exists(path)
+        with unittest.mock.patch('os.path.exists', mock_exists):
+            result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+            self.assertEqual(result, "No existing house numbers")
+
     def test_view_turbo_well_formed(self) -> None:
         """Tests if the view-turbo output is well-formed."""
         root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-turbo")
