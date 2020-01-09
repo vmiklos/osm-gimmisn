@@ -290,6 +290,7 @@ filters:
       - {start: '1', end: '9'}
       - {start: '2', end: '6'}
   Ibrahim utca:
+    invalid: ['9b']
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
@@ -397,7 +398,7 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '14'}
   Nagyszőlős utca:
-    invalid: ['2', '21']
+    invalid: ['2', '10b', '20a', '21']
     ranges:
       - {start: '1', end: '21'}
       - {start: '31', end: '45'}
