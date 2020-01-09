@@ -51,6 +51,7 @@ filters:
       - {start: '2', end: '14'}
   Magyar tudósok körútja:
     # 9 inforpark
+    invalid: ['2a', '2b', '2c', '2d']
     ranges:
       - {start: '1', end: '7'}
       - {start: '11', end: '11'}
@@ -89,6 +90,7 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Váli utca:
+    invalid: ['5b']
     ranges:
       - {start: '1', end: '1'}
       - {start: '5', end: '5'}
