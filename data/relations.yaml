@@ -15,6 +15,7 @@ budapest_11:
     osmrelation: 221998
     refmegye: "01"
     reftelepules: "011"
+    alias: ['ujbuda']
 budapest_12:
     osmrelation: 221995
     refmegye: "01"

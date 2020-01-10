@@ -124,6 +124,10 @@ class RelationConfig:
         """Gets the relation's reftelepules identifier from reference."""
         return cast(str, self.__get_property("reftelepules"))
 
+    def get_alias(self) -> List[str]:
+        """Gets the alias(es) of the relation: alternative names which are also accepted."""
+        return cast(List[str], self.__get_property("alias"))
+
     def should_check_missing_streets(self) -> str:
         """Return value can be 'yes', 'no' and 'only'."""
         if self.__get_property("missing-streets"):
@@ -611,6 +615,17 @@ class Relations:
             return ""
 
         return cast(str, refmegye[reftelepules])
+
+    def get_aliases(self) -> Dict[str, str]:
+        """Provide an alias -> real name map of relations."""
+        ret = {}  # type: Dict[str, str]
+        for relation in self.get_relations():
+            aliases = relation.get_config().get_alias()
+            if aliases:
+                name = relation.get_name()
+                for alias in aliases:
+                    ret[alias] = name
+        return ret
 
 
 def normalize(relation: Relation, house_numbers: str, street_name: str,

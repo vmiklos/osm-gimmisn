@@ -219,6 +219,18 @@ class TestValidatorMainFailureMsg2(TestValidatorMainFailureMsgBase):
         expected += ": expected value type for 'housenumber-letters' is <class 'bool'>\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-housenumber-letters-bad.yaml", expected)
 
+    def test_relation_alias_bad(self) -> None:
+        """Tests the relation path: bad alias subkey."""
+        expected = "failed to validate tests/data/relation-budafok-alias-bad.yaml"
+        expected += ": expected value type for 'alias[0]' is str\n"
+        self.assert_failure_msg("tests/data/relation-budafok-alias-bad.yaml", expected)
+
+    def test_relation_filters_alias_bad_type(self) -> None:
+        """Tests the relation path: bad type for the alias subkey."""
+        expected = "failed to validate tests/data/relation-budafok-alias-bad-type.yaml"
+        expected += ": expected value type for 'alias' is <class 'list'>\n"
+        self.assert_failure_msg("tests/data/relation-budafok-alias-bad-type.yaml", expected)
+
 
 if __name__ == '__main__':
     unittest.main()

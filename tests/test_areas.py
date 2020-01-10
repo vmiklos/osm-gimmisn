@@ -762,6 +762,18 @@ class TestReftelepulesGetName(unittest.TestCase):
         self.assertEqual(relations.reftelepules_get_name("01", "99"), "")
 
 
+class TestRelationsGetAliases(unittest.TestCase):
+    """Tests Relalations.get_aliases()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = get_relations()
+        # Expect an alias -> canonicalname map.
+        expected = {
+            "budapest_22": "budafok"
+        }
+        self.assertEqual(relations.get_aliases(), expected)
+
+
 class TestRelationStreetIsEvenOdd(unittest.TestCase):
     """Tests RelationConfig.get_street_is_even_odd()."""
     def test_happy(self) -> None:
