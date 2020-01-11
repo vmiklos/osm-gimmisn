@@ -311,7 +311,7 @@ filters:
       - {start: '13', end: '15'}
       - {start: '8', end: '18'}
   Karolina út:
-    invalid: ['33', '33d', '35', '55a']
+    invalid: ['33', '33d', '35', '55a', '61b']  # 61-63
     ranges:
       - {start: '1', end: '5'}
       - {start: '17', end: '21'}
@@ -456,6 +456,7 @@ filters:
       - {start: '86', end: '86'}
   Sárbogárdi út:
     interpolation: 'all'
+    invalid: ['3b', '9', '15b']
     ranges:
       - {start: '1', end: '26'}
   Solt utca:
