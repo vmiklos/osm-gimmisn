@@ -1,0 +1,11 @@
+missing-streets: only
+filters: {}
+street-filters
+  # Nem valós utcák
+  - Rákosrendező pályaudvar
+  - Rákosszentmihály MÁV pályaudvar
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Argentína tér': 'Argentina tér'
+source: survey
+inactive: true
