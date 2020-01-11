@@ -310,38 +310,46 @@ vizafogo:
     refmegye: "01"
     reftelepules: "013"
 # 14
-14_varosliget:
+varosliget:
     osmrelation: 3233021
     refmegye: "01"
     reftelepules: "014"
-14_istvanmezo:
+    missing-streets: 'no'
+istvanmezo:
     osmrelation: 3233768
     refmegye: "01"
     reftelepules: "014"
-14_herminamezo:
+    missing-streets: 'no'
+herminamezo:
     osmrelation: 3233776
     refmegye: "01"
     reftelepules: "014"
-14_torokor:
+    missing-streets: 'no'
+torokor:
     osmrelation: 3233764
     refmegye: "01"
     reftelepules: "014"
-14_kiszuglo:
+    missing-streets: 'no'
+kiszuglo:
     osmrelation: 3233747
     refmegye: "01"
     reftelepules: "014"
-14_nagyzuglo:
+    missing-streets: 'no'
+nagyzuglo:
     osmrelation: 3233723
     refmegye: "01"
     reftelepules: "014"
-14_alsorakos:
+    missing-streets: 'no'
+alsorakos:
     osmrelation: 3232934
     refmegye: "01"
     reftelepules: "014"
-14_rakosfalva:
+    missing-streets: 'no'
+rakosfalva:
     osmrelation: 3232941
     refmegye: "01"
     reftelepules: "014"
+    missing-streets: 'no'
 # pest-kulvaros
 csepel-belvaros:
     osmrelation: 3244191
