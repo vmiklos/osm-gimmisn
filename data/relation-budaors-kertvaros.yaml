@@ -13,6 +13,10 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '8'}
+  Budafoki utca:
+    # páratlan kertváros, páros vegyes
+    ranges:
+      - {start: '1', end: '99'}
   Budapesti út:
     invalid: ['25', '43']
     ranges:
@@ -76,6 +80,10 @@ filters:
     # páratlan belváros, páros kertváros
     ranges:
       - {start: '2', end: '98'}
+  Tavasz utca:
+    # 18-56 kertváros
+    ranges:
+      - {start: '18', end: '56'}
   Tűzkőhegyi utca:
     # 1-15 kertváros
     ranges:
