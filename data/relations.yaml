@@ -304,6 +304,39 @@ vizafogo:
     osmrelation: 3217068
     refmegye: "01"
     reftelepules: "013"
+# 14
+14_varosliget:
+    osmrelation: 3233021
+    refmegye: "01"
+    reftelepules: "014"
+14_istvanmezo:
+    osmrelation: 3233768
+    refmegye: "01"
+    reftelepules: "014"
+14_herminamezo:
+    osmrelation: 3233776
+    refmegye: "01"
+    reftelepules: "014"
+14_torokor:
+    osmrelation: 3233764
+    refmegye: "01"
+    reftelepules: "014"
+14_kiszuglo:
+    osmrelation: 3233747
+    refmegye: "01"
+    reftelepules: "014"
+14_nagyzuglo:
+    osmrelation: 3233723
+    refmegye: "01"
+    reftelepules: "014"
+14_alsorakos:
+    osmrelation: 3232934
+    refmegye: "01"
+    reftelepules: "014"
+14_rakosfalva:
+    osmrelation: 3232941
+    refmegye: "01"
+    reftelepules: "014"
 # pest-kulvaros
 csepel-belvaros:
     osmrelation: 3244191
