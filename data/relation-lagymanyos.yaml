@@ -3,13 +3,20 @@ filters:
   Bartók Béla út:
     ranges:
       - {start: '2', end: '56'}
+  Bercsényi utca:
+    invalid: ['26']  # 26b van csak
+  Bertalan Lajos utca:
+    invalid: ['2z']
   Bocskai út:
     ranges: []
   Bogdánfy utca:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
+  Bölcső utca:
+    invalid: ['13b']
   Budafoki út:
+    invalid: ['26', '32b', '34c']  # 26/B, 32 B-C, 34 C-D
     ranges:
       - {start: '1', end: '21'}
       - {start: '27', end: '59'}
@@ -33,6 +40,7 @@ filters:
     ranges:
       - {start: '1', end: '21'}
   Irinyi József utca:
+    invalid: ['31a', '31b', '28', '32', '36']  # 28a..c,32a..c, 36a..c
     ranges:
       # Kollegium 1-17, Science Park 4-20
       - {start: '1', end: '1'}
@@ -49,6 +57,8 @@ filters:
       - {start: '1', end: '9'}
       - {start: '13', end: '17'}
       - {start: '2', end: '14'}
+  Lágymányosi utca:
+    invalid: ['14a', '14b']
   Magyar tudósok körútja:
     # 9 inforpark
     invalid: ['2a', '2b', '2c', '2d']
