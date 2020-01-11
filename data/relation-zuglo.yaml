@@ -1,0 +1,6 @@
+missing-streets: 'no'
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Argentína tér': 'Argentina tér'
+source: survey
+inactive: true
