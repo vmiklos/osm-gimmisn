@@ -11,6 +11,9 @@ filters:
   Dobogó út:
     ranges:
       - {start: '2', end: '98'}
+  Egér út:
+    # 2 nincs, a többi helyrajzi szám az is a Péterhegyi dűlőhöz tartozik
+    ranges: []
   Éva utca:
     # Az Éva utca 1. és a Péterhegyi út 51/B. közös telken van, házszám a Péterhegyi útról van csak.
     # Az Éva utca 2. és a Péterhegyi út 53. közös telken van, házszám a Péterhegyi útról van csak.
@@ -35,6 +38,10 @@ filters:
     ranges:
       - {start: '3', end: '53'}
       - {start: '4', end: '56'}
+  Péterhegyi dűlő:
+    # Ezen a néven csak helyrajzi számok vannak
+    # Valószínű Karéjos utca lesz belőle, ha lesznek házszámok, de nincs kitáblázva, csak a szenyvizátemelőn
+    ranges: []
   Péterhegyi köz:
     # A páros oldal érdekesen számozódik: …, 8, 10, 12, 10/A, 12/A, 14, 20, …, 34, 38, …
     # Nincs 16 és 18, a 14 után közvetlenül a 20 következik.
