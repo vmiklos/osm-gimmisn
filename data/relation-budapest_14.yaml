@@ -1,7 +1,7 @@
 missing-streets: only
 filters: {}
-street-filters
-  # Nem valós utcák
+street-filters:
+  # Vasútállomásként léteznek, nem közterületként.
   - Rákosrendező pályaudvar
   - Rákosszentmihály MÁV pályaudvar
 refstreets:

@@ -1,0 +1,11 @@
+missing-streets: 'yes'
+filters: {}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Krúdy Gyula utca': 'Krúdy utca'
+  'Golgota út': 'Golgota utca'
+street-filters:
+  - Rezső tér  # Magyarok Nagyasszonya tér és Szenes Iván tér lett, ezek léteznek
+  - Nagyfuvaros utca  # Nagy Fuvaros utca néven is létezik, ez nem kell
+source: survey
+inactive: true

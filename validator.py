@@ -127,6 +127,14 @@ def validate_street_filters(errors: List[str], parent: str, street_filters: List
             errors.append("expected value type for '%s[%s]' is str" % (context, index))
 
 
+def validate_relation_alias(errors: List[str], parent: str, alias: List[Any]) -> None:
+    """Validates an 'alias' list."""
+    context = parent
+    for index, alias_data in enumerate(alias):
+        if not isinstance(alias_data, str):
+            errors.append("expected value type for '%s[%s]' is str" % (context, index))
+
+
 def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) -> None:
     """Validates a toplevel or a nested relation."""
     context = ""
@@ -150,6 +158,7 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
         "street-filters": (list, validate_street_filters),
         "inactive": (bool, None),
         "housenumber-letters": (bool, None),
+        "alias": (list, validate_relation_alias),
     }  # type: Dict[str, Tuple[Any, Any]]
 
     for key, value in relation.items():

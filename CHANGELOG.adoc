@@ -1,5 +1,10 @@
 = Changelog
 
+== 2019-01-10
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/322> alias names are now supported for relations,
+  so compatibility (with existing bookmarks) does not break when renaming.
+
 == 2019-12-27
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/312> support street names where one name is a

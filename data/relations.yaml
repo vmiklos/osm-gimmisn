@@ -11,10 +11,31 @@ budapest_05:
     osmrelation: 1606103
     refmegye: "01"
     reftelepules: "005"
+budapest_06:
+    osmrelation: 3229919
+    refmegye: "01"
+    reftelepules: "006"
+    alias: ['terezvaros']
+budapest_07:
+    osmrelation: 3229918
+    refmegye: "01"
+    reftelepules: "007"
+    alias: ['erzsebetvaros']
+budapest_08:
+    osmrelation: 1606100
+    refmegye: "01"
+    reftelepules: "008"
+    alias: ['jozsefvaros']
+budapest_09:
+    osmrelation: 1552462
+    refmegye: "01"
+    reftelepules: "009"
+    alias: ['ferencvaros']
 budapest_11:
     osmrelation: 221998
     refmegye: "01"
     reftelepules: "011"
+    alias: ['ujbuda']
 budapest_12:
     osmrelation: 221995
     refmegye: "01"
@@ -270,19 +291,7 @@ lipotvaros:
     osmrelation: 3228576
     refmegye: "01"
     reftelepules: "005"
-terezvaros:
-    osmrelation: 3229919
-    refmegye: "01"
-    reftelepules: "006"
-erzsebetvaros:
-    osmrelation: 3229918
-    refmegye: "01"
-    reftelepules: "007"
-# 8 kerulet eleg, nem kell tovabb bontani
-jozsefvaros:
-    osmrelation: 1606100
-    refmegye: "01"
-    reftelepules: "008"
+# 8. kerulet szinten eleg, nem kotelezo tovabb bontani
 palotanegyed:
     osmrelation: 3177466
     refmegye: "01"
@@ -291,11 +300,7 @@ tisztviselotelep:
     osmrelation: 3182106
     refmegye: "01"
     reftelepules: "008"
-# 9 kerulet szinten eleg, nem kell tovabb bontani
-ferencvaros:
-    osmrelation: 1552462
-    refmegye: "01"
-    reftelepules: "009"
+# 9. kerulet szinten eleg, nem kotelezo tovabb bontani
 belso-ferencvaros:
     osmrelation: 3229950
     refmegye: "01"

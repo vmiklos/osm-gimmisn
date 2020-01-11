@@ -662,7 +662,7 @@ def our_application_txt(
     return webframe.send_response(start_response, content_type, "200 OK", output)
 
 
-def get_request_uri(environ: Dict[str, Any]) -> str:
+def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
     """Finds out the request URI."""
     request_uri = ""
     path_info = environ.get("PATH_INFO")
@@ -675,6 +675,13 @@ def get_request_uri(environ: Dict[str, Any]) -> str:
             request_uri = request_uri.replace('suspicious-streets', 'missing-housenumbers')
         elif request_uri.startswith("/osm/suspicious-relations/"):
             request_uri = request_uri.replace('suspicious-relations', 'missing-streets')
+
+        # Relation aliases.
+        aliases = relations.get_aliases()
+        tokens = request_uri.split("/")
+        relation_name = tokens[-2]
+        if relation_name in aliases:
+            request_uri = request_uri.replace(relation_name, aliases[relation_name])
 
     return request_uri
 
@@ -735,10 +742,10 @@ def our_application(
     if not language:
         language = "hu"
 
-    request_uri = get_request_uri(environ)
-    _ignore, _ignore, ext = request_uri.partition('.')
-
     relations = areas.Relations(util.get_abspath("data"), util.get_workdir(config))
+
+    request_uri = get_request_uri(environ, relations)
+    _ignore, _ignore, ext = request_uri.partition('.')
 
     if ext == "txt":
         return our_application_txt(start_response, relations, request_uri)

@@ -1,3 +1,4 @@
 filters:
   Vöröskúti határsor:
     interpolation: 'all'
+alias: ['budapest_22']
