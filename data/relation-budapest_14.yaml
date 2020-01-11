@@ -1,7 +1,9 @@
+missing-streets: only
 filters: {}
 street-filters:
-  - Rákosrendező pályaudvar  # Vasútállomásként tétezik, nem közterületként
-  - Rákosszentmihály MÁV pályaudvar  # Vasútállomásként tétezik, nem közterületként
+  # Vasútállomásként léteznek, nem közterületként.
+  - Rákosrendező pályaudvar
+  - Rákosszentmihály MÁV pályaudvar
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Argentína tér': 'Argentina tér'
