@@ -52,5 +52,8 @@ filters:
   Székács utca:
     # Even side starts at 8.
     invalid: ['2']
+  Álom utca:
+    # Anything below 16 on the even side seems to be noise.
+    invalid: ['4']
 source: survey
 inactive: true
