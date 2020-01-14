@@ -269,6 +269,12 @@ Tűzkő utca	[1], [2]"""
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
+    def test_update_result_link(self) -> None:
+        """Tests if the update-result output links back to the correct page."""
+        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/update-result")
+        results = root.findall("body/a[@href='/osm/missing-housenumbers/gazdagret/view-result']")
+        self.assertEqual(len(results), 1)
+
 
 class TestStreetHousenumbers(TestWsgi):
     """Tests handle_street_housenumbers()."""
