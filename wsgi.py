@@ -270,7 +270,10 @@ def missing_streets_update(relations: areas.Relations, relation_name: str) -> ya
     reference = util.get_abspath(webframe.get_config().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
-    return util.html_escape(_("Update successful."))
+    doc = yattag.Doc()
+    with doc.tag("div", id="update-success"):
+        doc.text(_("Update successful."))
+    return doc
 
 
 def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.Doc:

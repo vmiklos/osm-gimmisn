@@ -403,6 +403,12 @@ class TestMissingStreets(TestWsgi):
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
+    def test_update_result(self) -> None:
+        """Tests the update-result output."""
+        root = self.get_dom_for_path("/osm/missing-streets/gazdagret/update-result")
+        results = root.findall("body/div[@id='update-success']")
+        self.assertEqual(len(results), 1)
+
 
 class TestMain(TestWsgi):
     """Tests handle_main()."""
