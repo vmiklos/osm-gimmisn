@@ -332,12 +332,8 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     return doc
 
 
-def get_last_modified(workdir: str, path: str = "") -> str:
-    """Gets the update date of a file in workdir."""
-    if path:
-        path = os.path.join(workdir, path)
-    else:
-        path = workdir
+def get_last_modified(path: str) -> str:
+    """Gets the update date string of a file."""
     return webframe.format_timestamp(get_timestamp(path))
 
 
