@@ -61,7 +61,7 @@ check: all check-filters check-flake8 check-mypy check-unit check-pylint
 
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
-	$(file >> $@,VERSION = '$(shell git describe)')
+	$(file >> $@,VERSION = '$(shell git describe --tags)')
 
 check-filters: check-filters-syntax check-filters-schema
 
