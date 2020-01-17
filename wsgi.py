@@ -337,12 +337,8 @@ def get_last_modified(path: str) -> str:
     return webframe.format_timestamp(get_timestamp(path))
 
 
-def get_timestamp(workdir: str, path: str = "") -> float:
-    """Gets the timestamp of a file in workdir."""
-    if path:
-        path = os.path.join(workdir, path)
-    else:
-        path = workdir
+def get_timestamp(path: str) -> float:
+    """Gets the timestamp of a file if it exists, 0 otherwise."""
     try:
         return os.path.getmtime(path)
     except FileNotFoundError:
