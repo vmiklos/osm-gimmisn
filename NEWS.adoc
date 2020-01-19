@@ -1,0 +1,40 @@
+= Version descriptions
+
+== 2.0
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/322> alias names are now supported for relations,
+  so compatibility (with existing bookmarks) does not break when renaming. (2019-01-10)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/291> added error handling for not valid relation
+  names. (2019-12-12)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/285>: HTML output uses 42/A style for
+  letter-suffixed house numbers, but plain text output uses 42a to help turning the output into
+  `invalid` configs. (2019-12-06)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/267>: it is now possible to opt in for a more
+  strict behavior where 42/B is not considered mapped when 42/A is already mapped. (2019-11-29)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/269>: noise in the reference can be now cleaned by
+  filtering out house numbers explicitly, rather than filtering for valid ranges. (2019-11-15)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/195>: track what source range generated what house
+  numbers for more compact results. (2019-11-10)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/224>: a way to generate the gpx of all streets
+  missing house numbers. (2019-10-31)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/237>: make OSM IDs of existing house numbers
+  clickable. (2019-10-22)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/228>: added time internal hint when the overpass
+  query errors out due to not waiting enough. (2019-10-12)
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/204>: added possibility to list certain
+  reftelepules names when a specific refmegye is selected on the main page. (2019-10-09)
+
+== 1.0
+
+- Initial release
+
+Enhancements up to 2019-10-07 were presented at <https://www.meetup.com/OpenStreetMap-Hungary/>.
