@@ -9,7 +9,7 @@ filters:
       - {start: '110', end: '132'}
   Bulcsú utca:
     # Terézváros 2-16, de jelenleg egy mező
-    ranges: []   
+    ranges: []
   Bajcsy-Zsilinszky út:
     ranges:
       - {start: '1', end: '65'}
