@@ -190,4 +190,5 @@ filters:
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  Nagyduna sétány: Nagydunasétány utca
+  Nagy-Duna sétány: Nagy Duna sétány
+  Nagy-Duna sétány: Nagydunasétány utca
