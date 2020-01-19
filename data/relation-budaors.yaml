@@ -10,12 +10,20 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '8'}
+  Arany János utca:
+    # páros felmérendő mégegyszer, nem úgy tűnik, hogy lenne egyáltalán
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '98'}
   Budapesti út:
     invalid: ['25', '43']
     ranges:
       - {start: '1', end: '33'}
       - {start: '39', end: '133'}
       - {start: '2', end: '140'}
+  Ebner György köz:
+    ranges:
+      - {start: '2', end: '6'}
   Erdélyi utca:
     invalid: ['9', '9b', '15', '17']
   Farkasréti út:
@@ -57,6 +65,14 @@ filters:
     ranges:
       - {start: '1', end: '47'}
       - {start: '2', end: '26'}
+  Templom tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '22'}
+  Vasvári Pál utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '36'}
 source: survey
 street-filters:
   - Csiki dűlő
