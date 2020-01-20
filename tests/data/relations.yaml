@@ -17,6 +17,11 @@ ujbuda:
     osmrelation: 221998
     refmegye: "01"
     reftelepules: "011"
+# this relation has 'missing-streets: no' set
+gellerthegy:
+    osmrelation: 2702687
+    refmegye: "01"
+    reftelepules: "011"
 # just so that we can test its osm street list
 test:
     osmrelation: 66

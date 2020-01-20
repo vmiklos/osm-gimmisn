@@ -674,6 +674,7 @@ class TestRelations(unittest.TestCase):
             "budafok",
             "empty",
             "gazdagret",
+            "gellerthegy",
             "inactiverelation",
             "nosuchrefmegye",
             "nosuchreftelepules",
@@ -684,7 +685,7 @@ class TestRelations(unittest.TestCase):
         self.assertEqual(relations.get_names(), expected_relation_names)
         self.assertTrue("inactiverelation" not in relations.get_active_names())
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
-        self.assertEqual([13, 42, 42, 43, 44, 45, 66, 221998, 2713748], osmids)
+        self.assertEqual([13, 42, 42, 43, 44, 45, 66, 221998, 2702687, 2713748], osmids)
         self.assertEqual("only", relations.get_relation("ujbuda").get_config().should_check_missing_streets())
 
         relations.activate_all(True)
