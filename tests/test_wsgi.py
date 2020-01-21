@@ -7,12 +7,14 @@
 """The test_wsgi module covers the wsgi module."""
 
 from typing import BinaryIO
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
 import io
+import json
 import os
 import unittest
 import unittest.mock
@@ -435,6 +437,35 @@ class TestMain(TestWsgi):
         root = self.get_dom_for_path("/osm/filter-for/refmegye/01/reftelepules/011")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
+
+
+class TestWebhooks(TestWsgi):
+    """Tests /osm/webhooks/."""
+    def test_github(self) -> None:
+        """Tests /osm/webhooks/github."""
+        environ = {}  # type: Dict[str, BinaryIO]
+        root = {"ref": "refs/heads/master"}
+        payload = json.dumps(root)
+        body = {"payload": [payload]}
+        query_string = urllib.parse.urlencode(body, doseq=True)
+        buf = io.BytesIO()
+        buf.write(query_string.encode('utf-8'))
+        buf.seek(0)
+        environ["wsgi.input"] = buf
+        actual_args = []  # type: List[str]
+        actual_check = False
+
+        def mock_subprocess_run(args: List[str], check: bool) -> None:
+            nonlocal actual_args
+            nonlocal actual_check
+            actual_args = args
+            actual_check = check
+
+        with unittest.mock.patch('subprocess.run', mock_subprocess_run):
+            wsgi.handle_github_webhook(environ)
+        self.assertEqual(actual_args[0], "make")
+        self.assertEqual(actual_args[-1], "deploy-pythonanywhere")
+        self.assertTrue(actual_check)
 
 
 if __name__ == '__main__':
