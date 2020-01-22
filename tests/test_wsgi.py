@@ -152,6 +152,18 @@ class TestMissingHousenumbers(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_well_formed_compat(self) -> None:
+        """Tests if the output is well-formed (URL rewrite)."""
+        root = self.get_dom_for_path("/osm/suspicious-streets/gazdagret/view-result")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
+    def test_well_formed_compat_relation(self) -> None:
+        """Tests if the output is well-formed (URL rewrite for relation name)."""
+        root = self.get_dom_for_path("/osm/suspicious-streets/budapest_22/view-result")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
         relations = get_relations()
@@ -329,6 +341,12 @@ class TestMissingStreets(TestWsgi):
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
+    def test_well_formed_compat(self) -> None:
+        """Tests if the output is well-formed (URL rewrite)."""
+        root = self.get_dom_for_path("/osm/suspicious-relations/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
