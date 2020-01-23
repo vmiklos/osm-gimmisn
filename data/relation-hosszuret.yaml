@@ -1,6 +1,5 @@
 missing-streets: 'no'
 filters:
-  # 1-99, 2-98, illetve 998/999 tipus a hrsz szurest implementalja, az utca hosszahoz merten
   Bordézsma utca:
     ranges:
       - {start: '1', end: '7'}
@@ -20,6 +19,9 @@ filters:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     ranges:
       - {start: '2', end: '34'}
+  Lépés utca:
+    # Van egy ikerház egyik fele 12b másik fele nincs kiírva - 2020.01.21
+    invalid: ['12']
   Nagyida utca:
     ranges:
       - {start: '2', end: '4'}
@@ -32,7 +34,7 @@ filters:
       - {start: '1', end: '37'}
       - {start: '2', end: '24'}
   Rétkerülő út:
-    # nincs vegig epitve, 42 hianyzik
+    # nincs vegig epitve, 42 hianyzik, nem tudni hol lesz a vége
     ranges:
       - {start: '1', end: '99'}
       - {start: '14', end: '40'}
@@ -43,6 +45,9 @@ filters:
     # 1-7 hoszuret, 9- es a paros madarhegy
     ranges:
       - {start: '1', end: '7'}
+  Söjtör utca:
+    # 1-es címen ikerház van, csak 1-es van kiírva - 2020.01.21
+    invalid: ['1a', '1b']
 source: survey
 inactive: true
 housenumber-letters: true
