@@ -152,6 +152,12 @@ class TestMissingHousenumbers(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_no_such_relation(self) -> None:
+        """Tests the output for a non-existing relation."""
+        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret42/view-result")
+        results = root.findall("body/div[@id='no-such-relation-error']")
+        self.assertEqual(len(results), 1)
+
     def test_well_formed_compat(self) -> None:
         """Tests if the output is well-formed (URL rewrite)."""
         root = self.get_dom_for_path("/osm/suspicious-streets/gazdagret/view-result")

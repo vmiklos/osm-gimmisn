@@ -695,7 +695,6 @@ def check_existing_relation(relations: areas.Relations, request_uri: str) -> yat
     if relation_name in relations.get_names():
         return doc
 
-    util.write_html_header(doc)
     with doc.tag("div", id="no-such-relation-error"):
         doc.text(_("No such relation: {0}").format(relation_name))
     return doc
