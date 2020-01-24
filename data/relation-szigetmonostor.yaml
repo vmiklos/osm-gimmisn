@@ -188,6 +188,8 @@ filters:
       - {start: '6', end: '18'}
       - {start: '24', end: '26'}
 source: survey
+street-filters:
+  - Nagydunasétány utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Nagy-Duna sétány: Nagyduna sétány
