@@ -13,6 +13,7 @@ from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
+import configparser
 import io
 import json
 import os
@@ -22,6 +23,7 @@ import urllib.error
 import xml.etree.ElementTree as ET
 
 import areas
+import webframe
 import wsgi
 
 if TYPE_CHECKING:
@@ -461,6 +463,19 @@ class TestMain(TestWsgi):
         root = self.get_dom_for_path("/osm/filter-for/refmegye/01/reftelepules/011")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
+
+    def test_custom_locale(self) -> None:
+        """Tests the main page with a custom locale."""
+        real_get_config = webframe.get_config
+
+        def mock_get_config() -> configparser.ConfigParser:
+            config = real_get_config()
+            config.read_dict({"wsgi": {"locale": "en_US.UTF-8"}})
+            return config
+        with unittest.mock.patch('webframe.get_config', mock_get_config):
+            root = self.get_dom_for_path("/osm")
+            results = root.findall("body/table")
+            self.assertEqual(len(results), 1)
 
 
 class TestWebhooks(TestWsgi):
