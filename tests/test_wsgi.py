@@ -16,6 +16,7 @@ from typing import cast
 import configparser
 import io
 import json
+import locale
 import os
 import unittest
 import unittest.mock
@@ -473,6 +474,16 @@ class TestMain(TestWsgi):
             config.read_dict({"wsgi": {"locale": "en_US.UTF-8"}})
             return config
         with unittest.mock.patch('webframe.get_config', mock_get_config):
+            root = self.get_dom_for_path("/osm")
+            results = root.findall("body/table")
+            self.assertEqual(len(results), 1)
+
+    def test_failing_locale(self) -> None:
+        """Tests the main page with a failing locale."""
+
+        def mock_setlocale(category: int, locale_name: str) -> str:
+            raise locale.Error()
+        with unittest.mock.patch('locale.setlocale', mock_setlocale):
             root = self.get_dom_for_path("/osm")
             results = root.findall("body/table")
             self.assertEqual(len(results), 1)
