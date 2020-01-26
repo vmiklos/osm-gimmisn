@@ -41,9 +41,4 @@ things which are not part of CI:
 - CSS validation:
   http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fvmiklos.pythonanywhere.com%2Fosm%2Fstatic%2Fosm.css
 
-- If an issue is fixed (either feature or bug), document that in `CHANGELOG.adoc`, which is less
-  detailed than the git log. To list all issues closed since the last "release":
-
-----
-grep -B1000 '<<<<' CHANGELOG.adoc |grep /issues/|wc -l
-----
+- Run `piprot` from time to time and make sure dependencies are reasonably up to date.

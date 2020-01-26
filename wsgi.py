@@ -671,6 +671,13 @@ def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
         elif request_uri.startswith("/osm/suspicious-relations/"):
             request_uri = request_uri.replace('suspicious-relations', 'missing-streets')
 
+        # Performance: don't bother with relation aliases for non-relation requests.
+        if not request_uri.startswith("/osm/streets/") \
+                and not request_uri.startswith("/osm/missing-streets/") \
+                and not request_uri.startswith("/osm/street-housenumbers/") \
+                and not request_uri.startswith("/osm/missing-housenumbers/"):
+            return request_uri
+
         # Relation aliases.
         aliases = relations.get_aliases()
         tokens = request_uri.split("/")

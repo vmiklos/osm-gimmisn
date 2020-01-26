@@ -90,6 +90,29 @@ class TestWsgi(unittest.TestCase):
             output = output_list[0].decode('utf-8')
             return output
 
+    def get_js_for_path(self, path: str) -> str:
+        """Generates a string for a given wsgi path."""
+        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
+            # Make sure the built-in exception catcher is not kicking in.
+            self.assertEqual(status, "200 OK")
+            header_dict = {key: value for (key, value) in response_headers}
+            self.assertEqual(header_dict["Content-type"], "application/x-javascript; charset=utf-8")
+
+        def get_abspath(path: str) -> str:
+            if os.path.isabs(path):
+                return path
+            return os.path.join(os.path.dirname(__file__), path)
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            environ = {
+                "PATH_INFO": path
+            }
+            callback = cast('StartResponse', start_response)  # type: StartResponse
+            output_iterable = wsgi.application(environ, callback)
+            output_list = cast(List[bytes], output_iterable)
+            self.assertTrue(output_list)
+            output = output_list[0].decode('utf-8')
+            return output
+
 
 class TestStreets(TestWsgi):
     """Tests handle_streets()."""
@@ -516,6 +539,15 @@ class TestWebhooks(TestWsgi):
         self.assertEqual(actual_args[0], "make")
         self.assertEqual(actual_args[-1], "deploy-pythonanywhere")
         self.assertTrue(actual_check)
+
+
+class TestStatic(TestWsgi):
+    """Tests /osm/static/."""
+    def test_js(self) -> None:
+        """Tests /osm/static/, javascript case."""
+        result = self.get_js_for_path("/osm/static/sorttable.js")
+        # Starts with a JS comment.
+        self.assertTrue(result.startswith("/*"))
 
 
 if __name__ == '__main__':
