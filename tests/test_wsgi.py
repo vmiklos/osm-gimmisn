@@ -23,9 +23,12 @@ import unittest.mock
 import urllib.error
 import xml.etree.ElementTree as ET
 
+import yattag
+
 import areas
 import webframe
 import wsgi
+import util
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -539,6 +542,20 @@ class TestWebhooks(TestWsgi):
         self.assertEqual(actual_args[0], "make")
         self.assertEqual(actual_args[-1], "deploy-pythonanywhere")
         self.assertTrue(actual_check)
+
+    def test_route(self) -> None:
+        """Tests the /osm/webhooks/github -> handle_github_webhook() routing."""
+
+        mock_called = False
+
+        def mock_handler(_environ: Dict[str, BinaryIO]) -> yattag.Doc:
+            nonlocal mock_called
+            mock_called = True
+            return util.html_escape("")
+
+        with unittest.mock.patch("wsgi.handle_github_webhook", mock_handler):
+            self.get_dom_for_path("/osm/webhooks/github")
+        self.assertTrue(mock_called)
 
 
 class TestStatic(TestWsgi):
