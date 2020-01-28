@@ -6,8 +6,10 @@
 
 """The test_wsgi module covers the wsgi module."""
 
+from typing import Any
 from typing import BinaryIO
 from typing import Dict
+from typing import Iterable
 from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -513,6 +515,30 @@ class TestMain(TestWsgi):
             root = self.get_dom_for_path("/osm")
             results = root.findall("body/table")
             self.assertEqual(len(results), 1)
+
+    def test_application_exception(self) -> None:
+        """Tests application(), exception catching case."""
+        environ = {
+            "PATH_INFO": "/"
+        }
+
+        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
+            self.assertTrue(status.startswith("500"))
+            header_dict = {key: value for (key, value) in response_headers}
+            self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
+
+        def mock_application(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
+            int("a")
+            # Never reached.
+            return wsgi.our_application(environ, start_response)
+
+        with unittest.mock.patch('wsgi.our_application', mock_application):
+            callback = cast('StartResponse', start_response)  # type: StartResponse
+            output_iterable = wsgi.application(environ, callback)
+            output_list = cast(List[bytes], output_iterable)
+            self.assertTrue(output_list)
+            output = output_list[0].decode('utf-8')
+            self.assertIn("ValueError", output)
 
 
 class TestWebhooks(TestWsgi):
