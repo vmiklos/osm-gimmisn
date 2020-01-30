@@ -540,6 +540,29 @@ class TestMain(TestWsgi):
             output = output_list[0].decode('utf-8')
             self.assertIn("ValueError", output)
 
+    def test_main(self) -> None:
+        """Tests main()."""
+        serving = False
+
+        class MockServer:
+            """Mock WSGI server."""
+            # pylint: disable=no-self-use
+            def serve_forever(self) -> None:
+                """Handles one request at a time until shutdown."""
+                nonlocal serving
+                serving = True
+
+        def mock_make_server(_host: str, _port: int, _app: Any) -> MockServer:
+            """Creates a new mock WSGI server."""
+            return MockServer()
+
+        with unittest.mock.patch('wsgiref.simple_server.make_server', mock_make_server):
+            # Capture standard output.
+            buf = io.StringIO()
+            with unittest.mock.patch('sys.stdout', buf):
+                wsgi.main()
+        self.assertTrue(serving)
+
 
 class TestWebhooks(TestWsgi):
     """Tests /osm/webhooks/."""
