@@ -6,22 +6,23 @@
 
 """The util module contains functionality shared between other modules."""
 
+from enum import Enum
 from typing import Any
 from typing import Callable
 from typing import Dict
-from typing import List
 from typing import Iterable
+from typing import List
 from typing import Optional
 from typing import Sequence
 from typing import TextIO
 from typing import Tuple
 from typing import cast
 import configparser
+import locale
 import os
 import pickle
 import re
 import urllib.error
-from enum import Enum
 
 import yattag
 
@@ -648,6 +649,20 @@ def split_house_number_by_separator(
         ret_numbers.append(number)
 
     return ret_numbers, ret_numbers_nofilter
+
+
+def set_locale(config: configparser.ConfigParser) -> None:
+    """Sets the locale of this Python process automatically based on config, with a UTF-8
+    default."""
+    if config.has_option("wsgi", "locale"):
+        ui_locale = config.get("wsgi", "locale")
+    else:
+        ui_locale = "hu_HU.UTF-8"
+    try:
+        locale.setlocale(locale.LC_ALL, ui_locale)
+    except locale.Error:
+        # Ignore, this happens only on the cut-down CI environment.
+        pass
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

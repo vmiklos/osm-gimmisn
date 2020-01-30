@@ -729,15 +729,7 @@ def our_application(
 ) -> Iterable[bytes]:
     """Dispatches the request based on its URI."""
     config = webframe.get_config()
-    if config.has_option("wsgi", "locale"):
-        ui_locale = config.get("wsgi", "locale")
-    else:
-        ui_locale = "hu_HU.UTF-8"
-    try:
-        locale.setlocale(locale.LC_ALL, ui_locale)
-    except locale.Error:
-        # Ignore, this happens only on the cut-down CI environment.
-        pass
+    util.set_locale(config)
 
     language = util.setup_localization(environ)
     if not language:

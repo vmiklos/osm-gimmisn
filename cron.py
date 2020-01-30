@@ -126,6 +126,7 @@ def main() -> None:
     config = configparser.ConfigParser()
     config_path = util.get_abspath("wsgi.ini")
     config.read(config_path)
+    util.set_locale(config)
 
     datadir = util.get_abspath("data")
     workdir = util.get_workdir(config)
