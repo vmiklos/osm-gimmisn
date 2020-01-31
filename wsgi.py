@@ -51,10 +51,6 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     if action == "view-query":
         with doc.tag("pre"):
             doc.text(relation.get_osm_streets_query())
-    elif action == "view-result":
-        with relation.get_files().get_osm_streets_stream("r") as sock:
-            table = util.tsv_to_list(sock)
-            doc.asis(util.html_table_from_list(table).getvalue())
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
@@ -68,6 +64,11 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
                 doc.text(_("Update successful."))
         except urllib.error.HTTPError as http_error:
             doc.asis(util.handle_overpass_error(http_error).getvalue())
+    else:
+        # assume view-result
+        with relation.get_files().get_osm_streets_stream("r") as sock:
+            table = util.tsv_to_list(sock)
+            doc.asis(util.html_table_from_list(table).getvalue())
 
     date = get_streets_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
