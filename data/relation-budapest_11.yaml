@@ -10,6 +10,7 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # 'OSM Name 2': 'Ref Name 2'
   'Boldizsár utca': 'Boldizsár út'
+  'Citadella utca': 'Citadella út'  # Vegyesen vannak a táblák
   'Csíkihegyek utca': 'Csiki-hegyek utca'
   'Felső határút': 'Felső Határ út'
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
