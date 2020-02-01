@@ -90,10 +90,6 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
     if action == "view-query":
         with doc.tag("pre"):
             doc.text(relation.get_osm_housenumbers_query())
-    elif action == "view-result":
-        with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
-            table = util.tsv_to_list(sock)
-            doc.asis(util.html_table_from_list(table).getvalue())
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:
@@ -103,6 +99,11 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
             doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
         except urllib.error.HTTPError as http_error:
             doc.asis(util.handle_overpass_error(http_error).getvalue())
+    else:
+        # assume view-result
+        with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
+            table = util.tsv_to_list(sock)
+            doc.asis(util.html_table_from_list(table).getvalue())
 
     date = get_housenumbers_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
