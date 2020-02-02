@@ -221,16 +221,15 @@ def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) 
 
         table = []
         for result in ongoing_streets:
-            if result[1]:
-                result_strings = util.get_housenumber_ranges(result[1])
-                # Street name, only_in_reference items.
-                if not relation.get_config().get_street_is_even_odd(result[0]):
-                    result_sorted = sorted(result_strings, key=util.split_house_number)
-                    row = result[0] + "\t[" + ", ".join(result_sorted) + "]"
-                else:
-                    elements = util.format_even_odd(result_strings, doc=None)
-                    row = result[0] + "\t[" + "], [".join(elements) + "]"
-                table.append(row)
+            result_strings = util.get_housenumber_ranges(result[1])
+            # Street name, only_in_reference items.
+            if not relation.get_config().get_street_is_even_odd(result[0]):
+                result_sorted = sorted(result_strings, key=util.split_house_number)
+                row = result[0] + "\t[" + ", ".join(result_sorted) + "]"
+            else:
+                elements = util.format_even_odd(result_strings, doc=None)
+                row = result[0] + "\t[" + "], [".join(elements) + "]"
+            table.append(row)
         table.sort(key=locale.strxfrm)
         output += "\n".join(table)
     return output
