@@ -289,9 +289,7 @@ def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) ->
     doc = yattag.Doc()
     doc.asis(webframe.get_toolbar(relations, "missing-housenumbers", relation_name, osmrelation).getvalue())
 
-    if action == "view-result":
-        doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
-    elif action == "view-turbo":
+    if action == "view-turbo":
         doc.asis(missing_housenumbers_view_turbo(relations, request_uri).getvalue())
     elif action == "view-query":
         with doc.tag("pre"):
@@ -300,6 +298,9 @@ def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) ->
         date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
     elif action == "update-result":
         doc.asis(missing_housenumbers_update(relations, relation_name).getvalue())
+    else:
+        # assume view-result
+        doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
 
     if not date:
         date = ref_housenumbers_last_modified(relations, relation_name)
