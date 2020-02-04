@@ -320,14 +320,15 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     doc = yattag.Doc()
     doc.asis(webframe.get_toolbar(relations, "missing-streets", relation_name, osmrelation).getvalue())
 
-    if action == "view-result":
-        doc.asis(missing_streets_view_result(relations, request_uri).getvalue())
-    elif action == "view-query":
+    if action == "view-query":
         with doc.tag("pre"):
             with relation.get_files().get_ref_streets_stream("r") as sock:
                 doc.text(sock.read())
     elif action == "update-result":
         doc.asis(missing_streets_update(relations, relation_name).getvalue())
+    else:
+        # assume view-result
+        doc.asis(missing_streets_view_result(relations, request_uri).getvalue())
 
     date = ref_streets_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
