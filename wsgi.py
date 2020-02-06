@@ -456,19 +456,17 @@ def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, r
             names = []  # type: List[yattag.Doc]
             for reftelepules_id in reftelepules_ids:
                 name = relations.reftelepules_get_name(refmegye_id, reftelepules_id)
-                if name:
-                    name_doc = yattag.Doc()
-                    href_format = "/osm/filter-for/refmegye/{}/reftelepules/{}"
-                    with name_doc.tag("a", href=href_format.format(refmegye, reftelepules_id)):
-                        name_doc.text(name)
-                    names.append(name_doc)
-            if names:
-                doc.text(" (")
-                for index, item in enumerate(names):
-                    if index:
-                        doc.text(", ")
-                    doc.asis(item.getvalue())
-                doc.text(")")
+                name_doc = yattag.Doc()
+                href_format = "/osm/filter-for/refmegye/{}/reftelepules/{}"
+                with name_doc.tag("a", href=href_format.format(refmegye, reftelepules_id)):
+                    name_doc.text(name)
+                names.append(name_doc)
+            doc.text(" (")
+            for index, item in enumerate(names):
+                if index:
+                    doc.text(", ")
+                doc.asis(item.getvalue())
+            doc.text(")")
     return doc
 
 
