@@ -519,6 +519,8 @@ def handle_main_relation(
 ) -> List[yattag.Doc]:
     """Handles one relation (one table row) on the main page."""
     relation = relations.get_relation(relation_name)
+    # If checking both streets and house numbers, then "is complete" refers to the street coverage
+    # for "hide complete" purposes.
     complete = True
 
     streets = relation.get_config().should_check_missing_streets()
@@ -531,8 +533,7 @@ def handle_main_relation(
         doc = yattag.Doc()
         doc.asis(cell.getvalue())
         row.append(doc)
-        if float(percent) < 100.0:
-            complete = False
+        complete = float(percent) >= 100.0
 
         date = get_housenumbers_last_modified(relation)
         doc = yattag.Doc()
@@ -548,8 +549,7 @@ def handle_main_relation(
     if streets != "no":
         cell, percent = handle_main_street_percent(relation)
         row.append(cell)
-        if float(percent) < 100.0:
-            complete = False
+        complete = float(percent) >= 100.0
     else:
         row.append(yattag.Doc())
 
