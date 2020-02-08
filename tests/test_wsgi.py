@@ -598,6 +598,26 @@ class TestWebhooks(TestWsgi):
         self.assertEqual(actual_args[-1], "deploy-pythonanywhere")
         self.assertTrue(actual_check)
 
+    def test_github_branch(self) -> None:
+        """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
+        environ = {}  # type: Dict[str, BinaryIO]
+        root = {"ref": "refs/heads/stable"}
+        payload = json.dumps(root)
+        body = {"payload": [payload]}
+        query_string = urllib.parse.urlencode(body, doseq=True)
+        buf = io.BytesIO()
+        buf.write(query_string.encode('utf-8'))
+        buf.seek(0)
+        environ["wsgi.input"] = buf
+        invoked = False
+
+        def mock_subprocess_run(_args: List[str], _check: bool) -> None:
+            nonlocal invoked
+
+        with unittest.mock.patch('subprocess.run', mock_subprocess_run):
+            wsgi.handle_github_webhook(environ)
+        self.assertFalse(invoked)
+
     def test_route(self) -> None:
         """Tests the /osm/webhooks/github -> handle_github_webhook() routing."""
 
