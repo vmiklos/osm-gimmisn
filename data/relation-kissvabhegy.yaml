@@ -55,5 +55,9 @@ filters:
   Álom utca:
     # Anything below 16 on the even side seems to be noise.
     invalid: ['4']
+  Tusnádi köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '6'}
 source: survey
 inactive: true
