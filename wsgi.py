@@ -653,7 +653,8 @@ def our_application_txt(
     content_type = "text/plain"
     if request_uri.startswith("/osm/missing-streets/"):
         output = missing_streets_view_txt(relations, request_uri)
-    elif request_uri.startswith("/osm/missing-housenumbers/"):
+    else:
+        # assume "/osm/missing-housenumbers/"
         output = missing_housenumbers_view_txt(relations, request_uri)
     return webframe.send_response(start_response, content_type, "200 OK", output)
 
