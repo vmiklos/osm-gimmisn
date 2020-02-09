@@ -475,6 +475,12 @@ class TestMain(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_no_path(self) -> None:
+        """Tests the case when PATH_INFO is empty (should give the main page)."""
+        root = self.get_dom_for_path("")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
     def test_filter_for_incomplete_well_formed(self) -> None:
         """Tests if the /osm/filter-for/incomplete output is well-formed."""
         root = self.get_dom_for_path("/osm/filter-for/incomplete")
