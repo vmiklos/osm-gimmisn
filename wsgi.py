@@ -21,6 +21,7 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
+from typing import cast
 import wsgiref.simple_server
 
 import yattag
@@ -661,10 +662,7 @@ def our_application_txt(
 
 def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
     """Finds out the request URI."""
-    request_uri = ""
-    path_info = environ.get("PATH_INFO")
-    if path_info:
-        request_uri = path_info
+    request_uri = cast(str, environ.get("PATH_INFO"))
 
     if request_uri:
         # Compatibility.
