@@ -732,8 +732,6 @@ def our_application(
     util.set_locale(config)
 
     language = util.setup_localization(environ)
-    if not language:
-        language = "hu"
 
     relations = areas.Relations(util.get_abspath("data"), util.get_workdir(config))
 

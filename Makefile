@@ -28,12 +28,12 @@ PYTHON_SAFE_OBJECTS = \
 	validator.py \
 	version.py \
 	webframe.py \
+	wsgi.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
 	cron.py \
-	wsgi.py \
 
 # These are valid.
 YAML_SAFE_OBJECTS = \
