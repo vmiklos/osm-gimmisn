@@ -1,4 +1,9 @@
-= Coding style
+= Development notes
+
+Even tough Python is an interpreted language, this project uses some generated code and build-time
+created caches, so always run `make` after changing the code and before using it.
+
+== Coding style
 
 - Build HTML strings using `yattag`, return a `yattag.Doc` if the result is an escaped string. The
   following commands find problematic code:

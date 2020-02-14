@@ -23,9 +23,8 @@ def main() -> None:
     relation_name = sys.argv[1]
 
     reference = util.get_abspath(config.get('wsgi', 'reference_street').strip())
-    datadir = util.get_abspath("data")
     workdir = util.get_abspath(config.get('wsgi', 'workdir').strip())
-    relations = areas.Relations(datadir, workdir)
+    relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
 

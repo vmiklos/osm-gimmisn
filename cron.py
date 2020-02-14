@@ -128,9 +128,8 @@ def main() -> None:
     config.read(config_path)
     util.set_locale(config)
 
-    datadir = util.get_abspath("data")
     workdir = util.get_workdir(config)
-    relations = areas.Relations(datadir, workdir)
+    relations = areas.Relations(workdir)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
                         level=logging.INFO,

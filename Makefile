@@ -33,6 +33,7 @@ PYTHON_SAFE_OBJECTS = \
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
+	cache_yamls.py \
 	cron.py \
 
 # These are valid.
@@ -47,7 +48,13 @@ YAML_OBJECTS = \
 	data/refmegye-names.yaml \
 	data/reftelepules-names.yaml \
 
-all: version.py locale/hu/LC_MESSAGES/osm-gimmisn.mo
+YAML_TEST_OBJECTS = \
+	$(wildcard tests/data/relation-*.yaml) \
+	tests/data/relations.yaml \
+	tests/data/refmegye-names.yaml \
+	tests/data/reftelepules-names.yaml \
+
+all: version.py data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py
@@ -62,6 +69,12 @@ check: all check-filters check-flake8 check-mypy check-unit check-pylint
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
 	$(file >> $@,VERSION = '$(shell git describe --tags)')
+
+data/yamls.pickle: $(YAML_OBJECTS)
+	./cache_yamls.py data
+
+tests/data/yamls.pickle: $(YAML_TEST_OBJECTS)
+	./cache_yamls.py tests/data
 
 check-filters: check-filters-syntax check-filters-schema
 
@@ -82,7 +95,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 %.flake8: %.py Makefile
 	flake8 $< && touch $@
 
-check-unit:
+check-unit: tests/data/yamls.pickle
 	coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 

@@ -39,9 +39,15 @@ if TYPE_CHECKING:
 
 def get_relations() -> areas.Relations:
     """Returns a Relations object that uses the test data and workdir."""
-    datadir = os.path.join(os.path.dirname(__file__), "data")
     workdir = os.path.join(os.path.dirname(__file__), "workdir")
-    return areas.Relations(datadir, workdir)
+    return areas.Relations(workdir)
+
+
+def get_abspath(path: str) -> str:
+    """Mock get_abspath() that uses the test directory."""
+    if os.path.isabs(path):
+        return path
+    return os.path.join(os.path.dirname(__file__), path)
 
 
 class TestWsgi(unittest.TestCase):
@@ -54,10 +60,6 @@ class TestWsgi(unittest.TestCase):
             header_dict = {key: value for (key, value) in response_headers}
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        def get_abspath(path: str) -> str:
-            if os.path.isabs(path):
-                return path
-            return os.path.join(os.path.dirname(__file__), path)
         with unittest.mock.patch('util.get_abspath', get_abspath):
             environ = {
                 "PATH_INFO": path
@@ -80,10 +82,6 @@ class TestWsgi(unittest.TestCase):
             header_dict = {key: value for (key, value) in response_headers}
             self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
 
-        def get_abspath(path: str) -> str:
-            if os.path.isabs(path):
-                return path
-            return os.path.join(os.path.dirname(__file__), path)
         with unittest.mock.patch('util.get_abspath', get_abspath):
             environ = {
                 "PATH_INFO": path
@@ -103,10 +101,6 @@ class TestWsgi(unittest.TestCase):
             header_dict = {key: value for (key, value) in response_headers}
             self.assertEqual(header_dict["Content-type"], "application/x-javascript; charset=utf-8")
 
-        def get_abspath(path: str) -> str:
-            if os.path.isabs(path):
-                return path
-            return os.path.join(os.path.dirname(__file__), path)
         with unittest.mock.patch('util.get_abspath', get_abspath):
             environ = {
                 "PATH_INFO": path
@@ -203,51 +197,54 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_streets_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_streets_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
-            results = root.findall("body/div[@id='no-osm-streets']")
-            self.assertEqual(len(results), 1)
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+                results = root.findall("body/div[@id='no-osm-streets']")
+                self.assertEqual(len(results), 1)
 
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_housenumbers_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_housenumbers_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
-            results = root.findall("body/div[@id='no-osm-housenumbers']")
-            self.assertEqual(len(results), 1)
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+                results = root.findall("body/div[@id='no-osm-housenumbers']")
+                self.assertEqual(len(results), 1)
 
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_ref_housenumbers_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_ref_housenumbers_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
-            results = root.findall("body/div[@id='no-ref-housenumbers']")
-            self.assertEqual(len(results), 1)
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+                results = root.findall("body/div[@id='no-ref-housenumbers']")
+                self.assertEqual(len(results), 1)
 
     def test_view_result_txt(self) -> None:
         """Tests the txt output."""
@@ -265,48 +262,51 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_streets_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_streets_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
-            self.assertEqual(result, "No existing streets")
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+                self.assertEqual(result, "No existing streets")
 
     def test_view_result_txt_no_osm_housenumbers(self) -> None:
         """Tests the txt output, no osm housenumbers case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_housenumbers_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_housenumbers_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
-            self.assertEqual(result, "No existing house numbers")
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+                self.assertEqual(result, "No existing house numbers")
 
     def test_view_result_txt_no_ref_housenumbers(self) -> None:
         """Tests the txt output, no ref housenumbers case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_ref_housenumbers_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_ref_housenumbers_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
-            self.assertEqual(result, "No reference house numbers")
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+                self.assertEqual(result, "No reference house numbers")
 
     def test_view_turbo_well_formed(self) -> None:
         """Tests if the view-turbo output is well-formed."""
@@ -389,35 +389,37 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_streets_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_streets_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
-            results = root.findall("body/div[@id='no-osm-streets']")
-            self.assertEqual(len(results), 1)
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
+                results = root.findall("body/div[@id='no-osm-streets']")
+                self.assertEqual(len(results), 1)
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_ref_streets_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_ref_streets_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
-            results = root.findall("body/div[@id='no-ref-streets']")
-            self.assertEqual(len(results), 1)
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
+                results = root.findall("body/div[@id='no-ref-streets']")
+                self.assertEqual(len(results), 1)
 
     def test_view_result_txt(self) -> None:
         """Tests the txt output."""
@@ -426,33 +428,35 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_streets_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_streets_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
-            self.assertEqual(result, "No existing streets")
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
+                self.assertEqual(result, "No existing streets")
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        relations = get_relations()
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_ref_streets_path()
-        real_exists = os.path.exists
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_ref_streets_path()
+            real_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == hide_path:
-                return False
-            return real_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
-            self.assertEqual(result, "No reference streets")
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
+                self.assertEqual(result, "No reference streets")
 
     def test_view_query_well_formed(self) -> None:
         """Tests if the view-query output is well-formed."""

@@ -13,7 +13,7 @@ from typing import List
 from typing import TextIO
 from typing import Tuple
 from typing import cast
-import yaml
+import pickle
 import yattag
 
 from i18n import translate as _
@@ -221,16 +221,22 @@ class RelationConfig:
 
 class Relation:
     """A relation is a closed polygon on the map."""
-    def __init__(self, datadir: str, workdir: str, name: str, parent_config: Dict[str, Any]) -> None:
-        self.__datadir = datadir
+    def __init__(
+            self,
+            workdir: str,
+            name: str,
+            parent_config: Dict[str, Any],
+            yaml_cache: Dict[str, Any]
+    ) -> None:
         self.__workdir = workdir
         self.__name = name
         my_config = {}  # type: Dict[str, Any]
-        self.__file = RelationFiles(datadir, workdir, name)
-        relation_path = os.path.join(datadir, "relation-%s.yaml" % name)
-        if os.path.exists(relation_path):
-            with open(relation_path) as sock:
-                my_config = yaml.load(sock)
+        self.__file = RelationFiles(util.get_abspath("data"), workdir, name)
+        relation_path = "relation-%s.yaml" % name
+        # Intentionally don't require this cache to be present, it's fine to omit it for simple
+        # relations.
+        if relation_path in yaml_cache:
+            my_config = yaml_cache[relation_path]
         self.__config = RelationConfig(parent_config, my_config)
 
     def get_name(self) -> str:
@@ -296,7 +302,8 @@ class Relation:
 
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
-        with open(os.path.join(self.__datadir, "streets-template.txt")) as stream:
+        datadir = util.get_abspath("data")
+        with open(os.path.join(datadir, "streets-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
     def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
@@ -537,23 +544,23 @@ class Relation:
 
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
-        with open(os.path.join(self.__datadir, "street-housenumbers-template.txt")) as stream:
+        datadir = util.get_abspath("data")
+        with open(os.path.join(datadir, "street-housenumbers-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
 
 class Relations:
     """A relations object is a container of named relation objects."""
-    def __init__(self, datadir: str, workdir: str) -> None:
-        self.__datadir = datadir
+    def __init__(self, workdir: str) -> None:
         self.__workdir = workdir
-        with open(os.path.join(datadir, "relations.yaml")) as sock:
-            self.__dict = yaml.load(sock)
+        datadir = util.get_abspath("data")
+        with open(os.path.join(datadir, "yamls.pickle"), "rb") as stream:
+            self.__yaml_cache = pickle.load(stream)  # type: Dict[str, Any]
+        self.__dict = self.__yaml_cache["relations.yaml"]
         self.__relations = {}  # type: Dict[str, Relation]
         self.__activate_all = False
-        with open(os.path.join(datadir, "refmegye-names.yaml")) as stream:
-            self.__refmegye_names = yaml.load(stream)
-        with open(os.path.join(datadir, "reftelepules-names.yaml")) as stream:
-            self.__reftelepules_names = yaml.load(stream)
+        self.__refmegye_names = self.__yaml_cache["refmegye-names.yaml"]
+        self.__reftelepules_names = self.__yaml_cache["reftelepules-names.yaml"]
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
@@ -564,7 +571,10 @@ class Relations:
         if name not in self.__relations.keys():
             if name not in self.__dict.keys():
                 self.__dict[name] = {}
-            self.__relations[name] = Relation(self.__datadir, self.__workdir, name, self.__dict[name])
+            self.__relations[name] = Relation(self.__workdir,
+                                              name,
+                                              self.__dict[name],
+                                              self.__yaml_cache)
         return self.__relations[name]
 
     def get_names(self) -> List[str]:

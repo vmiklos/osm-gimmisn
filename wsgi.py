@@ -733,7 +733,7 @@ def our_application(
 
     language = util.setup_localization(environ)
 
-    relations = areas.Relations(util.get_abspath("data"), util.get_workdir(config))
+    relations = areas.Relations(util.get_workdir(config))
 
     request_uri = get_request_uri(environ, relations)
     _ignore, _ignore, ext = request_uri.partition('.')

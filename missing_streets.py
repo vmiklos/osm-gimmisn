@@ -19,11 +19,10 @@ def main() -> None:
     config_path = util.get_abspath("wsgi.ini")
     config.read(config_path)
     workdir = util.get_abspath(config.get('wsgi', 'workdir').strip())
-    datadir = util.get_abspath("data")
 
     relation_name = sys.argv[1]
 
-    relations = areas.Relations(datadir, workdir)
+    relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)
     only_in_reference, _ = relation.get_missing_streets()
 
