@@ -1,6 +1,7 @@
 PYTHON_TEST_OBJECTS = \
 	tests/test_accept_language.py \
 	tests/test_areas.py \
+	tests/test_cache_yamls.py \
 	tests/test_get_reference_housenumbers.py \
 	tests/test_get_reference_streets.py \
 	tests/test_i18n.py \
@@ -17,6 +18,7 @@ PYTHON_TEST_OBJECTS = \
 PYTHON_SAFE_OBJECTS = \
 	accept_language.py \
 	areas.py \
+	cache_yamls.py \
 	get_reference_housenumbers.py \
 	get_reference_streets.py \
 	i18n.py \
@@ -33,7 +35,6 @@ PYTHON_SAFE_OBJECTS = \
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
-	cache_yamls.py \
 	cron.py \
 
 # These are valid.

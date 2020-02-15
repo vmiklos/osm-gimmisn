@@ -1,5 +1,13 @@
 = Version descriptions
 
+== master
+
+- yaml files are now parsed build-time to improve performance (main page loads 7 times faster)
+
+== 3.0
+
+- complete test coverage for the wsgi code
+
 == 2.0
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/322> alias names are now supported for relations,
