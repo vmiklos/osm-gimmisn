@@ -7,7 +7,7 @@ filters:
   Alma utca:
     ranges:
       - {start: '1', end: '17'}
-      - {start: '4', end: '98'}
+      - {start: '4', end: '12'}
   Bíró utca:
     ranges:
       - {start: '2', end: '16'}
