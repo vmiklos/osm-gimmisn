@@ -91,7 +91,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 	pylint $< && touch $@
 
 %.mypy: %.py Makefile
-	mypy --python-version 3.5 --strict $< && touch $@
+	mypy --python-version 3.6 --strict $< && touch $@
 
 %.flake8: %.py Makefile
 	flake8 $< && touch $@

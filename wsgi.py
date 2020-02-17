@@ -454,7 +454,7 @@ def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, r
     if refmegye_id and refmegye == refmegye_id:
         reftelepules_ids = relations.refmegye_get_reftelepules_ids(refmegye_id)
         if reftelepules_ids:
-            names = []  # type: List[yattag.Doc]
+            names: List[yattag.Doc] = []
             for reftelepules_id in reftelepules_ids:
                 name = relations.reftelepules_get_name(refmegye_id, reftelepules_id)
                 name_doc = yattag.Doc()
@@ -473,7 +473,7 @@ def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, r
 
 def handle_main_filters(relations: areas.Relations, refmegye_id: str) -> yattag.Doc:
     """Handlers the filter part of the main wsgi page."""
-    items = []  # type: List[yattag.Doc]
+    items: List[yattag.Doc] = []
     doc = yattag.Doc()
     with doc.tag("a", href="/osm/filter-for/incomplete"):
         doc.text(_("Hide complete areas"))
@@ -496,7 +496,7 @@ def handle_main_filters(relations: areas.Relations, refmegye_id: str) -> yattag.
 def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relation], bool], str]:
     """Sets up a filter-for function from request uri: only certain areas are shown then."""
     tokens = request_uri.split("/")
-    filter_for = filter_for_everything  # type: Callable[[bool, areas.Relation], bool]
+    filter_for: Callable[[bool, areas.Relation], bool] = filter_for_everything
     filters = util.parse_filters(tokens)
     refmegye = ""
     if "incomplete" in filters:
