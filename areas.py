@@ -230,7 +230,7 @@ class Relation:
     ) -> None:
         self.__workdir = workdir
         self.__name = name
-        my_config = {}  # type: Dict[str, Any]
+        my_config: Dict[str, Any] = {}
         self.__file = RelationFiles(util.get_abspath("data"), workdir, name)
         relation_path = "relation-%s.yaml" % name
         # Intentionally don't require this cache to be present, it's fine to omit it for simple
@@ -253,7 +253,7 @@ class Relation:
 
     def get_street_ranges(self) -> Dict[str, ranges.Ranges]:
         """Gets a street name -> ranges map, which allows silencing false positives."""
-        filter_dict = {}  # type: Dict[str, ranges.Ranges]
+        filter_dict: Dict[str, ranges.Ranges] = {}
 
         filters = self.get_config().get_filters()
         for street in filters.keys():
@@ -271,7 +271,7 @@ class Relation:
 
     def get_street_invalid(self) -> Dict[str, List[str]]:
         """Gets a street name -> invalid map, which allows silencing individual false positives."""
-        invalid_dict = {}  # type: Dict[str, List[str]]
+        invalid_dict: Dict[str, List[str]] = {}
 
         filters = self.get_config().get_filters()
         for street in filters.keys():
@@ -292,7 +292,7 @@ class Relation:
 
     def get_osm_streets(self) -> List[str]:
         """Reads list of streets for an area from OSM."""
-        ret = []  # type: List[str]
+        ret: List[str] = []
         with self.get_files().get_osm_streets_stream("r") as sock:
             ret += util.get_nth_column(sock, 1)
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
@@ -308,7 +308,7 @@ class Relation:
 
     def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
         """Gets the OSM house number list of a street."""
-        house_numbers = []  # type: List[util.HouseNumber]
+        house_numbers: List[util.HouseNumber] = []
         with self.get_files().get_osm_housenumbers_stream(mode="r") as sock:
             first = True
             for line in sock.readlines():
@@ -346,7 +346,7 @@ class Relation:
 
     def get_ref_streets(self) -> List[str]:
         """Gets streets from reference."""
-        streets = []  # type: List[str]
+        streets: List[str] = []
         with self.get_files().get_ref_streets_stream("r") as sock:
             for line in sock.readlines():
                 line = line.strip()
@@ -365,7 +365,7 @@ class Relation:
         """
         refmegye = self.get_config().get_refmegye()
         street = self.get_ref_street_from_osm_street(street)
-        ret = []  # type: List[str]
+        ret: List[str] = []
         for reftelepules in self.get_config().get_street_reftelepules(street):
             if refmegye not in reference.keys():
                 continue
@@ -400,7 +400,7 @@ class Relation:
 
         streets = self.get_osm_streets()
 
-        lst = []  # type: List[str]
+        lst: List[str] = []
         for street in streets:
             for index, memory_cache in enumerate(memory_caches):
                 suffix = Relation.__get_ref_suffix(index)
@@ -413,8 +413,8 @@ class Relation:
 
     def __get_ref_housenumbers(self) -> Dict[str, List[util.HouseNumber]]:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
-        ret = {}  # type: Dict[str, List[util.HouseNumber]]
-        lines = []  # type: List[str]
+        ret: Dict[str, List[util.HouseNumber]] = {}
+        lines: List[str] = []
         with self.get_files().get_ref_housenumbers_stream("r") as sock:
             for line in sock.readlines():
                 line = line.strip()
@@ -422,10 +422,10 @@ class Relation:
         street_ranges = self.get_street_ranges()
         streets_invalid = self.get_street_invalid()
         for osm_street_name in self.get_osm_streets():
-            house_numbers = []  # type: List[util.HouseNumber]
+            house_numbers: List[util.HouseNumber] = []
             ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
             prefix = ref_street_name + "\t"
-            street_invalid = []  # type: List[str]
+            street_invalid: List[str] = []
             if osm_street_name in streets_invalid.keys():
                 street_invalid = streets_invalid[osm_street_name]
             for line in lines:
@@ -555,9 +555,9 @@ class Relations:
         self.__workdir = workdir
         datadir = util.get_abspath("data")
         with open(os.path.join(datadir, "yamls.pickle"), "rb") as stream:
-            self.__yaml_cache = pickle.load(stream)  # type: Dict[str, Any]
+            self.__yaml_cache: Dict[str, Any] = pickle.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]
-        self.__relations = {}  # type: Dict[str, Relation]
+        self.__relations: Dict[str, Relation] = {}
         self.__activate_all = False
         self.__refmegye_names = self.__yaml_cache["refmegye-names.yaml"]
         self.__reftelepules_names = self.__yaml_cache["reftelepules-names.yaml"]
@@ -583,7 +583,7 @@ class Relations:
 
     def get_active_names(self) -> List[str]:
         """Gets a sorted list of active relation names."""
-        ret = []  # type: List[Relation]
+        ret: List[Relation] = []
         for relation in self.get_relations():
             if self.__activate_all or relation.get_config().is_active():
                 ret.append(relation)
@@ -591,7 +591,7 @@ class Relations:
 
     def get_relations(self) -> List[Relation]:
         """Gets a list of relations."""
-        ret = []  # type: List[Relation]
+        ret: List[Relation] = []
         for name in self.get_names():
             ret.append(self.get_relation(name))
         return ret
@@ -628,7 +628,7 @@ class Relations:
 
     def get_aliases(self) -> Dict[str, str]:
         """Provide an alias -> real name map of relations."""
-        ret = {}  # type: Dict[str, str]
+        ret: Dict[str, str] = {}
         for relation in self.get_relations():
             aliases = relation.get_config().get_alias()
             if aliases:
@@ -680,7 +680,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
 def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.Doc]]) -> str:
     """Creates an overpass query that shows all streets from a missing housenumbers table."""
-    streets = []  # type: List[str]
+    streets: List[str] = []
     first = True
     for row in table:
         if first:
