@@ -170,6 +170,7 @@ filters:
   Egér út:
     ranges: []
   Ercsi út:
+    invalid: ['20']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '24'}
@@ -180,12 +181,13 @@ filters:
       - {start: '3', end: '7'}
       - {start: '9', end: '13'}
   Etele út:
-    invalid: ['32']
+    invalid: ['32', '58b']
     ranges:
       - {start: '1', end: '3'}
       - {start: '15', end: '73'}
       - {start: '2', end: '68'}
   Fadrusz utca:
+    invalid: ['11', '11b']  # 2020.02.20 mág tart az építkezés, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami
     ranges:
       - {start: '9', end: '31'}
       - {start: '18', end: '38'}
@@ -249,7 +251,7 @@ filters:
       - {start: '30', end: '68'}
   Halmi utca:
     # 55-57
-    invalid: ['3a', '3b', '5b', '6', '8', '55a']
+    invalid: ['3a', '3b', '5b', '6', '8', '38a', '55a']
     ranges:
       - {start: '1', end: '67'}
       - {start: '2', end: '46'}
@@ -268,6 +270,7 @@ filters:
       - {start: '2', end: '8'}
   Hauszmann Alajos utca:
     # Budapart egy része éríntett: 13-19, 12-20 Nádorkerthez tartozik
+    invalid: ['4a', '4c', '4d', '6b']
     ranges:
       - {start: '1', end: '5'}
       - {start: '9', end: '19'}
@@ -275,7 +278,7 @@ filters:
   Hengermalom út:
     # Új Buda Center 19-21; köv. házszám a 43
     # 6 a-b-c, 8 a-b-c, 12/I, 12/II
-    invalid: ['6', '8', '12b', '12c', '14e', '18b']
+    invalid: ['6', '8', '12b', '12c', '14e', '18b', '43a']
     ranges:
       - {start: '1', end: '5'}
       - {start: '13', end: '21'}
@@ -386,7 +389,7 @@ filters:
       - {start: '23', end: '55'}
       - {start: '2', end: '56'}
   Nádorliget utca:
-    invalid: ['7', '8', '8e', '8f']  # 7 A-D; 8 A-D
+    invalid: ['7', '8']  # 7 A-D; 8 A-D
     ranges:
       - {start: '5', end: '7'}
       - {start: '11', end: '11'}
