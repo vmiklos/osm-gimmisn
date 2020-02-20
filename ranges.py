@@ -16,7 +16,7 @@ class Range:
     def __init__(self, start: int, end: int, interpolation: str = "") -> None:
         self.__start = start
         self.__end = end
-        self.__is_odd = start % 2 == 1  # type: Optional[bool]
+        self.__is_odd: Optional[bool] = start % 2 == 1
         if interpolation == "all":
             self.__is_odd = None
 
