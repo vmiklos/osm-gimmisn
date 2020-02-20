@@ -4,6 +4,15 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
+  Soroksári út:
+    ranges:
+      - {start: '1', end: '123'}
+      - {start: '2', end: '48'}
+      - {start: '54', end: '166'}
+  Vágóhíd utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '62'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Albert Flórián út': 'ALBERT FLÓRIÁN út'
