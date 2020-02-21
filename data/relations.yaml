@@ -400,6 +400,10 @@ budaors:
     osmrelation: 113463
     refmegye: "14"
     reftelepules: "015"
+budaors-kamaraerdo:
+    osmrelation: 10478302
+    refmegye: "14"
+    reftelepules: "015"
 budaors-kertvaros:
     osmrelation: 10477570
     refmegye: "14"
