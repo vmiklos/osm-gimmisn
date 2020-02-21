@@ -1,0 +1,9 @@
+missing-streets: 'no'
+filters:
+  Kamaraerdei út:
+    ranges:
+      - {start: '23', end: '79'}
+source: survey
+refstreets:
+  Kamaraerdei út: Kamaraerdei utca
+inactive: false
