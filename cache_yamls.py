@@ -21,7 +21,7 @@ import util
 def main() -> None:
     """Commandline interface to this module."""
 
-    cache = {}  # type: Dict[str, Any]
+    cache: Dict[str, Any] = {}
     datadir = util.get_abspath(sys.argv[1])
     for yaml_path in glob.glob(os.path.join(datadir, "*.yaml")):
         with open(yaml_path) as yaml_stream:
