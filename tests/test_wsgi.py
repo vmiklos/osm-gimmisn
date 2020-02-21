@@ -372,6 +372,23 @@ class TestStreetHousenumbers(TestWsgi):
             results = root.findall("body/div[@id='overpass-error']")
             self.assertTrue(results)
 
+    def test_no_osm_streets_well_formed(self) -> None:
+        """Tests if the output is well-formed, no osm streets case."""
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_housenumbers_path()
+            real_exists = os.path.exists
+
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/view-result")
+                results = root.findall("body/div[@id='no-osm-housenumbers']")
+                self.assertEqual(len(results), 1)
+
 
 class TestMissingStreets(TestWsgi):
     """Tests the missing streets page."""
