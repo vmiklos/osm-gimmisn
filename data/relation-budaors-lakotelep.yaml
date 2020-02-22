@@ -1,18 +1,35 @@
 missing-streets: 'no'
 filters:
+  Ág utca:
+    ranges:
+      - {start: '1', end: '1'}
   Baross utca:
     ranges:
       - {start: '76', end: '138'}
       - {start: '135', end: '177'}
+  Domb utca:
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '2', end: '4'}
+  Komáromi utca:
+    ranges:
+      - {start: '2', end: '20'}
+  Koszorú utca:
+    ranges:
+      - {start: '2', end: '8'}
+  Őszirózsa utca:
+    ranges: []
   Szabadság út:
     ranges:
       - {start: '113', end: '315'}
       - {start: '134', end: '164'}
+  Víg utca:
+    ranges:
+      - {start: '48', end: '54'}
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Aszú utca: Aszu utca
-  # Árokpart utca: Árokparti utca - OSM javítva
   Írisz utca: Irisz utca
   Jókai Mór utca: Jókai utca  # OSM helyes
   Kamilla utca: Kamilla köz
