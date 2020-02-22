@@ -348,6 +348,8 @@ filters:
     invalid: ['17b']
     ranges:
       - {start: '3', end: '69'}
+  Kopaszi gát:
+    invalid: ['10']
   Kosztolányi Dezső tér:
     ranges:
       - {start: '5', end: '11'}
