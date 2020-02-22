@@ -27,7 +27,7 @@ class TestValidatorMain(unittest.TestCase):
         """Tests the happy relations path."""
         argv = ["", "tests/data/relations.yaml"]
         with unittest.mock.patch('sys.argv', argv):
-            ret = []  # type: List[int]
+            ret: List[int] = []
             with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
                 validator.main()
                 self.assertEqual(ret, [])
@@ -41,7 +41,7 @@ class TestValidatorMain(unittest.TestCase):
             buf = io.StringIO()
             with unittest.mock.patch('sys.stdout', buf):
                 # Capture exit code.
-                ret = []  # type: List[int]
+                ret: List[int] = []
                 with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
                     validator.main()
                     self.assertEqual(ret, [1])
@@ -59,7 +59,7 @@ class TestValidatorMain(unittest.TestCase):
             buf = io.StringIO()
             with unittest.mock.patch('sys.stdout', buf):
                 # Capture exit code.
-                ret = []  # type: List[int]
+                ret: List[int] = []
                 with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
                     validator.main()
                     self.assertEqual(ret, [])
@@ -78,7 +78,7 @@ class TestValidatorMainFailureMsgBase(unittest.TestCase):
             buf = io.StringIO()
             with unittest.mock.patch('sys.stdout', buf):
                 # Capture exit code.
-                ret = []  # type: List[int]
+                ret: List[int] = []
                 with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
                     validator.main()
                     self.assertEqual(ret, [1])

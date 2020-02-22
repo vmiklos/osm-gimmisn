@@ -64,7 +64,7 @@ class TestWsgi(unittest.TestCase):
             environ = {
                 "PATH_INFO": path
             }
-            callback = cast('StartResponse', start_response)  # type: StartResponse
+            callback: StartResponse = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
@@ -86,7 +86,7 @@ class TestWsgi(unittest.TestCase):
             environ = {
                 "PATH_INFO": path
             }
-            callback = cast('StartResponse', start_response)  # type: StartResponse
+            callback: StartResponse = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
@@ -105,7 +105,7 @@ class TestWsgi(unittest.TestCase):
             environ = {
                 "PATH_INFO": path
             }
-            callback = cast('StartResponse', start_response)  # type: StartResponse
+            callback: StartResponse = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
@@ -566,7 +566,7 @@ class TestMain(TestWsgi):
             return wsgi.our_application(environ, start_response)
 
         with unittest.mock.patch('wsgi.our_application', mock_application):
-            callback = cast('StartResponse', start_response)  # type: StartResponse
+            callback: StartResponse = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
@@ -601,7 +601,7 @@ class TestWebhooks(TestWsgi):
     """Tests /osm/webhooks/."""
     def test_github(self) -> None:
         """Tests /osm/webhooks/github."""
-        environ = {}  # type: Dict[str, BinaryIO]
+        environ: Dict[str, BinaryIO] = {}
         root = {"ref": "refs/heads/master"}
         payload = json.dumps(root)
         body = {"payload": [payload]}
@@ -610,7 +610,7 @@ class TestWebhooks(TestWsgi):
         buf.write(query_string.encode('utf-8'))
         buf.seek(0)
         environ["wsgi.input"] = buf
-        actual_args = []  # type: List[str]
+        actual_args: List[str] = []
         actual_check = False
 
         def mock_subprocess_run(args: List[str], check: bool) -> None:
@@ -627,7 +627,7 @@ class TestWebhooks(TestWsgi):
 
     def test_github_branch(self) -> None:
         """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
-        environ = {}  # type: Dict[str, BinaryIO]
+        environ: Dict[str, BinaryIO] = {}
         root = {"ref": "refs/heads/stable"}
         payload = json.dumps(root)
         body = {"payload": [payload]}

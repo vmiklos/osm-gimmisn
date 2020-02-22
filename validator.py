@@ -147,7 +147,7 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
             if key not in relation.keys():
                 errors.append("missing key '%s%s'" % (context, key))
 
-    handlers = {
+    handlers: Dict[str, Tuple[Any, Any]] = {
         "osmrelation": (int, None),
         "refmegye": (str, None),
         "reftelepules": (str, None),
@@ -159,7 +159,7 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
         "inactive": (bool, None),
         "housenumber-letters": (bool, None),
         "alias": (list, validate_relation_alias),
-    }  # type: Dict[str, Tuple[Any, Any]]
+    }
 
     for key, value in relation.items():
         if key in handlers.keys():
@@ -189,7 +189,7 @@ def main() -> None:
     _, basename = os.path.split(yaml_path)
     with open(yaml_path) as stream:
         yaml_data = yaml.load(stream)
-        errors = []  # type: List[str]
+        errors: List[str] = []
         if basename == "relations.yaml":
             validate_relations(errors, yaml_data)
         else:

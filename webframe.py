@@ -33,7 +33,7 @@ if TYPE_CHECKING:
 
 def get_footer(last_updated: str = "") -> yattag.Doc:
     """Produces the end of the page."""
-    items = []  # type: List[yattag.Doc]
+    items: List[yattag.Doc] = []
     doc = yattag.Doc()
     doc.text(_("Version: "))
     doc.asis(util.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/").getvalue())
@@ -125,7 +125,7 @@ def get_toolbar(
     """Produces the start of the page. Note that the content depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
-    items = []  # type: List[yattag.Doc]
+    items: List[yattag.Doc] = []
 
     if relations and relation_name:
         relation = relations.get_relation(relation_name)

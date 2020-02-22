@@ -159,7 +159,7 @@ def color_house_number(fro: str) -> yattag.Doc:
 
 def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
-    memory_cache = {}  # type: Dict[str, Dict[str, List[str]]]
+    memory_cache: Dict[str, Dict[str, List[str]]] = {}
 
     disk_cache = local_streets + ".pickle"
     if os.path.exists(disk_cache):
@@ -193,7 +193,7 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
 
 def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    memory_cache = {}  # type: Dict[str, Dict[str, Dict[str, List[str]]]]
+    memory_cache: Dict[str, Dict[str, Dict[str, List[str]]]] = {}
 
     disk_cache = local + ".pickle"
     if os.path.exists(disk_cache):
@@ -245,7 +245,7 @@ def split_house_number(house_number: str) -> Tuple[int, str]:
 
 def parse_filters(tokens: List[str]) -> Dict[str, str]:
     """Parses a filter description, like 'filter-for', 'refmegye', '42'."""
-    ret = {}  # type: Dict[str, str]
+    ret: Dict[str, str] = {}
     filter_for = False
     for index, value in enumerate(tokens):
         if value == "filter-for":

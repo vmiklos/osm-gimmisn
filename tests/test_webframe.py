@@ -65,7 +65,7 @@ class TestHandleException(unittest.TestCase):
             int("a")
         # pylint: disable=broad-except
         except Exception:
-            callback = cast('StartResponse', start_response)  # type: StartResponse
+            callback: StartResponse = cast('StartResponse', start_response)
             output_iterable = webframe.handle_exception(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
@@ -103,7 +103,7 @@ class TestFillMissingHeaderItems(unittest.TestCase):
         """Tests the happy path."""
         streets = "no"
         relation_name = "gazdagret"
-        items = []  # type: List[yattag.Doc]
+        items: List[yattag.Doc] = []
         webframe.fill_missing_header_items(streets, relation_name, items)
         html = items[0].getvalue()
         self.assertIn("Missing house numbers", html)
