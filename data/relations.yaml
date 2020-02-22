@@ -408,6 +408,10 @@ budaors-kertvaros:
     osmrelation: 10477570
     refmegye: "14"
     reftelepules: "015"
+budaors-lakotelep:
+    osmrelation: 10477968
+    refmegye: "14"
+    reftelepules: "015"
 szigetmonostor:
     osmrelation: 216157
     refmegye: "14"

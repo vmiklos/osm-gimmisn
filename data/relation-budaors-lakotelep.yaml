@@ -1,0 +1,24 @@
+missing-streets: 'no'
+filters:
+  Baross utca:
+    ranges:
+      - {start: '76', end: '138'}
+      - {start: '135', end: '177'}
+  Szabadság út:
+    ranges:
+      - {start: '113', end: '315'}
+      - {start: '134', end: '164'}
+source: survey
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  Aszú utca: Aszu utca
+  # Árokpart utca: Árokparti utca - OSM javítva
+  Írisz utca: Irisz utca
+  Jókai Mór utca: Jókai utca  # OSM helyes
+  Kamilla utca: Kamilla köz
+  Munkácsy Mihály utca: Munkácsy utca
+  Odvashegyi út: Odvas-hegy utca
+  Petőfi Sándor utca: Petőfi utca
+  Ribiszke utca: Ribizke utca
+  Széchenyi utca: Széchenyi István utca
+inactive: false
