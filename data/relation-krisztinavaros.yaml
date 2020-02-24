@@ -144,7 +144,8 @@ filters:
     ranges: []
   Ráth György utca:
     ranges:
-      - {start: '7', end: '11'}
+      - {start: '1', end: '11'}
+      - {start: '2', end: '10'}
     reftelepules: '012'
   Roskovics utca:
     ranges:
