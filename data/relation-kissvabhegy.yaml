@@ -44,8 +44,8 @@ filters:
       - {start: '12', end: '98'}
   Tóth Lőrinc utca:
     ranges:
-      - {start: '27', end: '99'}
-      - {start: '18', end: '98'}
+      - {start: '1', end: '25'}
+      - {start: '2', end: '16'}
   Trencséni utca:
     ranges:
       - {start: '1', end: '11'}
