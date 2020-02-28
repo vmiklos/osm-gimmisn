@@ -2,6 +2,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_accept_language.py \
 	tests/test_areas.py \
 	tests/test_cache_yamls.py \
+	tests/test_cron.py \
 	tests/test_get_reference_housenumbers.py \
 	tests/test_get_reference_streets.py \
 	tests/test_i18n.py \
