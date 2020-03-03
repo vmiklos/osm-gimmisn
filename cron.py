@@ -35,15 +35,15 @@ def should_retry(retry: int) -> bool:
     return retry < 20
 
 
-def update_streets(relations: areas.Relations) -> None:
-    """Update the existing street list of all relations."""
+def update_osm_streets(relations: areas.Relations) -> None:
+    """Update the OSM street list of all relations."""
     for relation_name in relations.get_active_names():
-        logging.info("update_streets: start: %s", relation_name)
+        logging.info("update_osm_streets: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
         retry = 0
         while should_retry(retry):
             if retry > 0:
-                logging.info("update_streets: try #%s", retry)
+                logging.info("update_osm_streets: try #%s", retry)
             retry += 1
             try:
                 overpass_sleep()
@@ -51,18 +51,18 @@ def update_streets(relations: areas.Relations) -> None:
                 relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
                 break
             except urllib.error.HTTPError as http_error:
-                logging.info("update_streets: http error: %s", str(http_error))
-        logging.info("update_streets: end: %s", relation_name)
+                logging.info("update_osm_streets: http error: %s", str(http_error))
+        logging.info("update_osm_streets: end: %s", relation_name)
 
 
-def update_street_housenumbers(relations: areas.Relations) -> None:
-    """Update the existing OSM street housenumber list of all relations."""
+def update_osm_housenumbers(relations: areas.Relations) -> None:
+    """Update the OSM housenumber list of all relations."""
     for relation_name in relations.get_active_names():
-        logging.info("update_street_housenumbers: start: %s", relation_name)
+        logging.info("update_osm_housenumbers: start: %s", relation_name)
         retry = 0
         while should_retry(retry):
             if retry > 0:
-                logging.info("update_street_housenumbers: try #%s", retry)
+                logging.info("update_osm_housenumbers: try #%s", retry)
             retry += 1
             try:
                 overpass_sleep()
@@ -71,18 +71,18 @@ def update_street_housenumbers(relations: areas.Relations) -> None:
                 relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
                 break
             except urllib.error.HTTPError as http_error:
-                logging.info("update_street_housenumbers: http error: %s", str(http_error))
-        logging.info("update_street_housenumbers: end: %s", relation_name)
+                logging.info("update_osm_housenumbers: http error: %s", str(http_error))
+        logging.info("update_osm_housenumbers: end: %s", relation_name)
 
 
-def update_street_housenumbers_ref(relations: areas.Relations, config: configparser.ConfigParser) -> None:
-    """Update the existing reference street housenumber list of all relations."""
+def update_ref_housenumbers(relations: areas.Relations, config: configparser.ConfigParser) -> None:
+    """Update the reference housenumber list of all relations."""
     for relation_name in relations.get_active_names():
-        logging.info("update_street_housenumbers_ref: start: %s", relation_name)
+        logging.info("update_ref_housenumbers: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
         reference = config.get('wsgi', 'reference_housenumbers').strip().split(' ')
         relation.write_ref_housenumbers(reference)
-        logging.info("update_street_housenumbers_ref: end: %s", relation_name)
+        logging.info("update_ref_housenumbers: end: %s", relation_name)
 
 
 def update_missing_housenumbers(relations: areas.Relations) -> None:
@@ -98,9 +98,9 @@ def update_missing_housenumbers(relations: areas.Relations) -> None:
     logging.info("update_missing_housenumbers: end")
 
 
-def update_missing_streets_stats(relations: areas.Relations) -> None:
+def update_missing_streets(relations: areas.Relations) -> None:
     """Update the relation's street coverage stats."""
-    logging.info("update_missing_streets_stats: start")
+    logging.info("update_missing_streets: start")
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         streets = relation.get_config().should_check_missing_streets()
@@ -108,16 +108,16 @@ def update_missing_streets_stats(relations: areas.Relations) -> None:
             continue
 
         relation.write_missing_streets()
-    logging.info("update_missing_streets_stats: end")
+    logging.info("update_missing_streets: end")
 
 
 def our_main(relations: areas.Relations, config: configparser.ConfigParser) -> None:
     """Performs the actual nightly task."""
-    update_streets(relations)
-    update_street_housenumbers(relations)
-    update_street_housenumbers_ref(relations, config)
+    update_osm_streets(relations)
+    update_osm_housenumbers(relations)
+    update_ref_housenumbers(relations, config)
     update_missing_housenumbers(relations)
-    update_missing_streets_stats(relations)
+    update_missing_streets(relations)
 
 
 def main() -> None:
