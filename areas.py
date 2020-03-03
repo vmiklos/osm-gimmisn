@@ -108,6 +108,10 @@ class RelationConfig:
 
         return None
 
+    def set_active(self, active: bool) -> None:
+        """Sets if the relation is active."""
+        self.__dict["inactive"] = not active
+
     def is_active(self) -> bool:
         """Gets if the relation is active."""
         return not cast(bool, self.__get_property("inactive"))
