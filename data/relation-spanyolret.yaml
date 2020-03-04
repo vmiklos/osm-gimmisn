@@ -18,8 +18,7 @@ filters:
       - {start: '2', end: '44'}
   Törökbálinti út:
     ranges:
-      # jelenleg nincs beepitve, nem lehet tudni meddig tart madarhegy es hol kezdodik a spanyolret
-      - {start: '90', end: '998'}
+      - {start: '96', end: '998'}
 refstreets:
   'Felső határút': 'Felső Határ út'
 source: survey
