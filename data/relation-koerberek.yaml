@@ -10,7 +10,7 @@ filters:
     ranges: []
   Kamaraerdei út:
     ranges:
-      - {start: '12', end: '18'}
+      - {start: '12', end: '14'}
   Kőérberki út:
     ranges:
       - {start: '36', end: '36'}
