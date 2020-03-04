@@ -53,9 +53,7 @@ filters:
       - {start: '2', end: '4'}
   Törökbálinti út:
     ranges:
-      # jelenleg nincs beepitve, nem lehet tudnimeddig tart madarhegy es hol kezdodik a spanyolret
-      # 90-es szamot 1x hozzuk ki hibanak, ott epultek hazak
-      - {start: '80', end: '88'}
+      - {start: '80', end: '82'}
   Rupphegyi út:
     # paratlan oldalnal a 39 talalomra, mivel nincs beepitve
     ranges:
