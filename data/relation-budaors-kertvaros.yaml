@@ -66,6 +66,8 @@ filters:
     ranges:
       - {start: '3', end: '29'}
       - {start: '2', end: '20'}
+  Széchenyi utca:
+    invalid: ['20']
   Szellő köz:
     # nem femérhető: magánterületen van a 7-21, 8-14
     ranges:
