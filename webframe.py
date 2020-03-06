@@ -99,6 +99,9 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
         doc.text(" (")
         with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result.txt"):
             doc.text("txt")
+        doc.text(", ")
+        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result.chkl"):
+            doc.text("chkl")
         doc.text(")")
         items.append(doc)
         doc = yattag.Doc()

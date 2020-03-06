@@ -240,6 +240,51 @@ def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) 
     return output
 
 
+def get_chkl_split_limit() -> int:
+    """Decides when to split a too long line in the chkl output."""
+    return 20
+
+
+def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str) -> str:
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+    relation = relations.get_relation(relation_name)
+    relation.get_config().set_letter_suffix_style(util.LetterSuffixStyle.LOWER)
+
+    output = ""
+    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+        output += _("No existing streets")
+    elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
+        output += _("No existing house numbers")
+    elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
+        output += _("No reference house numbers")
+    else:
+        ongoing_streets, _ignore = relation.get_missing_housenumbers()
+
+        table = []
+        for result in ongoing_streets:
+            result_strings = util.get_housenumber_ranges(result[1])
+            # Street name, only_in_reference items.
+            row = "[ ] "
+            if not relation.get_config().get_street_is_even_odd(result[0]):
+                result_sorted = sorted(result_strings, key=util.split_house_number)
+                row += result[0] + " [" + ", ".join(result_sorted) + "]"
+                table.append(row)
+            else:
+                elements = util.format_even_odd(result_strings, doc=None)
+                if len(elements) > 1 and len(result_strings) > get_chkl_split_limit():
+                    for element in elements:
+                        row = "[ ] " + result[0] + " [" + element + "]"
+                        table.append(row)
+                else:
+                    row += result[0] + " [" + "], [".join(elements) + "]"
+                    table.append(row)
+        table.sort(key=locale.strxfrm)
+        output += "\n".join(table)
+    return output
+
+
 def missing_streets_view_txt(relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
@@ -660,7 +705,12 @@ def our_application_txt(
         output = missing_streets_view_txt(relations, request_uri)
     else:
         # assume "/osm/missing-housenumbers/"
-        output = missing_housenumbers_view_txt(relations, request_uri)
+        _ignore, _ignore, ext = request_uri.partition('.')
+        if ext == "chkl":
+            output = missing_housenumbers_view_chkl(relations, request_uri)
+        else:
+            # assume txt
+            output = missing_housenumbers_view_txt(relations, request_uri)
     return webframe.send_response(start_response, content_type, "200 OK", output)
 
 
@@ -742,7 +792,7 @@ def our_application(
     request_uri = get_request_uri(environ, relations)
     _ignore, _ignore, ext = request_uri.partition('.')
 
-    if ext == "txt":
+    if ext in ("txt", "chkl"):
         return our_application_txt(start_response, relations, request_uri)
 
     if request_uri.startswith("/osm/static/"):

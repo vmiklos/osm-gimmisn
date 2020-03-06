@@ -260,6 +260,81 @@ Törökugrató utca	[7], [10]
 Tűzkő utca	[1], [2]"""
         self.assertEqual(result, expected)
 
+    def test_view_result_chkl(self) -> None:
+        """Tests the chkl output."""
+        result = self.get_txt_for_path("/osm/missing-housenumbers/budafok/view-result.chkl")
+        # Note how 12 is ordered after 2.
+        self.assertEqual(result, "[ ] Vöröskúti határsor [2, 12, 34, 36*]")
+
+    def test_view_result_chkl_even_odd(self) -> None:
+        """Tests the chkl output (even-odd streets)."""
+        result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+        expected = """[ ] Hamzsabégi út [1]
+[ ] Törökugrató utca [7], [10]
+[ ] Tűzkő utca [1], [2]"""
+        self.assertEqual(result, expected)
+
+    def test_view_result_chkl_even_odd_split(self) -> None:
+        """Tests the chkl output (even-odd streets)."""
+        def mock_format_even_odd(_only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
+            assert doc is None
+            return ["1, 3", "2, 4"]
+
+        def mock_get_chkl_split_limit() -> int:
+            return 1
+
+        with unittest.mock.patch("util.format_even_odd", mock_format_even_odd):
+            with unittest.mock.patch("wsgi.get_chkl_split_limit", mock_get_chkl_split_limit):
+                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+                expected = """[ ] Hamzsabégi út [1]
+[ ] Törökugrató utca [1, 3]
+[ ] Törökugrató utca [2, 4]
+[ ] Tűzkő utca [1, 3]
+[ ] Tűzkő utca [2, 4]"""
+                self.assertEqual(result, expected)
+
+    def test_view_result_chkl_no_osm_streets_hn(self) -> None:
+        """Tests the chkl output, no osm streets/hn case."""
+        hide_path = ""
+        real_exists = os.path.exists
+
+        def mock_exists(path: str) -> bool:
+            if path == hide_path:
+                return False
+            return real_exists(path)
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_streets_path()
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+                self.assertEqual(result, "No existing streets")
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_osm_housenumbers_path()
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+                self.assertEqual(result, "No existing house numbers")
+
+    def test_view_result_chkl_no_ref_housenumbers(self) -> None:
+        """Tests the chkl output, no ref housenumbers case."""
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            hide_path = relation.get_files().get_ref_housenumbers_path()
+            real_exists = os.path.exists
+
+            def mock_exists(path: str) -> bool:
+                if path == hide_path:
+                    return False
+                return real_exists(path)
+            with unittest.mock.patch('os.path.exists', mock_exists):
+                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+                self.assertEqual(result, "No reference house numbers")
+
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
