@@ -32,6 +32,11 @@ def get_abspath(path: str) -> str:
     return os.path.join(os.path.dirname(__file__), path)
 
 
+def mock_urlopen_raise_error(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+    """Mock urlopen(), always throwing an error."""
+    raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
+
+
 class TestOverpassSleep(unittest.TestCase):
     """Tests overpass_sleep()."""
     def test_no_sleep(self) -> None:
@@ -108,6 +113,29 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
                     actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
                     self.assertEqual(actual, expected)
 
+    def test_http_error(self) -> None:
+        """Tests the case when we keep getting HTTP errors."""
+        mock_overpass_sleep_called = False
+
+        def mock_overpass_sleep() -> None:
+            nonlocal mock_overpass_sleep_called
+            mock_overpass_sleep_called = True
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
+                with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
+                    relations = get_relations()
+                    for relation_name in relations.get_active_names():
+                        if relation_name != "gazdagret":
+                            relations.get_relation(relation_name).get_config().set_active(False)
+                    expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+                    cron.update_osm_housenumbers(relations)
+                    self.assertTrue(mock_overpass_sleep_called)
+                    # Make sure that in case we keep getting errors we give up at some stage and
+                    # leave the last state unchanged.
+                    actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+                    self.assertEqual(actual, expected)
+
 
 class TestUpdateOsmStreets(unittest.TestCase):
     """Tests update_osm_streets()."""
@@ -149,12 +177,9 @@ class TestUpdateOsmStreets(unittest.TestCase):
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
-
         with unittest.mock.patch('util.get_abspath', get_abspath):
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-                with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+                with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                     relations = get_relations()
                     for relation_name in relations.get_active_names():
                         if relation_name != "gazdagret":
