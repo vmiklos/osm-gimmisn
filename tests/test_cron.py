@@ -12,6 +12,7 @@ import io
 import os
 import unittest
 import unittest.mock
+import urllib.error
 
 import areas
 import cron
@@ -97,6 +98,32 @@ class TestUpdateOsmStreets(unittest.TestCase):
                     os.unlink(os.path.join(relations.get_workdir(), "streets-gazdagret.csv"))
                     cron.update_osm_streets(relations)
                     self.assertTrue(mock_overpass_sleep_called)
+                    actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+                    self.assertEqual(actual, expected)
+
+    def test_http_error(self) -> None:
+        """Tests the case when we keep getting HTTP errors."""
+        mock_overpass_sleep_called = False
+
+        def mock_overpass_sleep() -> None:
+            nonlocal mock_overpass_sleep_called
+            mock_overpass_sleep_called = True
+
+        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+            raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
+                with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+                    relations = get_relations()
+                    for relation_name in relations.get_active_names():
+                        if relation_name != "gazdagret":
+                            relations.get_relation(relation_name).get_config().set_active(False)
+                    expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+                    cron.update_osm_streets(relations)
+                    self.assertTrue(mock_overpass_sleep_called)
+                    # Make sure that in case we keep getting errors we give up at some stage and
+                    # leave the last state unchanged.
                     actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
                     self.assertEqual(actual, expected)
 
