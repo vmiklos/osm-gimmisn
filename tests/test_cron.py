@@ -69,6 +69,46 @@ class TestOverpassSleep(unittest.TestCase):
                 self.assertEqual(captured_seconds, 42.0)
 
 
+class TestUpdateOsmHousenumbers(unittest.TestCase):
+    """Tests update_osm_housenumbers()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        mock_overpass_sleep_called = False
+
+        def mock_overpass_sleep() -> None:
+            nonlocal mock_overpass_sleep_called
+            mock_overpass_sleep_called = True
+
+        result_from_overpass = "@id\taddr:street\taddr:housenumber\n"
+        result_from_overpass += "1\tTörökugrató utca\t1\n"
+        result_from_overpass += "1\tTörökugrató utca\t2\n"
+        result_from_overpass += "1\tTűzkő utca\t9\n"
+        result_from_overpass += "1\tTűzkő utca\t10\n"
+        result_from_overpass += "1\tOSM Name 1\t1\n"
+        result_from_overpass += "1\tOSM Name 1\t2\n"
+        result_from_overpass += "1\tOnly In OSM utca\t1\n"
+
+        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+            buf = io.BytesIO()
+            buf.write(result_from_overpass.encode('utf-8'))
+            buf.seek(0)
+            return buf
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
+                with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+                    relations = get_relations()
+                    for relation_name in relations.get_active_names():
+                        if relation_name != "gazdagret":
+                            relations.get_relation(relation_name).get_config().set_active(False)
+                    expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+                    os.unlink(os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv"))
+                    cron.update_osm_housenumbers(relations)
+                    self.assertTrue(mock_overpass_sleep_called)
+                    actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+                    self.assertEqual(actual, expected)
+
+
 class TestUpdateOsmStreets(unittest.TestCase):
     """Tests update_osm_streets()."""
     def test_happy(self) -> None:
