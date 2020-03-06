@@ -17,6 +17,7 @@ import urllib.error
 import areas
 import cron
 import util
+import webframe
 
 
 def get_relations() -> areas.Relations:
@@ -72,6 +73,23 @@ class TestOverpassSleep(unittest.TestCase):
             with unittest.mock.patch('time.sleep', mock_sleep):
                 cron.overpass_sleep()
                 self.assertEqual(captured_seconds, 42.0)
+
+
+class TestUpdateRefHousenumbers(unittest.TestCase):
+    """Tests update_ref_housenumbers()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            for relation_name in relations.get_active_names():
+                if relation_name != "gazdagret":
+                    relations.get_relation(relation_name).get_config().set_active(False)
+            config = webframe.get_config()
+            expected = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
+            os.unlink(os.path.join(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst"))
+            cron.update_ref_housenumbers(relations, config)
+            actual = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
+            self.assertEqual(actual, expected)
 
 
 class TestUpdateOsmHousenumbers(unittest.TestCase):
