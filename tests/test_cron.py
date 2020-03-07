@@ -92,6 +92,25 @@ class TestUpdateRefHousenumbers(unittest.TestCase):
             self.assertEqual(actual, expected)
 
 
+class TestUpdateMissingHousenumbers(unittest.TestCase):
+    """Tests update_missing_housenumbers()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            for relation_name in relations.get_active_names():
+                # ujbuda is streets=only
+                if relation_name not in ("gazdagret", "ujbuda"):
+                    relations.get_relation(relation_name).get_config().set_active(False)
+            expected = util.get_content(relations.get_workdir(), "gazdagret.percent")
+            os.unlink(os.path.join(relations.get_workdir(), "gazdagret.percent"))
+            cron.update_missing_housenumbers(relations)
+            actual = util.get_content(relations.get_workdir(), "gazdagret.percent")
+            self.assertEqual(actual, expected)
+            # Make sure housenumber stat is not created for the streets=only case.
+            self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "ujbuda.percent")))
+
+
 class TestUpdateOsmHousenumbers(unittest.TestCase):
     """Tests update_osm_housenumbers()."""
     def test_happy(self) -> None:
