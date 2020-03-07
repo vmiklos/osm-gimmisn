@@ -111,6 +111,25 @@ class TestUpdateMissingHousenumbers(unittest.TestCase):
             self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "ujbuda.percent")))
 
 
+class TestUpdateMissingStreets(unittest.TestCase):
+    """Tests update_missing_streets()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            for relation_name in relations.get_active_names():
+                # gellerthegy is streets=no
+                if relation_name not in ("gazdagret", "gellerthegy"):
+                    relations.get_relation(relation_name).get_config().set_active(False)
+            expected = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
+            os.unlink(os.path.join(relations.get_workdir(), "gazdagret-streets.percent"))
+            cron.update_missing_streets(relations)
+            actual = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
+            self.assertEqual(actual, expected)
+            # Make sure street stat is not created for the streets=no case.
+            self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "gellerthegy-streets.percent")))
+
+
 class TestUpdateOsmHousenumbers(unittest.TestCase):
     """Tests update_osm_housenumbers()."""
     def test_happy(self) -> None:
