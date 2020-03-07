@@ -81,7 +81,25 @@ def update_ref_housenumbers(relations: areas.Relations, config: configparser.Con
         logging.info("update_ref_housenumbers: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
         reference = config.get('wsgi', 'reference_housenumbers').strip().split(' ')
+        streets = relation.get_config().should_check_missing_streets()
+        if streets == "only":
+            continue
+
         relation.write_ref_housenumbers(reference)
+        logging.info("update_ref_housenumbers: end: %s", relation_name)
+
+
+def update_ref_streets(relations: areas.Relations, config: configparser.ConfigParser) -> None:
+    """Update the reference street list of all relations."""
+    for relation_name in relations.get_active_names():
+        logging.info("update_ref_housenumbers: start: %s", relation_name)
+        relation = relations.get_relation(relation_name)
+        reference = config.get('wsgi', 'reference_street').strip()
+        streets = relation.get_config().should_check_missing_streets()
+        if streets == "no":
+            continue
+
+        relation.write_ref_streets(reference)
         logging.info("update_ref_housenumbers: end: %s", relation_name)
 
 
@@ -115,9 +133,10 @@ def our_main(relations: areas.Relations, config: configparser.ConfigParser) -> N
     """Performs the actual nightly task."""
     update_osm_streets(relations)
     update_osm_housenumbers(relations)
+    update_ref_streets(relations, config)
     update_ref_housenumbers(relations, config)
-    update_missing_housenumbers(relations)
     update_missing_streets(relations)
+    update_missing_housenumbers(relations)
 
 
 def main() -> None:
