@@ -198,3 +198,4 @@ refstreets:
   'Kiskőbánya utca': 'Kis Kőbánya utca'
   'Ménes utca': 'Ménesi utca'
 source: survey
+housenumber-letters: true

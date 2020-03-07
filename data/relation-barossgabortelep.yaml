@@ -71,3 +71,4 @@ refstreets:
   'Kőház sor': 'Kőházsor'
 source: survey
 inactive: true
+housenumber-letters: true
