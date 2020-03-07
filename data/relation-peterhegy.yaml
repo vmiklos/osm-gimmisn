@@ -61,3 +61,4 @@ filters:
     ranges:
       - {start: '43', end: '99'}
 source: survey
+housenumber-letters: true
