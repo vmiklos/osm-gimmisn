@@ -18,7 +18,8 @@ filters:
   Gaál József út:
     ranges:
       - {start: '13', end: '99'}
-      - {start: '2', end: '98'}
+      # at least 70-72 looks invalid
+      - {start: '2', end: '66'}
   Határőr út:
     ranges:
       - {start: '1', end: '65'}
