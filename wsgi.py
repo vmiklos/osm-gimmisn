@@ -245,7 +245,7 @@ def get_chkl_split_limit() -> int:
     return 20
 
 
-def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str) -> str:
+def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -282,7 +282,7 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
                     table.append(row)
         table.sort(key=locale.strxfrm)
         output += "\n".join(table)
-    return output
+    return output, relation_name
 
 
 def missing_streets_view_txt(relations: areas.Relations, request_uri: str) -> str:
@@ -701,17 +701,20 @@ def our_application_txt(
 ) -> Iterable[bytes]:
     """Dispatches plain text requests based on their URIs."""
     content_type = "text/plain"
+    extra_headers: List[Tuple[str, str]] = []
     if request_uri.startswith("/osm/missing-streets/"):
         output = missing_streets_view_txt(relations, request_uri)
     else:
         # assume "/osm/missing-housenumbers/"
         _ignore, _ignore, ext = request_uri.partition('.')
         if ext == "chkl":
-            output = missing_housenumbers_view_chkl(relations, request_uri)
+            output, relation_name = missing_housenumbers_view_chkl(relations, request_uri)
+            content_type = "application/octet-stream"
+            extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
         else:
             # assume txt
             output = missing_housenumbers_view_txt(relations, request_uri)
-    return webframe.send_response(start_response, content_type, "200 OK", output)
+    return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
 
 
 def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
@@ -797,7 +800,7 @@ def our_application(
 
     if request_uri.startswith("/osm/static/"):
         output, content_type = webframe.handle_static(request_uri)
-        return webframe.send_response(start_response, content_type, "200 OK", output)
+        return webframe.send_response(start_response, content_type, "200 OK", output, [])
 
     doc = yattag.Doc()
     util.write_html_header(doc)
@@ -816,7 +819,7 @@ def our_application(
             else:
                 doc.asis(handle_main(request_uri, relations).getvalue())
 
-    return webframe.send_response(start_response, "text/html", "200 OK", doc.getvalue())
+    return webframe.send_response(start_response, "text/html", "200 OK", doc.getvalue(), [])
 
 
 def application(

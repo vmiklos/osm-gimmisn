@@ -80,7 +80,10 @@ class TestWsgi(unittest.TestCase):
             # Make sure the built-in exception catcher is not kicking in.
             self.assertEqual(status, "200 OK")
             header_dict = {key: value for (key, value) in response_headers}
-            self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
+            if path.endswith(".chkl"):
+                self.assertEqual(header_dict["Content-type"], "application/octet-stream")
+            else:
+                self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
             environ = {

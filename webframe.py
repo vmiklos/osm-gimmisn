@@ -183,11 +183,20 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
     return "", ""
 
 
-def send_response(start_response: 'StartResponse', content_type: str, status: str, output: str) -> Iterable[bytes]:
+def send_response(
+        start_response: 'StartResponse',
+        content_type: str,
+        status: str,
+        output: str,
+        extra_headers: List[Tuple[str, str]]
+) -> Iterable[bytes]:
     """Turns an output string into a byte array and sends it."""
     output_bytes = output.encode('utf-8')
-    response_headers = [('Content-type', content_type + '; charset=utf-8'),
+    if content_type != "application/octet-stream":
+        content_type += "; charset=utf-8"
+    response_headers = [('Content-type', content_type),
                         ('Content-Length', str(len(output_bytes)))]
+    response_headers += extra_headers
     start_response(status, response_headers)
     return [output_bytes]
 
@@ -205,7 +214,7 @@ def handle_exception(
     with doc.tag("pre"):
         doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
         doc.text(traceback.format_exc())
-    return send_response(start_response, "text/html", status, doc.getvalue())
+    return send_response(start_response, "text/html", status, doc.getvalue(), [])
 
 
 def get_config() -> configparser.ConfigParser:
