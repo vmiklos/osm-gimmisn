@@ -95,6 +95,27 @@ class TestUpdateRefHousenumbers(unittest.TestCase):
             self.assertFalse(os.path.exists(ujbuda_path))
 
 
+class TestUpdateRefStreets(unittest.TestCase):
+    """Tests update_ref_streets()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            for relation_name in relations.get_active_names():
+                # gellerthegy is streets=no
+                if relation_name not in ("gazdagret", "gellerthegy"):
+                    relations.get_relation(relation_name).get_config().set_active(False)
+            config = webframe.get_config()
+            expected = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
+            os.unlink(os.path.join(relations.get_workdir(), "streets-reference-gazdagret.lst"))
+            cron.update_ref_streets(relations, config)
+            actual = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
+            self.assertEqual(actual, expected)
+            # Make sure street ref is not created for the streets=no case.
+            ujbuda_path = os.path.join(relations.get_workdir(), "streets-reference-gellerthegy.lst")
+            self.assertFalse(os.path.exists(ujbuda_path))
+
+
 class TestUpdateMissingHousenumbers(unittest.TestCase):
     """Tests update_missing_housenumbers()."""
     def test_happy(self) -> None:

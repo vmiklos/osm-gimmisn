@@ -711,8 +711,7 @@ class TestRelationWriteRefStreets(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
-            refdir = os.path.join(os.path.dirname(__file__), "refdir")
-            refpath = os.path.join(refdir, "utcak_20190514.tsv")
+            refpath = os.path.join("refdir", "utcak_20190514.tsv")
             relations = get_relations()
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)

@@ -339,6 +339,9 @@ class Relation:
     def write_ref_streets(self, reference: str) -> None:
         """Gets known streets (not their coordinates) from a reference site, based on relation names
         from OSM."""
+        # Convert relative path to absolute one.
+        reference = util.get_abspath(reference)
+
         memory_cache = util.build_street_reference_cache(reference)
 
         lst = self.build_ref_streets(memory_cache)
