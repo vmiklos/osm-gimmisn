@@ -8,6 +8,7 @@
 
 from typing import BinaryIO
 from typing import Optional
+import configparser
 import io
 import os
 import unittest
@@ -271,6 +272,37 @@ class TestUpdateOsmStreets(unittest.TestCase):
                     # leave the last state unchanged.
                     actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
                     self.assertEqual(actual, expected)
+
+
+class TestOurMain(unittest.TestCase):
+    """Tests our_main()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        calls = 0
+
+        def count_calls(_relations: areas.Relation, _config: Optional[configparser.ConfigParser] = None) -> None:
+            nonlocal calls
+            calls += 1
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            config = webframe.get_config()
+            with unittest.mock.patch("cron.update_osm_streets", count_calls):
+                with unittest.mock.patch("cron.update_osm_housenumbers", count_calls):
+                    with unittest.mock.patch("cron.update_ref_streets", count_calls):
+                        with unittest.mock.patch("cron.update_ref_housenumbers", count_calls):
+                            with unittest.mock.patch("cron.update_missing_streets", count_calls):
+                                with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
+                                    cron.our_main(relations, config)
+
+        expected = 0
+        # Consider what to update automatically: the 2 sources and the diff between them.
+        for _ in ("osm", "ref", "missing"):
+            # What object types we have.
+            for _ in ("streets", "housenumbers"):
+                expected += 1
+
+        self.assertEqual(calls, expected)
 
 
 if __name__ == '__main__':
