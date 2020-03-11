@@ -6,6 +6,7 @@
 
 """The test_cron module covers the cron module."""
 
+from typing import Any
 from typing import BinaryIO
 from typing import Optional
 import configparser
@@ -303,6 +304,31 @@ class TestOurMain(unittest.TestCase):
                 expected += 1
 
         self.assertEqual(calls, expected)
+
+
+class TestMain(unittest.TestCase):
+    """Tests main()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        mock_main_called = False
+
+        def mock_main(_relations: areas.Relation, _config: configparser.ConfigParser) -> None:
+            nonlocal mock_main_called
+            mock_main_called = True
+
+        mock_info_called = False
+
+        def mock_info(_msg: str, *_args: Any, **_kwargs: Any) -> None:
+            nonlocal mock_info_called
+            mock_info_called = True
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            with unittest.mock.patch("cron.our_main", mock_main):
+                with unittest.mock.patch("logging.info", mock_info):
+                    cron.main()
+
+        self.assertTrue(mock_main_called)
+        self.assertTrue(mock_info_called)
 
 
 if __name__ == '__main__':

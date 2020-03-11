@@ -154,7 +154,8 @@ def main() -> None:
                         level=logging.INFO,
                         format='%(asctime)s %(levelname)s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
-    logging.getLogger().addHandler(logging.StreamHandler())
+    handler = logging.StreamHandler()
+    logging.getLogger().addHandler(handler)
 
     start = time.time()
     # Query inactive relations once a month.
@@ -166,6 +167,8 @@ def main() -> None:
         logging.error("main: unhandled exception: %s", traceback.format_exc())
     delta = time.time() - start
     logging.info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
+    logging.getLogger().removeHandler(handler)
+    logging.shutdown()
 
 
 if __name__ == "__main__":
