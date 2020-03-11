@@ -330,6 +330,28 @@ class TestMain(unittest.TestCase):
         self.assertTrue(mock_main_called)
         self.assertTrue(mock_info_called)
 
+    def test_exception(self) -> None:
+        """Tests the path when main() throws."""
+        def mock_main(_relations: areas.Relation, _config: configparser.ConfigParser) -> None:
+            raise Exception()
+
+        def mock_info(_msg: str, *_args: Any, **_kwargs: Any) -> None:
+            pass
+
+        mock_error_called = False
+
+        def mock_error(_msg: str, *_args: Any, **_kwargs: Any) -> None:
+            nonlocal mock_error_called
+            mock_error_called = True
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            with unittest.mock.patch("cron.our_main", mock_main):
+                with unittest.mock.patch("logging.info", mock_info):
+                    with unittest.mock.patch("logging.error", mock_error):
+                        cron.main()
+
+        self.assertTrue(mock_error_called)
+
 
 if __name__ == '__main__':
     unittest.main()

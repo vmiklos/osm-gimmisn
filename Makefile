@@ -32,11 +32,11 @@ PYTHON_SAFE_OBJECTS = \
 	version.py \
 	webframe.py \
 	wsgi.py \
+	cron.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
-	cron.py \
 
 # These are valid.
 YAML_SAFE_OBJECTS = \
