@@ -1,6 +1,7 @@
 missing-streets: 'no'
 filters:
   Bartók Béla út:
+    invalid: ['28a', '28b', '52a', '52b']
     ranges:
       - {start: '2', end: '56'}
   Bercsényi utca:
