@@ -1,12 +1,14 @@
 = Version descriptions
 
-== master
+== 4.0
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/344> next to the existing "txt" output, a new
   "chkl" output is available for missing house numbers of a relation, providing a plain text
   checklist. (2020-03-07)
 
 - yaml files are now parsed build-time to improve performance (main page loads 7 times faster)
+
+- complete line coverage for the cron code, which was the last uncovered module
 
 == 3.0
 
