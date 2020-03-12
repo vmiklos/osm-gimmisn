@@ -27,6 +27,9 @@ filters:
     ranges:
       - {start: '48', end: '54'}
 source: survey
+invalid:
+  Patkó utca:
+    invalid: ['29']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Aszú utca: Aszu utca
