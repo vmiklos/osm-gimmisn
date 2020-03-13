@@ -472,7 +472,7 @@ class Relation:
 
         return ongoing_streets, done_streets
 
-    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.Doc]]]:
+    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.doc.Doc]]]:
         """
         Calculate a write stat for the house number coverage of a relation.
         Returns a tuple of: todo street count, todo count, done count, percent and table.
@@ -491,7 +491,7 @@ class Relation:
             number_ranges = util.get_housenumber_ranges(result[1])
             row.append(util.html_escape(str(len(number_ranges))))
 
-            doc = yattag.Doc()
+            doc = yattag.doc.Doc()
             if not self.get_config().get_street_is_even_odd(result[0]):
                 for index, item in enumerate(sorted(number_ranges, key=util.split_house_number)):
                     if index:
@@ -685,7 +685,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     return [util.HouseNumber(str(number) + suffix, house_numbers) for number in ret_numbers]
 
 
-def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.Doc]]) -> str:
+def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.doc.Doc]]) -> str:
     """Creates an overpass query that shows all streets from a missing housenumbers table."""
     streets: List[str] = []
     first = True

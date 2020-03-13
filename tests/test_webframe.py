@@ -103,7 +103,7 @@ class TestFillMissingHeaderItems(unittest.TestCase):
         """Tests the happy path."""
         streets = "no"
         relation_name = "gazdagret"
-        items: List[yattag.Doc] = []
+        items: List[yattag.doc.Doc] = []
         webframe.fill_missing_header_items(streets, relation_name, items)
         html = items[0].getvalue()
         self.assertIn("Missing house numbers", html)

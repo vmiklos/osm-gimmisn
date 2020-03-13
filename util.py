@@ -116,7 +116,7 @@ class HouseNumber:
         return groups[0] + groups[2].lower() + source_suffix
 
 
-def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
+def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.doc.Doc]) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
     key = split_house_number
     even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=key)
@@ -146,9 +146,9 @@ def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[s
     return elements
 
 
-def color_house_number(fro: str) -> yattag.Doc:
+def color_house_number(fro: str) -> yattag.doc.Doc:
     """Colors a house number according to its suffix."""
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     if not fro.endswith("*"):
         doc.text(fro)
         return doc
@@ -267,16 +267,16 @@ def parse_filters(tokens: List[str]) -> Dict[str, str]:
     return ret
 
 
-def html_escape(text: str) -> yattag.Doc:
-    """Factory of yattag.Doc from a string."""
-    doc = yattag.Doc()
+def html_escape(text: str) -> yattag.doc.Doc:
+    """Factory of yattag.doc.Doc from a string."""
+    doc = yattag.doc.Doc()
     doc.text(text)
     return doc
 
 
-def handle_overpass_error(http_error: urllib.error.HTTPError) -> yattag.Doc:
+def handle_overpass_error(http_error: urllib.error.HTTPError) -> yattag.doc.Doc:
     """Handles a HTTP error from Overpass."""
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     with doc.tag("div", id="overpass-error"):
         doc.text(_("Overpass error: {0}").format(str(http_error)))
         sleep = overpass_query.overpass_query_need_sleep()
@@ -299,9 +299,9 @@ def setup_localization(environ: Dict[str, Any]) -> str:
     return ""
 
 
-def gen_link(url: str, label: str) -> yattag.Doc:
+def gen_link(url: str, label: str) -> yattag.doc.Doc:
     """Generates a link to a URL with a given label."""
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     with doc.tag("a", href=url):
         doc.text(label + "...")
 
@@ -312,7 +312,7 @@ def gen_link(url: str, label: str) -> yattag.Doc:
     return doc
 
 
-def write_html_header(doc: yattag.Doc) -> None:
+def write_html_header(doc: yattag.doc.Doc) -> None:
     """Produces the verify first line of a HTML output."""
     doc.asis("<!DOCTYPE html>\n")
 
@@ -351,9 +351,9 @@ def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
     return True
 
 
-def html_table_from_list(table: List[List[yattag.Doc]]) -> yattag.Doc:
+def html_table_from_list(table: List[List[yattag.doc.Doc]]) -> yattag.doc.Doc:
     """Produces a HTML table from a list of lists."""
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     with doc.tag("table", klass="sortable"):
         for row_index, row_content in enumerate(table):
             with doc.tag("tr"):
@@ -368,7 +368,7 @@ def html_table_from_list(table: List[List[yattag.Doc]]) -> yattag.Doc:
     return doc
 
 
-def tsv_to_list(stream: TextIO) -> List[List[yattag.Doc]]:
+def tsv_to_list(stream: TextIO) -> List[List[yattag.doc.Doc]]:
     """Turns a tab-separated table into a list of lists."""
     table = []
 
@@ -388,7 +388,7 @@ def tsv_to_list(stream: TextIO) -> List[List[yattag.Doc]]:
             try:
                 osm_id = int(cells[0].getvalue())
                 osm_type = cells[type_index].getvalue()
-                doc = yattag.Doc()
+                doc = yattag.doc.Doc()
                 href = "https://www.openstreetmap.org/{}/{}".format(osm_type, osm_id)
                 with doc.tag("a", href=href, target="_blank"):
                     doc.text(str(osm_id))
@@ -430,10 +430,10 @@ def get_housenumber_ranges(house_numbers: List[HouseNumber]) -> List[str]:
     return sorted(set(ret))
 
 
-def git_link(version: str, prefix: str) -> yattag.Doc:
+def git_link(version: str, prefix: str) -> yattag.doc.Doc:
     """Generates a HTML link based on a website prefix and a git-describe version."""
     commit_hash = re.sub(".*-g", "", version)
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     with doc.tag("a", href=prefix + commit_hash):
         doc.text(version)
     return doc

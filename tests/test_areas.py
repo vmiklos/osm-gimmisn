@@ -515,7 +515,7 @@ class TestRelationGetMissingStreets(unittest.TestCase):
             self.assertEqual(in_both, ['Hamzsabégi út', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
 
-def table_doc_to_string(table: List[List[yattag.Doc]]) -> List[List[str]]:
+def table_doc_to_string(table: List[List[yattag.doc.Doc]]) -> List[List[str]]:
     """Unwraps an escaped matrix of yattag documents into a string matrix."""
     table_content = []
     for row in table:

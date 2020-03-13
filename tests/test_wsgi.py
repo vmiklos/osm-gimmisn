@@ -279,7 +279,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_chkl_even_odd_split(self) -> None:
         """Tests the chkl output (even-odd streets)."""
-        def mock_format_even_odd(_only_in_ref: List[str], doc: Optional[yattag.Doc]) -> List[str]:
+        def mock_format_even_odd(_only_in_ref: List[str], doc: Optional[yattag.doc.Doc]) -> List[str]:
             assert doc is None
             return ["1, 3", "2, 4"]
 
@@ -728,7 +728,7 @@ class TestWebhooks(TestWsgi):
 
         mock_called = False
 
-        def mock_handler(_environ: Dict[str, BinaryIO]) -> yattag.Doc:
+        def mock_handler(_environ: Dict[str, BinaryIO]) -> yattag.doc.Doc:
             nonlocal mock_called
             mock_called = True
             return util.html_escape("")

@@ -7,6 +7,7 @@
 
 """The overpass_query module allows getting data out of the OSM DB without a full download."""
 
+from typing import cast
 import urllib.request
 import urllib.error
 import re
@@ -21,7 +22,7 @@ def overpass_query(query: str) -> str:
     buf = sock.read()
     sock.close()
 
-    return buf.decode('utf-8')
+    return cast(str, buf.decode('utf-8'))
 
 
 def overpass_query_need_sleep() -> int:

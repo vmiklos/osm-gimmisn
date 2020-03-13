@@ -40,7 +40,7 @@ if sys.platform.startswith("win"):
     import _locale
 
 
-def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -49,7 +49,7 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     relation = relations.get_relation(relation_name)
     osmrelation = relation.get_config().get_osmrelation()
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations, "streets", relation_name, osmrelation).getvalue())
 
     if action == "view-query":
@@ -79,7 +79,7 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     return doc
 
 
-def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -88,7 +88,7 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
     relation = relations.get_relation(relation_name)
     osmrelation = relation.get_config().get_osmrelation()
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations, "street-housenumbers", relation_name, osmrelation).getvalue())
 
     if action == "view-query":
@@ -118,12 +118,12 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
     return doc
 
 
-def missing_housenumbers_view_turbo(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def missing_housenumbers_view_turbo(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
     ret = relation.write_missing_housenumbers()
     _todo_street_count, _todo_count, _done_count, _percent, table = ret
@@ -134,12 +134,12 @@ def missing_housenumbers_view_turbo(relations: areas.Relations, request_uri: str
     return doc
 
 
-def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         with doc.tag("div", id="no-osm-streets"):
@@ -177,13 +177,13 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
     return doc
 
 
-def missing_streets_view_result(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def missing_streets_view_result(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         with doc.tag("div", id="no-osm-streets"):
             doc.text(_("No existing streets: "))
@@ -306,31 +306,31 @@ def missing_streets_view_txt(relations: areas.Relations, request_uri: str) -> st
     return output
 
 
-def missing_housenumbers_update(relations: areas.Relations, relation_name: str) -> yattag.Doc:
+def missing_housenumbers_update(relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result."""
     reference = webframe.get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
     reference = [util.get_abspath(i) for i in reference]
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     doc.text(_("Update successful: "))
     link = "/osm/missing-housenumbers/" + relation_name + "/view-result"
     doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
     return doc
 
 
-def missing_streets_update(relations: areas.Relations, relation_name: str) -> yattag.Doc:
+def missing_streets_update(relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
     reference = util.get_abspath(webframe.get_config().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     with doc.tag("div", id="update-success"):
         doc.text(_("Update successful."))
     return doc
 
 
-def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -339,7 +339,7 @@ def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) ->
 
     relation = relations.get_relation(relation_name)
     osmrelation = relation.get_config().get_osmrelation()
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations, "missing-housenumbers", relation_name, osmrelation).getvalue())
 
     if action == "view-turbo":
@@ -361,7 +361,7 @@ def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) ->
     return doc
 
 
-def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -370,7 +370,7 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     relation = relations.get_relation(relation_name)
     osmrelation = relation.get_config().get_osmrelation()
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations, "missing-streets", relation_name, osmrelation).getvalue())
 
     if action == "view-query":
@@ -426,14 +426,14 @@ def get_streets_last_modified(relation: areas.Relation) -> str:
     return get_last_modified(relation.get_files().get_osm_streets_path())
 
 
-def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.Doc, str]:
+def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
     """Handles the house number percent part of the main page."""
     url = "/osm/missing-housenumbers/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_housenumbers_percent_path()):
         percent = util.get_content(relation.get_files().get_housenumbers_percent_path())
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
         with doc.tag("strong"):
@@ -447,14 +447,14 @@ def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.Doc, s
     return doc, "0"
 
 
-def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.Doc, str]:
+def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
     """Handles the street percent part of the main page."""
     url = "/osm/missing-streets/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_streets_percent_path()):
         percent = util.get_content(relation.get_files().get_streets_percent_path())
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_streets_percent_path())
         with doc.tag("strong"):
@@ -494,9 +494,9 @@ def create_filter_for_refmegye_reftelepules(
     return filter_for
 
 
-def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, refmegye: str) -> yattag.Doc:
+def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, refmegye: str) -> yattag.doc.Doc:
     """Handles one refmegye in the filter part of the main wsgi page."""
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     name = relations.refmegye_get_name(refmegye)
     if not name:
         return doc
@@ -506,10 +506,10 @@ def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, r
     if refmegye_id and refmegye == refmegye_id:
         reftelepules_ids = relations.refmegye_get_reftelepules_ids(refmegye_id)
         if reftelepules_ids:
-            names: List[yattag.Doc] = []
+            names: List[yattag.doc.Doc] = []
             for reftelepules_id in reftelepules_ids:
                 name = relations.reftelepules_get_name(refmegye_id, reftelepules_id)
-                name_doc = yattag.Doc()
+                name_doc = yattag.doc.Doc()
                 href_format = "/osm/filter-for/refmegye/{}/reftelepules/{}"
                 with name_doc.tag("a", href=href_format.format(refmegye, reftelepules_id)):
                     name_doc.text(name)
@@ -523,17 +523,17 @@ def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, r
     return doc
 
 
-def handle_main_filters(relations: areas.Relations, refmegye_id: str) -> yattag.Doc:
+def handle_main_filters(relations: areas.Relations, refmegye_id: str) -> yattag.doc.Doc:
     """Handlers the filter part of the main wsgi page."""
-    items: List[yattag.Doc] = []
-    doc = yattag.Doc()
+    items: List[yattag.doc.Doc] = []
+    doc = yattag.doc.Doc()
     with doc.tag("a", href="/osm/filter-for/incomplete"):
         doc.text(_("Hide complete areas"))
     items.append(doc)
     # Sorted set of refmegye values of all relations.
     for refmegye in sorted({relation.get_config().get_refmegye() for relation in relations.get_relations()}):
         items.append(handle_main_filters_refmegye(relations, refmegye_id, refmegye))
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     with doc.tag("h1"):
         doc.text(_("Where to map?"))
     with doc.tag("p"):
@@ -569,7 +569,7 @@ def handle_main_relation(
         relations: areas.Relations,
         filter_for: Callable[[bool, areas.Relation], bool],
         relation_name: str
-) -> List[yattag.Doc]:
+) -> List[yattag.doc.Doc]:
     """Handles one relation (one table row) on the main page."""
     relation = relations.get_relation(relation_name)
     # If checking both streets and house numbers, then "is complete" refers to the street coverage
@@ -578,41 +578,41 @@ def handle_main_relation(
 
     streets = relation.get_config().should_check_missing_streets()
 
-    row = []  # List[yattag.Doc]
+    row = []  # List[yattag.doc.Doc]
     row.append(util.html_escape(relation_name))
 
     if streets != "only":
         cell, percent = handle_main_housenr_percent(relation)
-        doc = yattag.Doc()
+        doc = yattag.doc.Doc()
         doc.asis(cell.getvalue())
         row.append(doc)
         complete = float(percent) >= 100.0
 
         date = get_housenumbers_last_modified(relation)
-        doc = yattag.Doc()
+        doc = yattag.doc.Doc()
         href = "/osm/street-housenumbers/" + relation_name + "/view-result"
         with doc.tag("a", href=href, title=_("updated") + " " + date):
             doc.text(_("existing house numbers"))
         row.append(doc)
     else:
-        row.append(yattag.Doc())
+        row.append(yattag.doc.Doc())
 
-        row.append(yattag.Doc())
+        row.append(yattag.doc.Doc())
 
     if streets != "no":
         cell, percent = handle_main_street_percent(relation)
         row.append(cell)
         complete = float(percent) >= 100.0
     else:
-        row.append(yattag.Doc())
+        row.append(yattag.doc.Doc())
 
     date = get_streets_last_modified(relation)
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     with doc.tag("a", href="/osm/streets/" + relation_name + "/view-result", title=_("updated") + " " + date):
         doc.text(_("existing streets"))
     row.append(doc)
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation.get_config().get_osmrelation())):
         doc.text(_("area boundary"))
     row.append(doc)
@@ -623,13 +623,13 @@ def handle_main_relation(
     return row
 
 
-def handle_main(request_uri: str, relations: areas.Relations) -> yattag.Doc:
+def handle_main(request_uri: str, relations: areas.Relations) -> yattag.doc.Doc:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
     filter_for, refmegye = setup_main_filter_for(request_uri)
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations).getvalue())
 
     doc.asis(handle_main_filters(relations, refmegye).getvalue())
@@ -673,7 +673,7 @@ def get_html_title(request_uri: str) -> str:
     return title
 
 
-def write_html_head(doc: yattag.Doc, title: str) -> None:
+def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
     """Produces the <head> tag and its contents."""
     with doc.tag("head"):
         with doc.tag("title"):
@@ -685,7 +685,7 @@ def write_html_head(doc: yattag.Doc, title: str) -> None:
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
 
 
-def handle_github_webhook(environ: Dict[str, Any]) -> yattag.Doc:
+def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:
     """Handles a GitHub style webhook."""
 
     body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
@@ -748,9 +748,9 @@ def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
     return request_uri
 
 
-def check_existing_relation(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def check_existing_relation(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Prevents serving outdated data from a relation that has been renamed."""
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     if not request_uri.startswith("/osm/streets/") \
             and not request_uri.startswith("/osm/missing-streets/") \
             and not request_uri.startswith("/osm/street-housenumbers/") \
@@ -775,7 +775,7 @@ HANDLERS = {
 }
 
 
-def get_handler(request_uri: str) -> Optional[Callable[[areas.Relations, str], yattag.Doc]]:
+def get_handler(request_uri: str) -> Optional[Callable[[areas.Relations, str], yattag.doc.Doc]]:
     """Decides request_uri matches what handler."""
     for key, value in HANDLERS.items():
         if request_uri.startswith(key):
@@ -805,7 +805,7 @@ def our_application(
         output, content_type = webframe.handle_static(request_uri)
         return webframe.send_response(start_response, content_type, "200 OK", output, [])
 
-    doc = yattag.Doc()
+    doc = yattag.doc.Doc()
     util.write_html_header(doc)
     with doc.tag("html", lang=language):
         write_html_head(doc, get_html_title(request_uri))

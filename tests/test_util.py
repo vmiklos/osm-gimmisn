@@ -34,13 +34,13 @@ class TestFormatEvenOdd(unittest.TestCase):
 
     def test_html(self) -> None:
         """Tests HTML coloring."""
-        doc = yattag.Doc()
+        doc = yattag.doc.Doc()
         util.format_even_odd(["2*", "4"], doc)
         self.assertEqual(doc.getvalue(), '<span style="color: blue;">2</span>, 4')
 
     def test_html_multi_odd(self) -> None:
         """Tests HTML output with multiple odd numbers."""
-        doc = yattag.Doc()
+        doc = yattag.doc.Doc()
         util.format_even_odd(["1", "3"], doc)
         self.assertEqual(doc.getvalue(), "1, 3")
 
