@@ -41,7 +41,7 @@ def overpass_query_need_sleep() -> int:
             if sleep <= 0:
                 sleep = 1
             break
-        elif "available now" in line:
+        if "available now" in line:
             available = True
     if available:
         return 0

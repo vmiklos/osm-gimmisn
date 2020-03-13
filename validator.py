@@ -15,6 +15,9 @@ from typing import List
 from typing import Tuple
 import yaml
 
+if sys.platform.startswith("win"):
+    import _locale
+
 
 def validate_range_missing_keys(
         errors: List[str],
@@ -181,7 +184,6 @@ def validate_relations(errors: List[str], relations: Dict[str, Any]) -> None:
 def main() -> None:
     """Commandline interface to this module."""
     if sys.platform.startswith("win"):
-        import _locale
         # pylint: disable=protected-access
         _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 

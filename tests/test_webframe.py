@@ -24,7 +24,7 @@ import webframe
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
-    from wsgiref.types import StartResponse
+    from wsgiref.types import StartResponse  # noqa: F401
 
 
 class TestHandleStatic(unittest.TestCase):
@@ -58,14 +58,14 @@ class TestHandleException(unittest.TestCase):
 
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             self.assertTrue(status.startswith("500"))
-            header_dict = {key: value for (key, value) in response_headers}
+            header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
         try:
             int("a")
         # pylint: disable=broad-except
         except Exception:
-            callback: StartResponse = cast('StartResponse', start_response)
+            callback = cast('StartResponse', start_response)
             output_iterable = webframe.handle_exception(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)

@@ -36,6 +36,9 @@ if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
     from wsgiref.types import StartResponse
 
+if sys.platform.startswith("win"):
+    import _locale
+
 
 def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
@@ -706,7 +709,7 @@ def our_application_txt(
         output = missing_streets_view_txt(relations, request_uri)
     else:
         # assume "/osm/missing-housenumbers/"
-        _ignore, _ignore, ext = request_uri.partition('.')
+        _, _, ext = request_uri.partition('.')
         if ext == "chkl":
             output, relation_name = missing_housenumbers_view_chkl(relations, request_uri)
             content_type = "application/octet-stream"
@@ -793,7 +796,7 @@ def our_application(
     relations = areas.Relations(util.get_workdir(config))
 
     request_uri = get_request_uri(environ, relations)
-    _ignore, _ignore, ext = request_uri.partition('.')
+    _, _, ext = request_uri.partition('.')
 
     if ext in ("txt", "chkl"):
         return our_application_txt(start_response, relations, request_uri)
@@ -838,7 +841,6 @@ def application(
 def main() -> None:
     """Commandline interface to this module."""
     if sys.platform.startswith("win"):
-        import _locale
         # pylint: disable=protected-access
         _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 
