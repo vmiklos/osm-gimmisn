@@ -1,3 +1,5 @@
+# See <https://docs.python.org/3/tutorial/venv.html> on how to easily use
+# exactly these versions locally.
 coverage==5.0.3
 flake8==3.7.9
 # Not trivial to upgrade.

@@ -57,14 +57,14 @@ class TestWsgi(unittest.TestCase):
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             # Make sure the built-in exception catcher is not kicking in.
             self.assertEqual(status, "200 OK")
-            header_dict = {key: value for (key, value) in response_headers}
+            header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
             environ = {
                 "PATH_INFO": path
             }
-            callback: StartResponse = cast('StartResponse', start_response)
+            callback = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
@@ -79,7 +79,7 @@ class TestWsgi(unittest.TestCase):
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             # Make sure the built-in exception catcher is not kicking in.
             self.assertEqual(status, "200 OK")
-            header_dict = {key: value for (key, value) in response_headers}
+            header_dict = dict(response_headers)
             if path.endswith(".chkl"):
                 self.assertEqual(header_dict["Content-type"], "application/octet-stream")
             else:
@@ -89,7 +89,7 @@ class TestWsgi(unittest.TestCase):
             environ = {
                 "PATH_INFO": path
             }
-            callback: StartResponse = cast('StartResponse', start_response)
+            callback = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
@@ -101,14 +101,14 @@ class TestWsgi(unittest.TestCase):
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             # Make sure the built-in exception catcher is not kicking in.
             self.assertEqual(status, "200 OK")
-            header_dict = {key: value for (key, value) in response_headers}
+            header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "application/x-javascript; charset=utf-8")
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
             environ = {
                 "PATH_INFO": path
             }
-            callback: StartResponse = cast('StartResponse', start_response)
+            callback = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
@@ -635,7 +635,7 @@ class TestMain(TestWsgi):
 
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             self.assertTrue(status.startswith("500"))
-            header_dict = {key: value for (key, value) in response_headers}
+            header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
         def mock_application(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
@@ -644,7 +644,7 @@ class TestMain(TestWsgi):
             return wsgi.our_application(environ, start_response)
 
         with unittest.mock.patch('wsgi.our_application', mock_application):
-            callback: StartResponse = cast('StartResponse', start_response)
+            callback = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
