@@ -4,6 +4,9 @@ filters:
     ranges: []
   Bajvívó utca:
     reftelepules: '002'
+    ranges:
+      - {start: '2', end: '8'}
+      - {start: '1', end: '11'}
   Bakfark Bálint utca:
     reftelepules: '002'
   Batthyány tér:
@@ -106,8 +109,12 @@ filters:
       - {start: '1', end: '19'}
   Varsányi Irén utca:
     reftelepules: '002'
+    invalid: ['27', '29']  # parkoló van a helyén
   Varsányi udvar:
+    interpolation: 'all'
     reftelepules: '002'
+    ranges:
+      - {start: '2', end: '3'}
   Vitéz utca:
     reftelepules: '002'
   Vérmező út:
