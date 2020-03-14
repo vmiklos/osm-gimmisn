@@ -24,7 +24,7 @@ filters:
   Szabadság út:
     ranges:
       - {start: '113', end: '315'}
-      - {start: '134', end: '164'}
+      - {start: '134', end: '162'}
   Víg utca:
     ranges:
       - {start: '48', end: '54'}
