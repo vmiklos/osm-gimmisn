@@ -558,6 +558,7 @@ filters:
     ranges:
       - {start: '1', end: '1'}
   Villányi út:
+    invalid: ['78c', '78d']
     ranges:
       - {start: '76', end: '86'}
   Vincellér utca:
