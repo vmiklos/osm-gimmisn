@@ -65,6 +65,8 @@ filters:
     ranges:
       - {start: '3', end: '29'}
       - {start: '2', end: '20'}
+  Szabadság út:
+    invalid: ['144']
   Széchenyi utca:
     invalid: ['20']
   Szellő köz:
