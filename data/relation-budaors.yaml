@@ -15,6 +15,8 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '98'}
+  Baross utca:
+    invalid: ['86']
   Budapesti út:
     invalid: ['25', '43']
     ranges:
