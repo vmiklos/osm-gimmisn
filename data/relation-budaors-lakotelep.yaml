@@ -18,6 +18,8 @@ filters:
   Koszorú utca:
     ranges:
       - {start: '2', end: '8'}
+  Napsugár sétány:
+    invalid: ['14', '17', '224']
   Őszirózsa utca:
     ranges: []
   Otthon utca:
