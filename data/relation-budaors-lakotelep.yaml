@@ -12,6 +12,8 @@ filters:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '4'}
+  Ifjúság utca:
+    invalid: ['2', '37']
   Komáromi utca:
     ranges:
       - {start: '2', end: '20'}
