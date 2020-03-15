@@ -20,6 +20,8 @@ filters:
       - {start: '2', end: '8'}
   Őszirózsa utca:
     ranges: []
+  Otthon utca:
+    invalid: ['1', '24']
   Patkó utca:
     invalid: ['29']
   Szabadság út:
