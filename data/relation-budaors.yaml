@@ -53,6 +53,8 @@ filters:
   Naphegy dűlő:
     ranges:
       - {start: '1', end: '5'}
+  Napsugár sétány:
+    invalid: ['14', '17', '224']
   Otthon utca:
     invalid: ['1', '25']
   Patkó utca:
