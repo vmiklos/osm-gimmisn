@@ -1,0 +1,50 @@
+missing-streets: 'no'
+filters:
+  Egressy út:
+    ranges:
+      - {start: '75', end: '171'}
+      - {start: '114', end: '266'}
+  Erzsébet királyné útja:
+    ranges:
+      - {start: '43', end: '125'}
+      - {start: '32', end: '122'}
+  Fogarasi út:
+    ranges:
+      - {start: '73', end: '199'}
+      - {start: '98', end: '230'}
+  Füredi utca:
+    ranges:
+      - {start: '53', end: '99'}
+      - {start: '2', end: '66'}
+  Gvadányi utca:
+    ranges:
+      - {start: '1', end: '129'}
+      - {start: '66', end: '128'}
+  Kacsóh Pongrác út:
+    ranges:
+      - {start: '7', end: '143'}
+  Mogyoródi út:
+    ranges:
+      - {start: '75', end: '201'}
+      - {start: '72', end: '188'}
+  Nagy Lajos király útja:
+    ranges:
+      - {start: '1', end: '215'}
+  Ond vezér útja:
+    ranges: []
+  Örs vezér tere:
+    interpolation: all
+    ranges:
+      - {start: '11', end: '20'}
+  Róna utca:
+    ranges: []
+  Szőnyi út:
+    ranges:
+      - {start: '15', end: '51'}
+      - {start: '14', end: '58'}
+  Szugló utca:
+    ranges:
+      - {start: '81', end: '191'}
+      - {start: '84', end: '222'}
+source: survey
+inactive: false
