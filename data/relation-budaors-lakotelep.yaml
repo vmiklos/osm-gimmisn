@@ -7,6 +7,7 @@ filters:
     ranges:
       - {start: '76', end: '138'}
       - {start: '135', end: '177'}
+    invalid: ['86']
   Domb utca:
     ranges:
       - {start: '1', end: '35'}
