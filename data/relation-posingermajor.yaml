@@ -54,6 +54,7 @@ filters:
     ranges: []
   Rupphegyi út:
     # paratlan oldalnal a 41 talalomra, mivel nincs beepitve
+    invalid: ['70']  # nincsenek megállapított házszámok, csak helyrajzi számok, ez egy régi házszám a spanyolréti oldalon
     ranges:
       - {start: '41', end: '999'}
       - {start: '46', end: '998'}
