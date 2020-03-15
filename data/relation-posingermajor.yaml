@@ -1,12 +1,16 @@
 missing-streets: 'no'
 filters:
+  Barackmag utca:
+    invalid: ['17a']
   Felső határút:
     ranges:
       - {start: '38', end: '198'}
   Irhás árok:
+    invalid: ['8a', '10a', '10b', '10c']  # 10a-10b-10c át lett számozva: 10-12-14
     ranges:
       - {start: '2', end: '36'}
   Irhás köz:
+    invalid: ['2b', '6b', '14b']  # 14/b -> Szelesdomb utca 2/b
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
@@ -16,15 +20,19 @@ filters:
       - {start: '15', end: '99'}
       - {start: '2', end: '10'}
       - {start: '16', end: '46'}
+  Kismákfa utca:
+    invalid: ['6b', '10a']
   Mákvirág köz:
     ranges:
       - {start: '1', end: '1'}
   Nagymákfa utca:
+    invalid: ['9a', '9b', '10', '11b', '12']
     ranges:
       - {start: '1', end: '5'}
       - {start: '9', end: '11'}
       - {start: '2', end: '16'}
   Ördögorom lejtő:
+    invalid: ['1b', '25', '32', '34', '36b']
     ranges:
       # 45-53 között telkek hazszam nelkul
       - {start: '1', end: '45'}
@@ -33,9 +41,12 @@ filters:
       - {start: '2', end: '54'}
       - {start: '60', end: '72'}
   Ördögorom út:
+    invalid: ['3a', '3b', '5', '5c', '6b', '7', '11', '20d']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '24'}
+  Örkény István utca:
+    invalid: ['13']
   Spanyolrét út:
     invalid: ['34']
   Rupphegyi köz:
@@ -53,6 +64,7 @@ filters:
       - {start: '2', end: '6'}
   Törökbálinti út:
     # 105 most az utolso felmert, de meg vannak telkek
+    invalid: ['77a', '79c', '85a']
     ranges:
       - {start: '77', end: '119'}
   Varjútövis köz:
