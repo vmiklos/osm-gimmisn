@@ -120,9 +120,9 @@ class RelationConfig:
         """Gets the OSM relation object's ID."""
         return cast(int, self.__get_property("osmrelation"))
 
-    def get_refmegye(self) -> str:
-        """Gets the relation's refmegye identifier from reference."""
-        return cast(str, self.__get_property("refmegye"))
+    def get_refcounty(self) -> str:
+        """Gets the relation's refcounty identifier from reference."""
+        return cast(str, self.__get_property("refcounty"))
 
     def get_refsettlement(self) -> str:
         """Gets the relation's refsettlement identifier from reference."""
@@ -332,9 +332,9 @@ class Relation:
         """
         Builds a list of streets from a reference cache.
         """
-        refmegye = self.get_config().get_refmegye()
+        refcounty = self.get_config().get_refcounty()
         refsettlement = self.get_config().get_refsettlement()
-        return reference[refmegye][refsettlement]
+        return reference[refcounty][refsettlement]
 
     def write_ref_streets(self, reference: str) -> None:
         """Gets known streets (not their coordinates) from a reference site, based on relation names
@@ -370,18 +370,18 @@ class Relation:
         Builds a list of housenumbers from a reference cache.
         This is serialized to disk by write_ref_housenumbers().
         """
-        refmegye = self.get_config().get_refmegye()
+        refcounty = self.get_config().get_refcounty()
         street = self.get_ref_street_from_osm_street(street)
         ret: List[str] = []
         for refsettlement in self.get_config().get_street_refsettlement(street):
-            if refmegye not in reference.keys():
+            if refcounty not in reference.keys():
                 continue
-            refmegye_dict = reference[refmegye]
-            if refsettlement not in refmegye_dict.keys():
+            refcounty_dict = reference[refcounty]
+            if refsettlement not in refcounty_dict.keys():
                 continue
-            refsettlement_dict = refmegye_dict[refsettlement]
+            refsettlement_dict = refcounty_dict[refsettlement]
             if street in refsettlement_dict.keys():
-                house_numbers = reference[refmegye][refsettlement][street]
+                house_numbers = reference[refcounty][refsettlement][street]
                 ret += [street + "\t" + i + suffix for i in house_numbers]
 
         return ret
@@ -566,7 +566,7 @@ class Relations:
         self.__dict = self.__yaml_cache["relations.yaml"]
         self.__relations: Dict[str, Relation] = {}
         self.__activate_all = False
-        self.__refmegye_names = self.__yaml_cache["refmegye-names.yaml"]
+        self.__refcounty_names = self.__yaml_cache["refcounty-names.yaml"]
         self.__refsettlement_names = self.__yaml_cache["refsettlement-names.yaml"]
 
     def get_workdir(self) -> str:
@@ -607,31 +607,31 @@ class Relations:
         """Sets if inactive=true is ignored or not."""
         self.__activate_all = flag
 
-    def refmegye_get_name(self, refmegye: str) -> str:
-        """Produces a UI name for a refmegye."""
-        if refmegye in self.__refmegye_names:
-            return cast(str, self.__refmegye_names[refmegye])
+    def refcounty_get_name(self, refcounty: str) -> str:
+        """Produces a UI name for a refcounty."""
+        if refcounty in self.__refcounty_names:
+            return cast(str, self.__refcounty_names[refcounty])
 
         return ""
 
-    def refmegye_get_refsettlement_ids(self, refmegye_name: str) -> List[str]:
-        """Produces refsettlement IDs of a refmegye."""
-        if refmegye_name not in self.__refsettlement_names:
+    def refcounty_get_refsettlement_ids(self, refcounty_name: str) -> List[str]:
+        """Produces refsettlement IDs of a refcounty."""
+        if refcounty_name not in self.__refsettlement_names:
             return []
 
-        refmegye = self.__refsettlement_names[refmegye_name]
-        return list(refmegye.keys())
+        refcounty = self.__refsettlement_names[refcounty_name]
+        return list(refcounty.keys())
 
-    def refsettlement_get_name(self, refmegye_name: str, refsettlement: str) -> str:
-        """Produces a UI name for a refsettlement in refmegye."""
-        if refmegye_name not in self.__refsettlement_names:
+    def refsettlement_get_name(self, refcounty_name: str, refsettlement: str) -> str:
+        """Produces a UI name for a refsettlement in refcounty."""
+        if refcounty_name not in self.__refsettlement_names:
             return ""
 
-        refmegye = self.__refsettlement_names[refmegye_name]
-        if refsettlement not in refmegye:
+        refcounty = self.__refsettlement_names[refcounty_name]
+        if refsettlement not in refcounty:
             return ""
 
-        return cast(str, refmegye[refsettlement])
+        return cast(str, refcounty[refsettlement])
 
     def get_aliases(self) -> Dict[str, str]:
         """Provide an alias -> real name map of relations."""

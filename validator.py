@@ -146,13 +146,13 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
 
         # Just to be consistent, we require these keys in relations.yaml for now, even if code would
         # handle having them there on in relation-foo.yaml as well.
-        for key in ("osmrelation", "refmegye", "refsettlement"):
+        for key in ("osmrelation", "refcounty", "refsettlement"):
             if key not in relation.keys():
                 errors.append("missing key '%s%s'" % (context, key))
 
     handlers: Dict[str, Tuple[Any, Any]] = {
         "osmrelation": (int, None),
-        "refmegye": (str, None),
+        "refcounty": (str, None),
         "refsettlement": (str, None),
         "source": (str, None),
         "filters": (dict, validate_filters),

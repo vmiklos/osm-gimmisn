@@ -1,464 +1,464 @@
 # budapest
 budapest_01:
     osmrelation: 221984
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "001"
 budapest_02:
     osmrelation: 221980
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 budapest_05:
     osmrelation: 1606103
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "005"
 budapest_06:
     osmrelation: 3229919
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "006"
     alias: ['terezvaros']
 budapest_07:
     osmrelation: 3229918
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "007"
     alias: ['erzsebetvaros']
 budapest_08:
     osmrelation: 1606100
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "008"
     alias: ['jozsefvaros']
 budapest_09:
     osmrelation: 1552462
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "009"
     alias: ['ferencvaros']
 budapest_11:
     osmrelation: 221998
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
     alias: ['ujbuda']
 budapest_12:
     osmrelation: 221995
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 budapest_13:
     osmrelation: 1605916
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "013"
 budapest_14:
     osmrelation: 1606043
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
 budapest_22:
     osmrelation: 215621
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "022"
 # buda
 # 01
 krisztinavaros:
     osmrelation: 2786310
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "001"
 taban:
     osmrelation: 2714681
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "001"
 var:
     osmrelation: 2786100
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "001"
 vizivaros:
     osmrelation: 2786368
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "001"
 # 02
 csatarka:
     osmrelation: 3247356
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 felheviz:
     osmrelation: 3166410
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 orszagut:
     osmrelation: 3176172
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 rezmal:
     osmrelation: 3176180
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 palvolgy:
     osmrelation: 3263306
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 pasaret:
     osmrelation: 3174480
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 rozsadomb:
     osmrelation: 3176173
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 szemlohegy:
     osmrelation: 3174398
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 torokvesz:
     osmrelation: 3176186
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 ujlak:
     osmrelation: 3263570
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 verhalom:
     osmrelation: 3174429
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 zoldmal:
     osmrelation: 3174399
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "002"
 # 11
 albertfalva:
     osmrelation: 2700782
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 dobogo:
     osmrelation: 2713968
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 gazdagret:
     osmrelation: 2713748
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 gellerthegy:
     osmrelation: 2702687
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 hosszuret:
     osmrelation: 2713782
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 infopark:
     osmrelation: 2702614
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 kelenfold:
     osmrelation: 2700869
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 kelenvolgy:
     osmrelation: 2700740
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 koerberek:
     osmrelation: 2714089
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 lagymanyos:
     osmrelation: 2702615
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 madarhegy:
     osmrelation: 2713839
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 nadorkert:
     osmrelation: 2700985
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 ormezo:
     osmrelation: 2713749
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 orsod:
     osmrelation: 2714011
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 peterhegy:
     osmrelation: 2713951
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 posingermajor:
     osmrelation: 2714365
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 sasad:
     osmrelation: 2714372
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 sashegy:
     osmrelation: 2714524
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 spanyolret:
     osmrelation: 2713840
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 szentimrevaros:
     osmrelation: 2702616
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"
 # 12
 budakeszierdo:
     osmrelation: 2805997
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 csilleberc:
     osmrelation: 2805998
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 farkasret:
     osmrelation: 2787964
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 farkasvolgy:
     osmrelation: 2788020
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 istenhegy:
     osmrelation: 2807348
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 janoshegy:
     osmrelation: 2806169
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 kissvabhegy:
     osmrelation: 2807349
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 kutvolgy:
     osmrelation: 2807350
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 magasut:
     osmrelation: 2805999
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 martonhegy:
     osmrelation: 2787965
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 nemetvolgy:
     osmrelation: 2806940
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 orbanhegy:
     osmrelation: 2806937
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 svabhegy:
     osmrelation: 2806878
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 szechenyihegy:
     osmrelation: 2806000
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 viranyos:
     osmrelation: 2807351
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 zugliget:
     osmrelation: 2806170
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "012"
 # 22
 barossgabortelep:
     osmrelation: 3186063
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "022"
 budafok:
     osmrelation: 3186370
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "022"
 budateteny:
     osmrelation: 3186116
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "022"
 nagyteteny:
     osmrelation: 3186376
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "022"
 # pest-belvaros
 belvaros:
     osmrelation: 3228574
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "005"
 lipotvaros:
     osmrelation: 3228576
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "005"
 # 8. kerulet szinten eleg, nem kotelezo tovabb bontani
 palotanegyed:
     osmrelation: 3177466
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "008"
 tisztviselotelep:
     osmrelation: 3182106
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "008"
 # 9. kerulet szinten eleg, nem kotelezo tovabb bontani
 belso-ferencvaros:
     osmrelation: 3229950
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "009"
 vizafogo:
     osmrelation: 3217068
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "013"
 # 14
 varosliget:
     osmrelation: 3233021
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
 istvanmezo:
     osmrelation: 3233768
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
 herminamezo:
     osmrelation: 3233776
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
 torokor:
     osmrelation: 3233764
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
 kiszuglo:
     osmrelation: 3233747
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
 nagyzuglo:
     osmrelation: 3233723
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
 alsorakos:
     osmrelation: 3232934
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
 rakosfalva:
     osmrelation: 3232941
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
 # pest-kulvaros
 csepel-belvaros:
     osmrelation: 3244191
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "021"
 # 04 - Békés megye
 bekes:
     osmrelation: 1026148
-    refmegye: "04"
+    refcounty: "04"
     refsettlement: "003"
     inactive: true
 bekescsaba:
     osmrelation: 1026172
-    refmegye: "04"
+    refcounty: "04"
     refsettlement: "004"
     inactive: true
 gyomaendrod:
     osmrelation: 1026166
-    refmegye: "04"
+    refcounty: "04"
     refsettlement: "025"
     inactive: true
 gyula:
     osmrelation: 1026161
-    refmegye: "04"
+    refcounty: "04"
     refsettlement: "026"
     inactive: true
 kamut:
     osmrelation: 1026195
-    refmegye: "04"
+    refcounty: "04"
     refsettlement: "028"
     inactive: true
 mezobereny:
     osmrelation: 1026145
-    refmegye: "04"
+    refcounty: "04"
     refsettlement: "049"
     inactive: true
 murony:
     osmrelation: 1026205
-    refmegye: "04"
+    refcounty: "04"
     refsettlement: "054"
     inactive: true
 # 14 - Pest megye
 biatorbagy:
     osmrelation: 113461
-    refmegye: "14"
+    refcounty: "14"
     refsettlement: "011"
 budaors:
     osmrelation: 113463
-    refmegye: "14"
+    refcounty: "14"
     refsettlement: "015"
 budaors-kamaraerdo:
     osmrelation: 10478302
-    refmegye: "14"
+    refcounty: "14"
     refsettlement: "015"
 budaors-kertvaros:
     osmrelation: 10477570
-    refmegye: "14"
+    refcounty: "14"
     refsettlement: "015"
 budaors-lakotelep:
     osmrelation: 10477968
-    refmegye: "14"
+    refcounty: "14"
     refsettlement: "015"
 szigetmonostor:
     osmrelation: 216157
-    refmegye: "14"
+    refcounty: "14"
     refsettlement: "132"
 veresegyhaz:
     osmrelation: 1390690
-    refmegye: "14"
+    refcounty: "14"
     refsettlement: "178"
 # Egyéb videk
 balatonlelle:
     osmrelation: 1368026
-    refmegye: "15"
+    refcounty: "15"
     refsettlement: "012"
 balatonoszod:
     osmrelation: 1368008
-    refmegye: "15"
+    refcounty: "15"
     refsettlement: "014"
 balatonszarszo:
     osmrelation: 1367894
-    refmegye: "15"
+    refcounty: "15"
     refsettlement: "016"
 balatonszemes:
     osmrelation: 1367995
-    refmegye: "15"
+    refcounty: "15"
     refsettlement: "017"
 bogacs:
     osmrelation: 1418454
-    refmegye: "05"
+    refcounty: "05"
     refsettlement: "037"
 felsotarkany:
     osmrelation: 1418232
-    refmegye: "10"
+    refcounty: "10"
     refsettlement: "037"
 szentantalfa:
     osmrelation: 1078476
-    refmegye: "19"
+    refcounty: "19"
     refsettlement: "177"
 szilvasvarad:
     osmrelation: 1418234
-    refmegye: "10"
+    refcounty: "10"
     refsettlement: "096"
 keszthely:
     osmrelation: 1360484
-    refmegye: "20"
+    refcounty: "20"
     refsettlement: "093"
 nemesgulacs:
     osmrelation: 1078632
-    refmegye: "19"
+    refcounty: "19"
     refsettlement: "134"
     inactive: true

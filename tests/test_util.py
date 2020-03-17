@@ -127,16 +127,16 @@ class TestParseFilters(unittest.TestCase):
         fro = ["osm", "filter-for", "incomplete"]
         self.assertTrue("incomplete" in util.parse_filters(fro))
 
-    def test_refmegye(self) -> None:
-        """Tests the refmegye case."""
-        fro = ["osm", "filter-for", "refmegye", "42"]
-        self.assertEqual(util.parse_filters(fro), {"refmegye": "42"})
+    def test_refcounty(self) -> None:
+        """Tests the refcounty case."""
+        fro = ["osm", "filter-for", "refcounty", "42"]
+        self.assertEqual(util.parse_filters(fro), {"refcounty": "42"})
 
     def test_refsettlement(self) -> None:
         """Tests the refsettlement case."""
-        fro = ["osm", "filter-for", "refmegye", "42", "refsettlement", "43"]
+        fro = ["osm", "filter-for", "refcounty", "42", "refsettlement", "43"]
         filters = util.parse_filters(fro)
-        self.assertEqual(filters["refmegye"], "42")
+        self.assertEqual(filters["refcounty"], "42")
         filters = util.parse_filters(fro)
         self.assertEqual(filters["refsettlement"], "43")
 

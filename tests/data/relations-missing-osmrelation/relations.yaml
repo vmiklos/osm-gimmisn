@@ -1,4 +1,4 @@
 gazdagret:
     # osmrelation is intentionally missing.
-    refmegye: "01"
+    refcounty: "01"
     refsettlement: "011"

@@ -1,6 +1,6 @@
-# First-level keys are refmegye IDs
+# First-level keys are refcounty IDs
 # Second-level keys are refsettlement IDs
-# Values are names for a specific refmegye + refsettlement combination.
+# Values are names for a specific refcounty + refsettlement combination.
 
 # Budapest
 '01':

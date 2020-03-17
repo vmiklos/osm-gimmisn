@@ -178,14 +178,14 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
             if not line:
                 break
 
-            refmegye, refsettlement, street = line.strip().split("\t")
+            refcounty, refsettlement, street = line.strip().split("\t")
             # Filter out invalid street type.
             street = re.sub(" null$", "", street)
-            if refmegye not in memory_cache.keys():
-                memory_cache[refmegye] = {}
-            if refsettlement not in memory_cache[refmegye].keys():
-                memory_cache[refmegye][refsettlement] = []
-            memory_cache[refmegye][refsettlement].append(street)
+            if refcounty not in memory_cache.keys():
+                memory_cache[refcounty] = {}
+            if refsettlement not in memory_cache[refcounty].keys():
+                memory_cache[refcounty][refsettlement] = []
+            memory_cache[refcounty][refsettlement].append(street)
     with open(disk_cache, "wb") as sock_cache:
         pickle.dump(memory_cache, sock_cache)
     return memory_cache
@@ -212,14 +212,14 @@ def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]
             if not line:
                 break
 
-            refmegye, refsettlement, street, num = line.strip().split("\t")
-            if refmegye not in memory_cache.keys():
-                memory_cache[refmegye] = {}
-            if refsettlement not in memory_cache[refmegye].keys():
-                memory_cache[refmegye][refsettlement] = {}
-            if street not in memory_cache[refmegye][refsettlement].keys():
-                memory_cache[refmegye][refsettlement][street] = []
-            memory_cache[refmegye][refsettlement][street].append(num)
+            refcounty, refsettlement, street, num = line.strip().split("\t")
+            if refcounty not in memory_cache.keys():
+                memory_cache[refcounty] = {}
+            if refsettlement not in memory_cache[refcounty].keys():
+                memory_cache[refcounty][refsettlement] = {}
+            if street not in memory_cache[refcounty][refsettlement].keys():
+                memory_cache[refcounty][refsettlement][street] = []
+            memory_cache[refcounty][refsettlement][street].append(num)
     with open(disk_cache, "wb") as sock_cache:
         pickle.dump(memory_cache, sock_cache)
     return memory_cache
@@ -244,7 +244,7 @@ def split_house_number(house_number: str) -> Tuple[int, str]:
 
 
 def parse_filters(tokens: List[str]) -> Dict[str, str]:
-    """Parses a filter description, like 'filter-for', 'refmegye', '42'."""
+    """Parses a filter description, like 'filter-for', 'refcounty', '42'."""
     ret: Dict[str, str] = {}
     filter_for = False
     for index, value in enumerate(tokens):
@@ -261,7 +261,7 @@ def parse_filters(tokens: List[str]) -> Dict[str, str]:
         if index + 1 >= len(tokens):
             continue
 
-        if value in ("refmegye", "refsettlement"):
+        if value in ("refcounty", "refsettlement"):
             ret[value] = tokens[index + 1]
 
     return ret

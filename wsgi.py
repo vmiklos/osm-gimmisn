@@ -478,40 +478,40 @@ def filter_for_incomplete(complete: bool, _relation: areas.Relation) -> bool:
     return not complete
 
 
-def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, areas.Relation], bool]:
-    """Creates a function that filters for a single refmegye."""
-    return lambda _complete, relation: relation.get_config().get_refmegye() == refmegye_filter
+def create_filter_for_refcounty(refcounty_filter: str) -> Callable[[bool, areas.Relation], bool]:
+    """Creates a function that filters for a single refcounty."""
+    return lambda _complete, relation: relation.get_config().get_refcounty() == refcounty_filter
 
 
-def create_filter_for_refmegye_refsettlement(
-        refmegye_filter: str,
+def create_filter_for_refcounty_refsettlement(
+        refcounty_filter: str,
         refsettlement_filter: str
 ) -> Callable[[bool, areas.Relation], bool]:
-    """Creates a function that filters for a single refsettlement in a refmegye."""
+    """Creates a function that filters for a single refsettlement in a refcounty."""
     def filter_for(_complete: bool, relation: areas.Relation) -> bool:
         config = relation.get_config()
-        return config.get_refmegye() == refmegye_filter and config.get_refsettlement() == refsettlement_filter
+        return config.get_refcounty() == refcounty_filter and config.get_refsettlement() == refsettlement_filter
     return filter_for
 
 
-def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, refmegye: str) -> yattag.doc.Doc:
-    """Handles one refmegye in the filter part of the main wsgi page."""
+def handle_main_filters_refcounty(relations: areas.Relations, refcounty_id: str, refcounty: str) -> yattag.doc.Doc:
+    """Handles one refcounty in the filter part of the main wsgi page."""
     doc = yattag.doc.Doc()
-    name = relations.refmegye_get_name(refmegye)
+    name = relations.refcounty_get_name(refcounty)
     if not name:
         return doc
 
-    with doc.tag("a", href="/osm/filter-for/refmegye/" + refmegye):
+    with doc.tag("a", href="/osm/filter-for/refcounty/" + refcounty):
         doc.text(name)
-    if refmegye_id and refmegye == refmegye_id:
-        refsettlement_ids = relations.refmegye_get_refsettlement_ids(refmegye_id)
+    if refcounty_id and refcounty == refcounty_id:
+        refsettlement_ids = relations.refcounty_get_refsettlement_ids(refcounty_id)
         if refsettlement_ids:
             names: List[yattag.doc.Doc] = []
             for refsettlement_id in refsettlement_ids:
-                name = relations.refsettlement_get_name(refmegye_id, refsettlement_id)
+                name = relations.refsettlement_get_name(refcounty_id, refsettlement_id)
                 name_doc = yattag.doc.Doc()
-                href_format = "/osm/filter-for/refmegye/{}/refsettlement/{}"
-                with name_doc.tag("a", href=href_format.format(refmegye, refsettlement_id)):
+                href_format = "/osm/filter-for/refcounty/{}/refsettlement/{}"
+                with name_doc.tag("a", href=href_format.format(refcounty, refsettlement_id)):
                     name_doc.text(name)
                 names.append(name_doc)
             doc.text(" (")
@@ -523,16 +523,16 @@ def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, r
     return doc
 
 
-def handle_main_filters(relations: areas.Relations, refmegye_id: str) -> yattag.doc.Doc:
+def handle_main_filters(relations: areas.Relations, refcounty_id: str) -> yattag.doc.Doc:
     """Handlers the filter part of the main wsgi page."""
     items: List[yattag.doc.Doc] = []
     doc = yattag.doc.Doc()
     with doc.tag("a", href="/osm/filter-for/incomplete"):
         doc.text(_("Hide complete areas"))
     items.append(doc)
-    # Sorted set of refmegye values of all relations.
-    for refmegye in sorted({relation.get_config().get_refmegye() for relation in relations.get_relations()}):
-        items.append(handle_main_filters_refmegye(relations, refmegye_id, refmegye))
+    # Sorted set of refcounty values of all relations.
+    for refcounty in sorted({relation.get_config().get_refcounty() for relation in relations.get_relations()}):
+        items.append(handle_main_filters_refcounty(relations, refcounty_id, refcounty))
     doc = yattag.doc.Doc()
     with doc.tag("h1"):
         doc.text(_("Where to map?"))
@@ -550,19 +550,19 @@ def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relat
     tokens = request_uri.split("/")
     filter_for: Callable[[bool, areas.Relation], bool] = filter_for_everything
     filters = util.parse_filters(tokens)
-    refmegye = ""
+    refcounty = ""
     if "incomplete" in filters:
         # /osm/filter-for/incomplete
         filter_for = filter_for_incomplete
-    elif "refmegye" in filters and "refsettlement" in filters:
-        # /osm/filter-for/refmegye/<value>/refsettlement/<value>.
-        refmegye = filters["refmegye"]
-        filter_for = create_filter_for_refmegye_refsettlement(filters["refmegye"], filters["refsettlement"])
-    elif "refmegye" in filters:
-        # /osm/filter-for/refmegye/<value>.
-        refmegye = filters["refmegye"]
-        filter_for = create_filter_for_refmegye(refmegye)
-    return filter_for, refmegye
+    elif "refcounty" in filters and "refsettlement" in filters:
+        # /osm/filter-for/refcounty/<value>/refsettlement/<value>.
+        refcounty = filters["refcounty"]
+        filter_for = create_filter_for_refcounty_refsettlement(filters["refcounty"], filters["refsettlement"])
+    elif "refcounty" in filters:
+        # /osm/filter-for/refcounty/<value>.
+        refcounty = filters["refcounty"]
+        filter_for = create_filter_for_refcounty(refcounty)
+    return filter_for, refcounty
 
 
 def handle_main_relation(
@@ -627,12 +627,12 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.doc.Doc:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
-    filter_for, refmegye = setup_main_filter_for(request_uri)
+    filter_for, refcounty = setup_main_filter_for(request_uri)
 
     doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations).getvalue())
 
-    doc.asis(handle_main_filters(relations, refmegye).getvalue())
+    doc.asis(handle_main_filters(relations, refcounty).getvalue())
     table = []
     table.append([util.html_escape(_("Area")),
                   util.html_escape(_("House number coverage")),

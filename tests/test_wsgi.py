@@ -586,21 +586,21 @@ class TestMain(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
-    def test_filter_for_refmegye_well_formed(self) -> None:
-        """Tests if the /osm/filter-for/refmegye output is well-formed."""
-        root = self.get_dom_for_path("/osm/filter-for/refmegye/01")
+    def test_filter_for_refcounty_well_formed(self) -> None:
+        """Tests if the /osm/filter-for/refcounty output is well-formed."""
+        root = self.get_dom_for_path("/osm/filter-for/refcounty/01")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
-    def test_filter_for_refmegye_no_refsettlement(self) -> None:
-        """Tests if the /osm/filter-for/refmegye output is well-formed."""
-        root = self.get_dom_for_path("/osm/filter-for/refmegye/67")
+    def test_filter_for_refcounty_no_refsettlement(self) -> None:
+        """Tests if the /osm/filter-for/refcounty output is well-formed."""
+        root = self.get_dom_for_path("/osm/filter-for/refcounty/67")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
-    def test_filter_for_refmegye_refsettlement_well_formed(self) -> None:
-        """Tests if the /osm/filter-for/refmegye/<value>/refsettlement/<value> output is well-formed."""
-        root = self.get_dom_for_path("/osm/filter-for/refmegye/01/refsettlement/011")
+    def test_filter_for_refcounty_refsettlement_well_formed(self) -> None:
+        """Tests if the /osm/filter-for/refcounty/<value>/refsettlement/<value> output is well-formed."""
+        root = self.get_dom_for_path("/osm/filter-for/refcounty/01/refsettlement/011")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 

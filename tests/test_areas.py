@@ -155,9 +155,9 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             street = "Budaörsi út"
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
-            refmegye = relation.get_config().get_refmegye()
+            refcounty = relation.get_config().get_refcounty()
             street = relation.get_ref_street_from_osm_street(street)
-            self.assertEqual("01", refmegye)
+            self.assertEqual("01", refcounty)
             self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("Budaörsi út", street)
 
@@ -168,9 +168,9 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             street = "Teszt utca"
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
-            refmegye = relation.get_config().get_refmegye()
+            refcounty = relation.get_config().get_refcounty()
             street = relation.get_ref_street_from_osm_street(street)
-            self.assertEqual("01", refmegye)
+            self.assertEqual("01", refcounty)
             self.assertEqual(["012"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("Teszt utca", street)
 
@@ -181,9 +181,9 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             street = "OSM Name 1"
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
-            refmegye = relation.get_config().get_refmegye()
+            refcounty = relation.get_config().get_refcounty()
             street = relation.get_ref_street_from_osm_street(street)
-            self.assertEqual("01", refmegye)
+            self.assertEqual("01", refcounty)
             self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("Ref Name 1", street)
 
@@ -194,9 +194,9 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             street = "OSM Name 1"
             relation_name = "nosuchrelation"
             relation = relations.get_relation(relation_name)
-            refmegye = relation.get_config().get_refmegye()
+            refcounty = relation.get_config().get_refcounty()
             street = relation.get_ref_street_from_osm_street(street)
-            self.assertEqual("01", refmegye)
+            self.assertEqual("01", refcounty)
             self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("OSM Name 1", street)
 
@@ -207,9 +207,9 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             street = "OSM Name 1"
             relation_name = "empty"
             relation = relations.get_relation(relation_name)
-            refmegye = relation.get_config().get_refmegye()
+            refcounty = relation.get_config().get_refcounty()
             street = relation.get_ref_street_from_osm_street(street)
-            self.assertEqual("01", refmegye)
+            self.assertEqual("01", refcounty)
             self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("OSM Name 1", street)
 
@@ -220,9 +220,9 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             street = "Csiki-hegyek utca"
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
-            refmegye = relation.get_config().get_refmegye()
+            refcounty = relation.get_config().get_refcounty()
             street = relation.get_ref_street_from_osm_street(street)
-            self.assertEqual("01", refmegye)
+            self.assertEqual("01", refcounty)
             self.assertEqual(["011", "013"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("Csiki-hegyek utca", street)
 
@@ -679,13 +679,13 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
             actual = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
             self.assertEqual(actual, expected)
 
-    def test_nosuchrefmegye(self) -> None:
-        """Tests the case when the refmegye code is missing in the reference."""
+    def test_nosuchrefcounty(self) -> None:
+        """Tests the case when the refcounty code is missing in the reference."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
             relations = get_relations()
-            relation_name = "nosuchrefmegye"
+            relation_name = "nosuchrefcounty"
             relation = relations.get_relation(relation_name)
             try:
                 relation.write_ref_housenumbers([refpath])
@@ -733,7 +733,7 @@ class TestRelations(unittest.TestCase):
                 "gazdagret",
                 "gellerthegy",
                 "inactiverelation",
-                "nosuchrefmegye",
+                "nosuchrefcounty",
                 "nosuchrefsettlement",
                 "nosuchrelation",
                 "test",
@@ -797,23 +797,23 @@ class TestRelationConfigLetterSuffixStyle(unittest.TestCase):
 
 
 class TestRefmegyeGetName(unittest.TestCase):
-    """Tests refmegye_get_name()."""
+    """Tests refcounty_get_name()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
             relations = get_relations()
-            self.assertEqual(relations.refmegye_get_name("01"), "Budapest")
-            self.assertEqual(relations.refmegye_get_name("99"), "")
+            self.assertEqual(relations.refcounty_get_name("01"), "Budapest")
+            self.assertEqual(relations.refcounty_get_name("99"), "")
 
 
 class TestRefmegyeGetReftelepulesIds(unittest.TestCase):
-    """Tests refmegye_get_refsettlement_ids()."""
+    """Tests refcounty_get_refsettlement_ids()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
             relations = get_relations()
-            self.assertEqual(relations.refmegye_get_refsettlement_ids("01"), ["011", "012"])
-            self.assertEqual(relations.refmegye_get_refsettlement_ids("99"), [])
+            self.assertEqual(relations.refcounty_get_refsettlement_ids("01"), ["011", "012"])
+            self.assertEqual(relations.refcounty_get_refsettlement_ids("99"), [])
 
 
 class TestReftelepulesGetName(unittest.TestCase):
