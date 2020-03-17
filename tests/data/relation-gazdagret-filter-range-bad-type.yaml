@@ -1,4 +1,4 @@
 filters:
   'Budaörsi út':
     ranges:
-      - {start: '137', end: '165', reftelepules: 42}
+      - {start: '137', end: '165', refsettlement: 42}

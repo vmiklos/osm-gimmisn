@@ -7,43 +7,43 @@ filters:
   Árpád fejedelem útja:
     interpolation: all
     ranges:
-      - {start: '14', end: '47', reftelepules: '002'}
-      - {start: '48', end: '69', reftelepules: '003'}
+      - {start: '14', end: '47', refsettlement: '002'}
+      - {start: '48', end: '69', refsettlement: '003'}
   Bécsi út:
     # 10-14 helyén parkoló
     ranges:
-      - {start: '1', end: '27', reftelepules: '002'}
-      - {start: '31', end: '35', reftelepules: '002'}
-      - {start: '2', end: '12', reftelepules: '002'}
-      - {start: '16', end: '32', reftelepules: '002'}
-      - {start: '37', end: '85', reftelepules: '003'}
-      - {start: '34', end: '92', reftelepules: '003'}
+      - {start: '1', end: '27', refsettlement: '002'}
+      - {start: '31', end: '35', refsettlement: '002'}
+      - {start: '2', end: '12', refsettlement: '002'}
+      - {start: '16', end: '32', refsettlement: '002'}
+      - {start: '37', end: '85', refsettlement: '003'}
+      - {start: '34', end: '92', refsettlement: '003'}
   Bokor utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Csemete utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Daru utca:
     # 2-6 Szemlőhegy
     ranges:
       - {start: '1', end: '21'}
       - {start: '8', end: '22'}
   Dereglye utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Doberdó út:
-    reftelepules: '003'
+    refsettlement: '003'
     ranges:
       - {start: '2', end: '4'}
   Evező utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Felhévízi utca:
     # felmerendo
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '14'}
   Folyóka utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Folyondár utca:
-    reftelepules: '003'
+    refsettlement: '003'
     ranges:
       - {start: '1', end: '11'}
   Frankel Leó út:
@@ -51,19 +51,19 @@ filters:
       - {start: '47', end: '57'}
       - {start: '74', end: '112'}
   Galagonya utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Harcsa utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Kavics utca:
     ranges:
       - {start: '1', end: '15'}
   Kecske köz:
-    reftelepules: '003'
+    refsettlement: '003'
   Kecske utca:
     # Alsóbb házszámokból Makocecz Imre utca lett, kérdés át lett-e számozva
-    reftelepules: '003'
+    refsettlement: '003'
   Kolosy tér:
-    reftelepules: '003'
+    refsettlement: '003'
   Kolozsvári Tamás utca:
     # felmerendo
     ranges:
@@ -73,48 +73,48 @@ filters:
     ranges:
       - {start: '1', end: '41'}
       - {start: '2', end: '34'}
-      - {start: '43', end: '91', reftelepules: '003'}
-      - {start: '36', end: '90', reftelepules: '003'}
+      - {start: '43', end: '91', refsettlement: '003'}
+      - {start: '36', end: '90', refsettlement: '003'}
   Makovecz Imre utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Mikoviny utca:
-    reftelepules: '003'
+    refsettlement: '003'
     ranges:
       - {start: '1', end: '99'}
   Montevideo utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Mecenzéf utca:
     ranges:
       - {start: '1', end: '99'}
   Nagyszombat utca:
-    reftelepules: '003'
+    refsettlement: '003'
     ranges:
       - {start: '2', end: '98'}
   Pacsirtamező utca:
-    reftelepules: '003'
+    refsettlement: '003'
     ranges: []
   Puskás Öcsi tér:
-    reftelepules: '003'
+    refsettlement: '003'
   Pusztaszeri út:
     ranges:
       - {start: '2', end: '10'}
   Seregély köz:
-    reftelepules: '003'
+    refsettlement: '003'
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '16'}
   Seregély utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Szent XXIII. János pápa park:
-    reftelepules: '003'
+    refsettlement: '003'
   Szépvölgyi út:
     ranges:
-      - {start: '2', end: '50', reftelepules: '002'}
-      - {start: '1', end: '45', reftelepules: '003'}
+      - {start: '2', end: '50', refsettlement: '002'}
+      - {start: '1', end: '45', refsettlement: '003'}
   Szeréna út:
     ranges: []
   Uszály utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Ürömi köz:
     ranges:
       - {start: '1', end: '3'}
@@ -129,7 +129,7 @@ filters:
       - {start: '18', end: '34'}
       - {start: '38', end: '66'}
   Végvár utca:
-    reftelepules: '003'
+    refsettlement: '003'
   Zsigmond tér:
     # Óbuda Gate 5-7 alatt, de nem ezt a címet használja
     interpolation: all

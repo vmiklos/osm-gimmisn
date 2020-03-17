@@ -53,7 +53,7 @@ do the following steps:
   first hit is usually a relation link, e.g. https://www.openstreetmap.org/relation/2700869. Now you
   know the OSM identifier of the relation.
 
-You'll also need the county reference ('refmegye' below) and settlement reference ('reftelepules'
+You'll also need the county reference ('refmegye' below) and settlement reference ('refsettlement'
 below) of the area, you can find help regarding this in the
 https://wiki.openstreetmap.org/wiki/WikiProject_Hungary/Tal%C3%A1lkoz%C3%B3k/2019-04-29_Oktogon_sv%C3%A9dasztal_%C3%A9s_k%C3%B6rny%C3%A9ke#Hi.C3.A1nyz.C3.B3_h.C3.A1zsz.C3.A1mok[wiki].
 
@@ -67,7 +67,7 @@ kelenfold:
     missing-streets: "no"
     osmrelation: 2700869
     refmegye: "01"
-    reftelepules: "011"
+    refsettlement: "011"
 ----
 
 Names are snake_case by convention, e.g. `kelenfold`. The other fields should match the values you
@@ -141,12 +141,12 @@ frequently:
   name mappings, in case the OSM name and reference name differs and the OSM one is the correct
   name.
 
-- `reftelepules`: this key can be used for a street. In case the majority of a relation has a given
-  `reftelepules` value, but there are a few exceptions, then you can use this markup to override the
+- `refsettlement`: this key can be used for a street. In case the majority of a relation has a given
+  `refsettlement` value, but there are a few exceptions, then you can use this markup to override the
   relation-level value with a street-level one.
 
-- Range-level `reftelepules`: this is useful in case the two sides of a street has different
-  `reftelepules` values (that side of the street belongs to a different district or settlement).
+- Range-level `refsettlement`: this is useful in case the two sides of a street has different
+  `refsettlement` values (that side of the street belongs to a different district or settlement).
 
 - `interpolation`: this key can be specified for a street. Its `all` value means that the street has
   continuous numbering instead of even and odd sides.

@@ -132,13 +132,13 @@ class TestParseFilters(unittest.TestCase):
         fro = ["osm", "filter-for", "refmegye", "42"]
         self.assertEqual(util.parse_filters(fro), {"refmegye": "42"})
 
-    def test_reftelepules(self) -> None:
-        """Tests the reftelepules case."""
-        fro = ["osm", "filter-for", "refmegye", "42", "reftelepules", "43"]
+    def test_refsettlement(self) -> None:
+        """Tests the refsettlement case."""
+        fro = ["osm", "filter-for", "refmegye", "42", "refsettlement", "43"]
         filters = util.parse_filters(fro)
         self.assertEqual(filters["refmegye"], "42")
         filters = util.parse_filters(fro)
-        self.assertEqual(filters["reftelepules"], "43")
+        self.assertEqual(filters["refsettlement"], "43")
 
 
 class TestHandleOverpassError(unittest.TestCase):

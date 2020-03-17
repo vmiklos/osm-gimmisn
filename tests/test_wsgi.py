@@ -592,15 +592,15 @@ class TestMain(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
-    def test_filter_for_refmegye_no_reftelepules(self) -> None:
+    def test_filter_for_refmegye_no_refsettlement(self) -> None:
         """Tests if the /osm/filter-for/refmegye output is well-formed."""
         root = self.get_dom_for_path("/osm/filter-for/refmegye/67")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
-    def test_filter_for_refmegye_reftelepules_well_formed(self) -> None:
-        """Tests if the /osm/filter-for/refmegye/<value>/reftelepules/<value> output is well-formed."""
-        root = self.get_dom_for_path("/osm/filter-for/refmegye/01/reftelepules/011")
+    def test_filter_for_refmegye_refsettlement_well_formed(self) -> None:
+        """Tests if the /osm/filter-for/refmegye/<value>/refsettlement/<value> output is well-formed."""
+        root = self.get_dom_for_path("/osm/filter-for/refmegye/01/refsettlement/011")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 

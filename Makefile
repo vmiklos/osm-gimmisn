@@ -48,13 +48,13 @@ YAML_OBJECTS = \
 	$(YAML_SAFE_OBJECTS) \
 	.travis.yml \
 	data/refmegye-names.yaml \
-	data/reftelepules-names.yaml \
+	data/refsettlement-names.yaml \
 
 YAML_TEST_OBJECTS = \
 	$(wildcard tests/data/relation-*.yaml) \
 	tests/data/relations.yaml \
 	tests/data/refmegye-names.yaml \
-	tests/data/reftelepules-names.yaml \
+	tests/data/refsettlement-names.yaml \
 
 all: version.py data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 

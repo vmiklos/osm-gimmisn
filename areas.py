@@ -124,9 +124,9 @@ class RelationConfig:
         """Gets the relation's refmegye identifier from reference."""
         return cast(str, self.__get_property("refmegye"))
 
-    def get_reftelepules(self) -> str:
-        """Gets the relation's reftelepules identifier from reference."""
-        return cast(str, self.__get_property("reftelepules"))
+    def get_refsettlement(self) -> str:
+        """Gets the relation's refsettlement identifier from reference."""
+        return cast(str, self.__get_property("refsettlement"))
 
     def get_alias(self) -> List[str]:
         """Gets the alias(es) of the relation: alternative names which are also accepted."""
@@ -194,9 +194,9 @@ class RelationConfig:
 
         return not interpolation_all
 
-    def get_street_reftelepules(self, street: str) -> List[str]:
-        """Returns a list of reftelepules values specific to a street."""
-        ret = [self.__get_property("reftelepules")]
+    def get_street_refsettlement(self, street: str) -> List[str]:
+        """Returns a list of refsettlement values specific to a street."""
+        ret = [self.__get_property("refsettlement")]
         if not self.__get_property("filters"):
             return ret
 
@@ -205,14 +205,14 @@ class RelationConfig:
             if filter_street != street:
                 continue
 
-            if "reftelepules" in value.keys():
-                reftelepules = cast(str, value["reftelepules"])
-                ret = [reftelepules]
+            if "refsettlement" in value.keys():
+                refsettlement = cast(str, value["refsettlement"])
+                ret = [refsettlement]
             if "ranges" in value.keys():
                 for street_range in value["ranges"]:
                     street_range_dict = cast(Dict[str, str], street_range)
-                    if "reftelepules" in street_range_dict.keys():
-                        ret.append(street_range_dict["reftelepules"])
+                    if "refsettlement" in street_range_dict.keys():
+                        ret.append(street_range_dict["refsettlement"])
 
         return sorted(set(ret))
 
@@ -333,8 +333,8 @@ class Relation:
         Builds a list of streets from a reference cache.
         """
         refmegye = self.get_config().get_refmegye()
-        reftelepules = self.get_config().get_reftelepules()
-        return reference[refmegye][reftelepules]
+        refsettlement = self.get_config().get_refsettlement()
+        return reference[refmegye][refsettlement]
 
     def write_ref_streets(self, reference: str) -> None:
         """Gets known streets (not their coordinates) from a reference site, based on relation names
@@ -373,15 +373,15 @@ class Relation:
         refmegye = self.get_config().get_refmegye()
         street = self.get_ref_street_from_osm_street(street)
         ret: List[str] = []
-        for reftelepules in self.get_config().get_street_reftelepules(street):
+        for refsettlement in self.get_config().get_street_refsettlement(street):
             if refmegye not in reference.keys():
                 continue
             refmegye_dict = reference[refmegye]
-            if reftelepules not in refmegye_dict.keys():
+            if refsettlement not in refmegye_dict.keys():
                 continue
-            reftelepules_dict = refmegye_dict[reftelepules]
-            if street in reftelepules_dict.keys():
-                house_numbers = reference[refmegye][reftelepules][street]
+            refsettlement_dict = refmegye_dict[refsettlement]
+            if street in refsettlement_dict.keys():
+                house_numbers = reference[refmegye][refsettlement][street]
                 ret += [street + "\t" + i + suffix for i in house_numbers]
 
         return ret
@@ -567,7 +567,7 @@ class Relations:
         self.__relations: Dict[str, Relation] = {}
         self.__activate_all = False
         self.__refmegye_names = self.__yaml_cache["refmegye-names.yaml"]
-        self.__reftelepules_names = self.__yaml_cache["reftelepules-names.yaml"]
+        self.__refsettlement_names = self.__yaml_cache["refsettlement-names.yaml"]
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
@@ -614,24 +614,24 @@ class Relations:
 
         return ""
 
-    def refmegye_get_reftelepules_ids(self, refmegye_name: str) -> List[str]:
-        """Produces reftelepules IDs of a refmegye."""
-        if refmegye_name not in self.__reftelepules_names:
+    def refmegye_get_refsettlement_ids(self, refmegye_name: str) -> List[str]:
+        """Produces refsettlement IDs of a refmegye."""
+        if refmegye_name not in self.__refsettlement_names:
             return []
 
-        refmegye = self.__reftelepules_names[refmegye_name]
+        refmegye = self.__refsettlement_names[refmegye_name]
         return list(refmegye.keys())
 
-    def reftelepules_get_name(self, refmegye_name: str, reftelepules: str) -> str:
-        """Produces a UI name for a reftelepules in refmegye."""
-        if refmegye_name not in self.__reftelepules_names:
+    def refsettlement_get_name(self, refmegye_name: str, refsettlement: str) -> str:
+        """Produces a UI name for a refsettlement in refmegye."""
+        if refmegye_name not in self.__refsettlement_names:
             return ""
 
-        refmegye = self.__reftelepules_names[refmegye_name]
-        if reftelepules not in refmegye:
+        refmegye = self.__refsettlement_names[refmegye_name]
+        if refsettlement not in refmegye:
             return ""
 
-        return cast(str, refmegye[reftelepules])
+        return cast(str, refmegye[refsettlement])
 
     def get_aliases(self) -> Dict[str, str]:
         """Provide an alias -> real name map of relations."""

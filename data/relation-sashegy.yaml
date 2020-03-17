@@ -15,7 +15,7 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '14'}
   Breznó lépcső:
-    reftelepules: "012"
+    refsettlement: "012"
   Budaörsi út:
     # this is just the sashegy part
     ranges:
@@ -48,7 +48,7 @@ filters:
     # this is just the sashegy part; the even side
     ranges:
       - {start: '2', end: '18'}
-    reftelepules: "012"
+    refsettlement: "012"
   Kilátó út:
     ranges:
       - {start: '9', end: '9'}
@@ -71,15 +71,15 @@ filters:
       - {start: '1', end: '35'}
       - {start: '2', end: '38'}
   Sasfiók utca:
-    reftelepules: "012"
+    refsettlement: "012"
   Sion lépcső:
-    reftelepules: "012"
+    refsettlement: "012"
   Somorjai utca:
     # this is just the sashegy part
     ranges:
       - {start: '19', end: '23'}
       - {start: '18', end: '18'}
-    reftelepules: "012"
+    refsettlement: "012"
   Tájék utca:
     ranges:
       - {start: '1', end: '11'}

@@ -55,7 +55,7 @@ def validate_range(errors: List[str], parent: str, range_data: Dict[str, Any], f
         elif key == "end":
             if not isinstance(value, str):
                 errors.append("expected value type for '%s%s' is str" % (context, key))
-        elif key == "reftelepules":
+        elif key == "refsettlement":
             if not isinstance(value, str):
                 errors.append("expected value type for '%s%s' is str" % (context, key))
         else:
@@ -92,7 +92,7 @@ def validate_filter(errors: List[str], parent: str, filter_data: Dict[str, Any])
                 errors.append("expected value type for '%s%s' is list" % (context, key))
                 continue
             validate_filter_invalid(errors, context + "invalid", value)
-        elif key == "reftelepules":
+        elif key == "refsettlement":
             if not isinstance(value, str):
                 errors.append("expected value type for '%s%s' is str" % (context, key))
         elif key == "interpolation":
@@ -146,14 +146,14 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
 
         # Just to be consistent, we require these keys in relations.yaml for now, even if code would
         # handle having them there on in relation-foo.yaml as well.
-        for key in ("osmrelation", "refmegye", "reftelepules"):
+        for key in ("osmrelation", "refmegye", "refsettlement"):
             if key not in relation.keys():
                 errors.append("missing key '%s%s'" % (context, key))
 
     handlers: Dict[str, Tuple[Any, Any]] = {
         "osmrelation": (int, None),
         "refmegye": (str, None),
-        "reftelepules": (str, None),
+        "refsettlement": (str, None),
         "source": (str, None),
         "filters": (dict, validate_filters),
         "refstreets": (dict, validate_refstreets),

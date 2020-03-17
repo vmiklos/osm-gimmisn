@@ -1,4 +1,4 @@
 gazdagret:
     # osmrelation is intentionally missing.
     refmegye: "01"
-    reftelepules: "011"
+    refsettlement: "011"

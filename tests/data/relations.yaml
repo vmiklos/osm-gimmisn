@@ -1,45 +1,45 @@
 gazdagret:
     osmrelation: 2713748
     refmegye: "01"
-    reftelepules: "011"
+    refsettlement: "011"
 # this relation has no filter file
 nosuchrelation:
     osmrelation: 42
     refmegye: "01"
-    reftelepules: "011"
+    refsettlement: "011"
 # this relation has an empty filter file
 empty:
     osmrelation: 13
     refmegye: "01"
-    reftelepules: "011"
+    refsettlement: "011"
 # this relation has 'missing-streets: only' set
 ujbuda:
     osmrelation: 221998
     refmegye: "01"
-    reftelepules: "011"
+    refsettlement: "011"
 # this relation has 'missing-streets: no' set
 gellerthegy:
     osmrelation: 2702687
     refmegye: "01"
-    reftelepules: "011"
+    refsettlement: "011"
 # just so that we can test its osm street list
 test:
     osmrelation: 66
     refmegye: "67"
-    reftelepules: "68"
+    refsettlement: "68"
 nosuchrefmegye:
     osmrelation: 43
     refmegye: "98"
-    reftelepules: "99"
-nosuchreftelepules:
+    refsettlement: "99"
+nosuchrefsettlement:
     osmrelation: 44
     refmegye: "01"
-    reftelepules: "99"
+    refsettlement: "99"
 inactiverelation:
     osmrelation: 45
     refmegye: "01"
-    reftelepules: "98"
+    refsettlement: "98"
 budafok:
     osmrelation: 42
     refmegye: "43"
-    reftelepules: "44"
+    refsettlement: "44"

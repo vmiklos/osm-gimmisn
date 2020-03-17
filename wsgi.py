@@ -483,14 +483,14 @@ def create_filter_for_refmegye(refmegye_filter: str) -> Callable[[bool, areas.Re
     return lambda _complete, relation: relation.get_config().get_refmegye() == refmegye_filter
 
 
-def create_filter_for_refmegye_reftelepules(
+def create_filter_for_refmegye_refsettlement(
         refmegye_filter: str,
-        reftelepules_filter: str
+        refsettlement_filter: str
 ) -> Callable[[bool, areas.Relation], bool]:
-    """Creates a function that filters for a single reftelepules in a refmegye."""
+    """Creates a function that filters for a single refsettlement in a refmegye."""
     def filter_for(_complete: bool, relation: areas.Relation) -> bool:
         config = relation.get_config()
-        return config.get_refmegye() == refmegye_filter and config.get_reftelepules() == reftelepules_filter
+        return config.get_refmegye() == refmegye_filter and config.get_refsettlement() == refsettlement_filter
     return filter_for
 
 
@@ -504,14 +504,14 @@ def handle_main_filters_refmegye(relations: areas.Relations, refmegye_id: str, r
     with doc.tag("a", href="/osm/filter-for/refmegye/" + refmegye):
         doc.text(name)
     if refmegye_id and refmegye == refmegye_id:
-        reftelepules_ids = relations.refmegye_get_reftelepules_ids(refmegye_id)
-        if reftelepules_ids:
+        refsettlement_ids = relations.refmegye_get_refsettlement_ids(refmegye_id)
+        if refsettlement_ids:
             names: List[yattag.doc.Doc] = []
-            for reftelepules_id in reftelepules_ids:
-                name = relations.reftelepules_get_name(refmegye_id, reftelepules_id)
+            for refsettlement_id in refsettlement_ids:
+                name = relations.refsettlement_get_name(refmegye_id, refsettlement_id)
                 name_doc = yattag.doc.Doc()
-                href_format = "/osm/filter-for/refmegye/{}/reftelepules/{}"
-                with name_doc.tag("a", href=href_format.format(refmegye, reftelepules_id)):
+                href_format = "/osm/filter-for/refmegye/{}/refsettlement/{}"
+                with name_doc.tag("a", href=href_format.format(refmegye, refsettlement_id)):
                     name_doc.text(name)
                 names.append(name_doc)
             doc.text(" (")
@@ -554,10 +554,10 @@ def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relat
     if "incomplete" in filters:
         # /osm/filter-for/incomplete
         filter_for = filter_for_incomplete
-    elif "refmegye" in filters and "reftelepules" in filters:
-        # /osm/filter-for/refmegye/<value>/reftelepules/<value>.
+    elif "refmegye" in filters and "refsettlement" in filters:
+        # /osm/filter-for/refmegye/<value>/refsettlement/<value>.
         refmegye = filters["refmegye"]
-        filter_for = create_filter_for_refmegye_reftelepules(filters["refmegye"], filters["reftelepules"])
+        filter_for = create_filter_for_refmegye_refsettlement(filters["refmegye"], filters["refsettlement"])
     elif "refmegye" in filters:
         # /osm/filter-for/refmegye/<value>.
         refmegye = filters["refmegye"]

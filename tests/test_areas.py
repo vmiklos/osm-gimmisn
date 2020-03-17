@@ -158,11 +158,11 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             refmegye = relation.get_config().get_refmegye()
             street = relation.get_ref_street_from_osm_street(street)
             self.assertEqual("01", refmegye)
-            self.assertEqual(["011"], relation.get_config().get_street_reftelepules(street))
+            self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("Budaörsi út", street)
 
-    def test_reftelepules_override(self) -> None:
-        """Tests street-specific reftelepules override."""
+    def test_refsettlement_override(self) -> None:
+        """Tests street-specific refsettlement override."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
             relations = get_relations()
             street = "Teszt utca"
@@ -171,7 +171,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             refmegye = relation.get_config().get_refmegye()
             street = relation.get_ref_street_from_osm_street(street)
             self.assertEqual("01", refmegye)
-            self.assertEqual(["012"], relation.get_config().get_street_reftelepules(street))
+            self.assertEqual(["012"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("Teszt utca", street)
 
     def test_refstreets(self) -> None:
@@ -184,7 +184,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             refmegye = relation.get_config().get_refmegye()
             street = relation.get_ref_street_from_osm_street(street)
             self.assertEqual("01", refmegye)
-            self.assertEqual(["011"], relation.get_config().get_street_reftelepules(street))
+            self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("Ref Name 1", street)
 
     def test_nosuchrelation(self) -> None:
@@ -197,7 +197,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             refmegye = relation.get_config().get_refmegye()
             street = relation.get_ref_street_from_osm_street(street)
             self.assertEqual("01", refmegye)
-            self.assertEqual(["011"], relation.get_config().get_street_reftelepules(street))
+            self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("OSM Name 1", street)
 
     def test_emptyrelation(self) -> None:
@@ -210,11 +210,11 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             refmegye = relation.get_config().get_refmegye()
             street = relation.get_ref_street_from_osm_street(street)
             self.assertEqual("01", refmegye)
-            self.assertEqual(["011"], relation.get_config().get_street_reftelepules(street))
+            self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("OSM Name 1", street)
 
     def test_range_level_override(self) -> None:
-        """Tests the reftelepules range-level override."""
+        """Tests the refsettlement range-level override."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
             relations = get_relations()
             street = "Csiki-hegyek utca"
@@ -223,7 +223,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
             refmegye = relation.get_config().get_refmegye()
             street = relation.get_ref_street_from_osm_street(street)
             self.assertEqual("01", refmegye)
-            self.assertEqual(["011", "013"], relation.get_config().get_street_reftelepules(street))
+            self.assertEqual(["011", "013"], relation.get_config().get_street_refsettlement(street))
             self.assertEqual("Csiki-hegyek utca", street)
 
 
@@ -692,13 +692,13 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
             except KeyError:
                 self.fail("write_ref_housenumbers() raised KeyError unexpectedly")
 
-    def test_nosuchreftelepules(self) -> None:
-        """Tests the case when the reftelepules code is missing in the reference."""
+    def test_nosuchrefsettlement(self) -> None:
+        """Tests the case when the refsettlement code is missing in the reference."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
             relations = get_relations()
-            relation_name = "nosuchreftelepules"
+            relation_name = "nosuchrefsettlement"
             relation = relations.get_relation(relation_name)
             try:
                 relation.write_ref_housenumbers([refpath])
@@ -734,7 +734,7 @@ class TestRelations(unittest.TestCase):
                 "gellerthegy",
                 "inactiverelation",
                 "nosuchrefmegye",
-                "nosuchreftelepules",
+                "nosuchrefsettlement",
                 "nosuchrelation",
                 "test",
                 "ujbuda"
@@ -807,24 +807,24 @@ class TestRefmegyeGetName(unittest.TestCase):
 
 
 class TestRefmegyeGetReftelepulesIds(unittest.TestCase):
-    """Tests refmegye_get_reftelepules_ids()."""
+    """Tests refmegye_get_refsettlement_ids()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
             relations = get_relations()
-            self.assertEqual(relations.refmegye_get_reftelepules_ids("01"), ["011", "012"])
-            self.assertEqual(relations.refmegye_get_reftelepules_ids("99"), [])
+            self.assertEqual(relations.refmegye_get_refsettlement_ids("01"), ["011", "012"])
+            self.assertEqual(relations.refmegye_get_refsettlement_ids("99"), [])
 
 
 class TestReftelepulesGetName(unittest.TestCase):
-    """Tests reftelepules_get_name()."""
+    """Tests refsettlement_get_name()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         with unittest.mock.patch('util.get_abspath', get_abspath):
             relations = get_relations()
-            self.assertEqual(relations.reftelepules_get_name("01", "011"), "Újbuda")
-            self.assertEqual(relations.reftelepules_get_name("99", ""), "")
-            self.assertEqual(relations.reftelepules_get_name("01", "99"), "")
+            self.assertEqual(relations.refsettlement_get_name("01", "011"), "Újbuda")
+            self.assertEqual(relations.refsettlement_get_name("99", ""), "")
+            self.assertEqual(relations.refsettlement_get_name("01", "99"), "")
 
 
 class TestRelationsGetAliases(unittest.TestCase):
