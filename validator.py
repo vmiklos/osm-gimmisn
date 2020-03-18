@@ -190,7 +190,7 @@ def main() -> None:
     yaml_path = sys.argv[1]
     _, basename = os.path.split(yaml_path)
     with open(yaml_path) as stream:
-        yaml_data = yaml.load(stream)
+        yaml_data = yaml.safe_load(stream)
         errors: List[str] = []
         if basename == "relations.yaml":
             validate_relations(errors, yaml_data)

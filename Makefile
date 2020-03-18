@@ -56,6 +56,8 @@ YAML_TEST_OBJECTS = \
 	tests/data/refcounty-names.yaml \
 	tests/data/refsettlement-names.yaml \
 
+export PYTHONWARNINGS=error
+
 all: version.py data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
@@ -88,11 +90,12 @@ check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
 check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
+# pylint itself raises some warnings, ignore them.
 %.pylint : %.py Makefile .pylintrc
-	pylint $< && touch $@
+	PYTHONWARNINGS= pylint $< && touch $@
 
 %.mypy: %.py Makefile
-	mypy --python-version 3.6 --strict $< && touch $@
+	PYTHONWARNINGS= mypy --python-version 3.6 --strict $< && touch $@
 
 %.flake8: %.py Makefile
 	flake8 $< && touch $@

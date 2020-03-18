@@ -26,7 +26,7 @@ def main() -> None:
     for yaml_path in glob.glob(os.path.join(datadir, "*.yaml")):
         with open(yaml_path) as yaml_stream:
             cache_key = os.path.relpath(yaml_path, datadir)
-            cache[cache_key] = yaml.load(yaml_stream)
+            cache[cache_key] = yaml.safe_load(yaml_stream)
 
     cache_path = os.path.join(datadir, "yamls.pickle")
     with open(cache_path, "wb") as cache_stream:
