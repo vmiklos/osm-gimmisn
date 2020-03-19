@@ -7,7 +7,6 @@
 
 """The get_reference_streets module allows fetching reference streets for a relation."""
 
-import configparser
 import sys
 import areas
 import util
@@ -16,9 +15,7 @@ import util
 def main() -> None:
     """Commandline interface to this module."""
 
-    config = configparser.ConfigParser()
-    config_path = util.get_abspath("wsgi.ini")
-    config.read(config_path)
+    config = util.Config.get()
 
     relation_name = sys.argv[1]
 

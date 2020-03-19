@@ -8,16 +8,13 @@
 """Compares reference streets with OSM ones and shows the diff."""
 
 import sys
-import configparser
 import areas
 import util
 
 
 def main() -> None:
     """Commandline interface."""
-    config = configparser.ConfigParser()
-    config_path = util.get_abspath("wsgi.ini")
-    config.read(config_path)
+    config = util.Config.get()
     workdir = util.get_abspath(config.get('wsgi', 'workdir').strip())
 
     relation_name = sys.argv[1]

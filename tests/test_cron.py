@@ -9,7 +9,6 @@
 from typing import Any
 from typing import BinaryIO
 from typing import Optional
-import configparser
 import io
 import os
 import unittest
@@ -19,7 +18,6 @@ import urllib.error
 import areas
 import cron
 import util
-import webframe
 
 
 def get_relations() -> areas.Relations:
@@ -86,10 +84,9 @@ class TestUpdateRefHousenumbers(unittest.TestCase):
             for relation_name in relations.get_active_names():
                 if relation_name not in ("gazdagret", "ujbuda"):
                     relations.get_relation(relation_name).get_config().set_active(False)
-            config = webframe.get_config()
             expected = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
             os.unlink(os.path.join(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst"))
-            cron.update_ref_housenumbers(relations, config)
+            cron.update_ref_housenumbers(relations)
             actual = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
             self.assertEqual(actual, expected)
             # Make sure housenumber ref is not created for the streets=only case.
@@ -107,10 +104,9 @@ class TestUpdateRefStreets(unittest.TestCase):
                 # gellerthegy is streets=no
                 if relation_name not in ("gazdagret", "gellerthegy"):
                     relations.get_relation(relation_name).get_config().set_active(False)
-            config = webframe.get_config()
             expected = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
             os.unlink(os.path.join(relations.get_workdir(), "streets-reference-gazdagret.lst"))
-            cron.update_ref_streets(relations, config)
+            cron.update_ref_streets(relations)
             actual = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
             self.assertEqual(actual, expected)
             # Make sure street ref is not created for the streets=no case.
@@ -281,20 +277,19 @@ class TestOurMain(unittest.TestCase):
         """Tests the happy path."""
         calls = 0
 
-        def count_calls(_relations: areas.Relation, _config: Optional[configparser.ConfigParser] = None) -> None:
+        def count_calls(_relations: areas.Relation) -> None:
             nonlocal calls
             calls += 1
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
             relations = get_relations()
-            config = webframe.get_config()
             with unittest.mock.patch("cron.update_osm_streets", count_calls):
                 with unittest.mock.patch("cron.update_osm_housenumbers", count_calls):
                     with unittest.mock.patch("cron.update_ref_streets", count_calls):
                         with unittest.mock.patch("cron.update_ref_housenumbers", count_calls):
                             with unittest.mock.patch("cron.update_missing_streets", count_calls):
                                 with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
-                                    cron.our_main(relations, config)
+                                    cron.our_main(relations)
 
         expected = 0
         # Consider what to update automatically: the 2 sources and the diff between them.
@@ -312,7 +307,7 @@ class TestMain(unittest.TestCase):
         """Tests the happy path."""
         mock_main_called = False
 
-        def mock_main(_relations: areas.Relation, _config: configparser.ConfigParser) -> None:
+        def mock_main(_relations: areas.Relation) -> None:
             nonlocal mock_main_called
             mock_main_called = True
 
@@ -332,7 +327,7 @@ class TestMain(unittest.TestCase):
 
     def test_exception(self) -> None:
         """Tests the path when main() throws."""
-        def mock_main(_relations: areas.Relation, _config: configparser.ConfigParser) -> None:
+        def mock_our_main(_relations: areas.Relation) -> None:
             raise Exception()
 
         def mock_info(_msg: str, *_args: Any, **_kwargs: Any) -> None:
@@ -345,7 +340,7 @@ class TestMain(unittest.TestCase):
             mock_error_called = True
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
-            with unittest.mock.patch("cron.our_main", mock_main):
+            with unittest.mock.patch("cron.our_main", mock_our_main):
                 with unittest.mock.patch("logging.info", mock_info):
                     with unittest.mock.patch("logging.error", mock_error):
                         cron.main()

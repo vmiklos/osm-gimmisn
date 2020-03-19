@@ -28,7 +28,6 @@ import xml.etree.ElementTree as ET
 import yattag
 
 import areas
-import webframe
 import wsgi
 import util
 
@@ -606,13 +605,13 @@ class TestMain(TestWsgi):
 
     def test_custom_locale(self) -> None:
         """Tests the main page with a custom locale."""
-        real_get_config = webframe.get_config
+        real_get_config = util.Config.get
 
         def mock_get_config() -> configparser.ConfigParser:
             config = real_get_config()
             config.read_dict({"wsgi": {"locale": "en_US.UTF-8"}})
             return config
-        with unittest.mock.patch('webframe.get_config', mock_get_config):
+        with unittest.mock.patch('util.Config.get', mock_get_config):
             root = self.get_dom_for_path("/osm")
             results = root.findall("body/table")
             self.assertEqual(len(results), 1)

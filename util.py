@@ -33,6 +33,21 @@ import overpass_query
 import ranges
 
 
+class Config:
+    """Exposes config key values from wsgi.ini."""
+    __config: Optional[configparser.ConfigParser] = None
+
+    @staticmethod
+    def get() -> configparser.ConfigParser:
+        """Gives direct access to the read config key values."""
+        if Config.__config is None:
+            Config.__config = configparser.ConfigParser()
+            config_path = get_abspath("wsgi.ini")
+            Config.__config.read(config_path)
+
+        return Config.__config
+
+
 class LetterSuffixStyle(Enum):
     """Specifies the style of the output of normalize_letter_suffix()."""
 

@@ -308,7 +308,7 @@ def missing_streets_view_txt(relations: areas.Relations, request_uri: str) -> st
 
 def missing_housenumbers_update(relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result."""
-    reference = webframe.get_config().get('wsgi', 'reference_housenumbers').strip().split(' ')
+    reference = util.Config.get().get('wsgi', 'reference_housenumbers').strip().split(' ')
     reference = [util.get_abspath(i) for i in reference]
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(reference)
@@ -321,7 +321,7 @@ def missing_housenumbers_update(relations: areas.Relations, relation_name: str) 
 
 def missing_streets_update(relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
-    reference = util.get_abspath(webframe.get_config().get('wsgi', 'reference_street').strip())
+    reference = util.get_abspath(util.Config.get().get('wsgi', 'reference_street').strip())
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
     doc = yattag.doc.Doc()
@@ -788,7 +788,7 @@ def our_application(
         start_response: 'StartResponse'
 ) -> Iterable[bytes]:
     """Dispatches the request based on its URI."""
-    config = webframe.get_config()
+    config = util.Config.get()
     util.set_locale(config)
 
     language = util.setup_localization(environ)

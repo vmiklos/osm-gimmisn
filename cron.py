@@ -7,7 +7,6 @@
 
 """The cron module allows doing nightly tasks."""
 
-import configparser
 import datetime
 import logging
 import os
@@ -75,12 +74,12 @@ def update_osm_housenumbers(relations: areas.Relations) -> None:
         logging.info("update_osm_housenumbers: end: %s", relation_name)
 
 
-def update_ref_housenumbers(relations: areas.Relations, config: configparser.ConfigParser) -> None:
+def update_ref_housenumbers(relations: areas.Relations) -> None:
     """Update the reference housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         logging.info("update_ref_housenumbers: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
-        reference = config.get('wsgi', 'reference_housenumbers').strip().split(' ')
+        reference = util.Config.get().get('wsgi', 'reference_housenumbers').strip().split(' ')
         streets = relation.get_config().should_check_missing_streets()
         if streets == "only":
             continue
@@ -89,18 +88,18 @@ def update_ref_housenumbers(relations: areas.Relations, config: configparser.Con
         logging.info("update_ref_housenumbers: end: %s", relation_name)
 
 
-def update_ref_streets(relations: areas.Relations, config: configparser.ConfigParser) -> None:
+def update_ref_streets(relations: areas.Relations) -> None:
     """Update the reference street list of all relations."""
     for relation_name in relations.get_active_names():
-        logging.info("update_ref_housenumbers: start: %s", relation_name)
+        logging.info("update_ref_streets: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
-        reference = config.get('wsgi', 'reference_street').strip()
+        reference = util.Config.get().get('wsgi', 'reference_street').strip()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "no":
             continue
 
         relation.write_ref_streets(reference)
-        logging.info("update_ref_housenumbers: end: %s", relation_name)
+        logging.info("update_ref_streets: end: %s", relation_name)
 
 
 def update_missing_housenumbers(relations: areas.Relations) -> None:
@@ -129,12 +128,12 @@ def update_missing_streets(relations: areas.Relations) -> None:
     logging.info("update_missing_streets: end")
 
 
-def our_main(relations: areas.Relations, config: configparser.ConfigParser) -> None:
+def our_main(relations: areas.Relations) -> None:
     """Performs the actual nightly task."""
     update_osm_streets(relations)
     update_osm_housenumbers(relations)
-    update_ref_streets(relations, config)
-    update_ref_housenumbers(relations, config)
+    update_ref_streets(relations)
+    update_ref_housenumbers(relations)
     update_missing_streets(relations)
     update_missing_housenumbers(relations)
 
@@ -142,9 +141,7 @@ def our_main(relations: areas.Relations, config: configparser.ConfigParser) -> N
 def main() -> None:
     """Commandline interface to this module."""
 
-    config = configparser.ConfigParser()
-    config_path = util.get_abspath("wsgi.ini")
-    config.read(config_path)
+    config = util.Config.get()
     util.set_locale(config)
 
     workdir = util.get_workdir(config)
@@ -161,7 +158,7 @@ def main() -> None:
     # Query inactive relations once a month.
     relations.activate_all(time.localtime(start).tm_mday == 1)
     try:
-        our_main(relations, config)
+        our_main(relations)
     # pylint: disable=broad-except
     except Exception:
         logging.error("main: unhandled exception: %s", traceback.format_exc())

@@ -90,7 +90,7 @@ class TestLocalToUiTz(unittest.TestCase):
             return config
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
-            with unittest.mock.patch('webframe.get_config', get_config):
+            with unittest.mock.patch('util.Config.get', get_config):
                 local_dt = datetime.datetime.fromtimestamp(0)
                 ui_dt = webframe.local_to_ui_tz(local_dt)
                 if time.strftime('%Z%z') == "CET+0100":

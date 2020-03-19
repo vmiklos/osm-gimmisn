@@ -14,7 +14,6 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
-import configparser
 import datetime
 import traceback
 
@@ -217,17 +216,9 @@ def handle_exception(
     return send_response(start_response, "text/html", status, doc.getvalue(), [])
 
 
-def get_config() -> configparser.ConfigParser:
-    """Gets access to information which are specific to this installation."""
-    config = configparser.ConfigParser()
-    config_path = util.get_abspath("wsgi.ini")
-    config.read(config_path)
-    return config
-
-
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
     """Converts from local date-time to UI date-time, based on config."""
-    config = get_config()
+    config = util.Config.get()
     if config.has_option("wsgi", "timezone"):
         ui_tz = pytz.timezone(config.get("wsgi", "timezone"))
     else:
