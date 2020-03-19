@@ -400,6 +400,10 @@ budaors:
     osmrelation: 113463
     refcounty: "14"
     refsettlement: "015"
+budaors-belvaros:
+    osmrelation: 10477896
+    refcounty: "14"
+    refsettlement: "015"
 budaors-kamaraerdo:
     osmrelation: 10478302
     refcounty: "14"

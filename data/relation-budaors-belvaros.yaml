@@ -1,0 +1,92 @@
+missing-streets: 'no'
+filters:
+  Ág utca:
+    ranges:
+      - {start: '1', end: '1'}
+  Baross utca:
+    ranges:
+      - {start: '76', end: '138'}
+      - {start: '135', end: '177'}
+    invalid: ['86']
+  Domb utca:
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '2', end: '4'}
+  Komáromi utca:
+    ranges:
+      - {start: '2', end: '20'}
+  Koszorú utca:
+    ranges:
+      - {start: '2', end: '8'}
+  Őszirózsa utca:
+    ranges: []
+  Szabadság út:
+    invalid: ['134']  # Lakótelephez tartozik
+    ranges:
+      - {start: '113', end: '315'}
+      - {start: '2', end: '136'}
+
+  Budakeszi utca:
+    ranges:
+      - {start: '2', end: '32'}
+  Csap utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Halom utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '10'}
+  Farkasréti út:
+    ranges:
+      - {start: '1', end: '33'}
+      - {start: '2', end: '50'}
+  Kökény utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '8', end: '18'}
+  Kőhát utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '4'}
+  Mátyás király utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Naphegy utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '8'}
+  Nefelejcs utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '26'}
+  Máriavölgy utca:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '11'}
+  Rózsa utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '12'}
+  Szőlő köz:
+    ranges:
+      - {start: '2', end: '98'}
+  Víg utca:
+    ranges:
+      - {start: '1', end: '51'}
+  Víztorony utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '14'}
+source: survey
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  Aszú utca: Aszu utca
+  Írisz utca: Irisz utca
+  Jókai Mór utca: Jókai utca  # OSM helyes
+  Kamilla utca: Kamilla köz
+  Munkácsy Mihály utca: Munkácsy utca
+  Odvashegyi út: Odvas-hegy utca
+  Petőfi Sándor utca: Petőfi utca
+  Ribiszke utca: Ribizke utca
+  Széchenyi utca: Széchenyi István utca
+inactive: false
