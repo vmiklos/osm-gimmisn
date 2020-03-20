@@ -52,6 +52,12 @@ filters:
   Fenyves utca:
     # erdő
     ranges: []
+  Gesztenye utca:
+    ranges:
+      - {start: '1', end: '15'}
+  Halom utca:
+    ranges:
+      - {start: '12', end: '12'}
   Kertész köz:
     ranges:
       - {start: '1', end: '5'}
@@ -61,13 +67,28 @@ filters:
       - {start: '1', end: '13'}
       - {start: '21', end: '41'}
       - {start: '2', end: '32'}
+  Kökény utca:
+    ranges:
+      - {start: '11', end: '99'}
+      - {start: '20', end: '98'}
   Komáromi utca:
     ranges:
       - {start: '1', end: '71'}
+  Kőhát utca:
+    ranges:
+      - {start: '2', end: '22'}
   Láng utca:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '10'}
+  Naphegy utca:
+    ranges:
+      - {start: '21', end: '47'}
+      - {start: '26', end: '58'}
+  Nefelejcs utca:
+    ranges:
+      - {start: '21', end: '29'}
+      - {start: '26', end: '58'}
   Mátyás király utca:
     ranges:
       - {start: '2', end: '98'}
@@ -106,6 +127,9 @@ filters:
     # 1-15 kertváros
     ranges:
       - {start: '1', end: '15'}
+  Völgy utca:
+    ranges:
+      - {start: '1', end: '9'}
 source: survey
 street-filters:
   - Csiki dűlő

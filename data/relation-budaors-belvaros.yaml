@@ -24,7 +24,7 @@ filters:
   Halom utca:
     ranges:
       - {start: '1', end: '25'}
-      - {start: '2', end: '12'}
+      - {start: '2', end: '10'}
   Erdélyi utca:
     # páratlan kertváros, páros belváros
     ranges:
@@ -47,7 +47,7 @@ filters:
   Naphegy utca:
     ranges:
       - {start: '1', end: '19'}
-      - {start: '2', end: '8'}
+      - {start: '10', end: '52'}
   Nefelejcs utca:
     ranges:
       - {start: '1', end: '19'}
