@@ -463,7 +463,7 @@ filters:
       - {start: '86', end: '86'}
   Sárbogárdi út:
     interpolation: 'all'
-    invalid: ['3b', '9', '15b']
+    invalid: ['3b', '9', '14', '15b']
     ranges:
       - {start: '1', end: '26'}
   Solt utca:
