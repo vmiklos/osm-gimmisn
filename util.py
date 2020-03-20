@@ -47,6 +47,13 @@ class Config:
 
         return Config.__config
 
+    @staticmethod
+    def set_value(key: str, value: str) -> None:
+        """Sets key to value in the in-memory config."""
+        Config.get()
+        assert Config.__config is not None
+        Config.__config.read_dict({"wsgi": {key: value}})
+
 
 class LetterSuffixStyle(Enum):
     """Specifies the style of the output of normalize_letter_suffix()."""
