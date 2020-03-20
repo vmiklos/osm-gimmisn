@@ -1,48 +1,41 @@
 missing-streets: 'no'
 filters:
-  Ág utca:
+  Aradi utca:
+    # felmérendő
     ranges:
-      - {start: '1', end: '1'}
-  Baross utca:
-    ranges:
-      - {start: '76', end: '138'}
-      - {start: '135', end: '177'}
-    invalid: ['86']
-  Domb utca:
-    ranges:
-      - {start: '1', end: '35'}
-      - {start: '2', end: '4'}
-  Komáromi utca:
-    ranges:
-      - {start: '2', end: '20'}
-  Koszorú utca:
-    ranges:
-      - {start: '2', end: '8'}
-  Őszirózsa utca:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
+  Átlós utca:
     ranges: []
-  Szabadság út:
-    invalid: ['134']  # Lakótelephez tartozik
+  Budafoki utca:
+    # felmérendő, kb.
     ranges:
-      - {start: '113', end: '315'}
-      - {start: '2', end: '136'}
-
+      - {start: '2', end: '24'}
   Budakeszi utca:
     ranges:
       - {start: '2', end: '32'}
   Csap utca:
     ranges:
       - {start: '1', end: '99'}
+  Csillag utca:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '2'}
   Halom utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '10'}
+      - {start: '1', end: '25'}
+      - {start: '2', end: '12'}
+  Erdélyi utca:
+    # páratlan kertváros, páros belváros
+    ranges:
+      - {start: '2', end: '98'}
   Farkasréti út:
     ranges:
       - {start: '1', end: '33'}
       - {start: '2', end: '50'}
   Kökény utca:
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '9'}
       - {start: '8', end: '18'}
   Kőhát utca:
     ranges:
@@ -63,13 +56,31 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '11'}
+  Őszibarack utca:
+    ranges:
+      - {start: '2', end: '4'}
+      - {start: '1', end: '5'}
   Rózsa utca:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '12'}
+  Szabadság út:
+    ranges:
+      - {start: '1', end: '111'}
+      - {start: '132', end: '132'}
+      - {start: '136', end: '136'}
   Szőlő köz:
     ranges:
       - {start: '2', end: '98'}
+  Szegfű utca:
+    # páratlan belváros, páros kertváros, kivéve 26
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '26', end: '26'}
+  Tavasz utca:
+    ranges:
+      - {start: '1', end: '65'}
+      - {start: '2', end: '16'}
   Víg utca:
     ranges:
       - {start: '1', end: '51'}

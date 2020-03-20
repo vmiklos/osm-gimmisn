@@ -3,6 +3,11 @@ filters:
   Átlós utca:
     # nem kertváros
     ranges: []
+  Aradi utca:
+    # felmérendő
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Avar utca:
     # újraszámozva, keveredik páros/páratlan
     ranges:
@@ -26,6 +31,10 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '22'}
+  Csillag utca:
+    interpolation: all
+    ranges:
+      - {start: '3', end: '99'}
   Erdélyi utca:
     invalid: ['9', '9b', '15', '17']
     # páratlan kertváros, páros belváros
@@ -52,6 +61,9 @@ filters:
       - {start: '1', end: '13'}
       - {start: '21', end: '41'}
       - {start: '2', end: '32'}
+  Komáromi utca:
+    ranges:
+      - {start: '1', end: '71'}
   Láng utca:
     ranges:
       - {start: '1', end: '11'}
@@ -62,10 +74,14 @@ filters:
   Naphegy dűlő:
     ranges:
       - {start: '1', end: '5'}
+  Őszibarack utca:
+    ranges:
+      - {start: '6', end: '50'}
+      - {start: '7', end: '47'}
   Rózsa utca:
     ranges:
-      - {start: '3', end: '29'}
-      - {start: '2', end: '20'}
+      - {start: '17', end: '29'}
+      - {start: '14', end: '20'}
   Széchenyi utca:
     invalid: ['20']
   Szellő köz:
@@ -79,9 +95,9 @@ filters:
       - {start: '1', end: '47'}
       - {start: '2', end: '26'}
   Szegfű utca:
-    # páratlan belváros, páros kertváros
+    # páratlan belváros, páros kertváros, kivéve 26
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '2', end: '24'}
   Tavasz utca:
     # 18-56 kertváros
     ranges:
