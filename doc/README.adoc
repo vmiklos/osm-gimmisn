@@ -160,8 +160,8 @@ frequently:
   as GPX, and e.g. load the result into OsmAnd on your phone.
 
 - `housenumber-letters: true`: this key can be used to do micro-mapping, i.e. detect that e.g. 42/B
-  is missing, even if 42/A is already mapped. (The default behavior is to ignore any noise after the
-  numeric value of the house numbers.)
+  is missing, even if 42/A is already mapped. Works with 42/2 and 42/1 as well. (The default
+  behavior is to ignore any noise after the numeric value of the house numbers.)
 
 - `alias: ["foo", "bar"]`: this key can be used on relations to specify old names. This way
   bookmarks keep working, even in case a relation is renamed.

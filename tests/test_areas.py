@@ -427,7 +427,8 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
             ongoing_street = ongoing_streets[0]
             housenumber_ranges = util.get_housenumber_ranges(ongoing_street[1])
             housenumber_ranges = sorted(housenumber_ranges, key=util.split_house_number)
-            expected = ['1', '3', '5', '7', '7/A', '7/B', '7/C', '9', '11', '13', '13-15']
+            # Make sure that 1/1 shows up in the output: it's not the same as '1' or '11'.
+            expected = ['1', '1/1', '1/2', '3', '5', '7', '7/A', '7/B', '7/C', '9', '11', '13', '13-15']
             self.assertEqual(housenumber_ranges, expected)
 
     def test_letter_suffix_invalid(self) -> None:

@@ -1,5 +1,10 @@
 = Version descriptions
 
+== master
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/363> next to letter suffixes (42/a), now digit
+  suffixes are also accepted (42/1). Both are still limited to a single-char suffix (2020-03-23)
+
 == 4.0
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/344> next to the existing "txt" output, a new

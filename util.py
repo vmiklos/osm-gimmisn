@@ -120,7 +120,12 @@ class HouseNumber:
         """
         if source_suffix:
             house_number = house_number[0:-len(source_suffix)]
-        return bool(re.match(r"^([0-9]+)( |/)?[A-Za-z]$", house_number))
+        # Check for letter suffix.
+        letter_match = bool(re.match(r"^([0-9]+)( |/)?[A-Za-z]$", house_number))
+        if letter_match:
+            return True
+        # If not, then try digit suggfix, but then only '/' is OK as a separator.
+        return bool(re.match(r"^([0-9]+)/[0-9]$", house_number))
 
     @staticmethod
     def normalize_letter_suffix(house_number: str, source_suffix: str, style: LetterSuffixStyle) -> str:
@@ -129,11 +134,17 @@ class HouseNumber:
         """
         if source_suffix:
             house_number = house_number[0:-len(source_suffix)]
+        # Check for letter suffix.
         match = re.match(r"^([0-9]+)( |/)?([A-Za-z])$", house_number)
+        digit_match = False
         if not match:
-            raise ValueError
+            # If not, then try digit suggfix, but then only '/' is OK as a separator.
+            match = re.match(r"^([0-9]+)(/)([0-9])$", house_number)
+            digit_match = True
+            if not match:
+                raise ValueError
         groups = match.groups()
-        if style == LetterSuffixStyle.UPPER:
+        if style == LetterSuffixStyle.UPPER or digit_match:
             return groups[0] + "/" + groups[2].upper() + source_suffix
         return groups[0] + groups[2].lower() + source_suffix
 
