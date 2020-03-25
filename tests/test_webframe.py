@@ -10,7 +10,6 @@ from typing import List
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
-import configparser
 import datetime
 import os
 import unittest
@@ -20,6 +19,7 @@ import time
 # pylint: disable=unused-import
 import yattag
 
+import util
 import webframe
 
 if TYPE_CHECKING:
@@ -84,13 +84,8 @@ class TestLocalToUiTz(unittest.TestCase):
                 return path
             return os.path.join(os.path.dirname(__file__), path)
 
-        def get_config() -> configparser.ConfigParser:
-            config = configparser.ConfigParser()
-            config.read_dict({"wsgi": {"timezone": "Europe/Budapest"}})
-            return config
-
         with unittest.mock.patch('util.get_abspath', get_abspath):
-            with unittest.mock.patch('util.Config.get', get_config):
+            with util.ConfigContext("timezone", "Europe/Budapest"):
                 local_dt = datetime.datetime.fromtimestamp(0)
                 ui_dt = webframe.local_to_ui_tz(local_dt)
                 if time.strftime('%Z%z') == "CET+0100":

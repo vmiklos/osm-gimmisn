@@ -6,7 +6,6 @@
 
 """The test_util module covers the util module."""
 
-from typing import Any
 import io
 import os
 import unittest
@@ -453,25 +452,7 @@ class TestGetWorkdir(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
 
-        class ConfigContext:
-            """Context manager for util.Config."""
-            def __init__(self, key: str, value: str) -> None:
-                """Remembers what should be the new value."""
-                self.key = key
-                self.value = value
-                self.old_value = util.Config.get().get("wsgi", key)
-
-            def __enter__(self) -> 'ConfigContext':
-                """Switches to the new value."""
-                util.Config.set_value(self.key, self.value)
-                return self
-
-            def __exit__(self, _exc_type: Any, _exc_value: Any, _exc_traceback: Any) -> bool:
-                """Switches back to the old value."""
-                util.Config.set_value(self.key, self.old_value)
-                return True
-
-        with ConfigContext("workdir", "/path/to/workdir"):
+        with util.ConfigContext("workdir", "/path/to/workdir"):
             config = util.Config.get()
             actual = util.get_workdir(config)
             expected = "/path/to/workdir"

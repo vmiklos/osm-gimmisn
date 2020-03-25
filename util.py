@@ -52,7 +52,31 @@ class Config:
         """Sets key to value in the in-memory config."""
         Config.get()
         assert Config.__config is not None
-        Config.__config.read_dict({"wsgi": {key: value}})
+        if value:
+            Config.__config.read_dict({"wsgi": {key: value}})
+        else:
+            Config.__config.remove_option("wsgi", key)
+
+
+class ConfigContext:
+    """Context manager for Config."""
+    def __init__(self, key: str, value: str) -> None:
+        """Remembers what should be the new value."""
+        self.key = key
+        self.value = value
+        self.old_value = ""
+        if Config.get().has_option("wsgi", key):
+            self.old_value = Config.get().get("wsgi", key)
+
+    def __enter__(self) -> 'ConfigContext':
+        """Switches to the new value."""
+        Config.set_value(self.key, self.value)
+        return self
+
+    def __exit__(self, _exc_type: Any, _exc_value: Any, _exc_traceback: Any) -> bool:
+        """Switches back to the old value."""
+        Config.set_value(self.key, self.old_value)
+        return True
 
 
 class LetterSuffixStyle(Enum):
