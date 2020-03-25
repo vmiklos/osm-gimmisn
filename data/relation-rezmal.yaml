@@ -38,5 +38,7 @@ filters:
     ranges:
       - {start: '3', end: '13'}
       - {start: '4', end: '18'}
+  Tulipán utca:
+    invalid: ['7']
 source: survey
 inactive: true
