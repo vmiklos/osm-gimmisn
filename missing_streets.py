@@ -14,8 +14,7 @@ import util
 
 def main() -> None:
     """Commandline interface."""
-    config = util.Config.get()
-    workdir = util.get_abspath(config.get('wsgi', 'workdir').strip())
+    workdir = util.Config.get_workdir()
 
     relation_name = sys.argv[1]
 

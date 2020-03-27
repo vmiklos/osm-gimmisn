@@ -454,7 +454,7 @@ class TestGetWorkdir(unittest.TestCase):
         """Tests the happy path."""
 
         with util.ConfigContext("workdir", "/path/to/workdir"):
-            actual = util.get_workdir()
+            actual = util.Config.get_workdir()
             expected = "/path/to/workdir"
             self.assertEqual(actual, expected)
 

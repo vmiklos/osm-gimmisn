@@ -57,6 +57,13 @@ class Config:
         else:
             Config.__config.remove_option("wsgi", key)
 
+    @staticmethod
+    def get_workdir() -> str:
+        """Gets the directory which is writable."""
+        Config.get()
+        assert Config.__config is not None
+        return get_abspath(Config.__config.get('wsgi', 'workdir').strip())
+
 
 class ConfigContext:
     """Context manager for Config."""
@@ -649,11 +656,6 @@ def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
         if item in second_stripped:
             ret.append(first[index])
     return ret
-
-
-def get_workdir() -> str:
-    """Gets the directory which is writable."""
-    return get_abspath(Config.get().get('wsgi', 'workdir').strip())
 
 
 def get_content(workdir: str, path: str = "") -> str:
