@@ -321,6 +321,7 @@ class TestGetAbspath(unittest.TestCase):
         actual = util.get_abspath("foo")
         expected = os.path.join(os.getcwd(), "foo")
         self.assertEqual(actual, expected)
+        self.assertEqual(util.get_abspath(actual), expected)
 
 
 class TestSortNumerically(unittest.TestCase):
@@ -453,8 +454,7 @@ class TestGetWorkdir(unittest.TestCase):
         """Tests the happy path."""
 
         with util.ConfigContext("workdir", "/path/to/workdir"):
-            config = util.Config.get()
-            actual = util.get_workdir(config)
+            actual = util.get_workdir()
             expected = "/path/to/workdir"
             self.assertEqual(actual, expected)
 

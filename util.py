@@ -651,9 +651,9 @@ def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
     return ret
 
 
-def get_workdir(config: configparser.ConfigParser) -> str:
+def get_workdir() -> str:
     """Gets the directory which is writable."""
-    return get_abspath(config.get('wsgi', 'workdir').strip())
+    return get_abspath(Config.get().get('wsgi', 'workdir').strip())
 
 
 def get_content(workdir: str, path: str = "") -> str:
