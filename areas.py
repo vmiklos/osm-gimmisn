@@ -400,9 +400,6 @@ class Relation:
         from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
         used by __get_ref_housenumbers().
         """
-        # Convert relative paths to absolute ones.
-        references = [util.get_abspath(reference) for reference in references]
-
         memory_caches = util.build_reference_caches(references)
 
         streets = self.get_osm_streets()

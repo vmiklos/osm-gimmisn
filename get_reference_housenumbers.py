@@ -15,15 +15,13 @@ import util
 def main() -> None:
     """Commandline interface to this module."""
 
-    config = util.Config.get()
-
     relation_name = sys.argv[1]
 
-    reference = config.get('wsgi', 'reference_housenumbers').strip().split(' ')
+    references = util.Config.get_reference_housenumber_paths()
     workdir = util.Config.get_workdir()
     relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)
-    relation.write_ref_housenumbers(reference)
+    relation.write_ref_housenumbers(references)
 
 
 if __name__ == "__main__":

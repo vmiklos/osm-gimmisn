@@ -64,6 +64,14 @@ class Config:
         assert Config.__config is not None
         return get_abspath(Config.__config.get('wsgi', 'workdir').strip())
 
+    @staticmethod
+    def get_reference_housenumber_paths() -> List[str]:
+        """Gets the abs paths of ref housenumbers."""
+        Config.get()
+        assert Config.__config is not None
+        relpaths = Config.__config.get("wsgi", "reference_housenumbers").strip().split(' ')
+        return [get_abspath(relpath) for relpath in relpaths]
+
 
 class ConfigContext:
     """Context manager for Config."""

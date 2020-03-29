@@ -79,12 +79,12 @@ def update_ref_housenumbers(relations: areas.Relations) -> None:
     for relation_name in relations.get_active_names():
         logging.info("update_ref_housenumbers: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
-        reference = util.Config.get().get('wsgi', 'reference_housenumbers').strip().split(' ')
+        references = util.Config.get_reference_housenumber_paths()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "only":
             continue
 
-        relation.write_ref_housenumbers(reference)
+        relation.write_ref_housenumbers(references)
         logging.info("update_ref_housenumbers: end: %s", relation_name)
 
 
