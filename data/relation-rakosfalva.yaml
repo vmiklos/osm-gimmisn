@@ -1,0 +1,12 @@
+missing-streets: 'no'
+filters:
+  Ond vezér útja:
+    ranges:
+      - {start: '1', end: '47'}
+      - {start: '2', end: '60'}
+  Örs vezér tere:
+    interpolation: all
+    ranges:
+      - {start: '21', end: '24'}
+source: survey
+inactive: false
