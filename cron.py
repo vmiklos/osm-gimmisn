@@ -93,7 +93,7 @@ def update_ref_streets(relations: areas.Relations) -> None:
     for relation_name in relations.get_active_names():
         logging.info("update_ref_streets: start: %s", relation_name)
         relation = relations.get_relation(relation_name)
-        reference = util.Config.get().get('wsgi', 'reference_street').strip()
+        reference = util.Config.get_reference_street_path()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "no":
             continue

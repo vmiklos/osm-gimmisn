@@ -15,11 +15,9 @@ import util
 def main() -> None:
     """Commandline interface to this module."""
 
-    config = util.Config.get()
-
     relation_name = sys.argv[1]
 
-    reference = util.get_abspath(config.get('wsgi', 'reference_street').strip())
+    reference = util.Config.get_reference_street_path()
     workdir = util.Config.get_workdir()
     relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)

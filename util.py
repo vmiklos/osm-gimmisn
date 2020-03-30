@@ -72,6 +72,14 @@ class Config:
         relpaths = Config.__config.get("wsgi", "reference_housenumbers").strip().split(' ')
         return [get_abspath(relpath) for relpath in relpaths]
 
+    @staticmethod
+    def get_reference_street_path() -> str:
+        """Gets the abs path of ref streets."""
+        Config.get()
+        assert Config.__config is not None
+        relpath = Config.__config.get("wsgi", "reference_street").strip()
+        return get_abspath(relpath)
+
 
 class ConfigContext:
     """Context manager for Config."""

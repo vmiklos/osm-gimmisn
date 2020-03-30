@@ -320,7 +320,7 @@ def missing_housenumbers_update(relations: areas.Relations, relation_name: str) 
 
 def missing_streets_update(relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
-    reference = util.get_abspath(util.Config.get().get('wsgi', 'reference_street').strip())
+    reference = util.Config.get_reference_street_path()
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
     doc = yattag.doc.Doc()
