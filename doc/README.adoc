@@ -54,8 +54,7 @@ do the following steps:
   know the OSM identifier of the relation.
 
 You'll also need the county reference ('refcounty' below) and settlement reference ('refsettlement'
-below) of the area, you can find help regarding this in the
-https://wiki.openstreetmap.org/wiki/WikiProject_Hungary/Tal%C3%A1lkoz%C3%B3k/2019-04-29_Oktogon_sv%C3%A9dasztal_%C3%A9s_k%C3%B6rny%C3%A9ke#Hi.C3.A1nyz.C3.B3_h.C3.A1zsz.C3.A1mok[wiki].
+below) of the area, you can find codes for Hungary in https://github.com/vmiklos/osm-gimmisn/edit/master/doc/refcodes[refcodes] file.
 
 (These codes are specific to Hungary, but in case your country has a larger and smaller container
 for streets and house numbers, it's easy to adapt.)
