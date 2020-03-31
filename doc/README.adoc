@@ -54,7 +54,8 @@ do the following steps:
   know the OSM identifier of the relation.
 
 You'll also need the county reference ('refcounty' below) and settlement reference ('refsettlement'
-below) of the area, you can find codes for Hungary in https://github.com/vmiklos/osm-gimmisn/edit/master/doc/refcodes[refcodes] file.
+below) of the area, you can find codes for Hungary in the
+https://github.com/vmiklos/osm-gimmisn/blob/master/doc/refcodes[refcodes] file.
 
 (These codes are specific to Hungary, but in case your country has a larger and smaller container
 for streets and house numbers, it's easy to adapt.)
