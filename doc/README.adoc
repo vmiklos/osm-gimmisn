@@ -121,7 +121,9 @@ are invalid:
     invalid: ['7', '11']
 ----
 
-Sometimes this results in a more compact filter than the above presented `ranges` way.
+Sometimes this results in a more compact filter than the above presented `ranges` way. Note that the
+values of the invalid list is compared to house numbers after normalization, e.g. '47/49D' can be
+filtered out with '47'.
 
 == Searching for missing streets
 

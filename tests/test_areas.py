@@ -442,7 +442,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
             # Set custom 'invalid' map.
             filters = {
                 "Rétköz utca": {
-                    "invalid": ["9"]
+                    "invalid": ["9", "47"]
                 }
             }
             relation.get_config().set_filters(filters)
