@@ -18,6 +18,7 @@ filters:
     ranges:
       - {start: '2', end: '100'}
   Örs vezér tere:
+    interpolation: all
     ranges:
       - {start: '1', end: '6'}
   Róna utca:
