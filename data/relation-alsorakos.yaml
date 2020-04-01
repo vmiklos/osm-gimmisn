@@ -50,5 +50,8 @@ filters:
     ranges:
       - {start: '81', end: '191'}
       - {start: '84', end: '222'}
+  Teleki Blanka utca:
+    ranges:
+      - {start: '1', end: '15'}
 source: survey
 inactive: false
