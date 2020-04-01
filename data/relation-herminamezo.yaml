@@ -33,7 +33,7 @@ filters:
   Hermina út:
     ranges:
       - {start: '1', end: '99'}
-  Hungária körút
+  Hungária körút:
     ranges:
       - {start: '121', end: '999'}
       - {start: '138', end: '204'}
