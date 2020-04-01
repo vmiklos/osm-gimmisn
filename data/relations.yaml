@@ -466,3 +466,7 @@ nemesgulacs:
     refcounty: "19"
     refsettlement: "134"
     inactive: true
+somogysard:
+    osmrelation: 1367837
+    refcounty: "15"
+    refsettlement: "192"
