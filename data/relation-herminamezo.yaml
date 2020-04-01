@@ -1,0 +1,73 @@
+missing-streets: 'no'
+filters:
+  Ajtósi Dürer sor:
+    ranges:
+      - {start: '37', end: '99'}
+      - {start: '4', end: '10'}
+  Amerikai út:
+    ranges:
+      - {start: '27', end: '99'}
+      - {start: '36', end: '98'}
+  Columbus utca:
+    ranges:
+      - {start: '25', end: '99'}
+      - {start: '22', end: '98'}
+  Dévényi utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Dorozsmai utca:
+    ranges:
+      - {start: '1', end: '66'}
+      - {start: '2', end: '21'}
+  Erzsébet királyné útja:
+    ranges:
+      - {start: '1', end: '41'}
+      - {start: '1', end: '30'}
+  Francia út:
+    ranges:
+      - {start: '47', end: '99'}
+  Gyarmat utca:
+    ranges:
+      - {start: '1', end: '53'}
+      - {start: '2', end: '62'}
+  Hermina út:
+    ranges:
+      - {start: '1', end: '99'}
+  Hungária körút
+    ranges:
+      - {start: '121', end: '999'}
+      - {start: '138', end: '204'}
+  Ida utca:
+    ranges:
+      - {start: '5', end: '9'}
+      - {start: '6', end: '8'}
+  Kacsóh Pongrác út:
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '8'}
+  Kassai tér:
+    ranges:
+      - {start: '2', end: '9'}
+      - {start: '22', end: '29'}
+  Mexikói út:
+    ranges:
+      - {start: '49', end: '99'}
+  Nagy Lajos király útja:
+    ranges:
+      - {start: '142', end: '999'}
+  Róna utca:
+    ranges:
+      - {start: '147', end: '999'}
+      - {start: '158', end: '998'}
+  Szőnyi út:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '12'}
+  Teleki Blanka utca:
+    ranges:
+      - {start: '2', end: '99'}
+  Thököly út:
+    ranges:
+      - {start: '100', end: '178'}
+source: survey
+inactive: false
