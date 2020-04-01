@@ -7,8 +7,7 @@ filters:
     ranges:
       - {start: '31', end: '45'}
   Hermina út:
-    ranges:
-      - {start: '17', end: '99'}
+    ranges: []
   Hungária körút:
     ranges: []
   Kacsóh Pongrác út:

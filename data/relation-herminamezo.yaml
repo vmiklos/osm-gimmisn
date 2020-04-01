@@ -8,6 +8,8 @@ filters:
     ranges:
       - {start: '27', end: '99'}
       - {start: '36', end: '98'}
+  Bosnyák tér:
+    ranges: []
   Columbus utca:
     ranges:
       - {start: '25', end: '99'}

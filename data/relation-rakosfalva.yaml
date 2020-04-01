@@ -1,5 +1,7 @@
 missing-streets: 'no'
 filters:
+  Csertő utca:
+    ranges: []
   Füredi utca:
     ranges:
       - {start: '1', end: '51'}
@@ -19,6 +21,14 @@ filters:
     interpolation: all
     ranges:
       - {start: '21', end: '24'}
+  Rátót utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '16'}
+  Remény utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '32'}
   Vezér utca:
     ranges: []
 source: survey
