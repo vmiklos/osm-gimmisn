@@ -1,0 +1,18 @@
+missing-streets: 'no'
+filters:
+  Ajtósi Dürer sor:
+      - {start: '2', end: '2'}
+  Dózsa György út:
+    ranges:
+      - {start: '31', end: '45'}
+  Hermina út:
+      - {start: '17', end: '99'}
+  Hungária körút:
+    ranges: []
+  Kacsóh Pongrác út:
+    ranges: []
+  Vágány utca:
+    ranges:
+      - {start: '1', end: '11'}
+source: survey
+inactive: false

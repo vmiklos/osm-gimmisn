@@ -1,0 +1,35 @@
+missing-streets: 'no'
+filters:
+  Angol utca:
+    ranges:
+      - {start: '49', end: '99'}
+      - {start: '28', end: '98'}
+  Bosnyák tér:
+    ranges:
+      - {start: '1', end: '4'}
+  Bosnyák utca:
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '30'}
+  Egressy út:
+    ranges:
+      - {start: '92', end: '112'}
+  Kövér Lajos utca:
+    ranges:
+      - {start: '11', end: '99'}
+      - {start: '14', end: '98'}
+  Nagy Lajos király útja:
+    ranges:
+      - {start: '102', end: '140'}
+  Róna utca:
+    ranges:
+      - {start: '93', end: '145'}
+  Szugló utca:
+    ranges:
+      - {start: '49', end: '79'}
+      - {start: '50', end: '80'}
+  Thököly út:
+    ranges:
+      - {start: '157', end: '999'}
+source: survey
+inactive: false

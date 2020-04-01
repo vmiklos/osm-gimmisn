@@ -1,0 +1,27 @@
+missing-streets: 'no'
+filters:
+  Egressy út:
+    ranges:
+      - {start: '63', end: '71'}
+  Fogarasi út:
+    ranges:
+      - {start: '21', end: '71'}
+      - {start: '58', end: '92'}
+  Kerepesi út:
+    ranges:
+      - {start: '76', end: '80'}
+  Mogyoródi út:
+    ranges:
+      - {start: '45', end: '73'}
+      - {start: '46', end: '70'}
+  Nagy Lajos király útja:
+    ranges:
+      - {start: '2', end: '100'}
+  Örs vezér tere:
+    ranges:
+      - {start: '1', end: '6'}
+  Róna utca:
+    ranges:
+      - {start: '1', end: '89'}
+source: survey
+inactive: false

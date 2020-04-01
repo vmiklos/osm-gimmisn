@@ -2,7 +2,7 @@ missing-streets: 'no'
 filters:
   Egressy út:
     ranges:
-      - {start: '75', end: '171'}
+      - {start: '73', end: '171'}
       - {start: '114', end: '266'}
   Erzsébet királyné útja:
     ranges:
@@ -19,10 +19,13 @@ filters:
   Gvadányi utca:
     ranges:
       - {start: '1', end: '129'}
-      - {start: '66', end: '128'}
+      - {start: '66', end: '130'}
   Kacsóh Pongrác út:
     ranges:
-      - {start: '7', end: '143'}
+      - {start: '65', end: '143'}
+  Kerepesi út:
+    ranges:
+      - {start: '154', end: '154'}
   Mogyoródi út:
     ranges:
       - {start: '75', end: '201'}

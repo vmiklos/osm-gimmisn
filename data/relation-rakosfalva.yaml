@@ -1,5 +1,16 @@
 missing-streets: 'no'
 filters:
+  Füredi utca:
+    ranges:
+      - {start: '1', end: '51'}
+  Gvadányi utca:
+    ranges:
+      - {start: '2', end: '64'}
+  Kerepesi út:
+    ranges:
+      - {start: '82', end: '152'}
+  Nagy Lajos király útja:
+    ranges: []
   Ond vezér útja:
     ranges:
       - {start: '1', end: '47'}
@@ -8,5 +19,7 @@ filters:
     interpolation: all
     ranges:
       - {start: '21', end: '24'}
+  Vezér utca:
+    ranges: []
 source: survey
 inactive: false
