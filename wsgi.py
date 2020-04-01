@@ -787,8 +787,7 @@ def our_application(
         start_response: 'StartResponse'
 ) -> Iterable[bytes]:
     """Dispatches the request based on its URI."""
-    config = util.Config.get()
-    util.set_locale(config)
+    util.set_locale()
 
     language = util.setup_localization(environ)
 

@@ -58,6 +58,13 @@ class Config:
             Config.__config.remove_option("wsgi", key)
 
     @staticmethod
+    def has_value(key: str) -> bool:
+        """Determines if key is set in the config."""
+        Config.get()
+        assert Config.__config is not None
+        return Config.__config.has_option("wsgi", key)
+
+    @staticmethod
     def get_workdir() -> str:
         """Gets the directory which is writable."""
         Config.get()
@@ -79,6 +86,13 @@ class Config:
         assert Config.__config is not None
         relpath = Config.__config.get("wsgi", "reference_street").strip()
         return get_abspath(relpath)
+
+    @staticmethod
+    def get_locale() -> str:
+        """Gets the locale."""
+        Config.get()
+        assert Config.__config is not None
+        return Config.__config.get("wsgi", "locale").strip()
 
 
 class ConfigContext:
@@ -726,11 +740,11 @@ def split_house_number_by_separator(
     return ret_numbers, ret_numbers_nofilter
 
 
-def set_locale(config: configparser.ConfigParser) -> None:
+def set_locale() -> None:
     """Sets the locale of this Python process automatically based on config, with a UTF-8
     default."""
-    if config.has_option("wsgi", "locale"):
-        ui_locale = config.get("wsgi", "locale")
+    if Config.has_value("locale"):
+        ui_locale = Config.get_locale()
     else:
         ui_locale = "hu_HU.UTF-8"
     try:

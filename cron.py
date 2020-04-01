@@ -141,8 +141,7 @@ def our_main(relations: areas.Relations) -> None:
 def main() -> None:
     """Commandline interface to this module."""
 
-    config = util.Config.get()
-    util.set_locale(config)
+    util.set_locale()
 
     workdir = util.Config.get_workdir()
     relations = areas.Relations(workdir)
