@@ -23,6 +23,10 @@ filters:
   Kacsóh Pongrác út:
     ranges:
       - {start: '65', end: '143'}
+  Kassai tér:
+    interpolation: all
+    ranges:
+      - {start: '10', end: '21'}
   Kerepesi út:
     ranges:
       - {start: '154', end: '154'}

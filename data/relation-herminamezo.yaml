@@ -46,6 +46,7 @@ filters:
       - {start: '1', end: '27'}
       - {start: '2', end: '8'}
   Kassai tér:
+    interpolation: all
     ranges:
       - {start: '2', end: '9'}
       - {start: '22', end: '29'}
