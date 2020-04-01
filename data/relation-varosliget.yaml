@@ -1,11 +1,13 @@
 missing-streets: 'no'
 filters:
   Ajtósi Dürer sor:
+    ranges:
       - {start: '2', end: '2'}
   Dózsa György út:
     ranges:
       - {start: '31', end: '45'}
   Hermina út:
+    ranges:
       - {start: '17', end: '99'}
   Hungária körút:
     ranges: []
