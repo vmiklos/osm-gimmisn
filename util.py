@@ -320,7 +320,8 @@ def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]
             if not line:
                 break
 
-            refcounty, refsettlement, street, num = line.strip().split("\t")
+            tokens = line.strip().split("\t")
+            refcounty, refsettlement, street, num = tokens[0], tokens[1], tokens[2], tokens[3]
             if refcounty not in memory_cache.keys():
                 memory_cache[refcounty] = {}
             if refsettlement not in memory_cache[refcounty].keys():
