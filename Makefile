@@ -58,6 +58,15 @@ YAML_TEST_OBJECTS = \
 
 export PYTHONWARNINGS=error
 
+ifndef V
+	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
+	QUIET_MSGFMT = @echo '   ' MSGMFT $@;
+	QUIET_MYPY = @echo '   ' MYPY $@;
+	QUIET_PYLINT = @echo '   ' PYLINT $@;
+	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
+	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
+endif
+
 all: version.py data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
@@ -92,13 +101,13 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
 # pylint itself raises some warnings, ignore them.
 %.pylint : %.py Makefile .pylintrc
-	PYTHONWARNINGS= pylint $< && touch $@
+	$(QUIET_PYLINT)PYTHONWARNINGS= pylint $< && touch $@
 
 %.mypy: %.py Makefile
-	PYTHONWARNINGS= mypy --python-version 3.6 --strict $< && touch $@
+	$(QUIET_MYPY)PYTHONWARNINGS= mypy --python-version 3.6 --strict --no-error-summary $< && touch $@
 
 %.flake8: %.py Makefile
-	flake8 $< && touch $@
+	$(QUIET_FLAKE8)flake8 $< && touch $@
 
 check-unit: tests/data/yamls.pickle
 	coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
@@ -107,10 +116,10 @@ check-unit: tests/data/yamls.pickle
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
 %.validyaml : %.yaml validator.py
-	./validator.py $< && touch $@
+	$(QUIET_VALIDATOR)./validator.py $< && touch $@
 
 %.yamllint : %.yaml
-	yamllint $< && touch $@
+	$(QUIET_YAMLLINT)yamllint $< && touch $@
 
 # Make sure that the current directory is *not* the repo root but the home directory, this matches
 # the environment of the PythonAnywhere instance.
@@ -129,7 +138,7 @@ update-po: po/osm-gimmisn.pot Makefile
 	msgmerge --update po/hu/osm-gimmisn.po po/osm-gimmisn.pot
 
 locale/hu/LC_MESSAGES/osm-gimmisn.mo: po/hu/osm-gimmisn.po Makefile
-	msgfmt --check --statistics --output-file=$@ $<
+	$(QUIET_MSGFMT)msgfmt --check --output-file=$@ $<
 
 tags:
 	ctags --python-kinds=-iv --fields=+l --extra=+q -R --totals=yes *
