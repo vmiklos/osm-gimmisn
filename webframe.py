@@ -218,9 +218,8 @@ def handle_exception(
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
     """Converts from local date-time to UI date-time, based on config."""
-    config = util.Config.get()
-    if config.has_option("wsgi", "timezone"):
-        ui_tz = pytz.timezone(config.get("wsgi", "timezone"))
+    if util.Config.has_value("timezone"):
+        ui_tz = pytz.timezone(util.Config.get_timezone())
     else:
         ui_tz = pytz.timezone("Europe/Budapest")
 

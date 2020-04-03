@@ -38,7 +38,7 @@ class Config:
     __config: Optional[configparser.ConfigParser] = None
 
     @staticmethod
-    def get() -> configparser.ConfigParser:
+    def __get() -> configparser.ConfigParser:
         """Gives direct access to the read config key values."""
         if Config.__config is None:
             Config.__config = configparser.ConfigParser()
@@ -48,9 +48,16 @@ class Config:
         return Config.__config
 
     @staticmethod
+    def get_value(key: str) -> str:
+        """Gets the value of key."""
+        Config.__get()
+        assert Config.__config is not None
+        return Config.__config.get("wsgi", key)
+
+    @staticmethod
     def set_value(key: str, value: str) -> None:
         """Sets key to value in the in-memory config."""
-        Config.get()
+        Config.__get()
         assert Config.__config is not None
         if value:
             Config.__config.read_dict({"wsgi": {key: value}})
@@ -60,21 +67,21 @@ class Config:
     @staticmethod
     def has_value(key: str) -> bool:
         """Determines if key is set in the config."""
-        Config.get()
+        Config.__get()
         assert Config.__config is not None
         return Config.__config.has_option("wsgi", key)
 
     @staticmethod
     def get_workdir() -> str:
         """Gets the directory which is writable."""
-        Config.get()
+        Config.__get()
         assert Config.__config is not None
         return get_abspath(Config.__config.get('wsgi', 'workdir').strip())
 
     @staticmethod
     def get_reference_housenumber_paths() -> List[str]:
         """Gets the abs paths of ref housenumbers."""
-        Config.get()
+        Config.__get()
         assert Config.__config is not None
         relpaths = Config.__config.get("wsgi", "reference_housenumbers").strip().split(' ')
         return [get_abspath(relpath) for relpath in relpaths]
@@ -82,7 +89,7 @@ class Config:
     @staticmethod
     def get_reference_street_path() -> str:
         """Gets the abs path of ref streets."""
-        Config.get()
+        Config.__get()
         assert Config.__config is not None
         relpath = Config.__config.get("wsgi", "reference_street").strip()
         return get_abspath(relpath)
@@ -90,9 +97,16 @@ class Config:
     @staticmethod
     def get_locale() -> str:
         """Gets the locale."""
-        Config.get()
+        Config.__get()
         assert Config.__config is not None
         return Config.__config.get("wsgi", "locale").strip()
+
+    @staticmethod
+    def get_timezone() -> str:
+        """Gets the timezone."""
+        Config.__get()
+        assert Config.__config is not None
+        return Config.__config.get("wsgi", "timezone").strip()
 
 
 class ConfigContext:
@@ -102,8 +116,8 @@ class ConfigContext:
         self.key = key
         self.value = value
         self.old_value = ""
-        if Config.get().has_option("wsgi", key):
-            self.old_value = Config.get().get("wsgi", key)
+        if Config.has_value(key):
+            self.old_value = Config.get_value(key)
 
     def __enter__(self) -> 'ConfigContext':
         """Switches to the new value."""
