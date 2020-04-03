@@ -7,3 +7,4 @@ pylint==2.4.4
 pytz==2019.3
 pyyaml==5.3
 yattag==1.13.2
+yamllint==1.21.0

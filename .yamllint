@@ -5,3 +5,4 @@ rules:
     present: no
   line-length:
     max: 999
+  new-lines: disable

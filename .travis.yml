@@ -3,10 +3,6 @@ python:
   - "3.6"
   - "3.7"
 dist: xenial
-addons:
-  apt:
-    packages:
-      - yamllint
 script: make -j check
 after_success:
   - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/vmiklos/osm-gimmisn/master/tools/travis-automerge"
