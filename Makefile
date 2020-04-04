@@ -37,6 +37,7 @@ PYTHON_SAFE_OBJECTS = \
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
+	stats.py \
 
 # These are valid.
 YAML_SAFE_OBJECTS = \
