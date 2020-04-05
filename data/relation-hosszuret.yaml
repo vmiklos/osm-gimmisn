@@ -25,6 +25,7 @@ filters:
   Nagyida utca:
     ranges:
       - {start: '2', end: '4'}
+    invalid: ['2/6']
   Nevegy köz:
     ranges:
       - {start: '1', end: '7'}
