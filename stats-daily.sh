@@ -25,8 +25,7 @@ cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |sort -k1,1n |tail -n
 # Clean up older (than 7 days), large .csv files.
 find "${statedir}" -type f -name "*.csv" -mtime +7 -exec rm -f {} \;
 
-cd "${statedir}" || exit
-"${srcdir}/stats.py" > "${statedir}/stats.json"
+"${srcdir}/stats.py" "${statedir}" > "${statedir}/stats.json"
 
 cp -- "${statedir}/stats.json" "${htmldir}/stats.json"
 

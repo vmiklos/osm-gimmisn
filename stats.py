@@ -11,16 +11,18 @@ from typing import Any
 from typing import Dict
 import datetime
 import json
+import os
+import sys
 import time
 
 
-def handle_progress(j: Dict[str, Any]) -> None:
+def handle_progress(src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for a global progressbar."""
     ret: Dict[str, Any] = {}
-    with open("ref.count", "r") as stream:
+    with open(os.path.join(src_root, "ref.count"), "r") as stream:
         num_ref = int(stream.read().strip())
     today = time.strftime("%Y-%m-%d")
-    with open("%s.count" % today, "r") as stream:
+    with open(os.path.join(src_root, "%s.count" % today), "r") as stream:
         num_osm = int(stream.read().strip())
     percentage = round(num_osm * 100 / num_ref, 2)
     ret["date"] = today
@@ -30,11 +32,11 @@ def handle_progress(j: Dict[str, Any]) -> None:
     j["progress"] = ret
 
 
-def handle_topusers(j: Dict[str, Any]) -> None:
+def handle_topusers(src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for top users."""
     today = time.strftime("%Y-%m-%d")
     ret = []
-    with open("%s.topusers" % today, "r") as stream:
+    with open(os.path.join(src_root, "%s.topusers" % today), "r") as stream:
         for line in stream.readlines():
             line = line.strip()
             count, _, user = line.partition(' ')
@@ -42,7 +44,7 @@ def handle_topusers(j: Dict[str, Any]) -> None:
     j["topusers"] = ret
 
 
-def handle_daily_new(j: Dict[str, Any]) -> None:
+def handle_daily_new(src_root: str, j: Dict[str, Any]) -> None:
     """Shows # of new housenumbers / day."""
     ret = []
     prev_count = 0
@@ -50,7 +52,7 @@ def handle_daily_new(j: Dict[str, Any]) -> None:
     for day_offset in range(7, -1, -1):
         day_delta = datetime.date.today() - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
-        with open("%s.count" % day, "r") as stream:
+        with open(os.path.join(src_root, "%s.count" % day), "r") as stream:
             count = int(stream.read().strip())
         if prev_count:
             ret.append([prev_day, count - prev_count])
@@ -59,13 +61,13 @@ def handle_daily_new(j: Dict[str, Any]) -> None:
     j["daily"] = ret
 
 
-def handle_daily_total(j: Dict[str, Any]) -> None:
+def handle_daily_total(src_root: str, j: Dict[str, Any]) -> None:
     """Shows # of total housenumbers / day."""
     ret = []
     for day_offset in range(6, -1, -1):
         day_delta = datetime.date.today() - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
-        with open("%s.count" % day, "r") as stream:
+        with open(os.path.join(src_root, "%s.count" % day), "r") as stream:
             count = int(stream.read().strip())
         ret.append([day, count])
     j["dailytotal"] = ret
@@ -73,11 +75,12 @@ def handle_daily_total(j: Dict[str, Any]) -> None:
 
 def main() -> None:
     """Commandline interface to this module."""
+    src_root = sys.argv[1]
     j: Dict[str, Any] = {}
-    handle_progress(j)
-    handle_topusers(j)
-    handle_daily_new(j)
-    handle_daily_total(j)
+    handle_progress(src_root, j)
+    handle_topusers(src_root, j)
+    handle_daily_new(src_root, j)
+    handle_daily_total(src_root, j)
     print(json.dumps(j))
 
 
