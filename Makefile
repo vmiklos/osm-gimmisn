@@ -119,7 +119,7 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 %.validyaml : %.yaml validator.py
 	$(QUIET_VALIDATOR)./validator.py $< && touch $@
 
-%.yamllint : %.yaml
+%.yamllint : %.yaml Makefile .yamllint
 	$(QUIET_YAMLLINT)yamllint $< && touch $@
 
 # Make sure that the current directory is *not* the repo root but the home directory, this matches
