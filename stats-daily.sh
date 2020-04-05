@@ -10,20 +10,24 @@
 # data. It doesn't necessarily run on the same machine as cron.py.
 #
 
-cd "$(dirname "$0")" || exit
+srcdir="$(dirname "$0")"
+statedir="$(dirname "$0")/workdir/stats/"
+htmldir="$(dirname "$0")/workdir/stats-htdocs/"
+mkdir -p "${statedir}"
+mkdir -p "${htmldir}"
+
 date="$(date +%Y-%m-%d)"
-./overpass_query.py data/street-housenumbers-hungary.txt > "${date}.csv"
+"${srcdir}/overpass_query.py" "${srcdir}/data/street-housenumbers-hungary.txt" > "${statedir}/${date}.csv"
 # Ignore 5th field, which is the user who touched the object last.
-sed '1d' "${date}.csv" |cut -d $'\t' -f 1-4 |sort -u|wc -l > "${date}.count"
-cut -d $'\t' -f 5 "${date}.csv" |sort |uniq -c |sort -k1,1n |tail -n 20 |tac > "${date}.topusers"
+sed '1d' "${statedir}/${date}.csv" |cut -d $'\t' -f 1-4 |sort -u|wc -l > "${statedir}/${date}.count"
+cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |sort -k1,1n |tail -n 20 |tac > "${statedir}/${date}.topusers"
 
 # Clean up older (than 7 days), large .csv files.
-find . -type f -name "*.csv" -mtime +7 -exec rm -f {} \;
+find "${statedir}" -type f -name "*.csv" -mtime +7 -exec rm -f {} \;
 
-./stats.py > stats.json
+cd "${statedir}" || exit
+"${srcdir}/stats.py" > "${statedir}/stats.json"
 
-prod="workdir/stats-htdocs/"
-mkdir -p "${prod}"
-cp -- *.html *.js *.json "${prod}/"
+cp -- "${statedir}/stats.json" "${htmldir}/stats.json"
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
