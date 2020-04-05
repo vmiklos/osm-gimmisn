@@ -41,7 +41,7 @@ filters:
     ranges:
       - {start: '1', end: '21'}
   Irinyi József utca:
-    invalid: ['31a', '31b', '28', '32', '36']  # 28a..c,32a..c, 36a..c
+    invalid: ['4a', '31a', '31b', '28', '32', '36']  # 4-20,28a..c,32a..c, 36a..c
     ranges:
       # Kollegium 1-17, Science Park 4-20
       - {start: '1', end: '1'}
@@ -62,7 +62,7 @@ filters:
     invalid: ['14a', '14b']
   Magyar tudósok körútja:
     # 9 inforpark
-    invalid: ['2a', '2b', '2c', '2d']
+    invalid: ['2a', '2b', '2c', '2d', '2q']
     ranges:
       - {start: '1', end: '7'}
       - {start: '11', end: '11'}
