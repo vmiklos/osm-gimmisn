@@ -32,7 +32,7 @@ filters:
       - {start: '9', end: '11'}
       - {start: '2', end: '16'}
   Ördögorom lejtő:
-    invalid: ['1b', '25', '32', '34', '36b']
+    invalid: ['1b', '6a', '7a', '25', '32', '34', '36b']
     ranges:
       # 45-53 között telkek hazszam nelkul
       - {start: '1', end: '45'}
