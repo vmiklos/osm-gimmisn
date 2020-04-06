@@ -21,4 +21,17 @@ table, th, td {
     border-style: solid;
 }
 
+div.canvasblock {
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #7f7f7f;
+    padding: 5px;
+}
+@media screen and (min-width: 1024px) {
+    div.canvasblock {
+        width: 75%;
+    }
+}
+
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

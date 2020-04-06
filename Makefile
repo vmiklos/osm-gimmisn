@@ -139,7 +139,7 @@ update-po: po/osm-gimmisn.pot Makefile
 	msgmerge --update po/hu/osm-gimmisn.po po/osm-gimmisn.pot
 
 locale/hu/LC_MESSAGES/osm-gimmisn.mo: po/hu/osm-gimmisn.po Makefile
-	$(QUIET_MSGFMT)msgfmt --check --output-file=$@ $<
+	$(QUIET_MSGFMT)msgfmt --check --statistics --output-file=$@ $<
 
 tags:
 	ctags --python-kinds=-iv --fields=+l --extra=+q -R --totals=yes *

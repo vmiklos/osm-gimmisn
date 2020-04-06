@@ -739,5 +739,15 @@ class TestStatic(TestWsgi):
         self.assertTrue(result.startswith("/*"))
 
 
+class TestStats(TestWsgi):
+    """Tests handle_stats()."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        root = self.get_dom_for_path("/osm/housenumber-stats/hungary/")
+        results = root.findall("body/h2")
+        # 4 chart types + note
+        self.assertEqual(len(results), 5)
+
+
 if __name__ == '__main__':
     unittest.main()

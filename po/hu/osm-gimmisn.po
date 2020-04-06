@@ -17,142 +17,158 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: wsgi.py:165 wsgi.py:204
+#: wsgi.py:210 wsgi.py:251
 #, python-brace-format
 msgid " (existing: {0}, ready: {1}%)."
 msgstr " (meglévő: {0}, készültség: {1}%)."
 
-#: wsgi.py:685 wsgi.py:700 wsgi.py:710
+#: webframe.py:59 webframe.py:74 webframe.py:84
 msgid "(may take seconds)"
 msgstr "másodpercekig tarthat"
 
-#: wsgi.py:627
+#: wsgi.py:693
 msgid "Add new area"
 msgstr "Új terület hozzáadása"
 
-#: wsgi.py:614
+#: wsgi.py:96
+msgid "All house numbers"
+msgstr "Minden házszám"
+
+#: wsgi.py:680
 msgid "Area"
 msgstr "Terület"
 
-#: wsgi.py:619 wsgi.py:761
+#: webframe.py:152 wsgi.py:685
 msgid "Area boundary"
 msgstr "Terület határa"
 
-#: wsgi.py:747
+#: webframe.py:138
 msgid "Area list"
 msgstr "Területek listája"
 
-#: wsgi.py:149 wsgi.py:153 wsgi.py:189
+#: wsgi.py:192 wsgi.py:197 wsgi.py:235
 msgid "Call Overpass to create"
 msgstr "Létrehozás Overpass hívásával"
 
-#: wsgi.py:699 wsgi.py:709
+#: webframe.py:73 webframe.py:83
 msgid "Call Overpass to update"
 msgstr "Frissítés Overpass hívásával"
 
-#: wsgi.py:157 wsgi.py:193
+#: wsgi.py:98
+msgid "Coverage"
+msgstr "Lefedettség"
+
+#: wsgi.py:202 wsgi.py:240
 msgid "Create from reference"
 msgstr "Létrehozás referenciából"
 
-#: wsgi.py:765
+#: webframe.py:162
 msgid "Documentation"
 msgstr "Dokumentáció"
 
-#: wsgi.py:616 wsgi.py:646
+#: webframe.py:108 wsgi.py:682
 msgid "Existing house numbers"
 msgstr "Meglévő házszámok"
 
-#: wsgi.py:618 wsgi.py:753
+#: webframe.py:144 wsgi.py:684
 msgid "Existing streets"
 msgstr "Meglévő utcák"
 
-#: wsgi.py:168
+#: wsgi.py:213
 msgid "Filter incorrect information"
 msgstr "Téves információ szűrése"
 
-#: wsgi.py:517
+#: wsgi.py:583
 msgid "Filters:"
 msgstr "Szűrők:"
 
-#: wsgi.py:508
+#: wsgi.py:574
 msgid "Hide complete areas"
 msgstr "Kész területek elrejtése"
 
-#: wsgi.py:615
+#: wsgi.py:681
 msgid "House number coverage"
 msgstr "Házszám lefedettség"
 
-#: areas.py:467
+#: areas.py:480
 msgid "House numbers"
 msgstr "Házszámok"
 
-#: wsgi.py:966
+#: webframe.py:220
 #, python-brace-format
 msgid "Internal error when serving {0}"
 msgstr "Belső hiba a {0} kiszolgálása során"
 
-#: wsgi.py:787
+#: webframe.py:42
 msgid "Last update: "
 msgstr "Utolsó frissítés: "
 
-#: areas.py:466
+#: areas.py:479
 msgid "Missing count"
 msgstr "Hiányzik db"
 
-#: wsgi.py:638
+#: webframe.py:97
 msgid "Missing house numbers"
 msgstr "Hiányzó házszámok"
 
-#: wsgi.py:651
+#: webframe.py:113
 msgid "Missing streets"
 msgstr "Hiányzó utcák"
 
-#: wsgi.py:221
+#: wsgi.py:95
+msgid "New house numbers"
+msgstr "Új házszámok"
+
+#: wsgi.py:154 wsgi.py:268 wsgi.py:306
 msgid "No existing house numbers"
 msgstr "Nincsenek meglévő házszámok"
 
-#: wsgi.py:151
+#: wsgi.py:195
 msgid "No existing house numbers: "
 msgstr "Nincsenek meglévő házszámok: "
 
-#: wsgi.py:219 wsgi.py:252
+#: wsgi.py:266 wsgi.py:304 wsgi.py:343
 msgid "No existing streets"
 msgstr "Nincsenek meglévő utcák"
 
-#: wsgi.py:147 wsgi.py:187
+#: wsgi.py:190 wsgi.py:233
 msgid "No existing streets: "
 msgstr "Nincsenek meglévő utcák: "
 
-#: wsgi.py:155
+#: wsgi.py:200
 msgid "No missing house numbers: "
 msgstr "Nincsenek hiányzó házszámok: "
 
-#: wsgi.py:223
+#: wsgi.py:270 wsgi.py:308
 msgid "No reference house numbers"
 msgstr "Nincsenek referencia házszámok"
 
-#: wsgi.py:254
+#: wsgi.py:345
 msgid "No reference streets"
 msgstr "Nincsenek referencia utcák"
 
-#: wsgi.py:191
+#: wsgi.py:238
 msgid "No street list: "
 msgstr "Nincsen utcalista: "
 
-#: wsgi.py:882
+#: wsgi.py:809
 #, python-brace-format
 msgid "No such relation: {0}"
 msgstr "Nincs ilyen reláció: {0}"
 
-#: util.py:279
+#: wsgi.py:115
+msgid "Note"
+msgstr "Megjegyzés"
+
+#: util.py:394
 msgid "Note: wait for {} seconds"
 msgstr "Megjegyzés: {} másodperc várakozás szükséges"
 
-#: wsgi.py:785
+#: webframe.py:40
 msgid "OSM data © OpenStreetMap contributors."
 msgstr "OSM adatok © OpenStreetMap közreműködők."
 
-#: wsgi.py:163
+#: wsgi.py:208
 #, python-brace-format
 msgid ""
 "OpenStreetMap is possibly missing the below {0} house numbers for {1} "
@@ -161,85 +177,107 @@ msgstr ""
 "Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti {1} utcához "
 "tartozó {0} házszámot."
 
-#: wsgi.py:203
+#: wsgi.py:250
 #, python-brace-format
 msgid "OpenStreetMap is possibly missing the below {0} streets."
 msgstr "Elképzelhető, hogy az OpenStreetMap nem tartalmazza a lenti {0} utcát."
 
-#: util.py:275
+#: util.py:390
 #, python-brace-format
 msgid "Overpass error: {0}"
 msgstr "Overpass error: {0}"
 
-#: wsgi.py:689
+#: webframe.py:63
 msgid "Overpass turbo"
 msgstr "Overpass turbo"
 
-#: wsgi.py:172
+#: wsgi.py:217
 msgid "Overpass turbo query for the below streets"
 msgstr "Overpass lekérdezés a lenti utcákra"
 
-#: wsgi.py:617
+#: webframe.py:157
+msgid "Statistics"
+msgstr "Statisztikák"
+
+#: wsgi.py:683
 msgid "Street coverage"
 msgstr "Utca lefedettség"
 
-#: areas.py:465 wsgi.py:198
+#: areas.py:478 wsgi.py:245
 msgid "Street name"
 msgstr "Utcanév"
 
-#: wsgi.py:684 wsgi.py:694
+#: wsgi.py:117
+msgid ""
+"These statistics are provided purely for interested editors, and are not\n"
+"intended to reflect quality of work done by any given editor in OSM. If you "
+"want to use\n"
+"them to motivate yourself, that's fine, but keep in mind that a bit of "
+"useful work is\n"
+"more meaningful than a lot of useless work."
+msgstr ""
+"Ezek a statisztikák az érdeklődő szerkesztők számára készültek, és nem "
+"tükrözik a többi OSM szerkesztő munkájának minőségét. Ha arra akarod őket "
+"használni, hogy motiváljad magad, az rendben van, de ne felejtsd, hogy "
+"kevesebb hasznos munka többet ér, mint sok haszontalan munka."
+
+#: wsgi.py:97
+msgid "Top house number editors"
+msgstr "Legaktívabb házszám szerkesztők"
+
+#: webframe.py:58 webframe.py:68
 msgid "Update from reference"
 msgstr "Frissítés referenciából"
 
-#: wsgi.py:80 wsgi.py:280
+#: wsgi.py:68 wsgi.py:372
 msgid "Update successful."
 msgstr "Frissítés sikeres."
 
-#: wsgi.py:76 wsgi.py:112 wsgi.py:269
+#: wsgi.py:64 wsgi.py:145 wsgi.py:359
 msgid "Update successful: "
 msgstr "Frissítés sikeres: "
 
-#: wsgi.py:782
+#: webframe.py:37
 msgid "Version: "
 msgstr "Verzió: "
 
-#: wsgi.py:78 wsgi.py:114 wsgi.py:271
+#: wsgi.py:66 wsgi.py:147 wsgi.py:361
 msgid "View missing house numbers"
 msgstr "Hiányzó házszámok megtekintése"
 
-#: wsgi.py:704 wsgi.py:714
+#: webframe.py:78 webframe.py:88
 msgid "View query"
 msgstr "Lekérdezés megtekintése"
 
-#: wsgi.py:515 wsgi.py:722
+#: wsgi.py:581 wsgi.py:723
 msgid "Where to map?"
 msgstr "Hol térképezzek?"
 
-#: wsgi.py:594
+#: wsgi.py:660
 msgid "area boundary"
 msgstr "terület határa"
 
-#: wsgi.py:571 wsgi.py:673
+#: wsgi.py:638 wsgi.py:713
 msgid "existing house numbers"
 msgstr "meglévő házszámok"
 
-#: wsgi.py:589 wsgi.py:675
+#: wsgi.py:655 wsgi.py:715
 msgid "existing streets"
 msgstr "meglévő utcák"
 
-#: wsgi.py:421
+#: wsgi.py:489
 msgid "missing house numbers"
 msgstr "hiányzó házszámok"
 
-#: wsgi.py:442 wsgi.py:671
+#: wsgi.py:510 wsgi.py:711
 msgid "missing streets"
 msgstr "hiányzó utcák"
 
-#: wsgi.py:415 wsgi.py:436 wsgi.py:570 wsgi.py:588
+#: wsgi.py:483 wsgi.py:504 wsgi.py:637 wsgi.py:654
 msgid "updated"
 msgstr "frissítve"
 
-#: wsgi.py:669
+#: wsgi.py:709
 #, python-brace-format
 msgid "{0} missing house numbers"
 msgstr "{0} hiányzó házszámok"

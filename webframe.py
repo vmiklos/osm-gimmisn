@@ -151,6 +151,12 @@ def get_toolbar(
         with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation_osmid)):
             doc.text(_("Area boundary"))
         items.append(doc)
+
+    doc = yattag.doc.Doc()
+    with doc.tag("a", href="/osm/housenumber-stats/hungary/"):
+        doc.text(_("Statistics"))
+    items.append(doc)
+
     doc = yattag.doc.Doc()
     with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
         doc.text(_("Documentation"))
