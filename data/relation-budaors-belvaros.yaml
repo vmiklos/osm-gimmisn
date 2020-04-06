@@ -8,7 +8,7 @@ filters:
   Átlós utca:
     ranges: []
   Budapesti út:
-    invalid: ['10','25', '43']
+    invalid: ['10', '25', '43']
     ranges:
       - {start: '1', end: '33'}
       - {start: '39', end: '87'}
