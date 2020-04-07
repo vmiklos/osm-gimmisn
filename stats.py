@@ -49,7 +49,7 @@ def handle_daily_new(src_root: str, j: Dict[str, Any]) -> None:
     ret = []
     prev_count = 0
     prev_day = ""
-    for day_offset in range(7, -1, -1):
+    for day_offset in range(14, -1, -1):
         day_delta = datetime.date.today() - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
         with open(os.path.join(src_root, "%s.count" % day), "r") as stream:
@@ -64,7 +64,7 @@ def handle_daily_new(src_root: str, j: Dict[str, Any]) -> None:
 def handle_daily_total(src_root: str, j: Dict[str, Any]) -> None:
     """Shows # of total housenumbers / day."""
     ret = []
-    for day_offset in range(6, -1, -1):
+    for day_offset in range(13, -1, -1):
         day_delta = datetime.date.today() - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
         with open(os.path.join(src_root, "%s.count" % day), "r") as stream:

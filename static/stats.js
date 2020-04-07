@@ -28,7 +28,7 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "New house numbers, last week, as of " + progress.date,
+                text: "New house numbers, last 2 weeks, as of " + progress.date,
             },
             scales: {
                 xAxes: [{
@@ -76,7 +76,7 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "All house numbers, last week, as of " + progress.date,
+                text: "All house numbers, last 2 weeks, as of " + progress.date,
             },
             scales: {
                 xAxes: [{
