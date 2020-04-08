@@ -12,6 +12,10 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '30'}
+  Bölcsőde utca:
+    ranges: []
+  Emma köz:
+    ranges: []
   Egressy út:
     ranges:
       - {start: '92', end: '112'}
@@ -32,5 +36,9 @@ filters:
   Thököly út:
     ranges:
       - {start: '157', end: '999'}
+  Torontál utca:
+    ranges: []
+  Újvilág utca:
+    ranges: []
 source: survey
 inactive: false
