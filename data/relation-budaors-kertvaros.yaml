@@ -4,10 +4,9 @@ filters:
     # nem kertváros
     ranges: []
   Aradi utca:
-    # felmérendő
     ranges:
       - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '8', end: '98'}
   Avar utca:
     # újraszámozva, keveredik páros/páratlan
     ranges:
@@ -21,7 +20,7 @@ filters:
   Budafoki utca:
     # páratlan kertváros, páros vegyes
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '65'}
   Budapesti út:
     invalid: ['25', '43']
     ranges:
