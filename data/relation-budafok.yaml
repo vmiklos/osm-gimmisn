@@ -14,13 +14,15 @@ filters:
     # 145/A: csak sima 145 van.
     # 149: sima 149 nincs, csak 149/A, 149/B.
     # 32/C: nincs ilyen, a 32/B után a 32/D következik.
+    # 44: sima 44 nincs, csak 44/A, 44/B.
     # 50: a 48-50 egyetlen épület közös telken, de a házszám csak 48.
     # 96: sima 96 nincs, csak 96/A, 96/B.
     # 98/B: csak sima 98 van.
     # 102/A: csak sima 102 van.
+    # 104: sima 104 nincs, csak 104/A, 104/1 (nem elírás).
     # 110: sima 110 nincs, csak 110/A, 110/B, 110/C.
     # 120: a 118-120 egyetlen telek, de a házszám csak 118.
-    invalid: ['39a', '45a', '49a', '81', '83', '83b', '131', '145a', '149', '32c', '50', '96', '98b', '102a', '110', '120']
+    invalid: ['39a', '45a', '49a', '81', '83', '83b', '131', '145a', '149', '32c', '44', '50', '96', '98b', '102a', '104', '110', '120']
   Arató utca:
     # 14: a páros oldalon a 12 az utolsó házszám.
     invalid: ['14']
@@ -93,6 +95,11 @@ filters:
     # 6: üres telek.
     # 12: ez és a Szent Gellért utca 40. közös telken van, házszám a Szent Gellét utca felől van csak.
     invalid: ['1', '3', '7', '13', '2', '6', '12']
+  Hír utca:
+    # 1: ez és a Kőérberki út 4. közös telken van, házszám a Kőérberki útról van csak.
+    # 4/A: nincs ilyen, csak 4, 4/B.
+    # 24/A: nincs ilyen, csak sima 24.
+    invalid: ['1', '4a', '24a']
   Hittérítő út:
     # 188/B: a páros oldalon a 28 az utolsó házszám.
     invalid: ['188b']
@@ -187,8 +194,9 @@ filters:
     # 10: sima 10 nincs, csak 10/A, 10/B.
     invalid: ['5', '15', '109', '10']
   Kova utca:
+    # 1: ez és a Péter Pál utca 82. közös telken van, házszám a Péter Pál utcáról van csak.
     # 6: sima 6 nincs, csak 6/A, 6/B.
-    invalid: ['6']
+    invalid: ['1', '6']
   Kuruc köz:
     # Ebben az utcában nincsenek házszámok.
     ranges: []
@@ -218,7 +226,8 @@ filters:
     invalid: ['17', '10']
   Május 1. utca:
     # 33: ez és a Dombóvári utca 8/B. közös telken van, házszám a Dombóvári utcáról van csak.
-    invalid: ['33']
+    # 41: a páratlan oldalon a 31 az utolsó házszám.
+    invalid: ['33', '41']
   Mária Terézia utca:
     ranges:
       - {start: '9', end: '11'}
@@ -251,25 +260,23 @@ filters:
   Pécsi utca:
     # 1/C 1: ilyen nincs, csak 1/C.
     # 3/C: nincs ilyen, csak sima 3 van.
-    # 9 1: nincs ilyen, csak sima 9 van.
-    # 9 3: nincs ilyen, csak sima 9 van.
-    # 9-11: csak sima 9 és sima 11 van.
     # 11/A: csak sima 11 van.
     # A páros oldalon nagy a bozót, de mintha 2-10 között lenne.
     # 16: az utcatáblán 2-12 van, de 12 már biztosan nincs. A 10 is kétséges.
-    ranges:
-      - {start: '1', end: '11'}
-      - {start: '2', end: '10'}
     invalid: ['1c 1', '3c', '11a', '16']
+  Pedellus utca:
+    # 25: sima 25 nincs, csak 25/A, 25/B.
+    # 52: sima 52 nincs, csak 52/A, 52/B.
+    invalid: ['25', '52']
   Péter Pál utca:
     # 97: a 95 után közvetlenül a 99/C következik, nincs 97.
     # 99/B: a 95 után közvetlenül a 99/C következik, nincs 99/B.
-    # 149: nincs sima 149, csak 149/A, 149/B.
-    # 151: nincs sima 151, csak 151/A, 151/B.
-    # 155: nincs sima 155, csak 155/A, 155/B.
-    # 122: nincs sima 122, csak 122/A, 122/B.
+    # 149: sima 149 nincs, csak 149/A, 149/B.
+    # 151: sima 151 nincs, csak 151/A, 151/B.
+    # 155: sima 155 nincs, csak 155/A, 155/B.
+    # 122: sima 122 nincs, csak 122/A, 122/B.
     # 136/A: csak sima 136 és 136/B van kitáblázva.
-    # 140: nincs sima 155, csak 140/A, 140/B.
+    # 140: sima 155 nincs, csak 140/A, 140/B.
     # 456/B: a páros oldalon a 162 az utolsó házszám.
     invalid: ['97', '99b', '149', '151', '155', '122', '136/A', '140', '456b']
   Pogány utca:
@@ -287,7 +294,7 @@ filters:
     # 6/A: nincs ilyen, csak sima 6 van.
     invalid: ['4b', '4d', '6a']
   Remete utca:
-    # 12: nincs sima 12, csak 12/A, 12/B.
+    # 12: sima 12 nincs, csak 12/A, 12/B.
     invalid: ['12']
   Ringló út:
     # Területhatár, a páros oldal nem Budafok.
@@ -305,8 +312,12 @@ filters:
   Síp utca:
     # 5: ez a Budafoki temető lenne, de annak más a házszáma
     invalid: ['5']
+  Szabina út:
+    # 37: ez és a Pedellus utca 39. közös telken van, házszám a Pedellus útról van csak.
+    # 32: ez és a Pedellus utca 41. közös telken van, házszám a Pedellus útról van csak.
+    invalid: ['37', '32']
   Szebeni utca:
-    # 15: nincs sima 15, csak 15/A, 15/B.
+    # 15: sima 15 nincs, csak 15/A, 15/B.
     # 28: a páros oldalon a 22 az utolsó házszám.
     # 46: a páros oldalon a 22 az utolsó házszám.
     invalid: ['15', '28', '46']
@@ -314,8 +325,8 @@ filters:
     # 2: ez és a Pannónia utca 32. közös telken van, házszám a Pannónia utcáról van csak.
     invalid: ['2']
   Szegfű utca:
-    # 17: nincs sima 17, csak 17/A, 17/B.
-    # 2: nincs sima 2, csak 2/A, 2/B.
+    # 17: sima 17 nincs, csak 17/A, 17/B.
+    # 2: sima 2 nincs, csak 2/A, 2/B.
     invalid: ['17', '2']
   Szentendrei utca:
     # 101: a páratlan oldalon a 15 az utolsó házszám.
@@ -329,6 +340,9 @@ filters:
     ranges:
       - {start: '1', end: '31'}
       - {start: '4', end: '34'}
+  Tanító utca:
+    # 7: sima 7 nincs, csak 7/A, 7/B.
+    invalid: ['7']
   Tegzes utca:
     # 11-21: a 11/A mellett közvetlenül a 21 van. Az egyik elhagyott bejáraton valóban van ilyen szám, de mivel a 11 és a 21 megvan külön-külön épületként, ezért ezt nem írnám be.
     # 6/C: a Tegzes utca 16. telekre van kitéve a 6/C tábla is. Nem tudom az okát, de nem illik oda.
