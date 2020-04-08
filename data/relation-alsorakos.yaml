@@ -65,5 +65,8 @@ filters:
   Teleki Blanka utca:
     ranges:
       - {start: '1', end: '15'}
+  Zalán utca:
+    ranges:
+      - {start: '77', end: '81'}
 source: survey
 inactive: false
