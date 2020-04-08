@@ -37,6 +37,8 @@ filters:
   Fenyves utca:
     # erdő
     ranges: []
+  Fodros utca:
+    invalid: ['74']
   Ifjúság utca:
     invalid: ['2', '37']
   Kertész köz:
