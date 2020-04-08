@@ -15,6 +15,8 @@ import os
 import sys
 import time
 
+import dateutil.relativedelta
+
 
 def handle_progress(src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for a global progressbar."""
@@ -61,6 +63,25 @@ def handle_daily_new(src_root: str, j: Dict[str, Any]) -> None:
     j["daily"] = ret
 
 
+def handle_monthly_new(src_root: str, j: Dict[str, Any]) -> None:
+    """Shows # of new housenumbers / month."""
+    ret = []
+    prev_count = 0
+    prev_month = ""
+    for month_offset in range(12, -1, -1):
+        # datetime.timedelta does not support months
+        month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset)
+        # Get the first day of each month.
+        month = month_delta.replace(day=1).strftime("%Y-%m-%d")
+        with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
+            count = int(stream.read().strip())
+        if prev_count:
+            ret.append([prev_month, count - prev_count])
+        prev_count = count
+        prev_month = month
+    j["monthly"] = ret
+
+
 def handle_daily_total(src_root: str, j: Dict[str, Any]) -> None:
     """Shows # of total housenumbers / day."""
     ret = []
@@ -81,6 +102,7 @@ def main() -> None:
     handle_topusers(src_root, j)
     handle_daily_new(src_root, j)
     handle_daily_total(src_root, j)
+    handle_monthly_new(src_root, j)
     print(json.dumps(j))
 
 

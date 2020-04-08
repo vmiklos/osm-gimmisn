@@ -9,6 +9,7 @@
 function addCharts(stats) {
     var daily = stats.daily;
     var dailytotal = stats.dailytotal;
+    var monthly = stats.monthly;
     var topusers = stats.topusers;
     var progress = stats.progress;
 
@@ -29,6 +30,54 @@ function addCharts(stats) {
             title: {
                 display: true,
                 text: "New house numbers, last 2 weeks, as of " + progress.date,
+            },
+            scales: {
+                xAxes: [{
+                    ticks: { suggestedMin: 0, },
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Time"
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "New house numbers"
+                    },
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    align: "top",
+                    anchor: "end",
+                }
+            },
+            tooltips: {
+                enabled: false,
+            },
+            legend: {
+                display: false,
+            },
+        }
+    });
+
+    var monthlyData = {
+        // monthly is a list of label-data pairs.
+        labels: monthly.map(x => x[0]),
+        datasets: [{
+            backgroundColor: "rgba(0, 255, 0, 0.5)",
+            data: monthly.map(x => x[1]),
+        }]
+
+    };
+    var monthlyCtx = document.getElementById("monthly").getContext("2d");
+    new Chart(monthlyCtx, {
+        type: "bar",
+        data: monthlyData,
+        options: {
+            title: {
+                display: true,
+                text: "New house numbers, last month, as of " + progress.date,
             },
             scales: {
                 xAxes: [{
