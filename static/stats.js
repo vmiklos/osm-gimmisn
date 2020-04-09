@@ -10,6 +10,7 @@ function addCharts(stats) {
     var daily = stats.daily;
     var dailytotal = stats.dailytotal;
     var monthly = stats.monthly;
+    var monthlytotal = stats.monthlytotal;
     var topusers = stats.topusers;
     var progress = stats.progress;
 
@@ -20,7 +21,6 @@ function addCharts(stats) {
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: daily.map(x => x[1]),
         }]
-
     };
     var dailyCtx = document.getElementById("daily").getContext("2d");
     new Chart(dailyCtx, {
@@ -68,7 +68,6 @@ function addCharts(stats) {
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: monthly.map(x => x[1]),
         }]
-
     };
     var monthlyCtx = document.getElementById("monthly").getContext("2d");
     new Chart(monthlyCtx, {
@@ -77,7 +76,7 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "New house numbers, last month, as of " + progress.date,
+                text: "New house numbers, last year, as of " + progress.date,
             },
             scales: {
                 xAxes: [{
@@ -109,6 +108,52 @@ function addCharts(stats) {
         }
     });
 
+    var monthlytotalData = {
+        // monthlytotal is a list of label-data pairs.
+        labels: monthlytotal.map(x => x[0]),
+        datasets: [{
+            backgroundColor: "rgba(0, 255, 0, 0.5)",
+            data: monthlytotal.map(x => x[1]),
+        }]
+    };
+    var monthlyTotalCtx = document.getElementById("monthlytotal").getContext("2d");
+    new Chart(monthlyTotalCtx, {
+        type: "line",
+        data: monthlytotalData,
+        options: {
+            title: {
+                display: true,
+                text: "All house numbers, last year, as of " + progress.date,
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Time"
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "All house numbers"
+                    },
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    align: "top",
+                    anchor: "end",
+                }
+            },
+            tooltips: {
+                enabled: false,
+            },
+            legend: {
+                display: false,
+            },
+        }
+    });
+
     var dailytotalData = {
         // dailytotal is a list of label-data pairs.
         labels: dailytotal.map(x => x[0]),
@@ -116,8 +161,8 @@ function addCharts(stats) {
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: dailytotal.map(x => x[1]),
         }]
-
     };
+
     var dailyTotalCtx = document.getElementById("dailytotal").getContext("2d");
     new Chart(dailyTotalCtx, {
         type: "line",

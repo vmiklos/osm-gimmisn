@@ -94,6 +94,20 @@ def handle_daily_total(src_root: str, j: Dict[str, Any]) -> None:
     j["dailytotal"] = ret
 
 
+def handle_monthly_total(src_root: str, j: Dict[str, Any]) -> None:
+    """Shows # of total housenumbers / month."""
+    ret = []
+    for month_offset in range(11, -1, -1):
+        # datetime.timedelta does not support months
+        month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset)
+        # Get the first day of each month.
+        month = month_delta.replace(day=1).strftime("%Y-%m-%d")
+        with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
+            count = int(stream.read().strip())
+        ret.append([month, count])
+    j["monthlytotal"] = ret
+
+
 def main() -> None:
     """Commandline interface to this module."""
     src_root = sys.argv[1]
@@ -103,6 +117,7 @@ def main() -> None:
     handle_daily_new(src_root, j)
     handle_daily_total(src_root, j)
     handle_monthly_new(src_root, j)
+    handle_monthly_total(src_root, j)
     print(json.dumps(j))
 
 

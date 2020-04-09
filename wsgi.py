@@ -95,6 +95,7 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
         (_("New house numbers"), "daily"),
         (_("All house numbers"), "dailytotal"),
         (_("New house numbers, monthly"), "monthly"),
+        (_("All house numbers, monthly"), "monthlytotal"),
         (_("Top house number editors"), "topusers"),
         (_("Coverage"), "progress"),
     ]
