@@ -79,6 +79,13 @@ def handle_monthly_new(src_root: str, j: Dict[str, Any]) -> None:
             ret.append([prev_month[:len("YYYY-MM")], count - prev_count])
         prev_count = count
         prev_month = month
+
+    # Also show the current, incomplete month.
+    day = datetime.date.today().strftime("%Y-%m-%d")
+    with open(os.path.join(src_root, "%s.count" % day), "r") as stream:
+        count = int(stream.read().strip())
+    ret.append([day[:len("YYYY-MM")], count - prev_count])
+
     j["monthly"] = ret
 
 
