@@ -17,7 +17,7 @@ mkdir -p "${statedir}"
 mkdir -p "${htmldir}"
 
 date="$(date +%Y-%m-%d)"
-##"${srcdir}/overpass_query.py" "${srcdir}/data/street-housenumbers-hungary.txt" > "${statedir}/${date}.csv"
+"${srcdir}/overpass_query.py" "${srcdir}/data/street-housenumbers-hungary.txt" > "${statedir}/${date}.csv"
 # Ignore 5th field, which is the user who touched the object last.
 sed '1d' "${statedir}/${date}.csv" |cut -d $'\t' -f 1-4 |sort -u|wc -l > "${statedir}/${date}.count"
 cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |sort -k1,1n |tail -n 20 |tac > "${statedir}/${date}.topusers"

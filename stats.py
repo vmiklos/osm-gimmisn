@@ -76,7 +76,7 @@ def handle_monthly_new(src_root: str, j: Dict[str, Any]) -> None:
         with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
             count = int(stream.read().strip())
         if prev_count:
-            ret.append([prev_month, count - prev_count])
+            ret.append([prev_month[:len("YYYY-MM")], count - prev_count])
         prev_count = count
         prev_month = month
     j["monthly"] = ret
@@ -104,7 +104,7 @@ def handle_monthly_total(src_root: str, j: Dict[str, Any]) -> None:
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
         with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
             count = int(stream.read().strip())
-        ret.append([month, count])
+        ret.append([month[:len("YYYY-MM")], count])
     j["monthlytotal"] = ret
 
 
