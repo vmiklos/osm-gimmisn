@@ -37,6 +37,7 @@ PYTHON_SAFE_OBJECTS = \
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
+	cherry.py \
 	stats.py \
 
 # These are valid.
@@ -128,7 +129,7 @@ server:
 deploy-pythonanywhere:
 	git pull -r
 	make
-	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py
+	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py || true
 
 update-pot: areas.py webframe.py wsgi.py util.py Makefile
 	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)

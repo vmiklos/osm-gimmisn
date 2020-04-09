@@ -34,16 +34,30 @@ make
 make check
 ----
 
-- Create a local config:
+- Create a local config and working directory:
 
 ----
 cp data/wsgi.ini.template wsgi.ini
+mkdir workdir
 ----
 
-Populate the reference directory with TSV files for the house number and street list, then run:
+Populate the reference directory with TSV files for the house number and street list.
+
+== Developer setup
 
 ----
 make server
 ----
 
 This allows accessing your local instance for development.
+
+== Production setup
+
+- A more production-friendly launcher is provided as `cherry.py`.
+
+- A sample `osm-gimmisn.service` is provided, you can copy that to
+  `/etc/systemd/system/osm-gimmisn.service` and customize it to your needs.
+
+- Use `systemctl start osm-gimmisn.service` to run the app server.
+
+- Optionally, set up a reverse proxy with SSL support.
