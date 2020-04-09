@@ -1,5 +1,3 @@
-# See <https://docs.python.org/3/tutorial/venv.html> on how to easily use
-# exactly these versions locally.
 coverage==5.0.4
 flake8==3.7.9
 mypy==0.770

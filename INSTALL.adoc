@@ -1,33 +1,28 @@
 = Install instructions
 
-== Linux (openSUSE Leap 15.1)
+- Install `git`
 
-- Install git
+- Install Python (3.6 or newer)
+
+- Install `make`
 
 - Clone the repo:
 
 ----
-git clone <this repo URL>
-----
-
-- Install Python (3.5 or 3.7)
-
-- Install Python dependencies (you can also use `pip` instead, see below):
-
-----
+git clone https://github.com/vmiklos/osm-gimmisn
 cd osm-gimmisn
-sudo zypper install mypy
-sudo zypper install python3-PyYAML
-sudo zypper install python3-coverage
-sudo zypper install python3-flake8
-sudo zypper install python3-pylint
-sudo zypper install python3-pytz
-sudo zypper install python3-yamllint
 ----
 
-- Install `make`
+- Set up a virtual environment, see <https://docs.python.org/3/tutorial/venv.html>. This makes sure
+  that you will have exactly the same version of the depdendencies as everyone else.
 
-- Build the generated code:
+- Install Python dependencies:
+
+----
+pip install -r requirements.txt
+----
+
+- Build the generated code and data:
 
 ----
 make
@@ -49,51 +44,6 @@ Populate the reference directory with TSV files for the house number and street 
 
 ----
 make server
-----
-
-This allows accessing your local instance for development.
-
-== Windows (10)
-
-- Install git from <https://git-scm.com/download/win>, so you can clone the repo in the Command
-  Prompt
-
-- Clone the repo:
-
-----
-git clone <this repo URL>
-----
-
-- Install Python (3.7) from the Microsoft Store.
-
-- Install Python dependencies:
-
-----
-cd osm-gimmisn
-pip install -r requirements.txt
-----
-
-- Install `make`, you can find an executable via mingw, see
-  <http://www.mingw.org/wiki/Getting_Started>.
-
-- Build the generated code:
-
-----
-make
-----
-
-- Run the tests: not supported on Windows at the moment
-
-- Create a local config:
-
-----
-copy data\wsgi.ini.template wsgi.ini
-----
-
-Populate the reference directory with TSV files for the house number and street list, then run:
-
-----
-python wsgi.py
 ----
 
 This allows accessing your local instance for development.
