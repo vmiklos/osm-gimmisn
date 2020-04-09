@@ -57,8 +57,6 @@ YAML_TEST_OBJECTS = \
 	tests/data/refcounty-names.yaml \
 	tests/data/refsettlement-names.yaml \
 
-export PYTHONWARNINGS=error
-
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
 	QUIET_MSGFMT = @echo '   ' MSGMFT $@;
@@ -102,10 +100,10 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
 # pylint itself raises some warnings, ignore them.
 %.pylint : %.py Makefile .pylintrc
-	$(QUIET_PYLINT)PYTHONWARNINGS= pylint $< && touch $@
+	$(QUIET_PYLINT)pylint $< && touch $@
 
 %.mypy: %.py Makefile
-	$(QUIET_MYPY)PYTHONWARNINGS= mypy --python-version 3.6 --strict --no-error-summary $< && touch $@
+	$(QUIET_MYPY)mypy --python-version 3.6 --strict --no-error-summary $< && touch $@
 
 %.flake8: %.py Makefile
 	$(QUIET_FLAKE8)flake8 $< && touch $@
