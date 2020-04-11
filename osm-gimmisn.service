@@ -3,10 +3,10 @@ Description=Finds objects missing from the OSM DB.
 After=network.target
 
 [Service]
-ExecStart=/home/vmiklos/git/osm-gimmisn/osm-gimmisn-env/bin/python3 /home/vmiklos/git/osm-gimmisn/cherry.py
+ExecStart=/home/osm-gimmisn/git/osm-gimmisn/osm-gimmisn-env/bin/python3 /home/osm-gimmisn/git/osm-gimmisn/cherry.py
 Restart=on-failure
 RestartSec=1s
-User=vmiklos
+User=osm-gimmisn
 
 [Install]
 WantedBy=multi-user.target
