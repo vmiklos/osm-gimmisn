@@ -13,8 +13,9 @@ env:
     secure: cMZpd+2Ktja2/857d09iRGDDwmubaMuSKXvPxfmqkC9jEma8hT8awq77xpMeKYbSDPCfqShM3Q+JWuuV1TNXCJVRemymCAkZZRGpLjXfTqlSryTJxWc/gkwTC90luiB2+HqO1WxacRTeBzmSipyl3kAXi56V9RdSBQNaXmS5RJfTYBwbs5hvsR0EUP3oXfUgpo62hK3LQPrQ5U4/GInFGoi9Q7XfVrWLvXZNovzedjHB3dHVygMnNaBm66JnWM4coeyur29azUNtKRXnH89OUzOXV7T6OUhd2/yzJeEn5xsO0fbNkixiajHgHLLSAYyla0GsACM6mBIn+oyaEjci6fm8Ixd9cHRc9poy6l9krYahKjTy3Jo+JL5YOqpMqdPKtU8k6p9msqe0y3gVF0U6h+rtmuO8ngiiM2ssSe0n11DYAB7Ik/gw8GPaIpR/U/eZdQ8jY04Y01nWPx5+Ma+wnRNaVOuXBFN+7k6r/69OcHQ6RnpWeju4od5So27xPCNGIN8+htuAbhYKJryL4QJrOvM8rAn1TFk8bcf9+Ct8OFEu1/xLJasOotwNKBMArhgRZgkyx3cslN0fYi3u8QOjW+E/uYKSuX5fSOL0BWmr4t4CKoTDcjJaejzm2TwWk8ZEiGpyNzGZQcUVnCuKQwyF8IQb4IZBaetvm9H1At0iQWA=
 notifications:
     webhooks:
+        if: branch = master
         urls:
             - "https://scalar.vector.im/api/neb/services/hooks/dHJhdmlzLWNpLyU0MGJraWwlM0FncmluLmh1LyUyMWlWRllVTGhlVnBKcXBnSHJaSCUzQW1hdHJpeC5vcmc"
-        on_success: change  # always|never|change
+        on_success: always  # always|never|change
         on_failure: always
         on_start: never
