@@ -59,8 +59,9 @@ class TestWsgi(unittest.TestCase):
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
+            prefix = util.Config.get_uri_prefix()
             environ = {
-                "PATH_INFO": path
+                "PATH_INFO": prefix + path
             }
             callback = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
@@ -84,8 +85,9 @@ class TestWsgi(unittest.TestCase):
                 self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
+            prefix = util.Config.get_uri_prefix()
             environ = {
-                "PATH_INFO": path
+                "PATH_INFO": prefix + path
             }
             callback = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
@@ -103,8 +105,9 @@ class TestWsgi(unittest.TestCase):
             self.assertEqual(header_dict["Content-type"], "application/x-javascript; charset=utf-8")
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
+            prefix = util.Config.get_uri_prefix()
             environ = {
-                "PATH_INFO": path
+                "PATH_INFO": prefix + path
             }
             callback = cast('StartResponse', start_response)
             output_iterable = wsgi.application(environ, callback)
@@ -118,13 +121,13 @@ class TestStreets(TestWsgi):
     """Tests handle_streets()."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm/streets/gazdagret/view-result")
+        root = self.get_dom_for_path("/streets/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_view_query_well_formed(self) -> None:
         """Tests if the view-query output is well-formed."""
-        root = self.get_dom_for_path("/osm/streets/gazdagret/view-query")
+        root = self.get_dom_for_path("/streets/gazdagret/view-query")
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
@@ -138,7 +141,7 @@ class TestStreets(TestWsgi):
             buf.seek(0)
             return buf
         with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/osm/streets/gazdagret/update-result")
+            root = self.get_dom_for_path("/streets/gazdagret/update-result")
             results = root.findall("body")
             self.assertEqual(len(results), 1)
 
@@ -148,7 +151,7 @@ class TestStreets(TestWsgi):
         def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
             raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
         with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/osm/streets/gazdagret/update-result")
+            root = self.get_dom_for_path("/streets/gazdagret/update-result")
             results = root.findall("body/div[@id='overpass-error']")
             self.assertTrue(results)
 
@@ -165,7 +168,7 @@ class TestStreets(TestWsgi):
             buf.seek(0)
             return buf
         with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/osm/streets/ujbuda/update-result")
+            root = self.get_dom_for_path("/streets/ujbuda/update-result")
             results = root.findall("body")
             self.assertEqual(len(results), 1)
 
@@ -174,25 +177,25 @@ class TestMissingHousenumbers(TestWsgi):
     """Tests the missing house numbers page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+        root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_no_such_relation(self) -> None:
         """Tests the output for a non-existing relation."""
-        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret42/view-result")
+        root = self.get_dom_for_path("/missing-housenumbers/gazdagret42/view-result")
         results = root.findall("body/div[@id='no-such-relation-error']")
         self.assertEqual(len(results), 1)
 
     def test_well_formed_compat(self) -> None:
         """Tests if the output is well-formed (URL rewrite)."""
-        root = self.get_dom_for_path("/osm/suspicious-streets/gazdagret/view-result")
+        root = self.get_dom_for_path("/suspicious-streets/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_well_formed_compat_relation(self) -> None:
         """Tests if the output is well-formed (URL rewrite for relation name)."""
-        root = self.get_dom_for_path("/osm/suspicious-streets/budapest_22/view-result")
+        root = self.get_dom_for_path("/suspicious-streets/budapest_22/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
@@ -209,7 +212,7 @@ class TestMissingHousenumbers(TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+                root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
                 results = root.findall("body/div[@id='no-osm-streets']")
                 self.assertEqual(len(results), 1)
 
@@ -226,7 +229,7 @@ class TestMissingHousenumbers(TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+                root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
                 results = root.findall("body/div[@id='no-osm-housenumbers']")
                 self.assertEqual(len(results), 1)
 
@@ -243,19 +246,19 @@ class TestMissingHousenumbers(TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-result")
+                root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
                 results = root.findall("body/div[@id='no-ref-housenumbers']")
                 self.assertEqual(len(results), 1)
 
     def test_view_result_txt(self) -> None:
         """Tests the txt output."""
-        result = self.get_txt_for_path("/osm/missing-housenumbers/budafok/view-result.txt")
+        result = self.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt")
         # Note how 12 is ordered after 2.
         self.assertEqual(result, "Vöröskúti határsor\t[2, 12, 34, 36*]")
 
     def test_view_result_txt_even_odd(self) -> None:
         """Tests the txt output (even-odd streets)."""
-        result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+        result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
         expected = """Hamzsabégi út	[1]
 Törökugrató utca	[7], [10]
 Tűzkő utca	[1], [2]"""
@@ -263,13 +266,13 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_chkl(self) -> None:
         """Tests the chkl output."""
-        result = self.get_txt_for_path("/osm/missing-housenumbers/budafok/view-result.chkl")
+        result = self.get_txt_for_path("/missing-housenumbers/budafok/view-result.chkl")
         # Note how 12 is ordered after 2.
         self.assertEqual(result, "[ ] Vöröskúti határsor [2, 12, 34, 36*]")
 
     def test_view_result_chkl_even_odd(self) -> None:
         """Tests the chkl output (even-odd streets)."""
-        result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+        result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
         expected = """[ ] Hamzsabégi út [1]
 [ ] Törökugrató utca [7], [10]
 [ ] Tűzkő utca [1], [2]"""
@@ -286,7 +289,7 @@ Tűzkő utca	[1], [2]"""
 
         with unittest.mock.patch("util.format_even_odd", mock_format_even_odd):
             with unittest.mock.patch("wsgi.get_chkl_split_limit", mock_get_chkl_split_limit):
-                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+                result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
                 expected = """[ ] Hamzsabégi út [1]
 [ ] Törökugrató utca [1, 3]
 [ ] Törökugrató utca [2, 4]
@@ -309,7 +312,7 @@ Tűzkő utca	[1], [2]"""
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_streets_path()
             with unittest.mock.patch('os.path.exists', mock_exists):
-                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+                result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
                 self.assertEqual(result, "No existing streets")
 
         with unittest.mock.patch('util.get_abspath', get_abspath):
@@ -317,7 +320,7 @@ Tűzkő utca	[1], [2]"""
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_housenumbers_path()
             with unittest.mock.patch('os.path.exists', mock_exists):
-                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+                result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
                 self.assertEqual(result, "No existing house numbers")
 
     def test_view_result_chkl_no_ref_housenumbers(self) -> None:
@@ -333,7 +336,7 @@ Tűzkő utca	[1], [2]"""
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.chkl")
+                result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
                 self.assertEqual(result, "No reference house numbers")
 
     def test_view_result_txt_no_osm_streets(self) -> None:
@@ -349,7 +352,7 @@ Tűzkő utca	[1], [2]"""
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+                result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
                 self.assertEqual(result, "No existing streets")
 
     def test_view_result_txt_no_osm_housenumbers(self) -> None:
@@ -365,7 +368,7 @@ Tűzkő utca	[1], [2]"""
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+                result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
                 self.assertEqual(result, "No existing house numbers")
 
     def test_view_result_txt_no_ref_housenumbers(self) -> None:
@@ -381,25 +384,26 @@ Tűzkő utca	[1], [2]"""
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                result = self.get_txt_for_path("/osm/missing-housenumbers/gazdagret/view-result.txt")
+                result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
                 self.assertEqual(result, "No reference house numbers")
 
     def test_view_turbo_well_formed(self) -> None:
         """Tests if the view-turbo output is well-formed."""
-        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-turbo")
+        root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-turbo")
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
     def test_view_query_well_formed(self) -> None:
         """Tests if the view-query output is well-formed."""
-        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/view-query")
+        root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-query")
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
     def test_update_result_link(self) -> None:
         """Tests if the update-result output links back to the correct page."""
-        root = self.get_dom_for_path("/osm/missing-housenumbers/gazdagret/update-result")
-        results = root.findall("body/a[@href='/osm/missing-housenumbers/gazdagret/view-result']")
+        root = self.get_dom_for_path("/missing-housenumbers/gazdagret/update-result")
+        prefix = util.Config.get_uri_prefix()
+        results = root.findall("body/a[@href='" + prefix + "/missing-housenumbers/gazdagret/view-result']")
         self.assertEqual(len(results), 1)
 
 
@@ -407,13 +411,14 @@ class TestStreetHousenumbers(TestWsgi):
     """Tests handle_street_housenumbers()."""
     def test_view_result_update_result_link(self) -> None:
         """Tests view result: the update-result link."""
-        root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/view-result")
-        results = root.findall("body/div[@id='toolbar']/a[@href='/osm/missing-housenumbers/gazdagret/view-result']")
+        root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
+        uri = util.Config.get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
+        results = root.findall("body/div[@id='toolbar']/a[@href='" + uri + "']")
         self.assertTrue(results)
 
     def test_view_query_well_formed(self) -> None:
         """Tests if the view-query output is well-formed."""
-        root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/view-query")
+        root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-query")
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
@@ -434,7 +439,7 @@ class TestStreetHousenumbers(TestWsgi):
             buf.seek(0)
             return buf
         with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/update-result")
+            root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
             results = root.findall("body")
             self.assertEqual(len(results), 1)
 
@@ -444,7 +449,7 @@ class TestStreetHousenumbers(TestWsgi):
         def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
             raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
         with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/update-result")
+            root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
             results = root.findall("body/div[@id='overpass-error']")
             self.assertTrue(results)
 
@@ -461,7 +466,7 @@ class TestStreetHousenumbers(TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                root = self.get_dom_for_path("/osm/street-housenumbers/gazdagret/view-result")
+                root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
                 results = root.findall("body/div[@id='no-osm-housenumbers']")
                 self.assertEqual(len(results), 1)
 
@@ -470,13 +475,13 @@ class TestMissingStreets(TestWsgi):
     """Tests the missing streets page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
+        root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_well_formed_compat(self) -> None:
         """Tests if the output is well-formed (URL rewrite)."""
-        root = self.get_dom_for_path("/osm/suspicious-relations/gazdagret/view-result")
+        root = self.get_dom_for_path("/suspicious-relations/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
@@ -493,7 +498,7 @@ class TestMissingStreets(TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
+                root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
                 results = root.findall("body/div[@id='no-osm-streets']")
                 self.assertEqual(len(results), 1)
 
@@ -510,13 +515,13 @@ class TestMissingStreets(TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-result")
+                root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
                 results = root.findall("body/div[@id='no-ref-streets']")
                 self.assertEqual(len(results), 1)
 
     def test_view_result_txt(self) -> None:
         """Tests the txt output."""
-        result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
+        result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
         self.assertEqual(result, "Only In Ref utca")
 
     def test_view_result_txt_no_osm_streets(self) -> None:
@@ -532,7 +537,7 @@ class TestMissingStreets(TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
+                result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
                 self.assertEqual(result, "No existing streets")
 
     def test_view_result_txt_no_ref_streets(self) -> None:
@@ -548,18 +553,18 @@ class TestMissingStreets(TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                result = self.get_txt_for_path("/osm/missing-streets/gazdagret/view-result.txt")
+                result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
                 self.assertEqual(result, "No reference streets")
 
     def test_view_query_well_formed(self) -> None:
         """Tests if the view-query output is well-formed."""
-        root = self.get_dom_for_path("/osm/missing-streets/gazdagret/view-query")
+        root = self.get_dom_for_path("/missing-streets/gazdagret/view-query")
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
 
     def test_update_result(self) -> None:
         """Tests the update-result output."""
-        root = self.get_dom_for_path("/osm/missing-streets/gazdagret/update-result")
+        root = self.get_dom_for_path("/missing-streets/gazdagret/update-result")
         results = root.findall("body/div[@id='update-success']")
         self.assertEqual(len(results), 1)
 
@@ -568,44 +573,47 @@ class TestMain(TestWsgi):
     """Tests handle_main()."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm")
+        root = self.get_dom_for_path("/")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_no_path(self) -> None:
         """Tests the case when PATH_INFO is empty (should give the main page)."""
-        root = self.get_dom_for_path("")
-        results = root.findall("body/table")
-        self.assertEqual(len(results), 1)
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            environ = {
+                "PATH_INFO": ""
+            }
+            ret = wsgi.get_request_uri(environ, get_relations())
+            self.assertEqual(ret, "")
 
     def test_filter_for_incomplete_well_formed(self) -> None:
         """Tests if the /osm/filter-for/incomplete output is well-formed."""
-        root = self.get_dom_for_path("/osm/filter-for/incomplete")
+        root = self.get_dom_for_path("/filter-for/incomplete")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_filter_for_refcounty_well_formed(self) -> None:
         """Tests if the /osm/filter-for/refcounty output is well-formed."""
-        root = self.get_dom_for_path("/osm/filter-for/refcounty/01")
+        root = self.get_dom_for_path("/filter-for/refcounty/01")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_filter_for_refcounty_no_refsettlement(self) -> None:
         """Tests if the /osm/filter-for/refcounty output is well-formed."""
-        root = self.get_dom_for_path("/osm/filter-for/refcounty/67")
+        root = self.get_dom_for_path("/filter-for/refcounty/67")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_filter_for_refcounty_refsettlement_well_formed(self) -> None:
         """Tests if the /osm/filter-for/refcounty/<value>/refsettlement/<value> output is well-formed."""
-        root = self.get_dom_for_path("/osm/filter-for/refcounty/01/refsettlement/011")
+        root = self.get_dom_for_path("/filter-for/refcounty/01/refsettlement/011")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_custom_locale(self) -> None:
         """Tests the main page with a custom locale."""
         with util.ConfigContext("locale", "en_US.UTF-8"):
-            root = self.get_dom_for_path("/osm")
+            root = self.get_dom_for_path("")
             results = root.findall("body/table")
             self.assertEqual(len(results), 1)
 
@@ -615,7 +623,7 @@ class TestMain(TestWsgi):
         def mock_setlocale(category: int, locale_name: str) -> str:
             raise locale.Error()
         with unittest.mock.patch('locale.setlocale', mock_setlocale):
-            root = self.get_dom_for_path("/osm")
+            root = self.get_dom_for_path("")
             results = root.findall("body/table")
             self.assertEqual(len(results), 1)
 
@@ -726,7 +734,7 @@ class TestWebhooks(TestWsgi):
             return util.html_escape("")
 
         with unittest.mock.patch("wsgi.handle_github_webhook", mock_handler):
-            self.get_dom_for_path("/osm/webhooks/github")
+            self.get_dom_for_path("/webhooks/github")
         self.assertTrue(mock_called)
 
 
@@ -734,7 +742,7 @@ class TestStatic(TestWsgi):
     """Tests /osm/static/."""
     def test_js(self) -> None:
         """Tests /osm/static/, javascript case."""
-        result = self.get_js_for_path("/osm/static/sorttable.js")
+        result = self.get_js_for_path("/static/sorttable.js")
         # Starts with a JS comment.
         self.assertTrue(result.startswith("/*"))
 
@@ -743,7 +751,7 @@ class TestStats(TestWsgi):
     """Tests handle_stats()."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        root = self.get_dom_for_path("/osm/housenumber-stats/hungary/")
+        root = self.get_dom_for_path("/housenumber-stats/hungary/")
         results = root.findall("body/h2")
         # 6 chart types + note
         self.assertEqual(len(results), 7)

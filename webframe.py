@@ -52,9 +52,10 @@ def get_footer(last_updated: str = "") -> yattag.doc.Doc:
 
 def fill_header_function(function: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
     """Fills items with function-specific links in the header. Returns a title."""
+    prefix = util.Config.get_uri_prefix()
     if function == "missing-housenumbers":
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/update-result"):
+        with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
         doc.text(" " + _("(may take seconds)"))
         items.append(doc)
@@ -64,55 +65,56 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         items.append(doc)
     elif function == "missing-streets":
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/update-result"):
+        with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
         items.append(doc)
     elif function == "street-housenumbers":
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/update-result"):
+        with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Call Overpass to update"))
         doc.text(" " + _("(may take seconds)"))
         items.append(doc)
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/view-query"):
+        with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-query"):
             doc.text(_("View query"))
         items.append(doc)
     elif function == "streets":
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/streets/" + relation_name + "/update-result"):
+        with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
             doc.text(_("Call Overpass to update"))
         doc.text(" " + _("(may take seconds)"))
         items.append(doc)
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/streets/" + relation_name + "/view-query"):
+        with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-query"):
             doc.text(_("View query"))
         items.append(doc)
 
 
 def fill_missing_header_items(streets: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
     """Generates the 'missing house numbers/streets' part of the header."""
+    prefix = util.Config.get_uri_prefix()
     if streets != "only":
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result"):
+        with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/view-result"):
             doc.text(_("Missing house numbers"))
         doc.text(" (")
-        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result.txt"):
+        with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/view-result.txt"):
             doc.text("txt")
         doc.text(", ")
-        with doc.tag("a", href="/osm/missing-housenumbers/" + relation_name + "/view-result.chkl"):
+        with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/view-result.chkl"):
             doc.text("chkl")
         doc.text(")")
         items.append(doc)
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/street-housenumbers/" + relation_name + "/view-result"):
+        with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-result"):
             doc.text(_("Existing house numbers"))
         items.append(doc)
     if streets != "no":
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/view-result"):
+        with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result"):
             doc.text(_("Missing streets"))
         doc.text(" (")
-        with doc.tag("a", href="/osm/missing-streets/" + relation_name + "/view-result.txt"):
+        with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result.txt"):
             doc.text("txt")
         doc.text(")")
         items.append(doc)
@@ -134,13 +136,14 @@ def get_toolbar(
         streets = relation.get_config().should_check_missing_streets()
 
     doc = yattag.doc.Doc()
-    with doc.tag("a", href="/osm"):
+    prefix = util.Config.get_uri_prefix()
+    with doc.tag("a", href=prefix + "/"):
         doc.text(_("Area list"))
     items.append(doc)
     if relation_name:
         fill_missing_header_items(streets, relation_name, items)
         doc = yattag.doc.Doc()
-        with doc.tag("a", href="/osm/streets/" + relation_name + "/view-result"):
+        with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-result"):
             doc.text(_("Existing streets"))
         items.append(doc)
 
@@ -153,7 +156,7 @@ def get_toolbar(
         items.append(doc)
 
     doc = yattag.doc.Doc()
-    with doc.tag("a", href="/osm/housenumber-stats/hungary/"):
+    with doc.tag("a", href=prefix + "/housenumber-stats/hungary/"):
         doc.text(_("Statistics"))
     items.append(doc)
 

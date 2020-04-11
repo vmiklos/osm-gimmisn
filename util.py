@@ -108,6 +108,13 @@ class Config:
         assert Config.__config is not None
         return Config.__config.get("wsgi", "timezone").strip()
 
+    @staticmethod
+    def get_uri_prefix() -> str:
+        """Gets the global URI prefix."""
+        Config.__get()
+        assert Config.__config is not None
+        return Config.__config.get("wsgi", "uri_prefix").strip()
+
 
 class ConfigContext:
     """Context manager for Config."""
