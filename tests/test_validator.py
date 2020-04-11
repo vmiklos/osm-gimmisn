@@ -25,12 +25,18 @@ class TestValidatorMain(unittest.TestCase):
     """Tests main()."""
     def test_relations_happy(self) -> None:
         """Tests the happy relations path."""
-        argv = ["", "tests/data/relations.yaml"]
-        with unittest.mock.patch('sys.argv', argv):
-            ret: List[int] = []
-            with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
-                validator.main()
-                self.assertEqual(ret, [])
+        paths = [
+            "tests/data/relations.yaml",
+            "tests/data/relation-gazdagret-filter-invalid-good.yaml",
+            "tests/data/relation-gazdagret-filter-invalid-good2.yaml",
+        ]
+        for path in paths:
+            argv = ["", path]
+            with unittest.mock.patch('sys.argv', argv):
+                ret: List[int] = []
+                with unittest.mock.patch('sys.exit', mock_sys_exit(ret)):
+                    validator.main()
+                    self.assertEqual(ret, [])
 
     def test_relations_missing_osmrelation(self) -> None:
         """Tests the missing-osmrelation relations path."""
@@ -149,6 +155,12 @@ class TestValidatorMainFailureMsg1(TestValidatorMainFailureMsgBase):
         expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad.yaml"
         expected += ": expected value type for 'filters.Budaörsi út.invalid[0]' is str\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-invalid-bad.yaml", expected)
+
+    def test_relation_filters_invalid_bad2(self) -> None:
+        """Tests the relation path: bad filters -> ... -> invalid subkey."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad2.yaml"
+        expected += ": expected format for 'filters.Budaörsi út.invalid[0]' is '42', '42a' or '42/1'\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-invalid-bad2.yaml", expected)
 
     def test_relation_filters_invalid_bad_type(self) -> None:
         """Tests the relation path: bad type for the filters -> ... -> invalid subkey."""

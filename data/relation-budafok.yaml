@@ -263,7 +263,7 @@ filters:
     # 11/A: csak sima 11 van.
     # A páros oldalon nagy a bozót, de mintha 2-10 között lenne.
     # 16: az utcatáblán 2-12 van, de 12 már biztosan nincs. A 10 is kétséges.
-    invalid: ['1c 1', '3c', '11a', '16']
+    invalid: ['1c', '3c', '11a', '16']
   Pedellus utca:
     # 25: sima 25 nincs, csak 25/A, 25/B.
     # 52: sima 52 nincs, csak 52/A, 52/B.
@@ -278,7 +278,7 @@ filters:
     # 136/A: csak sima 136 és 136/B van kitáblázva.
     # 140: sima 155 nincs, csak 140/A, 140/B.
     # 456/B: a páros oldalon a 162 az utolsó házszám.
-    invalid: ['97', '99b', '149', '151', '155', '122', '136/A', '140', '456b']
+    invalid: ['97', '99b', '149', '151', '155', '122', '136a', '140', '456b']
   Pogány utca:
     ranges:
       - {start: '1', end: '11'}

@@ -7,12 +7,14 @@
 
 """The validator module validates yaml files under data/."""
 
-import os
-import sys
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Tuple
+import os
+import re
+import sys
+
 import yaml
 
 if sys.platform.startswith("win"):
@@ -76,6 +78,14 @@ def validate_filter_invalid(errors: List[str], parent: str, invalid: List[Any]) 
     for index, invalid_data in enumerate(invalid):
         if not isinstance(invalid_data, str):
             errors.append("expected value type for '%s[%s]' is str" % (context, index))
+            continue
+        if re.match(r"^[0-9]+$", invalid_data):
+            continue
+        if re.match(r"^[0-9]+[a-z]$", invalid_data):
+            continue
+        if re.match(r"^[0-9]+/[0-9]$", invalid_data):
+            continue
+        errors.append("expected format for '%s[%s]' is '42', '42a' or '42/1'" % (context, index))
 
 
 def validate_filter(errors: List[str], parent: str, filter_data: Dict[str, Any]) -> None:
