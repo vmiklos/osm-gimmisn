@@ -7,6 +7,8 @@ filters:
       - {start: '37', end: '51'}
       - {start: '2', end: '30'}
       - {start: '34', end: '48'}
+  Alíz utca:
+    invalid: ['2b']
   Alsóhegy utca:
     ranges:
       - {start: '46', end: '50'}
@@ -20,7 +22,7 @@ filters:
       - {start: '4', end: '12'}
   Andor utca:
     # 27-31 egyben
-    invalid: ['23', '52']  # 23/A: I,II,III lépcsőházak
+    invalid: ['21', '23', '52']  # 21a,21b,21c,21d; 23/A: I,II,III lépcsőházak;
     ranges:
       - {start: '1', end: '31'}
       - {start: '47', end: '49'}
@@ -181,7 +183,7 @@ filters:
       - {start: '3', end: '7'}
       - {start: '9', end: '13'}
   Etele út:
-    invalid: ['32', '58b']
+    invalid: ['32', '58b', '67/5']
     ranges:
       - {start: '1', end: '3'}
       - {start: '15', end: '73'}
@@ -226,11 +228,11 @@ filters:
       - {start: '11', end: '23'}
       - {start: '4', end: '50'}
   Galambóc utca:
+    invalid: ['14', '28', '29']
     ranges:
       # 1-13 Lidl oldala, 15 nem letezik csak az utcatablan, 26-30 helyett külön 26,30
       - {start: '17', end: '45'}
-      - {start: '2', end: '26'}
-      - {start: '30', end: '36'}
+      - {start: '2', end: '36'}
   Galvani utca:
     ranges:
       # 7-9 egy bozótos terület, a Duna fele a páros oldalon a Budafokiról számozódik
@@ -397,6 +399,8 @@ filters:
       - {start: '5', end: '7'}
       - {start: '11', end: '11'}
       - {start: '8', end: '8'}
+  Nándorfejérvár köz:
+    invalid: ['16']
   Nagykikinda utca:
     invalid: ['10']  # 10a, 10b
     ranges:
@@ -412,7 +416,7 @@ filters:
       - {start: '31', end: '45'}
       - {start: '2', end: '20'}
   Nándorfejérvári út:
-    invalid: ['7', '8', '15a', '16a', '17b', '20c', '31a', '31b', '31c', '31d']
+    invalid: ['5a', '7', '8', '15a', '16a', '17b', '20c', '31a', '31b', '31c', '31d']
     ranges:
       - {start: '1', end: '9'}
       - {start: '13', end: '25'}
@@ -500,7 +504,7 @@ filters:
   Szerémi út:
     invalid: ['7', '21d', '23c', '25b', '27a', '29c', '31b', '35c', '37b', '39a', '41c', '43b', '45a']
     ranges:
-      - {start: '5', end: '17'}
+      - {start: '5', end: '11'}
       - {start: '21', end: '59'}
       - {start: '46', end: '46'}  # nincs pároson semmi csak egy fals cím ESTILO bútoház
   Szombathelyi tér:
