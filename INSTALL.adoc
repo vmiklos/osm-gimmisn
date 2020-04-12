@@ -9,7 +9,7 @@
 - Clone the repo:
 
 ----
-git clone https://github.com/vmiklos/osm-gimmisn
+git clone <URL> # You read this file somewhere, right? :-)
 cd osm-gimmisn
 ----
 
@@ -61,3 +61,10 @@ This allows accessing your local instance for development.
 - Use `systemctl start osm-gimmisn.service` to run the app server.
 
 - Optionally, set up a reverse proxy with SSL support.
+
+- Optionally, add `cron.py` as a daily crontab:
+
+----
+# daily, at 0:05
+5 0 * * * /home/osm-gimmisn/git/osm-gimmisn/osm-gimmisn-env/bin/python3 /home/osm-gimmisn/git/osm-gimmisn/cron.py
+----
