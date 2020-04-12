@@ -1,6 +1,13 @@
 = Version descriptions
 
-== master
+== 5.0
+
+- A new `/osm/housenumber-stats/hungary/` page featuring new and all-time house number data
+
+- A new `cherry.py` glue layer to help running non-PythonAnywhere production instances
+
+- <https://github.com/vmiklos/osm-gimmisn/issues/380> the validator now catches strings which are
+  not valid items in an `invalid:` string list
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/363> next to letter suffixes (42/a), now digit
   suffixes are also accepted (42/1). Both are still limited to a single-char suffix (2020-03-23)
