@@ -41,9 +41,9 @@ for i in *.py; do lines=$(wc -l < $i); if [ $lines -gt 800 ]; then echo "$i is t
 Ideally CI checks everything before a commit hits master, but here are a few
 things which are not part of CI:
 
-- HTML validation: https://validator.w3.org/nu/?doc=https%3A%2F%2Fvmiklos.pythonanywhere.com%2Fosm
+- HTML validation: https://validator.w3.org/nu/?doc=https%3A%2F%2Fosm-gimmisn.vmiklos.hu%2Fosm
 
 - CSS validation:
-  http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fvmiklos.pythonanywhere.com%2Fosm%2Fstatic%2Fosm.css
+  http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fosm-gimmisn.vmiklos.hu%2Fosm%2Fstatic%2Fosm.css
 
 - Run `piprot` from time to time and make sure dependencies are reasonably up to date.

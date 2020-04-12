@@ -2,7 +2,7 @@
 
 == Up to date list of missing streets and house numbers
 
-The https://vmiklos.pythonanywhere.com/osm[website] provides you with hints regarding where to map
+The https://osm-gimmisn.vmiklos.hu/osm[website] provides you with hints regarding where to map
 house numbers. The main page has the following columns:
 
 - House number coverage: lists missing house numbers.

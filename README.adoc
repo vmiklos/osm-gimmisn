@@ -9,4 +9,4 @@ on a reference list.
 It works by fetching the street and house number list for a relation (area), then suggesting what
 possibly missing objects are a good idea to survey.
 
-You can see this in action at https://vmiklos.pythonanywhere.com/osm[PythonAnywhere].
+You can see this in action at a https://osm-gimmisn.vmiklos.hu/osm[public instance].

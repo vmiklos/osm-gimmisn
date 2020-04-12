@@ -4,7 +4,7 @@
 
 - A new `/osm/housenumber-stats/hungary/` page featuring new and all-time house number data
 
-- A new `cherry.py` glue layer to help running non-PythonAnywhere production instances
+- A new `cherry.py` glue layer to help running on top of CherryPy
 
 - <https://github.com/vmiklos/osm-gimmisn/issues/380> the validator now catches strings which are
   not valid items in an `invalid:` string list
