@@ -10,6 +10,7 @@
 import cherrypy  # type: ignore
 
 from wsgi import application
+import util
 
 
 def main() -> None:
@@ -32,7 +33,7 @@ def main() -> None:
     # pylint: disable=protected-access
     server = cherrypy._cpserver.Server()
     server.socket_host = "127.0.0.1"
-    server.socket_port = 8000
+    server.socket_port = util.Config.get_tcp_port()
     server.thread_pool = 8
     server.subscribe()
     cherrypy.engine.start()

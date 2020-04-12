@@ -905,8 +905,10 @@ def main() -> None:
         # pylint: disable=protected-access
         _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 
-    httpd = wsgiref.simple_server.make_server('', 8000, application)
-    print("Open <http://localhost:8000/osm> in your browser.")
+    port = util.Config.get_tcp_port()
+    prefix = util.Config.get_uri_prefix()
+    httpd = wsgiref.simple_server.make_server('', port, application)
+    print("Open <http://localhost:" + str(port) + prefix + "/> in your browser.")
     httpd.serve_forever()
 
 

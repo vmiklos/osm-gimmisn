@@ -115,6 +115,13 @@ class Config:
         assert Config.__config is not None
         return Config.__config.get("wsgi", "uri_prefix").strip()
 
+    @staticmethod
+    def get_tcp_port() -> int:
+        """Gets the TCP port to be used."""
+        Config.__get()
+        assert Config.__config is not None
+        return int(Config.__config.get("wsgi", "tcp_port", fallback="8000").strip())
+
 
 class ConfigContext:
     """Context manager for Config."""
