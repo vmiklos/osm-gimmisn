@@ -93,6 +93,7 @@ filters:
       - {start: '2', end: '36'}
 source: survey
 street-filters:
+  - Budafruct  # Volt HungaroFruct hűtőház, ma Vasút utca 9
   - Csiki dűlő
   - Erdő utca  # Nincs
   - Frank-hegy
@@ -106,9 +107,6 @@ street-filters:
   - Törökugrató dűlő
   # OSM hiányzók:
   # Kassai köz - Kassait útról nyílik
-  # Kereskedők útja - Garibaldi utca folytatása lehet
-  # Légimentő utca - Légimentő bázis M1 14 km lehajtónál
-  # Lenz József tér - Kinizsi utca/Raktár utca
   # Vasútáll.és körny. dűlő - Vasút dűlő folytatása
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
@@ -124,4 +122,5 @@ refstreets:
   Ribiszke utca: Ribizke utca
   Széchenyi utca: Széchenyi István utca
   Turista utca: Turistaház utca
+  Légimentő út: Légimentő utca
 inactive: false
