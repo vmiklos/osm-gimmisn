@@ -7,6 +7,16 @@ budapest_02:
     osmrelation: 221980
     refcounty: "01"
     refsettlement: "002"
+budapest_03:
+    osmrelation: 367963
+    refcounty: "01"
+    refsettlement: "003"
+    inactive: true
+budapest_04:
+    osmrelation: 221976
+    refcounty: "01"
+    refsettlement: "002"
+    inactive: true
 budapest_05:
     osmrelation: 1606103
     refcounty: "01"
@@ -31,6 +41,11 @@ budapest_09:
     refcounty: "01"
     refsettlement: "009"
     alias: ['ferencvaros']
+budapest_10:
+    osmrelation: 1552463
+    refcounty: "01"
+    refsettlement: "010"
+    inactive: true
 budapest_11:
     osmrelation: 221998
     refcounty: "01"
@@ -48,10 +63,50 @@ budapest_14:
     osmrelation: 1606043
     refcounty: "01"
     refsettlement: "014"
+budapest_15:
+    osmrelation: 1606009
+    refcounty: "01"
+    refsettlement: "015"
+    inactive: true
+budapest_16:
+    osmrelation: 1552464
+    refcounty: "01"
+    refsettlement: "016"
+    inactive: true
+budapest_17:
+    osmrelation: 1550599
+    refcounty: "01"
+    refsettlement: "017"
+    inactive: true
+budapest_18:
+    osmrelation: 1550598
+    refcounty: "01"
+    refsettlement: "018"
+    inactive: true
+budapest_19:
+    osmrelation: 1551290
+    refcounty: "01"
+    refsettlement: "019"
+    inactive: true
+budapest_20:
+    osmrelation: 1551291
+    refcounty: "01"
+    refsettlement: "020"
+    inactive: true
+budapest_21:
+    osmrelation: 215618
+    refcounty: "01"
+    refsettlement: "021"
+    inactive: true
 budapest_22:
     osmrelation: 215621
     refcounty: "01"
     refsettlement: "022"
+budapest_23:
+    osmrelation: 1550597
+    refcounty: "01"
+    refsettlement: "023"
+    inactive: true
 # buda
 # 01
 krisztinavaros:
