@@ -1,0 +1,29 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Keresztúri úti 1-es őrház
+  - Kőbánya alsó pályaudvar
+  - Kőbánya felső pályaudvar
+  - Rákos MÁV Motorüzem
+  - Rákos MÁV telep
+  - Máv telep
+  # egyéb
+  # semmilyen forrásban sem találtam
+  # todo
+  # Felső Rákosi Rétek
+  # Ökrös köz
+  # Sárgarózsa utca
+  # Tűzálló köz
+  # Vika köz
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Csajkovszkij-park': 'Csajkovszkij park'
+  'Hizlaló tér': 'Hízlaló tér'
+  'Ceglédi út': 'Ceglédi utca'
+  'Kis Sörgyár utca': 'Kissörgyár utca'
+  'Óhegy köz': 'Óhegyi köz'
+  'Sütöde utca': 'Sütőde utca'
+  'Vízimalom utca': 'Vizimalom utca'
+source: survey
+inactive: true

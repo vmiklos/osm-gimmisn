@@ -1,0 +1,23 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Landler Jenő MÁV őrházlak
+  # egyéb
+  - Kossuth út  # Kossuth Lajos utca, nem lehet kétfelé mappelni
+  # semmilyen forrásban sem találtam
+  - Káposztásmegyeri köz
+  - Sobrik Joska utca
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Báthory utca': 'Báthori utca'
+  'Duna sor': 'Dunasor'
+  'Farkaserdő utca': 'Farkas-erdő utca'
+  'Knezich Károly utca': 'Knézits Károly utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Kölcsey Ferenc utca': 'Kölcsey utca'
+  'Körösbánya utca': 'Kőrösbánya utca'
+  'Ódry Árpád utca': 'Ódry utca'
+  'Venetiáner utca': 'Venetianer utca'
+source: survey
+inactive: true

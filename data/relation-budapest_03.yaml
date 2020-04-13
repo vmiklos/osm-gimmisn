@@ -1,0 +1,38 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Aquincum őrház
+  - Solymárvölgyi tégla gyár
+  - Csillaghegyi tégla gyártelep
+  - József hegy
+  - Péter hegy
+  - Péterhegyi dűlő
+  - Óbudai sziget
+  - Solymár völgy
+  # átnevezték
+  - Óbudai rakpart
+  # egyéb
+  - Gázgyári lakótelep  # osm-en szét van bontva csoportonként
+  - Filatori köz  # Huszti út 13 panel van a helyén
+  - Pendítő köz  # Palló köz végén volt, a Hunyadi felé, megszűnt
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Barátpatak utca': 'Barát-patak utca'
+  'Bebo Károly utca': 'Bebó Károly utca'
+  'Hajógyári-sziget': 'Hajógyársziget'  # utcaként nincs felvive
+  'Hímző utca': 'Himző utca'
+  'Jó szerencse utca': 'Jószerencse út'
+  'Kaszásdűlő utca': 'Kaszásdülő utca'
+  'Kis Csikós köz': 'Kiscsikós köz'
+  'Kossuth Lajos üdülőpart': 'Kossuth Lajos üdülő-part'
+  'Lékai bíboros tér': 'Lékai biboros tér'
+  'Montevideo utca': 'Montevideo út'
+  'Nagy-Kevély utca': 'Nagykevély utca'
+  'Nefelejcs utca': 'Nefelejts utca'
+  'Petur utca': 'Petúr utca'
+  'Római sétány': 'Római út'
+  'Stefan Wyszyński utca': 'Stefan Wyszynski utca'
+  'Szérűskert utca': 'Szérüskert utca'
+source: survey
+inactive: true
