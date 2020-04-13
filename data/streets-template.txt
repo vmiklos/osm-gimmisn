@@ -6,6 +6,8 @@ way(area.searchArea)[highway=service][name]["bridge"!~".*"];
 out;
 way(area.searchArea)["leisure"="park"][name];
 out;
+relation(area.searchArea)["leisure"="park"][name];
+out;
 rel(@RELATION@)->.searchRelation;
 way(r.searchRelation)[highway][highway!="service"]["bridge"!~".*"];
 out;
