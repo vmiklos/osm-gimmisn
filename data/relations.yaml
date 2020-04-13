@@ -8,14 +8,14 @@ budapest_02:
     refcounty: "01"
     refsettlement: "002"
 budapest_03:
-    osmrelation: 367963
+    osmrelation: 221976
     refcounty: "01"
     refsettlement: "003"
     inactive: true
 budapest_04:
-    osmrelation: 221976
+    osmrelation: 367963
     refcounty: "01"
-    refsettlement: "002"
+    refsettlement: "004"
     inactive: true
 budapest_05:
     osmrelation: 1606103
