@@ -16,16 +16,16 @@ street-filters:
   - Gázgyári lakótelep  # osm-en szét van bontva csoportonként
   - Filatori köz  # Huszti út 13 panel van a helyén
   - Pendítő köz  # Palló köz végén volt, a Hunyadi felé, megszűnt
+  - Kossuth Lajos üdülő-part  # Dupla, ez a fajta írásmód nem kell
+  - Hajógyársziget  # utcaként nincs fent, Hajógyári-sziget-ként igen, ezzel nem fog összetalálni
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Barátpatak utca': 'Barát-patak utca'
   'Bebo Károly utca': 'Bebó Károly utca'
-  'Hajógyári-sziget': 'Hajógyársziget'  # utcaként nincs felvive
   'Hímző utca': 'Himző utca'
   'Jó szerencse utca': 'Jószerencse út'
   'Kaszásdűlő utca': 'Kaszásdülő utca'
   'Kis Csikós köz': 'Kiscsikós köz'
-  'Kossuth Lajos üdülőpart': 'Kossuth Lajos üdülő-part'
   'Lékai bíboros tér': 'Lékai biboros tér'
   'Montevideo utca': 'Montevideo út'
   'Nagy-Kevély utca': 'Nagykevély utca'
