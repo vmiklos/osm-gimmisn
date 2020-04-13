@@ -122,6 +122,13 @@ class Config:
         assert Config.__config is not None
         return int(Config.__config.get("wsgi", "tcp_port", fallback="8000").strip())
 
+    @staticmethod
+    def get_overpass_uri() -> str:
+        """Gets the URI of the overpass instance to be used."""
+        Config.__get()
+        assert Config.__config is not None
+        return Config.__config.get("wsgi", "overpass_uri", fallback="https://overpass-api.de").strip()
+
 
 class ConfigContext:
     """Context manager for Config."""

@@ -16,7 +16,10 @@ import sys
 
 def overpass_query(query: str) -> str:
     """Posts the query string to the overpass API and returns the result string."""
-    url = "http://overpass-api.de/api/interpreter"
+    # Import only inside the function, as util imports a function from this module.
+    # pylint: disable=import-outside-toplevel
+    import util
+    url = util.Config.get_overpass_uri() + "/api/interpreter"
 
     sock = urllib.request.urlopen(url, bytes(query, "utf-8"))
     buf = sock.read()
@@ -27,8 +30,11 @@ def overpass_query(query: str) -> str:
 
 def overpass_query_need_sleep() -> int:
     """Checks if we need to sleep before executing an overpass query."""
+    # Import only inside the function, as util imports a function from this module.
+    # pylint: disable=import-outside-toplevel
+    import util
     try:
-        with urllib.request.urlopen("https://overpass-api.de/api/status") as sock:
+        with urllib.request.urlopen(util.Config.get_overpass_uri() + "/api/status") as sock:
             buf = sock.read()
     except urllib.error.HTTPError:
         return 0
