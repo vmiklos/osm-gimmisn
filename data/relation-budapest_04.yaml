@@ -5,12 +5,12 @@ street-filters:
   - Landler Jenő MÁV őrházlak
   # egyéb
   - Kossuth út  # Kossuth Lajos utca, nem lehet kétfelé mappelni
+  - Báthori utca  # Dupla, van Báthory utca is, ez nem kell
   # semmilyen forrásban sem találtam
   - Káposztásmegyeri köz
   - Sobrik Joska utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Báthory utca': 'Báthori utca'
   'Duna sor': 'Dunasor'
   'Farkaserdő utca': 'Farkas-erdő utca'
   'Knezich Károly utca': 'Knézits Károly utca'
