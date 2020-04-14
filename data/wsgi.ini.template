@@ -5,3 +5,4 @@ reference_street = refdir/utcak_20200401.tsv
 uri_prefix = /osm
 tcp_port = 8000
 overpass_uri = https://overpass-api.de
+cron_update_inactive = False

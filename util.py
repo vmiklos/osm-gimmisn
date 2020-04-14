@@ -129,6 +129,13 @@ class Config:
         assert Config.__config is not None
         return Config.__config.get("wsgi", "overpass_uri", fallback="https://overpass-api.de").strip()
 
+    @staticmethod
+    def get_cron_update_inactive() -> bool:
+        """Should cron.py update inactive relations?"""
+        Config.__get()
+        assert Config.__config is not None
+        return Config.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
+
 
 class ConfigContext:
     """Context manager for Config."""

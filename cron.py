@@ -154,8 +154,7 @@ def main() -> None:
     logging.getLogger().addHandler(handler)
 
     start = time.time()
-    # Query inactive relations once a month.
-    relations.activate_all(time.localtime(start).tm_mday == 1)
+    relations.activate_all(util.Config.get_cron_update_inactive())
     try:
         our_main(relations)
     # pylint: disable=broad-except
