@@ -480,6 +480,10 @@ veresegyhaz:
     refcounty: "14"
     refsettlement: "178"
 # Egyéb videk
+balatonalmadi:
+    osmrelation: 1078573
+    refcounty: "19"
+    refsettlement: "022"
 balatonlelle:
     osmrelation: 1368026
     refcounty: "15"
