@@ -748,7 +748,9 @@ def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:
     payload = body["payload"][0]
     root = json.loads(payload)
     if root["ref"] == "refs/heads/master":
-        subprocess.run(["make", "-C", util.get_abspath(""), "deploy-pythonanywhere"], check=True)
+        my_env = os.environ
+        my_env["PATH"] = "osm-gimmisn-env/bin:" + my_env["PATH"]
+        subprocess.run(["make", "-C", util.get_abspath(""), "deploy-pythonanywhere"], check=True, env=my_env)
 
     return util.html_escape("")
 

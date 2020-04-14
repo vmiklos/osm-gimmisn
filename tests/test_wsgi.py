@@ -690,18 +690,22 @@ class TestWebhooks(TestWsgi):
         environ["wsgi.input"] = buf
         actual_args: List[str] = []
         actual_check = False
+        actual_path = ""
 
-        def mock_subprocess_run(args: List[str], check: bool) -> None:
+        def mock_subprocess_run(args: List[str], check: bool, env: Any) -> None:
             nonlocal actual_args
             nonlocal actual_check
+            nonlocal actual_path
             actual_args = args
             actual_check = check
+            actual_path = env["PATH"]
 
         with unittest.mock.patch('subprocess.run', mock_subprocess_run):
             wsgi.handle_github_webhook(environ)
         self.assertEqual(actual_args[0], "make")
         self.assertEqual(actual_args[-1], "deploy-pythonanywhere")
         self.assertTrue(actual_check)
+        self.assertIn("osm-gimmisn-env/bin", actual_path)
 
     def test_github_branch(self) -> None:
         """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
