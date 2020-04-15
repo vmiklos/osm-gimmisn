@@ -84,10 +84,14 @@ class TestUpdateRefHousenumbers(unittest.TestCase):
             for relation_name in relations.get_active_names():
                 if relation_name not in ("gazdagret", "ujbuda"):
                     relations.get_relation(relation_name).get_config().set_active(False)
-            expected = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
-            os.unlink(os.path.join(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst"))
-            cron.update_ref_housenumbers(relations)
-            actual = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
+            path = os.path.join(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
+            expected = util.get_content(path)
+            os.unlink(path)
+            cron.update_ref_housenumbers(relations, update=True)
+            mtime = os.path.getmtime(path)
+            cron.update_ref_housenumbers(relations, update=False)
+            self.assertEqual(os.path.getmtime(path), mtime)
+            actual = util.get_content(path)
             self.assertEqual(actual, expected)
             # Make sure housenumber ref is not created for the streets=only case.
             ujbuda_path = os.path.join(relations.get_workdir(), "street-housenumbers-reference-ujbuda.lst")
@@ -104,10 +108,14 @@ class TestUpdateRefStreets(unittest.TestCase):
                 # gellerthegy is streets=no
                 if relation_name not in ("gazdagret", "gellerthegy"):
                     relations.get_relation(relation_name).get_config().set_active(False)
-            expected = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
-            os.unlink(os.path.join(relations.get_workdir(), "streets-reference-gazdagret.lst"))
-            cron.update_ref_streets(relations)
-            actual = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
+            path = os.path.join(relations.get_workdir(), "streets-reference-gazdagret.lst")
+            expected = util.get_content(path)
+            os.unlink(path)
+            cron.update_ref_streets(relations, update=True)
+            mtime = os.path.getmtime(path)
+            cron.update_ref_streets(relations, update=False)
+            self.assertEqual(os.path.getmtime(path), mtime)
+            actual = util.get_content(path)
             self.assertEqual(actual, expected)
             # Make sure street ref is not created for the streets=no case.
             ujbuda_path = os.path.join(relations.get_workdir(), "streets-reference-gellerthegy.lst")
@@ -124,10 +132,14 @@ class TestUpdateMissingHousenumbers(unittest.TestCase):
                 # ujbuda is streets=only
                 if relation_name not in ("gazdagret", "ujbuda"):
                     relations.get_relation(relation_name).get_config().set_active(False)
-            expected = util.get_content(relations.get_workdir(), "gazdagret.percent")
-            os.unlink(os.path.join(relations.get_workdir(), "gazdagret.percent"))
-            cron.update_missing_housenumbers(relations)
-            actual = util.get_content(relations.get_workdir(), "gazdagret.percent")
+            path = os.path.join(relations.get_workdir(), "gazdagret.percent")
+            expected = util.get_content(path)
+            os.unlink(path)
+            cron.update_missing_housenumbers(relations, update=True)
+            mtime = os.path.getmtime(path)
+            cron.update_missing_housenumbers(relations, update=False)
+            self.assertEqual(os.path.getmtime(path), mtime)
+            actual = util.get_content(path)
             self.assertEqual(actual, expected)
             # Make sure housenumber stat is not created for the streets=only case.
             self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "ujbuda.percent")))
@@ -143,10 +155,14 @@ class TestUpdateMissingStreets(unittest.TestCase):
                 # gellerthegy is streets=no
                 if relation_name not in ("gazdagret", "gellerthegy"):
                     relations.get_relation(relation_name).get_config().set_active(False)
-            expected = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
-            os.unlink(os.path.join(relations.get_workdir(), "gazdagret-streets.percent"))
-            cron.update_missing_streets(relations)
-            actual = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
+            path = os.path.join(relations.get_workdir(), "gazdagret-streets.percent")
+            expected = util.get_content(path)
+            os.unlink(path)
+            cron.update_missing_streets(relations, update=True)
+            mtime = os.path.getmtime(path)
+            cron.update_missing_streets(relations, update=False)
+            self.assertEqual(os.path.getmtime(path), mtime)
+            actual = util.get_content(path)
             self.assertEqual(actual, expected)
             # Make sure street stat is not created for the streets=no case.
             self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "gellerthegy-streets.percent")))
@@ -184,11 +200,15 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
                     for relation_name in relations.get_active_names():
                         if relation_name != "gazdagret":
                             relations.get_relation(relation_name).get_config().set_active(False)
-                    expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
-                    os.unlink(os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv"))
-                    cron.update_osm_housenumbers(relations)
+                    path = os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+                    expected = util.get_content(path)
+                    os.unlink(path)
+                    cron.update_osm_housenumbers(relations, update=True)
+                    mtime = os.path.getmtime(path)
+                    cron.update_osm_housenumbers(relations, update=False)
+                    self.assertEqual(os.path.getmtime(path), mtime)
                     self.assertTrue(mock_overpass_sleep_called)
-                    actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+                    actual = util.get_content(path)
                     self.assertEqual(actual, expected)
 
     def test_http_error(self) -> None:
@@ -207,7 +227,7 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
                         if relation_name != "gazdagret":
                             relations.get_relation(relation_name).get_config().set_active(False)
                     expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
-                    cron.update_osm_housenumbers(relations)
+                    cron.update_osm_housenumbers(relations, update=True)
                     self.assertTrue(mock_overpass_sleep_called)
                     # Make sure that in case we keep getting errors we give up at some stage and
                     # leave the last state unchanged.
@@ -241,8 +261,12 @@ class TestUpdateOsmStreets(unittest.TestCase):
                         if relation_name != "gazdagret":
                             relations.get_relation(relation_name).get_config().set_active(False)
                     expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-                    os.unlink(os.path.join(relations.get_workdir(), "streets-gazdagret.csv"))
-                    cron.update_osm_streets(relations)
+                    path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
+                    os.unlink(path)
+                    cron.update_osm_streets(relations, update=True)
+                    mtime = os.path.getmtime(path)
+                    cron.update_osm_streets(relations, update=False)
+                    self.assertEqual(os.path.getmtime(path), mtime)
                     self.assertTrue(mock_overpass_sleep_called)
                     actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
                     self.assertEqual(actual, expected)
@@ -263,7 +287,7 @@ class TestUpdateOsmStreets(unittest.TestCase):
                         if relation_name != "gazdagret":
                             relations.get_relation(relation_name).get_config().set_active(False)
                     expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-                    cron.update_osm_streets(relations)
+                    cron.update_osm_streets(relations, update=True)
                     self.assertTrue(mock_overpass_sleep_called)
                     # Make sure that in case we keep getting errors we give up at some stage and
                     # leave the last state unchanged.
@@ -277,7 +301,7 @@ class TestOurMain(unittest.TestCase):
         """Tests the happy path."""
         calls = 0
 
-        def count_calls(_relations: areas.Relation) -> None:
+        def count_calls(_relations: areas.Relation, _update: bool) -> None:
             nonlocal calls
             calls += 1
 
@@ -289,7 +313,7 @@ class TestOurMain(unittest.TestCase):
                         with unittest.mock.patch("cron.update_ref_housenumbers", count_calls):
                             with unittest.mock.patch("cron.update_missing_streets", count_calls):
                                 with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
-                                    cron.our_main(relations)
+                                    cron.our_main(relations, update=True)
 
         expected = 0
         # Consider what to update automatically: the 2 sources and the diff between them.
@@ -307,7 +331,7 @@ class TestMain(unittest.TestCase):
         """Tests the happy path."""
         mock_main_called = False
 
-        def mock_main(_relations: areas.Relation) -> None:
+        def mock_main(_relations: areas.Relation, _update: bool) -> None:
             nonlocal mock_main_called
             mock_main_called = True
 
