@@ -10,6 +10,7 @@ import os
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import Optional
 from typing import TextIO
 from typing import Tuple
 from typing import cast
@@ -600,6 +601,26 @@ class Relations:
     def activate_all(self, flag: bool) -> None:
         """Sets if inactive=true is ignored or not."""
         self.__activate_all = flag
+
+    def limit_to_refcounty(self, refcounty: Optional[str]) -> None:
+        """If refcounty is not None, forget about all relations outside that refcounty."""
+        if not refcounty:
+            return
+        for relation_name in list(self.__dict.keys()):
+            relation = self.get_relation(relation_name)
+            if relation.get_config().get_refcounty() == refcounty:
+                continue
+            del self.__dict[relation_name]
+
+    def limit_to_refsettlement(self, refsettlement: Optional[str]) -> None:
+        """If refsettlement is not None, forget about all relations outside that refsettlement."""
+        if not refsettlement:
+            return
+        for relation_name in list(self.__dict.keys()):
+            relation = self.get_relation(relation_name)
+            if relation.get_config().get_refsettlement() == refsettlement:
+                continue
+            del self.__dict[relation_name]
 
     def refcounty_get_name(self, refcounty: str) -> str:
         """Produces a UI name for a refcounty."""

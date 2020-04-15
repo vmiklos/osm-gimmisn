@@ -320,7 +320,9 @@ class TestMain(unittest.TestCase):
         with unittest.mock.patch('util.get_abspath', get_abspath):
             with unittest.mock.patch("cron.our_main", mock_main):
                 with unittest.mock.patch("logging.info", mock_info):
-                    cron.main()
+                    argv = [""]
+                    with unittest.mock.patch('sys.argv', argv):
+                        cron.main()
 
         self.assertTrue(mock_main_called)
         self.assertTrue(mock_info_called)
@@ -343,7 +345,9 @@ class TestMain(unittest.TestCase):
             with unittest.mock.patch("cron.our_main", mock_our_main):
                 with unittest.mock.patch("logging.info", mock_info):
                     with unittest.mock.patch("logging.error", mock_error):
-                        cron.main()
+                        argv = [""]
+                        with unittest.mock.patch('sys.argv', argv):
+                            cron.main()
 
         self.assertTrue(mock_error_called)
 

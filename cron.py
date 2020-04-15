@@ -7,6 +7,7 @@
 
 """The cron module allows doing nightly tasks."""
 
+import argparse
 import datetime
 import logging
 import os
@@ -153,8 +154,17 @@ def main() -> None:
     handler = logging.StreamHandler()
     logging.getLogger().addHandler(handler)
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--refcounty", type=str,
+                        help="limit the list of relations to a given refcounty")
+    parser.add_argument("--refsettlement", type=str,
+                        help="limit the list of relations to a given refsettlement")
+    args = parser.parse_args()
+
     start = time.time()
     relations.activate_all(util.Config.get_cron_update_inactive())
+    relations.limit_to_refcounty(args.refcounty)
+    relations.limit_to_refsettlement(args.refsettlement)
     try:
         our_main(relations)
     # pylint: disable=broad-except

@@ -752,6 +752,24 @@ class TestRelations(unittest.TestCase):
             # Allow seeing data of a relation even if it's not in relations.yaml.
             relations.get_relation("gh195")
 
+            # Test limit_to_refcounty().
+            # 01
+            self.assertTrue("gazdagret" in relations.get_active_names())
+            # 43
+            self.assertTrue("budafok" in relations.get_active_names())
+            relations.limit_to_refcounty("01")
+            self.assertTrue("gazdagret" in relations.get_active_names())
+            self.assertTrue("budafok" not in relations.get_active_names())
+
+            # Test limit_to_refsettlement().
+            # 011
+            self.assertTrue("gazdagret" in relations.get_active_names())
+            # 99
+            self.assertTrue("nosuchrefsettlement" in relations.get_active_names())
+            relations.limit_to_refsettlement("99")
+            self.assertTrue("gazdagret" not in relations.get_active_names())
+            self.assertTrue("nosuchrefsettlement" in relations.get_active_names())
+
 
 class TestRelationConfigMissingStreets(unittest.TestCase):
     """Tests RelationConfig.should_check_missing_streets()."""
