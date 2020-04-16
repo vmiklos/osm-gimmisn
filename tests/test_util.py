@@ -260,6 +260,7 @@ class TestHouseNumber(unittest.TestCase):
         self.assertTrue(util.HouseNumber.is_invalid("15 a", ["15a"]))
         self.assertTrue(util.HouseNumber.is_invalid("15/a", ["15a"]))
         self.assertTrue(util.HouseNumber.is_invalid("15A", ["15a"]))
+        self.assertTrue(util.HouseNumber.is_invalid("67/5*", ["67/5"]))
 
         # Make sure we don't throw an exception on input which does not start with a number.
         self.assertFalse(util.HouseNumber.is_invalid("A", ["15a"]))

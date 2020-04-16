@@ -207,9 +207,15 @@ class HouseNumber:
         if match:
             number = match.group(1)
         suffix = ""
-        match = re.match(r".*([A-Za-z]+)", house_number)
+        # Check for letter suffix.
+        match = re.match(r".*([A-Za-z]+)\*?", house_number)
         if match:
             suffix = match.group(1).lower()
+        else:
+            # If not, then try digit suggfix, but then only '/' is OK as a separator.
+            match = re.match(r"^.*/([0-9])\*?$", house_number)
+            if match:
+                suffix = "/" + match.group(1)
 
         house_number = number + suffix
         return house_number in invalids
