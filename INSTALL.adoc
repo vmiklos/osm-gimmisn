@@ -68,3 +68,5 @@ This allows accessing your local instance for development.
 # daily, at 0:05
 5 0 * * * /home/osm-gimmisn/git/osm-gimmisn/osm-gimmisn-env/bin/python3 /home/osm-gimmisn/git/osm-gimmisn/cron.py
 ----
+
+See `./cron.py --help` for details on what switches are supported for that script.
