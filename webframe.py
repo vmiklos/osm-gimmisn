@@ -189,7 +189,10 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
         content_type = "application/json"
 
     if path.endswith(".js") or path.endswith(".css"):
-        return util.get_content(util.get_abspath("static"), path), content_type
+        prefix = util.Config.get_uri_prefix()
+        template = util.get_content(util.get_abspath("static"), path)
+        content = template.replace("@PREFIX@", prefix)
+        return content, content_type
     if path.endswith(".json"):
         return util.get_content(os.path.join(util.Config.get_workdir(), "stats"), path), content_type
 

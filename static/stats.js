@@ -297,8 +297,7 @@ function addCharts(stats) {
 
 // eslint-disable-next-line no-unused-vars
 document.addEventListener("DOMContentLoaded", function(event) {
-    // This could be configurable, but currently it's the only valid value.
-    var statsJSON = "https://osm.vmiklos.hu/osm/housenumber-stats/hungary/stats.json";
+    var statsJSON = "@PREFIX@/static/stats.json";
     window.fetch(statsJSON)
         .then((response) => {
             return response.json();
