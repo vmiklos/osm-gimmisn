@@ -144,8 +144,33 @@ def update_missing_streets(relations: areas.Relations, update: bool) -> None:
 
 def update_stats() -> None:
     """Performs the update of country-level stats."""
-    logging.info("update_stats: start")
+
+    # Fetch house numbers for the whole country.
+    logging.info("update_stats: start, updating whole-country csv")
+    query = util.get_content(util.get_abspath("data/street-housenumbers-hungary.txt"))
+    statedir = util.get_abspath("workdir/stats")
+    os.makedirs(statedir, exist_ok=True)
+    today = time.strftime("%Y-%m-%d")
+    csv_path = os.path.join(statedir, "%s.csv" % today)
+
+    retry = 0
+    while should_retry(retry):
+        if retry > 0:
+            logging.info("update_stats: try #%s", retry)
+        retry += 1
+        try:
+            overpass_sleep()
+            response = overpass_query.overpass_query(query)
+            with open(csv_path, "w") as stream:
+                stream.write(response)
+            break
+        except urllib.error.HTTPError as http_error:
+            logging.info("update_stats: http error: %s", str(http_error))
+
+    # Shell part.
+    logging.info("update_stats: executing the shell part")
     subprocess.run([util.get_abspath("stats-daily.sh")], check=True)
+
     logging.info("update_stats: end")
 
 
