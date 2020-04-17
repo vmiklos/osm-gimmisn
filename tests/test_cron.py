@@ -8,6 +8,7 @@
 
 from typing import Any
 from typing import BinaryIO
+from typing import List
 from typing import Optional
 import io
 import os
@@ -295,6 +296,26 @@ class TestUpdateOsmStreets(unittest.TestCase):
                     self.assertEqual(actual, expected)
 
 
+class TestUpdateStats(unittest.TestCase):
+    """Tests update_stats()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        actual_args: List[str] = []
+        actual_check = False
+
+        def mock_subprocess_run(args: List[str], check: bool) -> None:
+            nonlocal actual_args
+            nonlocal actual_check
+            actual_args = args
+            actual_check = check
+
+        with unittest.mock.patch('subprocess.run', mock_subprocess_run):
+            cron.update_stats()
+
+        self.assertTrue(actual_args[0].endswith("stats-daily.sh"))
+        self.assertTrue(actual_check)
+
+
 class TestOurMain(unittest.TestCase):
     """Tests our_main()."""
     def test_happy(self) -> None:
@@ -313,7 +334,7 @@ class TestOurMain(unittest.TestCase):
                         with unittest.mock.patch("cron.update_ref_housenumbers", count_calls):
                             with unittest.mock.patch("cron.update_missing_streets", count_calls):
                                 with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
-                                    cron.our_main(relations, update=True)
+                                    cron.our_main(relations, mode="relations", update=True)
 
         expected = 0
         # Consider what to update automatically: the 2 sources and the diff between them.
@@ -324,6 +345,21 @@ class TestOurMain(unittest.TestCase):
 
         self.assertEqual(calls, expected)
 
+    def test_stats(self) -> None:
+        """Tests the stats path."""
+        calls = 0
+
+        def count_calls() -> None:
+            nonlocal calls
+            calls += 1
+
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            relations = get_relations()
+            with unittest.mock.patch("cron.update_stats", count_calls):
+                cron.our_main(relations, mode="stats", update=False)
+
+        self.assertEqual(calls, 1)
+
 
 class TestMain(unittest.TestCase):
     """Tests main()."""
@@ -331,7 +367,7 @@ class TestMain(unittest.TestCase):
         """Tests the happy path."""
         mock_main_called = False
 
-        def mock_main(_relations: areas.Relation, _update: bool) -> None:
+        def mock_main(_relations: areas.Relation, _mode: str, _update: bool) -> None:
             nonlocal mock_main_called
             mock_main_called = True
 

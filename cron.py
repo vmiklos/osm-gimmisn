@@ -11,6 +11,7 @@ import argparse
 import datetime
 import logging
 import os
+import subprocess
 import time
 import traceback
 import urllib.error
@@ -141,14 +142,24 @@ def update_missing_streets(relations: areas.Relations, update: bool) -> None:
     logging.info("update_missing_streets: end")
 
 
-def our_main(relations: areas.Relations, update: bool) -> None:
+def update_stats() -> None:
+    """Performs the update of country-level stats."""
+    logging.info("update_stats: start")
+    subprocess.run([util.get_abspath("stats-daily.sh")], check=True)
+    logging.info("update_stats: end")
+
+
+def our_main(relations: areas.Relations, mode: str, update: bool) -> None:
     """Performs the actual nightly task."""
-    update_osm_streets(relations, update)
-    update_osm_housenumbers(relations, update)
-    update_ref_streets(relations, update)
-    update_ref_housenumbers(relations, update)
-    update_missing_streets(relations, update)
-    update_missing_housenumbers(relations, update)
+    if mode in ("all", "stats"):
+        update_stats()
+    if mode in ("all", "relations"):
+        update_osm_streets(relations, update)
+        update_osm_housenumbers(relations, update)
+        update_ref_streets(relations, update)
+        update_ref_housenumbers(relations, update)
+        update_missing_streets(relations, update)
+        update_missing_housenumbers(relations, update)
 
 
 def main() -> None:
@@ -173,7 +184,9 @@ def main() -> None:
                         help="limit the list of relations to a given refsettlement")
     parser.add_argument('--no-update', dest='update', action='store_false',
                         help="don't update existing state of relations")
-    parser.set_defaults(update=True)
+    parser.add_argument("--mode", choices=["all", "stats", "relations"],
+                        help="only perform the given sub-task or all of them")
+    parser.set_defaults(update=True, mode="relations")
     args = parser.parse_args()
 
     start = time.time()
@@ -181,7 +194,7 @@ def main() -> None:
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)
     try:
-        our_main(relations, args.update)
+        our_main(relations, args.mode, args.update)
     # pylint: disable=broad-except
     except Exception:
         logging.error("main: unhandled exception: %s", traceback.format_exc())
