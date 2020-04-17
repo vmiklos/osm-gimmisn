@@ -27,6 +27,13 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse  # noqa: F401
 
 
+def get_abspath(path: str) -> str:
+    """Mock get_abspath() that uses the test directory."""
+    if os.path.isabs(path):
+        return path
+    return os.path.join(os.path.dirname(__file__), path)
+
+
 class TestHandleStatic(unittest.TestCase):
     """Tests handle_static()."""
     def test_happy(self) -> None:
@@ -42,6 +49,14 @@ class TestHandleStatic(unittest.TestCase):
         content, content_type = webframe.handle_static(prefix + "/static/sorttable.js")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "application/x-javascript")
+
+    def test_json(self) -> None:
+        """Tests the json case."""
+        prefix = util.Config.get_uri_prefix()
+        with unittest.mock.patch('util.get_abspath', get_abspath):
+            content, content_type = webframe.handle_static(prefix + "/static/stats.json")
+            self.assertEqual(content, "{}\n")
+            self.assertEqual(content_type, "application/json")
 
     def test_else(self) -> None:
         """Tests the case when the content type is not recognized."""
@@ -82,11 +97,6 @@ class TestLocalToUiTz(unittest.TestCase):
     """Tests local_to_ui_tz()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        def get_abspath(path: str) -> str:
-            if os.path.isabs(path):
-                return path
-            return os.path.join(os.path.dirname(__file__), path)
-
         with unittest.mock.patch('util.get_abspath', get_abspath):
             with util.ConfigContext("timezone", "Europe/Budapest"):
                 local_dt = datetime.datetime.fromtimestamp(0)

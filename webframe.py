@@ -15,6 +15,7 @@ from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 import datetime
+import os
 import traceback
 
 import pytz
@@ -184,9 +185,13 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
         content_type = "application/x-javascript"
     elif request_uri.endswith(".css"):
         content_type = "text/css"
+    elif request_uri.endswith(".json"):
+        content_type = "application/json"
 
     if path.endswith(".js") or path.endswith(".css"):
         return util.get_content(util.get_abspath("static"), path), content_type
+    if path.endswith(".json"):
+        return util.get_content(os.path.join(util.Config.get_workdir(), "stats"), path), content_type
 
     return "", ""
 
