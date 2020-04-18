@@ -8,6 +8,7 @@ street-filters:
   - Áruház tér  # Görgey Artúr tér
   - Szikratávíró út  # Szikratáviró utca
   - Színesfém utca  # Szinesfém utcára vannak a hászámok felvéve
+  - Szállító utca  # Szállitó utcára vannak a hászámok felvéve
   # megszűnt
   - Varjú köz  # Varjú utca/Szent István között volt, Toboz utcával kb. szemben
   # egyéb
