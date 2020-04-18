@@ -79,53 +79,6 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.D
     return doc
 
 
-def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Doc:
-    """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
-    doc = yattag.doc.Doc()
-    doc.asis(webframe.get_toolbar(relations).getvalue())
-
-    prefix = util.Config.get_uri_prefix()
-    with doc.tag("script", src=prefix + "/static/Chart.min.js"):
-        pass
-    with doc.tag("script", src=prefix + "/static/chartjs-plugin-datalabels.min.js"):
-        pass
-    with doc.tag("script", src=prefix + "/static/stats.js"):
-        pass
-
-    title_ids = [
-        (_("New house numbers"), "daily"),
-        (_("All house numbers"), "dailytotal"),
-        (_("New house numbers, monthly"), "monthly"),
-        (_("All house numbers, monthly"), "monthlytotal"),
-        (_("Top house number editors"), "topusers"),
-        (_("Coverage"), "progress"),
-    ]
-
-    with doc.tag("ul"):
-        for title, identifier in title_ids:
-            with doc.tag("li"):
-                with doc.tag("a", href="#_" + identifier):
-                    doc.text(title)
-
-    for title, identifier in title_ids:
-        with doc.tag("h2", id="_" + identifier):
-            doc.text(title)
-        with doc.tag("div", klass="canvasblock"):
-            with doc.tag("canvas", id=identifier):
-                pass
-
-    with doc.tag("h2"):
-        doc.text(_("Note"))
-    with doc.tag("div"):
-        doc.text(_("""These statistics are provided purely for interested editors, and are not
-intended to reflect quality of work done by any given editor in OSM. If you want to use
-them to motivate yourself, that's fine, but keep in mind that a bit of useful work is
-more meaningful than a lot of useless work."""))
-
-    doc.asis(webframe.get_footer().getvalue())
-    return doc
-
-
 def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     tokens = request_uri.split("/")
@@ -833,7 +786,7 @@ HANDLERS = {
     "/missing-streets/": handle_missing_streets,
     "/street-housenumbers/": handle_street_housenumbers,
     "/missing-housenumbers/": handle_missing_housenumbers,
-    "/housenumber-stats/": handle_stats,
+    "/housenumber-stats/": webframe.handle_stats,
 }
 
 
