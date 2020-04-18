@@ -1,0 +1,41 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Kvassay zsilip
+  - Szigetcsúcs
+  # dupla, más írásmód is létezik
+  - Áruház tér  # Görgey Artúr tér
+  - Szikratávíró út  # Szikratáviró utca
+  # megszűnt
+  - Varjú köz  # Varjú utca/Szent István között volt, Toboz utcával kb. szemben
+  # egyéb
+  # Előd utca - Temetődűlő utca?
+  # Kisduna sor - Dunapart mellett, Szállító utcától északra
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # utcajegyzék = REF
+  'Baross út': 'Baross utca'
+  'Dűlő út': 'Dűlő utak'
+  'Erdőalja utca': 'Erdőalja út'  # tábla régi: u.
+  'Gyimesi utca': 'Gyimesi út'
+  'Révész utca': 'Révész út'  # tábla régi: u.
+  'Salak utca': 'Salak út'  # táblán Salak utca
+  'Zerge utca': 'Zerge út'  # táblán Zerge utca
+  # nincs tábla
+  'Simon Bolivar sétány': 'Simon Bolivár sétány'
+  'Simon Bolivar park': 'Simon Bolivár park'
+  # Utcajegyzék = OSM
+  'Báthory utca': 'Báthori utca'
+  'Deák tér': 'Deák Ferenc tér'
+  'Kórház köz': 'Kórház utca'
+  'Nagy-Duna sor': 'Nagydunasor'
+  'Plútó utca': 'Plutó utca'
+  'Tas utca': 'Tass utca'
+  # Helyesírás
+  'Merkúr utca': 'Merkur utca'
+  'Szállító utca': 'Szállitó utca'
+  'Szikratávíró utca': 'Szikratáviró utca'
+  'Színesfém utca': 'Szinesfém utca'
+source: survey
+inactive: true
