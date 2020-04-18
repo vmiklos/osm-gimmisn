@@ -21,7 +21,7 @@ class TestMain(unittest.TestCase):
             if os.path.isabs(path):
                 return path
             return os.path.join(os.path.dirname(__file__), path)
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             cache_path = "tests/data/yamls.pickle"
             if os.path.exists(cache_path):
                 os.remove(cache_path)

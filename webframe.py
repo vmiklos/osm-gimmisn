@@ -24,6 +24,7 @@ import yattag
 
 from i18n import translate as _
 import areas
+import config
 import util
 import version
 
@@ -54,7 +55,7 @@ def get_footer(last_updated: str = "") -> yattag.doc.Doc:
 
 def fill_header_function(function: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
     """Fills items with function-specific links in the header. Returns a title."""
-    prefix = util.Config.get_uri_prefix()
+    prefix = config.Config.get_uri_prefix()
     if function == "missing-housenumbers":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/update-result"):
@@ -94,7 +95,7 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
 
 def fill_missing_header_items(streets: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
     """Generates the 'missing house numbers/streets' part of the header."""
-    prefix = util.Config.get_uri_prefix()
+    prefix = config.Config.get_uri_prefix()
     if streets != "only":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/view-result"):
@@ -138,7 +139,7 @@ def get_toolbar(
         streets = relation.get_config().should_check_missing_streets()
 
     doc = yattag.doc.Doc()
-    prefix = util.Config.get_uri_prefix()
+    prefix = config.Config.get_uri_prefix()
     with doc.tag("a", href=prefix + "/"):
         doc.text(_("Area list"))
     items.append(doc)
@@ -190,12 +191,12 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
         content_type = "application/json"
 
     if path.endswith(".js") or path.endswith(".css"):
-        prefix = util.Config.get_uri_prefix()
-        template = util.get_content(util.get_abspath("static"), path)
+        prefix = config.Config.get_uri_prefix()
+        template = util.get_content(config.get_abspath("static"), path)
         content = template.replace("@PREFIX@", prefix)
         return content, content_type
     if path.endswith(".json"):
-        return util.get_content(os.path.join(util.Config.get_workdir(), "stats"), path), content_type
+        return util.get_content(os.path.join(config.Config.get_workdir(), "stats"), path), content_type
 
     return "", ""
 
@@ -236,8 +237,8 @@ def handle_exception(
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
     """Converts from local date-time to UI date-time, based on config."""
-    if util.Config.has_value("timezone"):
-        ui_tz = pytz.timezone(util.Config.get_timezone())
+    if config.Config.has_value("timezone"):
+        ui_tz = pytz.timezone(config.Config.get_timezone())
     else:
         ui_tz = pytz.timezone("Europe/Budapest")
 
@@ -257,7 +258,7 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
     doc = yattag.doc.Doc()
     doc.asis(get_toolbar(relations).getvalue())
 
-    prefix = util.Config.get_uri_prefix()
+    prefix = config.Config.get_uri_prefix()
     with doc.tag("script", src=prefix + "/static/Chart.min.js"):
         pass
     with doc.tag("script", src=prefix + "/static/chartjs-plugin-datalabels.min.js"):
@@ -303,7 +304,7 @@ def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
     """Finds out the request URI."""
     request_uri = cast(str, environ.get("PATH_INFO"))
 
-    prefix = util.Config.get_uri_prefix()
+    prefix = config.Config.get_uri_prefix()
     if request_uri:
         # Compatibility.
         if request_uri.startswith(prefix + "/suspicious-streets/"):
@@ -331,7 +332,7 @@ def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
 def check_existing_relation(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Prevents serving outdated data from a relation that has been renamed."""
     doc = yattag.doc.Doc()
-    prefix = util.Config.get_uri_prefix()
+    prefix = config.Config.get_uri_prefix()
     if not request_uri.startswith(prefix + "/streets/") \
             and not request_uri.startswith(prefix + "/missing-streets/") \
             and not request_uri.startswith(prefix + "/street-housenumbers/") \

@@ -15,14 +15,14 @@ import pickle
 import sys
 import yaml
 
-import util
+import config
 
 
 def main() -> None:
     """Commandline interface to this module."""
 
     cache: Dict[str, Any] = {}
-    datadir = util.get_abspath(sys.argv[1])
+    datadir = config.get_abspath(sys.argv[1])
     for yaml_path in glob.glob(os.path.join(datadir, "*.yaml")):
         with open(yaml_path) as yaml_stream:
             cache_key = os.path.relpath(yaml_path, datadir)

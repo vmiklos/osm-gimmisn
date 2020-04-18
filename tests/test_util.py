@@ -14,6 +14,7 @@ import urllib.error
 
 import yattag
 
+import config
 import util
 
 
@@ -319,10 +320,10 @@ class TestGetAbspath(unittest.TestCase):
     """Tests get_abspath()."""
     def test_happy(self) -> None:
         """Tests the happy path, when the input is relative."""
-        actual = util.get_abspath("foo")
+        actual = config.get_abspath("foo")
         expected = os.path.join(os.getcwd(), "foo")
         self.assertEqual(actual, expected)
-        self.assertEqual(util.get_abspath(actual), expected)
+        self.assertEqual(config.get_abspath(actual), expected)
 
 
 class TestSortNumerically(unittest.TestCase):
@@ -454,8 +455,8 @@ class TestGetWorkdir(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
 
-        with util.ConfigContext("workdir", "/path/to/workdir"):
-            actual = util.Config.get_workdir()
+        with config.ConfigContext("workdir", "/path/to/workdir"):
+            actual = config.Config.get_workdir()
             expected = "/path/to/workdir"
             self.assertEqual(actual, expected)
 

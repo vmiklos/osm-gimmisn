@@ -17,6 +17,7 @@ import traceback
 import urllib.error
 
 import areas
+import config
 import overpass_query
 import util
 
@@ -86,7 +87,7 @@ def update_ref_housenumbers(relations: areas.Relations, update: bool) -> None:
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_ref_housenumbers_path()):
             continue
-        references = util.Config.get_reference_housenumber_paths()
+        references = config.Config.get_reference_housenumber_paths()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "only":
             continue
@@ -102,7 +103,7 @@ def update_ref_streets(relations: areas.Relations, update: bool) -> None:
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_ref_streets_path()):
             continue
-        reference = util.Config.get_reference_street_path()
+        reference = config.Config.get_reference_street_path()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "no":
             continue
@@ -147,8 +148,8 @@ def update_stats() -> None:
 
     # Fetch house numbers for the whole country.
     logging.info("update_stats: start, updating whole-country csv")
-    query = util.get_content(util.get_abspath("data/street-housenumbers-hungary.txt"))
-    statedir = util.get_abspath("workdir/stats")
+    query = util.get_content(config.get_abspath("data/street-housenumbers-hungary.txt"))
+    statedir = config.get_abspath("workdir/stats")
     os.makedirs(statedir, exist_ok=True)
     today = time.strftime("%Y-%m-%d")
     csv_path = os.path.join(statedir, "%s.csv" % today)
@@ -169,7 +170,7 @@ def update_stats() -> None:
 
     # Shell part.
     logging.info("update_stats: executing the shell part")
-    subprocess.run([util.get_abspath("stats-daily.sh")], check=True)
+    subprocess.run([config.get_abspath("stats-daily.sh")], check=True)
 
     logging.info("update_stats: end")
 
@@ -192,7 +193,7 @@ def main() -> None:
 
     util.set_locale()
 
-    workdir = util.Config.get_workdir()
+    workdir = config.Config.get_workdir()
     relations = areas.Relations(workdir)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
@@ -215,7 +216,7 @@ def main() -> None:
     args = parser.parse_args()
 
     start = time.time()
-    relations.activate_all(util.Config.get_cron_update_inactive())
+    relations.activate_all(config.Config.get_cron_update_inactive())
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)
     try:

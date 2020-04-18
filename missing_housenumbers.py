@@ -8,13 +8,15 @@
 """Compares reference house numbers with OSM ones and shows the diff."""
 
 import sys
+
 import areas
+import config
 import util
 
 
 def main() -> None:
     """Commandline interface."""
-    workdir = util.Config.get_workdir()
+    workdir = config.Config.get_workdir()
 
     relation_name = sys.argv[1]
 

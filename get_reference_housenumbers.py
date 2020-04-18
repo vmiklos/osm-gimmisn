@@ -8,8 +8,9 @@
 """The get_reference_housenumbers module allows fetching reference house numbers for a relation."""
 
 import sys
+
 import areas
-import util
+import config
 
 
 def main() -> None:
@@ -17,8 +18,8 @@ def main() -> None:
 
     relation_name = sys.argv[1]
 
-    references = util.Config.get_reference_housenumber_paths()
-    workdir = util.Config.get_workdir()
+    references = config.Config.get_reference_housenumber_paths()
+    workdir = config.Config.get_workdir()
     relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(references)

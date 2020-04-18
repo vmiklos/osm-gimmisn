@@ -11,14 +11,13 @@ from typing import cast
 import gettext
 import threading
 
+import config
+
 
 def set_language(language: str) -> None:
     """Sets the language of the current thread."""
     tls = threading.current_thread.__dict__
-    # Import only inside the function, as util imports a function from this module.
-    # pylint: disable=import-outside-toplevel
-    import util
-    localedir = util.get_abspath("locale")
+    localedir = config.get_abspath("locale")
     tls["translations"] = gettext.translation("osm-gimmisn", localedir=localedir, languages=[language], fallback=True)
 
 

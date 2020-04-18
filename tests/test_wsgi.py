@@ -27,6 +27,7 @@ import xml.etree.ElementTree as ET
 import yattag
 
 import areas
+import config
 import util
 import webframe
 import wsgi
@@ -59,8 +60,8 @@ class TestWsgi(unittest.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
-            prefix = util.Config.get_uri_prefix()
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            prefix = config.Config.get_uri_prefix()
             environ = {
                 "PATH_INFO": prefix + path
             }
@@ -85,8 +86,8 @@ class TestWsgi(unittest.TestCase):
             else:
                 self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
-            prefix = util.Config.get_uri_prefix()
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            prefix = config.Config.get_uri_prefix()
             environ = {
                 "PATH_INFO": prefix + path
             }
@@ -105,8 +106,8 @@ class TestWsgi(unittest.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "application/x-javascript; charset=utf-8")
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
-            prefix = util.Config.get_uri_prefix()
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            prefix = config.Config.get_uri_prefix()
             environ = {
                 "PATH_INFO": prefix + path
             }
@@ -202,7 +203,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_streets_path()
@@ -219,7 +220,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_housenumbers_path()
@@ -236,7 +237,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_ref_housenumbers_path()
@@ -308,7 +309,7 @@ Tűzkő utca	[1], [2]"""
                 return False
             return real_exists(path)
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_streets_path()
@@ -316,7 +317,7 @@ Tűzkő utca	[1], [2]"""
                 result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
                 self.assertEqual(result, "No existing streets")
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_housenumbers_path()
@@ -326,7 +327,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_chkl_no_ref_housenumbers(self) -> None:
         """Tests the chkl output, no ref housenumbers case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_ref_housenumbers_path()
@@ -342,7 +343,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_streets_path()
@@ -358,7 +359,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_osm_housenumbers(self) -> None:
         """Tests the txt output, no osm housenumbers case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_housenumbers_path()
@@ -374,7 +375,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_ref_housenumbers(self) -> None:
         """Tests the txt output, no ref housenumbers case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_ref_housenumbers_path()
@@ -403,7 +404,7 @@ Tűzkő utca	[1], [2]"""
     def test_update_result_link(self) -> None:
         """Tests if the update-result output links back to the correct page."""
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/update-result")
-        prefix = util.Config.get_uri_prefix()
+        prefix = config.Config.get_uri_prefix()
         results = root.findall("body/a[@href='" + prefix + "/missing-housenumbers/gazdagret/view-result']")
         self.assertEqual(len(results), 1)
 
@@ -413,7 +414,7 @@ class TestStreetHousenumbers(TestWsgi):
     def test_view_result_update_result_link(self) -> None:
         """Tests view result: the update-result link."""
         root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
-        uri = util.Config.get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
+        uri = config.Config.get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
         results = root.findall("body/div[@id='toolbar']/a[@href='" + uri + "']")
         self.assertTrue(results)
 
@@ -456,7 +457,7 @@ class TestStreetHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_housenumbers_path()
@@ -488,7 +489,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_streets_path()
@@ -505,7 +506,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_ref_streets_path()
@@ -527,7 +528,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_streets_path()
@@ -543,7 +544,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_ref_streets_path()
@@ -580,7 +581,7 @@ class TestMain(TestWsgi):
 
     def test_no_path(self) -> None:
         """Tests the case when PATH_INFO is empty (should give the main page)."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             environ = {
                 "PATH_INFO": ""
             }
@@ -613,7 +614,7 @@ class TestMain(TestWsgi):
 
     def test_custom_locale(self) -> None:
         """Tests the main page with a custom locale."""
-        with util.ConfigContext("locale", "en_US.UTF-8"):
+        with config.ConfigContext("locale", "en_US.UTF-8"):
             root = self.get_dom_for_path("")
             results = root.findall("body/table")
             self.assertEqual(len(results), 1)

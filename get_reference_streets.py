@@ -9,7 +9,8 @@
 
 import sys
 import areas
-import util
+
+import config
 
 
 def main() -> None:
@@ -17,8 +18,8 @@ def main() -> None:
 
     relation_name = sys.argv[1]
 
-    reference = util.Config.get_reference_street_path()
-    workdir = util.Config.get_workdir()
+    reference = config.Config.get_reference_street_path()
+    workdir = config.Config.get_workdir()
     relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)

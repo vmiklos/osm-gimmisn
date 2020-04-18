@@ -18,6 +18,7 @@ import pickle
 import yattag
 
 from i18n import translate as _
+import config
 import ranges
 import util
 
@@ -236,7 +237,7 @@ class Relation:
         self.__workdir = workdir
         self.__name = name
         my_config: Dict[str, Any] = {}
-        self.__file = RelationFiles(util.get_abspath("data"), workdir, name)
+        self.__file = RelationFiles(config.get_abspath("data"), workdir, name)
         relation_path = "relation-%s.yaml" % name
         # Intentionally don't require this cache to be present, it's fine to omit it for simple
         # relations.
@@ -307,7 +308,7 @@ class Relation:
 
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
-        datadir = util.get_abspath("data")
+        datadir = config.get_abspath("data")
         with open(os.path.join(datadir, "streets-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
@@ -546,7 +547,7 @@ class Relation:
 
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
-        datadir = util.get_abspath("data")
+        datadir = config.get_abspath("data")
         with open(os.path.join(datadir, "street-housenumbers-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
@@ -555,7 +556,7 @@ class Relations:
     """A relations object is a container of named relation objects."""
     def __init__(self, workdir: str) -> None:
         self.__workdir = workdir
-        datadir = util.get_abspath("data")
+        datadir = config.get_abspath("data")
         with open(os.path.join(datadir, "yamls.pickle"), "rb") as stream:
             self.__yaml_cache: Dict[str, Any] = pickle.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]

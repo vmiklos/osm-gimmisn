@@ -8,13 +8,14 @@
 """Compares reference streets with OSM ones and shows the diff."""
 
 import sys
+
 import areas
-import util
+import config
 
 
 def main() -> None:
     """Commandline interface."""
-    workdir = util.Config.get_workdir()
+    workdir = config.Config.get_workdir()
 
     relation_name = sys.argv[1]
 

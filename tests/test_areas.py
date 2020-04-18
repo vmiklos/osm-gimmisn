@@ -35,7 +35,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
     """Tests Relation.get_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("test")
             actual = relation.get_osm_streets()
@@ -44,7 +44,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
 
     def test_no_house_number(self) -> None:
         """Tests the case when we have streets, but no house numbers."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("ujbuda")
             actual = relation.get_osm_streets()
@@ -56,7 +56,7 @@ class TestRelationGetOsmStreetsQuery(unittest.TestCase):
     """Tests Relation.get_osm_streets_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             self.assertEqual(os.path.join(os.path.dirname(__file__), "workdir"), relations.get_workdir())
             relation_name = "gazdagret"
@@ -69,7 +69,7 @@ class TestRelationGetOsmHousenumbersQuery(unittest.TestCase):
     """Tests Relation.get_osm_housenumbers_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
@@ -81,7 +81,7 @@ class TestRelationFilesWriteOsmStreets(unittest.TestCase):
     """Tests RelationFiles.write_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
@@ -96,7 +96,7 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
     """Tests RelationFiles.write_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gazdagret"
             result_from_overpass = "@id\taddr:street\taddr:housenumber\n"
@@ -118,7 +118,7 @@ class TestRelationGetStreetRanges(unittest.TestCase):
     """Tests Relation.get_street_ranges()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             filters = relation.get_street_ranges()
@@ -139,7 +139,7 @@ class TestRelationGetStreetRanges(unittest.TestCase):
 
     def test_empty(self) -> None:
         """Tests when the filter file is empty."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("empty")
             filters = relation.get_street_ranges()
@@ -150,7 +150,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
     """Tests Relation.get_ref_street_from_osm_street()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             street = "Budaörsi út"
             relation_name = "gazdagret"
@@ -163,7 +163,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_refsettlement_override(self) -> None:
         """Tests street-specific refsettlement override."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             street = "Teszt utca"
             relation_name = "gazdagret"
@@ -176,7 +176,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_refstreets(self) -> None:
         """Tests OSM -> ref name mapping."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             street = "OSM Name 1"
             relation_name = "gazdagret"
@@ -189,7 +189,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             street = "OSM Name 1"
             relation_name = "nosuchrelation"
@@ -202,7 +202,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_emptyrelation(self) -> None:
         """Tests a relation with an empty filter file."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             street = "OSM Name 1"
             relation_name = "empty"
@@ -215,7 +215,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_range_level_override(self) -> None:
         """Tests the refsettlement range-level override."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             street = "Csiki-hegyek utca"
             relation_name = "gazdagret"
@@ -231,7 +231,7 @@ class TestNormalize(unittest.TestCase):
     """Tests normalize()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -240,7 +240,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_not_in_range(self) -> None:
         """Tests when the number is not in range."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -249,7 +249,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_not_a_number(self) -> None:
         """Tests the case when the house number is not a number."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -258,7 +258,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_nofilter(self) -> None:
         """Tests the case when there is no filter for this street."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -267,7 +267,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_semicolon(self) -> None:
         """Tests the case when ';' is a separator."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -276,7 +276,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval(self) -> None:
         """Tests the 2-6 case: means implicit 4."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -285,7 +285,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_parity(self) -> None:
         """Tests the 5-8 case: means just 5 and 8 as the parity doesn't match."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -294,7 +294,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_interp_all(self) -> None:
         """Tests the 2-5 case: means implicit 3 and 4."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -303,7 +303,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_filter(self) -> None:
         """Tests the case where x-y is partially filtered out."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -314,7 +314,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_block(self) -> None:
         """Tests the case where x-y is nonsense: y is too large."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -325,7 +325,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_block2(self) -> None:
         """Tests the case where x-y is nonsense: y-x is too large."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -335,7 +335,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_block3(self) -> None:
         """Tests the case where x-y is nonsense: x is 0."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -345,7 +345,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_block4(self) -> None:
         """Tests the case where x-y is only partially useful: x is OK, but y is a suffix."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -355,7 +355,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_keep_suffix(self) -> None:
         """Tests that the * suffix is preserved."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             normalizers = relation.get_street_ranges()
@@ -369,7 +369,7 @@ class TestRelationGetRefStreets(unittest.TestCase):
     """Tests Relation.GetRefStreets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relation_name = "gazdagret"
             relations = get_relations()
             relation = relations.get_relation(relation_name)
@@ -386,7 +386,7 @@ class TestRelationGetOsmHouseNumbers(unittest.TestCase):
     """Tests Relation.get_osm_house_numbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relation_name = "gazdagret"
             street_name = "Törökugrató utca"
             relations = get_relations()
@@ -399,7 +399,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
     """Tests Relation.get_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
@@ -417,7 +417,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix(self) -> None:
         """Tests that 7/A is detected when 7/B is already mapped."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gh267"
             relation = relations.get_relation(relation_name)
@@ -433,7 +433,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix_invalid(self) -> None:
         """Tests how 'invalid' interacts with normalization."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gh296"
             relation = relations.get_relation(relation_name)
@@ -457,7 +457,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix_normalize(self) -> None:
         """Tests that '42 A' vs '42/A' is recognized as a match."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gh286"
             relation = relations.get_relation(relation_name)
@@ -473,7 +473,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix_source_suffix(self) -> None:
         """Tests that '42/A*' and '42/a' matches."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gh299"
             relation = relations.get_relation(relation_name)
@@ -485,7 +485,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix_normalize_semicolon(self) -> None:
         """Tests that 'a' is not stripped from '1;3a'."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gh303"
             relation = relations.get_relation(relation_name)
@@ -504,7 +504,7 @@ class TestRelationGetMissingStreets(unittest.TestCase):
     """Tests Relation.get_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
@@ -531,7 +531,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
     """Tests Relation.write_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
@@ -552,7 +552,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
 
     def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "empty"
             relation = relations.get_relation(relation_name)
@@ -564,7 +564,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
 
     def test_interpolation_all(self) -> None:
         """Tests the case when the street is interpolation=all and coloring is wanted."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "budafok"
             relation = relations.get_relation(relation_name)
@@ -581,7 +581,7 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
     """Tests Relation.write_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
@@ -597,7 +597,7 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
 
     def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation_name = "empty"
             relation = relations.get_relation(relation_name)
@@ -611,7 +611,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
     """Tests Relation.build_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             relations = get_relations()
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
@@ -632,7 +632,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
 
     def test_missing(self) -> None:
         """Tests the case when the street is not in the reference."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
@@ -648,7 +648,7 @@ class TestRelationBuildRefStreets(unittest.TestCase):
     """Tests Relation.build_ref_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             refpath = os.path.join(refdir, "utcak_20190514.tsv")
             memory_cache = util.build_street_reference_cache(refpath)
@@ -668,7 +668,7 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
     """Tests Relation.write_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
             refpath2 = os.path.join(refdir, "hazszamok_kieg_20190808.tsv")
@@ -682,7 +682,7 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
 
     def test_nosuchrefcounty(self) -> None:
         """Tests the case when the refcounty code is missing in the reference."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
             relations = get_relations()
@@ -695,7 +695,7 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
 
     def test_nosuchrefsettlement(self) -> None:
         """Tests the case when the refsettlement code is missing in the reference."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
             relations = get_relations()
@@ -711,7 +711,7 @@ class TestRelationWriteRefStreets(unittest.TestCase):
     """Tests Relation.WriteRefStreets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             refpath = get_abspath(os.path.join("refdir", "utcak_20190514.tsv"))
             relations = get_relations()
             relation_name = "gazdagret"
@@ -726,7 +726,7 @@ class TestRelations(unittest.TestCase):
     """Tests the Relations class."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             expected_relation_names = [
                 "budafok",
@@ -775,7 +775,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
     """Tests RelationConfig.should_check_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relation_name = "ujbuda"
             relations = get_relations()
             relation = relations.get_relation(relation_name)
@@ -784,7 +784,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
 
     def test_empty(self) -> None:
         """Tests the default value."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relation_name = "empty"
             relations = get_relations()
             relation = relations.get_relation(relation_name)
@@ -794,7 +794,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
 
     def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relation_name = "nosuchrelation"
             relations = get_relations()
             relation = relations.get_relation(relation_name)
@@ -806,7 +806,7 @@ class TestRelationConfigLetterSuffixStyle(unittest.TestCase):
     """Tests RelationConfig.get_letter_suffix_style()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relation_name = "empty"
             relations = get_relations()
             relation = relations.get_relation(relation_name)
@@ -819,7 +819,7 @@ class TestRefmegyeGetName(unittest.TestCase):
     """Tests refcounty_get_name()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             self.assertEqual(relations.refcounty_get_name("01"), "Budapest")
             self.assertEqual(relations.refcounty_get_name("99"), "")
@@ -829,7 +829,7 @@ class TestRefmegyeGetReftelepulesIds(unittest.TestCase):
     """Tests refcounty_get_refsettlement_ids()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             self.assertEqual(relations.refcounty_get_refsettlement_ids("01"), ["011", "012"])
             self.assertEqual(relations.refcounty_get_refsettlement_ids("99"), [])
@@ -839,7 +839,7 @@ class TestReftelepulesGetName(unittest.TestCase):
     """Tests refsettlement_get_name()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             self.assertEqual(relations.refsettlement_get_name("01", "011"), "Újbuda")
             self.assertEqual(relations.refsettlement_get_name("99", ""), "")
@@ -850,7 +850,7 @@ class TestRelationsGetAliases(unittest.TestCase):
     """Tests Relalations.get_aliases()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             # Expect an alias -> canonicalname map.
             expected = {
@@ -863,7 +863,7 @@ class TestRelationStreetIsEvenOdd(unittest.TestCase):
     """Tests RelationConfig.get_street_is_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             self.assertFalse(relation.get_config().get_street_is_even_odd("Hamzsabégi út"))
@@ -875,7 +875,7 @@ class TestRelationIsActive(unittest.TestCase):
     """Tests RelationConfig.is_active()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             self.assertTrue(relation.get_config().is_active())
@@ -885,7 +885,7 @@ class TestMakeTurboQueryForStreets(unittest.TestCase):
     """Tests make_turbo_query_for_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             relation = relations.get_relation("gazdagret")
             fro = [[util.html_escape("A1"),

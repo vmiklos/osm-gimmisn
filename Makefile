@@ -20,6 +20,7 @@ PYTHON_SAFE_OBJECTS = \
 	accept_language.py \
 	areas.py \
 	cache_yamls.py \
+	config.py \
 	get_reference_housenumbers.py \
 	get_reference_streets.py \
 	i18n.py \

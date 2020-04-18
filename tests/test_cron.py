@@ -18,6 +18,7 @@ import unittest.mock
 import urllib.error
 
 import areas
+import config
 import cron
 import util
 
@@ -81,7 +82,7 @@ class TestUpdateRefHousenumbers(unittest.TestCase):
     """Tests update_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             for relation_name in relations.get_active_names():
                 if relation_name not in ("gazdagret", "ujbuda"):
@@ -104,7 +105,7 @@ class TestUpdateRefStreets(unittest.TestCase):
     """Tests update_ref_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             for relation_name in relations.get_active_names():
                 # gellerthegy is streets=no
@@ -128,7 +129,7 @@ class TestUpdateMissingHousenumbers(unittest.TestCase):
     """Tests update_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             for relation_name in relations.get_active_names():
                 # ujbuda is streets=only
@@ -151,7 +152,7 @@ class TestUpdateMissingStreets(unittest.TestCase):
     """Tests update_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             for relation_name in relations.get_active_names():
                 # gellerthegy is streets=no
@@ -195,7 +196,7 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
             buf.seek(0)
             return buf
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
                 with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                     relations = get_relations()
@@ -221,7 +222,7 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
                 with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                     relations = get_relations()
@@ -255,7 +256,7 @@ class TestUpdateOsmStreets(unittest.TestCase):
             buf.seek(0)
             return buf
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
                 with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                     relations = get_relations()
@@ -281,7 +282,7 @@ class TestUpdateOsmStreets(unittest.TestCase):
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
                 with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                     relations = get_relations()
@@ -325,9 +326,9 @@ class TestUpdateStats(unittest.TestCase):
             buf.seek(0)
             return buf
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             today = time.strftime("%Y-%m-%d")
-            path = util.get_abspath("workdir/stats/%s.csv" % today)
+            path = config.get_abspath("workdir/stats/%s.csv" % today)
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
                 with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                     with unittest.mock.patch('subprocess.run', mock_subprocess_run):
@@ -356,7 +357,7 @@ class TestUpdateStats(unittest.TestCase):
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
                 with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                     with unittest.mock.patch('subprocess.run', mock_subprocess_run):
@@ -376,7 +377,7 @@ class TestOurMain(unittest.TestCase):
             nonlocal calls
             calls += 1
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             with unittest.mock.patch("cron.update_osm_streets", count_calls):
                 with unittest.mock.patch("cron.update_osm_housenumbers", count_calls):
@@ -403,7 +404,7 @@ class TestOurMain(unittest.TestCase):
             nonlocal calls
             calls += 1
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             relations = get_relations()
             with unittest.mock.patch("cron.update_stats", count_calls):
                 cron.our_main(relations, mode="stats", update=False)
@@ -427,7 +428,7 @@ class TestMain(unittest.TestCase):
             nonlocal mock_info_called
             mock_info_called = True
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             with unittest.mock.patch("cron.our_main", mock_main):
                 with unittest.mock.patch("logging.info", mock_info):
                     argv = [""]
@@ -451,7 +452,7 @@ class TestMain(unittest.TestCase):
             nonlocal mock_error_called
             mock_error_called = True
 
-        with unittest.mock.patch('util.get_abspath', get_abspath):
+        with unittest.mock.patch('config.get_abspath', get_abspath):
             with unittest.mock.patch("cron.our_main", mock_our_main):
                 with unittest.mock.patch("logging.info", mock_info):
                     with unittest.mock.patch("logging.error", mock_error):
