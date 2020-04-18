@@ -731,26 +731,6 @@ def our_application_txt(
     return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
 
 
-def check_existing_relation(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
-    """Prevents serving outdated data from a relation that has been renamed."""
-    doc = yattag.doc.Doc()
-    prefix = util.Config.get_uri_prefix()
-    if not request_uri.startswith(prefix + "/streets/") \
-            and not request_uri.startswith(prefix + "/missing-streets/") \
-            and not request_uri.startswith(prefix + "/street-housenumbers/") \
-            and not request_uri.startswith(prefix + "/missing-housenumbers/"):
-        return doc
-
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    if relation_name in relations.get_names():
-        return doc
-
-    with doc.tag("div", id="no-such-relation-error"):
-        doc.text(_("No such relation: {0}").format(relation_name))
-    return doc
-
-
 HANDLERS = {
     "/streets/": handle_streets,
     "/missing-streets/": handle_missing_streets,
@@ -797,7 +777,7 @@ def our_application(
         write_html_head(doc, get_html_title(request_uri))
 
         with doc.tag("body"):
-            no_such_relation = check_existing_relation(relations, request_uri)
+            no_such_relation = webframe.check_existing_relation(relations, request_uri)
             handler = get_handler(request_uri)
             if no_such_relation.getvalue():
                 doc.asis(no_such_relation.getvalue())
