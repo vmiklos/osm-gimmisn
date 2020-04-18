@@ -1,0 +1,33 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - MÁV 7-es vasúti őrház
+  - MÁV 8/B őrház
+  - Máv vasútállomás
+  - Sziget dűlő
+  - Közös legelő dűlő
+  # egyéb
+  # Szigetdűlő középső útja - Szigetdűlő közepén
+  # Szőlősor utca - Temető mellett
+  # Tisza köz - Tisza utcából nyílik - note felvéve
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Bolyai János utca': 'Bólyai János utca'
+  'Bolyai János köz': 'Bólyai János köz'
+  'Írisz utca': 'Irisz utca'
+  # check
+  'Apostolhegyi dűlő': 'Apostolhegy dűlő'  # note felvéve
+  'Déli temető utca': 'Délitemető utca'
+  'Felső Duna sor': 'Felső Dunasor'
+  'Kis-Duna utca': 'Kisduna utca'
+  'Közép temető utca': 'Középtemető utca'
+  'Majosháza utca': 'Majosház utca'
+  'Mocsár utca': 'Mocsaras utca'
+  'Sósmocsár utca': 'Sósmocsár út'
+  'Sziget csárda utca': 'Szigetcsárda utca'
+  'Új élet utca': 'Új Élet utca'
+  'Vízisport utca': 'Vízisport út'
+  'Wagner utca': 'Wágner utca'
+source: survey
+inactive: true
