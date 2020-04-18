@@ -21,7 +21,6 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
-from typing import cast
 import wsgiref.simple_server
 
 import yattag
@@ -732,35 +731,6 @@ def our_application_txt(
     return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
 
 
-def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
-    """Finds out the request URI."""
-    request_uri = cast(str, environ.get("PATH_INFO"))
-
-    prefix = util.Config.get_uri_prefix()
-    if request_uri:
-        # Compatibility.
-        if request_uri.startswith(prefix + "/suspicious-streets/"):
-            request_uri = request_uri.replace('suspicious-streets', 'missing-housenumbers')
-        elif request_uri.startswith(prefix + "/suspicious-relations/"):
-            request_uri = request_uri.replace('suspicious-relations', 'missing-streets')
-
-        # Performance: don't bother with relation aliases for non-relation requests.
-        if not request_uri.startswith(prefix + "/streets/") \
-                and not request_uri.startswith(prefix + "/missing-streets/") \
-                and not request_uri.startswith(prefix + "/street-housenumbers/") \
-                and not request_uri.startswith(prefix + "/missing-housenumbers/"):
-            return request_uri
-
-        # Relation aliases.
-        aliases = relations.get_aliases()
-        tokens = request_uri.split("/")
-        relation_name = tokens[-2]
-        if relation_name in aliases:
-            request_uri = request_uri.replace(relation_name, aliases[relation_name])
-
-    return request_uri
-
-
 def check_existing_relation(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Prevents serving outdated data from a relation that has been renamed."""
     doc = yattag.doc.Doc()
@@ -810,7 +780,7 @@ def our_application(
 
     relations = areas.Relations(util.Config.get_workdir())
 
-    request_uri = get_request_uri(environ, relations)
+    request_uri = webframe.get_request_uri(environ, relations)
     _, _, ext = request_uri.partition('.')
 
     if ext in ("txt", "chkl"):

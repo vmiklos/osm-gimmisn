@@ -14,6 +14,7 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
+from typing import cast
 import datetime
 import os
 import traceback
@@ -296,6 +297,35 @@ more meaningful than a lot of useless work."""))
 
     doc.asis(get_footer().getvalue())
     return doc
+
+
+def get_request_uri(environ: Dict[str, Any], relations: areas.Relations) -> str:
+    """Finds out the request URI."""
+    request_uri = cast(str, environ.get("PATH_INFO"))
+
+    prefix = util.Config.get_uri_prefix()
+    if request_uri:
+        # Compatibility.
+        if request_uri.startswith(prefix + "/suspicious-streets/"):
+            request_uri = request_uri.replace('suspicious-streets', 'missing-housenumbers')
+        elif request_uri.startswith(prefix + "/suspicious-relations/"):
+            request_uri = request_uri.replace('suspicious-relations', 'missing-streets')
+
+        # Performance: don't bother with relation aliases for non-relation requests.
+        if not request_uri.startswith(prefix + "/streets/") \
+                and not request_uri.startswith(prefix + "/missing-streets/") \
+                and not request_uri.startswith(prefix + "/street-housenumbers/") \
+                and not request_uri.startswith(prefix + "/missing-housenumbers/"):
+            return request_uri
+
+        # Relation aliases.
+        aliases = relations.get_aliases()
+        tokens = request_uri.split("/")
+        relation_name = tokens[-2]
+        if relation_name in aliases:
+            request_uri = request_uri.replace(relation_name, aliases[relation_name])
+
+    return request_uri
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

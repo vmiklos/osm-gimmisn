@@ -27,8 +27,9 @@ import xml.etree.ElementTree as ET
 import yattag
 
 import areas
-import wsgi
 import util
+import webframe
+import wsgi
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -583,7 +584,7 @@ class TestMain(TestWsgi):
             environ = {
                 "PATH_INFO": ""
             }
-            ret = wsgi.get_request_uri(environ, get_relations())
+            ret = webframe.get_request_uri(environ, get_relations())
             self.assertEqual(ret, "")
 
     def test_filter_for_incomplete_well_formed(self) -> None:
