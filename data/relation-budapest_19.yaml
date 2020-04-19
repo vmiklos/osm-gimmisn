@@ -1,0 +1,25 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - MÁV állomás
+  # egyéb
+  - Dugonics utca  # Europark (Shopmark) épült a helyén
+  # semmilyen forrásban sem találtam
+  - Dr. Rákos Ferenc utca
+  - Elmű utca
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Áchim András utca': 'Achim András utca'
+  'Báthory utca': 'Báthori utca'
+  'Bóné András utca': 'Bohné András utca'
+  'Citroën utca': 'Citroen utca'
+  'Drágfy köz': 'Drágffy köz'
+  'Györffy István tér': 'Győrffy István tér'
+  'Kis Viola utca': 'Kisviola utca'
+  'Kiss János altábornagy utca': 'Kiss János altbgy. utca'
+  'Körös köz': 'Kőrös köz'
+  'Petur utca': 'Petúr utca'
+  'Tas utca': 'Tass utca'
+source: survey
+inactive: true
