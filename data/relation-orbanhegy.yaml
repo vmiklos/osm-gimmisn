@@ -21,7 +21,7 @@ filters:
       - {start: '53', end: '67'}
       - {start: '38', end: '58'}
   Mártonlak utca:
-    # talán, de lehet, hogy semmi
+    # https://www.mapillary.com/map/im/5K9nMzk8xD_1wwuiYJwtow
     ranges:
       - {start: '20', end: '22'}
   Németvölgyi út:
@@ -40,4 +40,3 @@ filters:
       - {start: '27', end: '43'}
       - {start: '18', end: '40'}
 source: survey
-inactive: true
