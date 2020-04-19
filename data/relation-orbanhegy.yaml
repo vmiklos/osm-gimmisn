@@ -39,4 +39,10 @@ filters:
     ranges:
       - {start: '27', end: '43'}
       - {start: '18', end: '40'}
+  Szent Orbán tér:
+    interpolation: all
+    # 1, 2: Kissvábhegy
+    # 4: Istenhegy
+    ranges:
+      - {start: '5', end: '7'}
 source: survey
