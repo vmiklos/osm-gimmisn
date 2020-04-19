@@ -1,0 +1,21 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Helsinki hévállomás
+  - Gubacs puszta
+  - Dunapart
+  # egyéb
+  - Eperjes köz  # = Rózsás utca
+  - Kraszna köz  # Időközben magántulajdonba került Hrsz: 182098/118
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Báthory utca': 'Báthori utca'
+  'Bolyai János utca': 'Bólyai János utca'
+  'Knézich utca': 'Knézits utca'
+  'Kövező út': 'Kövező utca'
+  'Tinódi utca': 'Tinódy utca'
+  'Téglagyártó utca': 'Téglagyártó út'
+  'Vereckei utca': 'Verecke utca'
+source: survey
+inactive: true
