@@ -1,0 +1,44 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Fővárosi dűlő
+  - MÁV állomás
+  - MÁV állomás vasútállomás
+  - Pestimrei vasútállomás
+  - Szemere Miklós vasútállomás
+  - Vasútállomás felső
+  # egyéb
+  - Újtemető út  # Átnevezték, de a XIX. kerülethez tartozik tejes egészében
+  # semmilyen forrásban sem találtam
+  - Soroksári összekötő út
+  # todo
+  # Gödör tér
+  # Szarvas csárda tér
+  # Szemere major
+  # Templom tér
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Áchim András utca': 'Achim András utca'
+  'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
+  'Besence utca': 'Besence út'
+  'Bulcsu utca': 'Bulcsú utca'
+  'Csarnóta': 'Csarnóta utca'
+  'Csontváry Kosztka Tivadar utca': 'Csontváry K. Tivadar utca'
+  'Darányi Ignác utca': 'Darányi utca'
+  'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
+  'Határ út': 'Határ utca'
+  'Ipacsfa utca': 'Ipacsfa út'
+  'Kelevári utca': 'Kevevári utca'
+  'Kerékkötő utca': 'Kerékkötő út'
+  'Királyhágó út': 'Királyhágó utca'
+  'Kisaszonyfa utca': 'Kisasszonyfa utca'
+  'Körös utca': 'Kőrös utca'
+  'Rudavszky utca': 'Rudawszky utca'
+  'Rim utca': 'Rím utca'
+  'Rutka utca': 'Ruttka utca'
+  'Tas utca': 'Tass utca'
+  'Wittman Viktor utca': 'Wittmann Viktor utca'
+  'Zádor utca': 'Zádor út'
+source: survey
+inactive: true
