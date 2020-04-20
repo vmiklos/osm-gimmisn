@@ -42,14 +42,42 @@ class LetterSuffixStyle(Enum):
     LOWER = 2
 
 
+class HouseNumberRange:
+    """
+    A house number range is a string that may expand to one or more HouseNumber instances in the
+    future. It can also have a comment.
+    """
+    def __init__(self, number: str, comment: str) -> None:
+        self.__number = number
+        self.__comment = comment
+
+    def get_number(self) -> str:
+        """Returns the house number (range) string."""
+        return self.__number
+
+    def get_comment(self) -> str:
+        """Returns the comment."""
+        return self.__comment
+
+    def __repr__(self) -> str:
+        return "HouseNumberRange(number=%s, comment=%s)" % (self.__number, self.__comment)
+
+    def __eq__(self, other: object) -> bool:
+        """Comment is explicitly non-interesting."""
+        other_house_number_range = cast(HouseNumberRange, other)
+        return self.__number == other_house_number_range.get_number()
+
+
 class HouseNumber:
     """
     A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
     can generate 3 house numbers, all of them with the same range.
+    The comment is similar to source, it's ignored during __eq__() and __hash__().
     """
-    def __init__(self, number: str, source: str) -> None:
+    def __init__(self, number: str, source: str, comment: str = "") -> None:
         self.__number = number
         self.__source = source
+        self.__comment = comment
 
     def get_number(self) -> str:
         """Returns the house number string."""
@@ -208,9 +236,9 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]]]]:
+def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    memory_cache: Dict[str, Dict[str, Dict[str, List[str]]]] = {}
+    memory_cache: Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]] = {}
 
     disk_cache = local + ".pickle"
     if os.path.exists(disk_cache):
@@ -231,19 +259,22 @@ def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[str]
 
             tokens = line.strip().split("\t")
             refcounty, refsettlement, street, num = tokens[0], tokens[1], tokens[2], tokens[3]
+            comment = ""
+            if len(tokens) >= 5:
+                comment = tokens[4]
             if refcounty not in memory_cache.keys():
                 memory_cache[refcounty] = {}
             if refsettlement not in memory_cache[refcounty].keys():
                 memory_cache[refcounty][refsettlement] = {}
             if street not in memory_cache[refcounty][refsettlement].keys():
                 memory_cache[refcounty][refsettlement][street] = []
-            memory_cache[refcounty][refsettlement][street].append(num)
+            memory_cache[refcounty][refsettlement][street].append(HouseNumberRange(num, comment))
     with open(disk_cache, "wb") as sock_cache:
         pickle.dump(memory_cache, sock_cache)
     return memory_cache
 
 
-def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[str]]]]]:
+def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]]]:
     """Handles a list of references for build_reference_cache()."""
     return [build_reference_cache(reference) for reference in references]
 

@@ -6,6 +6,7 @@
 
 """The test_util module covers the util module."""
 
+from typing import List
 import io
 import os
 import unittest
@@ -16,6 +17,11 @@ import yattag
 
 import config
 import util
+
+
+def hnr_list(ranges: List[str]) -> List[util.HouseNumberRange]:
+    """Converts a string list into a house number range list."""
+    return [util.HouseNumberRange(i, "") for i in ranges]
 
 
 class TestFormatEvenOdd(unittest.TestCase):
@@ -84,10 +90,10 @@ class TestBuildReferenceCache(unittest.TestCase):
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         memory_cache = util.build_reference_cache(refpath)
-        expected = {'01': {'011': {'Ref Name 1': ['1', '2'],
-                                   'Törökugrató utca': ['1', '10', '11', '12', '2', '7'],
-                                   'Tűzkő utca': ['1', '10', '2', '9'],
-                                   'Hamzsabégi út': ['1']}}}
+        expected = {'01': {'011': {'Ref Name 1': hnr_list(['1', '2']),
+                                   'Törökugrató utca': hnr_list(['1', '10', '11', '12', '2', '7']),
+                                   'Tűzkő utca': hnr_list(['1', '10', '2', '9']),
+                                   'Hamzsabégi út': hnr_list(['1'])}}}
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 
@@ -97,10 +103,10 @@ class TestBuildReferenceCache(unittest.TestCase):
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         util.build_reference_cache(refpath)
         memory_cache = util.build_reference_cache(refpath)
-        expected = {'01': {'011': {'Hamzsabégi út': ['1'],
-                                   'Ref Name 1': ['1', '2'],
-                                   'Törökugrató utca': ['1', '10', '11', '12', '2', '7'],
-                                   'Tűzkő utca': ['1', '10', '2', '9']}}}
+        expected = {'01': {'011': {'Hamzsabégi út': hnr_list(['1']),
+                                   'Ref Name 1': hnr_list(['1', '2']),
+                                   'Törökugrató utca': hnr_list(['1', '10', '11', '12', '2', '7']),
+                                   'Tűzkő utca': hnr_list(['1', '10', '2', '9'])}}}
         self.assertEqual(memory_cache, expected)
         os.unlink(refpath + ".pickle")
 

@@ -361,7 +361,7 @@ class Relation:
 
     def build_ref_housenumbers(
             self,
-            reference: Dict[str, Dict[str, Dict[str, List[str]]]],
+            reference: Dict[str, Dict[str, Dict[str, List[util.HouseNumberRange]]]],
             street: str,
             suffix: str
     ) -> List[str]:
@@ -381,7 +381,7 @@ class Relation:
             refsettlement_dict = refcounty_dict[refsettlement]
             if street in refsettlement_dict.keys():
                 house_numbers = reference[refcounty][refsettlement][street]
-                ret += [street + "\t" + i + suffix for i in house_numbers]
+                ret += [street + "\t" + i.get_number() + suffix + "\t" + i.get_comment() for i in house_numbers]
 
         return ret
 
@@ -661,10 +661,25 @@ class Relations:
         return ret
 
 
+def normalize_housenumber_letters(
+        relation: Relation,
+        house_numbers: str,
+        suffix: str,
+        comment: str
+) -> List[util.HouseNumber]:
+    """Handles the part of normalize() that deals with housenumber letters."""
+    style = relation.get_config().get_letter_suffix_style()
+    normalized = util.HouseNumber.normalize_letter_suffix(house_numbers, suffix, style)
+    return [util.HouseNumber(normalized, normalized, comment)]
+
+
 def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, ranges.Ranges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
+    comment = ""
+    if "\t" in house_numbers:
+        house_numbers, comment = house_numbers.split("\t")
     if ';' in house_numbers:
         separator = ';'
     else:
@@ -695,10 +710,8 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
     check_housenumber_letters = len(ret_numbers) == 1 and relation.get_config().should_check_housenumber_letters()
     if check_housenumber_letters and util.HouseNumber.has_letter_suffix(house_numbers, suffix):
-        style = relation.get_config().get_letter_suffix_style()
-        normalized = util.HouseNumber.normalize_letter_suffix(house_numbers, suffix, style)
-        return [util.HouseNumber(normalized, normalized)]
-    return [util.HouseNumber(str(number) + suffix, house_numbers) for number in ret_numbers]
+        return normalize_housenumber_letters(relation, house_numbers, suffix, comment)
+    return [util.HouseNumber(str(number) + suffix, house_numbers, comment) for number in ret_numbers]
 
 
 def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.doc.Doc]]) -> str:
