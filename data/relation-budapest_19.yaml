@@ -10,6 +10,10 @@ street-filters:
   - Elmű utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  # helyesírás, ref hibás
+  # utcajegyzék = OSM, ref hibás
+  # utcajegyzék = REF, OSM eltér
+  # todo
   'Áchim András utca': 'Achim András utca'
   'Báthory utca': 'Báthori utca'
   'Bóné András utca': 'Bohné András utca'

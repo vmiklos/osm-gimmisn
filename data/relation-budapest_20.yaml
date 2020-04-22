@@ -10,12 +10,14 @@ street-filters:
   - Kraszna köz  # Időközben magántulajdonba került Hrsz: 182098/118
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Báthory utca': 'Báthori utca'
+  # helyesírás, ref hibás
   'Bolyai János utca': 'Bólyai János utca'
-  'Knézich utca': 'Knézits utca'
-  'Kövező út': 'Kövező utca'
+  # Utcajegyzék = OSM, ref hibás
+  'Báthory utca': 'Báthori utca'
   'Tinódi utca': 'Tinódy utca'
-  'Téglagyártó utca': 'Téglagyártó út'
   'Vereckei utca': 'Verecke utca'
+  # utcajegyzék = REF, OSM eltér
+  'Knézich utca': 'Knézits utca'  # utcanévtábla = osm
+  'Téglagyártó utca': 'Téglagyártó út'  # utcanévtábla = osm
 source: survey
 inactive: true
