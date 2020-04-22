@@ -174,28 +174,33 @@ class HouseNumber:
         return groups[0] + groups[2].lower() + source_suffix
 
 
-def format_even_odd(only_in_ref: List[str], doc: Optional[yattag.doc.Doc]) -> List[str]:
+def split_house_number_range(house_number: HouseNumberRange) -> Tuple[int, str]:
+    """Wrapper around split_house_number() for HouseNumberRange objects."""
+    return split_house_number(house_number.get_number())
+
+
+def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.doc.Doc]) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
-    key = split_house_number
-    even = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 0], key=key)
-    odd = sorted([i for i in only_in_ref if int(split_house_number(i)[0]) % 2 == 1], key=key)
+    key = split_house_number_range
+    even = sorted([i for i in only_in_ref if int(split_house_number(i.get_number())[0]) % 2 == 0], key=key)
+    odd = sorted([i for i in only_in_ref if int(split_house_number(i.get_number())[0]) % 2 == 1], key=key)
     if doc:
         if odd:
             for index, elem in enumerate(odd):
                 if index:
                     doc.text(", ")
-                doc.asis(color_house_number(elem).getvalue())
+                doc.asis(color_house_number(elem.get_number()).getvalue())
         if even:
             if odd:
                 doc.stag("br")
             for index, elem in enumerate(even):
                 if index:
                     doc.text(", ")
-                doc.asis(color_house_number(elem).getvalue())
+                doc.asis(color_house_number(elem.get_number()).getvalue())
         return []
 
-    even_string = ", ".join(even)
-    odd_string = ", ".join(odd)
+    even_string = ", ".join([i.get_number() for i in even])
+    odd_string = ", ".join([i.get_number() for i in odd])
     elements = []
     if odd_string:
         elements.append(odd_string)

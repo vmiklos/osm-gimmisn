@@ -28,26 +28,26 @@ class TestFormatEvenOdd(unittest.TestCase):
     """Tests format_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        self.assertEqual(util.format_even_odd(["1", "2"], doc=None), ["1", "2"])
+        self.assertEqual(util.format_even_odd(hnr_list(["1", "2"]), doc=None), ["1", "2"])
 
     def test_only_odd(self) -> None:
         """Tests when we have odd numbers only."""
-        self.assertEqual(util.format_even_odd(["1", "3"], doc=None), ["1, 3"])
+        self.assertEqual(util.format_even_odd(hnr_list(["1", "3"]), doc=None), ["1, 3"])
 
     def test_only_even(self) -> None:
         """Tests when we have even numbers only."""
-        self.assertEqual(util.format_even_odd(["2", "4"], doc=None), ["2, 4"])
+        self.assertEqual(util.format_even_odd(hnr_list(["2", "4"]), doc=None), ["2, 4"])
 
     def test_html(self) -> None:
         """Tests HTML coloring."""
         doc = yattag.doc.Doc()
-        util.format_even_odd(["2*", "4"], doc)
+        util.format_even_odd(hnr_list(["2*", "4"]), doc)
         self.assertEqual(doc.getvalue(), '<span style="color: blue;">2</span>, 4')
 
     def test_html_multi_odd(self) -> None:
         """Tests HTML output with multiple odd numbers."""
         doc = yattag.doc.Doc()
-        util.format_even_odd(["1", "3"], doc)
+        util.format_even_odd(hnr_list(["1", "3"]), doc)
         self.assertEqual(doc.getvalue(), "1, 3")
 
 

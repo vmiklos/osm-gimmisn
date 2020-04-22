@@ -232,14 +232,14 @@ def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) 
 
         table = []
         for result in ongoing_streets:
-            result_list = util.get_housenumber_ranges(result[1])
-            result_strings = [i.get_number() for i in result_list]
+            range_list = util.get_housenumber_ranges(result[1])
+            range_strings = [i.get_number() for i in range_list]
             # Street name, only_in_reference items.
             if not relation.get_config().get_street_is_even_odd(result[0]):
-                result_sorted = sorted(result_strings, key=util.split_house_number)
+                result_sorted = sorted(range_strings, key=util.split_house_number)
                 row = result[0] + "\t[" + ", ".join(result_sorted) + "]"
             else:
-                elements = util.format_even_odd(result_strings, doc=None)
+                elements = util.format_even_odd(range_list, doc=None)
                 row = result[0] + "\t[" + "], [".join(elements) + "]"
             table.append(row)
         table.sort(key=locale.strxfrm)
@@ -271,16 +271,16 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
 
         table = []
         for result in ongoing_streets:
-            result_strings = [i.get_number() for i in util.get_housenumber_ranges(result[1])]
+            range_list = util.get_housenumber_ranges(result[1])
             # Street name, only_in_reference items.
             row = "[ ] "
             if not relation.get_config().get_street_is_even_odd(result[0]):
-                result_sorted = sorted(result_strings, key=util.split_house_number)
+                result_sorted = sorted([i.get_number() for i in range_list], key=util.split_house_number)
                 row += result[0] + " [" + ", ".join(result_sorted) + "]"
                 table.append(row)
             else:
-                elements = util.format_even_odd(result_strings, doc=None)
-                if len(elements) > 1 and len(result_strings) > get_chkl_split_limit():
+                elements = util.format_even_odd(range_list, doc=None)
+                if len(elements) > 1 and len(range_list) > get_chkl_split_limit():
                     for element in elements:
                         row = "[ ] " + result[0] + " [" + element + "]"
                         table.append(row)

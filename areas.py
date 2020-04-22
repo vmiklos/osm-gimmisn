@@ -495,7 +495,7 @@ class Relation:
                         doc.text(", ")
                     doc.asis(util.color_house_number(item).getvalue())
             else:
-                util.format_even_odd(number_range_strings, doc)
+                util.format_even_odd(number_ranges, doc)
             row.append(doc)
 
             todo_count += len(number_ranges)
