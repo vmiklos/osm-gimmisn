@@ -1,5 +1,7 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Arany utca:
+    invalid: ['33']
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Aquincum őrház
