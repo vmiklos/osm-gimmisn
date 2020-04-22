@@ -67,6 +67,15 @@ class HouseNumberRange:
         other_house_number_range = cast(HouseNumberRange, other)
         return self.__number == other_house_number_range.get_number()
 
+    def __lt__(self, other: object) -> bool:
+        """Comment is explicitly non-interesting."""
+        other_house_number_range = cast(HouseNumberRange, other)
+        return self.__number < other_house_number_range.get_number()
+
+    def __hash__(self) -> int:
+        """Comment is explicitly non-interesting."""
+        return hash(self.__number)
+
 
 class HouseNumber:
     """
@@ -86,6 +95,10 @@ class HouseNumber:
     def get_source(self) -> str:
         """Returns the source range."""
         return self.__source
+
+    def get_comment(self) -> str:
+        """Returns the comment."""
+        return self.__comment
 
     def __repr__(self) -> str:
         return "HouseNumber(number=%s, source=%s)" % (self.__number, self.__source)
@@ -470,12 +483,12 @@ def get_nth_column(sock: TextIO, column: int) -> List[str]:
     return ret
 
 
-def get_housenumber_ranges(house_numbers: List[HouseNumber]) -> List[str]:
+def get_housenumber_ranges(house_numbers: List[HouseNumber]) -> List[HouseNumberRange]:
     """Gets a reference range list for a house number list by looking at what range provided a givne
     house number."""
     ret = []
     for house_number in house_numbers:
-        ret.append(house_number.get_source())
+        ret.append(HouseNumberRange(house_number.get_source(), house_number.get_comment()))
     return sorted(set(ret))
 
 

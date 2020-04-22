@@ -232,7 +232,8 @@ def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) 
 
         table = []
         for result in ongoing_streets:
-            result_strings = util.get_housenumber_ranges(result[1])
+            result_list = util.get_housenumber_ranges(result[1])
+            result_strings = [i.get_number() for i in result_list]
             # Street name, only_in_reference items.
             if not relation.get_config().get_street_is_even_odd(result[0]):
                 result_sorted = sorted(result_strings, key=util.split_house_number)
@@ -270,7 +271,7 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
 
         table = []
         for result in ongoing_streets:
-            result_strings = util.get_housenumber_ranges(result[1])
+            result_strings = [i.get_number() for i in util.get_housenumber_ranges(result[1])]
             # Street name, only_in_reference items.
             row = "[ ] "
             if not relation.get_config().get_street_is_even_odd(result[0]):

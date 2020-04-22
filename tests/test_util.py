@@ -310,7 +310,8 @@ class TestGetHousenumberRanges(unittest.TestCase):
             util.HouseNumber("31*", "31*"),
         ]
         ranges = util.get_housenumber_ranges(house_numbers)
-        self.assertEqual(ranges, ["25", "27-37", "31*"])
+        range_names = [i.get_number() for i in ranges]
+        self.assertEqual(range_names, ["25", "27-37", "31*"])
 
 
 class TestGitLink(unittest.TestCase):

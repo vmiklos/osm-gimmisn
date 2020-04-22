@@ -26,11 +26,12 @@ def main() -> None:
 
     for result in ongoing_streets:
         # House number, # of only_in_reference items.
-        ranges = util.get_housenumber_ranges(result[1])
-        ranges = sorted(ranges, key=util.split_house_number)
-        print("%s\t%s" % (result[0], len(ranges)))
+        range_list = util.get_housenumber_ranges(result[1])
+        range_strings = [i.get_number() for i in range_list]
+        range_strings = sorted(range_strings, key=util.split_house_number)
+        print("%s\t%s" % (result[0], len(range_strings)))
         # only_in_reference items.
-        print(ranges)
+        print(range_strings)
 
 
 if __name__ == '__main__':
