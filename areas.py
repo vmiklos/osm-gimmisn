@@ -399,7 +399,7 @@ class Relation:
         from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
         used by __get_ref_housenumbers().
         """
-        memory_caches = util.build_reference_caches(references)
+        memory_caches = util.build_reference_caches(references, self.get_config().get_refcounty())
 
         streets = self.get_osm_streets()
 

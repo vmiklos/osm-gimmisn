@@ -260,11 +260,16 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return memory_cache
 
 
-def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]]:
+def get_reference_cache_path(local: str, refcounty: str) -> str:
+    """Gets the filename of the (house number) reference cache file."""
+    return local + "-" + refcounty + "-v1.pickle"
+
+
+def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
     memory_cache: Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]] = {}
 
-    disk_cache = local + ".pickle"
+    disk_cache = get_reference_cache_path(local, refcounty)
     if os.path.exists(disk_cache):
         with open(disk_cache, "rb") as sock_cache:
             memory_cache = pickle.load(sock_cache)
@@ -280,6 +285,9 @@ def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[Hous
 
             if not line:
                 break
+
+            if not line.startswith(refcounty):
+                continue
 
             tokens = line.strip().split("\t")
             refcounty, refsettlement, street, num = tokens[0], tokens[1], tokens[2], tokens[3]
@@ -298,9 +306,12 @@ def build_reference_cache(local: str) -> Dict[str, Dict[str, Dict[str, List[Hous
     return memory_cache
 
 
-def build_reference_caches(references: List[str]) -> List[Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]]]:
+def build_reference_caches(
+        references: List[str],
+        refcounty: str
+) -> List[Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]]]:
     """Handles a list of references for build_reference_cache()."""
-    return [build_reference_cache(reference) for reference in references]
+    return [build_reference_cache(reference, refcounty) for reference in references]
 
 
 def split_house_number(house_number: str) -> Tuple[int, str]:

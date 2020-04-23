@@ -619,7 +619,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             relations = get_relations()
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-            memory_cache = util.build_reference_cache(refpath)
+            memory_cache = util.build_reference_cache(refpath, "01")
             relation_name = "gazdagret"
             street = "Törökugrató utca"
             relation = relations.get_relation(relation_name)
@@ -640,7 +640,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
             relations = get_relations()
             refdir = os.path.join(os.path.dirname(__file__), "refdir")
             refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-            memory_cache = util.build_reference_cache(refpath)
+            memory_cache = util.build_reference_cache(refpath, "01")
             relation_name = "gazdagret"
             street = "No such utca"
             relation = relations.get_relation(relation_name)
