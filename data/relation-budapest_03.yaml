@@ -1,6 +1,7 @@
 missing-streets: 'yes'
 filters:
   Arany utca:
+    # 33 biztos hibás, mert oldalanként kb. 10 ház van, ami kb. max 20 ig reális, de a 33 az már biztos rossz mert az utolsó előtti ház az 17-es.
     invalid: ['33']
 street-filters:
   # nem igazi utcák / csak hrsz.
