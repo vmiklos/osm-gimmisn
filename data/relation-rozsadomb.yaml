@@ -14,6 +14,9 @@ filters:
   Aranka utca:
     ranges:
       - {start: '1', end: '99'}
+  Barsi utca:
+    # 11 = Ady Endre utca 24
+    invalid: ['11']
   Bimbó út:
     # 55 = Pajzs utca 1
     invalid: ['55']
@@ -47,16 +50,17 @@ filters:
     ranges:
       - {start: '1', end: '27'}
   Pajzs utca:
+    # 14 saroktelek, bejárat Eszter utca 21
     # 17 nincs
     # 21 saroktelek, bejárat Berkenye utca 20
     # 23 saroktelek, bejárat Berkenye utca 19
-    # 25 saroktelek, bejárat Vérhalom utca 36a
     # 24 valószínű a 26 mögötti ház, nincs kiírva semmi
+    # 25 saroktelek, bejárat Vérhalom utca 36a
     invalid: ['17', '21', '23', '24', '25']
   Rómer Flóris utca:
     ranges:
-      - {start: '39', end: '99'}
-      - {start: '34', end: '98'}
+      - {start: '39', end: '61'}
+      - {start: '34', end: '60'}
   Rózsahegy utca:
     ranges: []
   Szemlőhegy utca:
