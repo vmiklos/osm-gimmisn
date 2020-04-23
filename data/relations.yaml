@@ -504,6 +504,10 @@ bogacs:
     osmrelation: 1418454
     refcounty: "05"
     refsettlement: "037"
+esztergom:
+    osmrelation: 1027785
+    refcounty: "12"
+    refsettlement: "028"
 felsotarkany:
     osmrelation: 1418232
     refcounty: "10"
