@@ -36,6 +36,8 @@ The missing house numbers are colored:
 
 - blue means a commercial house number (text view: '*' suffix)
 
+- commercial house numbers can have comments, you can see them if you hover your mouse over them
+
 NOTE: in case there is both a letter suffix and a source suffix, then the syntax is '42/A*', i.e.
 first the letter suffix, and then the source suffix.
 

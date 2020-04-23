@@ -486,11 +486,10 @@ class Relation:
             row.append(util.html_escape(result[0]))
             number_ranges = util.get_housenumber_ranges(result[1])
             row.append(util.html_escape(str(len(number_ranges))))
-            number_range_strings = [i.get_number() for i in number_ranges]
 
             doc = yattag.doc.Doc()
             if not self.get_config().get_street_is_even_odd(result[0]):
-                for index, item in enumerate(sorted(number_range_strings, key=util.split_house_number)):
+                for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
                     if index:
                         doc.text(", ")
                     doc.asis(util.color_house_number(item).getvalue())

@@ -189,14 +189,14 @@ def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.do
             for index, elem in enumerate(odd):
                 if index:
                     doc.text(", ")
-                doc.asis(color_house_number(elem.get_number()).getvalue())
+                doc.asis(color_house_number(elem).getvalue())
         if even:
             if odd:
                 doc.stag("br")
             for index, elem in enumerate(even):
                 if index:
                     doc.text(", ")
-                doc.asis(color_house_number(elem.get_number()).getvalue())
+                doc.asis(color_house_number(elem).getvalue())
         return []
 
     even_string = ", ".join([i.get_number() for i in even])
@@ -209,14 +209,20 @@ def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.do
     return elements
 
 
-def color_house_number(fro: str) -> yattag.doc.Doc:
+def color_house_number(house_number: HouseNumberRange) -> yattag.doc.Doc:
     """Colors a house number according to its suffix."""
     doc = yattag.doc.Doc()
-    if not fro.endswith("*"):
-        doc.text(fro)
+    number = house_number.get_number()
+    if not number.endswith("*"):
+        doc.text(number)
         return doc
-    with doc.tag("span", style="color: blue;"):
-        doc.text(fro[:-1])
+    title = house_number.get_comment().replace("&#013;", "\n")
+    kwargs: Dict[str, str] = {}
+    kwargs["style"] = "color: blue;"
+    if title:
+        kwargs["title"] = title
+    with doc.tag("span", **kwargs):
+        doc.text(number[:-1])
     return doc
 
 

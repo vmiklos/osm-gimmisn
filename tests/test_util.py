@@ -44,6 +44,16 @@ class TestFormatEvenOdd(unittest.TestCase):
         util.format_even_odd(hnr_list(["2*", "4"]), doc)
         self.assertEqual(doc.getvalue(), '<span style="color: blue;">2</span>, 4')
 
+    def test_html_comment(self) -> None:
+        """Tests HTML commenting."""
+        doc = yattag.doc.Doc()
+        house_numbers = [
+            util.HouseNumberRange("2*", "foo"),
+            util.HouseNumberRange("4", ""),
+        ]
+        util.format_even_odd(house_numbers, doc)
+        self.assertEqual(doc.getvalue(), '<span style="color: blue;" title="foo">2</span>, 4')
+
     def test_html_multi_odd(self) -> None:
         """Tests HTML output with multiple odd numbers."""
         doc = yattag.doc.Doc()

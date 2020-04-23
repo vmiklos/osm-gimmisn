@@ -1,5 +1,9 @@
 = Version descriptions
 
+== master
+
+- Resolves: gh#372 commercial house numbers now can have comments, visible as tooltips
+
 == 5.0
 
 - A new `/osm/housenumber-stats/hungary/` page featuring new and all-time house number data
