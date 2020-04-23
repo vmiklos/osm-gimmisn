@@ -15,9 +15,19 @@ filters:
     ranges:
       - {start: '1', end: '99'}
   Bimbó út:
+    # 55 = Pajzs utca 1
+    invalid: ['55']
     ranges:
       - {start: '15', end: '63'}
       - {start: '12', end: '42'}
+  Eszter utca:
+    # 3 nincs
+    # 22 = Vérhalom utca 44
+    # 29 = Alsó-Törökvész út 2
+    invalid: ['3']
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '20'}
   Gül Baba utca:
     ranges:
       - {start: '2', end: '98'}
@@ -36,6 +46,13 @@ filters:
   Margit utca:
     ranges:
       - {start: '1', end: '27'}
+  Pajzs utca:
+    # 17 nincs
+    # 21 saroktelek, bejárat Berkenye utca 20
+    # 23 saroktelek, bejárat Berkenye utca 19
+    # 25 saroktelek, bejárat Vérhalom utca 36a
+    # 24 valószínű a 26 mögötti ház, nincs kiírva semmi
+    invalid: ['17', '21', '23', '24', '25']
   Rómer Flóris utca:
     ranges:
       - {start: '39', end: '99'}
