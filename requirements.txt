@@ -1,4 +1,4 @@
-cherrypy==18.5.0
+cherrypy==18.6.0
 coverage==5.0.4
 flake8==3.7.9
 mypy==0.770
