@@ -56,7 +56,7 @@ filters:
     # 23 saroktelek, bejárat Berkenye utca 19
     # 24 valószínű a 26 mögötti ház, nincs kiírva semmi
     # 25 saroktelek, bejárat Vérhalom utca 36a
-    invalid: ['17', '21', '23', '24', '25']
+    invalid: ['14', '17', '21', '23', '24', '25']
   Rómer Flóris utca:
     ranges:
       - {start: '39', end: '61'}
