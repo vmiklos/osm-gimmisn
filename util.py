@@ -216,13 +216,14 @@ def color_house_number(house_number: HouseNumberRange) -> yattag.doc.Doc:
     if not number.endswith("*"):
         doc.text(number)
         return doc
+    number = number[:-1]
     title = house_number.get_comment().replace("&#013;", "\n")
-    kwargs: Dict[str, str] = {}
-    kwargs["style"] = "color: blue;"
-    if title:
-        kwargs["title"] = title
-    with doc.tag("span", **kwargs):
-        doc.text(number[:-1])
+    with doc.tag("span", style="color: blue;"):
+        if title:
+            with doc.tag("abbr", title=title):
+                doc.text(number)
+        else:
+            doc.text(number)
     return doc
 
 

@@ -52,7 +52,7 @@ class TestFormatEvenOdd(unittest.TestCase):
             util.HouseNumberRange("4", ""),
         ]
         util.format_even_odd(house_numbers, doc)
-        self.assertEqual(doc.getvalue(), '<span style="color: blue;" title="foo">2</span>, 4')
+        self.assertEqual(doc.getvalue(), '<span style="color: blue;"><abbr title="foo">2</abbr></span>, 4')
 
     def test_html_multi_odd(self) -> None:
         """Tests HTML output with multiple odd numbers."""
