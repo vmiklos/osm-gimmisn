@@ -480,6 +480,7 @@ class Relation:
         table.append([util.html_escape(_("Street name")),
                       util.html_escape(_("Missing count")),
                       util.html_escape(_("House numbers"))])
+        rows = []
         for result in ongoing_streets:
             # street_name, only_in_ref
             row = []
@@ -498,7 +499,13 @@ class Relation:
             row.append(doc)
 
             todo_count += len(number_ranges)
-            table.append(row)
+            rows.append(row)
+
+        # It's possible that get_housenumber_ranges() reduces the # of house numbers, e.g. 2, 4 and
+        # 6 may be turned into 2-6, which is just 1 item. Sort by the 2nd col, which is the new
+        # number of items.
+        table += sorted(rows, reverse=True, key=lambda cells: int(cells[1].getvalue()))
+
         done_count = 0
         for result in done_streets:
             number_ranges = util.get_housenumber_ranges(result[1])

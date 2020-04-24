@@ -2,6 +2,9 @@
 
 == master
 
+- Resolves: gh#414 the missing housenumber page's table is now sorted correctly even if house number
+  ranges reduce the amount of items for some streets
+
 - Resolves: gh#372 commercial house numbers now can have comments, visible as tooltips
 
 == 5.0

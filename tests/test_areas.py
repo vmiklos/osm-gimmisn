@@ -580,6 +580,21 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
                                             ['Vöröskúti határsor',
                                              '4', '2, 12, 34, <span style="color: blue;">36</span>']])
 
+    def test_sorting(self) -> None:
+        """Tests that sorting is performed after range reduction."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            relations = get_relations()
+            relation_name = "gh414"
+            relation = relations.get_relation(relation_name)
+            ret = relation.write_missing_housenumbers()
+            _todo_street_count, _todo_count, _done_count, _percent, table = ret
+            string_table = table_doc_to_string(table)
+            # Note how 'A utca' is logically 5 house numbers, but it's a single range, so it's
+            # ordered after 'B utca'.
+            self.assertEqual(string_table, [['Street name', 'Missing count', 'House numbers'],
+                                            ['B utca', '2', '1, 3'],
+                                            ['A utca', '1', '2-10']])
+
 
 class TestRelationWriteMissingStreets(unittest.TestCase):
     """Tests Relation.write_missing_streets()."""
