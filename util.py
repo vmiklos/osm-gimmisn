@@ -220,7 +220,7 @@ def color_house_number(house_number: HouseNumberRange) -> yattag.doc.Doc:
     title = house_number.get_comment().replace("&#013;", "\n")
     with doc.tag("span", style="color: blue;"):
         if title:
-            with doc.tag("abbr", title=title):
+            with doc.tag("abbr", title=title, tabindex="0"):
                 doc.text(number)
         else:
             doc.text(number)
