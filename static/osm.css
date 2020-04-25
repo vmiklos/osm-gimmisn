@@ -37,19 +37,20 @@ div.canvasblock {
 /* Improve abbr's title for mobile. */
 @media (pointer: coarse), (hover: none) {
   abbr[title] {
-    position: relative;
     display: inline-flex;
     justify-content: center;
   }
   abbr[title]:focus::after {
     content: attr(title);
     position: absolute;
-    top: 90%;
+    left: 10px;
     color: #000;
     background-color: #fff;
     border: 1px solid;
-    width: fit-content;
+    width: 90%;
     padding: 5px;
+    margin-top: 20px;
+    white-space: pre-wrap;
   }
 }
 
