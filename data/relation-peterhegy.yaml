@@ -9,8 +9,13 @@ filters:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
   Dobogó út:
+    # 8 nincs
+    # 16/2: 16a van
+    # 36 nincs
+    # 38a: 2 ház van de mindkettőhöz a 8 van kiírva
+    invalid: ['8', '16/2', '36', '38a']
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '2', end: '38'}
   Egér út:
     # 2 nincs, a többi helyrajzi szám az is a Péterhegyi dűlőhöz tartozik
     ranges: []
