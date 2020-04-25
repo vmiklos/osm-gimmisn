@@ -13,7 +13,7 @@ filters:
     # 16/2: 16a van
     # 36 nincs
     # 38a: 2 ház van de mindkettőhöz a 8 van kiírva
-    invalid: ['8', '16/2', '36', '38a']
+    invalid: ['8', '16/2', '36', '36a', '38a']
     ranges:
       - {start: '2', end: '38'}
   Egér út:
@@ -65,5 +65,8 @@ filters:
   Péterhegyi út:
     ranges:
       - {start: '43', end: '99'}
+  Poprádi út:
+    # nincsenek házszámok: egyébként összesen egy kutyaiskola van itt
+    ranges: []
 source: survey
 housenumber-letters: true
