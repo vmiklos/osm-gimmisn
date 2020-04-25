@@ -127,9 +127,11 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 server:
 	cd $(HOME) && $(PWD)/wsgi.py
 
-deploy-pythonanywhere:
+deploy:
 	git pull -r
 	make
+
+deploy-pythonanywhere: deploy
 	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py || true
 
 update-pot: areas.py webframe.py wsgi.py util.py Makefile

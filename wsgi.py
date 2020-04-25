@@ -704,7 +704,7 @@ def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:
     if root["ref"] == "refs/heads/master":
         my_env = os.environ
         my_env["PATH"] = "osm-gimmisn-env/bin:" + my_env["PATH"]
-        subprocess.run(["make", "-C", config.get_abspath(""), "deploy-pythonanywhere"], check=True, env=my_env)
+        subprocess.run(["make", "-C", config.get_abspath(""), "deploy"], check=True, env=my_env)
 
     return util.html_escape("")
 

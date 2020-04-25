@@ -705,7 +705,7 @@ class TestWebhooks(TestWsgi):
         with unittest.mock.patch('subprocess.run', mock_subprocess_run):
             wsgi.handle_github_webhook(environ)
         self.assertEqual(actual_args[0], "make")
-        self.assertEqual(actual_args[-1], "deploy-pythonanywhere")
+        self.assertEqual(actual_args[-1], "deploy")
         self.assertTrue(actual_check)
         self.assertIn("osm-gimmisn-env/bin", actual_path)
 
