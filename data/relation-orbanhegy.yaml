@@ -39,6 +39,10 @@ filters:
     ranges:
       - {start: '27', end: '43'}
       - {start: '18', end: '40'}
+  Stromfeld Aurél út:
+    ranges:
+      - {start: '11', end: '43'}
+      - {start: '12', end: '42'}
   Szent Orbán tér:
     interpolation: all
     # 1, 2: Kissvábhegy
@@ -49,4 +53,13 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
+  Szendrő utca:
+    ranges:
+      - {start: '1', end: '33'}
+      - {start: '2', end: '30'}
+  Tündér utca:
+    # 15 lehet már más terület
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '22'}
 source: survey

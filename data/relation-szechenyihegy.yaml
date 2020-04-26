@@ -22,6 +22,11 @@ filters:
   Hegyhát út:
     ranges:
       - {start: '1', end: '3'}
+      - {start: '2', end: '98'}
+  Hó utca:
+    ranges:
+      - {start: '2', end: '6'}
+      - {start: '3', end: '5'}
   Hóvirág út:
     ranges:
       - {start: '3', end: '999'}
