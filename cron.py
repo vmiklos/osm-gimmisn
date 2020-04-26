@@ -7,6 +7,7 @@
 
 """The cron module allows doing nightly tasks."""
 
+from typing import Any
 import argparse
 import datetime
 import logging
@@ -22,13 +23,28 @@ import overpass_query
 import util
 
 
+def get_date_prefix() -> str:
+    """Generates the current date as a log prefix."""
+    return time.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def info(msg: str, *args: Any, **kwargs: Any) -> None:
+    """Wrapper around logging.info()."""
+    logging.info(get_date_prefix() + " INFO " + msg, *args, **kwargs)
+
+
+def error(msg: str, *args: Any, **kwargs: Any) -> None:
+    """Wrapper around logging.error()."""
+    logging.error(get_date_prefix() + " ERROR" + msg, *args, **kwargs)
+
+
 def overpass_sleep() -> None:
     """Sleeps to respect overpass rate limit."""
     while True:
         sleep = overpass_query.overpass_query_need_sleep()
         if not sleep:
             break
-        logging.info("overpass_sleep: waiting for %s seconds", sleep)
+        info("overpass_sleep: waiting for %s seconds", sleep)
         time.sleep(sleep)
 
 
@@ -43,11 +59,11 @@ def update_osm_streets(relations: areas.Relations, update: bool) -> None:
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_osm_streets_path()):
             continue
-        logging.info("update_osm_streets: start: %s", relation_name)
+        info("update_osm_streets: start: %s", relation_name)
         retry = 0
         while should_retry(retry):
             if retry > 0:
-                logging.info("update_osm_streets: try #%s", retry)
+                info("update_osm_streets: try #%s", retry)
             retry += 1
             try:
                 overpass_sleep()
@@ -55,8 +71,8 @@ def update_osm_streets(relations: areas.Relations, update: bool) -> None:
                 relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
                 break
             except urllib.error.HTTPError as http_error:
-                logging.info("update_osm_streets: http error: %s", str(http_error))
-        logging.info("update_osm_streets: end: %s", relation_name)
+                info("update_osm_streets: http error: %s", str(http_error))
+        info("update_osm_streets: end: %s", relation_name)
 
 
 def update_osm_housenumbers(relations: areas.Relations, update: bool) -> None:
@@ -65,11 +81,11 @@ def update_osm_housenumbers(relations: areas.Relations, update: bool) -> None:
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_osm_housenumbers_path()):
             continue
-        logging.info("update_osm_housenumbers: start: %s", relation_name)
+        info("update_osm_housenumbers: start: %s", relation_name)
         retry = 0
         while should_retry(retry):
             if retry > 0:
-                logging.info("update_osm_housenumbers: try #%s", retry)
+                info("update_osm_housenumbers: try #%s", retry)
             retry += 1
             try:
                 overpass_sleep()
@@ -77,8 +93,8 @@ def update_osm_housenumbers(relations: areas.Relations, update: bool) -> None:
                 relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
                 break
             except urllib.error.HTTPError as http_error:
-                logging.info("update_osm_housenumbers: http error: %s", str(http_error))
-        logging.info("update_osm_housenumbers: end: %s", relation_name)
+                info("update_osm_housenumbers: http error: %s", str(http_error))
+        info("update_osm_housenumbers: end: %s", relation_name)
 
 
 def update_ref_housenumbers(relations: areas.Relations, update: bool) -> None:
@@ -92,9 +108,9 @@ def update_ref_housenumbers(relations: areas.Relations, update: bool) -> None:
         if streets == "only":
             continue
 
-        logging.info("update_ref_housenumbers: start: %s", relation_name)
+        info("update_ref_housenumbers: start: %s", relation_name)
         relation.write_ref_housenumbers(references)
-        logging.info("update_ref_housenumbers: end: %s", relation_name)
+        info("update_ref_housenumbers: end: %s", relation_name)
 
 
 def update_ref_streets(relations: areas.Relations, update: bool) -> None:
@@ -108,14 +124,14 @@ def update_ref_streets(relations: areas.Relations, update: bool) -> None:
         if streets == "no":
             continue
 
-        logging.info("update_ref_streets: start: %s", relation_name)
+        info("update_ref_streets: start: %s", relation_name)
         relation.write_ref_streets(reference)
-        logging.info("update_ref_streets: end: %s", relation_name)
+        info("update_ref_streets: end: %s", relation_name)
 
 
 def update_missing_housenumbers(relations: areas.Relations, update: bool) -> None:
     """Update the relation's house number coverage stats."""
-    logging.info("update_missing_housenumbers: start")
+    info("update_missing_housenumbers: start")
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_housenumbers_percent_path()):
@@ -125,12 +141,12 @@ def update_missing_housenumbers(relations: areas.Relations, update: bool) -> Non
             continue
 
         relation.write_missing_housenumbers()
-    logging.info("update_missing_housenumbers: end")
+    info("update_missing_housenumbers: end")
 
 
 def update_missing_streets(relations: areas.Relations, update: bool) -> None:
     """Update the relation's street coverage stats."""
-    logging.info("update_missing_streets: start")
+    info("update_missing_streets: start")
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_streets_percent_path()):
@@ -140,14 +156,14 @@ def update_missing_streets(relations: areas.Relations, update: bool) -> None:
             continue
 
         relation.write_missing_streets()
-    logging.info("update_missing_streets: end")
+    info("update_missing_streets: end")
 
 
 def update_stats() -> None:
     """Performs the update of country-level stats."""
 
     # Fetch house numbers for the whole country.
-    logging.info("update_stats: start, updating whole-country csv")
+    info("update_stats: start, updating whole-country csv")
     query = util.get_content(config.get_abspath("data/street-housenumbers-hungary.txt"))
     statedir = config.get_abspath("workdir/stats")
     os.makedirs(statedir, exist_ok=True)
@@ -157,7 +173,7 @@ def update_stats() -> None:
     retry = 0
     while should_retry(retry):
         if retry > 0:
-            logging.info("update_stats: try #%s", retry)
+            info("update_stats: try #%s", retry)
         retry += 1
         try:
             overpass_sleep()
@@ -166,13 +182,13 @@ def update_stats() -> None:
                 stream.write(response)
             break
         except urllib.error.HTTPError as http_error:
-            logging.info("update_stats: http error: %s", str(http_error))
+            info("update_stats: http error: %s", str(http_error))
 
     # Shell part.
-    logging.info("update_stats: executing the shell part")
+    info("update_stats: executing the shell part")
     subprocess.run([config.get_abspath("stats-daily.sh")], check=True)
 
-    logging.info("update_stats: end")
+    info("update_stats: end")
 
 
 def our_main(relations: areas.Relations, mode: str, update: bool) -> None:
@@ -198,8 +214,7 @@ def main() -> None:
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
                         level=logging.INFO,
-                        format='%(asctime)s %(levelname)s %(message)s',
-                        datefmt='%Y-%m-%d %H:%M:%S')
+                        format='%(message)s')
     handler = logging.StreamHandler()
     logging.getLogger().addHandler(handler)
 
@@ -223,9 +238,9 @@ def main() -> None:
         our_main(relations, args.mode, args.update)
     # pylint: disable=broad-except
     except Exception:
-        logging.error("main: unhandled exception: %s", traceback.format_exc())
+        error("main: unhandled exception: %s", traceback.format_exc())
     delta = time.time() - start
-    logging.info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
+    info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
     logging.getLogger().removeHandler(handler)
     logging.shutdown()
 
