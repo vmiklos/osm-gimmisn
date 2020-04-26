@@ -122,17 +122,14 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 %.yamllint : %.yaml Makefile .yamllint
 	$(QUIET_YAMLLINT)yamllint $< && touch $@
 
-# Make sure that the current directory is *not* the repo root but the home directory, this matches
-# the environment of the PythonAnywhere instance.
+# Make sure that the current directory is *not* the repo root but something else to catch
+# non-absolute paths.
 server:
 	cd $(HOME) && $(PWD)/wsgi.py
 
 deploy:
 	git pull -r
 	make
-
-deploy-pythonanywhere: deploy
-	touch /var/www/vmiklos_pythonanywhere_com_wsgi.py || true
 
 update-pot: areas.py webframe.py wsgi.py util.py Makefile
 	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)
