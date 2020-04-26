@@ -5,7 +5,7 @@ filters:
       - {start: '1', end: '55'}
   Diós árok:
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '1', end: '99'}
   Fészek utca:
     ranges:
       - {start: '11', end: '99'}

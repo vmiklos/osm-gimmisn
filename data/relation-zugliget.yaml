@@ -23,6 +23,9 @@ filters:
   Mátyás király út:
     ranges:
       - {start: '41', end: '99'}
+  Remete út:
+    ranges:
+      - {start: '2', end: '16'}
   Zugligeti út:
     ranges:
       - {start: '43', end: '199'}

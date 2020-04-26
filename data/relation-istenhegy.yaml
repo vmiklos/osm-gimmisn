@@ -35,7 +35,7 @@ filters:
       - {start: '12', end: '98'}
   Tündér utca:
     ranges:
-      - {start: '13', end: '99'}
+      - {start: '15', end: '99'}
   Városmajor utca:
     ranges:
       - {start: '86', end: '98'}

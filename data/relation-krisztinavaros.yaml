@@ -97,6 +97,11 @@ filters:
       - {start: '2', end: '2'}
   Krisztina körút:
     invalid: ['61']
+    ranges:
+      - {start: '1', end: '35', refsettlement: '012'}
+      - {start: '37', end: '99'}
+      - {start: '2', end: '8', refsettlement: '012'}
+      - {start: '10', end: '38'}
   Krisztina tér:
     interpolation: 'all'
     ranges:
