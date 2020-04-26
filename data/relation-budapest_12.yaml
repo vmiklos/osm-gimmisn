@@ -1,5 +1,260 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Adorján út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '12'}
+  Alkotás utca:
+    ranges:
+      - {start: '39', end: '63'}
+      - {start: '42', end: '44'}
+      - {start: '50', end: '58'}
+  Alma utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '2'}
+      - {start: '4', end: '12'}
+  Álom utca:
+    # Anything below 16 on the even side seems to be noise.
+    invalid: ['4']
+  Ámor utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
+  Arató köz:
+    ranges:
+      - {start: '1', end: '5'}
+  Arató utca:
+    ranges:
+      - {start: '1', end: '45'}
+      - {start: '2', end: '44'}
+  Árnyas út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '40'}
+  Avar utca:
+    ranges:
+      - {start: '1', end: '27'}
+  Bán utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '10'}
+  Borbála lépcső:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '6'}
+  Böszörményi út:
+    ranges:
+      - {start: '2', end: '46'}
+      - {start: '3', end: '37'}
+  Bürök utca:
+    ranges:
+      - {start: '1', end: '111'}
+      - {start: '2', end: '36'}
+  Csörsz utca:
+    ranges:
+      - {start: '1', end: '57'}
+      - {start: '2', end: '18'}
+  Denevér köz:
+    ranges:
+      - {start: '3', end: '5'}
+      - {start: '2', end: '8'}
+  Denevér út:
+    # 19-31 szakaszon nincs ház
+    # 1-5 nincs paratlan oldalon hazszam
+    ranges:
+      - {start: '2', end: '98'}
+      - {start: '7', end: '17'}
+  Derkovits utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '12'}
+  Dolgos utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '2'}
+  Edvi Illés út:
+    # lentről nem látszik 27-es, a kerítéshez nem másztam fel
+    invalid: ['27']
+  Gaál József út:
+    # at least 70-72 looks invalid
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '66'}
+  Győri út:
+    invalid: ['1a']
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '20'}
+  Hajnalka utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '30'}
+  Határőr út:
+    ranges:
+      - {start: '1', end: '65'}
+      - {start: '2', end: '84'}
+  Hegyalja út:
+    # 29-45 nincs házszám
+    ranges:
+      - {start: '29', end: '39'}
+      - {start: '47', end: '139'}
+      - {start: '130', end: '164'}
+  Hegyhát lépcső:
+    ranges: []
+  Irhás árok:
+    ranges:
+      - {start: '1', end: '105'}
+      - {start: '48', end: '58'}
+  Istenhegyi út:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '23', end: '199'}
+      - {start: '2', end: '192'}
+      - {start: '44', end: '198'}
+  Jagelló út:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '9', end: '15'}
+      - {start: '2', end: '52'}
+  János Zsigmond utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '36'}
+      - {start: '42', end: '44'}
+  Kapitány utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '6'}
+  Kázmér lejtő:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '12'}
+  Kikerics utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '20'}
+  Kiss János altábornagy utca:
+    ranges:
+      - {start: '1', end: '59'}
+      - {start: '2', end: '2'}
+      - {start: '6', end: '88'}
+  Konkoly-Thege Miklós út:
+    # ifi kp 21, kfki 29-33
+    invalid: ['24', '38']
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '21', end: '21'}
+      - {start: '29', end: '33'}
+      - {start: '2', end: '18'}
+      - {start: '20', end: '58'}
+  Korompai utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '18'}
+  Krisztina körút:
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '2', end: '8'}
+  Lidérc köz:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '10'}
+  Liptó utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '14'}
+  Magasút dűlő:
+    ranges: []
+  Magasúti lejtő:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '16'}
+  Meredek utca:
+    ranges:
+      - {start: '1', end: '41'}
+  Remete út:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '16'}
+  Sashegyi út:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '15', end: '39'}
+      - {start: '2', end: '30'}
+  Stromfeld Aurél út:
+    # 5 egy saroktelek, bejarát a Zsámbéki utca 14 felől
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '7', end: '9'}
+      - {start: '2', end: '10'}
+  Szamos utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
+  Szanatórium utca:
+    ranges:
+      - {start: '1', end: '19'}
+  Székács utca:
+    # Even side starts at 8.
+    invalid: ['2']
+  Széll Kálmán tér:
+    interpolation: all
+    ranges:
+      - {start: '12', end: '21'}
+  Szendrő köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '10'}
+  Szilágyi Erzsébet fasor:
+    ranges:
+      - {start: '2', end: '16'}
+  Szoboszlai utca:
+    ranges:
+      - {start: '11', end: '21'}
+      - {start: '2', end: '4'}
+  Táltos utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '22'}
+  Tartsay Vilmos utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '30'}
+  Temes utca:
+    ranges:
+      - {start: '2', end: '2'}
+  Törpe utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '12'}
+  Tusnádi köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '6'}
+  Ugocsa utca:
+    # 1 is only block end
+    ranges:
+      - {start: '3', end: '11'}
+      - {start: '2', end: '20'}
+  Városmajor utca:
+    ranges:
+      - {start: '1', end: '59'}
+      - {start: '71', end: '79'}
+      - {start: '2', end: '84'}
+      - {start: '86', end: '98'}
+  Vércse köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '6'}
+  Zsámbéki utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '14'}
+  Zsigmondy Vilmos utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '10'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Adonis utca': 'Adonisz utca'
