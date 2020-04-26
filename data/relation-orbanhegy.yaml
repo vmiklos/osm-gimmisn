@@ -45,4 +45,8 @@ filters:
     # 4: Istenhegy
     ranges:
       - {start: '5', end: '7'}
+  Szendrő köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '10'}
 source: survey
