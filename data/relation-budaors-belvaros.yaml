@@ -1,6 +1,9 @@
 missing-streets: 'no'
 filters:
   Aradi utca:
+    # 2 nincs kiírva
+    # 4,6-ost lebontották, 4a, 4b lett helyette
+    invalid: ['2', '6']
     ranges:
       - {start: '2', end: '6'}
   Átlós utca:
