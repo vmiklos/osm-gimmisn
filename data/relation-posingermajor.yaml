@@ -41,7 +41,12 @@ filters:
       - {start: '2', end: '54'}
       - {start: '60', end: '72'}
   Ördögorom út:
-    invalid: ['3a', '3b', '5', '5c', '6b', '7', '11', '20d']
+    # 3: 3/A-B van kapura taggelve
+    # 5/5: 5a, 5b
+    # 7: 7a, 7b
+    # 11: 11a, 11b
+    # 20 = Napóra utca 6
+    invalid: ['3a', '3b', '5', '5c', '5/5', '6b', '7', '11', '20d']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '24'}
