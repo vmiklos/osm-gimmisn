@@ -457,6 +457,37 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
             expected = ['9/A']
             self.assertEqual(housenumber_range_names, expected)
 
+    def test_invalid_simplify(self) -> None:
+        """Tests how 'invalid' interacts with housenumber-letters: true or false."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            relations = get_relations()
+            relation_name = "gh385"
+            relation = relations.get_relation(relation_name)
+
+            # Default case: housenumber-letters=false.
+            filters = {
+                "Kővirág sor": {
+                    "invalid": ["37b"]
+                }
+            }
+            relation.get_config().set_filters(filters)
+            ongoing_streets, _done_streets = relation.get_missing_housenumbers()
+            # Note how 37b from invalid is simplified to 37; and how 37/B from ref is simplified to
+            # 37 as well, so we find the match.
+            self.assertFalse(len(ongoing_streets))
+
+            # Opt-in case: housenumber-letters=true.
+            relation.get_config().set_housenumber_letters(True)
+            filters = {
+                "Kővirág sor": {
+                    "invalid": ["37b"]
+                }
+            }
+            relation.get_config().set_filters(filters)
+            ongoing_streets, _done_streets = relation.get_missing_housenumbers()
+            # In this case 37b from invalid matches 37/B from ref.
+            self.assertFalse(len(ongoing_streets))
+
     def test_letter_suffix_normalize(self) -> None:
         """Tests that '42 A' vs '42/A' is recognized as a match."""
         with unittest.mock.patch('config.get_abspath', get_abspath):

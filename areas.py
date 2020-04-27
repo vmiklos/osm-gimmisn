@@ -431,6 +431,13 @@ class Relation:
             street_invalid: List[str] = []
             if osm_street_name in streets_invalid.keys():
                 street_invalid = streets_invalid[osm_street_name]
+
+                # Simplify invalid items by default, so the 42a markup can be used, no matter what
+                # is the value of housenumber-letters.
+                if not self.get_config().should_check_housenumber_letters():
+                    street_invalid = \
+                        [normalize(self, i, osm_street_name, street_ranges)[0].get_number() for i in street_invalid]
+
             for line in lines:
                 if line.startswith(prefix):
                     house_number = line.replace(prefix, '')

@@ -128,6 +128,11 @@ Sometimes this results in a more compact filter than the above presented `ranges
 values of the invalid list is compared to house numbers after normalization, e.g. '47/49D' can be
 filtered out with '47'.
 
+The items of the `invalid` list are normalized, the same way as reference house numbers. So in
+case '42a' is normalized to '42', you can write '42a' in the invalid list, and it'll silence '42'.
+This has the benefit that the `invalid` items will keep working even if you later decide to set the
+`housenumber-letters: true` mode.
+
 == Searching for missing streets
 
 The yaml format is like this:
