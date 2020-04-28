@@ -10,10 +10,14 @@ filters:
   Béla király út:
     ranges:
       - {start: '59', end: '99'}
-      - {start: '38', end: '98'}
+      - {start: '36', end: '98'}
   Budakeszi út:
     ranges:
       - {start: '30', end: '46'}
+  Csillagvölgyi út:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '18'}
   Csermely út:
     ranges:
       - {start: '1', end: '15'}
@@ -30,5 +34,8 @@ filters:
     ranges:
       - {start: '43', end: '199'}
       - {start: '100', end: '198'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Sztehlo Gábor utca': 'Árnyas köz'
 source: survey
 inactive: true

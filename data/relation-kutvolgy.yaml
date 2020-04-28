@@ -17,6 +17,8 @@ filters:
   Kútvölgyi út:
     ranges:
       - {start: '2', end: '98'}
+  Szilágyi Erzsébet fasor:
+    ranges: []
   Városmajor utca:
     ranges: []
 source: survey

@@ -19,6 +19,8 @@ filters:
   Fülemile út:
     ranges:
       - {start: '2', end: '2'}
+  Hegyhát lépcső:
+    ranges: []
   Hegyhát út:
     ranges:
       - {start: '1', end: '3'}
@@ -43,6 +45,8 @@ filters:
   Mártonhegyi út:
     ranges:
       - {start: '1', end: '11'}
+  Művész út:
+    ranges: []
   Ordas út:
     ranges:
       - {start: '14', end: '98'}
@@ -50,6 +54,8 @@ filters:
     ranges:
       - {start: '93', end: '999'}
       - {start: '156', end: '998'}
+  Sötétvágás utca:
+    ranges: []
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'

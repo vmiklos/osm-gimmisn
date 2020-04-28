@@ -173,6 +173,10 @@ filters:
   Meredek utca:
     ranges:
       - {start: '1', end: '41'}
+  Művész út:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '6'}
   Remete út:
     ranges:
       - {start: '1', end: '5'}
@@ -182,12 +186,6 @@ filters:
       - {start: '1', end: '11'}
       - {start: '15', end: '39'}
       - {start: '2', end: '30'}
-  Stromfeld Aurél út:
-    # 5 egy saroktelek, bejarát a Zsámbéki utca 14 felől
-    ranges:
-      - {start: '1', end: '3'}
-      - {start: '7', end: '9'}
-      - {start: '2', end: '10'}
   Szamos utca:
     ranges:
       - {start: '1', end: '9'}
@@ -202,13 +200,17 @@ filters:
     interpolation: all
     ranges:
       - {start: '12', end: '21'}
+  Szendi árok:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '8', end: '10'}
   Szendrő köz:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
   Szilágyi Erzsébet fasor:
     ranges:
-      - {start: '2', end: '16'}
+      - {start: '2', end: '42'}
   Szoboszlai utca:
     ranges:
       - {start: '11', end: '21'}

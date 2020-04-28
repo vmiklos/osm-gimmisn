@@ -33,5 +33,7 @@ filters:
       - {start: '2', end: '6'}
   Nőszirom utca:
     ranges: []
+  Sötétvágás utca:
+    ranges: []
 source: survey
 inactive: true

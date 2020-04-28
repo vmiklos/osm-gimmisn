@@ -24,6 +24,9 @@ filters:
   Kútvölgyi út:
     ranges:
       - {start: '1', end: '103'}
+  Szilágyi Erzsébet fasor:
+    ranges:
+      - {start: '18', end: '42'}
   Zugligeti út:
     # 100+ Zugliget
     ranges:

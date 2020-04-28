@@ -3,21 +3,31 @@ filters:
   Béla király út:
     ranges: []
   Diana utca:
-    # pontositando
     ranges:
       - {start: '7', end: '17'}
       - {start: '2', end: '98'}
   Diós árok:
     ranges:
       - {start: '2', end: '98'}
+  Gyöngyvirág út:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '18'}
   Istenhegyi út:
     ranges:
       - {start: '35', end: '199'}
       - {start: '44', end: '198'}
   Költő utca:
-    # pontositando
     ranges:
-      - {start: '2', end: '20'}
+      - {start: '2', end: '18'}
+  Lóránt út:
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '22'}
+  Óra út:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '18'}
   Pethényi köz:
     ranges:
       - {start: '3', end: '99'}
@@ -29,6 +39,10 @@ filters:
     ranges:
       - {start: '35', end: '99'}
       - {start: '32', end: '98'}
+  Szent Orbán tér:
+    interpolation: all
+    ranges:
+      - {start: '4', end: '4'}
   Trencséni utca:
     ranges:
       - {start: '13', end: '99'}
