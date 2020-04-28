@@ -22,7 +22,6 @@ filters:
     ranges:
       - {start: '1', end: '65'}
   Budapesti út:
-    invalid: ['25', '43']
     ranges:
       - {start: '89', end: '133'}
       - {start: '90', end: '140'}
