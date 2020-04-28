@@ -57,6 +57,14 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
     """Fills items with function-specific links in the header. Returns a title."""
     prefix = config.Config.get_uri_prefix()
     if function == "missing-housenumbers":
+        # The OSM data source changes much more frequently than the ref one, so add a dedicated link
+        # to update OSM house numbers first.
+        doc = yattag.doc.Doc()
+        with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
+            doc.text(_("Update from OSM"))
+        doc.text(" " + _("(may take seconds)"))
+        items.append(doc)
+
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
@@ -67,6 +75,13 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
             doc.text(_("Overpass turbo"))
         items.append(doc)
     elif function == "missing-streets":
+        # The OSM data source changes much more frequently than the ref one, so add a dedicated link
+        # to update OSM streets first.
+        doc = yattag.doc.Doc()
+        with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
+            doc.text(_("Update from OSM"))
+        items.append(doc)
+
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
