@@ -414,6 +414,20 @@ class Relation:
             for line in lst:
                 sock.write(line + "\n")
 
+    def __normalize_invalids(self, osm_street_name: str, street_invalid: List[str]) -> List[str]:
+        """Normalizes an 'invalid' list."""
+        if self.get_config().should_check_housenumber_letters():
+            return street_invalid
+
+        normalized_invalid: List[str] = []
+        street_ranges = self.get_street_ranges()
+        for i in street_invalid:
+            normalizeds = normalize(self, i, osm_street_name, street_ranges)
+            # normalize() may return an empty list if the number is out of range.
+            if normalizeds:
+                normalized_invalid.append(normalizeds[0].get_number())
+        return normalized_invalid
+
     def __get_ref_housenumbers(self) -> Dict[str, List[util.HouseNumber]]:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         ret: Dict[str, List[util.HouseNumber]] = {}
@@ -434,9 +448,7 @@ class Relation:
 
                 # Simplify invalid items by default, so the 42a markup can be used, no matter what
                 # is the value of housenumber-letters.
-                if not self.get_config().should_check_housenumber_letters():
-                    street_invalid = \
-                        [normalize(self, i, osm_street_name, street_ranges)[0].get_number() for i in street_invalid]
+                street_invalid = self.__normalize_invalids(osm_street_name, street_invalid)
 
             for line in lines:
                 if line.startswith(prefix):

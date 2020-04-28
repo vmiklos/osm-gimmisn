@@ -6,8 +6,10 @@
 
 """The test_areas module covers the areas module."""
 
-import os
+from typing import Any
+from typing import Dict
 from typing import List
+import os
 import unittest
 import unittest.mock
 
@@ -465,7 +467,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
             relation = relations.get_relation(relation_name)
 
             # Default case: housenumber-letters=false.
-            filters = {
+            filters: Dict[str, Any] = {
                 "Kővirág sor": {
                     "invalid": ["37b"]
                 }
@@ -487,6 +489,17 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
             ongoing_streets, _done_streets = relation.get_missing_housenumbers()
             # In this case 37b from invalid matches 37/B from ref.
             self.assertFalse(len(ongoing_streets))
+
+            # Make sure out-of-range invalid elements are just ignored and no exception is raised.
+            relation.get_config().set_housenumber_letters(False)
+            filters = {
+                "Kővirág sor": {
+                    "invalid": ["5"],
+                    "ranges": [{"start": "1", "end": "3"}],
+                }
+            }
+            relation.get_config().set_filters(filters)
+            relation.get_missing_housenumbers()
 
     def test_letter_suffix_normalize(self) -> None:
         """Tests that '42 A' vs '42/A' is recognized as a match."""
