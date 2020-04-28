@@ -1,19 +1,28 @@
 missing-streets: 'no'
 filters:
+  Agancs út:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '14'}
   Alkony út:
     ranges:
       - {start: '2', end: '98'}
   Béla király út:
     ranges:
-      - {start: '2', end: '36'}
+      - {start: '2', end: '34'}
+  Csillagvölgyi út:
+    ranges:
+      - {start: '17', end: '99'}
+      - {start: '20', end: '98'}
   Diana utca:
-    # pontositando
     ranges:
       - {start: '1', end: '5'}
   Fülemile út:
     ranges:
       - {start: '1', end: '99'}
       - {start: '4', end: '98'}
+  Hegyhát lépcső:
+    ranges: []
   Hegyhát út:
     ranges:
       - {start: '5', end: '99'}
@@ -33,6 +42,10 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '98'}
+  Művész út:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '6'}
   Ordas út:
     ranges:
       - {start: '2', end: '12'}

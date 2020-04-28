@@ -6,16 +6,25 @@ filters:
     ranges:
       - {start: '1', end: '99'}
   Diana utca:
-    # pontositando
     ranges:
-      - {start: '17', end: '99'}
+      - {start: '19', end: '99'}
   Fodor utca:
     ranges:
       - {start: '1', end: '49'}
       - {start: '2', end: '42'}
+  Gyöngyvirág út:
+    ranges:
+      - {start: '20', end: '22'}
   Istenhegyi út:
     ranges:
       - {start: '2', end: '42'}
+  Költő utca:
+    ranges:
+      - {start: '20', end: '42'}
+  Lóránt út:
+    ranges:
+      - {start: '25', end: '27'}
+      - {start: '24', end: '24'}
   Mártonhegyi út:
     ranges:
       - {start: '53', end: '67'}
@@ -31,6 +40,12 @@ filters:
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '48'}
+  Nógrádi utca:
+    ranges: []
+  Óra út:
+    ranges:
+      - {start: '15', end: '15'}
+      - {start: '20', end: '20'}
   Tamási Áron utca:
     ranges:
       - {start: '1', end: '99'}
@@ -47,6 +62,7 @@ filters:
     interpolation: all
     # 1, 2: Kissvábhegy
     # 4: Istenhegy
+    # 5, 7: Orbánhegy
     ranges:
       - {start: '5', end: '7'}
   Szendrő köz:
@@ -58,8 +74,7 @@ filters:
       - {start: '1', end: '33'}
       - {start: '2', end: '30'}
   Tündér utca:
-    # 15 lehet már más terület
     ranges:
-      - {start: '1', end: '15'}
+      - {start: '1', end: '13'}
       - {start: '2', end: '22'}
 source: survey
