@@ -36,7 +36,7 @@ function addCharts(stats) {
                     ticks: { suggestedMin: 0, },
                     scaleLabel: {
                         display: true,
-                        labelString: "Time"
+                        labelString: "During this day"
                     },
                 }],
                 yAxes: [{
@@ -83,7 +83,7 @@ function addCharts(stats) {
                     ticks: { suggestedMin: 0, },
                     scaleLabel: {
                         display: true,
-                        labelString: "Time"
+                        labelString: "During this month"
                     },
                 }],
                 yAxes: [{
@@ -129,7 +129,7 @@ function addCharts(stats) {
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "Time"
+                        labelString: "Latest for this month"
                     },
                 }],
                 yAxes: [{
@@ -176,7 +176,7 @@ function addCharts(stats) {
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "Time"
+                        labelString: "At the start of this day"
                     },
                 }],
                 yAxes: [{
@@ -276,6 +276,12 @@ function addCharts(stats) {
                     scaleLabel: {
                         display: true,
                         labelString: "Number of house numbers in database",
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Data source",
                     },
                 }]
             },

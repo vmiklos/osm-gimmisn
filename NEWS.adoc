@@ -2,6 +2,12 @@
 
 == master
 
+- Resolves: gh#383 stats, monthly total now has an extra column to show today's count
+
+- Resolves: gh#385 `invalid` list items are now normalized by default
+
+- Resolves: gh#388 cron's console output and log file now uses the same format
+
 - Resolves: gh#414 the missing housenumber page's table is now sorted correctly even if house number
   ranges reduce the amount of items for some streets
 

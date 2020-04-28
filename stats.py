@@ -107,11 +107,20 @@ def handle_monthly_total(src_root: str, j: Dict[str, Any]) -> None:
     for month_offset in range(11, -1, -1):
         # datetime.timedelta does not support months
         month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset)
-        # Get the first day of each month.
+        prev_month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset + 1)
+        # Get the first day of each past month.
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
+        prev_month = prev_month_delta.replace(day=1).strftime("%Y-%m")
         with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
             count = int(stream.read().strip())
-        ret.append([month[:len("YYYY-MM")], count])
+        ret.append([prev_month, count])
+
+        if month_offset == 0:
+            # Current month: show today's count as well.
+            month = month_delta.strftime("%Y-%m-%d")
+            with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
+                count = int(stream.read().strip())
+            ret.append([month[:len("YYYY-MM")], count])
     j["monthlytotal"] = ret
 
 
