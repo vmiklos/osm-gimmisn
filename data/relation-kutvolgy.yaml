@@ -18,7 +18,8 @@ filters:
     ranges:
       - {start: '2', end: '98'}
   Szilágyi Erzsébet fasor:
-    ranges: []
+    ranges:
+      - {start: '18', end: '18'}
   Városmajor utca:
     ranges: []
 source: survey
