@@ -20,7 +20,7 @@ filters:
       - {start: '2', end: '42'}
   Költő utca:
     ranges:
-      - {start: '20', end: '42'}
+      - {start: '20', end: '40'}
   Lóránt út:
     ranges:
       - {start: '25', end: '27'}

@@ -104,10 +104,10 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '16'}
   Stromfeld Aurél út:
-    # 5 egy saroktelek, bejarát a Zsámbéki utca 14 felől
+    # 5 egy saroktelek, bejárat a Zsámbéki utca 14 felől
+    invalid: ['5']
     ranges:
-      - {start: '1', end: '3'}
-      - {start: '7', end: '9'}
+      - {start: '1', end: '9'}
       - {start: '2', end: '10'}
   Szendi árok:
     ranges:
