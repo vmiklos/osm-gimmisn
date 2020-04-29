@@ -39,6 +39,12 @@ filters:
     ranges:
       - {start: '1', end: '33'}
       - {start: '2', end: '50'}
+  Gesztenye köz:
+    ranges:
+      - {start: '2', end: '4'}
+  Gesztenye utca:
+    ranges:
+      - {start: '2', end: '4'}
   Kökény utca:
     ranges:
       - {start: '1', end: '9'}
@@ -46,14 +52,13 @@ filters:
   Kőhát utca:
     ranges:
       - {start: '1', end: '9'}
-      - {start: '2', end: '4'}
   Mátyás király utca:
     ranges:
       - {start: '1', end: '99'}
   Naphegy utca:
     ranges:
       - {start: '1', end: '19'}
-      - {start: '10', end: '52'}
+      - {start: '2', end: '8'}
   Nefelejcs utca:
     ranges:
       - {start: '1', end: '19'}
@@ -77,7 +82,7 @@ filters:
       - {start: '136', end: '136'}
   Szőlő köz:
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '1', end: '99'}
   Szegfű utca:
     # páratlan belváros, páros kertváros, kivéve 26
     ranges:
@@ -87,6 +92,8 @@ filters:
     ranges:
       - {start: '1', end: '65'}
       - {start: '2', end: '16'}
+  Temesvári utca:
+    ranges: []
   Víg utca:
     ranges:
       - {start: '1', end: '51'}
