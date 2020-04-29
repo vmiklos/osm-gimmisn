@@ -62,17 +62,11 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Update from OSM"))
-        doc.text(" " + _("(may take seconds)"))
         items.append(doc)
 
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
-        doc.text(" " + _("(may take seconds)"))
-        items.append(doc)
-        doc = yattag.doc.Doc()
-        with doc.tag("a", href="https://overpass-turbo.eu/"):
-            doc.text(_("Overpass turbo"))
         items.append(doc)
     elif function == "missing-streets":
         # The OSM data source changes much more frequently than the ref one, so add a dedicated link
@@ -90,7 +84,6 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Call Overpass to update"))
-        doc.text(" " + _("(may take seconds)"))
         items.append(doc)
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-query"):
@@ -100,7 +93,6 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
             doc.text(_("Call Overpass to update"))
-        doc.text(" " + _("(may take seconds)"))
         items.append(doc)
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-query"):
@@ -123,10 +115,6 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
             doc.text("chkl")
         doc.text(")")
         items.append(doc)
-        doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-result"):
-            doc.text(_("Existing house numbers"))
-        items.append(doc)
     if streets != "no":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result"):
@@ -136,6 +124,21 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
             doc.text("txt")
         doc.text(")")
         items.append(doc)
+
+
+def fill_existing_header_items(streets: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
+    """Generates the 'existing house numbers/streets' part of the header."""
+    prefix = config.Config.get_uri_prefix()
+    if streets != "only":
+        doc = yattag.doc.Doc()
+        with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-result"):
+            doc.text(_("Existing house numbers"))
+        items.append(doc)
+
+    doc = yattag.doc.Doc()
+    with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-result"):
+        doc.text(_("Existing streets"))
+    items.append(doc)
 
 
 def get_toolbar(
@@ -158,14 +161,20 @@ def get_toolbar(
     with doc.tag("a", href=prefix + "/"):
         doc.text(_("Area list"))
     items.append(doc)
+
     if relation_name:
         fill_missing_header_items(streets, relation_name, items)
-        doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-result"):
-            doc.text(_("Existing streets"))
-        items.append(doc)
 
     fill_header_function(function, relation_name, items)
+
+    if relation_name:
+        fill_existing_header_items(streets, relation_name, items)
+
+    if function == "missing-housenumbers":
+        doc = yattag.doc.Doc()
+        with doc.tag("a", href="https://overpass-turbo.eu/"):
+            doc.text(_("Overpass turbo"))
+        items.append(doc)
 
     if relation_osmid:
         doc = yattag.doc.Doc()
