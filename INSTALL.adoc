@@ -13,8 +13,14 @@ git clone <URL> # You read this file somewhere, right? :-)
 cd osm-gimmisn
 ----
 
-- Set up a virtual environment, see <https://docs.python.org/3/tutorial/venv.html>. This makes sure
-  that you will have exactly the same version of the depdendencies as everyone else.
+- Set up a virtual environment:
+
+----
+python3 -m venv osm-gimmisn-env
+. osm-gimmisn-env/bin/activate
+----
+
+This makes sure that you will have exactly the same version of the depdendencies as everyone else.
 
 - Install Python dependencies:
 
