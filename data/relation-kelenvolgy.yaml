@@ -30,10 +30,11 @@ filters:
     invalid: ['16', '27']
   Gépész utca:
     # 16: 14 után 18 jön
-    invalid: ['16']
+    # 31 nincs kiírva
+    invalid: ['16', '31']
     ranges:
-      - {start: '12', end: '98'}
-      - {start: '1', end: '99'}
+      - {start: '12', end: '36'}
+      - {start: '1', end: '41'}
   Hajtány sor:
     interpolation: 'all'
     ranges:
