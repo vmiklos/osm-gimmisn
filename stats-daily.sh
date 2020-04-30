@@ -12,9 +12,7 @@
 
 srcdir="$(dirname "$0")"
 statedir="$(dirname "$0")/workdir/stats/"
-htmldir="$(dirname "$0")/workdir/stats-htdocs/"
 mkdir -p "${statedir}"
-mkdir -p "${htmldir}"
 
 date="$(date +%Y-%m-%d)"
 # Ignore 5th field, which is the user who touched the object last.
@@ -25,7 +23,5 @@ cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |sort -k1,1rn |head -
 find "${statedir}" -type f -name "*.csv" -mtime +7 -exec rm -f {} \;
 
 "${srcdir}/stats.py" "${statedir}" > "${statedir}/stats.json"
-
-cp -- "${statedir}/stats.json" "${htmldir}/stats.json"
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
