@@ -287,6 +287,8 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
         pass
     with doc.tag("script", src=prefix + "/static/chartjs-plugin-datalabels.min.js"):
         pass
+    with doc.tag("script", src=prefix + "/static/chartjs-plugin-trendline.min.js"):
+        pass
     with doc.tag("script", src=prefix + "/static/stats.js"):
         pass
 

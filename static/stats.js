@@ -13,6 +13,11 @@ function addCharts(stats) {
     var monthlytotal = stats.monthlytotal;
     var topusers = stats.topusers;
     var progress = stats.progress;
+    var trendlineOptions = {
+        style: "rgba(255,105,180, .8)",
+        lineStyle: "dotted",
+        width: 2,
+    };
 
     var dailyData = {
         // daily is a list of label-data pairs.
@@ -20,6 +25,7 @@ function addCharts(stats) {
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: daily.map(x => x[1]),
+            trendlineLinear: trendlineOptions,
         }]
     };
     var dailyCtx = document.getElementById("daily").getContext("2d");
@@ -67,6 +73,7 @@ function addCharts(stats) {
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: monthly.map(x => x[1]),
+            trendlineLinear: trendlineOptions,
         }]
     };
     var monthlyCtx = document.getElementById("monthly").getContext("2d");
@@ -114,6 +121,7 @@ function addCharts(stats) {
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: monthlytotal.map(x => x[1]),
+            trendlineLinear: trendlineOptions,
         }]
     };
     var monthlyTotalCtx = document.getElementById("monthlytotal").getContext("2d");
@@ -160,6 +168,7 @@ function addCharts(stats) {
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: dailytotal.map(x => x[1]),
+            trendlineLinear: trendlineOptions,
         }]
     };
 
