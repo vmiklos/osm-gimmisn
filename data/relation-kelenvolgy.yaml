@@ -4,6 +4,9 @@ filters:
     ranges:
       - {start: '3', end: '21'}
       - {start: '4', end: '22'}
+  Alabástrom utca:
+    # 13-15: játszótér van a helyén
+    invalid: ['13', '15']
   Állvány utca:
     ranges:
       - {start: '1', end: '11'}
@@ -47,10 +50,17 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
+  Kecskeméti József utca_
+    # 30-32 helyén üres telek
+    invalid: ['32']
   Kelenvölgyi határsor:
     interpolation: 'all'
     ranges:
       - {start: '3', end: '8'}
+  Kohó utca:
+    # 9: utcanév tábla szerint 1-9 a szakasz, de 7-es szám van a sarkon lévő házon
+    # 10: Kubikos utca 42
+    invalid: ['9', '10']
   Kővirág sor:
     invalid: ['37b']
     ranges:
@@ -90,5 +100,8 @@ filters:
   Solt utca:
     ranges:
       - {start: '1', end: '37'}
+  Szajol utca:
+    # 2 = Ringló út 68
+    invalid: ['2']
 source: survey
 inactive: true
