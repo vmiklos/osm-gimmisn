@@ -11,6 +11,7 @@ street-filters:
   - Vasútállomás felső
   # egyéb
   - Gödör tér  # Ez egy játszótér igazából
+  - Szabó Dezső tér  # Megszűnt
   - Újtemető út  # Átnevezték, de a XIX. kerülethez tartozik tejes egészében
   # Szarvas csárda tér - nincs berajzolva Üllői út 438 környéke
   # semmilyen forrásban sem találtam
@@ -19,30 +20,25 @@ street-filters:
   # todo
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  # helyesírás, ref hibás
-  # utcajegyzék = OSM, ref hibás
-  # utcajegyzék = REF, OSM eltér
-  # todo
-  'Áchim András utca': 'Achim András utca'
-  'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
-  'Besence utca': 'Besence út'
-  'Bulcsu utca': 'Bulcsú utca'
-  'Csarnóta': 'Csarnóta utca'
+  # helyesírás, rövidítés: ref hibás
   'Csontváry Kosztka Tivadar utca': 'Csontváry K. Tivadar utca'
+  # utcajegyzék = OSM: ref hibás
+  'Áchim András utca': 'Achim András utca'
+  'Besence utca': 'Besence út'
   'Darányi Ignác utca': 'Darányi utca'
   'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
-  'Határ út': 'Határ utca'
   'Ipacsfa utca': 'Ipacsfa út'
-  'Kelevári utca': 'Kevevári utca'
-  'Kerékkötő utca': 'Kerékkötő út'
   'Királyhágó út': 'Királyhágó utca'
-  'Kisaszonyfa utca': 'Kisasszonyfa utca'
   'Körös utca': 'Kőrös utca'
-  'Rudavszky utca': 'Rudawszky utca'
-  'Rim utca': 'Rím utca'
-  'Rutka utca': 'Ruttka utca'
   'Tas utca': 'Tass utca'
-  'Wittman Viktor utca': 'Wittmann Viktor utca'
   'Zádor utca': 'Zádor út'
+  # utcajegyzék = REF: OSM eltér
+  'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'  # utcatábla = OSM
+  'Kerékkötő utca': 'Kerékkötő út'  # utcatábla = OSM
+  'Rudavszky utca': 'Rudawszky utca'  # note
+  'Rim utca': 'Rím utca'  # utcatábla = OSM
+  'Rutka utca': 'Ruttka utca'  # note
+  'Wittman Viktor utca': 'Wittmann Viktor utca'  # note
+  # todo
 source: survey
 inactive: true

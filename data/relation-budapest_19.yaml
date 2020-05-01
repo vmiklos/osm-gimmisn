@@ -13,19 +13,17 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás, ref hibás
+  'Kiss János altábornagy utca': 'Kiss János altbgy. utca'
   # utcajegyzék = OSM, ref hibás
-  # utcajegyzék = REF, OSM eltér
-  # todo
   'Áchim András utca': 'Achim András utca'
   'Báthory utca': 'Báthori utca'
   'Bóné András utca': 'Bohné András utca'
-  'Citroën utca': 'Citroen utca'
   'Drágfy köz': 'Drágffy köz'
   'Györffy István tér': 'Győrffy István tér'
-  'Kis Viola utca': 'Kisviola utca'
-  'Kiss János altábornagy utca': 'Kiss János altbgy. utca'
   'Körös köz': 'Kőrös köz'
   'Petur utca': 'Petúr utca'
   'Tas utca': 'Tass utca'
+  # utcajegyzék = REF, OSM eltér
+  'Citroën utca': 'Citroen utca'  # utcatábla = OSM
 source: survey
 inactive: true
