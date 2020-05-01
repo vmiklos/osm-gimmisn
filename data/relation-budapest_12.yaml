@@ -177,6 +177,10 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
+  Pagony utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '52'}
   Remete út:
     ranges:
       - {start: '1', end: '5'}
