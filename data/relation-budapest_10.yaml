@@ -8,22 +8,21 @@ street-filters:
   - Rákos MÁV Motorüzem
   - Rákos MÁV telep
   - Máv telep
+  - Felső Rákosi Rétek
   # egyéb
-  # semmilyen forrásban sem találtam
-  # todo
-  # Felső Rákosi Rétek
-  # Ökrös köz
-  # Sárgarózsa utca
-  # Tűzálló köz
-  # Vika köz
+  - Tűzálló köz  # susnya van a helyén Algyógyi utcáról nyílna
+  # Ökrös köz - Ökrös utca és a Serpenyő köz között félúton. nincs kiépítve, de táblája kell látszódjon
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Csajkovszkij-park': 'Csajkovszkij park'
+  'Óhegy köz': 'Óhegyi köz'  # nincs az utcajegyzékben, régi utcajegyzék szerint Óhegy köz
+  # helyesírás, rövidítés: ref hibás
   'Hizlaló tér': 'Hízlaló tér'
-  'Ceglédi út': 'Ceglédi utca'
-  'Kis Sörgyár utca': 'Kissörgyár utca'
-  'Óhegy köz': 'Óhegyi köz'
   'Sütöde utca': 'Sütőde utca'
   'Vízimalom utca': 'Vizimalom utca'
+  # utcajegyzék = OSM: ref hibás
+  'Ceglédi út': 'Ceglédi utca'
+  'Kis Sörgyár utca': 'Kissörgyár utca'
+  # utcajegyzék = REF: OSM eltér
+  'Vilka köz': 'Vika köz'  # note
 source: survey
 inactive: true

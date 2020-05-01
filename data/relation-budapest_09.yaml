@@ -15,9 +15,12 @@ filters:
       - {start: '2', end: '62'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  # helyesírás
   'Albert Flórián út': 'ALBERT FLÓRIÁN út'
-  'Fehér Holló utca': 'Fehérholló utca'
-  'Knézich utca': 'Knézits utca'
   'Távíró köz': 'Táviró köz'
+  # utcajegyzék = OSM, ref hibás
+  'Fehér Holló utca': 'Fehérholló utca'
+  # utcajegyzék = REF, OSM eltér
+  'Knézich utca': 'Knézits utca'  # utcatábla = OSM
 source: survey
 inactive: true
