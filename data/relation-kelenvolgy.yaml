@@ -50,7 +50,7 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
-  Kecskeméti József utca_
+  Kecskeméti József utca:
     # 30-32 helyén üres telek
     invalid: ['32']
   Kelenvölgyi határsor:
