@@ -77,4 +77,8 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '22'}
+  Pagony utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '52'}
 source: survey
