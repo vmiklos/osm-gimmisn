@@ -326,7 +326,8 @@ filters:
     # 12: sima 12 nincs, csak 12/A, 12/B.
     invalid: ['12']
   Ringló út:
-    # Területhatár, a páros oldal nem Budafok.
+    # Területhatár, a páros oldal Kelenvölgy
+    # 107/A: csak sima 107 van.
     ranges:
       - {start: '1', end: '139'}
   Rugó utca:
