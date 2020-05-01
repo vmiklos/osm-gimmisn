@@ -5,6 +5,8 @@ street-filters:
   - MÁV állomás
   # egyéb
   - Dugonics utca  # Europark (Shopmark) épült a helyén
+  # dupla
+  - Kiss János altábornagy utca  # Kiss János altbgy. utcán vannak a hászámok
   # semmilyen forrásban sem találtam
   - Dr. Rákos Ferenc utca
   - Elmű utca
