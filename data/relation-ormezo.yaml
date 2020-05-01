@@ -96,7 +96,7 @@ filters:
       - {start: '53', end: '61'}
   Péterhegyi út:
     ranges:
-      - {start: '40', end: '54'}
+      - {start: '40', end: '68'}
   Rimaszombati út:
     ranges:
       - {start: '5', end: '17'}
