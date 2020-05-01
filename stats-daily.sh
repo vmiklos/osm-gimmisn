@@ -22,6 +22,4 @@ cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |sort -k1,1rn |head -
 # Clean up older (than 7 days), large .csv files.
 find "${statedir}" -type f -name "*.csv" -mtime +7 -exec rm -f {} \;
 
-"${srcdir}/stats.py" "${statedir}" > "${statedir}/stats.json"
-
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

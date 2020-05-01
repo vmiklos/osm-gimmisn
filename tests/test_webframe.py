@@ -54,8 +54,8 @@ class TestHandleStatic(unittest.TestCase):
         """Tests the json case."""
         prefix = config.Config.get_uri_prefix()
         with unittest.mock.patch('config.get_abspath', get_abspath):
-            content, content_type = webframe.handle_static(prefix + "/static/stats.json")
-            self.assertEqual(content, "{}\n")
+            content, content_type = webframe.handle_static(prefix + "/static/stats-empty.json")
+            self.assertTrue(content.startswith("{"))
             self.assertEqual(content_type, "application/json")
 
     def test_else(self) -> None:

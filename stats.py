@@ -25,8 +25,11 @@ def handle_progress(src_root: str, j: Dict[str, Any]) -> None:
     with open(os.path.join(src_root, "ref.count"), "r") as stream:
         num_ref = int(stream.read().strip())
     today = time.strftime("%Y-%m-%d")
-    with open(os.path.join(src_root, "%s.count" % today), "r") as stream:
-        num_osm = int(stream.read().strip())
+    num_osm = 0
+    count_path = os.path.join(src_root, "%s.count" % today)
+    if os.path.exists(count_path):
+        with open(count_path, "r") as stream:
+            num_osm = int(stream.read().strip())
     percentage = round(num_osm * 100 / num_ref, 2)
     ret["date"] = today
     ret["percentage"] = percentage
@@ -39,11 +42,13 @@ def handle_topusers(src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for top users."""
     today = time.strftime("%Y-%m-%d")
     ret = []
-    with open(os.path.join(src_root, "%s.topusers" % today), "r") as stream:
-        for line in stream.readlines():
-            line = line.strip()
-            count, _, user = line.partition(' ')
-            ret.append([user, count])
+    topusers_path = os.path.join(src_root, "%s.topusers" % today)
+    if os.path.exists(topusers_path):
+        with open(topusers_path, "r") as stream:
+            for line in stream.readlines():
+                line = line.strip()
+                count, _, user = line.partition(' ')
+                ret.append([user, count])
     j["topusers"] = ret
 
 
@@ -55,7 +60,10 @@ def handle_daily_new(src_root: str, j: Dict[str, Any]) -> None:
     for day_offset in range(14, -1, -1):
         day_delta = datetime.date.today() - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
-        with open(os.path.join(src_root, "%s.count" % day), "r") as stream:
+        count_path = os.path.join(src_root, "%s.count" % day)
+        if not os.path.exists(count_path):
+            break
+        with open(count_path, "r") as stream:
             count = int(stream.read().strip())
         if prev_count:
             ret.append([prev_day, count - prev_count])
@@ -74,7 +82,10 @@ def handle_monthly_new(src_root: str, j: Dict[str, Any]) -> None:
         month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset)
         # Get the first day of each month.
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
-        with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
+        count_path = os.path.join(src_root, "%s.count" % month)
+        if not os.path.exists(count_path):
+            break
+        with open(count_path, "r") as stream:
             count = int(stream.read().strip())
         if prev_count:
             ret.append([prev_month[:len("YYYY-MM")], count - prev_count])
@@ -83,9 +94,11 @@ def handle_monthly_new(src_root: str, j: Dict[str, Any]) -> None:
 
     # Also show the current, incomplete month.
     day = datetime.date.today().strftime("%Y-%m-%d")
-    with open(os.path.join(src_root, "%s.count" % day), "r") as stream:
-        count = int(stream.read().strip())
-    ret.append([day[:len("YYYY-MM")], count - prev_count])
+    count_path = os.path.join(src_root, "%s.count" % day)
+    if os.path.exists(count_path):
+        with open(count_path, "r") as stream:
+            count = int(stream.read().strip())
+        ret.append([day[:len("YYYY-MM")], count - prev_count])
 
     j["monthly"] = ret
 
@@ -96,7 +109,10 @@ def handle_daily_total(src_root: str, j: Dict[str, Any]) -> None:
     for day_offset in range(13, -1, -1):
         day_delta = datetime.date.today() - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
-        with open(os.path.join(src_root, "%s.count" % day), "r") as stream:
+        count_path = os.path.join(src_root, "%s.count" % day)
+        if not os.path.exists(count_path):
+            break
+        with open(count_path, "r") as stream:
             count = int(stream.read().strip())
         ret.append([day, count])
     j["dailytotal"] = ret
@@ -112,7 +128,10 @@ def handle_monthly_total(src_root: str, j: Dict[str, Any]) -> None:
         # Get the first day of each past month.
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
         prev_month = prev_month_delta.replace(day=1).strftime("%Y-%m")
-        with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
+        count_path = os.path.join(src_root, "%s.count" % month)
+        if not os.path.exists(count_path):
+            break
+        with open(count_path, "r") as stream:
             count = int(stream.read().strip())
         ret.append([prev_month, count])
 

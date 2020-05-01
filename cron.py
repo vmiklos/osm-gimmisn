@@ -20,6 +20,7 @@ import urllib.error
 import areas
 import config
 import overpass_query
+import stats
 import util
 
 
@@ -187,6 +188,11 @@ def update_stats() -> None:
     # Shell part.
     info("update_stats: executing the shell part")
     subprocess.run([config.get_abspath("stats-daily.sh")], check=True)
+
+    info("update_stats: generating json")
+    json_path = os.path.join(statedir, "stats.json")
+    with open(json_path, "w") as stream:
+        stats.generate_json(statedir, stream)
 
     info("update_stats: end")
 
