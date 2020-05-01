@@ -9,6 +9,7 @@
 
 from typing import Any
 from typing import Dict
+from typing import TextIO
 import datetime
 import json
 import os
@@ -124,17 +125,23 @@ def handle_monthly_total(src_root: str, j: Dict[str, Any]) -> None:
     j["monthlytotal"] = ret
 
 
+def generate_json(state_dir: str, stream: TextIO) -> None:
+    """Generates the stats json and writes it to `stream`."""
+    j: Dict[str, Any] = {}
+    handle_progress(state_dir, j)
+    handle_topusers(state_dir, j)
+    handle_daily_new(state_dir, j)
+    handle_daily_total(state_dir, j)
+    handle_monthly_new(state_dir, j)
+    handle_monthly_total(state_dir, j)
+    stream.write(json.dumps(j))
+
+
 def main() -> None:
     """Commandline interface to this module."""
     src_root = sys.argv[1]
-    j: Dict[str, Any] = {}
-    handle_progress(src_root, j)
-    handle_topusers(src_root, j)
-    handle_daily_new(src_root, j)
-    handle_daily_total(src_root, j)
-    handle_monthly_new(src_root, j)
-    handle_monthly_total(src_root, j)
-    print(json.dumps(j))
+    stream = sys.stdout
+    generate_json(src_root, stream)
 
 
 if __name__ == "__main__":
