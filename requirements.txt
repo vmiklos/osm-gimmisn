@@ -4,7 +4,7 @@ flake8==3.7.9
 mypy==0.770
 pylint==2.4.4
 python-dateutil==2.8.1
-pytz==2019.3
+pytz==2020.1
 pyyaml==5.3.1
 yamllint==1.21.0
 yattag==1.13.2
