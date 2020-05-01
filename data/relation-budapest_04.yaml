@@ -11,13 +11,14 @@ street-filters:
   - Sobrik Joska utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  # utcajegyzék = OSM, ref hibás
   'Duna sor': 'Dunasor'
-  'Farkaserdő utca': 'Farkas-erdő utca'
-  'Knezich Károly utca': 'Knézits Károly utca'
-  'Kossuth Lajos utca': 'Kossuth utca'
-  'Kölcsey Ferenc utca': 'Kölcsey utca'
-  'Körösbánya utca': 'Kőrösbánya utca'
-  'Ódry Árpád utca': 'Ódry utca'
-  'Venetiáner utca': 'Venetianer utca'
+  # utcajegyzék = REF, OSM eltér
+  'Farkaserdő utca': 'Farkas-erdő utca'  # utcatábla = OSM
+  'Kossuth Lajos utca': 'Kossuth utca'  # utcatábla = OSM
+  'Kölcsey Ferenc utca': 'Kölcsey utca'  # utcatábla = OSM
+  'Körösbánya utca': 'Kőrösbánya utca'   # falu röviddel van, helyesírási probléma
+  'Ódry Árpád utca': 'Ódry utca'  # utcatábla = OSM
+  'Venetiáner utca': 'Venetianer utca'  # utcatábla = OSM
 source: survey
 inactive: true

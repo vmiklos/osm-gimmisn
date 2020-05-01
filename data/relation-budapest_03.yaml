@@ -29,19 +29,22 @@ street-filters:
   - Hajógyársziget  # utcaként nincs fent, Hajógyári-sziget-ként igen, ezzel nem fog összetalálni
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Barátpatak utca': 'Barát-patak utca'
-  'Bebo Károly utca': 'Bebó Károly utca'
+  # helyesírás, ref hibás
   'Hímző utca': 'Himző utca'
-  'Jó szerencse utca': 'Jószerencse út'
   'Kaszásdűlő utca': 'Kaszásdülő utca'
-  'Kis Csikós köz': 'Kiscsikós köz'
   'Lékai bíboros tér': 'Lékai biboros tér'
-  'Montevideo utca': 'Montevideo út'
-  'Nagy-Kevély utca': 'Nagykevély utca'
+  'Szérűskert utca': 'Szérüskert utca'
+  # utcajegyzék = OSM, ref hibás
+  'Jó szerencse utca': 'Jószerencse út'
   'Nefelejcs utca': 'Nefelejts utca'
   'Petur utca': 'Petúr utca'
-  'Római sétány': 'Római út'
-  'Stefan Wyszyński utca': 'Stefan Wyszynski utca'
-  'Szérűskert utca': 'Szérüskert utca'
+  # utcajegyzék = REF, OSM eltér
+  'Barátpatak utca': 'Barát-patak utca'  # osm = utcatábla
+  'Bebo Károly utca': 'Bebó Károly utca'  # nem hivatalos táblán Bebó Károly, nincs rendes kép
+  'Kis Csikós köz': 'Kiscsikós köz'  # nincs tábla
+  'Montevideo utca': 'Montevideo út'  # osm = utcatábla
+  'Nagy-Kevély utca': 'Nagykevély utca'  # régi kép van
+  'Római sétány': 'Római út'  # vegyesen vannak a táblák
+  'Stefan Wyszyński utca': 'Stefan Wyszynski utca'  # határozatban a Stefan Wyszyński van
 source: survey
 inactive: true
