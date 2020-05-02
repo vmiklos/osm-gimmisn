@@ -10,6 +10,7 @@
 from typing import Any
 import argparse
 import datetime
+import glob
 import logging
 import os
 import subprocess
@@ -188,6 +189,14 @@ def update_stats() -> None:
     # Shell part.
     info("update_stats: executing the shell part")
     subprocess.run([config.get_abspath("stats-daily.sh")], check=True)
+
+    # Remove old CSV files as they are created daily and each is around 11M.
+    current_time = time.time()
+    for csv in glob.glob(os.path.join(statedir, "*.csv")):
+        creation_time = os.path.getmtime(csv)
+        if (current_time - creation_time) // (24 * 3600) >= 7:
+            os.unlink(csv)
+            info("update_stats: removed old %s", csv)
 
     info("update_stats: generating json")
     json_path = os.path.join(statedir, "stats.json")

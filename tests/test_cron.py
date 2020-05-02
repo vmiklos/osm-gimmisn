@@ -298,6 +298,16 @@ class TestUpdateOsmStreets(unittest.TestCase):
                     self.assertEqual(actual, expected)
 
 
+def create_old_file(path: str) -> None:
+    """Creates a 8 days old file."""
+    current_time = time.time()
+    old_time = current_time - (8 * 24 * 3600)
+    old_access_time = old_time
+    old_modification_time = old_time
+    open(path, "w").close()
+    os.utime(path, (old_access_time, old_modification_time))
+
+
 class TestUpdateStats(unittest.TestCase):
     """Tests update_stats()."""
     def test_happy(self) -> None:
@@ -327,6 +337,10 @@ class TestUpdateStats(unittest.TestCase):
             return buf
 
         with unittest.mock.patch('config.get_abspath', get_abspath):
+            # Create a CSV that is definitely old enough to be removed.
+            old_path = config.get_abspath("workdir/stats/old.csv")
+            create_old_file(old_path)
+
             today = time.strftime("%Y-%m-%d")
             path = config.get_abspath("workdir/stats/%s.csv" % today)
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
@@ -335,6 +349,9 @@ class TestUpdateStats(unittest.TestCase):
                         cron.update_stats()
             actual = util.get_content(path)
             self.assertEqual(actual, result_from_overpass)
+
+            # Make sure that the old CSV is removed.
+            self.assertFalse(os.path.exists(old_path))
 
         self.assertTrue(mock_overpass_sleep_called)
         self.assertTrue(actual_args[0].endswith("stats-daily.sh"))
