@@ -10,7 +10,6 @@
 # data. It doesn't necessarily run on the same machine as cron.py.
 #
 
-srcdir="$(dirname "$0")"
 statedir="$(dirname "$0")/workdir/stats/"
 mkdir -p "${statedir}"
 
@@ -18,5 +17,6 @@ date="$(date +%Y-%m-%d)"
 # Ignore 5th field, which is the user who touched the object last.
 sed '1d' "${statedir}/${date}.csv" |cut -d $'\t' -f 1-4 |sort -u|wc -l > "${statedir}/${date}.count"
 cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |sort -k1,1rn |head -n 20 > "${statedir}/${date}.topusers"
+cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |wc -l > "${statedir}/${date}.usercount"
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
