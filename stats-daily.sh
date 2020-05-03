@@ -11,7 +11,6 @@
 #
 
 statedir="$(dirname "$0")/workdir/stats/"
-mkdir -p "${statedir}"
 
 date="$(date +%Y-%m-%d)"
 # Ignore 5th field, which is the user who touched the object last.
