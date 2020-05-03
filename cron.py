@@ -218,6 +218,17 @@ def our_main(relations: areas.Relations, mode: str, update: bool) -> None:
         update_missing_streets(relations, update)
         update_missing_housenumbers(relations, update)
 
+    pid = str(os.getpid())
+    with open("/proc/" + pid + "/status", "r") as stream:
+        vm_peak = ""
+        while True:
+            line = stream.readline()
+            if line.startswith("VmPeak:"):
+                vm_peak = line.strip()
+            if vm_peak or not line:
+                info("our_main: %s", line.strip())
+                break
+
 
 def main() -> None:
     """Commandline interface to this module."""
