@@ -1,0 +1,19 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Őrházak
+  - Rákospalota-Újpest v.áll.
+  - Újmajor
+  # egyéb
+  - Nádastó  # utca vagy park, önmagában nincs
+  - Vácduka utca  # hivatalosan ugyan létezik, de valóságban nem, valószínű Vácduka térnek hívják az utcát is
+  - Lencsike utca  # Hrsz. 98093/1 - nincs kiépítve
+  # Szilas park - Szilas lakótelep helyén
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # utcajegyzék = OSM: ref hibás
+  'Gazdálkodó utca': 'Gazdálkodó út'
+  'Kosd utca': 'Kozsd utca'
+source: survey
+inactive: true
