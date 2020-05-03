@@ -1,7 +1,12 @@
 missing-streets: only
 filters: {}
+street-filters:
+  # semmilyen forrásban sem találtam
+  - Aliga út
+  - Béke sétány
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Árboc utca': 'Árbóc utca'
+  'Népsziget út': 'Népsziget'  # nem hivatalos közterület, csak 1 cím van: Budapest Csónakház (1-3), a többi hrsz.
 source: survey
 inactive: true

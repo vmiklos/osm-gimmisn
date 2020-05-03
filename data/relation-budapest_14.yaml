@@ -4,8 +4,11 @@ street-filters:
   # Vasútállomásként léteznek, nem közterületként.
   - Rákosrendező pályaudvar
   - Rákosszentmihály MÁV pályaudvar
+  # megváltozott a neve, több szakaszra bomlott
+  - Városligeti körút
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Argentína tér': 'Argentina tér'
+  # Zichy Mihály utca -> út ref javítva 2020.05.03
 source: survey
 inactive: true
