@@ -161,6 +161,23 @@ def update_missing_streets(relations: areas.Relations, update: bool) -> None:
     info("update_missing_streets: end")
 
 
+def update_stats_count(today: str) -> None:
+    """Counts the # of all house numbers as of today."""
+    statedir = config.get_abspath("workdir/stats")
+    csv_path = os.path.join(statedir, "%s.csv" % today)
+    count_path = os.path.join(statedir, "%s.count" % today)
+    house_numbers = set()
+    with open(csv_path, "r") as stream:
+        for line in stream.readlines():
+            # Ignore last column, which is the user who touched the object last.
+            house_numbers.add(line[:line.rfind("\t")])
+
+    with open(count_path, "w") as stream:
+        # Ignore the oneliner header.
+        house_numbers_len = str(len(house_numbers) - 1)
+        stream.write(house_numbers_len + "\n")
+
+
 def update_stats() -> None:
     """Performs the update of country-level stats."""
 
@@ -185,6 +202,8 @@ def update_stats() -> None:
             break
         except urllib.error.HTTPError as http_error:
             info("update_stats: http error: %s", str(http_error))
+
+    update_stats_count(today)
 
     # Shell part.
     info("update_stats: executing the shell part")
