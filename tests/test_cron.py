@@ -329,6 +329,7 @@ class TestUpdateStats(unittest.TestCase):
 
         result_from_overpass = "@id\taddr:postcode\naddr:city\taddr:street\taddr:housenumber\t@user\n"
         result_from_overpass += "7677\tOrfű\tDollár utca\t1\tvasony\n"
+        result_from_overpass += "7677\tOrfű\tDollár utca\t2\tvasony\n"
 
         def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
             buf = io.BytesIO()

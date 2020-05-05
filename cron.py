@@ -8,6 +8,7 @@
 """The cron module allows doing nightly tasks."""
 
 from typing import Any
+from typing import Dict
 import argparse
 import datetime
 import glob
@@ -178,6 +179,26 @@ def update_stats_count(today: str) -> None:
         stream.write(house_numbers_len + "\n")
 
 
+def update_stats_topusers(today: str) -> None:
+    """Counts the top housenumber editors as of today."""
+    statedir = config.get_abspath("workdir/stats")
+    csv_path = os.path.join(statedir, "%s.csv" % today)
+    topusers_path = os.path.join(statedir, "%s.topusers" % today)
+    users: Dict[str, int] = {}
+    with open(csv_path, "r") as stream:
+        for line in stream.readlines():
+            # Only care about the last column.
+            user = line[line.rfind("\t"):].strip()
+            if user in users:
+                users[user] += 1
+            else:
+                users[user] = 1
+    with open(topusers_path, "w") as stream:
+        for user in sorted(users, key=users.get, reverse=True)[:20]:
+            line = str(users[user]) + " " + user
+            stream.write(line + "\n")
+
+
 def update_stats() -> None:
     """Performs the update of country-level stats."""
 
@@ -204,6 +225,7 @@ def update_stats() -> None:
             info("update_stats: http error: %s", str(http_error))
 
     update_stats_count(today)
+    update_stats_topusers(today)
 
     # Shell part.
     info("update_stats: executing the shell part")

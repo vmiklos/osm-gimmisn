@@ -13,7 +13,6 @@
 statedir="$(dirname "$0")/workdir/stats/"
 
 date="$(date +%Y-%m-%d)"
-cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |sort -k1,1rn |head -n 20 > "${statedir}/${date}.topusers"
 cut -d $'\t' -f 5 "${statedir}/${date}.csv" |sort |uniq -c |wc -l > "${statedir}/${date}.usercount"
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
