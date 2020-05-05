@@ -31,7 +31,7 @@ filters:
     # 13-15: a páratlan oldalon a 7 az utolsó házszám.
     # 4: ez és a Kiránduló utca 5. közös telken van, házszám a Kiránduló utcáról van csak.
     invalid: ['1', '13', '15', '4']
-#  Badacsony utca:
+    #  Badacsony utca:
     # TODO: 13: most épül, nincs rajta házszám még és saroktelek.
   Balatoni út:
     # A budafoki oldalon nem láttam házszámokat.
@@ -216,6 +216,13 @@ filters:
     # 1: ez és a Péter Pál utca 82. közös telken van, házszám a Péter Pál utcáról van csak.
     # 6: sima 6 nincs, csak 6/A, 6/B.
     invalid: ['1', '6']
+  Kővirág sor:
+    # 19- Kelenvölgy
+    # 5, 7: csak 4, 6 és 9 van, ezek is elég rozzantak
+    interpolation: 'all'
+    invalid: ['5', '7']
+    ranges:
+      - {start: '2', end: '16'}
   Kuruc köz:
     # Ebben az utcában nincsenek házszámok.
     ranges: []
