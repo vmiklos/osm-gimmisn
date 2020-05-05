@@ -17,6 +17,12 @@ filters:
       - {start: '6', end: '12'}
   Borszéki utca:
     ranges: []
+  Citrom utca:
+    # 1 = Szabadharcosok útja 4
+    # 2 = Szabadharcosok útja 6
+    ranges:
+      - {start: '3', end: '5'}
+      - {start: '4', end: '6'}
   Csupor utca:
     ranges:
       - {start: '1', end: '11'}
@@ -62,10 +68,12 @@ filters:
     # 10: Kubikos utca 42
     invalid: ['9', '10']
   Kővirág sor:
+    # 2-16 Budafok
     # 37 = Putnok utca 20
+    interpolation: 'all'
     invalid: ['37b']
     ranges:
-      - {start: '1', end: '111'}
+      - {start: '19', end: '111'}
       - {start: '123', end: '139'}
   Madaras utca:
     ranges:
@@ -91,11 +99,12 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '10'}
   Ringló út:
+    # páratlan: Budafok
+    # 44 = Mélykút utca 1
     # 120 = Bazsalikom utca 2
-    invalid: ['120']
+    invalid: ['24', '44', '120']
     ranges:
-      - {start: '2', end: '22'}
-      - {start: '26', end: '198'}
+      - {start: '2', end: '130'}
   Rendőr utca:
     ranges:
       - {start: '3', end: '3'}
