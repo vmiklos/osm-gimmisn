@@ -2,6 +2,12 @@
 
 == master
 
+- Resolves: gh#437 the locale install requirement is now documented
+
+- Resolves: gh#381 stats now has trendlines
+
+- Resolves: gh#426 missing housenumbers now allows updating from OSM with a single click
+
 - Resolves: gh#383 stats, monthly total now has an extra column to show today's count
 
 - Resolves: gh#385 `invalid` list items are now normalized by default

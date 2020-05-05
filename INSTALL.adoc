@@ -10,6 +10,9 @@
 
 == Install steps
 
+- Install locale support: i.e. in case `locale -a|grep hu_HU.utf8` reports nothing, you can fix that
+  on e.g. Fedora using `dnf install glibc-langpack-hu`.
+
 - Install `git`
 
 - Install Python (3.6 or newer)
