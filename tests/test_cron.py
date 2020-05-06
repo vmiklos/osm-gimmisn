@@ -8,7 +8,6 @@
 
 from typing import Any
 from typing import BinaryIO
-from typing import List
 from typing import Optional
 import io
 import os
@@ -312,14 +311,6 @@ class TestUpdateStats(unittest.TestCase):
     """Tests update_stats()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        actual_args: List[str] = []
-        actual_check = False
-
-        def mock_subprocess_run(args: List[str], check: bool) -> None:
-            nonlocal actual_args
-            nonlocal actual_check
-            actual_args = args
-            actual_check = check
 
         mock_overpass_sleep_called = False
 
@@ -346,8 +337,7 @@ class TestUpdateStats(unittest.TestCase):
             path = config.get_abspath("workdir/stats/%s.csv" % today)
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
                 with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-                    with unittest.mock.patch('subprocess.run', mock_subprocess_run):
-                        cron.update_stats()
+                    cron.update_stats()
             actual = util.get_content(path)
             self.assertEqual(actual, result_from_overpass)
 
@@ -355,20 +345,9 @@ class TestUpdateStats(unittest.TestCase):
             self.assertFalse(os.path.exists(old_path))
 
         self.assertTrue(mock_overpass_sleep_called)
-        self.assertTrue(actual_args[0].endswith("stats-daily.sh"))
-        self.assertTrue(actual_check)
 
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
-        actual_args: List[str] = []
-        actual_check = False
-
-        def mock_subprocess_run(args: List[str], check: bool) -> None:
-            nonlocal actual_args
-            nonlocal actual_check
-            actual_args = args
-            actual_check = check
-
         mock_overpass_sleep_called = False
 
         def mock_overpass_sleep() -> None:
@@ -378,11 +357,8 @@ class TestUpdateStats(unittest.TestCase):
         with unittest.mock.patch('config.get_abspath', get_abspath):
             with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
                 with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
-                    with unittest.mock.patch('subprocess.run', mock_subprocess_run):
-                        cron.update_stats()
+                    cron.update_stats()
         self.assertTrue(mock_overpass_sleep_called)
-        self.assertTrue(actual_args[0].endswith("stats-daily.sh"))
-        self.assertTrue(actual_check)
 
 
 class TestOurMain(unittest.TestCase):

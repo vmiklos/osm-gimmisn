@@ -14,7 +14,6 @@ import datetime
 import glob
 import logging
 import os
-import subprocess
 import time
 import traceback
 import urllib.error
@@ -184,6 +183,7 @@ def update_stats_topusers(today: str) -> None:
     statedir = config.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
     topusers_path = os.path.join(statedir, "%s.topusers" % today)
+    usercount_path = os.path.join(statedir, "%s.usercount" % today)
     users: Dict[str, int] = {}
     with open(csv_path, "r") as stream:
         for line in stream.readlines():
@@ -197,6 +197,9 @@ def update_stats_topusers(today: str) -> None:
         for user in sorted(users, key=users.get, reverse=True)[:20]:
             line = str(users[user]) + " " + user
             stream.write(line + "\n")
+
+    with open(usercount_path, "w") as stream:
+        stream.write(str(len(users)) + "\n")
 
 
 def update_stats() -> None:
@@ -226,10 +229,6 @@ def update_stats() -> None:
 
     update_stats_count(today)
     update_stats_topusers(today)
-
-    # Shell part.
-    info("update_stats: executing the shell part")
-    subprocess.run([config.get_abspath("stats-daily.sh")], check=True)
 
     # Remove old CSV files as they are created daily and each is around 11M.
     current_time = time.time()
