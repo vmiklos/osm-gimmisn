@@ -7,6 +7,7 @@ filters:
     # 39/A: nincs ilyen, csak sima 39.
     # 45/A: nincs ilyen, csak sima 45.
     # 49/A: nincs ilyen, csak sima 49.
+    # 65: sima 65 nincs, csak 65/1, 65/2.
     # 81: sima 81 nincs, csak 81/A, 81/B, 81/C, 81/D.
     # 83: sima 83 nincs, csak 83/A.
     # 83/B: nincs ilyen, csak 83/A.
@@ -16,13 +17,14 @@ filters:
     # 32/C: nincs ilyen, a 32/B után a 32/D következik.
     # 44: sima 44 nincs, csak 44/A, 44/B.
     # 50: a 48-50 egyetlen épület közös telken, de a házszám csak 48.
+    # 74: sima 74 nincs, csak 74/A, 74/B.
     # 96: sima 96 nincs, csak 96/A, 96/B.
     # 98/B: csak sima 98 van.
     # 102/A: csak sima 102 van.
     # 104: sima 104 nincs, csak 104/A, 104/1 (nem elírás).
     # 110: sima 110 nincs, csak 110/A, 110/B, 110/C.
     # 120: a 118-120 egyetlen telek, de a házszám csak 118.
-    invalid: ['39a', '45a', '49a', '81', '83', '83b', '131', '145a', '149', '32c', '44', '50', '96', '98b', '102a', '104', '110', '120']
+    invalid: ['39a', '45a', '49a', '65', '81', '83', '83b', '131', '145a', '149', '32c', '44', '50', '74', '96', '98b', '102a', '104', '110', '120']
   Arató utca:
     # 14: a páros oldalon a 12 az utolsó házszám.
     invalid: ['14']
@@ -31,7 +33,7 @@ filters:
     # 13-15: a páratlan oldalon a 7 az utolsó házszám.
     # 4: ez és a Kiránduló utca 5. közös telken van, házszám a Kiránduló utcáról van csak.
     invalid: ['1', '13', '15', '4']
-    #  Badacsony utca:
+#  Badacsony utca:
     # TODO: 13: most épül, nincs rajta házszám még és saroktelek.
   Balatoni út:
     # A budafoki oldalon nem láttam házszámokat.
@@ -59,6 +61,9 @@ filters:
     invalid: ['10', '20']
 #  Csend utca:
     # TODO: 1: ez és a Komáromi út 69. közös telken van, de nem látok sehol házszámot. Bejárat a Komáromi útról van.
+  Dombóvári utca:
+    # 8: sima 8 nincs, csak 8/A, 8/B.
+    invalid: ['8']
   Duna utca:
     # Ezek a valós házszámok, a többi csak utcanévtáblán létezik.
     ranges:
@@ -74,6 +79,9 @@ filters:
   Franciska utca:
     # 25: a páratlan oldalon a 15 az utolsó házszám.
     invalid: ['25']
+  Fülesbagoly utca:
+    # 14: sima 14 nincs, csak 14/A, 14/B.
+    invalid: ['14']
   Gádor utca:
     # 28: a 26-os az utolsó házszám az utca előtt, nincs 28.
     # 28-30: a 26-os az utolsó házszám az utca előtt, nincs 28.
@@ -217,8 +225,8 @@ filters:
     # 6: sima 6 nincs, csak 6/A, 6/B.
     invalid: ['1', '6']
   Kővirág sor:
-    # 19- Kelenvölgy
-    # 5, 7: csak 4, 6 és 9 van, ezek is elég rozzantak
+    # Területhatár, 19-től Kelenvölgy.
+    # 5, 7: csak 4, 6 és 9 van, ezek is elég rozzantak.
     interpolation: 'all'
     invalid: ['5', '7']
     ranges:
@@ -303,6 +311,12 @@ filters:
     # 25: sima 25 nincs, csak 25/A, 25/B.
     # 52: sima 52 nincs, csak 52/A, 52/B.
     invalid: ['25', '52']
+  Péter Pál köz:
+    # 21: a páratlan oldalon nincsenek házak.
+    # 67: a páratlan oldalon nincsenek házak.
+    # 2: ez és a Péter Pál utca 73. közös telken van, házszám a Péter Pál utcáról van csak.
+    # 78/B: a páros oldalon a 6 az utolsó házszám.
+    invalid: ['21', '67', '2', '78b']
   Péter Pál utca:
     # 97: a 95 után közvetlenül a 99/C következik, nincs 97.
     # 99/B: a 95 után közvetlenül a 99/C következik, nincs 99/B.
@@ -310,11 +324,13 @@ filters:
     # 151: sima 151 nincs, csak 151/A, 151/B.
     # 155: sima 155 nincs, csak 155/A, 155/B.
     # 18/E: nincs ilyen, csak sima 18 van.
+    # 76/B: nincs ilyen, csak sima 76 van.
+    # 78/B: nincs ilyen, csak sima 78 van.
     # 122: sima 122 nincs, csak 122/A, 122/B.
     # 136/A: csak sima 136 és 136/B van kitáblázva.
     # 140: sima 155 nincs, csak 140/A, 140/B.
     # 456/B: a páros oldalon a 162 az utolsó házszám.
-    invalid: ['97', '99b', '149', '151', '155', '18e', '122', '136a', '140', '456b']
+    invalid: ['97', '99b', '149', '151', '155', '18e', '76b', '78b', '122', '136a', '140', '456b']
   Pogány utca:
     ranges:
       - {start: '1', end: '11'}
@@ -333,8 +349,9 @@ filters:
     # 12: sima 12 nincs, csak 12/A, 12/B.
     invalid: ['12']
   Ringló út:
-    # Területhatár, a páros oldal Kelenvölgy
-    # 107/A: csak sima 107 van.
+    # Területhatár, a páros oldal Kelenvölgy.
+    # 107/A: nincs ilyen, csak sima 107 van.
+    invalid: ['107a']
     ranges:
       - {start: '1', end: '139'}
   Rugó utca:
