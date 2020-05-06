@@ -298,7 +298,9 @@ def main() -> None:
     args = parser.parse_args()
 
     start = time.time()
-    relations.activate_all(config.Config.get_cron_update_inactive())
+    # Query inactive relations once a month.
+    first_day_of_month = time.localtime(start).tm_mday == 1
+    relations.activate_all(config.Config.get_cron_update_inactive() or first_day_of_month)
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)
     try:

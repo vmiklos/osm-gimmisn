@@ -2,6 +2,8 @@
 
 == master
 
+- Resolves: gh#441 cron can now again update inactive relations once a month
+
 - Resolves: gh#437 the locale install requirement is now documented
 
 - Resolves: gh#381 stats now has trendlines
