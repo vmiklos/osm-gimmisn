@@ -6,9 +6,10 @@ street-filters:
   - Báthori utca  # nem létezik
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
   - Talaj köz  # nem létezik
+  # Árasztó út - Dunaparty meglállónál, nincs kiírva                         a
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  # 'OSM Name 2': 'Ref Name 2'
+  # 'OSM Name 2': 'Ref Name 2'                                       a
   'Boldizsár utca': 'Boldizsár út'
   'Citadella utca': 'Citadella út'  # Vegyesen vannak a táblák
   'Csíkihegyek utca': 'Csiki-hegyek utca'
