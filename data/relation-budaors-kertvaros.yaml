@@ -5,8 +5,8 @@ filters:
     ranges: []
   Aradi utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '8', end: '98'}
+      - {start: '1', end: '47'}
+      - {start: '8', end: '80'}
   Avar utca:
     # újraszámozva, keveredik páros/páratlan
     ranges:
@@ -50,6 +50,10 @@ filters:
   Fenyves utca:
     # erdő
     ranges: []
+  Fészek utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '4', end: '4'}
   Fodros utca:
     invalid: ['74']
   Gesztenye köz:
