@@ -6,8 +6,9 @@ filters:
       - {start: '5', end: '18'}
   Bosnyák utca:
     ranges:
-      - {start: '23c', end: '99'}
+      - {start: '23', end: '99'}
       - {start: '46', end: '98'}
+    invalid: ['23a', '23b']
   Dorozsmai utca:
     ranges:
       - {start: '23', end: '199'}
