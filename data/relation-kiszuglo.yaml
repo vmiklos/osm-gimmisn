@@ -10,7 +10,7 @@ filters:
       - {start: '1', end: '4'}
   Bosnyák utca:
     ranges:
-      - {start: '1', end: '23'}
+      - {start: '1', end: '23b'}
       - {start: '2', end: '30'}
   Bölcsőde utca:
     ranges: []

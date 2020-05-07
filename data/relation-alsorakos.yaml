@@ -1,5 +1,17 @@
 missing-streets: 'no'
 filters:
+  Bosnyák tér:
+    interpolation: all
+    ranges:
+      - {start: '5', end: '18'}
+  Bosnyák utca:
+    ranges:
+      - {start: '23c', end: '99'}
+      - {start: '46', end: '98'}
+  Dorozsmai utca:
+    ranges:
+      - {start: '23', end: '199'}
+      - {start: '68', end: '198'}
   Egressy út:
     ranges:
       - {start: '73', end: '171'}
@@ -20,6 +32,10 @@ filters:
     ranges:
       - {start: '1', end: '129'}
       - {start: '66', end: '130'}
+  Gyarmat utca:
+    ranges:
+      - {start: '55', end: '199'}
+      - {start: '64', end: '198'}
   Kacsóh Pongrác út:
     ranges:
       - {start: '65', end: '143'}
