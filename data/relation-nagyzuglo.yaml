@@ -1,5 +1,9 @@
 missing-streets: 'no'
 filters:
+  Angol utca:
+    ranges:
+      - {start: '1', end: '47'}
+      - {start: '2', end: '26'}
   Egressy út:
     ranges:
       - {start: '63', end: '71'}
@@ -10,6 +14,10 @@ filters:
   Kerepesi út:
     ranges:
       - {start: '76', end: '80'}
+  Kövér Lajos utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '12'}
   Mogyoródi út:
     ranges:
       - {start: '45', end: '73'}
