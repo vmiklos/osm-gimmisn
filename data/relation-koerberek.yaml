@@ -16,3 +16,4 @@ filters:
       - {start: '36', end: '36'}
 source: survey
 inactive: true
+housenumber-letters: true

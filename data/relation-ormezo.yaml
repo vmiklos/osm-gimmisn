@@ -113,3 +113,4 @@ refstreets:
   'Boldizsár utca': 'Boldizsár út'
 source: survey
 inactive: true
+housenumber-letters: true

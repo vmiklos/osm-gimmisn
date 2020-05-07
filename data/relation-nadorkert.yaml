@@ -14,3 +14,4 @@ filters:
       - {start: '12', end: '20'}
 source: survey
 inactive: true
+housenumber-letters: true
