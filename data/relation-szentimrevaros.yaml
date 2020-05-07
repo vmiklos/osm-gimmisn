@@ -99,3 +99,4 @@ filters:
       - {start: '5', end: '5'}
       - {start: '2', end: '6'}
 source: survey
+housenumber-letters: true

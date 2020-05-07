@@ -193,3 +193,4 @@ refstreets:
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
 source: survey
 inactive: true
+housenumber-letters: true
