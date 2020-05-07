@@ -14,6 +14,10 @@ filters:
   Kőérberki út:
     ranges:
       - {start: '36', end: '36'}
+  Repülőtéri út:
+    # össze vissza vannak a számok, úgy tűnik itt csak a 6 van
+    ranges:
+      - {start: '6', end: '6'}
 source: survey
 inactive: true
 housenumber-letters: true
