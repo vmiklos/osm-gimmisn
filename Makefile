@@ -2,6 +2,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_accept_language.py \
 	tests/test_areas.py \
 	tests/test_cache_yamls.py \
+	tests/test_cherry.py \
 	tests/test_cron.py \
 	tests/test_get_reference_housenumbers.py \
 	tests/test_get_reference_streets.py \
@@ -20,7 +21,9 @@ PYTHON_SAFE_OBJECTS = \
 	accept_language.py \
 	areas.py \
 	cache_yamls.py \
+	cherry.py \
 	config.py \
+	cron.py \
 	get_reference_housenumbers.py \
 	get_reference_streets.py \
 	i18n.py \
@@ -33,12 +36,10 @@ PYTHON_SAFE_OBJECTS = \
 	version.py \
 	webframe.py \
 	wsgi.py \
-	cron.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
-	cherry.py \
 	stats.py \
 
 # These are valid.
