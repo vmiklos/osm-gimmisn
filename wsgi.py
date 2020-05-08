@@ -235,12 +235,12 @@ def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) 
             range_list = util.get_housenumber_ranges(result[1])
             range_strings = [i.get_number() for i in range_list]
             # Street name, only_in_reference items.
-            if not relation.get_config().get_street_is_even_odd(result[0]):
+            if not relation.get_config().get_street_is_even_odd(result[0].get_osm_name()):
                 result_sorted = sorted(range_strings, key=util.split_house_number)
-                row = result[0] + "\t[" + ", ".join(result_sorted) + "]"
+                row = result[0].get_osm_name() + "\t[" + ", ".join(result_sorted) + "]"
             else:
                 elements = util.format_even_odd(range_list, doc=None)
-                row = result[0] + "\t[" + "], [".join(elements) + "]"
+                row = result[0].get_osm_name() + "\t[" + "], [".join(elements) + "]"
             table.append(row)
         table.sort(key=locale.strxfrm)
         output += "\n".join(table)
@@ -274,18 +274,18 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
             range_list = util.get_housenumber_ranges(result[1])
             # Street name, only_in_reference items.
             row = "[ ] "
-            if not relation.get_config().get_street_is_even_odd(result[0]):
+            if not relation.get_config().get_street_is_even_odd(result[0].get_osm_name()):
                 result_sorted = sorted([i.get_number() for i in range_list], key=util.split_house_number)
-                row += result[0] + " [" + ", ".join(result_sorted) + "]"
+                row += result[0].get_osm_name() + " [" + ", ".join(result_sorted) + "]"
                 table.append(row)
             else:
                 elements = util.format_even_odd(range_list, doc=None)
                 if len(elements) > 1 and len(range_list) > get_chkl_split_limit():
                     for element in elements:
-                        row = "[ ] " + result[0] + " [" + element + "]"
+                        row = "[ ] " + result[0].get_osm_name() + " [" + element + "]"
                         table.append(row)
                 else:
-                    row += result[0] + " [" + "], [".join(elements) + "]"
+                    row += result[0].get_osm_name() + " [" + "], [".join(elements) + "]"
                     table.append(row)
         table.sort(key=locale.strxfrm)
         output += "\n".join(table)

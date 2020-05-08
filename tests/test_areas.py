@@ -406,15 +406,15 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
             relation_name = "gazdagret"
             relation = relations.get_relation(relation_name)
             ongoing_streets, done_streets = relation.get_missing_housenumbers()
-            ongoing_streets_strs = [(name, [i.get_number()
-                                            for i in house_numbers]) for name, house_numbers in ongoing_streets]
+            ongoing_streets_strs = [(name.get_osm_name(), [i.get_number()
+                                                           for i in numbers]) for name, numbers in ongoing_streets]
             # Notice how 11 and 12 is filtered out by the 'invalid' mechanism for 'Törökugrató utca'.
             self.assertEqual(ongoing_streets_strs, [('Törökugrató utca', ['7', '10']),
                                                     ('Tűzkő utca', ['1', '2']),
                                                     ('Hamzsabégi út', ['1'])])
             expected = [('OSM Name 1', ['1', '2']), ('Törökugrató utca', ['1', '2']), ('Tűzkő utca', ['9', '10'])]
-            done_streets_strs = [(name, [i.get_number()
-                                         for i in house_numbers]) for name, house_numbers in done_streets]
+            done_streets_strs = [(name.get_osm_name(), [i.get_number()
+                                                        for i in numbers]) for name, numbers in done_streets]
             self.assertEqual(done_streets_strs, expected)
 
     def test_letter_suffix(self) -> None:
@@ -932,6 +932,17 @@ class TestRelationStreetIsEvenOdd(unittest.TestCase):
             self.assertFalse(relation.get_config().get_street_is_even_odd("Hamzsabégi út"))
 
             self.assertTrue(relation.get_config().get_street_is_even_odd("Teszt utca"))
+
+
+class TestRelationShowRefstreet(unittest.TestCase):
+    """Tests RelationConfig.should_show_ref_street()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            relations = get_relations()
+            relation = relations.get_relation("gazdagret")
+            self.assertFalse(relation.should_show_ref_street("Törökugrató utca"))
+            self.assertTrue(relation.should_show_ref_street("Hamzsabégi út"))
 
 
 class TestRelationIsActive(unittest.TestCase):

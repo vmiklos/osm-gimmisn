@@ -29,7 +29,7 @@ def main() -> None:
         range_list = util.get_housenumber_ranges(result[1])
         range_strings = [i.get_number() for i in range_list]
         range_strings = sorted(range_strings, key=util.split_house_number)
-        print("%s\t%s" % (result[0], len(range_strings)))
+        print("%s\t%s" % (result[0].get_osm_name(), len(range_strings)))
         # only_in_reference items.
         print(range_strings)
 

@@ -108,6 +108,9 @@ def validate_filter(errors: List[str], parent: str, filter_data: Dict[str, Any])
         elif key == "interpolation":
             if not isinstance(value, str):
                 errors.append("expected value type for '%s%s' is str" % (context, key))
+        elif key == "show-refstreet":
+            if not isinstance(value, bool):
+                errors.append("expected value type for '%s%s' is bool" % (context, key))
         else:
             errors.append("unexpected key '%s%s'" % (context, key))
 

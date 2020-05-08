@@ -77,6 +77,39 @@ class HouseNumberRange:
         return hash(self.__number)
 
 
+class Street:
+    """
+    A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
+    name differs.
+    """
+    def __init__(self, osm_name: str, ref_name: str, show_ref_street: bool = True) -> None:
+        self.__osm_name = osm_name
+        self.__ref_name = ref_name
+        self.__show_ref_street = show_ref_street
+
+    def get_osm_name(self) -> str:
+        """Returns the OSM name."""
+        return self.__osm_name
+
+    def get_ref_name(self) -> str:
+        """Returns the reference name."""
+        return self.__ref_name
+
+    def to_html(self) -> yattag.doc.Doc:
+        """Writes the street as a HTML string."""
+        doc = yattag.doc.Doc()
+        doc.text(self.__osm_name)
+        if self.__osm_name != self.__ref_name and self.__show_ref_street:
+            doc.stag("br")
+            doc.text("(")
+            doc.text(self.__ref_name)
+            doc.text(")")
+        return doc
+
+    def __repr__(self) -> str:
+        return "Street(osm_name=%s, ref_name=%s)" % (self.__osm_name, self.__ref_name)
+
+
 class HouseNumber:
     """
     A house number is a string which remembers what was its provider range.  E.g. the "1-3" string

@@ -160,6 +160,10 @@ frequently:
 - `interpolation`: this key can be specified for a street. Its `all` value means that the street has
   continuous numbering instead of even and odd sides.
 
+- `show-refstreet: false`: this key can be specified for a street. It means that in case the OSM and
+  reference names would not match, don't show the reference name on the missing housenumbers -> view
+  results page.
+
 - `inactive: true`: this key can be used for a relation, it disables the daily update (which would
   be a waste if e.g. the relation already has 100% coverage.) Manual updates are still possible.
 

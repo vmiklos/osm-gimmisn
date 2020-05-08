@@ -17,6 +17,7 @@ filters:
       - {start: '1', end: '12'}
   'Törökugrató utca':
     invalid: ['11', '12']
+    show-refstreet: false
 street-filters:
   - Only In Ref Nonsense utca
 refstreets:

@@ -6,6 +6,8 @@
 
 - Resolves: gh#437 the locale install requirement is now documented
 
+- Resolves: gh#436 ref street name is now shown after the osm street name if it differs
+
 - Resolves: gh#381 stats now has trendlines
 
 - Resolves: gh#426 missing housenumbers now allows updating from OSM with a single click

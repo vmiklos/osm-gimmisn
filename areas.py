@@ -296,6 +296,15 @@ class Relation:
 
         return osm_street_name
 
+    def should_show_ref_street(self, osm_street_name: str) -> bool:
+        """Decides is a ref street should be shown for an OSM street."""
+        street_props = self.get_config().get_filter_street(osm_street_name)
+        show_ref_street = True
+        if "show-refstreet" in street_props:
+            show_ref_street = street_props["show-refstreet"]
+
+        return show_ref_street
+
     def get_osm_streets(self) -> List[str]:
         """Reads list of streets for an area from OSM."""
         ret: List[str] = []
@@ -462,7 +471,7 @@ class Relation:
 
     def get_missing_housenumbers(
             self
-    ) -> Tuple[List[Tuple[str, List[util.HouseNumber]]], List[Tuple[str, List[util.HouseNumber]]]]:
+    ) -> Tuple[List[Tuple[util.Street, List[util.HouseNumber]]], List[Tuple[util.Street, List[util.HouseNumber]]]]:
         """
         Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
         Return value is a pair of ongoing and done streets.
@@ -471,17 +480,19 @@ class Relation:
         ongoing_streets = []
         done_streets = []
 
-        street_names = self.get_osm_streets()
+        osm_street_names = self.get_osm_streets()
         all_ref_house_numbers = self.__get_ref_housenumbers()
-        for street_name in street_names:
-            ref_house_numbers = all_ref_house_numbers[street_name]
-            osm_house_numbers = self.get_osm_housenumbers(street_name)
+        for osm_street_name in osm_street_names:
+            ref_house_numbers = all_ref_house_numbers[osm_street_name]
+            osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
             only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
             in_both = util.get_in_both(ref_house_numbers, osm_house_numbers)
+            ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
+            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name))
             if only_in_reference:
-                ongoing_streets.append((street_name, only_in_reference))
+                ongoing_streets.append((street, only_in_reference))
             if in_both:
-                done_streets.append((street_name, in_both))
+                done_streets.append((street, in_both))
         # Sort by length.
         ongoing_streets.sort(key=lambda result: len(result[1]), reverse=True)
 
@@ -501,14 +512,14 @@ class Relation:
                       util.html_escape(_("House numbers"))])
         rows = []
         for result in ongoing_streets:
-            # street_name, only_in_ref
+            # street, only_in_ref
             row = []
-            row.append(util.html_escape(result[0]))
+            row.append(result[0].to_html())
             number_ranges = util.get_housenumber_ranges(result[1])
             row.append(util.html_escape(str(len(number_ranges))))
 
             doc = yattag.doc.Doc()
-            if not self.get_config().get_street_is_even_odd(result[0]):
+            if not self.get_config().get_street_is_even_odd(result[0].get_osm_name()):
                 for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
                     if index:
                         doc.text(", ")

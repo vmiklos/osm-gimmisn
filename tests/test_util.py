@@ -495,5 +495,14 @@ class TestGetContent(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+class TestStreet(unittest.TestCase):
+    """Tests Street."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        street = util.Street("foo", "bar")
+        self.assertEqual(street.get_ref_name(), "bar")
+        self.assertEqual(street.to_html().getvalue(), "foo<br />(bar)")
+
+
 if __name__ == '__main__':
     unittest.main()

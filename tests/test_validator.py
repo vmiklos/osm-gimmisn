@@ -243,6 +243,12 @@ class TestValidatorMainFailureMsg2(TestValidatorMainFailureMsgBase):
         expected += ": expected value type for 'alias' is <class 'list'>\n"
         self.assert_failure_msg("tests/data/relation-budafok-alias-bad-type.yaml", expected)
 
+    def test_relation_filters_show_refstreet_bad(self) -> None:
+        """Tests the relation path: bad filters -> show-refstreet value type."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-show-refstreet-bad.yaml"
+        expected += ": expected value type for 'filters.Hamzsabégi út.show-refstreet' is bool\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-show-refstreet-bad.yaml", expected)
+
 
 if __name__ == '__main__':
     unittest.main()
