@@ -350,8 +350,15 @@ filters:
     invalid: ['12']
   Ringló út:
     # Területhatár, a páros oldal Kelenvölgy.
+    # TODO 57, 57/A: elsőre nem találtam kiírva.
+    # 35/A, 35/B: nincs ilyen, csak sima 35 van.
+    # 67-69: nincs ilyen, csak  67 és 71-73/* van.
+    # 87/6: 87/b kicsit meg van kopva a tábla és olyan a betűtípus, hogy lehetne 87/6-nak is olvasni.
     # 107/A: nincs ilyen, csak sima 107 van.
-    invalid: ['107a']
+    # 113/A: 133 és .
+    # 115/A: nincs ilyen, csak sima 113 van.
+    # 133: 133/A és 133/B van. (helyszínen nem ellenőriztem 2020-ban, 2017-ben felrajzolva)
+    invalid: ['35a', '35b', '69', '87/6', '107a', '113a', '115a', '133']
     ranges:
       - {start: '1', end: '139'}
   Rugó utca:

@@ -91,6 +91,13 @@ filters:
     ranges:
       - {start: '3', end: '3'}
       - {start: '4', end: '4'}
+  Patvar utca:
+    # 1 = Putnok utca 12
+    # 2 = Putnok utca 14
+    # 14,16,18 = Ivanics, Méhész utca 2-5
+    ranges:
+      - {start: '4', end: '12'}
+      - {start: '3', end: '17'}
   Péterhegyi út:
     ranges:
       - {start: '70', end: '198'}
@@ -99,10 +106,15 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '10'}
   Ringló út:
-    # páratlan: Budafok
+    # Területhatár, páratlan: Budafok
+    # 10a: csak 10 és 10b van
+    # 28b: csak sima 28 van
     # 44 = Mélykút utca 1
+    # 58a = csak sima 58 van
+    # 72: 72/a, 72/b
+    # 80: 80/1, 80/2
     # 120 = Bazsalikom utca 2
-    invalid: ['24', '44', '120']
+    invalid: ['24', '28b', '72', '88b', '88c', '44', '120']
     ranges:
       - {start: '2', end: '130'}
   Rendőr utca:
