@@ -101,9 +101,8 @@ check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
 check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
-# pylint itself raises some warnings, ignore them.
 %.pylint : %.py Makefile .pylintrc
-	$(QUIET_PYLINT)pylint $< && touch $@
+	$(QUIET_PYLINT)env PYTHONPATH=. pylint $< && touch $@
 
 %.mypy: %.py Makefile
 	$(QUIET_MYPY)mypy --python-version 3.6 --strict --no-error-summary $< && touch $@
