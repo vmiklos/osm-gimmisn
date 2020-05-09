@@ -56,7 +56,7 @@ filters:
     # 17/2, 17l: csak sima 17 van
     # 28: 28/a, 28/b
     # 31 nincs kiírva
-    invalid: ['16', '28', '31']
+    invalid: ['16', '17/2', '17l', '28', '31']
     ranges:
       - {start: '12', end: '36'}
       - {start: '1', end: '41'}
