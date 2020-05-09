@@ -110,7 +110,7 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '23', end: '199'}
-      - {start: '2', end: '192'}
+      - {start: '2', end: '40'}
       - {start: '44', end: '198'}
   Jagelló út:
     ranges:
