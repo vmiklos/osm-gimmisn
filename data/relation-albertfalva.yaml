@@ -47,6 +47,11 @@ filters:
       - {start: '2', end: '12'}
       - {start: '52', end: '58'}
   Fehérvári út:
+    # 182-190: lakóház egyben, a és b épület
+    # 215: panel, nincs betű
+    # 225-233: panel, nincs betű
+    # 235-243: panel, nincs betű
+    invalid: ['215l', '225b', '231b', '235a', '237b', '239c', '241d', '243f']
     ranges:
       # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
       - {start: '193', end: '243'}
