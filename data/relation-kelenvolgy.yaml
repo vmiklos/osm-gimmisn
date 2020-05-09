@@ -6,7 +6,10 @@ filters:
       - {start: '4', end: '22'}
   Alabástrom utca:
     # 13-15: játszótér van a helyén
-    invalid: ['13', '15']
+    # 19a, 19b, 19c: nincs kiírva, csak block-end: 19
+    # 20b: csak sima 20 van
+    # 22a: 22 és 22b van
+    invalid: ['13', '15', '19a', '19b', '19c', '20b', '22a']
   Állvány utca:
     ranges:
       - {start: '1', end: '11'}
@@ -27,7 +30,18 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '8', end: '10'}
+  Dália utca:
+    # 2 = Kecskeméti József utca 6
+    # 20 = Ringló út 118
+    # 25-29 = Ringló út 110
+    invalid: ['5a']
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '4', end: '18'}
   Duránci utca:
+    # 23: 23a és 23b
+    # 24a: csak sima 24 van, bár van egy számozatlan épület a 24 és a 26 között, nincs rajta házszám
+    invalid: ['23', '24a']
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '42'}
@@ -39,8 +53,10 @@ filters:
     invalid: ['16', '27']
   Gépész utca:
     # 16: 14 után 18 jön
+    # 17/2, 17l: csak sima 17 van
+    # 28: 28/a, 28/b
     # 31 nincs kiírva
-    invalid: ['16', '31']
+    invalid: ['16', '28', '31']
     ranges:
       - {start: '12', end: '36'}
       - {start: '1', end: '41'}
@@ -56,6 +72,9 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
+  Kardhegy utca:
+    # 18a, 18b: semmi sincs kiírva de nincs 2 ház
+    invalid: ['18a', '18b']
   Kecskeméti József utca:
     # 30-32 helyén üres telek
     invalid: ['32']
@@ -105,6 +124,18 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '10'}
+  Regőcze utca:
+    # a vasút átépítése levágta az utca végét
+    # 4: 4a=2b; 4b; 4c
+    # 6: 4c után 8 jön
+    invalid: ['2a', '4', '6']
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '8'}
+  Rendőr utca:
+    ranges:
+      - {start: '3', end: '3'}
+      - {start: '6', end: '6'}
   Ringló út:
     # Területhatár, páratlan: Budafok
     # 10a: csak 10 és 10b van
@@ -117,10 +148,6 @@ filters:
     invalid: ['10a', '24', '28b', '58a', '72', '80', '88b', '88c', '44', '120']
     ranges:
       - {start: '2', end: '130'}
-  Rendőr utca:
-    ranges:
-      - {start: '3', end: '3'}
-      - {start: '6', end: '6'}
   Solt utca:
     ranges:
       - {start: '1', end: '37'}
@@ -129,6 +156,9 @@ filters:
     # 2 = Ringló út 68
     # 17 = Hunyadi Mátyás út 33
     invalid: ['1', '2', '17']
+  Székelykapu utca:
+    # 9 és 9/B-11, nem tudja bontani
+    invalid: ['9a', '9b', '11']
 source: survey
 inactive: true
 housenumber-letters: true
