@@ -9,6 +9,10 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
+  Kaszásdűlő utca:
+    show-refstreet: false
+  Szérűskert utca:
+    show-refstreet: false
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Aquincum őrház
