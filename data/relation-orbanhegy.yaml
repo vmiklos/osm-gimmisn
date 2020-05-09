@@ -17,7 +17,7 @@ filters:
       - {start: '20', end: '22'}
   Istenhegyi út:
     ranges:
-      - {start: '2', end: '42'}
+      - {start: '2', end: '40'}
   Költő utca:
     ranges:
       - {start: '20', end: '40'}
