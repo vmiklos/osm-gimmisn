@@ -46,6 +46,10 @@ filters:
       - {start: '2', end: '30'}
       - {start: '34', end: '44'}
   Jégcsap utca:
+    # 4/6: 4 és 6 külön vannak
+    # 7: 7A, 7B
+    # 9: nem tudni, hogy 9/A vagy 9, maradt az eredeti 9 azon a felén az ikerháznak
+    invalid: ['4/6', '7a', '7b', '9a']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '24'}
@@ -81,12 +85,21 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Neszmélyi út:
+    # 9: 9b
+    # 10a, 10b: csak sima 10 van
+    # 12a, 12b: csak sima 12 van
+    # 16a: csak sima 16 van
+    # 11: 11a, 11b, 11c
+    # 33: van egy számozatlan ház a Vizsla utca/Neszmélyi út sarkán de nincs kiírva a házszám
+    # 37b: 37 van, 2 ház van 1 telken belül
+    # 22-28, 38-44: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
+    # 102b: 2 házrész van de nincs külön házszám
+    invalid: ['9', '10a', '10b', '11', '12a', '12b', '16a', '33', '37b', '22d', '28a', '38a', '40a', '40b', '42a', '44b', '72', '102b']
     ranges:
       - {start: '9', end: '13'}
       - {start: '31', end: '37'}
       - {start: '10', end: '44'}
-      - {start: '56', end: '70'}
-      - {start: '74', end: '82'}
+      - {start: '56', end: '82'}
       - {start: '90', end: '102'}
   Őrmezei út:
     ranges:
@@ -95,7 +108,12 @@ filters:
       - {start: '47', end: '49'}
       - {start: '53', end: '61'}
   Péterhegyi út:
-    invalid: ['56', '58', '60', '62']
+    # 40a, 40b: sima 40 van
+    # 50: 48 után 52
+    # 54: Shell kút
+    # 56-62 nincs
+    # 66-68 OMV az Egér út másik oldalán
+    invalid: ['40a', '40b', '50', '56a', '58', '60', '62']
     ranges:
       - {start: '40', end: '68'}
   Rimaszombati út:
