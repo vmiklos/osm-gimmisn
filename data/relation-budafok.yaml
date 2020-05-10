@@ -179,6 +179,10 @@ filters:
   Katáng utca:
     # 6: sima 6 nincs, csak 6/1, 6/2.
     invalid: ['6']
+  Kertész utca:
+    # 11/B: nincs ilyen, csak sima 11.
+    # 32: ez és a 30 összenyitott telken van, de csak 30 a házszám.
+    invalid: ['11b', '32']
   Kiránduló utca:
     # 4: sima 4 nincs, csak 4/A, 4/B.
     # 4/4: nincs ilyen, csak 4/A, 4/B.
@@ -350,15 +354,16 @@ filters:
     invalid: ['12']
   Ringló út:
     # Területhatár, a páros oldal Kelenvölgy.
-    # TODO 57, 57/A: elsőre nem találtam kiírva.
-    # 35/A, 35/B: nincs ilyen, csak sima 35 van.
-    # 43: 43 nincs, csak 43/A és 43/B.
-    # 67-69: nincs ilyen, csak  67 és 71-73/* van.
-    # 87/6: 87/b kicsit meg van kopva a tábla és olyan a betűtípus, hogy lehetne 87/6-nak is olvasni.
+    # TODO: 57, 57/A: elsőre nem találtam kiírva.
+    # 35/A: nincs ilyen, csak sima 35 van.
+    # 35/B: nincs ilyen, csak sima 35 van.
+    # 43: sima 43 nincs, csak 43/A, 43/B.
+    # 67-69: nincs ilyen, csak 67 és 71-73/* van.
+    # 87/6: a 87/B táblája megkopott, és olyan a betűtípus, hogy lehetne 87/6-nak is olvasni.
     # 107/A: nincs ilyen, csak sima 107 van.
-    # 113/A: 133 és .
-    # 115/A: nincs ilyen, csak sima 113 van.
-    # 133: 133/A és 133/B van. (helyszínen nem ellenőriztem 2020-ban, 2017-ben felrajzolva)
+    # 113/A: TODO: leírás.
+    # 115/A: nincs ilyen, csak sima 115 van.
+    # 133: sima 133 nincs, csak 133/A, 133/B. (TODO: helyszínen nem ellenőriztem 2020-ban, 2017-ben felrajzolva)
     invalid: ['35a', '35b', '43', '69', '87/6', '107a', '113a', '115a', '133']
     ranges:
       - {start: '1', end: '139'}
@@ -461,6 +466,15 @@ filters:
     ranges:
       - {start: '3', end: '9'}
       - {start: '8', end: '10'}
+  Zentai út:
+    # Területhatár, a Háros utca ketté végja. A másik része Budatétényben van.
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '28'}
+    # 9: sima 9 nincs, csak 9/A, 9/B, 9/C.
+    # 9/D: nincs ilyen, csak 9/A, 9/B, 9/C.
+    # 11: sima 11 nincs, 11/A, 11/B, 11/C.
+    invalid: ['9', '9d', '11']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Enyedi utca': 'Enyedy utca'
