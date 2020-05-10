@@ -1,18 +1,22 @@
 missing-streets: 'no'
 filters:
   Bíbic utca:
-    # Pontositando, egy szakasz Baross-Gabor telep
+    # Pontosítandó, egy szakasz Baross-Gabor telep.
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '22'}
   Csiperke utca:
     ranges:
       - {start: '1', end: '999'}
+  Géza utca:
+    # 3: sima 3 nincs, csak 3/A, 3/B.
+    # 8: nincs ilyen, ez a Zentai út útpályája.
+    invalid: ['3', '8']
   Háros utca:
     ranges:
       - {start: '1', end: '999'}
   Ispiláng utca:
-    # területhatár, Baross Gábor-telephez tartozik az összes házszám
+    # Területhatár, Baross Gábor-telephez tartozik az összes házszám.
     ranges: []
   Klauzál Gábor utca:
     ranges:
@@ -49,6 +53,14 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
+  Zentai út:
+    # Területhatár, a Háros utca ketté végja. A másik része Budafokon van.
+    ranges:
+      - {start: '25', end: '45'}
+      - {start: '30', end: '42'}
+    # 40: sima 40 nincs, csak 40/A, 40/B.
+    # 434: a páratlan oldalon a 43 az utolsó házszám.
+    invalid: ['40', '434']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Kamaraerdei út': 'Kamaraerdei utca'
