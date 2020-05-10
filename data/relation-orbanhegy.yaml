@@ -86,4 +86,8 @@ filters:
       - {start: '1', end: '23'}
       - {start: '29', end: '29'}
       - {start: '2', end: '24'}
+  Thomán István utca:
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '18'}
 source: survey
