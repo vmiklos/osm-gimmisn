@@ -121,6 +121,27 @@ class Config:
         assert Config.__config is not None
         return Config.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
 
+    @staticmethod
+    def has_matomo() -> bool:
+        """Checks if both matomo_url and matomo_site_id are set."""
+        Config.__get()
+        assert Config.__config is not None
+        return Config.has_value("matomo_url") and Config.has_value("matomo_site_id")
+
+    @staticmethod
+    def get_matomo_url() -> str:
+        """Gets the Matomo URL."""
+        Config.__get()
+        assert Config.__config is not None
+        return Config.__config.get("wsgi", "matomo_url").strip()
+
+    @staticmethod
+    def get_matomo_site_id() -> str:
+        """Gets the Matomo site ID."""
+        Config.__get()
+        assert Config.__config is not None
+        return Config.__config.get("wsgi", "matomo_site_id").strip()
+
 
 class ConfigContext:
     """Context manager for Config."""

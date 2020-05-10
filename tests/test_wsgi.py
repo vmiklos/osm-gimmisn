@@ -579,6 +579,16 @@ class TestMain(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_matomo(self) -> None:
+        """Tests if the output is well-formed with Matomo enabled."""
+        config.Config.set_value("matomo_url", "analytics.example.com")
+        config.Config.set_value("matomo_site_id", "1")
+        root = self.get_dom_for_path("/")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+        config.Config.set_value("matomo_url", "")
+        config.Config.set_value("matomo_site_id", "")
+
     def test_no_path(self) -> None:
         """Tests the case when PATH_INFO is empty (should give the main page)."""
         with unittest.mock.patch('config.get_abspath', get_abspath):

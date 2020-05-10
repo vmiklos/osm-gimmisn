@@ -89,3 +89,17 @@ This allows accessing your local instance for development.
 ----
 
 See `./cron.py --help` for details on what switches are supported for that script.
+
+- Optionally, add your Matomo URL and site ID to wsgi.ini:
+
+----
+# This does not include http:// or https://, but does include /path (without a trailing slash) if
+# your install path is not "/".
+matomo_url = analytics.example.com
+# This is typically an integer
+matomo_site_id = 1
+----
+
+Note that the Matomo template explicitly disables link tracking and cookies, since the intention is
+to monitor the usage of various relations, not to collect personal data. (So that used inactive
+relations can be turned into active ones and vica versa.)
