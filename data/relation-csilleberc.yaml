@@ -6,6 +6,9 @@ filters:
   Edvi Illés út:
     ranges: []
   Irhás árok:
+    # 35: itt nincs ház, Adorján út 2 a legközelebbi ehhez
+    # 43: 41 és 43 nincs beépítve, bódék vannak
+    invalid: ['35', '43']
     ranges:
       - {start: '33', end: '105'}
       - {start: '48', end: '58'}
