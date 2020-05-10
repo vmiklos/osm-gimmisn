@@ -64,6 +64,8 @@ filters:
   Rózsahegy utca:
     ranges: []
   Szemlőhegy utca:
+    # 24 = Vérhalom utca 20
+    invalid: ['24']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
@@ -75,6 +77,8 @@ filters:
     ranges:
       - {start: '8', end: '12'}
   Vérhalom utca:
+    # 26: Bejárat a mandula utca felől
+    invalid: ['26']
     ranges:
       - {start: '2', end: '36'}
   Zivatar utca:
