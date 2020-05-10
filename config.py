@@ -25,8 +25,10 @@ class Config:
         """Gives direct access to the read config key values."""
         if Config.__config is None:
             Config.__config = configparser.ConfigParser()
-            config_path = get_abspath("wsgi.ini")
-            Config.__config.read(config_path)
+            for relpath in ("wsgi.ini", "wsgi.ini.local"):
+                config_path = get_abspath(relpath)
+                if os.path.exists(config_path):
+                    Config.__config.read(config_path)
 
         return Config.__config
 
