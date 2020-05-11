@@ -5,22 +5,99 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '22'}
+  Csér utca:
+    # 2: sima 2 nincs, csak 2/1, 2/2.
+    invalid: ['2']
   Csiperke utca:
     ranges:
       - {start: '1', end: '999'}
+    # 1: ez és a Tőke utca 2. közös telken van, házszám a Tőke utcáról van csak.
+    # 1/B: ez és a Tőke utca 2. közös telken van, házszám a Tőke utcáról van csak.
+    invalid: ['1', '1b']
+  Dallam utca:
+    # 6/A: sima 6/A nincs, csak 6/A/1, 6/A/2.
+    # 10: sima 10 nincs, csak 10/1, 10/2.
+    # 16: sima 16 nincs, csak 16/1, 16/2.
+    # 18: sima 18 nincs, csak 18/1, 18/2.
+    invalid: ['6a', '10', '16', '18']
+  Erzsébet királyné út:
+    # 19: sima 19 nincs, csak 19/A, 19/B.
+    # 45: sima 45 nincs, csak 45/A, 45/B.
+    # 47: sima 47 nincs, csak 47/A, 47/B.
+    # 38: sima 38 nincs, csak 38/A, 38/B.
+    # 40: ez és a Tőke utca 28. közös telken van, házszám a Tőke utcáról van csak.
+    # 44: sima 44 nincs, csak 44/A, 44/B, 44/C.
+    # 52: sima 52 nincs, csak 52/1, 52/2.
+    # 184: a páros oldalon a 62 az utolsó házszám.
+    invalid: ['19', '45', '47', '38', '40', '44', '52', '184']
   Géza utca:
     # 3: sima 3 nincs, csak 3/A, 3/B.
+    # 11: a páratlan oldalon a 7 az utolsó házszám.
     # 8: nincs ilyen, ez a Zentai út útpályája.
-    invalid: ['3', '8']
+    invalid: ['3', '11', '8']
+  Gyula vezér út:
+    # 47: sima 47 nincs, csak 47/A, 47/B, 47/C.
+    invalid: ['47']
+  Harangjáték utca:
+    # 11: sima 11 nincs, csak 11/1, 11/2.
+    invalid: ['11']
   Háros utca:
+    # Területhatár, a páros oldal Budafokon van.
     ranges:
-      - {start: '1', end: '999'}
+      - {start: '1', end: '183'}
+    # 87: sima 87 nincs, csak 87/A, 87/B.
+    # 141: sima 141 nincs, csak 141/A, 141/B.
+    # 149: sima 149 nincs, csak 149/A, 149/B.
+    # 211-213: a páratlan oldalon a 183 az utolsó házszám.
+    invalid: ['87', '141', '149']
+  Hűség utca:
+    # 25: sima 25 nincs, csak 25/A, 25/B.
+    invalid: ['25']
   Ispiláng utca:
     # Területhatár, Baross Gábor-telephez tartozik az összes házszám.
     ranges: []
+  Jégmadár utca:
+    # 13: ez és a Karéj utca 25. közös telken van, házszám a Karéj utcáról van csak.
+    invalid: ['13']
+  Kápolna utca:
+    # 132: a páros oldalon az 50 az utolsó házszám.
+    invalid: ['132']
+  Karéj utca:
+    # 23/B: sima 23/B nincs, csak 23/B/1, 23/B/2.
+    # 35: nincs ilyen, ez a Királyka utca útpályája.
+    # 4: sima 4 nincs, csak 4/1, 4/2.
+    # 8/A: sima 8/A nincs, csak 8/A/1, 8/A/2.
+    # 8/B: sima 8/B nincs, csak 8/B/1, 8/B/2.
+    # 8/C: sima 8/C nincs, csak 8/C/1, 8/C/2.
+    # 8/D: sima 8/D nincs, csak 8/D/1, 8/D/2.
+    # 10/A: sima 10/A nincs, csak 10/A/1, 10/A/2.
+    # 10/B: sima 10/B nincs, csak 10/B/1, 10/B/2.
+    # 42: sima 42 nincs, csak 42/A, 42/B.
+    invalid: ['23b', '35', '8a', '8b', '8c', '8d', '10a', '10b', '42']
+  Katakomba utca:
+    # 13: sima 13 nincs, csak 13/A, 13/B.
+    # 18: sima 18 nincs, csak 18/A, 18/B.
+    invalid: ['13', '18']
   Klauzál Gábor utca:
+    # Területhatár, a páros oldal a Baross Gábor-telepen van.
     ranges:
-      - {start: '1', end: '999'}
+      - {start: '1', end: '41'}
+    # 9: sima 9 nincs, csak 9/A, 9/B.
+    # 11: sima 11 nincs, csak 11/A, 11/B.
+    # 99: a páratlan oldalon a 41 az utolsó házszám.
+    invalid: ['9', '11']
+  Móricz Zsigmond út:
+    # 17/A: sima 17/A nincs, csak 17/A/1, 17/A/2.
+    # 17/B: sima 17/B nincs, csak 17/B/1, 17/B/2.
+    # 17/C: sima 17/C nincs, csak 17/C/1, 17/C/2.
+    # 19/A: sima 19/A nincs, csak 19/A/1, 19/A/2.
+    # 19/B: sima 19/B nincs, csak 19/B/1, 19/B/2.
+    # 19/C: sima 19/C nincs, csak 19/C/1, 19/C/2.
+    # 21/A: sima 21/A nincs, csak 21/A/1, 21/A/2.
+    invalid: ['17a', '17b', '17c', '19a', '19b', '19c', '21a']
+  Nádirigó utca:
+    # 7: sima 7 nincs, csak 7/A, 7/2.
+    invalid: ['7']
   Nagytétényi út:
     # Pontositando, kis szamok Budafok, nagy szamok Nagytétény
     ranges:
@@ -29,6 +106,11 @@ filters:
   Növény utca:
     ranges:
       - {start: '2', end: '998'}
+  Őszapó utca:
+    # 7: sima 7 nincs, csak 7/A, 7/B.
+    # 11: sima 11 nincs, csak 11/A, 11/B.
+    # 8: sima 8 nincs, csak 8/A, 8/B.
+    invalid: ['7', '11', '8']
   Rákóczi út:
     # Pontositando, egy szakasz Baross-Gabor telep
     ranges:
@@ -37,9 +119,15 @@ filters:
   Rózsakert utca:
     ranges:
       - {start: '1', end: '999'}
+  Sándor utca:
+    # 5: sima 5 nincs, csak 5/A, 5/B, 5/C.
+    invalid: ['5']
   Szabadkai utca:
     ranges:
       - {start: '2', end: '998'}
+  Szent Mihály utca:
+    # 7: sima 7 nincs, csak 7/1, 7/2.
+    invalid: ['7']
   X. utca:
     # Pontositando, egy szakasz Baross-Gabor-telep
     ranges:
