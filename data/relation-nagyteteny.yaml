@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Balatoni út:
+    # A házszámok Budatétényben vannak.
+    ranges: []
   Dévér park:
     ranges: []
   Dózsa György út:
