@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Balatoni út:
+    # A házszámok Budatétényben vannak.
+    ranges: []
   Bartók Béla út:
     # Nagytétény a 99%-a
     ranges: []
