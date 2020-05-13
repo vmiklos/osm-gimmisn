@@ -238,6 +238,10 @@ filters:
   Temes utca:
     ranges:
       - {start: '2', end: '2'}
+  Thomán István utca:
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '18'}
   Törpe utca:
     ranges:
       - {start: '1', end: '9'}
