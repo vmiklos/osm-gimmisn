@@ -18,6 +18,11 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '6', end: '12'}
+  Bazsalikom utca:
+    # 12a: csak sima 12 van
+    # 13a: csak sima 13 van
+    # 15b: 15a,15,15c van kiírva
+    invalid: ['12a', '13a', '15b']
   Borszéki utca:
     ranges: []
   Citrom utca:
@@ -74,6 +79,8 @@ filters:
       - {start: '1', end: '79'}
       - {start: '2', end: '84'}
   Induló utca:
+    # 4a: 4, 4b
+    invalid: ['4a']
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
@@ -90,7 +97,8 @@ filters:
   Kohó utca:
     # 9: utcanév tábla szerint 1-9 a szakasz, de 7-es szám van a sarkon lévő házon
     # 10: Kubikos utca 42
-    invalid: ['9', '10']
+    # 11a: nincs kiírva
+    invalid: ['9', '10', '11a']
   Kővirág sor:
     # 2-16 Budafok
     # 37 = Putnok utca 20
@@ -105,7 +113,8 @@ filters:
       - {start: '2', end: '4'}
   Marokszedő utca:
     # 5: 5a, 5b
-    invalid: ['5']
+    # 11a: csak sima 11 van már
+    invalid: ['5', '11a']
   Mélykút utca:
     # 14: 14a, 14b
     invalid: ['14']
@@ -134,6 +143,8 @@ filters:
       - {start: '4', end: '12'}
       - {start: '3', end: '17'}
   Péterhegyi út:
+    # 104: csak 104/a, az épület másik fele Ringló út 130
+    invalid: ['104', '104b']
     ranges:
       - {start: '70', end: '198'}
   Postás utca:
@@ -165,6 +176,9 @@ filters:
     ranges:
       - {start: '2', end: '130'}
   Solt utca:
+    # 3a, 3b: csak sima 3 van
+    # 23b: csak sima 23 van
+    invalid: ['3a', '3b', '23b']
     ranges:
       - {start: '1', end: '37'}
   Szabadharcosok útja:
