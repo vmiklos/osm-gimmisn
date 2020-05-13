@@ -11,6 +11,10 @@ filters:
     # 22a: 22 és 22b van
     invalid: ['13', '15', '19a', '19b', '19c', '20b', '22a']
   Állvány utca:
+    # 5: 5a, 5b
+    # 6a: 6
+    # 8a, 8b: 8
+    # invalid: ['5', '6a', '8a', '8b']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
@@ -32,6 +36,10 @@ filters:
       - {start: '3', end: '5'}
       - {start: '4', end: '6'}
   Csupor utca:
+    # 1: 1a van csak
+    # 3b: csak sima 3 van
+    # 10a, 10b: csak sima 10 van
+    invalid: ['1', '3b', '10a', '10b']
     ranges:
       - {start: '1', end: '11'}
       - {start: '8', end: '10'}
@@ -87,6 +95,9 @@ filters:
   Kardhegy utca:
     # 18a, 18b: semmi sincs kiírva de nincs 2 ház
     invalid: ['18a', '18b']
+  Kamilla utca:
+    # 2: 2a, 2b
+    invalid: ['2']
   Kecskeméti József utca:
     # 30-32 helyén üres telek
     invalid: ['32']
@@ -102,8 +113,10 @@ filters:
   Kővirág sor:
     # 2-16 Budafok
     # 37 = Putnok utca 20
+    # 69/9: elírás 67/a, 67/b
+    # 97b: csak sima 97 van
     interpolation: 'all'
-    invalid: ['37b']
+    invalid: ['37b', '69/9', '97b']
     ranges:
       - {start: '19', end: '111'}
       - {start: '123', end: '139'}
@@ -148,6 +161,10 @@ filters:
     ranges:
       - {start: '70', end: '198'}
   Postás utca:
+    # 2a, 2b: csak sima 2 van
+    # 4a, 4b: van 4 és egy számozatlan ház a 6a és a 4 között
+    # 10: 10b=8c van kiírva
+    invalid: ['2a', '2b', '4a', '4b', '10']
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '10'}
@@ -189,6 +206,10 @@ filters:
     # 2 = Ringló út 68
     # 17 = Hunyadi Mátyás út 33
     invalid: ['1', '2', '17']
+#  Szarkaláb utca:
+    # nincs táblázva semmi, az utca sem látszik, egy kapubejárónak tűnik
+    # TODO: fel kell mérni még egyszer
+    #   ranges: []
   Székelykapu utca:
     # 9 és 9/B-11, nem tudja bontani
     invalid: ['9a', '9b', '11']
