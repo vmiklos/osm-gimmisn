@@ -11,6 +11,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_missing_streets.py \
 	tests/test_overpass_query.py \
 	tests/test_ranges.py \
+	tests/test_stats.py \
 	tests/test_util.py \
 	tests/test_validator.py \
 	tests/test_webframe.py \
