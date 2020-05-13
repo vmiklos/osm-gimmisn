@@ -60,6 +60,11 @@ filters:
     ranges:
       - {start: '12', end: '36'}
       - {start: '1', end: '41'}
+  Gyoma utca:
+    # 3b: 3 és 3/2
+    # 5: 5a, 5b
+    # 15: 15a, 15b
+    invalid: ['3b', '5', '15']
   Hajtány sor:
     interpolation: 'all'
     ranges:
@@ -98,6 +103,17 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
+  Marokszedő utca:
+    # 5: 5a, 5b
+    invalid: ['5']
+  Mélykút utca:
+    # 14: 14a, 14b
+    invalid: ['14']
+  Mustár utca:
+    # 13: 13a, 13b
+    # 15a, 15b: csak sima 15 van
+    # 17a, 17b: csak sima 17 van
+    invalid: ['13', '15a', '15b', '17a', '17b']
   Narancs utca:
     # 2 = Hunyadi Mátyás út 51
     invalid: ['2']
@@ -151,6 +167,9 @@ filters:
   Solt utca:
     ranges:
       - {start: '1', end: '37'}
+  Szabadharcosok útja:
+    # 2 = Hunyadi Mátyás út 3
+    invalid: ['2']
   Szajol utca:
     # 1 = Ringló út 70
     # 2 = Ringló út 68
@@ -159,6 +178,9 @@ filters:
   Székelykapu utca:
     # 9 és 9/B-11, nem tudja bontani
     invalid: ['9a', '9b', '11']
+  Tó utca:
+    # 1 = Bezdán utca 12
+    invalid: ['1']
 source: survey
 inactive: true
 housenumber-letters: true
