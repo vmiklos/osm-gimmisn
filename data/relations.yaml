@@ -471,6 +471,10 @@ budaors-lakotelep:
     osmrelation: 10477968
     refcounty: "14"
     refsettlement: "015"
+pilisvorosvar:
+    osmrelation: 1027785
+    refcounty: "14"
+    refsettlement: "112"
 szigetmonostor:
     osmrelation: 216157
     refcounty: "14"
@@ -479,6 +483,10 @@ veresegyhaz:
     osmrelation: 1390690
     refcounty: "14"
     refsettlement: "178"
+visegrad:
+    osmrelation: 1027785
+    refcounty: "14"
+    refsettlement: "181"
 # Egyéb videk
 balatonalmadi:
     osmrelation: 1078573
@@ -504,6 +512,10 @@ bogacs:
     osmrelation: 1418454
     refcounty: "05"
     refsettlement: "037"
+domos:
+    osmrelation: 1027819
+    refcounty: "12"
+    refsettlement: "024"
 esztergom:
     osmrelation: 1027785
     refcounty: "12"
@@ -529,6 +541,10 @@ nemesgulacs:
     refcounty: "19"
     refsettlement: "134"
     inactive: true
+pilismarot:
+    osmrelation: 1027785
+    refcounty: "12"
+    refsettlement: "053"
 somogysard:
     osmrelation: 1367837
     refcounty: "15"
