@@ -52,12 +52,12 @@ def handle_topusers(src_root: str, j: Dict[str, Any]) -> None:
     j["topusers"] = ret
 
 
-def handle_daily_new(src_root: str, j: Dict[str, Any]) -> None:
+def handle_daily_new(src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
     """Shows # of new housenumbers / day."""
     ret = []
     prev_count = 0
     prev_day = ""
-    for day_offset in range(14, -1, -1):
+    for day_offset in range(day_range, -1, -1):
         day_delta = datetime.date.today() - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % day)

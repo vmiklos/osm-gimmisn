@@ -8,6 +8,7 @@
 
 from typing import Any
 from typing import Dict
+import datetime
 import os
 import unittest
 import unittest.mock
@@ -30,6 +31,14 @@ def mock_strftime(_fmt: str) -> str:
 def mock_strftime_old(_fmt: str) -> str:
     """Mock time.strftime(), returning an old date."""
     return "1970-01-01"
+
+
+class MockDate(datetime.date):
+    """Mock datetime.date."""
+    @classmethod
+    def today(cls) -> 'MockDate':
+        """Returns today's date."""
+        return cls(2020, 5, 10)
 
 
 class TestHandleProgress(unittest.TestCase):
@@ -76,6 +85,30 @@ class TestHandleTopusers(unittest.TestCase):
                 stats.handle_topusers(src_root, j)
             topusers = j["topusers"]
             self.assertFalse(topusers)
+
+
+class TestHandleDailyNew(unittest.TestCase):
+    """Tests handle_daily_new()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            with unittest.mock.patch('datetime.date', MockDate):
+                # From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
+                # (till a file is missing.)
+                stats.handle_daily_new(src_root, j)
+            daily = j["daily"]
+            self.assertTrue(daily)
+
+    def test_empty_day_range(self) -> None:
+        """Tests the case when the day range is empty."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            stats.handle_daily_new(src_root, j, day_range=-1)
+            daily = j["daily"]
+            self.assertFalse(daily)
 
 
 if __name__ == '__main__':
