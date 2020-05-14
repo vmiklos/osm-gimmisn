@@ -55,5 +55,28 @@ class TestHandleProgress(unittest.TestCase):
             self.assertEqual(progress["date"], "1970-01-01")
 
 
+class TestHandleTopusers(unittest.TestCase):
+    """Tests handle_topusers()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            with unittest.mock.patch('time.strftime', mock_strftime):
+                stats.handle_topusers(src_root, j)
+            topusers = j["topusers"]
+            self.assertTrue(topusers)
+
+    def test_old_time(self) -> None:
+        """Tests the case when the .count file doesn't exist for a date."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            with unittest.mock.patch('time.strftime', mock_strftime_old):
+                stats.handle_topusers(src_root, j)
+            topusers = j["topusers"]
+            self.assertFalse(topusers)
+
+
 if __name__ == '__main__':
     unittest.main()
