@@ -52,6 +52,7 @@ class TestHandleProgress(unittest.TestCase):
                 stats.handle_progress(src_root, j)
             progress = j["progress"]
             self.assertEqual(progress["date"], "2020-05-10")
+            self.assertEqual(progress["percentage"], 7.81)
 
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
@@ -74,7 +75,8 @@ class TestHandleTopusers(unittest.TestCase):
             with unittest.mock.patch('time.strftime', mock_strftime):
                 stats.handle_topusers(src_root, j)
             topusers = j["topusers"]
-            self.assertTrue(topusers)
+            self.assertEqual(len(topusers), 20)
+            self.assertEqual(topusers[0], ["user1", "68885"])
 
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
@@ -99,7 +101,8 @@ class TestHandleDailyNew(unittest.TestCase):
                 # (till a file is missing.)
                 stats.handle_daily_new(src_root, j)
             daily = j["daily"]
-            self.assertTrue(daily)
+            self.assertEqual(len(daily), 1)
+            self.assertEqual(daily[0], ["2020-04-26", 364])
 
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
