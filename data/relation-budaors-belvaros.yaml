@@ -41,7 +41,7 @@ filters:
       - {start: '2', end: '50'}
   Gesztenye köz:
     ranges:
-      - {start: '2', end: '4'}
+      - {start: '1', end: '3'}
   Gesztenye utca:
     ranges:
       - {start: '2', end: '4'}
@@ -58,7 +58,7 @@ filters:
   Naphegy utca:
     ranges:
       - {start: '1', end: '19'}
-      - {start: '2', end: '8'}
+      - {start: '2', end: '4'}
   Nefelejcs utca:
     ranges:
       - {start: '1', end: '19'}
