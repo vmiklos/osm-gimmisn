@@ -103,10 +103,10 @@ def handle_monthly_new(src_root: str, j: Dict[str, Any], month_range: int = 12) 
     j["monthly"] = ret
 
 
-def handle_daily_total(src_root: str, j: Dict[str, Any]) -> None:
+def handle_daily_total(src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
     """Shows # of total housenumbers / day."""
     ret = []
-    for day_offset in range(13, -1, -1):
+    for day_offset in range(day_range, -1, -1):
         day_delta = datetime.date.today() - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % day)
