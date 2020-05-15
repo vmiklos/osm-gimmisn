@@ -185,5 +185,39 @@ class TestHandleDailyTotal(unittest.TestCase):
             self.assertFalse(dailytotal)
 
 
+class TestHandleMonthlyTotal(unittest.TestCase):
+    """Tests handle_monthly_total()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            with unittest.mock.patch('datetime.date', MockDate):
+                stats.handle_monthly_total(src_root, j)
+            monthlytotal = j["monthlytotal"]
+            self.assertEqual(len(monthlytotal), 1)
+            self.assertEqual(monthlytotal[0], ['2019-05', 203317])
+
+    def test_empty_day_range(self) -> None:
+        """Tests the case when the day range is empty."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            stats.handle_monthly_total(src_root, j, month_range=-1)
+            monthlytotal = j["monthlytotal"]
+            self.assertFalse(monthlytotal)
+
+    def test_one_element_day_range(self) -> None:
+        """Tests the case when the day range is of just one element."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            stats.handle_monthly_total(src_root, j, month_range=0)
+            monthlytotal = j["monthlytotal"]
+            self.assertEqual(len(monthlytotal), 2)
+            self.assertEqual(monthlytotal[0], ["2020-04", 253027])
+            self.assertEqual(monthlytotal[1], ["2020-05", 3])
+
+
 if __name__ == '__main__':
     unittest.main()

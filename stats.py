@@ -118,10 +118,10 @@ def handle_daily_total(src_root: str, j: Dict[str, Any], day_range: int = 13) ->
     j["dailytotal"] = ret
 
 
-def handle_monthly_total(src_root: str, j: Dict[str, Any]) -> None:
+def handle_monthly_total(src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
     """Shows # of total housenumbers / month."""
     ret = []
-    for month_offset in range(11, -1, -1):
+    for month_offset in range(month_range, -1, -1):
         # datetime.timedelta does not support months
         month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset)
         prev_month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset + 1)
