@@ -77,7 +77,7 @@ filters:
     # 39a: csak sima 39 és 39/b van
     # 50: csak 50/b van kiírvan, de van több ház
     # 65a: recheck 65 két részből áll, az egyik felére 65/b van kiírva (g* szerint 65/a), a másikra semmi, meghagytam a sima 65-öt.
-    invalid: [5, 17b, 21a, 39a, 50]
+    invalid: ['5', '17b', '21a', '39a', '50']
     ranges:
       - {start: '3', end: '21'}
       - {start: '35', end: '77'}
