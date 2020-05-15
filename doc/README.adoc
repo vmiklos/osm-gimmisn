@@ -178,3 +178,26 @@ frequently:
 
 - `alias: ["foo", "bar"]`: this key can be used on relations to specify old names. This way
   bookmarks keep working, even in case a relation is renamed.
+
+It is expected that "normalization" not only filters out noise from the reference, but also expands
+housenumber ranges in a sensible way. Here are some examples:
+
+[options="header"]
+|=======
+|Case ID|Given a range |When this setting is used |Expands to
+|1 |139 |range is `{start: '137', end: '165'}` |139 as it is in range
+|2 |999 |range is `{start: '137', end: '165'}` |Empty list as it is not in range
+|3 |x |Defaults |Empty list as it is not a number
+|4 |1 |Defaults | 1, as the default ranges are 1-999 and 2-998
+|5 |1;2 |Defaults | 1 and 2 as a semicolon is a separator
+|6 |2-6 |Defaults |2, 4, and 6 as the even range is expanded
+|7 |5-8 |Defaults |5 and 8 as the parity doesn't match
+|8 |2-5 |`interpolation=all` |2, 3, 4 and 5
+|9 |163-167 |range is `{start: '137', end: '165'}` |163 and 165, no 167
+|10 |2-2000 |Defaults |2 because 2000 large(r than 1000)
+|11 |2-56 |Defaults |2 and 56 because the diff of two is large(r than 24)
+|12 |0-42 |Defaults |42 because 0 is too small
+|13 |42-1 |Defaults |42 because -1 is considered as a suffix
+|=======
+
+See `tests/test_areas.py` for even more details.

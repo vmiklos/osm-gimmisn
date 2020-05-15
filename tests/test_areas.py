@@ -230,7 +230,11 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
 
 class TestNormalize(unittest.TestCase):
-    """Tests normalize()."""
+    """
+    Tests normalize().
+
+    If you add a new test here, you probably want to update `doc/README.adoc` as well.
+    """
     def test_happy(self) -> None:
         """Tests the happy path."""
         with unittest.mock.patch('config.get_abspath', get_abspath):
