@@ -7,6 +7,8 @@ filters:
   Albert utca:
     ranges: []
   Albertfalva utca:
+    # 5: 5a
+    invalid: ['5']
     ranges:
       - {start: '2', end: '4'}
       - {start: '8', end: '8'}
@@ -20,6 +22,9 @@ filters:
     ranges:
       - {start: '84', end: '84'}
   Bükköny utca:
+    # 5: 5/a, 5/b
+    # 28b: panel, nincsenek betűk
+    invalid: ['5', '28b']
     ranges:
       - {start: '3', end: '31'}
       - {start: '2', end: '6'}
@@ -38,6 +43,9 @@ filters:
       - {start: '24', end: '28'}
       - {start: '40', end: '44'}
   Érem utca:
+    # 2b: 2 - Vakvarjú Étterem
+    # 8/*: csak sima 8 van, ráadásul családi ház
+    invalid: ['2b', '8/1', '8/2', '8/3', '8/4']
     ranges:
       - {start: '2', end: '12'}
   Fegyvernek utca:
@@ -47,11 +55,11 @@ filters:
       - {start: '2', end: '12'}
       - {start: '52', end: '58'}
   Fehérvári út:
-    # 182-190: lakóház egyben, a és b épület
+    # 182-190: lakóház egyben, a és b épület/lépcsőház
     # 215: panel, nincs betű
     # 225-233: panel, nincs betű
     # 235-243: panel, nincs betű
-    invalid: ['215l', '225b', '231b', '235a', '237b', '239c', '241d', '243f']
+    invalid: ['180a', '182a', '215l', '225b', '231b', '235a', '237b', '239c', '241d', '243f']
     ranges:
       # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
       - {start: '193', end: '243'}
@@ -59,6 +67,9 @@ filters:
       # 168-178, 182-190 egyben
       - {start: '168', end: '204'}
   Fonyód utca:
+    # 4: 4/b
+    # 6/c: 6/a, 6/b
+    invalid: ['3/0', '4a', '4', '6', '6c']
     ranges:
       - {start: '1', end: '7'}
       - {start: '17', end: '17'}
