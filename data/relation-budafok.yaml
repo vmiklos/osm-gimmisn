@@ -33,8 +33,8 @@ filters:
     # 13-15: a páratlan oldalon a 7 az utolsó házszám.
     # 4: ez és a Kiránduló utca 5. közös telken van, házszám a Kiránduló utcáról van csak.
     invalid: ['1', '13', '15', '4']
-#  Badacsony utca:
-    # TODO: 13: most épül, nincs rajta házszám még és saroktelek.
+  # Badacsony utca:
+  #   TODO: 13: most épül, nincs rajta házszám még és saroktelek.
   Balatoni út:
     # A budafoki oldalon nem láttam házszámokat.
     ranges: []
@@ -59,8 +59,8 @@ filters:
     # 10: sima 10 nincs, csak 10/A, 10/B.
     # 20: sima 20 nincs, csak 20/A, 20/B.
     invalid: ['10', '20']
-#  Csend utca:
-    # TODO: 1: ez és a Komáromi út 69. közös telken van, de nem látok sehol házszámot. Bejárat a Komáromi útról van.
+  # Csend utca:
+  #   TODO: 1: ez és a Komáromi út 69. közös telken van, de nem látok sehol házszámot. Bejárat a Komáromi útról van.
   Dombóvári utca:
     # 8: sima 8 nincs, csak 8/A, 8/B.
     invalid: ['8']
@@ -74,8 +74,8 @@ filters:
     # 18/A: két 18-as van az utcában, nincs megkülönböztetve A-val. Beszéltem a tulajdonossal is, ő is megerősítette.
     # TODO: a lakatlan 18 azonban lehet 18/A hivatalosan, de a terepen ez nem állapítható meg.
     invalid: ['14', '18a']
-#  Fenyőtoboz utca:
-    # TODO: 10: ez és a Kiserdő utca 4. közös telken van, de sehol sincs házszám. A bejárat a Kiserdő utca felől van.
+  # Fenyőtoboz utca:
+  #   TODO: 10: ez és a Kiserdő utca 4. közös telken van, de sehol sincs házszám. A bejárat a Kiserdő utca felől van.
   Franciska utca:
     # 25: a páratlan oldalon a 15 az utolsó házszám.
     invalid: ['25']
@@ -86,8 +86,8 @@ filters:
     # 28: a 26-os az utolsó házszám az utca előtt, nincs 28.
     # 28-30: a 26-os az utolsó házszám az utca előtt, nincs 28.
     invalid: ['28', '30']
-#  Gyufa utca:
-    # TODO: 15: nem látom a házszámot.
+  # Gyufa utca:
+  #   TODO: 15: nem látom a házszámot.
   Gyűszű utca:
     # 30/B: nincs ilyen, csak sima 30.
     # 50: ez és a Fenyőtoboz utca 2. közös telken van, házszám a Fenyőtoboz utcáról van csak.
@@ -190,8 +190,8 @@ filters:
     # 8: sima 8 nincs, csak 8/A, 8/B.
     # 58-60: egybenyitott telek, de csak a 60 van kitáblázva.
     invalid: ['4', '4/4', '6', '8', '58']
-#  Kiserdő utca:
-    # TODO: 4: ez és a Fenyőtoboz utca 10. közös telken van, de sehol sincs házszám. A bejárat a Kiserdő utca felől van.
+  # Kiserdő utca:
+  #   TODO: 4: ez és a Fenyőtoboz utca 10. közös telken van, de sehol sincs házszám. A bejárat a Kiserdő utca felől van.
   Komáromi út:
     # 53: sima 53 nincs, csak 53/1, 53/2.
     # 59: sima 59 nincs, csak 59/A, 59/B.

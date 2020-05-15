@@ -121,7 +121,7 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	$(QUIET_VALIDATOR)./validator.py $< && touch $@
 
 %.yamllint : %.yaml Makefile .yamllint
-	$(QUIET_YAMLLINT)yamllint $< && touch $@
+	$(QUIET_YAMLLINT)yamllint --strict $< && touch $@
 
 # Make sure that the current directory is *not* the repo root but something else to catch
 # non-absolute paths.
