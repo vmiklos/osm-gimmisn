@@ -71,6 +71,13 @@ filters:
       - {start: '2', end: '2'}
       - {start: '10', end: '16'}
   Mikes Kelemen utca:
+    # 5: 5a, 5b ikerház
+    # 17b: csak sima 17 van
+    # 21a: csak sima 21 van
+    # 39a: csak sima 39 és 39/b van
+    # 50: csak 50/b van kiírvan, de van több ház
+    # 65a: recheck 65 két részből áll, az egyik felére 65/b van kiírva (g* szerint 65/a), a másikra semmi, meghagytam a sima 65-öt.
+    invalid: [5, 17b, 21a, 39a, 50]
     ranges:
       - {start: '3', end: '21'}
       - {start: '35', end: '77'}
@@ -89,12 +96,13 @@ filters:
     # 10a, 10b: csak sima 10 van
     # 12a, 12b: csak sima 12 van
     # 16a: csak sima 16 van
+    # 18: 18a, 18b
     # 11: 11a, 11b, 11c
     # 33: van egy számozatlan ház a Vizsla utca/Neszmélyi út sarkán de nincs kiírva a házszám
     # 37b: 37 van, 2 ház van 1 telken belül
     # 22-28, 38-44: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     # 102b: 2 házrész van de nincs külön házszám
-    invalid: ['9', '10a', '10b', '11', '12a', '12b', '16a', '33', '37b', '22d', '28a', '38a', '40a', '40b', '42a', '44b', '72', '102b']
+    invalid: ['9', '10a', '10b', '11', '12a', '12b', '16a', '18', '33', '37b', '22d', '28a', '38a', '40a', '40b', '42a', '44b', '72', '102b']
     ranges:
       - {start: '9', end: '13'}
       - {start: '31', end: '37'}
@@ -113,7 +121,7 @@ filters:
     # 54: Shell kút
     # 56-62 nincs
     # 66-68 OMV az Egér út másik oldalán
-    invalid: ['40a', '40b', '50', '56a', '58', '60', '62']
+    invalid: ['40a', '40b', '50', '56', '56a', '58', '60', '62']
     ranges:
       - {start: '40', end: '68'}
   Rimaszombati út:
