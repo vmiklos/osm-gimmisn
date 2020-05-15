@@ -114,5 +114,53 @@ class TestHandleDailyNew(unittest.TestCase):
             self.assertFalse(daily)
 
 
+class TestHandleMonthlyNew(unittest.TestCase):
+    """Tests handle_monthly_new()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            with unittest.mock.patch('datetime.date', MockDate):
+                stats.handle_monthly_new(src_root, j)
+            monthly = j["monthly"]
+            self.assertEqual(len(monthly), 2)
+            # 2019-05 start -> end
+            self.assertEqual(monthly[0], ["2019-05", 3799])
+            # diff from last month end -> today
+            self.assertEqual(monthly[1], ["2020-05", 51334])
+
+    def test_empty_month_range(self) -> None:
+        """Tests the case when the month range is empty."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            stats.handle_monthly_new(src_root, j, month_range=-1)
+            monthly = j["monthly"]
+            self.assertTrue(monthly)
+
+    def test_incomplete_last_month(self) -> None:
+        """Tests the case when we have no data for the last, incomplete month."""
+        with unittest.mock.patch('config.get_abspath', get_abspath):
+            src_root = get_abspath("workdir/stats")
+            j: Dict[str, Any] = {}
+            with unittest.mock.patch('datetime.date', MockDate):
+                # This would be the data for the current state of the last, incomplete month.
+                hide_path = get_abspath("workdir/stats/2020-05-10.count")
+                real_exists = os.path.exists
+
+                def mock_exists(path: str) -> bool:
+                    if path == hide_path:
+                        return False
+                    return real_exists(path)
+                with unittest.mock.patch('os.path.exists', mock_exists):
+                    stats.handle_monthly_new(src_root, j)
+            monthly = j["monthly"]
+            # 1st element: 2019-05 start -> end
+            # No 2nd element, would be diff from last month end -> today
+            self.assertEqual(len(monthly), 1)
+            self.assertEqual(monthly[0], ["2019-05", 3799])
+
+
 if __name__ == '__main__':
     unittest.main()

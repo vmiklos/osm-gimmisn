@@ -72,12 +72,12 @@ def handle_daily_new(src_root: str, j: Dict[str, Any], day_range: int = 14) -> N
     j["daily"] = ret
 
 
-def handle_monthly_new(src_root: str, j: Dict[str, Any]) -> None:
+def handle_monthly_new(src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
     """Shows # of new housenumbers / month."""
     ret = []
     prev_count = 0
     prev_month = ""
-    for month_offset in range(12, -1, -1):
+    for month_offset in range(month_range, -1, -1):
         # datetime.timedelta does not support months
         month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset)
         # Get the first day of each month.
