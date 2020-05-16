@@ -361,7 +361,7 @@ filters:
     # 67-69: nincs ilyen, csak 67 és 71-73/* van.
     # 87/6: a 87/B táblája megkopott, és olyan a betűtípus, hogy lehetne 87/6-nak is olvasni.
     # 107/A: nincs ilyen, csak sima 107 van.
-    # 113/A: TODO: leírás.
+    # 113/A: nincs ilyen, csak 113 és 113/B van.
     # 115/A: nincs ilyen, csak sima 115 van.
     # 133: sima 133 nincs, csak 133/A, 133/B. (TODO: helyszínen nem ellenőriztem 2020-ban, 2017-ben felrajzolva)
     invalid: ['35a', '35b', '43', '69', '87/6', '107a', '113a', '115a', '133']
