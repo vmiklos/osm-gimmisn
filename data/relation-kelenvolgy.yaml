@@ -14,7 +14,7 @@ filters:
     # 5: 5a, 5b
     # 6a: 6
     # 8a, 8b: 8
-    # invalid: ['5', '6a', '8a', '8b']
+    invalid: ['5', '6a', '8a', '8b']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
@@ -29,6 +29,10 @@ filters:
     invalid: ['12a', '13a', '15b']
   Borszéki utca:
     ranges: []
+  Citera utca:
+    # 3 = Túrkeve utca 4
+    # 6b: 6, 6a
+    invalid: ['3', '6b']
   Citrom utca:
     # 1 = Szabadharcosok útja 4
     # 2 = Szabadharcosok útja 6
@@ -83,15 +87,30 @@ filters:
     ranges:
       - {start: '1', end: '11'}
   Hunyadi Mátyás út:
+    # 26: 26a, 26b
+    # 27: 27a, 27b
+    # 30a: 30, 30/b
+    # 40a, 40b: csak sima 40 van
+    invalid: ['26', '27', '30a', '40a', '40b']
     ranges:
       - {start: '1', end: '79'}
       - {start: '2', end: '84'}
+  Husáng utca:
+    # 11 = Olajfa utca 21
+    invalid: ['11']
   Induló utca:
     # 4a: 4, 4b
     invalid: ['4a']
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
+  Június utca:
+    # 1 = Olajfa utca 17
+    # 15 = Torma utca 11
+    # 16 = Torma utca 9
+    ranges:
+      - {start: '3', end: '13'}
+      - {start: '2', end: '14'}
   Kardhegy utca:
     # 18a, 18b: semmi sincs kiírva de nincs 2 ház
     invalid: ['18a', '18b']
@@ -112,14 +131,28 @@ filters:
     invalid: ['9', '10', '11a']
   Kővirág sor:
     # 2-16 Budafok
+    # 23a: 23b van kiírva
+    # 27b: csak sima 27 van
     # 37 = Putnok utca 20
-    # 69/9: elírás 67/a, 67/b
+    # 39a, 39b: osm-ben sima 39 van, helyszínen nincs kiírva semmit
+    # 63a: csak sima 63 van, illetve osm-ben 63/b, s helyszínen nincs kiírva semmit
+    # 65a: nincs kiírva
+    # 69/9: elírás 69/a, 69/b
+    # 73: 73/a, 73/b
+    # 75a: csak sima 75 van
     # 97b: csak sima 97 van
     interpolation: 'all'
-    invalid: ['37b', '69/9', '97b']
+    invalid: ['23a', '27b', '37b', '39a', '39b', '63a', '65a', '69', '73', '75a', '69/9', '97b']
     ranges:
       - {start: '19', end: '111'}
       - {start: '123', end: '139'}
+  Kubikos utca:
+    # 1 = Szajol utca 9
+    # 2 = nincs ház, valószínű, 2-4 lenne hivatalosan az első ház, de csak 4 van kiírva
+    # 25 = Koboz utca
+    ranges:
+      - {start: '4', end: '42'}
+      - {start: '3', end: '23'}
   Madaras utca:
     ranges:
       - {start: '1', end: '3'}
@@ -144,6 +177,10 @@ filters:
       - {start: '3', end: '7'}
       - {start: '13', end: '15'}
       - {start: '2', end: '10'}
+  Olajfa utca:
+    # 3a, 3b: csak 3 van kiírva, de van egy számozatlan ház
+    # 24 = Péterhegyi út 98
+    invalid: ['3a', '3b', '24']
   Parittya utca:
     ranges:
       - {start: '3', end: '3'}
@@ -156,8 +193,9 @@ filters:
       - {start: '4', end: '12'}
       - {start: '3', end: '17'}
   Péterhegyi út:
+    # 84: 84/a van kiírva, a másik felén nincs házszám, 84/b lett
     # 104: csak 104/a, az épület másik fele Ringló út 130
-    invalid: ['104', '104b']
+    invalid: ['84', '104', '104b']
     ranges:
       - {start: '70', end: '198'}
   Postás utca:
@@ -216,6 +254,17 @@ filters:
   Tó utca:
     # 1 = Bezdán utca 12
     invalid: ['1']
+  Torma utca:
+    # 7a, 7b: nincs kiírva semmi
+    # 11 = Husáng utca 24
+    # 30 = Péterhegyi út 78
+    invalid: ['7b', '11', '30']
+  Túrkeve utca:
+    invalid: ['17b']
+  Vajda utca:
+    # 4: 4/b van kiírva, van egy számozatlan, az lett a 4/a
+    # 14 = Husáng utca 6
+    invalid: ['4', '14']
 source: survey
 inactive: true
 housenumber-letters: true
