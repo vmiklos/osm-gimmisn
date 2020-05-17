@@ -61,11 +61,15 @@ YAML_TEST_OBJECTS = \
 	tests/data/refcounty-names.yaml \
 	tests/data/refsettlement-names.yaml \
 
+JS_OBJECTS = \
+	static/stats.js \
+
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
 	QUIET_MSGFMT = @echo '   ' MSGMFT $@;
 	QUIET_MYPY = @echo '   ' MYPY $@;
 	QUIET_PYLINT = @echo '   ' PYLINT $@;
+	QUIET_ESLINT = @echo '   ' ESLINT $@;
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
@@ -79,8 +83,9 @@ clean:
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
+	rm -f $(patsubst %.js,%.eslint,$(JS_OBJECTS))
 
-check: all check-filters check-flake8 check-mypy check-unit check-pylint
+check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint
 
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
@@ -100,10 +105,15 @@ check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 
 check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
+check-eslint: $(patsubst %.js,%.eslint,$(JS_OBJECTS))
+
 check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
 %.pylint : %.py Makefile .pylintrc
 	$(QUIET_PYLINT)env PYTHONPATH=. pylint $< && touch $@
+
+%.eslint : %.js Makefile .eslintrc
+	$(QUIET_ESLINT)eslint $< && touch $@
 
 %.mypy: %.py Makefile
 	$(QUIET_MYPY)mypy --python-version 3.6 --strict --no-error-summary $< && touch $@
