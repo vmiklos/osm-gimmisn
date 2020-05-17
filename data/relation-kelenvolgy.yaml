@@ -246,7 +246,7 @@ filters:
     # 2 = Ringló út 68
     # 17 = Hunyadi Mátyás út 33
     invalid: ['1', '2', '17']
-#  Szarkaláb utca:
+    #  Szarkaláb utca:
     # nincs táblázva semmi, az utca sem látszik, egy kapubejárónak tűnik
     # TODO: fel kell mérni még egyszer
     #   ranges: []
