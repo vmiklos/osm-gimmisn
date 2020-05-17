@@ -2,6 +2,8 @@
 
 == master
 
+- The stats feauture now has good test coverage
+
 - Resolves: gh#441 cron can now again update inactive relations once a month
 
 - Resolves: gh#437 the locale install requirement is now documented

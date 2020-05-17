@@ -37,11 +37,11 @@ PYTHON_SAFE_OBJECTS = \
 	version.py \
 	webframe.py \
 	wsgi.py \
+	stats.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
-	stats.py \
 
 # These are valid.
 YAML_SAFE_OBJECTS = \

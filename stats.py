@@ -13,7 +13,6 @@ from typing import TextIO
 import datetime
 import json
 import os
-import sys
 import time
 
 import dateutil.relativedelta
@@ -155,15 +154,5 @@ def generate_json(state_dir: str, stream: TextIO) -> None:
     handle_monthly_total(state_dir, j)
     stream.write(json.dumps(j))
 
-
-def main() -> None:
-    """Commandline interface to this module."""
-    src_root = sys.argv[1]
-    stream = sys.stdout
-    generate_json(src_root, stream)
-
-
-if __name__ == "__main__":
-    main()
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
