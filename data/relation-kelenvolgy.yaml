@@ -149,7 +149,9 @@ filters:
   Kubikos utca:
     # 1 = Szajol utca 9
     # 2 = nincs ház, valószínű, 2-4 lenne hivatalosan az első ház, de csak 4 van kiírva
+    # 15a: 15, 15b
     # 25 = Koboz utca
+    invalid: ['15a']
     ranges:
       - {start: '4', end: '42'}
       - {start: '3', end: '23'}
@@ -244,10 +246,10 @@ filters:
     # 2 = Ringló út 68
     # 17 = Hunyadi Mátyás út 33
     invalid: ['1', '2', '17']
-  # Szarkaláb utca:
-  # nincs táblázva semmi, az utca sem látszik, egy kapubejárónak tűnik
-  # TODO: fel kell mérni még egyszer
-  #   ranges: []
+#  Szarkaláb utca:
+    # nincs táblázva semmi, az utca sem látszik, egy kapubejárónak tűnik
+    # TODO: fel kell mérni még egyszer
+    #   ranges: []
   Székelykapu utca:
     # 9 és 9/B-11, nem tudja bontani
     invalid: ['9a', '9b', '11']
@@ -256,15 +258,16 @@ filters:
     invalid: ['1']
   Torma utca:
     # 7a, 7b: nincs kiírva semmi
-    # 11 = Husáng utca 24
+    # 13 = Husáng utca 24
     # 30 = Péterhegyi út 78
-    invalid: ['7b', '11', '30']
+    invalid: ['7b', '13', '30']
   Túrkeve utca:
     invalid: ['17b']
   Vajda utca:
+    # 3: 3a, 3b
     # 4: 4/b van kiírva, van egy számozatlan, az lett a 4/a
     # 14 = Husáng utca 6
-    invalid: ['4', '14']
+    invalid: ['3', '4', '14']
 source: survey
 inactive: true
 housenumber-letters: true
