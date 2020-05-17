@@ -19,8 +19,10 @@ filters:
     ranges:
       - {start: '2', end: '40'}
   Költő utca:
+    # 28, 38 and 40 probably do not exist.
     ranges:
-      - {start: '20', end: '40'}
+      - {start: '20', end: '26'}
+      - {start: '30', end: '30'}
   Lóránt út:
     ranges:
       - {start: '25', end: '27'}
