@@ -36,6 +36,8 @@ filters:
     invalid: ['41']
   Felsőhatár utca:
     # Páros oldal Budapest: Felső határ út néven
+    # 97, 101: csak 99 van kiírva előtte utána semmi
+    invalid: ['97', '101']
     ranges:
       - {start: '1', end: '137'}
   Fenyves utca:
@@ -58,6 +60,12 @@ filters:
       - {start: '1', end: '13'}
       - {start: '21', end: '41'}
       - {start: '2', end: '32'}
+  Kőláb utca:
+    interpolation: all
+  Kőszikla utca:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '20'}
   Láng utca:
     ranges:
       - {start: '1', end: '11'}
