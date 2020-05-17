@@ -11,6 +11,8 @@ filters:
   Jégcsap utca:
     ranges: []
   Kőérberki út:
+    # 2 elég gyéren van kitáblázva
+    invalid: ['2', '2c']
     ranges:
       - {start: '2', end: '2'}
   Gazdagréti út:
