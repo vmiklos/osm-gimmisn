@@ -520,6 +520,18 @@ esztergom:
     osmrelation: 1027785
     refcounty: "12"
     refsettlement: "028"
+esztergom-kozpont:
+    osmrelation: 6804481
+    refcounty: "12"
+    refsettlement: "028"
+esztergom-pilisszentlelek:
+    osmrelation: 6804482
+    refcounty: "12"
+    refsettlement: "028"
+esztergom-kertvaros:
+    osmrelation: 6804483
+    refcounty: "12"
+    refsettlement: "028"
 felsotarkany:
     osmrelation: 1418232
     refcounty: "10"
