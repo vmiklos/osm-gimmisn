@@ -44,7 +44,7 @@ street-filters:
   - Petőfi Sándor P utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Patak sor / Bocskai István sor': 'Bocskai István sor'
+  'Pataksor utca / Bocskai István sor': 'Bocskai István sor'
   'Bajcsy-Zsilinszky Endre út': 'Bajcsy-Zsilinszky út'
   'Bajor Ágoston utca': 'Bajor Ágost utca'
   'Bercsényi Miklós utca': 'Bercsényi utca'
