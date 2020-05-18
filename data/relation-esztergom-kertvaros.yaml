@@ -4,7 +4,7 @@ source: survey
 inactive: false
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Patak sor / Bocskai István sor': 'Bocskai István sor'
+  'Pataksor utca / Bocskai István sor': 'Bocskai István sor'
   'Jósika utca': 'Jósika Miklós utca'
   'Ménesvölgyi utca': 'Méhesvölgyi utca'
   'Strázsa út': 'Strázsa utca'
