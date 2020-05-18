@@ -45,11 +45,18 @@ filters:
     # Területhatár, a páros oldal Budafokon van.
     ranges:
       - {start: '1', end: '183'}
+    # 47/A: nincs ilyen, csak 47-49 A épület.
+    # 47/B: nincs ilyen, csak 47-49 B épület.
+    # 47/D: nincs ilyen, csak 47-49 D épület.
+    # 49/A: nincs ilyen, csak 47-49 A épület.
+    # 49/B: nincs ilyen, csak 47-49 B épület.
+    # 49/C: nincs ilyen, csak 47-49 C épület.
+    # 49/D: nincs ilyen, csak 47-49 D épület.
     # 87: sima 87 nincs, csak 87/A, 87/B.
     # 141: sima 141 nincs, csak 141/A, 141/B.
     # 149: sima 149 nincs, csak 149/A, 149/B.
     # 211-213: a páratlan oldalon a 183 az utolsó házszám.
-    invalid: ['87', '141', '149']
+    invalid: ['47a', '47b', '47d', '49a', '49b', '49c', '49d', '87', '141', '149']
   Hűség utca:
     # 25: sima 25 nincs, csak 25/A, 25/B.
     invalid: ['25']
