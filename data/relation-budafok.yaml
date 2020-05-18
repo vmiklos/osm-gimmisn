@@ -25,9 +25,19 @@ filters:
     # 110: sima 110 nincs, csak 110/A, 110/B, 110/C.
     # 120: a 118-120 egyetlen telek, de a házszám csak 118.
     invalid: ['39a', '45a', '49a', '65', '81', '83', '83b', '131', '145a', '149', '32c', '44', '50', '74', '96', '98b', '102a', '104', '110', '120']
+  Aranyfácán utca:
+    # 11: sima 11 nincs, csak 11/A, 11/B.
+    invalid: ['11']
   Arató utca:
     # 14: a páros oldalon a 12 az utolsó házszám.
     invalid: ['14']
+  Árpád utca:
+    # 19: sima 19 nincs, csak 19/A, 19/B, 19/C.
+    # 76-1: nincs ilyen, csak 76/A, 76/B.
+    # 78: sima 78 nincs, csak 78/A, 78/B.
+    # 80: sima 80 nincs, csak 80/A, 80/B.
+    # 140: a páros oldalon a 82 az utolsó házszám.
+    invalid: ['19', '76', '78', '80', '140']
   Avar utca:
     # 1: sima 1 nincs, csak 1/A, 1/B.
     # 13-15: a páratlan oldalon a 7 az utolsó házszám.
@@ -38,6 +48,9 @@ filters:
   Balatoni út:
     # A budafoki oldalon nem láttam házszámokat.
     ranges: []
+  Baross utca:
+    # 125: a páratlan oldalon a 33 az utolsó házszám.
+    invalid: ['125']
   Bem József utca:
     # 5: ez és az Avar utca 10. közös telken van, házszám az Avar utcáról van csak.
     # TODO: A Bem József utca 7. és az Avar utca 7. közös telken van, nem egyértelmű, hogy a házszám melyik utcához tartozik. Valószínűleg az Avar utcához.
@@ -86,6 +99,9 @@ filters:
     # 28: a 26-os az utolsó házszám az utca előtt, nincs 28.
     # 28-30: a 26-os az utolsó házszám az utca előtt, nincs 28.
     invalid: ['28', '30']
+  Gézavár utca:
+    # 1: sima 1 nincs, csak 1/A, 1/B.
+    invalid: ['1']
   # Gyufa utca:
   #   TODO: 15: nem látom a házszámot.
   Gyűszű utca:
@@ -130,11 +146,12 @@ filters:
     # 2-4: ezek és a Szepesi utca 4. közös telken van, házszám a Szepesi utcáról van csak.
     invalid: ['1', '13', '25', '33', '37', '39', '2', '4']
   Hordós utca:
+    # 5: sima 5 nincs, csak 5/A, 5/B.
     # 93: a páratlan oldalon a 19 az utolsó házszám.
     # 4/B: sima 4/B nincs, csak 4/B/1, 4/B/2.
     # 14: sima 14 nincs, csak 14/A, 14/B.
     # 16: sima 16 nincs, csak 16/A, 16/B.
-    invalid: ['93', '4b', '14', '16']
+    invalid: ['5', '93', '4b', '14', '16']
   Ják utca:
     # 3/B: nincs ilyen, csak sima 3.
     # 9: sima 9 nincs, csak 9/A, 9/B.
@@ -176,6 +193,13 @@ filters:
     # 21/B: a páratlan oldalon a 13 az utolsó házszám.
     # 2/A: nincs ilyen, csak sima 2.
     invalid: ['21b', '2a']
+  Körte utca:
+    # 4: sima 4 nincs, csak 4/A, 4/B.
+    invalid: ['4']
+  Kosbor utca:
+    # 13: sima 13 nincs, csak 13/A, 13/B.
+    # 912: a páros oldalon a 16 az utolsó házszám.
+    invalid: ['13', '912']
   Katáng utca:
     # 6: sima 6 nincs, csak 6/1, 6/2.
     invalid: ['6']
@@ -248,6 +272,7 @@ filters:
     # 1: ez és a Bem József utca 6/A. közös telken van, házszám a Bem József utcáról van csak.
     # 9: ez a Szepesi utca, nincs épület.
     # 11, 13/A: egybenyitott telek, de csak 13/A házszám van.
+    # 19: sima 19 nincs, csak 19/1, 19/2.
     # 19/B: csak 19/1 és 19/2 van.
     # 21: ez és a Kazinczy utca 1/A. közös telken van, házszám a Kazinczy utcáról van csak.
     # TODO: Az 53, 55 nem található.
@@ -257,7 +282,9 @@ filters:
     # 40-42: egybenyitott telek, de csak 40. házszám van.
     # 44: a Szepesi utca helyén van, nincs telek.
     # TODO: A Liszt Ferenc út 74. és a Zöldike utca ???. közös telken van, házszámot sehol sem látok, de a bejárat a Zöldike utca felől van.
-    invalid: ['1', '9', '11', '13', '19b', '21', '28a', '28b', '28c', '42', '44', '74']
+    # 86: sima 86 nincs, csak 86/1, 86/2.
+    # 86: sima 88 nincs, csak 88/1, 88/2.
+    invalid: ['1', '9', '11', '13', '19', '19b', '21', '28a', '28b', '28c', '42', '44', '74', '86', '88']
   Lőcsei utca:
     # 17: a páratlan oldalon a 15 az utolsó házszám.
     # 10: ez és a Szigetvári utca 9. közös telken van, házszám a Szigetvári utcáról van csak.
@@ -335,6 +362,9 @@ filters:
     # 140: sima 155 nincs, csak 140/A, 140/B.
     # 456/B: a páros oldalon a 162 az utolsó házszám.
     invalid: ['97', '99b', '149', '151', '155', '18e', '76b', '78b', '122', '136a', '140', '456b']
+  Plébánia utca:
+    # 18: sima 18 nincs, csak 18/A, 18/B.
+    invalid: ['18']
   Pogány utca:
     ranges:
       - {start: '1', end: '11'}
@@ -395,13 +425,18 @@ filters:
     # 17: sima 17 nincs, csak 17/A, 17/B.
     # 2: sima 2 nincs, csak 2/A, 2/B.
     invalid: ['17', '2']
+  Szent Gellért utca:
+    # 3/9: nincs ilyen, csak 3/A, 3/B.
+    # 6: sima 6 nincs, csak 6/A, 6/B.
+    invalid: ['3/9', '6']
   Szentendrei utca:
     # 7: sima 7 nincs, csak 7/1, 7/2.
     # 101: a páratlan oldalon a 15 az utolsó házszám.
     # 105: a páratlan oldalon a 15 az utolsó házszám.
     # 113/A: a páratlan oldalon a 15 az utolsó házszám.
+    # 24: a páros oldalon a 18 az utolsó házszám.
     # 172: a páros oldalon a 18 az utolsó házszám.
-    invalid: ['7', '101', '105', '113a', '172']
+    invalid: ['7', '101', '105', '113a', '24', '172']
   Szentkorona utca:
     # 2: ez és a Tordai utca 42. közös telken van, házszám a Tordai útról van csak.
     # Az utolsó telkek a 31 és 34, nincsenek nagyobb házszámok.
@@ -443,6 +478,9 @@ filters:
     # 19: ez és a Gádor utca 62. közös telken van, házszám a Gádor utcáról van csak.
     # 2: ez és az Árpád utca 71. közös telken van, házszám az Árpád utcáról van csak.
     invalid: ['19', '2']
+  Tóth József utca:
+    # 614: a páros oldalon az 52 az utolsó házszám.
+    invalid: ['614']
   Turóci utca:
     # 1: ez és a Hollandi utca 23. közös telken van, házszám a Hollandi utcáról van csak.
     invalid: ['1']
@@ -467,7 +505,7 @@ filters:
       - {start: '3', end: '9'}
       - {start: '8', end: '10'}
   Zentai út:
-    # Területhatár, a Háros utca ketté végja. A másik része Budatétényben van.
+    # Területhatár, a Háros utca ketté vágja. A másik része Budatétényben van.
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '28'}
