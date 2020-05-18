@@ -5,7 +5,7 @@ python:
 dist: xenial
 before_script:
   - nvm install v10.16.3
-  - npm install -g eslint
+  - npm install -g eslint@7.0.0
 script: make check
 after_success:
   - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/vmiklos/osm-gimmisn/master/tools/travis-automerge"
