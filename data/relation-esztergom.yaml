@@ -31,7 +31,8 @@ street-filters:
   - Töltések közötti dűlő
   - Vaskapu dűlő
   # egyéb
-  - Körtélyes utca  # dupla
+  - Bocskoros kút  # Bocskoroskút dűlő, dupla
+  - Körtélyes utca  # Körtvélyes utca, dupla
   - Vadvirág köz  # Vadvirág utca néven fut, dupla
   # AMP utca
   # Démusz-villa utca - Kertváros, Temesvári utca végén
@@ -47,7 +48,6 @@ refstreets:
   'Bajcsy-Zsilinszky Endre út': 'Bajcsy-Zsilinszky út'
   'Bajor Ágoston utca': 'Bajor Ágost utca'
   'Bercsényi Miklós utca': 'Bercsényi utca'
-  'Bocskoroskút dűlő': 'Bocskoros kút'
   'Csendesvölgy utca': 'Csendes völgy utca'
   'Eper utca': 'Eper út'
   'Hegytető utca': 'Hegy-tető utca'
