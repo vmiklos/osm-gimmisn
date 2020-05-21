@@ -50,6 +50,10 @@ filters:
       - {start: '2', end: '12'}
   Fegyvernek utca:
     # panel építés megszűntette a 14-50 közti házszámokat
+    # 54a,54b: 54/I, 54/II
+    # 56-58: A házra ez ki van rakva, de vannak külön bejáratok: 56/1, 56/2, 58/1, 58/2
+    # 115a, 119c: épület betűjelek vannak, de a nem a házszámok részei, ref mezőben szerepelnek
+    invalid: ['54a', '54b', '115a', '119c']
     ranges:
       - {start: '1', end: '123'}
       - {start: '2', end: '12'}
@@ -76,13 +80,18 @@ filters:
       - {start: '2', end: '14'}
   Gerezd utca:
     ranges: []
+  Gyékényes utca:
+    # 56d: épület betűjelek vannak, de a nem a házszámok részei, ref mezőben szerepelnek
+    invalid: ['56d']
   Herend utca:
     ranges:
       - {start: '13', end: '29'}
       - {start: '10', end: '28'}
   Hunyadi János út:
+    # 9a, 9b: csak sima 9 van, ipartelep több számozott épülettel
+    # 12a: csak sima 12 van, ipartelep
     # 19 Savoya, 23 OBI, 162 volt házgyár
-    invalid: ['5', '13', '17', '21', '21a']
+    invalid: ['5', '9a', '9b', '12a', '13', '17', '19a', '21', '21a', '23a']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '16'}
@@ -112,6 +121,8 @@ filters:
       - {start: '9', end: '9'}
       - {start: '10', end: '10'}
   Kisköre tér:
+    # 3b: csak sima 3 van, 2-3-4 épület része, lehet régen betűjellel voltak a lépcsőházak
+    invalid: ['3b']
     interpolation: all
     ranges:
       - {start: '2', end: '4'}
@@ -122,10 +133,18 @@ filters:
       - {start: '11', end: '17'}
       - {start: '2', end: '20'}
   Kiskőrös utca:
+    # 3/3: csak sima 3 van
+    invalid: ['3/3']
     ranges:
       - {start: '1', end: '5'}
       - {start: '10', end: '12'}
   Kondorosi út:
+    # 2: 2/a Bermű Üzleti Park
+    # 4, 4b: 4/a block end, építkezés van
+    # 8: 8/a, 8/b
+    # 10: 10/a, 10/b
+    # 12b: 12/a
+    invalid: ['2', '4', '4b', '8', '10', '10k', '12b']
     ranges:
       - {start: '2', end: '14'}
       - {start: '18', end: '18'}
@@ -163,6 +182,8 @@ filters:
   Rátz László utca:
     ranges: []
   Sáfrány utca:
+    # 57: 57/a, 57/b
+    invalid: ['57']
     ranges:
       - {start: '1', end: '19'}
       - {start: '23', end: '81'}
@@ -175,9 +196,11 @@ filters:
       - {start: '2', end: '24'}
       - {start: '28', end: '50'}
   Szatmárhegy utca:
+    # 9: 7 után 11 jön
+    # 11*: csak sima 11 van
+    invalid: ['3/1', '9', '11/1', '11/2', '11/4', '11/5', '11k']
     ranges:
-      - {start: '1', end: '7'}
-      - {start: '11', end: '17'}
+      - {start: '1', end: '17'}
   Szerémi út:
     # paros nincs szamozva, de a lehetoseget meghagyjuk
     ranges:
@@ -198,6 +221,9 @@ filters:
       - {start: '1', end: '3'}
       - {start: '7', end: '13'}
       - {start: '2', end: '14'}
+  Vasvirág sor:
+    # 48: 48/a, 48/b
+    invalid: ['48']
   Verbéna utca:
     # páros oldalt újraszámozták az utcát 62 -> 48; 54-> 36 stb..
     ranges:
