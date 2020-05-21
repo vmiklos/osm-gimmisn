@@ -4,7 +4,7 @@ python:
   - "3.8"
 dist: xenial
 before_script:
-  - nvm install v10.16.3
+  - nvm install
   - npm install -g eslint@7.0.0
 script: make check
 after_success:
