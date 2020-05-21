@@ -65,6 +65,8 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Menyecske utca:
+    # 1-11, 19-37: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
+    invalid: ['1a', '3b', '5a', '7a', '9a', '11b', '19a', '25b']
     ranges:
       - {start: '1', end: '11'}
       - {start: '15', end: '37'}
