@@ -9,6 +9,11 @@ filters:
   Boldizsár utca:
     ranges: []
   Budaörsi út:
+    # 112abc: csak sima 112 a McDonalds/OMV komplexum
+    # 120c: csak sima 120, az egyik autóstelep a sok közül
+    # 146: 146a, 146b, 146c, 146d
+    # 148a: 148, 148d, 148e
+    invalid: ['112a', '112b', '112c', '120c', '146', '148a']
     ranges:
       - {start: '60', end: '66'}
       - {start: '78', end: '78'}
