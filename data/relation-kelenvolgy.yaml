@@ -22,6 +22,9 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '6', end: '12'}
+  Bánhida utca:
+    # 1 = Ringló út 56, 56/a
+    invalid: ['1']
   Bazsalikom utca:
     # 12a: csak sima 12 van
     # 13a: csak sima 13 van
@@ -29,6 +32,9 @@ filters:
     invalid: ['12a', '13a', '15b']
   Borszéki utca:
     ranges: []
+  Bezdán utca:
+    # 10 = Tó utca 2
+    invalid: ['10']
   Citera utca:
     # 3 = Túrkeve utca 4
     # 6b: 6, 6a
@@ -39,6 +45,9 @@ filters:
     ranges:
       - {start: '3', end: '5'}
       - {start: '4', end: '6'}
+  Csákány utca:
+    # 7 = Kecskeméti József utca 40
+    invalid: ['7']
   Csupor utca:
     # 1: 1a van csak
     # 3b: csak sima 3 van
@@ -87,11 +96,23 @@ filters:
     ranges:
       - {start: '1', end: '11'}
   Hunyadi Mátyás út:
+    # 2a: csak sima 2 van
+    # 5a: csak sima 5 van
+    # 9d: 9/a, 9/b
+    # 12a,12b: 12, 12ab
+    # 14a: 14, 14/b
+    # 24a: 24 a kapun, 24/b a házon, 24/a nincs kiírva sehol
     # 26: 26a, 26b
     # 27: 27a, 27b
     # 30a: 30, 30/b
     # 40a, 40b: csak sima 40 van
-    invalid: ['26', '27', '30a', '40a', '40b']
+    # 55a: csak sima 55 van, mindkét ház
+    # 59: 59a, 59b
+    # 65: 65a, 65b
+    # 70: 70a, 70b
+    # 75: 75a, 75b
+    # 72a: csak sima 72 van
+    invalid: ['2a', '5a', '9', '9d', '12a', '12b', '14a', '24a', '26', '27', '30a', '40a', '40b', '55a', '59', '65', '70', '72a', '75']
     ranges:
       - {start: '1', end: '79'}
       - {start: '2', end: '84'}
@@ -160,6 +181,7 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Marokszedő utca:
+    # 1 = Hunyadi Mátyás út 13
     # 5: 5a, 5b
     # 11a: csak sima 11 van már
     invalid: ['5', '11a']
@@ -183,6 +205,9 @@ filters:
     # 3a, 3b: csak 3 van kiírva, de van egy számozatlan ház
     # 24 = Péterhegyi út 98
     invalid: ['3a', '3b', '24']
+  Ózdi utca:
+    # 12 = Bánhida utca 28
+    invalid: ['12']
   Parittya utca:
     ranges:
       - {start: '3', end: '3'}
