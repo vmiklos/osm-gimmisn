@@ -1,6 +1,6 @@
 = Version descriptions
 
-== master
+== 6.0
 
 - The stats feature now has localized strings
 
