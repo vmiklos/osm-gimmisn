@@ -21,12 +21,12 @@ def set_language(language: str) -> None:
     tls["translations"] = gettext.translation("osm-gimmisn", localedir=localedir, languages=[language], fallback=True)
 
 
-def translate(fro: str) -> str:
-    """Translates input according to the current UI language."""
+def translate(english: str) -> str:
+    """Translates English input according to the current UI language."""
     tls = threading.current_thread.__dict__
     if "translations" not in tls.keys():
-        return fro
+        return english
 
-    return cast(str, tls["translations"].gettext(fro))
+    return cast(str, tls["translations"].gettext(english))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
