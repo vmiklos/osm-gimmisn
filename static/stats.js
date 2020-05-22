@@ -46,13 +46,13 @@ function addCharts(stats) {
                     ticks: { suggestedMin: 0, },
                     scaleLabel: {
                         display: true,
-                        labelString: "During this day"
+                        labelString: getString("str-daily-x-axis"),
                     },
                 }],
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "New house numbers"
+                        labelString: getString("str-daily-y-axis"),
                     },
                 }]
             },
@@ -87,20 +87,20 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "New house numbers, last year, as of " + progress.date,
+                text: getString("str-monthly-title").replace("{}", progress.date),
             },
             scales: {
                 xAxes: [{
                     ticks: { suggestedMin: 0, },
                     scaleLabel: {
                         display: true,
-                        labelString: "During this month"
+                        labelString: getString("str-monthly-x-axis"),
                     },
                 }],
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "New house numbers"
+                        labelString: getString("str-monthly-y-axis"),
                     },
                 }]
             },
@@ -135,19 +135,19 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "All house numbers, last year, as of " + progress.date,
+                text: getString("str-monthlytotal-title").replace("{}", progress.date),
             },
             scales: {
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "Latest for this month"
+                        labelString: getString("str-monthlytotal-x-axis"),
                     },
                 }],
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "All house numbers"
+                        labelString: getString("str-monthlytotal-y-axis"),
                     },
                 }]
             },
@@ -183,19 +183,19 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "All house numbers, last 2 weeks, as of " + progress.date,
+                text: getString("str-dailytotal-title").replace("{}", progress.date),
             },
             scales: {
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "At the start of this day"
+                        labelString: getString("str-dailytotal-x-axis"),
                     },
                 }],
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "All house numbers"
+                        labelString: getString("str-dailytotal-y-axis"),
                     },
                 }]
             },
@@ -230,20 +230,20 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "Top house number editors, as of " + progress.date,
+                text: getString("str-topusers-title").replace("{}", progress.date),
             },
             scales: {
                 xAxes: [{
                     ticks: { suggestedMin: 0, },
                     scaleLabel: {
                         display: true,
-                        labelString: "User name"
+                        labelString: getString("str-topusers-x-axis"),
                     },
                 }],
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "Number of house numbers last changed by this user",
+                        labelString: getString("str-topusers-y-axis"),
                     },
                 }]
             },
@@ -281,20 +281,20 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "Coverage is " + progress.percentage + "%, as of " + progress.date,
+                text: getString("str-progress-title").replace("{1}", progress.percentage).replace("{2}", progress.date),
             },
             scales: {
                 xAxes: [{
                     ticks: { min: 0.0, },
                     scaleLabel: {
                         display: true,
-                        labelString: "Number of house numbers in database",
+                        labelString: getString("str-progress-x-axis"),
                     },
                 }],
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "Data source",
+                        labelString: getString("str-progress-y-axis"),
                     },
                 }]
             },

@@ -296,6 +296,23 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
     with doc.tag("div", style="display: none;"):
         string_pairs = [
             ("str-daily-title", _("New house numbers, last 2 weeks, as of {}")),
+            ("str-daily-x-axis", _("During this day")),
+            ("str-daily-y-axis", _("New house numbers")),
+            ("str-monthly-title", _("New house numbers, last year, as of {}")),
+            ("str-monthly-x-axis", _("During this month")),
+            ("str-monthly-y-axis", _("New house numbers")),
+            ("str-monthlytotal-title", _("All house numbers, last year, as of {}")),
+            ("str-monthlytotal-x-axis", _("Latest for this month")),
+            ("str-monthlytotal-y-axis", _("All house numbers")),
+            ("str-dailytotal-title", _("All house numbers, last 2 weeks, as of {}")),
+            ("str-dailytotal-x-axis", _("At the start of this day")),
+            ("str-dailytotal-y-axis", _("All house numbers")),
+            ("str-topusers-title", _("Top house number editors, as of {}")),
+            ("str-topusers-x-axis", _("User name")),
+            ("str-topusers-y-axis", _("Number of house numbers last changed by this user")),
+            ("str-progress-title", _("Coverage is {1}%, as of {2}")),
+            ("str-progress-x-axis", _("Number of house numbers in database")),
+            ("str-progress-y-axis", _("Data source")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}

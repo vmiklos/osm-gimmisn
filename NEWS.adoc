@@ -2,7 +2,9 @@
 
 == master
 
-- The stats feauture now has good test coverage
+- The stats feature now has localized strings
+
+- The stats feature now has good test coverage
 
 - Resolves: gh#441 cron can now again update inactive relations once a month
 
