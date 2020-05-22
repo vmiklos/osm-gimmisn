@@ -292,6 +292,18 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
     with doc.tag("script", src=prefix + "/static/stats.js"):
         pass
 
+    # Emit localized strings for JS purposes.
+    with doc.tag("div", style="display: none;"):
+        string_pairs = [
+            ("str-daily-title", _("New house numbers, last 2 weeks, as of {}")),
+        ]
+        for key, value in string_pairs:
+            kwargs: Dict[str, str] = {}
+            kwargs["id"] = key
+            kwargs["data-value"] = value
+            with doc.tag("div", **kwargs):
+                pass
+
     title_ids = [
         (_("New house numbers"), "daily"),
         (_("All house numbers"), "dailytotal"),

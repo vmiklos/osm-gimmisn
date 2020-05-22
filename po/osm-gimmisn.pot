@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-12 15:31+0100\n"
+"POT-Creation-Date: 2020-05-22 22:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,19 +22,15 @@ msgstr ""
 msgid " (existing: {0}, ready: {1}%)."
 msgstr ""
 
-#: webframe.py:65 webframe.py:71 webframe.py:93 webframe.py:103
-msgid "(may take seconds)"
-msgstr ""
-
 #: wsgi.py:659
 msgid "Add new area"
 msgstr ""
 
-#: webframe.py:286
+#: webframe.py:309
 msgid "All house numbers"
 msgstr ""
 
-#: webframe.py:288
+#: webframe.py:311
 msgid "All house numbers, monthly"
 msgstr ""
 
@@ -42,11 +38,11 @@ msgstr ""
 msgid "Area"
 msgstr ""
 
-#: webframe.py:173 wsgi.py:651
+#: webframe.py:182 wsgi.py:651
 msgid "Area boundary"
 msgstr ""
 
-#: webframe.py:159
+#: webframe.py:162
 msgid "Area list"
 msgstr ""
 
@@ -54,11 +50,11 @@ msgstr ""
 msgid "Call Overpass to create"
 msgstr ""
 
-#: webframe.py:92 webframe.py:102
+#: webframe.py:86 webframe.py:95
 msgid "Call Overpass to update"
 msgstr ""
 
-#: webframe.py:290
+#: webframe.py:313
 msgid "Coverage"
 msgstr ""
 
@@ -66,15 +62,15 @@ msgstr ""
 msgid "Create from reference"
 msgstr ""
 
-#: webframe.py:183
+#: webframe.py:192
 msgid "Documentation"
 msgstr ""
 
-#: webframe.py:128 wsgi.py:648
+#: webframe.py:135 wsgi.py:648
 msgid "Existing house numbers"
 msgstr ""
 
-#: webframe.py:165 wsgi.py:650
+#: webframe.py:140 wsgi.py:650
 msgid "Existing streets"
 msgstr ""
 
@@ -94,11 +90,11 @@ msgstr ""
 msgid "House number coverage"
 msgstr ""
 
-#: areas.py:489
+#: areas.py:512
 msgid "House numbers"
 msgstr ""
 
-#: webframe.py:248
+#: webframe.py:257
 #, python-brace-format
 msgid "Internal error when serving {0}"
 msgstr ""
@@ -107,23 +103,27 @@ msgstr ""
 msgid "Last update: "
 msgstr ""
 
-#: areas.py:488
+#: areas.py:511
 msgid "Missing count"
 msgstr ""
 
-#: webframe.py:117
+#: webframe.py:109
 msgid "Missing house numbers"
 msgstr ""
 
-#: webframe.py:133
+#: webframe.py:121
 msgid "Missing streets"
 msgstr ""
 
-#: webframe.py:285
+#: webframe.py:308
 msgid "New house numbers"
 msgstr ""
 
-#: webframe.py:287
+#: webframe.py:298
+msgid "New house numbers, last 2 weeks, as of {}"
+msgstr ""
+
+#: webframe.py:310
 msgid "New house numbers, monthly"
 msgstr ""
 
@@ -159,16 +159,16 @@ msgstr ""
 msgid "No street list: "
 msgstr ""
 
-#: webframe.py:363
+#: webframe.py:386
 #, python-brace-format
 msgid "No such relation: {0}"
 msgstr ""
 
-#: webframe.py:307
+#: webframe.py:330
 msgid "Note"
 msgstr ""
 
-#: util.py:370
+#: util.py:403
 msgid "Note: wait for {} seconds"
 msgstr ""
 
@@ -188,12 +188,12 @@ msgstr ""
 msgid "OpenStreetMap is possibly missing the below {0} streets."
 msgstr ""
 
-#: util.py:366
+#: util.py:399
 #, python-brace-format
 msgid "Overpass error: {0}"
 msgstr ""
 
-#: webframe.py:75
+#: webframe.py:176
 msgid "Overpass turbo"
 msgstr ""
 
@@ -201,7 +201,7 @@ msgstr ""
 msgid "Overpass turbo query for the below streets"
 msgstr ""
 
-#: webframe.py:178
+#: webframe.py:187
 msgid "Statistics"
 msgstr ""
 
@@ -209,11 +209,11 @@ msgstr ""
 msgid "Street coverage"
 msgstr ""
 
-#: areas.py:487 wsgi.py:204
+#: areas.py:510 wsgi.py:204
 msgid "Street name"
 msgstr ""
 
-#: webframe.py:309
+#: webframe.py:332
 msgid ""
 "These statistics are provided purely for interested editors, and are not\n"
 "intended to reflect quality of work done by any given editor in OSM. If you "
@@ -223,15 +223,15 @@ msgid ""
 "more meaningful than a lot of useless work."
 msgstr ""
 
-#: webframe.py:289
+#: webframe.py:312
 msgid "Top house number editors"
 msgstr ""
 
-#: webframe.py:64 webframe.py:82
+#: webframe.py:64 webframe.py:76
 msgid "Update from OSM"
 msgstr ""
 
-#: webframe.py:70 webframe.py:87
+#: webframe.py:69 webframe.py:81
 msgid "Update from reference"
 msgstr ""
 
@@ -251,7 +251,7 @@ msgstr ""
 msgid "View missing house numbers"
 msgstr ""
 
-#: webframe.py:97 webframe.py:107
+#: webframe.py:90 webframe.py:99
 msgid "View query"
 msgstr ""
 

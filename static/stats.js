@@ -6,6 +6,10 @@
 
 /* global Chart */
 
+function getString(key) {
+    return document.getElementById(key).getAttribute("data-value");
+}
+
 function addCharts(stats) {
     var daily = stats.daily;
     var dailytotal = stats.dailytotal;
@@ -35,7 +39,7 @@ function addCharts(stats) {
         options: {
             title: {
                 display: true,
-                text: "New house numbers, last 2 weeks, as of " + progress.date,
+                text: getString("str-daily-title").replace("{}", progress.date),
             },
             scales: {
                 xAxes: [{
