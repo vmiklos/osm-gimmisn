@@ -184,7 +184,7 @@ filters:
     # 1 = Hunyadi Mátyás út 13
     # 5: 5a, 5b
     # 11a: csak sima 11 van már
-    invalid: ['5', '11a']
+    invalid: ['1', '5', '11a']
   Mélykút utca:
     # 14: 14a, 14b
     invalid: ['14']
