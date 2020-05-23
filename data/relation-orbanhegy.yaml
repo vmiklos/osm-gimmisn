@@ -92,4 +92,8 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '18'}
+  Tamás köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '4'}
 source: survey
