@@ -237,6 +237,10 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '22'}
+  Tamás köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '4'}
   Tartsay Vilmos utca:
     ranges:
       - {start: '1', end: '21'}
