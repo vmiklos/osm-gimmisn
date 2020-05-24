@@ -59,7 +59,8 @@ filters:
       - {start: '13', end: '17'}
       - {start: '2', end: '14'}
   Lágymányosi utca:
-    invalid: ['14a', '14b']
+    # 17: alagsori fodrászat - termászetben Vak Bottyán utca 2 felől van a bejárat, ez van a honlapján is
+    invalid: ['14a', '14b', '17']
   Magyar tudósok körútja:
     # 9 inforpark
     invalid: ['2a', '2b', '2c', '2d', '2q']
