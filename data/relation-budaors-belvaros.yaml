@@ -23,6 +23,9 @@ filters:
   Csap utca:
     ranges:
       - {start: '1', end: '99'}
+  Csata utca:
+    ranges:
+      - {start: '2', end: '22'}
   Csillag utca:
     interpolation: all
     ranges:
@@ -100,6 +103,10 @@ filters:
       - {start: '2', end: '16'}
   Temesvári utca:
     ranges: []
+  Törökbálinti utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '34'}
   Víg utca:
     ranges:
       - {start: '1', end: '51'}
