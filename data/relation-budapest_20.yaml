@@ -17,7 +17,9 @@ refstreets:
   'Tinódi utca': 'Tinódy utca'
   'Vereckei utca': 'Verecke utca'
   # utcajegyzék = REF, OSM eltér
+  'Biró Mihály utca': 'Bíró Mihály utca'  # utcanévtábla = osm
   'Knézich utca': 'Knézits utca'  # utcanévtábla = osm
   'Téglagyártó utca': 'Téglagyártó út'  # utcanévtábla = osm
+
 source: survey
 inactive: true
