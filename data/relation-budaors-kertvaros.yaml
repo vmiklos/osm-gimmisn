@@ -110,7 +110,7 @@ filters:
   Őszibarack utca:
     ranges:
       - {start: '6', end: '50'}
-      - {start: '7', end: '47'}
+      - {start: '7', end: '29'}
   Ötvös utca:
     ranges:
       - {start: '1', end: '25'}
