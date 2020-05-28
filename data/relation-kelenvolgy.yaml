@@ -117,8 +117,9 @@ filters:
       - {start: '1', end: '79'}
       - {start: '2', end: '84'}
   Husáng utca:
+    # 1-3  = Ringló út 128, de egyik sincs kiírva
     # 11 = Olajfa utca 21
-    invalid: ['11']
+    invalid: ['3', '11']
   Induló utca:
     # 4a: 4, 4b
     invalid: ['4a']
@@ -161,9 +162,11 @@ filters:
     # 69/9: elírás 69/a, 69/b
     # 73: 73/a, 73/b
     # 75a: csak sima 75 van
-    # 97b: csak sima 97 van
+    # 95/1: régi hászám, a házon 95 van
+    # 92/2: nem létezik, csak sima 95 van
+    # 97b: csak 97 és 97/a van
     interpolation: 'all'
-    invalid: ['23a', '27b', '37b', '39a', '39b', '63a', '65a', '69', '73', '75a', '69/9', '97b']
+    invalid: ['23a', '27b', '37b', '39a', '39b', '63a', '65a', '69', '73', '75a', '69/9', '95/1', '95/2', '97b']
     ranges:
       - {start: '19', end: '111'}
       - {start: '123', end: '139'}
