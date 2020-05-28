@@ -165,7 +165,9 @@ filters:
   Makó Pál utca:
     invalid: ['2']
   Mezőkövesd út:
+    # 3a,b,c,d: ezek lépcsőházak, bejárat magánterületről, csak 1 főkapu van 3-as számmal
     # MOL kút házszáma a Hunyadi János úton kérdéses
+    invalid: ['3a', '3b', '3c', '3d']
     ranges:
       - {start: '1', end: '7'}
       - {start: '4', end: '16'}
