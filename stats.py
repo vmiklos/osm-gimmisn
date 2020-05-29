@@ -51,6 +51,21 @@ def handle_topusers(src_root: str, j: Dict[str, Any]) -> None:
     j["topusers"] = ret
 
 
+def handle_user_total(src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
+    """Shows # of total users / day."""
+    ret = []
+    for day_offset in range(day_range, -1, -1):
+        day_delta = datetime.date.today() - datetime.timedelta(day_offset)
+        day = day_delta.strftime("%Y-%m-%d")
+        count_path = os.path.join(src_root, "%s.usercount" % day)
+        if not os.path.exists(count_path):
+            break
+        with open(count_path, "r") as stream:
+            count = int(stream.read().strip())
+        ret.append([day, count])
+    j["usertotal"] = ret
+
+
 def handle_daily_new(src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
     """Shows # of new housenumbers / day."""
     ret = []
@@ -148,6 +163,7 @@ def generate_json(state_dir: str, stream: TextIO) -> None:
     j: Dict[str, Any] = {}
     handle_progress(state_dir, j)
     handle_topusers(state_dir, j)
+    handle_user_total(state_dir, j)
     handle_daily_new(state_dir, j)
     handle_daily_total(state_dir, j)
     handle_monthly_new(state_dir, j)
