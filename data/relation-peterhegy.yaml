@@ -12,7 +12,7 @@ filters:
     # 8 nincs
     # 16/2: 16a van
     # 36 nincs
-    # 38a: 2 ház van de mindkettőhöz a 8 van kiírva
+    # 38a: 2 ház van de mindkettőhöz a 38 van kiírva
     invalid: ['8', '16/2', '36', '36a', '38a']
     ranges:
       - {start: '2', end: '38'}
@@ -22,8 +22,14 @@ filters:
   Éva utca:
     # Az Éva utca 1. és a Péterhegyi út 51/B. közös telken van, házszám a Péterhegyi útról van csak.
     # Az Éva utca 2. és a Péterhegyi út 53. közös telken van, házszám a Péterhegyi útról van csak.
+    # 21: 21/a és 21/b van.
+    # 27-33 között a Péterhegyi köz felől van a számozás és a bejárat, ebből az utcából nincsenek kirakva házszámok.
+    # 28a: 28 és 28/b van.
+    # 38: 36 után 40 következik.
+    invalid: ['21', '28a', '38']
     ranges:
-      - {start: '3', end: '35'}
+      - {start: '3', end: '25'}
+      - {start: '35', end: '35'}
       - {start: '4', end: '46'}
   Kapolcs utca:
     # Nincs 12 és 14, a 10 után közvetlenül a 16 következik.
@@ -48,14 +54,19 @@ filters:
     # Valószínű Karéjos utca lesz belőle, ha lesznek házszámok, de nincs kitáblázva, csak a szenyvizátemelőn
     ranges: []
   Péterhegyi köz:
-    # A páros oldal érdekesen számozódik: …, 8, 10, 12, 10/A, 12/A, 14, 20, …, 34, 38, …
+    # A páros oldal érdekesen számozódik: …, 8, 10, 12, 10/A, 12/A, 14, 20, …, 34, 38, 40, 46, 48 …
     # Nincs 16 és 18, a 14 után közvetlenül a 20 következik.
-    # Nincs 36, a 34 után közvetlenül a 38 következik.
+    # 32: TODO = Éva utca 31, de arról az oldalról nincs házszám.
+    # 37: ilyen nincs
+    # Nincs 36, a 34 után közvetlenül a 38 következik, eredetileg 36-38 volt a telek 2 házzal, de a másik házból Éva utca 35 lett.
+    # Nincs 42, 40 = Éva utca 44, 42 lenne az Éva utca 46, de arra ez nincs kiírva.
+    # 48a: 2 ház van de mindkettőhöz 48 van kiírva, a hátsó bejárata hátulról a 46 bal oldalán lévő kapun keresztül.
+    invalid: ['37', '42', '48a']
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '45'}
       - {start: '2', end: '14'}
       - {start: '20', end: '34'}
-      - {start: '38', end: '98'}
+      - {start: '38', end: '58'}
   Péterhegyi lejtő:
     # Nincs 43, a Kápolna köz van a helyén. A Kápolna köz előtt 41, a Kápolna köz után 45 van.
     ranges:
