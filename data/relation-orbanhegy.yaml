@@ -50,8 +50,8 @@ filters:
       - {start: '20', end: '20'}
   Tamási Áron utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '44', end: '98'}
+      - {start: '1', end: '59'}
+      - {start: '44', end: '76'}
   Tóth Lőrinc utca:
     ranges:
       - {start: '27', end: '43'}
@@ -96,4 +96,8 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '4'}
+  Hangya lépcső:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
 source: survey
