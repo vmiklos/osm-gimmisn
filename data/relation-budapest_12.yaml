@@ -90,6 +90,10 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '30'}
+  Hangya lépcső:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
   Határőr út:
     ranges:
       - {start: '1', end: '65'}
@@ -241,6 +245,10 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '4'}
+  Tamási Áron utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '76'}
   Tartsay Vilmos utca:
     ranges:
       - {start: '1', end: '21'}
