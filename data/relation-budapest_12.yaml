@@ -246,8 +246,10 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '4'}
   Tamási Áron utca:
+    # 45 nincs
+    invalid: ['45']
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '59'}
       - {start: '2', end: '76'}
   Tartsay Vilmos utca:
     ranges:
