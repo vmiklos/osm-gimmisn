@@ -1,0 +1,34 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Máv őrház
+  - Máv vasútállomás
+  # megszűnt
+  - Forrásföldi utca  # https://www.openstreetmap.org/way/8075296
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # utcajegyzék = OSM: ref hibás
+  'Csordakút út': 'Csordakút utca'
+  'Fülöpszállás utca': 'Fülöpszállás út'
+  'Kőhúr utca': 'Kőhur utca'
+  'Nagy-Hangács köz': 'Nagy-hangács köz'
+  'Nagy-Hangács utca': 'Nagy-hangács utca'
+  'Orgoványiszőlő dűlő': 'Orgoványi szőlő'
+  'Pallós utca': 'Pallos utca'
+  'Peregi út': 'Peregi utca'
+  'Szabad rét utca': 'Szabadrét utca'
+  # utcajegyzék = REF: OSM eltér, utcatábla = osm
+  'Pestvidéki utca': 'Pestvidék utca'
+  'Riszti János utca': 'Risztics János utca'
+  'Thorotzkay Péter gróf utca': 'Thorotzkay Péter utca'
+  'Tói malom utca': 'Tómalom utca'
+  # utcajegyzék = REF: OSM hibás, nincs szabadon felhasználható kép
+  'Agyagdombi út': 'Agyagdombi dűlő'
+  'Bartók Béla út': 'Bartók Béla utca'
+  'Báthori utca': 'Báthory utca'
+  'Fuchsszőlő utca': 'Fuchs-szőlő utca'
+  'Gólya utca': 'Golyófogó utca'
+  'Heltai Jenő tér': 'Heltai tér'
+source: survey
+inactive: true
