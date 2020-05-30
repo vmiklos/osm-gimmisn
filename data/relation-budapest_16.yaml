@@ -1,0 +1,21 @@
+missing-streets: 'yes'
+filters: {}
+# Paulheim József tér - Pilóta utca 27-nél
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Forrásmajori dűlőút': 'Forrásmajori dűlő'
+  # utcajegyzék = OSM: ref hibás
+  'Szent Korona utca': 'Szent korona utca'
+  # utcajegyzék = REF: OSM eltér, utcatábla = osm
+  'Brassói utca': 'Brassói út'
+  'Döbrőce utca': 'Döbröce utca'
+  'Fehér sas utca': 'Fehérsas utca'
+  'Ladháza utca': 'Ládháza utca'
+  # utcajegyzék = REF: OSM hibás, nincs szabadon felhasználható kép
+  'Centenáriumi sétány': 'Centenárium sétány'
+  'Hét vezér utca': 'Hétvezér utca'
+  'Knézich utca': 'Knézits utca'
+  'Margitház utca': 'Margitháza utca'
+  'Nyitrai utca': 'Nyitra utca'
+source: survey
+inactive: true
