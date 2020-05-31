@@ -3,5 +3,11 @@ filters:
   # Hrsz van nem hsz. osm 045/2 > ref 45/2
   Barcfa dűlő:
     ranges: []
+street-filters:
+  # dűlők
+  - Bárocadűlő  # Báróca
+  - Felsőrét dűlő  # Felsőrét
+  - Mocsárhegy  # Mocsár
+  - Tő-dülő dűlő  # Tő-dűlő
 source: survey
 inactive: true
