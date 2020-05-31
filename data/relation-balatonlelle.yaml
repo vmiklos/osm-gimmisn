@@ -1,3 +1,39 @@
-filters: {}
+filters:
+  Dr. Kiss Károly utca:
+    show-refstreet: false
+  Szent László utca:
+    show-refstreet: false
+  Zrínyi Miklós utca:
+    show-refstreet: false
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Irmapuszta
+  # - Kishegy telep - Konyári Pince
+  - Maort telep
+  - Öreghegy
+  - Pósatanya
+  - Rádpuszta
+  - Tóthegy tanya
+  - Várszó dűlő
+  # Fonyó utca - https://www.openstreetmap.org/way/810235926
+  # nem találtam
+  # Kastély utca  - Rádpuszta
+  # Szőlősor utca - Rádpuszta
+  # Római út - talán ez: https://www.openstreetmap.org/way/95976804
+refstreets:
+  # helyesírás
+  'Dr. Kiss Károly utca': 'Dr.Kiss Károly utca'
+  'Szent László utca': 'Szt.László utca'
+  'Zrínyi Miklós utca': 'Zrinyi Miklós utca'
+  # todo
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'
+  'Dobó Katica utca': 'Dobó Katalin utca'
+  'Hajnal utca': 'Hajnalka utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Kölcsey Ferenc utca': 'Kölcsey utca'
+  'Margaréta köz': 'Margaréta utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Rózsavölgyi köz': 'Rózsavölgy köz'
+  'Szent István utca': 'Szent István út'
 source: survey
 inactive: true
