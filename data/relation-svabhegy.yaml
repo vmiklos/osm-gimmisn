@@ -50,6 +50,9 @@ filters:
     ranges:
       - {start: '2', end: '12'}
       - {start: '1', end: '99'}
+  Dalma út:
+    # No housenumbers here.
+    ranges: []
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Szépkilátás út': 'Szép kilátás út'
