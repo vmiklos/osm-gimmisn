@@ -235,11 +235,12 @@ class TestHandleMonthlyTotal(unittest.TestCase):
         with unittest.mock.patch('config.get_abspath', get_abspath):
             src_root = get_abspath("workdir/stats")
             j: Dict[str, Any] = {}
-            stats.handle_monthly_total(src_root, j, month_range=0)
+            with unittest.mock.patch('datetime.date', MockDate):
+                stats.handle_monthly_total(src_root, j, month_range=0)
             monthlytotal = j["monthlytotal"]
             self.assertEqual(len(monthlytotal), 2)
             self.assertEqual(monthlytotal[0], ["2020-04", 253027])
-            self.assertEqual(monthlytotal[1], ["2020-05", 3])
+            self.assertEqual(monthlytotal[1], ["2020-05", 254651])
 
 
 if __name__ == '__main__':
