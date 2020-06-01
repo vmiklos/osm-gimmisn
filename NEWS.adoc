@@ -1,5 +1,9 @@
 = Version descriptions
 
+== master
+
+- The stats feature now tracks the count of house number editors over time
+
 == 6.0
 
 - The stats feature now has localized strings

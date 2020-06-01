@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: osm-gimmisn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-22 22:23+0200\n"
-"PO-Revision-Date: 2020-05-22 22:28+0200\n"
+"POT-Creation-Date: 2020-06-01 16:34+0200\n"
+"PO-Revision-Date: 2020-06-01 16:37+0200\n"
 "Last-Translator: Miklos Vajna <osm-gimmisn@vmiklos.hu>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -26,7 +26,15 @@ msgstr " (meglévő: {0}, készültség: {1}%)."
 msgid "Add new area"
 msgstr "Új terület hozzáadása"
 
-#: webframe.py:306 webframe.py:309 webframe.py:326
+#: webframe.py:314
+msgid "All editors"
+msgstr "Összes szerkesztő"
+
+#: webframe.py:333
+msgid "All house number editors"
+msgstr "Összes házszám szerkesztő"
+
+#: webframe.py:306 webframe.py:309 webframe.py:329
 msgid "All house numbers"
 msgstr "Minden házszám"
 
@@ -38,7 +46,7 @@ msgstr "Összes házszám, utolsó 2 hét, frissítve: {}"
 msgid "All house numbers, last year, as of {}"
 msgstr "Összes házszám, utolsó 2 hét, frissítve: {}"
 
-#: webframe.py:328
+#: webframe.py:331
 msgid "All house numbers, monthly"
 msgstr "Minden házszám, havonta"
 
@@ -66,11 +74,11 @@ msgstr "Létrehozás Overpass hívásával"
 msgid "Call Overpass to update"
 msgstr "Frissítés Overpass hívásával"
 
-#: webframe.py:330
+#: webframe.py:334
 msgid "Coverage"
 msgstr "Lefedettség"
 
-#: webframe.py:313
+#: webframe.py:316
 #, python-brace-format
 msgid "Coverage is {1}%, as of {2}"
 msgstr "A lefedettég {1}%, frissítve: {2}"
@@ -79,7 +87,7 @@ msgstr "A lefedettég {1}%, frissítve: {2}"
 msgid "Create from reference"
 msgstr "Létrehozás referenciából"
 
-#: webframe.py:315
+#: webframe.py:318
 msgid "Data source"
 msgstr "Adatforrás"
 
@@ -148,7 +156,7 @@ msgstr "Hiányzó házszámok"
 msgid "Missing streets"
 msgstr "Hiányzó utcák"
 
-#: webframe.py:300 webframe.py:303 webframe.py:325
+#: webframe.py:300 webframe.py:303 webframe.py:328
 msgid "New house numbers"
 msgstr "Új házszámok"
 
@@ -160,7 +168,7 @@ msgstr "Új házszámok, utolsó 2 hét, frissítve: {}"
 msgid "New house numbers, last year, as of {}"
 msgstr "Új házszámok, elmúlt év, frissítve: {}"
 
-#: webframe.py:327
+#: webframe.py:330
 msgid "New house numbers, monthly"
 msgstr "Új házszámok, havonta"
 
@@ -196,12 +204,12 @@ msgstr "Nincsenek referencia utcák"
 msgid "No street list: "
 msgstr "Nincsen utcalista: "
 
-#: webframe.py:403
+#: webframe.py:407
 #, python-brace-format
 msgid "No such relation: {0}"
 msgstr "Nincs ilyen reláció: {0}"
 
-#: webframe.py:347
+#: webframe.py:351
 msgid "Note"
 msgstr "Megjegyzés"
 
@@ -209,7 +217,17 @@ msgstr "Megjegyzés"
 msgid "Note: wait for {} seconds"
 msgstr "Megjegyzés: {} másodperc várakozás szükséges"
 
-#: webframe.py:314
+#: webframe.py:315
+msgid ""
+"Number of editors, at least one housenumber is last changed by these users"
+msgstr ""
+"Szerkesztők száma, legalább egy házszámot ezek a szerkesztők változtattak meg utoljára"
+
+#: webframe.py:313
+msgid "Number of house number editors, as of {}"
+msgstr "Házszám szerkesztők száma, frissítve: {}"
+
+#: webframe.py:317
 msgid "Number of house numbers in database"
 msgstr "Adatbázisban szereplő házszámok száma"
 
@@ -260,7 +278,7 @@ msgstr "Utca lefedettség"
 msgid "Street name"
 msgstr "Utcanév"
 
-#: webframe.py:349
+#: webframe.py:353
 msgid ""
 "These statistics are provided purely for interested editors, and are not\n"
 "intended to reflect quality of work done by any given editor in OSM. If you "
@@ -274,7 +292,7 @@ msgstr ""
 "használni, hogy motiváljad magad, az rendben van, de ne felejtsd, hogy "
 "kevesebb hasznos munka többet ér, mint sok haszontalan munka."
 
-#: webframe.py:329
+#: webframe.py:332
 msgid "Top house number editors"
 msgstr "Legaktívabb házszám szerkesztők"
 

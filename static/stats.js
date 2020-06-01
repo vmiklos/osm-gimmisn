@@ -16,6 +16,7 @@ function addCharts(stats) {
     var monthly = stats.monthly;
     var monthlytotal = stats.monthlytotal;
     var topusers = stats.topusers;
+    var usertotal = stats.usertotal;
     var progress = stats.progress;
     var trendlineOptions = {
         style: "rgba(255,105,180, .8)",
@@ -244,6 +245,54 @@ function addCharts(stats) {
                     scaleLabel: {
                         display: true,
                         labelString: getString("str-topusers-y-axis"),
+                    },
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    align: "top",
+                    anchor: "end",
+                }
+            },
+            tooltips: {
+                enabled: false,
+            },
+            legend: {
+                display: false,
+            },
+        }
+    });
+
+    var usertotalData = {
+        // usertotal is a list of label-data pairs.
+        labels: usertotal.map(x => x[0]),
+        datasets: [{
+            backgroundColor: "rgba(0, 255, 0, 0.5)",
+            data: usertotal.map(x => x[1]),
+        }]
+
+    };
+    var userTotalCtx = document.getElementById("usertotal").getContext("2d");
+    new Chart(userTotalCtx, {
+        type: "bar",
+        data: usertotalData,
+        options: {
+            title: {
+                display: true,
+                text: getString("str-usertotal-title").replace("{}", progress.date),
+            },
+            scales: {
+                xAxes: [{
+                    ticks: { suggestedMin: 0, },
+                    scaleLabel: {
+                        display: true,
+                        labelString: getString("str-usertotal-x-axis"),
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: getString("str-usertotal-y-axis"),
                     },
                 }]
             },
