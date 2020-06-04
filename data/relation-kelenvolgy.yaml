@@ -262,8 +262,9 @@ filters:
       - {start: '2', end: '130'}
   Solt utca:
     # 3a, 3b: csak sima 3 van
+    # 7b: csak 7a van
     # 23b: csak sima 23 van
-    invalid: ['3a', '3b', '23b']
+    invalid: ['3a', '3b', '7b', '23b']
     ranges:
       - {start: '1', end: '37'}
   Szabadharcosok útja:
@@ -274,10 +275,9 @@ filters:
     # 2 = Ringló út 68
     # 17 = Hunyadi Mátyás út 33
     invalid: ['1', '2', '17']
-  #  Szarkaláb utca:
-  # nincs táblázva semmi, az utca sem látszik, egy kapubejárónak tűnik
-  # TODO: fel kell mérni még egyszer
-  #   ranges: []
+  Szarkaláb utca:
+    # nincs táblázva semmi, az utca pár méter, aztán egy kapuval le van zárva, a kapun Olajbogyó utca 3 van
+    ranges: []
   Székelykapu utca:
     # 9 és 9/B-11, nem tudja bontani
     invalid: ['9a', '9b', '11']

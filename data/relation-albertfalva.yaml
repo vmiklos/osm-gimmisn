@@ -113,6 +113,8 @@ filters:
       - {start: '1', end: '5'}
       - {start: '4', end: '6'}
   Kenderes utca:
+    # 8/2: csak sima 8 van
+    invalid: ['8/2']
     ranges:
       - {start: '4', end: '8'}
       - {start: '1', end: '13'}
@@ -150,6 +152,8 @@ filters:
       - {start: '18', end: '18'}
       - {start: '28', end: '82'}
   Körmend utca:
+    # 6/2: csak sima 6 van
+    invalid: ['6/2']
     ranges:
       - {start: '1', end: '7'}
       - {start: '11', end: '15'}

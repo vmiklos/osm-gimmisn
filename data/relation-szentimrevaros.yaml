@@ -1,8 +1,17 @@
 missing-streets: 'no'
 filters:
+  Ábel Jenő utca:
+    # 33: 33/a, illetve 33/b = Karolina út 38/b
+    invalid: ['33', '6/0']
   Alsóhegy utca:
     ranges:
       - {start: '32', end: '44'}
+  Badacsonyi utca:
+    # 1b = Villányi út 38
+    # 5: 5/a, 5/b
+    # 13b = Diószegi út 49-51
+    # 15b = Diószegi út 50/a
+    invalid: ['1b', '5', '13a', '13b', '15b']
   Bartók Béla út:
     ranges:
       # 43-47 egyben
@@ -17,15 +26,33 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
+  Dávid Ferenc utca:
+    # 1: 1/a, 1/b
+    # 2: 2/a, 2/b
+    # 21, 21b = Bocskai út 47-49
+    invalid: ['1', '1/1', '2', '2d', '21b']
   Diószegi út:
+    # 48/b: csak sima 48
+    # 50: 50/a, 52/b
+    # 52: 52/a, 52/b
+    # 54: 54/a, 54/b
+    # 60: 60/a, 60/b
+    invalid: ['48b', '50', '52', '54', '60']
     ranges:
       - {start: '35', end: '63'}
       - {start: '36', end: '60'}
+  Edömér utca:
+    # 6/2: csak sima 6 van "Géza-udvar"
+    invalid: ['6/2']
   Elek utca:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '28'}
   Eszék utca:
+    # 6: 6/a, 6/b
+    # 14: 14/a, 14/b
+    # 16: 16/a, 16/b
+    invalid: ['6', '14', '16']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '20'}
@@ -37,6 +64,9 @@ filters:
     ranges:
       - {start: '1', end: '21'}
   Karolina út:
+    # 34: 34/a, 34/b
+    # 38: 38/a, 38/b
+    invalid: ['34', '38']
     ranges:
       - {start: '2', end: '38'}
   Kelenhegyi út:
@@ -90,6 +120,8 @@ filters:
       - {start: '43', end: '87'}
       - {start: '2', end: '74'}
   Vincellér utca:
+    # 16, 16b: csak 16/a van
+    invalid: ['16', '16b']
     ranges:
       - {start: '23', end: '25'}
       - {start: '16', end: '24'}
