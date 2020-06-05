@@ -166,16 +166,32 @@ def update_stats_count(today: str) -> None:
     statedir = config.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
     count_path = os.path.join(statedir, "%s.count" % today)
+    city_count_path = os.path.join(statedir, "%s.citycount" % today)
     house_numbers = set()
+    cities: Dict[str, int] = {}
+    first = True
     with open(csv_path, "r") as stream:
         for line in stream.readlines():
+            if first:
+                # Ignore the oneliner header.
+                first = False
+                continue
+            cells = line.split("\t")
             # Ignore last column, which is the user who touched the object last.
-            house_numbers.add(line[:line.rfind("\t")])
+            house_numbers.add("\t".join(cells[:4]))
+            city_key = util.get_city_key(cells[0], cells[1])
+            if city_key in cities:
+                cities[city_key] += 1
+            else:
+                cities[city_key] = 1
 
     with open(count_path, "w") as stream:
-        # Ignore the oneliner header.
-        house_numbers_len = str(len(house_numbers) - 1)
+        house_numbers_len = str(len(house_numbers))
         stream.write(house_numbers_len + "\n")
+
+    with open(city_count_path, "w") as stream:
+        for key, value in cities.items():
+            stream.write(key + "\t" + str(value) + "\n")
 
 
 def update_stats_topusers(today: str) -> None:
@@ -213,6 +229,8 @@ def update_stats() -> None:
     today = time.strftime("%Y-%m-%d")
     csv_path = os.path.join(statedir, "%s.csv" % today)
 
+    # It would make sense to have a switch to disable this block when you manually test the
+    # <date>.csv parsing code.
     retry = 0
     while should_retry(retry):
         if retry > 0:

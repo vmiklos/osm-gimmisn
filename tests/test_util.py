@@ -504,5 +504,14 @@ class TestStreet(unittest.TestCase):
         self.assertEqual(street.to_html().getvalue(), "foo<br />(bar)")
 
 
+class TestGetCityKey(unittest.TestCase):
+    """Tests get_city_key()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        self.assertEqual(util.get_city_key("1234", "Budapest"), "budapest_23")
+        self.assertEqual(util.get_city_key("9999", ""), "")
+        self.assertEqual(util.get_city_key("9999", "Lábatlan"), "lábatlan")
+
+
 if __name__ == '__main__':
     unittest.main()

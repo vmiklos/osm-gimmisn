@@ -770,4 +770,14 @@ def set_locale() -> None:
         pass
 
 
+def get_city_key(postcode: str, city: str) -> str:
+    """Constructs a city name based on postcode the nominal city."""
+    city = city.lower()
+
+    if city and postcode.startswith("1"):
+        return city + "_" + postcode[1:3]
+
+    return city
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
