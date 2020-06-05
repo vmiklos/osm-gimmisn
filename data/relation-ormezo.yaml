@@ -54,7 +54,7 @@ filters:
     # 4/6: 4 és 6 külön vannak
     # 7: 7A, 7B
     # 9: nem tudni, hogy 9/A vagy 9, maradt az eredeti 9 azon a felén az ikerháznak
-    invalid: ['4/6', '7a', '7b', '9a']
+    invalid: ['4/6', '7', '9a']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '24'}
