@@ -262,9 +262,9 @@ filters:
       - {start: '2', end: '130'}
   Solt utca:
     # 3a, 3b: csak sima 3 van
-    # 7b: csak 7a van
+    # 7, 7b: csak 7a van
     # 23b: csak sima 23 van
-    invalid: ['3a', '3b', '7b', '23b']
+    invalid: ['3a', '3b', '7', '7b', '23b']
     ranges:
       - {start: '1', end: '37'}
   Szabadharcosok útja:
