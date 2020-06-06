@@ -22,7 +22,5 @@ refstreets:
   # utcajegyzék = OSM: ref hibás
   'Ceglédi út': 'Ceglédi utca'
   'Kis Sörgyár utca': 'Kissörgyár utca'
-  # utcajegyzék = REF: OSM eltér
-  'Vilka köz': 'Vika köz'  # note
 source: survey
 inactive: true
