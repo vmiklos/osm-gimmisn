@@ -53,6 +53,10 @@ filters:
   Dalma út:
     # No housenumbers here.
     ranges: []
+  Tücsök utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '6'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Szépkilátás út': 'Szép kilátás út'
