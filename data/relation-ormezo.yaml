@@ -73,6 +73,9 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
+  Március utca:
+    # 1: 1/b van, 1/a = Május utca 2
+    invalid: ['1']
   Menyecske utca:
     # 1-11, 10-12, 19-37: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     invalid: ['1a', '3b', '5a', '7a', '9a', '10a', '11b', '19a', '25b']
@@ -136,6 +139,10 @@ filters:
     ranges:
       - {start: '40', end: '68'}
   Rimaszombati út:
+    # 7a: 7, 7-9
+    # 9a: 7-9
+    # 15g: 15/a, 15/c, 17
+    invalid: ['7a', '9a', '15g']
     ranges:
       - {start: '5', end: '17'}
   Vizsla utca:
