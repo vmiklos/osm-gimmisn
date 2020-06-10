@@ -3,6 +3,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_areas.py \
 	tests/test_cache_yamls.py \
 	tests/test_cherry.py \
+	tests/test_config.py \
 	tests/test_cron.py \
 	tests/test_get_reference_housenumbers.py \
 	tests/test_get_reference_streets.py \
@@ -122,8 +123,8 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
 check-unit: tests/data/yamls.pickle
-	coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
-	coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
+	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
+	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
