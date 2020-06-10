@@ -6,23 +6,16 @@
 
 """The test_cherry module covers the cherry module."""
 
-import os
 import unittest
 import unittest.mock
 
 import cherrypy  # type: ignore
 
 import cherry
+import test_config
 
 
-def get_abspath(path: str) -> str:
-    """Mock get_abspath() that uses the test directory."""
-    if os.path.isabs(path):
-        return path
-    return os.path.join(os.path.dirname(__file__), path)
-
-
-class TestMain(unittest.TestCase):
+class TestMain(test_config.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -34,9 +27,8 @@ class TestMain(unittest.TestCase):
             nonlocal mock_block_called
             mock_block_called = True
 
-        with unittest.mock.patch('config.get_abspath', get_abspath):
-            with unittest.mock.patch('cherrypy.engine.block', mock_block):
-                cherry.main()
+        with unittest.mock.patch('cherrypy.engine.block', mock_block):
+            cherry.main()
         cherrypy.engine.exit()
         self.assertTrue(mock_block_called)
 
