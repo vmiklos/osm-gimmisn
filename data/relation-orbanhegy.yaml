@@ -103,3 +103,4 @@ filters:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
 source: survey
+inactive: true
