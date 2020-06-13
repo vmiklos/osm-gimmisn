@@ -1,0 +1,40 @@
+missing-streets: 'no'
+filters:
+  Bognár utca:
+    # területhatár: kurucles/szepilona
+    ranges:
+      - {start: '2', end: '98'}
+  Budakeszi út:
+    # területhatár: II: kurucles/harshegy/szepilona XII: budakeszierdo/janoshegy/viranyos/zugliget
+    ranges:
+      - {start: '1', end: '43'}
+  Budenz út:
+    # területhatár: kurucles/szepilona
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '98'}
+  Hűvösvölgyi út:
+    # területhatár: harshegy/huvosvolgy/lipotmezo/kurucles/pasaret/szepilona
+    ranges:
+      - {start: '2', end: '28'}
+  Kuruclesi út:
+    # területhatár: kurucles/szepilona illetve 1-2 XII. kerület
+    ranges:
+      - {start: '3', end: '9'}
+  Labanc út:
+    # területhatárt metsző: kurucles/szepilona
+    ranges:
+      - {start: '1', end: '43'}
+      - {start: '2', end: '22'}
+  Széher út:
+    ranges: []
+  Tárogató út:
+    # területhatárt metsző: kurucles/szepilona
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '8'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Labanc út': 'Labanc utca'
+source: survey
+inactive: true

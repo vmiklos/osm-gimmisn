@@ -1,0 +1,33 @@
+missing-streets: 'no'
+filters:
+  Alsó Völgy utca:
+    # területhatárt metsző: pasaret/lipotmezo
+    ranges:
+      - {start: '2', end: '8'}
+  Hűvösvölgyi út:
+    # területhatár: harshegy/huvosvolgy/lipotmezo/kurucles/pasaret/szepilona
+    ranges:
+      - {start: '116', end: '116'}
+      - {start: '107', end: '159'}
+  Lipótmezei út:
+    # területhatár: lipotmezo/kurucles
+    ranges:
+      - {start: '1', end: '99'}
+  Nyéki út:
+    # területhatár: harshegy/huvosvolgy/lipotmezo
+    ranges:
+      - {start: '2', end: '98'}
+  Szerb Antal utca:
+    # területhatár: kurucles/lipotmezo/pasaret
+    ranges:
+      - {start: '1', end: '5'}
+  Völgy utca:
+    # területhatárt metsző: lipotmezo/huvosvolgy
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '14'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Alsó Völgy utca': 'Alsó völgy utca'
+source: survey
+inactive: true
