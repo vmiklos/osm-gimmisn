@@ -4,6 +4,9 @@ filters:
     ranges:
       - {start: '13', end: '99'}
       - {start: '12', end: '98'}
+  Barlang utca:
+    ranges:
+      - {start: '1', end: '99'}
   Csalit utca:
     ranges:
       - {start: '1', end: '9'}
