@@ -126,6 +126,10 @@ vizivaros:
     refcounty: "01"
     refsettlement: "001"
 # 02
+adyliget:
+    osmrelation: 3256786
+    refcounty: "01"
+    refsettlement: "002"
 csatarka:
     osmrelation: 3247356
     refcounty: "01"
@@ -134,12 +138,28 @@ felheviz:
     osmrelation: 3166410
     refcounty: "01"
     refsettlement: "002"
-orszagut:
-    osmrelation: 3176172
+harshegy:
+    osmrelation: 5802522
     refcounty: "01"
     refsettlement: "002"
-rezmal:
-    osmrelation: 3176180
+huvosvolgy:
+    osmrelation: 5792483
+    refcounty: "01"
+    refsettlement: "002"
+kurucles:
+    osmrelation: 3174383
+    refcounty: "01"
+    refsettlement: "002"
+lipotmezo:
+    osmrelation: 5802567
+    refcounty: "01"
+    refsettlement: "002"
+nyek:
+    osmrelation: 5802617
+    refcounty: "01"
+    refsettlement: "002"
+orszagut:
+    osmrelation: 3176172
     refcounty: "01"
     refsettlement: "002"
 palvolgy:
@@ -150,12 +170,33 @@ pasaret:
     osmrelation: 3174480
     refcounty: "01"
     refsettlement: "002"
+pesthidegkut:
+    # ez nem varosresz csak historic, de sok kis reszbol all igy egyszerubb kezelni
+    osmrelation: 5802817
+    refcounty: "01"
+    refsettlement: "011"
+petnehazyret:
+    osmrelation: 3256782
+    refcounty: "01"
+    refsettlement: "002"
+rezmal:
+    osmrelation: 3176180
+    refcounty: "01"
+    refsettlement: "002"
 rozsadomb:
     osmrelation: 3176173
     refcounty: "01"
     refsettlement: "002"
 szemlohegy:
     osmrelation: 3174398
+    refcounty: "01"
+    refsettlement: "002"
+szepilona:
+    osmrelation: 3174475
+    refcounty: "01"
+    refsettlement: "002"
+szepvolgy:
+    osmrelation: 4666788
     refcounty: "01"
     refsettlement: "002"
 torokvesz:
