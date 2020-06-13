@@ -1,0 +1,33 @@
+missing-streets: 'no'
+filters:
+  Bátori László utca:
+    # területhatár: huvosvolgy/erzsebettelek
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Kőhegyi út:
+    # területhatár: nyek/harsakalja
+    ranges:
+      - {start: '1', end: '99'}
+  Határ utca:
+    # területhatár: huvosvolgy/mariaremete
+    ranges:
+      - {start: '2', end: '36'}
+  Rézsű utca:
+    # területhatár: adyliget/mariaremete
+    ranges:
+      - {start: '1', end: '199'}
+  Villám utca:
+    # területhatár: huvosvolgy/erzsebettelek
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Díszfű utca': 'Diszfű utca'  # Budaliget
+  'Rézsű utca': 'Rézsü utca'  # Adyliget/Máriaremete
+  'Szép Ilona utca': 'Szépilona utca'  # Erzsébettelek
+  # felmérendő
+  'Remetevölgy utca': 'Remetevölgyi utca'  # Budaliget
+source: survey
+inactive: true

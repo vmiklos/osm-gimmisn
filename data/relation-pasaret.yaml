@@ -1,6 +1,7 @@
 missing-streets: 'no'
 filters:
   Alsó Völgy utca:
+    # több terület: pasaret/lipotmezo
     ranges:
       - {start: '2', end: '8'}
   Battai út:
@@ -11,8 +12,9 @@ filters:
     ranges:
       - {start: '1', end: '99'}
   Csalán út:
+    # több terület: pasaret/nyek/torokvesz
     ranges:
-      - {start: '10', end: '42'}
+      - {start: '10', end: '38'}
   Gábor Áron utca:
     ranges:
       - {start: '1', end: '11'}
@@ -39,6 +41,7 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Páfrányliget utca:
+    # területhatár: pasaret/nyek
     ranges:
       - {start: '1', end: '99'}
   Pasaréti út:
@@ -50,6 +53,7 @@ filters:
     ranges:
       - {start: '1', end: '7'}
   Szerb Antal utca:
+    # területhatár: kurucles/lipotmezo/pasaret
     ranges:
       - {start: '2', end: '8'}
   Szilágyi Erzsébet fasor:

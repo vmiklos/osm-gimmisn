@@ -1,0 +1,17 @@
+missing-streets: 'no'
+filters:
+  Feketerigó utca:
+    # területhatár: adyliget/harshegy
+    ranges:
+      - {start: '1', end: '99'}
+  Rézsű utca:
+    # területhatár: adyliget/mariaremete
+    ranges:
+      - {start: '2', end: '98'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Rézsű utca': 'Rézsü utca'
+  'Templomkert': 'Templom kert'
+  'Bocskai utca': 'Bocskai István útja'
+source: survey
+inactive: true

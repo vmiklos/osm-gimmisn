@@ -1,0 +1,15 @@
+missing-streets: 'no'
+filters:
+  Görgényi út:
+    # területhatár: nyek/szepvolgy
+    ranges:
+      - {start: '1', end: '99'}
+  Szépvölgyi út:
+    # több terület: szepvolgy/palvolgy/ujlak/zoldmal
+    ranges:
+      - {start: '212', end: '298'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Hármashatárhegyi út': 'Hármashatár-hegyi út'
+source: survey
+inactive: true

@@ -1,0 +1,24 @@
+missing-streets: 'no'
+filters:
+  Csalán út:
+    # több terület: pasaret/nyek/torokvesz
+    ranges:
+      - {start: '40', end: '42'}
+  Görgényi út:
+    # területhatár: nyek/szepvolgy
+    ranges:
+      - {start: '2', end: '98'}
+  Kőhegyi út:
+    # területhatár: nyek/harsakalja
+    ranges:
+      - {start: '2', end: '98'}
+  Nagybányai út:
+    # területhatár: pasaret/torokvesz
+    ranges:
+      - {start: '62', end: '98'}
+  Páfrányliget utca:
+    # területhatár: pasaret/nyek
+    ranges:
+      - {start: '2', end: '98'}
+source: survey
+inactive: true

@@ -1,0 +1,36 @@
+missing-streets: 'no'
+filters:
+  Bátori László utca:
+    # területhatár: huvosvolgy/erzsebettelek
+    # ezen a részen nincs házszám
+    ranges: []
+  Határ utca:
+    # területhatár: huvosvolgy/mariaremete
+    ranges:
+      - {start: '1', end: '99'}
+  Hűvösvölgyi út:
+    # területhatár: harshegy/huvosvolgy/lipotmezo/kurucles/pasaret/szepilona
+    ranges:
+      - {start: '161', end: '299'}
+      - {start: '136', end: '298'}
+  Hidegkúti út:
+    ranges: []
+  Nagykovácsi út:
+    # területhatár: harshegy/adyliget/huvosvolgy
+    # ezen a részen nincs házszám
+    ranges: []
+  Nyéki út:
+    # területhatár: harshegy/huvosvolgy/lipotmezo
+    ranges:
+      - {start: '1', end: '17'}
+  Villám utca:
+    # területhatár: huvosvolgy/erzsebettelek
+    # ezen a részen nincs házszám
+    ranges: []
+  Völgy utca:
+    # területhatárt metsző: lipotmezo/huvosvolgy
+    ranges:
+      - {start: '27', end: '99'}
+      - {start: '16', end: '98'}
+source: survey
+inactive: true

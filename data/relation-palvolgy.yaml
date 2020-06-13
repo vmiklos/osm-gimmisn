@@ -19,8 +19,9 @@ filters:
       - {start: '15', end: '99'}
       - {start: '2', end: '98'}
   Szépvölgyi út:
+    # több terület: szepvolgy/palvolgy/ujlak/zoldmal
     ranges:
-      - {start: '148', end: '298'}
+      - {start: '148', end: '210'}
   Verecke lépcső:
     # felmérendő
     ranges:

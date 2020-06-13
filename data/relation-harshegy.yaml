@@ -1,0 +1,34 @@
+missing-streets: 'no'
+filters:
+  Budakeszi út:
+    # területhatár: II: kurucles/harshegy/szepilona XII: budakeszierdo/janoshegy/viranyos/zugliget
+    ranges:
+      - {start: '53', end: '99'}
+  Feketerigó utca:
+    # területhatár: adyliget/harshegy
+    ranges:
+      - {start: '2', end: '98'}
+  Hárshegyi út:
+    # területhatár: harshegy/kurucles
+    # 23: ez érdekes, mert "rossz" oldalon van
+    ranges:
+      - {start: '2', end: '98'}
+      - {start: '23', end: '23'}
+  Hűvösvölgyi út:
+    # területhatár: harshegy/huvosvolgy/lipotmezo/kurucles/pasaret/szepilona
+    ranges:
+      - {start: '118', end: '134'}
+  Nagykovácsi út:
+    # területhatár: harshegy/adyliget/huvosvolgy
+    # ezen a részen nincs házszám
+    ranges: []
+  Nyéki út:
+    # területhatár: harshegy/huvosvolgy/lipotmezo
+    ranges:
+      - {start: '19', end: '99'}
+  Szép Juhászné út:
+    # területhatár: harshegy/petneházyrét
+    # ezen a részen nincs házszám
+    ranges: []
+source: survey
+inactive: true

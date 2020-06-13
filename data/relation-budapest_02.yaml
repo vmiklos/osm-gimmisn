@@ -2,17 +2,17 @@ missing-streets: only
 filters: {}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Alsó Völgy utca': 'Alsó völgy utca'
-  'Díszfű utca': 'Diszfű utca'
-  'Hármashatárhegyi út': 'Hármashatár-hegyi út'
-  'Labanc út': 'Labanc utca'
-  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'
-  'Rézsű utca': 'Rézsü utca'
-  'Szép Ilona utca': 'Szépilona utca'
-  'Templomkert': 'Templom kert'
-  'Bocskai utca': 'Bocskai István útja'
-  'Felhévízi utca': 'Felhévizi utca'  # 6 táblából 5-ön hosszú í
+  'Alsó Völgy utca': 'Alsó völgy utca'  # Pasarét/Lipótmező
+  'Díszfű utca': 'Diszfű utca'  # Budaliget (Pesthidegkút)
+  'Hármashatárhegyi út': 'Hármashatár-hegyi út'  # Szépvölgy
+  'Labanc út': 'Labanc utca'  # Kurucles/Szépilona
+  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'  # Pasarét/Törökvész
+  'Rézsű utca': 'Rézsü utca'  # Adyliget/Máriaremete (Pesthidegkút)
+  'Szép Ilona utca': 'Szépilona utca'  # Erzsébettelek (Pesthidegkút)
+  'Templomkert': 'Templom kert'  # Adyliget
+  'Bocskai utca': 'Bocskai István útja'  # Adyliget
+  'Felhévízi utca': 'Felhévizi utca'  # Szemlőhegy/Újlak - 6 táblából 5-ön hosszú í
   # felmérendő
-  'Remetevölgy utca': 'Remetevölgyi utca'
+  'Remetevölgy utca': 'Remetevölgyi utca'  # Budaliget (Pesthidegkút)
 source: survey
 inactive: true
