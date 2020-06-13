@@ -4,6 +4,10 @@ filters:
     # területhatár: II: kurucles/harshegy/szepilona XII: budakeszierdo/janoshegy/viranyos/zugliget
     ranges:
       - {start: '53', end: '99'}
+  Feketefej utca:
+    # területhatár: harshegy/petnehazyret/adyliget
+    # ezen a részen nincs ház, erdő van
+    ranges: []
   Feketerigó utca:
     # területhatár: adyliget/harshegy
     ranges:

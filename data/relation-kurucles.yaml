@@ -20,6 +20,9 @@ filters:
     # területhatár: harshegy/huvosvolgy/lipotmezo/kurucles/pasaret/szepilona
     ranges:
       - {start: '30', end: '114'}
+  Irén utca:
+    # ezen a részen erdő van
+    ranges: []
   Kuruclesi út:
     # területhatár: kurucles/szepilona illetve 1-2 XII. kerület
     ranges:
