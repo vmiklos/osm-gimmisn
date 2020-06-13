@@ -1,5 +1,9 @@
 missing-streets: 'no'
 filters:
+  Feketefej utca:
+    # területhatár: harshegy/petnehazyret/adyliget
+    ranges:
+      - {start: '1', end: '99'}
   Feketerigó utca:
     # területhatár: adyliget/harshegy
     ranges:

@@ -3,7 +3,7 @@ filters:
   Alsó Völgy utca:
     # területhatárt metsző: pasaret/lipotmezo
     ranges:
-      - {start: '2', end: '8'}
+      - {start: '10', end: '98'}
   Hűvösvölgyi út:
     # területhatár: harshegy/huvosvolgy/lipotmezo/kurucles/pasaret/szepilona
     ranges:

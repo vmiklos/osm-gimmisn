@@ -20,5 +20,8 @@ filters:
     # területhatár: pasaret/nyek
     ranges:
       - {start: '2', end: '98'}
+  Törökvész út:
+    # ide csak belóg
+    ranges: []
 source: survey
 inactive: true
