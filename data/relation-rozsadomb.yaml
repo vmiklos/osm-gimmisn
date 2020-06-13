@@ -55,6 +55,11 @@ filters:
   Margit utca:
     ranges:
       - {start: '1', end: '27'}
+  Mecset utca:
+    # 21 kérdéses, mapillaryn 19-es ház után nem lehet továbbmenni
+    ranges:
+      - {start: '8', end: '14'}
+      - {start: '15', end: '21'}
   Pajzs utca:
     # 14 saroktelek, bejárat Eszter utca 21
     # 17 nincs

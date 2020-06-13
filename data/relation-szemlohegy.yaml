@@ -22,7 +22,9 @@ filters:
   Ferenchegyi út:
     ranges:
       - {start: '1', end: '15'}
-  # Józsefhegyi lépcső	[4]
+  Józsefhegyi lépcső:
+    # a hiányzó 4-es valószínű Újlakhoz tartozik ha létezik egyáltalán
+    ranges: []
   Kavics utca:
     ranges:
       - {start: '17', end: '21'}
@@ -41,7 +43,7 @@ filters:
       - {start: '2', end: '4'}
   Pusztaszeri út:
     ranges:
-      - {start: '33', end: '57'}
+      - {start: '35', end: '57'}
       - {start: '12', end: '66'}
   Szemlőhegy utca:
     ranges:
