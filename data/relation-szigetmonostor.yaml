@@ -191,6 +191,10 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
+  Klapka utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
 source: survey
 street-filters:
   - Nagydunasétány utca
