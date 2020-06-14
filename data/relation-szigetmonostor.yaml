@@ -194,6 +194,31 @@ filters:
 source: survey
 street-filters:
   - Nagydunasétány utca
+  # Csombor utca = Fenyőliget utca
+  # Pinty utca  = Hársfa tér
+  # Táltos utca - https://www.openstreetmap.org/way/292315205
+  # --------------
+  # Erdész-lak - https://www.openstreetmap.org/way/487407047
+  # Gátőrház - https://www.openstreetmap.org/way/391780088
+  # Kermi üdülő
+  # Kertalja  - településrész
+  # Lajos-major - https://www.openstreetmap.org/node/6825307993
+  # Nagydunapart üdülő-telep
+  # Szürkő sziget - https://www.openstreetmap.org/way/5770647
+  # Vízműtelep II. - https://www.openstreetmap.org/way/76089687
+  # Vízműtelep III.
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  Nagy-Duna sétány: Nagyduna sétány
+  'Füzeserdő-Kisdunapart': 'Füzeserdő-Kisdunap.'
+  'Horánygyöngye üdülő': 'Horány gyöngye üdülő'
+  'Illyés Gyula köz': 'Illyés köz'
+  'Jegenye sor': 'Jegenyesor'
+  'Leander utca': 'Leánder utca'
+  'Monostori út': 'Monostori utca'
+  'Mártírok útja': 'Mártírok utca'
+  'Nagy-Duna sétány': 'Nagyduna sétány'
+  'Nefelejcs utca': 'Nefelejcs út'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Pusztamonostori utca': 'Pusztamonostori út'
+  'Szentendrei út': 'Szentendrei utca'
+  'Zrínyi út': 'Zrínyi utca'
