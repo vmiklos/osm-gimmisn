@@ -174,7 +174,7 @@ pesthidegkut:
     # ez nem varosresz csak historic, de sok kis reszbol all igy egyszerubb kezelni
     osmrelation: 5802817
     refcounty: "01"
-    refsettlement: "011"
+    refsettlement: "002"
 petnehazyret:
     osmrelation: 3256782
     refcounty: "01"
