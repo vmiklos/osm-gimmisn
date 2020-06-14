@@ -8,7 +8,6 @@ street-filters:
   # egyéb
   - Nádastó  # utca vagy park, önmagában nincs
   - Vácduka utca  # hivatalosan ugyan létezik, de valóságban nem, valószínű Vácduka térnek hívják az utcát is
-  # Szilas park - Szilas lakótelep helyén
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM: ref hibás
