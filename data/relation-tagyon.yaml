@@ -1,0 +1,23 @@
+missing-streets: 'yes'
+filters:
+  # Hrsz van nem hsz. osm 032/1 > ref 32/1
+  Dózsa utca:
+    # 6: ilyen nincs kiírva, 4/b után 8 jön. TRT szerint 6 = 4/b
+    # 10: TRT szerint a lebontott ház a kanyarban
+    invalid: ['6']
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '8'}
+  Petőfi utca:
+    # 2,4,6 a TRT-ben szerepel, helyszínen nincs kiírva
+    # 8 nincs
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '10', end: '30'}
+  Feketehida dűlő:
+    ranges: []
+street-filters:
+  # dűlők
+  - Tagyon-hegy dűlő  # csak hrsz
+source: survey
+inactive: true
