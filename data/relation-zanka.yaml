@@ -1,0 +1,38 @@
+missing-streets: 'yes'
+filters:
+  # Hrsz van nem hsz.
+  Lapiföldek dűlő:
+    ranges: []
+  Öreghegy dűlő:
+    ranges: []
+  Tagyonhegydűlő:
+    ranges: []
+  Tusakos dűlő:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+street-filters:
+  # nem találtam semmilyen forrásban
+  - Futrinka utca
+  # nem igazi utca
+  - Vasúti őrház
+  # többféle néven fut, lényegtelen 1 nagy komplexum az egész teljesen külön
+  - Ifjúsági Centrum Kht lakótelep
+  - Új Nemzedék Központ Kft. lakótelep
+  # dűlők
+  - Bálinthegy dűlő
+  - Felsővörösföld
+  # Zrínyi köz - Bercsényi köz mellett Fő utcáről
+refstreets:
+  # Delta telep mellett
+  'Kiss utca': 'Kis utca'
+  'Szilvafa sor': 'Szilvafa utca'
+  # Strand
+  'Kajakos út': 'Kajakos utca'
+  # Központ
+  'Rákóczi utca': 'Rákóczi út'  # táblacsere után, régebben Rákóczi volt kiírva, most Rákóczi utca
+  'Fűzkúti út': 'Fűzkuti utca'
+  # dűlő
+  'Tagyonhegydűlő': 'Tagyonhegy dűlő'
+source: survey
+inactive: true
