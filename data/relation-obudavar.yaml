@@ -1,0 +1,8 @@
+missing-streets: 'yes'
+filters:
+  Irtás dűlő:
+    # 9-en kívül semmilyen házszám nincs, csak helyrajzi számok
+    ranges:
+      - {start: '9', end: '9'}
+source: survey
+inactive: true
