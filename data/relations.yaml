@@ -487,6 +487,31 @@ murony:
     refcounty: "04"
     refsettlement: "054"
     inactive: true
+# 12 - Komárom-Esztergom megye
+domos:
+    osmrelation: 1027819
+    refcounty: "12"
+    refsettlement: "024"
+esztergom:
+    osmrelation: 1027785
+    refcounty: "12"
+    refsettlement: "028"
+esztergom-kozpont:
+    osmrelation: 6804481
+    refcounty: "12"
+    refsettlement: "028"
+esztergom-pilisszentlelek:
+    osmrelation: 6804482
+    refcounty: "12"
+    refsettlement: "028"
+esztergom-kertvaros:
+    osmrelation: 6804483
+    refcounty: "12"
+    refsettlement: "028"
+pilismarot:
+    osmrelation: 1027768
+    refcounty: "12"
+    refsettlement: "053"
 # 14 - Pest megye
 biatorbagy:
     osmrelation: 113461
@@ -528,11 +553,7 @@ visegrad:
     osmrelation: 216166
     refcounty: "14"
     refsettlement: "181"
-# Egyéb videk
-balatonalmadi:
-    osmrelation: 1078573
-    refcounty: "19"
-    refsettlement: "022"
+# 15 - Somogy megye
 balatonlelle:
     osmrelation: 1368026
     refcounty: "15"
@@ -549,67 +570,6 @@ balatonszemes:
     osmrelation: 1367995
     refcounty: "15"
     refsettlement: "017"
-bogacs:
-    osmrelation: 1418454
-    refcounty: "05"
-    refsettlement: "037"
-domos:
-    osmrelation: 1027819
-    refcounty: "12"
-    refsettlement: "024"
-esztergom:
-    osmrelation: 1027785
-    refcounty: "12"
-    refsettlement: "028"
-esztergom-kozpont:
-    osmrelation: 6804481
-    refcounty: "12"
-    refsettlement: "028"
-esztergom-pilisszentlelek:
-    osmrelation: 6804482
-    refcounty: "12"
-    refsettlement: "028"
-esztergom-kertvaros:
-    osmrelation: 6804483
-    refcounty: "12"
-    refsettlement: "028"
-felsotarkany:
-    osmrelation: 1418232
-    refcounty: "10"
-    refsettlement: "037"
-szentantalfa:
-    osmrelation: 1078476
-    refcounty: "19"
-    refsettlement: "177"
-tagyon:
-    osmrelation: 1078627
-    refcounty: "19"
-    refsettlement: "185"
-obudavar:
-    osmrelation: 1078648
-    refcounty: "19"
-    refsettlement: "146"
-zanka:
-    osmrelation: 1078485
-    refcounty: "19"
-    refsettlement: "216"
-szilvasvarad:
-    osmrelation: 1418234
-    refcounty: "10"
-    refsettlement: "096"
-keszthely:
-    osmrelation: 1360484
-    refcounty: "20"
-    refsettlement: "093"
-nemesgulacs:
-    osmrelation: 1078632
-    refcounty: "19"
-    refsettlement: "134"
-    inactive: true
-pilismarot:
-    osmrelation: 1027768
-    refcounty: "12"
-    refsettlement: "053"
 somogysard:
     osmrelation: 1367837
     refcounty: "15"
@@ -618,3 +578,54 @@ sersekszolos:
     osmrelation: 1367864
     refcounty: "15"
     refsettlement: "173"
+# 19 - Veszprém megye
+balatonalmadi:
+    osmrelation: 1078573
+    refcounty: "19"
+    refsettlement: "022"
+balatoncsicso:
+    osmrelation: 1078574
+    refcounty: "19"
+    refsettlement: "023"
+nemesgulacs:
+    osmrelation: 1078632
+    refcounty: "19"
+    refsettlement: "134"
+    inactive: true
+obudavar:
+    osmrelation: 1078648
+    refcounty: "19"
+    refsettlement: "146"
+szentantalfa:
+    osmrelation: 1078476
+    refcounty: "19"
+    refsettlement: "177"
+szentjakabfa:
+    osmrelation: 1078544
+    refcounty: "19"
+    refsettlement: "181"
+tagyon:
+    osmrelation: 1078627
+    refcounty: "19"
+    refsettlement: "185"
+zanka:
+    osmrelation: 1078485
+    refcounty: "19"
+    refsettlement: "216"
+# Egyéb videk
+bogacs:
+    osmrelation: 1418454
+    refcounty: "05"
+    refsettlement: "037"
+felsotarkany:
+    osmrelation: 1418232
+    refcounty: "10"
+    refsettlement: "037"
+szilvasvarad:
+    osmrelation: 1418234
+    refcounty: "10"
+    refsettlement: "096"
+keszthely:
+    osmrelation: 1360484
+    refcounty: "20"
+    refsettlement: "093"
