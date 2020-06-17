@@ -1,0 +1,35 @@
+missing-streets: 'yes'
+filters: {}
+source: survey
+inactive: false
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Apátkúti vadászház
+  - Feketehegy
+  - Mogyoróhegy
+  - Sibrik erdészház
+  # dűlők
+  - Doboshegy dűlő
+  # egyéb -------------
+  # Nagyvillám lejtő  # Nagyvillám étteremnél
+  # Jurta szállás  # Kis-Villám déli oldalán
+  # Királykunyhó völgy  # Kis-Disznó hegy és Nagy-som hegy között
+  # Kisvillám  # Kis-Villám déli oldalán
+  # Mócsai tanya  # Mogyoró-hegy
+  # Sirály utca  # Hotel Visegrád déli oldalán
+  # Szőlőskert utca  # Újkert utca egy része
+  # Vár szer  # Újkert utca végén
+  # Tamáshegy
+  # todo ---------------
+  # ismeretlen ---------
+  # Malom köz
+  # Mátyás köz
+  # Patak zug
+  # Rákóczi lejtő
+  # Rigó köz
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Áprily Lajos Völgy': 'Áprily Lajos-völgy'
+  'Magasköz utca': 'Magas köz'
+  'Szentgyörgypusztai út': 'Szentgyörgypuszta út'
+  'Temető sor': 'Temetősor utca'
