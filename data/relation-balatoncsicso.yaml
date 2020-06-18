@@ -9,6 +9,9 @@ filters:
   Gyöngyvirág utca:
     # párataln oldalon semmi sincs kiírva, de alig van ház
     invalid: ['29']
+  Liliom utca:
+    # 2: 4 az első ház
+    invalid: ['2']
 street-filters:
   # nem igazi utca
   - Erdészlak
