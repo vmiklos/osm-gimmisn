@@ -1,0 +1,10 @@
+missing-streets: 'yes'
+filters:
+  Dobogó szőlőhegy:
+    # Hrsz van nem hsz.
+    ranges: []
+  Kút utca:
+    # erdő határán van egy ház, nincs rá házszám kiírva
+    invalid: ['18', '20']
+source: survey
+inactive: true
