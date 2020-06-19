@@ -24,14 +24,9 @@ street-filters:
   - Felsővörösföld
   # Zrínyi köz - Bercsényi köz mellett Fő utcáről
 refstreets:
-  # Delta telep mellett
-  'Kiss utca': 'Kis utca'
-  'Szilvafa sor': 'Szilvafa utca'
-  # Strand
-  'Kajakos út': 'Kajakos utca'
   # Központ
-  'Rákóczi utca': 'Rákóczi út'  # táblacsere után, régebben Rákóczi volt kiírva, most Rákóczi utca
-  'Fűzkúti út': 'Fűzkuti utca'
+  'Rákóczi utca': 'Rákóczi út'  # táblacsere után, régebben Rákóczi volt kiírva, most Rákóczi utca, helyenként Rákóczi Ferenc utca
+  'Fűzkúti út': 'Fűzkuti utca'  # ez van kiírva
   # dűlő
   'Tagyonhegydűlő': 'Tagyonhegy dűlő'
 source: survey
