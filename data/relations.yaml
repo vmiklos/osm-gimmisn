@@ -21,6 +21,7 @@ budapest_05:
     osmrelation: 1606103
     refcounty: "01"
     refsettlement: "005"
+    alias: ['belvaros', 'lipotvaros']
 budapest_06:
     osmrelation: 3229919
     refcounty: "01"
@@ -55,6 +56,7 @@ budapest_12:
     osmrelation: 221995
     refcounty: "01"
     refsettlement: "012"
+    alias: ['csilleberc', 'farkasret', 'farkasvolgy', 'istenhegy', 'janoshegy', 'kissvabhegy', 'kutvolgy', 'magasut', 'martonhegy', 'nemetvolgy', 'orbanhegy', 'svabhegy', 'szechenyihegy', 'viranyos', 'zugliget']
 budapest_13:
     osmrelation: 1605916
     refcounty: "01"
@@ -320,14 +322,7 @@ nagyteteny:
     refcounty: "01"
     refsettlement: "022"
 # pest-belvaros
-belvaros:
-    osmrelation: 3228574
-    refcounty: "01"
-    refsettlement: "005"
-lipotvaros:
-    osmrelation: 3228576
-    refcounty: "01"
-    refsettlement: "005"
+# 5. kerület összevonva
 # 8. kerulet szinten eleg, nem kotelezo tovabb bontani
 palotanegyed:
     osmrelation: 3177466
