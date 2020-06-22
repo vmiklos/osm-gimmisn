@@ -1,4 +1,113 @@
-missing-streets: only
-filters: {}
+missing-streets: 'yes'
+filters:
+  Apáczai Csere János utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '14'}
+  Bécsi utca:
+    ranges:
+      - {start: '2', end: '10'}
+      - {start: '1', end: '5'}
+  Belgrád rakpart:
+    interpolation: all
+    ranges:
+      - {start: '2', end: '99'}
+  Deák Ferenc tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '5'}
+  Deák Ferenc utca:
+    ranges:
+      - {start: '5', end: '9'}
+      - {start: '15', end: '23'}
+      - {start: '2', end: '98'}
+  Erzsébet tér:
+    interpolation: all
+  Ferenciek tere:
+    # Klotild paloták valószínű az 1,12, nincs kiírva
+    interpolation: all
+    ranges:
+      - {start: '2', end: '11'}
+  Ferenczy István utca:
+    ranges:
+      - {start: '5', end: '7'}
+      - {start: '2', end: '28'}
+  Fővám tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '5'}
+  Havas utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '8'}
+  Honvéd tér:
+    interpolation: all
+  Irányi utca:
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '12'}
+      - {start: '18', end: '20'}
+  Jászai Mari tér:
+    interpolation: all
+  József nádor tér:
+    interpolation: all
+  Kossuth Lajos tér:
+    interpolation: all
+  Magyar utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '9', end: '13'}
+      # 15-19 Karolyi kert
+      - {start: '21', end: '33'}
+      - {start: '2', end: '14'}
+      - {start: '18', end: '52'}
+  Nyugati tér:
+    interpolation: all
+  Petőfi tér:
+    interpolation: all
+  Szabad sajtó út:
+    # Klotild paloták valószínű a 6, nincs kiírva
+    ranges:
+      - {start: '2', end: '4'}
+  Szabadság tér:
+    interpolation: all
+    invalid: ['10', '11']  # USA nagykövetség foglalja el ezeket is
+  Szarka utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '7', end: '9'}
+      - {start: '2', end: '98'}
+  Széchenyi rakpart:
+    interpolation: all
+  Szent István tér:
+    interpolation: all
+  Szerb utca:
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '4'}
+      - {start: '8', end: '10'}
+  Szervita tér:
+    interpolation: all
+  Vadász utca:
+    ranges:
+      - {start: '9', end: '39'}
+      - {start: '10', end: '44'}
+  Veres Pálné utca:
+    ranges:
+      - {start: '3', end: '41'}
+      - {start: '2', end: '18'}
+      - {start: '22', end: '44'}
+  Vértanúk tere:
+    interpolation: all
+  Vigadó tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '3'}
+  Vörösmarty tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '9'}
+  Zoltán utca:
+    # 1 és 15 sarokházak, másik utcáról számozódnak
+    invalid: ['1', '1a', '15']
 source: survey
-inactive: true
