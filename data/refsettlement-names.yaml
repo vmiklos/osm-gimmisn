@@ -6,9 +6,11 @@
 '01':
     '001': 'Budavár'
     '002': 'Második'
-    '005': 'Belváros-Lipótváros'
     '011': 'Újbuda'
-    '012': 'Hegyvidék'
     '013': 'Tizenhárom'
     '014': 'Zugló'
     '022': 'Budafok-Tétény'
+'12':
+    '028': 'Esztergom'
+'14':
+    '015': 'Budaörs'
