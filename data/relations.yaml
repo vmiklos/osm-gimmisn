@@ -130,6 +130,10 @@ adyliget:
     osmrelation: 3256786
     refcounty: "01"
     refsettlement: "002"
+budakeszierdo:
+    osmrelation: 2805997
+    refcounty: "01"
+    refsettlement: "002"
 csatarka:
     osmrelation: 3247356
     refcounty: "01"
@@ -297,70 +301,7 @@ szentimrevaros:
     refcounty: "01"
     refsettlement: "011"
 # 12
-budakeszierdo:
-    osmrelation: 2805997
-    refcounty: "01"
-    refsettlement: "012"
-csilleberc:
-    osmrelation: 2805998
-    refcounty: "01"
-    refsettlement: "012"
-farkasret:
-    osmrelation: 2787964
-    refcounty: "01"
-    refsettlement: "012"
-farkasvolgy:
-    osmrelation: 2788020
-    refcounty: "01"
-    refsettlement: "012"
-istenhegy:
-    osmrelation: 2807348
-    refcounty: "01"
-    refsettlement: "012"
-janoshegy:
-    osmrelation: 2806169
-    refcounty: "01"
-    refsettlement: "012"
-kissvabhegy:
-    osmrelation: 2807349
-    refcounty: "01"
-    refsettlement: "012"
-kutvolgy:
-    osmrelation: 2807350
-    refcounty: "01"
-    refsettlement: "012"
-magasut:
-    osmrelation: 2805999
-    refcounty: "01"
-    refsettlement: "012"
-martonhegy:
-    osmrelation: 2787965
-    refcounty: "01"
-    refsettlement: "012"
-nemetvolgy:
-    osmrelation: 2806940
-    refcounty: "01"
-    refsettlement: "012"
-orbanhegy:
-    osmrelation: 2806937
-    refcounty: "01"
-    refsettlement: "012"
-svabhegy:
-    osmrelation: 2806878
-    refcounty: "01"
-    refsettlement: "012"
-szechenyihegy:
-    osmrelation: 2806000
-    refcounty: "01"
-    refsettlement: "012"
-viranyos:
-    osmrelation: 2807351
-    refcounty: "01"
-    refsettlement: "012"
-zugliget:
-    osmrelation: 2806170
-    refcounty: "01"
-    refsettlement: "012"
+# már egyben van, nincs annyi hiányzó
 # 22
 barossgabortelep:
     osmrelation: 3186063
