@@ -114,7 +114,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 	$(QUIET_PYLINT)env PYTHONPATH=. pylint $< && touch $@
 
 %.eslint : %.js Makefile .eslintrc
-	$(QUIET_ESLINT)eslint $< && touch $@
+	$(QUIET_ESLINT)node_modules/eslint/bin/eslint.js $< && touch $@
 
 %.mypy: %.py Makefile
 	$(QUIET_MYPY)mypy --python-version 3.6 --strict --no-error-summary $< && touch $@
