@@ -85,6 +85,10 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '16'}
+  Őszibarack utca:
+    ranges:
+      - {start: '2', end: '50'}
+      - {start: '1', end: '29'}
   Patkó utca:
     invalid: ['29']
   Rózsa utca:
