@@ -1,9 +1,58 @@
 missing-streets: 'yes'
 filters:
-  Batsányi utca:
+  # Hrsz van nem hsz.
+  Lapiföldek dűlő:
+    ranges: []
+  Öreghegy dűlő:
+    ranges: []
+  Tagyonhegydűlő:
+    ranges: []
+  Tusakos dűlő:
     ranges:
-      # 6-8 is out of range
-      - {start: '1', end: '7'}
-      - {start: '2', end: '4'}
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+street-filters:
+  # nem igazi utca - 249/2015. (XI.26.) önk. határozat által átnevezett külterületek
+  - Fenéki határ       # Fenéki vasúti őrház és a Fenékpuszta vasúti megálló
+  - Fenékpuszta major  # Fenékpuszta
+  - Gáti major     # Gáti csárda
+  - Lovas major    # 0201/2
+  - Szendrey major  # Szendreytelep
+  - Tőzeg telep    # Tőzegtelep
+  - Transzformátor telep  # Keszthely alállomás
+  - Úsztató major  # 249/2015. (XI.26.) Úsztatómajor
+  # dűlők, tanyák
+  - Sömögye dűlő
+  # Felső Majori út - Csapás út OMV-vel szemben indul BGW
+  # Koponár utca - Öv utca nyugat
+  # Lőtéri utca - Öv utca észak
+  # Lapályos utca - Rezi út/Soproni út - ez is rossz lehet
+  # Magvető köz - Kertváros Gyöngyvirág utca északi része
+  # Murvás út - Csapás út, Stop.shop nyugati oldal / Diego
+  # Rezgő utca - Csokonai utca folytatás Apát utca felé
+  # Vadas kert
+refstreets:
+  'Árnyas útja': 'Árnyas út'
+  'Balassi Bálint utca': 'Balassa Bálint utca'
+  'Bessenyei utca': 'Bessenyei György utca'
+  'Bolyai utca': 'Bólyai utca'
+  'Csapás utca': 'Csapás út'
+  'Csík Ferenc sétány': 'Csik Ferenc sétány'
+  'Csokonai utca': 'Csokonai Vitéz Mihály utca'
+  'Dankó utca': 'Dankó Pista utca'
+  'Füveskert utca': 'Füvészkert utca'
+  'György bíró utca': 'György Biró utca'
+  'Kazinczy Ferenc utca': 'Kazinczy utca'
+  'Kilátó utca': 'Kilátó köz'
+  'Külsőzsidi utca': 'Külső Zsidi út'
+  'Mély utca': 'Mély út'
+  'Hévízi út': 'Hévizi út'
+  'Jankó János utca': 'Jankó János út'
+  'Kísérleti utca': 'Kisérleti utca'
+  'Pajta alja utca': 'Pajta alja út'
+  'Római utca': 'Római út'
+  'Sujkó utca': 'Sajka utca'
+  'Tipegő útja': 'Tipegő út'
+  'Verébhegy utca': 'Verébhegyi út'
 source: survey
 inactive: true
