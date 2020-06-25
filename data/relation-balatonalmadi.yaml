@@ -1,0 +1,37 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # Nem igazi utcák
+  - Óvári kilátó
+  - Öreghegy
+  - Újhegy
+  - Vöröshegy
+  # Pint utca - Szentkirályszabadjáról átlóg? Csárda utcánál
+  # Templom tér - Thököly utca eleje a templomnál
+refstreets:
+  'Bartók Béla utca': 'Bartók Béla út'
+  'Báthory utca': 'Báthori utca'
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'
+  'Dózsa György utca': 'Dózsa György út'
+  'Építő út': 'Építő utca'
+  'Erdőalja út': 'Erdőalja utca'
+  'Erkel Ferenc utca': 'Erkel Ferenc út'
+  'Fadrusz János utca': 'Fadrusz utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Kurucz Rudolf utca': 'Kurcz Rudolf utca'
+  'Madarász utca': 'Madarász Viktor utca'
+  'Madách Imre tér': 'Madách tér'
+  'Madách Imre utca': 'Madách utca'
+  'Martinovics Ignác utca': 'Martinovics utca'
+  'Megyehegyi utca': 'Megyehegyi út'
+  'Öreghegyi utca': 'Öreghegyi út'
+  'Pacsirta út': 'Pacsirta utca'
+  'Pinkóczi utca': 'Pinkóczi út'
+  'Síp köz': 'Sip köz'
+  'Szabadság utca': 'Szabadság út'
+  'Szabadság-kilátó utca': 'Szabadságkilátó út'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Vöröshegyi utca': 'Vöröshegyi út'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+source: survey
+inactive: true
