@@ -8,6 +8,7 @@ street-filters:
   - Vöröshegy
   # Pint utca - Szentkirályszabadjáról átlóg? Csárda utcánál
   # Templom tér - Thököly utca eleje a templomnál
+  - 'Sip köz'  # dupla, van Síp köz is
 refstreets:
   'Bartók Béla utca': 'Bartók Béla út'
   'Báthory utca': 'Báthori utca'
@@ -27,7 +28,6 @@ refstreets:
   'Öreghegyi utca': 'Öreghegyi út'
   'Pacsirta út': 'Pacsirta utca'
   'Pinkóczi utca': 'Pinkóczi út'
-  'Síp köz': 'Sip köz'
   'Szabadság utca': 'Szabadság út'
   'Szabadság-kilátó utca': 'Szabadságkilátó út'
   'Széchenyi István utca': 'Széchenyi utca'
