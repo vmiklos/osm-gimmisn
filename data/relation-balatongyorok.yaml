@@ -3,25 +3,25 @@ filters: {}
 street-filters:
   # Nem igazi utcák
   - Felsőcsetény
-  # Felsőhegyi út - https://www.openstreetmap.org/way/98782256
   - Felsőpaphegy
+  - Kültelek
+  - Magán út  # bárhol lehet ilyen névvel
+  - Mihályháza
+  - Vasútállomás
+  # hiányzók
+  # Eperfa köz - osm Zsöllehát néven fut, de a refben Zsöllehát is van
+  # Felsőhegyi út - https://www.openstreetmap.org/way/98782256
   # Gyöngyvirág utca - Levendula köztől keletre, Füredi út 16-nál
   # Hétház utca - Nyár utca alja
   # Kagyló utca - Nyár utca felső része környéki őskáoszban
-  - Kültelek
   # Levendula köz - Mandulás köztől nyugatra
-  - Magán út  # bárhol lehet ilyen névvel
   # Magyarágyi köz - ?
-  - Mihályháza
   # Tölgy utca - https://www.openstreetmap.org/way/198973140
   # Vállusi utca - https://www.openstreetmap.org/way/533684471
-  - Vasútállomás
 refstreets:
   # ezeket tisztázni kell: ref szerint - köz utca, osm szerint - és köz, valószínű ez van:
   'Felsőcsetény köz': 'Felsőcsetény utca'
   'Felsőcsetény': 'Felsőcsetény köz'
-  # véleményes
-  'Zsöllehát': 'Eperfa köz'
   #
   'Böngyér út': 'Böngyéres utca'
   'Kisfaludi utca': 'Kisfaludy Sándor utca'
