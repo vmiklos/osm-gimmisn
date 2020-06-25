@@ -1,4 +1,16 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  # nem igazi utca
+  # Malom tanya - Malom utca vége
+  - Tücsök tanya  # Villa Gulács ezzel a címmel fent van
+  - Vasútállomás
+  - Köbölkúthegy  # Köbölkút néven egy szórt terület
+refstreets:
+  'Dózsa György utca': 'Dózsa utca'
+  'Hegyalja út': 'Hegyalja utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Gyártelep utca': 'Bányatelep'
 source: survey
 inactive: true
