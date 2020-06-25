@@ -1,36 +1,25 @@
 missing-streets: 'yes'
-filters:
-  # Hrsz van nem hsz.
-  Lapiföldek dűlő:
-    ranges: []
-  Öreghegy dűlő:
-    ranges: []
-  Tagyonhegydűlő:
-    ranges: []
-  Tusakos dűlő:
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+filters: {}
 street-filters:
   # nem igazi utca - 249/2015. (XI.26.) önk. határozat által átnevezett külterületek
   - Fenéki határ       # Fenéki vasúti őrház és a Fenékpuszta vasúti megálló
-  - Fenékpuszta major  # Fenékpuszta
-  - Gáti major     # Gáti csárda
-  - Lovas major    # 0201/2
-  - Szendrey major  # Szendreytelep
-  - Tőzeg telep    # Tőzegtelep
-  - Transzformátor telep  # Keszthely alállomás
-  - Úsztató major  # 249/2015. (XI.26.) Úsztatómajor
+  - Fenékpuszta major  # Fenékpuszta 0415
+  - Gáti major         # Gáti csárda 0191/9
+  - Lovas major        # 0201/2
+  - Szendrey major     # Szendreytelep 0253/2
+  - Tőzeg telep        # Tőzegtelep 0372/5
+  - Transzformátor telep  # Keszthely alállomás 0156/2
+  - Úsztató major      # Úsztatómajor 0191/9
+  - Vadas kert         # Vadaskert 0126/2
   # dűlők, tanyák
   - Sömögye dűlő
-  # Felső Majori út - Csapás út OMV-vel szemben indul BGW
-  # Koponár utca - Öv utca nyugat
-  # Lőtéri utca - Öv utca észak
-  # Lapályos utca - Rezi út/Soproni út - ez is rossz lehet
-  # Magvető köz - Kertváros Gyöngyvirág utca északi része
-  # Murvás út - Csapás út, Stop.shop nyugati oldal / Diego
-  # Rezgő utca - Csokonai utca folytatás Apát utca felé
-  # Vadas kert
+  # Felső Majori út - w123869424 Csapás út OMV-vel szemben indul BGW
+  # Koponár utca    - w204692963 Öv utca nyugat
+  # Lőtéri utca     - w437965739 Öv utca észak
+  # Lapályos utca   - w458901888 Rezi út/Soproni út - ez is rossz lehet
+  # Magvető köz     - w98961145 Kertváros Gyöngyvirág utca északi része, Magvető utca
+  # Murvás út       - w226911681 Csapás út, Stop.shop nyugati oldal / Diego
+  # Rezgő utca      - w98217639 Csokonai utca folytatás Apát utca felé
 refstreets:
   'Árnyas útja': 'Árnyas út'
   'Balassi Bálint utca': 'Balassa Bálint utca'
