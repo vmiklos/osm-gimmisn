@@ -8,6 +8,7 @@
 
 from typing import Any
 from typing import BinaryIO
+from typing import Container
 from typing import Dict
 from typing import Iterable
 from typing import List
@@ -546,6 +547,15 @@ class TestMissingStreets(TestWsgi):
         root = self.get_dom_for_path("/missing-streets/gazdagret/update-result")
         results = root.findall("body/div[@id='update-success']")
         self.assertEqual(len(results), 1)
+
+    def test_view_turbo(self) -> None:
+        """Tests the view-turbo output."""
+        root = self.get_dom_for_path("/missing-streets/gazdagret/view-turbo")
+        results = root.findall("body/pre")
+        self.assertEqual(len(results), 1)
+        self.assertIn("OSM Name 1", cast(Container[Any], results[0].text))
+        # This is silenced with `show-refstreet: false`.
+        self.assertNotIn("OSM Name 2", cast(Container[Any], results[0].text))
 
 
 class TestMain(TestWsgi):

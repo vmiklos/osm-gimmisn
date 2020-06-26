@@ -164,6 +164,12 @@ frequently:
   reference names would not match, don't show the reference name on the missing housenumbers -> view
   results page.
 
+NOTE: This has a second effect as well. The `/missing-streets/.../view-turbo` page lists all OSM
+street names which have a mapping to reference names. Before presenting that list, items with this
+`show-refstreet: false` property are filtered out from the result. This supports a workflow where
+the mapping has guesses as well, and then survey clarifies those questionable items, so that either
+OSM is fixed or `show-refstreet: false` is added.
+
 - `inactive: true`: this key can be used for a relation, it disables the daily update (which would
   be a waste if e.g. the relation already has 100% coverage.) Manual updates are still possible.
 

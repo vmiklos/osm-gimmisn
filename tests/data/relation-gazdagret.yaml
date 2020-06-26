@@ -18,6 +18,8 @@ filters:
   'Törökugrató utca':
     invalid: ['11', '12']
     show-refstreet: false
+  'OSM Name 2':
+    show-refstreet: false
 street-filters:
   - Only In Ref Nonsense utca
 refstreets:

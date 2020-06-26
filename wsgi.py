@@ -208,6 +208,10 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
         with doc.tag("p"):
             doc.text(_("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
             doc.text(_(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)))
+            doc.stag("br")
+            with doc.tag("a", href=prefix + "/missing-streets/{}/view-turbo".format(relation_name)):
+                doc.text(_("Overpass turbo query for streets with questionable names"))
+            doc.text(".")
 
         doc.asis(util.html_table_from_list(table).getvalue())
     return doc
@@ -365,6 +369,25 @@ def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) ->
     return doc
 
 
+def missing_streets_view_turbo(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/missing-streets/ormezo/view-turbo."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+
+    doc = yattag.doc.Doc()
+    relation = relations.get_relation(relation_name)
+    refstreets = relation.get_config().get_refstreets()
+    table: List[List[yattag.doc.Doc]] = [[util.html_escape("")]]
+    for key, _value in refstreets.items():
+        if relation.should_show_ref_street(key):
+            table.append([util.html_escape(key)])
+    query = areas.make_turbo_query_for_streets(relation, table)
+
+    with doc.tag("pre"):
+        doc.text(query)
+    return doc
+
+
 def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
@@ -377,7 +400,9 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations, "missing-streets", relation_name, osmrelation).getvalue())
 
-    if action == "view-query":
+    if action == "view-turbo":
+        doc.asis(missing_streets_view_turbo(relations, request_uri).getvalue())
+    elif action == "view-query":
         with doc.tag("pre"):
             with relation.get_files().get_ref_streets_stream("r") as sock:
                 doc.text(sock.read())
