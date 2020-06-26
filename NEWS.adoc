@@ -2,6 +2,7 @@
 
 == master
 
+- Resolves: gh#513 add overpass query for not yet audited street mappings
 - The stats feature now tracks the count of house number editors over time
 
 == 6.0
@@ -37,15 +38,15 @@
 
 - A new `cherry.py` glue layer to help running on top of CherryPy
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/380> the validator now catches strings which are
+- gh#380 the validator now catches strings which are
   not valid items in an `invalid:` string list
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/363> next to letter suffixes (42/a), now digit
+- gh#363 next to letter suffixes (42/a), now digit
   suffixes are also accepted (42/1). Both are still limited to a single-char suffix (2020-03-23)
 
 == 4.0
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/344> next to the existing "txt" output, a new
+- gh#344 next to the existing "txt" output, a new
   "chkl" output is available for missing house numbers of a relation, providing a plain text
   checklist. (2020-03-07)
 
@@ -59,35 +60,35 @@
 
 == 2.0
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/322> alias names are now supported for relations,
+- gh#322 alias names are now supported for relations,
   so compatibility (with existing bookmarks) does not break when renaming. (2019-01-10)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/291> added error handling for not valid relation
+- gh#291 added error handling for not valid relation
   names. (2019-12-12)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/285>: HTML output uses 42/A style for
+- gh#285: HTML output uses 42/A style for
   letter-suffixed house numbers, but plain text output uses 42a to help turning the output into
   `invalid` configs. (2019-12-06)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/267>: it is now possible to opt in for a more
+- gh#267: it is now possible to opt in for a more
   strict behavior where 42/B is not considered mapped when 42/A is already mapped. (2019-11-29)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/269>: noise in the reference can be now cleaned by
+- gh#269: noise in the reference can be now cleaned by
   filtering out house numbers explicitly, rather than filtering for valid ranges. (2019-11-15)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/195>: track what source range generated what house
+- gh#195: track what source range generated what house
   numbers for more compact results. (2019-11-10)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/224>: a way to generate the gpx of all streets
+- gh#224: a way to generate the gpx of all streets
   missing house numbers. (2019-10-31)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/237>: make OSM IDs of existing house numbers
+- gh#237: make OSM IDs of existing house numbers
   clickable. (2019-10-22)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/228>: added time internal hint when the overpass
+- gh#228: added time internal hint when the overpass
   query errors out due to not waiting enough. (2019-10-12)
 
-- <https://github.com/vmiklos/osm-gimmisn/issues/204>: added possibility to list certain
+- gh#204: added possibility to list certain
   reftelepules names when a specific refmegye is selected on the main page. (2019-10-09)
 
 == 1.0
