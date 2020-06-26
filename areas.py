@@ -244,6 +244,9 @@ class Relation:
         if relation_path in yaml_cache:
             my_config = yaml_cache[relation_path]
         self.__config = RelationConfig(parent_config, my_config)
+        # osm street name -> house number list map, so we don't have to read the on-disk list of the
+        # relation again and again for each street.
+        self.__osm_housenumbers: Dict[str, List[util.HouseNumber]] = {}
 
     def get_name(self) -> str:
         """Gets the name of the relation."""
@@ -323,21 +326,29 @@ class Relation:
 
     def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
         """Gets the OSM house number list of a street."""
-        house_numbers: List[util.HouseNumber] = []
-        with self.get_files().get_osm_housenumbers_stream(mode="r") as sock:
-            first = True
-            for line in sock.readlines():
-                if first:
-                    first = False
-                    continue
-                tokens = line.strip().split('\t')
-                if len(tokens) < 3:
-                    continue
-                if tokens[1] != street_name:
-                    continue
-                for house_number in tokens[2].split(';'):
-                    house_numbers += normalize(self, house_number, street_name, self.get_street_ranges())
-        return util.sort_numerically(set(house_numbers))
+        if not self.__osm_housenumbers:
+            # This function gets called for each & every street, make sure we read the file only
+            # once.
+            house_numbers: Dict[str, List[util.HouseNumber]] = {}
+            with self.get_files().get_osm_housenumbers_stream(mode="r") as sock:
+                first = True
+                for line in sock.readlines():
+                    if first:
+                        first = False
+                        continue
+                    tokens = line.strip().split('\t')
+                    if len(tokens) < 3:
+                        continue
+                    street = tokens[1]
+                    for house_number in tokens[2].split(';'):
+                        if street not in house_numbers:
+                            house_numbers[street] = []
+                        house_numbers[street] += normalize(self, house_number, street, self.get_street_ranges())
+            for key, value in house_numbers.items():
+                self.__osm_housenumbers[key] = util.sort_numerically(set(value))
+        if street_name not in self.__osm_housenumbers:
+            self.__osm_housenumbers[street_name] = []
+        return self.__osm_housenumbers[street_name]
 
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
         """
