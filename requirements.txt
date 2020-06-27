@@ -1,7 +1,7 @@
 cherrypy==18.6.0
 coverage==5.1
 flake8==3.8.3
-mypy==0.780
+mypy==0.782
 pylint==2.5.3
 python-dateutil==2.8.1
 pytz==2020.1
