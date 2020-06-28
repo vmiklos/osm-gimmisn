@@ -13,35 +13,22 @@ street-filters:
   - Vadas kert         # Vadaskert 0126/2
   # dűlők, tanyák
   - Sömögye dűlő
-  # Felső Majori út - w123869424 Csapás út OMV-vel szemben indul BGW
-  # Koponár utca    - w204692963 Öv utca nyugat
-  # Lőtéri utca     - w437965739 Öv utca észak
-  # Lapályos utca   - w458901888 Rezi út/Soproni út - ez is rossz lehet
-  # Magvető köz     - w98961145 Kertváros Gyöngyvirág utca északi része, Magvető utca
-  # Murvás út       - w226911681 Csapás út, Stop.shop nyugati oldal / Diego
-  # Rezgő utca      - w98217639 Csokonai utca folytatás Apát utca felé
+  # Koponár utca    - w204692963 Öv utca nyugat - földút, nem volt tábla az elején
 refstreets:
-  'Árnyas útja': 'Árnyas út'
-  'Balassi Bálint utca': 'Balassa Bálint utca'
-  'Bessenyei utca': 'Bessenyei György utca'
+  'Árnyas utca': 'Árnyas út'  # vegyesen vannak a táblák: Árnyas út / Árnyas utca
   'Bolyai utca': 'Bólyai utca'
-  'Csapás utca': 'Csapás út'
   'Csík Ferenc sétány': 'Csik Ferenc sétány'
   'Csokonai utca': 'Csokonai Vitéz Mihály utca'
   'Dankó utca': 'Dankó Pista utca'
-  'Füveskert utca': 'Füvészkert utca'
   'György bíró utca': 'György Biró utca'
   'Kazinczy Ferenc utca': 'Kazinczy utca'
   'Kilátó utca': 'Kilátó köz'
-  'Külsőzsidi utca': 'Külső Zsidi út'
-  'Mély utca': 'Mély út'
-  'Hévízi út': 'Hévizi út'
   'Jankó János utca': 'Jankó János út'
-  'Kísérleti utca': 'Kisérleti utca'
-  'Pajta alja utca': 'Pajta alja út'
   'Római utca': 'Római út'
   'Sujkó utca': 'Sajka utca'
-  'Tipegő útja': 'Tipegő út'
-  'Verébhegy utca': 'Verébhegyi út'
+  # ellenőrzött 2020-06
+  'Felsőmajori út': 'Felső Majori út'  # osm = utcanévtábla
+  'Ifjúság utca': 'Ifjúság útja'  # osm = utcanévtábla
+  'Kísérleti utca': 'Kisérleti utca'  # osm = utcanévtábla
 source: survey
 inactive: true
