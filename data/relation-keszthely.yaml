@@ -1,5 +1,15 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Ányas utca:
+    show-refstreet: false
+  Felsőmajori út:
+    show-refstreet: false
+  Ifjúság utca:
+    show-refstreet: false
+  Kísérleti utca:
+    show-refstreet: false
+  Tipegő utca:
+    show-refstreet: false
 street-filters:
   # nem igazi utca - 249/2015. (XI.26.) önk. határozat által átnevezett külterületek
   - Fenéki határ       # Fenéki vasúti őrház és a Fenékpuszta vasúti megálló
@@ -15,20 +25,21 @@ street-filters:
   - Sömögye dűlő
   # Koponár utca    - w204692963 Öv utca nyugat - földút, nem volt tábla az elején
 refstreets:
-  'Árnyas utca': 'Árnyas út'  # vegyesen vannak a táblák: Árnyas út / Árnyas utca
-  'Bolyai utca': 'Bólyai utca'
-  'Csík Ferenc sétány': 'Csik Ferenc sétány'
-  'Csokonai utca': 'Csokonai Vitéz Mihály utca'
-  'Dankó utca': 'Dankó Pista utca'
-  'György bíró utca': 'György Biró utca'
-  'Kazinczy Ferenc utca': 'Kazinczy utca'
-  'Kilátó utca': 'Kilátó köz'
-  'Jankó János utca': 'Jankó János út'
-  'Római utca': 'Római út'
-  'Sujkó utca': 'Sajka utca'
-  # ellenőrzött 2020-06
-  'Felsőmajori út': 'Felső Majori út'  # osm = utcanévtábla
-  'Ifjúság utca': 'Ifjúság útja'  # osm = utcanévtábla
-  'Kísérleti utca': 'Kisérleti utca'  # osm = utcanévtábla
+  Bolyai utca: Bólyai utca
+  Csík Ferenc sétány: Csik Ferenc sétány
+  Csokonai utca: Csokonai Vitéz Mihály utca
+  Dankó utca: Dankó Pista utca
+  György bíró utca: György Biró utca
+  Kazinczy Ferenc utca: Kazinczy utca
+  Kilátó utca: Kilátó köz
+  Jankó János utca: Jankó János út
+  Római utca: Római út
+  Sujkó utca: Sajka utca
+  # ellenőrzött 2020-06, utcatábán az osm név
+  Árnyas utca: Árnyas út  # vegyesen vannak a táblák: Árnyas út / Árnyas utca
+  Felsőmajori út: Felső Majori út
+  Ifjúság utca: Ifjúság útja
+  Kísérleti utca: Kisérleti utca
+  Tipegő utca: Tipegő út
 source: survey
 inactive: true
