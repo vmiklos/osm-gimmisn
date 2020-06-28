@@ -1,10 +1,12 @@
 missing-streets: 'yes'
 filters:
-  Ányas utca:
+  Árnyas utca:
     show-refstreet: false
   Felsőmajori út:
     show-refstreet: false
   Ifjúság utca:
+    show-refstreet: false
+  Kazinczy Ferenc utca:
     show-refstreet: false
   Kísérleti utca:
     show-refstreet: false
@@ -26,19 +28,17 @@ street-filters:
   # Koponár utca    - w204692963 Öv utca nyugat - földút, nem volt tábla az elején
 refstreets:
   Bolyai utca: Bólyai utca
-  Csík Ferenc sétány: Csik Ferenc sétány
   Csokonai utca: Csokonai Vitéz Mihály utca
   Dankó utca: Dankó Pista utca
-  György bíró utca: György Biró utca
-  Kazinczy Ferenc utca: Kazinczy utca
+  György bíró utca: György Biró utca  # marad így, helyesírásilag ez a forma jó, utcanévtábla uppercase és rövid
   Kilátó utca: Kilátó köz
   Jankó János utca: Jankó János út
-  Római utca: Római út
   Sujkó utca: Sajka utca
   # ellenőrzött 2020-06, utcatábán az osm név
   Árnyas utca: Árnyas út  # vegyesen vannak a táblák: Árnyas út / Árnyas utca
   Felsőmajori út: Felső Majori út
   Ifjúság utca: Ifjúság útja
+  Kazinczy Ferenc utca: Kazinczy utca
   Kísérleti utca: Kisérleti utca
   Tipegő utca: Tipegő út
 source: survey
