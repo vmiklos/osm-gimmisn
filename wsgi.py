@@ -126,9 +126,12 @@ def missing_housenumbers_view_turbo(relations: areas.Relations, request_uri: str
 
     doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
-    ret = relation.write_missing_housenumbers()
-    _todo_street_count, _todo_count, _done_count, _percent, table = ret
-    query = areas.make_turbo_query_for_streets(relation, table)
+    ongoing_streets, _ = relation.get_missing_housenumbers()
+    streets: List[str] = []
+    for result in ongoing_streets:
+        # Street name, # of only_in_reference items.
+        streets.append(result[0].get_osm_name())
+    query = areas.make_turbo_query_for_streets(relation, streets)
 
     with doc.tag("pre"):
         doc.text(query)
@@ -377,11 +380,11 @@ def missing_streets_view_turbo(relations: areas.Relations, request_uri: str) -> 
     doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
     refstreets = relation.get_config().get_refstreets()
-    table: List[List[yattag.doc.Doc]] = [[util.html_escape("")]]
+    streets: List[str] = []
     for key, _value in refstreets.items():
         if relation.should_show_ref_street(key):
-            table.append([util.html_escape(key)])
-    query = areas.make_turbo_query_for_streets(relation, table)
+            streets.append(key)
+    query = areas.make_turbo_query_for_streets(relation, streets)
 
     with doc.tag("pre"):
         doc.text(query)

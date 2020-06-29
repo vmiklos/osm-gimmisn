@@ -897,10 +897,7 @@ class TestMakeTurboQueryForStreets(unittest.TestCase):
         """Tests the happy path."""
         relations = get_relations()
         relation = relations.get_relation("gazdagret")
-        fro = [[util.html_escape("A1"),
-                util.html_escape("B1")],
-               [util.html_escape("A2"),
-                util.html_escape("B2")]]
+        fro = ["A2"]
         ret = areas.make_turbo_query_for_streets(relation, fro)
         expected = """[out:json][timeout:425];
 rel(2713748)->.searchRelation;

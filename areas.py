@@ -762,15 +762,8 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     return [util.HouseNumber(str(number) + suffix, house_numbers, comment) for number in ret_numbers]
 
 
-def make_turbo_query_for_streets(relation: Relation, table: List[List[yattag.doc.Doc]]) -> str:
+def make_turbo_query_for_streets(relation: Relation, streets: List[str]) -> str:
     """Creates an overpass query that shows all streets from a missing housenumbers table."""
-    streets: List[str] = []
-    first = True
-    for row in table:
-        if first:
-            first = False
-            continue
-        streets.append(row[0].getvalue())
     header = """[out:json][timeout:425];
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
