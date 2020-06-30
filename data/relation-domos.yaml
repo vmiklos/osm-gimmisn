@@ -6,18 +6,9 @@ street-filters:
   # nem igazi utcák / csak hrsz.
   - Duna-dülő  # Duna-dűlőként fent van
   - Kertföle  # Kertekföle néven fut
-  # egyéb
-  # Panoráma utca - ???
-  # Táncsics Mihály lépcső - ???
-  # Macskások-nyilasok dűlő - Királykúti utca folytatása, kapott dokumentumban szerepel
-  # Prépostság útja - Prépostsági romok
-  # Nedeczky Gáspár utca - kapott dokumentumban szerepel "még nem volt elnevezés" megjegyzéssel
-  # Vöröshegyi utca - Magyar Kékkereszt Egyesület és Református Iszákosmentő Misszió
-  # Zelovich Kornél utca - Táncsics Mihály 76 környéke
+  - Macskások-nyilasok dűlő  # Királykúti utca folytatása, Vad-Fa-Ló bejelölve ezzel a címmel
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Béla király utca': 'Béla király út'
-  'Cukorhegy utca': 'Cukor hegy'
-  'Kőrössy László utca': 'Kőrössy utca'
+  'Cukorhegy utca': 'Cukorhegy'
   'Táncsics Mihály utca': 'Táncsics Mihály út'
-  'Szuha dűlő': 'Szuha utca'
+  'Szuha dűlő': 'Szuha utca'  # Szuha dűlő van kiírva
