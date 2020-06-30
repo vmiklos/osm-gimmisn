@@ -9,6 +9,6 @@ street-filters:
   - Macskások-nyilasok dűlő  # Királykúti utca folytatása, Vad-Fa-Ló bejelölve ezzel a címmel
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Cukorhegy utca': 'Cukorhegy'
+  'Cukorhegy': 'Cukor hegy'
   'Táncsics Mihály utca': 'Táncsics Mihály út'
   'Szuha dűlő': 'Szuha utca'  # Szuha dűlő van kiírva
