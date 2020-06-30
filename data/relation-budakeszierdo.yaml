@@ -1,15 +1,13 @@
 missing-streets: 'no'
 filters:
-  # Budakeszi, Alma utca
   Alma utca:
-    refsettlement: '012'
+    # Budakeszi, Alma utca
     ranges: []
   Budakeszi út:
     ranges:
-      - {start: '95', end: '101'}
-  # Budakeszi, Futrinka utca
+      - {start: '99', end: '101', refsettlement: '002'}
   Futrinka utca:
-    refsettlement: '012'
+    # Budakeszi, Futrinka utca
     ranges: []
   Konkoly-Thege Miklós út:
     refsettlement: '012'
@@ -19,5 +17,18 @@ filters:
     refsettlement: '012'
     ranges:
       - {start: '1', end: '19'}
+  Szép Juhászné út:
+    # területhatár: harshegy/petnehazyret/budakeszierdo
+    refsettlement: '002'
+    interpolation: all
+    ranges:
+      - {start: '1', end: '2'}
+  Üdülő út:
+    refsettlement: '002'
+    ranges:
+      - {start: '2', end: '98'}
+  Vezér utca:
+    # Budakeszi, Vezér utca
+    ranges: []
 source: survey
 inactive: true

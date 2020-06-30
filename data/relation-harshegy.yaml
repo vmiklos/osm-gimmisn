@@ -3,7 +3,7 @@ filters:
   Budakeszi út:
     # területhatár: II: kurucles/harshegy/szepilona XII: budakeszierdo/janoshegy/viranyos/zugliget
     ranges:
-      - {start: '53', end: '99'}
+      - {start: '53', end: '97'}
   Feketefej utca:
     # területhatár: harshegy/petnehazyret/adyliget
     # ezen a részen nincs ház, erdő van

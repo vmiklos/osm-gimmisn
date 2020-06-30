@@ -5,9 +5,9 @@ filters:
     ranges:
       - {start: '2', end: '4'}
   Szép Juhászné út:
-    # területhatár: harshegy/petnehazyret
+    # területhatár: harshegy/petnehazyret/budakeszierdo
+    interpolation: all
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '3', end: '99'}
 source: survey
 inactive: true
