@@ -2,7 +2,6 @@ missing-streets: 'yes'
 filters: {}
 street-filters:
   # nem igazi utcák / csak hrsz.
-  - Kvassay zsilip
   - Szigetcsúcs
   # dupla, más írásmód is létezik
   - Áruház tér  # Görgey Artúr tér
