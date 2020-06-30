@@ -13,6 +13,9 @@ filters:
     refsettlement: '012'
     ranges:
       - {start: '1', end: '19'}
+  Kossuth Lajos utca:
+    # Budakeszi, Kossuth Lajos utca
+    ranges: []
   Szanatórium utca:
     refsettlement: '012'
     ranges:
