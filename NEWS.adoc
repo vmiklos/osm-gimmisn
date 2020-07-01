@@ -2,7 +2,10 @@
 
 == master
 
+- Resolves: gh#521 sync missing-housenumbers and missing-streets toolbars
+
 - Resolves: gh#513 add overpass query for not yet audited street mappings
+
 - The stats feature now tracks the count of house number editors over time
 
 == 6.0
