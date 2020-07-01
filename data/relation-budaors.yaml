@@ -139,7 +139,6 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Aszú utca: Aszu utca
-  # Árokpart utca: Árokparti utca - OSM javítva
   Írisz utca: Irisz utca
   Jókai Mór utca: Jókai utca  # OSM helyes
   Kamaraerdei út: Kamaraerdei utca
@@ -149,5 +148,4 @@ refstreets:
   Petőfi Sándor utca: Petőfi utca
   Ribiszke utca: Ribizke utca
   Széchenyi utca: Széchenyi István utca
-  Turista utca: Turistaház utca
 inactive: false
