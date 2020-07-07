@@ -1,0 +1,11 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # Tanyák
+  - Tanya
+  - Üllőparti tanya
+refstreets:
+  'Veress Zoltán utca': 'Veres Zoltán utca'
+source: survey
+inactive: true
+housenumber-letters: true
