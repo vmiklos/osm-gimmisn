@@ -1,0 +1,66 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # Tanyák
+  - Felsőnyomás tanya
+  - Fényes tanya
+  - Fürjes tanya
+  - Kerek tanya
+  - Gerla tanya
+  - Nagyrét tanya
+  - Ölyvedi kertek
+  # Területként fent van
+  - Almáskerti Ipari park
+  # Dupla
+  - Millennium liget  # Kőrösi Csoma Sándor utca
+  - Tégla sor  # ref: Tégla utcán van a házszámok nagy része
+  # kérdéses -----------
+  # Kerekerdő sor
+  # todo ---------------
+  # Bartoss udvar
+  # Berthóty udvar
+  # Boczkó Dániel tér
+  # Bogárházi sétány
+  # Csáky utca
+  # Erzsébet lakópark
+  # Hajlási dűlő
+  # Hajlási köz
+  # Ostoros utca
+  # Petőfi liget
+  # Selyemakác utca
+refstreets:
+  '4-es honvéd utca': '4-es Honvéd utca'
+  'Alsó-Körös sor': 'Alsó Körös sor'
+  'Bánszky utca': 'Bánszki utca'
+  'Bezerédi utca': 'Bezerédj utca'
+  'Borjúrét utca': 'Borjú-rét utca'
+  'Botyánszky Pálné utca': 'Botyánszki Pálné utca'
+  'Csér utca': 'Cser utca'
+  'Darányi utca': 'Darányi sor'
+  'Endrész György utca': 'Endresz György utca'
+  'Fiumei utca': 'Fiumei út'
+  'Fürjes utca': 'Fürj utca'
+  'Gárdonyi Géza utca': 'Gárdonyi utca'
+  'Irsai Olivér utca': 'Gorkij utca'
+  'Hét vezér utca': 'Hétvezér utca'
+  'Id. Réthy Béla utca': 'id. Réthy Béla utca'
+  'Kanális utca': 'Kanálisi utca'
+  'Károlyi utca': 'Károlyi Mihály utca'
+  'Kemény Zsigmond utca': 'Kemény utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Nógrádi utca': 'Nógrád utca'
+  'Öt ház utca': 'Ötház utca'
+  'Povázsai Máté utca': 'Povázsay Máté utca'
+  'Radnóti utca': 'Radnóti Miklós utca'
+  'Révay utca': 'Révai utca'
+  'Sárga Alma utca': 'Sárga alma utca'
+  'Sikonyi utca': 'Sikonyi út'
+  'Sikkony utca': 'Sikony utca'
+  'Szermián Sámuel utca': 'Szemian Sámuel utca'
+  'Táncsics Mihály utca': 'Táncsics utca'
+  'Tégla sor': 'Tégla utca'
+  'Tessedik Sámuel utca': 'Tessedik utca'
+  'Varsányi utca': 'Varsányi Irén utca'
+  'Vasúti sor': 'Vasút sor'
+  'Vicskó utca': 'Vlcskó utca'
+source: survey

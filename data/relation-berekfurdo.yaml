@@ -7,5 +7,4 @@ street-filters:
 refstreets:
   'Veress Zoltán utca': 'Veres Zoltán utca'
 source: survey
-inactive: true
 housenumber-letters: true
