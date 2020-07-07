@@ -549,6 +549,10 @@ zanka:
     refcounty: "19"
     refsettlement: "216"
 # Egyéb videk
+berekfurdo:
+    osmrelation: 1325377
+    refcounty: "11"
+    refsettlement: "003"
 bogacs:
     osmrelation: 1418454
     refcounty: "05"
