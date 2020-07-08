@@ -1,0 +1,15 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # hiányzók
+  # Berek köz
+  # Kismetszés köz
+  # dupla
+  - Dülő út  # Dűlő utca
+refstreets:
+  'Bozsik József út': 'Bozsik József utca'
+  'Hidegkuti Nándor köz': 'Hidegkúti Nándor köz'
+  'Napfény utca': 'Napfény út'
+  'Zakariás József út': 'Zakariás József utca'
+  'Zichy utca': 'Zichy Mihály utca'
+source: survey
