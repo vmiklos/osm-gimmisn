@@ -1,5 +1,7 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Táncsincs Mihály utca:
+    invalid: ['80']
 source: survey
 inactive: false
 street-filters:
