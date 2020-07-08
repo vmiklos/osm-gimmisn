@@ -41,6 +41,7 @@ filters:
       - {start: '1', end: '99'}
       - {start: '12', end: '98'}
   Ménesi út:
+    invalid: ['43']
     ranges:
       - {start: '5', end: '87'}
   Orom utca:
