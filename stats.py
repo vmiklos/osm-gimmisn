@@ -9,7 +9,9 @@
 
 from typing import Any
 from typing import Dict
+from typing import List
 from typing import TextIO
+from typing import Tuple
 import datetime
 import json
 import os
@@ -49,6 +51,38 @@ def handle_topusers(src_root: str, j: Dict[str, Any]) -> None:
                 count, _, user = line.partition(' ')
                 ret.append([user, count])
     j["topusers"] = ret
+
+
+def handle_topcities(src_root: str, j: Dict[str, Any]) -> None:
+    """
+    Generates stats for top cities.
+    This lists the top 20 cities which got lots of new house numbers in the past 30 days.
+    """
+    ret = []
+    new_day = datetime.date.today().strftime("%Y-%m-%d")
+    day_delta = datetime.date.today() - datetime.timedelta(days=30)
+    old_day = day_delta.strftime("%Y-%m-%d")
+    old_counts: Dict[str, int] = {}
+    counts: List[Tuple[str, int]] = []
+
+    old_count_path = os.path.join(src_root, "%s.citycount" % old_day)
+    with open(old_count_path, "r") as stream:
+        for line in stream.readlines():
+            line = line.strip()
+            city, _, count = line.partition('\t')
+            if count:
+                old_counts[city] = int(count)
+
+    new_count_path = os.path.join(src_root, "%s.citycount" % new_day)
+    with open(new_count_path, "r") as stream:
+        for line in stream.readlines():
+            line = line.strip()
+            city, _, count = line.partition('\t')
+            if count and city in old_counts:
+                counts.append((city, int(count) - old_counts[city]))
+    ret = sorted(counts, key=lambda x: x[1], reverse=True)
+    ret = ret[:20]
+    j["topcities"] = ret
 
 
 def handle_user_total(src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
@@ -163,6 +197,7 @@ def generate_json(state_dir: str, stream: TextIO) -> None:
     j: Dict[str, Any] = {}
     handle_progress(state_dir, j)
     handle_topusers(state_dir, j)
+    handle_topcities(state_dir, j)
     handle_user_total(state_dir, j)
     handle_daily_new(state_dir, j)
     handle_daily_total(state_dir, j)

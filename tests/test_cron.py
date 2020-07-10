@@ -9,6 +9,7 @@
 from typing import Any
 from typing import BinaryIO
 from typing import Optional
+import datetime
 import io
 import os
 import time
@@ -293,6 +294,14 @@ def create_old_file(path: str) -> None:
     os.utime(path, (old_access_time, old_modification_time))
 
 
+class MockDate(datetime.date):
+    """Mock datetime.date."""
+    @classmethod
+    def today(cls) -> 'MockDate':
+        """Returns today's date."""
+        return cls(2020, 5, 10)
+
+
 class TestUpdateStats(test_config.TestCase):
     """Tests update_stats()."""
     def test_happy(self) -> None:
@@ -322,7 +331,8 @@ class TestUpdateStats(test_config.TestCase):
         path = config.get_abspath("workdir/stats/%s.csv" % today)
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-                cron.update_stats(overpass=True)
+                with unittest.mock.patch('datetime.date', MockDate):
+                    cron.update_stats(overpass=True)
         actual = util.get_content(path)
         self.assertEqual(actual, result_from_overpass)
 
@@ -341,7 +351,8 @@ class TestUpdateStats(test_config.TestCase):
 
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
-                cron.update_stats(overpass=True)
+                with unittest.mock.patch('datetime.date', MockDate):
+                    cron.update_stats(overpass=True)
         self.assertTrue(mock_overpass_sleep_called)
 
     def test_no_overpass(self) -> None:
@@ -353,7 +364,8 @@ class TestUpdateStats(test_config.TestCase):
             mock_overpass_sleep_called = True
 
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            cron.update_stats(overpass=False)
+            with unittest.mock.patch('datetime.date', MockDate):
+                cron.update_stats(overpass=False)
         self.assertFalse(mock_overpass_sleep_called)
 
 

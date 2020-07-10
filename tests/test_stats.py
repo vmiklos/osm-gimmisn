@@ -8,6 +8,7 @@
 
 from typing import Any
 from typing import Dict
+from typing import Optional
 import datetime
 import os
 import unittest
@@ -18,7 +19,7 @@ import stats
 import test_config
 
 
-def mock_strftime(_fmt: str) -> str:
+def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:
     """Mock time.strftime()."""
     return "2020-05-10"
 
@@ -78,6 +79,20 @@ class TestHandleTopusers(test_config.TestCase):
             stats.handle_topusers(src_root, j)
         topusers = j["topusers"]
         self.assertFalse(topusers)
+
+
+class TestHandleTopcities(test_config.TestCase):
+    """Tests handle_topcities()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        src_root = config.get_abspath("workdir/stats")
+        j: Dict[str, Any] = {}
+        with unittest.mock.patch('datetime.date', MockDate):
+            stats.handle_topcities(src_root, j)
+        topcities = j["topcities"]
+        self.assertEqual(len(topcities), 2)
+        self.assertEqual(topcities[0], ("budapest_02", 190))
+        self.assertEqual(topcities[1], ("budapest_01", 90))
 
 
 class TestHandleDailyNew(test_config.TestCase):
