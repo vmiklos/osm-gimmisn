@@ -218,7 +218,7 @@ def update_stats_topusers(today: str) -> None:
         stream.write(str(len(users)) + "\n")
 
 
-def update_stats() -> None:
+def update_stats(overpass: bool) -> None:
     """Performs the update of country-level stats."""
 
     # Fetch house numbers for the whole country.
@@ -229,21 +229,20 @@ def update_stats() -> None:
     today = time.strftime("%Y-%m-%d")
     csv_path = os.path.join(statedir, "%s.csv" % today)
 
-    # It would make sense to have a switch to disable this block when you manually test the
-    # <date>.csv parsing code.
-    retry = 0
-    while should_retry(retry):
-        if retry > 0:
-            info("update_stats: try #%s", retry)
-        retry += 1
-        try:
-            overpass_sleep()
-            response = overpass_query.overpass_query(query)
-            with open(csv_path, "w") as stream:
-                stream.write(response)
-            break
-        except urllib.error.HTTPError as http_error:
-            info("update_stats: http error: %s", str(http_error))
+    if overpass:
+        retry = 0
+        while should_retry(retry):
+            if retry > 0:
+                info("update_stats: try #%s", retry)
+            retry += 1
+            try:
+                overpass_sleep()
+                response = overpass_query.overpass_query(query)
+                with open(csv_path, "w") as stream:
+                    stream.write(response)
+                break
+            except urllib.error.HTTPError as http_error:
+                info("update_stats: http error: %s", str(http_error))
 
     update_stats_count(today)
     update_stats_topusers(today)
@@ -264,10 +263,10 @@ def update_stats() -> None:
     info("update_stats: end")
 
 
-def our_main(relations: areas.Relations, mode: str, update: bool) -> None:
+def our_main(relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
     """Performs the actual nightly task."""
     if mode in ("all", "stats"):
-        update_stats()
+        update_stats(overpass)
     if mode in ("all", "relations"):
         update_osm_streets(relations, update)
         update_osm_housenumbers(relations, update)
@@ -311,7 +310,9 @@ def main() -> None:
                         help="don't update existing state of relations")
     parser.add_argument("--mode", choices=["all", "stats", "relations"],
                         help="only perform the given sub-task or all of them")
-    parser.set_defaults(update=True, mode="relations")
+    parser.add_argument("--no-overpass", dest="overpass", action="store_false",
+                        help="when updating stats, don't perform any overpass update")
+    parser.set_defaults(update=True, overpass=True, mode="relations")
     args = parser.parse_args()
 
     start = time.time()
@@ -321,7 +322,7 @@ def main() -> None:
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)
     try:
-        our_main(relations, args.mode, args.update)
+        our_main(relations, args.mode, args.update, args.overpass)
     # pylint: disable=broad-except
     except Exception:
         error("main: unhandled exception: %s", traceback.format_exc())

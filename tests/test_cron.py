@@ -322,7 +322,7 @@ class TestUpdateStats(test_config.TestCase):
         path = config.get_abspath("workdir/stats/%s.csv" % today)
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-                cron.update_stats()
+                cron.update_stats(overpass=True)
         actual = util.get_content(path)
         self.assertEqual(actual, result_from_overpass)
 
@@ -341,8 +341,20 @@ class TestUpdateStats(test_config.TestCase):
 
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
-                cron.update_stats()
+                cron.update_stats(overpass=True)
         self.assertTrue(mock_overpass_sleep_called)
+
+    def test_no_overpass(self) -> None:
+        """Tests the case when we don't call overpass."""
+        mock_overpass_sleep_called = False
+
+        def mock_overpass_sleep() -> None:
+            nonlocal mock_overpass_sleep_called
+            mock_overpass_sleep_called = True
+
+        with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
+            cron.update_stats(overpass=False)
+        self.assertFalse(mock_overpass_sleep_called)
 
 
 class TestOurMain(test_config.TestCase):
@@ -362,7 +374,7 @@ class TestOurMain(test_config.TestCase):
                     with unittest.mock.patch("cron.update_ref_housenumbers", count_calls):
                         with unittest.mock.patch("cron.update_missing_streets", count_calls):
                             with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
-                                cron.our_main(relations, mode="relations", update=True)
+                                cron.our_main(relations, mode="relations", update=True, overpass=True)
 
         expected = 0
         # Consider what to update automatically: the 2 sources and the diff between them.
@@ -377,13 +389,13 @@ class TestOurMain(test_config.TestCase):
         """Tests the stats path."""
         calls = 0
 
-        def count_calls() -> None:
+        def count_calls(_overpass: bool) -> None:
             nonlocal calls
             calls += 1
 
         relations = get_relations()
         with unittest.mock.patch("cron.update_stats", count_calls):
-            cron.our_main(relations, mode="stats", update=False)
+            cron.our_main(relations, mode="stats", update=False, overpass=True)
 
         self.assertEqual(calls, 1)
 
@@ -394,7 +406,7 @@ class TestMain(test_config.TestCase):
         """Tests the happy path."""
         mock_main_called = False
 
-        def mock_main(_relations: areas.Relation, _mode: str, _update: bool) -> None:
+        def mock_main(_relations: areas.Relation, _mode: str, _update: bool, _overpass: bool) -> None:
             nonlocal mock_main_called
             mock_main_called = True
 
