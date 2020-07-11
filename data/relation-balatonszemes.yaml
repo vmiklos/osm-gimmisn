@@ -1,4 +1,20 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  # Nem igazi utcák
+  - Szedres
+refstreets:
+  'Árnyas fasor': 'Árnyas utca'
+  'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
+  'Bem József utca': 'Bem utca'
+  'Bocskai utca': 'Bocskay utca'
+  'Dankó Pista utca': 'Dankó utca'
+  'Eötvös Károly utca': 'Eötvös utca'
+  'Fő utca': 'Fő út'
+  'Gárdonyi Géza út': 'Gárdonyi Géza utca'
+  'Hét vezér utca': 'Hétvezér utca'
+  'Kölcsey Ferenc utca': 'Kölcsey utca'
+  'Madách Imre utca': 'Madách utca'
+  'Munkácsy Mihály utca': 'Munkácsy utca'
 source: survey
 inactive: true
