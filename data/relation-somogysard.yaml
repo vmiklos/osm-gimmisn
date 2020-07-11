@@ -1,0 +1,10 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - Dimitrov utca  # Vörösmarty utca lett belőle, dupla
+refstreets:
+  'Jókai Mór köz': 'Jókai köz'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Táncsics Mihály utca': 'Táncsics utca'
+source: survey
