@@ -310,6 +310,9 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
             ("str-topusers-title", _("Top house number editors, as of {}")),
             ("str-topusers-x-axis", _("User name")),
             ("str-topusers-y-axis", _("Number of house numbers last changed by this user")),
+            ("str-topcities-title", _("Top edited cities, as of {}")),
+            ("str-topcities-x-axis", _("City name")),
+            ("str-topcities-y-axis", _("Number of house numbers added in the past 30 days")),
             ("str-usertotal-title", _("Number of house number editors, as of {}")),
             ("str-usertotal-x-axis", _("All editors")),
             ("str-usertotal-y-axis", _("Number of editors, at least one housenumber is last changed by these users")),
@@ -330,6 +333,7 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
         (_("New house numbers, monthly"), "monthly"),
         (_("All house numbers, monthly"), "monthlytotal"),
         (_("Top house number editors"), "topusers"),
+        (_("Top edited cities"), "topcities"),
         (_("All house number editors"), "usertotal"),
         (_("Coverage"), "progress"),
     ]

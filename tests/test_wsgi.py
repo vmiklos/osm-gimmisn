@@ -755,8 +755,8 @@ class TestStats(TestWsgi):
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/housenumber-stats/hungary/")
         results = root.findall("body/h2")
-        # 7 chart types + note
-        self.assertEqual(len(results), 8)
+        # 8 chart types + note
+        self.assertEqual(len(results), 9)
 
 
 if __name__ == '__main__':
