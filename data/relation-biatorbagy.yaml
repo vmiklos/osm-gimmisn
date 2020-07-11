@@ -5,14 +5,38 @@ filters:
       - {start: '1', end: '199'}
       - {start: '2', end: '198'}
 source: survey
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - Alsómajor
+  - Biatorbágyi tanyák
+  - Erdészlak
+  - Füzes-patak dűlő
+  - Halászház I-II.
+  - Iharos
+  - Katalin hegy  # területnév
+  - Kőbánya
+  - Kutyahegy
+  - Öreg-hegy
+  - Pecató
+  - Szarvas-hegy
+  - Ürgehegy
+  - Vasútállomás
+  # ismeretlen -----------------------
+  # Bodza köz - ???
+  # Joó út - ???
+  # Szegfű köz
+  # Viola köz
 refstreets:
   'Angeli András utca': 'Angeli András út'
-  'Dévay Gyula utca': 'Dévay Gyula utca'
+  'Dévai Gyula utca': 'Dévay Gyula utca'
   'Dózsa György utca': 'Dózsa György út'
+  'Füzes utca': 'Füzesi utca'
   'Juhász Gyula utca': 'Juhász Gyula út'
   'Hunyadi utca': 'Hunyadi János utca'
   'Losonczi utca': 'Losonci utca'
   'Katalin utca': 'Katalin út'
+  'Mandala utca': 'Mandula utca'
+  'Óvoda köz': 'Óvóda köz'
   'Pátyi út': 'Pátyi utca'
   'Petőfi Sándor köz': 'Petőfi köz'
   'Ritsmann Pál utca': 'Ritsman Pál utca'
@@ -22,5 +46,10 @@ refstreets:
   'Tas vezér utca': 'Tas utca'
   'Vízipók utca': 'Vizipók utca'
   'Zugor utca': 'Zugor István utca'
-  'Óvoda köz': 'Óvóda köz'
+  # hiányzó
+  # Csap utca - Ürgehegy
+  # Járdovány utca - Ürgehegy
+  # Kövidinka utca - Ürgehegy
+  # Süllő utca - Pecató Fenyves utca vége
+  # Kálvária dűlő - Boglárka utca vége
 inactive: true
