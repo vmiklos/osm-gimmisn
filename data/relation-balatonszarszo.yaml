@@ -1,4 +1,19 @@
 missing-streets: 'yes'
 filters: {}
+refstreets:
+  # Almahegy
+  # Ebhegy
+  # Kenderföld dűlő
+  'Akácos utca': 'Akácos út'
+  'Bartók Béla út': 'Bartók Béla utca'
+  'Bulcsú utca': 'Bulcsu utca'
+  'Keleti üdülőtelep': 'Keleti üdülő-telep'
+  'Kültelek utca': 'Kültelek'
+  'Öreghegyi út': 'Öreg hegy'
+  'Örs utca': 'Őrs utca'
+  'Petőfi Sándor köz': 'Petőfi köz'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Újélet utca': 'Új Élet utca'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
 source: survey
 inactive: true
