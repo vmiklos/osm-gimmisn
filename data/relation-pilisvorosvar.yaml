@@ -1,0 +1,41 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - Dimitrov utca  # Vörösmarty utca lett belőle, dupla
+refstreets:
+  'Amur utca': 'Amúr utca'
+  'Bocskai István utca': 'Bocskai utca'
+  'Csokonai Vitéz Mihály utca': 'Csokonai utca'
+  'Dugonics András utca': 'Dugonics utca'
+  'Eperjes utca': 'Eperjesi utca'
+  'Fischtheiss utca': 'Fischteich utca'
+  'Freiacker utca': 'Freiäcker utca'
+  'Fácán út': 'Fácán utca'
+  'Gárdonyi Géza utca': 'Gárdonyi utca'
+  'Görgey Artúr utca': 'Görgey utca'
+  'Horgász-sor utca': 'Horgászsor utca'
+  'Hunyadi János utca': 'Hunyadi utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Kossuth Lajos köz': 'Kossuth köz'
+  'Lahner György utca - Határ utca': 'Lahner György utca'
+  'Madách Imre utca': 'Madách utca'
+  'Munkácsy Mihály utca': 'Munkácsy utca'
+  'Petőfi Sándor köz': 'Petőfi köz'
+  'Remete utca': 'Remetei utca'
+  'Rákóczi Ferenc köz': 'Rákóczi köz'
+  'Semmelweis Ignác köz': 'Semmelweis köz'
+  'Szentiványi utca': 'Szentiváni út'
+  'Szondi György utca': 'Szondi utca'
+  'Táncsics Mihály köz': 'Táncsics köz'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+  #
+  'Alma utca': 'Alma köz'
+  'Szivárvány utca': 'Szivárvány köz'
+  # Ásványbánya utca - Csabai út
+  # Barackos köz - Barackos utca/Liliom utca?
+  # Búzavirág köz
+  # Cseresznye utca - Alma és Körte között
+  # Rozmaring köz - Budai körfogralomnál
+  # Víztározó utca - Víztározónál
+source: survey
