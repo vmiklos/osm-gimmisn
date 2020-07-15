@@ -1,7 +1,5 @@
 missing-streets: 'yes'
 filters: {}
-street-filters:
-  - Dimitrov utca  # Vörösmarty utca lett belőle, dupla
 refstreets:
   'Amur utca': 'Amúr utca'
   'Bocskai István utca': 'Bocskai utca'

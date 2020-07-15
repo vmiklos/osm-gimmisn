@@ -1,0 +1,34 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák
+  - Harmat tanya
+  - Nagy tanya
+  - Szitnyai tanya
+  - Vasútállomás
+  # Hiányzók
+  # Kertesi utca  # van, Erdőkertes/Veresegyház határ - javítva
+  # Lovász tér Előd vezér/Álmos vezér - Holdfény étterem
+  # Omega köz
+  # Szentlélek tér
+refstreets:
+  'Belső Tópart utca': 'Belső-Tópart utca'
+  'Budapesti út': 'Budapesti utca'
+  'Előd vezér utca': 'Előd utca'
+  'Gödöllői út': 'Gödöllői utca'
+  'Hét vezér utca': 'Hétvezér út'
+  'Kakukkfű utca': 'Kakukkfü utca'
+  'Könyves Kálmán út': 'Könyves Kálmán utca'
+  'Kőhíd utca': 'Kőhid utca'
+  'Páskom utca': 'Paskom utca'
+  'Regős utca': 'Regös utca'
+  'Sportföld utca': 'Sportföld'
+  'Szent Erzsébet utca': 'Szent Erzsébet körút'
+  'Szent Korona utca': 'Szent korona utca'
+  'Tas vezér utca': 'Tas utca'
+  'Tinódi Lantos Sebestyén utca': 'Tinódi L. Sebestyén utca'
+  'Viczián utca': 'Vicián utca'
+  'Wesselényi utca': 'Wesselényi Miklós utca'
+  'Zúzmara utca': 'Zuzmara utca'
+  'Öreghegysor utca': 'Öreghegy sor'
+source: survey
