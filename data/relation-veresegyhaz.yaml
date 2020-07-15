@@ -6,6 +6,9 @@ street-filters:
   - Nagy tanya
   - Szitnyai tanya
   - Vasútállomás
+  # ref dupla
+  - Sportföld  # Van Sportföld utca, erre nem jön
+  - Vicián utca  # A házszámok nagy része a Viczián utcán jön
   # Hiányzók
   # Kertesi utca  # van, Erdőkertes/Veresegyház határ - javítva
   # Lovász tér Előd vezér/Álmos vezér - Holdfény étterem
@@ -22,12 +25,10 @@ refstreets:
   'Kőhíd utca': 'Kőhid utca'
   'Páskom utca': 'Paskom utca'
   'Regős utca': 'Regös utca'
-  'Sportföld utca': 'Sportföld'
   'Szent Erzsébet utca': 'Szent Erzsébet körút'
   'Szent Korona utca': 'Szent korona utca'
   'Tas vezér utca': 'Tas utca'
   'Tinódi Lantos Sebestyén utca': 'Tinódi L. Sebestyén utca'
-  'Viczián utca': 'Vicián utca'
   'Wesselényi utca': 'Wesselényi Miklós utca'
   'Zúzmara utca': 'Zuzmara utca'
   'Öreghegysor utca': 'Öreghegy sor'
