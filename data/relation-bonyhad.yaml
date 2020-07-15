@@ -1,0 +1,57 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nincs
+  - Majos XVI. utca  # I-XIV. az utcák számozása Majoson
+  # nem igazi utcák / csak hrsz.
+  - Berekaljadűlő  # Hidas
+  - Hónigpuszta
+  - Istvánmajor
+  - Mihálydomb
+  # kérdéses, hogy utcaként léteznek-e, ezek településrészek ------
+  # Alsóbörzsöny
+  # Angyaldomb
+  # Dőrytabód
+  # Erdőtelek
+  # Malmok
+  # Ladomány
+  # Hiányzók ------------------------------------------------------
+  # Búzavirág utca - Mihánydomb
+  # Tünde utca  - Mihánydomb
+  # Dombtető utca
+  # Ipari park utca
+  # Kékfrankos utca
+  # Lőtér utca
+  # Majos VI utca
+  # Märcz puszta
+  # Mártírok tere - Piac tér
+  # Óhegy
+  # Óhegy-tanyasor utca
+  # Szöcskadűlő
+  # Szöcskedülő utca - Szöcskadűlő
+  # Szürkebarát utca - Óhegy
+  # Tabódszerdahely
+  # Tó utca
+  # Wernau utca
+refstreets:
+  'Benczúr Gyula utca': 'Benczur Gyula utca'
+  'Börzsönyi utca': 'Börzsöny'
+  'Dr. Hegedűs Ádám utca': 'Dr. Hegedüs Ádám utca'
+  'Kazinczy utca': 'Kazinczy Ferenc utca'
+  'I. utca': 'Majos I. utca'
+  'II. utca': 'Majos II. utca'
+  'III. utca': 'Majos III. utca'
+  'IV. utca': 'Majos IV. utca'
+  'V. utca': 'Majos V utca'
+  'VII. utca': 'Majos VII. utca'
+  'VIII. utca': 'Majos VIII utca'
+  'IX. utca': 'Majos IX. utca'
+  'X. utca': 'Majos X. utca'
+  'XI. utca': 'Majos XI. utca'
+  'XII. utca': 'Majos XII. utca'
+  'XIII. utca': 'Majos XIII utca'
+  'XIV. utca': 'Majos XIV. utca'
+  'Pór Apát utca': 'Pór apát utca'
+  'Schweitzer tanya': 'Schweitzertanya'
+  'Várady Mihály utca': 'Váci Mihály utca'
+source: survey
