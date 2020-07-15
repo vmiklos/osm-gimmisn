@@ -548,6 +548,15 @@ zanka:
     osmrelation: 1078485
     refcounty: "19"
     refsettlement: "216"
+# 20 - Zala megye
+balatongyorok:
+    osmrelation: 1360488
+    refcounty: "20"
+    refsettlement: "012"
+keszthely:
+    osmrelation: 1360484
+    refcounty: "20"
+    refsettlement: "093"
 # Egyéb videk
 berekfurdo:
     osmrelation: 1325377
@@ -565,15 +574,11 @@ szilvasvarad:
     osmrelation: 1418234
     refcounty: "10"
     refsettlement: "096"
-keszthely:
-    osmrelation: 1360484
-    refcounty: "20"
-    refsettlement: "093"
-balatongyorok:
-    osmrelation: 1360488
-    refcounty: "20"
-    refsettlement: "012"
 bonyhad:
     osmrelation: 1501376
     refcounty: "17"
     refsettlement: "011"
+komlo:
+    osmrelation: 575200
+    refcounty: "02"
+    refsettlement: "137"
