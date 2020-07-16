@@ -20,6 +20,9 @@ filters:
   Lehel utca:
     ranges:
       - {start: '1', end: '5'}
+  Munkácsy Mihály utca:
+    # 31-37-ig üres telek (Star Park Podmaniczky utcai parkolója van rajta)
+    invalid: ['31', '33', '35', '37']    
   Váci út:
     ranges:
       - {start: '1', end: '3'}
