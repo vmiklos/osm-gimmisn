@@ -586,3 +586,7 @@ komlo:
     osmrelation: 575200
     refcounty: "02"
     refsettlement: "137"
+godollo:
+    osmrelation: 1392595
+    refcounty: "14"
+    refsettlement: "047"
