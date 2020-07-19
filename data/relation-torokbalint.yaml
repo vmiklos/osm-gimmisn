@@ -4,7 +4,6 @@ street-filters:
   # nem igazi utca
   - Falvitanya  # fent van farmként
   # - Hosszúrét tanya  # Hosszúrétitanya
-  # - Ida major - Idamajor, de jön rá házszám
   - MÁV állomás
   # egyéb
   - Séta út  # dupla, Séta utca is van
@@ -17,6 +16,7 @@ refstreets:
   # 'Dulácska utca': 'Dulácska tanya'
   # 'Hosszúrét utca': 'Hosszúrét tanya'
   'Hunyadi János utca': 'Hunyadi utca'
+  'Idamajor': 'Ida major'
   'Kinizsi Pál utca': 'Kinizsi utca'
   'Majláth József utca': 'Majláth utca'
   'Petőfi Sándor utca': 'Petőfi utca'
