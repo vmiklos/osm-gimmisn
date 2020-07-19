@@ -304,6 +304,9 @@ filters:
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '52'}
+  Mátyás király út:
+    # Anything above 53 on the odd side seems to be forest.
+    invalid: ['55']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Adonis utca': 'Adonisz utca'
