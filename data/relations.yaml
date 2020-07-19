@@ -590,3 +590,11 @@ godollo:
     osmrelation: 1392595
     refcounty: "14"
     refsettlement: "047"
+szekszard:
+    osmrelation: 1501296
+    refcounty: "17"
+    refsettlement: "095"
+torokbalint:
+    osmrelation: 113462
+    refcounty: "14"
+    refsettlement: "158"
