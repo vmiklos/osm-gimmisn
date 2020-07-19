@@ -1,0 +1,24 @@
+missing-streets: 'yes'
+filters: {}
+street-filters: []
+refstreets:
+  'Baross Gábor utca': 'Baross utca'
+  'Báthori István utca': 'Báthori utca'
+  'Csalogány utca': 'Csalogány tanya'
+  'Damjanich János utca': 'Damjanich utca'
+  'Dr. Léber Lajos utca': 'Léber Lajos utca'
+  # 'Dulácska utca': 'Dulácska tanya'
+  # 'Hosszúrét utca': 'Hosszúrét tanya'
+  'Hunyadi János utca': 'Hunyadi utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'
+  'Majláth József utca': 'Majláth utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Ráczug utca': 'Ráczug tanya'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Régi Vasút sor': 'Régivasútsor utca'
+  'Séta utca': 'Séta út'
+  'Somlyói utca': 'Somlyói út'
+  'Szabadházi utca': 'Szabadházi út'
+  'Szőlőskert utca': 'Szőlőskerti út'
+  'Virágtanya': 'Virág tanya'
+source: survey
