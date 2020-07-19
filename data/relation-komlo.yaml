@@ -1,0 +1,25 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # Dűlők
+  - Gadány dűlő
+  - Körtvélyes dűlő
+  - Lőtér dűlő
+  - Öreg-hegy tető
+  - Somág-köz dűlő
+  - Temető dűlő
+  # Nem igazi utcák / Hrsz
+  - Temető
+  # Dávidföldi kertek
+  # Dorottya utca - Gizella utca
+  # Flóra utca
+  # III.-as akna
+  # Mecsekjánosi puszta
+  # Vadvirág utca
+  # Zobák puszta
+refstreets:
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Béketelep I. sor': 'Béketelep I sor'
+  'Béketelep II. sor': 'Béketelep II sor'
+  'Petőfi Sándor utca': 'Petőfi utca'
+source: survey
