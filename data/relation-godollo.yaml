@@ -1,0 +1,72 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - Szadai utca  # Rossze helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
+  # Dűlők/tanyák
+  # - Bonoka tanya
+  # - Babat puszta
+  # - Gulyás tanya
+  # - Küttel tanya
+  # - Peres dűlő
+  # - Szabó tanya
+  # Nem igazi utcák / Hrsz
+  - 26 MÁV őrház
+  - 9 MÁV őrház
+  - Államitelep
+  - Államitelepek
+  - Áoi telep
+  - Arborétum
+  - ATE Kisérleti tér
+  - Baromfi telep
+  - Incsői erdészház
+  - Kastély
+  - MÁV állomás
+  - MÁV női munkásszálló
+  - Marika telep  # utcákra van bontva
+  - Méhészet
+  - Nagyremete  # terület
+  - Szie Kollégium
+  - Temetői őrház
+  - Tessedik Kollégium
+  - Repülőtér
+  - Vágóhíd
+  # Területként
+  # - Száritó puszta
+  # Hiányzó
+  # - Bojtorján utca - Kankalin utca folytatása
+  # - Raktár utca - HÉV és a vasút között, Palotakert megállónál
+  # - Gépgyári lakótelep - Gödöllői Gépgyár buszmegállónál
+  # Ismertelen
+  # - Makarenkó telep
+refstreets:
+  'Alkony út': 'Alkony utca'
+  'Antalhegy lejtő': 'Antalhegyi lejtő'
+  'Arany János utca': 'Arany János út'
+  'Állomás utca': 'Állomás út'
+  'Ambrus köz': 'Ambrus Zoltán köz'
+  'Babati út': 'Babati utca'
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Borbolya út': 'Borbolya utca'
+  'Báthory István utca': 'Báthori István utca'
+  'Csemetekert utca': 'Csemete-kert'
+  'Csillagfürt út': 'Csillagfürt utca'
+  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
+  'Ganz Ábrahám út': 'Ganz Ábrahám utca'
+  'Haraszti út': 'Haraszti utca'
+  'Kenyérgyári út': 'Kenyérgyári utca'
+  'Klapka György utca': 'Klapka György út'
+  'Klebelsberg Kunó utca': 'Klebelsberg Kuno utca'
+  'Körösfői Kriesch Aladár utca': 'Körösfői K. Aladár utca'
+  'Köztársaság utca': 'Köztársaság út'
+  'Kőrösi Csoma Sándor utca': 'Kőrösi Csoma utca'
+  'Palotakert': 'Palota-kert'
+  'Petőfi Sándor utca': 'Petőfi Sándor út'
+  'Pitypang út': 'Pitypang utca'
+  'Premontrei út': 'Premontrei utca'
+  'Semmelweis Ignác utca': 'Semmelweis utca'
+  'Sík Sándor utca': 'Sik Sándor utca'
+  'Szent-Györgyi Albert utca': 'Szentgyörgyi Albert utca'
+  'Tessedik Sámuel utca': 'Tessedik Sámuel út'
+  'Toldi Miklós út': 'Toldi Miklós utca'
+  'Undi Marika utca': 'Undi Mariska utca'
+source: survey
