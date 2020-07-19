@@ -30,6 +30,8 @@ street-filters:
   - Tessedik Kollégium
   - Repülőtér
   - Vágóhíd
+  # Dupla
+  - Palotakert
   # Területként
   # - Száritó puszta
   # Hiányzó
@@ -59,7 +61,6 @@ refstreets:
   'Körösfői Kriesch Aladár utca': 'Körösfői K. Aladár utca'
   'Köztársaság utca': 'Köztársaság út'
   'Kőrösi Csoma Sándor utca': 'Kőrösi Csoma utca'
-  'Palotakert': 'Palota-kert'
   'Petőfi Sándor utca': 'Petőfi Sándor út'
   'Pitypang út': 'Pitypang utca'
   'Premontrei út': 'Premontrei utca'
