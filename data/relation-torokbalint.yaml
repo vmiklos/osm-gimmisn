@@ -1,6 +1,13 @@
 missing-streets: 'yes'
 filters: {}
-street-filters: []
+street-filters:
+  # nem igazi utca
+  - Falvitanya  # fent van farmként
+  # - Hosszúrét tanya  # Hosszúrétitanya
+  # - Ida major - Idamajor, de jön rá házszám
+  - MÁV állomás
+  # egyéb
+  - Séta út  # dupla, Séta utca is van
 refstreets:
   'Baross Gábor utca': 'Baross utca'
   'Báthori István utca': 'Báthori utca'
@@ -16,7 +23,6 @@ refstreets:
   'Ráczug utca': 'Ráczug tanya'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Régi Vasút sor': 'Régivasútsor utca'
-  'Séta utca': 'Séta út'
   'Somlyói utca': 'Somlyói út'
   'Szabadházi utca': 'Szabadházi út'
   'Szőlőskert utca': 'Szőlőskerti út'
