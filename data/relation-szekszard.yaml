@@ -1,8 +1,35 @@
 missing-streets: 'yes'
 filters: {}
-street-filters: []
+street-filters:
+  # dűlők, csak hrsz
+  # - Árnyék dűlő
+  # - Csillám dűlő
+  # - Fuksz tető
+  # - Hárslevelű dűlő
+  # - Hidaspetre
+  # - Jázmin dűlő
+  # - Pintes tető
+  # - Sauli tető
+  # - Sötétvölgy
+  # suburb/hamlet/locality
+  - Bottyán-hegy
+  - Cinka
+  - Csatár
+  - Jobbparászta
+  - Józsefpuszta
+  - Keselyűs
+  - Kisbödő  # Kis-bödő
+  - Ózsák puszta  # Szekszárd-Ózsákpuszta
+  - Palánk
+  - Sauli völgy
+  - Strázsahegy  # Strázsa-hegy
+  - Szőlőhegy
+  # dupla
+  - Faddi völgy  # Faddivölgy-ön jönnek a házszámok
+  - Saul-völgy  # Sauli-völgy
 refstreets:
   'Baranya völgy': 'Baranyavölgy'
+  'Baráth utca': 'Barát János utca'
   'Bolyai János utca': 'Bólyai János utca'
   'Bródy Sándor köz': 'Bródy köz'
   'Dobó István utca': 'Dobó utca'
@@ -11,14 +38,14 @@ refstreets:
   'Dűlő utca': 'Dülő utca'
   'Faddi völgy': 'Faddivölgy'
   'Ferenc-szurdok': 'Ferenc szurdik'
-  'Gyűszű völgy': 'Gyüszüvölgy'
-  # 'Gyűszű-völgy': 'Gyüszüvölgy'
+  'Gyűszű-völgy': 'Gyüszüvölgy'
   'Istifán Gödre utca': 'Istifán gödre utca'
   'Iván völgy': 'Ivánvölgy'
   'Kisbödő hegy utca': 'Kisbödő-hegy utca'
   'Liszt Ferenc tér': 'Liszt tér'
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Palánkihegy': 'Palánki hegy'
+  'Piactér': 'Piac tér'
   'Semmelweis Ignác utca': 'Semmelweis utca'
   'Szentgáli Gyula utca': 'Dr. Szentgáli Gyula utca'
   'Szalaivölgy': 'Szalai völgy'
