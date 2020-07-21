@@ -13,6 +13,8 @@ filters:
     # 15b = Diószegi út 50/a
     invalid: ['1b', '5', '13a', '13b', '15b']
   Bartók Béla út:
+    # 15e: 15a,15c/15b,15d hátsó épületnek nem ismert a házszáma, nincs kiírva semmi
+    invalid: ['15e']
     ranges:
       # 43-47 egyben
       - {start: '1', end: '43'}
@@ -101,10 +103,11 @@ filters:
     ranges:
       - {start: '2', end: '24'}
   Ménesi út:
+    # 1a: csak csina 1 van
     # 42: nincs
     # 46,54: Arborétum hátsó fele
     # 84: nincs, Köbölkút utca 27-29 iskola hátsó fele
-    invalid: ['42', '46', '54', '84']
+    invalid: ['1a', '42', '46', '54', '84']
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '104'}
