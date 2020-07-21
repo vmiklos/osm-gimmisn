@@ -2,6 +2,9 @@ missing-streets: 'no'
 filters:
   Apród utca:
     ranges: []
+  Aranyhal utca:
+    ranges:
+      - {start: '2', end: '6'}
   Bajvívó utca:
     refsettlement: '002'
     ranges:
@@ -10,6 +13,8 @@ filters:
   Bakfark Bálint utca:
     refsettlement: '002'
   Batthyány tér:
+    # 2 = Batthány utca 2
+    invalid: ['2']
     interpolation: 'all'
   Bem József tér:
     refsettlement: '002'
@@ -45,12 +50,15 @@ filters:
       - {start: '5', end: '99', refsettlement: '002'}
       - {start: '6', end: '98', refsettlement: '002'}
   Fő utca:
+    # 54 = Batthány utca 1
+    invalid: ['54']
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '20'}
       - {start: '24', end: '36'}
       - {start: '40', end: '60'}
-      - {start: '47', end: '83', refsettlement: '002'}
+      - {start: '47', end: '51', refsettlement: '002'}
+      - {start: '61', end: '83', refsettlement: '002'}
       - {start: '62', end: '92', refsettlement: '002'}
   Frankel Leó út:
     refsettlement: '002'
@@ -81,6 +89,9 @@ filters:
       - {start: '2', end: '4'}
       - {start: '5', end: '99', refsettlement: '002'}
       - {start: '6', end: '98', refsettlement: '002'}
+  Lánchíd utca:
+    ranges:
+      - {start: '5', end: '23'}
   Margit körút:
     refsettlement: '002'
     ranges:
@@ -95,6 +106,10 @@ filters:
       - {start: '2', end: '16'}
   Szász Károly utca:
     refsettlement: '002'
+  Székely utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '4'}
   Széna tér:
     interpolation: 'all'
     # 1-3,6-7 vizivaros, 4-5 országút
