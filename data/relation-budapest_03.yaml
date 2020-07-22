@@ -5,14 +5,27 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '16'}
+  Árpád fejedelem útja:
+    interpolation: all
+    ranges:
+      - {start: '48', end: '69'}
+      - {start: '77', end: '94'}
   Bem utca:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
+  Evező utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '10'}
   Kaszásdűlő utca:
     show-refstreet: false
   Szérűskert utca:
     show-refstreet: false
+  Uszály utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '14'}
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Aquincum őrház

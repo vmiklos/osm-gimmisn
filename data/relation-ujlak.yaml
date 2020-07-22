@@ -5,6 +5,7 @@ filters:
       - {start: '1', end: '11'}
       - {start: '4', end: '10'}
   Árpád fejedelem útja:
+    invalid: ['20', '23']
     interpolation: all
     ranges:
       - {start: '14', end: '47', refsettlement: '002'}
@@ -22,6 +23,8 @@ filters:
     refsettlement: '003'
   Csemete utca:
     refsettlement: '003'
+  Dara utca:
+    ranges: []
   Daru utca:
     # 2-6 Szemlőhegy
     ranges:
@@ -35,6 +38,9 @@ filters:
       - {start: '2', end: '4'}
   Evező utca:
     refsettlement: '003'
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '10'}
   Felhévízi utca:
     # felmerendo
     ranges:
@@ -47,6 +53,7 @@ filters:
     ranges:
       - {start: '1', end: '11'}
   Frankel Leó út:
+    invalid: ['80']
     ranges:
       - {start: '47', end: '57'}
       - {start: '74', end: '112'}
@@ -60,7 +67,7 @@ filters:
   Kecske köz:
     refsettlement: '003'
   Kecske utca:
-    # Alsóbb házszámokból Makocecz Imre utca lett, kérdés át lett-e számozva
+    # Alsóbb házszámokból Makovecz Imre utca lett, kérdés át lett-e számozva
     refsettlement: '003'
   Kolosy tér:
     refsettlement: '003'
@@ -115,6 +122,9 @@ filters:
     ranges: []
   Uszály utca:
     refsettlement: '003'
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '14'}
   Ürömi köz:
     ranges:
       - {start: '1', end: '3'}
