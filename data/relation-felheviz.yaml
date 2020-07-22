@@ -5,6 +5,7 @@ filters:
       - {start: '15', end: '27'}
       - {start: '20', end: '30'}
   Árpád fejedelem útja:
+    invalid: ['2', '5']
     interpolation: 'all'
     ranges:
       - {start: '1', end: '13'}
@@ -17,6 +18,7 @@ filters:
     ranges:
       - {start: '1', end: '2'}
   Frankel Leó út:
+    invalid: ['37', '56']
     ranges:
       - {start: '1', end: '45'}
       - {start: '24', end: '72'}
