@@ -5,9 +5,22 @@ filters:
       - {start: '141', end: '151'}
       - {start: '26', end: '44'}
   Bolygó utca:
+    # 1 = Péterhegyi út 47/a
+    # 6: nincs, 6a, 6b van
+    # 12b: 12-es ház egyik oldalán egy félig lekopott tábla, bármi lehet, de 1 ház
+    # 22: 24 helyén épül valami, de nincs kint se 22, se 24-es házszám
+    invalid: ['1', '12b', '22']
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '23'}
+      - {start: '2', end: '26'}
+  Csató utca:
+    # itt csak elméletben vannak házszámok 1-3, 2-4, gyakorlatban Kapolcs utca 2/a címet visel minden
+    ranges: []
+  Csenger utca:
+    # 10c, 11d, 13c, 15b, 17b: Csak sima házszámok vannak.
+    # 18: Nincs, 18a, 18b van.
+    # 20: Nincs, 20a, 20b van.
+    invalid: ['10c', '11d', '13c', '15b', '17b', '18', '20']
   Dobogó út:
     # 8 nincs
     # 16/2: 16a van
@@ -33,6 +46,8 @@ filters:
       - {start: '4', end: '46'}
   Kapolcs utca:
     # Nincs 12 és 14, a 10 után közvetlenül a 16 következik.
+    # 3b, 5a, 19d: Nincsenek, csak sima 3, 5 és 19 van.
+    invalid: ['3b', '5a', '19d']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '10'}
@@ -46,6 +61,12 @@ filters:
   Kápolna út:
     # A Kápolna út 1. és a Péterhegyi út 65. közös telken van, házszám a Péterhegyi útról van csak.
     # A Kápolna út 2. és a Péterhegyi út 67. közös telken van, házszám a Péterhegyi útról van csak.
+    # 3a, 3b, 3c: Nincsenek, sima 3 van a kapun. Van 3 épület, ezért valószínű belül vannak épület betűjelek, kivűlről nem látható.
+    # 10a, 10b: Nincsenek, bár 2 ház van de a kapun csak sima 10 van.
+    # 11a: Nincs, csak sima 11 van.
+    # 15b: Nincs, csak sima 15 van.
+    # 40a, 40b: Nincsenek, csak sima 40 van.
+    invalid: ['3a', '3b', '3c', '10a', '10b', '11a', '15b', '40a', '40b']
     ranges:
       - {start: '3', end: '53'}
       - {start: '4', end: '56'}
@@ -55,29 +76,46 @@ filters:
     ranges: []
   Péterhegyi köz:
     # A páros oldal érdekesen számozódik: …, 8, 10, 12, 10/A, 12/A, 14, 20, …, 34, 38, 40, 46, 48 …
-    # Nincs 16 és 18, a 14 után közvetlenül a 20 következik.
-    # 32: TODO = Éva utca 31, de arról az oldalról nincs házszám.
+    # 4a: Nincs, csak sima 5 4 van
+    # Nincs 16 és 18, a 14 után közvetlenül a 20 következik. 16-18 új házszáma 20. 20 új házszáma 22.
+    # 20/a: 20 van
+    # 22-24 A: 22, 24/a, 24/b
+    # 32 = Éva utca 31, de arról az oldalról nincs házszám, és innen se de a szomszéd házak 28-30 és 34
     # 37: ilyen nincs
     # Nincs 36, a 34 után közvetlenül a 38 következik, eredetileg 36-38 volt a telek 2 házzal, de a másik házból Éva utca 35 lett.
     # Nincs 42, 40 = Éva utca 44, 42 lenne az Éva utca 46, de arra ez nincs kiírva.
     # 48a: 2 ház van de mindkettőhöz 48 van kiírva, a hátsó bejárata hátulról a 46 bal oldalán lévő kapun keresztül.
-    invalid: ['37', '42', '48a']
+    # 5a, 5b, 5c: nincsenek, sima 5 van.
+    # 11: 11 van a postaládán, a házon 11/b
+    # 15: Nincsen, 15/a, 15/b
+    invalid: ['4a', '5a', '5b', '5c', '15', '20a', '24', '37', '42', '48a']
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '14'}
       - {start: '20', end: '34'}
       - {start: '38', end: '58'}
   Péterhegyi lejtő:
-    # Nincs 43, a Kápolna köz van a helyén. A Kápolna köz előtt 41, a Kápolna köz után 45 van.
+    # 43: Nincs, a Kápolna köz van a helyén. A Kápolna köz előtt 41, a Kápolna köz után 45 van.
+    # 7: Nincs, 7/a, 7/b van.
+    # 11b: Nincs. Van egy gyakorlatilag üres nyeles telek a 9 és a 11 között, de nincs kiíva rá semmi.
+    # 61a: Nincs, csak sima 61 van.
+    invalid: ['7', '11b', '61a']
     ranges:
       - {start: '1', end: '41'}
       - {start: '45', end: '73'}
       - {start: '2', end: '36'}
   Péterhegyi út:
+    # 49: Nincs, 49/b, 49/c van.
+    # 51: Nincs, 51/a, 51/b van.
+    invalid: ['47b', '49', '51']
     ranges:
-      - {start: '43', end: '99'}
+      - {start: '43', end: '77'}
   Poprádi út:
     # nincsenek házszámok: egyébként összesen egy kutyaiskola van itt
     ranges: []
+  Ütköző sor:
+    # 1 = Péterhegyi út 43
+    # 9 = Bolygó utca 19
+    invalid: ['1', '9']
 source: survey
 housenumber-letters: true
