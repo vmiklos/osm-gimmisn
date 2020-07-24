@@ -518,6 +518,7 @@ refstreets:
   'Enyedi utca': 'Enyedy utca'
   'Felső Sas utca': 'Felsősas utca'
   'Hegyfok köz': 'hegyfok köz'
+  'Jobbágy út': 'Jobbágy utca'  # utcatáblán és utcajegyzékben is Jobbágy út
   'Kiskőbánya utca': 'Kis Kőbánya utca'
   'Ménes utca': 'Ménesi utca'
 source: survey
