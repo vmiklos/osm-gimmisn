@@ -9,7 +9,7 @@ filters:
     # 6: nincs, 6a, 6b van
     # 12b: 12-es ház egyik oldalán egy félig lekopott tábla, bármi lehet, de 1 ház
     # 22: 24 helyén épül valami, de nincs kint se 22, se 24-es házszám
-    invalid: ['1', '12b', '22']
+    invalid: ['1', '6', '12b', '22']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '26'}
