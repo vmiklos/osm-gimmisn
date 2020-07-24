@@ -16,7 +16,9 @@ from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
 import datetime
+import locale
 import os
+import time
 import traceback
 
 import pytz
@@ -277,8 +279,60 @@ def format_timestamp(timestamp: float) -> str:
     return ui_dt.strftime(fmt)
 
 
-def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Doc:
+def handle_stats_cityprogress(relations: areas.Relations) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress."""
+    doc = yattag.doc.Doc()
+    doc.asis(get_toolbar(relations).getvalue())
+
+    ref_citycounts: Dict[str, int] = {}
+    with open(config.Config.get_reference_citycounts_path(), "r") as stream:
+        first = True
+        for line in stream.readlines():
+            if first:
+                first = False
+                continue
+            cells = line.strip().split('\t')
+            if len(cells) < 2:
+                continue
+            city = cells[0]
+            count = int(cells[1])
+            ref_citycounts[city] = count
+    today = time.strftime("%Y-%m-%d")
+    osm_citycounts: Dict[str, int] = {}
+    with open(config.Config.get_workdir() + "/stats/" + today + ".citycount", "r") as stream:
+        for line in stream.readlines():
+            cells = line.strip().split('\t')
+            if len(cells) < 2:
+                continue
+            city = cells[0]
+            count = int(cells[1])
+            osm_citycounts[city] = count
+    cities = util.get_in_both(list(ref_citycounts.keys()), list(osm_citycounts.keys()))
+    cities.sort(key=locale.strxfrm)
+    table = []
+    table.append([util.html_escape(_("City name")), util.html_escape(_("House number coverage"))])
+    for city in cities:
+        percent = "100.00"
+        if ref_citycounts[city] > 0 and osm_citycounts[city] < ref_citycounts[city]:
+            percent = "%.2f" % (osm_citycounts[city] / ref_citycounts[city] * 100)
+        table.append([util.html_escape(city), util.html_escape(percent + "%")])
+    doc.asis(util.html_table_from_list(table).getvalue())
+
+    with doc.tag("h2"):
+        doc.text(_("Note"))
+    with doc.tag("div"):
+        doc.text(_("""These statistics are estimates, not taking house number filters into account.
+Only cities with house numbers in OSM are considered."""))
+
+    doc.asis(get_footer().getvalue())
+    return doc
+
+
+def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
+    if request_uri.endswith("/cityprogress"):
+        return handle_stats_cityprogress(relations)
+
     doc = yattag.doc.Doc()
     doc.asis(get_toolbar(relations).getvalue())
 
@@ -336,6 +390,7 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
         (_("Top edited cities"), "topcities"),
         (_("All house number editors"), "usertotal"),
         (_("Coverage"), "progress"),
+        (_("Per-city coverage"), "cityprogress"),
     ]
 
     with doc.tag("ul"):
@@ -347,9 +402,14 @@ def handle_stats(relations: areas.Relations, _request_uri: str) -> yattag.doc.Do
     for title, identifier in title_ids:
         with doc.tag("h2", id="_" + identifier):
             doc.text(title)
-        with doc.tag("div", klass="canvasblock"):
-            with doc.tag("canvas", id=identifier):
-                pass
+        if identifier != "cityprogress":
+            with doc.tag("div", klass="canvasblock"):
+                with doc.tag("canvas", id=identifier):
+                    pass
+        else:
+            with doc.tag("div"):
+                with doc.tag("a", href=prefix + "/housenumber-stats/hungary/cityprogress"):
+                    doc.text(_("View per-city coverage table"))
 
     with doc.tag("h2"):
         doc.text(_("Note"))

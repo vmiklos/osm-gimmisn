@@ -755,8 +755,23 @@ class TestStats(TestWsgi):
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/housenumber-stats/hungary/")
         results = root.findall("body/h2")
-        # 8 chart types + note
-        self.assertEqual(len(results), 9)
+        # 8 chart types + cityprogress + note
+        self.assertEqual(len(results), 10)
+
+
+def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:
+    """Mock time.strftime()."""
+    return "2019-07-17"
+
+
+class TestStatsCityProgress(TestWsgi):
+    """Tests handle_stats_cityprogress()."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        with unittest.mock.patch('time.strftime', mock_strftime):
+            root = self.get_dom_for_path("/housenumber-stats/hungary/cityprogress")
+            results = root.findall("body/table")
+            self.assertEqual(len(results), 1)
 
 
 if __name__ == '__main__':

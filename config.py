@@ -80,6 +80,14 @@ class Config:
         return get_abspath(relpath)
 
     @staticmethod
+    def get_reference_citycounts_path() -> str:
+        """Gets the abs path of ref citycounts."""
+        Config.__get()
+        assert Config.__config is not None
+        relpath = Config.__config.get("wsgi", "reference_citycounts").strip()
+        return get_abspath(relpath)
+
+    @staticmethod
     def get_locale() -> str:
         """Gets the locale."""
         Config.__get()
