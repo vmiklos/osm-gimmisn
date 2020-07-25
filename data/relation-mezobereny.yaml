@@ -1,0 +1,45 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - Sportpálya
+  # - 56-os emléktér tér
+  # - Blanka
+  # - Belenta
+  # - Kereki - Kereki utca van, de ezen külön is vannak hászámok
+  # - Galamb utca
+  # - Hosszútelki tanyák
+  # - Keselyűsi tanyák
+  # - London szél
+  # - Ókert
+  # - Párizs rész
+  # - Tanya utca
+  # - Ugari tanyák
+refstreets:
+  'Áchim András utca': 'Áchim L. András utca'
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Bartók utca': 'Bartók Béla utca'
+  'Belencéresi utca': 'Belencéresi út'
+  'Bonyhai utca': 'Bonyhay Benjamin utca'
+  'Boldishát': 'Bódishát'
+  'Jókai Mór utca': 'Jókai utca'
+  'Kossuth tér': 'Kossuth Lajos tér'
+  'Kálvin tér': 'Kálvin János tér'
+  'Kölcsey utca': 'Kölcsey Ferenc utca'
+  'Laposi kertek 1. kapu': 'Laposi Kertek 1. kapu'
+  'Laposi kertek 4. kapu': 'Laposi Kertek 4. kapu'
+  'Laposi kertek 5. kapu': 'Laposi Kertek 5. kapu'
+  'Laposi kertek 6. kapu': 'Laposi Kertek 6. kapu'
+  'Laposi kertek 7. kapu': 'Laposi Kertek 7. kapu'
+  'Laposi kertek 8. kapu': 'Laposi Kertek 8. kapu'
+  'Laposikert utca': 'Laposi kert utca'
+  'Liget út': 'Liget utca'
+  'Monus Illés utca': 'Mónus Illés utca'
+  'Orlai Petrich Soma utca': 'Orlai utca'
+  'Ókert utca': 'Ókert'
+  'Rákóczi Ferenc sugárút': 'Rákóczi sugárút'
+  'Szántó Kovács János utca': 'Szántó Kovács utca'
+  'Thököly Imre utca': 'Thököly út'
+  'Várkonyi utca': 'Várkonyi István utca'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  'Zrínyi Miklós sugárút': 'Zrínyi sugárút'
+source: survey
