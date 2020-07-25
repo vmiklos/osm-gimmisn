@@ -1,9 +1,28 @@
 missing-streets: 'yes'
 filters: {}
 street-filters:
-  - Tanya
+  # nem igazi utca
+  - Bitóczi vadászház
+  # hamlet
+  - Basaharc
+  # hiányzók
+  # - Bitóczi-völgyi köz
+  # - Bitóczi-völgyi út
+  # - Egér út
+  # - Margaréta köz - Dunapart
+  # - Mókus utca - Dunapart
+  # - Szőlő utca - Dunapart
+  # - Szobi rév út
 refstreets:
-  'Kossuth Lajos utca': 'Kossuth utca'
-  'Petőfi Sándor utca': 'Petőfi utca'
-  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Akácos út': 'Akácfa utca'
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Csányi utca': 'Csányi út'
+  'Hoffmann út': 'Dobogókői út'
+  'Erdőalja utca': 'Erdőalja út'
+  'Fenyő sétány': 'Fenyőfa utca'
+  'Forrás utca': 'Forrás út'
+  'Hegypince sor': 'Hegyipince sor'
+  'Miklós deák utca': 'Miklós-deák utca'
+  'Rákóczi Ferenc út': 'Rákóczi Ferenc utca'
+  'Szekrényhegyi utca': 'Szekrényhegyi út'
 source: survey
