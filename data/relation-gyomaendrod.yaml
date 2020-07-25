@@ -1,0 +1,50 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # nem igazi utcák
+  - Fazekaszugi 5-ös gátőrház
+  - Nagylaposi MÁV lakás
+  - külterület tanya
+  - Vasúti őrházak
+  # fent van place-ként
+  - Templomzug
+  # tanyák
+  # - Tanya III.
+  # - Tanya IV.
+  # - Tanya V.
+  # - Tanya VI.
+  # - Tanya VII.
+  # - Avram tanya
+  # - Biró tanya
+  # - Dávid tanya
+  # - Irimiás tanya
+  # - Kávai tanya
+  # hiányzó
+  # - Kner utca
+  # - Bárka utca
+  # - Delta út
+  # - Doboskert utca - Révzug
+  # - Farkasfoki kertsor - külterület nyugati határ
+  # - Fekete erdő út
+  # - Kereszt utca
+  # - Kislapos utca
+  # - Leányvár út - Sóczózug
+  # - Mezőtúri út
+  # - Olajosok útja - Sóczózug
+  # - Ótemplom utca
+  # - Sipos út
+  # - Szántó Kovács János utca
+  # - Sztrenda dűlő
+  # - Telekparti út - Templomzug
+  # - Tölgy utca - Révzug
+  # - Varga út
+  # - Zrínyi Ilona üdülő-telep
+refstreets:
+  'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
+  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
+  'Ipartelepi utca': 'Ipartelep utca'
+  'Kossuth Lajos utca': 'Kossuth Lajos út'
+  'Rákóczi Ferenc utca': 'Rákóczi Ferenc út'
+  'Selyem utca': 'Selyem út'
+  'Sugár utca': 'Sugár út'
+source: survey
