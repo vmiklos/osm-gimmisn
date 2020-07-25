@@ -1,0 +1,27 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - Tanyák
+  # - Jégvermikert IX
+  # - Malomasszonykert X
+  # - Nagykert IX
+  # - Szécsénykert IX
+  # - Tanya IX
+  # - Tanya VI
+  # - Tanya VII
+  # - Tanya VIII
+  # - Tanya X tanya
+  # Hiányzó
+  # - Csipke utca
+refstreets:
+  'Bolyai utca': 'Bólyai utca'
+  'Damjanich János utca': 'Damjanich utca'
+  'Dr. Veress Endre utca': 'Dr. Veres Endre utca'
+  'Epres köz': 'Epresköz utca'
+  'Fürdő sétány': 'Fürdősétány'
+  'Hargita utca': 'Hargitta utca'
+  'Kalász sor': 'Kalászsor utca'
+  'Maró köz': 'Maróköz utca'
+  'Szent Pál sor': 'Szentpálsor utca'
+  'Templom köz': 'Templomköz'
+source: survey
