@@ -1,0 +1,16 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - Tanya
+  # Tanyák
+  # - Tanya II.
+  # - Tanya III.
+  # - Tanya IV.
+refstreets:
+  'Áchim András utca': 'Achim L.András utca'
+  'Földvári út': 'Földvári utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Szarvasi út': 'Szarvasi utca'
+  'Tessedik Sámuel utca': 'Tessedik utca'
+source: survey
