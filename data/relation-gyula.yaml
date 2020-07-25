@@ -6,6 +6,9 @@ street-filters:
   # nem igazi utcák
   - Máv pályaudvar
   - Külterület tanya
+  # dupla
+  - Ferenczi Béni utca  # Ferenczy Béni utca
+  - Pósteleki út  # Pósteleki utcán jönnek a házszámok, itt csak 1 db hrsz. van
   # tanyák
   # - Aranyág tanya
   # - Bánom tanya
@@ -43,19 +46,19 @@ street-filters:
   # - Nyírfa utca
   # - Saláta utca
   # - Tiszafa utca
+  # - Gyöngyösi Lázár utca - Ajtósfalva
 refstreets:
   'Balázs deák utca': 'Balázs Deák utca'
-  'Csiga utca': 'Csigás utca'
+  # 'Csiga utca': 'Csigás utca' -- van másik Csiga utca, nem lehet mappelni
   'Csikóséri sor': 'Csikoséri sor'
   'Erdő sor': 'Erdő sor út'
   'Erkel Ferenc tér': 'Erkel tér'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Fenyő út': 'Fenyő utca'
-  'Ferenczi Béni utca': 'Ferenczy Béni utca'
-  'Gyöngyösi utca': 'Gyöngyösi Lázár utca'
+  'Ferenczi Béni utca': 'Ferenczy Béni utca'  # A házszámok nagy része az y-os írásmódon jön
   'Halácsy út': 'Halácsy utca'
   'Hét vezér utca': 'Hétvezér utca'
-  # 'Hosszú utca': 'Hosszúkás utca' -- van Hosszú utca is másik
+  # 'Hosszú utca': 'Hosszúkás utca' -- van másik Hosszú utca, nem lehet mappelni
   'Keleti Schriffert József utca': 'K. Schriffert József út'
   'Kiss János altábornagy utca': 'Kiss János atb. utca'
   'Körös utca': 'Kőrös utca'
@@ -63,7 +66,6 @@ refstreets:
   'Líceum tér': 'Liceum tér'
   'Lilaakác utca': 'Lila akác utca'
   'Október 23. tér': 'Október 23-a tér'
-  'Pósteleki utca': 'Pósteleki út'
   'Rigó út': 'Rigó utca'
   'Rita út': 'Rita utca'
   'Szabadkai út': 'Szabadkai utca'
