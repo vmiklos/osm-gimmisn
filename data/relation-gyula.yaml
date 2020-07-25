@@ -1,0 +1,79 @@
+missing-streets: 'yes'
+filters:
+  Kiss János altábornagy utca:
+    show-refstreet: false
+street-filters:
+  # nem igazi utcák
+  - Máv pályaudvar
+  - Külterület tanya
+  # tanyák
+  # - Aranyág tanya
+  # - Bánom tanya
+  # - Belsőtörökzug tanya
+  # - Bicere tanya
+  # - Farkashalom tanya
+  # - Józsefbenedek tanya
+  # - Kálvária tanya
+  # - Kisökörjárás tanya
+  # - Külsőtörökzug tanya
+  # - Nagyfenék tanya
+  # - Nagyökörjárás tanya
+  # - Pejrét tanya
+  # - Remete tanya
+  # - Sitka tanya
+  # - Siórét tanya
+  # - Szabadka tanya
+  # - Szentbenedek tanya
+  # - Szeregyháza tanya
+  # - Szlányi tanya
+  # hiányzó
+  # - Duzzasztó zug
+  # - Bíbic utca
+  # - Birs utca - Szanazug
+  # - Cseresznye utca - Szanazug
+  # - Fácán utca - Szanazug
+  # - Kajszi utca - Szanazug
+  # - Mandula utca - Szanazug
+  # - Déli utca
+  # - Halmos Béla utca - Újváros
+  # - Hicu-telepi út
+  # - Kiskert utca
+  # - Kunhalom utca - Paradicsom
+  # - Meggy utca
+  # - Nyírfa utca
+  # - Saláta utca
+  # - Tiszafa utca
+refstreets:
+  'Balázs deák utca': 'Balázs Deák utca'
+  'Csiga utca': 'Csigás utca'
+  'Csikóséri sor': 'Csikoséri sor'
+  'Erdő sor': 'Erdő sor út'
+  'Erkel Ferenc tér': 'Erkel tér'
+  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
+  'Fenyő út': 'Fenyő utca'
+  'Ferenczi Béni utca': 'Ferenczy Béni utca'
+  'Gyöngyösi utca': 'Gyöngyösi Lázár utca'
+  'Halácsy út': 'Halácsy utca'
+  'Hét vezér utca': 'Hétvezér utca'
+  # 'Hosszú utca': 'Hosszúkás utca' -- van Hosszú utca is másik
+  'Keleti Schriffert József utca': 'K. Schriffert József út'
+  'Kiss János altábornagy utca': 'Kiss János atb. utca'
+  'Körös utca': 'Kőrös utca'
+  'Láhner György utca': 'Lahner György utca'
+  'Líceum tér': 'Liceum tér'
+  'Lilaakác utca': 'Lila akác utca'
+  'Október 23. tér': 'Október 23-a tér'
+  'Pósteleki utca': 'Pósteleki út'
+  'Rigó út': 'Rigó utca'
+  'Rita út': 'Rita utca'
+  'Szabadkai út': 'Szabadkai utca'
+  'Széchenyi út': 'Széchenyi utca'
+  'Szikfű utca': 'Szíkfű utca'
+  'Sándorhegytanya': 'Sándorhegy tanya'
+  'T. utca': 'T utca'
+  'Thököly Imre utca': 'Thököly utca'
+  'Víz utca': 'Vízi utca'
+  'Új élet utca': 'Újélet utca'
+  'Újülés utca': 'Újűlés utca'
+  'Zöld utca': 'Zöldi utca'
+source: survey
