@@ -1,4 +1,10 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  - Víztelep
+refstreets:
+  'Koronás utca': 'Koronás út'
+  'Munkás út': 'Munkás utca'
+  'Tagosdűlő utca': 'Tagos-dűlő utca'
 source: survey
 inactive: true
