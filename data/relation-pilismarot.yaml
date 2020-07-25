@@ -1,0 +1,9 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - Tanya
+refstreets:
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+source: survey

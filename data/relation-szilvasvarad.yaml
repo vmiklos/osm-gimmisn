@@ -1,6 +1,10 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  - Vasútállomás
 refstreets:
   'Szalajka utca': 'Szalajka út'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Zrínyi utca': 'Zrínyi Miklós utca'
 source: survey
 inactive: true
