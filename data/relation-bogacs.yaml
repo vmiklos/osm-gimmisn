@@ -1,4 +1,12 @@
 missing-streets: 'yes'
 filters: {}
+street-filters: []
+# Pazsag  # nincs házszá
+# Bábakalács köz
+# Jács völgy
+refstreets:
+  'Jókai Mór utca': 'Jókai utca'
+  'Rákóczi út': 'Rákóczi utca'
+  'Tomorvári utca': 'Tomorvár út'
+  'Pazsag': 'Pazsag tanya'
 source: survey
-inactive: true
