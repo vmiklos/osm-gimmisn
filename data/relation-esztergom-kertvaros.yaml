@@ -1,9 +1,22 @@
 missing-streets: 'no'
-filters: {}
+filters:
+  Erkel Ferenc utca:
+    invalid: ['13']
+  Jósika Miklós utca:
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '30'}
+  Kinizsi Pál utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '24'}
+  Sport utca:
+    invalid: ['40']
+  Wesselényi Miklós utca:
+    invalid: ['44', '45']
 source: survey
 inactive: false
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Pataksor utca / Bocskai István sor': 'Bocskai István sor'
-  'Jósika utca': 'Jósika Miklós utca'
   'Ménesvölgyi utca': 'Méhesvölgyi utca'
