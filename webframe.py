@@ -310,12 +310,18 @@ def handle_stats_cityprogress(relations: areas.Relations) -> yattag.doc.Doc:
     cities = util.get_in_both(list(ref_citycounts.keys()), list(osm_citycounts.keys()))
     cities.sort(key=locale.strxfrm)
     table = []
-    table.append([util.html_escape(_("City name")), util.html_escape(_("House number coverage"))])
+    table.append([util.html_escape(_("City name")),
+                  util.html_escape(_("House number coverage")),
+                  util.html_escape(_("OSM count")),
+                  util.html_escape(_("Reference count"))])
     for city in cities:
         percent = "100.00"
         if ref_citycounts[city] > 0 and osm_citycounts[city] < ref_citycounts[city]:
             percent = "%.2f" % (osm_citycounts[city] / ref_citycounts[city] * 100)
-        table.append([util.html_escape(city), util.html_escape(percent + "%")])
+        table.append([util.html_escape(city),
+                      util.html_escape(percent + "%"),
+                      util.html_escape(str(osm_citycounts[city])),
+                      util.html_escape(str(ref_citycounts[city]))])
     doc.asis(util.html_table_from_list(table).getvalue())
 
     with doc.tag("h2"):
