@@ -9,6 +9,7 @@
 
 from typing import Any
 from typing import Dict
+from typing import Set
 import argparse
 import datetime
 import glob
@@ -168,7 +169,7 @@ def update_stats_count(today: str) -> None:
     count_path = os.path.join(statedir, "%s.count" % today)
     city_count_path = os.path.join(statedir, "%s.citycount" % today)
     house_numbers = set()
-    cities: Dict[str, int] = {}
+    cities: Dict[str, Set[str]] = {}
     first = True
     with open(csv_path, "r") as stream:
         for line in stream.readlines():
@@ -181,9 +182,9 @@ def update_stats_count(today: str) -> None:
             house_numbers.add("\t".join(cells[:4]))
             city_key = util.get_city_key(cells[0], cells[1])
             if city_key in cities:
-                cities[city_key] += 1
+                cities[city_key].add(cells[3])
             else:
-                cities[city_key] = 1
+                cities[city_key] = set([cells[3]])
 
     with open(count_path, "w") as stream:
         house_numbers_len = str(len(house_numbers))
@@ -191,7 +192,7 @@ def update_stats_count(today: str) -> None:
 
     with open(city_count_path, "w") as stream:
         for key, value in cities.items():
-            stream.write(key + "\t" + str(value) + "\n")
+            stream.write(key + "\t" + str(len(value)) + "\n")
 
 
 def update_stats_topusers(today: str) -> None:
