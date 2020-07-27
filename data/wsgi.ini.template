@@ -2,7 +2,7 @@
 workdir = workdir
 reference_housenumbers = refdir/hazszamok_20200518.tsv refdir/hazszamok_kieg_20200518.tsv
 reference_street = refdir/utcak_20200505.tsv
-reference_citycounts = refdir/varosok_count_20200717.tsv
+reference_citycounts = refdir/varosok_count_20200726.tsv
 uri_prefix = /osm
 tcp_port = 8000
 overpass_uri = https://lz4.overpass-api.de
