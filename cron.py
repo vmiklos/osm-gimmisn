@@ -177,14 +177,15 @@ def update_stats_count(today: str) -> None:
                 # Ignore the oneliner header.
                 first = False
                 continue
+            # postcode, city name, street name, house number, user
             cells = line.split("\t")
             # Ignore last column, which is the user who touched the object last.
             house_numbers.add("\t".join(cells[:4]))
             city_key = util.get_city_key(cells[0], cells[1])
             if city_key in cities:
-                cities[city_key].add(cells[3])
+                cities[city_key].add("\t".join(cells[2:4]))
             else:
-                cities[city_key] = set([cells[3]])
+                cities[city_key] = set(["\t".join(cells[2:4])])
 
     with open(count_path, "w") as stream:
         house_numbers_len = str(len(house_numbers))
