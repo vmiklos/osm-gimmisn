@@ -307,6 +307,9 @@ filters:
   Mátyás király út:
     # Anything above 53 on the odd side seems to be forest.
     invalid: ['55']
+  Hegyhát út:
+    # These are all towards the end of the odd side, all non-existing.
+    invalid: ['29', '35', '41', '43']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Adonis utca': 'Adonisz utca'
