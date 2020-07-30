@@ -310,6 +310,10 @@ filters:
   Hegyhát út:
     # These are all towards the end of the odd side, all non-existing.
     invalid: ['29', '35', '41', '43']
+  Bükkös út:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '12'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Adonis utca': 'Adonisz utca'
