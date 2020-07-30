@@ -10,6 +10,10 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '24'}
+  Németh László utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '8'}  # még nincs semmi
   Sport utca:
     invalid: ['40']
   Wesselényi Miklós utca:
