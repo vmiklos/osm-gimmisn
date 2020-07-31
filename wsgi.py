@@ -168,7 +168,7 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
         with doc.tag("p"):
             doc.text(_("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
                      .format(str(todo_count), str(todo_street_count)))
-            doc.text(_(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)))
+            doc.text(_(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
             doc.stag("br")
             with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
                 doc.text(_("Filter incorrect information"))
@@ -210,7 +210,7 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
 
         with doc.tag("p"):
             doc.text(_("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
-            doc.text(_(" (existing: {0}, ready: {1}%).").format(str(done_count), str(percent)))
+            doc.text(_(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
             doc.stag("br")
             with doc.tag("a", href=prefix + "/missing-streets/{}/view-turbo".format(relation_name)):
                 doc.text(_("Overpass turbo query for streets with questionable names"))
@@ -471,7 +471,7 @@ def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.doc.Do
         date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
-                doc.text(percent + "%")
+                doc.text(util.format_percent(percent))
         return doc, percent
 
     with doc.tag("strong"):
@@ -493,7 +493,7 @@ def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc
         date = get_last_modified(relation.get_files().get_streets_percent_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
-                doc.text(percent + "%")
+                doc.text(util.format_percent(percent))
         return doc, percent
 
     with doc.tag("strong"):

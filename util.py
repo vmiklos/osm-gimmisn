@@ -780,4 +780,11 @@ def get_city_key(postcode: str, city: str) -> str:
     return city
 
 
+def format_percent(english: str) -> str:
+    """Formats a percentage, taking locale into account."""
+    parsed = float(english)
+    # This knows if the locale needs 12.34 or 12,34.
+    return '{0:n}%'.format(parsed)
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

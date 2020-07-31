@@ -19,7 +19,7 @@ msgstr ""
 
 #: wsgi.py:171 wsgi.py:213
 #, python-brace-format
-msgid " (existing: {0}, ready: {1}%)."
+msgid " (existing: {0}, ready: {1})."
 msgstr ""
 
 #: wsgi.py:687
