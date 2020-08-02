@@ -19,6 +19,13 @@ def set_language(language: str) -> None:
     tls = threading.current_thread.__dict__
     localedir = config.get_abspath("locale")
     tls["translations"] = gettext.translation("osm-gimmisn", localedir=localedir, languages=[language], fallback=True)
+    tls["language"] = language
+
+
+def get_language() -> str:
+    """Gets the language of the current thread."""
+    tls = threading.current_thread.__dict__
+    return tls.get("language", "en")
 
 
 def translate(english: str) -> str:

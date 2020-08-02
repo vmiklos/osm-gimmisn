@@ -784,8 +784,10 @@ def format_percent(english: str) -> str:
     """Formats a percentage, taking locale into account."""
     parsed = float(english)
     formatted = '{0:.2f}%'.format(parsed)
-    # This knows if the locale needs 12.34 or 12,34.
-    decimal_point = locale.localeconv()["decimal_point"]
+    decimal_points = {
+        "hu": ",",
+    }
+    decimal_point = decimal_points.get(i18n.get_language(), ".")
     return formatted.replace(".", str(decimal_point))
 
 
