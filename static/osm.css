@@ -14,6 +14,7 @@ td {
 
 th, td {
     padding: 4px;
+    text-underline-position: under; 
 }
 
 table, th, td {
