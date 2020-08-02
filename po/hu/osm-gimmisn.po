@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: osm-gimmisn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-26 14:32+0200\n"
+"POT-Creation-Date: 2020-08-02 22:29+0200\n"
 "PO-Revision-Date: 2020-07-26 14:33+0200\n"
 "Last-Translator: Miklos Vajna <osm-gimmisn@vmiklos.hu>\n"
 "Language-Team: Hungarian\n"
@@ -208,12 +208,12 @@ msgstr "Nincsenek referencia utcák"
 msgid "No street list: "
 msgstr "Nincsen utcalista: "
 
-#: webframe.py:477
+#: webframe.py:478
 #, python-brace-format
 msgid "No such relation: {0}"
 msgstr "Nincs ilyen reláció: {0}"
 
-#: webframe.py:328 webframe.py:421
+#: webframe.py:328 webframe.py:422
 msgid "Note"
 msgstr "Megjegyzés"
 
@@ -312,7 +312,7 @@ msgstr ""
 "Ezek a statisztikák becslések, nem véve fiyelembe a házszám szűrőket.\n"
 "Csak olyan városok szerepelnek benne, amiknek van az OSM-ben házszámuk."
 
-#: webframe.py:423
+#: webframe.py:424
 msgid ""
 "These statistics are provided purely for interested editors, and are not\n"
 "intended to reflect quality of work done by any given editor in OSM. If you "
@@ -369,10 +369,6 @@ msgstr "Verzió: "
 #: wsgi.py:67 wsgi.py:104 wsgi.py:329
 msgid "View missing house numbers"
 msgstr "Hiányzó házszámok megtekintése"
-
-#: webframe.py:418
-msgid "View per-city coverage table"
-msgstr "Városonkénti lefedettségi táblázat megtekintése"
 
 #: webframe.py:92 webframe.py:101
 msgid "View query"

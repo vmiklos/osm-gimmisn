@@ -755,8 +755,8 @@ class TestStats(TestWsgi):
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/housenumber-stats/hungary/")
         results = root.findall("body/h2")
-        # 8 chart types + cityprogress + note
-        self.assertEqual(len(results), 10)
+        # 8 chart types + note
+        self.assertEqual(len(results), 9)
 
 
 def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:

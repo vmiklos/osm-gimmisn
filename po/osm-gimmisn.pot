@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-26 14:32+0200\n"
+"POT-Creation-Date: 2020-08-02 22:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,12 +208,12 @@ msgstr ""
 msgid "No street list: "
 msgstr ""
 
-#: webframe.py:477
+#: webframe.py:478
 #, python-brace-format
 msgid "No such relation: {0}"
 msgstr ""
 
-#: webframe.py:328 webframe.py:421
+#: webframe.py:328 webframe.py:422
 msgid "Note"
 msgstr ""
 
@@ -306,7 +306,7 @@ msgid ""
 "Only cities with house numbers in OSM are considered."
 msgstr ""
 
-#: webframe.py:423
+#: webframe.py:424
 msgid ""
 "These statistics are provided purely for interested editors, and are not\n"
 "intended to reflect quality of work done by any given editor in OSM. If you "
@@ -358,10 +358,6 @@ msgstr ""
 
 #: wsgi.py:67 wsgi.py:104 wsgi.py:329
 msgid "View missing house numbers"
-msgstr ""
-
-#: webframe.py:418
-msgid "View per-city coverage table"
 msgstr ""
 
 #: webframe.py:92 webframe.py:101

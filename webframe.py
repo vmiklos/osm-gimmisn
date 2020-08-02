@@ -402,20 +402,21 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
     with doc.tag("ul"):
         for title, identifier in title_ids:
             with doc.tag("li"):
+                if identifier == "cityprogress":
+                    with doc.tag("a", href=prefix + "/housenumber-stats/hungary/cityprogress"):
+                        doc.text(title)
+                    continue
                 with doc.tag("a", href="#_" + identifier):
                     doc.text(title)
 
     for title, identifier in title_ids:
+        if identifier == "cityprogress":
+            continue
         with doc.tag("h2", id="_" + identifier):
             doc.text(title)
-        if identifier != "cityprogress":
             with doc.tag("div", klass="canvasblock"):
                 with doc.tag("canvas", id=identifier):
                     pass
-        else:
-            with doc.tag("div"):
-                with doc.tag("a", href=prefix + "/housenumber-stats/hungary/cityprogress"):
-                    doc.text(_("View per-city coverage table"))
 
     with doc.tag("h2"):
         doc.text(_("Note"))
