@@ -6,9 +6,13 @@ street-filters:
   - 165-ös őrház
   # dupla
   - Balatoni út  # Agárd-Balatoni út
+  - Gárdonyi Géza utca  # Agárd-Gárdonyi utca
+  - Dinnyés-Alkotmány utca
+  - Dinnyés-Petőfi utca
+  - Dinnyés-Rózsa utca
+  - Akácfa út  # Akácfa utca
 refstreets:
   'Áchim András utca': 'Achim András utca'
-  'Akácfa utca': 'Akácfa út'
   'Árpád fejedelem utca': 'Árpád utca'
   'Babits utca': 'Babits Mihály utca'
   'Batsányi utca': 'Batsányi János utca'
