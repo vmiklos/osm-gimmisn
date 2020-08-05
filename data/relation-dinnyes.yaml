@@ -1,0 +1,12 @@
+missing-streets: 'no'
+filters: {}
+refstreets:
+  # Dinnyés
+  'Ady Endre utca': 'Dinnyés-Ady Endre utca'
+  'Alkotmány utca': 'Dinnyés-Alkotmány utca'  # Agárd: Alkotmány utca
+  'Gárdonyi utca': 'Dinnyés-Gárdonyi utca'  # Agárd: Gárdonyi
+  'Kossuth Lajos utca': 'Dinnyés-Kossuth utca'  # Agárd: Kossuth utca
+  'Petőfi Sándor utca': Dinnyés-Petőfi utca  # Agárd: Petőfi Sándor utca
+  'Rákóczi Ferenc utca': 'Dinnyés-Rákóczi utca'  # Agárd: Rákóczi utca
+  'Rózsa utca': 'Dinnyés-Rózsa utca'  # Gárdony: Rózsa utca
+  'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca

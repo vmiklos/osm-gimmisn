@@ -424,13 +424,16 @@ murony:
     refsettlement: "054"
     inactive: true
 # 07 - Fejér megye
-
 gardony:
     osmrelation: 1418516  # Gárdony egész
     refcounty: "07"
     refsettlement: "033"
 gardony-agard:
     osmrelation: 6804400  # 2484 Gárdony-Agárd
+    refcounty: "07"
+    refsettlement: "033"
+gardony-dinnyes:
+    osmrelation: 6804401  # 2485 Gárdony-Dinnyés
     refcounty: "07"
     refsettlement: "033"
 gardony-kozpont:

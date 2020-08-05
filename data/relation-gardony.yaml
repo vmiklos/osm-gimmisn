@@ -1,13 +1,11 @@
-missing-streets: 'no'
-filters:
-  Áchim András utca:
-    ranges:
-      - {start: '2', end: '98'}
-  Jókai Mór utca:
-    ranges:
-      - {start: '19', end: '99'}
-  Szabadság utca:
-    ranges: []
+missing-streets: 'only'
+filters: {}
+street-filters:
+  # nem igazi utcák / csak hrsz.
+  - 162-es őrház
+  - 165-ös őrház
+  # dupla
+  - Balatoni út  # Agárd-Balatoni út
 refstreets:
   'Áchim András utca': 'Achim András utca'
   'Akácfa utca': 'Akácfa út'
@@ -37,7 +35,7 @@ refstreets:
   'Alkotmány utca': 'Agárd-Alkotmány utca'
   'Balatoni út': 'Agárd-Balatoni út'
   'Gárdonyi Géza utca': 'Agárd-Gárdonyi utca'
-  'Petőfi Sándor utca': Agárd-Petőfi utca
+  'Petőfi Sándor utca': 'Agárd-Petőfi utca'
   'Iskola utca': 'Agárd-Iskola utca'
   'Vasút utca': 'Agárd-Vasút utca'
   # Csiribpuszta
@@ -45,4 +43,13 @@ refstreets:
   'Gazdász utca': 'Csiribpuszta-Gazdász utca'
   'Nádasdy utca': 'Csiribpuszta-Nádasdy utca'
   'Pál utca': 'Csiribpuszta-Pál utca'
+  # Dinnyés
+  'Ady Endre utca': 'Dinnyés-Ady Endre utca'
+  # 'Alkotmány utca': 'Dinnyés-Alkotmány utca' -- Agárd: Alkotmány utca
+  'Gárdonyi utca': 'Dinnyés-Gárdonyi utca'  # Agárd: Gárdonyi
+  'Kossuth Lajos utca': 'Dinnyés-Kossuth utca'  # Agárd: Kossuth utca
+  # 'Petőfi Sándor utca': Dinnyés-Petőfi utca  # Agárd: Petőfi Sándor utca
+  'Rákóczi Ferenc utca': 'Dinnyés-Rákóczi utca'  # Agárd: Rákóczi utca
+  # 'Rózsa utca': 'Dinnyés-Rózsa utca'  # Gárdony: Rózsa utca
+  'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca
 source: survey
