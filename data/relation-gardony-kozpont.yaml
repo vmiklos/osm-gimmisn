@@ -9,5 +9,29 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '98'}
+refstreets:
+  'Áchim András utca': 'Achim András utca'
+  'Akácfa utca': 'Akácfa út'
+  'Árpád fejedelem utca': 'Árpád utca'
+  'Babits utca': 'Babits Mihály utca'
+  'Batsányi utca': 'Batsányi János utca'
+  'Béri Balogh Ádám utca': 'Béri Balog Ádám utca'
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'
+  'Csokonai Vitéz Mihály utca': 'Csokonai utca'
+  'Csontváry út': 'Csontváry utca'
+  'Diófa utca': 'Diófa út'
+  'György Oszkár út': 'György Oszkár utca'
+  'Géza fejedelem útja': 'Géza fejedelem út'
+  'Katona József utca': 'Katona József lakópark'
+  'Lehel vezér utca': 'Lehel utca'
+  'Mandula utca': 'Mandula út'
+  'Meggyfa sor': 'Meggyfasor utca'
+  'Mikszáth utca': 'Mikszáth Kálmán utca'
+  'Munkácsy Mihály körút': 'Munkácsy Mihály utca'
+  'Napfény Sétány': 'Napfény sétány'
+  'Semmelweis Ignác utca': 'Semmelweis utca'
+  'Szúnyog utca': 'Szunyog utca'
+  'Szántó Kovács utca': 'Szántó Kovács János utca'
+  'Táncsics Mihály utca': 'Táncsics utca'
+  'Tímár utca': 'Timár utca'
 source: survey
-inactive: true
