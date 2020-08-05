@@ -220,6 +220,26 @@ def update_stats_topusers(today: str) -> None:
         stream.write(str(len(users)) + "\n")
 
 
+def update_stats_refcount(state_dir: str) -> None:
+    """Performs the update of workdir/stats/ref.count."""
+    count = 0
+    with open(config.Config.get_reference_citycounts_path(), "r") as stream:
+        first = True
+        for line in stream.readlines():
+            if first:
+                first = False
+                continue
+
+            cells = line.strip().split('\t')
+            if len(cells) < 2:
+                continue
+
+            count += int(cells[1])
+
+    with open(os.path.join(state_dir, "ref.count"), "w") as stream:
+        stream.write(str(count) + "\n")
+
+
 def update_stats(overpass: bool) -> None:
     """Performs the update of country-level stats."""
 
@@ -248,6 +268,7 @@ def update_stats(overpass: bool) -> None:
 
     update_stats_count(today)
     update_stats_topusers(today)
+    update_stats_refcount(statedir)
 
     # Remove old CSV files as they are created daily and each is around 11M.
     current_time = time.time()

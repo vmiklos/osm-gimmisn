@@ -341,6 +341,10 @@ class TestUpdateStats(test_config.TestCase):
 
         self.assertTrue(mock_overpass_sleep_called)
 
+        with open(config.get_abspath("workdir/stats/ref.count"), "r") as stream:
+            num_ref = int(stream.read().strip())
+        self.assertEqual(num_ref, 300)
+
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
         mock_overpass_sleep_called = False

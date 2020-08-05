@@ -47,7 +47,8 @@ class TestHandleProgress(test_config.TestCase):
             stats.handle_progress(src_root, j)
         progress = j["progress"]
         self.assertEqual(progress["date"], "2020-05-10")
-        self.assertEqual(progress["percentage"], 7.81)
+        # 254651 / 300 * 100
+        self.assertEqual(progress["percentage"], 84883.67)
 
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
