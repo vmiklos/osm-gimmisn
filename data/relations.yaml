@@ -423,6 +423,24 @@ murony:
     refcounty: "04"
     refsettlement: "054"
     inactive: true
+# 07 - Fejér megye
+
+gardony:
+    osmrelation: 1418516  # Gárdony egész
+    refcounty: "07"
+    refsettlement: "033"
+gardony-agard:
+    osmrelation: 6804400  # 2484 Gárdony-Agárd
+    refcounty: "07"
+    refsettlement: "033"
+gardony-kozpont:
+    osmrelation: 6804399  # 2483 Gárdony
+    refcounty: "07"
+    refsettlement: "033"
+velence:
+    osmrelation: 1418512
+    refcounty: "07"
+    refsettlement: "102"
 # 12 - Komárom-Esztergom megye
 domos:
     osmrelation: 1027819
@@ -473,6 +491,10 @@ budaors-lakotelep:
     osmrelation: 10477968
     refcounty: "14"
     refsettlement: "015"
+godollo:
+    osmrelation: 1392595
+    refcounty: "14"
+    refsettlement: "047"
 pilisvorosvar:
     osmrelation: 215943
     refcounty: "14"
@@ -481,6 +503,10 @@ szigetmonostor:
     osmrelation: 216157
     refcounty: "14"
     refsettlement: "132"
+torokbalint:
+    osmrelation: 113462
+    refcounty: "14"
+    refsettlement: "158"
 veresegyhaz:
     osmrelation: 1390690
     refcounty: "14"
@@ -562,10 +588,10 @@ keszthely:
     refcounty: "20"
     refsettlement: "093"
 # Egyéb videk
-berekfurdo:
-    osmrelation: 1325377
-    refcounty: "11"
-    refsettlement: "003"
+komlo:
+    osmrelation: 575200
+    refcounty: "02"
+    refsettlement: "137"
 bogacs:
     osmrelation: 1418454
     refcounty: "05"
@@ -578,23 +604,15 @@ szilvasvarad:
     osmrelation: 1418234
     refcounty: "10"
     refsettlement: "096"
+berekfurdo:
+    osmrelation: 1325377
+    refcounty: "11"
+    refsettlement: "003"
 bonyhad:
     osmrelation: 1501376
     refcounty: "17"
     refsettlement: "011"
-komlo:
-    osmrelation: 575200
-    refcounty: "02"
-    refsettlement: "137"
-godollo:
-    osmrelation: 1392595
-    refcounty: "14"
-    refsettlement: "047"
 szekszard:
     osmrelation: 1501296
     refcounty: "17"
     refsettlement: "095"
-torokbalint:
-    osmrelation: 113462
-    refcounty: "14"
-    refsettlement: "158"

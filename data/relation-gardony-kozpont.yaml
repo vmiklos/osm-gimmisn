@@ -1,0 +1,13 @@
+missing-streets: 'no'
+filters:
+  Áchim András utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Alkotány utca:
+    ranges: []
+  Jókai Mór utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '98'}
+source: survey
+inactive: true
