@@ -1,10 +1,20 @@
 = Version descriptions
 
-== master
+== 7.0
+
+- Resolves: gh#564 wsgi: add support for locale-aware percent formatting
+
+- Resolves: gh#563 city progress: avoid double link
+
+- Resolves: gh#561 cron: update ref.count from reference_citycounts
 
 - Resolves: gh#521 sync missing-housenumbers and missing-streets toolbars
 
 - Resolves: gh#513 add overpass query for not yet audited street mappings
+
+- Resolves: gh#490 stats: add per-city coverage page
+
+- Resolves: gh#489 stats: add per-city monthly diff page
 
 - The stats feature now tracks the count of house number editors over time
 
