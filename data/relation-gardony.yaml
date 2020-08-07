@@ -5,8 +5,8 @@ street-filters:
   - 162-es őrház
   - 165-ös őrház
   # dupla
-  - Balatoni út  # Agárd-Balatoni út
-  - Gárdonyi Géza utca  # Agárd-Gárdonyi utca
+  - Agárd-Balatoni út  # Balatoni út
+  - Agárd-Gárdonyi utca  # Gárdonyi Géza utca
   - Dinnyés-Alkotmány utca
   - Dinnyés-Petőfi utca
   - Dinnyés-Rózsa utca
@@ -37,8 +37,8 @@ refstreets:
   'Tímár utca': 'Timár utca'
   # Agárd
   'Alkotmány utca': 'Agárd-Alkotmány utca'
-  'Balatoni út': 'Agárd-Balatoni út'
-  'Gárdonyi Géza utca': 'Agárd-Gárdonyi utca'
+  # 'Balatoni út': 'Agárd-Balatoni út'  # Balatoni út
+  # 'Gárdonyi Géza utca': 'Agárd-Gárdonyi utca'
   'Petőfi Sándor utca': 'Agárd-Petőfi utca'
   'Iskola utca': 'Agárd-Iskola utca'
   'Vasút utca': 'Agárd-Vasút utca'
@@ -50,7 +50,7 @@ refstreets:
   # Dinnyés
   'Ady Endre utca': 'Dinnyés-Ady Endre utca'
   # 'Alkotmány utca': 'Dinnyés-Alkotmány utca' -- Agárd: Alkotmány utca
-  'Gárdonyi utca': 'Dinnyés-Gárdonyi utca'  # Agárd: Gárdonyi
+  # 'Gárdonyi utca': 'Dinnyés-Gárdonyi utca'  # Agárd: Gárdonyi, Gárdonyi Géza utca
   'Kossuth Lajos utca': 'Dinnyés-Kossuth utca'  # Agárd: Kossuth utca
   # 'Petőfi Sándor utca': Dinnyés-Petőfi utca  # Agárd: Petőfi Sándor utca
   'Rákóczi Ferenc utca': 'Dinnyés-Rákóczi utca'  # Agárd: Rákóczi utca
