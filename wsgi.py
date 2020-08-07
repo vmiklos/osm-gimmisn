@@ -721,12 +721,6 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
         with doc.tag("script", src=prefix + "/static/sorttable.js"):
             pass
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
-        if config.Config.has_matomo():
-            datadir = config.get_abspath("data")
-            with open(os.path.join(datadir, "matomo.html.template")) as stream:
-                matomo_url = config.Config.get_matomo_url()
-                matomo_site_id = config.Config.get_matomo_site_id()
-                doc.asis(stream.read().replace("@MATOMO_URL@", matomo_url).replace("@MATOMO_SITE_ID@", matomo_site_id))
 
 
 def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:

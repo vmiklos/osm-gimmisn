@@ -7,5 +7,3 @@ uri_prefix = /osm
 tcp_port = 8000
 overpass_uri = https://lz4.overpass-api.de
 cron_update_inactive = False
-# matomo_url = analytics.example.com
-# matomo_site_id = 1
