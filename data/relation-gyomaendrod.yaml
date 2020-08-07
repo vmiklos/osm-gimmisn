@@ -48,3 +48,4 @@ refstreets:
   'Selyem utca': 'Selyem út'
   'Sugár utca': 'Sugár út'
 source: survey
+inactive: false

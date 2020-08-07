@@ -7,4 +7,4 @@ refstreets:
   'Munkás út': 'Munkás utca'
   'Tagosdűlő utca': 'Tagos-dűlő utca'
 source: survey
-inactive: true
+inactive: false

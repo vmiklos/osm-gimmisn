@@ -28,3 +28,4 @@ refstreets:
   'Szőlőskert utca': 'Szőlőskerti út'
   'Virágtanya': 'Virág tanya'
 source: survey
+inactive: true

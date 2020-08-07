@@ -10,3 +10,4 @@ refstreets:
   'Rákóczi Ferenc utca': 'Dinnyés-Rákóczi utca'  # Agárd: Rákóczi utca
   'Rózsa utca': 'Dinnyés-Rózsa utca'  # Gárdony: Rózsa utca
   'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca
+inactive: true

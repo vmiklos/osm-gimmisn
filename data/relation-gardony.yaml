@@ -57,3 +57,4 @@ refstreets:
   # 'Rózsa utca': 'Dinnyés-Rózsa utca'  # Gárdony: Rózsa utca
   'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca
 source: survey
+inactive: true

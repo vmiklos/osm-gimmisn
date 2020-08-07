@@ -161,3 +161,4 @@ refstreets:
   'Kamaraerdei út': 'Kamaraerdei utca'
 source: survey
 housenumber-letters: true
+inactive: true

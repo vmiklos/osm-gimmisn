@@ -119,3 +119,4 @@ filters:
     invalid: ['1', '9']
 source: survey
 housenumber-letters: true
+inactive: true

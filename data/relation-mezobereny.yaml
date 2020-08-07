@@ -43,3 +43,4 @@ refstreets:
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
   'Zrínyi Miklós sugárút': 'Zrínyi sugárút'
 source: survey
+inactive: false

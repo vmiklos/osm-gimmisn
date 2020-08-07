@@ -35,3 +35,4 @@ refstreets:
   'Táncsics Mihály utca': 'Táncsics utca'
   'Tímár utca': 'Timár utca'
 source: survey
+inactive: true

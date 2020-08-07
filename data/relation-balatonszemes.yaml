@@ -17,4 +17,4 @@ refstreets:
   'Madách Imre utca': 'Madách utca'
   'Munkácsy Mihály utca': 'Munkácsy utca'
 source: survey
-inactive: true
+inactive: false

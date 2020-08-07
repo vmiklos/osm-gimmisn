@@ -64,3 +64,4 @@ refstreets:
   'Római sétány': 'Római út'  # vegyesen vannak a táblák
   'Stefan Wyszyński utca': 'Stefan Wyszynski utca'  # határozatban a Stefan Wyszyński van
 source: survey
+inactive: false

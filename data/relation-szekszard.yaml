@@ -55,3 +55,4 @@ refstreets:
   'Zapor utca': 'Zápor utca'
   'Zápor köz': 'Zápor-köz'
 source: survey
+inactive: true

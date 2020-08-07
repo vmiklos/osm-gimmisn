@@ -1,7 +1,6 @@
 missing-streets: 'no'
 filters: {}
 source: survey
-inactive: false
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bajcsy-Zsilinszky Endre út': 'Bajcsy-Zsilinszky út'
@@ -26,3 +25,4 @@ refstreets:
   'Szent Tamás utca': 'Szenttamás utca'
   'Víztorony utca': 'Víztorony út'
   'Zsellér dűlő': 'Zsellértag dűlő'
+inactive: true

@@ -13,4 +13,4 @@ refstreets:
   'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Gyártelep utca': 'Bányatelep'
 source: survey
-inactive: true
+inactive: false

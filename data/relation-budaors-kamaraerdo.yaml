@@ -6,4 +6,4 @@ filters:
 source: survey
 refstreets:
   Kamaraerdei út: Kamaraerdei utca
-inactive: false
+inactive: true

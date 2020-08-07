@@ -217,5 +217,5 @@ filters:
     # this is outside the relation
     invalid: ['1']
 source: survey
-inactive: false
 housenumber-letters: false
+inactive: true

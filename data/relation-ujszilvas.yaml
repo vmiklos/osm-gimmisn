@@ -4,3 +4,4 @@ street-filters: []
 refstreets:
   'Petőfi Sándor utca': 'Petőfi utca'
 source: survey
+inactive: true

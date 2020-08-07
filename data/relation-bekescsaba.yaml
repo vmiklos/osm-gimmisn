@@ -64,3 +64,4 @@ refstreets:
   'Vasúti sor': 'Vasút sor'
   'Vicskó utca': 'Vlcskó utca'
 source: survey
+inactive: false

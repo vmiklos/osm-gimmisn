@@ -86,4 +86,4 @@ filters:
     ranges:
       - {start: '77', end: '81'}
 source: survey
-inactive: false
+inactive: true

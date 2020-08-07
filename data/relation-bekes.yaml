@@ -25,3 +25,4 @@ refstreets:
   'Szent Pál sor': 'Szentpálsor utca'
   'Templom köz': 'Templomköz'
 source: survey
+inactive: false
