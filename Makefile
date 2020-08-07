@@ -43,6 +43,7 @@ PYTHON_SAFE_OBJECTS = \
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
+	parse_access_log.py \
 
 # These are valid.
 YAML_SAFE_OBJECTS = \
