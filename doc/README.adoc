@@ -207,3 +207,23 @@ housenumber ranges in a sensible way. Here are some examples:
 |=======
 
 See `tests/test_areas.py` for even more details.
+
+== Reporting issues
+
+You can file a new issue (bugreport, feature request) at https://github.com/vmiklos/osm-gimmisn/issues/new[GitHub]. Please always describe a single problem.
+
+Here is a minimal template:
+
+=== Reproducer steps
+
+1. First step
+2. Second step
+3. Third step
+
+=== Actual result
+
+A description of what happens currently.
+
+=== Expected behavior
+
+A description of what you expected to happen.
