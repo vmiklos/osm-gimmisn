@@ -7,6 +7,10 @@ filters:
       - {start: '2', end: '92'}
       - {start: '96', end: '104'}
       - {start: '110', end: '132'}
+  Anker köz:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '4'}
   Bulcsú utca:
     # Terézváros 2-16, de jelenleg egy mező
     ranges: []
@@ -23,6 +27,9 @@ filters:
   Munkácsy Mihály utca:
     # 31-37-ig üres telek (Star Park Podmaniczky utcai parkolója van rajta)
     invalid: ['31', '33', '35', '37']
+  Nagymező utca:
+    # 5-ös szám helyén a Tereza kiülős "kertje" van
+    invalid: ['5']
   Váci út:
     ranges:
       - {start: '1', end: '3'}
