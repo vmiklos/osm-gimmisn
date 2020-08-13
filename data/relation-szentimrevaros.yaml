@@ -103,7 +103,7 @@ filters:
     ranges:
       - {start: '2', end: '24'}
   Ménesi út:
-    # 1a: csak csina 1 van
+    # 1a: csak csima 1 van
     # 42: nincs
     # 46,54: Arborétum hátsó fele
     # 84: nincs, Köbölkút utca 27-29 iskola hátsó fele
@@ -146,11 +146,12 @@ filters:
     # 28a,24b,24c: sima 28 + a,b,c lépcsőházak
     # 30: 30a,30b
     # 48: 48a,48b
+    # 49d: csak sima 49 van
     # 62a, 62b: sima 62 a és b lépcsőház van, magánterületen belül
     # 70e: csak sima 70 van
     # 75b: csak sima 75 van
     # 83-85 A-H épületek, addr:unit-batn jelölve
-    invalid: ['6a', '9b', '18c', '20/2', '22', '24a', '24b', '24c', '28a', '28b', '28c', '28g', '30', '30c', '48', '48d', '62a', '62b', '70e', '75b', '83b', '83c', '83d', '83h', '85h']
+    invalid: ['6a', '9b', '18c', '20/2', '22', '24a', '24b', '24c', '28a', '28b', '28c', '28g', '30', '30c', '48', '48d', '49d', '62a', '62b', '70e', '75b', '83b', '83c', '83d', '83h', '85h']
     ranges:
       - {start: '1', end: '13'}
       - {start: '25', end: '29'}
@@ -169,4 +170,3 @@ filters:
       - {start: '2', end: '6'}
 source: survey
 housenumber-letters: true
-inactive: true
