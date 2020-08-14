@@ -11,6 +11,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_missing_housenumbers.py \
 	tests/test_missing_streets.py \
 	tests/test_overpass_query.py \
+	tests/test_parse_access_log.py \
 	tests/test_ranges.py \
 	tests/test_stats.py \
 	tests/test_util.py \
@@ -32,18 +33,18 @@ PYTHON_SAFE_OBJECTS = \
 	missing_housenumbers.py \
 	missing_streets.py \
 	overpass_query.py \
+	parse_access_log.py \
 	ranges.py \
+	stats.py \
 	util.py \
 	validator.py \
 	version.py \
 	webframe.py \
 	wsgi.py \
-	stats.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
-	parse_access_log.py \
 
 # These are valid.
 YAML_SAFE_OBJECTS = \
