@@ -16,7 +16,6 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = REF
-  'Baross út': 'Baross utca'
   'Dűlő út': 'Dűlő utak'
   'Erdőalja utca': 'Erdőalja út'  # tábla régi: u.
   'Révész utca': 'Révész út'  # tábla régi: u.
