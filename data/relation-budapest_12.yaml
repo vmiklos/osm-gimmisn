@@ -314,6 +314,9 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '12'}
+  Béla király út:
+    # Anything above 42 on the even side seems to be noise.
+    invalid: ['52']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Adonis utca': 'Adonisz utca'
