@@ -387,6 +387,11 @@ csepel-belvaros:
     osmrelation: 3244191
     refcounty: "01"
     refsettlement: "021"
+# 02 - Baranya
+komlo:
+    osmrelation: 575200
+    refcounty: "02"
+    refsettlement: "137"
 # 04 - Békés megye
 bekes:
     osmrelation: 1026148
@@ -423,6 +428,19 @@ murony:
     refcounty: "04"
     refsettlement: "054"
     inactive: true
+# 05 - Borsod-Abaúj-Zemplén
+bogacs:
+    osmrelation: 1418454
+    refcounty: "05"
+    refsettlement: "037"
+miskolc:
+    osmrelation: 1440895
+    refcounty: "05"
+    refsettlement: "202"
+miskolctapolca:
+    osmrelation: 6848843  # 3519 Miskolc
+    refcounty: "05"
+    refsettlement: "202"
 # 07 - Fejér megye
 gardony:
     osmrelation: 1418516  # Gárdony egész
@@ -444,6 +462,20 @@ velence:
     osmrelation: 1418512
     refcounty: "07"
     refsettlement: "102"
+# 10 - Heves
+felsotarkany:
+    osmrelation: 1418232
+    refcounty: "10"
+    refsettlement: "037"
+szilvasvarad:
+    osmrelation: 1418234
+    refcounty: "10"
+    refsettlement: "096"
+# 11 - Jász-Nagykun-Szolnok
+berekfurdo:
+    osmrelation: 1325377
+    refcounty: "11"
+    refsettlement: "003"
 # 12 - Komárom-Esztergom megye
 domos:
     osmrelation: 1027819
@@ -547,6 +579,15 @@ sersekszolos:
     osmrelation: 1367864
     refcounty: "15"
     refsettlement: "173"
+# 17 - Tolna
+bonyhad:
+    osmrelation: 1501376
+    refcounty: "17"
+    refsettlement: "011"
+szekszard:
+    osmrelation: 1501296
+    refcounty: "17"
+    refsettlement: "095"
 # 19 - Veszprém megye
 balatonalmadi:
     osmrelation: 1078573
@@ -591,31 +632,3 @@ keszthely:
     refcounty: "20"
     refsettlement: "093"
 # Egyéb videk
-komlo:
-    osmrelation: 575200
-    refcounty: "02"
-    refsettlement: "137"
-bogacs:
-    osmrelation: 1418454
-    refcounty: "05"
-    refsettlement: "037"
-felsotarkany:
-    osmrelation: 1418232
-    refcounty: "10"
-    refsettlement: "037"
-szilvasvarad:
-    osmrelation: 1418234
-    refcounty: "10"
-    refsettlement: "096"
-berekfurdo:
-    osmrelation: 1325377
-    refcounty: "11"
-    refsettlement: "003"
-bonyhad:
-    osmrelation: 1501376
-    refcounty: "17"
-    refsettlement: "011"
-szekszard:
-    osmrelation: 1501296
-    refcounty: "17"
-    refsettlement: "095"
