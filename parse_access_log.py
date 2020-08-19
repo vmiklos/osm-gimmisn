@@ -9,7 +9,9 @@
 
 from typing import Dict
 from typing import Set
+import datetime
 import re
+import subprocess
 import sys
 
 import areas
@@ -49,9 +51,39 @@ def get_frequent_relations(log_file: str) -> Set[str]:
     return frequent_relations
 
 
+def get_relation_create_dates() -> Dict[str, datetime.date]:
+    """Builds a name -> create_date dictionary for relations."""
+    ret: Dict[str, datetime.date] = {}
+    relations_path = config.get_abspath("data/relations.yaml")
+    process = subprocess.run(["git", "blame", "--line-porcelain", relations_path], stdout=subprocess.PIPE, check=True)
+    timestamp = 0
+
+    for line_bytes in process.stdout.splitlines():
+        line = line_bytes.decode('utf-8')
+        match = re.match("\t([^ :]+):", line)
+        if match:
+            name = match.group(1)
+            ret[name] = datetime.date.fromtimestamp(timestamp)
+            continue
+
+        match = re.match("author-time ([0-9]+)", line)
+        if match:
+            timestamp = int(match.group(1))
+
+    return ret
+
+
+def is_relation_recently_added(create_dates: Dict[str, datetime.date], name: str) -> bool:
+    """Decides if the given relation is recent, based on create_dates."""
+    month_ago = datetime.date.today() - datetime.timedelta(days=30)
+    return name in create_dates and create_dates[name] > month_ago
+
+
 def main() -> None:
     """Commandline interface."""
     log_file = sys.argv[1]
+
+    relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates()
 
     frequent_relations = get_frequent_relations(log_file)
 
@@ -65,8 +97,9 @@ def main() -> None:
         expected = relation_name in frequent_relations
         if actual != expected:
             if actual:
-                print("data/relation-{}.yaml: set inactive: true".format(relation_name))
-                removals += 1
+                if not is_relation_recently_added(relation_create_dates, relation_name):
+                    print("data/relation-{}.yaml: set inactive: true".format(relation_name))
+                    removals += 1
             else:
                 print("data/relation-{}.yaml: set inactive: false".format(relation_name))
                 additions += 1
