@@ -243,3 +243,4 @@ filters:
       - {start: '2', end: '24'}
 source: survey
 inactive: true
+housenumber-letters: true

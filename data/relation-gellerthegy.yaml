@@ -77,3 +77,4 @@ refstreets:
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
 source: survey
 inactive: true
+housenumber-letters: true
