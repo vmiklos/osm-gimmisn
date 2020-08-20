@@ -14,7 +14,6 @@ street-filters:
   # Dőrytabód
   # Erdőtelek
   # Malmok
-  # Ladomány
   # Hiányzók ------------------------------------------------------
   # Búzavirág utca - Mihánydomb
   # Tünde utca  - Mihánydomb
@@ -32,7 +31,6 @@ street-filters:
   # Szürkebarát utca - Óhegy
   # Tabódszerdahely
   # Tó utca
-  # Wernau utca
 refstreets:
   'Benczúr Gyula utca': 'Benczur Gyula utca'
   'Börzsönyi utca': 'Börzsöny'
