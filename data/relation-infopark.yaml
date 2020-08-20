@@ -10,3 +10,4 @@ filters:
       - {start: '9', end: '9'}
 source: survey
 inactive: true
+housenumber-letters: true
