@@ -1,2 +1,206 @@
 missing-streets: 'only'
+street-filters:
+  - Árpád vezér út
+  - Ősz utca  # valószínű elírás
+  - Kisavas sor  # Kisavas, Első sor stb..
+  - Közdomb  # Közdomb utca, I. sor stb..
+  - Termál barlangfürdő  # Van rendes címe
+  - Tiszai pályaudvar  # Van rendes címe
+  # dupla
+  - Bábonyi bérc telep  # Bábonyibérc telep
+  - Bábonyibérc telep  # Bábonyibérc Új telep
+  - Erdőalja telep  # Csavar utca
+  - Lővei sor  # Felsőavas, Lővei sor
+  - Nagyavasi sor  # Nagyavas-alsó sor stb.
+  - Középső sor  # Nagyavas-közép sor
+  - Felső sor  # Nagy-avas felsősor
+  - Lyukóvölgy Kishajtás  # Kishajtás dűlő
+  - Nádastó utca  # Nádastó dűlő
+  - Nagykőkötő  # Nagy-kőkötő utca
+  - Nagy magas hegy  # Nagymagashegy
+  - Ruzsinszőlő utca  # Ruzsinszőlő dűlő
+  - Tetemvár sor  # Tetemvár Alsó sor stb..
+  # csak hrsz / nincs hsz.
+  - Ágazat
+  - Alsó Bábonyi Bérc
+  - Bolló alja dűlő
+  - Csabagyöngye I. dűlő
+  - Erenyő
+  - Fehérkőlápa
+  - Felsőruzsin dűlő
+  - Forrásvölgy
+  - Garóca dűlő
+  - Herceg Hajtás dűlő
+  - Hidegoldal dűlő
+  - Jenke tanya
+  - Kankós dűlő
+  - Kerekhegy
+  - Kis-ágazat dűlő
+  - Kis Szent Benedek
+  - Lapocka dűlő
+  - Margitta dűlő
+  - Őzugró dűlő
+  - Szabadka dűlő
+  - Szarkahegy dűlő
+  - Szentlélek
+  - Vadász dűlő
+  # hamlet/suburb/landuse
+  - Ághegy
+  - Bodótető
+  - Csanyik völgy  # Csanyikvölgy
+  - Császárhegy
+  - Csermőke
+  - Csorba telep  # Csorbatelep
+  - Jávorkút
+  - Ládi Fatelep
+  - Mechatronikai park
+  - Lyukóbánya telep  # Lyukóbánya
+  - Mexikó telep  # Mexikóitelep
+  - Mexikóvölgy
+  - Mihályka
+  - Tatárdomb
+  - Újmassa
+  # osm hiányzó utcák
+  # - Alma dűlőút
+  # - Levendula dűlőút
+  # - Pitypang dűlőút
+  # - Akó utca
+  # - Bálint utca
+  # - Mély út
+  # - Nagy-avas felsősor
+  # - Ó utca
+  # - Örömhegy utca
+  # - Szőlőskert sétány
+  # - Tarna utca
+  # - Terplán Zénó utca
+  # - Visó utca
+  # hiányzó egyéb
+  # - Annabánya telep
+  # - Bábonyibérc dűlő
+  # - Bábonyibérc hegy
+  # - Bábonyibérc Új telep
+  # - Bandzsalgó dűlő
+  # - Bedegvölgy dűlő
+  # - Békeszálló telep
+  # - Csernaj - Kodály Zoltán utca folytatása
+  # - Erenyő völgy
+  # - Fürészmalom
+  # - Garadna
+  # - Garadna erdészház
+  # - Garadnavölgy
+  # - Gubacska tanya
+  # - József Attila telep
+  # - Kakas-hegy
+  # - Kiserenyő
+  # - Kiskőbányaszőlő dűlő
+  # - Kisszilvás völgy
+  # - Nagyszilvás völgy
+  # - Nagymagashegy
+  # - Kutyorvölgy
+  # - Lyukóoldal
+  # - Lyukóvölgy
+  # - Lyukóvölgy Bánya oldal
+  # - Lyukóvölgy Gulyakút
+  # - Lyukóvölgy Kitérő
+  # - Lyukóvölgy Kutyor egyéb
+  # - MÁV 77-es őrház
+  # - MÁV vasgyári 6-os őrház
+  # - Nagypást tanya
+  # - Pap tanya
+  # - Rendező pályaudvar
+  # - Rózsás dűlő
+  # - Szilvásvölgy
+  # - Táncihegy
+  # - Vadászlak
+refstreets:
+  'Áchim utca': 'Áchim András utca'
+  'Alsó Papírgyár telep': 'Alsó Papirgyár telep'
+  'Árvácska út': 'Árvácska utca'
+  'Augusztus 20. utca': 'Augusztus 20 utca'
+  'Bacsinszky András út': 'Bacsinszky András utca'
+  'Bedegvölgy utca': 'Bedeghvölgy utca'
+  'Bezerédj István utca': 'Bezerédi István utca'
+  'Bábonyibérc alsósor': 'Bábonyi bérc alsósor'
+  'Báthory sor': 'Báthori sor'
+  'Csipkevirág utca': 'Csipke virág utca'
+  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
+  'Babits Mihály út': 'Babits Mihály utca'
+  'Barát út': 'Barát utca'
+  'Baross utca': 'Baross Gábor út'
+  'Bellervölgy utca': 'Bellervölgy'
+  'Bocskai utca': 'Bocskai István utca'
+  'Bolyai János utca': 'Bólyai János utca'
+  'Bulcsú utca': 'Bulcsu utca'
+  'Csaba vezér út': 'Csabavezér út'
+  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
+  'Dimitrovhegy dűlő': 'Dimitrov-hegy'
+  'Dobozi Mihály utca': 'Dobozy Mihály utca'
+  'Kisavas, Első sor': 'Első sor'
+  'Kisavas, Második sor': 'Második sor'
+  'Kisavas, Harmadik sor': 'Harmadik sor'
+  'Kisavas, Negyedik sor': 'Negyedik sor'
+  'Erkel Ferenc út': 'Erkel Ferenc utca'
+  'Esterházy Antal utca': 'Eszterházy Antal utca'
+  'Hideg sor': 'Felsőavas Hidegsor'
+  'Lövei sor': 'Felsőavas Lővei sor'
+  'Teleki sor': 'Felsőavas Teleki sor'
+  'Fülep József utca': 'Fülepp József utca'
+  'Görömbölyi utca': 'Görömbölyi út'
+  'Guttenberg utca': 'Gutenberg utca'
+  'Hajnóczy József út': 'Hajnóczy József utca'
+  'Hunyadi utca': 'Hunyadi János utca'
+  'Írisz utca': 'Irisz utca'
+  'Jenkei út': 'Jenkei utca'
+  'József Attila út': 'József Attila utca'
+  'Kiskőkötő dűlő': 'Kiskőkőtő dűlő'
+  'Komlóstető utca': 'Komlós tető'
+  'Koromházi út': 'Koromházi utca'
+  'Kozma utca': 'Kozma Andor utca'
+  'Körös utca': 'Kőrös utca'
+  'Külsőcsabai út': 'Külső Csabai utca'
+  'Láditelepi út': 'Ládi telep'
+  'Lavotta János utca': 'Lavotta utca'
+  'Levente vezér út': 'Leventevezér utca'
+  'Lippa dűlő': 'Lippa'
+  'Lokomotív utca': 'Lokomotiv utca'
+  'Marek József út': 'Marek József utca'
+  'Máriássy utca': 'Máriássy Sándor utca'
+  'Marjalaki Kiss László utca': 'Marjalaki Kiss Lajos utca'
+  'Mártírok utcája': 'Mártirok utcája'
+  'Mártonbíró utca': 'Márton bíró utca'
+  'Prohászka Ottokár utca': 'Máv telep'
+  'Mécs utca': 'Mécs László utca'
+  'Munkácsy utca': 'Munkácsy Mihály utca'
+  'Muszkásoldal dűlő': 'Muszkás oldal'
+  'Nagyavas középső sor': 'Nagyavas-közép sor'
+  'Nagycsermőke dűlő': 'Nagy Csermőke dűlő'
+  'Nagy Kőkötő utca': 'Nagy-kőkötő utca'
+  'Nagysándor József utca': 'Nagy Sándor utca'
+  'Pattantyús Ábrahám Géza utca': 'Pattantyús-Ábrahám Géza utca'
+  'Pilinyszky János utca': 'Pilinszky János utca'
+  'Pipacs út': 'Pipacs utca'
+  'Pólya Jenő út': 'Pólya Jenő utca'
+  'Poeltenberg Ernő utca': 'Pöltenberg Ernő utca'
+  'Puskaporos utca': 'Puskaporos'
+  'Sajószigeti út': 'Sajószigeti utca'
+  'Somlay Artúr utca': 'Somlay Artur utca'
+  'Szarkahegy - Fenyő dűlő': 'Szarkahegy-Fenyő dűlő'
+  'Szarkahegy - Szegfű dűlő': 'Szarkahegy-Szegfű dűlő'
+  'Szarkaláb dűlőút': 'Szarkaláb dűlő'
+  'Széchenyi István utca': 'Széchenyi István út'
+  'Szénffy Gusztáv utca': 'Szénfy Gusztáv utca'
+  'Szentbenedekhegyi út': 'Szentbenedek-hegyi utca'
+  'Szerb Antal út': 'Szerb Antal utca'
+  'Szondi György utca': 'Szondy György utca'
+  'Szűrcsapó utca': 'Szürcsapó utca'
+  'Tas utca': 'Tass utca'
+  'Tatár árok': 'Tatárárok utca'
+  'Tímár utca': 'Timár utca'
+  'Új Élet út': 'Új Élet utca'
+  'Váci Mihály út': 'Váci Mihály utca'
+  'Vargaoldal': 'Varga oldal'
+  'Víkendtelep utca': 'Vikend telep'
+  'Vízirózsa utca': 'Vizirózsa utca'
+  'Vörös Bérc utca': 'Vörös bérc utca'
+  'Zielinski Szilárd utca': 'Zielinsky Szilárd utca'
 inactive: true
