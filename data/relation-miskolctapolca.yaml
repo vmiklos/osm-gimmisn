@@ -1,5 +1,4 @@
 missing-streets: 'no'
-inactive: true
 refstreets:
   # Nem mind Miskolctapolca, de így egyszerűbb
   'Áchim utca': 'Áchim András utca'
@@ -8,7 +7,6 @@ refstreets:
   'Bacsinszky András út': 'Bacsinszky András utca'
   'Bedegvölgy utca': 'Bedeghvölgy utca'
   'Bezerédj István utca': 'Bezerédi István utca'
-  'Bábonyibérc alsósor': 'Bábonyi bérc alsósor'
   'Báthory sor': 'Báthori sor'
   'Csipkevirág utca': 'Csipke virág utca'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
@@ -25,9 +23,6 @@ refstreets:
   'Dobozi Mihály utca': 'Dobozy Mihály utca'
   'Erkel Ferenc út': 'Erkel Ferenc utca'
   'Esterházy Antal utca': 'Eszterházy Antal utca'
-  'Hideg sor': 'Felsőavas Hidegsor'
-  'Lövei sor': 'Felsőavas Lővei sor'
-  'Teleki sor': 'Felsőavas Teleki sor'
   'Fülep József utca': 'Fülepp József utca'
   'Görömbölyi utca': 'Görömbölyi út'
   'Guttenberg utca': 'Gutenberg utca'
@@ -56,10 +51,7 @@ refstreets:
   'Mécs utca': 'Mécs László utca'
   'Munkácsy utca': 'Munkácsy Mihály utca'
   'Muszkásoldal dűlő': 'Muszkás oldal'
-  'Nagyavas középső sor': 'Nagyavas-közép sor'
-  'Nagycsermőke dűlő': 'Nagy Csermőke dűlő'
   'Nagy Kőkötő utca': 'Nagy-kőkötő utca'
-  'Nagysándor József utca': 'Nagy Sándor utca'
   'Pattantyús Ábrahám Géza utca': 'Pattantyús-Ábrahám Géza utca'
   'Pilinyszky János utca': 'Pilinszky János utca'
   'Pipacs út': 'Pipacs utca'
@@ -67,7 +59,6 @@ refstreets:
   'Poeltenberg Ernő utca': 'Pöltenberg Ernő utca'
   'Puskaporos utca': 'Puskaporos'
   'Sajószigeti út': 'Sajószigeti utca'
-  'Somlay Artúr utca': 'Somlay Artur utca'
   'Szarkaláb dűlőút': 'Szarkaláb dűlő'
   'Széchenyi István utca': 'Széchenyi István út'
   'Szénffy Gusztáv utca': 'Szénfy Gusztáv utca'
@@ -85,3 +76,4 @@ refstreets:
   'Vízirózsa utca': 'Vizirózsa utca'
   'Vörös Bérc utca': 'Vörös bérc utca'
   'Zielinski Szilárd utca': 'Zielinsky Szilárd utca'
+inactive: false

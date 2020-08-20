@@ -10,16 +10,22 @@ street-filters:
   - Bábonyi bérc telep  # Bábonyibérc telep
   - Bábonyibérc telep  # Bábonyibérc Új telep
   - Erdőalja telep  # Csavar utca
-  - Lővei sor  # Felsőavas, Lővei sor
-  - Nagyavasi sor  # Nagyavas-alsó sor stb.
-  - Középső sor  # Nagyavas-közép sor
-  - Felső sor  # Nagy-avas felsősor
+  - Felsőavas Teleki sor  # Teleki sor
+  - Felsőavas Hideg sor  # Hideg sor
+  - Felsőavas Lővei sor  # Lővei sor
   - Lyukóvölgy Kishajtás  # Kishajtás dűlő
   - Nádastó utca  # Nádastó dűlő
+  - Középső sor  # Nagyavas-közép sor
+  - Felső sor  # Nagy-avas felsősor
+  - Nagyavasi sor  # Nagyavas-alsó sor stb.
+  - Nagy Csermőke dűlő  # Nagycsermőke dűlő
   - Nagykőkötő  # Nagy-kőkötő utca
+  - Nagy Sándor utca  # Nagysándor József utca
   - Nagy magas hegy  # Nagymagashegy
   - Ruzsinszőlő utca  # Ruzsinszőlő dűlő
+  - Somlay Artur utca  # Somlay Artúr utca
   - Tetemvár sor  # Tetemvár Alsó sor stb..
+  - Varga oldal  # Vargaloldal
   # csak hrsz / nincs hsz.
   - Ágazat
   - Alsó Bábonyi Bérc
@@ -141,9 +147,7 @@ refstreets:
   'Kisavas, Negyedik sor': 'Negyedik sor'
   'Erkel Ferenc út': 'Erkel Ferenc utca'
   'Esterházy Antal utca': 'Eszterházy Antal utca'
-  'Hideg sor': 'Felsőavas Hidegsor'
-  'Lövei sor': 'Felsőavas Lővei sor'
-  'Teleki sor': 'Felsőavas Teleki sor'
+  'Lövei sor': 'Lővei sor'
   'Fülep József utca': 'Fülepp József utca'
   'Görömbölyi utca': 'Görömbölyi út'
   'Guttenberg utca': 'Gutenberg utca'
@@ -173,9 +177,7 @@ refstreets:
   'Munkácsy utca': 'Munkácsy Mihály utca'
   'Muszkásoldal dűlő': 'Muszkás oldal'
   'Nagyavas középső sor': 'Nagyavas-közép sor'
-  'Nagycsermőke dűlő': 'Nagy Csermőke dűlő'
   'Nagy Kőkötő utca': 'Nagy-kőkötő utca'
-  'Nagysándor József utca': 'Nagy Sándor utca'
   'Pattantyús Ábrahám Géza utca': 'Pattantyús-Ábrahám Géza utca'
   'Pilinyszky János utca': 'Pilinszky János utca'
   'Pipacs út': 'Pipacs utca'
@@ -183,7 +185,6 @@ refstreets:
   'Poeltenberg Ernő utca': 'Pöltenberg Ernő utca'
   'Puskaporos utca': 'Puskaporos'
   'Sajószigeti út': 'Sajószigeti utca'
-  'Somlay Artúr utca': 'Somlay Artur utca'
   'Szarkahegy - Fenyő dűlő': 'Szarkahegy-Fenyő dűlő'
   'Szarkahegy - Szegfű dűlő': 'Szarkahegy-Szegfű dűlő'
   'Szarkaláb dűlőút': 'Szarkaláb dűlő'
@@ -198,7 +199,6 @@ refstreets:
   'Tímár utca': 'Timár utca'
   'Új Élet út': 'Új Élet utca'
   'Váci Mihály út': 'Váci Mihály utca'
-  'Vargaoldal': 'Varga oldal'
   'Víkendtelep utca': 'Vikend telep'
   'Vízirózsa utca': 'Vizirózsa utca'
   'Vörös Bérc utca': 'Vörös bérc utca'
