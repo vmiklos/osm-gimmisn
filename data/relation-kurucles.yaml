@@ -7,7 +7,7 @@ filters:
   Bognár utca:
     # területhatár: kurucles/szepilona
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '9'}
   Budakeszi út:
     # területhatár: II: kurucles/harshegy/szepilona XII: budakeszierdo/janoshegy/viranyos/zugliget
     ranges:
