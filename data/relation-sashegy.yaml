@@ -22,6 +22,9 @@ filters:
       - {start: '1', end: '45'}
   Dayka Gábor utca:
     # alsó rész: 41-ig aztán erdő, felül első ház 81/a
+    # 81: 81/a, 81/b, 81/c
+    # 83, 85, 85b
+    invalid: ['81', '83a', '85a']
     ranges:
       - {start: '21', end: '41'}
       - {start: '81', end: '91'}
