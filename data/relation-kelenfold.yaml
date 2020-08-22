@@ -85,6 +85,10 @@ filters:
       - {start: '1', end: '15'}
       - {start: '25', end: '39'}
       - {start: '6', end: '24'}
+  Bíró László József körút:
+    # 1,2 Nádorkert
+    # Egyelőre mindent mást is Nádorkerthez sorolunk, majd ha felépültek az épületek, akkor lehet tudni a házszámozást
+    ranges: []
   Bocskai út:
     invalid: ['42a', '50a', '73b']
     ranges:
