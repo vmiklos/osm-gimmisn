@@ -18,6 +18,10 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
+  Baradla utca:
+    # 4-es kapun nem láttam semmit, nem derült ki hogy 4a vagy 4
+    # jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
+    invalid: ['4a', '6a', '13', '13a']
   Beregszász út:
     ranges:
       - {start: '1', end: '101'}
@@ -164,6 +168,9 @@ filters:
       - {start: '1', end: '41'}
       - {start: '2', end: '40'}
   Oltvány árok:
+    # 13: két épület van de nincs 13/a 13/b-re alábontva
+    # 14b: egy épület 14-re számozva
+    invalid: ['13a', '13b', '14b']
     ranges:
       - {start: '1', end: '43'}
       - {start: '4', end: '34'}

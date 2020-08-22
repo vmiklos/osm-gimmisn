@@ -137,9 +137,7 @@ street-filters:
   - Som köz
   - Torockó utca  # Rossz helyen megy a Bp határ szerintem
   - Törökugrató dűlő
-  # OSM hiányzók:
-  # Kassai köz - Kassait útról nyílik
-  # Vasútáll.és körny. dűlő - Vasút dűlő folytatása
+  - Vasútáll.és körny. dűlő  # Vasút dűlő folytatása - nincs kiírva
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Aszú utca: Aszu utca
