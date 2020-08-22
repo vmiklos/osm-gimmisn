@@ -85,6 +85,10 @@ filters:
     ranges:
       - {start: '2', end: '6'}
       - {start: '1', end: '7'}
+  Ribáry utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '14'}
   Rómer Flóris utca:
     # 59 = Levél utca 2
     # 61: sportpálya
