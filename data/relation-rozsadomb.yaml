@@ -81,7 +81,9 @@ filters:
     # 25 saroktelek, bejárat Vérhalom utca 36a
     invalid: ['14', '17', '21', '23', '24', '25']
   Rét utca:
-    invalid: ['2']
+    # 2 = Marczibányi tér 12
+    # 6 = Ribáry utca 6
+    invalid: ['2', '6']
     ranges:
       - {start: '2', end: '6'}
       - {start: '1', end: '7'}
