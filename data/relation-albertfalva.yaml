@@ -63,7 +63,7 @@ filters:
     # 215: panel, nincs betű
     # 225-233: panel, nincs betű
     # 235-243: panel, nincs betű
-    invalid: ['180a', '182a', '215l', '225b', '231b', '235a', '237b', '239c', '241d', '243f']
+    invalid: ['168b','180a', '182a', '215l', '225b', '231b', '235a', '237b', '239c', '241d', '243f']
     ranges:
       # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
       - {start: '193', end: '243'}
