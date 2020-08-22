@@ -12,7 +12,7 @@ filters:
   Apostol utca:
     ranges:
       - {start: '1', end: '13'}
-      - {start: '2', end: '18'}
+      - {start: '6', end: '18'}
   Aranka utca:
     ranges:
       - {start: '1', end: '99'}
@@ -42,14 +42,22 @@ filters:
       - {start: '1', end: '27'}
       - {start: '2', end: '20'}
   Gül Baba utca:
+    # 18-20-22 helyén a türbe alatt üres telek
+    invalid: ['22']
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '2', end: '36'}
   Keleti Károly utca:
+    # 41 nincs kiírva, helyén a lelkészség van térképezve a tempommal azonos címen
+    invalid: ['41']
     ranges:
-      - {start: '15', end: '99'}
+      - {start: '15', end: '43'}
   Kitaibel Pál utca:
     ranges:
       - {start: '8', end: '12'}
+  Mandula utca:
+    ranges:
+      - {start: '17', end: '35'}
+      - {start: '12', end: '36'}
   Marczibányi tér:
     interpolation: 'all'
     ranges:
@@ -72,6 +80,11 @@ filters:
     # 24 valószínű a 26 mögötti ház, nincs kiírva semmi
     # 25 saroktelek, bejárat Vérhalom utca 36a
     invalid: ['14', '17', '21', '23', '24', '25']
+  Rét utca:
+    invalid: ['2']
+    ranges:
+      - {start: '2', end: '6'}
+      - {start: '1', end: '7'}
   Rómer Flóris utca:
     # 59 = Levél utca 2
     # 61: sportpálya
@@ -98,6 +111,9 @@ filters:
     invalid: ['26']
     ranges:
       - {start: '2', end: '36'}
+  Veronika utca:
+    ranges:
+      - {start: '2', end: '4'}
   Zivatar utca:
     # 2-6 = Ady Endre utca 3, Szent Angéla
     ranges:
