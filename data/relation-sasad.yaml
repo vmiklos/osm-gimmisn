@@ -41,9 +41,16 @@ filters:
       - {start: '1', end: '169'}
       - {start: '2', end: '152'}
   Budaörsi út:
+    # 83-99 között gyakorlatilag nincs számozva semmi
+    # 105: csak 105/b
+    # 109: 109/a..c fent
+    # 125: 125/a..d
+    # 127: 127/a..c
+    # 129: 129/a..c
+    invalid: ['101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129']  # 129d, 129g,
     # this is just the Sasad part
     ranges:
-      - {start: '77', end: '95'}
+      - {start: '77', end: '83'}
       - {start: '101', end: '135'}
   Cseresznye köz:
     ranges:
@@ -65,6 +72,9 @@ filters:
       - {start: '58', end: '62'}
       - {start: '72', end: '104'}
   Előpatak utca:
+    # 17a: valószínű Dayka Gábor utca 17/a-val van keverve, mert az a sarkon van, egyébként csak 17 van
+    # 50a, 50b: ikerház de csak 50-es szám van kint
+    invalid: ['17a', '50a', '50b']
     ranges:
       - {start: '1', end: '57'}
       - {start: '61', end: '75'}
@@ -120,6 +130,8 @@ filters:
     ranges: []
   Homonna utca:
     # 13 could be 21, but it's in fact 13-21
+    # 20: 20/a, 20/b
+    invalid: ['20']
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '20'}
@@ -132,6 +144,8 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Maderspach Károlyné utca:
+    # 6/B 2: 6/a mellett van még 2 épület, de egyikre sincs kiírva semmi
+    invalid: ['6']
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '28'}
@@ -192,6 +206,10 @@ filters:
       - {end: '61', start: '51'}
       - {start: '2', end: '44'}
       - {end: '58', start: '50'}
+  Radóc utca:
+    # az alábbi lépcsőházak vannak: 2/a/i, 2/a/ii, 2/b, 4/1, 4/2
+    # KCR szerinti házszámok 2/a 1. lh., 2/b 2. lh., 4. 1. lh., 4. 2. lh.
+    invalid: ['2', '4a', '4b', '4/1', '4/2']
   Rahó utca:
     ranges:
       - {start: '1', end: '15'}
@@ -221,8 +239,10 @@ filters:
     ranges:
       - {start: '11', end: '75'}
   Rodostó utca:
+    # 7: nincs 7/a, 7/b, 7/c, csak sima 7
+    invalid: ['7a', '7b', '7d']
     ranges:
-      - {end: '17', start: '7'}
+      - {start: '7', end: '17'}
   Rozmaring utca:
     # not sure about the 16
     ranges:
