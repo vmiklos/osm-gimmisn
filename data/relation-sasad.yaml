@@ -219,6 +219,8 @@ filters:
       - {start: '1', end: '57'}
       - {start: '2', end: '60'}
   Ramocsa utca:
+    # 23: 23/a, 23/b
+    invalid: ['23']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '30'}
