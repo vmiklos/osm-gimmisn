@@ -75,12 +75,17 @@ filters:
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '2'}
+  Hattyú utca:
+    invalid: ['44']
   Horvát utca:
     refsettlement: '002'
   Jurányi utca:
     refsettlement: '002'
   Kacsa utca:
     refsettlement: '002'
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '22'}
   Kandó Kálmán utca:
     refsettlement: '002'
   Kapás utca:
@@ -96,6 +101,8 @@ filters:
     refsettlement: '002'
     ranges:
       - {start: '40', end: '64'}
+  Málna utca:
+    ranges: []
   Medve utca:
     refsettlement: '002'
   Nagy Imre tér:
@@ -105,6 +112,7 @@ filters:
       - {start: '3', end: '7'}
       - {start: '2', end: '16'}
   Szász Károly utca:
+    invalid: ['221']
     refsettlement: '002'
   Székely utca:
     ranges:
