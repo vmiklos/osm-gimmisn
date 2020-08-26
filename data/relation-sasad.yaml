@@ -63,8 +63,15 @@ filters:
       - {start: '40', end: '64'}
   Dayka Gábor utca:
     # 21-91 is outside Sasad
+    # 4a: 4 a kollégium, 4/b az óvoda
+    # 5b: csak sima 5 van
+    # 6a: 6-os ház 2 részből áll, felvettem a 6/a-t arra a felére amin nem volt szám
+    # 8: 8/a, 8/b
+    # 12: 12/a, 12/b
+    # 17, 19: 17/a, 17/b, 17/c, 19/a, 19/b, 19/c
+    # átszámozva: 46a -> 46, 48c-> 54, 48d-> 56
     # 92, 92b, 94, 96, 98, 100
-    invalid: ['92a', '94a', '98a']
+    invalid: ['4a', '5b', '8', '12', '17', '19', '46a', '48c', '48d', '92a', '94a', '98a']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '22'}
@@ -74,7 +81,8 @@ filters:
   Előpatak utca:
     # 17a: valószínű Dayka Gábor utca 17/a-val van keverve, mert az a sarkon van, egyébként csak 17 van
     # 50a, 50b: ikerház de csak 50-es szám van kint
-    invalid: ['17a', '50a', '50b']
+    # 78g: 78 ; 78/a, 78/b, 78/c, 78/d
+    invalid: ['17a', '50a', '50b', '78g']
     ranges:
       - {start: '1', end: '57'}
       - {start: '61', end: '75'}
@@ -93,6 +101,8 @@ filters:
       - {start: '2', end: '16'}
   Gazdagréti út:
     # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44
+    # 38a: 38, 38b, 38c
+    invalid: ['38a']
     ranges:
       - {start: '38', end: '44'}
   Görbe utca:
@@ -116,6 +126,10 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
   Háromszék utca:
+    # 52a, 52b: csak sima 52 van
+    # 56: 56/1, 56/2, 56/3
+    # 19: 19/b, 19
+    invalid: ['19a', '52a', '52b', '56', '56a', '56b', '56c']
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '56'}
@@ -193,6 +207,10 @@ filters:
       - {start: '3', end: '19'}
       - {start: '2', end: '32'}
   Őrség utca:
+    # 4: 4/a, 4/b
+    # 9: kerítésen 9, első házon 9/a, hátul lakó szerint 9/b
+    # 19: ikerház - az egyik felén nincs szám, a mási kfelet 19/a
+    invalid: ['4', '19']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '40'}
