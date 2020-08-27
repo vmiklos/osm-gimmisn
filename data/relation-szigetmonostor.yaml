@@ -195,6 +195,17 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '10'}
+  Fő utca:
+    ranges:
+      # 175/9 is definitely invalid
+      - {start: '1', end: '71'}
+      # 96 is definitely invalid
+      - {start: '2', end: '66'}
+  Ady Endre utca:
+    ranges:
+      - {start: '1', end: '11'}
+      # 24 is definitely invalid
+      - {start: '2', end: '10'}
 source: survey
 street-filters:
   - Nagydunasétány utca
@@ -216,6 +227,7 @@ refstreets:
   'Füzeserdő-Kisdunapart': 'Füzeserdő-Kisdunap.'
   'Horánygyöngye üdülő': 'Horány gyöngye üdülő'
   'Illyés Gyula köz': 'Illyés köz'
+  # https://www.mapillary.com/map/im/kBq3KsAgLcrCQmjeiVam9U
   'Jegenye sor': 'Jegenyesor'
   'Leander utca': 'Leánder utca'
   # https://www.mapillary.com/map/im/P4NINNTOWEP4V12cybJs5y
