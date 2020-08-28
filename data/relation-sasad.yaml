@@ -18,6 +18,9 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
+  Baradla köz:
+    # 6/a megszűnt - https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2020_02/skmbt_28320020711510.pdf
+    invalid: ['6a']
   Baradla utca:
     # 4-es kapun nem láttam semmit, nem derült ki hogy 4a vagy 4
     # jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
@@ -35,6 +38,9 @@ filters:
     ranges:
       - {start: '1', end: '101'}
       - {start: '4', end: '100'}
+  Birs utca:
+    # Beregszász út 56d, 56e át lettek számozva Birs utcára: 3/a, 3/b
+    invalid: ['3', '3d']
   Budajk utca:
     ranges:
       - {start: '1', end: '37'}
@@ -79,9 +85,10 @@ filters:
     # 8: 8/a, 8/b
     # 12: 12/a, 12/b
     # 17, 19: 17/a, 17/b, 17/c, 19/a, 19/b, 19/c
-    # átszámozva: 46a -> 46, 48c-> 54, 48d-> 56
+    # 32: 32/a, 32/b, 32/c, 32/d, 32/e
+    # átszámozva: 46a -> 46, 48c-> 54, 48d-> 56; 48 nincs kiírva helyén még a 46c van
     # 92, 92b, 94, 96, 98, 100
-    invalid: ['4a', '5b', '8', '12', '17', '19', '46a', '48c', '48d', '92a', '94a', '98a']
+    invalid: ['4a', '5b', '8', '12', '17', '19', '32', '46a', '48', '48c', '48d', '92a', '94a', '98a']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '22'}
@@ -187,7 +194,7 @@ filters:
     interpolation: 'all'
     ranges:
       - {start: '1', end: '4'}
-  Mededékes utca:
+  Menedékes utca:
     # Sasad liget: 1d, 1f, 3d: ezek épület betűjelek
     invalid: ['1d', '1f', '3d']
   Nagyida köz:
@@ -301,9 +308,11 @@ filters:
       - {start: '3', end: '19'}
       - {start: '2', end: '16'}
   Rózsatő utca:
+    # 9/b megszűnt: https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2020_02/skmbt_28320020711510.pdf
     # not sure about the 12
+    invalid: ['9b']
     ranges:
-      - {start: '1', end: '9'}
+      - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Sasadi köz:
     ranges:
@@ -324,6 +333,9 @@ filters:
     # just the Sasad part
     ranges:
       - {start: '2', end: '54'}
+  Ugron Gábor utca:
+    # 10b: 10, 10a
+    invalid: ['10b']
   Zajzon utca:
     ranges:
       - {start: '1', end: '15'}
