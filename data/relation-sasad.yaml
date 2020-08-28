@@ -23,6 +23,15 @@ filters:
     # jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
     invalid: ['4a', '6a', '13', '13a']
   Beregszász út:
+    # 36/2: A ház két részből áll de nincs külön házszám
+    # 40*: 40I, 40II, 40III, 40IV
+    # 42: 42a..c
+    # 46a: csak sima 46 van
+    # 48a-c: több épület, de csak sima 48 van kírva
+    # 50: csak sima 50-es házszám van a 4 épületrészre
+    # 56a van; 56b, 56c, 56d, 56e át lettek számozva Birs utcára: 1/b, 1/c, 3/a, 3/b
+    # 60b,62ab: 60-62 a társasház, a házaknak van külön száma 60 és 62
+    invalid: ['36/2', '40/1', '40/2', '40/3', '40/4', '40/5', '40a', '40b', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56', '56b', '56c', '56d', '56e', '60b', '62a', '62b']
     ranges:
       - {start: '1', end: '101'}
       - {start: '4', end: '100'}
@@ -36,7 +45,8 @@ filters:
       - {start: '2', end: '20'}
   Brassó út:
     # <=152 is just the Sasad part, 169 is actually 169-179/a .. 169-179/h
-    invalid: ['169a', '169b', '169c', '169d', '169e', '169f', '169h']
+    # Domboldal utca 8 = Brassó út 144: A és B épület
+    invalid: ['144a', '144b', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
     ranges:
       - {start: '1', end: '169'}
       - {start: '2', end: '152'}
@@ -47,7 +57,7 @@ filters:
     # 125: 125/a..d
     # 127: 127/a..c
     # 129: 129/a..c
-    invalid: ['101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129']  # 129d, 129g,
+    invalid: ['101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129', '129d', '129g']
     # this is just the Sasad part
     ranges:
       - {start: '77', end: '81'}
@@ -78,6 +88,12 @@ filters:
       - {start: '26', end: '48'}
       - {start: '58', end: '62'}
       - {start: '72', end: '104'}
+  Dayka tér:
+    # 5: 5/a, 5/b
+    invalid: ['5']
+  Domboldal utca:
+    # Domboldal utca 8 = Brassú út 144: A és B épület
+    invalid: ['8a', '8b']
   Előpatak utca:
     # 17a: valószínű Dayka Gábor utca 17/a-val van keverve, mert az a sarkon van, egyébként csak 17 van
     # 50a, 50b: ikerház de csak 50-es szám van kint
@@ -126,10 +142,11 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
   Háromszék utca:
+    # 17: 17, 17/a
+    # 19: 19, 19/b
     # 52a, 52b: csak sima 52 van
     # 56: 56/1, 56/2, 56/3
-    # 19: 19/b, 19
-    invalid: ['19a', '52a', '52b', '56', '56a', '56b', '56c']
+    invalid: ['17b', '19a', '52a', '52b', '56', '56a', '56b', '56c']
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '56'}
@@ -163,10 +180,16 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '28'}
+  Maléter Pál utca:
+    # Sasad liget: 2a, 2c, 4a, 4g: ezek épület betűjelek
+    invalid: ['2a', '2c', '4a', '4g']
   Márton Áron tér:
     interpolation: 'all'
     ranges:
       - {start: '1', end: '4'}
+  Mededékes utca:
+    # Sasad liget: 1d, 1f, 3d: ezek épület betűjelek
+    invalid: ['1d', '1f', '3d']
   Nagyida köz:
     ranges:
       - {start: '1', end: '21'}
@@ -183,6 +206,10 @@ filters:
     ranges:
       - {start: '1', end: '19'}
   Nagyszeben út:
+    # Sasad liget:
+    # 5f, 5g - ezek épület betűjelek
+    # 9 meg lett időközdben osztva 9/a (A. épület) és 9/b-re (G. épület)
+    invalid: ['5f', '5g', '9', '9g']
     ranges:
       # 7-ig biztosan van, 13 mar nincs
       - {start: '1', end: '11'}
@@ -198,7 +225,8 @@ filters:
   Oltvány árok:
     # 13: két épület van de nincs 13/a 13/b-re alábontva
     # 14b: egy épület 14-re számozva
-    invalid: ['13a', '13b', '14b']
+    # 23: 23/a 23/b
+    invalid: ['13a', '13b', '14b', '23']
     ranges:
       - {start: '1', end: '43'}
       - {start: '4', end: '34'}
@@ -208,8 +236,8 @@ filters:
       - {start: '2', end: '32'}
   Őrség utca:
     # 4: 4/a, 4/b
-    # 9: kerítésen 9, első házon 9/a, hátul lakó szerint 9/b
-    # 19: ikerház - az egyik felén nincs szám, a mási kfelet 19/a
+    # 9: kerítésen 9, első házon 9/a, hátsó házon az ott lakó szerint 9/b
+    # 19: ikerház - az egyik felén nincs szám, a másik fele 19/a
     invalid: ['4', '19']
     ranges:
       - {start: '1', end: '29'}
@@ -224,6 +252,9 @@ filters:
       - {end: '61', start: '51'}
       - {start: '2', end: '44'}
       - {end: '58', start: '50'}
+  Povl Bang-Jensen utca:
+    # Sasad liget: 1b, 1d, 2b, 2c: ezek épület betűjelek
+    invalid: ['1b', '1d', '2b', '2c']
   Radóc utca:
     # az alábbi lépcsőházak vannak: 2/a/i, 2/a/ii, 2/b, 4/1, 4/2
     # KCR szerinti házszámok 2/a 1. lh., 2/b 2. lh., 4. 1. lh., 4. 2. lh.
@@ -237,6 +268,7 @@ filters:
       - {start: '1', end: '57'}
       - {start: '2', end: '60'}
   Ramocsa utca:
+    # 17: nincs kiírva semmi, 2 bejárat van
     # 23: 23/a, 23/b
     invalid: ['23']
     ranges:
