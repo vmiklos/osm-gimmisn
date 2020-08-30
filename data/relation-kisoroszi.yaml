@@ -1,4 +1,15 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  - Vízmű telep I.
+  - Vízmű telep II.
+  # Hiány: Rejtek utca
+refstreets:
+  'Homokalja utca': 'Homokalja út'
+  'Klapka György utca': 'Klapka utca'
+  'Kovács köz': 'Kovács utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Széchenyi utca': 'Széchenyi út'
 source: survey
 inactive: false
+
