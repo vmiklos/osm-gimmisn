@@ -33,14 +33,18 @@ filters:
     # 48a-c: több épület, de csak sima 48 van kírva
     # 50: csak sima 50-es házszám van a 4 épületrészre
     # 56a van; 56b, 56c, 56d, 56e át lettek számozva Birs utcára: 1/b, 1/c, 3/a, 3/b
+    # 57b: csak sima 57 van
     # 60b,62ab: 60-62 a társasház, a házaknak van külön száma 60 és 62
-    invalid: ['36/2', '40/1', '40/2', '40/3', '40/4', '40/5', '40a', '40b', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56', '56b', '56c', '56d', '56e', '60b', '62a', '62b']
+    invalid: ['36/2', '40/1', '40/2', '40/3', '40/4', '40/5', '40a', '40b', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56', '56b', '56c', '56d', '56e', '57b', '60b', '62a', '62b']
     ranges:
       - {start: '1', end: '101'}
       - {start: '4', end: '100'}
   Birs utca:
     # Beregszász út 56d, 56e át lettek számozva Birs utcára: 3/a, 3/b
     invalid: ['3', '3d']
+  Bozókvár utca:
+    # 13b: 13,13a
+    invalid: ['13b']
   Budajk utca:
     ranges:
       - {start: '1', end: '37'}
@@ -265,7 +269,10 @@ filters:
   Radóc utca:
     # az alábbi lépcsőházak vannak: 2/a/i, 2/a/ii, 2/b, 4/1, 4/2
     # KCR szerinti házszámok 2/a 1. lh., 2/b 2. lh., 4. 1. lh., 4. 2. lh.
-    invalid: ['2', '4a', '4b', '4/1', '4/2']
+    # 9: nincs
+    # 13/b: csak sima 13 van
+    # 16: 16/a, 16/b
+    invalid: ['2', '4a', '4b', '4/1', '4/2', '9', '13b', '16']
   Rahó utca:
     ranges:
       - {start: '1', end: '15'}
@@ -275,9 +282,10 @@ filters:
       - {start: '1', end: '57'}
       - {start: '2', end: '60'}
   Ramocsa utca:
+    # 1a: 1, 1/b
     # 17: nincs kiírva semmi, 2 bejárat van
     # 23: 23/a, 23/b
-    invalid: ['23']
+    invalid: ['1a', '23']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '30'}
@@ -318,6 +326,10 @@ filters:
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '4'}
+  Sümegvár köz:
+    # 2ab: csak sima 2 van
+    # 6: 6/a, 6/b
+    invalid: ['2a', '2b', '6']
   Süveg utca:
     ranges:
       - {start: '1', end: '15'}
