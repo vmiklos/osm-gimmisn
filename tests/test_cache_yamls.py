@@ -10,8 +10,9 @@ import os
 import unittest
 import unittest.mock
 
-import cache_yamls
 import test_config
+
+import cache_yamls
 
 
 class TestMain(test_config.TestCase):

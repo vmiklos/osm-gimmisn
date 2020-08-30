@@ -14,9 +14,10 @@ import os
 import unittest
 import unittest.mock
 
+import test_config
+
 import config
 import stats
-import test_config
 
 
 def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:

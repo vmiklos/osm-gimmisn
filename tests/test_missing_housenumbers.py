@@ -10,8 +10,9 @@ import io
 import unittest
 import unittest.mock
 
-import missing_housenumbers
 import test_config
+
+import missing_housenumbers
 
 
 class TestMain(test_config.TestCase):

@@ -9,9 +9,10 @@
 import unittest
 import unittest.mock
 
+import test_config
+
 import config
 import get_reference_housenumbers
-import test_config
 import util
 
 

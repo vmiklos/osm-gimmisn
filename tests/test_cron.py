@@ -17,10 +17,11 @@ import unittest
 import unittest.mock
 import urllib.error
 
+import test_config
+
 import areas
 import config
 import cron
-import test_config
 import util
 
 

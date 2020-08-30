@@ -10,8 +10,9 @@ import io
 import unittest
 import unittest.mock
 
-import missing_streets
 import test_config
+
+import missing_streets
 
 
 class TestMain(test_config.TestCase):

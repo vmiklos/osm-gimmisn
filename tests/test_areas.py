@@ -15,10 +15,11 @@ import unittest.mock
 
 import yattag
 
+import test_config
+
 import areas
 import config
 import ranges
-import test_config
 import util
 
 

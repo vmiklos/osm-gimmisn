@@ -14,8 +14,9 @@ import subprocess
 import unittest
 import unittest.mock
 
-import parse_access_log
 import test_config
+
+import parse_access_log
 
 
 class MockDate(datetime.date):

@@ -18,9 +18,10 @@ import time
 # pylint: disable=unused-import
 import yattag
 
+import test_config
+
 import config
 import webframe
-import test_config
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import

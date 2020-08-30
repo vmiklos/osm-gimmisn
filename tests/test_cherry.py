@@ -11,8 +11,9 @@ import unittest.mock
 
 import cherrypy  # type: ignore
 
-import cherry
 import test_config
+
+import cherry
 
 
 class TestMain(test_config.TestCase):

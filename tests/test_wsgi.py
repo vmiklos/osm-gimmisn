@@ -27,12 +27,13 @@ import xml.etree.ElementTree as ET
 
 import yattag
 
+import test_config
+
 import areas
 import config
 import util
 import webframe
 import wsgi
-import test_config
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
