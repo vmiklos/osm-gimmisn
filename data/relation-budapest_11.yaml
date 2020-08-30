@@ -7,6 +7,7 @@ street-filters:
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
   - Talaj köz  # nem létezik
   - Árasztó út  # Dunaparty meglállónál, nincs kiírva
+  - Lőportorony utca  # nem lett kiépítve, Budafoki út 215 és a Shell kút között
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Boldizsár utca': 'Boldizsár út'
@@ -14,6 +15,7 @@ refstreets:
   'Csíkihegyek utca': 'Csiki-hegyek utca'
   'Felső határút': 'Felső Határ út'
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
+  'Henryk Sławik rakpart': 'Henryk Slawik rakpart'
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
   'Keserűvíz utca': 'Keserűviz utca'
   'Mesterházi utca': 'Mesterházy utca'

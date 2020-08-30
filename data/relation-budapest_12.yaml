@@ -39,6 +39,9 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
+  Béla király út:
+    # Anything above 42 on the even side seems to be noise.
+    invalid: ['52']
   Borbála lépcső:
     ranges:
       - {start: '1', end: '3'}
@@ -47,6 +50,10 @@ filters:
     ranges:
       - {start: '2', end: '46'}
       - {start: '3', end: '37'}
+  Bükkös út:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '12'}
   Bürök utca:
     ranges:
       - {start: '1', end: '111'}
@@ -109,6 +116,9 @@ filters:
       - {start: '130', end: '164'}
   Hegyhát lépcső:
     ranges: []
+  Hegyhát út:
+    # These are all towards the end of the odd side, all non-existing.
+    invalid: ['29', '35', '41', '43']
   Irhás árok:
     # 35: itt nincs ház, Adorján út 2 a legközelebbi ehhez
     # 43: 41 és 43 nincs beépítve, bódék vannak
@@ -188,6 +198,9 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
+  Mátyás király út:
+    # Anything above 53 on the odd side seems to be forest.
+    invalid: ['55']
   Meredek utca:
     ranges:
       - {start: '1', end: '41'}
@@ -195,6 +208,10 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
+  Normafa út:
+    ranges:
+      - {start: '1', end: '57'}
+      - {start: '2', end: '52'}
   Pagony utca:
     ranges:
       - {start: '1', end: '29'}
@@ -300,29 +317,13 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '10'}
-  Normafa út:
-    ranges:
-      - {start: '1', end: '57'}
-      - {start: '2', end: '52'}
-  Mátyás király út:
-    # Anything above 53 on the odd side seems to be forest.
-    invalid: ['55']
-  Hegyhát út:
-    # These are all towards the end of the odd side, all non-existing.
-    invalid: ['29', '35', '41', '43']
-  Bükkös út:
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '12'}
-  Béla király út:
-    # Anything above 42 on the even side seems to be noise.
-    invalid: ['52']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Adonis utca': 'Adonisz utca'
+  'Hunyad-orom lépcső': 'Hunyadorom lépcső'
+  'Korányi Frigyes út': 'Pihenő út'
   'Széchenyi-emlék út': 'Széchenyi- emlék út'
   'Szépkilátás út': 'Szép kilátás út'
-  'Hunyad-orom lépcső': 'Hunyadorom lépcső'
   'Sztehlo Gábor utca': 'Árnyas köz'
   # Felmérendő melyik a helyes
   # 'Tearózsa út': 'Tearózsa utca'

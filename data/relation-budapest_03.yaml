@@ -44,6 +44,8 @@ street-filters:
   - Pendítő köz  # Palló köz végén volt, a Hunyadi felé, megszűnt
   - Kossuth Lajos üdülő-part  # Dupla, ez a fajta írásmód nem kell
   - Hajógyársziget  # utcaként nincs fent, Hajógyári-sziget-ként igen, ezzel nem fog összetalálni
+  - Heltai Ferenc utca  # 19333/14 hrsz. - Tisztitelep mellett, nem épült ki
+  - Ripka Ferenc utca  # 19333/16 hrsz. - Tisztitelep mellett, nem épült ki
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás, ref hibás
@@ -63,5 +65,6 @@ refstreets:
   'Nagy-Kevély utca': 'Nagykevély utca'  # régi kép van
   'Római sétány': 'Római út'  # vegyesen vannak a táblák
   'Stefan Wyszyński utca': 'Stefan Wyszynski utca'  # határozatban a Stefan Wyszyński van
+  'Schön Győző utca': 'Schőn Győző utca'  # utcanévtábla = osm
 source: survey
 inactive: false
