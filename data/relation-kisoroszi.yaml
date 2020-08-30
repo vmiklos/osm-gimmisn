@@ -1,5 +1,61 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Akácfa utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Diófa utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Fenyő utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Homokalja utca:
+    ranges:
+      - {start: '1', end: '199'}
+      - {start: '2', end: '198'}
+  Jókai utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Kossuth utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Pacsirta utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Petőfi Sándor utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Rév utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Rigó utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Rózsa utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Széchenyi utca:
+    ranges:
+      - {start: '1', end: '299'}
+      - {start: '2', end: '298'}
+  Szérű utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Szőlő utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
 street-filters:
   - Vízmű telep I.
   - Vízmű telep II.
