@@ -18,6 +18,8 @@ filters:
       - {start: '9', end: '17'}
   Gellérthegy utca:
     ranges: []
+  Hadnagy utca:
+    invalid: ['2', '12']
   Hegyalja út:
     ranges: []
   Kereszt utca:
@@ -28,14 +30,17 @@ filters:
     ranges:
       - {start: '67', end: '99'}
       - {start: '50', end: '98'}
+  Orom utca:
+    ranges: []
+  Palota út:
+    # ezen a részen nincs számozva semmi, Manna étterem átlóg Krisztinavárosba
+    ranges: []
+  Sánc utca:
+    ranges: []
   Váralja utca:
     ranges:
       - {start: '18', end: '98'}
       - {start: '23', end: '99'}
-  Orom utca:
-    ranges: []
-  Sánc utca:
-    ranges: []
   Ybl Miklós tér:
     ranges: []
 source: survey
