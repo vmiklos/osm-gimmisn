@@ -15,7 +15,7 @@ filters:
     # Pontositando, kisebb szamok Budatétény
     ranges:
       - {start: '49', end: '99'}
-      - {start: '202', end: '998'}
+      - {start: '204', end: '998'}
   Növény utca:
     ranges:
       - {start: '1', end: '999'}
