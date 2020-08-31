@@ -107,9 +107,14 @@ filters:
     invalid: ['7']
   Nagytétényi út:
     # Pontositando, kis szamok Budafok, nagy szamok Nagytétény
+    # A Háros utca a terület határa. A Nagytétényi út utolsó házszáma a budafoki oldalon az utcatábla szerint a páratlan oldalon 17, a páros oldalon 118.
+    # Viszont a budatétényi oldalon lévő utcatáblán 23 az első szám a páratlan oldalon, így ha létezik a 19 és a 21, akkor az nem egyértelmű, hogy Budafokhoz vagy Budatétényhez tartozik.
+    # A páros oldalon egyértelműen 120 az első szám.
+    # A terület másik határa a páratlan oldalon a Növény utca, utána már Nagytétényhez tartozik. Nagytétényben a Nagytétényi út első házszáma a 49.
+    # A páros oldalon viszont a Rózsakert utca a határ, az utolsó házszám a 198-202 összevontan.
     ranges:
       - {start: '21', end: '47'}
-      - {start: '120', end: '200'}
+      - {start: '120', end: '202'}
   Növény utca:
     ranges:
       - {start: '2', end: '998'}
