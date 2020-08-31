@@ -72,11 +72,16 @@ filters:
     # 10: sima 10 nincs, csak 10/A, 10/B.
     # 20: sima 20 nincs, csak 20/A, 20/B.
     invalid: ['10', '20']
+  Borz utca:
+    # 1: sima 1 nincs, csak 1/A, 1/B.
+    # 8/A: nincs ilyen, csak sima 8 van.
+    invalid: ['1', '8a']
   # Csend utca:
   #   TODO: 1: ez és a Komáromi út 69. közös telken van, de nem látok sehol házszámot. Bejárat a Komáromi útról van.
   Dombóvári utca:
+    # 43: a páratlan oldalon a 17 az utolsó házszám.
     # 8: sima 8 nincs, csak 8/A, 8/B.
-    invalid: ['8']
+    invalid: ['43', '8']
   Duna utca:
     # Ezek a valós házszámok, a többi csak utcanévtáblán létezik.
     ranges:
@@ -152,6 +157,9 @@ filters:
     # 14: sima 14 nincs, csak 14/A, 14/B.
     # 16: sima 16 nincs, csak 16/A, 16/B.
     invalid: ['5', '93', '4b', '14', '16']
+  Huba utca:
+    # 6: sima 6 nincs, csak 6/A, 6/B.
+    invalid: ['6']
   Ják utca:
     # 3/B: nincs ilyen, csak sima 3.
     # 9: sima 9 nincs, csak 9/A, 9/B.
@@ -263,11 +271,17 @@ filters:
     # Ebben az utcában nincsenek házszámok.
     ranges: []
   Leányka utca:
-    # van egy közösségi kert Leányka utca 60. számmal.
+    # Van egy közösségi kert Leányka utca 60. számmal.
     ranges:
       - {start: '1', end: '13'}
       - {start: '14', end: '40'}
       - {start: '60', end: '60'}
+    # 1/C: ez csak az utcatáblán szerepel, az épületen csak 1 van.
+    # 3/A: nincs ilyen, csak sima 3 van.
+    # 5/A: nincs ilyen, csak sima 5 van.
+    # 38/I: nincs ilyen, csak sima 38 van.
+    # 40/A: nincs ilyen, csak sima 40 van.
+    invalid: ['1c', '3a', '5a', '38i', '40a']
   Liszt Ferenc út:
     # 1: ez és a Bem József utca 6/A. közös telken van, házszám a Bem József utcáról van csak.
     # 9: ez a Szepesi utca, nincs épület.
@@ -289,6 +303,9 @@ filters:
     # 17: a páratlan oldalon a 15 az utolsó házszám.
     # 10: ez és a Szigetvári utca 9. közös telken van, házszám a Szigetvári utcáról van csak.
     invalid: ['17', '10']
+  Losonci utca:
+    # 6: a páros oldalon a 4 az utolsó házszám. Ami az utca végén van, az Borz utca 14.
+    invalid: ['6']
   Május 1. utca:
     # 33: ez és a Dombóvári utca 8/B. közös telken van, házszám a Dombóvári utcáról van csak.
     # 41: a páratlan oldalon a 31 az utolsó házszám.
@@ -315,10 +332,18 @@ filters:
     # Ebben az utcában nincsenek házszámok.
     ranges: []
   Nagytétényi út:
-    # Pontositando, nagyobb szamok Budatétény
+    # A Háros utca a terület határa. A Nagytétényi út utolsó házszáma az utcatábla szerint a páratlan oldalon 17, a páros oldalon 118.
+    # Viszont a budatétényi oldalon lévő utcatáblán 23 az első szám, így ha létezik a 19 és a 21, akkor az nem egyértelmű, hogy Budafokhoz vagy Budatétényhez tartozik.
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '118'}
+  Nyúl utca:
+    # 7: ez és a Gézavár utca 4. közös telken van, házszám a Gézavár utcáról van csak.
+    # 8: a páros oldalon a 12 az első házszám.
+    # 10: ez és a Gézavár utca 2. közös telken van, házszám a Gézavár utcáról van csak.
+    # 18: a páros oldalon a 14 az utolsó házszám.
+    # 36: a páros oldalon a 14 az utolsó házszám.
+    invalid: ['7', '8', '10', '18', '36']
   Palást utca:
     # 1: ez és a Tegzes utca 10. közös telken van, házszám a Tegzes utcáról van csak.
     # 5: sima 5 nincs, csak 5/A, 5/B.
@@ -332,7 +357,7 @@ filters:
     # 4: ez és a Görög utca 10. közös telken van, házszám a Görög utcáról van csak.
     invalid: ['1', '2', '4']
   Pécsi utca:
-    # 1/C 1: ilyen nincs, csak 1/C.
+    # 1/C 1: nincs ilyen, csak 1/C.
     # 3/C: nincs ilyen, csak sima 3 van.
     # 11/A: csak sima 11 van.
     # A páros oldalon nagy a bozót, de mintha 2-10 között lenne.
@@ -366,9 +391,10 @@ filters:
     # 18: sima 18 nincs, csak 18/A, 18/B.
     invalid: ['18']
   Pogány utca:
-    ranges:
-      - {start: '1', end: '11'}
-      - {start: '2', end: '10'}
+    # 1: ez, a Zombori utca 6. és a Bárány utca 20. közös telken van, házszám a Zombori utcáról és a Bárány utcáról van csak.
+    # 7/A: nincs ilyen, csak sima 7 van.
+    # 30: a páros oldalon a 10 az utolsó házszám.
+    invalid: ['1', '7a', '30']
   Püspök utca:
     # TODO: A Püspök utca 1. és a Ják utca 19. közös telken van, házszámot sehol sem látok, de a bejárat a Püspök utca felől van.
     ranges:
@@ -409,6 +435,9 @@ filters:
   Síp utca:
     # 5: ez a Budafoki temető lenne, de annak más a házszáma
     invalid: ['5']
+  Stáció utca:
+    # 15: a páratlan oldalon a 13 az utolsó házszám.
+    invalid: ['15']
   Szabina út:
     # 37: ez és a Pedellus utca 39. közös telken van, házszám a Pedellus utcáról van csak.
     # 32: ez és a Pedellus utca 41. közös telken van, házszám a Pedellus utcáról van csak.
@@ -481,6 +510,9 @@ filters:
   Tóth József utca:
     # 614: a páros oldalon az 52 az utolsó házszám.
     invalid: ['614']
+  Törley tér:
+    # Csak az utcatáblán vannak házszámok, az épületeken nincsenek vagy nem ebből az utcából számozódnak.
+    ranges: []
   Turóci utca:
     # 1: ez és a Hollandi utca 23. közös telken van, házszám a Hollandi utcáról van csak.
     invalid: ['1']
