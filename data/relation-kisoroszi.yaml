@@ -12,7 +12,7 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Homokalja utca:
+  Homokalja út:
     ranges:
       - {start: '1', end: '199'}
       - {start: '2', end: '198'}
@@ -28,7 +28,7 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Petőfi Sándor utca:
+  Petőfi utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
@@ -44,7 +44,7 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Széchenyi utca:
+  Széchenyi út:
     ranges:
       - {start: '1', end: '299'}
       - {start: '2', end: '298'}
@@ -61,10 +61,6 @@ street-filters:
   - Vízmű telep II.
   # Hiány: Rejtek utca
 refstreets:
-  'Homokalja utca': 'Homokalja út'
-  'Klapka György utca': 'Klapka utca'
   'Kovács köz': 'Kovács utca'
-  'Petőfi Sándor utca': 'Petőfi utca'
-  'Széchenyi utca': 'Széchenyi út'
 source: survey
 inactive: false
