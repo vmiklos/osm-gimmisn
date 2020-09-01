@@ -240,7 +240,7 @@ class TestTsvToList(unittest.TestCase):
     """Tests tsv_to_list()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        sock = io.StringIO("h1\th2\n\nv1\tv2\n")
+        sock = util.CsvIO(io.StringIO("h1\th2\n\nv1\tv2\n"))
         ret = util.tsv_to_list(sock)
         self.assertEqual(len(ret), 2)
         row1 = [cell.getvalue() for cell in ret[0]]
@@ -250,7 +250,7 @@ class TestTsvToList(unittest.TestCase):
 
     def test_type(self) -> None:
         """Tests when a @type column is available."""
-        stream = io.StringIO("@id\t@type\n42\tnode\n")
+        stream = util.CsvIO(io.StringIO("@id\t@type\n42\tnode\n"))
         ret = util.tsv_to_list(stream)
         self.assertEqual(len(ret), 2)
         row1 = [cell.getvalue() for cell in ret[0]]
@@ -258,6 +258,15 @@ class TestTsvToList(unittest.TestCase):
         row2 = [cell.getvalue() for cell in ret[1]]
         cell_a2 = '<a href="https://www.openstreetmap.org/node/42" target="_blank">42</a>'
         self.assertEqual(row2, [cell_a2, "node"])
+
+    def test_escape(self) -> None:
+        """Tests escaping."""
+        sock = util.CsvIO(io.StringIO("\"h,1\"\th2\n"))
+        ret = util.tsv_to_list(sock)
+        self.assertEqual(len(ret), 1)
+        row1 = [cell.getvalue() for cell in ret[0]]
+        # Note how this is just h,1 and not "h,1".
+        self.assertEqual(row1, ['h,1', 'h2'])
 
 
 class TestHouseNumber(unittest.TestCase):

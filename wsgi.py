@@ -71,7 +71,7 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.D
             doc.asis(util.handle_overpass_error(http_error).getvalue())
     else:
         # assume view-result
-        with relation.get_files().get_osm_streets_stream("r") as sock:
+        with relation.get_files().get_osm_streets_csv_stream() as sock:
             table = util.tsv_to_list(sock)
             doc.asis(util.html_table_from_list(table).getvalue())
 
@@ -110,7 +110,7 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
             with doc.tag("div", id="no-osm-housenumbers"):
                 doc.text(_("No existing house numbers"))
         else:
-            with relation.get_files().get_osm_housenumbers_stream(mode="r") as sock:
+            with relation.get_files().get_osm_housenumbers_csv_stream() as sock:
                 table = util.tsv_to_list(sock)
                 doc.asis(util.html_table_from_list(table).getvalue())
 

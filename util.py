@@ -17,6 +17,8 @@ from typing import Sequence
 from typing import TextIO
 from typing import Tuple
 from typing import cast
+from typing import Iterator
+import csv
 import locale
 import os
 import pickle
@@ -205,6 +207,24 @@ class HouseNumber:
         if style == LetterSuffixStyle.UPPER or digit_match:
             return groups[0] + "/" + groups[2].upper() + source_suffix
         return groups[0] + groups[2].lower() + source_suffix
+
+
+class CsvIO:
+    """Like TextIO, but for CSV reading."""
+    def __init__(self, stream: TextIO) -> None:
+        self.stream = stream
+        self.reader = csv.reader(stream, delimiter='\t', quotechar='"')
+
+    def __enter__(self) -> 'CsvIO':
+        return self
+
+    def __exit__(self, _exc_type: Any, _exc_value: Any, _exc_traceback: Any) -> bool:
+        self.stream.close()
+        return True
+
+    def get_rows(self) -> Iterator[List[str]]:
+        """Gets access to the rows of the CSV."""
+        return self.reader
 
 
 def split_house_number_range(house_number: HouseNumberRange) -> Tuple[int, str]:
@@ -486,21 +506,21 @@ def html_table_from_list(table: List[List[yattag.doc.Doc]]) -> yattag.doc.Doc:
     return doc
 
 
-def tsv_to_list(stream: TextIO) -> List[List[yattag.doc.Doc]]:
+def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
     """Turns a tab-separated table into a list of lists."""
     table = []
 
     first = True
     type_index = 0
-    for line in stream.readlines():
-        if not line.strip():
+    for row in stream.get_rows():
+        if not row:
             continue
         if first:
             first = False
-            for index, column in enumerate(line.split("\t")):
+            for index, column in enumerate(row):
                 if column.strip() == "@type":
                     type_index = index
-        cells = [html_escape(cell.strip()) for cell in line.split("\t")]
+        cells = [html_escape(cell.strip()) for cell in row]
         if cells and type_index:
             # We know the first column is an OSM ID.
             try:
@@ -519,22 +539,21 @@ def tsv_to_list(stream: TextIO) -> List[List[yattag.doc.Doc]]:
     return table
 
 
-def get_nth_column(sock: TextIO, column: int) -> List[str]:
+def get_nth_column(sock: CsvIO, column: int) -> List[str]:
     """Reads the content from sock, interprets its content as tab-separated values, finally returns
     the values of the nth column. If a row has less columns, that's silently ignored."""
     ret = []
 
     first = True
-    for line in sock.readlines():
+    for row in sock.get_rows():
         if first:
             first = False
             continue
 
-        tokens = line.strip().split('\t')
-        if len(tokens) < column + 1:
+        if len(row) < column + 1:
             continue
 
-        ret.append(tokens[column])
+        ret.append(row[column])
 
     return ret
 

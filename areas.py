@@ -43,30 +43,38 @@ class RelationFiles:
         """Build the file name of the OSM street list of a relation."""
         return os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
 
-    def get_osm_streets_stream(self, mode: str) -> TextIO:
+    def __get_osm_streets_stream(self, mode: str) -> TextIO:
         """Opens the OSM street list of a relation."""
         path = self.get_osm_streets_path()
         return cast(TextIO, open(path, mode=mode))
 
+    def get_osm_streets_csv_stream(self) -> util.CsvIO:
+        """Gets a CSV reader for the OSM street list."""
+        return util.CsvIO(self.__get_osm_streets_stream("r"))
+
     def write_osm_streets(self, result_from_overpass: str) -> None:
         """Writes the result for overpass of Relation.get_osm_streets_query()."""
         result = util.sort_streets_csv(result_from_overpass)
-        with self.get_osm_streets_stream("w") as sock:
+        with self.__get_osm_streets_stream("w") as sock:
             sock.write(result)
 
     def get_osm_housenumbers_path(self) -> str:
         """Build the file name of the OSM house number list of a relation."""
         return os.path.join(self.__workdir, "street-housenumbers-%s.csv" % self.__name)
 
-    def get_osm_housenumbers_stream(self, mode: str) -> TextIO:
+    def __get_osm_housenumbers_stream(self, mode: str) -> TextIO:
         """Opens the OSM house number list of a relation."""
         path = self.get_osm_housenumbers_path()
         return cast(TextIO, open(path, mode=mode))
 
+    def get_osm_housenumbers_csv_stream(self) -> util.CsvIO:
+        """Gets a CSV reader for the OSM house number list."""
+        return util.CsvIO(self.__get_osm_housenumbers_stream("r"))
+
     def write_osm_housenumbers(self, result_from_overpass: str) -> None:
         """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
         result = util.sort_housenumbers_csv(result_from_overpass)
-        with self.get_osm_housenumbers_stream(mode="w") as stream:
+        with self.__get_osm_housenumbers_stream(mode="w") as stream:
             stream.write(result)
 
     def get_ref_housenumbers_path(self) -> str:
@@ -311,10 +319,10 @@ class Relation:
     def get_osm_streets(self) -> List[str]:
         """Reads list of streets for an area from OSM."""
         ret: List[str] = []
-        with self.get_files().get_osm_streets_stream("r") as sock:
+        with self.get_files().get_osm_streets_csv_stream() as sock:
             ret += util.get_nth_column(sock, 1)
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
-            with self.get_files().get_osm_housenumbers_stream("r") as sock:
+            with self.get_files().get_osm_housenumbers_csv_stream() as sock:
                 ret += util.get_nth_column(sock, 1)
         return sorted(set(ret))
 
@@ -330,17 +338,16 @@ class Relation:
             # This function gets called for each & every street, make sure we read the file only
             # once.
             house_numbers: Dict[str, List[util.HouseNumber]] = {}
-            with self.get_files().get_osm_housenumbers_stream(mode="r") as sock:
+            with self.get_files().get_osm_housenumbers_csv_stream() as sock:
                 first = True
-                for line in sock.readlines():
+                for row in sock.get_rows():
                     if first:
                         first = False
                         continue
-                    tokens = line.strip().split('\t')
-                    if len(tokens) < 3:
+                    if len(row) < 3:
                         continue
-                    street = tokens[1]
-                    for house_number in tokens[2].split(';'):
+                    street = row[1]
+                    for house_number in row[2].split(';'):
                         if street not in house_numbers:
                             house_numbers[street] = []
                         house_numbers[street] += normalize(self, house_number, street, self.get_street_ranges())
