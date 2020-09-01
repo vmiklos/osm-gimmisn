@@ -116,10 +116,16 @@ filters:
       - {start: '6', end: '26'}
       - {start: '30', end: '82'}
   Eper köz:
+    # 1d: 1
+    # 2a: 2
+    invalid: ['1d', '2a']
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '14'}
   Eper utca:
+    # 6: 6/a, 6/b
+    # 7b: csak 7 van kiírva
+    invalid: ['2', '2c', '6', '7b']
     ranges:
       - {start: '1', end: '77'}
       - {start: '2', end: '56'}
@@ -165,6 +171,9 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '12'}
+  Hársmajor utca:
+    # 14: 14/a óvoda, 14/b nincs kiírva
+    invalid: ['14']
   Hegyalja út:
     ranges:
       - {start: '184', end: '190'}
@@ -187,7 +196,8 @@ filters:
       - {start: '2', end: '12'}
   Maderspach Károlyné utca:
     # 6/B 2: 6/a mellett van még 2 épület, de egyikre sincs kiírva semmi
-    invalid: ['6']
+    # 20a: ugyan 2 kapu van, de az egyiken sincs szám, a házon van 20-as.
+    invalid: ['6', '20a']
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '28'}
@@ -210,6 +220,12 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
   Nagyszalonta utca:
+    # 4: 4/a, 4/b
+    # 8b: csak sima 8 van
+    # 13: 13/a, 13/b
+    # 14: 14/a, 14/b
+    # 35: 35/a, 35/b
+    invalid: ['4', '8b', '13', '14', '35']
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '68'}
@@ -259,7 +275,8 @@ filters:
       - {start: '2', end: '14'}
   Pannonhalmi út:
     # 2b: nincs kiírva semmi
-    invalid: ['2b']
+    # 35b: 35 és 35/a
+    invalid: ['2b', '35b']
     ranges:
       - {start: '1', end: '47'}
       - {end: '61', start: '51'}
@@ -328,6 +345,10 @@ filters:
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '4'}
+  Sasadi út:
+    # 1: nincs kiírva semmit
+    # 3s: 3-5
+    invalid: ['1b', '3s']
   Sümegvár köz:
     # 2ab: csak sima 2 van
     # 6: 6/a, 6/b
