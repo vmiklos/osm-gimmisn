@@ -297,5 +297,5 @@ filters:
     # 14 = Husáng utca 6
     invalid: ['3', '4', '14']
 source: survey
-inactive: true
+inactive: false
 housenumber-letters: true

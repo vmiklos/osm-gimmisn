@@ -30,4 +30,4 @@ refstreets:
   # dűlő
   'Tagyonhegydűlő': 'Tagyonhegy dűlő'
 source: survey
-inactive: true
+inactive: false

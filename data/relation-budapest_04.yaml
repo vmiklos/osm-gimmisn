@@ -21,4 +21,4 @@ refstreets:
   'Ódry Árpád utca': 'Ódry utca'  # utcatábla = OSM
   'Venetiáner utca': 'Venetianer utca'  # utcatábla = OSM
 source: survey
-inactive: false
+inactive: true

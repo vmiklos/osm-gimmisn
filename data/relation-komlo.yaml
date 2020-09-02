@@ -23,4 +23,4 @@ refstreets:
   'Béketelep II. sor': 'Béketelep II sor'
   'Petőfi Sándor utca': 'Petőfi utca'
 source: survey
-inactive: true
+inactive: false

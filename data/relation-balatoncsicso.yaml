@@ -21,4 +21,4 @@ street-filters:
   - Szent Balázs-hegy dűlő  # Szent Balázs-hegy
   - Szent György-hegy dűlő  # Szent György-hegy
 source: survey
-inactive: true
+inactive: false

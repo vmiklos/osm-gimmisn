@@ -10,4 +10,4 @@ street-filters:
   - Mocsárhegy  # Mocsár
   - Tő-dülő dűlő  # Tő-dűlő
 source: survey
-inactive: true
+inactive: false

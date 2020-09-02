@@ -7,4 +7,4 @@ filters:
     # erdő határán van egy ház, nincs rá házszám kiírva
     invalid: ['18', '20']
 source: survey
-inactive: true
+inactive: false

@@ -71,4 +71,4 @@ refstreets:
   'Toldi Miklós út': 'Toldi Miklós utca'
   'Undi Marika utca': 'Undi Mariska utca'
 source: survey
-inactive: true
+inactive: false
