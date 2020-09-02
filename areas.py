@@ -737,6 +737,8 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
         house_numbers, comment = house_numbers.split("\t")
     if ';' in house_numbers:
         separator = ';'
+    elif ',' in house_numbers:
+        separator = ','
     else:
         separator = '-'
 
@@ -750,7 +752,7 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
     ret_numbers, ret_numbers_nofilter = util.split_house_number_by_separator(house_numbers, separator, normalizer)
 
     street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
-    if separator == "-" and util.should_expand_range(ret_numbers_nofilter, street_is_even_odd):
+    if separator != ";" and util.should_expand_range(ret_numbers_nofilter, street_is_even_odd):
         start = ret_numbers_nofilter[0]
         stop = ret_numbers_nofilter[1]
         if stop == 0:
