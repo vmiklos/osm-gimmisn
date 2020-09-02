@@ -378,5 +378,5 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '24'}
 source: survey
-inactive: true
+inactive: false
 housenumber-letters: true

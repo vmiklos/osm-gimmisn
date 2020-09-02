@@ -612,5 +612,5 @@ filters:
       - {start: '1', end: '39'}
       - {start: '2', end: '36'}
 source: survey
-inactive: false
+inactive: true
 housenumber-letters: true
