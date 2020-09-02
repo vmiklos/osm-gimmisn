@@ -27,10 +27,10 @@ function addCharts(stats) {
 
     var dailyData = {
         // daily is a list of label-data pairs.
-        labels: daily.map(x => x[0]),
+        labels: daily.map(function(x) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: daily.map(x => x[1]),
+            data: daily.map(function(x) { return x[1]; }),
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -75,10 +75,10 @@ function addCharts(stats) {
 
     var monthlyData = {
         // monthly is a list of label-data pairs.
-        labels: monthly.map(x => x[0]),
+        labels: monthly.map(function(x) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: monthly.map(x => x[1]),
+            data: monthly.map(function(x) { return x[1]; }),
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -123,10 +123,10 @@ function addCharts(stats) {
 
     var monthlytotalData = {
         // monthlytotal is a list of label-data pairs.
-        labels: monthlytotal.map(x => x[0]),
+        labels: monthlytotal.map(function(x) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: monthlytotal.map(x => x[1]),
+            data: monthlytotal.map(function(x) { return x[1]; }),
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -170,10 +170,10 @@ function addCharts(stats) {
 
     var dailytotalData = {
         // dailytotal is a list of label-data pairs.
-        labels: dailytotal.map(x => x[0]),
+        labels: dailytotal.map(function(x) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: dailytotal.map(x => x[1]),
+            data: dailytotal.map(function(x) { return x[1]; }),
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -218,10 +218,10 @@ function addCharts(stats) {
 
     var topusersData = {
         // topusers is a list of label-data pairs.
-        labels: topusers.map(x => x[0]),
+        labels: topusers.map(function(x) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: topusers.map(x => x[1]),
+            data: topusers.map(function(x) { return x[1]; }),
         }]
 
     };
@@ -265,10 +265,10 @@ function addCharts(stats) {
     });
     var topcitiesData = {
         // topcities is a list of label-data pairs.
-        labels: topcities.map(x => x[0]),
+        labels: topcities.map(function(x) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: topcities.map(x => x[1]),
+            data: topcities.map(function(x) { return x[1]; }),
         }]
 
     };
@@ -313,10 +313,10 @@ function addCharts(stats) {
 
     var usertotalData = {
         // usertotal is a list of label-data pairs.
-        labels: usertotal.map(x => x[0]),
+        labels: usertotal.map(function(x) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: usertotal.map(x => x[1]),
+            data: usertotal.map(function(x) { return x[1]; }),
         }]
 
     };
@@ -415,10 +415,10 @@ function addCharts(stats) {
 document.addEventListener("DOMContentLoaded", function(event) {
     var statsJSON = "@PREFIX@/static/stats.json";
     window.fetch(statsJSON)
-        .then((response) => {
+        .then(function(response) {
             return response.json();
         })
-        .then((stats) => {
+        .then(function(stats) {
             addCharts(stats);
         });
 });
