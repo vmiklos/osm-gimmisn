@@ -370,7 +370,9 @@ filters:
       - {start: '2', end: '54'}
   Ugron Gábor utca:
     # 10b: 10, 10a
-    invalid: ['10b']
+    # 69a: 69, 69b
+    # 71a, 71b: csak sima 71
+    invalid: ['10b', '69a', '71a', '71b']
   Zajzon utca:
     ranges:
       - {start: '1', end: '15'}
