@@ -1,0 +1,12 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - 27-sz vasúti őrház
+  - Máv munkásszálló
+refstreets:
+  'Erőmű lakótelep': 'Erőmü lakótelep'
+  'Pataksor utca / Bocskai István sor': 'Pataksor utca'  # Eszergom / Dorog határ
+  'Schmidt Villa': 'Schmidt villa kert'
+  'Tömedékakna': 'Tömedék akna'
+source: survey
+inactive: false
