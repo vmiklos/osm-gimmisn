@@ -481,6 +481,10 @@ domos:
     osmrelation: 1027819
     refcounty: "12"
     refsettlement: "024"
+dorog:
+    osmrelation: 1027821
+    refcounty: "12"
+    refsettlement: "023"
 esztergom:
     osmrelation: 1027785
     refcounty: "12"
