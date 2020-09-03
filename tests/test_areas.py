@@ -344,7 +344,8 @@ class TestNormalize(test_config.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "2,6", "Budaörs út", normalizers)
-        self.assertEqual([i.get_number() for i in house_numbers], ["2", "4", "6"])
+        # Same as ";", no 4.
+        self.assertEqual([i.get_number() for i in house_numbers], ["2", "6"])
 
 
 class TestRelationGetRefStreets(unittest.TestCase):
