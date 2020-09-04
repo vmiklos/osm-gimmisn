@@ -10,15 +10,30 @@
 from typing import Dict
 from typing import Set
 import datetime
+import os
 import re
 import subprocess
 import sys
 
 import areas
 import config
+import util
 
 
-def get_frequent_relations(log_file: str) -> Set[str]:
+def is_complete_relation(relations: areas.Relations, relation_name: str) -> bool:
+    """Does this relation have 100% house number coverage?"""
+    if relation_name not in relations.get_names():
+        return False
+
+    relation = relations.get_relation(relation_name)
+    if not os.path.exists(relation.get_files().get_housenumbers_percent_path()):
+        return False
+
+    percent = util.get_content(relation.get_files().get_housenumbers_percent_path())
+    return percent == "100.00"
+
+
+def get_frequent_relations(relations: areas.Relations, log_file: str) -> Set[str]:
     """Determine the top 20%: set of frequently visited relations."""
     counts: Dict[str, int] = {}
     with open(log_file, "r") as stream:
@@ -43,6 +58,7 @@ def get_frequent_relations(log_file: str) -> Set[str]:
                 counts[relation_name] += 1
             else:
                 counts[relation_name] = 1
+    counts = {key: value for (key, value) in counts.items() if not is_complete_relation(relations, key)}
     count_list = sorted(counts.items(), key=lambda x: x[1], reverse=True)
     relation_count = len(count_list)
     frequent_count = int(round(relation_count * 0.2))
@@ -85,10 +101,10 @@ def main() -> None:
 
     relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates()
 
-    frequent_relations = get_frequent_relations(log_file)
+    relations = areas.Relations(config.Config.get_workdir())
+    frequent_relations = get_frequent_relations(relations, log_file)
 
     # Now suggest what to change.
-    relations = areas.Relations(config.Config.get_workdir())
     removals = 0
     additions = 0
     for relation_name in relations.get_names():

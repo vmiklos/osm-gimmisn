@@ -59,6 +59,9 @@ author-time 1588975200
         # This is not in the output because it's considered as a recent relation.
         self.assertNotIn("data/relation-ujbuda.yaml: set inactive: ", actual)
 
+        # This is not in the output as it's not a valid relation name.
+        self.assertNotIn("budafokxxx", actual)
+
 
 if __name__ == '__main__':
     unittest.main()
