@@ -1,5 +1,13 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Iskola utca:
+    ranges:
+      - {start: '1', end: '33'}
+      - {start: '4', end: '40'}
+  Széchenyi István utca:
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '26'}
 street-filters:
   # nem igazi utca
   - Bitóczi vadászház
