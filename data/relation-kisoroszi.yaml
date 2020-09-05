@@ -50,8 +50,8 @@ filters:
       - {start: '2', end: '298'}
   Szérű utca:
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '41'}
+      - {start: '2', end: '70'}
   Szőlő utca:
     ranges:
       - {start: '1', end: '99'}
