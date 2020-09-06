@@ -26,6 +26,10 @@ filters:
     # jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
     invalid: ['4a', '6a', '13', '13a']
   Beregszász út:
+    # 4: 4 A/B: A,B,C épületek; 4/C külön épület
+    # 6/a: Sasad Liget több épület. C/1, C/2, F/1
+    # 16a: nincs kiírva, csak 16, 16/b látszik
+    # 32/1: Csak sima 32 van
     # 36/2: A ház két részből áll de nincs külön házszám
     # 40*: 40I, 40II, 40III, 40IV
     # 42: 42a..c
@@ -35,7 +39,15 @@ filters:
     # 56a van; 56b, 56c, 56d, 56e át lettek számozva Birs utcára: 1/b, 1/c, 3/a, 3/b
     # 57b: csak sima 57 van
     # 60b,62ab: 60-62 a társasház, a házaknak van külön száma 60 és 62
-    invalid: ['36/2', '40/1', '40/2', '40/3', '40/4', '40/5', '40a', '40b', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56', '56b', '56c', '56d', '56e', '57b', '60b', '62a', '62b']
+    # 74: 74/b ki van írva, a másik házon semmi, feltételezzük, hogy 74/a
+    # 76b: csak sima 76 van
+    # 78b: csak sima 78 van
+    # 80: 80, 80/a-b
+    # 82: 82/a, 82/b
+    # 87, 87c: 87/a, 87/b
+    # 88: 88/a, 88/b
+    # 100a, 100/2: csak sima 100 van
+    invalid: ['4a', '6', '16a', '32/1', '36/2', '40/1', '40/2', '40/3', '40/4', '40/5', '40a', '40b', '40d', '42', '46a', '48a', '48b', '48c', '50b', '50d', '56', '56b', '56c', '56d', '56e', '57b', '60b', '62a', '62b', '74', '76b', '78b', '80b', '82', '87', '87c', '88', '100/2', '100a']
     ranges:
       - {start: '1', end: '101'}
       - {start: '4', end: '100'}
@@ -168,6 +180,9 @@ filters:
       - {start: '1', end: '43'}
       - {start: '2', end: '56'}
   Harta utca:
+    # 10: 10/b van csak kiírva
+    # 12/b: régi házszám, = 10/b
+    invalid: ['10', '12b']
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '12'}
@@ -194,6 +209,10 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
+  Lanka utca:
+    # 21: 21/a, 21/b
+    # 26b: 24-26
+    invalid: ['21', '26b']
   Maderspach Károlyné utca:
     # 6/B 2: 6/a mellett van még 2 épület, de egyikre sincs kiírva semmi
     # 20a: ugyan 2 kapu van, de az egyiken sincs szám, a házon van 20-as.
@@ -258,6 +277,8 @@ filters:
       - {start: '1', end: '43'}
       - {start: '4', end: '34'}
   Oltvány utca:
+    # 12: 12/a, 12/b
+    invalid: ['12']
     ranges:
       - {start: '3', end: '19'}
       - {start: '2', end: '32'}
@@ -313,6 +334,8 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
   Ratkóc utca:
+    # 10/*: csak sima 10 van kiírva, ugyanakkor 10/a a címe a műkörmösnek
+    invalid: ['10b', '10c', '10d']
     ranges:
       - {start: '1', end: '13'}
       - {start: '8', end: '18'}
@@ -362,6 +385,11 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
+  Táska utca:
+    # 12: 12/a, másik házra nincs kiírva, feltételezve 12/b
+    # 17: 17/a, 17/b
+    # 19: 19/a és a másik ház lekopva, akár lehet 19/b is
+    invalid: ['12', '17', '19']
   Telekes utca:
     ranges: []
   Törökbálinti út:
