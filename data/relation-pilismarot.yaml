@@ -27,7 +27,7 @@ filters:
     ranges: []
   Viola utca:
     ranges: []
-  Szekrényhegyi utca
+  Szekrényhegyi utca:
     show-refstreet: false
 street-filters:
   # nem igazi utca
