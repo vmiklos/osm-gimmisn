@@ -8,6 +8,27 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '26'}
+  # Dunapart
+  Berkenye utca:
+    ranges: []
+  Diófa köz:
+    ranges: []
+  Fenyő sétány:
+    ranges: []
+  Ibolya utca:
+    ranges: []
+  Mályva utca:
+    ranges: []
+  Nyárfa utca:
+    ranges: []
+  Rezeda utca:
+    ranges: []
+  Vadrózsa utca:
+    ranges: []
+  Viola utca:
+    ranges: []
+  Szekrényhegyi utca
+    show-refstreet: false
 street-filters:
   # nem igazi utca
   - Bitóczi vadászház
@@ -33,6 +54,5 @@ refstreets:
   'Forrás utca': 'Forrás út'
   'Hegypince sor': 'Hegyipince sor'
   'Miklós deák utca': 'Miklós-deák utca'
-  'Rákóczi Ferenc út': 'Rákóczi Ferenc utca'
-  'Szekrényhegyi utca': 'Szekrényhegyi út'
+  'Szekrényhegyi utca': 'Szekrényhegyi út'  # így jó
 source: survey
