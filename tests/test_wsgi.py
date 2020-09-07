@@ -739,6 +739,11 @@ class TestStatic(TestWsgi):
         # Starts with a JS comment.
         self.assertTrue(result.startswith("/*"))
 
+    def test_robots(self) -> None:
+        """Tests robots.txt."""
+        result = self.get_txt_for_path("/robots.txt")
+        self.assertEqual(result, "User-agent: *\n")
+
 
 class TestStats(TestWsgi):
     """Tests handle_stats()."""

@@ -755,6 +755,8 @@ def our_application_txt(
             output, relation_name = missing_housenumbers_view_chkl(relations, request_uri)
             content_type = "application/octet-stream"
             extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
+        elif request_uri.endswith("robots.txt"):
+            output = util.get_content(config.get_abspath("data"), "robots.txt")
         else:
             # assume txt
             output = missing_housenumbers_view_txt(relations, request_uri)
