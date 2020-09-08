@@ -103,8 +103,9 @@ filters:
     # 17, 19: 17/a, 17/b, 17/c, 19/a, 19/b, 19/c
     # 32: 32/a, 32/b, 32/c, 32/d, 32/e
     # átszámozva: 46a -> 46, 48c-> 54, 48d-> 56; 48 nincs kiírva helyén még a 46c van
+    # 62: 62/a, 62/b, 62/c, 62/d
     # 92, 92b, 94, 96, 98, 100
-    invalid: ['4a', '5b', '8', '12', '17', '19', '32', '46a', '48', '48c', '48d', '92a', '94a', '98a']
+    invalid: ['4a', '5b', '8', '12', '17', '19', '32', '46a', '48', '48c', '48d', '62', '92a', '94a', '98a']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '22'}
@@ -369,9 +370,11 @@ filters:
       - {start: '1', end: '1'}
       - {start: '2', end: '4'}
   Sasadi út:
-    # 1: nincs kiírva semmit
+    # 1: sarok, nincs kiírva semmi
     # 3s: 3-5
-    invalid: ['1b', '3s']
+    # 11a: sarok, nincs kiírva semmi
+    # Sasadi 58-60 / Előpatak 63-69: egy lakópark több házzal, de Sasadiról 2 egyedi szám, sima 58 és 60
+    invalid: ['1b', '3s', '11a', '58a', '58f', '58g', '60b', '60c']
   Sümegvár köz:
     # 2ab: csak sima 2 van
     # 6: 6/a, 6/b
