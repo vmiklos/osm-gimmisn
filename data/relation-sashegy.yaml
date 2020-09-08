@@ -8,8 +8,10 @@ filters:
       - {start: '1', end: '27'}
       - {start: '2', end: '22'}
   Brassó út:
+    # 154: 154/a, 154/b
+    invalid: ['154']
     ranges:
-      - {start: '154', end: '154'}
+      - {start: '154', end: '158'}
   Breznó köz:
     ranges:
       - {start: '1', end: '13'}
@@ -18,6 +20,10 @@ filters:
     refsettlement: "012"
   Budaörsi út:
     # this is just the sashegy part
+    # ezek vannak: 23/a, 25/a, 25/b, 27, 29, 31/a, 31, 31/b, 33/a, 33/b, 33/c
+    # 41b: csak sima 41
+    # 43: 43/a, 43/b
+    invalid: ['23', '23b', '25', '29a', '29b', '33', '33/3', '41b', '43']
     ranges:
       - {start: '1', end: '45'}
   Dayka Gábor utca:
@@ -66,10 +72,14 @@ filters:
       - {start: '1', end: '41', refsettlement: '012'}
       - {start: '2', end: '64'}
   Muskotály köz:
+    # semmi sincs kiírva, a 3-as helyén a házat lebontották, és új épült a helyén
+    invalid: ['1', '1/6', '1c']
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
   Muskotály utca:
+    # ilyenek vannak: 20,22,24
+    invalid: ['20a', '22b']
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '30'}
