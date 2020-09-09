@@ -355,6 +355,8 @@ filters:
       - {start: '7', end: '17'}
   Rozmaring utca:
     # not sure about the 16
+    # 12/9: 12/a, 12/b
+    invalid ['12/9']
     ranges:
       - {start: '3', end: '19'}
       - {start: '2', end: '16'}
