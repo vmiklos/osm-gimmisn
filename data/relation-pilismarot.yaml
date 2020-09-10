@@ -13,6 +13,8 @@ filters:
     ranges: []
   Diófa köz:
     ranges: []
+  Dunapart utca:
+    invalid: ['2', '3', '4', '15', '42', '124']
   Fenyő sétány:
     ranges: []
   Ibolya utca:
@@ -27,8 +29,53 @@ filters:
     ranges: []
   Viola utca:
     ranges: []
+  # Basaharc
+  Erdősor utca:  # ez egy benőtt autóval járhatatlan utca..
+    ranges: []
+  Kilátó utca:
+    ranges: []
+  Törökugrató utca:
+    ranges: []
+  # Kp
+  Ady Endre utca:
+    # 47 a vége utána három fészer van, nincs 55 ig
+    ranges:
+      - {start: '1', end: '47'}
+      - {start: '2', end: '98'}
+  Bajcsy Zsilinszky utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
+  Dózsa György utca:
+    # 44 nincs 42 a vége
+    ranges:
+      - {start: '1', end: '31'}
+      - {start: '2', end: '40'}
+  Hegyipince sor:
+    ranges: []
+  Hunyadi János utca:
+    # 21 a max de van tér még új házakra
+    interpolation: all
+    ranges:
+      - {start: '1', end: '99'}
+  Kereszt utca:
+    # 6 nincs 4 a vége
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '4'}
+  Kossuth Lajos utca:
+    # 24 nincs 20 a vége
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '20'}
   Szekrényhegyi utca:
     show-refstreet: false
+    ranges:
+      - {start: '1', end: '15'}
+  Pincesor utca:
+    ranges:
+      - {start: '1', end: '9'}
+
 street-filters:
   # nem igazi utca
   - Bitóczi vadászház
