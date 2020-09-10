@@ -68,14 +68,17 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '20'}
+  Pincesor utca:
+    ranges:
+      - {start: '1', end: '9'}
+  Szabadság körút:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Szekrényhegyi utca:
     show-refstreet: false
     ranges:
       - {start: '1', end: '15'}
-  Pincesor utca:
-    ranges:
-      - {start: '1', end: '9'}
-
 street-filters:
   # nem igazi utca
   - Bitóczi vadászház
@@ -93,7 +96,6 @@ street-filters:
   # - Szobi rév út
 refstreets:
   'Akácos út': 'Akácfa utca'
-  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Csányi utca': 'Csányi út'
   'Hoffmann út': 'Dobogókői út'
   'Erdőalja utca': 'Erdőalja út'
