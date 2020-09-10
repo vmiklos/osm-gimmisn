@@ -54,10 +54,11 @@ filters:
   Birs utca:
     # Beregszász út 56d, 56e át lettek számozva Birs utcára: 3/a, 3/b
     invalid: ['3', '3d']
-  Bozókvár utca:
-    # 13b: 13,13a
-    invalid: ['13b']
-  Budajk utca:
+  Bodajk utca:
+    # 10: 10/a, 10/b kerítésen ócska házszám: 10
+    # 25: 25/a, 25/b
+    # 30: 30/a, 30/b
+    invalid: ['10', '25', '30']
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '32'}
@@ -65,10 +66,18 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '20'}
+  Bozókvár utca:
+    # 13b: 13,13a
+    invalid: ['13b']
   Brassó út:
     # <=152 is just the Sasad part, 169 is actually 169-179/a .. 169-179/h
-    # Domboldal utca 8 = Brassó út 144: A és B épület
-    invalid: ['144a', '144b', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
+    # 52: 52/a, 52/b
+    # 54a, 54b: 54, 56
+    # 55a, 55b: csak sima 55
+    # 57b: semmi sincs kiírva
+    # 95:  95/a, 95/b
+    # 144: Domboldal utca 8 = Brassó út 144: A és B épület
+    invalid: ['52', '54a', '54b', '55a', '55b', '57b', '95', '144a', '144b', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
     ranges:
       - {start: '1', end: '169'}
       - {start: '2', end: '152'}
@@ -89,6 +98,12 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Cseresznye utca:
+    # 22: 22/a, 22/b
+    # 32: 32/a, 32/b
+    # 36: 36/a, 36/b
+    # 42a, 44a: csak 42 és 44
+    # 56a, 56b: több részből áll, mindegyiken 56-os szám
+    invalid: ['22', '32', '36', '42a', '44a', '56a', '56b']
     ranges:
       - {start: '1', end: '61'}
       - {start: '2', end: '36'}
@@ -319,6 +334,9 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '32'}
   Rákó utca:
+    # 40b: cask sima 40 van kiírva
+    # 47: 47/a, 47/b
+    invalid: ['40b', '47']
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '60'}
@@ -356,7 +374,7 @@ filters:
   Rozmaring utca:
     # not sure about the 16
     # 12/9: 12/a, 12/b
-    invalid ['12/9']
+    invalid: ['12/9']
     ranges:
       - {start: '3', end: '19'}
       - {start: '2', end: '16'}
@@ -376,7 +394,8 @@ filters:
     # 3s: 3-5
     # 11a: sarok, nincs kiírva semmi
     # Sasadi 58-60 / Előpatak 63-69: egy lakópark több házzal, de Sasadiról 2 egyedi szám, sima 58 és 60
-    invalid: ['1b', '3s', '11a', '58a', '58f', '58g', '60b', '60c']
+    # 152a: 152, 152b
+    invalid: ['1b', '3s', '11a', '58a', '58f', '58g', '60b', '60c', '152a']
   Sümegvár köz:
     # 2ab: csak sima 2 van
     # 6: 6/a, 6/b
@@ -399,6 +418,12 @@ filters:
     ranges: []
   Törökbálinti út:
     # just the Sasad part
+    # 26b: 26-os van a ház tetején naggyal
+    # 32a, 32b: csak sima 32 van
+    # 38: 38/a, 38/b
+    # 44b: csak sima 44 van
+    # 46a, 46d: 46, 46/b
+    invalid: ['26b', '32a', '32b', '38', '44b', '46a', '46d']
     ranges:
       - {start: '2', end: '54'}
   Ugron Gábor utca:
