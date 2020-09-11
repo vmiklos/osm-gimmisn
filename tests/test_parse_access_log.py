@@ -62,6 +62,11 @@ author-time 1588975200
         # This is not in the output as it's not a valid relation name.
         self.assertNotIn("budafokxxx", actual)
 
+        # This is not in the output as it's a search bot, so such visits don't count.
+        # Also, if this would be not ignored, it would push 'inactiverelation' out of the active
+        # relation list.
+        self.assertNotIn("gyomaendrod", actual)
+
 
 if __name__ == '__main__':
     unittest.main()

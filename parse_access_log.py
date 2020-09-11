@@ -33,6 +33,23 @@ def is_complete_relation(relations: areas.Relations, relation_name: str) -> bool
     return percent == "100.00"
 
 
+def is_search_bot(line: str) -> bool:
+    """Determine if 'line' has a user agent which looks like a search bot."""
+    search_bots = [
+        "AhrefsBot",
+        "AhrefsBot",
+        "CCBot",
+        "Googlebot",
+        "SemrushBot",
+        "YandexBot",
+        "bingbot",
+    ]
+    for search_bot in search_bots:
+        if search_bot in line:
+            return True
+    return False
+
+
 def get_frequent_relations(relations: areas.Relations, log_file: str) -> Set[str]:
     """Determine the top 20%: set of frequently visited relations."""
     counts: Dict[str, int] = {}
@@ -41,6 +58,8 @@ def get_frequent_relations(relations: areas.Relations, log_file: str) -> Set[str
         # a.b.c.d - - [01/Jul/2020:00:08:01 +0200] \
         # "GET /osm/street-housenumbers/budapest_12/update-result HTTP/1.1" 200 1747 "-" "Mozilla/5.0 ..."
         for line in stream.readlines():
+            if is_search_bot(line):
+                continue
             match = re.match('.*"GET ([^ ]+) .*', line)
             if not match:
                 # Not GET.
