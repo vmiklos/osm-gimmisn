@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  - Lahner György utca  # Lahner György utca - Határ utca
 refstreets:
   'Amur utca': 'Amúr utca'
   'Bocskai István utca': 'Bocskai utca'
@@ -15,7 +17,6 @@ refstreets:
   'Hunyadi János utca': 'Hunyadi utca'
   'Jókai Mór utca': 'Jókai utca'
   'Kossuth Lajos köz': 'Kossuth köz'
-  'Lahner György utca - Határ utca': 'Lahner György utca'
   'Madách Imre utca': 'Madách utca'
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Petőfi Sándor köz': 'Petőfi köz'
