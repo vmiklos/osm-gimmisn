@@ -1,0 +1,29 @@
+missing-streets: 'yes'
+filters: {}
+refstreets:
+  'Eötvös József utca': 'Eötvös utca'
+  'Eszterházy utca': 'Eszterházy Pál utca'
+  'Gárdonyi Géza utca': 'Gárdonyi utca'
+  'Irányi utca': 'Irányi Dániel utca'
+  'Iskola utca': 'Iskola út'
+  'Klapka György utca': 'Klapka utca'
+  'Könyves Kálmán utca': 'Könyves Kálmán út'
+  'Mikes utca': 'Mikes Kelemen utca'
+  'Mikszáth Kálmán utca': 'Mikszáth utca'
+  'Munkácsy Mihály utca': 'Munkácsy utca'
+  'Sün utca': 'Sün út'
+  'Tégla utca': 'Tégla út'
+  'Thököly utca': 'Thököly Imre utca'
+  'XIV./A utca': 'XIV.A utca'
+  'XVII./A utca': 'XVII.A utca'
+  'XVIII./A utca': 'XVIII.A utca'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+  # Erdészlak
+  # Gere tanya
+  # Karám köz
+  # Ledina dűlő
+  # Máv őrház
+  # Rejtő köz
+  # Rubicon köz
+  # Váci Mihály köz
+source: survey
