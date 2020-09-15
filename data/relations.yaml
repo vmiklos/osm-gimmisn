@@ -542,6 +542,10 @@ pilisvorosvar:
     osmrelation: 215943
     refcounty: "14"
     refsettlement: "112"
+szigethalom:
+    osmrelation: 222332
+    refcounty: "14"
+    refsettlement: "131"
 szigetmonostor:
     osmrelation: 216157
     refcounty: "14"
