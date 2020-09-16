@@ -79,6 +79,12 @@ def get_frequent_relations(relations: areas.Relations, log_file: str) -> Set[str
                 counts[relation_name] = 1
     counts = {key: value for (key, value) in counts.items() if not is_complete_relation(relations, key)}
     count_list = sorted(counts.items(), key=lambda x: x[1], reverse=True)
+
+    # Dump relations and their visit count to workdir for further inspection.
+    with open(os.path.join(config.Config.get_workdir(), "frequent-relations.csv"), "w") as stream:
+        for item in count_list:
+            stream.write("{}\t{}\n".format(item[0], item[1]))
+
     relation_count = len(count_list)
     frequent_count = int(round(relation_count * 0.2))
     count_list = count_list[:frequent_count]
