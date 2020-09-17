@@ -392,6 +392,12 @@ komlo:
     osmrelation: 575200
     refcounty: "02"
     refsettlement: "137"
+# 03 - Bács-Kiskun megye
+orgovany:
+    osmrelation: 1130371
+    refcounty: "03"
+    refsettlement: "089"
+    inactive: true
 # 04 - Békés megye
 bekes:
     osmrelation: 1026148
