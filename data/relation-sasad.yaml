@@ -11,6 +11,10 @@ filters:
       - {start: '1', end: '9'}
       - {start: '2', end: '2'}
   Barackfa utca:
+    # 15/1: csak sima 15 van
+    # 17: 17/b a bal oldali, a másik kapun nincs szám
+    # 18b: csak sima 18 van
+    invalid: ['15/1', '17', '18b']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
@@ -19,8 +23,9 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
   Baradla köz:
+    # 3: 3/a, 3/b
     # 6/a megszűnt - https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2020_02/skmbt_28320020711510.pdf
-    invalid: ['6a']
+    invalid: ['3', '6a']
   Baradla utca:
     # 4-es kapun nem láttam semmit, nem derült ki hogy 4a vagy 4
     # jobb oldali kapun a "13a" felül lett ragasztva 11-essel, és az "a" betűjel lekaparva (13a > 11), házon bal oldalt 13/b maradt
@@ -63,6 +68,9 @@ filters:
       - {start: '1', end: '37'}
       - {start: '2', end: '32'}
   Botfalu köz:
+    # 12a: nincs semmi sem kiírva
+    # 23: 23/a, 23/b
+    invalid: ['12a', '23']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '20'}
@@ -153,7 +161,12 @@ filters:
   Eper utca:
     # 6: 6/a, 6/b
     # 7b: csak 7 van kiírva
-    invalid: ['2', '2c', '6', '7b']
+    # 10: 10/a, 10/b
+    # 12: 12/a, 12/b
+    # 23: 23/a és 23 ki van írva, illetve az egyik kapun le van kopva a 23/ vége
+    # 32/*: 5 részből álló ház, 2 oldalon 32, egyik kapunk 32/4
+    # 57: 57/b, 57/2
+    invalid: ['2', '2c', '6', '7b', '10', '12', '23/1', '23b', '23c', '32/1', '32/2', '57', '57a']
     ranges:
       - {start: '1', end: '77'}
       - {start: '2', end: '56'}
