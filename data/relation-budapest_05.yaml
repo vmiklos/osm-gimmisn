@@ -61,6 +61,9 @@ filters:
       - {start: '21', end: '33'}
       - {start: '2', end: '14'}
       - {start: '18', end: '52'}
+  Markó utca:
+    # 15: 13-17 kellene lennie, de ezen az oldalon nincs kiírva csak 17
+    invalid: ['15']
   Nyugati tér:
     interpolation: all
   Petőfi tér:
@@ -72,6 +75,8 @@ filters:
   Szabadság tér:
     interpolation: all
     invalid: ['10', '11']  # USA nagykövetség foglalja el ezeket is
+  Szalay utca:
+    invalid: ['6', '8']
   Szarka utca:
     ranges:
       - {start: '1', end: '3'}
@@ -81,7 +86,7 @@ filters:
     interpolation: all
   Szent István tér:
     # 2: Posta, Bajcsyról számozódik
-    # 7-11: Danubius Center irodaházm igazából csak 11 van kiírva
+    # 7-11: Danubius Center irodaház, igazából csak 11 van kiírva
     interpolation: all
     invalid: ['2', '7', '8']
     ranges:
@@ -104,6 +109,8 @@ filters:
       - {start: '22', end: '44'}
   Vértanúk tere:
     interpolation: all
+  Vigadó utca:
+    invalid: ['1']
   Vigadó tér:
     interpolation: all
     ranges:
