@@ -14,6 +14,10 @@ filters:
   Bulcsú utca:
     # Terézváros 2-16, de jelenleg egy mező
     ranges: []
+  Bajcsy-Zsilinszky köz:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '2'}
   Bajcsy-Zsilinszky út:
     ranges:
       - {start: '1', end: '65'}
@@ -30,6 +34,10 @@ filters:
   Nagymező utca:
     # 5-ös szám helyén a Tereza kiülős "kertje" van
     invalid: ['5']
+  Ó utca:
+    # 8-10 az Opera Parkolóház egyik fele
+    # 18: Most kiülős része
+    invalid: ['8', '10', '18']
   Váci út:
     ranges:
       - {start: '1', end: '3'}
