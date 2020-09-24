@@ -1,8 +1,10 @@
 missing-streets: 'yes'
 filters:
+  # Pilisszentiván/Pilisvörösvár határ
   Klapka utca:
     ranges:
       - {start: '2', end: '118'}
+      - {start: '123', end: '127'}
 street-filters:
   - Lahner György utca  # Lahner György utca - Határ utca
 refstreets:
