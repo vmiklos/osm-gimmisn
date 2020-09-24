@@ -1,6 +1,8 @@
 missing-streets: 'no'
 filters:
   Balatoni út:
+    # nincsenek ilyen számok, alig van pár épület aminenk van száma, ráadásul a 44 és a 143 ugyanazon az oldalon van
+    invalid: ['36', '38', '141', '151']
     ranges:
       - {start: '141', end: '151'}
       - {start: '26', end: '44'}
