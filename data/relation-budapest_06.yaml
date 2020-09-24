@@ -21,6 +21,9 @@ filters:
   Bajcsy-Zsilinszky út:
     ranges:
       - {start: '1', end: '65'}
+  Eötvös utca:
+    # Spanyol nagykövetség 11/B, mellette a 15-ös szám
+    invalid: ['13']
   Hajós utca:
     ranges:
       - {start: '1', end: '43'}
@@ -28,6 +31,9 @@ filters:
   Lehel utca:
     ranges:
       - {start: '1', end: '5'}
+  Lendvay utca:
+    # 2-10 között nem erre az utcára vannak számozva
+    invalid: ['4', '8']
   Munkácsy Mihály utca:
     # 31-37-ig üres telek (Star Park Podmaniczky utcai parkolója van rajta)
     invalid: ['31', '33', '35', '37']
