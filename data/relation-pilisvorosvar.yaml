@@ -1,5 +1,8 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Klapka utca:
+    ranges:
+      - {start: '2', end: '118'}
 street-filters:
   - Lahner György utca  # Lahner György utca - Határ utca
 refstreets:
@@ -26,8 +29,6 @@ refstreets:
   'Szentiványi utca': 'Szentiváni út'
   'Szondi György utca': 'Szondi utca'
   'Táncsics Mihály köz': 'Táncsics köz'
-  'Vörösmarty Mihály utca': 'Vörösmarty utca'
-  'Zrínyi Miklós utca': 'Zrínyi utca'
   #
   'Alma utca': 'Alma köz'
   'Szivárvány utca': 'Szivárvány köz'
