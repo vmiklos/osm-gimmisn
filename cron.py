@@ -162,6 +162,20 @@ def update_missing_streets(relations: areas.Relations, update: bool) -> None:
     info("update_missing_streets: end")
 
 
+def write_count_path(count_path: str, house_numbers: Set[str]) -> None:
+    """Writes a daily .count file."""
+    with open(count_path, "w") as stream:
+        house_numbers_len = str(len(house_numbers))
+        stream.write(house_numbers_len + "\n")
+
+
+def write_city_count_path(city_count_path: str, cities: Dict[str, Set[str]]) -> None:
+    """Writes a daily .citycount file."""
+    with open(city_count_path, "w") as stream:
+        for key, value in cities.items():
+            stream.write(key + "\t" + str(len(value)) + "\n")
+
+
 def update_stats_count(today: str) -> None:
     """Counts the # of all house numbers as of today."""
     statedir = config.get_abspath("workdir/stats")
@@ -171,6 +185,7 @@ def update_stats_count(today: str) -> None:
     house_numbers = set()
     cities: Dict[str, Set[str]] = {}
     first = True
+    valid_settlements = util.get_valid_settlements()
     with open(csv_path, "r") as stream:
         for line in stream.readlines():
             if first:
@@ -181,19 +196,14 @@ def update_stats_count(today: str) -> None:
             cells = line.split("\t")
             # Ignore last column, which is the user who touched the object last.
             house_numbers.add("\t".join(cells[:4]))
-            city_key = util.get_city_key(cells[0], cells[1])
+            city_key = util.get_city_key(cells[0], cells[1], valid_settlements)
+            city_value = "\t".join(cells[2:4])
             if city_key in cities:
-                cities[city_key].add("\t".join(cells[2:4]))
+                cities[city_key].add(city_value)
             else:
-                cities[city_key] = set(["\t".join(cells[2:4])])
-
-    with open(count_path, "w") as stream:
-        house_numbers_len = str(len(house_numbers))
-        stream.write(house_numbers_len + "\n")
-
-    with open(city_count_path, "w") as stream:
-        for key, value in cities.items():
-            stream.write(key + "\t" + str(len(value)) + "\n")
+                cities[city_key] = set([city_value])
+    write_count_path(count_path, house_numbers)
+    write_city_count_path(city_count_path, cities)
 
 
 def update_stats_topusers(today: str) -> None:

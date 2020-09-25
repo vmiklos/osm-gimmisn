@@ -11,13 +11,14 @@ from typing import Any
 from typing import Callable
 from typing import Dict
 from typing import Iterable
+from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import Sequence
+from typing import Set
 from typing import TextIO
 from typing import Tuple
 from typing import cast
-from typing import Iterator
 import csv
 import locale
 import os
@@ -789,7 +790,7 @@ def set_locale() -> None:
         pass
 
 
-def get_city_key(postcode: str, city: str) -> str:
+def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
     """Constructs a city name based on postcode the nominal city."""
     city = city.lower()
 
@@ -797,8 +798,31 @@ def get_city_key(postcode: str, city: str) -> str:
         district = int(postcode[1:3])
         if 1 <= district <= 23:
             return city + "_" + postcode[1:3]
+        return city
 
-    return city
+    if city in valid_settlements:
+        return city
+    if city:
+        return "_Invalid"
+    return "_Empty"
+
+
+def get_valid_settlements() -> Set[str]:
+    """Builds a set of valid settlement names."""
+    settlements: Set[str] = set()
+
+    with open(config.Config.get_reference_citycounts_path(), "r") as stream:
+        first = True
+        for line in stream.readlines():
+            if first:
+                first = False
+                continue
+            cells = line.strip().split('\t')
+            if not cells[0]:
+                continue
+            settlements.add(cells[0])
+
+    return settlements
 
 
 def format_percent(english: str) -> str:

@@ -517,10 +517,12 @@ class TestGetCityKey(unittest.TestCase):
     """Tests get_city_key()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        self.assertEqual(util.get_city_key("1234", "Budapest"), "budapest_23")
-        self.assertEqual(util.get_city_key("1889", "Budapest"), "budapest")
-        self.assertEqual(util.get_city_key("9999", ""), "")
-        self.assertEqual(util.get_city_key("9999", "Lábatlan"), "lábatlan")
+        valid_settlements = set(["lábatlan"])
+        self.assertEqual(util.get_city_key("1234", "Budapest", valid_settlements), "budapest_23")
+        self.assertEqual(util.get_city_key("1889", "Budapest", valid_settlements), "budapest")
+        self.assertEqual(util.get_city_key("9999", "", valid_settlements), "_Empty")
+        self.assertEqual(util.get_city_key("9999", "Lábatlan", valid_settlements), "lábatlan")
+        self.assertEqual(util.get_city_key("9999", "junk", valid_settlements), "_Invalid")
 
 
 if __name__ == '__main__':
