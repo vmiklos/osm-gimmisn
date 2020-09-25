@@ -794,7 +794,9 @@ def get_city_key(postcode: str, city: str) -> str:
     city = city.lower()
 
     if city and postcode.startswith("1"):
-        return city + "_" + postcode[1:3]
+        district = int(postcode[1:3])
+        if 1 <= district <= 23:
+            return city + "_" + postcode[1:3]
 
     return city
 

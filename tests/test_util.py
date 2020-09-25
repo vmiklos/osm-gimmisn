@@ -518,6 +518,7 @@ class TestGetCityKey(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         self.assertEqual(util.get_city_key("1234", "Budapest"), "budapest_23")
+        self.assertEqual(util.get_city_key("1889", "Budapest"), "budapest")
         self.assertEqual(util.get_city_key("9999", ""), "")
         self.assertEqual(util.get_city_key("9999", "Lábatlan"), "lábatlan")
 
