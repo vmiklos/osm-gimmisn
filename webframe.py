@@ -373,6 +373,8 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
             ("str-topcities-title", _("Top edited cities, as of {}")),
             ("str-topcities-x-axis", _("City name")),
             ("str-topcities-y-axis", _("Number of house numbers added in the past 30 days")),
+            ("str-topcities-empty", _("(empty)")),
+            ("str-topcities-invalid", _("(invalid)")),
             ("str-usertotal-title", _("Number of house number editors, as of {}")),
             ("str-usertotal-x-axis", _("All editors")),
             ("str-usertotal-y-axis", _("Number of editors, at least one housenumber is last changed by these users")),

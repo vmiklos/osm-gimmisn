@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-02 22:29+0200\n"
+"POT-Creation-Date: 2020-09-25 22:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,19 +22,27 @@ msgstr ""
 msgid " (existing: {0}, ready: {1})."
 msgstr ""
 
+#: webframe.py:376
+msgid "(empty)"
+msgstr ""
+
+#: webframe.py:377
+msgid "(invalid)"
+msgstr ""
+
 #: wsgi.py:687
 msgid "Add new area"
 msgstr ""
 
-#: webframe.py:377
+#: webframe.py:379
 msgid "All editors"
 msgstr ""
 
-#: webframe.py:397
+#: webframe.py:399
 msgid "All house number editors"
 msgstr ""
 
-#: webframe.py:366 webframe.py:369 webframe.py:392
+#: webframe.py:366 webframe.py:369 webframe.py:394
 msgid "All house numbers"
 msgstr ""
 
@@ -46,7 +54,7 @@ msgstr ""
 msgid "All house numbers, last year, as of {}"
 msgstr ""
 
-#: webframe.py:394
+#: webframe.py:396
 msgid "All house numbers, monthly"
 msgstr ""
 
@@ -78,11 +86,11 @@ msgstr ""
 msgid "City name"
 msgstr ""
 
-#: webframe.py:398
+#: webframe.py:400
 msgid "Coverage"
 msgstr ""
 
-#: webframe.py:379
+#: webframe.py:381
 #, python-brace-format
 msgid "Coverage is {1}%, as of {2}"
 msgstr ""
@@ -91,7 +99,7 @@ msgstr ""
 msgid "Create from reference"
 msgstr ""
 
-#: webframe.py:381
+#: webframe.py:383
 msgid "Data source"
 msgstr ""
 
@@ -131,7 +139,7 @@ msgstr ""
 msgid "House number coverage"
 msgstr ""
 
-#: areas.py:523
+#: areas.py:530
 msgid "House numbers"
 msgstr ""
 
@@ -148,7 +156,7 @@ msgstr ""
 msgid "Latest for this month"
 msgstr ""
 
-#: areas.py:522
+#: areas.py:529
 msgid "Missing count"
 msgstr ""
 
@@ -160,7 +168,7 @@ msgstr ""
 msgid "Missing streets"
 msgstr ""
 
-#: webframe.py:360 webframe.py:363 webframe.py:391
+#: webframe.py:360 webframe.py:363 webframe.py:393
 msgid "New house numbers"
 msgstr ""
 
@@ -172,7 +180,7 @@ msgstr ""
 msgid "New house numbers, last year, as of {}"
 msgstr ""
 
-#: webframe.py:393
+#: webframe.py:395
 msgid "New house numbers, monthly"
 msgstr ""
 
@@ -208,25 +216,25 @@ msgstr ""
 msgid "No street list: "
 msgstr ""
 
-#: webframe.py:478
+#: webframe.py:480
 #, python-brace-format
 msgid "No such relation: {0}"
 msgstr ""
 
-#: webframe.py:328 webframe.py:422
+#: webframe.py:328 webframe.py:424
 msgid "Note"
 msgstr ""
 
-#: util.py:403
+#: util.py:424
 msgid "Note: wait for {} seconds"
 msgstr ""
 
-#: webframe.py:378
+#: webframe.py:380
 msgid ""
 "Number of editors, at least one housenumber is last changed by these users"
 msgstr ""
 
-#: webframe.py:376
+#: webframe.py:378
 msgid "Number of house number editors, as of {}"
 msgstr ""
 
@@ -234,7 +242,7 @@ msgstr ""
 msgid "Number of house numbers added in the past 30 days"
 msgstr ""
 
-#: webframe.py:380
+#: webframe.py:382
 msgid "Number of house numbers in database"
 msgstr ""
 
@@ -262,7 +270,7 @@ msgstr ""
 msgid "OpenStreetMap is possibly missing the below {0} streets."
 msgstr ""
 
-#: util.py:399
+#: util.py:420
 #, python-brace-format
 msgid "Overpass error: {0}"
 msgstr ""
@@ -279,7 +287,7 @@ msgstr ""
 msgid "Overpass turbo query for the below streets"
 msgstr ""
 
-#: webframe.py:399
+#: webframe.py:401
 msgid "Per-city coverage"
 msgstr ""
 
@@ -295,7 +303,7 @@ msgstr ""
 msgid "Street coverage"
 msgstr ""
 
-#: areas.py:521 wsgi.py:207
+#: areas.py:528 wsgi.py:207
 msgid "Street name"
 msgstr ""
 
@@ -306,7 +314,7 @@ msgid ""
 "Only cities with house numbers in OSM are considered."
 msgstr ""
 
-#: webframe.py:424
+#: webframe.py:426
 msgid ""
 "These statistics are provided purely for interested editors, and are not\n"
 "intended to reflect quality of work done by any given editor in OSM. If you "
@@ -316,7 +324,7 @@ msgid ""
 "more meaningful than a lot of useless work."
 msgstr ""
 
-#: webframe.py:396
+#: webframe.py:398
 msgid "Top edited cities"
 msgstr ""
 
@@ -324,7 +332,7 @@ msgstr ""
 msgid "Top edited cities, as of {}"
 msgstr ""
 
-#: webframe.py:395
+#: webframe.py:397
 msgid "Top house number editors"
 msgstr ""
 

@@ -265,7 +265,15 @@ function addCharts(stats) {
     });
     var topcitiesData = {
         // topcities is a list of label-data pairs.
-        labels: topcities.map(function(x) { return x[0]; }),
+        labels: topcities.map(function(x) {
+            if (x[0] === "_Empty") {
+                return getString("str-topcities-empty");
+            }
+            if (x[0] === "_Invalid") {
+                return getString("str-topcities-invalid");
+            }
+            return x[0];
+        }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
             data: topcities.map(function(x) { return x[1]; }),
