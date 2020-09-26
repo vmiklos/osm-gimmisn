@@ -321,6 +321,9 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
+  Sötétvágás utca:
+    # No housenumbers here.
+    ranges: []
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Adonis utca': 'Adonisz utca'
