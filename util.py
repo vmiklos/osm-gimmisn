@@ -800,7 +800,7 @@ def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
             return city + "_" + postcode[1:3]
         return city
 
-    if city in valid_settlements:
+    if city in valid_settlements or city == "budapest":
         return city
     if city:
         return "_Invalid"

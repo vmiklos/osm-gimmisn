@@ -523,6 +523,8 @@ class TestGetCityKey(unittest.TestCase):
         self.assertEqual(util.get_city_key("9999", "", valid_settlements), "_Empty")
         self.assertEqual(util.get_city_key("9999", "Lábatlan", valid_settlements), "lábatlan")
         self.assertEqual(util.get_city_key("9999", "junk", valid_settlements), "_Invalid")
+        # Even if the postcode does not start with 1.
+        self.assertEqual(util.get_city_key("9999", "Budapest", valid_settlements), "budapest")
 
 
 if __name__ == '__main__':
