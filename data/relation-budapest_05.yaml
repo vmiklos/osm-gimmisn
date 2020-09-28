@@ -110,7 +110,9 @@ filters:
   Vértanúk tere:
     interpolation: all
   Vigadó utca:
-    invalid: ['1']
+    # 3 = Vörösmarty tér 2, Paprika Market oldalán nincs szám
+    # 1 = Vígadó tér 2, a Vigadó maga
+    invalid: ['1', '3']
   Vigadó tér:
     interpolation: all
     ranges:
