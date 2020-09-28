@@ -5,9 +5,14 @@ filters:
     ranges:
       - {start: '2', end: '118'}
       - {start: '123', end: '127'}
+  Tűzoltó utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '16'}
 street-filters:
   - Lahner György utca  # Lahner György utca - Határ utca
 refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
   'Amur utca': 'Amúr utca'
   'Bocskai István utca': 'Bocskai utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai utca'
