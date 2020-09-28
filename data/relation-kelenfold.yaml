@@ -213,7 +213,7 @@ filters:
       - {start: '18', end: '38'}
   Fehérvári út:
     # 44 A épület, de 44 van csak kiírva
-    # Fehervari 58-68, 132-144 egyben. 152 utan 160 jon, majd 166 a benzikút
+    # Fehervari 58-68, 126-128,, 132-144 egyben. 152 utan 160 jon, majd 166 a benzikút
     # 161 Andor utca sarka-179 Ventura kozott semmi nincs, 183-tol jon a panel
     invalid: ['44a', '44h', '64a', '79a', '83b', '85c', '106', '114', '118', '130a', 145a, '146a', '146b', '146z', '179a', '179c', '179d', '181', '189a']
     ranges:
@@ -223,8 +223,7 @@ filters:
       - {start: '44', end: '88'}
       - {start: '98', end: '98'}
       - {start: '104', end: '120'}
-      - {start: '124', end: '124'}
-      - {start: '130', end: '148'}
+      - {start: '124', end: '148'}
       - {start: '152', end: '152'}
       - {start: '160', end: '160'}
       - {start: '166', end: '166'}
