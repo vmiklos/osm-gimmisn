@@ -13,6 +13,7 @@ from typing import Set
 import argparse
 import datetime
 import glob
+import locale
 import logging
 import os
 import time
@@ -172,7 +173,8 @@ def write_count_path(count_path: str, house_numbers: Set[str]) -> None:
 def write_city_count_path(city_count_path: str, cities: Dict[str, Set[str]]) -> None:
     """Writes a daily .citycount file."""
     with open(city_count_path, "w") as stream:
-        for key, value in cities.items():
+        # Locale-aware sort, by key.
+        for key, value in sorted(cities.items(), key=lambda item: locale.strxfrm(item[0])):
             stream.write(key + "\t" + str(len(value)) + "\n")
 
 
