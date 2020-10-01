@@ -1,10 +1,15 @@
 missing-streets: 'yes'
 filters:
   # Pilisszentiván/Pilisvörösvár határ
+  Freiäcker utca:
+    invalid: ['9', '13']
   Klapka utca:
     ranges:
       - {start: '2', end: '118'}
       - {start: '123', end: '127'}
+  Tó dűlő:
+    # nincsenek számok ls utcatábla sem a helyszínen
+    ranges: []
   Tűzoltó utca:
     ranges:
       - {start: '1', end: '17'}
@@ -14,26 +19,19 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Amur utca': 'Amúr utca'
-  'Bocskai István utca': 'Bocskai utca'
-  'Csokonai Vitéz Mihály utca': 'Csokonai utca'
   'Dugonics András utca': 'Dugonics utca'
   'Eperjes utca': 'Eperjesi utca'
   'Fischtheiss utca': 'Fischteich utca'
-  'Freiacker utca': 'Freiäcker utca'
   'Fácán út': 'Fácán utca'
   'Gárdonyi Géza utca': 'Gárdonyi utca'
   'Görgey Artúr utca': 'Görgey utca'
   'Horgász-sor utca': 'Horgászsor utca'
-  'Hunyadi János utca': 'Hunyadi utca'
   'Jókai Mór utca': 'Jókai utca'
   'Kossuth Lajos köz': 'Kossuth köz'
-  'Madách Imre utca': 'Madách utca'
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Petőfi Sándor köz': 'Petőfi köz'
   'Remete utca': 'Remetei utca'
-  'Rákóczi Ferenc köz': 'Rákóczi köz'
   'Semmelweis Ignác köz': 'Semmelweis köz'
-  'Szentiványi utca': 'Szentiváni út'
   'Szondi György utca': 'Szondi utca'
   'Táncsics Mihály köz': 'Táncsics köz'
   #
