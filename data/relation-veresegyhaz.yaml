@@ -32,3 +32,4 @@ refstreets:
   'Zúzmara utca': 'Zuzmara utca'
   'Öreghegysor utca': 'Öreghegy sor'
 source: survey
+inactive: true

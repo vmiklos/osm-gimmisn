@@ -27,3 +27,4 @@ refstreets:
   # ellenőrizve:
   'Üsth Gyula utca': 'Üst Gyula utca'
 source: survey
+inactive: true

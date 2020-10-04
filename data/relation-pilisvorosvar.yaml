@@ -44,3 +44,4 @@ refstreets:
   # Rozmaring köz - Budai körfogralomnál
   # Víztározó utca - Víztározónál
 source: survey
+inactive: true

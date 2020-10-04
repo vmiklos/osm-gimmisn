@@ -8,3 +8,4 @@ refstreets:
   'Veress Zoltán utca': 'Veres Zoltán utca'
 source: survey
 housenumber-letters: true
+inactive: true

@@ -8,4 +8,4 @@ street-filters:
   - Rezső tér  # Magyarok Nagyasszonya tér és Szenes Iván tér lett, ezek léteznek
   - Nagyfuvaros utca  # Nagy Fuvaros utca néven is létezik, ez nem kell
 source: survey
-inactive: true
+inactive: false

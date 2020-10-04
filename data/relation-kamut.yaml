@@ -7,4 +7,4 @@ refstreets:
   'Petőfi Sándor utca': 'Petőfi utca'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
 source: survey
-inactive: false
+inactive: true
