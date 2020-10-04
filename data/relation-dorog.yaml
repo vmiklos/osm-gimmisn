@@ -12,4 +12,4 @@ refstreets:
   'Schmidt Villa': 'Schmidt villa kert'
   'Tömedékakna': 'Tömedék akna'
 source: survey
-inactive: false
+inactive: true

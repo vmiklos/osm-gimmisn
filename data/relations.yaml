@@ -397,7 +397,6 @@ orgovany:
     osmrelation: 1130371
     refcounty: "03"
     refsettlement: "089"
-    inactive: true
 # 04 - Békés megye
 bekes:
     osmrelation: 1026148

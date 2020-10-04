@@ -240,5 +240,5 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
 source: survey
-inactive: true
+inactive: false
 housenumber-letters: true

@@ -56,3 +56,4 @@ refstreets:
   'Oktogon': 'Oktogon tér'
   'Felsőerdősor utca': 'Felső erdősor'
 source: survey
+inactive: true

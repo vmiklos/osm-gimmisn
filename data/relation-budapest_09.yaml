@@ -23,4 +23,4 @@ refstreets:
   # utcajegyzék = REF, OSM eltér
   'Knézich utca': 'Knézits utca'  # utcatábla = OSM
 source: survey
-inactive: true
+inactive: false

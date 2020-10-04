@@ -76,5 +76,5 @@ filters:
 refstreets:
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
 source: survey
-inactive: false
 housenumber-letters: true
+inactive: true

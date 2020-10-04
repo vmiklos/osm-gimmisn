@@ -12,4 +12,4 @@ refstreets:
   'Szentbenedekhegyi út': 'Szentbenedek-hegyi utca'
   'Szűrcsapó utca': 'Szürcsapó utca'
   'Tímár utca': 'Timár utca'
-inactive: false
+inactive: true

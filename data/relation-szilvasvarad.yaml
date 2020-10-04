@@ -7,4 +7,4 @@ refstreets:
   'Széchenyi István utca': 'Széchenyi utca'
   'Zrínyi utca': 'Zrínyi Miklós utca'
 source: survey
-inactive: false
+inactive: true

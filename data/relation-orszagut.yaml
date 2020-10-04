@@ -95,4 +95,4 @@ filters:
     ranges:
       - {start: '1', end: '11'}
 source: survey
-inactive: false
+inactive: true

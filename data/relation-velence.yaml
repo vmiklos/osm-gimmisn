@@ -22,4 +22,4 @@ refstreets:
   'Széchenyi utca': 'Széchenyi út'
   'Tóbíró köz': 'Tóbiró köz'
   'Zuzmó utca': 'Zúzmó utca'
-inactive: true
+inactive: false
