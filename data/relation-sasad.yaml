@@ -328,10 +328,11 @@ filters:
       - {start: '4', end: '34'}
   Oltvány utca:
     # 12: 12/a, 12/b
-    invalid: ['12']
+    # 32: nincs
+    invalid: ['12', '32']
     ranges:
-      - {start: '3', end: '19'}
-      - {start: '2', end: '32'}
+      - {start: '3', end: '53'}
+      - {start: '2', end: '62'}
   Őrség utca:
     # 4: 4/a, 4/b
     # 9: kerítésen 9, első házon 9/a, hátsó házon az ott lakó szerint 9/b
@@ -425,6 +426,8 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
   Sasadi köz:
+    # 1: 1/a, 1/b
+    invalid: ['1']
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '4'}
