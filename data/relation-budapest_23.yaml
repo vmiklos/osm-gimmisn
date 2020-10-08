@@ -19,11 +19,6 @@ refstreets:
   'Bolyai János utca': 'Bólyai János utca'
   'Bolyai János köz': 'Bólyai János köz'
   'Írisz utca': 'Irisz utca'
-  # utcajegyzék = REF, OSM eltér
-  'Apostolhegyi dűlő': 'Apostolhegy dűlő'  # note felvéve
-  'Déli temető utca': 'Délitemető utca'  # note felvéve
-  'Közép temető utca': 'Középtemető utca'  # note felvéve
-  'Mocsár utca': 'Mocsaras utca'  # note felvéve
   # Utcajegyzék = OSM, ref hibás
   'Kis-Duna utca': 'Kisduna utca'
   'Majosháza utca': 'Majosház utca'
