@@ -1,12 +1,23 @@
 missing-streets: 'yes'
 filters:
-  # Pilisszentiván/Pilisvörösvár határ
+  Budai út:
+    invalid: ['30', '34', '267']
+  Fő utca:
+    # 179 = régi házszám, új cím Bécsi út 13
+    invalid: ['179']
   Freiäcker utca:
     invalid: ['9', '13']
+  Hősők tere:
+    invalid: ['4']
+  # Pilisszentiván/Pilisvörösvár határ
   Klapka utca:
     ranges:
       - {start: '2', end: '118'}
       - {start: '123', end: '127'}
+  Mandula utca:
+    ranges:
+      - {start: '1', end: '39'}
+      - {start: '2', end: '40'}
   Tó dűlő:
     # nincsenek számok ls utcatábla sem a helyszínen
     ranges: []
