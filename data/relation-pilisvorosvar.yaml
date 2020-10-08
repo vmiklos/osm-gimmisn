@@ -14,12 +14,18 @@ filters:
     ranges:
       - {start: '2', end: '118'}
       - {start: '123', end: '127'}
+  Liszt Ferenc utca:
+    invalid: ['1', '3', '5', '9']
   Mandula utca:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '40'}
+  Szent Imre utca:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '30'}
   Tó dűlő:
-    # nincsenek számok ls utcatábla sem a helyszínen
+    # nincsenek számok és utcatábla sem a helyszínen
     ranges: []
   Tűzoltó utca:
     ranges:
@@ -55,4 +61,3 @@ refstreets:
   # Rozmaring köz - Budai körfogralomnál
   # Víztározó utca - Víztározónál
 source: survey
-inactive: true
