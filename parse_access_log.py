@@ -15,8 +15,11 @@ import re
 import subprocess
 import sys
 
+import unidecode
+
 import areas
 import config
+import stats
 import util
 
 
@@ -120,6 +123,26 @@ def is_relation_recently_added(create_dates: Dict[str, datetime.date], name: str
     return name in create_dates and create_dates[name] > month_ago
 
 
+def check_top_edited_relations(frequent_relations: Set[str], workdir: str) -> None:
+    """
+    Update frequent_relations based on get_topcities():
+    1) The top 5 edited cities count as frequent, even if they have ~no visitors.
+    2) If a relation got <5 house numbers in the last 30 days, then they are not frequent, even with
+    lots of visitors.
+    """
+    # List of 'city name' <-> '# of new house numbers' pairs.
+    topcities = stats.get_topcities(os.path.join(workdir, "stats"))
+    topcities = [(unidecode.unidecode(city[0]), city[1]) for city in topcities]
+    # Top 5: these should be frequent.
+    for city in topcities[:5]:
+        frequent_relations.add(city[0])
+    # Bottom: anything with <5 new house numbers is not frequent.
+    bottomcities = [city for city in topcities if city[1] < 5]
+    for city in bottomcities:
+        if city[0] in frequent_relations:
+            frequent_relations.remove(city[0])
+
+
 def main() -> None:
     """Commandline interface."""
     log_file = sys.argv[1]
@@ -128,6 +151,7 @@ def main() -> None:
 
     relations = areas.Relations(config.Config.get_workdir())
     frequent_relations = get_frequent_relations(relations, log_file)
+    check_top_edited_relations(frequent_relations, config.Config.get_workdir())
 
     # Now suggest what to change.
     removals = 0

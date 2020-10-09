@@ -8,6 +8,8 @@
 
 from typing import Any
 from typing import List
+from typing import Set
+from typing import Tuple
 import datetime
 import io
 import subprocess
@@ -16,6 +18,7 @@ import unittest.mock
 
 import test_config
 
+import config
 import parse_access_log
 
 
@@ -66,6 +69,33 @@ author-time 1588975200
         # Also, if this would be not ignored, it would push 'inactiverelation' out of the active
         # relation list.
         self.assertNotIn("gyomaendrod", actual)
+
+
+class TestCheckTopEditedRelations(test_config.TestCase):
+    """Tests check_top_edited_relations()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        def mock_get_topcities(_src_root: str) -> List[Tuple[str, int]]:
+            return [
+                ("foo", 1000),
+                ("city1", 1000),
+                ("city2", 1000),
+                ("city3", 1000),
+                ("city4", 1000),
+                ("bar", 2),
+                ("baz", 2)
+            ]
+        with unittest.mock.patch('datetime.date', MockDate):
+            with unittest.mock.patch('stats.get_topcities', mock_get_topcities):
+                frequent_relations: Set[str] = {"foo", "bar"}
+                parse_access_log.check_top_edited_relations(frequent_relations, config.Config.get_workdir())
+                self.assertIn("foo", frequent_relations)
+                self.assertIn("city1", frequent_relations)
+                self.assertIn("city2", frequent_relations)
+                self.assertIn("city3", frequent_relations)
+                self.assertIn("city4", frequent_relations)
+                self.assertNotIn("bar", frequent_relations)
+                self.assertNotIn("baz", frequent_relations)
 
 
 if __name__ == '__main__':
