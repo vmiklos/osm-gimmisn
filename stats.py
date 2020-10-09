@@ -53,10 +53,9 @@ def handle_topusers(src_root: str, j: Dict[str, Any]) -> None:
     j["topusers"] = ret
 
 
-def handle_topcities(src_root: str, j: Dict[str, Any]) -> None:
+def get_topcities(src_root: str) -> List[Tuple[str, int]]:
     """
-    Generates stats for top cities.
-    This lists the top 20 cities which got lots of new house numbers in the past 30 days.
+    Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
     ret = []
     new_day = datetime.date.today().strftime("%Y-%m-%d")
@@ -81,6 +80,15 @@ def handle_topcities(src_root: str, j: Dict[str, Any]) -> None:
             if count and city in old_counts:
                 counts.append((city, int(count) - old_counts[city]))
     ret = sorted(counts, key=lambda x: x[1], reverse=True)
+    return ret
+
+
+def handle_topcities(src_root: str, j: Dict[str, Any]) -> None:
+    """
+    Generates stats for top cities.
+    This lists the top 20 cities which got lots of new house numbers in the past 30 days.
+    """
+    ret = get_topcities(src_root)
     ret = ret[:20]
     j["topcities"] = ret
 
