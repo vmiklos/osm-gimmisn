@@ -23,6 +23,9 @@ filters:
     interpolation: all
     ranges:
       - {start: '2', end: '27'}
+  Curia utca:
+    # 2 = Ferenciek tere 2
+    invalid: ['2']
   Deák Ferenc tér:
     interpolation: all
     ranges:
@@ -61,6 +64,8 @@ filters:
   Honvéd tér:
     interpolation: all
   Irányi utca:
+    # 11 = Váci utca 43
+    invalid: ['11']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '12'}
@@ -87,10 +92,16 @@ filters:
   Markó utca:
     # 15: 13-17 kellene lennie, de ezen az oldalon nincs kiírva csak 17
     invalid: ['15']
+  Molnár utca:
+    # 4-6 = Iskola, Irányi utca 3, alagsorban van egy kávézó 4-es számmal
+    invalid: ['6']
   Nádor utca:
     # 3 = Mérleg utca
     # 10 = Zrínyi utca 5
     invalid: ['3', '10']
+  Nyáry Pál utca:
+    # 2 = templom oldala, Váci utca 47/b
+    invalid: ['2']
   Nyugati tér:
     interpolation: all
   Petőfi tér:
