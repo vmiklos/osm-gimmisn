@@ -2,6 +2,10 @@ missing-streets: 'yes'
 filters:
   Budai út:
     invalid: ['30', '34', '267']
+  Csabai út:
+    ranges:
+      - {start: '1', end: '49'}
+      - {start: '2', end: '98'}
   Fő utca:
     # 179 = régi házszám, új cím Bécsi út 13
     invalid: ['179']
@@ -9,8 +13,10 @@ filters:
     invalid: ['9', '13']
   Hősők tere:
     invalid: ['4']
-  # Pilisszentiván/Pilisvörösvár határ
+  Kamilla utca:
+    invalid: ['8']
   Klapka utca:
+    # Pilisszentiván/Pilisvörösvár határ
     ranges:
       - {start: '2', end: '118'}
       - {start: '123', end: '127'}
