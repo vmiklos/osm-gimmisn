@@ -15,10 +15,11 @@ filters:
     invalid: ['179']
   Freiäcker utca:
     invalid: ['9', '13']
-  Hősök tere:
-    invalid: ['4']
   Kamilla utca:
     invalid: ['8']
+  Kilátó utca:
+    # nincsenek kint számok
+    ranges: []
   Klapka utca:
     # Pilisszentiván/Pilisvörösvár határ
     ranges:
@@ -32,6 +33,9 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '40'}
+  Margaréta utca:
+    # nincsenek kint számok
+    ranges: []
   Szent Imre utca:
     interpolation: all
     ranges:
@@ -43,6 +47,9 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '16'}
+  Zöldárok utca:
+    # nincsenek kint számok
+    ranges: []
 street-filters:
   - Lahner György utca  # Lahner György utca - Határ utca
   - Pinty köz  # megszűnt - Völgy utca
