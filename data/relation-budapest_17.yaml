@@ -24,11 +24,11 @@ refstreets:
   'Thorotzkay Péter gróf utca': 'Thorotzkay Péter utca'
   'Tói malom utca': 'Tómalom utca'
   # utcajegyzék = REF: OSM hibás, nincs szabadon felhasználható kép
-  'Agyagdombi út': 'Agyagdombi dűlő'
-  'Bartók Béla út': 'Bartók Béla utca'
+  # 'Agyagdombi út': 'Agyagdombi dűlő' - fixed
+  # 'Bartók Béla út': 'Bartók Béla utca' - fixed
   'Báthori utca': 'Báthory utca'
-  'Fuchsszőlő utca': 'Fuchs-szőlő utca'
-  'Gólya utca': 'Golyófogó utca'
-  'Heltai Jenő tér': 'Heltai tér'
+  # 'Fuchsszőlő utca': 'Fuchs-szőlő utca' - fixed
+  # 'Gólya utca': 'Golyófogó utca' - fixed
+  # 'Heltai Jenő tér': 'Heltai tér' - fixed
 source: survey
 inactive: true
