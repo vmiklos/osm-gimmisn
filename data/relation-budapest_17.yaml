@@ -26,7 +26,7 @@ refstreets:
   # utcajegyzék = REF: OSM hibás, nincs szabadon felhasználható kép
   # 'Agyagdombi út': 'Agyagdombi dűlő' - fixed
   # 'Bartók Béla út': 'Bartók Béla utca' - fixed
-  'Báthori utca': 'Báthory utca'
+  # 'Báthori utca': 'Báthory utca' - fixed
   # 'Fuchsszőlő utca': 'Fuchs-szőlő utca' - fixed
   # 'Gólya utca': 'Golyófogó utca' - fixed
   # 'Heltai Jenő tér': 'Heltai tér' - fixed
