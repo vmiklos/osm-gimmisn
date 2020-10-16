@@ -8,8 +8,10 @@
 """The cron module allows doing nightly tasks."""
 
 from typing import Any
+from typing import Callable
 from typing import Dict
 from typing import Set
+from typing import cast
 import argparse
 import datetime
 import glob
@@ -224,7 +226,7 @@ def update_stats_topusers(today: str) -> None:
             else:
                 users[user] = 1
     with open(topusers_path, "w") as stream:
-        for user in sorted(users, key=users.get, reverse=True)[:20]:
+        for user in sorted(users, key=cast(Callable[[str], int], users.get), reverse=True)[:20]:
             line = str(users[user]) + " " + user
             stream.write(line + "\n")
 
