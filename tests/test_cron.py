@@ -33,7 +33,7 @@ def get_relations() -> areas.Relations:
 
 def mock_urlopen_raise_error(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
     """Mock urlopen(), always throwing an error."""
-    raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
+    raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
 
 
 class TestOverpassSleep(unittest.TestCase):

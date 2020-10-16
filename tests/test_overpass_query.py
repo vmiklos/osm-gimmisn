@@ -35,7 +35,7 @@ def gen_urlopen(name: str) -> Callable[[str, Optional[bytes]], BinaryIO]:
             return buf
 
     def fail(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-        raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
+        raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
 
     if name:
         return mock_urlopen

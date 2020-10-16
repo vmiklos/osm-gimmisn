@@ -144,7 +144,7 @@ class TestStreets(TestWsgi):
         """Tests if the update-result output on error is well-formed."""
 
         def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
+            raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
         with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
             root = self.get_dom_for_path("/streets/gazdagret/update-result")
             results = root.findall("body/div[@id='overpass-error']")
@@ -433,7 +433,7 @@ class TestStreetHousenumbers(TestWsgi):
         """Tests if the update-result output on error is well-formed."""
 
         def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            raise urllib.error.HTTPError(url=None, code=None, msg=None, hdrs=None, fp=None)
+            raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
         with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
             root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
             results = root.findall("body/div[@id='overpass-error']")
