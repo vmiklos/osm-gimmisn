@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Ásványbánya utca:
+    # csak hrsz.
+    ranges: []
   Budai út:
     invalid: ['30', '34', '267']
   Cinege utca:
@@ -38,6 +41,9 @@ filters:
   Margaréta utca:
     # nincsenek kint számok
     ranges: []
+  Nyárfa utca:
+    # csak hrsz.
+    ranges: []
   Szent Imre utca:
     interpolation: all
     ranges:
@@ -63,3 +69,4 @@ refstreets:
   'Kossuth utca': 'Kossuth Lajos utca'  # utcanévtáblán Kossuth utca
   'Szivárvány utca': 'Szivárvány köz'  # utcanévtáblán Szivárvány utca
 source: survey
+inactive: true
