@@ -53,17 +53,13 @@ filters:
     # nincsenek kint számok
     ranges: []
 street-filters:
+  - Búzavirág köz  # Búzavirág utca néven fut, az is jön a ref-ben
   - Cseresznye utca  # Alma és Körte között lenne, de nincs, csak egy füves kocsibehajtó
   - Lahner György utca  # Lahner György utca - Határ utca
   - Pinty köz  # megszűnt - Völgy utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Amur utca': 'Amúr utca'
-  'Fischtheis utca': 'Fischteich utca'  # utcanévtáblán Fischtheis utca
   'Kossuth utca': 'Kossuth Lajos utca'  # utcanévtáblán Kossuth utca
-  #
-  'Alma utca': 'Alma köz'
-  'Szivárvány utca': 'Szivárvány köz'
-  # Ásványbánya utca - Csabai út
-  # Búzavirág köz - Búzavirág utca
+  'Szivárvány utca': 'Szivárvány köz'  # utcanévtáblán Szivárvány utca
 source: survey
