@@ -13,7 +13,6 @@ street-filters:
   - Gödör tér  # Ez egy játszótér igazából
   - Szabó Dezső tér  # Megszűnt
   - Újtemető út  # Átnevezték, de a XIX. kerülethez tartozik tejes egészében
-  # Szarvas csárda tér - nincs berajzolva Üllői út 438 környéke
   # semmilyen forrásban sem találtam
   - Soroksári összekötő út
   - Templom tér
@@ -32,13 +31,10 @@ refstreets:
   'Körös utca': 'Kőrös utca'
   'Tas utca': 'Tass utca'
   'Zádor utca': 'Zádor út'
-  # utcajegyzék = REF: OSM eltér
-  'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'  # utcatábla = OSM
-  'Kerékkötő utca': 'Kerékkötő út'  # utcatábla = OSM
-  'Rudavszky utca': 'Rudawszky utca'  # note
-  'Rim utca': 'Rím utca'  # utcatábla = OSM
-  'Rutka utca': 'Ruttka utca'  # note
-  'Wittman Viktor utca': 'Wittmann Viktor utca'  # note
-  # todo
+  # utcatábla hibák, utcatábla = OSM
+  'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
+  'Kerékkötő utca': 'Kerékkötő út'
+  'Rudavszky utca': 'Rudawszky utca'
+  'Rim utca': 'Rím utca'
 source: survey
 inactive: true
