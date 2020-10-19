@@ -65,8 +65,8 @@ street-filters:
   - Pinty köz  # megszűnt - Völgy utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Amur utca': 'Amúr utca'
+  'Amur utca': 'Amúr utca'              # utcanévtáblán Amur utca
   'Kossuth utca': 'Kossuth Lajos utca'  # utcanévtáblán Kossuth utca
-  'Szivárvány utca': 'Szivárvány köz'  # utcanévtáblán Szivárvány utca
+  'Szivárvány utca': 'Szivárvány köz'   # utcanévtáblán Szivárvány utca
 source: survey
 inactive: true
