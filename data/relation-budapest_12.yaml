@@ -326,14 +326,16 @@ filters:
     ranges: []
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Adonis utca': 'Adonisz utca'
-  'Hunyad-orom lépcső': 'Hunyadorom lépcső'
-  'Korányi Frigyes út': 'Pihenő út'
+  # osm = utcatábla
+  'Adonis utca': 'Adonisz utca'  # utcajegyzék ok
+  'Szépkilátás út': 'Szép kilátás út'  # utcajegyzék ok
+  'Hunyad-orom lépcső': 'Hunyadorom lépcső'  # utcajegyzék: Hunyad Orom lépcső
+  # hibás írásmód
   'Széchenyi-emlék út': 'Széchenyi- emlék út'
-  'Szépkilátás út': 'Szép kilátás út'
+  # megváltozott az utcanév
   'Sztehlo Gábor utca': 'Árnyas köz'
+  'Korányi Frigyes út': 'Pihenő út'
   # Felmérendő melyik a helyes
-  # 'Tearózsa út': 'Tearózsa utca'
-  # 'Janka utca': 'Janka út'
+  'Tearózsa út': 'Tearózsa utca'  # utcajegyzék Tearózsa utca
 source: survey
 inactive: false
