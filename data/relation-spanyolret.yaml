@@ -17,7 +17,8 @@ filters:
       - {start: '6', end: '6'}
   Rupphegyi út:
     # 6: a házszám sima 6, a telken belül vannak a,b,c,d,f épületek
-    invalid: ['6a', '6b', '6c', '6d', '6f']
+    # 40/b: nincs ilyen
+    invalid: ['6a', '6b', '6c', '6d', '6f', '40b']
     ranges:
       - {start: '2', end: '44'}
   Törökbálinti út:
