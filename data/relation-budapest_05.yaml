@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters:
+  Alkotmány utca:
+    # 7 = 5-7, de csak 5 van táblázva
+    invalid: ['7']
   Apáczai Csere János utca:
     ranges:
       - {start: '1', end: '17'}
@@ -57,6 +60,10 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '4'}
+  Garibaldi utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '6'}
   Havas utca:
     ranges:
       - {start: '1', end: '7'}
@@ -106,6 +113,11 @@ filters:
     interpolation: all
   Petőfi tér:
     interpolation: all
+    ranges:
+      - {start: '1', end: '5'}
+  Steindl Imre utca:
+    # 6 = Akadémia utca 15
+    invalid: ['6']
   Szabad sajtó út:
     # Klotild paloták valószínű a 6, nincs kiírva
     ranges:
@@ -120,8 +132,12 @@ filters:
       - {start: '1', end: '3'}
       - {start: '7', end: '9'}
       - {start: '2', end: '98'}
+  Széchenyi István tér:
+    interpolation: all
   Széchenyi rakpart:
     interpolation: all
+    ranges:
+      - {start: '1', end: '19'}
   Szent István tér:
     # 2: Posta, Bajcsyról számozódik
     # 7-11: Danubius Center irodaház, igazából csak 11 van kiírva
@@ -162,4 +178,7 @@ filters:
   Zoltán utca:
     # 1 és 15 sarokházak, másik utcáról számozódnak
     invalid: ['1', '1a', '15']
+  Zrínyi utca:
+    # 1: Four Seasons Gresham Palace oldala
+    invalid: ['1']
 source: survey
