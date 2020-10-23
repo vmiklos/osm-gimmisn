@@ -48,8 +48,9 @@ filters:
     # 5/5: 5a, 5b
     # 7: 7a, 7b
     # 11: 11a, 11b
+    # 15/a, 15/b megváltozott 17/a, 17/b-re
     # 20 = Napóra utca 6
-    invalid: ['3a', '3b', '5', '5c', '5/5', '6b', '7', '11', '20d']
+    invalid: ['3a', '3b', '5', '5c', '5/5', '6b', '7', '11', '15a', '15b', '20d']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '24'}
