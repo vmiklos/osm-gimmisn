@@ -140,14 +140,12 @@ street-filters:
   - Vasútáll.és körny. dűlő  # Vasút dűlő folytatása - nincs kiírva
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  Aszú utca: Aszu utca
-  Írisz utca: Irisz utca
-  Jókai Mór utca: Jókai utca  # OSM helyes
+  Aszú utca: Aszu utca  # utcatábla Aszú utca
+  Írisz utca: Irisz utca  # nincs utcatábla
+  Jókai Mór utca: Jókai utca  # utcatábla Jókai Mór utca
   Kamaraerdei út: Kamaraerdei utca
-  Kamilla utca: Kamilla köz
   Munkácsy Mihály utca: Munkácsy utca
-  Odvashegyi út: Odvas-hegy utca
   Petőfi Sándor utca: Petőfi utca
-  Ribiszke utca: Ribizke utca
+  Ribiszke utca: Ribizke utca  # Egyik oldalon kézzel írt tábla van csak Ribiszke utca, másik oldalon Ribizke utca 2-12
   Széchenyi utca: Széchenyi István utca
 inactive: false
