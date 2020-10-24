@@ -1,5 +1,9 @@
 missing-streets: 'yes'
 filters:
+  Akadémia utca:
+    # 5 = Arany János utca 6-8, volt minisztérium
+    # 10-12 = NAV, innen nincs bejárat
+    invalid: ['5', '10', '12']
   Alkotmány utca:
     # 7 = 5-7, de csak 5 van táblázva
     invalid: ['7']
@@ -71,7 +75,7 @@ filters:
   Honvéd tér:
     interpolation: all
   Irányi utca:
-    # 11 = Váci utca 43
+    # 11 = Váci utca 43.
     invalid: ['11']
     ranges:
       - {start: '1', end: '29'}
@@ -79,8 +83,15 @@ filters:
       - {start: '18', end: '20'}
   Jászai Mari tér:
     interpolation: all
+  József Attila utca:
+    # 9 = Hild tér 1.
+    invalid: ['9']
   József nádor tér:
     interpolation: all
+  Kecskeméti utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '14'}
   Kossuth Lajos tér:
     interpolation: all
   Magyar utca:
