@@ -460,12 +460,13 @@ filters:
     ranges: []
   Törökbálinti út:
     # just the Sasad part
+    # 4: 4/a, 4/b, 4/c
     # 26b: 26-os van a ház tetején naggyal
     # 32a, 32b: csak sima 32 van
     # 38: 38/a, 38/b
     # 44b: csak sima 44 van
     # 46a, 46d: 46, 46/b
-    invalid: ['26b', '32a', '32b', '38', '44b', '46a', '46d']
+    invalid: ['4', '26b', '32a', '32b', '38', '44b', '46a', '46d']
     ranges:
       - {start: '2', end: '54'}
   Ugron Gábor utca:
