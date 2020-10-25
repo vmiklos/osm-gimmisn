@@ -232,6 +232,14 @@ class RelationConfig:
             return cast(List[str], self.__get_property("street-filters"))
         return []
 
+    def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
+        """
+        Builds a list of streets from a reference cache.
+        """
+        refcounty = self.get_refcounty()
+        refsettlement = self.get_refsettlement()
+        return reference[refcounty][refsettlement]
+
 
 class Relation:
     """A relation is a closed polygon on the map."""
@@ -357,20 +365,12 @@ class Relation:
             self.__osm_housenumbers[street_name] = []
         return self.__osm_housenumbers[street_name]
 
-    def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
-        """
-        Builds a list of streets from a reference cache.
-        """
-        refcounty = self.get_config().get_refcounty()
-        refsettlement = self.get_config().get_refsettlement()
-        return reference[refcounty][refsettlement]
-
     def write_ref_streets(self, reference: str) -> None:
         """Gets known streets (not their coordinates) from a reference site, based on relation names
         from OSM."""
         memory_cache = util.build_street_reference_cache(reference)
 
-        lst = self.build_ref_streets(memory_cache)
+        lst = self.get_config().build_ref_streets(memory_cache)
 
         lst = sorted(set(lst))
         with self.get_files().get_ref_streets_stream("w") as sock:
@@ -580,6 +580,16 @@ class Relation:
         in_both = util.get_in_both(reference_streets, osm_streets)
 
         return only_in_reference, in_both
+
+    def get_additional_streets(self) -> Tuple[List[str], List[str]]:
+        """Tries to find additional streets in a relation."""
+        reference_streets = self.get_ref_streets()
+        osm_streets = self.get_osm_streets()
+
+        only_in_osm = util.get_only_in_first(osm_streets, reference_streets)
+        in_both = util.get_in_both(osm_streets, reference_streets)
+
+        return only_in_osm, in_both
 
     def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
         """Calculate a write stat for the street coverage of a relation."""
