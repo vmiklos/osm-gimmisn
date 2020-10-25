@@ -249,6 +249,12 @@ class TestValidatorMainFailureMsg2(TestValidatorMainFailureMsgBase):
         expected += ": expected value type for 'filters.Hamzsabégi út.show-refstreet' is bool\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-show-refstreet-bad.yaml", expected)
 
+    def test_relation_refstreets_bad_map_type(self) -> None:
+        """Tests the relation path: bad refstreets map, not 1:1."""
+        expected = "failed to validate tests/data/relation-gazdagret-refstreets-bad-map.yaml"
+        expected += ": osm and ref streets are not a 1:1 mapping in 'refstreets.'\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-refstreets-bad-map.yaml", expected)
+
 
 if __name__ == '__main__':
     unittest.main()

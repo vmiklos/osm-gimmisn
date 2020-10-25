@@ -133,6 +133,9 @@ def validate_refstreets(errors: List[str], parent: str, refstreets: Dict[str, An
             errors.append("expected no quotes in '%s%s'" % (context, key))
         if "'" in value or "\"" in value:
             errors.append("expected no quotes in value of '%s%s'" % (context, key))
+    reverse = {v: k for k, v in refstreets.items()}
+    if len(refstreets) != len(reverse):
+        errors.append("osm and ref streets are not a 1:1 mapping in '%s'" % context)
 
 
 def validate_street_filters(errors: List[str], parent: str, street_filters: List[Any]) -> None:

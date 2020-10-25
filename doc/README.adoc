@@ -148,7 +148,9 @@ frequently:
 
 - `refstreets`: this key can be used in the root of a relation file, it's used to describe street
   name mappings, in case the OSM name and reference name differs and the OSM one is the correct
-  name.
+  name. The key is the OSM name and the value is the reference name. It's not valid to map multiple
+  OSM names to the same reference name, so this has to be a 1:1 mapping. This makes it possible to
+  map both ways using the same markup.
 
 - `refsettlement`: this key can be used for a street. In case the majority of a relation has a given
   `refsettlement` value, but there are a few exceptions, then you can use this markup to override the
