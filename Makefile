@@ -42,9 +42,14 @@ PYTHON_SAFE_OBJECTS = \
 	webframe.py \
 	wsgi.py \
 
+# These have bad coverage.
+PYTHON_UNSAFE_OBJECTS = \
+	additional_streets.py \
+
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
 	$(PYTHON_SAFE_OBJECTS) \
+	$(PYTHON_UNSAFE_OBJECTS) \
 
 # These are valid.
 YAML_SAFE_OBJECTS = \

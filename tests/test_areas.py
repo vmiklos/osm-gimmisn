@@ -535,6 +535,20 @@ class TestRelationGetMissingStreets(test_config.TestCase):
         self.assertEqual(in_both, ['Hamzsabégi út', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
 
+class TestRelationGetAdditionalStreets(test_config.TestCase):
+    """Tests Relation.get_additional_streets()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = get_relations()
+        relation_name = "gazdagret"
+        relation = relations.get_relation(relation_name)
+        only_in_osm, in_both = relation.get_additional_streets()
+
+        self.assertEqual(only_in_osm, ['OSM Name 1', 'Only In OSM utca'])
+
+        self.assertEqual(in_both, ['Hamzsabégi út', 'Törökugrató utca', 'Tűzkő utca'])
+
+
 def table_doc_to_string(table: List[List[yattag.doc.Doc]]) -> List[List[str]]:
     """Unwraps an escaped matrix of yattag documents into a string matrix."""
     table_content = []
@@ -680,7 +694,7 @@ class TestRelationBuildRefStreets(unittest.TestCase):
         relation_name = "gazdagret"
         relations = get_relations()
         relation = relations.get_relation(relation_name)
-        ret = relation.build_ref_streets(memory_cache)
+        ret = relation.get_config().build_ref_streets(memory_cache)
         self.assertEqual(ret, ['Törökugrató utca',
                                'Tűzkő utca',
                                'Ref Name 1',
