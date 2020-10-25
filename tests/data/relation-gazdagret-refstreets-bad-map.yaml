@@ -1,0 +1,4 @@
+refstreets:
+  'OSM Name 1': "Ref Name 1"
+  # maps to the same ref name
+  'OSM Name 2': "Ref Name 1"
