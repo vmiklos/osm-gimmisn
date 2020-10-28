@@ -22,6 +22,8 @@ filters:
     show-refstreet: false
 street-filters:
   - Only In Ref Nonsense utca
+osm-street-filters:
+  - Second Only In OSM utca
 refstreets:
   'OSM Name 1': 'Ref Name 1'
   'OSM Name 2': 'Ref Name 2'

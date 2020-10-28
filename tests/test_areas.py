@@ -99,6 +99,7 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
         result_from_overpass += "1\tOSM Name 1\t1\n"
         result_from_overpass += "1\tOSM Name 1\t2\n"
         result_from_overpass += "1\tOnly In OSM utca\t1\n"
+        result_from_overpass += "1\tSecond Only In OSM utca\t1\n"
         expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         relation = relations.get_relation(relation_name)
         relation.get_files().write_osm_housenumbers(result_from_overpass)
@@ -546,8 +547,19 @@ class TestRelationGetAdditionalStreets(test_config.TestCase):
 
         self.assertEqual(only_in_osm, ['Only In OSM utca'])
 
+        # These is filtered out, even if it's OSM-only.
+        osm_street_blacklist = relations.get_relation("gazdagret").get_config().get_osm_street_filters()
+        self.assertEqual(osm_street_blacklist, ['Second Only In OSM utca'])
+
         # Note how OSM Name 1 is mapped to Ref Name 1.
         self.assertEqual(in_both, ['Hamzsabégi út', 'OSM Name 1', 'Törökugrató utca', 'Tűzkő utca'])
+
+    def test_no_osm_street_filters(self) -> None:
+        """Tests when the osm-street-filters key is missing."""
+        relations = get_relations()
+        relation_name = "gh385"
+        relation = relations.get_relation(relation_name)
+        self.assertEqual(relation.get_config().get_osm_street_filters(), [])
 
 
 def table_doc_to_string(table: List[List[yattag.doc.Doc]]) -> List[List[str]]:
