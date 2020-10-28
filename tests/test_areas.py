@@ -145,7 +145,7 @@ class TestRelationGetRefStreetFromOsmStreet(test_config.TestCase):
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         refcounty = relation.get_config().get_refcounty()
-        street = relation.get_ref_street_from_osm_street(street)
+        street = areas.get_ref_street_from_osm_street(relation.get_config(), street)
         self.assertEqual("01", refcounty)
         self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
         self.assertEqual("Budaörsi út", street)
@@ -157,7 +157,7 @@ class TestRelationGetRefStreetFromOsmStreet(test_config.TestCase):
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         refcounty = relation.get_config().get_refcounty()
-        street = relation.get_ref_street_from_osm_street(street)
+        street = areas.get_ref_street_from_osm_street(relation.get_config(), street)
         self.assertEqual("01", refcounty)
         self.assertEqual(["012"], relation.get_config().get_street_refsettlement(street))
         self.assertEqual("Teszt utca", street)
@@ -169,7 +169,7 @@ class TestRelationGetRefStreetFromOsmStreet(test_config.TestCase):
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         refcounty = relation.get_config().get_refcounty()
-        street = relation.get_ref_street_from_osm_street(street)
+        street = areas.get_ref_street_from_osm_street(relation.get_config(), street)
         self.assertEqual("01", refcounty)
         self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
         self.assertEqual("Ref Name 1", street)
@@ -181,7 +181,7 @@ class TestRelationGetRefStreetFromOsmStreet(test_config.TestCase):
         relation_name = "nosuchrelation"
         relation = relations.get_relation(relation_name)
         refcounty = relation.get_config().get_refcounty()
-        street = relation.get_ref_street_from_osm_street(street)
+        street = areas.get_ref_street_from_osm_street(relation.get_config(), street)
         self.assertEqual("01", refcounty)
         self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
         self.assertEqual("OSM Name 1", street)
@@ -193,7 +193,7 @@ class TestRelationGetRefStreetFromOsmStreet(test_config.TestCase):
         relation_name = "empty"
         relation = relations.get_relation(relation_name)
         refcounty = relation.get_config().get_refcounty()
-        street = relation.get_ref_street_from_osm_street(street)
+        street = areas.get_ref_street_from_osm_street(relation.get_config(), street)
         self.assertEqual("01", refcounty)
         self.assertEqual(["011"], relation.get_config().get_street_refsettlement(street))
         self.assertEqual("OSM Name 1", street)
@@ -205,7 +205,7 @@ class TestRelationGetRefStreetFromOsmStreet(test_config.TestCase):
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         refcounty = relation.get_config().get_refcounty()
-        street = relation.get_ref_street_from_osm_street(street)
+        street = areas.get_ref_street_from_osm_street(relation.get_config(), street)
         self.assertEqual("01", refcounty)
         self.assertEqual(["011", "013"], relation.get_config().get_street_refsettlement(street))
         self.assertEqual("Csiki-hegyek utca", street)
@@ -529,7 +529,7 @@ class TestRelationGetMissingStreets(test_config.TestCase):
         relation = relations.get_relation(relation_name)
         only_in_reference, in_both = relation.get_missing_streets()
 
-        # Not that 'Only In Ref Nonsense utca' is missing from this list.
+        # Note that 'Only In Ref Nonsense utca' is missing from this list.
         self.assertEqual(only_in_reference, ['Only In Ref utca'])
 
         self.assertEqual(in_both, ['Hamzsabégi út', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
@@ -544,9 +544,10 @@ class TestRelationGetAdditionalStreets(test_config.TestCase):
         relation = relations.get_relation(relation_name)
         only_in_osm, in_both = relation.get_additional_streets()
 
-        self.assertEqual(only_in_osm, ['OSM Name 1', 'Only In OSM utca'])
+        self.assertEqual(only_in_osm, ['Only In OSM utca'])
 
-        self.assertEqual(in_both, ['Hamzsabégi út', 'Törökugrató utca', 'Tűzkő utca'])
+        # Note how OSM Name 1 is mapped to Ref Name 1.
+        self.assertEqual(in_both, ['Hamzsabégi út', 'OSM Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
 
 def table_doc_to_string(table: List[List[yattag.doc.Doc]]) -> List[List[str]]:

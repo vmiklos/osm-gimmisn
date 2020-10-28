@@ -241,6 +241,27 @@ class RelationConfig:
         return reference[refcounty][refsettlement]
 
 
+def get_ref_street_from_osm_street(relation_config: RelationConfig, osm_street_name: str) -> str:
+    """Maps an OSM street name to a ref street name."""
+    refstreets = relation_config.get_refstreets()
+
+    if osm_street_name in refstreets.keys():
+        return refstreets[osm_street_name]
+
+    return osm_street_name
+
+
+def get_osm_street_from_ref_street(relation_config: RelationConfig, ref_street_name: str) -> str:
+    """Maps a reference street name to an OSM street name."""
+    refstreets = relation_config.get_refstreets()
+    reverse = {v: k for k, v in refstreets.items()}
+
+    if ref_street_name in reverse.keys():
+        return reverse[ref_street_name]
+
+    return ref_street_name
+
+
 class Relation:
     """A relation is a closed polygon on the map."""
     def __init__(
@@ -305,15 +326,6 @@ class Relation:
             invalid_dict[street] = filters[street]["invalid"]
 
         return invalid_dict
-
-    def get_ref_street_from_osm_street(self, osm_street_name: str) -> str:
-        """Maps an OSM street name to a ref street name."""
-        refstreets = self.get_config().get_refstreets()
-
-        if osm_street_name in refstreets.keys():
-            return refstreets[osm_street_name]
-
-        return osm_street_name
 
     def should_show_ref_street(self, osm_street_name: str) -> bool:
         """Decides is a ref street should be shown for an OSM street."""
@@ -397,7 +409,7 @@ class Relation:
         This is serialized to disk by write_ref_housenumbers().
         """
         refcounty = self.get_config().get_refcounty()
-        street = self.get_ref_street_from_osm_street(street)
+        street = get_ref_street_from_osm_street(self.get_config(), street)
         ret: List[str] = []
         for refsettlement in self.get_config().get_street_refsettlement(street):
             if refcounty not in reference.keys():
@@ -467,7 +479,7 @@ class Relation:
         streets_invalid = self.get_street_invalid()
         for osm_street_name in self.get_osm_streets():
             house_numbers: List[util.HouseNumber] = []
-            ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
+            ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
             prefix = ref_street_name + "\t"
             street_invalid: List[str] = []
             if osm_street_name in streets_invalid.keys():
@@ -505,7 +517,7 @@ class Relation:
             osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
             only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
             in_both = util.get_in_both(ref_house_numbers, osm_house_numbers)
-            ref_street_name = self.get_ref_street_from_osm_street(osm_street_name)
+            ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
             street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name))
             if only_in_reference:
                 ongoing_streets.append((street, only_in_reference))
@@ -573,7 +585,7 @@ class Relation:
         """Tries to find missing streets in a relation."""
         reference_streets = self.get_ref_streets()
         street_blacklist = self.get_config().get_street_filters()
-        osm_streets = [self.get_ref_street_from_osm_street(street) for street in self.get_osm_streets()]
+        osm_streets = [get_ref_street_from_osm_street(self.get_config(), street) for street in self.get_osm_streets()]
 
         only_in_reference = util.get_only_in_first(reference_streets, osm_streets)
         only_in_reference = [i for i in only_in_reference if i not in street_blacklist]
@@ -583,11 +595,11 @@ class Relation:
 
     def get_additional_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find additional streets in a relation."""
-        reference_streets = self.get_ref_streets()
+        ref_streets = [get_osm_street_from_ref_street(self.get_config(), street) for street in self.get_ref_streets()]
         osm_streets = self.get_osm_streets()
 
-        only_in_osm = util.get_only_in_first(osm_streets, reference_streets)
-        in_both = util.get_in_both(osm_streets, reference_streets)
+        only_in_osm = util.get_only_in_first(osm_streets, ref_streets)
+        in_both = util.get_in_both(osm_streets, ref_streets)
 
         return only_in_osm, in_both
 
