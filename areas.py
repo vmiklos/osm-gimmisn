@@ -232,6 +232,12 @@ class RelationConfig:
             return cast(List[str], self.__get_property("street-filters"))
         return []
 
+    def get_osm_street_filters(self) -> List[str]:
+        """Gets list of streets which are only in OSM, but have to be filtered out."""
+        if self.__get_property("osm-street-filters"):
+            return cast(List[str], self.__get_property("osm-street-filters"))
+        return []
+
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
         """
         Builds a list of streets from a reference cache.
@@ -597,8 +603,10 @@ class Relation:
         """Tries to find additional streets in a relation."""
         ref_streets = [get_osm_street_from_ref_street(self.get_config(), street) for street in self.get_ref_streets()]
         osm_streets = self.get_osm_streets()
+        osm_street_blacklist = self.get_config().get_osm_street_filters()
 
         only_in_osm = util.get_only_in_first(osm_streets, ref_streets)
+        only_in_osm = [i for i in only_in_osm if i not in osm_street_blacklist]
         in_both = util.get_in_both(osm_streets, ref_streets)
 
         return only_in_osm, in_both

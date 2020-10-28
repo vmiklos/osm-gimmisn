@@ -141,6 +141,29 @@ The yaml format is like this:
   convention). It denotes that you only want to search for streets in this (potentially large)
   relation. Other valid values are `yes` (which is the default) and `no`.
 
+For each reported missing street, the outcomes can be the followings:
+
+- add the missing street to OSM, based on survey
+
+- add a mapping between the reference and OSM name if survey confirms that the name in OSM is
+  correct (`refstreets` key)
+
+- silence the street name if it should have no equivalent in OSM (`street-filters` key)
+
+== Searching for additional streets
+
+The purpose of this check is to detect street names in OSM, which are not in the reference, i.e.
+"additional" is the opposite of "missing".
+
+For each reported additional street, the outcomes can be the followings:
+
+- fix the name of the additional street in OSM, based on survey
+
+- add a mapping between the reference and OSM name if survey confirms that the name in OSM is
+  correct (`refstreets` key)
+
+- silence the street name if it should have no equivalent in the reference (`osm-street-filters` key)
+
 == Advanced topics
 
 Apart from filtering out noise, you can also specify other settings, though these are needed less
@@ -151,6 +174,14 @@ frequently:
   name. The key is the OSM name and the value is the reference name. It's not valid to map multiple
   OSM names to the same reference name, so this has to be a 1:1 mapping. This makes it possible to
   map both ways using the same markup.
+
+- `street-filters`: this key can be used in the root of a relation file, it's used to silence false
+  alarms during the 'missing streets' check when a reference street name should have no OSM street
+  name equivalent.
+
+- `osm-street-filters`: this key can be used in the root of a relation file, it's used to silence false
+  alarms during the 'additional streets' check when a reference street name should have no OSM
+  street name equivalent.
 
 - `refsettlement`: this key can be used for a street. In case the majority of a relation has a given
   `refsettlement` value, but there are a few exceptions, then you can use this markup to override the

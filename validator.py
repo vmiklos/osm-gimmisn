@@ -175,6 +175,7 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
         "refstreets": (dict, validate_refstreets),
         "missing-streets": (str, None),
         "street-filters": (list, validate_street_filters),
+        "osm-street-filters": (list, validate_street_filters),
         "inactive": (bool, None),
         "housenumber-letters": (bool, None),
         "alias": (list, validate_relation_alias),

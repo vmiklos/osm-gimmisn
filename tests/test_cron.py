@@ -180,6 +180,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
         result_from_overpass += "1\tOSM Name 1\t1\n"
         result_from_overpass += "1\tOSM Name 1\t2\n"
         result_from_overpass += "1\tOnly In OSM utca\t1\n"
+        result_from_overpass += "1\tSecond Only In OSM utca\t1\n"
 
         def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
             buf = io.BytesIO()
