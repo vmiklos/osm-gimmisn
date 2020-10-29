@@ -70,7 +70,7 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/update-result"):
             doc.text(_("Update from reference"))
         items.append(doc)
-    elif function == "missing-streets":
+    elif function in ("missing-streets", "additional-streets"):
         # The OSM data source changes much more frequently than the ref one, so add a dedicated link
         # to update OSM streets first.
         doc = yattag.doc.Doc()
@@ -467,6 +467,7 @@ def check_existing_relation(relations: areas.Relations, request_uri: str) -> yat
     prefix = config.Config.get_uri_prefix()
     if not request_uri.startswith(prefix + "/streets/") \
             and not request_uri.startswith(prefix + "/missing-streets/") \
+            and not request_uri.startswith(prefix + "/additional-streets/") \
             and not request_uri.startswith(prefix + "/street-housenumbers/") \
             and not request_uri.startswith(prefix + "/missing-housenumbers/"):
         return doc
