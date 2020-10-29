@@ -420,6 +420,59 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     return doc
 
 
+def handle_additional_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+    # tokens[-1] would be the action
+
+    relation = relations.get_relation(relation_name)
+    osmrelation = relation.get_config().get_osmrelation()
+
+    doc = yattag.doc.Doc()
+    doc.asis(webframe.get_toolbar(relations, "additional-streets", relation_name, osmrelation).getvalue())
+
+    # assume view-result
+    doc.asis(additional_streets_view_result(relations, request_uri).getvalue())
+
+    doc.asis(webframe.get_footer().getvalue())
+    return doc
+
+
+def additional_streets_view_result(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+    relation = relations.get_relation(relation_name)
+
+    doc = yattag.doc.Doc()
+    prefix = config.Config.get_uri_prefix()
+    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+        with doc.tag("div", id="no-osm-streets"):
+            doc.text(_("No existing streets: "))
+            with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
+                doc.text(_("Call Overpass to create"))
+    elif not os.path.exists(relation.get_files().get_ref_streets_path()):
+        with doc.tag("div", id="no-ref-streets"):
+            doc.text(_("No street list: "))
+            with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/update-result"):
+                doc.text(_("Create from reference"))
+    else:
+        # Get "only in OSM" streets.
+        streets, _ignore = relation.get_additional_streets()
+        count = len(streets)
+        streets.sort(key=locale.strxfrm)
+        table = [[util.html_escape(_("Street name"))]]
+        for street in streets:
+            table.append([util.html_escape(street)])
+
+        with doc.tag("p"):
+            doc.text(_("OpenStreetMap additionally has the below {0} streets.").format(str(count)))
+
+        doc.asis(util.html_table_from_list(table).getvalue())
+    return doc
+
+
 def get_last_modified(path: str) -> str:
     """Gets the update date string of a file."""
     return webframe.format_timestamp(get_timestamp(path))
@@ -766,6 +819,7 @@ def our_application_txt(
 HANDLERS = {
     "/streets/": handle_streets,
     "/missing-streets/": handle_missing_streets,
+    "/additional-streets/": handle_additional_streets,
     "/street-housenumbers/": handle_street_housenumbers,
     "/missing-housenumbers/": handle_missing_housenumbers,
     "/housenumber-stats/": webframe.handle_stats,
