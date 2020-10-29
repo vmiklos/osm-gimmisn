@@ -702,6 +702,14 @@ def handle_main_relation(
         doc.text(_("existing streets"))
     row.append(doc)
 
+    if streets != "no":
+        doc = yattag.doc.Doc()
+        with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result"):
+            doc.text(_("additional streets"))
+        row.append(doc)
+    else:
+        row.append(yattag.doc.Doc())
+
     doc = yattag.doc.Doc()
     with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation.get_config().get_osmrelation())):
         doc.text(_("area boundary"))
@@ -729,6 +737,7 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.doc.Doc:
                   util.html_escape(_("Existing house numbers")),
                   util.html_escape(_("Street coverage")),
                   util.html_escape(_("Existing streets")),
+                  util.html_escape(_("Additional streets")),
                   util.html_escape(_("Area boundary"))])
     for relation_name in relations.get_names():
         row = handle_main_relation(relations, filter_for, relation_name)
