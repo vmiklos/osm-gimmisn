@@ -85,10 +85,11 @@ class Street:
     A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
     name differs.
     """
-    def __init__(self, osm_name: str, ref_name: str, show_ref_street: bool = True) -> None:
+    def __init__(self, osm_name: str, ref_name: str = "", show_ref_street: bool = True, osm_id: int = 0) -> None:
         self.__osm_name = osm_name
         self.__ref_name = ref_name
         self.__show_ref_street = show_ref_street
+        self.__osm_id = osm_id
 
     def get_osm_name(self) -> str:
         """Returns the OSM name."""
@@ -97,6 +98,10 @@ class Street:
     def get_ref_name(self) -> str:
         """Returns the reference name."""
         return self.__ref_name
+
+    def get_osm_id(self) -> int:
+        """Returns the OSM (way) id."""
+        return self.__osm_id
 
     def to_html(self) -> yattag.doc.Doc:
         """Writes the street as a HTML string."""
@@ -111,6 +116,20 @@ class Street:
 
     def __repr__(self) -> str:
         return "Street(osm_name=%s, ref_name=%s)" % (self.__osm_name, self.__ref_name)
+
+    def __eq__(self, other: object) -> bool:
+        """OSM id is explicitly non-interesting."""
+        other_street = cast(Street, other)
+        return self.__osm_name == other_street.get_osm_name()
+
+    def __lt__(self, other: object) -> bool:
+        """OSM id is explicitly non-interesting."""
+        other_street = cast(Street, other)
+        return self.__osm_name < other_street.get_osm_name()
+
+    def __hash__(self) -> int:
+        """OSM id is explicitly not interesting."""
+        return hash(self.__osm_name)
 
 
 class HouseNumber:
@@ -690,6 +709,9 @@ def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
     if isinstance(first[0], HouseNumber):
         first_stripped = [re.sub(r"\*$", "", i.get_number()) for i in first]
         second_stripped = [re.sub(r"\*$", "", i.get_number()) for i in second]
+    elif isinstance(first[0], Street):
+        first_stripped = [re.sub(r"\*$", "", i.get_osm_name()) for i in first]
+        second_stripped = [re.sub(r"\*$", "", i.get_osm_name()) for i in second]
     else:
         first_stripped = [re.sub(r"\*$", "", i) for i in first]
         second_stripped = [re.sub(r"\*$", "", i) for i in second]

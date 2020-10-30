@@ -342,14 +342,19 @@ class Relation:
 
         return show_ref_street
 
-    def get_osm_streets(self) -> List[str]:
+    def get_osm_streets(self) -> List[util.Street]:
         """Reads list of streets for an area from OSM."""
-        ret: List[str] = []
+        ret: List[util.Street] = []
         with self.get_files().get_osm_streets_csv_stream() as sock:
-            ret += util.get_nth_column(sock, 1)
+            first = True
+            for row in sock.get_rows():
+                if first:
+                    first = False
+                    continue
+                ret.append(util.Street(osm_id=int(row[0]), osm_name=row[1]))
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
-                ret += util.get_nth_column(sock, 1)
+                ret += [util.Street(i) for i in util.get_nth_column(sock, 1)]
         return sorted(set(ret))
 
     def get_osm_streets_query(self) -> str:
@@ -446,7 +451,7 @@ class Relation:
         """
         memory_caches = util.build_reference_caches(references, self.get_config().get_refcounty())
 
-        streets = self.get_osm_streets()
+        streets = [i.get_osm_name() for i in self.get_osm_streets()]
 
         lst: List[str] = []
         for street in streets:
@@ -483,7 +488,8 @@ class Relation:
                 lines.append(line)
         street_ranges = self.get_street_ranges()
         streets_invalid = self.get_street_invalid()
-        for osm_street_name in self.get_osm_streets():
+        for osm_street in self.get_osm_streets():
+            osm_street_name = osm_street.get_osm_name()
             house_numbers: List[util.HouseNumber] = []
             ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
             prefix = ref_street_name + "\t"
@@ -518,7 +524,8 @@ class Relation:
 
         osm_street_names = self.get_osm_streets()
         all_ref_house_numbers = self.__get_ref_housenumbers()
-        for osm_street_name in osm_street_names:
+        for osm_street in osm_street_names:
+            osm_street_name = osm_street.get_osm_name()
             ref_house_numbers = all_ref_house_numbers[osm_street_name]
             osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
             only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
@@ -591,7 +598,8 @@ class Relation:
         """Tries to find missing streets in a relation."""
         reference_streets = self.get_ref_streets()
         street_blacklist = self.get_config().get_street_filters()
-        osm_streets = [get_ref_street_from_osm_street(self.get_config(), street) for street in self.get_osm_streets()]
+        osm_streets = [get_ref_street_from_osm_street(self.get_config(), street.get_osm_name())
+                       for street in self.get_osm_streets()]
 
         only_in_reference = util.get_only_in_first(reference_streets, osm_streets)
         only_in_reference = [i for i in only_in_reference if i not in street_blacklist]
@@ -599,17 +607,17 @@ class Relation:
 
         return only_in_reference, in_both
 
-    def get_additional_streets(self) -> Tuple[List[str], List[str]]:
+    def get_additional_streets(self) -> Tuple[List[util.Street], List[str]]:
         """Tries to find additional streets in a relation."""
         ref_streets = [get_osm_street_from_ref_street(self.get_config(), street) for street in self.get_ref_streets()]
+        ref_street_objs = [util.Street(i) for i in ref_streets]
         osm_streets = self.get_osm_streets()
         osm_street_blacklist = self.get_config().get_osm_street_filters()
 
-        only_in_osm = util.get_only_in_first(osm_streets, ref_streets)
-        only_in_osm = [i for i in only_in_osm if i not in osm_street_blacklist]
-        in_both = util.get_in_both(osm_streets, ref_streets)
+        only_in_osm = util.get_only_in_first(osm_streets, ref_street_objs)
+        only_in_osm = [i for i in only_in_osm if i.get_osm_name() not in osm_street_blacklist]
 
-        return only_in_osm, in_both
+        return only_in_osm, []
 
     def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
         """Calculate a write stat for the street coverage of a relation."""

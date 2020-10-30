@@ -35,7 +35,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         """Tests the happy path."""
         relations = get_relations()
         relation = relations.get_relation("test")
-        actual = relation.get_osm_streets()
+        actual = [i.get_osm_name() for i in relation.get_osm_streets()]
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
@@ -43,7 +43,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         """Tests the case when we have streets, but no house numbers."""
         relations = get_relations()
         relation = relations.get_relation("ujbuda")
-        actual = relation.get_osm_streets()
+        actual = [i.get_osm_name() for i in relation.get_osm_streets()]
         expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
         self.assertEqual(actual, expected)
 
@@ -543,16 +543,13 @@ class TestRelationGetAdditionalStreets(test_config.TestCase):
         relations = get_relations()
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        only_in_osm, in_both = relation.get_additional_streets()
+        only_in_osm, _in_both = relation.get_additional_streets()
 
-        self.assertEqual(only_in_osm, ['Only In OSM utca'])
+        self.assertEqual(only_in_osm, [util.Street('Only In OSM utca')])
 
         # These is filtered out, even if it's OSM-only.
         osm_street_blacklist = relations.get_relation("gazdagret").get_config().get_osm_street_filters()
         self.assertEqual(osm_street_blacklist, ['Second Only In OSM utca'])
-
-        # Note how OSM Name 1 is mapped to Ref Name 1.
-        self.assertEqual(in_both, ['Hamzsabégi út', 'OSM Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
     def test_no_osm_street_filters(self) -> None:
         """Tests when the osm-street-filters key is missing."""
@@ -780,6 +777,7 @@ class TestRelations(test_config.TestCase):
             "empty",
             "gazdagret",
             "gellerthegy",
+            "gh611",
             "inactiverelation",
             "nosuchrefcounty",
             "nosuchrefsettlement",
@@ -790,7 +788,7 @@ class TestRelations(test_config.TestCase):
         self.assertEqual(relations.get_names(), expected_relation_names)
         self.assertTrue("inactiverelation" not in relations.get_active_names())
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
-        self.assertEqual([13, 42, 42, 43, 44, 45, 66, 221998, 2702687, 2713748], osmids)
+        self.assertEqual([13, 42, 42, 43, 44, 45, 66, 221998, 2702687, 2713748, 2713748], osmids)
         self.assertEqual("only", relations.get_relation("ujbuda").get_config().should_check_missing_streets())
 
         relations.activate_all(True)

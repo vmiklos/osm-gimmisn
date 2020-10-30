@@ -461,10 +461,19 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
         # Get "only in OSM" streets.
         streets, _ignore = relation.get_additional_streets()
         count = len(streets)
-        streets.sort(key=locale.strxfrm)
-        table = [[util.html_escape(_("Street name"))]]
+        streets.sort(key=lambda street: locale.strxfrm(street.get_osm_name()))
+        table = [[util.html_escape(_("Identifier")), util.html_escape(_("Street name"))]]
         for street in streets:
-            table.append([util.html_escape(street)])
+            cell = yattag.doc.Doc()
+            if street.get_osm_id() > 0:
+                href = "https://www.openstreetmap.org/way/{}".format(street.get_osm_id())
+                with cell.tag("a", href=href, target="_blank"):
+                    cell.text(str(street.get_osm_id()))
+            cells = [
+                cell,
+                util.html_escape(street.get_osm_name()),
+            ]
+            table.append(cells)
 
         with doc.tag("p"):
             doc.text(_("OpenStreetMap additionally has the below {0} streets.").format(str(count)))
