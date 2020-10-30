@@ -568,6 +568,12 @@ class TestAdditionalStreets(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_street_from_housenr_well_formed(self) -> None:
+        """Tests if the output is well-formed when the street name comes from a housenr."""
+        root = self.get_dom_for_path("/additional-streets/gh611/view-result")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
         relations = get_relations()
