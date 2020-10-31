@@ -2,8 +2,5 @@ missing-streets: 'no'
 filters: {}
 source: survey
 refstreets:
-  'Hunyadi János utca': 'Hunyadi János P utca'
-  'Kossuth Lajos utca': 'Kossuth Lajos P utca'
-  'Petőfi Sándor utca': 'Petőfi Sándor P utca'
   'Kálám-forrás köz': 'Kálmán-forrás köz'
 inactive: true

@@ -19,8 +19,4 @@ filters:
   Wesselényi Miklós utca:
     invalid: ['44', '45']
 source: survey
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Pataksor utca / Bocskai István sor': 'Bocskai István sor'
-  'Ménesvölgyi utca': 'Méhesvölgyi utca'
 inactive: true
