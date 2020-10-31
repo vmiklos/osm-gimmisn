@@ -21,7 +21,7 @@ def main() -> None:
 
     relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)
-    only_in_osm, _ = relation.get_additional_streets()
+    only_in_osm = relation.get_additional_streets()
 
     for street in only_in_osm:
         print(street)

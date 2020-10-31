@@ -459,7 +459,7 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
                 doc.text(_("Create from reference"))
     else:
         # Get "only in OSM" streets.
-        streets, _ignore = relation.get_additional_streets()
+        streets = relation.get_additional_streets()
         count = len(streets)
         streets.sort(key=lambda street: locale.strxfrm(street.get_osm_name()))
         table = [[util.html_escape(_("Identifier")), util.html_escape(_("Street name"))]]
