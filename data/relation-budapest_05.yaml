@@ -41,7 +41,7 @@ filters:
     ranges:
       - {start: '5', end: '9'}
       - {start: '15', end: '23'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '14'}
   Dorottya utca:
     # 10: a hotel oldala, innen nincs szám
     invalid: ['10']
@@ -94,6 +94,9 @@ filters:
       - {start: '2', end: '14'}
   Kossuth Lajos tér:
     interpolation: all
+  Kozma Ferenc utca:
+    # páratlan oldal a másik utcákról számozódik
+    invalid: ['7']
   Magyar utca:
     ranges:
       - {start: '1', end: '5'}
