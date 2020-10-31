@@ -543,7 +543,7 @@ class TestRelationGetAdditionalStreets(test_config.TestCase):
         relations = get_relations()
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        only_in_osm, _in_both = relation.get_additional_streets()
+        only_in_osm = relation.get_additional_streets()
 
         self.assertEqual(only_in_osm, [util.Street('Only In OSM utca')])
 

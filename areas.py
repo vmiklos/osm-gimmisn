@@ -607,7 +607,7 @@ class Relation:
 
         return only_in_reference, in_both
 
-    def get_additional_streets(self) -> Tuple[List[util.Street], List[str]]:
+    def get_additional_streets(self) -> List[util.Street]:
         """Tries to find additional streets in a relation."""
         ref_streets = [get_osm_street_from_ref_street(self.get_config(), street) for street in self.get_ref_streets()]
         ref_street_objs = [util.Street(i) for i in ref_streets]
@@ -617,7 +617,7 @@ class Relation:
         only_in_osm = util.get_only_in_first(osm_streets, ref_street_objs)
         only_in_osm = [i for i in only_in_osm if i.get_osm_name() not in osm_street_blacklist]
 
-        return only_in_osm, []
+        return only_in_osm
 
     def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
         """Calculate a write stat for the street coverage of a relation."""
