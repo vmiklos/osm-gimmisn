@@ -92,6 +92,9 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '14'}
+  Kígyó utca:
+    # páraltan a hotel oldala
+    invalid: ['5']
   Kossuth Lajos tér:
     interpolation: all
   Kozma Ferenc utca:
