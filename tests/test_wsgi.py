@@ -570,7 +570,10 @@ class TestAdditionalStreets(TestWsgi):
 
     def test_street_from_housenr_well_formed(self) -> None:
         """Tests if the output is well-formed when the street name comes from a housenr."""
-        root = self.get_dom_for_path("/additional-streets/gh611/view-result")
+        def mock_check_existing_relation(_relations: areas.Relations, _request_uri: str) -> yattag.doc.Doc:
+            return yattag.doc.Doc()
+        with unittest.mock.patch('webframe.check_existing_relation', mock_check_existing_relation):
+            root = self.get_dom_for_path("/additional-streets/gh611/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
