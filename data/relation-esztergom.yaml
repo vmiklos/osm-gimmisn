@@ -16,7 +16,6 @@ street-filters:
   - Cigánykút dűlő
   - Csapási dűlő
   - Dankhegy dűlő
-  - Döbönkút dűlő
   - Duna dűlő
   - Kerektó dűlő
   - Kettőspince dűlő
@@ -24,7 +23,6 @@ street-filters:
   - Kiskuria dűlő
   - Laposi dűlő
   - Mexikó dűlő
-  - Nixbród dűlő
   - Öreg-kúria dűlő
   - Szamárhegy dűlő
   - Szt. Jánoskút dűlő
@@ -35,35 +33,16 @@ street-filters:
   - Körtélyes utca  # Körtvélyes utca, dupla
   - Vadvirág köz  # Vadvirág utca néven fut, dupla
   # AMP utca
-  # Démusz-villa utca - Kertváros, Temesvári utca végén
   # Palatinus utca - Kassai utca folytatás, most Pala-part néven fut
-  # Zágon utca - ???
-  # Pilisszentlékek, dupla nem mappelhető
-  - Hunyadi János P utca
-  - Kossuth Lajos P utca
-  - Petőfi Sándor P utca
+  # városhatár
+  - Pataksor utca / Bocskai István sor
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Pataksor utca / Bocskai István sor': 'Bocskai István sor'
-  'Bajcsy-Zsilinszky Endre út': 'Bajcsy-Zsilinszky út'
-  'Bajor Ágoston utca': 'Bajor Ágost utca'
-  'Bercsényi Miklós utca': 'Bercsényi utca'
   'Csendesvölgy utca': 'Csendes völgy utca'
   'Hegytető utca': 'Hegy-tető utca'
-  'Julianus barát utca': 'Juliánus barát utca'
   'Kateri dűlő': 'Kateri-dűlő'
   'Kenderesi utca': 'Kenderesi út'
-  'Királyszíve utca': 'Királyszive utca'
   'Kis-Duna sétány': 'Kis Duna sétány'
-  'Klapka György tér': 'Klapka tér'
   'Kálám-forrás köz': 'Kálmán-forrás köz'
-  'Lahner György utca': 'Láhner György utca'
-  'Mindszenty hercegprímás tere': 'Mindszenty hercegprímás tér'
-  'Ménesvölgyi utca': 'Méhesvölgyi utca'
-  'Nagy Duna sétány': 'Nagy-Duna sétány'
-  'Nyárfa köz': 'Nyárfaköz utca'
-  'Oltóssy Pál utca': 'Oltósy Pál utca'
   'Rudnai Molnár István utca': 'Rudinai Molnár István utca'
   'Siszler utca': 'Siszler út'
-  'Szent Tamás utca': 'Szenttamás utca'
-  'Zsellér dűlő': 'Zsellértag dűlő'
