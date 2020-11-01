@@ -446,6 +446,10 @@ miskolctapolca:
     osmrelation: 6848843  # 3519 Miskolc
     refcounty: "05"
     refsettlement: "202"
+telkibanya:
+    osmrelation: 1280993
+    refcounty: "05"
+    refsettlement: "313"
 # 07 - Fejér megye
 gardony:
     osmrelation: 1418516  # Gárdony egész
