@@ -1,0 +1,15 @@
+missing-streets: 'yes'
+# street-filters:
+refstreets:
+  'Csokonai utca': 'Csokonai út'
+  'Damjanich utca': 'Damjanich út'
+  'Dózsa György utca': 'Dózsa György út'
+  'Fürdő utca': 'Fürdő út'
+  'Kossuth utca': 'Kossuth út'
+  'Múzeum utca': 'Múzeum út'
+  'Nagy utca': 'Nagy út'
+  'Petőfi utca': 'Petőfi út'
+  'Rákóczi utca': 'Rákóczi út'
+  'Szabadság utca': 'Szabadság út'
+source: survey
+inactive: false
