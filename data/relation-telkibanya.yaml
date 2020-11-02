@@ -1,4 +1,8 @@
 missing-streets: 'yes'
+filters:
+  Nagy út:
+    # páros 42-ig megy
+    invalid: ['74']
 # street-filters:
 refstreets:
   'Csokonai utca': 'Csokonai út'
