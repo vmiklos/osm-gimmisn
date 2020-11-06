@@ -354,7 +354,8 @@ class Relation:
                 ret.append(util.Street(osm_id=int(row[0]), osm_name=row[1]))
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
-                ret += [util.Street(i) for i in util.get_nth_column(sock, 1)]
+                # Street name of house numbers without street name is not interesting.
+                ret += [util.Street(i) for i in util.get_nth_column(sock, 1) if i]
         return sorted(set(ret))
 
     def get_osm_streets_query(self) -> str:
