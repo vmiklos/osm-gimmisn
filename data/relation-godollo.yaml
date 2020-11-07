@@ -4,11 +4,11 @@ street-filters:
   - Szadai utca  # Rossze helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
   # Dűlők/tanyák
   # - Bonoka tanya
-  # - Babat puszta
+  - Babat puszta # szerepel Babatpuszta néven
   # - Gulyás tanya
   # - Küttel tanya
-  # - Peres dűlő
-  # - Szabó tanya
+   - Peres dűlő # szerepel Peres néven
+   - Szabó tanya # szerepel tanyaként
   # Nem igazi utcák / Hrsz
   - 26 MÁV őrház
   - 9 MÁV őrház
@@ -31,9 +31,9 @@ street-filters:
   - Repülőtér
   - Vágóhíd
   # Dupla
-  - Palotakert
+  - Palota-kert # Az OSM-ben a Palotakert alakú név szerepel
   # Területként
-  # - Száritó puszta
+  - Száritó puszta # szerepel Szárítópusztaként
   # Hiányzó
   # - Bojtorján utca - Kankalin utca folytatása
   # - Raktár utca - HÉV és a vasút között, Palotakert megállónál
@@ -61,6 +61,7 @@ refstreets:
   'Kőrösi Csoma Sándor utca': 'Kőrösi Csoma utca'
   'Petőfi Sándor utca': 'Petőfi Sándor út'
   'Pitypang út': 'Pitypang utca'
+  'Podmaniczky Frigyes utca': 'Podmaniczky utca'
   'Premontrei út': 'Premontrei utca'
   'Semmelweis Ignác utca': 'Semmelweis utca'
   'Sík Sándor utca': 'Sik Sándor utca'
