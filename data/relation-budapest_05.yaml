@@ -72,6 +72,9 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
+  Honvéd utca:
+    # 4 = Báthory utca 5
+    invalid: ['4']
   Honvéd tér:
     interpolation: all
   Irányi utca:
@@ -123,6 +126,9 @@ filters:
     # 3 = Mérleg utca
     # 10 = Zrínyi utca 5
     invalid: ['3', '10']
+  Nagy Ignác utca:
+    # 17 = Stollár Béla utca 
+    invalid: ['17']
   Nyáry Pál utca:
     # 2 = templom oldala, Váci utca 47/b
     invalid: ['2']
