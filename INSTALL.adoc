@@ -39,7 +39,6 @@ This makes sure that you will have exactly the same version of the depdendencies
 
 ----
 pip install -r requirements.txt
-nvm install
 npm install
 ----
 
