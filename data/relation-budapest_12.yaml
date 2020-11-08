@@ -71,9 +71,11 @@ filters:
       - {start: '2', end: '8'}
   Denevér út:
     # 19-31 szakaszon nincs ház
+    # 36 után 30 jön
     # 1-5 nincs paratlan oldalon hazszam
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '2', end: '30'}
+      - {start: '36', end: '98'}
       - {start: '7', end: '17'}
   Derkovits utca:
     ranges:
