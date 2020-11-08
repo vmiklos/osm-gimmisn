@@ -127,7 +127,7 @@ filters:
     # 10 = Zrínyi utca 5
     invalid: ['3', '10']
   Nagy Ignác utca:
-    # 17 = Stollár Béla utca 
+    # 17 = Stollár Béla utca
     invalid: ['17']
   Nyáry Pál utca:
     # 2 = templom oldala, Váci utca 47/b
