@@ -2,6 +2,8 @@ missing-streets: 'yes'
 filters:
   Dózsa György utca:
     invalid: ['853']
+  Hegyi út:
+    invalid: ['58', '100']
   Nagy út:
     # páros 42-ig megy
     invalid: ['74']
