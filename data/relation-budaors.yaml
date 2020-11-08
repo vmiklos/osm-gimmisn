@@ -10,6 +10,9 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '8'}
+  Alma utca:
+    # 3 után 15 közte 2 bódé, nincs táblázva
+    invalid: ['5', '7']
   Aradi utca:
     # 2 nincs kiírva
     # 4,6-ost lebontották, 4a, 4b lett helyette
@@ -74,6 +77,10 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '10'}
+  Liliom utca:
+    # 30 Avar utca 2-re táblázva, de a szomszéd szerint az a 30
+    # 36 után 40
+    invalid: ['38']
   Mozdony utca:
     ranges:
       - {start: '1', end: '19'}
@@ -115,6 +122,12 @@ filters:
       - {start: '2', end: '26'}
   Szivárvány utca:
     invalid: ['9', '40', '58', '135']
+  Szőlő köz:
+    # 1 után 7 jön
+    invalid: ['3', '5']
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '6'}
   Templom tér:
     interpolation: all
     ranges:
@@ -147,5 +160,5 @@ refstreets:
   Munkácsy Mihály utca: Munkácsy utca
   Petőfi Sándor utca: Petőfi utca
   Ribiszke utca: Ribizke utca  # Egyik oldalon kézzel írt tábla van csak Ribiszke utca, másik oldalon Ribizke utca 2-12
-  Széchenyi utca: Széchenyi István utca
+  Széchenyi utca: Széchenyi István utca  # utcatábla Széchenyi utca
 inactive: false
