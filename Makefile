@@ -59,7 +59,7 @@ YAML_SAFE_OBJECTS = \
 # These are well-formed.
 YAML_OBJECTS = \
 	$(YAML_SAFE_OBJECTS) \
-	.travis.yml \
+	.github/workflows/tests.yml \
 	data/refcounty-names.yaml \
 	data/refsettlement-names.yaml \
 
@@ -86,7 +86,7 @@ all: version.py data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py
-	rm -f $(patsubst %.yaml,%.yamllint,$(filter-out .travis.yml,$(YAML_OBJECTS)))
+	rm -f $(patsubst %.yaml,%.yamllint,$(filter-out .github/workflows/tests.yml,$(YAML_OBJECTS)))
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
