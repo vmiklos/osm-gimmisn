@@ -94,8 +94,10 @@ filters:
       - {start: '132', end: '132'}
       - {start: '136', end: '136'}
   Szőlő köz:
+    # 1 után 7 jön
+    invalid: ['3', '5']
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '13'}
   Szegfű utca:
     # páratlan belváros, páros kertváros, kivéve 26
     ranges:
@@ -121,13 +123,6 @@ filters:
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  Aszú utca: Aszu utca
-  Írisz utca: Irisz utca
-  Jókai Mór utca: Jókai utca  # OSM helyes
-  Kamilla utca: Kamilla köz
   Munkácsy Mihály utca: Munkácsy utca
-  Odvashegyi út: Odvas-hegy utca
   Petőfi Sándor utca: Petőfi utca
-  Ribiszke utca: Ribizke utca
-  Széchenyi utca: Széchenyi István utca
 inactive: true
