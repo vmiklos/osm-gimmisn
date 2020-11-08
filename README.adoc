@@ -1,6 +1,6 @@
 = osm-gimmisn
 
-image:https://travis-ci.org/vmiklos/osm-gimmisn.svg?branch=master["Build Status", link="https://travis-ci.org/vmiklos/osm-gimmisn"]
+image:https://github.com/vmiklos/osm-gimmisn/workflows/Tests/badge.svg["Build Status", link="https://github.com/vmiklos/osm-gimmisn/actions"]
 image:https://tokei.rs/b1/github/vmiklos/osm-gimmisn?category=code["LoC"]
 
 Finds objects missing from the OSM DB. As a start, it finds missing streets and house numbers based
