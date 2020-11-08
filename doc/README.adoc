@@ -241,6 +241,36 @@ housenumber ranges in a sensible way. Here are some examples:
 
 See `tests/test_areas.py` for even more details.
 
+=== Automerge workflow for committers
+
+If you contribute to osm-gimmisn frequently, then you'll likely get self-review permissions granted.
+Once that's the case you can use this workflow to submit your changes in a fire & forget way, from
+command-line:
+
+- Once:
+  https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account[set up your ssh key]
+
+- Once: `git clone git@github.com:vmiklos/osm-gimmisn`
+
+- Once: `cd osm-gimmisn`
+
+- For each PR: this can be repeated in case you want multiple commits in a single PR or CI finds an
+  error:
+
+----
+git fetch --prune # if the PR has been merged on the server, then the remote private/$USER/master has been deleted, we learn about that here
+git rebase origin/master # we work on a fresh master
+... hack hack hack ...
+git commit -a -m "data: blabla"
+git show # optional but recommended: review your changes, "q" quits from less
+git push origin master:private/$USER/master
+----
+
+- After this, open the PR https://github.com/vmiklos/osm-gimmisn/pull/new/private/$USER/master[from
+  your browser]
+
+- Agree to create the PR, put the `automerge` label on it.
+
 == Reporting issues
 
 You can file a new issue (bugreport, feature request) at https://github.com/vmiklos/osm-gimmisn/issues/new[GitHub]. Please always describe a single problem.
