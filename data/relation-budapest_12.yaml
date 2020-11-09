@@ -323,6 +323,10 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
+  Deres utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '14'}
   Sötétvágás utca:
     # No housenumbers here.
     ranges: []
