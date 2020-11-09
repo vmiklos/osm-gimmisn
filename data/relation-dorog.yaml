@@ -1,14 +1,28 @@
 missing-streets: 'yes'
 filters:
+  Kálvária utca:
+    invalid: ['69']
   Mária utca:
     show-refstreet: false
+  Fáy András lakótelep:
+    # 1-15
+    invalid: ['20']
+  Schmidt Sándor lakótelep:
+    # 1-50
+    invalid: ['122']
+  Zrínyi lakótelep:
+    # 1,2,3
+    invalid: ['5', '15']
 street-filters:
   - 27-sz vasúti őrház
   - Máv munkásszálló
   - Pataksor utca  # Eszergom / Dorog határ: Pataksor utca / Bocskai István sor
 refstreets:
+  'Eötvös József utca': 'Eötvös utca'
   'Erőmű lakótelep': 'Erőmü lakótelep'
   'Mária utca': 'Mária út'  # táblán Mária utca
+  'Martinovics Ignác utca': 'Martinovics utca'  # táblák vegyesen
+  'Radnóti Miklós utca': 'Radnóti utca'  # tábla Radnóti Miklós utca
   'Schmidt Villa': 'Schmidt villa kert'
   'Tömedékakna': 'Tömedék akna'
 source: survey
