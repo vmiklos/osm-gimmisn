@@ -24,7 +24,4 @@ jobs:
           node-version: 12.x
       - name: Run make check
         run: |
-          sudo apt-get install gettext
-          pip install -r requirements.txt
-          npm install
-          make check
+          tools/ci-build.sh
