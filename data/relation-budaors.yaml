@@ -1,5 +1,9 @@
 missing-streets: 'yes'
 filters:
+  Acél utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '6'}
   Avar utca:
     # újraszámozva, keveredik páros/páratlan
     ranges:
@@ -12,7 +16,10 @@ filters:
       - {start: '2', end: '8'}
   Alma utca:
     # 3 után 15 közte 2 bódé, nincs táblázva
-    invalid: ['5', '7']
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '15', end: '35'}
+      - {start: '2', end: '30'}
   Aradi utca:
     # 2 nincs kiírva
     # 4,6-ost lebontották, 4a, 4b lett helyette
@@ -81,6 +88,9 @@ filters:
     # 30 Avar utca 2-re táblázva, de a szomszéd szerint az a 30
     # 36 után 40
     invalid: ['38']
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '44'}
   Mozdony utca:
     ranges:
       - {start: '1', end: '19'}
@@ -102,6 +112,10 @@ filters:
       - {start: '1', end: '29'}
   Patkó utca:
     invalid: ['29']
+  Réz utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '16'}
   Rózsa utca:
     ranges:
       - {start: '3', end: '29'}
