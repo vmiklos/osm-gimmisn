@@ -4,9 +4,16 @@ filters:
     invalid: ['69']
   Mária utca:
     show-refstreet: false
+  Erőmű lakótelep:
+    # 1-20
+    invalid: ['28']
   Fáy András lakótelep:
     # 1-15
     invalid: ['20']
+  Puskin utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '24', end: '26'}
   Schmidt Sándor lakótelep:
     # 1-50
     invalid: ['122']
@@ -22,7 +29,7 @@ refstreets:
   'Erőmű lakótelep': 'Erőmü lakótelep'
   'Mária utca': 'Mária út'  # táblán Mária utca
   'Martinovics Ignác utca': 'Martinovics utca'  # táblák vegyesen
-  'Radnóti Miklós utca': 'Radnóti utca'  # tábla Radnóti Miklós utca
+  'Radnóti Miklós utca': 'Radnóti utca'  # táblák vegyesen
   'Schmidt Villa': 'Schmidt villa kert'
   'Tömedékakna': 'Tömedék akna'
 source: survey
