@@ -1,9 +1,13 @@
 missing-streets: 'yes'
 filters:
-  Kálvária utca:
-    invalid: ['69']
-  Mária utca:
-    show-refstreet: false
+  Baross Gábor lakótelep:
+    invalid: ['35', '36']
+  Borbála lakótelep:
+    # iskola régi címe 31
+    # az orvosi rendelő 30 (Bányász körönd 30 néven is fut, azt használjuk)
+    interpolation: all
+    ranges:
+      - {start: '1', end: '8'}
   Erőmű lakótelep:
     # 1-20
     invalid: ['28']
@@ -13,6 +17,10 @@ filters:
   Kálvária köz:
     ranges:
       - {start: '10', end: '22'}
+  Kálvária utca:
+    invalid: ['69']
+  Mária utca:
+    show-refstreet: false
   Puskin utca:
     ranges:
       - {start: '1', end: '99'}
