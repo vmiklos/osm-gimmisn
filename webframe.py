@@ -126,6 +126,10 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
             doc.text("txt")
         doc.text(")")
         items.append(doc)
+        doc = yattag.doc.Doc()
+        with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result"):
+            doc.text(_("Additional streets"))
+        items.append(doc)
 
 
 def fill_existing_header_items(streets: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
@@ -183,16 +187,17 @@ def get_toolbar(
         with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation_osmid)):
             doc.text(_("Area boundary"))
         items.append(doc)
+    else:
+        # These are on the main page only.
+        doc = yattag.doc.Doc()
+        with doc.tag("a", href=prefix + "/housenumber-stats/hungary/"):
+            doc.text(_("Statistics"))
+        items.append(doc)
 
-    doc = yattag.doc.Doc()
-    with doc.tag("a", href=prefix + "/housenumber-stats/hungary/"):
-        doc.text(_("Statistics"))
-    items.append(doc)
-
-    doc = yattag.doc.Doc()
-    with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
-        doc.text(_("Documentation"))
-    items.append(doc)
+        doc = yattag.doc.Doc()
+        with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
+            doc.text(_("Documentation"))
+        items.append(doc)
 
     doc = yattag.doc.Doc()
     with doc.tag("div", id="toolbar"):
