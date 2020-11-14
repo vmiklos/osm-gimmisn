@@ -176,11 +176,10 @@ def get_toolbar(
     if relation_name:
         fill_existing_header_items(streets, relation_name, items)
 
-    if function in ("missing-housenumbers", "missing-streets"):
-        doc = yattag.doc.Doc()
-        with doc.tag("a", href="https://overpass-turbo.eu/"):
-            doc.text(_("Overpass turbo"))
-        items.append(doc)
+    doc = yattag.doc.Doc()
+    with doc.tag("a", href="https://overpass-turbo.eu/"):
+        doc.text(_("Overpass turbo"))
+    items.append(doc)
 
     if relation_osmid:
         doc = yattag.doc.Doc()
