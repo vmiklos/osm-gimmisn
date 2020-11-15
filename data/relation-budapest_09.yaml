@@ -1,5 +1,21 @@
 missing-streets: 'yes'
 filters:
+  Boráros tér:
+    interpolation: all
+  Fővám tér:
+    interpolation: all
+  Kálvin tér:
+    interpolation: all
+    # 10 = Üllői út 1. Aegon
+    invalid: ['10']
+  Közraktár utca:
+    # 18 = Kinizsi utca 1-7. Lónyay Utcai Református Gimnázium és Kollégium
+    invalid: ['18']
+  Lónyay utca:
+    ranges:
+      - {start: '1', end: '51'}
+      - {start: '2', end: '8'}
+      - {start: '12', end: '64'}
   Pápay István utca:
     ranges:
       - {start: '1', end: '7'}
