@@ -1,5 +1,10 @@
 missing-streets: 'no'
 filters:
+  # Belső-Ferencváros elhatárolása
+  Boráros tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '4'}
   Ferenc körút:
     ranges:
       - {start: '2', end: '44'}
@@ -10,5 +15,27 @@ filters:
   Üllői út:
     ranges:
       - {start: '1', end: '43'}
+  # Kerület szintű szűrők
+  Kálvin tér:
+    interpolation: all
+    # 10 = Üllői út 1. Aegon
+    invalid: ['10']
+  Közraktár utca:
+    # 18 = Kinizsi utca 1-7 Lónyay Utcai Református Gimnázium és Kollégium
+    invalid: ['18']
+  Lónyay utca:
+    ranges:
+      - {start: '1', end: '51'}
+      - {start: '2', end: '8'}
+      - {start: '12', end: '64'}
+  Fővám tér:
+    interpolation: all
+    ranges:
+      - {start: '7', end: '9'}
+      - {start: '13', end: '15'}
+  Pipa utca:
+    # páratlan oldal a csarnok: Vámház körút 1-3
+    ranges:
+      - {start: '2', end: '6'}
 source: survey
 inactive: true
