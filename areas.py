@@ -101,6 +101,14 @@ class RelationFiles:
         """Opens the street percent file of a relation."""
         return cast(TextIO, open(self.get_streets_percent_path(), mode=mode))
 
+    def get_streets_additional_count_path(self) -> str:
+        """Builds the file name of the street additional count file of a relation."""
+        return os.path.join(self.__workdir, "%s-additional-streets.count" % self.__name)
+
+    def get_streets_additional_count_stream(self, mode: str) -> TextIO:
+        """Opens the street additional count file of a relation."""
+        return cast(TextIO, open(self.get_streets_additional_count_path(), mode=mode))
+
 
 class RelationConfig:
     """A relation configuration comes directly from static data, not a result of some external query."""
@@ -621,7 +629,7 @@ class Relation:
         return only_in_osm
 
     def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
-        """Calculate a write stat for the street coverage of a relation."""
+        """Calculate and write stat for the street coverage of a relation."""
         todo_streets, done_streets = self.get_missing_streets()
         streets = []
         for street in todo_streets:
@@ -638,6 +646,16 @@ class Relation:
             stream.write(percent)
 
         return todo_count, done_count, percent, streets
+
+    def write_additional_streets(self) -> List[util.Street]:
+        """Calculate aand write stat for the unexpected street coverage of a relation."""
+        additional_streets = self.get_additional_streets()
+
+        # Write the count to a file, so the index page show it fast.
+        with self.get_files().get_streets_additional_count_stream("w") as stream:
+            stream.write(str(len(additional_streets)))
+
+        return additional_streets
 
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
