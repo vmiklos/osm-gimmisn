@@ -564,6 +564,28 @@ def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc
     return doc, "0"
 
 
+def handle_main_street_additional_count(relation: areas.Relation) -> yattag.doc.Doc:
+    """Handles the street additional count part of the main page."""
+    prefix = config.Config.get_uri_prefix()
+    url = prefix + "/additional-streets/" + relation.get_name() + "/view-result"
+    additional_count = ""
+    if os.path.exists(relation.get_files().get_streets_additional_count_path()):
+        additional_count = util.get_content(relation.get_files().get_streets_additional_count_path())
+
+    doc = yattag.doc.Doc()
+    if additional_count:
+        date = get_last_modified(relation.get_files().get_streets_additional_count_path())
+        with doc.tag("strong"):
+            with doc.tag("a", href=url, title=_("updated") + " " + date):
+                doc.text(additional_count)
+        return doc
+
+    with doc.tag("strong"):
+        with doc.tag("a", href=url):
+            doc.text(_("additional streets"))
+    return doc
+
+
 def filter_for_everything(_complete: bool, _relation: areas.Relation) -> bool:
     """Does not filter out anything."""
     return True
@@ -712,10 +734,7 @@ def handle_main_relation(
     row.append(doc)
 
     if streets != "no":
-        doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result"):
-            doc.text(_("additional streets"))
-        row.append(doc)
+        row.append(handle_main_street_additional_count(relation))
     else:
         row.append(yattag.doc.Doc())
 
