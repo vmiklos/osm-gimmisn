@@ -7,7 +7,7 @@ filters:
     # az orvosi rendelő 30 (Bányász körönd 30 néven is fut, azt használjuk)
     interpolation: all
     ranges:
-      - {start: '1', end: '7'}
+      - {start: '1', end: '8'}
   Erőmű lakótelep:
     # 1-20
     invalid: ['28']
