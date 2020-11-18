@@ -162,6 +162,30 @@ class TestUpdateMissingStreets(test_config.TestCase):
         self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "gellerthegy-streets.percent")))
 
 
+class TestUpdateAdditionalStreets(test_config.TestCase):
+    """Tests update_additional_streets()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = get_relations()
+        for relation_name in relations.get_active_names():
+            # gellerthegy is streets=no
+            if relation_name not in ("gazdagret", "gellerthegy"):
+                relations.get_relation(relation_name).get_config().set_active(False)
+        path = os.path.join(relations.get_workdir(), "gazdagret-additional-streets.count")
+        expected = "1"
+        if os.path.exists(path):
+            util.get_content(path)
+            os.unlink(path)
+        cron.update_additional_streets(relations, update=True)
+        mtime = os.path.getmtime(path)
+        cron.update_additional_streets(relations, update=False)
+        self.assertEqual(os.path.getmtime(path), mtime)
+        actual = util.get_content(path)
+        self.assertEqual(actual, expected)
+        # Make sure street stat is not created for the streets=no case.
+        self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "gellerthegy-additional-streets.count")))
+
+
 class TestUpdateOsmHousenumbers(test_config.TestCase):
     """Tests update_osm_housenumbers()."""
     def test_happy(self) -> None:
@@ -392,7 +416,8 @@ class TestOurMain(test_config.TestCase):
                     with unittest.mock.patch("cron.update_ref_housenumbers", count_calls):
                         with unittest.mock.patch("cron.update_missing_streets", count_calls):
                             with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
-                                cron.our_main(relations, mode="relations", update=True, overpass=True)
+                                with unittest.mock.patch("cron.update_additional_streets", count_calls):
+                                    cron.our_main(relations, mode="relations", update=True, overpass=True)
 
         expected = 0
         # Consider what to update automatically: the 2 sources and the diff between them.
@@ -400,6 +425,8 @@ class TestOurMain(test_config.TestCase):
             # What object types we have.
             for _ in ("streets", "housenumbers"):
                 expected += 1
+        # "additional" is streets-only
+        expected += 1
 
         self.assertEqual(calls, expected)
 

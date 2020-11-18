@@ -165,6 +165,21 @@ def update_missing_streets(relations: areas.Relations, update: bool) -> None:
     info("update_missing_streets: end")
 
 
+def update_additional_streets(relations: areas.Relations, update: bool) -> None:
+    """Update the relation's "additional streets" stats."""
+    info("update_additional_streets: start")
+    for relation_name in relations.get_active_names():
+        relation = relations.get_relation(relation_name)
+        if not update and os.path.exists(relation.get_files().get_streets_additional_count_path()):
+            continue
+        streets = relation.get_config().should_check_missing_streets()
+        if streets == "no":
+            continue
+
+        relation.write_additional_streets()
+    info("update_additional_streets: end")
+
+
 def write_count_path(count_path: str, house_numbers: Set[str]) -> None:
     """Writes a daily .count file."""
     with open(count_path, "w") as stream:
@@ -311,6 +326,7 @@ def our_main(relations: areas.Relations, mode: str, update: bool, overpass: bool
         update_ref_housenumbers(relations, update)
         update_missing_streets(relations, update)
         update_missing_housenumbers(relations, update)
+        update_additional_streets(relations, update)
 
     pid = str(os.getpid())
     with open("/proc/" + pid + "/status", "r") as stream:
