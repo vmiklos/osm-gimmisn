@@ -1,5 +1,8 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Akácfa utca:
+    # 29 = Wesselényi utca 35.
+    invalid: ['29']
 refstreets:
   'Alsó erdősor utca': 'Alsó erdősor'
 source: survey
