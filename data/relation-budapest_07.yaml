@@ -3,6 +3,11 @@ filters:
   Akácfa utca:
     # 29 = Wesselényi utca 35.
     invalid: ['29']
+  Dohány utca:
+    # 2-4-6-8 Zsinagóga külön részei, hivatalosan nincs ide számozva semmit
+    ranges:
+      - {start: '1', end: '87'}
+      - {start: '10', end: '106'}
 refstreets:
   'Alsó erdősor utca': 'Alsó erdősor'
 source: survey
