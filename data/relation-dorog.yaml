@@ -12,8 +12,11 @@ filters:
     # 1-20
     invalid: ['28']
   Esztergomi út:
+    # valószínű újraszámozás alatt, mert össze vissza vannak a házszámok
+    invalid: ['29', '31', '33', '41', '45']
     ranges:
-      - {start: '1', end: '125'}
+      - {start: '1', end: '47'}
+      - {start: '125', end: '125'}
       - {start: '2', end: '46'}
   Fáy András lakótelep:
     # 1-15
