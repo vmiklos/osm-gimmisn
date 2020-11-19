@@ -577,7 +577,7 @@ def handle_main_street_additional_count(relation: areas.Relation) -> yattag.doc.
         date = get_last_modified(relation.get_files().get_streets_additional_count_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
-                doc.text(additional_count)
+                doc.text(_("{} streets").format(additional_count))
         return doc
 
     with doc.tag("strong"):
