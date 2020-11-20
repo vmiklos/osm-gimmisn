@@ -79,13 +79,18 @@ filters:
     invalid: ['13b']
   Brassó út:
     # <=152 is just the Sasad part, 169 is actually 169-179/a .. 169-179/h
+    # 10: 10/a, 10/b
+    # 26: 26/a, 26/b
+    # 27: 27/a, 27/b
+    # 28: 28/a. 28/b
+    # 45: 45/a, 45/b
     # 52: 52/a, 52/b
     # 54a, 54b: 54, 56
     # 55a, 55b: csak sima 55
     # 57b: semmi sincs kiírva
     # 95:  95/a, 95/b
     # 144: Domboldal utca 8 = Brassó út 144: A és B épület
-    invalid: ['52', '54a', '54b', '55a', '55b', '57b', '95', '144a', '144b', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
+    invalid: ['10', '14', '26', '27', '28', '45', '52', '54a', '54b', '55a', '55b', '57b', '95', '144a', '144b', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
     ranges:
       - {start: '1', end: '169'}
       - {start: '2', end: '152'}
