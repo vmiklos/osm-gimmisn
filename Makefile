@@ -99,11 +99,11 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
 	$(file >> $@,VERSION = '$(shell git describe --tags)')
 
-data/yamls.pickle: $(YAML_OBJECTS)
-	./cache_yamls.py data
+data/yamls.pickle: cache_yamls.py $(YAML_OBJECTS)
+	./cache_yamls.py data workdir
 
-tests/data/yamls.pickle: $(YAML_TEST_OBJECTS)
-	./cache_yamls.py tests/data
+tests/data/yamls.pickle: cache_yamls.py $(YAML_TEST_OBJECTS)
+	./cache_yamls.py tests/data tests/workdir
 
 check-filters: check-filters-syntax check-filters-schema
 
