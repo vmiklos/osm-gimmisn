@@ -10,6 +10,7 @@
 from typing import Any
 from typing import Dict
 import glob
+import json
 import os
 import pickle
 import sys
@@ -31,6 +32,19 @@ def main() -> None:
     cache_path = os.path.join(datadir, "yamls.pickle")
     with open(cache_path, "wb") as cache_stream:
         pickle.dump(cache, cache_stream)
+
+    workdir = config.get_abspath(sys.argv[2])
+    yaml_path = os.path.join(datadir, "relations.yaml")
+    relation_ids = []
+    with open(yaml_path) as stream:
+        relations = yaml.safe_load(stream)
+        for _key, value in relations.items():
+            relation_ids.append(value["osmrelation"])
+    relation_ids = sorted(set(relation_ids))
+    statsdir = os.path.join(workdir, "stats")
+    os.makedirs(statsdir, exist_ok=True)
+    with open(os.path.join(statsdir, "relations.json"), "w") as stream:
+        json.dump(relation_ids, stream)
 
 
 if __name__ == "__main__":
