@@ -601,6 +601,12 @@ def create_filter_for_refcounty(refcounty_filter: str) -> Callable[[bool, areas.
     return lambda _complete, relation: relation.get_config().get_refcounty() == refcounty_filter
 
 
+def create_filter_for_relations(relation_filter: str) -> Callable[[bool, areas.Relation], bool]:
+    """Creates a function that filters for the specified relations."""
+    relations = [int(i) for i in relation_filter.split(",")]
+    return lambda _complete, relation: relation.get_config().get_osmrelation() in relations
+
+
 def create_filter_for_refcounty_refsettlement(
         refcounty_filter: str,
         refsettlement_filter: str
@@ -682,6 +688,10 @@ def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relat
         # /osm/filter-for/refcounty/<value>.
         refcounty = filters["refcounty"]
         filter_for = create_filter_for_refcounty(refcounty)
+    elif "relations" in filters:
+        # /osm/filter-for/relations/<id1>,<id2>
+        relations = filters["relations"]
+        filter_for = create_filter_for_relations(relations)
     return filter_for, refcounty
 
 

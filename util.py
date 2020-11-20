@@ -419,7 +419,7 @@ def parse_filters(tokens: List[str]) -> Dict[str, str]:
         if index + 1 >= len(tokens):
             continue
 
-        if value in ("refcounty", "refsettlement"):
+        if value in ("refcounty", "refsettlement", "relations"):
             ret[value] = tokens[index + 1]
 
     return ret
