@@ -420,15 +420,11 @@ function addCharts(stats) {
 }
 
 // eslint-disable-next-line no-unused-vars
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", async function(event) {
     var statsJSON = "@PREFIX@/static/stats.json";
-    window.fetch(statsJSON)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(stats) {
-            addCharts(stats);
-        });
+    var response = await window.fetch(statsJSON);
+    var stats = await response.json();
+    addCharts(stats);
 });
 
 // vim: shiftwidth=4 softtabstop=4 expandtab:
