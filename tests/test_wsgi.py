@@ -650,6 +650,15 @@ class TestMain(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_filter_for_relations(self) -> None:
+        """Tests if the /osm/filter-for/relations/... output is well-formed."""
+        root = self.get_dom_for_path("/filter-for/relations/44,45")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+        table = results[0]
+        # header + the two requested relations
+        self.assertEqual(len(table.getchildren()), 3)
+
     def test_custom_locale(self) -> None:
         """Tests the main page with a custom locale."""
         with config.ConfigContext("locale", "en_US.UTF-8"):
