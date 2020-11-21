@@ -330,6 +330,10 @@ filters:
   Sötétvágás utca:
     # No housenumbers here.
     ranges: []
+  Ágnes köz:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '18'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # osm = utcatábla
