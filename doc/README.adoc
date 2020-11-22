@@ -180,7 +180,7 @@ frequently:
   name equivalent.
 
 - `osm-street-filters`: this key can be used in the root of a relation file, it's used to silence false
-  alarms during the 'additional streets' check when a reference street name should have no OSM
+  alarms during the 'additional streets' check when an OSM street name should have no reference
   street name equivalent.
 
 - `refsettlement`: this key can be used for a street. In case the majority of a relation has a given
