@@ -101,6 +101,11 @@ async function onGpsClick()
 // eslint-disable-next-line no-unused-vars
 document.addEventListener("DOMContentLoaded", async function(event) {
     let gps = document.querySelector("#filter-based-on-position");
+    if (!gps)
+    {
+        return;
+    }
+
     let gpsLink = gps.childNodes[0];
     gpsLink.onclick = onGpsClick;
 });
