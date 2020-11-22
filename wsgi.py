@@ -656,6 +656,13 @@ def handle_main_filters(relations: areas.Relations, refcounty_id: str) -> yattag
     with doc.tag("a", href=prefix + "/filter-for/incomplete"):
         doc.text(_("Hide complete areas"))
     items.append(doc)
+
+    doc = yattag.doc.Doc()
+    with doc.tag("span", id="filter-based-on-position"):
+        with doc.tag("a", href="#"):
+            doc.text(_("Based on position"))
+    items.append(doc)
+
     # Sorted set of refcounty values of all relations.
     for refcounty in sorted({relation.get_config().get_refcounty() for relation in relations.get_relations()}):
         items.append(handle_main_filters_refcounty(relations, refcounty_id, refcounty))
@@ -818,6 +825,8 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
             doc.text(_("Where to map?") + title)
         doc.stag("meta", charset="UTF-8")
         doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/osm.css")
+        with doc.tag("script", src=prefix + "/static/osm.js"):
+            pass
         with doc.tag("script", src=prefix + "/static/sorttable.js"):
             pass
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
