@@ -70,6 +70,7 @@ YAML_TEST_OBJECTS = \
 	tests/data/refsettlement-names.yaml \
 
 JS_OBJECTS = \
+	static/osm.js \
 	static/stats.js \
 
 ifndef V
