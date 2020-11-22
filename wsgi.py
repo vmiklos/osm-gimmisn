@@ -651,16 +651,17 @@ def handle_main_filters_refcounty(relations: areas.Relations, refcounty_id: str,
 def handle_main_filters(relations: areas.Relations, refcounty_id: str) -> yattag.doc.Doc:
     """Handlers the filter part of the main wsgi page."""
     items: List[yattag.doc.Doc] = []
-    doc = yattag.doc.Doc()
-    prefix = config.Config.get_uri_prefix()
-    with doc.tag("a", href=prefix + "/filter-for/incomplete"):
-        doc.text(_("Hide complete areas"))
-    items.append(doc)
 
     doc = yattag.doc.Doc()
     with doc.tag("span", id="filter-based-on-position"):
         with doc.tag("a", href="#"):
             doc.text(_("Based on position"))
+    items.append(doc)
+
+    doc = yattag.doc.Doc()
+    prefix = config.Config.get_uri_prefix()
+    with doc.tag("a", href=prefix + "/filter-for/incomplete"):
+        doc.text(_("Hide complete areas"))
     items.append(doc)
 
     # Sorted set of refcounty values of all relations.
