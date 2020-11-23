@@ -66,7 +66,7 @@ Populate the reference directory with TSV files for the house number and street 
 == Developer setup
 
 ----
-make server
+make run
 ----
 
 This allows accessing your local instance for development.
