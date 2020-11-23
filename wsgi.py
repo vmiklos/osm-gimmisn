@@ -676,6 +676,24 @@ def handle_main_filters(relations: areas.Relations, refcounty_id: str) -> yattag
             if index:
                 doc.text(" ¦ ")
             doc.asis(item.getvalue())
+
+    # Emit localized strings for JS purposes.
+    with doc.tag("div", style="display: none;"):
+        string_pairs = [
+            ("str-gps-wait", _("Waiting for GPS...")),
+            ("str-gps-error", _("Error from GPS: ")),
+            ("str-overpass-wait", _("Waiting for Overpass...")),
+            ("str-overpass-error", _("Error from Overpass: ")),
+            ("str-relations-wait", _("Waiting for relations...")),
+            ("str-relations-error", _("Error from relations: ")),
+            ("str-redirect-wait", _("Waiting for redirect...")),
+        ]
+        for key, value in string_pairs:
+            kwargs: Dict[str, str] = {}
+            kwargs["id"] = key
+            kwargs["data-value"] = value
+            with doc.tag("div", **kwargs):
+                pass
     return doc
 
 

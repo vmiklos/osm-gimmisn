@@ -30,11 +30,11 @@ msgstr ""
 msgid "(invalid)"
 msgstr ""
 
-#: wsgi.py:777
+#: wsgi.py:813
 msgid "Add new area"
 msgstr ""
 
-#: webframe.py:131 wsgi.py:768
+#: webframe.py:131 wsgi.py:804
 msgid "Additional streets"
 msgstr ""
 
@@ -62,11 +62,11 @@ msgstr ""
 msgid "All house numbers, monthly"
 msgstr ""
 
-#: wsgi.py:763
+#: wsgi.py:799
 msgid "Area"
 msgstr ""
 
-#: webframe.py:187 wsgi.py:769
+#: webframe.py:187 wsgi.py:805
 msgid "Area boundary"
 msgstr ""
 
@@ -76,6 +76,10 @@ msgstr ""
 
 #: webframe.py:372
 msgid "At the start of this day"
+msgstr ""
+
+#: wsgi.py:658
+msgid "Based on position"
 msgstr ""
 
 #: wsgi.py:153 wsgi.py:158 wsgi.py:197 wsgi.py:454
@@ -119,11 +123,23 @@ msgstr ""
 msgid "During this month"
 msgstr ""
 
-#: webframe.py:141 wsgi.py:765
+#: wsgi.py:684
+msgid "Error from GPS: "
+msgstr ""
+
+#: wsgi.py:686
+msgid "Error from Overpass: "
+msgstr ""
+
+#: wsgi.py:688
+msgid "Error from relations: "
+msgstr ""
+
+#: webframe.py:141 wsgi.py:801
 msgid "Existing house numbers"
 msgstr ""
 
-#: webframe.py:146 wsgi.py:767
+#: webframe.py:146 wsgi.py:803
 msgid "Existing streets"
 msgstr ""
 
@@ -131,15 +147,15 @@ msgstr ""
 msgid "Filter incorrect information"
 msgstr ""
 
-#: wsgi.py:660
+#: wsgi.py:674
 msgid "Filters:"
 msgstr ""
 
-#: wsgi.py:651
+#: wsgi.py:664
 msgid "Hide complete areas"
 msgstr ""
 
-#: webframe.py:318 wsgi.py:764
+#: webframe.py:318 wsgi.py:800
 msgid "House number coverage"
 msgstr ""
 
@@ -312,7 +328,7 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#: wsgi.py:766
+#: wsgi.py:802
 msgid "Street coverage"
 msgstr ""
 
@@ -385,7 +401,23 @@ msgstr ""
 msgid "View query"
 msgstr ""
 
-#: wsgi.py:658 wsgi.py:808
+#: wsgi.py:683
+msgid "Waiting for GPS..."
+msgstr ""
+
+#: wsgi.py:685
+msgid "Waiting for Overpass..."
+msgstr ""
+
+#: wsgi.py:689
+msgid "Waiting for redirect..."
+msgstr ""
+
+#: wsgi.py:687
+msgid "Waiting for relations..."
+msgstr ""
+
+#: wsgi.py:672 wsgi.py:844
 msgid "Where to map?"
 msgstr ""
 
@@ -393,15 +425,15 @@ msgstr ""
 msgid "additional streets"
 msgstr ""
 
-#: wsgi.py:743
+#: wsgi.py:779
 msgid "area boundary"
 msgstr ""
 
-#: wsgi.py:716 wsgi.py:797
+#: wsgi.py:752 wsgi.py:833
 msgid "existing house numbers"
 msgstr ""
 
-#: wsgi.py:733 wsgi.py:799
+#: wsgi.py:769 wsgi.py:835
 msgid "existing streets"
 msgstr ""
 
@@ -409,15 +441,15 @@ msgstr ""
 msgid "missing house numbers"
 msgstr ""
 
-#: wsgi.py:563 wsgi.py:795
+#: wsgi.py:563 wsgi.py:831
 msgid "missing streets"
 msgstr ""
 
-#: wsgi.py:535 wsgi.py:557 wsgi.py:579 wsgi.py:715 wsgi.py:732
+#: wsgi.py:535 wsgi.py:557 wsgi.py:579 wsgi.py:751 wsgi.py:768
 msgid "updated"
 msgstr ""
 
-#: wsgi.py:793
+#: wsgi.py:829
 #, python-brace-format
 msgid "{0} missing house numbers"
 msgstr ""

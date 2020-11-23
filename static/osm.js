@@ -4,13 +4,17 @@
  * found in the LICENSE file.
  */
 
+function getOsmString(key) {
+    return document.getElementById(key).getAttribute("data-value");
+}
+
 async function onGpsClick()
 {
     let gps = document.querySelector("#filter-based-on-position");
     gps.removeChild(gps.childNodes[0]);
 
     // Get the coordinates.
-    gps.textContent = "Waiting for GPS...";
+    gps.textContent = getOsmString("str-gps-wait");
     let latitude = 0;
     let longitude = 0;
     try
@@ -23,7 +27,7 @@ async function onGpsClick()
     }
     catch (reason)
     {
-        gps.textContent = "Error from GPS: " + reason;
+        gps.textContent = getOsmString("str-gps-error") + reason;
         return;
     }
 
@@ -32,7 +36,7 @@ async function onGpsClick()
     query += "is_in(" + latitude + "," + longitude + ");\n";
     query += "(._;>;);";
     query += "out meta;";
-    gps.textContent = "Waiting for Overpass...";
+    gps.textContent = getOsmString("str-overpass-wait");
     var protocol = location.protocol != "http:" ? "https:" : "http:";
     var url = protocol + "//overpass-api.de/api/interpreter";
     var request = new Request(url, {method : "POST", body : query});
@@ -44,7 +48,7 @@ async function onGpsClick()
     }
     catch (reason)
     {
-        gps.textContent = "Error from Overpass: " + reason;
+        gps.textContent = getOsmString("str-overpass-error") + reason;
         return;
     }
 
@@ -66,7 +70,7 @@ async function onGpsClick()
     // Now fetch the list of relations we recognize.
     url = "@PREFIX@/static/relations.json";
     request = new Request(url);
-    gps.textContent = "Waiting for relations...";
+    gps.textContent = getOsmString("str-relations-wait");
     var knownRelations = null;
     try
     {
@@ -75,7 +79,7 @@ async function onGpsClick()
     }
     catch (reason)
     {
-        gps.textContent = "Error from relations: " + reason;
+        gps.textContent = getOsmString("str-relations-error") + reason;
         return;
     }
 
@@ -93,7 +97,7 @@ async function onGpsClick()
     }
 
     // Redirect.
-    gps.textContent = "Waiting for redirect...";
+    gps.textContent = getOsmString("str-redirect-wait");
     url = "@PREFIX@/filter-for/relations/" + knownRelationIds.join(",");
     window.location.href = url;
 }
