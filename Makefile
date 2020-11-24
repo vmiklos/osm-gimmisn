@@ -83,7 +83,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: version.py data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: version.py wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py
@@ -99,6 +99,10 @@ check: all check-filters check-flake8 check-mypy check-unit check-pylint check-e
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
 	$(file >> $@,VERSION = '$(shell git describe --tags)')
+
+# Intentionally don't update this when the source changes.
+wsgi.ini:
+	cp data/wsgi.ini.template wsgi.ini
 
 data/yamls.pickle: cache_yamls.py $(YAML_OBJECTS)
 	./cache_yamls.py data workdir

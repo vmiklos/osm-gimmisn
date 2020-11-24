@@ -57,7 +57,6 @@ make check
 - Create a local config and working directory:
 
 ----
-cp data/wsgi.ini.template wsgi.ini
 mkdir workdir
 ----
 
