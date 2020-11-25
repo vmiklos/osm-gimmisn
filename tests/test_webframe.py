@@ -44,6 +44,13 @@ class TestHandleStatic(test_config.TestCase):
         self.assertTrue(len(content))
         self.assertEqual(content_type, "application/x-javascript")
 
+    def test_generated_javascript(self) -> None:
+        """Tests the generated javascript case."""
+        prefix = config.Config.get_uri_prefix()
+        content, content_type = webframe.handle_static(prefix + "/static/config.js")
+        self.assertEqual("// config.js\n", content)
+        self.assertEqual(content_type, "application/x-javascript")
+
     def test_json(self) -> None:
         """Tests the json case."""
         prefix = config.Config.get_uri_prefix()

@@ -72,6 +72,7 @@ YAML_TEST_OBJECTS = \
 JS_OBJECTS = \
 	static/osm.js \
 	static/stats.js \
+	config.js \
 
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
@@ -83,10 +84,10 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: version.py wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: version.py config.js wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
-	rm -f version.py
+	rm -f version.py config.js
 	rm -f $(patsubst %.yaml,%.yamllint,$(filter-out .github/workflows/tests.yml,$(YAML_OBJECTS)))
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
@@ -99,6 +100,9 @@ check: all check-filters check-flake8 check-mypy check-unit check-pylint check-e
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
 	$(file >> $@,VERSION = '$(shell git describe --tags)')
+
+config.js: wsgi.ini Makefile
+	printf '// eslint-disable-next-line no-unused-vars\nvar osmPrefix = "%s";' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
 
 # Intentionally don't update this when the source changes.
 wsgi.ini:
