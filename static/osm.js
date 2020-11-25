@@ -4,6 +4,8 @@
  * found in the LICENSE file.
  */
 
+/* global osmPrefix */
+
 function getOsmString(key) {
     return document.getElementById(key).getAttribute("data-value");
 }
@@ -68,7 +70,7 @@ async function onGpsClick()
     }
 
     // Now fetch the list of relations we recognize.
-    url = "@PREFIX@/static/relations.json";
+    url = osmPrefix + "/static/relations.json";
     request = new Request(url);
     gps.textContent = getOsmString("str-relations-wait");
     var knownRelations = null;
@@ -98,7 +100,7 @@ async function onGpsClick()
 
     // Redirect.
     gps.textContent = getOsmString("str-redirect-wait");
-    url = "@PREFIX@/filter-for/relations/" + knownRelationIds.join(",");
+    url = osmPrefix + "/filter-for/relations/" + knownRelationIds.join(",");
     window.location.href = url;
 }
 

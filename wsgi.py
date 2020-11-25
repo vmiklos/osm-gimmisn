@@ -844,6 +844,8 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
             doc.text(_("Where to map?") + title)
         doc.stag("meta", charset="UTF-8")
         doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/osm.css")
+        with doc.tag("script", src=prefix + "/static/config.js"):
+            pass
         with doc.tag("script", src=prefix + "/static/osm.js"):
             pass
         with doc.tag("script", src=prefix + "/static/sorttable.js"):
