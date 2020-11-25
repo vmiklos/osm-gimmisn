@@ -44,6 +44,8 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '24', end: '26'}
+  Sándor utca:
+    invalid: ['21', '25', '29', '48']
   Schmidt Sándor lakótelep:
     # 1-50
     invalid: ['122']
