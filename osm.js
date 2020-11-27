@@ -4,7 +4,7 @@
  * found in the LICENSE file.
  */
 
-/* global osmPrefix */
+var config = require("./config.js");
 
 function getOsmString(key) {
     return document.getElementById(key).getAttribute("data-value");
@@ -70,7 +70,7 @@ async function onGpsClick()
     }
 
     // Now fetch the list of relations we recognize.
-    url = osmPrefix + "/static/relations.json";
+    url = config.uriPrefix + "/static/relations.json";
     request = new Request(url);
     gps.textContent = getOsmString("str-relations-wait");
     var knownRelations = null;
@@ -100,7 +100,7 @@ async function onGpsClick()
 
     // Redirect.
     gps.textContent = getOsmString("str-redirect-wait");
-    url = osmPrefix + "/filter-for/relations/" + knownRelationIds.join(",");
+    url = config.uriPrefix + "/filter-for/relations/" + knownRelationIds.join(",");
     window.location.href = url;
 }
 

@@ -224,7 +224,7 @@ def handle_static(request_uri: str) -> Tuple[str, str]:
         if os.path.exists(os.path.join(config.get_abspath("static"), path)):
             content = util.get_content(config.get_abspath("static"), path)
         else:
-            content = util.get_content(config.get_abspath(""), path)
+            content = util.get_content(config.Config.get_workdir(), path)
         return content, content_type
     if path.endswith(".json"):
         return util.get_content(os.path.join(config.Config.get_workdir(), "stats"), path), content_type
@@ -353,8 +353,6 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
     with doc.tag("script", src=prefix + "/static/chartjs-plugin-datalabels.min.js"):
         pass
     with doc.tag("script", src=prefix + "/static/chartjs-plugin-trendline.min.js"):
-        pass
-    with doc.tag("script", src=prefix + "/static/stats.js"):
         pass
 
     # Emit localized strings for JS purposes.
