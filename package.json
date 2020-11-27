@@ -1,7 +1,9 @@
 {
   "license": "MIT",
   "dependencies": {
-    "eslint": "7.14.0"
+    "browserify": "17.0.0",
+    "eslint": "7.14.0",
+    "tinyify": "3.0.0"
   },
   "repository": {
     "type": "git",

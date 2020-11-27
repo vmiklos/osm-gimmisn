@@ -70,9 +70,9 @@ YAML_TEST_OBJECTS = \
 	tests/data/refsettlement-names.yaml \
 
 JS_OBJECTS = \
-	static/osm.js \
-	static/stats.js \
 	config.js \
+	osm.js \
+	stats.js \
 
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
@@ -84,7 +84,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: version.py config.js wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: version.py workdir/bundle.js wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py config.js
@@ -102,7 +102,20 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file >> $@,VERSION = '$(shell git describe --tags)')
 
 config.js: wsgi.ini Makefile
-	printf '// eslint-disable-next-line no-unused-vars\nvar osmPrefix = "%s";' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
+	printf 'module.exports.uriPrefix = "%s";' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
+
+ifdef JSDEBUG
+BROWSERIFY_OPTIONS = --debug
+else
+BROWSERIFY_OPTIONS = --plugin tinyify
+endif
+
+workdir/bundle.js: $(JS_OBJECTS) package-lock.json
+	node_modules/.bin/browserify -o workdir/bundle.js $(BROWSERIFY_OPTIONS) $(JS_OBJECTS)
+
+package-lock.json: package.json
+	npm install
+	touch package-lock.json
 
 # Intentionally don't update this when the source changes.
 wsgi.ini:

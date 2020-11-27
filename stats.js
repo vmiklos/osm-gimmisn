@@ -4,7 +4,9 @@
  * found in the LICENSE file.
  */
 
-/* global osmPrefix Chart */
+/* global Chart */
+
+var config = require("./config.js");
 
 function getString(key) {
     return document.getElementById(key).getAttribute("data-value");
@@ -421,7 +423,12 @@ function addCharts(stats) {
 
 // eslint-disable-next-line no-unused-vars
 document.addEventListener("DOMContentLoaded", async function(event) {
-    var statsJSON = osmPrefix + "/static/stats.json";
+    if (!document.getElementById("daily")) {
+        // Not on the stats page.
+        return;
+    }
+
+    var statsJSON = config.uriPrefix + "/static/stats.json";
     var response = await window.fetch(statsJSON);
     var stats = await response.json();
     addCharts(stats);
