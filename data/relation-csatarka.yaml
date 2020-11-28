@@ -17,8 +17,10 @@ filters:
     ranges:
       - {start: '1', end: '13'}
   Törökvész út:
+    # 103 után 111 jön, nincs köztes épület
     ranges:
-      - {start: '95', end: '147'}
+      - {start: '95', end: '103'}
+      - {start: '111', end: '147'}
   Verecke lépcső:
     # felmérendő
     ranges:
