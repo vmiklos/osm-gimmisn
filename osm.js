@@ -5,6 +5,8 @@
  */
 
 var config = require("./config.js");
+// eslint-disable-next-line no-unused-vars
+var sorttable = require("sorttable"); // only for its side-effects
 
 function getOsmString(key) {
     return document.getElementById(key).getAttribute("data-value");
