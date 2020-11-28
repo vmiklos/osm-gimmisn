@@ -846,8 +846,6 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
         doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/osm.css")
         with doc.tag("script", src=prefix + "/static/bundle.js"):
             pass
-        with doc.tag("script", src=prefix + "/static/sorttable.js"):
-            pass
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
 
 

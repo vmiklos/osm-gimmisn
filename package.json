@@ -3,6 +3,7 @@
   "dependencies": {
     "browserify": "17.0.0",
     "eslint": "7.14.0",
+    "sorttable": "1.0.2",
     "tinyify": "3.0.0"
   },
   "repository": {
