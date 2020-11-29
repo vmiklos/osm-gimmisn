@@ -348,12 +348,6 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
     doc.asis(get_toolbar(relations).getvalue())
 
     prefix = config.Config.get_uri_prefix()
-    with doc.tag("script", src=prefix + "/static/Chart.min.js"):
-        pass
-    with doc.tag("script", src=prefix + "/static/chartjs-plugin-datalabels.min.js"):
-        pass
-    with doc.tag("script", src=prefix + "/static/chartjs-plugin-trendline.min.js"):
-        pass
 
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
