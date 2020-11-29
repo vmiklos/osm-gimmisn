@@ -2,6 +2,9 @@
   "license": "MIT",
   "dependencies": {
     "browserify": "17.0.0",
+    "chart.js": "2.9.4",
+    "chartjs-plugin-datalabels": "0.7.0",
+    "chartjs-plugin-trendline": "0.2.2",
     "eslint": "7.14.0",
     "sorttable": "1.0.2",
     "tinyify": "3.0.0"

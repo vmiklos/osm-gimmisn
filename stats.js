@@ -6,6 +6,12 @@
 
 /* global Chart */
 
+var chartJs = require("chart.js");
+// eslint-disable-next-line no-unused-vars
+var chartJsDatalabels = require("chartjs-plugin-datalabels"); // only for its side-effects
+var chartJsTrendline = require("chartjs-plugin-trendline");
+chartJs.plugins.register(chartJsTrendline);
+
 var config = require("./config.js");
 
 function getString(key) {
