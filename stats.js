@@ -4,13 +4,11 @@
  * found in the LICENSE file.
  */
 
-/* global Chart */
-
-var chartJs = require("chart.js");
+var Chart = require("chart.js");
 // eslint-disable-next-line no-unused-vars
 var chartJsDatalabels = require("chartjs-plugin-datalabels"); // only for its side-effects
 var chartJsTrendline = require("chartjs-plugin-trendline");
-chartJs.plugins.register(chartJsTrendline);
+Chart.plugins.register(chartJsTrendline);
 
 var config = require("./config.js");
 
