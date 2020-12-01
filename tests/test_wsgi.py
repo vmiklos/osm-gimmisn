@@ -92,13 +92,13 @@ class TestWsgi(test_config.TestCase):
         output = output_list[0].decode('utf-8')
         return output
 
-    def get_js_for_path(self, path: str) -> str:
+    def get_css_for_path(self, path: str) -> str:
         """Generates a string for a given wsgi path."""
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             # Make sure the built-in exception catcher is not kicking in.
             self.assertEqual(status, "200 OK")
             header_dict = dict(response_headers)
-            self.assertEqual(header_dict["Content-type"], "application/x-javascript; charset=utf-8")
+            self.assertEqual(header_dict["Content-type"], "text/css; charset=utf-8")
 
         prefix = config.Config.get_uri_prefix()
         environ = {
@@ -793,9 +793,9 @@ class TestWebhooks(TestWsgi):
 
 class TestStatic(TestWsgi):
     """Tests /osm/static/."""
-    def test_js(self) -> None:
-        """Tests /osm/static/, javascript case."""
-        result = self.get_js_for_path("/static/sorttable.js")
+    def test_css(self) -> None:
+        """Tests /osm/static/, css case."""
+        result = self.get_css_for_path("/static/osm.css")
         # Starts with a JS comment.
         self.assertTrue(result.startswith("/*"))
 
