@@ -13,6 +13,8 @@ filters:
     ranges: []
   Diófa köz:
     ranges: []
+  Diófa utca:
+    ranges: []
   Dunapart utca:
     invalid: ['2', '3', '4', '15', '42', '124']
   Fenyő sétány:
@@ -31,6 +33,8 @@ filters:
     ranges: []
   # Basaharc
   Erdősor utca:  # ez egy benőtt autóval járhatatlan utca..
+    ranges: []
+  Forrás utca:
     ranges: []
   Kilátó utca:
     ranges: []
@@ -72,6 +76,7 @@ filters:
     ranges:
       - {start: '1', end: '9'}
   Szabadság körút:
+    invalid: ['56']
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
