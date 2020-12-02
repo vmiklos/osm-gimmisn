@@ -72,7 +72,7 @@ YAML_TEST_OBJECTS = \
 JS_OBJECTS = \
 	config.js \
 	osm.ts \
-	stats.js \
+	stats.ts \
 
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
