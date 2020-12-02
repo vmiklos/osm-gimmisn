@@ -8,7 +8,7 @@ var config = require("./config.js");
 // eslint-disable-next-line no-unused-vars
 var sorttable = require("sorttable"); // only for its side-effects
 
-function getOsmString(key) {
+function getOsmString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
 }
 
@@ -23,7 +23,7 @@ async function onGpsClick()
     let longitude = 0;
     try
     {
-        let position = await new Promise((resolve, reject) => {
+        let position = await new Promise<Position>((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
         latitude = position.coords.latitude;
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async function(event) {
         return;
     }
 
-    let gpsLink = gps.childNodes[0];
+    let gpsLink = <HTMLElement>gps.childNodes[0];
     gpsLink.onclick = onGpsClick;
 });
 
