@@ -363,7 +363,7 @@ class Relation:
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
                 # Street name of house numbers without street name is not interesting.
-                ret += [util.Street(i) for i in util.get_nth_column(sock, 1) if i]
+                ret += [util.Street(i) for i in util.get_nth_column(sock, 1, 2) if i]
         return sorted(set(ret))
 
     def get_osm_streets_query(self) -> str:
