@@ -1,5 +1,7 @@
 missing-streets: 'no'
-filters: {}
+filters:
+  Szabó Erna utca:
+    invalid: ['701']
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
