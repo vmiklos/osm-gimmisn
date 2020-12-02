@@ -5,8 +5,7 @@
  */
 
 import * as config from './config';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as sorttable from 'sorttable'; // only for its side-effects
+import 'sorttable'; // only for its side-effects
 
 function getOsmString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
