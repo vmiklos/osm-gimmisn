@@ -10,7 +10,7 @@ var chartJsDatalabels = require("chartjs-plugin-datalabels"); // only for its si
 var chartJsTrendline = require("chartjs-plugin-trendline");
 Chart.plugins.register(chartJsTrendline);
 
-var config = require("./config.js");
+import * as config from './config';
 
 function getString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
