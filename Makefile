@@ -69,8 +69,8 @@ YAML_TEST_OBJECTS = \
 	tests/data/refcounty-names.yaml \
 	tests/data/refsettlement-names.yaml \
 
-JS_OBJECTS = \
-	config.js \
+TS_OBJECTS = \
+	config.ts \
 	osm.ts \
 	stats.ts \
 
@@ -87,13 +87,13 @@ endif
 all: version.py workdir/bundle.js wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
-	rm -f version.py config.js
+	rm -f version.py config.ts
 	rm -f $(patsubst %.yaml,%.yamllint,$(filter-out .github/workflows/tests.yml,$(YAML_OBJECTS)))
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
-	rm -f $(patsubst %.js,%.eslint,$(JS_OBJECTS))
+	rm -f $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
 check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint
 
@@ -101,18 +101,18 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
 	$(file >> $@,VERSION = '$(shell git describe --tags)')
 
-config.js: wsgi.ini Makefile
-	printf 'module.exports.uriPrefix = "%s";' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
+config.ts: wsgi.ini Makefile
+	printf 'let uriPrefix = "%s";\nexport { uriPrefix };' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
 
-ifdef JSDEBUG
+ifdef TSDEBUG
 BROWSERIFY_OPTIONS = --debug
 else
 BROWSERIFY_OPTIONS = --plugin tinyify
 endif
 BROWSERIFY_OPTIONS += --plugin tsify
 
-workdir/bundle.js: $(JS_OBJECTS) package-lock.json
-	node_modules/.bin/browserify -o workdir/bundle.js $(BROWSERIFY_OPTIONS) $(JS_OBJECTS)
+workdir/bundle.js: $(TS_OBJECTS) package-lock.json
+	node_modules/.bin/browserify -o workdir/bundle.js $(BROWSERIFY_OPTIONS) $(TS_OBJECTS)
 
 package-lock.json: package.json
 	npm install
@@ -136,15 +136,15 @@ check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 
 check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
-check-eslint: $(patsubst %.js,%.eslint,$(JS_OBJECTS))
+check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
 check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
 %.pylint : %.py Makefile .pylintrc
 	$(QUIET_PYLINT)env PYTHONPATH=. pylint $< && touch $@
 
-%.eslint : %.js Makefile .eslintrc
-	$(QUIET_ESLINT)node_modules/eslint/bin/eslint.js $< && touch $@
+%.eslint : %.ts Makefile .eslintrc
+	$(QUIET_ESLINT)node_modules/.bin/eslint $< && touch $@
 
 %.mypy: %.py Makefile
 	$(QUIET_MYPY)mypy --python-version 3.6 --strict --no-error-summary $< && touch $@

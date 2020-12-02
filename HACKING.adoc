@@ -36,13 +36,13 @@ the tests mocking that single function.
 for i in *.py; do lines=$(wc -l < $i); if [ $lines -gt 800 ]; then echo "$i is too large: $lines lines"; fi; done
 ----
 
-== JS debugging
+== TS debugging
 
 Bundled JS can be minified (for production) and also source maps can be added (for debugging). The
-default output is for production, but touching a JS source file and invoking:
+default output is for production, but touching a TS source file and invoking:
 
 ----
-make JSDEBUG=1
+make TSDEBUG=1
 ----
 
 produces output that is for debugging.

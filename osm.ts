@@ -4,7 +4,7 @@
  * found in the LICENSE file.
  */
 
-var config = require("./config.js");
+import * as config from './config';
 // eslint-disable-next-line no-unused-vars
 var sorttable = require("sorttable"); // only for its side-effects
 
