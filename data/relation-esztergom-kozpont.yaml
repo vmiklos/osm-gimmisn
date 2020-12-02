@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Árpád utca:
+    # 28-ig megy a páros
+    invalid: ['34']
   Szabó Erna utca:
     invalid: ['701']
 source: survey
