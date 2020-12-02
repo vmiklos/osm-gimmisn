@@ -102,7 +102,7 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file >> $@,VERSION = '$(shell git describe --tags)')
 
 config.ts: wsgi.ini Makefile
-	printf 'let uriPrefix = "%s";\nexport { uriPrefix };' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
+	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
 
 ifdef TSDEBUG
 BROWSERIFY_OPTIONS = --debug
