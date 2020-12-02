@@ -20,6 +20,9 @@ filters:
   Wesselényi Miklós utca:
     invalid: ['44', '45']
   # kozpont
+  Árpád utca:
+    # 28-ig megy a páros
+    invalid: ['34']
   Szabó Erna utca:
     invalid: ['701']
 source: survey
