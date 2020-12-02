@@ -71,7 +71,7 @@ YAML_TEST_OBJECTS = \
 
 JS_OBJECTS = \
 	config.js \
-	osm.js \
+	osm.ts \
 	stats.js \
 
 ifndef V
@@ -109,6 +109,7 @@ BROWSERIFY_OPTIONS = --debug
 else
 BROWSERIFY_OPTIONS = --plugin tinyify
 endif
+BROWSERIFY_OPTIONS += --plugin tsify
 
 workdir/bundle.js: $(JS_OBJECTS) package-lock.json
 	node_modules/.bin/browserify -o workdir/bundle.js $(BROWSERIFY_OPTIONS) $(JS_OBJECTS)
