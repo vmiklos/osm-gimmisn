@@ -4,10 +4,9 @@
  * found in the LICENSE file.
  */
 
-var Chart = require("chart.js");
-// eslint-disable-next-line no-unused-vars
-var chartJsDatalabels = require("chartjs-plugin-datalabels"); // only for its side-effects
-var chartJsTrendline = require("chartjs-plugin-trendline");
+import Chart = require("chart.js");
+import "chartjs-plugin-datalabels"; // only for its side-effects
+import chartJsTrendline = require("chartjs-plugin-trendline");
 Chart.plugins.register(chartJsTrendline);
 
 import * as config from './config';
@@ -17,21 +16,21 @@ function getString(key: string) {
 }
 
 function addCharts(stats: any) {
-    var daily = stats.daily;
-    var dailytotal = stats.dailytotal;
-    var monthly = stats.monthly;
-    var monthlytotal = stats.monthlytotal;
-    var topusers = stats.topusers;
-    var topcities = stats.topcities;
-    var usertotal = stats.usertotal;
-    var progress = stats.progress;
-    var trendlineOptions = {
+    const daily = stats.daily;
+    const dailytotal = stats.dailytotal;
+    const monthly = stats.monthly;
+    const monthlytotal = stats.monthlytotal;
+    const topusers = stats.topusers;
+    const topcities = stats.topcities;
+    const usertotal = stats.usertotal;
+    const progress = stats.progress;
+    const trendlineOptions = {
         style: "rgba(255,105,180, .8)",
         lineStyle: "dotted",
         width: 2,
     };
 
-    var dailyData = {
+    const dailyData = {
         // daily is a list of label-data pairs.
         labels: daily.map(function(x: any[]) { return x[0]; }),
         datasets: [{
@@ -40,8 +39,8 @@ function addCharts(stats: any) {
             trendlineLinear: trendlineOptions,
         }]
     };
-    let dailyCanvas = <HTMLCanvasElement>document.getElementById("daily");
-    var dailyCtx = dailyCanvas.getContext("2d");
+    const dailyCanvas = <HTMLCanvasElement>document.getElementById("daily");
+    const dailyCtx = dailyCanvas.getContext("2d");
     new Chart(dailyCtx, {
         type: "bar",
         data: dailyData,
@@ -80,7 +79,7 @@ function addCharts(stats: any) {
         }
     });
 
-    var monthlyData = {
+    const monthlyData = {
         // monthly is a list of label-data pairs.
         labels: monthly.map(function(x: any[]) { return x[0]; }),
         datasets: [{
@@ -89,8 +88,8 @@ function addCharts(stats: any) {
             trendlineLinear: trendlineOptions,
         }]
     };
-    let monthlyCanvas = <HTMLCanvasElement>document.getElementById("monthly");
-    var monthlyCtx = monthlyCanvas.getContext("2d");
+    const monthlyCanvas = <HTMLCanvasElement>document.getElementById("monthly");
+    const monthlyCtx = monthlyCanvas.getContext("2d");
     new Chart(monthlyCtx, {
         type: "bar",
         data: monthlyData,
@@ -129,7 +128,7 @@ function addCharts(stats: any) {
         }
     });
 
-    var monthlytotalData = {
+    const monthlytotalData = {
         // monthlytotal is a list of label-data pairs.
         labels: monthlytotal.map(function(x: any[]) { return x[0]; }),
         datasets: [{
@@ -138,8 +137,8 @@ function addCharts(stats: any) {
             trendlineLinear: trendlineOptions,
         }]
     };
-    let monthlyTotalCanvas = <HTMLCanvasElement>document.getElementById("monthlytotal");
-    var monthlyTotalCtx = monthlyTotalCanvas.getContext("2d");
+    const monthlyTotalCanvas = <HTMLCanvasElement>document.getElementById("monthlytotal");
+    const monthlyTotalCtx = monthlyTotalCanvas.getContext("2d");
     new Chart(monthlyTotalCtx, {
         type: "line",
         data: monthlytotalData,
@@ -177,7 +176,7 @@ function addCharts(stats: any) {
         }
     });
 
-    var dailytotalData = {
+    const dailytotalData = {
         // dailytotal is a list of label-data pairs.
         labels: dailytotal.map(function(x: any[]) { return x[0]; }),
         datasets: [{
@@ -187,8 +186,8 @@ function addCharts(stats: any) {
         }]
     };
 
-    let dailyTotalCanvas = <HTMLCanvasElement>document.getElementById("dailytotal");
-    var dailyTotalCtx = dailyTotalCanvas.getContext("2d");
+    const dailyTotalCanvas = <HTMLCanvasElement>document.getElementById("dailytotal");
+    const dailyTotalCtx = dailyTotalCanvas.getContext("2d");
     new Chart(dailyTotalCtx, {
         type: "line",
         data: dailytotalData,
@@ -226,7 +225,7 @@ function addCharts(stats: any) {
         }
     });
 
-    var topusersData = {
+    const topusersData = {
         // topusers is a list of label-data pairs.
         labels: topusers.map(function(x: any[]) { return x[0]; }),
         datasets: [{
@@ -235,8 +234,8 @@ function addCharts(stats: any) {
         }]
 
     };
-    let topUsersCanvas = <HTMLCanvasElement>document.getElementById("topusers");
-    var topUsersCtx = topUsersCanvas.getContext("2d");
+    const topUsersCanvas = <HTMLCanvasElement>document.getElementById("topusers");
+    const topUsersCtx = topUsersCanvas.getContext("2d");
     new Chart(topUsersCtx, {
         type: "bar",
         data: topusersData,
@@ -274,7 +273,7 @@ function addCharts(stats: any) {
             },
         }
     });
-    var topcitiesData = {
+    const topcitiesData = {
         // topcities is a list of label-data pairs.
         labels: topcities.map(function(x: any[]) {
             if (x[0] === "_Empty") {
@@ -291,8 +290,8 @@ function addCharts(stats: any) {
         }]
 
     };
-    let topCitiesCanvas = <HTMLCanvasElement>document.getElementById("topcities");
-    var topCitiesCtx = topCitiesCanvas.getContext("2d");
+    const topCitiesCanvas = <HTMLCanvasElement>document.getElementById("topcities");
+    const topCitiesCtx = topCitiesCanvas.getContext("2d");
     new Chart(topCitiesCtx, {
         type: "bar",
         data: topcitiesData,
@@ -331,7 +330,7 @@ function addCharts(stats: any) {
         }
     });
 
-    var usertotalData = {
+    const usertotalData = {
         // usertotal is a list of label-data pairs.
         labels: usertotal.map(function(x: any[]) { return x[0]; }),
         datasets: [{
@@ -340,8 +339,8 @@ function addCharts(stats: any) {
         }]
 
     };
-    let userTotalCanvas = <HTMLCanvasElement>document.getElementById("usertotal");
-    var userTotalCtx = userTotalCanvas.getContext("2d");
+    const userTotalCanvas = <HTMLCanvasElement>document.getElementById("usertotal");
+    const userTotalCtx = userTotalCanvas.getContext("2d");
     new Chart(userTotalCtx, {
         type: "bar",
         data: usertotalData,
@@ -380,7 +379,7 @@ function addCharts(stats: any) {
         }
     });
 
-    var progressData = {
+    const progressData = {
         datasets: [{
             label: "Reference",
             backgroundColor: "rgba(255, 0, 0, 0.5)",
@@ -392,8 +391,8 @@ function addCharts(stats: any) {
         }]
 
     };
-    let progressCanvas = <HTMLCanvasElement>document.getElementById("progress");
-    var progressCtx = progressCanvas.getContext("2d");
+    const progressCanvas = <HTMLCanvasElement>document.getElementById("progress");
+    const progressCtx = progressCanvas.getContext("2d");
     new Chart(progressCtx, {
         type: "horizontalBar",
         data: progressData,
@@ -419,7 +418,7 @@ function addCharts(stats: any) {
             },
             plugins: {
                 datalabels: {
-                    // eslint-disable-next-line no-unused-vars
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     formatter: function(value: number, context: any) {
                         // Turn 1000 into '1 000'.
                         return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -433,16 +432,16 @@ function addCharts(stats: any) {
     });
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 document.addEventListener("DOMContentLoaded", async function(event) {
     if (!document.getElementById("daily")) {
         // Not on the stats page.
         return;
     }
 
-    var statsJSON = config.uriPrefix + "/static/stats.json";
-    var response = await window.fetch(statsJSON);
-    var stats = await response.json();
+    const statsJSON = config.uriPrefix + "/static/stats.json";
+    const response = await window.fetch(statsJSON);
+    const stats = await response.json();
     addCharts(stats);
 });
 
