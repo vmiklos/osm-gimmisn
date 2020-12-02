@@ -5,8 +5,8 @@
  */
 
 import * as config from './config';
-// eslint-disable-next-line no-unused-vars
-var sorttable = require("sorttable"); // only for its side-effects
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as sorttable from 'sorttable'; // only for its side-effects
 
 function getOsmString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
@@ -14,7 +14,7 @@ function getOsmString(key: string) {
 
 async function onGpsClick()
 {
-    let gps = document.querySelector("#filter-based-on-position");
+    const gps = document.querySelector("#filter-based-on-position");
     gps.removeChild(gps.childNodes[0]);
 
     // Get the coordinates.
@@ -23,7 +23,7 @@ async function onGpsClick()
     let longitude = 0;
     try
     {
-        let position = await new Promise<Position>((resolve, reject) => {
+        const position = await new Promise<Position>((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
         latitude = position.coords.latitude;
@@ -41,13 +41,13 @@ async function onGpsClick()
     query += "(._;>;);";
     query += "out meta;";
     gps.textContent = getOsmString("str-overpass-wait");
-    var protocol = location.protocol != "http:" ? "https:" : "http:";
-    var url = protocol + "//overpass-api.de/api/interpreter";
-    var request = new Request(url, {method : "POST", body : query});
-    var overpassJson = null;
+    const protocol = location.protocol != "http:" ? "https:" : "http:";
+    let url = protocol + "//overpass-api.de/api/interpreter";
+    let request = new Request(url, {method : "POST", body : query});
+    let overpassJson = null;
     try
     {
-        var response = await window.fetch(request);
+        const response = await window.fetch(request);
         overpassJson = await response.json();
     }
     catch (reason)
@@ -57,11 +57,11 @@ async function onGpsClick()
     }
 
     // Build a list of relations.
-    var relationIds = [];
-    var elements = overpassJson.elements;
+    const relationIds = [];
+    const elements = overpassJson.elements;
     for (let i = 0; i < elements.length; i += 1)
     {
-        var element = elements[i];
+        const element = elements[i];
         if (element.id < 3600000000)
         {
             // Not a relation.
@@ -75,10 +75,10 @@ async function onGpsClick()
     url = config.uriPrefix + "/static/relations.json";
     request = new Request(url);
     gps.textContent = getOsmString("str-relations-wait");
-    var knownRelations = null;
+    let knownRelations = null;
     try
     {
-        response = await window.fetch(request);
+        const response = await window.fetch(request);
         knownRelations = await response.json();
     }
     catch (reason)
@@ -88,10 +88,10 @@ async function onGpsClick()
     }
 
     // Filter out the relations we don't recognize.
-    var knownRelationIds = [];
+    const knownRelationIds = [];
     for (let i = 0; i < relationIds.length; i += 1)
     {
-        let relationId = relationIds[i];
+        const relationId = relationIds[i];
         if (!knownRelations.includes(relationId))
         {
             continue;
@@ -106,15 +106,15 @@ async function onGpsClick()
     window.location.href = url;
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 document.addEventListener("DOMContentLoaded", async function(event) {
-    let gps = document.querySelector("#filter-based-on-position");
+    const gps = document.querySelector("#filter-based-on-position");
     if (!gps)
     {
         return;
     }
 
-    let gpsLink = <HTMLElement>gps.childNodes[0];
+    const gpsLink = <HTMLElement>gps.childNodes[0];
     gpsLink.onclick = onGpsClick;
 });
 

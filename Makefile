@@ -73,6 +73,7 @@ TS_OBJECTS = \
 	config.ts \
 	osm.ts \
 	stats.ts \
+	types.d.ts \
 
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
