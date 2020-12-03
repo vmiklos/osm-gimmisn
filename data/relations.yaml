@@ -397,6 +397,10 @@ orgovany:
     osmrelation: 1130371
     refcounty: "03"
     refsettlement: "089"
+kaskantyu:
+    osmrelation: 1130333
+    refcounty: "03"
+    refsettlement: "057"
 # 04 - Békés megye
 bekes:
     osmrelation: 1026148
