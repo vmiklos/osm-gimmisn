@@ -4,12 +4,38 @@ filters:
     ranges:
       - {start: '1', end: '49'}
       - {start: '2', end: '54'}
-  József körút:
+
+  Bródy Sándor utca:
     ranges:
-      - {start: '1', end: '87'}
+      - {start: '1', end: '27'}
+      - {start: '2', end: '48'}
+  József körút:
+    # Europeum Bevásárlóközpont többféle címmel is fut, osm-en 5-re van jelölve, innen indulunk
+    ranges:
+      - {start: '5', end: '87'}
+  Kölcsey utca:
+    ranges:
+      - {start: '2', end: '4'}
+  Ötpacsirta utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '4'}
+  Pollack Mihály tér:
+    invalid: ['5']
   Rákóczi út:
     ranges:
       - {start: '1', end: '37'}
+  Reviczky utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '8'}
+  Szentkirályi utca:
+    # 39 = Mikszáth Kálmán tér 1.
+    # 44 = Baross utca 23-25. SOTE Transzplantációs és Sebészeti Klinika
+    invalid: ['39', '44']
+    ranges:
+      - {start: '1', end: '51'}
+      - {start: '2', end: '46'}
   Üllői út:
     ranges:
       - {start: '2', end: '36'}
