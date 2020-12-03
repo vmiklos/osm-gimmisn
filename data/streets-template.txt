@@ -1,16 +1,19 @@
 [out:csv(::id, name, highway, service, surface, leisure, ::type)]  [timeout:425];
 area(@AREA@)->.searchArea;
-way(area.searchArea)[highway][highway!="service"][name]["bridge"!~".*"];
+// all but service and footway, avoid bridges
+way(area.searchArea)[highway][name][!"bridge"]["highway"!~"platform|footway|steps|raceway|service"];
 out;
-way(area.searchArea)[highway=service][name]["bridge"!~".*"];
+// service roads with names, avoid parking ways
+way(area.searchArea)[highway=service][name][!"bridge"][service!="parking_aisle"];
 out;
+// avoid underpass and bridge footways
+way(area.searchArea)["highway"~"footway|steps"][name][layer!~"-"][!"bridge"];
+out;
+// include parks with names
 way(area.searchArea)["leisure"="park"][name];
 out;
-relation(area.searchArea)["leisure"="park"][name];
-out;
+// area boundary streets
 rel(@RELATION@)->.searchRelation;
-way(r.searchRelation)[highway][highway!="service"][name]["bridge"!~".*"];
-out;
-way(r.searchRelation)[highway=service][name]["bridge"!~".*"];
+way(r.searchRelation)[highway][name][!"bridge"];
 out;
 // highway=track can also be anonymous, but many mistag based on road surface
