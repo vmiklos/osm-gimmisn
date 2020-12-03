@@ -208,3 +208,22 @@ filters:
     # 1: Four Seasons Gresham Palace oldala
     invalid: ['1']
 source: survey
+osm-street-filters:
+  # Nem igazi utcák
+  - Károlyi kert
+  - Olimpia park
+  - Széchenyi Lánchíd
+  - Városháza park
+  # Házszám nélküli utcák
+  - Carl Lutz rakpart
+  - Duna korzó
+  - Eötvös tér
+  - Hild tér
+  - Id. Antall József rakpart
+  - Jane Haining rakpart
+  - Kiss Ernő utca
+  - Pilinszky János köz
+  - Podmaniczky tér
+  - Salkaházi Sára rakpart
+  - Szomory Dezső tér
+  - Vajkay utca
