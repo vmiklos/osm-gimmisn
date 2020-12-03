@@ -3,16 +3,9 @@ filters: {}
 street-filters:
   # Nem valós utcák
   - Albertfalvai MÁV őrház
-  - DunaFok Szabadidőpark
-  - Kiserdő
-  - Közösségi kert
   - Lőtér
   - Nagytétény-Diósd őrház
-  - Nagytétényi Kastély
   - Máv őrház
-  - Memento Park
-  - Péterhegyi út / Horogszegi határsor
-  - Tétényi-fennsík tanösvény
   # Megszűnt
   - Fazekas forduló
   # Ismeretlen
@@ -21,6 +14,15 @@ street-filters:
   # Megváltozott
   - 868. utca  # Virágoskert utca, ez is szerepel, nem kell mappelni
 osm-street-filters:
+  # Nem valós utcák
+  - DunaFok Szabadidőpark
+  - Kiserdő
+  - Közösségi kert
+  - Memento Park
+  - Nagytétényi Kastély
+  - Péterhegyi út / Horogszegi határsor
+  - Tétényi-fennsík tanösvény
+  # Létező, de házszám nélküli utcák
   - Konzervgyár utca
   - Pint utca
   - Tündér lépcső
