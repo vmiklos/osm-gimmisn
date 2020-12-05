@@ -19,4 +19,6 @@ filters:
   Wesselényi Miklós utca:
     invalid: ['44', '45']
 source: survey
+refstreets:
+  'Bocskai sor': 'Bocskai István sor'
 inactive: true

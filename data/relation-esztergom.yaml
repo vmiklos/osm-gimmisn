@@ -60,9 +60,10 @@ street-filters:
   # AMP utca
   # Palatinus utca - Kassai utca folytatás, most Pala-part néven fut
   # városhatár
-  - Bocskai István sor  # Eszergom / Dorog határ: Pataksor utca / Bocskai István sor
+  # - Bocskai István sor  # Eszergom / Dorog határ: Patak sor / Bocskai sor
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Bocskai sor': 'Bocskai István sor'
   'Csendesvölgy utca': 'Csendes völgy utca'
   'Hegytető utca': 'Hegy-tető utca'
   'Kateri dűlő': 'Kateri-dűlő'

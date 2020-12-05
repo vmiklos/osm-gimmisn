@@ -55,13 +55,14 @@ filters:
 street-filters:
   - 27-sz vasúti őrház
   - Máv munkásszálló
-  - Pataksor utca  # Eszergom / Dorog határ: Pataksor utca / Bocskai István sor
+  # - Pataksor utca  # Eszergom / Dorog határ: Patak sor / Bocskai sor
 refstreets:
   'Eötvös József utca': 'Eötvös utca'
   'Erőmű lakótelep': 'Erőmü lakótelep'
   'Hősök tere': 'Hősök tér'
   'Mária utca': 'Mária út'  # táblán Mária utca
   'Martinovics Ignác utca': 'Martinovics utca'  # táblák vegyesen
+  'Patak sor': 'Pataksor utca'
   'Radnóti Miklós utca': 'Radnóti utca'  # táblák vegyesen
   'Schmidt Villa': 'Schmidt villa kert'
   'Tömedékakna': 'Tömedék akna'
