@@ -6,6 +6,8 @@ street-filters:
   - Rákosszentmihály MÁV pályaudvar
   # megváltozott a neve, több szakaszra bomlott
   - Városligeti körút
+  # létezik, de nem utcaként/nincs házszám
+  - Vajdahunyadvára  # https://www.openstreetmap.org/node/4685641019
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Argentína tér': 'Argentina tér'
