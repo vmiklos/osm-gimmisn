@@ -12,6 +12,8 @@ out;
 // include parks with names
 way(area.searchArea)["leisure"="park"][name];
 out;
+relation(area.searchArea)["leisure"="park"][name];
+out;
 // area boundary streets
 rel(@RELATION@)->.searchRelation;
 way(r.searchRelation)[highway][name][!"bridge"];
