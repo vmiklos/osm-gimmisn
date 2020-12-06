@@ -15,15 +15,21 @@ street-filters:
   - 868. utca  # Virágoskert utca, ez is szerepel, nem kell mappelni
 osm-street-filters:
   # Nem valós utcák
+  - Deák Ferenc híd
   - DunaFok Szabadidőpark
+  - Kastélypark
   - Kiserdő
   - Közösségi kert
+  - Leányka utcai felüljáró
+  - M6 felüljáró
   - Memento Park
   - Nagytétényi Kastély
   - Péterhegyi út / Horogszegi határsor
   - Tétényi-fennsík tanösvény
   # Létező, de házszám nélküli utcák
+  - Barátok köz
   - Konzervgyár utca
+  - Május 1. tér
   - Pint utca
   - Tündér lépcső
 refstreets:
