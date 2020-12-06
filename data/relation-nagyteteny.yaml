@@ -12,13 +12,19 @@ filters:
     ranges:
       - {start: '2', end: '998'}
   Nagytétényi út:
-    # Pontositando, kisebb szamok Budatétény
+    # A páratlan oldalon a Növény utca, a páros oldalon a Rózsakert utca a területhatár.
     ranges:
-      - {start: '49', end: '99'}
+      - {start: '49', end: '999'}
       - {start: '204', end: '998'}
   Növény utca:
     ranges:
       - {start: '1', end: '999'}
+  Tündérrózsa utca:
+    # A páratlan oldalon a 17 az utolsó házszám.
+    # A páros oldalon a 18 az utolsó házszám.
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '18'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Báthory utca': 'Báthori utca'
