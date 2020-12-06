@@ -124,7 +124,7 @@ filters:
   Nefelejcs utca:
     ranges:
       - {start: '21', end: '29'}
-      - {start: '26', end: '58'}
+      - {start: '26', end: '52'}
   Mátyás király utca:
     ranges:
       - {start: '2', end: '98'}
