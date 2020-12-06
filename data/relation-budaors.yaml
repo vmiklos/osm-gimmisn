@@ -77,6 +77,8 @@ filters:
       - {start: '1', end: '13'}
       - {start: '21', end: '41'}
       - {start: '2', end: '32'}
+  Kőhát utca:
+    invalid: ['11']
   Kőláb utca:
     interpolation: all
   Kőszikla utca:
@@ -150,10 +152,21 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '6'}
+  Tárogató utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Templom tér:
     interpolation: all
     ranges:
       - {start: '1', end: '22'}
+  Tüske utca:
+    invalid: ['6']
+    # a páratlan oldalon: 9, 19, 8
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '19', end: '19'}
+      - {start: '2', end: '8'}
   Vasvári Pál utca:
     ranges:
       - {start: '1', end: '29'}
