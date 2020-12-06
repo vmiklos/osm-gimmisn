@@ -559,7 +559,9 @@ def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
     return table
 
 
-def get_nth_column(sock: CsvIO, street_column: int, housenumber_column: int) -> List[str]:
+def get_nth_column(
+    sock: CsvIO, street_column: int, housenumber_column: int, conscriptionnumber_column: int
+) -> List[str]:
     """Reads the content from sock, interprets its content as tab-separated values, finally returns
     the values of the nth column. If a row has less columns, that's silently ignored."""
     ret = []
@@ -570,7 +572,9 @@ def get_nth_column(sock: CsvIO, street_column: int, housenumber_column: int) -> 
             first = False
             continue
 
-        if len(row) < street_column + 1 or len(row) < housenumber_column + 1 or not row[housenumber_column]:
+        has_housenumber = housenumber_column < len(row) and row[housenumber_column]
+        has_conscriptionnumber = conscriptionnumber_column < len(row) and row[conscriptionnumber_column]
+        if len(row) < street_column + 1 or ((not has_housenumber) and (not has_conscriptionnumber)):
             continue
 
         ret.append(row[street_column])
