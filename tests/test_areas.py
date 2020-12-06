@@ -47,6 +47,16 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
         self.assertEqual(actual, expected)
 
+    def test_conscriptionnumber(self) -> None:
+        """Tests when there is only an addr:conscriptionnumber."""
+        relations = get_relations()
+        relation_name = "gh754"
+        relation = relations.get_relation(relation_name)
+        streets = [i.get_osm_name() for i in relation.get_osm_streets()]
+        # This is coming from a house number which has addr:street and addr:conscriptionnumber, but
+        # no addr:housenumber.
+        self.assertIn("Barcfa dűlő", streets)
+
 
 class TestRelationGetOsmStreetsQuery(test_config.TestCase):
     """Tests Relation.get_osm_streets_query()."""
