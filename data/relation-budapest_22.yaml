@@ -13,6 +13,8 @@ street-filters:
   - Vízmosás utca
   # Megváltozott
   - 868. utca  # Virágoskert utca, ez is szerepel, nem kell mappelni
+  # Dupla
+  - hegyfok köz
 osm-street-filters:
   # Nem valós utcák
   - Deák Ferenc híd
