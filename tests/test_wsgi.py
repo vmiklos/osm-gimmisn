@@ -632,6 +632,12 @@ class TestMain(TestWsgi):
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
+    def test_filter_for_everything_well_formed(self) -> None:
+        """Tests if the /osm/filter-for/everything output is well-formed."""
+        root = self.get_dom_for_path("/filter-for/everything")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
     def test_filter_for_refcounty_well_formed(self) -> None:
         """Tests if the /osm/filter-for/refcounty output is well-formed."""
         root = self.get_dom_for_path("/filter-for/refcounty/01")
