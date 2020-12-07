@@ -415,6 +415,8 @@ def parse_filters(tokens: List[str]) -> Dict[str, str]:
 
         if value == "incomplete":
             ret[value] = ""
+        elif value == "everything":
+            ret[value] = ""
 
         if index + 1 >= len(tokens):
             continue

@@ -660,8 +660,8 @@ def handle_main_filters(relations: areas.Relations, refcounty_id: str) -> yattag
 
     doc = yattag.doc.Doc()
     prefix = config.Config.get_uri_prefix()
-    with doc.tag("a", href=prefix + "/filter-for/incomplete"):
-        doc.text(_("Hide complete areas"))
+    with doc.tag("a", href=prefix + "/filter-for/everything"):
+        doc.text(_("Show complete areas"))
     items.append(doc)
 
     # Sorted set of refcounty values of all relations.
@@ -700,12 +700,15 @@ def handle_main_filters(relations: areas.Relations, refcounty_id: str) -> yattag
 def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relation], bool], str]:
     """Sets up a filter-for function from request uri: only certain areas are shown then."""
     tokens = request_uri.split("/")
-    filter_for: Callable[[bool, areas.Relation], bool] = filter_for_everything
+    filter_for: Callable[[bool, areas.Relation], bool] = filter_for_incomplete
     filters = util.parse_filters(tokens)
     refcounty = ""
     if "incomplete" in filters:
         # /osm/filter-for/incomplete
         filter_for = filter_for_incomplete
+    elif "everything" in filters:
+        # /osm/filter-for/everything
+        filter_for = filter_for_everything
     elif "refcounty" in filters and "refsettlement" in filters:
         # /osm/filter-for/refcounty/<value>/refsettlement/<value>.
         refcounty = filters["refcounty"]
