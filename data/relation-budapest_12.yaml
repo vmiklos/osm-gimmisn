@@ -338,6 +338,34 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '10'}
+osm-street-filters:
+  # Nem valós utcák
+  - Farkasréti temető
+  - Főtér
+  # Szent János Kórkáz belső utcái
+  - Dr. Csapody István út
+  - Dr. Gergely Rezső lejtő
+  - Dr. Góth Endre út
+  - Dr. Gyurmán Emil park
+  - Dr. Hajdu Imre tér
+  - Dr. Horváth Mihály út
+  - Dr. Hudovernig Károly út
+  - Dr. Jantsek Gyula út
+  - Dr. Kálló Antal út
+  - Dr. Kasper Károly út
+  - Dr. Kluge Endre út
+  - Dr. Kováts Ferenc út
+  - Dr. Lénárt Gyula út
+  - Dr. Ludvik Endre tér
+  - Dr. Manninger Vilmos sétány
+  - Dr. Nebenführer László lejtő
+  - Dr. Noszkay Aurél sétány
+  - Dr. Sassy Dobray Gábor út
+  - Dr. Sebestyén Gyula út
+  - Dr. Szám István tér
+  - Dr. Takó József út
+  # Létező, de házszám nélküli utcák
+  - Mindszenty József bíboros tér
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # osm = utcatábla
