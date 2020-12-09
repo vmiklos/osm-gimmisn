@@ -8,6 +8,16 @@ filters:
     ranges:
       - {start: '1', end: '87'}
       - {start: '10', end: '106'}
+osm-street-filters:
+  # Nem valós utcák
+  - Baross téri felüljáró
+  - Gozsdu udvar
+  - A udvar
+  - B udvar
+  - C udvar
+  - D udvar
+  - E udvar
+  - F udvar
 refstreets:
   'Alsó erdősor utca': 'Alsó erdősor'
 source: survey
