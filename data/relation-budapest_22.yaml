@@ -18,6 +18,7 @@ street-filters:
 osm-street-filters:
   # Nem valós utcák
   - Deák Ferenc híd
+  - Dr. Takács Pál park
   - DunaFok Szabadidőpark
   - Kastélypark
   - Kiserdő
@@ -34,6 +35,10 @@ osm-street-filters:
   - Május 1. tér
   - Pint utca
   - Tündér lépcső
+  # Létező utcák, de házszám csak az utcanévtáblán van, az épületek más utcáról számozódnak
+  - Merész utca
+  # Érd-Budapest határa, a közigazgatási határ a kerítések vonalán fut: az épületek Érden vannak, a Budafoki út pedig Budapest területére esik
+  - Budafoki út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Báthory utca': 'Báthori utca'
