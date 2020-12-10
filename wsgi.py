@@ -466,7 +466,7 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
         for street in streets:
             cell = yattag.doc.Doc()
             if street.get_osm_id() > 0:
-                href = "https://www.openstreetmap.org/way/{}".format(street.get_osm_id())
+                href = "https://www.openstreetmap.org/{}/{}".format(street.get_osm_type(), street.get_osm_id())
                 with cell.tag("a", href=href, target="_blank"):
                     cell.text(str(street.get_osm_id()))
             cells = [

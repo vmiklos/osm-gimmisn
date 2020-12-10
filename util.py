@@ -85,11 +85,14 @@ class Street:
     A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
     name differs.
     """
-    def __init__(self, osm_name: str, ref_name: str = "", show_ref_street: bool = True, osm_id: int = 0) -> None:
+    def __init__(
+        self, osm_name: str, ref_name: str = "", show_ref_street: bool = True, osm_id: int = 0
+    ) -> None:
         self.__osm_name = osm_name
         self.__ref_name = ref_name
         self.__show_ref_street = show_ref_street
         self.__osm_id = osm_id
+        self.__osm_type = "way"
 
     def get_osm_name(self) -> str:
         """Returns the OSM name."""
@@ -102,6 +105,14 @@ class Street:
     def get_osm_id(self) -> int:
         """Returns the OSM (way) id."""
         return self.__osm_id
+
+    def set_osm_type(self, osm_type: str) -> None:
+        """Sets the OSM type, e.g. 'way'."""
+        self.__osm_type = osm_type
+
+    def get_osm_type(self) -> str:
+        """Returns the OSM type, e.g. 'way'."""
+        return self.__osm_type
 
     def to_html(self) -> yattag.doc.Doc:
         """Writes the street as a HTML string."""
