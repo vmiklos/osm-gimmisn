@@ -94,6 +94,9 @@ filters:
     invalid: ['14', '18a']
   # Fenyőtoboz utca:
   #   TODO: 10: ez és a Kiserdő utca 4. közös telken van, de sehol sincs házszám. A bejárat a Kiserdő utca felől van.
+  Fehérhegy utca:
+    # 112: a páros oldalon a 20 az utolsó házszám.
+    invalid: ['112']
   Franciska utca:
     # 25: a páratlan oldalon a 15 az utolsó házszám.
     invalid: ['25']
@@ -548,10 +551,10 @@ filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Enyedi utca': 'Enyedy utca'
-  'Felső Sas utca': 'Felsősas utca'
+  'Felső Sas utca': 'Felsősas utca'  # utcatáblán Felső Sas utca
   'Hegyfok köz': 'hegyfok köz'
   'Jobbágy út': 'Jobbágy utca'  # utcatáblán és utcajegyzékben is Jobbágy út
-  'Kiskőbánya utca': 'Kis Kőbánya utca'
+  'Kiskőbánya utca': 'Kis Kőbánya utca'  # utcatáblán Kiskőbánya utca
   'Ménes utca': 'Ménesi utca'
 source: survey
 housenumber-letters: true
