@@ -1,5 +1,17 @@
 missing-streets: 'no'
-filters: {}
+filters:
+  Petőfi Sándor P utca:
+    invalid: ['197']
+  Hegyalja út:
+    invalid: ['11']
+  Kossuth Lajos P utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '20'}
+  Hunyadi János P utca:
+    ranges:
+      - {start: '1', end: '69'}
+      - {start: '2', end: '80'}
 source: survey
 refstreets:
   'Kálám-forrás köz': 'Kálmán-forrás köz'
