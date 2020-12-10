@@ -401,6 +401,10 @@ kaskantyu:
     osmrelation: 1130333
     refcounty: "03"
     refsettlement: "057"
+pahi:
+    osmrelation: 1130352
+    refcounty: "03"
+    refsettlement: "091"
 # 04 - Békés megye
 bekes:
     osmrelation: 1026148
