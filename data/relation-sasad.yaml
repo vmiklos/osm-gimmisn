@@ -5,6 +5,9 @@ filters:
       # not sure about the 5, definitely <7
       - {start: '1', end: '5'}
       - {start: '2', end: '10'}
+  Apahida utca:
+    # 4: 4/a, 4/b
+    invalid: ['4']
   Árnika utca:
     # not sure about the 2
     ranges:
@@ -441,8 +444,9 @@ filters:
     # 3s: 3-5
     # 11a: sarok, nincs kiírva semmi
     # Sasadi 58-60 / Előpatak 63-69: egy lakópark több házzal, de Sasadiról 2 egyedi szám, sima 58 és 60
+    # 108/b,c: 108-110: A B C épületek
     # 152a: 152, 152b
-    invalid: ['1b', '3s', '11a', '58a', '58f', '58g', '60b', '60c', '152a']
+    invalid: ['1b', '3s', '11a', '58a', '58f', '58g', '60b', '60c', '108b', '108c', '152a']
   Sümegvár köz:
     # 2ab: csak sima 2 van
     # 6: 6/a, 6/b
@@ -451,6 +455,8 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
+  Szent Adalbert tér:
+    invalid: ['19']
   Szent Kristóf utca:
     # not sure about the 4
     ranges:
