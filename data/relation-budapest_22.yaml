@@ -31,10 +31,12 @@ osm-street-filters:
   - Tétényi-fennsík tanösvény
   # Létező, de házszám nélküli utcák
   - Barátok köz
+  - Donszky Árpád utca
   - Konzervgyár utca
   - Május 1. tér
   - Pint utca
   - Tündér lépcső
+  - Tűzoltó utca
   # Létező utcák, de házszám csak az utcanévtáblán van, az épületek más utcáról számozódnak
   - Merész utca
   # Érd-Budapest határa, a közigazgatási határ a kerítések vonalán fut: az épületek Érden vannak, a Budafoki út pedig Budapest területére esik
@@ -51,6 +53,5 @@ refstreets:
   'Kiskőbánya utca': 'Kis Kőbánya utca'
   'Kőház sor': 'Kőházsor'
   'Ménes utca': 'Ménesi utca'
-  'Tomori utca': 'Tomori Pál utca'
 source: survey
 inactive: true
