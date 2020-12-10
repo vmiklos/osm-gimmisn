@@ -12,8 +12,6 @@ filters:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
 street-filters:
-  # nem találtam semmilyen forrásban
-  - Futrinka utca
   # nem igazi utca
   - Vasúti őrház
   # többféle néven fut, lényegtelen 1 nagy komplexum az egész teljesen külön
