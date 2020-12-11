@@ -6,6 +6,7 @@
 
 import * as config from './config';
 import 'sorttable'; // only for its side-effects
+import * as stats from './stats';
 
 function getOsmString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
@@ -105,8 +106,8 @@ async function onGpsClick()
     window.location.href = url;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-document.addEventListener("DOMContentLoaded", async function(event) {
+async function initGps()
+{
     const gps = document.querySelector("#filter-based-on-position");
     if (!gps)
     {
@@ -115,6 +116,12 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 
     const gpsLink = <HTMLElement>gps.childNodes[0];
     gpsLink.onclick = onGpsClick;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+document.addEventListener("DOMContentLoaded", async function(event) {
+    initGps();
+    stats.initStats();
 });
 
 // vim: shiftwidth=4 softtabstop=4 expandtab:
