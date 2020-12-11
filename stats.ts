@@ -432,8 +432,8 @@ function addCharts(stats: any) {
     });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-document.addEventListener("DOMContentLoaded", async function(event) {
+async function initStats(): Promise<void>
+{
     if (!document.getElementById("daily")) {
         // Not on the stats page.
         return;
@@ -443,6 +443,9 @@ document.addEventListener("DOMContentLoaded", async function(event) {
     const response = await window.fetch(statsJSON);
     const stats = await response.json();
     addCharts(stats);
-});
+    return;
+}
+
+export { initStats };
 
 // vim: shiftwidth=4 softtabstop=4 expandtab:
