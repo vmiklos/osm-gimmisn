@@ -82,18 +82,22 @@ filters:
     invalid: ['13b']
   Brassó út:
     # <=152 is just the Sasad part, 169 is actually 169-179/a .. 169-179/h
+    # 6a: csak sima 6
     # 10: 10/a, 10/b
     # 26: 26/a, 26/b
     # 27: 27/a, 27/b
-    # 28: 28/a. 28/b
+    # 28: 28/a, 28/b
+    # 40a, 40b: csak sima 40 van
     # 45: 45/a, 45/b
     # 52: 52/a, 52/b
     # 54a, 54b: 54, 56
     # 55a, 55b: csak sima 55
     # 57b: semmi sincs kiírva
     # 95:  95/a, 95/b
+    # 107a: semmi sincs kiírva a házra
+    # 113: 113/a, 113/b, 113/c
     # 144: Domboldal utca 8 = Brassó út 144: A és B épület
-    invalid: ['10', '14', '26', '27', '28', '45', '52', '54a', '54b', '55a', '55b', '57b', '95', '144a', '144b', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
+    invalid: ['6a', '10', '14', '26', '27', '28', '40a', '40b', '45', '52', '54a', '54b', '55a', '55b', '57b', '95', '107a', '144a', '144b', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
     ranges:
       - {start: '1', end: '169'}
       - {start: '2', end: '152'}
@@ -323,6 +327,14 @@ filters:
     ranges:
       - {start: '132', end: '150'}
   Olt utca:
+    # újra lett számozva az utca páros oldala
+    # 20b: nincs, az is lehet, hogy a 22 új száma lenne, de ott nincs kiírva
+    # 25b: csak sima 25 van
+    # 26a, 26b: most 22a, 22b
+    # 28b: épület 4 részből áll, egyik rész 28a a többi sima 28
+    # 31, 31c: 4 részből áll, kettesével vannak a számok: 31a, 31b
+    # 32a, 32b, 32c, 32d: ez a régi száma a 28-ason lévő 4 részből álló sorháznak
+    invalid: ['20b', '25b', '26a', '26b', '28b', '31', '31c', '32a', '32b', '32c', '32d']
     ranges:
       - {start: '1', end: '41'}
       - {start: '2', end: '40'}
@@ -381,9 +393,12 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '32'}
   Rákó utca:
-    # 40b: cask sima 40 van kiírva
+    # 1/b: 1 és 1/a
+    # 4/a: nincs kiírva semmi
+    # 12/1: csak sima 12
+    # 40b: csak sima 40 van kiírva
     # 47: 47/a, 47/b
-    invalid: ['40b', '47']
+    invalid: ['1b', '4a', '12/1', '40b', '47']
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '60'}
