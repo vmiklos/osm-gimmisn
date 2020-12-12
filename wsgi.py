@@ -31,6 +31,7 @@ import config
 import overpass_query
 import util
 import webframe
+import wsgi_json
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -932,6 +933,9 @@ def our_application(
     if request_uri.startswith(prefix + "/static/"):
         output, content_type = webframe.handle_static(request_uri)
         return webframe.send_response(start_response, content_type, "200 OK", output, [])
+
+    if ext == "json":
+        return wsgi_json.our_application_json(start_response, relations, request_uri)
 
     doc = yattag.doc.Doc()
     util.write_html_header(doc)
