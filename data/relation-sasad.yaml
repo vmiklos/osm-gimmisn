@@ -266,6 +266,9 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '16'}
   Komondor utca:
+    # 9b: csak sima 9 van
+    # 6: 4 után 8 jön
+    invalid: ['6', '9b']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '12'}
@@ -501,6 +504,10 @@ filters:
     # 69a: 69, 69b
     # 71a, 71b: csak sima 71
     invalid: ['10b', '69a', '71a', '71b']
+  Vadon utca:
+    # 19b: csak sima 19 van
+    # 21a: csak sima 21 van
+    invalid: ['19b', '21a']
   Zajzon utca:
     ranges:
       - {start: '1', end: '15'}
