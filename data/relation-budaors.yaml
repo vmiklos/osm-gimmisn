@@ -68,6 +68,8 @@ filters:
   Fenyves utca:
     # erdő
     ranges: []
+  Fém utca:
+    invalid: ['14']
   Fodros utca:
     invalid: ['74']
   Fészek utca:
@@ -144,6 +146,8 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '16'}
+  Ringló utca:
+    invalid: ['18', '44']
   Rózsa utca:
     ranges:
       - {start: '3', end: '29'}

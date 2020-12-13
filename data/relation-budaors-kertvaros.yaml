@@ -77,6 +77,8 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '4', end: '4'}
+  Fém utca:
+    invalid: ['14']
   Fodros utca:
     invalid: ['74']
   Gesztenye köz:
@@ -148,6 +150,9 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '16'}
+  Ringló utca:
+    # Frankhegy
+    ranges: []
   Réz utca:
     ranges:
       - {start: '1', end: '13'}
