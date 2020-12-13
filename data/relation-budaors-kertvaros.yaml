@@ -47,6 +47,8 @@ filters:
     ranges:
       - {start: '4', end: '10'}
   Cserebogár utca:
+    # 18/*: Csalit utcára számozták ezeket
+    invalid: ['18']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '22'}
@@ -126,7 +128,7 @@ filters:
       - {start: '2', end: '48'}
   Naphegy utca:
     ranges:
-      - {start: '21', end: '47'}
+      - {start: '21', end: '43'}
       - {start: '20', end: '34'}
   Nefelejcs utca:
     ranges:

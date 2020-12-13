@@ -45,6 +45,9 @@ filters:
     ranges:
       - {start: '4', end: '10'}
       - {start: '20', end: '20'}
+  Cserebogár utca:
+    # 18/*: Csalit utcára számozták ezeket
+    invalid: ['18']
   Ebner György köz:
     ranges:
       - {start: '2', end: '6'}
