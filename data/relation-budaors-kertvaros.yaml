@@ -42,6 +42,10 @@ filters:
     ranges:
       - {start: '89', end: '133'}
       - {start: '90', end: '140'}
+  Csalit utca:
+    # viskók, hétvégi házak. nincsenek házszámok csak az új házakon
+    ranges:
+      - {start: '4', end: '10'}
   Cserebogár utca:
     ranges:
       - {start: '1', end: '21'}
@@ -92,6 +96,9 @@ filters:
       - {start: '1', end: '13'}
       - {start: '21', end: '41'}
       - {start: '2', end: '32'}
+  Kovács utca:
+    # páratlan oldal így megy 1 3 5 5/a 5/b 9/a 9/b
+    invalid: ['7']
   Kökény utca:
     ranges:
       - {start: '11', end: '99'}
@@ -101,7 +108,7 @@ filters:
       - {start: '1', end: '71'}
   Kőhát utca:
     ranges:
-      - {start: '2', end: '18'}
+      - {start: '4', end: '20'}
   Láng utca:
     ranges:
       - {start: '1', end: '11'}
