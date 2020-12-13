@@ -535,6 +535,10 @@ budaors-belvaros:
     osmrelation: 10477896
     refcounty: "14"
     refsettlement: "015"
+budaors-frankhegy:
+    osmrelation: 10477569
+    refcounty: "14"
+    refsettlement: "015"
 budaors-kamaraerdo:
     osmrelation: 10478302
     refcounty: "14"
