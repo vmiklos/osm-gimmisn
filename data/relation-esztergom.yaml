@@ -61,6 +61,10 @@ street-filters:
   # Palatinus utca - Kassai utca folytatás, most Pala-part néven fut
   # városhatár
   # - Bocskai István sor  # Eszergom / Dorog határ: Patak sor / Bocskai sor
+  # Pilisszentlélek, nem mappelhető
+  - Hunyadi János P utca
+  - Kossuth Lajos P utca
+  - Petőfi Sándor P utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bocskai sor': 'Bocskai István sor'
