@@ -55,6 +55,18 @@ def street_housenumbers_update_result_json(relations: areas.Relations, request_u
     return json.dumps(ret)
 
 
+def missing_housenumbers_update_result_json(relations: areas.Relations, request_uri: str) -> str:
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+    references = config.Config.get_reference_housenumber_paths()
+    relation = relations.get_relation(relation_name)
+    ret: Dict[str, str] = {}
+    relation.write_ref_housenumbers(references)
+    ret["error"] = ""
+    return json.dumps(ret)
+
+
 def our_application_json(
         start_response: 'StartResponse',
         relations: areas.Relations,
@@ -66,9 +78,11 @@ def our_application_json(
     prefix = config.Config.get_uri_prefix()
     if request_uri.startswith(prefix + "/streets/"):
         output = streets_update_result_json(relations, request_uri)
-    else:
-        # Assume that request_uri starts with prefix + "/street-housenumbers/".
+    elif request_uri.startswith(prefix + "/street-housenumbers/"):
         output = street_housenumbers_update_result_json(relations, request_uri)
+    else:
+        # Assume that request_uri starts with prefix + "/missing-housenumbers/".
+        output = missing_housenumbers_update_result_json(relations, request_uri)
     return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
