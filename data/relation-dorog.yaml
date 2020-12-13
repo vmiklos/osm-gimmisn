@@ -25,11 +25,19 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Hunyadi utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '20'}
   Kálvária köz:
     ranges:
       - {start: '10', end: '22'}
   Kálvária utca:
     invalid: ['69']
+  Kossuth Lajos utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '16'}
   Kesztölci út:
     ranges:
       - {start: '1', end: '45'}
@@ -49,6 +57,9 @@ filters:
   Schmidt Sándor lakótelep:
     # 1-50
     invalid: ['122']
+  Székely Lajos utca:
+    # nincsenek házszámok a helyszínen
+    ranges: []
   Zrínyi lakótelep:
     # 1,2,3
     invalid: ['5', '15']
