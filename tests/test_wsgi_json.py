@@ -86,5 +86,38 @@ class TestJsonStreets(TestWsgiJson):
             self.assertEqual(root["error"], "HTTP Error 0: ")
 
 
+class TestJsonStreetHousenumbers(TestWsgiJson):
+    """Tests street_housenumbers_update_result_json()."""
+    def test_update_result_json(self) -> None:
+        """Tests if the update-result output is well-formed."""
+        result_from_overpass = "@id\taddr:street\taddr:housenumber\n"
+        result_from_overpass += "1\tTörökugrató utca\t1\n"
+        result_from_overpass += "1\tTörökugrató utca\t2\n"
+        result_from_overpass += "1\tTűzkő utca\t9\n"
+        result_from_overpass += "1\tTűzkő utca\t10\n"
+        result_from_overpass += "1\tOSM Name 1\t1\n"
+        result_from_overpass += "1\tOSM Name 1\t2\n"
+        result_from_overpass += "1\tOnly In OSM utca\t1\n"
+        result_from_overpass += "1\tSecond Only In OSM utca\t1\n"
+
+        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+            buf = io.BytesIO()
+            buf.write(result_from_overpass.encode('utf-8'))
+            buf.seek(0)
+            return buf
+        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+            root = self.get_json_for_path("/street-housenumbers/gazdagret/update-result.json")
+            self.assertEqual(root["error"], "")
+
+    def test_update_result_error_json(self) -> None:
+        """Tests if the update-result output on error is well-formed."""
+
+        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+            raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
+        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+            root = self.get_json_for_path("/street-housenumbers/gazdagret/update-result.json")
+            self.assertEqual(root["error"], "HTTP Error 0: ")
+
+
 if __name__ == '__main__':
     unittest.main()
