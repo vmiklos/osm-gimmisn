@@ -1,2 +1,4 @@
 - typescript: allow @typescript-eslint/no-explicit-any rule
 - wsgi: better serving of static files, so that browser don't re-download them all the time
+- missing-housenumbers: could cache the result, so larger relations are served instantly most of the
+  time
