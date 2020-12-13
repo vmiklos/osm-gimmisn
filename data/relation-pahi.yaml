@@ -1,0 +1,10 @@
+missing-streets: 'yes'
+filters: {}
+refstreets:
+  'Jókai Mór utca': 'Jókai utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Széchenyi István utca': 'Széchenyi utca'
+source: survey
+inactive: false
