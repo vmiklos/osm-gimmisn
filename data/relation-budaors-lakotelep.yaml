@@ -34,7 +34,7 @@ filters:
       - {start: '134', end: '162'}
     invalid: ['136', '144', '153']
   Szivárvány utca:
-    invalid: ['9', '135']
+    invalid: ['9', '40', '58', '135']
   Víg utca:
     ranges:
       - {start: '48', end: '54'}
