@@ -1,0 +1,39 @@
+missing-streets: 'no'
+filters:
+  Csalit utca:
+    # viskók, hétvégi házak. nincsenek házszámok csak az új házakon
+    ranges:
+      - {start: '20', end: '20'}
+  Cserebogár utca:
+    ranges:
+      - {start: '23', end: '99'}
+      - {start: '24', end: '98'}
+  Felsőhatár utca:
+    # Páros oldal Budapest: Felső határ út néven
+    # 97, 101: csak 99 van kiírva előtte utána semmi
+    invalid: ['97', '101']
+    ranges:
+      - {start: '81', end: '137'}
+  Kőhát utca:
+    ranges:
+      - {start: '13', end: '21'}
+  Naphegy utca:
+    ranges:
+      - {start: '45', end: '99'}
+      - {start: '36', end: '98'}
+  Ringló utca:
+    # nincsenek házszámok
+    invalid: ['18', '44']
+  Tűzkőhegyi utca:
+    # 1-15 kertváros
+    ranges:
+      - {start: '2', end: '98'}
+      - {start: '17', end: '99'}
+  Víztorony utca:
+    ranges:
+      - {start: '16', end: '98'}
+  Völgy utca:
+    ranges:
+      - {start: '2', end: '28'}
+source: survey
+inactive: false
