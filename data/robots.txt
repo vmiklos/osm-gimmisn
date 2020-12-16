@@ -1,7 +1,0 @@
-User-agent: *
-Disallow: /*update-result$
-Disallow: /filter-for
-Disallow: /*view-turbo$
-Disallow: /*.txt$
-Disallow: /*.chkl$
-
