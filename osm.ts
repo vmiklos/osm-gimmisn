@@ -118,9 +118,44 @@ async function initGps()
     gpsLink.onclick = onGpsClick;
 }
 
+/**
+ * Starts various JSON requests in case some input of a ref vs osm diff is missing (or the other way
+ * around).
+ */
+async function initRedirects()
+{
+    const tokens = window.location.pathname.split('/');
+
+    const noOsmStreets = document.querySelector("#no-osm-streets");
+    if (noOsmStreets)
+    {
+        noOsmStreets.removeChild(noOsmStreets.childNodes[0]);
+        noOsmStreets.textContent += " " + getOsmString("str-overpass-wait")
+        const relationName = tokens[tokens.length - 2];
+        const link = config.uriPrefix + "/streets/" + relationName + "/update-result.json";
+        const request = new Request(link);
+        try
+        {
+            const response = await window.fetch(request);
+            const osmStreets = await response.json();
+            if (osmStreets.error != "")
+            {
+                throw osmStreets.error;
+            }
+            window.location.reload();
+        }
+        catch (reason)
+        {
+            noOsmStreets.textContent += " " + getOsmString("str-overpass-error") + reason;
+        }
+        return;
+    }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 document.addEventListener("DOMContentLoaded", async function(event) {
     initGps();
+    initRedirects();
     stats.initStats();
 });
 
