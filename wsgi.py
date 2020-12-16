@@ -150,8 +150,8 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         with doc.tag("div", id="no-osm-streets"):
             doc.text(_("No existing streets: "))
-            link = prefix + "/streets/" + relation_name + "/update-result"
-            doc.asis(util.gen_link(link, _("Call Overpass to create")).getvalue())
+        label = _("No existing streets: waiting for Overpass...")
+        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name, label).getvalue())
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
         with doc.tag("div", id="no-osm-housenumbers"):
             doc.text(_("No existing house numbers: "))
