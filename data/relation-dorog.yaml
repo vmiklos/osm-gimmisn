@@ -57,10 +57,6 @@ filters:
   Schmidt Sándor lakótelep:
     # 1-50
     invalid: ['122']
-  Szabadság tér:
-    interpolation: all
-    ranges:
-      - {start: '1', end: '4'}
   Székely Lajos utca:
     # nincsenek házszámok a helyszínen
     ranges: []
