@@ -150,6 +150,31 @@ async function initRedirects()
         }
         return;
     }
+
+    const noOsmHousenumbers = document.querySelector("#no-osm-housenumbers");
+    if (noOsmHousenumbers)
+    {
+        noOsmHousenumbers.removeChild(noOsmHousenumbers.childNodes[0]);
+        noOsmHousenumbers.textContent += " " + getOsmString("str-overpass-wait")
+        const relationName = tokens[tokens.length - 2];
+        const link = config.uriPrefix + "/street-housenumbers/" + relationName + "/update-result.json";
+        const request = new Request(link);
+        try
+        {
+            const response = await window.fetch(request);
+            const osmHousenumbers = await response.json();
+            if (osmHousenumbers.error != "")
+            {
+                throw osmHousenumbers.error;
+            }
+            window.location.reload();
+        }
+        catch (reason)
+        {
+            noOsmHousenumbers.textContent += " " + getOsmString("str-overpass-error") + reason;
+        }
+        return;
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
