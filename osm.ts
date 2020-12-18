@@ -175,6 +175,31 @@ async function initRedirects()
         }
         return;
     }
+
+    const noRefHousenumbers = document.querySelector("#no-ref-housenumbers");
+    if (noRefHousenumbers)
+    {
+        noRefHousenumbers.removeChild(noRefHousenumbers.childNodes[0]);
+        noRefHousenumbers.textContent += " " + getOsmString("str-reference-wait")
+        const relationName = tokens[tokens.length - 2];
+        const link = config.uriPrefix + "/missing-housenumbers/" + relationName + "/update-result.json";
+        const request = new Request(link);
+        try
+        {
+            const response = await window.fetch(request);
+            const refHousenumbers = await response.json();
+            if (refHousenumbers.error != "")
+            {
+                throw refHousenumbers.error;
+            }
+            window.location.reload();
+        }
+        catch (reason)
+        {
+            noRefHousenumbers.textContent += " " + getOsmString("str-reference-error") + reason;
+        }
+        return;
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

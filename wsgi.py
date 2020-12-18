@@ -160,8 +160,8 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         with doc.tag("div", id="no-ref-housenumbers"):
             doc.text(_("No missing house numbers: "))
-            link = prefix + "/missing-housenumbers/" + relation_name + "/update-result"
-            doc.asis(util.gen_link(link, _("Create from reference")).getvalue())
+        label = _("No reference house numbers: creating from reference...")
+        doc.asis(webframe.handle_no_ref_housenumbers(prefix, relation_name, label).getvalue())
     else:
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
