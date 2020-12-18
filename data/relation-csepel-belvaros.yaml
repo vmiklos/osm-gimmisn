@@ -1,4 +1,30 @@
 missing-streets: 'no'
-filters: {}
+filters:
+  Ady Endre út:
+    ranges:
+      - {start: '1', end: '15'}
+  II. Rákóczi Ferenc út:
+    ranges:
+      - {start: '50', end: '170'}
+  Görgey Artúr tér:
+    interpolation: all
+  Károli Gáspár utca:
+    # A szakasz ami ide esik, az Szent Imre térre van számozva
+    ranges: []
+  Kossuth Lajos utca:
+    ranges:
+      - {start: '27', end: '109'}
+      - {start: '22', end: '110'}
+  Szent Imre tér:
+    interpolation: all
+    ranges:
+      - {start: '9', end: '99'}
+  Szent István út:
+    # nem biztos, hogy ide bármi is van számozva, ez itt kb.
+    ranges:
+      - {start: '2', end: '22'}
+  Táncsics Mihály utca:
+    ranges:
+      - {start: '1', end: '83'}
 source: survey
 inactive: true
