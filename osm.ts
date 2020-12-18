@@ -202,10 +202,54 @@ async function initRedirects()
     }
 }
 
+/**
+ * Updates an outdated OSM house number list for a relation.
+ */
+async function onUpdateOsmHousenumbers()
+{
+    const tokens = window.location.pathname.split('/');
+
+    const housenumbers = document.querySelector("#trigger-street-housenumbers-update");
+    housenumbers.removeChild(housenumbers.childNodes[0]);
+    housenumbers.textContent += " " + getOsmString("str-toolbar-overpass-wait")
+    const relationName = tokens[tokens.length - 2];
+    const link = config.uriPrefix + "/street-housenumbers/" + relationName + "/update-result.json";
+    const request = new Request(link);
+    try
+    {
+        const response = await window.fetch(request);
+        const osmHousenumbers = await response.json();
+        if (osmHousenumbers.error != "")
+        {
+            throw osmHousenumbers.error;
+        }
+        window.location.reload();
+    }
+    catch (reason)
+    {
+        housenumbers.textContent += " " + getOsmString("str-toolbar-overpass-error") + reason;
+    }
+}
+
+/**
+ * Starts various JSON requests in case some input of a ref vs osm diff is outdated.
+ */
+async function initTriggerUpdate()
+{
+    const streetHousenumbers = document.querySelector("#trigger-street-housenumbers-update");
+    if (streetHousenumbers)
+    {
+        const streetHousenumbersLink = <HTMLLinkElement>streetHousenumbers.childNodes[0];
+        streetHousenumbersLink.onclick = onUpdateOsmHousenumbers;
+        streetHousenumbersLink.href = "#";
+    }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 document.addEventListener("DOMContentLoaded", async function(event) {
     initGps();
     initRedirects();
+    initTriggerUpdate();
     stats.initStats();
 });
 

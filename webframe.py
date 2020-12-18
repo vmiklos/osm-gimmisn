@@ -62,8 +62,9 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         # The OSM data source changes much more frequently than the ref one, so add a dedicated link
         # to update OSM house numbers first.
         doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
-            doc.text(_("Update from OSM"))
+        with doc.tag("span", id="trigger-street-housenumbers-update"):
+            with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
+                doc.text(_("Update from OSM"))
         items.append(doc)
 
         doc = yattag.doc.Doc()
@@ -177,6 +178,20 @@ def get_toolbar(
         fill_existing_header_items(streets, relation_name, items)
 
     doc = yattag.doc.Doc()
+
+    # Emit localized strings for JS purposes.
+    with doc.tag("div", style="display: none;"):
+        string_pairs = [
+            ("str-toolbar-overpass-wait", _("Waiting for Overpass...")),
+            ("str-toolbar-overpass-error", _("Error from Overpass: ")),
+        ]
+        for key, value in string_pairs:
+            kwargs: Dict[str, str] = {}
+            kwargs["id"] = key
+            kwargs["data-value"] = value
+            with doc.tag("div", **kwargs):
+                pass
+
     with doc.tag("a", href="https://overpass-turbo.eu/"):
         doc.text(_("Overpass turbo"))
     items.append(doc)
