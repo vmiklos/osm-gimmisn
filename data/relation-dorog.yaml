@@ -29,6 +29,8 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '20'}
+  Iskola út:
+    invalid: ['142', '151']
   Kálvária köz:
     ranges:
       - {start: '10', end: '22'}
