@@ -471,6 +471,12 @@ filters:
     # 6: 6/a, 6/b
     invalid: ['2a', '2b', '6']
   Süveg utca:
+    # 3: 3/a, 3/b
+    # 5: 5/a, 5/b
+    # TODO: van 9/b és 11/b, újra fel kell mérni
+    # 13: 13/a, 13/b
+    # 14a: 14, 14/b
+    invalid: ['3', '5', '13', '14a']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
