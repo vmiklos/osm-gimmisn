@@ -496,4 +496,26 @@ def handle_no_osm_streets(prefix: str, relation_name: str, label: str) -> yattag
                 pass
     return doc
 
+
+def handle_no_osm_housenumbers(prefix: str, relation_name: str, label: str) -> yattag.doc.Doc:
+    """Handles the no-osm-housenumbers error on a page using JS."""
+    doc = yattag.doc.Doc()
+    link = prefix + "/street-housenumbers/" + relation_name + "/update-result"
+    with doc.tag("noscript"):
+        with doc.tag("a", href=link):
+            doc.text(_("Call Overpass to create") + "...")
+    # Emit localized strings for JS purposes.
+    with doc.tag("div", style="display: none;"):
+        string_pairs = [
+            ("str-overpass-wait", label),
+            ("str-overpass-error", _("Error from Overpass: ")),
+        ]
+        for key, value in string_pairs:
+            kwargs: Dict[str, str] = {}
+            kwargs["id"] = key
+            kwargs["data-value"] = value
+            with doc.tag("div", **kwargs):
+                pass
+    return doc
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
