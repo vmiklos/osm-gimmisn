@@ -1,8 +1,8 @@
 [wsgi]
 workdir = workdir
-reference_housenumbers = refdir/hazszamok_20200807.tsv refdir/hazszamok_kieg_20201210.tsv
-reference_street = refdir/utcak_20200823.tsv
-reference_citycounts = refdir/varosok_count_20200823.tsv
+reference_housenumbers = refdir/hazszamok_20201217.tsv refdir/hazszamok_kieg_20201218.tsv
+reference_street = refdir/utcak_20201218.tsv
+reference_citycounts = refdir/varosok_count_20201218.tsv
 uri_prefix = /osm
 tcp_port = 8000
 overpass_uri = https://lz4.overpass-api.de
