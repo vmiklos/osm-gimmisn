@@ -28,6 +28,7 @@ osm-street-filters:
   - Memento Park
   - Nagytétényi Kastély
   - Péterhegyi út / Horogszegi határsor
+  - Piactér
   - Tétényi-fennsík tanösvény
   # Létező, de házszám nélküli utcák
   - Barátok köz
@@ -35,12 +36,14 @@ osm-street-filters:
   - Konzervgyár utca
   - Május 1. tér
   - Pint utca
-  - Tündér lépcső
+  - Seidl lépcső
+  - Tél utca
   - Tűzoltó utca
   # Létező utcák, de házszám csak az utcanévtáblán van, az épületek más utcáról számozódnak
   - Merész utca
-  # Érd-Budapest határa, a közigazgatási határ a kerítések vonalán fut: az épületek Érden vannak, a Budafoki út pedig Budapest területére esik
+  # Érd-Budapest határa, a közigazgatási határ a kerítések vonalán fut: az épületek Érden vannak, a Budafoki út és a Tétényi út egy része pedig Budapest területére esik
   - Budafoki út
+  - Tétényi út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Báthory utca': 'Báthori utca'
