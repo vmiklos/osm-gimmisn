@@ -75,8 +75,9 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         # The OSM data source changes much more frequently than the ref one, so add a dedicated link
         # to update OSM streets first.
         doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
-            doc.text(_("Update from OSM"))
+        with doc.tag("span", id="trigger-streets-update"):
+            with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
+                doc.text(_("Update from OSM"))
         items.append(doc)
 
         doc = yattag.doc.Doc()

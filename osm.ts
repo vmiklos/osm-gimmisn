@@ -203,6 +203,35 @@ async function initRedirects()
 }
 
 /**
+ * Updates an outdated OSM street list for a relation.
+ */
+async function onUpdateOsmStreets()
+{
+    const tokens = window.location.pathname.split('/');
+
+    const streets = document.querySelector("#trigger-streets-update");
+    streets.removeChild(streets.childNodes[0]);
+    streets.textContent += " " + getOsmString("str-toolbar-overpass-wait")
+    const relationName = tokens[tokens.length - 2];
+    const link = config.uriPrefix + "/streets/" + relationName + "/update-result.json";
+    const request = new Request(link);
+    try
+    {
+        const response = await window.fetch(request);
+        const osmStreets = await response.json();
+        if (osmStreets.error != "")
+        {
+            throw osmStreets.error;
+        }
+        window.location.reload();
+    }
+    catch (reason)
+    {
+        streets.textContent += " " + getOsmString("str-toolbar-overpass-error") + reason;
+    }
+}
+
+/**
  * Updates an outdated OSM house number list for a relation.
  */
 async function onUpdateOsmHousenumbers()
@@ -242,6 +271,15 @@ async function initTriggerUpdate()
         const streetHousenumbersLink = <HTMLLinkElement>streetHousenumbers.childNodes[0];
         streetHousenumbersLink.onclick = onUpdateOsmHousenumbers;
         streetHousenumbersLink.href = "#";
+        return;
+    }
+
+    const streets = document.querySelector("#trigger-streets-update");
+    if (streets)
+    {
+        const streetsLink = <HTMLLinkElement>streets.childNodes[0];
+        streetsLink.onclick = onUpdateOsmStreets;
+        streetsLink.href = "#";
     }
 }
 
