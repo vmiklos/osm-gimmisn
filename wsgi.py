@@ -196,28 +196,31 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
             doc.text(_("No existing streets: "))
             with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
                 doc.text(_("Call Overpass to create"))
-    elif not os.path.exists(relation.get_files().get_ref_streets_path()):
+        return doc
+
+    if not os.path.exists(relation.get_files().get_ref_streets_path()):
         with doc.tag("div", id="no-ref-streets"):
             doc.text(_("No street list: "))
             with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/update-result"):
                 doc.text(_("Create from reference"))
-    else:
-        ret = relation.write_missing_streets()
-        todo_count, done_count, percent, streets = ret
-        streets.sort(key=locale.strxfrm)
-        table = [[util.html_escape(_("Street name"))]]
-        for street in streets:
-            table.append([util.html_escape(street)])
+        return doc
 
-        with doc.tag("p"):
-            doc.text(_("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
-            doc.text(_(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
-            doc.stag("br")
-            with doc.tag("a", href=prefix + "/missing-streets/{}/view-turbo".format(relation_name)):
-                doc.text(_("Overpass turbo query for streets with questionable names"))
-            doc.text(".")
+    ret = relation.write_missing_streets()
+    todo_count, done_count, percent, streets = ret
+    streets.sort(key=locale.strxfrm)
+    table = [[util.html_escape(_("Street name"))]]
+    for street in streets:
+        table.append([util.html_escape(street)])
 
-        doc.asis(util.html_table_from_list(table).getvalue())
+    with doc.tag("p"):
+        doc.text(_("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
+        doc.text(_(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
+        doc.stag("br")
+        with doc.tag("a", href=prefix + "/missing-streets/{}/view-turbo".format(relation_name)):
+            doc.text(_("Overpass turbo query for streets with questionable names"))
+        doc.text(".")
+
+    doc.asis(util.html_table_from_list(table).getvalue())
     return doc
 
 
