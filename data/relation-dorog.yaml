@@ -50,6 +50,9 @@ filters:
       - {start: '2', end: '60'}
   Mária utca:
     show-refstreet: false
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '2', end: '26'}
   Puskin utca:
     ranges:
       - {start: '1', end: '99'}
@@ -72,7 +75,15 @@ filters:
 street-filters:
   - 27-sz vasúti őrház
   - Máv munkásszálló
-  # - Pataksor utca  # Eszergom / Dorog határ: Patak sor / Bocskai sor
+  - Mész telep  # területként
+osm-street-filters:
+  # Nem valós utcák
+  - Pataksor park
+  - Petőfi park
+  - Piactéri garázssor
+  - Volánbusz
+  # Létező, de házszám nélküli utcák
+  - Mária tér
 refstreets:
   'Eötvös József utca': 'Eötvös utca'
   'Erőmű lakótelep': 'Erőmü lakótelep'
@@ -81,7 +92,6 @@ refstreets:
   'Martinovics Ignác utca': 'Martinovics utca'  # táblák vegyesen
   'Patak sor': 'Pataksor utca'
   'Radnóti Miklós utca': 'Radnóti utca'  # táblák vegyesen
-  'Schmidt Villa': 'Schmidt villa kert'
   'Tömedékakna': 'Tömedék akna'
 source: survey
 inactive: true
