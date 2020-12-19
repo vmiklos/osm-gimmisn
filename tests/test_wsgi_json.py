@@ -127,5 +127,13 @@ class TestJsonMissingHousenumbers(TestWsgiJson):
         self.assertEqual(root["error"], "")
 
 
+class TestJsonMissingStreets(TestWsgiJson):
+    """Tests missing_streets_update_result_json()."""
+    def test_update_result_json(self) -> None:
+        """Tests if the update-result json output is well-formed."""
+        root = self.get_json_for_path("/missing-streets/gazdagret/update-result.json")
+        self.assertEqual(root["error"], "")
+
+
 if __name__ == '__main__':
     unittest.main()
