@@ -476,10 +476,6 @@ def gen_link(url: str, label: str) -> yattag.doc.Doc:
     with doc.tag("a", href=url):
         doc.text(label + "...")
 
-    # Always auto-visit the link for now.
-    with doc.tag("script", type="text/javascript"):
-        doc.text("window.location.href = \"%s\";" % url)
-
     return doc
 
 
