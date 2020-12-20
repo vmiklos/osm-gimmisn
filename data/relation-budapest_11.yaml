@@ -10,6 +10,7 @@ street-filters:
   - Lőportorony utca  # nem lett kiépítve, Budafoki út 215 és a Shell kút között
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Bogdánfy Ödön utca': 'Bogdánfy utca'
   'Boldizsár utca': 'Boldizsár út'
   'Citadella utca': 'Citadella út'  # Vegyesen vannak a táblák
   'Csíkihegyek utca': 'Csiki-hegyek utca'
@@ -23,5 +24,45 @@ refstreets:
   'Stoczek József utca': 'Stoczek utca'
   'Új barázda utca': 'Új Barázda utca'
   'Zólyomi köz': 'Zólyom köz'
+osm-street-filters:
+  # Nem valós utcák
+  - A magyarság útja
+  - A szentháromság útja
+  - EuroVelo-6 budai Duna-parti kerékpárút
+  - Madárhegyi lakópark
+  - McDrive
+  - Szerémi Business Park
+  - TopClean
+  # Parkok, sétautak amire nincs számozva semmi
+  - Andalgó utca
+  - Függetlenségi park
+  - Nelson Mandela park
+  - Olimpiai-park
+  - Szentivánéj park
+  # Létező, de házszám nélküli utcák
+  - Angyalka utca
+  - Balogh lejtő
+  - Bonc utca
+  - Csíky utca
+  - Feketeházy János út
+  - Gurgolya utca
+  - Hevesy György út
+  - Ildikó tér
+  - Kőtár út
+  - Olasztelek utca
+  - Olthíd utca
+  - Rákóczi híd
+  - Raoul Wallenberg rakpart
+  - Valdemar és Nina Langlet rakpart
+  - Warga László út
+  # Kerülethatáron lévő utca (eltérő név az utca 2 oldalán/másik terület az utca - ezen a néven nincs házszám)
+  - Felsőhatár utca
+  - Horogszegi határsor
+  - Péterhegyi út / Horogszegi határsor
+  # Lesz itt házszám, csak még nincs kiírva, nemrég épültek/építés alatt az épületek
+  - Gyimesbükk utca
+  - Lucerna köz
+  # Még nincs kiépítve
+  - Zabfű utca
 source: survey
 inactive: true
