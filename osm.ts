@@ -200,6 +200,31 @@ async function initRedirects()
         }
         return;
     }
+
+    const noRefStreets = document.querySelector("#no-ref-streets");
+    if (noRefStreets)
+    {
+        noRefStreets.removeChild(noRefStreets.childNodes[0]);
+        noRefStreets.textContent += " " + getOsmString("str-reference-wait")
+        const relationName = tokens[tokens.length - 2];
+        const link = config.uriPrefix + "/missing-streets/" + relationName + "/update-result.json";
+        const request = new Request(link);
+        try
+        {
+            const response = await window.fetch(request);
+            const refStreets = await response.json();
+            if (refStreets.error != "")
+            {
+                throw refStreets.error;
+            }
+            window.location.reload();
+        }
+        catch (reason)
+        {
+            noRefStreets.textContent += " " + getOsmString("str-reference-error") + reason;
+        }
+        return;
+    }
 }
 
 /**

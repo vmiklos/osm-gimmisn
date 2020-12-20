@@ -201,8 +201,8 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
     if not os.path.exists(relation.get_files().get_ref_streets_path()):
         with doc.tag("div", id="no-ref-streets"):
             doc.text(_("No street list: "))
-            with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/update-result"):
-                doc.text(_("Create from reference"))
+        label = _("No reference streets: creating from reference...")
+        doc.asis(webframe.handle_no_ref_streets(prefix, relation_name, label).getvalue())
         return doc
 
     ret = relation.write_missing_streets()
