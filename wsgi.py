@@ -150,8 +150,7 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         with doc.tag("div", id="no-osm-streets"):
             doc.text(_("No existing streets: "))
-        label = _("No existing streets: waiting for Overpass...")
-        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name, label).getvalue())
+        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
         with doc.tag("div", id="no-osm-housenumbers"):
             doc.text(_("No existing house numbers: "))
@@ -194,8 +193,7 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         with doc.tag("div", id="no-osm-streets"):
             doc.text(_("No existing streets: "))
-        label = _("No existing streets: waiting for Overpass...")
-        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name, label).getvalue())
+        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
         return doc
 
     if not os.path.exists(relation.get_files().get_ref_streets_path()):
@@ -454,8 +452,7 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         with doc.tag("div", id="no-osm-streets"):
             doc.text(_("No existing streets: "))
-        label = _("No existing streets: waiting for Overpass...")
-        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name, label).getvalue())
+        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
         with doc.tag("div", id="no-ref-streets"):
             doc.text(_("No street list: "))
