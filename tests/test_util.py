@@ -206,7 +206,6 @@ class TestGenLink(unittest.TestCase):
         """Tests the happy path."""
         doc = util.gen_link("http://www.example.com", "label")
         expected = '<a href="http://www.example.com">label...</a>'
-        expected += '<script type="text/javascript">window.location.href = "http://www.example.com";</script>'
         self.assertEqual(doc.getvalue(), expected)
 
 
