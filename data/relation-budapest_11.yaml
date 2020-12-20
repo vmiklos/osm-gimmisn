@@ -29,13 +29,18 @@ osm-street-filters:
   - A magyarság útja
   - A szentháromság útja
   - EuroVelo-6 budai Duna-parti kerékpárút
+  - Leányka utcai felüljáró
   - Madárhegyi lakópark
   - McDrive
   - Szerémi Business Park
   - TopClean
+  - Rákóczi híd
+  - Zöld Sziget, 1644+600 fkm jobb part
   # Parkok, sétautak amire nincs számozva semmi
   - Andalgó utca
   - Függetlenségi park
+  - Kaptató sétány
+  - Kelenvölgyi Szentháromság Liget
   - Nelson Mandela park
   - Olimpiai-park
   - Szentivánéj park
@@ -48,10 +53,10 @@ osm-street-filters:
   - Gurgolya utca
   - Hevesy György út
   - Ildikó tér
+  - Karéjos utca
   - Kőtár út
   - Olasztelek utca
   - Olthíd utca
-  - Rákóczi híd
   - Raoul Wallenberg rakpart
   - Valdemar és Nina Langlet rakpart
   - Warga László út
@@ -62,6 +67,7 @@ osm-street-filters:
   # Lesz itt házszám, csak még nincs kiírva, nemrég épültek/építés alatt az épületek
   - Gyimesbükk utca
   - Lucerna köz
+  - Madárhegyi út
   # Még nincs kiépítve
   - Zabfű utca
 source: survey
