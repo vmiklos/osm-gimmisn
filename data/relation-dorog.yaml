@@ -8,6 +8,14 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '8'}
+  Bányász körönd:
+    invalid: ['25', '27', '29']
+  Brikettgyári utca:
+    ranges: []
+  Bécsi út:
+    ranges:
+      - {start: '1', end: '117'}
+      - {start: '2', end: '130'}
   Erőmű lakótelep:
     # 1-20
     invalid: ['28']
@@ -36,14 +44,21 @@ filters:
       - {start: '10', end: '22'}
   Kálvária utca:
     invalid: ['69']
-  Kossuth Lajos utca:
-    ranges:
-      - {start: '1', end: '17'}
-      - {start: '2', end: '16'}
   Kesztölci út:
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '38'}
+  Kossuth Lajos utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '16'}
+  Köztársaság út:
+    # teljes káosz
+    ranges:
+      - {start: '3', end: '3'}
+      - {start: '59', end: '67'}
+      - {start: '2', end: '8'}
+      - {start: '118', end: '130'}
   Mátyás király utca:
     ranges:
       - {start: '1', end: '83'}
@@ -53,6 +68,9 @@ filters:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '26'}
+  Munkás utca:
+    ranges:
+      - {start: '2', end: '20'}
   Puskin utca:
     ranges:
       - {start: '1', end: '99'}
