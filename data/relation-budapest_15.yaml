@@ -8,6 +8,10 @@ street-filters:
   # egyéb
   - Nádastó  # utca vagy park, önmagában nincs
   - Vácduka utca  # hivatalosan ugyan létezik, de valóságban nem, valószínű Vácduka térnek hívják az utcát is
+osm-street-filters:
+  # Nem valós utcák
+  - Árpád úti felüljáró
+  - Dugonics utcai felüljáró
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM: ref hibás
