@@ -77,6 +77,15 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '20'}
+  Botfalu utca:
+    # 21a: 21, 21/b
+    # 35a, 35b: csak sima 35
+    # 42: 42/a, 42/b
+    # 47a, 47b: csak sima 57
+    invalid: ['19b', '21a', '42', '47a', '47b']
+    ranges:
+      - {start: '1', end: '51'}
+      - {start: '2', end: '46'}
   Bozókvár utca:
     # 13b: 13,13a
     invalid: ['13b']
@@ -260,6 +269,10 @@ filters:
   Homoród utca:
     # 18a: csak sima 18 van
     invalid: ['18a']
+  Karancs utca:
+    # 1a: csak sima 1
+    # 4a, 4b: csak sima 4
+    invalid: ['1a', '4a', '4b']
   Kőhalom utca:
     # 1: csak 1/a van
     invalid: ['1', '1a', '1/6']
@@ -402,7 +415,8 @@ filters:
     # 12/1: csak sima 12
     # 40b: csak sima 40 van kiírva
     # 47: 47/a, 47/b
-    invalid: ['1b', '4a', '12/1', '40b', '47']
+    # 60: 60/a, 60/b
+    invalid: ['1b', '4a', '12/1', '40b', '47', '60']
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '60'}
