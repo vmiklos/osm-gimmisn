@@ -513,7 +513,7 @@ def handle_no_osm_streets(prefix: str, relation_name: str) -> yattag.doc.Doc:
     return doc
 
 
-def handle_no_osm_housenumbers(prefix: str, relation_name: str, label: str) -> yattag.doc.Doc:
+def handle_no_osm_housenumbers(prefix: str, relation_name: str) -> yattag.doc.Doc:
     """Handles the no-osm-housenumbers error on a page using JS."""
     doc = yattag.doc.Doc()
     link = prefix + "/street-housenumbers/" + relation_name + "/update-result"
@@ -523,7 +523,7 @@ def handle_no_osm_housenumbers(prefix: str, relation_name: str, label: str) -> y
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-overpass-wait", label),
+            ("str-overpass-wait", _("No existing house numbers: waiting for Overpass...")),
             ("str-overpass-error", _("Error from Overpass: ")),
         ]
         for key, value in string_pairs:
