@@ -82,7 +82,7 @@ filters:
     # 35a, 35b: csak sima 35
     # 42: 42/a, 42/b
     # 47a, 47b: csak sima 57
-    invalid: ['19b', '21a', '42', '47a', '47b']
+    invalid: ['19b', '21a', '35a', '35b', '42', '47a', '47b']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '46'}
