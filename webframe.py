@@ -495,9 +495,9 @@ def handle_no_osm_streets(prefix: str, relation_name: str) -> yattag.doc.Doc:
     """Handles the no-osm-streets error on a page using JS."""
     doc = yattag.doc.Doc()
     link = prefix + "/streets/" + relation_name + "/update-result"
-    with doc.tag("noscript"):
+    with doc.tag("div", id="no-osm-streets"):
         with doc.tag("a", href=link):
-            doc.text(_("Call Overpass to create") + "...")
+            doc.text(_("No existing streets: call Overpass to create..."))
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
