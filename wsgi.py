@@ -187,8 +187,6 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
         return doc
 
     if not os.path.exists(relation.get_files().get_ref_streets_path()):
-        with doc.tag("div", id="no-ref-streets"):
-            doc.text(_("No street list: "))
         doc.asis(webframe.handle_no_ref_streets(prefix, relation_name).getvalue())
         return doc
 
@@ -441,8 +439,6 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
-        with doc.tag("div", id="no-ref-streets"):
-            doc.text(_("No street list: "))
         doc.asis(webframe.handle_no_ref_streets(prefix, relation_name).getvalue())
     else:
         # Get "only in OSM" streets.
