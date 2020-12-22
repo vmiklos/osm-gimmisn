@@ -12,6 +12,8 @@ filters:
     ranges:
       - {start: '2', end: '998'}
   Nagytétényi út:
+    # 83: nincs ilyen, a 67/c után a 145-147 következik, nincsenek köztes házszámok.
+    invalid: ['83']
     # A páratlan oldalon a Növény utca, a páros oldalon a Rózsakert utca a területhatár.
     ranges:
       - {start: '49', end: '999'}
