@@ -561,9 +561,9 @@ def handle_no_ref_streets(prefix: str, relation_name: str) -> yattag.doc.Doc:
     """Handles the no-ref-streets error on a page using JS."""
     doc = yattag.doc.Doc()
     link = prefix + "/missing-streets/" + relation_name + "/update-result"
-    with doc.tag("noscript"):
+    with doc.tag("div", id="no-ref-streets"):
         with doc.tag("a", href=link):
-            doc.text(_("Create from reference") + "...")
+            doc.text(_("No street list: create from reference..."))
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
