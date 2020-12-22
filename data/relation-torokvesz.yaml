@@ -1,5 +1,11 @@
 missing-streets: 'no'
 filters:
+  Ábrányi Emil utca:
+    # 1 =  Bimbó út 143
+    # 10 = Endrődi Sándor utca
+    ranges:
+      - {start: '3', end: '9'}
+      - {start: '2', end: '8'}
   Alvinci út:
     ranges:
       - {start: '2', end: '60'}
