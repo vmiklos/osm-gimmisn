@@ -539,9 +539,9 @@ def handle_no_ref_housenumbers(prefix: str, relation_name: str) -> yattag.doc.Do
     """Handles the no-ref-housenumbers error on a page using JS."""
     doc = yattag.doc.Doc()
     link = prefix + "/missing-housenumbers/" + relation_name + "/update-result"
-    with doc.tag("noscript"):
+    with doc.tag("div", id="no-ref-housenumbers"):
         with doc.tag("a", href=link):
-            doc.text(_("Create from reference") + "...")
+            doc.text(_("No missing house numbers: create from reference..."))
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [

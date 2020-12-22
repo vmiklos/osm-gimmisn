@@ -152,8 +152,6 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
         doc.asis(webframe.handle_no_osm_housenumbers(prefix, relation_name).getvalue())
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
-        with doc.tag("div", id="no-ref-housenumbers"):
-            doc.text(_("No missing house numbers: "))
         doc.asis(webframe.handle_no_ref_housenumbers(prefix, relation_name).getvalue())
     else:
         ret = relation.write_missing_housenumbers()
