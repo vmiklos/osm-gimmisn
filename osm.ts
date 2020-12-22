@@ -12,13 +12,32 @@ function getOsmString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
 }
 
+/**
+ * Creates a loading indicator element.
+ */
+function createLoader(anchor: Element, label: string)
+{
+    // This implicitly removes any child nodes.
+    anchor.textContent = label;
+
+    const loader = document.createElement("span");
+    loader.className = "loader";
+    for (let i = 0; i < 3; ++i)
+    {
+        const loaderBox = document.createElement("span");
+        loaderBox.className = "loader-box";
+        loader.appendChild(loaderBox);
+    }
+    anchor.appendChild(loader);
+}
+
 async function onGpsClick()
 {
     const gps = document.querySelector("#filter-based-on-position");
     gps.removeChild(gps.childNodes[0]);
 
     // Get the coordinates.
-    gps.textContent = getOsmString("str-gps-wait");
+    createLoader(gps, getOsmString("str-gps-wait"));
     let latitude = 0;
     let longitude = 0;
     try
@@ -40,7 +59,7 @@ async function onGpsClick()
     query += "is_in(" + latitude + "," + longitude + ");\n";
     query += "(._;>;);";
     query += "out meta;";
-    gps.textContent = getOsmString("str-overpass-wait");
+    createLoader(gps, getOsmString("str-overpass-wait"));
     const protocol = location.protocol != "http:" ? "https:" : "http:";
     let url = protocol + "//overpass-api.de/api/interpreter";
     let request = new Request(url, {method : "POST", body : query});
@@ -74,7 +93,7 @@ async function onGpsClick()
     // Now fetch the list of relations we recognize.
     url = config.uriPrefix + "/static/relations.json";
     request = new Request(url);
-    gps.textContent = getOsmString("str-relations-wait");
+    createLoader(gps, getOsmString("str-relations-wait"));
     let knownRelations = null;
     try
     {
@@ -101,7 +120,7 @@ async function onGpsClick()
     }
 
     // Redirect.
-    gps.textContent = getOsmString("str-redirect-wait");
+    createLoader(gps, getOsmString("str-redirect-wait"));
     url = config.uriPrefix + "/filter-for/relations/" + knownRelationIds.join(",");
     window.location.href = url;
 }
@@ -130,7 +149,7 @@ async function initRedirects()
     if (noOsmStreets)
     {
         noOsmStreets.removeChild(noOsmStreets.childNodes[0]);
-        noOsmStreets.textContent += " " + getOsmString("str-overpass-wait")
+        createLoader(noOsmStreets, getOsmString("str-overpass-wait"));
         const relationName = tokens[tokens.length - 2];
         const link = config.uriPrefix + "/streets/" + relationName + "/update-result.json";
         const request = new Request(link);
@@ -155,7 +174,7 @@ async function initRedirects()
     if (noOsmHousenumbers)
     {
         noOsmHousenumbers.removeChild(noOsmHousenumbers.childNodes[0]);
-        noOsmHousenumbers.textContent += " " + getOsmString("str-overpass-wait")
+        createLoader(noOsmHousenumbers, getOsmString("str-overpass-wait"));
         const relationName = tokens[tokens.length - 2];
         const link = config.uriPrefix + "/street-housenumbers/" + relationName + "/update-result.json";
         const request = new Request(link);
@@ -180,7 +199,7 @@ async function initRedirects()
     if (noRefHousenumbers)
     {
         noRefHousenumbers.removeChild(noRefHousenumbers.childNodes[0]);
-        noRefHousenumbers.textContent += " " + getOsmString("str-reference-wait")
+        createLoader(noRefHousenumbers, getOsmString("str-reference-wait"));
         const relationName = tokens[tokens.length - 2];
         const link = config.uriPrefix + "/missing-housenumbers/" + relationName + "/update-result.json";
         const request = new Request(link);
@@ -205,7 +224,7 @@ async function initRedirects()
     if (noRefStreets)
     {
         noRefStreets.removeChild(noRefStreets.childNodes[0]);
-        noRefStreets.textContent += " " + getOsmString("str-reference-wait")
+        createLoader(noRefStreets, getOsmString("str-reference-wait"));
         const relationName = tokens[tokens.length - 2];
         const link = config.uriPrefix + "/missing-streets/" + relationName + "/update-result.json";
         const request = new Request(link);
@@ -236,7 +255,7 @@ async function onUpdateOsmStreets()
 
     const streets = document.querySelector("#trigger-streets-update");
     streets.removeChild(streets.childNodes[0]);
-    streets.textContent += " " + getOsmString("str-toolbar-overpass-wait")
+    createLoader(streets, getOsmString("str-toolbar-overpass-wait"));
     const relationName = tokens[tokens.length - 2];
     const link = config.uriPrefix + "/streets/" + relationName + "/update-result.json";
     const request = new Request(link);
@@ -264,8 +283,7 @@ async function onUpdateOsmHousenumbers()
     const tokens = window.location.pathname.split('/');
 
     const housenumbers = document.querySelector("#trigger-street-housenumbers-update");
-    housenumbers.removeChild(housenumbers.childNodes[0]);
-    housenumbers.textContent += " " + getOsmString("str-toolbar-overpass-wait")
+    createLoader(housenumbers, getOsmString("str-toolbar-overpass-wait"));
     const relationName = tokens[tokens.length - 2];
     const link = config.uriPrefix + "/street-housenumbers/" + relationName + "/update-result.json";
     const request = new Request(link);
