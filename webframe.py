@@ -86,8 +86,9 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         items.append(doc)
     elif function == "street-housenumbers":
         doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
-            doc.text(_("Call Overpass to update"))
+        with doc.tag("span", id="trigger-street-housenumbers-update"):
+            with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
+                doc.text(_("Call Overpass to update"))
         items.append(doc)
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-query"):
@@ -95,8 +96,9 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         items.append(doc)
     elif function == "streets":
         doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
-            doc.text(_("Call Overpass to update"))
+        with doc.tag("span", id="trigger-streets-update"):
+            with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
+                doc.text(_("Call Overpass to update"))
         items.append(doc)
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-query"):
