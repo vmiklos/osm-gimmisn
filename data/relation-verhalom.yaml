@@ -34,9 +34,12 @@ filters:
       - {start: '51', end: '99'}
       - {start: '56', end: '98'}
   Gárdonyi Géza út:
+    # 2 = Törökvész út 46/d
+    # 8: 6/b után 10 jön, de az egyik házrészen nincs szám
     invalid: ['8']
     ranges:
-      - {start: '2', end: '44'}
+      - {start: '4', end: '12'}
+      - {start: '20', end: '44'}
   Kapy utca:
     ranges:
       - {start: '57', end: '63'}
