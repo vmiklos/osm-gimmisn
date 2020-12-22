@@ -557,7 +557,7 @@ def handle_no_ref_housenumbers(prefix: str, relation_name: str) -> yattag.doc.Do
     return doc
 
 
-def handle_no_ref_streets(prefix: str, relation_name: str, label: str) -> yattag.doc.Doc:
+def handle_no_ref_streets(prefix: str, relation_name: str) -> yattag.doc.Doc:
     """Handles the no-ref-streets error on a page using JS."""
     doc = yattag.doc.Doc()
     link = prefix + "/missing-streets/" + relation_name + "/update-result"
@@ -567,7 +567,7 @@ def handle_no_ref_streets(prefix: str, relation_name: str, label: str) -> yattag
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-reference-wait", label),
+            ("str-reference-wait", _("No reference streets: creating from reference...")),
             ("str-reference-error", _("Error from reference: ")),
         ]
         for key, value in string_pairs:
