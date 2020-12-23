@@ -1,6 +1,6 @@
 missing-streets: 'yes'
 filters: {}
-street-filters: {}
+street-filters: []
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Árpád vezér utca': 'Árpádvezér utca'
