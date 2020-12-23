@@ -1,7 +1,7 @@
 missing-streets: 'yes'
 filters:
   Baross Gábor lakótelep:
-    invalid: ['35', '36']
+    invalid: ['35', '36', '368']
   Borbála lakótelep:
     # iskola régi címe 31
     # az orvosi rendelő 30 (Bányász körönd 30 néven is fut, azt használjuk)
@@ -75,6 +75,8 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '24', end: '26'}
+  Rákóczi utca:
+    invalid: ['20', '22', '62']
   Sándor utca:
     invalid: ['21', '25', '29', '48']
   Schmidt Sándor lakótelep:
