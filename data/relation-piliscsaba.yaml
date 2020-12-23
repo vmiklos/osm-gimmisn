@@ -1,0 +1,29 @@
+missing-streets: 'yes'
+filters: {}
+street-filters: {}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Árpád vezér utca': 'Árpádvezér utca'
+  'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
+  'Batthyány Lajos utca': 'Batthány János utca'
+  'Béla király utca': 'Béla király útja'
+  'Csabagyöngye sétány': 'Csaba gyöngye sétány'
+  'Csaba királyfi utca': 'Csabakirályfi utca'
+  'Dűlő utca': 'Dűlő út'
+  'Erdősor utca': 'Erdősor út'
+  'Jókai Mór utca': 'Jókai utca'
+  'Józsefliget utca': 'József liget utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'
+  'Kálmán király utca': 'Kálmán király útja'
+  'Mindszenty bíboros köz': 'Mindszenty Bíboros köz'
+  'Mátyás király utca': 'Mátyás király út'
+  'Nádorerdő utca': 'Nádor erdő utca'
+  'Panoráma út': 'Panoráma utca'
+  'Páskomliget utca': 'Páskom liget utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Szent László király utca': 'Szent László király útja'
+  'Wesselényi utca': 'Wesselényi Miklós utca'
+  'Zajnáthegyi utca': 'Zajnáthegyi út'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+source: survey
+inactive: false
