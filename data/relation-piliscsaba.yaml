@@ -1,6 +1,11 @@
 missing-streets: 'yes'
 filters: {}
-street-filters: []
+street-filters:
+  # nem igazi utcák
+  - 21. sz. vasúti őrház
+  - 22 MÁV vasúti őrház
+  - Máv őrházak
+  - Postaréti erdészház
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Árpád vezér utca': 'Árpádvezér utca'
