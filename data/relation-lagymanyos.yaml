@@ -108,6 +108,7 @@ filters:
       - {start: '5', end: '5'}
       - {start: '2', end: '14'}
 refstreets:
+  'Bogdánfy Ödön utca': 'Bogdánfy utca'
   'Október huszonharmadika utca': 'Október Huszonharmad utca'
   'Stoczek József utca': 'Stoczek utca'
 source: survey
