@@ -153,6 +153,23 @@ filters:
     # 39: ez és a Karácsony utca 8. közös telken van, házszám a Karácsony utcáról van csak.
     # 2-4: ezek és a Szepesi utca 4. közös telken van, házszám a Szepesi utcáról van csak.
     invalid: ['1', '13', '25', '33', '37', '39', '2', '4']
+  Honfoglalás út:
+    # 35/A: nincs ilyen, csak sima 35.
+    # 47/3: nincs ilyen, csak sima 47.
+    # 79: sima 79 nincs, csak 79/A, 79/B.
+    # 18/B: nincs ilyen, csak 14-18.
+    # 28: nincs ilyen, össze lett nyitva a 30-cal.
+    # 34: sima 34 nincs, csak 34/A, 34/B.
+    # 40: sima 40 nincs, csak 40/A, 40/B.
+    # 46: sima 46 nincs, csak 46/A, 46/B.
+    # 48: sima 48 nincs, csak 48/A, 48/B.
+    # 54: sima 54 nincs, csak 54/A, 54/B.
+    # 68: sima 68 nincs, csak 68/1, 68/2.
+    # 68/B: nincs ilyen, csak 68/1, 68/2.
+    # 72/B: nincs ilyen, csak sima 72.
+    # 96/B: nincs ilyen, csak sima 96.
+    # 100: sima 100 nincs, csak 100/A, 100/B.
+    invalid: ['35a', '47/3', '79', '18b', '28', '34', '40', '46', '48', '54', '68', '68b', '72b', '96b', '100']
   Hordós utca:
     # 5: sima 5 nincs, csak 5/A, 5/B.
     # 93: a páratlan oldalon a 19 az utolsó házszám.
