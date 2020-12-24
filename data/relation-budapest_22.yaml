@@ -33,6 +33,7 @@ osm-street-filters:
   # Létező, de házszám nélküli utcák
   - Barátok köz
   - Donszky Árpád utca
+  - Híd utca
   - Konzervgyár utca
   - Május 1. tér
   - Pint utca
@@ -41,6 +42,7 @@ osm-street-filters:
   - Tűzoltó utca
   # Létező utcák, de házszám csak az utcanévtáblán van, az épületek más utcáról számozódnak
   - Merész utca
+  - Sásfű utca
   # Érd-Budapest határa, a közigazgatási határ a kerítések vonalán fut: az épületek Érden vannak, a Budafoki út és a Tétényi út egy része pedig Budapest területére esik
   - Budafoki út
   - Tétényi út
