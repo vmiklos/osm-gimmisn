@@ -17,6 +17,10 @@ filters:
     # területhatár: harshegy/huvosvolgy/lipotmezo
     ranges:
       - {start: '2', end: '98'}
+  Páfrány út:
+    # területhatár: lipotmezo/nyek
+    ranges:
+      - {start: '2', end: '98'}
   Szerb Antal utca:
     # területhatár: kurucles/lipotmezo/pasaret
     ranges:

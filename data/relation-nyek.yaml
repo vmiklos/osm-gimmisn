@@ -16,6 +16,10 @@ filters:
     # területhatár: pasaret/torokvesz
     ranges:
       - {start: '62', end: '98'}
+  Páfrány út:
+    # területhatár: lipotmezo/nyek
+    ranges:
+      - {start: '1', end: '31'}
   Páfrányliget utca:
     # területhatár: pasaret/nyek
     ranges:
