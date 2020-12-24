@@ -13,6 +13,11 @@ filters:
     # területhatár: huvosvolgy/mariaremete
     ranges:
       - {start: '2', end: '36'}
+  Nagyrét utca:
+    # huvosvolgy/pesthidegkut
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '12'}
   Rézsű utca:
     # területhatár: adyliget/mariaremete
     ranges:

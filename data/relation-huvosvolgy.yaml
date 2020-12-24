@@ -19,6 +19,11 @@ filters:
     # területhatár: harshegy/adyliget/huvosvolgy
     # ezen a részen nincs házszám
     ranges: []
+  Nagyrét utca:
+    # huvosvolgy/pesthidegkut
+    ranges:
+      - {start: '25', end: '99'}
+      - {start: '14', end: '98'}
   Nyéki út:
     # területhatár: harshegy/huvosvolgy/lipotmezo
     ranges:
