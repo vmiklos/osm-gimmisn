@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Budakeszi utca:
+    # A Frankhegyre eső részen nincsenek házak, csak erdő
+    ranges: []
   Csalit utca:
     # viskók, hétvégi házak. nincsenek házszámok csak az új házakon
     ranges:
