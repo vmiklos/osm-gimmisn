@@ -68,8 +68,9 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         items.append(doc)
 
         doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/update-result"):
-            doc.text(_("Update from reference"))
+        with doc.tag("span", id="trigger-missing-housenumbers-update"):
+            with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/update-result"):
+                doc.text(_("Update from reference"))
         items.append(doc)
     elif function in ("missing-streets", "additional-streets"):
         # The OSM data source changes much more frequently than the ref one, so add a dedicated link
@@ -81,8 +82,9 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         items.append(doc)
 
         doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/update-result"):
-            doc.text(_("Update from reference"))
+        with doc.tag("span", id="trigger-missing-streets-update"):
+            with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/update-result"):
+                doc.text(_("Update from reference"))
         items.append(doc)
     elif function == "street-housenumbers":
         doc = yattag.doc.Doc()
@@ -187,6 +189,8 @@ def get_toolbar(
         string_pairs = [
             ("str-toolbar-overpass-wait", _("Waiting for Overpass...")),
             ("str-toolbar-overpass-error", _("Error from Overpass: ")),
+            ("str-toolbar-reference-wait", _("Creating from reference...")),
+            ("str-toolbar-reference-error", _("Error from reference: ")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
