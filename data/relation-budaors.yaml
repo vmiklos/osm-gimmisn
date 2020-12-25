@@ -34,6 +34,13 @@ filters:
     invalid: ['5', '7', '29']
   Baross utca:
     invalid: ['86']
+  Budafoki utca:
+    # össze vissza számozva
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '18'}
+      - {start: '29', end: '37'}
+      - {start: '34', end: '34'}
   Budapesti út:
     invalid: ['10', '25', '43']
     ranges:
@@ -194,6 +201,8 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '36'}
+  Víztorony utca:
+    invalid: ['7']
 source: survey
 street-filters:
   - Budafruct  # Volt HungaroFruct hűtőház, ma Vasút utca 9
