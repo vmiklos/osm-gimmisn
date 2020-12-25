@@ -34,7 +34,7 @@ filters:
     invalid: ['5', '7', '29']
   Baross utca:
     invalid: ['86']
-  Budafoki utca:
+  Budakeszi utca:
     # össze vissza számozva
     ranges:
       - {start: '1', end: '13'}
