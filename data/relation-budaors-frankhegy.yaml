@@ -38,10 +38,12 @@ filters:
       - {start: '17', end: '99'}
   Víztorony utca:
     ranges:
-      - {start: '16', end: '98'}
+      - {start: '16', end: '22'}
   Völgy utca:
     ranges:
       - {start: '2', end: '28'}
+  Zengő utca:
+    invalid: ['25']
   Zúzmara utca:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']

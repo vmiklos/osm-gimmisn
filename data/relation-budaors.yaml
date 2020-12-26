@@ -32,9 +32,13 @@ filters:
   Bányász utca:
     # furcsa számozás, így jön a páratlan 1/a 1 3 11 9 15 13/b 17 19
     invalid: ['5', '7', '29']
+  Bárány utca:
+    # össze vissza számozva
+    interpolation: all
+    invalid: ['1', '11', '12']
   Baross utca:
     invalid: ['86']
-  Budafoki utca:
+  Budakeszi utca:
     # össze vissza számozva
     ranges:
       - {start: '1', end: '13'}
@@ -88,6 +92,10 @@ filters:
   Gida utca:
     # 4 és 6 nincs, a 2 után 5/a jön
     invalid: ['4', '6']
+  Hurok utca:
+    # gyengén van táblázva
+    interpolation: all
+    invalid: ['7', '10', '12', '13', '18']
   Ifjúság utca:
     invalid: ['2', '37']
   Kertész köz:
@@ -109,6 +117,8 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '4', end: '22'}
+  Kőkapu utca:
+    invalid: ['14', '19']
   Kőláb utca:
     interpolation: all
   Kőszikla utca:
@@ -127,7 +137,8 @@ filters:
       - {start: '1', end: '29'}
       - {start: '2', end: '44'}
   Máriavölgy utca:
-    invalid: ['11']
+    # össze vissza számozva, csoda hogy csak ezek hiányoznak
+    invalid: ['11', '12', '22']
   Mozdony utca:
     ranges:
       - {start: '1', end: '19'}
@@ -146,6 +157,16 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '52'}
+  Ostor köz:
+    ranges:
+      - {start: '6', end: '8'}
+  Ostor utca:
+    # 8: zegzugos, de 8 az nincs táblázva
+    invalid: ['3', '8']
+    ranges:
+      - {start: '2', end: '42'}
+      - {start: '1', end: '5'}
+      - {start: '19', end: '19'}
   Otthon utca:
     invalid: ['1', '25']
   Ötvös utca:
@@ -212,6 +233,15 @@ filters:
       - {start: '2', end: '36'}
   Víztorony utca:
     invalid: ['7']
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '22'}
+  Völgy utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '28'}
+  Zengő utca:
+    invalid: ['25']
   Zúzmara utca:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']

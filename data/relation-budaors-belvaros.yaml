@@ -8,6 +8,10 @@ filters:
       - {start: '2', end: '6'}
   Átlós utca:
     ranges: []
+  Bárány utca:
+    # össze vissza számozva
+    interpolation: all
+    invalid: ['1', '11', '12']
   Budapesti út:
     invalid: ['10', '25', '43']
     ranges:
@@ -70,6 +74,8 @@ filters:
   Kőhát utca:
     ranges:
       - {start: '1', end: '9'}
+  Kőkapu utca:
+    invalid: ['14', '19']
   Kőszikla utca:
     interpolation: all
     ranges:
@@ -77,7 +83,10 @@ filters:
   Máriavölgy utca:
     interpolation: all
     ranges:
-      - {start: '1', end: '11'}
+      - {start: '1', end: '10'}
+      - {start: '13', end: '15'}
+      - {start: '23', end: '23'}
+      - {start: '32', end: '35'}
   Mátyás király utca:
     ranges:
       - {start: '1', end: '99'}
@@ -89,6 +98,16 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '26'}
+  Ostor köz:
+    ranges:
+      - {start: '6', end: '8'}
+  Ostor utca:
+    # 8: zegzugos, de 8 az nincs táblázva
+    invalid: ['3', '8']
+    ranges:
+      - {start: '2', end: '42'}
+      - {start: '1', end: '5'}
+      - {start: '19', end: '19'}
   Őszibarack utca:
     ranges:
       - {start: '2', end: '4'}
