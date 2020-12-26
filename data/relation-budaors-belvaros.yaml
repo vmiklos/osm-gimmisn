@@ -32,6 +32,9 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '2'}
+  Gida utca:
+    # 4 és 6 nincs, a 2 után 5/a jön
+    invalid: ['4', '6']
   Halom utca:
     ranges:
       - {start: '1', end: '25'}
@@ -60,6 +63,10 @@ filters:
       - {start: '8', end: '18'}
   Kőláb utca:
     interpolation: all
+  Kőhalom utca:
+    interpolation: all
+    ranges:
+      - {start: '19', end: '31'}
   Kőhát utca:
     ranges:
       - {start: '1', end: '9'}
@@ -67,6 +74,8 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '20'}
+  Máriavölgy utca:
+    invalid: ['11']
   Mátyás király utca:
     ranges:
       - {start: '1', end: '99'}
