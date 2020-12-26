@@ -4,6 +4,8 @@ filters:
     ranges: []
   Balatoni út:
     # terinfo.ujbuda.hu alapjan, valosagban nincs haz
+    # 2: Budapest one: Balatoni út 2/a
+    invalid: ['2']
     ranges:
       - {start: '2', end: '24'}
   Boldizsár utca:

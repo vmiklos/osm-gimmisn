@@ -3,9 +3,9 @@ filters:
   Balatoni út:
     # ref-ben levo hrsz-ek kiszurese
     ranges:
-      - {start: '46', end: '158'}
+      - {start: '46', end: '142'}
       - {start: '146', end: '158'}
-      - {start: '198', end: '202'}
+      - {start: '198', end: '202'}  # Shell kút környéke
   Egér út:
     ranges: []
   Kamaraerdei út:
@@ -18,6 +18,47 @@ filters:
     # össze vissza vannak a számok, úgy tűnik itt csak a 6 van
     ranges:
       - {start: '6', end: '6'}
+  # Kőérberki dűlő
+  # túlnyomó részt helyrajzi számok, amelyek akár 2 jegyűek is lehetnek, mert itt indul Budapesten a hrsz. számozása 1-gyel
+  Kőérberki dűlő:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '56'}
+  Vadászhegyi utca:
+    # utcára eső hrsz tartomány: 63, 79-86
+    interpolation: all
+    ranges:
+      - {start: '1', end: '62'}
+  Laska utca:
+    # utcára eső hrsz tartomány: 87-107
+    interpolation: all
+    ranges:
+      - {start: '1', end: '86'}
+  Fülőke utca:
+    # utcára eső hrsz tartomány: 197-220, illetve 308/11, 308/16 saroktelkek
+    interpolation: all
+    ranges:
+      - {start: '1', end: '99'}
+  Pereszke utca:
+    # utcára eső hrsz tartomány: 221-241
+    interpolation: all
+    ranges:
+      - {start: '1', end: '99'}
+  Susulyka utca:
+    # utcára eső hrsz tartomány: 242, 284, 292-308
+    interpolation: all
+    ranges:
+      - {start: '1', end: '99'}
+  Pöfeteg utca:
+    # utcára eső hrsz tartomány: 321, 400
+    interpolation: all
+    ranges:
+      - {start: '1', end: '99'}
+  Tinóru utca:
+    # utcára eső hrsz tartomány: 471-477
+    interpolation: all
+    ranges:
+      - {start: '1', end: '99'}
 source: survey
 inactive: true
 housenumber-letters: true
