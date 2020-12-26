@@ -75,7 +75,9 @@ filters:
     ranges:
       - {start: '1', end: '20'}
   Máriavölgy utca:
-    invalid: ['11']
+    interpolation: all
+    ranges:
+      - {start: '1', end: '11'}
   Mátyás király utca:
     ranges:
       - {start: '1', end: '99'}
@@ -87,10 +89,6 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '26'}
-  Máriavölgy utca:
-    interpolation: all
-    ranges:
-      - {start: '1', end: '11'}
   Őszibarack utca:
     ranges:
       - {start: '2', end: '4'}
