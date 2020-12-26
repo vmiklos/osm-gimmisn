@@ -17,6 +17,10 @@ filters:
     invalid: ['97', '101']
     ranges:
       - {start: '81', end: '137'}
+  Hurok utca:
+    # gyengén van táblázva
+    interpolation: all
+    invalid: ['7', '10', '12', '13', '18']
   Kőhalom utca:
     interpolation: all
     ranges:
