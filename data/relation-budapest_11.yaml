@@ -19,6 +19,7 @@ refstreets:
   'Henryk Sławik rakpart': 'Henryk Slawik rakpart'
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
   'Keserűvíz utca': 'Keserűviz utca'
+  'Kis Fenyves köz': 'Kis-Fenyves köz'
   'Mesterházi utca': 'Mesterházy utca'
   'Október huszonharmadika utca': 'Október Huszonharmad utca'
   'Stoczek József utca': 'Stoczek utca'
@@ -38,11 +39,16 @@ osm-street-filters:
   - Zöld Sziget, 1644+600 fkm jobb part
   # Parkok, sétautak amire nincs számozva semmi
   - Andalgó utca
+  - Cirmos liget
+  - Fehér Marcell Emlékpark
   - Függetlenségi park
+  - Jubileumi-park
   - Kaptató sétány
   - Kelenvölgyi Szentháromság Liget
   - Nelson Mandela park
   - Olimpiai-park
+  - Sas-liget
+  - Sósfürdő park
   - Szentivánéj park
   # Létező, de házszám nélküli utcák
   - Angyalka utca
@@ -55,6 +61,7 @@ osm-street-filters:
   - Hevesy György út
   - Ildikó tér
   - Karéjos utca
+  - Kitérő út
   - Kőtár út
   - Olasztelek utca
   - Olthíd utca
@@ -65,6 +72,9 @@ osm-street-filters:
   - Felsőhatár utca
   - Horogszegi határsor
   - Péterhegyi út / Horogszegi határsor
+  - Pedellus utca
+  - Torockó utca
+  - Vörösbegy utca
   # Lesz itt házszám, csak még nincs kiírva, nemrég épültek/építés alatt az épületek
   - Gyimesbükk utca
   - Lucerna köz
