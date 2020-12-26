@@ -201,7 +201,9 @@ filters:
       - {start: '3', end: '7'}
       - {start: '9', end: '13'}
   Etele út:
-    invalid: ['32', '58b', '67/5']
+    # 32: 32/a, 32/b, 32/c
+    # 54-58 panel, bejáratok: 54/a, 54/b, 56/a, 56/b, 58/a
+    invalid: ['32', '56', '58b', '67/5']
     ranges:
       - {start: '1', end: '3'}
       - {start: '15', end: '73'}
