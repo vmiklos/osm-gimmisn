@@ -73,7 +73,7 @@ YAML_TEST_OBJECTS = \
 
 TS_OBJECTS = \
 	config.ts \
-	osm.ts \
+	main.ts \
 	stats.ts \
 	types.d.ts \
 
