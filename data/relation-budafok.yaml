@@ -210,6 +210,16 @@ filters:
   Jogar utca:
     # 13: sima 13 nincs, csak 13/A, 13/B.
     invalid: ['13']
+  József Attila utca:
+    # 1/B A: nincs ilyen, csak 1/B-A/1, 1/B-A/2, 1/B-B/3, 1/B-B/3.
+    # 1/C: nincs ilyen, csak 1/B-A/1, 1/B-A/2, 1/B-B/3, 1/B-B/3.
+    # 1/D: nincs ilyen, csak 1/B-A/1, 1/B-A/2, 1/B-B/3, 1/B-B/3.
+    # 17/A: nincs ilyen, csak sima 17.
+    # 22/B: nincs ilyen, csak sima 22.
+    # 26: sima 26 nincs, csak 26/A, 26/B, 26/C.
+    # 28: sima 28 nincs, csak 28/A, 28/B, 28/C.
+    # 58: a páros oldalon a 28/A, 28/B, 28/C az utolsó házszám.
+    invalid: ['1ba', '1c', '1d', '17a', '22b', '26', '28', '58']
   Káldor Adolf utca:
     # 15: nincs ilyen házszám, a páratlan oldalon csak egyetlen épület van, de két házszámmal: 3-5 és 5-9.
     invalid: ['15']
@@ -357,6 +367,16 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '118'}
+    # 82/A: nincs ilyen, csak 82-86.
+    invalid: ['82a']
+  Nyár utca:
+    # 7/C: nincs ilyen, csak sima 7.
+    # 7/D: nincs ilyen, csak sima 7.
+    # 19: ez és a Széchenyi utca 36/B közös telken van, házszám a Széchenyi utcáról van csak.
+    # 23: a páratlan oldalon az utcatáblán 19 az utolsó házszám, valójában viszont a 15-17.
+    # 18: a páros oldalon a 14 az utolsó házszám.
+    # 20: a páros oldalon a 14 az utolsó házszám.
+    invalid: ['7c', '7d', '19', '23', '18', '20']
   Nyúl utca:
     # 7: ez és a Gézavár utca 4. közös telken van, házszám a Gézavár utcáról van csak.
     # 8: a páros oldalon a 12 az első házszám.
