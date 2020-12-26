@@ -21,11 +21,15 @@ filters:
   Budafoki utca:
     ranges:
       - {start: '2', end: '18'}
+  Budakeszi köz:
+    invalid: ['13']
   Budakeszi utca:
     # össze vissza számozva
+    invalid: ['7']
     ranges:
       - {start: '1', end: '13'}
-      - {start: '2', end: '20'}
+      - {start: '2', end: '12'}
+      - {start: '18', end: '20'}
   Csap utca:
     ranges:
       - {start: '1', end: '99'}
@@ -81,6 +85,7 @@ filters:
     ranges:
       - {start: '1', end: '20'}
   Máriavölgy utca:
+    invalid: ['33']
     interpolation: all
     ranges:
       - {start: '1', end: '10'}
@@ -147,7 +152,7 @@ filters:
   Víztorony utca:
     invalid: ['7']
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '23'}
       - {start: '2', end: '14'}
 source: survey
 refstreets:

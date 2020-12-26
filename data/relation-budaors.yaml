@@ -40,9 +40,11 @@ filters:
     invalid: ['86']
   Budakeszi utca:
     # össze vissza számozva
+    invalid: ['7']
     ranges:
       - {start: '1', end: '13'}
-      - {start: '2', end: '18'}
+      - {start: '2', end: '12'}
+      - {start: '18', end: '20'}
       - {start: '29', end: '37'}
       - {start: '34', end: '34'}
   Budakeszi köz:
@@ -138,7 +140,7 @@ filters:
       - {start: '2', end: '44'}
   Máriavölgy utca:
     # össze vissza számozva, csoda hogy csak ezek hiányoznak
-    invalid: ['11', '12', '22']
+    invalid: ['11', '12', '22', '33']
   Mozdony utca:
     ranges:
       - {start: '1', end: '19'}
