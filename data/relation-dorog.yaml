@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Árokföldek dűlő:
+    invalid: ['279']
   Baross Gábor lakótelep:
     invalid: ['35', '36', '368']
   Borbála lakótelep:
