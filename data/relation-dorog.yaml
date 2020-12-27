@@ -89,6 +89,9 @@ filters:
   Székely Lajos utca:
     # nincsenek házszámok a helyszínen
     ranges: []
+  Tömedék akna:
+    ranges:
+      - {start: '2', end: '12'}
   Zrínyi lakótelep:
     # 1,2,3
     invalid: ['5', '15']
