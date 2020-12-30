@@ -14,6 +14,12 @@ filters:
     # 1: ez és a Tőke utca 2. közös telken van, házszám a Tőke utcáról van csak.
     # 1/B: ez és a Tőke utca 2. közös telken van, házszám a Tőke utcáról van csak.
     invalid: ['1', '1b']
+  Dalkör utca:
+    # 5: sima 5 nincs, csak 5/1, 5/2, 5/3.
+    # 15: sima 15 nincs, csak 15/A, 15/B.
+    # 4: sima 4 nincs, csak 4/1, 4/2.
+    # 10/A: a kerítésen csak sima 10 van kitéve, de két postaláda van. Az utcáról nem látni többet.
+    invalid: ['5', '15', '4', '10a']
   Dallam utca:
     # 6/A: sima 6/A nincs, csak 6/A/1, 6/A/2.
     # 10: sima 10 nincs, csak 10/1, 10/2.
@@ -57,6 +63,11 @@ filters:
     # 149: sima 149 nincs, csak 149/A, 149/B.
     # 211-213: a páratlan oldalon a 183 az utolsó házszám.
     invalid: ['47a', '47b', '47d', '49a', '49b', '49c', '49d', '87', '141', '149']
+  Húr utca:
+    # Az utcatáblákon a páratlan oldalon a 21, a páros oldalon a 12 az utolsó házszám.
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '12'}
   Hűség utca:
     # 25: sima 25 nincs, csak 25/A, 25/B.
     invalid: ['25']
@@ -128,6 +139,12 @@ filters:
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '22'}
+    # 8/A: nincs ilyen, csak sima 8.
+    # 10/A: nincs ilyen, csak sima 10.
+    # 10/B: nincs ilyan, csak sima 10.
+    # 12/C: nincs ilyen, csak sima 12.
+    # 14: sima 14 nincs, csak 14/A, 14/B.
+    invalid: ['8a', '10a', '10b', '12c', '14']
   Rózsakert utca:
     ranges:
       - {start: '1', end: '999'}
@@ -137,9 +154,18 @@ filters:
   Szabadkai utca:
     ranges:
       - {start: '2', end: '998'}
+  Szent István utca:
+    # A páratlan oldalon a 27, a páros oldalon a 40 az utolsó házszám.
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '40'}
   Szent Mihály utca:
     # 7: sima 7 nincs, csak 7/1, 7/2.
     invalid: ['7']
+  Tűzliliom utca:
+    # 56: a páros oldalon a 8-12 az utolsó házszám.
+    # 162/164: a páros oldalon a 8-12 az utolsó házszám.
+    invalid: ['56', '162/164']
   X. utca:
     # Pontositando, egy szakasz Baross-Gabor-telep
     ranges:
