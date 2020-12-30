@@ -165,7 +165,7 @@ filters:
   Tűzliliom utca:
     # 56: a páros oldalon a 8-12 az utolsó házszám.
     # 162/164: a páros oldalon a 8-12 az utolsó házszám.
-    invalid: ['56', '162/164']
+    invalid: ['56', '162']
   X. utca:
     # Pontositando, egy szakasz Baross-Gabor-telep
     ranges:
