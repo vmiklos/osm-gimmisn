@@ -372,8 +372,11 @@ osm-street-filters:
   - Padka utca
   - Perbete utca
   - Sólyom lépcső
+  - Sota Rusztaveli tér
+  - Szepesi utca
   - Szunyogh út
   - Tündérhegyi út
+  - Visszhang utca
   # Parkok házszám nélkül
   - Barabás-villa kertje
   - Eötvös József park
@@ -420,6 +423,7 @@ osm-street-filters:
   - Mezei Mária utca
   - Trinitárius utca
   - Vezér utca
+  - Virágvölgy utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # osm = utcatábla
