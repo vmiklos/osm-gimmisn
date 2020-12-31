@@ -340,8 +340,17 @@ filters:
       - {start: '2', end: '10'}
 osm-street-filters:
   # Nem valós utcák
-  - Farkasréti temető
+  - Élmény a természetben
   - Főtér
+  - Mária út
+  - Mélygarázs
+  - MOM park
+  - mozgássérült gyakorlópark
+  # Parkok házszám nélkül
+  - Barabás-villa kertje
+  - Gesztenyés kert
+  - Szent Család park
+  - Zugligeti Szent Család Plébánia
   # Szent János Kórkáz belső utcái
   - Dr. Csapody István út
   - Dr. Gergely Rezső lejtő
@@ -364,12 +373,36 @@ osm-street-filters:
   - Dr. Sebestyén Gyula út
   - Dr. Szám István tér
   - Dr. Takó József út
+  - Wodiáner Albert park
+  # Farkasréti temető belső utcái
+  - Farkasréti temető
+  - Feszület körönd
+  - Kodály körönd
   # Létező, de házszám nélküli utcák
+  - Abos lépcső
+  - Anjou lépcső
+  - Árkay Aladár sétány
+  - Árkay Bertalan sétány
+  - Devecseri Gábor park
+  - Lisszabon sétány
+  - Padka utca
+  - Perbete utca
   - Mindszenty József bíboros tér
+  - Sólyom lépcső
+  - Szunyogh út
+  # Kerülethatáron lévő utcák - I.
+  - Várfok utca
+  - Vérmező út
+  # Kerülethatáron lévő utcák - XI.
+  - Kakukkhegyi erdősor
+  - Márton Áron tér
+  # Kerülethatáron lévő utcák - Budakeszi
+  - Trinitárius utca
+  - Makkosi út
+  - Vezér utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # osm = utcatábla
-  'Adonis utca': 'Adonisz utca'  # utcajegyzék ok
   'Szépkilátás út': 'Szép kilátás út'  # utcajegyzék ok
   'Hunyad-orom lépcső': 'Hunyadorom lépcső'  # utcajegyzék: Hunyad Orom lépcső
   # hibás írásmód
