@@ -96,6 +96,11 @@ filters:
     # 13: sima 13 nincs, csak 13/A, 13/B.
     # 18: sima 18 nincs, csak 18/A, 18/B.
     invalid: ['13', '18']
+  Kelenvölgyi utca:
+    # 1/A-B-C: nincsenek, csak sima 1 van.
+    # 3: nincs.
+    # 5: saroktelek, Kenderike utca 1-re van számozva.
+    invalid: ['1a', '1b', '1c', '3', '5']
   Klauzál Gábor utca:
     # Területhatár, a páros oldal a Baross Gábor-telepen van.
     ranges:
