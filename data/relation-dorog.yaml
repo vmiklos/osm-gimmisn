@@ -103,15 +103,24 @@ street-filters:
   - Mész telep  # területként
 osm-street-filters:
   # Nem valós utcák
+  - Munkás utcai garázssor
   - Pataksor park
   - Petőfi park
   - Piactéri garázssor
+  - Schmidt Villa
+  - Tömedékakna Ipartelep
   - Volánbusz
   # Létező, de házszám nélküli utcák
+  - Bulhardt Vilmos utca
+  - Erőmű utca
+  - Határ út
+  - Jubileumi tér
+  - Kálvin köz
   - Mária tér
 refstreets:
   'Eötvös József utca': 'Eötvös utca'
   'Erőmű lakótelep': 'Erőmü lakótelep'
+  'Hatos akna dűlő': 'Hatos aknai dűlő'  # bejárati útnál táblán Hatos akna dűlő
   'Hősök tere': 'Hősök tér'
   'Mária utca': 'Mária út'  # táblán Mária utca
   'Martinovics Ignác utca': 'Martinovics utca'  # táblák vegyesen
