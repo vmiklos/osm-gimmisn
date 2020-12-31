@@ -345,14 +345,39 @@ filters:
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
+  - Fogashoz vezető út
   - Főtér
   - Mária út
   - Mélygarázs
   - MOM park
   - mozgássérült gyakorlópark
   - Városmajor
+  # Létező, de házszám nélküli utcák
+  - Abos lépcső
+  - Anjou lépcső
+  - Árkay Aladár sétány
+  - Árkay Bertalan sétány
+  - Csermely lépcső
+  - Csobolyó lépcső
+  - Devecseri Gábor park
+  - Erzsébet-kilátó út
+  - Hóvirág köz
+  - Jenő út
+  - Juliska út
+  - Kalóz köz
+  - Kepe lépcső
+  - Lisszabon sétány
+  - Mindenszentek tere
+  - Mindszenty József bíboros tér
+  - Padka utca
+  - Perbete utca
+  - Sólyom lépcső
+  - Szunyogh út
+  - Tündérhegyi út
   # Parkok házszám nélkül
   - Barabás-villa kertje
+  - Eötvös József park
+  - Eötvös Loránd park
   - Gesztenyés kert
   - Szent Család park
   - Zugligeti Szent Család Plébánia
@@ -384,25 +409,6 @@ osm-street-filters:
   - Farkasréti temető
   - Feszület körönd
   - Kodály körönd
-  # Létező, de házszám nélküli utcák
-  - Abos lépcső
-  - Anjou lépcső
-  - Árkay Aladár sétány
-  - Árkay Bertalan sétány
-  - Devecseri Gábor park
-  - Erzsébet-kilátó út
-  - Hóvirág köz
-  - Jenő út
-  - Juliska út
-  - Kalóz köz
-  - Kepe lépcső
-  - Lisszabon sétány
-  - Mindenszentek tere
-  - Mindszenty József bíboros tér
-  - Padka utca
-  - Perbete utca
-  - Sólyom lépcső
-  - Szunyogh út
   # Kerülethatáron lévő utcák - I.
   - Várfok utca
   - Vérmező út
