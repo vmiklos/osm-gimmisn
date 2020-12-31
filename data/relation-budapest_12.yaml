@@ -14,6 +14,10 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '2'}
       - {start: '4', end: '12'}
+  Ágnes köz:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '18'}
   Álom utca:
     # Anything below 16 on the even side seems to be noise.
     invalid: ['4']
@@ -77,6 +81,10 @@ filters:
       - {start: '2', end: '30'}
       - {start: '36', end: '98'}
       - {start: '7', end: '17'}
+  Deres utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '14'}
   Derkovits utca:
     ranges:
       - {start: '1', end: '13'}
@@ -214,10 +222,18 @@ filters:
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '52'}
+  Ordas köz:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '10'}
   Pagony utca:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '52'}
+  Rácz Aladár köz:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
   Remete út:
     ranges:
       - {start: '1', end: '5'}
@@ -227,6 +243,9 @@ filters:
       - {start: '1', end: '11'}
       - {start: '15', end: '39'}
       - {start: '2', end: '30'}
+  Sötétvágás utca:
+    # No housenumbers here.
+    ranges: []
   Stromfeld Aurél út:
     # 5 egy saroktelek, bejárat a Zsámbéki utca 14 felől
     invalid: ['5']
@@ -277,6 +296,10 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '30'}
+  Tatárvirág utca:
+    ranges:
+      - {start: '7', end: '29'}
+      - {start: '2', end: '14'}
   Temes utca:
     ranges:
       - {start: '2', end: '2'}
@@ -319,25 +342,6 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '10'}
-  Ordas köz:
-    ranges:
-      - {start: '1', end: '5'}
-      - {start: '2', end: '10'}
-  Deres utca:
-    ranges:
-      - {start: '1', end: '19'}
-      - {start: '2', end: '14'}
-  Sötétvágás utca:
-    # No housenumbers here.
-    ranges: []
-  Ágnes köz:
-    ranges:
-      - {start: '1', end: '7'}
-      - {start: '2', end: '18'}
-  Rácz Aladár köz:
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '10'}
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
@@ -346,6 +350,7 @@ osm-street-filters:
   - Mélygarázs
   - MOM park
   - mozgássérült gyakorlópark
+  - Városmajor
   # Parkok házszám nélkül
   - Barabás-villa kertje
   - Gesztenyés kert
