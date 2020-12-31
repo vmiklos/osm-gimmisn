@@ -373,6 +373,7 @@ osm-street-filters:
   - Dr. Sebestyén Gyula út
   - Dr. Szám István tér
   - Dr. Takó József út
+  - Kossuth Zsuzsanna tér
   - Wodiáner Albert park
   # Farkasréti temető belső utcái
   - Farkasréti temető
@@ -384,10 +385,17 @@ osm-street-filters:
   - Árkay Aladár sétány
   - Árkay Bertalan sétány
   - Devecseri Gábor park
+  - Erzsébet-kilátó út
+  - Hóvirág köz
+  - Jenő út
+  - Juliska út
+  - Kalóz köz
+  - Kepe lépcső
   - Lisszabon sétány
+  - Mindenszentek tere
+  - Mindszenty József bíboros tér
   - Padka utca
   - Perbete utca
-  - Mindszenty József bíboros tér
   - Sólyom lépcső
   - Szunyogh út
   # Kerülethatáron lévő utcák - I.
@@ -397,13 +405,15 @@ osm-street-filters:
   - Kakukkhegyi erdősor
   - Márton Áron tér
   # Kerülethatáron lévő utcák - Budakeszi
-  - Trinitárius utca
   - Makkosi út
+  - Mezei Mária utca
+  - Trinitárius utca
   - Vezér utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # osm = utcatábla
-  'Szépkilátás út': 'Szép kilátás út'  # utcajegyzék ok
+  'Adonis utca': 'Adonisz utca'  # utcajegyzék: Adonis utca
+  'Szépkilátás út': 'Szép kilátás út'  # utcajegyzék: Szépkilátás út
   'Hunyad-orom lépcső': 'Hunyadorom lépcső'  # utcajegyzék: Hunyad Orom lépcső
   # hibás írásmód
   'Széchenyi-emlék út': 'Széchenyi- emlék út'
