@@ -404,7 +404,7 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
         # assume view-result
         doc.asis(missing_streets_view_result(relations, request_uri).getvalue())
 
-    date = ref_streets_last_modified(relation)
+    date = streets_diff_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
@@ -424,7 +424,8 @@ def handle_additional_streets(relations: areas.Relations, request_uri: str) -> y
     # assume view-result
     doc.asis(additional_streets_view_result(relations, request_uri).getvalue())
 
-    doc.asis(webframe.get_footer().getvalue())
+    date = streets_diff_last_modified(relation)
+    doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
@@ -486,8 +487,8 @@ def ref_housenumbers_last_modified(relations: areas.Relations, name: str) -> str
     return webframe.format_timestamp(max(t_ref, t_housenumbers))
 
 
-def ref_streets_last_modified(relation: areas.Relation) -> str:
-    """Gets the update date for missing streets."""
+def streets_diff_last_modified(relation: areas.Relation) -> str:
+    """Gets the update date for missing/additional streets."""
     t_ref = get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = get_timestamp(relation.get_files().get_osm_streets_path())
     return webframe.format_timestamp(max(t_ref, t_osm))
