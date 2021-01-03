@@ -5,6 +5,10 @@ filters:
   Iskola utca:
     ranges:
       - {start: '2', end: '24'}
+  József Attila utca:
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '16'}
   Temető utca:
     ranges:
       - {start: '1', end: '13'}
