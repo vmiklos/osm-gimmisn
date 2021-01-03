@@ -1,17 +1,23 @@
 missing-streets: 'no'
 filters:
   Balatoni út:
+    # 198-202 házszámok nincsenek a Shell kút környékén
     # ref-ben levo hrsz-ek kiszurese
     ranges:
       - {start: '46', end: '142'}
       - {start: '146', end: '158'}
-      - {start: '198', end: '202'}  # Shell kút környéke
   Egér út:
     ranges: []
+  Löveg utca:
+    # 2: 2/A, 2/B, 2/C van 1. és 2. lépcsőház mindenhol, ezért kell szűrni a 2-t (2/A/1 -> 2)
+    # 3: egyik részénél 3/X másik részénél 3. X. épület formában van, egységesen vittem fel 3/X formában
+    invalid: ['2']
   Kamaraerdei út:
     ranges:
       - {start: '12', end: '14'}
   Kőérberki út:
+    # 37/C-ből lett a Puskapor utca 2/C
+    # 37/G-ből lett a Löveg utca 3/G
     ranges:
       - {start: '36', end: '36'}
   Repülőtéri út:
@@ -21,9 +27,10 @@ filters:
   # Kőérberki dűlő
   # túlnyomó részt helyrajzi számok, amelyek akár 2 jegyűek is lehetnek, mert itt indul Budapesten a hrsz. számozása 1-gyel
   Kőérberki dűlő:
+    # csak hrsz.
+    # 37: valószínű Kőérberki út 37-el van keverve, azok az épületek új utcaneveket kaptak
     interpolation: all
-    ranges:
-      - {start: '1', end: '56'}
+    ranges: []
   Vadászhegyi utca:
     # utcára eső hrsz tartomány: 63, 79-86
     interpolation: all
@@ -32,11 +39,13 @@ filters:
   Laska utca:
     # utcára eső hrsz tartomány: 87-107
     interpolation: all
+    invalid: ['9/1']
     ranges:
       - {start: '1', end: '86'}
   Fülőke utca:
     # utcára eső hrsz tartomány: 197-220, illetve 308/11, 308/16 saroktelkek
     interpolation: all
+    invalid: ['2/6']
     ranges:
       - {start: '1', end: '99'}
   Pereszke utca:
