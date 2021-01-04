@@ -8,6 +8,8 @@ street-filters:
   - Talaj köz  # nem létezik
   - Árasztó út  # Dunaparty meglállónál, nincs kiírva
   - Lőportorony utca  # nem lett kiépítve, Budafoki út 215 és a Shell kút között
+  # - Nap utca  # Kőérberki dűlő. Hold utcának van kiírva a szakasz helyben, még a vége megvizsgálandó
+  - Faház köz  # 
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bogdánfy Ödön utca': 'Bogdánfy utca'
