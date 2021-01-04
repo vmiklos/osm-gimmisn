@@ -1,5 +1,9 @@
 missing-streets: 'yes'
 filters:
+  Csévi út:
+    ranges:
+      - {start: '1', end: '69'}
+      - {start: '2', end: '42'}
   Gárdonyi Géza utca:
     invalid: ['113']
   Iskola utca:
