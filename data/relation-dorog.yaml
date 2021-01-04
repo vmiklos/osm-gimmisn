@@ -118,6 +118,7 @@ osm-street-filters:
   - Kálvin köz
   - Mária tér
 refstreets:
+  'Aradi vértanúk utca': 'Aradi vértanuk utca'
   'Eötvös József utca': 'Eötvös utca'
   'Erőmű lakótelep': 'Erőmü lakótelep'
   'Hatos akna dűlő': 'Hatos aknai dűlő'  # bejárati útnál táblán Hatos akna dűlő
