@@ -14,17 +14,22 @@ filters:
       - {start: '1', end: '9'}
       - {start: '2', end: '2'}
   Barackfa utca:
+    # 12: 12/a van kiírva, viszont a 10 és 12/a között van még egy bejárat szám nélkül
     # 15/1: csak sima 15 van
     # 17: 17/b a bal oldali, a másik kapun nincs szám
     # 18b: csak sima 18 van
-    invalid: ['15/1', '17', '18b']
+    invalid: ['12', '15/1', '17', '18b']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
   Barackos köz:
+    # 5: 5/a, 5/b
+    # 7/a: 7 és 7/b
+    # 8/b: 8 és 8/a
+    invalid: ['5', '7a', '8b']
     ranges:
       - {start: '1', end: '7'}
-      - {start: '2', end: '10'}
+      - {start: '2', end: '8'}
   Baradla köz:
     # 3: 3/a, 3/b
     # 6/a megszűnt - https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2020_02/skmbt_28320020711510.pdf
@@ -273,6 +278,14 @@ filters:
     # 1a: csak sima 1
     # 4a, 4b: csak sima 4
     invalid: ['1a', '4a', '4b']
+  Katafa utca:
+    # 1: 1/1, 1/2, 1/3, 1/4
+    # 2/b: ikerház, de csak a 2/a van a kapun kiírva az egyik oldalon, a házon 2-es szám van mindkét oldalon
+    # 3/1: csak sima 3 van, annak ellenére, hogy az épület ugyanolyan mint az 1-es ahol meg vannak /-ek
+    # 5: 5/1, 5/2, 5/3, 5/4
+    # 11a: csak sima 11
+    # 13/1: látszólag több részből álló sorház, de csak 13 van kiírva a kapun
+    invalid: ['1', '2b', '3/1', '3/2', '3/3', '3/4', '5', '11a', '13/1']
   Kőhalom utca:
     # 1: csak 1/a van
     invalid: ['1', '1a', '1/6']
