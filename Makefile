@@ -173,8 +173,12 @@ run:
 	cd $(HOME) && $(PWD)/wsgi.py
 
 deploy:
+ifeq (,$(wildcard ./deploy.sh))
 	git pull -r
 	make
+else
+	./deploy.sh
+endif
 
 update-pot: areas.py webframe.py wsgi.py util.py Makefile
 	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)
