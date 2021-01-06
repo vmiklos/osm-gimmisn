@@ -13,6 +13,10 @@ filters:
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '16'}
+  Kálvária utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '52'}
   Temető utca:
     ranges:
       - {start: '1', end: '13'}
