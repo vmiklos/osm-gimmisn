@@ -39,6 +39,14 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
+    def test_street_is_node(self) -> None:
+        """Tests the case when the street name is coming from a house number (node)."""
+        relations = get_relations()
+        relation = relations.get_relation("gh830")
+        actual = relation.get_osm_streets()
+        self.assertEqual(len(actual), 1)
+        self.assertEqual(actual[0].get_osm_type(), "node")
+
     def test_no_house_number(self) -> None:
         """Tests the case when we have streets, but no house numbers."""
         relations = get_relations()
