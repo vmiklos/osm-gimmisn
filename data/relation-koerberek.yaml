@@ -15,15 +15,41 @@ filters:
   Kamaraerdei út:
     ranges:
       - {start: '12', end: '14'}
+  Kánai út:
+    # páros számok 4- a tó van, nincs is lehetőség épületre
+    # páratlan nagyobb számok nincsenek beépítve
+    # 3: 3/a, 3/b
+    invalid: ['7b']
+    ranges:
+      - {start: '3', end: '11'}
+      - {start: '2', end: '2'}
+  Kékperje utca:
+    # 2 = Tóváros út 3
+    # páratlan nincs beépítve
+    ranges:
+      - {start: '4', end: '8'}
   Kőérberki út:
     # 37/C-ből lett a Puskapor utca 2/C
     # 37/G-ből lett a Löveg utca 3/G
     ranges:
       - {start: '36', end: '36'}
+  Partfutó utca:
+    # nincs beépítve
+    ranges: []
   Repülőtéri út:
     # össze vissza vannak a számok, úgy tűnik itt csak a 6 van
     ranges:
       - {start: '6', end: '6'}
+  Tippan utca:
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '2', end: '2'}
+  Tóberek utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '8'}
+  Tóváros út:
+    interpolation: all
   # Kőérberki dűlő
   # túlnyomó részt helyrajzi számok, amelyek akár 2 jegyűek is lehetnek, mert itt indul Budapesten a hrsz. számozása 1-gyel
   Kőérberki dűlő:
