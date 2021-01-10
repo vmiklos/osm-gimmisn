@@ -94,7 +94,7 @@ filters:
     # 10/A: sima 10/A nincs, csak 10/A/1, 10/A/2.
     # 10/B: sima 10/B nincs, csak 10/B/1, 10/B/2.
     # 42: sima 42 nincs, csak 42/A, 42/B.
-    invalid: ['23b', '35', '8a', '8b', '8c', '8d', '10a', '10b', '42']
+    invalid: ['23b', '35', '4', '8a', '8b', '8c', '8d', '10a', '10b', '42']
   Katakomba utca:
     # 13: sima 13 nincs, csak 13/A, 13/B.
     # 18: sima 18 nincs, csak 18/A, 18/B.
@@ -156,13 +156,26 @@ filters:
       - {start: '2', end: '22'}
     # 8/A: nincs ilyen, csak sima 8.
     # 10/A: nincs ilyen, csak sima 10.
-    # 10/B: nincs ilyan, csak sima 10.
+    # 10/B: nincs ilyen, csak sima 10.
     # 12/C: nincs ilyen, csak sima 12.
     # 14: sima 14 nincs, csak 14/A, 14/B.
     invalid: ['8a', '10a', '10b', '12c', '14']
   Rózsakert utca:
+    # A páros oldal Baross Gábor-telep.
     ranges:
       - {start: '1', end: '999'}
+    # 1: ez és a Nagytétényi út 198. közös telken van, házszám a Nagytétényi útról van csak.
+    # 1/C: nincs ilyen, és sima 1 sincs.
+    # 13: sima 13 nincs, csak 13/A, 13/B, 13/C.
+    # 13/D: nincs ilyen, csak 13/A, 13/B, 13/C.
+    # 13/E: nincs ilyen, csak 13/A, 13/B, 13/C.
+    # 17/A: nincs ilyen, csak sima 17.
+    # 17/B: nincs ilyen, csak sima 17.
+    # 19: sima 19 nincs, csak 19/A, 19/B, 19/C.
+    # 19/D: nincs ilyen, csak 19/A, 19/B, 19/C.
+    # 27/B: nincs ilyen, csak sima 27.
+    # 29: sima 29 nincs, csak 29/A, 29/B, 29/C.
+    invalid: ['1', '1c', '13', '13d', '13e', '17a', '17b', '19', '19d', '27b', '29']
   Sándor utca:
     # 5: sima 5 nincs, csak 5/A, 5/B, 5/C.
     invalid: ['5']
