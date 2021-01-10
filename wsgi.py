@@ -446,7 +446,10 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
         streets = relation.write_additional_streets()
         count = len(streets)
         streets.sort(key=lambda street: locale.strxfrm(street.get_osm_name()))
-        table = [[util.html_escape(_("Identifier")), util.html_escape(_("Type")), util.html_escape(_("Street name"))]]
+        table = [[util.html_escape(_("Identifier")),
+                  util.html_escape(_("Type")),
+                  util.html_escape(_("Source")),
+                  util.html_escape(_("Street name"))]]
         for street in streets:
             cell = yattag.doc.Doc()
             href = "https://www.openstreetmap.org/{}/{}".format(street.get_osm_type(), street.get_osm_id())
@@ -455,6 +458,7 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
             cells = [
                 cell,
                 util.html_escape(street.get_osm_type()),
+                util.html_escape(street.get_source()),
                 util.html_escape(street.get_osm_name()),
             ]
             table.append(cells)

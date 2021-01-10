@@ -93,6 +93,7 @@ class Street:
         self.__show_ref_street = show_ref_street
         self.__osm_id = osm_id
         self.__osm_type = "way"
+        self.__source = ""
 
     def get_osm_name(self) -> str:
         """Returns the OSM name."""
@@ -113,6 +114,14 @@ class Street:
     def get_osm_type(self) -> str:
         """Returns the OSM type, e.g. 'way'."""
         return self.__osm_type
+
+    def set_source(self, source: str) -> None:
+        """Sets the source of this street."""
+        self.__source = source
+
+    def get_source(self) -> str:
+        """Gets the source of this street."""
+        return self.__source
 
     def to_html(self) -> yattag.doc.Doc:
         """Writes the street as a HTML string."""
@@ -603,6 +612,7 @@ def get_street_from_housenumber(
             osm_id = 0
         street = Street(osm_id=osm_id, osm_name=street_name)
         street.set_osm_type(osm_type)
+        street.set_source(_("housenumber"))
         ret.append(street)
 
     return ret
