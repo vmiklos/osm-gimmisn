@@ -363,6 +363,7 @@ class Relation:
                 street = util.Street(osm_id=int(row[0]), osm_name=row[1])
                 if len(row) > 6:
                     street.set_osm_type(row[6])
+                street.set_source(_("street"))
                 ret.append(street)
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
