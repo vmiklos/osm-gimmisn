@@ -21,7 +21,7 @@ filters:
     # 3: 3/a, 3/b
     invalid: ['7b']
     ranges:
-      - {start: '3', end: '11'}
+      - {start: '3', end: '9'}
       - {start: '2', end: '2'}
   Kékperje utca:
     # 2 = Tóváros út 3
@@ -41,10 +41,14 @@ filters:
     ranges:
       - {start: '6', end: '6'}
   Tippan utca:
+    # csak sima számok
+    invalid: ['1a']
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '2'}
   Tóberek utca:
+    # csak sima számok
+    invalid: ['2b', '8a']
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
