@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Béla király útja:
+    invalid: ['140']
   Csévi út:
     ranges:
       - {start: '1', end: '69'}
@@ -46,7 +48,6 @@ refstreets:
   'Mátyás király utca': 'Mátyás király út'
   'Panoráma út': 'Panoráma utca'
   'Petőfi Sándor utca': 'Petőfi utca'
-  'Szent László király utca': 'Szent László király útja'
   'Wesselényi utca': 'Wesselényi Miklós utca'
   'Zajnáthegyi utca': 'Zajnáthegyi út'
   'Zrínyi Miklós utca': 'Zrínyi utca'
