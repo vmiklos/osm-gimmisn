@@ -8,9 +8,10 @@ street-filters:
   - Talaj köz  # nem létezik
   - Árasztó út  # Dunaparty meglállónál, nincs kiírva
   - Lőportorony utca  # nem lett kiépítve, Budafoki út 215 és a Shell kút között
-  - Faház köz  # nincs neve helyben: https://www.openstreetmap.org/way/891778561
-  - Fischer köz  # nincs neve helyben: https://www.openstreetmap.org/way/893445329
-  - Meggyvágó köz  # nincs neve helyben: https://www.openstreetmap.org/way/452301465
+  - Elemér köz  # Hetény utca és a Balatoni út között, Shell kúttól délre, nincs kiépítve
+  - Faház köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/891778561
+  - Fischer köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/893445329
+  - Meggyvágó köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/452301465
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bogdánfy Ödön utca': 'Bogdánfy utca'
