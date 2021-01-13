@@ -19,6 +19,10 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '52'}
+  Máriapark utca:
+    ranges:
+      - {start: '1', end: '33'}
+      - {start: '2', end: '60'}
   Temető utca:
     ranges:
       - {start: '1', end: '13'}
