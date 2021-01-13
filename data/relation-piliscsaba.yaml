@@ -30,6 +30,8 @@ filters:
   Somlyó köz:
     ranges:
       - {start: '2', end: '8'}
+  Szent László király útja:
+    invalid: ['108']
 street-filters:
   # nem igazi utcák
   - 21. sz. vasúti őrház
