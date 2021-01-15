@@ -435,7 +435,7 @@ refstreets:
   # hibás írásmód
   'Széchenyi-emlék út': 'Széchenyi- emlék út'
   # megváltozott az utcanév
-  'Sztehlo Gábor utca': 'Árnyas köz'
+  'Sztehlo Gábor utca': 'Árnyas köz'  # ref javítás után törlendő
   'Korányi Frigyes út': 'Pihenő út'
   # Felmérendő melyik a helyes
   'Tearózsa út': 'Tearózsa utca'  # utcajegyzék Tearózsa utca
