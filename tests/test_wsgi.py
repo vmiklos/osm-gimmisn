@@ -506,7 +506,12 @@ class TestMissingStreets(TestWsgi):
     def test_view_result_txt(self) -> None:
         """Tests the txt output."""
         result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
-        self.assertEqual(result, "Only In Ref utca")
+        self.assertEqual(result, "Only In Ref utca\n")
+
+    def test_view_result_chkl(self) -> None:
+        """Tests the chkl output."""
+        result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.chkl")
+        self.assertEqual(result, "[ ] Only In Ref utca\n")
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""

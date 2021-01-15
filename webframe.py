@@ -120,10 +120,6 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result"):
             doc.text(_("Missing streets"))
-        doc.text(" (")
-        with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result.txt"):
-            doc.text("txt")
-        doc.text(")")
         items.append(doc)
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result"):

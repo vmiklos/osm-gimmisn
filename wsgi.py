@@ -208,7 +208,12 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
         doc.stag("br")
         with doc.tag("a", href=prefix + "/missing-streets/{}/view-turbo".format(relation_name)):
             doc.text(_("Overpass turbo query for streets with questionable names"))
-        doc.text(".")
+        doc.stag("br")
+        with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result.txt"):
+            doc.text(_("Plain text format"))
+        doc.stag("br")
+        with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result.chkl"):
+            doc.text(_("Checklist format"))
 
     doc.asis(util.html_table_from_list(table).getvalue())
     return doc
@@ -293,7 +298,7 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
     return output, relation_name
 
 
-def missing_streets_view_txt(relations: areas.Relations, request_uri: str) -> str:
+def missing_streets_view_txt(relations: areas.Relations, request_uri: str, chkl: bool) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -307,8 +312,12 @@ def missing_streets_view_txt(relations: areas.Relations, request_uri: str) -> st
     else:
         todo_streets, _ignore = relation.get_missing_streets()
         todo_streets.sort(key=locale.strxfrm)
-        output += "\n".join(todo_streets)
-    return output
+        for street in todo_streets:
+            if chkl:
+                output += "[ ] {}\n".format(street)
+            else:
+                output += "{}\n".format(street)
+    return output, relation_name
 
 
 def missing_housenumbers_update(relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
@@ -868,12 +877,16 @@ def our_application_txt(
     content_type = "text/plain"
     extra_headers: List[Tuple[str, str]] = []
     prefix = config.Config.get_uri_prefix()
+    _, _, ext = request_uri.partition('.')
+    chkl = ext == "chkl"
     if request_uri.startswith(prefix + "/missing-streets/"):
-        output = missing_streets_view_txt(relations, request_uri)
+        output, relation_name = missing_streets_view_txt(relations, request_uri, chkl)
+        if chkl:
+            content_type = "application/octet-stream"
+            extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
     else:
         # assume prefix + "/missing-housenumbers/"
-        _, _, ext = request_uri.partition('.')
-        if ext == "chkl":
+        if chkl:
             output, relation_name = missing_housenumbers_view_chkl(relations, request_uri)
             content_type = "application/octet-stream"
             extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
