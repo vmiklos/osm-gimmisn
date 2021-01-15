@@ -168,7 +168,12 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
             doc.stag("br")
             with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-turbo".format(relation_name)):
                 doc.text(_("Overpass turbo query for the below streets"))
-            doc.text(".")
+            doc.stag("br")
+            with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.txt".format(relation_name)):
+                doc.text(_("Plain text format"))
+            doc.stag("br")
+            with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.chkl".format(relation_name)):
+                doc.text(_("Checklist format"))
 
         doc.asis(util.html_table_from_list(table).getvalue())
     return doc
