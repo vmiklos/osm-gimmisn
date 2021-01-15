@@ -31,6 +31,7 @@ import config
 import overpass_query
 import util
 import webframe
+import wsgi_additional
 import wsgi_json
 
 if TYPE_CHECKING:
@@ -436,51 +437,10 @@ def handle_additional_streets(relations: areas.Relations, request_uri: str) -> y
     doc.asis(webframe.get_toolbar(relations, "additional-streets", relation_name, osmrelation).getvalue())
 
     # assume view-result
-    doc.asis(additional_streets_view_result(relations, request_uri).getvalue())
+    doc.asis(wsgi_additional.additional_streets_view_result(relations, request_uri).getvalue())
 
     date = streets_diff_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
-    return doc
-
-
-def additional_streets_view_result(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
-    """Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-
-    doc = yattag.doc.Doc()
-    prefix = config.Config.get_uri_prefix()
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
-    elif not os.path.exists(relation.get_files().get_ref_streets_path()):
-        doc.asis(webframe.handle_no_ref_streets(prefix, relation_name).getvalue())
-    else:
-        # Get "only in OSM" streets.
-        streets = relation.write_additional_streets()
-        count = len(streets)
-        streets.sort(key=lambda street: locale.strxfrm(street.get_osm_name()))
-        table = [[util.html_escape(_("Identifier")),
-                  util.html_escape(_("Type")),
-                  util.html_escape(_("Source")),
-                  util.html_escape(_("Street name"))]]
-        for street in streets:
-            cell = yattag.doc.Doc()
-            href = "https://www.openstreetmap.org/{}/{}".format(street.get_osm_type(), street.get_osm_id())
-            with cell.tag("a", href=href, target="_blank"):
-                cell.text(str(street.get_osm_id()))
-            cells = [
-                cell,
-                util.html_escape(street.get_osm_type()),
-                util.html_escape(street.get_source()),
-                util.html_escape(street.get_osm_name()),
-            ]
-            table.append(cells)
-
-        with doc.tag("p"):
-            doc.text(_("OpenStreetMap additionally has the below {0} streets.").format(str(count)))
-
-        doc.asis(util.html_table_from_list(table).getvalue())
     return doc
 
 
@@ -881,6 +841,11 @@ def our_application_txt(
     chkl = ext == "chkl"
     if request_uri.startswith(prefix + "/missing-streets/"):
         output, relation_name = missing_streets_view_txt(relations, request_uri, chkl)
+        if chkl:
+            content_type = "application/octet-stream"
+            extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
+    elif request_uri.startswith(prefix + "/additional-streets/"):
+        output, relation_name = wsgi_additional.additional_streets_view_txt(relations, request_uri, chkl)
         if chkl:
             content_type = "application/octet-stream"
             extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
