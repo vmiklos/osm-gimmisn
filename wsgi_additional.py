@@ -81,6 +81,9 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
             doc.stag("br")
             with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result.txt"):
                 doc.text(_("Plain text format"))
+            doc.stag("br")
+            with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result.chkl"):
+                doc.text(_("Checklist format"))
 
         doc.asis(util.html_table_from_list(table).getvalue())
     return doc
