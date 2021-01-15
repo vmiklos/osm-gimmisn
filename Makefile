@@ -18,6 +18,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_validator.py \
 	tests/test_webframe.py \
 	tests/test_wsgi.py \
+	tests/test_wsgi_additional.py \
 	tests/test_wsgi_json.py \
 
 # These have good coverage.
@@ -42,6 +43,7 @@ PYTHON_SAFE_OBJECTS = \
 	version.py \
 	webframe.py \
 	wsgi.py \
+	wsgi_additional.py \
 	wsgi_json.py \
 
 # These have bad coverage.
