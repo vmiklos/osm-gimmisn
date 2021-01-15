@@ -11,6 +11,5 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Argentína tér': 'Argentina tér'
-  # Zichy Mihály utca -> út ref javítva 2020.05.03
 source: survey
 inactive: true

@@ -6,7 +6,9 @@ street-filters:
   - Báthori utca  # nem létezik
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
   - Talaj köz  # nem létezik
-  - Árasztó út  # Dunaparty meglállónál, nincs kiírva
+  - Árasztó út  # Dunaparty meglállónál, közlöny szerint megszűnt
+  - Poprádi köz  # nem létezik, a helyszínen erdő van
+  - Üröm utca  # kiépítése folyamatban, nincs még táblázva
   - Lőportorony utca  # nem lett kiépítve, Budafoki út 215 és a Shell kút között
   - Elemér köz  # Hetény utca és a Balatoni út között, Shell kúttól délre, nincs kiépítve
   - Faház köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/891778561
@@ -25,7 +27,6 @@ refstreets:
   'Keserűvíz utca': 'Keserűviz utca'
   'Kis Fenyves köz': 'Kis-Fenyves köz'
   'Mesterházi utca': 'Mesterházy utca'
-  'Október huszonharmadika utca': 'Október Huszonharmad utca'
   'Stoczek József utca': 'Stoczek utca'
   'Új barázda utca': 'Új Barázda utca'
   'Zólyomi köz': 'Zólyom köz'
@@ -46,34 +47,15 @@ osm-street-filters:
   - Budapart
   - Cirmos liget
   - Fehér Marcell Emlékpark
-  - Függetlenségi park
   - Jubileumi-park
-  - Kaptató sétány
   - Kelenvölgyi Szentháromság Liget
   - Nelson Mandela park
   - Olimpiai-park
   - Sas-liget
   - Sósfürdő park
-  - Szentivánéj park
   # Létező, de házszám nélküli utcák
-  - Angyalka utca
-  - Balogh lejtő
   - Bonc utca
-  - Csíky utca
-  - Feketeházy János út
-  - Feltáró út
-  - Gurgolya utca
-  - Hevesy György út
   - Ildikó tér
-  - Karéjos utca
-  - Kétvölgy utca
-  - Kitérő út
-  - Kőtár út
-  - Olasztelek utca
-  - Olthíd utca
-  - Raoul Wallenberg rakpart
-  - Valdemar és Nina Langlet rakpart
-  - Warga László út
   # Kőérberek: ismeretlen státuszú, de valóságban táblázott
   - Fenyves sor
   - Kevin utca
