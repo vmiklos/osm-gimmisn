@@ -548,8 +548,12 @@ filters:
     # 2: ez és az Árpád utca 71. közös telken van, házszám az Árpád utcáról van csak.
     invalid: ['19', '2']
   Tóth József utca:
+    # 1: ez és a Nagytétényi út 2. közös telken van, házszám a Nagytétényi útról van csak.
+    # 25/A: nincs ilyen, csak sima 25 van.
+    # 27/A: nincs ilyen, csak sima 27 van.
+    # 58: a páros oldalon az 52 az utolsó házszám.
     # 614: a páros oldalon az 52 az utolsó házszám.
-    invalid: ['614']
+    invalid: ['1', '25a', '27a', '58', '614']
   Törley tér:
     # Csak az utcatáblán vannak házszámok, az épületeken nincsenek vagy nem ebből az utcából számozódnak.
     ranges: []
