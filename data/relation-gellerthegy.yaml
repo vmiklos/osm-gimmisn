@@ -59,6 +59,9 @@ filters:
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '24'}
+  Somló köz:
+    # 3 = Somló köz 21.
+    invalid: ['3']
   Somló lépcső:
     # 8-10: ez Somlói út 8-10, de bejárat a lépcsőről is
     # 8-on kívül a többi szám teljesen fals
