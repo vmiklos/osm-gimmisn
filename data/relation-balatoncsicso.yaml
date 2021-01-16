@@ -17,8 +17,10 @@ street-filters:
   - Erdészlak
   # dűlők
   - Baád szőlőhegy  # Bád
-  - Fenyves hegy  # Fenyves
   - Szent Balázs-hegy dűlő  # Szent Balázs-hegy
   - Szent György-hegy dűlő  # Szent György-hegy
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Fenyves-hegy-dűlő': 'Fenyves hegy'
 source: survey
 inactive: true
