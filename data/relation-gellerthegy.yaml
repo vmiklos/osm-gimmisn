@@ -29,6 +29,13 @@ filters:
     ranges:
       - {start: '2', end: '30', refsettlement: '001'}
       - {start: '32', end: '64'}
+  Iglói utca:
+    # 1 = Somlói út 27
+    # 2/a, 4/b: 29/d,31/e: Lakópark 5 épülettel: Iglói 2, 4, 6a, 6b, Somlói 29, 31
+    invalid: ['2a', '4b', '6']
+    ranges:
+      - {start: '3', end: '17'}
+      - {start: '32', end: '64'}
   Mihály utca:
     ranges:
       - {start: '1', end: '99', refsettlement: '001'}
@@ -52,13 +59,38 @@ filters:
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '24'}
+  Somló lépcső:
+    # 8-10: ez Somlói út 8-10, de bejárat a lépcsőről is
+    # 8-on kívül a többi szám teljesen fals
+    ranges:
+      - {start: '8', end: '8'}
   Somlói út:
+    # 2: 2/a, 2/b
+    # 5: 5/a, 5/b
+    # 7/b: Trió Presszó volt, bezárt
+    # 15/a: 15, 15/b
+    # 18: nincs 14-16 után 20 jön
+    # 20/a, 20/b: csak sima 20
+    # 25/b: 25, 25/a
+    # 28: 28/a, 28/b
+    # 29/d,31/e: Lakópark 5 épülettel: Iglói 2, 4, 6a, 6b, Somlói 29, 31
+    # 37/6: 37/b
+    # 46: csak 46/a van
+    # 49: nincs. XI. kerület utolsó száma a 47/d, ezután 51 jön az I. kerületben Mathias Corvinus Collegium tömbje
+    # 60: 60/a, 60/b
+    # 62/a, 62/b: a és b épület, de a házszám 62
+    # 68/a, 68/b: 3 egyforma új épület 64, 66, 68
+    invalid: ['2', '5', '15a', '18', '20a', '20b', '25b', '28', '29d', '31e', '37/6', '46', '60', '62a', '62b', '68a', '68b']
     ranges:
       - {start: '1', end: '47'}
-      - {start: '49', end: '99', refsettlement: '001'}
+      - {start: '51', end: '51', refsettlement: '001'}
       - {start: '2', end: '98'}
   Szent Sebestyén köz:
+    # utcatáblán: 1-1 tartomány, de ez a Mathias Corvinus Collegium oldala, Somlói útra van számozva
+    # utcatáblán: 2-6 tartomány, de valóságban csak a 6-os szám van. a 4-es helyén egy üres telek
     refsettlement: '001'
+    ranges:
+      - {start: '6', end: '6'}
   Szirom utca:
     refsettlement: '001'
   Számadó utca:
@@ -77,4 +109,4 @@ refstreets:
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
 source: survey
 housenumber-letters: true
-inactive: true
+inactive: false
