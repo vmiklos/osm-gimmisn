@@ -1,4 +1,20 @@
 missing-streets: only
 filters: {}
+street-filters:
+  - Halász bástya  # fent van mint attraction
+  # Kocsány utca - ?
+  # Hunyadi László lépcső - note
+  # Magyar asszonyok bástyája - note
+osm-street-filters:
+  # Nem valós utcák
+  - Budavári alagút
+  - EuroVelo-6 budai Duna-parti kerékpárút
+  - Széchenyi Lánchíd
+  # parkok, sétányok
+  - Horváth-kert
+  - Neoreneszánsz kert
+  - Oroszlános udvar
+  - Öntőház udvar
+  - Vérmező
 source: survey
 inactive: true

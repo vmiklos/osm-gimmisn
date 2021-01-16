@@ -54,9 +54,11 @@ filters:
       - {start: '30', end: '46'}
 osm-street-filters:
   # Nem valós utcák
+  - Central Passage
   - Eiffel tér
   - Ferdinánd híd
   - Millenium Tetőkert
+  # - Millenniumi sétány  # kérdéses, hogy tényleg van-e neve, nem találtam rá hivatkozást
   - Semiramis tetőkert
 refstreets:
   'Oktogon': 'Oktogon tér'
