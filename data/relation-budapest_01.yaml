@@ -6,6 +6,8 @@ street-filters:
   # Hunyadi László lépcső - note
   # Magyar asszonyok bástyája - note
 osm-street-filters:
+  # Új utca, ref módosítás folyamatban
+  - Glücklich Vilma lépcső
   # Utcatábla van, de utcajegyzékben nincs
   - Korlát lépcső  # Korlát utca / Korlát lépcső vegyesen
   - Színház köz
@@ -23,7 +25,7 @@ osm-street-filters:
   - Habsburg lépcső
   - Horváth-kert
   - Karmelita udvar
-  - Klarissza udvar
+  - Klarissza-udvar
   - Neoreneszánsz kert
   - Oroszlános udvar
   - Orvos lépcső
