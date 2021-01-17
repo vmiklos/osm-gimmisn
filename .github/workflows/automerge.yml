@@ -29,5 +29,3 @@ jobs:
           MERGE_METHOD: "rebase"
           UPDATE_METHOD: "rebase"
           MERGE_DELETE_BRANCH: true
-          MERGE_RETRIES: "360"
-          MERGE_RETRY_SLEEP: "10000"
