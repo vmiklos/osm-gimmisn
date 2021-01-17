@@ -6,15 +6,31 @@ street-filters:
   # Hunyadi László lépcső - note
   # Magyar asszonyok bástyája - note
 osm-street-filters:
+  # Utcatábla van, de utcajegyzékben nincs
+  - Korlát lépcső  # Korlát utca / Korlát lépcső vegyesen
+  - Színház köz
   # Nem valós utcák
+  - Bécsi kapu
   - Budavári alagút
   - EuroVelo-6 budai Duna-parti kerékpárút
   - Széchenyi Lánchíd
-  # parkok, sétányok
+  # Kerülethatáron lévő utca
+  - Citadella sétány
+  # parkok, sétányok, lépcsők, udvarok
+  - Európa liget
+  - Ferences-udvar
+  - Filozófusok sétaútja
+  - Habsburg lépcső
   - Horváth-kert
+  - Karmelita udvar
+  - Klarissza udvar
   - Neoreneszánsz kert
   - Oroszlános udvar
+  - Orvos lépcső
+  - Öntőház lépcső
   - Öntőház udvar
+  - Savoyai terasz
+  - Stöckl lépcső
   - Vérmező
 source: survey
 inactive: true
