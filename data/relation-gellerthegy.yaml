@@ -44,9 +44,22 @@ filters:
   Karolina út:
     ranges: []
   Kelenhegyi út:
+    # 42: csak 42/a
+    # 44a: csak sima 44 a kerítésen, az házat lebontották
+    # 45: 45/a, 45/b
+    # 46: 46/a, 46/b, 46/c = Somló köz 4, 46/d
+    # 47: 47/a, 47/b
+    # 48a, 48b: csak sima 48
+    # 52a: csak sima 52
+    # 54a, 54b: csak sima 54
+    # 60: 60/a, 60/b
+    # 70: 70/a, 70/b
+    # 72, 74: másik utcára számozódnak
+    # 77b: csak sima 77
+    invalid: ['42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '12', end: '98'}
+      - {start: '1', end: '81'}
+      - {start: '12', end: '70'}
   Ménesi út:
     invalid: ['43']
     ranges:
