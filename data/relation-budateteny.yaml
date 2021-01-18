@@ -27,15 +27,25 @@ filters:
     # 18: sima 18 nincs, csak 18/1, 18/2.
     invalid: ['6a', '10', '16', '18']
   Erzsébet királyné út:
+    # 5/B: nincs ilyen, csak sima 5.
+    # 17/B: nincs ilyen, csak 17, 17/A.
     # 19: sima 19 nincs, csak 19/A, 19/B.
+    # 41/A: nincs ilyen, csak sima 41.
+    # 43: sima 43 nincs, csak 43/A, 43/B, 43/C.
     # 45: sima 45 nincs, csak 45/A, 45/B.
     # 47: sima 47 nincs, csak 47/A, 47/B.
+    # 51/C: nincs ilyen, csak sima 51.
+    # 16: sima 16 nincs, csak 16/A, 16/B.
+    # 22: sima 22 nincs, csak 22/A, 22/B.
+    # 24: sima 24 nincs, csak 24/A-24/F.
+    # 26: sima 26 nincs, csak 26/A, 26/B, 26/B (kettő van egymás mellett).
+    # 28: sima 28 nincs, csak 28/A, 28/B, 28/C.
     # 38: sima 38 nincs, csak 38/A, 38/B.
     # 40: ez és a Tőke utca 28. közös telken van, házszám a Tőke utcáról van csak.
     # 44: sima 44 nincs, csak 44/A, 44/B, 44/C.
     # 52: sima 52 nincs, csak 52/1, 52/2.
     # 184: a páros oldalon a 62 az utolsó házszám.
-    invalid: ['19', '45', '47', '38', '40', '44', '52', '184']
+    invalid: ['5b', '17b', '19', '41a', '43', '45', '47', '51c', '16', '22', '24', '26', '28', '38', '40', '44', '52', '184']
   Géza utca:
     # 3: sima 3 nincs, csak 3/A, 3/B.
     # 11: a páratlan oldalon a 7 az utolsó házszám.
@@ -104,6 +114,24 @@ filters:
     # 3: nincs.
     # 5: saroktelek, Kenderike utca 1-re van számozva.
     invalid: ['1a', '1b', '1c', '3', '5']
+  Kistétény köz:
+    # 9: a páratlan oldalon az 5 az utolsó házszám.
+    # 19/A: a páratlan oldalon az 5 az utolsó házszám.
+    # 37: a páratlan oldalon az 5 az utolsó házszám.
+    # 2: ez és a Park utca 37 közös telken van, házszám a Park utcáról van csak.
+    # 4: ez és a Kistétny utca 44. közös telken van, házszám a Kistétény utcáról van csak.
+    # 28: a páros oldalon nincsenek házszámok, és az utcatáblán is a 4 az utolsó házszám.
+    # 32: a páros oldalon nincsenek házszámok, és az utcatáblán is a 4 az utolsó házszám.
+    # A valós házszámok az utcában: 1, 3, 5.
+    ranges:
+      - {start: '1', end: '5'}
+  Kistétény utca:
+    # 32: sima 32 nincs, csak 32/A, 32/B, 32/C.
+    # 34/A: nincs ilyen, csak sima 34.
+    # 34/C: nincs ilyen, csak sima 34.
+    # 36/C: nincs ilyen, csak sima 36.
+    # 38: ez és a Piroska köz 12. közös telken van, házszám a Piroska közről van csak.
+    invalid: ['32', '34a', '34c', '36c', '38']
   Klauzál Gábor utca:
     # Területhatár, a páros oldal a Baross Gábor-telepen van.
     ranges:
@@ -149,6 +177,12 @@ filters:
     # 11: sima 11 nincs, csak 11/A, 11/B.
     # 8: sima 8 nincs, csak 8/A, 8/B.
     invalid: ['7', '11', '8']
+  Park utca:
+    # 3: sima 3 nincs, csak 3/A, 3/B.
+    # 24/2: nincs ilyen, csak sima 24.
+    # 24/3: nincs ilyen, csak sima 24.
+    # 24/A: nincs ilyen, csak sima 24.
+    invalid: ['3', '24/2', '24/3', '24a']
   Rákóczi út:
     # Pontositando, egy szakasz Baross-Gabor telep
     ranges:
