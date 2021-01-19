@@ -14,5 +14,30 @@ refstreets:
   'Felhévízi utca': 'Felhévizi utca'  # Szemlőhegy/Újlak - 6 táblából 5-ön hosszú í
   # felmérendő
   'Remetevölgy utca': 'Remetevölgyi utca'  # Budaliget (Pesthidegkút)
+  'Apáthyszikla köz': 'Apáthy-szikla köz'  # Nyék
+osm-street-filters:
+  # Nem valós utcák
+  - EuroVelo-6 budai Duna-parti kerékpárút
+  - Margit híd
+  - Pusztaszeri körönd
+  - Selyemakác lakópark
+  - Szemlőhegy liget
+  - Szent Lukács park
+  - futókör
+  - vitorlázó start-rámpa
+  - virágpiac
+  # parkok, sétányok, lépcsők, udvarok
+  - Bánffy György emlékpark
+  - Érzékek ösvénye
+  - Mechwart liget
+  - Millenáris Széllkapu park
+  - Millenáris park
+  - Pap-kert
+  - Szemlő-hegyi-barlang felszíne
+  - Szűz Mária 7 fájdalmas stációja
+  - Tükörben az élővilág
+  - Werner Alajos emlékpark
+  # Kerülethatáron lévő utca
+  - Mély utca
 source: survey
 inactive: true
