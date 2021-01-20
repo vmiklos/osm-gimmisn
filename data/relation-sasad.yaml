@@ -501,13 +501,15 @@ filters:
   Süveg utca:
     # 3: 3/a, 3/b
     # 5: 5/a, 5/b
-    # TODO: van 9/b és 11/b, újra fel kell mérni
+    # 9: csak 9/b
+    # 10: 10/a és 10/b. 10/a nincs kiírva, lehet 10 akár is
     # 13: 13/a, 13/b
     # 14a: 14, 14/b
-    invalid: ['3', '5', '13', '14a']
+    # 15a: 15, 15/b
+    invalid: ['3', '5', '9', '10', '13', '14a', '15a']
     ranges:
       - {start: '1', end: '15'}
-      - {start: '2', end: '16'}
+      - {start: '2', end: '18'}
   Szent Adalbert tér:
     invalid: ['19']
   Szent Kristóf utca:
