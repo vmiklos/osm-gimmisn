@@ -546,6 +546,8 @@ filters:
     # 21a: csak sima 21 van
     invalid: ['19b', '21a']
   Zajzon utca:
+    # 8: 8/a, 8/b
+    invalid: ['8']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '24'}
