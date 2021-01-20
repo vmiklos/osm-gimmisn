@@ -6,7 +6,6 @@ refstreets:
   'Díszfű utca': 'Diszfű utca'  # Budaliget (Pesthidegkút)
   'Hármashatárhegyi út': 'Hármashatár-hegyi út'  # Szépvölgy
   'Labanc út': 'Labanc utca'  # Kurucles/Szépilona
-  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'  # Pasarét/Törökvész
   'Rézsű utca': 'Rézsü utca'  # Adyliget/Máriaremete (Pesthidegkút)
   'Szép Ilona utca': 'Szépilona utca'  # Erzsébettelek (Pesthidegkút)
   'Templomkert': 'Templom kert'  # Adyliget
@@ -26,9 +25,10 @@ osm-street-filters:
   - futókör
   - vitorlázó start-rámpa
   - virágpiac
-  # parkok, sétányok, lépcsők, udvarok
+  # parkok, sétányok, lépcsők, udvarok, ösvények
   - Bánffy György emlékpark
   - Érzékek ösvénye
+  - Kálvária
   - Mechwart liget
   - Millenáris Széllkapu park
   - Millenáris park
@@ -39,5 +39,25 @@ osm-street-filters:
   - Werner Alajos emlékpark
   # Kerülethatáron lévő utca
   - Mély utca
+  # Hivatalosan nincs, de van utcatábla
+  - Derschner köz  # valószínű a tulaj csináltatta
+  - Gyurkovics Mária lépcső
+  # problémásak --------------------------------------------------
+  # Ady lépcső - buszmegálló van, régi térképen nincs rajta
+  # Crovina utca - ismeretlen, note
+  # Detrekő lépcső - Detrekő utca, note
+  # Elvis Presley tér - Elvis Presley park, note
+  # Gercsei köz - note
+  # Gyermekvasúthoz vezető út - note
+  # Maci köz - note
+  # Petneházy köz - note
+  # régi térképen szerepel ---------------------------------------
+  # Ganz köz
+  # Gercsényi utca
+  # Hárshegyi körút
+  # Közép út
+  # Schüller út
+  # Vince utca
+  # Vöröskővár utca
 source: survey
 inactive: true
