@@ -42,6 +42,9 @@ filters:
     ranges:
       - {start: '1', end: '1'}
   Hegyalja út:
+    # 100/a, 100/b: csak sima 100 van
+    # 136a, 136/b, 138/b: csak 136-138 van
+    invalid: ['100a', '100b', '136a', '136b', '138b']
     ranges:
       - {start: '47', end: '93', refsettlement: '012'}
       - {start: '70', end: '128'}
@@ -112,5 +115,5 @@ refstreets:
   # 'OSM Name 2': 'Ref Name 2'
   'Zólyomi köz': 'Zólyom köz'
 source: survey
-inactive: true
+inactive: false
 housenumber-letters: true
