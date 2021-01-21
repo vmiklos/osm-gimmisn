@@ -32,6 +32,10 @@ filters:
       - {start: '2', end: '8'}
   Szent László király útja:
     invalid: ['108']
+  Vasút utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '14'}
 street-filters:
   # nem igazi utcák
   - 21. sz. vasúti őrház
