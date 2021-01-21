@@ -60,11 +60,36 @@ refstreets:
   # utcajegyzék = REF, OSM eltér
   'Barátpatak utca': 'Barát-patak utca'  # osm = utcatábla
   'Bebo Károly utca': 'Bebó Károly utca'  # nem hivatalos táblán Bebó Károly, nincs rendes kép
+  'Feketesalak út': 'Fekete salak utca'  # nincs tábla
   'Kis Csikós köz': 'Kiscsikós köz'  # nincs tábla
   'Montevideo utca': 'Montevideo út'  # osm = utcatábla
   'Nagy-Kevély utca': 'Nagykevély utca'  # régi kép van
   'Római sétány': 'Római út'  # vegyesen vannak a táblák
   'Stefan Wyszyński utca': 'Stefan Wyszynski utca'  # határozatban a Stefan Wyszyński van
   'Schön Győző utca': 'Schőn Győző utca'  # utcanévtábla = osm
+  # egyéb
+  'gróf Esterházy János rakpart': 'Gróf Esterházy János rakpart'
+osm-street-filters:
+  # Nem valós utcák
+  - Árpád híd
+  - Éden villapark
+  - Flórián téri aluljáró
+  # parkok, sétányok, lépcsők, udvarok, ösvények
+  - Békás park
+  - Boldog Jerzy Popiełuszko emlékpark
+  - Bud Spencer park
+  - Családi pihenőpark
+  - Graphisoft Park
+  - Hajógyári sziget  # külön írva mint közterület, Hajógyári-sziget mint földrajzi képződmény
+  - Holdudvar park
+  # Kerülethatáron lévő utca
+  # Hivatalosan nincs, de van utcatábla
+  - Gázgyári lakótelep I. csoport
+  - Gázgyári lakótelep II. csoport
+  - Gázgyári lakótelep III. csoport
+  # problémásak --------------------------------------------------
+  # régi térképen szerepel ---------------------------------------
+  # Gázos utca
+  # Hősök tere - BKV megálló is van
 source: survey
 inactive: false
