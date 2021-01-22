@@ -428,7 +428,7 @@ def handle_additional_streets(relations: areas.Relations, request_uri: str) -> y
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
-    # tokens[-1] would be the action
+    action = tokens[-1]
 
     relation = relations.get_relation(relation_name)
     osmrelation = relation.get_config().get_osmrelation()
@@ -436,8 +436,11 @@ def handle_additional_streets(relations: areas.Relations, request_uri: str) -> y
     doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations, "additional-streets", relation_name, osmrelation).getvalue())
 
-    # assume view-result
-    doc.asis(wsgi_additional.additional_streets_view_result(relations, request_uri).getvalue())
+    if action == "view-turbo":
+        doc.asis(wsgi_additional.additional_streets_view_turbo(relations, request_uri).getvalue())
+    else:
+        # assume view-result
+        doc.asis(wsgi_additional.additional_streets_view_result(relations, request_uri).getvalue())
 
     date = streets_diff_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())

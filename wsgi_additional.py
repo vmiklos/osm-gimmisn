@@ -84,8 +84,26 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
             doc.stag("br")
             with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result.chkl"):
                 doc.text(_("Checklist format"))
+            doc.stag("br")
+            with doc.tag("a", href=prefix + "/additional-streets/{}/view-turbo".format(relation_name)):
+                doc.text(_("Overpass turbo query for the below streets"))
 
         doc.asis(util.html_table_from_list(table).getvalue())
+    return doc
+
+
+def additional_streets_view_turbo(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-turbo."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+
+    doc = yattag.doc.Doc()
+    relation = relations.get_relation(relation_name)
+    streets = relation.get_additional_streets()
+    query = areas.make_turbo_query_for_street_objs(relation, streets)
+
+    with doc.tag("pre"):
+        doc.text(query)
     return doc
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

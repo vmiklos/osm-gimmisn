@@ -849,4 +849,19 @@ out skel qt;"""
     return query
 
 
+def make_turbo_query_for_street_objs(relation: Relation, streets: List[util.Street]) -> str:
+    """Creates an overpass query that shows all streets from a list."""
+    header = """[out:json][timeout:425];
+rel(@RELATION@)->.searchRelation;
+area(@AREA@)->.searchArea;
+("""
+    query = util.process_template(header, relation.get_config().get_osmrelation())
+    for street in streets:
+        query += street.get_osm_type() + "(" + str(street.get_osm_id()) + ");\n"
+    query += """);
+out body;
+>;
+out skel qt;"""
+    return query
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
