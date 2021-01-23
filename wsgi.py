@@ -904,8 +904,8 @@ def our_application(
 
     prefix = config.Config.get_uri_prefix()
     if request_uri.startswith(prefix + "/static/"):
-        output, content_type = webframe.handle_static(request_uri)
-        return webframe.send_response(start_response, content_type, "200 OK", output, [])
+        output, content_type, extra_headers = webframe.handle_static(request_uri)
+        return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
 
     if ext == "json":
         return wsgi_json.our_application_json(start_response, relations, request_uri)

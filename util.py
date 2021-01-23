@@ -25,6 +25,7 @@ import os
 import pickle
 import re
 import urllib.error
+import email.utils
 
 import yattag
 
@@ -786,7 +787,7 @@ def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
     return ret
 
 
-def get_content(workdir: str, path: str = "") -> str:
+def get_content(workdir: str, path: str = "", extra_headers: Optional[List[Tuple[str, str]]] = None) -> str:
     """Gets the content of a file in workdir."""
     ret = ""
     if path:
@@ -795,6 +796,10 @@ def get_content(workdir: str, path: str = "") -> str:
         path = workdir
     with open(path) as sock:
         ret = sock.read()
+        if extra_headers is not None:
+            stat = os.fstat(sock.fileno())
+            modified = email.utils.formatdate(stat.st_mtime, usegmt=True)
+            extra_headers.append(("Last-Modified", modified))
     return ret
 
 

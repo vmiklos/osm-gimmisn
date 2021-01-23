@@ -219,24 +219,26 @@ def get_toolbar(
     return doc
 
 
-def handle_static(request_uri: str) -> Tuple[str, str]:
+def handle_static(request_uri: str) -> Tuple[str, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
     tokens = request_uri.split("/")
     path = tokens[-1]
+    extra_headers: List[Tuple[str, str]] = []
 
     if request_uri.endswith(".js"):
         content_type = "application/x-javascript"
-        content = util.get_content(config.Config.get_workdir(), path)
-        return content, content_type
+        content = util.get_content(config.Config.get_workdir(), path, extra_headers)
+        return content, content_type, extra_headers
     if request_uri.endswith(".css"):
         content_type = "text/css"
-        content = util.get_content(config.get_abspath("static"), path)
-        return content, content_type
+        content = util.get_content(config.get_abspath("static"), path, extra_headers)
+        return content, content_type, extra_headers
     if request_uri.endswith(".json"):
         content_type = "application/json"
-        return util.get_content(os.path.join(config.Config.get_workdir(), "stats"), path), content_type
+        content = util.get_content(os.path.join(config.Config.get_workdir(), "stats"), path, extra_headers)
+        return content, content_type, extra_headers
 
-    return "", ""
+    return "", "", extra_headers
 
 
 def send_response(
