@@ -551,9 +551,15 @@ filters:
     # 1: ez és a Nagytétényi út 2. közös telken van, házszám a Nagytétényi útról van csak.
     # 25/A: nincs ilyen, csak sima 25 van.
     # 27/A: nincs ilyen, csak sima 27 van.
+    # 49/A: nincs ilyen, csak sima 49 van.
+    # 59/A: TODO: kettő darab 59 van egymás mellett, nem egyértelmű, hogy melyik az 59/A.
+    # 65/A: nincs ilyen, csak sima 65 van.
+    # 4: a páros oldalon a 10 az első házszám.
+    # 6: a páros oldalon a 10 az első házszám.
+    # 40/2: TODO: kettő darab 40 van egymás mellett, nem egyértelmű, hogy melyik a 40/2.
     # 58: a páros oldalon az 52 az utolsó házszám.
     # 614: a páros oldalon az 52 az utolsó házszám.
-    invalid: ['1', '25a', '27a', '58', '614']
+    invalid: ['1', '25a', '27a', '49a', '65a', '4', '6', '58', '614']
   Törley tér:
     # Csak az utcatáblán vannak házszámok, az épületeken nincsenek vagy nem ebből az utcából számozódnak.
     ranges: []
