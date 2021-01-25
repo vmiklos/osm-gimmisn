@@ -350,7 +350,7 @@ class Relation:
 
         return show_ref_street
 
-    def get_osm_streets(self) -> List[util.Street]:
+    def get_osm_streets(self, sorted_result: bool = True) -> List[util.Street]:
         """Reads list of streets for an area from OSM."""
         ret: List[util.Street] = []
         with self.get_files().get_osm_streets_csv_stream() as sock:
@@ -368,7 +368,9 @@ class Relation:
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
                 ret += util.get_street_from_housenumber(sock, 1, 2, 5)
-        return sorted(set(ret))
+        if sorted_result:
+            return sorted(set(ret))
+        return ret
 
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
@@ -620,11 +622,11 @@ class Relation:
 
         return only_in_reference, in_both
 
-    def get_additional_streets(self) -> List[util.Street]:
+    def get_additional_streets(self, sorted_result: bool = True) -> List[util.Street]:
         """Tries to find additional streets in a relation."""
         ref_streets = [get_osm_street_from_ref_street(self.get_config(), street) for street in self.get_ref_streets()]
         ref_street_objs = [util.Street(i) for i in ref_streets]
-        osm_streets = self.get_osm_streets()
+        osm_streets = self.get_osm_streets(sorted_result)
         osm_street_blacklist = self.get_config().get_osm_street_filters()
 
         only_in_osm = util.get_only_in_first(osm_streets, ref_street_objs)
@@ -856,8 +858,11 @@ rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
 ("""
     query = util.process_template(header, relation.get_config().get_osmrelation())
+    ids = []
     for street in streets:
-        query += street.get_osm_type() + "(" + str(street.get_osm_id()) + ");\n"
+        ids.append((street.get_osm_type(), str(street.get_osm_id())))
+    for osm_type, osm_id in sorted(set(ids)):
+        query += osm_type + "(" + osm_id + ");\n"
     query += """);
 out body;
 >;

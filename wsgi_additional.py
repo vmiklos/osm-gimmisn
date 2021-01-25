@@ -99,7 +99,7 @@ def additional_streets_view_turbo(relations: areas.Relations, request_uri: str) 
 
     doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
-    streets = relation.get_additional_streets()
+    streets = relation.get_additional_streets(sorted_result=False)
     query = areas.make_turbo_query_for_street_objs(relation, streets)
 
     with doc.tag("pre"):
