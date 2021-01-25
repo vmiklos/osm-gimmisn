@@ -6,6 +6,8 @@ filters:
     ranges:
       - {start: '1', end: '69'}
       - {start: '2', end: '42'}
+  Deák Ferenc utca:
+    invalid: ['110']
   Gárdonyi Géza utca:
     invalid: ['113']
   Iskola utca:
@@ -21,8 +23,12 @@ filters:
       - {start: '2', end: '52'}
   Kenderesi út:
     invalid: ['56']
+  Klotild tér:
+    invalid: ['118']
   Kossuth Lajos köz:
     invalid: ['32']
+  Mária utca:
+    invalid: ['533']
   Máriapark utca:
     ranges:
       - {start: '1', end: '33'}
@@ -36,6 +42,10 @@ filters:
       - {start: '2', end: '8'}
   Szállás köz:
     invalid: ['17']
+  Szent István király köz:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '24'}
   Szent István király útja:
     invalid: ['719']
   Szent László király útja:
