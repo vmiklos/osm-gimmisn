@@ -19,6 +19,10 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '52'}
+  Kenderesi út:
+    invalid: ['56']
+  Kossuth Lajos köz:
+    invalid: ['32']
   Máriapark utca:
     ranges:
       - {start: '1', end: '33'}
@@ -30,12 +34,20 @@ filters:
   Somlyó köz:
     ranges:
       - {start: '2', end: '8'}
+  Szállás köz:
+    invalid: ['17']
+  Szent István király útja:
+    invalid: ['719']
   Szent László király útja:
     invalid: ['108']
   Vasút utca:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
+  Végső utca:
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '24'}
 street-filters:
   # nem igazi utcák
   - 21. sz. vasúti őrház
