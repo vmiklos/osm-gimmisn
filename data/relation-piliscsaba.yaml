@@ -8,6 +8,10 @@ filters:
       - {start: '2', end: '42'}
   Deák Ferenc utca:
     invalid: ['110']
+  Egyetem utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '14'}
   Gárdonyi Géza utca:
     invalid: ['113']
   Iskola utca:
