@@ -1,7 +1,11 @@
 missing-streets: 'yes'
 filters:
+  Ady Endre utca:
+    invalid: ['50']
   Béla király útja:
     invalid: ['140']
+  Bérc köz:
+    invalid: ['20']
   Csévi út:
     ranges:
       - {start: '1', end: '69'}
@@ -14,6 +18,11 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
+  Erdősor utca:
+    interpolation: all
+    invalid: ['28', '34']
+  Fényesliget sétány:
+    invalid: ['159']
   Gárdonyi Géza utca:
     invalid: ['113']
   Iskola utca:
@@ -37,8 +46,10 @@ filters:
     invalid: ['118']
   Kossuth Lajos köz:
     invalid: ['32']
+  Lovarda köz:
+    invalid: ['43']
   Mária utca:
-    invalid: ['533']
+    invalid: ['42', '533']
   Máriapark utca:
     ranges:
       - {start: '1', end: '33'}
@@ -64,10 +75,16 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
+  Vár utca:
+    invalid: ['19', '24']
   Végső utca:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '24'}
+  Völgy utca:
+    invalid: ['19']
+  Zrínyi utca:
+    invalid: ['54', '64', '148']
 street-filters:
   # nem igazi utcák
   - 21. sz. vasúti őrház
