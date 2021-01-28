@@ -1,0 +1,5 @@
+missing-streets: 'yes'
+refstreets:
+  'Petőfi utca': 'Petőfi Sándor utca'
+  'Rákóczi utca': 'Rákóczi Ferenc utca'
+source: survey

@@ -1,0 +1,9 @@
+missing-streets: 'yes'
+refstreets:
+  'Alsó vasút sor': 'Alsó Vasút sor'
+  'Felső vasút sor': 'Felső Vasút sor'
+  'Harangvirág út': 'Harangvirág utca'
+  'Irányi Dániel utca': 'Irinyi Dániel utca'
+  'Somlyó-köz': 'Somlyó köz'
+  'Szent István út': 'Szt.István út'
+source: survey
