@@ -15,7 +15,7 @@ import re
 import subprocess
 import sys
 
-import unidecode
+import unidecode  # type: ignore
 
 import areas
 import config
