@@ -16,6 +16,7 @@ street-filters:
   - Meggyvágó köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/452301465
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Alsóhegy lépcső': 'Alsóhegyi lépcső'  # tábla hiba
   'Bogdánfy Ödön utca': 'Bogdánfy utca'
   'Boldizsár utca': 'Boldizsár út'
   'Citadella utca': 'Citadella út'  # Vegyesen vannak a táblák

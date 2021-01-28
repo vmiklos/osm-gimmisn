@@ -8,7 +8,7 @@ filters:
     ranges:
       - {start: '1', end: '11', refsettlement: '001'}
       - {start: '13', end: '29'}
-      - {start: '2', end: '10', refsettlement: '001'}
+      - {start: '2', end: '8', refsettlement: '001'}
       - {start: '26', end: '30'}
   Antal utca:
     refsettlement: '001'
@@ -28,6 +28,10 @@ filters:
   Budaörsi út:
     ranges:
       - {start: '2', end: '24'}
+  Csukló utca:
+    # 2: park, illeve a vasúti alagút teteje
+    # 6: 6/a, 6/b
+    invalid: ['2', '6']
   Gyula utca:
     ranges:
       - {start: '1', end: '99', refsettlement: '001'}
@@ -131,6 +135,7 @@ filters:
     ranges:
       - {start: '89', end: '113'}
 refstreets:
+  'Alsóhegy lépcső': 'Alsóhegyi lépcső'
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
 source: survey
 housenumber-letters: true
