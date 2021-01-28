@@ -1,16 +1,25 @@
 missing-streets: 'no'
 filters:
   Alsóhegy utca:
+    # 10-16: Mathias Corvinus Collegium, Somlói útra van számozva
+    # 18 nincs
+    # 20-22 zöld terület
+    # 24 = Gombocz Zoltán utca 18
     ranges:
       - {start: '1', end: '11', refsettlement: '001'}
       - {start: '13', end: '29'}
-      - {start: '2', end: '18', refsettlement: '001'}
-      - {start: '20', end: '30'}
+      - {start: '2', end: '10', refsettlement: '001'}
+      - {start: '26', end: '30'}
   Antal utca:
     refsettlement: '001'
   Avar utca:
+    # 4 = Hegyalja út 30
+    # 31b: 31a, 31. Ami most 31-re van jelölve ott semmi sincs kiírva
+    # 33a: 33 és 33/b
+    # 35 = Otthon utca 37
+    invalid: ['4', '31b', '33a', '35']
     ranges:
-      - {start: '4', end: '98', refsettlement: '001'}
+      - {start: '4', end: '10', refsettlement: '001'}
       - {start: '31', end: '37'}
   Bérc utca:
     refsettlement: '001'
@@ -102,7 +111,7 @@ filters:
       - {start: '51', end: '51', refsettlement: '001'}
       - {start: '2', end: '98'}
   Szent Sebestyén köz:
-    # utcatáblán: 1-1 tartomány, de ez a Mathias Corvinus Collegium oldala, Somlói útra van számozva
+    # 1: Mathias Corvinus Collegium, Somlói útra van számozva
     # utcatáblán: 2-6 tartomány, de valóságban csak a 6-os szám van. a 4-es helyén egy üres telek
     refsettlement: '001'
     ranges:
