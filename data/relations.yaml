@@ -518,6 +518,10 @@ esztergom-kertvaros:
     osmrelation: 6804483
     refcounty: "12"
     refsettlement: "028"
+piliscsev:
+    osmrelation: 1027754
+    refcounty: "12"
+    refsettlement: "052"
 pilismarot:
     osmrelation: 1027768
     refcounty: "12"
@@ -563,6 +567,10 @@ piliscsaba:
     osmrelation: 215939
     refcounty: "14"
     refsettlement: "106"
+pilisjaszfalu:
+    osmrelation: 215938
+    refcounty: "14"
+    refsettlement: "107"
 pilisvorosvar:
     osmrelation: 215943
     refcounty: "14"
