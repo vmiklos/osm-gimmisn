@@ -1,5 +1,51 @@
 = Version descriptions
 
+== master
+
+- Resolves: gh#576 garbage collection: if a relation was created <1 month ago, then ignore it in
+  parse_access_log.py
+
+- Resolves: gh#578 garbage collection: exclude completed areas
+
+- Resolves: gh#585 fix street mapping when street name contains commas
+
+- Resolves: gh#594 stats: top cities: filter for valid cities + captial districts
+
+- Resolves: gh#611 additional streets, opposite of missing streets are now searched for
+
+- Resolves: gh#613 provide a robots.txt
+
+- Resolves: gh#616 handle house numbers containing commas
+
+- Resolves: gh#617 garbage collection: filter out search engine user agents
+
+- Resolves: gh#688 reworked the toolbar
+
+- Resolves: gh#689 additional streets: improved main page, showing # of additional streets there
+
+- Resolves: gh#690 you can now filter for relations based on your current position
+
+- Resolves: gh#754 missing housenumbers now ignores points without house numbers and
+  conscriptionnumbers
+
+- Resolves: gh#759 main page: default to hiding complete areas
+
+- Resolves: gh#765 calls to overpass now always redirect back to the original page
+
+- Resolves: gh#782 additional streets: handle streets with type=relation
+
+- Resolves: gh#784 street mappings: invalid osm or reference names are now flagged on the missing
+  housenumbers page
+
+- Resolves: gh#830 additional streets: track OSM id of street names which come from house numbers
+
+- Resolves: gh#861 additional streets now can generate an overpass query
+
+- Resolves: gh#875 missing and additional streets now also have plain text and checklist output
+  formats
+
+- Resolves: gh#886 additional streets have a proper last update date
+
 == 7.0
 
 - Resolves: gh#564 wsgi: add support for locale-aware percent formatting
