@@ -22,7 +22,7 @@ filters:
     interpolation: all
     invalid: ['28', '34']
   Fényesliget sétány:
-    invalid: ['159']
+    invalid: ['1', '159']
   Gárdonyi Géza utca:
     invalid: ['113']
   Iskola utca:
