@@ -545,6 +545,29 @@ def html_table_from_list(table: List[List[yattag.doc.Doc]]) -> yattag.doc.Doc:
     return doc
 
 
+def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.doc.Doc:
+    """Produces HTML enumerations for 2 string lists."""
+    doc = yattag.doc.Doc()
+    osm_invalids, ref_invalids = invalids
+    if osm_invalids:
+        doc.stag("br")
+        with doc.tag("div", id="osm-invalids-container"):
+            doc.text(_("Warning: broken OSM <-> reference mapping, the following OSM names are invalid:"))
+            with doc.tag("ul"):
+                for osm_invalid in osm_invalids:
+                    with doc.tag("li"):
+                        doc.text(osm_invalid)
+    if ref_invalids:
+        doc.stag("br")
+        with doc.tag("div", id="ref-invalids-container"):
+            doc.text(_("Warning: broken OSM <-> reference mapping, the following reference names are invalid:"))
+            with doc.tag("ul"):
+                for ref_invalid in ref_invalids:
+                    with doc.tag("li"):
+                        doc.text(ref_invalid)
+    return doc
+
+
 def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
     """Turns a tab-separated table into a list of lists."""
     table = []

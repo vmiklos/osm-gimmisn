@@ -174,6 +174,10 @@ class TestMissingHousenumbers(TestWsgi):
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/table")
+        # refstreets: >0 invalid osm name
+        results = root.findall("body/div[@id='osm-invalids-container']")
+        # refstreets: >0 invalid ref name
+        results = root.findall("body/div[@id='ref-invalids-container']")
         self.assertEqual(len(results), 1)
 
     def test_no_such_relation(self) -> None:

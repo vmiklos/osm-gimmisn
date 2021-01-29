@@ -140,7 +140,8 @@ class TestRelationGetStreetRanges(test_config.TestCase):
         self.assertEqual(filters, expected_filters)
         expected_streets = {
             'OSM Name 1': 'Ref Name 1',
-            'OSM Name 2': 'Ref Name 2'
+            'OSM Name 2': 'Ref Name 2',
+            'Misspelled OSM Name 1': 'OSM Name 1',
         }
         relations = get_relations()
         self.assertEqual(relations.get_relation("gazdagret").get_config().get_refstreets(), expected_streets)

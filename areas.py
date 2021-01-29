@@ -670,6 +670,20 @@ class Relation:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
 
+def get_invalid_refstreets(relation: Relation) -> Tuple[List[str], List[str]]:
+    """Returns invalid osm names and ref names."""
+    osm_invalids: List[str] = []
+    ref_invalids: List[str] = []
+    refstreets = relation.get_config().get_refstreets()
+    osm_streets = [i.get_osm_name() for i in relation.get_osm_streets()]
+    for osm_name, ref_name in refstreets.items():
+        if osm_name not in osm_streets:
+            osm_invalids.append(osm_name)
+        if ref_name in osm_streets:
+            ref_invalids.append(ref_name)
+    return osm_invalids, ref_invalids
+
+
 class Relations:
     """A relations object is a container of named relation objects."""
     def __init__(self, workdir: str) -> None:
