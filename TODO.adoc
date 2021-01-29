@@ -1,3 +1,2 @@
-- typescript: allow @typescript-eslint/no-explicit-any rule
 - missing-housenumbers: could cache the result, so larger relations are served instantly most of the
   time

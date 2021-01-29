@@ -6,6 +6,7 @@
 
 import Chart = require("chart.js");
 import "chartjs-plugin-datalabels"; // only for its side-effects
+import * as ChartDatalabels from "chartjs-plugin-datalabels/types/context";
 import chartJsTrendline = require("chartjs-plugin-trendline");
 Chart.plugins.register(chartJsTrendline);
 
@@ -15,7 +16,27 @@ function getString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
 }
 
-function addCharts(stats: any) {
+// StatsProgress is the "progress" key of workdir/stats/stats.json.
+interface StatsProgress {
+    date: string;
+    percentage: number;
+    reference: number;
+    osm: number;
+}
+
+// Stats is the root of workdir/stats/stats.json.
+interface Stats {
+    daily: Array<[string, number]>;
+    dailytotal: Array<[string, number]>;
+    monthly: Array<[string, number]>;
+    monthlytotal: Array<[string, number]>;
+    topusers: Array<[string, number]>;
+    topcities: Array<[string, number]>;
+    usertotal: Array<[string, number]>;
+    progress: StatsProgress;
+}
+
+function addCharts(stats: Stats) {
     const daily = stats.daily;
     const dailytotal = stats.dailytotal;
     const monthly = stats.monthly;
@@ -32,10 +53,10 @@ function addCharts(stats: any) {
 
     const dailyData = {
         // daily is a list of label-data pairs.
-        labels: daily.map(function(x: any[]) { return x[0]; }),
+        labels: daily.map(function(x: [string, number]) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: daily.map(function(x: any[]) { return x[1]; }),
+            data: daily.map(function(x: [string, number]) { return x[1]; }),
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -81,10 +102,10 @@ function addCharts(stats: any) {
 
     const monthlyData = {
         // monthly is a list of label-data pairs.
-        labels: monthly.map(function(x: any[]) { return x[0]; }),
+        labels: monthly.map(function(x: [string, number]) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: monthly.map(function(x: any[]) { return x[1]; }),
+            data: monthly.map(function(x: [string, number]) { return x[1]; }),
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -130,10 +151,10 @@ function addCharts(stats: any) {
 
     const monthlytotalData = {
         // monthlytotal is a list of label-data pairs.
-        labels: monthlytotal.map(function(x: any[]) { return x[0]; }),
+        labels: monthlytotal.map(function(x: [string, number]) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: monthlytotal.map(function(x: any[]) { return x[1]; }),
+            data: monthlytotal.map(function(x: [string, number]) { return x[1]; }),
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -178,10 +199,10 @@ function addCharts(stats: any) {
 
     const dailytotalData = {
         // dailytotal is a list of label-data pairs.
-        labels: dailytotal.map(function(x: any[]) { return x[0]; }),
+        labels: dailytotal.map(function(x: [string, number]) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: dailytotal.map(function(x: any[]) { return x[1]; }),
+            data: dailytotal.map(function(x: [string, number]) { return x[1]; }),
             trendlineLinear: trendlineOptions,
         }]
     };
@@ -227,10 +248,10 @@ function addCharts(stats: any) {
 
     const topusersData = {
         // topusers is a list of label-data pairs.
-        labels: topusers.map(function(x: any[]) { return x[0]; }),
+        labels: topusers.map(function(x: [string, number]) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: topusers.map(function(x: any[]) { return x[1]; }),
+            data: topusers.map(function(x: [string, number]) { return x[1]; }),
         }]
 
     };
@@ -275,7 +296,7 @@ function addCharts(stats: any) {
     });
     const topcitiesData = {
         // topcities is a list of label-data pairs.
-        labels: topcities.map(function(x: any[]) {
+        labels: topcities.map(function(x: [string, number]) {
             if (x[0] === "_Empty") {
                 return getString("str-topcities-empty");
             }
@@ -286,7 +307,7 @@ function addCharts(stats: any) {
         }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: topcities.map(function(x: any[]) { return x[1]; }),
+            data: topcities.map(function(x: [string, number]) { return x[1]; }),
         }]
 
     };
@@ -332,10 +353,10 @@ function addCharts(stats: any) {
 
     const usertotalData = {
         // usertotal is a list of label-data pairs.
-        labels: usertotal.map(function(x: any[]) { return x[0]; }),
+        labels: usertotal.map(function(x: [string, number]) { return x[0]; }),
         datasets: [{
             backgroundColor: "rgba(0, 255, 0, 0.5)",
-            data: usertotal.map(function(x: any[]) { return x[1]; }),
+            data: usertotal.map(function(x: [string, number]) { return x[1]; }),
         }]
 
     };
@@ -399,7 +420,7 @@ function addCharts(stats: any) {
         options: {
             title: {
                 display: true,
-                text: getString("str-progress-title").replace("{1}", progress.percentage).replace("{2}", progress.date),
+                text: getString("str-progress-title").replace("{1}", progress.percentage.toString()).replace("{2}", progress.date),
             },
             scales: {
                 xAxes: [{
@@ -419,7 +440,7 @@ function addCharts(stats: any) {
             plugins: {
                 datalabels: {
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    formatter: function(value: number, context: any) {
+                    formatter: function(value: number, context: ChartDatalabels.Context) {
                         // Turn 1000 into '1 000'.
                         return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
                     }
@@ -441,7 +462,7 @@ async function initStats(): Promise<void>
 
     const statsJSON = config.uriPrefix + "/static/stats.json";
     const response = await window.fetch(statsJSON);
-    const stats = await response.json();
+    const stats = await<Promise<Stats>> response.json();
     addCharts(stats);
     return;
 }
