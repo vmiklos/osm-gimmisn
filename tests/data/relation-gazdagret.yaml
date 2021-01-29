@@ -27,3 +27,7 @@ osm-street-filters:
 refstreets:
   'OSM Name 1': 'Ref Name 1'
   'OSM Name 2': 'Ref Name 2'
+  # intentionally broken:
+  # - 'Misspelled OSM Name 1' should be an OSM name, but it is not
+  # - 'OSM Name 1' should not be an OSM name, but it is
+  'Misspelled OSM Name 1': 'OSM Name 1'
