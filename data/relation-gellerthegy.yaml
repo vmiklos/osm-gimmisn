@@ -1,10 +1,11 @@
 missing-streets: 'no'
 filters:
   Alsóhegy utca:
-    # 10-16: Mathias Corvinus Collegium, Somlói útra van számozva
-    # 18 nincs
+    # 10-18: Mathias Corvinus Collegium, Somlói útra van számozva
     # 20-22 zöld terület
     # 24 = Gombocz Zoltán utca 18
+    # 25: csak sima 25 van
+    invalid: ['25/2', '25b']
     ranges:
       - {start: '1', end: '11', refsettlement: '001'}
       - {start: '13', end: '29'}
@@ -26,12 +27,25 @@ filters:
   Berényi utca:
     refsettlement: '001'
   Budaörsi út:
+    # 24a: csak sima 24 van.
+    invalid: ['24a']
     ranges:
       - {start: '2', end: '24'}
   Csukló utca:
     # 2: park, illeve a vasúti alagút teteje
     # 6: 6/a, 6/b
     invalid: ['2', '6']
+  Gombocz Zoltán utca:
+    # 1 = Ménesi út 73
+    # 2c: csak sima 2, az is bejáratként a Ménesi út 75-ös házon
+    # 5abc,7ab: 5-7 a hászám és 6 épület van bent, nem felmérhető
+    # 8: 8/a, 8/b
+    # 9: 9/a1, 9/a2, 9/b
+    # 12: 12/a, 12/b
+    invalid: ['2c', '5a', '5b', '5c', '7a', '7b', '8', '9', '12']
+    ranges:
+      - {start: '3', end: '21'}
+      - {start: '2', end: '18'}
   Gyula utca:
     ranges:
       - {start: '1', end: '99', refsettlement: '001'}
@@ -77,11 +91,20 @@ filters:
     invalid: ['43']
     ranges:
       - {start: '5', end: '87'}
+  Menta utca:
+    # 1b: csak sima 1 van.
+    invalid: ['1b']
   Orom utca:
     refsettlement: '001'
   Sánc utca:
     refsettlement: '001'
   Schweidel utca:
+    # 14b: 14, 14/a
+    # 16b: 16, 16/a
+    # 22/3: csak sima 22
+    # 27: csak 27/b, mert 27/a = Menta utca 5.
+    # 29b: 29, 29/a
+    invalid: ['14b', '16b', '22/3', '27', '29b']
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '24'}
@@ -132,8 +155,11 @@ filters:
   Tündérlaki mélyút:
     refsettlement: '001'
   Villányi út:
+    # 89h: nincs
+    # 105: 105/a, 105/b
+    invalid: ['89h', '105']
     ranges:
-      - {start: '89', end: '113'}
+      - {start: '89', end: '115'}
 refstreets:
   'Alsóhegy lépcső': 'Alsóhegyi lépcső'
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
