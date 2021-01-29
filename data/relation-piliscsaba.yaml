@@ -25,6 +25,8 @@ filters:
     invalid: ['1', '159']
   Gárdonyi Géza utca:
     invalid: ['113']
+  Hrabina utca:
+    invalid: ['8', '20']
   Iskola utca:
     ranges:
       - {start: '2', end: '24'}
