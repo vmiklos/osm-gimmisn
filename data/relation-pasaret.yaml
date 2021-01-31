@@ -33,7 +33,7 @@ filters:
     # vége felmérendő
     ranges:
       - {start: '2', end: '22'}
-  Lorántffy Zsuzsanna utca:
+  Lorántffy Zsuzsanna út:
     ranges:
       - {start: '2', end: '12'}
   Nagyajtai utca:

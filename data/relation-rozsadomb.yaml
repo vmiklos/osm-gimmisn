@@ -124,8 +124,5 @@ filters:
     # 2-6 = Ady Endre utca 3, Szent Angéla
     ranges:
       - {start: '8', end: '16'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'
 source: survey
 inactive: true
