@@ -1,1 +1,9 @@
+refstreets:
+  'Asztalos utca': 'Asztalos János utca'
+  'Jurcsik Károly utca': 'Joó Mária utca'
+  'Radnóti Miklós utca': 'Landler Jenő utca'
+  'Mező utca': 'Mező Imre utca'
+  'Ősz utca': 'Ságvári Endre utca'
+  'Mester utca': 'Sallai Imre utca'
+  'Templom utca': 'Ürögi Lajos utca'
 inactive: false
