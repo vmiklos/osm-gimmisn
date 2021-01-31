@@ -5,7 +5,7 @@ mypy==0.800
 pylint==2.6.0
 python-dateutil==2.8.1
 pytz==2020.5
-pyyaml==5.3.1
+pyyaml==5.4.1
 unidecode==1.1.2
 yamllint==1.25.0
 yattag==1.14.0
