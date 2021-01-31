@@ -2,13 +2,14 @@ missing-streets: 'no'
 filters:
   Alsóhegy utca:
     # 10-18: Mathias Corvinus Collegium, Somlói útra van számozva
+    # 15-17: zöld terület, Csukló utcai garázsok
     # 20-22 zöld terület
     # 24 = Gombocz Zoltán utca 18
     # 25: csak sima 25 van
     invalid: ['25/2', '25b']
     ranges:
       - {start: '1', end: '11', refsettlement: '001'}
-      - {start: '13', end: '29'}
+      - {start: '19', end: '29'}
       - {start: '2', end: '8', refsettlement: '001'}
       - {start: '26', end: '30'}
   Antal utca:
@@ -22,6 +23,14 @@ filters:
     ranges:
       - {start: '4', end: '10', refsettlement: '001'}
       - {start: '31', end: '37'}
+  Bakator utca:
+    # 1b: csak sima 1.
+    # 2 = Somlói út 46/a
+    invalid: ['1b', '2']
+  Balogh Tihamér utca:
+    # 4: 4 és 4/b
+    # 5: 5/a és 5/b
+    invalid: ['4a', '5']
   Bérc utca:
     refsettlement: '001'
   Berényi utca:
@@ -88,7 +97,14 @@ filters:
       - {start: '1', end: '81'}
       - {start: '12', end: '70'}
   Ménesi út:
-    invalid: ['43']
+    # 17: 17/a, 17/b
+    # 31ab: 31 A és B épület
+    # 43: nincs 41 után 45 jön, ami a Budai Arborétum felső kertje
+    # 59: 59/a, 59/b
+    # 61/a-z: 3 épület, nincs külön házszámuk, 61 mind
+    # 71/a: 71, 71/b
+    # 85: 85/a, 85/b
+    invalid: ['17', '31a', '31b', '43', '59', '61a', '61b', '61c', '61z', '71a', '85']
     ranges:
       - {start: '5', end: '87'}
   Menta utca:
@@ -108,6 +124,9 @@ filters:
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '24'}
+  Serleg utca:
+    # 10*: csak 10/b van kiírva. A helyszínen látszik hogy a ház két részből áll, valószínű az ház hátsó fele a 10/a, de nincs kiírva.
+    invalid: ['10', '10a']
   Somló köz:
     # 3 = Somló köz 21.
     invalid: ['3']
@@ -152,6 +171,11 @@ filters:
       - {start: '2', end: '98'}
   Szirtes út:
     refsettlement: '001'
+  Szüret utca:
+    # 19-29 Szentimreváros
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '18'}
   Tündérlaki mélyút:
     refsettlement: '001'
   Villányi út:
