@@ -79,6 +79,14 @@ filters:
       - {start: '16', end: '18'}
   Karolina út:
     ranges: []
+  Kelenhegyi köz:
+    # ez egy lépcső, nincs épület
+    ranges: []
+  Kelenhegyi lépcső:
+    # vége felmérendő. táblán 2-4, de még van 2 épület
+    # páratlan oldalon a Közszolgálati Egyetem van
+    ranges:
+      - {start: '2', end: '10'}
   Kelenhegyi út:
     # 11-13: csak 11 van kiírva
     # 35: 35/a, 35/b
@@ -93,8 +101,8 @@ filters:
     # 60: 60/a, 60/b
     # 70: 70/a, 70/b
     # 72, 74: másik utcára számozódnak
-    # 79b: 77-79 újra lettek számozva, 79/b->79 lett belőle, 79->77/b
-    invalid: ['13', '35', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '79b']
+    # 77b: csak sima 77
+    invalid: ['13', '35', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
     ranges:
       - {start: '1', end: '81'}
       - {start: '12', end: '70'}
@@ -110,8 +118,9 @@ filters:
     # 61/a-c: 61 A,B,C épületek
     # 61z: KCR hirdetmény 2019.02.07 - megszűnt - https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2019_02/skmbt_28319020807520.pdf
     # 71/a: 71, 71/b
+    # 79b: 77-79 újra lettek számozva, 79/b->79 lett belőle, 79->77/b
     # 85: 85/a, 85/b
-    invalid: ['17', '31a', '31b', '43', '59', '61a', '61b', '61c', '61z', '71a', '85']
+    invalid: ['17', '31a', '31b', '43', '59', '61a', '61b', '61c', '61z', '71a', '79b', '85']
     ranges:
       - {start: '5', end: '87'}
   Menta utca:
