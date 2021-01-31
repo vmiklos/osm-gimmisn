@@ -15,7 +15,6 @@ filters:
 source: survey
 refstreets:
   'Hunyadi János utca': 'Hunyadi János P utca'
-  'Kálám-forrás köz': 'Kálmán-forrás köz'
   'Kossuth Lajos utca': 'Kossuth Lajos P utca'
   'Petőfi Sándor utca': 'Petőfi Sándor P utca'
 inactive: false
