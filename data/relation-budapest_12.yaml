@@ -344,6 +344,9 @@ filters:
       - {start: '2', end: '10'}
   Evetke út:
     invalid: ['12']
+  Agancs út:
+    # ends are 23 and 34
+    invalid: ['25', '36', '40']
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
