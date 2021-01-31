@@ -98,6 +98,8 @@ filters:
     refsettlement: "012"
   Somorjai utca:
     # this is just the sashegy part
+    # 23: 23/a, 23/b
+    invalid: ['23']
     ranges:
       - {start: '19', end: '23'}
       - {start: '18', end: '18'}
