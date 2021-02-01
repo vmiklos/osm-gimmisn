@@ -71,9 +71,8 @@ class RelationFiles:
         """Gets a CSV reader for the OSM house number list."""
         return util.CsvIO(self.__get_osm_housenumbers_stream("r"))
 
-    def write_osm_housenumbers(self, result_from_overpass: str) -> None:
+    def write_osm_housenumbers(self, result: str) -> None:
         """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
-        result = util.sort_housenumbers_csv(result_from_overpass)
         with self.__get_osm_housenumbers_stream(mode="w") as stream:
             stream.write(result)
 

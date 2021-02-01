@@ -90,15 +90,16 @@ class TestJsonStreetHousenumbers(TestWsgiJson):
     """Tests street_housenumbers_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result output is well-formed."""
-        result_from_overpass = "@id\taddr:street\taddr:housenumber\n"
-        result_from_overpass += "1\tTörökugrató utca\t1\n"
-        result_from_overpass += "1\tTörökugrató utca\t2\n"
-        result_from_overpass += "1\tTűzkő utca\t9\n"
-        result_from_overpass += "1\tTűzkő utca\t10\n"
-        result_from_overpass += "1\tOSM Name 1\t1\n"
-        result_from_overpass += "1\tOSM Name 1\t2\n"
-        result_from_overpass += "1\tOnly In OSM utca\t1\n"
-        result_from_overpass += "1\tSecond Only In OSM utca\t1\n"
+        result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
+        result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
+        result_from_overpass += "1\tTörökugrató utca\t1\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tTörökugrató utca\t2\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tTűzkő utca\t9\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tTűzkő utca\t10\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tOSM Name 1\t1\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tOSM Name 1\t2\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
 
         def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
             buf = io.BytesIO()
