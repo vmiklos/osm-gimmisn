@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Meredek utca:
+    invalid: ['243']
   Rákóczi Ferenc utca:
     ranges:
       - {start: '1', end: '25'}
