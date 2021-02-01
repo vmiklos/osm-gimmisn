@@ -1,6 +1,6 @@
 = Version descriptions
 
-== master
+== 7.1
 
 - Resolves: gh#576 garbage collection: if a relation was created <1 month ago, then ignore it in
   parse_access_log.py
