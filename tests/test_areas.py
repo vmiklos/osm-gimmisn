@@ -109,15 +109,16 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
         """Tests the happy path."""
         relations = get_relations()
         relation_name = "gazdagret"
-        result_from_overpass = "@id\taddr:street\taddr:housenumber\n"
-        result_from_overpass += "1\tTörökugrató utca\t1\n"
-        result_from_overpass += "1\tTörökugrató utca\t2\n"
-        result_from_overpass += "1\tTűzkő utca\t9\n"
-        result_from_overpass += "1\tTűzkő utca\t10\n"
-        result_from_overpass += "1\tOSM Name 1\t1\n"
-        result_from_overpass += "1\tOSM Name 1\t2\n"
-        result_from_overpass += "1\tOnly In OSM utca\t1\n"
-        result_from_overpass += "1\tSecond Only In OSM utca\t1\n"
+        result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
+        result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
+        result_from_overpass += "1\tTörökugrató utca\t1\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tTörökugrató utca\t2\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tTűzkő utca\t9\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tTűzkő utca\t10\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tOSM Name 1\t1\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tOSM Name 1\t2\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
+        result_from_overpass += "1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
         expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         relation = relations.get_relation(relation_name)
         relation.get_files().write_osm_housenumbers(result_from_overpass)
