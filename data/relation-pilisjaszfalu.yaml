@@ -1,11 +1,19 @@
 missing-streets: 'yes'
 filters:
+  Dombhát utca:
+    invalid: ['446', '466', '468']
   Meredek utca:
     invalid: ['243']
+  Nagy-Somlyó utca:
+    invalid: ['466']
   Rákóczi Ferenc utca:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '48'}
+  Szivárvány utca:
+    invalid: ['466']
+  Zöldlomb utca:
+    invalid: ['468']
 refstreets:
   'Alsó vasút sor': 'Alsó Vasút sor'
   'Felső vasút sor': 'Felső Vasút sor'
