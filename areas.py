@@ -366,7 +366,7 @@ class Relation:
                 ret.append(street)
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
-                ret += util.get_street_from_housenumber(sock, 1, 2, 5)
+                ret += util.get_street_from_housenumber(sock)
         if sorted_result:
             return sorted(set(ret))
         return ret
