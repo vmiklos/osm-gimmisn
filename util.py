@@ -618,18 +618,16 @@ def get_street_from_housenumber(
         if not row:
             continue
 
-        has_housenumber = housenumber_column < len(row) and row[housenumber_column]
-        has_conscriptionnumber = conscriptionnumber_column < len(row) and row[conscriptionnumber_column]
-        if len(row) < street_column + 1 or ((not has_housenumber) and (not has_conscriptionnumber)):
+        has_housenumber = row[housenumber_column]
+        has_conscriptionnumber = row[conscriptionnumber_column]
+        if (not has_housenumber) and (not has_conscriptionnumber):
             continue
         street_name = row[street_column]
         if not street_name:
             continue
 
-        osm_type = "way"
         osm_type_column = 11
-        if osm_type_column < len(row):
-            osm_type = row[osm_type_column]
+        osm_type = row[osm_type_column]
         try:
             osm_id = int(row[0])
         except ValueError:
