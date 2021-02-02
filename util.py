@@ -601,9 +601,7 @@ def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
     return table
 
 
-def get_street_from_housenumber(
-    sock: CsvIO, street_column: int, housenumber_column: int, conscriptionnumber_column: int
-) -> List[Street]:
+def get_street_from_housenumber(sock: CsvIO) -> List[Street]:
     """
     Reads a house number CSV and extracts streets from rows.
     Returns a list of street objects, with their name, ID and type set.
@@ -611,23 +609,25 @@ def get_street_from_housenumber(
     ret = []
 
     first = True
+    columns: Dict[str, int] = {}
     for row in sock.get_rows():
         if first:
             first = False
+            for index, label in enumerate(row):
+                columns[label] = index
             continue
         if not row:
             continue
 
-        has_housenumber = row[housenumber_column]
-        has_conscriptionnumber = row[conscriptionnumber_column]
+        has_housenumber = row[columns["addr:housenumber"]]
+        has_conscriptionnumber = row[columns["addr:conscriptionnumber"]]
         if (not has_housenumber) and (not has_conscriptionnumber):
             continue
-        street_name = row[street_column]
+        street_name = row[columns["addr:street"]]
         if not street_name:
             continue
 
-        osm_type_column = 11
-        osm_type = row[osm_type_column]
+        osm_type = row[columns["@type"]]
         try:
             osm_id = int(row[0])
         except ValueError:
