@@ -48,6 +48,7 @@ street-filters:
   - Ripka Ferenc utca  # 19333/16 hrsz. - Tisztitelep mellett, nem épült ki
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Kis-Kevély utca': 'Kiskevély utca'
   # helyesírás, ref hibás
   'Hímző utca': 'Himző utca'
   'Kaszásdűlő utca': 'Kaszásdülő utca'
@@ -74,6 +75,7 @@ osm-street-filters:
   - Árpád híd
   - Éden villapark
   - Flórián téri aluljáró
+  - McDrive
   # parkok, sétányok, lépcsők, udvarok, ösvények
   - Békás park
   - Boldog Jerzy Popiełuszko emlékpark
@@ -82,7 +84,11 @@ osm-street-filters:
   - Graphisoft Park
   - Hajógyári sziget  # külön írva mint közterület, Hajógyári-sziget mint földrajzi képződmény
   - Holdudvar park
+  - Kiscelli-parkerdő
+  - Mészkő park
   # Kerülethatáron lévő utca
+  - Boglárka utca  # Üröm
+  - Jókai Mór utca  # Budakalász
   # Hivatalosan nincs, de van utcatábla
   - Gázgyári lakótelep I. csoport
   - Gázgyári lakótelep II. csoport
