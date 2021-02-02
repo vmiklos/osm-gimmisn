@@ -5,7 +5,7 @@ filters:
   Meredek utca:
     invalid: ['243']
   Nagy-Somlyó utca:
-    invalid: ['466']
+    invalid: ['56', '466']
   Oskola utca:
     ranges:
       - {start: '1', end: '11'}
