@@ -86,7 +86,7 @@ msgstr "Pozíció alapján"
 msgid "Call Overpass to update"
 msgstr "Frissítés Overpass hívásával"
 
-#: wsgi.py:177 wsgi.py:218
+#: wsgi.py:177 wsgi.py:218 wsgi_additional.py:86
 msgid "Checklist format"
 msgstr "Csekklista formátum"
 
@@ -159,9 +159,13 @@ msgstr "Szűrők:"
 msgid "House number coverage"
 msgstr "Házszám lefedettség"
 
-#: areas.py:570
+#: areas.py:569
 msgid "House numbers"
 msgstr "Házszámok"
+
+#: wsgi_additional.py:62
+msgid "Identifier"
+msgstr "Azonosító"
 
 #: webframe.py:273
 #, python-brace-format
@@ -176,7 +180,7 @@ msgstr "Utolsó frissítés: "
 msgid "Latest for this month"
 msgstr "Legutóbbi erre a hónapra"
 
-#: areas.py:569
+#: areas.py:568
 msgid "Missing count"
 msgstr "Hiányzik db"
 
@@ -216,7 +220,7 @@ msgstr "Nincsenek meglévő házszámok: létrehozás Overpass hívásával..."
 msgid "No existing house numbers: waiting for Overpass..."
 msgstr "Nincsenek meglévő házszámok: Overpass: várakozás..."
 
-#: wsgi.py:233 wsgi.py:272 wsgi.py:311
+#: wsgi.py:233 wsgi.py:272 wsgi.py:311 wsgi_additional.py:31
 msgid "No existing streets"
 msgstr "Nincsenek meglévő utcák"
 
@@ -240,7 +244,7 @@ msgstr "Nincsenek referencia házszámok: létrehozás referenciából..."
 msgid "No reference house numbers: creating from reference..."
 msgstr "Nincsenek referencia házszámok: létrehozás referenciából..."
 
-#: wsgi.py:313
+#: wsgi.py:313 wsgi_additional.py:33
 msgid "No reference streets"
 msgstr "Nincsenek referencia utcák"
 
@@ -296,6 +300,11 @@ msgstr "OSM szám"
 msgid "OSM data © OpenStreetMap contributors."
 msgstr "OSM adatok © OpenStreetMap közreműködők."
 
+#: wsgi_additional.py:80
+#, python-brace-format
+msgid "OpenStreetMap additionally has the below {0} streets."
+msgstr "Az OpenStreetMap tartalmazza a lenti {0} további utcát."
+
 #: wsgi.py:162
 #, python-brace-format
 msgid ""
@@ -323,7 +332,7 @@ msgstr "Overpass turbo"
 msgid "Overpass turbo query for streets with questionable names"
 msgstr "Overpass lekérdezés a kérdéses nevű utcákra"
 
-#: wsgi.py:171
+#: wsgi.py:171 wsgi_additional.py:89
 msgid "Overpass turbo query for the below streets"
 msgstr "Overpass lekérdezés a lenti utcákra"
 
@@ -331,7 +340,7 @@ msgstr "Overpass lekérdezés a lenti utcákra"
 msgid "Per-city coverage"
 msgstr "Városonkénti lefedettség"
 
-#: wsgi.py:174 wsgi.py:215
+#: wsgi.py:174 wsgi.py:215 wsgi_additional.py:83
 msgid "Plain text format"
 msgstr "Egyszerű szöveg formátum"
 
@@ -343,6 +352,10 @@ msgstr "Referencia szám"
 msgid "Show complete areas"
 msgstr "Kész területek mutatása"
 
+#: wsgi_additional.py:64
+msgid "Source"
+msgstr "Forrás"
+
 #: webframe.py:204
 msgid "Statistics"
 msgstr "Statisztikák"
@@ -351,7 +364,7 @@ msgstr "Statisztikák"
 msgid "Street coverage"
 msgstr "Utca lefedettség"
 
-#: areas.py:568 wsgi.py:203
+#: areas.py:567 wsgi.py:203 wsgi_additional.py:65
 msgid "Street name"
 msgstr "Utcanév"
 
@@ -393,6 +406,10 @@ msgstr "Legaktívabb házszám szerkesztők"
 #: webframe.py:376
 msgid "Top house number editors, as of {}"
 msgstr "Legaktívabb házszám szerkesztők, frissítve: {}"
+
+#: wsgi_additional.py:63
+msgid "Type"
+msgstr "Típus"
 
 #: webframe.py:67 webframe.py:81
 msgid "Update from OSM"
@@ -455,8 +472,8 @@ msgid ""
 "Warning: broken OSM <-> reference mapping, the following reference names are "
 "invalid:"
 msgstr ""
-"Figyelem: sérült OSM <-> referenia hozzárendelés, a következő referencia nevek "
-"érvénytelenek:"
+"Figyelem: sérült OSM <-> referenia hozzárendelés, a következő referencia "
+"nevek érvénytelenek:"
 
 #: wsgi.py:638 wsgi.py:813
 msgid "Where to map?"
@@ -478,7 +495,7 @@ msgstr "meglévő házszámok"
 msgid "existing streets"
 msgstr "meglévő utcák"
 
-#: util.py:639
+#: util.py:637
 msgid "housenumber"
 msgstr "házszám"
 
@@ -490,7 +507,7 @@ msgstr "hiányzó házszámok"
 msgid "missing streets"
 msgstr "hiányzó utcák"
 
-#: areas.py:366
+#: areas.py:365
 msgid "street"
 msgstr "utca"
 
@@ -506,15 +523,3 @@ msgstr "{0} hiányzó házszámok"
 #: wsgi.py:546
 msgid "{} streets"
 msgstr "{} utca"
-
-#~ msgid "Identifier"
-#~ msgstr "Azonosító"
-
-#~ msgid "OpenStreetMap additionally has the below {0} streets."
-#~ msgstr "Az OpenStreetMap tartalmazza a lenti {0} további utcát."
-
-#~ msgid "Source"
-#~ msgstr "Forrás"
-
-#~ msgid "Type"
-#~ msgstr "Típus"

@@ -182,7 +182,7 @@ else
 	./deploy.sh
 endif
 
-update-pot: areas.py webframe.py wsgi.py util.py Makefile
+update-pot: areas.py webframe.py wsgi.py wsgi_additional.py util.py Makefile
 	xgettext --keyword=_ --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)
 
 update-po: po/osm-gimmisn.pot Makefile
