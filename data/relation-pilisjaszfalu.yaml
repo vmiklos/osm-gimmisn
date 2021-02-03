@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Alsó Vasút sor:
+    invalid: ['2']
   Dombhát utca:
     invalid: ['446', '466', '468']
   Felső Vasút sor:
