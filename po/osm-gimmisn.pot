@@ -86,7 +86,7 @@ msgstr ""
 msgid "Call Overpass to update"
 msgstr ""
 
-#: wsgi.py:177 wsgi.py:218
+#: wsgi.py:177 wsgi.py:218 wsgi_additional.py:86
 msgid "Checklist format"
 msgstr ""
 
@@ -159,8 +159,12 @@ msgstr ""
 msgid "House number coverage"
 msgstr ""
 
-#: areas.py:570
+#: areas.py:569
 msgid "House numbers"
+msgstr ""
+
+#: wsgi_additional.py:62
+msgid "Identifier"
 msgstr ""
 
 #: webframe.py:273
@@ -176,7 +180,7 @@ msgstr ""
 msgid "Latest for this month"
 msgstr ""
 
-#: areas.py:569
+#: areas.py:568
 msgid "Missing count"
 msgstr ""
 
@@ -216,7 +220,7 @@ msgstr ""
 msgid "No existing house numbers: waiting for Overpass..."
 msgstr ""
 
-#: wsgi.py:233 wsgi.py:272 wsgi.py:311
+#: wsgi.py:233 wsgi.py:272 wsgi.py:311 wsgi_additional.py:31
 msgid "No existing streets"
 msgstr ""
 
@@ -240,7 +244,7 @@ msgstr ""
 msgid "No reference house numbers: creating from reference..."
 msgstr ""
 
-#: wsgi.py:313
+#: wsgi.py:313 wsgi_additional.py:33
 msgid "No reference streets"
 msgstr ""
 
@@ -294,6 +298,11 @@ msgstr ""
 msgid "OSM data © OpenStreetMap contributors."
 msgstr ""
 
+#: wsgi_additional.py:80
+#, python-brace-format
+msgid "OpenStreetMap additionally has the below {0} streets."
+msgstr ""
+
 #: wsgi.py:162
 #, python-brace-format
 msgid ""
@@ -319,7 +328,7 @@ msgstr ""
 msgid "Overpass turbo query for streets with questionable names"
 msgstr ""
 
-#: wsgi.py:171
+#: wsgi.py:171 wsgi_additional.py:89
 msgid "Overpass turbo query for the below streets"
 msgstr ""
 
@@ -327,7 +336,7 @@ msgstr ""
 msgid "Per-city coverage"
 msgstr ""
 
-#: wsgi.py:174 wsgi.py:215
+#: wsgi.py:174 wsgi.py:215 wsgi_additional.py:83
 msgid "Plain text format"
 msgstr ""
 
@@ -339,6 +348,10 @@ msgstr ""
 msgid "Show complete areas"
 msgstr ""
 
+#: wsgi_additional.py:64
+msgid "Source"
+msgstr ""
+
 #: webframe.py:204
 msgid "Statistics"
 msgstr ""
@@ -347,7 +360,7 @@ msgstr ""
 msgid "Street coverage"
 msgstr ""
 
-#: areas.py:568 wsgi.py:203
+#: areas.py:567 wsgi.py:203 wsgi_additional.py:65
 msgid "Street name"
 msgstr ""
 
@@ -382,6 +395,10 @@ msgstr ""
 
 #: webframe.py:376
 msgid "Top house number editors, as of {}"
+msgstr ""
+
+#: wsgi_additional.py:63
+msgid "Type"
 msgstr ""
 
 #: webframe.py:67 webframe.py:81
@@ -464,7 +481,7 @@ msgstr ""
 msgid "existing streets"
 msgstr ""
 
-#: util.py:639
+#: util.py:637
 msgid "housenumber"
 msgstr ""
 
@@ -476,7 +493,7 @@ msgstr ""
 msgid "missing streets"
 msgstr ""
 
-#: areas.py:366
+#: areas.py:365
 msgid "street"
 msgstr ""
 
