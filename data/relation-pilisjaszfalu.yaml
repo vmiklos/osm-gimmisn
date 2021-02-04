@@ -34,8 +34,21 @@ filters:
   Zöldlomb utca:
     invalid: ['468']
 refstreets:
-  'Alsó vasút sor': 'Alsó Vasút sor'
   'Harangvirág út': 'Harangvirág utca'
   'Somlyó-köz': 'Somlyó köz'
   'Szent István út': 'Szt.István út'
+street-filters:
+  # Tanyák
+  - Külterület
+  - Séti tanya
+  - Tulics tanya
+osm-street-filters:
+  # Nem valós utcák
+  - Tinnyei úti ipartelep
+  # Területhatáron lévő utca
+  - Béke utca
+  # Ösvények
+  - Aussichtssteig
+  - Dreyfus-Magdalener Pfad
+  - Laubsteig
 source: survey
