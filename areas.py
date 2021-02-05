@@ -52,9 +52,8 @@ class RelationFiles:
         """Gets a CSV reader for the OSM street list."""
         return util.CsvIO(self.__get_osm_streets_stream("r"))
 
-    def write_osm_streets(self, result_from_overpass: str) -> None:
+    def write_osm_streets(self, result: str) -> None:
         """Writes the result for overpass of Relation.get_osm_streets_query()."""
-        result = util.sort_streets_csv(result_from_overpass)
         with self.__get_osm_streets_stream("w") as sock:
             sock.write(result)
 
