@@ -623,6 +623,8 @@ def get_street_from_housenumber(sock: CsvIO) -> List[Street]:
         if (not has_housenumber) and (not has_conscriptionnumber):
             continue
         street_name = row[columns["addr:street"]]
+        if not street_name and "addr:place" in columns:
+            street_name = row[columns["addr:place"]]
         if not street_name:
             continue
 

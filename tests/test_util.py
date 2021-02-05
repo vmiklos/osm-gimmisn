@@ -502,5 +502,15 @@ class TestGetCityKey(unittest.TestCase):
         self.assertEqual(util.get_city_key("9999", "Budapest", valid_settlements), "budapest")
 
 
+class TestGetStreetFromHousenumber(unittest.TestCase):
+    """Tests get_street_from_housenumber()."""
+    def test_addr_place(self) -> None:
+        """Tests the case when addr:place is used."""
+        with util.CsvIO(open("tests/workdir/street-housenumbers-gh964.csv", "r")) as stream:
+            actual = util.get_street_from_housenumber(stream)
+        # This is picked up from addr:place because addr:street was empty.
+        self.assertEqual(actual, [util.Street(osm_name="Tolvajos tanya")])
+
+
 if __name__ == '__main__':
     unittest.main()
