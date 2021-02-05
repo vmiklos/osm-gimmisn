@@ -8,7 +8,6 @@
 
 from enum import Enum
 from typing import Any
-from typing import Callable
 from typing import Dict
 from typing import Iterable
 from typing import Iterator
@@ -663,17 +662,6 @@ def sort_numerically(strings: Iterable[HouseNumber]) -> List[HouseNumber]:
     return sorted(strings, key=lambda x: split_house_number(x.get_number()))
 
 
-def process_csv_body(fun: Callable[[Iterable[str]], List[str]], data: str) -> str:
-    """
-    Process the body of a CSV/TSV with the given function while keeping the header intact.
-    """
-    lines = data.split('\n')
-    header = lines[0] if lines else ''
-    body = lines[1:] if lines else ''
-    result = [header] + fun(body)
-    return '\n'.join(result)
-
-
 def get_array_nth(arr: Sequence[str], index: int) -> str:
     """Gets the nth element of arr, returns en empty string on error."""
     return arr[index] if len(arr) > index else ''
@@ -703,15 +691,6 @@ def sort_streets(lines: Iterable[str]) -> List[str]:
     See split_street_line for sorting rules.
     """
     return sorted(lines, key=split_street_line)
-
-
-def sort_streets_csv(data: str) -> str:
-    """
-    Sorts TSV Overpass street name result with visual partitioning.
-
-    See split_street_line for sorting rules.
-    """
-    return process_csv_body(sort_streets, data)
 
 
 def split_housenumber_line(line: str) -> Tuple[str, bool, bool, str, Tuple[int, str], str,
