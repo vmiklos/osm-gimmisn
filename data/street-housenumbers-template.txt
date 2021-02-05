@@ -15,6 +15,10 @@ area(@AREA@)->.searchArea;
   way["addr:postcode"](area.searchArea);
   relation["addr:postcode"](area.searchArea);
 
+  node["addr:place"](area.searchArea);
+  way["addr:place"](area.searchArea);
+  relation["addr:place"](area.searchArea);
+
   node["addr:housename"](area.searchArea);
   way["addr:housename"](area.searchArea);
   relation["addr:housename"](area.searchArea);
