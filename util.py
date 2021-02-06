@@ -695,42 +695,6 @@ def sort_streets(lines: Iterable[str]) -> List[str]:
     return sorted(lines, key=split_street_line)
 
 
-def split_housenumber_line(line: str) -> Tuple[str, bool, bool, str, Tuple[int, str], str,
-                                               Tuple[int, str], Iterable[str], Tuple[int, str]]:
-    """
-    Augment TSV Overpass house numbers result lines to aid sorting.
-
-    It prepends two bools to indicate whether an entry is missing either a house number, a house name
-    or a conscription number.
-    Entries lacking either a house number or all of the above IDs come first.
-    The following fields are interpreted numerically: oid, house number, conscription number.
-    """
-    field = line.split('\t')
-
-    oid = get_array_nth(field, 0)
-    street = get_array_nth(field, 1)
-    housenumber = get_array_nth(field, 2)
-    postcode = get_array_nth(field, 3)
-    housename = get_array_nth(field, 4)
-    cons = get_array_nth(field, 5)
-    tail = field[6:] if len(field) > 6 else []
-
-    have_housenumber = housenumber != ''
-    have_houseid = have_housenumber or housename != '' or cons != ''
-    return (postcode, have_houseid, have_housenumber, street,
-            split_house_number(housenumber),
-            housename, split_house_number(cons), tail, split_house_number(oid))
-
-
-def sort_housenumbers(lines: Iterable[str]) -> List[str]:
-    """
-    Sorts the body of a TSV Overpass house numbers result with visual partitioning.
-
-    See split_housenumber_line for sorting rules.
-    """
-    return sorted(lines, key=split_housenumber_line)
-
-
 def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
     """
     Returns items which are in first, but not in second.
