@@ -1,0 +1,7 @@
+missing-streets: 'yes'
+refstreets:
+  'Hősök tere': 'Hősök tér'
+  'Hunyadi János utca': 'Hunyadi utca'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+source: survey
