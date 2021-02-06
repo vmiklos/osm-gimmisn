@@ -1,0 +1,7 @@
+missing-streets: 'yes'
+refstreets:
+  'Csokonai Vitéz Mihály utca': 'Csokonai Mihály utca'
+  'Ipari Park': 'Ipari park ipartelep'
+  'Szent-Györgyi Albert út': 'Szentgyörgyi Albert út'
+  'Zsámbékos dűlő': 'Zsámbékos völgy'
+source: survey

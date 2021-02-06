@@ -1,0 +1,4 @@
+missing-streets: 'yes'
+refstreets:
+  'Béke utca': 'Béke út'
+source: survey

@@ -494,6 +494,10 @@ berekfurdo:
     refcounty: "11"
     refsettlement: "003"
 # 12 - Komárom-Esztergom megye
+csolnok:
+    osmrelation: 1027815
+    refcounty: "12"
+    refsettlement: "020"
 domos:
     osmrelation: 1027819
     refcounty: "12"
@@ -518,6 +522,10 @@ esztergom-kertvaros:
     osmrelation: 6804483
     refcounty: "12"
     refsettlement: "028"
+nyergesujfalu:
+    osmrelation: 1027805
+    refcounty: "12"
+    refsettlement: "050"
 piliscsev:
     osmrelation: 1027754
     refcounty: "12"
@@ -526,6 +534,14 @@ pilismarot:
     osmrelation: 1027768
     refcounty: "12"
     refsettlement: "053"
+tat:
+    osmrelation: 1027833
+    refcounty: "12"
+    refsettlement: "067"
+uny:
+    osmrelation: 1027787
+    refcounty: "12"
+    refsettlement: "070"
 # 14 - Pest megye
 biatorbagy:
     osmrelation: 113461
