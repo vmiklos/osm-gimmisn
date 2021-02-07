@@ -386,7 +386,7 @@ class TestRelationGetRefStreets(unittest.TestCase):
 
 
 class TestRelationGetOsmHouseNumbers(unittest.TestCase):
-    """Tests Relation.get_osm_house_numbers()."""
+    """Tests Relation.get_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relation_name = "gazdagret"
@@ -395,6 +395,15 @@ class TestRelationGetOsmHouseNumbers(unittest.TestCase):
         relation = relations.get_relation(relation_name)
         house_numbers = relation.get_osm_housenumbers(street_name)
         self.assertEqual([i.get_number() for i in house_numbers], ["1", "2"])
+
+    def test_addr_place(self) -> None:
+        """Tests the case when addr:place is used instead of addr:street."""
+        relation_name = "gh964"
+        relations = get_relations()
+        relation = relations.get_relation(relation_name)
+        street_name = "Tolvajos tanya"
+        house_numbers = relation.get_osm_housenumbers(street_name)
+        self.assertEqual([i.get_number() for i in house_numbers], ["52"])
 
 
 class TestRelationGetMissingHousenumbers(test_config.TestCase):
