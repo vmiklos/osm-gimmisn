@@ -13,7 +13,6 @@ from typing import Iterable
 from typing import Iterator
 from typing import List
 from typing import Optional
-from typing import Sequence
 from typing import Set
 from typing import TextIO
 from typing import Tuple
@@ -662,37 +661,6 @@ def git_link(version: str, prefix: str) -> yattag.doc.Doc:
 def sort_numerically(strings: Iterable[HouseNumber]) -> List[HouseNumber]:
     """Sorts strings according to their numerical value, not alphabetically."""
     return sorted(strings, key=lambda x: split_house_number(x.get_number()))
-
-
-def get_array_nth(arr: Sequence[str], index: int) -> str:
-    """Gets the nth element of arr, returns en empty string on error."""
-    return arr[index] if len(arr) > index else ''
-
-
-def split_street_line(line: str) -> Tuple[bool, str, str, str, Tuple[int, str]]:
-    """
-    Augment TSV Overpass street name result lines to aid sorting.
-
-    It prepends a bool to indicate whether the street is missing a name, thus
-    streets with missing names are ordered last.
-    oid is interpreted numerically while other fields are taken alphabetically.
-    """
-    field = line.split('\t')
-    oid = get_array_nth(field, 0)
-    name = get_array_nth(field, 1)
-    highway = get_array_nth(field, 2)
-    service = get_array_nth(field, 3)
-    missing_name = name == ''
-    return (missing_name, name, highway, service, split_house_number(oid))
-
-
-def sort_streets(lines: Iterable[str]) -> List[str]:
-    """
-    Sorts the body of a TSV Overpass street name result with visual partitioning.
-
-    See split_street_line for sorting rules.
-    """
-    return sorted(lines, key=split_street_line)
 
 
 def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
