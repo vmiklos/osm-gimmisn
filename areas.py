@@ -384,14 +384,19 @@ class Relation:
             house_numbers: Dict[str, List[util.HouseNumber]] = {}
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
                 first = True
+                columns: Dict[str, int] = {}
                 for row in sock.get_rows():
                     if first:
                         first = False
+                        for index, label in enumerate(row):
+                            columns[label] = index
                         continue
-                    if len(row) < 3:
+                    if not row:
                         continue
-                    street = row[1]
-                    for house_number in row[2].split(';'):
+                    street = row[columns["addr:street"]]
+                    if not street and "addr:place" in columns:
+                        street = row[columns["addr:place"]]
+                    for house_number in row[columns["addr:housenumber"]].split(';'):
                         if street not in house_numbers:
                             house_numbers[street] = []
                         house_numbers[street] += normalize(self, house_number, street, self.get_street_ranges())

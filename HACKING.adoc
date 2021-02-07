@@ -47,6 +47,14 @@ make TSDEBUG=1
 
 produces output that is for debugging.
 
+== Python debugging
+
+To run a single test:
+
+----
+env PYTHONPATH=.:tests python3 -m unittest tests.test_areas.TestRelationGetOsmHouseNumbers.test_happy
+----
+
 == Checklist
 
 Ideally CI checks everything before a commit hits master, but here are a few
