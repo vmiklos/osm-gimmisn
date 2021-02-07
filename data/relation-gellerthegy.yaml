@@ -34,6 +34,10 @@ filters:
   Bérc utca:
     refsettlement: '001'
   Berényi utca:
+    # 1 = Hegyalja út 16.
+    # 6: 6/a (üres telek), 6/b
+    # 9: 9/a, 9/b
+    invalid: ['1', '6', '9']
     refsettlement: '001'
   Budaörsi út:
     # 24a: csak sima 24 van.
@@ -62,6 +66,8 @@ filters:
   Harkály utca:
     refsettlement: '001'
   Hegyalja út:
+    # 2a = Sénc utca 1, illetve 2=Mambo
+    invalid: ['2a']
     ranges:
       - {start: '2', end: '30', refsettlement: '001'}
       - {start: '32', end: '64'}
@@ -73,8 +79,12 @@ filters:
       - {start: '3', end: '17'}
       - {start: '32', end: '64'}
   Mihály utca:
+    # 4b: 4/B-6, nem tudjuk kezelni, ezért kell a filter
+    # 13ab: 2 épület, de csak sima 13
+    # 16: csak 16/a
+    invalid: ['4b', '13a', '13b', '16']
     ranges:
-      - {start: '1', end: '99', refsettlement: '001'}
+      - {start: '1', end: '17', refsettlement: '001'}
       - {start: '2', end: '16', refsettlement: '001'}
       - {start: '16', end: '18'}
   Karolina út:
@@ -129,6 +139,9 @@ filters:
   Orom utca:
     refsettlement: '001'
   Sánc utca:
+    # 3: 3/a, 3/b
+    # 22a: 22 és 22/b
+    invalid: ['3', '22a']
     refsettlement: '001'
   Schweidel utca:
     # 14b: 14, 14/a
@@ -181,11 +194,26 @@ filters:
   Szirom utca:
     refsettlement: '001'
   Számadó utca:
+    # 10b, 10/4: 4 db épület, sima 10. szám alatt I. II. III. IV. épületek
+    # 13 = Tündérlaki mélyút 5.
+    invalid: ['10/4', '10b', '13']
     ranges:
       - {start: '1', end: '17', refsettlement: '001'}
       - {start: '19', end: '19'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '10'}
   Szirtes út:
+    # 3: 3/a, 3/b
+    # 5: 5/a, 5/b
+    # 6b = Mihály utca 3/b
+    # 14b: csak sima 14 van
+    # 17ab: csak sima 17 van
+    # 27: nincs utolsó házszám a 19, utána park
+    # 28: 28/a, 28/b
+    # 32a: govcenter Pálinka terasz, facebook szerint csak 32 a cím, kiírva nincs
+    invalid: ['3', '5', '6b', '14b', '17a', '17b', '27', '28', '32a']
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '34'}
     refsettlement: '001'
   Szüret utca:
     # 19-29 Szentimreváros
@@ -193,6 +221,8 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '18'}
   Tündérlaki mélyút:
+    # 3b: csak sima 3 van
+    invalid: ['3b']
     refsettlement: '001'
   Villányi út:
     # 89h: nincs
