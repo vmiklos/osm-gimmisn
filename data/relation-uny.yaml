@@ -1,4 +1,29 @@
 missing-streets: 'yes'
-refstreets:
-  'Béke utca': 'Béke út'
+filters:
+  Béke út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '34'}
+  Bercsényi Miklós utca:
+    invalid: ['951']
+  Cseri szőlők utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Dózsa György utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Nefelejcs utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Öregszőlők utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Templom utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
 source: survey
