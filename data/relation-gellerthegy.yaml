@@ -32,6 +32,8 @@ filters:
     # 5: 5/a és 5/b
     invalid: ['4a', '5']
   Bérc utca:
+    # 11ab: csak sima 11
+    invalid: ['11a', '11b']
     refsettlement: '001'
   Berényi utca:
     # 1 = Hegyalja út 16.
@@ -66,8 +68,9 @@ filters:
   Harkály utca:
     refsettlement: '001'
   Hegyalja út:
-    # 2a = Sénc utca 1, illetve 2=Mambo
-    invalid: ['2a']
+    # 2a = Sánc utca 1, illetve 2=Mambo
+    # 20: 20/a, 20/b
+    invalid: ['2a', '20']
     ranges:
       - {start: '2', end: '30', refsettlement: '001'}
       - {start: '32', end: '64'}
@@ -137,6 +140,13 @@ filters:
     # 1b: csak sima 1 van.
     invalid: ['1b']
   Orom utca:
+    # páratlan oldal Tabán, de ott nincs házszám
+    # 2: Bérc utca 1
+    # 18, 18c: 18/a, 18/b
+    # 20: 20/a, 20/b
+    invalid: ['18', '18c', '20']
+    ranges:
+      - {start: '4', end: '24'}
     refsettlement: '001'
   Sánc utca:
     # 3: 3/a, 3/b
