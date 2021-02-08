@@ -195,6 +195,11 @@ filters:
       - {start: '1', end: '47'}
       - {start: '51', end: '51', refsettlement: '001'}
       - {start: '2', end: '98'}
+  Szent Gellért rakpart:
+    # Itt csak ez van: Sziklatemplom és kolostor, 1-es számmal, ez van a honlapon
+    # Van olyan forrás amit a kolostort 2-3 számra teszi, de ez máshol nem szerepel
+    invalid: ['1a', '1b', '3']
+    interpolation: all
   Szent Sebestyén köz:
     # 1: Mathias Corvinus Collegium, Somlói útra van számozva
     # utcatáblán: 2-6 tartomány, de valóságban csak a 6-os szám van. a 4-es helyén egy üres telek
