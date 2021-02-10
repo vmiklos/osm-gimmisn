@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Hősök tere:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '16'}
 refstreets:
   'Petőfi utca': 'Petőfi Sándor utca'
   'Rákóczi utca': 'Rákóczi Ferenc utca'
