@@ -3,7 +3,7 @@
   "dependencies": {
     "@types/chart.js": "2.9.30",
     "@types/node": "14.14.10",
-    "@typescript-eslint/eslint-plugin": "4.9.0",
+    "@typescript-eslint/eslint-plugin": "4.15.0",
     "@typescript-eslint/parser": "4.9.0",
     "browserify": "17.0.0",
     "chart.js": "2.9.4",
