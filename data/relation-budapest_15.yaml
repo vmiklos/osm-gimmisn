@@ -1,5 +1,10 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Károlyi Sándor út:
+    # 1-21 között másik utcáról van számozva
+    ranges:
+      - {start: '23', end: '199'}
+      - {start: '2', end: '198'}
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Őrházak
