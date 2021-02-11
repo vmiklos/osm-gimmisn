@@ -228,6 +228,14 @@ filters:
     # 56: a páros oldalon a 8-12 az utolsó házszám.
     # 162/164: a páros oldalon a 8-12 az utolsó házszám.
     invalid: ['56', '162']
+  Vilmos utca:
+    # 7/4: nincs ilyen, csak 7-9.
+    # 11: sima 11 nincs, csak 11/1, 11/2.
+    # 21: sima 21 nincs, csak 21/A, 21/B.
+    # 31: sima 31 nincs, csak 31/1, 31/2.
+    # 43: a páratlan oldalon a 41 az utolsó házszám.
+    # 2/A: nincs ilyen, csak sima 2 és 2-4 van.
+    invalid: ['7/4', '11', '21', '31', '43', '2a']
   X. utca:
     # Pontositando, egy szakasz Baross-Gabor-telep
     ranges:
