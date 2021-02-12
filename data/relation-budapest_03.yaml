@@ -37,6 +37,7 @@ street-filters:
   - Óbudai sziget
   - Solymár völgy
   # átnevezték
+  - Kilátó utca  # Pogánytorony utca
   - Óbudai rakpart
   # egyéb
   - Gázgyári lakótelep  # osm-en szét van bontva csoportonként
@@ -46,6 +47,7 @@ street-filters:
   - Hajógyársziget  # utcaként nincs fent, Hajógyári-sziget-ként igen, ezzel nem fog összetalálni
   - Heltai Ferenc utca  # 19333/14 hrsz. - Tisztitelep mellett, nem épült ki
   - Ripka Ferenc utca  # 19333/16 hrsz. - Tisztitelep mellett, nem épült ki
+  - Piac tér  # utcajegyzék szerint létezik, gyakorlatban nem
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Kis-Kevély utca': 'Kiskevély utca'

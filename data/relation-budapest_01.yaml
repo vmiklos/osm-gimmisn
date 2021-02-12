@@ -2,7 +2,7 @@ missing-streets: only
 filters: {}
 street-filters:
   - Halász bástya  # fent van mint attraction
-  # Kocsány utca - ?
+  - Antal lépcső  # Antal utca / Antal lépcső vegyesen van táblázva
   # Hunyadi László lépcső - note
   # Magyar asszonyok bástyája - note
 osm-street-filters:
