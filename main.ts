@@ -42,7 +42,7 @@ async function onGpsClick()
     let longitude = 0;
     try
     {
-        const position = await new Promise<Position>((resolve, reject) => {
+        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
         latitude = position.coords.latitude;
