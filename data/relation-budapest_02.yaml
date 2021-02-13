@@ -14,6 +14,11 @@ refstreets:
   # felmérendő
   'Remetevölgy utca': 'Remetevölgyi utca'  # Budaliget (Pesthidegkút)
   'Apáthyszikla köz': 'Apáthy-szikla köz'  # Nyék
+street-filters:
+  - Apolka utca  # utcajegyzéken nincs
+  - Városhatár utca  # létezik, kerülethatáron megy, ezért nem ismeri fel
+  - Láncfű utca  # nincs, valóságban: Bátori László utca 48-54
+  # Malom csárda utca  # vagy google: Hidegkúti útnál Örökzöld utca mellett, leírás Máriaremetei út 129: ott nincs
 osm-street-filters:
   # Nem valós utcák
   - EuroVelo-6 budai Duna-parti kerékpárút
@@ -44,20 +49,16 @@ osm-street-filters:
   - Gyurkovics Mária lépcső
   # problémásak --------------------------------------------------
   # Ady lépcső - buszmegálló van, régi térképen nincs rajta
-  # Crovina utca - ismeretlen, note
   # Detrekő lépcső - Detrekő utca, note
   # Elvis Presley tér - Elvis Presley park, note
   # Gercsei köz - note
   # Gyermekvasúthoz vezető út - note
   # Maci köz - note
-  # Petneházy köz - note
   # régi térképen szerepel ---------------------------------------
-  # Ganz köz
   # Gercsényi utca
   # Hárshegyi körút
   # Közép út
   # Schüller út
-  # Vince utca
   # Vöröskővár utca
 source: survey
 inactive: true
