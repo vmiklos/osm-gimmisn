@@ -43,7 +43,6 @@ street-filters:
   - Gázgyári lakótelep  # osm-en szét van bontva csoportonként
   - Filatori köz  # Huszti út 13 panel van a helyén
   - Pendítő köz  # Palló köz végén volt, a Hunyadi felé, megszűnt
-  - Kossuth Lajos üdülő-part  # Dupla, ez a fajta írásmód nem kell
   - Hajógyársziget  # utcaként nincs fent, Hajógyári-sziget-ként igen, ezzel nem fog összetalálni
   - Heltai Ferenc utca  # 19333/14 hrsz. - Tisztitelep mellett, nem épült ki
   - Ripka Ferenc utca  # 19333/16 hrsz. - Tisztitelep mellett, nem épült ki
