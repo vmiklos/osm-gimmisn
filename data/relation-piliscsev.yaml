@@ -2,8 +2,20 @@ missing-streets: 'yes'
 filters:
   Kesztölci utca:
     invalid: ['80', '116']
+  Kopaszhegyi dűlő:
+    # hrsz
+    invalid: ['42', '44']
+  Hegyes dűlő:
+    # hrsz
+    ranges: []
+  Homoki dűlő:
+    # hrsz
+    ranges: []
   Hősök tere:
     interpolation: all
     ranges:
       - {start: '1', end: '16'}
+  Pincék alatti dűlő:
+    # hrsz
+    ranges: []
 source: survey
