@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Kesztölci utca:
+    invalid: ['80', '116']
   Hősök tere:
     interpolation: all
     ranges:
