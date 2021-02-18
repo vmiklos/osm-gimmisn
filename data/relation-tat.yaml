@@ -1,10 +1,14 @@
 missing-streets: 'yes'
+filters:
+  Lehár Ferenc utca:
+    invalid: ['12', '43']
+  Váci Mihály utca:
+    invalid: ['693']
 street-filters:
   - Ady Endre főút  # dupla, Ady Endre utca
 refstreets:
   'Balassa Bálint utca': 'Balassa utca'
   'Jókai Mór utca': 'Jókai utca'
-  'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Táncsics Mihály út': 'Táncsics Mihály utca'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
 source: survey
