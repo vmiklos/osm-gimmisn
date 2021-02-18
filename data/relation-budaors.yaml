@@ -68,6 +68,9 @@ filters:
       - {start: '2', end: '6'}
   Erdélyi utca:
     invalid: ['9', '9b', '15', '17']
+  Erdész utca:
+    # 7 csomó bódé, semmi sincs kiírva a páratlan oldalon
+    invalid: ['7']
   Erdőalja utca:
     # ezek a számok nincsenek kiírva
     interpolation: all
@@ -193,7 +196,7 @@ filters:
   Puttony utca:
     # Káosz a nyugati végen: 14-16, 18, 141, 22; másik oldalon 120 mellett a 12
     # gyéren táblázva, ezek nincsenek
-    invalid: ['19', '44', '46', '48', '83', '105', '127', '129', '145', '147']
+    invalid: ['19', '44', '46', '48', '58', '66', '83', '105', '127', '129', '145', '147']
   Réz utca:
     ranges:
       - {start: '1', end: '13'}
