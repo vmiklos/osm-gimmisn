@@ -1,0 +1,13 @@
+missing-streets: 'no'
+filters:
+  Károlyi Sándor út:
+    # 1-21 között másik utcáról van számozva
+    ranges:
+      - {start: '37', end: '199'}
+      - {start: '38', end: '198'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Kosd utca': 'Kozsd utca'
+source: survey
+inactive: false
+housenumber-letters: true
