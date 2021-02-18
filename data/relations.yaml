@@ -544,6 +544,14 @@ tat:
     osmrelation: 1027833
     refcounty: "12"
     refsettlement: "067"
+tokod:
+    osmrelation: 1027760
+    refcounty: "12"
+    refsettlement: "068"
+tokodaltaro:
+    osmrelation: 1027797
+    refcounty: "12"
+    refsettlement: "069"
 uny:
     osmrelation: 1027787
     refcounty: "12"

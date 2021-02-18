@@ -1,0 +1,5 @@
+missing-streets: 'yes'
+refstreets:
+  'Akácos utca': 'Akácos út'
+  'Erkel Ferenc utca': 'Erkel Ferenc. utca'
+source: survey
