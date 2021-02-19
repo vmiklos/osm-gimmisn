@@ -49,6 +49,7 @@ PYTHON_SAFE_OBJECTS = \
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \
 	additional_streets.py \
+	invalid_refstreets.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
