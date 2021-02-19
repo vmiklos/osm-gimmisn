@@ -31,6 +31,16 @@ function createLoader(anchor: Element, label: string)
     anchor.appendChild(loader);
 }
 
+// OverpassElement represents one result from Overpass.
+interface OverpassElement {
+    'id': number;
+}
+
+// OverpassResult is the result from Overpass.
+interface OverpassResult {
+    'elements': OverpassElement[];
+}
+
 async function onGpsClick()
 {
     const gps = document.querySelector("#filter-based-on-position");
@@ -63,7 +73,7 @@ async function onGpsClick()
     const protocol = location.protocol != "http:" ? "https:" : "http:";
     let url = protocol + "//overpass-api.de/api/interpreter";
     let request = new Request(url, {method : "POST", body : query});
-    let overpassJson = null;
+    let overpassJson: OverpassResult = null;
     try
     {
         const response = await window.fetch(request);
@@ -94,7 +104,7 @@ async function onGpsClick()
     url = config.uriPrefix + "/static/relations.json";
     request = new Request(url);
     createLoader(gps, getOsmString("str-relations-wait"));
-    let knownRelations = null;
+    let knownRelations: Array<number> = null;
     try
     {
         const response = await window.fetch(request);
