@@ -174,8 +174,10 @@ class TestMissingHousenumbers(TestWsgi):
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
         # refstreets: >0 invalid osm name
         results = root.findall("body/div[@id='osm-invalids-container']")
+        self.assertEqual(len(results), 1)
         # refstreets: >0 invalid ref name
         results = root.findall("body/div[@id='ref-invalids-container']")
         self.assertEqual(len(results), 1)
@@ -469,6 +471,12 @@ class TestMissingStreets(TestWsgi):
         root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
+        # refstreets: >0 invalid osm name
+        results = root.findall("body/div[@id='osm-invalids-container']")
+        self.assertEqual(len(results), 1)
+        # refstreets: >0 invalid ref name
+        results = root.findall("body/div[@id='ref-invalids-container']")
+        self.assertEqual(len(results), 1)
 
     def test_well_formed_compat(self) -> None:
         """Tests if the output is well-formed (URL rewrite)."""
@@ -576,6 +584,12 @@ class TestAdditionalStreets(TestWsgi):
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/additional-streets/gazdagret/view-result")
         results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+        # refstreets: >0 invalid osm name
+        results = root.findall("body/div[@id='osm-invalids-container']")
+        self.assertEqual(len(results), 1)
+        # refstreets: >0 invalid ref name
+        results = root.findall("body/div[@id='ref-invalids-container']")
         self.assertEqual(len(results), 1)
 
     def test_street_from_housenr_well_formed(self) -> None:
