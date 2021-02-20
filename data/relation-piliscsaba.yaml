@@ -23,6 +23,8 @@ filters:
     invalid: ['28', '34']
   Fényesliget sétány:
     invalid: ['1', '159']
+  Fenyves út:
+    invalid: ['19']
   Gárdonyi Géza utca:
     invalid: ['113']
   Hrabina utca:
@@ -112,4 +114,4 @@ refstreets:
   'Wesselényi utca': 'Wesselényi Miklós utca'
   'Zajnáthegyi utca': 'Zajnáthegyi út'
 source: survey
-inactive: false
+inactive: true
