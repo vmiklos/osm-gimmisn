@@ -227,11 +227,15 @@ filters:
       - {start: '1', end: '3'}
       - {start: '7', end: '13'}
       - {start: '2', end: '14'}
+  Törökverő út:
+    # 2 = Hunyadi János út 162. ipartelep
+    # 3 = az egyik autóstelep, 5 a Savolya ház, közte nincs kiírva semmit
+    invalid: ['2', '3']
   Vasvirág sor:
     # 48: 48/a, 48/b
     invalid: ['48']
   Verbéna utca:
-    # páros oldalt újraszámozták az utcát 62 -> 48; 54-> 36 stb..
+    # az utca páros oldalát újraszámozták: 62 -> 48; 54-> 36 stb..
     ranges:
       - {start: '1', end: '53'}
       - {start: '57', end: '67'}
