@@ -19,3 +19,4 @@ filters:
     # hrsz
     ranges: []
 source: survey
+inactive: true
