@@ -20,6 +20,9 @@ filters:
     invalid: ['97', '101']
     ranges:
       - {start: '81', end: '137'}
+  Gerle köz:
+    # ezek nincsenek kiírva, de sok ház van szám nélkül, a számozás nem logikus
+    invalid: ['2', '5', '8']
   Hurok utca:
     # gyengén van táblázva
     interpolation: all
