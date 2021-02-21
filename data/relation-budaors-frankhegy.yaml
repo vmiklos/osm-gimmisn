@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Agancs utca:
+    # főként hrsz. van
+    invalid: ['2', '15']
   Budakeszi utca:
     # A Frankhegyre eső részen nincsenek házak, csak erdő
     ranges: []
@@ -11,6 +14,9 @@ filters:
     ranges:
       - {start: '23', end: '99'}
       - {start: '24', end: '98'}
+  Csillagvölgyi utca:
+    # 19: nincs kiírva
+    invalid: ['19']
   Erdész utca:
     # 7 csomó bódé, semmi sincs kiírva a páratlan oldalon
     invalid: ['7']
@@ -38,12 +44,28 @@ filters:
     ranges:
       - {start: '45', end: '99'}
       - {start: '36', end: '98'}
+  Őzike utca:
+    # Az utca felső felén (kisebb számok) nincsenek a házak számozva rendesen, 73 után régi szám van
+    # Az alsó részen az alábbi számok nincsenek kiírva:
+    invalid: ['20', '45', '47', '49', '51', '65', '71']
+    ranges:
+      - {start: '2', end: '50'}
+      - {start: '35', end: '73'}
+  Pihenő utca:
+    # 1,9 nincs kiírva
+    invalid: ['1', '9']
   Puttony utca:
     # ezen a területen nincs házszám ebben az utcában
     ranges: []
   Ringló utca:
     # nincsenek házszámok
     invalid: ['18', '44']
+  Sas utca:
+    # 20: nincs kiírva
+    invalid: ['20']
+    ranges:
+      - {start: '1', end: '39'}
+      - {start: '2', end: '24'}
   Tölgy utca:
     # semmilyen házszám sincs kiírva az utcában
     invalid: ['1', '3']
