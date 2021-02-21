@@ -60,6 +60,8 @@ filters:
   Ringló utca:
     # nincsenek házszámok
     invalid: ['18', '44']
+  Sas köz:
+    invalid: ['1', '5']
   Sas utca:
     # 20: nincs kiírva
     invalid: ['20']
