@@ -97,6 +97,9 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '4', end: '4'}
+  Gerle köz:
+    # ezek nincsenek kiírva, de sok ház van szám nélkül, a számozás nem logikus
+    invalid: ['2', '5', '8']
   Gida utca:
     # 4 és 6 nincs, a 2 után 5/a jön
     invalid: ['4', '6']
