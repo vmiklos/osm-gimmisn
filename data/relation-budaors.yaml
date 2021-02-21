@@ -4,6 +4,9 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
+  Agancs utca:
+    # főként hrsz. van
+    invalid: ['2', '15']
   Avar utca:
     # újraszámozva, keveredik páros/páratlan
     ranges:
@@ -63,6 +66,9 @@ filters:
   Cserebogár utca:
     # 18/*: Csalit utcára számozták ezeket
     invalid: ['18']
+  Csillagvölgyi utca:
+    # 19: nincs kiírva
+    invalid: ['19']
   Ebner György köz:
     ranges:
       - {start: '2', end: '6'}
@@ -194,8 +200,18 @@ filters:
     ranges:
       - {start: '2', end: '50'}
       - {start: '1', end: '29'}
+  Őzike utca:
+    # Az utca felső felén (kisebb számok) nincsenek a házak számozva rendesen, 73 után régi szám van
+    # Az alsó részen az alábbi számok nincsenek kiírva:
+    invalid: ['20', '45', '47', '49', '51', '65', '71']
+    ranges:
+      - {start: '2', end: '50'}
+      - {start: '35', end: '73'}
   Patkó utca:
     invalid: ['29']
+  Pihenő utca:
+    # 1,9 nincs kiírva
+    invalid: ['1', '9']
   Puttony utca:
     # Káosz a nyugati végen: 14-16, 18, 141, 22; másik oldalon 120 mellett a 12
     # gyéren táblázva, ezek nincsenek
@@ -210,6 +226,14 @@ filters:
     ranges:
       - {start: '3', end: '29'}
       - {start: '2', end: '20'}
+  Sas köz:
+    invalid: ['1', '5']
+  Sas utca:
+    # 20: nincs kiírva
+    invalid: ['20']
+    ranges:
+      - {start: '1', end: '39'}
+      - {start: '2', end: '24'}
   Szabadság út:
     # 181-209 többségében a Holdfény utcára van számozva
     invalid: ['136', '144', '153', '183', '185', '187', '189', '191', '201', '205', '209']
