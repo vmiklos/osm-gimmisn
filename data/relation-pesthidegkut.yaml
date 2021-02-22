@@ -32,7 +32,5 @@ refstreets:
   'Díszfű utca': 'Diszfű utca'  # Budaliget
   'Rézsű utca': 'Rézsü utca'  # Adyliget/Máriaremete
   'Szép Ilona utca': 'Szépilona utca'  # Erzsébettelek
-  # felmérendő
-  'Remetevölgy utca': 'Remetevölgyi utca'  # Budaliget
 source: survey
 inactive: true
