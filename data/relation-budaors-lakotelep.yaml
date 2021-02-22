@@ -40,15 +40,4 @@ filters:
     ranges:
       - {start: '48', end: '54'}
 source: survey
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  Aszú utca: Aszu utca
-  Írisz utca: Irisz utca
-  Jókai Mór utca: Jókai utca  # OSM helyes
-  Kamilla utca: Kamilla köz
-  Munkácsy Mihály utca: Munkácsy utca
-  Odvashegyi út: Odvas-hegy utca
-  Petőfi Sándor utca: Petőfi utca
-  Ribiszke utca: Ribizke utca
-  Széchenyi utca: Széchenyi István utca
 inactive: true

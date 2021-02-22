@@ -21,8 +21,5 @@ filters:
   Vajda Péter utca:
     ranges:
       - {start: '1', end: '49'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Magyarok Nagyasszonya tér': 'Rezső tér'
 source: survey
 inactive: true
