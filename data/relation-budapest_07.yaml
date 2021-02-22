@@ -18,6 +18,8 @@ osm-street-filters:
   - D udvar
   - E udvar
   - F udvar
+  # sétányok, parkok
+  - Remíz sétány
 refstreets:
   'Alsó erdősor utca': 'Alsó erdősor'
   'Herzl Tivadar tér': 'Herzl Tivadar park'  # utcatáblán tér
