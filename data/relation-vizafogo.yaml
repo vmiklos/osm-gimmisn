@@ -36,8 +36,5 @@ filters:
     ranges:
       - {start: '81', end: '117'}
       - {start: '96', end: '116'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Árboc utca': 'Árbóc utca'
 source: survey
 inactive: true

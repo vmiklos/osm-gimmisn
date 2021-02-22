@@ -92,8 +92,5 @@ filters:
   Trombitás út:
     ranges:
       - {start: '1', end: '23'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Lorántffy Zsuzsanna utca': 'Lorántffy Zsuzsanna út'
 source: survey
 inactive: true

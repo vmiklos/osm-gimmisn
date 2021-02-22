@@ -33,10 +33,9 @@ refstreets:
   'Juhász Gyula utca': 'Juhász Gyula út'
   'Hunyadi utca': 'Hunyadi János utca'
   'Losonczi utca': 'Losonci utca'
-  'Katalin utca': 'Katalin út'
   'Mandala utca': 'Mandula utca'
   'Óvoda köz': 'Óvóda köz'
-  'Pátyi út': 'Pátyi utca'
+  # 'Pátyi út': 'Pátyi utca' - mindkettő szerepel
   'Petőfi Sándor köz': 'Petőfi köz'
   'Ritsmann Pál utca': 'Ritsman Pál utca'
   'Sasbérc utca': 'Sasbérc út'

@@ -19,7 +19,6 @@ filters:
     ranges:
       - {start: '2', end: '2'}
 refstreets:
-  'Alsó határút': 'Alsóhatár utca'
   'Keserűvíz utca': 'Keserűviz utca'
 source: survey
 inactive: true

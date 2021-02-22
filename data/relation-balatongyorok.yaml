@@ -2,7 +2,6 @@ missing-streets: 'yes'
 filters: {}
 street-filters:
   # Nem igazi utcák
-  - Felsőcsetény
   - Felsőpaphegy
   - Kültelek
   - Magán út  # bárhol lehet ilyen névvel
@@ -19,10 +18,8 @@ street-filters:
   # Tölgy utca - https://www.openstreetmap.org/way/198973140
   # Vállusi utca - https://www.openstreetmap.org/way/533684471
 refstreets:
-  # ezeket tisztázni kell: ref szerint - köz utca, osm szerint - és köz, valószínű ez van:
-  'Felsőcsetény köz': 'Felsőcsetény utca'
-  'Felsőcsetény': 'Felsőcsetény köz'
-  #
+  # ezeket tisztázni kell:
+  # Felsőcsetény köz, Felsőcsetény utca, Felsőcsetény
   'Böngyér út': 'Böngyéres utca'
   # ellenőrizve:
   'Üsth Gyula utca': 'Üst Gyula utca'
