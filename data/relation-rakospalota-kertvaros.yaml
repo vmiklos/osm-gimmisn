@@ -1,10 +1,26 @@
 missing-streets: 'no'
 filters:
+  Bogáncs utca:
+    # csak a Kertvárosi rész 7+ 38+
+    ranges:
+      - {start: '7', end: '57'}
+      - {start: '14', end: '58'}
+  Esthajnal utca:
+    invalid: ['18c']
   Károlyi Sándor út:
     # 1-21 között másik utcáról van számozva
+    # 38: 38/a, 38/b
+    invalid: ['38']
     ranges:
       - {start: '37', end: '199'}
       - {start: '38', end: '198'}
+  Vácbottyán utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '32'}
+  Vághó Ferenc utca:
+    # 18 = Esthajnal utca 52
+    invalid: ['18']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Kosd utca': 'Kozsd utca'
