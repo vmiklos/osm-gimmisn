@@ -348,10 +348,31 @@ Only cities with house numbers in OSM are considered."""))
     return doc
 
 
+def handle_invalid_refstreets(relations: areas.Relations) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-refstreets."""
+    doc = yattag.doc.Doc()
+    doc.asis(get_toolbar(relations).getvalue())
+
+    for relation in relations.get_relations():
+        invalid_refstreets = areas.get_invalid_refstreets(relation)
+        osm_invalids, ref_invalids = invalid_refstreets
+        if not osm_invalids and not ref_invalids:
+            continue
+        with doc.tag("h1"):
+            doc.text(relation.get_name())
+        doc.asis(util.invalid_refstreets_to_html(invalid_refstreets).getvalue())
+
+    doc.asis(get_footer().getvalue())
+    return doc
+
+
 def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     if request_uri.endswith("/cityprogress"):
         return handle_stats_cityprogress(relations)
+
+    if request_uri.endswith("/invalid-refstreets"):
+        return handle_invalid_refstreets(relations)
 
     doc = yattag.doc.Doc()
     doc.asis(get_toolbar(relations).getvalue())
@@ -405,6 +426,7 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
         (_("All house number editors"), "usertotal"),
         (_("Coverage"), "progress"),
         (_("Per-city coverage"), "cityprogress"),
+        (_("Invalid street mappings"), "invalid-refstreets"),
     ]
 
     with doc.tag("ul"):
@@ -414,11 +436,15 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
                     with doc.tag("a", href=prefix + "/housenumber-stats/hungary/cityprogress"):
                         doc.text(title)
                     continue
+                if identifier == "invalid-refstreets":
+                    with doc.tag("a", href=prefix + "/housenumber-stats/hungary/invalid-refstreets"):
+                        doc.text(title)
+                    continue
                 with doc.tag("a", href="#_" + identifier):
                     doc.text(title)
 
     for title, identifier in title_ids:
-        if identifier == "cityprogress":
+        if identifier in ("cityprogress", "invalid-refstreets"):
             continue
         with doc.tag("h2", id="_" + identifier):
             doc.text(title)

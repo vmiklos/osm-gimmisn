@@ -860,5 +860,14 @@ class TestStatsCityProgress(TestWsgi):
             self.assertEqual(len(results), 1)
 
 
+class TestInvalidRefstreets(TestWsgi):
+    """Tests handle_invalid_refstreets()."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        root = self.get_dom_for_path("/housenumber-stats/hungary/invalid-refstreets")
+        results = root.findall("body/h1")
+        self.assertNotEqual(results, [])
+
+
 if __name__ == '__main__':
     unittest.main()
