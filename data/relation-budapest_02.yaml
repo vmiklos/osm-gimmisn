@@ -12,7 +12,6 @@ refstreets:
   'Bocskai utca': 'Bocskai István útja'  # Adyliget
   'Felhévízi utca': 'Felhévizi utca'  # Szemlőhegy/Újlak - 6 táblából 5-ön hosszú í
   # felmérendő
-  'Remetevölgy utca': 'Remetevölgyi utca'  # Budaliget (Pesthidegkút)
   'Apáthyszikla köz': 'Apáthy-szikla köz'  # Nyék
 street-filters:
   - Apolka utca  # utcajegyzéken nincs
