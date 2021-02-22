@@ -29,6 +29,11 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '62'}
+osm-street-filters:
+  # Nem valós utcák
+  - Drive-through
+  # Kerülethatáron lévő utca
+  - Ferihegyi repülőtérre vezető út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás
