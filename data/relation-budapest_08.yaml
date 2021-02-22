@@ -29,6 +29,52 @@ filters:
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '46'}
+osm-street-filters:
+  # Nem valós utcák
+  # Építészek Háza
+  # Építészpince
+  # parkok, sétányok, lépcsők, udvarok
+  - Múzeumkert
+  - Népliget
+  - Orczy park
+  # Fiúmei úti sírkert belső utca
+  - 48-asok útja
+  - 56-osok útja
+  - Ady Endre út
+  - Akadémikusok útja
+  - Arany János út
+  - Batthyány Lajos tér
+  - Blaha Lujza út
+  - Eötvös Loránd út
+  - Erkel Ferenc út
+  - Fő út
+  - Ganz Ábrahám út
+  - Gerbaud Emil út
+  - Gerle Lajos sétány
+  - Gerster Kálmán út
+  - Görgei Artúr sétány
+  - Jakobinusok útja
+  - Jókai körönd
+  - József Attila út
+  - Kandó Kálmán út
+  - Maderspach Károlyné út
+  - Mechwart András út
+  - Mikszáth Kálmán út
+  - Munkácsy Mihály út
+  - Orczy park
+  - Radnóti Miklós út
+  - Rubik Ernő út
+  - Steindl Imre út
+  - Stróbl Alajos út
+  - Szentkereszt út
+  - Szerb Antal út
+  - Szurmay Sándor út
+  - Táncsics Mihály út
+  - Vásárhelyi Pál út
+  - Vörösmarty Mihály út
+  - Ybl Miklós út
+  # Kerülethatáron lévő utca
+  - Thököly út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Krúdy Gyula utca': 'Krúdy utca'
