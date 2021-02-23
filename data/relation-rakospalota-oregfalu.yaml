@@ -1,0 +1,26 @@
+missing-streets: 'no'
+filters:
+  Fő út:
+    # csak öregfalu rész
+    ranges:
+      - {start: '1', end: '45'}
+      - {start: '2', end: '94'}
+  Károlyi Sándor út:
+    # 1-21 között másik utcáról van számozva
+    # 37- Kertváros
+    ranges:
+      - {start: '23', end: '27'}
+  Régi Fóti út:
+    ranges:
+      - {start: '3', end: '71'}
+      - {start: '2', end: '62'}
+  Szövőgyár utca:
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '24'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Kosd utca': 'Kozsd utca'
+source: survey
+inactive: false
+housenumber-letters: true
