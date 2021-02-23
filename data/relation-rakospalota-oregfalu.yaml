@@ -1,7 +1,7 @@
 missing-streets: 'no'
 filters:
   Énekes utca:
-    invalid: ['3b', '12b']
+    invalid: ['3e', '12b']
   Fő út:
     # csak öregfalu rész
     ranges:
