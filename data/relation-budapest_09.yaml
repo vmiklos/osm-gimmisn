@@ -37,7 +37,6 @@ osm-street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás
-  'Albert Flórián út': 'ALBERT FLÓRIÁN út'  # ref javítás után törlendő
   'Távíró köz': 'Táviró köz'
   # utcajegyzék = OSM, ref hibás
   'Fehér Holló utca': 'Fehérholló utca'
