@@ -14,10 +14,20 @@ filters:
     ranges:
       - {start: '37', end: '199'}
       - {start: '38', end: '198'}
+  Közvágóhíd utca:
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '24'}
+  Közvágóhíd tér:
+    invalid: ['15', '26a']
+  Szántóföld utca:
+    invalid: ['79', '108', '204a', '208']
   Vácbottyán utca:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '32'}
+  Váchartyán utca:
+    invalid: ['7', '8', '30']
   Vághó Ferenc utca:
     # 18 = Esthajnal utca 52
     invalid: ['18']
