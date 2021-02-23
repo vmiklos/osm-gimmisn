@@ -15,7 +15,6 @@ filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Rézsű utca': 'Rézsü utca'
-  'Templomkert': 'Templom kert'
   'Bocskai utca': 'Bocskai István útja'
 source: survey
 inactive: true
