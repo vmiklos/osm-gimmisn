@@ -3,7 +3,7 @@ filters:
   Anna utca:
     # 35-45: csak 45 van, 35 és 43 között nincsenek házak.
     invalid: ['35', '37', '39', '41', '43']
-  Arany János út:
+  Arany János utca:
     # 39/A: nincs ilyen, csak sima 39.
     # 45/A: nincs ilyen, csak sima 45.
     # 49/A: nincs ilyen, csak sima 49.
@@ -597,6 +597,7 @@ filters:
     invalid: ['9', '9d', '11']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Arany János utca': 'Arany János út'  # A személyiadat- és lakcímnyilvántartóban út volt, de 2020 végén javították utcára
   'Enyedi utca': 'Enyedy utca'
   'Felső Sas utca': 'Felsősas utca'  # utcatáblán Felső Sas utca
   'Hegyfok köz': 'hegyfok köz'
