@@ -456,6 +456,10 @@ miskolc:
     osmrelation: 1440895
     refcounty: "05"
     refsettlement: "202"
+miskolc-majlath:
+    osmrelation: 6851454  # 3535 Miskolc
+    refcounty: "05"
+    refsettlement: "202"
 miskolctapolca:
     osmrelation: 6848843  # 3519 Miskolc
     refcounty: "05"
