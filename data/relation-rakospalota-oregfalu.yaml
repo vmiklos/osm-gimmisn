@@ -1,5 +1,7 @@
 missing-streets: 'no'
 filters:
+  Énekes utca:
+    invalid: ['3b', '12b']
   Fő út:
     # csak öregfalu rész
     ranges:
@@ -18,9 +20,6 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Kosd utca': 'Kozsd utca'
 source: survey
 inactive: false
 housenumber-letters: true
