@@ -310,6 +310,10 @@ rakospalota-kertvaros:
     osmrelation: 12331279
     refcounty: "01"
     refsettlement: "015"
+rakospalota-oregfalu:
+    osmrelation: 12353158
+    refcounty: "01"
+    refsettlement: "015"
 # 22
 barossgabortelep:
     osmrelation: 3186063
