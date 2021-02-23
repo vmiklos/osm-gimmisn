@@ -1,4 +1,16 @@
-missing-streets: 'yes'
+missing-streets: 'no'
+filters:
+  Árpád utca:
+    ranges:
+      - {start: '69', end: '199'}
+      - {start: '72', end: '198'}
+  Előhegy utca:
+    ranges:
+      - {start: '1', end: '199'}
+      - {start: '22', end: '198'}
+refstreets:
+  'Alsó Papírgyár telep': 'Alsó Papirgyár telep'
+  'Fülep József utca': 'Fülepp József utca'
 source: survey
 inactive: true
 housenumber-letters: true
