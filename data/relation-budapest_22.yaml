@@ -48,6 +48,7 @@ osm-street-filters:
   - Tétényi út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Arany János utca': 'Arany János út'  # A személyiadat- és lakcímnyilvántartóban út volt, de 2020 végén javították utcára
   'Báthory utca': 'Báthori utca'
   'Csút utca': 'Csut utca'
   'Enyedi utca': 'Enyedy utca'
