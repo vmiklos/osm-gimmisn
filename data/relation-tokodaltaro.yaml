@@ -1,5 +1,10 @@
 missing-streets: 'yes'
+osm-street-filters:
+  # Határon lévő, átlógó
+  - Kossuth Lajos utca
+  - Nixbród dűlő
+  - Várberek dűlő
 refstreets:
   'Akácos utca': 'Akácos út'
-  'Erkel Ferenc utca': 'Erkel Ferenc. utca'
+  'OVIT-telep': 'Ovit telep'
 source: survey
