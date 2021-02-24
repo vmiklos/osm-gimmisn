@@ -1,4 +1,20 @@
 missing-streets: 'yes'
+street-filters:
+  # Nem igazi utcák
+  - Máv pályaudvar
+  # dűlők --------------------
+  # Mogyorósi úti dűlő - 47.72550201416016%2C18.63422584533691
+  # Nagy völgy dűlő - 47.72208786010742,18.62204551696777
+  # Hiányzó ------------------
+  # Géza utca - https://www.openstreetmap.org/way/910560510
+  # Hegyalja utca - https://www.openstreetmap.org/way/335113765
+  # Szőlő köz - https://www.openstreetmap.org/way/910558708
+  # Malom utca - https://www.openstreetmap.org/way/201385158
+  # Vörösmarty Mihály köz - https://www.openstreetmap.org/way/910559627
+osm-street-filters:
+  # Területhatáron lévő utca
+  - Akácos út
+  # Várberek dűlő
 refstreets:
   'Batsányi utca': 'Batsányi János utca'
   'Batthyány utca': 'Batthyány Lajos utca'
@@ -7,7 +23,7 @@ refstreets:
   'Dózsa György utca': 'Dózsa György út'
   'Erzsébet utca': 'Erzsébet út'
   'Határ út': 'Határ utca'
-  'József Attila utca': 'József Attila. utca'
+  'Kodály Zoltán köz': 'Kodály Zoltán utca'
   'Kisvölgy dűlő': 'Kis völgy dűlő'
   'Laposi utca': 'Laposi út'
   'Latinka köz': 'Latin köz'
