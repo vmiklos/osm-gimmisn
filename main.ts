@@ -267,15 +267,24 @@ async function onUpdateOsmStreets()
     streets.removeChild(streets.childNodes[0]);
     createLoader(streets, getOsmString("str-toolbar-overpass-wait"));
     const relationName = tokens[tokens.length - 2];
-    const link = config.uriPrefix + "/streets/" + relationName + "/update-result.json";
-    const request = new Request(link);
+    let link = config.uriPrefix + "/streets/" + relationName + "/update-result.json";
+    let request = new Request(link);
     try
     {
-        const response = await window.fetch(request);
+        let response = await window.fetch(request);
         const osmStreets = await response.json();
         if (osmStreets.error != "")
         {
             throw osmStreets.error;
+        }
+
+        link = config.uriPrefix + "/street-housenumbers/" + relationName + "/update-result.json";
+        request = new Request(link);
+        response = await window.fetch(request);
+        const osmHousenumbers = await response.json();
+        if (osmHousenumbers.error != "")
+        {
+            throw osmHousenumbers.error;
         }
         window.location.reload();
     }
