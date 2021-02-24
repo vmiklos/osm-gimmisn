@@ -1,7 +1,25 @@
 missing-streets: 'yes'
+street-filters: []
 refstreets:
   'Hősök tere': 'Hősök tér'
   'Hunyadi János utca': 'Hunyadi utca'
   'Széchenyi István utca': 'Széchenyi utca'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  # Fekete Ferenc utca - Ipari park
+  # Hészoba dűlő - https://www.openstreetmap.org/node/3365893471
+  # Hészobai köz
+  # Hészobai út
+  # Honvéd liget - https://www.openstreetmap.org/way/214846843#map=19/47.76093/18.55517
+  # Kiserdő utca
+  # Kottra Mihály köz - Padrányi tér - https://www.openstreetmap.org/way/215076769#map=19/47.75486/18.56370
+  # Kutyahegy pincesor
+  # Magyarhegy pincesor
+  # Máv vasútállomás
+  # Megawatt utca
+  # Németvölgy pincesor
+  # Öreg telep
+  # Pusztamarót major - https://www.openstreetmap.org/node/315533510#map=19/47.68814/18.51997
+  # Sánc dűlő - https://www.openstreetmap.org/way/214150796#map=17/47.75383/18.53606
+  # Szarkás dűlő - 47.74700927734375,18.58931922912598
+  # Szénásvölgy pincesor
 source: survey
