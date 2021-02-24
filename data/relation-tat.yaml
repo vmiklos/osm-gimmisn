@@ -6,6 +6,19 @@ filters:
     invalid: ['693']
 street-filters:
   - Ady Endre főút  # dupla, Ady Endre utca
+  - Fürésztelep  # nem igazi utca
+  # Depó - https://www.openstreetmap.org/way/440187734#map=18/47.75359/18.61468
+  # Gátőrház út - https://www.openstreetmap.org/way/442865811#map=18/47.75166/18.62559
+  # Homoki dűlő - https://www.openstreetmap.org/way/849312881#map=16/47.7316/18.6322
+  # Magtár tér - ?
+  # Pince út - ?
+  # Római út - https://www.openstreetmap.org/way/572628778#map=17/47.73415/18.63994
+  # Táti tó - 47.74712371826172,18.67769050598145
+osm-street-filters:
+  # Sétányok
+  - Molln sétány
+  # Területhatáron lévő utca
+  - Határ út
 refstreets:
   'Balassa Bálint utca': 'Balassa utca'
   'Jókai Mór utca': 'Jókai utca'
