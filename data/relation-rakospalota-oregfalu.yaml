@@ -9,11 +9,13 @@ filters:
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '42'}
-  Battyhány utca:
+  Batthyány utca:
     invalid: ['9b', '13', '20a', '26a', '28', '31a', '35b', '40a', '51a']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '56'}
+  Battyhány utca:  # hibás írásmód, teszthez
+    invalid: ['9b', '13', '20a', '26a', '28', '31a', '35b', '40a', '51a']
   Bem utca:
     invalid: ['4b', '12', '12b', '13', '15', '23', '39', '41', '51a']
     ranges:
@@ -26,7 +28,7 @@ filters:
   Fő út:
     # csak öregfalu rész
     # 9 = Rákospalota kossuth utcai végállomás pihenőhely', 'de nincs rajta házszám a telken
-    invalid: ['9', '42', '44', '44b']
+    invalid: ['9', '27b', '29a', '29b', '42', '44', '44b']
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '94'}
@@ -42,7 +44,7 @@ filters:
     invalid: ['21a', '8a', '16a', '55']
   Lóvasút köz:
     invalid: ['1', '3', '5', '7', '9', '11', '15', '51b', '10']
-  Lukácsi sándor utca:
+  Lukácsi Sándor utca:
     invalid: ['1', '1b', '7', '11b', '6a']
   Morzsa utca:
     invalid: ['6a']
