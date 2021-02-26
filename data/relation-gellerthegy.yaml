@@ -150,7 +150,7 @@ filters:
     # 2: 2/a vízművek
     # 9: 2 épület, de csak sima 9 van kiírva.
     # 17: 17/a lebontva, 17/b
-    invalid: ['2', '9', '17']
+    invalid: ['2', '9a', '9b', '17']
   Orom utca:
     # páratlan oldal Tabán, de ott nincs házszám
     # 2: Bérc utca 1
