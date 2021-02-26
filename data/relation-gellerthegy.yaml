@@ -66,7 +66,9 @@ filters:
       - {start: '1', end: '99', refsettlement: '001'}
       - {start: '2', end: '98'}
   Harkály utca:
+    # 4: 4/a, 4/b
     refsettlement: '001'
+    invalid: ['4']
   Hegyalja út:
     # 2a = Sánc utca 1, illetve 2=Mambo
     # 20: 20/a, 20/b
@@ -107,7 +109,7 @@ filters:
       - {start: '2', end: '10'}
   Kelenhegyi út:
     # 11-13: csak 11 van kiírva
-    # 35: 35/a, 35/b
+    # 35a, 35/b: 35 a és b épület
     # 42: csak 42/a
     # 44a: csak sima 44 a kerítésen, az házat lebontották
     # 45: 45/a, 45/b
@@ -120,7 +122,7 @@ filters:
     # 70: 70/a, 70/b
     # 72, 74: másik utcára számozódnak
     # 77b: csak sima 77
-    invalid: ['13', '35', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
+    invalid: ['13', '35a', '35b', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
     ranges:
       - {start: '1', end: '81'}
       - {start: '12', end: '70'}
@@ -144,6 +146,11 @@ filters:
   Menta utca:
     # 1b: csak sima 1 van.
     invalid: ['1b']
+  Minerva utca:
+    # 2: 2/a vízművek
+    # 9: 2 épület, de csak sima 9 van kiírva.
+    # 17: 17/a lebontva, 17/b
+    invalid: ['2', '9', '17']
   Orom utca:
     # páratlan oldal Tabán, de ott nincs házszám
     # 2: Bérc utca 1
