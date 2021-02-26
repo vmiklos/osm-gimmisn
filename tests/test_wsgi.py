@@ -865,7 +865,7 @@ class TestInvalidRefstreets(TestWsgi):
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/housenumber-stats/hungary/invalid-refstreets")
-        results = root.findall("body/h1")
+        results = root.findall("body/h1/a")
         self.assertNotEqual(results, [])
 
 
