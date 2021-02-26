@@ -70,7 +70,8 @@ filters:
   Hegyalja út:
     # 2a = Sánc utca 1, illetve 2=Mambo
     # 20: 20/a, 20/b
-    invalid: ['2a', '20']
+    # 38, 40: nincs, helyén a Hotel Bara másik épülete
+    invalid: ['2a', '20', '38', '40']
     ranges:
       - {start: '2', end: '30', refsettlement: '001'}
       - {start: '32', end: '64'}
@@ -81,6 +82,10 @@ filters:
     ranges:
       - {start: '3', end: '17'}
       - {start: '32', end: '64'}
+  Otthon utca:
+    # 23ab: bár 2 épület van, de csak sima 23 a kapun.
+    # 28: 28/a, 28/b
+    invalid: ['23a', '23b', '28']
   Mihály utca:
     # 4b: 4/B-6, nem tudjuk kezelni, ezért kell a filter
     # 13ab: 2 épület, de csak sima 13
