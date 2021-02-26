@@ -56,6 +56,8 @@ filters:
       - {start: '1', end: '13'}
   Jagelló út:
     # this is just the sashegy part
+    # 4: csak 4/a
+    invalid: ['4']
     ranges:
       - {start: '2', end: '4'}
   Kálló esperes utca:
@@ -81,8 +83,9 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '6'}
   Muskotály utca:
-    # ilyenek vannak: 20,22,24
-    invalid: ['20a', '22b']
+    # 1: 1/a = Breznó köz 2, 1/b, 1/c
+    # ilyenek vannak: 20, 22, 24
+    invalid: ['1', '20a', '22b']
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '30'}
