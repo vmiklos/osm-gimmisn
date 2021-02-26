@@ -10,12 +10,12 @@ filters:
       - {start: '1', end: '31'}
       - {start: '2', end: '42'}
   Batthyány utca:
-    invalid: ['9b', '13', '20a', '26a', '28', '31a', '35b', '40a', '51a']
+    invalid: ['13', '20a', '26a', '28', '31a', '35b', '40a', '51a']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '56'}
   Battyhány utca:  # hibás írásmód, teszthez
-    invalid: ['9b', '13', '20a', '26a', '28', '31a', '35b', '40a', '51a']
+    invalid: ['13', '20a', '26a', '28', '31a', '35b', '40a', '51a']
   Bem utca:
     invalid: ['4b', '12', '12b', '13', '15', '23', '39', '41', '51a']
     ranges:
