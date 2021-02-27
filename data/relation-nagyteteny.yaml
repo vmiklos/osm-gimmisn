@@ -8,6 +8,9 @@ filters:
   Dózsa György út:
     ranges:
       - {start: '2', end: '998'}
+  Kölönte utca:
+    # 5: ez és a Timföld utca 2. közös telken van, házszám a Timföld utcáról van csak.
+    invalid: ['5']
   Minta utca:
     ranges:
       - {start: '2', end: '998'}
@@ -21,6 +24,9 @@ filters:
   Növény utca:
     ranges:
       - {start: '1', end: '999'}
+  Tarkagéb utca:
+    # 22: a páros oldalon a 20 az utolsó házszám.
+    invalid: ['22']
   Tündérrózsa utca:
     # A páratlan oldalon a 17 az utolsó házszám.
     # A páros oldalon a 18 az utolsó házszám.
