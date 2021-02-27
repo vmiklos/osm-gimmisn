@@ -278,6 +278,9 @@ filters:
       - {start: '1', end: '9'}
       - {start: '19', end: '19'}
       - {start: '2', end: '8'}
+  Tűzkőhegyi utca:
+    # 6-8 nincs kiírva
+    invalid: ['6', '8']
   Vasvári Pál utca:
     ranges:
       - {start: '1', end: '29'}
