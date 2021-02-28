@@ -146,6 +146,10 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '34'}
+  Uzsoki köz:
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '2', end: '56'}
   Víg utca:
     ranges:
       - {start: '1', end: '51'}
