@@ -36,6 +36,10 @@ filters:
       - {start: '134', end: '162'}
   Szivárvány utca:
     invalid: ['9', '40', '58', '135']
+  Uzsoki köz:
+    ranges:
+      - {start: '37', end: '99'}
+      - {start: '58', end: '98'}
   Víg utca:
     ranges:
       - {start: '48', end: '54'}
