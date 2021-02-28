@@ -383,7 +383,9 @@ filters:
   Oltvány utca:
     # 12: 12/a, 12/b
     # 32: nincs
-    invalid: ['12', '32']
+    # 47b: kiírva nincs, a bedobott levélen 47. B épüet volt a cím
+    # 49 = Beregszász út 40 IV. épület
+    invalid: ['12', '32', '47b', '49']
     ranges:
       - {start: '3', end: '53'}
       - {start: '2', end: '62'}
