@@ -26,7 +26,7 @@ filters:
   Dal utca:
     invalid: ['1', '4a', '4c']
   Énekes utca:
-    invalid: ['3e', '12b']
+    invalid: ['3e', '10b', '12b']
   Fő út:
     # csak öregfalu rész
     # 9 = Rákospalota kossuth utcai végállomás pihenőhely', 'de nincs rajta házszám a telken
@@ -34,6 +34,14 @@ filters:
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '94'}
+  Juhos köz:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '8'}
+  Kál köz:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '4'}
   Károlyi Sándor út:
     # 1-21 között másik utcáról van számozva
     # 37- Kertváros
@@ -68,6 +76,8 @@ filters:
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '34'}
+  Széchenyi tér:
+    interpolation: all
   Sződliget utca:
     invalid: ['1a', '5', '20a', '21', '25', '28a', '36', '36a', '38', '42', '45', '47a', '58']
   Szövőgyár utca:
