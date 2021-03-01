@@ -76,7 +76,11 @@ osm-street-filters:
   - Árpád híd
   - Éden villapark
   - Flórián téri aluljáró
+  - Hajógyári híd
   - McDrive
+  - Óbudai-sziget
+  - Pomázi úti felüljáró
+  - Ürömi úti körforgalom
   # parkok, sétányok, lépcsők, udvarok, ösvények
   - Békás park
   - Boldog Jerzy Popiełuszko emlékpark
@@ -86,7 +90,10 @@ osm-street-filters:
   - Hajógyári sziget  # külön írva mint közterület, Hajógyári-sziget mint földrajzi képződmény
   - Holdudvar park
   - Kiscelli-parkerdő
+  - Május 9. park
   - Mészkő park
+  - mezítlábas park
+  - Örökifjak parkja
   # Kerülethatáron lévő utca
   - Boglárka utca  # Üröm
   - Jókai Mór utca  # Budakalász
@@ -94,6 +101,7 @@ osm-street-filters:
   - Gázgyári lakótelep I. csoport
   - Gázgyári lakótelep II. csoport
   - Gázgyári lakótelep III. csoport
+  - Perényi lejtő
   # problémásak --------------------------------------------------
   # régi térképen szerepel ---------------------------------------
   # Gázos utca
