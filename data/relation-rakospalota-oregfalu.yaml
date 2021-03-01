@@ -23,6 +23,8 @@ filters:
       - {start: '2', end: '44'}
   Csobogós utca:
     invalid: ['10', '22', '47']
+  Dal utca:
+    invalid: ['1', '4a', '4c']
   Énekes utca:
     invalid: ['3e', '12b']
   Fő út:
