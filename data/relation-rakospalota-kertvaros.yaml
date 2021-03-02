@@ -1,5 +1,10 @@
 missing-streets: 'no'
 filters:
+  Ajándék utca:
+    # csak a Kertvárosi rész
+    ranges:
+      - {start: '1', end: '1'}
+    invalid: ['1a', '1b']
   Benkő István utca:
     # 52 az sarok telek, de az utca felépítése miatt a Vághóra nyílik
     # 68-as meg úgy csak papíron létezik, valóságban a 68-70es telken csak 70 van.
@@ -14,12 +19,17 @@ filters:
   Esthajnal utca:
     invalid: ['15b', '17', '18c']
   Károlyi Sándor út:
-    # 1-21 között másik utcáról van számozva
+    # csak a kertvárosi rész
     # 38: 38/a, 38/b
     invalid: ['38']
     ranges:
       - {start: '37', end: '199'}
-      - {start: '38', end: '198'}
+      - {start: '38', end: '150'}
+  Kovácsi Kálmán tér:
+    interpolation: all
+    invalid: ['3a']
+    ranges:
+      - {start: '1', end: '99'}
   Közvágóhíd utca:
     # 3, 9/A nincs
     # 4, 6 az a volt növényolajgyár => az a rész viszont most nagyon kaotikus, megközelíthetetlen
@@ -32,6 +42,14 @@ filters:
     invalid: ['15', '26a']
   Szántóföld utca:
     invalid: ['60', '62', '79', '108', '204a', '208']
+  Székely Elek út:
+    # 3, 3/A => nem létezik, max papíron, valójában Veresegyház utcára nyílik
+    # 2/B nincs, helyette Székely elek út 2 van
+    invalid: ['2b', '3', '3a']
+  Töltés tér:
+    # 7 nincsen => Az a Csomád utcára nyílik
+    interpolation: all
+    invalid: ['7']
   Vácbottyán utca:
     # 4-6 - utcán nem látni a házszámtáblát
     invalid: ['4', '6']
@@ -51,6 +69,8 @@ filters:
   Vághó Ferenc utca:
     # 18 = Esthajnal utca 52
     invalid: ['18']
+  Veresegyházi utca:
+    invalid: ['6a', '10', '44a', '67', '75', '92', '102', '106']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Kosd utca': 'Kozsd utca'

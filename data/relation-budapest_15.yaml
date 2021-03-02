@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Ajándék utca:
+    invalid: ['1a', '1b', '2a']
   Károlyi Sándor út:
     # 1-21 között másik utcáról van számozva
     ranges:
@@ -24,3 +26,4 @@ refstreets:
   'Kosd utca': 'Kozsd utca'
 source: survey
 inactive: true
+housenumber-letters: true
