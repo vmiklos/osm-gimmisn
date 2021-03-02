@@ -79,6 +79,7 @@ osm-street-filters:
   - Hajógyári híd
   - McDrive
   - Óbudai-sziget
+  - Pünkösdfürdői gát
   - Pomázi úti felüljáró
   - Ürömi úti körforgalom
   # parkok, sétányok, lépcsők, udvarok, ösvények
@@ -94,17 +95,22 @@ osm-street-filters:
   - Mészkő park
   - mezítlábas park
   - Örökifjak parkja
+  - Puskás Öcsi tér
   # Kerülethatáron lévő utca
   - Boglárka utca  # Üröm
   - Jókai Mór utca  # Budakalász
+  - Rozália sor  # Solymár
   # Hivatalosan nincs, de van utcatábla
   - Gázgyári lakótelep I. csoport
   - Gázgyári lakótelep II. csoport
   - Gázgyári lakótelep III. csoport
   - Perényi lejtő
-  # problémásak --------------------------------------------------
-  # régi térképen szerepel ---------------------------------------
-  # Gázos utca
-  # Hősök tere - BKV megálló is van
+  - Szőlőkert köz  # valószínű magánút
+  # Hivatalosan nincs, de régi térképen szerepel -----------------
+  # - Gázos utca
+  # - Hősök tere  # megszűnt, de BKV megálló is van
+  # - Örvös köz
+  # - Parlag dűlő
+  # - Taliga köz
 source: survey
 inactive: false
