@@ -58,6 +58,7 @@ osm-street-filters:
   - Eiffel tér
   - Ferdinánd híd
   - Millenium Tetőkert
+  - Nyugati Átjáró Üzletközpont
   # - Millenniumi sétány  # kérdéses, hogy tényleg van-e neve, nem találtam rá hivatkozást
   - Semiramis tetőkert
 refstreets:
