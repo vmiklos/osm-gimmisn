@@ -6,7 +6,7 @@ street-filters:
   # - Bonoka tanya
   - Babat puszta  # szerepel Babatpuszta néven
   # - Gulyás tanya
-  # - Küttel tanya
+  - Küttel tanya #Szerepel place-ként
   - Peres dűlő  # szerepel Peres néven
   - Szabó tanya  # szerepel tanyaként
   # Nem igazi utcák / Hrsz
@@ -49,7 +49,6 @@ refstreets:
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Borbolya út': 'Borbolya utca'
   'Báthory István utca': 'Báthori István utca'
-  'Csemetekert utca': 'Csemete-kert'
   'Csillagfürt út': 'Csillagfürt utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Ganz Ábrahám út': 'Ganz Ábrahám utca'
