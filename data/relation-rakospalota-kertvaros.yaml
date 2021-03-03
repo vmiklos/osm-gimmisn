@@ -1,10 +1,14 @@
 missing-streets: 'no'
 filters:
+  Acsa utca:
+    invalid: ['2']
   Ajándék utca:
     # csak a Kertvárosi rész
     ranges:
       - {start: '1', end: '1'}
     invalid: ['1a', '1b']
+  Alagi tér:
+    invalid: ['13']
   Benkő István utca:
     # 52 az sarok telek, de az utca felépítése miatt a Vághóra nyílik
     # 68-as meg úgy csak papíron létezik, valóságban a 68-70es telken csak 70 van.
@@ -16,20 +20,25 @@ filters:
     ranges:
       - {start: '7', end: '57'}
       - {start: '14', end: '58'}
+  Csomád utca:
+    invalid: ['5', '9', '14a', '15', '15d', '19', '23', '34', '34a', '44a', '63']
   Esthajnal utca:
     invalid: ['15b', '17', '18c']
   Károlyi Sándor út:
     # csak a kertvárosi rész
     # 38: 38/a, 38/b
-    invalid: ['38']
+    invalid: ['38', '42a', '46a', '47b', '49/9', '92b', '92c', '99a', '109b', '113/3', '113a', '113i', '132b']
     ranges:
-      - {start: '37', end: '199'}
+      - {start: '37', end: '113'}
       - {start: '38', end: '150'}
+  Kemény István utca:
+    invalid: ['5', '10', '41b', '48a', '50', '72', '74', '93a', '93b', '104']
   Kovácsi Kálmán tér:
+    # 9 = Csomád utca 2
     interpolation: all
-    invalid: ['3a']
+    invalid: ['3a', '9', '13']
     ranges:
-      - {start: '1', end: '99'}
+      - {start: '1', end: '14'}
   Közvágóhíd utca:
     # 3, 9/A nincs
     # 4, 6 az a volt növényolajgyár => az a rész viszont most nagyon kaotikus, megközelíthetetlen
@@ -40,12 +49,23 @@ filters:
   Közvágóhíd tér:
     interpolation: all
     invalid: ['15', '26a']
+  Mélyfúró utca:
+    # kertvárosban nincs
+    ranges: []
   Szántóföld utca:
-    invalid: ['60', '62', '79', '108', '204a', '208']
+    # kertváros 8-
+    # páratlan egyébként 1-9 csak, területen kívül
+    ranges:
+      - {start: '8', end: '68'}
+    invalid: ['60', '62']
   Székely Elek út:
     # 3, 3/A => nem létezik, max papíron, valójában Veresegyház utcára nyílik
     # 2/B nincs, helyette Székely elek út 2 van
     invalid: ['2b', '3', '3a']
+  Tarpai utca:
+    invalid: ['2']
+  Tarpai tér:
+    interpolation: all
   Töltés tér:
     # 7 nincsen => Az a Csomád utcára nyílik
     interpolation: all
@@ -67,8 +87,12 @@ filters:
     interpolation: all
     invalid: ['3b', '29c', '31a', '35c', '30a', '30b', '36b']
   Vághó Ferenc utca:
+    # csak kertváros
     # 18 = Esthajnal utca 52
     invalid: ['18']
+    ranges:
+      - {start: '3', end: '37'}
+      - {start: '4', end: '56'}
   Veresegyházi utca:
     invalid: ['6a', '10', '44a', '67', '75', '92', '102', '106']
 refstreets:
