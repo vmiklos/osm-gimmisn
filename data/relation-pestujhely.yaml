@@ -17,7 +17,7 @@ filters:
     # páros: Pestújhely
     ranges:
       - {start: '2', end: '98'}
-  Madách uta:
+  Madách utca:
     # kisebb számok: Pestújhely
     # nagyobb számok: Újpalota
     ranges:
@@ -35,7 +35,7 @@ filters:
     ranges:
       - {start: '3', end: '99'}
       - {start: '4', end: '98'}
-  Neptun uta:
+  Neptun utca:
     # kisebb számok: Pestújhely
     # nagyobb számok: Újpalota
     ranges:
