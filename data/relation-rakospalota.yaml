@@ -110,6 +110,8 @@ filters:
   Közvágóhíd tér:
     interpolation: all
     invalid: ['15', '26a']
+  Páskomliget utca:
+    ranges: []
   Sipos tér:
     invalid: ['3', '3a']
   Szántóföld utca:
