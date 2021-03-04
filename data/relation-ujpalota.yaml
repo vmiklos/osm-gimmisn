@@ -21,7 +21,7 @@ filters:
   Hősök útja:
     # Újpalotán nincs szám
     ranges: []
-  Madách uta:
+  Madách utca:
     # kisebb számok: Pestújhely
     # nagyobb számok: Újpalota
     ranges:
@@ -32,7 +32,7 @@ filters:
     # többi: Pestújhely
     ranges:
       - {start: '92', end: '98'}
-  Neptun uta:
+  Neptun utca:
     # kisebb számok: Pestújhely
     # nagyobb számok: Újpalota
     ranges:
