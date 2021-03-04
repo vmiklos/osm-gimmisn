@@ -1,0 +1,73 @@
+missing-streets: 'yes'
+filters:
+  # Területatár szűrések
+  Árvavár utca:
+    # páros: Rákospalota
+    # páratlan: Pestújhely
+    ranges:
+      - {start: '2', end: '68'}
+  Bánkút utca:
+    # páros: Rákospalota
+    # páratlan nagyobb számok: Újpalota
+    # páratlan kisebb számok: Pestújhely
+    ranges:
+      - {start: '1', end: '63'}
+  Drégelyvár utca:
+    # páratlan: Újpalota
+    # páros: Pestújhely
+    ranges:
+      - {start: '2', end: '98'}
+  Molnár Viktor utca:
+    # páros 92+: Újpalota
+    # többi: Pestújhely
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '90'}
+  Nádastó utca:
+    # 1-2: Rákospalota
+    # 3+: Pestújhely
+    ranges:
+      - {start: '3', end: '99'}
+      - {start: '4', end: '98'}
+  Neptun uta:
+    # kisebb számok: Pestújhely
+    # nagyobb számok: Újpalota
+    ranges:
+      - {start: '53', end: '99'}
+      - {start: '78', end: '98'}
+  Őrjárat utca:
+    # páros kisebb számok: Rákospalota
+    # többi: Pestújhely
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '10', end: '98'}
+  Rákospalotai körvasút sor:
+    # kisebb számok: Rákospalota
+    # nagyobb számok: Pestújhely
+    # még nagyobb számok: Újpalota
+    interpolation: all
+    ranges:
+      - {start: '47', end: '98'}
+  Széchenyi út:
+    # Pestújhelyen nincs szám
+    ranges: []
+  Szerencs utca:
+    # kisebb számok: Rákospalota
+    # nagyobb számok: Pestújhely
+    ranges:
+      - {start: '165', end: '299'}
+      - {start: '168', end: '298'}
+  Wesselényi utca:
+    # páratlan: Rákospalota
+    # páros kisebb számok: Rákospalota
+    # páros nagyobb számok: Pestújhely
+    ranges:
+      - {start: '64', end: '98'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # utcajegyzék = OSM: ref hibás
+  'Gazdálkodó utca': 'Gazdálkodó út'
+  'Kosd utca': 'Kozsd utca'
+source: survey
+inactive: true
+housenumber-letters: true

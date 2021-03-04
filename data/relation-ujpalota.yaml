@@ -1,0 +1,63 @@
+missing-streets: 'no'
+filters:
+  # Területatár szűrések
+  Adria utca:
+    # Újpalotán nincs szám
+    ranges: []
+  Bánkút utca:
+    # páros: Rákospalota
+    # páratlan nagyobb számok: Újpalota
+    # páratlan kisebb szánok: Pestújhely
+    ranges:
+      - {start: '65', end: '99'}
+  Drégelyvár utca:
+    # páratlan: Újpalota
+    # páros: Pestújhely
+    ranges:
+      - {start: '1', end: '99'}
+  Gazdálkodó utca:
+    # Újpalotán nincs szám
+    ranges: []
+  Hősök útja:
+    # Újpalotán nincs szám
+    ranges: []
+  Molnár Viktor utca:
+    # páros 92+: Újpalota
+    # többi: Pestújhely
+    ranges:
+      - {start: '92', end: '98'}
+  Neptun uta:
+    # kisebb számok: Pestújhely
+    # nagyobb számok: Újpalota
+    ranges:
+      - {start: '53', end: '99'}
+      - {start: '78', end: '98'}
+  Nyírpalota út:
+    # nagyobb számok: Rákospalota
+    # kisebb számok: Újpalota
+    ranges:
+      - {start: '1', end: '95'}
+      - {start: '2', end: '80'}
+  Rákospalotai körvasút sor:
+    # kisebb számok: Rákospalota
+    # nagyobb számok: Pestújhely
+    # még nagyobb számok: Újpalota
+    interpolation: all
+    ranges:
+      - {start: '99', end: '199'}
+  Szerencs utca:
+    # Újpalotán nincs szám
+    ranges: []
+  Szentmihályi út:
+    # páratlan: Rákospalota
+    # páros kisebb számok: Rákospalota
+    # páros nagyobb számok: Újpalota
+    ranges:
+      - {start: '142', end: '198'}
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # utcajegyzék = OSM: ref hibás
+  'Gazdálkodó utca': 'Gazdálkodó út'
+  'Kosd utca': 'Kozsd utca'
+source: survey
+inactive: true
