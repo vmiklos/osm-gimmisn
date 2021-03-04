@@ -1,12 +1,16 @@
 missing-streets: 'no'
 filters:
   Acsa utca:
-    invalid: ['2']
+    invalid: ['2', '18']
   Ajándék utca:
     # csak a Kertvárosi rész
     ranges:
       - {start: '1', end: '1'}
     invalid: ['1a', '1b']
+  Árokhát út:
+    invalid: ['1', '2', '6', '17']
+  Alag utca:
+    invalid: ['20', '33a', '33b', '35b']
   Alagi tér:
     invalid: ['13']
   Benkő István utca:
@@ -24,6 +28,13 @@ filters:
     invalid: ['5', '9', '14a', '15', '15d', '19', '23', '34', '34a', '44a', '63']
   Esthajnal utca:
     invalid: ['15b', '17', '18c']
+  Harsányi Kálmán utca:
+    # kertváros 1-81
+    invalid: ['11a', '11b', '13a', '15a', '45a', '53a']
+    ranges:
+      - {start: '1', end: '81'}
+  Kanizsai Dorottya utca:
+    invalid: ['12', '26', '28', '58a']
   Károlyi Sándor út:
     # csak a kertvárosi rész
     # 38: 38/a, 38/b
@@ -52,6 +63,8 @@ filters:
   Mélyfúró utca:
     # kertvárosban nincs
     ranges: []
+  Sipos tér:
+    invalid: ['3', '3a']
   Szántóföld utca:
     # kertváros 8-
     # páratlan egyébként 1-9 csak, területen kívül
@@ -60,8 +73,12 @@ filters:
     invalid: ['60', '62']
   Székely Elek út:
     # 3, 3/A => nem létezik, max papíron, valójában Veresegyház utcára nyílik
-    # 2/B nincs, helyette Székely elek út 2 van
-    invalid: ['2b', '3', '3a']
+    # 2 nincs, helyette Székely elek út 2/B van, nagy 2-es, kis b
+    # kertváros: páros oldal, illetve 5 és 7 között
+    invalid: ['2', '3', '3a', '24a', '24b']
+    ranges:
+      - {start: '5', end: '7'}
+      - {start: '2', end: '46'}
   Tarpai utca:
     invalid: ['2']
   Tarpai tér:
