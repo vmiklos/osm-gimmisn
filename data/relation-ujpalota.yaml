@@ -7,7 +7,7 @@ filters:
   Bánkút utca:
     # páros: Rákospalota
     # páratlan nagyobb számok: Újpalota
-    # páratlan kisebb szánok: Pestújhely
+    # páratlan kisebb számok: Pestújhely
     ranges:
       - {start: '65', end: '99'}
   Drégelyvár utca:
@@ -21,6 +21,12 @@ filters:
   Hősök útja:
     # Újpalotán nincs szám
     ranges: []
+  Madách uta:
+    # kisebb számok: Pestújhely
+    # nagyobb számok: Újpalota
+    ranges:
+      - {start: '71', end: '99'}
+      - {start: '68', end: '98'}
   Molnár Viktor utca:
     # páros 92+: Újpalota
     # többi: Pestújhely
@@ -38,6 +44,9 @@ filters:
     ranges:
       - {start: '1', end: '95'}
       - {start: '2', end: '80'}
+  Rákospalotai határút:
+    # Újpalotán nincs szám
+    ranges: []
   Rákospalotai körvasút sor:
     # kisebb számok: Rákospalota
     # nagyobb számok: Pestújhely
