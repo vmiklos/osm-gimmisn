@@ -1,0 +1,161 @@
+missing-streets: 'no'
+filters:
+  # Területatár szűrések
+  Árvavár utca:
+    # páros: Rákospalota
+    # páratlan: Pestújhely
+    ranges:
+      - {start: '2', end: '68'}
+  Bánkút utca:
+    # páros: Rákospalota
+    # páratlan nagyobb számok: Újpalota
+    # páratlan kisebb szánok: Pestújhely
+    ranges:
+      - {start: '2', end: '198'}
+  Nádastó utca:
+    # 1-2: Rákospalota
+    # 3+: Pestújhely
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '2', end: '2'}
+  Nyírpalota út:
+    # nagyobb számok: Rákospalota
+    # kisebb számok: Újpalota
+    ranges:
+      - {start: '97', end: '199'}
+      - {start: '82', end: '198'}
+  Őrjárat utca:
+    # páros kisebb számok: Rákospalota
+    # többi: Pestújhely
+    ranges:
+      - {start: '2', end: '8'}
+  Rákospalotai körvasút sor:
+    # kisebb számok: Rákospalota
+    # nagyobb számok: Pestújhely
+    # még nagyobb számok: Újpalota
+    interpolation: all
+    ranges:
+      - {start: '1', end: '46'}
+  Szentmihályi út:
+    # páratlan: Rákospalota
+    # páros kisebb számok: Rákospalota
+    # páros nagyobb számok: Újpalota
+    ranges:
+      - {start: '1', end: '199'}
+      - {start: '2', end: '140'}
+  Szerencs utca:
+    # kisebb számok: Rákospalota
+    # nagyobb számok: Pestújhely
+    ranges:
+      - {start: '1', end: '163'}
+      - {start: '2', end: '166'}
+  Wesselényi utca:
+    # páratlan: Rákospalota
+    # páros kisebb számok: Rákospalota
+    # páros nagyobb számok: Pestújhely
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '62'}
+  # Nem létező házszám szűrések
+  Acsa utca:
+    invalid: ['2', '18']
+  Ajándék utca:
+    invalid: ['1a', '1b', '2a']
+  Árokhát út:
+    invalid: ['1', '2', '6', '17']
+  Alag utca:
+    invalid: ['20', '33a', '33b', '35b']
+  Alagi tér:
+    invalid: ['13']
+  Benkő István utca:
+    # 52 az sarok telek, de az utca felépítése miatt a Vághóra nyílik
+    # 68-as meg úgy csak papíron létezik, valóságban a 68-70es telken csak 70 van.
+    invalid: ['1', '2', '52', '68', '83a']
+  Bogáncs utca:
+    # 11 - házon nincs kint a házszámtábla, a merőleges utcáról van a bejárata a háznak
+    invalid: ['11']
+    ranges:
+      - {start: '1', end: '57'}
+      - {start: '2', end: '58'}
+  Csomád utca:
+    invalid: ['5', '9', '14a', '15', '15d', '19', '23', '34', '34a', '44a', '63']
+  Esthajnal utca:
+    invalid: ['15b', '17', '18c']
+  Harsányi Kálmán utca:
+    invalid: ['11a', '11b', '13a', '15a', '45a', '53a']
+  Kanizsai Dorottya utca:
+    invalid: ['12', '26', '28', '58a']
+  Károlyi Sándor út:
+    # 1-21 között másik utcáról van számozva
+    # 38: 38/a, 38/b
+    invalid: ['38', '42a', '46a', '47b', '49/9', '92b', '92c', '99a', '109b', '113/3', '113a', '113i', '132b']
+    ranges:
+      - {start: '37', end: '121'}
+      - {start: '38', end: '166'}
+  Kemény István utca:
+    invalid: ['5', '10', '41b', '48a', '50', '72', '74', '93a', '93b', '104']
+  Kovácsi Kálmán tér:
+    # 9 = Csomád utca 2
+    interpolation: all
+    invalid: ['3a', '9', '13']
+    ranges:
+      - {start: '1', end: '14'}
+  Közvágóhíd utca:
+    # 3, 9/A nincs
+    # 4, 6 az a volt növényolajgyár => az a rész viszont most nagyon kaotikus, megközelíthetetlen
+    invalid: ['3', '9a', '4', '6']
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '24'}
+  Közvágóhíd tér:
+    interpolation: all
+    invalid: ['15', '26a']
+  Sipos tér:
+    invalid: ['3', '3a']
+  Szántóföld utca:
+    invalid: ['60', '62']
+  Székely Elek út:
+    # 3, 3/A => nem létezik, max papíron, valójában Veresegyház utcára nyílik
+    # 2 nincs, helyette Székely elek út 2/B van, nagy 2-es, kis b
+    # kertváros: páros oldal, illetve 5 és 7 között
+    invalid: ['2', '3', '3a', '24a', '24b']
+  Tarpai utca:
+    invalid: ['2']
+  Tarpai tér:
+    interpolation: all
+  Töltés tér:
+    # 7 nincsen => Az a Csomád utcára nyílik
+    interpolation: all
+    invalid: ['7']
+  Vácbottyán utca:
+    # 4-6 - utcán nem látni a házszámtáblát
+    invalid: ['4', '6']
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '32'}
+  Vácegres utca:
+    invalid: ['1a', '3b', '5c', '2', '4', '22', '32']
+  Váchartyán utca:
+    invalid: ['7', '8', '30']
+  Vácrátót tér:
+    interpolation: all
+    invalid: ['13', '15']
+  Vácduka tér:
+    interpolation: all
+    invalid: ['3b', '29c', '31a', '35c', '30a', '30b', '36b']
+  Vághó Ferenc utca:
+    # 18 = Esthajnal utca 52
+    invalid: ['18']
+    ranges:
+      - {start: '1', end: '37'}
+      - {start: '2', end: '56'}
+  Veresegyházi utca:
+    invalid: ['6a', '10', '44a', '67', '75', '92', '102', '106']
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  # utcajegyzék = OSM: ref hibás
+  'Gazdálkodó utca': 'Gazdálkodó út'
+  'Kosd utca': 'Kozsd utca'
+source: survey
+inactive: false
+housenumber-letters: true
