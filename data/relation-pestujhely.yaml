@@ -1,4 +1,4 @@
-missing-streets: 'yes'
+missing-streets: 'no'
 filters:
   # Területatár szűrések
   Árvavár utca:
@@ -67,7 +67,5 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM: ref hibás
   'Gazdálkodó utca': 'Gazdálkodó út'
-  'Kosd utca': 'Kozsd utca'
 source: survey
 inactive: true
-housenumber-letters: true
