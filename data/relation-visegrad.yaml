@@ -1,9 +1,24 @@
 missing-streets: 'yes'
 filters: {}
 source: survey
-inactive: false
+osm-street-filters:
+  # Nem valós utcák
+  - Kálvária 
+  - Régi vasút
+  - Várhegy
+  # parkok, sétányok, lépcsők, udvarok, ösvények
+  - Apátkúti-völgy
+  - Áprily park
+  - Községkert sétány
+  - Muflon ösvény
+  - Pap-réti út
+  - Spartacus-ösvény
+  - Szegő Iván útja
+  - Szurdok
+  # dűlők
+  - Fehéragyag gödör dűlő
 street-filters:
-  # nem igazi utcák / csak hrsz.
+  # nem igazi utcák  / csak hrsz.
   - Apátkúti vadászház
   - Feketehegy
   - Mogyoróhegy
