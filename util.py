@@ -563,9 +563,10 @@ def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.
                 for ref_invalid in ref_invalids:
                     with doc.tag("li"):
                         doc.text(ref_invalid)
-    doc.stag("br")
-    doc.text(_("Note: an OSM name is invalid if it's not in the OSM database."))
-    doc.text(_("A reference name is invalid if it's in the OSM database."))
+    if osm_invalids or ref_invalids:
+        doc.stag("br")
+        doc.text(_("Note: an OSM name is invalid if it's not in the OSM database."))
+        doc.text(_("A reference name is invalid if it's in the OSM database."))
     return doc
 
 
