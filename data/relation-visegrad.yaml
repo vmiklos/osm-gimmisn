@@ -3,7 +3,7 @@ filters: {}
 source: survey
 osm-street-filters:
   # Nem valós utcák
-  - Kálvária 
+  - Kálvária
   - Régi vasút
   - Várhegy
   # parkok, sétányok, lépcsők, udvarok, ösvények
