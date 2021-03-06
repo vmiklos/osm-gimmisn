@@ -210,6 +210,8 @@ filters:
     ranges:
       - {start: '38', end: '44'}
   Görbe utca:
+    # 6b: csak sima 6
+    invalid: ['6b']
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '14'}
@@ -358,6 +360,8 @@ filters:
   Nagyszőlős utca:
     ranges: []
   Németvölgyi út:
+    # 136b: Csak sima 136 van: Jardinette
+    invalid: ['136b']
     ranges:
       - {start: '132', end: '150'}
   Olt utca:
