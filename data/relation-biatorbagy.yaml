@@ -21,21 +21,22 @@ street-filters:
   - Szarvas-hegy
   - Ürgehegy
   - Vasútállomás
+  # dupla
+  - Füzesi utca  # Füzes utca
   # ismeretlen -----------------------
   # Bodza köz - ???
   # Joó út - ???
-  # Szegfű köz
   # Viola köz
 refstreets:
   'Angeli András utca': 'Angeli András út'
   'Dévai Gyula utca': 'Dévay Gyula utca'
-  'Füzes utca': 'Füzesi utca'
   'Hunyadi utca': 'Hunyadi János utca'
   'Losonczi utca': 'Losonci utca'
   'Mandala utca': 'Mandula utca'
   'Óvoda köz': 'Óvóda köz'
   # 'Pátyi út': 'Pátyi utca' - mindkettő szerepel
   'Petőfi Sándor köz': 'Petőfi köz'
+  'Petőfi Sándor utca': 'Petőfi utca'
   'Ritsmann Pál utca': 'Ritsman Pál utca'
   'Sasbérc utca': 'Sasbérc út'
   'Széchenyi István utca': 'Széchenyi utca'
@@ -43,6 +44,7 @@ refstreets:
   'Vízipók utca': 'Vizipók utca'
   'Zugor utca': 'Zugor István utca'
   # hiányzó
+  # Budai út - Vendel park
   # Csap utca - Ürgehegy
   # Járdovány utca - Ürgehegy
   # Kövidinka utca - Ürgehegy
