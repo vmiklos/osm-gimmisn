@@ -3,6 +3,8 @@ filters:
   Agancs utca:
     # főként hrsz. van
     invalid: ['2', '15']
+  Árokparti utca:
+    invalid: ['7']
   Budakeszi utca:
     # A Frankhegyre eső részen nincsenek házak, csak erdő
     ranges: []
@@ -40,6 +42,9 @@ filters:
   Kőhát utca:
     ranges:
       - {start: '13', end: '21'}
+  Merengő utca:
+    # néhol kaotikus, vannak részek ahol csak hrsz.
+    invalid: ['15', '37', '40', '47']
   Naphegy utca:
     ranges:
       - {start: '45', end: '99'}

@@ -7,6 +7,8 @@ filters:
   Agancs utca:
     # főként hrsz. van
     invalid: ['2', '15']
+  Árokparti utca:
+    invalid: ['7']
   Avar utca:
     # újraszámozva, keveredik páros/páratlan
     ranges:
@@ -159,6 +161,9 @@ filters:
   Máriavölgy utca:
     # össze vissza számozva, csoda hogy csak ezek hiányoznak
     invalid: ['11', '12', '22', '33']
+  Merengő utca:
+    # néhol kaotikus, vannak részek ahol csak hrsz.
+    invalid: ['15', '37', '40', '47']
   Mozdony utca:
     ranges:
       - {start: '1', end: '19'}
@@ -306,6 +311,8 @@ filters:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']
 source: survey
+osm-street-filters:
+  - Frankhegyi utca  # Frankhegyi utca 4 tábla kint van, de szerintem ez egy magánakció
 street-filters:
   - Budafruct  # Volt HungaroFruct hűtőház, ma Vasút utca 9
   - Csiki dűlő
