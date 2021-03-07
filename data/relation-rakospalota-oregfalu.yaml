@@ -64,6 +64,7 @@ filters:
       - {start: '1', end: '61'}
       - {start: '2', end: '36'}
   Rákóczi utca:
+    invalid: ['1', '1b']
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '38'}
@@ -76,8 +77,6 @@ filters:
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '34'}
-  Széchenyi tér:
-    interpolation: all
   Sződliget utca:
     invalid: ['1a', '5', '20a', '21', '25', '28a', '36', '36a', '38', '42', '45', '47a', '58']
   Szövőgyár utca:
@@ -85,6 +84,16 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
+  # területen kívül
+  Aporháza utca:
+    ranges: []
+  Nyaraló utca:
+    ranges: []
+  Rákosmező utca:
+    ranges: []
+  Széchenyi tér:
+    interpolation: all
+    ranges: []
 source: survey
 inactive: false
 housenumber-letters: true
