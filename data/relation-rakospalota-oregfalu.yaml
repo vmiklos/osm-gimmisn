@@ -5,7 +5,7 @@ filters:
   Anyácska utca:
     invalid: ['3', '5', '23a', '23b', '23c', '34', '41']
   Bartók Béla utca:
-    invalid: ['9a', '16a', '25b']
+    invalid: ['9', '16a', '25b']
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '42'}
