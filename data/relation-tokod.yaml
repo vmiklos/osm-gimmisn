@@ -13,7 +13,8 @@ street-filters:
   # Vörösmarty Mihály köz - https://www.openstreetmap.org/way/910559627
 osm-street-filters:
   # Területhatáron lévő utca
-  - Akácos út
+  - Akácos út - Határ út
+  - Határ út
   # Várberek dűlő
 refstreets:
   'Batsányi utca': 'Batsányi János utca'
