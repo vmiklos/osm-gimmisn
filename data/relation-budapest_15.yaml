@@ -12,6 +12,17 @@ osm-street-filters:
   # Nem valós utcák
   - Árpád úti felüljáró
   - Dugonics utcai felüljáró
+  - Szilas pihenő
+  # Területhatár
+  - Elem utca  # IV. kerület határ
+  - Szilágyi utca  # Rákospalota-Újpest vasútállomás XV. kerületben van, de at egész utca postacíme IV. kerületi
+  - Szlovák út  # XVI. kerületből átnyúlik az új körforgalomhoz
+  - Vezseny utca  # XIV. kerület határ
+  # Van utcatábla
+  - Leander sétány
+  # Parkok
+  - Kaktusz kert  # Note
+  - Páskom liget
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM: ref hibás
