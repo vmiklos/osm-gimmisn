@@ -16,6 +16,16 @@ street-filters:
   # Pint utca - Szentkirályszabadjáról átlóg? Csárda utcánál
   # Templom tér - Thököly utca eleje a templomnál
   - 'Sip köz'  # dupla, van Síp köz is
+  # nincs az osm-en ------------------------------
+  # Berkenye köz - Borostyán közzel szemben
+  # Dési Huber István utca - Káptalan utca és Szinyei Merse Pál utca között
+  # Temető köz - Temető utca 3 és 5 számok
+  # Tücsök köz - Tücsök utca
+  - Gyümölcs utca  # nincs kiépítve: 47.0153711, 17.9925941
+  # megszünt - tervben más utcákra van már számozva
+  - Gyöngyvirág utca
+  - Szeder utca
+  - Szent László sétány
 refstreets:
   'Bartók Béla utca': 'Bartók Béla út'
   'Báthory utca': 'Báthori utca'
