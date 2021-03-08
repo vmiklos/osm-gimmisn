@@ -30,7 +30,7 @@ msgstr ""
 msgid "(invalid)"
 msgstr ""
 
-#: util.py:568
+#: util.py:569
 msgid "A reference name is invalid if it's in the OSM database."
 msgstr ""
 
@@ -177,7 +177,7 @@ msgid "Internal error when serving {0}"
 msgstr ""
 
 #: webframe.py:432
-msgid "Invalid street mappings"
+msgid "Invalid relation settings"
 msgstr ""
 
 #: webframe.py:47
@@ -273,7 +273,7 @@ msgstr ""
 msgid "Note"
 msgstr ""
 
-#: util.py:567
+#: util.py:568
 msgid "Note: an OSM name is invalid if it's not in the OSM database."
 msgstr ""
 
@@ -493,7 +493,7 @@ msgstr ""
 msgid "existing streets"
 msgstr ""
 
-#: util.py:640
+#: util.py:641
 msgid "housenumber"
 msgstr ""
 
