@@ -30,7 +30,7 @@ msgstr "(üres)"
 msgid "(invalid)"
 msgstr "(hibás)"
 
-#: util.py:568
+#: util.py:569
 msgid "A reference name is invalid if it's in the OSM database."
 msgstr "Egy referencia név érvénytelen ha szerepel az OSM adatbázisban."
 
@@ -177,8 +177,8 @@ msgid "Internal error when serving {0}"
 msgstr "Belső hiba a {0} kiszolgálása során"
 
 #: webframe.py:432
-msgid "Invalid street mappings"
-msgstr "Érvénytelen utca hozzárendelések"
+msgid "Invalid relation settings"
+msgstr "Érvénytelen területi beállítások"
 
 #: webframe.py:47
 msgid "Last update: "
@@ -273,9 +273,10 @@ msgstr "Nincs ilyen reláció: {0}"
 msgid "Note"
 msgstr "Megjegyzés"
 
-#: util.py:567
+#: util.py:568
 msgid "Note: an OSM name is invalid if it's not in the OSM database."
-msgstr "Megjegyzés: egy OSM név érvénytelen ha nem szerepel az OSM adatbázisban."
+msgstr ""
+"Megjegyzés: egy OSM név érvénytelen ha nem szerepel az OSM adatbázisban."
 
 #: util.py:464
 msgid "Note: wait for {} seconds"
@@ -507,7 +508,7 @@ msgstr "meglévő házszámok"
 msgid "existing streets"
 msgstr "meglévő utcák"
 
-#: util.py:640
+#: util.py:641
 msgid "housenumber"
 msgstr "házszám"
 
