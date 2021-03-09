@@ -194,6 +194,5 @@ filters:
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  Jókai Mór utca: Jókai utca  # utcatábla Jókai Mór utca
   Széchenyi utca: Széchenyi István utca  # utcatábla Széchenyi utca
 inactive: true
