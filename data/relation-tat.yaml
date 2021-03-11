@@ -18,6 +18,7 @@ osm-street-filters:
   # Sétányok
   - Molln sétány
   # Területhatáron lévő utca
+  - Akácos út - Határ út
   - Határ út
 refstreets:
   'Balassa Bálint utca': 'Balassa utca'

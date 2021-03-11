@@ -27,5 +27,6 @@ refstreets:
   'Szabadházi utca': 'Szabadházi út'
   'Szőlőskert utca': 'Szőlőskerti út'
   'Virágtanya': 'Virág tanya'
+  'Villányi utca': 'Villányi út'  # megváltozott
 source: survey
 inactive: true
