@@ -45,6 +45,7 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Áprily Lajos Völgy': 'Áprily Lajos-völgy'
+  'Bányatelep': 'Bányatelep utca'
   'Magasköz utca': 'Magas köz'
   'Szentgyörgypusztai út': 'Szentgyörgypuszta út'
   'Temető sor': 'Temetősor utca'
