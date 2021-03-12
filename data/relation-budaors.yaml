@@ -314,6 +314,11 @@ filters:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']
 source: survey
+osm-street-filters:
+  # nem igazi utcák
+  - 50m
+  # ki van írva a házszám így, hrsz.
+  - Felsőkálvária
 street-filters:
   - Budafruct  # Volt HungaroFruct hűtőház, ma Vasút utca 9
   - Csiki dűlő
@@ -331,9 +336,9 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Aszú utca: Aszu utca  # utcatábla Aszú utca
   Írisz utca: Irisz utca  # nincs utcatábla
-  Jókai Mór utca: Jókai utca  # utcatábla Jókai Mór utca
   Kamaraerdei út: Kamaraerdei utca
   Munkácsy Mihály utca: Munkácsy utca
   Petőfi Sándor utca: Petőfi utca
   Széchenyi utca: Széchenyi István utca  # utcatábla Széchenyi utca
+  Vicus Teuro: Vicus Teuro utca
 inactive: false
