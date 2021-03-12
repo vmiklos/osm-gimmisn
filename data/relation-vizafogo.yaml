@@ -1,6 +1,6 @@
 missing-streets: 'no'
 filters:
-  Árboc utca:
+  Árbóc utca:
     ranges:
       - {start: '2', end: '18'}
   Dráva utca:

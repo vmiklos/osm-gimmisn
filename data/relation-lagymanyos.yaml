@@ -10,7 +10,7 @@ filters:
     invalid: ['2z']
   Bocskai út:
     ranges: []
-  Bogdánfy utca:
+  Bogdánfy Ödön utca:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}

@@ -3,7 +3,7 @@ filters:
   Áchim András utca:
     ranges:
       - {start: '1', end: '99'}
-  Alkotány utca:
+  Alkotmány utca:
     ranges: []
   Jókai Mór utca:
     ranges:

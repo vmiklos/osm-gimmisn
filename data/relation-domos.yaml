@@ -1,6 +1,6 @@
 missing-streets: 'yes'
 filters:
-  Táncsincs Mihály utca:
+  Táncsics Mihály utca:
     invalid: ['80']
 source: survey
 inactive: false
