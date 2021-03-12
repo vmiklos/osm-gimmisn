@@ -357,13 +357,15 @@ def handle_invalid_refstreets(relations: areas.Relations) -> yattag.doc.Doc:
     for relation in relations.get_relations():
         invalid_refstreets = areas.get_invalid_refstreets(relation)
         osm_invalids, ref_invalids = invalid_refstreets
-        if not osm_invalids and not ref_invalids:
+        key_invalids = areas.get_invalid_filter_keys(relation)
+        if not osm_invalids and not ref_invalids and not key_invalids:
             continue
         with doc.tag("h1"):
             relation_name = relation.get_name()
             with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-result"):
                 doc.text(relation_name)
         doc.asis(util.invalid_refstreets_to_html(invalid_refstreets).getvalue())
+        doc.asis(util.invalid_filter_keys_to_html(key_invalids).getvalue())
 
     doc.asis(get_footer().getvalue())
     return doc

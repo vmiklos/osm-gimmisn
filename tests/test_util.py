@@ -450,5 +450,18 @@ class TestGetStreetFromHousenumber(unittest.TestCase):
         self.assertEqual(actual, [util.Street(osm_name="Tolvajos tanya")])
 
 
+class TestInvalidFilterKeysToHtml(unittest.TestCase):
+    """Tests invalid_filter_keys_to_html()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        ret = util.invalid_filter_keys_to_html(["foo"])
+        self.assertIn("<li>", ret.getvalue())
+
+    def test_empty(self) -> None:
+        """Tests when the arg is empty."""
+        ret = util.invalid_filter_keys_to_html([])
+        self.assertEqual(ret.getvalue(), "")
+
+
 if __name__ == '__main__':
     unittest.main()

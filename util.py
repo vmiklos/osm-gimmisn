@@ -570,6 +570,20 @@ def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.
     return doc
 
 
+def invalid_filter_keys_to_html(invalids: List[str]) -> yattag.doc.Doc:
+    """Produces HTML enumerations for a string list."""
+    doc = yattag.doc.Doc()
+    if invalids:
+        doc.stag("br")
+        with doc.tag("div", id="osm-filter-key-invalids-container"):
+            doc.text(_("Warning: broken filter key name, the following key names are not OSM names:"))
+            with doc.tag("ul"):
+                for invalid in invalids:
+                    with doc.tag("li"):
+                        doc.text(invalid)
+    return doc
+
+
 def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
     """Turns a tab-separated table into a list of lists."""
     table = []
