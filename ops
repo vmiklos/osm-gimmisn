@@ -1,0 +1,1 @@
+{"version":2,"ops":[{"type":1,"author":{"id":"653ad5a5221de41f1bb6e2b766642806e048c3d8"},"timestamp":1560698494,"metadata":{"github-id":"MDU6SXNzdWU0NTY2NTI0NTc=","github-url":"https://github.com/vmiklos/osm-gimmisn/issues/86","origin":"github"},"title":"Rendezés magyar ABC a sorttable-be","message":"sorttable.js felokosítása, hogy tudjon magyar ABC-t is.","files":null}]}
