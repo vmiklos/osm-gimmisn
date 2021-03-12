@@ -687,6 +687,17 @@ def get_invalid_refstreets(relation: Relation) -> Tuple[List[str], List[str]]:
     return osm_invalids, ref_invalids
 
 
+def get_invalid_filter_keys(relation: Relation) -> List[str]:
+    """Returns invalid filter key names (street not in OSM)."""
+    invalids: List[str] = []
+    keys = [key for key, value in relation.get_config().get_filters().items()]
+    osm_streets = [i.get_osm_name() for i in relation.get_osm_streets()]
+    for key in keys:
+        if key not in osm_streets:
+            invalids.append(key)
+    return invalids
+
+
 class Relations:
     """A relations object is a container of named relation objects."""
     def __init__(self, workdir: str) -> None:
