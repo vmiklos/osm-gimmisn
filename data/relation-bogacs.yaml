@@ -1,12 +1,14 @@
 missing-streets: 'yes'
 filters: {}
 street-filters: []
-# Pazsag  # nincs házszám
+  - Pazsag tanya # nincs házszám
 # Bábakalács köz
 # Jács völgy
+oms-street-filters:
+  # nem igazi utcák
+  - pincesor
 refstreets:
   'Jókai Mór utca': 'Jókai utca'
   'Rákóczi út': 'Rákóczi utca'
   'Tomorvári utca': 'Tomorvár út'
-  'Pazsag': 'Pazsag tanya'
 source: survey
