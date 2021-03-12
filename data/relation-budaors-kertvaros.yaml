@@ -107,9 +107,6 @@ filters:
     ranges:
       - {start: '11', end: '99'}
       - {start: '20', end: '98'}
-  Komáromi utca:
-    ranges:
-      - {start: '1', end: '71'}
   Kőhát utca:
     ranges:
       - {start: '4', end: '20'}
@@ -150,9 +147,6 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '16'}
-  Ringló utca:
-    # Frankhegy
-    ranges: []
   Réz utca:
     ranges:
       - {start: '1', end: '13'}

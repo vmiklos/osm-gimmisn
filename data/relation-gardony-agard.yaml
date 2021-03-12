@@ -6,7 +6,7 @@ filters:
   Jókai Mór utca:
     ranges:
       - {start: '19', end: '99'}
-  Szabadság utca:
+  Szabadság út:
     ranges: []
 refstreets:
   'Áchim András utca': 'Achim András utca'

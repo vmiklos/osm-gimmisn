@@ -1,7 +1,5 @@
 missing-streets: 'no'
 filters:
-  Alsó Zöldmáli út:
-    ranges: []
   Barlang utca:
     ranges:
       - {start: '2', end: '98'}

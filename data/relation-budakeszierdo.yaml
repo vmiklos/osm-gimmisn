@@ -1,21 +1,12 @@
 missing-streets: 'no'
 filters:
-  Alma utca:
-    # Budakeszi, Alma utca
-    ranges: []
   Budakeszi út:
     ranges:
       - {start: '99', end: '101', refsettlement: '002'}
-  Futrinka utca:
-    # Budakeszi, Futrinka utca
-    ranges: []
   Konkoly-Thege Miklós út:
     refsettlement: '012'
     ranges:
       - {start: '1', end: '19'}
-  Kossuth Lajos utca:
-    # Budakeszi, Kossuth Lajos utca
-    ranges: []
   Szanatórium utca:
     refsettlement: '012'
     ranges:
