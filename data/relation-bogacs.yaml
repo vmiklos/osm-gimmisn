@@ -1,10 +1,10 @@
 missing-streets: 'yes'
 filters: {}
-street-filters: []
-  - Pazsag tanya # nincs házszám
+street-filters:
+  - Pazsag tanya  # nincs házszám
 # Bábakalács köz
 # Jács völgy
-oms-street-filters:
+osm-street-filters:
   # nem igazi utcák
   - pincesor
 refstreets:
