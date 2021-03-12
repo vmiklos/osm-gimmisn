@@ -1,7 +1,5 @@
 missing-streets: 'no'
 filters:
-  Apród utca:
-    ranges: []
   Aranyhal utca:
     ranges:
       - {start: '2', end: '6'}
