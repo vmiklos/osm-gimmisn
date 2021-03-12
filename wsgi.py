@@ -178,6 +178,7 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
 
         doc.asis(util.html_table_from_list(table).getvalue())
         doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
+        doc.asis(util.invalid_filter_keys_to_html(areas.get_invalid_filter_keys(relation)).getvalue())
     return doc
 
 
@@ -219,6 +220,7 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
 
     doc.asis(util.html_table_from_list(table).getvalue())
     doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
+    doc.asis(util.invalid_filter_keys_to_html(areas.get_invalid_filter_keys(relation)).getvalue())
     return doc
 
 
