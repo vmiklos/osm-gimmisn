@@ -105,6 +105,9 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '4', end: '4'}
+  Frankhegyi utca:
+    # nincsenek kint házszámok, csak a 4
+    invalid: ['10', '12', '14']
   Gerle köz:
     # ezek nincsenek kiírva, de sok ház van szám nélkül, a számozás nem logikus
     invalid: ['2', '5', '8']
@@ -311,14 +314,11 @@ filters:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']
 source: survey
-osm-street-filters:
-  - Frankhegyi utca  # Frankhegyi utca 4 tábla kint van, de szerintem ez egy magánakció
 street-filters:
   - Budafruct  # Volt HungaroFruct hűtőház, ma Vasút utca 9
   - Csiki dűlő
   - Erdő utca  # Nincs
   - Frank-hegy
-  - Frankhegyi utca  # Nincs
   - Geisbardt dűlő  # megszűnt
   - Malom dűlő  # igazából már Törökbálint, lehet a határ van rossz helyen
   - MÁV állomás
@@ -331,6 +331,7 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Aszú utca: Aszu utca  # utcatábla Aszú utca
   Írisz utca: Irisz utca  # nincs utcatábla
+  Jókai Mór utca: Jókai utca  # utcatábla Jókai Mór utca
   Kamaraerdei út: Kamaraerdei utca
   Munkácsy Mihály utca: Munkácsy utca
   Petőfi Sándor utca: Petőfi utca
