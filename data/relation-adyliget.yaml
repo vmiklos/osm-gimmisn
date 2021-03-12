@@ -4,10 +4,6 @@ filters:
     # területhatár: harshegy/petnehazyret/adyliget
     ranges:
       - {start: '1', end: '99'}
-  Feketerigó utca:
-    # területhatár: adyliget/harshegy
-    ranges:
-      - {start: '1', end: '99'}
   Rézsű utca:
     # területhatár: adyliget/mariaremete
     ranges:

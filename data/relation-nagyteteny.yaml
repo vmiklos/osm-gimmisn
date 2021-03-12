@@ -3,8 +3,6 @@ filters:
   Balatoni út:
     # A házszámok Budatétényben vannak.
     ranges: []
-  Dévér park:
-    ranges: []
   Dózsa György út:
     ranges:
       - {start: '2', end: '998'}

@@ -8,10 +8,6 @@ filters:
     # területhatár: harshegy/petnehazyret/adyliget
     # ezen a részen nincs ház, erdő van
     ranges: []
-  Feketerigó utca:
-    # területhatár: adyliget/harshegy
-    ranges:
-      - {start: '2', end: '98'}
   Hárshegyi út:
     # területhatár: harshegy/kurucles
     # 23: ez érdekes, mert "rossz" oldalon van

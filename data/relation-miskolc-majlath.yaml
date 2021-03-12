@@ -1,6 +1,6 @@
 missing-streets: 'no'
 filters:
-  Árpád utca:
+  Árpád út:
     ranges:
       - {start: '69', end: '199'}
       - {start: '72', end: '198'}
