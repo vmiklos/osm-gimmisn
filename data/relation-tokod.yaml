@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+filters:
+  Ady Endre utca:
+    invalid: ['64', '95']
 street-filters:
   # Nem igazi utcák
   - Máv pályaudvar
