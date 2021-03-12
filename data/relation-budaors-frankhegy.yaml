@@ -28,6 +28,9 @@ filters:
     invalid: ['97', '101']
     ranges:
       - {start: '81', end: '137'}
+  Frankhegyi utca:
+    # nincsenek kint házszámok, csak a 4
+    invalid: ['10', '12', '14']
   Gerle köz:
     # ezek nincsenek kiírva, de sok ház van szám nélkül, a számozás nem logikus
     invalid: ['2', '5', '8']
