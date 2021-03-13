@@ -332,13 +332,26 @@ street-filters:
   - Torockó utca  # Rossz helyen megy a Bp határ szerintem
   - Törökugrató dűlő
   - Vasútáll.és körny. dűlő  # Vasút dűlő folytatása - nincs kiírva
+  # Isklai körzetlistából jön, máshol nincs nyoma
+  - Dézsma köz
+  - Franktanya utca
+  - Jedlik Ányos utca
+  - Kinizsi dűlő
+  - Liget köz
+  - Lomb utca
+  - Sólyom köz
+  # Terven létezik
+  # - Ágas utca - Szőlőhegyi és Szépkilátó között
+  # - Sáfrány utca  # Ringló utcáról nyíló ösvény # törölve
+  # - Szeder utca  # Lezárt magánút Naphegy utcáról # törölve
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  Aszú utca: Aszu utca  # utcatábla Aszú utca
-  Írisz utca: Irisz utca  # nincs utcatábla
-  Kamaraerdei út: Kamaraerdei utca
-  Munkácsy Mihály utca: Munkácsy utca
-  Petőfi Sándor utca: Petőfi utca
-  Széchenyi utca: Széchenyi István utca  # utcatábla Széchenyi utca
-  Vicus Teuto: Vicus Teuto utca
+  'Aszú utca': 'Aszu utca'  # utcatábla Aszú utca
+  'Írisz utca': 'Irisz utca'  # nincs utcatábla
+  'Csík falu köz': 'Csik Falu köz'
+  'Kamaraerdei út': 'Kamaraerdei utca'
+  'Munkácsy Mihály utca': 'Munkácsy utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Széchenyi utca': 'Széchenyi István utca'  # utcatábla Széchenyi utca
+  'Vicus Teuro': 'Vicus Teuro utca'
 inactive: false
