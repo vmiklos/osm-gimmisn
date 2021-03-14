@@ -1,8 +1,13 @@
 missing-streets: 'no'
 filters:
   Kamaraerdei út:
+    # 16bc: 16 az idősek otthona
+    # 20 nincs csak a XXII. Kamaraerdei úton
+    # 46/2 hrsz. erdő
+    # 56/* hrsz. a XXII. kerületi Karamaerdei út részen
+    invalid: ['16b', '16c', '20']
     ranges:
-      - {start: '16', end: '98'}
+      - {start: '16', end: '44'}
 source: survey
 inactive: true
 housenumber-letters: true
