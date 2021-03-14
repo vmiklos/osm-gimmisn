@@ -1,0 +1,8 @@
+missing-streets: 'no'
+filters:
+  Kamaraerdei út:
+    ranges:
+      - {start: '16', end: '98'}
+source: survey
+inactive: true
+housenumber-letters: true
