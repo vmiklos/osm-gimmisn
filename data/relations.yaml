@@ -409,6 +409,32 @@ rakosfalva:
     refsettlement: "014"
     missing-streets: 'no'
 # pest-kulvaros
+# 4
+nepsziget:
+    osmrelation: 6486007
+    refcounty: "01"
+    refsettlement: "004"
+istvantelek:
+    osmrelation: 3232053
+    refcounty: "01"
+    refsettlement: "004"
+ujpest:
+    osmrelation: 3232068
+    refcounty: "01"
+    refsettlement: "004"
+megyer:
+    osmrelation: 3232087
+    refcounty: "01"
+    refsettlement: "004"
+kaposztasmegyer:
+    osmrelation: 6485974
+    refcounty: "01"
+    refsettlement: "004"
+szekesdulo:
+    osmrelation: 6485975
+    refcounty: "01"
+    refsettlement: "004"
+# 21
 csepel-belvaros:
     osmrelation: 3244191
     refcounty: "01"

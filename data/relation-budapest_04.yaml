@@ -1,4 +1,4 @@
-missing-streets: 'yes'
+missing-streets: 'only'
 filters: {}
 street-filters:
   # nem igazi utcák / csak hrsz.

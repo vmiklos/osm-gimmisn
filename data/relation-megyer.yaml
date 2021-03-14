@@ -1,0 +1,34 @@
+missing-streets: 'no'
+filters:
+  # területhatárok - Újpest
+  Bajza József utca:
+    ranges:
+      - {start: '51', end: '99'}
+      - {start: '62', end: '98'}
+  Baross utca:
+    ranges:
+      - {start: '109', end: '199'}
+      - {start: '130', end: '194'}
+  Fóti út:
+    ranges:
+      - {start: '2', end: '198'}
+  Külső Szilágyi út:
+    ranges: []
+  Labdarúgó utca:
+    ranges:
+      - {start: '57', end: '99'}
+      - {start: '32', end: '98'}
+  Megyeri út:
+    ranges:
+      - {start: '45', end: '99'}
+      - {start: '20', end: '118'}
+  Rév utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Váci út:
+    ranges:
+      - {start: '91', end: '199'}
+      - {start: '104', end: '198'}
+source: survey
+inactive: false
+housenumber-letters: false

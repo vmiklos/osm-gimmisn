@@ -1,0 +1,71 @@
+missing-streets: 'no'
+filters:
+  # területhatárok - Istvántelek
+  Bécsi utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Elem utca:
+    ranges:
+      - {start: '1', end: '1'}
+  Itvántelki út:
+    ranges:
+      - {start: '2', end: '98'}
+  Nyár utca:
+    ranges:
+      - {start: '1', end: '117'}
+      - {start: '2', end: '118'}
+  Ősz utca:
+    ranges:
+      - {start: '1', end: '151'}
+      - {start: '2', end: '126'}
+  Tavasz utca:
+    ranges:
+      - {start: '1', end: '113'}
+      - {start: '2', end: '112'}
+  Tél utca:
+    ranges:
+      - {start: '1', end: '135'}
+      - {start: '2', end: '156'}
+  Tó utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '58'}
+  Zichy Mihály utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '40'}
+  # területhatárok - Megyer
+  Bajza József utca:
+    ranges:
+      - {start: '1', end: '49'}
+      - {start: '2', end: '60'}
+  Baross utca:
+    ranges:
+      - {start: '1', end: '107'}
+      - {start: '2', end: '128'}
+  Fóti út:
+    ranges:
+      - {start: '1', end: '199'}
+  Labdarúgó utca:
+    ranges:
+      - {start: '1', end: '55'}
+      - {start: '2', end: '30'}
+  Megyeri út:
+    ranges:
+      - {start: '1', end: '43'}
+      - {start: '2', end: '18'}
+  Rév utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Váci út:
+    ranges:
+      - {start: '1', end: '89'}
+      - {start: '2', end: '102'}
+refstreets:
+  'Duna sor': 'Dunasor'
+  'Kossuth Lajos utca': 'Kossuth utca'  # utcatábla = OSM
+  'Kölcsey Ferenc utca': 'Kölcsey utca'  # utcatábla = OSM
+  'Venetiáner utca': 'Venetianer utca'  # utcatábla = OSM
+source: survey
+inactive: false
+housenumber-letters: false

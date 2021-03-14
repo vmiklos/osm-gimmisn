@@ -1,0 +1,19 @@
+missing-streets: 'no'
+filters:
+  # területhatárok - Megyer
+  Megyeri út:
+    ranges: []
+  Rév utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Váci út:
+    ranges: []
+  # területhatárok - Székesdűlő
+  Székesdűlő sor:
+    ranges: []
+refstreets:
+  'Farkaserdő utca': 'Farkas-erdő utca'  # utcatábla = OSM
+  'Körösbánya utca': 'Kőrösbánya utca'   # falu röviddel van, helyesírási probléma
+source: survey
+inactive: false
+housenumber-letters: false

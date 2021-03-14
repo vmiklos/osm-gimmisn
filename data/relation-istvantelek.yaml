@@ -1,0 +1,44 @@
+missing-streets: 'no'
+filters:
+  # területhatárok
+  Árpád út:
+    ranges: []
+  Bécsi utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Elem utca:
+    ranges:
+      - {start: '3', end: '99'}
+      - {start: '2', end: '98'}
+  Itvántelki út:
+    ranges:
+      - {start: '1', end: '71'}
+  Nyár utca:
+    ranges:
+      - {start: '119', end: '131'}
+      - {start: '120', end: '134'}
+  Ősz utca:
+    ranges:
+      - {start: '153', end: '159'}
+      - {start: '128', end: '140'}
+  Tavasz utca:
+    ranges:
+      - {start: '115', end: '129'}
+      - {start: '114', end: '126'}
+  Tél utca:
+    ranges:
+      - {start: '137', end: '151'}
+      - {start: '158', end: '162'}
+  Tó utca:
+    ranges:
+      - {start: '19', end: '39'}
+      - {start: '60', end: '74'}
+  Zichy Mihály utca:
+    ranges:
+      - {start: '18', end: '42'}
+      - {start: '15', end: '29'}
+refstreets:
+  'Ódry Árpád utca': 'Ódry utca'  # utcatábla = OSM
+source: survey
+inactive: false
+housenumber-letters: false
