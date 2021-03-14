@@ -7,7 +7,7 @@ filters:
   Elem utca:
     ranges:
       - {start: '1', end: '1'}
-  Itvántelki út:
+  Istvántelki út:
     ranges:
       - {start: '2', end: '98'}
   Nyár utca:
