@@ -3,9 +3,6 @@ filters:
   # területhatárok - Megyer
   Megyeri út:
     ranges: []
-  Rév utca:
-    ranges:
-      - {start: '2', end: '98'}
   Váci út:
     ranges: []
   # területhatárok - Székesdűlő
