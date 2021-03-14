@@ -43,6 +43,9 @@ filters:
     invalid: ['1', '11', '12']
   Baross utca:
     invalid: ['86']
+  Boróka utca:
+    # az utcában viskók vannak, csak 2 normális házon van szám 5 és 6
+    invalid: ['7', '8', '9', '10', '12']
   Budakeszi utca:
     # össze vissza számozva
     invalid: ['7']
@@ -67,7 +70,8 @@ filters:
       - {start: '20', end: '20'}
   Cserebogár utca:
     # 18/*: Csalit utcára számozták ezeket
-    invalid: ['18']
+    # 39: régi szám, új szám 44
+    invalid: ['18', '39']
   Csillagvölgyi utca:
     # 19: nincs kiírva
     invalid: ['19']
@@ -108,6 +112,9 @@ filters:
   Frankhegyi utca:
     # nincsenek kint házszámok, csak a 4
     invalid: ['10', '12', '14']
+  Gereblye utca:
+    # 2-es ház a lakó bemondására, egyébként a 4-essel szemben van
+    invalid: ['1', '5']
   Gerle köz:
     # ezek nincsenek kiírva, de sok ház van szám nélkül, a számozás nem logikus
     invalid: ['2', '5', '8']
@@ -224,10 +231,14 @@ filters:
     # Káosz a nyugati végen: 14-16, 18, 141, 22; másik oldalon 120 mellett a 12
     # gyéren táblázva, ezek nincsenek
     invalid: ['19', '44', '46', '48', '58', '66', '83', '105', '127', '129', '145', '147']
+  Rekettye utca:
+    invalid: ['14']
   Réz utca:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '16'}
+  Rigó utca:
+    invalid: ['7', '13']
   Ringló utca:
     invalid: ['18', '44']
   Rózsa utca:
@@ -248,6 +259,8 @@ filters:
   Szamorodni utca:
     # nincsenek házszámok
     invalid: ['3', '6']
+  Szarvas utca:
+    invalid: ['7']
   Széchenyi utca:
     invalid: ['20']
   Szellő köz:
@@ -262,6 +275,8 @@ filters:
       - {start: '2', end: '26'}
   Szivárvány utca:
     invalid: ['9', '40', '58', '135']
+  Szőlőhegyi utca:
+    invalid: ['26']
   Szőlő köz:
     # 1 után 7 jön
     invalid: ['3', '5']
@@ -340,10 +355,12 @@ street-filters:
   - Liget köz
   - Lomb utca
   - Sólyom köz
-  # Terven létezik
-  # - Ágas utca - Szőlőhegyi és Szépkilátó között
-  # - Sáfrány utca  # Ringló utcáról nyíló ösvény # törölve
-  # - Szeder utca  # Lezárt magánút Naphegy utcáról # törölve
+  # Csak terven létezik, tábla nincs
+  - Ágas utca  # valóságban nem létezik
+  - Darázs utca  # Szarvas utca vége volt ennek jelölve, a helyszínen Szarvas utcára van számozva minden
+  - Hegyközi utca  # egy benőtt ösvény a Cserebogár utcából
+  - Sáfrány utca  # Ringló utcáról nyíló ösvény - törölve
+  - Szeder utca  # Lezárt magánút Naphegy utcáról - törölve
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Aszú utca': 'Aszu utca'  # utcatábla Aszú utca
@@ -353,5 +370,5 @@ refstreets:
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Petőfi Sándor utca': 'Petőfi utca'
   'Széchenyi utca': 'Széchenyi István utca'  # utcatábla Széchenyi utca
-  'Vicus Teuro': 'Vicus Teuro utca'
+  'Vicus Teuto': 'Vicus Teuto utca'
 inactive: false
