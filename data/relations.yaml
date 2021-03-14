@@ -246,6 +246,10 @@ infopark:
     osmrelation: 2702614
     refcounty: "01"
     refsettlement: "011"
+kamaraerdo:
+    osmrelation: 2714099
+    refcounty: "01"
+    refsettlement: "011"
 kelenfold:
     osmrelation: 2700869
     refcounty: "01"
