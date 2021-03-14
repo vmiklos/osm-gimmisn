@@ -1,10 +1,17 @@
 missing-streets: 'no'
 filters:
+  Alma utca:
+    # Frankhegy 31-
+    ranges:
+      - {start: '31', end: '35'}
   Agancs utca:
     # főként hrsz. van
     invalid: ['2', '15']
   Árokparti utca:
     invalid: ['7']
+  Boróka utca:
+    # az utcában viskók vannak, csak 2 normális házon van szám 5 és 6
+    invalid: ['7', '8', '9', '10', '12']
   Budakeszi utca:
     # A Frankhegyre eső részen nincsenek házak, csak erdő
     ranges: []
@@ -13,6 +20,8 @@ filters:
     ranges:
       - {start: '20', end: '20'}
   Cserebogár utca:
+    # 39: régi szám, új szám 44
+    invalid: ['39']
     ranges:
       - {start: '23', end: '99'}
       - {start: '24', end: '98'}
@@ -31,6 +40,9 @@ filters:
   Frankhegyi utca:
     # nincsenek kint házszámok, csak a 4
     invalid: ['10', '12', '14']
+  Gereblye utca:
+    # 2-es ház a lakó bemondására, egyébként a 4-essel szemben van
+    invalid: ['1', '5']
   Gerle köz:
     # ezek nincsenek kiírva, de sok ház van szám nélkül, a számozás nem logikus
     invalid: ['2', '5', '8']
@@ -65,6 +77,10 @@ filters:
   Puttony utca:
     # ezen a területen nincs házszám ebben az utcában
     ranges: []
+  Rekettye utca:
+    invalid: ['14']
+  Rigó utca:
+    invalid: ['7', '13']
   Ringló utca:
     # nincsenek házszámok
     invalid: ['18', '44']
@@ -76,6 +92,10 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '24'}
+  Szarvas utca:
+    invalid: ['7']
+  Szőlőhegyi utca:
+    invalid: ['26']
   Tölgy utca:
     # semmilyen házszám sincs kiírva az utcában
     invalid: ['1', '3']
