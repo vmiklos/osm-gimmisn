@@ -22,9 +22,6 @@ filters:
     ranges:
       - {start: '45', end: '99'}
       - {start: '20', end: '118'}
-  Rév utca:
-    ranges:
-      - {start: '2', end: '98'}
   Váci út:
     ranges:
       - {start: '91', end: '199'}
