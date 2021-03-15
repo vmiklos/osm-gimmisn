@@ -1,5 +1,26 @@
 missing-streets: 'only'
 filters: {}
+osm-street-filters:
+  # nem igazi utcák
+  - Árpád úti felüljáró
+  - Főtér passzázs
+  - Kiss & Ride
+  - Kresz pálya
+  - Obi udvar
+  - Vezetéstechnikai pálya
+  # Farkaserdő
+  # - Bicikliző domb
+  # - Cinkék etetőhelye
+  # - Játszótér
+  # ösvények, parkok
+  - Gróf Károlyi István park
+  - Népsziget park
+  - Szabadság park
+  - Tulipánkert
+  # átlógó utcák
+  - Töltés utca
+  # kérdéses
+  # Korond utca
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Landler Jenő MÁV őrházlak
@@ -9,8 +30,11 @@ street-filters:
   # semmilyen forrásban sem találtam
   - Káposztásmegyeri köz
   - Sobrik Joska utca
+  # Kilián György tér - Note
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Gróf Esterházy János tér': 'gróf Esterházy János tér'
+  'Semsey park': 'Semsey Aladár park'
   # utcajegyzék = OSM, ref hibás
   'Duna sor': 'Dunasor'
   # utcajegyzék = REF, OSM eltér
