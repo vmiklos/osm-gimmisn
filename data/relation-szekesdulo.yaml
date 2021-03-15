@@ -1,5 +1,7 @@
 missing-streets: 'no'
-filters: {}
+filters:
+  Váci út:
+    ranges: []
 source: survey
 inactive: false
 housenumber-letters: false
