@@ -332,8 +332,42 @@ source: survey
 osm-street-filters:
   # nem igazi utcák
   - 50m
+  - Drive In
+  - Kasszás
+  - Önkiszolgáló
+  # ösvények
+  - Kövirózsa tanösvény
+  - Naprózsa Tanösvény
+  - Tanösvény
+  # átlógó utcák
+  - Felsőörsöd utca
+  - Repülőtéri út
   # ki van írva a házszám így, hrsz.
   - Felsőkálvária
+  # BITEP belső úthálózat
+  - Bárány Róbert utca
+  - Bánki Donát út
+  - Békésy György utca
+  - Bolyai János utca
+  - Eötvös Loránd utca
+  - Gábor Dénes körút
+  - Gutenberg utca
+  - Hevesy György utca
+  - Kertész Imre utca
+  - Lénárd Fülöp utca
+  - Neumann János út
+  - Oláh György utca
+  - Polányi Mihály utca
+  - Puskás Tivadar utca  # Puskás Tivadar út is van az Invitechnél
+  - Szent-Györgyi Albert utca
+  - Szilárd Leó utca
+  - Teller Ede körút
+  - Wigner Jenő utca
+  - Zsigmondy Richárd utca
+  # Bevásárlóközpont belső utcak
+  - Tv út
+  # egyéb
+  - Budapark
 street-filters:
   - Budafruct  # Volt HungaroFruct hűtőház, ma Vasút utca 9
   - Csiki dűlő
