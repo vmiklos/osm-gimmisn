@@ -5,7 +5,7 @@ filters:
     ranges:
       - {start: '5', end: '9'}
       - {start: '2', end: '2'}
-  Népsziget:
+  Népsziget út:
     refsettlement: '013'
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
