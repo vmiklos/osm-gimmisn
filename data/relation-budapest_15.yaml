@@ -21,6 +21,7 @@ osm-street-filters:
   # Van utcatábla
   - Leander sétány
   # Parkok
+  - Bányász park
   - Kaktusz kert  # Note
   - Páskom liget
 refstreets:
