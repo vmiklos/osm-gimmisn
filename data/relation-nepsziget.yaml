@@ -4,8 +4,12 @@ filters:
   Zsilip utca:
     ranges:
       - {start: '5', end: '9'}
+      - {start: '2', end: '2'}
   Népsziget:
     refsettlement: '013'
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Népsziget út': 'Népsziget'  # nem hivatalos közterület, csak 1 cím van: Budapest Csónakház (1-3), a többi hrsz.
 source: survey
 inactive: false
 housenumber-letters: false
