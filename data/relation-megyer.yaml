@@ -9,9 +9,13 @@ filters:
     ranges:
       - {start: '109', end: '199'}
       - {start: '130', end: '194'}
+  Czuczor utca:
+    ranges: []
   Fóti út:
     ranges:
       - {start: '2', end: '198'}
+  Garay utca:
+    ranges: []
   Külső Szilágyi út:
     ranges: []
   Labdarúgó utca:
@@ -22,6 +26,12 @@ filters:
     ranges:
       - {start: '45', end: '99'}
       - {start: '20', end: '118'}
+  Rév utca:
+    ranges:
+      - {start: '1', end: '1'}
+  Szilágyi utca:
+    ranges:
+      - {start: '30', end: '98'}
   Váci út:
     ranges:
       - {start: '91', end: '199'}

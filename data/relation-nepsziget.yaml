@@ -1,5 +1,11 @@
 missing-streets: 'no'
-filters: {}
+filters:
+  # területhatárok - Újpest
+  Zsilip utca:
+    ranges:
+      - {start: '5', end: '9'}
+  Népsziget:
+    refsettlement: '013'
 source: survey
 inactive: false
 housenumber-letters: false
