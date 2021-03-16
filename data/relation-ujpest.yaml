@@ -10,6 +10,8 @@ filters:
   Istvántelki út:
     ranges:
       - {start: '2', end: '98'}
+  Kiss János utca:
+    ranges: []
   Nyár utca:
     ranges:
       - {start: '1', end: '117'}
@@ -18,6 +20,9 @@ filters:
     ranges:
       - {start: '1', end: '151'}
       - {start: '2', end: '126'}
+  Rév utca:
+    ranges:
+      - {start: '2', end: '2'}
   Tavasz utca:
     ranges:
       - {start: '1', end: '113'}
@@ -33,7 +38,7 @@ filters:
   Zichy Mihály utca:
     ranges:
       - {start: '1', end: '13'}
-      - {start: '2', end: '40'}
+      - {start: '2', end: '16'}
   # területhatárok - Megyer
   Bajza József utca:
     ranges:
@@ -54,10 +59,18 @@ filters:
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '18'}
+  Szilágyi utca:
+    ranges:
+      - {start: '2', end: '28'}
+      - {start: '1', end: '99'}
   Váci út:
     ranges:
       - {start: '1', end: '89'}
       - {start: '2', end: '102'}
+  # területhatárok - Népsziget
+  Zsilip utca:
+    ranges:
+      - {start: '1', end: '3'}
 refstreets:
   'Duna sor': 'Dunasor'
   'Kossuth Lajos utca': 'Kossuth utca'  # utcatábla = OSM

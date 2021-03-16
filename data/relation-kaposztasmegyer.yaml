@@ -3,6 +3,8 @@ filters:
   # területhatárok - Megyer
   Megyeri út:
     ranges: []
+  Sporttelep utca:
+    ranges: []
   Váci út:
     ranges: []
   # területhatárok - Székesdűlő
