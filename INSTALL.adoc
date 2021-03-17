@@ -17,6 +17,8 @@
 
 - Install Python (3.6 or newer)
 
+- Install `npm` (If the version in your distribution is too old: `sudo npm install -g n && sudo n stable`)
+
 - Install `make`
 
 - Clone the repo:
