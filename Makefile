@@ -101,7 +101,7 @@ clean:
 	rm -f $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
-check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint
+check: locale/hu/LC_MESSAGES/osm-gimmisn.mo check-filters check-flake8 check-mypy check-unit check-pylint check-eslint
 
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
@@ -142,7 +142,7 @@ check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 
 check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
-check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
+check-eslint: workdir/bundle.js $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
 check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 
@@ -158,7 +158,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 %.flake8: %.py Makefile
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
-check-unit: tests/data/yamls.pickle
+check-unit: version.py data/yamls.pickle tests/data/yamls.pickle
 	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 
@@ -172,7 +172,7 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
 # Make sure that the current directory is *not* the repo root but something else to catch
 # non-absolute paths.
-run:
+run: all
 	cd $(HOME) && $(PWD)/wsgi.py
 
 deploy:
