@@ -35,7 +35,6 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Gróf Esterházy János tér': 'gróf Esterházy János tér'
-  'Semsey park': 'Semsey Aladár park'
   # utcajegyzék = OSM, ref hibás
   'Duna sor': 'Dunasor'
   # utcajegyzék = REF, OSM eltér
