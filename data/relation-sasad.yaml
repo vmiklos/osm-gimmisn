@@ -201,6 +201,10 @@ filters:
       - {start: '1', end: '77'}
       - {start: '2', end: '56'}
   Érdi út:
+    # 6: 6/a, 6/b
+    # 12a: 12 és 12/1..4
+    # 14b: 14a és 14
+    invalid: ['6', '12a', '14b']
     ranges:
       - {start: '2', end: '16'}
   Gazdagréti út:
