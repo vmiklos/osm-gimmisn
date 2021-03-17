@@ -55,8 +55,6 @@ street-filters:
   - Vaskapu dűlő
   # egyéb
   - Bocskoros kút  # Bocskoroskút dűlő, dupla
-  - Körtélyes utca  # Körtvélyes utca, dupla
-  - Vadvirág köz  # Vadvirág utca néven fut, dupla
   # AMP utca
   # Palatinus utca - Kassai utca folytatás, most Pala-part néven fut
   # városhatár
@@ -73,6 +71,8 @@ refstreets:
   'Kateri dűlő': 'Kateri-dűlő'
   'Kenderesi utca': 'Kenderesi út'
   'Kis-Duna sétány': 'Kis Duna sétány'
+  'Madách Imre tér': 'Madách Imre út'
+  'Mattyasovszky utca': 'Matyasovszky utca'
   'Mindszenty tér': 'Mindszenty hercegprímás tér'  # új táblákon Mindszenty tér
   'Rudnai Molnár István utca': 'Rudinai Molnár István utca'
   'Siszler utca': 'Siszler út'
