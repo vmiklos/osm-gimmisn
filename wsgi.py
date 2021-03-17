@@ -595,7 +595,7 @@ def handle_main_filters_refcounty(relations: areas.Relations, refcounty_id: str,
         return doc
 
     prefix = config.Config.get_uri_prefix()
-    with doc.tag("a", href=prefix + "/filter-for/refcounty/" + refcounty):
+    with doc.tag("a", href=prefix + "/filter-for/refcounty/" + refcounty + "/whole-county"):
         doc.text(name)
     if refcounty_id and refcounty == refcounty_id:
         refsettlement_ids = relations.refcounty_get_refsettlement_ids(refcounty_id)
@@ -679,11 +679,11 @@ def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relat
         # /osm/filter-for/everything
         filter_for = filter_for_everything
     elif "refcounty" in filters and "refsettlement" in filters:
-        # /osm/filter-for/refcounty/<value>/refsettlement/<value>.
+        # /osm/filter-for/refcounty/<value>/refsettlement/<value>
         refcounty = filters["refcounty"]
         filter_for = create_filter_for_refcounty_refsettlement(filters["refcounty"], filters["refsettlement"])
     elif "refcounty" in filters:
-        # /osm/filter-for/refcounty/<value>.
+        # /osm/filter-for/refcounty/<value>/whole-county
         refcounty = filters["refcounty"]
         filter_for = create_filter_for_refcounty(refcounty)
     elif "relations" in filters:

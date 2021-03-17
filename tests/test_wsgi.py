@@ -664,13 +664,13 @@ class TestMain(TestWsgi):
 
     def test_filter_for_refcounty_well_formed(self) -> None:
         """Tests if the /osm/filter-for/refcounty output is well-formed."""
-        root = self.get_dom_for_path("/filter-for/refcounty/01")
+        root = self.get_dom_for_path("/filter-for/refcounty/01/whole-county")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_filter_for_refcounty_no_refsettlement(self) -> None:
         """Tests if the /osm/filter-for/refcounty output is well-formed."""
-        root = self.get_dom_for_path("/filter-for/refcounty/67")
+        root = self.get_dom_for_path("/filter-for/refcounty/67/whole-county")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
