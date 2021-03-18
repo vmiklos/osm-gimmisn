@@ -2,6 +2,14 @@ missing-streets: 'yes'
 filters:
   Ady Endre utca:
     invalid: ['64', '95']
+  József Attila utca:
+    ranges:
+      - {start: '81', end: '153'}
+      - {start: '28', end: '28'}
+  Vörösmarty Mihály utca:
+    ranges:
+      - {start: '1', end: '33'}
+      - {start: '2', end: '24'}
 street-filters:
   # Nem igazi utcák
   - Máv pályaudvar

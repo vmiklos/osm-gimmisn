@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  József Attila utca:
+    ranges:
+      - {start: '1', end: '79'}
+      - {start: '2', end: '34'}
 osm-street-filters:
   # Határon lévő, átlógó
   - Kossuth Lajos utca
