@@ -219,7 +219,7 @@ def get_toolbar(
     return doc
 
 
-def handle_static(request_uri: str) -> Tuple[str, str, List[Tuple[str, str]]]:
+def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
     tokens = request_uri.split("/")
     path = tokens[-1]
@@ -237,19 +237,22 @@ def handle_static(request_uri: str) -> Tuple[str, str, List[Tuple[str, str]]]:
         content_type = "application/json"
         content = util.get_content(os.path.join(config.Config.get_workdir(), "stats"), path, extra_headers)
         return content, content_type, extra_headers
+    if request_uri.endswith(".ico"):
+        content_type = "image/x-icon"
+        content = util.get_content(config.get_abspath(""), path, extra_headers)
+        return content, content_type, extra_headers
 
-    return "", "", extra_headers
+    return bytes(), "", extra_headers
 
 
 def send_response(
         start_response: 'StartResponse',
         content_type: str,
         status: str,
-        output: str,
+        output_bytes: bytes,
         extra_headers: List[Tuple[str, str]]
 ) -> Iterable[bytes]:
     """Turns an output string into a byte array and sends it."""
-    output_bytes = output.encode('utf-8')
     if content_type != "application/octet-stream":
         content_type += "; charset=utf-8"
     response_headers = [('Content-type', content_type),
@@ -272,7 +275,7 @@ def handle_exception(
     with doc.tag("pre"):
         doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
         doc.text(traceback.format_exc())
-    return send_response(start_response, "text/html", status, doc.getvalue(), [])
+    return send_response(start_response, "text/html", status, doc.getvalue().encode("utf-8"), [])
 
 
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
