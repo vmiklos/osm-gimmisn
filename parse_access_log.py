@@ -32,7 +32,7 @@ def is_complete_relation(relations: areas.Relations, relation_name: str) -> bool
     if not os.path.exists(relation.get_files().get_housenumbers_percent_path()):
         return False
 
-    percent = util.get_content(relation.get_files().get_housenumbers_percent_path())
+    percent = util.get_content(relation.get_files().get_housenumbers_percent_path()).decode("utf-8")
     return percent == "100.00"
 
 

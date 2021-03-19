@@ -97,6 +97,6 @@ def our_application_json(
     else:
         # Assume that request_uri starts with prefix + "/missing-streets/".
         output = missing_streets_update_result_json(relations, request_uri)
-    return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
+    return webframe.send_response(start_response, content_type, "200 OK", output.encode("utf-8"), extra_headers)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

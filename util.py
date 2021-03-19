@@ -730,14 +730,14 @@ def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
     return ret
 
 
-def get_content(workdir: str, path: str = "", extra_headers: Optional[List[Tuple[str, str]]] = None) -> str:
+def get_content(workdir: str, path: str = "", extra_headers: Optional[List[Tuple[str, str]]] = None) -> bytes:
     """Gets the content of a file in workdir."""
-    ret = ""
+    ret = bytes()
     if path:
         path = os.path.join(workdir, path)
     else:
         path = workdir
-    with open(path) as sock:
+    with open(path, "rb") as sock:
         ret = sock.read()
         if extra_headers is not None:
             stat = os.fstat(sock.fileno())

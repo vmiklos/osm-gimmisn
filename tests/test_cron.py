@@ -180,7 +180,7 @@ class TestUpdateAdditionalStreets(test_config.TestCase):
         mtime = os.path.getmtime(path)
         cron.update_additional_streets(relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
-        actual = util.get_content(path)
+        actual = util.get_content(path).decode("utf-8")
         self.assertEqual(actual, expected)
         # Make sure street stat is not created for the streets=no case.
         self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "gellerthegy-additional-streets.count")))
@@ -360,7 +360,7 @@ class TestUpdateStats(test_config.TestCase):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                 with unittest.mock.patch('datetime.date', MockDate):
                     cron.update_stats(overpass=True)
-        actual = util.get_content(path)
+        actual = util.get_content(path).decode("utf-8")
         self.assertEqual(actual, result_from_overpass)
 
         # Make sure that the old CSV is removed.

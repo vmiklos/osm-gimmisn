@@ -55,9 +55,9 @@ class TestWsgiJson(test_config.TestCase):
         }
         callback = cast('StartResponse', start_response)
         output_iterable = wsgi.application(environ, callback)
-        output_list = cast(List[bytes], output_iterable)
+        output_list = cast(List[str], output_iterable)
         self.assertTrue(output_list)
-        output = output_list[0].decode('utf-8')
+        output = output_list[0]
         return cast(Dict[str, Any], json.loads(output))
 
 

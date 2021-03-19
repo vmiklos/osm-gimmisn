@@ -43,7 +43,7 @@ class TestHandleStatic(test_config.TestCase):
         """Tests the generated javascript case."""
         prefix = config.Config.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(prefix + "/static/bundle.js")
-        self.assertEqual("// bundle.js\n", content)
+        self.assertEqual("// bundle.js\n", content.decode("utf-8"))
         self.assertEqual(content_type, "application/x-javascript")
         self.assertEqual(len(extra_headers), 1)
         self.assertEqual(extra_headers[0][0], "Last-Modified")
@@ -52,8 +52,16 @@ class TestHandleStatic(test_config.TestCase):
         """Tests the json case."""
         prefix = config.Config.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(prefix + "/static/stats-empty.json")
-        self.assertTrue(content.startswith("{"))
+        self.assertTrue(content.decode("utf-8").startswith("{"))
         self.assertEqual(content_type, "application/json")
+        self.assertEqual(len(extra_headers), 1)
+        self.assertEqual(extra_headers[0][0], "Last-Modified")
+
+    def test_ico(self) -> None:
+        """Tests the ico case."""
+        content, content_type, extra_headers = webframe.handle_static("/favicon.ico")
+        self.assertTrue(len(content))
+        self.assertEqual(content_type, "image/x-icon")
         self.assertEqual(len(extra_headers), 1)
         self.assertEqual(extra_headers[0][0], "Last-Modified")
 

@@ -405,14 +405,14 @@ class TestGetContent(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = util.get_content(workdir, "gazdagret.percent")
+        actual = util.get_content(workdir, "gazdagret.percent").decode("utf-8")
         expected = "54.55"
         self.assertEqual(actual, expected)
 
     def test_one_arg(self) -> None:
         """Tests the case when only one argument is given."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = util.get_content(os.path.join(workdir, "gazdagret.percent"))
+        actual = util.get_content(os.path.join(workdir, "gazdagret.percent")).decode("utf-8")
         expected = "54.55"
         self.assertEqual(actual, expected)
 

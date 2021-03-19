@@ -495,7 +495,7 @@ def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.doc.Do
     url = prefix + "/missing-housenumbers/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_housenumbers_percent_path()):
-        percent = util.get_content(relation.get_files().get_housenumbers_percent_path())
+        percent = util.get_content(relation.get_files().get_housenumbers_percent_path()).decode("utf-8")
 
     doc = yattag.doc.Doc()
     if percent != "N/A":
@@ -517,7 +517,7 @@ def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc
     url = prefix + "/missing-streets/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if os.path.exists(relation.get_files().get_streets_percent_path()):
-        percent = util.get_content(relation.get_files().get_streets_percent_path())
+        percent = util.get_content(relation.get_files().get_streets_percent_path()).decode("utf-8")
 
     doc = yattag.doc.Doc()
     if percent != "N/A":
@@ -539,7 +539,7 @@ def handle_main_street_additional_count(relation: areas.Relation) -> yattag.doc.
     url = prefix + "/additional-streets/" + relation.get_name() + "/view-result"
     additional_count = ""
     if os.path.exists(relation.get_files().get_streets_additional_count_path()):
-        additional_count = util.get_content(relation.get_files().get_streets_additional_count_path())
+        additional_count = util.get_content(relation.get_files().get_streets_additional_count_path()).decode("utf-8")
 
     doc = yattag.doc.Doc()
     if additional_count:
@@ -863,11 +863,11 @@ def our_application_txt(
             content_type = "application/octet-stream"
             extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
         elif request_uri.endswith("robots.txt"):
-            output = util.get_content(config.get_abspath("data"), "robots.txt")
+            output = util.get_content(config.get_abspath("data"), "robots.txt").decode("utf-8")
         else:
             # assume txt
             output = missing_housenumbers_view_txt(relations, request_uri)
-    return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
+    return webframe.send_response(start_response, content_type, "200 OK", output.encode("utf-8"), extra_headers)
 
 
 HANDLERS = {
@@ -907,7 +907,7 @@ def our_application(
         return our_application_txt(start_response, relations, request_uri)
 
     prefix = config.Config.get_uri_prefix()
-    if request_uri.startswith(prefix + "/static/"):
+    if request_uri.startswith(prefix + "/static/") or request_uri.endswith("favicon.ico"):
         output, content_type, extra_headers = webframe.handle_static(request_uri)
         return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
 
@@ -931,7 +931,7 @@ def our_application(
             else:
                 doc.asis(handle_main(request_uri, relations).getvalue())
 
-    return webframe.send_response(start_response, "text/html", "200 OK", doc.getvalue(), [])
+    return webframe.send_response(start_response, "text/html", "200 OK", doc.getvalue().encode("utf-8"), [])
 
 
 def application(

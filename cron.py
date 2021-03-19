@@ -274,7 +274,7 @@ def update_stats(overpass: bool) -> None:
 
     # Fetch house numbers for the whole country.
     info("update_stats: start, updating whole-country csv")
-    query = util.get_content(config.get_abspath("data/street-housenumbers-hungary.txt"))
+    query = util.get_content(config.get_abspath("data/street-housenumbers-hungary.txt")).decode("utf-8")
     statedir = config.get_abspath("workdir/stats")
     os.makedirs(statedir, exist_ok=True)
     today = time.strftime("%Y-%m-%d")
