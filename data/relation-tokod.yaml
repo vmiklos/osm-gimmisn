@@ -6,6 +6,14 @@ filters:
     ranges:
       - {start: '81', end: '153'}
       - {start: '28', end: '28'}
+  Körtvélyesi dűlő:
+    invalid: ['13']
+  Sashegyi út:
+    invalid: ['43']
+  Szőlővölgy dűlő:
+    invalid: ['54']
+  Török úti dűlő:
+    invalid: ['7']
   Vörösmarty Mihály utca:
     ranges:
       - {start: '1', end: '33'}
@@ -30,7 +38,6 @@ osm-street-filters:
 refstreets:
   'Batsányi utca': 'Batsányi János utca'
   'Batthyány utca': 'Batthyány Lajos utca'
-  'Bercsényi Miklós utca': 'Bercsényi István utca'
   'Borbála utca': 'Borbála út'
   'Dózsa György utca': 'Dózsa György út'
   'Erzsébet utca': 'Erzsébet út'
