@@ -351,6 +351,9 @@ filters:
   Agancs út:
     # ends are 23 and 34
     invalid: ['25', '36', '40']
+  Sárospatak út:
+    # ends are 19 and 56
+    invalid: ['27', '45', '189']
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
