@@ -1,0 +1,56 @@
+missing-streets: 'yes'
+filters: {}
+osm-street-filters:
+  # Nem igazi utcák
+  - M6 autópálya
+  # Parkok
+  - Muki mozdony parkja
+  - Üzlet sor
+  - Városháza park
+  # Határon lévő, átlógó
+street-filters:
+  # Nem igazi utcák
+  - Vasúti őrházak
+  # Kérdéses
+  # - Csaba utca
+  # - István utca
+  # Hiányzó
+  # - Óállomás
+  # - Pannon kert
+  # - Shalbert sziget
+  # Tanyák, dűlők -----------
+  # - Janitsárypuszta
+  # - Farkastanya
+  # - Kabóktanya
+  # - Leitner tanya
+  # - Mehádia puszta
+  # - Nyúli tanya
+  # - Oroszi tanya
+  # - Országút dűlő
+  # - Réti tanya
+  # - Úsztató dűlő
+refstreets:
+  'Aranyvölgyi út': 'Aranyvölgy út'
+  'Barsi Dénes utca': 'Barsi Dénes út'
+  'Batsányi János utca': 'Batsányi út'
+  'Béke körút': 'Béke utca'
+  'Bolyai János utca': 'Bólyai utca'
+  'Derkovits Gyula utca': 'Derkovits utca'
+  'Devecseri utca': 'Devecseri Gábor utca'
+  'Erdő sor': 'Erdősor'
+  'Hajnal utca': 'Hajnal út'
+  'Határ utca': 'Határ út'
+  'Hét vezér utca': 'Hétvezér utca'
+  'Körösi Csoma Sándor utca': 'Kőrösi Csoma Sándor utca'
+  'Lobogó utca': 'Lobogó út'
+  'Lokomotív utca': 'Lokomotiv utca'
+  'Mikszáth Kálmán köz': 'Mikszáth köz'
+  'Mikszáth Kálmán utca': 'Mikszáth utca'
+  'Muskátli utca': 'Muskátli út'
+  'Öreghegyi út': 'Öreghegy utca'
+  'Pentelei Molnár János utca': 'Pentelei M. János utca'
+  'Semmelweis utca': 'Semmelweis Ignác utca'
+  'Tűzálló utca': 'Tűzálló út'
+  'Városréti út': 'Városréti utca'
+  'Vizimolnárok utca': 'Vízimolnárok utca'
+source: survey
