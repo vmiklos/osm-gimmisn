@@ -1,9 +1,40 @@
 missing-streets: 'yes'
 filters:
+  Balassi Bálint utca:
+    invalid: ['29']
+  Bányász utca:
+    invalid: ['18']
+  Gárdonyi Géza köz:
+    invalid: ['46', '48']
+  Géza utca:
+    # a nagyobb számok Tokod
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '34'}
+  Jókai Mór utca:
+    ranges:
+      - {start: '1', end: '45'}
+      - {start: '2', end: '10'}
   József Attila utca:
     ranges:
       - {start: '1', end: '79'}
       - {start: '2', end: '34'}
+  Nefelejcs utca:
+    invalid: ['51']
+  Orgona utca:
+    invalid: ['1', '17']
+  OVIT-telep:
+    ranges: []
+  Óvoda köz:
+    ranges: []
+  Rozmaring utca:
+    invalid: ['2']
+  Szarkás dűlő:
+    ranges: []
+  Tulipán utca:
+    invalid: ['23']
+  Viola utca:
+    invalid: ['43']
 osm-street-filters:
   # Határon lévő, átlógó
   - Kossuth Lajos utca
@@ -13,3 +44,4 @@ refstreets:
   'Akácos utca': 'Akácos út'
   'OVIT-telep': 'Ovit telep'
 source: survey
+inactive: true
