@@ -535,6 +535,10 @@ velence:
     osmrelation: 1418512
     refcounty: "07"
     refsettlement: "102"
+dunaujvaros:
+    osmrelation: 1420733
+    refcounty: "07"
+    refsettlement: "024"
 # 10 - Heves
 felsotarkany:
     osmrelation: 1418232
