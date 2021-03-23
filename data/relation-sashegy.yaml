@@ -4,6 +4,9 @@ filters:
     ranges:
       - {start: '2', end: '6'}
   Bod Péter utca:
+    # 10a: csak sima 10
+    # 21: 21/a, 21/b, 21/c
+    invalid: ['10a', '21']
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '22'}
@@ -38,6 +41,9 @@ filters:
     # this is just the sashegy part, would be <6 but there is no 4
     ranges:
       - {start: '2', end: '2'}
+  Fehérló utca:
+    # 22a: 22 és 22/b
+    invalid: ['22a']
   Harasztos út:
     ranges:
       - {start: '1', end: '1'}
@@ -111,6 +117,9 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
+  Töhötöm utca:
+    # 35: 35/a, 35/b
+    invalid: ['35']
   Villányi út:
     ranges: []
   Zólyomi út:
