@@ -21,8 +21,6 @@ filters:
 street-filters:
   # Nem igazi utcák
   - Máv pályaudvar
-  # Határon lévő utcák
-  - Határ út  # Akácos út - Határ út
   # dűlők --------------------
   # Mogyorósi úti dűlő - 47.72550201416016%2C18.63422584533691
   # Nagy völgy dűlő - 47.72208786010742,18.62204551696777
@@ -36,6 +34,7 @@ refstreets:
   'Borbála utca': 'Borbála út'
   'Dózsa György utca': 'Dózsa György út'
   'Erzsébet utca': 'Erzsébet út'
+  'Határ út': 'Határ utca'
   'Kodály Zoltán utca': 'Kodály Zoltán köz'
   'Kisvölgy dűlő': 'Kis völgy dűlő'
   'Laposi utca': 'Laposi út'
