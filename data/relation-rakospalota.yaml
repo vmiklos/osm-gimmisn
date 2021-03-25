@@ -97,7 +97,7 @@ filters:
     invalid: ['1', '2', '52', '68', '83a']
   Bogáncs utca:
     # 11 - házon nincs kint a házszámtábla, a merőleges utcáról van a bejárata a háznak
-    invalid: ['11']
+    invalid: ['11', '47']
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '58'}
@@ -110,7 +110,7 @@ filters:
   Énekes utca:
     invalid: ['3e', '10b', '12b']
   Esthajnal utca:
-    invalid: ['15b', '17', '18c']
+    invalid: ['15b', '17', '18c', '82']
   Fő út:
     # 9 = Rákospalota kossuth utcai végállomás pihenőhely', 'de nincs rajta házszám a telken
     invalid: ['9', '42', '44', '44b']
@@ -201,7 +201,8 @@ filters:
   Sipos tér:
     invalid: ['3', '3a']
   Szántóföld utca:
-    invalid: ['60', '62']
+    # 18: 18/1 .. 18/5
+    invalid: ['18', '60', '62']
   Székely Elek út:
     # 3, 3/A => nem létezik, max papíron, valójában Veresegyház utcára nyílik
     # 2 nincs, helyette Székely elek út 2/B van, nagy 2-es, kis b

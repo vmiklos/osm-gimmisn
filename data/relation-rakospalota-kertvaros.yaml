@@ -20,14 +20,14 @@ filters:
   Bogáncs utca:
     # csak a Kertvárosi rész 7+ 38+
     # 11 - házon nincs kint a házszámtábla, a merőleges utcáról van a bejárata a háznak
-    invalid: ['11']
+    invalid: ['11', '47']
     ranges:
       - {start: '7', end: '57'}
       - {start: '14', end: '58'}
   Csomád utca:
     invalid: ['5', '9', '14a', '15', '15d', '19', '23', '34', '34a', '44a', '63']
   Esthajnal utca:
-    invalid: ['15b', '17', '18c']
+    invalid: ['15b', '17', '18c', '82']
   Harsányi Kálmán utca:
     # kertváros 1-81
     invalid: ['11a', '11b', '13a', '15a', '45a', '53a']
@@ -68,9 +68,10 @@ filters:
   Szántóföld utca:
     # kertváros 8-
     # páratlan egyébként 1-9 csak, területen kívül
+    # 18: 18/1 .. 18/5
+    invalid: ['18', '60', '62']
     ranges:
       - {start: '8', end: '68'}
-    invalid: ['60', '62']
   Székely Elek út:
     # 3, 3/A => nem létezik, max papíron, valójában Veresegyház utcára nyílik
     # 2 nincs, helyette Székely elek út 2/B van, nagy 2-es, kis b
