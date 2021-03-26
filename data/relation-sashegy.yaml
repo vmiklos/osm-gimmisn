@@ -50,7 +50,8 @@ filters:
   Hegyalja út:
     # 100/a, 100/b: csak sima 100 van
     # 136a, 136/b, 138/b: csak 136-138 van
-    invalid: ['100a', '100b', '136a', '136b', '138b']
+    # 158: 158/a, 158/b
+    invalid: ['100a', '100b', '136a', '136b', '138b', '158']
     ranges:
       - {start: '47', end: '93', refsettlement: '012'}
       - {start: '70', end: '128'}
@@ -98,6 +99,14 @@ filters:
   Őrség utca:
     ranges: []
   Radvány utca:
+    # 2: 2/b
+    # 4b: csak sima 4
+    # 22: 22/a, 22/b
+    # 28: 26-28/a-b
+    # 32a: 32, 32/b
+    # 34a: 34, 34/b
+    # 35: 35/a, 35/b
+    invalid: ['2', '4b', '22', '28', '32a', '34a', '35']
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '38'}
@@ -123,9 +132,22 @@ filters:
   Villányi út:
     ranges: []
   Zólyomi út:
+    # 6a, 6b: 6 - Classic Hotel
+    # 9a: csak sima 9
+    # 14/1: csak sima 14
+    # 15b: nincs; 15 = Radvány utca 37
+    # 18/3: 18/a, 18/b
+    # 25: 25/a, 25/b
+    # 32: 32/a, 32/b
+    # 34: 34/a, 34/b
+    # 38: 38/b, 38/c, 38/d
+    # 40: 40/a, 40/b
+    # 42: 42/a, 42/b
+    # 44a,44b: 2 épület, de csak sima 44
+    invalid: ['6a', '6b', '9a', '14/1', '15b', '18/3', '25', '32', '34', '34c', '38', '40', '42', '44a', '44b']
     ranges:
       - {start: '1', end: '49'}
-      - {start: '4', end: '44'}
+      - {start: '2', end: '44'}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # 'OSM Name 2': 'Ref Name 2'
