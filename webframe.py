@@ -278,6 +278,19 @@ def handle_exception(
     return send_response(start_response, "text/html", status, doc.getvalue().encode("utf-8"), [])
 
 
+def handle_404() -> yattag.doc.Doc:
+    """Displays a not-found page."""
+    doc = yattag.doc.Doc()
+    util.write_html_header(doc)
+    with doc.tag("html"):
+        with doc.tag("body"):
+            with doc.tag("h1"):
+                doc.text(_("Not Found"))
+            with doc.tag("p"):
+                doc.text(_("The requested URL was not found on this server."))
+    return doc
+
+
 def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
     """Converts from local date-time to UI date-time, based on config."""
     if config.Config.has_value("timezone"):

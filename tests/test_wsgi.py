@@ -48,17 +48,22 @@ def get_relations() -> areas.Relations:
 
 class TestWsgi(test_config.TestCase):
     """Base class for wsgi tests."""
-    def get_dom_for_path(self, path: str) -> ET.Element:
+    def get_dom_for_path(self, path: str, absolute: bool = False, expected_status: str = "") -> ET.Element:
         """Generates an XML DOM for a given wsgi path."""
+        if not expected_status:
+            expected_status = "200 OK"
+
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             # Make sure the built-in exception catcher is not kicking in.
-            self.assertEqual(status, "200 OK")
+            self.assertEqual(status, expected_status)
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
         prefix = config.Config.get_uri_prefix()
+        if not absolute:
+            path = prefix + path
         environ = {
-            "PATH_INFO": prefix + path
+            "PATH_INFO": path
         }
         callback = cast('StartResponse', start_response)
         output_iterable = wsgi.application(environ, callback)
@@ -866,6 +871,15 @@ class TestInvalidRefstreets(TestWsgi):
         """Tests if the output is well-formed."""
         root = self.get_dom_for_path("/housenumber-stats/hungary/invalid-relations")
         results = root.findall("body/h1/a")
+        self.assertNotEqual(results, [])
+
+
+class TestNotFound(TestWsgi):
+    """Tests the not-found page."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        root = self.get_dom_for_path("/asdf", absolute=True, expected_status="404 Not Found")
+        results = root.findall("body/h1")
         self.assertNotEqual(results, [])
 
 

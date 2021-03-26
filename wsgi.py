@@ -907,6 +907,11 @@ def our_application(
         return our_application_txt(start_response, relations, request_uri)
 
     prefix = config.Config.get_uri_prefix()
+    found = request_uri == "/" or request_uri.startswith(prefix)
+    if not found:
+        doc = webframe.handle_404()
+        return webframe.send_response(start_response, "text/html", "404 Not Found", doc.getvalue().encode("utf-8"), [])
+
     if request_uri.startswith(prefix + "/static/") or request_uri.endswith("favicon.ico"):
         output, content_type, extra_headers = webframe.handle_static(request_uri)
         return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
