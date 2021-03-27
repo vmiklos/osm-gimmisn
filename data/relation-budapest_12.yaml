@@ -354,6 +354,9 @@ filters:
   Sárospatak út:
     # ends are 19 and 56
     invalid: ['27', '45', '189']
+  Diós árok:
+    # 1-75, 2-40, 52-68
+    invalid: ['42', '44', '46', '70']
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
