@@ -1,0 +1,9 @@
+missing-streets: 'yes'
+refstreets:
+  'Epöli út': 'Epöli utca'
+  'Határ út': 'Határ utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Nyergesi út': 'Nyergesi utca'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+source: survey
+inactive: false
