@@ -37,4 +37,5 @@ refstreets:
   'Csút utca': 'Csut utca'
   'Gyepű utca': 'Gyepü utca'
 source: survey
+housenumber-letters: true
 inactive: true
