@@ -7,6 +7,9 @@ filters:
   Agancs utca:
     # főként hrsz. van
     invalid: ['2', '15']
+  Akácos utca:
+    interpolation: all
+    invalid: ['4']
   Árokparti utca:
     invalid: ['7']
   Avar utca:
@@ -178,6 +181,9 @@ filters:
   Máriavölgy utca:
     # össze vissza számozva, csoda hogy csak ezek hiányoznak
     invalid: ['11', '12', '22', '33']
+  Meggy utca:
+    # gyéren táblázva, ezek nincsenek
+    invalid: ['33', '66']
   Merengő utca:
     # néhol kaotikus, vannak részek ahol csak hrsz.
     invalid: ['8', '10', '15', '37', '40', '47']
