@@ -812,15 +812,15 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
     """Produces the <head> tag and its contents."""
     prefix = config.Config.get_uri_prefix()
     with doc.tag("head"):
+        doc.stag("meta", charset="UTF-8")
+        doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
         with doc.tag("title"):
             doc.text(_("Where to map?") + title)
-        doc.stag("meta", charset="UTF-8")
         doc.stag("link", rel="icon", type="image/vnd.microsoft.icon", sizes="16x12", href=prefix + "/favicon.ico")
         doc.stag("link", rel="icon", type="image/svg+xml", sizes="any", href=prefix + "/favicon.svg")
         doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/osm.css")
         with doc.tag("script", defer="", src=prefix + "/static/bundle.js"):
             pass
-        doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
 
 
 def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:
