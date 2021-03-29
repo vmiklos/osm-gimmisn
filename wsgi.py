@@ -818,7 +818,7 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
         doc.stag("link", rel="icon", type="image/vnd.microsoft.icon", sizes="16x12", href=prefix + "/favicon.ico")
         doc.stag("link", rel="icon", type="image/svg+xml", sizes="any", href=prefix + "/favicon.svg")
         doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/osm.css")
-        with doc.tag("script", src=prefix + "/static/bundle.js"):
+        with doc.tag("script", defer="", src=prefix + "/static/bundle.js"):
             pass
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
 
