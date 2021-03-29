@@ -469,15 +469,7 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
                 with doc.tag("a", href="#_" + identifier):
                     doc.text(title)
 
-    folder = os.path.join(config.Config.get_workdir(), "stats")
-    stats_path = os.path.join(folder, "stats.json")
-    stats = None
-    try:
-        with open(stats_path, "r") as stream:
-            stats = json.load(stream)
-    except FileNotFoundError:
-        pass
-
+    stats = read_stats_json()
     for title, identifier in title_ids:
         if identifier in ("cityprogress", "invalid-relations"):
             continue
@@ -508,15 +500,31 @@ more meaningful than a lot of useless work."""))
     return doc
 
 
+def read_stats_json() -> Dict[str, Any]:
+    folder = os.path.join(config.Config.get_workdir(), "stats")
+    stats_path = os.path.join(folder, "stats.json")
+    stats = {}
+    try:
+        with open(stats_path, "r") as stream:
+            stats = json.load(stream)
+    except FileNotFoundError:
+        pass
+    return stats
+
+
 def get_css_chart(identifier: str, stats: Dict[str, Any], string_pairs: Dict[str, str]) -> yattag.doc.Doc:
+    """Produce an HTML table to visualize either overall progress or tabular statistics using column and area charts"""
+
     date = stats["progress"]["date"]
     if identifier == "progress":
         return get_css_progress(identifier, stats[identifier], string_pairs, date)
-    else:
-        return get_css_barchart(identifier, stats[identifier], string_pairs, date)
+
+    return get_css_barchart(identifier, stats[identifier], string_pairs, date)
 
 
 def get_css_progress(identifier: str, stats: Dict[str, Any], string_pairs: Dict[str, str], date: str) -> yattag.doc.Doc:
+    """Produce an HTML table to visualize progress using a chart"""
+
     doc = yattag.doc.Doc()
     classes = ("charts-css bar data-spacing-8"
                " show-heading show-labels show-primary-axis show-4-secondary-axes show-data-axes")
@@ -553,25 +561,28 @@ def get_css_progress(identifier: str, stats: Dict[str, Any], string_pairs: Dict[
 
 def get_css_barchart(identifier: str, stats: List[Tuple[str, Any]], string_pairs: Dict[str, str],
                      date: str) -> yattag.doc.Doc:
+    """Produce an HTML table visualized by a column chart or area chart"""
+
     doc = yattag.doc.Doc()
 
     stat_values = [int(stat[1]) for stat in stats]
     minx = min(stat_values)
     maxx = max(stat_values)
+    rng = maxx - minx
+    if rng == 0:
+        rng = 1
 
-    common = "charts-css show-heading show-labels show-primary-axis show-4-secondary-axes show-data-axes"
+    classes = "charts-css show-heading show-labels show-primary-axis show-4-secondary-axes show-data-axes"
     if identifier in ("dailytotal", "monthlytotal"):
         kind = "area"
-        classes = common + " area"
+        classes = classes + " area"
     else:
         kind = "column"
-        classes = common + " column data-spacing-8"
+        classes = classes + " column data-spacing-8"
 
     with doc.tag("table", klass="no-js " + classes):
         with doc.tag("caption"):
-            caption_template = string_pairs["str-{}-title".format(identifier)]
-            text = caption_template.format(date)
-            doc.text(text)
+            doc.text(string_pairs["str-{}-title".format(identifier)].format(date))
         with doc.tag("thead"):
             with doc.tag("tr"):
                 with doc.tag("th", scope="col"):
@@ -581,9 +592,6 @@ def get_css_barchart(identifier: str, stats: List[Tuple[str, Any]], string_pairs
 
         prev = None
         for metric, count in stats:
-            rng = maxx - minx
-            if rng == 0:
-                rng = 1
             percent = 0.05 + 0.85 * (int(count) - minx) / rng
 
             if kind == "column":
