@@ -816,7 +816,7 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
             doc.text(_("Where to map?") + title)
         doc.stag("meta", charset="UTF-8")
         doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/osm.css")
-        with doc.tag("script", src=prefix + "/static/bundle.js"):
+        with doc.tag("script", defer="", src=prefix + "/static/bundle.js"):
             pass
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
 
