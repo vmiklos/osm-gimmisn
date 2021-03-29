@@ -832,7 +832,7 @@ class TestStatic(TestWsgi):
         """Tests /osm/static/, css case."""
         result = self.get_css_for_path("/static/osm.css")
         # Starts with a JS comment.
-        self.assertTrue(result.startswith("/*"))
+        self.assertTrue(result.endswith("*/\n"))
 
     def test_robots(self) -> None:
         """Tests robots.txt."""

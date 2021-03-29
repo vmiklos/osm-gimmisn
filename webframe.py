@@ -15,6 +15,7 @@ from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
+import json
 import datetime
 import locale
 import os
@@ -231,7 +232,7 @@ def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
         return content, content_type, extra_headers
     if request_uri.endswith(".css"):
         content_type = "text/css"
-        content = util.get_content(config.get_abspath("static"), path, extra_headers)
+        content = util.get_content(config.Config.get_workdir(), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".json"):
         content_type = "application/json"
@@ -239,6 +240,10 @@ def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
         return content, content_type, extra_headers
     if request_uri.endswith(".ico"):
         content_type = "image/x-icon"
+        content = util.get_content(config.get_abspath(""), path, extra_headers)
+        return content, content_type, extra_headers
+    if request_uri.endswith(".svg"):
+        content_type = "image/svg+xml"
         content = util.get_content(config.get_abspath(""), path, extra_headers)
         return content, content_type, extra_headers
 
@@ -401,39 +406,39 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
     prefix = config.Config.get_uri_prefix()
 
     # Emit localized strings for JS purposes.
+    string_pairs = {
+        "str-daily-title": _("New house numbers, last 2 weeks, as of {}"),
+        "str-daily-x-axis": _("During this day"),
+        "str-daily-y-axis": _("New house numbers"),
+        "str-monthly-title": _("New house numbers, last year, as of {}"),
+        "str-monthly-x-axis": _("During this month"),
+        "str-monthly-y-axis": _("New house numbers"),
+        "str-monthlytotal-title": _("All house numbers, last year, as of {}"),
+        "str-monthlytotal-x-axis": _("Latest for this month"),
+        "str-monthlytotal-y-axis": _("All house numbers"),
+        "str-dailytotal-title": _("All house numbers, last 2 weeks, as of {}"),
+        "str-dailytotal-x-axis": _("At the start of this day"),
+        "str-dailytotal-y-axis": _("All house numbers"),
+        "str-topusers-title": _("Top house number editors, as of {}"),
+        "str-topusers-x-axis": _("User name"),
+        "str-topusers-y-axis": _("Number of house numbers last changed by this user"),
+        "str-topcities-title": _("Top edited cities, as of {}"),
+        "str-topcities-x-axis": _("City name"),
+        "str-topcities-y-axis": _("Number of house numbers added in the past 30 days"),
+        "str-topcities-empty": _("(empty)"),
+        "str-topcities-invalid": _("(invalid)"),
+        "str-usertotal-title": _("Number of house number editors, as of {}"),
+        "str-usertotal-x-axis": _("All editors"),
+        "str-usertotal-y-axis": _("Number of editors, at least one housenumber is last changed by these users"),
+        "str-progress-title": _("Coverage is {1}%, as of {2}"),
+        "str-progress-x-axis": _("Number of house numbers in database"),
+        "str-progress-y-axis": _("Data source"),
+    }
     with doc.tag("div", style="display: none;"):
-        string_pairs = [
-            ("str-daily-title", _("New house numbers, last 2 weeks, as of {}")),
-            ("str-daily-x-axis", _("During this day")),
-            ("str-daily-y-axis", _("New house numbers")),
-            ("str-monthly-title", _("New house numbers, last year, as of {}")),
-            ("str-monthly-x-axis", _("During this month")),
-            ("str-monthly-y-axis", _("New house numbers")),
-            ("str-monthlytotal-title", _("All house numbers, last year, as of {}")),
-            ("str-monthlytotal-x-axis", _("Latest for this month")),
-            ("str-monthlytotal-y-axis", _("All house numbers")),
-            ("str-dailytotal-title", _("All house numbers, last 2 weeks, as of {}")),
-            ("str-dailytotal-x-axis", _("At the start of this day")),
-            ("str-dailytotal-y-axis", _("All house numbers")),
-            ("str-topusers-title", _("Top house number editors, as of {}")),
-            ("str-topusers-x-axis", _("User name")),
-            ("str-topusers-y-axis", _("Number of house numbers last changed by this user")),
-            ("str-topcities-title", _("Top edited cities, as of {}")),
-            ("str-topcities-x-axis", _("City name")),
-            ("str-topcities-y-axis", _("Number of house numbers added in the past 30 days")),
-            ("str-topcities-empty", _("(empty)")),
-            ("str-topcities-invalid", _("(invalid)")),
-            ("str-usertotal-title", _("Number of house number editors, as of {}")),
-            ("str-usertotal-x-axis", _("All editors")),
-            ("str-usertotal-y-axis", _("Number of editors, at least one housenumber is last changed by these users")),
-            ("str-progress-title", _("Coverage is {1}%, as of {2}")),
-            ("str-progress-x-axis", _("Number of house numbers in database")),
-            ("str-progress-y-axis", _("Data source")),
-        ]
-        for key, value in string_pairs:
+        for key in string_pairs:
             kwargs: Dict[str, str] = {}
             kwargs["id"] = key
-            kwargs["data-value"] = value
+            kwargs["data-value"] = string_pairs[key]
             with doc.tag("div", **kwargs):
                 pass
 
@@ -464,14 +469,19 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
                 with doc.tag("a", href="#_" + identifier):
                     doc.text(title)
 
+    stats = read_stats_json()
     for title, identifier in title_ids:
         if identifier in ("cityprogress", "invalid-relations"):
             continue
         with doc.tag("h2", id="_" + identifier):
             doc.text(title)
-            with doc.tag("div", klass="canvasblock"):
-                with doc.tag("canvas", id=identifier):
-                    pass
+
+        if stats:
+            doc.asis(get_css_chart(identifier, stats, string_pairs).getvalue())
+
+        with doc.tag("div", klass="canvasblock js"):
+            with doc.tag("canvas", id=identifier):
+                pass
 
     with doc.tag("h2"):
         doc.text(_("Note"))
@@ -481,7 +491,124 @@ intended to reflect quality of work done by any given editor in OSM. If you want
 them to motivate yourself, that's fine, but keep in mind that a bit of useful work is
 more meaningful than a lot of useless work."""))
 
+    if stats:
+        with doc.tag("noscript"):
+            doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/charts.min.css")
+            doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/charts-custom.css")
+
     doc.asis(get_footer().getvalue())
+    return doc
+
+
+def read_stats_json() -> Dict[str, Any]:
+    """Read the stats.json file into a dict"""
+    folder = os.path.join(config.Config.get_workdir(), "stats")
+    stats_path = os.path.join(folder, "stats.json")
+    stats = {}
+    try:
+        with open(stats_path, "r") as stream:
+            stats = json.load(stream)
+    except FileNotFoundError:
+        pass
+    return stats
+
+
+def get_css_chart(identifier: str, stats: Dict[str, Any], string_pairs: Dict[str, str]) -> yattag.doc.Doc:
+    """Produce an HTML table to visualize either overall progress or tabular statistics using column and area charts"""
+
+    date = stats["progress"]["date"]
+    if identifier == "progress":
+        return get_css_progress(identifier, stats[identifier], string_pairs, date)
+
+    return get_css_barchart(identifier, stats[identifier], string_pairs, date)
+
+
+def get_css_progress(identifier: str, stats: Dict[str, Any], string_pairs: Dict[str, str], date: str) -> yattag.doc.Doc:
+    """Produce an HTML table to visualize progress using a chart"""
+
+    doc = yattag.doc.Doc()
+    classes = ("charts-css bar data-spacing-8"
+               " show-heading show-labels show-primary-axis show-4-secondary-axes show-data-axes")
+
+    with doc.tag("table", klass="no-js " + classes):
+        with doc.tag("caption"):
+            caption_template = string_pairs["str-{}-title".format(identifier)]
+            print(caption_template)
+            text = caption_template.format("", stats["percentage"], date)
+            doc.text(text)
+        with doc.tag("thead"):
+            with doc.tag("tr"):
+                with doc.tag("th", scope="col"):
+                    doc.text(string_pairs["str-{}-y-axis".format(identifier)])
+                with doc.tag("th", scope="col"):
+                    doc.text(string_pairs["str-{}-x-axis".format(identifier)])
+
+        count_ref = stats["reference"]
+        count_osm = stats["osm"]
+        maxx = max(count_ref, count_osm)
+        with doc.tag("tr"):
+            with doc.tag("th", scope="row"):
+                doc.text("reference")
+            with doc.tag("td", style="--size:{}".format(0.95 * count_ref / maxx)):
+                doc.text(count_ref)
+
+        with doc.tag("tr"):
+            with doc.tag("th", scope="row"):
+                doc.text("osm")
+            with doc.tag("td", style="--size:{}".format(0.95 * count_osm / maxx)):
+                doc.text(count_osm)
+    return doc
+
+
+def get_css_barchart(identifier: str, stats: List[Tuple[str, Any]], string_pairs: Dict[str, str],
+                     date: str) -> yattag.doc.Doc:
+    """Produce an HTML table visualized by a column chart or area chart"""
+
+    doc = yattag.doc.Doc()
+
+    stat_values = [int(stat[1]) for stat in stats]
+    minx = min(stat_values)
+    maxx = max(stat_values)
+    rng = maxx - minx
+    if rng == 0:
+        rng = 1
+
+    classes = "charts-css show-heading show-labels show-primary-axis show-4-secondary-axes show-data-axes"
+    if identifier in ("dailytotal", "monthlytotal"):
+        kind = "area"
+        classes = classes + " area"
+    else:
+        kind = "column"
+        classes = classes + " column data-spacing-8"
+
+    with doc.tag("table", klass="no-js " + classes):
+        with doc.tag("caption"):
+            doc.text(string_pairs["str-{}-title".format(identifier)].format(date))
+        with doc.tag("thead"):
+            with doc.tag("tr"):
+                with doc.tag("th", scope="col"):
+                    doc.text(string_pairs["str-{}-x-axis".format(identifier)])
+                with doc.tag("th", scope="col"):
+                    doc.text(string_pairs["str-{}-y-axis".format(identifier)])
+
+        prev = None
+        for metric, count in stats:
+            percent = 0.05 + 0.85 * (int(count) - minx) / rng
+
+            if kind == "column":
+                with doc.tag("tr"):
+                    with doc.tag("th", scope="row"):
+                        doc.text(metric)
+                    with doc.tag("td", style="--size:{}".format(percent)):
+                        doc.text(count)
+            elif kind == "area":
+                if prev:
+                    with doc.tag("tr"):
+                        with doc.tag("th", scope="row"):
+                            doc.text(metric)
+                        with doc.tag("td", style="--start:{};--size:{}".format(prev, percent)):
+                            doc.text(count)
+                prev = percent
     return doc
 
 
