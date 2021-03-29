@@ -15,6 +15,7 @@ from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
+import json
 import datetime
 import locale
 import os
@@ -468,11 +469,23 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
                 with doc.tag("a", href="#_" + identifier):
                     doc.text(title)
 
+    folder = os.path.join(config.Config.get_workdir(), "stats")
+    stats_path = os.path.join(folder, "stats.json")
+    stats = None
+    try:
+        with open(stats_path, "r") as stream:
+            stats = json.load(stream)
+    except FileNotFoundError:
+        pass
+
     for title, identifier in title_ids:
         if identifier in ("cityprogress", "invalid-relations"):
             continue
         with doc.tag("h2", id="_" + identifier):
             doc.text(title)
+
+        if stats:
+            doc.asis(get_css_chart(identifier, stats, string_pairs).getvalue())
 
         with doc.tag("div", klass="canvasblock js"):
             with doc.tag("canvas", id=identifier):
@@ -486,7 +499,107 @@ intended to reflect quality of work done by any given editor in OSM. If you want
 them to motivate yourself, that's fine, but keep in mind that a bit of useful work is
 more meaningful than a lot of useless work."""))
 
+    if stats:
+        with doc.tag("noscript"):
+            doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/charts.min.css")
+            doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/charts-custom.css")
+
     doc.asis(get_footer().getvalue())
+    return doc
+
+
+def get_css_chart(identifier: str, stats: Dict[str, Any], string_pairs: Dict[str, str]) -> yattag.doc.Doc:
+    date = stats["progress"]["date"]
+    if identifier == "progress":
+        return get_css_progress(identifier, stats[identifier], string_pairs, date)
+    else:
+        return get_css_barchart(identifier, stats[identifier], string_pairs, date)
+
+
+def get_css_progress(identifier: str, stats: Dict[str, Any], string_pairs: Dict[str, str], date: str) -> yattag.doc.Doc:
+    doc = yattag.doc.Doc()
+    classes = ("charts-css bar data-spacing-8"
+               " show-heading show-labels show-primary-axis show-4-secondary-axes show-data-axes")
+
+    with doc.tag("table", klass="no-js " + classes):
+        with doc.tag("caption"):
+            caption_template = string_pairs["str-{}-title".format(identifier)]
+            print(caption_template)
+            text = caption_template.format("", stats["percentage"], date)
+            doc.text(text)
+        with doc.tag("thead"):
+            with doc.tag("tr"):
+                with doc.tag("th", scope="col"):
+                    doc.text(string_pairs["str-{}-y-axis".format(identifier)])
+                with doc.tag("th", scope="col"):
+                    doc.text(string_pairs["str-{}-x-axis".format(identifier)])
+
+        count_ref = stats["reference"]
+        count_osm = stats["osm"]
+        maxx = max(count_ref, count_osm)
+        with doc.tag("tr"):
+            with doc.tag("th", scope="row"):
+                doc.text("reference")
+            with doc.tag("td", style="--size:{}".format(0.95 * count_ref / maxx)):
+                doc.text(count_ref)
+
+        with doc.tag("tr"):
+            with doc.tag("th", scope="row"):
+                doc.text("osm")
+            with doc.tag("td", style="--size:{}".format(0.95 * count_osm / maxx)):
+                doc.text(count_osm)
+    return doc
+
+
+def get_css_barchart(identifier: str, stats: List[Tuple[str, Any]], string_pairs: Dict[str, str],
+                     date: str) -> yattag.doc.Doc:
+    doc = yattag.doc.Doc()
+
+    stat_values = [int(stat[1]) for stat in stats]
+    minx = min(stat_values)
+    maxx = max(stat_values)
+
+    common = "charts-css show-heading show-labels show-primary-axis show-4-secondary-axes show-data-axes"
+    if identifier in ("dailytotal", "monthlytotal"):
+        kind = "area"
+        classes = common + " area"
+    else:
+        kind = "column"
+        classes = common + " column data-spacing-8"
+
+    with doc.tag("table", klass="no-js " + classes):
+        with doc.tag("caption"):
+            caption_template = string_pairs["str-{}-title".format(identifier)]
+            text = caption_template.format(date)
+            doc.text(text)
+        with doc.tag("thead"):
+            with doc.tag("tr"):
+                with doc.tag("th", scope="col"):
+                    doc.text(string_pairs["str-{}-x-axis".format(identifier)])
+                with doc.tag("th", scope="col"):
+                    doc.text(string_pairs["str-{}-y-axis".format(identifier)])
+
+        prev = None
+        for metric, count in stats:
+            rng = maxx - minx
+            if rng == 0:
+                rng = 1
+            percent = 0.05 + 0.85 * (int(count) - minx) / rng
+
+            if kind == "column":
+                with doc.tag("tr"):
+                    with doc.tag("th", scope="row"):
+                        doc.text(metric)
+                    with doc.tag("td", style="--size:{}".format(percent)):
+                        doc.text(count)
+            elif kind == "area":
+                if prev:
+                    with doc.tag("tr"):
+                        with doc.tag("th", scope="row"):
+                            doc.text(metric)
+                        with doc.tag("td", style="--start:{};--size:{}".format(prev, percent)):
+                            doc.text(count)
+                prev = percent
     return doc
 
 

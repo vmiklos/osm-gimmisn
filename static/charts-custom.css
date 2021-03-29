@@ -1,0 +1,14 @@
+.charts-css {
+    height: 30em;
+    --color: #0f0;
+}
+
+.charts-css.column.show-labels {
+    --labels-size: 4rem;
+}
+
+.charts-css.area.show-labels tbody tr th {
+    align-items: flex-end;
+}
+
+/* vim:set shiftwidth=4 softtabstop=4 expandtab: */
