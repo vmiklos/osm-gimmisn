@@ -65,6 +65,14 @@ class TestHandleStatic(test_config.TestCase):
         self.assertEqual(len(extra_headers), 1)
         self.assertEqual(extra_headers[0][0], "Last-Modified")
 
+    def test_svg(self) -> None:
+        """Tests the svg case."""
+        content, content_type, extra_headers = webframe.handle_static("/favicon.svg")
+        self.assertTrue(len(content))
+        self.assertEqual(content_type, "image/svg+xml")
+        self.assertEqual(len(extra_headers), 1)
+        self.assertEqual(extra_headers[0][0], "Last-Modified")
+
     def test_else(self) -> None:
         """Tests the case when the content type is not recognized."""
         prefix = config.Config.get_uri_prefix()
