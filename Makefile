@@ -127,15 +127,19 @@ package-lock.json: package.json
 css: workdir/charts.min.css workdir/charts-custom.css workdir/osm.css
 
 tests/workdir/osm.css: static/osm.css
+	mkdir -p tests/workdir
 	cp -a $< $@
 
 workdir/osm.css: static/osm.css
+	mkdir -p workdir
 	cp -a $< $@
 
 workdir/charts-custom.css: static/charts-custom.css
+	mkdir -p workdir
 	cp -a $< $@
 
 workdir/charts.min.css: package-lock.json
+	mkdir -p workdir
 	cp node_modules/charts.css/dist/charts.min.css $@
 
 # Intentionally don't update this when the source changes.
