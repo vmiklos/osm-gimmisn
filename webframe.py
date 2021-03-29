@@ -241,6 +241,10 @@ def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
         content_type = "image/x-icon"
         content = util.get_content(config.get_abspath(""), path, extra_headers)
         return content, content_type, extra_headers
+    if request_uri.endswith(".svg"):
+        content_type = "image/svg+xml"
+        content = util.get_content(config.get_abspath(""), path, extra_headers)
+        return content, content_type, extra_headers
 
     return bytes(), "", extra_headers
 

@@ -815,6 +815,8 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
         with doc.tag("title"):
             doc.text(_("Where to map?") + title)
         doc.stag("meta", charset="UTF-8")
+        doc.stag("link", rel="icon", type="image/vnd.microsoft.icon", sizes="16x12", href=prefix + "/favicon.ico")
+        doc.stag("link", rel="icon", type="image/svg+xml", sizes="any", href=prefix + "/favicon.svg")
         doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/osm.css")
         with doc.tag("script", src=prefix + "/static/bundle.js"):
             pass
@@ -912,7 +914,8 @@ def our_application(
         doc = webframe.handle_404()
         return webframe.send_response(start_response, "text/html", "404 Not Found", doc.getvalue().encode("utf-8"), [])
 
-    if request_uri.startswith(prefix + "/static/") or request_uri.endswith("favicon.ico"):
+    if request_uri.startswith(prefix + "/static/") or \
+            request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
         output, content_type, extra_headers = webframe.handle_static(request_uri)
         return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
 
