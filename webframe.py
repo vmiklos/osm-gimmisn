@@ -501,6 +501,7 @@ more meaningful than a lot of useless work."""))
 
 
 def read_stats_json() -> Dict[str, Any]:
+    """Read the stats.json file into a dict"""
     folder = os.path.join(config.Config.get_workdir(), "stats")
     stats_path = os.path.join(folder, "stats.json")
     stats = {}
