@@ -499,9 +499,10 @@ def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc
             continue
         with doc.tag("h2", id="_" + identifier):
             doc.text(title)
-            with doc.tag("div", klass="canvasblock"):
-                with doc.tag("canvas", id=identifier):
-                    pass
+
+        with doc.tag("div", klass="canvasblock js"):
+            with doc.tag("canvas", id=identifier):
+                pass
 
     with doc.tag("h2"):
         doc.text(_("Note"))
