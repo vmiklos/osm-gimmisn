@@ -3,9 +3,32 @@ filters:
   Balatoni út:
     # A házszámok Budatétényben vannak.
     ranges: []
+  Barackos út:
+    # 855/1: a páratlan oldalon a 187 az utolsó házszám.
+    # 855/2: a páratlan oldalon a 187 az utolsó házszám.
+    # 855/4: a páratlan oldalon a 187 az utolsó házszám.
+    # 885/4: a páratlan oldalon a 187 az utolsó házszám.
+    # 236: a páros oldalon a 180 az utolsó házszám.
+    ranges:
+      - {start: '1', end: '187'}
+      - {start: '2', end: '180'}
+  Bartók Béla út:
+    # 3: sima 3 nincs, csak 3/A-3/I.
+    # 5: sima 5 nincs, csak 5/A-5/C.
+    # 7: sima 7 nincs, csak 7/A-7/C.
+    # 9: sima 9 nincs, csak 9/A-9/C.
+    # 11: sima 11 nincs, csak 11/A-11/C.
+    invalid: ['3', '5', '7', '9', '11']
+  Bucó utca:
+    # 18: a páros oldalon nincsenek házak, ott a vasút megy.
+    invalid: ['18']
   Dózsa György út:
     ranges:
       - {start: '2', end: '998'}
+  Fácán utca:
+    # 1: nincs ilyen, ez a Tenkes utcai nagy sorház.
+    # 4: a páros oldalon az épületek a Bartók Béla útról számozódnak.
+    invalid: ['1', '4']
   Kölönte utca:
     # 5: ez és a Timföld utca 2. közös telken van, házszám a Timföld utcáról van csak.
     invalid: ['5']
@@ -13,8 +36,28 @@ filters:
     ranges:
       - {start: '2', end: '998'}
   Nagytétényi út:
-    # 83: nincs ilyen, a 67/c után a 145-147 következik, nincsenek köztes házszámok.
-    invalid: ['83']
+    # 83: nincs ilyen, a 67/C után a 145-147 következik, nincsenek köztes házszámok.
+    # 89: nincs ilyen, a 67/C után a 145-147 következik, nincsenek köztes házszámok.
+    # 201: sima 201 nincs, csak 201/A, 201/2.
+    # 229: nincs ilyen, a 221-225 után a 231 következik.
+    # 235/C: nincs ilyen, csak sima 235 van.
+    # 237/E: nincs ilyen, csak sima 237 van.
+    # 206: nincs ilyen, a páros oldalon a Lidl az első épület, 216.
+    # 206/A: nincs ilyen, a páros oldalon a Lidl az első épület, 216.
+    # 208: nincs ilyen, a páros oldalon a Lidl az első épület, 216.
+    # 210: nincs ilyen, a páros oldalon a Lidl az első épület, 216.
+    # 212: nincs ilyen, a páros oldalon a Lidl az első épület, 216.
+    # 214: nincs ilyen, a páros oldalon a Lidl az első épület, 216.
+    # 234: sima 234 nincs, csak 234/A-234/J.
+    # 234/6: nincs ilyen, ez a 236/F lesz.
+    # 234/M: nincs ilyen, a 234/J az utolsó lépcsőház.
+    # 236: sima 236 nincs, csak 236/A-236/D.
+    # 242/8: nincs ilyen, csak sima 242 van.
+    # 242/P: nincs ilyen, csak sima 242 van.
+    # 244/F: nincs ilyen, csak sima 244 van.
+    # 244/P: nincs ilyen, csak sima 244 van.
+    # 246/P: nincs ilyen, csak sima 246 van.
+    invalid: ['83', '89', '201', '229', '235c', '237e', '206', '206a', '208', '210', '212', '214', '234', '234/6', '234m', '236', '242/8', '242p', '244f', '244p', '246p']
     # A páratlan oldalon a Növény utca, a páros oldalon a Rózsakert utca a területhatár.
     ranges:
       - {start: '49', end: '999'}
@@ -25,6 +68,26 @@ filters:
   Tarkagéb utca:
     # 22: a páros oldalon a 20 az utolsó házszám.
     invalid: ['22']
+  Társasház utca:
+    # 7: a páratlan oldalon az 5 az utolsó házszám.
+    # 6/S: nincs ilyen, csak sima 6 van.
+    # 20: a páros oldalon a 6 az utolsó házszám.
+    invalid: ['7', '6s', '20']
+  Tenkes utca:
+    # 3: sima 3 nincs, csak 3/A, 3/B.
+    # 5: sima 5 nincs, csak 5/A, 5/B.
+    # 7: sima 7 nincs, csak 7/A, 7/B.
+    # 9: sima 9 nincs, csak 9/A, 9/B.
+    # 11: sima 11 nincs, csak 11/A, 11/B.
+    # 4: sima 4 nincs, csak 4/A-4/H.
+    # 40: a páros oldalon a 8/A, 8/B az utolsó házszám.
+    invalid: ['3', '5', '7', '9', '11', '4', '40']
+  Timföld utca:
+    # 3/F: nincs ilyen, csak sima 3 van.
+    # 4: sima 4 nincs, csak 4/1, 4/2.
+    # 4/A: a terepen 4/1 van kitáblázva.
+    # 4/B: a terepen 4/2 van kitáblázva.
+    invalid: ['3f', '4', '4a', '4b']
   Tündérrózsa utca:
     # A páratlan oldalon a 17 az utolsó házszám.
     # A páros oldalon a 18 az utolsó házszám.
