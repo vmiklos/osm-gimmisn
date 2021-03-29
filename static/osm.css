@@ -82,4 +82,12 @@ div.canvasblock {
     100% { background-color : rgba(0,146,255,0); }
 }
 
+.no-js {
+    display: none;
+}
+
+.js {
+    display: block;
+}
+
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
