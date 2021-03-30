@@ -836,6 +836,7 @@ def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:
 
 
 def our_application_txt(
+        environ: Dict[str, Any],
         start_response: 'StartResponse',
         relations: areas.Relations,
         request_uri: str
@@ -867,7 +868,9 @@ def our_application_txt(
         else:
             # assume txt
             output = missing_housenumbers_view_txt(relations, request_uri)
-    return webframe.send_response(start_response, content_type, "200 OK", output.encode("utf-8"), extra_headers)
+    output_bytes = output.encode("utf-8")
+    response_properties = webframe.ResponseProperties(content_type, "200 OK")
+    return webframe.send_response(environ, start_response, response_properties, output_bytes, extra_headers)
 
 
 HANDLERS = {
@@ -904,20 +907,28 @@ def our_application(
     _, _, ext = request_uri.partition('.')
 
     if ext in ("txt", "chkl"):
-        return our_application_txt(start_response, relations, request_uri)
+        return our_application_txt(environ, start_response, relations, request_uri)
 
     prefix = config.Config.get_uri_prefix()
     found = request_uri == "/" or request_uri.startswith(prefix)
     if not found:
         doc = webframe.handle_404()
-        return webframe.send_response(start_response, "text/html", "404 Not Found", doc.getvalue().encode("utf-8"), [])
+        return webframe.send_response(environ,
+                                      start_response,
+                                      webframe.ResponseProperties("text/html", "404 Not Found"),
+                                      doc.getvalue().encode("utf-8"),
+                                      [])
 
     if request_uri.startswith(prefix + "/static/") or request_uri.endswith("favicon.ico"):
         output, content_type, extra_headers = webframe.handle_static(request_uri)
-        return webframe.send_response(start_response, content_type, "200 OK", output, extra_headers)
+        return webframe.send_response(environ,
+                                      start_response,
+                                      webframe.ResponseProperties(content_type, "200 OK"),
+                                      output,
+                                      extra_headers)
 
     if ext == "json":
-        return wsgi_json.our_application_json(start_response, relations, request_uri)
+        return wsgi_json.our_application_json(environ, start_response, relations, request_uri)
 
     doc = yattag.doc.Doc()
     util.write_html_header(doc)
@@ -936,7 +947,11 @@ def our_application(
             else:
                 doc.asis(handle_main(request_uri, relations).getvalue())
 
-    return webframe.send_response(start_response, "text/html", "200 OK", doc.getvalue().encode("utf-8"), [])
+    return webframe.send_response(environ,
+                                  start_response,
+                                  webframe.ResponseProperties("text/html", "200 OK"),
+                                  doc.getvalue().encode("utf-8"),
+                                  [])
 
 
 def application(

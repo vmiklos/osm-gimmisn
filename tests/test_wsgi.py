@@ -24,6 +24,7 @@ import unittest
 import unittest.mock
 import urllib.error
 import xml.etree.ElementTree as ET
+import xmlrpc.client
 
 import yattag
 
@@ -48,6 +49,10 @@ def get_relations() -> areas.Relations:
 
 class TestWsgi(test_config.TestCase):
     """Base class for wsgi tests."""
+    def __init__(self, method_name: str) -> None:
+        test_config.TestCase.__init__(self, method_name)
+        self.gzip_compress = False
+
     def get_dom_for_path(self, path: str, absolute: bool = False, expected_status: str = "") -> ET.Element:
         """Generates an XML DOM for a given wsgi path."""
         if not expected_status:
@@ -65,11 +70,17 @@ class TestWsgi(test_config.TestCase):
         environ = {
             "PATH_INFO": path
         }
+        if self.gzip_compress:
+            environ["HTTP_ACCEPT_ENCODING"] = "gzip, deflate"
         callback = cast('StartResponse', start_response)
         output_iterable = wsgi.application(environ, callback)
         output_list = cast(List[bytes], output_iterable)
         self.assertTrue(output_list)
-        output = output_list[0].decode('utf-8')
+        if self.gzip_compress:
+            output_bytes = xmlrpc.client.gzip_decode(output_list[0])
+        else:
+            output_bytes = output_list[0]
+        output = output_bytes.decode('utf-8')
         stream = io.StringIO(output)
         tree = ET.parse(stream)
         root = tree.getroot()
@@ -881,6 +892,16 @@ class TestNotFound(TestWsgi):
         root = self.get_dom_for_path("/asdf", absolute=True, expected_status="404 Not Found")
         results = root.findall("body/h1")
         self.assertNotEqual(results, [])
+
+
+class TestCompress(TestWsgi):
+    """Tests gzip compress case."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        self.gzip_compress = True
+        root = self.get_dom_for_path("/")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
 
 
 if __name__ == '__main__':
