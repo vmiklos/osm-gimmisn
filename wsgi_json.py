@@ -9,6 +9,7 @@
 
 import json
 import urllib.parse
+from typing import Any
 from typing import Dict
 from typing import Iterable
 from typing import List
@@ -80,6 +81,7 @@ def missing_streets_update_result_json(relations: areas.Relations, request_uri: 
 
 
 def our_application_json(
+        environ: Dict[str, Any],
         start_response: 'StartResponse',
         relations: areas.Relations,
         request_uri: str
@@ -97,6 +99,8 @@ def our_application_json(
     else:
         # Assume that request_uri starts with prefix + "/missing-streets/".
         output = missing_streets_update_result_json(relations, request_uri)
-    return webframe.send_response(start_response, content_type, "200 OK", output.encode("utf-8"), extra_headers)
+    output_bytes = output.encode("utf-8")
+    response_properties = webframe.ResponseProperties(content_type, "200 OK")
+    return webframe.send_response(environ, start_response, response_properties, output_bytes, extra_headers)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
