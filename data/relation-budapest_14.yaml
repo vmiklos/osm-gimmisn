@@ -7,9 +7,17 @@ street-filters:
   # megváltozott a neve, több szakaszra bomlott
   - Városligeti körút
   # létezik, de nem utcaként/nincs házszám
-  - Vajdahunyadvára  # https://www.openstreetmap.org/node/4685641019
+  - Dromosz
+  - Kneipp ösvény
+  - Korong utcai aluljáró
+  - Promenád
+  - Vajdahunyadvár  # https://www.openstreetmap.org/node/4685641019
+  # XIII. kerület
+  - Róbert Károly körút
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Argentína tér': 'Argentina tér'
+  'Báthori István park': 'Báthory István park'
+  'Dvorzsák sétány': 'Dvořák sétány'
 source: survey
 inactive: true
