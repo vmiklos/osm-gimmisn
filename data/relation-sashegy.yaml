@@ -48,15 +48,22 @@ filters:
     ranges:
       - {start: '1', end: '1'}
   Hegyalja út:
+    # 81/a: csak sima 81
+    # 83/a-b: csak sima 83
     # 100/a, 100/b: csak sima 100 van
+    # 118/a: csak 118 és 118/b
     # 136a, 136/b, 138/b: csak 136-138 van
     # 158: 158/a, 158/b
-    invalid: ['100a', '100b', '136a', '136b', '138b', '158']
+    invalid: ['81a', '83a', '83b', '100a', '100b', '118a', '136a', '136b', '138b', '158']
     ranges:
       - {start: '47', end: '93', refsettlement: '012'}
       - {start: '70', end: '128'}
       - {start: '130', end: '164', refsettlement: '012'}
       - {start: '166', end: '182'}
+  Hegytető utca:
+    # 15: másik utcáról számozva
+    # 20a: 20-nak van jelölve, nincs kiírva semmi, 20/b van kint a másik felén
+    invalid: ['15b', '20a']
   Homonna utca:
     # this is just the sashegy part; the range is till 21, but the last actual number is 13
     ranges:
@@ -80,6 +87,10 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
   Meredek utca:
+    # 28b: csak sima 28
+    # 35a, 35c
+    # 41
+    invalid: ['28b']
     ranges:
       - {start: '1', end: '41', refsettlement: '012'}
       - {start: '2', end: '64'}
@@ -96,6 +107,9 @@ filters:
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '30'}
+  Nedercvár utca:
+    # 12: 12/a, 12/b
+    invalid: ['12']
   Őrség utca:
     ranges: []
   Radvány utca:
@@ -124,6 +138,8 @@ filters:
       - {start: '18', end: '18'}
     refsettlement: "012"
   Tájék utca:
+    # 20: 20/a, 20/b
+    invalid: ['20']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
