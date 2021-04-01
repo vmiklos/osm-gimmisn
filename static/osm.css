@@ -28,10 +28,12 @@ div.canvasblock {
     margin-bottom: 5px;
     border: 1px solid #7f7f7f;
     padding: 5px;
+    height: calc(50vw - 22px);
 }
 @media screen and (min-width: 1024px) {
     div.canvasblock {
         width: 75%;
+        height: calc(37.5vw - 12px);
     }
 }
 
