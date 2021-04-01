@@ -23,4 +23,4 @@ refstreets:
   'Ceglédi út': 'Ceglédi utca'
   'Kis Sörgyár utca': 'Kissörgyár utca'
 source: survey
-inactive: false
+inactive: true

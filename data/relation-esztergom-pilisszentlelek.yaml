@@ -17,4 +17,4 @@ refstreets:
   'Hunyadi János utca': 'Hunyadi János P utca'
   'Kossuth Lajos utca': 'Kossuth Lajos P utca'
   'Petőfi Sándor utca': 'Petőfi Sándor P utca'
-inactive: false
+inactive: true

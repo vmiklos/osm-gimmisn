@@ -14,4 +14,4 @@ refstreets:
   'Szarvasi út': 'Szarvasi utca'
   'Tessedik Sámuel utca': 'Tessedik utca'
 source: survey
-inactive: false
+inactive: true

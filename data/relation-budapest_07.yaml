@@ -24,3 +24,4 @@ refstreets:
   'Alsó erdősor utca': 'Alsó erdősor'
   'Herzl Tivadar tér': 'Herzl Tivadar park'  # utcatáblán tér
 source: survey
+inactive: true

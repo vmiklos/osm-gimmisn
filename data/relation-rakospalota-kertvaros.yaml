@@ -117,5 +117,5 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Kosd utca': 'Kozsd utca'
 source: survey
-inactive: false
+inactive: true
 housenumber-letters: true

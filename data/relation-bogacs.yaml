@@ -12,3 +12,4 @@ refstreets:
   'Rákóczi út': 'Rákóczi utca'
   'Tomorvári utca': 'Tomorvár út'
 source: survey
+inactive: true

@@ -15,4 +15,4 @@ refstreets:
   'Ősz utca': 'Ságvári Endre utca'
   'Mester utca': 'Sallai Imre utca'
   'Templom utca': 'Ürögi Lajos utca'
-inactive: false
+inactive: true

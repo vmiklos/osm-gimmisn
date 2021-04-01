@@ -78,4 +78,4 @@ refstreets:
   'Újülés utca': 'Újűlés utca'
   'Zöld utca': 'Zöldi utca'
 source: survey
-inactive: false
+inactive: true

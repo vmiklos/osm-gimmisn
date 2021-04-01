@@ -42,4 +42,4 @@ filters:
   Zsigmond köz:
     ranges: []
 source: survey
-inactive: false
+inactive: true

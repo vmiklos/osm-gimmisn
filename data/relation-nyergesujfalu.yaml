@@ -8,3 +8,4 @@ refstreets:
   'Szent-Györgyi Albert út': 'Szentgyörgyi Albert út'
   'Zsámbékos dűlő': 'Zsámbékos völgy'
 source: survey
+inactive: true

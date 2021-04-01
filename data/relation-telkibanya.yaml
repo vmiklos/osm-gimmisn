@@ -16,4 +16,4 @@ refstreets:
   'Rákóczi utca': 'Rákóczi út'
   'Szabadság utca': 'Szabadság út'
 source: survey
-inactive: false
+inactive: true

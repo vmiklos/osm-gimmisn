@@ -3,7 +3,6 @@ filters:
   Táncsics Mihály utca:
     invalid: ['80']
 source: survey
-inactive: false
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Duna-dülő  # Duna-dűlőként fent van
@@ -14,3 +13,4 @@ refstreets:
   'Cukorhegy': 'Cukor hegy'
   'Táncsics Mihály utca': 'Táncsics Mihály út'
   'Szuha dűlő': 'Szuha utca'  # Szuha dűlő van kiírva
+inactive: true

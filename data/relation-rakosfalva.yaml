@@ -36,4 +36,4 @@ filters:
       - {start: '1', end: '75'}
       - {start: '2', end: '66'}
 source: survey
-inactive: false
+inactive: true
