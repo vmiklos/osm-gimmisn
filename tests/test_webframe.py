@@ -33,7 +33,7 @@ class TestHandleStatic(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path: css case."""
         prefix = config.Config.get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(prefix + "/static/osm.css")
+        content, content_type, extra_headers = webframe.handle_static(prefix + "/static/osm.min.css")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "text/css")
         self.assertEqual(len(extra_headers), 1)

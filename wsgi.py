@@ -818,7 +818,11 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
             doc.text(_("Where to map?") + title)
         doc.stag("link", rel="icon", type="image/vnd.microsoft.icon", sizes="16x12", href=prefix + "/favicon.ico")
         doc.stag("link", rel="icon", type="image/svg+xml", sizes="any", href=prefix + "/favicon.svg")
-        doc.stag("link", rel="stylesheet", type="text/css", href=prefix + "/static/osm.css")
+
+        css_path = os.path.join(config.Config.get_workdir(), "osm.min.css")
+        with open(css_path, "r") as stream:
+            with doc.tag("style"):
+                doc.text(stream.read())
 
         with doc.tag("noscript"):
             with doc.tag("style", type="text/css"):
