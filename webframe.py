@@ -232,7 +232,7 @@ def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
         return content, content_type, extra_headers
     if request_uri.endswith(".css"):
         content_type = "text/css"
-        content = util.get_content(config.get_abspath("static"), path, extra_headers)
+        content = util.get_content(config.Config.get_workdir(), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".json"):
         content_type = "application/json"

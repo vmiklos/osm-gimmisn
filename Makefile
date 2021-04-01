@@ -90,7 +90,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: version.py workdir/bundle.js wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: version.py workdir/bundle.js css wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py config.ts
@@ -123,6 +123,14 @@ workdir/bundle.js: $(TS_OBJECTS) package-lock.json
 package-lock.json: package.json
 	npm install
 	touch package-lock.json
+
+css: workdir/osm.min.css
+
+workdir/osm.min.css: static/osm.css package-lock.json
+	./node_modules/.bin/cleancss -o $@ $<
+
+tests/workdir/osm.min.css: workdir/osm.min.css
+	cp -a $< $@
 
 # Intentionally don't update this when the source changes.
 wsgi.ini:
@@ -158,7 +166,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 %.flake8: %.py Makefile
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
-check-unit: version.py data/yamls.pickle tests/data/yamls.pickle
+check-unit: version.py data/yamls.pickle tests/data/yamls.pickle tests/workdir/osm.min.css
 	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 
