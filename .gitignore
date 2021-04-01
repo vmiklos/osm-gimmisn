@@ -24,6 +24,10 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+node_modules
+workdir
+package-lock.json
+config.ts
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -46,6 +50,8 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+tests/favicon.*
+tests/workdir
 
 # Translations
 *.mo
@@ -119,6 +125,9 @@ version.py
 
 # flake8
 *.flake8
+
+# eslint
+*.eslint
 
 # vim
 .*.swp
