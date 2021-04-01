@@ -7,4 +7,4 @@ refstreets:
   'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Széchenyi István utca': 'Széchenyi utca'
 source: survey
-inactive: false
+inactive: true

@@ -113,4 +113,4 @@ osm-street-filters:
   # - Parlag dűlő
   # - Taliga köz
 source: survey
-inactive: false
+inactive: true

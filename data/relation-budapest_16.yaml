@@ -17,4 +17,4 @@ refstreets:
   'Knézich utca': 'Knézits utca'
   'Nyitrai utca': 'Nyitra utca'
 source: survey
-inactive: true
+inactive: false

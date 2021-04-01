@@ -53,4 +53,4 @@ refstreets:
   'Schweitzer tanya': 'Schweitzertanya'
   'Várady Mihály utca': 'Váci Mihály utca'
 source: survey
-inactive: false
+inactive: true

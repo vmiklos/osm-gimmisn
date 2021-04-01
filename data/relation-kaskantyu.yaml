@@ -4,4 +4,4 @@ refstreets:
   'Ifjúság utca': 'Ifjuság utca'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
 source: survey
-inactive: false
+inactive: true

@@ -44,4 +44,4 @@ refstreets:
   'Akácos utca': 'Akácos út'
   'OVIT-telep': 'Ovit telep'
 source: survey
-inactive: true
+inactive: false

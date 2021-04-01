@@ -49,4 +49,4 @@ refstreets:
   'Szőlővölgy dűlő': 'Szőlő völgy dűlő'
   'Táti út': 'Táti utca'
 source: survey
-inactive: true
+inactive: false

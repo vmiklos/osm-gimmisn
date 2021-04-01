@@ -30,4 +30,4 @@ refstreets:
   'Gazdálkodó utca': 'Gazdálkodó út'
   'Kosd utca': 'Kozsd utca'
 source: survey
-inactive: true
+inactive: false

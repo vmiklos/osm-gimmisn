@@ -124,5 +124,5 @@ filters:
     interpolation: all
     ranges: []
 source: survey
-inactive: false
+inactive: true
 housenumber-letters: true

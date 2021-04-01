@@ -8,3 +8,4 @@ refstreets:
   'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Táncsics Mihály utca': 'Táncsics utca'
 source: survey
+inactive: true

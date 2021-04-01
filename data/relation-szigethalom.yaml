@@ -27,3 +27,4 @@ refstreets:
   # Rubicon köz
   # Váci Mihály köz
 source: survey
+inactive: true

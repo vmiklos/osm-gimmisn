@@ -151,4 +151,4 @@ filters:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']
 source: survey
-inactive: false
+inactive: true

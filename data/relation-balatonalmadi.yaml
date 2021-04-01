@@ -50,4 +50,4 @@ refstreets:
   'Vöröshegyi utca': 'Vöröshegyi út'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
 source: survey
-inactive: false
+inactive: true

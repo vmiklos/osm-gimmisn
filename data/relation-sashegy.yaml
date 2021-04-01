@@ -176,5 +176,5 @@ refstreets:
   # 'OSM Name 2': 'Ref Name 2'
   'Zólyomi köz': 'Zólyom köz'
 source: survey
-inactive: false
+inactive: true
 housenumber-letters: true
