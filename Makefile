@@ -173,7 +173,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 %.mypy: %.py Makefile
 	$(QUIET_MYPY)mypy --python-version 3.6 --strict --no-error-summary $< && touch $@
 
-%.flake8: %.py Makefile
+%.flake8: %.py Makefile setup.cfg
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
 check-unit: version.py data/yamls.pickle testdata
