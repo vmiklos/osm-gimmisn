@@ -127,9 +127,11 @@ package-lock.json: package.json
 css: workdir/osm.min.css
 
 workdir/osm.min.css: static/osm.css package-lock.json
-	./node_modules/.bin/cleancss -o $@ $<
+	mkdir -p workdir
+	[ -x "./node_modules/.bin/cleancss" ] && ./node_modules/.bin/cleancss -o $@ $< || cp -a $< $@
 
 tests/workdir/osm.min.css: workdir/osm.min.css
+	mkdir -p tests/workdir
 	cp -a $< $@
 
 # Intentionally don't update this when the source changes.
