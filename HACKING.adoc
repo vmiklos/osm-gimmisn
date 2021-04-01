@@ -37,8 +37,10 @@ for i in *.py; do lines=$(wc -l < $i); if [ $lines -gt 800 ]; then echo "$i is t
 ----
 
 - Try to make JS optional. If a link can be handled with and without JS, then generate HTML which
-  goes to the no-JS version, then JS can tweak the DOM to invoke JS instead. This allows avoiding
-  `<noscript>` tags.
+  goes to the no-JS version, then JS can tweak the DOM to invoke JS instead.
+- Avoid using `<noscript>` tags. One exception is the single one placed in the `<head>` for
+  setting up the js/no-js CSS classes. This is beneficial as it allows for eliminating page
+  blinking when initially setting up progressive elements through JavaScript.
 
 == TS debugging
 
