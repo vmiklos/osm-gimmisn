@@ -130,6 +130,14 @@ workdir/osm.min.css: static/osm.css package-lock.json
 	mkdir -p workdir
 	[ -x "./node_modules/.bin/cleancss" ] && ./node_modules/.bin/cleancss -o $@ $< || cp -a $< $@
 
+testdata: tests/data/yamls.pickle tests/workdir/osm.min.css tests/favicon.ico tests/favicon.svg
+
+tests/favicon.ico: favicon.ico
+	cp -a $< $@
+
+tests/favicon.svg: favicon.svg
+	cp -a $< $@
+
 tests/workdir/osm.min.css: workdir/osm.min.css
 	mkdir -p tests/workdir
 	cp -a $< $@
@@ -168,7 +176,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 %.flake8: %.py Makefile
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
-check-unit: version.py data/yamls.pickle tests/data/yamls.pickle tests/workdir/osm.min.css
+check-unit: version.py data/yamls.pickle testdata
 	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 
