@@ -67,8 +67,9 @@ filters:
     # 20a: 20-nak van jelölve, nincs kiírva semmi, 20/b van kint a másik felén
     invalid: ['7', '13', '15b', '20a']
   Hermánd utca:
-    # 10/b: nincs kiríva, csak 10/a
-    invalid: ['10b']
+    # 10/b: nincs kiríva se ez se az Antónia lépcső 6, de innen van a főbejárat
+    # 23: 23/a ki van írva, a másik felén a háznak nincs szám
+    invalid: ['23']
   Homonna utca:
     # this is just the sashegy part; the range is till 21, but the last actual number is 13
     ranges:
