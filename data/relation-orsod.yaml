@@ -4,8 +4,8 @@ filters:
     ranges: []
   Budaörsi út:
     # 178 nincs
-    # 180: 180/a - 180/i között
-    invalid: ['178b', '180/1']
+    # 180: 180/b - 180/i között
+    invalid: ['178b', '180/1', '180a']
     ranges:
       - {start: '170', end: '180'}
   Egér út:
