@@ -855,7 +855,7 @@ def our_application_txt(
 ) -> Iterable[bytes]:
     """Dispatches plain text requests based on their URIs."""
     content_type = "text/plain"
-    extra_headers: List[Tuple[str, str]] = []
+    headers: List[Tuple[str, str]] = []
     prefix = config.Config.get_uri_prefix()
     _, _, ext = request_uri.partition('.')
     chkl = ext == "chkl"
@@ -863,26 +863,26 @@ def our_application_txt(
         output, relation_name = missing_streets_view_txt(relations, request_uri, chkl)
         if chkl:
             content_type = "application/octet-stream"
-            extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
+            headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
     elif request_uri.startswith(prefix + "/additional-streets/"):
         output, relation_name = wsgi_additional.additional_streets_view_txt(relations, request_uri, chkl)
         if chkl:
             content_type = "application/octet-stream"
-            extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
+            headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
     else:
         # assume prefix + "/missing-housenumbers/"
         if chkl:
             output, relation_name = missing_housenumbers_view_chkl(relations, request_uri)
             content_type = "application/octet-stream"
-            extra_headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
+            headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
         elif request_uri.endswith("robots.txt"):
             output = util.get_content(config.get_abspath("data"), "robots.txt").decode("utf-8")
         else:
             # assume txt
             output = missing_housenumbers_view_txt(relations, request_uri)
     output_bytes = output.encode("utf-8")
-    response_properties = webframe.ResponseProperties(content_type, "200 OK")
-    return webframe.send_response(environ, start_response, response_properties, output_bytes, extra_headers)
+    response_properties = webframe.Response(content_type, "200 OK", output_bytes, headers)
+    return webframe.send_response(environ, start_response, response_properties)
 
 
 HANDLERS = {
@@ -922,23 +922,17 @@ def our_application(
         return our_application_txt(environ, start_response, relations, request_uri)
 
     prefix = config.Config.get_uri_prefix()
-    found = request_uri == "/" or request_uri.startswith(prefix)
-    if not found:
+    if not (request_uri == "/" or request_uri.startswith(prefix)):
         doc = webframe.handle_404()
-        return webframe.send_response(environ,
-                                      start_response,
-                                      webframe.ResponseProperties("text/html", "404 Not Found"),
-                                      doc.getvalue().encode("utf-8"),
-                                      [])
+        response = webframe.Response("text/html", "404 Not Found", doc.getvalue().encode("utf-8"), [])
+        return webframe.send_response(environ, start_response, response)
 
     if request_uri.startswith(prefix + "/static/") or \
             request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
-        output, content_type, extra_headers = webframe.handle_static(request_uri)
+        output, content_type, headers = webframe.handle_static(request_uri)
         return webframe.send_response(environ,
                                       start_response,
-                                      webframe.ResponseProperties(content_type, "200 OK"),
-                                      output,
-                                      extra_headers)
+                                      webframe.Response(content_type, "200 OK", output, headers))
 
     if ext == "json":
         return wsgi_json.our_application_json(environ, start_response, relations, request_uri)
@@ -962,9 +956,7 @@ def our_application(
 
     return webframe.send_response(environ,
                                   start_response,
-                                  webframe.ResponseProperties("text/html", "200 OK"),
-                                  doc.getvalue().encode("utf-8"),
-                                  [])
+                                  webframe.Response("text/html", "200 OK", doc.getvalue().encode("utf-8"), []))
 
 
 def application(

@@ -250,11 +250,13 @@ def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     return bytes(), "", extra_headers
 
 
-class ResponseProperties:
-    """Properties of a response, to be read by send_response()."""
-    def __init__(self, content_type: str, status: str) -> None:
+class Response:
+    """A HTTP response, to be sent by send_response()."""
+    def __init__(self, content_type: str, status: str, output_bytes: bytes, headers: List[Tuple[str, str]]) -> None:
         self.__content_type: str = content_type
         self.__status: str = status
+        self.__output_bytes = output_bytes
+        self.__headers = headers
 
     def get_content_type(self) -> str:
         """Gets the Content-type value."""
@@ -264,30 +266,37 @@ class ResponseProperties:
         """Gets the HTTP status."""
         return self.__status
 
+    def get_output_bytes(self) -> bytes:
+        """Gets the encoded output."""
+        return self.__output_bytes
+
+    def get_headers(self) -> List[Tuple[str, str]]:
+        """Gets the HTTP headers."""
+        return self.__headers
+
 
 def send_response(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
-        response_properties: ResponseProperties,
-        output_bytes: bytes,
-        extra_headers: List[Tuple[str, str]]
+        response: Response
 ) -> Iterable[bytes]:
     """Turns an output string into a byte array and sends it."""
-    content_type = response_properties.get_content_type()
+    content_type = response.get_content_type()
     if content_type != "application/octet-stream":
         content_type += "; charset=utf-8"
     accept_encodings = environ.get("HTTP_ACCEPT_ENCODING", "").split(",")
     accepts_gzip = "gzip" in accept_encodings
+    output_bytes = response.get_output_bytes()
     if accepts_gzip:
         output_bytes = xmlrpc.client.gzip_encode(output_bytes)
     content_length = len(output_bytes)
-    response_headers = [('Content-type', content_type),
-                        ('Content-Length', str(content_length))]
+    headers = [('Content-type', content_type),
+               ('Content-Length', str(content_length))]
     if accepts_gzip:
-        response_headers.append(("Content-Encoding", "gzip"))
-    response_headers += extra_headers
-    status = response_properties.get_status()
-    start_response(status, response_headers)
+        headers.append(("Content-Encoding", "gzip"))
+    headers += response.get_headers()
+    status = response.get_status()
+    start_response(status, headers)
     return [output_bytes]
 
 
@@ -304,8 +313,8 @@ def handle_exception(
     with doc.tag("pre"):
         doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
         doc.text(traceback.format_exc())
-    response_properties = ResponseProperties("text/html", status)
-    return send_response(environ, start_response, response_properties, doc.getvalue().encode("utf-8"), [])
+    response_properties = Response("text/html", status, doc.getvalue().encode("utf-8"), [])
+    return send_response(environ, start_response, response_properties)
 
 
 def handle_404() -> yattag.doc.Doc:

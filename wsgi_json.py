@@ -88,7 +88,7 @@ def our_application_json(
 ) -> Iterable[bytes]:
     """Dispatches json requests based on their URIs."""
     content_type = "application/json"
-    extra_headers: List[Tuple[str, str]] = []
+    headers: List[Tuple[str, str]] = []
     prefix = config.Config.get_uri_prefix()
     if request_uri.startswith(prefix + "/streets/"):
         output = streets_update_result_json(relations, request_uri)
@@ -100,7 +100,7 @@ def our_application_json(
         # Assume that request_uri starts with prefix + "/missing-streets/".
         output = missing_streets_update_result_json(relations, request_uri)
     output_bytes = output.encode("utf-8")
-    response_properties = webframe.ResponseProperties(content_type, "200 OK")
-    return webframe.send_response(environ, start_response, response_properties, output_bytes, extra_headers)
+    response = webframe.Response(content_type, "200 OK", output_bytes, headers)
+    return webframe.send_response(environ, start_response, response)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
