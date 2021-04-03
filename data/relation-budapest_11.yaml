@@ -18,23 +18,35 @@ filters:
     # 198-202 házszámok nincsenek a Shell kút környékén
     # ref-ben levo hrsz-ek kiszurese
     # 36,38,141,151: nincsenek ilyen számok, alig van pár épület aminenk van száma, ráadásul a 44 és a 143 ugyanazon az oldalon van
-    invalid: ['2', '36', '38', '141', '151']
+    # 144/4: hrsz
+    invalid: ['2', '36', '38', '141', '144/4', '151']
     ranges:
       - {start: '2', end: '158'}
       - {start: '141', end: '151'}
   Bartók Béla út:
-    # 15e: 15a,15c/15b,15d hátsó épületnek nem ismert a házszáma, nincs kiírva semmi
-    invalid: ['15e', '91a', '91b', '95', '103b', '109a', '117a', '119a', '127', '127d', '127e', '129', '131', '28a', '28b', '52a', '52b', '88a', '88b', '88j', '114a', '126a', '128a', '132b', '152a', '152d', '152e']
+    # 15e: 15a-15c, 15b-15d hátsó épületnek nem ismert a házszáma, nincs kiírva semmi
+    # 84: Maga a Kosztolányi Dezső tér
+    # 106-110: A Tétényi úti csomópont
+    # 138-154: Griff, a 152/* számot használja
+    # 152a: 152, 152/a, 152/b, 152/i, 152/h
+    invalid: ['15e', '91a', '91b', '95', '103b', '109a', '117a', '119a', '127', '127d', '127e', '129', '131', '28a', '28b', '52a', '52b', '84', '88a', '88b', '88j', '114a', '126a', '128a', '132b', '138a', '142', '150', '152a', '152d', '152e', '154']
     ranges:
       - {start: '1', end: '149'}
-      - {start: '2', end: '160'}
+      - {start: '2', end: '104'}
+      - {start: '112', end: '160'}
   Bocskai út:
-    # 20
-    # 26-28
-    invalid: ['1a', '1b', '42a', '50a', '73b']
+    # 43-54: valójában 43-45, 54-et szűrni kell
+    # 51-65: nagy társasház amiben a CBA grill is van
+    # 20: Fadrusz utca 18
+    # 28: Kosztolányi Dezső tér 11 lóg át ide is
+    # 52-53: hibás, 52-54 lenne, 53-at szűrni kell
+    # 54-54: a ház csak az 50-es számot használja
+    # 56-72: park
+    invalid: ['1a', '1b', '20', '28', '42a', '50a', '53', '54', '73b']
     ranges:
       - {start: '1', end: '79'}
-      - {start: '2', end: '90'}
+      - {start: '2', end: '54'}
+      - {start: '74', end: '90'}
       - {start: '134', end: '146'}
   Brassó út:
     # <=152 is just the Sasad part, 169 is actually 169-179/a .. 169-179/h
@@ -60,13 +72,24 @@ filters:
       - {start: '1', end: '169'}
       - {start: '2', end: '158'}
   Budafoki út:
-    # paratlan: utolso ismert paratlan a 215, de meg vannak telkek
-    # paros: 52 az eromu, Budapart miatt valtozhat, 84 Albertfalva
-    # 107 I,II,II épület, illetve 107-109 a-b épület
-    invalid: ['52a', '56c', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7']
+    # 21-27: Katonai Nemzetbiztonsági Szolgálat: Bartókra van számozva
+    # 59-63: 59-es van használatban
+    # 65-77: nincs
+    # 101: 95 után 103-107 jön (ubuda szerint 97-103) TODO
+    # 107: I,II,II épület, illetve 107-109 a-b épület
+    # 115-181: Újbuda Center, Hengermalomra számozva
+    # 215: paratlan: utolso ismert paratlan a 215, de meg vannak telkek
+    # 26: 26/b
+    # 32b: 32/b-c, fel van rögzítve így
+    # 34c: 34/c-d, fel van rögzítve így
+    # 36: nincs
+    # 40-50 között nincs semmi, 52 az erőmű, Budapart miatt valtozhat
+    # 62-64: csak a 64 használatos
+    invalid: ['26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '62', '23', '83b', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
-      - {start: '1', end: '229'}
-      - {start: '2', end: '74'}
+      - {start: '1', end: '59'}
+      - {start: '79', end: '229'}
+      - {start: '2', end: '84'}
   Budaörsi út:
     # páratlan ---------------------------------------------------------------
     # ezek vannak: 23/a, 25/a, 25/b, 27, 29, 31/a, 31, 31/b, 33/a, 33/b, 33/c
@@ -79,23 +102,38 @@ filters:
     # 127: 127/a..c
     # 129: 129/a..c
     # 141-145; 149a,149b; 151a,151b, 163a-163b
+    # 179: Ford Petrányi
+    # 185-195: Autó Buda
     # 201-223 közt semmi nincs
     # páros ------------------------------------------------------------------
     # 24a: csak sima 24 van.
     # 36-nál lekopott házszámok
     # 44a kint van a kapun, de a házon 44 van és nincs 44b kiírva
     # 48-50 az irodaház
+    # 56-58: csak 56
+    # 66-76: Pappas: csak 66 a weboldaluk szerint
+    # 78 Budai csempe
+    # 80-86: nincs
+    # 88-90: ibis Styles Budapest Citywest Hotel
+    # 92-110: nincs
     # 112abc: csak sima 112 a McDonalds/OMV komplexum
     # 120c: csak sima 120, az egyik autóstelep a sok közül
-    # autokereskedes 120, MOL kut 126, autoklub 138, epulet 142, koztuk nincs semmi kitablazva
+    # 122-142: autokereskedes 120, MOL kut 126, autoklub 138, epulet 142, koztuk nincs semmi kitablazva
     # 146: 146a, 146b, 146c, 146d
     # 148a: 148, 148d, 148e
-    # 178 nincs
+    # 168: nincs, elírt 165
+    # 170: Safru
+    # 178: nincs
     # 180: 180/b - 180/i között
-    invalid: ['23', '23b', '25', '29a', '29b', '33', '33/3', '41b', '43', '101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '141a', '149', '151', '163', '259b', '24a', '32', '32e', '36a', '36b', '36d', '40', '44a', '44b', '48a', '48b', '50b', '112a', '112b', '112c', '120c', '146', '148a', '178b', '180/1', '180a']
+    invalid: ['23', '23b', '25', '29a', '29b', '33', '33/3', '41b', '43', '83b', '95', '95a', '97', '99', '101', '101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '141a', '149', '151', '163', '181', '181b', '183', '187a', '201', '259b', '24a', '32', '32e', '36a', '36b', '36d', '40', '44a', '44b', '48a', '48b', '50b', '58', '112a', '112b', '112c', '120c', '140', '146', '148a', '168', '178b', '180/1', '180a']
     ranges:
       - {start: '1', end: '999'}
-      - {start: '2', end: '180'}
+      - {start: '2', end: '66'}
+      - {start: '78', end: '78'}
+      - {start: '88', end: '90'}
+      - {start: '112', end: '120'}
+      - {start: '126', end: '126'}
+      - {start: '138', end: '180'}
   Dayka Gábor utca:
     # páratlan ---------------------------------------------------------------
     # 5b: csak sima 5 van
@@ -269,9 +307,12 @@ filters:
   Kőérberki út:
     invalid: ['2', '2c', '6e', '8', '14', '34']
     # 2 elég gyéren van kitáblázva
-    # 2 után 1 és 3 jön. A Kőértberki Autó után már nincs épület, kivéve a legvégét a reptérrel szemben a Pulzus
+    # 2 után 1 és 3 jön. A Kőérberki Autó után már nincs épület, kivéve a legvégét a reptérrel szemben a Pulzus
     # 37/C-ből lett a Puskapor utca 2/C
     # 37/G-ből lett a Löveg utca 3/G
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '36'}
   Kőoltár utca:
     # 4ab: van a és b épület de a házszám csak 4
     invalid: ['4a', '4b']
@@ -310,6 +351,9 @@ filters:
   Nagyida utca:
     # hosszuret 2-4, 6 nincs, 8-12, 12, 14 van
     invalid: ['2/6', '6']
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '14'}
   Nagyszeben út:
     # Sasad liget:
     # 5f, 5g - ezek épület betűjelek
@@ -334,8 +378,9 @@ filters:
     ranges:
       - {start: '40', end: '198'}
       - {start: '43', end: '77'}
-  # Poprádi út:
-  # nincsenek házszámok: egyébként összesen egy kutyaiskola van itt
+  Poprádi út:
+    # nincsenek házszámok: összesen egy kutyaiskola van itt, annak nincs címe
+    invalid: ['18']
   Repülőtéri út:
     # össze vissza vannak a számok, úgy tűnik csak 2 és 6 van
     ranges:
@@ -445,7 +490,9 @@ filters:
       - {start: '1', end: '17'}
   Albertfalva utca:
     # 5: 5a
-    invalid: ['5']
+    # 6: nincs: 2-4 gamesz, 8 templom
+    # 10 = Kenderes utca 1
+    invalid: ['5', '6', '10']
     ranges:
       - {start: '2', end: '40'}
       - {start: '1', end: '43'}
@@ -831,8 +878,9 @@ filters:
       - {start: '1', end: '37'}
       - {start: '2', end: '24'}
   Rétkerülő út:
-    # nincs vegig epitve, 42 hianyzik, nem tudni hol lesz a vége
-    invalid: ['42']
+    # 4: első ház a 14
+    # 42: 40 után 44 jön
+    invalid: ['4', '42']
   Repcsény utca:
     # 7: 7a, 7b
     invalid: ['7']
@@ -937,7 +985,8 @@ filters:
       - {start: '1', end: '37'}
       - {start: '2', end: '34'}
   Borszék köz:
-    # 5,9,11: ?
+    # 5-9: csak 7-es szám van
+    invalid: ['5', '9']
     ranges:
       - {start: '1', end: '17'}
   Borszéki utca:
@@ -2768,4 +2817,4 @@ osm-street-filters:
   - Zabfű utca
 source: survey
 housenumber-letters: true
-inactive: true
+inactive: false
