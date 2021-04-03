@@ -51,7 +51,7 @@ budapest_11:
     osmrelation: 221998
     refcounty: "01"
     refsettlement: "011"
-    alias: ['ujbuda']
+    alias: ['ujbuda', 'albertfalva', 'dobogo', 'gazdagret', 'hosszuret', 'infopark', 'kamaraerdo', 'kelenfold', 'kelenvolgy', 'koerberek', 'lagymanyos', 'madarhegy', 'nadorkert', 'ormezo', 'orsod', 'peterhegy', 'posingermajor', 'sasad', 'sashegy', 'spanyolret', 'szentimrevaros']
 budapest_12:
     osmrelation: 221995
     refcounty: "01"
@@ -111,6 +111,10 @@ budapest_23:
     inactive: true
 # buda
 # 01
+gellerthegy:
+    osmrelation: 2702687
+    refcounty: "01"
+    refsettlement: "001"
 krisztinavaros:
     osmrelation: 2786310
     refcounty: "01"
@@ -222,90 +226,7 @@ zoldmal:
     refcounty: "01"
     refsettlement: "002"
 # 11
-albertfalva:
-    osmrelation: 2700782
-    refcounty: "01"
-    refsettlement: "011"
-dobogo:
-    osmrelation: 2713968
-    refcounty: "01"
-    refsettlement: "011"
-gazdagret:
-    osmrelation: 2713748
-    refcounty: "01"
-    refsettlement: "011"
-gellerthegy:
-    osmrelation: 2702687
-    refcounty: "01"
-    refsettlement: "011"
-hosszuret:
-    osmrelation: 2713782
-    refcounty: "01"
-    refsettlement: "011"
-infopark:
-    osmrelation: 2702614
-    refcounty: "01"
-    refsettlement: "011"
-kamaraerdo:
-    osmrelation: 2714099
-    refcounty: "01"
-    refsettlement: "011"
-kelenfold:
-    osmrelation: 2700869
-    refcounty: "01"
-    refsettlement: "011"
-kelenvolgy:
-    osmrelation: 2700740
-    refcounty: "01"
-    refsettlement: "011"
-koerberek:
-    osmrelation: 2714089
-    refcounty: "01"
-    refsettlement: "011"
-lagymanyos:
-    osmrelation: 2702615
-    refcounty: "01"
-    refsettlement: "011"
-madarhegy:
-    osmrelation: 2713839
-    refcounty: "01"
-    refsettlement: "011"
-nadorkert:
-    osmrelation: 2700985
-    refcounty: "01"
-    refsettlement: "011"
-ormezo:
-    osmrelation: 2713749
-    refcounty: "01"
-    refsettlement: "011"
-orsod:
-    osmrelation: 2714011
-    refcounty: "01"
-    refsettlement: "011"
-peterhegy:
-    osmrelation: 2713951
-    refcounty: "01"
-    refsettlement: "011"
-posingermajor:
-    osmrelation: 2714365
-    refcounty: "01"
-    refsettlement: "011"
-sasad:
-    osmrelation: 2714372
-    refcounty: "01"
-    refsettlement: "011"
-sashegy:
-    osmrelation: 2714524
-    refcounty: "01"
-    refsettlement: "011"
-spanyolret:
-    osmrelation: 2713840
-    refcounty: "01"
-    refsettlement: "011"
-szentimrevaros:
-    osmrelation: 2702616
-    refcounty: "01"
-    refsettlement: "011"
+# már egyben van, mert kész van
 # 12
 # már egyben van, nincs annyi hiányzó
 # 15

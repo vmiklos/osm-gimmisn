@@ -9,9 +9,9 @@ filters:
     invalid: ['25/2', '25b']
     ranges:
       - {start: '1', end: '11', refsettlement: '001'}
-      - {start: '19', end: '29'}
+      - {start: '19', end: '29', refsettlement: '011'}
       - {start: '2', end: '8', refsettlement: '001'}
-      - {start: '26', end: '30'}
+      - {start: '26', end: '30', refsettlement: '011'}
   Antal utca:
     refsettlement: '001'
   Avar utca:
@@ -22,33 +22,37 @@ filters:
     invalid: ['4', '31b', '33a', '35']
     ranges:
       - {start: '4', end: '10', refsettlement: '001'}
-      - {start: '31', end: '37'}
+      - {start: '31', end: '37', refsettlement: '011'}
   Bakator utca:
     # 1b: csak sima 1.
     # 2 = Somlói út 46/a
+    refsettlement: '011'
     invalid: ['1b', '2']
   Balogh Tihamér utca:
     # 4: 4 és 4/b
     # 5: 5/a és 5/b
+    refsettlement: '011'
     invalid: ['4a', '5']
   Bérc utca:
     # 11ab: csak sima 11
-    invalid: ['11a', '11b']
     refsettlement: '001'
+    invalid: ['11a', '11b']
   Berényi utca:
     # 1 = Hegyalja út 16.
     # 6: 6/a (üres telek), 6/b
     # 9: 9/a, 9/b
-    invalid: ['1', '6', '9']
     refsettlement: '001'
+    invalid: ['1', '6', '9']
   Budaörsi út:
     # 24a: csak sima 24 van.
+    refsettlement: '011'
     invalid: ['24a']
     ranges:
       - {start: '2', end: '24'}
   Csukló utca:
     # 2: park, illeve a vasúti alagút teteje
     # 6: 6/a, 6/b
+    refsettlement: '011'
     invalid: ['2', '6']
   Gombocz Zoltán utca:
     # 1 = Ménesi út 73
@@ -57,6 +61,7 @@ filters:
     # 8: 8/a, 8/b
     # 9: 9/a1, 9/a2, 9/b
     # 12: 12/a, 12/b
+    refsettlement: '011'
     invalid: ['2c', '5a', '5b', '5c', '7a', '7b', '8', '9', '12']
     ranges:
       - {start: '3', end: '21'}
@@ -64,7 +69,7 @@ filters:
   Gyula utca:
     ranges:
       - {start: '1', end: '99', refsettlement: '001'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '98', refsettlement: '011'}
   Harkály utca:
     # 4: 4/a, 4/b
     refsettlement: '001'
@@ -76,10 +81,11 @@ filters:
     invalid: ['2a', '20', '38', '40']
     ranges:
       - {start: '2', end: '30', refsettlement: '001'}
-      - {start: '32', end: '64'}
+      - {start: '32', end: '64', refsettlement: '011'}
   Iglói utca:
     # 1 = Somlói út 27
     # 2/a, 4/b: 29/d,31/e: Lakópark 5 épülettel: Iglói 2, 4, 6a, 6b, Somlói 29, 31
+    refsettlement: '011'
     invalid: ['2a', '4b', '6']
     ranges:
       - {start: '3', end: '17'}
@@ -87,6 +93,7 @@ filters:
   Otthon utca:
     # 23ab: bár 2 épület van, de csak sima 23 a kapun.
     # 28: 28/a, 28/b
+    refsettlement: '011'
     invalid: ['23a', '23b', '28']
   Mihály utca:
     # 4b: 4/B-6, nem tudjuk kezelni, ezért kell a filter
@@ -96,15 +103,18 @@ filters:
     ranges:
       - {start: '1', end: '17', refsettlement: '001'}
       - {start: '2', end: '16', refsettlement: '001'}
-      - {start: '16', end: '18'}
+      - {start: '16', end: '18', refsettlement: '011'}
   Karolina út:
+    refsettlement: '011'
     ranges: []
   Kelenhegyi köz:
     # ez egy lépcső, nincs épület
+    refsettlement: '011'
     ranges: []
   Kelenhegyi lépcső:
     # vége felmérendő. táblán 2-4, de még van 2 épület
     # páratlan oldalon a Közszolgálati Egyetem van
+    refsettlement: '011'
     ranges:
       - {start: '2', end: '10'}
   Kelenhegyi út:
@@ -122,12 +132,14 @@ filters:
     # 70: 70/a, 70/b
     # 72, 74: másik utcára számozódnak
     # 77b: csak sima 77
+    refsettlement: '011'
     invalid: ['13', '35a', '35b', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
     ranges:
       - {start: '1', end: '81'}
       - {start: '12', end: '70'}
   Mányoki út:
     # páros: Szentimreváros
+    refsettlement: '011'
     ranges:
       - {start: '1', end: '7'}
   Ménesi út:
@@ -140,50 +152,57 @@ filters:
     # 71/a: 71, 71/b
     # 79b: 77-79 újra lettek számozva, 79/b->79 lett belőle, 79->77/b
     # 85: 85/a, 85/b
+    refsettlement: '011'
     invalid: ['17', '31a', '31b', '43', '59', '61a', '61b', '61c', '61z', '71a', '79b', '85']
     ranges:
       - {start: '5', end: '87'}
   Menta utca:
     # 1b: csak sima 1 van.
+    refsettlement: '011'
     invalid: ['1b']
   Minerva utca:
     # 2: 2/a vízművek
     # 9: 2 épület, de csak sima 9 van kiírva.
     # 17: 17/a lebontva, 17/b
+    refsettlement: '011'
     invalid: ['2', '9a', '9b', '17']
   Orom utca:
     # páratlan oldal Tabán, de ott nincs házszám
     # 2: Bérc utca 1
     # 18, 18c: 18/a, 18/b
     # 20: 20/a, 20/b
+    refsettlement: '001'
     invalid: ['18', '18c', '20']
     ranges:
       - {start: '4', end: '24'}
-    refsettlement: '001'
   Sánc utca:
     # 3: 3/a, 3/b
     # 22a: 22 és 22/b
-    invalid: ['3', '22a']
     refsettlement: '001'
+    invalid: ['3', '22a']
   Schweidel utca:
     # 14b: 14, 14/a
     # 16b: 16, 16/a
     # 22/3: csak sima 22
     # 27: csak 27/b, mert 27/a = Menta utca 5.
     # 29b: 29, 29/a
+    refsettlement: '011'
     invalid: ['14b', '16b', '22/3', '27', '29b']
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '24'}
   Serleg utca:
     # 10*: csak 10/b van kiírva. A helyszínen látszik hogy a ház két részből áll, valószínű az ház hátsó fele a 10/a, de nincs kiírva.
+    refsettlement: '011'
     invalid: ['10', '10a']
   Somló köz:
     # 3 = Somló köz 21.
+    refsettlement: '011'
     invalid: ['3']
   Somló lépcső:
     # 8-10: ez Somlói út 8-10, de bejárat a lépcsőről is
     # 8-on kívül a többi szám teljesen fals
+    refsettlement: '011'
     ranges:
       - {start: '8', end: '8'}
   Somlói út:
@@ -204,12 +223,13 @@ filters:
     # 68/a, 68/b: 3 egyforma új épület 64, 66, 68
     invalid: ['2', '5', '15a', '18', '20a', '20b', '25b', '28', '29d', '31e', '37/6', '46', '60', '62a', '62b', '68a', '68b']
     ranges:
-      - {start: '1', end: '47'}
+      - {start: '1', end: '47', refsettlement: '011'}
       - {start: '51', end: '51', refsettlement: '001'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '98', refsettlement: '011'}
   Szent Gellért rakpart:
     # Itt csak ez van: Sziklatemplom és kolostor, 1-es számmal, ez van a honlapon
     # Van olyan forrás amit a kolostort 2-3 számra teszi, de ez máshol nem szerepel
+    refsettlement: '011'
     invalid: ['1a', '1b', '3']
     interpolation: all
   Szent Sebestyén köz:
@@ -223,11 +243,12 @@ filters:
   Számadó utca:
     # 10b, 10/4: 4 db épület, sima 10. szám alatt I. II. III. IV. épületek
     # 13 = Tündérlaki mélyút 5.
+    refsettlement: '011'
     invalid: ['10/4', '10b', '13']
     ranges:
       - {start: '1', end: '17', refsettlement: '001'}
-      - {start: '19', end: '19'}
-      - {start: '2', end: '10'}
+      - {start: '19', end: '19', refsettlement: '011'}
+      - {start: '2', end: '10', refsettlement: '011'}
   Szirtes út:
     # 3: 3/a, 3/b
     # 5: 5/a, 5/b
@@ -237,23 +258,25 @@ filters:
     # 27: nincs utolsó házszám a 19, utána park
     # 28: 28/a, 28/b
     # 32a: govcenter Pálinka terasz, facebook szerint csak 32 a cím, kiírva nincs
+    refsettlement: '001'
     invalid: ['3', '5', '6b', '14b', '17a', '17b', '27', '28', '32a']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '34'}
-    refsettlement: '001'
   Szüret utca:
     # 19-29 Szentimreváros
+    refsettlement: '011'
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '18'}
   Tündérlaki mélyút:
     # 3b: csak sima 3 van
-    invalid: ['3b']
     refsettlement: '001'
+    invalid: ['3b']
   Villányi út:
     # 89h: nincs
     # 105: 105/a, 105/b
+    refsettlement: '011'
     invalid: ['89h', '105']
     ranges:
       - {start: '89', end: '115'}
