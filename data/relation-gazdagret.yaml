@@ -1,0 +1,79 @@
+missing-streets: 'no'
+filters:
+  Budaörsi út:
+    invalid: ['141a', '149', '151', '163']  # 141-145; 149a,149b; 151a,151b, 163a-163b
+    ranges:
+      - {start: '137', end: '165'}
+  Csíkihegyek utca:
+    invalid: ['14b', '16a', '18e', '20d', '22c', '24b', '26a']  # valójában lépcsőházak betűi voltak, függetlenek a számozástól, nem használják már
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '26'}
+  Frankhegy utca:
+    interpolation: all
+    invalid: ['9d', '11b']
+  Gazdagréti tér:
+    invalid: ['2']
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '2'}
+  Gazdagréti út:
+    # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44
+    ranges:
+      - {start: '5', end: '9'}
+  Higany utca:
+    invalid: ['1', '3', '5', '6', '14']  # 1b; 3a,3b; 5a,5b; 6a,6b; 14a,14b
+  Kaptárkő utca:
+    interpolation: all
+    invalid: ['2e', '3d', '4c', '5b', '6a']
+    ranges:
+      - {start: '1', end: '12'}
+  Nagyszeben tér:
+    ranges:
+      - {start: '1', end: '3'}
+  Nagyszeben út:
+    ranges:
+      - {start: '2', end: '24'}
+  Naprózsa utca:
+    invalid: ['5', '7', '14a', '14b']  # 5a,5b; 7a,7b; 14
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '14'}
+  Regős köz:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '6'}
+  Regős utca:
+    interpolation: all
+    invalid: ['1b', '3b', '5a', '5c', '6b', '7a']
+    ranges:
+      - {start: '1', end: '16'}
+  Rétköz utca:
+    # csak a gazdagréti rész
+    invalid: ['7f', '9']  # 9a,9b
+    ranges:
+      - {start: '7', end: '9'}
+      - {start: '2', end: '22'}
+  Rodostó utca:
+    ranges: []
+  Szurdok utca:
+    invalid: ['3a', '3b', '3c', '6', '8']  # 3-asnál van A és B bejárat de a címben nem jelenik meg; 6a,6b; 8a
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '18'}
+  Torbágy utca:
+    interpolation: all
+    invalid: ['5c']
+  Törökugrató utca:
+    invalid: ['3e', '12c', '14b', '16a', '18e', '20d', '22c', '24b', '26a']
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '26'}
+  Tűzkő utca:
+    interpolation: all
+    invalid: ['3b', '5a', '7a']
+refstreets:
+  'Csíkihegyek utca': 'Csiki-hegyek utca'
+source: survey
+inactive: true
+housenumber-letters: true
