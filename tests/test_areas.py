@@ -688,7 +688,7 @@ class TestRelationWriteMissingStreets(test_config.TestCase):
         os.unlink(os.path.join(relations.get_workdir(), "empty-streets.percent"))
 
 
-class TestRelationBuildRefHousenumbers(unittest.TestCase):
+class TestRelationBuildRefHousenumbers(test_config.TestCase):
     """Tests Relation.build_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -723,7 +723,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
         self.assertEqual(ret, [])
 
 
-class TestRelationBuildRefStreets(unittest.TestCase):
+class TestRelationBuildRefStreets(test_config.TestCase):
     """Tests Relation.build_ref_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -954,7 +954,7 @@ class TestRelationIsActive(test_config.TestCase):
         self.assertTrue(relation.get_config().is_active())
 
 
-class TestMakeTurboQueryForStreets(unittest.TestCase):
+class TestMakeTurboQueryForStreets(test_config.TestCase):
     """Tests make_turbo_query_for_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""

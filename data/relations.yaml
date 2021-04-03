@@ -226,11 +226,6 @@ zoldmal:
     refcounty: "01"
     refsettlement: "002"
 # 11
-# fixme
-gazdagret:
-    osmrelation: 2713748
-    refcounty: "01"
-    refsettlement: "011"
 # már egyben van, mert kész van
 # 12
 # már egyben van, nincs annyi hiányzó
