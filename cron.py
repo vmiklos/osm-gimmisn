@@ -23,6 +23,7 @@ import traceback
 import urllib.error
 
 import areas
+import cache
 import config
 import overpass_query
 import stats
@@ -147,6 +148,7 @@ def update_missing_housenumbers(relations: areas.Relations, update: bool) -> Non
             continue
 
         relation.write_missing_housenumbers()
+        cache.get_missing_housenumbers_html(relation)
     info("update_missing_housenumbers: end")
 
 
