@@ -1,6 +1,8 @@
 missing-streets: 'yes'
+filters:
+  József Attila út:
+    invalid: ['2']
 refstreets:
   'József Attila út': 'József Attila utca'
-  'Szabadság utca': 'Szarkáspuszta'
 source: survey
 inactive: false
