@@ -357,6 +357,9 @@ filters:
   Diós árok:
     # 1-75, 2-40, 52-68
     invalid: ['42', '44', '46', '70']
+  Rőzse utca:
+    # 1-25, 2-24
+    invalid: ['68']
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
