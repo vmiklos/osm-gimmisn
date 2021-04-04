@@ -75,6 +75,10 @@ filters:
   Nagybányai lépcső:
     ranges: []
   Nagybányai út:
+    # 2 = Csalán út 15
+    # 39 = 35, U kanyar 2 oldala
+    # 56-58: csak sima 56 van
+    invalid: ['2', '39', '58']
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '60'}
@@ -88,7 +92,7 @@ filters:
       - {start: '2', end: '98'}
   Törökvész út:
     ranges:
-      - {start: '84', end: '198'}
+      - {start: '84', end: '126'}
   Trombitás út:
     ranges:
       - {start: '1', end: '23'}

@@ -25,7 +25,7 @@ filters:
     ranges:
       - {start: '2', end: '98'}
   Törökvész út:
-    # ide csak belóg
-    ranges: []
+    ranges:
+      - {start: '128', end: '128'}
 source: survey
 inactive: true
