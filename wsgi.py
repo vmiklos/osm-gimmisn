@@ -27,6 +27,7 @@ import yattag
 
 from i18n import translate as _
 import areas
+import cache
 import config
 import overpass_query
 import util
@@ -155,30 +156,7 @@ def missing_housenumbers_view_res(relations: areas.Relations, request_uri: str) 
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         doc.asis(webframe.handle_no_ref_housenumbers(prefix, relation_name).getvalue())
     else:
-        ret = relation.write_missing_housenumbers()
-        todo_street_count, todo_count, done_count, percent, table = ret
-
-        with doc.tag("p"):
-            doc.text(_("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
-                     .format(str(todo_count), str(todo_street_count)))
-            doc.text(_(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
-            doc.stag("br")
-            with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
-                doc.text(_("Filter incorrect information"))
-            doc.text(".")
-            doc.stag("br")
-            with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-turbo".format(relation_name)):
-                doc.text(_("Overpass turbo query for the below streets"))
-            doc.stag("br")
-            with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.txt".format(relation_name)):
-                doc.text(_("Plain text format"))
-            doc.stag("br")
-            with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.chkl".format(relation_name)):
-                doc.text(_("Checklist format"))
-
-        doc.asis(util.html_table_from_list(table).getvalue())
-        doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
-        doc.asis(util.invalid_filter_keys_to_html(areas.get_invalid_filter_keys(relation)).getvalue())
+        doc = cache.get_missing_housenumbers_html(relation)
     return doc
 
 
