@@ -1,6 +1,7 @@
 PYTHON_TEST_OBJECTS = \
 	tests/test_accept_language.py \
 	tests/test_areas.py \
+	tests/test_cache.py \
 	tests/test_cache_yamls.py \
 	tests/test_cherry.py \
 	tests/test_config.py \
@@ -25,6 +26,7 @@ PYTHON_TEST_OBJECTS = \
 PYTHON_SAFE_OBJECTS = \
 	accept_language.py \
 	areas.py \
+	cache.py \
 	cache_yamls.py \
 	cherry.py \
 	config.py \

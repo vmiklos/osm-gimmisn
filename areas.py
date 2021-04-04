@@ -19,6 +19,7 @@ import yattag
 
 from i18n import translate as _
 import config
+import i18n
 import ranges
 import util
 
@@ -90,6 +91,14 @@ class RelationFiles:
     def get_housenumbers_percent_stream(self, mode: str) -> TextIO:
         """Opens the house number percent file of a relation."""
         return cast(TextIO, open(self.get_housenumbers_percent_path(), mode=mode))
+
+    def get_housenumbers_htmlcache_path(self) -> str:
+        """Builds the file name of the house number HTML cache file of a relation."""
+        return os.path.join(self.__workdir, "%s.htmlcache.%s" % (self.__name, i18n.get_language()))
+
+    def get_housenumbers_htmlcache_stream(self, mode: str) -> TextIO:
+        """Opens the house number HTML cache file of a relation."""
+        return cast(TextIO, open(self.get_housenumbers_htmlcache_path(), mode=mode))
 
     def get_streets_percent_path(self) -> str:
         """Builds the file name of the street percent file of a relation."""
