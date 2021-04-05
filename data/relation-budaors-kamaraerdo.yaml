@@ -3,6 +3,10 @@ filters:
   Kamaraerdei út:
     ranges:
       - {start: '23', end: '79'}
+  Kolozsvári utca:
+    ranges:
+      - {start: '1', end: '51'}
+      - {start: '2', end: '78'}
 source: survey
 refstreets:
   Kamaraerdei út: Kamaraerdei utca
