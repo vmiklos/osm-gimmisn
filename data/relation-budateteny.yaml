@@ -26,7 +26,14 @@ filters:
     # 16: sima 16 nincs, csak 16/1, 16/2.
     # 18: sima 18 nincs, csak 18/1, 18/2.
     invalid: ['6a', '10', '16', '18']
+  Dézsmaház utca:
+    # 162-164: a páros oldalon a 26 az utolsó házszám.
+    invalid: ['162', '164']
   Erzsébet királyné út:
+    # 1/A: nincs ilyen, csak sima 1 és A épület.
+    # 1/B: nincs ilyen, csak sima 1 és B épület.
+    # 1/C: nincs ilyen, csak sima 1 és C épület.
+    # 3/A: nincs ilyen, csak sima 3 és 3/B.
     # 5/B: nincs ilyen, csak sima 5.
     # 17/B: nincs ilyen, csak 17, 17/A.
     # 19: sima 19 nincs, csak 19/A, 19/B.
@@ -45,7 +52,7 @@ filters:
     # 44: sima 44 nincs, csak 44/A, 44/B, 44/C.
     # 52: sima 52 nincs, csak 52/1, 52/2.
     # 184: a páros oldalon a 62 az utolsó házszám.
-    invalid: ['5b', '17b', '19', '41a', '43', '45', '47', '51c', '16', '22', '24', '26', '28', '38', '40', '44', '52', '184']
+    invalid: ['1a', '1b', '1c', '3a', '5b', '17b', '19', '41a', '43', '45', '47', '51c', '16', '22', '24', '26', '28', '38', '40', '44', '52', '184']
   Géza utca:
     # 3: sima 3 nincs, csak 3/A, 3/B.
     # 11: a páratlan oldalon a 7 az utolsó házszám.
@@ -73,6 +80,11 @@ filters:
     # 149: sima 149 nincs, csak 149/A, 149/B.
     # 211-213: a páratlan oldalon a 183 az utolsó házszám.
     invalid: ['47a', '47b', '47d', '49a', '49b', '49c', '49d', '87', '141', '149']
+  Hant utca:
+    # 1: ez és a Völgy utca 7. közös telken van, házszám a Völgy utcáról van csak.
+    # 261/A: ez elírás, valószínűleg 26/A akart lenni.
+    # 26: sima 26 nincs, csak 26/A, 26/B.
+    invalid: ['1', '261a', '26']
   Húr utca:
     # Az utcatáblákon a páratlan oldalon a 21, a páros oldalon a 12 az utolsó házszám.
     ranges:
@@ -90,6 +102,12 @@ filters:
   Jégmadár utca:
     # 13: ez és a Karéj utca 25. közös telken van, házszám a Karéj utcáról van csak.
     invalid: ['13']
+  Jókai Mór utca:
+    # 5: sima 5 nincs, csak 5/1, 5/B.
+    # 19: sima 19 nincs, csak 19/A, 19/B, 19/C.
+    # 24: nincs ilyen, a 22 után a 26 jön.
+    # 50: sima 50 nincs, csak 50/A, 50/B.
+    invalid: ['5', '19', '24', '50']
   Kápolna utca:
     # 132: a páros oldalon az 50 az utolsó házszám.
     invalid: ['132']
