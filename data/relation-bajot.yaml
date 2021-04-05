@@ -1,7 +1,17 @@
 missing-streets: 'yes'
 filters:
+  Dobozi Mihály utca:
+    invalid: ['103']
   József Attila út:
     invalid: ['2']
+  Szabadság utca:
+    # 116 a vége
+    invalid: ['146']
+  Széchenyi utca:
+    invalid: ['63']
+  Tiborc köz:
+    # 5 a vége
+    invalid: ['17']
 refstreets:
   'József Attila út': 'József Attila utca'
 source: survey
