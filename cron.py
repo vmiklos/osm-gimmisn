@@ -25,6 +25,7 @@ import urllib.error
 import areas
 import cache
 import config
+import i18n
 import overpass_query
 import stats
 import util
@@ -147,8 +148,12 @@ def update_missing_housenumbers(relations: areas.Relations, update: bool) -> Non
         if streets == "only":
             continue
 
+        orig_language = i18n.get_language()
         relation.write_missing_housenumbers()
-        cache.get_missing_housenumbers_html(relation)
+        for language in ["en", "hu"]:
+            i18n.set_language(language)
+            cache.get_missing_housenumbers_html(relation)
+        i18n.set_language(orig_language)
     info("update_missing_housenumbers: end")
 
 
