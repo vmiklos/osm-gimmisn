@@ -576,6 +576,10 @@ kisoroszi:
     osmrelation: 216162
     refcounty: "14"
     refsettlement: "068"
+nagykovacsi:
+    osmrelation: 215946
+    refcounty: "14"
+    refsettlement: "088"
 piliscsaba:
     osmrelation: 215939
     refcounty: "14"
@@ -588,6 +592,10 @@ pilisvorosvar:
     osmrelation: 215943
     refcounty: "14"
     refsettlement: "112"
+remeteszolos:
+    osmrelation: 215947
+    refcounty: "14"
+    refsettlement: "186"
 szigethalom:
     osmrelation: 222332
     refcounty: "14"
