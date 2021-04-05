@@ -1,0 +1,1 @@
+{"version":2,"ops":[{"type":1,"author":{"id":"653ad5a5221de41f1bb6e2b766642806e048c3d8"},"timestamp":1617597252,"metadata":{"github-id":"MDU6SXNzdWU4NTAwNjE5OTM=","github-url":"https://github.com/vmiklos/osm-gimmisn/issues/1209","origin":"github"},"title":"cron cache","message":"cron futásnál cache-elődejenek be a területek (magyar is)","files":null}]}
