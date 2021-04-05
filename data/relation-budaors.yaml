@@ -144,6 +144,9 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
+  Kígyó utca:
+    # nem felmérhető, elzárt magánterület
+    ranges: []
   Kikelet utca:
     ranges:
       - {start: '1', end: '13'}
@@ -241,6 +244,9 @@ filters:
       - {start: '35', end: '73'}
   Patkó utca:
     invalid: ['29']
+  Pelikán utca:
+    # 6,8: nincsenek kiíva: 2021-04
+    invalid: ['6', '8']
   Pihenő utca:
     # 1,9 nincs kiírva
     invalid: ['1', '9']
@@ -407,14 +413,13 @@ street-filters:
   - Torockó utca  # Rossz helyen megy a Bp határ szerintem
   - Törökugrató dűlő
   - Vasútáll.és körny. dűlő  # Vasút dűlő folytatása - nincs kiírva
-  # Isklai körzetlistából jön, máshol nincs nyoma
+  # Iskolai körzetlistából jön, máshol nincs nyoma
   - Dézsma köz
   - Franktanya utca
   - Jedlik Ányos utca
   - Kinizsi dűlő
   - Liget köz
   - Lomb utca
-  - Sólyom köz
   # Csak terven létezik, tábla nincs
   - Ágas utca  # valóságban nem létezik
   - Darázs utca  # Szarvas utca vége volt ennek jelölve, a helyszínen Szarvas utcára van számozva minden

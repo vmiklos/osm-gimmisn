@@ -3,10 +3,16 @@ filters:
   Kamaraerdei út:
     ranges:
       - {start: '23', end: '79'}
+  Kígyó utca:
+    # nem felmérhető, elzárt magánterület
+    ranges: []
   Kolozsvári utca:
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '78'}
+  Pelikán utca:
+    # 6,8: nincsenek kiíva: 2021-04
+    invalid: ['6', '8']
 source: survey
 refstreets:
   Kamaraerdei út: Kamaraerdei utca
