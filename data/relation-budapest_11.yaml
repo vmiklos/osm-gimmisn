@@ -177,7 +177,7 @@ filters:
     # 36 nincs
     # 38a: 2 ház van de mindkettőhöz a 38 van kiírva
     # 61/b: nincs
-    invalid: ['8', '16/2', '36', '36a', '38a', '61/b']
+    invalid: ['8', '16/2', '36', '36a', '38a', '61b']
     ranges:
       - {start: '49', end: '61'}  # Őrmező
       - {start: '2', end: '38'}  # Péterhegy
