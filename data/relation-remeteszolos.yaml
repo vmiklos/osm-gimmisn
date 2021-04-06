@@ -8,7 +8,7 @@ filters:
   # Adyliget határ
   Zrínyi Miklós út:
     ranges: []
-street-filters:
+osm-street-filters:
   # Nem igazi közterületek
   - Bodzaliget pihenőpark
   - mezítlábas ösvény
