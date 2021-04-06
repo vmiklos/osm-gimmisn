@@ -1,5 +1,20 @@
 missing-streets: 'yes'
-filters: {}
-street-filters: []
+filters:
+  # Budaligetből lógnak át
+  Duna utca
+    ranges: []
+  Tisza utca
+    ranges: []
+  # Adyliget határ
+  Zrínyi Miklós út
+    ranges: []
+street-filters:
+  # Nem igazi közterületek
+  - Bodzaliget pihenőpark
+  - mezítlábas ösvény
+refstreets:
+  # helyesírás
+  'Amur utca': 'Amúr utca'
+  'Csík utca': 'Csik utca'
 source: survey
 inactive: true
