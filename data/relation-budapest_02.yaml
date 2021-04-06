@@ -10,12 +10,11 @@ refstreets:
   'Szép Ilona utca': 'Szépilona utca'  # Erzsébettelek (Pesthidegkút)
   'Bocskai utca': 'Bocskai István útja'  # Adyliget
   'Felhévízi utca': 'Felhévizi utca'  # Szemlőhegy/Újlak - 6 táblából 5-ön hosszú í
-  # felmérendő
-  'Apáthyszikla köz': 'Apáthy-szikla köz'  # Nyék
 street-filters:
   - Apolka utca  # utcajegyzéken nincs
   - Városhatár utca  # létezik, kerülethatáron megy, ezért nem ismeri fel
   - Láncfű utca  # nincs, valóságban: Bátori László utca 48-54
+  - Apáthy-szikla köz  # nincs a valóságban, ösvény van helyette az Apáthy sziklához
   # Malom csárda utca  # vagy google: Hidegkúti útnál Örökzöld utca mellett, leírás Máriaremetei út 129: ott nincs
 osm-street-filters:
   # Nem valós utcák
