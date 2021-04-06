@@ -902,7 +902,7 @@ class TestRefmegyeGetReftelepulesIds(test_config.TestCase):
         self.assertEqual(relations.refcounty_get_refsettlement_ids("99"), [])
 
 
-class TestReftelepulesGetName(unittest.TestCase):
+class TestReftelepulesGetName(test_config.TestCase):
     """Tests refsettlement_get_name()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
