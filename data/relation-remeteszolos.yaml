@@ -1,12 +1,12 @@
 missing-streets: 'yes'
 filters:
   # Budaligetből lógnak át
-  Duna utca
+  Duna utca:
     ranges: []
-  Tisza utca
+  Tisza utca:
     ranges: []
   # Adyliget határ
-  Zrínyi Miklós út
+  Zrínyi Miklós út:
     ranges: []
 street-filters:
   # Nem igazi közterületek

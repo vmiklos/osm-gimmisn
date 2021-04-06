@@ -1,7 +1,5 @@
 missing-streets: 'yes'
-filters:
-  Patak sétány
-    ranges: []
+filters: {}
 street-filters:
   # Nem igazi közterületek
   - Antónia-árok
