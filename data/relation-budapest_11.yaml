@@ -448,7 +448,7 @@ filters:
     # 3 = Nádorliget utca 4
     # 13-19: másik utcákról számozva
     # 21-27, 29-33, 35-39, 41-45: társasházak - a lépcsőházakon nincs betűjel, egyedi számok vannak
-    invalid: ['1', '1b', '3', '7', '13', '17', '19', 21d', '23c', '25b', '27a', '29c', '31b', '35c', '37b', '39a', '41c', '43b', '45a', '8', '10', '12a', '12b']
+    invalid: ['1', '1b', '3', '7', '13', '17', '19', '21d', '23c', '25b', '27a', '29c', '31b', '35c', '37b', '39a', '41c', '43b', '45a', '8', '10', '12a', '12b']
   Szüret utca:
     ranges:
       - {start: '1', end: '29'}
