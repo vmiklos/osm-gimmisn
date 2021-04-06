@@ -1,5 +1,19 @@
 missing-streets: 'yes'
-filters: {}
-street-filters: []
+filters:
+  Patak sétány
+    ranges: []
+street-filters:
+  # Nem igazi közterületek
+  - Antónia-árok
+  - Karcsi útja
+  - Zozó útja
+refstreets:
+  'Bajcsy-Zsilinszky utca': 'Bajcsy Zsilinszky Endre utca'
+  'Erdőalja utca': 'Erdőalja út'				# Terepen is ellenőrizni, mert néhány itteni cég "út"-tal írja magát. A védőnői körzetek között is szerepel mindkét változatban.
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Semmelweis Ignác köz': 'Semmelweis köz'		# Lehet, hogy a rövid a hivatalos.
+  'Semmelweis Ignác utca': 'Semmelweis utca'	# Lehet, hogy a rövid a hivatalos.
+  'Táncsics Mihály köz': 'Táncsics köz'
+  'Táncsics Mihály utca': 'Táncsics utca'
 source: survey
 inactive: true
