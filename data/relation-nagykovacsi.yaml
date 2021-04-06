@@ -1,6 +1,6 @@
 missing-streets: 'yes'
 filters: {}
-street-filters:
+osm-street-filters:
   # Nem igazi közterületek
   - Antónia-árok
   - Karcsi útja
