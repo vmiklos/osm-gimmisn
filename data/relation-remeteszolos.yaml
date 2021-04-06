@@ -1,6 +1,5 @@
 missing-streets: 'yes'
 filters: {}
 street-filters: []
-refstreets: []
 source: survey
 inactive: true
