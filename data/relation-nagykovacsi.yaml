@@ -7,11 +7,13 @@ street-filters:
   - Zozó útja
 refstreets:
   'Bajcsy-Zsilinszky utca': 'Bajcsy Zsilinszky Endre utca'
-  'Erdőalja utca': 'Erdőalja út'				# Terepen is ellenőrizni, mert néhány itteni cég "út"-tal írja magát. A védőnői körzetek között is szerepel mindkét változatban.
   'Petőfi Sándor utca': 'Petőfi utca'
-  'Semmelweis Ignác köz': 'Semmelweis köz'		# Lehet, hogy a rövid a hivatalos.
-  'Semmelweis Ignác utca': 'Semmelweis utca'	# Lehet, hogy a rövid a hivatalos.
   'Táncsics Mihály köz': 'Táncsics köz'
   'Táncsics Mihály utca': 'Táncsics utca'
+  # Terepen is ellenőrizni, mert néhány itteni cég "út"-tal írja magát. A védőnői körzetek között is szerepel mindkét változatban.
+  'Erdőalja utca': 'Erdőalja út'
+  # Lehet, hogy a rövid a hivatalos.
+  'Semmelweis Ignác köz': 'Semmelweis köz'
+  'Semmelweis Ignác utca': 'Semmelweis utca'
 source: survey
 inactive: true
