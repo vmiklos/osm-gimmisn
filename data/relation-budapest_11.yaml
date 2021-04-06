@@ -85,7 +85,9 @@ filters:
     # 36: nincs
     # 40-50 között nincs semmi, 52 az erőmű, Budapart miatt valtozhat
     # 62-64: csak a 64 használatos
-    invalid: ['26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '62', '23', '83b', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    # 78, 82/A, 82/B: zöldmező
+    # 84: Albertfalva
+    invalid: ['26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '62', '78', '82a', '82b', '23', '83b', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
@@ -95,6 +97,7 @@ filters:
     # ezek vannak: 23/a, 25/a, 25/b, 27, 29, 31/a, 31, 31/b, 33/a, 33/b, 33/c
     # 41b: csak sima 41
     # 43: 43/a, 43/b
+    # 47-49: 47 nincs, laktanya 49-53
     # 83-99 között gyakorlatilag nincs számozva semmi
     # 105: csak 105/b
     # 109: 109/a..c fent
@@ -125,9 +128,10 @@ filters:
     # 170: Safru
     # 178: nincs
     # 180: 180/b - 180/i között
-    invalid: ['23', '23b', '25', '29a', '29b', '33', '33/3', '41b', '43', '83b', '95', '95a', '97', '99', '101', '101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '141a', '149', '151', '163', '181', '181b', '183', '187a', '201', '259b', '24a', '32', '32e', '36a', '36b', '36d', '40', '44a', '44b', '48a', '48b', '50b', '58', '112a', '112b', '112c', '120c', '140', '146', '148a', '168', '178b', '180/1', '180a']
+    invalid: ['23', '23b', '25', '29a', '29b', '33', '33/3', '41b', '43', '47', '101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '141a', '149', '151', '163', '181', '181b', '183', '187a', '201', '259b', '24a', '32', '32e', '36a', '36b', '36d', '40', '44a', '44b', '48a', '48b', '50b', '58', '112a', '112b', '112c', '120c', '140', '146', '148a', '168', '178b', '180/1', '180a']
     ranges:
-      - {start: '1', end: '999'}
+      - {start: '1', end: '81'}
+      - {start: '101', end: '999'}
       - {start: '2', end: '66'}
       - {start: '78', end: '78'}
       - {start: '88', end: '90'}
@@ -138,7 +142,7 @@ filters:
     # páratlan ---------------------------------------------------------------
     # 5b: csak sima 5 van
     # 17, 19: 17/a, 17/b, 17/c, 19/a, 19/b, 19/c
-    # alsó rész: 41-ig aztán erdő, felül első ház 81/a
+    # alsó rész: 21-41-ig aztán erdő, felül első ház 81/a
     # 81: 81/a, 81/b, 81/c
     # 83, 85, 85b
     # páros ------------------------------------------------------------------
@@ -146,11 +150,12 @@ filters:
     # 6a: 6-os ház 2 részből áll, felvettem a 6/a-t arra a felére amin nem volt szám
     # 8: 8/a, 8/b
     # 12: 12/a, 12/b
+    # 24: Dayka tér
     # 32: 32/a, 32/b, 32/c, 32/d, 32/e
     # átszámozva: 46a -> 46, 48c-> 54, 48d-> 56; 48 nincs kiírva helyén még a 46c van
     # 62: 62/a, 62/b, 62/c, 62/d
     # 92, 92b, 94, 96, 98, 100
-    invalid: ['5b', '17', '19', '81', '83a', '85a', '4a', '8', '12', '32', '46a', '48', '48c', '48d', '62', '92a', '94a', '98a']
+    invalid: ['5b', '17', '19', '34', '79', '81', '83a', '85a', '4a', '8', '12', '24', '32', '46a', '48', '48c', '48d', '62', '66', '92a', '94a', '98a']
     ranges:
       - {start: '1', end: '91'}
       - {start: '2', end: '104'}
@@ -165,20 +170,26 @@ filters:
       - {start: '35', end: '67'}
       - {start: '36', end: '64'}
   Dobogó út:
-    # páratlan oldal nincs beépítve
+    # páratlan oldal Őrmezőn van beépítve
+    # páros oldal Péterhegyi részen van beépítve
     # 8 nincs
     # 16/2: 16a van
     # 36 nincs
     # 38a: 2 ház van de mindkettőhöz a 38 van kiírva
-    invalid: ['8', '16/2', '36', '36a', '38a']
+    # 61/b: nincs
+    invalid: ['8', '16/2', '36', '36a', '38a', '61/b']
+    ranges:
+      - {start: '49', end: '61'}  # Őrmező
+      - {start: '2', end: '38'}  # Péterhegy
   Dombóvári út:
-    # 6-8
+    # 3-5: Kollégium, csak a 3-as számot használja
+    # 6-8: irodaház
     # 9-et epitik
     # 10-11, 13-14, 17-19
     # 24-27 nadorkert
     # 28- ismet kelenfold
     interpolation: 'all'
-    invalid: ['1a']
+    invalid: ['1a', '4', '5', '21']
   Előpatak utca:
     # 17a: valószínű Dayka Gábor utca 17/a-val van keverve, mert az a sarkon van, egyébként csak 17 van
     # 50a, 50b: ikerház de csak 50-es szám van kint
@@ -198,19 +209,32 @@ filters:
       - {start: '2', end: '38'}
   Fehérvári út:
     # páratlan ---------------------------------------------------------------
+    # 81: nincs, 79 után 83 jön
     # 161 Andor utca sarka-179 Ventura között semmi nincs, 183-tól jön a panel
     # 215: panel, nincs betű
     # 225-233: panel, nincs betű
     # 235-243: panel, nincs betű
     # 245 a kocsiszín azon épületének házszáma, ahol a lángosos volt, lebontották
     # páros ------------------------------------------------------------------
+    # 4-8: első épület a 10-es szám, az iskola, valószínű 2-10 volt régen
+    # 14-22: Fehérvári úti vásárcsarnok, Kőrőssy József utcára számozva, 22-es a sarkon kint van
+    # 40-42: vasúti híd
     # 44 A épület, de 44 van csak kiírva
-    # 152 után 160 jön, majd 166 a benzikút
+    # 90-96: Hengermalom út
+    # 100/A, 102, 102/A, 102/B: nincsenek, 77 elektronika irodaház a helyén 98-as számmal
+    # 120-124: ezzel a címmel fut az épületegyüttes, de ki csak a 120 van írva, így lett felvive
+    # 150 = Temesvár utca 2
+    # 154-164: 152 után 160 jön, majd 166 a benzikút, de épp épül itt valami TODO 2020-05
     # 182-190: lakóház egyben, a és b épület/lépcsőház
-    invalid: ['21a', '79a', '83b', '85c', '145a', '179a', '179c', '179d', '181', '189a', '215l', '225b', '231b', '235a', '237b', '239c', '241d', '243f', '245', '44a', '44h', '64a', '106', '114', '118', '130a', '146a', '146b', '146z', '168b', '180a', '182a']
+    invalid: ['21a', '79a', '81', '83b', '85c', '145a', '179a', '179c', '179d', '181', '189a', '215l', '225b', '231b', '235a', '237b', '239c', '241d', '243f', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '114', '118', '122', '124', '130a', '146a', '146b', '146z', '150', '168b', '180a', '182a']
     ranges:
-      - {start: '1', end: '247'}
-      - {start: '2', end: '204'}
+      - {start: '1', end: '161'}
+      - {start: '179', end: '247'}
+      - {start: '2', end: '2'}
+      - {start: '10', end: '12'}
+      - {start: '22', end: '152'}
+      - {start: '160', end: '160'}
+      - {start: '166', end: '204'}
   Felsőhatár utca:
     # Budaörsi írásmód, nem kell
     ranges: []
@@ -420,7 +444,11 @@ filters:
     interpolation: 'all'
   Szerémi út:
     # paros nincs szamozva, csak egy fals cím ESTILO bútoház, de a lehetoseget meghagyjuk
-    invalid: ['7', '21d', '23c', '25b', '27a', '29c', '31b', '35c', '37b', '39a', '41c', '43b', '45a']
+    # 1 = Dombóvári út 13-14
+    # 3 = Nádorliget utca 4
+    # 13-19: másik utcákról számozva
+    # 21-27, 29-33, 35-39, 41-45: társasházak - a lépcsőházakon nincs betűjel, egyedi számok vannak
+    invalid: ['1', '1b', '3', '7', '13', '17', '19', 21d', '23c', '25b', '27a', '29c', '31b', '35c', '37b', '39a', '41c', '43b', '45a', '8', '10', '12a', '12b']
   Szüret utca:
     ranges:
       - {start: '1', end: '29'}
