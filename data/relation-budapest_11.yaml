@@ -78,7 +78,7 @@ filters:
     # 101: 95 után 103-107 jön (ubuda szerint 97-103) TODO
     # 107: I,II,II épület, illetve 107-109 a-b épület
     # 115-181: Újbuda Center, Hengermalomra számozva
-    # 215: paratlan: utolso ismert paratlan a 215, de meg vannak telkek
+    # 215: páratlan: utolso ismert páratlan a 215, de meg vannak telkek
     # 26: 26/b
     # 32b: 32/b-c, fel van rögzítve így
     # 34c: 34/c-d, fel van rögzítve így
@@ -189,7 +189,7 @@ filters:
     # 24-27 nadorkert
     # 28- ismet kelenfold
     interpolation: 'all'
-    invalid: ['1a', '4', '5', '21']
+    invalid: ['1a', '4', '5', '15', '21']
   Előpatak utca:
     # 17a: valószínű Dayka Gábor utca 17/a-val van keverve, mert az a sarkon van, egyébként csak 17 van
     # 50a, 50b: ikerház de csak 50-es szám van kint
@@ -242,10 +242,12 @@ filters:
     # 2/C A kiszűrése 2-es számmal történik
     invalid: ['2']
   Gazdagréti út:
-    # paratlan gazdagret, paros hosszuret 2-38, sasad 38-44
+    # páratlan Gazdagrét, páros Hosszúrét 2-38, sasad 38-44
+    # 1-3 = Budaörsi 165
+    # 11-13: lakótelep, nincs ide számozva semmi
     # 2: 2a,2b
     # 38a: 38, 38b, 38c
-    invalid: ['2', '38a']
+    invalid: ['1', '2', '3', '11', '13', '38a']
   Hamzsabégi út:
     interpolation: 'all'
     ranges:
@@ -271,11 +273,12 @@ filters:
     # 2a = Sánc utca 1, illetve 2=Mambo
     # 20: 20/a, 20/b
     # 38, 40: nincs, helyén a Hotel Bara másik épülete
+    # 68: nincs, helyén OMV kút illetve a BAH csomópont
     # 100/a, 100/b: csak sima 100 van
     # 118/a: csak 118 és 118/b
     # 136a, 136/b, 138/b: csak 136-138 van
     # 158: 158/a, 158/b
-    invalid: ['81a', '83a', '83b', '2a', '20', '38', '40', '100a', '100b', '118a', '136a', '136b', '138b', '158']
+    invalid: ['81a', '83a', '83b', '2a', '20', '38', '40', '68', '100a', '100b', '118a', '136a', '136b', '138b', '158']
     ranges:
       - {start: '32', end: '128'}
       - {start: '166', end: '190'}
@@ -289,11 +292,14 @@ filters:
     ranges:
       - {start: '2', end: '44'}
   Karolina út:
+    # 7-19: minden 17-re van számozva, vagy a Daróczi útra
+    # 23: nincs a 19-21 után 27 következik
     # 2e: 2, 2/c
     # 34: 34/a, 34/b
     # 38: 38/a, 38/b
+    # 48: 38 után 56, közben park illetve máshonnan számozva
     # 61-63
-    invalid: ['33', '33d', '35', '55a', '61b', '2e', '34', '38']
+    invalid: ['7', '23', '33', '33d', '35', '55a', '61b', '2e', '34', '38', '48']
     ranges:
       - {start: '1', end: '69'}
       - {start: '2', end: '72'}
@@ -322,7 +328,10 @@ filters:
     # 8: 8/a, 8/b
     # 10: 10/a, 10/b
     # 12b: 12/a
-    invalid: ['2', '4', '4b', '8', '10', '10k', '12b', '17b']
+    # 16 = Szatmárhegy utca 1
+    # 22 = Sáfrány utca 1
+    # 26 = Tomaj utca 1
+    invalid: ['2', '4', '4b', '8', '10', '10k', '12b', '16', '17b', '22', '26']
     ranges:
       - {start: '2', end: '82'}
       - {start: '3', end: '69'}
@@ -373,7 +382,7 @@ filters:
     ranges:
       - {start: '1', end: '18'}
   Nagyida utca:
-    # hosszuret 2-4, 6 nincs, 8-12, 12, 14 van
+    # Hosszúrét 2-4, 6 nincs, 8-12, 12, 14 van
     invalid: ['2/6', '6']
     ranges:
       - {start: '1', end: '19'}
@@ -422,7 +431,7 @@ filters:
       - {start: '1', end: '75'}
       - {start: '2', end: '22'}
   Rózsabarack utca:
-    # 1-7 hoszuret, 9- es a paros madarhegy
+    # 1-7 hoszuret, 9- es a páros madarhegy
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '20'}
@@ -443,12 +452,17 @@ filters:
   Szent Gellért tér:
     interpolation: 'all'
   Szerémi út:
-    # paros nincs szamozva, csak egy fals cím ESTILO bútoház, de a lehetoseget meghagyjuk
+    # páros nincs számozva, csak egy fals cím ESTILO bútoház, de a lehetoseget meghagyjuk
     # 1 = Dombóvári út 13-14
     # 3 = Nádorliget utca 4
     # 13-19: másik utcákról számozva
     # 21-27, 29-33, 35-39, 41-45: társasházak - a lépcsőházakon nincs betűjel, egyedi számok vannak
     invalid: ['1', '1b', '3', '7', '13', '17', '19', '21d', '23c', '25b', '27a', '29c', '31b', '35c', '37b', '39a', '41c', '43b', '45a', '8', '10', '12a', '12b']
+  Szirtes út:
+    # nincs XI. kerületi része ahol hászám lenne: 1-19 és páros oldal I. kerület
+    # 21 = Számadó utca 2
+    # 23+ zöldterület
+    ranges: []
   Szüret utca:
     ranges:
       - {start: '1', end: '29'}
@@ -493,7 +507,7 @@ filters:
     # 48: 48a,48b
     # 62a, 62b: sima 62 a és b lépcsőház van, magánterületen belül
     # 70e: csak sima 70 van
-    invalid: ['6a', '9b', '18c', '20/2', '22', '24a', '24b', '24c', '28a', '28b', '28c', '28g', '30', '30c', '48', '48d', '49d', '62a', '62b', '70e', '75b', '78c', '78d', '83b', '83c', '83d', '83h', '85h', '89h', '105']
+    invalid: ['6a', '9b', '18c', '19', '20/2', '21b', '22', '24a', '24b', '24c', '28a', '28b', '28c', '28g', '30', '30c', '48', '48d', '49d', '62a', '62b', '70e', '75b', '78c', '78d', '83b', '83c', '83d', '83h', '85h', '89h', '105']
     ranges:
       - {start: '1', end: '115'}
       - {start: '2', end: '86'}
@@ -541,9 +555,14 @@ filters:
       - {start: '1', end: '49'}
       - {start: '2', end: '54'}
   Építész utca:
+    # 9 = Kisújszállás utca 2
+    # 22 = Gyapot utca 1
+    # 38: Szerémi egyik odalán 28, másik oldalán 40-44
+    invalid: ['9', '22']
     ranges:
       - {start: '1', end: '17'}
-      - {start: '2', end: '44'}
+      - {start: '2', end: '28'}
+      - {start: '40', end: '44'}
   Érem utca:
     # 2b: 2 - Vakvarjú Étterem
     # 8/*: csak sima 8 van, ráadásul családi ház
@@ -920,7 +939,10 @@ filters:
     ranges: []
   # Kelenföld
   Albert utca:
-    invalid: ['43a']
+    # 32: Andor utca 4-12 panel oldala
+    # 35: Andor utca 14-18 panel oldala
+    # 43/a: nincs: 43 és 43/b .. 43/g
+    invalid: ['32', '35', '43a']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '48'}
@@ -977,7 +999,7 @@ filters:
       - {start: '1', end: '65'}
       - {start: '2', end: '52'}
   Benedikt Ottó utca:
-    # nincs ide szamozva haz, ez az tablan levo block end
+    # nincs ide számozva ház, ez az tablan levo block end
     ranges:
       - {start: '2', end: '4'}
   Bikás park:
@@ -1034,8 +1056,8 @@ filters:
       - {start: '3', end: '23'}
       - {start: '2', end: '28'}
   Csurgói út:
-    # 1-7 Ventura oldala, nincs hazszam, 9 nincs
-    # 2-16 masik utcakra szamozva
+    # 1-7 Ventura oldala, nincs házszám, 9 nincs
+    # 2-16 masik utcakra számozva
     #  22-32-t felbontották úgy, hogy minden háznak külön házszáma van, de közben megmaradt a betűje is
     invalid: ['18', '20', '21a', '22a', '24e', '24o', '38', '38b', '39']
     ranges:
@@ -1360,7 +1382,7 @@ filters:
       - {start: '62', end: '92'}
       - {start: '96', end: '198'}
   Thallóczy Lajos utca:
-    # 1-21 a remiz oldala, nincs haz
+    # 1-21 a remiz oldala, nincs ház
     ranges:
       - {start: '23', end: '29'}
       - {start: '2', end: '36'}
@@ -1834,7 +1856,7 @@ filters:
     invalid: ['27g']
   Keltike lejtő:
     ranges:
-      # kcr-ben 34-ig van szamozva
+      # kcr-ben 34-ig van számozva
       - {start: '1', end: '7'}
       - {start: '11', end: '99'}
       - {start: '2', end: '34'}
@@ -2116,10 +2138,10 @@ filters:
   Ördögorom lejtő:
     invalid: ['1b', '6a', '7a', '25', '32', '34', '36b']
     ranges:
-      # 45-53 között telkek hazszam nelkul
+      # 45-53 között telkek házszám nélkül
       - {start: '1', end: '45'}
       - {start: '51', end: '77'}
-      # 52-64 után között telkek hazszam nelkul
+      # 52-64 után között telkek házszám nélkül
       - {start: '2', end: '54'}
       - {start: '60', end: '72'}
   Ördögorom út:
@@ -2138,10 +2160,10 @@ filters:
   Spanyolrét út:
     invalid: ['34']
   Rupphegyi köz:
-    # nincs ide szamozva haz
+    # nincs ide számozva ház
     ranges: []
   Szelesdomb utca:
-    # 4 a vege de van meg egy szamozatlan haz
+    # 4 a vege de van meg egy számozatlan ház
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
