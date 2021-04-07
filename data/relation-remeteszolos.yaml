@@ -1,5 +1,5 @@
 missing-streets: 'yes'
-filters:
+filters: {}
 osm-street-filters:
   # Területhatár
   - Duna utca  # Budaliget
