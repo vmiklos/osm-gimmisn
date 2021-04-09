@@ -15,7 +15,7 @@ filters:
   Nagybányai út:
     # területhatár: pasaret/torokvesz
     ranges:
-      - {start: '62', end: '98'}
+      - {start: '62', end: '92'}
   Páfrány út:
     # területhatár: lipotmezo/nyek
     ranges:
