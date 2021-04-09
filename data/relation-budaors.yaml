@@ -340,6 +340,9 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '36'}
+  Veréb utca:
+    # 7: nincs kiíva: 2021-04
+    invalid: ['7']
   Visszhang utca:
     # páros oldalon nincs kiírva 1 házszám se
     # páratlan oldalon: 3,5,9
@@ -431,7 +434,7 @@ refstreets:
   'Aszú utca': 'Aszu utca'  # utcatábla Aszú utca
   'Írisz utca': 'Irisz utca'  # nincs utcatábla
   'Csík falu köz': 'Csik Falu köz'
-  'Kamaraerdei út': 'Kamaraerdei utca'
+  'Kamaraerdei út': 'Kamaraerdei utca'  # utcatábla Kamaraerdei út
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Petőfi Sándor utca': 'Petőfi utca'
   'Széchenyi utca': 'Széchenyi István utca'  # utcatábla Széchenyi utca

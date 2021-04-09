@@ -13,6 +13,9 @@ filters:
   Pelikán utca:
     # 6,8: nincsenek kiíva: 2021-04
     invalid: ['6', '8']
+  Veréb utca:
+    # 7: nincs kiíva: 2021-04
+    invalid: ['7']
 source: survey
 refstreets:
   Kamaraerdei út: Kamaraerdei utca
