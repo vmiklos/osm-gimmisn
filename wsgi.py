@@ -217,22 +217,7 @@ def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) 
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         output += _("No reference house numbers")
     else:
-        ongoing_streets, _ignore = relation.get_missing_housenumbers()
-
-        table = []
-        for result in ongoing_streets:
-            range_list = util.get_housenumber_ranges(result[1])
-            range_strings = [i.get_number() for i in range_list]
-            # Street name, only_in_reference items.
-            if not relation.get_config().get_street_is_even_odd(result[0].get_osm_name()):
-                result_sorted = sorted(range_strings, key=util.split_house_number)
-                row = result[0].get_osm_name() + "\t[" + ", ".join(result_sorted) + "]"
-            else:
-                elements = util.format_even_odd(range_list, doc=None)
-                row = result[0].get_osm_name() + "\t[" + "], [".join(elements) + "]"
-            table.append(row)
-        table.sort(key=locale.strxfrm)
-        output += "\n".join(table)
+        output = cache.get_missing_housenumbers_txt(relation)
     return output
 
 
