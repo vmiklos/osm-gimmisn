@@ -95,4 +95,14 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
         with unittest.mock.patch('os.path.getmtime', mock_getmtime):
             self.assertFalse(cache.is_missing_housenumbers_html_cached(relation))
 
+
+class TestIsMissingHousenumbersTxtCached(test_config.TestCase):
+    """Tests is_missing_housenumbers_txt_cached()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = get_relations()
+        relation = relations.get_relation("gazdagret")
+        cache.get_missing_housenumbers_txt(relation)
+        self.assertTrue(cache.is_missing_housenumbers_txt_cached(relation))
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

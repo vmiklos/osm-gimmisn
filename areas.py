@@ -100,6 +100,14 @@ class RelationFiles:
         """Opens the house number HTML cache file of a relation."""
         return cast(TextIO, open(self.get_housenumbers_htmlcache_path(), mode=mode))
 
+    def get_housenumbers_txtcache_path(self) -> str:
+        """Builds the file name of the house number plain text cache file of a relation."""
+        return os.path.join(self.__workdir, "%s.txtcache" % self.__name)
+
+    def get_housenumbers_txtcache_stream(self, mode: str) -> TextIO:
+        """Opens the house number plain text cache file of a relation."""
+        return cast(TextIO, open(self.get_housenumbers_txtcache_path(), mode=mode))
+
     def get_streets_percent_path(self) -> str:
         """Builds the file name of the street percent file of a relation."""
         return os.path.join(self.__workdir, "%s-streets.percent" % self.__name)
