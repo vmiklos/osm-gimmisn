@@ -41,8 +41,7 @@ def is_missing_housenumbers_html_cached(relation: areas.Relation) -> bool:
 
     datadir = config.get_abspath("data")
     relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
-    relation_mtime = os.path.getmtime(relation_path)
-    if relation_mtime > cache_mtime:
+    if os.path.exists(relation_path) and os.path.getmtime(relation_path) > cache_mtime:
         return False
 
     return True
