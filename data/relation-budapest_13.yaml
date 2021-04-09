@@ -1,4 +1,4 @@
-missing-streets: only
+missing-streets: 'yes'
 filters: {}
 osm-street-filters:
   # nem igazi utcák
