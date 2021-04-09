@@ -1,0 +1,26 @@
+missing-streets: 'yes'
+osm-street-filters:
+  # Parkok, sétautak amire nincs számozva semmi
+  - Beethoven park
+  - Szent László sétány
+  # Területhatáron lévő utca
+street-filters:
+  # Nem igazi utcák
+  - Máv vasútállomás
+refstreets:
+  'Aradi vértanúk tere': 'Aradi vértanuk tere'
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Bocskai utca': 'Bocskay utca'
+  'Brunszvik utca': 'Brunszvik út'
+  'Dréher utca': 'Dreher utca'
+  'Határ út': 'Határ utca'
+  'Jókai utca': 'Jókai Mór utca'
+  'Karinthy Frigyes utca': 'Karinthy utca'
+  'Kassák köz': 'Kassák Lajos köz'
+  'Kölcsey utca': 'Kölcsey Ferenc utca'
+  'Orbánhegy utca': 'Orbánhegyi utca'
+  'Rákóczi utca': 'Rákóczi Ferenc utca'
+  'Táncsics Mihály utca': 'Táncsics utca'
+  'Vörösmarty utca': 'Vörösmarty Mihály utca'
+source: survey
+inactive: false
