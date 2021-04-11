@@ -360,6 +360,9 @@ filters:
   Rőzse utca:
     # 1-25, 2-24
     invalid: ['68']
+  Rőzse köz:
+    # 1-7, 2-4
+    invalid: ['6', '8', '14', '22', '24']
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
