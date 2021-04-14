@@ -592,6 +592,10 @@ pilisjaszfalu:
     osmrelation: 215938
     refcounty: "14"
     refsettlement: "107"
+pilisszentivan:
+    osmrelation: 215944
+    refcounty: "14"
+    refsettlement: "109"
 pilisvorosvar:
     osmrelation: 215943
     refcounty: "14"
@@ -600,6 +604,10 @@ remeteszolos:
     osmrelation: 215947
     refcounty: "14"
     refsettlement: "186"
+solymar:
+    osmrelation: 215945
+    refcounty: "14"
+    refsettlement: "121"
 szigethalom:
     osmrelation: 222332
     refcounty: "14"

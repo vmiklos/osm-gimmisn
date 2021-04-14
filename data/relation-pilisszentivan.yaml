@@ -1,0 +1,7 @@
+missing-streets: 'yes'
+refstreets:
+  'Bányatelep': 'Bánya telep'
+  'Táncsics Mihály utca': 'Táncsics utca'
+  'Templomhegy utca': 'Templom hegy'
+source: survey
+inactive: true
