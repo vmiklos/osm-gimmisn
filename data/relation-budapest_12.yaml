@@ -373,6 +373,7 @@ osm-street-filters:
   - MOM park
   - mozgássérült gyakorlópark
   - Városmajor
+  - vsb
   # Létező, de házszám nélküli utcák
   - Abos lépcső
   - Anjou lépcső
