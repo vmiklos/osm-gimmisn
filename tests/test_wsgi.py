@@ -41,12 +41,6 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def get_relations() -> areas.Relations:
-    """Returns a Relations object that uses the test data and workdir."""
-    workdir = os.path.join(os.path.dirname(__file__), "workdir")
-    return areas.Relations(workdir)
-
-
 class TestWsgi(test_config.TestCase):
     """Base class for wsgi tests."""
     def __init__(self, method_name: str) -> None:
@@ -218,7 +212,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -234,7 +228,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         real_exists = os.path.exists
@@ -250,7 +244,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         real_exists = os.path.exists
@@ -321,14 +315,14 @@ Tűzkő utca	[1], [2]"""
                 return False
             return real_exists(path)
 
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         with unittest.mock.patch('os.path.exists', mock_exists):
             result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
             self.assertEqual(result, "No existing streets")
 
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         with unittest.mock.patch('os.path.exists', mock_exists):
@@ -337,7 +331,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_chkl_no_ref_housenumbers(self) -> None:
         """Tests the chkl output, no ref housenumbers case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         real_exists = os.path.exists
@@ -352,7 +346,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -367,7 +361,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_osm_housenumbers(self) -> None:
         """Tests the txt output, no osm housenumbers case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         real_exists = os.path.exists
@@ -382,7 +376,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_ref_housenumbers(self) -> None:
         """Tests the txt output, no ref housenumbers case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         real_exists = os.path.exists
@@ -465,7 +459,7 @@ class TestStreetHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         real_exists = os.path.exists
@@ -502,7 +496,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -518,7 +512,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         real_exists = os.path.exists
@@ -544,7 +538,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -559,7 +553,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         real_exists = os.path.exists
@@ -619,7 +613,7 @@ class TestAdditionalStreets(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -635,7 +629,7 @@ class TestAdditionalStreets(TestWsgi):
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         real_exists = os.path.exists
@@ -663,7 +657,8 @@ class TestMain(TestWsgi):
         environ = {
             "PATH_INFO": ""
         }
-        ret = webframe.get_request_uri(environ, get_relations())
+        relations = areas.Relations(config.Config.get_workdir())
+        ret = webframe.get_request_uri(environ, relations)
         self.assertEqual(ret, "")
 
     def test_filter_for_incomplete_well_formed(self) -> None:

@@ -13,12 +13,7 @@ import unittest.mock
 import test_wsgi
 
 import areas
-
-
-def get_relations() -> areas.Relations:
-    """Returns a Relations object that uses the test data and workdir."""
-    workdir = os.path.join(os.path.dirname(__file__), "workdir")
-    return areas.Relations(workdir)
+import config
 
 
 class TestStreets(test_wsgi.TestWsgi):
@@ -35,7 +30,7 @@ class TestStreets(test_wsgi.TestWsgi):
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -50,7 +45,7 @@ class TestStreets(test_wsgi.TestWsgi):
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         real_exists = os.path.exists

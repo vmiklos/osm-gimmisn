@@ -16,24 +16,18 @@ import cache
 import config
 
 
-def get_relations() -> areas.Relations:
-    """Returns a Relations object that uses the test data and workdir."""
-    workdir = os.path.join(os.path.dirname(__file__), "workdir")
-    return areas.Relations(workdir)
-
-
 class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
     """Tests is_missing_housenumbers_html_cached()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         self.assertTrue(cache.is_missing_housenumbers_html_cached(relation))
 
     def test_no_cache(self) -> None:
         """Tests the case when there is no cache."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -48,7 +42,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
 
     def test_osm_housenumbers_new(self) -> None:
         """Tests the case when osm_housenumbers is new, so the cache entry is old."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -64,7 +58,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
 
     def test_ref_housenumbers_new(self) -> None:
         """Tests the case when ref_housenumbers is new, so the cache entry is old."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -80,7 +74,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
 
     def test_relation_new(self) -> None:
         """Tests the case when relation is new, so the cache entry is old."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -100,7 +94,7 @@ class TestIsMissingHousenumbersTxtCached(test_config.TestCase):
     """Tests is_missing_housenumbers_txt_cached()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = get_relations()
+        relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_txt(relation)
         self.assertTrue(cache.is_missing_housenumbers_txt_cached(relation))

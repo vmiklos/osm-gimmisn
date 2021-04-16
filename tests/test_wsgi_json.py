@@ -16,26 +16,18 @@ from typing import Tuple
 from typing import cast
 import io
 import json
-import os
 import unittest
 import unittest.mock
 import urllib.error
 
 import test_config
 
-import areas
 import config
 import wsgi
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
     from wsgiref.types import StartResponse
-
-
-def get_relations() -> areas.Relations:
-    """Returns a Relations object that uses the test data and workdir."""
-    workdir = os.path.join(os.path.dirname(__file__), "workdir")
-    return areas.Relations(workdir)
 
 
 class TestWsgiJson(test_config.TestCase):
