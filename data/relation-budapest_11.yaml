@@ -75,7 +75,7 @@ filters:
     # 21-27: Katonai Nemzetbiztonsági Szolgálat: Bartókra van számozva
     # 59-63: 59-es van használatban
     # 65-77: nincs
-    # 101: 95 után 103-107 jön (ubuda szerint 97-103) TODO
+    # 97-103: 95 után 105 jön, máshonnan számozódik (ubuda szerint 97-103, régen volt egy cetli, amint 103-107 volt, de máe nincs)
     # 107: I,II,II épület, illetve 107-109 a-b épület
     # 115-181: Újbuda Center, Hengermalomra számozva
     # 215: páratlan: utolso ismert páratlan a 215, de meg vannak telkek
@@ -87,7 +87,7 @@ filters:
     # 62-64: csak a 64 használatos
     # 78, 82/A, 82/B: zöldmező
     # 84: Albertfalva
-    invalid: ['26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '62', '78', '82a', '82b', '23', '83b', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    invalid: ['26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '62', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
@@ -206,7 +206,7 @@ filters:
     # 2 nincs, a többi helyrajzi szám az is a Péterhegyi dűlőhöz tartozik
     ranges: []
   Fadrusz utca:
-    # 11,11b: TODO: 2020-02-20 még tart az építkezés, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami
+    # 11,11b: TODO: 2021-04-15 még tart az építkezés, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami
     invalid: ['11', '11b']
     ranges:
       - {start: '1', end: '31'}
@@ -524,7 +524,8 @@ filters:
       - {start: '2', end: '86'}
   Vincellér utca:
     # 16, 16b: csak 16/a van
-    invalid: ['16', '16b']
+    # 34-36: nincs, 32 után a sarokház címe Kökörcsin utca 7
+    invalid: ['16', '16b', '34']
     ranges:
       - {start: '23', end: '47'}
       - {start: '16', end: '50'}
@@ -2882,4 +2883,4 @@ osm-street-filters:
   - Zabfű utca
 source: survey
 housenumber-letters: true
-inactive: false
+inactive: true
