@@ -1,5 +1,5 @@
 missing-streets: 'yes'
-filters: 
+filters:
   # házak nélküliek
   Bástya utca:
     ranges: []
@@ -44,7 +44,7 @@ filters:
     ranges: []
   Oxigén út:
     ranges: []
-  Téglagyári út :
+  Téglagyári út:
     ranges: []
   Vízlágyító út:
     ranges: []
