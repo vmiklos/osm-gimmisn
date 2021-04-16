@@ -25,8 +25,7 @@ import util
 
 def is_complete_relation(relations: areas.Relations, relation_name: str) -> bool:
     """Does this relation have 100% house number coverage?"""
-    if relation_name not in relations.get_names():
-        return False
+    assert relation_name in relations.get_names()
 
     relation = relations.get_relation(relation_name)
     if not os.path.exists(relation.get_files().get_housenumbers_percent_path()):
@@ -53,7 +52,7 @@ def is_search_bot(line: str) -> bool:
     return False
 
 
-def get_frequent_relations(relations: areas.Relations, log_file: str) -> Set[str]:
+def get_frequent_relations(log_file: str) -> Set[str]:
     """Determine the top 20%: set of frequently visited relations."""
     counts: Dict[str, int] = {}
     with open(log_file, "r") as stream:
@@ -80,7 +79,6 @@ def get_frequent_relations(relations: areas.Relations, log_file: str) -> Set[str
                 counts[relation_name] += 1
             else:
                 counts[relation_name] = 1
-    counts = {key: value for (key, value) in counts.items() if not is_complete_relation(relations, key)}
     count_list = sorted(counts.items(), key=lambda x: x[1], reverse=True)
 
     # Dump relations and their visit count to workdir for further inspection.
@@ -150,7 +148,7 @@ def main() -> None:
     relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates()
 
     relations = areas.Relations(config.Config.get_workdir())
-    frequent_relations = get_frequent_relations(relations, log_file)
+    frequent_relations = get_frequent_relations(log_file)
     check_top_edited_relations(frequent_relations, config.Config.get_workdir())
 
     # Now suggest what to change.
@@ -159,7 +157,7 @@ def main() -> None:
     for relation_name in relations.get_names():
         relation = relations.get_relation(relation_name)
         actual = relation.get_config().is_active()
-        expected = relation_name in frequent_relations
+        expected = relation_name in frequent_relations and not is_complete_relation(relations, relation_name)
         if actual != expected:
             if actual:
                 if not is_relation_recently_added(relation_create_dates, relation_name):
