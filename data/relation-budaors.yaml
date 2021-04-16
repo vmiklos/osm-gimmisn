@@ -49,9 +49,9 @@ filters:
   Berkenye utca:
     invalid: ['6']
   Besztercei utca:
-    # 1, 12: nincsenek
+    # 1, 5, 12: nincsenek
     interpolation: all
-    invalid: ['1', '12']
+    invalid: ['1', '5', '12']
   Boróka utca:
     # az utcában viskók vannak, csak 2 normális házon van szám 5 és 6
     invalid: ['7', '8', '9', '10', '12']
@@ -257,6 +257,10 @@ filters:
   Pihenő utca:
     # 1,9 nincs kiírva
     invalid: ['1', '9']
+  Pillangó utca:
+    ranges:
+      - {start: '1', end: '13'}
+      - {start: '2', end: '8'}
   Puttony utca:
     # Káosz a nyugati végen: 14-16, 18, 141, 22; másik oldalon 120 mellett a 12
     # gyéren táblázva, ezek nincsenek
