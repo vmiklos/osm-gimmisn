@@ -12,14 +12,22 @@ from typing import Set
 from typing import Tuple
 import datetime
 import io
+import os
 import subprocess
 import unittest
 import unittest.mock
 
 import test_config
 
+import areas
 import config
 import parse_access_log
+
+
+def get_relations() -> areas.Relations:
+    """Returns a Relations object that uses the test data and workdir."""
+    workdir = os.path.join(os.path.dirname(__file__), "workdir")
+    return areas.Relations(workdir)
 
 
 class MockDate(datetime.date):
@@ -96,6 +104,13 @@ class TestCheckTopEditedRelations(test_config.TestCase):
                 self.assertIn("city4", frequent_relations)
                 self.assertNotIn("bar", frequent_relations)
                 self.assertNotIn("baz", frequent_relations)
+
+
+class TestIsCompleteRelation(test_config.TestCase):
+    """Tests is_complete_relation()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        self.assertFalse(parse_access_log.is_complete_relation(get_relations(), "gazdagret"))
 
 
 if __name__ == '__main__':
