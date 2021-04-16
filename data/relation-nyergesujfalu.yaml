@@ -6,6 +6,9 @@ filters:
       - {start: '2', end: '98'}
   Ipari park:
     show-refstreet: false
+  Szabadság liget:
+    # Nincs 53 szám  35 a vége...
+    invalid: ['53']
 refstreets:
   'Csokonai Vitéz Mihály utca': 'Csokonai Mihály utca'
   'Ipari park': 'Ipari park ipartelep'
