@@ -48,6 +48,10 @@ filters:
     invalid: ['86']
   Berkenye utca:
     invalid: ['6']
+  Besztercei utca:
+    # 1, 12: nincsenek
+    interpolation: all
+    invalid: ['1', '12']
   Boróka utca:
     # az utcában viskók vannak, csak 2 normális házon van szám 5 és 6
     invalid: ['7', '8', '9', '10', '12']
@@ -152,6 +156,9 @@ filters:
       - {start: '1', end: '13'}
       - {start: '21', end: '41'}
       - {start: '2', end: '32'}
+  Kismartoni utca:
+    # 38-at lebontották, a telket a 40-es házhoz csatolták
+    invalid: ['38']
   Kolozsvári utca:
     ranges:
       - {start: '1', end: '51'}
@@ -438,5 +445,4 @@ refstreets:
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Petőfi Sándor utca': 'Petőfi utca'
   'Széchenyi utca': 'Széchenyi István utca'  # utcatábla Széchenyi utca
-  'Vicus Teuto': 'Vicus Teuto utca'
 inactive: false

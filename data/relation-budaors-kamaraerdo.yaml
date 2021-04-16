@@ -1,11 +1,18 @@
 missing-streets: 'no'
 filters:
+  Besztercei utca:
+    # 1, 12: nincsenek
+    interpolation: all
+    invalid: ['1', '12']
   Kamaraerdei út:
     ranges:
       - {start: '23', end: '79'}
   Kígyó utca:
     # nem felmérhető, elzárt magánterület
     ranges: []
+  Kismartoni utca:
+    # 38-at lebontották, a telket a 40-es házhoz csatolták
+    invalid: ['38']
   Kolozsvári utca:
     ranges:
       - {start: '1', end: '51'}
