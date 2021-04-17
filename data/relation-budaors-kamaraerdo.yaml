@@ -1,12 +1,24 @@
 missing-streets: 'no'
 filters:
+  Beregszászi út:
+    # 31: 29 utcán 33 jön
+    # 42: 40 után 46 jön, egy házon csak hrsz
+    invalid: ['31', '42']
+    ranges:
+      - {start: '1', end: '109'}
+      - {start: '2', end: '58'}
   Besztercei utca:
     # 1, 5, 12: nincsenek
     interpolation: all
     invalid: ['1', '5', '12']
   Kamaraerdei út:
+    # 65: 63 után 67 jön
+    invalid: ['65']
     ranges:
       - {start: '23', end: '79'}
+  Kassai utca:
+    # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
+    invalid: ['4', '6']
   Kígyó utca:
     # nem felmérhető, elzárt magánterület
     ranges: []
@@ -22,14 +34,26 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '8'}
   Pelikán utca:
-    # 6,8: nincsenek kiíva: 2021-04
+    # 6,8: nincsenek kiíva: 2021-04 TODO
     invalid: ['6', '8']
   Seregély utca:
     # területen kívül
     ranges: []
+  Sirály utca:
+    # 11 valószínű az építkezés TODO
+    # 22 nincs kiírva: 2021-04 TODO
+    invalid: ['22']
+  Torockó utca:
+    # 3: 2 után 4 jön
+    interpolation: all
+    invalid: ['3']
   Veréb utca:
-    # 7: nincs kiíva: 2021-04
+    # 7: nincs kiíva: 2021-04 TODO
     invalid: ['7']
+  Zombori utca:
+    # 44: 42 után 48 jön
+    # 57: 55 után 59 jön, az 55 ikerházm de nincs kiírva az 57, inkább 55/a-nak látszik a kukán
+    invalid: ['44', '57']
 source: survey
 refstreets:
   Kamaraerdei út: Kamaraerdei utca
