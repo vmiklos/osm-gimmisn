@@ -1,6 +1,6 @@
 missing-streets: 'no'
 filters:
-  Beregszászi út:
+  Beregszászi utca:
     # 31: 29 utcán 33 jön
     # 42: 40 után 46 jön, egy házon csak hrsz
     invalid: ['31', '42']
@@ -23,8 +23,10 @@ filters:
     # nem felmérhető, elzárt magánterület
     ranges: []
   Kismartoni utca:
-    # 38-at lebontották, a telket a 40-es házhoz csatolták
-    invalid: ['38']
+    # 3: 1 után 5 jön
+    # 75: 71 után 77 jön
+    # 38: 38-at lebontották, a telket a 40-es házhoz csatolták
+    invalid: ['3', '38', '75']
   Kolozsvári utca:
     ranges:
       - {start: '1', end: '51'}
