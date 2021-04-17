@@ -46,6 +46,13 @@ filters:
     invalid: ['1', '11', '12']
   Baross utca:
     invalid: ['86']
+  Beregszászi út:
+    # 31: 29 utcán 33 jön
+    # 42: 40 után 46 jön, egy házon csak hrsz
+    invalid: ['31', '42']
+    ranges:
+      - {start: '1', end: '109'}
+      - {start: '2', end: '58'}
   Berkenye utca:
     invalid: ['6']
   Besztercei utca:
@@ -144,6 +151,9 @@ filters:
     invalid: ['7', '10', '12', '13', '18']
   Ifjúság utca:
     invalid: ['2', '37']
+  Kassai utca:
+    # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
+    invalid: ['4', '6']
   Kertész köz:
     ranges:
       - {start: '1', end: '5'}
@@ -287,6 +297,10 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '24'}
+  Sirály utca:
+    # 11 valószínű az építkezés TODO
+    # 22 nincs kiírva: 2021-04 TODO
+    invalid: ['22']
   Szabadság út:
     # 181-209 többségében a Holdfény utcára van számozva
     invalid: ['136', '144', '153', '183', '185', '187', '189', '191', '201', '205', '209']
@@ -331,6 +345,10 @@ filters:
   Toboz utca:
     # csak 2 házon van szám
     invalid: ['3', '4', '6', '9']
+  Torockó utca:
+    # 3: 2 után 4 jön
+    interpolation: all
+    invalid: ['3']
   Tölgy utca:
     # semmilyen házszám sincs kiírva az utcában
     invalid: ['1', '3']
@@ -371,6 +389,11 @@ filters:
       - {start: '2', end: '28'}
   Zengő utca:
     invalid: ['25']
+  Zombori utca:
+    # 44: 42 után 48 jön
+    # 57: 55 után 59 jön, az 55 ikerházm de nincs kiírva az 57, inkább 55/a-nak látszik a kukán
+    # 72: lebontva, az idősek otthona parkolója van a helyén
+    invalid: ['44', '57', '72']
   Zúzmara utca:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']
