@@ -884,7 +884,8 @@ def make_turbo_query_for_streets(relation: Relation, streets: List[str]) -> str:
     header = """[out:json][timeout:425];
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
-("""
+(
+rel(@RELATION@);"""
     query = util.process_template(header, relation.get_config().get_osmrelation())
     for street in streets:
         query += 'way["name"="' + street + '"](r.searchRelation);\n'
@@ -892,7 +893,11 @@ area(@AREA@)->.searchArea;
     query += """);
 out body;
 >;
-out skel qt;"""
+out skel qt;
+{{
+style: relation{width:3}
+way{color:blue; width:4;}
+}}"""
     return query
 
 
