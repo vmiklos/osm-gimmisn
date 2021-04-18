@@ -1,2 +1,0 @@
-- missing-housenumbers: could cache the result, so larger relations are served instantly most of the
-  time
