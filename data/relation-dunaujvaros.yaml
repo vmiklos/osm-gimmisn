@@ -1,10 +1,5 @@
 missing-streets: 'yes'
 filters:
-  # házak nélküliek
-  Bástya utca:
-    ranges: []
-  Berzsenyi út:
-    ranges: []
   # Vasműn belüliek
   Benzol út:
     ranges: []
@@ -57,6 +52,9 @@ osm-street-filters:
   - Városháza park
   # Határon lévő, átlógó
 street-filters:
+  # házak nélküliek
+  - Bástya utca
+  - Berzsenyi út
   # Nem igazi utcák
   - Vasúti őrházak
   # Kérdéses
