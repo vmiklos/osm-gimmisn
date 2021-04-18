@@ -1,9 +1,13 @@
 missing-streets: 'yes'
 filters:
+  Aradi utca:
+    invalid: ['35']
   Bécsi út:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '98'}
+  Erkel Ferenc utca:
+    invalid: ['29']
   Ipari park:
     show-refstreet: false
   Szabadság liget:
