@@ -959,12 +959,17 @@ class TestMakeTurboQueryForStreets(test_config.TestCase):
         expected = """[out:json][timeout:425];
 rel(2713748)->.searchRelation;
 area(3602713748)->.searchArea;
-(way["name"="A2"](r.searchRelation);
+(rel(2713748);
+way["name"="A2"](r.searchRelation);
 way["name"="A2"](area.searchArea);
 );
 out body;
 >;
-out skel qt;"""
+out skel qt;
+{{
+style: relation{width:3}
+way{color:blue; width:4;}
+}}"""
         self.assertEqual(ret, expected)
 
 
