@@ -966,8 +966,8 @@ way["name"="A2"](area.searchArea);
 out body;
 >;
 out skel qt;
-{{
-style: relation{width:3}
+{{style:
+relation{width:3}
 way{color:blue; width:4;}
 }}"""
         self.assertEqual(ret, expected)
