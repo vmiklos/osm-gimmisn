@@ -1,48 +1,5 @@
 missing-streets: 'yes'
-filters:
-  # Vasműn belüliek
-  Benzol út:
-    ranges: []
-  Csarnok út:
-    ranges: []
-  Darupálya út:
-    ranges: []
-  Elegytéri út:
-    ranges: []
-  Érctéri út:
-    ranges: []
-  Fenol út:
-    ranges: []
-  Hengermű út:
-    ranges: []
-  Hideghengermű átkötő út:
-    ranges: []
-  Kokilla út:
-    ranges: []
-  Kokszolói főút:
-    ranges: []
-  Kovácsműhely út:
-    ranges: []
-  Labor út:
-    ranges: []
-  Meleghengermű átkötő út:
-    ranges: []
-  Mozdonyjavító út:
-    ranges: []
-  Nafta út:
-    ranges: []
-  Nagyolvasztó út:
-    ranges: []
-  Ócskavas út:
-    ranges: []
-  Oxigéngyár út:
-    ranges: []
-  Oxigén út:
-    ranges: []
-  Téglagyári út:
-    ranges: []
-  Vízlágyító út:
-    ranges: []
+filters: {}
 osm-street-filters:
   # Nem igazi utcák
   - M6 autópálya
@@ -63,6 +20,28 @@ osm-street-filters:
   - Árnyas sétány
   - Fenyő sétány
   - Kiserdei sétány
+  # Vasműn belüliek
+  - Benzol út
+  - Csarnok út
+  - Darupálya út
+  - Elegytéri út
+  - Érctéri út
+  - Fenol út
+  - Hengermű út
+  - Hideghengermű átkötő út
+  - Kokilla út
+  - Kokszolói főút
+  - Kovácsműhely út
+  - Labor út
+  - Meleghengermű átkötő út
+  - Mozdonyjavító út
+  - Nafta út
+  - Nagyolvasztó út
+  - Ócskavas út
+  - Oxigéngyár út
+  - Oxigén út
+  - Téglagyári út
+  - Vízlágyító út
   # Határon lévő, átlógó
 street-filters:
   # Nem igazi utcák
