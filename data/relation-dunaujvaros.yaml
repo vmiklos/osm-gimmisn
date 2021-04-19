@@ -46,15 +46,25 @@ filters:
 osm-street-filters:
   # Nem igazi utcák
   - M6 autópálya
+  - Mentőállomás
+  - Üzlet sor
   # Parkok
   - Muki mozdony parkja
-  - Üzlet sor
   - Városháza park
-  # Határon lévő, átlógó
-street-filters:
+  - Dunaújvárosi Szoborpark
   # házak nélküliek
   - Bástya utca
   - Berzsenyi út
+  - Győzelem utca
+  # sétautak, amikre nincs számozva semmi
+  - Alsó sétány
+  - Felső sétány
+  - Sétány
+  - Árnyas sétány
+  - Fenyő sétány
+  - Kiserdei sétány
+  # Határon lévő, átlógó
+street-filters:
   # Nem igazi utcák
   - Vasúti őrházak
   # Kérdéses
@@ -77,6 +87,7 @@ street-filters:
   # - Úsztató dűlő
 refstreets:
   'Aranyvölgyi út': 'Aranyvölgy út'
+  'Apáczai Csere János utca': 'Apáczai Csere János út'
   'Barsi Dénes utca': 'Barsi Dénes út'
   'Batsányi János utca': 'Batsányi út'
   'Béke körút': 'Béke utca'
