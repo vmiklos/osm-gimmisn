@@ -616,6 +616,10 @@ szigetmonostor:
     osmrelation: 216157
     refcounty: "14"
     refsettlement: "132"
+szob:
+    osmrelation: 1370263
+    refcounty: "14"
+    refsettlement: "136"
 torokbalint:
     osmrelation: 113462
     refcounty: "14"
