@@ -4,6 +4,9 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '98'}
+osm-street-filters:
+  # más a neve a 2 oldalon
+  - Nyergesi út-Kossuth Lajos utca
 refstreets:
   'Epöli út': 'Epöli utca'
   'Határ út': 'Határ utca'
