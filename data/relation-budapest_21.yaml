@@ -13,6 +13,56 @@ street-filters:
   # egyéb
   # Előd utca - Temetődűlő utca?
   # Kisduna sor - Dunapart mellett, Szállító utcától északra
+osm-street-filters:
+  # nem igazi utcák
+  - autós tanpálya
+  # parkok
+  - Csepeli Akácfa utcai kiserdő
+  - Görgey park
+  - Rákóczi Kert Civil és Közösségi Ház
+  - Szánkódomb
+  - Tejút park
+  # Csepeli Papírgyár belső utcák
+  - I. utca
+  - II. utca
+  - V. utca
+  # Csepel Művek belső utcák
+  - Alumínium-hengerde utca
+  - Bronzöntő utca
+  - Csőszerelő utca
+  - Derítő utca
+  - Gépház utca
+  - Elektróda köz
+  - Esztergályos utca
+  - Fűtőház utca
+  - Gázgyár utca
+  - Gépgyár köz
+  - Golyóscsapágy utca
+  - Homok utca
+  - Iskola utca
+  - Kapcsolóház utca
+  - Kerékpár köz
+  - Kerékpár utca
+  - Közmű utca
+  - Lakatos utca
+  - Mintaasztalos utca
+  - Nehézfémforma-öntő utca
+  - Perem út
+  - Rézműraktár utca
+  - Rézmű utca
+  - Tűzoltó utca
+  - Vas utca
+  - Vasút sor
+  - Vegyigépgyár utca
+  # Szabadkikötő belső utcák
+  - Gabonatárházi út
+  - Gyapjútárházi út
+  - Matrózszálló út
+  # Határon átlógó - Szigetszentmiklós
+  - Háros utca
+  - Kócsag utca
+  - Kormorán utca
+  - Üdülő sor
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = REF
