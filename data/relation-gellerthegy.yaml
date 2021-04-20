@@ -119,6 +119,7 @@ filters:
       - {start: '2', end: '10'}
   Kelenhegyi út:
     # 11-13: csak 11 van kiírva
+    # 29: 29/a, 29/b
     # 35a, 35/b: 35 a és b épület
     # 42: csak 42/a
     # 44a: csak sima 44 a kerítésen, az házat lebontották
@@ -133,7 +134,7 @@ filters:
     # 72, 74: másik utcára számozódnak
     # 77b: csak sima 77
     refsettlement: '011'
-    invalid: ['13', '35a', '35b', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
+    invalid: ['13', '29', '35a', '35b', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
     ranges:
       - {start: '1', end: '81'}
       - {start: '12', end: '70'}
