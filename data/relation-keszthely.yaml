@@ -27,15 +27,16 @@ street-filters:
   - Sömögye dűlő
   # Koponár utca    - w204692963 Öv utca nyugat - földút, nem volt tábla az elején
 refstreets:
-  György bíró utca: György Biró utca  # marad így, helyesírásilag ez a forma jó, utcanévtábla uppercase és rövid
-  Kilátó utca: Kilátó köz
+  'Györök György utca': 'György Biró utca'  # marad így, helyesírásilag ez a forma jó, utcanévtábla uppercase és rövid
+  'Kilátó utca': 'Kilátó köz'
+  'Semmelweis Ignác utca': 'Semmelweis utca'
   # ellenőrzött 2020-06, utcatábán az osm név
-  Árnyas utca: Árnyas út  # vegyesen vannak a táblák: Árnyas út / Árnyas utca
-  Dankó utca: Dankó Pista utca  # nincs kint tábla, nem eldönthető
-  Felsőmajori út: Felső Majori út
-  Ifjúság utca: Ifjúság útja
-  Kazinczy Ferenc utca: Kazinczy utca
-  Kísérleti utca: Kisérleti utca
-  Tipegő utca: Tipegő út
+  'Árnyas utca': 'Árnyas út'  # vegyesen vannak a táblák: Árnyas út / Árnyas utca
+  'Dankó utca': 'Dankó Pista utca'  # nincs kint tábla, nem eldönthető
+  'Felsőmajori út': 'Felső Majori út'
+  'Ifjúság utca': 'Ifjúság útja'
+  'Kazinczy Ferenc utca': 'Kazinczy utca'
+  'Kísérleti utca': 'Kisérleti utca'
+  'Tipegő utca': 'Tipegő út'
 source: survey
 inactive: true
