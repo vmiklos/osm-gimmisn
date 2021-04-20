@@ -6,10 +6,22 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '98'}
+  Duna dűlő:
+    invalid: ['4', '9', '83', '93', '132']
   Erkel Ferenc utca:
     invalid: ['29']
+  Hosszú dűlő:
+    invalid: ['1']
   Ipari park:
+    # 1 Merantin kft, és fischer bau
+    # 2 toyo seat
+    # 3-12 nincs
+    # 28 Lucart kft toyo mellett
     show-refstreet: false
+    invalid: ['3', '6', '7', '9', '10', '12']
+  Május 1. tér:
+    # 11 az utolsó szám
+    invalid: ['14']
   Szabadság liget:
     # Nincs 53 szám  35 a vége...
     invalid: ['53']
@@ -18,5 +30,5 @@ refstreets:
   'Ipari park': 'Ipari park ipartelep'
   'Szent-Györgyi Albert út': 'Szentgyörgyi Albert út'
   'Zsámbékos dűlő': 'Zsámbékos völgy'
-source: survey
+source: survey by turboscsiga
 inactive: true
