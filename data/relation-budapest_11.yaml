@@ -72,6 +72,7 @@ filters:
       - {start: '1', end: '169'}
       - {start: '2', end: '158'}
   Budafoki út:
+    # 10: 10/a, 10/b, 10/c
     # 21-27: Katonai Nemzetbiztonsági Szolgálat: Bartókra van számozva
     # 59-63: 59-es van használatban
     # 65-77: nincs
@@ -84,10 +85,11 @@ filters:
     # 34c: 34/c-d, fel van rögzítve így
     # 36: nincs
     # 40-50 között nincs semmi, 52 az erőmű, Budapart miatt valtozhat
+    # 60g: 60 G. épület
     # 62-64: csak a 64 használatos
     # 78, 82/A, 82/B: zöldmező
     # 84: Albertfalva
-    invalid: ['26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '62', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '60g', '62', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
@@ -311,6 +313,7 @@ filters:
       - {start: '2', end: '72'}
   Kelenhegyi út:
     # 11-13: csak 11 van kiírva
+    # 29: 29/a, 29/b
     # 35a, 35/b: 35 a és b épület
     # 42: csak 42/a
     # 44a: csak sima 44 a kerítésen, az házat lebontották
@@ -324,7 +327,7 @@ filters:
     # 70: 70/a, 70/b
     # 72, 74: másik utcára számozódnak
     # 77b: csak sima 77
-    invalid: ['13', '35a', '35b', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
+    invalid: ['13', '29', '35a', '35b', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
     ranges:
       - {start: '1', end: '81'}
       - {start: '2', end: '70'}
@@ -1799,6 +1802,8 @@ filters:
   Bölcső utca:
     invalid: ['13b']
   Egry József utca:
+    # 1/E: 1. E épület (BME)
+    invalid: ['1e']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
@@ -1828,8 +1833,11 @@ filters:
     # 17: alagsori fodrászat - termászetben Vak Bottyán utca 2 felől van a bejárat, ez van a honlapján is
     invalid: ['14a', '14b', '17']
   Műegyetem rakpart:
+    # 3/k: csak sima 3 - BME K épület
+    # 1-3, 3-9: alternatív címek a BME-re, a honlapjukon csak sima 3 szám szerepel
+    invalid: ['3k']
     ranges:
-      - {start: '3', end: '9'}
+      - {start: '3', end: '3'}
   Október huszonharmadika utca:
     ranges:
       - {start: '1', end: '35'}
@@ -1838,6 +1846,7 @@ filters:
     ranges: []
   Pázmány Péter sétány:
     # gyakorlatilag csak 1-es szám van, a 9-es terinfo.ujbuda.hu szerint létetik
+    # 1: 1/A, 1/C
     ranges:
       - {start: '1', end: '9'}
   Stoczek József utca:
@@ -2782,7 +2791,8 @@ filters:
     # 6: 6/a, 6/b
     # 14: 14/a, 14/b
     # 16: 16/a, 16/b
-    invalid: ['6', '14', '16']
+    # 18c: csak sima 18
+    invalid: ['6', '14', '16', '18c']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '20'}
