@@ -12,7 +12,16 @@ osm-street-filters:
   # házak nélküliek
   - Bástya utca
   - Berzsenyi út
+  - Gagarin köz
+  - Göncöl köz
   - Győzelem utca
+  - Háromszög tér
+  - Keskeny köz
+  - Könyvtár köz
+  - Liszt Ferenc köz
+  - Mese köz
+  - Széchenyi István köz
+  - Tejút köz
   # sétautak, amikre nincs számozva semmi
   - Alsó sétány
   - Felső sétány
@@ -20,7 +29,9 @@ osm-street-filters:
   - Árnyas sétány
   - Fenyő sétány
   - Kiserdei sétány
+  - Lombos köz
   # Vasműn belüliek
+  - Béke téri út
   - Benzol út
   - Csarnok út
   - Darupálya út
@@ -40,8 +51,10 @@ osm-street-filters:
   - Ócskavas út
   - Oxigéngyár út
   - Oxigén út
+  - Raktár út
   - Téglagyári út
   - Vízlágyító út
+  - Vasút út
   # Határon lévő, átlógó
 street-filters:
   # Nem igazi utcák
