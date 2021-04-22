@@ -2,6 +2,18 @@ missing-streets: 'yes'
 filters:
   Áprily Lajos Völgy:
     invalid: ['9']
+  Magasköz utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '100'}
+  Rákóczi utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '100'}
+  Rigó utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '100'}
   Mátyás király utca:
     # 96 a páros oldal vége
     ranges:
