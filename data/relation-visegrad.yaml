@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Áprily Lajos Völgy:
+    invalid: ['9']
   Mátyás király utca:
     # 96 a páros oldal vége
     ranges:
