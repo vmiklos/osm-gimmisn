@@ -879,6 +879,22 @@ class TestInvalidRefstreets(TestWsgi):
         results = root.findall("body/h1/a")
         self.assertNotEqual(results, [])
 
+    def test_no_osm_sreets(self) -> None:
+        """Tests error handling when osm street list is missing for a relation."""
+        relations = areas.Relations(config.Config.get_workdir())
+        relation = relations.get_relation("gazdagret")
+        hide_path = relation.get_files().get_osm_streets_path()
+        real_exists = os.path.exists
+
+        def mock_exists(path: str) -> bool:
+            if path == hide_path:
+                return False
+            return real_exists(path)
+        with unittest.mock.patch('os.path.exists', mock_exists):
+            root = self.get_dom_for_path("/housenumber-stats/hungary/invalid-relations")
+            results = root.findall("body")
+            self.assertNotEqual(results, [])
+
 
 class TestNotFound(TestWsgi):
     """Tests the not-found page."""

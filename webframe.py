@@ -410,6 +410,8 @@ def handle_invalid_refstreets(relations: areas.Relations) -> yattag.doc.Doc:
 
     prefix = config.Config.get_uri_prefix()
     for relation in relations.get_relations():
+        if not os.path.exists(relation.get_files().get_osm_streets_path()):
+            continue
         invalid_refstreets = areas.get_invalid_refstreets(relation)
         osm_invalids, ref_invalids = invalid_refstreets
         key_invalids = areas.get_invalid_filter_keys(relation)
