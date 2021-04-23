@@ -1,10 +1,17 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  # Nem igazi közterületek
+  - Erdész ház
+  - Julianna major
 osm-street-filters:
+  # Területhatár
+  - Nyári Pál utca  # Adyliget
+  - Városhatár utca  # Adyliget
   # Nem igazi közterületek
   - Antónia-árok
-  - Karcsi útja
-  - Zozó útja
+  - Fehér út  # dűlőkataszterből
+
 refstreets:
   'Bajcsy-Zsilinszky utca': 'Bajcsy Zsilinszky Endre utca'
   'Petőfi Sándor utca': 'Petőfi utca'
@@ -12,8 +19,7 @@ refstreets:
   'Táncsics Mihály utca': 'Táncsics utca'
   # Terepen is ellenőrizni, mert néhány itteni cég "út"-tal írja magát. A védőnői körzetek között is szerepel mindkét változatban.
   'Erdőalja utca': 'Erdőalja út'
-  # Lehet, hogy a rövid a hivatalos.
+  # Az utcatáblán is Ignáccal van.
   'Semmelweis Ignác köz': 'Semmelweis köz'
-  'Semmelweis Ignác utca': 'Semmelweis utca'
 source: survey
 inactive: true
