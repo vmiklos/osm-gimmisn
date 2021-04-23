@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: osm-gimmisn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-26 21:54+0100\n"
-"PO-Revision-Date: 2021-03-26 21:55+0100\n"
+"PO-Revision-Date: 2021-04-23 23:52+0200\n"
 "Last-Translator: Miklos Vajna <osm-gimmisn@vmiklos.hu>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -60,7 +60,7 @@ msgstr "Összes házszám, utolsó 2 hét, frissítve: {}"
 
 #: webframe.py:412
 msgid "All house numbers, last year, as of {}"
-msgstr "Összes házszám, utolsó 2 hét, frissítve: {}"
+msgstr "Összes házszám, elmúlt év, frissítve: {}"
 
 #: webframe.py:444
 msgid "All house numbers, monthly"
