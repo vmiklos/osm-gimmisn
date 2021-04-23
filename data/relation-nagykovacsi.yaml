@@ -11,7 +11,21 @@ osm-street-filters:
   # Nem igazi közterületek
   - Antónia-árok
   - Fehér út  # dűlőkataszterből
-
+  # A terepen ellenőrizve megvannak, a referenciából hiányoznak
+  - Benczúr utca
+  - Bogár utca
+  - Hanga utca
+  - Hérics utca
+  - Kastély köz
+  - Kökörcsin utca
+  - Kőrös köz
+  - Rozmaring köz
+  - Szeles köz
+  - Szent Márk utca
+  - Tátika utca
+  - Temető utca
+  - Tövis utca
+  - Viola utca
 refstreets:
   'Bajcsy-Zsilinszky utca': 'Bajcsy Zsilinszky Endre utca'
   'Petőfi Sándor utca': 'Petőfi utca'
