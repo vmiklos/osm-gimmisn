@@ -1,5 +1,11 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  # Az egykori 17-es telket összevonták a 15-tel, és csináltak rá egy ikerházat 15/a + 15/b számozással.
+  Nap utca:
+    invalid: ['17']
+  # Valószínűleg a 2017 előtti házszámokra hivatkozik a referencia.
+  Vénusz utca:
+    invalid: ['2', '4', '6']
 osm-street-filters:
   # Területhatár
   - Duna utca  # Budaliget
