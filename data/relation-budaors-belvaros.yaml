@@ -12,6 +12,10 @@ filters:
     # össze vissza számozva
     interpolation: all
     invalid: ['1', '11', '12']
+  Baross utca:
+    ranges:
+      - {start: '2', end: '74'}
+      - {start: '1', end: '133'}
   Budapesti út:
     invalid: ['10', '25', '43']
     ranges:
