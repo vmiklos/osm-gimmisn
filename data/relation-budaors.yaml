@@ -84,6 +84,9 @@ filters:
     ranges:
       - {start: '4', end: '10'}
       - {start: '20', end: '20'}
+  Csata utca:
+    # 10: nincs, 10 után 16 jön, kettő között a Károly király utca 85 és 82 van
+    invalid: ['10']
   Cserebogár utca:
     # 18/*: Csalit utcára számozták ezeket
     # 39: régi szám, új szám 44
@@ -154,6 +157,16 @@ filters:
   Kassai utca:
     # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
     invalid: ['4', '6']
+  Károly király utca:
+    # 2: nincs, 4-től indul a számozás, a sarki első épület Szabadság út 51
+    # 18: nincs, 16 után 20 jön, kettő között a Baross utca húzódik
+    # 23: nincs, 21 után 25 jön, kettő között a Baross utca húzódik
+    # 58: nincs, 56 után 60 jön
+    # 81-83: 79 van az épülő házon, utána 85 jön
+    invalid: ['18', '23', '58', '81', '83']
+    ranges:
+      - {start: '1', end: '199'}
+      - {start: '4', end: '198'}
   Kertész köz:
     ranges:
       - {start: '1', end: '5'}
