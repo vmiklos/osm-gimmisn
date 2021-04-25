@@ -4,6 +4,10 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
+  Ady Endre utca:
+    # 1: 3-nál indul a számozás
+    # 38: 36 után jön az autószalon 40-es számmal
+    invalid: ['1', '38']
   Agancs utca:
     # főként hrsz. van
     invalid: ['2', '15']
@@ -382,7 +386,7 @@ filters:
     invalid: ['6', '8']
   Vasvári Pál utca:
     ranges:
-      - {start: '1', end: '29'}
+      - {start: '1', end: '27'}
       - {start: '2', end: '36'}
   Veréb utca:
     # 7: nincs kiíva: 2021-04
