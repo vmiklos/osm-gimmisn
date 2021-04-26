@@ -1,23 +1,40 @@
 missing-streets: 'yes'
 filters:
+  # 1-99 és 2-98 szűrők a hrsz. kiszűrését szolgálják
   Áprily Lajos Völgy:
     invalid: ['9']
+  Csukavölgy utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Doboskert utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Harangvirág utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Magasköz utca:
     ranges:
       - {start: '1', end: '99'}
-      - {start: '2', end: '100'}
+      - {start: '2', end: '98'}
   Rákóczi utca:
     ranges:
       - {start: '1', end: '99'}
-      - {start: '2', end: '100'}
+      - {start: '2', end: '98'}
   Rigó utca:
     # Páratlan oldalon erdő van, nincs ház
     ranges:
-      - {start: '2', end: '100'}
+      - {start: '2', end: '98'}
   Schulek utca:
     ranges:
       - {start: '1', end: '99'}
-      - {start: '2', end: '100'}
+      - {start: '2', end: '98'}
+  Malomhegy utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Mátyás király utca:
     # 96 a páros oldal vége
     ranges:
