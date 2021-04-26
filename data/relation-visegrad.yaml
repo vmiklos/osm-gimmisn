@@ -40,6 +40,9 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '96'}
+  Újhegy dűlő:
+    # hrsz
+    ranges: []
 source: survey
 osm-street-filters:
   # Nem valós utcák
