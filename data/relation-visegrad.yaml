@@ -19,6 +19,9 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Panoráma út:
+    # nincs utalás ezekre, és a földhivatal sem ismeri
+    invalid: ['7', '15', '17', '18']
   Rákóczi utca:
     ranges:
       - {start: '1', end: '99'}
