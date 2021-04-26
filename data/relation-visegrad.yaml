@@ -77,8 +77,6 @@ street-filters:
   # Királykunyhó völgy  # Kis-Disznó hegy és Nagy-som hegy között
   # Kisvillám  # Kis-Villám déli oldalán
   # Mócsai tanya  # Mogyoró-hegy
-  # Sirály utca  # Hotel Visegrád déli oldalán
-  # Szőlőskert utca  # Újkert utca egy része
   # Vár szer  # Újkert utca végén
   # Tamáshegy
   # todo ---------------
@@ -86,7 +84,6 @@ street-filters:
   # Malom köz
   # Mátyás köz
   # Patak zug
-  # Rákóczi lejtő
   # Rigó köz
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
