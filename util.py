@@ -589,21 +589,20 @@ def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
     table = []
 
     first = True
-    type_index = 0
+    columns: Dict[str, int] = {}
     for row in stream.get_rows():
         if not row:
             continue
         if first:
             first = False
-            for index, column in enumerate(row):
-                if column.strip() == "@type":
-                    type_index = index
+            for index, label in enumerate(row):
+                columns[label] = index
         cells = [html_escape(cell.strip()) for cell in row]
-        if cells and type_index:
+        if cells and "@type" in columns:
             # We know the first column is an OSM ID.
             try:
                 osm_id = int(cells[0].getvalue())
-                osm_type = cells[type_index].getvalue()
+                osm_type = cells[columns["@type"]].getvalue()
                 doc = yattag.doc.Doc()
                 href = "https://www.openstreetmap.org/{}/{}".format(osm_type, osm_id)
                 with doc.tag("a", href=href, target="_blank"):
