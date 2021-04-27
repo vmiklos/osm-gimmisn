@@ -1,11 +1,12 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Zöldfa utca:
+    invalid: ['146']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Akácos utca': 'Akácos út'
   'Béla király sétány': 'Béla sétány'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
-  'Dózsa György utca': 'Dózsa György út'
   'Hatlópatak utca': 'Hatlópatak dűlő'
   'Hunyadi sétány': 'Hunyadi János sétány'
   'Jókai Mór utca': 'Jókai utca'
