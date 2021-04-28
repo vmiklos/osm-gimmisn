@@ -16,6 +16,7 @@ from typing import Optional
 from typing import Set
 from typing import TextIO
 from typing import Tuple
+from typing import Union
 from typing import cast
 import csv
 import locale
@@ -584,6 +585,25 @@ def invalid_filter_keys_to_html(invalids: List[str]) -> yattag.doc.Doc:
     return doc
 
 
+def get_column(row: List[yattag.doc.Doc], column_index: int, natnum: bool) -> Union[str, int]:
+    """Gets the nth column of row, possibly interpreting the content as an integer."""
+    ret = ""
+    if column_index >= len(row):
+        ret = row[0].getvalue()
+    else:
+        ret = row[column_index].getvalue()
+    if natnum:
+        try:
+            number = ret
+            match = re.match(r"([0-9]+).*", number)
+            if match:
+                number = match.group(1)
+            return int(number)
+        except ValueError:
+            return 0
+    return ret
+
+
 def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
     """Turns a tab-separated table into a list of lists."""
     table = []
@@ -612,6 +632,13 @@ def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
                 # Not an int, ignore.
                 pass
         table.append(cells)
+
+    if "addr:street" in columns and "addr:housenumber" in columns:
+        header = table[0]
+        table = table[1:]
+        table.sort(key=lambda row: get_column(row, columns["addr:housenumber"], natnum=True))
+        table.sort(key=lambda row: get_column(row, columns["addr:street"], natnum=False))
+        table = [header] + table
 
     return table
 

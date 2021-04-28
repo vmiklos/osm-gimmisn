@@ -267,6 +267,19 @@ class TestTsvToList(unittest.TestCase):
         # Note how this is just h,1 and not "h,1".
         self.assertEqual(row1, ['h,1', 'h2'])
 
+    def test_sort(self) -> None:
+        """Tests sorting."""
+        csv = """addr:street\taddr:housenumber
+A street\t1
+A street\t10
+A street\t9"""
+        sock = util.CsvIO(io.StringIO(csv))
+        ret = util.tsv_to_list(sock)
+        # 0th is header
+        row3 = [cell.getvalue() for cell in ret[3]]
+        # Note how 10 is ordered after 9.
+        self.assertEqual(row3[1], "10")
+
 
 class TestHouseNumber(unittest.TestCase):
     """Tests the HouseNumber class."""
@@ -461,6 +474,32 @@ class TestInvalidFilterKeysToHtml(unittest.TestCase):
         """Tests when the arg is empty."""
         ret = util.invalid_filter_keys_to_html([])
         self.assertEqual(ret.getvalue(), "")
+
+
+class TestGetColumn(unittest.TestCase):
+    """Tests get_column()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        # id, street name, housenumber
+        row = [
+            util.html_escape("42"),
+            util.html_escape("A street"),
+            util.html_escape("1"),
+        ]
+        self.assertEqual(util.get_column(row, 1, natnum=False), "A street")
+        self.assertEqual(util.get_column(row, 2, natnum=True), 1)
+        # Too large column index -> first column.
+        self.assertEqual(util.get_column(row, 3, natnum=False), "42")
+
+    def test_junk(self) -> None:
+        """Tests the 'housenumber is junk' case."""
+        # id, street name, housenumber
+        row = [
+            util.html_escape("42"),
+            util.html_escape("A street"),
+            util.html_escape("fixme"),
+        ]
+        self.assertEqual(util.get_column(row, 2, natnum=True), 0)
 
 
 if __name__ == '__main__':
