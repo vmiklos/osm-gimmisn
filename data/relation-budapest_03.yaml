@@ -18,6 +18,10 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
+  Igló utca:
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '58'}
   Kaszásdűlő utca:
     show-refstreet: false
   Szérűskert utca:
