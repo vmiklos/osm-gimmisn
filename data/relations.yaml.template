@@ -7999,6 +7999,10 @@ pilisszanto:
     osmrelation: 215940
     refcounty: "14"
     refsettlement: "108"
+pilisszentivan:
+    osmrelation: 215944
+    refcounty: "14"
+    refsettlement: "109"
 pilisszentkereszt:
     osmrelation: 216168
     refcounty: "14"
@@ -8043,6 +8047,10 @@ rad:
     osmrelation: 1375471
     refcounty: "14"
     refsettlement: "120"
+solymar:
+    osmrelation: 215945
+    refcounty: "14"
+    refsettlement: "121"
 soskut:
     osmrelation: 113460
     refcounty: "14"
