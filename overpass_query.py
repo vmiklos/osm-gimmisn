@@ -20,9 +20,8 @@ def overpass_query(query: str) -> str:
     """Posts the query string to the overpass API and returns the result string."""
     url = config.Config.get_overpass_uri() + "/api/interpreter"
 
-    sock = urllib.request.urlopen(url, bytes(query, "utf-8"))
-    buf = sock.read()
-    sock.close()
+    with urllib.request.urlopen(url, bytes(query, "utf-8")) as stream:
+        buf = stream.read()
 
     return cast(str, buf.decode('utf-8'))
 
@@ -53,9 +52,8 @@ def overpass_query_need_sleep() -> int:
 
 def main() -> None:
     """Commandline interface to this module."""
-    sock = open(sys.argv[1])
-    query = sock.read()
-    sock.close()
+    with open(sys.argv[1]) as stream:
+        query = stream.read()
 
     try:
         buf = overpass_query(query)
