@@ -3,6 +3,10 @@ filters:
   Árpád utca:
     # 28-ig megy a páros
     invalid: ['34']
+  Petőfi Sándor utca:
+    ranges:
+      - {start: '1', end: '125'}
+      - {start: '2', end: '74'}
   Szabó Erna utca:
     invalid: ['701']
 source: survey
