@@ -79,7 +79,7 @@ class TestRelationGetOsmHousenumbersQuery(test_config.TestCase):
         relations = areas.Relations(config.Config.get_workdir())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        ret = relation.get_osm_housenumbers_query()
+        ret = areas.get_osm_housenumbers_query(relation)
         self.assertEqual(ret, 'housenr aaa 2713748 bbb 3602713748 ccc\n')
 
 
@@ -580,6 +580,19 @@ class TestRelationGetAdditionalStreets(test_config.TestCase):
         relation_name = "gh385"
         relation = relations.get_relation(relation_name)
         self.assertEqual(relation.get_config().get_osm_street_filters(), [])
+
+
+class TestRelationGetAdditionalHousenumbers(test_config.TestCase):
+    """Tests Relation.get_additional_housenumbers()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = areas.Relations(config.Config.get_workdir())
+        relation_name = "gazdagret"
+        relation = relations.get_relation(relation_name)
+        only_in_osm = relation.get_additional_housenumbers()
+        only_in_osm_strs = [(name.get_osm_name(), [i.get_number() for i in numbers]) for name, numbers in only_in_osm]
+        self.assertEqual(only_in_osm_strs, [('Only In OSM utca', ['1']),
+                                            ('Second Only In OSM utca', ['1'])])
 
 
 def table_doc_to_string(table: List[List[yattag.doc.Doc]]) -> List[List[str]]:

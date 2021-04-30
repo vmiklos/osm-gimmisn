@@ -50,6 +50,7 @@ PYTHON_SAFE_OBJECTS = \
 
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \
+	additional_housenumbers.py \
 	additional_streets.py \
 	invalid_refstreets.py \
 

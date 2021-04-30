@@ -97,9 +97,9 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
     prefix = config.Config.get_uri_prefix()
     if action == "view-query":
         with doc.tag("pre"):
-            doc.text(relation.get_osm_housenumbers_query())
+            doc.text(areas.get_osm_housenumbers_query(relation))
     elif action == "update-result":
-        query = relation.get_osm_housenumbers_query()
+        query = areas.get_osm_housenumbers_query(relation)
         try:
             relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
             doc.text(_("Update successful: "))
