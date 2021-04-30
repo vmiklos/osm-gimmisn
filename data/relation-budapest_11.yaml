@@ -1402,6 +1402,8 @@ filters:
       - {start: '96', end: '198'}
   Thallóczy Lajos utca:
     # 1-21 a remiz oldala, nincs ház
+    # 25b: 23-25 B lépcsőház
+    invalid: ['25b']
     ranges:
       - {start: '23', end: '29'}
       - {start: '2', end: '36'}
@@ -1988,11 +1990,10 @@ filters:
     # 16a: csak sima 16 van
     # 18: 18a, 18b
     # 11: 11a, 11b, 11c
-    # 33: van egy számozatlan ház a Vizsla utca/Neszmélyi út sarkán de nincs kiírva a házszám
     # 37b: 37 van, 2 ház van 1 telken belül
     # 22-28, 38-44: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     # 102b: 2 házrész van de nincs külön házszám
-    invalid: ['9', '10a', '10b', '11', '12a', '12b', '16a', '18', '33', '37b', '22d', '28a', '38a', '40a', '40b', '42a', '44b', '72', '102b']
+    invalid: ['9', '10a', '10b', '11', '12a', '12b', '16a', '18', '37b', '22d', '28a', '38a', '40a', '40b', '42a', '44b', '72', '102b']
     ranges:
       - {start: '9', end: '13'}
       - {start: '31', end: '37'}
@@ -2015,7 +2016,7 @@ filters:
   Vizsla utca:
     ranges:
       - {start: '1', end: '3'}
-      - {start: '2', end: '4'}
+      - {start: '2', end: '6'}
   Vőfély utca:
     # 1-3: panel, sima házszámok, régebben valószínű betűjeles lépcsőházak
     invalid: ['1a', '1b', '3a']
