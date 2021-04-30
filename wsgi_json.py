@@ -46,7 +46,7 @@ def street_housenumbers_update_result_json(relations: areas.Relations, request_u
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
-    query = relation.get_osm_housenumbers_query()
+    query = areas.get_osm_housenumbers_query(relation)
     ret: Dict[str, str] = {}
     try:
         relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))

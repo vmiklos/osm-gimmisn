@@ -546,9 +546,7 @@ class Relation:
             ret[osm_street_name] = util.sort_numerically(set(house_numbers))
         return ret
 
-    def get_missing_housenumbers(
-            self
-    ) -> Tuple[List[Tuple[util.Street, List[util.HouseNumber]]], List[Tuple[util.Street, List[util.HouseNumber]]]]:
+    def get_missing_housenumbers(self) -> Tuple[util.NumberedStreets, util.NumberedStreets]:
         """
         Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
         Return value is a pair of ongoing and done streets.
@@ -629,6 +627,30 @@ class Relation:
 
         return len(ongoing_streets), todo_count, done_count, percent, table
 
+    def get_additional_housenumbers(self) -> util.NumberedStreets:
+        """
+        Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
+        Return value is a list of streets.
+        Each of of these is a pair of a street name and a house number list.
+        """
+        additional = []
+
+        osm_street_names = self.get_osm_streets()
+        all_ref_house_numbers = self.__get_ref_housenumbers()
+        for osm_street in osm_street_names:
+            osm_street_name = osm_street.get_osm_name()
+            ref_house_numbers = all_ref_house_numbers[osm_street_name]
+            osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
+            only_in_osm = util.get_only_in_first(osm_house_numbers, ref_house_numbers)
+            ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
+            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name))
+            if only_in_osm:
+                additional.append((street, only_in_osm))
+        # Sort by length.
+        additional.sort(key=lambda result: len(result[1]), reverse=True)
+
+        return additional
+
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
         reference_streets = self.get_ref_streets()
@@ -674,7 +696,7 @@ class Relation:
         return todo_count, done_count, percent, streets
 
     def write_additional_streets(self) -> List[util.Street]:
-        """Calculate aand write stat for the unexpected street coverage of a relation."""
+        """Calculate and write stat for the unexpected street coverage of a relation."""
         additional_streets = self.get_additional_streets()
 
         # Write the count to a file, so the index page show it fast.
@@ -683,11 +705,12 @@ class Relation:
 
         return additional_streets
 
-    def get_osm_housenumbers_query(self) -> str:
-        """Produces a query which lists house numbers in relation."""
-        datadir = config.get_abspath("data")
-        with open(os.path.join(datadir, "street-housenumbers-template.txt")) as stream:
-            return util.process_template(stream.read(), self.get_config().get_osmrelation())
+
+def get_osm_housenumbers_query(relation: Relation) -> str:
+    """Produces a query which lists house numbers in relation."""
+    datadir = config.get_abspath("data")
+    with open(os.path.join(datadir, "street-housenumbers-template.txt")) as stream:
+        return util.process_template(stream.read(), relation.get_config().get_osmrelation())
 
 
 def get_invalid_refstreets(relation: Relation) -> Tuple[List[str], List[str]]:

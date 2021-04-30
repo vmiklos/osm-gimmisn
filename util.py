@@ -249,6 +249,11 @@ class HouseNumber:
         return groups[0] + groups[2].lower() + source_suffix
 
 
+HouseNumbers = List[HouseNumber]
+NumberedStreet = Tuple[Street, HouseNumbers]
+NumberedStreets = List[NumberedStreet]
+
+
 class CsvIO:
     """Like TextIO, but for CSV reading."""
     def __init__(self, stream: TextIO) -> None:
