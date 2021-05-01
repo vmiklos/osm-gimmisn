@@ -3,12 +3,23 @@ filters:
   Árpád utca:
     # 28-ig megy a páros
     invalid: ['34']
+  Bánomi út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '10'}
   Petőfi Sándor utca:
     ranges:
       - {start: '1', end: '125'}
       - {start: '2', end: '74'}
+  Sugár út:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '26'}
   Szabó Erna utca:
     invalid: ['701']
+  Táti út:
+    # 36 a vége páros oldalon, város széle van még hely
+    invalid: ['54']
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
