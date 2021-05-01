@@ -366,6 +366,9 @@ filters:
   Trencséni utca:
     # 1-49, 2-56
     invalid: ['57', '60', '62']
+  Lóránt út:
+    # 1-23, 2-20
+    invalid: ['22']
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
