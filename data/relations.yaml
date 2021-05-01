@@ -588,6 +588,10 @@ nagykovacsi:
     osmrelation: 215946
     refcounty: "14"
     refsettlement: "088"
+nagymaros:
+    osmrelation: 1440603
+    refcounty: "14"
+    refsettlement: "090"
 piliscsaba:
     osmrelation: 215939
     refcounty: "14"
@@ -596,6 +600,10 @@ pilisjaszfalu:
     osmrelation: 215938
     refcounty: "14"
     refsettlement: "107"
+pilisszentivan:
+    osmrelation: 215944
+    refcounty: "14"
+    refsettlement: "109"
 pilisvorosvar:
     osmrelation: 215943
     refcounty: "14"
@@ -604,6 +612,10 @@ remeteszolos:
     osmrelation: 215947
     refcounty: "14"
     refsettlement: "186"
+solymar:
+    osmrelation: 215945
+    refcounty: "14"
+    refsettlement: "121"
 szigethalom:
     osmrelation: 222332
     refcounty: "14"
@@ -612,6 +624,10 @@ szigetmonostor:
     osmrelation: 216157
     refcounty: "14"
     refsettlement: "132"
+szob:
+    osmrelation: 1370263
+    refcounty: "14"
+    refsettlement: "136"
 torokbalint:
     osmrelation: 113462
     refcounty: "14"
