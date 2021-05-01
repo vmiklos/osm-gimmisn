@@ -2853,6 +2853,7 @@ osm-street-filters:
   # Nem valós utcák
   - A magyarság útja
   - A szentháromság útja
+  - Burger King DriveThru
   - EuroVelo-6 budai Duna-parti kerékpárút
   - Leányka utcai felüljáró
   - Madárhegyi lakópark
@@ -2866,7 +2867,7 @@ osm-street-filters:
   - Budapart
   - Cirmos liget
   - Erdőkert sétány  # fatábla a Dayka Gábor sarkán
-  - Fehér Marcell Emlékpark
+  - Fehér Marcell emlékpark
   - Jubileumi-park
   - Kelenvölgyi Szentháromság Liget
   - Nelson Mandela park
