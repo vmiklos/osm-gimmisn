@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Áchim András utca:
+    # 17 a Tesco területére esne, de az máshonnan számozódik
+    invalid: ['17']
   Árpád utca:
     # 28-ig megy a páros
     invalid: ['34']
@@ -20,6 +23,9 @@ filters:
   Táti út:
     # 36 a vége páros oldalon, város széle van még hely
     invalid: ['54']
+  Terézia utca:
+    # 29 a vége
+    invalid: ['45']
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
