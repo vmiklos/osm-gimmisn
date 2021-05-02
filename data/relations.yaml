@@ -644,6 +644,14 @@ ujszilvas:
     osmrelation: 1323405
     refcounty: "14"
     refsettlement: "163"
+pomaz:
+    osmrelation: 216159
+    refcounty: "14"
+    refsettlement: "113"
+budakalasz:
+    osmrelation: 216158
+    refcounty: "14"
+    refsettlement: "013"
 # 15 - Somogy megye
 balatonlelle:
     osmrelation: 1368026
