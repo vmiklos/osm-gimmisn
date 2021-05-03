@@ -1,0 +1,22 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  - Vasutsor  # Dupla: Vasút sor
+  # Településrészként fent vannak
+  - Kő bánya
+  - Lupa sziget
+refstreets:
+  'Batsányi utca': 'Batsányi János utca'
+  'Batthyány Lajos utca': 'Batthyány utca'
+  'Bocskai István utca': 'Bocskai utca'
+  'Boróka utca': 'Boróka köz'
+  'Jankovics utca': 'Jankovics Gyula utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'
+  'Lupa-szigeti út': 'Luppa-szigeti út'
+  'Martinovics Ignác utca': 'Martinovics utca'
+  'Meggyfa utca': 'Meggy utca'
+  'Scholcz Ferenc utca': 'Scholz Ferenc utca'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Vasút sor': 'Vasutsor'
+source: survey
+inactive: false
