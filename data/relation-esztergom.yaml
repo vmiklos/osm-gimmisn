@@ -43,6 +43,9 @@ filters:
   Táti út:
     # 36 a vége páros oldalon, város széle van még hely
     invalid: ['54']
+  Telegdy Csanád utca:
+    # 21 a vége
+    invalid: ['25']
   Terézia utca:
     # 29 a vége
     invalid: ['45']
