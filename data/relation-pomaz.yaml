@@ -1,0 +1,22 @@
+missing-streets: 'yes'
+filters: {}
+street-filters:
+  # Településrészként fent vannak
+  - Dolina  # Dolinapuszta
+  - Kőhegy
+  - Meselia
+  - Pankos tető  # Pankostető
+  - Susnyár  # Susnyár dűlőként már fent van
+  # Vróc - még nincs fent
+refstreets:
+  'Alma sor': 'Almasor utca'
+  'Barátpatak utca': 'Barát-patak utca'
+  'Bolyai utca': 'Bólyai utca'
+  'Csokonai Vitéz Mihály utca': 'Csokonai utca'
+  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
+  'Felsőhegy utca': 'Felső-Hegy utca'
+  'Messelia utca': 'Meselia utca'
+  'Ugralovica dűlő': 'Uglarovica dűlő'
+  'Wattay utca': 'Watthay utca'
+source: survey
+inactive: false
