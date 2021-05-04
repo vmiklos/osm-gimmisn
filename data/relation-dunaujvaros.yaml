@@ -1,5 +1,7 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Szondi utca:
+    show-refstreet: false
 osm-street-filters:
   # Nem igazi utcák
   - M6 autópálya
@@ -99,7 +101,7 @@ refstreets:
   'Öreghegyi út': 'Öreghegy utca'
   'Pentelei Molnár János utca': 'Pentelei M. János utca'
   'Semmelweis utca': 'Semmelweis Ignác utca'
-  'Szondi utca': 'Szondy utca'
+  'Szondi utca': 'Szondy utca'  # Az utcanévtáblákon Szondi szerepel
   'Tűzálló utca': 'Tűzálló út'
   'Városréti út': 'Városréti utca'
   'Vizimolnárok utca': 'Vízimolnárok utca'
