@@ -20,6 +20,11 @@ filters:
       - {start: '2', end: '26'}
   Szabó Erna utca:
     invalid: ['701']
+  Szentkirályi utca:
+    # 77 a vége
+    ranges:
+      - {start: '1', end: '77'}
+      - {start: '2', end: '98'}
   Táti út:
     # 36 a vége páros oldalon, város széle van még hely
     invalid: ['54']
@@ -29,6 +34,10 @@ filters:
   Terézia utca:
     # 29 a vége
     invalid: ['45']
+  Töltés utca:
+    # nagy épületek több ajtóval: 1/1 -> 1/20, illetve "putrik" 3/1 -> 3/26
+    ranges:
+      - {start: '1', end: '3'}
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
