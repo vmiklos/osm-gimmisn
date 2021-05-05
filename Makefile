@@ -93,7 +93,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: version.py workdir/bundle.js css wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: version.py builddir/bundle.js css wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py config.ts
@@ -120,8 +120,9 @@ BROWSERIFY_OPTIONS = --plugin tinyify
 endif
 BROWSERIFY_OPTIONS += --plugin tsify
 
-workdir/bundle.js: $(TS_OBJECTS) package-lock.json
-	node_modules/.bin/browserify -o workdir/bundle.js $(BROWSERIFY_OPTIONS) $(TS_OBJECTS)
+builddir/bundle.js: $(TS_OBJECTS) package-lock.json
+	mkdir -p builddir
+	node_modules/.bin/browserify -o builddir/bundle.js $(BROWSERIFY_OPTIONS) $(TS_OBJECTS)
 
 package-lock.json: package.json
 	npm install

@@ -228,7 +228,7 @@ def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
 
     if request_uri.endswith(".js"):
         content_type = "application/x-javascript"
-        content = util.get_content(config.Config.get_workdir(), path, extra_headers)
+        content = util.get_content(config.get_abspath("builddir"), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".css"):
         content_type = "text/css"
