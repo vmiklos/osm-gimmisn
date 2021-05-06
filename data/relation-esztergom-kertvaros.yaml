@@ -1,5 +1,11 @@
 missing-streets: 'no'
 filters:
+  # terület lehatárolás
+  Dorogi út:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
+  # hászám szűrők
   Erkel Ferenc utca:
     invalid: ['13']
   Jósika Miklós utca:

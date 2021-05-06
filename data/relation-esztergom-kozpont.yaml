@@ -1,5 +1,11 @@
 missing-streets: 'no'
 filters:
+  # terület lehatárolás
+  Dorogi út:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
+  # hászám szűrők
   Áchim András utca:
     # 17 a Tesco területére esne, de az máshonnan számozódik
     invalid: ['17']
