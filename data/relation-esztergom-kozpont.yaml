@@ -12,10 +12,18 @@ filters:
   Árpád utca:
     # 28-ig megy a páros
     invalid: ['34']
+  Attila utca:
+    ranges:
+      - {start: '1', end: '25'}
+      - {start: '2', end: '98'}
   Bánomi út:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '10'}
+  Lépcső utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '98'}
   Petőfi Sándor utca:
     ranges:
       - {start: '1', end: '125'}
@@ -34,6 +42,10 @@ filters:
   Táti út:
     # 36 a vége páros oldalon, város széle van még hely
     invalid: ['54']
+  Táncsics Mihály utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '6'}
   Telegdy Csanád utca:
     # 21 a vége
     invalid: ['25']
