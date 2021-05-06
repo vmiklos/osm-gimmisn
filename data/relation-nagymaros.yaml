@@ -1,6 +1,6 @@
 missing-streets: 'yes'
 filters:
-  Béla sétány:
+  Béla király sétány:
     show-refstreet: false
   Jókai Mór utca:
     show-refstreet: false
