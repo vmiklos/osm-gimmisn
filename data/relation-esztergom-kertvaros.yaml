@@ -3,8 +3,8 @@ filters:
   # terület lehatárolás
   Dorogi út:
     ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '10'}
+      - {start: '11', end: '99'}
+      - {start: '12', end: '98'}
   # hászám szűrők
   Erkel Ferenc utca:
     invalid: ['13']
