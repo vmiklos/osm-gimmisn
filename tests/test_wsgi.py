@@ -644,6 +644,63 @@ class TestAdditionalStreets(TestWsgi):
             self.assertEqual(len(results), 1)
 
 
+class TestAdditionalHousenumbers(TestWsgi):
+    """Tests the additional house numbers page."""
+    def test_well_formed(self) -> None:
+        """Tests if the output is well-formed."""
+        root = self.get_dom_for_path("/additional-housenumbers/gazdagret/view-result")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+
+    def test_no_osm_streets_well_formed(self) -> None:
+        """Tests if the output is well-formed, no osm streets case."""
+        relations = areas.Relations(config.Config.get_workdir())
+        relation = relations.get_relation("gazdagret")
+        hide_path = relation.get_files().get_osm_streets_path()
+        real_exists = os.path.exists
+
+        def mock_exists(path: str) -> bool:
+            if path == hide_path:
+                return False
+            return real_exists(path)
+        with unittest.mock.patch('os.path.exists', mock_exists):
+            root = self.get_dom_for_path("/additional-housenumbers/gazdagret/view-result")
+            results = root.findall("body/div[@id='no-osm-streets']")
+            self.assertEqual(len(results), 1)
+
+    def test_no_osm_housenumbers_well_formed(self) -> None:
+        """Tests if the output is well-formed, no osm housenumbers case."""
+        relations = areas.Relations(config.Config.get_workdir())
+        relation = relations.get_relation("gazdagret")
+        hide_path = relation.get_files().get_osm_housenumbers_path()
+        real_exists = os.path.exists
+
+        def mock_exists(path: str) -> bool:
+            if path == hide_path:
+                return False
+            return real_exists(path)
+        with unittest.mock.patch('os.path.exists', mock_exists):
+            root = self.get_dom_for_path("/additional-housenumbers/gazdagret/view-result")
+            results = root.findall("body/div[@id='no-osm-housenumbers']")
+            self.assertEqual(len(results), 1)
+
+    def test_no_ref_housenumbers_well_formed(self) -> None:
+        """Tests if the output is well-formed, no ref housenumbers case."""
+        relations = areas.Relations(config.Config.get_workdir())
+        relation = relations.get_relation("gazdagret")
+        hide_path = relation.get_files().get_ref_housenumbers_path()
+        real_exists = os.path.exists
+
+        def mock_exists(path: str) -> bool:
+            if path == hide_path:
+                return False
+            return real_exists(path)
+        with unittest.mock.patch('os.path.exists', mock_exists):
+            root = self.get_dom_for_path("/additional-housenumbers/gazdagret/view-result")
+            results = root.findall("body/div[@id='no-ref-housenumbers']")
+            self.assertEqual(len(results), 1)
+
+
 class TestMain(TestWsgi):
     """Tests handle_main()."""
     def test_well_formed(self) -> None:

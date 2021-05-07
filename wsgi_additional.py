@@ -15,6 +15,7 @@ import yattag
 
 from i18n import translate as _
 import areas
+import cache
 import config
 import util
 import webframe
@@ -90,6 +91,26 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
 
         doc.asis(util.html_table_from_list(table).getvalue())
         doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
+    return doc
+
+
+def additional_housenumbers_view_result(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+    relation = relations.get_relation(relation_name)
+
+    doc = yattag.doc.Doc()
+    relation = relations.get_relation(relation_name)
+    prefix = config.Config.get_uri_prefix()
+    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+        doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
+    elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
+        doc.asis(webframe.handle_no_osm_housenumbers(prefix, relation_name).getvalue())
+    elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
+        doc.asis(webframe.handle_no_ref_housenumbers(prefix, relation_name).getvalue())
+    else:
+        doc = cache.get_additional_housenumbers_html(relation)
     return doc
 
 

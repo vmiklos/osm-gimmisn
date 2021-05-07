@@ -90,6 +90,17 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
             self.assertFalse(cache.is_missing_housenumbers_html_cached(relation))
 
 
+class TestGetAdditionalHousenumbersHtml(test_config.TestCase):
+    """Tests get_additional_housenumbers_html()."""
+    def test_happy(self) -> None:
+        """Tests the case when we find the result in cache."""
+        relations = areas.Relations(config.Config.get_workdir())
+        relation = relations.get_relation("gazdagret")
+        first = cache.get_additional_housenumbers_html(relation)
+        second = cache.get_additional_housenumbers_html(relation)
+        self.assertEqual(first.getvalue(), second.getvalue())
+
+
 class TestIsMissingHousenumbersTxtCached(test_config.TestCase):
     """Tests is_missing_housenumbers_txt_cached()."""
     def test_happy(self) -> None:

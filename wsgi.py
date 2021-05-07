@@ -414,6 +414,26 @@ def handle_additional_streets(relations: areas.Relations, request_uri: str) -> y
     return doc
 
 
+def handle_additional_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query]."""
+    tokens = request_uri.split("/")
+    relation_name = tokens[-2]
+    # action would be tokens[-1]
+
+    relation = relations.get_relation(relation_name)
+    osmrelation = relation.get_config().get_osmrelation()
+
+    doc = yattag.doc.Doc()
+    doc.asis(webframe.get_toolbar(relations, "additional-housenumbers", relation_name, osmrelation).getvalue())
+
+    # assume action is view-result
+    doc.asis(wsgi_additional.additional_housenumbers_view_result(relations, request_uri).getvalue())
+
+    date = housenumbers_diff_last_modified(relation)
+    doc.asis(webframe.get_footer(date).getvalue())
+    return doc
+
+
 def get_last_modified(path: str) -> str:
     """Gets the update date string of a file."""
     return webframe.format_timestamp(get_timestamp(path))
@@ -439,6 +459,13 @@ def streets_diff_last_modified(relation: areas.Relation) -> str:
     """Gets the update date for missing/additional streets."""
     t_ref = get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = get_timestamp(relation.get_files().get_osm_streets_path())
+    return webframe.format_timestamp(max(t_ref, t_osm))
+
+
+def housenumbers_diff_last_modified(relation: areas.Relation) -> str:
+    """Gets the update date for missing/additional housenumbers."""
+    t_ref = get_timestamp(relation.get_files().get_ref_housenumbers_path())
+    t_osm = get_timestamp(relation.get_files().get_osm_housenumbers_path())
     return webframe.format_timestamp(max(t_ref, t_osm))
 
 
@@ -852,6 +879,7 @@ HANDLERS = {
     "/streets/": handle_streets,
     "/missing-streets/": handle_missing_streets,
     "/additional-streets/": handle_additional_streets,
+    "/additional-housenumbers/": handle_additional_housenumbers,
     "/street-housenumbers/": handle_street_housenumbers,
     "/missing-housenumbers/": handle_missing_housenumbers,
     "/housenumber-stats/": webframe.handle_stats,
