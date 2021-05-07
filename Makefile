@@ -101,8 +101,8 @@ clean:
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
-	rm -f $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
-	rm -f $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
+	rm -rf $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS)) .mypy_cache
+	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
 check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint
 

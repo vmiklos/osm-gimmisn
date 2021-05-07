@@ -26,6 +26,9 @@ wheels/
 MANIFEST
 node_modules
 workdir
+builddir/
+osm-gimmisn-env/
+refdir/
 package-lock.json
 config.ts
 
