@@ -11,118 +11,16 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import TextIO
 from typing import Tuple
 from typing import cast
 import pickle
 import yattag
 
 from i18n import translate as _
+import area_files
 import config
-import i18n
 import ranges
 import util
-
-
-class RelationFiles:
-    """A relation's file interface provides access to files associated with a relation."""
-    def __init__(self, datadir: str, workdir: str, name: str):
-        self.__datadir = datadir
-        self.__workdir = workdir
-        self.__name = name
-
-    def get_ref_streets_path(self) -> str:
-        """Build the file name of the reference street list of a relation."""
-        return os.path.join(self.__workdir, "streets-reference-%s.lst" % self.__name)
-
-    def get_ref_streets_stream(self, mode: str) -> TextIO:
-        """Opens the reference street list of a relation."""
-        path = self.get_ref_streets_path()
-        return cast(TextIO, open(path, mode=mode))
-
-    def get_osm_streets_path(self) -> str:
-        """Build the file name of the OSM street list of a relation."""
-        return os.path.join(self.__workdir, "streets-%s.csv" % self.__name)
-
-    def __get_osm_streets_stream(self, mode: str) -> TextIO:
-        """Opens the OSM street list of a relation."""
-        path = self.get_osm_streets_path()
-        return cast(TextIO, open(path, mode=mode))
-
-    def get_osm_streets_csv_stream(self) -> util.CsvIO:
-        """Gets a CSV reader for the OSM street list."""
-        return util.CsvIO(self.__get_osm_streets_stream("r"))
-
-    def write_osm_streets(self, result: str) -> None:
-        """Writes the result for overpass of Relation.get_osm_streets_query()."""
-        with self.__get_osm_streets_stream("w") as sock:
-            sock.write(result)
-
-    def get_osm_housenumbers_path(self) -> str:
-        """Build the file name of the OSM house number list of a relation."""
-        return os.path.join(self.__workdir, "street-housenumbers-%s.csv" % self.__name)
-
-    def __get_osm_housenumbers_stream(self, mode: str) -> TextIO:
-        """Opens the OSM house number list of a relation."""
-        path = self.get_osm_housenumbers_path()
-        return cast(TextIO, open(path, mode=mode))
-
-    def get_osm_housenumbers_csv_stream(self) -> util.CsvIO:
-        """Gets a CSV reader for the OSM house number list."""
-        return util.CsvIO(self.__get_osm_housenumbers_stream("r"))
-
-    def write_osm_housenumbers(self, result: str) -> None:
-        """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
-        with self.__get_osm_housenumbers_stream(mode="w") as stream:
-            stream.write(result)
-
-    def get_ref_housenumbers_path(self) -> str:
-        """Build the file name of the reference house number list of a relation."""
-        return os.path.join(self.__workdir, "street-housenumbers-reference-%s.lst" % self.__name)
-
-    def get_ref_housenumbers_stream(self, mode: str) -> TextIO:
-        """Opens the reference house number list of a relation."""
-        return cast(TextIO, open(self.get_ref_housenumbers_path(), mode=mode))
-
-    def get_housenumbers_percent_path(self) -> str:
-        """Builds the file name of the house number percent file of a relation."""
-        return os.path.join(self.__workdir, "%s.percent" % self.__name)
-
-    def get_housenumbers_percent_stream(self, mode: str) -> TextIO:
-        """Opens the house number percent file of a relation."""
-        return cast(TextIO, open(self.get_housenumbers_percent_path(), mode=mode))
-
-    def get_housenumbers_htmlcache_path(self) -> str:
-        """Builds the file name of the house number HTML cache file of a relation."""
-        return os.path.join(self.__workdir, "%s.htmlcache.%s" % (self.__name, i18n.get_language()))
-
-    def get_housenumbers_htmlcache_stream(self, mode: str) -> TextIO:
-        """Opens the house number HTML cache file of a relation."""
-        return cast(TextIO, open(self.get_housenumbers_htmlcache_path(), mode=mode))
-
-    def get_housenumbers_txtcache_path(self) -> str:
-        """Builds the file name of the house number plain text cache file of a relation."""
-        return os.path.join(self.__workdir, "%s.txtcache" % self.__name)
-
-    def get_housenumbers_txtcache_stream(self, mode: str) -> TextIO:
-        """Opens the house number plain text cache file of a relation."""
-        return cast(TextIO, open(self.get_housenumbers_txtcache_path(), mode=mode))
-
-    def get_streets_percent_path(self) -> str:
-        """Builds the file name of the street percent file of a relation."""
-        return os.path.join(self.__workdir, "%s-streets.percent" % self.__name)
-
-    def get_streets_percent_stream(self, mode: str) -> TextIO:
-        """Opens the street percent file of a relation."""
-        return cast(TextIO, open(self.get_streets_percent_path(), mode=mode))
-
-    def get_streets_additional_count_path(self) -> str:
-        """Builds the file name of the street additional count file of a relation."""
-        return os.path.join(self.__workdir, "%s-additional-streets.count" % self.__name)
-
-    def get_streets_additional_count_stream(self, mode: str) -> TextIO:
-        """Opens the street additional count file of a relation."""
-        return cast(TextIO, open(self.get_streets_additional_count_path(), mode=mode))
 
 
 class RelationConfig:
@@ -303,7 +201,7 @@ class Relation:
         self.__workdir = workdir
         self.__name = name
         my_config: Dict[str, Any] = {}
-        self.__file = RelationFiles(config.get_abspath("data"), workdir, name)
+        self.__file = area_files.RelationFiles(config.get_abspath("data"), workdir, name)
         relation_path = "relation-%s.yaml" % name
         # Intentionally don't require this cache to be present, it's fine to omit it for simple
         # relations.
@@ -318,7 +216,7 @@ class Relation:
         """Gets the name of the relation."""
         return self.__name
 
-    def get_files(self) -> RelationFiles:
+    def get_files(self) -> area_files.RelationFiles:
         """Gets access to the file interface."""
         return self.__file
 
@@ -581,36 +479,7 @@ class Relation:
         """
         ongoing_streets, done_streets = self.get_missing_housenumbers()
 
-        todo_count = 0
-        table = []
-        table.append([util.html_escape(_("Street name")),
-                      util.html_escape(_("Missing count")),
-                      util.html_escape(_("House numbers"))])
-        rows = []
-        for result in ongoing_streets:
-            # street, only_in_ref
-            row = []
-            row.append(result[0].to_html())
-            number_ranges = util.get_housenumber_ranges(result[1])
-            row.append(util.html_escape(str(len(number_ranges))))
-
-            doc = yattag.doc.Doc()
-            if not self.get_config().get_street_is_even_odd(result[0].get_osm_name()):
-                for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
-                    if index:
-                        doc.text(", ")
-                    doc.asis(util.color_house_number(item).getvalue())
-            else:
-                util.format_even_odd(number_ranges, doc)
-            row.append(doc)
-
-            todo_count += len(number_ranges)
-            rows.append(row)
-
-        # It's possible that get_housenumber_ranges() reduces the # of house numbers, e.g. 2, 4 and
-        # 6 may be turned into 2-6, which is just 1 item. Sort by the 2nd col, which is the new
-        # number of items.
-        table += sorted(rows, reverse=True, key=lambda cells: int(cells[1].getvalue()))
+        table, todo_count = numbered_streets_to_table(self, ongoing_streets)
 
         done_count = 0
         for result in done_streets:
@@ -704,6 +573,61 @@ class Relation:
             stream.write(str(len(additional_streets)))
 
         return additional_streets
+
+
+def numbered_streets_to_table(
+    relation: Relation,
+    numbered_streets: util.NumberedStreets
+) -> Tuple[List[List[yattag.doc.Doc]], int]:
+    """Turns a list of numbered streets into a HTML table."""
+    todo_count = 0
+    table = []
+    table.append([util.html_escape(_("Street name")),
+                  util.html_escape(_("Missing count")),
+                  util.html_escape(_("House numbers"))])
+    rows = []
+    for result in numbered_streets:
+        # street, only_in_ref
+        row = []
+        row.append(result[0].to_html())
+        number_ranges = util.get_housenumber_ranges(result[1])
+        row.append(util.html_escape(str(len(number_ranges))))
+
+        doc = yattag.doc.Doc()
+        if not relation.get_config().get_street_is_even_odd(result[0].get_osm_name()):
+            for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
+                if index:
+                    doc.text(", ")
+                doc.asis(util.color_house_number(item).getvalue())
+        else:
+            util.format_even_odd(number_ranges, doc)
+        row.append(doc)
+
+        todo_count += len(number_ranges)
+        rows.append(row)
+
+    # It's possible that get_housenumber_ranges() reduces the # of house numbers, e.g. 2, 4 and
+    # 6 may be turned into 2-6, which is just 1 item. Sort by the 2nd col, which is the new
+    # number of items.
+    table += sorted(rows, reverse=True, key=lambda cells: int(cells[1].getvalue()))
+    return table, todo_count
+
+
+def write_additional_housenumbers(relation: Relation) -> Tuple[int, List[List[yattag.doc.Doc]]]:
+    """
+    Calculate and write stat for the unexpected house number coverage of a relation.
+    Returns a tuple of: street count and table.
+    """
+    additional_housenumbers = relation.get_additional_housenumbers()
+    street_count = len(additional_housenumbers)
+
+    # Write the street count to a file, so the index page show it fast.
+    with relation.get_files().get_housenumbers_additional_count_stream("w") as stream:
+        stream.write(str(len(additional_housenumbers)))
+
+    table, _todo_count = numbered_streets_to_table(relation, additional_housenumbers)
+
+    return street_count, table
 
 
 def get_osm_housenumbers_query(relation: Relation) -> str:

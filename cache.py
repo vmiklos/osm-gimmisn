@@ -47,6 +47,20 @@ def is_missing_housenumbers_html_cached(relation: areas.Relation) -> bool:
     return is_cache_outdated(cache_path, dependencies)
 
 
+def is_additional_housenumbers_html_cached(relation: areas.Relation) -> bool:
+    """Decides if we have an up to date HTML cache entry for additional house numbers or not."""
+    cache_path = relation.get_files().get_additional_housenumbers_htmlcache_path()
+    datadir = config.get_abspath("data")
+    relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
+    dependencies = [
+        relation.get_files().get_osm_streets_path(),
+        relation.get_files().get_osm_housenumbers_path(),
+        relation.get_files().get_ref_housenumbers_path(),
+        relation_path
+    ]
+    return is_cache_outdated(cache_path, dependencies)
+
+
 def get_missing_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc:
     """Gets the cached HTML of the missing housenumbers for a relation."""
     doc = yattag.doc.Doc()
@@ -83,6 +97,34 @@ def get_missing_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc:
     doc.asis(util.invalid_filter_keys_to_html(areas.get_invalid_filter_keys(relation)).getvalue())
 
     with relation.get_files().get_housenumbers_htmlcache_stream("w") as stream:
+        stream.write(doc.getvalue())
+
+    return doc
+
+
+def get_additional_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc:
+    """Gets the cached HTML of the additional housenumbers for a relation."""
+    doc = yattag.doc.Doc()
+    if is_additional_housenumbers_html_cached(relation):
+        with relation.get_files().get_additional_housenumbers_htmlcache_stream("r") as stream:
+            doc.asis(stream.read())
+        return doc
+
+    ret = areas.write_additional_housenumbers(relation)
+    additional_street_count, table = ret
+
+    with doc.tag("p"):
+        doc.text(_("OpenStreetMap additionally has house numbers in the below {0} streets.")
+                 .format(str(additional_street_count)))
+        doc.stag("br")
+        with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
+            doc.text(_("Filter incorrect information"))
+
+    doc.asis(util.html_table_from_list(table).getvalue())
+    doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
+    doc.asis(util.invalid_filter_keys_to_html(areas.get_invalid_filter_keys(relation)).getvalue())
+
+    with relation.get_files().get_additional_housenumbers_htmlcache_stream("w") as stream:
         stream.write(doc.getvalue())
 
     return doc

@@ -25,6 +25,7 @@ PYTHON_TEST_OBJECTS = \
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
 	accept_language.py \
+	area_files.py \
 	areas.py \
 	cache.py \
 	cache_yamls.py \
