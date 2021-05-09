@@ -416,8 +416,7 @@ def build_reference_caches(
 def split_house_number(house_number: str) -> Tuple[int, str]:
     """Splits house_number into a numerical and a remainder part."""
     match = re.search(r"^([0-9]*)([^0-9].*|)$", house_number)
-    if not match:  # pragma: no cover
-        return (0, '')
+    assert match
     number = 0
     try:
         number = int(match.group(1))
