@@ -64,6 +64,9 @@ filters:
     # páratlan kertváros, páros belváros
     ranges:
       - {start: '2', end: '98'}
+  Építők útja:
+    # nincs házszám a belváros részen
+    ranges: []
   Farkasréti út:
     ranges:
       - {start: '1', end: '33'}
@@ -86,7 +89,7 @@ filters:
       - {start: '4', end: '82'}
   Komáromi utca:
     ranges:
-      - {start: '1', end: '71'}
+      - {start: '1', end: '73'}
   Kökény utca:
     ranges:
       - {start: '1', end: '9'}
@@ -187,6 +190,5 @@ filters:
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  Munkácsy Mihály utca: Munkácsy utca
   Petőfi Sándor utca: Petőfi utca
 inactive: true
