@@ -1,6 +1,6 @@
 cherrypy==18.6.0
 coverage==5.5
-flake8==3.9.1
+flake8==3.9.2
 mypy==0.812
 pylint==2.8.2
 python-dateutil==2.8.1
