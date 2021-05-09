@@ -488,7 +488,6 @@ refstreets:
   'Írisz utca': 'Irisz utca'  # nincs utcatábla
   'Csík falu köz': 'Csik Falu köz'
   'Kamaraerdei út': 'Kamaraerdei utca'  # utcatábla Kamaraerdei út
-  'Munkácsy Mihály utca': 'Munkácsy utca'
-  'Petőfi Sándor utca': 'Petőfi utca'
+  'Petőfi Sándor utca': 'Petőfi utca'  # táblák vegyesen
   'Széchenyi utca': 'Széchenyi István utca'  # utcatábla Széchenyi utca
 inactive: false
