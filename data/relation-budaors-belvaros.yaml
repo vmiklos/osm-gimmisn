@@ -120,6 +120,10 @@ filters:
   Mátyás király utca:
     ranges:
       - {start: '1', end: '99'}
+  Moha utca:
+    # belváros páros, autópálya menti páratlan
+    ranges:
+      - {start: '2', end: '4'}
   Naphegy utca:
     ranges:
       - {start: '1', end: '19'}
@@ -140,8 +144,13 @@ filters:
       - {start: '19', end: '19'}
   Őszibarack utca:
     ranges:
-      - {start: '2', end: '4'}
       - {start: '1', end: '5'}
+      - {start: '2', end: '4'}
+  Petőfi Sándor utca:
+    # belváros 2-60, 1-69
+    ranges:
+      - {start: '1', end: '69'}
+      - {start: '2', end: '60'}
   Rózsa utca:
     ranges:
       - {start: '1', end: '17'}
