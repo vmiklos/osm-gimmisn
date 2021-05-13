@@ -37,6 +37,9 @@ filters:
   Helischer József út:
     # páros vége 4
     invalid: ['16']
+  Kis Duna sétány:
+    # 59 nincs kiírva, a gátőrház lehetne
+    invalid: ['59']
   Lépcső utca:
     ranges:
       - {start: '1', end: '21'}
