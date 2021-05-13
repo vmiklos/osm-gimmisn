@@ -158,6 +158,10 @@ filters:
     invalid: ['7', '10', '12', '13', '18']
   Ifjúság utca:
     invalid: ['2', '37']
+  József Attila utca:
+    # 7 = Árpád utca 4-8 iskola hátsó fele
+    # 14: 12 után 16
+    invalid: ['2', '14']
   Kassai utca:
     # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
     invalid: ['4', '6']
