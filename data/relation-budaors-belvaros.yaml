@@ -22,7 +22,7 @@ filters:
   Baross utca:
     ranges:
       - {start: '2', end: '74'}
-      - {start: '1', end: '133'}
+      - {start: '1', end: '75'}
   Budapesti út:
     invalid: ['10', '25', '43']
     ranges:
@@ -128,6 +128,11 @@ filters:
     # belváros páros, autópálya menti páratlan
     ranges:
       - {start: '2', end: '4'}
+  Munkácsy utca:
+    # 13: 11 után 15 jön, a 9 és 11 között van egy üres telek amit a 9-es használ kertnek
+    ranges:
+      - {start: '1', end: '39'}
+      - {start: '2', end: '48'}
   Naphegy utca:
     ranges:
       - {start: '1', end: '19'}
@@ -152,9 +157,17 @@ filters:
       - {start: '2', end: '4'}
   Petőfi Sándor utca:
     # belváros 2-60, 1-69
+    # 7-9: 7-re van számozva
+    # 13: 11 után 15 jön
+    invalid: ['9', '13']
     ranges:
       - {start: '1', end: '69'}
       - {start: '2', end: '60'}
+  Rákóczi utca:
+    # belváros 2-36, 1-35
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '2', end: '36'}
   Rózsa utca:
     ranges:
       - {start: '1', end: '17'}

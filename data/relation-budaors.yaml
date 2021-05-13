@@ -238,9 +238,11 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '48'}
-  # Munkácsy utca:
-  # 11 után 15 jön, a 9 és 11 között van egy üres telek amit a 9-es használ kertnek
-  # invalid: ['13'] -- recheck, mert 11-es mögött van még egy ház
+  Munkácsy utca:
+    # 13: 11 után 15 jön, a 9 és 11 között van egy üres telek amit a 9-es használ kertnek
+    ranges:
+      - {start: '1', end: '39'}
+      - {start: '2', end: '48'}
   Muskotály utca:
     # gyéren táblázva, ezek nincsenek
     invalid: ['21', '23', '50', '80', '82']
@@ -289,6 +291,9 @@ filters:
     invalid: ['29']
   Petőfi Sándor utca:
     # belváros 2-60, 1-69; ipartelep 71-73, 62-64
+    # 7-9: 7-re van számozva
+    # 13: 11 után 15 jön
+    invalid: ['9', '13']
     ranges:
       - {start: '1', end: '73'}
       - {start: '2', end: '64'}
