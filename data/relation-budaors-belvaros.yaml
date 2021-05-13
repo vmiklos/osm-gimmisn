@@ -77,6 +77,10 @@ filters:
   Gesztenye utca:
     ranges:
       - {start: '2', end: '4'}
+  József Attila utca:
+    # 7 = Árpád utca 4-8 iskola hátsó fele
+    # 14: 12 után 16
+    invalid: ['2', '14']
   Károly király utca:
     # 2: nincs, 4-től indul a számozás, a sarki első épület Szabadság út 51
     # 18: nincs, 16 után 20 jön, kettő között a Baross utca húzódik
