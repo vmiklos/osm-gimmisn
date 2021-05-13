@@ -34,10 +34,17 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '10'}
+  Helischer József út:
+    # páros vége 4
+    invalid: ['16']
   Lépcső utca:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '98'}
+  Monteverdi utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '12'}
   Petőfi Sándor utca:
     ranges:
       - {start: '1', end: '125'}
