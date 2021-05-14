@@ -613,21 +613,20 @@ def numbered_streets_to_table(
     return table, todo_count
 
 
-def write_additional_housenumbers(relation: Relation) -> Tuple[int, List[List[yattag.doc.Doc]]]:
+def write_additional_housenumbers(relation: Relation) -> Tuple[int, int, List[List[yattag.doc.Doc]]]:
     """
     Calculate and write stat for the unexpected house number coverage of a relation.
-    Returns a tuple of: street count and table.
+    Returns a tuple of: todo street count, todo count and table.
     """
-    additional_housenumbers = relation.get_additional_housenumbers()
-    street_count = len(additional_housenumbers)
+    ongoing_streets = relation.get_additional_housenumbers()
+
+    table, todo_count = numbered_streets_to_table(relation, ongoing_streets)
 
     # Write the street count to a file, so the index page show it fast.
     with relation.get_files().get_housenumbers_additional_count_stream("w") as stream:
-        stream.write(str(len(additional_housenumbers)))
+        stream.write(str(todo_count))
 
-    table, _todo_count = numbered_streets_to_table(relation, additional_housenumbers)
-
-    return street_count, table
+    return len(ongoing_streets), todo_count, table
 
 
 def get_osm_housenumbers_query(relation: Relation) -> str:
