@@ -111,11 +111,11 @@ def get_additional_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc
         return doc
 
     ret = areas.write_additional_housenumbers(relation)
-    additional_street_count, table = ret
+    todo_street_count, todo_count, table = ret
 
     with doc.tag("p"):
-        doc.text(_("OpenStreetMap additionally has house numbers in the below {0} streets.")
-                 .format(str(additional_street_count)))
+        doc.text(_("OpenStreetMap additionally has the below {0} house numbers for {1} streets.")
+                 .format(str(todo_count), str(todo_street_count)))
         doc.stag("br")
         with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
             doc.text(_("Filter incorrect information"))
