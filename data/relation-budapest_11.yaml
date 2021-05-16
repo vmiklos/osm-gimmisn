@@ -2631,7 +2631,7 @@ filters:
     # 12/b: 12/a, 12, meglett a kapun a kiírás
     # 17: 17/a, 17/b
     # 19: 19/a és a másik ház lekopva, akár lehet 19/b is
-    invalid: ['12', '17', '19']
+    invalid: ['12b', '17', '19']
   Telekes utca:
     ranges: []
   Törcsvár utca:
