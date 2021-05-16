@@ -9,9 +9,11 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM: ref hibás
+  'Ároktő út': 'Ároktő utca'
   'Csordakút út': 'Csordakút utca'
   'Fülöpszállás utca': 'Fülöpszállás út'
   'Kőhúr utca': 'Kőhur utca'
+  'Magyar szárnyak dűlő': 'Magyar Szárnyak utca'
   'Nagy-Hangács köz': 'Nagy-hangács köz'
   'Nagy-Hangács utca': 'Nagy-hangács utca'
   'Orgoványiszőlő dűlő': 'Orgoványi szőlő'
@@ -23,5 +25,9 @@ refstreets:
   'Riszti János utca': 'Risztics János utca'
   'Thorotzkay Péter gróf utca': 'Thorotzkay Péter utca'
   'Tói malom utca': 'Tómalom utca'
+  # utcajegyzék = REF, OSM kérdéses
+  'Homokiszőlő dűlő': 'Homokiszőlő dűlőút'  # nincs tábla
+  'Kis-Káros-híd utca': 'Kis Károshíd utca'  # note
+  'Nagy-Káros-híd dűlő': 'Nagy Károshíd dűlő'  # nincs tábla
 source: survey
 inactive: true
