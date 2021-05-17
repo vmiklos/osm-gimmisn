@@ -397,6 +397,8 @@ osm-street-filters:
   - Gesztenyés kert
   - Szent Család park
   - Zugligeti Szent Család Plébánia
+  # Hivatalosan nincs, de utcatábla van
+  - Kalóz köz
   # Szent János Kórkáz belső utcái
   - Dr. Csapody István út
   - Dr. Gergely Rezső lejtő
