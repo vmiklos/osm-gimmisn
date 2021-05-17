@@ -36,8 +36,15 @@ filters:
 osm-street-filters:
   # Nem valós utcák
   - Drive-through
+  - Gubacsi hídfő
+  - Mélygarázs
   # Kerülethatáron lévő utca
   - Ferihegyi repülőtérre vezető út
+  # házszám nélküli sétányok, parkok
+  - Gizella sétány
+  - Haller park
+  - Madáretető park
+  - Tinódi park
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás
@@ -46,5 +53,7 @@ refstreets:
   'Fehér Holló utca': 'Fehérholló utca'
   # utcajegyzék = REF, OSM eltér
   'Knézich utca': 'Knézits utca'  # utcatábla = OSM
+  'Gregersen Gulbrand körönd': 'Gregersen körönd'
+  'Lenkey János utca': 'Lenkei János utca'
 source: survey
 inactive: true
