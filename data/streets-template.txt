@@ -10,7 +10,7 @@ out;
 way(area.searchArea)["highway"~"footway|steps|pedestrian"][name][layer!~"-"][!"bridge"];
 out;
 // path with valid street name, try to exclude hiking path with comments in name tag
-way(area.searchArea)["highway"="path"][name][name~"utca|út|köz|árok|lépcső|gát|part|tér|sétány|park|dűlő|erdősor|fasor|kert"](area.searchArea);
+way(area.searchArea)["highway"="path"][name][name~"utca|út|köz|árok|lépcső|gát|part|tér|sétány|park|dűlő|sor|kert"][name!~"garázssor"](area.searchArea);
 out;
 // include parks with names
 way(area.searchArea)["leisure"="park"][name];
