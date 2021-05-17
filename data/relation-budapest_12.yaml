@@ -375,6 +375,10 @@ filters:
   Szamóca utca:
     # 1-11, 2-16
     invalid: ['17']
+street-filters:
+  # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
+  - Orgona ösvény
+  - Pipacs ösvény
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
@@ -386,9 +390,6 @@ osm-street-filters:
   - mozgássérült gyakorlópark
   - Városmajor
   - vsb
-  # Csillebérc létező ösvények
-  - Orgona ösvény
-  - Pipacs ösvény
   # Parkok házszám nélkül
   - Barabás-villa kertje
   - Eötvös József park
