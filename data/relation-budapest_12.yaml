@@ -386,31 +386,9 @@ osm-street-filters:
   - mozgássérült gyakorlópark
   - Városmajor
   - vsb
-  # Létező, de házszám nélküli utcák
-  - Abos lépcső
-  - Anjou lépcső
-  - Árkay Aladár sétány
-  - Árkay Bertalan sétány
-  - Csermely lépcső
-  - Csobolyó lépcső
-  - Devecseri Gábor park
-  - Erzsébet-kilátó út
-  - Hóvirág köz
-  - Jenő út
-  - Juliska út
-  - Kalóz köz
-  - Kepe lépcső
-  - Lisszabon sétány
-  - Mindenszentek tere
-  - Mindszenty József bíboros tér
-  - Padka utca
-  - Perbete utca
-  - Sólyom lépcső
-  - Sota Rusztaveli tér
-  - Szepesi utca
-  - Szunyogh út
-  - Tündérhegyi út
-  - Visszhang utca
+  # Csillebérc létező ösvények
+  - Orgona ösvény
+  - Pipacs ösvény
   # Parkok házszám nélkül
   - Barabás-villa kertje
   - Eötvös József park
