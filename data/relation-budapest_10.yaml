@@ -22,5 +22,52 @@ refstreets:
   # utcajegyzék = OSM: ref hibás
   'Ceglédi út': 'Ceglédi utca'
   'Kis Sörgyár utca': 'Kissörgyár utca'
+osm-street-filters:
+  # Nem valós utcák
+  - Kincsem Park
+  - Kőbányai pincerendszer bejárat
+  # Parkok, sétautak amire nincs számozva semmi
+  - Bányató park
+  - Erdélyi emlékkert
+  - Gőzmozdony park
+  - Hargitai sétányi park
+  - Liget Grund
+  - Liget téri park
+  - Nagyicce kiserdő
+  # Kerülethatáron lévő utcák
+  - 527. utca
+  - Fogarasi út
+  # Köztemető belső dolgai
+  - 1848-49-es honvédsírok
+  - II. körönd
+  # Népliget sétányok
+  - Andreánszky Gábor sétány
+  - Borbás Vince sétány
+  - Boros Ádám sétány
+  - Degen Árpád sétány
+  - Domokos János sétány
+  - Dr. Köves János sétány
+  - Feszl Frigyes sétány
+  - Gombócz Endre sétány
+  - Hazslinszky Frigyes sétány
+  - Hell Miksa sétány
+  - Ilsemann Keresztély sétány
+  - Karl von Linné sétány
+  - Kárpáti Zoltán sétány
+  - Kol Erzsébet sétány
+  - Lechner Ödön sétány
+  - Moesz Gusztáv sétány
+  - Mutatványos tér
+  - Räde Károly sétány
+  - Rapaics Raymund sétány
+  - Rerrich Béla sétány
+  - Simonkai Lajos sétány
+  - Sohilberszky Károly sétány
+  - Soó Miksa sétány
+  - Soó Rezső sétány
+  - Trautmann Róbert sétány
+  - Winterl Jakab József sétány
+  # egyéb
+  - MÁV telep
 source: survey
 inactive: true
