@@ -32,7 +32,6 @@ refstreets:
   'Berzsenyi Dániel utca': 'Berzsenyi utca'
   'Brenner Lőrincz köz': 'Brenner Lőrinc köz'  # Note
   'Dózsa György utca': 'Dózsa György út'
-  'Építő út': 'Építő utca'
   'Erdőalja út': 'Erdőalja utca'
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # utca a jó
   'Fadrusz János utca': 'Fadrusz utca'
@@ -48,6 +47,6 @@ refstreets:
   'Szabadság utca': 'Szabadság út'
   'Szabadság-kilátó utca': 'Szabadságkilátó út'
   'Vöröshegyi utca': 'Vöröshegyi út'
-  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'  # táblán Vörösmarty Mihály utca
 source: survey
 inactive: true
