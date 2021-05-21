@@ -4,6 +4,8 @@ filters:
       # at least 65 is definitely out of range
       - {start: '1', end: '29'}
       - {start: '2', end: '28'}
+    # TODO survey for the rest
+    valid: ['8']
   Hársfa utca:
     ranges:
       # at least 8, 18 and 19 are out of range
