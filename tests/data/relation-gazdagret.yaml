@@ -20,6 +20,8 @@ filters:
     show-refstreet: false
   'OSM Name 2':
     show-refstreet: false
+  'Second Only In OSM utca':
+    valid: ['1']
 street-filters:
   - Only In Ref Nonsense utca
 osm-street-filters:

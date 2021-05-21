@@ -591,8 +591,8 @@ class TestRelationGetAdditionalHousenumbers(test_config.TestCase):
         relation = relations.get_relation(relation_name)
         only_in_osm = relation.get_additional_housenumbers()
         only_in_osm_strs = [(name.get_osm_name(), [i.get_number() for i in numbers]) for name, numbers in only_in_osm]
-        self.assertEqual(only_in_osm_strs, [('Only In OSM utca', ['1']),
-                                            ('Second Only In OSM utca', ['1'])])
+        # Note how Second Only In OSM utca 1 is filtered out explicitly.
+        self.assertEqual(only_in_osm_strs, [('Only In OSM utca', ['1'])])
 
 
 def table_doc_to_string(table: List[List[yattag.doc.Doc]]) -> List[List[str]]:

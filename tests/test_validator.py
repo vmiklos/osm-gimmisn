@@ -29,6 +29,8 @@ class TestValidatorMain(unittest.TestCase):
             "tests/data/relations.yaml",
             "tests/data/relation-gazdagret-filter-invalid-good.yaml",
             "tests/data/relation-gazdagret-filter-invalid-good2.yaml",
+            "tests/data/relation-gazdagret-filter-valid-good.yaml",
+            "tests/data/relation-gazdagret-filter-valid-good2.yaml",
         ]
         for path in paths:
             argv = ["", path]
@@ -254,6 +256,24 @@ class TestValidatorMainFailureMsg2(TestValidatorMainFailureMsgBase):
         expected = "failed to validate tests/data/relation-gazdagret-refstreets-bad-map.yaml"
         expected += ": osm and ref streets are not a 1:1 mapping in 'refstreets.'\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-refstreets-bad-map.yaml", expected)
+
+    def test_relation_filters_valid_bad(self) -> None:
+        """Tests the relation path: bad filters -> ... -> valid subkey."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.valid[0]' is str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-valid-bad.yaml", expected)
+
+    def test_relation_filters_valid_bad2(self) -> None:
+        """Tests the relation path: bad filters -> ... -> valid subkey."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad2.yaml"
+        expected += ": expected format for 'filters.Budaörsi út.valid[0]' is '42', '42a' or '42/1'\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-valid-bad2.yaml", expected)
+
+    def test_relation_filters_valid_bad_type(self) -> None:
+        """Tests the relation path: bad type for the filters -> ... -> valid subkey."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad-type.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.valid' is list\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-valid-bad-type.yaml", expected)
 
 
 if __name__ == '__main__':

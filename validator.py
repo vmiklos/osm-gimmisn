@@ -72,8 +72,8 @@ def validate_ranges(errors: List[str], parent: str, ranges: List[Any], filter_da
         validate_range(errors, "%s[%s]" % (context, index), range_data, filter_data)
 
 
-def validate_filter_invalid(errors: List[str], parent: str, invalid: List[Any]) -> None:
-    """Validates an 'invalid' list."""
+def validate_filter_invalid_valid(errors: List[str], parent: str, invalid: List[Any]) -> None:
+    """Validates an 'invalid' or 'valid' list."""
     context = parent
     for index, invalid_data in enumerate(invalid):
         if not isinstance(invalid_data, str):
@@ -97,11 +97,11 @@ def validate_filter(errors: List[str], parent: str, filter_data: Dict[str, Any])
                 errors.append("expected value type for '%s%s' is list" % (context, key))
                 continue
             validate_ranges(errors, context + "ranges", value, filter_data)
-        elif key == "invalid":
+        elif key in ("invalid", "valid"):
             if not isinstance(value, list):
                 errors.append("expected value type for '%s%s' is list" % (context, key))
                 continue
-            validate_filter_invalid(errors, context + "invalid", value)
+            validate_filter_invalid_valid(errors, context + key, value)
         elif key == "refsettlement":
             if not isinstance(value, str):
                 errors.append("expected value type for '%s%s' is str" % (context, key))
