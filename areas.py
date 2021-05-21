@@ -506,10 +506,17 @@ class Relation:
 
         osm_street_names = self.get_osm_streets()
         all_ref_house_numbers = self.__get_ref_housenumbers()
+        streets_valid = get_street_valid(self)
         for osm_street in osm_street_names:
             osm_street_name = osm_street.get_osm_name()
             ref_house_numbers = all_ref_house_numbers[osm_street_name]
             osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
+
+            if osm_street_name in streets_valid.keys():
+                street_valid = streets_valid[osm_street_name]
+                osm_house_numbers = \
+                    [i for i in osm_house_numbers if not util.HouseNumber.is_invalid(i.get_number(), street_valid)]
+
             only_in_osm = util.get_only_in_first(osm_house_numbers, ref_house_numbers)
             ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
             street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name))
@@ -573,6 +580,19 @@ class Relation:
             stream.write(str(len(additional_streets)))
 
         return additional_streets
+
+
+def get_street_valid(relation: Relation) -> Dict[str, List[str]]:
+    """Gets a street name -> valid map, which allows silencing individual false positives."""
+    valid_dict: Dict[str, List[str]] = {}
+
+    filters = relation.get_config().get_filters()
+    for street in filters.keys():
+        if "valid" not in filters[street]:
+            continue
+        valid_dict[street] = filters[street]["valid"]
+
+    return valid_dict
 
 
 def numbered_streets_to_table(

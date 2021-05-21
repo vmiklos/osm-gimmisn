@@ -241,6 +241,19 @@ housenumber ranges in a sensible way. Here are some examples:
 
 See `tests/test_areas.py` for even more details.
 
+=== Additional housenumbers analysis
+
+This is the opposite of missing housenumbers, i.e. check for OSM objects which are not in the
+reference. This can be helpful to find errors, but use it with care: just because you did not find a
+housenumber by survey, it doesn't mean it has to be deleted.
+
+The way to filter out valid data from the OSM list is to explicitly state what items are valid:
+
+----
+  Magasúti köz:
+    valid: ['13', '15']
+----
+
 === Automerge workflow for committers
 
 If you contribute to osm-gimmisn frequently, then you'll likely get self-review permissions granted.
