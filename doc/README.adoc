@@ -24,11 +24,11 @@ manually if you want faster feedback:
 - Wait a few minutes. If you just edited OSM, then running an overpass query right now will likely
   work with outdated data.
 
-- Go to the existing house numbers section of your area, and click on the 'Call Overpass to update'
+- Go to the missing house numbers section of your area, and click on the 'Update from OSM'
   link.
 
-- Once the query is complete, you'll be redirected to the house number coverage page, and the
-  updated content should no longer mention your contributed house number(s) as missing anymore.
+- Once the query is complete, the updated content should no longer mention your contributed house
+  number(s) as missing anymore.
 
 The missing house numbers are colored:
 
