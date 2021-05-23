@@ -33,7 +33,6 @@ refstreets:
   'Brenner Lőrincz köz': 'Brenner Lőrinc köz'  # Note
   'Dózsa György utca': 'Dózsa György út'
   'Erdőalja út': 'Erdőalja utca'
-  'Erkel Ferenc utca': 'Erkel Ferenc út'  # utca a jó
   'Fadrusz János utca': 'Fadrusz utca'
   'Kossuth Lajos utca': 'Kossuth utca'
   'Kurucz Rudolf utca': 'Kurcz Rudolf utca'
@@ -46,7 +45,9 @@ refstreets:
   'Pinkóczi utca': 'Pinkóczi út'
   'Szabadság utca': 'Szabadság út'
   'Szabadság-kilátó utca': 'Szabadságkilátó út'
-  'Vöröshegyi utca': 'Vöröshegyi út'
+   # ellenőrzött
+  'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
+  'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
   'Vörösmarty Mihály utca': 'Vörösmarty utca'  # táblán Vörösmarty Mihály utca
 source: survey
 inactive: true
