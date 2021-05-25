@@ -16,6 +16,8 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '98'}
+  Bajóti Simon utca:
+    invalid: ['2', '4']
   Bánomi út:
     ranges:
       - {start: '1', end: '99'}
