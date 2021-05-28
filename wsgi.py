@@ -547,12 +547,15 @@ def handle_main_street_additional_count(relation: areas.Relation) -> yattag.doc.
 
 def handle_main_housenr_additional_count(relation: areas.Relation) -> yattag.doc.Doc:
     """Handles the housenumber additional count part of the main page."""
+    if not relation.get_config().should_check_additional_housenumbers():
+        return yattag.doc.Doc()
+
     prefix = config.Config.get_uri_prefix()
     url = prefix + "/additional-housenumbers/" + relation.get_name() + "/view-result"
     additional_count = ""
     if os.path.exists(relation.get_files().get_housenumbers_additional_count_path()):
         path = relation.get_files().get_housenumbers_additional_count_path()
-        additional_count = util.get_content(path).decode("utf-8")
+        additional_count = util.get_content(path).decode("utf-8").strip()
 
     doc = yattag.doc.Doc()
     if additional_count:

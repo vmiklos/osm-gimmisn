@@ -23,14 +23,14 @@ import ranges
 import util
 
 
-class RelationConfig:
+class RelationConfigBase:
     """A relation configuration comes directly from static data, not a result of some external query."""
     def __init__(self, parent_config: Dict[str, Any], my_config: Dict[str, Any]) -> None:
         self.__parent = parent_config
         self.__dict = my_config
 
-    def __get_property(self, key: str) -> Any:
-        """Gets the value of a property transparently."""
+    def get_property(self, key: str) -> Any:
+        """Gets the untyped value of a property transparently."""
         if key in self.__dict.keys():
             return self.__dict[key]
 
@@ -39,72 +39,89 @@ class RelationConfig:
 
         return None
 
+    def set_property(self, key: str, value: Any) -> None:
+        """Sets an untyped value."""
+        self.__dict[key] = value
+
     def set_active(self, active: bool) -> None:
         """Sets if the relation is active."""
         self.__dict["inactive"] = not active
 
     def is_active(self) -> bool:
         """Gets if the relation is active."""
-        return not cast(bool, self.__get_property("inactive"))
+        return not cast(bool, self.get_property("inactive"))
 
     def get_osmrelation(self) -> int:
         """Gets the OSM relation object's ID."""
-        return cast(int, self.__get_property("osmrelation"))
+        return cast(int, self.get_property("osmrelation"))
 
     def get_refcounty(self) -> str:
         """Gets the relation's refcounty identifier from reference."""
-        return cast(str, self.__get_property("refcounty"))
+        return cast(str, self.get_property("refcounty"))
 
     def get_refsettlement(self) -> str:
         """Gets the relation's refsettlement identifier from reference."""
-        return cast(str, self.__get_property("refsettlement"))
+        return cast(str, self.get_property("refsettlement"))
 
     def get_alias(self) -> List[str]:
         """Gets the alias(es) of the relation: alternative names which are also accepted."""
-        return cast(List[str], self.__get_property("alias"))
+        return cast(List[str], self.get_property("alias"))
+
+
+class RelationConfig(RelationConfigBase):
+    """A relation config extends RelationConfigBase with additional typed values."""
+    def __init__(self, parent_config: Dict[str, Any], my_config: Dict[str, Any]) -> None:
+        RelationConfigBase.__init__(self, parent_config, my_config)
 
     def should_check_missing_streets(self) -> str:
         """Return value can be 'yes', 'no' and 'only'."""
-        if self.__get_property("missing-streets"):
-            return cast(str, self.__get_property("missing-streets"))
+        if self.get_property("missing-streets"):
+            return cast(str, self.get_property("missing-streets"))
 
         return "yes"
 
     def should_check_housenumber_letters(self) -> bool:
         """Do we care if 42/B is missing when 42/A is provided?."""
-        if self.__get_property("housenumber-letters"):
-            return cast(bool, self.__get_property("housenumber-letters"))
+        if self.get_property("housenumber-letters"):
+            return cast(bool, self.get_property("housenumber-letters"))
+
+        return False
+
+    def should_check_additional_housenumbers(self) -> bool:
+        """Do we care if 42 is in OSM when it's not in the ref?."""
+        if self.get_property("additional-housenumbers"):
+            return cast(bool, self.get_property("additional-housenumbers"))
 
         return False
 
     def set_housenumber_letters(self, housenumber_letters: bool) -> None:
         """Sets the housenumber_letters property from code."""
-        self.__dict["housenumber-letters"] = housenumber_letters
+        self.set_property("housenumber-letters", housenumber_letters)
 
     def set_letter_suffix_style(self, letter_suffix_style: util.LetterSuffixStyle) -> None:
         """Sets the letter suffix style."""
-        self.__dict["letter-suffix-style"] = letter_suffix_style
+        self.set_property("letter-suffix-style", letter_suffix_style)
 
     def get_letter_suffix_style(self) -> util.LetterSuffixStyle:
         """Gets the letter suffix style."""
-        if self.__get_property("letter-suffix-style"):
-            return cast(util.LetterSuffixStyle, self.__get_property("letter-suffix-style"))
+        if self.get_property("letter-suffix-style"):
+            return cast(util.LetterSuffixStyle, self.get_property("letter-suffix-style"))
         return util.LetterSuffixStyle.UPPER
 
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""
-        if self.__get_property("refstreets"):
-            return cast(Dict[str, str], self.__get_property("refstreets"))
+        if self.get_property("refstreets"):
+            return cast(Dict[str, str], self.get_property("refstreets"))
         return {}
 
     def set_filters(self, filters: Dict[str, Any]) -> None:
         """Sets the 'filters' key from code."""
-        self.__dict["filters"] = filters
+        self.set_property("filters", filters)
 
     def get_filters(self) -> Dict[str, Any]:
         """Returns a street name -> properties map."""
-        if self.__get_property("filters"):
-            return cast(Dict[str, Any], self.__get_property("filters"))
+        if self.get_property("filters"):
+            return cast(Dict[str, Any], self.get_property("filters"))
         return {}
 
     def get_filter_street(self, street: str) -> Dict[str, Any]:
@@ -127,8 +144,8 @@ class RelationConfig:
 
     def get_street_refsettlement(self, street: str) -> List[str]:
         """Returns a list of refsettlement values specific to a street."""
-        ret = [self.__get_property("refsettlement")]
-        if not self.__get_property("filters"):
+        ret = [self.get_property("refsettlement")]
+        if not self.get_property("filters"):
             return ret
 
         relation_filters = self.get_filters()
@@ -149,14 +166,14 @@ class RelationConfig:
 
     def get_street_filters(self) -> List[str]:
         """Gets list of streets which are only in reference, but have to be filtered out."""
-        if self.__get_property("street-filters"):
-            return cast(List[str], self.__get_property("street-filters"))
+        if self.get_property("street-filters"):
+            return cast(List[str], self.get_property("street-filters"))
         return []
 
     def get_osm_street_filters(self) -> List[str]:
         """Gets list of streets which are only in OSM, but have to be filtered out."""
-        if self.__get_property("osm-street-filters"):
-            return cast(List[str], self.__get_property("osm-street-filters"))
+        if self.get_property("osm-street-filters"):
+            return cast(List[str], self.get_property("osm-street-filters"))
         return []
 
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
