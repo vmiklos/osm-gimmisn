@@ -562,12 +562,12 @@ def handle_main_housenr_additional_count(relation: areas.Relation) -> yattag.doc
         date = get_last_modified(relation.get_files().get_housenumbers_additional_count_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
-                doc.text(_("{} housenumbers").format(additional_count))
+                doc.text(_("{} house numbers").format(additional_count))
         return doc
 
     with doc.tag("strong"):
         with doc.tag("a", href=url):
-            doc.text(_("additional housenumbers"))
+            doc.text(_("additional house numbers"))
     return doc
 
 
@@ -773,7 +773,7 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.doc.Doc:
     table = []
     table.append([util.html_escape(_("Area")),
                   util.html_escape(_("House number coverage")),
-                  util.html_escape(_("Additional housenumbers")),
+                  util.html_escape(_("Additional house numbers")),
                   util.html_escape(_("Street coverage")),
                   util.html_escape(_("Additional streets")),
                   util.html_escape(_("Area boundary"))])

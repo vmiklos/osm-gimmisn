@@ -73,7 +73,7 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
         relations = areas.Relations(config.Config.get_workdir())
         relation = relations.get_relation("budafok")
         actual = wsgi.handle_main_housenr_additional_count(relation)
-        self.assertIn("42 housenumbers", actual.getvalue())
+        self.assertIn("42 house numbers", actual.getvalue())
 
     def test_no_count_file(self) -> None:
         """Tests what happens when the count file is not there."""

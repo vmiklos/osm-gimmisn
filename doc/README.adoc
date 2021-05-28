@@ -245,7 +245,7 @@ housenumber ranges in a sensible way. Here are some examples:
 
 See `tests/test_areas.py` for even more details.
 
-=== Additional housenumbers analysis
+=== Additional house numbers analysis
 
 This is the opposite of missing housenumbers, i.e. check for OSM objects which are not in the
 reference. This can be helpful to find errors, but use it with care: just because you did not find a
