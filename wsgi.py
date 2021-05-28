@@ -545,6 +545,29 @@ def handle_main_street_additional_count(relation: areas.Relation) -> yattag.doc.
     return doc
 
 
+def handle_main_housenr_additional_count(relation: areas.Relation) -> yattag.doc.Doc:
+    """Handles the housenumber additional count part of the main page."""
+    prefix = config.Config.get_uri_prefix()
+    url = prefix + "/additional-housenumbers/" + relation.get_name() + "/view-result"
+    additional_count = ""
+    if os.path.exists(relation.get_files().get_housenumbers_additional_count_path()):
+        path = relation.get_files().get_housenumbers_additional_count_path()
+        additional_count = util.get_content(path).decode("utf-8")
+
+    doc = yattag.doc.Doc()
+    if additional_count:
+        date = get_last_modified(relation.get_files().get_housenumbers_additional_count_path())
+        with doc.tag("strong"):
+            with doc.tag("a", href=url, title=_("updated") + " " + date):
+                doc.text(_("{} housenumbers").format(additional_count))
+        return doc
+
+    with doc.tag("strong"):
+        with doc.tag("a", href=url):
+            doc.text(_("additional housenumbers"))
+    return doc
+
+
 def filter_for_everything(_complete: bool, _relation: areas.Relation) -> bool:
     """Does not filter out anything."""
     return True
@@ -705,7 +728,10 @@ def handle_main_relation(
         doc.asis(cell.getvalue())
         row.append(doc)
         complete &= float(percent) >= 100.0
+
+        row.append(handle_main_housenr_additional_count(relation))
     else:
+        row.append(yattag.doc.Doc())
         row.append(yattag.doc.Doc())
 
     if streets != "no":
@@ -744,6 +770,7 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.doc.Doc:
     table = []
     table.append([util.html_escape(_("Area")),
                   util.html_escape(_("House number coverage")),
+                  util.html_escape(_("Additional housenumbers")),
                   util.html_escape(_("Street coverage")),
                   util.html_escape(_("Additional streets")),
                   util.html_escape(_("Area boundary"))])
