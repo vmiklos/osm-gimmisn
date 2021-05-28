@@ -97,7 +97,7 @@ def update_osm_housenumbers(relations: areas.Relations, update: bool) -> None:
             retry += 1
             try:
                 overpass_sleep()
-                query = areas.get_osm_housenumbers_query(relation)
+                query = relation.get_osm_housenumbers_query()
                 relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
                 break
             except urllib.error.HTTPError as http_error:

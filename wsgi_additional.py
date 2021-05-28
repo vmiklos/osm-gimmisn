@@ -90,7 +90,7 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
                 doc.text(_("Overpass turbo query for the below streets"))
 
         doc.asis(util.html_table_from_list(table).getvalue())
-        doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
+        doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
     return doc
 
 

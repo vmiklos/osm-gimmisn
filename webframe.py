@@ -412,9 +412,9 @@ def handle_invalid_refstreets(relations: areas.Relations) -> yattag.doc.Doc:
     for relation in relations.get_relations():
         if not os.path.exists(relation.get_files().get_osm_streets_path()):
             continue
-        invalid_refstreets = areas.get_invalid_refstreets(relation)
+        invalid_refstreets = relation.get_invalid_refstreets()
         osm_invalids, ref_invalids = invalid_refstreets
-        key_invalids = areas.get_invalid_filter_keys(relation)
+        key_invalids = relation.get_invalid_filter_keys()
         if not osm_invalids and not ref_invalids and not key_invalids:
             continue
         with doc.tag("h1"):

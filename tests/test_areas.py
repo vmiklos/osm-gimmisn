@@ -79,7 +79,7 @@ class TestRelationGetOsmHousenumbersQuery(test_config.TestCase):
         relations = areas.Relations(config.Config.get_workdir())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        ret = areas.get_osm_housenumbers_query(relation)
+        ret = relation.get_osm_housenumbers_query()
         self.assertEqual(ret, 'housenr aaa 2713748 bbb 3602713748 ccc\n')
 
 
