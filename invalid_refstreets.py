@@ -16,7 +16,7 @@ def main() -> None:
     workdir = config.Config.get_workdir()
     relations = areas.Relations(workdir)
     for relation in relations.get_relations():
-        invalid_refstreets = areas.get_invalid_refstreets(relation)
+        invalid_refstreets = relation.get_invalid_refstreets()
         osm_invalids, ref_invalids = invalid_refstreets
         if not osm_invalids and not ref_invalids:
             continue

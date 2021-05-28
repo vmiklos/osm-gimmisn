@@ -97,9 +97,9 @@ def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> 
     prefix = config.Config.get_uri_prefix()
     if action == "view-query":
         with doc.tag("pre"):
-            doc.text(areas.get_osm_housenumbers_query(relation))
+            doc.text(relation.get_osm_housenumbers_query())
     elif action == "update-result":
-        query = areas.get_osm_housenumbers_query(relation)
+        query = relation.get_osm_housenumbers_query()
         try:
             relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
             doc.text(_("Update successful: "))
@@ -197,8 +197,8 @@ def missing_streets_view_result(relations: areas.Relations, request_uri: str) ->
             doc.text(_("Checklist format"))
 
     doc.asis(util.html_table_from_list(table).getvalue())
-    doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
-    doc.asis(util.invalid_filter_keys_to_html(areas.get_invalid_filter_keys(relation)).getvalue())
+    doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
+    doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
     return doc
 
 

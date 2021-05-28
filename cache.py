@@ -93,8 +93,8 @@ def get_missing_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc:
             doc.text(_("Checklist format"))
 
     doc.asis(util.html_table_from_list(table).getvalue())
-    doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
-    doc.asis(util.invalid_filter_keys_to_html(areas.get_invalid_filter_keys(relation)).getvalue())
+    doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
+    doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
 
     with relation.get_files().get_housenumbers_htmlcache_stream("w") as stream:
         stream.write(doc.getvalue())
@@ -110,7 +110,7 @@ def get_additional_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc
             doc.asis(stream.read())
         return doc
 
-    ret = areas.write_additional_housenumbers(relation)
+    ret = relation.write_additional_housenumbers()
     todo_street_count, todo_count, table = ret
 
     with doc.tag("p"):
@@ -121,8 +121,8 @@ def get_additional_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc
             doc.text(_("Filter incorrect information"))
 
     doc.asis(util.html_table_from_list(table).getvalue())
-    doc.asis(util.invalid_refstreets_to_html(areas.get_invalid_refstreets(relation)).getvalue())
-    doc.asis(util.invalid_filter_keys_to_html(areas.get_invalid_filter_keys(relation)).getvalue())
+    doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
+    doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
 
     with relation.get_files().get_additional_housenumbers_htmlcache_stream("w") as stream:
         stream.write(doc.getvalue())

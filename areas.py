@@ -189,7 +189,7 @@ def get_osm_street_from_ref_street(relation_config: RelationConfig, ref_street_n
     return ref_street_name
 
 
-class Relation:
+class RelationBase:
     """A relation is a closed polygon on the map."""
     def __init__(
             self,
@@ -380,7 +380,7 @@ class Relation:
         """
         Writes known house numbers (not their coordinates) from a reference, based on street names
         from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
-        used by __get_ref_housenumbers().
+        used by get_ref_housenumbers().
         """
         memory_caches = util.build_reference_caches(references, self.get_config().get_refcounty())
 
@@ -389,7 +389,7 @@ class Relation:
         lst: List[str] = []
         for street in streets:
             for index, memory_cache in enumerate(memory_caches):
-                suffix = Relation.__get_ref_suffix(index)
+                suffix = RelationBase.__get_ref_suffix(index)
                 lst += self.build_ref_housenumbers(memory_cache, street, suffix)
 
         lst = sorted(set(lst))
@@ -411,7 +411,7 @@ class Relation:
                 normalized_invalid.append(normalizeds[0].get_number())
         return normalized_invalid
 
-    def __get_ref_housenumbers(self) -> Dict[str, List[util.HouseNumber]]:
+    def get_ref_housenumbers(self) -> Dict[str, List[util.HouseNumber]]:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         ret: Dict[str, List[util.HouseNumber]] = {}
         lines: List[str] = []
@@ -454,7 +454,7 @@ class Relation:
         done_streets = []
 
         osm_street_names = self.get_osm_streets()
-        all_ref_house_numbers = self.__get_ref_housenumbers()
+        all_ref_house_numbers = self.get_ref_housenumbers()
         for osm_street in osm_street_names:
             osm_street_name = osm_street.get_osm_name()
             ref_house_numbers = all_ref_house_numbers[osm_street_name]
@@ -471,61 +471,6 @@ class Relation:
         ongoing_streets.sort(key=lambda result: len(result[1]), reverse=True)
 
         return ongoing_streets, done_streets
-
-    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.doc.Doc]]]:
-        """
-        Calculate a write stat for the house number coverage of a relation.
-        Returns a tuple of: todo street count, todo count, done count, percent and table.
-        """
-        ongoing_streets, done_streets = self.get_missing_housenumbers()
-
-        table, todo_count = numbered_streets_to_table(self, ongoing_streets)
-
-        done_count = 0
-        for result in done_streets:
-            number_ranges = util.get_housenumber_ranges(result[1])
-            done_count += len(number_ranges)
-        if done_count > 0 or todo_count > 0:
-            percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
-        else:
-            percent = "100.00"
-
-        # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_housenumbers_percent_stream("w") as stream:
-            stream.write(percent)
-
-        return len(ongoing_streets), todo_count, done_count, percent, table
-
-    def get_additional_housenumbers(self) -> util.NumberedStreets:
-        """
-        Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
-        Return value is a list of streets.
-        Each of of these is a pair of a street name and a house number list.
-        """
-        additional = []
-
-        osm_street_names = self.get_osm_streets()
-        all_ref_house_numbers = self.__get_ref_housenumbers()
-        streets_valid = get_street_valid(self)
-        for osm_street in osm_street_names:
-            osm_street_name = osm_street.get_osm_name()
-            ref_house_numbers = all_ref_house_numbers[osm_street_name]
-            osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
-
-            if osm_street_name in streets_valid.keys():
-                street_valid = streets_valid[osm_street_name]
-                osm_house_numbers = \
-                    [i for i in osm_house_numbers if not util.HouseNumber.is_invalid(i.get_number(), street_valid)]
-
-            only_in_osm = util.get_only_in_first(osm_house_numbers, ref_house_numbers)
-            ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
-            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name))
-            if only_in_osm:
-                additional.append((street, only_in_osm))
-        # Sort by length.
-        additional.sort(key=lambda result: len(result[1]), reverse=True)
-
-        return additional
 
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
@@ -582,103 +527,164 @@ class Relation:
         return additional_streets
 
 
-def get_street_valid(relation: Relation) -> Dict[str, List[str]]:
-    """Gets a street name -> valid map, which allows silencing individual false positives."""
-    valid_dict: Dict[str, List[str]] = {}
+class Relation(RelationBase):
+    """A relation extends RelationBase with additional functionality, like reverse diffing."""
+    def __init__(
+            self,
+            workdir: str,
+            name: str,
+            parent_config: Dict[str, Any],
+            yaml_cache: Dict[str, Any]
+    ) -> None:
+        RelationBase.__init__(self, workdir, name, parent_config, yaml_cache)
 
-    filters = relation.get_config().get_filters()
-    for street in filters.keys():
-        if "valid" not in filters[street]:
-            continue
-        valid_dict[street] = filters[street]["valid"]
+    def get_street_valid(self) -> Dict[str, List[str]]:
+        """Gets a street name -> valid map, which allows silencing individual false positives."""
+        valid_dict: Dict[str, List[str]] = {}
 
-    return valid_dict
+        filters = self.get_config().get_filters()
+        for street in filters.keys():
+            if "valid" not in filters[street]:
+                continue
+            valid_dict[street] = filters[street]["valid"]
 
+        return valid_dict
 
-def numbered_streets_to_table(
-    relation: Relation,
-    numbered_streets: util.NumberedStreets
-) -> Tuple[List[List[yattag.doc.Doc]], int]:
-    """Turns a list of numbered streets into a HTML table."""
-    todo_count = 0
-    table = []
-    table.append([util.html_escape(_("Street name")),
-                  util.html_escape(_("Missing count")),
-                  util.html_escape(_("House numbers"))])
-    rows = []
-    for result in numbered_streets:
-        # street, only_in_ref
-        row = []
-        row.append(result[0].to_html())
-        number_ranges = util.get_housenumber_ranges(result[1])
-        row.append(util.html_escape(str(len(number_ranges))))
+    def numbered_streets_to_table(
+        self,
+        numbered_streets: util.NumberedStreets
+    ) -> Tuple[List[List[yattag.doc.Doc]], int]:
+        """Turns a list of numbered streets into a HTML table."""
+        todo_count = 0
+        table = []
+        table.append([util.html_escape(_("Street name")),
+                      util.html_escape(_("Missing count")),
+                      util.html_escape(_("House numbers"))])
+        rows = []
+        for result in numbered_streets:
+            # street, only_in_ref
+            row = []
+            row.append(result[0].to_html())
+            number_ranges = util.get_housenumber_ranges(result[1])
+            row.append(util.html_escape(str(len(number_ranges))))
 
-        doc = yattag.doc.Doc()
-        if not relation.get_config().get_street_is_even_odd(result[0].get_osm_name()):
-            for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
-                if index:
-                    doc.text(", ")
-                doc.asis(util.color_house_number(item).getvalue())
+            doc = yattag.doc.Doc()
+            if not self.get_config().get_street_is_even_odd(result[0].get_osm_name()):
+                for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
+                    if index:
+                        doc.text(", ")
+                    doc.asis(util.color_house_number(item).getvalue())
+            else:
+                util.format_even_odd(number_ranges, doc)
+            row.append(doc)
+
+            todo_count += len(number_ranges)
+            rows.append(row)
+
+        # It's possible that get_housenumber_ranges() reduces the # of house numbers, e.g. 2, 4 and
+        # 6 may be turned into 2-6, which is just 1 item. Sort by the 2nd col, which is the new
+        # number of items.
+        table += sorted(rows, reverse=True, key=lambda cells: int(cells[1].getvalue()))
+        return table, todo_count
+
+    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.doc.Doc]]]:
+        """
+        Calculate a write stat for the house number coverage of a relation.
+        Returns a tuple of: todo street count, todo count, done count, percent and table.
+        """
+        ongoing_streets, done_streets = self.get_missing_housenumbers()
+
+        table, todo_count = self.numbered_streets_to_table(ongoing_streets)
+
+        done_count = 0
+        for result in done_streets:
+            number_ranges = util.get_housenumber_ranges(result[1])
+            done_count += len(number_ranges)
+        if done_count > 0 or todo_count > 0:
+            percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
         else:
-            util.format_even_odd(number_ranges, doc)
-        row.append(doc)
+            percent = "100.00"
 
-        todo_count += len(number_ranges)
-        rows.append(row)
+        # Write the bottom line to a file, so the index page show it fast.
+        with self.get_files().get_housenumbers_percent_stream("w") as stream:
+            stream.write(percent)
 
-    # It's possible that get_housenumber_ranges() reduces the # of house numbers, e.g. 2, 4 and
-    # 6 may be turned into 2-6, which is just 1 item. Sort by the 2nd col, which is the new
-    # number of items.
-    table += sorted(rows, reverse=True, key=lambda cells: int(cells[1].getvalue()))
-    return table, todo_count
+        return len(ongoing_streets), todo_count, done_count, percent, table
 
+    def write_additional_housenumbers(self) -> Tuple[int, int, List[List[yattag.doc.Doc]]]:
+        """
+        Calculate and write stat for the unexpected house number coverage of a relation.
+        Returns a tuple of: todo street count, todo count and table.
+        """
+        ongoing_streets = self.get_additional_housenumbers()
 
-def write_additional_housenumbers(relation: Relation) -> Tuple[int, int, List[List[yattag.doc.Doc]]]:
-    """
-    Calculate and write stat for the unexpected house number coverage of a relation.
-    Returns a tuple of: todo street count, todo count and table.
-    """
-    ongoing_streets = relation.get_additional_housenumbers()
+        table, todo_count = self.numbered_streets_to_table(ongoing_streets)
 
-    table, todo_count = numbered_streets_to_table(relation, ongoing_streets)
+        # Write the street count to a file, so the index page show it fast.
+        with self.get_files().get_housenumbers_additional_count_stream("w") as stream:
+            stream.write(str(todo_count))
 
-    # Write the street count to a file, so the index page show it fast.
-    with relation.get_files().get_housenumbers_additional_count_stream("w") as stream:
-        stream.write(str(todo_count))
+        return len(ongoing_streets), todo_count, table
 
-    return len(ongoing_streets), todo_count, table
+    def get_osm_housenumbers_query(self) -> str:
+        """Produces a query which lists house numbers in relation."""
+        datadir = config.get_abspath("data")
+        with open(os.path.join(datadir, "street-housenumbers-template.txt")) as stream:
+            return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
+    def get_invalid_refstreets(self) -> Tuple[List[str], List[str]]:
+        """Returns invalid osm names and ref names."""
+        osm_invalids: List[str] = []
+        ref_invalids: List[str] = []
+        refstreets = self.get_config().get_refstreets()
+        osm_streets = [i.get_osm_name() for i in self.get_osm_streets()]
+        for osm_name, ref_name in refstreets.items():
+            if osm_name not in osm_streets:
+                osm_invalids.append(osm_name)
+            if ref_name in osm_streets:
+                ref_invalids.append(ref_name)
+        return osm_invalids, ref_invalids
 
-def get_osm_housenumbers_query(relation: Relation) -> str:
-    """Produces a query which lists house numbers in relation."""
-    datadir = config.get_abspath("data")
-    with open(os.path.join(datadir, "street-housenumbers-template.txt")) as stream:
-        return util.process_template(stream.read(), relation.get_config().get_osmrelation())
+    def get_invalid_filter_keys(self) -> List[str]:
+        """Returns invalid filter key names (street not in OSM)."""
+        invalids: List[str] = []
+        keys = [key for key, value in self.get_config().get_filters().items()]
+        osm_streets = [i.get_osm_name() for i in self.get_osm_streets()]
+        for key in keys:
+            if key not in osm_streets:
+                invalids.append(key)
+        return invalids
 
+    def get_additional_housenumbers(self) -> util.NumberedStreets:
+        """
+        Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
+        Return value is a list of streets.
+        Each of of these is a pair of a street name and a house number list.
+        """
+        additional = []
 
-def get_invalid_refstreets(relation: Relation) -> Tuple[List[str], List[str]]:
-    """Returns invalid osm names and ref names."""
-    osm_invalids: List[str] = []
-    ref_invalids: List[str] = []
-    refstreets = relation.get_config().get_refstreets()
-    osm_streets = [i.get_osm_name() for i in relation.get_osm_streets()]
-    for osm_name, ref_name in refstreets.items():
-        if osm_name not in osm_streets:
-            osm_invalids.append(osm_name)
-        if ref_name in osm_streets:
-            ref_invalids.append(ref_name)
-    return osm_invalids, ref_invalids
+        osm_street_names = self.get_osm_streets()
+        all_ref_house_numbers = self.get_ref_housenumbers()
+        streets_valid = self.get_street_valid()
+        for osm_street in osm_street_names:
+            osm_street_name = osm_street.get_osm_name()
+            ref_house_numbers = all_ref_house_numbers[osm_street_name]
+            osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
 
+            if osm_street_name in streets_valid.keys():
+                street_valid = streets_valid[osm_street_name]
+                osm_house_numbers = \
+                    [i for i in osm_house_numbers if not util.HouseNumber.is_invalid(i.get_number(), street_valid)]
 
-def get_invalid_filter_keys(relation: Relation) -> List[str]:
-    """Returns invalid filter key names (street not in OSM)."""
-    invalids: List[str] = []
-    keys = [key for key, value in relation.get_config().get_filters().items()]
-    osm_streets = [i.get_osm_name() for i in relation.get_osm_streets()]
-    for key in keys:
-        if key not in osm_streets:
-            invalids.append(key)
-    return invalids
+            only_in_osm = util.get_only_in_first(osm_house_numbers, ref_house_numbers)
+            ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
+            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name))
+            if only_in_osm:
+                additional.append((street, only_in_osm))
+        # Sort by length.
+        additional.sort(key=lambda result: len(result[1]), reverse=True)
+
+        return additional
 
 
 class Relations:
@@ -791,7 +797,7 @@ class Relations:
 
 
 def normalize_housenumber_letters(
-        relation: Relation,
+        relation: RelationBase,
         house_numbers: str,
         suffix: str,
         comment: str
@@ -802,7 +808,7 @@ def normalize_housenumber_letters(
     return [util.HouseNumber(normalized, normalized, comment)]
 
 
-def normalize(relation: Relation, house_numbers: str, street_name: str,
+def normalize(relation: RelationBase, house_numbers: str, street_name: str,
               normalizers: Dict[str, ranges.Ranges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
