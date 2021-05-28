@@ -972,5 +972,12 @@ class TestCompress(TestWsgi):
         self.assertEqual(len(results), 1)
 
 
+class TestGetTimestamp(TestWsgi):
+    """Tests get_timestamp()."""
+    def test_no_such_file(self) -> None:
+        """Tests what happens when the file is not there."""
+        self.assertEqual(wsgi.get_timestamp(""), 0)
+
+
 if __name__ == '__main__':
     unittest.main()
