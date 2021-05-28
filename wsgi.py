@@ -699,23 +699,13 @@ def handle_main_relation(
     row = []  # List[yattag.doc.Doc]
     row.append(util.html_escape(relation_name))
 
-    prefix = config.Config.get_uri_prefix()
     if streets != "only":
         cell, percent = handle_main_housenr_percent(relation)
         doc = yattag.doc.Doc()
         doc.asis(cell.getvalue())
         row.append(doc)
         complete &= float(percent) >= 100.0
-
-        date = get_housenumbers_last_modified(relation)
-        doc = yattag.doc.Doc()
-        href = prefix + "/street-housenumbers/" + relation_name + "/view-result"
-        with doc.tag("a", href=href, title=_("updated") + " " + date):
-            doc.text(_("existing house numbers"))
-        row.append(doc)
     else:
-        row.append(yattag.doc.Doc())
-
         row.append(yattag.doc.Doc())
 
     if streets != "no":
@@ -724,12 +714,6 @@ def handle_main_relation(
         complete &= float(percent) >= 100.0
     else:
         row.append(yattag.doc.Doc())
-
-    date = get_streets_last_modified(relation)
-    doc = yattag.doc.Doc()
-    with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-result", title=_("updated") + " " + date):
-        doc.text(_("existing streets"))
-    row.append(doc)
 
     if streets != "no":
         row.append(handle_main_street_additional_count(relation))
@@ -760,9 +744,7 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.doc.Doc:
     table = []
     table.append([util.html_escape(_("Area")),
                   util.html_escape(_("House number coverage")),
-                  util.html_escape(_("Existing house numbers")),
                   util.html_escape(_("Street coverage")),
-                  util.html_escape(_("Existing streets")),
                   util.html_escape(_("Additional streets")),
                   util.html_escape(_("Area boundary"))])
     for relation_name in relations.get_names():
