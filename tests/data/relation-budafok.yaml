@@ -2,3 +2,4 @@ filters:
   Vöröskúti határsor:
     interpolation: 'all'
 alias: ['budapest_22']
+additional-housenumbers: true

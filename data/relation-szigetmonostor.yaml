@@ -238,3 +238,4 @@ refstreets:
   'Pusztamonostori utca': 'Pusztamonostori út'
   'Szentendrei út': 'Szentendrei utca'
 inactive: true
+additional-housenumbers: true

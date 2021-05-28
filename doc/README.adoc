@@ -218,6 +218,10 @@ OSM is fixed or `show-refstreet: false` is added.
 - `alias: ["foo", "bar"]`: this key can be used on relations to specify old names. This way
   bookmarks keep working, even in case a relation is renamed.
 
+- `additional-housenumbers: true`: this key can be used to opt-in to see house numbers which are on
+  OSM but not in the reference. It's disabled by default as it may lead to unwanted vandalism. See
+  below for details.
+
 It is expected that "normalization" not only filters out noise from the reference, but also expands
 housenumber ranges in a sensible way. Here are some examples:
 

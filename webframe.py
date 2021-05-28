@@ -109,7 +109,12 @@ def fill_header_function(function: str, relation_name: str, items: List[yattag.d
         items.append(doc)
 
 
-def fill_missing_header_items(streets: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
+def fill_missing_header_items(
+    streets: str,
+    additional_housenumbers: bool,
+    relation_name: str,
+    items: List[yattag.doc.Doc]
+) -> None:
     """Generates the 'missing house numbers/streets' part of the header."""
     prefix = config.Config.get_uri_prefix()
     if streets != "only":
@@ -117,10 +122,12 @@ def fill_missing_header_items(streets: str, relation_name: str, items: List[yatt
         with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/view-result"):
             doc.text(_("Missing house numbers"))
         items.append(doc)
-        doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/additional-housenumbers/" + relation_name + "/view-result"):
-            doc.text(_("Additional house numbers"))
-        items.append(doc)
+
+        if additional_housenumbers:
+            doc = yattag.doc.Doc()
+            with doc.tag("a", href=prefix + "/additional-housenumbers/" + relation_name + "/view-result"):
+                doc.text(_("Additional house numbers"))
+            items.append(doc)
     if streets != "no":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result"):
@@ -161,15 +168,15 @@ def get_toolbar(
     if relations and relation_name:
         relation = relations.get_relation(relation_name)
         streets = relation.get_config().should_check_missing_streets()
+        additional_housenumbers = relation.get_config().should_check_additional_housenumbers()
 
     doc = yattag.doc.Doc()
-    prefix = config.Config.get_uri_prefix()
-    with doc.tag("a", href=prefix + "/"):
+    with doc.tag("a", href=config.Config.get_uri_prefix() + "/"):
         doc.text(_("Area list"))
     items.append(doc)
 
     if relation_name:
-        fill_missing_header_items(streets, relation_name, items)
+        fill_missing_header_items(streets, additional_housenumbers, relation_name, items)
 
     fill_header_function(function, relation_name, items)
 
@@ -205,7 +212,7 @@ def get_toolbar(
     else:
         # These are on the main page only.
         doc = yattag.doc.Doc()
-        with doc.tag("a", href=prefix + "/housenumber-stats/hungary/"):
+        with doc.tag("a", href=config.Config.get_uri_prefix() + "/housenumber-stats/hungary/"):
             doc.text(_("Statistics"))
         items.append(doc)
 

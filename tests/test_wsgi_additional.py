@@ -14,6 +14,7 @@ import test_wsgi
 
 import areas
 import config
+import wsgi
 
 
 class TestStreets(test_wsgi.TestWsgi):
@@ -63,6 +64,31 @@ class TestStreets(test_wsgi.TestWsgi):
         root = self.get_dom_for_path("/additional-streets/gazdagret/view-turbo")
         results = root.findall("body/pre")
         self.assertEqual(len(results), 1)
+
+
+class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
+    """Tests handle_main_housenr_additional_count()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        relations = areas.Relations(config.Config.get_workdir())
+        relation = relations.get_relation("budafok")
+        actual = wsgi.handle_main_housenr_additional_count(relation)
+        self.assertIn("42 housenumbers", actual.getvalue())
+
+    def test_no_count_file(self) -> None:
+        """Tests what happens when the count file is not there."""
+        relations = areas.Relations(config.Config.get_workdir())
+        relation = relations.get_relation("budafok")
+        hide_path = relation.get_files().get_housenumbers_additional_count_path()
+        real_exists = os.path.exists
+
+        def mock_exists(path: str) -> bool:
+            if path == hide_path:
+                return False
+            return real_exists(path)
+        with unittest.mock.patch('os.path.exists', mock_exists):
+            actual = wsgi.handle_main_housenr_additional_count(relation)
+        self.assertNotIn("42 housenumbers", actual.getvalue())
 
 
 if __name__ == '__main__':
