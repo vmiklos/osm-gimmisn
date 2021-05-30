@@ -68,6 +68,9 @@ filters:
     # nagy épületek több ajtóval: 1/1 -> 1/20, illetve "putrik" 3/1 -> 3/26
     ranges:
       - {start: '1', end: '3'}
+  Vadvirág utca:
+    # utca páratlan fele Vadvirág köz
+    invalid: ['1', '3', '5', '9']
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
