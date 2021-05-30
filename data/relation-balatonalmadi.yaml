@@ -35,14 +35,12 @@ refstreets:
   'Fadrusz János utca': 'Fadrusz utca'
   'Kossuth Lajos utca': 'Kossuth utca'
   'Madarász utca': 'Madarász Viktor utca'
-  'Megyehegyi utca': 'Megyehegyi út'
   'Öreghegyi utca': 'Öreghegyi út'
   'Pacsirta út': 'Pacsirta utca'
   'Pinkóczi utca': 'Pinkóczi út'
   'Szabadság utca': 'Szabadság út'
   'Szabadság-kilátó utca': 'Szabadságkilátó út'
   # ellenőrzött
-  'Bartók Béla utca': 'Bartók Béla út'  # táblák vegyesen: kék-sárga: út, fekete-fehér: utca
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
