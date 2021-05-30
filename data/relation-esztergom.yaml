@@ -60,6 +60,10 @@ filters:
       - {start: '2', end: '26'}
   Szabó Erna utca:
     invalid: ['701']
+  Szent János-kúti út:
+    # a nagyobb számokat átnevezték más utcákra
+    ranges:
+      - {start: '1', end: '17'}
   Szentkirályi utca:
     # 77 a vége
     ranges:
