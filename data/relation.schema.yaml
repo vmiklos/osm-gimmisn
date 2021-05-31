@@ -1,0 +1,61 @@
+type: object
+properties:
+  additional-housenumbers:
+    type: boolean
+  alias:
+    type: array
+    items:
+      type: string
+  filters:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        interpolation:
+          type: string
+        invalid:
+          type: array
+          items:
+            type: string
+        ranges:
+          type: array
+          items:
+            type: object
+            properties:
+              end:
+                type: string
+              refsettlement:
+                type: string
+              start:
+                type: string
+            additionalProperties: false
+        valid:
+          type: array
+          items:
+            type: string
+        refsettlement:
+          type: string
+        show-refstreet:
+          type: boolean
+      additionalProperties: false
+  housenumber-letters:
+    type: boolean
+  inactive:
+    type: boolean
+  missing-streets:
+    type: string
+  osm-street-filters:
+    type: array
+    items:
+      type: string
+  refstreets:
+    type: object
+    additionalProperties:
+      type: string
+  source:
+    type: string
+  street-filters:
+    type: array
+    items:
+      type: string
+additionalProperties: false

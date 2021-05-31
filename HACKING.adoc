@@ -61,6 +61,16 @@ To run a single test:
 env PYTHONPATH=.:tests python3 -m unittest tests.test_areas.TestRelationGetOsmHouseNumbers.test_happy
 ----
 
+== YAML schema
+
+The YAML schema is meant to provide reference documentation in the long run, so doc/README.adoc can
+focus on tutorial documentation.
+
+----
+ajv validate -s data/relations.schema.yaml -d data/relations.yaml
+for i in data/relation-*.yaml; do ajv validate -s data/relation.schema.yaml -d $i || break; done
+----
+
 == Checklist
 
 Ideally CI checks everything before a commit hits master, but here are a few
