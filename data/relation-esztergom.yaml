@@ -36,9 +36,17 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '10'}
+  Basa utca:
+    # páros oldal a Béke térre van számozva
+    ranges:
+      - {start: '1', end: '29'}
   Helischer József út:
     # páros vége 4
     invalid: ['16']
+  Hősök tere:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '16'}
   Kis Duna sétány:
     # 59 nincs kiírva, a gátőrház lehetne
     invalid: ['59']
