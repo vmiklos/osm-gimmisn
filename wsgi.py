@@ -916,7 +916,8 @@ def our_application(
 
     language = util.setup_localization(environ)
 
-    relations = areas.Relations(config.Config.get_workdir())
+    conf = config.make_config()
+    relations = areas.Relations(conf.get_workdir())
 
     request_uri = webframe.get_request_uri(environ, relations)
     _, _, ext = request_uri.partition('.')
@@ -924,13 +925,12 @@ def our_application(
     if ext in ("txt", "chkl"):
         return our_application_txt(environ, start_response, relations, request_uri)
 
-    prefix = config.Config.get_uri_prefix()
-    if not (request_uri == "/" or request_uri.startswith(prefix)):
+    if not (request_uri == "/" or request_uri.startswith(config.Config.get_uri_prefix())):
         doc = webframe.handle_404()
         response = webframe.Response("text/html", "404 Not Found", doc.getvalue().encode("utf-8"), [])
         return webframe.send_response(environ, start_response, response)
 
-    if request_uri.startswith(prefix + "/static/") or \
+    if request_uri.startswith(config.Config.get_uri_prefix() + "/static/") or \
             request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
         output, content_type, headers = webframe.handle_static(request_uri)
         return webframe.send_response(environ,
@@ -952,7 +952,7 @@ def our_application(
                 doc.asis(no_such_relation.getvalue())
             elif handler:
                 doc.asis(handler(relations, request_uri).getvalue())
-            elif request_uri.startswith(prefix + "/webhooks/github"):
+            elif request_uri.startswith(config.Config.get_uri_prefix() + "/webhooks/github"):
                 doc.asis(handle_github_webhook(environ).getvalue())
             else:
                 doc.asis(handle_main(request_uri, relations).getvalue())
@@ -981,6 +981,7 @@ def main() -> None:
         # pylint: disable=protected-access
         _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 
+    os.chdir(os.path.dirname(__file__))
     port = config.Config.get_tcp_port()
     prefix = config.Config.get_uri_prefix()
     httpd = wsgiref.simple_server.make_server('', port, application)

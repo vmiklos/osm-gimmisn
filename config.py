@@ -14,6 +14,7 @@ from typing import List
 from typing import Optional
 import configparser
 import os
+import subprocess
 
 
 class Config:
@@ -155,6 +156,30 @@ def get_abspath(path: str) -> str:
         return path
 
     return os.path.join(os.path.dirname(__file__), path)
+
+
+class Config2:
+    """Config replacement without static state."""
+    def __init__(self, prefix: str) -> None:
+        with subprocess.Popen(['git', 'rev-parse', '--show-toplevel'], stdout=subprocess.PIPE) as process:
+            root_dir = process.communicate()[0].rstrip().decode('utf-8')
+        self.root = os.path.join(root_dir, prefix)
+        self.__config = configparser.ConfigParser()
+        config_path = self.get_abspath("wsgi.ini")
+        self.__config.read(config_path)
+
+    def get_abspath(self, rel_path: str) -> str:
+        """Make a path absolute, taking the repo root as a base dir."""
+        return os.path.join(self.root, rel_path)
+
+    def get_workdir(self) -> str:
+        """Gets the directory which is writable."""
+        return self.get_abspath(self.__config.get('wsgi', 'workdir').strip())
+
+
+def make_config() -> Config2:
+    """Factory for Config2."""
+    return Config2("")
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
