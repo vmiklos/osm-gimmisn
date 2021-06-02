@@ -57,31 +57,38 @@ class TestJsonStreets(TestWsgiJson):
     """Tests streets_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
-        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
+        def mock_make_config() -> config.Config2:
+            return config.Config2("tests")
+        with unittest.mock.patch("config.make_config", mock_make_config):
+            result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
 
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            buf = io.BytesIO()
-            buf.write(result_from_overpass.encode('utf-8'))
-            buf.seek(0)
-            return buf
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_json_for_path("/streets/gazdagret/update-result.json")
-            self.assertEqual(root["error"], "")
+            def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+                buf = io.BytesIO()
+                buf.write(result_from_overpass.encode('utf-8'))
+                buf.seek(0)
+                return buf
+            with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+                root = self.get_json_for_path("/streets/gazdagret/update-result.json")
+                self.assertEqual(root["error"], "")
 
     def test_update_result_json_error(self) -> None:
         """Tests if the update-result json output on error is well-formed."""
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_json_for_path("/streets/gazdagret/update-result.json")
-            self.assertEqual(root["error"], "HTTP Error 0: ")
+        def mock_make_config() -> config.Config2:
+            return config.Config2("tests")
+        with unittest.mock.patch("config.make_config", mock_make_config):
+            def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+                raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
+            with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+                root = self.get_json_for_path("/streets/gazdagret/update-result.json")
+                self.assertEqual(root["error"], "HTTP Error 0: ")
 
 
 class TestJsonStreetHousenumbers(TestWsgiJson):
     """Tests street_housenumbers_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result output is well-formed."""
+        def mock_make_config() -> config.Config2:
+            return config.Config2("tests")
         result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
         result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
         result_from_overpass += "1\tTörökugrató utca\t1\t\t\t\t\t\t\t\t\tnode\n"
@@ -99,33 +106,42 @@ class TestJsonStreetHousenumbers(TestWsgiJson):
             buf.seek(0)
             return buf
         with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_json_for_path("/street-housenumbers/gazdagret/update-result.json")
+            with unittest.mock.patch("config.make_config", mock_make_config):
+                root = self.get_json_for_path("/street-housenumbers/gazdagret/update-result.json")
             self.assertEqual(root["error"], "")
 
     def test_update_result_error_json(self) -> None:
         """Tests if the update-result output on error is well-formed."""
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_json_for_path("/street-housenumbers/gazdagret/update-result.json")
-            self.assertEqual(root["error"], "HTTP Error 0: ")
+        def mock_make_config() -> config.Config2:
+            return config.Config2("tests")
+        with unittest.mock.patch("config.make_config", mock_make_config):
+            def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
+                raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
+            with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
+                root = self.get_json_for_path("/street-housenumbers/gazdagret/update-result.json")
+                self.assertEqual(root["error"], "HTTP Error 0: ")
 
 
 class TestJsonMissingHousenumbers(TestWsgiJson):
     """Tests missing_housenumbers_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
-        root = self.get_json_for_path("/missing-housenumbers/gazdagret/update-result.json")
-        self.assertEqual(root["error"], "")
+        def mock_make_config() -> config.Config2:
+            return config.Config2("tests")
+        with unittest.mock.patch("config.make_config", mock_make_config):
+            root = self.get_json_for_path("/missing-housenumbers/gazdagret/update-result.json")
+            self.assertEqual(root["error"], "")
 
 
 class TestJsonMissingStreets(TestWsgiJson):
     """Tests missing_streets_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
-        root = self.get_json_for_path("/missing-streets/gazdagret/update-result.json")
-        self.assertEqual(root["error"], "")
+        def mock_make_config() -> config.Config2:
+            return config.Config2("tests")
+        with unittest.mock.patch("config.make_config", mock_make_config):
+            root = self.get_json_for_path("/missing-streets/gazdagret/update-result.json")
+            self.assertEqual(root["error"], "")
 
 
 if __name__ == '__main__':
