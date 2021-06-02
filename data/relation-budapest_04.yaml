@@ -13,6 +13,7 @@ osm-street-filters:
   # - Cinkék etetőhelye
   # - Játszótér
   # ösvények, parkok
+  - Dynamic park
   - Gróf Károlyi István park
   - Népsziget park
   - Szabadság park
