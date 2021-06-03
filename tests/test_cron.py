@@ -25,6 +25,11 @@ import cron
 import util
 
 
+def mock_make_config() -> config.Config2:
+    """Creates a Config instance that has its root as /tests."""
+    return config.Config2("tests")
+
+
 def mock_urlopen_raise_error(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
     """Mock urlopen(), always throwing an error."""
     raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
@@ -71,7 +76,8 @@ class TestUpdateRefHousenumbers(test_config.TestCase):
     """Tests update_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         for relation_name in relations.get_active_names():
             if relation_name not in ("gazdagret", "ujbuda"):
                 relations.get_relation(relation_name).get_config().set_active(False)
@@ -93,7 +99,8 @@ class TestUpdateRefStreets(test_config.TestCase):
     """Tests update_ref_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -116,7 +123,8 @@ class TestUpdateMissingHousenumbers(test_config.TestCase):
     """Tests update_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         for relation_name in relations.get_active_names():
             # ujbuda is streets=only
             if relation_name not in ("gazdagret", "ujbuda"):
@@ -138,7 +146,8 @@ class TestUpdateMissingStreets(test_config.TestCase):
     """Tests update_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -160,7 +169,8 @@ class TestUpdateAdditionalStreets(test_config.TestCase):
     """Tests update_additional_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -207,7 +217,8 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
             buf.seek(0)
             return buf
 
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                 for relation_name in relations.get_active_names():
@@ -232,7 +243,8 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                 for relation_name in relations.get_active_names():
@@ -265,7 +277,8 @@ class TestUpdateOsmStreets(test_config.TestCase):
             buf.seek(0)
             return buf
 
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                 for relation_name in relations.get_active_names():
@@ -290,7 +303,8 @@ class TestUpdateOsmStreets(test_config.TestCase):
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                 for relation_name in relations.get_active_names():
@@ -404,7 +418,8 @@ class TestOurMain(test_config.TestCase):
             nonlocal calls
             calls += 1
 
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         with unittest.mock.patch("cron.update_osm_streets", count_calls):
             with unittest.mock.patch("cron.update_osm_housenumbers", count_calls):
                 with unittest.mock.patch("cron.update_ref_streets", count_calls):
@@ -433,7 +448,8 @@ class TestOurMain(test_config.TestCase):
             nonlocal calls
             calls += 1
 
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         with unittest.mock.patch("cron.update_stats", count_calls):
             cron.our_main(relations, mode="stats", update=False, overpass=True)
 
@@ -460,7 +476,8 @@ class TestMain(test_config.TestCase):
             with unittest.mock.patch("logging.info", mock_info):
                 argv = [""]
                 with unittest.mock.patch('sys.argv', argv):
-                    cron.main()
+                    with unittest.mock.patch("config.make_config", mock_make_config):
+                        cron.main()
 
         self.assertTrue(mock_main_called)
         self.assertTrue(mock_info_called)
@@ -484,7 +501,8 @@ class TestMain(test_config.TestCase):
                 with unittest.mock.patch("logging.error", mock_error):
                     argv = [""]
                     with unittest.mock.patch('sys.argv', argv):
-                        cron.main()
+                        with unittest.mock.patch("config.make_config", mock_make_config):
+                            cron.main()
 
         self.assertTrue(mock_error_called)
 

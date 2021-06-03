@@ -56,13 +56,6 @@ class Config:
         return Config.__config.has_option("wsgi", key)
 
     @staticmethod
-    def get_workdir() -> str:
-        """Gets the directory which is writable."""
-        Config.__get()
-        assert Config.__config is not None
-        return get_abspath(Config.__config.get('wsgi', 'workdir').strip())
-
-    @staticmethod
     def get_reference_housenumber_paths() -> List[str]:
         """Gets the abs paths of ref housenumbers."""
         Config.__get()

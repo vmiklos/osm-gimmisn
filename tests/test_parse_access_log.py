@@ -23,6 +23,11 @@ import config
 import parse_access_log
 
 
+def mock_make_config() -> config.Config2:
+    """Creates a Config instance that has its root as /tests."""
+    return config.Config2("tests")
+
+
 class MockDate(datetime.date):
     """Mock datetime.date."""
     @classmethod
@@ -52,7 +57,8 @@ author-time 1588975200
             with unittest.mock.patch('sys.stdout', buf):
                 with unittest.mock.patch('datetime.date', MockDate):
                     with unittest.mock.patch('subprocess.run', mock_subprocess_run):
-                        parse_access_log.main()
+                        with unittest.mock.patch("config.make_config", mock_make_config):
+                            parse_access_log.main()
 
         buf.seek(0)
         actual = buf.read()
@@ -86,10 +92,11 @@ class TestCheckTopEditedRelations(test_config.TestCase):
                 ("bar", 2),
                 ("baz", 2)
             ]
+        conf = mock_make_config()
         with unittest.mock.patch('datetime.date', MockDate):
             with unittest.mock.patch('stats.get_topcities', mock_get_topcities):
                 frequent_relations: Set[str] = {"foo", "bar"}
-                parse_access_log.check_top_edited_relations(frequent_relations, config.Config.get_workdir())
+                parse_access_log.check_top_edited_relations(frequent_relations, conf.get_workdir())
                 self.assertIn("foo", frequent_relations)
                 self.assertIn("city1", frequent_relations)
                 self.assertIn("city2", frequent_relations)
@@ -103,7 +110,8 @@ class TestIsCompleteRelation(test_config.TestCase):
     """Tests is_complete_relation()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         self.assertFalse(parse_access_log.is_complete_relation(relations, "gazdagret"))
 
 

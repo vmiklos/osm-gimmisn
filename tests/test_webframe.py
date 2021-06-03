@@ -33,7 +33,8 @@ class TestHandleStatic(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path: css case."""
         prefix = config.Config.get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(prefix + "/static/osm.min.css")
+        conf = config.Config2("tests")
+        content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/osm.min.css")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "text/css")
         self.assertEqual(len(extra_headers), 1)
@@ -42,7 +43,8 @@ class TestHandleStatic(test_config.TestCase):
     def test_generated_javascript(self) -> None:
         """Tests the generated javascript case."""
         prefix = config.Config.get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(prefix + "/static/bundle.js")
+        conf = config.Config2("tests")
+        content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/bundle.js")
         self.assertEqual("// bundle.js\n", content.decode("utf-8"))
         self.assertEqual(content_type, "application/x-javascript")
         self.assertEqual(len(extra_headers), 1)
@@ -51,7 +53,8 @@ class TestHandleStatic(test_config.TestCase):
     def test_json(self) -> None:
         """Tests the json case."""
         prefix = config.Config.get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(prefix + "/static/stats-empty.json")
+        conf = config.Config2("tests")
+        content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/stats-empty.json")
         self.assertTrue(content.decode("utf-8").startswith("{"))
         self.assertEqual(content_type, "application/json")
         self.assertEqual(len(extra_headers), 1)
@@ -59,7 +62,8 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_ico(self) -> None:
         """Tests the ico case."""
-        content, content_type, extra_headers = webframe.handle_static("/favicon.ico")
+        conf = config.Config2("tests")
+        content, content_type, extra_headers = webframe.handle_static(conf, "/favicon.ico")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "image/x-icon")
         self.assertEqual(len(extra_headers), 1)
@@ -67,7 +71,8 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_svg(self) -> None:
         """Tests the svg case."""
-        content, content_type, extra_headers = webframe.handle_static("/favicon.svg")
+        conf = config.Config2("tests")
+        content, content_type, extra_headers = webframe.handle_static(conf, "/favicon.svg")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "image/svg+xml")
         self.assertEqual(len(extra_headers), 1)
@@ -76,7 +81,8 @@ class TestHandleStatic(test_config.TestCase):
     def test_else(self) -> None:
         """Tests the case when the content type is not recognized."""
         prefix = config.Config.get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(prefix + "/static/test.xyz")
+        conf = config.Config2("tests")
+        content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/test.xyz")
         self.assertFalse(len(content))
         self.assertFalse(len(content_type))
         # No last modified non-existing file.

@@ -40,7 +40,8 @@ class TestStreets(test_wsgi.TestWsgi):
         def mock_make_config() -> config.Config2:
             return config.Config2("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(config.Config.get_workdir())
+            conf = mock_make_config()
+            relations = areas.Relations(conf.get_workdir())
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_streets_path()
             real_exists = os.path.exists
@@ -58,7 +59,8 @@ class TestStreets(test_wsgi.TestWsgi):
         def mock_make_config() -> config.Config2:
             return config.Config2("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(config.Config.get_workdir())
+            conf = mock_make_config()
+            relations = areas.Relations(conf.get_workdir())
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_ref_streets_path()
             real_exists = os.path.exists
@@ -88,7 +90,8 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
         def mock_make_config() -> config.Config2:
             return config.Config2("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(config.Config.get_workdir())
+            conf = mock_make_config()
+            relations = areas.Relations(conf.get_workdir())
             relation = relations.get_relation("budafok")
             actual = wsgi.handle_main_housenr_additional_count(relation)
             self.assertIn("42 house numbers", actual.getvalue())
@@ -98,7 +101,8 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
         def mock_make_config() -> config.Config2:
             return config.Config2("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(config.Config.get_workdir())
+            conf = mock_make_config()
+            relations = areas.Relations(conf.get_workdir())
             relation = relations.get_relation("budafok")
             hide_path = relation.get_files().get_housenumbers_additional_count_path()
             real_exists = os.path.exists
@@ -128,7 +132,8 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
         def mock_make_config() -> config.Config2:
             return config.Config2("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(config.Config.get_workdir())
+            conf = mock_make_config()
+            relations = areas.Relations(conf.get_workdir())
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_streets_path()
             real_exists = os.path.exists
@@ -147,7 +152,8 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
         def mock_make_config() -> config.Config2:
             return config.Config2("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(config.Config.get_workdir())
+            conf = mock_make_config()
+            relations = areas.Relations(conf.get_workdir())
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_osm_housenumbers_path()
             real_exists = os.path.exists
@@ -166,7 +172,8 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
         def mock_make_config() -> config.Config2:
             return config.Config2("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(config.Config.get_workdir())
+            conf = mock_make_config()
+            relations = areas.Relations(conf.get_workdir())
             relation = relations.get_relation("gazdagret")
             hide_path = relation.get_files().get_ref_housenumbers_path()
             real_exists = os.path.exists

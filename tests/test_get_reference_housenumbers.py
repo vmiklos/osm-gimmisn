@@ -16,6 +16,11 @@ import get_reference_housenumbers
 import util
 
 
+def mock_make_config() -> config.Config2:
+    """Creates a Config instance that has its root as /tests."""
+    return config.Config2("tests")
+
+
 class TestMain(test_config.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
@@ -24,7 +29,8 @@ class TestMain(test_config.TestCase):
 
         argv = ["", "gazdagret"]
         with unittest.mock.patch('sys.argv', argv):
-            get_reference_housenumbers.main()
+            with unittest.mock.patch("config.make_config", mock_make_config):
+                get_reference_housenumbers.main()
 
         actual = util.get_content(config.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
         self.assertEqual(actual, expected)

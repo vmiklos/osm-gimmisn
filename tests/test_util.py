@@ -402,13 +402,13 @@ class TestInBoth(unittest.TestCase):
         self.assertEqual(util.get_in_both(["1", "2", "3"], ["2", "3", "4"]), ["2", "3"])
 
 
-class TestGetWorkdir(unittest.TestCase):
-    """Tests get_workdir()."""
+class TestGetValue(unittest.TestCase):
+    """Tests get_value()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
 
         with config.ConfigContext("workdir", "/path/to/workdir"):
-            actual = config.Config.get_workdir()
+            actual = config.Config.get_value("workdir")
             expected = "/path/to/workdir"
             self.assertEqual(actual, expected)
 

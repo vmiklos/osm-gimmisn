@@ -353,7 +353,8 @@ def main() -> None:
 
     util.set_locale()
 
-    workdir = config.Config.get_workdir()
+    conf = config.make_config()
+    workdir = conf.get_workdir()
     relations = areas.Relations(workdir)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
