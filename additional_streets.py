@@ -15,7 +15,8 @@ import config
 
 def main() -> None:
     """Commandline interface."""
-    workdir = config.Config.get_workdir()
+    conf = config.make_config()
+    workdir = conf.get_workdir()
 
     relation_name = sys.argv[1]
 

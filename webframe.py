@@ -231,7 +231,7 @@ def get_toolbar(
     return doc
 
 
-def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
+def handle_static(conf: config.Config2, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
     tokens = request_uri.split("/")
     path = tokens[-1]
@@ -243,11 +243,11 @@ def handle_static(request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
         return content, content_type, extra_headers
     if request_uri.endswith(".css"):
         content_type = "text/css"
-        content = util.get_content(config.Config.get_workdir(), path, extra_headers)
+        content = util.get_content(conf.get_workdir(), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".json"):
         content_type = "application/json"
-        content = util.get_content(os.path.join(config.Config.get_workdir(), "stats"), path, extra_headers)
+        content = util.get_content(os.path.join(conf.get_workdir(), "stats"), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".ico"):
         content_type = "image/x-icon"
@@ -359,7 +359,7 @@ def format_timestamp(timestamp: float) -> str:
     return ui_dt.strftime(fmt)
 
 
-def handle_stats_cityprogress(relations: areas.Relations) -> yattag.doc.Doc:
+def handle_stats_cityprogress(conf: config.Config2, relations: areas.Relations) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress."""
     doc = yattag.doc.Doc()
     doc.asis(get_toolbar(relations).getvalue())
@@ -379,7 +379,7 @@ def handle_stats_cityprogress(relations: areas.Relations) -> yattag.doc.Doc:
             ref_citycounts[city] = count
     today = time.strftime("%Y-%m-%d")
     osm_citycounts: Dict[str, int] = {}
-    with open(config.Config.get_workdir() + "/stats/" + today + ".citycount", "r") as stream:
+    with open(conf.get_workdir() + "/stats/" + today + ".citycount", "r") as stream:
         for line in stream.readlines():
             cells = line.strip().split('\t')
             if len(cells) < 2:
@@ -439,10 +439,10 @@ def handle_invalid_refstreets(relations: areas.Relations) -> yattag.doc.Doc:
     return doc
 
 
-def handle_stats(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_stats(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     if request_uri.endswith("/cityprogress"):
-        return handle_stats_cityprogress(relations)
+        return handle_stats_cityprogress(conf, relations)
 
     if request_uri.endswith("/invalid-relations"):
         return handle_invalid_refstreets(relations)

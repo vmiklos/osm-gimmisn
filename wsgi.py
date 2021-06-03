@@ -43,7 +43,7 @@ if sys.platform.startswith("win"):
     import _locale
 
 
-def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_streets(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -55,7 +55,6 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.D
     doc = yattag.doc.Doc()
     doc.asis(webframe.get_toolbar(relations, "streets", relation_name, osmrelation).getvalue())
 
-    prefix = config.Config.get_uri_prefix()
     if action == "view-query":
         with doc.tag("pre"):
             doc.text(relation.get_osm_streets_query())
@@ -66,7 +65,7 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.D
             streets = relation.get_config().should_check_missing_streets()
             if streets != "only":
                 doc.text(_("Update successful: "))
-                link = prefix + "/missing-housenumbers/" + relation_name + "/view-result"
+                link = config.Config.get_uri_prefix() + "/missing-housenumbers/" + relation_name + "/view-result"
                 doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
             else:
                 doc.text(_("Update successful."))
@@ -82,7 +81,7 @@ def handle_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.D
     return doc
 
 
-def handle_street_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_street_housenumbers(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -312,7 +311,7 @@ def missing_streets_update(relations: areas.Relations, relation_name: str) -> ya
     return doc
 
 
-def handle_missing_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_missing_housenumbers(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -362,7 +361,7 @@ def missing_streets_view_turbo(relations: areas.Relations, request_uri: str) -> 
     return doc
 
 
-def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_missing_streets(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -391,7 +390,7 @@ def handle_missing_streets(relations: areas.Relations, request_uri: str) -> yatt
     return doc
 
 
-def handle_additional_streets(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_additional_streets(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -414,7 +413,11 @@ def handle_additional_streets(relations: areas.Relations, request_uri: str) -> y
     return doc
 
 
-def handle_additional_housenumbers(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_additional_housenumbers(
+    _conf: config.Config2,
+    relations: areas.Relations,
+    request_uri: str
+) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -810,7 +813,7 @@ def get_html_title(request_uri: str) -> str:
     return title
 
 
-def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
+def write_html_head(conf: config.Config2, doc: yattag.doc.Doc, title: str) -> None:
     """Produces the <head> tag and its contents."""
     prefix = config.Config.get_uri_prefix()
     with doc.tag("head"):
@@ -821,7 +824,7 @@ def write_html_head(doc: yattag.doc.Doc, title: str) -> None:
         doc.stag("link", rel="icon", type="image/vnd.microsoft.icon", sizes="16x12", href=prefix + "/favicon.ico")
         doc.stag("link", rel="icon", type="image/svg+xml", sizes="any", href=prefix + "/favicon.svg")
 
-        css_path = os.path.join(config.Config.get_workdir(), "osm.min.css")
+        css_path = os.path.join(conf.get_workdir(), "osm.min.css")
         with open(css_path, "r") as stream:
             with doc.tag("style"):
                 doc.text(stream.read())
@@ -898,7 +901,7 @@ HANDLERS = {
 }
 
 
-def get_handler(request_uri: str) -> Optional[Callable[[areas.Relations, str], yattag.doc.Doc]]:
+def get_handler(request_uri: str) -> Optional[Callable[[config.Config2, areas.Relations, str], yattag.doc.Doc]]:
     """Decides request_uri matches what handler."""
     prefix = config.Config.get_uri_prefix()
     for key, value in HANDLERS.items():
@@ -932,7 +935,7 @@ def our_application(
 
     if request_uri.startswith(config.Config.get_uri_prefix() + "/static/") or \
             request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
-        output, content_type, headers = webframe.handle_static(request_uri)
+        output, content_type, headers = webframe.handle_static(conf, request_uri)
         return webframe.send_response(environ,
                                       start_response,
                                       webframe.Response(content_type, "200 OK", output, headers))
@@ -943,7 +946,7 @@ def our_application(
     doc = yattag.doc.Doc()
     util.write_html_header(doc)
     with doc.tag("html", lang=language):
-        write_html_head(doc, get_html_title(request_uri))
+        write_html_head(conf, doc, get_html_title(request_uri))
 
         with doc.tag("body"):
             no_such_relation = webframe.check_existing_relation(relations, request_uri)
@@ -951,7 +954,7 @@ def our_application(
             if no_such_relation.getvalue():
                 doc.asis(no_such_relation.getvalue())
             elif handler:
-                doc.asis(handler(relations, request_uri).getvalue())
+                doc.asis(handler(conf, relations, request_uri).getvalue())
             elif request_uri.startswith(config.Config.get_uri_prefix() + "/webhooks/github"):
                 doc.asis(handle_github_webhook(environ).getvalue())
             else:

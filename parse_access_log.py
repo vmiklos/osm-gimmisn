@@ -52,7 +52,7 @@ def is_search_bot(line: str) -> bool:
     return False
 
 
-def get_frequent_relations(log_file: str) -> Set[str]:
+def get_frequent_relations(conf: config.Config2, log_file: str) -> Set[str]:
     """Determine the top 20%: set of frequently visited relations."""
     counts: Dict[str, int] = {}
     with open(log_file, "r") as stream:
@@ -82,7 +82,7 @@ def get_frequent_relations(log_file: str) -> Set[str]:
     count_list = sorted(counts.items(), key=lambda x: x[1], reverse=True)
 
     # Dump relations and their visit count to workdir for further inspection.
-    with open(os.path.join(config.Config.get_workdir(), "frequent-relations.csv"), "w") as stream:
+    with open(os.path.join(conf.get_workdir(), "frequent-relations.csv"), "w") as stream:
         for item in count_list:
             stream.write("{}\t{}\n".format(item[0], item[1]))
 
@@ -147,9 +147,10 @@ def main() -> None:
 
     relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates()
 
-    relations = areas.Relations(config.Config.get_workdir())
-    frequent_relations = get_frequent_relations(log_file)
-    check_top_edited_relations(frequent_relations, config.Config.get_workdir())
+    conf = config.make_config()
+    relations = areas.Relations(conf.get_workdir())
+    frequent_relations = get_frequent_relations(conf, log_file)
+    check_top_edited_relations(frequent_relations, conf.get_workdir())
 
     # Now suggest what to change.
     removals = 0

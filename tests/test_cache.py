@@ -16,18 +16,25 @@ import cache
 import config
 
 
+def mock_make_config() -> config.Config2:
+    """Creates a Config instance that has its root as /tests."""
+    return config.Config2("tests")
+
+
 class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
     """Tests is_missing_housenumbers_html_cached()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         self.assertTrue(cache.is_missing_housenumbers_html_cached(relation))
 
     def test_no_cache(self) -> None:
         """Tests the case when there is no cache."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -42,7 +49,8 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
 
     def test_osm_housenumbers_new(self) -> None:
         """Tests the case when osm_housenumbers is new, so the cache entry is old."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -58,7 +66,8 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
 
     def test_ref_housenumbers_new(self) -> None:
         """Tests the case when ref_housenumbers is new, so the cache entry is old."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -74,7 +83,8 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
 
     def test_relation_new(self) -> None:
         """Tests the case when relation is new, so the cache entry is old."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -94,7 +104,8 @@ class TestGetAdditionalHousenumbersHtml(test_config.TestCase):
     """Tests get_additional_housenumbers_html()."""
     def test_happy(self) -> None:
         """Tests the case when we find the result in cache."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
         first = cache.get_additional_housenumbers_html(relation)
         second = cache.get_additional_housenumbers_html(relation)
@@ -105,7 +116,8 @@ class TestIsMissingHousenumbersTxtCached(test_config.TestCase):
     """Tests is_missing_housenumbers_txt_cached()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(config.Config.get_workdir())
+        conf = mock_make_config()
+        relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_txt(relation)
         self.assertTrue(cache.is_missing_housenumbers_txt_cached(relation))

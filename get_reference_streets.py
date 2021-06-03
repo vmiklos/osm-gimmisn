@@ -18,8 +18,9 @@ def main() -> None:
 
     relation_name = sys.argv[1]
 
+    conf = config.make_config()
     reference = config.Config.get_reference_street_path()
-    workdir = config.Config.get_workdir()
+    workdir = conf.get_workdir()
     relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)

@@ -12,7 +12,13 @@ import unittest.mock
 
 import test_config
 
+import config
 import missing_housenumbers
+
+
+def mock_make_config() -> config.Config2:
+    """Creates a Config instance that has its root as /tests."""
+    return config.Config2("tests")
 
 
 class TestMain(test_config.TestCase):
@@ -23,7 +29,8 @@ class TestMain(test_config.TestCase):
         buf = io.StringIO()
         with unittest.mock.patch('sys.argv', argv):
             with unittest.mock.patch('sys.stdout', buf):
-                missing_housenumbers.main()
+                with unittest.mock.patch("config.make_config", mock_make_config):
+                    missing_housenumbers.main()
 
         buf.seek(0)
         self.assertEqual(buf.read(), "Kalotaszeg utca\t3\n['25', '27-37', '31*']\n")
