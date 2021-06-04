@@ -407,10 +407,11 @@ class TestGetValue(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
 
-        with config.ConfigContext("workdir", "/path/to/workdir"):
-            actual = config.Config.get_value("workdir")
-            expected = "/path/to/workdir"
-            self.assertEqual(actual, expected)
+        config.Config.set_value("workdir", "/path/to/workdir")
+        actual = config.Config.get_value("workdir")
+        expected = "/path/to/workdir"
+        self.assertEqual(actual, expected)
+        config.Config.set_value("workdir", "")
 
 
 class TestGetContent(unittest.TestCase):
