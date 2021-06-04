@@ -121,13 +121,13 @@ def update_ref_housenumbers(conf: config.Config2, relations: areas.Relations, up
         info("update_ref_housenumbers: end: %s", relation_name)
 
 
-def update_ref_streets(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_ref_streets(conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the reference street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_ref_streets_path()):
             continue
-        reference = config.Config.get_reference_street_path()
+        reference = conf.get_reference_street_path()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "no":
             continue
