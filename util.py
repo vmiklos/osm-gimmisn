@@ -816,11 +816,11 @@ def split_house_number_by_separator(
     return ret_numbers, ret_numbers_nofilter
 
 
-def set_locale() -> None:
+def set_locale(conf: config.Config2) -> None:
     """Sets the locale of this Python process automatically based on config, with a UTF-8
     default."""
-    if config.Config.has_value("locale"):
-        ui_locale = config.Config.get_locale()
+    if conf.has_value("locale"):
+        ui_locale = conf.get_locale()
     else:
         ui_locale = "hu_HU.UTF-8"
     try:

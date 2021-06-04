@@ -55,13 +55,6 @@ class Config:
         return Config.__config.has_option("wsgi", key)
 
     @staticmethod
-    def get_locale() -> str:
-        """Gets the locale."""
-        Config.__get()
-        assert Config.__config is not None
-        return Config.__config.get("wsgi", "locale").strip()
-
-    @staticmethod
     def get_timezone() -> str:
         """Gets the timezone."""
         Config.__get()
@@ -115,6 +108,14 @@ class Config2:
         config_path = self.get_abspath("wsgi.ini")
         self.__config.read(config_path)
 
+    def has_value(self, key: str) -> bool:
+        """Determines if key is set in the config."""
+        return self.__config.has_option("wsgi", key)
+
+    def set_value(self, key: str, value: str) -> None:
+        """Sets key to value in the in-memory config."""
+        self.__config.read_dict({"wsgi": {key: value}})
+
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
         return os.path.join(self.root, rel_path)
@@ -137,6 +138,10 @@ class Config2:
         """Gets the abs path of ref citycounts."""
         relpath = self.__config.get("wsgi", "reference_citycounts").strip()
         return self.get_abspath(relpath)
+
+    def get_locale(self) -> str:
+        """Gets the locale."""
+        return self.__config.get("wsgi", "locale").strip()
 
 
 def make_config() -> Config2:

@@ -915,11 +915,11 @@ def our_application(
         start_response: 'StartResponse'
 ) -> Iterable[bytes]:
     """Dispatches the request based on its URI."""
-    util.set_locale()
+    conf = config.make_config()
+    util.set_locale(conf)
 
     language = util.setup_localization(environ)
 
-    conf = config.make_config()
     relations = areas.Relations(conf.get_workdir())
 
     request_uri = webframe.get_request_uri(environ, relations)
