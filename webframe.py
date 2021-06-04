@@ -365,7 +365,7 @@ def handle_stats_cityprogress(conf: config.Config2, relations: areas.Relations) 
     doc.asis(get_toolbar(relations).getvalue())
 
     ref_citycounts: Dict[str, int] = {}
-    with open(config.Config.get_reference_citycounts_path(), "r") as stream:
+    with open(conf.get_reference_citycounts_path(), "r") as stream:
         first = True
         for line in stream.readlines():
             if first:

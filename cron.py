@@ -203,7 +203,7 @@ def write_city_count_path(city_count_path: str, cities: Dict[str, Set[str]]) -> 
             stream.write(key + "\t" + str(len(value)) + "\n")
 
 
-def update_stats_count(today: str) -> None:
+def update_stats_count(conf: config.Config2, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     statedir = config.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
@@ -212,7 +212,7 @@ def update_stats_count(today: str) -> None:
     house_numbers = set()
     cities: Dict[str, Set[str]] = {}
     first = True
-    valid_settlements = util.get_valid_settlements()
+    valid_settlements = util.get_valid_settlements(conf)
     with open(csv_path, "r") as stream:
         for line in stream.readlines():
             if first:
@@ -257,10 +257,10 @@ def update_stats_topusers(today: str) -> None:
         stream.write(str(len(users)) + "\n")
 
 
-def update_stats_refcount(state_dir: str) -> None:
+def update_stats_refcount(conf: config.Config2, state_dir: str) -> None:
     """Performs the update of workdir/stats/ref.count."""
     count = 0
-    with open(config.Config.get_reference_citycounts_path(), "r") as stream:
+    with open(conf.get_reference_citycounts_path(), "r") as stream:
         first = True
         for line in stream.readlines():
             if first:
@@ -277,7 +277,7 @@ def update_stats_refcount(state_dir: str) -> None:
         stream.write(str(count) + "\n")
 
 
-def update_stats(overpass: bool) -> None:
+def update_stats(conf: config.Config2, overpass: bool) -> None:
     """Performs the update of country-level stats."""
 
     # Fetch house numbers for the whole country.
@@ -303,9 +303,9 @@ def update_stats(overpass: bool) -> None:
             except urllib.error.HTTPError as http_error:
                 info("update_stats: http error: %s", str(http_error))
 
-    update_stats_count(today)
+    update_stats_count(conf, today)
     update_stats_topusers(today)
-    update_stats_refcount(statedir)
+    update_stats_refcount(conf, statedir)
 
     # Remove old CSV files as they are created daily and each is around 11M.
     current_time = time.time()
@@ -326,7 +326,7 @@ def update_stats(overpass: bool) -> None:
 def our_main(conf: config.Config2, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
     """Performs the actual nightly task."""
     if mode in ("all", "stats"):
-        update_stats(overpass)
+        update_stats(conf, overpass)
     if mode in ("all", "relations"):
         update_osm_streets(conf, relations, update)
         update_osm_housenumbers(conf, relations, update)

@@ -847,11 +847,11 @@ def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
     return "_Empty"
 
 
-def get_valid_settlements() -> Set[str]:
+def get_valid_settlements(conf: config.Config2) -> Set[str]:
     """Builds a set of valid settlement names."""
     settlements: Set[str] = set()
 
-    with open(config.Config.get_reference_citycounts_path(), "r") as stream:
+    with open(conf.get_reference_citycounts_path(), "r") as stream:
         first = True
         for line in stream.readlines():
             if first:

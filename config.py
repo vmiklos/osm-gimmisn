@@ -55,14 +55,6 @@ class Config:
         return Config.__config.has_option("wsgi", key)
 
     @staticmethod
-    def get_reference_citycounts_path() -> str:
-        """Gets the abs path of ref citycounts."""
-        Config.__get()
-        assert Config.__config is not None
-        relpath = Config.__config.get("wsgi", "reference_citycounts").strip()
-        return get_abspath(relpath)
-
-    @staticmethod
     def get_locale() -> str:
         """Gets the locale."""
         Config.__get()
@@ -139,6 +131,11 @@ class Config2:
     def get_reference_street_path(self) -> str:
         """Gets the abs path of ref streets."""
         relpath = self.__config.get("wsgi", "reference_street").strip()
+        return self.get_abspath(relpath)
+
+    def get_reference_citycounts_path(self) -> str:
+        """Gets the abs path of ref citycounts."""
+        relpath = self.__config.get("wsgi", "reference_citycounts").strip()
         return self.get_abspath(relpath)
 
 
