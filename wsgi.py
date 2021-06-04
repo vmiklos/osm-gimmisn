@@ -287,9 +287,9 @@ def missing_streets_view_txt(relations: areas.Relations, request_uri: str, chkl:
     return output, relation_name
 
 
-def missing_housenumbers_update(relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
+def missing_housenumbers_update(conf: config.Config2, relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result."""
-    references = config.Config.get_reference_housenumber_paths()
+    references = conf.get_reference_housenumber_paths()
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(references)
     doc = yattag.doc.Doc()
@@ -311,7 +311,7 @@ def missing_streets_update(relations: areas.Relations, relation_name: str) -> ya
     return doc
 
 
-def handle_missing_housenumbers(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_missing_housenumbers(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -331,7 +331,7 @@ def handle_missing_housenumbers(_conf: config.Config2, relations: areas.Relation
                 doc.text(sock.read())
         date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
     elif action == "update-result":
-        doc.asis(missing_housenumbers_update(relations, relation_name).getvalue())
+        doc.asis(missing_housenumbers_update(conf, relations, relation_name).getvalue())
     else:
         # assume view-result
         doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
@@ -941,7 +941,7 @@ def our_application(
                                       webframe.Response(content_type, "200 OK", output, headers))
 
     if ext == "json":
-        return wsgi_json.our_application_json(environ, start_response, relations, request_uri)
+        return wsgi_json.our_application_json(environ, start_response, conf, relations, request_uri)
 
     doc = yattag.doc.Doc()
     util.write_html_header(doc)

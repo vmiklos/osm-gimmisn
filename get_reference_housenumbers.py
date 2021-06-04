@@ -19,7 +19,7 @@ def main() -> None:
     relation_name = sys.argv[1]
 
     conf = config.make_config()
-    references = config.Config.get_reference_housenumber_paths()
+    references = conf.get_reference_housenumber_paths()
     workdir = conf.get_workdir()
     relations = areas.Relations(workdir)
     relation = relations.get_relation(relation_name)

@@ -56,11 +56,11 @@ def street_housenumbers_update_result_json(relations: areas.Relations, request_u
     return json.dumps(ret)
 
 
-def missing_housenumbers_update_result_json(relations: areas.Relations, request_uri: str) -> str:
+def missing_housenumbers_update_result_json(conf: config.Config2, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
-    references = config.Config.get_reference_housenumber_paths()
+    references = conf.get_reference_housenumber_paths()
     relation = relations.get_relation(relation_name)
     ret: Dict[str, str] = {}
     relation.write_ref_housenumbers(references)
@@ -83,6 +83,7 @@ def missing_streets_update_result_json(relations: areas.Relations, request_uri: 
 def our_application_json(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
+        conf: config.Config2,
         relations: areas.Relations,
         request_uri: str
 ) -> Iterable[bytes]:
@@ -95,7 +96,7 @@ def our_application_json(
     elif request_uri.startswith(prefix + "/street-housenumbers/"):
         output = street_housenumbers_update_result_json(relations, request_uri)
     elif request_uri.startswith(prefix + "/missing-housenumbers/"):
-        output = missing_housenumbers_update_result_json(relations, request_uri)
+        output = missing_housenumbers_update_result_json(conf, relations, request_uri)
     else:
         # Assume that request_uri starts with prefix + "/missing-streets/".
         output = missing_streets_update_result_json(relations, request_uri)
