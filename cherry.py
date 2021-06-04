@@ -7,6 +7,8 @@
 
 """The cherry module is the glue layer between the CherryPy app server and the wsgi module."""
 
+import os
+
 import cherrypy  # type: ignore
 
 from wsgi import application
@@ -27,6 +29,7 @@ def main() -> None:
     While wsgiref is part of stock Python and is ideal for local development, CherryPy supports
     automatic reloading, which is super-handy in production.
     """
+    os.chdir(os.path.dirname(__file__))
     cherrypy.tree.graft(application, "/")
     cherrypy.server.unsubscribe()
     # This is documented at <https://docs.cherrypy.org/en/latest/advanced.html>, so:
