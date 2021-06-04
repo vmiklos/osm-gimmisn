@@ -84,9 +84,9 @@ class TestUpdateRefHousenumbers(test_config.TestCase):
         path = os.path.join(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_ref_housenumbers(relations, update=True)
+        cron.update_ref_housenumbers(conf, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_ref_housenumbers(relations, update=False)
+        cron.update_ref_housenumbers(conf, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
@@ -108,9 +108,9 @@ class TestUpdateRefStreets(test_config.TestCase):
         path = os.path.join(relations.get_workdir(), "streets-reference-gazdagret.lst")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_ref_streets(relations, update=True)
+        cron.update_ref_streets(conf, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_ref_streets(relations, update=False)
+        cron.update_ref_streets(conf, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
@@ -132,9 +132,9 @@ class TestUpdateMissingHousenumbers(test_config.TestCase):
         path = os.path.join(relations.get_workdir(), "gazdagret.percent")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_missing_housenumbers(relations, update=True)
+        cron.update_missing_housenumbers(conf, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_missing_housenumbers(relations, update=False)
+        cron.update_missing_housenumbers(conf, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
@@ -155,9 +155,9 @@ class TestUpdateMissingStreets(test_config.TestCase):
         path = os.path.join(relations.get_workdir(), "gazdagret-streets.percent")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_missing_streets(relations, update=True)
+        cron.update_missing_streets(conf, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_missing_streets(relations, update=False)
+        cron.update_missing_streets(conf, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
@@ -180,9 +180,9 @@ class TestUpdateAdditionalStreets(test_config.TestCase):
         if os.path.exists(path):
             util.get_content(path)
             os.unlink(path)
-        cron.update_additional_streets(relations, update=True)
+        cron.update_additional_streets(conf, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_additional_streets(relations, update=False)
+        cron.update_additional_streets(conf, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path).decode("utf-8")
         self.assertEqual(actual, expected)
@@ -227,9 +227,9 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
                 path = os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
                 expected = util.get_content(path)
                 os.unlink(path)
-                cron.update_osm_housenumbers(relations, update=True)
+                cron.update_osm_housenumbers(conf, relations, update=True)
                 mtime = os.path.getmtime(path)
-                cron.update_osm_housenumbers(relations, update=False)
+                cron.update_osm_housenumbers(conf, relations, update=False)
                 self.assertEqual(os.path.getmtime(path), mtime)
                 self.assertTrue(mock_overpass_sleep_called)
                 actual = util.get_content(path)
@@ -251,7 +251,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
                     if relation_name != "gazdagret":
                         relations.get_relation(relation_name).get_config().set_active(False)
                 expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
-                cron.update_osm_housenumbers(relations, update=True)
+                cron.update_osm_housenumbers(conf, relations, update=True)
                 self.assertTrue(mock_overpass_sleep_called)
                 # Make sure that in case we keep getting errors we give up at some stage and
                 # leave the last state unchanged.
@@ -287,9 +287,9 @@ class TestUpdateOsmStreets(test_config.TestCase):
                 expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
                 path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
                 os.unlink(path)
-                cron.update_osm_streets(relations, update=True)
+                cron.update_osm_streets(conf, relations, update=True)
                 mtime = os.path.getmtime(path)
-                cron.update_osm_streets(relations, update=False)
+                cron.update_osm_streets(conf, relations, update=False)
                 self.assertEqual(os.path.getmtime(path), mtime)
                 self.assertTrue(mock_overpass_sleep_called)
                 actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
@@ -311,7 +311,7 @@ class TestUpdateOsmStreets(test_config.TestCase):
                     if relation_name != "gazdagret":
                         relations.get_relation(relation_name).get_config().set_active(False)
                 expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-                cron.update_osm_streets(relations, update=True)
+                cron.update_osm_streets(conf, relations, update=True)
                 self.assertTrue(mock_overpass_sleep_called)
                 # Make sure that in case we keep getting errors we give up at some stage and
                 # leave the last state unchanged.
@@ -414,7 +414,7 @@ class TestOurMain(test_config.TestCase):
         """Tests the happy path."""
         calls = 0
 
-        def count_calls(_relations: areas.Relation, _update: bool) -> None:
+        def count_calls(_conf: config.Config2, _relations: areas.Relation, _update: bool) -> None:
             nonlocal calls
             calls += 1
 
@@ -427,7 +427,7 @@ class TestOurMain(test_config.TestCase):
                         with unittest.mock.patch("cron.update_missing_streets", count_calls):
                             with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
                                 with unittest.mock.patch("cron.update_additional_streets", count_calls):
-                                    cron.our_main(relations, mode="relations", update=True, overpass=True)
+                                    cron.our_main(conf, relations, mode="relations", update=True, overpass=True)
 
         expected = 0
         # Consider what to update automatically: the 2 sources and the diff between them.
@@ -451,7 +451,7 @@ class TestOurMain(test_config.TestCase):
         conf = mock_make_config()
         relations = areas.Relations(conf.get_workdir())
         with unittest.mock.patch("cron.update_stats", count_calls):
-            cron.our_main(relations, mode="stats", update=False, overpass=True)
+            cron.our_main(conf, relations, mode="stats", update=False, overpass=True)
 
         self.assertEqual(calls, 1)
 
@@ -462,7 +462,13 @@ class TestMain(test_config.TestCase):
         """Tests the happy path."""
         mock_main_called = False
 
-        def mock_main(_relations: areas.Relation, _mode: str, _update: bool, _overpass: bool) -> None:
+        def mock_main(
+            _conf: config.Config2,
+            _relations: areas.Relation,
+            _mode: str,
+            _update: bool,
+            _overpass: bool
+        ) -> None:
             nonlocal mock_main_called
             mock_main_called = True
 

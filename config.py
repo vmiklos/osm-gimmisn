@@ -55,14 +55,6 @@ class Config:
         return Config.__config.has_option("wsgi", key)
 
     @staticmethod
-    def get_reference_housenumber_paths() -> List[str]:
-        """Gets the abs paths of ref housenumbers."""
-        Config.__get()
-        assert Config.__config is not None
-        relpaths = Config.__config.get("wsgi", "reference_housenumbers").strip().split(' ')
-        return [get_abspath(relpath) for relpath in relpaths]
-
-    @staticmethod
     def get_reference_street_path() -> str:
         """Gets the abs path of ref streets."""
         Config.__get()
@@ -146,6 +138,11 @@ class Config2:
     def get_workdir(self) -> str:
         """Gets the directory which is writable."""
         return self.get_abspath(self.__config.get('wsgi', 'workdir').strip())
+
+    def get_reference_housenumber_paths(self) -> List[str]:
+        """Gets the abs paths of ref housenumbers."""
+        relpaths = self.__config.get("wsgi", "reference_housenumbers").strip().split(' ')
+        return [self.get_abspath(relpath) for relpath in relpaths]
 
 
 def make_config() -> Config2:

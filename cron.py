@@ -61,7 +61,7 @@ def should_retry(retry: int) -> bool:
     return retry < 20
 
 
-def update_osm_streets(relations: areas.Relations, update: bool) -> None:
+def update_osm_streets(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the OSM street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -83,7 +83,7 @@ def update_osm_streets(relations: areas.Relations, update: bool) -> None:
         info("update_osm_streets: end: %s", relation_name)
 
 
-def update_osm_housenumbers(relations: areas.Relations, update: bool) -> None:
+def update_osm_housenumbers(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the OSM housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -105,13 +105,13 @@ def update_osm_housenumbers(relations: areas.Relations, update: bool) -> None:
         info("update_osm_housenumbers: end: %s", relation_name)
 
 
-def update_ref_housenumbers(relations: areas.Relations, update: bool) -> None:
+def update_ref_housenumbers(conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the reference housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_ref_housenumbers_path()):
             continue
-        references = config.Config.get_reference_housenumber_paths()
+        references = conf.get_reference_housenumber_paths()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "only":
             continue
@@ -121,7 +121,7 @@ def update_ref_housenumbers(relations: areas.Relations, update: bool) -> None:
         info("update_ref_housenumbers: end: %s", relation_name)
 
 
-def update_ref_streets(relations: areas.Relations, update: bool) -> None:
+def update_ref_streets(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the reference street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -137,7 +137,7 @@ def update_ref_streets(relations: areas.Relations, update: bool) -> None:
         info("update_ref_streets: end: %s", relation_name)
 
 
-def update_missing_housenumbers(relations: areas.Relations, update: bool) -> None:
+def update_missing_housenumbers(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the relation's house number coverage stats."""
     info("update_missing_housenumbers: start")
     for relation_name in relations.get_active_names():
@@ -158,7 +158,7 @@ def update_missing_housenumbers(relations: areas.Relations, update: bool) -> Non
     info("update_missing_housenumbers: end")
 
 
-def update_missing_streets(relations: areas.Relations, update: bool) -> None:
+def update_missing_streets(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the relation's street coverage stats."""
     info("update_missing_streets: start")
     for relation_name in relations.get_active_names():
@@ -173,7 +173,7 @@ def update_missing_streets(relations: areas.Relations, update: bool) -> None:
     info("update_missing_streets: end")
 
 
-def update_additional_streets(relations: areas.Relations, update: bool) -> None:
+def update_additional_streets(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the relation's "additional streets" stats."""
     info("update_additional_streets: start")
     for relation_name in relations.get_active_names():
@@ -323,18 +323,18 @@ def update_stats(overpass: bool) -> None:
     info("update_stats: end")
 
 
-def our_main(relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
+def our_main(conf: config.Config2, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
     """Performs the actual nightly task."""
     if mode in ("all", "stats"):
         update_stats(overpass)
     if mode in ("all", "relations"):
-        update_osm_streets(relations, update)
-        update_osm_housenumbers(relations, update)
-        update_ref_streets(relations, update)
-        update_ref_housenumbers(relations, update)
-        update_missing_streets(relations, update)
-        update_missing_housenumbers(relations, update)
-        update_additional_streets(relations, update)
+        update_osm_streets(conf, relations, update)
+        update_osm_housenumbers(conf, relations, update)
+        update_ref_streets(conf, relations, update)
+        update_ref_housenumbers(conf, relations, update)
+        update_missing_streets(conf, relations, update)
+        update_missing_housenumbers(conf, relations, update)
+        update_additional_streets(conf, relations, update)
 
     pid = str(os.getpid())
     with open("/proc/" + pid + "/status", "r") as stream:
@@ -384,7 +384,7 @@ def main() -> None:
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)
     try:
-        our_main(relations, args.mode, args.update, args.overpass)
+        our_main(conf, relations, args.mode, args.update, args.overpass)
     # pylint: disable=broad-except
     except Exception:
         error("main: unhandled exception: %s", traceback.format_exc())
