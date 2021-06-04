@@ -9,7 +9,6 @@ The config module contains functionality related to configuration handling.
 It intentionally doesn't import any other 'own' modules, so it can be used anywhere.
 """
 
-from typing import Any
 from typing import List
 from typing import Optional
 import configparser
@@ -120,27 +119,6 @@ class Config:
         Config.__get()
         assert Config.__config is not None
         return Config.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
-
-
-class ConfigContext:
-    """Context manager for Config."""
-    def __init__(self, key: str, value: str) -> None:
-        """Remembers what should be the new value."""
-        self.key = key
-        self.value = value
-        self.old_value = ""
-        if Config.has_value(key):
-            self.old_value = Config.get_value(key)
-
-    def __enter__(self) -> 'ConfigContext':
-        """Switches to the new value."""
-        Config.set_value(self.key, self.value)
-        return self
-
-    def __exit__(self, _exc_type: Any, _exc_value: Any, _exc_traceback: Any) -> bool:
-        """Switches back to the old value."""
-        Config.set_value(self.key, self.old_value)
-        return True
 
 
 def get_abspath(path: str) -> str:

@@ -759,10 +759,11 @@ class TestMain(TestWsgi):
 
     def test_custom_locale(self) -> None:
         """Tests the main page with a custom locale."""
-        with config.ConfigContext("locale", "en_US.UTF-8"):
-            root = self.get_dom_for_path("")
-            results = root.findall("body/table")
-            self.assertEqual(len(results), 1)
+        config.Config.set_value("locale", "en_US.UTF-8")
+        root = self.get_dom_for_path("")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+        config.Config.set_value("locale", "")
 
     def test_failing_locale(self) -> None:
         """Tests the main page with a failing locale."""
