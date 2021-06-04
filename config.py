@@ -48,13 +48,6 @@ class Config:
             Config.__config.remove_option("wsgi", key)
 
     @staticmethod
-    def get_uri_prefix() -> str:
-        """Gets the global URI prefix."""
-        Config.__get()
-        assert Config.__config is not None
-        return Config.__config.get("wsgi", "uri_prefix").strip()
-
-    @staticmethod
     def get_tcp_port() -> int:
         """Gets the TCP port to be used."""
         Config.__get()
@@ -132,6 +125,10 @@ class Config2:
     def get_timezone(self) -> str:
         """Gets the timezone."""
         return self.__config.get("wsgi", "timezone").strip()
+
+    def get_uri_prefix(self) -> str:
+        """Gets the global URI prefix."""
+        return self.__config.get("wsgi", "uri_prefix").strip()
 
 
 def make_config() -> Config2:

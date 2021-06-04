@@ -90,7 +90,7 @@ def our_application_json(
     """Dispatches json requests based on their URIs."""
     content_type = "application/json"
     headers: List[Tuple[str, str]] = []
-    prefix = config.Config.get_uri_prefix()
+    prefix = conf.get_uri_prefix()
     if request_uri.startswith(prefix + "/streets/"):
         output = streets_update_result_json(relations, request_uri)
     elif request_uri.startswith(prefix + "/street-housenumbers/"):

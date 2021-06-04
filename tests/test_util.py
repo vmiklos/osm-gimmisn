@@ -503,5 +503,12 @@ class TestGetColumn(unittest.TestCase):
         self.assertEqual(util.get_column(row, 2, natnum=True), 0)
 
 
+class TestGetTimestamp(unittest.TestCase):
+    """Tests get_timestamp()."""
+    def test_no_such_file(self) -> None:
+        """Tests what happens when the file is not there."""
+        self.assertEqual(util.get_timestamp(""), 0)
+
+
 if __name__ == '__main__':
     unittest.main()
