@@ -300,9 +300,9 @@ def missing_housenumbers_update(conf: config.Config2, relations: areas.Relations
     return doc
 
 
-def missing_streets_update(relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
+def missing_streets_update(conf: config.Config2, relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
-    reference = config.Config.get_reference_street_path()
+    reference = conf.get_reference_street_path()
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(reference)
     doc = yattag.doc.Doc()
@@ -361,7 +361,7 @@ def missing_streets_view_turbo(relations: areas.Relations, request_uri: str) -> 
     return doc
 
 
-def handle_missing_streets(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_missing_streets(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -380,7 +380,7 @@ def handle_missing_streets(_conf: config.Config2, relations: areas.Relations, re
             with relation.get_files().get_ref_streets_stream("r") as sock:
                 doc.text(sock.read())
     elif action == "update-result":
-        doc.asis(missing_streets_update(relations, relation_name).getvalue())
+        doc.asis(missing_streets_update(conf, relations, relation_name).getvalue())
     else:
         # assume view-result
         doc.asis(missing_streets_view_result(relations, request_uri).getvalue())

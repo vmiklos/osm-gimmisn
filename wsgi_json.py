@@ -68,11 +68,11 @@ def missing_housenumbers_update_result_json(conf: config.Config2, relations: are
     return json.dumps(ret)
 
 
-def missing_streets_update_result_json(relations: areas.Relations, request_uri: str) -> str:
+def missing_streets_update_result_json(conf: config.Config2, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
-    reference = config.Config.get_reference_street_path()
+    reference = conf.get_reference_street_path()
     relation = relations.get_relation(relation_name)
     ret: Dict[str, str] = {}
     relation.write_ref_streets(reference)
@@ -99,7 +99,7 @@ def our_application_json(
         output = missing_housenumbers_update_result_json(conf, relations, request_uri)
     else:
         # Assume that request_uri starts with prefix + "/missing-streets/".
-        output = missing_streets_update_result_json(relations, request_uri)
+        output = missing_streets_update_result_json(conf, relations, request_uri)
     output_bytes = output.encode("utf-8")
     response = webframe.Response(content_type, "200 OK", output_bytes, headers)
     return webframe.send_response(environ, start_response, response)
