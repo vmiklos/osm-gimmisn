@@ -342,6 +342,7 @@ class TestUpdateStats(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
 
+        conf = mock_make_config()
         mock_overpass_sleep_called = False
 
         def mock_overpass_sleep() -> None:
@@ -367,7 +368,7 @@ class TestUpdateStats(test_config.TestCase):
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                 with unittest.mock.patch('datetime.date', MockDate):
-                    cron.update_stats(overpass=True)
+                    cron.update_stats(conf, overpass=True)
         actual = util.get_content(path).decode("utf-8")
         self.assertEqual(actual, result_from_overpass)
 
@@ -382,6 +383,7 @@ class TestUpdateStats(test_config.TestCase):
 
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
+        conf = mock_make_config()
         mock_overpass_sleep_called = False
 
         def mock_overpass_sleep() -> None:
@@ -391,11 +393,12 @@ class TestUpdateStats(test_config.TestCase):
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                 with unittest.mock.patch('datetime.date', MockDate):
-                    cron.update_stats(overpass=True)
+                    cron.update_stats(conf, overpass=True)
         self.assertTrue(mock_overpass_sleep_called)
 
     def test_no_overpass(self) -> None:
         """Tests the case when we don't call overpass."""
+        conf = mock_make_config()
         mock_overpass_sleep_called = False
 
         def mock_overpass_sleep() -> None:
@@ -404,7 +407,7 @@ class TestUpdateStats(test_config.TestCase):
 
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('datetime.date', MockDate):
-                cron.update_stats(overpass=False)
+                cron.update_stats(conf, overpass=False)
         self.assertFalse(mock_overpass_sleep_called)
 
 
@@ -444,7 +447,7 @@ class TestOurMain(test_config.TestCase):
         """Tests the stats path."""
         calls = 0
 
-        def count_calls(_overpass: bool) -> None:
+        def count_calls(_conf: config.Config2, _overpass: bool) -> None:
             nonlocal calls
             calls += 1
 
