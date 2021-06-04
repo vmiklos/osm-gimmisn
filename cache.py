@@ -61,7 +61,7 @@ def is_additional_housenumbers_html_cached(relation: areas.Relation) -> bool:
     return is_cache_outdated(cache_path, dependencies)
 
 
-def get_missing_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc:
+def get_missing_housenumbers_html(conf: config.Config2, relation: areas.Relation) -> yattag.doc.Doc:
     """Gets the cached HTML of the missing housenumbers for a relation."""
     doc = yattag.doc.Doc()
     if is_missing_housenumbers_html_cached(relation):
@@ -73,7 +73,7 @@ def get_missing_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc:
     todo_street_count, todo_count, done_count, percent, table = ret
 
     with doc.tag("p"):
-        prefix = config.Config.get_uri_prefix()
+        prefix = conf.get_uri_prefix()
         relation_name = relation.get_name()
         doc.text(_("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
                  .format(str(todo_count), str(todo_street_count)))

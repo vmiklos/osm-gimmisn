@@ -43,14 +43,18 @@ def additional_streets_view_txt(relations: areas.Relations, request_uri: str, ch
     return output, relation_name
 
 
-def additional_streets_view_result(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def additional_streets_view_result(
+    conf: config.Config2,
+    relations: areas.Relations,
+    request_uri: str
+) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
 
     doc = yattag.doc.Doc()
-    prefix = config.Config.get_uri_prefix()
+    prefix = conf.get_uri_prefix()
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
@@ -94,7 +98,11 @@ def additional_streets_view_result(relations: areas.Relations, request_uri: str)
     return doc
 
 
-def additional_housenumbers_view_result(relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def additional_housenumbers_view_result(
+    conf: config.Config2,
+    relations: areas.Relations,
+    request_uri: str
+) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -102,7 +110,7 @@ def additional_housenumbers_view_result(relations: areas.Relations, request_uri:
 
     doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
-    prefix = config.Config.get_uri_prefix()
+    prefix = conf.get_uri_prefix()
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):

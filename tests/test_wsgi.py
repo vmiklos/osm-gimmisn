@@ -63,7 +63,8 @@ class TestWsgi(test_config.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        prefix = config.Config.get_uri_prefix()
+        conf = mock_make_config()
+        prefix = conf.get_uri_prefix()
         if not absolute:
             path = prefix + path
         environ = {
@@ -82,8 +83,7 @@ class TestWsgi(test_config.TestCase):
         output = output_bytes.decode('utf-8')
         stream = io.StringIO(output)
         tree = ET.parse(stream)
-        root = tree.getroot()
-        return root
+        return tree.getroot()
 
     def get_txt_for_path(self, path: str) -> str:
         """Generates a string for a given wsgi path."""
@@ -96,7 +96,8 @@ class TestWsgi(test_config.TestCase):
             else:
                 self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
 
-        prefix = config.Config.get_uri_prefix()
+        conf = mock_make_config()
+        prefix = conf.get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }
@@ -115,7 +116,8 @@ class TestWsgi(test_config.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/css; charset=utf-8")
 
-        prefix = config.Config.get_uri_prefix()
+        conf = mock_make_config()
+        prefix = conf.get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }
@@ -433,7 +435,8 @@ Tűzkő utca	[1], [2]"""
         """Tests if the update-result output links back to the correct page."""
         with unittest.mock.patch("config.make_config", mock_make_config):
             root = self.get_dom_for_path("/missing-housenumbers/gazdagret/update-result")
-        prefix = config.Config.get_uri_prefix()
+        conf = mock_make_config()
+        prefix = conf.get_uri_prefix()
         results = root.findall("body/a[@href='" + prefix + "/missing-housenumbers/gazdagret/view-result']")
         self.assertEqual(len(results), 1)
 
@@ -442,9 +445,10 @@ class TestStreetHousenumbers(TestWsgi):
     """Tests handle_street_housenumbers()."""
     def test_view_result_update_result_link(self) -> None:
         """Tests view result: the update-result link."""
+        conf = mock_make_config()
         with unittest.mock.patch("config.make_config", mock_make_config):
             root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
-            uri = config.Config.get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
+            uri = conf.get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
             results = root.findall("body/div[@id='toolbar']/a[@href='" + uri + "']")
             self.assertTrue(results)
 
@@ -634,66 +638,6 @@ class TestMissingStreets(TestWsgi):
         self.assertNotIn("OSM Name 2", cast(Container[Any], results[0].text))
 
 
-class TestAdditionalStreets(TestWsgi):
-    """Tests the additional streets page."""
-    def test_well_formed(self) -> None:
-        """Tests if the output is well-formed."""
-        with unittest.mock.patch("config.make_config", mock_make_config):
-            root = self.get_dom_for_path("/additional-streets/gazdagret/view-result")
-        results = root.findall("body/table")
-        self.assertEqual(len(results), 1)
-        # refstreets: >0 invalid osm name
-        results = root.findall("body/div[@id='osm-invalids-container']")
-        self.assertEqual(len(results), 1)
-        # refstreets: >0 invalid ref name
-        results = root.findall("body/div[@id='ref-invalids-container']")
-        self.assertEqual(len(results), 1)
-
-    def test_street_from_housenr_well_formed(self) -> None:
-        """Tests if the output is well-formed when the street name comes from a housenr."""
-        with unittest.mock.patch("config.make_config", mock_make_config):
-            def mock_check_existing_relation(_relations: areas.Relations, _request_uri: str) -> yattag.doc.Doc:
-                return yattag.doc.Doc()
-            with unittest.mock.patch('webframe.check_existing_relation', mock_check_existing_relation):
-                root = self.get_dom_for_path("/additional-streets/gh611/view-result")
-            results = root.findall("body/table")
-            self.assertEqual(len(results), 1)
-
-    def test_no_osm_streets_well_formed(self) -> None:
-        """Tests if the output is well-formed, no osm streets case."""
-        with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(mock_make_config().get_workdir())
-            relation = relations.get_relation("gazdagret")
-            hide_path = relation.get_files().get_osm_streets_path()
-            real_exists = os.path.exists
-
-            def mock_exists(path: str) -> bool:
-                if path == hide_path:
-                    return False
-                return real_exists(path)
-            with unittest.mock.patch('os.path.exists', mock_exists):
-                root = self.get_dom_for_path("/additional-streets/gazdagret/view-result")
-                results = root.findall("body/div[@id='no-osm-streets']")
-                self.assertEqual(len(results), 1)
-
-    def test_no_ref_streets_well_formed(self) -> None:
-        """Tests if the output is well-formed, no ref streets case."""
-        with unittest.mock.patch("config.make_config", mock_make_config):
-            relations = areas.Relations(mock_make_config().get_workdir())
-            relation = relations.get_relation("gazdagret")
-            hide_path = relation.get_files().get_ref_streets_path()
-            real_exists = os.path.exists
-
-            def mock_exists(path: str) -> bool:
-                if path == hide_path:
-                    return False
-                return real_exists(path)
-            with unittest.mock.patch('os.path.exists', mock_exists):
-                root = self.get_dom_for_path("/additional-streets/gazdagret/view-result")
-                results = root.findall("body/div[@id='no-ref-streets']")
-                self.assertEqual(len(results), 1)
-
-
 class TestMain(TestWsgi):
     """Tests handle_main()."""
     def test_well_formed(self) -> None:
@@ -708,8 +652,9 @@ class TestMain(TestWsgi):
         environ = {
             "PATH_INFO": ""
         }
+        conf = mock_make_config()
         relations = areas.Relations(mock_make_config().get_workdir())
-        ret = webframe.get_request_uri(environ, relations)
+        ret = webframe.get_request_uri(environ, conf, relations)
         self.assertEqual(ret, "")
 
     def test_filter_for_incomplete_well_formed(self) -> None:
@@ -986,13 +931,6 @@ class TestCompress(TestWsgi):
             root = self.get_dom_for_path("/")
             results = root.findall("body/table")
             self.assertEqual(len(results), 1)
-
-
-class TestGetTimestamp(TestWsgi):
-    """Tests get_timestamp()."""
-    def test_no_such_file(self) -> None:
-        """Tests what happens when the file is not there."""
-        self.assertEqual(wsgi.get_timestamp(""), 0)
 
 
 if __name__ == '__main__':

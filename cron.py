@@ -137,7 +137,7 @@ def update_ref_streets(conf: config.Config2, relations: areas.Relations, update:
         info("update_ref_streets: end: %s", relation_name)
 
 
-def update_missing_housenumbers(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_missing_housenumbers(conf: config.Config2, relations: areas.Relations, update: bool) -> None:
     """Update the relation's house number coverage stats."""
     info("update_missing_housenumbers: start")
     for relation_name in relations.get_active_names():
@@ -152,7 +152,7 @@ def update_missing_housenumbers(_conf: config.Config2, relations: areas.Relation
         relation.write_missing_housenumbers()
         for language in ["en", "hu"]:
             i18n.set_language(language)
-            cache.get_missing_housenumbers_html(relation)
+            cache.get_missing_housenumbers_html(conf, relation)
         i18n.set_language(orig_language)
         cache.get_missing_housenumbers_txt(relation)
     info("update_missing_housenumbers: end")

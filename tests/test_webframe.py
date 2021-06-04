@@ -32,8 +32,8 @@ class TestHandleStatic(test_config.TestCase):
     """Tests handle_static()."""
     def test_happy(self) -> None:
         """Tests the happy path: css case."""
-        prefix = config.Config.get_uri_prefix()
         conf = config.Config2("tests")
+        prefix = conf.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/osm.min.css")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "text/css")
@@ -42,8 +42,8 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_generated_javascript(self) -> None:
         """Tests the generated javascript case."""
-        prefix = config.Config.get_uri_prefix()
         conf = config.Config2("tests")
+        prefix = conf.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/bundle.js")
         self.assertEqual("// bundle.js\n", content.decode("utf-8"))
         self.assertEqual(content_type, "application/x-javascript")
@@ -52,8 +52,8 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_json(self) -> None:
         """Tests the json case."""
-        prefix = config.Config.get_uri_prefix()
         conf = config.Config2("tests")
+        prefix = conf.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/stats-empty.json")
         self.assertTrue(content.decode("utf-8").startswith("{"))
         self.assertEqual(content_type, "application/json")
@@ -80,8 +80,8 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_else(self) -> None:
         """Tests the case when the content type is not recognized."""
-        prefix = config.Config.get_uri_prefix()
         conf = config.Config2("tests")
+        prefix = conf.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/test.xyz")
         self.assertFalse(len(content))
         self.assertFalse(len(content_type))
@@ -136,7 +136,8 @@ class TestFillMissingHeaderItems(unittest.TestCase):
         relation_name = "gazdagret"
         items: List[yattag.doc.Doc] = []
         additional_housenumbers = True
-        webframe.fill_missing_header_items(streets, additional_housenumbers, relation_name, items)
+        conf = config.Config2("tests")
+        webframe.fill_missing_header_items(conf, streets, additional_housenumbers, relation_name, items)
         html = items[0].getvalue()
         self.assertIn("Missing house numbers", html)
         self.assertNotIn("Missing streets", html)

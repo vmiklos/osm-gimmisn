@@ -28,7 +28,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
         conf = mock_make_config()
         relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_html(relation)
+        cache.get_missing_housenumbers_html(conf, relation)
         self.assertTrue(cache.is_missing_housenumbers_html_cached(relation))
 
     def test_no_cache(self) -> None:
@@ -36,7 +36,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
         conf = mock_make_config()
         relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_html(relation)
+        cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
         orig_exists = os.path.exists
 
@@ -52,7 +52,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
         conf = mock_make_config()
         relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_html(relation)
+        cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
         osm_housenumbers_path = relation.get_files().get_osm_housenumbers_path()
         orig_getmtime = os.path.getmtime
@@ -69,7 +69,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
         conf = mock_make_config()
         relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_html(relation)
+        cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
         ref_housenumbers_path = relation.get_files().get_ref_housenumbers_path()
         orig_getmtime = os.path.getmtime
@@ -86,7 +86,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
         conf = mock_make_config()
         relations = areas.Relations(conf.get_workdir())
         relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_html(relation)
+        cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
         datadir = config.get_abspath("data")
         relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())

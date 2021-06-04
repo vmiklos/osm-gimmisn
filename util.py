@@ -876,4 +876,12 @@ def format_percent(english: str) -> str:
     return formatted.replace(".", str(decimal_point))
 
 
+def get_timestamp(path: str) -> float:
+    """Gets the timestamp of a file if it exists, 0 otherwise."""
+    try:
+        return os.path.getmtime(path)
+    except FileNotFoundError:
+        return 0
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
