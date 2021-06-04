@@ -341,20 +341,20 @@ def handle_404() -> yattag.doc.Doc:
     return doc
 
 
-def local_to_ui_tz(local_dt: datetime.datetime) -> datetime.datetime:
+def local_to_ui_tz(conf: config.Config2, local_dt: datetime.datetime) -> datetime.datetime:
     """Converts from local date-time to UI date-time, based on config."""
-    if config.Config.has_value("timezone"):
-        ui_tz = pytz.timezone(config.Config.get_timezone())
+    if conf.has_value("timezone"):
+        ui_tz = pytz.timezone(conf.get_timezone())
     else:
         ui_tz = pytz.timezone("Europe/Budapest")
 
     return local_dt.astimezone(ui_tz)
 
 
-def format_timestamp(timestamp: float) -> str:
+def format_timestamp(conf: config.Config2, timestamp: float) -> str:
     """Formats timestamp as UI date-time."""
     local_dt = datetime.datetime.fromtimestamp(timestamp)
-    ui_dt = local_to_ui_tz(local_dt)
+    ui_dt = local_to_ui_tz(conf, local_dt)
     fmt = '%Y-%m-%d %H:%M'
     return ui_dt.strftime(fmt)
 

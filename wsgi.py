@@ -43,7 +43,7 @@ if sys.platform.startswith("win"):
     import _locale
 
 
-def handle_streets(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_streets(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -77,11 +77,11 @@ def handle_streets(_conf: config.Config2, relations: areas.Relations, request_ur
             table = util.tsv_to_list(sock)
             doc.asis(util.html_table_from_list(table).getvalue())
 
-    doc.asis(webframe.get_footer(get_streets_last_modified(relation)).getvalue())
+    doc.asis(webframe.get_footer(get_streets_last_modified(conf, relation)).getvalue())
     return doc
 
 
-def handle_street_housenumbers(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_street_housenumbers(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -113,10 +113,9 @@ def handle_street_housenumbers(_conf: config.Config2, relations: areas.Relations
                 doc.text(_("No existing house numbers"))
         else:
             with relation.get_files().get_osm_housenumbers_csv_stream() as sock:
-                table = util.tsv_to_list(sock)
-                doc.asis(util.html_table_from_list(table).getvalue())
+                doc.asis(util.html_table_from_list(util.tsv_to_list(sock)).getvalue())
 
-    date = get_housenumbers_last_modified(relation)
+    date = get_housenumbers_last_modified(conf, relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
@@ -329,7 +328,7 @@ def handle_missing_housenumbers(conf: config.Config2, relations: areas.Relations
         with doc.tag("pre"):
             with relation.get_files().get_ref_housenumbers_stream("r") as sock:
                 doc.text(sock.read())
-        date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
+        date = get_last_modified(conf, relation.get_files().get_ref_housenumbers_path())
     elif action == "update-result":
         doc.asis(missing_housenumbers_update(conf, relations, relation_name).getvalue())
     else:
@@ -337,7 +336,7 @@ def handle_missing_housenumbers(conf: config.Config2, relations: areas.Relations
         doc.asis(missing_housenumbers_view_res(relations, request_uri).getvalue())
 
     if not date:
-        date = ref_housenumbers_last_modified(relations, relation_name)
+        date = ref_housenumbers_last_modified(conf, relations, relation_name)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
@@ -385,12 +384,12 @@ def handle_missing_streets(conf: config.Config2, relations: areas.Relations, req
         # assume view-result
         doc.asis(missing_streets_view_result(relations, request_uri).getvalue())
 
-    date = streets_diff_last_modified(relation)
+    date = streets_diff_last_modified(conf, relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
-def handle_additional_streets(_conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_additional_streets(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -408,13 +407,13 @@ def handle_additional_streets(_conf: config.Config2, relations: areas.Relations,
         # assume view-result
         doc.asis(wsgi_additional.additional_streets_view_result(relations, request_uri).getvalue())
 
-    date = streets_diff_last_modified(relation)
+    date = streets_diff_last_modified(conf, relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
 def handle_additional_housenumbers(
-    _conf: config.Config2,
+    conf: config.Config2,
     relations: areas.Relations,
     request_uri: str
 ) -> yattag.doc.Doc:
@@ -432,14 +431,14 @@ def handle_additional_housenumbers(
     # assume action is view-result
     doc.asis(wsgi_additional.additional_housenumbers_view_result(relations, request_uri).getvalue())
 
-    date = housenumbers_diff_last_modified(relation)
+    date = housenumbers_diff_last_modified(conf, relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
-def get_last_modified(path: str) -> str:
+def get_last_modified(conf: config.Config2, path: str) -> str:
     """Gets the update date string of a file."""
-    return webframe.format_timestamp(get_timestamp(path))
+    return webframe.format_timestamp(conf, get_timestamp(path))
 
 
 def get_timestamp(path: str) -> float:
@@ -450,39 +449,39 @@ def get_timestamp(path: str) -> float:
         return 0
 
 
-def ref_housenumbers_last_modified(relations: areas.Relations, name: str) -> str:
+def ref_housenumbers_last_modified(conf: config.Config2, relations: areas.Relations, name: str) -> str:
     """Gets the update date for missing house numbers."""
     relation = relations.get_relation(name)
     t_ref = get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_housenumbers = get_timestamp(relation.get_files().get_osm_housenumbers_path())
-    return webframe.format_timestamp(max(t_ref, t_housenumbers))
+    return webframe.format_timestamp(conf, max(t_ref, t_housenumbers))
 
 
-def streets_diff_last_modified(relation: areas.Relation) -> str:
+def streets_diff_last_modified(conf: config.Config2, relation: areas.Relation) -> str:
     """Gets the update date for missing/additional streets."""
     t_ref = get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = get_timestamp(relation.get_files().get_osm_streets_path())
-    return webframe.format_timestamp(max(t_ref, t_osm))
+    return webframe.format_timestamp(conf, max(t_ref, t_osm))
 
 
-def housenumbers_diff_last_modified(relation: areas.Relation) -> str:
+def housenumbers_diff_last_modified(conf: config.Config2, relation: areas.Relation) -> str:
     """Gets the update date for missing/additional housenumbers."""
     t_ref = get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_osm = get_timestamp(relation.get_files().get_osm_housenumbers_path())
-    return webframe.format_timestamp(max(t_ref, t_osm))
+    return webframe.format_timestamp(conf, max(t_ref, t_osm))
 
 
-def get_housenumbers_last_modified(relation: areas.Relation) -> str:
+def get_housenumbers_last_modified(conf: config.Config2, relation: areas.Relation) -> str:
     """Gets the update date of house numbers for a relation."""
-    return get_last_modified(relation.get_files().get_osm_housenumbers_path())
+    return get_last_modified(conf, relation.get_files().get_osm_housenumbers_path())
 
 
-def get_streets_last_modified(relation: areas.Relation) -> str:
+def get_streets_last_modified(conf: config.Config2, relation: areas.Relation) -> str:
     """Gets the update date of streets for a relation."""
-    return get_last_modified(relation.get_files().get_osm_streets_path())
+    return get_last_modified(conf, relation.get_files().get_osm_streets_path())
 
 
-def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
+def handle_main_housenr_percent(conf: config.Config2, relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
     """Handles the house number percent part of the main page."""
     prefix = config.Config.get_uri_prefix()
     url = prefix + "/missing-housenumbers/" + relation.get_name() + "/view-result"
@@ -492,7 +491,7 @@ def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.doc.Do
 
     doc = yattag.doc.Doc()
     if percent != "N/A":
-        date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
+        date = get_last_modified(conf, relation.get_files().get_housenumbers_percent_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(util.format_percent(percent))
@@ -504,7 +503,7 @@ def handle_main_housenr_percent(relation: areas.Relation) -> Tuple[yattag.doc.Do
     return doc, "0"
 
 
-def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
+def handle_main_street_percent(conf: config.Config2, relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
     """Handles the street percent part of the main page."""
     prefix = config.Config.get_uri_prefix()
     url = prefix + "/missing-streets/" + relation.get_name() + "/view-result"
@@ -514,7 +513,7 @@ def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc
 
     doc = yattag.doc.Doc()
     if percent != "N/A":
-        date = get_last_modified(relation.get_files().get_streets_percent_path())
+        date = get_last_modified(conf, relation.get_files().get_streets_percent_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(util.format_percent(percent))
@@ -526,7 +525,7 @@ def handle_main_street_percent(relation: areas.Relation) -> Tuple[yattag.doc.Doc
     return doc, "0"
 
 
-def handle_main_street_additional_count(relation: areas.Relation) -> yattag.doc.Doc:
+def handle_main_street_additional_count(conf: config.Config2, relation: areas.Relation) -> yattag.doc.Doc:
     """Handles the street additional count part of the main page."""
     prefix = config.Config.get_uri_prefix()
     url = prefix + "/additional-streets/" + relation.get_name() + "/view-result"
@@ -536,7 +535,7 @@ def handle_main_street_additional_count(relation: areas.Relation) -> yattag.doc.
 
     doc = yattag.doc.Doc()
     if additional_count:
-        date = get_last_modified(relation.get_files().get_streets_additional_count_path())
+        date = get_last_modified(conf, relation.get_files().get_streets_additional_count_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(_("{} streets").format(additional_count))
@@ -548,7 +547,7 @@ def handle_main_street_additional_count(relation: areas.Relation) -> yattag.doc.
     return doc
 
 
-def handle_main_housenr_additional_count(relation: areas.Relation) -> yattag.doc.Doc:
+def handle_main_housenr_additional_count(conf: config.Config2, relation: areas.Relation) -> yattag.doc.Doc:
     """Handles the housenumber additional count part of the main page."""
     if not relation.get_config().should_check_additional_housenumbers():
         return yattag.doc.Doc()
@@ -562,7 +561,7 @@ def handle_main_housenr_additional_count(relation: areas.Relation) -> yattag.doc
 
     doc = yattag.doc.Doc()
     if additional_count:
-        date = get_last_modified(relation.get_files().get_housenumbers_additional_count_path())
+        date = get_last_modified(conf, relation.get_files().get_housenumbers_additional_count_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(_("{} house numbers").format(additional_count))
@@ -713,6 +712,7 @@ def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relat
 
 
 def handle_main_relation(
+        conf: config.Config2,
         relations: areas.Relations,
         filter_for: Callable[[bool, areas.Relation], bool],
         relation_name: str
@@ -729,26 +729,26 @@ def handle_main_relation(
     row.append(util.html_escape(relation_name))
 
     if streets != "only":
-        cell, percent = handle_main_housenr_percent(relation)
+        cell, percent = handle_main_housenr_percent(conf, relation)
         doc = yattag.doc.Doc()
         doc.asis(cell.getvalue())
         row.append(doc)
         complete &= float(percent) >= 100.0
 
-        row.append(handle_main_housenr_additional_count(relation))
+        row.append(handle_main_housenr_additional_count(conf, relation))
     else:
         row.append(yattag.doc.Doc())
         row.append(yattag.doc.Doc())
 
     if streets != "no":
-        cell, percent = handle_main_street_percent(relation)
+        cell, percent = handle_main_street_percent(conf, relation)
         row.append(cell)
         complete &= float(percent) >= 100.0
     else:
         row.append(yattag.doc.Doc())
 
     if streets != "no":
-        row.append(handle_main_street_additional_count(relation))
+        row.append(handle_main_street_additional_count(conf, relation))
     else:
         row.append(yattag.doc.Doc())
 
@@ -763,7 +763,7 @@ def handle_main_relation(
     return row
 
 
-def handle_main(request_uri: str, relations: areas.Relations) -> yattag.doc.Doc:
+def handle_main(request_uri: str, conf: config.Config2, relations: areas.Relations) -> yattag.doc.Doc:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
@@ -781,7 +781,7 @@ def handle_main(request_uri: str, relations: areas.Relations) -> yattag.doc.Doc:
                   util.html_escape(_("Additional streets")),
                   util.html_escape(_("Area boundary"))])
     for relation_name in relations.get_names():
-        row = handle_main_relation(relations, filter_for, relation_name)
+        row = handle_main_relation(conf, relations, filter_for, relation_name)
         if row:
             table.append(row)
     doc.asis(util.html_table_from_list(table).getvalue())
@@ -958,7 +958,7 @@ def our_application(
             elif request_uri.startswith(config.Config.get_uri_prefix() + "/webhooks/github"):
                 doc.asis(handle_github_webhook(environ).getvalue())
             else:
-                doc.asis(handle_main(request_uri, relations).getvalue())
+                doc.asis(handle_main(request_uri, conf, relations).getvalue())
 
     return webframe.send_response(environ,
                                   start_response,

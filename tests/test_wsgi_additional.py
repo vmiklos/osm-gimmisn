@@ -93,7 +93,7 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
             conf = mock_make_config()
             relations = areas.Relations(conf.get_workdir())
             relation = relations.get_relation("budafok")
-            actual = wsgi.handle_main_housenr_additional_count(relation)
+            actual = wsgi.handle_main_housenr_additional_count(conf, relation)
             self.assertIn("42 house numbers", actual.getvalue())
 
     def test_no_count_file(self) -> None:
@@ -112,7 +112,7 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
                     return False
                 return real_exists(path)
             with unittest.mock.patch('os.path.exists', mock_exists):
-                actual = wsgi.handle_main_housenr_additional_count(relation)
+                actual = wsgi.handle_main_housenr_additional_count(conf, relation)
             self.assertNotIn("42 housenumbers", actual.getvalue())
 
 

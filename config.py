@@ -48,20 +48,6 @@ class Config:
             Config.__config.remove_option("wsgi", key)
 
     @staticmethod
-    def has_value(key: str) -> bool:
-        """Determines if key is set in the config."""
-        Config.__get()
-        assert Config.__config is not None
-        return Config.__config.has_option("wsgi", key)
-
-    @staticmethod
-    def get_timezone() -> str:
-        """Gets the timezone."""
-        Config.__get()
-        assert Config.__config is not None
-        return Config.__config.get("wsgi", "timezone").strip()
-
-    @staticmethod
     def get_uri_prefix() -> str:
         """Gets the global URI prefix."""
         Config.__get()
@@ -142,6 +128,10 @@ class Config2:
     def get_locale(self) -> str:
         """Gets the locale."""
         return self.__config.get("wsgi", "locale").strip()
+
+    def get_timezone(self) -> str:
+        """Gets the timezone."""
+        return self.__config.get("wsgi", "timezone").strip()
 
 
 def make_config() -> Config2:
