@@ -10,6 +10,8 @@ import os
 import unittest
 import unittest.mock
 
+import config
+
 
 def mock_get_abspath(path: str) -> str:
     """Mock get_abspath() that uses the test directory."""
@@ -28,6 +30,15 @@ class TestCase(unittest.TestCase):
     def tearDown(self) -> None:
         """Tears down the test config."""
         self.get_abspath_patcher.stop()
+
+
+class TestMakeConfig(unittest.TestCase):
+    """Tests make_config()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        conf = config.make_config()
+        abs_path = conf.get_abspath("file")
+        self.assertEqual(abs_path, os.path.join(os.getcwd(), "file"))
 
 
 if __name__ == '__main__':

@@ -351,9 +351,9 @@ def our_main(conf: config.Config2, relations: areas.Relations, mode: str, update
 def main() -> None:
     """Commandline interface to this module."""
 
-    util.set_locale()
-
     conf = config.make_config()
+    util.set_locale(conf)
+
     workdir = conf.get_workdir()
     relations = areas.Relations(workdir)
     logpath = os.path.join(workdir, "cron.log")
