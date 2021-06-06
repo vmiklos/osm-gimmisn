@@ -47,13 +47,6 @@ class Config:
             Config.__config.remove_option("wsgi", key)
 
     @staticmethod
-    def get_tcp_port() -> int:
-        """Gets the TCP port to be used."""
-        Config.__get()
-        assert Config.__config is not None
-        return int(Config.__config.get("wsgi", "tcp_port", fallback="8000").strip())
-
-    @staticmethod
     def get_overpass_uri() -> str:
         """Gets the URI of the overpass instance to be used."""
         Config.__get()
@@ -127,6 +120,10 @@ class Config2:
     def get_uri_prefix(self) -> str:
         """Gets the global URI prefix."""
         return self.__config.get("wsgi", "uri_prefix").strip()
+
+    def get_tcp_port(self) -> int:
+        """Gets the TCP port to be used."""
+        return int(self.__config.get("wsgi", "tcp_port", fallback="8000").strip())
 
 
 def make_config() -> Config2:

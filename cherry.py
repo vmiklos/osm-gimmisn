@@ -9,7 +9,7 @@
 
 import cherrypy  # type: ignore
 
-from wsgi import application
+import wsgi
 import config
 
 
@@ -27,13 +27,14 @@ def main() -> None:
     While wsgiref is part of stock Python and is ideal for local development, CherryPy supports
     automatic reloading, which is super-handy in production.
     """
-    cherrypy.tree.graft(application, "/")
+    cherrypy.tree.graft(wsgi.application, "/")
     cherrypy.server.unsubscribe()
     # This is documented at <https://docs.cherrypy.org/en/latest/advanced.html>, so:
     # pylint: disable=protected-access
     server = cherrypy._cpserver.Server()
     server.socket_host = "127.0.0.1"
-    server.socket_port = config.Config.get_tcp_port()
+    conf = config.Config2("")
+    server.socket_port = conf.get_tcp_port()
     server.thread_pool = 8
     server.subscribe()
     cherrypy.engine.start()

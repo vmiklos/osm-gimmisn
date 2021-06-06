@@ -986,7 +986,7 @@ def main() -> None:
         _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 
     conf = config.make_config()
-    port = config.Config.get_tcp_port()
+    port = conf.get_tcp_port()
     prefix = conf.get_uri_prefix()
     httpd = wsgiref.simple_server.make_server('', port, application)
     print("Open <http://localhost:" + str(port) + prefix + "/> in your browser.")
