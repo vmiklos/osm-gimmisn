@@ -985,7 +985,6 @@ def main() -> None:
         # pylint: disable=protected-access
         _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 
-    os.chdir(os.path.dirname(__file__))
     conf = config.make_config()
     port = config.Config.get_tcp_port()
     prefix = conf.get_uri_prefix()
