@@ -13,7 +13,6 @@ from typing import List
 from typing import Optional
 import configparser
 import os
-import subprocess
 
 
 class Config:
@@ -80,8 +79,7 @@ def get_abspath(path: str) -> str:
 class Config2:
     """Config replacement without static state."""
     def __init__(self, prefix: str) -> None:
-        with subprocess.Popen(['git', 'rev-parse', '--show-toplevel'], stdout=subprocess.PIPE) as process:
-            root_dir = process.communicate()[0].rstrip().decode('utf-8')
+        root_dir = os.path.abspath(os.path.dirname(__file__))
         self.root = os.path.join(root_dir, prefix)
         self.__config = configparser.ConfigParser()
         config_path = self.get_abspath("wsgi.ini")
