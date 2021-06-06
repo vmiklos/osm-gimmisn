@@ -375,6 +375,9 @@ filters:
   Szamóca utca:
     # 1-11, 2-16
     invalid: ['17']
+  Szamóca köz:
+    # 1-1,  8-8
+    invalid: ['2', '3']
 street-filters:
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
   - Orgona ösvény
