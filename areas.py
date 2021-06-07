@@ -432,11 +432,14 @@ class RelationBase:
     def get_ref_housenumbers(self) -> Dict[str, List[util.HouseNumber]]:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         ret: Dict[str, List[util.HouseNumber]] = {}
-        lines: List[str] = []
+        lines: Dict[str, List[str]] = {}
         with self.get_files().get_ref_housenumbers_stream("r") as sock:
             for line in sock.readlines():
                 line = line.strip()
-                lines.append(line)
+                key, _, value = line.partition("\t")
+                if key not in lines:
+                    lines[key] = []
+                lines[key].append(value)
         street_ranges = self.get_street_ranges()
         streets_invalid = self.get_street_invalid()
         for osm_street in self.get_osm_streets():
@@ -452,8 +455,8 @@ class RelationBase:
                 # is the value of housenumber-letters.
                 street_invalid = self.__normalize_invalids(osm_street_name, street_invalid)
 
-            for line in lines:
-                if line.startswith(prefix):
+            if ref_street_name in lines.keys():
+                for line in lines[ref_street_name]:
                     house_number = line.replace(prefix, '')
                     normalized = normalize(self, house_number, osm_street_name, street_ranges)
                     normalized = \
