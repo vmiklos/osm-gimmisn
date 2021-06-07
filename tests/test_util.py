@@ -404,18 +404,6 @@ class TestInBoth(unittest.TestCase):
         self.assertEqual(util.get_in_both(["1", "2", "3"], ["2", "3", "4"]), ["2", "3"])
 
 
-class TestGetValue(unittest.TestCase):
-    """Tests get_value()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-
-        config.Config.set_value("workdir", "/path/to/workdir")
-        actual = config.Config.get_value("workdir")
-        expected = "/path/to/workdir"
-        self.assertEqual(actual, expected)
-        config.Config.set_value("workdir", "")
-
-
 class TestGetContent(unittest.TestCase):
     """Tests get_content()."""
     def test_happy(self) -> None:
