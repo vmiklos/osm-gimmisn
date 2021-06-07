@@ -61,7 +61,7 @@ def handle_streets(conf: config.Config2, relations: areas.Relations, request_uri
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
-            relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
+            relation.get_files().write_osm_streets(overpass_query.overpass_query(conf, query))
             streets = relation.get_config().should_check_missing_streets()
             if streets != "only":
                 doc.text(_("Update successful: "))
@@ -70,7 +70,7 @@ def handle_streets(conf: config.Config2, relations: areas.Relations, request_uri
             else:
                 doc.text(_("Update successful."))
         except urllib.error.HTTPError as http_error:
-            doc.asis(util.handle_overpass_error(http_error).getvalue())
+            doc.asis(util.handle_overpass_error(conf, http_error).getvalue())
     else:
         # assume view-result
         with relation.get_files().get_osm_streets_csv_stream() as sock:
@@ -100,12 +100,12 @@ def handle_street_housenumbers(conf: config.Config2, relations: areas.Relations,
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:
-            relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
+            relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(conf, query))
             doc.text(_("Update successful: "))
             link = prefix + "/missing-housenumbers/" + relation_name + "/view-result"
             doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
         except urllib.error.HTTPError as http_error:
-            doc.asis(util.handle_overpass_error(http_error).getvalue())
+            doc.asis(util.handle_overpass_error(conf, http_error).getvalue())
     else:
         # assume view-result
         if not os.path.exists(relation.get_files().get_osm_housenumbers_path()):

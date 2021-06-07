@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def streets_update_result_json(relations: areas.Relations, request_uri: str) -> str:
+def streets_update_result_json(conf: config.Config2, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -34,14 +34,14 @@ def streets_update_result_json(relations: areas.Relations, request_uri: str) -> 
     query = relation.get_osm_streets_query()
     ret: Dict[str, str] = {}
     try:
-        relation.get_files().write_osm_streets(overpass_query.overpass_query(query))
+        relation.get_files().write_osm_streets(overpass_query.overpass_query(conf, query))
         ret["error"] = ""
     except urllib.error.HTTPError as http_error:
         ret["error"] = str(http_error)
     return json.dumps(ret)
 
 
-def street_housenumbers_update_result_json(relations: areas.Relations, request_uri: str) -> str:
+def street_housenumbers_update_result_json(conf: config.Config2, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -49,7 +49,7 @@ def street_housenumbers_update_result_json(relations: areas.Relations, request_u
     query = relation.get_osm_housenumbers_query()
     ret: Dict[str, str] = {}
     try:
-        relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(query))
+        relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(conf, query))
         ret["error"] = ""
     except urllib.error.HTTPError as http_error:
         ret["error"] = str(http_error)
@@ -92,9 +92,9 @@ def our_application_json(
     headers: List[Tuple[str, str]] = []
     prefix = conf.get_uri_prefix()
     if request_uri.startswith(prefix + "/streets/"):
-        output = streets_update_result_json(relations, request_uri)
+        output = streets_update_result_json(conf, relations, request_uri)
     elif request_uri.startswith(prefix + "/street-housenumbers/"):
-        output = street_housenumbers_update_result_json(relations, request_uri)
+        output = street_housenumbers_update_result_json(conf, relations, request_uri)
     elif request_uri.startswith(prefix + "/missing-housenumbers/"):
         output = missing_housenumbers_update_result_json(conf, relations, request_uri)
     else:
