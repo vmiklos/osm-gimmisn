@@ -10,48 +10,8 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 """
 
 from typing import List
-from typing import Optional
 import configparser
 import os
-
-
-class Config:
-    """Exposes config key values from wsgi.ini."""
-    __config: Optional[configparser.ConfigParser] = None
-
-    @staticmethod
-    def __get() -> configparser.ConfigParser:
-        """Gives direct access to the read config key values."""
-        if Config.__config is None:
-            Config.__config = configparser.ConfigParser()
-            config_path = get_abspath("wsgi.ini")
-            Config.__config.read(config_path)
-
-        return Config.__config
-
-    @staticmethod
-    def get_value(key: str) -> str:
-        """Gets the value of key."""
-        Config.__get()
-        assert Config.__config is not None
-        return Config.__config.get("wsgi", key)
-
-    @staticmethod
-    def set_value(key: str, value: str) -> None:
-        """Sets key to value in the in-memory config."""
-        Config.__get()
-        assert Config.__config is not None
-        if value:
-            Config.__config.read_dict({"wsgi": {key: value}})
-        else:
-            Config.__config.remove_option("wsgi", key)
-
-    @staticmethod
-    def get_cron_update_inactive() -> bool:
-        """Should cron.py update inactive relations?"""
-        Config.__get()
-        assert Config.__config is not None
-        return Config.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
 
 
 def get_abspath(path: str) -> str:
@@ -121,6 +81,10 @@ class Config2:
     def get_overpass_uri(self) -> str:
         """Gets the URI of the overpass instance to be used."""
         return self.__config.get("wsgi", "overpass_uri", fallback="https://overpass-api.de").strip()
+
+    def get_cron_update_inactive(self) -> bool:
+        """Should cron.py update inactive relations?"""
+        return self.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
 
 
 def make_config() -> Config2:
