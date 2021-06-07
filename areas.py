@@ -313,6 +313,7 @@ class RelationBase:
         if not self.__osm_housenumbers:
             # This function gets called for each & every street, make sure we read the file only
             # once.
+            street_ranges = self.get_street_ranges()
             house_numbers: Dict[str, List[util.HouseNumber]] = {}
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
                 first = True
@@ -331,7 +332,7 @@ class RelationBase:
                     for house_number in row[columns["addr:housenumber"]].split(';'):
                         if street not in house_numbers:
                             house_numbers[street] = []
-                        house_numbers[street] += normalize(self, house_number, street, self.get_street_ranges())
+                        house_numbers[street] += normalize(self, house_number, street, street_ranges)
             for key, value in house_numbers.items():
                 self.__osm_housenumbers[key] = util.sort_numerically(set(value))
         if street_name not in self.__osm_housenumbers:
