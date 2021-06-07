@@ -39,23 +39,24 @@ class TestOverpassSleep(unittest.TestCase):
     """Tests overpass_sleep()."""
     def test_no_sleep(self) -> None:
         """Tests the case when no sleep is needed."""
-        def mock_overpass_query_need_sleep() -> int:
+        def mock_overpass_query_need_sleep(_conf: config.Config2) -> int:
             return 0
         mock_sleep_called = False
 
         def mock_sleep(_seconds: float) -> None:
             nonlocal mock_sleep_called
             mock_sleep_called = True
+        conf = mock_make_config()
         with unittest.mock.patch('overpass_query.overpass_query_need_sleep', mock_overpass_query_need_sleep):
             with unittest.mock.patch('time.sleep', mock_sleep):
-                cron.overpass_sleep()
+                cron.overpass_sleep(conf)
                 self.assertFalse(mock_sleep_called)
 
     def test_need_sleep(self) -> None:
         """Tests the case when sleep is needed."""
         sleep_for = 42
 
-        def mock_overpass_query_need_sleep() -> int:
+        def mock_overpass_query_need_sleep(_conf: config.Config2) -> int:
             nonlocal sleep_for
             if sleep_for > 0:
                 sleep_for = 0
@@ -66,9 +67,10 @@ class TestOverpassSleep(unittest.TestCase):
         def mock_sleep(seconds: float) -> None:
             nonlocal captured_seconds
             captured_seconds = seconds
+        conf = mock_make_config()
         with unittest.mock.patch('overpass_query.overpass_query_need_sleep', mock_overpass_query_need_sleep):
             with unittest.mock.patch('time.sleep', mock_sleep):
-                cron.overpass_sleep()
+                cron.overpass_sleep(conf)
                 self.assertEqual(captured_seconds, 42.0)
 
 
@@ -196,7 +198,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
         """Tests the happy path."""
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep() -> None:
+        def mock_overpass_sleep(_conf: config.Config2) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -239,7 +241,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
         """Tests the case when we keep getting HTTP errors."""
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep() -> None:
+        def mock_overpass_sleep(_conf: config.Config2) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -265,7 +267,7 @@ class TestUpdateOsmStreets(test_config.TestCase):
         """Tests the happy path."""
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep() -> None:
+        def mock_overpass_sleep(_conf: config.Config2) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -299,7 +301,7 @@ class TestUpdateOsmStreets(test_config.TestCase):
         """Tests the case when we keep getting HTTP errors."""
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep() -> None:
+        def mock_overpass_sleep(_conf: config.Config2) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -345,7 +347,7 @@ class TestUpdateStats(test_config.TestCase):
         conf = mock_make_config()
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep() -> None:
+        def mock_overpass_sleep(_conf: config.Config2) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -386,7 +388,7 @@ class TestUpdateStats(test_config.TestCase):
         conf = mock_make_config()
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep() -> None:
+        def mock_overpass_sleep(_conf: config.Config2) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 

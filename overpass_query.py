@@ -16,9 +16,9 @@ import sys
 import config
 
 
-def overpass_query(query: str) -> str:
+def overpass_query(conf: config.Config2, query: str) -> str:
     """Posts the query string to the overpass API and returns the result string."""
-    url = config.Config.get_overpass_uri() + "/api/interpreter"
+    url = conf.get_overpass_uri() + "/api/interpreter"
 
     with urllib.request.urlopen(url, bytes(query, "utf-8")) as stream:
         buf = stream.read()
@@ -26,10 +26,10 @@ def overpass_query(query: str) -> str:
     return cast(str, buf.decode('utf-8'))
 
 
-def overpass_query_need_sleep() -> int:
+def overpass_query_need_sleep(conf: config.Config2) -> int:
     """Checks if we need to sleep before executing an overpass query."""
     try:
-        with urllib.request.urlopen(config.Config.get_overpass_uri() + "/api/status") as sock:
+        with urllib.request.urlopen(conf.get_overpass_uri() + "/api/status") as sock:
             buf = sock.read()
     except urllib.error.HTTPError:
         return 0
@@ -52,11 +52,12 @@ def overpass_query_need_sleep() -> int:
 
 def main() -> None:
     """Commandline interface to this module."""
+    conf = config.make_config()
     with open(sys.argv[1]) as stream:
         query = stream.read()
 
     try:
-        buf = overpass_query(query)
+        buf = overpass_query(conf, query)
 
         sys.stdout.write(buf)
     except urllib.error.HTTPError as http_error:

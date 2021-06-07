@@ -47,13 +47,6 @@ class Config:
             Config.__config.remove_option("wsgi", key)
 
     @staticmethod
-    def get_overpass_uri() -> str:
-        """Gets the URI of the overpass instance to be used."""
-        Config.__get()
-        assert Config.__config is not None
-        return Config.__config.get("wsgi", "overpass_uri", fallback="https://overpass-api.de").strip()
-
-    @staticmethod
     def get_cron_update_inactive() -> bool:
         """Should cron.py update inactive relations?"""
         Config.__get()
@@ -124,6 +117,10 @@ class Config2:
     def get_tcp_port(self) -> int:
         """Gets the TCP port to be used."""
         return int(self.__config.get("wsgi", "tcp_port", fallback="8000").strip())
+
+    def get_overpass_uri(self) -> str:
+        """Gets the URI of the overpass instance to be used."""
+        return self.__config.get("wsgi", "overpass_uri", fallback="https://overpass-api.de").strip()
 
 
 def make_config() -> Config2:
