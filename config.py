@@ -22,7 +22,7 @@ def get_abspath(path: str) -> str:
     return os.path.join(os.path.dirname(__file__), path)
 
 
-class Config2:
+class Config:
     """Config replacement without static state."""
     def __init__(self, prefix: str) -> None:
         root_dir = os.path.abspath(os.path.dirname(__file__))
@@ -87,9 +87,9 @@ class Config2:
         return self.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
 
 
-def make_config() -> Config2:
-    """Factory for Config2."""
-    return Config2("")
+def make_config() -> Config:
+    """Factory for Config."""
+    return Config("")
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

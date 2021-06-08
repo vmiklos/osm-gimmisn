@@ -458,7 +458,7 @@ def html_escape(text: str) -> yattag.doc.Doc:
     return doc
 
 
-def handle_overpass_error(conf: config.Config2, http_error: urllib.error.HTTPError) -> yattag.doc.Doc:
+def handle_overpass_error(conf: config.Config, http_error: urllib.error.HTTPError) -> yattag.doc.Doc:
     """Handles a HTTP error from Overpass."""
     doc = yattag.doc.Doc()
     with doc.tag("div", id="overpass-error"):
@@ -816,7 +816,7 @@ def split_house_number_by_separator(
     return ret_numbers, ret_numbers_nofilter
 
 
-def set_locale(conf: config.Config2) -> None:
+def set_locale(conf: config.Config) -> None:
     """Sets the locale of this Python process automatically based on config, with a UTF-8
     default."""
     if conf.has_value("locale"):
@@ -847,7 +847,7 @@ def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
     return "_Empty"
 
 
-def get_valid_settlements(conf: config.Config2) -> Set[str]:
+def get_valid_settlements(conf: config.Config) -> Set[str]:
     """Builds a set of valid settlement names."""
     settlements: Set[str] = set()
 

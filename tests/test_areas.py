@@ -23,9 +23,9 @@ import ranges
 import util
 
 
-def mock_make_config() -> config.Config2:
+def mock_make_config() -> config.Config:
     """Creates a Config instance that has its root as /tests."""
-    return config.Config2("tests")
+    return config.Config("tests")
 
 
 class TestRelationGetOsmStreets(test_config.TestCase):

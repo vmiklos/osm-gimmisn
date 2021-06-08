@@ -33,7 +33,7 @@ if TYPE_CHECKING:
 class TestWsgiJson(test_config.TestCase):
     """Base class for wsgi_json tests."""
 
-    def get_json_for_path(self, conf: config.Config2, path: str) -> Dict[str, Any]:
+    def get_json_for_path(self, conf: config.Config, path: str) -> Dict[str, Any]:
         """Generates an json dict for a given wsgi path."""
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             # Make sure the built-in exception catcher is not kicking in.
@@ -57,8 +57,8 @@ class TestJsonStreets(TestWsgiJson):
     """Tests streets_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         conf = mock_make_config()
         with unittest.mock.patch("config.make_config", mock_make_config):
             result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
@@ -74,8 +74,8 @@ class TestJsonStreets(TestWsgiJson):
 
     def test_update_result_json_error(self) -> None:
         """Tests if the update-result json output on error is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         conf = mock_make_config()
         with unittest.mock.patch("config.make_config", mock_make_config):
             def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
@@ -89,8 +89,8 @@ class TestJsonStreetHousenumbers(TestWsgiJson):
     """Tests street_housenumbers_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result output is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         conf = mock_make_config()
         result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
         result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
@@ -115,8 +115,8 @@ class TestJsonStreetHousenumbers(TestWsgiJson):
 
     def test_update_result_error_json(self) -> None:
         """Tests if the update-result output on error is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         conf = mock_make_config()
         with unittest.mock.patch("config.make_config", mock_make_config):
             def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
@@ -130,8 +130,8 @@ class TestJsonMissingHousenumbers(TestWsgiJson):
     """Tests missing_housenumbers_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         conf = mock_make_config()
         with unittest.mock.patch("config.make_config", mock_make_config):
             root = self.get_json_for_path(conf, "/missing-housenumbers/gazdagret/update-result.json")
@@ -142,8 +142,8 @@ class TestJsonMissingStreets(TestWsgiJson):
     """Tests missing_streets_update_result_json()."""
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         conf = mock_make_config()
         with unittest.mock.patch("config.make_config", mock_make_config):
             root = self.get_json_for_path(conf, "/missing-streets/gazdagret/update-result.json")

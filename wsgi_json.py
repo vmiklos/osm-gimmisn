@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def streets_update_result_json(conf: config.Config2, relations: areas.Relations, request_uri: str) -> str:
+def streets_update_result_json(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -41,7 +41,7 @@ def streets_update_result_json(conf: config.Config2, relations: areas.Relations,
     return json.dumps(ret)
 
 
-def street_housenumbers_update_result_json(conf: config.Config2, relations: areas.Relations, request_uri: str) -> str:
+def street_housenumbers_update_result_json(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -56,7 +56,7 @@ def street_housenumbers_update_result_json(conf: config.Config2, relations: area
     return json.dumps(ret)
 
 
-def missing_housenumbers_update_result_json(conf: config.Config2, relations: areas.Relations, request_uri: str) -> str:
+def missing_housenumbers_update_result_json(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -68,7 +68,7 @@ def missing_housenumbers_update_result_json(conf: config.Config2, relations: are
     return json.dumps(ret)
 
 
-def missing_streets_update_result_json(conf: config.Config2, relations: areas.Relations, request_uri: str) -> str:
+def missing_streets_update_result_json(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -83,7 +83,7 @@ def missing_streets_update_result_json(conf: config.Config2, relations: areas.Re
 def our_application_json(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
-        conf: config.Config2,
+        conf: config.Config,
         relations: areas.Relations,
         request_uri: str
 ) -> Iterable[bytes]:

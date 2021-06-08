@@ -56,7 +56,7 @@ def get_footer(last_updated: str = "") -> yattag.doc.Doc:
     return doc
 
 
-def fill_header_function(conf: config.Config2, function: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
+def fill_header_function(conf: config.Config, function: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
     """Fills items with function-specific links in the header. Returns a title."""
     prefix = conf.get_uri_prefix()
     if function == "missing-housenumbers":
@@ -110,7 +110,7 @@ def fill_header_function(conf: config.Config2, function: str, relation_name: str
 
 
 def fill_missing_header_items(
-    conf: config.Config2,
+    conf: config.Config,
     streets: str,
     additional_housenumbers: bool,
     relation_name: str,
@@ -141,7 +141,7 @@ def fill_missing_header_items(
 
 
 def fill_existing_header_items(
-    conf: config.Config2,
+    conf: config.Config,
     streets: str,
     relation_name: str,
     items: List[yattag.doc.Doc]
@@ -161,7 +161,7 @@ def fill_existing_header_items(
 
 
 def get_toolbar(
-        conf: config.Config2,
+        conf: config.Config,
         relations: Optional[areas.Relations] = None,
         function: str = "",
         relation_name: str = "",
@@ -238,7 +238,7 @@ def get_toolbar(
     return doc
 
 
-def handle_static(conf: config.Config2, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
+def handle_static(conf: config.Config, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
     tokens = request_uri.split("/")
     path = tokens[-1]
@@ -348,7 +348,7 @@ def handle_404() -> yattag.doc.Doc:
     return doc
 
 
-def local_to_ui_tz(conf: config.Config2, local_dt: datetime.datetime) -> datetime.datetime:
+def local_to_ui_tz(conf: config.Config, local_dt: datetime.datetime) -> datetime.datetime:
     """Converts from local date-time to UI date-time, based on config."""
     if conf.has_value("timezone"):
         ui_tz = pytz.timezone(conf.get_timezone())
@@ -358,7 +358,7 @@ def local_to_ui_tz(conf: config.Config2, local_dt: datetime.datetime) -> datetim
     return local_dt.astimezone(ui_tz)
 
 
-def format_timestamp(conf: config.Config2, timestamp: float) -> str:
+def format_timestamp(conf: config.Config, timestamp: float) -> str:
     """Formats timestamp as UI date-time."""
     local_dt = datetime.datetime.fromtimestamp(timestamp)
     ui_dt = local_to_ui_tz(conf, local_dt)
@@ -366,7 +366,7 @@ def format_timestamp(conf: config.Config2, timestamp: float) -> str:
     return ui_dt.strftime(fmt)
 
 
-def handle_stats_cityprogress(conf: config.Config2, relations: areas.Relations) -> yattag.doc.Doc:
+def handle_stats_cityprogress(conf: config.Config, relations: areas.Relations) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress."""
     doc = yattag.doc.Doc()
     doc.asis(get_toolbar(conf, relations).getvalue())
@@ -421,7 +421,7 @@ Only cities with house numbers in OSM are considered."""))
     return doc
 
 
-def handle_invalid_refstreets(conf: config.Config2, relations: areas.Relations) -> yattag.doc.Doc:
+def handle_invalid_refstreets(conf: config.Config, relations: areas.Relations) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
     doc = yattag.doc.Doc()
     doc.asis(get_toolbar(conf, relations).getvalue())
@@ -446,7 +446,7 @@ def handle_invalid_refstreets(conf: config.Config2, relations: areas.Relations) 
     return doc
 
 
-def handle_stats(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_stats(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     if request_uri.endswith("/cityprogress"):
         return handle_stats_cityprogress(conf, relations)
@@ -545,7 +545,7 @@ more meaningful than a lot of useless work."""))
     return doc
 
 
-def get_request_uri(environ: Dict[str, Any], conf: config.Config2, relations: areas.Relations) -> str:
+def get_request_uri(environ: Dict[str, Any], conf: config.Config, relations: areas.Relations) -> str:
     """Finds out the request URI."""
     request_uri = cast(str, environ.get("PATH_INFO"))
 
@@ -574,7 +574,7 @@ def get_request_uri(environ: Dict[str, Any], conf: config.Config2, relations: ar
     return request_uri
 
 
-def check_existing_relation(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def check_existing_relation(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Prevents serving outdated data from a relation that has been renamed."""
     doc = yattag.doc.Doc()
     prefix = conf.get_uri_prefix()

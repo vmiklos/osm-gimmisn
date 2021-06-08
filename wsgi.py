@@ -43,7 +43,7 @@ if sys.platform.startswith("win"):
     import _locale
 
 
-def handle_streets(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_streets(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -81,7 +81,7 @@ def handle_streets(conf: config.Config2, relations: areas.Relations, request_uri
     return doc
 
 
-def handle_street_housenumbers(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_street_housenumbers(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -139,7 +139,7 @@ def missing_housenumbers_view_turbo(relations: areas.Relations, request_uri: str
     return doc
 
 
-def missing_housenumbers_view_res(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def missing_housenumbers_view_res(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -158,7 +158,7 @@ def missing_housenumbers_view_res(conf: config.Config2, relations: areas.Relatio
     return doc
 
 
-def missing_streets_view_result(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def missing_streets_view_result(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -286,7 +286,7 @@ def missing_streets_view_txt(relations: areas.Relations, request_uri: str, chkl:
     return output, relation_name
 
 
-def missing_housenumbers_update(conf: config.Config2, relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
+def missing_housenumbers_update(conf: config.Config, relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result."""
     references = conf.get_reference_housenumber_paths()
     relation = relations.get_relation(relation_name)
@@ -299,7 +299,7 @@ def missing_housenumbers_update(conf: config.Config2, relations: areas.Relations
     return doc
 
 
-def missing_streets_update(conf: config.Config2, relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
+def missing_streets_update(conf: config.Config, relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
     reference = conf.get_reference_street_path()
     relation = relations.get_relation(relation_name)
@@ -310,7 +310,7 @@ def missing_streets_update(conf: config.Config2, relations: areas.Relations, rel
     return doc
 
 
-def handle_missing_housenumbers(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_missing_housenumbers(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -360,7 +360,7 @@ def missing_streets_view_turbo(relations: areas.Relations, request_uri: str) -> 
     return doc
 
 
-def handle_missing_streets(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_missing_streets(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -389,7 +389,7 @@ def handle_missing_streets(conf: config.Config2, relations: areas.Relations, req
     return doc
 
 
-def handle_additional_streets(conf: config.Config2, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_additional_streets(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -413,7 +413,7 @@ def handle_additional_streets(conf: config.Config2, relations: areas.Relations, 
 
 
 def handle_additional_housenumbers(
-    conf: config.Config2,
+    conf: config.Config,
     relations: areas.Relations,
     request_uri: str
 ) -> yattag.doc.Doc:
@@ -436,12 +436,12 @@ def handle_additional_housenumbers(
     return doc
 
 
-def get_last_modified(conf: config.Config2, path: str) -> str:
+def get_last_modified(conf: config.Config, path: str) -> str:
     """Gets the update date string of a file."""
     return webframe.format_timestamp(conf, util.get_timestamp(path))
 
 
-def ref_housenumbers_last_modified(conf: config.Config2, relations: areas.Relations, name: str) -> str:
+def ref_housenumbers_last_modified(conf: config.Config, relations: areas.Relations, name: str) -> str:
     """Gets the update date for missing house numbers."""
     relation = relations.get_relation(name)
     t_ref = util.get_timestamp(relation.get_files().get_ref_housenumbers_path())
@@ -449,31 +449,31 @@ def ref_housenumbers_last_modified(conf: config.Config2, relations: areas.Relati
     return webframe.format_timestamp(conf, max(t_ref, t_housenumbers))
 
 
-def streets_diff_last_modified(conf: config.Config2, relation: areas.Relation) -> str:
+def streets_diff_last_modified(conf: config.Config, relation: areas.Relation) -> str:
     """Gets the update date for missing/additional streets."""
     t_ref = util.get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = util.get_timestamp(relation.get_files().get_osm_streets_path())
     return webframe.format_timestamp(conf, max(t_ref, t_osm))
 
 
-def housenumbers_diff_last_modified(conf: config.Config2, relation: areas.Relation) -> str:
+def housenumbers_diff_last_modified(conf: config.Config, relation: areas.Relation) -> str:
     """Gets the update date for missing/additional housenumbers."""
     t_ref = util.get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_osm = util.get_timestamp(relation.get_files().get_osm_housenumbers_path())
     return webframe.format_timestamp(conf, max(t_ref, t_osm))
 
 
-def get_housenumbers_last_modified(conf: config.Config2, relation: areas.Relation) -> str:
+def get_housenumbers_last_modified(conf: config.Config, relation: areas.Relation) -> str:
     """Gets the update date of house numbers for a relation."""
     return get_last_modified(conf, relation.get_files().get_osm_housenumbers_path())
 
 
-def get_streets_last_modified(conf: config.Config2, relation: areas.Relation) -> str:
+def get_streets_last_modified(conf: config.Config, relation: areas.Relation) -> str:
     """Gets the update date of streets for a relation."""
     return get_last_modified(conf, relation.get_files().get_osm_streets_path())
 
 
-def handle_main_housenr_percent(conf: config.Config2, relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
+def handle_main_housenr_percent(conf: config.Config, relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
     """Handles the house number percent part of the main page."""
     prefix = conf.get_uri_prefix()
     url = prefix + "/missing-housenumbers/" + relation.get_name() + "/view-result"
@@ -495,7 +495,7 @@ def handle_main_housenr_percent(conf: config.Config2, relation: areas.Relation) 
     return doc, "0"
 
 
-def handle_main_street_percent(conf: config.Config2, relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
+def handle_main_street_percent(conf: config.Config, relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
     """Handles the street percent part of the main page."""
     prefix = conf.get_uri_prefix()
     url = prefix + "/missing-streets/" + relation.get_name() + "/view-result"
@@ -517,7 +517,7 @@ def handle_main_street_percent(conf: config.Config2, relation: areas.Relation) -
     return doc, "0"
 
 
-def handle_main_street_additional_count(conf: config.Config2, relation: areas.Relation) -> yattag.doc.Doc:
+def handle_main_street_additional_count(conf: config.Config, relation: areas.Relation) -> yattag.doc.Doc:
     """Handles the street additional count part of the main page."""
     prefix = conf.get_uri_prefix()
     url = prefix + "/additional-streets/" + relation.get_name() + "/view-result"
@@ -539,7 +539,7 @@ def handle_main_street_additional_count(conf: config.Config2, relation: areas.Re
     return doc
 
 
-def handle_main_housenr_additional_count(conf: config.Config2, relation: areas.Relation) -> yattag.doc.Doc:
+def handle_main_housenr_additional_count(conf: config.Config, relation: areas.Relation) -> yattag.doc.Doc:
     """Handles the housenumber additional count part of the main page."""
     if not relation.get_config().should_check_additional_housenumbers():
         return yattag.doc.Doc()
@@ -598,7 +598,7 @@ def create_filter_for_refcounty_refsettlement(
 
 
 def handle_main_filters_refcounty(
-    conf: config.Config2,
+    conf: config.Config,
     relations: areas.Relations,
     refcounty_id: str,
     refcounty: str
@@ -632,7 +632,7 @@ def handle_main_filters_refcounty(
     return doc
 
 
-def handle_main_filters(conf: config.Config2, relations: areas.Relations, refcounty_id: str) -> yattag.doc.Doc:
+def handle_main_filters(conf: config.Config, relations: areas.Relations, refcounty_id: str) -> yattag.doc.Doc:
     """Handlers the filter part of the main wsgi page."""
     items: List[yattag.doc.Doc] = []
 
@@ -709,7 +709,7 @@ def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relat
 
 
 def handle_main_relation(
-        conf: config.Config2,
+        conf: config.Config,
         relations: areas.Relations,
         filter_for: Callable[[bool, areas.Relation], bool],
         relation_name: str
@@ -760,7 +760,7 @@ def handle_main_relation(
     return row
 
 
-def handle_main(request_uri: str, conf: config.Config2, relations: areas.Relations) -> yattag.doc.Doc:
+def handle_main(request_uri: str, conf: config.Config, relations: areas.Relations) -> yattag.doc.Doc:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
@@ -810,7 +810,7 @@ def get_html_title(request_uri: str) -> str:
     return title
 
 
-def write_html_head(conf: config.Config2, doc: yattag.doc.Doc, title: str) -> None:
+def write_html_head(conf: config.Config, doc: yattag.doc.Doc, title: str) -> None:
     """Produces the <head> tag and its contents."""
     prefix = conf.get_uri_prefix()
     with doc.tag("head"):
@@ -852,7 +852,7 @@ def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:
 def our_application_txt(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
-        conf: config.Config2,
+        conf: config.Config,
         relations: areas.Relations,
         request_uri: str
 ) -> Iterable[bytes]:
@@ -900,9 +900,9 @@ HANDLERS = {
 
 
 def get_handler(
-    conf: config.Config2,
+    conf: config.Config,
     request_uri: str
-) -> Optional[Callable[[config.Config2, areas.Relations, str], yattag.doc.Doc]]:
+) -> Optional[Callable[[config.Config, areas.Relations, str], yattag.doc.Doc]]:
     """Decides request_uri matches what handler."""
     prefix = conf.get_uri_prefix()
     for key, value in HANDLERS.items():

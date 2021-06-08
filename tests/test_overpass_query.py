@@ -49,19 +49,19 @@ class TestOverpassQueryNeedSleeep(unittest.TestCase):
     """Tests overpass_query_need_sleep()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-status-happy")):
             self.assertEqual(overpass_query.overpass_query_need_sleep(conf), 0)
 
     def test_wait(self) -> None:
         """Tests the wait path."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-status-wait")):
             self.assertEqual(overpass_query.overpass_query_need_sleep(conf), 12)
 
     def test_wait_negative(self) -> None:
         """Tests the wait for negative amount path."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-status-wait-negative")):
             self.assertEqual(overpass_query.overpass_query_need_sleep(conf), 1)
 
@@ -70,7 +70,7 @@ class TestOverpassQuery(unittest.TestCase):
     """Tests overpass_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-interpreter-happy")):
             with open("tests/mock/overpass-interpreter-happy.request-data") as stream:
                 query = stream.read()
@@ -82,8 +82,8 @@ class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
 
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-interpreter-happy")):
             buf = io.StringIO()

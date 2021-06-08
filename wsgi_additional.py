@@ -44,7 +44,7 @@ def additional_streets_view_txt(relations: areas.Relations, request_uri: str, ch
 
 
 def additional_streets_view_result(
-    conf: config.Config2,
+    conf: config.Config,
     relations: areas.Relations,
     request_uri: str
 ) -> yattag.doc.Doc:
@@ -99,7 +99,7 @@ def additional_streets_view_result(
 
 
 def additional_housenumbers_view_result(
-    conf: config.Config2,
+    conf: config.Config,
     relations: areas.Relations,
     request_uri: str
 ) -> yattag.doc.Doc:
