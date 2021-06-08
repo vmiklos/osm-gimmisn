@@ -6,6 +6,9 @@
 
 """The test_cherry module covers the cherry module."""
 
+from typing import Any
+from typing import List
+from typing import Tuple
 import unittest
 import unittest.mock
 
@@ -28,8 +31,16 @@ class TestMain(test_config.TestCase):
             nonlocal mock_block_called
             mock_block_called = True
 
-        with unittest.mock.patch('cherrypy.engine.block', mock_block):
-            cherry.main()
+        def start_response(_status: str, _response_headers: List[Tuple[str, str]]) -> None:
+            pass
+
+        def mock_graft(app: Any, _path: str) -> None:
+            app({}, start_response)
+
+        conf = test_config.make_test_config()
+        with unittest.mock.patch('cherrypy.tree.graft', mock_graft):
+            with unittest.mock.patch('cherrypy.engine.block', mock_block):
+                cherry.main(conf)
         cherrypy.engine.exit()
         self.assertTrue(mock_block_called)
 

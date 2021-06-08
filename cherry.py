@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def main() -> None:
+def main(conf: config.Config) -> None:
     """
     Commandline interface to this module.
 
@@ -36,7 +36,7 @@ def main() -> None:
     While wsgiref is part of stock Python and is ideal for local development, CherryPy supports
     automatic reloading, which is super-handy in production.
     """
-    def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:  # pragma: no cover
+    def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
         return wsgi.application(environ, start_response, conf)
     cherrypy.tree.graft(app, "/")
     cherrypy.server.unsubscribe()
@@ -44,7 +44,6 @@ def main() -> None:
     # pylint: disable=protected-access
     server = cherrypy._cpserver.Server()
     server.socket_host = "127.0.0.1"
-    conf = config.Config("")
     server.socket_port = conf.get_tcp_port()
     server.thread_pool = 8
     server.subscribe()
@@ -53,6 +52,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
