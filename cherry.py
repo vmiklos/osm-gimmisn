@@ -7,10 +7,19 @@
 
 """The cherry module is the glue layer between the CherryPy app server and the wsgi module."""
 
+from typing import Any
+from typing import Dict
+from typing import Iterable
+from typing import TYPE_CHECKING
+
 import cherrypy  # type: ignore
 
 import wsgi
 import config
+
+if TYPE_CHECKING:
+    # pylint: disable=no-name-in-module,import-error,unused-import
+    from wsgiref.types import StartResponse
 
 
 def main() -> None:
@@ -27,7 +36,9 @@ def main() -> None:
     While wsgiref is part of stock Python and is ideal for local development, CherryPy supports
     automatic reloading, which is super-handy in production.
     """
-    cherrypy.tree.graft(wsgi.application, "/")
+    def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:  # pragma: no cover
+        return wsgi.application(environ, start_response, conf)
+    cherrypy.tree.graft(app, "/")
     cherrypy.server.unsubscribe()
     # This is documented at <https://docs.cherrypy.org/en/latest/advanced.html>, so:
     # pylint: disable=protected-access
