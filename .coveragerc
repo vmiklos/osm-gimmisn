@@ -4,3 +4,4 @@ exclude_lines =
     ^if __name__ == .__main__.:$
     if sys.platform.startswith\("win"\):$
     if TYPE_CHECKING:$
+    \# pragma: no cover$
