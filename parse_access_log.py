@@ -141,13 +141,12 @@ def check_top_edited_relations(frequent_relations: Set[str], workdir: str) -> No
             frequent_relations.remove(city[0])
 
 
-def main() -> None:
+def main(conf: config.Config) -> None:
     """Commandline interface."""
     log_file = sys.argv[1]
 
     relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates()
 
-    conf = config.make_config()
     relations = areas.Relations(conf.get_workdir())
     frequent_relations = get_frequent_relations(conf, log_file)
     check_top_edited_relations(frequent_relations, conf.get_workdir())
@@ -171,6 +170,6 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    main()
+    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

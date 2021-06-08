@@ -13,9 +13,8 @@ import areas
 import config
 
 
-def main() -> None:
+def main(conf: config.Config) -> None:
     """Commandline interface."""
-    conf = config.make_config()
     workdir = conf.get_workdir()
 
     relation_name = sys.argv[1]
@@ -29,6 +28,6 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    main()
+    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

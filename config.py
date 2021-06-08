@@ -87,9 +87,4 @@ class Config:
         return self.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
 
 
-def make_config() -> Config:
-    """Factory for Config."""
-    return Config("")
-
-
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

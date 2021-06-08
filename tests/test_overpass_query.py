@@ -82,27 +82,25 @@ class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        def mock_make_config() -> config.Config:
-            return config.Config("tests")
-
+        conf = config.Config("tests")
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-interpreter-happy")):
             buf = io.StringIO()
             with unittest.mock.patch('sys.stdout', buf):
                 argv = ["", "tests/mock/overpass-interpreter-happy.request-data"]
                 with unittest.mock.patch('sys.argv', argv):
-                    with unittest.mock.patch("config.make_config", mock_make_config):
-                        overpass_query.main()
+                    overpass_query.main(conf)
             buf.seek(0)
             self.assertTrue(buf.read().startswith("@id"))
 
     def test_failure(self) -> None:
         """Tests the failure path."""
+        conf = config.Config("tests")
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("")):
             buf = io.StringIO()
             with unittest.mock.patch('sys.stdout', buf):
                 argv = ["", "tests/mock/overpass-interpreter-happy.request-data"]
                 with unittest.mock.patch('sys.argv', argv):
-                    overpass_query.main()
+                    overpass_query.main(conf)
             buf.seek(0)
             self.assertTrue(buf.read().startswith("overpass query failed"))
 

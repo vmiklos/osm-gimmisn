@@ -348,10 +348,9 @@ def our_main(conf: config.Config, relations: areas.Relations, mode: str, update:
                 break
 
 
-def main() -> None:
+def main(conf: config.Config) -> None:
     """Commandline interface to this module."""
 
-    conf = config.make_config()
     util.set_locale(conf)
 
     workdir = conf.get_workdir()
@@ -395,6 +394,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
