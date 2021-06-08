@@ -16,21 +16,16 @@ import config
 import missing_streets
 
 
-def mock_make_config() -> config.Config:
-    """Creates a Config instance that has its root as /tests."""
-    return config.Config("tests")
-
-
 class TestMain(test_config.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         argv = ["", "gazdagret"]
         buf = io.StringIO()
+        conf = config.Config("tests")
         with unittest.mock.patch('sys.argv', argv):
             with unittest.mock.patch('sys.stdout', buf):
-                with unittest.mock.patch("config.make_config", mock_make_config):
-                    missing_streets.main()
+                missing_streets.main(conf)
 
         buf.seek(0)
         self.assertEqual(buf.read(), "Only In Ref utca\n")

@@ -13,6 +13,11 @@ import unittest.mock
 import config
 
 
+def make_test_config() -> config.Config:
+    """Creates a Config instance that has its root as /tests."""
+    return config.Config("tests")
+
+
 def mock_get_abspath(path: str) -> str:
     """Mock get_abspath() that uses the test directory."""
     if os.path.isabs(path):
@@ -32,11 +37,11 @@ class TestCase(unittest.TestCase):
         self.get_abspath_patcher.stop()
 
 
-class TestMakeConfig(unittest.TestCase):
-    """Tests make_config()."""
+class TestGetAbspath(unittest.TestCase):
+    """Tests get_abspath()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = config.make_config()
+        conf = config.Config("")
         abs_path = conf.get_abspath("file")
         self.assertEqual(abs_path, os.path.join(os.getcwd(), "file"))
 

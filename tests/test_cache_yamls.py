@@ -15,12 +15,6 @@ import test_config
 
 import areas
 import cache_yamls
-import config
-
-
-def mock_make_config() -> config.Config:
-    """Creates a Config instance that has its root as /tests."""
-    return config.Config("tests")
 
 
 class TestMain(test_config.TestCase):
@@ -41,7 +35,7 @@ class TestMain(test_config.TestCase):
         relation_ids = []
         with open(relation_ids_path) as stream:
             relation_ids = json.load(stream)
-        conf = mock_make_config()
+        conf = test_config.make_test_config()
         relations = areas.Relations(conf.get_workdir())
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
         self.assertEqual(relation_ids, sorted(set(osmids)))

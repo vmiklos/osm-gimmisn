@@ -13,12 +13,11 @@ import areas
 import config
 
 
-def main() -> None:
+def main(conf: config.Config) -> None:
     """Commandline interface to this module."""
 
     relation_name = sys.argv[1]
 
-    conf = config.make_config()
     reference = conf.get_reference_street_path()
     workdir = conf.get_workdir()
     relations = areas.Relations(workdir)
@@ -27,6 +26,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -872,16 +872,14 @@ def our_application_txt(
         if chkl:
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
-    else:
-        # assume prefix + "/missing-housenumbers/"
+    else:  # assume prefix + "/missing-housenumbers/"
         if chkl:
             output, relation_name = missing_housenumbers_view_chkl(relations, request_uri)
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
         elif request_uri.endswith("robots.txt"):
             output = util.get_content(config.get_abspath("data"), "robots.txt").decode("utf-8")
-        else:
-            # assume txt
+        else:  # assume txt
             output = missing_housenumbers_view_txt(relations, request_uri)
     output_bytes = output.encode("utf-8")
     response_properties = webframe.Response(content_type, "200 OK", output_bytes, headers)
@@ -913,10 +911,10 @@ def get_handler(
 
 def our_application(
         environ: Dict[str, Any],
-        start_response: 'StartResponse'
+        start_response: 'StartResponse',
+        conf: config.Config
 ) -> Iterable[bytes]:
     """Dispatches the request based on its URI."""
-    conf = config.make_config()
     util.set_locale(conf)
 
     language = util.setup_localization(environ)
@@ -968,32 +966,35 @@ def our_application(
 
 def application(
         environ: Dict[str, Any],
-        start_response: 'StartResponse'
+        start_response: 'StartResponse',
+        conf: config.Config
 ) -> Iterable[bytes]:
     """The entry point of this WSGI app."""
     try:
-        return our_application(environ, start_response)
+        return our_application(environ, start_response, conf)
 
     # pylint: disable=broad-except
     except Exception:
         return webframe.handle_exception(environ, start_response)
 
 
-def main() -> None:
+def main(conf: config.Config) -> None:
     """Commandline interface to this module."""
     if sys.platform.startswith("win"):
         # pylint: disable=protected-access
         _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 
-    conf = config.make_config()
+    def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
+        return application(environ, start_response, conf)
+
     port = conf.get_tcp_port()
     prefix = conf.get_uri_prefix()
-    httpd = wsgiref.simple_server.make_server('', port, application)
+    httpd = wsgiref.simple_server.make_server('', port, app)
     print("Open <http://localhost:" + str(port) + prefix + "/> in your browser.")
     httpd.serve_forever()
 
 
 if __name__ == "__main__":
-    main()
+    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

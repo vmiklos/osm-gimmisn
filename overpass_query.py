@@ -50,9 +50,8 @@ def overpass_query_need_sleep(conf: config.Config) -> int:
     return sleep
 
 
-def main() -> None:
+def main(conf: config.Config) -> None:
     """Commandline interface to this module."""
-    conf = config.make_config()
     with open(sys.argv[1]) as stream:
         query = stream.read()
 
@@ -65,6 +64,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
