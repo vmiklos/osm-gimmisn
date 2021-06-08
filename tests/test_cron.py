@@ -25,9 +25,9 @@ import cron
 import util
 
 
-def mock_make_config() -> config.Config2:
+def mock_make_config() -> config.Config:
     """Creates a Config instance that has its root as /tests."""
-    return config.Config2("tests")
+    return config.Config("tests")
 
 
 def mock_urlopen_raise_error(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
@@ -39,7 +39,7 @@ class TestOverpassSleep(unittest.TestCase):
     """Tests overpass_sleep()."""
     def test_no_sleep(self) -> None:
         """Tests the case when no sleep is needed."""
-        def mock_overpass_query_need_sleep(_conf: config.Config2) -> int:
+        def mock_overpass_query_need_sleep(_conf: config.Config) -> int:
             return 0
         mock_sleep_called = False
 
@@ -56,7 +56,7 @@ class TestOverpassSleep(unittest.TestCase):
         """Tests the case when sleep is needed."""
         sleep_for = 42
 
-        def mock_overpass_query_need_sleep(_conf: config.Config2) -> int:
+        def mock_overpass_query_need_sleep(_conf: config.Config) -> int:
             nonlocal sleep_for
             if sleep_for > 0:
                 sleep_for = 0
@@ -198,7 +198,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
         """Tests the happy path."""
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep(_conf: config.Config2) -> None:
+        def mock_overpass_sleep(_conf: config.Config) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -241,7 +241,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
         """Tests the case when we keep getting HTTP errors."""
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep(_conf: config.Config2) -> None:
+        def mock_overpass_sleep(_conf: config.Config) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -267,7 +267,7 @@ class TestUpdateOsmStreets(test_config.TestCase):
         """Tests the happy path."""
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep(_conf: config.Config2) -> None:
+        def mock_overpass_sleep(_conf: config.Config) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -301,7 +301,7 @@ class TestUpdateOsmStreets(test_config.TestCase):
         """Tests the case when we keep getting HTTP errors."""
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep(_conf: config.Config2) -> None:
+        def mock_overpass_sleep(_conf: config.Config) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -347,7 +347,7 @@ class TestUpdateStats(test_config.TestCase):
         conf = mock_make_config()
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep(_conf: config.Config2) -> None:
+        def mock_overpass_sleep(_conf: config.Config) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -388,7 +388,7 @@ class TestUpdateStats(test_config.TestCase):
         conf = mock_make_config()
         mock_overpass_sleep_called = False
 
-        def mock_overpass_sleep(_conf: config.Config2) -> None:
+        def mock_overpass_sleep(_conf: config.Config) -> None:
             nonlocal mock_overpass_sleep_called
             mock_overpass_sleep_called = True
 
@@ -419,7 +419,7 @@ class TestOurMain(test_config.TestCase):
         """Tests the happy path."""
         calls = 0
 
-        def count_calls(_conf: config.Config2, _relations: areas.Relation, _update: bool) -> None:
+        def count_calls(_conf: config.Config, _relations: areas.Relation, _update: bool) -> None:
             nonlocal calls
             calls += 1
 
@@ -449,7 +449,7 @@ class TestOurMain(test_config.TestCase):
         """Tests the stats path."""
         calls = 0
 
-        def count_calls(_conf: config.Config2, _overpass: bool) -> None:
+        def count_calls(_conf: config.Config, _overpass: bool) -> None:
             nonlocal calls
             calls += 1
 
@@ -468,7 +468,7 @@ class TestMain(test_config.TestCase):
         mock_main_called = False
 
         def mock_main(
-            _conf: config.Config2,
+            _conf: config.Config,
             _relations: areas.Relation,
             _mode: str,
             _update: bool,

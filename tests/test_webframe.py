@@ -32,7 +32,7 @@ class TestHandleStatic(test_config.TestCase):
     """Tests handle_static()."""
     def test_happy(self) -> None:
         """Tests the happy path: css case."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         prefix = conf.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/osm.min.css")
         self.assertTrue(len(content))
@@ -42,7 +42,7 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_generated_javascript(self) -> None:
         """Tests the generated javascript case."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         prefix = conf.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/bundle.js")
         self.assertEqual("// bundle.js\n", content.decode("utf-8"))
@@ -52,7 +52,7 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_json(self) -> None:
         """Tests the json case."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         prefix = conf.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/stats-empty.json")
         self.assertTrue(content.decode("utf-8").startswith("{"))
@@ -62,7 +62,7 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_ico(self) -> None:
         """Tests the ico case."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         content, content_type, extra_headers = webframe.handle_static(conf, "/favicon.ico")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "image/x-icon")
@@ -71,7 +71,7 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_svg(self) -> None:
         """Tests the svg case."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         content, content_type, extra_headers = webframe.handle_static(conf, "/favicon.svg")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "image/svg+xml")
@@ -80,7 +80,7 @@ class TestHandleStatic(test_config.TestCase):
 
     def test_else(self) -> None:
         """Tests the case when the content type is not recognized."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         prefix = conf.get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/test.xyz")
         self.assertFalse(len(content))
@@ -120,7 +120,7 @@ class TestLocalToUiTz(test_config.TestCase):
     """Tests local_to_ui_tz()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         conf.set_value("timezone", "Europe/Budapest")
         local_dt = datetime.datetime.fromtimestamp(0)
         ui_dt = webframe.local_to_ui_tz(conf, local_dt)
@@ -136,7 +136,7 @@ class TestFillMissingHeaderItems(unittest.TestCase):
         relation_name = "gazdagret"
         items: List[yattag.doc.Doc] = []
         additional_housenumbers = True
-        conf = config.Config2("tests")
+        conf = config.Config("tests")
         webframe.fill_missing_header_items(conf, streets, additional_housenumbers, relation_name, items)
         html = items[0].getvalue()
         self.assertIn("Missing house numbers", html)

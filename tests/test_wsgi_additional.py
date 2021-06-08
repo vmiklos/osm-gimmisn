@@ -23,24 +23,24 @@ class TestStreets(test_wsgi.TestWsgi):
     """Tests additional streets."""
     def test_view_result_txt(self) -> None:
         """Tests the txt output."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             result = self.get_txt_for_path("/additional-streets/gazdagret/view-result.txt")
             self.assertEqual(result, "Only In OSM utca\n")
 
     def test_view_result_chkl(self) -> None:
         """Tests the chkl output."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             result = self.get_txt_for_path("/additional-streets/gazdagret/view-result.chkl")
             self.assertEqual(result, "[ ] Only In OSM utca\n")
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             conf = mock_make_config()
             relations = areas.Relations(conf.get_workdir())
@@ -58,8 +58,8 @@ class TestStreets(test_wsgi.TestWsgi):
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             conf = mock_make_config()
             relations = areas.Relations(conf.get_workdir())
@@ -77,8 +77,8 @@ class TestStreets(test_wsgi.TestWsgi):
 
     def test_view_turbo_well_formed(self) -> None:
         """Tests if the view-turbo output is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             root = self.get_dom_for_path("/additional-streets/gazdagret/view-turbo")
             results = root.findall("body/pre")
@@ -89,8 +89,8 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
     """Tests handle_main_housenr_additional_count()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             conf = mock_make_config()
             relations = areas.Relations(conf.get_workdir())
@@ -100,8 +100,8 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
 
     def test_no_count_file(self) -> None:
         """Tests what happens when the count file is not there."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             conf = mock_make_config()
             relations = areas.Relations(conf.get_workdir())
@@ -122,8 +122,8 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
     """Tests the additional house numbers page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             root = self.get_dom_for_path("/additional-housenumbers/gazdagret/view-result")
             results = root.findall("body/table")
@@ -131,8 +131,8 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             conf = mock_make_config()
             relations = areas.Relations(conf.get_workdir())
@@ -151,8 +151,8 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
 
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             conf = mock_make_config()
             relations = areas.Relations(conf.get_workdir())
@@ -171,8 +171,8 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
 
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             conf = mock_make_config()
             relations = areas.Relations(conf.get_workdir())
@@ -194,8 +194,8 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
     """Tests the additional streets page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             root = self.get_dom_for_path("/additional-streets/gazdagret/view-result")
         results = root.findall("body/table")
@@ -209,11 +209,11 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
 
     def test_street_from_housenr_well_formed(self) -> None:
         """Tests if the output is well-formed when the street name comes from a housenr."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             def mock_check_existing_relation(
-                _conf: config.Config2,
+                _conf: config.Config,
                 _relations: areas.Relations,
                 _request_uri: str
             ) -> yattag.doc.Doc:
@@ -225,8 +225,8 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             relations = areas.Relations(mock_make_config().get_workdir())
             relation = relations.get_relation("gazdagret")
@@ -244,8 +244,8 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        def mock_make_config() -> config.Config2:
-            return config.Config2("tests")
+        def mock_make_config() -> config.Config:
+            return config.Config("tests")
         with unittest.mock.patch("config.make_config", mock_make_config):
             relations = areas.Relations(mock_make_config().get_workdir())
             relation = relations.get_relation("gazdagret")

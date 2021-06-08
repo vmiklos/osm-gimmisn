@@ -46,7 +46,7 @@ def error(msg: str, *args: Any, **kwargs: Any) -> None:
     logging.error(get_date_prefix() + " ERROR" + msg, *args, **kwargs)
 
 
-def overpass_sleep(conf: config.Config2) -> None:
+def overpass_sleep(conf: config.Config) -> None:
     """Sleeps to respect overpass rate limit."""
     while True:
         sleep = overpass_query.overpass_query_need_sleep(conf)
@@ -61,7 +61,7 @@ def should_retry(retry: int) -> bool:
     return retry < 20
 
 
-def update_osm_streets(conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_osm_streets(conf: config.Config, relations: areas.Relations, update: bool) -> None:
     """Update the OSM street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -83,7 +83,7 @@ def update_osm_streets(conf: config.Config2, relations: areas.Relations, update:
         info("update_osm_streets: end: %s", relation_name)
 
 
-def update_osm_housenumbers(conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_osm_housenumbers(conf: config.Config, relations: areas.Relations, update: bool) -> None:
     """Update the OSM housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -105,7 +105,7 @@ def update_osm_housenumbers(conf: config.Config2, relations: areas.Relations, up
         info("update_osm_housenumbers: end: %s", relation_name)
 
 
-def update_ref_housenumbers(conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_ref_housenumbers(conf: config.Config, relations: areas.Relations, update: bool) -> None:
     """Update the reference housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -121,7 +121,7 @@ def update_ref_housenumbers(conf: config.Config2, relations: areas.Relations, up
         info("update_ref_housenumbers: end: %s", relation_name)
 
 
-def update_ref_streets(conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_ref_streets(conf: config.Config, relations: areas.Relations, update: bool) -> None:
     """Update the reference street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -137,7 +137,7 @@ def update_ref_streets(conf: config.Config2, relations: areas.Relations, update:
         info("update_ref_streets: end: %s", relation_name)
 
 
-def update_missing_housenumbers(conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_missing_housenumbers(conf: config.Config, relations: areas.Relations, update: bool) -> None:
     """Update the relation's house number coverage stats."""
     info("update_missing_housenumbers: start")
     for relation_name in relations.get_active_names():
@@ -158,7 +158,7 @@ def update_missing_housenumbers(conf: config.Config2, relations: areas.Relations
     info("update_missing_housenumbers: end")
 
 
-def update_missing_streets(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_missing_streets(_conf: config.Config, relations: areas.Relations, update: bool) -> None:
     """Update the relation's street coverage stats."""
     info("update_missing_streets: start")
     for relation_name in relations.get_active_names():
@@ -173,7 +173,7 @@ def update_missing_streets(_conf: config.Config2, relations: areas.Relations, up
     info("update_missing_streets: end")
 
 
-def update_additional_streets(_conf: config.Config2, relations: areas.Relations, update: bool) -> None:
+def update_additional_streets(_conf: config.Config, relations: areas.Relations, update: bool) -> None:
     """Update the relation's "additional streets" stats."""
     info("update_additional_streets: start")
     for relation_name in relations.get_active_names():
@@ -203,7 +203,7 @@ def write_city_count_path(city_count_path: str, cities: Dict[str, Set[str]]) -> 
             stream.write(key + "\t" + str(len(value)) + "\n")
 
 
-def update_stats_count(conf: config.Config2, today: str) -> None:
+def update_stats_count(conf: config.Config, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     statedir = config.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
@@ -257,7 +257,7 @@ def update_stats_topusers(today: str) -> None:
         stream.write(str(len(users)) + "\n")
 
 
-def update_stats_refcount(conf: config.Config2, state_dir: str) -> None:
+def update_stats_refcount(conf: config.Config, state_dir: str) -> None:
     """Performs the update of workdir/stats/ref.count."""
     count = 0
     with open(conf.get_reference_citycounts_path(), "r") as stream:
@@ -277,7 +277,7 @@ def update_stats_refcount(conf: config.Config2, state_dir: str) -> None:
         stream.write(str(count) + "\n")
 
 
-def update_stats(conf: config.Config2, overpass: bool) -> None:
+def update_stats(conf: config.Config, overpass: bool) -> None:
     """Performs the update of country-level stats."""
 
     # Fetch house numbers for the whole country.
@@ -323,7 +323,7 @@ def update_stats(conf: config.Config2, overpass: bool) -> None:
     info("update_stats: end")
 
 
-def our_main(conf: config.Config2, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
+def our_main(conf: config.Config, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
     """Performs the actual nightly task."""
     if mode in ("all", "stats"):
         update_stats(conf, overpass)

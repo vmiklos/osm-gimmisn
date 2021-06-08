@@ -41,9 +41,9 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def mock_make_config() -> config.Config2:
+def mock_make_config() -> config.Config:
     """Creates a Config instance that has its root as /tests."""
-    return config.Config2("tests")
+    return config.Config("tests")
 
 
 class TestWsgi(test_config.TestCase):
@@ -704,8 +704,8 @@ class TestMain(TestWsgi):
 
     def test_custom_locale(self) -> None:
         """Tests the main page with a custom locale."""
-        def make_config() -> config.Config2:
-            conf = config.Config2("tests")
+        def make_config() -> config.Config:
+            conf = config.Config("tests")
             conf.set_value("locale", "en_US.UTF-8")
             return conf
         with unittest.mock.patch("config.make_config", make_config):

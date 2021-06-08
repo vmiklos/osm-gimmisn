@@ -52,7 +52,7 @@ def is_search_bot(line: str) -> bool:
     return False
 
 
-def get_frequent_relations(conf: config.Config2, log_file: str) -> Set[str]:
+def get_frequent_relations(conf: config.Config, log_file: str) -> Set[str]:
     """Determine the top 20%: set of frequently visited relations."""
     counts: Dict[str, int] = {}
     with open(log_file, "r") as stream:

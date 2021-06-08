@@ -16,7 +16,7 @@ import sys
 import config
 
 
-def overpass_query(conf: config.Config2, query: str) -> str:
+def overpass_query(conf: config.Config, query: str) -> str:
     """Posts the query string to the overpass API and returns the result string."""
     url = conf.get_overpass_uri() + "/api/interpreter"
 
@@ -26,7 +26,7 @@ def overpass_query(conf: config.Config2, query: str) -> str:
     return cast(str, buf.decode('utf-8'))
 
 
-def overpass_query_need_sleep(conf: config.Config2) -> int:
+def overpass_query_need_sleep(conf: config.Config) -> int:
     """Checks if we need to sleep before executing an overpass query."""
     try:
         with urllib.request.urlopen(conf.get_overpass_uri() + "/api/status") as sock:
