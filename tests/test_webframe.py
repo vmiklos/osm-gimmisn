@@ -18,8 +18,6 @@ import time
 # pylint: disable=unused-import
 import yattag
 
-import test_config
-
 import config
 import webframe
 
@@ -28,7 +26,7 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse  # noqa: F401
 
 
-class TestHandleStatic(test_config.TestCase):
+class TestHandleStatic(unittest.TestCase):
     """Tests handle_static()."""
     def test_happy(self) -> None:
         """Tests the happy path: css case."""
@@ -116,7 +114,7 @@ class TestHandleException(unittest.TestCase):
         self.fail()
 
 
-class TestLocalToUiTz(test_config.TestCase):
+class TestLocalToUiTz(unittest.TestCase):
     """Tests local_to_ui_tz()."""
     def test_happy(self) -> None:
         """Tests the happy path."""

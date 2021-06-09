@@ -9,14 +9,12 @@
 import unittest
 import unittest.mock
 
-import test_config
-
 import config
 import get_reference_streets
 import util
 
 
-class TestMain(test_config.TestCase):
+class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""

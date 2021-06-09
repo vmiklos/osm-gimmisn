@@ -17,7 +17,7 @@ import areas
 import cache_yamls
 
 
-class TestMain(test_config.TestCase):
+class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""

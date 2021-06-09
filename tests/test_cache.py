@@ -16,7 +16,7 @@ import areas
 import cache
 
 
-class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
+class TestIsMissingHousenumbersHtmlCached(unittest.TestCase):
     """Tests is_missing_housenumbers_html_cached()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -95,7 +95,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
             self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
 
-class TestGetAdditionalHousenumbersHtml(test_config.TestCase):
+class TestGetAdditionalHousenumbersHtml(unittest.TestCase):
     """Tests get_additional_housenumbers_html()."""
     def test_happy(self) -> None:
         """Tests the case when we find the result in cache."""
@@ -107,7 +107,7 @@ class TestGetAdditionalHousenumbersHtml(test_config.TestCase):
         self.assertEqual(first.getvalue(), second.getvalue())
 
 
-class TestIsMissingHousenumbersTxtCached(test_config.TestCase):
+class TestIsMissingHousenumbersTxtCached(unittest.TestCase):
     """Tests is_missing_housenumbers_txt_cached()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
