@@ -246,7 +246,7 @@ def handle_static(conf: config.Config, request_uri: str) -> Tuple[bytes, str, Li
 
     if request_uri.endswith(".js"):
         content_type = "application/x-javascript"
-        content = util.get_content(config.get_abspath("builddir"), path, extra_headers)
+        content = util.get_content(conf.get_abspath("builddir"), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".css"):
         content_type = "text/css"
@@ -258,11 +258,11 @@ def handle_static(conf: config.Config, request_uri: str) -> Tuple[bytes, str, Li
         return content, content_type, extra_headers
     if request_uri.endswith(".ico"):
         content_type = "image/x-icon"
-        content = util.get_content(config.get_abspath(""), path, extra_headers)
+        content = util.get_content(conf.get_abspath(""), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".svg"):
         content_type = "image/svg+xml"
-        content = util.get_content(config.get_abspath(""), path, extra_headers)
+        content = util.get_content(conf.get_abspath(""), path, extra_headers)
         return content, content_type, extra_headers
 
     return bytes(), "", extra_headers

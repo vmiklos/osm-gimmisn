@@ -25,8 +25,9 @@ class TestMain(test_config.TestCase):
         if os.path.exists(cache_path):
             os.remove(cache_path)
         argv = ["", "data", "workdir"]
+        conf = test_config.make_test_config()
         with unittest.mock.patch('sys.argv', argv):
-            cache_yamls.main()
+            cache_yamls.main(conf)
         # Just assert that the result is created, the actual content is validated by the other
         # tests.
         self.assertTrue(os.path.exists(cache_path))
@@ -35,8 +36,7 @@ class TestMain(test_config.TestCase):
         relation_ids = []
         with open(relation_ids_path) as stream:
             relation_ids = json.load(stream)
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
         self.assertEqual(relation_ids, sorted(set(osmids)))
 

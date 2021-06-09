@@ -211,7 +211,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -227,7 +227,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         real_exists = os.path.exists
@@ -243,7 +243,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         real_exists = os.path.exists
@@ -314,14 +314,14 @@ Tűzkő utca	[1], [2]"""
                 return False
             return real_exists(path)
 
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         with unittest.mock.patch('os.path.exists', mock_exists):
             result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
             self.assertEqual(result, "No existing streets")
 
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         with unittest.mock.patch('os.path.exists', mock_exists):
@@ -330,7 +330,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_chkl_no_ref_housenumbers(self) -> None:
         """Tests the chkl output, no ref housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         real_exists = os.path.exists
@@ -345,7 +345,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -360,7 +360,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_osm_housenumbers(self) -> None:
         """Tests the txt output, no osm housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         real_exists = os.path.exists
@@ -375,7 +375,7 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_txt_no_ref_housenumbers(self) -> None:
         """Tests the txt output, no ref housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         real_exists = os.path.exists
@@ -461,7 +461,7 @@ class TestStreetHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         real_exists = os.path.exists
@@ -498,7 +498,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -514,7 +514,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         real_exists = os.path.exists
@@ -540,7 +540,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists
@@ -555,7 +555,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         real_exists = os.path.exists
@@ -604,7 +604,7 @@ class TestMain(TestWsgi):
             "PATH_INFO": ""
         }
         conf = test_config.make_test_config()
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         ret = webframe.get_request_uri(environ, conf, relations)
         self.assertEqual(ret, "")
 
@@ -751,8 +751,9 @@ class TestWebhooks(TestWsgi):
             actual_check = check
             actual_path = env["PATH"]
 
+        conf = test_config.make_test_config()
         with unittest.mock.patch('subprocess.run', mock_subprocess_run):
-            wsgi.handle_github_webhook(environ)
+            wsgi.handle_github_webhook(environ, conf)
         self.assertEqual(actual_args[0], "make")
         self.assertEqual(actual_args[-1], "deploy")
         self.assertTrue(actual_check)
@@ -761,6 +762,7 @@ class TestWebhooks(TestWsgi):
     def test_github_branch(self) -> None:
         """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
         environ: Dict[str, BinaryIO] = {}
+        conf = test_config.make_test_config()
         root = {"ref": "refs/heads/stable"}
         payload = json.dumps(root)
         body = {"payload": [payload]}
@@ -775,14 +777,14 @@ class TestWebhooks(TestWsgi):
             nonlocal invoked
 
         with unittest.mock.patch('subprocess.run', mock_subprocess_run):
-            wsgi.handle_github_webhook(environ)
+            wsgi.handle_github_webhook(environ, conf)
         self.assertFalse(invoked)
 
     def test_route(self) -> None:
         """Tests the /osm/webhooks/github -> handle_github_webhook() routing."""
         mock_called = False
 
-        def mock_handler(_environ: Dict[str, BinaryIO]) -> yattag.doc.Doc:
+        def mock_handler(_environ: Dict[str, BinaryIO], _conf: config.Config) -> yattag.doc.Doc:
             nonlocal mock_called
             mock_called = True
             return util.html_escape("")
@@ -841,7 +843,7 @@ class TestInvalidRefstreets(TestWsgi):
 
     def test_no_osm_sreets(self) -> None:
         """Tests error handling when osm street list is missing for a relation."""
-        relations = areas.Relations(test_config.make_test_config().get_workdir())
+        relations = areas.Relations(test_config.make_test_config())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         real_exists = os.path.exists

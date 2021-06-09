@@ -151,10 +151,10 @@ def update_missing_housenumbers(conf: config.Config, relations: areas.Relations,
         orig_language = i18n.get_language()
         relation.write_missing_housenumbers()
         for language in ["en", "hu"]:
-            i18n.set_language(language)
+            i18n.set_language(conf, language)
             cache.get_missing_housenumbers_html(conf, relation)
-        i18n.set_language(orig_language)
-        cache.get_missing_housenumbers_txt(relation)
+        i18n.set_language(conf, orig_language)
+        cache.get_missing_housenumbers_txt(conf, relation)
     info("update_missing_housenumbers: end")
 
 
@@ -205,7 +205,7 @@ def write_city_count_path(city_count_path: str, cities: Dict[str, Set[str]]) -> 
 
 def update_stats_count(conf: config.Config, today: str) -> None:
     """Counts the # of all house numbers as of today."""
-    statedir = config.get_abspath("workdir/stats")
+    statedir = conf.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
     count_path = os.path.join(statedir, "%s.count" % today)
     city_count_path = os.path.join(statedir, "%s.citycount" % today)
@@ -233,9 +233,9 @@ def update_stats_count(conf: config.Config, today: str) -> None:
     write_city_count_path(city_count_path, cities)
 
 
-def update_stats_topusers(today: str) -> None:
+def update_stats_topusers(conf: config.Config, today: str) -> None:
     """Counts the top housenumber editors as of today."""
-    statedir = config.get_abspath("workdir/stats")
+    statedir = conf.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
     topusers_path = os.path.join(statedir, "%s.topusers" % today)
     usercount_path = os.path.join(statedir, "%s.usercount" % today)
@@ -282,8 +282,8 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
 
     # Fetch house numbers for the whole country.
     info("update_stats: start, updating whole-country csv")
-    query = util.get_content(config.get_abspath("data/street-housenumbers-hungary.txt")).decode("utf-8")
-    statedir = config.get_abspath("workdir/stats")
+    query = util.get_content(conf.get_abspath("data/street-housenumbers-hungary.txt")).decode("utf-8")
+    statedir = conf.get_abspath("workdir/stats")
     os.makedirs(statedir, exist_ok=True)
     today = time.strftime("%Y-%m-%d")
     csv_path = os.path.join(statedir, "%s.csv" % today)
@@ -304,7 +304,7 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
                 info("update_stats: http error: %s", str(http_error))
 
     update_stats_count(conf, today)
-    update_stats_topusers(today)
+    update_stats_topusers(conf, today)
     update_stats_refcount(conf, statedir)
 
     # Remove old CSV files as they are created daily and each is around 11M.
@@ -354,7 +354,7 @@ def main(conf: config.Config) -> None:
     util.set_locale(conf)
 
     workdir = conf.get_workdir()
-    relations = areas.Relations(workdir)
+    relations = areas.Relations(conf)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
                         level=logging.INFO,

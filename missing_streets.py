@@ -15,11 +15,9 @@ import config
 
 def main(conf: config.Config) -> None:
     """Commandline interface."""
-    workdir = conf.get_workdir()
-
     relation_name = sys.argv[1]
 
-    relations = areas.Relations(workdir)
+    relations = areas.Relations(conf)
     relation = relations.get_relation(relation_name)
     only_in_reference, _ = relation.get_missing_streets()
 

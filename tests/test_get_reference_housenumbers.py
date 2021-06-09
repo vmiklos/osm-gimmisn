@@ -20,14 +20,14 @@ class TestMain(test_config.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        expected = util.get_content(config.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
+        conf = config.Config("tests")
+        expected = util.get_content(conf.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
 
         argv = ["", "gazdagret"]
-        conf = config.Config("tests")
         with unittest.mock.patch('sys.argv', argv):
             get_reference_housenumbers.main(conf)
 
-        actual = util.get_content(config.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
+        actual = util.get_content(conf.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
         self.assertEqual(actual, expected)
 
 

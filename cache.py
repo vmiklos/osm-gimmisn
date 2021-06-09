@@ -33,10 +33,10 @@ def is_cache_outdated(cache_path: str, dependencies: List[str]) -> bool:
     return True
 
 
-def is_missing_housenumbers_html_cached(relation: areas.Relation) -> bool:
+def is_missing_housenumbers_html_cached(conf: config.Config, relation: areas.Relation) -> bool:
     """Decides if we have an up to date HTML cache entry or not."""
     cache_path = relation.get_files().get_housenumbers_htmlcache_path()
-    datadir = config.get_abspath("data")
+    datadir = conf.get_abspath("data")
     relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
     dependencies = [
         relation.get_files().get_osm_streets_path(),
@@ -47,10 +47,10 @@ def is_missing_housenumbers_html_cached(relation: areas.Relation) -> bool:
     return is_cache_outdated(cache_path, dependencies)
 
 
-def is_additional_housenumbers_html_cached(relation: areas.Relation) -> bool:
+def is_additional_housenumbers_html_cached(conf: config.Config, relation: areas.Relation) -> bool:
     """Decides if we have an up to date HTML cache entry for additional house numbers or not."""
     cache_path = relation.get_files().get_additional_housenumbers_htmlcache_path()
-    datadir = config.get_abspath("data")
+    datadir = conf.get_abspath("data")
     relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
     dependencies = [
         relation.get_files().get_osm_streets_path(),
@@ -64,7 +64,7 @@ def is_additional_housenumbers_html_cached(relation: areas.Relation) -> bool:
 def get_missing_housenumbers_html(conf: config.Config, relation: areas.Relation) -> yattag.doc.Doc:
     """Gets the cached HTML of the missing housenumbers for a relation."""
     doc = yattag.doc.Doc()
-    if is_missing_housenumbers_html_cached(relation):
+    if is_missing_housenumbers_html_cached(conf, relation):
         with relation.get_files().get_housenumbers_htmlcache_stream("r") as stream:
             doc.asis(stream.read())
         return doc
@@ -102,10 +102,10 @@ def get_missing_housenumbers_html(conf: config.Config, relation: areas.Relation)
     return doc
 
 
-def get_additional_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc:
+def get_additional_housenumbers_html(conf: config.Config, relation: areas.Relation) -> yattag.doc.Doc:
     """Gets the cached HTML of the additional housenumbers for a relation."""
     doc = yattag.doc.Doc()
-    if is_additional_housenumbers_html_cached(relation):
+    if is_additional_housenumbers_html_cached(conf, relation):
         with relation.get_files().get_additional_housenumbers_htmlcache_stream("r") as stream:
             doc.asis(stream.read())
         return doc
@@ -130,10 +130,10 @@ def get_additional_housenumbers_html(relation: areas.Relation) -> yattag.doc.Doc
     return doc
 
 
-def is_missing_housenumbers_txt_cached(relation: areas.Relation) -> bool:
+def is_missing_housenumbers_txt_cached(conf: config.Config, relation: areas.Relation) -> bool:
     """Decides if we have an up to date plain text cache entry or not."""
     cache_path = relation.get_files().get_housenumbers_txtcache_path()
-    datadir = config.get_abspath("data")
+    datadir = conf.get_abspath("data")
     relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
     dependencies = [
         relation.get_files().get_osm_streets_path(),
@@ -144,10 +144,10 @@ def is_missing_housenumbers_txt_cached(relation: areas.Relation) -> bool:
     return is_cache_outdated(cache_path, dependencies)
 
 
-def get_missing_housenumbers_txt(relation: areas.Relation) -> str:
+def get_missing_housenumbers_txt(conf: config.Config, relation: areas.Relation) -> str:
     """Gets the cached plain text of the missing housenumbers for a relation."""
     output = ""
-    if is_missing_housenumbers_txt_cached(relation):
+    if is_missing_housenumbers_txt_cached(conf, relation):
         with relation.get_files().get_housenumbers_txtcache_stream("r") as stream:
             output = stream.read()
         return output

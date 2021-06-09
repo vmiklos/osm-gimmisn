@@ -105,7 +105,7 @@ class TestIsCompleteRelation(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         self.assertFalse(parse_access_log.is_complete_relation(relations, "gazdagret"))
 
 

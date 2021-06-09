@@ -200,7 +200,7 @@ def missing_streets_view_result(conf: config.Config, relations: areas.Relations,
     return doc
 
 
-def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) -> str:
+def missing_housenumbers_view_txt(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -215,7 +215,7 @@ def missing_housenumbers_view_txt(relations: areas.Relations, request_uri: str) 
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         output += _("No reference house numbers")
     else:
-        output = cache.get_missing_housenumbers_txt(relation)
+        output = cache.get_missing_housenumbers_txt(conf, relation)
     return output
 
 
@@ -835,7 +835,7 @@ def write_html_head(conf: config.Config, doc: yattag.doc.Doc, title: str) -> Non
             pass
 
 
-def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:
+def handle_github_webhook(environ: Dict[str, Any], conf: config.Config) -> yattag.doc.Doc:
     """Handles a GitHub style webhook."""
 
     body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
@@ -844,7 +844,7 @@ def handle_github_webhook(environ: Dict[str, Any]) -> yattag.doc.Doc:
     if root["ref"] == "refs/heads/master":
         my_env = os.environ
         my_env["PATH"] = "osm-gimmisn-env/bin:" + my_env["PATH"]
-        subprocess.run(["make", "-C", config.get_abspath(""), "deploy"], check=True, env=my_env)
+        subprocess.run(["make", "-C", conf.get_abspath(""), "deploy"], check=True, env=my_env)
 
     return util.html_escape("")
 
@@ -878,9 +878,9 @@ def our_application_txt(
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
         elif request_uri.endswith("robots.txt"):
-            output = util.get_content(config.get_abspath("data"), "robots.txt").decode("utf-8")
+            output = util.get_content(conf.get_abspath("data"), "robots.txt").decode("utf-8")
         else:  # assume txt
-            output = missing_housenumbers_view_txt(relations, request_uri)
+            output = missing_housenumbers_view_txt(conf, relations, request_uri)
     output_bytes = output.encode("utf-8")
     response_properties = webframe.Response(content_type, "200 OK", output_bytes, headers)
     return webframe.send_response(environ, start_response, response_properties)
@@ -917,9 +917,9 @@ def our_application(
     """Dispatches the request based on its URI."""
     util.set_locale(conf)
 
-    language = util.setup_localization(environ)
+    language = util.setup_localization(environ, conf)
 
-    relations = areas.Relations(conf.get_workdir())
+    relations = areas.Relations(conf)
 
     request_uri = webframe.get_request_uri(environ, conf, relations)
     _, _, ext = request_uri.partition('.')
@@ -955,7 +955,7 @@ def our_application(
             elif handler:
                 doc.asis(handler(conf, relations, request_uri).getvalue())
             elif request_uri.startswith(conf.get_uri_prefix() + "/webhooks/github"):
-                doc.asis(handle_github_webhook(environ).getvalue())
+                doc.asis(handle_github_webhook(environ, conf).getvalue())
             else:
                 doc.asis(handle_main(request_uri, conf, relations).getvalue())
 

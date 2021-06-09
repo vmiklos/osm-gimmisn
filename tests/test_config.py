@@ -18,23 +18,8 @@ def make_test_config() -> config.Config:
     return config.Config("tests")
 
 
-def mock_get_abspath(path: str) -> str:
-    """Mock get_abspath() that uses the test directory."""
-    if os.path.isabs(path):
-        return path
-    return os.path.join(os.path.dirname(__file__), path)
-
-
 class TestCase(unittest.TestCase):
     """Same as unittest.TestCase, but sets up get_abspath to use the test root."""
-    def setUp(self) -> None:
-        """Sets up the test config."""
-        self.get_abspath_patcher = unittest.mock.patch('config.get_abspath', mock_get_abspath)
-        self.get_abspath_patcher.start()
-
-    def tearDown(self) -> None:
-        """Tears down the test config."""
-        self.get_abspath_patcher.stop()
 
 
 class TestGetAbspath(unittest.TestCase):

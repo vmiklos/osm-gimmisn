@@ -15,3 +15,6 @@ min-public-methods=1
 
 # Maximum number of locals for function / method body.
 max-locals=20
+
+# Maximum number of attributes for a class (see R0902).
+max-attributes=8

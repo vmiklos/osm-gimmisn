@@ -210,15 +210,15 @@ class RelationBase:
     """A relation is a closed polygon on the map."""
     def __init__(
             self,
-            workdir: str,
+            conf: config.Config,
             name: str,
             parent_config: Dict[str, Any],
             yaml_cache: Dict[str, Any]
     ) -> None:
-        self.__workdir = workdir
+        self.__conf = conf
         self.__name = name
         my_config: Dict[str, Any] = {}
-        self.__file = area_files.RelationFiles(config.get_abspath("data"), workdir, name)
+        self.__file = area_files.RelationFiles(conf.get_abspath("data"), conf.get_workdir(), name)
         relation_path = "relation-%s.yaml" % name
         # Intentionally don't require this cache to be present, it's fine to omit it for simple
         # relations.
@@ -304,8 +304,7 @@ class RelationBase:
 
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
-        datadir = config.get_abspath("data")
-        with open(os.path.join(datadir, "streets-template.txt")) as stream:
+        with open(os.path.join(self.__conf.get_abspath("data"), "streets-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
     def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
@@ -552,12 +551,13 @@ class Relation(RelationBase):
     """A relation extends RelationBase with additional functionality, like reverse diffing."""
     def __init__(
             self,
-            workdir: str,
+            conf: config.Config,
             name: str,
             parent_config: Dict[str, Any],
             yaml_cache: Dict[str, Any]
     ) -> None:
-        RelationBase.__init__(self, workdir, name, parent_config, yaml_cache)
+        RelationBase.__init__(self, conf, name, parent_config, yaml_cache)
+        self.__conf = conf
 
     def get_street_valid(self) -> Dict[str, List[str]]:
         """Gets a street name -> valid map, which allows silencing individual false positives."""
@@ -649,8 +649,7 @@ class Relation(RelationBase):
 
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
-        datadir = config.get_abspath("data")
-        with open(os.path.join(datadir, "street-housenumbers-template.txt")) as stream:
+        with open(os.path.join(self.__conf.get_abspath("data"), "street-housenumbers-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
     def get_invalid_refstreets(self) -> Tuple[List[str], List[str]]:
@@ -710,10 +709,10 @@ class Relation(RelationBase):
 
 class Relations:
     """A relations object is a container of named relation objects."""
-    def __init__(self, workdir: str) -> None:
-        self.__workdir = workdir
-        datadir = config.get_abspath("data")
-        with open(os.path.join(datadir, "yamls.pickle"), "rb") as stream:
+    def __init__(self, conf: config.Config) -> None:
+        self.__workdir = conf.get_workdir()
+        self.__conf = conf
+        with open(os.path.join(conf.get_abspath("data"), "yamls.pickle"), "rb") as stream:
             self.__yaml_cache: Dict[str, Any] = pickle.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]
         self.__relations: Dict[str, Relation] = {}
@@ -730,7 +729,7 @@ class Relations:
         if name not in self.__relations.keys():
             if name not in self.__dict.keys():
                 self.__dict[name] = {}
-            self.__relations[name] = Relation(self.__workdir,
+            self.__relations[name] = Relation(self.__conf,
                                               name,
                                               self.__dict[name],
                                               self.__yaml_cache)
