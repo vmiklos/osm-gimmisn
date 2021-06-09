@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-class TestWsgiJson(test_config.TestCase):
+class TestWsgiJson(unittest.TestCase):
     """Base class for wsgi_json tests."""
 
     def get_json_for_path(self, conf: config.Config, path: str) -> Dict[str, Any]:

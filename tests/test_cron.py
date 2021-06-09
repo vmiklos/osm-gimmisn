@@ -69,7 +69,7 @@ class TestOverpassSleep(unittest.TestCase):
                 self.assertEqual(captured_seconds, 42.0)
 
 
-class TestUpdateRefHousenumbers(test_config.TestCase):
+class TestUpdateRefHousenumbers(unittest.TestCase):
     """Tests update_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -92,7 +92,7 @@ class TestUpdateRefHousenumbers(test_config.TestCase):
         self.assertFalse(os.path.exists(ujbuda_path))
 
 
-class TestUpdateRefStreets(test_config.TestCase):
+class TestUpdateRefStreets(unittest.TestCase):
     """Tests update_ref_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -116,7 +116,7 @@ class TestUpdateRefStreets(test_config.TestCase):
         self.assertFalse(os.path.exists(ujbuda_path))
 
 
-class TestUpdateMissingHousenumbers(test_config.TestCase):
+class TestUpdateMissingHousenumbers(unittest.TestCase):
     """Tests update_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -139,7 +139,7 @@ class TestUpdateMissingHousenumbers(test_config.TestCase):
         self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "ujbuda.percent")))
 
 
-class TestUpdateMissingStreets(test_config.TestCase):
+class TestUpdateMissingStreets(unittest.TestCase):
     """Tests update_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -162,7 +162,7 @@ class TestUpdateMissingStreets(test_config.TestCase):
         self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "gellerthegy-streets.percent")))
 
 
-class TestUpdateAdditionalStreets(test_config.TestCase):
+class TestUpdateAdditionalStreets(unittest.TestCase):
     """Tests update_additional_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -187,7 +187,7 @@ class TestUpdateAdditionalStreets(test_config.TestCase):
         self.assertFalse(os.path.exists(os.path.join(relations.get_workdir(), "gellerthegy-additional-streets.count")))
 
 
-class TestUpdateOsmHousenumbers(test_config.TestCase):
+class TestUpdateOsmHousenumbers(unittest.TestCase):
     """Tests update_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -256,7 +256,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
                 self.assertEqual(actual, expected)
 
 
-class TestUpdateOsmStreets(test_config.TestCase):
+class TestUpdateOsmStreets(unittest.TestCase):
     """Tests update_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -334,7 +334,7 @@ class MockDate(datetime.date):
         return cls(2020, 5, 10)
 
 
-class TestUpdateStats(test_config.TestCase):
+class TestUpdateStats(unittest.TestCase):
     """Tests update_stats()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -408,7 +408,7 @@ class TestUpdateStats(test_config.TestCase):
         self.assertFalse(mock_overpass_sleep_called)
 
 
-class TestOurMain(test_config.TestCase):
+class TestOurMain(unittest.TestCase):
     """Tests our_main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -456,7 +456,7 @@ class TestOurMain(test_config.TestCase):
         self.assertEqual(calls, 1)
 
 
-class TestMain(test_config.TestCase):
+class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""

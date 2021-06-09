@@ -37,7 +37,7 @@ class MockDate(datetime.date):
         return cls(2020, 5, 10)
 
 
-class TestHandleProgress(test_config.TestCase):
+class TestHandleProgress(unittest.TestCase):
     """Tests handle_progress()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -62,7 +62,7 @@ class TestHandleProgress(test_config.TestCase):
         self.assertEqual(progress["date"], "1970-01-01")
 
 
-class TestHandleTopusers(test_config.TestCase):
+class TestHandleTopusers(unittest.TestCase):
     """Tests handle_topusers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -86,7 +86,7 @@ class TestHandleTopusers(test_config.TestCase):
         self.assertFalse(topusers)
 
 
-class TestHandleTopcities(test_config.TestCase):
+class TestHandleTopcities(unittest.TestCase):
     """Tests handle_topcities()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -101,7 +101,7 @@ class TestHandleTopcities(test_config.TestCase):
         self.assertEqual(topcities[1], ("budapest_01", 90))
 
 
-class TestHandleDailyNew(test_config.TestCase):
+class TestHandleDailyNew(unittest.TestCase):
     """Tests handle_daily_new()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -126,7 +126,7 @@ class TestHandleDailyNew(test_config.TestCase):
         self.assertFalse(daily)
 
 
-class TestHandleMonthlyNew(test_config.TestCase):
+class TestHandleMonthlyNew(unittest.TestCase):
     """Tests handle_monthly_new()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -174,7 +174,7 @@ class TestHandleMonthlyNew(test_config.TestCase):
         self.assertEqual(monthly[0], ["2019-05", 3799])
 
 
-class TestHandleDailyTotal(test_config.TestCase):
+class TestHandleDailyTotal(unittest.TestCase):
     """Tests handle_daily_total()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -197,7 +197,7 @@ class TestHandleDailyTotal(test_config.TestCase):
         self.assertFalse(dailytotal)
 
 
-class TestHandleUserTotal(test_config.TestCase):
+class TestHandleUserTotal(unittest.TestCase):
     """Tests handle_user_total()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -220,7 +220,7 @@ class TestHandleUserTotal(test_config.TestCase):
         self.assertFalse(usertotal)
 
 
-class TestHandleMonthlyTotal(test_config.TestCase):
+class TestHandleMonthlyTotal(unittest.TestCase):
     """Tests handle_monthly_total()."""
     def test_happy(self) -> None:
         """Tests the happy path."""

@@ -22,7 +22,7 @@ import ranges
 import util
 
 
-class TestRelationGetOsmStreets(test_config.TestCase):
+class TestRelationGetOsmStreets(unittest.TestCase):
     """Tests Relation.get_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -59,7 +59,7 @@ class TestRelationGetOsmStreets(test_config.TestCase):
         self.assertIn("Barcfa dűlő", streets)
 
 
-class TestRelationGetOsmStreetsQuery(test_config.TestCase):
+class TestRelationGetOsmStreetsQuery(unittest.TestCase):
     """Tests Relation.get_osm_streets_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -71,7 +71,7 @@ class TestRelationGetOsmStreetsQuery(test_config.TestCase):
         self.assertEqual(ret, 'aaa 2713748 bbb 3602713748 ccc\n')
 
 
-class TestRelationGetOsmHousenumbersQuery(test_config.TestCase):
+class TestRelationGetOsmHousenumbersQuery(unittest.TestCase):
     """Tests Relation.get_osm_housenumbers_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -82,7 +82,7 @@ class TestRelationGetOsmHousenumbersQuery(test_config.TestCase):
         self.assertEqual(ret, 'housenr aaa 2713748 bbb 3602713748 ccc\n')
 
 
-class TestRelationFilesWriteOsmStreets(test_config.TestCase):
+class TestRelationFilesWriteOsmStreets(unittest.TestCase):
     """Tests RelationFiles.write_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -96,7 +96,7 @@ class TestRelationFilesWriteOsmStreets(test_config.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestRelationFilesWriteOsmHousenumbers(test_config.TestCase):
+class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
     """Tests RelationFiles.write_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -119,7 +119,7 @@ class TestRelationFilesWriteOsmHousenumbers(test_config.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestRelationGetStreetRanges(test_config.TestCase):
+class TestRelationGetStreetRanges(unittest.TestCase):
     """Tests Relation.get_street_ranges()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -150,7 +150,7 @@ class TestRelationGetStreetRanges(test_config.TestCase):
         self.assertEqual(filters, {})
 
 
-class TestRelationGetRefStreetFromOsmStreet(test_config.TestCase):
+class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
     """Tests Relation.get_ref_street_from_osm_street()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -225,7 +225,7 @@ class TestRelationGetRefStreetFromOsmStreet(test_config.TestCase):
         self.assertEqual("Csiki-hegyek utca", street)
 
 
-class TestNormalize(test_config.TestCase):
+class TestNormalize(unittest.TestCase):
     """
     Tests normalize().
 
@@ -362,7 +362,7 @@ class TestNormalize(test_config.TestCase):
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "6"])
 
 
-class TestRelationGetRefStreets(test_config.TestCase):
+class TestRelationGetRefStreets(unittest.TestCase):
     """Tests Relation.GetRefStreets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -378,7 +378,7 @@ class TestRelationGetRefStreets(test_config.TestCase):
                                          'Tűzkő utca'])
 
 
-class TestRelationGetOsmHouseNumbers(test_config.TestCase):
+class TestRelationGetOsmHouseNumbers(unittest.TestCase):
     """Tests Relation.get_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -399,7 +399,7 @@ class TestRelationGetOsmHouseNumbers(test_config.TestCase):
         self.assertEqual([i.get_number() for i in house_numbers], ["52"])
 
 
-class TestRelationGetMissingHousenumbers(test_config.TestCase):
+class TestRelationGetMissingHousenumbers(unittest.TestCase):
     """Tests Relation.get_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -543,7 +543,7 @@ class TestRelationGetMissingHousenumbers(test_config.TestCase):
         self.assertEqual(housenumber_range_names, expected)
 
 
-class TestRelationGetMissingStreets(test_config.TestCase):
+class TestRelationGetMissingStreets(unittest.TestCase):
     """Tests Relation.get_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -558,7 +558,7 @@ class TestRelationGetMissingStreets(test_config.TestCase):
         self.assertEqual(in_both, ['Hamzsabégi út', 'Ref Name 1', 'Törökugrató utca', 'Tűzkő utca'])
 
 
-class TestRelationGetAdditionalStreets(test_config.TestCase):
+class TestRelationGetAdditionalStreets(unittest.TestCase):
     """Tests Relation.get_additional_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -581,7 +581,7 @@ class TestRelationGetAdditionalStreets(test_config.TestCase):
         self.assertEqual(relation.get_config().get_osm_street_filters(), [])
 
 
-class TestRelationGetAdditionalHousenumbers(test_config.TestCase):
+class TestRelationGetAdditionalHousenumbers(unittest.TestCase):
     """Tests Relation.get_additional_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -605,7 +605,7 @@ def table_doc_to_string(table: List[List[yattag.doc.Doc]]) -> List[List[str]]:
     return table_content
 
 
-class TestRelationWriteMissingHouseNumbers(test_config.TestCase):
+class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
     """Tests Relation.write_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -666,7 +666,7 @@ class TestRelationWriteMissingHouseNumbers(test_config.TestCase):
                                         ['A utca', '1', '2-10']])
 
 
-class TestRelationWriteMissingStreets(test_config.TestCase):
+class TestRelationWriteMissingStreets(unittest.TestCase):
     """Tests Relation.write_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -694,7 +694,7 @@ class TestRelationWriteMissingStreets(test_config.TestCase):
         os.unlink(os.path.join(relations.get_workdir(), "empty-streets.percent"))
 
 
-class TestRelationBuildRefHousenumbers(test_config.TestCase):
+class TestRelationBuildRefHousenumbers(unittest.TestCase):
     """Tests Relation.build_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -729,7 +729,7 @@ class TestRelationBuildRefHousenumbers(test_config.TestCase):
         self.assertEqual(ret, [])
 
 
-class TestRelationBuildRefStreets(test_config.TestCase):
+class TestRelationBuildRefStreets(unittest.TestCase):
     """Tests Relation.build_ref_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -748,7 +748,7 @@ class TestRelationBuildRefStreets(test_config.TestCase):
                                'Hamzsabégi út'])
 
 
-class TestRelationWriteRefHousenumbers(test_config.TestCase):
+class TestRelationWriteRefHousenumbers(unittest.TestCase):
     """Tests Relation.write_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -788,7 +788,7 @@ class TestRelationWriteRefHousenumbers(test_config.TestCase):
             self.fail("write_ref_housenumbers() raised KeyError unexpectedly")
 
 
-class TestRelationWriteRefStreets(test_config.TestCase):
+class TestRelationWriteRefStreets(unittest.TestCase):
     """Tests Relation.WriteRefStreets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -803,7 +803,7 @@ class TestRelationWriteRefStreets(test_config.TestCase):
         self.assertEqual(actual, expected)
 
 
-class TestRelations(test_config.TestCase):
+class TestRelations(unittest.TestCase):
     """Tests the Relations class."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -851,7 +851,7 @@ class TestRelations(test_config.TestCase):
         self.assertTrue("nosuchrefsettlement" in relations.get_active_names())
 
 
-class TestRelationConfigMissingStreets(test_config.TestCase):
+class TestRelationConfigMissingStreets(unittest.TestCase):
     """Tests RelationConfig.should_check_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -901,7 +901,7 @@ class TestRefmegyeGetName(unittest.TestCase):
         self.assertEqual(relations.refcounty_get_name("99"), "")
 
 
-class TestRefmegyeGetReftelepulesIds(test_config.TestCase):
+class TestRefmegyeGetReftelepulesIds(unittest.TestCase):
     """Tests refcounty_get_refsettlement_ids()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -911,7 +911,7 @@ class TestRefmegyeGetReftelepulesIds(test_config.TestCase):
         self.assertEqual(relations.refcounty_get_refsettlement_ids("99"), [])
 
 
-class TestReftelepulesGetName(test_config.TestCase):
+class TestReftelepulesGetName(unittest.TestCase):
     """Tests refsettlement_get_name()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -922,7 +922,7 @@ class TestReftelepulesGetName(test_config.TestCase):
         self.assertEqual(relations.refsettlement_get_name("01", "99"), "")
 
 
-class TestRelationsGetAliases(test_config.TestCase):
+class TestRelationsGetAliases(unittest.TestCase):
     """Tests Relalations.get_aliases()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -935,7 +935,7 @@ class TestRelationsGetAliases(test_config.TestCase):
         self.assertEqual(relations.get_aliases(), expected)
 
 
-class TestRelationStreetIsEvenOdd(test_config.TestCase):
+class TestRelationStreetIsEvenOdd(unittest.TestCase):
     """Tests RelationConfig.get_street_is_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -947,7 +947,7 @@ class TestRelationStreetIsEvenOdd(test_config.TestCase):
         self.assertTrue(relation.get_config().get_street_is_even_odd("Teszt utca"))
 
 
-class TestRelationShowRefstreet(test_config.TestCase):
+class TestRelationShowRefstreet(unittest.TestCase):
     """Tests RelationConfig.should_show_ref_street()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -957,7 +957,7 @@ class TestRelationShowRefstreet(test_config.TestCase):
         self.assertTrue(relation.should_show_ref_street("Hamzsabégi út"))
 
 
-class TestRelationIsActive(test_config.TestCase):
+class TestRelationIsActive(unittest.TestCase):
     """Tests RelationConfig.is_active()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -966,7 +966,7 @@ class TestRelationIsActive(test_config.TestCase):
         self.assertTrue(relation.get_config().is_active())
 
 
-class TestMakeTurboQueryForStreets(test_config.TestCase):
+class TestMakeTurboQueryForStreets(unittest.TestCase):
     """Tests make_turbo_query_for_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""

@@ -30,7 +30,7 @@ class MockDate(datetime.date):
         return cls(2020, 5, 10)
 
 
-class TestMain(test_config.TestCase):
+class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -72,7 +72,7 @@ author-time 1588975200
         self.assertNotIn("gyomaendrod", actual)
 
 
-class TestCheckTopEditedRelations(test_config.TestCase):
+class TestCheckTopEditedRelations(unittest.TestCase):
     """Tests check_top_edited_relations()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
@@ -100,7 +100,7 @@ class TestCheckTopEditedRelations(test_config.TestCase):
                 self.assertNotIn("baz", frequent_relations)
 
 
-class TestIsCompleteRelation(test_config.TestCase):
+class TestIsCompleteRelation(unittest.TestCase):
     """Tests is_complete_relation()."""
     def test_happy(self) -> None:
         """Tests the happy path."""

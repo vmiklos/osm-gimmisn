@@ -41,10 +41,10 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-class TestWsgi(test_config.TestCase):
+class TestWsgi(unittest.TestCase):
     """Base class for wsgi tests."""
     def __init__(self, method_name: str) -> None:
-        test_config.TestCase.__init__(self, method_name)
+        unittest.TestCase.__init__(self, method_name)
         self.gzip_compress = False
         self.conf = test_config.make_test_config()
 
