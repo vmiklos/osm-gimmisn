@@ -14,10 +14,10 @@ import threading
 import config
 
 
-def set_language(language: str) -> None:
+def set_language(conf: config.Config, language: str) -> None:
     """Sets the language of the current thread."""
     tls = threading.current_thread.__dict__
-    localedir = config.get_abspath("locale")
+    localedir = conf.get_abspath("locale")
     tls["translations"] = gettext.translation("osm-gimmisn", localedir=localedir, languages=[language], fallback=True)
     tls["language"] = language
 

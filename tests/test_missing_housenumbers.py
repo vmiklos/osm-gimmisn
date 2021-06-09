@@ -12,7 +12,6 @@ import unittest.mock
 
 import test_config
 
-import config
 import missing_housenumbers
 
 
@@ -22,7 +21,7 @@ class TestMain(test_config.TestCase):
         """Tests the happy path."""
         argv = ["", "gh195"]
         buf = io.StringIO()
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('sys.argv', argv):
             with unittest.mock.patch('sys.stdout', buf):
                 missing_housenumbers.main(conf)

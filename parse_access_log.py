@@ -93,10 +93,10 @@ def get_frequent_relations(conf: config.Config, log_file: str) -> Set[str]:
     return frequent_relations
 
 
-def get_relation_create_dates() -> Dict[str, datetime.date]:
+def get_relation_create_dates(conf: config.Config) -> Dict[str, datetime.date]:
     """Builds a name -> create_date dictionary for relations."""
     ret: Dict[str, datetime.date] = {}
-    relations_path = config.get_abspath("data/relations.yaml")
+    relations_path = conf.get_abspath("data/relations.yaml")
     process = subprocess.run(["git", "blame", "--line-porcelain", relations_path], stdout=subprocess.PIPE, check=True)
     timestamp = 0
 
@@ -145,9 +145,9 @@ def main(conf: config.Config) -> None:
     """Commandline interface."""
     log_file = sys.argv[1]
 
-    relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates()
+    relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates(conf)
 
-    relations = areas.Relations(conf.get_workdir())
+    relations = areas.Relations(conf)
     frequent_relations = get_frequent_relations(conf, log_file)
     check_top_edited_relations(frequent_relations, conf.get_workdir())
 

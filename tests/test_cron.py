@@ -74,7 +74,7 @@ class TestUpdateRefHousenumbers(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         for relation_name in relations.get_active_names():
             if relation_name not in ("gazdagret", "ujbuda"):
                 relations.get_relation(relation_name).get_config().set_active(False)
@@ -97,7 +97,7 @@ class TestUpdateRefStreets(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -121,7 +121,7 @@ class TestUpdateMissingHousenumbers(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         for relation_name in relations.get_active_names():
             # ujbuda is streets=only
             if relation_name not in ("gazdagret", "ujbuda"):
@@ -144,7 +144,7 @@ class TestUpdateMissingStreets(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -167,7 +167,7 @@ class TestUpdateAdditionalStreets(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -215,7 +215,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
             return buf
 
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                 for relation_name in relations.get_active_names():
@@ -241,7 +241,7 @@ class TestUpdateOsmHousenumbers(test_config.TestCase):
             mock_overpass_sleep_called = True
 
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                 for relation_name in relations.get_active_names():
@@ -275,7 +275,7 @@ class TestUpdateOsmStreets(test_config.TestCase):
             return buf
 
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                 for relation_name in relations.get_active_names():
@@ -301,7 +301,7 @@ class TestUpdateOsmStreets(test_config.TestCase):
             mock_overpass_sleep_called = True
 
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
                 for relation_name in relations.get_active_names():
@@ -357,11 +357,11 @@ class TestUpdateStats(test_config.TestCase):
             return buf
 
         # Create a CSV that is definitely old enough to be removed.
-        old_path = config.get_abspath("workdir/stats/old.csv")
+        old_path = conf.get_abspath("workdir/stats/old.csv")
         create_old_file(old_path)
 
         today = time.strftime("%Y-%m-%d")
-        path = config.get_abspath("workdir/stats/%s.csv" % today)
+        path = conf.get_abspath("workdir/stats/%s.csv" % today)
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
             with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
                 with unittest.mock.patch('datetime.date', MockDate):
@@ -374,7 +374,7 @@ class TestUpdateStats(test_config.TestCase):
 
         self.assertTrue(mock_overpass_sleep_called)
 
-        with open(config.get_abspath("workdir/stats/ref.count"), "r") as stream:
+        with open(conf.get_abspath("workdir/stats/ref.count"), "r") as stream:
             num_ref = int(stream.read().strip())
         self.assertEqual(num_ref, 300)
 
@@ -419,7 +419,7 @@ class TestOurMain(test_config.TestCase):
             calls += 1
 
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         with unittest.mock.patch("cron.update_osm_streets", count_calls):
             with unittest.mock.patch("cron.update_osm_housenumbers", count_calls):
                 with unittest.mock.patch("cron.update_ref_streets", count_calls):
@@ -449,7 +449,7 @@ class TestOurMain(test_config.TestCase):
             calls += 1
 
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         with unittest.mock.patch("cron.update_stats", count_calls):
             cron.our_main(conf, relations, mode="stats", update=False, overpass=True)
 

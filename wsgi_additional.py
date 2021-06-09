@@ -118,7 +118,7 @@ def additional_housenumbers_view_result(
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
         doc.asis(webframe.handle_no_ref_housenumbers(prefix, relation_name).getvalue())
     else:
-        doc = cache.get_additional_housenumbers_html(relation)
+        doc = cache.get_additional_housenumbers_html(conf, relation)
     return doc
 
 

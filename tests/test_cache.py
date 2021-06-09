@@ -13,7 +13,6 @@ import test_config
 
 import areas
 import cache
-import config
 
 
 class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
@@ -21,15 +20,15 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(conf, relation)
-        self.assertTrue(cache.is_missing_housenumbers_html_cached(relation))
+        self.assertTrue(cache.is_missing_housenumbers_html_cached(conf, relation))
 
     def test_no_cache(self) -> None:
         """Tests the case when there is no cache."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -40,12 +39,12 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
                 return False
             return orig_exists(path)
         with unittest.mock.patch('os.path.exists', mock_exists):
-            self.assertFalse(cache.is_missing_housenumbers_html_cached(relation))
+            self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
     def test_osm_housenumbers_new(self) -> None:
         """Tests the case when osm_housenumbers is new, so the cache entry is old."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -57,12 +56,12 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
                 return orig_getmtime(cache_path) + 1
             return orig_getmtime(path)
         with unittest.mock.patch('os.path.getmtime', mock_getmtime):
-            self.assertFalse(cache.is_missing_housenumbers_html_cached(relation))
+            self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
     def test_ref_housenumbers_new(self) -> None:
         """Tests the case when ref_housenumbers is new, so the cache entry is old."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
@@ -74,16 +73,16 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
                 return orig_getmtime(cache_path) + 1
             return orig_getmtime(path)
         with unittest.mock.patch('os.path.getmtime', mock_getmtime):
-            self.assertFalse(cache.is_missing_housenumbers_html_cached(relation))
+            self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
     def test_relation_new(self) -> None:
         """Tests the case when relation is new, so the cache entry is old."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
-        datadir = config.get_abspath("data")
+        datadir = conf.get_abspath("data")
         relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
         orig_getmtime = os.path.getmtime
 
@@ -92,7 +91,7 @@ class TestIsMissingHousenumbersHtmlCached(test_config.TestCase):
                 return orig_getmtime(cache_path) + 1
             return orig_getmtime(path)
         with unittest.mock.patch('os.path.getmtime', mock_getmtime):
-            self.assertFalse(cache.is_missing_housenumbers_html_cached(relation))
+            self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
 
 class TestGetAdditionalHousenumbersHtml(test_config.TestCase):
@@ -100,10 +99,10 @@ class TestGetAdditionalHousenumbersHtml(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the case when we find the result in cache."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         relation = relations.get_relation("gazdagret")
-        first = cache.get_additional_housenumbers_html(relation)
-        second = cache.get_additional_housenumbers_html(relation)
+        first = cache.get_additional_housenumbers_html(conf, relation)
+        second = cache.get_additional_housenumbers_html(conf, relation)
         self.assertEqual(first.getvalue(), second.getvalue())
 
 
@@ -112,9 +111,9 @@ class TestIsMissingHousenumbersTxtCached(test_config.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        relations = areas.Relations(conf.get_workdir())
+        relations = areas.Relations(conf)
         relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_txt(relation)
-        self.assertTrue(cache.is_missing_housenumbers_txt_cached(relation))
+        cache.get_missing_housenumbers_txt(conf, relation)
+        self.assertTrue(cache.is_missing_housenumbers_txt_cached(conf, relation))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

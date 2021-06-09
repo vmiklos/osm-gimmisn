@@ -13,8 +13,7 @@ import config
 
 def main(conf: config.Config) -> None:
     """Commandline interface."""
-    workdir = conf.get_workdir()
-    relations = areas.Relations(workdir)
+    relations = areas.Relations(conf)
     for relation in relations.get_relations():
         invalid_refstreets = relation.get_invalid_refstreets()
         osm_invalids, ref_invalids = invalid_refstreets

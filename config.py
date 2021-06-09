@@ -14,14 +14,6 @@ import configparser
 import os
 
 
-def get_abspath(path: str) -> str:
-    """Make a path absolute, taking the repo root as a base dir."""
-    if os.path.isabs(path):
-        return path
-
-    return os.path.join(os.path.dirname(__file__), path)
-
-
 class Config:
     """Config replacement without static state."""
     def __init__(self, prefix: str) -> None:

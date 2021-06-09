@@ -470,7 +470,7 @@ def handle_overpass_error(conf: config.Config, http_error: urllib.error.HTTPErro
     return doc
 
 
-def setup_localization(environ: Dict[str, Any]) -> str:
+def setup_localization(environ: Dict[str, Any], conf: config.Config) -> str:
     """Provides localized strings for this thread."""
     # Set up localization.
     languages = environ.get("HTTP_ACCEPT_LANGUAGE")
@@ -478,7 +478,7 @@ def setup_localization(environ: Dict[str, Any]) -> str:
         parsed = accept_language.parse_accept_language(languages)
         if parsed:
             language = parsed[0].language
-            i18n.set_language(language)
+            i18n.set_language(conf, language)
             return cast(str, language)
     return ""
 

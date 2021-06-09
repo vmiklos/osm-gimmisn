@@ -19,11 +19,11 @@ import yaml
 import config
 
 
-def main() -> None:
+def main(conf: config.Config) -> None:
     """Commandline interface to this module."""
 
     cache: Dict[str, Any] = {}
-    datadir = config.get_abspath(sys.argv[1])
+    datadir = conf.get_abspath(sys.argv[1])
     for yaml_path in glob.glob(os.path.join(datadir, "*.yaml")):
         with open(yaml_path) as yaml_stream:
             cache_key = os.path.relpath(yaml_path, datadir)
@@ -33,7 +33,7 @@ def main() -> None:
     with open(cache_path, "wb") as cache_stream:
         pickle.dump(cache, cache_stream)
 
-    workdir = config.get_abspath(sys.argv[2])
+    workdir = conf.get_abspath(sys.argv[2])
     yaml_path = os.path.join(datadir, "relations.yaml")
     relation_ids = []
     with open(yaml_path) as stream:
@@ -48,6 +48,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

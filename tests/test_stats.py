@@ -16,7 +16,6 @@ import unittest.mock
 
 import test_config
 
-import config
 import stats
 
 
@@ -42,7 +41,8 @@ class TestHandleProgress(test_config.TestCase):
     """Tests handle_progress()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('time.strftime', mock_strftime):
             stats.handle_progress(src_root, j)
@@ -53,7 +53,8 @@ class TestHandleProgress(test_config.TestCase):
 
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('time.strftime', mock_strftime_old):
             stats.handle_progress(src_root, j)
@@ -65,7 +66,8 @@ class TestHandleTopusers(test_config.TestCase):
     """Tests handle_topusers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('time.strftime', mock_strftime):
             stats.handle_topusers(src_root, j)
@@ -75,7 +77,8 @@ class TestHandleTopusers(test_config.TestCase):
 
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('time.strftime', mock_strftime_old):
             stats.handle_topusers(src_root, j)
@@ -87,7 +90,8 @@ class TestHandleTopcities(test_config.TestCase):
     """Tests handle_topcities()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('datetime.date', MockDate):
             stats.handle_topcities(src_root, j)
@@ -101,7 +105,8 @@ class TestHandleDailyNew(test_config.TestCase):
     """Tests handle_daily_new()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('datetime.date', MockDate):
             # From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
@@ -113,7 +118,8 @@ class TestHandleDailyNew(test_config.TestCase):
 
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_daily_new(src_root, j, day_range=-1)
         daily = j["daily"]
@@ -124,7 +130,8 @@ class TestHandleMonthlyNew(test_config.TestCase):
     """Tests handle_monthly_new()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('datetime.date', MockDate):
             stats.handle_monthly_new(src_root, j)
@@ -137,7 +144,8 @@ class TestHandleMonthlyNew(test_config.TestCase):
 
     def test_empty_month_range(self) -> None:
         """Tests the case when the month range is empty."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_monthly_new(src_root, j, month_range=-1)
         monthly = j["monthly"]
@@ -145,11 +153,12 @@ class TestHandleMonthlyNew(test_config.TestCase):
 
     def test_incomplete_last_month(self) -> None:
         """Tests the case when we have no data for the last, incomplete month."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('datetime.date', MockDate):
             # This would be the data for the current state of the last, incomplete month.
-            hide_path = config.get_abspath("workdir/stats/2020-05-10.count")
+            hide_path = conf.get_abspath("workdir/stats/2020-05-10.count")
             real_exists = os.path.exists
 
             def mock_exists(path: str) -> bool:
@@ -169,7 +178,8 @@ class TestHandleDailyTotal(test_config.TestCase):
     """Tests handle_daily_total()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('datetime.date', MockDate):
             stats.handle_daily_total(src_root, j)
@@ -179,7 +189,8 @@ class TestHandleDailyTotal(test_config.TestCase):
 
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_daily_total(src_root, j, day_range=-1)
         dailytotal = j["dailytotal"]
@@ -190,7 +201,8 @@ class TestHandleUserTotal(test_config.TestCase):
     """Tests handle_user_total()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('datetime.date', MockDate):
             stats.handle_user_total(src_root, j)
@@ -200,7 +212,8 @@ class TestHandleUserTotal(test_config.TestCase):
 
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_user_total(src_root, j, day_range=-1)
         usertotal = j["usertotal"]
@@ -211,7 +224,8 @@ class TestHandleMonthlyTotal(test_config.TestCase):
     """Tests handle_monthly_total()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('datetime.date', MockDate):
             stats.handle_monthly_total(src_root, j)
@@ -221,7 +235,8 @@ class TestHandleMonthlyTotal(test_config.TestCase):
 
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_monthly_total(src_root, j, month_range=-1)
         monthlytotal = j["monthlytotal"]
@@ -229,7 +244,8 @@ class TestHandleMonthlyTotal(test_config.TestCase):
 
     def test_one_element_day_range(self) -> None:
         """Tests the case when the day range is of just one element."""
-        src_root = config.get_abspath("workdir/stats")
+        conf = test_config.make_test_config()
+        src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('datetime.date', MockDate):
             stats.handle_monthly_total(src_root, j, month_range=0)

@@ -15,6 +15,8 @@ import urllib.error
 
 import yattag
 
+import test_config
+
 import config
 import util
 
@@ -187,19 +189,21 @@ class TestSetupLocalization(unittest.TestCase):
     """Tests setup_localization()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        def set_language(language: str) -> None:
+        def set_language(_conf: config.Config, language: str) -> None:
             self.assertEqual(language, "en")
         environ = {"HTTP_ACCEPT_LANGUAGE": "en-US,el;q=0.8"}
+        conf = test_config.make_test_config()
         with unittest.mock.patch('i18n.set_language', set_language):
-            util.setup_localization(environ)
+            util.setup_localization(environ, conf)
 
     def test_parse_error(self) -> None:
         """Tests the error path."""
         def set_language(_language: str) -> None:
             self.fail("unexpected call")
         environ = {"HTTP_ACCEPT_LANGUAGE": ","}
+        conf = test_config.make_test_config()
         with unittest.mock.patch('i18n.set_language', set_language):
-            util.setup_localization(environ)
+            util.setup_localization(environ, conf)
 
 
 class TestGenLink(unittest.TestCase):
@@ -354,16 +358,6 @@ class TestGitLink(unittest.TestCase):
         actual = util.git_link("v1-151-g64ecc85", "http://www.example.com/").getvalue()
         expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>"
         self.assertEqual(actual, expected)
-
-
-class TestGetAbspath(unittest.TestCase):
-    """Tests get_abspath()."""
-    def test_happy(self) -> None:
-        """Tests the happy path, when the input is relative."""
-        actual = config.get_abspath("foo")
-        expected = os.path.join(os.getcwd(), "foo")
-        self.assertEqual(actual, expected)
-        self.assertEqual(config.get_abspath(actual), expected)
 
 
 class TestSortNumerically(unittest.TestCase):
