@@ -478,7 +478,7 @@ class TestMain(unittest.TestCase):
             nonlocal mock_info_called
             mock_info_called = True
 
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch("cron.our_main", mock_main):
             with unittest.mock.patch("logging.info", mock_info):
                 argv = [""]
@@ -502,7 +502,7 @@ class TestMain(unittest.TestCase):
             nonlocal mock_error_called
             mock_error_called = True
 
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch("cron.our_main", mock_our_main):
             with unittest.mock.patch("logging.info", mock_info):
                 with unittest.mock.patch("logging.error", mock_error):

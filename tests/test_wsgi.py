@@ -667,7 +667,7 @@ class TestMain(TestWsgi):
 
     def test_application_exception(self) -> None:
         """Tests application(), exception catching case."""
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         environ = {
             "PATH_INFO": "/"
         }
@@ -717,7 +717,7 @@ class TestMain(TestWsgi):
             """Creates a new mock WSGI server."""
             return MockServer(app)
 
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('wsgiref.simple_server.make_server', mock_make_server):
             # Capture standard output.
             buf = io.StringIO()
