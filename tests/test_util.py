@@ -166,7 +166,7 @@ class TestHandleOverpassError(unittest.TestCase):
         def need_sleep(_conf: config.Config) -> int:
             return 0
         error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, io.BytesIO())
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('overpass_query.overpass_query_need_sleep', need_sleep):
             doc = util.handle_overpass_error(conf, error)
             expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file</div>"""
@@ -177,7 +177,7 @@ class TestHandleOverpassError(unittest.TestCase):
         def need_sleep(_conf: config.Config) -> int:
             return 42
         error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, io.BytesIO())
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('overpass_query.overpass_query_need_sleep', need_sleep):
             doc = util.handle_overpass_error(conf, error)
             expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file"""

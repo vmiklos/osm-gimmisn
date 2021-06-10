@@ -15,7 +15,8 @@ import unittest
 import unittest.mock
 import urllib.error
 
-import config
+import test_config
+
 import overpass_query
 
 
@@ -49,19 +50,19 @@ class TestOverpassQueryNeedSleeep(unittest.TestCase):
     """Tests overpass_query_need_sleep()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-status-happy")):
             self.assertEqual(overpass_query.overpass_query_need_sleep(conf), 0)
 
     def test_wait(self) -> None:
         """Tests the wait path."""
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-status-wait")):
             self.assertEqual(overpass_query.overpass_query_need_sleep(conf), 12)
 
     def test_wait_negative(self) -> None:
         """Tests the wait for negative amount path."""
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-status-wait-negative")):
             self.assertEqual(overpass_query.overpass_query_need_sleep(conf), 1)
 
@@ -70,7 +71,7 @@ class TestOverpassQuery(unittest.TestCase):
     """Tests overpass_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-interpreter-happy")):
             with open("tests/mock/overpass-interpreter-happy.request-data") as stream:
                 query = stream.read()
@@ -82,7 +83,7 @@ class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-interpreter-happy")):
             buf = io.StringIO()
             with unittest.mock.patch('sys.stdout', buf):
@@ -94,7 +95,7 @@ class TestMain(unittest.TestCase):
 
     def test_failure(self) -> None:
         """Tests the failure path."""
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("")):
             buf = io.StringIO()
             with unittest.mock.patch('sys.stdout', buf):

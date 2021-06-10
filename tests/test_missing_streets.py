@@ -10,7 +10,8 @@ import io
 import unittest
 import unittest.mock
 
-import config
+import test_config
+
 import missing_streets
 
 
@@ -20,7 +21,7 @@ class TestMain(unittest.TestCase):
         """Tests the happy path."""
         argv = ["", "gazdagret"]
         buf = io.StringIO()
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         with unittest.mock.patch('sys.argv', argv):
             with unittest.mock.patch('sys.stdout', buf):
                 missing_streets.main(conf)

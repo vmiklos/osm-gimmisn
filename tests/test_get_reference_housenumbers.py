@@ -9,7 +9,8 @@
 import unittest
 import unittest.mock
 
-import config
+import test_config
+
 import get_reference_housenumbers
 import util
 
@@ -18,7 +19,7 @@ class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = config.Config("tests")
+        conf = test_config.make_test_config()
         expected = util.get_content(conf.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
 
         argv = ["", "gazdagret"]
