@@ -6,12 +6,8 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_cherry.py \
 	tests/test_config.py \
 	tests/test_cron.py \
-	tests/test_get_reference_housenumbers.py \
-	tests/test_get_reference_streets.py \
 	tests/test_i18n.py \
 	tests/test_missing_housenumbers.py \
-	tests/test_missing_streets.py \
-	tests/test_overpass_query.py \
 	tests/test_parse_access_log.py \
 	tests/test_ranges.py \
 	tests/test_stats.py \
@@ -32,12 +28,8 @@ PYTHON_SAFE_OBJECTS = \
 	cherry.py \
 	config.py \
 	cron.py \
-	get_reference_housenumbers.py \
-	get_reference_streets.py \
 	i18n.py \
 	missing_housenumbers.py \
-	missing_streets.py \
-	overpass_query.py \
 	parse_access_log.py \
 	ranges.py \
 	stats.py \
@@ -51,9 +43,6 @@ PYTHON_SAFE_OBJECTS = \
 
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \
-	additional_housenumbers.py \
-	additional_streets.py \
-	invalid_refstreets.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
