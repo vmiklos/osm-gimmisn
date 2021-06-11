@@ -77,7 +77,7 @@ def handle_streets(conf: config.Config, relations: areas.Relations, request_uri:
             table = util.tsv_to_list(sock)
             doc.asis(util.html_table_from_list(table).getvalue())
 
-    doc.asis(webframe.get_footer(get_streets_last_modified(conf, relation)).getvalue())
+    doc.asis(webframe.get_footer(get_streets_last_modified(relation)).getvalue())
     return doc
 
 
@@ -115,7 +115,7 @@ def handle_street_housenumbers(conf: config.Config, relations: areas.Relations, 
             with relation.get_files().get_osm_housenumbers_csv_stream() as sock:
                 doc.asis(util.html_table_from_list(util.tsv_to_list(sock)).getvalue())
 
-    date = get_housenumbers_last_modified(conf, relation)
+    date = get_housenumbers_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
@@ -328,7 +328,7 @@ def handle_missing_housenumbers(conf: config.Config, relations: areas.Relations,
         with doc.tag("pre"):
             with relation.get_files().get_ref_housenumbers_stream("r") as sock:
                 doc.text(sock.read())
-        date = get_last_modified(conf, relation.get_files().get_ref_housenumbers_path())
+        date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
     elif action == "update-result":
         doc.asis(missing_housenumbers_update(conf, relations, relation_name).getvalue())
     else:
@@ -336,7 +336,7 @@ def handle_missing_housenumbers(conf: config.Config, relations: areas.Relations,
         doc.asis(missing_housenumbers_view_res(conf, relations, request_uri).getvalue())
 
     if not date:
-        date = ref_housenumbers_last_modified(conf, relations, relation_name)
+        date = ref_housenumbers_last_modified(relations, relation_name)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
@@ -384,7 +384,7 @@ def handle_missing_streets(conf: config.Config, relations: areas.Relations, requ
         # assume view-result
         doc.asis(missing_streets_view_result(conf, relations, request_uri).getvalue())
 
-    date = streets_diff_last_modified(conf, relation)
+    date = streets_diff_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
@@ -407,7 +407,7 @@ def handle_additional_streets(conf: config.Config, relations: areas.Relations, r
         # assume view-result
         doc.asis(wsgi_additional.additional_streets_view_result(conf, relations, request_uri).getvalue())
 
-    date = streets_diff_last_modified(conf, relation)
+    date = streets_diff_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
@@ -431,46 +431,46 @@ def handle_additional_housenumbers(
     # assume action is view-result
     doc.asis(wsgi_additional.additional_housenumbers_view_result(conf, relations, request_uri).getvalue())
 
-    date = housenumbers_diff_last_modified(conf, relation)
+    date = housenumbers_diff_last_modified(relation)
     doc.asis(webframe.get_footer(date).getvalue())
     return doc
 
 
-def get_last_modified(conf: config.Config, path: str) -> str:
+def get_last_modified(path: str) -> str:
     """Gets the update date string of a file."""
-    return webframe.format_timestamp(conf, util.get_timestamp(path))
+    return webframe.format_timestamp(util.get_timestamp(path))
 
 
-def ref_housenumbers_last_modified(conf: config.Config, relations: areas.Relations, name: str) -> str:
+def ref_housenumbers_last_modified(relations: areas.Relations, name: str) -> str:
     """Gets the update date for missing house numbers."""
     relation = relations.get_relation(name)
     t_ref = util.get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_housenumbers = util.get_timestamp(relation.get_files().get_osm_housenumbers_path())
-    return webframe.format_timestamp(conf, max(t_ref, t_housenumbers))
+    return webframe.format_timestamp(max(t_ref, t_housenumbers))
 
 
-def streets_diff_last_modified(conf: config.Config, relation: areas.Relation) -> str:
+def streets_diff_last_modified(relation: areas.Relation) -> str:
     """Gets the update date for missing/additional streets."""
     t_ref = util.get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = util.get_timestamp(relation.get_files().get_osm_streets_path())
-    return webframe.format_timestamp(conf, max(t_ref, t_osm))
+    return webframe.format_timestamp(max(t_ref, t_osm))
 
 
-def housenumbers_diff_last_modified(conf: config.Config, relation: areas.Relation) -> str:
+def housenumbers_diff_last_modified(relation: areas.Relation) -> str:
     """Gets the update date for missing/additional housenumbers."""
     t_ref = util.get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_osm = util.get_timestamp(relation.get_files().get_osm_housenumbers_path())
-    return webframe.format_timestamp(conf, max(t_ref, t_osm))
+    return webframe.format_timestamp(max(t_ref, t_osm))
 
 
-def get_housenumbers_last_modified(conf: config.Config, relation: areas.Relation) -> str:
+def get_housenumbers_last_modified(relation: areas.Relation) -> str:
     """Gets the update date of house numbers for a relation."""
-    return get_last_modified(conf, relation.get_files().get_osm_housenumbers_path())
+    return get_last_modified(relation.get_files().get_osm_housenumbers_path())
 
 
-def get_streets_last_modified(conf: config.Config, relation: areas.Relation) -> str:
+def get_streets_last_modified(relation: areas.Relation) -> str:
     """Gets the update date of streets for a relation."""
-    return get_last_modified(conf, relation.get_files().get_osm_streets_path())
+    return get_last_modified(relation.get_files().get_osm_streets_path())
 
 
 def handle_main_housenr_percent(conf: config.Config, relation: areas.Relation) -> Tuple[yattag.doc.Doc, str]:
@@ -483,7 +483,7 @@ def handle_main_housenr_percent(conf: config.Config, relation: areas.Relation) -
 
     doc = yattag.doc.Doc()
     if percent != "N/A":
-        date = get_last_modified(conf, relation.get_files().get_housenumbers_percent_path())
+        date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(util.format_percent(percent))
@@ -505,7 +505,7 @@ def handle_main_street_percent(conf: config.Config, relation: areas.Relation) ->
 
     doc = yattag.doc.Doc()
     if percent != "N/A":
-        date = get_last_modified(conf, relation.get_files().get_streets_percent_path())
+        date = get_last_modified(relation.get_files().get_streets_percent_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(util.format_percent(percent))
@@ -527,7 +527,7 @@ def handle_main_street_additional_count(conf: config.Config, relation: areas.Rel
 
     doc = yattag.doc.Doc()
     if additional_count:
-        date = get_last_modified(conf, relation.get_files().get_streets_additional_count_path())
+        date = get_last_modified(relation.get_files().get_streets_additional_count_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(_("{} streets").format(additional_count))
@@ -553,7 +553,7 @@ def handle_main_housenr_additional_count(conf: config.Config, relation: areas.Re
 
     doc = yattag.doc.Doc()
     if additional_count:
-        date = get_last_modified(conf, relation.get_files().get_housenumbers_additional_count_path())
+        date = get_last_modified(relation.get_files().get_housenumbers_additional_count_path())
         with doc.tag("strong"):
             with doc.tag("a", href=url, title=_("updated") + " " + date):
                 doc.text(_("{} house numbers").format(additional_count))

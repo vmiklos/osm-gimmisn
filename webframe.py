@@ -22,7 +22,6 @@ import time
 import traceback
 import xmlrpc.client
 
-import pytz
 import yattag
 
 from i18n import translate as _
@@ -348,22 +347,11 @@ def handle_404() -> yattag.doc.Doc:
     return doc
 
 
-def local_to_ui_tz(conf: config.Config, local_dt: datetime.datetime) -> datetime.datetime:
-    """Converts from local date-time to UI date-time, based on config."""
-    if conf.has_value("timezone"):
-        ui_tz = pytz.timezone(conf.get_timezone())
-    else:
-        ui_tz = pytz.timezone("Europe/Budapest")
-
-    return local_dt.astimezone(ui_tz)
-
-
-def format_timestamp(conf: config.Config, timestamp: float) -> str:
+def format_timestamp(timestamp: float) -> str:
     """Formats timestamp as UI date-time."""
-    local_dt = datetime.datetime.fromtimestamp(timestamp)
-    ui_dt = local_to_ui_tz(conf, local_dt)
+    date_time = datetime.datetime.fromtimestamp(timestamp)
     fmt = '%Y-%m-%d %H:%M'
-    return ui_dt.strftime(fmt)
+    return date_time.strftime(fmt)
 
 
 def handle_stats_cityprogress(conf: config.Config, relations: areas.Relations) -> yattag.doc.Doc:
