@@ -58,10 +58,6 @@ class Config:
         """Gets the locale."""
         return self.__config.get("wsgi", "locale").strip()
 
-    def get_timezone(self) -> str:
-        """Gets the timezone."""
-        return self.__config.get("wsgi", "timezone").strip()
-
     def get_uri_prefix(self) -> str:
         """Gets the global URI prefix."""
         return self.__config.get("wsgi", "uri_prefix").strip()

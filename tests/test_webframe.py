@@ -10,10 +10,8 @@ from typing import List
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
-import datetime
 import unittest
 import unittest.mock
-import time
 
 # pylint: disable=unused-import
 import yattag
@@ -113,18 +111,6 @@ class TestHandleException(unittest.TestCase):
             self.assertIn("ValueError", output)
             return
         self.fail()
-
-
-class TestLocalToUiTz(unittest.TestCase):
-    """Tests local_to_ui_tz()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        conf = test_config.make_test_config()
-        conf.set_value("timezone", "Europe/Budapest")
-        local_dt = datetime.datetime.fromtimestamp(0)
-        ui_dt = webframe.local_to_ui_tz(conf, local_dt)
-        if time.strftime('%Z%z') == "CEST+0200":
-            self.assertEqual(ui_dt.timestamp(), 0)
 
 
 class TestFillMissingHeaderItems(unittest.TestCase):
