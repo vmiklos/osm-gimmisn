@@ -77,10 +77,10 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
                                    'Only In Ref Nonsense utca',
                                    'Hamzsabégi út']}}
         self.assertEqual(memory_cache, expected)
-        os.unlink(refpath + ".pickle")
+        os.unlink(refpath + ".cache")
 
     def test_cached(self) -> None:
-        """Tests the case when the pickle cache is already available."""
+        """Tests the case when the cache is already available."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "utcak_20190514.tsv")
         util.build_street_reference_cache(refpath)
@@ -92,7 +92,7 @@ class TestBuildStreetReferenceCache(unittest.TestCase):
                                    'Only In Ref Nonsense utca',
                                    'Hamzsabégi út']}}
         self.assertEqual(memory_cache, expected)
-        os.unlink(refpath + ".pickle")
+        os.unlink(refpath + ".cache")
 
 
 class TestBuildReferenceCache(unittest.TestCase):
@@ -102,23 +102,25 @@ class TestBuildReferenceCache(unittest.TestCase):
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         memory_cache = util.build_reference_cache(refpath, "01")
-        expected = {'01': {'011': {'Ref Name 1': hnr_list(['1', '2']),
-                                   'Törökugrató utca': hnr_list(['1', '10', '11', '12', '2', '7']),
-                                   'Tűzkő utca': hnr_list(['1', '10', '2', '9']),
-                                   'Hamzsabégi út': hnr_list(['1'])}}}
+        expected = {'01': {'011': {'Ref Name 1': [['1', ''], ['2', '']],
+                                   'Törökugrató utca': [['1', 'comment'],
+                                                        ['10', ''], ['11', ''], ['12', ''], ['2', ''], ['7', '']],
+                                   'Tűzkő utca': [['1', ''], ['10', ''], ['2', ''], ['9', '']],
+                                   'Hamzsabégi út': [['1', '']]}}}
         self.assertEqual(memory_cache, expected)
         os.unlink(util.get_reference_cache_path(refpath, "01"))
 
     def test_cached(self) -> None:
-        """Tests the case when the pickle cache is already available."""
+        """Tests the case when the cache is already available."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         util.build_reference_cache(refpath, "01")
         memory_cache = util.build_reference_cache(refpath, "01")
-        expected = {'01': {'011': {'Hamzsabégi út': hnr_list(['1']),
-                                   'Ref Name 1': hnr_list(['1', '2']),
-                                   'Törökugrató utca': hnr_list(['1', '10', '11', '12', '2', '7']),
-                                   'Tűzkő utca': hnr_list(['1', '10', '2', '9'])}}}
+        expected = {'01': {'011': {'Hamzsabégi út': [['1', '']],
+                                   'Ref Name 1': [['1', ''], ['2', '']],
+                                   'Törökugrató utca': [['1', 'comment'],
+                                                        ['10', ''], ['11', ''], ['12', ''], ['2', ''], ['7', '']],
+                                   'Tűzkő utca': [['1', ''], ['10', ''], ['2', ''], ['9', '']]}}}
         self.assertEqual(memory_cache, expected)
         os.unlink(util.get_reference_cache_path(refpath, "01"))
 
