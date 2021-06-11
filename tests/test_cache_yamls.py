@@ -21,7 +21,7 @@ class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        cache_path = "tests/data/yamls.pickle"
+        cache_path = "tests/data/yamls.cache"
         if os.path.exists(cache_path):
             os.remove(cache_path)
         argv = ["", "data", "workdir"]

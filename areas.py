@@ -13,7 +13,7 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import cast
-import pickle
+import json
 import yattag
 
 from i18n import translate as _
@@ -712,8 +712,8 @@ class Relations:
     def __init__(self, conf: config.Config) -> None:
         self.__workdir = conf.get_workdir()
         self.__conf = conf
-        with open(os.path.join(conf.get_abspath("data"), "yamls.pickle"), "rb") as stream:
-            self.__yaml_cache: Dict[str, Any] = pickle.load(stream)
+        with open(os.path.join(conf.get_abspath("data"), "yamls.cache"), "rb") as stream:
+            self.__yaml_cache: Dict[str, Any] = json.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]
         self.__relations: Dict[str, Relation] = {}
         self.__activate_all = False
