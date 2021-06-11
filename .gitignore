@@ -115,7 +115,7 @@ venv.bak/
 # wsgi
 wsgi.ini
 version.py
-*.pickle
+*.cache
 
 # validator
 *.validyaml

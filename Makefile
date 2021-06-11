@@ -83,7 +83,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: version.py builddir/bundle.js css wsgi.ini data/yamls.pickle locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: version.py builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py config.ts
@@ -124,7 +124,7 @@ workdir/osm.min.css: static/osm.css package-lock.json
 	mkdir -p workdir
 	[ -x "./node_modules/.bin/cleancss" ] && ./node_modules/.bin/cleancss -o $@ $< || cp -a $< $@
 
-testdata: tests/data/yamls.pickle tests/workdir/osm.min.css tests/favicon.ico tests/favicon.svg
+testdata: tests/data/yamls.cache tests/workdir/osm.min.css tests/favicon.ico tests/favicon.svg
 
 tests/favicon.ico: favicon.ico
 	cp -a $< $@
@@ -140,10 +140,10 @@ tests/workdir/osm.min.css: workdir/osm.min.css
 wsgi.ini:
 	cp data/wsgi.ini.template wsgi.ini
 
-data/yamls.pickle: cache_yamls.py $(YAML_OBJECTS)
+data/yamls.cache: cache_yamls.py $(YAML_OBJECTS)
 	./cache_yamls.py data workdir
 
-tests/data/yamls.pickle: cache_yamls.py $(YAML_TEST_OBJECTS)
+tests/data/yamls.cache: cache_yamls.py $(YAML_TEST_OBJECTS)
 	./cache_yamls.py tests/data tests/workdir
 
 check-filters: check-filters-syntax check-filters-schema
@@ -170,7 +170,7 @@ check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
 %.flake8: %.py Makefile setup.cfg
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
-check-unit: version.py data/yamls.pickle testdata
+check-unit: version.py data/yamls.cache testdata
 	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 

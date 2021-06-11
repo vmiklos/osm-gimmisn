@@ -12,7 +12,6 @@ from typing import Dict
 import glob
 import json
 import os
-import pickle
 import sys
 import yaml
 
@@ -29,9 +28,9 @@ def main(conf: config.Config) -> None:
             cache_key = os.path.relpath(yaml_path, datadir)
             cache[cache_key] = yaml.safe_load(yaml_stream)
 
-    cache_path = os.path.join(datadir, "yamls.pickle")
-    with open(cache_path, "wb") as cache_stream:
-        pickle.dump(cache, cache_stream)
+    cache_path = os.path.join(datadir, "yamls.cache")
+    with open(cache_path, "w") as cache_stream:
+        json.dump(cache, cache_stream)
 
     workdir = conf.get_abspath(sys.argv[2])
     yaml_path = os.path.join(datadir, "relations.yaml")
