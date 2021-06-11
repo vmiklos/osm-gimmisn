@@ -481,9 +481,9 @@ def setup_localization(environ: Dict[str, Any], conf: config.Config) -> str:
     if languages:
         parsed = accept_language.parse_accept_language(languages)
         if parsed:
-            language = parsed[0].language
+            language = parsed[0].get_language()
             i18n.set_language(conf, language)
-            return cast(str, language)
+            return language
     return ""
 
 

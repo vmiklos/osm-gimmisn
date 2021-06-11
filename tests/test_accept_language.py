@@ -17,7 +17,7 @@ class TestParseAcceptLanguage(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         parsed = accept_language.parse_accept_language("en-US,el;q=0.8")
-        self.assertEqual(parsed[0].language, "en")
+        self.assertEqual(parsed[0].get_language(), "en")
 
     def test_empty(self) -> None:
         """Tests empty input."""
@@ -33,7 +33,7 @@ class TestParseAcceptLanguage(unittest.TestCase):
     def test_invalid_lang(self) -> None:
         """Tests the case when a language string is invalid."""
         parsed = accept_language.parse_accept_language("en42-US,el;q=0.8")
-        self.assertEqual(parsed[0].language, "el")
+        self.assertEqual(parsed[0].get_language(), "el")
 
 
 if __name__ == '__main__':

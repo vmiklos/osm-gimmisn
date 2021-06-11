@@ -10,18 +10,29 @@ The accept_language module parses an Accept-Language HTTP header, originally fro
 """
 
 
-import re
-
-from collections import namedtuple
-from operator import attrgetter
 from typing import List
 from typing import Optional
+import re
 
 VALIDATE_LANG_REGEX = re.compile('^[a-z]+$', flags=re.IGNORECASE)
 QUALITY_VAL_SUB_REGEX = re.compile('^q=', flags=re.IGNORECASE)
 DEFAULT_QUALITY_VALUE = 1.0
 MAX_HEADER_LEN = 8192
-Lang = namedtuple('Lang', ('language', 'locale', 'quality'))
+
+
+class Lang:
+    """One detected language."""
+    def __init__(self, language: str, quality: float) -> None:
+        self.__language = language
+        self.__quality = quality
+
+    def get_language(self) -> str:
+        """Returns the language."""
+        return self.__language
+
+    def get_quality(self) -> float:
+        """Returns the quality."""
+        return self.__quality
 
 
 def parse_accept_language(accept_language_str: str, default_quality: Optional[float] = None) -> List[Lang]:
@@ -30,16 +41,13 @@ def parse_accept_language(accept_language_str: str, default_quality: Optional[fl
     https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14
 
     :param accept_language_str: A string in RFC 2616 format.
-    :type accept_language_str: str
-    :returns: List of `Lang` namedtuples.
-    :rtype: list
 
     :Example:
 
         >>> parse_accept_language('en-US,el;q=0.8')
         [
-            Lang(locale='en_US', language='en', quality=1.0),
-            Lang(locale=None, language='el', quality=0.8),
+            Lang(language='en', quality=1.0),
+            Lang(language='el', quality=0.8),
         ]
 
     """
@@ -64,16 +72,12 @@ def parse_accept_language(accept_language_str: str, default_quality: Optional[fl
         if len(lang_code_components) == 1:
             # language code 2/3 letters, e.g. fr
             language = lang_code_components[0].lower()
-            locale = None
         else:
             # full language tag, e.g. en-US
             language = lang_code_components[0].lower()
-            locale = '{}_{}'.format(
-                language, lang_code_components[1].upper(),
-            )
         parsed_langs.append(
-            Lang(locale=locale, language=language, quality=quality_value)
+            Lang(language=language, quality=quality_value)
         )
-    return sorted(parsed_langs, key=attrgetter('quality'), reverse=True)
+    return sorted(parsed_langs, key=lambda i: i.get_quality(), reverse=True)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
