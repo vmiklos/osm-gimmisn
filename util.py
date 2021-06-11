@@ -21,7 +21,7 @@ from typing import cast
 import csv
 import locale
 import os
-import pickle
+import json
 import re
 import urllib.error
 import email.utils
@@ -78,6 +78,10 @@ class HouseNumberRange:
     def __hash__(self) -> int:
         """Comment is explicitly non-interesting."""
         return hash(self.__number)
+
+
+# Two strings: first is a range, second is an optional comment.
+HouseNumberWithComment = List[str]
 
 
 class Street:
@@ -325,14 +329,14 @@ def color_house_number(house_number: HouseNumberRange) -> yattag.doc.Doc:
     return doc
 
 
-def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
+def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, HouseNumberWithComment]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     memory_cache: Dict[str, Dict[str, List[str]]] = {}
 
-    disk_cache = local_streets + ".pickle"
+    disk_cache = local_streets + ".cache"
     if os.path.exists(disk_cache):
         with open(disk_cache, "rb") as sock_cache:
-            memory_cache = pickle.load(sock_cache)
+            memory_cache = json.load(sock_cache)
             return memory_cache
 
     with open(local_streets, "r") as sock:
@@ -354,24 +358,24 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
             if refsettlement not in memory_cache[refcounty].keys():
                 memory_cache[refcounty][refsettlement] = []
             memory_cache[refcounty][refsettlement].append(street)
-    with open(disk_cache, "wb") as sock_cache:
-        pickle.dump(memory_cache, sock_cache)
+    with open(disk_cache, "w") as text_stream:
+        json.dump(memory_cache, text_stream)
     return memory_cache
 
 
 def get_reference_cache_path(local: str, refcounty: str) -> str:
     """Gets the filename of the (house number) reference cache file."""
-    return local + "-" + refcounty + "-v1.pickle"
+    return local + "-" + refcounty + "-v1.cache"
 
 
-def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]]:
+def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[HouseNumberWithComment]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    memory_cache: Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]] = {}
+    memory_cache: Dict[str, Dict[str, Dict[str, List[HouseNumberWithComment]]]] = {}
 
     disk_cache = get_reference_cache_path(local, refcounty)
     if os.path.exists(disk_cache):
         with open(disk_cache, "rb") as sock_cache:
-            memory_cache = pickle.load(sock_cache)
+            memory_cache = json.load(sock_cache)
             return memory_cache
 
     with open(local, "r") as sock:
@@ -399,16 +403,16 @@ def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dic
                 memory_cache[refcounty][refsettlement] = {}
             if street not in memory_cache[refcounty][refsettlement].keys():
                 memory_cache[refcounty][refsettlement][street] = []
-            memory_cache[refcounty][refsettlement][street].append(HouseNumberRange(num, comment))
-    with open(disk_cache, "wb") as sock_cache:
-        pickle.dump(memory_cache, sock_cache)
+            memory_cache[refcounty][refsettlement][street].append([num, comment])
+    with open(disk_cache, "w") as text_stream:
+        json.dump(memory_cache, text_stream)
     return memory_cache
 
 
 def build_reference_caches(
         references: List[str],
         refcounty: str
-) -> List[Dict[str, Dict[str, Dict[str, List[HouseNumberRange]]]]]:
+) -> List[Dict[str, Dict[str, Dict[str, List[HouseNumberWithComment]]]]]:
     """Handles a list of references for build_reference_cache()."""
     return [build_reference_cache(reference, refcounty) for reference in references]
 

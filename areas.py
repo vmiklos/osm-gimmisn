@@ -361,7 +361,7 @@ class RelationBase:
 
     def build_ref_housenumbers(
             self,
-            reference: Dict[str, Dict[str, Dict[str, List[util.HouseNumberRange]]]],
+            reference: Dict[str, Dict[str, Dict[str, List[util.HouseNumberWithComment]]]],
             street: str,
             suffix: str
     ) -> List[str]:
@@ -381,7 +381,8 @@ class RelationBase:
             refsettlement_dict = refcounty_dict[refsettlement]
             if street in refsettlement_dict.keys():
                 house_numbers = reference[refcounty][refsettlement][street]
-                ret += [street + "\t" + i.get_number() + suffix + "\t" + i.get_comment() for i in house_numbers]
+                # i[0] is number, i[1] is comment
+                ret += [street + "\t" + i[0] + suffix + "\t" + i[1] for i in house_numbers]
 
         return ret
 
