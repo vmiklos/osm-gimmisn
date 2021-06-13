@@ -16,9 +16,9 @@ git grep '"<' *.py
 git grep -n -w asis|grep -v getvalue
 ----
 
-Exception to this rule is the HTML DOCTYPE header.
+Exception to this rule is the HTML DOCTYPE header and cache content produced by `yattag`.
 
-- Path handling: make relative paths absolute using `util.get_abspath()`:
+- Path handling: make relative paths absolute using `config.Config.get_abspath()`:
 
 ----
 git grep __file__ *.py
@@ -26,8 +26,10 @@ git grep os.getcwd *.py
 git grep os.chdir *.py
 ----
 
-This has the benefit that real and test config/data (under `/` and `tests/`) can be separated via
-the tests mocking that single function.
+This has the benefit that real and test config/data (under `/` and `tests/`) can be separated via a
+single parameter to the `config.Config` constructor.
+
+Exception to this rule is the `config.Config` constructor itself.
 
 - Try to keep module size under 800 lines, so a random small improvement does not trigger the CI
   failure at 1000 lines:
