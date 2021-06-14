@@ -17,8 +17,6 @@ import json
 import os
 import time
 
-import dateutil.relativedelta
-
 
 def handle_progress(src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for a global progressbar."""
@@ -128,14 +126,22 @@ def handle_daily_new(src_root: str, j: Dict[str, Any], day_range: int = 14) -> N
     j["daily"] = ret
 
 
+def get_previous_month(today: datetime.date, months: int) -> datetime.date:
+    """Returns a date that was today N months ago."""
+    month_ago = today
+    for _month in range(months):
+        first_of_current = month_ago.replace(day=1)
+        month_ago = first_of_current - datetime.timedelta(days=1)
+    return month_ago
+
+
 def handle_monthly_new(src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
     """Shows # of new housenumbers / month."""
     ret = []
     prev_count = 0
     prev_month = ""
     for month_offset in range(month_range, -1, -1):
-        # datetime.timedelta does not support months
-        month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset)
+        month_delta = get_previous_month(datetime.date.today(), month_offset)
         # Get the first day of each month.
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % month)
@@ -178,9 +184,8 @@ def handle_monthly_total(src_root: str, j: Dict[str, Any], month_range: int = 11
     """Shows # of total housenumbers / month."""
     ret = []
     for month_offset in range(month_range, -1, -1):
-        # datetime.timedelta does not support months
-        month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset)
-        prev_month_delta = datetime.date.today() - dateutil.relativedelta.relativedelta(months=month_offset + 1)
+        month_delta = get_previous_month(datetime.date.today(), month_offset)
+        prev_month_delta = get_previous_month(datetime.date.today(), month_offset + 1)
         # Get the first day of each past month.
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
         prev_month = prev_month_delta.replace(day=1).strftime("%Y-%m")
