@@ -255,5 +255,17 @@ class TestHandleMonthlyTotal(unittest.TestCase):
         self.assertEqual(monthlytotal[1], ["2020-05", 254651])
 
 
+class TestGetPreviousMonth(unittest.TestCase):
+    """Tests get_previous_month()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        today = MockDate.today()
+
+        actual = stats.get_previous_month(today, 2)
+
+        expected = datetime.date(2020, 3, 31)
+        self.assertEqual(actual, expected)
+
+
 if __name__ == '__main__':
     unittest.main()
