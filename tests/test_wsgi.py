@@ -646,13 +646,6 @@ class TestMain(TestWsgi):
         # header + the two requested relations
         self.assertEqual(len(table.getchildren()), 3)
 
-    def test_custom_locale(self) -> None:
-        """Tests the main page with a custom locale."""
-        self.conf.set_value("locale", "en_US.UTF-8")
-        root = self.get_dom_for_path("")
-        results = root.findall("body/table")
-        self.assertEqual(len(results), 1)
-
     def test_application_exception(self) -> None:
         """Tests application(), exception catching case."""
         conf = test_config.make_test_config()
