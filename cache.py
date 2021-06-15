@@ -8,7 +8,6 @@
 """The cache module accelerates some functions of the areas module."""
 
 from typing import List
-import locale
 import os
 
 import yattag
@@ -165,7 +164,7 @@ def get_missing_housenumbers_txt(conf: config.Config, relation: areas.Relation) 
             elements = util.format_even_odd(range_list, doc=None)
             row = result[0].get_osm_name() + "\t[" + "], [".join(elements) + "]"
         table.append(row)
-    table.sort(key=locale.strxfrm)
+    table.sort(key=util.get_lexical_sort_key())
     output += "\n".join(table)
 
     with relation.get_files().get_housenumbers_txtcache_stream("w") as stream:

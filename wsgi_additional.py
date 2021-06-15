@@ -7,7 +7,6 @@
 
 """The wsgi_additional module contains functionality for additional streets."""
 
-import locale
 import os
 from typing import Tuple
 
@@ -34,7 +33,8 @@ def additional_streets_view_txt(relations: areas.Relations, request_uri: str, ch
         output += _("No reference streets")
     else:
         streets = relation.get_additional_streets()
-        streets.sort(key=lambda street: locale.strxfrm(street.get_osm_name()))
+        lexical_sort_key = util.get_lexical_sort_key()
+        streets.sort(key=lambda street: lexical_sort_key(street.get_osm_name()))
         for street in streets:
             if chkl:
                 output += "[ ] {}\n".format(street.get_osm_name())
@@ -63,7 +63,8 @@ def additional_streets_view_result(
         # Get "only in OSM" streets.
         streets = relation.write_additional_streets()
         count = len(streets)
-        streets.sort(key=lambda street: locale.strxfrm(street.get_osm_name()))
+        lexical_sort_key = util.get_lexical_sort_key()
+        streets.sort(key=lambda street: lexical_sort_key(street.get_osm_name()))
         table = [[util.html_escape(_("Identifier")),
                   util.html_escape(_("Type")),
                   util.html_escape(_("Source")),

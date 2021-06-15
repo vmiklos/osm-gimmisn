@@ -16,7 +16,6 @@ from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
 import datetime
-import locale
 import os
 import time
 import traceback
@@ -383,7 +382,7 @@ def handle_stats_cityprogress(conf: config.Config, relations: areas.Relations) -
             count = int(cells[1])
             osm_citycounts[city] = count
     cities = util.get_in_both(list(ref_citycounts.keys()), list(osm_citycounts.keys()))
-    cities.sort(key=locale.strxfrm)
+    cities.sort(key=util.get_lexical_sort_key())
     table = []
     table.append([util.html_escape(_("City name")),
                   util.html_escape(_("House number coverage")),

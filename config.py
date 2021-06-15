@@ -23,10 +23,6 @@ class Config:
         config_path = self.get_abspath("wsgi.ini")
         self.__config.read(config_path)
 
-    def has_value(self, key: str) -> bool:
-        """Determines if key is set in the config."""
-        return self.__config.has_option("wsgi", key)
-
     def set_value(self, key: str, value: str) -> None:
         """Sets key to value in the in-memory config."""
         self.__config.read_dict({"wsgi": {key: value}})
@@ -53,10 +49,6 @@ class Config:
         """Gets the abs path of ref citycounts."""
         relpath = self.__config.get("wsgi", "reference_citycounts").strip()
         return self.get_abspath(relpath)
-
-    def get_locale(self) -> str:
-        """Gets the locale."""
-        return self.__config.get("wsgi", "locale").strip()
 
     def get_uri_prefix(self) -> str:
         """Gets the global URI prefix."""

@@ -8,6 +8,7 @@
 
 from enum import Enum
 from typing import Any
+from typing import Callable
 from typing import Dict
 from typing import Iterable
 from typing import Iterator
@@ -19,13 +20,13 @@ from typing import Tuple
 from typing import Union
 from typing import cast
 import csv
-import locale
 import os
 import json
 import re
 import urllib.error
 import email.utils
 
+import icu  # type: ignore
 import yattag
 
 from i18n import translate as _
@@ -820,20 +821,6 @@ def split_house_number_by_separator(
     return ret_numbers, ret_numbers_nofilter
 
 
-def set_locale(conf: config.Config) -> None:
-    """Sets the locale of this Python process automatically based on config, with a UTF-8
-    default."""
-    if conf.has_value("locale"):
-        ui_locale = conf.get_locale()
-    else:
-        ui_locale = "hu_HU.UTF-8"
-    try:
-        locale.setlocale(locale.LC_ALL, ui_locale)
-    except locale.Error:
-        # Ignore, this happens only on the cut-down CI environment.
-        pass
-
-
 def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
     """Constructs a city name based on postcode the nominal city."""
     city = city.lower()
@@ -886,6 +873,12 @@ def get_timestamp(path: str) -> float:
         return os.path.getmtime(path)
     except FileNotFoundError:
         return 0
+
+
+def get_lexical_sort_key() -> Callable[[str], str]:
+    """Returns a string comparator which allows Unicode-aware lexical sorting."""
+    collator = icu.Collator.createInstance(icu.Locale("en_US.UTF-8"))  # pylint: disable=no-member
+    return cast(Callable[[str], str], collator.getSortKey)
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
