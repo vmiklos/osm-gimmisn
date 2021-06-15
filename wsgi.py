@@ -8,7 +8,6 @@
 """The wsgi module contains functionality specific to the web interface."""
 
 import json
-import locale
 import os
 import subprocess
 import sys
@@ -176,7 +175,7 @@ def missing_streets_view_result(conf: config.Config, relations: areas.Relations,
 
     ret = relation.write_missing_streets()
     todo_count, done_count, percent, streets = ret
-    streets.sort(key=locale.strxfrm)
+    streets.sort(key=util.get_lexical_sort_key())
     table = [[util.html_escape(_("Street name"))]]
     for street in streets:
         table.append([util.html_escape(street)])
@@ -259,7 +258,7 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
                 else:
                     row += result[0].get_osm_name() + " [" + "], [".join(elements) + "]"
                     table.append(row)
-        table.sort(key=locale.strxfrm)
+        table.sort(key=util.get_lexical_sort_key())
         output += "\n".join(table)
     return output, relation_name
 
@@ -277,7 +276,7 @@ def missing_streets_view_txt(relations: areas.Relations, request_uri: str, chkl:
         output += _("No reference streets")
     else:
         todo_streets, _ignore = relation.get_missing_streets()
-        todo_streets.sort(key=locale.strxfrm)
+        todo_streets.sort(key=util.get_lexical_sort_key())
         for street in todo_streets:
             if chkl:
                 output += "[ ] {}\n".format(street)
@@ -915,8 +914,6 @@ def our_application(
         conf: config.Config
 ) -> Iterable[bytes]:
     """Dispatches the request based on its URI."""
-    util.set_locale(conf)
-
     language = util.setup_localization(environ, conf)
 
     relations = areas.Relations(conf)

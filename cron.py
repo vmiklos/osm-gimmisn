@@ -15,7 +15,6 @@ from typing import cast
 import argparse
 import datetime
 import glob
-import locale
 import logging
 import os
 import time
@@ -199,7 +198,8 @@ def write_city_count_path(city_count_path: str, cities: Dict[str, Set[str]]) -> 
     """Writes a daily .citycount file."""
     with open(city_count_path, "w") as stream:
         # Locale-aware sort, by key.
-        for key, value in sorted(cities.items(), key=lambda item: locale.strxfrm(item[0])):
+        lexical_sort_key = util.get_lexical_sort_key()
+        for key, value in sorted(cities.items(), key=lambda item: lexical_sort_key(item[0])):
             stream.write(key + "\t" + str(len(value)) + "\n")
 
 
@@ -350,8 +350,6 @@ def our_main(conf: config.Config, relations: areas.Relations, mode: str, update:
 
 def main(conf: config.Config) -> None:
     """Commandline interface to this module."""
-
-    util.set_locale(conf)
 
     workdir = conf.get_workdir()
     relations = areas.Relations(conf)

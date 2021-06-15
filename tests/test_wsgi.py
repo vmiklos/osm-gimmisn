@@ -18,7 +18,6 @@ from typing import Tuple
 from typing import cast
 import io
 import json
-import locale
 import os
 import unittest
 import unittest.mock
@@ -653,17 +652,6 @@ class TestMain(TestWsgi):
         root = self.get_dom_for_path("")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
-
-    def test_failing_locale(self) -> None:
-        """Tests the main page with a failing locale."""
-
-        def mock_setlocale(category: int, locale_name: str) -> str:
-            raise locale.Error()
-
-        with unittest.mock.patch('locale.setlocale', mock_setlocale):
-            root = self.get_dom_for_path("")
-            results = root.findall("body/table")
-            self.assertEqual(len(results), 1)
 
     def test_application_exception(self) -> None:
         """Tests application(), exception catching case."""
