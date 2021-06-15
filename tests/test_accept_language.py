@@ -7,7 +7,6 @@
 """The test_accept_language module covers the accept_language module."""
 
 import unittest
-import unittest.mock
 
 import accept_language
 
@@ -23,12 +22,6 @@ class TestParseAcceptLanguage(unittest.TestCase):
         """Tests empty input."""
         parsed = accept_language.parse_accept_language("")
         self.assertEqual(parsed, [])
-
-    def test_too_long(self) -> None:
-        """Tests too long input."""
-        with unittest.mock.patch('accept_language.MAX_HEADER_LEN', 3):
-            with self.assertRaises(ValueError):
-                accept_language.parse_accept_language("en-US")
 
     def test_invalid_lang(self) -> None:
         """Tests the case when a language string is invalid."""
