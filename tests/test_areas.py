@@ -11,7 +11,6 @@ from typing import Dict
 from typing import List
 import os
 import unittest
-import unittest.mock
 
 import yattag
 
