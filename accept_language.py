@@ -17,7 +17,6 @@ import re
 VALIDATE_LANG_REGEX = re.compile('^[a-z]+$', flags=re.IGNORECASE)
 QUALITY_VAL_SUB_REGEX = re.compile('^q=', flags=re.IGNORECASE)
 DEFAULT_QUALITY_VALUE = 1.0
-MAX_HEADER_LEN = 8192
 
 
 class Lang:
@@ -53,9 +52,6 @@ def parse_accept_language(accept_language_str: str, default_quality: Optional[fl
     """
     if not accept_language_str:
         return []
-
-    if len(accept_language_str) > MAX_HEADER_LEN:
-        raise ValueError('Accept-Language too long, max length is 8192')
 
     parsed_langs = []
     for accept_lang_segment in accept_language_str.split(','):
