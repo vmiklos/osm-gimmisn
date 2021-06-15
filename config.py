@@ -23,10 +23,6 @@ class Config:
         config_path = self.get_abspath("wsgi.ini")
         self.__config.read(config_path)
 
-    def set_value(self, key: str, value: str) -> None:
-        """Sets key to value in the in-memory config."""
-        self.__config.read_dict({"wsgi": {key: value}})
-
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
         return os.path.join(self.root, rel_path)
