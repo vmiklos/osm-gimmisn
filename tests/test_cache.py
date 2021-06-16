@@ -33,14 +33,10 @@ class TestIsMissingHousenumbersHtmlCached(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
-        orig_exists = os.path.exists
 
-        def mock_exists(path: str) -> bool:
-            if path == cache_path:
-                return False
-            return orig_exists(path)
-        with unittest.mock.patch('os.path.exists', mock_exists):
-            self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
+        file_system = test_config.TestFileSystem(hide_paths=[cache_path])
+        conf.set_file_system(file_system)
+        self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
     def test_osm_housenumbers_new(self) -> None:
         """Tests the case when osm_housenumbers is new, so the cache entry is old."""

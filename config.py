@@ -14,6 +14,21 @@ import configparser
 import os
 
 
+class FileSystem:
+    """File system interface."""
+    def path_exists(self, path: str) -> bool:  # pragma: no cover
+        """Test whether a path exists."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
+class OsFileSystem(FileSystem):
+    """File system implementation, backed by the 'os' module."""
+    def path_exists(self, path: str) -> bool:
+        return os.path.exists(path)
+
+
 class Config:
     """Config replacement without static state."""
     def __init__(self, prefix: str) -> None:
@@ -22,6 +37,7 @@ class Config:
         self.__config = configparser.ConfigParser()
         config_path = self.get_abspath("wsgi.ini")
         self.__config.read(config_path)
+        self.__file_system: FileSystem = OsFileSystem()
 
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
@@ -61,6 +77,14 @@ class Config:
     def get_cron_update_inactive(self) -> bool:
         """Should cron.py update inactive relations?"""
         return self.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
+
+    def set_file_system(self, file_system: FileSystem) -> None:
+        """Sets the file system implementation."""
+        self.__file_system = file_system
+
+    def get_file_system(self) -> FileSystem:
+        """Gets the file system implementation."""
+        return self.__file_system
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

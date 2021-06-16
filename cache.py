@@ -18,15 +18,16 @@ import config
 import util
 
 
-def is_cache_outdated(cache_path: str, dependencies: List[str]) -> bool:
+def is_cache_outdated(conf: config.Config, cache_path: str, dependencies: List[str]) -> bool:
     """Decides if we have an up to date cache entry or not."""
-    if not os.path.exists(cache_path):
+    path_exists = conf.get_file_system().path_exists
+    if not path_exists(cache_path):
         return False
 
     cache_mtime = os.path.getmtime(cache_path)
 
     for dependency in dependencies:
-        if os.path.exists(dependency) and os.path.getmtime(dependency) > cache_mtime:
+        if path_exists(dependency) and os.path.getmtime(dependency) > cache_mtime:
             return False
 
     return True
@@ -43,7 +44,7 @@ def is_missing_housenumbers_html_cached(conf: config.Config, relation: areas.Rel
         relation.get_files().get_ref_housenumbers_path(),
         relation_path
     ]
-    return is_cache_outdated(cache_path, dependencies)
+    return is_cache_outdated(conf, cache_path, dependencies)
 
 
 def is_additional_housenumbers_html_cached(conf: config.Config, relation: areas.Relation) -> bool:
@@ -57,7 +58,7 @@ def is_additional_housenumbers_html_cached(conf: config.Config, relation: areas.
         relation.get_files().get_ref_housenumbers_path(),
         relation_path
     ]
-    return is_cache_outdated(cache_path, dependencies)
+    return is_cache_outdated(conf, cache_path, dependencies)
 
 
 def get_missing_housenumbers_html(conf: config.Config, relation: areas.Relation) -> yattag.doc.Doc:
@@ -140,7 +141,7 @@ def is_missing_housenumbers_txt_cached(conf: config.Config, relation: areas.Rela
         relation.get_files().get_ref_housenumbers_path(),
         relation_path
     ]
-    return is_cache_outdated(cache_path, dependencies)
+    return is_cache_outdated(conf, cache_path, dependencies)
 
 
 def get_missing_housenumbers_txt(conf: config.Config, relation: areas.Relation) -> str:
