@@ -21,13 +21,14 @@ import util
 def is_cache_outdated(conf: config.Config, cache_path: str, dependencies: List[str]) -> bool:
     """Decides if we have an up to date cache entry or not."""
     path_exists = conf.get_file_system().path_exists
+    getmtime = conf.get_file_system().getmtime
     if not path_exists(cache_path):
         return False
 
-    cache_mtime = os.path.getmtime(cache_path)
+    cache_mtime = getmtime(cache_path)
 
     for dependency in dependencies:
-        if path_exists(dependency) and os.path.getmtime(dependency) > cache_mtime:
+        if path_exists(dependency) and getmtime(dependency) > cache_mtime:
             return False
 
     return True
