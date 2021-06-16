@@ -10,6 +10,7 @@
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import TextIO
 from typing import Tuple
 import os
 import re
@@ -199,13 +200,13 @@ def validate_relations(errors: List[str], relations: Dict[str, Any]) -> None:
         validate_relation(errors, key, value)
 
 
-def main() -> None:
+def main(argv: List[str], stdout: TextIO) -> int:
     """Commandline interface to this module."""
     if sys.platform.startswith("win"):
         # pylint: disable=protected-access
         _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 
-    yaml_path = sys.argv[1]
+    yaml_path = argv[1]
     _, basename = os.path.split(yaml_path)
     with open(yaml_path) as stream:
         yaml_data = yaml.safe_load(stream)
@@ -217,11 +218,12 @@ def main() -> None:
             validate_relation(errors, parent, yaml_data)
         if errors:
             for error in errors:
-                print("failed to validate %s: %s" % (yaml_path, error))
-            sys.exit(1)
+                stdout.write("failed to validate %s: %s\n" % (yaml_path, error))
+            return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main(sys.argv, sys.stdout))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
