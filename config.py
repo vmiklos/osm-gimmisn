@@ -22,11 +22,20 @@ class FileSystem:
         # pylint: disable=unused-argument
         ...
 
+    def getmtime(self, path: str) -> float:  # pragma: no cover
+        """Return the last modification time of a file."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
 
 class OsFileSystem(FileSystem):
     """File system implementation, backed by the 'os' module."""
     def path_exists(self, path: str) -> bool:
         return os.path.exists(path)
+
+    def getmtime(self, path: str) -> float:
+        return os.path.getmtime(path)
 
 
 class Config:

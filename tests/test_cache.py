@@ -34,7 +34,8 @@ class TestIsMissingHousenumbersHtmlCached(unittest.TestCase):
         cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
 
-        file_system = test_config.TestFileSystem(hide_paths=[cache_path])
+        file_system = test_config.TestFileSystem()
+        file_system.set_hide_paths([cache_path])
         conf.set_file_system(file_system)
         self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
@@ -46,14 +47,14 @@ class TestIsMissingHousenumbersHtmlCached(unittest.TestCase):
         cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
         osm_housenumbers_path = relation.get_files().get_osm_housenumbers_path()
-        orig_getmtime = os.path.getmtime
 
-        def mock_getmtime(path: str) -> float:
-            if path == osm_housenumbers_path:
-                return orig_getmtime(cache_path) + 1
-            return orig_getmtime(path)
-        with unittest.mock.patch('os.path.getmtime', mock_getmtime):
-            self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
+        file_system = test_config.TestFileSystem()
+        mtimes = {
+            osm_housenumbers_path: os.path.getmtime(cache_path) + 1,
+        }
+        file_system.set_mtimes(mtimes)
+        conf.set_file_system(file_system)
+        self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
     def test_ref_housenumbers_new(self) -> None:
         """Tests the case when ref_housenumbers is new, so the cache entry is old."""
