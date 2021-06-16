@@ -8,7 +8,6 @@
 
 import os
 import unittest
-import unittest.mock
 
 import test_config
 
@@ -64,14 +63,14 @@ class TestIsMissingHousenumbersHtmlCached(unittest.TestCase):
         cache.get_missing_housenumbers_html(conf, relation)
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
         ref_housenumbers_path = relation.get_files().get_ref_housenumbers_path()
-        orig_getmtime = os.path.getmtime
 
-        def mock_getmtime(path: str) -> float:
-            if path == ref_housenumbers_path:
-                return orig_getmtime(cache_path) + 1
-            return orig_getmtime(path)
-        with unittest.mock.patch('os.path.getmtime', mock_getmtime):
-            self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
+        file_system = test_config.TestFileSystem()
+        mtimes = {
+            ref_housenumbers_path: os.path.getmtime(cache_path) + 1,
+        }
+        file_system.set_mtimes(mtimes)
+        conf.set_file_system(file_system)
+        self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
     def test_relation_new(self) -> None:
         """Tests the case when relation is new, so the cache entry is old."""
@@ -82,14 +81,14 @@ class TestIsMissingHousenumbersHtmlCached(unittest.TestCase):
         cache_path = relation.get_files().get_housenumbers_htmlcache_path()
         datadir = conf.get_abspath("data")
         relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
-        orig_getmtime = os.path.getmtime
 
-        def mock_getmtime(path: str) -> float:
-            if path == relation_path:
-                return orig_getmtime(cache_path) + 1
-            return orig_getmtime(path)
-        with unittest.mock.patch('os.path.getmtime', mock_getmtime):
-            self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
+        file_system = test_config.TestFileSystem()
+        mtimes = {
+            relation_path: os.path.getmtime(cache_path) + 1,
+        }
+        file_system.set_mtimes(mtimes)
+        conf.set_file_system(file_system)
+        self.assertFalse(cache.is_missing_housenumbers_html_cached(conf, relation))
 
 
 class TestGetAdditionalHousenumbersHtml(unittest.TestCase):
