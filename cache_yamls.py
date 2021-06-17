@@ -9,6 +9,7 @@
 
 from typing import Any
 from typing import Dict
+from typing import List
 import glob
 import json
 import os
@@ -18,11 +19,11 @@ import yaml
 import config
 
 
-def main(conf: config.Config) -> None:
+def main(argv: List[str], conf: config.Config) -> None:
     """Commandline interface to this module."""
 
     cache: Dict[str, Any] = {}
-    datadir = conf.get_abspath(sys.argv[1])
+    datadir = conf.get_abspath(argv[1])
     for yaml_path in glob.glob(os.path.join(datadir, "*.yaml")):
         with open(yaml_path) as yaml_stream:
             cache_key = os.path.relpath(yaml_path, datadir)
@@ -32,7 +33,7 @@ def main(conf: config.Config) -> None:
     with open(cache_path, "w") as cache_stream:
         json.dump(cache, cache_stream)
 
-    workdir = conf.get_abspath(sys.argv[2])
+    workdir = conf.get_abspath(argv[2])
     yaml_path = os.path.join(datadir, "relations.yaml")
     relation_ids = []
     with open(yaml_path) as stream:
@@ -47,6 +48,6 @@ def main(conf: config.Config) -> None:
 
 
 if __name__ == "__main__":
-    main(config.Config(""))
+    main(sys.argv, config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

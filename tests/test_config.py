@@ -45,7 +45,7 @@ class TestFileSystem(config.FileSystem):
 
 
 class URLRoute:
-    """Contains info about how to mock one URL."""
+    """Contains info about how to patch out one URL."""
     # The request URL
     url: str
     # Path of expected POST data, empty for GET
