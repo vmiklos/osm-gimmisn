@@ -8,7 +8,6 @@
 
 import io
 import unittest
-import unittest.mock
 
 import test_config
 
@@ -22,9 +21,7 @@ class TestMain(unittest.TestCase):
         argv = ["", "gh195"]
         buf = io.StringIO()
         conf = test_config.make_test_config()
-        with unittest.mock.patch('sys.argv', argv):
-            with unittest.mock.patch('sys.stdout', buf):
-                missing_housenumbers.main(conf)
+        missing_housenumbers.main(argv, buf, conf)
 
         buf.seek(0)
         self.assertEqual(buf.read(), "Kalotaszeg utca\t3\n['25', '27-37', '31*']\n")
