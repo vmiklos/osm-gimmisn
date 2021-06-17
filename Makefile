@@ -76,7 +76,6 @@ TS_OBJECTS = \
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
 	QUIET_MSGFMT = @echo '   ' MSGMFT $@;
-	QUIET_MYPY = @echo '   ' MYPY $@;
 	QUIET_PYLINT = @echo '   ' PYLINT $@;
 	QUIET_ESLINT = @echo '   ' ESLINT $@;
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
@@ -156,16 +155,14 @@ check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
-check-mypy: $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS))
+check-mypy: $(PYTHON_OBJECTS)
+	env PYTHONPATH=.:tests mypy --python-version 3.6 --strict --no-error-summary . && touch $@
 
 %.pylint : %.py Makefile .pylintrc
 	$(QUIET_PYLINT)env PYTHONPATH=. pylint $< && touch $@
 
 %.eslint : %.ts Makefile .eslintrc
 	$(QUIET_ESLINT)node_modules/.bin/eslint $< && touch $@
-
-%.mypy: %.py Makefile
-	$(QUIET_MYPY)mypy --python-version 3.6 --strict --no-error-summary $< && touch $@
 
 %.flake8: %.py Makefile setup.cfg
 	$(QUIET_FLAKE8)flake8 $< && touch $@
