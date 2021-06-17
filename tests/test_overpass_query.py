@@ -8,6 +8,7 @@
 
 from typing import BinaryIO
 from typing import Callable
+from typing import List
 from typing import Optional
 import io
 import os
@@ -51,8 +52,14 @@ class TestOverpassQueryNeedSleeep(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-status-happy")):
-            self.assertEqual(overpass_query.overpass_query_need_sleep(conf), 0)
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/status",
+                                 data_path="",
+                                 result_path="tests/network/overpass-status-happy.txt")
+        ]
+        network = test_config.TestNetwork(routes)
+        conf.set_network(network)
+        self.assertEqual(overpass_query.overpass_query_need_sleep(conf), 0)
 
     def test_wait(self) -> None:
         """Tests the wait path."""
@@ -77,33 +84,6 @@ class TestOverpassQuery(unittest.TestCase):
                 query = stream.read()
                 ret = overpass_query.overpass_query(conf, query)
                 self.assertEqual(ret[:3], "@id")
-
-
-class TestMain(unittest.TestCase):
-    """Tests main()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        conf = test_config.make_test_config()
-        with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("overpass-interpreter-happy")):
-            buf = io.StringIO()
-            with unittest.mock.patch('sys.stdout', buf):
-                argv = ["", "tests/mock/overpass-interpreter-happy.request-data"]
-                with unittest.mock.patch('sys.argv', argv):
-                    overpass_query.main(conf)
-            buf.seek(0)
-            self.assertTrue(buf.read().startswith("@id"))
-
-    def test_failure(self) -> None:
-        """Tests the failure path."""
-        conf = test_config.make_test_config()
-        with unittest.mock.patch('urllib.request.urlopen', gen_urlopen("")):
-            buf = io.StringIO()
-            with unittest.mock.patch('sys.stdout', buf):
-                argv = ["", "tests/mock/overpass-interpreter-happy.request-data"]
-                with unittest.mock.patch('sys.argv', argv):
-                    overpass_query.main(conf)
-            buf.seek(0)
-            self.assertTrue(buf.read().startswith("overpass query failed"))
 
 
 if __name__ == '__main__':

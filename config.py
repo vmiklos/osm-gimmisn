@@ -10,8 +10,11 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 """
 
 from typing import List
+from typing import Optional
+from typing import cast
 import configparser
 import os
+import urllib.request
 
 
 class FileSystem:
@@ -29,13 +32,30 @@ class FileSystem:
         ...
 
 
-class OsFileSystem(FileSystem):
-    """File system implementation, backed by the 'os' module."""
+class StdFileSystem(FileSystem):
+    """File system implementation, backed by the Python stdlib."""
     def path_exists(self, path: str) -> bool:
         return os.path.exists(path)
 
     def getmtime(self, path: str) -> float:
         return os.path.getmtime(path)
+
+
+class Network:
+    """Network interface."""
+    def urlopen(self, url: str, data: Optional[bytes] = None) -> bytes:  # pragma: no cover
+        """Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
+class StdNetwork(Network):
+    """Network implementation, backed by the Python stdlib."""
+    def urlopen(self, url: str, data: Optional[bytes] = None) -> bytes:
+        with urllib.request.urlopen(url, data) as stream:
+            buf = stream.read()
+        return cast(bytes, buf)
 
 
 class Config:
@@ -46,7 +66,8 @@ class Config:
         self.__config = configparser.ConfigParser()
         config_path = self.get_abspath("wsgi.ini")
         self.__config.read(config_path)
-        self.__file_system: FileSystem = OsFileSystem()
+        self.__file_system: FileSystem = StdFileSystem()
+        self.__network: Network = StdNetwork()
 
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
@@ -94,6 +115,14 @@ class Config:
     def get_file_system(self) -> FileSystem:
         """Gets the file system implementation."""
         return self.__file_system
+
+    def set_network(self, network: Network) -> None:
+        """Sets the network implementation."""
+        self.__network = network
+
+    def get_network(self) -> Network:
+        """Gets the network implementation."""
+        return self.__network
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

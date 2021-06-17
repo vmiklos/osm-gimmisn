@@ -7,11 +7,9 @@
 
 """The overpass_query module allows getting data out of the OSM DB without a full download."""
 
-from typing import cast
 import urllib.request
 import urllib.error
 import re
-import sys
 
 import config
 
@@ -20,17 +18,17 @@ def overpass_query(conf: config.Config, query: str) -> str:
     """Posts the query string to the overpass API and returns the result string."""
     url = conf.get_overpass_uri() + "/api/interpreter"
 
-    with urllib.request.urlopen(url, bytes(query, "utf-8")) as stream:
-        buf = stream.read()
+    urlopen = conf.get_network().urlopen
+    buf = urlopen(url, bytes(query, "utf-8"))
 
-    return cast(str, buf.decode('utf-8'))
+    return buf.decode('utf-8')
 
 
 def overpass_query_need_sleep(conf: config.Config) -> int:
     """Checks if we need to sleep before executing an overpass query."""
+    urlopen = conf.get_network().urlopen
     try:
-        with urllib.request.urlopen(conf.get_overpass_uri() + "/api/status") as sock:
-            buf = sock.read()
+        buf = urlopen(conf.get_overpass_uri() + "/api/status")
     except urllib.error.HTTPError:
         return 0
     status = buf.decode('utf-8')
@@ -49,21 +47,5 @@ def overpass_query_need_sleep(conf: config.Config) -> int:
         return 0
     return sleep
 
-
-def main(conf: config.Config) -> None:
-    """Commandline interface to this module."""
-    with open(sys.argv[1]) as stream:
-        query = stream.read()
-
-    try:
-        buf = overpass_query(conf, query)
-
-        sys.stdout.write(buf)
-    except urllib.error.HTTPError as http_error:
-        print("overpass query failed: " + str(http_error))
-
-
-if __name__ == "__main__":
-    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

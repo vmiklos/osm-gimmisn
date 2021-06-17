@@ -8,6 +8,7 @@
 
 from typing import Dict
 from typing import List
+from typing import Optional
 import os
 
 import config
@@ -41,3 +42,43 @@ class TestFileSystem(config.FileSystem):
         if path in self.__mtimes:
             return self.__mtimes[path]
         return os.path.getmtime(path)
+
+
+class URLRoute:
+    """Contains info about how to mock one URL."""
+    # The request URL
+    url: str
+    # Path of expected POST data, empty for GET
+    data_path: str
+    # Path of expected result data
+    result_path: str
+
+    def __init__(self, url: str, data_path: str, result_path: str) -> None:
+        self.url = url
+        self.data_path = data_path
+        self.result_path = result_path
+
+
+class TestNetwork(config.Network):
+    """Network implementation, for test purposes."""
+    def __init__(self, routes: List[URLRoute]) -> None:
+        self.__routes = routes
+
+    def urlopen(self, url: str, data: Optional[bytes] = None) -> bytes:
+        for route in self.__routes:
+            if url != route.url:
+                continue
+
+            if route.data_path:
+                with open(route.data_path, "rb") as stream:
+                    expected = stream.read()
+                    if data != expected:
+                        assert data
+                        assert data == expected, \
+                            "bad data: actual is '" + str(data, 'utf-8') + \
+                            "', expected '" + str(expected, "utf-8") + "'"
+
+            with open(route.result_path, "rb") as stream:
+                return stream.read()
+
+        assert False, "url missing from route list: '" + url + "'"

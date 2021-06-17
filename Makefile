@@ -8,6 +8,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_cron.py \
 	tests/test_i18n.py \
 	tests/test_missing_housenumbers.py \
+	tests/test_overpass_query.py \
 	tests/test_parse_access_log.py \
 	tests/test_ranges.py \
 	tests/test_stats.py \
@@ -30,6 +31,7 @@ PYTHON_SAFE_OBJECTS = \
 	cron.py \
 	i18n.py \
 	missing_housenumbers.py \
+	overpass_query.py \
 	parse_access_log.py \
 	ranges.py \
 	stats.py \
