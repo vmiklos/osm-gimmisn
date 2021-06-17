@@ -7,6 +7,8 @@
 
 """Compares reference house numbers with OSM ones and shows the diff."""
 
+from typing import List
+from typing import TextIO
 import sys
 
 import areas
@@ -14,10 +16,10 @@ import config
 import util
 
 
-def main(conf: config.Config) -> None:
+def main(argv: List[str], stdout: TextIO, conf: config.Config) -> None:
     """Commandline interface."""
 
-    relation_name = sys.argv[1]
+    relation_name = argv[1]
 
     relations = areas.Relations(conf)
     relation = relations.get_relation(relation_name)
@@ -28,12 +30,12 @@ def main(conf: config.Config) -> None:
         range_list = util.get_housenumber_ranges(result[1])
         range_strings = [i.get_number() for i in range_list]
         range_strings = sorted(range_strings, key=util.split_house_number)
-        print("%s\t%s" % (result[0].get_osm_name(), len(range_strings)))
+        stdout.write("%s\t%s\n" % (result[0].get_osm_name(), len(range_strings)))
         # only_in_reference items.
-        print(range_strings)
+        stdout.write(str(range_strings) + "\n")
 
 
 if __name__ == '__main__':
-    main(config.Config(""))
+    main(sys.argv, sys.stdout, config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
