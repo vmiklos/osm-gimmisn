@@ -9,7 +9,6 @@
 import json
 import os
 import unittest
-import unittest.mock
 
 import test_config
 
@@ -26,8 +25,7 @@ class TestMain(unittest.TestCase):
             os.remove(cache_path)
         argv = ["", "data", "workdir"]
         conf = test_config.make_test_config()
-        with unittest.mock.patch('sys.argv', argv):
-            cache_yamls.main(conf)
+        cache_yamls.main(argv, conf)
         # Just assert that the result is created, the actual content is validated by the other
         # tests.
         self.assertTrue(os.path.exists(cache_path))
