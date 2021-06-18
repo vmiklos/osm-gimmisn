@@ -8,7 +8,6 @@
 
 from typing import Any
 import unittest
-import unittest.mock
 
 import test_config
 
