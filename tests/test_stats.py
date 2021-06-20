@@ -9,13 +9,16 @@
 from typing import Any
 from typing import Dict
 from typing import Optional
+import calendar
 import datetime
 import os
+import time
 import unittest
 import unittest.mock
 
 import test_config
 
+import config
 import stats
 
 
@@ -24,9 +27,14 @@ def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:
     return "2020-05-10"
 
 
-def mock_strftime_old(_fmt: str) -> str:
+def mock_strftime_old(_fmt: str, _tuple: Optional[Any] = None) -> str:
     """Mock time.strftime(), returning an old date."""
     return "1970-01-01"
+
+
+def make_test_time() -> config.Time:
+    """Generates unix timestamp for 2020-05-10."""
+    return test_config.TestTime(calendar.timegm(time.struct_time((2020, 5, 10, 0, 0, 0, 0, 0, 1))))
 
 
 class MockDate(datetime.date):
@@ -42,10 +50,10 @@ class TestHandleProgress(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('time.strftime', mock_strftime):
-            stats.handle_progress(src_root, j)
+        stats.handle_progress(conf, src_root, j)
         progress = j["progress"]
         self.assertEqual(progress["date"], "2020-05-10")
         # 254651 / 300 * 100
@@ -57,7 +65,7 @@ class TestHandleProgress(unittest.TestCase):
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         with unittest.mock.patch('time.strftime', mock_strftime_old):
-            stats.handle_progress(src_root, j)
+            stats.handle_progress(conf, src_root, j)
         progress = j["progress"]
         self.assertEqual(progress["date"], "1970-01-01")
 

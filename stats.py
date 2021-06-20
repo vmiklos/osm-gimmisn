@@ -17,13 +17,15 @@ import json
 import os
 import time
 
+import config
 
-def handle_progress(src_root: str, j: Dict[str, Any]) -> None:
+
+def handle_progress(conf: config.Config, src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for a global progressbar."""
     ret: Dict[str, Any] = {}
     with open(os.path.join(src_root, "ref.count"), "r") as stream:
         num_ref = int(stream.read().strip())
-    today = time.strftime("%Y-%m-%d")
+    today = time.strftime("%Y-%m-%d", time.gmtime(conf.get_time().now()))
     num_osm = 0
     count_path = os.path.join(src_root, "%s.count" % today)
     if os.path.exists(count_path):
@@ -205,10 +207,10 @@ def handle_monthly_total(src_root: str, j: Dict[str, Any], month_range: int = 11
     j["monthlytotal"] = ret
 
 
-def generate_json(state_dir: str, stream: TextIO) -> None:
+def generate_json(conf: config.Config, state_dir: str, stream: TextIO) -> None:
     """Generates the stats json and writes it to `stream`."""
     j: Dict[str, Any] = {}
-    handle_progress(state_dir, j)
+    handle_progress(conf, state_dir, j)
     handle_topusers(state_dir, j)
     handle_topcities(state_dir, j)
     handle_user_total(state_dir, j)

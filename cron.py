@@ -318,7 +318,7 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
     info("update_stats: generating json")
     json_path = os.path.join(statedir, "stats.json")
     with open(json_path, "w") as stream:
-        stats.generate_json(statedir, stream)
+        stats.generate_json(conf, statedir, stream)
 
     info("update_stats: end")
 

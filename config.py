@@ -12,8 +12,10 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 from typing import List
 from typing import Optional
 from typing import cast
+import calendar
 import configparser
 import os
+import time
 import urllib.request
 
 
@@ -58,6 +60,22 @@ class StdNetwork(Network):
         return cast(bytes, buf)
 
 
+class Time:
+    """Time interface."""
+    def now(self) -> float:  # pragma: no cover
+        """Calculates the current Unix timestamp from GMT."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
+class StdTime(Time):
+    """Time implementation, backed by the Python stdlib."""
+    def now(self) -> float:
+        # time.time() would use the current TZ, not GMT.
+        return calendar.timegm(time.localtime())
+
+
 class Config:
     """Config replacement without static state."""
     def __init__(self, prefix: str) -> None:
@@ -68,6 +86,7 @@ class Config:
         self.__config.read(config_path)
         self.__file_system: FileSystem = StdFileSystem()
         self.__network: Network = StdNetwork()
+        self.__time: Time = StdTime()
 
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
@@ -123,6 +142,14 @@ class Config:
     def get_network(self) -> Network:
         """Gets the network implementation."""
         return self.__network
+
+    def set_time(self, time_impl: Time) -> None:
+        """Sets the time implementation."""
+        self.__time = time_impl
+
+    def get_time(self) -> Time:
+        """Gets the time implementation."""
+        return self.__time
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
