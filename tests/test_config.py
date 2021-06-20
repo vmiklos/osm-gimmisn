@@ -82,3 +82,12 @@ class TestNetwork(config.Network):
                 return stream.read()
 
         assert False, "url missing from route list: '" + url + "'"
+
+
+class TestTime(config.Time):
+    """Time implementation, for test purposes."""
+    def __init__(self, now: float) -> None:
+        self.__now = now
+
+    def now(self) -> float:
+        return self.__now
