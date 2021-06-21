@@ -80,10 +80,10 @@ class TestHandleTopusers(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('time.strftime', mock_strftime):
-            stats.handle_topusers(src_root, j)
+        stats.handle_topusers(conf, src_root, j)
         topusers = j["topusers"]
         self.assertEqual(len(topusers), 20)
         self.assertEqual(topusers[0], ["user1", "68885"])
@@ -91,10 +91,10 @@ class TestHandleTopusers(unittest.TestCase):
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time_old())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('time.strftime', mock_strftime_old):
-            stats.handle_topusers(src_root, j)
+        stats.handle_topusers(conf, src_root, j)
         topusers = j["topusers"]
         self.assertFalse(topusers)
 
