@@ -9,6 +9,7 @@
 from typing import Any
 from typing import BinaryIO
 from typing import Optional
+import calendar
 import datetime
 import io
 import os
@@ -23,6 +24,11 @@ import areas
 import config
 import cron
 import util
+
+
+def make_test_time() -> config.Time:
+    """Generates unix timestamp for 2020-05-10."""
+    return test_config.TestTime(calendar.timegm(time.struct_time((2020, 5, 10, 0, 0, 0, 0, 0, 1))))
 
 
 def mock_urlopen_raise_error(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
@@ -340,6 +346,7 @@ class TestUpdateStats(unittest.TestCase):
         """Tests the happy path."""
 
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         mock_overpass_sleep_called = False
 
         def mock_overpass_sleep(_conf: config.Config) -> None:
@@ -381,6 +388,7 @@ class TestUpdateStats(unittest.TestCase):
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         mock_overpass_sleep_called = False
 
         def mock_overpass_sleep(_conf: config.Config) -> None:
@@ -396,6 +404,7 @@ class TestUpdateStats(unittest.TestCase):
     def test_no_overpass(self) -> None:
         """Tests the case when we don't call overpass."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         mock_overpass_sleep_called = False
 
         def mock_overpass_sleep() -> None:

@@ -121,7 +121,7 @@ def is_relation_recently_added(create_dates: Dict[str, datetime.date], name: str
     return name in create_dates and create_dates[name] > month_ago
 
 
-def check_top_edited_relations(frequent_relations: Set[str], workdir: str) -> None:
+def check_top_edited_relations(conf: config.Config, frequent_relations: Set[str], workdir: str) -> None:
     """
     Update frequent_relations based on get_topcities():
     1) The top 5 edited cities count as frequent, even if they have ~no visitors.
@@ -129,7 +129,7 @@ def check_top_edited_relations(frequent_relations: Set[str], workdir: str) -> No
     lots of visitors.
     """
     # List of 'city name' <-> '# of new house numbers' pairs.
-    topcities = stats.get_topcities(os.path.join(workdir, "stats"))
+    topcities = stats.get_topcities(conf, os.path.join(workdir, "stats"))
     topcities = [(unidecode.unidecode(city[0]), city[1]) for city in topcities]
     # Top 5: these should be frequent.
     for city in topcities[:5]:
@@ -149,7 +149,7 @@ def main(conf: config.Config) -> None:
 
     relations = areas.Relations(conf)
     frequent_relations = get_frequent_relations(conf, log_file)
-    check_top_edited_relations(frequent_relations, conf.get_workdir())
+    check_top_edited_relations(conf, frequent_relations, conf.get_workdir())
 
     # Now suggest what to change.
     removals = 0
