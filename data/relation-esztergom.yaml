@@ -107,6 +107,9 @@ filters:
   Vadvirág utca:
     # utca páratlan fele Vadvirág köz
     invalid: ['1', '3', '5', '9']
+  Várfok utca:
+    # 1 és 3 nem látni helyszínen, páratlan oldalon házak sincsenek, csak a páros oldal van számozva
+    invalid: ['1', '3']
 source: survey
 street-filters:
   # nem igazi utcák / csak hrsz.
