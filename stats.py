@@ -39,9 +39,9 @@ def handle_progress(conf: config.Config, src_root: str, j: Dict[str, Any]) -> No
     j["progress"] = ret
 
 
-def handle_topusers(src_root: str, j: Dict[str, Any]) -> None:
+def handle_topusers(conf: config.Config, src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for top users."""
-    today = time.strftime("%Y-%m-%d")
+    today = time.strftime("%Y-%m-%d", time.gmtime(conf.get_time().now()))
     ret = []
     topusers_path = os.path.join(src_root, "%s.topusers" % today)
     if os.path.exists(topusers_path):
@@ -211,7 +211,7 @@ def generate_json(conf: config.Config, state_dir: str, stream: TextIO) -> None:
     """Generates the stats json and writes it to `stream`."""
     j: Dict[str, Any] = {}
     handle_progress(conf, state_dir, j)
-    handle_topusers(state_dir, j)
+    handle_topusers(conf, state_dir, j)
     handle_topcities(state_dir, j)
     handle_user_total(state_dir, j)
     handle_daily_new(state_dir, j)
