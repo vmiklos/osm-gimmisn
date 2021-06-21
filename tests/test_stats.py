@@ -104,10 +104,10 @@ class TestHandleTopcities(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('datetime.date', MockDate):
-            stats.handle_topcities(src_root, j)
+        stats.handle_topcities(conf, src_root, j)
         topcities = j["topcities"]
         self.assertEqual(len(topcities), 2)
         self.assertEqual(topcities[0], ("budapest_02", 190))

@@ -53,13 +53,13 @@ def handle_topusers(conf: config.Config, src_root: str, j: Dict[str, Any]) -> No
     j["topusers"] = ret
 
 
-def get_topcities(src_root: str) -> List[Tuple[str, int]]:
+def get_topcities(conf: config.Config, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
     ret = []
-    new_day = datetime.date.today().strftime("%Y-%m-%d")
-    day_delta = datetime.date.today() - datetime.timedelta(days=30)
+    new_day = datetime.date.fromtimestamp(conf.get_time().now()).strftime("%Y-%m-%d")
+    day_delta = datetime.date.fromtimestamp(conf.get_time().now()) - datetime.timedelta(days=30)
     old_day = day_delta.strftime("%Y-%m-%d")
     old_counts: Dict[str, int] = {}
     counts: List[Tuple[str, int]] = []
@@ -83,12 +83,12 @@ def get_topcities(src_root: str) -> List[Tuple[str, int]]:
     return ret
 
 
-def handle_topcities(src_root: str, j: Dict[str, Any]) -> None:
+def handle_topcities(conf: config.Config, src_root: str, j: Dict[str, Any]) -> None:
     """
     Generates stats for top cities.
     This lists the top 20 cities which got lots of new house numbers in the past 30 days.
     """
-    ret = get_topcities(src_root)
+    ret = get_topcities(conf, src_root)
     ret = ret[:20]
     j["topcities"] = ret
 
@@ -212,7 +212,7 @@ def generate_json(conf: config.Config, state_dir: str, stream: TextIO) -> None:
     j: Dict[str, Any] = {}
     handle_progress(conf, state_dir, j)
     handle_topusers(conf, state_dir, j)
-    handle_topcities(state_dir, j)
+    handle_topcities(conf, state_dir, j)
     handle_user_total(state_dir, j)
     handle_daily_new(state_dir, j)
     handle_daily_total(state_dir, j)

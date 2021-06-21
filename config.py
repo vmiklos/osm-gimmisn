@@ -70,8 +70,8 @@ class Time:
 
 
 class StdTime(Time):
-    """Time implementation, backed by the Python stdlib."""
-    def now(self) -> float:
+    """Time implementation, backed by the Python stdlib, i.e. intentionally not tested."""
+    def now(self) -> float:  # pragma: no cover
         # time.time() would use the current TZ, not GMT.
         return calendar.timegm(time.localtime())
 

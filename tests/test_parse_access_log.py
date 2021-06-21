@@ -10,16 +10,24 @@ from typing import Any
 from typing import List
 from typing import Set
 from typing import Tuple
+import calendar
 import datetime
 import io
 import subprocess
+import time
 import unittest
 import unittest.mock
 
 import test_config
 
 import areas
+import config
 import parse_access_log
+
+
+def make_test_time() -> config.Time:
+    """Generates unix timestamp for 2020-05-10."""
+    return test_config.TestTime(calendar.timegm(time.struct_time((2020, 5, 10, 0, 0, 0, 0, 0, 1))))
 
 
 class MockDate(datetime.date):
@@ -37,6 +45,7 @@ class TestMain(unittest.TestCase):
         argv = ["", "tests/mock/access_log"]
         buf = io.StringIO()
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         real_subprocess_run = subprocess.run
 
         def mock_subprocess_run(args: List[str], stdout: Any, check: bool) -> Any:
@@ -76,7 +85,7 @@ class TestCheckTopEditedRelations(unittest.TestCase):
     """Tests check_top_edited_relations()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        def mock_get_topcities(_src_root: str) -> List[Tuple[str, int]]:
+        def mock_get_topcities(_conf: config.Config, _src_root: str) -> List[Tuple[str, int]]:
             return [
                 ("foo", 1000),
                 ("city1", 1000),
@@ -87,10 +96,11 @@ class TestCheckTopEditedRelations(unittest.TestCase):
                 ("baz", 2)
             ]
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         with unittest.mock.patch('datetime.date', MockDate):
             with unittest.mock.patch('stats.get_topcities', mock_get_topcities):
                 frequent_relations: Set[str] = {"foo", "bar"}
-                parse_access_log.check_top_edited_relations(frequent_relations, conf.get_workdir())
+                parse_access_log.check_top_edited_relations(conf, frequent_relations, conf.get_workdir())
                 self.assertIn("foo", frequent_relations)
                 self.assertIn("city1", frequent_relations)
                 self.assertIn("city2", frequent_relations)
