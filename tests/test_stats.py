@@ -37,6 +37,11 @@ def make_test_time() -> config.Time:
     return test_config.TestTime(calendar.timegm(time.struct_time((2020, 5, 10, 0, 0, 0, 0, 0, 1))))
 
 
+def make_test_time_old() -> config.Time:
+    """Generates unix timestamp for an old date."""
+    return test_config.TestTime(calendar.timegm(time.struct_time((1970, 1, 1, 0, 0, 0, 0, 0, 1))))
+
+
 class MockDate(datetime.date):
     """Mock datetime.date."""
     @classmethod
@@ -62,10 +67,10 @@ class TestHandleProgress(unittest.TestCase):
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time_old())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('time.strftime', mock_strftime_old):
-            stats.handle_progress(conf, src_root, j)
+        stats.handle_progress(conf, src_root, j)
         progress = j["progress"]
         self.assertEqual(progress["date"], "1970-01-01")
 
