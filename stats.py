@@ -108,13 +108,13 @@ def handle_user_total(src_root: str, j: Dict[str, Any], day_range: int = 13) -> 
     j["usertotal"] = ret
 
 
-def handle_daily_new(src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
+def handle_daily_new(conf: config.Config, src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
     """Shows # of new housenumbers / day."""
     ret = []
     prev_count = 0
     prev_day = ""
     for day_offset in range(day_range, -1, -1):
-        day_delta = datetime.date.today() - datetime.timedelta(day_offset)
+        day_delta = datetime.date.fromtimestamp(conf.get_time().now()) - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % day)
         if not os.path.exists(count_path):
@@ -214,7 +214,7 @@ def generate_json(conf: config.Config, state_dir: str, stream: TextIO) -> None:
     handle_topusers(conf, state_dir, j)
     handle_topcities(conf, state_dir, j)
     handle_user_total(state_dir, j)
-    handle_daily_new(state_dir, j)
+    handle_daily_new(conf, state_dir, j)
     handle_daily_total(state_dir, j)
     handle_monthly_new(state_dir, j)
     handle_monthly_total(state_dir, j)
