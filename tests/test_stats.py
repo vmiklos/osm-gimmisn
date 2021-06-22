@@ -11,7 +11,6 @@ from typing import Dict
 from typing import Optional
 import calendar
 import datetime
-import os
 import time
 import unittest
 import unittest.mock
@@ -145,10 +144,10 @@ class TestHandleMonthlyNew(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('datetime.date', MockDate):
-            stats.handle_monthly_new(src_root, j)
+        stats.handle_monthly_new(conf, src_root, j)
         monthly = j["monthly"]
         self.assertEqual(len(monthly), 2)
         # 2019-05 start -> end
@@ -159,28 +158,26 @@ class TestHandleMonthlyNew(unittest.TestCase):
     def test_empty_month_range(self) -> None:
         """Tests the case when the month range is empty."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_monthly_new(src_root, j, month_range=-1)
+        stats.handle_monthly_new(conf, src_root, j, month_range=-1)
         monthly = j["monthly"]
         self.assertTrue(monthly)
 
     def test_incomplete_last_month(self) -> None:
         """Tests the case when we have no data for the last, incomplete month."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('datetime.date', MockDate):
-            # This would be the data for the current state of the last, incomplete month.
-            hide_path = conf.get_abspath("workdir/stats/2020-05-10.count")
-            real_exists = os.path.exists
+        # This would be the data for the current state of the last, incomplete month.
+        hide_path = conf.get_abspath("workdir/stats/2020-05-10.count")
+        file_system = test_config.TestFileSystem()
+        file_system.set_hide_paths([hide_path])
+        conf.set_file_system(file_system)
 
-            def mock_exists(path: str) -> bool:
-                if path == hide_path:
-                    return False
-                return real_exists(path)
-            with unittest.mock.patch('os.path.exists', mock_exists):
-                stats.handle_monthly_new(src_root, j)
+        stats.handle_monthly_new(conf, src_root, j)
         monthly = j["monthly"]
         # 1st element: 2019-05 start -> end
         # No 2nd element, would be diff from last month end -> today

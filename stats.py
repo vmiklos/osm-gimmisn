@@ -137,17 +137,18 @@ def get_previous_month(today: datetime.date, months: int) -> datetime.date:
     return month_ago
 
 
-def handle_monthly_new(src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
+def handle_monthly_new(conf: config.Config, src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
     """Shows # of new housenumbers / month."""
     ret = []
     prev_count = 0
     prev_month = ""
+    path_exists = conf.get_file_system().path_exists
     for month_offset in range(month_range, -1, -1):
-        month_delta = get_previous_month(datetime.date.today(), month_offset)
+        month_delta = get_previous_month(datetime.date.fromtimestamp(conf.get_time().now()), month_offset)
         # Get the first day of each month.
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % month)
-        if not os.path.exists(count_path):
+        if not path_exists(count_path):
             break
         with open(count_path, "r") as stream:
             count = int(stream.read().strip())
@@ -157,9 +158,9 @@ def handle_monthly_new(src_root: str, j: Dict[str, Any], month_range: int = 12) 
         prev_month = month
 
     # Also show the current, incomplete month.
-    day = datetime.date.today().strftime("%Y-%m-%d")
+    day = datetime.date.fromtimestamp(conf.get_time().now()).strftime("%Y-%m-%d")
     count_path = os.path.join(src_root, "%s.count" % day)
-    if os.path.exists(count_path):
+    if path_exists(count_path):
         with open(count_path, "r") as stream:
             count = int(stream.read().strip())
         ret.append([day[:len("YYYY-MM")], count - prev_count])
@@ -216,7 +217,7 @@ def generate_json(conf: config.Config, state_dir: str, stream: TextIO) -> None:
     handle_user_total(state_dir, j)
     handle_daily_new(conf, state_dir, j)
     handle_daily_total(state_dir, j)
-    handle_monthly_new(state_dir, j)
+    handle_monthly_new(conf, state_dir, j)
     handle_monthly_total(state_dir, j)
     stream.write(json.dumps(j))
 
