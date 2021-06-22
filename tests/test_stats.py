@@ -9,15 +9,12 @@
 from typing import Any
 from typing import Dict
 from typing import Optional
-import calendar
 import datetime
-import time
 import unittest
 import unittest.mock
 
 import test_config
 
-import config
 import stats
 
 
@@ -29,16 +26,6 @@ def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:
 def mock_strftime_old(_fmt: str, _tuple: Optional[Any] = None) -> str:
     """Mock time.strftime(), returning an old date."""
     return "1970-01-01"
-
-
-def make_test_time() -> config.Time:
-    """Generates unix timestamp for 2020-05-10."""
-    return test_config.TestTime(calendar.timegm(time.struct_time((2020, 5, 10, 0, 0, 0, 0, 0, 1))))
-
-
-def make_test_time_old() -> config.Time:
-    """Generates unix timestamp for an old date."""
-    return test_config.TestTime(calendar.timegm(time.struct_time((1970, 1, 1, 0, 0, 0, 0, 0, 1))))
 
 
 class MockDate(datetime.date):
@@ -54,7 +41,7 @@ class TestHandleProgress(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_progress(conf, src_root, j)
@@ -66,7 +53,7 @@ class TestHandleProgress(unittest.TestCase):
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time_old())
+        conf.set_time(test_config.make_test_time_old())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_progress(conf, src_root, j)
@@ -79,7 +66,7 @@ class TestHandleTopusers(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_topusers(conf, src_root, j)
@@ -90,7 +77,7 @@ class TestHandleTopusers(unittest.TestCase):
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time_old())
+        conf.set_time(test_config.make_test_time_old())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_topusers(conf, src_root, j)
@@ -103,7 +90,7 @@ class TestHandleTopcities(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_topcities(conf, src_root, j)
@@ -118,7 +105,7 @@ class TestHandleDailyNew(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         # From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
@@ -131,7 +118,7 @@ class TestHandleDailyNew(unittest.TestCase):
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_daily_new(conf, src_root, j, day_range=-1)
@@ -144,7 +131,7 @@ class TestHandleMonthlyNew(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_monthly_new(conf, src_root, j)
@@ -158,7 +145,7 @@ class TestHandleMonthlyNew(unittest.TestCase):
     def test_empty_month_range(self) -> None:
         """Tests the case when the month range is empty."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_monthly_new(conf, src_root, j, month_range=-1)
@@ -168,7 +155,7 @@ class TestHandleMonthlyNew(unittest.TestCase):
     def test_incomplete_last_month(self) -> None:
         """Tests the case when we have no data for the last, incomplete month."""
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         # This would be the data for the current state of the last, incomplete month.

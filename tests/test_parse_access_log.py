@@ -10,11 +10,9 @@ from typing import Any
 from typing import List
 from typing import Set
 from typing import Tuple
-import calendar
 import datetime
 import io
 import subprocess
-import time
 import unittest
 import unittest.mock
 
@@ -23,11 +21,6 @@ import test_config
 import areas
 import config
 import parse_access_log
-
-
-def make_test_time() -> config.Time:
-    """Generates unix timestamp for 2020-05-10."""
-    return test_config.TestTime(calendar.timegm(time.struct_time((2020, 5, 10, 0, 0, 0, 0, 0, 1))))
 
 
 class MockDate(datetime.date):
@@ -45,7 +38,7 @@ class TestMain(unittest.TestCase):
         argv = ["", "tests/mock/access_log"]
         buf = io.StringIO()
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         real_subprocess_run = subprocess.run
 
         def mock_subprocess_run(args: List[str], stdout: Any, check: bool) -> Any:
@@ -96,7 +89,7 @@ class TestCheckTopEditedRelations(unittest.TestCase):
                 ("baz", 2)
             ]
         conf = test_config.make_test_config()
-        conf.set_time(make_test_time())
+        conf.set_time(test_config.make_test_time())
         with unittest.mock.patch('datetime.date', MockDate):
             with unittest.mock.patch('stats.get_topcities', mock_get_topcities):
                 frequent_relations: Set[str] = {"foo", "bar"}
