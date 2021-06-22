@@ -119,12 +119,12 @@ class TestHandleDailyNew(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('datetime.date', MockDate):
-            # From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
-            # (till a file is missing.)
-            stats.handle_daily_new(src_root, j)
+        # From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
+        # (till a file is missing.)
+        stats.handle_daily_new(conf, src_root, j)
         daily = j["daily"]
         self.assertEqual(len(daily), 1)
         self.assertEqual(daily[0], ["2020-04-26", 364])
@@ -132,9 +132,10 @@ class TestHandleDailyNew(unittest.TestCase):
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
         conf = test_config.make_test_config()
+        conf.set_time(make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_daily_new(src_root, j, day_range=-1)
+        stats.handle_daily_new(conf, src_root, j, day_range=-1)
         daily = j["daily"]
         self.assertFalse(daily)
 
