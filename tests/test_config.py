@@ -9,6 +9,8 @@
 from typing import Dict
 from typing import List
 from typing import Optional
+import calendar
+import datetime
 import os
 
 import config
@@ -91,3 +93,13 @@ class TestTime(config.Time):
 
     def now(self) -> float:
         return self.__now
+
+
+def make_test_time() -> config.Time:
+    """Generates unix timestamp for 2020-05-10."""
+    return TestTime(calendar.timegm(datetime.date(2020, 5, 10).timetuple()))
+
+
+def make_test_time_old() -> config.Time:
+    """Generates unix timestamp for an old date."""
+    return TestTime(calendar.timegm(datetime.date(1970, 1, 1).timetuple()))
