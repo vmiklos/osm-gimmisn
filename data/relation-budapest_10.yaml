@@ -26,6 +26,8 @@ osm-street-filters:
   # Nem valós utcák
   - Kincsem Park
   - Kőbányai pincerendszer bejárat
+  - pincerendszer kijárat
+  - Olasz katonai temető
   # Parkok, sétautak amire nincs számozva semmi
   - Bányató park
   - Erdélyi emlékkert
@@ -34,9 +36,17 @@ osm-street-filters:
   - Liget Grund
   - Liget téri park
   - Nagyicce kiserdő
+  - Pillangó park
+  - Reménység Szigete
+  - Sportliget
+  - Szabadidőpark
   # Kerülethatáron lévő utcák
   - 527. utca
   - Fogarasi út
+  - Forrásmajori dűlőút
+  - Nagy Lajos király útja
+  - Régivám utca
+  - Vak Bottyán utca
   # Köztemető belső dolgai
   - 1848-49-es honvédsírok
   - II. körönd
@@ -58,6 +68,8 @@ osm-street-filters:
   - Lechner Ödön sétány
   - Moesz Gusztáv sétány
   - Mutatványos tér
+  - Népligeti út
+  - Petz Ármin sétány
   - Räde Károly sétány
   - Rapaics Raymund sétány
   - Rerrich Béla sétány
