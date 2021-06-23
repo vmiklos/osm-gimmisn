@@ -8,7 +8,6 @@
 
 from typing import List
 import io
-import locale
 import os
 import unittest
 import unittest.mock
@@ -501,27 +500,10 @@ class TestGetLexicalSortKey(unittest.TestCase):
     """Tests get_lexical_sort_key()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        try:
-            locale.setlocale(locale.LC_ALL, "hu_HU.UTF-8")
-        except locale.Error:
-            # Can't test, environment lacks the locale.
-            return
-
         # This is less naive than the classic "a, "á", "b", "c" list.
         strings = ["Kőpor", "Kórház"]
         strings.sort(key=util.get_lexical_sort_key())
         self.assertEqual(strings, ["Kórház", "Kőpor"])
-
-    def test_failing_locale(self) -> None:
-        """Tests the missing locale path."""
-
-        def mock_setlocale(category: int, locale_name: str) -> str:
-            raise locale.Error()
-
-        with unittest.mock.patch('locale.setlocale', mock_setlocale):
-            strings = ["a", "b"]
-            strings.sort(key=util.get_lexical_sort_key())
-            self.assertEqual(strings, ["a", "b"])
 
 
 if __name__ == '__main__':
