@@ -9,12 +9,14 @@
 from typing import Any
 from typing import Dict
 from typing import Optional
+import calendar
 import datetime
 import unittest
 import unittest.mock
 
 import test_config
 
+import config
 import stats
 
 
@@ -23,17 +25,17 @@ def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:
     return "2020-05-10"
 
 
-def mock_strftime_old(_fmt: str, _tuple: Optional[Any] = None) -> str:
-    """Mock time.strftime(), returning an old date."""
-    return "1970-01-01"
-
-
 class MockDate(datetime.date):
     """Mock datetime.date."""
     @classmethod
     def today(cls) -> 'MockDate':
         """Returns today's date."""
         return cls(2020, 5, 10)
+
+
+def make_test_time_old() -> config.Time:
+    """Generates unix timestamp for an old date."""
+    return test_config.TestTime(calendar.timegm(datetime.date(1970, 1, 1).timetuple()))
 
 
 class TestHandleProgress(unittest.TestCase):
@@ -53,7 +55,7 @@ class TestHandleProgress(unittest.TestCase):
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
         conf = test_config.make_test_config()
-        conf.set_time(test_config.make_test_time_old())
+        conf.set_time(make_test_time_old())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_progress(conf, src_root, j)
@@ -77,7 +79,7 @@ class TestHandleTopusers(unittest.TestCase):
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
         conf = test_config.make_test_config()
-        conf.set_time(test_config.make_test_time_old())
+        conf.set_time(make_test_time_old())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_topusers(conf, src_root, j)
@@ -177,10 +179,10 @@ class TestHandleDailyTotal(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('datetime.date', MockDate):
-            stats.handle_daily_total(src_root, j)
+        stats.handle_daily_total(conf, src_root, j)
         dailytotal = j["dailytotal"]
         self.assertEqual(len(dailytotal), 1)
         self.assertEqual(dailytotal[0], ["2020-04-27", 251614])
@@ -188,9 +190,10 @@ class TestHandleDailyTotal(unittest.TestCase):
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
         conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_daily_total(src_root, j, day_range=-1)
+        stats.handle_daily_total(conf, src_root, j, day_range=-1)
         dailytotal = j["dailytotal"]
         self.assertFalse(dailytotal)
 
