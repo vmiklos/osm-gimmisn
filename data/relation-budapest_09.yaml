@@ -33,6 +33,9 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '62'}
+street-filters:
+  # https://www.ferencvaros.hu/wp-content/uploads/2021/06/325_2021.pdf
+  - Helyi kikötő út
 osm-street-filters:
   # Nem valós utcák
   - Drive-through
@@ -45,6 +48,11 @@ osm-street-filters:
   - Haller park
   - Madáretető park
   - Tinódi park
+  # https://www.ferencvaros.hu/wp-content/uploads/2021/06/325_2021.pdf
+  - Dalai Láma út
+  - Szabad Hongkong út
+  - Ujgur mártírok útja
+  - Hszie Si-kuang püspök út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás
