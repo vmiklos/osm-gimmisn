@@ -41,6 +41,7 @@ refstreets:
   'Szabadság utca': 'Szabadság út'
   'Szabadság-kilátó utca': 'Szabadságkilátó út'
   # ellenőrzött
+  'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
