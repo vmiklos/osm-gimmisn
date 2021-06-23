@@ -878,11 +878,7 @@ def get_timestamp(path: str) -> float:
 def get_lexical_sort_key() -> Callable[[str], str]:
     """Returns a string comparator which allows Unicode-aware lexical sorting."""
     # This is good enough for now, English and Hungarian is all we support and this handles both.
-    try:
-        locale.setlocale(locale.LC_ALL, "hu_HU.UTF-8")
-    except locale.Error:
-        # Ignore, this happens only on the cut-down CI environment.
-        pass
+    locale.setlocale(locale.LC_ALL, "hu_HU.UTF-8")
     return locale.strxfrm
 
 
