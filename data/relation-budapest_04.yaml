@@ -9,9 +9,9 @@ osm-street-filters:
   - Obi udvar
   - Vezetéstechnikai pálya
   # Farkaserdő
-  # - Bicikliző domb
-  # - Cinkék etetőhelye
-  # - Játszótér
+  - Bicikliző domb
+  - Cinkék etetőhelye
+  - Szalonnázó hely
   # ösvények, parkok
   - Dynamic park
   - Gróf Károlyi István park
