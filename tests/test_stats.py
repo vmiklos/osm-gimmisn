@@ -203,10 +203,10 @@ class TestHandleUserTotal(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('datetime.date', MockDate):
-            stats.handle_user_total(src_root, j)
+        stats.handle_user_total(conf, src_root, j)
         usertotal = j["usertotal"]
         self.assertEqual(len(usertotal), 1)
         self.assertEqual(usertotal[0], ["2020-04-27", 43])
@@ -214,9 +214,10 @@ class TestHandleUserTotal(unittest.TestCase):
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
         conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_user_total(src_root, j, day_range=-1)
+        stats.handle_user_total(conf, src_root, j, day_range=-1)
         usertotal = j["usertotal"]
         self.assertFalse(usertotal)
 
