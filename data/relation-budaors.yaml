@@ -470,6 +470,9 @@ osm-street-filters:
   - Wigner Jenő utca
   - Zsigmondy Richárd utca
   # Bevásárlóközpont belső utcak
+  - Dvd utca
+  - Kamera utca
+  - Pc utca
   - Tv út
   # egyéb
   - Budapark
