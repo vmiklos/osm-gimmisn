@@ -183,12 +183,13 @@ def handle_daily_total(conf: config.Config, src_root: str, j: Dict[str, Any], da
     j["dailytotal"] = ret
 
 
-def handle_monthly_total(src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
+def handle_monthly_total(conf: config.Config, src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
     """Shows # of total housenumbers / month."""
     ret = []
     for month_offset in range(month_range, -1, -1):
-        month_delta = get_previous_month(datetime.date.today(), month_offset)
-        prev_month_delta = get_previous_month(datetime.date.today(), month_offset + 1)
+        today = datetime.date.fromtimestamp(conf.get_time().now())
+        month_delta = get_previous_month(today, month_offset)
+        prev_month_delta = get_previous_month(today, month_offset + 1)
         # Get the first day of each past month.
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
         prev_month = prev_month_delta.replace(day=1).strftime("%Y-%m")
@@ -218,7 +219,7 @@ def generate_json(conf: config.Config, state_dir: str, stream: TextIO) -> None:
     handle_daily_new(conf, state_dir, j)
     handle_daily_total(conf, state_dir, j)
     handle_monthly_new(conf, state_dir, j)
-    handle_monthly_total(state_dir, j)
+    handle_monthly_total(conf, state_dir, j)
     stream.write(json.dumps(j))
 
 
