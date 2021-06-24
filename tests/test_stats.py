@@ -8,29 +8,14 @@
 
 from typing import Any
 from typing import Dict
-from typing import Optional
 import calendar
 import datetime
 import unittest
-import unittest.mock
 
 import test_config
 
 import config
 import stats
-
-
-def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:
-    """Mock time.strftime()."""
-    return "2020-05-10"
-
-
-class MockDate(datetime.date):
-    """Mock datetime.date."""
-    @classmethod
-    def today(cls) -> 'MockDate':
-        """Returns today's date."""
-        return cls(2020, 5, 10)
 
 
 def make_test_time_old() -> config.Time:
@@ -227,10 +212,10 @@ class TestHandleMonthlyTotal(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('datetime.date', MockDate):
-            stats.handle_monthly_total(src_root, j)
+        stats.handle_monthly_total(conf, src_root, j)
         monthlytotal = j["monthlytotal"]
         self.assertEqual(len(monthlytotal), 1)
         self.assertEqual(monthlytotal[0], ['2019-05', 203317])
@@ -238,19 +223,20 @@ class TestHandleMonthlyTotal(unittest.TestCase):
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
         conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_monthly_total(src_root, j, month_range=-1)
+        stats.handle_monthly_total(conf, src_root, j, month_range=-1)
         monthlytotal = j["monthlytotal"]
         self.assertFalse(monthlytotal)
 
     def test_one_element_day_range(self) -> None:
         """Tests the case when the day range is of just one element."""
         conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
         src_root = conf.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        with unittest.mock.patch('datetime.date', MockDate):
-            stats.handle_monthly_total(src_root, j, month_range=0)
+        stats.handle_monthly_total(conf, src_root, j, month_range=0)
         monthlytotal = j["monthlytotal"]
         self.assertEqual(len(monthlytotal), 2)
         self.assertEqual(monthlytotal[0], ["2020-04", 253027])
@@ -261,7 +247,8 @@ class TestGetPreviousMonth(unittest.TestCase):
     """Tests get_previous_month()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        today = MockDate.today()
+        time = test_config.make_test_time()
+        today = datetime.date.fromtimestamp(time.now())
 
         actual = stats.get_previous_month(today, 2)
 
