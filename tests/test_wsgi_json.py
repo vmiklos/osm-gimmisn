@@ -58,16 +58,15 @@ class TestJsonStreets(TestWsgiJson):
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
         conf = test_config.make_test_config()
-        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            buf = io.BytesIO()
-            buf.write(result_from_overpass.encode('utf-8'))
-            buf.seek(0)
-            return buf
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_json_for_path(conf, "/streets/gazdagret/update-result.json")
-            self.assertEqual(root["error"], "")
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path="tests/network/overpass-streets-gazdagret.csv")
+        ]
+        network = test_config.TestNetwork(routes)
+        conf.set_network(network)
+        root = self.get_json_for_path(conf, "/streets/gazdagret/update-result.json")
+        self.assertEqual(root["error"], "")
 
     def test_update_result_json_error(self) -> None:
         """Tests if the update-result json output on error is well-formed."""
