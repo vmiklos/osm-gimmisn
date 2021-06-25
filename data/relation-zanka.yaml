@@ -23,7 +23,7 @@ street-filters:
   # Zrínyi köz - Bercsényi köz mellett Fő utcáről
 refstreets:
   # Központ
-  'Rákóczi utca': 'Rákóczi út'  # táblacsere után, régebben Rákóczi volt kiírva, most Rákóczi utca, helyenként Rákóczi Ferenc utca
+  #'Rákóczi utca': 'Rákóczi út'  # régebben Rákóczi út volt kiírva, most Rákóczi utca, helyenként Rákóczi Ferenc utca, de van még Rákóczi út tábla is
   'Fűzkúti út': 'Fűzkuti utca'  # ez van kiírva
   # dűlő
   'Tagyonhegydűlő': 'Tagyonhegy dűlő'
