@@ -646,6 +646,15 @@ class TestMain(TestWsgi):
         # header + the two requested relations
         self.assertEqual(len(table.getchildren()), 3)
 
+    def test_filter_for_relations_empty(self) -> None:
+        """Tests if the /osm/filter-for/relations/ output is well-formed."""
+        root = self.get_dom_for_path("/filter-for/relations/")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
+        table = results[0]
+        # header + no requested relations
+        self.assertEqual(len(table.getchildren()), 1)
+
     def test_application_exception(self) -> None:
         """Tests application(), exception catching case."""
         conf = test_config.make_test_config()
