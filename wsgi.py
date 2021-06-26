@@ -581,7 +581,9 @@ def create_filter_for_refcounty(refcounty_filter: str) -> Callable[[bool, areas.
 
 def create_filter_for_relations(relation_filter: str) -> Callable[[bool, areas.Relation], bool]:
     """Creates a function that filters for the specified relations."""
-    relations = [int(i) for i in relation_filter.split(",")]
+    relations: List[int] = []
+    if relation_filter:
+        relations = [int(i) for i in relation_filter.split(",")]
     return lambda _complete, relation: relation.get_config().get_osmrelation() in relations
 
 
