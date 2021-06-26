@@ -8,6 +8,7 @@
 
 from typing import Any
 from typing import BinaryIO
+from typing import List
 from typing import Optional
 import datetime
 import io
@@ -260,37 +261,30 @@ class TestUpdateOsmStreets(unittest.TestCase):
     """Tests update_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        mock_overpass_sleep_called = False
-
-        def mock_overpass_sleep(_conf: config.Config) -> None:
-            nonlocal mock_overpass_sleep_called
-            mock_overpass_sleep_called = True
-
-        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            buf = io.BytesIO()
-            buf.write(result_from_overpass.encode('utf-8'))
-            buf.seek(0)
-            return buf
-
         conf = test_config.make_test_config()
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/status",
+                                 data_path="",
+                                 result_path="tests/network/overpass-status-happy.txt"),
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path="tests/network/overpass-streets-gazdagret.csv"),
+        ]
+        network = test_config.TestNetwork(routes)
+        conf.set_network(network)
         relations = areas.Relations(conf)
-        with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-                for relation_name in relations.get_active_names():
-                    if relation_name != "gazdagret":
-                        relations.get_relation(relation_name).get_config().set_active(False)
-                expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-                path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
-                os.unlink(path)
-                cron.update_osm_streets(conf, relations, update=True)
-                mtime = os.path.getmtime(path)
-                cron.update_osm_streets(conf, relations, update=False)
-                self.assertEqual(os.path.getmtime(path), mtime)
-                self.assertTrue(mock_overpass_sleep_called)
-                actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-                self.assertEqual(actual, expected)
+        for relation_name in relations.get_active_names():
+            if relation_name != "gazdagret":
+                relations.get_relation(relation_name).get_config().set_active(False)
+        expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
+        os.unlink(path)
+        cron.update_osm_streets(conf, relations, update=True)
+        mtime = os.path.getmtime(path)
+        cron.update_osm_streets(conf, relations, update=False)
+        self.assertEqual(os.path.getmtime(path), mtime)
+        actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        self.assertEqual(actual, expected)
 
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
