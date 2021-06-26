@@ -12,6 +12,8 @@ filters:
     show-refstreet: false
   Tipegő utca:
     show-refstreet: false
+  Semmelweis Ignác utca:
+    show-refstreet: false
 street-filters:
   # nem igazi utca - 249/2015. (XI.26.) önk. határozat által átnevezett külterületek
   - Fenéki határ       # Fenéki vasúti őrház és a Fenékpuszta vasúti megálló
@@ -26,10 +28,22 @@ street-filters:
   # dűlők, tanyák
   - Sömögye dűlő
   # Koponár utca    - w204692963 Öv utca nyugat - földút, nem volt tábla az elején
+osm-street-filters:
+  # nem igazi utcák
+  - Keszthely nyugati elkerülő út
+  # parkok, sétányok
+  - Berki sétaút
+  - Helikon park
+  - Kastélypark
+  - Várkert
+  # területhatár/átlógó utcák
+  - Bottyaháti utca
+  - Keszthelyi utca
+  - Várvölgyi utca
+  # külterület
+  - Alsópáhoki út
 refstreets:
-  'Györök György utca': 'György Biró utca'  # marad így, helyesírásilag ez a forma jó, utcanévtábla uppercase és rövid
-  'Kilátó utca': 'Kilátó köz'
-  'Semmelweis Ignác utca': 'Semmelweis utca'
+  'György bíró utca': 'György Biró utca'  # marad így, helyesírásilag ez a forma jó, utcanévtábla uppercase és rövid
   # ellenőrzött 2020-06, utcatábán az osm név
   'Árnyas utca': 'Árnyas út'  # vegyesen vannak a táblák: Árnyas út / Árnyas utca
   'Dankó utca': 'Dankó Pista utca'  # nincs kint tábla, nem eldönthető
@@ -38,5 +52,7 @@ refstreets:
   'Kazinczy Ferenc utca': 'Kazinczy utca'
   'Kísérleti utca': 'Kisérleti utca'
   'Tipegő utca': 'Tipegő út'
+  # ellenőrzött 2021-06
+  'Semmelweis Ignác utca': 'Semmelweis utca'  # mindkét féle tábla kint van
 source: survey
 inactive: true
