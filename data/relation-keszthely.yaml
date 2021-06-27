@@ -31,14 +31,24 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Keszthely nyugati elkerülő út
-  # parkok, sétányok
+  # addr:place
+  - Fenékpuszta
+  # parkok, sétányok amire nincs számozva semmi
   - Berki sétaút
+  - Fenyves allé
   - Helikon park
   - Kastélypark
+  - Sóhaj allé
   - Várkert
   # területhatár/átlógó utcák
   - Bottyaháti utca
+  - Erdész utca
+  - Faludi utca
   - Keszthelyi utca
+  - Koponári utca
+  - Palotai utca
+  - Porkoláb utca
+  - Rezi utca
   - Várvölgyi utca
   # külterület
   - Alsópáhoki út
