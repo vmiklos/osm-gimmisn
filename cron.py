@@ -19,7 +19,6 @@ import logging
 import os
 import time
 import traceback
-import urllib.error
 
 import areas
 import cache
@@ -72,13 +71,14 @@ def update_osm_streets(conf: config.Config, relations: areas.Relations, update: 
             if retry > 0:
                 info("update_osm_streets: try #%s", retry)
             retry += 1
-            try:
-                overpass_sleep(conf)
-                query = relation.get_osm_streets_query()
-                relation.get_files().write_osm_streets(overpass_query.overpass_query(conf, query))
-                break
-            except urllib.error.HTTPError as http_error:
-                info("update_osm_streets: http error: %s", str(http_error))
+            overpass_sleep(conf)
+            query = relation.get_osm_streets_query()
+            buf, err = overpass_query.overpass_query(conf, query)
+            if err:
+                info("update_osm_streets: http error: %s", err)
+                continue
+            relation.get_files().write_osm_streets(buf)
+            break
         info("update_osm_streets: end: %s", relation_name)
 
 
@@ -94,13 +94,14 @@ def update_osm_housenumbers(conf: config.Config, relations: areas.Relations, upd
             if retry > 0:
                 info("update_osm_housenumbers: try #%s", retry)
             retry += 1
-            try:
-                overpass_sleep(conf)
-                query = relation.get_osm_housenumbers_query()
-                relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(conf, query))
-                break
-            except urllib.error.HTTPError as http_error:
-                info("update_osm_housenumbers: http error: %s", str(http_error))
+            overpass_sleep(conf)
+            query = relation.get_osm_housenumbers_query()
+            buf, err = overpass_query.overpass_query(conf, query)
+            if err:
+                info("update_osm_housenumbers: http error: %s", err)
+                continue
+            relation.get_files().write_osm_housenumbers(buf)
+            break
         info("update_osm_housenumbers: end: %s", relation_name)
 
 
@@ -294,14 +295,14 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
             if retry > 0:
                 info("update_stats: try #%s", retry)
             retry += 1
-            try:
-                overpass_sleep(conf)
-                response = overpass_query.overpass_query(conf, query)
-                with open(csv_path, "w") as stream:
-                    stream.write(response)
-                break
-            except urllib.error.HTTPError as http_error:
-                info("update_stats: http error: %s", str(http_error))
+            overpass_sleep(conf)
+            response, err = overpass_query.overpass_query(conf, query)
+            if err:
+                info("update_stats: http error: %s", err)
+                continue
+            with open(csv_path, "w") as stream:
+                stream.write(response)
+            break
 
     update_stats_count(conf, today)
     update_stats_topusers(conf, today)

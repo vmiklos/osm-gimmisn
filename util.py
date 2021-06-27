@@ -24,7 +24,6 @@ import locale
 import os
 import json
 import re
-import urllib.error
 import email.utils
 
 import yattag
@@ -463,11 +462,11 @@ def html_escape(text: str) -> yattag.doc.Doc:
     return doc
 
 
-def handle_overpass_error(conf: config.Config, http_error: urllib.error.HTTPError) -> yattag.doc.Doc:
+def handle_overpass_error(conf: config.Config, http_error: str) -> yattag.doc.Doc:
     """Handles a HTTP error from Overpass."""
     doc = yattag.doc.Doc()
     with doc.tag("div", id="overpass-error"):
-        doc.text(_("Overpass error: {0}").format(str(http_error)))
+        doc.text(_("Overpass error: {0}").format(http_error))
         sleep = overpass_query.overpass_query_need_sleep(conf)
         if sleep:
             doc.stag("br")
