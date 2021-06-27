@@ -192,46 +192,30 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
     """Tests update_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        mock_overpass_sleep_called = False
-
-        def mock_overpass_sleep(_conf: config.Config) -> None:
-            nonlocal mock_overpass_sleep_called
-            mock_overpass_sleep_called = True
-
-        result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
-        result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
-        result_from_overpass += "1\tTörökugrató utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTörökugrató utca\t2\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTűzkő utca\t9\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTűzkő utca\t10\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOSM Name 1\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOSM Name 1\t2\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            buf = io.BytesIO()
-            buf.write(result_from_overpass.encode('utf-8'))
-            buf.seek(0)
-            return buf
-
         conf = test_config.make_test_config()
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/status",
+                                 data_path="",
+                                 result_path="tests/network/overpass-status-happy.txt"),
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path="tests/network/overpass-housenumbers-gazdagret.csv"),
+        ]
+        network = test_config.TestNetwork(routes)
+        conf.set_network(network)
         relations = areas.Relations(conf)
-        with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-                for relation_name in relations.get_active_names():
-                    if relation_name != "gazdagret":
-                        relations.get_relation(relation_name).get_config().set_active(False)
-                path = os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
-                expected = util.get_content(path)
-                os.unlink(path)
-                cron.update_osm_housenumbers(conf, relations, update=True)
-                mtime = os.path.getmtime(path)
-                cron.update_osm_housenumbers(conf, relations, update=False)
-                self.assertEqual(os.path.getmtime(path), mtime)
-                self.assertTrue(mock_overpass_sleep_called)
-                actual = util.get_content(path)
-                self.assertEqual(actual, expected)
+        for relation_name in relations.get_active_names():
+            if relation_name != "gazdagret":
+                relations.get_relation(relation_name).get_config().set_active(False)
+        path = os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+        expected = util.get_content(path)
+        os.unlink(path)
+        cron.update_osm_housenumbers(conf, relations, update=True)
+        mtime = os.path.getmtime(path)
+        cron.update_osm_housenumbers(conf, relations, update=False)
+        self.assertEqual(os.path.getmtime(path), mtime)
+        actual = util.get_content(path)
+        self.assertEqual(actual, expected)
 
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
