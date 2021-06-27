@@ -16,7 +16,6 @@ import os
 import time
 import unittest
 import unittest.mock
-import urllib.error
 
 import test_config
 
@@ -24,11 +23,6 @@ import areas
 import config
 import cron
 import util
-
-
-def mock_urlopen_raise_error(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-    """Mock urlopen(), always throwing an error."""
-    raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
 
 
 class TestOverpassSleep(unittest.TestCase):
@@ -363,17 +357,17 @@ class TestUpdateStats(unittest.TestCase):
         """Tests the case when we keep getting HTTP errors."""
         conf = test_config.make_test_config()
         conf.set_time(test_config.make_test_time())
-        mock_overpass_sleep_called = False
-
-        def mock_overpass_sleep(_conf: config.Config) -> None:
-            nonlocal mock_overpass_sleep_called
-            mock_overpass_sleep_called = True
-
-        with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
-                with unittest.mock.patch('datetime.date', MockDate):
-                    cron.update_stats(conf, overpass=True)
-        self.assertTrue(mock_overpass_sleep_called)
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/status",
+                                 data_path="",
+                                 result_path="tests/network/overpass-status-happy.txt"),
+        ]
+        network = test_config.TestNetwork(routes)
+        conf.set_network(network)
+        old_mtime = conf.get_file_system().getmtime(conf.get_abspath("workdir/stats/stats.json"))
+        cron.update_stats(conf, overpass=True)
+        new_mtime = conf.get_file_system().getmtime(conf.get_abspath("workdir/stats/stats.json"))
+        self.assertGreater(new_mtime, old_mtime)
 
     def test_no_overpass(self) -> None:
         """Tests the case when we don't call overpass."""
