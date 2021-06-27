@@ -9,6 +9,7 @@
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Tuple
 import calendar
 import datetime
 import os
@@ -66,7 +67,7 @@ class TestNetwork(config.Network):
     def __init__(self, routes: List[URLRoute]) -> None:
         self.__routes = routes
 
-    def urlopen(self, url: str, data: Optional[bytes] = None) -> bytes:
+    def urlopen(self, url: str, data: Optional[bytes] = None) -> Tuple[bytes, str]:
         for route in self.__routes:
             if url != route.url:
                 continue
@@ -80,10 +81,12 @@ class TestNetwork(config.Network):
                             "bad data: actual is '" + str(data, 'utf-8') + \
                             "', expected '" + str(expected, "utf-8") + "'"
 
+            if not route.result_path:
+                return (bytes(), "empty result_path for url '" + url + "'")
             with open(route.result_path, "rb") as stream:
-                return stream.read()
+                return (stream.read(), str())
 
-        assert False, "url missing from route list: '" + url + "'"
+        return (bytes(), "url missing from route list: '" + url + "'")
 
 
 class TestTime(config.Time):

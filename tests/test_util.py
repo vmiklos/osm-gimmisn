@@ -170,7 +170,7 @@ class TestHandleOverpassError(unittest.TestCase):
         error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, io.BytesIO())
         conf = test_config.make_test_config()
         with unittest.mock.patch('overpass_query.overpass_query_need_sleep', need_sleep):
-            doc = util.handle_overpass_error(conf, error)
+            doc = util.handle_overpass_error(conf, str(error))
             expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file</div>"""
             self.assertEqual(doc.getvalue(), expected)
 
@@ -181,7 +181,7 @@ class TestHandleOverpassError(unittest.TestCase):
         error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, io.BytesIO())
         conf = test_config.make_test_config()
         with unittest.mock.patch('overpass_query.overpass_query_need_sleep', need_sleep):
-            doc = util.handle_overpass_error(conf, error)
+            doc = util.handle_overpass_error(conf, str(error))
             expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file"""
             expected += """<br />Note: wait for 42 seconds</div>"""
             self.assertEqual(doc.getvalue(), expected)

@@ -8,7 +8,6 @@
 """The wsgi module contains functionality specific to the json part of the web interface."""
 
 import json
-import urllib.parse
 from typing import Any
 from typing import Dict
 from typing import Iterable
@@ -33,11 +32,12 @@ def streets_update_result_json(conf: config.Config, relations: areas.Relations, 
     relation = relations.get_relation(relation_name)
     query = relation.get_osm_streets_query()
     ret: Dict[str, str] = {}
-    try:
-        relation.get_files().write_osm_streets(overpass_query.overpass_query(conf, query))
+    buf, err = overpass_query.overpass_query(conf, query)
+    if err:
+        ret["error"] = err
+    else:
+        relation.get_files().write_osm_streets(buf)
         ret["error"] = ""
-    except urllib.error.HTTPError as http_error:
-        ret["error"] = str(http_error)
     return json.dumps(ret)
 
 
@@ -48,11 +48,12 @@ def street_housenumbers_update_result_json(conf: config.Config, relations: areas
     relation = relations.get_relation(relation_name)
     query = relation.get_osm_housenumbers_query()
     ret: Dict[str, str] = {}
-    try:
-        relation.get_files().write_osm_housenumbers(overpass_query.overpass_query(conf, query))
+    buf, err = overpass_query.overpass_query(conf, query)
+    if err:
+        ret["error"] = err
+    else:
+        relation.get_files().write_osm_housenumbers(buf)
         ret["error"] = ""
-    except urllib.error.HTTPError as http_error:
-        ret["error"] = str(http_error)
     return json.dumps(ret)
 
 

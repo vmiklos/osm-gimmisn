@@ -272,26 +272,27 @@ class TestUpdateOsmStreets(unittest.TestCase):
 
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
-        mock_overpass_sleep_called = False
-
-        def mock_overpass_sleep(_conf: config.Config) -> None:
-            nonlocal mock_overpass_sleep_called
-            mock_overpass_sleep_called = True
-
         conf = test_config.make_test_config()
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/status",
+                                 data_path="",
+                                 result_path="tests/network/overpass-status-happy.txt"),
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path=""),
+        ]
+        network = test_config.TestNetwork(routes)
+        conf.set_network(network)
         relations = areas.Relations(conf)
-        with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            with unittest.mock.patch('urllib.request.urlopen', mock_urlopen_raise_error):
-                for relation_name in relations.get_active_names():
-                    if relation_name != "gazdagret":
-                        relations.get_relation(relation_name).get_config().set_active(False)
-                expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-                cron.update_osm_streets(conf, relations, update=True)
-                self.assertTrue(mock_overpass_sleep_called)
-                # Make sure that in case we keep getting errors we give up at some stage and
-                # leave the last state unchanged.
-                actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-                self.assertEqual(actual, expected)
+        for relation_name in relations.get_active_names():
+            if relation_name != "gazdagret":
+                relations.get_relation(relation_name).get_config().set_active(False)
+        expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        cron.update_osm_streets(conf, relations, update=True)
+        # Make sure that in case we keep getting errors we give up at some stage and
+        # leave the last state unchanged.
+        actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        self.assertEqual(actual, expected)
 
 
 def create_old_file(path: str) -> None:
