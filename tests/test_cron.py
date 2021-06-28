@@ -7,11 +7,8 @@
 """The test_cron module covers the cron module."""
 
 from typing import Any
-from typing import BinaryIO
 from typing import List
-from typing import Optional
 import datetime
-import io
 import os
 import time
 import unittest
@@ -312,24 +309,18 @@ class TestUpdateStats(unittest.TestCase):
     """Tests update_stats()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-
         conf = test_config.make_test_config()
         conf.set_time(test_config.make_test_time())
-        mock_overpass_sleep_called = False
-
-        def mock_overpass_sleep(_conf: config.Config) -> None:
-            nonlocal mock_overpass_sleep_called
-            mock_overpass_sleep_called = True
-
-        result_from_overpass = "@id\taddr:postcode\naddr:city\taddr:street\taddr:housenumber\t@user\n"
-        result_from_overpass += "7677\tOrfű\tDollár utca\t1\tvasony\n"
-        result_from_overpass += "7677\tOrfű\tDollár utca\t2\tvasony\n"
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            buf = io.BytesIO()
-            buf.write(result_from_overpass.encode('utf-8'))
-            buf.seek(0)
-            return buf
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/status",
+                                 data_path="",
+                                 result_path="tests/network/overpass-status-happy.txt"),
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path="tests/network/overpass-stats.csv"),
+        ]
+        network = test_config.TestNetwork(routes)
+        conf.set_network(network)
 
         # Create a CSV that is definitely old enough to be removed.
         old_path = conf.get_abspath("workdir/stats/old.csv")
@@ -337,17 +328,12 @@ class TestUpdateStats(unittest.TestCase):
 
         today = time.strftime("%Y-%m-%d")
         path = conf.get_abspath("workdir/stats/%s.csv" % today)
-        with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-                with unittest.mock.patch('datetime.date', MockDate):
-                    cron.update_stats(conf, overpass=True)
-        actual = util.get_content(path).decode("utf-8")
-        self.assertEqual(actual, result_from_overpass)
+        cron.update_stats(conf, overpass=True)
+        actual = util.get_content(path)
+        self.assertEqual(actual, util.get_content("tests/network/overpass-stats.csv"))
 
         # Make sure that the old CSV is removed.
         self.assertFalse(os.path.exists(old_path))
-
-        self.assertTrue(mock_overpass_sleep_called)
 
         with open(conf.get_abspath("workdir/stats/ref.count"), "r") as stream:
             num_ref = int(stream.read().strip())
