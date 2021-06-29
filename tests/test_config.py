@@ -98,6 +98,15 @@ class TestTime(config.Time):
         return self.__now
 
 
+class TestSubprocess(config.Subprocess):
+    """Subprocess implementation, for test purposes."""
+    def __init__(self, outputs: Dict[str, bytes]) -> None:
+        self.__outputs = outputs
+
+    def run(self, args: List[str]) -> bytes:
+        return self.__outputs[" ".join(args)]
+
+
 def make_test_time() -> config.Time:
     """Generates unix timestamp for 2020-05-10."""
     return TestTime(calendar.timegm(datetime.date(2020, 5, 10).timetuple()))

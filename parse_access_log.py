@@ -8,11 +8,12 @@
 """Parses the Apache access log of osm-gimmisn for 1 month."""
 
 from typing import Dict
+from typing import List
 from typing import Set
+from typing import TextIO
 import datetime
 import os
 import re
-import subprocess
 import sys
 
 import unidecode
@@ -97,10 +98,10 @@ def get_relation_create_dates(conf: config.Config) -> Dict[str, datetime.date]:
     """Builds a name -> create_date dictionary for relations."""
     ret: Dict[str, datetime.date] = {}
     relations_path = conf.get_abspath("data/relations.yaml")
-    process = subprocess.run(["git", "blame", "--line-porcelain", relations_path], stdout=subprocess.PIPE, check=True)
+    process_stdout = conf.get_subprocess().run(["git", "blame", "--line-porcelain", relations_path])
     timestamp = 0
 
-    for line_bytes in process.stdout.splitlines():
+    for line_bytes in process_stdout.splitlines():
         line = line_bytes.decode('utf-8')
         match = re.match("\t([^ :]+):", line)
         if match:
@@ -115,9 +116,10 @@ def get_relation_create_dates(conf: config.Config) -> Dict[str, datetime.date]:
     return ret
 
 
-def is_relation_recently_added(create_dates: Dict[str, datetime.date], name: str) -> bool:
+def is_relation_recently_added(conf: config.Config, create_dates: Dict[str, datetime.date], name: str) -> bool:
     """Decides if the given relation is recent, based on create_dates."""
-    month_ago = datetime.date.today() - datetime.timedelta(days=30)
+    today = datetime.date.fromtimestamp(conf.get_time().now())
+    month_ago = today - datetime.timedelta(days=30)
     return name in create_dates and create_dates[name] > month_ago
 
 
@@ -141,9 +143,9 @@ def check_top_edited_relations(conf: config.Config, frequent_relations: Set[str]
             frequent_relations.remove(city[0])
 
 
-def main(conf: config.Config) -> None:
+def main(argv: List[str], stdout: TextIO, conf: config.Config) -> None:
     """Commandline interface."""
-    log_file = sys.argv[1]
+    log_file = argv[1]
 
     relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates(conf)
 
@@ -160,16 +162,16 @@ def main(conf: config.Config) -> None:
         expected = relation_name in frequent_relations and not is_complete_relation(relations, relation_name)
         if actual != expected:
             if actual:
-                if not is_relation_recently_added(relation_create_dates, relation_name):
-                    print("data/relation-{}.yaml: set inactive: true".format(relation_name))
+                if not is_relation_recently_added(conf, relation_create_dates, relation_name):
+                    stdout.write("data/relation-{}.yaml: set inactive: true\n".format(relation_name))
                     removals += 1
             else:
-                print("data/relation-{}.yaml: set inactive: false".format(relation_name))
+                stdout.write("data/relation-{}.yaml: set inactive: false\n".format(relation_name))
                 additions += 1
-    print("Suggested {} removals and {} additions.".format(removals, additions))
+    stdout.write("Suggested {} removals and {} additions.\n".format(removals, additions))
 
 
 if __name__ == '__main__':
-    main(config.Config(""))
+    main(sys.argv, sys.stdout, config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
