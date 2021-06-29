@@ -6,13 +6,11 @@
 
 """The test_parse_access_log module covers the parse_access_log module."""
 
-from typing import Any
 from typing import List
 from typing import Set
 from typing import Tuple
 import datetime
 import io
-import subprocess
 import unittest
 import unittest.mock
 
@@ -39,22 +37,18 @@ class TestMain(unittest.TestCase):
         buf = io.StringIO()
         conf = test_config.make_test_config()
         conf.set_time(test_config.make_test_time())
-        real_subprocess_run = subprocess.run
-
-        def mock_subprocess_run(args: List[str], stdout: Any, check: bool) -> Any:
-            assert args[0] == "git"
-            ret = real_subprocess_run(["echo"], stdout=stdout, check=check)
-            # 2020-05-09, so this will be recent
-            ret.stdout = b"""
+        conf.set_time(test_config.make_test_time())
+        relations_path = conf.get_abspath("data/relations.yaml")
+        # 2020-05-09, so this will be recent
+        outputs = {
+            "git blame --line-porcelain " + relations_path: b"""
 author-time 1588975200
 \tujbuda:
 """
-            return ret
-        with unittest.mock.patch('sys.argv', argv):
-            with unittest.mock.patch('sys.stdout', buf):
-                with unittest.mock.patch('datetime.date', MockDate):
-                    with unittest.mock.patch('subprocess.run', mock_subprocess_run):
-                        parse_access_log.main(conf)
+        }
+        subprocess = test_config.TestSubprocess(outputs)
+        conf.set_subprocess(subprocess)
+        parse_access_log.main(argv, buf, conf)
 
         buf.seek(0)
         actual = buf.read()
@@ -90,17 +84,16 @@ class TestCheckTopEditedRelations(unittest.TestCase):
             ]
         conf = test_config.make_test_config()
         conf.set_time(test_config.make_test_time())
-        with unittest.mock.patch('datetime.date', MockDate):
-            with unittest.mock.patch('stats.get_topcities', mock_get_topcities):
-                frequent_relations: Set[str] = {"foo", "bar"}
-                parse_access_log.check_top_edited_relations(conf, frequent_relations, conf.get_workdir())
-                self.assertIn("foo", frequent_relations)
-                self.assertIn("city1", frequent_relations)
-                self.assertIn("city2", frequent_relations)
-                self.assertIn("city3", frequent_relations)
-                self.assertIn("city4", frequent_relations)
-                self.assertNotIn("bar", frequent_relations)
-                self.assertNotIn("baz", frequent_relations)
+        with unittest.mock.patch('stats.get_topcities', mock_get_topcities):
+            frequent_relations: Set[str] = {"foo", "bar"}
+            parse_access_log.check_top_edited_relations(conf, frequent_relations, conf.get_workdir())
+            self.assertIn("foo", frequent_relations)
+            self.assertIn("city1", frequent_relations)
+            self.assertIn("city2", frequent_relations)
+            self.assertIn("city3", frequent_relations)
+            self.assertIn("city4", frequent_relations)
+            self.assertNotIn("bar", frequent_relations)
+            self.assertNotIn("baz", frequent_relations)
 
 
 class TestIsCompleteRelation(unittest.TestCase):

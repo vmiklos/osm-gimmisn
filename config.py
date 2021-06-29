@@ -18,6 +18,7 @@ import configparser
 import os
 import time
 import urllib.request
+import subprocess
 
 
 class FileSystem:
@@ -80,6 +81,22 @@ class StdTime(Time):
         return calendar.timegm(time.localtime())
 
 
+class Subprocess:
+    """Subprocess interface."""
+    def run(self, args: List[str]) -> bytes:  # pragma: no cover
+        """Runs a commmand, capturing its output."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
+class StdSubprocess(Subprocess):
+    """Subprocess implementation, backed by the Python stdlib, i.e. intentionally not tested."""
+    def run(self, args: List[str]) -> bytes:  # pragma: no cover
+        process = subprocess.run(args, stdout=subprocess.PIPE, check=True)
+        return process.stdout
+
+
 class Config:
     """Config replacement without static state."""
     def __init__(self, prefix: str) -> None:
@@ -91,6 +108,7 @@ class Config:
         self.__file_system: FileSystem = StdFileSystem()
         self.__network: Network = StdNetwork()
         self.__time: Time = StdTime()
+        self.__subprocess: Subprocess = StdSubprocess()
 
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
@@ -154,6 +172,14 @@ class Config:
     def get_time(self) -> Time:
         """Gets the time implementation."""
         return self.__time
+
+    def set_subprocess(self, subprocess_impl: Subprocess) -> None:
+        """Sets the subprocess implementation."""
+        self.__subprocess = subprocess_impl
+
+    def get_subprocess(self) -> Subprocess:
+        """Gets the subprocess implementation."""
+        return self.__subprocess
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
