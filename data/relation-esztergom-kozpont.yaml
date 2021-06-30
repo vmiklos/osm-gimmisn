@@ -44,6 +44,12 @@ filters:
   Juliánus barát utca:
     # 35 a vége
     invalid: ['37', '39']
+  Holopkút dűlő:
+    # csak hrsz
+    invalid: ['660', '665']
+  Kettőspince sor:
+    # 9-es után csak 2 ház van. Régebben a Csendes utca is ezt a nevet viselte.
+    invalid: ['22', '27']
   Kis Duna sétány:
     # 59 nincs kiírva, a gátőrház lehetne
     invalid: ['59']
@@ -57,6 +63,9 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '12'}
+  Nyaktekercs utca:
+    # hrsz
+    invalid: ['355']
   Petőfi Sándor utca:
     ranges:
       - {start: '1', end: '125'}
