@@ -137,43 +137,45 @@ class TestStreets(TestWsgi):
 
     def test_update_result_well_formed(self) -> None:
         """Tests if the update-result output is well-formed."""
-        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            buf = io.BytesIO()
-            buf.write(result_from_overpass.encode('utf-8'))
-            buf.seek(0)
-            return buf
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/streets/gazdagret/update-result")
-            results = root.findall("body")
-            self.assertEqual(len(results), 1)
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path="tests/network/overpass-streets-gazdagret.csv"),
+        ]
+        network = test_config.TestNetwork(routes)
+        self.conf.set_network(network)
+        root = self.get_dom_for_path("/streets/gazdagret/update-result")
+        results = root.findall("body")
+        self.assertEqual(len(results), 1)
 
     def test_update_result_error_well_formed(self) -> None:
         """Tests if the update-result output on error is well-formed."""
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/streets/gazdagret/update-result")
-            results = root.findall("body/div[@id='overpass-error']")
-            self.assertTrue(results)
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path=""),  # no result -> error
+        ]
+        network = test_config.TestNetwork(routes)
+        self.conf.set_network(network)
+        root = self.get_dom_for_path("/streets/gazdagret/update-result")
+        results = root.findall("body/div[@id='overpass-error']")
+        self.assertTrue(results)
 
     def test_update_result_missing_streets_well_formed(self) -> None:
         """
         Tests if the update-result output is well-formed for should_check_missing_streets() ==
         "only".
         """
-        result_from_overpass = "@id\tname\n3\tOSM Name 1\n2\tTörökugrató utca\n1\tTűzkő utca\n"
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            buf = io.BytesIO()
-            buf.write(result_from_overpass.encode('utf-8'))
-            buf.seek(0)
-            return buf
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/streets/ujbuda/update-result")
-            results = root.findall("body")
-            self.assertEqual(len(results), 1)
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path="tests/network/overpass-streets-ujbuda.csv"),
+        ]
+        network = test_config.TestNetwork(routes)
+        self.conf.set_network(network)
+        root = self.get_dom_for_path("/streets/ujbuda/update-result")
+        results = root.findall("body")
+        self.assertEqual(len(results), 1)
 
 
 class TestMissingHousenumbers(TestWsgi):
