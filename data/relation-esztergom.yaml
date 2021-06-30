@@ -55,6 +55,9 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '16'}
+  Juliánus barát utca:
+    # 35 a vége
+    invalid: ['37', '39']
   Kis Duna sétány:
     # 59 nincs kiírva, a gátőrház lehetne
     invalid: ['59']
@@ -104,6 +107,9 @@ filters:
     # nagy épületek több ajtóval: 1/1 -> 1/20, illetve "putrik" 3/1 -> 3/26
     ranges:
       - {start: '1', end: '3'}
+  Vadrózsa utca:
+    # 12 és 15 a vége
+    invalid: ['32', '42']
   Vadvirág utca:
     # utca páratlan fele Vadvirág köz
     invalid: ['1', '3', '5', '9']
