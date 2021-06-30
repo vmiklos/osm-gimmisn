@@ -1,0 +1,25 @@
+missing-streets: 'no'
+filters:
+  # terület határoló utcák
+  Dráva utca:
+    ranges:
+      - {start: '2', end: '26'}
+  Jászai Mari tér:
+    interpolation: all
+    ranges:
+      - {start: '4', end: '6'}
+  Nyugati tér:
+    interpolation: all
+    ranges:
+      - {start: '4', end: '5'}
+  Szent István körút:
+    ranges:
+      - {start: '2', end: '30'}
+  Váci út:
+    ranges:
+      - {start: '2', end: '74'}
+  # ide jönnek a szűrők
+  Újpesti rakpart:
+    invalid: ['999']  # minta
+source: survey
+inactive: false

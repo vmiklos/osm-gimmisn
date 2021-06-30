@@ -284,6 +284,10 @@ belso-ferencvaros:
     osmrelation: 3229950
     refcounty: "01"
     refsettlement: "009"
+ujlipotvaros:
+    osmrelation: 1746619
+    refcounty: "01"
+    refsettlement: "013"
 vizafogo:
     osmrelation: 3217068
     refcounty: "01"
