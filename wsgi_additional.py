@@ -55,9 +55,9 @@ def additional_streets_view_result(
 
     doc = yattag.doc.Doc()
     prefix = conf.get_uri_prefix()
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
-    elif not os.path.exists(relation.get_files().get_ref_streets_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
         doc.asis(webframe.handle_no_ref_streets(prefix, relation_name).getvalue())
     else:
         # Get "only in OSM" streets.
