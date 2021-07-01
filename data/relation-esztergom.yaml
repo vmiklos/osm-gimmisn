@@ -51,6 +51,9 @@ filters:
   Helischer József út:
     # páros vége 4
     invalid: ['16']
+  Holopkút dűlő:
+    # csak hrsz
+    invalid: ['655', '660']
   Hősök tere:
     ranges:
       - {start: '1', end: '15'}
@@ -58,6 +61,12 @@ filters:
   Juliánus barát utca:
     # 35 a vége
     invalid: ['37', '39']
+  Kettőspince sor:
+    # 9-es után csak 2 ház van.
+    # Régebben a Csendes utca is ezt a nevet viselte, ott voltak a 12-től házszámok
+    interpolation: all
+    ranges:
+      - {start: '1', end: '11'}
   Kis Duna sétány:
     # 59 nincs kiírva, a gátőrház lehetne
     invalid: ['59']
@@ -71,10 +80,18 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '12'}
+  Nyaktekercs utca:
+    # hrsz
+    invalid: ['355']
   Petőfi Sándor utca:
     ranges:
       - {start: '1', end: '125'}
       - {start: '2', end: '74'}
+  Petz testvérek utca:
+    # csak páros oldal van, valószínű újraszámozták, de nincsenek kint az új számok 2021-06
+    ranges:
+      - {start: '2', end: '36'}
+      - {start: '48', end: '62'}
   Sugár út:
     ranges:
       - {start: '1', end: '17'}
