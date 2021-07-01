@@ -15,7 +15,7 @@ filters:
   Kárpát utca:
     ranges:
       - {start: '1', end: '39'}
-      - {start: '2', end: '65'}
+      - {start: '2', end: '64'}
   Nyugati tér:
     interpolation: all
     ranges:
