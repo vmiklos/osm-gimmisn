@@ -428,37 +428,29 @@ class TestStreetHousenumbers(TestWsgi):
 
     def test_update_result_well_formed(self) -> None:
         """Tests if the update-result output is well-formed."""
-        result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
-        result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
-        result_from_overpass += "1\tTörökugrató utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTörökugrató utca\t2\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTűzkő utca\t9\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTűzkő utca\t10\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOSM Name 1\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOSM Name 1\t2\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            buf = io.BytesIO()
-            buf.write(result_from_overpass.encode('utf-8'))
-            buf.seek(0)
-            return buf
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
-            results = root.findall("body")
-            self.assertEqual(len(results), 1)
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path="tests/network/overpass-housenumbers-gazdagret.csv"),
+        ]
+        network = test_config.TestNetwork(routes)
+        self.conf.set_network(network)
+        root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
+        results = root.findall("body")
+        self.assertEqual(len(results), 1)
 
     def test_update_result_error_well_formed(self) -> None:
         """Tests if the update-result output on error is well-formed."""
-
-        def mock_urlopen(_url: str, _data: Optional[bytes] = None) -> BinaryIO:
-            raise urllib.error.HTTPError(url="", code=0, msg="", hdrs={}, fp=io.BytesIO())
-
-        with unittest.mock.patch('urllib.request.urlopen', mock_urlopen):
-            root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
-            results = root.findall("body/div[@id='overpass-error']")
-            self.assertTrue(results)
+        routes: List[test_config.URLRoute] = [
+            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                 data_path="",
+                                 result_path=""),
+        ]
+        network = test_config.TestNetwork(routes)
+        self.conf.set_network(network)
+        root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
+        results = root.findall("body/div[@id='overpass-error']")
+        self.assertTrue(results)
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
