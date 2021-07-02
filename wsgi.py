@@ -109,7 +109,7 @@ def handle_street_housenumbers(conf: config.Config, relations: areas.Relations, 
             doc.asis(util.gen_link(link, tr("View missing house numbers")).getvalue())
     else:
         # assume view-result
-        if not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
+        if not conf.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
             with doc.tag("div", id="no-osm-housenumbers"):
                 doc.text(tr("No existing house numbers"))
         else:
@@ -148,11 +148,11 @@ def missing_housenumbers_view_res(conf: config.Config, relations: areas.Relation
     doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
     prefix = conf.get_uri_prefix()
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
-    elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
         doc.asis(webframe.handle_no_osm_housenumbers(prefix, relation_name).getvalue())
-    elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
         doc.asis(webframe.handle_no_ref_housenumbers(prefix, relation_name).getvalue())
     else:
         doc = cache.get_missing_housenumbers_html(conf, relation)
@@ -548,7 +548,7 @@ def handle_main_housenr_additional_count(conf: config.Config, relation: areas.Re
     prefix = conf.get_uri_prefix()
     url = prefix + "/additional-housenumbers/" + relation.get_name() + "/view-result"
     additional_count = ""
-    if os.path.exists(relation.get_files().get_housenumbers_additional_count_path()):
+    if conf.get_file_system().path_exists(relation.get_files().get_housenumbers_additional_count_path()):
         path = relation.get_files().get_housenumbers_additional_count_path()
         additional_count = util.get_content(path).decode("utf-8").strip()
 
@@ -871,7 +871,7 @@ def our_application_txt(
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
     elif request_uri.startswith(prefix + "/additional-streets/"):
-        output, relation_name = wsgi_additional.additional_streets_view_txt(relations, request_uri, chkl)
+        output, relation_name = wsgi_additional.additional_streets_view_txt(conf, relations, request_uri, chkl)
         if chkl:
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
