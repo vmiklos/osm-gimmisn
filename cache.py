@@ -12,7 +12,7 @@ import os
 
 import yattag
 
-from i18n import translate as _
+from i18n import translate as tr
 import areas
 import config
 import util
@@ -76,22 +76,22 @@ def get_missing_housenumbers_html(conf: config.Config, relation: areas.Relation)
     with doc.tag("p"):
         prefix = conf.get_uri_prefix()
         relation_name = relation.get_name()
-        doc.text(_("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
+        doc.text(tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
                  .format(str(todo_count), str(todo_street_count)))
-        doc.text(_(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
+        doc.text(tr(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
         doc.stag("br")
         with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
-            doc.text(_("Filter incorrect information"))
+            doc.text(tr("Filter incorrect information"))
         doc.text(".")
         doc.stag("br")
         with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-turbo".format(relation_name)):
-            doc.text(_("Overpass turbo query for the below streets"))
+            doc.text(tr("Overpass turbo query for the below streets"))
         doc.stag("br")
         with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.txt".format(relation_name)):
-            doc.text(_("Plain text format"))
+            doc.text(tr("Plain text format"))
         doc.stag("br")
         with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.chkl".format(relation_name)):
-            doc.text(_("Checklist format"))
+            doc.text(tr("Checklist format"))
 
     doc.asis(util.html_table_from_list(table).getvalue())
     doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
@@ -115,11 +115,11 @@ def get_additional_housenumbers_html(conf: config.Config, relation: areas.Relati
     todo_street_count, todo_count, table = ret
 
     with doc.tag("p"):
-        doc.text(_("OpenStreetMap additionally has the below {0} house numbers for {1} streets.")
+        doc.text(tr("OpenStreetMap additionally has the below {0} house numbers for {1} streets.")
                  .format(str(todo_count), str(todo_street_count)))
         doc.stag("br")
         with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
-            doc.text(_("Filter incorrect information"))
+            doc.text(tr("Filter incorrect information"))
 
     doc.asis(util.html_table_from_list(table).getvalue())
     doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())

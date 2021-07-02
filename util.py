@@ -28,7 +28,7 @@ import email.utils
 
 import yattag
 
-from i18n import translate as _
+from i18n import translate as tr
 import accept_language
 import config
 import i18n
@@ -466,11 +466,11 @@ def handle_overpass_error(conf: config.Config, http_error: str) -> yattag.doc.Do
     """Handles a HTTP error from Overpass."""
     doc = yattag.doc.Doc()
     with doc.tag("div", id="overpass-error"):
-        doc.text(_("Overpass error: {0}").format(http_error))
+        doc.text(tr("Overpass error: {0}").format(http_error))
         sleep = overpass_query.overpass_query_need_sleep(conf)
         if sleep:
             doc.stag("br")
-            doc.text(_("Note: wait for {} seconds").format(sleep))
+            doc.text(tr("Note: wait for {} seconds").format(sleep))
     return doc
 
 
@@ -559,7 +559,7 @@ def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.
     if osm_invalids:
         doc.stag("br")
         with doc.tag("div", id="osm-invalids-container"):
-            doc.text(_("Warning: broken OSM <-> reference mapping, the following OSM names are invalid:"))
+            doc.text(tr("Warning: broken OSM <-> reference mapping, the following OSM names are invalid:"))
             with doc.tag("ul"):
                 for osm_invalid in osm_invalids:
                     with doc.tag("li"):
@@ -567,15 +567,15 @@ def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.
     if ref_invalids:
         doc.stag("br")
         with doc.tag("div", id="ref-invalids-container"):
-            doc.text(_("Warning: broken OSM <-> reference mapping, the following reference names are invalid:"))
+            doc.text(tr("Warning: broken OSM <-> reference mapping, the following reference names are invalid:"))
             with doc.tag("ul"):
                 for ref_invalid in ref_invalids:
                     with doc.tag("li"):
                         doc.text(ref_invalid)
     if osm_invalids or ref_invalids:
         doc.stag("br")
-        doc.text(_("Note: an OSM name is invalid if it's not in the OSM database."))
-        doc.text(_("A reference name is invalid if it's in the OSM database."))
+        doc.text(tr("Note: an OSM name is invalid if it's not in the OSM database."))
+        doc.text(tr("A reference name is invalid if it's in the OSM database."))
     return doc
 
 
@@ -585,7 +585,7 @@ def invalid_filter_keys_to_html(invalids: List[str]) -> yattag.doc.Doc:
     if invalids:
         doc.stag("br")
         with doc.tag("div", id="osm-filter-key-invalids-container"):
-            doc.text(_("Warning: broken filter key name, the following key names are not OSM names:"))
+            doc.text(tr("Warning: broken filter key name, the following key names are not OSM names:"))
             with doc.tag("ul"):
                 for invalid in invalids:
                     with doc.tag("li"):
@@ -686,7 +686,7 @@ def get_street_from_housenumber(sock: CsvIO) -> List[Street]:
             osm_id = 0
         street = Street(osm_id=osm_id, osm_name=street_name)
         street.set_osm_type(osm_type)
-        street.set_source(_("housenumber"))
+        street.set_source(tr("housenumber"))
         ret.append(street)
 
     return ret

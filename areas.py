@@ -16,7 +16,7 @@ from typing import cast
 import json
 import yattag
 
-from i18n import translate as _
+from i18n import translate as tr
 import area_files
 import config
 import ranges
@@ -293,7 +293,7 @@ class RelationBase:
                 street = util.Street(osm_id=int(row[0]), osm_name=row[1])
                 if len(row) > 6:
                     street.set_osm_type(row[6])
-                street.set_source(_("street"))
+                street.set_source(tr("street"))
                 ret.append(street)
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
             with self.get_files().get_osm_housenumbers_csv_stream() as sock:
@@ -579,9 +579,9 @@ class Relation(RelationBase):
         """Turns a list of numbered streets into a HTML table."""
         todo_count = 0
         table = []
-        table.append([util.html_escape(_("Street name")),
-                      util.html_escape(_("Missing count")),
-                      util.html_escape(_("House numbers"))])
+        table.append([util.html_escape(tr("Street name")),
+                      util.html_escape(tr("Missing count")),
+                      util.html_escape(tr("House numbers"))])
         rows = []
         for result in numbered_streets:
             # street, only_in_ref

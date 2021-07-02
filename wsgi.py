@@ -24,7 +24,7 @@ import wsgiref.simple_server
 
 import yattag
 
-from i18n import translate as _
+from i18n import translate as tr
 import areas
 import cache
 import config
@@ -66,11 +66,11 @@ def handle_streets(conf: config.Config, relations: areas.Relations, request_uri:
             relation.get_files().write_osm_streets(buf)
             streets = relation.get_config().should_check_missing_streets()
             if streets != "only":
-                doc.text(_("Update successful: "))
+                doc.text(tr("Update successful: "))
                 link = conf.get_uri_prefix() + "/missing-housenumbers/" + relation_name + "/view-result"
-                doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
+                doc.asis(util.gen_link(link, tr("View missing house numbers")).getvalue())
             else:
-                doc.text(_("Update successful."))
+                doc.text(tr("Update successful."))
     else:
         # assume view-result
         with relation.get_files().get_osm_streets_csv_stream() as sock:
@@ -104,14 +104,14 @@ def handle_street_housenumbers(conf: config.Config, relations: areas.Relations, 
             doc.asis(util.handle_overpass_error(conf, err).getvalue())
         else:
             relation.get_files().write_osm_housenumbers(buf)
-            doc.text(_("Update successful: "))
+            doc.text(tr("Update successful: "))
             link = prefix + "/missing-housenumbers/" + relation_name + "/view-result"
-            doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
+            doc.asis(util.gen_link(link, tr("View missing house numbers")).getvalue())
     else:
         # assume view-result
         if not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
             with doc.tag("div", id="no-osm-housenumbers"):
-                doc.text(_("No existing house numbers"))
+                doc.text(tr("No existing house numbers"))
         else:
             with relation.get_files().get_osm_housenumbers_csv_stream() as sock:
                 doc.asis(util.html_table_from_list(util.tsv_to_list(sock)).getvalue())
@@ -178,22 +178,22 @@ def missing_streets_view_result(conf: config.Config, relations: areas.Relations,
     ret = relation.write_missing_streets()
     todo_count, done_count, percent, streets = ret
     streets.sort(key=util.get_lexical_sort_key())
-    table = [[util.html_escape(_("Street name"))]]
+    table = [[util.html_escape(tr("Street name"))]]
     for street in streets:
         table.append([util.html_escape(street)])
 
     with doc.tag("p"):
-        doc.text(_("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
-        doc.text(_(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
+        doc.text(tr("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
+        doc.text(tr(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
         doc.stag("br")
         with doc.tag("a", href=prefix + "/missing-streets/{}/view-turbo".format(relation_name)):
-            doc.text(_("Overpass turbo query for streets with questionable names"))
+            doc.text(tr("Overpass turbo query for streets with questionable names"))
         doc.stag("br")
         with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result.txt"):
-            doc.text(_("Plain text format"))
+            doc.text(tr("Plain text format"))
         doc.stag("br")
         with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result.chkl"):
-            doc.text(_("Checklist format"))
+            doc.text(tr("Checklist format"))
 
     doc.asis(util.html_table_from_list(table).getvalue())
     doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
@@ -210,11 +210,11 @@ def missing_housenumbers_view_txt(conf: config.Config, relations: areas.Relation
 
     output = ""
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += _("No existing streets")
+        output += tr("No existing streets")
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
-        output += _("No existing house numbers")
+        output += tr("No existing house numbers")
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
-        output += _("No reference house numbers")
+        output += tr("No reference house numbers")
     else:
         output = cache.get_missing_housenumbers_txt(conf, relation)
     return output
@@ -234,11 +234,11 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
 
     output = ""
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += _("No existing streets")
+        output += tr("No existing streets")
     elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
-        output += _("No existing house numbers")
+        output += tr("No existing house numbers")
     elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
-        output += _("No reference house numbers")
+        output += tr("No reference house numbers")
     else:
         ongoing_streets, _ignore = relation.get_missing_housenumbers()
 
@@ -273,9 +273,9 @@ def missing_streets_view_txt(relations: areas.Relations, request_uri: str, chkl:
 
     output = ""
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += _("No existing streets")
+        output += tr("No existing streets")
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
-        output += _("No reference streets")
+        output += tr("No reference streets")
     else:
         todo_streets, _ignore = relation.get_missing_streets()
         todo_streets.sort(key=util.get_lexical_sort_key())
@@ -293,10 +293,10 @@ def missing_housenumbers_update(conf: config.Config, relations: areas.Relations,
     relation = relations.get_relation(relation_name)
     relation.write_ref_housenumbers(references)
     doc = yattag.doc.Doc()
-    doc.text(_("Update successful: "))
+    doc.text(tr("Update successful: "))
     prefix = conf.get_uri_prefix()
     link = prefix + "/missing-housenumbers/" + relation_name + "/view-result"
-    doc.asis(util.gen_link(link, _("View missing house numbers")).getvalue())
+    doc.asis(util.gen_link(link, tr("View missing house numbers")).getvalue())
     return doc
 
 
@@ -307,7 +307,7 @@ def missing_streets_update(conf: config.Config, relations: areas.Relations, rela
     relation.write_ref_streets(reference)
     doc = yattag.doc.Doc()
     with doc.tag("div", id="update-success"):
-        doc.text(_("Update successful."))
+        doc.text(tr("Update successful."))
     return doc
 
 
@@ -486,13 +486,13 @@ def handle_main_housenr_percent(conf: config.Config, relation: areas.Relation) -
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
         with doc.tag("strong"):
-            with doc.tag("a", href=url, title=_("updated") + " " + date):
+            with doc.tag("a", href=url, title=tr("updated") + " " + date):
                 doc.text(util.format_percent(percent))
         return doc, percent
 
     with doc.tag("strong"):
         with doc.tag("a", href=url):
-            doc.text(_("missing house numbers"))
+            doc.text(tr("missing house numbers"))
     return doc, "0"
 
 
@@ -508,13 +508,13 @@ def handle_main_street_percent(conf: config.Config, relation: areas.Relation) ->
     if percent != "N/A":
         date = get_last_modified(relation.get_files().get_streets_percent_path())
         with doc.tag("strong"):
-            with doc.tag("a", href=url, title=_("updated") + " " + date):
+            with doc.tag("a", href=url, title=tr("updated") + " " + date):
                 doc.text(util.format_percent(percent))
         return doc, percent
 
     with doc.tag("strong"):
         with doc.tag("a", href=url):
-            doc.text(_("missing streets"))
+            doc.text(tr("missing streets"))
     return doc, "0"
 
 
@@ -530,13 +530,13 @@ def handle_main_street_additional_count(conf: config.Config, relation: areas.Rel
     if additional_count:
         date = get_last_modified(relation.get_files().get_streets_additional_count_path())
         with doc.tag("strong"):
-            with doc.tag("a", href=url, title=_("updated") + " " + date):
-                doc.text(_("{} streets").format(additional_count))
+            with doc.tag("a", href=url, title=tr("updated") + " " + date):
+                doc.text(tr("{} streets").format(additional_count))
         return doc
 
     with doc.tag("strong"):
         with doc.tag("a", href=url):
-            doc.text(_("additional streets"))
+            doc.text(tr("additional streets"))
     return doc
 
 
@@ -556,13 +556,13 @@ def handle_main_housenr_additional_count(conf: config.Config, relation: areas.Re
     if additional_count:
         date = get_last_modified(relation.get_files().get_housenumbers_additional_count_path())
         with doc.tag("strong"):
-            with doc.tag("a", href=url, title=_("updated") + " " + date):
-                doc.text(_("{} house numbers").format(additional_count))
+            with doc.tag("a", href=url, title=tr("updated") + " " + date):
+                doc.text(tr("{} house numbers").format(additional_count))
         return doc
 
     with doc.tag("strong"):
         with doc.tag("a", href=url):
-            doc.text(_("additional house numbers"))
+            doc.text(tr("additional house numbers"))
     return doc
 
 
@@ -642,13 +642,13 @@ def handle_main_filters(conf: config.Config, relations: areas.Relations, refcoun
     doc = yattag.doc.Doc()
     with doc.tag("span", id="filter-based-on-position"):
         with doc.tag("a", href="#"):
-            doc.text(_("Based on position"))
+            doc.text(tr("Based on position"))
     items.append(doc)
 
     doc = yattag.doc.Doc()
     prefix = conf.get_uri_prefix()
     with doc.tag("a", href=prefix + "/filter-for/everything"):
-        doc.text(_("Show complete areas"))
+        doc.text(tr("Show complete areas"))
     items.append(doc)
 
     # Sorted set of refcounty values of all relations.
@@ -656,9 +656,9 @@ def handle_main_filters(conf: config.Config, relations: areas.Relations, refcoun
         items.append(handle_main_filters_refcounty(conf, relations, refcounty_id, refcounty))
     doc = yattag.doc.Doc()
     with doc.tag("h1"):
-        doc.text(_("Where to map?"))
+        doc.text(tr("Where to map?"))
     with doc.tag("p"):
-        doc.text(_("Filters:") + " ")
+        doc.text(tr("Filters:") + " ")
         for index, item in enumerate(items):
             if index:
                 doc.text(" ¦ ")
@@ -667,13 +667,13 @@ def handle_main_filters(conf: config.Config, relations: areas.Relations, refcoun
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-gps-wait", _("Waiting for GPS...")),
-            ("str-gps-error", _("Error from GPS: ")),
-            ("str-overpass-wait", _("Waiting for Overpass...")),
-            ("str-overpass-error", _("Error from Overpass: ")),
-            ("str-relations-wait", _("Waiting for relations...")),
-            ("str-relations-error", _("Error from relations: ")),
-            ("str-redirect-wait", _("Waiting for redirect...")),
+            ("str-gps-wait", tr("Waiting for GPS...")),
+            ("str-gps-error", tr("Error from GPS: ")),
+            ("str-overpass-wait", tr("Waiting for Overpass...")),
+            ("str-overpass-error", tr("Error from Overpass: ")),
+            ("str-relations-wait", tr("Waiting for relations...")),
+            ("str-relations-error", tr("Error from relations: ")),
+            ("str-redirect-wait", tr("Waiting for redirect...")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
@@ -754,7 +754,7 @@ def handle_main_relation(
 
     doc = yattag.doc.Doc()
     with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation.get_config().get_osmrelation())):
-        doc.text(_("area boundary"))
+        doc.text(tr("area boundary"))
     row.append(doc)
 
     if not filter_for(complete, relation):
@@ -774,12 +774,12 @@ def handle_main(request_uri: str, conf: config.Config, relations: areas.Relation
 
     doc.asis(handle_main_filters(conf, relations, refcounty).getvalue())
     table = []
-    table.append([util.html_escape(_("Area")),
-                  util.html_escape(_("House number coverage")),
-                  util.html_escape(_("Additional house numbers")),
-                  util.html_escape(_("Street coverage")),
-                  util.html_escape(_("Additional streets")),
-                  util.html_escape(_("Area boundary"))])
+    table.append([util.html_escape(tr("Area")),
+                  util.html_escape(tr("House number coverage")),
+                  util.html_escape(tr("Additional house numbers")),
+                  util.html_escape(tr("Street coverage")),
+                  util.html_escape(tr("Additional streets")),
+                  util.html_escape(tr("Area boundary"))])
     for relation_name in relations.get_names():
         row = handle_main_relation(conf, relations, filter_for, relation_name)
         if row:
@@ -787,7 +787,7 @@ def handle_main(request_uri: str, conf: config.Config, relations: areas.Relation
     doc.asis(util.html_table_from_list(table).getvalue())
     with doc.tag("p"):
         with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
-            doc.text(_("Add new area"))
+            doc.text(tr("Add new area"))
 
     doc.asis(webframe.get_footer().getvalue())
     return doc
@@ -803,13 +803,13 @@ def get_html_title(request_uri: str) -> str:
         relation_name = tokens[3]
     title = ""
     if function == "missing-housenumbers":
-        title = " - " + _("{0} missing house numbers").format(relation_name)
+        title = " - " + tr("{0} missing house numbers").format(relation_name)
     elif function == "missing-streets":
-        title = " - " + relation_name + " " + _("missing streets")
+        title = " - " + relation_name + " " + tr("missing streets")
     elif function == "street-housenumbers":
-        title = " - " + relation_name + " " + _("existing house numbers")
+        title = " - " + relation_name + " " + tr("existing house numbers")
     elif function == "streets":
-        title = " - " + relation_name + " " + _("existing streets")
+        title = " - " + relation_name + " " + tr("existing streets")
     return title
 
 
@@ -820,7 +820,7 @@ def write_html_head(conf: config.Config, doc: yattag.doc.Doc, title: str) -> Non
         doc.stag("meta", charset="UTF-8")
         doc.stag("meta", name="viewport", content="width=device-width, initial-scale=1")
         with doc.tag("title"):
-            doc.text(_("Where to map?") + title)
+            doc.text(tr("Where to map?") + title)
         doc.stag("link", rel="icon", type="image/vnd.microsoft.icon", sizes="16x12", href=prefix + "/favicon.ico")
         doc.stag("link", rel="icon", type="image/svg+xml", sizes="any", href=prefix + "/favicon.svg")
 

@@ -23,7 +23,7 @@ import xmlrpc.client
 
 import yattag
 
-from i18n import translate as _
+from i18n import translate as tr
 import areas
 import config
 import util
@@ -38,12 +38,12 @@ def get_footer(last_updated: str = "") -> yattag.doc.Doc:
     """Produces the end of the page."""
     items: List[yattag.doc.Doc] = []
     doc = yattag.doc.Doc()
-    doc.text(_("Version: "))
+    doc.text(tr("Version: "))
     doc.asis(util.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/").getvalue())
     items.append(doc)
-    items.append(util.html_escape(_("OSM data © OpenStreetMap contributors.")))
+    items.append(util.html_escape(tr("OSM data © OpenStreetMap contributors.")))
     if last_updated:
-        items.append(util.html_escape(_("Last update: ") + last_updated))
+        items.append(util.html_escape(tr("Last update: ") + last_updated))
     doc = yattag.doc.Doc()
     doc.stag("hr")
     with doc.tag("div"):
@@ -63,13 +63,13 @@ def fill_header_function(conf: config.Config, function: str, relation_name: str,
         doc = yattag.doc.Doc()
         with doc.tag("span", id="trigger-street-housenumbers-update"):
             with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
-                doc.text(_("Update from OSM"))
+                doc.text(tr("Update from OSM"))
         items.append(doc)
 
         doc = yattag.doc.Doc()
         with doc.tag("span", id="trigger-missing-housenumbers-update"):
             with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/update-result"):
-                doc.text(_("Update from reference"))
+                doc.text(tr("Update from reference"))
         items.append(doc)
     elif function in ("missing-streets", "additional-streets"):
         # The OSM data source changes much more frequently than the ref one, so add a dedicated link
@@ -77,33 +77,33 @@ def fill_header_function(conf: config.Config, function: str, relation_name: str,
         doc = yattag.doc.Doc()
         with doc.tag("span", id="trigger-streets-update"):
             with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
-                doc.text(_("Update from OSM"))
+                doc.text(tr("Update from OSM"))
         items.append(doc)
 
         doc = yattag.doc.Doc()
         with doc.tag("span", id="trigger-missing-streets-update"):
             with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/update-result"):
-                doc.text(_("Update from reference"))
+                doc.text(tr("Update from reference"))
         items.append(doc)
     elif function == "street-housenumbers":
         doc = yattag.doc.Doc()
         with doc.tag("span", id="trigger-street-housenumbers-update"):
             with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/update-result"):
-                doc.text(_("Call Overpass to update"))
+                doc.text(tr("Call Overpass to update"))
         items.append(doc)
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-query"):
-            doc.text(_("View query"))
+            doc.text(tr("View query"))
         items.append(doc)
     elif function == "streets":
         doc = yattag.doc.Doc()
         with doc.tag("span", id="trigger-streets-update"):
             with doc.tag("a", href=prefix + "/streets/" + relation_name + "/update-result"):
-                doc.text(_("Call Overpass to update"))
+                doc.text(tr("Call Overpass to update"))
         items.append(doc)
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-query"):
-            doc.text(_("View query"))
+            doc.text(tr("View query"))
         items.append(doc)
 
 
@@ -119,22 +119,22 @@ def fill_missing_header_items(
     if streets != "only":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/view-result"):
-            doc.text(_("Missing house numbers"))
+            doc.text(tr("Missing house numbers"))
         items.append(doc)
 
         if additional_housenumbers:
             doc = yattag.doc.Doc()
             with doc.tag("a", href=prefix + "/additional-housenumbers/" + relation_name + "/view-result"):
-                doc.text(_("Additional house numbers"))
+                doc.text(tr("Additional house numbers"))
             items.append(doc)
     if streets != "no":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-streets/" + relation_name + "/view-result"):
-            doc.text(_("Missing streets"))
+            doc.text(tr("Missing streets"))
         items.append(doc)
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result"):
-            doc.text(_("Additional streets"))
+            doc.text(tr("Additional streets"))
         items.append(doc)
 
 
@@ -149,12 +149,12 @@ def fill_existing_header_items(
     if streets != "only":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-result"):
-            doc.text(_("Existing house numbers"))
+            doc.text(tr("Existing house numbers"))
         items.append(doc)
 
     doc = yattag.doc.Doc()
     with doc.tag("a", href=prefix + "/streets/" + relation_name + "/view-result"):
-        doc.text(_("Existing streets"))
+        doc.text(tr("Existing streets"))
     items.append(doc)
 
 
@@ -177,7 +177,7 @@ def get_toolbar(
 
     doc = yattag.doc.Doc()
     with doc.tag("a", href=conf.get_uri_prefix() + "/"):
-        doc.text(_("Area list"))
+        doc.text(tr("Area list"))
     items.append(doc)
 
     if relation_name:
@@ -193,10 +193,10 @@ def get_toolbar(
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-toolbar-overpass-wait", _("Waiting for Overpass...")),
-            ("str-toolbar-overpass-error", _("Error from Overpass: ")),
-            ("str-toolbar-reference-wait", _("Creating from reference...")),
-            ("str-toolbar-reference-error", _("Error from reference: ")),
+            ("str-toolbar-overpass-wait", tr("Waiting for Overpass...")),
+            ("str-toolbar-overpass-error", tr("Error from Overpass: ")),
+            ("str-toolbar-reference-wait", tr("Creating from reference...")),
+            ("str-toolbar-reference-error", tr("Error from reference: ")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
@@ -206,24 +206,24 @@ def get_toolbar(
                 pass
 
     with doc.tag("a", href="https://overpass-turbo.eu/"):
-        doc.text(_("Overpass turbo"))
+        doc.text(tr("Overpass turbo"))
     items.append(doc)
 
     if relation_osmid:
         doc = yattag.doc.Doc()
         with doc.tag("a", href="https://www.openstreetmap.org/relation/" + str(relation_osmid)):
-            doc.text(_("Area boundary"))
+            doc.text(tr("Area boundary"))
         items.append(doc)
     else:
         # These are on the main page only.
         doc = yattag.doc.Doc()
         with doc.tag("a", href=conf.get_uri_prefix() + "/housenumber-stats/hungary/"):
-            doc.text(_("Statistics"))
+            doc.text(tr("Statistics"))
         items.append(doc)
 
         doc = yattag.doc.Doc()
         with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
-            doc.text(_("Documentation"))
+            doc.text(tr("Documentation"))
         items.append(doc)
 
     doc = yattag.doc.Doc()
@@ -327,7 +327,7 @@ def handle_exception(
     doc = yattag.doc.Doc()
     util.write_html_header(doc)
     with doc.tag("pre"):
-        doc.text(_("Internal error when serving {0}").format(request_uri) + "\n")
+        doc.text(tr("Internal error when serving {0}").format(request_uri) + "\n")
         doc.text(traceback.format_exc())
     response_properties = Response("text/html", status, doc.getvalue().encode("utf-8"), [])
     return send_response(environ, start_response, response_properties)
@@ -340,9 +340,9 @@ def handle_404() -> yattag.doc.Doc:
     with doc.tag("html"):
         with doc.tag("body"):
             with doc.tag("h1"):
-                doc.text(_("Not Found"))
+                doc.text(tr("Not Found"))
             with doc.tag("p"):
-                doc.text(_("The requested URL was not found on this server."))
+                doc.text(tr("The requested URL was not found on this server."))
     return doc
 
 
@@ -384,10 +384,10 @@ def handle_stats_cityprogress(conf: config.Config, relations: areas.Relations) -
     cities = util.get_in_both(list(ref_citycounts.keys()), list(osm_citycounts.keys()))
     cities.sort(key=util.get_lexical_sort_key())
     table = []
-    table.append([util.html_escape(_("City name")),
-                  util.html_escape(_("House number coverage")),
-                  util.html_escape(_("OSM count")),
-                  util.html_escape(_("Reference count"))])
+    table.append([util.html_escape(tr("City name")),
+                  util.html_escape(tr("House number coverage")),
+                  util.html_escape(tr("OSM count")),
+                  util.html_escape(tr("Reference count"))])
     for city in cities:
         percent = "100.00"
         if ref_citycounts[city] > 0 and osm_citycounts[city] < ref_citycounts[city]:
@@ -399,9 +399,9 @@ def handle_stats_cityprogress(conf: config.Config, relations: areas.Relations) -
     doc.asis(util.html_table_from_list(table).getvalue())
 
     with doc.tag("h2"):
-        doc.text(_("Note"))
+        doc.text(tr("Note"))
     with doc.tag("div"):
-        doc.text(_("""These statistics are estimates, not taking house number filters into account.
+        doc.text(tr("""These statistics are estimates, not taking house number filters into account.
 Only cities with house numbers in OSM are considered."""))
 
     doc.asis(get_footer().getvalue())
@@ -449,32 +449,32 @@ def handle_stats(conf: config.Config, relations: areas.Relations, request_uri: s
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-daily-title", _("New house numbers, last 2 weeks, as of {}")),
-            ("str-daily-x-axis", _("During this day")),
-            ("str-daily-y-axis", _("New house numbers")),
-            ("str-monthly-title", _("New house numbers, last year, as of {}")),
-            ("str-monthly-x-axis", _("During this month")),
-            ("str-monthly-y-axis", _("New house numbers")),
-            ("str-monthlytotal-title", _("All house numbers, last year, as of {}")),
-            ("str-monthlytotal-x-axis", _("Latest for this month")),
-            ("str-monthlytotal-y-axis", _("All house numbers")),
-            ("str-dailytotal-title", _("All house numbers, last 2 weeks, as of {}")),
-            ("str-dailytotal-x-axis", _("At the start of this day")),
-            ("str-dailytotal-y-axis", _("All house numbers")),
-            ("str-topusers-title", _("Top house number editors, as of {}")),
-            ("str-topusers-x-axis", _("User name")),
-            ("str-topusers-y-axis", _("Number of house numbers last changed by this user")),
-            ("str-topcities-title", _("Top edited cities, as of {}")),
-            ("str-topcities-x-axis", _("City name")),
-            ("str-topcities-y-axis", _("Number of house numbers added in the past 30 days")),
-            ("str-topcities-empty", _("(empty)")),
-            ("str-topcities-invalid", _("(invalid)")),
-            ("str-usertotal-title", _("Number of house number editors, as of {}")),
-            ("str-usertotal-x-axis", _("All editors")),
-            ("str-usertotal-y-axis", _("Number of editors, at least one housenumber is last changed by these users")),
-            ("str-progress-title", _("Coverage is {1}%, as of {2}")),
-            ("str-progress-x-axis", _("Number of house numbers in database")),
-            ("str-progress-y-axis", _("Data source")),
+            ("str-daily-title", tr("New house numbers, last 2 weeks, as of {}")),
+            ("str-daily-x-axis", tr("During this day")),
+            ("str-daily-y-axis", tr("New house numbers")),
+            ("str-monthly-title", tr("New house numbers, last year, as of {}")),
+            ("str-monthly-x-axis", tr("During this month")),
+            ("str-monthly-y-axis", tr("New house numbers")),
+            ("str-monthlytotal-title", tr("All house numbers, last year, as of {}")),
+            ("str-monthlytotal-x-axis", tr("Latest for this month")),
+            ("str-monthlytotal-y-axis", tr("All house numbers")),
+            ("str-dailytotal-title", tr("All house numbers, last 2 weeks, as of {}")),
+            ("str-dailytotal-x-axis", tr("At the start of this day")),
+            ("str-dailytotal-y-axis", tr("All house numbers")),
+            ("str-topusers-title", tr("Top house number editors, as of {}")),
+            ("str-topusers-x-axis", tr("User name")),
+            ("str-topusers-y-axis", tr("Number of house numbers last changed by this user")),
+            ("str-topcities-title", tr("Top edited cities, as of {}")),
+            ("str-topcities-x-axis", tr("City name")),
+            ("str-topcities-y-axis", tr("Number of house numbers added in the past 30 days")),
+            ("str-topcities-empty", tr("(empty)")),
+            ("str-topcities-invalid", tr("(invalid)")),
+            ("str-usertotal-title", tr("Number of house number editors, as of {}")),
+            ("str-usertotal-x-axis", tr("All editors")),
+            ("str-usertotal-y-axis", tr("Number of editors, at least one housenumber is last changed by these users")),
+            ("str-progress-title", tr("Coverage is {1}%, as of {2}")),
+            ("str-progress-x-axis", tr("Number of house numbers in database")),
+            ("str-progress-y-axis", tr("Data source")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
@@ -484,16 +484,16 @@ def handle_stats(conf: config.Config, relations: areas.Relations, request_uri: s
                 pass
 
     title_ids = [
-        (_("New house numbers"), "daily"),
-        (_("All house numbers"), "dailytotal"),
-        (_("New house numbers, monthly"), "monthly"),
-        (_("All house numbers, monthly"), "monthlytotal"),
-        (_("Top house number editors"), "topusers"),
-        (_("Top edited cities"), "topcities"),
-        (_("All house number editors"), "usertotal"),
-        (_("Coverage"), "progress"),
-        (_("Per-city coverage"), "cityprogress"),
-        (_("Invalid relation settings"), "invalid-relations"),
+        (tr("New house numbers"), "daily"),
+        (tr("All house numbers"), "dailytotal"),
+        (tr("New house numbers, monthly"), "monthly"),
+        (tr("All house numbers, monthly"), "monthlytotal"),
+        (tr("Top house number editors"), "topusers"),
+        (tr("Top edited cities"), "topcities"),
+        (tr("All house number editors"), "usertotal"),
+        (tr("Coverage"), "progress"),
+        (tr("Per-city coverage"), "cityprogress"),
+        (tr("Invalid relation settings"), "invalid-relations"),
     ]
 
     with doc.tag("ul"):
@@ -521,9 +521,9 @@ def handle_stats(conf: config.Config, relations: areas.Relations, request_uri: s
                 pass
 
     with doc.tag("h2"):
-        doc.text(_("Note"))
+        doc.text(tr("Note"))
     with doc.tag("div"):
-        doc.text(_("""These statistics are provided purely for interested editors, and are not
+        doc.text(tr("""These statistics are provided purely for interested editors, and are not
 intended to reflect quality of work done by any given editor in OSM. If you want to use
 them to motivate yourself, that's fine, but keep in mind that a bit of useful work is
 more meaningful than a lot of useless work."""))
@@ -578,7 +578,7 @@ def check_existing_relation(conf: config.Config, relations: areas.Relations, req
         return doc
 
     with doc.tag("div", id="no-such-relation-error"):
-        doc.text(_("No such relation: {0}").format(relation_name))
+        doc.text(tr("No such relation: {0}").format(relation_name))
     return doc
 
 
@@ -588,12 +588,12 @@ def handle_no_osm_streets(prefix: str, relation_name: str) -> yattag.doc.Doc:
     link = prefix + "/streets/" + relation_name + "/update-result"
     with doc.tag("div", id="no-osm-streets"):
         with doc.tag("a", href=link):
-            doc.text(_("No existing streets: call Overpass to create..."))
+            doc.text(tr("No existing streets: call Overpass to create..."))
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-overpass-wait", _("No existing streets: waiting for Overpass...")),
-            ("str-overpass-error", _("Error from Overpass: ")),
+            ("str-overpass-wait", tr("No existing streets: waiting for Overpass...")),
+            ("str-overpass-error", tr("Error from Overpass: ")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
@@ -610,12 +610,12 @@ def handle_no_osm_housenumbers(prefix: str, relation_name: str) -> yattag.doc.Do
     link = prefix + "/street-housenumbers/" + relation_name + "/update-result"
     with doc.tag("div", id="no-osm-housenumbers"):
         with doc.tag("a", href=link):
-            doc.text(_("No existing house numbers: call Overpass to create..."))
+            doc.text(tr("No existing house numbers: call Overpass to create..."))
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-overpass-wait", _("No existing house numbers: waiting for Overpass...")),
-            ("str-overpass-error", _("Error from Overpass: ")),
+            ("str-overpass-wait", tr("No existing house numbers: waiting for Overpass...")),
+            ("str-overpass-error", tr("Error from Overpass: ")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
@@ -632,12 +632,12 @@ def handle_no_ref_housenumbers(prefix: str, relation_name: str) -> yattag.doc.Do
     link = prefix + "/missing-housenumbers/" + relation_name + "/update-result"
     with doc.tag("div", id="no-ref-housenumbers"):
         with doc.tag("a", href=link):
-            doc.text(_("No reference house numbers: create from reference..."))
+            doc.text(tr("No reference house numbers: create from reference..."))
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-reference-wait", _("No reference house numbers: creating from reference...")),
-            ("str-reference-error", _("Error from reference: ")),
+            ("str-reference-wait", tr("No reference house numbers: creating from reference...")),
+            ("str-reference-error", tr("Error from reference: ")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
@@ -654,12 +654,12 @@ def handle_no_ref_streets(prefix: str, relation_name: str) -> yattag.doc.Doc:
     link = prefix + "/missing-streets/" + relation_name + "/update-result"
     with doc.tag("div", id="no-ref-streets"):
         with doc.tag("a", href=link):
-            doc.text(_("No street list: create from reference..."))
+            doc.text(tr("No street list: create from reference..."))
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
         string_pairs = [
-            ("str-reference-wait", _("No reference streets: creating from reference...")),
-            ("str-reference-error", _("Error from reference: ")),
+            ("str-reference-wait", tr("No reference streets: creating from reference...")),
+            ("str-reference-error", tr("Error from reference: ")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
