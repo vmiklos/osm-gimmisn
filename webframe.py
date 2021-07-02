@@ -16,9 +16,12 @@ from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
 import datetime
+import json
 import os
+import subprocess
 import time
 import traceback
+import urllib
 import xmlrpc.client
 
 import yattag
@@ -415,7 +418,7 @@ def handle_invalid_refstreets(conf: config.Config, relations: areas.Relations) -
 
     prefix = conf.get_uri_prefix()
     for relation in relations.get_relations():
-        if not os.path.exists(relation.get_files().get_osm_streets_path()):
+        if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
             continue
         invalid_refstreets = relation.get_invalid_refstreets()
         osm_invalids, ref_invalids = invalid_refstreets
@@ -668,5 +671,20 @@ def handle_no_ref_streets(prefix: str, relation_name: str) -> yattag.doc.Doc:
             with doc.tag("div", **kwargs):
                 pass
     return doc
+
+
+def handle_github_webhook(environ: Dict[str, Any], conf: config.Config) -> yattag.doc.Doc:
+    """Handles a GitHub style webhook."""
+
+    body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
+    payload = body["payload"][0]
+    root = json.loads(payload)
+    if root["ref"] == "refs/heads/master":
+        my_env = os.environ
+        my_env["PATH"] = "osm-gimmisn-env/bin:" + my_env["PATH"]
+        subprocess.run(["make", "-C", conf.get_abspath(""), "deploy"], check=True, env=my_env)
+
+    return util.html_escape("")
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

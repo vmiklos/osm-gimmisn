@@ -7,11 +7,8 @@
 
 """The wsgi module contains functionality specific to the web interface."""
 
-import json
 import os
-import subprocess
 import sys
-import urllib.parse
 from typing import Any
 from typing import Callable
 from typing import Dict
@@ -167,11 +164,11 @@ def missing_streets_view_result(conf: config.Config, relations: areas.Relations,
 
     doc = yattag.doc.Doc()
     prefix = conf.get_uri_prefix()
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
         return doc
 
-    if not os.path.exists(relation.get_files().get_ref_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
         doc.asis(webframe.handle_no_ref_streets(prefix, relation_name).getvalue())
         return doc
 
@@ -209,11 +206,11 @@ def missing_housenumbers_view_txt(conf: config.Config, relations: areas.Relation
     relation.get_config().set_letter_suffix_style(util.LetterSuffixStyle.LOWER)
 
     output = ""
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         output += tr("No existing streets")
-    elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
         output += tr("No existing house numbers")
-    elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
         output += tr("No reference house numbers")
     else:
         output = cache.get_missing_housenumbers_txt(conf, relation)
@@ -225,7 +222,9 @@ def get_chkl_split_limit() -> int:
     return 20
 
 
-def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str) -> Tuple[str, str]:
+def missing_housenumbers_view_chkl(
+        conf: config.Config, relations: areas.Relations, request_uri: str
+) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -233,11 +232,11 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
     relation.get_config().set_letter_suffix_style(util.LetterSuffixStyle.LOWER)
 
     output = ""
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         output += tr("No existing streets")
-    elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
         output += tr("No existing house numbers")
-    elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
         output += tr("No reference house numbers")
     else:
         ongoing_streets, _ignore = relation.get_missing_housenumbers()
@@ -265,16 +264,18 @@ def missing_housenumbers_view_chkl(relations: areas.Relations, request_uri: str)
     return output, relation_name
 
 
-def missing_streets_view_txt(relations: areas.Relations, request_uri: str, chkl: bool) -> Tuple[str, str]:
+def missing_streets_view_txt(
+    conf: config.Config, relations: areas.Relations, request_uri: str, chkl: bool
+) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
 
     output = ""
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         output += tr("No existing streets")
-    elif not os.path.exists(relation.get_files().get_ref_streets_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
         output += tr("No reference streets")
     else:
         todo_streets, _ignore = relation.get_missing_streets()
@@ -302,9 +303,8 @@ def missing_housenumbers_update(conf: config.Config, relations: areas.Relations,
 
 def missing_streets_update(conf: config.Config, relations: areas.Relations, relation_name: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
-    reference = conf.get_reference_street_path()
     relation = relations.get_relation(relation_name)
-    relation.write_ref_streets(reference)
+    relation.write_ref_streets(conf.get_reference_street_path())
     doc = yattag.doc.Doc()
     with doc.tag("div", id="update-success"):
         doc.text(tr("Update successful."))
@@ -479,7 +479,7 @@ def handle_main_housenr_percent(conf: config.Config, relation: areas.Relation) -
     prefix = conf.get_uri_prefix()
     url = prefix + "/missing-housenumbers/" + relation.get_name() + "/view-result"
     percent = "N/A"
-    if os.path.exists(relation.get_files().get_housenumbers_percent_path()):
+    if conf.get_file_system().path_exists(relation.get_files().get_housenumbers_percent_path()):
         percent = util.get_content(relation.get_files().get_housenumbers_percent_path()).decode("utf-8")
 
     doc = yattag.doc.Doc()
@@ -501,7 +501,7 @@ def handle_main_street_percent(conf: config.Config, relation: areas.Relation) ->
     prefix = conf.get_uri_prefix()
     url = prefix + "/missing-streets/" + relation.get_name() + "/view-result"
     percent = "N/A"
-    if os.path.exists(relation.get_files().get_streets_percent_path()):
+    if conf.get_file_system().path_exists(relation.get_files().get_streets_percent_path()):
         percent = util.get_content(relation.get_files().get_streets_percent_path()).decode("utf-8")
 
     doc = yattag.doc.Doc()
@@ -523,7 +523,7 @@ def handle_main_street_additional_count(conf: config.Config, relation: areas.Rel
     prefix = conf.get_uri_prefix()
     url = prefix + "/additional-streets/" + relation.get_name() + "/view-result"
     additional_count = ""
-    if os.path.exists(relation.get_files().get_streets_additional_count_path()):
+    if conf.get_file_system().path_exists(relation.get_files().get_streets_additional_count_path()):
         additional_count = util.get_content(relation.get_files().get_streets_additional_count_path()).decode("utf-8")
 
     doc = yattag.doc.Doc()
@@ -838,20 +838,6 @@ def write_html_head(conf: config.Config, doc: yattag.doc.Doc, title: str) -> Non
             pass
 
 
-def handle_github_webhook(environ: Dict[str, Any], conf: config.Config) -> yattag.doc.Doc:
-    """Handles a GitHub style webhook."""
-
-    body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
-    payload = body["payload"][0]
-    root = json.loads(payload)
-    if root["ref"] == "refs/heads/master":
-        my_env = os.environ
-        my_env["PATH"] = "osm-gimmisn-env/bin:" + my_env["PATH"]
-        subprocess.run(["make", "-C", conf.get_abspath(""), "deploy"], check=True, env=my_env)
-
-    return util.html_escape("")
-
-
 def our_application_txt(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
@@ -866,7 +852,7 @@ def our_application_txt(
     _, _, ext = request_uri.partition('.')
     chkl = ext == "chkl"
     if request_uri.startswith(prefix + "/missing-streets/"):
-        output, relation_name = missing_streets_view_txt(relations, request_uri, chkl)
+        output, relation_name = missing_streets_view_txt(conf, relations, request_uri, chkl)
         if chkl:
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
@@ -877,7 +863,7 @@ def our_application_txt(
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
     else:  # assume prefix + "/missing-housenumbers/"
         if chkl:
-            output, relation_name = missing_housenumbers_view_chkl(relations, request_uri)
+            output, relation_name = missing_housenumbers_view_chkl(conf, relations, request_uri)
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
         elif request_uri.endswith("robots.txt"):
@@ -956,7 +942,7 @@ def our_application(
             elif handler:
                 doc.asis(handler(conf, relations, request_uri).getvalue())
             elif request_uri.startswith(conf.get_uri_prefix() + "/webhooks/github"):
-                doc.asis(handle_github_webhook(environ, conf).getvalue())
+                doc.asis(webframe.handle_github_webhook(environ, conf).getvalue())
             else:
                 doc.asis(handle_main(request_uri, conf, relations).getvalue())
 
