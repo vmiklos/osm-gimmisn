@@ -7,7 +7,6 @@
 
 """The wsgi_additional module contains functionality for additional streets."""
 
-import os
 from typing import Tuple
 
 import yattag
@@ -20,16 +19,21 @@ import util
 import webframe
 
 
-def additional_streets_view_txt(relations: areas.Relations, request_uri: str, chkl: bool) -> Tuple[str, str]:
+def additional_streets_view_txt(
+    conf: config.Config,
+    relations: areas.Relations,
+    request_uri: str,
+    chkl: bool
+) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
 
     output = ""
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         output += tr("No existing streets")
-    elif not os.path.exists(relation.get_files().get_ref_streets_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
         output += tr("No reference streets")
     else:
         streets = relation.get_additional_streets()
@@ -112,11 +116,11 @@ def additional_housenumbers_view_result(
     doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
     prefix = conf.get_uri_prefix()
-    if not os.path.exists(relation.get_files().get_osm_streets_path()):
+    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
-    elif not os.path.exists(relation.get_files().get_osm_housenumbers_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
         doc.asis(webframe.handle_no_osm_housenumbers(prefix, relation_name).getvalue())
-    elif not os.path.exists(relation.get_files().get_ref_housenumbers_path()):
+    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
         doc.asis(webframe.handle_no_ref_housenumbers(prefix, relation_name).getvalue())
     else:
         doc = cache.get_additional_housenumbers_html(conf, relation)
