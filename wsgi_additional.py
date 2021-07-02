@@ -12,7 +12,7 @@ from typing import Tuple
 
 import yattag
 
-from i18n import translate as _
+from i18n import translate as tr
 import areas
 import cache
 import config
@@ -28,9 +28,9 @@ def additional_streets_view_txt(relations: areas.Relations, request_uri: str, ch
 
     output = ""
     if not os.path.exists(relation.get_files().get_osm_streets_path()):
-        output += _("No existing streets")
+        output += tr("No existing streets")
     elif not os.path.exists(relation.get_files().get_ref_streets_path()):
-        output += _("No reference streets")
+        output += tr("No reference streets")
     else:
         streets = relation.get_additional_streets()
         lexical_sort_key = util.get_lexical_sort_key()
@@ -65,10 +65,10 @@ def additional_streets_view_result(
         count = len(streets)
         lexical_sort_key = util.get_lexical_sort_key()
         streets.sort(key=lambda street: lexical_sort_key(street.get_osm_name()))
-        table = [[util.html_escape(_("Identifier")),
-                  util.html_escape(_("Type")),
-                  util.html_escape(_("Source")),
-                  util.html_escape(_("Street name"))]]
+        table = [[util.html_escape(tr("Identifier")),
+                  util.html_escape(tr("Type")),
+                  util.html_escape(tr("Source")),
+                  util.html_escape(tr("Street name"))]]
         for street in streets:
             cell = yattag.doc.Doc()
             href = "https://www.openstreetmap.org/{}/{}".format(street.get_osm_type(), street.get_osm_id())
@@ -83,16 +83,16 @@ def additional_streets_view_result(
             table.append(cells)
 
         with doc.tag("p"):
-            doc.text(_("OpenStreetMap additionally has the below {0} streets.").format(str(count)))
+            doc.text(tr("OpenStreetMap additionally has the below {0} streets.").format(str(count)))
             doc.stag("br")
             with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result.txt"):
-                doc.text(_("Plain text format"))
+                doc.text(tr("Plain text format"))
             doc.stag("br")
             with doc.tag("a", href=prefix + "/additional-streets/" + relation_name + "/view-result.chkl"):
-                doc.text(_("Checklist format"))
+                doc.text(tr("Checklist format"))
             doc.stag("br")
             with doc.tag("a", href=prefix + "/additional-streets/{}/view-turbo".format(relation_name)):
-                doc.text(_("Overpass turbo query for the below streets"))
+                doc.text(tr("Overpass turbo query for the below streets"))
 
         doc.asis(util.html_table_from_list(table).getvalue())
         doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
