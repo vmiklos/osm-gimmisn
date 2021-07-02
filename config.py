@@ -56,7 +56,7 @@ class Network:
 
 class StdNetwork(Network):
     """Network implementation, backed by the Python stdlib."""
-    def urlopen(self, url: str, data: Optional[bytes] = None) -> Tuple[bytes, str]:
+    def urlopen(self, url: str, data: Optional[bytes] = None) -> Tuple[bytes, str]:  # pragma: no cover
         try:
             with urllib.request.urlopen(url, data) as stream:
                 buf = stream.read()
