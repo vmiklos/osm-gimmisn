@@ -1,16 +1,19 @@
 missing-streets: 'yes'
 filters: {}
 street-filters:
-  # Nem igazi utcák
+  # Településrészek
   - Felsőpaphegy
   - Kültelek
+  - Felsőcsetény
+  - Zsöllehát
+  # Nem igazi utcák
   - Magán út  # bárhol lehet ilyen névvel
   - Mihályháza
   - Vasútállomás
   # hiányzók
-  # Magyarágyi köz - ?
-  # Tölgy utca - https://www.openstreetmap.org/way/198973140 - nincs táblázva
-  # Vállusi utca - https://www.openstreetmap.org/way/533684471 - nincs táblázva
+  # Magyarágyi köz - valahol a Magyarágyi utca végén, ismeretlen
+  # Tölgy utca     - https://www.openstreetmap.org/way/198973140 - nincs táblázva
+  # Vállusi utca   - https://www.openstreetmap.org/way/533684471 - nincs táblázva
 refstreets:
   # ellenőrizve:
   'Üsth Gyula utca': 'Üst Gyula utca'
