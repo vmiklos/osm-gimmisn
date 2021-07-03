@@ -9,7 +9,6 @@
 from typing import List
 from typing import Set
 from typing import Tuple
-import datetime
 import io
 import unittest
 import unittest.mock
@@ -19,14 +18,6 @@ import test_config
 import areas
 import config
 import parse_access_log
-
-
-class MockDate(datetime.date):
-    """Mock datetime.date."""
-    @classmethod
-    def today(cls) -> 'MockDate':
-        """Returns today's date."""
-        return cls(2020, 5, 10)
 
 
 class TestMain(unittest.TestCase):
