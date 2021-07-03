@@ -8,20 +8,12 @@ street-filters:
   - Mihályháza
   - Vasútállomás
   # hiányzók
-  # Eperfa köz - osm Zsöllehát néven fut, de a refben Zsöllehát is van
-  # Felsőhegyi út - https://www.openstreetmap.org/way/98782256
-  # Gyöngyvirág utca - Levendula köztől keletre, Füredi út 16-nál
-  # Hétház utca - Nyár utca alja
-  # Kagyló utca - Nyár utca felső része környéki őskáoszban
-  # Levendula köz - Mandulás köztől nyugatra
   # Magyarágyi köz - ?
-  # Tölgy utca - https://www.openstreetmap.org/way/198973140
-  # Vállusi utca - https://www.openstreetmap.org/way/533684471
+  # Tölgy utca - https://www.openstreetmap.org/way/198973140 - nincs táblázva
+  # Vállusi utca - https://www.openstreetmap.org/way/533684471 - nincs táblázva
 refstreets:
-  # ezeket tisztázni kell:
-  # Felsőcsetény köz, Felsőcsetény utca, Felsőcsetény
-  'Böngyér út': 'Böngyéres utca'
   # ellenőrizve:
   'Üsth Gyula utca': 'Üst Gyula utca'
+  'Böngyér utca': 'Böngyéres utca'  # utcatáblákon Böngyér utca, egyik házon Böngyéres utca 1/a
 source: survey
 inactive: true
