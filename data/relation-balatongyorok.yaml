@@ -14,6 +14,8 @@ street-filters:
   # Magyarágyi köz - valahol a Magyarágyi utca végén, ismeretlen
   # Tölgy utca     - https://www.openstreetmap.org/way/198973140 - nincs táblázva
   # Vállusi utca   - https://www.openstreetmap.org/way/533684471 - nincs táblázva
+osm-street-filters:
+  - Simándy József sétány
 refstreets:
   # ellenőrizve:
   'Üsth Gyula utca': 'Üst Gyula utca'
