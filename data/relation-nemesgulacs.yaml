@@ -7,10 +7,7 @@ street-filters:
   - Vasútállomás
   - Köbölkúthegy  # Köbölkút néven egy szórt terület
 refstreets:
-  'Dózsa György utca': 'Dózsa utca'
-  'Hegyalja út': 'Hegyalja utca'
-  'Petőfi Sándor utca': 'Petőfi utca'
-  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Hegyalja út': 'Hegyalja utca'  # nincs tábla
   'Gyártelep utca': 'Bányatelep'
 source: survey
 inactive: true
