@@ -7,15 +7,11 @@
 """The test_wsgi_additional module covers the wsgi_additional module."""
 
 import unittest
-import unittest.mock
-
-import yattag
 
 import test_config
 import test_wsgi
 
 import areas
-import config
 import wsgi
 
 
@@ -149,14 +145,10 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
 
     def test_street_from_housenr_well_formed(self) -> None:
         """Tests if the output is well-formed when the street name comes from a housenr."""
-        def mock_check_existing_relation(
-            _conf: config.Config,
-            _relations: areas.Relations,
-            _request_uri: str
-        ) -> yattag.doc.Doc:
-            return yattag.doc.Doc()
-        with unittest.mock.patch('webframe.check_existing_relation', mock_check_existing_relation):
-            root = self.get_dom_for_path("/additional-streets/gh611/view-result")
+        file_system = test_config.TestFileSystem()
+        file_system.set_relation_allowlist(["gh611"])
+        self.conf.set_file_system(file_system)
+        root = self.get_dom_for_path("/additional-streets/gh611/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
