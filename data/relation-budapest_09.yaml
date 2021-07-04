@@ -48,6 +48,10 @@ osm-street-filters:
   - Haller park
   - Madáretető park
   - Tinódi park
+  # Északi járműjavító - Opera
+  - Kodály Zoltán park
+  - Lukács Miklós út
+  - Tóth Aladár út
   # https://www.ferencvaros.hu/wp-content/uploads/2021/06/325_2021.pdf
   - Dalai Láma út
   - Szabad Hongkong út
