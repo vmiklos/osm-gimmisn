@@ -677,6 +677,7 @@ class TestWebhooks(TestWsgi):
         subprocess = test_config.TestSubprocess(outputs)
         conf.set_subprocess(subprocess)
         webframe.handle_github_webhook(environ, conf)
+        self.assertIn(expected_args, subprocess.get_runs())
         actual_path = subprocess.get_environment(expected_args)["PATH"]
         self.assertIn("osm-gimmisn-env/bin", actual_path)
 
@@ -684,6 +685,9 @@ class TestWebhooks(TestWsgi):
         """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
         environ: Dict[str, BinaryIO] = {}
         conf = test_config.make_test_config()
+        outputs: Dict[str, bytes] = {}
+        subprocess = test_config.TestSubprocess(outputs)
+        conf.set_subprocess(subprocess)
         root = {"ref": "refs/heads/stable"}
         payload = json.dumps(root)
         body = {"payload": [payload]}
@@ -692,14 +696,8 @@ class TestWebhooks(TestWsgi):
         buf.write(query_string.encode('utf-8'))
         buf.seek(0)
         environ["wsgi.input"] = buf
-        invoked = False
-
-        def mock_subprocess_run(_args: List[str], _check: bool) -> None:
-            nonlocal invoked
-
-        with unittest.mock.patch('subprocess.run', mock_subprocess_run):
-            webframe.handle_github_webhook(environ, conf)
-        self.assertFalse(invoked)
+        webframe.handle_github_webhook(environ, conf)
+        self.assertEqual(subprocess.get_runs(), [])
 
     def test_route(self) -> None:
         """Tests the /osm/webhooks/github -> handle_github_webhook() routing."""
