@@ -34,6 +34,8 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '36'}
+  Dózsa György tér:
+    invalid: ['25']
   Helischer József út:
     # páros vége 4
     invalid: ['16']
@@ -82,6 +84,9 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '26'}
+  Semmelweis utca:
+    # 8 a vége
+    invalid: ['14']
   Szabó Erna utca:
     invalid: ['701']
   Szent János-kúti út:
