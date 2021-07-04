@@ -181,11 +181,9 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bocskai sor': 'Bocskai István sor'
-  'Csendesvölgy utca': 'Csendes völgy utca'
   'Hegytető utca': 'Hegy-tető utca'
   'Kateri dűlő': 'Kateri-dűlő'
   'Kenderesi utca': 'Kenderesi út'
-  'Körtvélyes utca': 'Körtélyes utca'
   'Madách Imre tér': 'Madách Imre út'
   'Mindszenty tér': 'Mindszenty hercegprímás tér'  # új táblákon Mindszenty tér
   'Rudnai Molnár István utca': 'Rudinai Molnár István utca'
