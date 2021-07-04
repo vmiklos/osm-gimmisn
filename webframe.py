@@ -18,7 +18,6 @@ from typing import cast
 import datetime
 import json
 import os
-import subprocess
 import time
 import traceback
 import urllib
@@ -680,9 +679,9 @@ def handle_github_webhook(environ: Dict[str, Any], conf: config.Config) -> yatta
     payload = body["payload"][0]
     root = json.loads(payload)
     if root["ref"] == "refs/heads/master":
-        my_env = os.environ
-        my_env["PATH"] = "osm-gimmisn-env/bin:" + my_env["PATH"]
-        subprocess.run(["make", "-C", conf.get_abspath(""), "deploy"], check=True, env=my_env)
+        my_env: Dict[str, str] = {}
+        my_env["PATH"] = "osm-gimmisn-env/bin:" + os.environ["PATH"]
+        conf.get_subprocess().run(["make", "-C", conf.get_abspath(""), "deploy"], env=my_env)
 
     return util.html_escape("")
 

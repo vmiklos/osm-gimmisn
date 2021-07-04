@@ -669,24 +669,15 @@ class TestWebhooks(TestWsgi):
         buf.write(query_string.encode('utf-8'))
         buf.seek(0)
         environ["wsgi.input"] = buf
-        actual_args: List[str] = []
-        actual_check = False
-        actual_path = ""
-
-        def mock_subprocess_run(args: List[str], check: bool, env: Any) -> None:
-            nonlocal actual_args
-            nonlocal actual_check
-            nonlocal actual_path
-            actual_args = args
-            actual_check = check
-            actual_path = env["PATH"]
-
         conf = test_config.make_test_config()
-        with unittest.mock.patch('subprocess.run', mock_subprocess_run):
-            webframe.handle_github_webhook(environ, conf)
-        self.assertEqual(actual_args[0], "make")
-        self.assertEqual(actual_args[-1], "deploy")
-        self.assertTrue(actual_check)
+        expected_args = "make -C " + conf.get_abspath("") + " deploy"
+        outputs = {
+            expected_args: bytes()
+        }
+        subprocess = test_config.TestSubprocess(outputs)
+        conf.set_subprocess(subprocess)
+        webframe.handle_github_webhook(environ, conf)
+        actual_path = subprocess.get_environment(expected_args)["PATH"]
         self.assertIn("osm-gimmisn-env/bin", actual_path)
 
     def test_github_branch(self) -> None:
