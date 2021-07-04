@@ -27,6 +27,7 @@ class TestFileSystem(config.FileSystem):
     def __init__(self) -> None:
         self.__hide_paths: List[str] = []
         self.__mtimes: Dict[str, float] = {}
+        self.__relation_allowlist: List[str] = []
 
     def set_hide_paths(self, hide_paths: List[str]) -> None:
         """Sets the hide paths."""
@@ -45,6 +46,13 @@ class TestFileSystem(config.FileSystem):
         if path in self.__mtimes:
             return self.__mtimes[path]
         return os.path.getmtime(path)
+
+    def set_relation_allowlist(self, relation_allowlist: List[str]) -> None:
+        """Sets the relation allowlist."""
+        self.__relation_allowlist = relation_allowlist
+
+    def get_relation_allowlist(self) -> List[str]:
+        return self.__relation_allowlist
 
 
 class URLRoute:

@@ -36,6 +36,12 @@ class FileSystem:
         # pylint: disable=unused-argument
         ...
 
+    def get_relation_allowlist(self) -> List[str]:  # pragma: no cover
+        """Returns the list of relations which are not in relations.yaml, but are to be accepted."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
 
 class StdFileSystem(FileSystem):
     """File system implementation, backed by the Python stdlib."""
@@ -44,6 +50,9 @@ class StdFileSystem(FileSystem):
 
     def getmtime(self, path: str) -> float:
         return os.path.getmtime(path)
+
+    def get_relation_allowlist(self) -> List[str]:
+        return []
 
 
 class Network:

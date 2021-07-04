@@ -576,7 +576,7 @@ def check_existing_relation(conf: config.Config, relations: areas.Relations, req
 
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
-    if relation_name in relations.get_names():
+    if relation_name in relations.get_names() or relation_name in conf.get_file_system().get_relation_allowlist():
         return doc
 
     with doc.tag("div", id="no-such-relation-error"):
