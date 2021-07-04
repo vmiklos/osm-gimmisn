@@ -103,14 +103,20 @@ class TestSubprocess(config.Subprocess):
     def __init__(self, outputs: Dict[str, bytes]) -> None:
         self.__outputs = outputs
         self.__environments: Dict[str, Dict[str, str]] = {}
+        self.__runs: List[str] = []
 
     def get_environment(self, args: str) -> Dict[str, str]:
         """Gets the environment used for one specific cmdline."""
         return self.__environments[args]
 
+    def get_runs(self) -> List[str]:
+        """Gets a list of invoked commands."""
+        return self.__runs
+
     def run(self, args: List[str], env: Dict[str, str]) -> bytes:
         key = " ".join(args)
         self.__environments[key] = env
+        self.__runs.append(key)
         return self.__outputs[key]
 
 
