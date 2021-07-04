@@ -127,11 +127,9 @@ filters:
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Csendesvölgy utca': 'Csendes völgy utca'
   'Hegytető utca': 'Hegy-tető utca'
   'Kateri dűlő': 'Kateri-dűlő'
   'Kenderesi utca': 'Kenderesi út'
-  'Körtvélyes utca': 'Körtélyes utca'
   'Madách Imre tér': 'Madách Imre út'
   'Mattyasovszky utca': 'Matyasovszky utca'
   'Mindszenty tér': 'Mindszenty hercegprímás tér'  # új táblákon Mindszenty tér
