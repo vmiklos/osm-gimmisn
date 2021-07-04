@@ -6,6 +6,9 @@ filters:
       - {start: '11', end: '99'}
       - {start: '12', end: '98'}
   # hászám szűrők
+  Bocskai sor:
+    # 166 a vége
+    invalid: ['170']
   Erkel Ferenc utca:
     invalid: ['13']
   Jósika Miklós utca:

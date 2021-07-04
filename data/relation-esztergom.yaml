@@ -1,6 +1,9 @@
 missing-streets: 'yes'
 filters:
   # kertvaros
+  Bocskai sor:
+    # 166 a vége
+    invalid: ['170']
   Erkel Ferenc utca:
     invalid: ['13']
   Jósika Miklós utca:
@@ -48,6 +51,8 @@ filters:
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '36'}
+  Dózsa György tér:
+    invalid: ['25']
   Helischer József út:
     # páros vége 4
     invalid: ['16']
@@ -92,6 +97,9 @@ filters:
     ranges:
       - {start: '2', end: '36'}
       - {start: '48', end: '62'}
+  Semmelweis utca:
+    # 8 a vége
+    invalid: ['14']
   Sugár út:
     ranges:
       - {start: '1', end: '17'}
@@ -179,7 +187,6 @@ refstreets:
   'Kenderesi utca': 'Kenderesi út'
   'Körtvélyes utca': 'Körtélyes utca'
   'Madách Imre tér': 'Madách Imre út'
-  'Mattyasovszky utca': 'Matyasovszky utca'  # táblán Mattyasovszky utca
   'Mindszenty tér': 'Mindszenty hercegprímás tér'  # új táblákon Mindszenty tér
   'Rudnai Molnár István utca': 'Rudinai Molnár István utca'
   'Siszler utca': 'Siszler út'
