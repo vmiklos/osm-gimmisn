@@ -9,6 +9,7 @@ The config module contains functionality related to configuration handling.
 It intentionally doesn't import any other 'own' modules, so it can be used anywhere.
 """
 
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
@@ -83,7 +84,7 @@ class StdTime(Time):
 
 class Subprocess:
     """Subprocess interface."""
-    def run(self, args: List[str]) -> bytes:  # pragma: no cover
+    def run(self, args: List[str], env: Dict[str, str]) -> bytes:  # pragma: no cover
         """Runs a commmand, capturing its output."""
         # pylint: disable=no-self-use
         # pylint: disable=unused-argument
@@ -92,8 +93,10 @@ class Subprocess:
 
 class StdSubprocess(Subprocess):
     """Subprocess implementation, backed by the Python stdlib, i.e. intentionally not tested."""
-    def run(self, args: List[str]) -> bytes:  # pragma: no cover
-        process = subprocess.run(args, stdout=subprocess.PIPE, check=True)
+    def run(self, args: List[str], env: Dict[str, str]) -> bytes:  # pragma: no cover
+        full_env = os.environ
+        full_env.update(env)
+        process = subprocess.run(args, stdout=subprocess.PIPE, check=True, env=full_env)
         return process.stdout
 
 

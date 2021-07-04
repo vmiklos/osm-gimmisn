@@ -98,7 +98,7 @@ def get_relation_create_dates(conf: config.Config) -> Dict[str, datetime.date]:
     """Builds a name -> create_date dictionary for relations."""
     ret: Dict[str, datetime.date] = {}
     relations_path = conf.get_abspath("data/relations.yaml")
-    process_stdout = conf.get_subprocess().run(["git", "blame", "--line-porcelain", relations_path])
+    process_stdout = conf.get_subprocess().run(["git", "blame", "--line-porcelain", relations_path], env={})
     timestamp = 0
 
     for line_bytes in process_stdout.splitlines():

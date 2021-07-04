@@ -102,9 +102,16 @@ class TestSubprocess(config.Subprocess):
     """Subprocess implementation, for test purposes."""
     def __init__(self, outputs: Dict[str, bytes]) -> None:
         self.__outputs = outputs
+        self.__environments: Dict[str, Dict[str, str]] = {}
 
-    def run(self, args: List[str]) -> bytes:
-        return self.__outputs[" ".join(args)]
+    def get_environment(self, args: str) -> Dict[str, str]:
+        """Gets the environment used for one specific cmdline."""
+        return self.__environments[args]
+
+    def run(self, args: List[str], env: Dict[str, str]) -> bytes:
+        key = " ".join(args)
+        self.__environments[key] = env
+        return self.__outputs[key]
 
 
 def make_test_time() -> config.Time:
