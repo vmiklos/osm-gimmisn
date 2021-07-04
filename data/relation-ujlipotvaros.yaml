@@ -50,9 +50,7 @@ filters:
     # 13, 15: valószínű régebben volt itt épület, most a többi ház parkolója van a helyén
     invalid: ['13', '15']
     ranges:
-      - {start: '1', end: '3'}
+      - {start: '1', end: '29'}
       - {start: '28', end: '34'}
-
-4, 6-18, 20, 22, 24-26
 source: survey
 inactive: false
