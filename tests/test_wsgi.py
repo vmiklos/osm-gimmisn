@@ -16,6 +16,8 @@ from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
+import calendar
+import datetime
 import io
 import json
 import unittest
@@ -737,19 +739,15 @@ class TestStats(TestWsgi):
         self.assertEqual(len(results), 9)
 
 
-def mock_strftime(_fmt: str, _tuple: Optional[Any] = None) -> str:
-    """Mock time.strftime()."""
-    return "2019-07-17"
-
-
 class TestStatsCityProgress(TestWsgi):
     """Tests handle_stats_cityprogress()."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        with unittest.mock.patch('time.strftime', mock_strftime):
-            root = self.get_dom_for_path("/housenumber-stats/hungary/cityprogress")
-            results = root.findall("body/table")
-            self.assertEqual(len(results), 1)
+        time = test_config.TestTime(calendar.timegm(datetime.date(2019, 7, 17).timetuple()))
+        self.conf.set_time(time)
+        root = self.get_dom_for_path("/housenumber-stats/hungary/cityprogress")
+        results = root.findall("body/table")
+        self.assertEqual(len(results), 1)
 
 
 class TestInvalidRefstreets(TestWsgi):
