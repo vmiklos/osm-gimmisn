@@ -49,6 +49,9 @@ filters:
   Holopkút dűlő:
     # csak hrsz
     invalid: ['655', '660']
+  Keresztelő Szent János utca:
+    # nincs kint tábla, a házak a Szent János-kúti útra vannak számozva
+    ranges: []
   Kettőspince sor:
     # 9-es után csak 2 ház van.
     # Régebben a Csendes utca is ezt a nevet viselte, ott voltak a 12-től házszámok
@@ -58,6 +61,9 @@ filters:
   Kis Duna sétány:
     # 59 nincs kiírva, a gátőrház lehetne
     invalid: ['59']
+  Külső Bánomi út:
+    # 37 a vége, tovább már nem Külső Bánomi út
+    invalid: ['57', '87']
   Lépcső utca:
     ranges:
       - {start: '1', end: '21'}
@@ -93,6 +99,8 @@ filters:
     # a nagyobb számokat átnevezték más utcákra
     ranges:
       - {start: '1', end: '17'}
+  Szent Miklós utca:
+    invalid: ['14']
   Szentkirályi utca:
     # 77 a vége
     ranges:
