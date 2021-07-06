@@ -13,7 +13,7 @@ from typing import cast
 
 class Range:
     """A range object represents an odd or even range of integer numbers."""
-    def __init__(self, start: int, end: int, interpolation: str = "") -> None:
+    def __init__(self, start: int, end: int, interpolation: str) -> None:
         self.__start = start
         self.__end = end
         self.__is_odd: Optional[bool] = start % 2 == 1

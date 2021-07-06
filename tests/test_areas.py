@@ -118,6 +118,11 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+def make_range(start: int, end: int) -> ranges.Range:
+    """Factory for Range without specifying interpolation."""
+    return ranges.Range(start, end, interpolation="")
+
+
 class TestRelationGetStreetRanges(unittest.TestCase):
     """Tests Relation.get_street_ranges()."""
     def test_happy(self) -> None:
@@ -126,8 +131,8 @@ class TestRelationGetStreetRanges(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         filters = relation.get_street_ranges()
         expected_filters = {
-            "Budaörsi út": ranges.Ranges([ranges.Range(137, 165)]),
-            "Csiki-hegyek utca": ranges.Ranges([ranges.Range(1, 15), ranges.Range(2, 26)]),
+            "Budaörsi út": ranges.Ranges([make_range(137, 165)]),
+            "Csiki-hegyek utca": ranges.Ranges([make_range(1, 15), make_range(2, 26)]),
             'Hamzsabégi út': ranges.Ranges([ranges.Range(start=1, end=12, interpolation="all")])
         }
         self.assertEqual(filters, expected_filters)

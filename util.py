@@ -787,7 +787,10 @@ def get_normalizer(street_name: str, normalizers: Dict[str, ranges.Ranges]) -> r
         normalizer = normalizers[street_name]
     else:
         # Default sanity checks.
-        default = [ranges.Range(1, 999), ranges.Range(2, 998)]
+        default = [
+            ranges.Range(1, 999, interpolation=""),
+            ranges.Range(2, 998, interpolation=""),
+        ]
         normalizer = ranges.Ranges(default)
     return normalizer
 
