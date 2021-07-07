@@ -1,5 +1,9 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Vadvirág utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '26'}
 osm-street-filters:
   # Területhatár
   - Balaton körút  # Balatonfűzfő
@@ -48,4 +52,4 @@ refstreets:
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
   'Vörösmarty Mihály utca': 'Vörösmarty utca'  # táblán Vörösmarty Mihály utca
 source: survey
-inactive: true
+inactive: false
