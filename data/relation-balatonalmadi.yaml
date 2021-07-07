@@ -29,7 +29,6 @@ street-filters:
 refstreets:
   'Báthory utca': 'Báthori utca'
   'Berzsenyi Dániel utca': 'Berzsenyi utca'
-  'Brenner Lőrincz köz': 'Brenner Lőrinc köz'  # Note
   'Dózsa György utca': 'Dózsa György út'
   'Erdőalja út': 'Erdőalja utca'
   'Fadrusz János utca': 'Fadrusz utca'
@@ -37,7 +36,6 @@ refstreets:
   'Madarász utca': 'Madarász Viktor utca'
   'Öreghegyi utca': 'Öreghegyi út'
   'Pacsirta út': 'Pacsirta utca'
-  'Pinkóczi utca': 'Pinkóczi út'
   'Szabadság utca': 'Szabadság út'
   'Szabadság-kilátó utca': 'Szabadságkilátó út'
   # ellenőrzött
