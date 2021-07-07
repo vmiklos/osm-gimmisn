@@ -8,7 +8,6 @@
 
 from typing import Any
 from typing import List
-import datetime
 import os
 import time
 import unittest
@@ -297,14 +296,6 @@ def create_old_file(path: str) -> None:
     os.utime(path, (old_access_time, old_modification_time))
 
 
-class MockDate(datetime.date):
-    """Mock datetime.date."""
-    @classmethod
-    def today(cls) -> 'MockDate':
-        """Returns today's date."""
-        return cls(2020, 5, 10)
-
-
 class TestUpdateStats(unittest.TestCase):
     """Tests update_stats()."""
     def test_happy(self) -> None:
@@ -366,8 +357,7 @@ class TestUpdateStats(unittest.TestCase):
             mock_overpass_sleep_called = True
 
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            with unittest.mock.patch('datetime.date', MockDate):
-                cron.update_stats(conf, overpass=False)
+            cron.update_stats(conf, overpass=False)
         self.assertFalse(mock_overpass_sleep_called)
 
 
