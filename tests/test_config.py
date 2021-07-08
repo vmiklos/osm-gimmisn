@@ -6,12 +6,15 @@
 
 """The test_config module covers the config module."""
 
+from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import cast
 import calendar
 import datetime
+import io
 import os
 
 import config
@@ -27,7 +30,7 @@ class TestFileSystem(config.FileSystem):
     def __init__(self) -> None:
         self.__hide_paths: List[str] = []
         self.__mtimes: Dict[str, float] = {}
-        self.__relation_allowlist: List[str] = []
+        self.__files: Dict[str, io.BytesIO] = {}
 
     def set_hide_paths(self, hide_paths: List[str]) -> None:
         """Sets the hide paths."""
@@ -47,12 +50,14 @@ class TestFileSystem(config.FileSystem):
             return self.__mtimes[path]
         return os.path.getmtime(path)
 
-    def set_relation_allowlist(self, relation_allowlist: List[str]) -> None:
-        """Sets the relation allowlist."""
-        self.__relation_allowlist = relation_allowlist
+    def set_files(self, files: Dict[str, io.BytesIO]) -> None:
+        """Sets the files."""
+        self.__files = files
 
-    def get_relation_allowlist(self) -> List[str]:
-        return self.__relation_allowlist
+    def open(self, path: str, mode: str) -> BinaryIO:
+        if path in self.__files:
+            return self.__files[path]
+        return cast(BinaryIO, open(path, mode))
 
 
 class URLRoute:

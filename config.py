@@ -9,6 +9,7 @@ The config module contains functionality related to configuration handling.
 It intentionally doesn't import any other 'own' modules, so it can be used anywhere.
 """
 
+from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -36,8 +37,8 @@ class FileSystem:
         # pylint: disable=unused-argument
         ...
 
-    def get_relation_allowlist(self) -> List[str]:  # pragma: no cover
-        """Returns the list of relations which are not in relations.yaml, but are to be accepted."""
+    def open(self, path: str, mode: str) -> BinaryIO:  # pragma: no cover
+        """Opens a file with the given mode. Only binary mode is supposed."""
         # pylint: disable=no-self-use
         # pylint: disable=unused-argument
         ...
@@ -51,8 +52,8 @@ class StdFileSystem(FileSystem):
     def getmtime(self, path: str) -> float:
         return os.path.getmtime(path)
 
-    def get_relation_allowlist(self) -> List[str]:
-        return []
+    def open(self, path: str, mode: str) -> BinaryIO:
+        return cast(BinaryIO, open(path, mode))
 
 
 class Network:

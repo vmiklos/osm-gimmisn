@@ -6,6 +6,8 @@
 
 """The test_wsgi_additional module covers the wsgi_additional module."""
 
+import io
+import json
 import unittest
 
 import test_config
@@ -146,7 +148,21 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
     def test_street_from_housenr_well_formed(self) -> None:
         """Tests if the output is well-formed when the street name comes from a housenr."""
         file_system = test_config.TestFileSystem()
-        file_system.set_relation_allowlist(["gh611"])
+        yamls_cache = {
+            "relations.yaml": {
+                "gh611": {
+                    "osmrelation": 42,
+                },
+            },
+            "refcounty-names.yaml": {
+            },
+            "refsettlement-names.yaml": {
+            },
+        }
+        yamls_cache_value = io.BytesIO()
+        yamls_cache_value.write(json.dumps(yamls_cache).encode("utf-8"))
+        yamls_cache_value.seek(0)
+        file_system.set_files({self.conf.get_abspath("data/yamls.cache"): yamls_cache_value})
         self.conf.set_file_system(file_system)
         root = self.get_dom_for_path("/additional-streets/gh611/view-result")
         results = root.findall("body/table")
