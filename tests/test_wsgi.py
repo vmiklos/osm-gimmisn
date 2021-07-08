@@ -33,7 +33,6 @@ import test_config
 
 import areas
 import config
-import util
 import webframe
 import wsgi
 
@@ -48,6 +47,7 @@ class TestWsgi(unittest.TestCase):
         unittest.TestCase.__init__(self, method_name)
         self.gzip_compress = False
         self.conf = test_config.make_test_config()
+        self.environ: Dict[str, Any] = {}
 
     def get_dom_for_path(self, path: str, absolute: bool = False, expected_status: str = "") -> ET.Element:
         """Generates an XML DOM for a given wsgi path."""
@@ -63,13 +63,11 @@ class TestWsgi(unittest.TestCase):
         prefix = self.conf.get_uri_prefix()
         if not absolute:
             path = prefix + path
-        environ = {
-            "PATH_INFO": path
-        }
+        self.environ["PATH_INFO"] = path
         if self.gzip_compress:
-            environ["HTTP_ACCEPT_ENCODING"] = "gzip, deflate"
+            self.environ["HTTP_ACCEPT_ENCODING"] = "gzip, deflate"
         callback = cast('StartResponse', start_response)
-        output_iterable = wsgi.application(environ, callback, self.conf)
+        output_iterable = wsgi.application(self.environ, callback, self.conf)
         output_list = cast(List[bytes], output_iterable)
         self.assertTrue(output_list)
         if self.gzip_compress:
@@ -662,7 +660,6 @@ class TestWebhooks(TestWsgi):
     """Tests /osm/webhooks/."""
     def test_github(self) -> None:
         """Tests /osm/webhooks/github."""
-        environ: Dict[str, BinaryIO] = {}
         root = {"ref": "refs/heads/master"}
         payload = json.dumps(root)
         body = {"payload": [payload]}
@@ -670,18 +667,16 @@ class TestWebhooks(TestWsgi):
         buf = io.BytesIO()
         buf.write(query_string.encode('utf-8'))
         buf.seek(0)
-        environ["wsgi.input"] = buf
+        self.environ["wsgi.input"] = buf
         conf = test_config.make_test_config()
         expected_args = "make -C " + conf.get_abspath("") + " deploy"
         outputs = {
             expected_args: bytes()
         }
         subprocess = test_config.TestSubprocess(outputs)
-        conf.set_subprocess(subprocess)
-        webframe.handle_github_webhook(environ, conf)
-        self.assertIn(expected_args, subprocess.get_runs())
-        actual_path = subprocess.get_environment(expected_args)["PATH"]
-        self.assertIn("osm-gimmisn-env/bin", actual_path)
+        self.conf.set_subprocess(subprocess)
+        self.get_dom_for_path("/webhooks/github")
+        self.assertTrue(subprocess.get_runs() != [])
 
     def test_github_branch(self) -> None:
         """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
@@ -700,19 +695,6 @@ class TestWebhooks(TestWsgi):
         environ["wsgi.input"] = buf
         webframe.handle_github_webhook(environ, conf)
         self.assertEqual(subprocess.get_runs(), [])
-
-    def test_route(self) -> None:
-        """Tests the /osm/webhooks/github -> handle_github_webhook() routing."""
-        mock_called = False
-
-        def mock_handler(_environ: Dict[str, BinaryIO], _conf: config.Config) -> yattag.doc.Doc:
-            nonlocal mock_called
-            mock_called = True
-            return util.html_escape("")
-
-        with unittest.mock.patch("webframe.handle_github_webhook", mock_handler):
-            self.get_dom_for_path("/webhooks/github")
-        self.assertTrue(mock_called)
 
 
 class TestStatic(TestWsgi):
