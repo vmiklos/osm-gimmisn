@@ -247,7 +247,7 @@ class TestTsvToList(unittest.TestCase):
     """Tests tsv_to_list()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        sock = util.CsvIO(io.StringIO("h1\th2\n\nv1\tv2\n"))
+        sock = util.CsvIO(io.BytesIO(b"h1\th2\n\nv1\tv2\n"))
         ret = util.tsv_to_list(sock)
         self.assertEqual(len(ret), 2)
         row1 = [cell.getvalue() for cell in ret[0]]
@@ -257,7 +257,7 @@ class TestTsvToList(unittest.TestCase):
 
     def test_type(self) -> None:
         """Tests when a @type column is available."""
-        stream = util.CsvIO(io.StringIO("@id\t@type\n42\tnode\n"))
+        stream = util.CsvIO(io.BytesIO(b"@id\t@type\n42\tnode\n"))
         ret = util.tsv_to_list(stream)
         self.assertEqual(len(ret), 2)
         row1 = [cell.getvalue() for cell in ret[0]]
@@ -268,7 +268,7 @@ class TestTsvToList(unittest.TestCase):
 
     def test_escape(self) -> None:
         """Tests escaping."""
-        sock = util.CsvIO(io.StringIO("\"h,1\"\th2\n"))
+        sock = util.CsvIO(io.BytesIO(b"\"h,1\"\th2\n"))
         ret = util.tsv_to_list(sock)
         self.assertEqual(len(ret), 1)
         row1 = [cell.getvalue() for cell in ret[0]]
@@ -277,11 +277,11 @@ class TestTsvToList(unittest.TestCase):
 
     def test_sort(self) -> None:
         """Tests sorting."""
-        csv = """addr:street\taddr:housenumber
+        csv = b"""addr:street\taddr:housenumber
 A street\t1
 A street\t10
 A street\t9"""
-        sock = util.CsvIO(io.StringIO(csv))
+        sock = util.CsvIO(io.BytesIO(csv))
         ret = util.tsv_to_list(sock)
         # 0th is header
         row3 = [cell.getvalue() for cell in ret[3]]
@@ -444,7 +444,7 @@ class TestGetStreetFromHousenumber(unittest.TestCase):
     """Tests get_street_from_housenumber()."""
     def test_addr_place(self) -> None:
         """Tests the case when addr:place is used."""
-        with util.CsvIO(open("tests/workdir/street-housenumbers-gh964.csv", "r")) as stream:
+        with util.CsvIO(open("tests/workdir/street-housenumbers-gh964.csv", "rb")) as stream:
             actual = util.get_street_from_housenumber(stream)
         # This is picked up from addr:place because addr:street was empty.
         self.assertEqual(actual, [util.Street(osm_name="Tolvajos tanya")])

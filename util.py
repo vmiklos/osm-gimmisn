@@ -8,6 +8,7 @@
 
 from enum import Enum
 from typing import Any
+from typing import BinaryIO
 from typing import Callable
 from typing import Dict
 from typing import Iterable
@@ -15,10 +16,10 @@ from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import Set
-from typing import TextIO
 from typing import Tuple
 from typing import Union
 from typing import cast
+import codecs
 import csv
 import locale
 import os
@@ -259,10 +260,10 @@ NumberedStreets = List[NumberedStreet]
 
 
 class CsvIO:
-    """Like TextIO, but for CSV reading."""
-    def __init__(self, stream: TextIO) -> None:
+    """Like BinaryIO, but for CSV reading."""
+    def __init__(self, stream: BinaryIO) -> None:
         self.stream = stream
-        self.reader = csv.reader(stream, delimiter='\t', quotechar='"')
+        self.reader = csv.reader(codecs.iterdecode(stream, "utf-8"), delimiter='\t', quotechar='"')
 
     def __enter__(self) -> 'CsvIO':
         return self

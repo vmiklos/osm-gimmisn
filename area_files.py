@@ -74,23 +74,23 @@ class RelationFiles(RelationFilePaths):
         path = self.get_ref_streets_path()
         return cast(BinaryIO, open(path, mode=mode))
 
-    def __get_osm_streets_stream(self, mode: str) -> TextIO:
+    def __get_osm_streets_stream(self, mode: str) -> BinaryIO:
         """Opens the OSM street list of a relation."""
         path = self.get_osm_streets_path()
-        return cast(TextIO, open(path, mode=mode))
+        return cast(BinaryIO, open(path, mode=mode))
 
     def get_osm_streets_csv_stream(self) -> util.CsvIO:
         """Gets a CSV reader for the OSM street list."""
-        return util.CsvIO(self.__get_osm_streets_stream("r"))
+        return util.CsvIO(self.__get_osm_streets_stream("rb"))
 
-    def __get_osm_housenumbers_stream(self, mode: str) -> TextIO:
+    def __get_osm_housenumbers_stream(self, mode: str) -> BinaryIO:
         """Opens the OSM house number list of a relation."""
         path = self.get_osm_housenumbers_path()
-        return cast(TextIO, open(path, mode=mode))
+        return cast(BinaryIO, open(path, mode=mode))
 
     def get_osm_housenumbers_csv_stream(self) -> util.CsvIO:
         """Gets a CSV reader for the OSM house number list."""
-        return util.CsvIO(self.__get_osm_housenumbers_stream("r"))
+        return util.CsvIO(self.__get_osm_housenumbers_stream("rb"))
 
     def get_ref_housenumbers_stream(self, mode: str) -> TextIO:
         """Opens the reference house number list of a relation."""
@@ -122,13 +122,13 @@ class RelationFiles(RelationFilePaths):
 
     def write_osm_streets(self, result: str) -> None:
         """Writes the result for overpass of Relation.get_osm_streets_query()."""
-        with self.__get_osm_streets_stream("w") as sock:
-            sock.write(result)
+        with self.__get_osm_streets_stream("wb") as sock:
+            sock.write(util.to_bytes(result))
 
     def write_osm_housenumbers(self, result: str) -> None:
         """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
-        with self.__get_osm_housenumbers_stream(mode="w") as stream:
-            stream.write(result)
+        with self.__get_osm_housenumbers_stream(mode="wb") as stream:
+            stream.write(util.to_bytes(result))
 
     def get_additional_housenumbers_htmlcache_stream(self, mode: str) -> TextIO:
         """Opens the additional house number HTML cache file of a relation."""
