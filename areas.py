@@ -713,7 +713,7 @@ class Relations:
     def __init__(self, conf: config.Config) -> None:
         self.__workdir = conf.get_workdir()
         self.__conf = conf
-        with open(os.path.join(conf.get_abspath("data"), "yamls.cache"), "rb") as stream:
+        with conf.get_file_system().open(os.path.join(conf.get_abspath("data"), "yamls.cache"), "rb") as stream:
             self.__yaml_cache: Dict[str, Any] = json.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]
         self.__relations: Dict[str, Relation] = {}
