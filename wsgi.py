@@ -377,8 +377,8 @@ def handle_missing_streets(conf: config.Config, relations: areas.Relations, requ
         doc.asis(missing_streets_view_turbo(relations, request_uri).getvalue())
     elif action == "view-query":
         with doc.tag("pre"):
-            with relation.get_files().get_ref_streets_stream("r") as sock:
-                doc.text(sock.read())
+            with relation.get_files().get_ref_streets_stream("rb") as sock:
+                doc.text(util.from_bytes(sock.read()))
     elif action == "update-result":
         doc.asis(missing_streets_update(conf, relations, relation_name).getvalue())
     else:
