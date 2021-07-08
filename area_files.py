@@ -7,6 +7,7 @@
 """The area_files module contains file handling functionality, to be used by the areas module."""
 
 import os
+from typing import BinaryIO
 from typing import TextIO
 from typing import cast
 
@@ -68,10 +69,10 @@ class RelationFilePaths:
 
 class RelationFiles(RelationFilePaths):
     """Extends RelationFilePaths with streams."""
-    def get_ref_streets_stream(self, mode: str) -> TextIO:
+    def get_ref_streets_stream(self, mode: str) -> BinaryIO:
         """Opens the reference street list of a relation."""
         path = self.get_ref_streets_path()
-        return cast(TextIO, open(path, mode=mode))
+        return cast(BinaryIO, open(path, mode=mode))
 
     def __get_osm_streets_stream(self, mode: str) -> TextIO:
         """Opens the OSM street list of a relation."""

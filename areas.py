@@ -346,17 +346,17 @@ class RelationBase:
         lst = self.get_config().build_ref_streets(memory_cache)
 
         lst = sorted(set(lst))
-        with self.get_files().get_ref_streets_stream("w") as sock:
+        with self.get_files().get_ref_streets_stream("wb") as sock:
             for line in lst:
-                sock.write(line + "\n")
+                sock.write(util.to_bytes(line + "\n"))
 
     def get_ref_streets(self) -> List[str]:
         """Gets streets from reference."""
         streets: List[str] = []
-        with self.get_files().get_ref_streets_stream("r") as sock:
+        with self.get_files().get_ref_streets_stream("rb") as sock:
             for line in sock.readlines():
                 line = line.strip()
-                streets.append(line)
+                streets.append(util.from_bytes(line))
         return sorted(set(streets))
 
     def build_ref_housenumbers(

@@ -884,4 +884,14 @@ def get_lexical_sort_key() -> Callable[[str], str]:
     return locale.strxfrm
 
 
+def to_bytes(string: str) -> bytes:
+    """Encodes the string to UTF-8."""
+    return string.encode("utf-8")
+
+
+def from_bytes(array: bytes) -> str:
+    """Decodes the string from UTF-8."""
+    return array.decode("utf-8")
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
