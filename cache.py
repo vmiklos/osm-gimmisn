@@ -66,8 +66,8 @@ def get_missing_housenumbers_html(conf: config.Config, relation: areas.Relation)
     """Gets the cached HTML of the missing housenumbers for a relation."""
     doc = yattag.doc.Doc()
     if is_missing_housenumbers_html_cached(conf, relation):
-        with relation.get_files().get_housenumbers_htmlcache_stream("r") as stream:
-            doc.asis(stream.read())
+        with relation.get_files().get_housenumbers_htmlcache_stream("rb") as stream:
+            doc.asis(util.from_bytes(stream.read()))
         return doc
 
     ret = relation.write_missing_housenumbers()
@@ -97,8 +97,8 @@ def get_missing_housenumbers_html(conf: config.Config, relation: areas.Relation)
     doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
     doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
 
-    with relation.get_files().get_housenumbers_htmlcache_stream("w") as stream:
-        stream.write(doc.getvalue())
+    with relation.get_files().get_housenumbers_htmlcache_stream("wb") as stream:
+        stream.write(util.to_bytes(doc.getvalue()))
 
     return doc
 
@@ -107,8 +107,8 @@ def get_additional_housenumbers_html(conf: config.Config, relation: areas.Relati
     """Gets the cached HTML of the additional housenumbers for a relation."""
     doc = yattag.doc.Doc()
     if is_additional_housenumbers_html_cached(conf, relation):
-        with relation.get_files().get_additional_housenumbers_htmlcache_stream("r") as stream:
-            doc.asis(stream.read())
+        with relation.get_files().get_additional_housenumbers_htmlcache_stream("rb") as stream:
+            doc.asis(util.from_bytes(stream.read()))
         return doc
 
     ret = relation.write_additional_housenumbers()
@@ -125,8 +125,8 @@ def get_additional_housenumbers_html(conf: config.Config, relation: areas.Relati
     doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
     doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
 
-    with relation.get_files().get_additional_housenumbers_htmlcache_stream("w") as stream:
-        stream.write(doc.getvalue())
+    with relation.get_files().get_additional_housenumbers_htmlcache_stream("wb") as stream:
+        stream.write(util.to_bytes(doc.getvalue()))
 
     return doc
 
@@ -149,8 +149,8 @@ def get_missing_housenumbers_txt(conf: config.Config, relation: areas.Relation) 
     """Gets the cached plain text of the missing housenumbers for a relation."""
     output = ""
     if is_missing_housenumbers_txt_cached(conf, relation):
-        with relation.get_files().get_housenumbers_txtcache_stream("r") as stream:
-            output = stream.read()
+        with relation.get_files().get_housenumbers_txtcache_stream("rb") as stream:
+            output = util.from_bytes(stream.read())
         return output
 
     ongoing_streets, _ignore = relation.get_missing_housenumbers()
@@ -169,8 +169,8 @@ def get_missing_housenumbers_txt(conf: config.Config, relation: areas.Relation) 
     table.sort(key=util.get_lexical_sort_key())
     output += "\n".join(table)
 
-    with relation.get_files().get_housenumbers_txtcache_stream("w") as stream:
-        stream.write(output)
+    with relation.get_files().get_housenumbers_txtcache_stream("wb") as stream:
+        stream.write(util.to_bytes(output))
     return output
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

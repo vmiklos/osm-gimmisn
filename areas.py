@@ -411,9 +411,9 @@ class RelationBase:
                 lst += self.build_ref_housenumbers(memory_cache, street, suffix)
 
         lst = sorted(set(lst))
-        with self.get_files().get_ref_housenumbers_stream("w") as sock:
+        with self.get_files().get_ref_housenumbers_stream("wb") as sock:
             for line in lst:
-                sock.write(line + "\n")
+                sock.write(util.to_bytes(line + "\n"))
 
     def __normalize_invalids(self, osm_street_name: str, street_invalid: List[str]) -> List[str]:
         """Normalizes an 'invalid' list."""
@@ -433,8 +433,9 @@ class RelationBase:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         ret: Dict[str, List[util.HouseNumber]] = {}
         lines: Dict[str, List[str]] = {}
-        with self.get_files().get_ref_housenumbers_stream("r") as sock:
-            for line in sock.readlines():
+        with self.get_files().get_ref_housenumbers_stream("rb") as sock:
+            for line_bytes in sock.readlines():
+                line = util.from_bytes(line_bytes)
                 line = line.strip()
                 key, _, value = line.partition("\t")
                 if key not in lines:
@@ -532,8 +533,8 @@ class RelationBase:
             percent = "100.00"
 
         # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_streets_percent_stream("w") as stream:
-            stream.write(percent)
+        with self.get_files().get_streets_percent_stream("wb") as stream:
+            stream.write(util.to_bytes(percent))
 
         return todo_count, done_count, percent, streets
 
@@ -542,8 +543,8 @@ class RelationBase:
         additional_streets = self.get_additional_streets()
 
         # Write the count to a file, so the index page show it fast.
-        with self.get_files().get_streets_additional_count_stream("w") as stream:
-            stream.write(str(len(additional_streets)))
+        with self.get_files().get_streets_additional_count_stream("wb") as stream:
+            stream.write(util.to_bytes(str(len(additional_streets))))
 
         return additional_streets
 
@@ -628,8 +629,8 @@ class Relation(RelationBase):
             percent = "100.00"
 
         # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_housenumbers_percent_stream("w") as stream:
-            stream.write(percent)
+        with self.get_files().get_housenumbers_percent_stream("wb") as stream:
+            stream.write(util.to_bytes(percent))
 
         return len(ongoing_streets), todo_count, done_count, percent, table
 
@@ -643,8 +644,8 @@ class Relation(RelationBase):
         table, todo_count = self.numbered_streets_to_table(ongoing_streets)
 
         # Write the street count to a file, so the index page show it fast.
-        with self.get_files().get_housenumbers_additional_count_stream("w") as stream:
-            stream.write(str(todo_count))
+        with self.get_files().get_housenumbers_additional_count_stream("wb") as stream:
+            stream.write(util.to_bytes(str(todo_count)))
 
         return len(ongoing_streets), todo_count, table
 

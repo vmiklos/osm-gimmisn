@@ -8,7 +8,6 @@
 
 import os
 from typing import BinaryIO
-from typing import TextIO
 from typing import cast
 
 import i18n
@@ -92,33 +91,33 @@ class RelationFiles(RelationFilePaths):
         """Gets a CSV reader for the OSM house number list."""
         return util.CsvIO(self.__get_osm_housenumbers_stream("rb"))
 
-    def get_ref_housenumbers_stream(self, mode: str) -> TextIO:
+    def get_ref_housenumbers_stream(self, mode: str) -> BinaryIO:
         """Opens the reference house number list of a relation."""
-        return cast(TextIO, open(self.get_ref_housenumbers_path(), mode=mode))
+        return cast(BinaryIO, open(self.get_ref_housenumbers_path(), mode=mode))
 
-    def get_housenumbers_percent_stream(self, mode: str) -> TextIO:
+    def get_housenumbers_percent_stream(self, mode: str) -> BinaryIO:
         """Opens the house number percent file of a relation."""
-        return cast(TextIO, open(self.get_housenumbers_percent_path(), mode=mode))
+        return cast(BinaryIO, open(self.get_housenumbers_percent_path(), mode=mode))
 
-    def get_housenumbers_htmlcache_stream(self, mode: str) -> TextIO:
+    def get_housenumbers_htmlcache_stream(self, mode: str) -> BinaryIO:
         """Opens the house number HTML cache file of a relation."""
-        return cast(TextIO, open(self.get_housenumbers_htmlcache_path(), mode=mode))
+        return cast(BinaryIO, open(self.get_housenumbers_htmlcache_path(), mode=mode))
 
-    def get_housenumbers_txtcache_stream(self, mode: str) -> TextIO:
+    def get_housenumbers_txtcache_stream(self, mode: str) -> BinaryIO:
         """Opens the house number plain text cache file of a relation."""
-        return cast(TextIO, open(self.get_housenumbers_txtcache_path(), mode=mode))
+        return cast(BinaryIO, open(self.get_housenumbers_txtcache_path(), mode=mode))
 
-    def get_streets_percent_stream(self, mode: str) -> TextIO:
+    def get_streets_percent_stream(self, mode: str) -> BinaryIO:
         """Opens the street percent file of a relation."""
-        return cast(TextIO, open(self.get_streets_percent_path(), mode=mode))
+        return cast(BinaryIO, open(self.get_streets_percent_path(), mode=mode))
 
-    def get_streets_additional_count_stream(self, mode: str) -> TextIO:
+    def get_streets_additional_count_stream(self, mode: str) -> BinaryIO:
         """Opens the street additional count file of a relation."""
-        return cast(TextIO, open(self.get_streets_additional_count_path(), mode=mode))
+        return cast(BinaryIO, open(self.get_streets_additional_count_path(), mode=mode))
 
-    def get_housenumbers_additional_count_stream(self, mode: str) -> TextIO:
+    def get_housenumbers_additional_count_stream(self, mode: str) -> BinaryIO:
         """Opens the housenumbers additional count file of a relation."""
-        return cast(TextIO, open(self.get_housenumbers_additional_count_path(), mode=mode))
+        return cast(BinaryIO, open(self.get_housenumbers_additional_count_path(), mode=mode))
 
     def write_osm_streets(self, result: str) -> None:
         """Writes the result for overpass of Relation.get_osm_streets_query()."""
@@ -130,9 +129,9 @@ class RelationFiles(RelationFilePaths):
         with self.__get_osm_housenumbers_stream(mode="wb") as stream:
             stream.write(util.to_bytes(result))
 
-    def get_additional_housenumbers_htmlcache_stream(self, mode: str) -> TextIO:
+    def get_additional_housenumbers_htmlcache_stream(self, mode: str) -> BinaryIO:
         """Opens the additional house number HTML cache file of a relation."""
-        return cast(TextIO, open(self.get_additional_housenumbers_htmlcache_path(), mode=mode))
+        return cast(BinaryIO, open(self.get_additional_housenumbers_htmlcache_path(), mode=mode))
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
