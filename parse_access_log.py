@@ -83,7 +83,7 @@ def get_frequent_relations(conf: config.Config, log_file: str) -> Set[str]:
     count_list = sorted(counts.items(), key=lambda x: x[1], reverse=True)
 
     # Dump relations and their visit count to workdir for further inspection.
-    with open(os.path.join(conf.get_workdir(), "frequent-relations.csv"), "w") as stream:
+    with open(os.path.join(conf.get_ini().get_workdir(), "frequent-relations.csv"), "w") as stream:
         for item in count_list:
             stream.write("{}\t{}\n".format(item[0], item[1]))
 
@@ -151,7 +151,7 @@ def main(argv: List[str], stdout: TextIO, conf: config.Config) -> None:
 
     relations = areas.Relations(conf)
     frequent_relations = get_frequent_relations(conf, log_file)
-    check_top_edited_relations(conf, frequent_relations, conf.get_workdir())
+    check_top_edited_relations(conf, frequent_relations, conf.get_ini().get_workdir())
 
     # Now suggest what to change.
     removals = 0

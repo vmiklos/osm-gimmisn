@@ -30,7 +30,7 @@ class TestHandleStatic(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path: css case."""
         conf = test_config.make_test_config()
-        prefix = conf.get_uri_prefix()
+        prefix = conf.get_ini().get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/osm.min.css")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "text/css")
@@ -40,7 +40,7 @@ class TestHandleStatic(unittest.TestCase):
     def test_generated_javascript(self) -> None:
         """Tests the generated javascript case."""
         conf = test_config.make_test_config()
-        prefix = conf.get_uri_prefix()
+        prefix = conf.get_ini().get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/bundle.js")
         self.assertEqual("// bundle.js\n", content.decode("utf-8"))
         self.assertEqual(content_type, "application/x-javascript")
@@ -50,7 +50,7 @@ class TestHandleStatic(unittest.TestCase):
     def test_json(self) -> None:
         """Tests the json case."""
         conf = test_config.make_test_config()
-        prefix = conf.get_uri_prefix()
+        prefix = conf.get_ini().get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/stats-empty.json")
         self.assertTrue(content.decode("utf-8").startswith("{"))
         self.assertEqual(content_type, "application/json")
@@ -78,7 +78,7 @@ class TestHandleStatic(unittest.TestCase):
     def test_else(self) -> None:
         """Tests the case when the content type is not recognized."""
         conf = test_config.make_test_config()
-        prefix = conf.get_uri_prefix()
+        prefix = conf.get_ini().get_uri_prefix()
         content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/test.xyz")
         self.assertFalse(len(content))
         self.assertFalse(len(content_type))

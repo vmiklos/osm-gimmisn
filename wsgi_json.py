@@ -61,7 +61,7 @@ def missing_housenumbers_update_result_json(conf: config.Config, relations: area
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
-    references = conf.get_reference_housenumber_paths()
+    references = conf.get_ini().get_reference_housenumber_paths()
     relation = relations.get_relation(relation_name)
     ret: Dict[str, str] = {}
     relation.write_ref_housenumbers(references)
@@ -73,7 +73,7 @@ def missing_streets_update_result_json(conf: config.Config, relations: areas.Rel
     """Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
-    reference = conf.get_reference_street_path()
+    reference = conf.get_ini().get_reference_street_path()
     relation = relations.get_relation(relation_name)
     ret: Dict[str, str] = {}
     relation.write_ref_streets(reference)
@@ -91,7 +91,7 @@ def our_application_json(
     """Dispatches json requests based on their URIs."""
     content_type = "application/json"
     headers: List[Tuple[str, str]] = []
-    prefix = conf.get_uri_prefix()
+    prefix = conf.get_ini().get_uri_prefix()
     if request_uri.startswith(prefix + "/streets/"):
         output = streets_update_result_json(conf, relations, request_uri)
     elif request_uri.startswith(prefix + "/street-housenumbers/"):

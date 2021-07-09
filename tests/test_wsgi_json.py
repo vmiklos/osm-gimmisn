@@ -36,7 +36,7 @@ class TestWsgiJson(unittest.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "application/json; charset=utf-8")
 
-        prefix = conf.get_uri_prefix()
+        prefix = conf.get_ini().get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }

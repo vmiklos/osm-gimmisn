@@ -15,7 +15,7 @@ import config
 
 def overpass_query(conf: config.Config, query: str) -> Tuple[str, str]:
     """Posts the query string to the overpass API and returns the result string."""
-    url = conf.get_overpass_uri() + "/api/interpreter"
+    url = conf.get_ini().get_overpass_uri() + "/api/interpreter"
 
     urlopen = conf.get_network().urlopen
     buf, err = urlopen(url, bytes(query, "utf-8"))
@@ -26,7 +26,7 @@ def overpass_query(conf: config.Config, query: str) -> Tuple[str, str]:
 def overpass_query_need_sleep(conf: config.Config) -> int:
     """Checks if we need to sleep before executing an overpass query."""
     urlopen = conf.get_network().urlopen
-    buf, err = urlopen(conf.get_overpass_uri() + "/api/status")
+    buf, err = urlopen(conf.get_ini().get_overpass_uri() + "/api/status")
     if err:
         return 0
     status = buf.decode('utf-8')

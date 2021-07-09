@@ -74,7 +74,7 @@ def get_missing_housenumbers_html(conf: config.Config, relation: areas.Relation)
     todo_street_count, todo_count, done_count, percent, table = ret
 
     with doc.tag("p"):
-        prefix = conf.get_uri_prefix()
+        prefix = conf.get_ini().get_uri_prefix()
         relation_name = relation.get_name()
         doc.text(tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
                  .format(str(todo_count), str(todo_street_count)))

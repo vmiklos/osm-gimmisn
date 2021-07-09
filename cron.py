@@ -111,7 +111,7 @@ def update_ref_housenumbers(conf: config.Config, relations: areas.Relations, upd
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_ref_housenumbers_path()):
             continue
-        references = conf.get_reference_housenumber_paths()
+        references = conf.get_ini().get_reference_housenumber_paths()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "only":
             continue
@@ -127,7 +127,7 @@ def update_ref_streets(conf: config.Config, relations: areas.Relations, update: 
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_ref_streets_path()):
             continue
-        reference = conf.get_reference_street_path()
+        reference = conf.get_ini().get_reference_street_path()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "no":
             continue
@@ -261,7 +261,7 @@ def update_stats_topusers(conf: config.Config, today: str) -> None:
 def update_stats_refcount(conf: config.Config, state_dir: str) -> None:
     """Performs the update of workdir/stats/ref.count."""
     count = 0
-    with open(conf.get_reference_citycounts_path(), "r") as stream:
+    with open(conf.get_ini().get_reference_citycounts_path(), "r") as stream:
         first = True
         for line in stream.readlines():
             if first:
@@ -352,7 +352,7 @@ def our_main(conf: config.Config, relations: areas.Relations, mode: str, update:
 def main(conf: config.Config) -> None:
     """Commandline interface to this module."""
 
-    workdir = conf.get_workdir()
+    workdir = conf.get_ini().get_workdir()
     relations = areas.Relations(conf)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
@@ -378,7 +378,7 @@ def main(conf: config.Config) -> None:
     start = time.time()
     # Query inactive relations once a month.
     first_day_of_month = time.localtime(start).tm_mday == 1
-    relations.activate_all(conf.get_cron_update_inactive() or first_day_of_month)
+    relations.activate_all(conf.get_ini().get_cron_update_inactive() or first_day_of_month)
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)
     try:

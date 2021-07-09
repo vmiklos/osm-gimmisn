@@ -110,41 +110,31 @@ class StdSubprocess(Subprocess):
         return process.stdout
 
 
-class Config:
-    """Config replacement without static state."""
-    def __init__(self, prefix: str) -> None:
-        root_dir = os.path.abspath(os.path.dirname(__file__))
-        self.root = os.path.join(root_dir, prefix)
+class Ini:
+    """Configuration file reader."""
+    def __init__(self, config_path: str, root: str) -> None:
         self.__config = configparser.ConfigParser()
-        config_path = self.get_abspath("wsgi.ini")
         self.__config.read(config_path)
-        self.__file_system: FileSystem = StdFileSystem()
-        self.__network: Network = StdNetwork()
-        self.__time: Time = StdTime()
-        self.__subprocess: Subprocess = StdSubprocess()
-
-    def get_abspath(self, rel_path: str) -> str:
-        """Make a path absolute, taking the repo root as a base dir."""
-        return os.path.join(self.root, rel_path)
+        self.root = root
 
     def get_workdir(self) -> str:
         """Gets the directory which is writable."""
-        return self.get_abspath(self.__config.get('wsgi', 'workdir').strip())
+        return os.path.join(self.root, self.__config.get('wsgi', 'workdir').strip())
 
     def get_reference_housenumber_paths(self) -> List[str]:
         """Gets the abs paths of ref housenumbers."""
         relpaths = self.__config.get("wsgi", "reference_housenumbers").strip().split(' ')
-        return [self.get_abspath(relpath) for relpath in relpaths]
+        return [os.path.join(self.root, relpath) for relpath in relpaths]
 
     def get_reference_street_path(self) -> str:
         """Gets the abs path of ref streets."""
         relpath = self.__config.get("wsgi", "reference_street").strip()
-        return self.get_abspath(relpath)
+        return os.path.join(self.root, relpath)
 
     def get_reference_citycounts_path(self) -> str:
         """Gets the abs path of ref citycounts."""
         relpath = self.__config.get("wsgi", "reference_citycounts").strip()
-        return self.get_abspath(relpath)
+        return os.path.join(self.root, relpath)
 
     def get_uri_prefix(self) -> str:
         """Gets the global URI prefix."""
@@ -161,6 +151,22 @@ class Config:
     def get_cron_update_inactive(self) -> bool:
         """Should cron.py update inactive relations?"""
         return self.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
+
+
+class Config:
+    """Config replacement without static state."""
+    def __init__(self, prefix: str) -> None:
+        root_dir = os.path.abspath(os.path.dirname(__file__))
+        self.root = os.path.join(root_dir, prefix)
+        self.__ini = Ini(self.get_abspath("wsgi.ini"), self.root)
+        self.__file_system: FileSystem = StdFileSystem()
+        self.__network: Network = StdNetwork()
+        self.__time: Time = StdTime()
+        self.__subprocess: Subprocess = StdSubprocess()
+
+    def get_abspath(self, rel_path: str) -> str:
+        """Make a path absolute, taking the repo root as a base dir."""
+        return os.path.join(self.root, rel_path)
 
     def set_file_system(self, file_system: FileSystem) -> None:
         """Sets the file system implementation."""
@@ -193,6 +199,10 @@ class Config:
     def get_subprocess(self) -> Subprocess:
         """Gets the subprocess implementation."""
         return self.__subprocess
+
+    def get_ini(self) -> Ini:
+        """Gets the ini file."""
+        return self.__ini
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
