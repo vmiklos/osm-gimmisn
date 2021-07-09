@@ -10,6 +10,7 @@ from typing import Any
 from typing import Dict
 import calendar
 import datetime
+import os
 import unittest
 
 import test_config
@@ -254,6 +255,31 @@ class TestGetPreviousMonth(unittest.TestCase):
 
         expected = datetime.date(2020, 3, 31)
         self.assertEqual(actual, expected)
+
+
+class TestGetTopcities(unittest.TestCase):
+    """Tests get_topcities()."""
+    def test_old_missing(self) -> None:
+        """Tests the case when the old path is missing."""
+        conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
+        file_system = test_config.TestFileSystem()
+        src_root = conf.get_abspath("workdir/stats")
+        file_system.set_hide_paths([os.path.join(src_root, "2020-04-10.citycount")])
+        conf.set_file_system(file_system)
+        ret = stats.get_topcities(conf, src_root)
+        self.assertEqual(ret, [])
+
+    def test_new_missing(self) -> None:
+        """Tests the case when the new path is missing."""
+        conf = test_config.make_test_config()
+        conf.set_time(test_config.make_test_time())
+        file_system = test_config.TestFileSystem()
+        src_root = conf.get_abspath("workdir/stats")
+        file_system.set_hide_paths([os.path.join(src_root, "2020-05-10.citycount")])
+        conf.set_file_system(file_system)
+        ret = stats.get_topcities(conf, src_root)
+        self.assertEqual(ret, [])
 
 
 if __name__ == '__main__':
