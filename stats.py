@@ -58,7 +58,7 @@ def get_topcities(conf: config.Config, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
-    ret = []
+    ret: List[Tuple[str, int]] = []
     new_day = datetime.date.fromtimestamp(conf.get_time().now()).strftime("%Y-%m-%d")
     day_delta = datetime.date.fromtimestamp(conf.get_time().now()) - datetime.timedelta(days=30)
     old_day = day_delta.strftime("%Y-%m-%d")
@@ -66,6 +66,8 @@ def get_topcities(conf: config.Config, src_root: str) -> List[Tuple[str, int]]:
     counts: List[Tuple[str, int]] = []
 
     old_count_path = os.path.join(src_root, "%s.citycount" % old_day)
+    if not conf.get_file_system().path_exists(old_count_path):
+        return ret
     with open(old_count_path, "r") as stream:
         for line in stream.readlines():
             line = line.strip()
@@ -74,6 +76,8 @@ def get_topcities(conf: config.Config, src_root: str) -> List[Tuple[str, int]]:
                 old_counts[city] = int(count)
 
     new_count_path = os.path.join(src_root, "%s.citycount" % new_day)
+    if not conf.get_file_system().path_exists(new_count_path):
+        return ret
     with open(new_count_path, "r") as stream:
         for line in stream.readlines():
             line = line.strip()
