@@ -12,7 +12,6 @@ from typing import Container
 from typing import Dict
 from typing import Iterable
 from typing import List
-from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
@@ -26,8 +25,6 @@ import urllib.error
 import urllib.parse
 import xml.etree.ElementTree as ET
 import xmlrpc.client
-
-import yattag
 
 import test_config
 
@@ -276,22 +273,53 @@ Tűzkő utca	[1], [2]"""
 
     def test_view_result_chkl_even_odd_split(self) -> None:
         """Tests the chkl output (even-odd streets)."""
-        def mock_format_even_odd(_only_in_ref: List[str], doc: Optional[yattag.doc.Doc]) -> List[str]:
-            assert doc is None
-            return ["1, 3", "2, 4"]
-
-        def mock_get_chkl_split_limit() -> int:
-            return 1
-
-        with unittest.mock.patch("util.format_even_odd", mock_format_even_odd):
-            with unittest.mock.patch("wsgi.get_chkl_split_limit", mock_get_chkl_split_limit):
-                result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
-                expected = """[ ] Hamzsabégi út [1]
-[ ] Törökugrató utca [1, 3]
-[ ] Törökugrató utca [2, 4]
-[ ] Tűzkő utca [1, 3]
-[ ] Tűzkő utca [2, 4]"""
-                self.assertEqual(result, expected)
+        hoursnumbers_ref = """Hamzsabégi út	1
+Ref Name 1	1
+Ref Name 1	2
+Törökugrató utca	1	comment
+Törökugrató utca	10
+Törökugrató utca	11
+Törökugrató utca	12
+Törökugrató utca	2
+Törökugrató utca	7
+Tűzkő utca	1
+Tűzkő utca	2
+Tűzkő utca	9
+Tűzkő utca	10
+Tűzkő utca	12
+Tűzkő utca	13
+Tűzkő utca	14
+Tűzkő utca	15
+Tűzkő utca	16
+Tűzkő utca	17
+Tűzkő utca	18
+Tűzkő utca	19
+Tűzkő utca	20
+Tűzkő utca	21
+Tűzkő utca	22
+Tűzkő utca	22
+Tűzkő utca	24
+Tűzkő utca	25
+Tűzkő utca	26
+Tűzkő utca	27
+Tűzkő utca	28
+Tűzkő utca	29
+Tűzkő utca	30
+Tűzkő utca	31
+"""
+        hoursnumbers_ref_value = io.BytesIO()
+        hoursnumbers_ref_value.write(hoursnumbers_ref.encode("utf-8"))
+        hoursnumbers_ref_value.seek(0)
+        file_system = test_config.TestFileSystem()
+        hoursnumbers_ref_path = self.conf.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst")
+        file_system.set_files({hoursnumbers_ref_path: hoursnumbers_ref_value})
+        self.conf.set_file_system(file_system)
+        result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
+        expected = """[ ] Hamzsabégi út [1]
+[ ] Törökugrató utca [7], [10]
+[ ] Tűzkő utca [1, 13, 15, 17, 19, 21, 25, 27, 29, 31]
+[ ] Tűzkő utca [2, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]"""
+        self.assertEqual(result, expected)
 
     def test_view_result_chkl_no_osm_streets_hn(self) -> None:
         """Tests the chkl output, no osm streets/hn case."""

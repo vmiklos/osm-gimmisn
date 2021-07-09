@@ -228,6 +228,7 @@ class RelationBase:
         # osm street name -> house number list map, so we don't have to read the on-disk list of the
         # relation again and again for each street.
         self.__osm_housenumbers: Dict[str, List[util.HouseNumber]] = {}
+        self.conf = conf
 
     def get_name(self) -> str:
         """Gets the name of the relation."""
@@ -411,7 +412,7 @@ class RelationBase:
                 lst += self.build_ref_housenumbers(memory_cache, street, suffix)
 
         lst = sorted(set(lst))
-        with self.get_files().get_ref_housenumbers_stream("wb") as sock:
+        with self.get_files().get_ref_housenumbers_stream(self.conf, "wb") as sock:
             for line in lst:
                 sock.write(util.to_bytes(line + "\n"))
 
@@ -433,7 +434,7 @@ class RelationBase:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         ret: Dict[str, List[util.HouseNumber]] = {}
         lines: Dict[str, List[str]] = {}
-        with self.get_files().get_ref_housenumbers_stream("rb") as sock:
+        with self.get_files().get_ref_housenumbers_stream(self.conf, "rb") as sock:
             for line_bytes in sock.readlines():
                 line = util.from_bytes(line_bytes)
                 line = line.strip()
