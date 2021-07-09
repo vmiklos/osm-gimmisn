@@ -283,7 +283,7 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
 
     # Fetch house numbers for the whole country.
     info("update_stats: start, updating whole-country csv")
-    query = util.get_content(conf.get_abspath("data/street-housenumbers-hungary.txt")).decode("utf-8")
+    query = util.from_bytes(util.get_content(conf.get_abspath("data/street-housenumbers-hungary.txt")))
     statedir = conf.get_abspath("workdir/stats")
     os.makedirs(statedir, exist_ok=True)
     today = time.strftime("%Y-%m-%d")
@@ -300,8 +300,8 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
             if err:
                 info("update_stats: http error: %s", err)
                 continue
-            with open(csv_path, "w") as stream:
-                stream.write(response)
+            with open(csv_path, "wb") as stream:
+                stream.write(util.to_bytes(response))
             break
 
     update_stats_count(conf, today)
@@ -318,7 +318,7 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
 
     info("update_stats: generating json")
     json_path = os.path.join(statedir, "stats.json")
-    with open(json_path, "w") as stream:
+    with open(json_path, "wb") as stream:
         stats.generate_json(conf, statedir, stream)
 
     info("update_stats: end")

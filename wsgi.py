@@ -327,8 +327,8 @@ def handle_missing_housenumbers(conf: config.Config, relations: areas.Relations,
         doc.asis(missing_housenumbers_view_turbo(relations, request_uri).getvalue())
     elif action == "view-query":
         with doc.tag("pre"):
-            with relation.get_files().get_ref_housenumbers_stream("r") as sock:
-                doc.text(sock.read())
+            with relation.get_files().get_ref_housenumbers_stream("rb") as sock:
+                doc.text(util.from_bytes(sock.read()))
         date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
     elif action == "update-result":
         doc.asis(missing_housenumbers_update(conf, relations, relation_name).getvalue())

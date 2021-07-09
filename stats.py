@@ -8,9 +8,9 @@
 """The stats module creates statistics about missing / non-missing house numbers."""
 
 from typing import Any
+from typing import BinaryIO
 from typing import Dict
 from typing import List
-from typing import TextIO
 from typing import Tuple
 import datetime
 import json
@@ -18,6 +18,7 @@ import os
 import time
 
 import config
+import util
 
 
 def handle_progress(conf: config.Config, src_root: str, j: Dict[str, Any]) -> None:
@@ -209,7 +210,7 @@ def handle_monthly_total(conf: config.Config, src_root: str, j: Dict[str, Any], 
     j["monthlytotal"] = ret
 
 
-def generate_json(conf: config.Config, state_dir: str, stream: TextIO) -> None:
+def generate_json(conf: config.Config, state_dir: str, stream: BinaryIO) -> None:
     """Generates the stats json and writes it to `stream`."""
     j: Dict[str, Any] = {}
     handle_progress(conf, state_dir, j)
@@ -220,7 +221,7 @@ def generate_json(conf: config.Config, state_dir: str, stream: TextIO) -> None:
     handle_daily_total(conf, state_dir, j)
     handle_monthly_new(conf, state_dir, j)
     handle_monthly_total(conf, state_dir, j)
-    stream.write(json.dumps(j))
+    stream.write(util.to_bytes(json.dumps(j)))
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
