@@ -44,7 +44,7 @@ def main(conf: config.Config) -> None:
     # pylint: disable=protected-access
     server = cherrypy._cpserver.Server()
     server.socket_host = "127.0.0.1"
-    server.socket_port = conf.get_tcp_port()
+    server.socket_port = conf.get_ini().get_tcp_port()
     server.thread_pool = 8
     server.subscribe()
     cherrypy.engine.start()

@@ -57,7 +57,7 @@ class TestWsgi(unittest.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        prefix = self.conf.get_uri_prefix()
+        prefix = self.conf.get_ini().get_uri_prefix()
         if not absolute:
             path = prefix + path
         self.environ["PATH_INFO"] = path
@@ -87,7 +87,7 @@ class TestWsgi(unittest.TestCase):
             else:
                 self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
 
-        prefix = self.conf.get_uri_prefix()
+        prefix = self.conf.get_ini().get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }
@@ -106,7 +106,7 @@ class TestWsgi(unittest.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/css; charset=utf-8")
 
-        prefix = self.conf.get_uri_prefix()
+        prefix = self.conf.get_ini().get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }
@@ -399,7 +399,7 @@ Tűzkő utca	31
         """Tests if the update-result output links back to the correct page."""
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/update-result")
         conf = test_config.make_test_config()
-        prefix = conf.get_uri_prefix()
+        prefix = conf.get_ini().get_uri_prefix()
         results = root.findall("body/a[@href='" + prefix + "/missing-housenumbers/gazdagret/view-result']")
         self.assertEqual(len(results), 1)
 
@@ -410,7 +410,7 @@ class TestStreetHousenumbers(TestWsgi):
         """Tests view result: the update-result link."""
         conf = test_config.make_test_config()
         root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
-        uri = conf.get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
+        uri = conf.get_ini().get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
         results = root.findall("body/div[@id='toolbar']/a[@href='" + uri + "']")
         self.assertTrue(results)
 

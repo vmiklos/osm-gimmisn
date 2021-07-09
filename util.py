@@ -845,7 +845,7 @@ def get_valid_settlements(conf: config.Config) -> Set[str]:
     """Builds a set of valid settlement names."""
     settlements: Set[str] = set()
 
-    with open(conf.get_reference_citycounts_path(), "r") as stream:
+    with open(conf.get_ini().get_reference_citycounts_path(), "r") as stream:
         first = True
         for line in stream.readlines():
             if first:

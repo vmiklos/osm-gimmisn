@@ -218,7 +218,7 @@ class RelationBase:
         self.__conf = conf
         self.__name = name
         my_config: Dict[str, Any] = {}
-        self.__file = area_files.RelationFiles(conf.get_abspath("data"), conf.get_workdir(), name)
+        self.__file = area_files.RelationFiles(conf.get_abspath("data"), conf.get_ini().get_workdir(), name)
         relation_path = "relation-%s.yaml" % name
         # Intentionally don't require this cache to be present, it's fine to omit it for simple
         # relations.
@@ -713,7 +713,7 @@ class Relation(RelationBase):
 class Relations:
     """A relations object is a container of named relation objects."""
     def __init__(self, conf: config.Config) -> None:
-        self.__workdir = conf.get_workdir()
+        self.__workdir = conf.get_ini().get_workdir()
         self.__conf = conf
         with conf.get_file_system().open(os.path.join(conf.get_abspath("data"), "yamls.cache"), "rb") as stream:
             self.__yaml_cache: Dict[str, Any] = json.load(stream)
