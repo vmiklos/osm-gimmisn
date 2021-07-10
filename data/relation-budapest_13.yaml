@@ -18,6 +18,12 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '28', end: '34'}
+  Gogol utca:
+    # 19 = Visegrádi utca 60
+    invalid: ['19']
+    ranges:
+      - {start: '1', end: '31'}
+      - {start: '2', end: '40'}
 osm-street-filters:
   # nem igazi utcák
   - Árpád híd
