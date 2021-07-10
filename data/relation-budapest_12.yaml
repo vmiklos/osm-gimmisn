@@ -381,6 +381,9 @@ filters:
   Kikelet utca:
     # 11-59, 14-54
     invalid: ['1', '5', '4', '6', '8', '10']
+  Ada utca:
+    # 1-13, 2-20
+    invalid: ['25']
 street-filters:
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
   - Orgona ösvény
