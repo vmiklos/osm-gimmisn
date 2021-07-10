@@ -184,7 +184,7 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 # Make sure that the current directory is *not* the repo root but something else to catch
 # non-absolute paths.
 run: all
-	cd $(HOME) && $(PWD)/wsgi.py
+	cd $(HOME) && $(PWD)/cherry.py
 
 deploy:
 ifeq (,$(wildcard ./deploy.sh))

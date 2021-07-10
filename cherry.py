@@ -32,9 +32,6 @@ def main(conf: config.Config) -> None:
     ProxyPreserveHost On
     ProxyPass / http://127.0.0.1:8000/
     ProxyPassReverse / http://127.0.0.1:8000/
-
-    While wsgiref is part of stock Python and is ideal for local development, CherryPy supports
-    automatic reloading, which is super-handy in production.
     """
     def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
         return wsgi.application(environ, start_response, conf)

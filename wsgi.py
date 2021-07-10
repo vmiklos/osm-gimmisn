@@ -8,7 +8,6 @@
 """The wsgi module contains functionality specific to the web interface."""
 
 import os
-import sys
 from typing import Any
 from typing import Callable
 from typing import Dict
@@ -17,7 +16,6 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
-import wsgiref.simple_server
 
 import yattag
 
@@ -34,9 +32,6 @@ import wsgi_json
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
     from wsgiref.types import StartResponse
-
-if sys.platform.startswith("win"):
-    import _locale
 
 
 def handle_streets(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
@@ -963,24 +958,5 @@ def application(
     except Exception:
         return webframe.handle_exception(environ, start_response)
 
-
-def main(conf: config.Config) -> None:
-    """Commandline interface to this module."""
-    if sys.platform.startswith("win"):
-        # pylint: disable=protected-access
-        _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
-
-    def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
-        return application(environ, start_response, conf)
-
-    port = conf.get_ini().get_tcp_port()
-    prefix = conf.get_ini().get_uri_prefix()
-    httpd = wsgiref.simple_server.make_server('', port, app)
-    print("Open <http://localhost:" + str(port) + prefix + "/> in your browser.")
-    httpd.serve_forever()
-
-
-if __name__ == "__main__":
-    main(config.Config(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
