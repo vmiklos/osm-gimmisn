@@ -77,7 +77,7 @@ class TestCheckTopEditedRelations(unittest.TestCase):
         conf.set_time(test_config.make_test_time())
         with unittest.mock.patch('stats.get_topcities', mock_get_topcities):
             frequent_relations: Set[str] = {"foo", "bar"}
-            parse_access_log.check_top_edited_relations(conf, frequent_relations, conf.get_ini().get_workdir())
+            parse_access_log.check_top_edited_relations(conf, frequent_relations)
             self.assertIn("foo", frequent_relations)
             self.assertIn("city1", frequent_relations)
             self.assertIn("city2", frequent_relations)
