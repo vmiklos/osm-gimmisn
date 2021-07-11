@@ -10,14 +10,13 @@ from typing import List
 import io
 import os
 import unittest
-import unittest.mock
 import urllib.error
 
 import yattag
 
 import test_config
 
-import config
+import i18n
 import util
 
 
@@ -199,21 +198,19 @@ class TestSetupLocalization(unittest.TestCase):
     """Tests setup_localization()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        def set_language(_conf: config.Config, language: str) -> None:
-            self.assertEqual(language, "en")
-        environ = {"HTTP_ACCEPT_LANGUAGE": "en-US,el;q=0.8"}
+        environ = {"HTTP_ACCEPT_LANGUAGE": "hu,en;q=0.9,en-US;q=0.8"}
         conf = test_config.make_test_config()
-        with unittest.mock.patch('i18n.set_language', set_language):
-            util.setup_localization(environ, conf)
+        i18n.set_language(conf, "en")
+        util.setup_localization(environ, conf)
+        self.assertEqual(i18n.get_language(), "hu")
 
     def test_parse_error(self) -> None:
         """Tests the error path."""
-        def set_language(_language: str) -> None:
-            self.fail("unexpected call")
         environ = {"HTTP_ACCEPT_LANGUAGE": ","}
         conf = test_config.make_test_config()
-        with unittest.mock.patch('i18n.set_language', set_language):
-            util.setup_localization(environ, conf)
+        i18n.set_language(conf, "en")
+        util.setup_localization(environ, conf)
+        self.assertEqual(i18n.get_language(), "en")
 
 
 class TestGenLink(unittest.TestCase):
