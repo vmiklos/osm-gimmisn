@@ -384,6 +384,11 @@ filters:
   Ada utca:
     # 1-13, 2-20
     invalid: ['25']
+  Csipke út:
+    # 500-700 is invalid
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '26'}
 street-filters:
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
   - Orgona ösvény
