@@ -3,7 +3,6 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_areas.py \
 	tests/test_cache.py \
 	tests/test_cache_yamls.py \
-	tests/test_cherry.py \
 	tests/test_config.py \
 	tests/test_cron.py \
 	tests/test_i18n.py \
@@ -26,7 +25,6 @@ PYTHON_SAFE_OBJECTS = \
 	areas.py \
 	cache.py \
 	cache_yamls.py \
-	cherry.py \
 	config.py \
 	cron.py \
 	i18n.py \
@@ -45,6 +43,7 @@ PYTHON_SAFE_OBJECTS = \
 
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \
+	cherry.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
