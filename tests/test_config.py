@@ -16,6 +16,7 @@ import calendar
 import datetime
 import io
 import os
+import unittest
 
 import config
 
@@ -136,3 +137,11 @@ class TestSubprocess(config.Subprocess):
 def make_test_time() -> config.Time:
     """Generates unix timestamp for 2020-05-10."""
     return TestTime(calendar.timegm(datetime.date(2020, 5, 10).timetuple()))
+
+
+class TestIniGetTcpPort(unittest.TestCase):
+    """Tests Ini.get_tcp_port()."""
+    def test_happy(self) -> None:
+        """Tests the happy path."""
+        conf = make_test_config()
+        self.assertEqual(conf.get_ini().get_tcp_port(), 8000)
