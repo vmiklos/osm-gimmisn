@@ -6,6 +6,7 @@
 
 """The test_cron module covers the cron module."""
 
+from typing import cast
 from typing import Any
 from typing import List
 import os
@@ -25,39 +26,40 @@ class TestOverpassSleep(unittest.TestCase):
     """Tests overpass_sleep()."""
     def test_no_sleep(self) -> None:
         """Tests the case when no sleep is needed."""
-        def mock_overpass_query_need_sleep(_conf: context.Context) -> int:
-            return 0
-        mock_sleep_called = False
-
-        def mock_sleep(_seconds: float) -> None:
-            nonlocal mock_sleep_called
-            mock_sleep_called = True
         ctx = test_context.make_test_context()
-        with unittest.mock.patch('overpass_query.overpass_query_need_sleep', mock_overpass_query_need_sleep):
-            with unittest.mock.patch('time.sleep', mock_sleep):
-                cron.overpass_sleep(ctx)
-                self.assertFalse(mock_sleep_called)
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt")
+        ]
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        ctx.set_time(test_context.make_test_time())
+
+        cron.overpass_sleep(ctx)
+
+        test_time = cast(test_context.TestTime, ctx.get_time())
+        self.assertEqual(test_time.get_sleep(), 0)
 
     def test_need_sleep(self) -> None:
         """Tests the case when sleep is needed."""
-        sleep_for = 42
-
-        def mock_overpass_query_need_sleep(_conf: context.Context) -> int:
-            nonlocal sleep_for
-            if sleep_for > 0:
-                sleep_for = 0
-                return 42
-            return sleep_for
-        captured_seconds = 0.0
-
-        def mock_sleep(seconds: float) -> None:
-            nonlocal captured_seconds
-            captured_seconds = seconds
         ctx = test_context.make_test_context()
-        with unittest.mock.patch('overpass_query.overpass_query_need_sleep', mock_overpass_query_need_sleep):
-            with unittest.mock.patch('time.sleep', mock_sleep):
-                cron.overpass_sleep(ctx)
-                self.assertEqual(captured_seconds, 42.0)
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-wait.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt")
+        ]
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        ctx.set_time(test_context.make_test_time())
+
+        cron.overpass_sleep(ctx)
+
+        test_time = cast(test_context.TestTime, ctx.get_time())
+        self.assertEqual(test_time.get_sleep(), 12)
 
 
 class TestUpdateRefHousenumbers(unittest.TestCase):
@@ -350,15 +352,21 @@ class TestUpdateStats(unittest.TestCase):
         """Tests the case when we don't call overpass."""
         ctx = test_context.make_test_context()
         ctx.set_time(test_context.make_test_time())
-        mock_overpass_sleep_called = False
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-wait.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt")
+        ]
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
 
-        def mock_overpass_sleep() -> None:
-            nonlocal mock_overpass_sleep_called
-            mock_overpass_sleep_called = True
+        cron.update_stats(ctx, overpass=False)
 
-        with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            cron.update_stats(ctx, overpass=False)
-        self.assertFalse(mock_overpass_sleep_called)
+        test_time = cast(test_context.TestTime, ctx.get_time())
+        self.assertEqual(test_time.get_sleep(), 0)
 
 
 class TestOurMain(unittest.TestCase):

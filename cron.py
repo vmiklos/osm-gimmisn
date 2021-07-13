@@ -51,7 +51,7 @@ def overpass_sleep(ctx: context.Context) -> None:
         if not sleep:
             break
         info("overpass_sleep: waiting for %s seconds", sleep)
-        time.sleep(sleep)
+        ctx.get_time().sleep(sleep)
 
 
 def should_retry(retry: int) -> bool:
