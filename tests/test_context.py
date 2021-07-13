@@ -98,6 +98,8 @@ class TestNetwork(context.Network):
             if not route.result_path:
                 return (bytes(), "empty result_path for url '" + url + "'")
             with open(route.result_path, "rb") as stream:
+                # Allow specifying multiple results for the same URL.
+                self.__routes.remove(route)
                 return (stream.read(), str())
 
         return (bytes(), "url missing from route list: '" + url + "'")
@@ -107,9 +109,17 @@ class TestTime(context.Time):
     """Time implementation, for test purposes."""
     def __init__(self, now: float) -> None:
         self.__now = now
+        self.__sleep: float = 0
 
     def now(self) -> float:
         return self.__now
+
+    def sleep(self, seconds: float) -> None:
+        self.__sleep = seconds
+
+    def get_sleep(self) -> float:
+        """Gets the duration of the last sleep."""
+        return self.__sleep
 
 
 class TestSubprocess(context.Subprocess):

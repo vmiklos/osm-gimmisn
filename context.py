@@ -84,12 +84,21 @@ class Time:
         # pylint: disable=unused-argument
         ...
 
+    def sleep(self, seconds: float) -> None:  # pragma: no cover
+        """Delay execution for a given number of seconds."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
 
 class StdTime(Time):
     """Time implementation, backed by the Python stdlib, i.e. intentionally not tested."""
     def now(self) -> float:  # pragma: no cover
         # time.time() would use the current TZ, not GMT.
         return calendar.timegm(time.localtime())
+
+    def sleep(self, seconds: float) -> None:  # pragma: no cover
+        time.sleep(seconds)
 
 
 class Subprocess:
