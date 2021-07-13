@@ -18,7 +18,7 @@ import yattag
 
 from i18n import translate as tr
 import area_files
-import config
+import context
 import ranges
 import util
 
@@ -210,15 +210,15 @@ class RelationBase:
     """A relation is a closed polygon on the map."""
     def __init__(
             self,
-            conf: config.Config,
+            ctx: context.Context,
             name: str,
             parent_config: Dict[str, Any],
             yaml_cache: Dict[str, Any]
     ) -> None:
-        self.__conf = conf
+        self.__conf = ctx
         self.__name = name
         my_config: Dict[str, Any] = {}
-        self.__file = area_files.RelationFiles(conf.get_abspath("data"), conf.get_ini().get_workdir(), name)
+        self.__file = area_files.RelationFiles(ctx.get_abspath("data"), ctx.get_ini().get_workdir(), name)
         relation_path = "relation-%s.yaml" % name
         # Intentionally don't require this cache to be present, it's fine to omit it for simple
         # relations.
@@ -228,7 +228,7 @@ class RelationBase:
         # osm street name -> house number list map, so we don't have to read the on-disk list of the
         # relation again and again for each street.
         self.__osm_housenumbers: Dict[str, List[util.HouseNumber]] = {}
-        self.conf = conf
+        self.ctx = ctx
 
     def get_name(self) -> str:
         """Gets the name of the relation."""
@@ -412,7 +412,7 @@ class RelationBase:
                 lst += self.build_ref_housenumbers(memory_cache, street, suffix)
 
         lst = sorted(set(lst))
-        with self.get_files().get_ref_housenumbers_stream(self.conf, "wb") as sock:
+        with self.get_files().get_ref_housenumbers_stream(self.ctx, "wb") as sock:
             for line in lst:
                 sock.write(util.to_bytes(line + "\n"))
 
@@ -434,7 +434,7 @@ class RelationBase:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         ret: Dict[str, List[util.HouseNumber]] = {}
         lines: Dict[str, List[str]] = {}
-        with self.get_files().get_ref_housenumbers_stream(self.conf, "rb") as sock:
+        with self.get_files().get_ref_housenumbers_stream(self.ctx, "rb") as sock:
             for line_bytes in sock.readlines():
                 line = util.from_bytes(line_bytes)
                 line = line.strip()
@@ -554,13 +554,13 @@ class Relation(RelationBase):
     """A relation extends RelationBase with additional functionality, like reverse diffing."""
     def __init__(
             self,
-            conf: config.Config,
+            ctx: context.Context,
             name: str,
             parent_config: Dict[str, Any],
             yaml_cache: Dict[str, Any]
     ) -> None:
-        RelationBase.__init__(self, conf, name, parent_config, yaml_cache)
-        self.__conf = conf
+        RelationBase.__init__(self, ctx, name, parent_config, yaml_cache)
+        self.__conf = ctx
 
     def get_street_valid(self) -> Dict[str, List[str]]:
         """Gets a street name -> valid map, which allows silencing individual false positives."""
@@ -712,10 +712,10 @@ class Relation(RelationBase):
 
 class Relations:
     """A relations object is a container of named relation objects."""
-    def __init__(self, conf: config.Config) -> None:
-        self.__workdir = conf.get_ini().get_workdir()
-        self.__conf = conf
-        with conf.get_file_system().open(os.path.join(conf.get_abspath("data"), "yamls.cache"), "rb") as stream:
+    def __init__(self, ctx: context.Context) -> None:
+        self.__workdir = ctx.get_ini().get_workdir()
+        self.__conf = ctx
+        with ctx.get_file_system().open(os.path.join(ctx.get_abspath("data"), "yamls.cache"), "rb") as stream:
             self.__yaml_cache: Dict[str, Any] = json.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]
         self.__relations: Dict[str, Relation] = {}

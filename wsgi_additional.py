@@ -14,13 +14,13 @@ import yattag
 from i18n import translate as tr
 import areas
 import cache
-import config
+import context
 import util
 import webframe
 
 
 def additional_streets_view_txt(
-    conf: config.Config,
+    ctx: context.Context,
     relations: areas.Relations,
     request_uri: str,
     chkl: bool
@@ -31,9 +31,9 @@ def additional_streets_view_txt(
     relation = relations.get_relation(relation_name)
 
     output = ""
-    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
+    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         output += tr("No existing streets")
-    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
+    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
         output += tr("No reference streets")
     else:
         streets = relation.get_additional_streets()
@@ -48,7 +48,7 @@ def additional_streets_view_txt(
 
 
 def additional_streets_view_result(
-    conf: config.Config,
+    ctx: context.Context,
     relations: areas.Relations,
     request_uri: str
 ) -> yattag.doc.Doc:
@@ -58,10 +58,10 @@ def additional_streets_view_result(
     relation = relations.get_relation(relation_name)
 
     doc = yattag.doc.Doc()
-    prefix = conf.get_ini().get_uri_prefix()
-    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
+    prefix = ctx.get_ini().get_uri_prefix()
+    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
-    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
+    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
         doc.asis(webframe.handle_no_ref_streets(prefix, relation_name).getvalue())
     else:
         # Get "only in OSM" streets.
@@ -104,7 +104,7 @@ def additional_streets_view_result(
 
 
 def additional_housenumbers_view_result(
-    conf: config.Config,
+    ctx: context.Context,
     relations: areas.Relations,
     request_uri: str
 ) -> yattag.doc.Doc:
@@ -115,15 +115,15 @@ def additional_housenumbers_view_result(
 
     doc = yattag.doc.Doc()
     relation = relations.get_relation(relation_name)
-    prefix = conf.get_ini().get_uri_prefix()
-    if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
+    prefix = ctx.get_ini().get_uri_prefix()
+    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
         doc.asis(webframe.handle_no_osm_streets(prefix, relation_name).getvalue())
-    elif not conf.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
+    elif not ctx.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
         doc.asis(webframe.handle_no_osm_housenumbers(prefix, relation_name).getvalue())
-    elif not conf.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
+    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
         doc.asis(webframe.handle_no_ref_housenumbers(prefix, relation_name).getvalue())
     else:
-        doc = cache.get_additional_housenumbers_html(conf, relation)
+        doc = cache.get_additional_housenumbers_html(ctx, relation)
     return doc
 
 

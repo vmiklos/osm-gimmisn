@@ -19,7 +19,7 @@ import sys
 import unidecode
 
 import areas
-import config
+import context
 import stats
 import util
 
@@ -53,7 +53,7 @@ def is_search_bot(line: str) -> bool:
     return False
 
 
-def get_frequent_relations(conf: config.Config, log_file: str) -> Set[str]:
+def get_frequent_relations(ctx: context.Context, log_file: str) -> Set[str]:
     """Determine the top 20%: set of frequently visited relations."""
     counts: Dict[str, int] = {}
     with open(log_file, "r") as stream:
@@ -83,7 +83,7 @@ def get_frequent_relations(conf: config.Config, log_file: str) -> Set[str]:
     count_list = sorted(counts.items(), key=lambda x: x[1], reverse=True)
 
     # Dump relations and their visit count to workdir for further inspection.
-    with open(os.path.join(conf.get_ini().get_workdir(), "frequent-relations.csv"), "w") as stream:
+    with open(os.path.join(ctx.get_ini().get_workdir(), "frequent-relations.csv"), "w") as stream:
         for item in count_list:
             stream.write("{}\t{}\n".format(item[0], item[1]))
 
@@ -94,11 +94,11 @@ def get_frequent_relations(conf: config.Config, log_file: str) -> Set[str]:
     return frequent_relations
 
 
-def get_relation_create_dates(conf: config.Config) -> Dict[str, datetime.date]:
+def get_relation_create_dates(ctx: context.Context) -> Dict[str, datetime.date]:
     """Builds a name -> create_date dictionary for relations."""
     ret: Dict[str, datetime.date] = {}
-    relations_path = conf.get_abspath("data/relations.yaml")
-    process_stdout = conf.get_subprocess().run(["git", "blame", "--line-porcelain", relations_path], env={})
+    relations_path = ctx.get_abspath("data/relations.yaml")
+    process_stdout = ctx.get_subprocess().run(["git", "blame", "--line-porcelain", relations_path], env={})
     timestamp = 0
 
     for line_bytes in process_stdout.splitlines():
@@ -116,23 +116,23 @@ def get_relation_create_dates(conf: config.Config) -> Dict[str, datetime.date]:
     return ret
 
 
-def is_relation_recently_added(conf: config.Config, create_dates: Dict[str, datetime.date], name: str) -> bool:
+def is_relation_recently_added(ctx: context.Context, create_dates: Dict[str, datetime.date], name: str) -> bool:
     """Decides if the given relation is recent, based on create_dates."""
-    today = datetime.date.fromtimestamp(conf.get_time().now())
+    today = datetime.date.fromtimestamp(ctx.get_time().now())
     month_ago = today - datetime.timedelta(days=30)
     return name in create_dates and create_dates[name] > month_ago
 
 
-def check_top_edited_relations(conf: config.Config, frequent_relations: Set[str]) -> None:
+def check_top_edited_relations(ctx: context.Context, frequent_relations: Set[str]) -> None:
     """
     Update frequent_relations based on get_topcities():
     1) The top 5 edited cities count as frequent, even if they have ~no visitors.
     2) If a relation got <5 house numbers in the last 30 days, then they are not frequent, even with
     lots of visitors.
     """
-    workdir = conf.get_ini().get_workdir()
+    workdir = ctx.get_ini().get_workdir()
     # List of 'city name' <-> '# of new house numbers' pairs.
-    topcities = stats.get_topcities(conf, os.path.join(workdir, "stats"))
+    topcities = stats.get_topcities(ctx, os.path.join(workdir, "stats"))
     topcities = [(unidecode.unidecode(city[0]), city[1]) for city in topcities]
     # Top 5: these should be frequent.
     for city in topcities[:5]:
@@ -144,15 +144,15 @@ def check_top_edited_relations(conf: config.Config, frequent_relations: Set[str]
             frequent_relations.remove(city[0])
 
 
-def main(argv: List[str], stdout: TextIO, conf: config.Config) -> None:
+def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
     """Commandline interface."""
     log_file = argv[1]
 
-    relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates(conf)
+    relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates(ctx)
 
-    relations = areas.Relations(conf)
-    frequent_relations = get_frequent_relations(conf, log_file)
-    check_top_edited_relations(conf, frequent_relations)
+    relations = areas.Relations(ctx)
+    frequent_relations = get_frequent_relations(ctx, log_file)
+    check_top_edited_relations(ctx, frequent_relations)
 
     # Now suggest what to change.
     removals = 0
@@ -163,7 +163,7 @@ def main(argv: List[str], stdout: TextIO, conf: config.Config) -> None:
         expected = relation_name in frequent_relations and not is_complete_relation(relations, relation_name)
         if actual != expected:
             if actual:
-                if not is_relation_recently_added(conf, relation_create_dates, relation_name):
+                if not is_relation_recently_added(ctx, relation_create_dates, relation_name):
                     stdout.write("data/relation-{}.yaml: set inactive: true\n".format(relation_name))
                     removals += 1
             else:
@@ -173,6 +173,6 @@ def main(argv: List[str], stdout: TextIO, conf: config.Config) -> None:
 
 
 if __name__ == '__main__':
-    main(sys.argv, sys.stdout, config.Config(""))
+    main(sys.argv, sys.stdout, context.Context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

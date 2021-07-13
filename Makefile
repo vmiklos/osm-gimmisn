@@ -3,7 +3,7 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_areas.py \
 	tests/test_cache.py \
 	tests/test_cache_yamls.py \
-	tests/test_config.py \
+	tests/test_context.py \
 	tests/test_cron.py \
 	tests/test_i18n.py \
 	tests/test_missing_housenumbers.py \
@@ -25,7 +25,7 @@ PYTHON_SAFE_OBJECTS = \
 	areas.py \
 	cache.py \
 	cache_yamls.py \
-	config.py \
+	context.py \
 	cron.py \
 	i18n.py \
 	missing_housenumbers.py \

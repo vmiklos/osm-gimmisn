@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 from typing import Tuple
 
 import areas
-import config
+import context
 import overpass_query
 import webframe
 
@@ -25,14 +25,14 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def streets_update_result_json(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
+def streets_update_result_json(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
     query = relation.get_osm_streets_query()
     ret: Dict[str, str] = {}
-    buf, err = overpass_query.overpass_query(conf, query)
+    buf, err = overpass_query.overpass_query(ctx, query)
     if err:
         ret["error"] = err
     else:
@@ -41,14 +41,14 @@ def streets_update_result_json(conf: config.Config, relations: areas.Relations, 
     return json.dumps(ret)
 
 
-def street_housenumbers_update_result_json(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
+def street_housenumbers_update_result_json(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
     query = relation.get_osm_housenumbers_query()
     ret: Dict[str, str] = {}
-    buf, err = overpass_query.overpass_query(conf, query)
+    buf, err = overpass_query.overpass_query(ctx, query)
     if err:
         ret["error"] = err
     else:
@@ -57,11 +57,11 @@ def street_housenumbers_update_result_json(conf: config.Config, relations: areas
     return json.dumps(ret)
 
 
-def missing_housenumbers_update_result_json(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
+def missing_housenumbers_update_result_json(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
-    references = conf.get_ini().get_reference_housenumber_paths()
+    references = ctx.get_ini().get_reference_housenumber_paths()
     relation = relations.get_relation(relation_name)
     ret: Dict[str, str] = {}
     relation.write_ref_housenumbers(references)
@@ -69,11 +69,11 @@ def missing_housenumbers_update_result_json(conf: config.Config, relations: area
     return json.dumps(ret)
 
 
-def missing_streets_update_result_json(conf: config.Config, relations: areas.Relations, request_uri: str) -> str:
+def missing_streets_update_result_json(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
-    reference = conf.get_ini().get_reference_street_path()
+    reference = ctx.get_ini().get_reference_street_path()
     relation = relations.get_relation(relation_name)
     ret: Dict[str, str] = {}
     relation.write_ref_streets(reference)
@@ -84,23 +84,23 @@ def missing_streets_update_result_json(conf: config.Config, relations: areas.Rel
 def our_application_json(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
-        conf: config.Config,
+        ctx: context.Context,
         relations: areas.Relations,
         request_uri: str
 ) -> Iterable[bytes]:
     """Dispatches json requests based on their URIs."""
     content_type = "application/json"
     headers: List[Tuple[str, str]] = []
-    prefix = conf.get_ini().get_uri_prefix()
+    prefix = ctx.get_ini().get_uri_prefix()
     if request_uri.startswith(prefix + "/streets/"):
-        output = streets_update_result_json(conf, relations, request_uri)
+        output = streets_update_result_json(ctx, relations, request_uri)
     elif request_uri.startswith(prefix + "/street-housenumbers/"):
-        output = street_housenumbers_update_result_json(conf, relations, request_uri)
+        output = street_housenumbers_update_result_json(ctx, relations, request_uri)
     elif request_uri.startswith(prefix + "/missing-housenumbers/"):
-        output = missing_housenumbers_update_result_json(conf, relations, request_uri)
+        output = missing_housenumbers_update_result_json(ctx, relations, request_uri)
     else:
         # Assume that request_uri starts with prefix + "/missing-streets/".
-        output = missing_streets_update_result_json(conf, relations, request_uri)
+        output = missing_streets_update_result_json(ctx, relations, request_uri)
     output_bytes = output.encode("utf-8")
     response = webframe.Response(content_type, "200 OK", output_bytes, headers)
     return webframe.send_response(environ, start_response, response)

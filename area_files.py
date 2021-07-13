@@ -10,7 +10,7 @@ import os
 from typing import BinaryIO
 from typing import cast
 
-import config
+import context
 import i18n
 import util
 
@@ -92,9 +92,9 @@ class RelationFiles(RelationFilePaths):
         """Gets a CSV reader for the OSM house number list."""
         return util.CsvIO(self.__get_osm_housenumbers_stream("rb"))
 
-    def get_ref_housenumbers_stream(self, conf: config.Config, mode: str) -> BinaryIO:
+    def get_ref_housenumbers_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
         """Opens the reference house number list of a relation."""
-        return conf.get_file_system().open(self.get_ref_housenumbers_path(), mode=mode)
+        return ctx.get_file_system().open(self.get_ref_housenumbers_path(), mode=mode)
 
     def get_housenumbers_percent_stream(self, mode: str) -> BinaryIO:
         """Opens the house number percent file of a relation."""

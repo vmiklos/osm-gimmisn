@@ -13,10 +13,10 @@ import time
 import unittest
 import unittest.mock
 
-import test_config
+import test_context
 
 import areas
-import config
+import context
 import cron
 import util
 
@@ -25,24 +25,24 @@ class TestOverpassSleep(unittest.TestCase):
     """Tests overpass_sleep()."""
     def test_no_sleep(self) -> None:
         """Tests the case when no sleep is needed."""
-        def mock_overpass_query_need_sleep(_conf: config.Config) -> int:
+        def mock_overpass_query_need_sleep(_conf: context.Context) -> int:
             return 0
         mock_sleep_called = False
 
         def mock_sleep(_seconds: float) -> None:
             nonlocal mock_sleep_called
             mock_sleep_called = True
-        conf = test_config.make_test_config()
+        ctx = test_context.make_test_context()
         with unittest.mock.patch('overpass_query.overpass_query_need_sleep', mock_overpass_query_need_sleep):
             with unittest.mock.patch('time.sleep', mock_sleep):
-                cron.overpass_sleep(conf)
+                cron.overpass_sleep(ctx)
                 self.assertFalse(mock_sleep_called)
 
     def test_need_sleep(self) -> None:
         """Tests the case when sleep is needed."""
         sleep_for = 42
 
-        def mock_overpass_query_need_sleep(_conf: config.Config) -> int:
+        def mock_overpass_query_need_sleep(_conf: context.Context) -> int:
             nonlocal sleep_for
             if sleep_for > 0:
                 sleep_for = 0
@@ -53,10 +53,10 @@ class TestOverpassSleep(unittest.TestCase):
         def mock_sleep(seconds: float) -> None:
             nonlocal captured_seconds
             captured_seconds = seconds
-        conf = test_config.make_test_config()
+        ctx = test_context.make_test_context()
         with unittest.mock.patch('overpass_query.overpass_query_need_sleep', mock_overpass_query_need_sleep):
             with unittest.mock.patch('time.sleep', mock_sleep):
-                cron.overpass_sleep(conf)
+                cron.overpass_sleep(ctx)
                 self.assertEqual(captured_seconds, 42.0)
 
 
@@ -64,17 +64,17 @@ class TestUpdateRefHousenumbers(unittest.TestCase):
     """Tests update_ref_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name not in ("gazdagret", "ujbuda"):
                 relations.get_relation(relation_name).get_config().set_active(False)
         path = os.path.join(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_ref_housenumbers(conf, relations, update=True)
+        cron.update_ref_housenumbers(ctx, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_ref_housenumbers(conf, relations, update=False)
+        cron.update_ref_housenumbers(ctx, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
@@ -87,8 +87,8 @@ class TestUpdateRefStreets(unittest.TestCase):
     """Tests update_ref_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -96,9 +96,9 @@ class TestUpdateRefStreets(unittest.TestCase):
         path = os.path.join(relations.get_workdir(), "streets-reference-gazdagret.lst")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_ref_streets(conf, relations, update=True)
+        cron.update_ref_streets(ctx, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_ref_streets(conf, relations, update=False)
+        cron.update_ref_streets(ctx, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
@@ -111,8 +111,8 @@ class TestUpdateMissingHousenumbers(unittest.TestCase):
     """Tests update_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             # ujbuda is streets=only
             if relation_name not in ("gazdagret", "ujbuda"):
@@ -120,9 +120,9 @@ class TestUpdateMissingHousenumbers(unittest.TestCase):
         path = os.path.join(relations.get_workdir(), "gazdagret.percent")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_missing_housenumbers(conf, relations, update=True)
+        cron.update_missing_housenumbers(ctx, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_missing_housenumbers(conf, relations, update=False)
+        cron.update_missing_housenumbers(ctx, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
@@ -134,8 +134,8 @@ class TestUpdateMissingStreets(unittest.TestCase):
     """Tests update_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -143,9 +143,9 @@ class TestUpdateMissingStreets(unittest.TestCase):
         path = os.path.join(relations.get_workdir(), "gazdagret-streets.percent")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_missing_streets(conf, relations, update=True)
+        cron.update_missing_streets(ctx, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_missing_streets(conf, relations, update=False)
+        cron.update_missing_streets(ctx, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
@@ -157,8 +157,8 @@ class TestUpdateAdditionalStreets(unittest.TestCase):
     """Tests update_additional_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -168,9 +168,9 @@ class TestUpdateAdditionalStreets(unittest.TestCase):
         if os.path.exists(path):
             util.get_content(path)
             os.unlink(path)
-        cron.update_additional_streets(conf, relations, update=True)
+        cron.update_additional_streets(ctx, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_additional_streets(conf, relations, update=False)
+        cron.update_additional_streets(ctx, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path).decode("utf-8")
         self.assertEqual(actual, expected)
@@ -182,50 +182,50 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
     """Tests update_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/status",
-                                 data_path="",
-                                 result_path="tests/network/overpass-status-happy.txt"),
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path="tests/network/overpass-housenumbers-gazdagret.csv"),
+        ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-housenumbers-gazdagret.csv"),
         ]
-        network = test_config.TestNetwork(routes)
-        conf.set_network(network)
-        relations = areas.Relations(conf)
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relations.get_relation(relation_name).get_config().set_active(False)
         path = os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         expected = util.get_content(path)
         os.unlink(path)
-        cron.update_osm_housenumbers(conf, relations, update=True)
+        cron.update_osm_housenumbers(ctx, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_osm_housenumbers(conf, relations, update=False)
+        cron.update_osm_housenumbers(ctx, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(path)
         self.assertEqual(actual, expected)
 
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
-        conf = test_config.make_test_config()
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/status",
-                                 data_path="",
-                                 result_path="tests/network/overpass-status-happy.txt"),
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path=""),
+        ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path=""),
         ]
-        network = test_config.TestNetwork(routes)
-        conf.set_network(network)
-        relations = areas.Relations(conf)
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relations.get_relation(relation_name).get_config().set_active(False)
         expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
-        cron.update_osm_housenumbers(conf, relations, update=True)
+        cron.update_osm_housenumbers(ctx, relations, update=True)
         # Make sure that in case we keep getting errors we give up at some stage and
         # leave the last state unchanged.
         actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
@@ -236,50 +236,50 @@ class TestUpdateOsmStreets(unittest.TestCase):
     """Tests update_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/status",
-                                 data_path="",
-                                 result_path="tests/network/overpass-status-happy.txt"),
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path="tests/network/overpass-streets-gazdagret.csv"),
+        ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-streets-gazdagret.csv"),
         ]
-        network = test_config.TestNetwork(routes)
-        conf.set_network(network)
-        relations = areas.Relations(conf)
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relations.get_relation(relation_name).get_config().set_active(False)
         expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
         path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
         os.unlink(path)
-        cron.update_osm_streets(conf, relations, update=True)
+        cron.update_osm_streets(ctx, relations, update=True)
         mtime = os.path.getmtime(path)
-        cron.update_osm_streets(conf, relations, update=False)
+        cron.update_osm_streets(ctx, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
         actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
         self.assertEqual(actual, expected)
 
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
-        conf = test_config.make_test_config()
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/status",
-                                 data_path="",
-                                 result_path="tests/network/overpass-status-happy.txt"),
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path=""),
+        ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path=""),
         ]
-        network = test_config.TestNetwork(routes)
-        conf.set_network(network)
-        relations = areas.Relations(conf)
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relations.get_relation(relation_name).get_config().set_active(False)
         expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-        cron.update_osm_streets(conf, relations, update=True)
+        cron.update_osm_streets(ctx, relations, update=True)
         # Make sure that in case we keep getting errors we give up at some stage and
         # leave the last state unchanged.
         actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
@@ -300,56 +300,56 @@ class TestUpdateStats(unittest.TestCase):
     """Tests update_stats()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        conf.set_time(test_config.make_test_time())
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/status",
-                                 data_path="",
-                                 result_path="tests/network/overpass-status-happy.txt"),
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path="tests/network/overpass-stats.csv"),
+        ctx = test_context.make_test_context()
+        ctx.set_time(test_context.make_test_time())
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-stats.csv"),
         ]
-        network = test_config.TestNetwork(routes)
-        conf.set_network(network)
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
 
         # Create a CSV that is definitely old enough to be removed.
-        old_path = conf.get_abspath("workdir/stats/old.csv")
+        old_path = ctx.get_abspath("workdir/stats/old.csv")
         create_old_file(old_path)
 
         today = time.strftime("%Y-%m-%d")
-        path = conf.get_abspath("workdir/stats/%s.csv" % today)
-        cron.update_stats(conf, overpass=True)
+        path = ctx.get_abspath("workdir/stats/%s.csv" % today)
+        cron.update_stats(ctx, overpass=True)
         actual = util.get_content(path)
         self.assertEqual(actual, util.get_content("tests/network/overpass-stats.csv"))
 
         # Make sure that the old CSV is removed.
         self.assertFalse(os.path.exists(old_path))
 
-        with open(conf.get_abspath("workdir/stats/ref.count"), "r") as stream:
+        with open(ctx.get_abspath("workdir/stats/ref.count"), "r") as stream:
             num_ref = int(stream.read().strip())
         self.assertEqual(num_ref, 300)
 
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
-        conf = test_config.make_test_config()
-        conf.set_time(test_config.make_test_time())
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/status",
-                                 data_path="",
-                                 result_path="tests/network/overpass-status-happy.txt"),
+        ctx = test_context.make_test_context()
+        ctx.set_time(test_context.make_test_time())
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
         ]
-        network = test_config.TestNetwork(routes)
-        conf.set_network(network)
-        old_mtime = conf.get_file_system().getmtime(conf.get_abspath("workdir/stats/stats.json"))
-        cron.update_stats(conf, overpass=True)
-        new_mtime = conf.get_file_system().getmtime(conf.get_abspath("workdir/stats/stats.json"))
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        old_mtime = ctx.get_file_system().getmtime(ctx.get_abspath("workdir/stats/stats.json"))
+        cron.update_stats(ctx, overpass=True)
+        new_mtime = ctx.get_file_system().getmtime(ctx.get_abspath("workdir/stats/stats.json"))
         self.assertGreater(new_mtime, old_mtime)
 
     def test_no_overpass(self) -> None:
         """Tests the case when we don't call overpass."""
-        conf = test_config.make_test_config()
-        conf.set_time(test_config.make_test_time())
+        ctx = test_context.make_test_context()
+        ctx.set_time(test_context.make_test_time())
         mock_overpass_sleep_called = False
 
         def mock_overpass_sleep() -> None:
@@ -357,7 +357,7 @@ class TestUpdateStats(unittest.TestCase):
             mock_overpass_sleep_called = True
 
         with unittest.mock.patch("cron.overpass_sleep", mock_overpass_sleep):
-            cron.update_stats(conf, overpass=False)
+            cron.update_stats(ctx, overpass=False)
         self.assertFalse(mock_overpass_sleep_called)
 
 
@@ -367,12 +367,12 @@ class TestOurMain(unittest.TestCase):
         """Tests the happy path."""
         calls = 0
 
-        def count_calls(_conf: config.Config, _relations: areas.Relation, _update: bool) -> None:
+        def count_calls(_ctx: context.Context, _relations: areas.Relation, _update: bool) -> None:
             nonlocal calls
             calls += 1
 
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         with unittest.mock.patch("cron.update_osm_streets", count_calls):
             with unittest.mock.patch("cron.update_osm_housenumbers", count_calls):
                 with unittest.mock.patch("cron.update_ref_streets", count_calls):
@@ -380,7 +380,7 @@ class TestOurMain(unittest.TestCase):
                         with unittest.mock.patch("cron.update_missing_streets", count_calls):
                             with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
                                 with unittest.mock.patch("cron.update_additional_streets", count_calls):
-                                    cron.our_main(conf, relations, mode="relations", update=True, overpass=True)
+                                    cron.our_main(ctx, relations, mode="relations", update=True, overpass=True)
 
         expected = 0
         # Consider what to update automatically: the 2 sources and the diff between them.
@@ -397,14 +397,14 @@ class TestOurMain(unittest.TestCase):
         """Tests the stats path."""
         calls = 0
 
-        def count_calls(_conf: config.Config, _overpass: bool) -> None:
+        def count_calls(_ctx: context.Context, _overpass: bool) -> None:
             nonlocal calls
             calls += 1
 
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         with unittest.mock.patch("cron.update_stats", count_calls):
-            cron.our_main(conf, relations, mode="stats", update=False, overpass=True)
+            cron.our_main(ctx, relations, mode="stats", update=False, overpass=True)
 
         self.assertEqual(calls, 1)
 
@@ -416,7 +416,7 @@ class TestMain(unittest.TestCase):
         mock_main_called = False
 
         def mock_main(
-            _conf: config.Config,
+            _ctx: context.Context,
             _relations: areas.Relation,
             _mode: str,
             _update: bool,
@@ -431,12 +431,12 @@ class TestMain(unittest.TestCase):
             nonlocal mock_info_called
             mock_info_called = True
 
-        conf = test_config.make_test_config()
+        ctx = test_context.make_test_context()
         with unittest.mock.patch("cron.our_main", mock_main):
             with unittest.mock.patch("logging.info", mock_info):
                 argv = [""]
                 with unittest.mock.patch('sys.argv', argv):
-                    cron.main(conf)
+                    cron.main(ctx)
 
         self.assertTrue(mock_main_called)
         self.assertTrue(mock_info_called)
@@ -455,13 +455,13 @@ class TestMain(unittest.TestCase):
             nonlocal mock_error_called
             mock_error_called = True
 
-        conf = test_config.make_test_config()
+        ctx = test_context.make_test_context()
         with unittest.mock.patch("cron.our_main", mock_our_main):
             with unittest.mock.patch("logging.info", mock_info):
                 with unittest.mock.patch("logging.error", mock_error):
                     argv = [""]
                     with unittest.mock.patch('sys.argv', argv):
-                        cron.main(conf)
+                        cron.main(ctx)
 
         self.assertTrue(mock_error_called)
 

@@ -26,10 +26,10 @@ import urllib.parse
 import xml.etree.ElementTree as ET
 import xmlrpc.client
 
-import test_config
+import test_context
 
 import areas
-import config
+import context
 import webframe
 import wsgi
 
@@ -43,7 +43,7 @@ class TestWsgi(unittest.TestCase):
     def __init__(self, method_name: str) -> None:
         unittest.TestCase.__init__(self, method_name)
         self.gzip_compress = False
-        self.conf = test_config.make_test_config()
+        self.ctx = test_context.make_test_context()
         self.environ: Dict[str, Any] = {}
 
     def get_dom_for_path(self, path: str, absolute: bool = False, expected_status: str = "") -> ET.Element:
@@ -57,14 +57,14 @@ class TestWsgi(unittest.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        prefix = self.conf.get_ini().get_uri_prefix()
+        prefix = self.ctx.get_ini().get_uri_prefix()
         if not absolute:
             path = prefix + path
         self.environ["PATH_INFO"] = path
         if self.gzip_compress:
             self.environ["HTTP_ACCEPT_ENCODING"] = "gzip, deflate"
         callback = cast('StartResponse', start_response)
-        output_iterable = wsgi.application(self.environ, callback, self.conf)
+        output_iterable = wsgi.application(self.environ, callback, self.ctx)
         output_list = cast(List[bytes], output_iterable)
         self.assertTrue(output_list)
         if self.gzip_compress:
@@ -87,12 +87,12 @@ class TestWsgi(unittest.TestCase):
             else:
                 self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
 
-        prefix = self.conf.get_ini().get_uri_prefix()
+        prefix = self.ctx.get_ini().get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }
         callback = cast('StartResponse', start_response)
-        output_iterable = wsgi.application(environ, callback, self.conf)
+        output_iterable = wsgi.application(environ, callback, self.ctx)
         output_list = cast(List[bytes], output_iterable)
         self.assertTrue(output_list)
         output = output_list[0].decode('utf-8')
@@ -106,12 +106,12 @@ class TestWsgi(unittest.TestCase):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/css; charset=utf-8")
 
-        prefix = self.conf.get_ini().get_uri_prefix()
+        prefix = self.ctx.get_ini().get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }
         callback = cast('StartResponse', start_response)
-        output_iterable = wsgi.application(environ, callback, self.conf)
+        output_iterable = wsgi.application(environ, callback, self.ctx)
         output_list = cast(List[bytes], output_iterable)
         self.assertTrue(output_list)
         output = output_list[0].decode('utf-8')
@@ -134,26 +134,26 @@ class TestStreets(TestWsgi):
 
     def test_update_result_well_formed(self) -> None:
         """Tests if the update-result output is well-formed."""
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path="tests/network/overpass-streets-gazdagret.csv"),
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-streets-gazdagret.csv"),
         ]
-        network = test_config.TestNetwork(routes)
-        self.conf.set_network(network)
+        network = test_context.TestNetwork(routes)
+        self.ctx.set_network(network)
         root = self.get_dom_for_path("/streets/gazdagret/update-result")
         results = root.findall("body")
         self.assertEqual(len(results), 1)
 
     def test_update_result_error_well_formed(self) -> None:
         """Tests if the update-result output on error is well-formed."""
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path=""),  # no result -> error
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path=""),  # no result -> error
         ]
-        network = test_config.TestNetwork(routes)
-        self.conf.set_network(network)
+        network = test_context.TestNetwork(routes)
+        self.ctx.set_network(network)
         root = self.get_dom_for_path("/streets/gazdagret/update-result")
         results = root.findall("body/div[@id='overpass-error']")
         self.assertTrue(results)
@@ -163,13 +163,13 @@ class TestStreets(TestWsgi):
         Tests if the update-result output is well-formed for should_check_missing_streets() ==
         "only".
         """
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path="tests/network/overpass-streets-ujbuda.csv"),
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-streets-ujbuda.csv"),
         ]
-        network = test_config.TestNetwork(routes)
-        self.conf.set_network(network)
+        network = test_context.TestNetwork(routes)
+        self.ctx.set_network(network)
         root = self.get_dom_for_path("/streets/ujbuda/update-result")
         results = root.findall("body")
         self.assertEqual(len(results), 1)
@@ -209,36 +209,36 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='no-osm-streets']")
         self.assertEqual(len(results), 1)
 
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='no-osm-housenumbers']")
         self.assertEqual(len(results), 1)
 
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='no-ref-housenumbers']")
         self.assertEqual(len(results), 1)
@@ -310,10 +310,10 @@ Tűzkő utca	31
         hoursnumbers_ref_value = io.BytesIO()
         hoursnumbers_ref_value.write(hoursnumbers_ref.encode("utf-8"))
         hoursnumbers_ref_value.seek(0)
-        file_system = test_config.TestFileSystem()
-        hoursnumbers_ref_path = self.conf.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst")
+        file_system = test_context.TestFileSystem()
+        hoursnumbers_ref_path = self.ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst")
         file_system.set_files({hoursnumbers_ref_path: hoursnumbers_ref_value})
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
         expected = """[ ] Hamzsabégi út [1]
 [ ] Törökugrató utca [7], [10]
@@ -323,16 +323,16 @@ Tűzkő utca	31
 
     def test_view_result_chkl_no_osm_streets_hn(self) -> None:
         """Tests the chkl output, no osm streets/hn case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
         self.assertEqual(result, "No existing streets")
 
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         file_system.set_hide_paths([hide_path])
@@ -341,45 +341,45 @@ Tűzkő utca	31
 
     def test_view_result_chkl_no_ref_housenumbers(self) -> None:
         """Tests the chkl output, no ref housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
         self.assertEqual(result, "No reference house numbers")
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
         self.assertEqual(result, "No existing streets")
 
     def test_view_result_txt_no_osm_housenumbers(self) -> None:
         """Tests the txt output, no osm housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
         self.assertEqual(result, "No existing house numbers")
 
     def test_view_result_txt_no_ref_housenumbers(self) -> None:
         """Tests the txt output, no ref housenumbers case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
         self.assertEqual(result, "No reference house numbers")
 
@@ -398,8 +398,8 @@ Tűzkő utca	31
     def test_update_result_link(self) -> None:
         """Tests if the update-result output links back to the correct page."""
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/update-result")
-        conf = test_config.make_test_config()
-        prefix = conf.get_ini().get_uri_prefix()
+        ctx = test_context.make_test_context()
+        prefix = ctx.get_ini().get_uri_prefix()
         results = root.findall("body/a[@href='" + prefix + "/missing-housenumbers/gazdagret/view-result']")
         self.assertEqual(len(results), 1)
 
@@ -408,9 +408,9 @@ class TestStreetHousenumbers(TestWsgi):
     """Tests handle_street_housenumbers()."""
     def test_view_result_update_result_link(self) -> None:
         """Tests view result: the update-result link."""
-        conf = test_config.make_test_config()
+        ctx = test_context.make_test_context()
         root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
-        uri = conf.get_ini().get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
+        uri = ctx.get_ini().get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
         results = root.findall("body/div[@id='toolbar']/a[@href='" + uri + "']")
         self.assertTrue(results)
 
@@ -422,38 +422,38 @@ class TestStreetHousenumbers(TestWsgi):
 
     def test_update_result_well_formed(self) -> None:
         """Tests if the update-result output is well-formed."""
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path="tests/network/overpass-housenumbers-gazdagret.csv"),
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-housenumbers-gazdagret.csv"),
         ]
-        network = test_config.TestNetwork(routes)
-        self.conf.set_network(network)
+        network = test_context.TestNetwork(routes)
+        self.ctx.set_network(network)
         root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
         results = root.findall("body")
         self.assertEqual(len(results), 1)
 
     def test_update_result_error_well_formed(self) -> None:
         """Tests if the update-result output on error is well-formed."""
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                 data_path="",
-                                 result_path=""),
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path=""),
         ]
-        network = test_config.TestNetwork(routes)
-        self.conf.set_network(network)
+        network = test_context.TestNetwork(routes)
+        self.ctx.set_network(network)
         root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
         results = root.findall("body/div[@id='overpass-error']")
         self.assertTrue(results)
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='no-osm-housenumbers']")
         self.assertEqual(len(results), 1)
@@ -481,24 +481,24 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
         results = root.findall("body/div[@id='no-osm-streets']")
         self.assertEqual(len(results), 1)
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
         results = root.findall("body/div[@id='no-ref-streets']")
         self.assertEqual(len(results), 1)
@@ -515,23 +515,23 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
         self.assertEqual(result, "No existing streets")
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
         self.assertEqual(result, "No reference streets")
 
@@ -570,9 +570,9 @@ class TestMain(TestWsgi):
         environ = {
             "PATH_INFO": ""
         }
-        conf = test_config.make_test_config()
-        relations = areas.Relations(test_config.make_test_config())
-        ret = webframe.get_request_uri(environ, conf, relations)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(test_context.make_test_context())
+        ret = webframe.get_request_uri(environ, ctx, relations)
         self.assertEqual(ret, "")
 
     def test_filter_for_incomplete_well_formed(self) -> None:
@@ -625,7 +625,7 @@ class TestMain(TestWsgi):
 
     def test_application_exception(self) -> None:
         """Tests application(), exception catching case."""
-        conf = test_config.make_test_config()
+        ctx = test_context.make_test_context()
         environ = {
             "PATH_INFO": "/"
         }
@@ -638,15 +638,15 @@ class TestMain(TestWsgi):
         def mock_application(
             environ: Dict[str, Any],
             start_response: 'StartResponse',
-            conf: config.Config
+            ctx: context.Context
         ) -> Iterable[bytes]:
             int("a")
             # Never reached.
-            return wsgi.our_application(environ, start_response, conf)
+            return wsgi.our_application(environ, start_response, ctx)
 
         with unittest.mock.patch('wsgi.our_application', mock_application):
             callback = cast('StartResponse', start_response)
-            output_iterable = wsgi.application(environ, callback, conf)
+            output_iterable = wsgi.application(environ, callback, ctx)
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
             output = output_list[0].decode('utf-8')
@@ -665,23 +665,23 @@ class TestWebhooks(TestWsgi):
         buf.write(query_string.encode('utf-8'))
         buf.seek(0)
         self.environ["wsgi.input"] = buf
-        conf = test_config.make_test_config()
-        expected_args = "make -C " + conf.get_abspath("") + " deploy"
+        ctx = test_context.make_test_context()
+        expected_args = "make -C " + ctx.get_abspath("") + " deploy"
         outputs = {
             expected_args: bytes()
         }
-        subprocess = test_config.TestSubprocess(outputs)
-        self.conf.set_subprocess(subprocess)
+        subprocess = test_context.TestSubprocess(outputs)
+        self.ctx.set_subprocess(subprocess)
         self.get_dom_for_path("/webhooks/github")
         self.assertTrue(subprocess.get_runs() != [])
 
     def test_github_branch(self) -> None:
         """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
         environ: Dict[str, BinaryIO] = {}
-        conf = test_config.make_test_config()
+        ctx = test_context.make_test_context()
         outputs: Dict[str, bytes] = {}
-        subprocess = test_config.TestSubprocess(outputs)
-        conf.set_subprocess(subprocess)
+        subprocess = test_context.TestSubprocess(outputs)
+        ctx.set_subprocess(subprocess)
         root = {"ref": "refs/heads/stable"}
         payload = json.dumps(root)
         body = {"payload": [payload]}
@@ -690,7 +690,7 @@ class TestWebhooks(TestWsgi):
         buf.write(query_string.encode('utf-8'))
         buf.seek(0)
         environ["wsgi.input"] = buf
-        webframe.handle_github_webhook(environ, conf)
+        webframe.handle_github_webhook(environ, ctx)
         self.assertEqual(subprocess.get_runs(), [])
 
 
@@ -722,8 +722,8 @@ class TestStatsCityProgress(TestWsgi):
     """Tests handle_stats_cityprogress()."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        time = test_config.TestTime(calendar.timegm(datetime.date(2019, 7, 17).timetuple()))
-        self.conf.set_time(time)
+        time = test_context.TestTime(calendar.timegm(datetime.date(2019, 7, 17).timetuple()))
+        self.ctx.set_time(time)
         root = self.get_dom_for_path("/housenumber-stats/hungary/cityprogress")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
@@ -739,12 +739,12 @@ class TestInvalidRefstreets(TestWsgi):
 
     def test_no_osm_sreets(self) -> None:
         """Tests error handling when osm street list is missing for a relation."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/housenumber-stats/hungary/invalid-relations")
         results = root.findall("body")
         self.assertNotEqual(results, [])
