@@ -13,10 +13,10 @@ import io
 import unittest
 import unittest.mock
 
-import test_config
+import test_context
 
 import areas
-import config
+import context
 import parse_access_log
 
 
@@ -26,10 +26,10 @@ class TestMain(unittest.TestCase):
         """Tests the happy path."""
         argv = ["", "tests/mock/access_log"]
         buf = io.StringIO()
-        conf = test_config.make_test_config()
-        conf.set_time(test_config.make_test_time())
-        conf.set_time(test_config.make_test_time())
-        relations_path = conf.get_abspath("data/relations.yaml")
+        ctx = test_context.make_test_context()
+        ctx.set_time(test_context.make_test_time())
+        ctx.set_time(test_context.make_test_time())
+        relations_path = ctx.get_abspath("data/relations.yaml")
         # 2020-05-09, so this will be recent
         outputs = {
             "git blame --line-porcelain " + relations_path: b"""
@@ -37,9 +37,9 @@ author-time 1588975200
 \tujbuda:
 """
         }
-        subprocess = test_config.TestSubprocess(outputs)
-        conf.set_subprocess(subprocess)
-        parse_access_log.main(argv, buf, conf)
+        subprocess = test_context.TestSubprocess(outputs)
+        ctx.set_subprocess(subprocess)
+        parse_access_log.main(argv, buf, ctx)
 
         buf.seek(0)
         actual = buf.read()
@@ -63,7 +63,7 @@ class TestCheckTopEditedRelations(unittest.TestCase):
     """Tests check_top_edited_relations()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        def mock_get_topcities(_conf: config.Config, _src_root: str) -> List[Tuple[str, int]]:
+        def mock_get_topcities(_ctx: context.Context, _src_root: str) -> List[Tuple[str, int]]:
             return [
                 ("foo", 1000),
                 ("city1", 1000),
@@ -73,11 +73,11 @@ class TestCheckTopEditedRelations(unittest.TestCase):
                 ("bar", 2),
                 ("baz", 2)
             ]
-        conf = test_config.make_test_config()
-        conf.set_time(test_config.make_test_time())
+        ctx = test_context.make_test_context()
+        ctx.set_time(test_context.make_test_time())
         with unittest.mock.patch('stats.get_topcities', mock_get_topcities):
             frequent_relations: Set[str] = {"foo", "bar"}
-            parse_access_log.check_top_edited_relations(conf, frequent_relations)
+            parse_access_log.check_top_edited_relations(ctx, frequent_relations)
             self.assertIn("foo", frequent_relations)
             self.assertIn("city1", frequent_relations)
             self.assertIn("city2", frequent_relations)
@@ -91,8 +91,8 @@ class TestIsCompleteRelation(unittest.TestCase):
     """Tests is_complete_relation()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         self.assertFalse(parse_access_log.is_complete_relation(relations, "gazdagret"))
 
 

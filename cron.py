@@ -22,7 +22,7 @@ import traceback
 
 import areas
 import cache
-import config
+import context
 import i18n
 import overpass_query
 import stats
@@ -44,10 +44,10 @@ def error(msg: str, *args: Any, **kwargs: Any) -> None:
     logging.error(get_date_prefix() + " ERROR" + msg, *args, **kwargs)
 
 
-def overpass_sleep(conf: config.Config) -> None:
+def overpass_sleep(ctx: context.Context) -> None:
     """Sleeps to respect overpass rate limit."""
     while True:
-        sleep = overpass_query.overpass_query_need_sleep(conf)
+        sleep = overpass_query.overpass_query_need_sleep(ctx)
         if not sleep:
             break
         info("overpass_sleep: waiting for %s seconds", sleep)
@@ -59,7 +59,7 @@ def should_retry(retry: int) -> bool:
     return retry < 20
 
 
-def update_osm_streets(conf: config.Config, relations: areas.Relations, update: bool) -> None:
+def update_osm_streets(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
     """Update the OSM street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -71,9 +71,9 @@ def update_osm_streets(conf: config.Config, relations: areas.Relations, update: 
             if retry > 0:
                 info("update_osm_streets: try #%s", retry)
             retry += 1
-            overpass_sleep(conf)
+            overpass_sleep(ctx)
             query = relation.get_osm_streets_query()
-            buf, err = overpass_query.overpass_query(conf, query)
+            buf, err = overpass_query.overpass_query(ctx, query)
             if err:
                 info("update_osm_streets: http error: %s", err)
                 continue
@@ -82,7 +82,7 @@ def update_osm_streets(conf: config.Config, relations: areas.Relations, update: 
         info("update_osm_streets: end: %s", relation_name)
 
 
-def update_osm_housenumbers(conf: config.Config, relations: areas.Relations, update: bool) -> None:
+def update_osm_housenumbers(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
     """Update the OSM housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -94,9 +94,9 @@ def update_osm_housenumbers(conf: config.Config, relations: areas.Relations, upd
             if retry > 0:
                 info("update_osm_housenumbers: try #%s", retry)
             retry += 1
-            overpass_sleep(conf)
+            overpass_sleep(ctx)
             query = relation.get_osm_housenumbers_query()
-            buf, err = overpass_query.overpass_query(conf, query)
+            buf, err = overpass_query.overpass_query(ctx, query)
             if err:
                 info("update_osm_housenumbers: http error: %s", err)
                 continue
@@ -105,13 +105,13 @@ def update_osm_housenumbers(conf: config.Config, relations: areas.Relations, upd
         info("update_osm_housenumbers: end: %s", relation_name)
 
 
-def update_ref_housenumbers(conf: config.Config, relations: areas.Relations, update: bool) -> None:
+def update_ref_housenumbers(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
     """Update the reference housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_ref_housenumbers_path()):
             continue
-        references = conf.get_ini().get_reference_housenumber_paths()
+        references = ctx.get_ini().get_reference_housenumber_paths()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "only":
             continue
@@ -121,13 +121,13 @@ def update_ref_housenumbers(conf: config.Config, relations: areas.Relations, upd
         info("update_ref_housenumbers: end: %s", relation_name)
 
 
-def update_ref_streets(conf: config.Config, relations: areas.Relations, update: bool) -> None:
+def update_ref_streets(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
     """Update the reference street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_ref_streets_path()):
             continue
-        reference = conf.get_ini().get_reference_street_path()
+        reference = ctx.get_ini().get_reference_street_path()
         streets = relation.get_config().should_check_missing_streets()
         if streets == "no":
             continue
@@ -137,7 +137,7 @@ def update_ref_streets(conf: config.Config, relations: areas.Relations, update: 
         info("update_ref_streets: end: %s", relation_name)
 
 
-def update_missing_housenumbers(conf: config.Config, relations: areas.Relations, update: bool) -> None:
+def update_missing_housenumbers(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
     """Update the relation's house number coverage stats."""
     info("update_missing_housenumbers: start")
     for relation_name in relations.get_active_names():
@@ -151,14 +151,14 @@ def update_missing_housenumbers(conf: config.Config, relations: areas.Relations,
         orig_language = i18n.get_language()
         relation.write_missing_housenumbers()
         for language in ["en", "hu"]:
-            i18n.set_language(conf, language)
-            cache.get_missing_housenumbers_html(conf, relation)
-        i18n.set_language(conf, orig_language)
-        cache.get_missing_housenumbers_txt(conf, relation)
+            i18n.set_language(ctx, language)
+            cache.get_missing_housenumbers_html(ctx, relation)
+        i18n.set_language(ctx, orig_language)
+        cache.get_missing_housenumbers_txt(ctx, relation)
     info("update_missing_housenumbers: end")
 
 
-def update_missing_streets(_conf: config.Config, relations: areas.Relations, update: bool) -> None:
+def update_missing_streets(_conf: context.Context, relations: areas.Relations, update: bool) -> None:
     """Update the relation's street coverage stats."""
     info("update_missing_streets: start")
     for relation_name in relations.get_active_names():
@@ -173,7 +173,7 @@ def update_missing_streets(_conf: config.Config, relations: areas.Relations, upd
     info("update_missing_streets: end")
 
 
-def update_additional_streets(_conf: config.Config, relations: areas.Relations, update: bool) -> None:
+def update_additional_streets(_conf: context.Context, relations: areas.Relations, update: bool) -> None:
     """Update the relation's "additional streets" stats."""
     info("update_additional_streets: start")
     for relation_name in relations.get_active_names():
@@ -204,16 +204,16 @@ def write_city_count_path(city_count_path: str, cities: Dict[str, Set[str]]) -> 
             stream.write(key + "\t" + str(len(value)) + "\n")
 
 
-def update_stats_count(conf: config.Config, today: str) -> None:
+def update_stats_count(ctx: context.Context, today: str) -> None:
     """Counts the # of all house numbers as of today."""
-    statedir = conf.get_abspath("workdir/stats")
+    statedir = ctx.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
     count_path = os.path.join(statedir, "%s.count" % today)
     city_count_path = os.path.join(statedir, "%s.citycount" % today)
     house_numbers = set()
     cities: Dict[str, Set[str]] = {}
     first = True
-    valid_settlements = util.get_valid_settlements(conf)
+    valid_settlements = util.get_valid_settlements(ctx)
     with open(csv_path, "r") as stream:
         for line in stream.readlines():
             if first:
@@ -234,9 +234,9 @@ def update_stats_count(conf: config.Config, today: str) -> None:
     write_city_count_path(city_count_path, cities)
 
 
-def update_stats_topusers(conf: config.Config, today: str) -> None:
+def update_stats_topusers(ctx: context.Context, today: str) -> None:
     """Counts the top housenumber editors as of today."""
-    statedir = conf.get_abspath("workdir/stats")
+    statedir = ctx.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
     topusers_path = os.path.join(statedir, "%s.topusers" % today)
     usercount_path = os.path.join(statedir, "%s.usercount" % today)
@@ -258,10 +258,10 @@ def update_stats_topusers(conf: config.Config, today: str) -> None:
         stream.write(str(len(users)) + "\n")
 
 
-def update_stats_refcount(conf: config.Config, state_dir: str) -> None:
+def update_stats_refcount(ctx: context.Context, state_dir: str) -> None:
     """Performs the update of workdir/stats/ref.count."""
     count = 0
-    with open(conf.get_ini().get_reference_citycounts_path(), "r") as stream:
+    with open(ctx.get_ini().get_reference_citycounts_path(), "r") as stream:
         first = True
         for line in stream.readlines():
             if first:
@@ -278,13 +278,13 @@ def update_stats_refcount(conf: config.Config, state_dir: str) -> None:
         stream.write(str(count) + "\n")
 
 
-def update_stats(conf: config.Config, overpass: bool) -> None:
+def update_stats(ctx: context.Context, overpass: bool) -> None:
     """Performs the update of country-level stats."""
 
     # Fetch house numbers for the whole country.
     info("update_stats: start, updating whole-country csv")
-    query = util.from_bytes(util.get_content(conf.get_abspath("data/street-housenumbers-hungary.txt")))
-    statedir = conf.get_abspath("workdir/stats")
+    query = util.from_bytes(util.get_content(ctx.get_abspath("data/street-housenumbers-hungary.txt")))
+    statedir = ctx.get_abspath("workdir/stats")
     os.makedirs(statedir, exist_ok=True)
     today = time.strftime("%Y-%m-%d")
     csv_path = os.path.join(statedir, "%s.csv" % today)
@@ -295,8 +295,8 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
             if retry > 0:
                 info("update_stats: try #%s", retry)
             retry += 1
-            overpass_sleep(conf)
-            response, err = overpass_query.overpass_query(conf, query)
+            overpass_sleep(ctx)
+            response, err = overpass_query.overpass_query(ctx, query)
             if err:
                 info("update_stats: http error: %s", err)
                 continue
@@ -304,9 +304,9 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
                 stream.write(util.to_bytes(response))
             break
 
-    update_stats_count(conf, today)
-    update_stats_topusers(conf, today)
-    update_stats_refcount(conf, statedir)
+    update_stats_count(ctx, today)
+    update_stats_topusers(ctx, today)
+    update_stats_refcount(ctx, statedir)
 
     # Remove old CSV files as they are created daily and each is around 11M.
     current_time = time.time()
@@ -319,23 +319,23 @@ def update_stats(conf: config.Config, overpass: bool) -> None:
     info("update_stats: generating json")
     json_path = os.path.join(statedir, "stats.json")
     with open(json_path, "wb") as stream:
-        stats.generate_json(conf, statedir, stream)
+        stats.generate_json(ctx, statedir, stream)
 
     info("update_stats: end")
 
 
-def our_main(conf: config.Config, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
+def our_main(ctx: context.Context, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
     """Performs the actual nightly task."""
     if mode in ("all", "stats"):
-        update_stats(conf, overpass)
+        update_stats(ctx, overpass)
     if mode in ("all", "relations"):
-        update_osm_streets(conf, relations, update)
-        update_osm_housenumbers(conf, relations, update)
-        update_ref_streets(conf, relations, update)
-        update_ref_housenumbers(conf, relations, update)
-        update_missing_streets(conf, relations, update)
-        update_missing_housenumbers(conf, relations, update)
-        update_additional_streets(conf, relations, update)
+        update_osm_streets(ctx, relations, update)
+        update_osm_housenumbers(ctx, relations, update)
+        update_ref_streets(ctx, relations, update)
+        update_ref_housenumbers(ctx, relations, update)
+        update_missing_streets(ctx, relations, update)
+        update_missing_housenumbers(ctx, relations, update)
+        update_additional_streets(ctx, relations, update)
 
     pid = str(os.getpid())
     with open("/proc/" + pid + "/status", "r") as stream:
@@ -349,11 +349,11 @@ def our_main(conf: config.Config, relations: areas.Relations, mode: str, update:
                 break
 
 
-def main(conf: config.Config) -> None:
+def main(ctx: context.Context) -> None:
     """Commandline interface to this module."""
 
-    workdir = conf.get_ini().get_workdir()
-    relations = areas.Relations(conf)
+    workdir = ctx.get_ini().get_workdir()
+    relations = areas.Relations(ctx)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
                         level=logging.INFO,
@@ -378,11 +378,11 @@ def main(conf: config.Config) -> None:
     start = time.time()
     # Query inactive relations once a month.
     first_day_of_month = time.localtime(start).tm_mday == 1
-    relations.activate_all(conf.get_ini().get_cron_update_inactive() or first_day_of_month)
+    relations.activate_all(ctx.get_ini().get_cron_update_inactive() or first_day_of_month)
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)
     try:
-        our_main(conf, relations, args.mode, args.update, args.overpass)
+        our_main(ctx, relations, args.mode, args.update, args.overpass)
     # pylint: disable=broad-except
     except Exception:
         error("main: unhandled exception: %s", traceback.format_exc())
@@ -393,6 +393,6 @@ def main(conf: config.Config) -> None:
 
 
 if __name__ == "__main__":
-    main(config.Config(""))
+    main(context.Context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

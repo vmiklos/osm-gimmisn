@@ -17,16 +17,16 @@ import json
 import os
 import time
 
-import config
+import context
 import util
 
 
-def handle_progress(conf: config.Config, src_root: str, j: Dict[str, Any]) -> None:
+def handle_progress(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for a global progressbar."""
     ret: Dict[str, Any] = {}
     with open(os.path.join(src_root, "ref.count"), "r") as stream:
         num_ref = int(stream.read().strip())
-    today = time.strftime("%Y-%m-%d", time.gmtime(conf.get_time().now()))
+    today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
     num_osm = 0
     count_path = os.path.join(src_root, "%s.count" % today)
     if os.path.exists(count_path):
@@ -40,9 +40,9 @@ def handle_progress(conf: config.Config, src_root: str, j: Dict[str, Any]) -> No
     j["progress"] = ret
 
 
-def handle_topusers(conf: config.Config, src_root: str, j: Dict[str, Any]) -> None:
+def handle_topusers(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for top users."""
-    today = time.strftime("%Y-%m-%d", time.gmtime(conf.get_time().now()))
+    today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
     ret = []
     topusers_path = os.path.join(src_root, "%s.topusers" % today)
     if os.path.exists(topusers_path):
@@ -54,19 +54,19 @@ def handle_topusers(conf: config.Config, src_root: str, j: Dict[str, Any]) -> No
     j["topusers"] = ret
 
 
-def get_topcities(conf: config.Config, src_root: str) -> List[Tuple[str, int]]:
+def get_topcities(ctx: context.Context, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
     ret: List[Tuple[str, int]] = []
-    new_day = datetime.date.fromtimestamp(conf.get_time().now()).strftime("%Y-%m-%d")
-    day_delta = datetime.date.fromtimestamp(conf.get_time().now()) - datetime.timedelta(days=30)
+    new_day = datetime.date.fromtimestamp(ctx.get_time().now()).strftime("%Y-%m-%d")
+    day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(days=30)
     old_day = day_delta.strftime("%Y-%m-%d")
     old_counts: Dict[str, int] = {}
     counts: List[Tuple[str, int]] = []
 
     old_count_path = os.path.join(src_root, "%s.citycount" % old_day)
-    if not conf.get_file_system().path_exists(old_count_path):
+    if not ctx.get_file_system().path_exists(old_count_path):
         return ret
     with open(old_count_path, "r") as stream:
         for line in stream.readlines():
@@ -76,7 +76,7 @@ def get_topcities(conf: config.Config, src_root: str) -> List[Tuple[str, int]]:
                 old_counts[city] = int(count)
 
     new_count_path = os.path.join(src_root, "%s.citycount" % new_day)
-    if not conf.get_file_system().path_exists(new_count_path):
+    if not ctx.get_file_system().path_exists(new_count_path):
         return ret
     with open(new_count_path, "r") as stream:
         for line in stream.readlines():
@@ -88,21 +88,21 @@ def get_topcities(conf: config.Config, src_root: str) -> List[Tuple[str, int]]:
     return ret
 
 
-def handle_topcities(conf: config.Config, src_root: str, j: Dict[str, Any]) -> None:
+def handle_topcities(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
     """
     Generates stats for top cities.
     This lists the top 20 cities which got lots of new house numbers in the past 30 days.
     """
-    ret = get_topcities(conf, src_root)
+    ret = get_topcities(ctx, src_root)
     ret = ret[:20]
     j["topcities"] = ret
 
 
-def handle_user_total(conf: config.Config, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
+def handle_user_total(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
     """Shows # of total users / day."""
     ret = []
     for day_offset in range(day_range, -1, -1):
-        day_delta = datetime.date.fromtimestamp(conf.get_time().now()) - datetime.timedelta(day_offset)
+        day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.usercount" % day)
         if not os.path.exists(count_path):
@@ -113,13 +113,13 @@ def handle_user_total(conf: config.Config, src_root: str, j: Dict[str, Any], day
     j["usertotal"] = ret
 
 
-def handle_daily_new(conf: config.Config, src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
+def handle_daily_new(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
     """Shows # of new housenumbers / day."""
     ret = []
     prev_count = 0
     prev_day = ""
     for day_offset in range(day_range, -1, -1):
-        day_delta = datetime.date.fromtimestamp(conf.get_time().now()) - datetime.timedelta(day_offset)
+        day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % day)
         if not os.path.exists(count_path):
@@ -142,14 +142,14 @@ def get_previous_month(today: datetime.date, months: int) -> datetime.date:
     return month_ago
 
 
-def handle_monthly_new(conf: config.Config, src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
+def handle_monthly_new(ctx: context.Context, src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
     """Shows # of new housenumbers / month."""
     ret = []
     prev_count = 0
     prev_month = ""
-    path_exists = conf.get_file_system().path_exists
+    path_exists = ctx.get_file_system().path_exists
     for month_offset in range(month_range, -1, -1):
-        month_delta = get_previous_month(datetime.date.fromtimestamp(conf.get_time().now()), month_offset)
+        month_delta = get_previous_month(datetime.date.fromtimestamp(ctx.get_time().now()), month_offset)
         # Get the first day of each month.
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % month)
@@ -163,7 +163,7 @@ def handle_monthly_new(conf: config.Config, src_root: str, j: Dict[str, Any], mo
         prev_month = month
 
     # Also show the current, incomplete month.
-    day = datetime.date.fromtimestamp(conf.get_time().now()).strftime("%Y-%m-%d")
+    day = datetime.date.fromtimestamp(ctx.get_time().now()).strftime("%Y-%m-%d")
     count_path = os.path.join(src_root, "%s.count" % day)
     if path_exists(count_path):
         with open(count_path, "r") as stream:
@@ -173,11 +173,11 @@ def handle_monthly_new(conf: config.Config, src_root: str, j: Dict[str, Any], mo
     j["monthly"] = ret
 
 
-def handle_daily_total(conf: config.Config, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
+def handle_daily_total(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
     """Shows # of total housenumbers / day."""
     ret = []
     for day_offset in range(day_range, -1, -1):
-        day_delta = datetime.date.fromtimestamp(conf.get_time().now()) - datetime.timedelta(day_offset)
+        day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(day_offset)
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % day)
         if not os.path.exists(count_path):
@@ -188,11 +188,11 @@ def handle_daily_total(conf: config.Config, src_root: str, j: Dict[str, Any], da
     j["dailytotal"] = ret
 
 
-def handle_monthly_total(conf: config.Config, src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
+def handle_monthly_total(ctx: context.Context, src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
     """Shows # of total housenumbers / month."""
     ret = []
     for month_offset in range(month_range, -1, -1):
-        today = datetime.date.fromtimestamp(conf.get_time().now())
+        today = datetime.date.fromtimestamp(ctx.get_time().now())
         month_delta = get_previous_month(today, month_offset)
         prev_month_delta = get_previous_month(today, month_offset + 1)
         # Get the first day of each past month.
@@ -214,17 +214,17 @@ def handle_monthly_total(conf: config.Config, src_root: str, j: Dict[str, Any], 
     j["monthlytotal"] = ret
 
 
-def generate_json(conf: config.Config, state_dir: str, stream: BinaryIO) -> None:
+def generate_json(ctx: context.Context, state_dir: str, stream: BinaryIO) -> None:
     """Generates the stats json and writes it to `stream`."""
     j: Dict[str, Any] = {}
-    handle_progress(conf, state_dir, j)
-    handle_topusers(conf, state_dir, j)
-    handle_topcities(conf, state_dir, j)
-    handle_user_total(conf, state_dir, j)
-    handle_daily_new(conf, state_dir, j)
-    handle_daily_total(conf, state_dir, j)
-    handle_monthly_new(conf, state_dir, j)
-    handle_monthly_total(conf, state_dir, j)
+    handle_progress(ctx, state_dir, j)
+    handle_topusers(ctx, state_dir, j)
+    handle_topcities(ctx, state_dir, j)
+    handle_user_total(ctx, state_dir, j)
+    handle_daily_new(ctx, state_dir, j)
+    handle_daily_total(ctx, state_dir, j)
+    handle_monthly_new(ctx, state_dir, j)
+    handle_monthly_total(ctx, state_dir, j)
     stream.write(util.to_bytes(json.dumps(j)))
 
 

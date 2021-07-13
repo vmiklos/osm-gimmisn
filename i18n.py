@@ -11,13 +11,13 @@ from typing import cast
 import gettext
 import threading
 
-import config
+import context
 
 
-def set_language(conf: config.Config, language: str) -> None:
+def set_language(ctx: context.Context, language: str) -> None:
     """Sets the language of the current thread."""
     tls = threading.current_thread.__dict__
-    localedir = conf.get_abspath("locale")
+    localedir = ctx.get_abspath("locale")
     tls["translations"] = gettext.translation("osm-gimmisn", localedir=localedir, languages=[language], fallback=True)
     tls["language"] = language
 

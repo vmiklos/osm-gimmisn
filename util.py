@@ -31,7 +31,7 @@ import yattag
 
 from i18n import translate as tr
 import accept_language
-import config
+import context
 import i18n
 import overpass_query
 import ranges
@@ -463,19 +463,19 @@ def html_escape(text: str) -> yattag.doc.Doc:
     return doc
 
 
-def handle_overpass_error(conf: config.Config, http_error: str) -> yattag.doc.Doc:
+def handle_overpass_error(ctx: context.Context, http_error: str) -> yattag.doc.Doc:
     """Handles a HTTP error from Overpass."""
     doc = yattag.doc.Doc()
     with doc.tag("div", id="overpass-error"):
         doc.text(tr("Overpass error: {0}").format(http_error))
-        sleep = overpass_query.overpass_query_need_sleep(conf)
+        sleep = overpass_query.overpass_query_need_sleep(ctx)
         if sleep:
             doc.stag("br")
             doc.text(tr("Note: wait for {} seconds").format(sleep))
     return doc
 
 
-def setup_localization(environ: Dict[str, Any], conf: config.Config) -> str:
+def setup_localization(environ: Dict[str, Any], ctx: context.Context) -> str:
     """Provides localized strings for this thread."""
     # Set up localization.
     languages = environ.get("HTTP_ACCEPT_LANGUAGE")
@@ -483,7 +483,7 @@ def setup_localization(environ: Dict[str, Any], conf: config.Config) -> str:
         parsed = accept_language.parse_accept_language(languages)
         if parsed:
             language = parsed[0].get_language()
-            i18n.set_language(conf, language)
+            i18n.set_language(ctx, language)
             return language
     return ""
 
@@ -841,11 +841,11 @@ def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
     return "_Empty"
 
 
-def get_valid_settlements(conf: config.Config) -> Set[str]:
+def get_valid_settlements(ctx: context.Context) -> Set[str]:
     """Builds a set of valid settlement names."""
     settlements: Set[str] = set()
 
-    with open(conf.get_ini().get_reference_citycounts_path(), "r") as stream:
+    with open(ctx.get_ini().get_reference_citycounts_path(), "r") as stream:
         first = True
         for line in stream.readlines():
             if first:

@@ -18,15 +18,15 @@ import io
 import os
 import unittest
 
-import config
+import context
 
 
-def make_test_config() -> config.Config:
-    """Creates a Config instance that has its root as /tests."""
-    return config.Config("tests")
+def make_test_context() -> context.Context:
+    """Creates a Context instance for text purposes."""
+    return context.Context("tests")
 
 
-class TestFileSystem(config.FileSystem):
+class TestFileSystem(context.FileSystem):
     """File system implementation, for test purposes."""
     def __init__(self) -> None:
         self.__hide_paths: List[str] = []
@@ -76,7 +76,7 @@ class URLRoute:
         self.result_path = result_path
 
 
-class TestNetwork(config.Network):
+class TestNetwork(context.Network):
     """Network implementation, for test purposes."""
     def __init__(self, routes: List[URLRoute]) -> None:
         self.__routes = routes
@@ -103,7 +103,7 @@ class TestNetwork(config.Network):
         return (bytes(), "url missing from route list: '" + url + "'")
 
 
-class TestTime(config.Time):
+class TestTime(context.Time):
     """Time implementation, for test purposes."""
     def __init__(self, now: float) -> None:
         self.__now = now
@@ -112,7 +112,7 @@ class TestTime(config.Time):
         return self.__now
 
 
-class TestSubprocess(config.Subprocess):
+class TestSubprocess(context.Subprocess):
     """Subprocess implementation, for test purposes."""
     def __init__(self, outputs: Dict[str, bytes]) -> None:
         self.__outputs = outputs
@@ -134,7 +134,7 @@ class TestSubprocess(config.Subprocess):
         return self.__outputs[key]
 
 
-def make_test_time() -> config.Time:
+def make_test_time() -> context.Time:
     """Generates unix timestamp for 2020-05-10."""
     return TestTime(calendar.timegm(datetime.date(2020, 5, 10).timetuple()))
 
@@ -143,5 +143,5 @@ class TestIniGetTcpPort(unittest.TestCase):
     """Tests Ini.get_tcp_port()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = make_test_config()
-        self.assertEqual(conf.get_ini().get_tcp_port(), 8000)
+        ctx = make_test_context()
+        self.assertEqual(ctx.get_ini().get_tcp_port(), 8000)

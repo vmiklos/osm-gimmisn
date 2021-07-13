@@ -16,7 +16,7 @@ import unittest.mock
 # pylint: disable=unused-import
 import yattag
 
-import test_config
+import test_context
 
 import webframe
 
@@ -29,9 +29,9 @@ class TestHandleStatic(unittest.TestCase):
     """Tests handle_static()."""
     def test_happy(self) -> None:
         """Tests the happy path: css case."""
-        conf = test_config.make_test_config()
-        prefix = conf.get_ini().get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/osm.min.css")
+        ctx = test_context.make_test_context()
+        prefix = ctx.get_ini().get_uri_prefix()
+        content, content_type, extra_headers = webframe.handle_static(ctx, prefix + "/static/osm.min.css")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "text/css")
         self.assertEqual(len(extra_headers), 1)
@@ -39,9 +39,9 @@ class TestHandleStatic(unittest.TestCase):
 
     def test_generated_javascript(self) -> None:
         """Tests the generated javascript case."""
-        conf = test_config.make_test_config()
-        prefix = conf.get_ini().get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/bundle.js")
+        ctx = test_context.make_test_context()
+        prefix = ctx.get_ini().get_uri_prefix()
+        content, content_type, extra_headers = webframe.handle_static(ctx, prefix + "/static/bundle.js")
         self.assertEqual("// bundle.js\n", content.decode("utf-8"))
         self.assertEqual(content_type, "application/x-javascript")
         self.assertEqual(len(extra_headers), 1)
@@ -49,9 +49,9 @@ class TestHandleStatic(unittest.TestCase):
 
     def test_json(self) -> None:
         """Tests the json case."""
-        conf = test_config.make_test_config()
-        prefix = conf.get_ini().get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/stats-empty.json")
+        ctx = test_context.make_test_context()
+        prefix = ctx.get_ini().get_uri_prefix()
+        content, content_type, extra_headers = webframe.handle_static(ctx, prefix + "/static/stats-empty.json")
         self.assertTrue(content.decode("utf-8").startswith("{"))
         self.assertEqual(content_type, "application/json")
         self.assertEqual(len(extra_headers), 1)
@@ -59,8 +59,8 @@ class TestHandleStatic(unittest.TestCase):
 
     def test_ico(self) -> None:
         """Tests the ico case."""
-        conf = test_config.make_test_config()
-        content, content_type, extra_headers = webframe.handle_static(conf, "/favicon.ico")
+        ctx = test_context.make_test_context()
+        content, content_type, extra_headers = webframe.handle_static(ctx, "/favicon.ico")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "image/x-icon")
         self.assertEqual(len(extra_headers), 1)
@@ -68,8 +68,8 @@ class TestHandleStatic(unittest.TestCase):
 
     def test_svg(self) -> None:
         """Tests the svg case."""
-        conf = test_config.make_test_config()
-        content, content_type, extra_headers = webframe.handle_static(conf, "/favicon.svg")
+        ctx = test_context.make_test_context()
+        content, content_type, extra_headers = webframe.handle_static(ctx, "/favicon.svg")
         self.assertTrue(len(content))
         self.assertEqual(content_type, "image/svg+xml")
         self.assertEqual(len(extra_headers), 1)
@@ -77,9 +77,9 @@ class TestHandleStatic(unittest.TestCase):
 
     def test_else(self) -> None:
         """Tests the case when the content type is not recognized."""
-        conf = test_config.make_test_config()
-        prefix = conf.get_ini().get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(conf, prefix + "/static/test.xyz")
+        ctx = test_context.make_test_context()
+        prefix = ctx.get_ini().get_uri_prefix()
+        content, content_type, extra_headers = webframe.handle_static(ctx, prefix + "/static/test.xyz")
         self.assertFalse(len(content))
         self.assertFalse(len(content_type))
         # No last modified non-existing file.
@@ -121,8 +121,8 @@ class TestFillMissingHeaderItems(unittest.TestCase):
         relation_name = "gazdagret"
         items: List[yattag.doc.Doc] = []
         additional_housenumbers = True
-        conf = test_config.make_test_config()
-        webframe.fill_missing_header_items(conf, streets, additional_housenumbers, relation_name, items)
+        ctx = test_context.make_test_context()
+        webframe.fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
         html = items[0].getvalue()
         self.assertIn("Missing house numbers", html)
         self.assertNotIn("Missing streets", html)

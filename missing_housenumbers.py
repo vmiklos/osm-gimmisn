@@ -12,16 +12,16 @@ from typing import TextIO
 import sys
 
 import areas
-import config
+import context
 import util
 
 
-def main(argv: List[str], stdout: TextIO, conf: config.Config) -> None:
+def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
     """Commandline interface."""
 
     relation_name = argv[1]
 
-    relations = areas.Relations(conf)
+    relations = areas.Relations(ctx)
     relation = relations.get_relation(relation_name)
     ongoing_streets, _ = relation.get_missing_housenumbers()
 
@@ -36,6 +36,6 @@ def main(argv: List[str], stdout: TextIO, conf: config.Config) -> None:
 
 
 if __name__ == '__main__':
-    main(sys.argv, sys.stdout, config.Config(""))
+    main(sys.argv, sys.stdout, context.Context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

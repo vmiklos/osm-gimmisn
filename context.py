@@ -153,8 +153,8 @@ class Ini:
         return self.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
 
 
-class Config:
-    """Config replacement without static state."""
+class Context:
+    """Context owns global state which is set up once and then read everywhere."""
     def __init__(self, prefix: str) -> None:
         root_dir = os.path.abspath(os.path.dirname(__file__))
         self.root = os.path.join(root_dir, prefix)

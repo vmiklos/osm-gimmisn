@@ -14,7 +14,7 @@ import urllib.error
 
 import yattag
 
-import test_config
+import test_context
 
 import i18n
 import util
@@ -165,30 +165,30 @@ class TestHandleOverpassError(unittest.TestCase):
     def test_no_sleep(self) -> None:
         """Tests the case when no sleep is needed."""
         error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, io.BytesIO())
-        conf = test_config.make_test_config()
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/status",
-                                 data_path="",
-                                 result_path="tests/network/overpass-status-happy.txt")
+        ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt")
         ]
-        network = test_config.TestNetwork(routes)
-        conf.set_network(network)
-        doc = util.handle_overpass_error(conf, str(error))
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        doc = util.handle_overpass_error(ctx, str(error))
         expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file</div>"""
         self.assertEqual(doc.getvalue(), expected)
 
     def test_need_sleep(self) -> None:
         """Tests the case when sleep is needed."""
         error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, io.BytesIO())
-        conf = test_config.make_test_config()
-        routes: List[test_config.URLRoute] = [
-            test_config.URLRoute(url="https://overpass-api.de/api/status",
-                                 data_path="",
-                                 result_path="tests/network/overpass-status-wait.txt")
+        ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-wait.txt")
         ]
-        network = test_config.TestNetwork(routes)
-        conf.set_network(network)
-        doc = util.handle_overpass_error(conf, str(error))
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        doc = util.handle_overpass_error(ctx, str(error))
         expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file"""
         expected += """<br />Note: wait for 12 seconds</div>"""
         self.assertEqual(doc.getvalue(), expected)
@@ -199,17 +199,17 @@ class TestSetupLocalization(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         environ = {"HTTP_ACCEPT_LANGUAGE": "hu,en;q=0.9,en-US;q=0.8"}
-        conf = test_config.make_test_config()
-        i18n.set_language(conf, "en")
-        util.setup_localization(environ, conf)
+        ctx = test_context.make_test_context()
+        i18n.set_language(ctx, "en")
+        util.setup_localization(environ, ctx)
         self.assertEqual(i18n.get_language(), "hu")
 
     def test_parse_error(self) -> None:
         """Tests the error path."""
         environ = {"HTTP_ACCEPT_LANGUAGE": ","}
-        conf = test_config.make_test_config()
-        i18n.set_language(conf, "en")
-        util.setup_localization(environ, conf)
+        ctx = test_context.make_test_context()
+        i18n.set_language(ctx, "en")
+        util.setup_localization(environ, ctx)
         self.assertEqual(i18n.get_language(), "en")
 
 

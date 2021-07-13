@@ -9,27 +9,27 @@
 from typing import Any
 import unittest
 
-import test_config
+import test_context
 
-import config
+import context
 import i18n
 
 
 class LanguageContext:
     """Context manager for i18n.translate()."""
-    def __init__(self, conf: config.Config, language: str) -> None:
+    def __init__(self, ctx: context.Context, language: str) -> None:
         """Remembers what should be the new language."""
-        self.conf = conf
+        self.ctx = ctx
         self.language = language
 
     def __enter__(self) -> 'LanguageContext':
         """Switches to the new language."""
-        i18n.set_language(self.conf, self.language)
+        i18n.set_language(self.ctx, self.language)
         return self
 
     def __exit__(self, _exc_type: Any, _exc_value: Any, _exc_traceback: Any) -> bool:
         """Switches back to the old language."""
-        i18n.set_language(self.conf, "en")
+        i18n.set_language(self.ctx, "en")
         return True
 
 
@@ -37,8 +37,8 @@ class TestTranslate(unittest.TestCase):
     """Tests translate()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        with LanguageContext(conf, "hu"):
+        ctx = test_context.make_test_context()
+        with LanguageContext(ctx, "hu"):
             self.assertEqual(i18n.translate("Area"), "Terület")
 
 

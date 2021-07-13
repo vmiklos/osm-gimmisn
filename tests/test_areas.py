@@ -14,7 +14,7 @@ import unittest
 
 import yattag
 
-import test_config
+import test_context
 
 import areas
 import ranges
@@ -25,7 +25,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
     """Tests Relation.get_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("test")
         actual = [i.get_osm_name() for i in relation.get_osm_streets()]
         expected = ['B1', 'B2', 'HB1', 'HB2']
@@ -33,7 +33,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
 
     def test_street_is_node(self) -> None:
         """Tests the case when the street name is coming from a house number (node)."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gh830")
         actual = relation.get_osm_streets()
         self.assertEqual(len(actual), 1)
@@ -41,7 +41,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
 
     def test_no_house_number(self) -> None:
         """Tests the case when we have streets, but no house numbers."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("ujbuda")
         actual = [i.get_osm_name() for i in relation.get_osm_streets()]
         expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
@@ -49,7 +49,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
 
     def test_conscriptionnumber(self) -> None:
         """Tests when there is only an addr:conscriptionnumber."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh754"
         relation = relations.get_relation(relation_name)
         streets = [i.get_osm_name() for i in relation.get_osm_streets()]
@@ -62,7 +62,7 @@ class TestRelationGetOsmStreetsQuery(unittest.TestCase):
     """Tests Relation.get_osm_streets_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         self.assertEqual(os.path.join(os.path.dirname(__file__), "workdir"), relations.get_workdir())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
@@ -74,7 +74,7 @@ class TestRelationGetOsmHousenumbersQuery(unittest.TestCase):
     """Tests Relation.get_osm_housenumbers_query()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         ret = relation.get_osm_housenumbers_query()
@@ -85,7 +85,7 @@ class TestRelationFilesWriteOsmStreets(unittest.TestCase):
     """Tests RelationFiles.write_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
@@ -99,7 +99,7 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
     """Tests RelationFiles.write_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
         result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
@@ -127,7 +127,7 @@ class TestRelationGetStreetRanges(unittest.TestCase):
     """Tests Relation.get_street_ranges()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         filters = relation.get_street_ranges()
         expected_filters = {
@@ -141,14 +141,14 @@ class TestRelationGetStreetRanges(unittest.TestCase):
             'OSM Name 2': 'Ref Name 2',
             'Misspelled OSM Name 1': 'OSM Name 1',
         }
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         self.assertEqual(relations.get_relation("gazdagret").get_config().get_refstreets(), expected_streets)
         street_blacklist = relations.get_relation("gazdagret").get_config().get_street_filters()
         self.assertEqual(street_blacklist, ['Only In Ref Nonsense utca'])
 
     def test_empty(self) -> None:
         """Tests when the filter file is empty."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("empty")
         filters = relation.get_street_ranges()
         self.assertEqual(filters, {})
@@ -158,7 +158,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
     """Tests Relation.get_ref_street_from_osm_street()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         street = "Budaörsi út"
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
@@ -170,7 +170,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_refsettlement_override(self) -> None:
         """Tests street-specific refsettlement override."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         street = "Teszt utca"
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
@@ -182,7 +182,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_refstreets(self) -> None:
         """Tests OSM -> ref name mapping."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         street = "OSM Name 1"
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
@@ -194,7 +194,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         street = "OSM Name 1"
         relation_name = "nosuchrelation"
         relation = relations.get_relation(relation_name)
@@ -206,7 +206,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_emptyrelation(self) -> None:
         """Tests a relation with an empty filter file."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         street = "OSM Name 1"
         relation_name = "empty"
         relation = relations.get_relation(relation_name)
@@ -218,7 +218,7 @@ class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
 
     def test_range_level_override(self) -> None:
         """Tests the refsettlement range-level override."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         street = "Csiki-hegyek utca"
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
@@ -237,7 +237,7 @@ class TestNormalize(unittest.TestCase):
     """
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "139", "Budaörsi út", normalizers)
@@ -245,7 +245,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_not_in_range(self) -> None:
         """Tests when the number is not in range."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "999", "Budaörsi út", normalizers)
@@ -253,7 +253,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_not_a_number(self) -> None:
         """Tests the case when the house number is not a number."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "x", "Budaörsi út", normalizers)
@@ -261,7 +261,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_nofilter(self) -> None:
         """Tests the case when there is no filter for this street."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "1", "Budaörs út", normalizers)
@@ -269,7 +269,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_semicolon(self) -> None:
         """Tests the case when ';' is a separator."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "1;2", "Budaörs út", normalizers)
@@ -277,7 +277,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval(self) -> None:
         """Tests the 2-6 case: means implicit 4."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "2-6", "Budaörs út", normalizers)
@@ -285,7 +285,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_parity(self) -> None:
         """Tests the 5-8 case: means just 5 and 8 as the parity doesn't match."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "5-8", "Budaörs út", normalizers)
@@ -293,7 +293,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_interp_all(self) -> None:
         """Tests the 2-5 case: means implicit 3 and 4."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = [i.get_number() for i in areas.normalize(relation, "2-5", "Hamzsabégi út", normalizers)]
@@ -301,7 +301,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_filter(self) -> None:
         """Tests the case where x-y is partially filtered out."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         # filter is 137-165
@@ -311,7 +311,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_block(self) -> None:
         """Tests the case where x-y is nonsense: y is too large."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "2-2000", "Budaörs út", normalizers)
@@ -321,7 +321,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_block2(self) -> None:
         """Tests the case where x-y is nonsense: y-x is too large."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "2-56", "Budaörs út", normalizers)
@@ -330,7 +330,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_block3(self) -> None:
         """Tests the case where x-y is nonsense: x is 0."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "0-42", "Budaörs út", normalizers)
@@ -339,7 +339,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_interval_block4(self) -> None:
         """Tests the case where x-y is only partially useful: x is OK, but y is a suffix."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "42-1", "Budaörs út", normalizers)
@@ -348,7 +348,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_keep_suffix(self) -> None:
         """Tests that the * suffix is preserved."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_number = areas.normalize(relation, "1*", "Budaörs út", normalizers)
@@ -358,7 +358,7 @@ class TestNormalize(unittest.TestCase):
 
     def test_separator_comma(self) -> None:
         """Tests the case when ',' is a separator."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         house_numbers = areas.normalize(relation, "2,6", "Budaörs út", normalizers)
@@ -371,7 +371,7 @@ class TestRelationGetRefStreets(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         relation_name = "gazdagret"
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
         house_numbers = relation.get_ref_streets()
         self.assertEqual(house_numbers, ['Hamzsabégi út',
@@ -388,7 +388,7 @@ class TestRelationGetOsmHouseNumbers(unittest.TestCase):
         """Tests the happy path."""
         relation_name = "gazdagret"
         street_name = "Törökugrató utca"
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
         house_numbers = relation.get_osm_housenumbers(street_name)
         self.assertEqual([i.get_number() for i in house_numbers], ["1", "2"])
@@ -396,7 +396,7 @@ class TestRelationGetOsmHouseNumbers(unittest.TestCase):
     def test_addr_place(self) -> None:
         """Tests the case when addr:place is used instead of addr:street."""
         relation_name = "gh964"
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
         street_name = "Tolvajos tanya"
         house_numbers = relation.get_osm_housenumbers(street_name)
@@ -407,7 +407,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
     """Tests Relation.get_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         ongoing_streets, done_streets = relation.get_missing_housenumbers()
@@ -424,7 +424,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix(self) -> None:
         """Tests that 7/A is detected when 7/B is already mapped."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh267"
         relation = relations.get_relation(relation_name)
         # Opt-in, this is not the default behavior.
@@ -440,7 +440,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix_invalid(self) -> None:
         """Tests how 'invalid' interacts with normalization."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh296"
         relation = relations.get_relation(relation_name)
         # Opt-in, this is not the default behavior.
@@ -464,7 +464,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_invalid_simplify(self) -> None:
         """Tests how 'invalid' interacts with housenumber-letters: true or false."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh385"
         relation = relations.get_relation(relation_name)
 
@@ -505,7 +505,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix_normalize(self) -> None:
         """Tests that '42 A' vs '42/A' is recognized as a match."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh286"
         relation = relations.get_relation(relation_name)
         # Opt-in, this is not the default behavior.
@@ -521,7 +521,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix_source_suffix(self) -> None:
         """Tests that '42/A*' and '42/a' matches."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh299"
         relation = relations.get_relation(relation_name)
         # Opt-in, this is not the default behavior.
@@ -532,7 +532,7 @@ class TestRelationGetMissingHousenumbers(unittest.TestCase):
 
     def test_letter_suffix_normalize_semicolon(self) -> None:
         """Tests that 'a' is not stripped from '1;3a'."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh303"
         relation = relations.get_relation(relation_name)
         # Opt-in, this is not the default behavior.
@@ -551,7 +551,7 @@ class TestRelationGetMissingStreets(unittest.TestCase):
     """Tests Relation.get_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         only_in_reference, in_both = relation.get_missing_streets()
@@ -566,7 +566,7 @@ class TestRelationGetAdditionalStreets(unittest.TestCase):
     """Tests Relation.get_additional_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         only_in_osm = relation.get_additional_streets()
@@ -579,7 +579,7 @@ class TestRelationGetAdditionalStreets(unittest.TestCase):
 
     def test_no_osm_street_filters(self) -> None:
         """Tests when the osm-street-filters key is missing."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh385"
         relation = relations.get_relation(relation_name)
         self.assertEqual(relation.get_config().get_osm_street_filters(), [])
@@ -589,7 +589,7 @@ class TestRelationGetAdditionalHousenumbers(unittest.TestCase):
     """Tests Relation.get_additional_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         only_in_osm = relation.get_additional_housenumbers()
@@ -613,7 +613,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
     """Tests Relation.write_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         expected = util.get_content(relations.get_workdir(), "gazdagret.percent")
@@ -633,7 +633,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
 
     def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "empty"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_housenumbers()
@@ -644,7 +644,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
 
     def test_interpolation_all(self) -> None:
         """Tests the case when the street is interpolation=all and coloring is wanted."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "budafok"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_housenumbers()
@@ -657,7 +657,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
 
     def test_sorting(self) -> None:
         """Tests that sorting is performed after range reduction."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh414"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_housenumbers()
@@ -674,7 +674,7 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
     """Tests Relation.write_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         expected = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
@@ -689,7 +689,7 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
 
     def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "empty"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_streets()
@@ -703,7 +703,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         memory_cache = util.build_reference_cache(refpath, "01")
         relation_name = "gazdagret"
@@ -722,7 +722,7 @@ class TestRelationBuildRefHousenumbers(unittest.TestCase):
 
     def test_missing(self) -> None:
         """Tests the case when the street is not in the reference."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         memory_cache = util.build_reference_cache(refpath, "01")
@@ -741,7 +741,7 @@ class TestRelationBuildRefStreets(unittest.TestCase):
         refpath = os.path.join(refdir, "utcak_20190514.tsv")
         memory_cache = util.build_street_reference_cache(refpath)
         relation_name = "gazdagret"
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
         ret = relation.get_config().build_ref_streets(memory_cache)
         self.assertEqual(ret, ['Törökugrató utca',
@@ -759,7 +759,7 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         refpath2 = os.path.join(refdir, "hazszamok_kieg_20190808.tsv")
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         expected = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         relation = relations.get_relation(relation_name)
@@ -771,7 +771,7 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         """Tests the case when the refcounty code is missing in the reference."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "nosuchrefcounty"
         relation = relations.get_relation(relation_name)
         try:
@@ -783,7 +783,7 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         """Tests the case when the refsettlement code is missing in the reference."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "nosuchrefsettlement"
         relation = relations.get_relation(relation_name)
         try:
@@ -796,9 +796,9 @@ class TestRelationWriteRefStreets(unittest.TestCase):
     """Tests Relation.WriteRefStreets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        refpath = conf.get_abspath(os.path.join("refdir", "utcak_20190514.tsv"))
-        relations = areas.Relations(test_config.make_test_config())
+        ctx = test_context.make_test_context()
+        refpath = ctx.get_abspath(os.path.join("refdir", "utcak_20190514.tsv"))
+        relations = areas.Relations(test_context.make_test_context())
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         expected = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
@@ -811,7 +811,7 @@ class TestRelations(unittest.TestCase):
     """Tests the Relations class."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         expected_relation_names = [
             "budafok",
             "empty",
@@ -860,7 +860,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         relation_name = "ujbuda"
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
         ret = relation.get_config().should_check_missing_streets()
         self.assertEqual(ret, "only")
@@ -868,7 +868,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
     def test_empty(self) -> None:
         """Tests the default value."""
         relation_name = "empty"
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
         self.assertEqual(relation.get_name(), "empty")
         ret = relation.get_config().should_check_missing_streets()
@@ -877,7 +877,7 @@ class TestRelationConfigMissingStreets(unittest.TestCase):
     def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
         relation_name = "nosuchrelation"
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
         ret = relation.get_config().should_check_missing_streets()
         self.assertEqual(ret, "yes")
@@ -888,7 +888,7 @@ class TestRelationConfigLetterSuffixStyle(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         relation_name = "empty"
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
         self.assertEqual(relation.get_config().get_letter_suffix_style(), util.LetterSuffixStyle.UPPER)
         relation.get_config().set_letter_suffix_style(util.LetterSuffixStyle.LOWER)
@@ -899,8 +899,8 @@ class TestRefmegyeGetName(unittest.TestCase):
     """Tests refcounty_get_name()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         self.assertEqual(relations.refcounty_get_name("01"), "Budapest")
         self.assertEqual(relations.refcounty_get_name("99"), "")
 
@@ -909,8 +909,8 @@ class TestRefmegyeGetReftelepulesIds(unittest.TestCase):
     """Tests refcounty_get_refsettlement_ids()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         self.assertEqual(relations.refcounty_get_refsettlement_ids("01"), ["011", "012"])
         self.assertEqual(relations.refcounty_get_refsettlement_ids("99"), [])
 
@@ -919,8 +919,8 @@ class TestReftelepulesGetName(unittest.TestCase):
     """Tests refsettlement_get_name()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         self.assertEqual(relations.refsettlement_get_name("01", "011"), "Újbuda")
         self.assertEqual(relations.refsettlement_get_name("99", ""), "")
         self.assertEqual(relations.refsettlement_get_name("01", "99"), "")
@@ -930,8 +930,8 @@ class TestRelationsGetAliases(unittest.TestCase):
     """Tests Relalations.get_aliases()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         # Expect an alias -> canonicalname map.
         expected = {
             "budapest_22": "budafok"
@@ -943,8 +943,8 @@ class TestRelationStreetIsEvenOdd(unittest.TestCase):
     """Tests RelationConfig.get_street_is_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation = relations.get_relation("gazdagret")
         self.assertFalse(relation.get_config().get_street_is_even_odd("Hamzsabégi út"))
 
@@ -955,7 +955,7 @@ class TestRelationShowRefstreet(unittest.TestCase):
     """Tests RelationConfig.should_show_ref_street()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         self.assertFalse(relation.should_show_ref_street("Törökugrató utca"))
         self.assertTrue(relation.should_show_ref_street("Hamzsabégi út"))
@@ -965,7 +965,7 @@ class TestRelationIsActive(unittest.TestCase):
     """Tests RelationConfig.is_active()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         self.assertTrue(relation.get_config().is_active())
 
@@ -974,7 +974,7 @@ class TestMakeTurboQueryForStreets(unittest.TestCase):
     """Tests make_turbo_query_for_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         fro = ["A2"]
         ret = areas.make_turbo_query_for_streets(relation, fro)

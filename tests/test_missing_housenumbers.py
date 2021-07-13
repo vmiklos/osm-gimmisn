@@ -9,7 +9,7 @@
 import io
 import unittest
 
-import test_config
+import test_context
 
 import missing_housenumbers
 
@@ -20,8 +20,8 @@ class TestMain(unittest.TestCase):
         """Tests the happy path."""
         argv = ["", "gh195"]
         buf = io.StringIO()
-        conf = test_config.make_test_config()
-        missing_housenumbers.main(argv, buf, conf)
+        ctx = test_context.make_test_context()
+        missing_housenumbers.main(argv, buf, ctx)
 
         buf.seek(0)
         self.assertEqual(buf.read(), "Kalotaszeg utca\t3\n['25', '27-37', '31*']\n")

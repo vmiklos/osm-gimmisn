@@ -16,14 +16,14 @@ import os
 import sys
 import yaml
 
-import config
+import context
 
 
-def main(argv: List[str], conf: config.Config) -> None:
+def main(argv: List[str], ctx: context.Context) -> None:
     """Commandline interface to this module."""
 
     cache: Dict[str, Any] = {}
-    datadir = conf.get_abspath(argv[1])
+    datadir = ctx.get_abspath(argv[1])
     for yaml_path in glob.glob(os.path.join(datadir, "*.yaml")):
         with open(yaml_path) as yaml_stream:
             cache_key = os.path.relpath(yaml_path, datadir)
@@ -33,7 +33,7 @@ def main(argv: List[str], conf: config.Config) -> None:
     with open(cache_path, "w") as cache_stream:
         json.dump(cache, cache_stream)
 
-    workdir = conf.get_abspath(argv[2])
+    workdir = ctx.get_abspath(argv[2])
     yaml_path = os.path.join(datadir, "relations.yaml")
     relation_ids = []
     with open(yaml_path) as stream:
@@ -48,6 +48,6 @@ def main(argv: List[str], conf: config.Config) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv, config.Config(""))
+    main(sys.argv, context.Context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

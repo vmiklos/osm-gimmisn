@@ -10,7 +10,7 @@ import json
 import os
 import unittest
 
-import test_config
+import test_context
 
 import areas
 import cache_yamls
@@ -24,8 +24,8 @@ class TestMain(unittest.TestCase):
         if os.path.exists(cache_path):
             os.remove(cache_path)
         argv = ["", "data", "workdir"]
-        conf = test_config.make_test_config()
-        cache_yamls.main(argv, conf)
+        ctx = test_context.make_test_context()
+        cache_yamls.main(argv, ctx)
         # Just assert that the result is created, the actual content is validated by the other
         # tests.
         self.assertTrue(os.path.exists(cache_path))
@@ -34,7 +34,7 @@ class TestMain(unittest.TestCase):
         relation_ids = []
         with open(relation_ids_path) as stream:
             relation_ids = json.load(stream)
-        relations = areas.Relations(conf)
+        relations = areas.Relations(ctx)
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
         self.assertEqual(relation_ids, sorted(set(osmids)))
 

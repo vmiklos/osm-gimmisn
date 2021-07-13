@@ -15,14 +15,14 @@ from typing import TYPE_CHECKING
 import cherrypy  # type: ignore
 
 import wsgi
-import config
+import context
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
     from wsgiref.types import StartResponse
 
 
-def main(conf: config.Config) -> None:
+def main(ctx: context.Context) -> None:
     """
     Commandline interface to this module.
 
@@ -34,14 +34,14 @@ def main(conf: config.Config) -> None:
     ProxyPassReverse / http://127.0.0.1:8000/
     """
     def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
-        return wsgi.application(environ, start_response, conf)
+        return wsgi.application(environ, start_response, ctx)
     cherrypy.tree.graft(app, "/")
     cherrypy.server.unsubscribe()
     # This is documented at <https://docs.cherrypy.org/en/latest/advanced.html>, so:
     # pylint: disable=protected-access
     server = cherrypy._cpserver.Server()
     server.socket_host = "127.0.0.1"
-    server.socket_port = conf.get_ini().get_tcp_port()
+    server.socket_port = ctx.get_ini().get_tcp_port()
     server.thread_pool = 8
     server.subscribe()
     cherrypy.engine.start()
@@ -49,6 +49,6 @@ def main(conf: config.Config) -> None:
 
 
 if __name__ == "__main__":
-    main(config.Config(""))
+    main(context.Context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

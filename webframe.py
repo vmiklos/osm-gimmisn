@@ -26,7 +26,7 @@ import yattag
 
 from i18n import translate as tr
 import areas
-import config
+import context
 import util
 import version
 
@@ -55,9 +55,9 @@ def get_footer(last_updated: str = "") -> yattag.doc.Doc:
     return doc
 
 
-def fill_header_function(conf: config.Config, function: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
+def fill_header_function(ctx: context.Context, function: str, relation_name: str, items: List[yattag.doc.Doc]) -> None:
     """Fills items with function-specific links in the header. Returns a title."""
-    prefix = conf.get_ini().get_uri_prefix()
+    prefix = ctx.get_ini().get_uri_prefix()
     if function == "missing-housenumbers":
         # The OSM data source changes much more frequently than the ref one, so add a dedicated link
         # to update OSM house numbers first.
@@ -109,14 +109,14 @@ def fill_header_function(conf: config.Config, function: str, relation_name: str,
 
 
 def fill_missing_header_items(
-    conf: config.Config,
+    ctx: context.Context,
     streets: str,
     additional_housenumbers: bool,
     relation_name: str,
     items: List[yattag.doc.Doc]
 ) -> None:
     """Generates the 'missing house numbers/streets' part of the header."""
-    prefix = conf.get_ini().get_uri_prefix()
+    prefix = ctx.get_ini().get_uri_prefix()
     if streets != "only":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/missing-housenumbers/" + relation_name + "/view-result"):
@@ -140,13 +140,13 @@ def fill_missing_header_items(
 
 
 def fill_existing_header_items(
-    conf: config.Config,
+    ctx: context.Context,
     streets: str,
     relation_name: str,
     items: List[yattag.doc.Doc]
 ) -> None:
     """Generates the 'existing house numbers/streets' part of the header."""
-    prefix = conf.get_ini().get_uri_prefix()
+    prefix = ctx.get_ini().get_uri_prefix()
     if streets != "only":
         doc = yattag.doc.Doc()
         with doc.tag("a", href=prefix + "/street-housenumbers/" + relation_name + "/view-result"):
@@ -160,7 +160,7 @@ def fill_existing_header_items(
 
 
 def get_toolbar(
-        conf: config.Config,
+        ctx: context.Context,
         relations: Optional[areas.Relations] = None,
         function: str = "",
         relation_name: str = "",
@@ -177,17 +177,17 @@ def get_toolbar(
         additional_housenumbers = relation.get_config().should_check_additional_housenumbers()
 
     doc = yattag.doc.Doc()
-    with doc.tag("a", href=conf.get_ini().get_uri_prefix() + "/"):
+    with doc.tag("a", href=ctx.get_ini().get_uri_prefix() + "/"):
         doc.text(tr("Area list"))
     items.append(doc)
 
     if relation_name:
-        fill_missing_header_items(conf, streets, additional_housenumbers, relation_name, items)
+        fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
 
-    fill_header_function(conf, function, relation_name, items)
+    fill_header_function(ctx, function, relation_name, items)
 
     if relation_name:
-        fill_existing_header_items(conf, streets, relation_name, items)
+        fill_existing_header_items(ctx, streets, relation_name, items)
 
     doc = yattag.doc.Doc()
 
@@ -218,7 +218,7 @@ def get_toolbar(
     else:
         # These are on the main page only.
         doc = yattag.doc.Doc()
-        with doc.tag("a", href=conf.get_ini().get_uri_prefix() + "/housenumber-stats/hungary/"):
+        with doc.tag("a", href=ctx.get_ini().get_uri_prefix() + "/housenumber-stats/hungary/"):
             doc.text(tr("Statistics"))
         items.append(doc)
 
@@ -237,7 +237,7 @@ def get_toolbar(
     return doc
 
 
-def handle_static(conf: config.Config, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
+def handle_static(ctx: context.Context, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
     tokens = request_uri.split("/")
     path = tokens[-1]
@@ -245,23 +245,23 @@ def handle_static(conf: config.Config, request_uri: str) -> Tuple[bytes, str, Li
 
     if request_uri.endswith(".js"):
         content_type = "application/x-javascript"
-        content = util.get_content(conf.get_abspath("builddir"), path, extra_headers)
+        content = util.get_content(ctx.get_abspath("builddir"), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".css"):
         content_type = "text/css"
-        content = util.get_content(conf.get_ini().get_workdir(), path, extra_headers)
+        content = util.get_content(ctx.get_ini().get_workdir(), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".json"):
         content_type = "application/json"
-        content = util.get_content(os.path.join(conf.get_ini().get_workdir(), "stats"), path, extra_headers)
+        content = util.get_content(os.path.join(ctx.get_ini().get_workdir(), "stats"), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".ico"):
         content_type = "image/x-icon"
-        content = util.get_content(conf.get_abspath(""), path, extra_headers)
+        content = util.get_content(ctx.get_abspath(""), path, extra_headers)
         return content, content_type, extra_headers
     if request_uri.endswith(".svg"):
         content_type = "image/svg+xml"
-        content = util.get_content(conf.get_abspath(""), path, extra_headers)
+        content = util.get_content(ctx.get_abspath(""), path, extra_headers)
         return content, content_type, extra_headers
 
     return bytes(), "", extra_headers
@@ -354,13 +354,13 @@ def format_timestamp(timestamp: float) -> str:
     return date_time.strftime(fmt)
 
 
-def handle_stats_cityprogress(conf: config.Config, relations: areas.Relations) -> yattag.doc.Doc:
+def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress."""
     doc = yattag.doc.Doc()
-    doc.asis(get_toolbar(conf, relations).getvalue())
+    doc.asis(get_toolbar(ctx, relations).getvalue())
 
     ref_citycounts: Dict[str, int] = {}
-    with open(conf.get_ini().get_reference_citycounts_path(), "r") as stream:
+    with open(ctx.get_ini().get_reference_citycounts_path(), "r") as stream:
         first = True
         for line in stream.readlines():
             if first:
@@ -372,9 +372,9 @@ def handle_stats_cityprogress(conf: config.Config, relations: areas.Relations) -
             city = cells[0]
             count = int(cells[1])
             ref_citycounts[city] = count
-    today = datetime.date.fromtimestamp(conf.get_time().now()).strftime("%Y-%m-%d")
+    today = datetime.date.fromtimestamp(ctx.get_time().now()).strftime("%Y-%m-%d")
     osm_citycounts: Dict[str, int] = {}
-    with open(conf.get_ini().get_workdir() + "/stats/" + today + ".citycount", "r") as stream:
+    with open(ctx.get_ini().get_workdir() + "/stats/" + today + ".citycount", "r") as stream:
         for line in stream.readlines():
             cells = line.strip().split('\t')
             if len(cells) < 2:
@@ -409,14 +409,14 @@ Only cities with house numbers in OSM are considered."""))
     return doc
 
 
-def handle_invalid_refstreets(conf: config.Config, relations: areas.Relations) -> yattag.doc.Doc:
+def handle_invalid_refstreets(ctx: context.Context, relations: areas.Relations) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
     doc = yattag.doc.Doc()
-    doc.asis(get_toolbar(conf, relations).getvalue())
+    doc.asis(get_toolbar(ctx, relations).getvalue())
 
-    prefix = conf.get_ini().get_uri_prefix()
+    prefix = ctx.get_ini().get_uri_prefix()
     for relation in relations.get_relations():
-        if not conf.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
+        if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
             continue
         invalid_refstreets = relation.get_invalid_refstreets()
         osm_invalids, ref_invalids = invalid_refstreets
@@ -434,18 +434,18 @@ def handle_invalid_refstreets(conf: config.Config, relations: areas.Relations) -
     return doc
 
 
-def handle_stats(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     if request_uri.endswith("/cityprogress"):
-        return handle_stats_cityprogress(conf, relations)
+        return handle_stats_cityprogress(ctx, relations)
 
     if request_uri.endswith("/invalid-relations"):
-        return handle_invalid_refstreets(conf, relations)
+        return handle_invalid_refstreets(ctx, relations)
 
     doc = yattag.doc.Doc()
-    doc.asis(get_toolbar(conf, relations).getvalue())
+    doc.asis(get_toolbar(ctx, relations).getvalue())
 
-    prefix = conf.get_ini().get_uri_prefix()
+    prefix = ctx.get_ini().get_uri_prefix()
 
     # Emit localized strings for JS purposes.
     with doc.tag("div", style="display: none;"):
@@ -533,11 +533,11 @@ more meaningful than a lot of useless work."""))
     return doc
 
 
-def get_request_uri(environ: Dict[str, Any], conf: config.Config, relations: areas.Relations) -> str:
+def get_request_uri(environ: Dict[str, Any], ctx: context.Context, relations: areas.Relations) -> str:
     """Finds out the request URI."""
     request_uri = cast(str, environ.get("PATH_INFO"))
 
-    prefix = conf.get_ini().get_uri_prefix()
+    prefix = ctx.get_ini().get_uri_prefix()
     if request_uri:
         # Compatibility.
         if request_uri.startswith(prefix + "/suspicious-streets/"):
@@ -562,10 +562,10 @@ def get_request_uri(environ: Dict[str, Any], conf: config.Config, relations: are
     return request_uri
 
 
-def check_existing_relation(conf: config.Config, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
+def check_existing_relation(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.doc.Doc:
     """Prevents serving outdated data from a relation that has been renamed."""
     doc = yattag.doc.Doc()
-    prefix = conf.get_ini().get_uri_prefix()
+    prefix = ctx.get_ini().get_uri_prefix()
     if not request_uri.startswith(prefix + "/streets/") \
             and not request_uri.startswith(prefix + "/missing-streets/") \
             and not request_uri.startswith(prefix + "/additional-streets/") \
@@ -671,7 +671,7 @@ def handle_no_ref_streets(prefix: str, relation_name: str) -> yattag.doc.Doc:
     return doc
 
 
-def handle_github_webhook(environ: Dict[str, Any], conf: config.Config) -> yattag.doc.Doc:
+def handle_github_webhook(environ: Dict[str, Any], ctx: context.Context) -> yattag.doc.Doc:
     """Handles a GitHub style webhook."""
 
     body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
@@ -680,7 +680,7 @@ def handle_github_webhook(environ: Dict[str, Any], conf: config.Config) -> yatta
     if root["ref"] == "refs/heads/master":
         my_env: Dict[str, str] = {}
         my_env["PATH"] = "osm-gimmisn-env/bin:" + os.environ["PATH"]
-        conf.get_subprocess().run(["make", "-C", conf.get_abspath(""), "deploy"], env=my_env)
+        ctx.get_subprocess().run(["make", "-C", ctx.get_abspath(""), "deploy"], env=my_env)
 
     return util.html_escape("")
 

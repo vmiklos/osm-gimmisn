@@ -10,7 +10,7 @@ import io
 import json
 import unittest
 
-import test_config
+import test_context
 import test_wsgi
 
 import areas
@@ -31,25 +31,25 @@ class TestStreets(test_wsgi.TestWsgi):
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/additional-streets/gazdagret/view-result.txt")
         self.assertEqual(result, "No existing streets")
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         result = self.get_txt_for_path("/additional-streets/gazdagret/view-result.txt")
         self.assertEqual(result, "No reference streets")
 
@@ -64,22 +64,22 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
     """Tests handle_main_housenr_additional_count()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation = relations.get_relation("budafok")
-        actual = wsgi.handle_main_housenr_additional_count(conf, relation)
+        actual = wsgi.handle_main_housenr_additional_count(ctx, relation)
         self.assertIn("42 house numbers", actual.getvalue())
 
     def test_no_count_file(self) -> None:
         """Tests what happens when the count file is not there."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation = relations.get_relation("budafok")
         hide_path = relation.get_files().get_housenumbers_additional_count_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        conf.set_file_system(file_system)
-        actual = wsgi.handle_main_housenr_additional_count(conf, relation)
+        ctx.set_file_system(file_system)
+        actual = wsgi.handle_main_housenr_additional_count(ctx, relation)
         self.assertNotIn("42 housenumbers", actual.getvalue())
 
 
@@ -93,39 +93,39 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/additional-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='no-osm-streets']")
         self.assertEqual(len(results), 1)
 
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/additional-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='no-osm-housenumbers']")
         self.assertEqual(len(results), 1)
 
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
-        conf = test_config.make_test_config()
-        relations = areas.Relations(conf)
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/additional-housenumbers/gazdagret/view-result")
         results = root.findall("body/div[@id='no-ref-housenumbers']")
         self.assertEqual(len(results), 1)
@@ -147,7 +147,7 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
 
     def test_street_from_housenr_well_formed(self) -> None:
         """Tests if the output is well-formed when the street name comes from a housenr."""
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         yamls_cache = {
             "relations.yaml": {
                 "gh611": {
@@ -162,32 +162,32 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
         yamls_cache_value = io.BytesIO()
         yamls_cache_value.write(json.dumps(yamls_cache).encode("utf-8"))
         yamls_cache_value.seek(0)
-        file_system.set_files({self.conf.get_abspath("data/yamls.cache"): yamls_cache_value})
-        self.conf.set_file_system(file_system)
+        file_system.set_files({self.ctx.get_abspath("data/yamls.cache"): yamls_cache_value})
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/additional-streets/gh611/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/additional-streets/gazdagret/view-result")
         results = root.findall("body/div[@id='no-osm-streets']")
         self.assertEqual(len(results), 1)
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        relations = areas.Relations(test_config.make_test_config())
+        relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
-        file_system = test_config.TestFileSystem()
+        file_system = test_context.TestFileSystem()
         file_system.set_hide_paths([hide_path])
-        self.conf.set_file_system(file_system)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/additional-streets/gazdagret/view-result")
         results = root.findall("body/div[@id='no-ref-streets']")
         self.assertEqual(len(results), 1)
