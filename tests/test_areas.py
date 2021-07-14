@@ -85,12 +85,13 @@ class TestRelationFilesWriteOsmStreets(unittest.TestCase):
     """Tests RelationFiles.write_osm_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
         expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-        relation.get_files().write_osm_streets(result_from_overpass)
+        relation.get_files().write_osm_streets(ctx, result_from_overpass)
         actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
         self.assertEqual(actual, expected)
 
@@ -99,7 +100,8 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
     """Tests RelationFiles.write_osm_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation_name = "gazdagret"
         result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
         result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
@@ -113,7 +115,7 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
         result_from_overpass += "1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
         expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         relation = relations.get_relation(relation_name)
-        relation.get_files().write_osm_housenumbers(result_from_overpass)
+        relation.get_files().write_osm_housenumbers(ctx, result_from_overpass)
         actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         self.assertEqual(actual, expected)
 
@@ -798,7 +800,7 @@ class TestRelationWriteRefStreets(unittest.TestCase):
         """Tests the happy path."""
         ctx = test_context.make_test_context()
         refpath = ctx.get_abspath(os.path.join("refdir", "utcak_20190514.tsv"))
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.Relations(ctx)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         expected = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")

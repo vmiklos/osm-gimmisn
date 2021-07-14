@@ -77,7 +77,7 @@ def update_osm_streets(ctx: context.Context, relations: areas.Relations, update:
             if err:
                 info("update_osm_streets: http error: %s", err)
                 continue
-            relation.get_files().write_osm_streets(buf)
+            relation.get_files().write_osm_streets(ctx, buf)
             break
         info("update_osm_streets: end: %s", relation_name)
 
@@ -100,7 +100,7 @@ def update_osm_housenumbers(ctx: context.Context, relations: areas.Relations, up
             if err:
                 info("update_osm_housenumbers: http error: %s", err)
                 continue
-            relation.get_files().write_osm_housenumbers(buf)
+            relation.get_files().write_osm_housenumbers(ctx, buf)
             break
         info("update_osm_housenumbers: end: %s", relation_name)
 
@@ -318,7 +318,7 @@ def update_stats(ctx: context.Context, overpass: bool) -> None:
 
     info("update_stats: generating json")
     json_path = os.path.join(statedir, "stats.json")
-    with open(json_path, "wb") as stream:
+    with ctx.get_file_system().open(json_path, "wb") as stream:
         stats.generate_json(ctx, statedir, stream)
 
     info("update_stats: end")
@@ -375,9 +375,9 @@ def main(ctx: context.Context) -> None:
     parser.set_defaults(update=True, overpass=True, mode="relations")
     args = parser.parse_args()
 
-    start = time.time()
+    start = ctx.get_time().now()
     # Query inactive relations once a month.
-    first_day_of_month = time.localtime(start).tm_mday == 1
+    first_day_of_month = datetime.date.fromtimestamp(start).day == 1
     relations.activate_all(ctx.get_ini().get_cron_update_inactive() or first_day_of_month)
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)

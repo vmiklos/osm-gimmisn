@@ -36,7 +36,7 @@ def streets_update_result_json(ctx: context.Context, relations: areas.Relations,
     if err:
         ret["error"] = err
     else:
-        relation.get_files().write_osm_streets(buf)
+        relation.get_files().write_osm_streets(ctx, buf)
         ret["error"] = ""
     return json.dumps(ret)
 
@@ -52,7 +52,7 @@ def street_housenumbers_update_result_json(ctx: context.Context, relations: area
     if err:
         ret["error"] = err
     else:
-        relation.get_files().write_osm_housenumbers(buf)
+        relation.get_files().write_osm_housenumbers(ctx, buf)
         ret["error"] = ""
     return json.dumps(ret)
 

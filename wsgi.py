@@ -55,7 +55,7 @@ def handle_streets(ctx: context.Context, relations: areas.Relations, request_uri
         if err:
             doc.asis(util.handle_overpass_error(ctx, err).getvalue())
         else:
-            relation.get_files().write_osm_streets(buf)
+            relation.get_files().write_osm_streets(ctx, buf)
             streets = relation.get_config().should_check_missing_streets()
             if streets != "only":
                 doc.text(tr("Update successful: "))
@@ -65,7 +65,7 @@ def handle_streets(ctx: context.Context, relations: areas.Relations, request_uri
                 doc.text(tr("Update successful."))
     else:
         # assume view-result
-        with relation.get_files().get_osm_streets_csv_stream() as sock:
+        with relation.get_files().get_osm_streets_csv_stream(ctx) as sock:
             table = util.tsv_to_list(sock)
             doc.asis(util.html_table_from_list(table).getvalue())
 
@@ -95,7 +95,7 @@ def handle_street_housenumbers(ctx: context.Context, relations: areas.Relations,
         if err:
             doc.asis(util.handle_overpass_error(ctx, err).getvalue())
         else:
-            relation.get_files().write_osm_housenumbers(buf)
+            relation.get_files().write_osm_housenumbers(ctx, buf)
             doc.text(tr("Update successful: "))
             link = prefix + "/missing-housenumbers/" + relation_name + "/view-result"
             doc.asis(util.gen_link(link, tr("View missing house numbers")).getvalue())
@@ -105,7 +105,7 @@ def handle_street_housenumbers(ctx: context.Context, relations: areas.Relations,
             with doc.tag("div", id="no-osm-housenumbers"):
                 doc.text(tr("No existing house numbers"))
         else:
-            with relation.get_files().get_osm_housenumbers_csv_stream() as sock:
+            with relation.get_files().get_osm_housenumbers_csv_stream(ctx) as sock:
                 doc.asis(util.html_table_from_list(util.tsv_to_list(sock)).getvalue())
 
     date = get_housenumbers_last_modified(relation)
@@ -376,7 +376,7 @@ def handle_missing_streets(ctx: context.Context, relations: areas.Relations, req
         doc.asis(missing_streets_view_turbo(relations, request_uri).getvalue())
     elif action == "view-query":
         with doc.tag("pre"):
-            with relation.get_files().get_ref_streets_stream("rb") as sock:
+            with relation.get_files().get_ref_streets_stream(ctx, "rb") as sock:
                 doc.text(util.from_bytes(sock.read()))
     elif action == "update-result":
         doc.asis(missing_streets_update(ctx, relations, relation_name).getvalue())

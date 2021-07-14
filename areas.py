@@ -215,7 +215,7 @@ class RelationBase:
             parent_config: Dict[str, Any],
             yaml_cache: Dict[str, Any]
     ) -> None:
-        self.__conf = ctx
+        self.__ctx = ctx
         self.__name = name
         my_config: Dict[str, Any] = {}
         self.__file = area_files.RelationFiles(ctx.get_abspath("data"), ctx.get_ini().get_workdir(), name)
@@ -284,7 +284,7 @@ class RelationBase:
     def get_osm_streets(self, sorted_result: bool = True) -> List[util.Street]:
         """Reads list of streets for an area from OSM."""
         ret: List[util.Street] = []
-        with self.get_files().get_osm_streets_csv_stream() as sock:
+        with self.get_files().get_osm_streets_csv_stream(self.__ctx) as sock:
             first = True
             for row in sock.get_rows():
                 if first:
@@ -297,7 +297,7 @@ class RelationBase:
                 street.set_source(tr("street"))
                 ret.append(street)
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
-            with self.get_files().get_osm_housenumbers_csv_stream() as sock:
+            with self.get_files().get_osm_housenumbers_csv_stream(self.__ctx) as sock:
                 ret += util.get_street_from_housenumber(sock)
         if sorted_result:
             return sorted(set(ret))
@@ -305,7 +305,7 @@ class RelationBase:
 
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
-        with open(os.path.join(self.__conf.get_abspath("data"), "streets-template.txt")) as stream:
+        with open(os.path.join(self.__ctx.get_abspath("data"), "streets-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
     def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
@@ -315,7 +315,7 @@ class RelationBase:
             # once.
             street_ranges = self.get_street_ranges()
             house_numbers: Dict[str, List[util.HouseNumber]] = {}
-            with self.get_files().get_osm_housenumbers_csv_stream() as sock:
+            with self.get_files().get_osm_housenumbers_csv_stream(self.__ctx) as sock:
                 first = True
                 columns: Dict[str, int] = {}
                 for row in sock.get_rows():
@@ -347,14 +347,14 @@ class RelationBase:
         lst = self.get_config().build_ref_streets(memory_cache)
 
         lst = sorted(set(lst))
-        with self.get_files().get_ref_streets_stream("wb") as sock:
+        with self.get_files().get_ref_streets_stream(self.__ctx, "wb") as sock:
             for line in lst:
                 sock.write(util.to_bytes(line + "\n"))
 
     def get_ref_streets(self) -> List[str]:
         """Gets streets from reference."""
         streets: List[str] = []
-        with self.get_files().get_ref_streets_stream("rb") as sock:
+        with self.get_files().get_ref_streets_stream(self.__ctx, "rb") as sock:
             for line in sock.readlines():
                 line = line.strip()
                 streets.append(util.from_bytes(line))
@@ -412,7 +412,7 @@ class RelationBase:
                 lst += self.build_ref_housenumbers(memory_cache, street, suffix)
 
         lst = sorted(set(lst))
-        with self.get_files().get_ref_housenumbers_stream(self.ctx, "wb") as sock:
+        with self.get_files().get_ref_housenumbers_stream(self.__ctx, "wb") as sock:
             for line in lst:
                 sock.write(util.to_bytes(line + "\n"))
 
@@ -534,7 +534,7 @@ class RelationBase:
             percent = "100.00"
 
         # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_streets_percent_stream("wb") as stream:
+        with self.get_files().get_streets_percent_stream(self.__ctx, "wb") as stream:
             stream.write(util.to_bytes(percent))
 
         return todo_count, done_count, percent, streets
@@ -544,7 +544,7 @@ class RelationBase:
         additional_streets = self.get_additional_streets()
 
         # Write the count to a file, so the index page show it fast.
-        with self.get_files().get_streets_additional_count_stream("wb") as stream:
+        with self.get_files().get_streets_additional_count_stream(self.__ctx, "wb") as stream:
             stream.write(util.to_bytes(str(len(additional_streets))))
 
         return additional_streets
@@ -560,7 +560,7 @@ class Relation(RelationBase):
             yaml_cache: Dict[str, Any]
     ) -> None:
         RelationBase.__init__(self, ctx, name, parent_config, yaml_cache)
-        self.__conf = ctx
+        self.__ctx = ctx
 
     def get_street_valid(self) -> Dict[str, List[str]]:
         """Gets a street name -> valid map, which allows silencing individual false positives."""
@@ -630,7 +630,7 @@ class Relation(RelationBase):
             percent = "100.00"
 
         # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_housenumbers_percent_stream("wb") as stream:
+        with self.get_files().get_housenumbers_percent_stream(self.__ctx, "wb") as stream:
             stream.write(util.to_bytes(percent))
 
         return len(ongoing_streets), todo_count, done_count, percent, table
@@ -652,7 +652,7 @@ class Relation(RelationBase):
 
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
-        with open(os.path.join(self.__conf.get_abspath("data"), "street-housenumbers-template.txt")) as stream:
+        with open(os.path.join(self.__ctx.get_abspath("data"), "street-housenumbers-template.txt")) as stream:
             return util.process_template(stream.read(), self.get_config().get_osmrelation())
 
     def get_invalid_refstreets(self) -> Tuple[List[str], List[str]]:
@@ -714,7 +714,7 @@ class Relations:
     """A relations object is a container of named relation objects."""
     def __init__(self, ctx: context.Context) -> None:
         self.__workdir = ctx.get_ini().get_workdir()
-        self.__conf = ctx
+        self.__ctx = ctx
         with ctx.get_file_system().open(os.path.join(ctx.get_abspath("data"), "yamls.cache"), "rb") as stream:
             self.__yaml_cache: Dict[str, Any] = json.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]
@@ -732,7 +732,7 @@ class Relations:
         if name not in self.__relations.keys():
             if name not in self.__dict.keys():
                 self.__dict[name] = {}
-            self.__relations[name] = Relation(self.__conf,
+            self.__relations[name] = Relation(self.__ctx,
                                               name,
                                               self.__dict[name],
                                               self.__yaml_cache)
