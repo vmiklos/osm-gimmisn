@@ -4,10 +4,6 @@ filters:
     show-refstreet: false
   Erkel Ferenc utca:
     show-refstreet: false
-  Vadvirág utca:
-    ranges:
-      - {start: '1', end: '21'}
-      - {start: '2', end: '26'}
   Kölcsey Ferenc utca:
     show-refstreet: false
   Madách Imre tér:
@@ -16,6 +12,14 @@ filters:
     show-refstreet: false
   Radnóti utca:
     show-refstreet: false
+  Templom utca:
+    # 4: páros oldal az Erkel Ferencről számozódik
+    ranges:
+      invalid: ['4']
+  Vadvirág utca:
+    ranges:
+      - {start: '1', end: '21'}
+      - {start: '2', end: '26'}
   Vöröshegyi utca:
     show-refstreet: false
   Vörösmarty Mihály utca:
