@@ -9,6 +9,8 @@
 from typing import cast
 from typing import Any
 from typing import List
+import io
+import json
 import os
 import time
 import unittest
@@ -373,48 +375,111 @@ class TestOurMain(unittest.TestCase):
     """Tests our_main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        calls = 0
-
-        def count_calls(_ctx: context.Context, _relations: areas.Relation, _update: bool) -> None:
-            nonlocal calls
-            calls += 1
-
         ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            # For update_osm_streets().
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-streets-gazdagret.csv"),
+            # For update_osm_housenumbers().
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-housenumbers-gazdagret.csv"),
+        ]
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        file_system = test_context.TestFileSystem()
+        yamls_cache = {
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 2713748,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+            "refcounty-names.yaml": {
+            },
+            "refsettlement-names.yaml": {
+            },
+        }
+        yamls_cache_value = io.BytesIO()
+        yamls_cache_value.__setattr__("close", lambda: None)
+        yamls_cache_value.write(util.to_bytes(json.dumps(yamls_cache)))
+        yamls_cache_value.seek(0)
+        osm_streets_value = io.BytesIO()
+        osm_streets_value.__setattr__("close", lambda: None)
+        osm_housenumbers_value = io.BytesIO()
+        osm_housenumbers_value.__setattr__("close", lambda: None)
+        ref_streets_value = io.BytesIO()
+        ref_streets_value.__setattr__("close", lambda: None)
+        ref_housenumbers_value = io.BytesIO()
+        ref_housenumbers_value.__setattr__("close", lambda: None)
+        missing_streets_value = io.BytesIO()
+        missing_streets_value.__setattr__("close", lambda: None)
+        missing_housenumbers_value = io.BytesIO()
+        missing_housenumbers_value.__setattr__("close", lambda: None)
+        additional_streets_value = io.BytesIO()
+        additional_streets_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("data/yamls.cache"): yamls_cache_value,
+            ctx.get_abspath("workdir/streets-gazdagret.csv"): osm_streets_value,
+            ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"): osm_housenumbers_value,
+            ctx.get_abspath("workdir/streets-reference-gazdagret.lst"): ref_streets_value,
+            ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"): ref_housenumbers_value,
+            ctx.get_abspath("workdir/gazdagret-streets.percent"): missing_streets_value,
+            ctx.get_abspath("workdir/gazdagret.percent"): missing_housenumbers_value,
+            ctx.get_abspath("workdir/gazdagret-additional-streets.count"): additional_streets_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         relations = areas.Relations(ctx)
-        with unittest.mock.patch("cron.update_osm_streets", count_calls):
-            with unittest.mock.patch("cron.update_osm_housenumbers", count_calls):
-                with unittest.mock.patch("cron.update_ref_streets", count_calls):
-                    with unittest.mock.patch("cron.update_ref_housenumbers", count_calls):
-                        with unittest.mock.patch("cron.update_missing_streets", count_calls):
-                            with unittest.mock.patch("cron.update_missing_housenumbers", count_calls):
-                                with unittest.mock.patch("cron.update_additional_streets", count_calls):
-                                    cron.our_main(ctx, relations, mode="relations", update=True, overpass=True)
 
-        expected = 0
-        # Consider what to update automatically: the 2 sources and the diff between them.
-        for _ in ("osm", "ref", "missing"):
-            # What object types we have.
-            for _ in ("streets", "housenumbers"):
-                expected += 1
-        # "additional" is streets-only
-        expected += 1
+        cron.our_main(ctx, relations, mode="relations", update=True, overpass=True)
 
-        self.assertEqual(calls, expected)
+        # update_osm_streets() is called.
+        self.assertTrue(osm_streets_value.tell())
+        # update_osm_housenumbers() is called.
+        self.assertTrue(osm_housenumbers_value.tell())
+        # update_ref_streets() is called.
+        self.assertTrue(ref_streets_value.tell())
+        # update_ref_housenumbers() is called.
+        self.assertTrue(ref_housenumbers_value.tell())
+        # update_missing_streets() is called.
+        self.assertTrue(missing_streets_value.tell())
+        # update_missing_housenumbers() is called.
+        self.assertTrue(missing_housenumbers_value.tell())
+        # update_additional_streets() is called.
+        self.assertTrue(additional_streets_value.tell())
 
     def test_stats(self) -> None:
         """Tests the stats path."""
-        calls = 0
-
-        def count_calls(_ctx: context.Context, _overpass: bool) -> None:
-            nonlocal calls
-            calls += 1
-
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
-        with unittest.mock.patch("cron.update_stats", count_calls):
-            cron.our_main(ctx, relations, mode="stats", update=False, overpass=True)
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass-stats.csv"),
+        ]
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        file_system = test_context.TestFileSystem()
+        stats_value = io.BytesIO()
+        stats_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/stats/stats.json"): stats_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
 
-        self.assertEqual(calls, 1)
+        relations = areas.Relations(ctx)
+        cron.our_main(ctx, relations, mode="stats", update=False, overpass=True)
+
+        self.assertTrue(stats_value.tell())
 
 
 class TestMain(unittest.TestCase):

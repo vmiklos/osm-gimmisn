@@ -57,6 +57,7 @@ class TestFileSystem(context.FileSystem):
 
     def open(self, path: str, mode: str) -> BinaryIO:
         if path in self.__files:
+            self.__files[path].seek(0)
             return self.__files[path]
         return cast(BinaryIO, open(path, mode))
 

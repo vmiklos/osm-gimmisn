@@ -8,6 +8,9 @@ score=no
 # Maximum number of characters on a single line.
 max-line-length=120
 
+# Maximum number of lines in a module.
+max-module-lines=2000
+
 [DESIGN]
 
 # Minimum number of public methods for a class (see R0903).
