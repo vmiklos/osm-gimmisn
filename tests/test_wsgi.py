@@ -10,7 +10,6 @@ from typing import Any
 from typing import BinaryIO
 from typing import Container
 from typing import Dict
-from typing import Iterable
 from typing import List
 from typing import TYPE_CHECKING
 from typing import Tuple
@@ -29,7 +28,6 @@ import xmlrpc.client
 import test_context
 
 import areas
-import context
 import webframe
 import wsgi
 
@@ -626,6 +624,7 @@ class TestMain(TestWsgi):
     def test_application_exception(self) -> None:
         """Tests application(), exception catching case."""
         ctx = test_context.make_test_context()
+        ctx.set_unit(test_context.TestUnit())
         environ = {
             "PATH_INFO": "/"
         }
@@ -635,22 +634,14 @@ class TestMain(TestWsgi):
             header_dict = dict(response_headers)
             self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        def mock_application(
-            environ: Dict[str, Any],
-            start_response: 'StartResponse',
-            ctx: context.Context
-        ) -> Iterable[bytes]:
-            int("a")
-            # Never reached.
-            return wsgi.our_application(environ, start_response, ctx)
+        callback = cast('StartResponse', start_response)
 
-        with unittest.mock.patch('wsgi.our_application', mock_application):
-            callback = cast('StartResponse', start_response)
-            output_iterable = wsgi.application(environ, callback, ctx)
-            output_list = cast(List[bytes], output_iterable)
-            self.assertTrue(output_list)
-            output = output_list[0].decode('utf-8')
-            self.assertIn("ValueError", output)
+        output_iterable = wsgi.application(environ, callback, ctx)
+
+        output_list = cast(List[bytes], output_iterable)
+        self.assertTrue(output_list)
+        output = output_list[0].decode('utf-8')
+        self.assertIn("TestError", output)
 
 
 class TestWebhooks(TestWsgi):

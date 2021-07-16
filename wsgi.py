@@ -16,6 +16,7 @@ from typing import List
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Tuple
+import traceback
 
 import yattag
 
@@ -901,53 +902,60 @@ def our_application(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
         ctx: context.Context
-) -> Iterable[bytes]:
+) -> Tuple[Iterable[bytes], str]:
     """Dispatches the request based on its URI."""
-    language = util.setup_localization(environ, ctx)
+    try:
+        language = util.setup_localization(environ, ctx)
 
-    relations = areas.Relations(ctx)
+        relations = areas.Relations(ctx)
 
-    request_uri = webframe.get_request_uri(environ, ctx, relations)
-    _, _, ext = request_uri.partition('.')
+        request_uri = webframe.get_request_uri(environ, ctx, relations)
+        _, _, ext = request_uri.partition('.')
 
-    if ext in ("txt", "chkl"):
-        return our_application_txt(environ, start_response, ctx, relations, request_uri)
+        if ext in ("txt", "chkl"):
+            return our_application_txt(environ, start_response, ctx, relations, request_uri), str()
 
-    if not (request_uri == "/" or request_uri.startswith(ctx.get_ini().get_uri_prefix())):
-        doc = webframe.handle_404()
-        response = webframe.Response("text/html", "404 Not Found", doc.getvalue().encode("utf-8"), [])
-        return webframe.send_response(environ, start_response, response)
+        if not (request_uri == "/" or request_uri.startswith(ctx.get_ini().get_uri_prefix())):
+            doc = webframe.handle_404()
+            response = webframe.Response("text/html", "404 Not Found", doc.getvalue().encode("utf-8"), [])
+            return webframe.send_response(environ, start_response, response), str()
 
-    if request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/static/") or \
-            request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
-        output, content_type, headers = webframe.handle_static(ctx, request_uri)
+        if request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/static/") or \
+                request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
+            output, content_type, headers = webframe.handle_static(ctx, request_uri)
+            return webframe.send_response(environ,
+                                          start_response,
+                                          webframe.Response(content_type, "200 OK", output, headers)), str()
+
+        if ext == "json":
+            return wsgi_json.our_application_json(environ, start_response, ctx, relations, request_uri), str()
+
+        doc = yattag.doc.Doc()
+        util.write_html_header(doc)
+        with doc.tag("html", lang=language):
+            write_html_head(ctx, doc, get_html_title(request_uri))
+
+            with doc.tag("body"):
+                no_such_relation = webframe.check_existing_relation(ctx, relations, request_uri)
+                handler = get_handler(ctx, request_uri)
+                if no_such_relation.getvalue():
+                    doc.asis(no_such_relation.getvalue())
+                elif handler:
+                    doc.asis(handler(ctx, relations, request_uri).getvalue())
+                elif request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/webhooks/github"):
+                    doc.asis(webframe.handle_github_webhook(environ, ctx).getvalue())
+                else:
+                    doc.asis(handle_main(request_uri, ctx, relations).getvalue())
+
+        err = ctx.get_unit().make_error()
+        if err:
+            return [], err
         return webframe.send_response(environ,
                                       start_response,
-                                      webframe.Response(content_type, "200 OK", output, headers))
-
-    if ext == "json":
-        return wsgi_json.our_application_json(environ, start_response, ctx, relations, request_uri)
-
-    doc = yattag.doc.Doc()
-    util.write_html_header(doc)
-    with doc.tag("html", lang=language):
-        write_html_head(ctx, doc, get_html_title(request_uri))
-
-        with doc.tag("body"):
-            no_such_relation = webframe.check_existing_relation(ctx, relations, request_uri)
-            handler = get_handler(ctx, request_uri)
-            if no_such_relation.getvalue():
-                doc.asis(no_such_relation.getvalue())
-            elif handler:
-                doc.asis(handler(ctx, relations, request_uri).getvalue())
-            elif request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/webhooks/github"):
-                doc.asis(webframe.handle_github_webhook(environ, ctx).getvalue())
-            else:
-                doc.asis(handle_main(request_uri, ctx, relations).getvalue())
-
-    return webframe.send_response(environ,
-                                  start_response,
-                                  webframe.Response("text/html", "200 OK", doc.getvalue().encode("utf-8"), []))
+                                      webframe.Response("text/html", "200 OK", doc.getvalue().encode("utf-8"), [])), err
+    # pylint: disable=broad-except
+    except Exception:  # pragma: no cover
+        return [], traceback.format_exc()
 
 
 def application(
@@ -956,11 +964,10 @@ def application(
         ctx: context.Context
 ) -> Iterable[bytes]:
     """The entry point of this WSGI app."""
-    try:
-        return our_application(environ, start_response, ctx)
-    # pylint: disable=broad-except
-    except Exception:
-        return webframe.handle_exception(environ, start_response)
+    ret, err = our_application(environ, start_response, ctx)
+    if err:
+        return webframe.handle_exception(environ, start_response, err)
+    return ret
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

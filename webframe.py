@@ -18,7 +18,6 @@ from typing import cast
 import datetime
 import json
 import os
-import traceback
 import urllib
 import xmlrpc.client
 
@@ -319,7 +318,8 @@ def send_response(
 
 def handle_exception(
         environ: Dict[str, Any],
-        start_response: 'StartResponse'
+        start_response: 'StartResponse',
+        error: str
 ) -> Iterable[bytes]:
     """Displays an unhandled exception on the page."""
     status = '500 Internal Server Error'
@@ -329,7 +329,7 @@ def handle_exception(
     util.write_html_header(doc)
     with doc.tag("pre"):
         doc.text(tr("Internal error when serving {0}").format(request_uri) + "\n")
-        doc.text(traceback.format_exc())
+        doc.text(error)
     response_properties = Response("text/html", status, doc.getvalue().encode("utf-8"), [])
     return send_response(environ, start_response, response_properties)
 
