@@ -7,7 +7,6 @@
 """The test_cron module covers the cron module."""
 
 from typing import cast
-from typing import Any
 from typing import List
 import io
 import json
@@ -19,7 +18,6 @@ import unittest.mock
 import test_context
 
 import areas
-import context
 import cron
 import util
 
@@ -486,57 +484,36 @@ class TestMain(unittest.TestCase):
     """Tests main()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        mock_main_called = False
-
-        def mock_main(
-            _ctx: context.Context,
-            _relations: areas.Relation,
-            _mode: str,
-            _update: bool,
-            _overpass: bool
-        ) -> None:
-            nonlocal mock_main_called
-            mock_main_called = True
-
-        mock_info_called = False
-
-        def mock_info(_msg: str, *_args: Any, **_kwargs: Any) -> None:
-            nonlocal mock_info_called
-            mock_info_called = True
-
         ctx = test_context.make_test_context()
-        with unittest.mock.patch("cron.our_main", mock_main):
-            with unittest.mock.patch("logging.info", mock_info):
-                argv = [""]
-                with unittest.mock.patch('sys.argv', argv):
-                    cron.main(ctx)
+        file_system = test_context.TestFileSystem()
+        stats_value = io.BytesIO()
+        stats_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/stats/stats.json"): stats_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
+        argv = ["", "--mode", "stats", "--no-overpass"]
+        buf = io.StringIO()
 
-        self.assertTrue(mock_main_called)
-        self.assertTrue(mock_info_called)
+        cron.main(argv, buf, ctx)
+
+        # Make sure that stats.json is updated without an error.
+        self.assertTrue(stats_value.tell())
+        self.assertNotIn("ERROR", buf.getvalue())
 
     def test_exception(self) -> None:
         """Tests the path when main() throws."""
         def mock_our_main(_relations: areas.Relation) -> None:
             raise Exception()
 
-        def mock_info(_msg: str, *_args: Any, **_kwargs: Any) -> None:
-            pass
-
-        mock_error_called = False
-
-        def mock_error(_msg: str, *_args: Any, **_kwargs: Any) -> None:
-            nonlocal mock_error_called
-            mock_error_called = True
-
         ctx = test_context.make_test_context()
         with unittest.mock.patch("cron.our_main", mock_our_main):
-            with unittest.mock.patch("logging.info", mock_info):
-                with unittest.mock.patch("logging.error", mock_error):
-                    argv = [""]
-                    with unittest.mock.patch('sys.argv', argv):
-                        cron.main(ctx)
+            argv = [""]
+            buf = io.StringIO()
+            cron.main(argv, buf, ctx)
 
-        self.assertTrue(mock_error_called)
+        self.assertIn("ERROR", buf.getvalue())
 
 
 if __name__ == '__main__':

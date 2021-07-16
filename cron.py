@@ -10,7 +10,9 @@
 from typing import Any
 from typing import Callable
 from typing import Dict
+from typing import List
 from typing import Set
+from typing import TextIO
 from typing import cast
 import argparse
 import datetime
@@ -19,6 +21,7 @@ import logging
 import os
 import time
 import traceback
+import sys
 
 import areas
 import cache
@@ -208,6 +211,8 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     statedir = ctx.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
+    if not os.path.exists(csv_path):
+        return
     count_path = os.path.join(statedir, "%s.count" % today)
     city_count_path = os.path.join(statedir, "%s.citycount" % today)
     house_numbers = set()
@@ -238,6 +243,8 @@ def update_stats_topusers(ctx: context.Context, today: str) -> None:
     """Counts the top housenumber editors as of today."""
     statedir = ctx.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
+    if not os.path.exists(csv_path):
+        return
     topusers_path = os.path.join(statedir, "%s.topusers" % today)
     usercount_path = os.path.join(statedir, "%s.usercount" % today)
     users: Dict[str, int] = {}
@@ -349,7 +356,7 @@ def our_main(ctx: context.Context, relations: areas.Relations, mode: str, update
                 break
 
 
-def main(ctx: context.Context) -> None:
+def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
     """Commandline interface to this module."""
 
     workdir = ctx.get_ini().get_workdir()
@@ -358,7 +365,7 @@ def main(ctx: context.Context) -> None:
     logging.basicConfig(filename=logpath,
                         level=logging.INFO,
                         format='%(message)s')
-    handler = logging.StreamHandler()
+    handler = logging.StreamHandler(stdout)
     logging.getLogger().addHandler(handler)
 
     parser = argparse.ArgumentParser()
@@ -373,7 +380,7 @@ def main(ctx: context.Context) -> None:
     parser.add_argument("--no-overpass", dest="overpass", action="store_false",
                         help="when updating stats, don't perform any overpass update")
     parser.set_defaults(update=True, overpass=True, mode="relations")
-    args = parser.parse_args()
+    args = parser.parse_args(argv[1:])
 
     start = ctx.get_time().now()
     # Query inactive relations once a month.
@@ -386,13 +393,13 @@ def main(ctx: context.Context) -> None:
     # pylint: disable=broad-except
     except Exception:
         error("main: unhandled exception: %s", traceback.format_exc())
-    delta = time.time() - start
+    delta = ctx.get_time().now() - start
     info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
     logging.getLogger().removeHandler(handler)
     logging.shutdown()
 
 
 if __name__ == "__main__":
-    main(context.Context(""))
+    main(sys.argv, sys.stdout, context.Context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
