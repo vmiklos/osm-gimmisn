@@ -148,7 +148,7 @@ class TestSubprocess(context.Subprocess):
 class TestUnit(context.Unit):
     """Unit implementation, which intentionally fails."""
     def make_error(self) -> str:
-        return "Error"
+        return "TestError"
 
 
 def make_test_time() -> context.Time:

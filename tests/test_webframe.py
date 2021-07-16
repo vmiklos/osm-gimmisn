@@ -10,6 +10,7 @@ from typing import List
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
+import traceback
 import unittest
 import unittest.mock
 
@@ -104,7 +105,7 @@ class TestHandleException(unittest.TestCase):
         # pylint: disable=broad-except
         except Exception:
             callback = cast('StartResponse', start_response)
-            output_iterable = webframe.handle_exception(environ, callback)
+            output_iterable = webframe.handle_exception(environ, callback, traceback.format_exc())
             output_list = cast(List[bytes], output_iterable)
             self.assertTrue(output_list)
             output = output_list[0].decode('utf-8')

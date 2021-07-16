@@ -21,3 +21,6 @@ max-locals=20
 
 # Maximum number of attributes for a class (see R0902).
 max-attributes=8
+
+# Maximum number of return / yield for function / method body.
+max-returns=10
