@@ -331,29 +331,34 @@ def update_stats(ctx: context.Context, overpass: bool) -> None:
     info("update_stats: end")
 
 
-def our_main(ctx: context.Context, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> None:
+def our_main(ctx: context.Context, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> str:
     """Performs the actual nightly task."""
-    if mode in ("all", "stats"):
-        update_stats(ctx, overpass)
-    if mode in ("all", "relations"):
-        update_osm_streets(ctx, relations, update)
-        update_osm_housenumbers(ctx, relations, update)
-        update_ref_streets(ctx, relations, update)
-        update_ref_housenumbers(ctx, relations, update)
-        update_missing_streets(ctx, relations, update)
-        update_missing_housenumbers(ctx, relations, update)
-        update_additional_streets(ctx, relations, update)
+    try:
+        if mode in ("all", "stats"):
+            update_stats(ctx, overpass)
+        if mode in ("all", "relations"):
+            update_osm_streets(ctx, relations, update)
+            update_osm_housenumbers(ctx, relations, update)
+            update_ref_streets(ctx, relations, update)
+            update_ref_housenumbers(ctx, relations, update)
+            update_missing_streets(ctx, relations, update)
+            update_missing_housenumbers(ctx, relations, update)
+            update_additional_streets(ctx, relations, update)
 
-    pid = str(os.getpid())
-    with open("/proc/" + pid + "/status", "r") as stream:
-        vm_peak = ""
-        while True:
-            line = stream.readline()
-            if line.startswith("VmPeak:"):
-                vm_peak = line.strip()
-            if vm_peak or not line:
-                info("our_main: %s", line.strip())
-                break
+        pid = str(os.getpid())
+        with open("/proc/" + pid + "/status", "r") as stream:
+            vm_peak = ""
+            while True:
+                line = stream.readline()
+                if line.startswith("VmPeak:"):
+                    vm_peak = line.strip()
+                if vm_peak or not line:
+                    info("our_main: %s", line.strip())
+                    break
+    # pylint: disable=broad-except
+    except Exception:  # pragma: no cover
+        return traceback.format_exc()
+    return ctx.get_unit().make_error()
 
 
 def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
@@ -388,11 +393,9 @@ def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
     relations.activate_all(ctx.get_ini().get_cron_update_inactive() or first_day_of_month)
     relations.limit_to_refcounty(args.refcounty)
     relations.limit_to_refsettlement(args.refsettlement)
-    try:
-        our_main(ctx, relations, args.mode, args.update, args.overpass)
-    # pylint: disable=broad-except
-    except Exception:
-        error("main: unhandled exception: %s", traceback.format_exc())
+    err = our_main(ctx, relations, args.mode, args.update, args.overpass)
+    if err:
+        error("main: unhandled exception: %s", err)
     delta = ctx.get_time().now() - start
     info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
     logging.getLogger().removeHandler(handler)

@@ -502,16 +502,14 @@ class TestMain(unittest.TestCase):
         self.assertTrue(stats_value.tell())
         self.assertNotIn("ERROR", buf.getvalue())
 
-    def test_exception(self) -> None:
-        """Tests the path when main() throws."""
-        def mock_our_main(_relations: areas.Relation) -> None:
-            raise Exception()
-
+    def test_error(self) -> None:
+        """Tests the path when our_main() returns an error."""
         ctx = test_context.make_test_context()
-        with unittest.mock.patch("cron.our_main", mock_our_main):
-            argv = [""]
-            buf = io.StringIO()
-            cron.main(argv, buf, ctx)
+        ctx.set_unit(test_context.TestUnit())
+        argv = ["", "--mode", "stats", "--no-overpass"]
+        buf = io.StringIO()
+
+        cron.main(argv, buf, ctx)
 
         self.assertIn("ERROR", buf.getvalue())
 
