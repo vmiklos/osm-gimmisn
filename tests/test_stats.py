@@ -10,6 +10,7 @@ from typing import Any
 from typing import Dict
 import calendar
 import datetime
+import io
 import os
 import unittest
 
@@ -79,6 +80,18 @@ class TestHandleTopcities(unittest.TestCase):
         """Tests the happy path."""
         ctx = test_context.make_test_context()
         ctx.set_time(test_context.make_test_time())
+        file_system = test_context.TestFileSystem()
+        today_citycount = b"""budapest_01\t100
+budapest_02\t200
+\t42
+"""
+        today_citycount_value = io.BytesIO(today_citycount)
+        today_citycount_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/stats/2020-05-10.citycount"): today_citycount_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
         stats.handle_topcities(ctx, src_root, j)

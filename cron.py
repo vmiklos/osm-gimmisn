@@ -191,27 +191,27 @@ def update_additional_streets(_conf: context.Context, relations: areas.Relations
     info("update_additional_streets: end")
 
 
-def write_count_path(count_path: str, house_numbers: Set[str]) -> None:
+def write_count_path(ctx: context.Context, count_path: str, house_numbers: Set[str]) -> None:
     """Writes a daily .count file."""
-    with open(count_path, "w") as stream:
+    with ctx.get_file_system().open(count_path, "wb") as stream:
         house_numbers_len = str(len(house_numbers))
-        stream.write(house_numbers_len + "\n")
+        stream.write(util.to_bytes(house_numbers_len + "\n"))
 
 
-def write_city_count_path(city_count_path: str, cities: Dict[str, Set[str]]) -> None:
+def write_city_count_path(ctx: context.Context, city_count_path: str, cities: Dict[str, Set[str]]) -> None:
     """Writes a daily .citycount file."""
-    with open(city_count_path, "w") as stream:
+    with ctx.get_file_system().open(city_count_path, "wb") as stream:
         # Locale-aware sort, by key.
         lexical_sort_key = util.get_lexical_sort_key()
         for key, value in sorted(cities.items(), key=lambda item: lexical_sort_key(item[0])):
-            stream.write(key + "\t" + str(len(value)) + "\n")
+            stream.write(util.to_bytes(key + "\t" + str(len(value)) + "\n"))
 
 
 def update_stats_count(ctx: context.Context, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     statedir = ctx.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
-    if not os.path.exists(csv_path):
+    if not ctx.get_file_system().path_exists(csv_path):
         return
     count_path = os.path.join(statedir, "%s.count" % today)
     city_count_path = os.path.join(statedir, "%s.citycount" % today)
@@ -219,8 +219,9 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
     cities: Dict[str, Set[str]] = {}
     first = True
     valid_settlements = util.get_valid_settlements(ctx)
-    with open(csv_path, "r") as stream:
-        for line in stream.readlines():
+    with ctx.get_file_system().open(csv_path, "rb") as stream:
+        for line_bytes in stream.readlines():
+            line = util.from_bytes(line_bytes)
             if first:
                 # Ignore the oneliner header.
                 first = False
@@ -235,34 +236,35 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
                 cities[city_key].add(city_value)
             else:
                 cities[city_key] = set([city_value])
-    write_count_path(count_path, house_numbers)
-    write_city_count_path(city_count_path, cities)
+    write_count_path(ctx, count_path, house_numbers)
+    write_city_count_path(ctx, city_count_path, cities)
 
 
 def update_stats_topusers(ctx: context.Context, today: str) -> None:
     """Counts the top housenumber editors as of today."""
     statedir = ctx.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
-    if not os.path.exists(csv_path):
+    if not ctx.get_file_system().path_exists(csv_path):
         return
     topusers_path = os.path.join(statedir, "%s.topusers" % today)
     usercount_path = os.path.join(statedir, "%s.usercount" % today)
     users: Dict[str, int] = {}
-    with open(csv_path, "r") as stream:
-        for line in stream.readlines():
+    with ctx.get_file_system().open(csv_path, "rb") as stream:
+        for line_bytes in stream.readlines():
+            line = util.from_bytes(line_bytes)
             # Only care about the last column.
             user = line[line.rfind("\t"):].strip()
             if user in users:
                 users[user] += 1
             else:
                 users[user] = 1
-    with open(topusers_path, "w") as stream:
+    with ctx.get_file_system().open(topusers_path, "wb") as stream:
         for user in sorted(users, key=cast(Callable[[str], int], users.get), reverse=True)[:20]:
             line = str(users[user]) + " " + user
-            stream.write(line + "\n")
+            stream.write(util.to_bytes(line + "\n"))
 
-    with open(usercount_path, "w") as stream:
-        stream.write(str(len(users)) + "\n")
+    with ctx.get_file_system().open(usercount_path, "wb") as stream:
+        stream.write(util.to_bytes(str(len(users)) + "\n"))
 
 
 def update_stats_refcount(ctx: context.Context, state_dir: str) -> None:

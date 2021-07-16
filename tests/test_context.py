@@ -44,6 +44,8 @@ class TestFileSystem(context.FileSystem):
     def path_exists(self, path: str) -> bool:
         if path in self.__hide_paths:
             return False
+        if path in self.__files:
+            return True
         return os.path.exists(path)
 
     def getmtime(self, path: str) -> float:
