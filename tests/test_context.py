@@ -145,6 +145,12 @@ class TestSubprocess(context.Subprocess):
         return self.__outputs[key]
 
 
+class TestUnit(context.Unit):
+    """Unit implementation, which intentionally fails."""
+    def make_error(self) -> str:
+        return "Error"
+
+
 def make_test_time() -> context.Time:
     """Generates unix timestamp for 2020-05-10."""
     return TestTime(calendar.timegm(datetime.date(2020, 5, 10).timetuple()))

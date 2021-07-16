@@ -119,6 +119,21 @@ class StdSubprocess(Subprocess):
         return process.stdout
 
 
+class Unit:
+    """Unit testing interface."""
+    def make_error(self) -> str:  # pragma: no cover
+        """Injects a fake error."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
+class StdUnit(Unit):
+    """Unit implementation, which intentionally does nothing."""
+    def make_error(self) -> str:  # pragma: no cover
+        return str()
+
+
 class Ini:
     """Configuration file reader."""
     def __init__(self, config_path: str, root: str) -> None:
@@ -172,6 +187,7 @@ class Context:
         self.__network: Network = StdNetwork()
         self.__time: Time = StdTime()
         self.__subprocess: Subprocess = StdSubprocess()
+        self.__unit: Unit = StdUnit()
 
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
@@ -212,6 +228,14 @@ class Context:
     def get_ini(self) -> Ini:
         """Gets the ini file."""
         return self.__ini
+
+    def set_unit(self, unit: Unit) -> None:
+        """Sets the testing interface."""
+        self.__unit = unit
+
+    def get_unit(self) -> Unit:
+        """Gets the testing interface."""
+        return self.__unit
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
