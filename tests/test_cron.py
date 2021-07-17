@@ -13,7 +13,6 @@ import json
 import os
 import time
 import unittest
-import unittest.mock
 
 import test_context
 
