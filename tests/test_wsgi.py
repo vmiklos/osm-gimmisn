@@ -19,7 +19,6 @@ import datetime
 import io
 import json
 import unittest
-import unittest.mock
 import urllib.error
 import urllib.parse
 import xml.etree.ElementTree as ET

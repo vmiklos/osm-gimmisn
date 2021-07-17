@@ -12,7 +12,6 @@ from typing import Tuple
 from typing import cast
 import traceback
 import unittest
-import unittest.mock
 
 # pylint: disable=unused-import
 import yattag
