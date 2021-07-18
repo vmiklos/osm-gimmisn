@@ -36,4 +36,5 @@ refstreets:
   'Rózsavölgyi köz': 'Rózsavölgy köz'
   'Szent István utca': 'Szent István út'
 source: survey
+housenumber-letters: true
 inactive: true

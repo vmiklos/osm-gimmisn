@@ -13,4 +13,5 @@ refstreets:
   'Zakariás József út': 'Zakariás József utca'
   'Zichy utca': 'Zichy Mihály utca'
 source: survey
+housenumber-letters: true
 inactive: true

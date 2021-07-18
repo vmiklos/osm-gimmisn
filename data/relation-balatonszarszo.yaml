@@ -16,4 +16,5 @@ refstreets:
   'Újélet utca': 'Új Élet utca'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
 source: survey
+housenumber-letters: true
 inactive: true
