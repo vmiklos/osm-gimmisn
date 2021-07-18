@@ -2,7 +2,7 @@ cherrypy==18.6.0
 coverage==5.5
 flake8==3.9.2
 mypy==0.812
-pylint==2.8.3
+pylint==2.9.3
 pyyaml==5.4.1
 unidecode==1.2.0
 yamllint==1.26.1

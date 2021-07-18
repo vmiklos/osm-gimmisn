@@ -53,6 +53,8 @@ class StdFileSystem(FileSystem):
         return os.path.getmtime(path)
 
     def open(self, path: str, mode: str) -> BinaryIO:
+        # The caller will do this:
+        # pylint: disable=consider-using-with
         return cast(BinaryIO, open(path, mode))
 
 

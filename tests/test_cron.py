@@ -293,7 +293,8 @@ def create_old_file(path: str) -> None:
     old_time = current_time - (8 * 24 * 3600)
     old_access_time = old_time
     old_modification_time = old_time
-    open(path, "w").close()
+    with open(path, "w"):
+        pass
     os.utime(path, (old_access_time, old_modification_time))
 
 

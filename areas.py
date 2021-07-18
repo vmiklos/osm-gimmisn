@@ -218,7 +218,7 @@ class RelationBase:
         self.__ctx = ctx
         self.__name = name
         my_config: Dict[str, Any] = {}
-        self.__file = area_files.RelationFiles(ctx.get_abspath("data"), ctx.get_ini().get_workdir(), name)
+        self.__file = area_files.RelationFiles(ctx.get_ini().get_workdir(), name)
         relation_path = "relation-%s.yaml" % name
         # Intentionally don't require this cache to be present, it's fine to omit it for simple
         # relations.
