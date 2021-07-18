@@ -3,10 +3,15 @@ filters:
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
+  Balázs Béla utca:
+    # 9, 11 semmi nincs táblázva, 1 ház van csak
+    invalid: ['9']
   Csikász lépcső:
     show-refstreet: false
   Erkel Ferenc utca:
     show-refstreet: false
+  Kert utca:
+    invalid: ['21', '23']
   Kölcsey Ferenc utca:
     show-refstreet: false
   Madách Imre tér:
@@ -15,6 +20,9 @@ filters:
     show-refstreet: false
   Radnóti utca:
     show-refstreet: false
+  Rekettye utca:
+    # 12 után 16, de a 18-nál van egy 14/b
+    invalid: ['14']
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
@@ -24,6 +32,13 @@ filters:
       - {start: '2', end: '26'}
   Vöröshegyi utca:
     # 1 fa táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
+    # 13: nincs kiírva
+    # 21 fölött mezőgazdasági terület
+    # 21: HÉSZ szerint egy egész utca több házzal, nincs kiírva semmi
+    invalid: ['13', '21']
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '98'}
     show-refstreet: false
   Vörösmarty Mihály utca:
     show-refstreet: false
