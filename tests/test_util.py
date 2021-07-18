@@ -449,6 +449,8 @@ class TestGetStreetFromHousenumber(unittest.TestCase):
     """Tests get_street_from_housenumber()."""
     def test_addr_place(self) -> None:
         """Tests the case when addr:place is used."""
+        # We already use 'with':
+        # pylint: disable=consider-using-with
         with util.CsvIO(open("tests/workdir/street-housenumbers-gh964.csv", "rb")) as stream:
             actual = util.get_street_from_housenumber(stream)
         # This is picked up from addr:place because addr:street was empty.

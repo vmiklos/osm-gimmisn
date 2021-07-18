@@ -61,6 +61,8 @@ class TestFileSystem(context.FileSystem):
         if path in self.__files:
             self.__files[path].seek(0)
             return self.__files[path]
+        # The caller will do this:
+        # pylint: disable=consider-using-with
         return cast(BinaryIO, open(path, mode))
 
 

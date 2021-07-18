@@ -17,8 +17,7 @@ import util
 
 class RelationFilePaths:
     """A relation's file interface provides access to files associated with a relation."""
-    def __init__(self, datadir: str, workdir: str, name: str):
-        self.__datadir = datadir
+    def __init__(self, workdir: str, name: str):
         self.__workdir = workdir
         self.__name = name
 
@@ -102,10 +101,14 @@ class RelationFiles(RelationFilePaths):
 
     def get_housenumbers_htmlcache_stream(self, mode: str) -> BinaryIO:
         """Opens the house number HTML cache file of a relation."""
+        # The caller will do this:
+        # pylint: disable=consider-using-with
         return cast(BinaryIO, open(self.get_housenumbers_htmlcache_path(), mode=mode))
 
     def get_housenumbers_txtcache_stream(self, mode: str) -> BinaryIO:
         """Opens the house number plain text cache file of a relation."""
+        # The caller will do this:
+        # pylint: disable=consider-using-with
         return cast(BinaryIO, open(self.get_housenumbers_txtcache_path(), mode=mode))
 
     def get_streets_percent_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
@@ -118,6 +121,8 @@ class RelationFiles(RelationFilePaths):
 
     def get_housenumbers_additional_count_stream(self, mode: str) -> BinaryIO:
         """Opens the housenumbers additional count file of a relation."""
+        # The caller will do this:
+        # pylint: disable=consider-using-with
         return cast(BinaryIO, open(self.get_housenumbers_additional_count_path(), mode=mode))
 
     def write_osm_streets(self, ctx: context.Context, result: str) -> None:
@@ -132,6 +137,8 @@ class RelationFiles(RelationFilePaths):
 
     def get_additional_housenumbers_htmlcache_stream(self, mode: str) -> BinaryIO:
         """Opens the additional house number HTML cache file of a relation."""
+        # The caller will do this:
+        # pylint: disable=consider-using-with
         return cast(BinaryIO, open(self.get_additional_housenumbers_htmlcache_path(), mode=mode))
 
 
