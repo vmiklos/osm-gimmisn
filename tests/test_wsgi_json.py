@@ -12,6 +12,7 @@ from typing import List
 from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
+import io
 import json
 import unittest
 
@@ -60,8 +61,17 @@ class TestJsonStreets(TestWsgiJson):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
+        file_system = test_context.TestFileSystem()
+        streets_value = io.BytesIO()
+        streets_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/streets-gazdagret.csv"): streets_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         root = self.get_json_for_path(ctx, "/streets/gazdagret/update-result.json")
         self.assertEqual(root["error"], "")
+        self.assertTrue(streets_value.tell())
 
     def test_update_result_json_error(self) -> None:
         """Tests if the update-result json output on error is well-formed."""
