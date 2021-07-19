@@ -503,10 +503,10 @@ class RelationBase:
                        for street in self.get_osm_streets()]
 
         only_in_reference = util.get_only_in_first(reference_streets, osm_streets)
-        only_in_reference = [i.get_osm_name() for i in only_in_reference if i.get_osm_name() not in street_blacklist]
+        only_in_ref_names = [i.get_osm_name() for i in only_in_reference if i.get_osm_name() not in street_blacklist]
         in_both = [i.get_osm_name() for i in util.get_in_both(reference_streets, osm_streets)]
 
-        return only_in_reference, in_both
+        return only_in_ref_names, in_both
 
     def get_additional_streets(self, sorted_result: bool = True) -> List[util.Street]:
         """Tries to find additional streets in a relation."""

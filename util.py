@@ -17,6 +17,7 @@ from typing import List
 from typing import Optional
 from typing import Set
 from typing import Tuple
+from typing import TypeVar
 from typing import Union
 from typing import cast
 import codecs
@@ -85,16 +86,7 @@ class HouseNumberRange:
 HouseNumberWithComment = List[str]
 
 
-class Diff:
-    """Diff interface: 2 lists of this object can be diffed."""
-    def get_diff_key(self) -> str:  # pragma: no cover
-        """Gets a string that is used while diffing."""
-        # pylint: disable=no-self-use
-        # pylint: disable=unused-argument
-        ...
-
-
-class Street(Diff):
+class Street:
     """
     A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
     name differs.
@@ -110,7 +102,7 @@ class Street(Diff):
         self.__source = ""
 
     def get_diff_key(self) -> str:
-        """See Diff.get_diff_key()."""
+        """Gets a string that is used while diffing."""
         return re.sub(r"\*$", "", self.__osm_name)
 
     def get_osm_name(self) -> str:
@@ -170,7 +162,7 @@ class Street(Diff):
         return hash(self.__osm_name)
 
 
-class HouseNumber(Diff):
+class HouseNumber:
     """
     A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
     can generate 3 house numbers, all of them with the same range.
@@ -186,7 +178,7 @@ class HouseNumber(Diff):
         return self.__number
 
     def get_diff_key(self) -> str:
-        """See Diff.get_diff_key()."""
+        """Gets a string that is used while diffing."""
         return re.sub(r"\*$", "", self.__number)
 
     def get_source(self) -> str:
@@ -733,10 +725,12 @@ def sort_numerically(strings: Iterable[HouseNumber]) -> List[HouseNumber]:
     return sorted(strings, key=lambda x: split_house_number(x.get_number()))
 
 
-def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
+Diff = TypeVar("Diff", HouseNumber, Street)
+
+
+def get_only_in_first(first: List[Diff], second: List[Diff]) -> List[Diff]:
     """
     Returns items which are in first, but not in second.
-    Any means Diff.
     """
     # Strip suffix that is ignored.
     if not first:
@@ -752,10 +746,9 @@ def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
     return ret
 
 
-def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
+def get_in_both(first: List[Diff], second: List[Diff]) -> List[Diff]:
     """
     Returns items which are in both first and second.
-    Any means Diff.
     """
     # Strip suffix that is ignored.
     if not first:
