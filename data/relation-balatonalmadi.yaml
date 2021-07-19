@@ -5,10 +5,12 @@ filters:
     invalid: ['13']
   Balázs Béla utca:
     # 9, 11 semmi nincs táblázva, 1 ház van csak
-    invalid: ['9']
+    # 13-15: csak 13
+    invalid: ['9', '15']
   Csikász lépcső:
     show-refstreet: false
   Erkel Ferenc utca:
+    invalid: ['44', '96']
     show-refstreet: false
   Kert utca:
     invalid: ['21', '23']
