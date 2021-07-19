@@ -497,14 +497,14 @@ class RelationBase:
 
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
-        reference_streets = self.get_ref_streets()
+        reference_streets = [util.Street(i) for i in self.get_ref_streets()]
         street_blacklist = self.get_config().get_street_filters()
-        osm_streets = [get_ref_street_from_osm_street(self.get_config(), street.get_osm_name())
+        osm_streets = [util.Street(get_ref_street_from_osm_street(self.get_config(), street.get_osm_name()))
                        for street in self.get_osm_streets()]
 
         only_in_reference = util.get_only_in_first(reference_streets, osm_streets)
-        only_in_reference = [i for i in only_in_reference if i not in street_blacklist]
-        in_both = util.get_in_both(reference_streets, osm_streets)
+        only_in_reference = [i.get_osm_name() for i in only_in_reference if i.get_osm_name() not in street_blacklist]
+        in_both = [i.get_osm_name() for i in util.get_in_both(reference_streets, osm_streets)]
 
         return only_in_reference, in_both
 

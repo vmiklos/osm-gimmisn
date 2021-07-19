@@ -25,6 +25,11 @@ def hnr_list(ranges: List[str]) -> List[util.HouseNumberRange]:
     return [util.HouseNumberRange(i, "") for i in ranges]
 
 
+def street_list(streets: List[str]) -> List[util.Street]:
+    """Convers a string list into a street list."""
+    return [util.Street(i) for i in streets]
+
+
 class TestFormatEvenOdd(unittest.TestCase):
     """Tests format_even_odd()."""
     def test_happy(self) -> None:
@@ -395,14 +400,16 @@ class TestOnlyInFirst(unittest.TestCase):
     """Tests get_only_in_first()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        self.assertEqual(util.get_only_in_first(["1", "2", "3"], ["3", "4"]), ["1", "2"])
+        ret = util.get_only_in_first(street_list(["1", "2", "3"]), street_list(["3", "4"]))
+        self.assertEqual([i.get_osm_name() for i in ret], ["1", "2"])
 
 
 class TestInBoth(unittest.TestCase):
     """Tests get_in_both()."""
     def test_happy(self) -> None:
         """Tests that happy path."""
-        self.assertEqual(util.get_in_both(["1", "2", "3"], ["2", "3", "4"]), ["2", "3"])
+        ret = util.get_in_both(street_list(["1", "2", "3"]), street_list(["2", "3", "4"]))
+        self.assertEqual([i.get_osm_name() for i in ret], ["2", "3"])
 
 
 class TestGetContent(unittest.TestCase):

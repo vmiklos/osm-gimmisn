@@ -85,7 +85,16 @@ class HouseNumberRange:
 HouseNumberWithComment = List[str]
 
 
-class Street:
+class Diff:
+    """Diff interface: 2 lists of this object can be diffed."""
+    def get_diff_key(self) -> str:  # pragma: no cover
+        """Gets a string that is used while diffing."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
+class Street(Diff):
     """
     A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
     name differs.
@@ -99,6 +108,10 @@ class Street:
         self.__osm_id = osm_id
         self.__osm_type = "way"
         self.__source = ""
+
+    def get_diff_key(self) -> str:
+        """See Diff.get_diff_key()."""
+        return re.sub(r"\*$", "", self.__osm_name)
 
     def get_osm_name(self) -> str:
         """Returns the OSM name."""
@@ -157,7 +170,7 @@ class Street:
         return hash(self.__osm_name)
 
 
-class HouseNumber:
+class HouseNumber(Diff):
     """
     A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
     can generate 3 house numbers, all of them with the same range.
@@ -171,6 +184,10 @@ class HouseNumber:
     def get_number(self) -> str:
         """Returns the house number string."""
         return self.__number
+
+    def get_diff_key(self) -> str:
+        """See Diff.get_diff_key()."""
+        return re.sub(r"\*$", "", self.__number)
 
     def get_source(self) -> str:
         """Returns the source range."""
@@ -719,21 +736,14 @@ def sort_numerically(strings: Iterable[HouseNumber]) -> List[HouseNumber]:
 def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
     """
     Returns items which are in first, but not in second.
-    Any means HouseNumber or str.
+    Any means Diff.
     """
     # Strip suffix that is ignored.
     if not first:
         return []
 
-    if isinstance(first[0], HouseNumber):
-        first_stripped = [re.sub(r"\*$", "", i.get_number()) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i.get_number()) for i in second]
-    elif isinstance(first[0], Street):
-        first_stripped = [re.sub(r"\*$", "", i.get_osm_name()) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i.get_osm_name()) for i in second]
-    else:
-        first_stripped = [re.sub(r"\*$", "", i) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i) for i in second]
+    first_stripped = [i.get_diff_key() for i in first]
+    second_stripped = [i.get_diff_key() for i in second]
 
     ret = []
     for index, item in enumerate(first_stripped):
@@ -745,18 +755,14 @@ def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
 def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
     """
     Returns items which are in both first and second.
-    Any means HouseNumber or str.
+    Any means Diff.
     """
     # Strip suffix that is ignored.
     if not first:
         return []
 
-    if isinstance(first[0], HouseNumber):
-        first_stripped = [re.sub(r"\*$", "", i.get_number()) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i.get_number()) for i in second]
-    else:
-        first_stripped = [re.sub(r"\*$", "", i) for i in first]
-        second_stripped = [re.sub(r"\*$", "", i) for i in second]
+    first_stripped = [i.get_diff_key() for i in first]
+    second_stripped = [i.get_diff_key() for i in second]
 
     ret = []
     for index, item in enumerate(first_stripped):
