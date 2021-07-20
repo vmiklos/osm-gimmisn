@@ -14,6 +14,10 @@ filters:
     show-refstreet: false
   Kert utca:
     invalid: ['21', '23']
+  Kisberényi út:
+    # 48-52: csak 52 van
+    # 70 helyett 72 van táblázva
+    invalid: ['48', '50', '70']
   Kölcsey Ferenc utca:
     show-refstreet: false
   Madách Imre tér:
