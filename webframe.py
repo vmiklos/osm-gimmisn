@@ -18,6 +18,7 @@ from typing import cast
 import datetime
 import json
 import os
+import time
 import urllib
 import xmlrpc.client
 
@@ -372,7 +373,7 @@ def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) 
             city = cells[0]
             count = int(cells[1])
             ref_citycounts[city] = count
-    today = datetime.date.fromtimestamp(ctx.get_time().now()).strftime("%Y-%m-%d")
+    today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
     osm_citycounts: Dict[str, int] = {}
     with open(ctx.get_ini().get_workdir() + "/stats/" + today + ".citycount", "r") as stream:
         for line in stream.readlines():
