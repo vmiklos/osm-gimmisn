@@ -34,13 +34,15 @@ filters:
       - {start: '2', end: '26'}
   Vöröshegyi utca:
     # 1 fa táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
+    # külső részen alig vannak táblázva
     # 13: nincs kiírva
-    # 21 fölött mezőgazdasági terület
     # 21: HÉSZ szerint egy egész utca több házzal, nincs kiírva semmi
-    invalid: ['13', '21']
+    # 33: nincs kiírva
+    # 38-40: HÉSZ szerinti helyén 36 van táblázva
+    invalid: ['13', '21', '33', '38', '40']
     ranges:
-      - {start: '1', end: '19'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '41'}
+      - {start: '2', end: '60'}
     show-refstreet: false
   Vörösmarty Mihály utca:
     show-refstreet: false
