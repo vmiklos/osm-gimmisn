@@ -99,8 +99,17 @@ class TestJsonStreetHousenumbers(TestWsgiJson):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
+        file_system = test_context.TestFileSystem()
+        housenumbers_value = io.BytesIO()
+        housenumbers_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"): housenumbers_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         root = self.get_json_for_path(ctx, "/street-housenumbers/gazdagret/update-result.json")
         self.assertEqual(root["error"], "")
+        self.assertTrue(housenumbers_value.tell())
 
     def test_update_result_error_json(self) -> None:
         """Tests if the update-result output on error is well-formed."""
