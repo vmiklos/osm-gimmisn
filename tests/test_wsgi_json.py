@@ -130,8 +130,17 @@ class TestJsonMissingHousenumbers(TestWsgiJson):
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
         ctx = test_context.make_test_context()
+        file_system = test_context.TestFileSystem()
+        housenumbers_value = io.BytesIO()
+        housenumbers_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"): housenumbers_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         root = self.get_json_for_path(ctx, "/missing-housenumbers/gazdagret/update-result.json")
         self.assertEqual(root["error"], "")
+        self.assertTrue(housenumbers_value.tell())
 
 
 class TestJsonMissingStreets(TestWsgiJson):
