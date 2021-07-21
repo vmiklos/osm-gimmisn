@@ -1,5 +1,39 @@
 = Version descriptions
 
+== master
+
+- Resolves: gh#964 get_street_from_housenumber: consider addr:place when addr:street is empty
+
+- Resolves: gh#978 gettext: check wsgi_additional.py for l10n strings
+
+- Resolves: gh#1008 invalid refstreets: add to missing/additional streets as well
+
+- Resolves: gh#1025 invalid refstreets: add UI to list all problematic relations
+
+- Resolves: gh#1033 missing streets: let "update from osm" also update house numbers
+
+- Resolves: gh#1048 invalid-relations: flag filter key names which are not OSM street names
+
+- Resolves: gh#1067 invalid refstreets: don't show note when there are no results
+
+- Resolves: gh#1126 stats, invalid-relations: ignore relation without an osm street list
+
+- Resolves: gh#1198 tests: fix missing test_config.TestCase base class
+
+- Resolves: gh#1206 Cache missing-housenumbers plain text output
+
+- Resolves: gh#1201 parse_access_log: ignore complete areas harder
+
+- Resolves: gh#1209 cron: also cache localized missing housenumbers html output
+
+- Resolves: gh#1225 missing-housenumbers html cache: handle missing relation yaml
+
+- Resolves: gh#1408 Fix Hungarian sort order
+
+- Resolves: gh#1463 stats: handle missing files in get_topcities()
+
+- Resolves: gh#1508 webframe: context time is in utc, datetime.date.fromtimestamp takes a local time
+
 == 7.1
 
 - Resolves: gh#576 garbage collection: if a relation was created <1 month ago, then ignore it in
