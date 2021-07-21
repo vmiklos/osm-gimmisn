@@ -139,8 +139,17 @@ class TestJsonMissingStreets(TestWsgiJson):
     def test_update_result_json(self) -> None:
         """Tests if the update-result json output is well-formed."""
         ctx = test_context.make_test_context()
+        file_system = test_context.TestFileSystem()
+        streets_value = io.BytesIO()
+        streets_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/streets-reference-gazdagret.lst"): streets_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         root = self.get_json_for_path(ctx, "/missing-streets/gazdagret/update-result.json")
         self.assertEqual(root["error"], "")
+        self.assertTrue(streets_value.tell())
 
 
 if __name__ == '__main__':
