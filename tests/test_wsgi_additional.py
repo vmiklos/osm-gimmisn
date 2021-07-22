@@ -135,7 +135,6 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
     """Tests the additional streets page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
-        # gazdagret-additional-streets.count
         file_system = test_context.TestFileSystem()
         count_value = io.BytesIO()
         count_value.__setattr__("close", lambda: None)
