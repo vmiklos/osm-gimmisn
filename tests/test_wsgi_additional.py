@@ -172,9 +172,16 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
         yamls_cache_value = io.BytesIO()
         yamls_cache_value.write(json.dumps(yamls_cache).encode("utf-8"))
         yamls_cache_value.seek(0)
-        file_system.set_files({self.ctx.get_abspath("data/yamls.cache"): yamls_cache_value})
+        count_value = io.BytesIO()
+        count_value.__setattr__("close", lambda: None)
+        files = {
+            self.ctx.get_abspath("data/yamls.cache"): yamls_cache_value,
+            self.ctx.get_abspath("workdir/gh611-additional-streets.count"): count_value,
+        }
+        file_system.set_files(files)
         self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/additional-streets/gh611/view-result")
+        self.assertTrue(count_value.tell())
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
