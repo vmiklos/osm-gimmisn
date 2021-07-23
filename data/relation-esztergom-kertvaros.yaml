@@ -9,6 +9,10 @@ filters:
   Bocskai sor:
     # 166 a vége
     invalid: ['170']
+  Damjanich János út:
+    ranges:
+      - {start: '1', end: '159'}
+      - {start: '2', end: '74'}
   Erkel Ferenc utca:
     invalid: ['13']
   Jósika Miklós utca:
@@ -30,4 +34,4 @@ filters:
 source: survey
 refstreets:
   'Bocskai sor': 'Bocskai István sor'
-inactive: true
+inactive: false
