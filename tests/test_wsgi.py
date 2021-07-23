@@ -487,7 +487,16 @@ class TestMissingStreets(TestWsgi):
     """Tests the missing streets page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
+        file_system = test_context.TestFileSystem()
+        streets_value = io.BytesIO()
+        streets_value.__setattr__("close", lambda: None)
+        files = {
+            self.ctx.get_abspath("workdir/gazdagret-streets.percent"): streets_value,
+        }
+        file_system.set_files(files)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
+        self.assertTrue(streets_value.tell())
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
         # refstreets: >0 invalid osm name
