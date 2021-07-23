@@ -585,7 +585,16 @@ class TestMissingStreets(TestWsgi):
 
     def test_update_result(self) -> None:
         """Tests the update-result output."""
+        file_system = test_context.TestFileSystem()
+        streets_value = io.BytesIO()
+        streets_value.__setattr__("close", lambda: None)
+        files = {
+            self.ctx.get_abspath("workdir/streets-reference-gazdagret.lst"): streets_value,
+        }
+        file_system.set_files(files)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/missing-streets/gazdagret/update-result")
+        self.assertTrue(streets_value.tell())
         results = root.findall("body/div[@id='update-success']")
         self.assertEqual(len(results), 1)
 
