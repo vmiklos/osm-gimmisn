@@ -444,7 +444,16 @@ class TestStreetHousenumbers(TestWsgi):
         ]
         network = test_context.TestNetwork(routes)
         self.ctx.set_network(network)
+        file_system = test_context.TestFileSystem()
+        streets_value = io.BytesIO()
+        streets_value.__setattr__("close", lambda: None)
+        files = {
+            self.ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"): streets_value,
+        }
+        file_system.set_files(files)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
+        self.assertTrue(streets_value.tell())
         results = root.findall("body")
         self.assertEqual(len(results), 1)
 
