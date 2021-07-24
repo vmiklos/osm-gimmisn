@@ -37,8 +37,14 @@ class FileSystem:
         # pylint: disable=unused-argument
         ...
 
-    def open(self, path: str, mode: str) -> BinaryIO:  # pragma: no cover
-        """Opens a file with the given mode. Only binary mode is supposed."""
+    def open_read(self, path: str) -> BinaryIO:  # pragma: no cover
+        """Opens a file for reading in binary mode."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+    def open_write(self, path: str) -> BinaryIO:  # pragma: no cover
+        """Opens a file for writing in binary mode."""
         # pylint: disable=no-self-use
         # pylint: disable=unused-argument
         ...
@@ -52,10 +58,15 @@ class StdFileSystem(FileSystem):
     def getmtime(self, path: str) -> float:
         return os.path.getmtime(path)
 
-    def open(self, path: str, mode: str) -> BinaryIO:
+    def open_read(self, path: str) -> BinaryIO:
         # The caller will do this:
         # pylint: disable=consider-using-with
-        return cast(BinaryIO, open(path, mode))
+        return open(path, "rb")
+
+    def open_write(self, path: str) -> BinaryIO:
+        # The caller will do this:
+        # pylint: disable=consider-using-with
+        return open(path, "wb")
 
 
 class Network:

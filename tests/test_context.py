@@ -11,7 +11,6 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
-from typing import cast
 import calendar
 import datetime
 import io
@@ -57,13 +56,21 @@ class TestFileSystem(context.FileSystem):
         """Sets the files."""
         self.__files = files
 
-    def open(self, path: str, mode: str) -> BinaryIO:
+    def open_read(self, path: str) -> BinaryIO:
         if path in self.__files:
             self.__files[path].seek(0)
             return self.__files[path]
         # The caller will do this:
         # pylint: disable=consider-using-with
-        return cast(BinaryIO, open(path, mode))
+        return open(path, "rb")
+
+    def open_write(self, path: str) -> BinaryIO:
+        if path in self.__files:
+            self.__files[path].seek(0)
+            return self.__files[path]
+        # The caller will do this:
+        # pylint: disable=consider-using-with
+        return open(path, "wb")
 
 
 class URLRoute:
