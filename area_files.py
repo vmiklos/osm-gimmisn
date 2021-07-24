@@ -8,7 +8,6 @@
 
 import os
 from typing import BinaryIO
-from typing import cast
 
 import context
 import i18n
@@ -68,78 +67,133 @@ class RelationFilePaths:
 
 class RelationFiles(RelationFilePaths):
     """Extends RelationFilePaths with streams."""
-    def get_ref_streets_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
-        """Opens the reference street list of a relation."""
+    def get_ref_streets_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the reference street list of a relation for reading."""
         path = self.get_ref_streets_path()
-        return ctx.get_file_system().open(path, mode=mode)
+        return ctx.get_file_system().open_read(path)
 
-    def __get_osm_streets_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
-        """Opens the OSM street list of a relation."""
+    def get_ref_streets_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the reference street list of a relation for wrtiting."""
+        path = self.get_ref_streets_path()
+        return ctx.get_file_system().open_write(path)
+
+    def __get_osm_streets_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the OSM street list of a relation for reading."""
         path = self.get_osm_streets_path()
-        return ctx.get_file_system().open(path, mode=mode)
+        return ctx.get_file_system().open_read(path)
+
+    def __get_osm_streets_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the OSM street list of a relation for writing."""
+        path = self.get_osm_streets_path()
+        return ctx.get_file_system().open_write(path)
 
     def get_osm_streets_csv_stream(self, ctx: context.Context) -> util.CsvIO:
         """Gets a CSV reader for the OSM street list."""
-        return util.CsvIO(self.__get_osm_streets_stream(ctx, "rb"))
+        return util.CsvIO(self.__get_osm_streets_read_stream(ctx))
 
-    def __get_osm_housenumbers_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
-        """Opens the OSM house number list of a relation."""
+    def __get_osm_housenumbers_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the OSM house number list of a relation for reading."""
         path = self.get_osm_housenumbers_path()
-        return ctx.get_file_system().open(path, mode=mode)
+        return ctx.get_file_system().open_read(path)
+
+    def __get_osm_housenumbers_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the OSM house number list of a relation for writing."""
+        path = self.get_osm_housenumbers_path()
+        return ctx.get_file_system().open_write(path)
 
     def get_osm_housenumbers_csv_stream(self, ctx: context.Context) -> util.CsvIO:
         """Gets a CSV reader for the OSM house number list."""
-        return util.CsvIO(self.__get_osm_housenumbers_stream(ctx, "rb"))
+        return util.CsvIO(self.__get_osm_housenumbers_read_stream(ctx))
 
-    def get_ref_housenumbers_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
-        """Opens the reference house number list of a relation."""
-        return ctx.get_file_system().open(self.get_ref_housenumbers_path(), mode=mode)
+    def get_ref_housenumbers_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the reference house number list of a relation for reading."""
+        return ctx.get_file_system().open_read(self.get_ref_housenumbers_path())
 
-    def get_housenumbers_percent_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
-        """Opens the house number percent file of a relation."""
-        return ctx.get_file_system().open(self.get_housenumbers_percent_path(), mode=mode)
+    def get_ref_housenumbers_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the reference house number list of a relation for writing."""
+        return ctx.get_file_system().open_write(self.get_ref_housenumbers_path())
 
-    def get_housenumbers_htmlcache_stream(self, mode: str) -> BinaryIO:
-        """Opens the house number HTML cache file of a relation."""
+    def get_housenumbers_percent_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the house number percent file of a relation for reading."""
+        return ctx.get_file_system().open_read(self.get_housenumbers_percent_path())
+
+    def get_housenumbers_percent_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the house number percent file of a relation for writing."""
+        return ctx.get_file_system().open_write(self.get_housenumbers_percent_path())
+
+    def get_housenumbers_htmlcache_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the house number HTML cache file of a relation for reading."""
         # The caller will do this:
         # pylint: disable=consider-using-with
-        return cast(BinaryIO, open(self.get_housenumbers_htmlcache_path(), mode=mode))
+        return ctx.get_file_system().open_read(self.get_housenumbers_htmlcache_path())
 
-    def get_housenumbers_txtcache_stream(self, mode: str) -> BinaryIO:
-        """Opens the house number plain text cache file of a relation."""
+    def get_housenumbers_htmlcache_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the house number HTML cache file of a relation for writing."""
         # The caller will do this:
         # pylint: disable=consider-using-with
-        return cast(BinaryIO, open(self.get_housenumbers_txtcache_path(), mode=mode))
+        return ctx.get_file_system().open_write(self.get_housenumbers_htmlcache_path())
 
-    def get_streets_percent_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
-        """Opens the street percent file of a relation."""
-        return ctx.get_file_system().open(self.get_streets_percent_path(), mode=mode)
-
-    def get_streets_additional_count_stream(self, ctx: context.Context, mode: str) -> BinaryIO:
-        """Opens the street additional count file of a relation."""
-        return ctx.get_file_system().open(self.get_streets_additional_count_path(), mode=mode)
-
-    def get_housenumbers_additional_count_stream(self, mode: str) -> BinaryIO:
-        """Opens the housenumbers additional count file of a relation."""
+    def get_housenumbers_txtcache_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the house number plain text cache file of a relation for reading."""
         # The caller will do this:
         # pylint: disable=consider-using-with
-        return cast(BinaryIO, open(self.get_housenumbers_additional_count_path(), mode=mode))
+        return ctx.get_file_system().open_read(self.get_housenumbers_txtcache_path())
+
+    def get_housenumbers_txtcache_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the house number plain text cache file of a relation for writing."""
+        # The caller will do this:
+        # pylint: disable=consider-using-with
+        return ctx.get_file_system().open_write(self.get_housenumbers_txtcache_path())
+
+    def get_streets_percent_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the street percent file of a relation for reading."""
+        return ctx.get_file_system().open_read(self.get_streets_percent_path())
+
+    def get_streets_percent_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the street percent file of a relation for writing."""
+        return ctx.get_file_system().open_write(self.get_streets_percent_path())
+
+    def get_streets_additional_count_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the street additional count file of a relation for reading."""
+        return ctx.get_file_system().open_read(self.get_streets_additional_count_path())
+
+    def get_streets_additional_count_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the street additional count file of a relation for writing."""
+        return ctx.get_file_system().open_write(self.get_streets_additional_count_path())
+
+    def get_housenumbers_additional_count_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the housenumbers additional count file of a relation for reading."""
+        # The caller will do this:
+        # pylint: disable=consider-using-with
+        return ctx.get_file_system().open_read(self.get_housenumbers_additional_count_path())
+
+    def get_housenumbers_additional_count_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the housenumbers additional count file of a relation for writing."""
+        # The caller will do this:
+        # pylint: disable=consider-using-with
+        return ctx.get_file_system().open_write(self.get_housenumbers_additional_count_path())
 
     def write_osm_streets(self, ctx: context.Context, result: str) -> None:
         """Writes the result for overpass of Relation.get_osm_streets_query()."""
-        with self.__get_osm_streets_stream(ctx, "wb") as sock:
+        with self.__get_osm_streets_write_stream(ctx) as sock:
             sock.write(util.to_bytes(result))
 
     def write_osm_housenumbers(self, ctx: context.Context, result: str) -> None:
         """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
-        with self.__get_osm_housenumbers_stream(ctx, mode="wb") as stream:
+        with self.__get_osm_housenumbers_write_stream(ctx) as stream:
             stream.write(util.to_bytes(result))
 
-    def get_additional_housenumbers_htmlcache_stream(self, mode: str) -> BinaryIO:
-        """Opens the additional house number HTML cache file of a relation."""
+    def get_additional_housenumbers_htmlcache_read_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the additional house number HTML cache file of a relation for reading."""
         # The caller will do this:
         # pylint: disable=consider-using-with
-        return cast(BinaryIO, open(self.get_additional_housenumbers_htmlcache_path(), mode=mode))
+        return ctx.get_file_system().open_read(self.get_additional_housenumbers_htmlcache_path())
+
+    def get_additional_housenumbers_htmlcache_write_stream(self, ctx: context.Context) -> BinaryIO:
+        """Opens the additional house number HTML cache file of a relation for writing."""
+        # The caller will do this:
+        # pylint: disable=consider-using-with
+        return ctx.get_file_system().open_write(self.get_additional_housenumbers_htmlcache_path())
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

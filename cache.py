@@ -66,7 +66,7 @@ def get_missing_housenumbers_html(ctx: context.Context, relation: areas.Relation
     """Gets the cached HTML of the missing housenumbers for a relation."""
     doc = yattag.doc.Doc()
     if is_missing_housenumbers_html_cached(ctx, relation):
-        with relation.get_files().get_housenumbers_htmlcache_stream("rb") as stream:
+        with relation.get_files().get_housenumbers_htmlcache_read_stream(ctx) as stream:
             doc.asis(util.from_bytes(stream.read()))
         return doc
 
@@ -97,7 +97,7 @@ def get_missing_housenumbers_html(ctx: context.Context, relation: areas.Relation
     doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
     doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
 
-    with relation.get_files().get_housenumbers_htmlcache_stream("wb") as stream:
+    with relation.get_files().get_housenumbers_htmlcache_write_stream(ctx) as stream:
         stream.write(util.to_bytes(doc.getvalue()))
 
     return doc
@@ -107,7 +107,7 @@ def get_additional_housenumbers_html(ctx: context.Context, relation: areas.Relat
     """Gets the cached HTML of the additional housenumbers for a relation."""
     doc = yattag.doc.Doc()
     if is_additional_housenumbers_html_cached(ctx, relation):
-        with relation.get_files().get_additional_housenumbers_htmlcache_stream("rb") as stream:
+        with relation.get_files().get_additional_housenumbers_htmlcache_read_stream(ctx) as stream:
             doc.asis(util.from_bytes(stream.read()))
         return doc
 
@@ -125,7 +125,7 @@ def get_additional_housenumbers_html(ctx: context.Context, relation: areas.Relat
     doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
     doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
 
-    with relation.get_files().get_additional_housenumbers_htmlcache_stream("wb") as stream:
+    with relation.get_files().get_additional_housenumbers_htmlcache_write_stream(ctx) as stream:
         stream.write(util.to_bytes(doc.getvalue()))
 
     return doc
@@ -149,7 +149,7 @@ def get_missing_housenumbers_txt(ctx: context.Context, relation: areas.Relation)
     """Gets the cached plain text of the missing housenumbers for a relation."""
     output = ""
     if is_missing_housenumbers_txt_cached(ctx, relation):
-        with relation.get_files().get_housenumbers_txtcache_stream("rb") as stream:
+        with relation.get_files().get_housenumbers_txtcache_read_stream(ctx) as stream:
             output = util.from_bytes(stream.read())
         return output
 
@@ -169,7 +169,7 @@ def get_missing_housenumbers_txt(ctx: context.Context, relation: areas.Relation)
     table.sort(key=util.get_lexical_sort_key())
     output += "\n".join(table)
 
-    with relation.get_files().get_housenumbers_txtcache_stream("wb") as stream:
+    with relation.get_files().get_housenumbers_txtcache_write_stream(ctx) as stream:
         stream.write(util.to_bytes(output))
     return output
 

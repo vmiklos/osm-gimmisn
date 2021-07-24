@@ -193,14 +193,14 @@ def update_additional_streets(_conf: context.Context, relations: areas.Relations
 
 def write_count_path(ctx: context.Context, count_path: str, house_numbers: Set[str]) -> None:
     """Writes a daily .count file."""
-    with ctx.get_file_system().open(count_path, "wb") as stream:
+    with ctx.get_file_system().open_write(count_path) as stream:
         house_numbers_len = str(len(house_numbers))
         stream.write(util.to_bytes(house_numbers_len + "\n"))
 
 
 def write_city_count_path(ctx: context.Context, city_count_path: str, cities: Dict[str, Set[str]]) -> None:
     """Writes a daily .citycount file."""
-    with ctx.get_file_system().open(city_count_path, "wb") as stream:
+    with ctx.get_file_system().open_write(city_count_path) as stream:
         # Locale-aware sort, by key.
         lexical_sort_key = util.get_lexical_sort_key()
         for key, value in sorted(cities.items(), key=lambda item: lexical_sort_key(item[0])):
@@ -219,7 +219,7 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
     cities: Dict[str, Set[str]] = {}
     first = True
     valid_settlements = util.get_valid_settlements(ctx)
-    with ctx.get_file_system().open(csv_path, "rb") as stream:
+    with ctx.get_file_system().open_read(csv_path) as stream:
         for line_bytes in stream.readlines():
             line = util.from_bytes(line_bytes)
             if first:
@@ -249,7 +249,7 @@ def update_stats_topusers(ctx: context.Context, today: str) -> None:
     topusers_path = os.path.join(statedir, "%s.topusers" % today)
     usercount_path = os.path.join(statedir, "%s.usercount" % today)
     users: Dict[str, int] = {}
-    with ctx.get_file_system().open(csv_path, "rb") as stream:
+    with ctx.get_file_system().open_read(csv_path) as stream:
         for line_bytes in stream.readlines():
             line = util.from_bytes(line_bytes)
             # Only care about the last column.
@@ -258,12 +258,12 @@ def update_stats_topusers(ctx: context.Context, today: str) -> None:
                 users[user] += 1
             else:
                 users[user] = 1
-    with ctx.get_file_system().open(topusers_path, "wb") as stream:
+    with ctx.get_file_system().open_write(topusers_path) as stream:
         for user in sorted(users, key=cast(Callable[[str], int], users.get), reverse=True)[:20]:
             line = str(users[user]) + " " + user
             stream.write(util.to_bytes(line + "\n"))
 
-    with ctx.get_file_system().open(usercount_path, "wb") as stream:
+    with ctx.get_file_system().open_write(usercount_path) as stream:
         stream.write(util.to_bytes(str(len(users)) + "\n"))
 
 
@@ -327,7 +327,7 @@ def update_stats(ctx: context.Context, overpass: bool) -> None:
 
     info("update_stats: generating json")
     json_path = os.path.join(statedir, "stats.json")
-    with ctx.get_file_system().open(json_path, "wb") as stream:
+    with ctx.get_file_system().open_write(json_path) as stream:
         stats.generate_json(ctx, statedir, stream)
 
     info("update_stats: end")

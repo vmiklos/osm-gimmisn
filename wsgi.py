@@ -327,7 +327,7 @@ def handle_missing_housenumbers(ctx: context.Context, relations: areas.Relations
         doc.asis(missing_housenumbers_view_turbo(relations, request_uri).getvalue())
     elif action == "view-query":
         with doc.tag("pre"):
-            with relation.get_files().get_ref_housenumbers_stream(ctx, "rb") as sock:
+            with relation.get_files().get_ref_housenumbers_read_stream(ctx) as sock:
                 doc.text(util.from_bytes(sock.read()))
         date = get_last_modified(relation.get_files().get_ref_housenumbers_path())
     elif action == "update-result":
@@ -377,7 +377,7 @@ def handle_missing_streets(ctx: context.Context, relations: areas.Relations, req
         doc.asis(missing_streets_view_turbo(relations, request_uri).getvalue())
     elif action == "view-query":
         with doc.tag("pre"):
-            with relation.get_files().get_ref_streets_stream(ctx, "rb") as sock:
+            with relation.get_files().get_ref_streets_read_stream(ctx) as sock:
                 doc.text(util.from_bytes(sock.read()))
     elif action == "update-result":
         doc.asis(missing_streets_update(ctx, relations, relation_name).getvalue())
@@ -480,7 +480,8 @@ def handle_main_housenr_percent(ctx: context.Context, relation: areas.Relation) 
     url = prefix + "/missing-housenumbers/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if ctx.get_file_system().path_exists(relation.get_files().get_housenumbers_percent_path()):
-        percent = util.get_content(relation.get_files().get_housenumbers_percent_path()).decode("utf-8")
+        with relation.get_files().get_housenumbers_percent_read_stream(ctx) as stream:
+            percent = util.from_bytes(stream.read())
 
     doc = yattag.doc.Doc()
     if percent != "N/A":
@@ -502,7 +503,8 @@ def handle_main_street_percent(ctx: context.Context, relation: areas.Relation) -
     url = prefix + "/missing-streets/" + relation.get_name() + "/view-result"
     percent = "N/A"
     if ctx.get_file_system().path_exists(relation.get_files().get_streets_percent_path()):
-        percent = util.get_content(relation.get_files().get_streets_percent_path()).decode("utf-8")
+        with relation.get_files().get_streets_percent_read_stream(ctx) as stream:
+            percent = util.from_bytes(stream.read())
 
     doc = yattag.doc.Doc()
     if percent != "N/A":
@@ -524,7 +526,8 @@ def handle_main_street_additional_count(ctx: context.Context, relation: areas.Re
     url = prefix + "/additional-streets/" + relation.get_name() + "/view-result"
     additional_count = ""
     if ctx.get_file_system().path_exists(relation.get_files().get_streets_additional_count_path()):
-        additional_count = util.get_content(relation.get_files().get_streets_additional_count_path()).decode("utf-8")
+        with relation.get_files().get_streets_additional_count_read_stream(ctx) as stream:
+            additional_count = util.from_bytes(stream.read())
 
     doc = yattag.doc.Doc()
     if additional_count:
@@ -549,8 +552,8 @@ def handle_main_housenr_additional_count(ctx: context.Context, relation: areas.R
     url = prefix + "/additional-housenumbers/" + relation.get_name() + "/view-result"
     additional_count = ""
     if ctx.get_file_system().path_exists(relation.get_files().get_housenumbers_additional_count_path()):
-        path = relation.get_files().get_housenumbers_additional_count_path()
-        additional_count = util.get_content(path).decode("utf-8").strip()
+        with relation.get_files().get_housenumbers_additional_count_read_stream(ctx) as stream:
+            additional_count = util.from_bytes(stream.read()).strip()
 
     doc = yattag.doc.Doc()
     if additional_count:

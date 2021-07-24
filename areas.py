@@ -347,14 +347,14 @@ class RelationBase:
         lst = self.get_config().build_ref_streets(memory_cache)
 
         lst = sorted(set(lst))
-        with self.get_files().get_ref_streets_stream(self.__ctx, "wb") as sock:
+        with self.get_files().get_ref_streets_write_stream(self.__ctx) as sock:
             for line in lst:
                 sock.write(util.to_bytes(line + "\n"))
 
     def get_ref_streets(self) -> List[str]:
         """Gets streets from reference."""
         streets: List[str] = []
-        with self.get_files().get_ref_streets_stream(self.__ctx, "rb") as sock:
+        with self.get_files().get_ref_streets_read_stream(self.__ctx) as sock:
             for line in sock.readlines():
                 line = line.strip()
                 streets.append(util.from_bytes(line))
@@ -412,7 +412,7 @@ class RelationBase:
                 lst += self.build_ref_housenumbers(memory_cache, street, suffix)
 
         lst = sorted(set(lst))
-        with self.get_files().get_ref_housenumbers_stream(self.__ctx, "wb") as sock:
+        with self.get_files().get_ref_housenumbers_write_stream(self.__ctx) as sock:
             for line in lst:
                 sock.write(util.to_bytes(line + "\n"))
 
@@ -434,7 +434,7 @@ class RelationBase:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
         ret: Dict[str, List[util.HouseNumber]] = {}
         lines: Dict[str, List[str]] = {}
-        with self.get_files().get_ref_housenumbers_stream(self.ctx, "rb") as sock:
+        with self.get_files().get_ref_housenumbers_read_stream(self.ctx) as sock:
             for line_bytes in sock.readlines():
                 line = util.from_bytes(line_bytes)
                 line = line.strip()
@@ -534,7 +534,7 @@ class RelationBase:
             percent = "100.00"
 
         # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_streets_percent_stream(self.__ctx, "wb") as stream:
+        with self.get_files().get_streets_percent_write_stream(self.__ctx) as stream:
             stream.write(util.to_bytes(percent))
 
         return todo_count, done_count, percent, streets
@@ -544,7 +544,7 @@ class RelationBase:
         additional_streets = self.get_additional_streets()
 
         # Write the count to a file, so the index page show it fast.
-        with self.get_files().get_streets_additional_count_stream(self.__ctx, "wb") as stream:
+        with self.get_files().get_streets_additional_count_write_stream(self.__ctx) as stream:
             stream.write(util.to_bytes(str(len(additional_streets))))
 
         return additional_streets
@@ -630,7 +630,7 @@ class Relation(RelationBase):
             percent = "100.00"
 
         # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_housenumbers_percent_stream(self.__ctx, "wb") as stream:
+        with self.get_files().get_housenumbers_percent_write_stream(self.__ctx) as stream:
             stream.write(util.to_bytes(percent))
 
         return len(ongoing_streets), todo_count, done_count, percent, table
@@ -645,7 +645,7 @@ class Relation(RelationBase):
         table, todo_count = self.numbered_streets_to_table(ongoing_streets)
 
         # Write the street count to a file, so the index page show it fast.
-        with self.get_files().get_housenumbers_additional_count_stream("wb") as stream:
+        with self.get_files().get_housenumbers_additional_count_write_stream(self.ctx) as stream:
             stream.write(util.to_bytes(str(todo_count)))
 
         return len(ongoing_streets), todo_count, table
@@ -715,7 +715,7 @@ class Relations:
     def __init__(self, ctx: context.Context) -> None:
         self.__workdir = ctx.get_ini().get_workdir()
         self.__ctx = ctx
-        with ctx.get_file_system().open(os.path.join(ctx.get_abspath("data"), "yamls.cache"), "rb") as stream:
+        with ctx.get_file_system().open_read(os.path.join(ctx.get_abspath("data"), "yamls.cache")) as stream:
             self.__yaml_cache: Dict[str, Any] = json.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]
         self.__relations: Dict[str, Relation] = {}

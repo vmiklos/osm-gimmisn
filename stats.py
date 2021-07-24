@@ -68,7 +68,7 @@ def get_topcities(ctx: context.Context, src_root: str) -> List[Tuple[str, int]]:
     old_count_path = os.path.join(src_root, "%s.citycount" % old_day)
     if not ctx.get_file_system().path_exists(old_count_path):
         return ret
-    with ctx.get_file_system().open(old_count_path, "rb") as stream:
+    with ctx.get_file_system().open_read(old_count_path) as stream:
         for line_bytes in stream.readlines():
             line = util.from_bytes(line_bytes).strip()
             city, _, count = line.partition('\t')
@@ -78,7 +78,7 @@ def get_topcities(ctx: context.Context, src_root: str) -> List[Tuple[str, int]]:
     new_count_path = os.path.join(src_root, "%s.citycount" % new_day)
     if not ctx.get_file_system().path_exists(new_count_path):
         return ret
-    with ctx.get_file_system().open(new_count_path, "rb") as stream:
+    with ctx.get_file_system().open_read(new_count_path) as stream:
         for line_bytes in stream.readlines():
             line = util.from_bytes(line_bytes.strip())
             city, _, count = line.partition('\t')
