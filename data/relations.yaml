@@ -695,6 +695,10 @@ balatonalmadi:
     osmrelation: 1078573
     refcounty: "19"
     refsettlement: "022"
+balatonalmadi-vorosbereny:
+    osmrelation: 13018283
+    refcounty: "19"
+    refsettlement: "022"
 balatoncsicso:
     osmrelation: 1078574
     refcounty: "19"
