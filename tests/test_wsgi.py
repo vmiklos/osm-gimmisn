@@ -412,7 +412,16 @@ Tűzkő utca	31
 
     def test_update_result_link(self) -> None:
         """Tests if the update-result output links back to the correct page."""
+        file_system = test_context.TestFileSystem()
+        housenumbers_value = io.BytesIO()
+        housenumbers_value.__setattr__("close", lambda: None)
+        files = {
+            self.ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"): housenumbers_value,
+        }
+        file_system.set_files(files)
+        self.ctx.set_file_system(file_system)
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/update-result")
+        self.assertTrue(housenumbers_value.tell())
         ctx = test_context.make_test_context()
         prefix = ctx.get_ini().get_uri_prefix()
         results = root.findall("body/a[@href='" + prefix + "/missing-housenumbers/gazdagret/view-result']")
