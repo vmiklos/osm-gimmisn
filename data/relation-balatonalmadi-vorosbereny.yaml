@@ -13,6 +13,9 @@ filters:
   Mandula utca:
     ranges:
       - {start: '2', end: '98'}
+  Pinkóczi út:
+    ranges:
+      - {start: '69', end: '69'}
   Szabadság út:
     ranges:
       - {start: '8', end: '16'}
