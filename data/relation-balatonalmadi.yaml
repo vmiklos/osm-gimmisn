@@ -20,6 +20,9 @@ filters:
     invalid: ['48', '50', '70']
   Kölcsey Ferenc utca:
     show-refstreet: false
+  Laposa Dániel utca:
+    # 3: nincs, 1 után 5
+    invalid: ['3']
   Madách Imre tér:
     show-refstreet: false
   Madách Imre utca:
