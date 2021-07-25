@@ -47,16 +47,12 @@ filters:
     show-refstreet: false
   Kert utca:
     invalid: ['21', '23']
-  Kölcsey Ferenc utca:
-    show-refstreet: false
   Laposa Dániel utca:
     # 3: nincs, 1 után 5
     invalid: ['3']
   Madách Imre tér:
     show-refstreet: false
   Madách Imre utca:
-    show-refstreet: false
-  Radnóti utca:
     show-refstreet: false
   Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
