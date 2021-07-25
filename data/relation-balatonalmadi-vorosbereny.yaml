@@ -107,23 +107,10 @@ street-filters:
   - Szeder utca
   - Szent László sétány
 refstreets:
-  'Báthory utca': 'Báthori utca'
-  'Berzsenyi Dániel utca': 'Berzsenyi utca'
-  'Dózsa György utca': 'Dózsa György út'
-  'Erdőalja út': 'Erdőalja utca'
-  'Fadrusz János utca': 'Fadrusz utca'
-  'Madarász utca': 'Madarász Viktor utca'
-  'Öreghegyi utca': 'Öreghegyi út'
-  'Pacsirta út': 'Pacsirta utca'
-  'Szabadság utca': 'Szabadság út'
-  'Szabadság-kilátó utca': 'Szabadságkilátó út'
   # ellenőrzött
-  'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
-  'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
   'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca
-  'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
   'Vörösmarty Mihály utca': 'Vörösmarty utca'  # táblán Vörösmarty Mihály utca
 source: survey
