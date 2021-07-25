@@ -2,7 +2,6 @@ missing-streets: 'no'
 filters:
   # terület lehatárolás
   Balatonfűzfői út:
-    # todo
     ranges:
       - {start: '84', end: '298'}
   Kisberényi út:
@@ -11,16 +10,15 @@ filters:
   Kővirág utca:
     ranges:
       - {start: '1', end: '99'}
-  Szabadság út:
-    # todo
+  Mandula utca:
     ranges:
-      - {start: '1', end: '199'}
-      - {start: '2', end: '198'}
-  Szép Ilonka utca:
-    # todo
-    ranges:
-      - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Szabadság út:
+    ranges:
+      - {start: '8', end: '16'}
+  Szép Ilonka utca:
+    ranges:
+      - {start: '5', end: '99'}
   Vöröskő utca:
     ranges:
       - {start: '1', end: '17'}
