@@ -1,8 +1,47 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  # Adai utca:
+  #   2, 4: nem találtam meg, nincs kitáblázva. Találtam viszont 4/B-t.
+  # Ady Endre utca:
+  #   2, 4: nem találtam meg, nincs kitáblázva. Az utcában a második épület a 6-os.
+  # Arany János utca:
+  #   1: nem találtam meg, nincs kitáblázva.
+  # Dűlő utca:
+  #   35: az utca rendezés alatt van, jelenleg bármelyik lehet a 35-ös.
+  Hajnal utca:
+    # 24/B: a helyszínen nincs, de a Dűlő utca rendezés alatt áll, így lehet, hogy a Dűlő utca 12. lesz a Hajnal utca 24/B.
+    # 32/B: a helyszínen nincs, de a Dűlő utca rendezés alatt áll, így lehet, hogy a Dűlő utca 16. lesz a Hajnal utca 32/B.
+    # 39: a páratlan oldalon a 35 az utolsó házszám, és van egy üres telek utána, ami valószínűleg a 37 lesz. 39 biztosan nincs.
+    invalid: ['39']
+  # József Attila utca:
+  #   1/B: csak az 1 és az 1/A van kitáblázva.
+  #   23: nem találtam meg, nincs kitáblázva. A 21 és a 25 között két épület is van.
+  #   6/B: nem találtam meg, nincs kitáblázva. Talán a 6/A mellett lehet? Nem egyértelmű, mert sarok telek.
+  # Mártírok útja:
+  #   1: nem találtam meg, nincs kitáblázva.
+  #   7, 9: az 5 után a templom következik, az lenne valamelyik?
+  Napfény utca:
+    # 7: a páratlan oldalon a 15 az első épület, előtte csak üres telkek vannak.
+    invalid: ['7']
+  Petőfi Sándor utca:
+    # 10: a páros oldalon a 8 az utolsó házszám. Az után egy füves terület következik.
+    invalid: ['10']
+  Szabadság utca:
+    # 13/A: nincs ilyen, csak sima 13.
+    # 51: a helyszínen nem találtam, de van egy üres telek az 51/A mellett. Talán az lenne az 51?
+    # 61/1: nincs ilyen, csak sima 61.
+    # 75: a 73 után a 77 következik, nincs köztük 75.
+    # 87/B: ez valamelyik hivatali épület lesz, de nincs kint ilyen házszám.
+    # 2/A: nincs ilyen, csak sima 2.
+    # 40/A: nincs ilyen, csak sima 40.
+    # 42: sima 42 nincs, csak 42/A.
+    # 86: sima 86 nincs, csak 86/A, 86/B.
+    # 174: a páros oldalon a 172 az utolsó házszám.
+    invalid: ['13a', '61/1', '75', '2a', '40a', '42', '86', '174']
+  # Szabadság tér:
+  #   2: nem találtam meg, nincs kitáblázva.
 street-filters:
   # hiányzók
-  # Berek köz
   # Kismetszés köz
   # dupla
   - Dülő út  # Dűlő utca
