@@ -75,30 +75,29 @@ street-filters:
   # nincs az osm-en ------------------------------
   # Berkenye köz - Borostyán közzel szemben
   # Dési Huber István utca - Káptalan utca és Szinyei Merse Pál utca között
-  # Temető köz - Temető utca 3 és 5 számok
   # Tücsök köz - Tücsök utca
   - Gyümölcs utca  # nincs kiépítve: 47.0153711, 17.9925941
   # megszünt - tervben más utcákra van már számozva
   - Gyöngyvirág utca
   - Szeder utca
   - Szent László sétány
+  - Temető köz  # Temető utcára számozva - Temető utca 3 és 5 számok
+  - Tücsök utca  # Tücsök köz szerepel a táblán
 refstreets:
   'Báthory utca': 'Báthori utca'
   'Berzsenyi Dániel utca': 'Berzsenyi utca'
   'Dózsa György utca': 'Dózsa György út'
-  'Erdőalja út': 'Erdőalja utca'
   'Fadrusz János utca': 'Fadrusz utca'
-  'Madarász utca': 'Madarász Viktor utca'
-  'Öreghegyi utca': 'Öreghegyi út'
   'Pacsirta út': 'Pacsirta utca'
-  'Szabadság-kilátó utca': 'Szabadságkilátó út'
   # ellenőrzött
   'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
+  'Erdőalja út': 'Erdőalja utca'  # táblán Erdőalja út
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
   'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca
   'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
+  'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
   'Vörösmarty Mihály utca': 'Vörösmarty utca'  # táblán Vörösmarty Mihály utca
 source: survey
