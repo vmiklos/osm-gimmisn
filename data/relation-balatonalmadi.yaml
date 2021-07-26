@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Ady Endre utca:
+    invalid: ['17']
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
@@ -27,11 +29,18 @@ filters:
     show-refstreet: false
   Madách Imre utca:
     show-refstreet: false
+  Malomvölgyi utca:
+    # 7: 5 után 9. 7 a kereszteződésre esik
+    invalid: ['7']
   Radnóti utca:
     show-refstreet: false
   Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
     invalid: ['14']
+  Sátor-hegyi út:
+    show-refstreet: false
+  Szabadság-kilátó út:
+    show-refstreet: false
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
@@ -75,7 +84,6 @@ street-filters:
   # nincs az osm-en ------------------------------
   # Berkenye köz - Borostyán közzel szemben
   # Dési Huber István utca - Káptalan utca és Szinyei Merse Pál utca között
-  # Tücsök köz - Tücsök utca
   - Gyümölcs utca  # nincs kiépítve: 47.0153711, 17.9925941
   # megszünt - tervben más utcákra van már számozva
   - Gyöngyvirág utca
@@ -97,6 +105,7 @@ refstreets:
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
   'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca
   'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
+  'Sátor-hegyi út': 'Sátorhegyi út'  # táblán Sátor-hegyi út
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
   'Vörösmarty Mihály utca': 'Vörösmarty utca'  # táblán Vörösmarty Mihály utca
