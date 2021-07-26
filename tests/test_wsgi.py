@@ -212,7 +212,27 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_well_formed_compat(self) -> None:
         """Tests if the output is well-formed (URL rewrite)."""
+        file_system = test_context.TestFileSystem()
+        streets_value = io.BytesIO()
+        streets_value.__setattr__("close", lambda: None)
+        htmlcache_value = io.BytesIO()
+        htmlcache_value.__setattr__("close", lambda: None)
+        files = {
+            self.ctx.get_abspath("workdir/gazdagret.percent"): streets_value,
+            self.ctx.get_abspath("workdir/gazdagret.htmlcache.en"): htmlcache_value,
+        }
+        file_system.set_files(files)
+        # Make sure the cache is outdated.
+        mtimes = {
+            self.ctx.get_abspath("workdir/gazdagret.htmlcache.en"): 0.0,
+        }
+        file_system.set_mtimes(mtimes)
+        self.ctx.set_file_system(file_system)
+
         root = self.get_dom_for_path("/suspicious-streets/gazdagret/view-result")
+
+        self.assertTrue(streets_value.tell())
+        self.assertTrue(htmlcache_value.tell())
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
 
