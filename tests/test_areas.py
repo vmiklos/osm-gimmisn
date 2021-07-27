@@ -9,6 +9,7 @@
 from typing import Any
 from typing import Dict
 from typing import List
+import io
 import os
 import unittest
 
@@ -115,9 +116,17 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
         result_from_overpass += "1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
         expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         relation = relations.get_relation(relation_name)
+        file_system = test_context.TestFileSystem()
+        housenumbers_value = io.BytesIO()
+        housenumbers_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"): housenumbers_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         relation.get_files().write_osm_housenumbers(ctx, result_from_overpass)
-        actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
-        self.assertEqual(actual, expected)
+        housenumbers_value.seek(0)
+        self.assertEqual(housenumbers_value.read(), expected)
 
 
 def make_range(start: int, end: int) -> ranges.Range:
