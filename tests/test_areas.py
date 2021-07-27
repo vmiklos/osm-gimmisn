@@ -92,9 +92,17 @@ class TestRelationFilesWriteOsmStreets(unittest.TestCase):
         relation = relations.get_relation(relation_name)
         result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
         expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        file_system = test_context.TestFileSystem()
+        streets_value = io.BytesIO()
+        streets_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/streets-gazdagret.csv"): streets_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         relation.get_files().write_osm_streets(ctx, result_from_overpass)
-        actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
-        self.assertEqual(actual, expected)
+        streets_value.seek(0)
+        self.assertEqual(streets_value.read(), expected)
 
 
 class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
