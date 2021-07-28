@@ -632,10 +632,19 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
     """Tests Relation.write_missing_housenumbers()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         expected = util.get_content(relations.get_workdir(), "gazdagret.percent")
+        file_system = test_context.TestFileSystem()
+        percent_value = io.BytesIO()
+        percent_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/gazdagret.percent"): percent_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
         self.assertEqual(todo_street_count, 3)
@@ -647,7 +656,8 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
                                         ['Törökugrató utca', '2', '7<br />10'],
                                         ['Tűzkő utca', '2', '1<br />2'],
                                         ['Hamzsabégi út', '1', '1']])
-        actual = util.get_content(relations.get_workdir(), "gazdagret.percent")
+        percent_value.seek(0)
+        actual = percent_value.read()
         self.assertEqual(actual, expected)
 
     def test_empty(self) -> None:
