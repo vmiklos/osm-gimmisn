@@ -9,10 +9,22 @@ filters:
     # 226/5: a 67 az utolsó házszám.
     interpolation: 'all'
     invalid: ['226/3', '226/5']
+  Fő utca:
+    # 39: nincs ilyen, a 37 után a 41 következik, össze van vonva a 41-gyel.
+    # 45: nincs ilyen, a 43 után a 49 következik.
+    # 47: nincs ilyen, a 43 után a 49 következik, össze van vonva a 49-cel.
+    invalid: ['39', '45', '47']
   Hullám utca:
     # 650: a 13/A az utolsó házszám.
     interpolation: 'all'
     invalid: ['650']
+  Mártírok útja:
+    # 3: nincs ilyen, az 1 után az 5 következik.
+    # 7: ez a kertmozi, de annak a címe Kossuth Lajos utca 2.
+    # 11/2: nincs ilyen, csak sima 11 van.
+    # 14: sima 14 nincs, csak 14/A, 14/B.
+    # 32/B: nincs ilyen, csak sima 32. A páros oldalon a 32 az utolsó házszám.
+    invalid: ['3', '7', '11/2', '14', '32b']
   Semmelweis utca:
     # 25/A, 25/B: a 25 ketté van osztva, de csak 25 van kitáblázva, A és B nincs.
     # 64: sima 64 nincs, csak 64/A, 64/B.
@@ -20,6 +32,7 @@ filters:
 street-filters:
   # Nem igazi utcák
   - Szedres
+osm-street-filters:
   # Létező, de házszám nélküli utcák, közök, ösvények
   - Ady sétány
   - Ág utca
