@@ -746,13 +746,22 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
 
     def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
-        relations = areas.Relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
+        file_system = test_context.TestFileSystem()
+        percent_value = io.BytesIO()
+        percent_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/empty-streets.percent"): percent_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         relation_name = "empty"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_streets()
+        self.assertTrue(percent_value.tell())
         _todo_count, _done_count, percent, _streets = ret
         self.assertEqual(percent, '100.00')
-        os.unlink(os.path.join(relations.get_workdir(), "empty-streets.percent"))
 
 
 class TestRelationBuildRefHousenumbers(unittest.TestCase):
