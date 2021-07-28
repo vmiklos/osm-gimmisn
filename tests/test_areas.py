@@ -681,10 +681,20 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
 
     def test_interpolation_all(self) -> None:
         """Tests the case when the street is interpolation=all and coloring is wanted."""
-        relations = areas.Relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
+        file_system = test_context.TestFileSystem()
+        percent_value = io.BytesIO()
+        percent_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/budafok.percent"): percent_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         relation_name = "budafok"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_housenumbers()
+        self.assertTrue(percent_value.tell())
         _todo_street_count, _todo_count, _done_count, _percent, table = ret
         string_table = table_doc_to_string(table)
         # Note how "12" is ordered after "2", even if a string sort would do the opposite.
