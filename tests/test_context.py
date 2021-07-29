@@ -9,7 +9,6 @@
 from typing import BinaryIO
 from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Tuple
 import calendar
 import datetime
@@ -93,7 +92,7 @@ class TestNetwork(context.Network):
     def __init__(self, routes: List[URLRoute]) -> None:
         self.__routes = routes
 
-    def urlopen(self, url: str, data: Optional[bytes] = None) -> Tuple[bytes, str]:
+    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:
         for route in self.__routes:
             if url != route.url:
                 continue

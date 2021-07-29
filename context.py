@@ -12,7 +12,6 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 from typing import BinaryIO
 from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Tuple
 from typing import cast
 import calendar
@@ -71,7 +70,7 @@ class StdFileSystem(FileSystem):
 
 class Network:
     """Network interface."""
-    def urlopen(self, url: str, data: Optional[bytes] = None) -> Tuple[bytes, str]:  # pragma: no cover
+    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:  # pragma: no cover
         """Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST."""
         # pylint: disable=no-self-use
         # pylint: disable=unused-argument
@@ -80,13 +79,18 @@ class Network:
 
 class StdNetwork(Network):
     """Network implementation, backed by the Python stdlib."""
-    def urlopen(self, url: str, data: Optional[bytes] = None) -> Tuple[bytes, str]:  # pragma: no cover
+    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:  # pragma: no cover
         try:
-            with urllib.request.urlopen(url, data) as stream:
+            optional_data = None
+            if data:
+                optional_data = data
+            with urllib.request.urlopen(url, optional_data) as stream:
                 buf = stream.read()
             return (cast(bytes, buf), str())
         except urllib.error.HTTPError as http_error:
             return (bytes(), str(http_error))
+        except urllib.error.URLError as url_error:
+            return (bytes(), str(url_error))
 
 
 class Time:
