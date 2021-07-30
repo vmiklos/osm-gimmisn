@@ -731,7 +731,16 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
     """Tests Relation.write_missing_streets()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        relations = areas.Relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
+        file_system = test_context.TestFileSystem()
+        percent_value = io.BytesIO()
+        percent_value.__setattr__("close", lambda: None)
+        files = {
+            os.path.join(ctx.get_ini().get_workdir(), "gazdagret-streets.percent"): percent_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         expected = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
@@ -741,8 +750,8 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
         self.assertEqual(done_count, 4)
         self.assertEqual(percent, '80.00')
         self.assertEqual(streets, ['Only In Ref utca'])
-        actual = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
-        self.assertEqual(actual, expected)
+        percent_value.seek(0)
+        self.assertEqual(percent_value.read(), expected)
 
     def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
