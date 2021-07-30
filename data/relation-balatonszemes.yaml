@@ -18,6 +18,11 @@ filters:
     # 650: a 13/A az utolsó házszám.
     interpolation: 'all'
     invalid: ['650']
+  Kikelet utca:
+    # https://www.balatonszemes.hu/wp-content/uploads/files/rajk-laszlo-utca-nevvaltozasa-es-hazszam-megallapitas.pdf
+    # Mindkét oldalt vannak számok, de az utca dél-keleti részén indul 1-től egyesével, majd az utca végénél folytatódik a másik oldalon szintén egyesével.
+    # Vannak páros és páratlan házszámok, de mindkét oldalon.
+    interpolation: 'all'
   Mártírok útja:
     # 3: nincs ilyen, az 1 után az 5 következik.
     # 7: ez a kertmozi, de annak a címe Kossuth Lajos utca 2.
@@ -29,6 +34,11 @@ filters:
     # 25/A, 25/B: a 25 ketté van osztva, de csak 25 van kitáblázva, A és B nincs.
     # 64: sima 64 nincs, csak 64/A, 64/B.
     invalid: ['64']
+  Tompa Mihály utca:
+    # https://www.balatonszemes.hu/wp-content/uploads/files/rajk-laszlo-utca-nevvaltozasa-es-hazszam-megallapitas.pdf
+    # 29: a fenti határozat alapján a 13 az utolsó házszám. De korábban is csak 26-ig számozódott.
+    interpolation: 'all'
+    invalid: ['29']
 street-filters:
   # Nem igazi utcák
   - Szedres
