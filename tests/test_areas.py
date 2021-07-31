@@ -834,13 +834,24 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         refpath2 = os.path.join(refdir, "hazszamok_kieg_20190808.tsv")
-        relations = areas.Relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        relations = areas.Relations(ctx)
         relation_name = "gazdagret"
         expected = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
+        file_system = test_context.TestFileSystem()
+        ref_value = io.BytesIO()
+        ref_value.__setattr__("close", lambda: None)
+        files = {
+            os.path.join(ctx.get_ini().get_workdir(), "street-housenumbers-reference-gazdagret.lst"): ref_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         relation = relations.get_relation(relation_name)
+
         relation.write_ref_housenumbers([refpath, refpath2])
-        actual = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
-        self.assertEqual(actual, expected)
+
+        ref_value.seek(0)
+        self.assertEqual(ref_value.read(), expected)
 
     def test_nosuchrefcounty(self) -> None:
         """Tests the case when the refcounty code is missing in the reference."""
