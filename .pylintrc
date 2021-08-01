@@ -27,3 +27,6 @@ max-returns=12
 
 # Default: 20.
 max-public-methods=40
+
+[MASTER]
+extension-pkg-whitelist=rust

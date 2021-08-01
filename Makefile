@@ -83,7 +83,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: version.py builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: version.py rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f version.py config.ts
@@ -99,6 +99,12 @@ check: all check-filters check-flake8 check-mypy check-unit check-pylint check-e
 version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
 	$(file >> $@,VERSION = '$(shell git describe --tags)')
+
+rust.so: target/debug/librust.so
+	ln -sf target/debug/librust.so rust.so
+
+target/debug/librust.so: Cargo.toml src/lib.rs src/ranges.rs
+	cargo build
 
 config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
@@ -159,7 +165,7 @@ check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 check-mypy: $(PYTHON_OBJECTS)
 	env PYTHONPATH=.:tests mypy --python-version 3.6 --strict --no-error-summary . && touch $@
 
-%.pylint : %.py Makefile .pylintrc
+%.pylint : %.py Makefile .pylintrc rust.so
 	$(QUIET_PYLINT)env PYTHONPATH=. pylint $< && touch $@
 
 %.eslint : %.ts Makefile .eslintrc
@@ -168,7 +174,7 @@ check-mypy: $(PYTHON_OBJECTS)
 %.flake8: %.py Makefile setup.cfg
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
-check-unit: version.py data/yamls.cache testdata
+check-unit: version.py rust.so data/yamls.cache testdata
 	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 
