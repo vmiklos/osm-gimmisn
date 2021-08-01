@@ -79,6 +79,10 @@ osm-street-filters:
   - Soó Rezső sétány
   - Trautmann Róbert sétány
   - Winterl Jakab József sétány
+  # Közlekedési múzeum
+  - Kodály Zoltán park
+  - Lukács Miklós út
+  - Tóth Aladár út
   # egyéb
   - MÁV telep
 source: survey
