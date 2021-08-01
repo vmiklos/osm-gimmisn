@@ -409,6 +409,7 @@ osm-street-filters:
   - Eötvös József park
   - Eötvös Loránd park
   - Gesztenyés kert
+  - Mini Városmajor park
   - Szent Család park
   - Zugligeti Szent Család Plébánia
   # Hivatalosan nincs, de utcatábla van
@@ -448,6 +449,7 @@ osm-street-filters:
   - Kakukkhegyi erdősor
   - Márton Áron tér
   # Kerülethatáron lévő utcák - Budakeszi
+  - Erdőalja út
   - Makkosi út
   - Mezei Mária utca
   - Trinitárius utca
