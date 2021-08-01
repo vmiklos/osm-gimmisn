@@ -1,6 +1,6 @@
 = Version descriptions
 
-== master
+== 7.2
 
 - Resolves: gh#964 get_street_from_housenumber: consider addr:place when addr:street is empty
 
