@@ -12,6 +12,7 @@ osm-street-filters:
   # Nem valós utcák
   - Árpád úti felüljáró
   - Dugonics utcai felüljáró
+  - MÁV üzemi út
   - Szilas pihenő
   # Területhatár
   - Elem utca  # IV. kerület határ
@@ -24,6 +25,7 @@ osm-street-filters:
   - Bányász park
   - Kaktusz kert  # Note
   - Páskom liget
+  - Szilas-patak tanösvény
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM: ref hibás
