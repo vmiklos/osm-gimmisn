@@ -1,7 +1,0 @@
-missing-streets: 'yes'
-filters: {}
-refstreets:
-  'Ifjúság utca': 'Ifjuság utca'
-  'Rákóczi Ferenc utca': 'Rákóczi utca'
-source: survey
-inactive: true
