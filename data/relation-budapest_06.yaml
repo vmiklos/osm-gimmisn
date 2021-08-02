@@ -57,9 +57,10 @@ osm-street-filters:
   - Central Passage
   - Eiffel tér
   - Ferdinánd híd
-  - Millenium Tetőkert
   - Nyugati Átjáró Üzletközpont
-  # - Millenniumi sétány  # kérdéses, hogy tényleg van-e neve, nem találtam rá hivatkozást
+  # Westend
+  - Millenium Tetőkert
+  - Millenniumi sétány
   - Semiramis tetőkert
 refstreets:
   'Oktogon': 'Oktogon tér'
