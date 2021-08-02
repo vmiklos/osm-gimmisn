@@ -12,12 +12,11 @@ import os
 import unittest
 import urllib.error
 
-import yattag
-
 import test_context
 
 import i18n
 import util
+import yattag
 
 
 def hnr_list(ranges: List[str]) -> List[util.HouseNumberRange]:
@@ -46,25 +45,25 @@ class TestFormatEvenOdd(unittest.TestCase):
 
     def test_html(self) -> None:
         """Tests HTML coloring."""
-        doc = yattag.doc.Doc()
+        doc = yattag.Doc()
         util.format_even_odd(hnr_list(["2*", "4"]), doc)
-        self.assertEqual(doc.getvalue(), '<span style="color: blue;">2</span>, 4')
+        self.assertEqual(doc.get_value(), '<span style="color: blue;">2</span>, 4')
 
     def test_html_comment(self) -> None:
         """Tests HTML commenting."""
-        doc = yattag.doc.Doc()
+        doc = yattag.Doc()
         house_numbers = [
             util.HouseNumberRange("2*", "foo"),
             util.HouseNumberRange("4", ""),
         ]
         util.format_even_odd(house_numbers, doc)
-        self.assertEqual(doc.getvalue(), '<span style="color: blue;"><abbr title="foo" tabindex="0">2</abbr></span>, 4')
+        self.assertEqual(doc.get_value(), '<span style="color: blue;"><abbr title="foo" tabindex="0">2</abbr></span>, 4')
 
     def test_html_multi_odd(self) -> None:
         """Tests HTML output with multiple odd numbers."""
-        doc = yattag.doc.Doc()
+        doc = yattag.Doc()
         util.format_even_odd(hnr_list(["1", "3"]), doc)
-        self.assertEqual(doc.getvalue(), "1, 3")
+        self.assertEqual(doc.get_value(), "1, 3")
 
 
 class TestBuildStreetReferenceCache(unittest.TestCase):
@@ -180,7 +179,7 @@ class TestHandleOverpassError(unittest.TestCase):
         ctx.set_network(network)
         doc = util.handle_overpass_error(ctx, str(error))
         expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file</div>"""
-        self.assertEqual(doc.getvalue(), expected)
+        self.assertEqual(doc.get_value(), expected)
 
     def test_need_sleep(self) -> None:
         """Tests the case when sleep is needed."""
@@ -196,7 +195,7 @@ class TestHandleOverpassError(unittest.TestCase):
         doc = util.handle_overpass_error(ctx, str(error))
         expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file"""
         expected += """<br />Note: wait for 12 seconds</div>"""
-        self.assertEqual(doc.getvalue(), expected)
+        self.assertEqual(doc.get_value(), expected)
 
 
 class TestSetupLocalization(unittest.TestCase):
@@ -224,7 +223,7 @@ class TestGenLink(unittest.TestCase):
         """Tests the happy path."""
         doc = util.gen_link("http://www.example.com", "label")
         expected = '<a href="http://www.example.com">label...</a>'
-        self.assertEqual(doc.getvalue(), expected)
+        self.assertEqual(doc.get_value(), expected)
 
 
 class TestProcessTemplate(unittest.TestCase):
@@ -249,7 +248,7 @@ class TestHtmlTableFromList(unittest.TestCase):
         expected += '<tr><th><a href="#">A1</a></th>'
         expected += '<th><a href="#">B1</a></th></tr>'
         expected += '<tr><td>A2</td><td>B2</td></tr></table>'
-        ret = util.html_table_from_list(fro).getvalue()
+        ret = util.html_table_from_list(fro).get_value()
         self.assertEqual(ret, expected)
 
 
@@ -260,9 +259,9 @@ class TestTsvToList(unittest.TestCase):
         sock = util.CsvIO(io.BytesIO(b"h1\th2\n\nv1\tv2\n"))
         ret = util.tsv_to_list(sock)
         self.assertEqual(len(ret), 2)
-        row1 = [cell.getvalue() for cell in ret[0]]
+        row1 = [cell.get_value() for cell in ret[0]]
         self.assertEqual(row1, ['h1', 'h2'])
-        row2 = [cell.getvalue() for cell in ret[1]]
+        row2 = [cell.get_value() for cell in ret[1]]
         self.assertEqual(row2, ['v1', 'v2'])
 
     def test_type(self) -> None:
@@ -270,9 +269,9 @@ class TestTsvToList(unittest.TestCase):
         stream = util.CsvIO(io.BytesIO(b"@id\t@type\n42\tnode\n"))
         ret = util.tsv_to_list(stream)
         self.assertEqual(len(ret), 2)
-        row1 = [cell.getvalue() for cell in ret[0]]
+        row1 = [cell.get_value() for cell in ret[0]]
         self.assertEqual(row1, ["@id", "@type"])
-        row2 = [cell.getvalue() for cell in ret[1]]
+        row2 = [cell.get_value() for cell in ret[1]]
         cell_a2 = '<a href="https://www.openstreetmap.org/node/42" target="_blank">42</a>'
         self.assertEqual(row2, [cell_a2, "node"])
 
@@ -281,7 +280,7 @@ class TestTsvToList(unittest.TestCase):
         sock = util.CsvIO(io.BytesIO(b"\"h,1\"\th2\n"))
         ret = util.tsv_to_list(sock)
         self.assertEqual(len(ret), 1)
-        row1 = [cell.getvalue() for cell in ret[0]]
+        row1 = [cell.get_value() for cell in ret[0]]
         # Note how this is just h,1 and not "h,1".
         self.assertEqual(row1, ['h,1', 'h2'])
 
@@ -294,7 +293,7 @@ A street\t9"""
         sock = util.CsvIO(io.BytesIO(csv))
         ret = util.tsv_to_list(sock)
         # 0th is header
-        row3 = [cell.getvalue() for cell in ret[3]]
+        row3 = [cell.get_value() for cell in ret[3]]
         # Note how 10 is ordered after 9.
         self.assertEqual(row3[1], "10")
 
@@ -367,7 +366,7 @@ class TestGitLink(unittest.TestCase):
     """Tests git_link()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        actual = util.git_link("v1-151-g64ecc85", "http://www.example.com/").getvalue()
+        actual = util.git_link("v1-151-g64ecc85", "http://www.example.com/").get_value()
         expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>"
         self.assertEqual(actual, expected)
 
@@ -435,7 +434,7 @@ class TestStreet(unittest.TestCase):
         """Tests the happy path."""
         street = util.Street("foo", "bar")
         self.assertEqual(street.get_ref_name(), "bar")
-        self.assertEqual(street.to_html().getvalue(), "foo<br />(bar)")
+        self.assertEqual(street.to_html().get_value(), "foo<br />(bar)")
 
 
 class TestGetCityKey(unittest.TestCase):
@@ -469,12 +468,12 @@ class TestInvalidFilterKeysToHtml(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ret = util.invalid_filter_keys_to_html(["foo"])
-        self.assertIn("<li>", ret.getvalue())
+        self.assertIn("<li>", ret.get_value())
 
     def test_empty(self) -> None:
         """Tests when the arg is empty."""
         ret = util.invalid_filter_keys_to_html([])
-        self.assertEqual(ret.getvalue(), "")
+        self.assertEqual(ret.get_value(), "")
 
 
 class TestGetColumn(unittest.TestCase):

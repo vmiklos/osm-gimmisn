@@ -13,7 +13,7 @@ created caches, so always run `make` after changing the code and before using it
 git grep "'<" *.py
 git grep '"<' *.py
 # Ensure unescaped string can be added do a document as-is only in case it's an escaped string.
-git grep -n -w asis|grep -v getvalue
+git grep -n -w append_value|grep -v get_value
 ----
 
 Exception to this rule is the HTML DOCTYPE header and cache content produced by `yattag`.

@@ -100,7 +100,7 @@ class TestGetAdditionalHousenumbersHtml(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         first = cache.get_additional_housenumbers_html(ctx, relation)
         second = cache.get_additional_housenumbers_html(ctx, relation)
-        self.assertEqual(first.getvalue(), second.getvalue())
+        self.assertEqual(first.get_value(), second.get_value())
 
 
 class TestIsMissingHousenumbersTxtCached(unittest.TestCase):

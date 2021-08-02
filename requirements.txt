@@ -6,4 +6,3 @@ pylint==2.9.3
 pyyaml==5.4.1
 unidecode==1.2.0
 yamllint==1.26.1
-yattag==1.14.0

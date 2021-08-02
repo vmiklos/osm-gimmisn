@@ -68,7 +68,7 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
         relations = areas.Relations(ctx)
         relation = relations.get_relation("budafok")
         actual = wsgi.handle_main_housenr_additional_count(ctx, relation)
-        self.assertIn("42 house numbers", actual.getvalue())
+        self.assertIn("42 house numbers", actual.get_value())
 
     def test_no_count_file(self) -> None:
         """Tests what happens when the count file is not there."""
@@ -80,7 +80,7 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
         file_system.set_hide_paths([hide_path])
         ctx.set_file_system(file_system)
         actual = wsgi.handle_main_housenr_additional_count(ctx, relation)
-        self.assertNotIn("42 housenumbers", actual.getvalue())
+        self.assertNotIn("42 housenumbers", actual.get_value())
 
 
 class TestAdditionalHousenumbers(test_wsgi.TestWsgi):

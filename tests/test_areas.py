@@ -13,13 +13,12 @@ import io
 import os
 import unittest
 
-import yattag
-
 import test_context
 
 import areas
 import ranges
 import util
+import yattag
 
 
 class TestRelationGetOsmStreets(unittest.TestCase):
@@ -617,13 +616,13 @@ class TestRelationGetAdditionalHousenumbers(unittest.TestCase):
         self.assertEqual(only_in_osm_strs, [('Only In OSM utca', ['1'])])
 
 
-def table_doc_to_string(table: List[List[yattag.doc.Doc]]) -> List[List[str]]:
+def table_doc_to_string(table: List[List[yattag.Doc]]) -> List[List[str]]:
     """Unwraps an escaped matrix of yattag documents into a string matrix."""
     table_content = []
     for row in table:
         row_content = []
         for cell in row:
-            row_content.append(cell.getvalue())
+            row_content.append(cell.get_value())
         table_content.append(row_content)
     return table_content
 

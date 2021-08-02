@@ -15,6 +15,13 @@ do
     module=$(basename $module_file .py)
     for dependency in $(grep ^import $module_file|sed 's/import //'; grep ^from $module_file |sed 's/from \(.*\) import.*/\1/g'|sort -u)
     do
+        # Silence stubs for rust modules.
+        case $dependency in
+            ranges)
+                continue
+            ;;
+        esac
+
         if [ ! -e "$dependency.py" ]; then
             continue
         fi

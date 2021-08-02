@@ -133,12 +133,12 @@ class Street:
         """Gets the source of this street."""
         return self.__source
 
-    def to_html(self) -> yattag.doc.Doc:
+    def to_html(self) -> yattag.Doc:
         """Writes the street as a HTML string."""
-        doc = yattag.doc.Doc()
+        doc = yattag.Doc()
         doc.text(self.__osm_name)
         if self.__osm_name != self.__ref_name and self.__show_ref_street:
-            doc.stag("br")
+            doc.stag("br", [])
             doc.text("(")
             doc.text(self.__ref_name)
             doc.text(")")
@@ -291,7 +291,7 @@ def split_house_number_range(house_number: HouseNumberRange) -> Tuple[int, str]:
     return split_house_number(house_number.get_number())
 
 
-def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.doc.Doc]) -> List[str]:
+def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.Doc]) -> List[str]:
     """Separate even and odd numbers, this helps survey in most cases."""
     key = split_house_number_range
     even = sorted([i for i in only_in_ref if int(split_house_number(i.get_number())[0]) % 2 == 0], key=key)
@@ -301,14 +301,14 @@ def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.do
             for index, elem in enumerate(odd):
                 if index:
                     doc.text(", ")
-                doc.asis(color_house_number(elem).getvalue())
+                doc.append_value(color_house_number(elem).get_value())
         if even:
             if odd:
-                doc.stag("br")
+                doc.stag("br", [])
             for index, elem in enumerate(even):
                 if index:
                     doc.text(", ")
-                doc.asis(color_house_number(elem).getvalue())
+                doc.append_value(color_house_number(elem).get_value())
         return []
 
     even_string = ", ".join([i.get_number() for i in even])
@@ -321,18 +321,18 @@ def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.do
     return elements
 
 
-def color_house_number(house_number: HouseNumberRange) -> yattag.doc.Doc:
+def color_house_number(house_number: HouseNumberRange) -> yattag.Doc:
     """Colors a house number according to its suffix."""
-    doc = yattag.doc.Doc()
+    doc = yattag.Doc()
     number = house_number.get_number()
     if not number.endswith("*"):
         doc.text(number)
         return doc
     number = number[:-1]
     title = house_number.get_comment().replace("&#013;", "\n")
-    with doc.tag("span", style="color: blue;"):
+    with doc.tag("span", [("style", "color: blue;")]):
         if title:
-            with doc.tag("abbr", title=title, tabindex="0"):
+            with doc.tag("abbr", [("title", title), ("tabindex", "0")]):
                 doc.text(number)
         else:
             doc.text(number)
@@ -465,21 +465,21 @@ def parse_filters(tokens: List[str]) -> Dict[str, str]:
     return ret
 
 
-def html_escape(text: str) -> yattag.doc.Doc:
-    """Factory of yattag.doc.Doc from a string."""
-    doc = yattag.doc.Doc()
+def html_escape(text: str) -> yattag.Doc:
+    """Factory of yattag.Doc from a string."""
+    doc = yattag.Doc()
     doc.text(text)
     return doc
 
 
-def handle_overpass_error(ctx: context.Context, http_error: str) -> yattag.doc.Doc:
+def handle_overpass_error(ctx: context.Context, http_error: str) -> yattag.Doc:
     """Handles a HTTP error from Overpass."""
-    doc = yattag.doc.Doc()
-    with doc.tag("div", id="overpass-error"):
+    doc = yattag.Doc()
+    with doc.tag("div", [("id", "overpass-error")]):
         doc.text(tr("Overpass error: {0}").format(http_error))
         sleep = overpass_query.overpass_query_need_sleep(ctx)
         if sleep:
-            doc.stag("br")
+            doc.stag("br", [])
             doc.text(tr("Note: wait for {} seconds").format(sleep))
     return doc
 
@@ -497,18 +497,18 @@ def setup_localization(environ: Dict[str, Any], ctx: context.Context) -> str:
     return ""
 
 
-def gen_link(url: str, label: str) -> yattag.doc.Doc:
+def gen_link(url: str, label: str) -> yattag.Doc:
     """Generates a link to a URL with a given label."""
-    doc = yattag.doc.Doc()
-    with doc.tag("a", href=url):
+    doc = yattag.Doc()
+    with doc.tag("a", [("href", url)]):
         doc.text(label + "...")
 
     return doc
 
 
-def write_html_header(doc: yattag.doc.Doc) -> None:
+def write_html_header(doc: yattag.Doc) -> None:
     """Produces the verify first line of a HTML output."""
-    doc.asis("<!DOCTYPE html>\n")
+    doc.append_value("<!DOCTYPE html>\n")
 
 
 def process_template(buf: str, osmrelation: int) -> str:
@@ -545,71 +545,71 @@ def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
     return True
 
 
-def html_table_from_list(table: List[List[yattag.doc.Doc]]) -> yattag.doc.Doc:
+def html_table_from_list(table: List[List[yattag.Doc]]) -> yattag.Doc:
     """Produces a HTML table from a list of lists."""
-    doc = yattag.doc.Doc()
-    with doc.tag("table", klass="sortable"):
+    doc = yattag.Doc()
+    with doc.tag("table", [("class", "sortable")]):
         for row_index, row_content in enumerate(table):
-            with doc.tag("tr"):
+            with doc.tag("tr", []):
                 for cell in row_content:
                     if row_index == 0:
-                        with doc.tag("th"):
-                            with doc.tag("a", href="#"):
-                                doc.text(cell.getvalue())
+                        with doc.tag("th", []):
+                            with doc.tag("a", [("href", "#")]):
+                                doc.text(cell.get_value())
                     else:
-                        with doc.tag("td"):
-                            doc.asis(cell.getvalue())
+                        with doc.tag("td", []):
+                            doc.append_value(cell.get_value())
     return doc
 
 
-def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.doc.Doc:
+def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.Doc:
     """Produces HTML enumerations for 2 string lists."""
-    doc = yattag.doc.Doc()
+    doc = yattag.Doc()
     osm_invalids, ref_invalids = invalids
     if osm_invalids:
-        doc.stag("br")
-        with doc.tag("div", id="osm-invalids-container"):
+        doc.stag("br", [])
+        with doc.tag("div", [("id", "osm-invalids-container")]):
             doc.text(tr("Warning: broken OSM <-> reference mapping, the following OSM names are invalid:"))
-            with doc.tag("ul"):
+            with doc.tag("ul", []):
                 for osm_invalid in osm_invalids:
-                    with doc.tag("li"):
+                    with doc.tag("li", []):
                         doc.text(osm_invalid)
     if ref_invalids:
-        doc.stag("br")
-        with doc.tag("div", id="ref-invalids-container"):
+        doc.stag("br", [])
+        with doc.tag("div", [("id", "ref-invalids-container")]):
             doc.text(tr("Warning: broken OSM <-> reference mapping, the following reference names are invalid:"))
-            with doc.tag("ul"):
+            with doc.tag("ul", []):
                 for ref_invalid in ref_invalids:
-                    with doc.tag("li"):
+                    with doc.tag("li", []):
                         doc.text(ref_invalid)
     if osm_invalids or ref_invalids:
-        doc.stag("br")
+        doc.stag("br", [])
         doc.text(tr("Note: an OSM name is invalid if it's not in the OSM database."))
         doc.text(tr("A reference name is invalid if it's in the OSM database."))
     return doc
 
 
-def invalid_filter_keys_to_html(invalids: List[str]) -> yattag.doc.Doc:
+def invalid_filter_keys_to_html(invalids: List[str]) -> yattag.Doc:
     """Produces HTML enumerations for a string list."""
-    doc = yattag.doc.Doc()
+    doc = yattag.Doc()
     if invalids:
-        doc.stag("br")
-        with doc.tag("div", id="osm-filter-key-invalids-container"):
+        doc.stag("br", [])
+        with doc.tag("div", [("id", "osm-filter-key-invalids-container")]):
             doc.text(tr("Warning: broken filter key name, the following key names are not OSM names:"))
-            with doc.tag("ul"):
+            with doc.tag("ul", []):
                 for invalid in invalids:
-                    with doc.tag("li"):
+                    with doc.tag("li", []):
                         doc.text(invalid)
     return doc
 
 
-def get_column(row: List[yattag.doc.Doc], column_index: int, natnum: bool) -> Union[str, int]:
+def get_column(row: List[yattag.Doc], column_index: int, natnum: bool) -> Union[str, int]:
     """Gets the nth column of row, possibly interpreting the content as an integer."""
     ret = ""
     if column_index >= len(row):
-        ret = row[0].getvalue()
+        ret = row[0].get_value()
     else:
-        ret = row[column_index].getvalue()
+        ret = row[column_index].get_value()
     if natnum:
         try:
             number = ret
@@ -622,7 +622,7 @@ def get_column(row: List[yattag.doc.Doc], column_index: int, natnum: bool) -> Un
     return ret
 
 
-def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
+def tsv_to_list(stream: CsvIO) -> List[List[yattag.Doc]]:
     """Turns a tab-separated table into a list of lists."""
     table = []
 
@@ -639,11 +639,11 @@ def tsv_to_list(stream: CsvIO) -> List[List[yattag.doc.Doc]]:
         if cells and "@type" in columns:
             # We know the first column is an OSM ID.
             try:
-                osm_id = int(cells[0].getvalue())
-                osm_type = cells[columns["@type"]].getvalue()
-                doc = yattag.doc.Doc()
+                osm_id = int(cells[0].get_value())
+                osm_type = cells[columns["@type"]].get_value()
+                doc = yattag.Doc()
                 href = "https://www.openstreetmap.org/{}/{}".format(osm_type, osm_id)
-                with doc.tag("a", href=href, target="_blank"):
+                with doc.tag("a", [("href", href), ("target", "_blank")]):
                     doc.text(str(osm_id))
                 cells[0] = doc
             except ValueError:
@@ -711,11 +711,11 @@ def get_housenumber_ranges(house_numbers: List[HouseNumber]) -> List[HouseNumber
     return sorted(set(ret))
 
 
-def git_link(version: str, prefix: str) -> yattag.doc.Doc:
+def git_link(version: str, prefix: str) -> yattag.Doc:
     """Generates a HTML link based on a website prefix and a git-describe version."""
     commit_hash = re.sub(".*-g", "", version)
-    doc = yattag.doc.Doc()
-    with doc.tag("a", href=prefix + commit_hash):
+    doc = yattag.Doc()
+    with doc.tag("a", [("href", prefix + commit_hash)]):
         doc.text(version)
     return doc
 
