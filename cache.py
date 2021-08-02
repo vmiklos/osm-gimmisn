@@ -62,71 +62,71 @@ def is_additional_housenumbers_html_cached(ctx: context.Context, relation: areas
     return is_cache_outdated(ctx, cache_path, dependencies)
 
 
-def get_missing_housenumbers_html(ctx: context.Context, relation: areas.Relation) -> yattag.doc.Doc:
+def get_missing_housenumbers_html(ctx: context.Context, relation: areas.Relation) -> yattag.Doc:
     """Gets the cached HTML of the missing housenumbers for a relation."""
-    doc = yattag.doc.Doc()
+    doc = yattag.Doc()
     if is_missing_housenumbers_html_cached(ctx, relation):
         with relation.get_files().get_housenumbers_htmlcache_read_stream(ctx) as stream:
-            doc.asis(util.from_bytes(stream.read()))
+            doc.append_value(util.from_bytes(stream.read()))
         return doc
 
     ret = relation.write_missing_housenumbers()
     todo_street_count, todo_count, done_count, percent, table = ret
 
-    with doc.tag("p"):
+    with doc.tag("p", []):
         prefix = ctx.get_ini().get_uri_prefix()
         relation_name = relation.get_name()
         doc.text(tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
                  .format(str(todo_count), str(todo_street_count)))
         doc.text(tr(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
-        doc.stag("br")
-        with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
+        doc.stag("br", [])
+        with doc.tag("a", [("href", "https://github.com/vmiklos/osm-gimmisn/tree/master/doc")]):
             doc.text(tr("Filter incorrect information"))
         doc.text(".")
-        doc.stag("br")
-        with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-turbo".format(relation_name)):
+        doc.stag("br", [])
+        with doc.tag("a", [("href", prefix + "/missing-housenumbers/{}/view-turbo".format(relation_name))]):
             doc.text(tr("Overpass turbo query for the below streets"))
-        doc.stag("br")
-        with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.txt".format(relation_name)):
+        doc.stag("br", [])
+        with doc.tag("a", [("href", prefix + "/missing-housenumbers/{}/view-result.txt".format(relation_name))]):
             doc.text(tr("Plain text format"))
-        doc.stag("br")
-        with doc.tag("a", href=prefix + "/missing-housenumbers/{}/view-result.chkl".format(relation_name)):
+        doc.stag("br", [])
+        with doc.tag("a", [("href", prefix + "/missing-housenumbers/{}/view-result.chkl".format(relation_name))]):
             doc.text(tr("Checklist format"))
 
-    doc.asis(util.html_table_from_list(table).getvalue())
-    doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
-    doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
+    doc.append_value(util.html_table_from_list(table).get_value())
+    doc.append_value(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).get_value())
+    doc.append_value(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).get_value())
 
     with relation.get_files().get_housenumbers_htmlcache_write_stream(ctx) as stream:
-        stream.write(util.to_bytes(doc.getvalue()))
+        stream.write(util.to_bytes(doc.get_value()))
 
     return doc
 
 
-def get_additional_housenumbers_html(ctx: context.Context, relation: areas.Relation) -> yattag.doc.Doc:
+def get_additional_housenumbers_html(ctx: context.Context, relation: areas.Relation) -> yattag.Doc:
     """Gets the cached HTML of the additional housenumbers for a relation."""
-    doc = yattag.doc.Doc()
+    doc = yattag.Doc()
     if is_additional_housenumbers_html_cached(ctx, relation):
         with relation.get_files().get_additional_housenumbers_htmlcache_read_stream(ctx) as stream:
-            doc.asis(util.from_bytes(stream.read()))
+            doc.append_value(util.from_bytes(stream.read()))
         return doc
 
     ret = relation.write_additional_housenumbers()
     todo_street_count, todo_count, table = ret
 
-    with doc.tag("p"):
+    with doc.tag("p", []):
         doc.text(tr("OpenStreetMap additionally has the below {0} house numbers for {1} streets.")
                  .format(str(todo_count), str(todo_street_count)))
-        doc.stag("br")
-        with doc.tag("a", href="https://github.com/vmiklos/osm-gimmisn/tree/master/doc"):
+        doc.stag("br", [])
+        with doc.tag("a", [("href", "https://github.com/vmiklos/osm-gimmisn/tree/master/doc")]):
             doc.text(tr("Filter incorrect information"))
 
-    doc.asis(util.html_table_from_list(table).getvalue())
-    doc.asis(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).getvalue())
-    doc.asis(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).getvalue())
+    doc.append_value(util.html_table_from_list(table).get_value())
+    doc.append_value(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).get_value())
+    doc.append_value(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).get_value())
 
     with relation.get_files().get_additional_housenumbers_htmlcache_write_stream(ctx) as stream:
-        stream.write(util.to_bytes(doc.getvalue()))
+        stream.write(util.to_bytes(doc.get_value()))
 
     return doc
 

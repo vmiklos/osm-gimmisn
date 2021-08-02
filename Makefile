@@ -40,6 +40,7 @@ PYTHON_SAFE_OBJECTS = \
 	wsgi.py \
 	wsgi_additional.py \
 	wsgi_json.py \
+	yattag.py \
 
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \

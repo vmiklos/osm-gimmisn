@@ -13,12 +13,10 @@ from typing import cast
 import traceback
 import unittest
 
-# pylint: disable=unused-import
-import yattag
-
 import test_context
 
 import webframe
+import yattag
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -119,11 +117,11 @@ class TestFillMissingHeaderItems(unittest.TestCase):
         """Tests the happy path."""
         streets = "no"
         relation_name = "gazdagret"
-        items: List[yattag.doc.Doc] = []
+        items: List[yattag.Doc] = []
         additional_housenumbers = True
         ctx = test_context.make_test_context()
         webframe.fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
-        html = items[0].getvalue()
+        html = items[0].get_value()
         self.assertIn("Missing house numbers", html)
         self.assertNotIn("Missing streets", html)
 

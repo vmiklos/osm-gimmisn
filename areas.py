@@ -577,7 +577,7 @@ class Relation(RelationBase):
     def numbered_streets_to_table(
         self,
         numbered_streets: util.NumberedStreets
-    ) -> Tuple[List[List[yattag.doc.Doc]], int]:
+    ) -> Tuple[List[List[yattag.Doc]], int]:
         """Turns a list of numbered streets into a HTML table."""
         todo_count = 0
         table = []
@@ -592,12 +592,12 @@ class Relation(RelationBase):
             number_ranges = util.get_housenumber_ranges(result[1])
             row.append(util.html_escape(str(len(number_ranges))))
 
-            doc = yattag.doc.Doc()
+            doc = yattag.Doc()
             if not self.get_config().get_street_is_even_odd(result[0].get_osm_name()):
                 for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
                     if index:
                         doc.text(", ")
-                    doc.asis(util.color_house_number(item).getvalue())
+                    doc.append_value(util.color_house_number(item).get_value())
             else:
                 util.format_even_odd(number_ranges, doc)
             row.append(doc)
@@ -608,10 +608,10 @@ class Relation(RelationBase):
         # It's possible that get_housenumber_ranges() reduces the # of house numbers, e.g. 2, 4 and
         # 6 may be turned into 2-6, which is just 1 item. Sort by the 2nd col, which is the new
         # number of items.
-        table += sorted(rows, reverse=True, key=lambda cells: int(cells[1].getvalue()))
+        table += sorted(rows, reverse=True, key=lambda cells: int(cells[1].get_value()))
         return table, todo_count
 
-    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.doc.Doc]]]:
+    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.Doc]]]:
         """
         Calculate a write stat for the house number coverage of a relation.
         Returns a tuple of: todo street count, todo count, done count, percent and table.
@@ -635,7 +635,7 @@ class Relation(RelationBase):
 
         return len(ongoing_streets), todo_count, done_count, percent, table
 
-    def write_additional_housenumbers(self) -> Tuple[int, int, List[List[yattag.doc.Doc]]]:
+    def write_additional_housenumbers(self) -> Tuple[int, int, List[List[yattag.Doc]]]:
         """
         Calculate and write stat for the unexpected house number coverage of a relation.
         Returns a tuple of: todo street count, todo count and table.
