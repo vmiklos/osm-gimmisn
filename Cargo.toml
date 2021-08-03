@@ -12,6 +12,9 @@ name = "rust"
 # crate-type = ["cdylib", "rlib"]
 crate-type = ["cdylib"]
 
+[dependencies]
+html-escape = "0.2.9"
+
 [dependencies.pyo3]
 version = "0.13.2"
 features = ["extension-module"]
