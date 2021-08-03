@@ -56,9 +56,15 @@ street-filters:
   # Nem igazi utcák
   - Szedres
 osm-street-filters:
+  # Nem valós utcák
+  - Baross Gábor park
+  - Fenyves park
+  - Platán park
+  - Rózsa park
   # Létező, de házszám nélküli utcák, közök, ösvények
   - Ady sétány
   - Ág utca
+  - Akác utca
   - Bajcsy-Zsilinszky köz
   - Baross Gábor tér
   - Csonka Pál utca
