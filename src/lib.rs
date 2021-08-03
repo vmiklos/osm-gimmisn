@@ -14,11 +14,14 @@
 use pyo3::prelude::*;
 
 mod ranges;
+mod yattag;
 
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_class::<ranges::PyRange>()?;
     m.add_class::<ranges::PyRanges>()?;
+    m.add_class::<yattag::PyDoc>()?;
+    m.add_class::<yattag::PyTag>()?;
 
     Ok(())
 }
