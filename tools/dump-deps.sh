@@ -20,6 +20,9 @@ do
             ranges)
                 continue
             ;;
+            yattag)
+                continue
+            ;;
         esac
 
         if [ ! -e "$dependency.py" ]; then
