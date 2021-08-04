@@ -11,7 +11,6 @@ The accept_language module parses an Accept-Language HTTP header, originally fro
 
 
 from typing import List
-from typing import Optional
 import re
 
 VALIDATE_LANG_REGEX = re.compile('^[a-z]+$', flags=re.IGNORECASE)
@@ -34,28 +33,19 @@ class Lang:
         return self.__quality
 
 
-def parse_accept_language(accept_language_str: str, default_quality: Optional[float] = None) -> List[Lang]:
+def parse(accept_language_str: str) -> List[str]:
     """
     Parse a RFC 2616 Accept-Language string.
     https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14
 
     :param accept_language_str: A string in RFC 2616 format.
-
-    :Example:
-
-        >>> parse_accept_language('en-US,el;q=0.8')
-        [
-            Lang(language='en', quality=1.0),
-            Lang(language='el', quality=0.8),
-        ]
-
     """
     if not accept_language_str:
         return []
 
     parsed_langs = []
     for accept_lang_segment in accept_language_str.split(','):
-        quality_value = default_quality or DEFAULT_QUALITY_VALUE
+        quality_value = DEFAULT_QUALITY_VALUE
         lang_code = accept_lang_segment.strip()
         if ';' in accept_lang_segment:
             lang_code, quality_value_string = accept_lang_segment.split(';')
@@ -74,6 +64,6 @@ def parse_accept_language(accept_language_str: str, default_quality: Optional[fl
         parsed_langs.append(
             Lang(language=language, quality=quality_value)
         )
-    return sorted(parsed_langs, key=lambda i: i.get_quality(), reverse=True)
+    return [i.get_language() for i in sorted(parsed_langs, key=lambda i: i.get_quality(), reverse=True)]
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
