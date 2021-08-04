@@ -489,9 +489,9 @@ def setup_localization(environ: Dict[str, Any], ctx: context.Context) -> str:
     # Set up localization.
     languages = environ.get("HTTP_ACCEPT_LANGUAGE")
     if languages:
-        parsed = accept_language.parse_accept_language(languages)
+        parsed = accept_language.parse(languages)
         if parsed:
-            language = parsed[0].get_language()
+            language = parsed[0]
             i18n.set_language(ctx, language)
             return language
     return ""
