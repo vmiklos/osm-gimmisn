@@ -1,5 +1,17 @@
+#!/usr/bin/env python3
+#
+# Copyright (c) 2021 Miklos Vajna and contributors.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+"""
+Type hints for rust.so.
+"""
+
+from typing import Any
 from typing import List
 from typing import Optional
+from typing import Tuple
 from typing import cast
 
 
@@ -48,5 +60,42 @@ class PyRanges:
     def __eq__(self, other: object) -> bool:
         ...
 
+
+class PyDoc:
+    """Generates xml/html documents."""
+    def __init__(self) -> None:
+        ...
+
+    def get_value(self) -> str:
+        """Gets the escaped value."""
+        ...
+
+    def append_value(self, value: str) -> None:
+        """Appends escaped content to the value."""
+        ...
+
+    def tag(self, name: str, attrs: List[Tuple[str, str]]) -> 'PyTag':
+        """Starts a new tag."""
+        ...
+
+    def stag(self, name: str, attrs: List[Tuple[str, str]]) -> None:
+        """Starts a new tag and closes it as well."""
+        ...
+
+    def text(self, text: str) -> None:
+        """Appends unescaped content to the document."""
+        ...
+
+
+class PyTag:
+    """Starts a tag, which is closed automatically."""
+    def __init__(self, doc: PyDoc, name: str, attrs: List[Tuple[str, str]]) -> None:
+        ...
+
+    def __enter__(self) -> None:
+        ...
+
+    def __exit__(self, tpe: Any, value: Any, traceback: Any) -> None:
+        ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
