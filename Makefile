@@ -75,6 +75,12 @@ TS_OBJECTS = \
 	stats.ts \
 	types.d.ts \
 
+RS_OBJECTS = \
+	src/accept_language.rs \
+	src/lib.rs \
+	src/ranges.rs \
+	src/yattag.rs \
+
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
 	QUIET_MSGFMT = @echo '   ' MSGMFT $@;
@@ -104,7 +110,7 @@ version.py: .git/$(shell git symbolic-ref HEAD) Makefile
 rust.so: target/debug/librust.so
 	ln -sf target/debug/librust.so rust.so
 
-target/debug/librust.so: Cargo.toml src/lib.rs src/ranges.rs src/yattag.rs
+target/debug/librust.so: Cargo.toml $(RS_OBJECTS)
 	cargo build
 
 config.ts: wsgi.ini Makefile

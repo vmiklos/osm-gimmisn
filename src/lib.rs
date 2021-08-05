@@ -13,6 +13,7 @@
 
 use pyo3::prelude::*;
 
+mod accept_language;
 mod ranges;
 mod yattag;
 
@@ -22,6 +23,7 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_class::<ranges::PyRanges>()?;
     m.add_class::<yattag::PyDoc>()?;
     m.add_class::<yattag::PyTag>()?;
+    accept_language::register_python_symbols(&m)?;
 
     Ok(())
 }

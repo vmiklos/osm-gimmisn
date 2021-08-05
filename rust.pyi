@@ -98,4 +98,13 @@ class PyTag:
     def __exit__(self, tpe: Any, value: Any, traceback: Any) -> None:
         ...
 
+def py_parse(raw_languages: str) -> List[str]:
+    """
+    Parse a RFC 2616 Accept-Language string.
+    https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14
+
+    :param accept_language_str: A string in RFC 2616 format.
+    """
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

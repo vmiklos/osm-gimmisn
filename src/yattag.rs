@@ -107,16 +107,14 @@ struct Tag {
 
 impl Tag {
     fn new(value: &Arc<Mutex<String>>, name: &str, attrs: Vec<(&str, &str)>) -> Tag {
-        value.lock().unwrap().push_str(&format!("<{}", name));
+        let mut locked_value = value.lock().unwrap();
+        locked_value.push_str(&format!("<{}", name));
         for attr in attrs {
             let key = attr.0;
             let val = html_escape::encode_double_quoted_attribute(&attr.1);
-            value
-                .lock()
-                .unwrap()
-                .push_str(&format!(" {}=\"{}\"", key, val));
+            locked_value.push_str(&format!(" {}=\"{}\"", key, val));
         }
-        value.lock().unwrap().push('>');
+        locked_value.push('>');
         let value = value.clone();
         Tag {
             value,
