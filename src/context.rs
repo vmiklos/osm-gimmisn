@@ -14,6 +14,7 @@ use pyo3::prelude::*;
 use std::io::Read;
 use std::io::Write;
 use std::path::Path;
+use std::time::Duration;
 
 pub type BoxResult<T> = Result<T, Box<dyn std::error::Error>>;
 
@@ -95,7 +96,9 @@ struct StdNetwork {}
 impl Network for StdNetwork {
     fn urlopen(&self, url: &str, data: &str) -> BoxResult<String> {
         if !data.is_empty() {
-            let client = reqwest::blocking::Client::new();
+            let client = reqwest::blocking::Client::builder()
+                .timeout(Duration::from_secs(425))
+                .build()?;
             let body = String::from(data);
             let buf = client.post(url).body(body).send()?;
             return Ok(buf.text()?);
