@@ -14,10 +14,10 @@
 use pyo3::prelude::*;
 
 mod accept_language;
+mod context;
 mod ranges;
 mod version;
 mod yattag;
-mod context;
 
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
