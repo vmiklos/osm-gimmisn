@@ -12,14 +12,14 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 from typing import BinaryIO
 from typing import Dict
 from typing import List
-from typing import Tuple
-from typing import cast
 import calendar
 import configparser
 import os
 import time
-import urllib.request
 import subprocess
+
+import api
+import rust
 
 
 class FileSystem:
@@ -68,29 +68,7 @@ class StdFileSystem(FileSystem):
         return open(path, "wb")
 
 
-class Network:
-    """Network interface."""
-    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:  # pragma: no cover
-        """Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST."""
-        # pylint: disable=no-self-use
-        # pylint: disable=unused-argument
-        ...
-
-
-class StdNetwork(Network):
-    """Network implementation, backed by the Python stdlib."""
-    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:  # pragma: no cover
-        try:
-            optional_data = None
-            if data:
-                optional_data = data
-            with urllib.request.urlopen(url, optional_data) as stream:
-                buf = stream.read()
-            return (cast(bytes, buf), str())
-        except urllib.error.HTTPError as http_error:
-            return (bytes(), str(http_error))
-        except urllib.error.URLError as url_error:
-            return (bytes(), str(url_error))
+StdNetwork = rust.PyStdNetwork
 
 
 class Time:
@@ -201,7 +179,7 @@ class Context:
         self.root = os.path.join(root_dir, prefix)
         self.__ini = Ini(self.get_abspath("wsgi.ini"), self.root)
         self.__file_system: FileSystem = StdFileSystem()
-        self.__network: Network = StdNetwork()
+        self.__network: api.Network = StdNetwork()
         self.__time: Time = StdTime()
         self.__subprocess: Subprocess = StdSubprocess()
         self.__unit: Unit = StdUnit()
@@ -218,11 +196,11 @@ class Context:
         """Gets the file system implementation."""
         return self.__file_system
 
-    def set_network(self, network: Network) -> None:
+    def set_network(self, network: api.Network) -> None:
         """Sets the network implementation."""
         self.__network = network
 
-    def get_network(self) -> Network:
+    def get_network(self) -> api.Network:
         """Gets the network implementation."""
         return self.__network
 

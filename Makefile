@@ -20,6 +20,7 @@ PYTHON_TEST_OBJECTS = \
 
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
+	api.py \
 	area_files.py \
 	areas.py \
 	cache.py \
@@ -147,10 +148,10 @@ tests/workdir/osm.min.css: workdir/osm.min.css
 wsgi.ini:
 	cp data/wsgi.ini.template wsgi.ini
 
-data/yamls.cache: cache_yamls.py $(YAML_OBJECTS)
+data/yamls.cache: cache_yamls.py rust.so $(YAML_OBJECTS)
 	./cache_yamls.py data workdir
 
-tests/data/yamls.cache: cache_yamls.py $(YAML_TEST_OBJECTS)
+tests/data/yamls.cache: cache_yamls.py rust.so $(YAML_TEST_OBJECTS)
 	./cache_yamls.py tests/data tests/workdir
 
 check-filters: check-filters-syntax check-filters-schema
