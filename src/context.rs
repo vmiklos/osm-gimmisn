@@ -58,6 +58,31 @@ impl FileSystem for StdFileSystem {
     }
 }
 
+#[pyclass]
+pub struct PyStdFileSystem {
+    file_system: StdFileSystem,
+}
+
+#[pymethods]
+impl PyStdFileSystem {
+    #[new]
+    fn new() -> Self {
+        let file_system = StdFileSystem {};
+        PyStdFileSystem { file_system }
+    }
+
+    fn path_exists(&self, path: &str) -> bool {
+        self.file_system.path_exists(path)
+    }
+
+    fn getmtime(&self, path: &str) -> PyResult<f64> {
+        match self.file_system.getmtime(path) {
+            Ok(value) => Ok(value),
+            Err(_) => Err(pyo3::exceptions::PyIOError::new_err("getmtime() failed")),
+        }
+    }
+}
+
 /// Network interface.
 trait Network {
     /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.

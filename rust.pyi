@@ -112,8 +112,19 @@ def py_get_version() -> str:
     """Gets the git version."""
     ...
 
+class PyStdFileSystem:
+    """File system implementation, backed by the Rust stdlib."""
+    def __init__(self) -> None:
+        ...
+
+    def path_exists(self, path: str) -> bool:
+        ...
+
+    def getmtime(self, path: str) -> float:
+        ...
+
 class PyStdNetwork(api.Network):
-    """Network implementation, backed by the Python stdlib."""
+    """Network implementation, backed by the Rust stdlib."""
     def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:  # pragma: no cover
         ...
 
