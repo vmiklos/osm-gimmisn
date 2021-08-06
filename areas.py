@@ -19,7 +19,7 @@ import yattag
 from i18n import translate as tr
 import area_files
 import context
-import ranges
+import rust
 import util
 
 
@@ -242,9 +242,9 @@ class RelationBase:
         """Gets access to the config interface."""
         return self.__config
 
-    def get_street_ranges(self) -> Dict[str, ranges.Ranges]:
+    def get_street_ranges(self) -> Dict[str, rust.PyRanges]:
         """Gets a street name -> ranges map, which allows silencing false positives."""
-        filter_dict: Dict[str, ranges.Ranges] = {}
+        filter_dict: Dict[str, rust.PyRanges] = {}
 
         filters = self.get_config().get_filters()
         for street in filters.keys():
@@ -255,8 +255,8 @@ class RelationBase:
             if "ranges" not in filters[street]:
                 continue
             for start_end in filters[street]["ranges"]:
-                i.append(ranges.Range(int(start_end["start"]), int(start_end["end"]), interpolation))
-            filter_dict[street] = ranges.Ranges(i)
+                i.append(rust.PyRange(int(start_end["start"]), int(start_end["end"]), interpolation))
+            filter_dict[street] = rust.PyRanges(i)
 
         return filter_dict
 
@@ -832,7 +832,7 @@ def normalize_housenumber_letters(
 
 
 def normalize(relation: RelationBase, house_numbers: str, street_name: str,
-              normalizers: Dict[str, ranges.Ranges]) -> List[util.HouseNumber]:
+              normalizers: Dict[str, rust.PyRanges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
     comment = ""

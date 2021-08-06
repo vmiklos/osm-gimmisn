@@ -107,4 +107,8 @@ def py_parse(raw_languages: str) -> List[str]:
     """
     ...
 
+def py_get_version() -> str:
+    """Gets the git version."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

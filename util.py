@@ -31,11 +31,10 @@ import email.utils
 import yattag
 
 from i18n import translate as tr
-import accept_language
 import context
 import i18n
 import overpass_query
-import ranges
+import rust
 
 
 class LetterSuffixStyle(Enum):
@@ -489,7 +488,7 @@ def setup_localization(environ: Dict[str, Any], ctx: context.Context) -> str:
     # Set up localization.
     languages = environ.get("HTTP_ACCEPT_LANGUAGE")
     if languages:
-        parsed = accept_language.parse(languages)
+        parsed = rust.py_parse(languages)
         if parsed:
             language = parsed[0]
             i18n.set_language(ctx, language)
@@ -713,7 +712,7 @@ def get_housenumber_ranges(house_numbers: List[HouseNumber]) -> List[HouseNumber
 
 def git_link(version: str, prefix: str) -> yattag.Doc:
     """Generates a HTML link based on a website prefix and a git-describe version."""
-    commit_hash = re.sub(".*-g", "", version)
+    commit_hash = re.sub(".*-g([0-9a-f]+)(-modified)?", r"\1", version)
     doc = yattag.Doc()
     with doc.tag("a", [("href", prefix + commit_hash)]):
         doc.text(version)
@@ -780,7 +779,7 @@ def get_content(workdir: str, path: str = "", extra_headers: Optional[List[Tuple
     return ret
 
 
-def get_normalizer(street_name: str, normalizers: Dict[str, ranges.Ranges]) -> ranges.Ranges:
+def get_normalizer(street_name: str, normalizers: Dict[str, rust.PyRanges]) -> rust.PyRanges:
     """Determines the normalizer for a given street."""
     if street_name in normalizers.keys():
         # Have a custom filter.
@@ -788,17 +787,17 @@ def get_normalizer(street_name: str, normalizers: Dict[str, ranges.Ranges]) -> r
     else:
         # Default sanity checks.
         default = [
-            ranges.Range(1, 999, interpolation=""),
-            ranges.Range(2, 998, interpolation=""),
+            rust.PyRange(1, 999, interpolation=""),
+            rust.PyRange(2, 998, interpolation=""),
         ]
-        normalizer = ranges.Ranges(default)
+        normalizer = rust.PyRanges(default)
     return normalizer
 
 
 def split_house_number_by_separator(
         house_numbers: str,
         separator: str,
-        normalizer: ranges.Ranges
+        normalizer: rust.PyRanges
 ) -> Tuple[List[int], List[int]]:
     """Splits a house number string (possibly a range) by a given separator.
     Returns a filtered and a not filtered list of ints."""

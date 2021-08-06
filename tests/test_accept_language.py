@@ -8,21 +8,17 @@
 
 import unittest
 
-import accept_language
+import rust
 
 
 class TestParseAcceptLanguage(unittest.TestCase):
     """Tests parse_accept_language()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        parsed = accept_language.parse("hu,en;q=0.9,en-US;q=0.8")
+        parsed = rust.py_parse("hu,en;q=0.9,en-US;q=0.8")
         self.assertEqual(parsed[0], "hu")
 
     def test_english(self) -> None:
         """Tests when the language is not explicitly set."""
-        parsed = accept_language.parse("en-US,en;q=0.5")
+        parsed = rust.py_parse("en-US,en;q=0.5")
         self.assertEqual(parsed[0], "en-US")
-
-
-if __name__ == '__main__':
-    unittest.main()
