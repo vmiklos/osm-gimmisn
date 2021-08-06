@@ -51,11 +51,14 @@ class FileSystem:
 
 class StdFileSystem(FileSystem):
     """File system implementation, backed by the Python stdlib."""
+    def __init__(self) -> None:
+        self.rust = rust.PyStdFileSystem()
+
     def path_exists(self, path: str) -> bool:
-        return os.path.exists(path)
+        return self.rust.path_exists(path)
 
     def getmtime(self, path: str) -> float:
-        return os.path.getmtime(path)
+        return self.rust.getmtime(path)
 
     def open_read(self, path: str) -> BinaryIO:
         # The caller will do this:
