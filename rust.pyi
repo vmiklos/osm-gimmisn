@@ -13,6 +13,7 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 from typing import cast
+import api
 
 
 class PyRange:
@@ -110,5 +111,10 @@ def py_parse(raw_languages: str) -> List[str]:
 def py_get_version() -> str:
     """Gets the git version."""
     ...
+
+class PyStdNetwork(api.Network):
+    """Network implementation, backed by the Python stdlib."""
+    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:  # pragma: no cover
+        ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

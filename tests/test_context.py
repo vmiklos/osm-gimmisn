@@ -16,6 +16,7 @@ import io
 import os
 import unittest
 
+import api
 import context
 
 
@@ -87,7 +88,7 @@ class URLRoute:
         self.result_path = result_path
 
 
-class TestNetwork(context.Network):
+class TestNetwork(api.Network):
     """Network implementation, for test purposes."""
     def __init__(self, routes: List[URLRoute]) -> None:
         self.__routes = routes
