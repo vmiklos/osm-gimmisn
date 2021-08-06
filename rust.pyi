@@ -125,7 +125,7 @@ class PyStdFileSystem:
 
 class PyStdNetwork(api.Network):
     """Network implementation, backed by the Rust stdlib."""
-    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:  # pragma: no cover
+    def urlopen(self, url: str, data: str) -> Tuple[str, str]:  # pragma: no cover
         ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
