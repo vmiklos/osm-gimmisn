@@ -1,7 +1,7 @@
 missing-streets: 'yes'
 filters:
   Ady Endre utca:
-    invalid: ['17']
+    invalid: ['17', '33']
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
@@ -37,8 +37,6 @@ filters:
   Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
     invalid: ['14']
-  Sátor-hegyi út:
-    show-refstreet: false
   Seregély utca:
     # 9: 9 nincs, 7 az utolsó ami ki van írva
     invalid: ['9']
@@ -75,6 +73,7 @@ osm-street-filters:
   # Sétányok, parkok
   - Spirál
   - Szent István park
+  - Szent Erzsébet liget
 street-filters:
   # Nem igazi utcák
   - Óvári kilátó
@@ -82,8 +81,8 @@ street-filters:
   - Újhegy
   - Vöröshegy
   # Pint utca - Szentkirályszabadjáról átlóg? Csárda utcánál
-  # Templom tér - Thököly utca eleje a templomnál
-  - 'Sip köz'  # dupla, van Síp köz is
+  - Templom tér  # A Vörösberényi templomnál kellene lennie, de ott igazából nincs tér, csak egy park, nyoma nincs a feliratnak
+  - Sip köz  # dupla, van Síp köz is
   # nincs az osm-en ------------------------------
   # Berkenye köz - Borostyán közzel szemben
   # Dési Huber István utca - Káptalan utca és Szinyei Merse Pál utca között
