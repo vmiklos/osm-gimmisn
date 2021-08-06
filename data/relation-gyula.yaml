@@ -2,6 +2,10 @@ missing-streets: 'yes'
 filters:
   Kiss János altábornagy utca:
     show-refstreet: false
+osm-street-filters:
+  # nem igazi utcák
+  - BUS
+  - HGV
 street-filters:
   # nem igazi utcák
   - Máv pályaudvar
@@ -23,30 +27,31 @@ street-filters:
   # - Nagyökörjárás tanya
   # - Pejrét tanya
   # - Remete tanya
-  # - Sitka tanya
   # - Siórét tanya
+  # - Sitka tanya
   # - Szabadka tanya
   # - Szentbenedek tanya
   # - Szeregyháza tanya
   # - Szlányi tanya
-  # hiányzó
-  # - Duzzasztó zug
+  # hiányzó utcák
   # - Bíbic utca
   # - Birs utca - Szanazug
   # - Cseresznye utca - Szanazug
-  # - Fácán utca - Szanazug
-  # - Kajszi utca - Szanazug
-  # - Mandula utca - Szanazug
+  # - Csigás utca -- nem Csiga, az is van
   # - Déli utca
-  # - Halmos Béla utca - Újváros
+  # - Duzzasztó zug
+  # - Fácán utca - Szanazug
+  # - Gyöngyösi Lázár utca - Ajtósfalva
   # - Hicu-telepi út
+  # - Hosszúkás utca -- nem Hosszú utca, az is van
+  # - Kajszi utca - Szanazug
   # - Kiskert utca
   # - Kunhalom utca - Paradicsom
+  # - Mandula utca - Szanazug
   # - Meggy utca
   # - Nyírfa utca
   # - Saláta utca
   # - Tiszafa utca
-  # - Gyöngyösi Lázár utca - Ajtósfalva
 refstreets:
   'Balázs deák utca': 'Balázs Deák utca'
   # 'Csiga utca': 'Csigás utca' -- van másik Csiga utca, nem lehet mappelni
