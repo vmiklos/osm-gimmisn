@@ -93,28 +93,28 @@ class TestNetwork(api.Network):
     def __init__(self, routes: List[URLRoute]) -> None:
         self.__routes = routes
 
-    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:
+    def urlopen(self, url: str, data: str) -> Tuple[str, str]:
         for route in self.__routes:
             if url != route.url:
                 continue
 
             if route.data_path:
-                with open(route.data_path, "rb") as stream:
+                with open(route.data_path, "r") as stream:
                     expected = stream.read()
                     if data != expected:
                         assert data
                         assert data == expected, \
-                            "bad data: actual is '" + str(data, 'utf-8') + \
-                            "', expected '" + str(expected, "utf-8") + "'"
+                            "bad data: actual is '" + data + \
+                            "', expected '" + expected + "'"
 
             if not route.result_path:
-                return (bytes(), "empty result_path for url '" + url + "'")
-            with open(route.result_path, "rb") as stream:
+                return (str(), "empty result_path for url '" + url + "'")
+            with open(route.result_path, "r") as stream:
                 # Allow specifying multiple results for the same URL.
                 self.__routes.remove(route)
                 return (stream.read(), str())
 
-        return (bytes(), "url missing from route list: '" + url + "'")
+        return (str(), "url missing from route list: '" + url + "'")
 
 
 class TestTime(context.Time):

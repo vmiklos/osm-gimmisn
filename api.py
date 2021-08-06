@@ -13,7 +13,7 @@ from typing import Tuple
 
 class Network:
     """Network interface."""
-    def urlopen(self, url: str, data: bytes) -> Tuple[bytes, str]:  # pragma: no cover
+    def urlopen(self, url: str, data: str) -> Tuple[str, str]:  # pragma: no cover
         """Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST."""
         # pylint: disable=no-self-use
         # pylint: disable=unused-argument

@@ -18,18 +18,18 @@ def overpass_query(ctx: context.Context, query: str) -> Tuple[str, str]:
     url = ctx.get_ini().get_overpass_uri() + "/api/interpreter"
 
     urlopen = ctx.get_network().urlopen
-    buf, err = urlopen(url, bytes(query, "utf-8"))
+    buf, err = urlopen(url, query)
 
-    return (buf.decode('utf-8'), err)
+    return (buf, err)
 
 
 def overpass_query_need_sleep(ctx: context.Context) -> int:
     """Checks if we need to sleep before executing an overpass query."""
     urlopen = ctx.get_network().urlopen
-    buf, err = urlopen(ctx.get_ini().get_overpass_uri() + "/api/status", bytes())
+    buf, err = urlopen(ctx.get_ini().get_overpass_uri() + "/api/status", str())
     if err:
         return 0
-    status = buf.decode('utf-8')
+    status = buf
     sleep = 0
     available = False
     for line in status.splitlines():
