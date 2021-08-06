@@ -20,7 +20,6 @@ PYTHON_TEST_OBJECTS = \
 
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
-	accept_language.py \
 	area_files.py \
 	areas.py \
 	cache.py \
@@ -31,11 +30,9 @@ PYTHON_SAFE_OBJECTS = \
 	missing_housenumbers.py \
 	overpass_query.py \
 	parse_access_log.py \
-	ranges.py \
 	stats.py \
 	util.py \
 	validator.py \
-	version.py \
 	webframe.py \
 	wsgi.py \
 	wsgi_additional.py \
@@ -79,6 +76,7 @@ RS_OBJECTS = \
 	src/accept_language.rs \
 	src/lib.rs \
 	src/ranges.rs \
+	src/version.rs \
 	src/yattag.rs \
 
 ifndef V
@@ -90,10 +88,10 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: version.py rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
-	rm -f version.py config.ts
+	rm -f config.ts
 	rm -f $(patsubst %.yaml,%.yamllint,$(filter-out .github/workflows/tests.yml,$(YAML_OBJECTS)))
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
@@ -102,10 +100,6 @@ clean:
 	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
 check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint
-
-version.py: .git/$(shell git symbolic-ref HEAD) Makefile
-	$(file > $@,"""The version module allows tracking the last reload of the app server.""")
-	$(file >> $@,VERSION = '$(shell git describe --tags)')
 
 rust.so: target/debug/librust.so
 	ln -sf target/debug/librust.so rust.so
@@ -181,7 +175,7 @@ check-mypy: $(PYTHON_OBJECTS)
 %.flake8: %.py Makefile setup.cfg
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
-check-unit: version.py rust.so data/yamls.cache testdata
+check-unit: rust.so data/yamls.cache testdata
 	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
 	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 

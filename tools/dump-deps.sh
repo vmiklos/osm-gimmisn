@@ -17,12 +17,6 @@ do
     do
         # Silence stubs for rust modules.
         case $dependency in
-            accept_language)
-                continue
-            ;;
-            ranges)
-                continue
-            ;;
             yattag)
                 continue
             ;;

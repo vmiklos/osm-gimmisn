@@ -27,8 +27,8 @@ import yattag
 from i18n import translate as tr
 import areas
 import context
+import rust
 import util
-import version
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -40,7 +40,7 @@ def get_footer(last_updated: str = "") -> yattag.Doc:
     items: List[yattag.Doc] = []
     doc = yattag.Doc()
     doc.text(tr("Version: "))
-    doc.append_value(util.git_link(version.VERSION, "https://github.com/vmiklos/osm-gimmisn/commit/").get_value())
+    doc.append_value(util.git_link(rust.py_get_version(), "https://github.com/vmiklos/osm-gimmisn/commit/").get_value())
     items.append(doc)
     items.append(util.html_escape(tr("OSM data © OpenStreetMap contributors.")))
     if last_updated:
