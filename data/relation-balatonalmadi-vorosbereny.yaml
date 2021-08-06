@@ -16,8 +16,6 @@ filters:
   Pinkóczi út:
     ranges:
       - {start: '69', end: '69'}
-  Sátor-hegyi út:
-    show-refstreet: false
   Szabadság út:
     ranges:
       - {start: '8', end: '16'}
@@ -41,7 +39,7 @@ filters:
     show-refstreet: false
   # házszám szűrők
   Ady Endre utca:
-    invalid: ['17']
+    invalid: ['17', '33']
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
@@ -63,7 +61,10 @@ filters:
     show-refstreet: false
   Malomvölgyi utca:
     # 7: 5 után 9. 7 a kereszteződésre esik
-    invalid: ['7']
+    # 25: domboldal, nincs látszik épkézláb bejárat lentről
+    # 30-44 között semmi sincs kiírva 2021-08
+    # 71: 39 az utolsó páratlan
+    invalid: ['7', '25', '36', '40', '42', '71']
   Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
     invalid: ['14']
@@ -86,32 +87,6 @@ filters:
       - {start: '1', end: '41'}
       - {start: '2', end: '60'}
     show-refstreet: false
-osm-street-filters:
-  # Területhatár
-  - Balaton körút  # Balatonfűzfő
-  - Uszodai út  # Balatonfűzfő
-  # Sétányok, parkok
-  - Spirál
-  - Szent István park
-street-filters:
-  # Nem igazi utcák
-  - Óvári kilátó
-  - Öreghegy
-  - Újhegy
-  - Vöröshegy
-  # Pint utca - Szentkirályszabadjáról átlóg? Csárda utcánál
-  # Templom tér - Thököly utca eleje a templomnál
-  - 'Sip köz'  # dupla, van Síp köz is
-  # nincs az osm-en ------------------------------
-  # Berkenye köz - Borostyán közzel szemben
-  # Dési Huber István utca - Káptalan utca és Szinyei Merse Pál utca között
-  # Temető köz - Temető utca 3 és 5 számok
-  # Tücsök köz - Tücsök utca
-  - Gyümölcs utca  # nincs kiépítve: 47.0153711, 17.9925941
-  # megszünt - tervben más utcákra van már számozva
-  - Gyöngyvirág utca
-  - Szeder utca
-  - Szent László sétány
 refstreets:
   # ellenőrzött
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
