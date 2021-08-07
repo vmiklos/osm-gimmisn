@@ -75,6 +75,7 @@ TS_OBJECTS = \
 
 RS_OBJECTS = \
 	src/accept_language.rs \
+	src/context.rs \
 	src/lib.rs \
 	src/ranges.rs \
 	src/version.rs \
