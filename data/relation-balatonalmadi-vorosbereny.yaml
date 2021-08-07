@@ -51,7 +51,9 @@ filters:
   Bartók Béla út:
     # 59 helyén 57/b van kírva, a házon és a kukán is
     # 71 nincs kiírva és ház sincs
-    invalid: ['59', '71']
+    # 74 nincs kiírva
+    # 32-48 között teljes káosz: 28 után 34,36,38, majd megint 36, utána nincs kírva 48-ig semmi
+    invalid: ['59', '71', '74']
   Erkel Ferenc utca:
     invalid: ['44', '96']
     show-refstreet: false
