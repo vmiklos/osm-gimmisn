@@ -12,10 +12,8 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 from typing import BinaryIO
 from typing import Dict
 from typing import List
-import calendar
 import configparser
 import os
-import time
 import subprocess
 
 import api
@@ -72,31 +70,7 @@ class StdFileSystem(FileSystem):
 
 
 StdNetwork = rust.PyStdNetwork
-
-
-class Time:
-    """Time interface."""
-    def now(self) -> float:  # pragma: no cover
-        """Calculates the current Unix timestamp from GMT."""
-        # pylint: disable=no-self-use
-        # pylint: disable=unused-argument
-        ...
-
-    def sleep(self, seconds: float) -> None:  # pragma: no cover
-        """Delay execution for a given number of seconds."""
-        # pylint: disable=no-self-use
-        # pylint: disable=unused-argument
-        ...
-
-
-class StdTime(Time):
-    """Time implementation, backed by the Python stdlib, i.e. intentionally not tested."""
-    def now(self) -> float:  # pragma: no cover
-        # time.time() would use the current TZ, not GMT.
-        return calendar.timegm(time.localtime())
-
-    def sleep(self, seconds: float) -> None:  # pragma: no cover
-        time.sleep(seconds)
+StdTime = rust.PyStdTime
 
 
 class Subprocess:
@@ -183,7 +157,7 @@ class Context:
         self.__ini = Ini(self.get_abspath("wsgi.ini"), self.root)
         self.__file_system: FileSystem = StdFileSystem()
         self.__network: api.Network = StdNetwork()
-        self.__time: Time = StdTime()
+        self.__time: api.Time = StdTime()
         self.__subprocess: Subprocess = StdSubprocess()
         self.__unit: Unit = StdUnit()
 
@@ -207,11 +181,11 @@ class Context:
         """Gets the network implementation."""
         return self.__network
 
-    def set_time(self, time_impl: Time) -> None:
+    def set_time(self, time_impl: api.Time) -> None:
         """Sets the time implementation."""
         self.__time = time_impl
 
-    def get_time(self) -> Time:
+    def get_time(self) -> api.Time:
         """Gets the time implementation."""
         return self.__time
 

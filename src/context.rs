@@ -130,3 +130,48 @@ impl PyStdNetwork {
         }
     }
 }
+
+/// Time interface.
+trait Time {
+    /// Calculates the current Unix timestamp from GMT.
+    fn now(&self) -> i64;
+
+    /// Delay execution for a given number of seconds.
+    fn sleep(&self, seconds: u64);
+}
+
+/// Time implementation, backed by the chrono.
+struct StdTime {}
+
+impl Time for StdTime {
+    fn now(&self) -> i64 {
+        let now = chrono::Local::now();
+        now.naive_local().timestamp()
+    }
+
+    fn sleep(&self, seconds: u64) {
+        std::thread::sleep(std::time::Duration::from_secs(seconds));
+    }
+}
+
+#[pyclass]
+pub struct PyStdTime {
+    time: StdTime,
+}
+
+#[pymethods]
+impl PyStdTime {
+    #[new]
+    fn new() -> Self {
+        let time = StdTime {};
+        PyStdTime { time }
+    }
+
+    fn now(&self) -> i64 {
+        self.time.now()
+    }
+
+    fn sleep(&self, seconds: u64) {
+        self.time.sleep(seconds)
+    }
+}

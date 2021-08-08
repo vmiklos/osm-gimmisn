@@ -23,6 +23,7 @@ mod yattag;
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_class::<context::PyStdFileSystem>()?;
     m.add_class::<context::PyStdNetwork>()?;
+    m.add_class::<context::PyStdTime>()?;
     m.add_class::<ranges::PyRange>()?;
     m.add_class::<ranges::PyRanges>()?;
     m.add_class::<yattag::PyDoc>()?;

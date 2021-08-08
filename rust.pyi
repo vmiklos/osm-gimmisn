@@ -128,4 +128,14 @@ class PyStdNetwork(api.Network):
     def urlopen(self, url: str, data: str) -> Tuple[str, str]:  # pragma: no cover
         ...
 
+class PyStdTime(api.Time):
+    """Time implementation, backed by the Python stdlib, i.e. intentionally not tested."""
+    def now(self) -> float:
+        ...
+
+    def sleep(self, seconds: float) -> None:
+        ...
+
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
