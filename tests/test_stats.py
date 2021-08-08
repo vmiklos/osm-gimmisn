@@ -16,11 +16,11 @@ import unittest
 
 import test_context
 
-import context
+import api
 import stats
 
 
-def make_test_time_old() -> context.Time:
+def make_test_time_old() -> api.Time:
     """Generates unix timestamp for an old date."""
     return test_context.TestTime(calendar.timegm(datetime.date(1970, 1, 1).timetuple()))
 

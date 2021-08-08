@@ -117,7 +117,7 @@ class TestNetwork(api.Network):
         return (str(), "url missing from route list: '" + url + "'")
 
 
-class TestTime(context.Time):
+class TestTime(api.Time):
     """Time implementation, for test purposes."""
     def __init__(self, now: float) -> None:
         self.__now = now
@@ -162,7 +162,7 @@ class TestUnit(context.Unit):
         return "TestError"
 
 
-def make_test_time() -> context.Time:
+def make_test_time() -> api.Time:
     """Generates unix timestamp for 2020-05-10."""
     return TestTime(calendar.timegm(datetime.date(2020, 5, 10).timetuple()))
 

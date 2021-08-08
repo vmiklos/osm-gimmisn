@@ -20,4 +20,19 @@ class Network:
         ...
 
 
+class Time:
+    """Time interface."""
+    def now(self) -> float:  # pragma: no cover
+        """Calculates the current Unix timestamp from GMT."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+    def sleep(self, seconds: float) -> None:  # pragma: no cover
+        """Delay execution for a given number of seconds."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
