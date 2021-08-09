@@ -16,8 +16,7 @@ use std::io::Read;
 use std::io::Write;
 use std::path::Path;
 use std::time::Duration;
-
-pub type BoxResult<T> = Result<T, Box<dyn std::error::Error>>;
+use anyhow::anyhow;
 
 /// File system interface.
 trait FileSystem {
@@ -25,13 +24,13 @@ trait FileSystem {
     fn path_exists(&self, path: &str) -> bool;
 
     /// Return the last modification time of a file.
-    fn getmtime(&self, path: &str) -> BoxResult<f64>;
+    fn getmtime(&self, path: &str) -> anyhow::Result<f64>;
 
     /// Opens a file for reading in binary mode.
-    fn open_read(&self, path: &str) -> BoxResult<Box<dyn Read>>;
+    fn open_read(&self, path: &str) -> anyhow::Result<Box<dyn Read>>;
 
     /// Opens a file for writing in binary mode.
-    fn open_write(&self, path: &str) -> BoxResult<Box<dyn Write>>;
+    fn open_write(&self, path: &str) -> anyhow::Result<Box<dyn Write>>;
 }
 
 /// File system implementation, backed by the Rust stdlib.
@@ -42,19 +41,19 @@ impl FileSystem for StdFileSystem {
         Path::new(path).exists()
     }
 
-    fn getmtime(&self, path: &str) -> BoxResult<f64> {
+    fn getmtime(&self, path: &str) -> anyhow::Result<f64> {
         let metadata = std::fs::metadata(path)?;
         let modified = metadata.modified()?;
         let mtime = modified.duration_since(std::time::SystemTime::UNIX_EPOCH)?;
         Ok(mtime.as_secs_f64())
     }
 
-    fn open_read(&self, path: &str) -> BoxResult<Box<dyn Read>> {
+    fn open_read(&self, path: &str) -> anyhow::Result<Box<dyn Read>> {
         let ret: Box<dyn Read> = Box::new(std::fs::File::open(path)?);
         Ok(ret)
     }
 
-    fn open_write(&self, path: &str) -> BoxResult<Box<dyn Write>> {
+    fn open_write(&self, path: &str) -> anyhow::Result<Box<dyn Write>> {
         let ret: Box<dyn Write> = Box::new(std::fs::File::create(path)?);
         Ok(ret)
     }
@@ -88,14 +87,14 @@ impl PyStdFileSystem {
 /// Network interface.
 trait Network {
     /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.
-    fn urlopen(&self, url: &str, data: &str) -> BoxResult<String>;
+    fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String>;
 }
 
 /// Network implementation, backed by the reqwest.
 struct StdNetwork {}
 
 impl Network for StdNetwork {
-    fn urlopen(&self, url: &str, data: &str) -> BoxResult<String> {
+    fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
         if !data.is_empty() {
             let client = reqwest::blocking::Client::builder()
                 .timeout(Duration::from_secs(425))
@@ -180,15 +179,15 @@ impl PyStdTime {
 /// Subprocess interface.
 trait Subprocess {
     /// Runs a commmand, capturing its output.
-    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> BoxResult<String>;
+    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String>;
 }
 
 /// Subprocess implementation, backed by the Rust stdlib.
 struct StdSubprocess {}
 
 impl Subprocess for StdSubprocess {
-    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> BoxResult<String> {
-        let (first, rest) = args.split_first().ok_or("option::NoneError")?;
+    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String> {
+        let (first, rest) = args.split_first().ok_or(anyhow!("option::NoneError"))?;
         let output = std::process::Command::new(first)
             .args(rest)
             .envs(&env)
