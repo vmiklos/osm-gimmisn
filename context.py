@@ -70,21 +70,7 @@ class StdFileSystem(FileSystem):
 StdNetwork = rust.PyStdNetwork
 StdTime = rust.PyStdTime
 StdSubprocess = rust.PyStdSubprocess
-
-
-class Unit:
-    """Unit testing interface."""
-    def make_error(self) -> str:  # pragma: no cover
-        """Injects a fake error."""
-        # pylint: disable=no-self-use
-        # pylint: disable=unused-argument
-        ...
-
-
-class StdUnit(Unit):
-    """Unit implementation, which intentionally does nothing."""
-    def make_error(self) -> str:  # pragma: no cover
-        return str()
+StdUnit = rust.PyStdUnit
 
 
 class Ini:
@@ -140,7 +126,7 @@ class Context:
         self.__network: api.Network = StdNetwork()
         self.__time: api.Time = StdTime()
         self.__subprocess: api.Subprocess = StdSubprocess()
-        self.__unit: Unit = StdUnit()
+        self.__unit: api.Unit = StdUnit()
 
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
@@ -182,11 +168,11 @@ class Context:
         """Gets the ini file."""
         return self.__ini
 
-    def set_unit(self, unit: Unit) -> None:
+    def set_unit(self, unit: api.Unit) -> None:
         """Sets the testing interface."""
         self.__unit = unit
 
-    def get_unit(self) -> Unit:
+    def get_unit(self) -> api.Unit:
         """Gets the testing interface."""
         return self.__unit
 

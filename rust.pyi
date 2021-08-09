@@ -143,4 +143,10 @@ class PyStdSubprocess(api.Subprocess):
         ...
 
 
+class PyStdUnit(api.Unit):
+    """Unit implementation, which intentionally does nothing."""
+    def make_error(self) -> str:
+        ...
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -220,3 +220,36 @@ impl PyStdSubprocess {
         }
     }
 }
+
+/// Unit testing interface.
+trait Unit {
+    /// Injects a fake error.
+    fn make_error(&self) -> String;
+}
+
+/// Unit implementation, which intentionally does nothing.
+struct StdUnit {}
+
+impl Unit for StdUnit {
+    fn make_error(&self) -> String {
+        String::from("")
+    }
+}
+
+#[pyclass]
+pub struct PyStdUnit {
+    unit: StdUnit,
+}
+
+#[pymethods]
+impl PyStdUnit {
+    #[new]
+    fn new() -> Self {
+        let unit = StdUnit {};
+        PyStdUnit { unit }
+    }
+
+    fn make_error(&self) -> String {
+        self.unit.make_error()
+    }
+}
