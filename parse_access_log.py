@@ -101,8 +101,7 @@ def get_relation_create_dates(ctx: context.Context) -> Dict[str, datetime.date]:
     process_stdout = ctx.get_subprocess().run(["git", "blame", "--line-porcelain", relations_path], env={})
     timestamp = 0
 
-    for line_bytes in process_stdout.splitlines():
-        line = line_bytes.decode('utf-8')
+    for line in process_stdout.splitlines():
         match = re.match("\t([^ :]+):", line)
         if match:
             name = match.group(1)

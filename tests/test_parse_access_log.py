@@ -28,7 +28,7 @@ class TestMain(unittest.TestCase):
         relations_path = ctx.get_abspath("data/relations.yaml")
         # 2020-05-09, so this will be recent
         outputs = {
-            "git blame --line-porcelain " + relations_path: b"""
+            "git blame --line-porcelain " + relations_path: """
 author-time 1588975200
 \tujbuda:
 """

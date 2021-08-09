@@ -10,11 +10,9 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 """
 
 from typing import BinaryIO
-from typing import Dict
 from typing import List
 import configparser
 import os
-import subprocess
 
 import api
 import rust
@@ -71,24 +69,7 @@ class StdFileSystem(FileSystem):
 
 StdNetwork = rust.PyStdNetwork
 StdTime = rust.PyStdTime
-
-
-class Subprocess:
-    """Subprocess interface."""
-    def run(self, args: List[str], env: Dict[str, str]) -> bytes:  # pragma: no cover
-        """Runs a commmand, capturing its output."""
-        # pylint: disable=no-self-use
-        # pylint: disable=unused-argument
-        ...
-
-
-class StdSubprocess(Subprocess):
-    """Subprocess implementation, backed by the Python stdlib, i.e. intentionally not tested."""
-    def run(self, args: List[str], env: Dict[str, str]) -> bytes:  # pragma: no cover
-        full_env = os.environ
-        full_env.update(env)
-        process = subprocess.run(args, stdout=subprocess.PIPE, check=True, env=full_env)
-        return process.stdout
+StdSubprocess = rust.PyStdSubprocess
 
 
 class Unit:
@@ -158,7 +139,7 @@ class Context:
         self.__file_system: FileSystem = StdFileSystem()
         self.__network: api.Network = StdNetwork()
         self.__time: api.Time = StdTime()
-        self.__subprocess: Subprocess = StdSubprocess()
+        self.__subprocess: api.Subprocess = StdSubprocess()
         self.__unit: Unit = StdUnit()
 
     def get_abspath(self, rel_path: str) -> str:
@@ -189,11 +170,11 @@ class Context:
         """Gets the time implementation."""
         return self.__time
 
-    def set_subprocess(self, subprocess_impl: Subprocess) -> None:
+    def set_subprocess(self, subprocess: api.Subprocess) -> None:
         """Sets the subprocess implementation."""
-        self.__subprocess = subprocess_impl
+        self.__subprocess = subprocess
 
-    def get_subprocess(self) -> Subprocess:
+    def get_subprocess(self) -> api.Subprocess:
         """Gets the subprocess implementation."""
         return self.__subprocess
 
