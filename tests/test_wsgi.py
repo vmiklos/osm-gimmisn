@@ -741,7 +741,7 @@ class TestWebhooks(TestWsgi):
         ctx = test_context.make_test_context()
         expected_args = "make -C " + ctx.get_abspath("") + " deploy"
         outputs = {
-            expected_args: bytes()
+            expected_args: str()
         }
         subprocess = test_context.TestSubprocess(outputs)
         self.ctx.set_subprocess(subprocess)
@@ -752,7 +752,7 @@ class TestWebhooks(TestWsgi):
         """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
         environ: Dict[str, BinaryIO] = {}
         ctx = test_context.make_test_context()
-        outputs: Dict[str, bytes] = {}
+        outputs: Dict[str, str] = {}
         subprocess = test_context.TestSubprocess(outputs)
         ctx.set_subprocess(subprocess)
         root = {"ref": "refs/heads/stable"}

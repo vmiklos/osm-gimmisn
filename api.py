@@ -8,6 +8,8 @@
 Shared type hints.
 """
 
+from typing import Dict
+from typing import List
 from typing import Tuple
 
 
@@ -30,6 +32,15 @@ class Time:
 
     def sleep(self, seconds: float) -> None:  # pragma: no cover
         """Delay execution for a given number of seconds."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
+class Subprocess:
+    """Subprocess interface."""
+    def run(self, args: List[str], env: Dict[str, str]) -> str:  # pragma: no cover
+        """Runs a commmand, capturing its output."""
         # pylint: disable=no-self-use
         # pylint: disable=unused-argument
         ...

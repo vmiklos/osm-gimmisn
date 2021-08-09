@@ -134,9 +134,9 @@ class TestTime(api.Time):
         return self.__sleep
 
 
-class TestSubprocess(context.Subprocess):
+class TestSubprocess(api.Subprocess):
     """Subprocess implementation, for test purposes."""
-    def __init__(self, outputs: Dict[str, bytes]) -> None:
+    def __init__(self, outputs: Dict[str, str]) -> None:
         self.__outputs = outputs
         self.__environments: Dict[str, Dict[str, str]] = {}
         self.__runs: List[str] = []
@@ -149,7 +149,7 @@ class TestSubprocess(context.Subprocess):
         """Gets a list of invoked commands."""
         return self.__runs
 
-    def run(self, args: List[str], env: Dict[str, str]) -> bytes:
+    def run(self, args: List[str], env: Dict[str, str]) -> str:
         key = " ".join(args)
         self.__environments[key] = env
         self.__runs.append(key)

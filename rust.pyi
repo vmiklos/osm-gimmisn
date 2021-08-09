@@ -9,6 +9,7 @@ Type hints for rust.so.
 """
 
 from typing import Any
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
@@ -136,6 +137,10 @@ class PyStdTime(api.Time):
     def sleep(self, seconds: float) -> None:
         ...
 
+class PyStdSubprocess(api.Subprocess):
+    """Subprocess implementation, backed by the Python stdlib, i.e. intentionally not tested."""
+    def run(self, args: List[str], env: Dict[str, str]) -> str:
+        ...
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

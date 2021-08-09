@@ -11,6 +11,7 @@
 //! Abstractions to help writing unit tests: filesystem, network, etc.
 
 use pyo3::prelude::*;
+use std::collections::HashMap;
 use std::io::Read;
 use std::io::Write;
 use std::path::Path;
@@ -173,5 +174,49 @@ impl PyStdTime {
 
     fn sleep(&self, seconds: u64) {
         self.time.sleep(seconds)
+    }
+}
+
+/// Subprocess interface.
+trait Subprocess {
+    /// Runs a commmand, capturing its output.
+    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> BoxResult<String>;
+}
+
+/// Subprocess implementation, backed by the Rust stdlib.
+struct StdSubprocess {}
+
+impl Subprocess for StdSubprocess {
+    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> BoxResult<String> {
+        let (first, rest) = args.split_first().ok_or("option::NoneError")?;
+        let output = std::process::Command::new(first)
+            .args(rest)
+            .envs(&env)
+            .output()?;
+        Ok(std::str::from_utf8(&output.stdout)?.to_string())
+    }
+}
+
+#[pyclass]
+pub struct PyStdSubprocess {
+    subprocess: StdSubprocess,
+}
+
+#[pymethods]
+impl PyStdSubprocess {
+    #[new]
+    fn new() -> Self {
+        let subprocess = StdSubprocess {};
+        PyStdSubprocess { subprocess }
+    }
+
+    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> PyResult<String> {
+        match self.subprocess.run(args, env) {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "failed to run: {}",
+                err.to_string()
+            ))),
+        }
     }
 }
