@@ -156,7 +156,7 @@ class TestSubprocess(api.Subprocess):
         return self.__outputs[key]
 
 
-class TestUnit(context.Unit):
+class TestUnit(api.Unit):
     """Unit implementation, which intentionally fails."""
     def make_error(self) -> str:
         return "TestError"

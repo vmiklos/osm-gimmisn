@@ -46,4 +46,13 @@ class Subprocess:
         ...
 
 
+class Unit:
+    """Unit testing interface."""
+    def make_error(self) -> str:  # pragma: no cover
+        """Injects a fake error."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
