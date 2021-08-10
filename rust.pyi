@@ -148,5 +148,42 @@ class PyStdUnit(api.Unit):
     def make_error(self) -> str:
         ...
 
+class PyIni:
+    """Configuration file reader."""
+    def __init__(self, config_path: str, root: str) -> None:
+        ...
+
+    def get_workdir(self) -> str:
+        """Gets the directory which is writable."""
+        ...
+
+    def get_reference_housenumber_paths(self) -> List[str]:
+        """Gets the abs paths of ref housenumbers."""
+        ...
+
+    def get_reference_street_path(self) -> str:
+        """Gets the abs path of ref streets."""
+        ...
+
+    def get_reference_citycounts_path(self) -> str:
+        """Gets the abs path of ref citycounts."""
+        ...
+
+    def get_uri_prefix(self) -> str:
+        """Gets the global URI prefix."""
+        ...
+
+    def get_tcp_port(self) -> int:
+        """Gets the TCP port to be used."""
+        ...
+
+    def get_overpass_uri(self) -> str:
+        """Gets the URI of the overpass instance to be used."""
+        ...
+
+    def get_cron_update_inactive(self) -> bool:
+        """Should cron.py update inactive relations?"""
+        ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

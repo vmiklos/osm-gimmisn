@@ -10,13 +10,13 @@
 
 //! Abstractions to help writing unit tests: filesystem, network, etc.
 
+use anyhow::anyhow;
 use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::io::Read;
 use std::io::Write;
 use std::path::Path;
 use std::time::Duration;
-use anyhow::anyhow;
 
 /// File system interface.
 trait FileSystem {
@@ -187,7 +187,9 @@ struct StdSubprocess {}
 
 impl Subprocess for StdSubprocess {
     fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String> {
-        let (first, rest) = args.split_first().ok_or(anyhow!("option::NoneError"))?;
+        let (first, rest) = args
+            .split_first()
+            .ok_or_else(|| anyhow!("args is an empty list"))?;
         let output = std::process::Command::new(first)
             .args(rest)
             .envs(&env)
@@ -250,5 +252,197 @@ impl PyStdUnit {
 
     fn make_error(&self) -> String {
         self.unit.make_error()
+    }
+}
+
+/// Configuration file reader.
+struct Ini {
+    config: configparser::ini::Ini,
+    root: String,
+}
+
+impl Ini {
+    fn new(config_path: &str, root: &str) -> anyhow::Result<Self> {
+        let mut config = configparser::ini::Ini::new();
+        let _ret = config.load(config_path);
+        Ok(Ini {
+            config,
+            root: String::from(root),
+        })
+    }
+
+    /// Gets the directory which is writable.
+    fn get_workdir(&self) -> anyhow::Result<String> {
+        let workdir = self
+            .config
+            .get("wsgi", "workdir")
+            .ok_or_else(|| anyhow!("cannot get key workdir"))?;
+        Ok(Path::new(&self.root)
+            .join(&workdir)
+            .to_str()
+            .ok_or_else(|| anyhow!("cannot convert path to string"))?
+            .to_string())
+    }
+
+    /// Gets the abs paths of ref housenumbers.
+    fn get_reference_housenumber_paths(&self) -> anyhow::Result<Vec<String>> {
+        let value = self
+            .config
+            .get("wsgi", "reference_housenumbers")
+            .ok_or_else(|| anyhow!("cannot get key reference_housenumbers"))?;
+        let relpaths = value.split(' ');
+        relpaths
+            .map(|relpath| -> anyhow::Result<String> {
+                Ok(Path::new(&self.root)
+                    .join(&relpath)
+                    .to_str()
+                    .ok_or_else(|| anyhow!("cannot convert path to string"))?
+                    .to_string())
+            })
+            .collect::<anyhow::Result<Vec<String>>>()
+    }
+
+    /// Gets the abs path of ref streets.
+    fn get_reference_street_path(&self) -> anyhow::Result<String> {
+        let relpath = self
+            .config
+            .get("wsgi", "reference_street")
+            .ok_or_else(|| anyhow!("cannot get key reference_street"))?;
+        Ok(Path::new(&self.root)
+            .join(&relpath)
+            .to_str()
+            .ok_or_else(|| anyhow!("cannot convert path to string"))?
+            .to_string())
+    }
+
+    /// Gets the abs path of ref citycounts.
+    fn get_reference_citycounts_path(&self) -> anyhow::Result<String> {
+        let relpath = self
+            .config
+            .get("wsgi", "reference_citycounts")
+            .ok_or_else(|| anyhow!("cannot get key reference_citycounts"))?;
+        Ok(Path::new(&self.root)
+            .join(&relpath)
+            .to_str()
+            .ok_or_else(|| anyhow!("cannot convert path to string"))?
+            .to_string())
+    }
+
+    /// Gets the global URI prefix.
+    fn get_uri_prefix(&self) -> anyhow::Result<String> {
+        self.config
+            .get("wsgi", "uri_prefix")
+            .ok_or_else(|| anyhow!("cannot get key uri_prefix"))
+    }
+
+    /// Gets the TCP port to be used.
+    fn get_tcp_port(&self) -> anyhow::Result<i64> {
+        match self.config.get("wsgi", "tcp_port") {
+            Some(value) => Ok(value.parse::<i64>()?),
+            None => Ok(8000),
+        }
+    }
+
+    /// Gets the URI of the overpass instance to be used.
+    fn get_overpass_uri(&self) -> String {
+        match self.config.get("wsgi", "overpass_uri") {
+            Some(value) => value,
+            None => String::from("https://overpass-api.de"),
+        }
+    }
+
+    /// Should cron.py update inactive relations?
+    fn get_cron_update_inactive(&self) -> bool {
+        match self.config.get("wsgi", "cron_update_inactive") {
+            Some(value) => value == "True",
+            None => false,
+        }
+    }
+}
+
+#[pyclass]
+pub struct PyIni {
+    ini: Ini,
+}
+
+#[pymethods]
+impl PyIni {
+    #[new]
+    fn new(config_path: &str, root: &str) -> PyResult<Self> {
+        match Ini::new(config_path, root) {
+            Ok(value) => Ok(PyIni { ini: value }),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "Ini::new() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_workdir(&self) -> PyResult<String> {
+        match self.ini.get_workdir() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "Ini::get_workdir() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_reference_housenumber_paths(&self) -> PyResult<Vec<String>> {
+        match self.ini.get_reference_housenumber_paths() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "Ini::get_reference_housenumber_paths() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_reference_street_path(&self) -> PyResult<String> {
+        match self.ini.get_reference_street_path() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "Ini::get_reference_street_path() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_reference_citycounts_path(&self) -> PyResult<String> {
+        match self.ini.get_reference_citycounts_path() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "Ini::get_reference_citycounts_path() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_uri_prefix(&self) -> PyResult<String> {
+        match self.ini.get_uri_prefix() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "Ini::get_uri_prefix() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_tcp_port(&self) -> PyResult<i64> {
+        match self.ini.get_tcp_port() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "Ini::get_tcp_port() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_overpass_uri(&self) -> String {
+        self.ini.get_overpass_uri()
+    }
+
+    fn get_cron_update_inactive(&self) -> bool {
+        self.ini.get_cron_update_inactive()
     }
 }
