@@ -10,8 +10,6 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 """
 
 from typing import BinaryIO
-from typing import List
-import configparser
 import os
 
 import api
@@ -71,49 +69,7 @@ StdNetwork = rust.PyStdNetwork
 StdTime = rust.PyStdTime
 StdSubprocess = rust.PyStdSubprocess
 StdUnit = rust.PyStdUnit
-
-
-class Ini:
-    """Configuration file reader."""
-    def __init__(self, config_path: str, root: str) -> None:
-        self.__config = configparser.ConfigParser()
-        self.__config.read(config_path)
-        self.root = root
-
-    def get_workdir(self) -> str:
-        """Gets the directory which is writable."""
-        return os.path.join(self.root, self.__config.get('wsgi', 'workdir').strip())
-
-    def get_reference_housenumber_paths(self) -> List[str]:
-        """Gets the abs paths of ref housenumbers."""
-        relpaths = self.__config.get("wsgi", "reference_housenumbers").strip().split(' ')
-        return [os.path.join(self.root, relpath) for relpath in relpaths]
-
-    def get_reference_street_path(self) -> str:
-        """Gets the abs path of ref streets."""
-        relpath = self.__config.get("wsgi", "reference_street").strip()
-        return os.path.join(self.root, relpath)
-
-    def get_reference_citycounts_path(self) -> str:
-        """Gets the abs path of ref citycounts."""
-        relpath = self.__config.get("wsgi", "reference_citycounts").strip()
-        return os.path.join(self.root, relpath)
-
-    def get_uri_prefix(self) -> str:
-        """Gets the global URI prefix."""
-        return self.__config.get("wsgi", "uri_prefix").strip()
-
-    def get_tcp_port(self) -> int:
-        """Gets the TCP port to be used."""
-        return int(self.__config.get("wsgi", "tcp_port", fallback="8000").strip())
-
-    def get_overpass_uri(self) -> str:
-        """Gets the URI of the overpass instance to be used."""
-        return self.__config.get("wsgi", "overpass_uri", fallback="https://overpass-api.de").strip()
-
-    def get_cron_update_inactive(self) -> bool:
-        """Should cron.py update inactive relations?"""
-        return self.__config.get("wsgi", "cron_update_inactive", fallback="False").strip() == "True"
+Ini = rust.PyIni
 
 
 class Context:
