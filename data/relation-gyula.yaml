@@ -1,6 +1,14 @@
 missing-streets: 'yes'
 filters:
+  Balázs deák utca:
+    show-refstreet: false
   Kiss János altábornagy utca:
+    show-refstreet: false
+  Keleti Schriffert József utca:
+    show-refstreet: false
+  Líceum tér:
+    show-refstreet: false
+  Október 23. tér:
     show-refstreet: false
 osm-street-filters:
   # nem igazi utcák
@@ -33,27 +41,27 @@ street-filters:
   # - Szentbenedek tanya
   # - Szeregyháza tanya
   # - Szlányi tanya
-  # hiányzó utcák
+  # hiányzó utcák - Note van
   # - Bíbic utca
   # - Birs utca - Szanazug
   # - Cseresznye utca - Szanazug
   # - Csigás utca -- nem Csiga, az is van
-  # - Déli utca
-  # - Duzzasztó zug
   # - Fácán utca - Szanazug
   # - Gyöngyösi Lázár utca - Ajtósfalva
   # - Hicu-telepi út
   # - Hosszúkás utca -- nem Hosszú utca, az is van
   # - Kajszi utca - Szanazug
-  # - Kiskert utca
   # - Kunhalom utca - Paradicsom
   # - Mandula utca - Szanazug
-  # - Meggy utca
   # - Nyírfa utca
   # - Saláta utca
   # - Tiszafa utca
+  # hiányzó utcák - ismeretlen
+  # - Déli utca
+  # - Duzzasztó zug
+  # - Kiskert utca
+  # - Meggy utca
 refstreets:
-  'Balázs deák utca': 'Balázs Deák utca'
   # 'Csiga utca': 'Csigás utca' -- van másik Csiga utca, nem lehet mappelni
   'Csikóséri sor': 'Csikoséri sor'
   'Erdő sor': 'Erdő sor út'
@@ -63,13 +71,9 @@ refstreets:
   'Ferenczi Béni utca': 'Ferenczy Béni utca'  # A házszámok nagy része az y-os írásmódon jön
   'Halácsy út': 'Halácsy utca'
   # 'Hosszú utca': 'Hosszúkás utca' -- van másik Hosszú utca, nem lehet mappelni
-  'Keleti Schriffert József utca': 'K. Schriffert József út'
-  'Kiss János altábornagy utca': 'Kiss János atb. utca'
   'Körös utca': 'Kőrös utca'
   'Láhner György utca': 'Lahner György utca'
-  'Líceum tér': 'Liceum tér'
   'Lilaakác utca': 'Lila akác utca'
-  'Október 23. tér': 'Október 23-a tér'
   'Rigó út': 'Rigó utca'
   'Rita út': 'Rita utca'
   'Szabadkai út': 'Szabadkai utca'
@@ -82,5 +86,11 @@ refstreets:
   'Új élet utca': 'Újélet utca'
   'Újülés utca': 'Újűlés utca'
   'Zöld utca': 'Zöldi utca'
+  # helyesírás, rövidítés
+  'Balázs deák utca': 'Balázs Deák utca'
+  'Keleti Schriffert József utca': 'K. Schriffert József út'
+  'Kiss János altábornagy utca': 'Kiss János atb. utca'
+  'Líceum tér': 'Liceum tér'
+  'Október 23. tér': 'Október 23-a tér'
 source: survey
 inactive: true
