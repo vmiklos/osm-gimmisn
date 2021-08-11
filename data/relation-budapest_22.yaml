@@ -18,9 +18,7 @@ street-filters:
 osm-street-filters:
   # Nem valós utcák
   - Deák Ferenc híd
-  - Dr. Takács Pál park
   - DunaFok Szabadidőpark
-  - Kastélypark
   - Kiserdő
   - Közösségi kert
   - Leányka utcai felüljáró
@@ -30,6 +28,10 @@ osm-street-filters:
   - Péterhegyi út / Horogszegi határsor
   - Piactér
   - Tétényi-fennsík tanösvény
+  # Parkok házszám nélkül
+  - Dr. Takács Pál park
+  - Elágazás park
+  - Kastélypark
   # Létező, de házszám nélküli utcák
   - Barátok köz
   - Donszky Árpád utca

@@ -7,6 +7,12 @@ filters:
 osm-street-filters:
   # más a neve a 2 oldalon
   - Nyergesi út-Kossuth Lajos utca
+  # dűlők
+  - Csima dűlő
+  - Csima eleje-dűlő
+  - Halomi dűlő
+  - Öreg-Nyulas dűlő
+  - Pap-réti dűlő
 refstreets:
   'Epöli út': 'Epöli utca'
   'Határ út': 'Határ utca'
