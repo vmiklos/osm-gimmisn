@@ -75,9 +75,9 @@ Ini = rust.PyIni
 class Context:
     """Context owns global state which is set up once and then read everywhere."""
     def __init__(self, prefix: str) -> None:
+        self.__rust = rust.PyContext(prefix)
         root_dir = os.path.abspath(os.path.dirname(__file__))
         self.root = os.path.join(root_dir, prefix)
-        self.__ini = Ini(self.get_abspath("wsgi.ini"), self.root)
         self.__file_system: FileSystem = StdFileSystem()
         self.__network: api.Network = StdNetwork()
         self.__time: api.Time = StdTime()
@@ -86,7 +86,7 @@ class Context:
 
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
-        return os.path.join(self.root, rel_path)
+        return self.__rust.get_abspath(rel_path)
 
     def set_file_system(self, file_system: FileSystem) -> None:
         """Sets the file system implementation."""
@@ -122,7 +122,7 @@ class Context:
 
     def get_ini(self) -> Ini:
         """Gets the ini file."""
-        return self.__ini
+        return self.__rust.get_ini()
 
     def set_unit(self, unit: api.Unit) -> None:
         """Sets the testing interface."""

@@ -27,6 +27,7 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_class::<context::PyStdSubprocess>()?;
     m.add_class::<context::PyStdUnit>()?;
     m.add_class::<context::PyIni>()?;
+    m.add_class::<context::PyContext>()?;
     m.add_class::<ranges::PyRange>()?;
     m.add_class::<ranges::PyRanges>()?;
     m.add_class::<yattag::PyDoc>()?;

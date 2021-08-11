@@ -256,6 +256,7 @@ impl PyStdUnit {
 }
 
 /// Configuration file reader.
+#[derive(Clone)]
 struct Ini {
     config: configparser::ini::Ini,
     root: String,
@@ -444,5 +445,78 @@ impl PyIni {
 
     fn get_cron_update_inactive(&self) -> bool {
         self.ini.get_cron_update_inactive()
+    }
+}
+
+/// Context owns global state which is set up once and then read everywhere.
+struct Context {
+    root: String,
+    ini: Ini,
+}
+
+impl Context {
+    fn new(prefix: &str) -> anyhow::Result<Self> {
+        let root_dir = env!("CARGO_MANIFEST_DIR");
+        let root = Path::new(&root_dir)
+            .join(&prefix)
+            .to_str()
+            .ok_or_else(|| anyhow!("cannot convert path to string"))?
+            .to_string();
+        let ini = Ini::new(
+            Path::new(&root)
+                .join("wsgi.ini")
+                .to_str()
+                .ok_or_else(|| anyhow!("cannot convert path to string"))?,
+            &root,
+        )?;
+        Ok(Context { root, ini })
+    }
+
+    /// Make a path absolute, taking the repo root as a base dir.
+    fn get_abspath(&self, rel_path: &str) -> anyhow::Result<String> {
+        Ok(Path::new(&self.root)
+            .join(rel_path)
+            .to_str()
+            .ok_or_else(|| anyhow!("cannot convert path to string"))?
+            .to_string())
+    }
+
+    fn get_ini(&self) -> &Ini {
+        &self.ini
+    }
+}
+
+#[pyclass]
+pub struct PyContext {
+    context: Context,
+}
+
+#[pymethods]
+impl PyContext {
+    #[new]
+    fn new(prefix: &str) -> PyResult<Self> {
+        match Context::new(prefix) {
+            Ok(value) => Ok(PyContext { context: value }),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "Context::new() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_abspath(&self, rel_path: &str) -> PyResult<String> {
+        match self.context.get_abspath(rel_path) {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "context.get_abspath() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_ini(&self) -> PyIni {
+        PyIni {
+            ini: self.context.get_ini().clone(),
+        }
     }
 }

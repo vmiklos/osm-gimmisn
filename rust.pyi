@@ -185,5 +185,18 @@ class PyIni:
         """Should cron.py update inactive relations?"""
         ...
 
+class PyContext:
+    """Context owns global state which is set up once and then read everywhere."""
+    def __init__(self, prefix: str) -> None:
+        ...
+
+    def get_abspath(self, rel_path: str) -> str:
+        """Make a path absolute, taking the repo root as a base dir."""
+        ...
+
+    def get_ini(self) -> PyIni:
+        """Gets the ini file."""
+        ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
