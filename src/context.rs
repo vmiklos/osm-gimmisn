@@ -12,10 +12,13 @@
 
 use anyhow::anyhow;
 use pyo3::prelude::*;
+use pyo3::types::PyString;
+use pyo3::types::PyTuple;
 use std::collections::HashMap;
 use std::io::Read;
 use std::io::Write;
 use std::path::Path;
+use std::sync::Arc;
 use std::time::Duration;
 
 /// File system interface.
@@ -85,7 +88,7 @@ impl PyStdFileSystem {
 }
 
 /// Network interface.
-trait Network {
+trait Network: Send + Sync {
     /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String>;
 }
@@ -110,24 +113,64 @@ impl Network for StdNetwork {
     }
 }
 
+/// Python wrapper around a Network.
 #[pyclass]
-pub struct PyStdNetwork {
-    network: StdNetwork,
+pub struct PyNetwork {
+    network: Arc<dyn Network>,
 }
 
 #[pymethods]
-impl PyStdNetwork {
-    #[new]
-    fn new() -> Self {
-        let network = StdNetwork {};
-        PyStdNetwork { network }
-    }
-
+impl PyNetwork {
     fn urlopen(&self, url: &str, data: &str) -> (String, String) {
         match self.network.urlopen(url, data) {
             Ok(value) => (value, String::from("")),
             Err(err) => (String::from(""), err.to_string()),
         }
+    }
+}
+
+/// Network implementation, backed by Python code.
+struct PyAnyNetwork {
+    network: Py<PyAny>,
+}
+
+impl PyAnyNetwork {
+    fn new(network: Py<PyAny>) -> Self {
+        PyAnyNetwork { network }
+    }
+}
+
+impl Network for PyAnyNetwork {
+    fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
+        Python::with_gil(|py| {
+            let any = self.network.call_method1(py, "urlopen", (url, data))?;
+            let tuple = match any.as_ref(py).downcast::<PyTuple>() {
+                Ok(value) => value,
+                _ => {
+                    return Err(anyhow!("urlopen() didn't return a PyTuple"));
+                }
+            };
+
+            let data = match tuple.get_item(0).downcast::<PyString>() {
+                Ok(value) => value,
+                _ => {
+                    return Err(anyhow!("urlopen() didn't return a PyTuple(PyString, ...)"));
+                }
+            };
+
+            let err = match tuple.get_item(1).downcast::<PyString>() {
+                Ok(value) => value,
+                _ => {
+                    return Err(anyhow!("urlopen() didn't return a PyTuple(..., PyString)"));
+                }
+            };
+
+            if err.len().unwrap() > 0 {
+                return Err(anyhow!("urlopen() failed: {}", err));
+            }
+
+            Ok(data.to_string())
+        })
     }
 }
 
@@ -452,6 +495,7 @@ impl PyIni {
 struct Context {
     root: String,
     ini: Ini,
+    network: Arc<dyn Network>,
 }
 
 impl Context {
@@ -469,7 +513,8 @@ impl Context {
                 .ok_or_else(|| anyhow!("cannot convert path to string"))?,
             &root,
         )?;
-        Ok(Context { root, ini })
+        let network = Arc::new(StdNetwork {});
+        Ok(Context { root, ini, network })
     }
 
     /// Make a path absolute, taking the repo root as a base dir.
@@ -483,6 +528,14 @@ impl Context {
 
     fn get_ini(&self) -> &Ini {
         &self.ini
+    }
+
+    fn get_network(&self) -> &Arc<dyn Network> {
+        &self.network
+    }
+
+    fn set_network(&mut self, network: &Arc<dyn Network>) {
+        self.network = network.clone();
     }
 }
 
@@ -518,5 +571,16 @@ impl PyContext {
         PyIni {
             ini: self.context.get_ini().clone(),
         }
+    }
+
+    fn get_network(&self) -> PyNetwork {
+        PyNetwork {
+            network: self.context.get_network().clone(),
+        }
+    }
+
+    fn set_network(&mut self, network: &PyAny) {
+        let network: Arc<dyn Network> = Arc::new(PyAnyNetwork::new(network.into()));
+        self.context.set_network(&network);
     }
 }
