@@ -17,6 +17,9 @@ do
     do
         # Silence stubs for rust modules.
         case $dependency in
+            api)
+                continue
+            ;;
             yattag)
                 continue
             ;;

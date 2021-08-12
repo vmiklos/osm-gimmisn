@@ -65,7 +65,6 @@ class StdFileSystem(FileSystem):
         return open(path, "wb")
 
 
-StdNetwork = rust.PyStdNetwork
 StdTime = rust.PyStdTime
 StdSubprocess = rust.PyStdSubprocess
 StdUnit = rust.PyStdUnit
@@ -79,7 +78,6 @@ class Context:
         root_dir = os.path.abspath(os.path.dirname(__file__))
         self.root = os.path.join(root_dir, prefix)
         self.__file_system: FileSystem = StdFileSystem()
-        self.__network: api.Network = StdNetwork()
         self.__time: api.Time = StdTime()
         self.__subprocess: api.Subprocess = StdSubprocess()
         self.__unit: api.Unit = StdUnit()
@@ -98,11 +96,11 @@ class Context:
 
     def set_network(self, network: api.Network) -> None:
         """Sets the network implementation."""
-        self.__network = network
+        return self.__rust.set_network(network)
 
     def get_network(self) -> api.Network:
         """Gets the network implementation."""
-        return self.__network
+        return self.__rust.get_network()
 
     def set_time(self, time_impl: api.Time) -> None:
         """Sets the time implementation."""

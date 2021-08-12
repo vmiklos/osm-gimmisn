@@ -124,11 +124,6 @@ class PyStdFileSystem:
     def getmtime(self, path: str) -> float:
         ...
 
-class PyStdNetwork(api.Network):
-    """Network implementation, backed by the Rust stdlib."""
-    def urlopen(self, url: str, data: str) -> Tuple[str, str]:  # pragma: no cover
-        ...
-
 class PyStdTime(api.Time):
     """Time implementation, backed by the Python stdlib, i.e. intentionally not tested."""
     def now(self) -> float:
@@ -196,6 +191,14 @@ class PyContext:
 
     def get_ini(self) -> PyIni:
         """Gets the ini file."""
+        ...
+
+    def set_network(self, network: api.Network) -> None:
+        """Sets the network implementation."""
+        ...
+
+    def get_network(self) -> api.Network:
+        """Gets the network implementation."""
         ...
 
 
