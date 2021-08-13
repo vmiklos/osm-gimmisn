@@ -124,14 +124,6 @@ class PyStdFileSystem:
     def getmtime(self, path: str) -> float:
         ...
 
-class PyStdTime(api.Time):
-    """Time implementation, backed by the Python stdlib, i.e. intentionally not tested."""
-    def now(self) -> float:
-        ...
-
-    def sleep(self, seconds: float) -> None:
-        ...
-
 class PyStdSubprocess(api.Subprocess):
     """Subprocess implementation, backed by the Python stdlib, i.e. intentionally not tested."""
     def run(self, args: List[str], env: Dict[str, str]) -> str:
@@ -199,6 +191,14 @@ class PyContext:
 
     def get_network(self) -> api.Network:
         """Gets the network implementation."""
+        ...
+
+    def set_time(self, time_impl: api.Time) -> None:
+        """Sets the time implementation."""
+        ...
+
+    def get_time(self) -> api.Time:
+        """Gets the time implementation."""
         ...
 
 

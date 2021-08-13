@@ -12,6 +12,7 @@
 
 use anyhow::anyhow;
 use pyo3::prelude::*;
+use pyo3::types::PyInt;
 use pyo3::types::PyString;
 use pyo3::types::PyTuple;
 use std::collections::HashMap;
@@ -175,7 +176,7 @@ impl Network for PyAnyNetwork {
 }
 
 /// Time interface.
-trait Time {
+trait Time: Send + Sync {
     /// Calculates the current Unix timestamp from GMT.
     fn now(&self) -> i64;
 
@@ -197,25 +198,59 @@ impl Time for StdTime {
     }
 }
 
+/// Python wrapper around a Time.
 #[pyclass]
-pub struct PyStdTime {
-    time: StdTime,
+pub struct PyTime {
+    time: Arc<dyn Time>,
 }
 
 #[pymethods]
-impl PyStdTime {
-    #[new]
-    fn new() -> Self {
-        let time = StdTime {};
-        PyStdTime { time }
-    }
-
+impl PyTime {
     fn now(&self) -> i64 {
         self.time.now()
     }
 
     fn sleep(&self, seconds: u64) {
         self.time.sleep(seconds)
+    }
+}
+
+/// Time implementation, backed by Python code.
+struct PyAnyTime {
+    time: Py<PyAny>,
+}
+
+impl PyAnyTime {
+    fn new(time: Py<PyAny>) -> Self {
+        PyAnyTime { time }
+    }
+}
+
+impl Time for PyAnyTime {
+    fn now(&self) -> i64 {
+        Python::with_gil(|py| {
+            let any = match self.time.call_method0(py, "now") {
+                Ok(value) => value,
+                _ => {
+                    return 0;
+                }
+            };
+            let int = match any.as_ref(py).downcast::<PyInt>() {
+                Ok(value) => value,
+                _ => {
+                    return 0;
+                }
+            };
+
+            let ret: i64 = int.extract().unwrap();
+            ret
+        })
+    }
+
+    fn sleep(&self, seconds: u64) {
+        Python::with_gil(|py| {
+            self.time.call_method1(py, "sleep", (seconds,)).unwrap();
+        })
     }
 }
 
@@ -496,6 +531,7 @@ struct Context {
     root: String,
     ini: Ini,
     network: Arc<dyn Network>,
+    time: Arc<dyn Time>,
 }
 
 impl Context {
@@ -514,7 +550,13 @@ impl Context {
             &root,
         )?;
         let network = Arc::new(StdNetwork {});
-        Ok(Context { root, ini, network })
+        let time = Arc::new(StdTime {});
+        Ok(Context {
+            root,
+            ini,
+            network,
+            time,
+        })
     }
 
     /// Make a path absolute, taking the repo root as a base dir.
@@ -536,6 +578,14 @@ impl Context {
 
     fn set_network(&mut self, network: &Arc<dyn Network>) {
         self.network = network.clone();
+    }
+
+    fn get_time(&self) -> &Arc<dyn Time> {
+        &self.time
+    }
+
+    fn set_time(&mut self, time: &Arc<dyn Time>) {
+        self.time = time.clone();
     }
 }
 
@@ -582,5 +632,16 @@ impl PyContext {
     fn set_network(&mut self, network: &PyAny) {
         let network: Arc<dyn Network> = Arc::new(PyAnyNetwork::new(network.into()));
         self.context.set_network(&network);
+    }
+
+    fn get_time(&self) -> PyTime {
+        PyTime {
+            time: self.context.get_time().clone(),
+        }
+    }
+
+    fn set_time(&mut self, time: &PyAny) {
+        let time: Arc<dyn Time> = Arc::new(PyAnyTime::new(time.into()));
+        self.context.set_time(&time);
     }
 }
