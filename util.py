@@ -845,7 +845,7 @@ def get_valid_settlements(ctx: context.Context) -> Set[str]:
 
     with open(ctx.get_ini().get_reference_citycounts_path(), "r") as stream:
         first = True
-        for line in stream.readlines():
+        for line in stream:
             if first:
                 first = False
                 continue

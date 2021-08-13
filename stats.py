@@ -47,7 +47,7 @@ def handle_topusers(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> N
     topusers_path = os.path.join(src_root, "%s.topusers" % today)
     if os.path.exists(topusers_path):
         with open(topusers_path, "r") as stream:
-            for line in stream.readlines():
+            for line in stream:
                 line = line.strip()
                 count, _, user = line.partition(' ')
                 ret.append([user, count])
@@ -69,7 +69,7 @@ def get_topcities(ctx: context.Context, src_root: str) -> List[Tuple[str, int]]:
     if not ctx.get_file_system().path_exists(old_count_path):
         return ret
     with ctx.get_file_system().open_read(old_count_path) as stream:
-        for line_bytes in stream.readlines():
+        for line_bytes in stream:
             line = util.from_bytes(line_bytes).strip()
             city, _, count = line.partition('\t')
             if count:
@@ -79,7 +79,7 @@ def get_topcities(ctx: context.Context, src_root: str) -> List[Tuple[str, int]]:
     if not ctx.get_file_system().path_exists(new_count_path):
         return ret
     with ctx.get_file_system().open_read(new_count_path) as stream:
-        for line_bytes in stream.readlines():
+        for line_bytes in stream:
             line = util.from_bytes(line_bytes.strip())
             city, _, count = line.partition('\t')
             if count and city in old_counts:

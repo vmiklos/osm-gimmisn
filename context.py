@@ -55,9 +55,7 @@ class StdFileSystem(FileSystem):
         return self.rust.getmtime(path)
 
     def open_read(self, path: str) -> BinaryIO:
-        # The caller will do this:
-        # pylint: disable=consider-using-with
-        return open(path, "rb")
+        return self.rust.open_read(path)
 
     def open_write(self, path: str) -> BinaryIO:
         # The caller will do this:

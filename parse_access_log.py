@@ -60,7 +60,7 @@ def get_frequent_relations(ctx: context.Context, log_file: str) -> Set[str]:
         # Example line:
         # a.b.c.d - - [01/Jul/2020:00:08:01 +0200] \
         # "GET /osm/street-housenumbers/budapest_12/update-result HTTP/1.1" 200 1747 "-" "Mozilla/5.0 ..."
-        for line in stream.readlines():
+        for line in stream:
             if is_search_bot(line):
                 continue
             match = re.match('.*"GET ([^ ]+) .*', line)

@@ -220,7 +220,7 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
     first = True
     valid_settlements = util.get_valid_settlements(ctx)
     with ctx.get_file_system().open_read(csv_path) as stream:
-        for line_bytes in stream.readlines():
+        for line_bytes in stream:
             line = util.from_bytes(line_bytes)
             if first:
                 # Ignore the oneliner header.
@@ -250,7 +250,7 @@ def update_stats_topusers(ctx: context.Context, today: str) -> None:
     usercount_path = os.path.join(statedir, "%s.usercount" % today)
     users: Dict[str, int] = {}
     with ctx.get_file_system().open_read(csv_path) as stream:
-        for line_bytes in stream.readlines():
+        for line_bytes in stream:
             line = util.from_bytes(line_bytes)
             # Only care about the last column.
             user = line[line.rfind("\t"):].strip()
@@ -272,7 +272,7 @@ def update_stats_refcount(ctx: context.Context, state_dir: str) -> None:
     count = 0
     with ctx.get_file_system().open_read(ctx.get_ini().get_reference_citycounts_path()) as stream:
         first = True
-        for line_bytes in stream.readlines():
+        for line_bytes in stream:
             line = util.from_bytes(line_bytes)
             if first:
                 first = False
