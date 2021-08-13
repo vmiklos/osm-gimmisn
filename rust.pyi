@@ -124,11 +124,6 @@ class PyStdFileSystem:
     def getmtime(self, path: str) -> float:
         ...
 
-class PyStdUnit(api.Unit):
-    """Unit implementation, which intentionally does nothing."""
-    def make_error(self) -> str:
-        ...
-
 class PyIni:
     """Configuration file reader."""
     def __init__(self, config_path: str, root: str) -> None:
@@ -201,6 +196,14 @@ class PyContext:
 
     def get_subprocess(self) -> api.Subprocess:
         """Gets the subprocess implementation."""
+        ...
+
+    def set_unit(self, unit: api.Unit) -> None:
+        """Sets the unit implementation."""
+        ...
+
+    def get_unit(self) -> api.Unit:
+        """Gets the unit implementation."""
         ...
 
 
