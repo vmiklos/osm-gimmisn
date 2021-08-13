@@ -124,12 +124,6 @@ class PyStdFileSystem:
     def getmtime(self, path: str) -> float:
         ...
 
-class PyStdSubprocess(api.Subprocess):
-    """Subprocess implementation, backed by the Python stdlib, i.e. intentionally not tested."""
-    def run(self, args: List[str], env: Dict[str, str]) -> str:
-        ...
-
-
 class PyStdUnit(api.Unit):
     """Unit implementation, which intentionally does nothing."""
     def make_error(self) -> str:
@@ -193,12 +187,20 @@ class PyContext:
         """Gets the network implementation."""
         ...
 
-    def set_time(self, time_impl: api.Time) -> None:
+    def set_time(self, time: api.Time) -> None:
         """Sets the time implementation."""
         ...
 
     def get_time(self) -> api.Time:
         """Gets the time implementation."""
+        ...
+
+    def set_subprocess(self, subprocess: api.Subprocess) -> None:
+        """Sets the subprocess implementation."""
+        ...
+
+    def get_subprocess(self) -> api.Subprocess:
+        """Gets the subprocess implementation."""
         ...
 
 

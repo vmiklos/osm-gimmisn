@@ -15,6 +15,7 @@ use pyo3::prelude::*;
 use pyo3::types::PyInt;
 use pyo3::types::PyString;
 use pyo3::types::PyTuple;
+use pyo3::types::PyUnicode;
 use std::collections::HashMap;
 use std::io::Read;
 use std::io::Write;
@@ -255,7 +256,7 @@ impl Time for PyAnyTime {
 }
 
 /// Subprocess interface.
-trait Subprocess {
+trait Subprocess: Send + Sync {
     /// Runs a commmand, capturing its output.
     fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String>;
 }
@@ -276,19 +277,14 @@ impl Subprocess for StdSubprocess {
     }
 }
 
+/// Python wrapper around a Subprocess.
 #[pyclass]
-pub struct PyStdSubprocess {
-    subprocess: StdSubprocess,
+pub struct PySubprocess {
+    subprocess: Arc<dyn Subprocess>,
 }
 
 #[pymethods]
-impl PyStdSubprocess {
-    #[new]
-    fn new() -> Self {
-        let subprocess = StdSubprocess {};
-        PyStdSubprocess { subprocess }
-    }
-
+impl PySubprocess {
     fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> PyResult<String> {
         match self.subprocess.run(args, env) {
             Ok(value) => Ok(value),
@@ -297,6 +293,33 @@ impl PyStdSubprocess {
                 err.to_string()
             ))),
         }
+    }
+}
+
+/// Subprocess implementation, backed by Python code.
+struct PyAnySubprocess {
+    subprocess: Py<PyAny>,
+}
+
+impl PyAnySubprocess {
+    fn new(subprocess: Py<PyAny>) -> Self {
+        PyAnySubprocess { subprocess }
+    }
+}
+
+impl Subprocess for PyAnySubprocess {
+    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String> {
+        Python::with_gil(|py| {
+            let any = match self.subprocess.call_method1(py, "run", (args, env)) {
+                Ok(value) => value,
+                Err(err) => { return Err(anyhow!("failed to call run(): {}", err.to_string())); },
+            };
+            let string = match any.as_ref(py).downcast::<PyUnicode>() {
+                Ok(value) => value,
+                Err(err) => { return Err(anyhow!("failed to downcast to PyUnicode: {}", err.to_string())); },
+            };
+            Ok(string.extract().unwrap())
+        })
     }
 }
 
@@ -532,6 +555,7 @@ struct Context {
     ini: Ini,
     network: Arc<dyn Network>,
     time: Arc<dyn Time>,
+    subprocess: Arc<dyn Subprocess>,
 }
 
 impl Context {
@@ -551,11 +575,13 @@ impl Context {
         )?;
         let network = Arc::new(StdNetwork {});
         let time = Arc::new(StdTime {});
+        let subprocess = Arc::new(StdSubprocess {});
         Ok(Context {
             root,
             ini,
             network,
             time,
+            subprocess,
         })
     }
 
@@ -586,6 +612,14 @@ impl Context {
 
     fn set_time(&mut self, time: &Arc<dyn Time>) {
         self.time = time.clone();
+    }
+
+    fn get_subprocess(&self) -> &Arc<dyn Subprocess> {
+        &self.subprocess
+    }
+
+    fn set_subprocess(&mut self, subprocess: &Arc<dyn Subprocess>) {
+        self.subprocess = subprocess.clone();
     }
 }
 
@@ -643,5 +677,16 @@ impl PyContext {
     fn set_time(&mut self, time: &PyAny) {
         let time: Arc<dyn Time> = Arc::new(PyAnyTime::new(time.into()));
         self.context.set_time(&time);
+    }
+
+    fn get_subprocess(&self) -> PySubprocess {
+        PySubprocess {
+            subprocess: self.context.get_subprocess().clone(),
+        }
+    }
+
+    fn set_subprocess(&mut self, subprocess: &PyAny) {
+        let subprocess: Arc<dyn Subprocess> = Arc::new(PyAnySubprocess::new(subprocess.into()));
+        self.context.set_subprocess(&subprocess);
     }
 }

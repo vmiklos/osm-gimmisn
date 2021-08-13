@@ -65,7 +65,6 @@ class StdFileSystem(FileSystem):
         return open(path, "wb")
 
 
-StdSubprocess = rust.PyStdSubprocess
 StdUnit = rust.PyStdUnit
 Ini = rust.PyIni
 
@@ -77,7 +76,6 @@ class Context:
         root_dir = os.path.abspath(os.path.dirname(__file__))
         self.root = os.path.join(root_dir, prefix)
         self.__file_system: FileSystem = StdFileSystem()
-        self.__subprocess: api.Subprocess = StdSubprocess()
         self.__unit: api.Unit = StdUnit()
 
     def get_abspath(self, rel_path: str) -> str:
@@ -100,9 +98,9 @@ class Context:
         """Gets the network implementation."""
         return self.__rust.get_network()
 
-    def set_time(self, time_impl: api.Time) -> None:
+    def set_time(self, time: api.Time) -> None:
         """Sets the time implementation."""
-        return self.__rust.set_time(time_impl)
+        self.__rust.set_time(time)
 
     def get_time(self) -> api.Time:
         """Gets the time implementation."""
@@ -110,11 +108,11 @@ class Context:
 
     def set_subprocess(self, subprocess: api.Subprocess) -> None:
         """Sets the subprocess implementation."""
-        self.__subprocess = subprocess
+        self.__rust.set_subprocess(subprocess)
 
     def get_subprocess(self) -> api.Subprocess:
         """Gets the subprocess implementation."""
-        return self.__subprocess
+        return self.__rust.get_subprocess()
 
     def get_ini(self) -> Ini:
         """Gets the ini file."""
