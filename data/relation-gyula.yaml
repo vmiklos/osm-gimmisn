@@ -51,7 +51,6 @@ street-filters:
   # - Hicu-telepi út
   # - Hosszúkás utca -- nem Hosszú utca, az is van
   # - Kajszi utca - Szanazug
-  # - Kunhalom utca - Paradicsom
   # - Mandula utca - Szanazug
   # - Nyírfa utca
   # - Saláta utca
@@ -65,20 +64,17 @@ refstreets:
   # 'Csiga utca': 'Csigás utca' -- van másik Csiga utca, nem lehet mappelni
   'Csikóséri sor': 'Csikoséri sor'
   'Erdő sor': 'Erdő sor út'
-  'Erkel Ferenc tér': 'Erkel tér'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Fenyő út': 'Fenyő utca'
   'Ferenczi Béni utca': 'Ferenczy Béni utca'  # A házszámok nagy része az y-os írásmódon jön
   'Halácsy út': 'Halácsy utca'
   # 'Hosszú utca': 'Hosszúkás utca' -- van másik Hosszú utca, nem lehet mappelni
   'Körös utca': 'Kőrös utca'
-  'Láhner György utca': 'Lahner György utca'
   'Lilaakác utca': 'Lila akác utca'
   'Rigó út': 'Rigó utca'
   'Rita út': 'Rita utca'
   'Szabadkai út': 'Szabadkai utca'
   'Széchenyi út': 'Széchenyi utca'
-  'Szikfű utca': 'Szíkfű utca'
   'Sándorhegytanya': 'Sándorhegy tanya'
   'T. utca': 'T utca'
   'Thököly Imre utca': 'Thököly utca'
@@ -92,5 +88,6 @@ refstreets:
   'Kiss János altábornagy utca': 'Kiss János atb. utca'
   'Líceum tér': 'Liceum tér'
   'Október 23. tér': 'Október 23-a tér'
+  'Szikfű utca': 'Szíkfű utca'  # táblák vegyesen, de a megfelelő helyesírás a szikfű
 source: survey
 inactive: true
