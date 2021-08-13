@@ -9,6 +9,7 @@ Type hints for rust.so.
 """
 
 from typing import Any
+from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -122,6 +123,9 @@ class PyStdFileSystem:
         ...
 
     def getmtime(self, path: str) -> float:
+        ...
+
+    def open_read(self, path: str) -> BinaryIO:
         ...
 
 class PyIni:

@@ -14,6 +14,7 @@
 //! <https://crates.io/crates/html-builder> would require you to manually escape attribute values.
 
 use pyo3::class::PyContextProtocol;
+use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use pyo3::types::PyType;
 use std::sync::Arc;
@@ -156,13 +157,14 @@ impl<'p> PyContextProtocol<'p> for PyTag {
 
     fn __exit__(
         &mut self,
-        _ty: Option<&'p PyType>,
+        ty: Option<&'p PyType>,
         _value: Option<&'p PyAny>,
         _traceback: Option<&'p PyAny>,
-    ) -> PyResult<bool> {
+    ) -> bool {
         if self.tag.is_some() {
             self.tag = None;
         }
-        Ok(true)
+        let gil = Python::acquire_gil();
+        ty == Some(gil.python().get_type::<PyValueError>())
     }
 }

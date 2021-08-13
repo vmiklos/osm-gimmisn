@@ -11,16 +11,23 @@
 //! Abstractions to help writing unit tests: filesystem, network, etc.
 
 use anyhow::anyhow;
+use pyo3::class::PyIterProtocol;
+use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
+use pyo3::types::PyBytes;
 use pyo3::types::PyInt;
 use pyo3::types::PyString;
 use pyo3::types::PyTuple;
+use pyo3::types::PyType;
 use pyo3::types::PyUnicode;
 use std::collections::HashMap;
+use std::io::BufRead;
 use std::io::Read;
 use std::io::Write;
+use std::ops::DerefMut;
 use std::path::Path;
 use std::sync::Arc;
+use std::sync::Mutex;
 use std::time::Duration;
 
 /// File system interface.
@@ -32,10 +39,10 @@ trait FileSystem {
     fn getmtime(&self, path: &str) -> anyhow::Result<f64>;
 
     /// Opens a file for reading in binary mode.
-    fn open_read(&self, path: &str) -> anyhow::Result<Box<dyn Read>>;
+    fn open_read(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>>;
 
     /// Opens a file for writing in binary mode.
-    fn open_write(&self, path: &str) -> anyhow::Result<Box<dyn Write>>;
+    fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>>;
 }
 
 /// File system implementation, backed by the Rust stdlib.
@@ -53,14 +60,99 @@ impl FileSystem for StdFileSystem {
         Ok(mtime.as_secs_f64())
     }
 
-    fn open_read(&self, path: &str) -> anyhow::Result<Box<dyn Read>> {
-        let ret: Box<dyn Read> = Box::new(std::fs::File::open(path)?);
+    fn open_read(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+        let ret: Arc<Mutex<dyn Read + Send>> = Arc::new(Mutex::new(std::fs::File::open(path)?));
         Ok(ret)
     }
 
-    fn open_write(&self, path: &str) -> anyhow::Result<Box<dyn Write>> {
-        let ret: Box<dyn Write> = Box::new(std::fs::File::create(path)?);
+    fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+        let ret: Arc<Mutex<dyn Write + Send>> = Arc::new(Mutex::new(std::fs::File::create(path)?));
         Ok(ret)
+    }
+}
+
+/// Iterator for PyRead.
+#[pyclass]
+struct PyReadIter {
+    inner: std::vec::IntoIter<String>,
+}
+
+#[pyproto]
+impl PyIterProtocol for PyReadIter {
+    fn __iter__(slf: PyRef<Self>) -> PyRef<Self> {
+        slf
+    }
+
+    fn __next__(mut slf: PyRefMut<Self>) -> Option<PyObject> {
+        let string: String;
+        match slf.inner.next() {
+            Some(value) => string = value,
+            None => {
+                return None;
+            }
+        };
+        let buf: Vec<u8> = string.into_bytes();
+        Python::with_gil(|py| Some(PyBytes::new(py, &buf).into()))
+    }
+}
+
+/// File-like object, wrapping a Read.
+#[pyclass]
+struct PyRead {
+    read: Arc<Mutex<dyn Read + Send>>,
+}
+
+#[pymethods]
+impl PyRead {
+    fn read(&mut self) -> PyResult<PyObject> {
+        Python::with_gil(|py| {
+            let mut buf: Vec<u8> = Vec::new();
+            self.read.lock().unwrap().read_to_end(&mut buf)?;
+            Ok(PyBytes::new(py, &buf).into())
+        })
+    }
+
+    fn close(&mut self) -> PyResult<()> {
+        Ok(())
+    }
+
+    fn __enter__(&self) -> Self {
+        let read = self.read.clone();
+        PyRead { read }
+    }
+
+    fn __exit__(
+        &mut self,
+        ty: Option<&PyType>,
+        _value: Option<&PyAny>,
+        _traceback: Option<&PyAny>,
+    ) -> bool {
+        let gil = Python::acquire_gil();
+        ty == Some(gil.python().get_type::<PyValueError>())
+    }
+}
+
+#[pyproto]
+impl PyIterProtocol for PyRead {
+    fn __iter__(slf: PyRef<Self>) -> PyResult<Py<PyReadIter>> {
+        let mut guard = slf.read.lock().unwrap();
+        let mut reader = std::io::BufReader::new(guard.deref_mut());
+        let mut lines: Vec<String> = Vec::new();
+        loop {
+            let mut line = String::new();
+            if let Ok(len) = reader.read_line(&mut line) {
+                if len == 0 {
+                    break;
+                }
+                lines.push(line);
+                continue;
+            }
+            break;
+        }
+        let iter = PyReadIter {
+            inner: lines.into_iter(),
+        };
+        Py::new(slf.py(), iter)
     }
 }
 
@@ -85,6 +177,16 @@ impl PyStdFileSystem {
         match self.file_system.getmtime(path) {
             Ok(value) => Ok(value),
             Err(_) => Err(pyo3::exceptions::PyIOError::new_err("getmtime() failed")),
+        }
+    }
+
+    fn open_read(&self, path: &str) -> PyResult<PyRead> {
+        match self.file_system.open_read(path) {
+            Ok(value) => Ok(PyRead { read: value }),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "open_read() failed: {}",
+                err.to_string()
+            ))),
         }
     }
 }

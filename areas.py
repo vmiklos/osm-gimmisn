@@ -355,7 +355,7 @@ class RelationBase:
         """Gets streets from reference."""
         streets: List[str] = []
         with self.get_files().get_ref_streets_read_stream(self.__ctx) as sock:
-            for line in sock.readlines():
+            for line in sock:
                 line = line.strip()
                 streets.append(util.from_bytes(line))
         return sorted(set(streets))
@@ -435,7 +435,7 @@ class RelationBase:
         ret: Dict[str, List[util.HouseNumber]] = {}
         lines: Dict[str, List[str]] = {}
         with self.get_files().get_ref_housenumbers_read_stream(self.ctx) as sock:
-            for line_bytes in sock.readlines():
+            for line_bytes in sock:
                 line = util.from_bytes(line_bytes)
                 line = line.strip()
                 key, _, value = line.partition("\t")
