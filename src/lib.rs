@@ -22,7 +22,6 @@ mod yattag;
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_class::<context::PyStdFileSystem>()?;
-    m.add_class::<context::PyStdUnit>()?;
     m.add_class::<context::PyIni>()?;
     m.add_class::<context::PyContext>()?;
     m.add_class::<ranges::PyRange>()?;

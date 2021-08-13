@@ -65,7 +65,6 @@ class StdFileSystem(FileSystem):
         return open(path, "wb")
 
 
-StdUnit = rust.PyStdUnit
 Ini = rust.PyIni
 
 
@@ -76,7 +75,6 @@ class Context:
         root_dir = os.path.abspath(os.path.dirname(__file__))
         self.root = os.path.join(root_dir, prefix)
         self.__file_system: FileSystem = StdFileSystem()
-        self.__unit: api.Unit = StdUnit()
 
     def get_abspath(self, rel_path: str) -> str:
         """Make a path absolute, taking the repo root as a base dir."""
@@ -120,11 +118,11 @@ class Context:
 
     def set_unit(self, unit: api.Unit) -> None:
         """Sets the testing interface."""
-        self.__unit = unit
+        self.__rust.set_unit(unit)
 
     def get_unit(self) -> api.Unit:
         """Gets the testing interface."""
-        return self.__unit
+        return self.__rust.get_unit()
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

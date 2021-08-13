@@ -312,11 +312,18 @@ impl Subprocess for PyAnySubprocess {
         Python::with_gil(|py| {
             let any = match self.subprocess.call_method1(py, "run", (args, env)) {
                 Ok(value) => value,
-                Err(err) => { return Err(anyhow!("failed to call run(): {}", err.to_string())); },
+                Err(err) => {
+                    return Err(anyhow!("failed to call run(): {}", err.to_string()));
+                }
             };
             let string = match any.as_ref(py).downcast::<PyUnicode>() {
                 Ok(value) => value,
-                Err(err) => { return Err(anyhow!("failed to downcast to PyUnicode: {}", err.to_string())); },
+                Err(err) => {
+                    return Err(anyhow!(
+                        "failed to downcast to PyUnicode: {}",
+                        err.to_string()
+                    ));
+                }
             };
             Ok(string.extract().unwrap())
         })
@@ -324,7 +331,7 @@ impl Subprocess for PyAnySubprocess {
 }
 
 /// Unit testing interface.
-trait Unit {
+trait Unit: Send + Sync {
     /// Injects a fake error.
     fn make_error(&self) -> String;
 }
@@ -338,21 +345,47 @@ impl Unit for StdUnit {
     }
 }
 
+/// Python wrapper around a Unit.
 #[pyclass]
-pub struct PyStdUnit {
-    unit: StdUnit,
+pub struct PyUnit {
+    unit: Arc<dyn Unit>,
 }
 
 #[pymethods]
-impl PyStdUnit {
-    #[new]
-    fn new() -> Self {
-        let unit = StdUnit {};
-        PyStdUnit { unit }
-    }
-
+impl PyUnit {
     fn make_error(&self) -> String {
         self.unit.make_error()
+    }
+}
+
+/// Unit implementation, backed by Python code.
+struct PyAnyUnit {
+    unit: Py<PyAny>,
+}
+
+impl PyAnyUnit {
+    fn new(unit: Py<PyAny>) -> Self {
+        PyAnyUnit { unit }
+    }
+}
+
+impl Unit for PyAnyUnit {
+    fn make_error(&self) -> String {
+        Python::with_gil(|py| {
+            let any = match self.unit.call_method0(py, "make_error") {
+                Ok(value) => value,
+                Err(_) => {
+                    return String::from("");
+                }
+            };
+            let string = match any.as_ref(py).downcast::<PyUnicode>() {
+                Ok(value) => value,
+                Err(_) => {
+                    return String::from("");
+                }
+            };
+            string.extract().unwrap()
+        })
     }
 }
 
@@ -556,6 +589,7 @@ struct Context {
     network: Arc<dyn Network>,
     time: Arc<dyn Time>,
     subprocess: Arc<dyn Subprocess>,
+    unit: Arc<dyn Unit>,
 }
 
 impl Context {
@@ -576,12 +610,14 @@ impl Context {
         let network = Arc::new(StdNetwork {});
         let time = Arc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
+        let unit = Arc::new(StdUnit {});
         Ok(Context {
             root,
             ini,
             network,
             time,
             subprocess,
+            unit,
         })
     }
 
@@ -620,6 +656,14 @@ impl Context {
 
     fn set_subprocess(&mut self, subprocess: &Arc<dyn Subprocess>) {
         self.subprocess = subprocess.clone();
+    }
+
+    fn get_unit(&self) -> &Arc<dyn Unit> {
+        &self.unit
+    }
+
+    fn set_unit(&mut self, unit: &Arc<dyn Unit>) {
+        self.unit = unit.clone();
     }
 }
 
@@ -688,5 +732,16 @@ impl PyContext {
     fn set_subprocess(&mut self, subprocess: &PyAny) {
         let subprocess: Arc<dyn Subprocess> = Arc::new(PyAnySubprocess::new(subprocess.into()));
         self.context.set_subprocess(&subprocess);
+    }
+
+    fn get_unit(&self) -> PyUnit {
+        PyUnit {
+            unit: self.context.get_unit().clone(),
+        }
+    }
+
+    fn set_unit(&mut self, unit: &PyAny) {
+        let unit: Arc<dyn Unit> = Arc::new(PyAnyUnit::new(unit.into()));
+        self.context.set_unit(&unit);
     }
 }
