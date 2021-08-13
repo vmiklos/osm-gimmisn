@@ -65,7 +65,6 @@ class StdFileSystem(FileSystem):
         return open(path, "wb")
 
 
-StdTime = rust.PyStdTime
 StdSubprocess = rust.PyStdSubprocess
 StdUnit = rust.PyStdUnit
 Ini = rust.PyIni
@@ -78,7 +77,6 @@ class Context:
         root_dir = os.path.abspath(os.path.dirname(__file__))
         self.root = os.path.join(root_dir, prefix)
         self.__file_system: FileSystem = StdFileSystem()
-        self.__time: api.Time = StdTime()
         self.__subprocess: api.Subprocess = StdSubprocess()
         self.__unit: api.Unit = StdUnit()
 
@@ -104,11 +102,11 @@ class Context:
 
     def set_time(self, time_impl: api.Time) -> None:
         """Sets the time implementation."""
-        self.__time = time_impl
+        return self.__rust.set_time(time_impl)
 
     def get_time(self) -> api.Time:
         """Gets the time implementation."""
-        return self.__time
+        return self.__rust.get_time()
 
     def set_subprocess(self, subprocess: api.Subprocess) -> None:
         """Sets the subprocess implementation."""

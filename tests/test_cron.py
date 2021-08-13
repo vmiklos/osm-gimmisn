@@ -6,7 +6,6 @@
 
 """The test_cron module covers the cron module."""
 
-from typing import cast
 from typing import List
 import io
 import json
@@ -33,11 +32,11 @@ class TestOverpassSleep(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        ctx.set_time(test_context.make_test_time())
+        test_time = test_context.make_test_time()
+        ctx.set_time(test_time)
 
         cron.overpass_sleep(ctx)
 
-        test_time = cast(test_context.TestTime, ctx.get_time())
         self.assertEqual(test_time.get_sleep(), 0)
 
     def test_need_sleep(self) -> None:
@@ -53,11 +52,11 @@ class TestOverpassSleep(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        ctx.set_time(test_context.make_test_time())
+        test_time = test_context.make_test_time()
+        ctx.set_time(test_time)
 
         cron.overpass_sleep(ctx)
 
-        test_time = cast(test_context.TestTime, ctx.get_time())
         self.assertEqual(test_time.get_sleep(), 12)
 
 
@@ -351,7 +350,8 @@ class TestUpdateStats(unittest.TestCase):
     def test_no_overpass(self) -> None:
         """Tests the case when we don't call overpass."""
         ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
+        test_time = test_context.make_test_time()
+        ctx.set_time(test_time)
         routes: List[test_context.URLRoute] = [
             test_context.URLRoute(url="https://overpass-api.de/api/status",
                                   data_path="",
@@ -365,7 +365,6 @@ class TestUpdateStats(unittest.TestCase):
 
         cron.update_stats(ctx, overpass=False)
 
-        test_time = cast(test_context.TestTime, ctx.get_time())
         self.assertEqual(test_time.get_sleep(), 0)
 
 

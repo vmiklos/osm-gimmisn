@@ -162,7 +162,7 @@ class TestUnit(api.Unit):
         return "TestError"
 
 
-def make_test_time() -> api.Time:
+def make_test_time() -> TestTime:
     """Generates unix timestamp for 2020-05-10."""
     return TestTime(calendar.timegm(datetime.date(2020, 5, 10).timetuple()))
 
