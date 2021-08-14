@@ -10,11 +10,20 @@ osm-street-filters:
   - Nagylaposi kutyafuttató
   - Nehezen járható!
   - Régi vasút
+  - Vízmű
+  # udvarok
+  - Belvárosi udvar
+  - Fellner Jakab tömbbelső
+  - Kracker udvar
+  - Lenkey udvar
   # sétányok, parkok
+  - Érsekkert
+  - Erzsébet udvar
+  - Eszperantó sétány
   - Szent József park
   - Szépasszony-völgy
   - Táncsics Mihály sétány
-  - Vízmű
+  - Várfal sétány
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Bagolyvár kültelek
