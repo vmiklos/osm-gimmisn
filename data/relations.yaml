@@ -469,6 +469,10 @@ dunaujvaros:
     refcounty: "07"
     refsettlement: "024"
 # 10 - Heves
+eger:
+    osmrelation: 1418156
+    refcounty: "10"
+    refsettlement: "025"
 felsotarkany:
     osmrelation: 1418232
     refcounty: "10"
