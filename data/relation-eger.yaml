@@ -17,13 +17,49 @@ osm-street-filters:
   - Vízmű
 street-filters:
   # nem igazi utcák / csak hrsz.
+  - Bagolyvár kültelek
+  - Déli iparterület ipartelep
+  - Handúhegyi külter.
+  - Kőbánya
   - Vécseyvölgy külter.
   - Vasuti őrház  # dupla
   - Vasúti őrház
   # dűlők
+  # - Agárdi-dűlő
+  # - Almár-dűlő
+  # - Birka dűlő
+  # - Braunvölgy-dűlő
   # - Ceglédi dűlő
+  # - Hajdúhegyi külterület dűlő
+  # - Kenderföld-dűlő
+  # - Kis-Eged-dűlő
+  # - Kiskőporos dűlő
   # - Merengő dülő
+  # - Paphegy-dűlő
+  # - Szőlőcske-puszta
+  # Ismeretlen
+  # - Berva-völgy utca
+  # - Halom utca
+  # - Patak utca
+  # - Rácliget utca
+  # - Kékfrankos utca
+  # - Lakatgyártó László utca
+  # Note
+  # - Bervai köz
+  # - Erdélyi Éva utca
+  # - Erzsébetvölgy út
+  # - Gyetvai József utca
+  # - I. sz. lakótelep utca
+  # - Lesrét út
+  # - Mindszenty Gedeon utca
+  # - Rizskása malom
 refstreets:
+  # helyesírás
+  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
+  'Markhot Ferenc utca': 'Markhót Ferenc utca'
+  'Vízimolnár utca': 'Vizimolnár utca'
+  # note
+  # Akácfa utca - Akácos utca: dupla nem mappelhető
   'Bem tábornok utca': 'Bem tábornok tér'
   'Breznay Imre utca': 'Breznai Imre utca'
   'Csákósor utca': 'Csákó sor utca'
@@ -31,9 +67,7 @@ refstreets:
   'Dézsmaház': 'Dézsmaház utca'
   'Disznófő-sor': 'Szépasszonyvölgy-Disznófősor utca'
   'Egri út': 'Egri utca'
-  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Foglár utca': 'Foglár György utca'
-  'Epreskert': 'Epreskert utca'
   'Garay János utca': 'Garai János utca'
   'Hatvanas ezred utca': 'Hatvanasezred utca'
   'Hevesi Sándor utca': 'Hevesy Sándor utca'
@@ -42,7 +76,6 @@ refstreets:
   'Koháry István út': 'Koháry István utca'
   'Kőlyuktetői pincesor': 'Kőlyuktető'
   'Maczki Valér utca': 'Macki Valér utca'
-  'Markhot Ferenc utca': 'Markhót Ferenc utca'
   'Mlinkó Mátyás': 'Mlinkó Mátyás utca'
   'Nagylapos utca': 'Nagylaposi út'
   'Pápay Sámuel utca': 'Pápai Sámuel utca'
@@ -54,7 +87,6 @@ refstreets:
   'Tibrik dűlő': 'Tibrikdűlő utca'
   'Tizes honvéd utca': 'Tizeshonvéd utca'
   'Törvényház út': 'Törvényház utca'
-  'Vízimolnár utca': 'Vizimolnár utca'
   'Vörösmarty Mihály út': 'Vörösmarty Mihály utca'
 source: survey
 inactive: true
