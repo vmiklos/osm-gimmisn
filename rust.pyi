@@ -114,7 +114,7 @@ def py_get_version() -> str:
     """Gets the git version."""
     ...
 
-class PyStdFileSystem:
+class PyStdFileSystem(api.FileSystem):
     """File system implementation, backed by the Rust stdlib."""
     def __init__(self) -> None:
         ...
@@ -126,6 +126,9 @@ class PyStdFileSystem:
         ...
 
     def open_read(self, path: str) -> BinaryIO:
+        ...
+
+    def open_write(self, path: str) -> BinaryIO:
         ...
 
 class PyIni:
