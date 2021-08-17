@@ -8,9 +8,37 @@
 Shared type hints.
 """
 
+from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Tuple
+
+
+class FileSystem:
+    """File system interface."""
+    def path_exists(self, path: str) -> bool:  # pragma: no cover
+        """Test whether a path exists."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+    def getmtime(self, path: str) -> float:  # pragma: no cover
+        """Return the last modification time of a file."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+    def open_read(self, path: str) -> BinaryIO:  # pragma: no cover
+        """Opens a file for reading in binary mode."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
+    def open_write(self, path: str) -> BinaryIO:  # pragma: no cover
+        """Opens a file for writing in binary mode."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
 
 
 class Network:

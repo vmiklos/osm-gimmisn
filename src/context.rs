@@ -156,6 +156,45 @@ impl PyIterProtocol for PyRead {
     }
 }
 
+/// File-like object, wrapping a Write.
+#[pyclass]
+struct PyWrite {
+    write: Arc<Mutex<dyn Write + Send>>,
+}
+
+#[pymethods]
+impl PyWrite {
+    fn write(&mut self, buf: &[u8]) -> PyResult<usize> {
+        let mut guard = self.write.lock().unwrap();
+        match guard.write_all(buf) {
+            Ok(_) => Ok(buf.len()),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "write() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn close(&mut self) -> PyResult<()> {
+        Ok(())
+    }
+
+    fn __enter__(&self) -> Self {
+        let write = self.write.clone();
+        PyWrite { write }
+    }
+
+    fn __exit__(
+        &mut self,
+        ty: Option<&PyType>,
+        _value: Option<&PyAny>,
+        _traceback: Option<&PyAny>,
+    ) -> bool {
+        let gil = Python::acquire_gil();
+        ty == Some(gil.python().get_type::<PyValueError>())
+    }
+}
+
 #[pyclass]
 pub struct PyStdFileSystem {
     file_system: StdFileSystem,
@@ -185,6 +224,16 @@ impl PyStdFileSystem {
             Ok(value) => Ok(PyRead { read: value }),
             Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
                 "open_read() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn open_write(&self, path: &str) -> PyResult<PyWrite> {
+        match self.file_system.open_write(path) {
+            Ok(value) => Ok(PyWrite { write: value }),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "open_write() failed: {}",
                 err.to_string()
             ))),
         }

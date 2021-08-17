@@ -25,7 +25,7 @@ def make_test_context() -> context.Context:
     return context.Context("tests")
 
 
-class TestFileSystem(context.FileSystem):
+class TestFileSystem(api.FileSystem):
     """File system implementation, for test purposes."""
     def __init__(self) -> None:
         self.__hide_paths: List[str] = []
