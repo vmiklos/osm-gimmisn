@@ -10,6 +10,11 @@ filters:
     # 9, 11 semmi nincs táblázva, 1 ház van csak
     # 13-15: csak 13
     invalid: ['9', '15']
+  Balatonfűzfői út:
+    # 140 nincs
+    # 158: autószerviz és a Kürt utca közt nincs ház
+    # 226: szervizút végén 228, mellette 224
+    invalid: ['140', '158', '226']
   Bartók Béla út:
     # 59 helyén 57/b van kírva, a házon és a kukán is
     # 71 nincs kiírva és ház sincs
@@ -21,6 +26,9 @@ filters:
   Erkel Ferenc utca:
     invalid: ['44', '96']
     show-refstreet: false
+  Hársas utca:
+    # terv és a valóság nincs összhangban
+    invalid: ['49']
   Kert utca:
     invalid: ['21', '23']
   Kisberényi út:
@@ -39,6 +47,9 @@ filters:
   Malomvölgyi utca:
     # 7: 5 után 9. 7 a kereszteződésre esik
     invalid: ['7']
+  Maros utca:
+    # 15-17: csak 17 van kiírva
+    invalid: ['15']
   Radnóti utca:
     show-refstreet: false
   Rekettye utca:
@@ -85,6 +96,7 @@ osm-street-filters:
   - Szent István park
   - Szent Erzsébet liget
   # Ellenőrzött, létező
+  - Fürj köz
   - Madách köz
 street-filters:
   # Nem igazi utcák
