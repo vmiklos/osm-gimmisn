@@ -14,7 +14,9 @@ use anyhow::anyhow;
 use pyo3::class::PyIterProtocol;
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
+use pyo3::types::PyBool;
 use pyo3::types::PyBytes;
+use pyo3::types::PyFloat;
 use pyo3::types::PyInt;
 use pyo3::types::PyString;
 use pyo3::types::PyTuple;
@@ -31,7 +33,7 @@ use std::sync::Mutex;
 use std::time::Duration;
 
 /// File system interface.
-trait FileSystem {
+trait FileSystem: Send + Sync {
     /// Test whether a path exists.
     fn path_exists(&self, path: &str) -> bool;
 
@@ -195,19 +197,61 @@ impl PyWrite {
     }
 }
 
+/// Write implementation, backed by Python.
+struct PyAnyWrite {
+    write: Py<PyAny>,
+}
+
+impl Write for PyAnyWrite {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        Python::with_gil(|py| {
+            let any = match self.write.call_method1(py, "write", (buf,)) {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(std::io::Error::new(
+                        std::io::ErrorKind::Other,
+                        format!("failed to write: {}", err.to_string()),
+                    ));
+                }
+            };
+            let size = match any.as_ref(py).downcast::<PyInt>() {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(std::io::Error::new(
+                        std::io::ErrorKind::Other,
+                        format!("failed to downcast to PyInt: {}", err.to_string()),
+                    ));
+                }
+            };
+            let ret: usize = size.extract().unwrap();
+            Ok(ret)
+        })
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
+/// Read implementation, backed by Python.
+struct PyAnyRead {
+    cursor: std::io::Cursor<Vec<u8>>,
+}
+
+impl Read for PyAnyRead {
+    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+        self.cursor.read(buf)
+    }
+}
+
+/// Python wrapper around a FileSystem.
 #[pyclass]
-pub struct PyStdFileSystem {
-    file_system: StdFileSystem,
+pub struct PyFileSystem {
+    file_system: Arc<dyn FileSystem>,
 }
 
 #[pymethods]
-impl PyStdFileSystem {
-    #[new]
-    fn new() -> Self {
-        let file_system = StdFileSystem {};
-        PyStdFileSystem { file_system }
-    }
-
+impl PyFileSystem {
     fn path_exists(&self, path: &str) -> bool {
         self.file_system.path_exists(path)
     }
@@ -237,6 +281,104 @@ impl PyStdFileSystem {
                 err.to_string()
             ))),
         }
+    }
+}
+
+/// FileSystem implementation, backed by Python code.
+struct PyAnyFileSystem {
+    file_system: Py<PyAny>,
+}
+
+impl PyAnyFileSystem {
+    fn new(file_system: Py<PyAny>) -> Self {
+        PyAnyFileSystem { file_system }
+    }
+}
+
+impl FileSystem for PyAnyFileSystem {
+    fn path_exists(&self, path: &str) -> bool {
+        Python::with_gil(|py| {
+            let any = match self.file_system.call_method1(py, "path_exists", (path,)) {
+                Ok(value) => value,
+                _ => {
+                    return false;
+                }
+            };
+            let boolean = match any.as_ref(py).downcast::<PyBool>() {
+                Ok(value) => value,
+                _ => {
+                    return false;
+                }
+            };
+            let ret: bool = boolean.extract().unwrap();
+            ret
+        })
+    }
+
+    fn getmtime(&self, path: &str) -> anyhow::Result<f64> {
+        Python::with_gil(|py| {
+            let any = match self.file_system.call_method1(py, "getmtime", (path,)) {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(anyhow!("failed to call getmtime(): {}", err.to_string()));
+                }
+            };
+            let float = match any.as_ref(py).downcast::<PyFloat>() {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(anyhow!(
+                        "failed to downcast to PyFloat: {}",
+                        err.to_string()
+                    ));
+                }
+            };
+            let ret: f64 = float.extract().unwrap();
+            Ok(ret)
+        })
+    }
+
+    fn open_read(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+        Python::with_gil(|py| {
+            let binaryio = match self.file_system.call_method1(py, "open_read", (path,)) {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(anyhow!("failed to call open_read(): {}", err.to_string()));
+                }
+            };
+            let any = match binaryio.call_method0(py, "read") {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(anyhow!("failed to call read(): {}", err.to_string()));
+                }
+            };
+            let bytes = match any.as_ref(py).downcast::<PyBytes>() {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(anyhow!(
+                        "failed to downcast to PyBytes: {}",
+                        err.to_string()
+                    ));
+                }
+            };
+            let cursor: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(bytes.extract().unwrap());
+            let inner = PyAnyRead { cursor };
+            let ret: Arc<Mutex<dyn Read + Send>> = Arc::new(Mutex::new(inner));
+            Ok(ret)
+        })
+    }
+
+    fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+        Python::with_gil(|py| {
+            let write = match self.file_system.call_method1(py, "open_write", (path,)) {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(anyhow!("failed to call open_write(): {}", err.to_string()));
+                }
+            };
+            let inner = PyAnyWrite { write };
+            let ret: Arc<Mutex<dyn Write + Send>> = Arc::new(Mutex::new(inner));
+            Ok(ret)
+        })
     }
 }
 
@@ -741,6 +883,7 @@ struct Context {
     time: Arc<dyn Time>,
     subprocess: Arc<dyn Subprocess>,
     unit: Arc<dyn Unit>,
+    file_system: Arc<dyn FileSystem>,
 }
 
 impl Context {
@@ -762,6 +905,7 @@ impl Context {
         let time = Arc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
+        let file_system = Arc::new(StdFileSystem {});
         Ok(Context {
             root,
             ini,
@@ -769,6 +913,7 @@ impl Context {
             time,
             subprocess,
             unit,
+            file_system,
         })
     }
 
@@ -815,6 +960,14 @@ impl Context {
 
     fn set_unit(&mut self, unit: &Arc<dyn Unit>) {
         self.unit = unit.clone();
+    }
+
+    fn get_file_system(&self) -> &Arc<dyn FileSystem> {
+        &self.file_system
+    }
+
+    fn set_file_system(&mut self, file_system: &Arc<dyn FileSystem>) {
+        self.file_system = file_system.clone();
     }
 }
 
@@ -894,5 +1047,16 @@ impl PyContext {
     fn set_unit(&mut self, unit: &PyAny) {
         let unit: Arc<dyn Unit> = Arc::new(PyAnyUnit::new(unit.into()));
         self.context.set_unit(&unit);
+    }
+
+    fn get_file_system(&self) -> PyFileSystem {
+        PyFileSystem {
+            file_system: self.context.get_file_system().clone(),
+        }
+    }
+
+    fn set_file_system(&mut self, file_system: &PyAny) {
+        let file_system: Arc<dyn FileSystem> = Arc::new(PyAnyFileSystem::new(file_system.into()));
+        self.context.set_file_system(&file_system);
     }
 }
