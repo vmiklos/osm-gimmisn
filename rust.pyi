@@ -213,5 +213,13 @@ class PyContext:
         """Gets the unit implementation."""
         ...
 
+    def set_file_system(self, file_system: api.FileSystem) -> None:
+        """Sets the file system implementation."""
+        ...
+
+    def get_file_system(self) -> api.FileSystem:
+        """Gets the file system implementation."""
+        ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
