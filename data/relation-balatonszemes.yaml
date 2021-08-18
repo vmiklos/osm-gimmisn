@@ -59,55 +59,18 @@ osm-street-filters:
   # Nem valós utcák
   - Baross Gábor park
   - Fenyves park
-  - Malom tér
   - Platán park
   - Rózsa park
-  - Vigadó tér
   # Létező, de házszám nélküli utcák, közök, ösvények
-  # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012
+  # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012 - refben rögzítve
   - Ady sétány
-  - Ág utca
-  - Akác utca
-  - Arany János köz 1
-  - Arany János köz 2
-  - Arany János köz 3
-  - Bajcsy-Zsilinszky köz
   - Baross Gábor tér
-  - Benedek Elek utca
-  - Bornemissza dűlő
-  - Csemege köz
   - Csonka Pál utca
-  - Deák Ferenc köz
-  - Dinnyés utca
-  - Fasor sétány
   - Fiumei köz
   - Hattyú sétány
-  - Hóvirág köz
-  - Ibolya utca
-  - Józan dűlő
-  - Juhász Gyula utca
-  - Kacskaringós dűlő
-  - Kertész utca
-  - Lidó köz
-  - Malom parkoló
-  - Margaréta köz
   - Mócsy János utca
-  - Nyár utca
   - Nyugati móló sétány
-  - Orgona köz
   - Óvoda köz
-  - Ősz utca
-  - Rózsa köz
-  - Semmelweis köz 1
-  - Semmelweis köz 2
-  - Semmelweis köz 3
-  - Szedres utca
-  - Tavasz utca
-  - Tél utca
-  - Temető köz
-  - Tóparti út
-  - Vigadó köz
-  - Viola köz
   # Területhatár
   - Hárs utca
 refstreets:
