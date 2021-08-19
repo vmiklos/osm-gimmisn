@@ -20,6 +20,9 @@ do
             api)
                 continue
             ;;
+            context)
+                continue
+            ;;
             yattag)
                 continue
             ;;
