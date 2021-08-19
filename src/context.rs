@@ -233,6 +233,14 @@ impl Write for PyAnyWrite {
     }
 }
 
+impl Drop for PyAnyWrite {
+    fn drop(&mut self) {
+        Python::with_gil(|py| {
+            self.write.call_method0(py, "close").unwrap();
+        })
+    }
+}
+
 /// Read implementation, backed by Python.
 struct PyAnyRead {
     cursor: std::io::Cursor<Vec<u8>>,
@@ -361,6 +369,7 @@ impl FileSystem for PyAnyFileSystem {
                 }
             };
             let cursor: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(bytes.extract().unwrap());
+            binaryio.call_method0(py, "close").unwrap();
             let inner = PyAnyRead { cursor };
             let ret: Arc<Mutex<dyn Read + Send>> = Arc::new(Mutex::new(inner));
             Ok(ret)
