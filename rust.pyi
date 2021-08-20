@@ -221,5 +221,9 @@ class PyContext:
         """Gets the file system implementation."""
         ...
 
+def py_overpass_query(ctx: PyContext, query: str) -> str:
+    """Posts the query string to the overpass API and returns the result string."""
+    ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

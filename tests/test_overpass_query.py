@@ -67,9 +67,8 @@ class TestOverpassQuery(unittest.TestCase):
         ctx.set_network(network)
         with open("tests/network/overpass-happy.expected-data") as stream:
             query = stream.read()
-            buf, err = overpass_query.overpass_query(ctx, query)
+            buf = overpass_query.overpass_query(ctx, query)
             self.assertEqual(buf[:3], "@id")
-            self.assertEqual(err, str())
 
 
 if __name__ == '__main__':

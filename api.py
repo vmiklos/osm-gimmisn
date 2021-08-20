@@ -11,7 +11,6 @@ Shared type hints.
 from typing import BinaryIO
 from typing import Dict
 from typing import List
-from typing import Tuple
 
 
 class FileSystem:
@@ -43,7 +42,7 @@ class FileSystem:
 
 class Network:
     """Network interface."""
-    def urlopen(self, url: str, data: str) -> Tuple[str, str]:  # pragma: no cover
+    def urlopen(self, url: str, data: str) -> str:  # pragma: no cover
         """Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST."""
         # pylint: disable=no-self-use
         # pylint: disable=unused-argument

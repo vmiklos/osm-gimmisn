@@ -76,9 +76,10 @@ def update_osm_streets(ctx: context.Context, relations: areas.Relations, update:
             retry += 1
             overpass_sleep(ctx)
             query = relation.get_osm_streets_query()
-            buf, err = overpass_query.overpass_query(ctx, query)
-            if err:
-                info("update_osm_streets: http error: %s", err)
+            try:
+                buf = overpass_query.overpass_query(ctx, query)
+            except OSError as err:
+                info("update_osm_streets: http error: %s", str(err))
                 continue
             relation.get_files().write_osm_streets(ctx, buf)
             break
@@ -99,9 +100,10 @@ def update_osm_housenumbers(ctx: context.Context, relations: areas.Relations, up
             retry += 1
             overpass_sleep(ctx)
             query = relation.get_osm_housenumbers_query()
-            buf, err = overpass_query.overpass_query(ctx, query)
-            if err:
-                info("update_osm_housenumbers: http error: %s", err)
+            try:
+                buf = overpass_query.overpass_query(ctx, query)
+            except OSError as err:
+                info("update_osm_housenumbers: http error: %s", str(err))
                 continue
             relation.get_files().write_osm_housenumbers(ctx, buf)
             break
@@ -306,9 +308,10 @@ def update_stats(ctx: context.Context, overpass: bool) -> None:
                 info("update_stats: try #%s", retry)
             retry += 1
             overpass_sleep(ctx)
-            response, err = overpass_query.overpass_query(ctx, query)
-            if err:
-                info("update_stats: http error: %s", err)
+            try:
+                response = overpass_query.overpass_query(ctx, query)
+            except OSError as err:
+                info("update_stats: http error: %s", str(err))
                 continue
             with ctx.get_file_system().open_write(csv_path) as stream:
                 stream.write(util.to_bytes(response))

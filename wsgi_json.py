@@ -32,12 +32,12 @@ def streets_update_result_json(ctx: context.Context, relations: areas.Relations,
     relation = relations.get_relation(relation_name)
     query = relation.get_osm_streets_query()
     ret: Dict[str, str] = {}
-    buf, err = overpass_query.overpass_query(ctx, query)
-    if err:
-        ret["error"] = err
-    else:
+    try:
+        buf = overpass_query.overpass_query(ctx, query)
         relation.get_files().write_osm_streets(ctx, buf)
         ret["error"] = ""
+    except OSError as error:
+        ret["error"] = str(error)
     return json.dumps(ret)
 
 
@@ -48,12 +48,12 @@ def street_housenumbers_update_result_json(ctx: context.Context, relations: area
     relation = relations.get_relation(relation_name)
     query = relation.get_osm_housenumbers_query()
     ret: Dict[str, str] = {}
-    buf, err = overpass_query.overpass_query(ctx, query)
-    if err:
-        ret["error"] = err
-    else:
+    try:
+        buf = overpass_query.overpass_query(ctx, query)
         relation.get_files().write_osm_housenumbers(ctx, buf)
         ret["error"] = ""
+    except OSError as error:
+        ret["error"] = str(error)
     return json.dumps(ret)
 
 

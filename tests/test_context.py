@@ -9,7 +9,6 @@
 from typing import BinaryIO
 from typing import Dict
 from typing import List
-from typing import Tuple
 import calendar
 import datetime
 import io
@@ -93,7 +92,7 @@ class TestNetwork(api.Network):
     def __init__(self, routes: List[URLRoute]) -> None:
         self.__routes = routes
 
-    def urlopen(self, url: str, data: str) -> Tuple[str, str]:
+    def urlopen(self, url: str, data: str) -> str:
         for route in self.__routes:
             if url != route.url:
                 continue
@@ -108,13 +107,13 @@ class TestNetwork(api.Network):
                             "', expected '" + expected + "'"
 
             if not route.result_path:
-                return (str(), "empty result_path for url '" + url + "'")
+                raise OSError("empty result_path for url '" + url + "'")
             with open(route.result_path, "r") as stream:
                 # Allow specifying multiple results for the same URL.
                 self.__routes.remove(route)
-                return (stream.read(), str())
+                return stream.read()
 
-        return (str(), "url missing from route list: '" + url + "'")
+        raise OSError("url missing from route list: '" + url + "'")
 
 
 class TestTime(api.Time):

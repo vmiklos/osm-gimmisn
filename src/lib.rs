@@ -15,6 +15,7 @@ use pyo3::prelude::*;
 
 mod accept_language;
 mod context;
+mod overpass_query;
 mod ranges;
 mod version;
 mod yattag;
@@ -29,6 +30,7 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_class::<yattag::PyTag>()?;
     accept_language::register_python_symbols(&m)?;
     version::register_python_symbols(&m)?;
+    overpass_query::register_python_symbols(&m)?;
 
     Ok(())
 }
