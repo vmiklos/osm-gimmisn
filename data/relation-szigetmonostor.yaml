@@ -211,6 +211,9 @@ filters:
   Madách tér:
     # 1-10
     invalid: ['669']
+  Kossuth tér:
+    # 2-9
+    invalid: ['21', '26']
 source: survey
 street-filters:
   - Nagydunasétány utca
