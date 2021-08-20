@@ -52,9 +52,10 @@ def handle_streets(ctx: context.Context, relations: areas.Relations, request_uri
             doc.text(relation.get_osm_streets_query())
     elif action == "update-result":
         query = relation.get_osm_streets_query()
-        buf, err = overpass_query.overpass_query(ctx, query)
-        if err:
-            doc.append_value(util.handle_overpass_error(ctx, err).get_value())
+        try:
+            buf = overpass_query.overpass_query(ctx, query)
+        except OSError as error:
+            doc.append_value(util.handle_overpass_error(ctx, str(error)).get_value())
         else:
             relation.get_files().write_osm_streets(ctx, buf)
             streets = relation.get_config().should_check_missing_streets()
@@ -92,9 +93,10 @@ def handle_street_housenumbers(ctx: context.Context, relations: areas.Relations,
             doc.text(relation.get_osm_housenumbers_query())
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
-        buf, err = overpass_query.overpass_query(ctx, query)
-        if err:
-            doc.append_value(util.handle_overpass_error(ctx, err).get_value())
+        try:
+            buf = overpass_query.overpass_query(ctx, query)
+        except OSError as error:
+            doc.append_value(util.handle_overpass_error(ctx, str(error)).get_value())
         else:
             relation.get_files().write_osm_housenumbers(ctx, buf)
             doc.text(tr("Update successful: "))

@@ -19,7 +19,6 @@ use pyo3::types::PyBytes;
 use pyo3::types::PyFloat;
 use pyo3::types::PyInt;
 use pyo3::types::PyString;
-use pyo3::types::PyTuple;
 use pyo3::types::PyType;
 use pyo3::types::PyUnicode;
 use std::collections::HashMap;
@@ -392,7 +391,7 @@ impl FileSystem for PyAnyFileSystem {
 }
 
 /// Network interface.
-trait Network: Send + Sync {
+pub trait Network: Send + Sync {
     /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String>;
 }
@@ -425,10 +424,10 @@ pub struct PyNetwork {
 
 #[pymethods]
 impl PyNetwork {
-    fn urlopen(&self, url: &str, data: &str) -> (String, String) {
+    fn urlopen(&self, url: &str, data: &str) -> PyResult<String> {
         match self.network.urlopen(url, data) {
-            Ok(value) => (value, String::from("")),
-            Err(err) => (String::from(""), err.to_string()),
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(err.to_string())),
         }
     }
 }
@@ -448,30 +447,12 @@ impl Network for PyAnyNetwork {
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
         Python::with_gil(|py| {
             let any = self.network.call_method1(py, "urlopen", (url, data))?;
-            let tuple = match any.as_ref(py).downcast::<PyTuple>() {
+            let data = match any.as_ref(py).downcast::<PyString>() {
                 Ok(value) => value,
                 _ => {
-                    return Err(anyhow!("urlopen() didn't return a PyTuple"));
+                    return Err(anyhow!("urlopen() didn't return a PyString"));
                 }
             };
-
-            let data = match tuple.get_item(0).downcast::<PyString>() {
-                Ok(value) => value,
-                _ => {
-                    return Err(anyhow!("urlopen() didn't return a PyTuple(PyString, ...)"));
-                }
-            };
-
-            let err = match tuple.get_item(1).downcast::<PyString>() {
-                Ok(value) => value,
-                _ => {
-                    return Err(anyhow!("urlopen() didn't return a PyTuple(..., PyString)"));
-                }
-            };
-
-            if err.len().unwrap() > 0 {
-                return Err(anyhow!("urlopen() failed: {}", err));
-            }
 
             Ok(data.to_string())
         })
@@ -693,7 +674,7 @@ impl Unit for PyAnyUnit {
 
 /// Configuration file reader.
 #[derive(Clone)]
-struct Ini {
+pub struct Ini {
     config: configparser::ini::Ini,
     root: String,
 }
@@ -781,7 +762,7 @@ impl Ini {
     }
 
     /// Gets the URI of the overpass instance to be used.
-    fn get_overpass_uri(&self) -> String {
+    pub fn get_overpass_uri(&self) -> String {
         match self.config.get("wsgi", "overpass_uri") {
             Some(value) => value,
             None => String::from("https://overpass-api.de"),
@@ -885,7 +866,7 @@ impl PyIni {
 }
 
 /// Context owns global state which is set up once and then read everywhere.
-struct Context {
+pub struct Context {
     root: String,
     ini: Ini,
     network: Arc<dyn Network>,
@@ -935,11 +916,11 @@ impl Context {
             .to_string())
     }
 
-    fn get_ini(&self) -> &Ini {
+    pub fn get_ini(&self) -> &Ini {
         &self.ini
     }
 
-    fn get_network(&self) -> &Arc<dyn Network> {
+    pub fn get_network(&self) -> &Arc<dyn Network> {
         &self.network
     }
 
@@ -982,7 +963,7 @@ impl Context {
 
 #[pyclass]
 pub struct PyContext {
-    context: Context,
+    pub context: Context,
 }
 
 #[pymethods]

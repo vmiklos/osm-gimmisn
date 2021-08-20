@@ -7,27 +7,20 @@
 
 """The overpass_query module allows getting data out of the OSM DB without a full download."""
 
-from typing import Tuple
 import re
 
 import context
+import rust
 
 
-def overpass_query(ctx: context.Context, query: str) -> Tuple[str, str]:
-    """Posts the query string to the overpass API and returns the result string."""
-    url = ctx.get_ini().get_overpass_uri() + "/api/interpreter"
-
-    urlopen = ctx.get_network().urlopen
-    buf, err = urlopen(url, query)
-
-    return (buf, err)
+overpass_query = rust.py_overpass_query
 
 
 def overpass_query_need_sleep(ctx: context.Context) -> int:
     """Checks if we need to sleep before executing an overpass query."""
-    urlopen = ctx.get_network().urlopen
-    buf, err = urlopen(ctx.get_ini().get_overpass_uri() + "/api/status", str())
-    if err:
+    try:
+        buf = ctx.get_network().urlopen(ctx.get_ini().get_overpass_uri() + "/api/status", str())
+    except OSError:
         return 0
     status = buf
     sleep = 0
