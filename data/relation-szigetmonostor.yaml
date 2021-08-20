@@ -208,6 +208,9 @@ filters:
       - {start: '1', end: '11'}
       # 24 is definitely invalid
       - {start: '2', end: '10'}
+  Madách tér:
+    # 1-10
+    invalid: ['669']
 source: survey
 street-filters:
   - Nagydunasétány utca
