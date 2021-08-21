@@ -12,7 +12,6 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 import rust
 
 
-Ini = rust.PyIni
 Context = rust.PyContext
 
 
