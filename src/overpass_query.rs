@@ -31,7 +31,49 @@ pub fn py_overpass_query(py: Python<'_>, ctx: PyObject, query: String) -> PyResu
     }
 }
 
+/// Checks if we need to sleep before executing an overpass query.
+fn overpass_query_need_sleep(ctx: &crate::context::Context) -> i32 {
+    let url = ctx.get_ini().get_overpass_uri() + "/api/status";
+    let status = match ctx.get_network().urlopen(&url, "") {
+        Ok(value) => value,
+        _ => { return 0; },
+    };
+    let mut sleep = 0;
+    let mut available = false;
+    for line in status.lines() {
+        if line.starts_with("Slot available after:") {
+            let re = regex::Regex::new(r".*in (-?\d+) seconds.*").unwrap();
+            for cap in re.captures_iter(line) {
+                sleep = match cap[1].parse::<i32>() {
+                    Ok(value) => value,
+                    _ => { return 0; },
+                };
+                // Wait one more second just to be safe.
+                sleep += 1;
+                if sleep <= 0 {
+                    sleep = 1;
+                }
+            }
+            break;
+        }
+        if line.contains("available now") {
+            available = true;
+        }
+    }
+    if available {
+        return 0;
+    }
+    sleep
+}
+
+#[pyfunction]
+pub fn py_overpass_query_need_sleep(py: Python<'_>, ctx: PyObject) -> PyResult<i32> {
+    let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(py)?;
+    Ok(overpass_query_need_sleep(&ctx.context))
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_overpass_query, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_overpass_query_need_sleep, module)?)?;
     Ok(())
 }

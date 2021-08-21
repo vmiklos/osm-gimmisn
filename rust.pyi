@@ -225,5 +225,9 @@ def py_overpass_query(ctx: PyContext, query: str) -> str:
     """Posts the query string to the overpass API and returns the result string."""
     ...
 
+def py_overpass_query_need_sleep(ctx: PyContext) -> int:
+    """Checks if we need to sleep before executing an overpass query."""
+    ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
