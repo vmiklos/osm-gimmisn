@@ -6,7 +6,6 @@
 
 """The util module contains functionality shared between other modules."""
 
-from enum import Enum
 from typing import Any
 from typing import BinaryIO
 from typing import Callable
@@ -34,15 +33,6 @@ from rust import py_translate as tr
 import context
 import overpass_query
 import rust
-
-
-class LetterSuffixStyle(Enum):
-    """Specifies the style of the output of normalize_letter_suffix()."""
-
-    # "42/A"
-    UPPER = 1
-    # "42a"
-    LOWER = 2
 
 
 class HouseNumberRange:
@@ -240,7 +230,7 @@ class HouseNumber:
         return bool(re.match(r"^([0-9]+)/[0-9]$", house_number))
 
     @staticmethod
-    def normalize_letter_suffix(house_number: str, source_suffix: str, style: LetterSuffixStyle) -> str:
+    def normalize_letter_suffix(house_number: str, source_suffix: str, style: int) -> str:
         """
         Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
         """
@@ -256,7 +246,7 @@ class HouseNumber:
             if not match:
                 raise ValueError
         groups = match.groups()
-        if style == LetterSuffixStyle.UPPER or digit_match:
+        if style == rust.PyLetterSuffixStyle.upper() or digit_match:
             return groups[0] + "/" + groups[2].upper() + source_suffix
         return groups[0] + groups[2].lower() + source_suffix
 

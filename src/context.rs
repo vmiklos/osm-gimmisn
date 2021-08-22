@@ -1050,3 +1050,9 @@ impl PyContext {
         self.context.set_file_system(&file_system);
     }
 }
+
+pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
+    module.add_class::<PyIni>()?;
+    module.add_class::<PyContext>()?;
+    Ok(())
+}

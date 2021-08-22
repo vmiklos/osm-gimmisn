@@ -18,21 +18,19 @@ mod context;
 mod i18n;
 mod overpass_query;
 mod ranges;
+mod util;
 mod version;
 mod yattag;
 
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
-    m.add_class::<context::PyIni>()?;
-    m.add_class::<context::PyContext>()?;
-    m.add_class::<ranges::PyRange>()?;
-    m.add_class::<ranges::PyRanges>()?;
-    m.add_class::<yattag::PyDoc>()?;
-    m.add_class::<yattag::PyTag>()?;
     accept_language::register_python_symbols(&m)?;
+    context::register_python_symbols(&m)?;
     i18n::register_python_symbols(&m)?;
     overpass_query::register_python_symbols(&m)?;
+    ranges::register_python_symbols(&m)?;
+    util::register_python_symbols(&m)?;
     version::register_python_symbols(&m)?;
-
+    yattag::register_python_symbols(&m)?;
     Ok(())
 }

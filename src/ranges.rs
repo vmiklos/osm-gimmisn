@@ -217,3 +217,9 @@ impl<'p> PyObjectProtocol<'p> for PyRanges {
         }
     }
 }
+
+pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
+    module.add_class::<PyRange>()?;
+    module.add_class::<PyRanges>()?;
+    Ok(())
+}

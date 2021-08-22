@@ -243,4 +243,13 @@ def py_translate(english: str) -> str:
     """Translates English input according to the current UI language."""
     ...
 
+class PyLetterSuffixStyle:
+    @staticmethod
+    def upper() -> int:
+        ...
+
+    @staticmethod
+    def lower() -> int:
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

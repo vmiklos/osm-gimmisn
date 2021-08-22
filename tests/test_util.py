@@ -330,15 +330,15 @@ class TestHouseNumber(unittest.TestCase):
     def test_normalize_letter_suffix(self) -> None:
         """Tests normalize_letter_suffix()."""
         normalize = util.HouseNumber.normalize_letter_suffix
-        self.assertEqual(normalize("42a", "", util.LetterSuffixStyle.UPPER), "42/A")
-        self.assertEqual(normalize("42 a", "", util.LetterSuffixStyle.UPPER), "42/A")
-        self.assertEqual(normalize("42/a", "", util.LetterSuffixStyle.UPPER), "42/A")
-        self.assertEqual(normalize("42/A", "", util.LetterSuffixStyle.UPPER), "42/A")
-        self.assertEqual(normalize("42/A*", "*", util.LetterSuffixStyle.UPPER), "42/A*")
-        self.assertEqual(normalize("42 A", "", util.LetterSuffixStyle.UPPER), "42/A")
+        self.assertEqual(normalize("42a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(normalize("42 a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(normalize("42/a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(normalize("42/A", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(normalize("42/A*", "*", rust.PyLetterSuffixStyle.upper()), "42/A*")
+        self.assertEqual(normalize("42 A", "", rust.PyLetterSuffixStyle.upper()), "42/A")
         with self.assertRaises(ValueError):
-            util.HouseNumber.normalize_letter_suffix("x", "", util.LetterSuffixStyle.UPPER)
-        self.assertEqual(normalize("42/A", "", util.LetterSuffixStyle.LOWER), "42a")
+            util.HouseNumber.normalize_letter_suffix("x", "", rust.PyLetterSuffixStyle.upper())
+        self.assertEqual(normalize("42/A", "", rust.PyLetterSuffixStyle.lower()), "42a")
 
 
 class TestGetHousenumberRanges(unittest.TestCase):
