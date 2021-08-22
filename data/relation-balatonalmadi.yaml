@@ -23,6 +23,9 @@ filters:
     invalid: ['59', '71', '74']
   Csikász lépcső:
     show-refstreet: false
+  Duna utca:
+    # 2 = Balatonfűzfői utca 200
+    invalid: ['2']
   Erkel Ferenc utca:
     invalid: ['44', '96']
     show-refstreet: false
@@ -70,6 +73,9 @@ filters:
     invalid: ['9']
   Szabadság-kilátó út:
     show-refstreet: false
+  Széchenyi utca:
+    # 25 = Erkel Ferenc utca 40
+    invalid: ['25']
   Szellő utca:
     # 41 nincs, utolsó szám 13
     invalid: ['41']
