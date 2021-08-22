@@ -30,9 +30,8 @@ import email.utils
 
 import yattag
 
-from i18n import translate as tr
+from rust import py_translate as tr
 import context
-import i18n
 import overpass_query
 import rust
 
@@ -483,7 +482,7 @@ def handle_overpass_error(ctx: context.Context, http_error: str) -> yattag.Doc:
     return doc
 
 
-def setup_localization(environ: Dict[str, Any], ctx: context.Context) -> str:
+def setup_localization(environ: Dict[str, Any]) -> str:
     """Provides localized strings for this thread."""
     # Set up localization.
     languages = environ.get("HTTP_ACCEPT_LANGUAGE")
@@ -491,7 +490,7 @@ def setup_localization(environ: Dict[str, Any], ctx: context.Context) -> str:
         parsed = rust.py_parse(languages)
         if parsed:
             language = parsed[0]
-            i18n.set_language(ctx, language)
+            rust.py_set_language(language)
             return language
     return ""
 
@@ -864,7 +863,7 @@ def format_percent(english: str) -> str:
     decimal_points = {
         "hu": ",",
     }
-    decimal_point = decimal_points.get(i18n.get_language(), ".")
+    decimal_point = decimal_points.get(rust.py_get_language(), ".")
     return formatted.replace(".", str(decimal_point))
 
 

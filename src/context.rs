@@ -908,7 +908,7 @@ impl Context {
     }
 
     /// Make a path absolute, taking the repo root as a base dir.
-    fn get_abspath(&self, rel_path: &str) -> anyhow::Result<String> {
+    pub fn get_abspath(&self, rel_path: &str) -> anyhow::Result<String> {
         Ok(Path::new(&self.root)
             .join(rel_path)
             .to_str()

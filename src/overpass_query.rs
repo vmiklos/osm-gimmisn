@@ -36,7 +36,9 @@ fn overpass_query_need_sleep(ctx: &crate::context::Context) -> i32 {
     let url = ctx.get_ini().get_overpass_uri() + "/api/status";
     let status = match ctx.get_network().urlopen(&url, "") {
         Ok(value) => value,
-        _ => { return 0; },
+        _ => {
+            return 0;
+        }
     };
     let mut sleep = 0;
     let mut available = false;
@@ -46,7 +48,9 @@ fn overpass_query_need_sleep(ctx: &crate::context::Context) -> i32 {
             for cap in re.captures_iter(line) {
                 sleep = match cap[1].parse::<i32>() {
                     Ok(value) => value,
-                    _ => { return 0; },
+                    _ => {
+                        return 0;
+                    }
                 };
                 // Wait one more second just to be safe.
                 sleep += 1;
@@ -74,6 +78,9 @@ pub fn py_overpass_query_need_sleep(py: Python<'_>, ctx: PyObject) -> PyResult<i
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_overpass_query, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_overpass_query_need_sleep, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_overpass_query_need_sleep,
+        module
+    )?)?;
     Ok(())
 }

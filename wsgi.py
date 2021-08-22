@@ -20,7 +20,7 @@ import traceback
 
 import yattag
 
-from i18n import translate as tr
+from rust import py_translate as tr
 import areas
 import cache
 import context
@@ -907,7 +907,7 @@ def our_application(
 ) -> Tuple[Iterable[bytes], str]:
     """Dispatches the request based on its URI."""
     try:
-        language = util.setup_localization(environ, ctx)
+        language = util.setup_localization(environ)
 
         relations = areas.Relations(ctx)
 

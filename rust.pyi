@@ -229,5 +229,18 @@ def py_overpass_query_need_sleep(ctx: PyContext) -> int:
     """Checks if we need to sleep before executing an overpass query."""
     ...
 
+def py_set_language(language: str) -> None:
+    """Sets the language of the current thread."""
+    ...
+
+
+def py_get_language() -> str:
+    """Gets the language of the current thread."""
+    ...
+
+
+def py_translate(english: str) -> str:
+    """Translates English input according to the current UI language."""
+    ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
