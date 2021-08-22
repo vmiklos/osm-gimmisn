@@ -16,7 +16,7 @@ from typing import cast
 import json
 import yattag
 
-from i18n import translate as tr
+from rust import py_translate as tr
 import area_files
 import context
 import rust

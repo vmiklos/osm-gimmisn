@@ -10,7 +10,7 @@ import os
 from typing import BinaryIO
 
 import context
-import i18n
+import rust
 import util
 
 
@@ -42,7 +42,7 @@ class RelationFilePaths:
 
     def get_housenumbers_htmlcache_path(self) -> str:
         """Builds the file name of the house number HTML cache file of a relation."""
-        return os.path.join(self.__workdir, "%s.htmlcache.%s" % (self.__name, i18n.get_language()))
+        return os.path.join(self.__workdir, "%s.htmlcache.%s" % (self.__name, rust.py_get_language()))
 
     def get_housenumbers_txtcache_path(self) -> str:
         """Builds the file name of the house number plain text cache file of a relation."""
@@ -62,7 +62,7 @@ class RelationFilePaths:
 
     def get_additional_housenumbers_htmlcache_path(self) -> str:
         """Builds the file name of the additional house number HTML cache file of a relation."""
-        return os.path.join(self.__workdir, "%s.additional-htmlcache.%s" % (self.__name, i18n.get_language()))
+        return os.path.join(self.__workdir, "%s.additional-htmlcache.%s" % (self.__name, rust.py_get_language()))
 
 
 class RelationFiles(RelationFilePaths):

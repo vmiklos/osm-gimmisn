@@ -12,7 +12,7 @@ import os
 
 import yattag
 
-from i18n import translate as tr
+from rust import py_translate as tr
 import areas
 import context
 import util

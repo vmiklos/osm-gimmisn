@@ -26,7 +26,7 @@ import sys
 import areas
 import cache
 import context
-import i18n
+import rust
 import overpass_query
 import stats
 import util
@@ -153,12 +153,12 @@ def update_missing_housenumbers(ctx: context.Context, relations: areas.Relations
         if streets == "only":
             continue
 
-        orig_language = i18n.get_language()
+        orig_language = rust.py_get_language()
         relation.write_missing_housenumbers()
         for language in ["en", "hu"]:
-            i18n.set_language(ctx, language)
+            rust.py_set_language(language)
             cache.get_missing_housenumbers_html(ctx, relation)
-        i18n.set_language(ctx, orig_language)
+        rust.py_set_language(orig_language)
         cache.get_missing_housenumbers_txt(ctx, relation)
     info("update_missing_housenumbers: end")
 

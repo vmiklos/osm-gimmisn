@@ -27,7 +27,6 @@ PYTHON_SAFE_OBJECTS = \
 	cache_yamls.py \
 	context.py \
 	cron.py \
-	i18n.py \
 	missing_housenumbers.py \
 	overpass_query.py \
 	parse_access_log.py \

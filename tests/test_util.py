@@ -14,7 +14,7 @@ import urllib.error
 
 import test_context
 
-import i18n
+import rust
 import util
 import yattag
 
@@ -203,18 +203,16 @@ class TestSetupLocalization(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         environ = {"HTTP_ACCEPT_LANGUAGE": "hu,en;q=0.9,en-US;q=0.8"}
-        ctx = test_context.make_test_context()
-        i18n.set_language(ctx, "en")
-        util.setup_localization(environ, ctx)
-        self.assertEqual(i18n.get_language(), "hu")
+        rust.py_set_language("en")
+        util.setup_localization(environ)
+        self.assertEqual(rust.py_get_language(), "hu")
 
     def test_parse_error(self) -> None:
         """Tests the error path."""
         environ = {"HTTP_ACCEPT_LANGUAGE": ","}
-        ctx = test_context.make_test_context()
-        i18n.set_language(ctx, "en")
-        util.setup_localization(environ, ctx)
-        self.assertEqual(i18n.get_language(), "en")
+        rust.py_set_language("en")
+        util.setup_localization(environ)
+        self.assertEqual(rust.py_get_language(), "en")
 
 
 class TestGenLink(unittest.TestCase):
