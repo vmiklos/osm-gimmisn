@@ -168,3 +168,9 @@ impl<'p> PyContextProtocol<'p> for PyTag {
         ty == Some(gil.python().get_type::<PyValueError>())
     }
 }
+
+pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
+    module.add_class::<PyDoc>()?;
+    module.add_class::<PyTag>()?;
+    Ok(())
+}

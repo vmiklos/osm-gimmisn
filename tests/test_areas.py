@@ -975,9 +975,9 @@ class TestRelationConfigLetterSuffixStyle(unittest.TestCase):
         relation_name = "empty"
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation(relation_name)
-        self.assertEqual(relation.get_config().get_letter_suffix_style(), util.LetterSuffixStyle.UPPER)
-        relation.get_config().set_letter_suffix_style(util.LetterSuffixStyle.LOWER)
-        self.assertEqual(relation.get_config().get_letter_suffix_style(), util.LetterSuffixStyle.LOWER)
+        self.assertEqual(relation.get_config().get_letter_suffix_style(), rust.PyLetterSuffixStyle.upper())
+        relation.get_config().set_letter_suffix_style(rust.PyLetterSuffixStyle.lower())
+        self.assertEqual(relation.get_config().get_letter_suffix_style(), rust.PyLetterSuffixStyle.lower())
 
 
 class TestRefmegyeGetName(unittest.TestCase):

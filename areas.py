@@ -98,15 +98,15 @@ class RelationConfig(RelationConfigBase):
         """Sets the housenumber_letters property from code."""
         self.set_property("housenumber-letters", housenumber_letters)
 
-    def set_letter_suffix_style(self, letter_suffix_style: util.LetterSuffixStyle) -> None:
+    def set_letter_suffix_style(self, letter_suffix_style: int) -> None:
         """Sets the letter suffix style."""
         self.set_property("letter-suffix-style", letter_suffix_style)
 
-    def get_letter_suffix_style(self) -> util.LetterSuffixStyle:
+    def get_letter_suffix_style(self) -> int:
         """Gets the letter suffix style."""
         if self.get_property("letter-suffix-style"):
-            return cast(util.LetterSuffixStyle, self.get_property("letter-suffix-style"))
-        return util.LetterSuffixStyle.UPPER
+            return cast(int, self.get_property("letter-suffix-style"))
+        return rust.PyLetterSuffixStyle.upper()
 
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""

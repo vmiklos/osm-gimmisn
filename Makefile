@@ -75,9 +75,11 @@ TS_OBJECTS = \
 RS_OBJECTS = \
 	src/accept_language.rs \
 	src/context.rs \
+	src/i18n.rs \
 	src/lib.rs \
 	src/overpass_query.rs \
 	src/ranges.rs \
+	src/util.rs \
 	src/version.rs \
 	src/yattag.rs \
 
