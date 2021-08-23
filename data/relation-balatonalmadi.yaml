@@ -90,10 +90,11 @@ filters:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
   Veszprémi út:
+    # 46-48: csak 48 van kiírva
     # 83 templom kellene leyen, de más források szerint a kolostor, de ott 85 van kiírva
     # 89: Máltai alapszabályában 89, a facebook oldalukon 87-es házszám van
     # 101: 99 után 103
-    invalid: ['83', '101']
+    invalid: ['46', '83', '101']
   Vödörvölgyi út:
     # páratlan oldal Szentkirályszabadja
     ranges:
@@ -111,7 +112,9 @@ filters:
       - {start: '2', end: '60'}
     show-refstreet: false
   Vörösmarty Mihály utca:
-    show-refstreet: false
+    # 1 db ff Vörösmarty utca, 1 db ff Vörösmarty Mihály utca, 1 db kék-sárga Vörösmarty utca
+    # 6 után 10 jön
+    invalid: ['8']
 osm-street-filters:
   # Területhatár
   - Balaton körút  # Balatonfűzfő
@@ -157,6 +160,5 @@ refstreets:
   'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
-  'Vörösmarty Mihály utca': 'Vörösmarty utca'  # táblán Vörösmarty Mihály utca
 source: survey
 inactive: false
