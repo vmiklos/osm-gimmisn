@@ -13,11 +13,20 @@ filters:
     # 27: teljesen be van nőve, még az sem látszik, hogy épület van-e a telken.
     # 88: nem találtam meg, nincs kitáblázva. Talán a 89 mellett lenne?
     interpolation: 'all'
+  Bagolyvár utca:
+    # 37: nincs ilyen, a 35 után a 39 következik.
+    invalid: ['37']
+  Bánk bán utca:
+    # 802/0: ez helyrajzi szám, nem házszám.
+    invalid: ['802/0']
   Berzsenyi Dániel utca:
     # 226/3: a 67 az utolsó házszám.
     # 226/5: a 67 az utolsó házszám.
     interpolation: 'all'
     invalid: ['226/3', '226/5']
+  Bocskai István utca:
+    # 7: sima 7 nincs, csak 7/A, 7/B.
+    invalid: ['7']
   Cinka Panna utca:
     interpolation: 'all'
   Fő utca:
@@ -54,6 +63,13 @@ filters:
     # 39/1: a 9 az utolsó házszám. A 39/1 a szabadstrand helyrajzi száma.
     interpolation: 'all'
     invalid: ['39/1']
+  Vörösmarty utca:
+    # 37/A: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 62.
+    # 39/A: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 64.
+    # 47/A: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 74.
+    # 59/B: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 86.
+    # 73/A: régi házszám, címrendezés után már Bajcsy-Zsilinszky utca 100.
+    invalid: ['37a', '39a', '47a', '59b', '73a']
 street-filters:
   # Nem igazi utcák
   - Szedres
