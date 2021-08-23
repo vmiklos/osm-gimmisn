@@ -119,6 +119,10 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
+  Vörösmarty utca:
+    # 1 db ff Vörösmarty utca, 1 db ff Vörösmarty Mihály utca, 1 db kék-sárga Vörösmarty utca
+    # 6 után 10 jön
+    invalid: ['8']
   Vöröshegyi utca:
     # 1 fa táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
     # külső részen alig vannak táblázva
