@@ -35,39 +35,7 @@ import overpass_query
 import rust
 
 
-class HouseNumberRange:
-    """
-    A house number range is a string that may expand to one or more HouseNumber instances in the
-    future. It can also have a comment.
-    """
-    def __init__(self, number: str, comment: str) -> None:
-        self.__number = number
-        self.__comment = comment
-
-    def get_number(self) -> str:
-        """Returns the house number (range) string."""
-        return self.__number
-
-    def get_comment(self) -> str:
-        """Returns the comment."""
-        return self.__comment
-
-    def __repr__(self) -> str:
-        return "HouseNumberRange(number=%s, comment=%s)" % (self.__number, self.__comment)
-
-    def __eq__(self, other: object) -> bool:
-        """Comment is explicitly non-interesting."""
-        other_house_number_range = cast(HouseNumberRange, other)
-        return self.__number == other_house_number_range.get_number()
-
-    def __lt__(self, other: object) -> bool:
-        """Comment is explicitly non-interesting."""
-        other_house_number_range = cast(HouseNumberRange, other)
-        return self.__number < other_house_number_range.get_number()
-
-    def __hash__(self) -> int:
-        """Comment is explicitly non-interesting."""
-        return hash(self.__number)
+HouseNumberRange = rust.PyHouseNumberRange
 
 
 # Two strings: first is a range, second is an optional comment.
