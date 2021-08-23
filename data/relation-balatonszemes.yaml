@@ -18,6 +18,8 @@ filters:
     # 226/5: a 67 az utolsó házszám.
     interpolation: 'all'
     invalid: ['226/3', '226/5']
+  Cinka Panna utca:
+    interpolation: 'all'
   Fő utca:
     # 39: nincs ilyen, a 37 után a 41 következik, össze van vonva a 41-gyel.
     # 45: nincs ilyen, a 43 után a 49 következik.
@@ -77,11 +79,10 @@ refstreets:
   'Árnyas fasor': 'Árnyas utca'
   'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
   'Bem József utca': 'Bem utca'
-  'Bocskai utca': 'Bocskay utca'
+  'Bocskai István utca': 'Bocskay utca'
   'Dankó Pista utca': 'Dankó utca'
   'Eötvös Károly utca': 'Eötvös utca'
   'Fő utca': 'Fő út'
-  'Gárdonyi Géza út': 'Gárdonyi Géza utca'
   'Hét vezér utca': 'Hétvezér utca'
   'Kölcsey Ferenc utca': 'Kölcsey utca'
   'Madách Imre utca': 'Madách utca'
