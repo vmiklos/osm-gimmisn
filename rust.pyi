@@ -252,4 +252,35 @@ class PyLetterSuffixStyle:
     def lower() -> int:
         ...
 
+class PyHouseNumberRange:
+    """
+    A house number range is a string that may expand to one or more HouseNumber instances in the
+    future. It can also have a comment.
+    """
+    def __init__(self, number: str, comment: str) -> None:
+        ...
+
+    def get_number(self) -> str:
+        """Returns the house number (range) string."""
+        ...
+
+    def get_comment(self) -> str:
+        """Returns the comment."""
+        ...
+
+    def __repr__(self) -> str:
+        ...
+
+    def __eq__(self, other: object) -> bool:
+        """Comment is explicitly non-interesting."""
+        ...
+
+    def __lt__(self, other: object) -> bool:
+        """Comment is explicitly non-interesting."""
+        ...
+
+    def __hash__(self) -> int:
+        """Comment is explicitly non-interesting."""
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
