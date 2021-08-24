@@ -283,4 +283,71 @@ class PyHouseNumberRange:
         """Comment is explicitly non-interesting."""
         ...
 
+class PyStreet:
+    """
+    A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
+    name differs.
+    """
+    def __init__(
+        self, osm_name: str, ref_name: str, show_ref_street: bool, osm_id: int
+    ) -> None:
+        ...
+
+    @staticmethod
+    def from_string(osm_name: str) -> "PyStreet":
+        """Constructor that only requires an OSM name."""
+        ...
+
+    def get_diff_key(self) -> str:
+        """Gets a string that is used while diffing."""
+        ...
+
+    def get_osm_name(self) -> str:
+        """Returns the OSM name."""
+        ...
+
+    def get_ref_name(self) -> str:
+        """Returns the reference name."""
+        ...
+
+    def get_osm_id(self) -> int:
+        """Returns the OSM (way) id."""
+        ...
+
+    def set_osm_type(self, osm_type: str) -> None:
+        """Sets the OSM type, e.g. 'way'."""
+        ...
+
+    def get_osm_type(self) -> str:
+        """Returns the OSM type, e.g. 'way'."""
+        ...
+
+    def set_source(self, source: str) -> None:
+        """Sets the source of this street."""
+        ...
+
+    def get_source(self) -> str:
+        """Gets the source of this street."""
+        ...
+
+    def to_html(self) -> PyDoc:
+        """Writes the street as a HTML string."""
+        ...
+
+    def __repr__(self) -> str:
+        ...
+
+    def __eq__(self, other: object) -> bool:
+        """OSM id is explicitly non-interesting."""
+        ...
+
+    def __lt__(self, other: object) -> bool:
+        """OSM id is explicitly non-interesting."""
+        ...
+
+    def __hash__(self) -> int:
+        """OSM id is explicitly not interesting."""
+        ...
+
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

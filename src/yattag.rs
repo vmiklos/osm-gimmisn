@@ -48,7 +48,7 @@ impl Doc {
     }
 
     /// Starts a new tag and closes it as well.
-    fn stag(&self, name: &str, attrs: Vec<(&str, &str)>) {
+    pub fn stag(&self, name: &str, attrs: Vec<(&str, &str)>) {
         self.append_value(format!("<{}", name));
         for attr in attrs {
             let key = attr.0;
@@ -59,15 +59,21 @@ impl Doc {
     }
 
     /// Appends unescaped content to the document.
-    fn text(&self, text: &str) {
+    pub fn text(&self, text: &str) {
         let encoded = html_escape::encode_safe(text).to_string();
         self.append_value(encoded);
     }
 }
 
+impl Default for Doc {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[pyclass]
 pub struct PyDoc {
-    doc: Doc,
+    pub doc: Doc,
 }
 
 #[pymethods]
