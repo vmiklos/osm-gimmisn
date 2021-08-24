@@ -56,6 +56,9 @@ filters:
     show-refstreet: false
   Madách Imre utca:
     show-refstreet: false
+  Magyar utca:
+    # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
+    invalid: ['25', '45', '55', '75']
   Malomvölgyi utca:
     # 7: 5 után 9. 7 a kereszteződésre esik
     invalid: ['7']
