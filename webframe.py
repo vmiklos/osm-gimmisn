@@ -380,8 +380,8 @@ def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) 
             city = cells[0]
             count = int(cells[1])
             osm_citycounts[city] = count
-    ref_cities = [util.Street(i) for i in ref_citycounts]
-    osm_cities = [util.Street(i) for i in osm_citycounts]
+    ref_cities = [util.Street.from_string(i) for i in ref_citycounts]
+    osm_cities = [util.Street.from_string(i) for i in osm_citycounts]
     cities = [i.get_osm_name() for i in util.get_in_both(ref_cities, osm_cities)]
     cities.sort(key=util.get_lexical_sort_key())
     table = []

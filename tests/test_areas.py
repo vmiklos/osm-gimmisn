@@ -589,7 +589,7 @@ class TestRelationGetAdditionalStreets(unittest.TestCase):
         relation = relations.get_relation(relation_name)
         only_in_osm = relation.get_additional_streets()
 
-        self.assertEqual(only_in_osm, [util.Street('Only In OSM utca')])
+        self.assertEqual(only_in_osm, [util.Street.from_string('Only In OSM utca')])
 
         # These is filtered out, even if it's OSM-only.
         osm_street_blacklist = relations.get_relation("gazdagret").get_config().get_osm_street_filters()

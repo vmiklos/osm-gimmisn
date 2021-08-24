@@ -291,7 +291,7 @@ class RelationBase:
                     first = False
                     continue
                 # 0: @id, 1: name, 6: @type
-                street = util.Street(osm_id=int(row[0]), osm_name=row[1])
+                street = util.Street(osm_name=row[1], ref_name="", show_ref_street=True, osm_id=int(row[0]))
                 if len(row) > 6:
                     street.set_osm_type(row[6])
                 street.set_source(tr("street"))
@@ -485,7 +485,7 @@ class RelationBase:
             only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
             in_both = util.get_in_both(ref_house_numbers, osm_house_numbers)
             ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
-            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name))
+            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name), osm_id=0)
             if only_in_reference:
                 ongoing_streets.append((street, only_in_reference))
             if in_both:
@@ -497,9 +497,9 @@ class RelationBase:
 
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
-        reference_streets = [util.Street(i) for i in self.get_ref_streets()]
+        reference_streets = [util.Street.from_string(i) for i in self.get_ref_streets()]
         street_blacklist = self.get_config().get_street_filters()
-        osm_streets = [util.Street(get_ref_street_from_osm_street(self.get_config(), street.get_osm_name()))
+        osm_streets = [util.Street.from_string(get_ref_street_from_osm_street(self.get_config(), street.get_osm_name()))
                        for street in self.get_osm_streets()]
 
         only_in_reference = util.get_only_in_first(reference_streets, osm_streets)
@@ -511,7 +511,7 @@ class RelationBase:
     def get_additional_streets(self, sorted_result: bool = True) -> List[util.Street]:
         """Tries to find additional streets in a relation."""
         ref_streets = [get_osm_street_from_ref_street(self.get_config(), street) for street in self.get_ref_streets()]
-        ref_street_objs = [util.Street(i) for i in ref_streets]
+        ref_street_objs = [util.Street.from_string(i) for i in ref_streets]
         osm_streets = self.get_osm_streets(sorted_result)
         osm_street_blacklist = self.get_config().get_osm_street_filters()
 
@@ -701,7 +701,7 @@ class Relation(RelationBase):
 
             only_in_osm = util.get_only_in_first(osm_house_numbers, ref_house_numbers)
             ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
-            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name))
+            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name), osm_id=0)
             if only_in_osm:
                 additional.append((street, only_in_osm))
         # Sort by length.

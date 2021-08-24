@@ -36,86 +36,11 @@ import rust
 
 
 HouseNumberRange = rust.PyHouseNumberRange
+Street = rust.PyStreet
 
 
 # Two strings: first is a range, second is an optional comment.
 HouseNumberWithComment = List[str]
-
-
-class Street:
-    """
-    A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
-    name differs.
-    """
-    def __init__(
-        self, osm_name: str, ref_name: str = "", show_ref_street: bool = True, osm_id: int = 0
-    ) -> None:
-        self.__osm_name = osm_name
-        self.__ref_name = ref_name
-        self.__show_ref_street = show_ref_street
-        self.__osm_id = osm_id
-        self.__osm_type = "way"
-        self.__source = ""
-
-    def get_diff_key(self) -> str:
-        """Gets a string that is used while diffing."""
-        return re.sub(r"\*$", "", self.__osm_name)
-
-    def get_osm_name(self) -> str:
-        """Returns the OSM name."""
-        return self.__osm_name
-
-    def get_ref_name(self) -> str:
-        """Returns the reference name."""
-        return self.__ref_name
-
-    def get_osm_id(self) -> int:
-        """Returns the OSM (way) id."""
-        return self.__osm_id
-
-    def set_osm_type(self, osm_type: str) -> None:
-        """Sets the OSM type, e.g. 'way'."""
-        self.__osm_type = osm_type
-
-    def get_osm_type(self) -> str:
-        """Returns the OSM type, e.g. 'way'."""
-        return self.__osm_type
-
-    def set_source(self, source: str) -> None:
-        """Sets the source of this street."""
-        self.__source = source
-
-    def get_source(self) -> str:
-        """Gets the source of this street."""
-        return self.__source
-
-    def to_html(self) -> yattag.Doc:
-        """Writes the street as a HTML string."""
-        doc = yattag.Doc()
-        doc.text(self.__osm_name)
-        if self.__osm_name != self.__ref_name and self.__show_ref_street:
-            doc.stag("br", [])
-            doc.text("(")
-            doc.text(self.__ref_name)
-            doc.text(")")
-        return doc
-
-    def __repr__(self) -> str:
-        return "Street(osm_name=%s, ref_name=%s)" % (self.__osm_name, self.__ref_name)
-
-    def __eq__(self, other: object) -> bool:
-        """OSM id is explicitly non-interesting."""
-        other_street = cast(Street, other)
-        return self.__osm_name == other_street.get_osm_name()
-
-    def __lt__(self, other: object) -> bool:
-        """OSM id is explicitly non-interesting."""
-        other_street = cast(Street, other)
-        return self.__osm_name < other_street.get_osm_name()
-
-    def __hash__(self) -> int:
-        """OSM id is explicitly not interesting."""
-        return hash(self.__osm_name)
 
 
 class HouseNumber:
@@ -650,7 +575,7 @@ def get_street_from_housenumber(sock: CsvIO) -> List[Street]:
             osm_id = int(row[0])
         except ValueError:
             osm_id = 0
-        street = Street(osm_id=osm_id, osm_name=street_name)
+        street = Street(osm_name=street_name, ref_name="", show_ref_street=True, osm_id=osm_id)
         street.set_osm_type(osm_type)
         street.set_source(tr("housenumber"))
         ret.append(street)

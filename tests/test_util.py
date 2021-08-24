@@ -26,7 +26,7 @@ def hnr_list(ranges: List[str]) -> List[util.HouseNumberRange]:
 
 def street_list(streets: List[str]) -> List[util.Street]:
     """Convers a string list into a street list."""
-    return [util.Street(i) for i in streets]
+    return [util.Street.from_string(i) for i in streets]
 
 
 class TestFormatEvenOdd(unittest.TestCase):
@@ -430,7 +430,7 @@ class TestStreet(unittest.TestCase):
     """Tests Street."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        street = util.Street("foo", "bar")
+        street = util.Street("foo", "bar", show_ref_street=True, osm_id=0)
         self.assertEqual(street.get_ref_name(), "bar")
         self.assertEqual(street.to_html().get_value(), "foo<br />(bar)")
 
@@ -458,7 +458,7 @@ class TestGetStreetFromHousenumber(unittest.TestCase):
         with util.CsvIO(open("tests/workdir/street-housenumbers-gh964.csv", "rb")) as stream:
             actual = util.get_street_from_housenumber(stream)
         # This is picked up from addr:place because addr:street was empty.
-        self.assertEqual(actual, [util.Street(osm_name="Tolvajos tanya")])
+        self.assertEqual(actual, [util.Street.from_string(osm_name="Tolvajos tanya")])
 
 
 class TestInvalidFilterKeysToHtml(unittest.TestCase):
