@@ -97,12 +97,15 @@ refstreets:
   'Bem József utca': 'Bem utca'
   'Bocskai István utca': 'Bocskay utca'
   'Dankó Pista utca': 'Dankó utca'
+  'Dózsa György utca': 'Dózsa György út'
   'Eötvös Károly utca': 'Eötvös utca'
   'Fő utca': 'Fő út'
   'Hét vezér utca': 'Hétvezér utca'
   'Kölcsey Ferenc utca': 'Kölcsey utca'
   'Madách Imre utca': 'Madách utca'
   'Munkácsy Mihály utca': 'Munkácsy utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Szemesi út': 'Szemesi utca'
 source: survey
 housenumber-letters: true
 inactive: true
