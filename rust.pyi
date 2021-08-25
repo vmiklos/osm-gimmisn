@@ -349,5 +349,62 @@ class PyStreet:
         """OSM id is explicitly not interesting."""
         ...
 
+class PyHouseNumber:
+    """
+    A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
+    can generate 3 house numbers, all of them with the same range.
+    The comment is similar to source, it's ignored during __eq__() and __hash__().
+    """
+    def __init__(self, number: str, source: str, comment: str) -> None:
+        ...
+
+    def get_number(self) -> str:
+        """Returns the house number string."""
+        ...
+
+    def get_diff_key(self) -> str:
+        """Gets a string that is used while diffing."""
+        ...
+
+    def get_source(self) -> str:
+        """Returns the source range."""
+        ...
+
+    def get_comment(self) -> str:
+        """Returns the comment."""
+        ...
+
+    def __repr__(self) -> str:
+        ...
+
+    def __eq__(self, other: object) -> bool:
+        """Source is explicitly non-interesting."""
+        ...
+
+    def __hash__(self) -> int:
+        """Source is explicitly non-interesting."""
+        ...
+
+    @staticmethod
+    def is_invalid(house_number: str, invalids: List[str]) -> bool:
+        """Decides if house_number is invalid according to invalids."""
+        ...
+
+    @staticmethod
+    def has_letter_suffix(house_number: str, source_suffix: str) -> bool:
+        """
+        Determines if the input is a house number, allowing letter suffixes. This means not only
+        '42' is allowed, but also '42a', '42/a' and '42 a'. Everything else is still considered just
+        junk after the numbers.
+        """
+        ...
+
+    @staticmethod
+    def normalize_letter_suffix(house_number: str, source_suffix: str, style: int) -> str:
+        """
+        Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
+        """
+        ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

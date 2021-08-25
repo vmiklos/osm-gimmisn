@@ -300,13 +300,13 @@ class TestHouseNumber(unittest.TestCase):
     """Tests the HouseNumber class."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        house_number = util.HouseNumber("1", "1-2")
+        house_number = util.HouseNumber("1", "1-2", "")
         self.assertEqual(house_number.get_number(), "1")
         self.assertEqual(house_number.get_source(), "1-2")
-        self.assertTrue(util.HouseNumber("1", "1-2") != util.HouseNumber("2", "1-2"))
-        self.assertEqual(len(set([util.HouseNumber("1", "1-2"),
-                                  util.HouseNumber("2", "1-2"),
-                                  util.HouseNumber("2", "1-2")])), 2)
+        self.assertTrue(util.HouseNumber("1", "1-2", "") != util.HouseNumber("2", "1-2", ""))
+        self.assertEqual(len(set([util.HouseNumber("1", "1-2", ""),
+                                  util.HouseNumber("2", "1-2", ""),
+                                  util.HouseNumber("2", "1-2", "")])), 2)
 
     def test_is_invalid(self) -> None:
         """Tests is_invalid()."""
@@ -346,14 +346,14 @@ class TestGetHousenumberRanges(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         house_numbers = [
-            util.HouseNumber("25", "25"),
-            util.HouseNumber("27", "27-37"),
-            util.HouseNumber("29", "27-37"),
-            util.HouseNumber("31", "27-37"),
-            util.HouseNumber("33", "27-37"),
-            util.HouseNumber("35", "27-37"),
-            util.HouseNumber("37", "27-37"),
-            util.HouseNumber("31*", "31*"),
+            util.HouseNumber("25", "25", ""),
+            util.HouseNumber("27", "27-37", ""),
+            util.HouseNumber("29", "27-37", ""),
+            util.HouseNumber("31", "27-37", ""),
+            util.HouseNumber("33", "27-37", ""),
+            util.HouseNumber("35", "27-37", ""),
+            util.HouseNumber("37", "27-37", ""),
+            util.HouseNumber("31*", "31*", ""),
         ]
         ranges = util.get_housenumber_ranges(house_numbers)
         range_names = [i.get_number() for i in ranges]
@@ -373,23 +373,23 @@ class TestSortNumerically(unittest.TestCase):
     """Tests sort_numerically()."""
     def test_numbers(self) -> None:
         """Tests numbers."""
-        ascending = util.sort_numerically([util.HouseNumber('1', ''),
-                                           util.HouseNumber('20', ''),
-                                           util.HouseNumber('3', '')])
+        ascending = util.sort_numerically([util.HouseNumber('1', '', ''),
+                                           util.HouseNumber('20', '', ''),
+                                           util.HouseNumber('3', '', '')])
         self.assertEqual([i.get_number() for i in ascending], ['1', '3', '20'])
 
     def test_alpha_suffix(self) -> None:
         """Tests numbers with suffixes."""
-        ascending = util.sort_numerically([util.HouseNumber('1a', ''),
-                                           util.HouseNumber('20a', ''),
-                                           util.HouseNumber('3a', '')])
+        ascending = util.sort_numerically([util.HouseNumber('1a', '', ''),
+                                           util.HouseNumber('20a', '', ''),
+                                           util.HouseNumber('3a', '', '')])
         self.assertEqual([i.get_number() for i in ascending], ['1a', '3a', '20a'])
 
     def test_alpha(self) -> None:
         """Tests just suffixes."""
-        ascending = util.sort_numerically([util.HouseNumber('a', ''),
-                                           util.HouseNumber('c', ''),
-                                           util.HouseNumber('b', '')])
+        ascending = util.sort_numerically([util.HouseNumber('a', '', ''),
+                                           util.HouseNumber('c', '', ''),
+                                           util.HouseNumber('b', '', '')])
         self.assertEqual([i.get_number() for i in ascending], ['a', 'b', 'c'])
 
 
