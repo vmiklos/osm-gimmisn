@@ -66,6 +66,8 @@ filters:
     # 32-48 között teljes káosz: 28 után 34,36,38, majd megint 36, utána nincs kírva 48-ig semmi 2021-08. TODO
     # 30 helyén 34, 32 helyén 36, 44-46 helyén 48a, 48b
     invalid: ['30', '32', '44', '46', '59', '71', '74']
+  Csaba köz:
+    invalid: ['1']
   Duna utca:
     # 2 = Balatonfűzfői utca 200
     invalid: ['2']
@@ -88,7 +90,8 @@ filters:
     invalid: ['21', '23']
   Laposa Dániel utca:
     # 3: nincs, 1 után 5
-    invalid: ['3']
+    # 4 és 6: Ungár József utca 4, 6
+    invalid: ['3', '4', '6']
   Madách Imre tér:
     show-refstreet: false
   Madách Imre utca:
