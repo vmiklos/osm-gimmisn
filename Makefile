@@ -105,11 +105,11 @@ clean:
 
 check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint
 
-rust.so: target/debug/librust.so
-	ln -sf target/debug/librust.so rust.so
+rust.so: target/release/librust.so
+	ln -sf target/release/librust.so rust.so
 
-target/debug/librust.so: Cargo.toml $(RS_OBJECTS)
-	cargo build
+target/release/librust.so: Cargo.toml $(RS_OBJECTS)
+	cargo build --release
 
 config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@

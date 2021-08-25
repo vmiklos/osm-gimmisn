@@ -18,7 +18,6 @@ from typing import Set
 from typing import Tuple
 from typing import TypeVar
 from typing import Union
-from typing import cast
 import codecs
 import csv
 import locale
@@ -37,111 +36,11 @@ import rust
 
 HouseNumberRange = rust.PyHouseNumberRange
 Street = rust.PyStreet
+HouseNumber = rust.PyHouseNumber
 
 
 # Two strings: first is a range, second is an optional comment.
 HouseNumberWithComment = List[str]
-
-
-class HouseNumber:
-    """
-    A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
-    can generate 3 house numbers, all of them with the same range.
-    The comment is similar to source, it's ignored during __eq__() and __hash__().
-    """
-    def __init__(self, number: str, source: str, comment: str = "") -> None:
-        self.__number = number
-        self.__source = source
-        self.__comment = comment
-
-    def get_number(self) -> str:
-        """Returns the house number string."""
-        return self.__number
-
-    def get_diff_key(self) -> str:
-        """Gets a string that is used while diffing."""
-        return re.sub(r"\*$", "", self.__number)
-
-    def get_source(self) -> str:
-        """Returns the source range."""
-        return self.__source
-
-    def get_comment(self) -> str:
-        """Returns the comment."""
-        return self.__comment
-
-    def __repr__(self) -> str:
-        return "HouseNumber(number=%s, source=%s)" % (self.__number, self.__source)
-
-    def __eq__(self, other: object) -> bool:
-        """Source is explicitly non-interesting."""
-        other_house_number = cast(HouseNumber, other)
-        return self.__number == other_house_number.get_number()
-
-    def __hash__(self) -> int:
-        """Source is explicitly non-interesting."""
-        return hash(self.__number)
-
-    @staticmethod
-    def is_invalid(house_number: str, invalids: List[str]) -> bool:
-        """Decides if house_number is invalid according to invalids."""
-        if house_number in invalids:
-            return True
-
-        number = ""
-        match = re.match(r"([0-9]+).*", house_number)
-        if match:
-            number = match.group(1)
-        suffix = ""
-        # Check for letter suffix.
-        match = re.match(r".*([A-Za-z]+)\*?", house_number)
-        if match:
-            suffix = match.group(1).lower()
-        else:
-            # If not, then try digit suggfix, but then only '/' is OK as a separator.
-            match = re.match(r"^.*/([0-9])\*?$", house_number)
-            if match:
-                suffix = "/" + match.group(1)
-
-        house_number = number + suffix
-        return house_number in invalids
-
-    @staticmethod
-    def has_letter_suffix(house_number: str, source_suffix: str) -> bool:
-        """
-        Determines if the input is a house number, allowing letter suffixes. This means not only
-        '42' is allowed, but also '42a', '42/a' and '42 a'. Everything else is still considered just
-        junk after the numbers.
-        """
-        if source_suffix:
-            house_number = house_number[0:-len(source_suffix)]
-        # Check for letter suffix.
-        letter_match = bool(re.match(r"^([0-9]+)( |/)?[A-Za-z]$", house_number))
-        if letter_match:
-            return True
-        # If not, then try digit suggfix, but then only '/' is OK as a separator.
-        return bool(re.match(r"^([0-9]+)/[0-9]$", house_number))
-
-    @staticmethod
-    def normalize_letter_suffix(house_number: str, source_suffix: str, style: int) -> str:
-        """
-        Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
-        """
-        if source_suffix:
-            house_number = house_number[0:-len(source_suffix)]
-        # Check for letter suffix.
-        match = re.match(r"^([0-9]+)( |/)?([A-Za-z])$", house_number)
-        digit_match = False
-        if not match:
-            # If not, then try digit suggfix, but then only '/' is OK as a separator.
-            match = re.match(r"^([0-9]+)(/)([0-9])$", house_number)
-            digit_match = True
-            if not match:
-                raise ValueError
-        groups = match.groups()
-        if style == rust.PyLetterSuffixStyle.upper() or digit_match:
-            return groups[0] + "/" + groups[2].upper() + source_suffix
-        return groups[0] + groups[2].lower() + source_suffix
 
 
 HouseNumbers = List[HouseNumber]
