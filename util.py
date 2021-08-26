@@ -7,19 +7,15 @@
 """The util module contains functionality shared between other modules."""
 
 from typing import Any
-from typing import BinaryIO
 from typing import Callable
 from typing import Dict
 from typing import Iterable
-from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import Set
 from typing import Tuple
 from typing import TypeVar
 from typing import Union
-import codecs
-import csv
 import locale
 import os
 import json
@@ -37,6 +33,7 @@ import rust
 HouseNumberRange = rust.PyHouseNumberRange
 Street = rust.PyStreet
 HouseNumber = rust.PyHouseNumber
+CsvIO = rust.PyCsvRead
 
 
 # Two strings: first is a range, second is an optional comment.
@@ -46,24 +43,6 @@ HouseNumberWithComment = List[str]
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-class CsvIO:
-    """Like BinaryIO, but for CSV reading."""
-    def __init__(self, stream: BinaryIO) -> None:
-        self.stream = stream
-        self.reader = csv.reader(codecs.iterdecode(stream, "utf-8"), delimiter='\t', quotechar='"')
-
-    def __enter__(self) -> 'CsvIO':
-        return self
-
-    def __exit__(self, _exc_type: Any, _exc_value: Any, _exc_traceback: Any) -> bool:
-        self.stream.close()
-        return True
-
-    def get_rows(self) -> Iterator[List[str]]:
-        """Gets access to the rows of the CSV."""
-        return self.reader
 
 
 def split_house_number_range(house_number: HouseNumberRange) -> Tuple[int, str]:
@@ -409,8 +388,6 @@ def tsv_to_list(stream: CsvIO) -> List[List[yattag.Doc]]:
     first = True
     columns: Dict[str, int] = {}
     for row in stream.get_rows():
-        if not row:
-            continue
         if first:
             first = False
             for index, label in enumerate(row):
@@ -455,8 +432,6 @@ def get_street_from_housenumber(sock: CsvIO) -> List[Street]:
             first = False
             for index, label in enumerate(row):
                 columns[label] = index
-            continue
-        if not row:
             continue
 
         has_housenumber = row[columns["addr:housenumber"]]

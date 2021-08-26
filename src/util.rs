@@ -13,11 +13,15 @@
 use anyhow::anyhow;
 use pyo3::class::basic::CompareOp;
 use pyo3::class::PyObjectProtocol;
+use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
+use pyo3::types::PyBytes;
+use pyo3::types::PyType;
 use std::collections::hash_map::DefaultHasher;
 use std::convert::TryFrom;
 use std::hash::Hash;
 use std::hash::Hasher;
+use std::io::Read;
 
 thread_local! {
     static NUMBER_PER_LETTER: regex::Regex = regex::Regex::new(r"^([0-9]+)( |/)?[A-Za-z]$").unwrap();
@@ -593,10 +597,94 @@ impl<'p> PyObjectProtocol<'p> for PyHouseNumber {
     }
 }
 
+/// Like Read, but for CSV reading.
+struct CsvRead<'a> {
+    reader: csv::Reader<&'a mut dyn Read>,
+}
+
+impl<'a> CsvRead<'a> {
+    fn new(read: &'a mut dyn Read) -> Self {
+        let reader = csv::ReaderBuilder::new()
+            .has_headers(false)
+            .delimiter(b'\t')
+            .double_quote(true)
+            .from_reader(read);
+        CsvRead { reader }
+    }
+
+    /// Gets access to the rows of the CSV.
+    fn records(&mut self) -> csv::StringRecordsIter<'_, &'a mut dyn Read> {
+        self.reader.records()
+    }
+}
+
+#[pyclass]
+struct PyCsvRead {
+    buf: Vec<u8>,
+}
+
+#[pymethods]
+impl PyCsvRead {
+    #[new]
+    fn new(py: Python<'_>, stream: PyObject) -> PyResult<Self> {
+        let any = match stream.call_method0(py, "read") {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(err.to_string()));
+            }
+        };
+        stream.call_method0(py, "close").unwrap();
+        let bytes = match any.as_ref(py).downcast::<PyBytes>() {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(err.to_string()));
+            }
+        };
+        let buf: Vec<u8> = bytes.extract().unwrap();
+        Ok(PyCsvRead { buf })
+    }
+
+    fn get_rows(&mut self) -> PyResult<Vec<Vec<String>>> {
+        let mut rows: Vec<Vec<String>> = Vec::new();
+        let mut cursor = std::io::Cursor::new(&mut self.buf);
+        let mut csv_read = CsvRead::new(&mut cursor);
+        for result in csv_read.records() {
+            let record: csv::StringRecord = match result {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(pyo3::exceptions::PyOSError::new_err(err.to_string()));
+                }
+            };
+            let mut row: Vec<String> = Vec::new();
+            for col in record.iter() {
+                row.push(col.into());
+            }
+            rows.push(row);
+        }
+        Ok(rows)
+    }
+
+    fn __enter__(&self) -> Self {
+        let buf = self.buf.clone();
+        PyCsvRead { buf }
+    }
+
+    fn __exit__(
+        &mut self,
+        ty: Option<&PyType>,
+        _value: Option<&PyAny>,
+        _traceback: Option<&PyAny>,
+    ) -> bool {
+        let gil = Python::acquire_gil();
+        ty == Some(gil.python().get_type::<PyValueError>())
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
     module.add_class::<PyLetterSuffixStyle>()?;
     module.add_class::<PyStreet>()?;
+    module.add_class::<PyCsvRead>()?;
     Ok(())
 }

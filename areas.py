@@ -324,8 +324,6 @@ class RelationBase:
                         for index, label in enumerate(row):
                             columns[label] = index
                         continue
-                    if not row:
-                        continue
                     street = row[columns["addr:street"]]
                     if not street and "addr:place" in columns:
                         street = row[columns["addr:place"]]
