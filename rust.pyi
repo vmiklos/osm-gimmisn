@@ -406,5 +406,19 @@ class PyHouseNumber:
         """
         ...
 
+class PyCsvRead:
+    def __init__(self, stream: BinaryIO) -> None:
+        ...
+
+    def __enter__(self) -> 'PyCsvRead':
+        ...
+
+    def __exit__(self, _exc_type: Any, _exc_value: Any, _exc_traceback: Any) -> bool:
+        ...
+
+    def get_rows(self) -> List[List[str]]:
+        """Gets access to the rows of the CSV."""
+        ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
