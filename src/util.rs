@@ -75,7 +75,7 @@ impl PyLetterSuffixStyle {
 
 /// A house number range is a string that may expand to one or more HouseNumber instances in the
 /// future. It can also have a comment.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct HouseNumberRange {
     number: String,
     comment: String,
@@ -716,6 +716,142 @@ pub fn py_split_house_number_range(
     ))
 }
 
+/// Separates even and odd numbers.
+fn separate_even_odd(
+    only_in_ref: &[HouseNumberRange],
+    even: &mut Vec<HouseNumberRange>,
+    odd: &mut Vec<HouseNumberRange>,
+) {
+    let mut even_unsorted: Vec<HouseNumberRange> = only_in_ref
+        .iter()
+        .filter(|i| split_house_number(i.get_number()).0 % 2 == 0)
+        .cloned()
+        .collect();
+    even_unsorted.sort_by(|a, b| {
+        split_house_number_range(a)
+            .0
+            .cmp(&split_house_number_range(b).0)
+    });
+    *even = even_unsorted;
+
+    let mut odd_unsorted: Vec<HouseNumberRange> = only_in_ref
+        .iter()
+        .filter(|i| split_house_number(i.get_number()).0 % 2 == 1)
+        .cloned()
+        .collect();
+    odd_unsorted.sort_by(|a, b| {
+        split_house_number_range(a)
+            .0
+            .cmp(&split_house_number_range(b).0)
+    });
+    *odd = odd_unsorted;
+}
+
+/// Formats even and odd numbers.
+fn format_even_odd(only_in_ref: &[HouseNumberRange]) -> Vec<String> {
+    let mut even: Vec<HouseNumberRange> = Vec::new();
+    let mut odd: Vec<HouseNumberRange> = Vec::new();
+    separate_even_odd(only_in_ref, &mut even, &mut odd);
+    let even_numbers: Vec<String> = even.iter().map(|i| i.get_number().clone()).collect();
+    let even_string = even_numbers.join(", ");
+    let odd_numbers: Vec<String> = odd.iter().map(|i| i.get_number().clone()).collect();
+    let mut elements: Vec<String> = Vec::new();
+    let odd_string = odd_numbers.join(", ");
+    if !odd_string.is_empty() {
+        elements.push(odd_string);
+    }
+    if !even_string.is_empty() {
+        elements.push(even_string);
+    }
+    elements
+}
+
+#[pyfunction]
+fn py_format_even_odd(py: Python<'_>, items: Vec<PyObject>) -> PyResult<Vec<String>> {
+    // Convert Vec<PyObject> to Vec<HouseNumberRange>.
+    let items: Vec<HouseNumberRange> = items
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyHouseNumberRange> = item.extract(py)?;
+            Ok(item.house_number_range.clone())
+        })
+        .collect::<PyResult<Vec<HouseNumberRange>>>()?;
+
+    Ok(format_even_odd(&items))
+}
+
+/// Formats even and odd numbers, HTML version.
+fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> crate::yattag::Doc {
+    let mut even: Vec<HouseNumberRange> = Vec::new();
+    let mut odd: Vec<HouseNumberRange> = Vec::new();
+    separate_even_odd(only_in_ref, &mut even, &mut odd);
+    let doc = crate::yattag::Doc::new();
+    for (index, elem) in odd.iter().enumerate() {
+        if index > 0 {
+            doc.text(", ");
+        }
+        doc.append_value(color_house_number(elem).get_value());
+    }
+    for (index, elem) in even.iter().enumerate() {
+        if !odd.is_empty() {
+            doc.stag("br", vec![]);
+        }
+        if index > 0 {
+            doc.text(", ");
+        }
+        doc.append_value(color_house_number(elem).get_value());
+    }
+    doc
+}
+
+#[pyfunction]
+fn py_format_even_odd_html(py: Python<'_>, items: Vec<PyObject>) -> PyResult<crate::yattag::PyDoc> {
+    // Convert Vec<PyObject> to Vec<HouseNumberRange>.
+    let items: Vec<HouseNumberRange> = items
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyHouseNumberRange> = item.extract(py)?;
+            Ok(item.house_number_range.clone())
+        })
+        .collect::<PyResult<Vec<HouseNumberRange>>>()?;
+
+    Ok(crate::yattag::PyDoc {
+        doc: format_even_odd_html(&items),
+    })
+}
+
+/// Colors a house number according to its suffix.
+fn color_house_number(house_number: &HouseNumberRange) -> crate::yattag::Doc {
+    let doc = crate::yattag::Doc::new();
+    let number = house_number.get_number();
+    if !number.ends_with('*') {
+        doc.text(number);
+        return doc;
+    }
+    let mut chars = number.chars();
+    chars.next_back();
+    let number = chars.as_str();
+    let title = house_number.get_comment().replace("&#013;", "\n");
+    let _span = doc.tag("span", vec![("style", "color: blue;")]);
+    if !title.is_empty() {
+        {
+            let _abbr = doc.tag("abbr", vec![("title", &title), ("tabindex", "0")]);
+            doc.text(number);
+        }
+    } else {
+        doc.text(number);
+    }
+    doc
+}
+
+#[pyfunction]
+fn py_color_house_number(py: Python<'_>, house_number: PyObject) -> PyResult<crate::yattag::PyDoc> {
+    let house_number: PyRefMut<'_, PyHouseNumberRange> = house_number.extract(py)?;
+    Ok(crate::yattag::PyDoc {
+        doc: color_house_number(&house_number.house_number_range),
+    })
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -724,5 +860,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyCsvRead>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_split_house_number, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_split_house_number_range, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd_html, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_color_house_number, module)?)?;
     Ok(())
 }

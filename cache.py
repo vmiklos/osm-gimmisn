@@ -163,7 +163,7 @@ def get_missing_housenumbers_txt(ctx: context.Context, relation: areas.Relation)
             result_sorted = sorted(range_strings, key=util.split_house_number)
             row = result[0].get_osm_name() + "\t[" + ", ".join(result_sorted) + "]"
         else:
-            elements = util.format_even_odd(range_list, doc=None)
+            elements = util.format_even_odd(range_list)
             row = result[0].get_osm_name() + "\t[" + "], [".join(elements) + "]"
         table.append(row)
     table.sort(key=util.get_lexical_sort_key())

@@ -428,5 +428,18 @@ def py_split_house_number_range(house_number: PyHouseNumberRange) -> Tuple[int, 
     """Wrapper around split_house_number() for HouseNumberRange objects."""
     ...
 
+def py_format_even_odd(only_in_ref: List[PyHouseNumberRange]) -> List[str]:
+    """Formats even and odd numbers."""
+    ...
+
+
+def py_format_even_odd_html(only_in_ref: List[PyHouseNumberRange]) -> PyDoc:
+    """Formats even and odd numbers, HTML version."""
+    ...
+
+
+def py_color_house_number(house_number: PyHouseNumberRange) -> PyDoc:
+    """Colors a house number according to its suffix."""
+    ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

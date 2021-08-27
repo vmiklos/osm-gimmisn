@@ -33,17 +33,17 @@ impl Doc {
     }
 
     /// Gets the escaped value.
-    fn get_value(&self) -> String {
+    pub fn get_value(&self) -> String {
         self.value.lock().unwrap().clone()
     }
 
     /// Appends escaped content to the value.
-    fn append_value(&self, value: String) {
+    pub fn append_value(&self, value: String) {
         self.value.lock().unwrap().push_str(&value)
     }
 
     /// Starts a new tag.
-    fn tag(&self, name: &str, attrs: Vec<(&str, &str)>) -> Tag {
+    pub fn tag(&self, name: &str, attrs: Vec<(&str, &str)>) -> Tag {
         Tag::new(&self.value, name, attrs)
     }
 
@@ -107,7 +107,7 @@ impl PyDoc {
 }
 
 /// Starts a tag, which is closed automatically.
-struct Tag {
+pub struct Tag {
     value: Arc<Mutex<String>>,
     name: String,
 }

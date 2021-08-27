@@ -33,20 +33,19 @@ class TestFormatEvenOdd(unittest.TestCase):
     """Tests format_even_odd()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        self.assertEqual(util.format_even_odd(hnr_list(["1", "2"]), doc=None), ["1", "2"])
+        self.assertEqual(util.format_even_odd(hnr_list(["1", "2"])), ["1", "2"])
 
     def test_only_odd(self) -> None:
         """Tests when we have odd numbers only."""
-        self.assertEqual(util.format_even_odd(hnr_list(["1", "3"]), doc=None), ["1, 3"])
+        self.assertEqual(util.format_even_odd(hnr_list(["1", "3"])), ["1, 3"])
 
     def test_only_even(self) -> None:
         """Tests when we have even numbers only."""
-        self.assertEqual(util.format_even_odd(hnr_list(["2", "4"]), doc=None), ["2, 4"])
+        self.assertEqual(util.format_even_odd(hnr_list(["2", "4"])), ["2, 4"])
 
     def test_html(self) -> None:
         """Tests HTML coloring."""
-        doc = yattag.Doc()
-        util.format_even_odd(hnr_list(["2*", "4"]), doc)
+        doc = util.format_even_odd_html(hnr_list(["2*", "4"]))
         self.assertEqual(doc.get_value(), '<span style="color: blue;">2</span>, 4')
 
     def test_html_comment(self) -> None:
@@ -56,13 +55,12 @@ class TestFormatEvenOdd(unittest.TestCase):
             util.HouseNumberRange("2*", "foo"),
             util.HouseNumberRange("4", ""),
         ]
-        util.format_even_odd(house_numbers, doc)
+        doc = util.format_even_odd_html(house_numbers)
         self.assertEqual(doc.get_value(), '<span style="color: blue;"><abbr title="foo" tabindex="0">2</abbr></span>, 4')
 
     def test_html_multi_odd(self) -> None:
         """Tests HTML output with multiple odd numbers."""
-        doc = yattag.Doc()
-        util.format_even_odd(hnr_list(["1", "3"]), doc)
+        doc = util.format_even_odd_html(hnr_list(["1", "3"]))
         self.assertEqual(doc.get_value(), "1, 3")
 
 
