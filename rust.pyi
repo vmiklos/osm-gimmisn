@@ -424,5 +424,9 @@ def py_split_house_number(house_number: str) -> Tuple[int, str]:
     """Splits house_number into a numerical and a remainder part."""
     ...
 
+def py_split_house_number_range(house_number: PyHouseNumberRange) -> Tuple[int, str]:
+    """Wrapper around split_house_number() for HouseNumberRange objects."""
+    ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -700,6 +700,22 @@ pub fn py_split_house_number(house_number: String) -> PyResult<(i32, String)> {
     Ok(split_house_number(&house_number))
 }
 
+/// Wrapper around split_house_number() for HouseNumberRange objects.
+fn split_house_number_range(house_number: &HouseNumberRange) -> (i32, String) {
+    split_house_number(house_number.get_number())
+}
+
+#[pyfunction]
+pub fn py_split_house_number_range(
+    py: Python<'_>,
+    house_number_range: PyObject,
+) -> PyResult<(i32, String)> {
+    let py_house_number_range: PyRefMut<'_, PyHouseNumberRange> = house_number_range.extract(py)?;
+    Ok(split_house_number_range(
+        &py_house_number_range.house_number_range,
+    ))
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -707,5 +723,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyStreet>()?;
     module.add_class::<PyCsvRead>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_split_house_number, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_split_house_number_range, module)?)?;
     Ok(())
 }

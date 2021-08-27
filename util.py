@@ -35,6 +35,7 @@ Street = rust.PyStreet
 HouseNumber = rust.PyHouseNumber
 CsvIO = rust.PyCsvRead
 split_house_number = rust.py_split_house_number
+split_house_number_range = rust.py_split_house_number_range
 
 # Two strings: first is a range, second is an optional comment.
 HouseNumberWithComment = List[str]
@@ -43,11 +44,6 @@ HouseNumberWithComment = List[str]
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def split_house_number_range(house_number: HouseNumberRange) -> Tuple[int, str]:
-    """Wrapper around split_house_number() for HouseNumberRange objects."""
-    return split_house_number(house_number.get_number())
 
 
 def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.Doc]) -> List[str]:
