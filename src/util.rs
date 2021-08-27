@@ -11,6 +11,7 @@
 //! The util module contains functionality shared between other modules.
 
 use anyhow::anyhow;
+use lazy_static::lazy_static;
 use pyo3::class::basic::CompareOp;
 use pyo3::class::PyObjectProtocol;
 use pyo3::exceptions::PyValueError;
@@ -23,12 +24,15 @@ use std::hash::Hash;
 use std::hash::Hasher;
 use std::io::Read;
 
-thread_local! {
-    static NUMBER_PER_LETTER: regex::Regex = regex::Regex::new(r"^([0-9]+)( |/)?[A-Za-z]$").unwrap();
-    static NUMBER_PER_NUMBER: regex::Regex = regex::Regex::new(r"^([0-9]+)/[0-9]$").unwrap();
-    static NUMBER_WITH_JUNK: regex::Regex = regex::Regex::new(r"([0-9]+).*").unwrap();
-    static LETTER_SUFFIX: regex::Regex = regex::Regex::new(r".*([A-Za-z]+)\*?").unwrap();
-    static NUMBER_SUFFIX: regex::Regex = regex::Regex::new(r"^.*/([0-9])\*?$").unwrap();
+lazy_static! {
+    static ref NUMBER_PER_LETTER: regex::Regex =
+        regex::Regex::new(r"^([0-9]+)( |/)?[A-Za-z]$").unwrap();
+    static ref NUMBER_PER_NUMBER: regex::Regex = regex::Regex::new(r"^([0-9]+)/[0-9]$").unwrap();
+    static ref NUMBER_WITH_JUNK: regex::Regex = regex::Regex::new(r"([0-9]+).*").unwrap();
+    static ref NUMBER_WITH_REMAINDER: regex::Regex =
+        regex::Regex::new(r"^([0-9]*)([^0-9].*|)$").unwrap();
+    static ref LETTER_SUFFIX: regex::Regex = regex::Regex::new(r".*([A-Za-z]+)\*?").unwrap();
+    static ref NUMBER_SUFFIX: regex::Regex = regex::Regex::new(r"^.*/([0-9])\*?$").unwrap();
 }
 
 /// Specifies the style of the output of normalize_letter_suffix().
@@ -399,23 +403,21 @@ impl HouseNumber {
         }
 
         let mut number: String = "".into();
-        if let Some(cap) = NUMBER_WITH_JUNK.with(|it| it.captures_iter(house_number).next()) {
+        if let Some(cap) = NUMBER_WITH_JUNK.captures_iter(house_number).next() {
             number = cap[1].into();
         }
         let mut suffix: String = "".into();
         // Check for letter suffix.
-        if let Some(cap) = LETTER_SUFFIX.with(|it| it.captures_iter(house_number).next()) {
+        if let Some(cap) = LETTER_SUFFIX.captures_iter(house_number).next() {
             suffix = cap[1].to_string().to_lowercase();
         }
         // If not, then try digit suggfix, but then only '/' is OK as a separator.
         if suffix.is_empty() {
-            NUMBER_SUFFIX.with(|it| {
-                let mut iter = it.captures_iter(house_number);
-                if let Some(cap) = iter.next() {
-                    suffix = "/".into();
-                    suffix += &cap[1].to_string();
-                }
-            })
+            let mut iter = NUMBER_SUFFIX.captures_iter(house_number);
+            if let Some(cap) = iter.next() {
+                suffix = "/".into();
+                suffix += &cap[1].to_string();
+            }
         }
 
         let house_number = number + &suffix;
@@ -431,11 +433,11 @@ impl HouseNumber {
             house_number = house_number[..house_number.len() - source_suffix.len()].into();
         }
         // Check for letter suffix.
-        if NUMBER_PER_LETTER.with(|it| it.is_match(&house_number)) {
+        if NUMBER_PER_LETTER.is_match(&house_number) {
             return true;
         }
         // If not, then try digit suggfix, but then only '/' is OK as a separator.
-        NUMBER_PER_NUMBER.with(|it| it.is_match(&house_number))
+        NUMBER_PER_NUMBER.is_match(&house_number)
     }
 
     /// Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
@@ -680,11 +682,30 @@ impl PyCsvRead {
     }
 }
 
+/// Splits house_number into a numerical and a remainder part.
+fn split_house_number(house_number: &str) -> (i32, String) {
+    let mut number = 0;
+    let mut remainder: String = "".into();
+    if let Some(cap) = NUMBER_WITH_REMAINDER.captures_iter(house_number).next() {
+        if let Ok(value) = cap[1].parse::<i32>() {
+            number = value;
+        }
+        remainder = cap[2].to_string();
+    }
+    (number, remainder)
+}
+
+#[pyfunction]
+pub fn py_split_house_number(house_number: String) -> PyResult<(i32, String)> {
+    Ok(split_house_number(&house_number))
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
     module.add_class::<PyLetterSuffixStyle>()?;
     module.add_class::<PyStreet>()?;
     module.add_class::<PyCsvRead>()?;
+    module.add_function(pyo3::wrap_pyfunction!(py_split_house_number, module)?)?;
     Ok(())
 }

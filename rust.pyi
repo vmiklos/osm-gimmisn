@@ -420,5 +420,9 @@ class PyCsvRead:
         """Gets access to the rows of the CSV."""
         ...
 
+def py_split_house_number(house_number: str) -> Tuple[int, str]:
+    """Splits house_number into a numerical and a remainder part."""
+    ...
+
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

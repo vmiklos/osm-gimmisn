@@ -34,7 +34,7 @@ HouseNumberRange = rust.PyHouseNumberRange
 Street = rust.PyStreet
 HouseNumber = rust.PyHouseNumber
 CsvIO = rust.PyCsvRead
-
+split_house_number = rust.py_split_house_number
 
 # Two strings: first is a range, second is an optional comment.
 HouseNumberWithComment = List[str]
@@ -184,18 +184,6 @@ def build_reference_caches(
 ) -> List[Dict[str, Dict[str, Dict[str, List[HouseNumberWithComment]]]]]:
     """Handles a list of references for build_reference_cache()."""
     return [build_reference_cache(reference, refcounty) for reference in references]
-
-
-def split_house_number(house_number: str) -> Tuple[int, str]:
-    """Splits house_number into a numerical and a remainder part."""
-    match = re.search(r"^([0-9]*)([^0-9].*|)$", house_number)
-    assert match
-    number = 0
-    try:
-        number = int(match.group(1))
-    except ValueError:
-        pass
-    return (number, match.group(2))
 
 
 def parse_filters(tokens: List[str]) -> Dict[str, str]:
