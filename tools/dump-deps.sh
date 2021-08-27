@@ -23,9 +23,6 @@ do
             context)
                 continue
             ;;
-            overpass_query)
-                continue
-            ;;
             yattag)
                 continue
             ;;

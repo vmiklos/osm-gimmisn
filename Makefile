@@ -28,7 +28,6 @@ PYTHON_SAFE_OBJECTS = \
 	context.py \
 	cron.py \
 	missing_housenumbers.py \
-	overpass_query.py \
 	parse_access_log.py \
 	stats.py \
 	util.py \

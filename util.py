@@ -26,7 +26,6 @@ import yattag
 
 from rust import py_translate as tr
 import context
-import overpass_query
 import rust
 
 
@@ -49,7 +48,7 @@ NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
 
 
-def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, HouseNumberWithComment]]:
+def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     memory_cache: Dict[str, Dict[str, List[str]]] = {}
 
@@ -175,7 +174,7 @@ def handle_overpass_error(ctx: context.Context, http_error: str) -> yattag.Doc:
     doc = yattag.Doc()
     with doc.tag("div", [("id", "overpass-error")]):
         doc.text(tr("Overpass error: {0}").format(http_error))
-        sleep = overpass_query.overpass_query_need_sleep(ctx)
+        sleep = rust.py_overpass_query_need_sleep(ctx)
         if sleep:
             doc.stag("br", [])
             doc.text(tr("Note: wait for {} seconds").format(sleep))

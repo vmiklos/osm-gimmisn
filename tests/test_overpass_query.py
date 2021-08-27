@@ -11,7 +11,7 @@ import unittest
 
 import test_context
 
-import overpass_query
+import rust
 
 
 class TestOverpassQueryNeedSleeep(unittest.TestCase):
@@ -26,7 +26,7 @@ class TestOverpassQueryNeedSleeep(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        self.assertEqual(overpass_query.overpass_query_need_sleep(ctx), 0)
+        self.assertEqual(rust.py_overpass_query_need_sleep(ctx), 0)
 
     def test_wait(self) -> None:
         """Tests the wait path."""
@@ -38,7 +38,7 @@ class TestOverpassQueryNeedSleeep(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        self.assertEqual(overpass_query.overpass_query_need_sleep(ctx), 12)
+        self.assertEqual(rust.py_overpass_query_need_sleep(ctx), 12)
 
     def test_wait_negative(self) -> None:
         """Tests the wait for negative amount path."""
@@ -50,7 +50,7 @@ class TestOverpassQueryNeedSleeep(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        self.assertEqual(overpass_query.overpass_query_need_sleep(ctx), 1)
+        self.assertEqual(rust.py_overpass_query_need_sleep(ctx), 1)
 
 
 class TestOverpassQuery(unittest.TestCase):
@@ -67,7 +67,7 @@ class TestOverpassQuery(unittest.TestCase):
         ctx.set_network(network)
         with open("tests/network/overpass-happy.expected-data") as stream:
             query = stream.read()
-            buf = overpass_query.overpass_query(ctx, query)
+            buf = rust.py_overpass_query(ctx, query)
             self.assertEqual(buf[:3], "@id")
 
 

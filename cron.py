@@ -27,7 +27,6 @@ import areas
 import cache
 import context
 import rust
-import overpass_query
 import stats
 import util
 
@@ -50,7 +49,7 @@ def error(msg: str, *args: Any, **kwargs: Any) -> None:
 def overpass_sleep(ctx: context.Context) -> None:
     """Sleeps to respect overpass rate limit."""
     while True:
-        sleep = overpass_query.overpass_query_need_sleep(ctx)
+        sleep = rust.py_overpass_query_need_sleep(ctx)
         if not sleep:
             break
         info("overpass_sleep: waiting for %s seconds", sleep)
@@ -77,7 +76,7 @@ def update_osm_streets(ctx: context.Context, relations: areas.Relations, update:
             overpass_sleep(ctx)
             query = relation.get_osm_streets_query()
             try:
-                buf = overpass_query.overpass_query(ctx, query)
+                buf = rust.py_overpass_query(ctx, query)
             except OSError as err:
                 info("update_osm_streets: http error: %s", str(err))
                 continue
@@ -101,7 +100,7 @@ def update_osm_housenumbers(ctx: context.Context, relations: areas.Relations, up
             overpass_sleep(ctx)
             query = relation.get_osm_housenumbers_query()
             try:
-                buf = overpass_query.overpass_query(ctx, query)
+                buf = rust.py_overpass_query(ctx, query)
             except OSError as err:
                 info("update_osm_housenumbers: http error: %s", str(err))
                 continue
@@ -309,7 +308,7 @@ def update_stats(ctx: context.Context, overpass: bool) -> None:
             retry += 1
             overpass_sleep(ctx)
             try:
-                response = overpass_query.overpass_query(ctx, query)
+                response = rust.py_overpass_query(ctx, query)
             except OSError as err:
                 info("update_stats: http error: %s", str(err))
                 continue
