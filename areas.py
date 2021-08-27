@@ -597,7 +597,7 @@ class Relation(RelationBase):
                         doc.text(", ")
                     doc.append_value(util.color_house_number(item).get_value())
             else:
-                util.format_even_odd(number_ranges, doc)
+                doc.append_value(util.format_even_odd_html(number_ranges).get_value())
             row.append(doc)
 
             todo_count += len(number_ranges)

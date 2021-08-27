@@ -252,7 +252,7 @@ def missing_housenumbers_view_chkl(
                 row += result[0].get_osm_name() + " [" + ", ".join(result_sorted) + "]"
                 table.append(row)
             else:
-                elements = util.format_even_odd(range_list, doc=None)
+                elements = util.format_even_odd(range_list)
                 if len(elements) > 1 and len(range_list) > get_chkl_split_limit():
                     for element in elements:
                         row = "[ ] " + result[0].get_osm_name() + " [" + element + "]"

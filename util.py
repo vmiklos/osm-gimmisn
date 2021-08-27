@@ -36,6 +36,9 @@ HouseNumber = rust.PyHouseNumber
 CsvIO = rust.PyCsvRead
 split_house_number = rust.py_split_house_number
 split_house_number_range = rust.py_split_house_number_range
+format_even_odd = rust.py_format_even_odd
+format_even_odd_html = rust.py_format_even_odd_html
+color_house_number = rust.py_color_house_number
 
 # Two strings: first is a range, second is an optional comment.
 HouseNumberWithComment = List[str]
@@ -44,54 +47,6 @@ HouseNumberWithComment = List[str]
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def format_even_odd(only_in_ref: List[HouseNumberRange], doc: Optional[yattag.Doc]) -> List[str]:
-    """Separate even and odd numbers, this helps survey in most cases."""
-    key = split_house_number_range
-    even = sorted([i for i in only_in_ref if int(split_house_number(i.get_number())[0]) % 2 == 0], key=key)
-    odd = sorted([i for i in only_in_ref if int(split_house_number(i.get_number())[0]) % 2 == 1], key=key)
-    if doc:
-        if odd:
-            for index, elem in enumerate(odd):
-                if index:
-                    doc.text(", ")
-                doc.append_value(color_house_number(elem).get_value())
-        if even:
-            if odd:
-                doc.stag("br", [])
-            for index, elem in enumerate(even):
-                if index:
-                    doc.text(", ")
-                doc.append_value(color_house_number(elem).get_value())
-        return []
-
-    even_string = ", ".join([i.get_number() for i in even])
-    odd_string = ", ".join([i.get_number() for i in odd])
-    elements = []
-    if odd_string:
-        elements.append(odd_string)
-    if even_string:
-        elements.append(even_string)
-    return elements
-
-
-def color_house_number(house_number: HouseNumberRange) -> yattag.Doc:
-    """Colors a house number according to its suffix."""
-    doc = yattag.Doc()
-    number = house_number.get_number()
-    if not number.endswith("*"):
-        doc.text(number)
-        return doc
-    number = number[:-1]
-    title = house_number.get_comment().replace("&#013;", "\n")
-    with doc.tag("span", [("style", "color: blue;")]):
-        if title:
-            with doc.tag("abbr", [("title", title), ("tabindex", "0")]):
-                doc.text(number)
-        else:
-            doc.text(number)
-    return doc
 
 
 def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, HouseNumberWithComment]]:
