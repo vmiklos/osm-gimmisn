@@ -17,7 +17,7 @@ from typing import Tuple
 
 import areas
 import context
-import overpass_query
+import rust
 import webframe
 
 if TYPE_CHECKING:
@@ -33,7 +33,7 @@ def streets_update_result_json(ctx: context.Context, relations: areas.Relations,
     query = relation.get_osm_streets_query()
     ret: Dict[str, str] = {}
     try:
-        buf = overpass_query.overpass_query(ctx, query)
+        buf = rust.py_overpass_query(ctx, query)
         relation.get_files().write_osm_streets(ctx, buf)
         ret["error"] = ""
     except OSError as error:
@@ -49,7 +49,7 @@ def street_housenumbers_update_result_json(ctx: context.Context, relations: area
     query = relation.get_osm_housenumbers_query()
     ret: Dict[str, str] = {}
     try:
-        buf = overpass_query.overpass_query(ctx, query)
+        buf = rust.py_overpass_query(ctx, query)
         relation.get_files().write_osm_housenumbers(ctx, buf)
         ret["error"] = ""
     except OSError as error:

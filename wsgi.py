@@ -24,7 +24,6 @@ from rust import py_translate as tr
 import areas
 import cache
 import context
-import overpass_query
 import rust
 import util
 import webframe
@@ -54,7 +53,7 @@ def handle_streets(ctx: context.Context, relations: areas.Relations, request_uri
     elif action == "update-result":
         query = relation.get_osm_streets_query()
         try:
-            buf = overpass_query.overpass_query(ctx, query)
+            buf = rust.py_overpass_query(ctx, query)
         except OSError as error:
             doc.append_value(util.handle_overpass_error(ctx, str(error)).get_value())
         else:
@@ -95,7 +94,7 @@ def handle_street_housenumbers(ctx: context.Context, relations: areas.Relations,
     elif action == "update-result":
         query = relation.get_osm_housenumbers_query()
         try:
-            buf = overpass_query.overpass_query(ctx, query)
+            buf = rust.py_overpass_query(ctx, query)
         except OSError as error:
             doc.append_value(util.handle_overpass_error(ctx, str(error)).get_value())
         else:
