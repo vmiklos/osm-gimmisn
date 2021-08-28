@@ -442,4 +442,23 @@ def py_color_house_number(house_number: PyHouseNumberRange) -> PyDoc:
     """Colors a house number according to its suffix."""
     ...
 
+def py_build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
+    """Builds an in-memory cache from the reference on-disk TSV (street version)."""
+    ...
+
+def py_get_reference_cache_path(local: str, refcounty: str) -> str:
+    """Gets the filename of the (house number) reference cache file."""
+    ...
+
+def py_build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]:
+    """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
+    ...
+
+def py_build_reference_caches(
+        references: List[str],
+        refcounty: str
+) -> List[Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]]:
+    """Handles a list of references for build_reference_cache()."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

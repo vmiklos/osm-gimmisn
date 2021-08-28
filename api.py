@@ -82,4 +82,7 @@ class Unit:
         ...
 
 
+# Two strings: first is a range, second is an optional comment.
+HouseNumberWithComment = List[str]
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
