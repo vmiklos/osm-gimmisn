@@ -22,9 +22,16 @@ filters:
     # 59 helyén 57/b van kírva, a házon és a kukán is
     # 71 nincs kiírva és ház sincs
     # 74 nincs kiírva
-    # 32-48 között teljes káosz: 28 után 34,36,38, majd megint 36, utána nincs kírva 48-ig semmi 2021-08. TODO
+    # 32-48 között teljes káosz: 28 után 34,36,38, majd megint 36, utána nincs kírva 48-ig semmi 2021-08. RESURVEY 2022
     # 30 helyén 34, 32 helyén 36, 44-46 helyén 48a, 48b
     invalid: ['30', '32', '44', '46', '59', '71', '74']
+  Báthory utca:
+    show-refstreet: false
+  Bérc utca:
+    # 22: ház sincs nagyon a páros oldalon. a legvégén van 1, nincs száma. 2021-08. RESURVEY 2022
+    invalid: ['22']
+  Csaba köz:
+    invalid: ['1']
   Csikász lépcső:
     show-refstreet: false
   Duna utca:
@@ -34,8 +41,10 @@ filters:
     invalid: ['44', '96']
     show-refstreet: false
   Fürj köz:
-    # A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja
-    invalid: ['14']
+    # 3-5: csak 3 van kiírva
+    # 4, 10-12: nincs kiírva: 2021-08. RESURVEY 2022
+    # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja
+    invalid: ['5', '10', '12', '14']
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
@@ -67,13 +76,17 @@ filters:
   Malomvölgyi utca:
     # 7: 5 után 9. 7 a kereszteződésre esik
     # 25: domboldal, nincs látszik épkézláb bejárat lentről
-    # 30-44 között semmi sincs kiírva 2021-08. TODO
+    # 30-44 között semmi sincs kiírva 2021-08. RESURVEY 2022
     # 71: 39 az utolsó páratlan
     invalid: ['7', '25', '36', '40', '42', '71']
   Maros utca:
-    # 5, 7: nincs kiírva 2021-08 TODO
+    # 5, 7: nincs kiírva 2021-08 RESURVEY 2022
     # 15-17: csak 17 van kiírva
     invalid: ['5', '7', '15']
+  Megyehegyi út:
+    # 4 nincs kiírva, épület sincs az út mentén, lehet feljebb van mert hosszúkásak a telkek. RESURVEY 2022
+    # utolsó ház a 15
+    invalid: ['4', '23']
   Radnóti utca:
     show-refstreet: false
   Rekettye utca:
@@ -91,13 +104,13 @@ filters:
     # 41 nincs, utolsó szám 13
     invalid: ['41']
   Szömörce utca:
-    # 9, 30, 62, 64 nincs kiírva 2021-08. TODO
+    # 9, 30, 62, 64 nincs kiírva 2021-08. RESURVEY 2022
     invalid: ['9', '30', '62', '64']
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
   Vadász utca:
-    # 5 nincs kiírva 2021-08 TODO
+    # 5 nincs kiírva 2021-08 RESURVEY 2022
     invalid: ['5']
   Vadvirág utca:
     ranges:
@@ -110,6 +123,9 @@ filters:
     # 89: Máltai alapszabályában 89, a facebook oldalukon 87-es házszám van
     # 101: 99 után 103
     invalid: ['5', '7', '46', '83', '101']
+  Vidovszky Béla utca:
+    # 25, 26 nincs kiírva, kuka nincs, tervvel nincs összhangban a számozás. eladó telek. 2021-08. RESURVEY 2022
+    invalid: ['25', '26']
   Vödörvölgyi út:
     # páratlan oldal Szentkirályszabadja
     ranges:
@@ -160,12 +176,12 @@ street-filters:
   - Temető köz  # Temető utcára számozva - Temető utca 3 és 5 számok
   - Tücsök utca  # Tücsök köz szerepel a táblán
 refstreets:
-  'Báthory utca': 'Báthori utca'
   'Berzsenyi Dániel utca': 'Berzsenyi utca'
   'Dózsa György utca': 'Dózsa György út'
   'Fadrusz János utca': 'Fadrusz utca'
   'Pacsirta út': 'Pacsirta utca'
   # ellenőrzött
+  'Báthory utca': 'Báthori utca'  # Táblán Báthory utca
   'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
   'Erdőalja út': 'Erdőalja utca'  # táblán Erdőalja út
