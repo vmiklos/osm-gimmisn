@@ -44,7 +44,7 @@ filters:
     # 3-5: csak 3 van kiírva
     # 4, 10-12: nincs kiírva: 2021-08. RESURVEY 2022
     # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja
-    invalid: ['5', '10', '12', '14']
+    invalid: ['4', '5', '10', '12', '14']
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
