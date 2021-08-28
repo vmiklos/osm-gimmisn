@@ -18,7 +18,6 @@ from typing import TypeVar
 from typing import Union
 import locale
 import os
-import json
 import re
 import email.utils
 
@@ -38,102 +37,14 @@ split_house_number_range = rust.py_split_house_number_range
 format_even_odd = rust.py_format_even_odd
 format_even_odd_html = rust.py_format_even_odd_html
 color_house_number = rust.py_color_house_number
-
-# Two strings: first is a range, second is an optional comment.
-HouseNumberWithComment = List[str]
-
+build_street_reference_cache = rust.py_build_street_reference_cache
+get_reference_cache_path = rust.py_get_reference_cache_path
+build_reference_cache = rust.py_build_reference_cache
+build_reference_caches = rust.py_build_reference_caches
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
-    """Builds an in-memory cache from the reference on-disk TSV (street version)."""
-    memory_cache: Dict[str, Dict[str, List[str]]] = {}
-
-    disk_cache = local_streets + ".cache"
-    if os.path.exists(disk_cache):
-        with open(disk_cache, "rb") as sock_cache:
-            memory_cache = json.load(sock_cache)
-            return memory_cache
-
-    with open(local_streets, "r") as sock:
-        first = True
-        while True:
-            line = sock.readline()
-            if first:
-                first = False
-                continue
-
-            if not line:
-                break
-
-            refcounty, refsettlement, street = line.strip().split("\t")
-            # Filter out invalid street type.
-            street = re.sub(" null$", "", street)
-            if refcounty not in memory_cache.keys():
-                memory_cache[refcounty] = {}
-            if refsettlement not in memory_cache[refcounty].keys():
-                memory_cache[refcounty][refsettlement] = []
-            memory_cache[refcounty][refsettlement].append(street)
-    with open(disk_cache, "w") as text_stream:
-        json.dump(memory_cache, text_stream)
-    return memory_cache
-
-
-def get_reference_cache_path(local: str, refcounty: str) -> str:
-    """Gets the filename of the (house number) reference cache file."""
-    return local + "-" + refcounty + "-v1.cache"
-
-
-def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[HouseNumberWithComment]]]]:
-    """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    memory_cache: Dict[str, Dict[str, Dict[str, List[HouseNumberWithComment]]]] = {}
-
-    disk_cache = get_reference_cache_path(local, refcounty)
-    if os.path.exists(disk_cache):
-        with open(disk_cache, "rb") as sock_cache:
-            memory_cache = json.load(sock_cache)
-            return memory_cache
-
-    with open(local, "r") as sock:
-        first = True
-        while True:
-            line = sock.readline()
-            if first:
-                first = False
-                continue
-
-            if not line:
-                break
-
-            if not line.startswith(refcounty):
-                continue
-
-            tokens = line.strip().split("\t")
-            refcounty, refsettlement, street, num = tokens[0], tokens[1], tokens[2], tokens[3]
-            comment = ""
-            if len(tokens) >= 5:
-                comment = tokens[4]
-            if refcounty not in memory_cache.keys():
-                memory_cache[refcounty] = {}
-            if refsettlement not in memory_cache[refcounty].keys():
-                memory_cache[refcounty][refsettlement] = {}
-            if street not in memory_cache[refcounty][refsettlement].keys():
-                memory_cache[refcounty][refsettlement][street] = []
-            memory_cache[refcounty][refsettlement][street].append([num, comment])
-    with open(disk_cache, "w") as text_stream:
-        json.dump(memory_cache, text_stream)
-    return memory_cache
-
-
-def build_reference_caches(
-        references: List[str],
-        refcounty: str
-) -> List[Dict[str, Dict[str, Dict[str, List[HouseNumberWithComment]]]]]:
-    """Handles a list of references for build_reference_cache()."""
-    return [build_reference_cache(reference, refcounty) for reference in references]
 
 
 def parse_filters(tokens: List[str]) -> Dict[str, str]:

@@ -17,6 +17,7 @@ import json
 import yattag
 
 from rust import py_translate as tr
+import api
 import area_files
 import context
 import rust
@@ -360,7 +361,7 @@ class RelationBase:
 
     def build_ref_housenumbers(
             self,
-            reference: Dict[str, Dict[str, Dict[str, List[util.HouseNumberWithComment]]]],
+            reference: Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]],
             street: str,
             suffix: str
     ) -> List[str]:

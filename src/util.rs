@@ -19,9 +19,11 @@ use pyo3::prelude::*;
 use pyo3::types::PyBytes;
 use pyo3::types::PyType;
 use std::collections::hash_map::DefaultHasher;
+use std::collections::HashMap;
 use std::convert::TryFrom;
 use std::hash::Hash;
 use std::hash::Hasher;
+use std::io::BufRead;
 use std::io::Read;
 
 lazy_static! {
@@ -33,6 +35,7 @@ lazy_static! {
         regex::Regex::new(r"^([0-9]*)([^0-9].*|)$").unwrap();
     static ref LETTER_SUFFIX: regex::Regex = regex::Regex::new(r".*([A-Za-z]+)\*?").unwrap();
     static ref NUMBER_SUFFIX: regex::Regex = regex::Regex::new(r"^.*/([0-9])\*?$").unwrap();
+    static ref NULL_END: regex::Regex = regex::Regex::new(r" null$").unwrap();
 }
 
 /// Specifies the style of the output of normalize_letter_suffix().
@@ -792,10 +795,10 @@ fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> crate::yattag::Doc 
         }
         doc.append_value(color_house_number(elem).get_value());
     }
+    if !even.is_empty() && !odd.is_empty() {
+        doc.stag("br", vec![]);
+    }
     for (index, elem) in even.iter().enumerate() {
-        if !odd.is_empty() {
-            doc.stag("br", vec![]);
-        }
         if index > 0 {
             doc.text(", ");
         }
@@ -852,6 +855,171 @@ fn py_color_house_number(py: Python<'_>, house_number: PyObject) -> PyResult<cra
     })
 }
 
+/// refcounty -> refsettlement -> streets cache.
+type StreetReferenceCache = HashMap<String, HashMap<String, Vec<String>>>;
+
+/// Builds an in-memory cache from the reference on-disk TSV (street version).
+fn build_street_reference_cache(local_streets: &str) -> anyhow::Result<StreetReferenceCache> {
+    let mut memory_cache: StreetReferenceCache = HashMap::new();
+
+    let disk_cache = local_streets.to_string() + ".cache";
+    if std::path::Path::new(&disk_cache).exists() {
+        let stream = std::fs::File::open(disk_cache)?;
+        memory_cache = serde_json::from_reader(&stream)?;
+        return Ok(memory_cache);
+    }
+
+    let stream = std::io::BufReader::new(std::fs::File::open(local_streets)?);
+    let mut first = true;
+    for line in stream.lines() {
+        let line = line?.to_string();
+        if first {
+            first = false;
+            continue;
+        }
+
+        let columns: Vec<&str> = line.split('\t').collect();
+        let refcounty = columns[0];
+        let refsettlement = columns[1];
+        // Filter out invalid street type.
+        let street = NULL_END.replace(columns[2], "").to_string();
+        let refcounty_key = memory_cache
+            .entry(refcounty.into())
+            .or_insert_with(HashMap::new);
+        let refsettlement_key = refcounty_key
+            .entry(refsettlement.into())
+            .or_insert_with(Vec::new);
+        refsettlement_key.push(street);
+    }
+
+    let stream = std::fs::File::create(disk_cache)?;
+    serde_json::to_writer(&stream, &memory_cache)?;
+
+    Ok(memory_cache)
+}
+
+#[pyfunction]
+fn py_build_street_reference_cache(local_streets: String) -> PyResult<StreetReferenceCache> {
+    match build_street_reference_cache(&local_streets) {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+            "build_street_reference_cache() failed: {}",
+            err.to_string()
+        ))),
+    }
+}
+
+/// Gets the filename of the (house number) reference cache file.
+fn get_reference_cache_path(local: &str, refcounty: &str) -> String {
+    format!("{}-{}-v1.cache", local, refcounty)
+}
+
+#[pyfunction]
+fn py_get_reference_cache_path(local: String, refcounty: String) -> String {
+    get_reference_cache_path(&local, &refcounty)
+}
+
+/// Two strings: first is a range, second is an optional comment.
+type HouseNumberWithComment = Vec<String>;
+
+/// refcounty -> refsettlement -> street -> housenumbers cache.
+type HouseNumberReferenceCache =
+    HashMap<String, HashMap<String, HashMap<String, Vec<HouseNumberWithComment>>>>;
+
+/// Builds an in-memory cache from the reference on-disk TSV (house number version).
+fn build_reference_cache(
+    local: &str,
+    refcounty: &str,
+) -> anyhow::Result<HouseNumberReferenceCache> {
+    let mut memory_cache: HouseNumberReferenceCache = HashMap::new();
+
+    let disk_cache = get_reference_cache_path(local, refcounty);
+
+    if std::path::Path::new(&disk_cache).exists() {
+        let stream = std::fs::File::open(disk_cache)?;
+        memory_cache = serde_json::from_reader(&stream)?;
+        return Ok(memory_cache);
+    }
+
+    let stream = std::io::BufReader::new(std::fs::File::open(local)?);
+    let mut first = true;
+    for line in stream.lines() {
+        let line = line?.to_string();
+        if first {
+            first = false;
+            continue;
+        }
+
+        if !line.starts_with(refcounty) {
+            continue;
+        }
+
+        let columns: Vec<&str> = line.split('\t').collect();
+        let refcounty = columns[0];
+        let refsettlement = columns[1];
+        let street = columns[2];
+        let num: String = columns[3].into();
+        let mut comment: String = "".into();
+        if columns.len() >= 5 {
+            comment = columns[4].into();
+        }
+        let refcounty_key = memory_cache
+            .entry(refcounty.into())
+            .or_insert_with(HashMap::new);
+        let refsettlement_key = refcounty_key
+            .entry(refsettlement.into())
+            .or_insert_with(HashMap::new);
+        let street_key = refsettlement_key
+            .entry(street.into())
+            .or_insert_with(Vec::new);
+        street_key.push(vec![num, comment]);
+    }
+
+    let stream = std::fs::File::create(disk_cache)?;
+    serde_json::to_writer(&stream, &memory_cache)?;
+
+    Ok(memory_cache)
+}
+
+#[pyfunction]
+fn py_build_reference_cache(
+    local: String,
+    refcounty: String,
+) -> PyResult<HouseNumberReferenceCache> {
+    match build_reference_cache(&local, &refcounty) {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+            "build_reference_cache() failed: {}",
+            err.to_string()
+        ))),
+    }
+}
+
+/// Handles a list of references for build_reference_cache().
+fn build_reference_caches(
+    references: Vec<String>,
+    refcounty: &str,
+) -> anyhow::Result<Vec<HouseNumberReferenceCache>> {
+    references
+        .iter()
+        .map(|reference| build_reference_cache(reference, refcounty))
+        .collect()
+}
+
+#[pyfunction]
+fn py_build_reference_caches(
+    references: Vec<String>,
+    refcounty: String,
+) -> PyResult<Vec<HouseNumberReferenceCache>> {
+    match build_reference_caches(references, &refcounty) {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+            "build_reference_caches() failed: {}",
+            err.to_string()
+        ))),
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -863,5 +1031,12 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd_html, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_color_house_number, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_build_street_reference_cache,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_reference_cache_path, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_build_reference_caches, module)?)?;
     Ok(())
 }
