@@ -202,14 +202,14 @@ class TestSetupLocalization(unittest.TestCase):
         """Tests the happy path."""
         environ = {"HTTP_ACCEPT_LANGUAGE": "hu,en;q=0.9,en-US;q=0.8"}
         rust.py_set_language("en")
-        util.setup_localization(environ)
+        util.setup_localization(list(environ.items()))
         self.assertEqual(rust.py_get_language(), "hu")
 
     def test_parse_error(self) -> None:
         """Tests the error path."""
         environ = {"HTTP_ACCEPT_LANGUAGE": ","}
         rust.py_set_language("en")
-        util.setup_localization(environ)
+        util.setup_localization(list(environ.items()))
         self.assertEqual(rust.py_get_language(), "en")
 
 

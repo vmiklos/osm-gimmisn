@@ -32,7 +32,7 @@ pub fn py_overpass_query(py: Python<'_>, ctx: PyObject, query: String) -> PyResu
 }
 
 /// Checks if we need to sleep before executing an overpass query.
-fn overpass_query_need_sleep(ctx: &crate::context::Context) -> i32 {
+pub fn overpass_query_need_sleep(ctx: &crate::context::Context) -> i32 {
     let url = ctx.get_ini().get_overpass_uri() + "/api/status";
     let status = match ctx.get_network().urlopen(&url, "") {
         Ok(value) => value,

@@ -102,7 +102,10 @@ clean:
 	rm -rf $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS)) .mypy_cache
 	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
-check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint
+check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint check-rustfmt
+
+check-rustfmt:
+	cargo fmt -- --check
 
 rust.so: target/release/librust.so
 	ln -sf target/release/librust.so rust.so
@@ -203,8 +206,8 @@ else
 	./deploy.sh
 endif
 
-update-pot: areas.py cache.py webframe.py wsgi.py wsgi_additional.py util.py Makefile
-	xgettext --keyword=tr --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py,$^)
+update-pot: areas.py cache.py webframe.py wsgi.py wsgi_additional.py util.py src/util.rs Makefile
+	xgettext --keyword=tr --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py %.rs,$^)
 
 update-po: po/osm-gimmisn.pot Makefile
 	msgmerge --update po/hu/osm-gimmisn.po po/osm-gimmisn.pot

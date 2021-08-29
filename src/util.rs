@@ -10,6 +10,7 @@
 
 //! The util module contains functionality shared between other modules.
 
+use crate::i18n::translate as tr;
 use anyhow::anyhow;
 use lazy_static::lazy_static;
 use pyo3::class::basic::CompareOp;
@@ -1054,6 +1055,71 @@ fn py_parse_filters(tokens: Vec<String>) -> HashMap<String, String> {
     parse_filters(&tokens)
 }
 
+/// Handles a HTTP error from Overpass.
+fn handle_overpass_error(ctx: &crate::context::Context, http_error: &str) -> crate::yattag::Doc {
+    let doc = crate::yattag::Doc::new();
+    let _div = doc.tag("div", vec![("id", "overpass-error")]);
+    doc.text(&tr("Overpass error: {0}").replace("{0}", http_error));
+    let sleep = crate::overpass_query::overpass_query_need_sleep(ctx);
+    if sleep > 0 {
+        doc.stag("br", vec![]);
+        doc.text(&tr("Note: wait for {} seconds").replace("{}", &sleep.to_string()));
+    }
+    doc
+}
+
+#[pyfunction]
+fn py_handle_overpass_error(
+    py: Python<'_>,
+    ctx: PyObject,
+    http_error: String,
+) -> PyResult<crate::yattag::PyDoc> {
+    let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(py)?;
+    let doc = handle_overpass_error(&ctx.context, &http_error);
+    Ok(crate::yattag::PyDoc { doc })
+}
+
+/// Provides localized strings for this thread.
+fn setup_localization(headers: &[(String, String)]) -> String {
+    let mut languages: String = "".into();
+    for (key, value) in headers {
+        if key == "HTTP_ACCEPT_LANGUAGE" {
+            languages = value.into();
+        }
+    }
+    if !languages.is_empty() {
+        let parsed = accept_language::parse(&languages);
+        if !parsed.is_empty() {
+            let language = parsed[0].clone();
+            if crate::i18n::set_language(&language).is_err() {
+                return "".into();
+            }
+            return language;
+        }
+    }
+    "".into()
+}
+
+#[pyfunction]
+fn py_setup_localization(headers: Vec<(String, String)>) -> String {
+    setup_localization(&headers)
+}
+
+/// Generates a link to a URL with a given label.
+fn gen_link(url: &str, label: &str) -> crate::yattag::Doc {
+    let doc = crate::yattag::Doc::new();
+    let _a = doc.tag("a", vec![("href", url)]);
+    doc.text(&(label.to_string() + "..."));
+    doc
+}
+
+#[pyfunction]
+fn py_gen_link(url: String, label: String) -> crate::yattag::PyDoc {
+    crate::yattag::PyDoc {
+        doc: gen_link(&url, &label),
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -1073,5 +1139,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_caches, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_parse_filters, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_overpass_error, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_setup_localization, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_gen_link, module)?)?;
     Ok(())
 }
