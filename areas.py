@@ -580,16 +580,16 @@ class Relation(RelationBase):
         """Turns a list of numbered streets into a HTML table."""
         todo_count = 0
         table = []
-        table.append([util.html_escape(tr("Street name")),
-                      util.html_escape(tr("Missing count")),
-                      util.html_escape(tr("House numbers"))])
+        table.append([yattag.Doc.from_text(tr("Street name")),
+                      yattag.Doc.from_text(tr("Missing count")),
+                      yattag.Doc.from_text(tr("House numbers"))])
         rows = []
         for result in numbered_streets:
             # street, only_in_ref
             row = []
             row.append(result[0].to_html())
             number_ranges = util.get_housenumber_ranges(result[1])
-            row.append(util.html_escape(str(len(number_ranges))))
+            row.append(yattag.Doc.from_text(str(len(number_ranges))))
 
             doc = yattag.Doc()
             if not self.get_config().get_street_is_even_odd(result[0].get_osm_name()):

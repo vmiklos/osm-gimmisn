@@ -69,6 +69,11 @@ class PyDoc:
     def __init__(self) -> None:
         ...
 
+    @staticmethod
+    def from_text(text: str) -> 'PyDoc':
+        """Factory of yattag.Doc from a string."""
+        ...
+
     def get_value(self) -> str:
         """Gets the escaped value."""
         ...
@@ -459,6 +464,10 @@ def py_build_reference_caches(
         refcounty: str
 ) -> List[Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]]:
     """Handles a list of references for build_reference_cache()."""
+    ...
+
+def py_parse_filters(tokens: List[str]) -> Dict[str, str]:
+    """Parses a filter description, like 'filter-for', 'refcounty', '42'."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
