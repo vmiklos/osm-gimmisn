@@ -32,6 +32,13 @@ impl Doc {
         }
     }
 
+    /// Factory of yattag.Doc from a string.
+    fn from_text(text: &str) -> Self {
+        let doc = Doc::new();
+        doc.text(text);
+        doc
+    }
+
     /// Gets the escaped value.
     pub fn get_value(&self) -> String {
         self.value.lock().unwrap().clone()
@@ -81,6 +88,12 @@ impl PyDoc {
     #[new]
     fn new() -> Self {
         let doc = Doc::new();
+        PyDoc { doc }
+    }
+
+    #[staticmethod]
+    fn from_text(text: String) -> Self {
+        let doc = Doc::from_text(&text);
         PyDoc { doc }
     }
 

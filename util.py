@@ -41,43 +41,11 @@ build_street_reference_cache = rust.py_build_street_reference_cache
 get_reference_cache_path = rust.py_get_reference_cache_path
 build_reference_cache = rust.py_build_reference_cache
 build_reference_caches = rust.py_build_reference_caches
+parse_filters = rust.py_parse_filters
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def parse_filters(tokens: List[str]) -> Dict[str, str]:
-    """Parses a filter description, like 'filter-for', 'refcounty', '42'."""
-    ret: Dict[str, str] = {}
-    filter_for = False
-    for index, value in enumerate(tokens):
-        if value == "filter-for":
-            filter_for = True
-            continue
-
-        if not filter_for:
-            continue
-
-        if value == "incomplete":
-            ret[value] = ""
-        elif value == "everything":
-            ret[value] = ""
-
-        if index + 1 >= len(tokens):
-            continue
-
-        if value in ("refcounty", "refsettlement", "relations"):
-            ret[value] = tokens[index + 1]
-
-    return ret
-
-
-def html_escape(text: str) -> yattag.Doc:
-    """Factory of yattag.Doc from a string."""
-    doc = yattag.Doc()
-    doc.text(text)
-    return doc
 
 
 def handle_overpass_error(ctx: context.Context, http_error: str) -> yattag.Doc:
@@ -241,7 +209,7 @@ def tsv_to_list(stream: CsvIO) -> List[List[yattag.Doc]]:
             first = False
             for index, label in enumerate(row):
                 columns[label] = index
-        cells = [html_escape(cell.strip()) for cell in row]
+        cells = [yattag.Doc.from_text(cell.strip()) for cell in row]
         if cells and "@type" in columns:
             # We know the first column is an OSM ID.
             try:

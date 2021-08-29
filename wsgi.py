@@ -175,9 +175,9 @@ def missing_streets_view_result(ctx: context.Context, relations: areas.Relations
     ret = relation.write_missing_streets()
     todo_count, done_count, percent, streets = ret
     streets.sort(key=util.get_lexical_sort_key())
-    table = [[util.html_escape(tr("Street name"))]]
+    table = [[yattag.Doc.from_text(tr("Street name"))]]
     for street in streets:
-        table.append([util.html_escape(street)])
+        table.append([yattag.Doc.from_text(street)])
 
     with doc.tag("p", []):
         doc.text(tr("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
@@ -728,7 +728,7 @@ def handle_main_relation(
     streets = relation.get_config().should_check_missing_streets()
 
     row = []  # List[yattag.Doc]
-    row.append(util.html_escape(relation_name))
+    row.append(yattag.Doc.from_text(relation_name))
 
     if streets != "only":
         cell, percent = handle_main_housenr_percent(ctx, relation)
@@ -776,12 +776,12 @@ def handle_main(request_uri: str, ctx: context.Context, relations: areas.Relatio
 
     doc.append_value(handle_main_filters(ctx, relations, refcounty).get_value())
     table = []
-    table.append([util.html_escape(tr("Area")),
-                  util.html_escape(tr("House number coverage")),
-                  util.html_escape(tr("Additional house numbers")),
-                  util.html_escape(tr("Street coverage")),
-                  util.html_escape(tr("Additional streets")),
-                  util.html_escape(tr("Area boundary"))])
+    table.append([yattag.Doc.from_text(tr("Area")),
+                  yattag.Doc.from_text(tr("House number coverage")),
+                  yattag.Doc.from_text(tr("Additional house numbers")),
+                  yattag.Doc.from_text(tr("Street coverage")),
+                  yattag.Doc.from_text(tr("Additional streets")),
+                  yattag.Doc.from_text(tr("Area boundary"))])
     for relation_name in relations.get_names():
         row = handle_main_relation(ctx, relations, filter_for, relation_name)
         if row:

@@ -69,10 +69,10 @@ def additional_streets_view_result(
         count = len(streets)
         lexical_sort_key = util.get_lexical_sort_key()
         streets.sort(key=lambda street: lexical_sort_key(street.get_osm_name()))
-        table = [[util.html_escape(tr("Identifier")),
-                  util.html_escape(tr("Type")),
-                  util.html_escape(tr("Source")),
-                  util.html_escape(tr("Street name"))]]
+        table = [[yattag.Doc.from_text(tr("Identifier")),
+                  yattag.Doc.from_text(tr("Type")),
+                  yattag.Doc.from_text(tr("Source")),
+                  yattag.Doc.from_text(tr("Street name"))]]
         for street in streets:
             cell = yattag.Doc()
             href = "https://www.openstreetmap.org/{}/{}".format(street.get_osm_type(), street.get_osm_id())
@@ -80,9 +80,9 @@ def additional_streets_view_result(
                 cell.text(str(street.get_osm_id()))
             cells = [
                 cell,
-                util.html_escape(street.get_osm_type()),
-                util.html_escape(street.get_source()),
-                util.html_escape(street.get_osm_name()),
+                yattag.Doc.from_text(street.get_osm_type()),
+                yattag.Doc.from_text(street.get_source()),
+                yattag.Doc.from_text(street.get_osm_name()),
             ]
             table.append(cells)
 

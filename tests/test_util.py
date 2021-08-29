@@ -236,10 +236,10 @@ class TestHtmlTableFromList(unittest.TestCase):
     """Tests html_table_from_list()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        fro = [[util.html_escape("A1"),
-                util.html_escape("B1")],
-               [util.html_escape("A2"),
-                util.html_escape("B2")]]
+        fro = [[yattag.Doc.from_text("A1"),
+                yattag.Doc.from_text("B1")],
+               [yattag.Doc.from_text("A2"),
+                yattag.Doc.from_text("B2")]]
         expected = '<table class="sortable">'
         expected += '<tr><th><a href="#">A1</a></th>'
         expected += '<th><a href="#">B1</a></th></tr>'
@@ -478,9 +478,9 @@ class TestGetColumn(unittest.TestCase):
         """Tests the happy path."""
         # id, street name, housenumber
         row = [
-            util.html_escape("42"),
-            util.html_escape("A street"),
-            util.html_escape("1"),
+            yattag.Doc.from_text("42"),
+            yattag.Doc.from_text("A street"),
+            yattag.Doc.from_text("1"),
         ]
         self.assertEqual(util.get_column(row, 1, natnum=False), "A street")
         self.assertEqual(util.get_column(row, 2, natnum=True), 1)
@@ -491,9 +491,9 @@ class TestGetColumn(unittest.TestCase):
         """Tests the 'housenumber is junk' case."""
         # id, street name, housenumber
         row = [
-            util.html_escape("42"),
-            util.html_escape("A street"),
-            util.html_escape("fixme"),
+            yattag.Doc.from_text("42"),
+            yattag.Doc.from_text("A street"),
+            yattag.Doc.from_text("fixme"),
         ]
         self.assertEqual(util.get_column(row, 2, natnum=True), 0)
 

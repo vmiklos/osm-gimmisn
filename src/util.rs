@@ -1020,6 +1020,40 @@ fn py_build_reference_caches(
     }
 }
 
+/// Parses a filter description, like 'filter-for', 'refcounty', '42'.
+fn parse_filters(tokens: &[String]) -> HashMap<String, String> {
+    let mut ret: HashMap<String, String> = HashMap::new();
+    let mut filter_for = false;
+    for (index, value) in tokens.iter().enumerate() {
+        if value == "filter-for" {
+            filter_for = true;
+            continue;
+        }
+
+        if !filter_for {
+            continue;
+        }
+
+        if value == "incomplete" || value == "everything" {
+            ret.insert(value.clone(), "".into());
+        }
+
+        if index + 1 >= tokens.len() {
+            continue;
+        }
+
+        if vec!["refcounty", "refsettlement", "relations"].contains(&value.as_str()) {
+            ret.insert(value.clone(), tokens[index + 1].clone());
+        }
+    }
+    ret
+}
+
+#[pyfunction]
+fn py_parse_filters(tokens: Vec<String>) -> HashMap<String, String> {
+    parse_filters(&tokens)
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -1038,5 +1072,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_reference_cache_path, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_caches, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_parse_filters, module)?)?;
     Ok(())
 }

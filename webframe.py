@@ -42,9 +42,9 @@ def get_footer(last_updated: str = "") -> yattag.Doc:
     doc.text(tr("Version: "))
     doc.append_value(util.git_link(rust.py_get_version(), "https://github.com/vmiklos/osm-gimmisn/commit/").get_value())
     items.append(doc)
-    items.append(util.html_escape(tr("OSM data © OpenStreetMap contributors.")))
+    items.append(yattag.Doc.from_text(tr("OSM data © OpenStreetMap contributors.")))
     if last_updated:
-        items.append(util.html_escape(tr("Last update: ") + last_updated))
+        items.append(yattag.Doc.from_text(tr("Last update: ") + last_updated))
     doc = yattag.Doc()
     doc.stag("hr", [])
     with doc.tag("div", []):
@@ -385,18 +385,18 @@ def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) 
     cities = [i.get_osm_name() for i in util.get_in_both(ref_cities, osm_cities)]
     cities.sort(key=util.get_lexical_sort_key())
     table = []
-    table.append([util.html_escape(tr("City name")),
-                  util.html_escape(tr("House number coverage")),
-                  util.html_escape(tr("OSM count")),
-                  util.html_escape(tr("Reference count"))])
+    table.append([yattag.Doc.from_text(tr("City name")),
+                  yattag.Doc.from_text(tr("House number coverage")),
+                  yattag.Doc.from_text(tr("OSM count")),
+                  yattag.Doc.from_text(tr("Reference count"))])
     for city in cities:
         percent = "100.00"
         if ref_citycounts[city] > 0 and osm_citycounts[city] < ref_citycounts[city]:
             percent = "%.2f" % (osm_citycounts[city] / ref_citycounts[city] * 100)
-        table.append([util.html_escape(city),
-                      util.html_escape(util.format_percent(percent)),
-                      util.html_escape(str(osm_citycounts[city])),
-                      util.html_escape(str(ref_citycounts[city]))])
+        table.append([yattag.Doc.from_text(city),
+                      yattag.Doc.from_text(util.format_percent(percent)),
+                      yattag.Doc.from_text(str(osm_citycounts[city])),
+                      yattag.Doc.from_text(str(ref_citycounts[city]))])
     doc.append_value(util.html_table_from_list(table).get_value())
 
     with doc.tag("h2", []):
@@ -667,7 +667,7 @@ def handle_github_webhook(environ: Dict[str, Any], ctx: context.Context) -> yatt
         my_env["PATH"] = "osm-gimmisn-env/bin:" + os.environ["PATH"]
         ctx.get_subprocess().run(["make", "-C", ctx.get_abspath(""), "deploy"], env=my_env)
 
-    return util.html_escape("")
+    return yattag.Doc.from_text("")
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
