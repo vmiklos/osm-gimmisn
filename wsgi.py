@@ -907,7 +907,7 @@ def our_application(
 ) -> Tuple[Iterable[bytes], str]:
     """Dispatches the request based on its URI."""
     try:
-        language = util.setup_localization(environ)
+        language = util.setup_localization([(k, v) for k, v in environ.items() if isinstance(v, str)])
 
         relations = areas.Relations(ctx)
 

@@ -18,7 +18,7 @@ thread_local! {
 }
 
 /// Sets the language of the current thread.
-fn set_language(language: &str) -> anyhow::Result<()> {
+pub fn set_language(language: &str) -> anyhow::Result<()> {
     // Not using ctx.get_abspath() here, tests/ doesn't have its own dummy translations.
     let root_dir = env!("CARGO_MANIFEST_DIR");
     let path = format!(

@@ -470,4 +470,16 @@ def py_parse_filters(tokens: List[str]) -> Dict[str, str]:
     """Parses a filter description, like 'filter-for', 'refcounty', '42'."""
     ...
 
+def py_handle_overpass_error(ctx: PyContext, http_error: str) -> PyDoc:
+    """Handles a HTTP error from Overpass."""
+    ...
+
+def py_setup_localization(headers: List[Tuple[str, str]]) -> str:
+    """Provides localized strings for this thread."""
+    ...
+
+def py_gen_link(url: str, label: str) -> PyDoc:
+    """Generates a link to a URL with a given label."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -6,7 +6,6 @@
 
 """The util module contains functionality shared between other modules."""
 
-from typing import Any
 from typing import Callable
 from typing import Dict
 from typing import Iterable
@@ -42,44 +41,13 @@ get_reference_cache_path = rust.py_get_reference_cache_path
 build_reference_cache = rust.py_build_reference_cache
 build_reference_caches = rust.py_build_reference_caches
 parse_filters = rust.py_parse_filters
+handle_overpass_error = rust.py_handle_overpass_error
+setup_localization = rust.py_setup_localization
+gen_link = rust.py_gen_link
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def handle_overpass_error(ctx: context.Context, http_error: str) -> yattag.Doc:
-    """Handles a HTTP error from Overpass."""
-    doc = yattag.Doc()
-    with doc.tag("div", [("id", "overpass-error")]):
-        doc.text(tr("Overpass error: {0}").format(http_error))
-        sleep = rust.py_overpass_query_need_sleep(ctx)
-        if sleep:
-            doc.stag("br", [])
-            doc.text(tr("Note: wait for {} seconds").format(sleep))
-    return doc
-
-
-def setup_localization(environ: Dict[str, Any]) -> str:
-    """Provides localized strings for this thread."""
-    # Set up localization.
-    languages = environ.get("HTTP_ACCEPT_LANGUAGE")
-    if languages:
-        parsed = rust.py_parse(languages)
-        if parsed:
-            language = parsed[0]
-            rust.py_set_language(language)
-            return language
-    return ""
-
-
-def gen_link(url: str, label: str) -> yattag.Doc:
-    """Generates a link to a URL with a given label."""
-    doc = yattag.Doc()
-    with doc.tag("a", [("href", url)]):
-        doc.text(label + "...")
-
-    return doc
 
 
 def write_html_header(doc: yattag.Doc) -> None:
