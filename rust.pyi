@@ -482,4 +482,20 @@ def py_gen_link(url: str, label: str) -> PyDoc:
     """Generates a link to a URL with a given label."""
     ...
 
+def py_write_html_header(doc: PyDoc) -> None:
+    """Produces the verify first line of a HTML output."""
+    ...
+
+def py_process_template(buf: str, osmrelation: int) -> str:
+    """Turns an overpass query template to an actual query."""
+    ...
+
+def py_should_expand_range(numbers: List[int], street_is_even_odd: bool) -> Tuple[bool, int]:
+    """Decides if an x-y range should be expanded. Returns a sanitized end value as well."""
+    ...
+
+def py_html_table_from_list(table: List[List[PyDoc]]) -> PyDoc:
+    """Produces a HTML table from a list of lists."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

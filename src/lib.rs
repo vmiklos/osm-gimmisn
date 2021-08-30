@@ -24,13 +24,13 @@ mod yattag;
 
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
-    accept_language::register_python_symbols(&m)?;
-    context::register_python_symbols(&m)?;
-    i18n::register_python_symbols(&m)?;
-    overpass_query::register_python_symbols(&m)?;
-    ranges::register_python_symbols(&m)?;
-    util::register_python_symbols(&m)?;
-    version::register_python_symbols(&m)?;
-    yattag::register_python_symbols(&m)?;
+    accept_language::register_python_symbols(m)?;
+    context::register_python_symbols(m)?;
+    i18n::register_python_symbols(m)?;
+    overpass_query::register_python_symbols(m)?;
+    ranges::register_python_symbols(m)?;
+    util::register_python_symbols(m)?;
+    version::register_python_symbols(m)?;
+    yattag::register_python_symbols(m)?;
     Ok(())
 }

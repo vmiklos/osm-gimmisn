@@ -102,10 +102,13 @@ clean:
 	rm -rf $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS)) .mypy_cache
 	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
-check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint check-rustfmt
+check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint check-rustfmt check-clippy
 
 check-rustfmt:
 	cargo fmt -- --check
+
+check-clippy:
+	cargo clippy
 
 rust.so: target/release/librust.so
 	ln -sf target/release/librust.so rust.so

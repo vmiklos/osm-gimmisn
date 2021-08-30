@@ -138,11 +138,11 @@ impl PyHouseNumberRange {
     }
 
     fn get_number(&self) -> &String {
-        &self.house_number_range.get_number()
+        self.house_number_range.get_number()
     }
 
     fn get_comment(&self) -> &String {
-        &self.house_number_range.get_comment()
+        self.house_number_range.get_comment()
     }
 }
 
@@ -1120,6 +1120,105 @@ fn py_gen_link(url: String, label: String) -> crate::yattag::PyDoc {
     }
 }
 
+/// Produces the verify first line of a HTML output.
+fn write_html_header(doc: &crate::yattag::Doc) {
+    doc.append_value("<!DOCTYPE html>\n".into())
+}
+
+#[pyfunction]
+fn py_write_html_header(py: Python<'_>, doc: PyObject) -> PyResult<()> {
+    let doc: PyRefMut<'_, crate::yattag::PyDoc> = doc.extract(py)?;
+    write_html_header(&doc.doc);
+    Ok(())
+}
+
+/// Turns an overpass query template to an actual query.
+fn process_template(buf: &str, osm_relation: u64) -> String {
+    let mut buf = buf.replace("@RELATION@", &osm_relation.to_string());
+    // area is relation + 3600000000 (3600000000 == relation), see js/ide.js
+    // in https://github.com/tyrasd/overpass-turbo
+    buf = buf.replace("@AREA@", &(3600000000 + osm_relation).to_string());
+    buf
+}
+
+#[pyfunction]
+fn py_process_template(buf: String, osm_relation: u64) -> String {
+    process_template(&buf, osm_relation)
+}
+
+/// Decides if an x-y range should be expanded. Returns a sanitized end value as well.
+fn should_expand_range(numbers: &[i32], street_is_even_odd: bool) -> (bool, i32) {
+    if numbers.len() != 2 {
+        return (false, 0);
+    }
+
+    if numbers[1] < numbers[0] {
+        // E.g. 42-1, -1 is just a suffix to be ignored.
+        return (true, 0);
+    }
+
+    // If there is a parity mismatch, ignore.
+    if street_is_even_odd && numbers[0] % 2 != numbers[1] % 2 {
+        return (false, 0);
+    }
+
+    // Assume that 0 is just noise.
+    if numbers[0] == 0 {
+        return (false, 0);
+    }
+
+    // Ranges larger than this are typically just noise in the input data.
+    if numbers[1] > 1000 || numbers[1] - numbers[0] > 24 {
+        return (false, 0);
+    }
+
+    (true, numbers[1])
+}
+
+#[pyfunction]
+fn py_should_expand_range(numbers: Vec<i32>, street_is_even_odd: bool) -> (bool, i32) {
+    should_expand_range(&numbers, street_is_even_odd)
+}
+
+/// Produces a HTML table from a list of lists.
+fn html_table_from_list(table: &[Vec<crate::yattag::Doc>]) -> crate::yattag::Doc {
+    let doc = crate::yattag::Doc::new();
+    let _table = doc.tag("table", vec![("class", "sortable")]);
+    for (row_index, row_content) in table.iter().enumerate() {
+        let _tr = doc.tag("tr", vec![]);
+        for cell in row_content {
+            if row_index == 0 {
+                let _th = doc.tag("th", vec![]);
+                let _a = doc.tag("a", vec![("href", "#")]);
+                doc.text(&cell.get_value());
+            } else {
+                let _td = doc.tag("td", vec![]);
+                doc.append_value(cell.get_value())
+            }
+        }
+    }
+    doc
+}
+
+#[pyfunction]
+fn py_html_table_from_list(
+    py: Python<'_>,
+    table: Vec<Vec<PyObject>>,
+) -> PyResult<crate::yattag::PyDoc> {
+    // Convert Vec<Vec<PyObject>> to Vec<Vec<yattag::Doc>>.
+    let mut native_table: Vec<Vec<crate::yattag::Doc>> = Vec::new();
+    for row in table {
+        let mut native_row: Vec<crate::yattag::Doc> = Vec::new();
+        for cell in row {
+            let cell: PyRefMut<'_, crate::yattag::PyDoc> = cell.extract(py)?;
+            native_row.push(cell.doc.clone());
+        }
+        native_table.push(native_row);
+    }
+    let doc = html_table_from_list(&native_table);
+    Ok(crate::yattag::PyDoc { doc })
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -1142,5 +1241,9 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_overpass_error, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_setup_localization, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_gen_link, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_write_html_header, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_process_template, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_should_expand_range, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_html_table_from_list, module)?)?;
     Ok(())
 }
