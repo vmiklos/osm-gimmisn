@@ -44,66 +44,14 @@ parse_filters = rust.py_parse_filters
 handle_overpass_error = rust.py_handle_overpass_error
 setup_localization = rust.py_setup_localization
 gen_link = rust.py_gen_link
+write_html_header = rust.py_write_html_header
+process_template = rust.py_process_template
+should_expand_range = rust.py_should_expand_range
+html_table_from_list = rust.py_html_table_from_list
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def write_html_header(doc: yattag.Doc) -> None:
-    """Produces the verify first line of a HTML output."""
-    doc.append_value("<!DOCTYPE html>\n")
-
-
-def process_template(buf: str, osmrelation: int) -> str:
-    """Turns an overpass query template to an actual query."""
-    buf = buf.replace("@RELATION@", str(osmrelation))
-    # area is relation + 3600000000 (3600000000 == relation), see js/ide.js
-    # in https://github.com/tyrasd/overpass-turbo
-    buf = buf.replace("@AREA@", str(3600000000 + osmrelation))
-    return buf
-
-
-def should_expand_range(numbers: List[int], street_is_even_odd: bool) -> bool:
-    """Decides if an x-y range should be expanded."""
-    if len(numbers) != 2:
-        return False
-
-    if numbers[1] < numbers[0]:
-        # E.g. 42-1, -1 is just a suffix to be ignored.
-        numbers[1] = 0
-        return True
-
-    # If there is a parity mismatch, ignore.
-    if street_is_even_odd and numbers[0] % 2 != numbers[1] % 2:
-        return False
-
-    # Assume that 0 is just noise.
-    if numbers[0] == 0:
-        return False
-
-    # Ranges larger than this are typically just noise in the input data.
-    if numbers[1] > 1000 or numbers[1] - numbers[0] > 24:
-        return False
-
-    return True
-
-
-def html_table_from_list(table: List[List[yattag.Doc]]) -> yattag.Doc:
-    """Produces a HTML table from a list of lists."""
-    doc = yattag.Doc()
-    with doc.tag("table", [("class", "sortable")]):
-        for row_index, row_content in enumerate(table):
-            with doc.tag("tr", []):
-                for cell in row_content:
-                    if row_index == 0:
-                        with doc.tag("th", []):
-                            with doc.tag("a", [("href", "#")]):
-                                doc.text(cell.get_value())
-                    else:
-                        with doc.tag("td", []):
-                            doc.append_value(cell.get_value())
-    return doc
 
 
 def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.Doc:

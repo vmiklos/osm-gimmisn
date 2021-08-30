@@ -854,18 +854,20 @@ def normalize(relation: RelationBase, house_numbers: str, street_name: str,
     ret_numbers, ret_numbers_nofilter = util.split_house_number_by_separator(house_numbers, separator, normalizer)
 
     street_is_even_odd = relation.get_config().get_street_is_even_odd(street_name)
-    if separator == "-" and util.should_expand_range(ret_numbers_nofilter, street_is_even_odd):
-        start = ret_numbers_nofilter[0]
-        stop = ret_numbers_nofilter[1]
-        if stop == 0:
-            ret_numbers = [number for number in [start] if number in normalizer]
-        elif street_is_even_odd:
-            # Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
-            # Closed interval, even only or odd only case.
-            ret_numbers = [number for number in range(start, stop + 2, 2) if number in normalizer]
-        else:
-            # Closed interval, but mixed even and odd.
-            ret_numbers = [number for number in range(start, stop + 1, 1) if number in normalizer]
+    if separator == "-":
+        should_expand, new_stop = util.should_expand_range(ret_numbers_nofilter, street_is_even_odd)
+        if should_expand:
+            start = ret_numbers_nofilter[0]
+            stop = new_stop
+            if stop == 0:
+                ret_numbers = [number for number in [start] if number in normalizer]
+            elif street_is_even_odd:
+                # Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
+                # Closed interval, even only or odd only case.
+                ret_numbers = [number for number in range(start, stop + 2, 2) if number in normalizer]
+            else:
+                # Closed interval, but mixed even and odd.
+                ret_numbers = [number for number in range(start, stop + 1, 1) if number in normalizer]
 
     check_housenumber_letters = len(ret_numbers) == 1 and relation.get_config().should_check_housenumber_letters()
     if check_housenumber_letters and util.HouseNumber.has_letter_suffix(house_numbers, suffix):

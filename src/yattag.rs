@@ -21,6 +21,7 @@ use std::sync::Arc;
 use std::sync::Mutex;
 
 /// Generates xml/html documents.
+#[derive(Clone)]
 pub struct Doc {
     value: Arc<Mutex<String>>,
 }
