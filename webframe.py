@@ -427,7 +427,7 @@ def handle_invalid_refstreets(ctx: context.Context, relations: areas.Relations) 
             relation_name = relation.get_name()
             with doc.tag("a", [("href", prefix + "/streets/" + relation_name + "/view-result")]):
                 doc.text(relation_name)
-        doc.append_value(util.invalid_refstreets_to_html(invalid_refstreets).get_value())
+        doc.append_value(util.invalid_refstreets_to_html(osm_invalids, ref_invalids).get_value())
         doc.append_value(util.invalid_filter_keys_to_html(key_invalids).get_value())
 
     doc.append_value(get_footer().get_value())

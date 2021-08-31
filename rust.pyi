@@ -498,4 +498,24 @@ def py_html_table_from_list(table: List[List[PyDoc]]) -> PyDoc:
     """Produces a HTML table from a list of lists."""
     ...
 
+def py_invalid_refstreets_to_html(osm_invalids: List[str], ref_invalids: List[str]) -> PyDoc:
+    """Produces HTML enumerations for 2 string lists."""
+    ...
+
+def py_invalid_filter_keys_to_html(invalids: List[str]) -> PyDoc:
+    """Produces HTML enumerations for a string list."""
+    ...
+
+def py_get_column(row: List[PyDoc], column_index: int) -> str:
+    """Gets the nth column of row."""
+    ...
+
+def py_natnum(column: str) -> int:
+    """Interpret the content as an integer."""
+    ...
+
+def py_tsv_to_list(stream: PyCsvRead) -> List[List[PyDoc]]:
+    """Turns a tab-separated table into a list of lists."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

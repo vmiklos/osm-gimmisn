@@ -1219,6 +1219,199 @@ fn py_html_table_from_list(
     Ok(crate::yattag::PyDoc { doc })
 }
 
+/// Produces HTML enumerations for 2 string lists.
+fn invalid_refstreets_to_html(
+    osm_invalids: &[String],
+    ref_invalids: &[String],
+) -> crate::yattag::Doc {
+    let doc = crate::yattag::Doc::new();
+    if !osm_invalids.is_empty() {
+        doc.stag("br", vec![]);
+        let _div = doc.tag("div", vec![("id", "osm-invalids-container")]);
+        doc.text(&tr(
+            "Warning: broken OSM <-> reference mapping, the following OSM names are invalid:",
+        ));
+        let _ul = doc.tag("ul", vec![]);
+        for osm_invalid in osm_invalids {
+            let _li = doc.tag("li", vec![]);
+            doc.text(osm_invalid);
+        }
+    }
+    if !ref_invalids.is_empty() {
+        doc.stag("br", vec![]);
+        let _div = doc.tag("div", vec![("id", "ref-invalids-container")]);
+        doc.text(&tr(
+            "Warning: broken OSM <-> reference mapping, the following reference names are invalid:",
+        ));
+        let _ul = doc.tag("ul", vec![]);
+        for ref_invalid in ref_invalids {
+            let _li = doc.tag("li", vec![]);
+            doc.text(ref_invalid);
+        }
+    }
+    if !osm_invalids.is_empty() || !ref_invalids.is_empty() {
+        doc.stag("br", vec![]);
+        doc.text(&tr(
+            "Note: an OSM name is invalid if it's not in the OSM database.",
+        ));
+        doc.text(&tr(
+            "A reference name is invalid if it's in the OSM database.",
+        ));
+    }
+    doc
+}
+
+#[pyfunction]
+fn py_invalid_refstreets_to_html(
+    osm_invalids: Vec<String>,
+    ref_invalids: Vec<String>,
+) -> crate::yattag::PyDoc {
+    let doc = invalid_refstreets_to_html(&osm_invalids, &ref_invalids);
+    crate::yattag::PyDoc { doc }
+}
+
+/// Produces HTML enumerations for a string list.
+fn invalid_filter_keys_to_html(invalids: &[String]) -> crate::yattag::Doc {
+    let doc = crate::yattag::Doc::new();
+    if !invalids.is_empty() {
+        doc.stag("br", vec![]);
+        let _div = doc.tag("div", vec![("id", "osm-filter-key-invalids-container")]);
+        doc.text(&tr(
+            "Warning: broken filter key name, the following key names are not OSM names:",
+        ));
+        let _ul = doc.tag("ul", vec![]);
+        for invalid in invalids {
+            let _li = doc.tag("li", vec![]);
+            doc.text(invalid);
+        }
+    }
+    doc
+}
+
+#[pyfunction]
+fn py_invalid_filter_keys_to_html(invalids: Vec<String>) -> crate::yattag::PyDoc {
+    let doc = invalid_filter_keys_to_html(&invalids);
+    crate::yattag::PyDoc { doc }
+}
+
+/// Gets the nth column of row.
+fn get_column(row: &[crate::yattag::Doc], column_index: usize) -> String {
+    let ret: String;
+    if column_index >= row.len() {
+        ret = row[0].get_value();
+    } else {
+        ret = row[column_index].get_value();
+    }
+    ret
+}
+
+#[pyfunction]
+fn py_get_column(py: Python<'_>, row: Vec<PyObject>, column_index: usize) -> PyResult<String> {
+    // Convert Vec<PyObject> to Vec<yattag::Doc>.
+    let row: Vec<crate::yattag::Doc> = row
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, crate::yattag::PyDoc> = item.extract(py)?;
+            Ok(item.doc.clone())
+        })
+        .collect::<PyResult<Vec<crate::yattag::Doc>>>()?;
+    Ok(get_column(&row, column_index))
+}
+
+/// Interpret the content as an integer.
+fn natnum(column: &str) -> u64 {
+    let mut number: String = "".into();
+    if let Some(cap) = NUMBER_WITH_JUNK.captures_iter(column).next() {
+        number = cap[1].into();
+    }
+    number.parse::<u64>().unwrap_or(0)
+}
+
+#[pyfunction]
+fn py_natnum(column: String) -> u64 {
+    natnum(&column)
+}
+
+/// Turns a tab-separated table into a list of lists.
+fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<crate::yattag::Doc>>> {
+    let mut table: Vec<Vec<crate::yattag::Doc>> = Vec::new();
+
+    let mut first = true;
+    let mut columns: HashMap<String, usize> = HashMap::new();
+    for result in csv_read.records() {
+        let row = result?;
+        if first {
+            first = false;
+            for (index, label) in row.iter().enumerate() {
+                columns.insert(label.into(), index);
+            }
+        }
+        let mut cells: Vec<crate::yattag::Doc> = row
+            .iter()
+            .map(|cell| crate::yattag::Doc::from_text(cell))
+            .collect();
+        if !cells.is_empty() && columns.contains_key("@type") {
+            // We know the first column is an OSM ID.
+            if let Ok(osm_id) = cells[0].get_value().parse::<u64>() {
+                let osm_type = cells[columns["@type"]].get_value();
+                let doc = crate::yattag::Doc::new();
+                let href = format!("https://www.openstreetmap.org/{}/{}", osm_type, osm_id);
+                {
+                    let _a = doc.tag("a", vec![("href", &href), ("target", "_blank")]);
+                    doc.text(&osm_id.to_string());
+                }
+                cells[0] = doc;
+            }
+        }
+        table.push(cells);
+    }
+
+    if columns.contains_key("addr:street") && columns.contains_key("addr:housenumber") {
+        let header = table[0].clone();
+        table.remove(0);
+        //table.sort(key=lambda row: natnum(get_column(row, columns["addr:housenumber"])));
+        table.sort_by(|a, b| {
+            let a_key = natnum(&get_column(a, *columns.get("addr:housenumber").unwrap()));
+            let b_key = natnum(&get_column(b, *columns.get("addr:housenumber").unwrap()));
+            a_key.cmp(&b_key)
+        });
+        table.sort_by(|a, b| {
+            let a_key = natnum(&get_column(a, *columns.get("addr:street").unwrap()));
+            let b_key = natnum(&get_column(b, *columns.get("addr:street").unwrap()));
+            a_key.cmp(&b_key)
+        });
+        let mut merged = vec![header];
+        merged.append(&mut table);
+        table = merged;
+    }
+
+    Ok(table)
+}
+
+#[pyfunction]
+fn py_tsv_to_list(py: Python<'_>, stream: PyObject) -> PyResult<Vec<Vec<crate::yattag::PyDoc>>> {
+    let mut stream: PyRefMut<'_, PyCsvRead> = stream.extract(py)?;
+    let mut cursor = std::io::Cursor::new(&mut stream.buf);
+    let mut csv_read = CsvRead::new(&mut cursor);
+    let ret = match tsv_to_list(&mut csv_read) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "tsv_to_list() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+    Ok(ret
+        .iter()
+        .map(|row| {
+            row.iter()
+                .map(|cell| crate::yattag::PyDoc { doc: cell.clone() })
+                .collect::<Vec<crate::yattag::PyDoc>>()
+        })
+        .collect::<Vec<Vec<crate::yattag::PyDoc>>>())
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -1245,5 +1438,16 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_process_template, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_should_expand_range, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_html_table_from_list, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_invalid_refstreets_to_html,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_invalid_filter_keys_to_html,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_column, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_natnum, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_tsv_to_list, module)?)?;
     Ok(())
 }
