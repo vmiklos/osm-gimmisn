@@ -482,10 +482,10 @@ class TestGetColumn(unittest.TestCase):
             yattag.Doc.from_text("A street"),
             yattag.Doc.from_text("1"),
         ]
-        self.assertEqual(util.get_column(row, 1, natnum=False), "A street")
-        self.assertEqual(util.get_column(row, 2, natnum=True), 1)
+        self.assertEqual(util.get_column(row, 1), "A street")
+        self.assertEqual(util.natnum(util.get_column(row, 2)), 1)
         # Too large column index -> first column.
-        self.assertEqual(util.get_column(row, 3, natnum=False), "42")
+        self.assertEqual(util.get_column(row, 3), "42")
 
     def test_junk(self) -> None:
         """Tests the 'housenumber is junk' case."""
@@ -495,7 +495,7 @@ class TestGetColumn(unittest.TestCase):
             yattag.Doc.from_text("A street"),
             yattag.Doc.from_text("fixme"),
         ]
-        self.assertEqual(util.get_column(row, 2, natnum=True), 0)
+        self.assertEqual(util.natnum(util.get_column(row, 2)), 0)
 
 
 class TestGetTimestamp(unittest.TestCase):

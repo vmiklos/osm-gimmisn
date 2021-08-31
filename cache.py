@@ -94,7 +94,8 @@ def get_missing_housenumbers_html(ctx: context.Context, relation: areas.Relation
             doc.text(tr("Checklist format"))
 
     doc.append_value(util.html_table_from_list(table).get_value())
-    doc.append_value(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).get_value())
+    osm_invalids, ref_invalids = relation.get_invalid_refstreets()
+    doc.append_value(util.invalid_refstreets_to_html(osm_invalids, ref_invalids).get_value())
     doc.append_value(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).get_value())
 
     with relation.get_files().get_housenumbers_htmlcache_write_stream(ctx) as stream:
@@ -122,7 +123,8 @@ def get_additional_housenumbers_html(ctx: context.Context, relation: areas.Relat
             doc.text(tr("Filter incorrect information"))
 
     doc.append_value(util.html_table_from_list(table).get_value())
-    doc.append_value(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).get_value())
+    osm_invalids, ref_invalids = relation.get_invalid_refstreets()
+    doc.append_value(util.invalid_refstreets_to_html(osm_invalids, ref_invalids).get_value())
     doc.append_value(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).get_value())
 
     with relation.get_files().get_additional_housenumbers_htmlcache_write_stream(ctx) as stream:

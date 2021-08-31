@@ -14,7 +14,6 @@ from typing import Optional
 from typing import Set
 from typing import Tuple
 from typing import TypeVar
-from typing import Union
 import locale
 import os
 import re
@@ -48,107 +47,15 @@ write_html_header = rust.py_write_html_header
 process_template = rust.py_process_template
 should_expand_range = rust.py_should_expand_range
 html_table_from_list = rust.py_html_table_from_list
+invalid_refstreets_to_html = rust.py_invalid_refstreets_to_html
+invalid_filter_keys_to_html = rust.py_invalid_filter_keys_to_html
+get_column = rust.py_get_column
+natnum = rust.py_natnum
+tsv_to_list = rust.py_tsv_to_list
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def invalid_refstreets_to_html(invalids: Tuple[List[str], List[str]]) -> yattag.Doc:
-    """Produces HTML enumerations for 2 string lists."""
-    doc = yattag.Doc()
-    osm_invalids, ref_invalids = invalids
-    if osm_invalids:
-        doc.stag("br", [])
-        with doc.tag("div", [("id", "osm-invalids-container")]):
-            doc.text(tr("Warning: broken OSM <-> reference mapping, the following OSM names are invalid:"))
-            with doc.tag("ul", []):
-                for osm_invalid in osm_invalids:
-                    with doc.tag("li", []):
-                        doc.text(osm_invalid)
-    if ref_invalids:
-        doc.stag("br", [])
-        with doc.tag("div", [("id", "ref-invalids-container")]):
-            doc.text(tr("Warning: broken OSM <-> reference mapping, the following reference names are invalid:"))
-            with doc.tag("ul", []):
-                for ref_invalid in ref_invalids:
-                    with doc.tag("li", []):
-                        doc.text(ref_invalid)
-    if osm_invalids or ref_invalids:
-        doc.stag("br", [])
-        doc.text(tr("Note: an OSM name is invalid if it's not in the OSM database."))
-        doc.text(tr("A reference name is invalid if it's in the OSM database."))
-    return doc
-
-
-def invalid_filter_keys_to_html(invalids: List[str]) -> yattag.Doc:
-    """Produces HTML enumerations for a string list."""
-    doc = yattag.Doc()
-    if invalids:
-        doc.stag("br", [])
-        with doc.tag("div", [("id", "osm-filter-key-invalids-container")]):
-            doc.text(tr("Warning: broken filter key name, the following key names are not OSM names:"))
-            with doc.tag("ul", []):
-                for invalid in invalids:
-                    with doc.tag("li", []):
-                        doc.text(invalid)
-    return doc
-
-
-def get_column(row: List[yattag.Doc], column_index: int, natnum: bool) -> Union[str, int]:
-    """Gets the nth column of row, possibly interpreting the content as an integer."""
-    ret = ""
-    if column_index >= len(row):
-        ret = row[0].get_value()
-    else:
-        ret = row[column_index].get_value()
-    if natnum:
-        try:
-            number = ret
-            match = re.match(r"([0-9]+).*", number)
-            if match:
-                number = match.group(1)
-            return int(number)
-        except ValueError:
-            return 0
-    return ret
-
-
-def tsv_to_list(stream: CsvIO) -> List[List[yattag.Doc]]:
-    """Turns a tab-separated table into a list of lists."""
-    table = []
-
-    first = True
-    columns: Dict[str, int] = {}
-    for row in stream.get_rows():
-        if first:
-            first = False
-            for index, label in enumerate(row):
-                columns[label] = index
-        cells = [yattag.Doc.from_text(cell.strip()) for cell in row]
-        if cells and "@type" in columns:
-            # We know the first column is an OSM ID.
-            try:
-                osm_id = int(cells[0].get_value())
-                osm_type = cells[columns["@type"]].get_value()
-                doc = yattag.Doc()
-                href = "https://www.openstreetmap.org/{}/{}".format(osm_type, osm_id)
-                with doc.tag("a", [("href", href), ("target", "_blank")]):
-                    doc.text(str(osm_id))
-                cells[0] = doc
-            except ValueError:
-                # Not an int, ignore.
-                pass
-        table.append(cells)
-
-    if "addr:street" in columns and "addr:housenumber" in columns:
-        header = table[0]
-        table = table[1:]
-        table.sort(key=lambda row: get_column(row, columns["addr:housenumber"], natnum=True))
-        table.sort(key=lambda row: get_column(row, columns["addr:street"], natnum=False))
-        table = [header] + table
-
-    return table
 
 
 def get_street_from_housenumber(sock: CsvIO) -> List[Street]:

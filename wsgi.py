@@ -193,7 +193,8 @@ def missing_streets_view_result(ctx: context.Context, relations: areas.Relations
             doc.text(tr("Checklist format"))
 
     doc.append_value(util.html_table_from_list(table).get_value())
-    doc.append_value(util.invalid_refstreets_to_html(relation.get_invalid_refstreets()).get_value())
+    osm_invalids, ref_invalids = relation.get_invalid_refstreets()
+    doc.append_value(util.invalid_refstreets_to_html(osm_invalids, ref_invalids).get_value())
     doc.append_value(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).get_value())
     return doc
 

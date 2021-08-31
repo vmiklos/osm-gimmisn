@@ -34,7 +34,7 @@ impl Doc {
     }
 
     /// Factory of yattag.Doc from a string.
-    fn from_text(text: &str) -> Self {
+    pub fn from_text(text: &str) -> Self {
         let doc = Doc::new();
         doc.text(text);
         doc
