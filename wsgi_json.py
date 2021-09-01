@@ -18,6 +18,7 @@ from typing import Tuple
 import areas
 import context
 import rust
+import util
 import webframe
 
 if TYPE_CHECKING:
@@ -101,7 +102,7 @@ def our_application_json(
     else:
         # Assume that request_uri starts with prefix + "/missing-streets/".
         output = missing_streets_update_result_json(ctx, relations, request_uri)
-    output_bytes = output.encode("utf-8")
+    output_bytes = util.to_bytes(output)
     response = webframe.Response(content_type, "200 OK", output_bytes, headers)
     return webframe.send_response(environ, start_response, response)
 

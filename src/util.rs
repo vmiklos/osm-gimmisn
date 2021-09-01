@@ -37,6 +37,7 @@ lazy_static! {
     static ref LETTER_SUFFIX: regex::Regex = regex::Regex::new(r".*([A-Za-z]+)\*?").unwrap();
     static ref NUMBER_SUFFIX: regex::Regex = regex::Regex::new(r"^.*/([0-9])\*?$").unwrap();
     static ref NULL_END: regex::Regex = regex::Regex::new(r" null$").unwrap();
+    static ref GIT_HASH: regex::Regex = regex::Regex::new(r".*-g([0-9a-f]+)(-modified)?").unwrap();
 }
 
 /// Specifies the style of the output of normalize_letter_suffix().
@@ -102,10 +103,18 @@ impl HouseNumberRange {
     fn get_comment(&self) -> &String {
         &self.comment
     }
+}
 
+impl Ord for HouseNumberRange {
     /// Comment is explicitly non-interesting.
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.number.cmp(&other.number)
+    }
+}
+
+impl PartialOrd for HouseNumberRange {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
     }
 }
 
@@ -115,6 +124,8 @@ impl PartialEq for HouseNumberRange {
         self.number == other.number
     }
 }
+
+impl Eq for HouseNumberRange {}
 
 impl Hash for HouseNumberRange {
     /// Comment is explicitly non-interesting.
@@ -178,7 +189,7 @@ impl<'p> PyObjectProtocol<'p> for PyHouseNumberRange {
 
 /// A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
 /// name differs.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct Street {
     osm_name: String,
     ref_name: String,
@@ -363,7 +374,7 @@ impl<'p> PyObjectProtocol<'p> for PyStreet {
 /// A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
 /// can generate 3 house numbers, all of them with the same range.
 /// The comment is similar to source, it's ignored during __eq__() and __hash__().
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct HouseNumber {
     number: String,
     source: String,
@@ -1412,6 +1423,153 @@ fn py_tsv_to_list(py: Python<'_>, stream: PyObject) -> PyResult<Vec<Vec<crate::y
         .collect::<Vec<Vec<crate::yattag::PyDoc>>>())
 }
 
+/// Reads a house number CSV and extracts streets from rows.
+/// Returns a list of street objects, with their name, ID and type set.
+fn get_street_from_housenumber(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Street>> {
+    let mut ret: Vec<Street> = Vec::new();
+
+    let mut first = true;
+    let mut columns: HashMap<String, usize> = HashMap::new();
+    for result in csv_read.records() {
+        let row = result?;
+        if first {
+            first = false;
+            for (index, label) in row.iter().enumerate() {
+                columns.insert(label.into(), index);
+            }
+            continue;
+        }
+
+        let has_housenumber = &row[*columns.get("addr:housenumber").unwrap()];
+        let has_conscriptionnumber = &row[*columns.get("addr:conscriptionnumber").unwrap()];
+        if has_housenumber.is_empty() && has_conscriptionnumber.is_empty() {
+            continue;
+        }
+
+        let mut street_name = &row[*columns.get("addr:street").unwrap()];
+        if street_name.is_empty() && columns.contains_key("addr:place") {
+            street_name = &row[*columns.get("addr:place").unwrap()];
+        }
+        if street_name.is_empty() {
+            continue;
+        }
+
+        let osm_type = &row[*columns.get("@type").unwrap()];
+        let osm_id = row[0].parse::<u64>().unwrap_or(0);
+        let mut street = Street::new(street_name, "", true, osm_id);
+        street.set_osm_type(osm_type);
+        street.set_source(&tr("housenumber"));
+        ret.push(street);
+    }
+
+    Ok(ret)
+}
+
+#[pyfunction]
+fn py_get_street_from_housenumber(py: Python<'_>, stream: PyObject) -> PyResult<Vec<PyStreet>> {
+    let mut stream: PyRefMut<'_, PyCsvRead> = stream.extract(py)?;
+    let mut cursor = std::io::Cursor::new(&mut stream.buf);
+    let mut csv_read = CsvRead::new(&mut cursor);
+    let ret = match get_street_from_housenumber(&mut csv_read) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_street_from_housenumber() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+    Ok(ret
+        .iter()
+        .map(|street| PyStreet {
+            street: street.clone(),
+        })
+        .collect::<Vec<PyStreet>>())
+}
+
+/// Gets a reference range list for a house number list by looking at what range provided a given
+/// house number.
+fn get_housenumber_ranges(house_numbers: &[HouseNumber]) -> Vec<HouseNumberRange> {
+    let mut ret: Vec<HouseNumberRange> = Vec::new();
+    for house_number in house_numbers {
+        ret.push(HouseNumberRange::new(
+            house_number.get_source(),
+            house_number.get_comment(),
+        ));
+    }
+    ret.sort();
+    ret.dedup();
+    ret
+}
+
+#[pyfunction]
+fn py_get_housenumber_ranges(
+    py: Python<'_>,
+    house_numbers: Vec<PyObject>,
+) -> PyResult<Vec<PyHouseNumberRange>> {
+    let house_numbers: Vec<HouseNumber> = house_numbers
+        .iter()
+        .map(|house_number| {
+            let house_number: PyRefMut<'_, PyHouseNumber> = house_number.extract(py)?;
+            Ok(house_number.house_number.clone())
+        })
+        .collect::<PyResult<Vec<HouseNumber>>>()?;
+    let ret = get_housenumber_ranges(&house_numbers);
+    Ok(ret
+        .iter()
+        .map(|house_number_range| PyHouseNumberRange {
+            house_number_range: house_number_range.clone(),
+        })
+        .collect())
+}
+
+/// Generates a HTML link based on a website prefix and a git-describe version.
+fn git_link(version: &str, prefix: &str) -> crate::yattag::Doc {
+    let mut commit_hash: String = "".into();
+    if let Some(cap) = GIT_HASH.captures_iter(version).next() {
+        commit_hash = cap[1].into();
+    }
+    let doc = crate::yattag::Doc::new();
+    let _a = doc.tag("a", vec![("href", &(prefix.to_string() + &commit_hash))]);
+    doc.text(version);
+    doc
+}
+
+#[pyfunction]
+fn py_git_link(version: String, prefix: String) -> crate::yattag::PyDoc {
+    let doc = git_link(&version, &prefix);
+    crate::yattag::PyDoc { doc }
+}
+
+/// Sorts strings according to their numerical value, not alphabetically.
+fn sort_numerically(strings: &[HouseNumber]) -> Vec<HouseNumber> {
+    let mut ret: Vec<HouseNumber> = strings.to_owned();
+    ret.sort_by(|a, b| {
+        let a_key = split_house_number(a.get_number());
+        let b_key = split_house_number(b.get_number());
+        a_key.cmp(&b_key)
+    });
+    ret
+}
+
+#[pyfunction]
+fn py_sort_numerically(py: Python<'_>, strings: Vec<PyObject>) -> PyResult<Vec<PyHouseNumber>> {
+    let mut house_numbers: Vec<HouseNumber> = strings
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
+            Ok(item.house_number.clone())
+        })
+        .collect::<PyResult<Vec<HouseNumber>>>()?;
+    house_numbers = sort_numerically(&house_numbers);
+    Ok(house_numbers
+        .iter()
+        .map(|house_number| PyHouseNumber {
+            house_number: house_number.clone(),
+        })
+        .collect())
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -1449,5 +1607,12 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_column, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_natnum, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_tsv_to_list, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_get_street_from_housenumber,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_housenumber_ranges, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_git_link, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_sort_numerically, module)?)?;
     Ok(())
 }

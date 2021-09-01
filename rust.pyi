@@ -518,4 +518,24 @@ def py_tsv_to_list(stream: PyCsvRead) -> List[List[PyDoc]]:
     """Turns a tab-separated table into a list of lists."""
     ...
 
+def py_get_street_from_housenumber(sock: PyCsvRead) -> List[PyStreet]:
+    """
+    Reads a house number CSV and extracts streets from rows.
+    Returns a list of street objects, with their name, ID and type set.
+    """
+    ...
+
+def py_get_housenumber_ranges(house_numbers: List[PyHouseNumber]) -> List[PyHouseNumberRange]:
+    """Gets a reference range list for a house number list by looking at what range provided a givne
+    house number."""
+    ...
+
+def py_git_link(version: str, prefix: str) -> PyDoc:
+    """Generates a HTML link based on a website prefix and a git-describe version."""
+    ...
+
+def py_sort_numerically(strings: List[PyHouseNumber]) -> List[PyHouseNumber]:
+    """Sorts strings according to their numerical value, not alphabetically."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
