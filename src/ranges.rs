@@ -16,7 +16,7 @@ use pyo3::class::PySequenceProtocol;
 use pyo3::prelude::*;
 
 /// A range object represents an odd or even range of integer numbers.
-#[derive(Clone, Copy, Debug, FromPyObject)]
+#[derive(Clone, Copy, Debug)]
 pub struct Range {
     start: i64,
     end: i64,
@@ -129,7 +129,7 @@ impl<'p> PyObjectProtocol<'p> for PyRange {
 }
 
 /// A Ranges object contains an item if any of its Range objects contains it.
-#[derive(Debug, FromPyObject)]
+#[derive(Debug)]
 pub struct Ranges {
     items: Vec<Range>,
 }

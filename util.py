@@ -8,7 +8,6 @@
 
 from typing import Callable
 from typing import Dict
-from typing import Iterable
 from typing import List
 from typing import Optional
 from typing import Set
@@ -19,9 +18,6 @@ import os
 import re
 import email.utils
 
-import yattag
-
-from rust import py_translate as tr
 import context
 import rust
 
@@ -52,72 +48,14 @@ invalid_filter_keys_to_html = rust.py_invalid_filter_keys_to_html
 get_column = rust.py_get_column
 natnum = rust.py_natnum
 tsv_to_list = rust.py_tsv_to_list
+get_street_from_housenumber = rust.py_get_street_from_housenumber
+get_housenumber_ranges = rust.py_get_housenumber_ranges
+git_link = rust.py_git_link
+sort_numerically = rust.py_sort_numerically
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def get_street_from_housenumber(sock: CsvIO) -> List[Street]:
-    """
-    Reads a house number CSV and extracts streets from rows.
-    Returns a list of street objects, with their name, ID and type set.
-    """
-    ret = []
-
-    first = True
-    columns: Dict[str, int] = {}
-    for row in sock.get_rows():
-        if first:
-            first = False
-            for index, label in enumerate(row):
-                columns[label] = index
-            continue
-
-        has_housenumber = row[columns["addr:housenumber"]]
-        has_conscriptionnumber = row[columns["addr:conscriptionnumber"]]
-        if (not has_housenumber) and (not has_conscriptionnumber):
-            continue
-        street_name = row[columns["addr:street"]]
-        if not street_name and "addr:place" in columns:
-            street_name = row[columns["addr:place"]]
-        if not street_name:
-            continue
-
-        osm_type = row[columns["@type"]]
-        try:
-            osm_id = int(row[0])
-        except ValueError:
-            osm_id = 0
-        street = Street(osm_name=street_name, ref_name="", show_ref_street=True, osm_id=osm_id)
-        street.set_osm_type(osm_type)
-        street.set_source(tr("housenumber"))
-        ret.append(street)
-
-    return ret
-
-
-def get_housenumber_ranges(house_numbers: List[HouseNumber]) -> List[HouseNumberRange]:
-    """Gets a reference range list for a house number list by looking at what range provided a givne
-    house number."""
-    ret = []
-    for house_number in house_numbers:
-        ret.append(HouseNumberRange(house_number.get_source(), house_number.get_comment()))
-    return sorted(set(ret))
-
-
-def git_link(version: str, prefix: str) -> yattag.Doc:
-    """Generates a HTML link based on a website prefix and a git-describe version."""
-    commit_hash = re.sub(".*-g([0-9a-f]+)(-modified)?", r"\1", version)
-    doc = yattag.Doc()
-    with doc.tag("a", [("href", prefix + commit_hash)]):
-        doc.text(version)
-    return doc
-
-
-def sort_numerically(strings: Iterable[HouseNumber]) -> List[HouseNumber]:
-    """Sorts strings according to their numerical value, not alphabetically."""
-    return sorted(strings, key=lambda x: split_house_number(x.get_number()))
 
 
 Diff = TypeVar("Diff", HouseNumber, Street)

@@ -870,10 +870,10 @@ def our_application_txt(
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
         elif request_uri.endswith("robots.txt"):
-            output = util.get_content(ctx.get_abspath("data"), "robots.txt").decode("utf-8")
+            output = util.from_bytes(util.get_content(ctx.get_abspath("data"), "robots.txt"))
         else:  # assume txt
             output = missing_housenumbers_view_txt(ctx, relations, request_uri)
-    output_bytes = output.encode("utf-8")
+    output_bytes = util.to_bytes(output)
     response_properties = webframe.Response(content_type, "200 OK", output_bytes, headers)
     return webframe.send_response(environ, start_response, response_properties)
 
@@ -920,7 +920,7 @@ def our_application(
 
         if not (request_uri == "/" or request_uri.startswith(ctx.get_ini().get_uri_prefix())):
             doc = webframe.handle_404()
-            response = webframe.Response("text/html", "404 Not Found", doc.get_value().encode("utf-8"), [])
+            response = webframe.Response("text/html", "404 Not Found", util.to_bytes(doc.get_value()), [])
             return webframe.send_response(environ, start_response, response), str()
 
         if request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/static/") or \
@@ -955,7 +955,7 @@ def our_application(
             return [], err
         return webframe.send_response(environ,
                                       start_response,
-                                      webframe.Response("text/html", "200 OK", doc.get_value().encode("utf-8"), [])), err
+                                      webframe.Response("text/html", "200 OK", util.to_bytes(doc.get_value()), [])), err
     # pylint: disable=broad-except
     except Exception:  # pragma: no cover
         return [], traceback.format_exc()

@@ -333,7 +333,7 @@ class RelationBase:
                             house_numbers[street] = []
                         house_numbers[street] += normalize(self, house_number, street, street_ranges)
             for key, value in house_numbers.items():
-                self.__osm_housenumbers[key] = util.sort_numerically(set(value))
+                self.__osm_housenumbers[key] = util.sort_numerically(list(set(value)))
         if street_name not in self.__osm_housenumbers:
             self.__osm_housenumbers[street_name] = []
         return self.__osm_housenumbers[street_name]
@@ -463,7 +463,7 @@ class RelationBase:
                     normalized = \
                         [i for i in normalized if not util.HouseNumber.is_invalid(i.get_number(), street_invalid)]
                     house_numbers += normalized
-            ret[osm_street_name] = util.sort_numerically(set(house_numbers))
+            ret[osm_street_name] = util.sort_numerically(list(set(house_numbers)))
         return ret
 
     def get_missing_housenumbers(self) -> Tuple[util.NumberedStreets, util.NumberedStreets]:

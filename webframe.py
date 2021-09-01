@@ -328,7 +328,7 @@ def handle_exception(
     with doc.tag("pre", []):
         doc.text(tr("Internal error when serving {0}").format(request_uri) + "\n")
         doc.text(error)
-    response_properties = Response("text/html", status, doc.get_value().encode("utf-8"), [])
+    response_properties = Response("text/html", status, util.to_bytes(doc.get_value()), [])
     return send_response(environ, start_response, response_properties)
 
 
@@ -659,7 +659,7 @@ def handle_no_ref_streets(prefix: str, relation_name: str) -> yattag.Doc:
 def handle_github_webhook(environ: Dict[str, Any], ctx: context.Context) -> yattag.Doc:
     """Handles a GitHub style webhook."""
 
-    body = urllib.parse.parse_qs(environ["wsgi.input"].read().decode('utf-8'))
+    body = urllib.parse.parse_qs(util.from_bytes(environ["wsgi.input"].read()))
     payload = body["payload"][0]
     root = json.loads(payload)
     if root["ref"] == "refs/heads/master":
