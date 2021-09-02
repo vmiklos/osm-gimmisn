@@ -7,16 +7,12 @@
 """The util module contains functionality shared between other modules."""
 
 from typing import Callable
-from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Set
 from typing import Tuple
-from typing import TypeVar
 import locale
 import os
 import re
-import email.utils
 
 import context
 import rust
@@ -52,80 +48,15 @@ get_street_from_housenumber = rust.py_get_street_from_housenumber
 get_housenumber_ranges = rust.py_get_housenumber_ranges
 git_link = rust.py_git_link
 sort_numerically = rust.py_sort_numerically
+get_only_in_first = rust.py_get_only_in_first
+get_in_both = rust.py_get_in_both
+get_content = rust.py_get_content
+get_content_with_meta = rust.py_get_content_with_meta
+get_normalizer = rust.py_get_normalizer
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-Diff = TypeVar("Diff", HouseNumber, Street)
-
-
-def get_only_in_first(first: List[Diff], second: List[Diff]) -> List[Diff]:
-    """
-    Returns items which are in first, but not in second.
-    """
-    # Strip suffix that is ignored.
-    if not first:
-        return []
-
-    first_stripped = [i.get_diff_key() for i in first]
-    second_stripped = [i.get_diff_key() for i in second]
-
-    ret = []
-    for index, item in enumerate(first_stripped):
-        if item not in second_stripped:
-            ret.append(first[index])
-    return ret
-
-
-def get_in_both(first: List[Diff], second: List[Diff]) -> List[Diff]:
-    """
-    Returns items which are in both first and second.
-    """
-    # Strip suffix that is ignored.
-    if not first:
-        return []
-
-    first_stripped = [i.get_diff_key() for i in first]
-    second_stripped = [i.get_diff_key() for i in second]
-
-    ret = []
-    for index, item in enumerate(first_stripped):
-        if item in second_stripped:
-            ret.append(first[index])
-    return ret
-
-
-def get_content(workdir: str, path: str = "", extra_headers: Optional[List[Tuple[str, str]]] = None) -> bytes:
-    """Gets the content of a file in workdir."""
-    ret = bytes()
-    if path:
-        path = os.path.join(workdir, path)
-    else:
-        path = workdir
-    with open(path, "rb") as sock:
-        ret = sock.read()
-        if extra_headers is not None:
-            stat = os.fstat(sock.fileno())
-            modified = email.utils.formatdate(stat.st_mtime, usegmt=True)
-            extra_headers.append(("Last-Modified", modified))
-    return ret
-
-
-def get_normalizer(street_name: str, normalizers: Dict[str, rust.PyRanges]) -> rust.PyRanges:
-    """Determines the normalizer for a given street."""
-    if street_name in normalizers.keys():
-        # Have a custom filter.
-        normalizer = normalizers[street_name]
-    else:
-        # Default sanity checks.
-        default = [
-            rust.PyRange(1, 999, interpolation=""),
-            rust.PyRange(2, 998, interpolation=""),
-        ]
-        normalizer = rust.PyRanges(default)
-    return normalizer
 
 
 def split_house_number_by_separator(
