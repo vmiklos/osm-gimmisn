@@ -15,6 +15,8 @@ street-filters:
   # Tisza köz - Tisza utcából nyílik - note felvéve
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  # nincs tábla
+  'Ciklámen utca': 'Ciklámen út'
   # helyesírás, ref hibás
   'Bolyai János utca': 'Bólyai János utca'
   'Bolyai János köz': 'Bólyai János köz'
