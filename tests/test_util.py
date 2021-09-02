@@ -412,7 +412,7 @@ class TestGetContent(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         workdir = os.path.join(os.path.dirname(__file__), "workdir")
-        actual = util.get_content(workdir, "gazdagret.percent").decode("utf-8")
+        actual = util.get_content(workdir + "/gazdagret.percent").decode("utf-8")
         expected = "54.55"
         self.assertEqual(actual, expected)
 

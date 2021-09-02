@@ -242,23 +242,23 @@ def handle_static(ctx: context.Context, request_uri: str) -> Tuple[bytes, str, L
 
     if request_uri.endswith(".js"):
         content_type = "application/x-javascript"
-        content = util.get_content(ctx.get_abspath("builddir"), path, extra_headers)
+        content, extra_headers = util.get_content_with_meta(ctx.get_abspath("builddir/" + path))
         return content, content_type, extra_headers
     if request_uri.endswith(".css"):
         content_type = "text/css"
-        content = util.get_content(ctx.get_ini().get_workdir(), path, extra_headers)
+        content, extra_headers = util.get_content_with_meta(ctx.get_ini().get_workdir() + "/" + path)
         return content, content_type, extra_headers
     if request_uri.endswith(".json"):
         content_type = "application/json"
-        content = util.get_content(os.path.join(ctx.get_ini().get_workdir(), "stats"), path, extra_headers)
+        content, extra_headers = util.get_content_with_meta(os.path.join(ctx.get_ini().get_workdir(), "stats/" + path))
         return content, content_type, extra_headers
     if request_uri.endswith(".ico"):
         content_type = "image/x-icon"
-        content = util.get_content(ctx.get_abspath(""), path, extra_headers)
+        content, extra_headers = util.get_content_with_meta(ctx.get_abspath(path))
         return content, content_type, extra_headers
     if request_uri.endswith(".svg"):
         content_type = "image/svg+xml"
-        content = util.get_content(ctx.get_abspath(""), path, extra_headers)
+        content, extra_headers = util.get_content_with_meta(ctx.get_abspath(path))
         return content, content_type, extra_headers
 
     return bytes(), "", extra_headers

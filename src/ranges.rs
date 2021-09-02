@@ -24,7 +24,7 @@ pub struct Range {
 }
 
 impl Range {
-    fn new(start: i64, end: i64, interpolation: String) -> Self {
+    pub fn new(start: i64, end: i64, interpolation: String) -> Self {
         let mut is_odd = Some(start % 2 == 1);
         if interpolation == "all" {
             is_odd = None
@@ -129,13 +129,13 @@ impl<'p> PyObjectProtocol<'p> for PyRange {
 }
 
 /// A Ranges object contains an item if any of its Range objects contains it.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Ranges {
     items: Vec<Range>,
 }
 
 impl Ranges {
-    fn new(items: Vec<Range>) -> Self {
+    pub fn new(items: Vec<Range>) -> Self {
         Ranges { items }
     }
 
@@ -164,7 +164,7 @@ impl PartialEq for Ranges {
 #[pyclass]
 #[derive(Debug)]
 pub struct PyRanges {
-    ranges: Ranges,
+    pub ranges: Ranges,
 }
 
 #[pymethods]

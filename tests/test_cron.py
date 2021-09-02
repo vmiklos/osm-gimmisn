@@ -224,11 +224,11 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relations.get_relation(relation_name).get_config().set_active(False)
-        expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+        expected = util.get_content(relations.get_workdir() + "/street-housenumbers-gazdagret.csv")
         cron.update_osm_housenumbers(ctx, relations, update=True)
         # Make sure that in case we keep getting errors we give up at some stage and
         # leave the last state unchanged.
-        actual = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+        actual = util.get_content(relations.get_workdir() + "/street-housenumbers-gazdagret.csv")
         self.assertEqual(actual, expected)
 
 
@@ -251,14 +251,14 @@ class TestUpdateOsmStreets(unittest.TestCase):
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relations.get_relation(relation_name).get_config().set_active(False)
-        expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        expected = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
         path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
         os.unlink(path)
         cron.update_osm_streets(ctx, relations, update=True)
         mtime = os.path.getmtime(path)
         cron.update_osm_streets(ctx, relations, update=False)
         self.assertEqual(os.path.getmtime(path), mtime)
-        actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        actual = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
         self.assertEqual(actual, expected)
 
     def test_http_error(self) -> None:
@@ -278,11 +278,11 @@ class TestUpdateOsmStreets(unittest.TestCase):
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relations.get_relation(relation_name).get_config().set_active(False)
-        expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        expected = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
         cron.update_osm_streets(ctx, relations, update=True)
         # Make sure that in case we keep getting errors we give up at some stage and
         # leave the last state unchanged.
-        actual = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        actual = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
         self.assertEqual(actual, expected)
 
 

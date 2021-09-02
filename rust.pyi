@@ -14,6 +14,7 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import TypeVar
 from typing import cast
 import api
 
@@ -536,6 +537,29 @@ def py_git_link(version: str, prefix: str) -> PyDoc:
 
 def py_sort_numerically(strings: List[PyHouseNumber]) -> List[PyHouseNumber]:
     """Sorts strings according to their numerical value, not alphabetically."""
+    ...
+
+Diff = TypeVar("Diff", PyHouseNumber, PyStreet)
+
+def py_get_only_in_first(first: List[Diff], second: List[Diff]) -> List[Diff]:
+    """Returns items which are in first, but not in second."""
+    ...
+
+
+def py_get_in_both(first: List[Diff], second: List[Diff]) -> List[Diff]:
+    """Returns items which are in both first and second."""
+    ...
+
+def py_get_content(path: str) -> bytes:
+    """Gets the content of a file in workdir."""
+    ...
+
+def py_get_content_with_meta(path: str) -> Tuple[bytes, List[Tuple[str, str]]]:
+    """Gets the content of a file in workdir with metadata."""
+    ...
+
+def py_get_normalizer(street_name: str, normalizers: Dict[str, PyRanges]) -> PyRanges:
+    """Determines the normalizer for a given street."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -870,7 +870,7 @@ def our_application_txt(
             content_type = "application/octet-stream"
             headers.append(("Content-Disposition", 'attachment;filename="' + relation_name + '.txt"'))
         elif request_uri.endswith("robots.txt"):
-            output = util.from_bytes(util.get_content(ctx.get_abspath("data"), "robots.txt"))
+            output = util.from_bytes(util.get_content(ctx.get_abspath("data/robots.txt")))
         else:  # assume txt
             output = missing_housenumbers_view_txt(ctx, relations, request_uri)
     output_bytes = util.to_bytes(output)

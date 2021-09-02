@@ -187,6 +187,12 @@ impl<'p> PyObjectProtocol<'p> for PyHouseNumberRange {
     }
 }
 
+/// Used to diff two lists of elements.
+trait Diff {
+    /// Gets a string that is used while diffing.
+    fn get_diff_key(&self) -> String;
+}
+
 /// A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
 /// name differs.
 #[derive(Clone, Debug)]
@@ -214,12 +220,6 @@ impl Street {
     /// Constructor that only requires an OSM name.
     fn from_string(osm_name: &str) -> Street {
         Street::new(osm_name, "", true, 0)
-    }
-
-    /// Gets a string that is used while diffing.
-    fn get_diff_key(&self) -> String {
-        let re = regex::Regex::new(r"\*$").unwrap();
-        re.replace(&self.osm_name, "").to_string()
     }
 
     /// Returns the OSM name.
@@ -273,6 +273,13 @@ impl Street {
     /// OSM id is explicitly non-interesting.
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.osm_name.cmp(&other.osm_name)
+    }
+}
+
+impl Diff for Street {
+    fn get_diff_key(&self) -> String {
+        let re = regex::Regex::new(r"\*$").unwrap();
+        re.replace(&self.osm_name, "").to_string()
     }
 }
 
@@ -395,12 +402,6 @@ impl HouseNumber {
         &self.number
     }
 
-    /// Gets a string that is used while diffing.
-    fn get_diff_key(&self) -> String {
-        let re = regex::Regex::new(r"\*$").unwrap();
-        re.replace(&self.number, "").to_string()
-    }
-
     /// Returns the source range.
     fn get_source(&self) -> &str {
         &self.source
@@ -506,6 +507,13 @@ impl HouseNumber {
         }
         ret += source_suffix;
         Ok(ret)
+    }
+}
+
+impl Diff for HouseNumber {
+    fn get_diff_key(&self) -> String {
+        let re = regex::Regex::new(r"\*$").unwrap();
+        re.replace(&self.number, "").to_string()
     }
 }
 
@@ -1570,6 +1578,263 @@ fn py_sort_numerically(py: Python<'_>, strings: Vec<PyObject>) -> PyResult<Vec<P
         .collect())
 }
 
+/// Returns items which are in first, but not in second.
+fn get_only_in_first<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
+    if first.is_empty() {
+        return Vec::new();
+    }
+
+    // Strip suffix that is ignored.
+    let second: Vec<String> = second.iter().map(|i| i.get_diff_key()).collect();
+
+    first
+        .iter()
+        .filter(|i| !second.contains(&i.get_diff_key()))
+        .cloned()
+        .collect()
+}
+
+fn py_get_only_in_first_housenumber(
+    py: Python<'_>,
+    first: &[PyObject],
+    second: &[PyObject],
+) -> PyResult<Vec<PyObject>> {
+    let first: Vec<HouseNumber> = first
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
+            Ok(item.house_number.clone())
+        })
+        .collect::<PyResult<Vec<HouseNumber>>>()?;
+    let second: Vec<HouseNumber> = second
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
+            Ok(item.house_number.clone())
+        })
+        .collect::<PyResult<Vec<HouseNumber>>>()?;
+    let ret = get_only_in_first(&first, &second);
+    Ok(ret
+        .iter()
+        .map(|i| {
+            PyHouseNumber {
+                house_number: i.clone(),
+            }
+            .into_py(py)
+        })
+        .collect::<Vec<PyObject>>())
+}
+
+fn py_get_only_in_first_street(
+    py: Python<'_>,
+    first: &[PyObject],
+    second: &[PyObject],
+) -> PyResult<Vec<PyObject>> {
+    let first: Vec<Street> = first
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyStreet> = item.extract(py)?;
+            Ok(item.street.clone())
+        })
+        .collect::<PyResult<Vec<Street>>>()?;
+    let second: Vec<Street> = second
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyStreet> = item.extract(py)?;
+            Ok(item.street.clone())
+        })
+        .collect::<PyResult<Vec<Street>>>()?;
+    let ret = get_only_in_first(&first, &second);
+    Ok(ret
+        .iter()
+        .map(|i| PyStreet { street: i.clone() }.into_py(py))
+        .collect::<Vec<PyObject>>())
+}
+
+#[pyfunction]
+fn py_get_only_in_first(
+    py: Python<'_>,
+    first: Vec<PyObject>,
+    second: Vec<PyObject>,
+) -> PyResult<Vec<PyObject>> {
+    if let Ok(value) = py_get_only_in_first_housenumber(py, &first, &second) {
+        return Ok(value);
+    }
+
+    py_get_only_in_first_street(py, &first, &second)
+}
+
+/// Returns items which are in both first and second.
+fn get_in_both<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
+    if first.is_empty() {
+        return Vec::new();
+    }
+
+    // Strip suffix that is ignored.
+    let second: Vec<String> = second.iter().map(|i| i.get_diff_key()).collect();
+
+    first
+        .iter()
+        .filter(|i| second.contains(&i.get_diff_key()))
+        .cloned()
+        .collect()
+}
+
+fn py_get_in_both_housenumber(
+    py: Python<'_>,
+    first: &[PyObject],
+    second: &[PyObject],
+) -> PyResult<Vec<PyObject>> {
+    let first: Vec<HouseNumber> = first
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
+            Ok(item.house_number.clone())
+        })
+        .collect::<PyResult<Vec<HouseNumber>>>()?;
+    let second: Vec<HouseNumber> = second
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
+            Ok(item.house_number.clone())
+        })
+        .collect::<PyResult<Vec<HouseNumber>>>()?;
+    let ret = get_in_both(&first, &second);
+    Ok(ret
+        .iter()
+        .map(|i| {
+            PyHouseNumber {
+                house_number: i.clone(),
+            }
+            .into_py(py)
+        })
+        .collect::<Vec<PyObject>>())
+}
+
+fn py_get_in_both_street(
+    py: Python<'_>,
+    first: &[PyObject],
+    second: &[PyObject],
+) -> PyResult<Vec<PyObject>> {
+    let first: Vec<Street> = first
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyStreet> = item.extract(py)?;
+            Ok(item.street.clone())
+        })
+        .collect::<PyResult<Vec<Street>>>()?;
+    let second: Vec<Street> = second
+        .iter()
+        .map(|item| {
+            let item: PyRefMut<'_, PyStreet> = item.extract(py)?;
+            Ok(item.street.clone())
+        })
+        .collect::<PyResult<Vec<Street>>>()?;
+    let ret = get_in_both(&first, &second);
+    Ok(ret
+        .iter()
+        .map(|i| PyStreet { street: i.clone() }.into_py(py))
+        .collect::<Vec<PyObject>>())
+}
+
+#[pyfunction]
+fn py_get_in_both(
+    py: Python<'_>,
+    first: Vec<PyObject>,
+    second: Vec<PyObject>,
+) -> PyResult<Vec<PyObject>> {
+    if let Ok(value) = py_get_in_both_housenumber(py, &first, &second) {
+        return Ok(value);
+    }
+
+    py_get_in_both_street(py, &first, &second)
+}
+
+/// Gets the content of a file in workdir.
+fn get_content(path: &str) -> anyhow::Result<Vec<u8>> {
+    Ok(std::fs::read(path)?)
+}
+
+#[pyfunction]
+fn py_get_content(py: Python<'_>, path: String) -> PyResult<PyObject> {
+    let buf = match get_content(&path) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_content() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+    Ok(PyBytes::new(py, &buf).into())
+}
+
+type HttpHeaders = Vec<(String, String)>;
+
+/// Gets the content of a file in workdir with metadata.
+fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, HttpHeaders)> {
+    let buf = get_content(path)?;
+
+    let metadata = std::fs::metadata(path)?;
+    let modified = metadata.modified()?;
+    let modified_utc: chrono::DateTime<chrono::offset::Utc> = modified.into();
+
+    let extra_headers = vec![("Last-Modified".to_string(), modified_utc.to_rfc2822())];
+    Ok((buf, extra_headers))
+}
+
+#[pyfunction]
+fn py_get_content_with_meta(
+    py: Python<'_>,
+    path: String,
+) -> PyResult<(PyObject, Vec<(String, String)>)> {
+    let (buf, extra_headers) = match get_content_with_meta(&path) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_content_with_meta() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+    Ok((PyBytes::new(py, &buf).into(), extra_headers))
+}
+
+/// Determines the normalizer for a given street.
+fn get_normalizer(
+    street_name: &str,
+    normalizers: &HashMap<String, crate::ranges::Ranges>,
+) -> crate::ranges::Ranges {
+    let normalizer: crate::ranges::Ranges;
+    if let Some(value) = normalizers.get(street_name) {
+        // Have a custom filter.
+        normalizer = value.clone();
+    } else {
+        // Default sanity checks.
+        let default = vec![
+            crate::ranges::Range::new(1, 999, "".into()),
+            crate::ranges::Range::new(2, 998, "".into()),
+        ];
+        normalizer = crate::ranges::Ranges::new(default);
+    }
+    normalizer
+}
+
+#[pyfunction]
+fn py_get_normalizer(
+    py: Python<'_>,
+    street_name: String,
+    normalizers: HashMap<String, PyObject>,
+) -> PyResult<crate::ranges::PyRanges> {
+    let mut native_normalizers: HashMap<String, crate::ranges::Ranges> = HashMap::new();
+    for (key, value) in normalizers.iter() {
+        let py_ranges: PyRefMut<'_, crate::ranges::PyRanges> = value.extract(py)?;
+        native_normalizers.insert(key.clone(), py_ranges.ranges.clone());
+    }
+    let ret = get_normalizer(&street_name, &native_normalizers);
+    Ok(crate::ranges::PyRanges { ranges: ret })
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -1614,5 +1879,10 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_housenumber_ranges, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_git_link, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_sort_numerically, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_only_in_first, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_in_both, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_content_with_meta, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_normalizer, module)?)?;
     Ok(())
 }

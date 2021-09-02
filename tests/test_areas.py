@@ -90,7 +90,7 @@ class TestRelationFilesWriteOsmStreets(unittest.TestCase):
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
-        expected = util.get_content(relations.get_workdir(), "streets-gazdagret.csv")
+        expected = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
         file_system = test_context.TestFileSystem()
         streets_value = io.BytesIO()
         streets_value.__setattr__("close", lambda: None)
@@ -121,7 +121,7 @@ class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
         result_from_overpass += "1\tOSM Name 1\t2\t\t\t\t\t\t\t\t\tnode\n"
         result_from_overpass += "1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
         result_from_overpass += "1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-        expected = util.get_content(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+        expected = util.get_content(relations.get_workdir() + "/street-housenumbers-gazdagret.csv")
         relation = relations.get_relation(relation_name)
         file_system = test_context.TestFileSystem()
         housenumbers_value = io.BytesIO()
@@ -635,7 +635,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         relations = areas.Relations(ctx)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        expected = util.get_content(relations.get_workdir(), "gazdagret.percent")
+        expected = util.get_content(relations.get_workdir() + "/gazdagret.percent")
         file_system = test_context.TestFileSystem()
         percent_value = io.BytesIO()
         percent_value.__setattr__("close", lambda: None)
@@ -742,7 +742,7 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
         ctx.set_file_system(file_system)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        expected = util.get_content(relations.get_workdir(), "gazdagret-streets.percent")
+        expected = util.get_content(relations.get_workdir() + "/gazdagret-streets.percent")
         ret = relation.write_missing_streets()
         todo_count, done_count, percent, streets = ret
         self.assertEqual(todo_count, 1)
@@ -836,7 +836,7 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         ctx = test_context.make_test_context()
         relations = areas.Relations(ctx)
         relation_name = "gazdagret"
-        expected = util.get_content(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
+        expected = util.get_content(relations.get_workdir() + "/street-housenumbers-reference-gazdagret.lst")
         file_system = test_context.TestFileSystem()
         ref_value = io.BytesIO()
         ref_value.__setattr__("close", lambda: None)
@@ -886,9 +886,9 @@ class TestRelationWriteRefStreets(unittest.TestCase):
         relations = areas.Relations(ctx)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
-        expected = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
+        expected = util.get_content(relations.get_workdir() + "/streets-reference-gazdagret.lst")
         relation.write_ref_streets(refpath)
-        actual = util.get_content(relations.get_workdir(), "streets-reference-gazdagret.lst")
+        actual = util.get_content(relations.get_workdir() + "/streets-reference-gazdagret.lst")
         self.assertEqual(actual, expected)
 
 
