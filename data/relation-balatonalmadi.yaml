@@ -98,6 +98,9 @@ filters:
   Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
     invalid: ['14']
+  Rezeda utca:
+    # 2 = Noszlopy G. utca 17.
+    invalid: ['2']
   Seregély utca:
     # 9: 9 nincs, 7 az utolsó ami ki van írva
     invalid: ['9']
