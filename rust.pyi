@@ -584,4 +584,12 @@ def py_get_valid_settlements(ctx: PyContext) -> Set[str]:
     """Builds a set of valid settlement names."""
     ...
 
+def py_format_percent(english: str) -> str:
+    """Formats a percentage, taking locale into account."""
+    ...
+
+def py_get_timestamp(path: str) -> float:
+    """Gets the timestamp of a file if it exists, 0 otherwise."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

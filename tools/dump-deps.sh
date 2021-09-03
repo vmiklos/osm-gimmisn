@@ -23,6 +23,9 @@ do
             context)
                 continue
             ;;
+            util)
+                continue
+            ;;
             yattag)
                 continue
             ;;

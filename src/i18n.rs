@@ -55,7 +55,7 @@ pub fn py_set_language(language: String) -> PyResult<()> {
 }
 
 /// Gets the language of the current thread.
-fn get_language() -> String {
+pub fn get_language() -> String {
     LANGUAGE.with(|language| {
         let language = language.borrow();
         match *language {
