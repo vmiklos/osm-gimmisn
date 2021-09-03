@@ -9,7 +9,6 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_missing_housenumbers.py \
 	tests/test_overpass_query.py \
 	tests/test_parse_access_log.py \
-	tests/test_ranges.py \
 	tests/test_stats.py \
 	tests/test_util.py \
 	tests/test_validator.py \
@@ -102,19 +101,22 @@ clean:
 	rm -rf $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS)) .mypy_cache
 	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
-check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint check-rustfmt check-clippy
+check: all check-filters check-flake8 check-mypy check-unit check-rustunit check-pylint check-eslint check-rustfmt check-clippy
 
-check-rustfmt:
-	cargo fmt -- --check
+check-rustfmt: Cargo.toml $(RS_OBJECTS)
+	cargo fmt -- --check && touch $@
 
-check-clippy:
-	cargo clippy
+check-clippy: Cargo.toml $(RS_OBJECTS)
+	cargo clippy && touch $@
 
 rust.so: target/release/librust.so
 	ln -sf target/release/librust.so rust.so
 
 target/release/librust.so: Cargo.toml $(RS_OBJECTS)
 	cargo build --release
+
+check-rustunit: Cargo.toml $(RS_OBJECTS)
+	cargo test --lib --no-default-features
 
 config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
