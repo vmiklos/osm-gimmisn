@@ -13,6 +13,7 @@ from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Set
 from typing import Tuple
 from typing import TypeVar
 from typing import cast
@@ -560,6 +561,27 @@ def py_get_content_with_meta(path: str) -> Tuple[bytes, List[Tuple[str, str]]]:
 
 def py_get_normalizer(street_name: str, normalizers: Dict[str, PyRanges]) -> PyRanges:
     """Determines the normalizer for a given street."""
+    ...
+
+def py_split_house_number_by_separator(
+        house_numbers: str,
+        separator: str,
+        normalizer: PyRanges
+) -> Tuple[List[int], List[int]]:
+    """Splits a house number string (possibly a range) by a given separator.
+    Returns a filtered and a not filtered list of ints."""
+    ...
+
+def py_get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
+    """Constructs a city name based on postcode the nominal city."""
+    ...
+
+def py_get_sort_key(string: str) -> bytes:
+    """Returns a string comparator which allows Unicode-aware lexical sorting."""
+    ...
+
+def py_get_valid_settlements(ctx: PyContext) -> Set[str]:
+    """Builds a set of valid settlement names."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

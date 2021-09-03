@@ -144,7 +144,7 @@ impl Ranges {
         &self.items
     }
 
-    fn contains(&self, item: i64) -> bool {
+    pub fn contains(&self, item: i64) -> bool {
         for i in &self.items {
             if i.contains(item) {
                 return true;

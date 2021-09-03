@@ -383,7 +383,7 @@ def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) 
     ref_cities = [util.Street.from_string(i) for i in ref_citycounts]
     osm_cities = [util.Street.from_string(i) for i in osm_citycounts]
     cities = [i.get_osm_name() for i in util.get_in_both(ref_cities, osm_cities)]
-    cities.sort(key=util.get_lexical_sort_key())
+    cities.sort(key=util.get_sort_key)
     table = []
     table.append([yattag.Doc.from_text(tr("City name")),
                   yattag.Doc.from_text(tr("House number coverage")),

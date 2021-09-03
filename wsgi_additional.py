@@ -37,8 +37,7 @@ def additional_streets_view_txt(
         output += tr("No reference streets")
     else:
         streets = relation.get_additional_streets()
-        lexical_sort_key = util.get_lexical_sort_key()
-        streets.sort(key=lambda street: lexical_sort_key(street.get_osm_name()))
+        streets.sort(key=lambda street: util.get_sort_key(street.get_osm_name()))
         for street in streets:
             if chkl:
                 output += "[ ] {}\n".format(street.get_osm_name())
@@ -67,8 +66,7 @@ def additional_streets_view_result(
         # Get "only in OSM" streets.
         streets = relation.write_additional_streets()
         count = len(streets)
-        lexical_sort_key = util.get_lexical_sort_key()
-        streets.sort(key=lambda street: lexical_sort_key(street.get_osm_name()))
+        streets.sort(key=lambda street: util.get_sort_key(street.get_osm_name()))
         table = [[yattag.Doc.from_text(tr("Identifier")),
                   yattag.Doc.from_text(tr("Type")),
                   yattag.Doc.from_text(tr("Source")),
