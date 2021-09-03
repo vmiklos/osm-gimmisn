@@ -19,13 +19,17 @@ use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use pyo3::types::PyBytes;
 use pyo3::types::PyType;
+use rust_icu_ucol as ucol;
+use rust_icu_ustring as ustring;
 use std::collections::hash_map::DefaultHasher;
 use std::collections::HashMap;
+use std::collections::HashSet;
 use std::convert::TryFrom;
 use std::hash::Hash;
 use std::hash::Hasher;
 use std::io::BufRead;
 use std::io::Read;
+use std::ops::DerefMut;
 
 lazy_static! {
     static ref NUMBER_PER_LETTER: regex::Regex =
@@ -1835,6 +1839,163 @@ fn py_get_normalizer(
     Ok(crate::ranges::PyRanges { ranges: ret })
 }
 
+/// Splits a house number string (possibly a range) by a given separator.
+/// Returns a filtered and a not filtered list of ints.
+fn split_house_number_by_separator(
+    house_numbers: &str,
+    separator: &str,
+    normalizer: &crate::ranges::Ranges,
+) -> (Vec<i64>, Vec<i64>) {
+    let mut ret_numbers: Vec<i64> = Vec::new();
+    // Same as ret_numbers, but if the range is 2-6 and we filter for 2-4, then 6 would be lost, so
+    // in-range 4 would not be detected, so this one does not drop 6.
+    let mut ret_numbers_nofilter: Vec<i64> = Vec::new();
+
+    for house_number in house_numbers.split(separator) {
+        let mut number: i64 = 0;
+        if let Some(cap) = NUMBER_WITH_JUNK.captures_iter(house_number).next() {
+            match cap[1].parse::<i64>() {
+                Ok(value) => number = value,
+                Err(_) => {
+                    continue;
+                }
+            }
+        }
+
+        ret_numbers_nofilter.push(number);
+
+        if !normalizer.contains(number) {
+            continue;
+        }
+
+        ret_numbers.push(number);
+    }
+
+    (ret_numbers, ret_numbers_nofilter)
+}
+
+#[pyfunction]
+fn py_split_house_number_by_separator(
+    py: Python<'_>,
+    house_numbers: String,
+    separator: String,
+    normalizer: PyObject,
+) -> PyResult<(Vec<i64>, Vec<i64>)> {
+    let normalizer: PyRefMut<'_, crate::ranges::PyRanges> = normalizer.extract(py)?;
+    Ok(split_house_number_by_separator(
+        &house_numbers,
+        &separator,
+        &normalizer.ranges,
+    ))
+}
+
+/// Constructs a city name based on postcode the nominal city.
+fn get_city_key(
+    postcode: &str,
+    city: &str,
+    valid_settlements: &HashSet<String>,
+) -> anyhow::Result<String> {
+    let city = city.to_lowercase();
+
+    if !city.is_empty() && postcode.starts_with('1') {
+        let mut chars = postcode.chars();
+        chars.next();
+        chars.next_back();
+        let district = chars.as_str().parse::<i32>()?;
+        if (1..=23).contains(&district) {
+            return Ok(city + "_" + chars.as_str());
+        }
+        return Ok(city);
+    }
+
+    if valid_settlements.contains(&city) || city == "budapest" {
+        return Ok(city);
+    }
+    if !city.is_empty() {
+        return Ok("_Invalid".into());
+    }
+    Ok("_Empty".into())
+}
+
+#[pyfunction]
+fn py_get_city_key(
+    postcode: String,
+    city: String,
+    valid_settlements: HashSet<String>,
+) -> PyResult<String> {
+    match get_city_key(&postcode, &city, &valid_settlements) {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+            "get_city_key() failed: {}",
+            err.to_string()
+        ))),
+    }
+}
+
+/// Returns a string comparator which allows locale-aware lexical sorting.
+fn get_sort_key(bytes: &str) -> anyhow::Result<Vec<u8>> {
+    // This is good enough for now, English and Hungarian is all we support and this handles both.
+    let collator = ucol::UCollator::try_from("hu")?;
+    let string = ustring::UChar::try_from(bytes)?;
+    Ok(collator.get_sort_key(&string))
+}
+
+#[pyfunction]
+fn py_get_sort_key(py: Python<'_>, bytes: String) -> PyResult<PyObject> {
+    let buf = match get_sort_key(&bytes) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_sort_key() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+    Ok(PyBytes::new(py, &buf).into())
+}
+
+/// Builds a set of valid settlement names.
+fn get_valid_settlements(ctx: &crate::context::Context) -> anyhow::Result<HashSet<String>> {
+    let mut settlements: HashSet<String> = HashSet::new();
+
+    let path = ctx.get_ini().get_reference_citycounts_path()?;
+    let stream = ctx.get_file_system().open_read(&path)?;
+    let mut guard = stream.lock().unwrap();
+    let mut read = guard.deref_mut();
+    let mut csv_read = CsvRead::new(&mut read);
+    let mut first = true;
+    for result in csv_read.records() {
+        if first {
+            first = false;
+            continue;
+        }
+
+        let record = match result {
+            Ok(value) => value,
+            Err(_) => {
+                continue;
+            }
+        };
+        if let Some(col) = record.iter().next() {
+            settlements.insert(col.into());
+        }
+    }
+
+    Ok(settlements)
+}
+
+#[pyfunction]
+fn py_get_valid_settlements(py: Python<'_>, ctx: PyObject) -> PyResult<HashSet<String>> {
+    let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(py)?;
+    match get_valid_settlements(&ctx.context) {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+            "get_valid_settlements() failed: {}",
+            err.to_string()
+        ))),
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -1884,5 +2045,12 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content_with_meta, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_normalizer, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_split_house_number_by_separator,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_city_key, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_sort_key, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_valid_settlements, module)?)?;
     Ok(())
 }

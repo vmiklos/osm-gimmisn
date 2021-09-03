@@ -168,7 +168,7 @@ def get_missing_housenumbers_txt(ctx: context.Context, relation: areas.Relation)
             elements = util.format_even_odd(range_list)
             row = result[0].get_osm_name() + "\t[" + "], [".join(elements) + "]"
         table.append(row)
-    table.sort(key=util.get_lexical_sort_key())
+    table.sort(key=util.get_sort_key)
     output += "\n".join(table)
 
     with relation.get_files().get_housenumbers_txtcache_write_stream(ctx) as stream:

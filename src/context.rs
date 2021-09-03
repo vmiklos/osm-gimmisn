@@ -32,7 +32,7 @@ use std::sync::Mutex;
 use std::time::Duration;
 
 /// File system interface.
-trait FileSystem: Send + Sync {
+pub trait FileSystem: Send + Sync {
     /// Test whether a path exists.
     fn path_exists(&self, path: &str) -> bool;
 
@@ -734,7 +734,7 @@ impl Ini {
     }
 
     /// Gets the abs path of ref citycounts.
-    fn get_reference_citycounts_path(&self) -> anyhow::Result<String> {
+    pub fn get_reference_citycounts_path(&self) -> anyhow::Result<String> {
         let relpath = self
             .config
             .get("wsgi", "reference_citycounts")
@@ -952,7 +952,7 @@ impl Context {
         self.unit = unit.clone();
     }
 
-    fn get_file_system(&self) -> &Arc<dyn FileSystem> {
+    pub fn get_file_system(&self) -> &Arc<dyn FileSystem> {
         &self.file_system
     }
 

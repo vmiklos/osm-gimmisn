@@ -511,7 +511,7 @@ class TestGetLexicalSortKey(unittest.TestCase):
         """Tests the happy path."""
         # This is less naive than the classic "a, "á", "b", "c" list.
         strings = ["Kőpor", "Kórház"]
-        strings.sort(key=util.get_lexical_sort_key())
+        strings.sort(key=util.get_sort_key)
         self.assertEqual(strings, ["Kórház", "Kőpor"])
 
 

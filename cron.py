@@ -203,8 +203,7 @@ def write_city_count_path(ctx: context.Context, city_count_path: str, cities: Di
     """Writes a daily .citycount file."""
     with ctx.get_file_system().open_write(city_count_path) as stream:
         # Locale-aware sort, by key.
-        lexical_sort_key = util.get_lexical_sort_key()
-        for key, value in sorted(cities.items(), key=lambda item: lexical_sort_key(item[0])):
+        for key, value in sorted(cities.items(), key=lambda item: util.get_sort_key(item[0])):
             stream.write(util.to_bytes(key + "\t" + str(len(value)) + "\n"))
 
 

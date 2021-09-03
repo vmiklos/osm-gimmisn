@@ -6,15 +6,10 @@
 
 """The util module contains functionality shared between other modules."""
 
-from typing import Callable
 from typing import List
-from typing import Set
 from typing import Tuple
-import locale
 import os
-import re
 
-import context
 import rust
 
 
@@ -53,73 +48,14 @@ get_in_both = rust.py_get_in_both
 get_content = rust.py_get_content
 get_content_with_meta = rust.py_get_content_with_meta
 get_normalizer = rust.py_get_normalizer
+split_house_number_by_separator = rust.py_split_house_number_by_separator
+get_city_key = rust.py_get_city_key
+get_sort_key = rust.py_get_sort_key
+get_valid_settlements = rust.py_get_valid_settlements
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def split_house_number_by_separator(
-        house_numbers: str,
-        separator: str,
-        normalizer: rust.PyRanges
-) -> Tuple[List[int], List[int]]:
-    """Splits a house number string (possibly a range) by a given separator.
-    Returns a filtered and a not filtered list of ints."""
-    ret_numbers = []
-    # Same as ret_numbers, but if the range is 2-6 and we filter for 2-4, then 6 would be lost, so
-    # in-range 4 would not be detected, so this one does not drop 6.
-    ret_numbers_nofilter = []
-
-    for house_number in house_numbers.split(separator):
-        try:
-            number = int(re.sub(r"([0-9]+).*", r"\1", house_number))
-        except ValueError:
-            continue
-
-        ret_numbers_nofilter.append(number)
-
-        if number not in normalizer:
-            continue
-
-        ret_numbers.append(number)
-
-    return ret_numbers, ret_numbers_nofilter
-
-
-def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
-    """Constructs a city name based on postcode the nominal city."""
-    city = city.lower()
-
-    if city and postcode.startswith("1"):
-        district = int(postcode[1:3])
-        if 1 <= district <= 23:
-            return city + "_" + postcode[1:3]
-        return city
-
-    if city in valid_settlements or city == "budapest":
-        return city
-    if city:
-        return "_Invalid"
-    return "_Empty"
-
-
-def get_valid_settlements(ctx: context.Context) -> Set[str]:
-    """Builds a set of valid settlement names."""
-    settlements: Set[str] = set()
-
-    with open(ctx.get_ini().get_reference_citycounts_path(), "r") as stream:
-        first = True
-        for line in stream:
-            if first:
-                first = False
-                continue
-            cells = line.strip().split('\t')
-            if not cells[0]:
-                continue
-            settlements.add(cells[0])
-
-    return settlements
 
 
 def format_percent(english: str) -> str:
@@ -139,13 +75,6 @@ def get_timestamp(path: str) -> float:
         return os.path.getmtime(path)
     except FileNotFoundError:
         return 0
-
-
-def get_lexical_sort_key() -> Callable[[str], str]:
-    """Returns a string comparator which allows Unicode-aware lexical sorting."""
-    # This is good enough for now, English and Hungarian is all we support and this handles both.
-    locale.setlocale(locale.LC_ALL, "hu_HU.UTF-8")
-    return locale.strxfrm
 
 
 def to_bytes(string: str) -> bytes:

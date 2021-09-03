@@ -174,7 +174,7 @@ def missing_streets_view_result(ctx: context.Context, relations: areas.Relations
 
     ret = relation.write_missing_streets()
     todo_count, done_count, percent, streets = ret
-    streets.sort(key=util.get_lexical_sort_key())
+    streets.sort(key=util.get_sort_key)
     table = [[yattag.Doc.from_text(tr("Street name"))]]
     for street in streets:
         table.append([yattag.Doc.from_text(street)])
@@ -260,7 +260,7 @@ def missing_housenumbers_view_chkl(
                 else:
                     row += result[0].get_osm_name() + " [" + "], [".join(elements) + "]"
                     table.append(row)
-        table.sort(key=util.get_lexical_sort_key())
+        table.sort(key=util.get_sort_key)
         output += "\n".join(table)
     return output, relation_name
 
@@ -280,7 +280,7 @@ def missing_streets_view_txt(
         output += tr("No reference streets")
     else:
         todo_streets, _ignore = relation.get_missing_streets()
-        todo_streets.sort(key=util.get_lexical_sort_key())
+        todo_streets.sort(key=util.get_sort_key)
         for street in todo_streets:
             if chkl:
                 output += "[ ] {}\n".format(street)
