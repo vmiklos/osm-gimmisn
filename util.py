@@ -8,7 +8,6 @@
 
 from typing import List
 from typing import Tuple
-import os
 
 import rust
 
@@ -52,29 +51,12 @@ split_house_number_by_separator = rust.py_split_house_number_by_separator
 get_city_key = rust.py_get_city_key
 get_sort_key = rust.py_get_sort_key
 get_valid_settlements = rust.py_get_valid_settlements
+format_percent = rust.py_format_percent
+get_timestamp = rust.py_get_timestamp
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
-
-
-def format_percent(english: str) -> str:
-    """Formats a percentage, taking locale into account."""
-    parsed = float(english)
-    formatted = '{0:.2f}%'.format(parsed)
-    decimal_points = {
-        "hu": ",",
-    }
-    decimal_point = decimal_points.get(rust.py_get_language(), ".")
-    return formatted.replace(".", str(decimal_point))
-
-
-def get_timestamp(path: str) -> float:
-    """Gets the timestamp of a file if it exists, 0 otherwise."""
-    try:
-        return os.path.getmtime(path)
-    except FileNotFoundError:
-        return 0
 
 
 def to_bytes(string: str) -> bytes:

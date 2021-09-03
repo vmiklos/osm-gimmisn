@@ -1996,6 +1996,57 @@ fn py_get_valid_settlements(py: Python<'_>, ctx: PyObject) -> PyResult<HashSet<S
     }
 }
 
+/// Formats a percentage, taking locale into account.
+fn format_percent(english: &str) -> anyhow::Result<String> {
+    let parsed: f64 = english.parse()?;
+    let formatted = format!("'{0:.2}%'", parsed);
+    let language: &str = &crate::i18n::get_language();
+    let decimal_point = match language {
+        "hu" => ",",
+        _ => ".",
+    };
+    Ok(formatted.replace(".", decimal_point))
+}
+
+#[pyfunction]
+fn py_format_percent(english: String) -> PyResult<String> {
+    match format_percent(&english) {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+            "format_percent() failed: {}",
+            err.to_string()
+        ))),
+    }
+}
+
+/// Gets the timestamp of a file if it exists, 0 otherwise.
+fn get_timestamp(path: &str) -> f64 {
+    let metadata = match std::fs::metadata(path) {
+        Ok(value) => value,
+        Err(_) => {
+            return 0.0;
+        }
+    };
+    let modified = match metadata.modified() {
+        Ok(value) => value,
+        Err(_) => {
+            return 0.0;
+        }
+    };
+    let mtime = match modified.duration_since(std::time::SystemTime::UNIX_EPOCH) {
+        Ok(value) => value,
+        Err(_) => {
+            return 0.0;
+        }
+    };
+    mtime.as_secs_f64()
+}
+
+#[pyfunction]
+fn py_get_timestamp(path: String) -> f64 {
+    get_timestamp(&path)
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -2052,5 +2103,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_city_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_sort_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_valid_settlements, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_format_percent, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_timestamp, module)?)?;
     Ok(())
 }
