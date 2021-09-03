@@ -343,6 +343,7 @@ class TestUpdateStats(unittest.TestCase):
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
         old_mtime = ctx.get_file_system().getmtime(ctx.get_abspath("workdir/stats/stats.json"))
+        time.sleep(0.1)
         cron.update_stats(ctx, overpass=True)
         new_mtime = ctx.get_file_system().getmtime(ctx.get_abspath("workdir/stats/stats.json"))
         self.assertGreater(new_mtime, old_mtime)

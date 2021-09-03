@@ -18,7 +18,6 @@ import yattag
 
 from rust import py_translate as tr
 import api
-import area_files
 import context
 import rust
 import util
@@ -219,7 +218,7 @@ class RelationBase:
         self.__ctx = ctx
         self.__name = name
         my_config: Dict[str, Any] = {}
-        self.__file = area_files.RelationFiles(ctx.get_ini().get_workdir(), name)
+        self.__file = rust.PyRelationFiles(ctx.get_ini().get_workdir(), name)
         relation_path = "relation-%s.yaml" % name
         # Intentionally don't require this cache to be present, it's fine to omit it for simple
         # relations.
@@ -235,7 +234,7 @@ class RelationBase:
         """Gets the name of the relation."""
         return self.__name
 
-    def get_files(self) -> area_files.RelationFiles:
+    def get_files(self) -> rust.PyRelationFiles:
         """Gets access to the file interface."""
         return self.__file
 
@@ -285,7 +284,7 @@ class RelationBase:
     def get_osm_streets(self, sorted_result: bool = True) -> List[util.Street]:
         """Reads list of streets for an area from OSM."""
         ret: List[util.Street] = []
-        with self.get_files().get_osm_streets_csv_stream(self.__ctx) as sock:
+        with util.CsvIO(self.get_files().get_osm_streets_read_stream(self.__ctx)) as sock:
             first = True
             for row in sock.get_rows():
                 if first:
@@ -298,7 +297,7 @@ class RelationBase:
                 street.set_source(tr("street"))
                 ret.append(street)
         if os.path.exists(self.get_files().get_osm_housenumbers_path()):
-            with self.get_files().get_osm_housenumbers_csv_stream(self.__ctx) as sock:
+            with util.CsvIO(self.get_files().get_osm_housenumbers_read_stream(self.__ctx)) as sock:
                 ret += util.get_street_from_housenumber(sock)
         if sorted_result:
             return sorted(set(ret))
@@ -316,7 +315,7 @@ class RelationBase:
             # once.
             street_ranges = self.get_street_ranges()
             house_numbers: Dict[str, List[util.HouseNumber]] = {}
-            with self.get_files().get_osm_housenumbers_csv_stream(self.__ctx) as sock:
+            with util.CsvIO(self.get_files().get_osm_housenumbers_read_stream(self.__ctx)) as sock:
                 first = True
                 columns: Dict[str, int] = {}
                 for row in sock.get_rows():
