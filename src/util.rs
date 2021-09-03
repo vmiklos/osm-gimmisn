@@ -1816,8 +1816,8 @@ fn get_normalizer(
     } else {
         // Default sanity checks.
         let default = vec![
-            crate::ranges::Range::new(1, 999, "".into()),
-            crate::ranges::Range::new(2, 998, "".into()),
+            crate::ranges::Range::new(1, 999, ""),
+            crate::ranges::Range::new(2, 998, ""),
         ];
         normalizer = crate::ranges::Ranges::new(default);
     }
