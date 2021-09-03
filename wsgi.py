@@ -67,7 +67,7 @@ def handle_streets(ctx: context.Context, relations: areas.Relations, request_uri
                 doc.text(tr("Update successful."))
     else:
         # assume view-result
-        with relation.get_files().get_osm_streets_csv_stream(ctx) as sock:
+        with util.CsvIO(relation.get_files().get_osm_streets_read_stream(ctx)) as sock:
             table = util.tsv_to_list(sock)
             doc.append_value(util.html_table_from_list(table).get_value())
 
@@ -108,7 +108,7 @@ def handle_street_housenumbers(ctx: context.Context, relations: areas.Relations,
             with doc.tag("div", [("id", "no-osm-housenumbers")]):
                 doc.text(tr("No existing house numbers"))
         else:
-            with relation.get_files().get_osm_housenumbers_csv_stream(ctx) as sock:
+            with util.CsvIO(relation.get_files().get_osm_housenumbers_read_stream(ctx)) as sock:
                 doc.append_value(util.html_table_from_list(util.tsv_to_list(sock)).get_value())
 
     date = get_housenumbers_last_modified(relation)

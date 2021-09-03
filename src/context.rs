@@ -74,7 +74,7 @@ impl FileSystem for StdFileSystem {
 
 /// Iterator for PyRead.
 #[pyclass]
-struct PyReadIter {
+pub struct PyReadIter {
     inner: std::vec::IntoIter<String>,
 }
 
@@ -99,8 +99,8 @@ impl PyIterProtocol for PyReadIter {
 
 /// File-like object, wrapping a Read.
 #[pyclass]
-struct PyRead {
-    read: Arc<Mutex<dyn Read + Send>>,
+pub struct PyRead {
+    pub read: Arc<Mutex<dyn Read + Send>>,
 }
 
 #[pymethods]
@@ -159,8 +159,8 @@ impl PyIterProtocol for PyRead {
 
 /// File-like object, wrapping a Write.
 #[pyclass]
-struct PyWrite {
-    write: Arc<Mutex<dyn Write + Send>>,
+pub struct PyWrite {
+    pub write: Arc<Mutex<dyn Write + Send>>,
 }
 
 #[pymethods]

@@ -592,4 +592,141 @@ def py_get_timestamp(path: str) -> float:
     """Gets the timestamp of a file if it exists, 0 otherwise."""
     ...
 
+class PyRelationFiles:
+    """A relation's file interface provides access to files associated with a relation."""
+    def __init__(self, workdir: str, name: str):
+        ...
+
+    def get_ref_streets_path(self) -> str:
+        """Build the file name of the reference street list of a relation."""
+        ...
+
+    def get_osm_streets_path(self) -> str:
+        """Build the file name of the OSM street list of a relation."""
+        ...
+
+    def get_osm_housenumbers_path(self) -> str:
+        """Build the file name of the OSM house number list of a relation."""
+        ...
+
+    def get_ref_housenumbers_path(self) -> str:
+        """Build the file name of the reference house number list of a relation."""
+        ...
+
+    def get_housenumbers_percent_path(self) -> str:
+        """Builds the file name of the house number percent file of a relation."""
+        ...
+
+    def get_housenumbers_htmlcache_path(self) -> str:
+        """Builds the file name of the house number HTML cache file of a relation."""
+        ...
+
+    def get_housenumbers_txtcache_path(self) -> str:
+        """Builds the file name of the house number plain text cache file of a relation."""
+        ...
+
+    def get_streets_percent_path(self) -> str:
+        """Builds the file name of the street percent file of a relation."""
+        ...
+
+    def get_streets_additional_count_path(self) -> str:
+        """Builds the file name of the street additional count file of a relation."""
+        ...
+
+    def get_housenumbers_additional_count_path(self) -> str:
+        """Builds the file name of the housenumber additional count file of a relation."""
+        ...
+
+    def get_additional_housenumbers_htmlcache_path(self) -> str:
+        """Builds the file name of the additional house number HTML cache file of a relation."""
+        ...
+
+    def get_ref_streets_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the reference street list of a relation for reading."""
+        ...
+
+    def get_ref_streets_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the reference street list of a relation for wrtiting."""
+        ...
+
+    def get_osm_streets_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the OSM street list of a relation for reading."""
+        ...
+
+    def get_osm_housenumbers_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the OSM house number list of a relation for reading."""
+        ...
+
+    def get_ref_housenumbers_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the reference house number list of a relation for reading."""
+        ...
+
+    def get_ref_housenumbers_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the reference house number list of a relation for writing."""
+        ...
+
+    def get_housenumbers_percent_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the house number percent file of a relation for reading."""
+        ...
+
+    def get_housenumbers_percent_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the house number percent file of a relation for writing."""
+        ...
+
+    def get_housenumbers_htmlcache_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the house number HTML cache file of a relation for reading."""
+        ...
+
+    def get_housenumbers_htmlcache_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the house number HTML cache file of a relation for writing."""
+        ...
+
+    def get_housenumbers_txtcache_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the house number plain text cache file of a relation for reading."""
+        ...
+
+    def get_housenumbers_txtcache_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the house number plain text cache file of a relation for writing."""
+        ...
+
+    def get_streets_percent_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the street percent file of a relation for reading."""
+        ...
+
+    def get_streets_percent_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the street percent file of a relation for writing."""
+        ...
+
+    def get_streets_additional_count_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the street additional count file of a relation for reading."""
+        ...
+
+    def get_streets_additional_count_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the street additional count file of a relation for writing."""
+        ...
+
+    def get_housenumbers_additional_count_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the housenumbers additional count file of a relation for reading."""
+        ...
+
+    def get_housenumbers_additional_count_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the housenumbers additional count file of a relation for writing."""
+        ...
+
+    def write_osm_streets(self, ctx: PyContext, result: str) -> int:
+        """Writes the result for overpass of Relation.get_osm_streets_query()."""
+        ...
+
+    def write_osm_housenumbers(self, ctx: PyContext, result: str) -> int:
+        """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
+        ...
+
+    def get_additional_housenumbers_htmlcache_read_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the additional house number HTML cache file of a relation for reading."""
+        ...
+
+    def get_additional_housenumbers_htmlcache_write_stream(self, ctx: PyContext) -> BinaryIO:
+        """Opens the additional house number HTML cache file of a relation for writing."""
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

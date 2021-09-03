@@ -1452,7 +1452,15 @@ fn get_street_from_housenumber(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec
             continue;
         }
 
-        let has_housenumber = &row[*columns.get("addr:housenumber").unwrap()];
+        let housenumber_col = *match columns.get("addr:housenumber") {
+            Some(value) => value,
+            None => {
+                // data/street-housenumbers-template.txt requests this, so we got garbage, give up.
+                return Err(anyhow::anyhow!("missing addr:housenumber column in CSV"));
+            }
+        };
+
+        let has_housenumber = &row[housenumber_col];
         let has_conscriptionnumber = &row[*columns.get("addr:conscriptionnumber").unwrap()];
         if has_housenumber.is_empty() && has_conscriptionnumber.is_empty() {
             continue;
@@ -1999,7 +2007,7 @@ fn py_get_valid_settlements(py: Python<'_>, ctx: PyObject) -> PyResult<HashSet<S
 /// Formats a percentage, taking locale into account.
 fn format_percent(english: &str) -> anyhow::Result<String> {
     let parsed: f64 = english.parse()?;
-    let formatted = format!("'{0:.2}%'", parsed);
+    let formatted = format!("{0:.2}%", parsed);
     let language: &str = &crate::i18n::get_language();
     let decimal_point = match language {
         "hu" => ",",

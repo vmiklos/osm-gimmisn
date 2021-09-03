@@ -121,7 +121,11 @@ def update_ref_housenumbers(ctx: context.Context, relations: areas.Relations, up
             continue
 
         info("update_ref_housenumbers: start: %s", relation_name)
-        relation.write_ref_housenumbers(references)
+        try:
+            relation.write_ref_housenumbers(references)
+        except OSError as err:  # pragma: no cover
+            info("update_osm_housenumbers: failed: %s", str(err))
+            continue
         info("update_ref_housenumbers: end: %s", relation_name)
 
 

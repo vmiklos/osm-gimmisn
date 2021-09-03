@@ -20,7 +20,6 @@ PYTHON_TEST_OBJECTS = \
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
 	api.py \
-	area_files.py \
 	areas.py \
 	cache.py \
 	cache_yamls.py \
@@ -72,6 +71,7 @@ TS_OBJECTS = \
 
 RS_OBJECTS = \
 	src/accept_language.rs \
+	src/area_files.rs \
 	src/context.rs \
 	src/i18n.rs \
 	src/lib.rs \
