@@ -729,4 +729,17 @@ class PyRelationFiles:
         """Opens the additional house number HTML cache file of a relation for writing."""
         ...
 
+class PyRelationConfig:
+    """A relation configuration comes directly from static data, not a result of some external query."""
+    def __init__(self, parent_config: str, my_config: str) -> None:
+        ...
+
+    def get_property(self, key: str) -> str:
+        """Gets the untyped value of a property transparently."""
+        ...
+
+    def set_property(self, key: str, value: str) -> None:
+        """Sets an untyped value."""
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

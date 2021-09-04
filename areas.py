@@ -23,74 +23,80 @@ import rust
 import util
 
 
-class RelationConfigBase:
+class RelationConfig:
     """A relation configuration comes directly from static data, not a result of some external query."""
     def __init__(self, parent_config: Dict[str, Any], my_config: Dict[str, Any]) -> None:
-        self.__parent = parent_config
         self.__dict = my_config
+        self.rust = rust.PyRelationConfig(json.dumps(parent_config), json.dumps(my_config))
+        self.__cache: Dict[str, Any] = {}
 
-    def get_property(self, key: str) -> Any:
+    def get_property(self, key: str) -> Optional[str]:
         """Gets the untyped value of a property transparently."""
-        if key in self.__dict.keys():
-            return self.__dict[key]
-
-        if key in self.__parent.keys():
-            return self.__parent[key]
-
-        return None
+        return self.rust.get_property(key)
 
     def set_property(self, key: str, value: Any) -> None:
         """Sets an untyped value."""
+        self.rust.set_property(key, json.dumps(value))
         self.__dict[key] = value
 
     def set_active(self, active: bool) -> None:
         """Sets if the relation is active."""
-        self.__dict["inactive"] = not active
+        self.set_property("inactive", not active)
 
     def is_active(self) -> bool:
         """Gets if the relation is active."""
-        return not cast(bool, self.get_property("inactive"))
+        inactive = self.get_property("inactive")
+        if inactive:
+            return not cast(bool, json.loads(inactive))
+        return True
 
     def get_osmrelation(self) -> int:
         """Gets the OSM relation object's ID."""
-        return cast(int, self.get_property("osmrelation"))
+        osmrelation = self.get_property("osmrelation")
+        assert osmrelation
+        return cast(int, json.loads(osmrelation))
 
     def get_refcounty(self) -> str:
         """Gets the relation's refcounty identifier from reference."""
-        return cast(str, self.get_property("refcounty"))
+        refcounty = self.get_property("refcounty")
+        if refcounty:
+            return cast(str, json.loads(refcounty))
+        return ""
 
     def get_refsettlement(self) -> str:
         """Gets the relation's refsettlement identifier from reference."""
-        return cast(str, self.get_property("refsettlement"))
+        refsettlement = self.get_property("refsettlement")
+        assert refsettlement
+        return cast(str, json.loads(refsettlement))
 
     def get_alias(self) -> List[str]:
         """Gets the alias(es) of the relation: alternative names which are also accepted."""
-        return cast(List[str], self.get_property("alias"))
-
-
-class RelationConfig(RelationConfigBase):
-    """A relation config extends RelationConfigBase with additional typed values."""
-    def __init__(self, parent_config: Dict[str, Any], my_config: Dict[str, Any]) -> None:
-        RelationConfigBase.__init__(self, parent_config, my_config)
+        alias = self.get_property("alias")
+        if alias:
+            return cast(List[str], json.loads(alias))
+        return []
 
     def should_check_missing_streets(self) -> str:
         """Return value can be 'yes', 'no' and 'only'."""
-        if self.get_property("missing-streets"):
-            return cast(str, self.get_property("missing-streets"))
+        missing_streets = self.get_property("missing-streets")
+        if missing_streets:
+            return cast(str, json.loads(missing_streets))
 
         return "yes"
 
     def should_check_housenumber_letters(self) -> bool:
         """Do we care if 42/B is missing when 42/A is provided?."""
-        if self.get_property("housenumber-letters"):
-            return cast(bool, self.get_property("housenumber-letters"))
+        housenumber_letters = self.get_property("housenumber-letters")
+        if housenumber_letters:
+            return cast(bool, json.loads(housenumber_letters))
 
         return False
 
     def should_check_additional_housenumbers(self) -> bool:
         """Do we care if 42 is in OSM when it's not in the ref?."""
-        if self.get_property("additional-housenumbers"):
-            return cast(bool, self.get_property("additional-housenumbers"))
+        additional_housenumbers = self.get_property("additional-housenumbers")
+        if additional_housenumbers:
+            return cast(bool, json.loads(additional_housenumbers))
 
         return False
 
@@ -104,25 +110,34 @@ class RelationConfig(RelationConfigBase):
 
     def get_letter_suffix_style(self) -> int:
         """Gets the letter suffix style."""
-        if self.get_property("letter-suffix-style"):
-            return cast(int, self.get_property("letter-suffix-style"))
+        letter_suffix_style = self.get_property("letter-suffix-style")
+        if letter_suffix_style:
+            return cast(int, json.loads(letter_suffix_style))
         return rust.PyLetterSuffixStyle.upper()
 
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""
-        if self.get_property("refstreets"):
-            return cast(Dict[str, str], self.get_property("refstreets"))
+        refstreets = self.get_property("refstreets")
+        if refstreets:
+            return cast(Dict[str, str], json.loads(refstreets))
         return {}
 
     def set_filters(self, filters: Dict[str, Any]) -> None:
         """Sets the 'filters' key from code."""
         self.set_property("filters", filters)
+        # Invalidate the cache.
+        self.__cache.pop("filters", None)
 
     def get_filters(self) -> Dict[str, Any]:
         """Returns a street name -> properties map."""
-        if self.get_property("filters"):
-            return cast(Dict[str, Any], self.get_property("filters"))
-        return {}
+        if "filters" in self.__cache:
+            return cast(Dict[str, Any], self.__cache["filters"])
+        filters = self.get_property("filters")
+        if filters:
+            self.__cache["filters"] = cast(Dict[str, Any], json.loads(filters))
+            return cast(Dict[str, Any], self.__cache["filters"])
+        self.__cache["filters"] = {}
+        return cast(Dict[str, Any], self.__cache["filters"])
 
     def get_filter_street(self, street: str) -> Dict[str, Any]:
         """Returns a street from relation filters."""
@@ -144,7 +159,7 @@ class RelationConfig(RelationConfigBase):
 
     def get_street_refsettlement(self, street: str) -> List[str]:
         """Returns a list of refsettlement values specific to a street."""
-        ret = [self.get_property("refsettlement")]
+        ret = [self.get_refsettlement()]
         if not self.get_property("filters"):
             return ret
 
@@ -166,14 +181,16 @@ class RelationConfig(RelationConfigBase):
 
     def get_street_filters(self) -> List[str]:
         """Gets list of streets which are only in reference, but have to be filtered out."""
-        if self.get_property("street-filters"):
-            return cast(List[str], self.get_property("street-filters"))
+        street_filters = self.get_property("street-filters")
+        if street_filters:
+            return cast(List[str], json.loads(street_filters))
         return []
 
     def get_osm_street_filters(self) -> List[str]:
         """Gets list of streets which are only in OSM, but have to be filtered out."""
-        if self.get_property("osm-street-filters"):
-            return cast(List[str], self.get_property("osm-street-filters"))
+        osm_street_filters = self.get_property("osm-street-filters")
+        if osm_street_filters:
+            return cast(List[str], json.loads(osm_street_filters))
         return []
 
     def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
@@ -206,7 +223,7 @@ def get_osm_street_from_ref_street(relation_config: RelationConfig, ref_street_n
     return ref_street_name
 
 
-class RelationBase:
+class Relation:
     """A relation is a closed polygon on the map."""
     def __init__(
             self,
@@ -406,7 +423,7 @@ class RelationBase:
         lst: List[str] = []
         for street in streets:
             for index, memory_cache in enumerate(memory_caches):
-                suffix = RelationBase.__get_ref_suffix(index)
+                suffix = Relation.__get_ref_suffix(index)
                 lst += self.build_ref_housenumbers(memory_cache, street, suffix)
 
         lst = sorted(set(lst))
@@ -546,19 +563,6 @@ class RelationBase:
             stream.write(util.to_bytes(str(len(additional_streets))))
 
         return additional_streets
-
-
-class Relation(RelationBase):
-    """A relation extends RelationBase with additional functionality, like reverse diffing."""
-    def __init__(
-            self,
-            ctx: context.Context,
-            name: str,
-            parent_config: Dict[str, Any],
-            yaml_cache: Dict[str, Any]
-    ) -> None:
-        RelationBase.__init__(self, ctx, name, parent_config, yaml_cache)
-        self.__ctx = ctx
 
     def get_street_valid(self) -> Dict[str, List[str]]:
         """Gets a street name -> valid map, which allows silencing individual false positives."""
@@ -818,7 +822,7 @@ class Relations:
 
 
 def normalize_housenumber_letters(
-        relation: RelationBase,
+        relation: Relation,
         house_numbers: str,
         suffix: str,
         comment: str
@@ -829,7 +833,7 @@ def normalize_housenumber_letters(
     return [util.HouseNumber(normalized, normalized, comment)]
 
 
-def normalize(relation: RelationBase, house_numbers: str, street_name: str,
+def normalize(relation: Relation, house_numbers: str, street_name: str,
               normalizers: Dict[str, rust.PyRanges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""

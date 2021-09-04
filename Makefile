@@ -71,6 +71,7 @@ TS_OBJECTS = \
 
 RS_OBJECTS = \
 	src/accept_language.rs \
+	src/areas.rs \
 	src/area_files.rs \
 	src/context.rs \
 	src/i18n.rs \
