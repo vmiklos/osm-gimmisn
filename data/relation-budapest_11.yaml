@@ -2849,6 +2849,8 @@ refstreets:
   'Stoczek József utca': 'Stoczek utca'
   'Új barázda utca': 'Új Barázda utca'
   'Zólyomi köz': 'Zólyom köz'
+  # átnevezve 2021.09.01
+  'Molnár C. Pál lejtő': 'Balogh lejtő'
 osm-street-filters:
   # Nem valós utcák
   - A magyarság útja
