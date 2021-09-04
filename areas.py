@@ -308,6 +308,9 @@ class Relation:
                     first = False
                     continue
                 # 0: @id, 1: name, 6: @type
+                if len(row) < 2:  # pragma: no cover
+                    # data/streets-template.txt requests this, so we got garbage, give up.
+                    return ret
                 street = util.Street(osm_name=row[1], ref_name="", show_ref_street=True, osm_id=int(row[0]))
                 if len(row) > 6:
                     street.set_osm_type(row[6])
