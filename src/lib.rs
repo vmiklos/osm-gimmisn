@@ -15,6 +15,7 @@ use pyo3::prelude::*;
 
 mod accept_language;
 mod area_files;
+mod areas;
 mod context;
 mod i18n;
 mod overpass_query;
@@ -25,6 +26,7 @@ mod yattag;
 
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
+    areas::register_python_symbols(m)?;
     accept_language::register_python_symbols(m)?;
     area_files::register_python_symbols(m)?;
     context::register_python_symbols(m)?;
