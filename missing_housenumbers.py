@@ -12,11 +12,10 @@ from typing import TextIO
 import sys
 
 import areas
-import context
-import util
+import rust
 
 
-def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
+def main(argv: List[str], stdout: TextIO, ctx: rust.PyContext) -> None:
     """Commandline interface."""
 
     relation_name = argv[1]
@@ -27,15 +26,15 @@ def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
 
     for result in ongoing_streets:
         # House number, # of only_in_reference items.
-        range_list = util.get_housenumber_ranges(result[1])
+        range_list = rust.py_get_housenumber_ranges(result[1])
         range_strings = [i.get_number() for i in range_list]
-        range_strings = sorted(range_strings, key=util.split_house_number)
+        range_strings = sorted(range_strings, key=rust.py_split_house_number)
         stdout.write("%s\t%s\n" % (result[0].get_osm_name(), len(range_strings)))
         # only_in_reference items.
         stdout.write(str(range_strings) + "\n")
 
 
 if __name__ == '__main__':
-    main(sys.argv, sys.stdout, context.Context(""))
+    main(sys.argv, sys.stdout, rust.PyContext(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -46,6 +46,55 @@ impl RelationConfig {
             .unwrap()
             .insert(key.into(), value.clone());
     }
+
+    /// Sets if the relation is active.
+    fn set_active(&mut self, active: bool) {
+        self.set_property("inactive", &serde_json::json!(!active))
+    }
+
+    /// Gets if the relation is active.
+    fn is_active(&self) -> bool {
+        match self.get_property("inactive") {
+            Some(value) => !value.as_bool().unwrap(),
+            None => true,
+        }
+    }
+
+    /// Gets the OSM relation object's ID.
+    fn get_osmrelation(&self) -> u64 {
+        self.get_property("osmrelation").unwrap().as_u64().unwrap()
+    }
+
+    /// Gets the relation's refcounty identifier from reference.
+    fn get_refcounty(&self) -> String {
+        match self.get_property("refcounty") {
+            Some(value) => value.as_str().unwrap().into(),
+            None => "".into(),
+        }
+    }
+
+    /// Gets the relation's refsettlement identifier from reference.
+    fn get_refsettlement(&self) -> String {
+        self.get_property("refsettlement")
+            .unwrap()
+            .as_str()
+            .unwrap()
+            .into()
+    }
+
+    /// Gets the alias(es) of the relation: alternative names which are also accepted.
+    fn get_alias(&self) -> Vec<String> {
+        match self.get_property("alias") {
+            Some(value) => {
+                let aliases = value.as_array().unwrap();
+                aliases
+                    .iter()
+                    .map(|alias| alias.as_str().unwrap().into())
+                    .collect()
+            }
+            None => Vec::new(),
+        }
+    }
 }
 
 #[pyclass]
@@ -109,6 +158,30 @@ impl PyRelationConfig {
         };
         self.relation_config.set_property(&key, &serde_value);
         Ok(())
+    }
+
+    fn set_active(&mut self, active: bool) {
+        self.relation_config.set_active(active)
+    }
+
+    fn is_active(&self) -> bool {
+        self.relation_config.is_active()
+    }
+
+    fn get_osmrelation(&self) -> u64 {
+        self.relation_config.get_osmrelation()
+    }
+
+    fn get_refcounty(&self) -> String {
+        self.relation_config.get_refcounty()
+    }
+
+    fn get_refsettlement(&self) -> String {
+        self.relation_config.get_refsettlement()
+    }
+
+    fn get_alias(&self) -> Vec<String> {
+        self.relation_config.get_alias()
     }
 }
 
