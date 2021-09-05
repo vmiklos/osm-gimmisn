@@ -26,7 +26,6 @@ import util
 class RelationConfig:
     """A relation configuration comes directly from static data, not a result of some external query."""
     def __init__(self, parent_config: Dict[str, Any], my_config: Dict[str, Any]) -> None:
-        self.__dict = my_config
         self.rust = rust.PyRelationConfig(json.dumps(parent_config), json.dumps(my_config))
         self.__cache: Dict[str, Any] = {}
 
@@ -37,44 +36,30 @@ class RelationConfig:
     def set_property(self, key: str, value: Any) -> None:
         """Sets an untyped value."""
         self.rust.set_property(key, json.dumps(value))
-        self.__dict[key] = value
 
     def set_active(self, active: bool) -> None:
         """Sets if the relation is active."""
-        self.set_property("inactive", not active)
+        self.rust.set_active(active)
 
     def is_active(self) -> bool:
         """Gets if the relation is active."""
-        inactive = self.get_property("inactive")
-        if inactive:
-            return not cast(bool, json.loads(inactive))
-        return True
+        return self.rust.is_active()
 
     def get_osmrelation(self) -> int:
         """Gets the OSM relation object's ID."""
-        osmrelation = self.get_property("osmrelation")
-        assert osmrelation
-        return cast(int, json.loads(osmrelation))
+        return self.rust.get_osmrelation()
 
     def get_refcounty(self) -> str:
         """Gets the relation's refcounty identifier from reference."""
-        refcounty = self.get_property("refcounty")
-        if refcounty:
-            return cast(str, json.loads(refcounty))
-        return ""
+        return self.rust.get_refcounty()
 
     def get_refsettlement(self) -> str:
         """Gets the relation's refsettlement identifier from reference."""
-        refsettlement = self.get_property("refsettlement")
-        assert refsettlement
-        return cast(str, json.loads(refsettlement))
+        return self.rust.get_refsettlement()
 
     def get_alias(self) -> List[str]:
         """Gets the alias(es) of the relation: alternative names which are also accepted."""
-        alias = self.get_property("alias")
-        if alias:
-            return cast(List[str], json.loads(alias))
-        return []
+        return self.rust.get_alias()
 
     def should_check_missing_streets(self) -> str:
         """Return value can be 'yes', 'no' and 'only'."""

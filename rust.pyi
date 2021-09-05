@@ -742,4 +742,28 @@ class PyRelationConfig:
         """Sets an untyped value."""
         ...
 
+    def set_active(self, active: bool) -> None:
+        """Sets if the relation is active."""
+        ...
+
+    def is_active(self) -> bool:
+        """Gets if the relation is active."""
+        ...
+
+    def get_osmrelation(self) -> int:
+        """Gets the OSM relation object's ID."""
+        ...
+
+    def get_refcounty(self) -> str:
+        """Gets the relation's refcounty identifier from reference."""
+        ...
+
+    def get_refsettlement(self) -> str:
+        """Gets the relation's refsettlement identifier from reference."""
+        ...
+
+    def get_alias(self) -> List[str]:
+        """Gets the alias(es) of the relation: alternative names which are also accepted."""
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
