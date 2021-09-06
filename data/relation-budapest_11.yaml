@@ -546,10 +546,11 @@ filters:
     ranges:
       - {start: '1', end: '17'}
   Albertfalva utca:
+    # 3/a: csak 3 van, orvosi rendelő
     # 5: 5a
     # 6: nincs: 2-4 gamesz, 8 templom
     # 10 = Kenderes utca 1
-    invalid: ['5', '6', '10']
+    invalid: ['3a', '5', '6', '10']
     ranges:
       - {start: '2', end: '40'}
       - {start: '1', end: '43'}
