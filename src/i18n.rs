@@ -92,3 +92,33 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_translate, module)?)?;
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Context manager for translate().
+    struct LanguageContext {}
+
+    impl LanguageContext {
+        /// Switches to the new language.
+        fn new(language: &str) -> Self {
+            assert_eq!(set_language(language).is_ok(), true);
+            LanguageContext {}
+        }
+    }
+
+    impl Drop for LanguageContext {
+        /// Switches back to the old language.
+        fn drop(&mut self) {
+            assert_eq!(set_language("en").is_ok(), true)
+        }
+    }
+
+    /// Tests translate().
+    #[test]
+    fn test_translate() {
+        let _lc = LanguageContext::new("hu");
+        assert_eq!(translate("Area"), "Terület");
+    }
+}
