@@ -2,6 +2,9 @@ missing-streets: 'yes'
 filters:
   Ady Endre utca:
     invalid: ['50']
+  Bartók Béla utca:
+    # utolsó ház 26
+    invalid: ['28']
   Béla király útja:
     invalid: ['140']
   Bérc köz:
