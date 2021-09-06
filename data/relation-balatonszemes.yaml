@@ -1,6 +1,7 @@
 missing-streets: 'yes'
 filters:
   Ady Endre utca:
+    # 11/B: nincs ilyen, csak sima 11 van.
     # 159: a páratlan oldalon a 39 az utolsó házszám. Ez a Party sétány 159. alatt lévő OTP Hotel lesz.
     # 26/A: nincs ilyen, csak sima 26 van. Ez most már egy lakópark.
     # 26/B: nincs ilyen, csak sima 26 van. Ez most már egy lakópark.
@@ -9,11 +10,15 @@ filters:
     # 184: a páros oldalon a 46 az utolsó házszám. A 184 a Parti sétányon lévő étterem helyrajzi száma.
     # 184/4: a páros oldalon a 46 az utolsó házszám. A 184/4 a Parti sétányon lévő étterem helyrajzi száma.
     # 192: a páros oldalon a 46 az utolsó házszám. A 192 a Pék-Lángos helyrajzi száma.
-    invalid: ['159', '26a', '26b', '30d', '32a', '184', '184/4', '192']
+    invalid: ['11b', '159', '26a', '26b', '30d', '32a', '184', '184/4', '192']
   Arany János utca:
-    # 27: teljesen be van nőve, még az sem látszik, hogy épület van-e a telken.
+    # 19: sima 19 nincs, csak 19/A, 19/B.
+    # 27: ez és a Semmelweis utca 58. közös telken van, de bejárat és házszám csak a Semmelweis utcáról van.
+    # 26: ez és a Semmelweis utca 58. közös telken van, de bejárat és házszám csak a Semmelweis utcáról van.
+    # 74/A, 74/B: a 74 egy ikerház, de csak sima 74 van kitáblázva.
     # 88: nem találtam meg, nincs kitáblázva. Talán a 89 mellett lenne?
     interpolation: 'all'
+    invalid: ['19', '27', '26']
   Bagolyvár utca:
     # 37: nincs ilyen, a 35 után a 39 következik.
     invalid: ['37']
@@ -30,11 +35,21 @@ filters:
     invalid: ['7']
   Cinka Panna utca:
     interpolation: 'all'
+  Csokonai utca:
+    # 29/A: nincs ilyen, csak sima 29 van.
+    invalid: ['29a']
+  Dózsa György utca:
+    # A páros oldalon címrendezés lehetett, mert nagyon sok a duplikált házszám.
+    # 9: nincs ilyen, a 7 után a 11 következik.
+    invalid: ['9']
   Fő utca:
     # 39: nincs ilyen, a 37 után a 41 következik, össze van vonva a 41-gyel.
     # 45: nincs ilyen, a 43 után a 49 következik.
     # 47: nincs ilyen, a 43 után a 49 következik, össze van vonva a 49-cel.
     invalid: ['39', '45', '47']
+  Halász utca:
+    # 12/A: nincs ilyen, csak sima 12 van.
+    invalid: ['12a']
   Hullám utca:
     # 650: a 13/A az utolsó házszám.
     interpolation: 'all'
@@ -64,18 +79,43 @@ filters:
     # 3: nincs ilyen, az 1 után az 5 következik.
     # 7: ez a kertmozi, de annak a címe Kossuth Lajos utca 2.
     # 11/2: nincs ilyen, csak sima 11 van.
+    # 17: nincs ilyen, a 15 után a 19 követközik.
+    # 31/A: több épület is van egy összenyitott telken, de egyiken sincs házszám.
     # 14: sima 14 nincs, csak 14/A, 14/B.
     # 32/B: nincs ilyen, csak sima 32. A páros oldalon a 32 az utolsó házszám.
-    invalid: ['3', '7', '11/2', '14', '32b']
+    invalid: ['3', '7', '11/2', '17', '14', '32b']
+  Petőfi Sándor utca:
+    # 29/A: a 29 egy ikerház, de minkét felén sima 29 van.
+    # 12/C: az utcában kettő 12 is van, de mindkettő csak sima 12.
+    # 36/A: ilyen nincs, csak sima 36 és 36/B van egy ikerházon.
+    invalid: ['36a']
+  Rádi utca:
+    # 28: a páros oldalon a 6 az utolsó házszám (Mobilkemping).
+    invalid: ['28']
   Semmelweis utca:
+    # 21: nincs ilyen, a 19 után a 23 következik.
     # 25/A, 25/B: a 25 ketté van osztva, de csak 25 van kitáblázva, A és B nincs.
+    # 34: sima 34 nincs, csak 34/A, 34/B.
     # 64: sima 64 nincs, csak 64/A, 64/B.
-    invalid: ['64']
+    invalid: ['21', '34', '64']
+  Szél utca:
+    # 5: sima 5 nincs, csak 5/A, 5/B.
+    invalid: ['5']
+  Szemesi út:
+    # 91: a páratlan oldalon a 25 az utolsó házszám.
+    # 165: a páratlan oldalon a 25 az utolsó házszám.
+    invalid: ['91', '165']
   Tompa Mihály utca:
     # https://www.balatonszemes.hu/wp-content/uploads/files/rajk-laszlo-utca-nevvaltozasa-es-hazszam-megallapitas.pdf
     # 29: a fenti határozat alapján a 13 az utolsó házszám. De korábban is csak 26-ig számozódott.
     interpolation: 'all'
     invalid: ['29']
+  Tűzoltó utca:
+    # 63: a páratlan oldalon a 31 az utolsó házszám.
+    invalid: ['63']
+  Vadvirág utca:
+    # 14: a páros oldalon nincsenek házak, ott szántóföld van.
+    invalid: ['14']
   Vasvári Pál utca:
     # 39/1: a 9 az utolsó házszám. A 39/1 a szabadstrand helyrajzi száma.
     interpolation: 'all'
@@ -91,18 +131,19 @@ street-filters:
   # Nem igazi utcák
   - Szedres
 osm-street-filters:
+  # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012 - refben rögzítve
   # Nem valós utcák
   - Baross Gábor park
   - Fenyves park
   - Platán park
   - Rózsa park
   # Létező, de házszám nélküli utcák, közök, ösvények
-  # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012 - refben rögzítve
   - Ady sétány
   - Baross Gábor tér
   - Csonka Pál utca
   - Fiumei köz
   - Hattyú sétány
+  - Mariana sétány
   - Mócsy János utca
   - Nyugati móló sétány
   - Óvoda köz
