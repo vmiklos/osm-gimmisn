@@ -157,11 +157,12 @@ def get_missing_housenumbers_txt(ctx: context.Context, relation: areas.Relation)
 
     ongoing_streets, _ignore = relation.get_missing_housenumbers()
     table = []
+    filters = relation.get_config().get_filters()
     for result in ongoing_streets:
         range_list = util.get_housenumber_ranges(result[1])
         range_strings = [i.get_number() for i in range_list]
         # Street name, only_in_reference items.
-        if not relation.get_config().get_street_is_even_odd(result[0].get_osm_name()):
+        if not relation.get_config().get_street_is_even_odd(filters, result[0].get_osm_name()):
             result_sorted = sorted(range_strings, key=util.split_house_number)
             row = result[0].get_osm_name() + "\t[" + ", ".join(result_sorted) + "]"
         else:

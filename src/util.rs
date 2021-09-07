@@ -46,7 +46,7 @@ lazy_static! {
 
 /// Specifies the style of the output of normalize_letter_suffix().
 #[derive(PartialEq)]
-enum LetterSuffixStyle {
+pub enum LetterSuffixStyle {
     /// "42/A"
     Upper,
     /// "42a"
