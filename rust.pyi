@@ -766,4 +766,36 @@ class PyRelationConfig:
         """Gets the alias(es) of the relation: alternative names which are also accepted."""
         ...
 
+    def should_check_missing_streets(self) -> str:
+        """Return value can be 'yes', 'no' and 'only'."""
+        ...
+
+    def should_check_housenumber_letters(self) -> bool:
+        """Do we care if 42/B is missing when 42/A is provided?."""
+        ...
+
+    def should_check_additional_housenumbers(self) -> bool:
+        """Do we care if 42 is in OSM when it's not in the ref?."""
+        ...
+
+    def set_housenumber_letters(self, housenumber_letters: bool) -> None:
+        """Sets the housenumber_letters property from code."""
+        ...
+
+    def set_letter_suffix_style(self, letter_suffix_style: int) -> None:
+        """Sets the letter suffix style."""
+        ...
+
+    def get_letter_suffix_style(self) -> int:
+        """Gets the letter suffix style."""
+        ...
+
+    def get_refstreets(self) -> Dict[str, str]:
+        """Returns an OSM name -> ref name map."""
+        ...
+
+    def set_filters(self, filters: str) -> None:
+        """Sets the 'filters' key from code."""
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -243,11 +243,12 @@ def missing_housenumbers_view_chkl(
         ongoing_streets, _ignore = relation.get_missing_housenumbers()
 
         table = []
+        filters = relation.get_config().get_filters()
         for result in ongoing_streets:
             range_list = util.get_housenumber_ranges(result[1])
             # Street name, only_in_reference items.
             row = "[ ] "
-            if not relation.get_config().get_street_is_even_odd(result[0].get_osm_name()):
+            if not relation.get_config().get_street_is_even_odd(filters, result[0].get_osm_name()):
                 result_sorted = sorted([i.get_number() for i in range_list], key=util.split_house_number)
                 row += result[0].get_osm_name() + " [" + ", ".join(result_sorted) + "]"
                 table.append(row)
@@ -354,8 +355,9 @@ def missing_streets_view_turbo(relations: areas.Relations, request_uri: str) -> 
     relation = relations.get_relation(relation_name)
     refstreets = relation.get_config().get_refstreets()
     streets: List[str] = []
+    filters = relation.get_config().get_filters()
     for key, _value in refstreets.items():
-        if relation.should_show_ref_street(key):
+        if relation.should_show_ref_street(filters, key):
             streets.append(key)
     query = areas.make_turbo_query_for_streets(relation, streets)
 
