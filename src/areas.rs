@@ -165,6 +165,57 @@ impl RelationConfig {
     fn set_filters(&mut self, filters: &serde_json::Value) {
         self.set_property("filters", filters)
     }
+
+    /// Returns a street name -> properties map.
+    fn get_filters(&self) -> Option<serde_json::Value> {
+        self.get_property("filters")
+    }
+
+    /// Returns a street from relation filters.
+    fn get_filter_street(&self, street: &str) -> serde_json::Value {
+        let filters = match self.get_filters() {
+            Some(value) => value,
+            None => {
+                return serde_json::json!({});
+            }
+        };
+        let filters_obj = match filters.as_object() {
+            Some(value) => value,
+            None => {
+                return serde_json::json!({});
+            }
+        };
+
+        match filters_obj.get(street) {
+            Some(value) => value.clone(),
+            None => serde_json::json!({}),
+        }
+    }
+
+    /// Determines in a relation's street is interpolation=all or not.
+    fn get_street_is_even_odd(&self, street: &str) -> bool {
+        let value = self.get_filter_street(street);
+        let street_props = value.as_object().unwrap();
+        let mut interpolation_all = false;
+        if let Some(value) = street_props.get("interpolation") {
+            if value == "all" {
+                interpolation_all = true;
+            }
+        }
+        !interpolation_all
+    }
+
+    /// Decides is a ref street should be shown for an OSM street.
+    fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
+        let value = self.get_filter_street(osm_street_name);
+        let street_props = value.as_object().unwrap();
+        let mut show_ref_street = true;
+        if let Some(value) = street_props.get("show-refstreet") {
+            show_ref_street = value.as_bool().unwrap();
+        }
+
+        show_ref_street
+    }
 }
 
 #[pyclass]
@@ -296,6 +347,31 @@ impl PyRelationConfig {
         };
         self.relation_config.set_filters(&serde_value);
         Ok(())
+    }
+
+    fn get_filters(&self) -> PyResult<Option<String>> {
+        let ret = match self.relation_config.get_filters() {
+            Some(value) => value,
+            None => {
+                return Ok(None);
+            }
+        };
+        match serde_json::to_string(&ret) {
+            Ok(value) => Ok(Some(value)),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "serde_json::to_string() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_street_is_even_odd(&self, street: String) -> bool {
+        self.relation_config.get_street_is_even_odd(&street)
+    }
+
+    fn should_show_ref_street(&self, osm_street_name: String) -> bool {
+        self.relation_config
+            .should_show_ref_street(&osm_street_name)
     }
 }
 
