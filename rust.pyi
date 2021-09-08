@@ -798,4 +798,16 @@ class PyRelationConfig:
         """Sets the 'filters' key from code."""
         ...
 
+    def get_filters(self) -> Optional[str]:
+        """Returns a street name -> properties map."""
+        ...
+
+    def get_street_is_even_odd(self, street: str) -> bool:
+        """Determines in a relation's street is interpolation=all or not."""
+        ...
+
+    def should_show_ref_street(self, osm_street_name: str) -> bool:
+        """Decides is a ref street should be shown for an OSM street."""
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

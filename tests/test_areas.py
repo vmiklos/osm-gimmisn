@@ -142,13 +142,22 @@ def make_range(start: int, end: int) -> rust.PyRange:
     return rust.PyRange(start, end, interpolation="")
 
 
+def get_filters(relation: areas.Relation) -> Dict[str, Any]:
+    """Wrapper around get_config.get_filters() that doesn't return an Optional."""
+    filters_str = relation.get_config().get_filters()
+    filters: Dict[str, Any] = {}
+    if filters_str:
+        filters = json.loads(filters_str)
+    return filters
+
+
 class TestRelationGetStreetRanges(unittest.TestCase):
     """Tests Relation.get_street_ranges()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_street_ranges(relation.get_config().get_filters())
+        filters = relation.get_street_ranges(get_filters(relation))
         expected_filters = {
             "Budaörsi út": rust.PyRanges([make_range(137, 165)]),
             "Csiki-hegyek utca": rust.PyRanges([make_range(1, 15), make_range(2, 26)]),
@@ -169,7 +178,7 @@ class TestRelationGetStreetRanges(unittest.TestCase):
         """Tests when the filter file is empty."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("empty")
-        filters = relation.get_street_ranges(relation.get_config().get_filters())
+        filters = relation.get_street_ranges(get_filters(relation))
         self.assertEqual(filters, {})
 
 
@@ -258,82 +267,91 @@ class TestNormalize(unittest.TestCase):
         """Tests the happy path."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "139", "Budaörsi út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "139", "Budaörsi út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["139"])
 
     def test_not_in_range(self) -> None:
         """Tests when the number is not in range."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "999", "Budaörsi út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "999", "Budaörsi út", street_is_even_odd, normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_not_a_number(self) -> None:
         """Tests the case when the house number is not a number."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "x", "Budaörsi út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "x", "Budaörsi út", street_is_even_odd, normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_nofilter(self) -> None:
         """Tests the case when there is no filter for this street."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "1", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "1", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["1"])
 
     def test_separator_semicolon(self) -> None:
         """Tests the case when ';' is a separator."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "1;2", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "1;2", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["1", "2"])
 
     def test_separator_interval(self) -> None:
         """Tests the 2-6 case: means implicit 4."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "2-6", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "2-6", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "4", "6"])
 
     def test_separator_interval_parity(self) -> None:
         """Tests the 5-8 case: means just 5 and 8 as the parity doesn't match."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "5-8", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "5-8", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["5", "8"])
 
     def test_separator_interval_interp_all(self) -> None:
         """Tests the 2-5 case: means implicit 3 and 4."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = [i.get_number() for i in areas.normalize(relation, "2-5", "Hamzsabégi út", normalizers, filters)]
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Hamzsabégi út")
+        house_numbers = [i.get_number() for i in areas.normalize(relation, "2-5", "Hamzsabégi út", street_is_even_odd, normalizers)]
         self.assertEqual(house_numbers, ["2", "3", "4", "5"])
 
     def test_separator_interval_filter(self) -> None:
         """Tests the case where x-y is partially filtered out."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
         # filter is 137-165
-        house_numbers = areas.normalize(relation, "163-167", "Budaörsi út", normalizers, filters)
+        house_numbers = areas.normalize(relation, "163-167", "Budaörsi út", street_is_even_odd, normalizers)
         # Make sure there is no 167.
         self.assertEqual([i.get_number() for i in house_numbers], ["163", "165"])
 
@@ -341,9 +359,10 @@ class TestNormalize(unittest.TestCase):
         """Tests the case where x-y is nonsense: y is too large."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "2-2000", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "2-2000", "Budaörs út", street_is_even_odd, normalizers)
         # Make sure that we simply ignore 2000: it's larger than the default <998 filter and the
         # 2-2000 range would be too large.
         self.assertEqual([i.get_number() for i in house_numbers], ["2"])
@@ -352,9 +371,10 @@ class TestNormalize(unittest.TestCase):
         """Tests the case where x-y is nonsense: y-x is too large."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "2-56", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "2-56", "Budaörs út", street_is_even_odd, normalizers)
         # No expansions for 4, 6, etc.
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "56"])
 
@@ -362,9 +382,10 @@ class TestNormalize(unittest.TestCase):
         """Tests the case where x-y is nonsense: x is 0."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "0-42", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "0-42", "Budaörs út", street_is_even_odd, normalizers)
         # No expansion like 0, 2, 4, etc.
         self.assertEqual([i.get_number() for i in house_numbers], ["42"])
 
@@ -372,9 +393,10 @@ class TestNormalize(unittest.TestCase):
         """Tests the case where x-y is only partially useful: x is OK, but y is a suffix."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "42-1", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "42-1", "Budaörs út", street_is_even_odd, normalizers)
         # No "1", just "42".
         self.assertEqual([i.get_number() for i in house_numbers], ["42"])
 
@@ -382,20 +404,23 @@ class TestNormalize(unittest.TestCase):
         """Tests that the * suffix is preserved."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_number = areas.normalize(relation, "1*", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_number = areas.normalize(relation, "1*", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_number], ["1*"])
-        house_number = areas.normalize(relation, "2", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_number = areas.normalize(relation, "2", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_number], ["2"])
 
     def test_separator_comma(self) -> None:
         """Tests the case when ',' is a separator."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
+        filters = get_filters(relation)
         normalizers = relation.get_street_ranges(filters)
-        house_numbers = areas.normalize(relation, "2,6", "Budaörs út", normalizers, filters)
+        street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
+        house_numbers = areas.normalize(relation, "2,6", "Budaörs út", street_is_even_odd, normalizers)
         # Same as ";", no 4.
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "6"])
 
@@ -692,7 +717,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         ret = relation.write_missing_housenumbers()
         _todo_street_count, _todo_count, _done_count, percent, _table = ret
         self.assertEqual(percent, '100.00')
-        self.assertEqual({}, relation.get_config().get_filters())
+        self.assertEqual({}, get_filters(relation))
 
     def test_interpolation_all(self) -> None:
         """Tests the case when the street is interpolation=all and coloring is wanted."""
@@ -1047,10 +1072,9 @@ class TestRelationStreetIsEvenOdd(unittest.TestCase):
         ctx = test_context.make_test_context()
         relations = areas.Relations(ctx)
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
-        self.assertFalse(relation.get_config().get_street_is_even_odd(filters, "Hamzsabégi út"))
+        self.assertFalse(relation.get_config().get_street_is_even_odd("Hamzsabégi út"))
 
-        self.assertTrue(relation.get_config().get_street_is_even_odd(filters, "Teszt utca"))
+        self.assertTrue(relation.get_config().get_street_is_even_odd("Teszt utca"))
 
 
 class TestRelationShowRefstreet(unittest.TestCase):
@@ -1059,9 +1083,8 @@ class TestRelationShowRefstreet(unittest.TestCase):
         """Tests the happy path."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
-        filters = relation.get_config().get_filters()
-        self.assertFalse(relation.should_show_ref_street(filters, "Törökugrató utca"))
-        self.assertTrue(relation.should_show_ref_street(filters, "Hamzsabégi út"))
+        self.assertFalse(relation.should_show_ref_street("Törökugrató utca"))
+        self.assertTrue(relation.should_show_ref_street("Hamzsabégi út"))
 
 
 class TestRelationIsActive(unittest.TestCase):

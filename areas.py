@@ -88,30 +88,17 @@ class RelationConfig:
         """Sets the 'filters' key from code."""
         self.rust.set_filters(filters)
 
-    def get_filters(self) -> Dict[str, Any]:
+    def get_filters(self) -> Optional[str]:
         """Returns a street name -> properties map."""
-        filters = self.get_property("filters")
-        if filters:
-            return cast(Dict[str, Any], json.loads(filters))
-        return cast(Dict[str, Any], {})
+        return self.rust.get_filters()
 
-    @staticmethod
-    def get_filter_street(filters: Dict[str, Any], street: str) -> Dict[str, Any]:
-        """Returns a street from relation filters."""
-        if street in filters.keys():
-            return cast(Dict[str, Any], filters[street])
-
-        return {}
-
-    def get_street_is_even_odd(self, filters: Dict[str, Any], street: str) -> bool:
+    def get_street_is_even_odd(self, street: str) -> bool:
         """Determines in a relation's street is interpolation=all or not."""
-        street_props = self.get_filter_street(filters, street)
-        interpolation_all = False
-        if "interpolation" in street_props:
-            if street_props["interpolation"] == "all":
-                interpolation_all = True
+        return self.rust.get_street_is_even_odd(street)
 
-        return not interpolation_all
+    def should_show_ref_street(self, osm_street_name: str) -> bool:
+        """Decides is a ref street should be shown for an OSM street."""
+        return self.rust.should_show_ref_street(osm_street_name)
 
     def get_street_refsettlement(self, street: str) -> List[str]:
         """Returns a list of refsettlement values specific to a street."""
@@ -119,7 +106,10 @@ class RelationConfig:
         if not self.get_property("filters"):
             return ret
 
-        relation_filters = self.get_filters()
+        relation_filters_str = self.get_filters()
+        relation_filters: Dict[str, Any] = {}
+        if relation_filters_str:  # pragma: no cover
+            relation_filters = json.loads(relation_filters_str)
         for filter_street, value in relation_filters.items():
             if filter_street != street:
                 continue
@@ -245,14 +235,9 @@ class Relation:
 
         return invalid_dict
 
-    def should_show_ref_street(self, filters: Dict[str, Any], osm_street_name: str) -> bool:
+    def should_show_ref_street(self, osm_street_name: str) -> bool:
         """Decides is a ref street should be shown for an OSM street."""
-        street_props = self.get_config().get_filter_street(filters, osm_street_name)
-        show_ref_street = True
-        if "show-refstreet" in street_props:
-            show_ref_street = street_props["show-refstreet"]
-
-        return show_ref_street
+        return self.get_config().should_show_ref_street(osm_street_name)
 
     def get_osm_streets(self, sorted_result: bool = True) -> List[util.Street]:
         """Reads list of streets for an area from OSM."""
@@ -286,7 +271,10 @@ class Relation:
 
     def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
         """Gets the OSM house number list of a street."""
-        filters = self.get_config().get_filters()
+        filters_str = self.get_config().get_filters()
+        filters: Dict[str, Any] = {}
+        if filters_str:
+            filters = json.loads(filters_str)
         if not self.__osm_housenumbers:
             # This function gets called for each & every street, make sure we read the file only
             # once.
@@ -302,12 +290,13 @@ class Relation:
                             columns[label] = index
                         continue
                     street = row[columns["addr:street"]]
+                    street_is_even_odd = self.get_config().get_street_is_even_odd(street)
                     if not street and "addr:place" in columns:
                         street = row[columns["addr:place"]]
                     for house_number in row[columns["addr:housenumber"]].split(';'):
                         if street not in house_numbers:
                             house_numbers[street] = []
-                        house_numbers[street] += normalize(self, house_number, street, street_ranges, filters)
+                        house_numbers[street] += normalize(self, house_number, street, street_is_even_odd, street_ranges)
             for key, value in house_numbers.items():
                 self.__osm_housenumbers[key] = util.sort_numerically(list(set(value)))
         if street_name not in self.__osm_housenumbers:
@@ -398,8 +387,9 @@ class Relation:
 
         normalized_invalid: List[str] = []
         street_ranges = self.get_street_ranges(filters)
+        street_is_even_odd = self.get_config().get_street_is_even_odd(osm_street_name)
         for i in street_invalid:
-            normalizeds = normalize(self, i, osm_street_name, street_ranges, filters)
+            normalizeds = normalize(self, i, osm_street_name, street_is_even_odd, street_ranges)
             # normalize() may return an empty list if the number is out of range.
             if normalizeds:
                 normalized_invalid.append(normalizeds[0].get_number())
@@ -417,11 +407,15 @@ class Relation:
                 if key not in lines:
                     lines[key] = []
                 lines[key].append(value)
-        filters = self.get_config().get_filters()
+        filters_str = self.get_config().get_filters()
+        filters: Dict[str, Any] = {}
+        if filters_str:
+            filters = json.loads(filters_str)
         street_ranges = self.get_street_ranges(filters)
         streets_invalid = self.get_street_invalid(filters)
         for osm_street in self.get_osm_streets():
             osm_street_name = osm_street.get_osm_name()
+            street_is_even_odd = self.get_config().get_street_is_even_odd(osm_street_name)
             house_numbers: List[util.HouseNumber] = []
             ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
             prefix = ref_street_name + "\t"
@@ -436,7 +430,7 @@ class Relation:
             if ref_street_name in lines.keys():
                 for line in lines[ref_street_name]:
                     house_number = line.replace(prefix, '')
-                    normalized = normalize(self, house_number, osm_street_name, street_ranges, filters)
+                    normalized = normalize(self, house_number, osm_street_name, street_is_even_odd, street_ranges)
                     normalized = \
                         [i for i in normalized if not util.HouseNumber.is_invalid(i.get_number(), street_invalid)]
                     house_numbers += normalized
@@ -454,7 +448,6 @@ class Relation:
 
         osm_street_names = self.get_osm_streets()
         all_ref_house_numbers = self.get_ref_housenumbers()
-        filters = self.get_config().get_filters()
         for osm_street in osm_street_names:
             osm_street_name = osm_street.get_osm_name()
             ref_house_numbers = all_ref_house_numbers[osm_street_name]
@@ -462,7 +455,7 @@ class Relation:
             only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
             in_both = util.get_in_both(ref_house_numbers, osm_house_numbers)
             ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
-            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(filters, osm_street_name), osm_id=0)
+            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name), osm_id=0)
             if only_in_reference:
                 ongoing_streets.append((street, only_in_reference))
             if in_both:
@@ -530,7 +523,10 @@ class Relation:
         """Gets a street name -> valid map, which allows silencing individual false positives."""
         valid_dict: Dict[str, List[str]] = {}
 
-        filters = self.get_config().get_filters()
+        filters_str = self.get_config().get_filters()
+        filters: Dict[str, Any] = {}
+        if filters_str:  # pragma: no cover
+            filters = json.loads(filters_str)
         for street in filters.keys():
             if "valid" not in filters[street]:
                 continue
@@ -549,7 +545,6 @@ class Relation:
                       yattag.Doc.from_text(tr("Missing count")),
                       yattag.Doc.from_text(tr("House numbers"))])
         rows = []
-        filters = self.get_config().get_filters()
         for result in numbered_streets:
             # street, only_in_ref
             row = []
@@ -558,7 +553,7 @@ class Relation:
             row.append(yattag.Doc.from_text(str(len(number_ranges))))
 
             doc = yattag.Doc()
-            if not self.get_config().get_street_is_even_odd(filters, result[0].get_osm_name()):
+            if not self.get_config().get_street_is_even_odd(result[0].get_osm_name()):
                 for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
                     if index:
                         doc.text(", ")
@@ -636,7 +631,11 @@ class Relation:
     def get_invalid_filter_keys(self) -> List[str]:
         """Returns invalid filter key names (street not in OSM)."""
         invalids: List[str] = []
-        keys = [key for key, value in self.get_config().get_filters().items()]
+        filters_str = self.get_config().get_filters()
+        filters: Dict[str, Any] = {}
+        if filters_str:
+            filters = json.loads(filters_str)
+        keys = [key for key, value in filters.items()]
         osm_streets = [i.get_osm_name() for i in self.get_osm_streets()]
         for key in keys:
             if key not in osm_streets:
@@ -654,7 +653,6 @@ class Relation:
         osm_street_names = self.get_osm_streets()
         all_ref_house_numbers = self.get_ref_housenumbers()
         streets_valid = self.get_street_valid()
-        filters = self.get_config().get_filters()
         for osm_street in osm_street_names:
             osm_street_name = osm_street.get_osm_name()
             ref_house_numbers = all_ref_house_numbers[osm_street_name]
@@ -667,7 +665,7 @@ class Relation:
 
             only_in_osm = util.get_only_in_first(osm_house_numbers, ref_house_numbers)
             ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
-            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(filters, osm_street_name), osm_id=0)
+            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name), osm_id=0)
             if only_in_osm:
                 additional.append((street, only_in_osm))
         # Sort by length.
@@ -798,7 +796,8 @@ def normalize_housenumber_letters(
 
 
 def normalize(relation: Relation, house_numbers: str, street_name: str,
-              normalizers: Dict[str, rust.PyRanges], filters: Dict[str, Any]) -> List[util.HouseNumber]:
+              street_is_even_odd: bool,
+              normalizers: Dict[str, rust.PyRanges]) -> List[util.HouseNumber]:
     """Strips down string input to bare minimum that can be interpreted as an
     actual number. Think about a/b, a-b, and so on."""
     comment = ""
@@ -820,7 +819,6 @@ def normalize(relation: Relation, house_numbers: str, street_name: str,
 
     ret_numbers, ret_numbers_nofilter = util.split_house_number_by_separator(house_numbers, separator, normalizer)
 
-    street_is_even_odd = relation.get_config().get_street_is_even_odd(filters, street_name)
     if separator == "-":
         should_expand, new_stop = util.should_expand_range(ret_numbers_nofilter, street_is_even_odd)
         if should_expand:
