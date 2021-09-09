@@ -734,14 +734,6 @@ class PyRelationConfig:
     def __init__(self, parent_config: str, my_config: str) -> None:
         ...
 
-    def get_property(self, key: str) -> str:
-        """Gets the untyped value of a property transparently."""
-        ...
-
-    def set_property(self, key: str, value: str) -> None:
-        """Sets an untyped value."""
-        ...
-
     def set_active(self, active: bool) -> None:
         """Sets if the relation is active."""
         ...
@@ -808,6 +800,32 @@ class PyRelationConfig:
 
     def should_show_ref_street(self, osm_street_name: str) -> bool:
         """Decides is a ref street should be shown for an OSM street."""
+        ...
+
+    def get_street_refsettlement(self, street: str) -> List[str]:
+        """Returns a list of refsettlement values specific to a street."""
+        ...
+
+    def get_street_filters(self) -> List[str]:
+        """Gets list of streets which are only in reference, but have to be filtered out."""
+        ...
+
+    def get_osm_street_filters(self) -> List[str]:
+        """Gets list of streets which are only in OSM, but have to be filtered out."""
+        ...
+
+    def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
+        """
+        Builds a list of streets from a reference cache.
+        """
+        ...
+
+    def get_ref_street_from_osm_street(self, osm_street_name: str) -> str:
+        """Maps an OSM street name to a ref street name."""
+        ...
+
+    def get_osm_street_from_ref_street(self, ref_street_name: str) -> str:
+        """Maps a reference street name to an OSM street name."""
         ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

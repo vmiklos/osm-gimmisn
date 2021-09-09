@@ -216,6 +216,122 @@ impl RelationConfig {
 
         show_ref_street
     }
+
+    /// Returns a list of refsettlement values specific to a street.
+    fn get_street_refsettlement(&self, street: &str) -> Vec<String> {
+        let mut ret: Vec<String> = vec![self.get_refsettlement()];
+        let filters = match self.get_filters() {
+            Some(value) => value,
+            None => {
+                return ret;
+            }
+        };
+
+        let filters = filters.as_object().unwrap();
+        for (filter_street, value) in filters {
+            if filter_street != street {
+                continue;
+            }
+
+            let value = value.as_object().unwrap();
+
+            if value.contains_key("refsettlement") {
+                let refsettlement: String =
+                    value.get("refsettlement").unwrap().as_str().unwrap().into();
+                ret = vec![refsettlement];
+            }
+            if value.contains_key("ranges") {
+                let ranges = value.get("ranges").unwrap().as_array().unwrap();
+                for street_range in ranges {
+                    let street_range_dict = street_range.as_object().unwrap();
+                    if street_range_dict.contains_key("refsettlement") {
+                        ret.push(
+                            street_range_dict
+                                .get("refsettlement")
+                                .unwrap()
+                                .as_str()
+                                .unwrap()
+                                .into(),
+                        );
+                    }
+                }
+            }
+        }
+
+        ret.sort();
+        ret.dedup();
+        ret
+    }
+
+    /// Gets list of streets which are only in reference, but have to be filtered out.
+    fn get_street_filters(&self) -> Vec<String> {
+        let street_filters = match self.get_property("street-filters") {
+            Some(value) => value,
+            None => {
+                return vec![];
+            }
+        };
+        street_filters
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|i| i.as_str().unwrap().into())
+            .collect()
+    }
+
+    /// Gets list of streets which are only in OSM, but have to be filtered out.
+    fn get_osm_street_filters(&self) -> Vec<String> {
+        let osm_street_filters = match self.get_property("osm-street-filters") {
+            Some(value) => value,
+            None => {
+                return vec![];
+            }
+        };
+        osm_street_filters
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|i| i.as_str().unwrap().into())
+            .collect()
+    }
+
+    /// Builds a list of streets from a reference cache.
+    fn build_ref_streets(
+        &self,
+        reference: &HashMap<String, HashMap<String, Vec<String>>>,
+    ) -> Vec<String> {
+        let refcounty = self.get_refcounty();
+        let refsettlement = self.get_refsettlement();
+        reference
+            .get(&refcounty)
+            .unwrap()
+            .get(&refsettlement)
+            .unwrap()
+            .clone()
+    }
+
+    /// Maps an OSM street name to a ref street name.
+    fn get_ref_street_from_osm_street(&self, osm_street_name: &str) -> String {
+        let refstreets = self.get_refstreets();
+        match refstreets.get(osm_street_name) {
+            Some(value) => value.into(),
+            None => osm_street_name.into(),
+        }
+    }
+
+    /// Maps a reference street name to an OSM street name.
+    fn get_osm_street_from_ref_street(&self, ref_street_name: &str) -> String {
+        let refstreets = self.get_refstreets();
+        let reverse: HashMap<String, String> = refstreets
+            .iter()
+            .map(|(key, value)| (value.clone(), key.clone()))
+            .collect();
+
+        match reverse.get(ref_street_name) {
+            Some(value) => value.into(),
+            None => ref_street_name.into(),
+        }
+    }
 }
 
 #[pyclass]
@@ -247,38 +363,6 @@ impl PyRelationConfig {
         };
         let relation_config = RelationConfig::new(&parent_value, &my_value);
         Ok(PyRelationConfig { relation_config })
-    }
-
-    fn get_property(&self, key: String) -> PyResult<Option<String>> {
-        let ret = match self.relation_config.get_property(&key) {
-            Some(value) => value,
-            None => {
-                return Ok(None);
-            }
-        };
-        match serde_json::to_string(&ret) {
-            Ok(value) => Ok(Some(value)),
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "serde_json::to_string() failed: {}",
-                    err.to_string()
-                )));
-            }
-        }
-    }
-
-    fn set_property(&mut self, key: String, value: String) -> PyResult<()> {
-        let serde_value: serde_json::Value = match serde_json::from_str(&value) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "failed to parse value: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        self.relation_config.set_property(&key, &serde_value);
-        Ok(())
     }
 
     fn set_active(&mut self, active: bool) {
@@ -372,6 +456,35 @@ impl PyRelationConfig {
     fn should_show_ref_street(&self, osm_street_name: String) -> bool {
         self.relation_config
             .should_show_ref_street(&osm_street_name)
+    }
+
+    fn get_street_refsettlement(&self, street: String) -> Vec<String> {
+        self.relation_config.get_street_refsettlement(&street)
+    }
+
+    fn get_street_filters(&self) -> Vec<String> {
+        self.relation_config.get_street_filters()
+    }
+
+    fn get_osm_street_filters(&self) -> Vec<String> {
+        self.relation_config.get_osm_street_filters()
+    }
+
+    fn build_ref_streets(
+        &self,
+        reference: HashMap<String, HashMap<String, Vec<String>>>,
+    ) -> Vec<String> {
+        self.relation_config.build_ref_streets(&reference)
+    }
+
+    fn get_ref_street_from_osm_street(&self, osm_street_name: String) -> String {
+        self.relation_config
+            .get_ref_street_from_osm_street(&osm_street_name)
+    }
+
+    fn get_osm_street_from_ref_street(&self, ref_street_name: String) -> String {
+        self.relation_config
+            .get_osm_street_from_ref_street(&ref_street_name)
     }
 }
 

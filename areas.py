@@ -23,150 +23,7 @@ import rust
 import util
 
 
-class RelationConfig:
-    """A relation configuration comes directly from static data, not a result of some external query."""
-    def __init__(self, parent_config: Dict[str, Any], my_config: Dict[str, Any]) -> None:
-        self.rust = rust.PyRelationConfig(json.dumps(parent_config), json.dumps(my_config))
-
-    def get_property(self, key: str) -> Optional[str]:
-        """Gets the untyped value of a property transparently."""
-        return self.rust.get_property(key)
-
-    def set_active(self, active: bool) -> None:
-        """Sets if the relation is active."""
-        self.rust.set_active(active)
-
-    def is_active(self) -> bool:
-        """Gets if the relation is active."""
-        return self.rust.is_active()
-
-    def get_osmrelation(self) -> int:
-        """Gets the OSM relation object's ID."""
-        return self.rust.get_osmrelation()
-
-    def get_refcounty(self) -> str:
-        """Gets the relation's refcounty identifier from reference."""
-        return self.rust.get_refcounty()
-
-    def get_refsettlement(self) -> str:
-        """Gets the relation's refsettlement identifier from reference."""
-        return self.rust.get_refsettlement()
-
-    def get_alias(self) -> List[str]:
-        """Gets the alias(es) of the relation: alternative names which are also accepted."""
-        return self.rust.get_alias()
-
-    def should_check_missing_streets(self) -> str:
-        """Return value can be 'yes', 'no' and 'only'."""
-        return self.rust.should_check_missing_streets()
-
-    def should_check_housenumber_letters(self) -> bool:
-        """Do we care if 42/B is missing when 42/A is provided?."""
-        return self.rust.should_check_housenumber_letters()
-
-    def should_check_additional_housenumbers(self) -> bool:
-        """Do we care if 42 is in OSM when it's not in the ref?."""
-        return self.rust.should_check_additional_housenumbers()
-
-    def set_housenumber_letters(self, housenumber_letters: bool) -> None:
-        """Sets the housenumber_letters property from code."""
-        self.rust.set_housenumber_letters(housenumber_letters)
-
-    def set_letter_suffix_style(self, letter_suffix_style: int) -> None:
-        """Sets the letter suffix style."""
-        self.rust.set_letter_suffix_style(letter_suffix_style)
-
-    def get_letter_suffix_style(self) -> int:
-        """Gets the letter suffix style."""
-        return self.rust.get_letter_suffix_style()
-
-    def get_refstreets(self) -> Dict[str, str]:
-        """Returns an OSM name -> ref name map."""
-        return self.rust.get_refstreets()
-
-    def set_filters(self, filters: str) -> None:
-        """Sets the 'filters' key from code."""
-        self.rust.set_filters(filters)
-
-    def get_filters(self) -> Optional[str]:
-        """Returns a street name -> properties map."""
-        return self.rust.get_filters()
-
-    def get_street_is_even_odd(self, street: str) -> bool:
-        """Determines in a relation's street is interpolation=all or not."""
-        return self.rust.get_street_is_even_odd(street)
-
-    def should_show_ref_street(self, osm_street_name: str) -> bool:
-        """Decides is a ref street should be shown for an OSM street."""
-        return self.rust.should_show_ref_street(osm_street_name)
-
-    def get_street_refsettlement(self, street: str) -> List[str]:
-        """Returns a list of refsettlement values specific to a street."""
-        ret = [self.get_refsettlement()]
-        if not self.get_property("filters"):
-            return ret
-
-        relation_filters_str = self.get_filters()
-        relation_filters: Dict[str, Any] = {}
-        if relation_filters_str:  # pragma: no cover
-            relation_filters = json.loads(relation_filters_str)
-        for filter_street, value in relation_filters.items():
-            if filter_street != street:
-                continue
-
-            if "refsettlement" in value.keys():
-                refsettlement = cast(str, value["refsettlement"])
-                ret = [refsettlement]
-            if "ranges" in value.keys():
-                for street_range in value["ranges"]:
-                    street_range_dict = cast(Dict[str, str], street_range)
-                    if "refsettlement" in street_range_dict.keys():
-                        ret.append(street_range_dict["refsettlement"])
-
-        return sorted(set(ret))
-
-    def get_street_filters(self) -> List[str]:
-        """Gets list of streets which are only in reference, but have to be filtered out."""
-        street_filters = self.get_property("street-filters")
-        if street_filters:
-            return cast(List[str], json.loads(street_filters))
-        return []
-
-    def get_osm_street_filters(self) -> List[str]:
-        """Gets list of streets which are only in OSM, but have to be filtered out."""
-        osm_street_filters = self.get_property("osm-street-filters")
-        if osm_street_filters:
-            return cast(List[str], json.loads(osm_street_filters))
-        return []
-
-    def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
-        """
-        Builds a list of streets from a reference cache.
-        """
-        refcounty = self.get_refcounty()
-        refsettlement = self.get_refsettlement()
-        return reference[refcounty][refsettlement]
-
-
-def get_ref_street_from_osm_street(relation_config: RelationConfig, osm_street_name: str) -> str:
-    """Maps an OSM street name to a ref street name."""
-    refstreets = relation_config.get_refstreets()
-
-    if osm_street_name in refstreets.keys():
-        return refstreets[osm_street_name]
-
-    return osm_street_name
-
-
-def get_osm_street_from_ref_street(relation_config: RelationConfig, ref_street_name: str) -> str:
-    """Maps a reference street name to an OSM street name."""
-    refstreets = relation_config.get_refstreets()
-    reverse = {v: k for k, v in refstreets.items()}
-
-    if ref_street_name in reverse.keys():
-        return reverse[ref_street_name]
-
-    return ref_street_name
+RelationConfig = rust.PyRelationConfig
 
 
 class Relation:
@@ -187,7 +44,7 @@ class Relation:
         # relations.
         if relation_path in yaml_cache:
             my_config = yaml_cache[relation_path]
-        self.__config = RelationConfig(parent_config, my_config)
+        self.__config = RelationConfig(json.dumps(parent_config), json.dumps(my_config))
         # osm street name -> house number list map, so we don't have to read the on-disk list of the
         # relation again and again for each street.
         self.__osm_housenumbers: Dict[str, List[util.HouseNumber]] = {}
@@ -271,13 +128,13 @@ class Relation:
 
     def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
         """Gets the OSM house number list of a street."""
-        filters_str = self.get_config().get_filters()
-        filters: Dict[str, Any] = {}
-        if filters_str:
-            filters = json.loads(filters_str)
         if not self.__osm_housenumbers:
             # This function gets called for each & every street, make sure we read the file only
             # once.
+            filters_str = self.get_config().get_filters()
+            filters: Dict[str, Any] = {}
+            if filters_str:
+                filters = json.loads(filters_str)
             street_ranges = self.get_street_ranges(filters)
             house_numbers: Dict[str, List[util.HouseNumber]] = {}
             with util.CsvIO(self.get_files().get_osm_housenumbers_read_stream(self.__ctx)) as sock:
@@ -335,7 +192,7 @@ class Relation:
         This is serialized to disk by write_ref_housenumbers().
         """
         refcounty = self.get_config().get_refcounty()
-        street = get_ref_street_from_osm_street(self.get_config(), street)
+        street = self.get_config().get_ref_street_from_osm_street(street)
         ret: List[str] = []
         for refsettlement in self.get_config().get_street_refsettlement(street):
             if refcounty not in reference.keys():
@@ -417,7 +274,7 @@ class Relation:
             osm_street_name = osm_street.get_osm_name()
             street_is_even_odd = self.get_config().get_street_is_even_odd(osm_street_name)
             house_numbers: List[util.HouseNumber] = []
-            ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
+            ref_street_name = self.get_config().get_ref_street_from_osm_street(osm_street_name)
             prefix = ref_street_name + "\t"
             street_invalid: List[str] = []
             if osm_street_name in streets_invalid.keys():
@@ -454,7 +311,7 @@ class Relation:
             osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
             only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
             in_both = util.get_in_both(ref_house_numbers, osm_house_numbers)
-            ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
+            ref_street_name = self.get_config().get_ref_street_from_osm_street(osm_street_name)
             street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name), osm_id=0)
             if only_in_reference:
                 ongoing_streets.append((street, only_in_reference))
@@ -469,7 +326,7 @@ class Relation:
         """Tries to find missing streets in a relation."""
         reference_streets = [util.Street.from_string(i) for i in self.get_ref_streets()]
         street_blacklist = self.get_config().get_street_filters()
-        osm_streets = [util.Street.from_string(get_ref_street_from_osm_street(self.get_config(), street.get_osm_name()))
+        osm_streets = [util.Street.from_string(self.get_config().get_ref_street_from_osm_street(street.get_osm_name()))
                        for street in self.get_osm_streets()]
 
         only_in_reference = util.get_only_in_first(reference_streets, osm_streets)
@@ -480,7 +337,7 @@ class Relation:
 
     def get_additional_streets(self, sorted_result: bool = True) -> List[util.Street]:
         """Tries to find additional streets in a relation."""
-        ref_streets = [get_osm_street_from_ref_street(self.get_config(), street) for street in self.get_ref_streets()]
+        ref_streets = [self.get_config().get_osm_street_from_ref_street(street) for street in self.get_ref_streets()]
         ref_street_objs = [util.Street.from_string(i) for i in ref_streets]
         osm_streets = self.get_osm_streets(sorted_result)
         osm_street_blacklist = self.get_config().get_osm_street_filters()
@@ -664,7 +521,7 @@ class Relation:
                     [i for i in osm_house_numbers if not util.HouseNumber.is_invalid(i.get_number(), street_valid)]
 
             only_in_osm = util.get_only_in_first(osm_house_numbers, ref_house_numbers)
-            ref_street_name = get_ref_street_from_osm_street(self.get_config(), osm_street_name)
+            ref_street_name = self.get_config().get_ref_street_from_osm_street(osm_street_name)
             street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name), osm_id=0)
             if only_in_osm:
                 additional.append((street, only_in_osm))
