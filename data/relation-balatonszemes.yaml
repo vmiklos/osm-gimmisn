@@ -150,10 +150,13 @@ osm-street-filters:
   # Területhatár
   - Hárs utca
 refstreets:
+  'Arany János utca': 'Nyár utca'
   'Árnyas fasor': 'Árnyas utca'
   'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
+  'Baross Gábor tér': 'Állomás tér'
   'Bem József utca': 'Bem utca'
   'Bocskai István utca': 'Bocskay utca'
+  'Csonka Pál utca': 'Kápolna köz'
   'Dankó Pista utca': 'Dankó utca'
   'Dózsa György utca': 'Dózsa György út'
   'Eötvös Károly utca': 'Eötvös utca'
