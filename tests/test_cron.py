@@ -245,6 +245,30 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
         actual = util.get_content(relations.get_workdir() + "/street-housenumbers-gazdagret.csv")
         self.assertEqual(actual, expected)
 
+    def test_xml_as_csv(self) -> None:
+        """Tests the case when we ask for CSV but get XML."""
+        ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass.xml"),
+        ]
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        relations = areas.Relations(ctx)
+        for relation_name in relations.get_active_names():
+            if relation_name != "gazdagret":
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
+        path = os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
+        expected = util.get_content(path)
+        cron.update_osm_housenumbers(ctx, relations, update=True)
+        self.assertEqual(util.get_content(path), expected)
+
 
 class TestUpdateOsmStreets(unittest.TestCase):
     """Tests update_osm_streets()."""
@@ -302,6 +326,30 @@ class TestUpdateOsmStreets(unittest.TestCase):
         # leave the last state unchanged.
         actual = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
         self.assertEqual(actual, expected)
+
+    def test_xml_as_csv(self) -> None:
+        """Tests the case when we ask for CSV but get XML."""
+        ctx = test_context.make_test_context()
+        routes: List[test_context.URLRoute] = [
+            test_context.URLRoute(url="https://overpass-api.de/api/status",
+                                  data_path="",
+                                  result_path="tests/network/overpass-status-happy.txt"),
+            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
+                                  data_path="",
+                                  result_path="tests/network/overpass.xml"),
+        ]
+        network = test_context.TestNetwork(routes)
+        ctx.set_network(network)
+        relations = areas.Relations(ctx)
+        for relation_name in relations.get_active_names():
+            if relation_name != "gazdagret":
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
+        path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
+        expected = util.get_content(path)
+        cron.update_osm_streets(ctx, relations, update=True)
+        self.assertEqual(util.get_content(path), expected)
 
 
 def create_old_file(path: str) -> None:

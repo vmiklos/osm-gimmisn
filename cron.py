@@ -80,7 +80,9 @@ def update_osm_streets(ctx: context.Context, relations: areas.Relations, update:
             except OSError as err:
                 info("update_osm_streets: http error: %s", str(err))
                 continue
-            relation.get_files().write_osm_streets(ctx, buf)
+            if relation.get_files().write_osm_streets(ctx, buf) == 0:
+                info("update_osm_streets: short write")
+                continue
             break
         info("update_osm_streets: end: %s", relation_name)
 
@@ -104,7 +106,9 @@ def update_osm_housenumbers(ctx: context.Context, relations: areas.Relations, up
             except OSError as err:
                 info("update_osm_housenumbers: http error: %s", str(err))
                 continue
-            relation.get_files().write_osm_housenumbers(ctx, buf)
+            if relation.get_files().write_osm_housenumbers(ctx, buf) == 0:
+                info("update_osm_housenumbers: short write")
+                continue
             break
         info("update_osm_housenumbers: end: %s", relation_name)
 

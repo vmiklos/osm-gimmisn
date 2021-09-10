@@ -327,6 +327,11 @@ impl RelationFiles {
         ctx: &crate::context::Context,
         result: &str,
     ) -> anyhow::Result<usize> {
+        if result.starts_with("<?xml") {
+            // Not a CSV, reject.
+            return Ok(0);
+        }
+
         let write = self.get_osm_streets_write_stream(ctx)?;
         let mut guard = write.lock().unwrap();
         Ok(guard.write(result.as_bytes())?)
@@ -347,6 +352,11 @@ impl RelationFiles {
         ctx: &crate::context::Context,
         result: &str,
     ) -> anyhow::Result<usize> {
+        if result.starts_with("<?xml") {
+            // Not a CSV, reject.
+            return Ok(0);
+        }
+
         let write = self.get_osm_housenumbers_write_stream(ctx)?;
         let mut guard = write.lock().unwrap();
         Ok(guard.write(result.as_bytes())?)
