@@ -36,9 +36,6 @@ class Relation:
             yaml_cache: Dict[str, Any]
     ) -> None:
         self.__ctx = ctx
-        # osm street name -> house number list map, so we don't have to read the on-disk list of the
-        # relation again and again for each street.
-        self.__osm_housenumbers: Dict[str, List[util.HouseNumber]] = {}
         self.rust = rust.PyRelation(ctx, name, json.dumps(parent_config), json.dumps(yaml_cache))
 
     def get_name(self) -> str:
@@ -77,35 +74,9 @@ class Relation:
         """Produces a query which lists streets in relation."""
         return self.rust.get_osm_streets_query()
 
-    def get_osm_housenumbers(self, street_name: str, config: RelationConfig) -> List[util.HouseNumber]:
+    def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
         """Gets the OSM house number list of a street."""
-        if not self.__osm_housenumbers:
-            # This function gets called for each & every street, make sure we read the file only
-            # once.
-            street_ranges = self.get_street_ranges()
-            house_numbers: Dict[str, List[util.HouseNumber]] = {}
-            with util.CsvIO(self.get_files().get_osm_housenumbers_read_stream(self.__ctx)) as sock:
-                first = True
-                columns: Dict[str, int] = {}
-                for row in sock.get_rows():
-                    if first:
-                        first = False
-                        for index, label in enumerate(row):
-                            columns[label] = index
-                        continue
-                    street = row[columns["addr:street"]]
-                    street_is_even_odd = config.get_street_is_even_odd(street)
-                    if not street and "addr:place" in columns:
-                        street = row[columns["addr:place"]]
-                    for house_number in row[columns["addr:housenumber"]].split(';'):
-                        if street not in house_numbers:
-                            house_numbers[street] = []
-                        house_numbers[street] += normalize(self, house_number, street, street_is_even_odd, street_ranges, config)
-            for key, value in house_numbers.items():
-                self.__osm_housenumbers[key] = util.sort_numerically(list(set(value)))
-        if street_name not in self.__osm_housenumbers:
-            self.__osm_housenumbers[street_name] = []
-        return self.__osm_housenumbers[street_name]
+        return self.rust.get_osm_housenumbers(street_name)
 
     def write_ref_streets(self, reference: str) -> None:
         """Gets known streets (not their coordinates) from a reference site, based on relation names
@@ -193,7 +164,7 @@ class Relation:
         street_ranges = self.get_street_ranges()
         street_is_even_odd = config.get_street_is_even_odd(osm_street_name)
         for i in street_invalid:
-            normalizeds = normalize(self, i, osm_street_name, street_is_even_odd, street_ranges, config)
+            normalizeds = normalize(self.rust, i, osm_street_name, street_is_even_odd, street_ranges)
             # normalize() may return an empty list if the number is out of range.
             if normalizeds:
                 normalized_invalid.append(normalizeds[0].get_number())
@@ -231,7 +202,7 @@ class Relation:
             if ref_street_name in lines.keys():
                 for line in lines[ref_street_name]:
                     house_number = line.replace(prefix, '')
-                    normalized = normalize(self, house_number, osm_street_name, street_is_even_odd, street_ranges, config)
+                    normalized = normalize(self.rust, house_number, osm_street_name, street_is_even_odd, street_ranges)
                     normalized = \
                         [i for i in normalized if not util.HouseNumber.is_invalid(i.get_number(), street_invalid)]
                     house_numbers += normalized
@@ -249,11 +220,10 @@ class Relation:
 
         osm_street_names = self.get_osm_streets(sorted_result=True)
         all_ref_house_numbers = self.get_ref_housenumbers()
-        config = self.get_config()
         for osm_street in osm_street_names:
             osm_street_name = osm_street.get_osm_name()
             ref_house_numbers = all_ref_house_numbers[osm_street_name]
-            osm_house_numbers = self.get_osm_housenumbers(osm_street_name, config)
+            osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
             only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
             in_both = util.get_in_both(ref_house_numbers, osm_house_numbers)
             ref_street_name = self.get_config().get_ref_street_from_osm_street(osm_street_name)
@@ -459,7 +429,7 @@ class Relation:
         for osm_street in osm_street_names:
             osm_street_name = osm_street.get_osm_name()
             ref_house_numbers = all_ref_house_numbers[osm_street_name]
-            osm_house_numbers = self.get_osm_housenumbers(osm_street_name, config)
+            osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
 
             if osm_street_name in streets_valid.keys():
                 street_valid = streets_valid[osm_street_name]
@@ -586,61 +556,8 @@ class Relations:
         return ret
 
 
-def normalize_housenumber_letters(
-        relation: Relation,
-        house_numbers: str,
-        suffix: str,
-        comment: str
-) -> List[util.HouseNumber]:
-    """Handles the part of normalize() that deals with housenumber letters."""
-    style = relation.get_config().get_letter_suffix_style()
-    normalized = util.HouseNumber.normalize_letter_suffix(house_numbers, suffix, style)
-    return [util.HouseNumber(normalized, normalized, comment)]
-
-
-def normalize(relation: Relation, house_numbers: str, street_name: str,
-              street_is_even_odd: bool,
-              normalizers: Dict[str, rust.PyRanges], config: RelationConfig) -> List[util.HouseNumber]:
-    """Strips down string input to bare minimum that can be interpreted as an
-    actual number. Think about a/b, a-b, and so on."""
-    comment = ""
-    if "\t" in house_numbers:
-        house_numbers, comment = house_numbers.split("\t")
-    if ';' in house_numbers:
-        separator = ';'
-    elif ',' in house_numbers:
-        separator = ','
-    else:
-        separator = '-'
-
-    # Determine suffix which is not normalized away.
-    suffix = ""
-    if house_numbers.endswith("*"):
-        suffix = house_numbers[-1]
-
-    normalizer = util.get_normalizer(street_name, normalizers)
-
-    ret_numbers, ret_numbers_nofilter = util.split_house_number_by_separator(house_numbers, separator, normalizer)
-
-    if separator == "-":
-        should_expand, new_stop = util.should_expand_range(ret_numbers_nofilter, street_is_even_odd)
-        if should_expand:
-            start = ret_numbers_nofilter[0]
-            stop = new_stop
-            if stop == 0:
-                ret_numbers = [number for number in [start] if number in normalizer]
-            elif street_is_even_odd:
-                # Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
-                # Closed interval, even only or odd only case.
-                ret_numbers = [number for number in range(start, stop + 2, 2) if number in normalizer]
-            else:
-                # Closed interval, but mixed even and odd.
-                ret_numbers = [number for number in range(start, stop + 1, 1) if number in normalizer]
-
-    check_housenumber_letters = len(ret_numbers) == 1 and config.should_check_housenumber_letters()
-    if check_housenumber_letters and util.HouseNumber.has_letter_suffix(house_numbers, suffix):
-        return normalize_housenumber_letters(relation, house_numbers, suffix, comment)
-    return [util.HouseNumber(str(number) + suffix, house_numbers, comment) for number in ret_numbers]
+normalize_housenumber_letters = rust.py_normalize_housenumber_letters
+normalize = rust.py_normalize
 
 
 def make_turbo_query_for_streets(relation: Relation, streets: List[str]) -> str:

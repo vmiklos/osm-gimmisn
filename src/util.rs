@@ -403,7 +403,7 @@ pub struct HouseNumber {
 }
 
 impl HouseNumber {
-    fn new(number: &str, source: &str, comment: &str) -> Self {
+    pub fn new(number: &str, source: &str, comment: &str) -> Self {
         HouseNumber {
             number: number.into(),
             source: source.into(),
@@ -457,7 +457,7 @@ impl HouseNumber {
     /// Determines if the input is a house number, allowing letter suffixes. This means not only
     /// '42' is allowed, but also '42a', '42/a' and '42 a'. Everything else is still considered just
     /// junk after the numbers.
-    fn has_letter_suffix(house_number: &str, source_suffix: &str) -> bool {
+    pub fn has_letter_suffix(house_number: &str, source_suffix: &str) -> bool {
         let mut house_number: String = house_number.into();
         if !source_suffix.is_empty() {
             house_number = house_number[..house_number.len() - source_suffix.len()].into();
@@ -471,7 +471,7 @@ impl HouseNumber {
     }
 
     /// Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
-    fn normalize_letter_suffix(
+    pub fn normalize_letter_suffix(
         house_number: &str,
         source_suffix: &str,
         style: LetterSuffixStyle,
@@ -537,6 +537,8 @@ impl PartialEq for HouseNumber {
         self.number == other.number
     }
 }
+
+impl Eq for HouseNumber {}
 
 impl Hash for HouseNumber {
     /// Source is explicitly non-interesting.
@@ -1180,7 +1182,7 @@ fn py_process_template(buf: String, osm_relation: u64) -> String {
 }
 
 /// Decides if an x-y range should be expanded. Returns a sanitized end value as well.
-fn should_expand_range(numbers: &[i32], street_is_even_odd: bool) -> (bool, i32) {
+pub fn should_expand_range(numbers: &[i64], street_is_even_odd: bool) -> (bool, i64) {
     if numbers.len() != 2 {
         return (false, 0);
     }
@@ -1209,7 +1211,7 @@ fn should_expand_range(numbers: &[i32], street_is_even_odd: bool) -> (bool, i32)
 }
 
 #[pyfunction]
-fn py_should_expand_range(numbers: Vec<i32>, street_is_even_odd: bool) -> (bool, i32) {
+fn py_should_expand_range(numbers: Vec<i64>, street_is_even_odd: bool) -> (bool, i64) {
     should_expand_range(&numbers, street_is_even_odd)
 }
 
@@ -1572,7 +1574,7 @@ fn py_git_link(version: String, prefix: String) -> crate::yattag::PyDoc {
 }
 
 /// Sorts strings according to their numerical value, not alphabetically.
-fn sort_numerically(strings: &[HouseNumber]) -> Vec<HouseNumber> {
+pub fn sort_numerically(strings: &[HouseNumber]) -> Vec<HouseNumber> {
     let mut ret: Vec<HouseNumber> = strings.to_owned();
     ret.sort_by(|a, b| {
         let a_key = split_house_number(a.get_number());
@@ -1823,7 +1825,7 @@ fn py_get_content_with_meta(
 }
 
 /// Determines the normalizer for a given street.
-fn get_normalizer(
+pub fn get_normalizer(
     street_name: &str,
     normalizers: &HashMap<String, crate::ranges::Ranges>,
 ) -> crate::ranges::Ranges {
@@ -1859,7 +1861,7 @@ fn py_get_normalizer(
 
 /// Splits a house number string (possibly a range) by a given separator.
 /// Returns a filtered and a not filtered list of ints.
-fn split_house_number_by_separator(
+pub fn split_house_number_by_separator(
     house_numbers: &str,
     separator: &str,
     normalizer: &crate::ranges::Ranges,

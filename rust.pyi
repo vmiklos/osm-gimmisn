@@ -875,4 +875,24 @@ class PyRelation:
         """Produces a query which lists streets in relation."""
         ...
 
+    def get_osm_housenumbers(self, street_name: str) -> List[PyHouseNumber]:
+        """Gets the OSM house number list of a street."""
+        ...
+
+def py_normalize_housenumber_letters(
+        relation: PyRelation,
+        house_numbers: str,
+        suffix: str,
+        comment: str
+) -> List[PyHouseNumber]:
+    """Handles the part of normalize() that deals with housenumber letters."""
+    ...
+
+def py_normalize(relation: PyRelation, house_numbers: str, street_name: str,
+              street_is_even_odd: bool,
+              normalizers: Dict[str, PyRanges]) -> List[PyHouseNumber]:
+    """Strips down string input to bare minimum that can be interpreted as an
+    actual number. Think about a/b, a-b, and so on."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
