@@ -11,8 +11,10 @@
 //! The areas module contains the Relations class and associated functionality.
 
 use crate::i18n::translate as tr;
+use itertools::Itertools;
 use pyo3::prelude::*;
 use std::collections::HashMap;
+use std::convert::TryFrom;
 use std::io::BufRead;
 use std::io::Read;
 use std::ops::DerefMut;
@@ -712,17 +714,72 @@ impl Relation {
     }
 
     /// Gets the OSM house number list of a street.
-    fn get_osm_housenumbers(&mut self, street_name: &str) -> Vec<crate::util::HouseNumber> {
+    fn get_osm_housenumbers(
+        &mut self,
+        street_name: &str,
+    ) -> anyhow::Result<Vec<crate::util::HouseNumber>> {
         if self.osm_housenumbers.is_empty() {
-            // TODO impl this
+            // This function gets called for each & every street, make sure we read the file only
+            // once.
+            let street_ranges = self.get_street_ranges();
+            let mut house_numbers: HashMap<String, Vec<crate::util::HouseNumber>> = HashMap::new();
+            let stream: Arc<Mutex<dyn Read + Send>> =
+                self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
+            let mut guard = stream.lock().unwrap();
+            let mut read = guard.deref_mut();
+            let mut csv_read = crate::util::CsvRead::new(&mut read);
+            let mut first = true;
+            let mut columns: HashMap<String, usize> = HashMap::new();
+            for result in csv_read.records() {
+                let row = match result {
+                    Ok(value) => value,
+                    Err(_) => {
+                        continue;
+                    }
+                };
+                if first {
+                    first = false;
+                    for (index, label) in row.iter().enumerate() {
+                        columns.insert(label.into(), index);
+                    }
+                    continue;
+                }
+                let mut street = &row[*columns.get("addr:street").unwrap()];
+                let street_is_even_odd = self.config.get_street_is_even_odd(street);
+                if street.is_empty() {
+                    if let Some(value) = columns.get("addr:place") {
+                        street = &row[*value];
+                    }
+                }
+                for house_number in row[*columns.get("addr:housenumber").unwrap()].split(';') {
+                    if !house_numbers.contains_key(street) {
+                        house_numbers.insert(street.into(), Vec::new());
+                    }
+                    house_numbers
+                        .get_mut(street)
+                        .unwrap()
+                        .append(&mut normalize(
+                            self,
+                            house_number,
+                            street,
+                            street_is_even_odd,
+                            &street_ranges,
+                        )?)
+                }
+            }
+            for (key, value) in house_numbers {
+                let unique: Vec<_> = value.into_iter().unique().collect();
+                self.osm_housenumbers
+                    .insert(key, crate::util::sort_numerically(&unique));
+            }
         }
-        match self.osm_housenumbers.get(street_name) {
+        Ok(match self.osm_housenumbers.get(street_name) {
             Some(value) => value.clone(),
             None => {
                 self.osm_housenumbers.insert(street_name.into(), vec![]);
                 vec![]
             }
-        }
+        })
     }
 }
 
@@ -801,15 +858,26 @@ impl PyRelation {
         }
     }
 
-    fn get_osm_housenumbers(&mut self, street_name: String) -> Vec<crate::util::PyHouseNumber> {
-        self.relation
-            .get_osm_housenumbers(&street_name)
+    fn get_osm_housenumbers(
+        &mut self,
+        street_name: String,
+    ) -> PyResult<Vec<crate::util::PyHouseNumber>> {
+        let ret = match self.relation.get_osm_housenumbers(&street_name) {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "get_osm_housenumbers() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        Ok(ret
             .iter()
             .map(|i| {
                 let house_number = i.clone();
                 crate::util::PyHouseNumber { house_number }
             })
-            .collect()
+            .collect())
     }
 
     fn get_street_ranges(&self) -> HashMap<String, crate::ranges::PyRanges> {
@@ -858,8 +926,181 @@ impl PyRelation {
     }
 }
 
+/// Strips down string input to bare minimum that can be interpreted as an
+/// actual number. Think about a/b, a-b, and so on.
+fn normalize(
+    relation: &Relation,
+    house_numbers: &str,
+    street_name: &str,
+    street_is_even_odd: bool,
+    normalizers: &HashMap<String, crate::ranges::Ranges>,
+) -> anyhow::Result<Vec<crate::util::HouseNumber>> {
+    let mut comment: String = "".into();
+    let mut house_numbers: String = house_numbers.into();
+    if house_numbers.contains('\t') {
+        let tokens = house_numbers.clone();
+        let mut iter = tokens.split('\t');
+        house_numbers = iter.next().unwrap().into();
+        comment = iter.next().unwrap().into();
+    }
+    let separator: &str;
+    if house_numbers.contains(';') {
+        separator = ";";
+    } else if house_numbers.contains(',') {
+        separator = ",";
+    } else {
+        separator = "-";
+    }
+
+    // Determine suffix which is not normalized away.
+    let mut suffix: String = "".into();
+    if house_numbers.ends_with('*') {
+        suffix = house_numbers.chars().last().unwrap().into();
+    }
+
+    let normalizer = crate::util::get_normalizer(street_name, normalizers);
+
+    let (mut ret_numbers, ret_numbers_nofilter) =
+        crate::util::split_house_number_by_separator(&house_numbers, separator, &normalizer);
+
+    if separator == "-" {
+        let (should_expand, new_stop) =
+            crate::util::should_expand_range(&ret_numbers_nofilter, street_is_even_odd);
+        if should_expand {
+            let start = ret_numbers_nofilter[0];
+            let stop = new_stop;
+            if stop == 0 {
+                ret_numbers = vec![start]
+                    .iter()
+                    .filter(|number| normalizer.contains(**number))
+                    .cloned()
+                    .collect();
+            } else if street_is_even_odd {
+                // Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
+                // Closed interval, even only or odd only case.
+                //ret_numbers = [number for number in range(start, stop + 2, 2) if number in normalizer]
+                ret_numbers = (start..stop + 2)
+                    .step_by(2)
+                    .filter(|number| normalizer.contains(*number))
+                    .collect();
+            } else {
+                // Closed interval, but mixed even and odd.
+                ret_numbers = (start..stop + 1)
+                    .filter(|number| normalizer.contains(*number))
+                    .collect();
+            }
+        }
+    }
+
+    let check_housenumber_letters =
+        ret_numbers.len() == 1 && relation.config.should_check_housenumber_letters();
+    if check_housenumber_letters
+        && crate::util::HouseNumber::has_letter_suffix(&house_numbers, &suffix)
+    {
+        return normalize_housenumber_letters(relation, &house_numbers, &suffix, &comment);
+    }
+    Ok(ret_numbers
+        .iter()
+        .map(|number| {
+            crate::util::HouseNumber::new(&(number.to_string() + &suffix), &house_numbers, &comment)
+        })
+        .collect())
+}
+
+#[pyfunction]
+fn py_normalize(
+    relation: PyObject,
+    house_numbers: String,
+    street_name: String,
+    street_is_even_odd: bool,
+    normalizers: HashMap<String, PyObject>,
+) -> PyResult<Vec<crate::util::PyHouseNumber>> {
+    let gil = Python::acquire_gil();
+    let py_relation: PyRefMut<'_, PyRelation> = relation.extract(gil.python())?;
+    let mut py_normalizers: HashMap<String, crate::ranges::Ranges> = HashMap::new();
+    for (key, value) in normalizers.iter() {
+        let py_ranges: PyRefMut<'_, crate::ranges::PyRanges> = value.extract(gil.python())?;
+        py_normalizers.insert(key.into(), py_ranges.ranges.clone());
+    }
+    let ret = match normalize(
+        &py_relation.relation,
+        &house_numbers,
+        &street_name,
+        street_is_even_odd,
+        &py_normalizers,
+    ) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "normalize() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+    Ok(ret
+        .iter()
+        .map(|i| crate::util::PyHouseNumber {
+            house_number: i.clone(),
+        })
+        .collect())
+}
+
+/// Handles the part of normalize() that deals with housenumber letters.
+fn normalize_housenumber_letters(
+    relation: &Relation,
+    house_numbers: &str,
+    suffix: &str,
+    comment: &str,
+) -> anyhow::Result<Vec<crate::util::HouseNumber>> {
+    let style = crate::util::LetterSuffixStyle::try_from(relation.config.get_letter_suffix_style())
+        .unwrap();
+    let normalized =
+        crate::util::HouseNumber::normalize_letter_suffix(house_numbers, suffix, style)?;
+    Ok(vec![crate::util::HouseNumber::new(
+        &normalized,
+        &normalized,
+        comment,
+    )])
+}
+
+#[pyfunction]
+fn py_normalize_housenumber_letters(
+    relation: PyObject,
+    house_numbers: String,
+    suffix: String,
+    comment: String,
+) -> PyResult<Vec<crate::util::PyHouseNumber>> {
+    let gil = Python::acquire_gil();
+    let py_relation: PyRefMut<'_, PyRelation> = relation.extract(gil.python())?;
+    let ret = match normalize_housenumber_letters(
+        &py_relation.relation,
+        &house_numbers,
+        &suffix,
+        &comment,
+    ) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "normalize_housenumber_letters() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+    Ok(ret
+        .iter()
+        .map(|i| crate::util::PyHouseNumber {
+            house_number: i.clone(),
+        })
+        .collect())
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyRelationConfig>()?;
     module.add_class::<PyRelation>()?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_normalize_housenumber_letters,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_normalize, module)?)?;
     Ok(())
 }
