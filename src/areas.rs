@@ -10,6 +10,7 @@
 
 //! The areas module contains the Relations class and associated functionality.
 
+use crate::i18n::translate as tr;
 use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::io::BufRead;
@@ -556,15 +557,16 @@ impl Relation {
     fn get_street_ranges(&self) -> HashMap<String, crate::ranges::Ranges> {
         let mut filter_dict: HashMap<String, crate::ranges::Ranges> = HashMap::new();
 
-        let mut filters: HashMap<String, serde_json::Value> = HashMap::new();
-        if let Some(value) = self.config.get_filters() {
-            for (key, value) in value.as_object().unwrap() {
-                filters.insert(key.into(), value.clone());
+        let filters = match self.config.get_filters() {
+            Some(value) => value,
+            None => {
+                return filter_dict;
             }
-        }
-        for street in filters.keys() {
+        };
+        let filters_obj = filters.as_object().unwrap();
+        for street in filters_obj.keys() {
             let mut interpolation = "";
-            let filter = filters.get(street).unwrap().as_object().unwrap();
+            let filter = filters_obj.get(street).unwrap().as_object().unwrap();
             if let Some(value) = filter.get("interpolation") {
                 interpolation = value.as_str().unwrap();
             }
@@ -593,6 +595,106 @@ impl Relation {
         }
 
         filter_dict
+    }
+
+    /// Gets a street name -> invalid map, which allows silencing individual false positives.
+    fn get_street_invalid(&self) -> HashMap<String, Vec<String>> {
+        let mut invalid_dict: HashMap<String, Vec<String>> = HashMap::new();
+
+        let filters = match self.config.get_filters() {
+            Some(value) => value,
+            None => {
+                return invalid_dict;
+            }
+        };
+        let filters_obj = filters.as_object().unwrap();
+        for street in filters_obj.keys() {
+            let filter = filters_obj.get(street).unwrap().as_object().unwrap();
+            if let Some(value) = filter.get("invalid") {
+                let values: Vec<String> = value
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|i| i.as_str().unwrap().into())
+                    .collect();
+                invalid_dict.insert(street.into(), values);
+            }
+        }
+
+        invalid_dict
+    }
+
+    /// Decides is a ref street should be shown for an OSM street.
+    fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
+        self.config.should_show_ref_street(osm_street_name)
+    }
+
+    /// Reads list of streets for an area from OSM.
+    fn get_osm_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<crate::util::Street>> {
+        let mut ret: Vec<crate::util::Street> = Vec::new();
+        let stream: Arc<Mutex<dyn Read + Send>> =
+            self.file.get_osm_streets_read_stream(&self.ctx)?;
+        let mut guard = stream.lock().unwrap();
+        let mut read = guard.deref_mut();
+        let mut csv_read = crate::util::CsvRead::new(&mut read);
+        let mut first = true;
+        for result in csv_read.records() {
+            if first {
+                first = false;
+                continue;
+            }
+
+            let row = match result {
+                Ok(value) => value,
+                Err(_) => {
+                    continue;
+                }
+            };
+            // 0: @id, 1: name, 6: @type
+            if row.get(1).is_none() {
+                // data/streets-template.txt requests this, so we got garbage, give up.
+                return Err(anyhow::anyhow!("missing name column in CSV"));
+            }
+            let mut street = crate::util::Street::new(
+                /*osm_name=*/ &row[1],
+                /*ref_name=*/ "",
+                /*show_ref_street=*/ true,
+                /*osm_id=*/ row[0].parse::<u64>().unwrap(),
+            );
+            if let Some(value) = row.get(6) {
+                street.set_osm_type(value);
+            }
+            street.set_source(&tr("street"));
+            ret.push(street)
+        }
+        if std::path::Path::new(&self.file.get_osm_housenumbers_path()?).exists() {
+            let stream: Arc<Mutex<dyn Read + Send>> =
+                self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
+            let mut guard = stream.lock().unwrap();
+            let mut read = guard.deref_mut();
+            let mut csv_read = crate::util::CsvRead::new(&mut read);
+            ret.append(&mut crate::util::get_street_from_housenumber(
+                &mut csv_read,
+            )?);
+        }
+        if sorted_result {
+            ret.sort();
+            ret.dedup();
+        }
+        Ok(ret)
+    }
+
+    /// Produces a query which lists streets in relation.
+    fn get_osm_streets_query(&self) -> anyhow::Result<String> {
+        let contents = std::fs::read_to_string(format!(
+            "{}/{}",
+            self.ctx.get_abspath("data")?,
+            "streets-template.txt"
+        ))?;
+        Ok(crate::util::process_template(
+            &contents,
+            self.config.get_osmrelation(),
+        ))
     }
 
     /// Gets streets from reference.
@@ -716,6 +818,43 @@ impl PyRelation {
             ret.insert(key, crate::ranges::PyRanges { ranges: value });
         }
         ret
+    }
+
+    fn get_street_invalid(&self) -> HashMap<String, Vec<String>> {
+        self.relation.get_street_invalid()
+    }
+
+    fn should_show_ref_street(&self, osm_street_name: String) -> bool {
+        self.relation.should_show_ref_street(&osm_street_name)
+    }
+
+    fn get_osm_streets(&self, sorted_result: bool) -> PyResult<Vec<crate::util::PyStreet>> {
+        let ret = match self.relation.get_osm_streets(sorted_result) {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "get_osm_streets() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        Ok(ret
+            .iter()
+            .map(|i| {
+                let street = i.clone();
+                crate::util::PyStreet { street }
+            })
+            .collect())
+    }
+
+    fn get_osm_streets_query(&self) -> PyResult<String> {
+        match self.relation.get_osm_streets_query() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_osm_streets_query() failed: {}",
+                err.to_string()
+            ))),
+        }
     }
 }
 

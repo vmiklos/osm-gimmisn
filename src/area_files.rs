@@ -53,7 +53,7 @@ impl RelationFiles {
     }
 
     /// Build the file name of the OSM house number list of a relation.
-    fn get_osm_housenumbers_path(&self) -> anyhow::Result<String> {
+    pub fn get_osm_housenumbers_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("street-housenumbers-{}.csv", self.name))
@@ -169,7 +169,7 @@ impl RelationFiles {
     }
 
     /// Opens the OSM street list of a relation for reading.
-    fn get_osm_streets_read_stream(
+    pub fn get_osm_streets_read_stream(
         &self,
         ctx: &crate::context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -178,7 +178,7 @@ impl RelationFiles {
     }
 
     /// Opens the OSM house number list of a relation for reading.
-    fn get_osm_housenumbers_read_stream(
+    pub fn get_osm_housenumbers_read_stream(
         &self,
         ctx: &crate::context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {

@@ -61,51 +61,21 @@ class Relation:
         """Gets a street name -> ranges map, which allows silencing false positives."""
         return self.rust.get_street_ranges()
 
-    @staticmethod
-    def get_street_invalid(filters: Dict[str, Any]) -> Dict[str, List[str]]:
+    def get_street_invalid(self) -> Dict[str, List[str]]:
         """Gets a street name -> invalid map, which allows silencing individual false positives."""
-        invalid_dict: Dict[str, List[str]] = {}
-
-        for street in filters.keys():
-            if "invalid" not in filters[street]:
-                continue
-            invalid_dict[street] = filters[street]["invalid"]
-
-        return invalid_dict
+        return self.rust.get_street_invalid()
 
     def should_show_ref_street(self, osm_street_name: str) -> bool:
         """Decides is a ref street should be shown for an OSM street."""
-        return self.get_config().should_show_ref_street(osm_street_name)
+        return self.rust.should_show_ref_street(osm_street_name)
 
-    def get_osm_streets(self, sorted_result: bool = True) -> List[util.Street]:
+    def get_osm_streets(self, sorted_result: bool) -> List[util.Street]:
         """Reads list of streets for an area from OSM."""
-        ret: List[util.Street] = []
-        with util.CsvIO(self.get_files().get_osm_streets_read_stream(self.__ctx)) as sock:
-            first = True
-            for row in sock.get_rows():
-                if first:
-                    first = False
-                    continue
-                # 0: @id, 1: name, 6: @type
-                if len(row) < 2:  # pragma: no cover
-                    # data/streets-template.txt requests this, so we got garbage, give up.
-                    return ret
-                street = util.Street(osm_name=row[1], ref_name="", show_ref_street=True, osm_id=int(row[0]))
-                if len(row) > 6:
-                    street.set_osm_type(row[6])
-                street.set_source(tr("street"))
-                ret.append(street)
-        if os.path.exists(self.get_files().get_osm_housenumbers_path()):
-            with util.CsvIO(self.get_files().get_osm_housenumbers_read_stream(self.__ctx)) as sock:
-                ret += util.get_street_from_housenumber(sock)
-        if sorted_result:
-            return sorted(set(ret))
-        return ret
+        return self.rust.get_osm_streets(sorted_result)
 
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
-        with open(os.path.join(self.__ctx.get_abspath("data"), "streets-template.txt")) as stream:
-            return util.process_template(stream.read(), self.get_config().get_osmrelation())
+        return self.rust.get_osm_streets_query()
 
     def get_osm_housenumbers(self, street_name: str, config: RelationConfig) -> List[util.HouseNumber]:
         """Gets the OSM house number list of a street."""
@@ -201,7 +171,7 @@ class Relation:
         """
         memory_caches = util.build_reference_caches(references, self.get_config().get_refcounty())
 
-        streets = [i.get_osm_name() for i in self.get_osm_streets()]
+        streets = [i.get_osm_name() for i in self.get_osm_streets(sorted_result=True)]
 
         lst: List[str] = []
         for street in streets:
@@ -242,13 +212,9 @@ class Relation:
                     lines[key] = []
                 lines[key].append(value)
         config = self.get_config()
-        filters_str = config.get_filters()
-        filters: Dict[str, Any] = {}
-        if filters_str:
-            filters = json.loads(filters_str)
         street_ranges = self.get_street_ranges()
-        streets_invalid = self.get_street_invalid(filters)
-        for osm_street in self.get_osm_streets():
+        streets_invalid = self.get_street_invalid()
+        for osm_street in self.get_osm_streets(sorted_result=True):
             osm_street_name = osm_street.get_osm_name()
             street_is_even_odd = config.get_street_is_even_odd(osm_street_name)
             house_numbers: List[util.HouseNumber] = []
@@ -281,7 +247,7 @@ class Relation:
         ongoing_streets = []
         done_streets = []
 
-        osm_street_names = self.get_osm_streets()
+        osm_street_names = self.get_osm_streets(sorted_result=True)
         all_ref_house_numbers = self.get_ref_housenumbers()
         config = self.get_config()
         for osm_street in osm_street_names:
@@ -306,7 +272,7 @@ class Relation:
         reference_streets = [util.Street.from_string(i) for i in self.get_ref_streets()]
         street_blacklist = self.get_config().get_street_filters()
         osm_streets = [util.Street.from_string(self.get_config().get_ref_street_from_osm_street(street.get_osm_name()))
-                       for street in self.get_osm_streets()]
+                       for street in self.get_osm_streets(sorted_result=True)]
 
         only_in_reference = util.get_only_in_first(reference_streets, osm_streets)
         only_in_ref_names = [i.get_osm_name() for i in only_in_reference if i.get_osm_name() not in street_blacklist]
@@ -456,7 +422,7 @@ class Relation:
         osm_invalids: List[str] = []
         ref_invalids: List[str] = []
         refstreets = self.get_config().get_refstreets()
-        osm_streets = [i.get_osm_name() for i in self.get_osm_streets()]
+        osm_streets = [i.get_osm_name() for i in self.get_osm_streets(sorted_result=True)]
         for osm_name, ref_name in refstreets.items():
             if osm_name not in osm_streets:
                 osm_invalids.append(osm_name)
@@ -472,7 +438,7 @@ class Relation:
         if filters_str:
             filters = json.loads(filters_str)
         keys = [key for key, value in filters.items()]
-        osm_streets = [i.get_osm_name() for i in self.get_osm_streets()]
+        osm_streets = [i.get_osm_name() for i in self.get_osm_streets(sorted_result=True)]
         for key in keys:
             if key not in osm_streets:
                 invalids.append(key)
@@ -486,7 +452,7 @@ class Relation:
         """
         additional = []
 
-        osm_street_names = self.get_osm_streets()
+        osm_street_names = self.get_osm_streets(sorted_result=True)
         all_ref_house_numbers = self.get_ref_housenumbers()
         streets_valid = self.get_street_valid()
         config = self.get_config()

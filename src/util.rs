@@ -200,7 +200,7 @@ trait Diff {
 /// A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
 /// name differs.
 #[derive(Clone, Debug)]
-struct Street {
+pub struct Street {
     osm_name: String,
     ref_name: String,
     show_ref_street: bool,
@@ -210,7 +210,7 @@ struct Street {
 }
 
 impl Street {
-    fn new(osm_name: &str, ref_name: &str, show_ref_street: bool, osm_id: u64) -> Street {
+    pub fn new(osm_name: &str, ref_name: &str, show_ref_street: bool, osm_id: u64) -> Street {
         Street {
             osm_name: osm_name.into(),
             ref_name: ref_name.into(),
@@ -242,7 +242,7 @@ impl Street {
     }
 
     /// Sets the OSM type, e.g. 'way'.
-    fn set_osm_type(&mut self, osm_type: &str) {
+    pub fn set_osm_type(&mut self, osm_type: &str) {
         self.osm_type = osm_type.into()
     }
 
@@ -252,7 +252,7 @@ impl Street {
     }
 
     /// Sets the source of this street.
-    fn set_source(&mut self, source: &str) {
+    pub fn set_source(&mut self, source: &str) {
         self.source = source.into()
     }
 
@@ -273,10 +273,18 @@ impl Street {
         }
         doc
     }
+}
 
+impl Ord for Street {
     /// OSM id is explicitly non-interesting.
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.osm_name.cmp(&other.osm_name)
+    }
+}
+
+impl PartialOrd for Street {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
     }
 }
 
@@ -294,6 +302,8 @@ impl PartialEq for Street {
     }
 }
 
+impl Eq for Street {}
+
 impl Hash for Street {
     /// OSM id is explicitly not interesting.
     fn hash<H: Hasher>(&self, state: &mut H) {
@@ -303,8 +313,8 @@ impl Hash for Street {
 
 #[pyclass]
 #[derive(Debug)]
-struct PyStreet {
-    street: Street,
+pub struct PyStreet {
+    pub street: Street,
 }
 
 #[pymethods]
@@ -627,12 +637,12 @@ impl<'p> PyObjectProtocol<'p> for PyHouseNumber {
 }
 
 /// Like Read, but for CSV reading.
-struct CsvRead<'a> {
+pub struct CsvRead<'a> {
     reader: csv::Reader<&'a mut dyn Read>,
 }
 
 impl<'a> CsvRead<'a> {
-    fn new(read: &'a mut dyn Read) -> Self {
+    pub fn new(read: &'a mut dyn Read) -> Self {
         let reader = csv::ReaderBuilder::new()
             .has_headers(false)
             .delimiter(b'\t')
@@ -642,7 +652,7 @@ impl<'a> CsvRead<'a> {
     }
 
     /// Gets access to the rows of the CSV.
-    fn records(&mut self) -> csv::StringRecordsIter<'_, &'a mut dyn Read> {
+    pub fn records(&mut self) -> csv::StringRecordsIter<'_, &'a mut dyn Read> {
         self.reader.records()
     }
 }
@@ -1156,7 +1166,7 @@ fn py_write_html_header(py: Python<'_>, doc: PyObject) -> PyResult<()> {
 }
 
 /// Turns an overpass query template to an actual query.
-fn process_template(buf: &str, osm_relation: u64) -> String {
+pub fn process_template(buf: &str, osm_relation: u64) -> String {
     let mut buf = buf.replace("@RELATION@", &osm_relation.to_string());
     // area is relation + 3600000000 (3600000000 == relation), see js/ide.js
     // in https://github.com/tyrasd/overpass-turbo
@@ -1437,7 +1447,7 @@ fn py_tsv_to_list(py: Python<'_>, stream: PyObject) -> PyResult<Vec<Vec<crate::y
 
 /// Reads a house number CSV and extracts streets from rows.
 /// Returns a list of street objects, with their name, ID and type set.
-fn get_street_from_housenumber(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Street>> {
+pub fn get_street_from_housenumber(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Street>> {
     let mut ret: Vec<Street> = Vec::new();
 
     let mut first = true;
