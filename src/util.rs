@@ -386,7 +386,7 @@ impl<'p> PyObjectProtocol<'p> for PyStreet {
 /// can generate 3 house numbers, all of them with the same range.
 /// The comment is similar to source, it's ignored during __eq__() and __hash__().
 #[derive(Clone, Debug)]
-struct HouseNumber {
+pub struct HouseNumber {
     number: String,
     source: String,
     comment: String,
@@ -537,8 +537,8 @@ impl Hash for HouseNumber {
 
 #[pyclass]
 #[derive(Debug)]
-struct PyHouseNumber {
-    house_number: HouseNumber,
+pub struct PyHouseNumber {
+    pub house_number: HouseNumber,
 }
 
 #[pymethods]

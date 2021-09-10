@@ -204,7 +204,9 @@ def missing_housenumbers_view_txt(ctx: context.Context, relations: areas.Relatio
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
-    relation.get_config().set_letter_suffix_style(rust.PyLetterSuffixStyle.lower())
+    config = relation.get_config()
+    config.set_letter_suffix_style(rust.PyLetterSuffixStyle.lower())
+    relation.set_config(config)
 
     output = ""
     if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
@@ -230,7 +232,9 @@ def missing_housenumbers_view_chkl(
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
     relation = relations.get_relation(relation_name)
-    relation.get_config().set_letter_suffix_style(rust.PyLetterSuffixStyle.lower())
+    config = relation.get_config()
+    config.set_letter_suffix_style(rust.PyLetterSuffixStyle.lower())
+    relation.set_config(config)
 
     output = ""
     if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):

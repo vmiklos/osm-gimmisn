@@ -68,7 +68,9 @@ class TestUpdateRefHousenumbers(unittest.TestCase):
         relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name not in ("gazdagret", "ujbuda"):
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         path = os.path.join(relations.get_workdir(), "street-housenumbers-reference-gazdagret.lst")
         expected = util.get_content(path)
         os.unlink(path)
@@ -92,7 +94,9 @@ class TestUpdateRefStreets(unittest.TestCase):
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         path = os.path.join(relations.get_workdir(), "streets-reference-gazdagret.lst")
         expected = util.get_content(path)
         os.unlink(path)
@@ -116,7 +120,9 @@ class TestUpdateMissingHousenumbers(unittest.TestCase):
         for relation_name in relations.get_active_names():
             # ujbuda is streets=only
             if relation_name not in ("gazdagret", "ujbuda"):
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         path = os.path.join(relations.get_workdir(), "gazdagret.percent")
         expected = util.get_content(path)
         os.unlink(path)
@@ -139,7 +145,9 @@ class TestUpdateMissingStreets(unittest.TestCase):
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         path = os.path.join(relations.get_workdir(), "gazdagret-streets.percent")
         expected = util.get_content(path)
         os.unlink(path)
@@ -162,7 +170,9 @@ class TestUpdateAdditionalStreets(unittest.TestCase):
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         path = os.path.join(relations.get_workdir(), "gazdagret-additional-streets.count")
         expected = "1"
         if os.path.exists(path):
@@ -196,7 +206,9 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
         relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         path = os.path.join(relations.get_workdir(), "street-housenumbers-gazdagret.csv")
         expected = util.get_content(path)
         os.unlink(path)
@@ -223,7 +235,9 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
         relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         expected = util.get_content(relations.get_workdir() + "/street-housenumbers-gazdagret.csv")
         cron.update_osm_housenumbers(ctx, relations, update=True)
         # Make sure that in case we keep getting errors we give up at some stage and
@@ -250,7 +264,9 @@ class TestUpdateOsmStreets(unittest.TestCase):
         relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         expected = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
         path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
         os.unlink(path)
@@ -277,7 +293,9 @@ class TestUpdateOsmStreets(unittest.TestCase):
         relations = areas.Relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
-                relations.get_relation(relation_name).get_config().set_active(False)
+                config = relations.get_relation(relation_name).get_config()
+                config.set_active(False)
+                relations.get_relation(relation_name).set_config(config)
         expected = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
         cron.update_osm_streets(ctx, relations, update=True)
         # Make sure that in case we keep getting errors we give up at some stage and

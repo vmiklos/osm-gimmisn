@@ -12,8 +12,14 @@
 
 use pyo3::prelude::*;
 use std::collections::HashMap;
+use std::io::BufRead;
+use std::io::Read;
+use std::ops::DerefMut;
+use std::sync::Arc;
+use std::sync::Mutex;
 
 /// A relation configuration comes directly from static data, not a result of some external query.
+#[derive(Clone)]
 struct RelationConfig {
     parent: serde_json::Value,
     dict: serde_json::Value,
@@ -335,6 +341,7 @@ impl RelationConfig {
 }
 
 #[pyclass]
+#[derive(Clone)]
 struct PyRelationConfig {
     relation_config: RelationConfig,
 }
@@ -488,7 +495,232 @@ impl PyRelationConfig {
     }
 }
 
+/// A relation is a closed polygon on the map.
+struct Relation {
+    ctx: crate::context::Context,
+    name: String,
+    file: crate::area_files::RelationFiles,
+    config: RelationConfig,
+    osm_housenumbers: HashMap<String, Vec<crate::util::HouseNumber>>,
+}
+
+impl Relation {
+    fn new(
+        ctx: &crate::context::Context,
+        name: &str,
+        parent_config: &serde_json::Value,
+        yaml_cache: &serde_json::Value,
+    ) -> anyhow::Result<Self> {
+        let mut my_config = serde_json::json!({});
+        let file = crate::area_files::RelationFiles::new(&ctx.get_ini().get_workdir()?, name);
+        let relation_path = format!("relation-{}.yaml", name);
+        // Intentionally don't require this cache to be present, it's fine to omit it for simple
+        // relations.
+        if let Some(value) = yaml_cache.as_object().unwrap().get(&relation_path) {
+            my_config = value.clone();
+        }
+        let config = RelationConfig::new(parent_config, &my_config);
+        // osm street name -> house number list map, so we don't have to read the on-disk list of the
+        // relation again and again for each street.
+        let osm_housenumbers: HashMap<String, Vec<crate::util::HouseNumber>> = HashMap::new();
+        Ok(Relation {
+            ctx: ctx.clone(),
+            name: name.into(),
+            file,
+            config,
+            osm_housenumbers,
+        })
+    }
+
+    /// Gets the name of the relation.
+    fn get_name(&self) -> String {
+        self.name.clone()
+    }
+
+    /// Gets access to the file interface.
+    fn get_files(&self) -> crate::area_files::RelationFiles {
+        self.file.clone()
+    }
+
+    /// Gets access to the config interface.
+    fn get_config(&self) -> RelationConfig {
+        self.config.clone()
+    }
+
+    /// Sets the config interface.
+    fn set_config(&mut self, config: &RelationConfig) {
+        self.config = config.clone()
+    }
+
+    /// Gets a street name -> ranges map, which allows silencing false positives.
+    fn get_street_ranges(&self) -> HashMap<String, crate::ranges::Ranges> {
+        let mut filter_dict: HashMap<String, crate::ranges::Ranges> = HashMap::new();
+
+        let mut filters: HashMap<String, serde_json::Value> = HashMap::new();
+        if let Some(value) = self.config.get_filters() {
+            for (key, value) in value.as_object().unwrap() {
+                filters.insert(key.into(), value.clone());
+            }
+        }
+        for street in filters.keys() {
+            let mut interpolation = "";
+            let filter = filters.get(street).unwrap().as_object().unwrap();
+            if let Some(value) = filter.get("interpolation") {
+                interpolation = value.as_str().unwrap();
+            }
+            let mut i: Vec<crate::ranges::Range> = Vec::new();
+            if let Some(value) = filter.get("ranges") {
+                for start_end in value.as_array().unwrap() {
+                    let start_end_obj = start_end.as_object().unwrap();
+                    let start = start_end_obj
+                        .get("start")
+                        .unwrap()
+                        .as_str()
+                        .unwrap()
+                        .parse::<i64>()
+                        .unwrap();
+                    let end = start_end_obj
+                        .get("end")
+                        .unwrap()
+                        .as_str()
+                        .unwrap()
+                        .parse::<i64>()
+                        .unwrap();
+                    i.push(crate::ranges::Range::new(start, end, interpolation));
+                }
+                filter_dict.insert(street.into(), crate::ranges::Ranges::new(i));
+            }
+        }
+
+        filter_dict
+    }
+
+    /// Gets streets from reference.
+    fn get_ref_streets(&self) -> anyhow::Result<Vec<String>> {
+        let mut streets: Vec<String> = Vec::new();
+        let read: Arc<Mutex<dyn Read + Send>> = self.file.get_ref_streets_read_stream(&self.ctx)?;
+        let mut guard = read.lock().unwrap();
+        let stream = std::io::BufReader::new(guard.deref_mut());
+        for line in stream.lines() {
+            streets.push(line?);
+        }
+        streets.sort();
+        streets.dedup();
+        Ok(streets)
+    }
+
+    /// Gets the OSM house number list of a street.
+    fn get_osm_housenumbers(&mut self, street_name: &str) -> Vec<crate::util::HouseNumber> {
+        if self.osm_housenumbers.is_empty() {
+            // TODO impl this
+        }
+        match self.osm_housenumbers.get(street_name) {
+            Some(value) => value.clone(),
+            None => {
+                self.osm_housenumbers.insert(street_name.into(), vec![]);
+                vec![]
+            }
+        }
+    }
+}
+
+#[pyclass]
+struct PyRelation {
+    relation: Relation,
+}
+
+#[pymethods]
+impl PyRelation {
+    #[new]
+    fn new(
+        ctx: PyObject,
+        name: String,
+        parent_config: String,
+        yaml_cache: String,
+    ) -> PyResult<Self> {
+        let gil = Python::acquire_gil();
+        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+
+        let parent_value: serde_json::Value = match serde_json::from_str(&parent_config) {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "failed to parse parent_config: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        let cache_value: serde_json::Value = match serde_json::from_str(&yaml_cache) {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "failed to parse yaml_cache: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        let relation = match Relation::new(&ctx.context, &name, &parent_value, &cache_value) {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "Relation::new() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        Ok(PyRelation { relation })
+    }
+
+    fn get_name(&self) -> String {
+        self.relation.get_name()
+    }
+
+    fn get_files(&self) -> crate::area_files::PyRelationFiles {
+        let relation_files = self.relation.get_files();
+        crate::area_files::PyRelationFiles { relation_files }
+    }
+
+    fn get_config(&self) -> PyRelationConfig {
+        let relation_config = self.relation.get_config();
+        PyRelationConfig { relation_config }
+    }
+
+    fn set_config(&mut self, config: PyRelationConfig) {
+        self.relation.set_config(&config.relation_config)
+    }
+
+    fn get_ref_streets(&self) -> PyResult<Vec<String>> {
+        match self.relation.get_ref_streets() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_ref_streets() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_osm_housenumbers(&mut self, street_name: String) -> Vec<crate::util::PyHouseNumber> {
+        self.relation
+            .get_osm_housenumbers(&street_name)
+            .iter()
+            .map(|i| {
+                let house_number = i.clone();
+                crate::util::PyHouseNumber { house_number }
+            })
+            .collect()
+    }
+
+    fn get_street_ranges(&self) -> HashMap<String, crate::ranges::PyRanges> {
+        let mut ret: HashMap<String, crate::ranges::PyRanges> = HashMap::new();
+        for (key, value) in self.relation.get_street_ranges() {
+            ret.insert(key, crate::ranges::PyRanges { ranges: value });
+        }
+        ret
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyRelationConfig>()?;
+    module.add_class::<PyRelation>()?;
     Ok(())
 }

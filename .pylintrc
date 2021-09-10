@@ -13,6 +13,9 @@ max-module-lines=2000
 
 [DESIGN]
 
+# Default: 5.
+max-args=10
+
 # Default: 2, not allowing ctor + public attributes.
 min-public-methods=0
 

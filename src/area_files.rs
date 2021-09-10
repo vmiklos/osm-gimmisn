@@ -18,13 +18,14 @@ use std::sync::Arc;
 use std::sync::Mutex;
 
 /// A relation's file interface provides access to files associated with a relation.
-struct RelationFiles {
+#[derive(Clone)]
+pub struct RelationFiles {
     workdir: String,
     name: String,
 }
 
 impl RelationFiles {
-    fn new(workdir: &str, name: &str) -> Self {
+    pub fn new(workdir: &str, name: &str) -> Self {
         RelationFiles {
             workdir: workdir.into(),
             name: name.into(),
@@ -150,7 +151,7 @@ impl RelationFiles {
     }
 
     /// Opens the reference street list of a relation for reading.
-    fn get_ref_streets_read_stream(
+    pub fn get_ref_streets_read_stream(
         &self,
         ctx: &crate::context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -372,7 +373,7 @@ impl RelationFiles {
 
 #[pyclass]
 pub struct PyRelationFiles {
-    relation_files: RelationFiles,
+    pub relation_files: RelationFiles,
 }
 
 #[pymethods]
