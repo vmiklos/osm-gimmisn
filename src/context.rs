@@ -690,7 +690,7 @@ impl Ini {
     }
 
     /// Gets the directory which is writable.
-    fn get_workdir(&self) -> anyhow::Result<String> {
+    pub fn get_workdir(&self) -> anyhow::Result<String> {
         let workdir = self
             .config
             .get("wsgi", "workdir")
@@ -866,6 +866,7 @@ impl PyIni {
 }
 
 /// Context owns global state which is set up once and then read everywhere.
+#[derive(Clone)]
 pub struct Context {
     root: String,
     ini: Ini,

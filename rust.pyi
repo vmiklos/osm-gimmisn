@@ -828,4 +828,35 @@ class PyRelationConfig:
         """Maps a reference street name to an OSM street name."""
         ...
 
+class PyRelation:
+    """A relation is a closed polygon on the map."""
+    def __init__(
+            self,
+            ctx: PyContext,
+            name: str,
+            parent_config: str,
+            yaml_cache: str
+    ) -> None:
+        ...
+
+    def get_name(self) -> str:
+        """Gets the name of the relation."""
+        ...
+
+    def get_files(self) -> PyRelationFiles:
+        """Gets access to the file interface."""
+        ...
+
+    def get_config(self) -> PyRelationConfig:
+        """Gets access to the config interface."""
+        ...
+
+    def set_config(self, config: PyRelationConfig) -> None:
+        """Sets the config interface."""
+        ...
+
+    def get_street_ranges(self) -> Dict[str, PyRanges]:
+        """Gets a street name -> ranges map, which allows silencing false positives."""
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
