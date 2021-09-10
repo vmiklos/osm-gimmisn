@@ -28,7 +28,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         """Tests the happy path."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("test")
-        actual = [i.get_osm_name() for i in relation.get_osm_streets()]
+        actual = [i.get_osm_name() for i in relation.get_osm_streets(sorted_result=True)]
         expected = ['B1', 'B2', 'HB1', 'HB2']
         self.assertEqual(actual, expected)
 
@@ -36,7 +36,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         """Tests the case when the street name is coming from a house number (node)."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("gh830")
-        actual = relation.get_osm_streets()
+        actual = relation.get_osm_streets(sorted_result=True)
         self.assertEqual(len(actual), 1)
         self.assertEqual(actual[0].get_osm_type(), "node")
 
@@ -44,7 +44,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         """Tests the case when we have streets, but no house numbers."""
         relations = areas.Relations(test_context.make_test_context())
         relation = relations.get_relation("ujbuda")
-        actual = [i.get_osm_name() for i in relation.get_osm_streets()]
+        actual = [i.get_osm_name() for i in relation.get_osm_streets(sorted_result=True)]
         expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
         self.assertEqual(actual, expected)
 
@@ -53,7 +53,7 @@ class TestRelationGetOsmStreets(unittest.TestCase):
         relations = areas.Relations(test_context.make_test_context())
         relation_name = "gh754"
         relation = relations.get_relation(relation_name)
-        streets = [i.get_osm_name() for i in relation.get_osm_streets()]
+        streets = [i.get_osm_name() for i in relation.get_osm_streets(sorted_result=True)]
         # This is coming from a house number which has addr:street and addr:conscriptionnumber, but
         # no addr:housenumber.
         self.assertIn("Barcfa dűlő", streets)

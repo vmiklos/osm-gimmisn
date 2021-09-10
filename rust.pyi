@@ -859,4 +859,20 @@ class PyRelation:
         """Gets a street name -> ranges map, which allows silencing false positives."""
         ...
 
+    def get_street_invalid(self) -> Dict[str, List[str]]:
+        """Gets a street name -> invalid map, which allows silencing individual false positives."""
+        ...
+
+    def should_show_ref_street(self, osm_street_name: str) -> bool:
+        """Decides is a ref street should be shown for an OSM street."""
+        ...
+
+    def get_osm_streets(self, sorted_result: bool) -> List[PyStreet]:
+        """Reads list of streets for an area from OSM."""
+        ...
+
+    def get_osm_streets_query(self) -> str:
+        """Produces a query which lists streets in relation."""
+        ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
