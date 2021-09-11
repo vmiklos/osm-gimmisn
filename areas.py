@@ -81,14 +81,7 @@ class Relation:
     def write_ref_streets(self, reference: str) -> None:
         """Gets known streets (not their coordinates) from a reference site, based on relation names
         from OSM."""
-        memory_cache = util.build_street_reference_cache(reference)
-
-        lst = self.get_config().build_ref_streets(memory_cache)
-
-        lst = sorted(set(lst))
-        with self.get_files().get_ref_streets_write_stream(self.__ctx) as sock:
-            for line in lst:
-                sock.write(util.to_bytes(line + "\n"))
+        return self.rust.write_ref_streets(reference)
 
     def get_ref_streets(self) -> List[str]:
         """Gets streets from reference."""

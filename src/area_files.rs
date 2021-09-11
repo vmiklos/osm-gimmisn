@@ -160,7 +160,7 @@ impl RelationFiles {
     }
 
     /// Opens the reference street list of a relation for wrtiting.
-    fn get_ref_streets_write_stream(
+    pub fn get_ref_streets_write_stream(
         &self,
         ctx: &crate::context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
