@@ -781,6 +781,23 @@ impl Relation {
             }
         })
     }
+
+    /// Gets known streets (not their coordinates) from a reference site, based on relation names
+    /// from OSM.
+    fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
+        let memory_cache = crate::util::build_street_reference_cache(reference)?;
+
+        let mut lst = self.config.build_ref_streets(&memory_cache);
+
+        lst.sort();
+        lst.dedup();
+        let write = self.file.get_ref_streets_write_stream(&self.ctx)?;
+        let mut guard = write.lock().unwrap();
+        for line in lst {
+            guard.write_all((line + "\n").as_bytes())?;
+        }
+        Ok(())
+    }
 }
 
 #[pyclass]
@@ -878,6 +895,16 @@ impl PyRelation {
                 crate::util::PyHouseNumber { house_number }
             })
             .collect())
+    }
+
+    fn write_ref_streets(&self, reference: &str) -> PyResult<()> {
+        match self.relation.write_ref_streets(reference) {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "write_ref_streets() failed: {}",
+                err.to_string()
+            ))),
+        }
     }
 
     fn get_street_ranges(&self) -> HashMap<String, crate::ranges::PyRanges> {

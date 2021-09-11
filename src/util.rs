@@ -895,7 +895,7 @@ fn py_color_house_number(py: Python<'_>, house_number: PyObject) -> PyResult<cra
 type StreetReferenceCache = HashMap<String, HashMap<String, Vec<String>>>;
 
 /// Builds an in-memory cache from the reference on-disk TSV (street version).
-fn build_street_reference_cache(local_streets: &str) -> anyhow::Result<StreetReferenceCache> {
+pub fn build_street_reference_cache(local_streets: &str) -> anyhow::Result<StreetReferenceCache> {
     let mut memory_cache: StreetReferenceCache = HashMap::new();
 
     let disk_cache = local_streets.to_string() + ".cache";

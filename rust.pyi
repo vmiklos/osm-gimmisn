@@ -879,6 +879,11 @@ class PyRelation:
         """Gets the OSM house number list of a street."""
         ...
 
+    def write_ref_streets(self, reference: str) -> None:
+        """Gets known streets (not their coordinates) from a reference site, based on relation names
+        from OSM."""
+        ...
+
 def py_normalize_housenumber_letters(
         relation: PyRelation,
         house_numbers: str,
