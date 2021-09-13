@@ -58,10 +58,6 @@ class Relation:
         """Gets a street name -> ranges map, which allows silencing false positives."""
         return self.rust.get_street_ranges()
 
-    def get_street_invalid(self) -> Dict[str, List[str]]:
-        """Gets a street name -> invalid map, which allows silencing individual false positives."""
-        return self.rust.get_street_invalid()
-
     def should_show_ref_street(self, osm_street_name: str) -> bool:
         """Decides is a ref street should be shown for an OSM street."""
         return self.rust.should_show_ref_street(osm_street_name)
@@ -97,30 +93,7 @@ class Relation:
         Builds a list of housenumbers from a reference cache.
         This is serialized to disk by write_ref_housenumbers().
         """
-        refcounty = self.get_config().get_refcounty()
-        street = self.get_config().get_ref_street_from_osm_street(street)
-        ret: List[str] = []
-        for refsettlement in self.get_config().get_street_refsettlement(street):
-            if refcounty not in reference.keys():
-                continue
-            refcounty_dict = reference[refcounty]
-            if refsettlement not in refcounty_dict.keys():
-                continue
-            refsettlement_dict = refcounty_dict[refsettlement]
-            if street in refsettlement_dict.keys():
-                house_numbers = reference[refcounty][refsettlement][street]
-                # i[0] is number, i[1] is comment
-                ret += [street + "\t" + i[0] + suffix + "\t" + i[1] for i in house_numbers]
-
-        return ret
-
-    @staticmethod
-    def __get_ref_suffix(index: int) -> str:
-        """Determines what suffix should the Nth reference use for hours numbers."""
-        if index == 0:
-            return ""
-
-        return "*"
+        return self.rust.build_ref_housenumbers(reference, street, suffix)
 
     def write_ref_housenumbers(self, references: List[str]) -> None:
         """
@@ -128,74 +101,11 @@ class Relation:
         from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
         used by get_ref_housenumbers().
         """
-        memory_caches = util.build_reference_caches(references, self.get_config().get_refcounty())
-
-        streets = [i.get_osm_name() for i in self.get_osm_streets(sorted_result=True)]
-
-        lst: List[str] = []
-        for street in streets:
-            for index, memory_cache in enumerate(memory_caches):
-                suffix = Relation.__get_ref_suffix(index)
-                lst += self.build_ref_housenumbers(memory_cache, street, suffix)
-
-        lst = sorted(set(lst))
-        with self.get_files().get_ref_housenumbers_write_stream(self.__ctx) as sock:
-            for line in lst:
-                sock.write(util.to_bytes(line + "\n"))
-
-    def __normalize_invalids(self, osm_street_name: str, street_invalid: List[str], config: RelationConfig) -> List[str]:
-        """Normalizes an 'invalid' list."""
-        if config.should_check_housenumber_letters():
-            return street_invalid
-
-        normalized_invalid: List[str] = []
-        street_ranges = self.get_street_ranges()
-        street_is_even_odd = config.get_street_is_even_odd(osm_street_name)
-        for i in street_invalid:
-            normalizeds = normalize(self.rust, i, osm_street_name, street_is_even_odd, street_ranges)
-            # normalize() may return an empty list if the number is out of range.
-            if normalizeds:
-                normalized_invalid.append(normalizeds[0].get_number())
-        return normalized_invalid
+        return self.rust.write_ref_housenumbers(references)
 
     def get_ref_housenumbers(self) -> Dict[str, List[util.HouseNumber]]:
         """Gets house numbers from reference, produced by write_ref_housenumbers()."""
-        ret: Dict[str, List[util.HouseNumber]] = {}
-        lines: Dict[str, List[str]] = {}
-        with self.get_files().get_ref_housenumbers_read_stream(self.__ctx) as sock:
-            for line_bytes in sock:
-                line = util.from_bytes(line_bytes)
-                line = line.strip()
-                key, _, value = line.partition("\t")
-                if key not in lines:
-                    lines[key] = []
-                lines[key].append(value)
-        config = self.get_config()
-        street_ranges = self.get_street_ranges()
-        streets_invalid = self.get_street_invalid()
-        for osm_street in self.get_osm_streets(sorted_result=True):
-            osm_street_name = osm_street.get_osm_name()
-            street_is_even_odd = config.get_street_is_even_odd(osm_street_name)
-            house_numbers: List[util.HouseNumber] = []
-            ref_street_name = config.get_ref_street_from_osm_street(osm_street_name)
-            prefix = ref_street_name + "\t"
-            street_invalid: List[str] = []
-            if osm_street_name in streets_invalid.keys():
-                street_invalid = streets_invalid[osm_street_name]
-
-                # Simplify invalid items by default, so the 42a markup can be used, no matter what
-                # is the value of housenumber-letters.
-                street_invalid = self.__normalize_invalids(osm_street_name, street_invalid, config)
-
-            if ref_street_name in lines.keys():
-                for line in lines[ref_street_name]:
-                    house_number = line.replace(prefix, '')
-                    normalized = normalize(self.rust, house_number, osm_street_name, street_is_even_odd, street_ranges)
-                    normalized = \
-                        [i for i in normalized if not util.HouseNumber.is_invalid(i.get_number(), street_invalid)]
-                    house_numbers += normalized
-            ret[osm_street_name] = util.sort_numerically(list(set(house_numbers)))
-        return ret
+        return self.rust.get_ref_housenumbers()
 
     def get_missing_housenumbers(self) -> Tuple[util.NumberedStreets, util.NumberedStreets]:
         """
@@ -203,27 +113,7 @@ class Relation:
         Return value is a pair of ongoing and done streets.
         Each of of these is a pair of a street name and a house number list.
         """
-        ongoing_streets = []
-        done_streets = []
-
-        osm_street_names = self.get_osm_streets(sorted_result=True)
-        all_ref_house_numbers = self.get_ref_housenumbers()
-        for osm_street in osm_street_names:
-            osm_street_name = osm_street.get_osm_name()
-            ref_house_numbers = all_ref_house_numbers[osm_street_name]
-            osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
-            only_in_reference = util.get_only_in_first(ref_house_numbers, osm_house_numbers)
-            in_both = util.get_in_both(ref_house_numbers, osm_house_numbers)
-            ref_street_name = self.get_config().get_ref_street_from_osm_street(osm_street_name)
-            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name), osm_id=0)
-            if only_in_reference:
-                ongoing_streets.append((street, only_in_reference))
-            if in_both:
-                done_streets.append((street, in_both))
-        # Sort by length.
-        ongoing_streets.sort(key=lambda result: len(result[1]), reverse=True)
-
-        return ongoing_streets, done_streets
+        return self.rust.get_missing_housenumbers()
 
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""

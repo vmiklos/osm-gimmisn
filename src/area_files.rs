@@ -187,7 +187,7 @@ impl RelationFiles {
     }
 
     /// Opens the reference house number list of a relation for reading.
-    fn get_ref_housenumbers_read_stream(
+    pub fn get_ref_housenumbers_read_stream(
         &self,
         ctx: &crate::context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -196,7 +196,7 @@ impl RelationFiles {
     }
 
     /// Opens the reference house number list of a relation for writing.
-    fn get_ref_housenumbers_write_stream(
+    pub fn get_ref_housenumbers_write_stream(
         &self,
         ctx: &crate::context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {

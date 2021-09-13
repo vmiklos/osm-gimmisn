@@ -798,6 +798,224 @@ impl Relation {
         }
         Ok(())
     }
+
+    /// Builds a list of housenumbers from a reference cache.
+    /// This is serialized to disk by write_ref_housenumbers().
+    fn build_ref_housenumbers(
+        &self,
+        reference: &crate::util::HouseNumberReferenceCache,
+        street: &str,
+        suffix: &str,
+    ) -> Vec<String> {
+        let refcounty = self.config.get_refcounty();
+        let street = self.config.get_ref_street_from_osm_street(street);
+        let mut ret: Vec<String> = Vec::new();
+        for refsettlement in self.config.get_street_refsettlement(&street) {
+            let refcounty_dict = match reference.get(&refcounty) {
+                Some(value) => value,
+                None => {
+                    continue;
+                }
+            };
+
+            let refsettlement_dict = match refcounty_dict.get(&refsettlement) {
+                Some(value) => value,
+                None => {
+                    continue;
+                }
+            };
+            if let Some(value) = refsettlement_dict.get(&street) {
+                let house_numbers = value;
+                // i[0] is number, i[1] is comment
+                ret.append(
+                    &mut house_numbers
+                        .iter()
+                        .map(|i| street.clone() + "\t" + &i[0] + suffix + "\t" + &i[1])
+                        .collect(),
+                );
+            }
+        }
+
+        ret
+    }
+
+    /// Determines what suffix should the Nth reference use for hours numbers.
+    fn get_ref_suffix(index: usize) -> &'static str {
+        match index {
+            0 => "",
+            _ => "*",
+        }
+    }
+
+    /// Writes known house numbers (not their coordinates) from a reference, based on street names
+    /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
+    /// used by get_ref_housenumbers().
+    fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
+        let memory_caches =
+            crate::util::build_reference_caches(references, &self.config.get_refcounty())?;
+
+        let streets: Vec<String> = self
+            .get_osm_streets(/*sorted_results=*/ true)?
+            .iter()
+            .map(|i| i.get_osm_name().into())
+            .collect();
+
+        let mut lst: Vec<String> = Vec::new();
+        for street in streets {
+            for (index, memory_cache) in memory_caches.iter().enumerate() {
+                let suffix = Relation::get_ref_suffix(index);
+                lst.append(&mut self.build_ref_housenumbers(memory_cache, &street, suffix));
+            }
+        }
+
+        lst.sort();
+        lst.dedup();
+        let stream = self.file.get_ref_housenumbers_write_stream(&self.ctx)?;
+        let mut guard = stream.lock().unwrap();
+        let write = guard.deref_mut();
+        for line in lst {
+            write.write_all((line + "\n").as_bytes())?;
+        }
+
+        Ok(())
+    }
+
+    /// Normalizes an 'invalid' list.
+    fn normalize_invalids(
+        &self,
+        osm_street_name: &str,
+        street_invalid: &[String],
+    ) -> anyhow::Result<Vec<String>> {
+        if self.config.should_check_housenumber_letters() {
+            return Ok(street_invalid.into());
+        }
+
+        let mut normalized_invalids: Vec<String> = Vec::new();
+        let street_ranges = self.get_street_ranges();
+        let street_is_even_odd = self.config.get_street_is_even_odd(osm_street_name);
+        for i in street_invalid {
+            let normalizeds =
+                normalize(self, i, osm_street_name, street_is_even_odd, &street_ranges)?;
+            // normalize() may return an empty list if the number is out of range.
+            if !normalizeds.is_empty() {
+                normalized_invalids.push(normalizeds[0].get_number().into())
+            }
+        }
+        Ok(normalized_invalids)
+    }
+
+    /// Gets house numbers from reference, produced by write_ref_housenumbers()."""
+    fn get_ref_housenumbers(
+        &self,
+    ) -> anyhow::Result<HashMap<String, Vec<crate::util::HouseNumber>>> {
+        let mut ret: HashMap<String, Vec<crate::util::HouseNumber>> = HashMap::new();
+        let mut lines: HashMap<String, Vec<String>> = HashMap::new();
+        let read: Arc<Mutex<dyn Read + Send>> =
+            self.file.get_ref_housenumbers_read_stream(&self.ctx)?;
+        let mut guard = read.lock().unwrap();
+        let stream = std::io::BufReader::new(guard.deref_mut());
+        for line in stream.lines() {
+            let line = line?;
+            let tokens: Vec<&str> = line.splitn(2, '\t').collect();
+            let mut iter = tokens.iter();
+            let mut key: String = "".into();
+            if let Some(value) = iter.next() {
+                key = (*value).into();
+            }
+            let mut value = "";
+            if let Some(v) = iter.next() {
+                value = v;
+            }
+            if !lines.contains_key(&key) {
+                lines.insert(key.clone(), Vec::new());
+            }
+            lines.get_mut(&key).unwrap().push(value.into());
+        }
+        let street_ranges = self.get_street_ranges();
+        let streets_invalid = self.get_street_invalid();
+        for osm_street in self.get_osm_streets(/*sorted_result=*/ true)? {
+            let osm_street_name = osm_street.get_osm_name();
+            let street_is_even_odd = self.config.get_street_is_even_odd(osm_street_name);
+            let mut house_numbers: Vec<crate::util::HouseNumber> = Vec::new();
+            let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
+            let mut street_invalid: Vec<String> = Vec::new();
+            if let Some(value) = streets_invalid.get(osm_street_name) {
+                street_invalid = value.clone();
+
+                // Simplify invalid items by default, so the 42a markup can be used, no matter what
+                // is the value of housenumber-letters.
+                street_invalid = self.normalize_invalids(osm_street_name, &street_invalid)?;
+            }
+
+            if let Some(value) = lines.get(&ref_street_name) {
+                for house_number in value {
+                    let normalized = normalize(
+                        self,
+                        house_number,
+                        osm_street_name,
+                        street_is_even_odd,
+                        &street_ranges,
+                    )?;
+                    house_numbers.append(
+                        &mut normalized
+                            .iter()
+                            .filter(|i| {
+                                !crate::util::HouseNumber::is_invalid(
+                                    i.get_number(),
+                                    &street_invalid,
+                                )
+                            })
+                            .cloned()
+                            .collect(),
+                    );
+                }
+            }
+            let unique: Vec<_> = house_numbers.into_iter().unique().collect();
+            ret.insert(
+                osm_street_name.into(),
+                crate::util::sort_numerically(&unique),
+            );
+        }
+        Ok(ret)
+    }
+
+    /// Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
+    /// Return value is a pair of ongoing and done streets.
+    /// Each of of these is a pair of a street name and a house number list.
+    fn get_missing_housenumbers(
+        &mut self,
+    ) -> anyhow::Result<(crate::util::NumberedStreets, crate::util::NumberedStreets)> {
+        let mut ongoing_streets = Vec::new();
+        let mut done_streets = Vec::new();
+
+        let osm_street_names = self.get_osm_streets(/*sorted_result=*/ true)?;
+        let all_ref_house_numbers = self.get_ref_housenumbers()?;
+        for osm_street in osm_street_names {
+            let osm_street_name = osm_street.get_osm_name();
+            let ref_house_numbers = all_ref_house_numbers.get(osm_street_name).unwrap();
+            let osm_house_numbers = self.get_osm_housenumbers(osm_street_name)?;
+            let only_in_reference =
+                crate::util::get_only_in_first(ref_house_numbers, &osm_house_numbers);
+            let in_both = crate::util::get_in_both(ref_house_numbers, &osm_house_numbers);
+            let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
+            let street = crate::util::Street::new(
+                osm_street_name,
+                &ref_street_name,
+                self.should_show_ref_street(osm_street_name),
+                /*osm_id=*/ 0,
+            );
+            if !only_in_reference.is_empty() {
+                ongoing_streets.push((street.clone(), only_in_reference))
+            }
+            if !in_both.is_empty() {
+                done_streets.push((street, in_both));
+            }
+        }
+        // Sort by length, reverse.
+        ongoing_streets.sort_by(|a, b| b.1.len().cmp(&a.1.len()));
+
+        Ok((ongoing_streets, done_streets))
+    }
 }
 
 #[pyclass]
@@ -915,10 +1133,6 @@ impl PyRelation {
         ret
     }
 
-    fn get_street_invalid(&self) -> HashMap<String, Vec<String>> {
-        self.relation.get_street_invalid()
-    }
-
     fn should_show_ref_street(&self, osm_street_name: String) -> bool {
         self.relation.should_show_ref_street(&osm_street_name)
     }
@@ -950,6 +1164,96 @@ impl PyRelation {
                 err.to_string()
             ))),
         }
+    }
+
+    fn build_ref_housenumbers(
+        &self,
+        reference: crate::util::HouseNumberReferenceCache,
+        street: &str,
+        suffix: &str,
+    ) -> Vec<String> {
+        self.relation
+            .build_ref_housenumbers(&reference, street, suffix)
+    }
+
+    fn write_ref_housenumbers(&self, references: Vec<String>) -> PyResult<()> {
+        match self.relation.write_ref_housenumbers(&references) {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "write_ref_housenumbers() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_ref_housenumbers(&self) -> PyResult<HashMap<String, Vec<crate::util::PyHouseNumber>>> {
+        let ret = match self.relation.get_ref_housenumbers() {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "get_ref_housenumbers() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        let py_ret: HashMap<String, Vec<crate::util::PyHouseNumber>> = ret
+            .iter()
+            .map(|(key, value)| {
+                let py_value = value
+                    .iter()
+                    .map(|i| {
+                        let house_number = i.clone();
+                        crate::util::PyHouseNumber { house_number }
+                    })
+                    .collect();
+                (key.clone(), py_value)
+            })
+            .collect();
+        Ok(py_ret)
+    }
+
+    fn get_missing_housenumbers(
+        &mut self,
+    ) -> PyResult<(
+        crate::util::PyNumberedStreets,
+        crate::util::PyNumberedStreets,
+    )> {
+        let (ongoing_streets, done_streets) = match self.relation.get_missing_housenumbers() {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "get_missing_housenumbers() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        let mut py_ongoing_streets: Vec<(crate::util::PyStreet, Vec<crate::util::PyHouseNumber>)> =
+            Vec::new();
+        for street in ongoing_streets {
+            let py_street = crate::util::PyStreet { street: street.0 };
+            let py_housenumbers: Vec<crate::util::PyHouseNumber> = street
+                .1
+                .iter()
+                .map(|i| crate::util::PyHouseNumber {
+                    house_number: i.clone(),
+                })
+                .collect();
+            py_ongoing_streets.push((py_street, py_housenumbers));
+        }
+        let mut py_done_streets: Vec<(crate::util::PyStreet, Vec<crate::util::PyHouseNumber>)> =
+            Vec::new();
+        for street in done_streets {
+            let py_street = crate::util::PyStreet { street: street.0 };
+            let py_housenumbers: Vec<crate::util::PyHouseNumber> = street
+                .1
+                .iter()
+                .map(|i| crate::util::PyHouseNumber {
+                    house_number: i.clone(),
+                })
+                .collect();
+            py_done_streets.push((py_street, py_housenumbers));
+        }
+        Ok((py_ongoing_streets, py_done_streets))
     }
 }
 
