@@ -16,10 +16,10 @@ import os
 import sys
 import yaml
 
-import context
+import rust
 
 
-def main(argv: List[str], ctx: context.Context) -> None:
+def main(argv: List[str], ctx: rust.PyContext) -> None:
     """Commandline interface to this module."""
 
     cache: Dict[str, Any] = {}
@@ -48,6 +48,6 @@ def main(argv: List[str], ctx: context.Context) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv, context.Context(""))
+    main(sys.argv, rust.PyContext(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

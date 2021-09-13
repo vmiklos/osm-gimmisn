@@ -859,10 +859,6 @@ class PyRelation:
         """Gets a street name -> ranges map, which allows silencing false positives."""
         ...
 
-    def get_street_invalid(self) -> Dict[str, List[str]]:
-        """Gets a street name -> invalid map, which allows silencing individual false positives."""
-        ...
-
     def should_show_ref_street(self, osm_street_name: str) -> bool:
         """Decides is a ref street should be shown for an OSM street."""
         ...
@@ -886,6 +882,38 @@ class PyRelation:
 
     def get_ref_streets(self) -> List[str]:
         """Gets streets from reference."""
+        ...
+
+    def build_ref_housenumbers(
+            self,
+            reference: Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]],
+            street: str,
+            suffix: str
+    ) -> List[str]:
+        """
+        Builds a list of housenumbers from a reference cache.
+        This is serialized to disk by write_ref_housenumbers().
+        """
+        ...
+
+    def write_ref_housenumbers(self, references: List[str]) -> None:
+        """
+        Writes known house numbers (not their coordinates) from a reference, based on street names
+        from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
+        used by get_ref_housenumbers().
+        """
+        ...
+
+    def get_ref_housenumbers(self) -> Dict[str, List[PyHouseNumber]]:
+        """Gets house numbers from reference, produced by write_ref_housenumbers()."""
+        ...
+
+    def get_missing_housenumbers(self) -> Tuple[List[Tuple[PyStreet, List[PyHouseNumber]]], List[Tuple[PyStreet, List[PyHouseNumber]]]]:
+        """
+        Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
+        Return value is a pair of ongoing and done streets.
+        Each of of these is a pair of a street name and a house number list.
+        """
         ...
 
 def py_normalize_housenumber_letters(

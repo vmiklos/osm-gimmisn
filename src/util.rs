@@ -192,7 +192,7 @@ impl<'p> PyObjectProtocol<'p> for PyHouseNumberRange {
 }
 
 /// Used to diff two lists of elements.
-trait Diff {
+pub trait Diff {
     /// Gets a string that is used while diffing.
     fn get_diff_key(&self) -> String;
 }
@@ -227,7 +227,7 @@ impl Street {
     }
 
     /// Returns the OSM name.
-    fn get_osm_name(&self) -> &str {
+    pub fn get_osm_name(&self) -> &str {
         &self.osm_name
     }
 
@@ -402,6 +402,10 @@ pub struct HouseNumber {
     comment: String,
 }
 
+type HouseNumbers = Vec<HouseNumber>;
+type NumberedStreet = (Street, HouseNumbers);
+pub type NumberedStreets = Vec<NumberedStreet>;
+
 impl HouseNumber {
     pub fn new(number: &str, source: &str, comment: &str) -> Self {
         HouseNumber {
@@ -412,7 +416,7 @@ impl HouseNumber {
     }
 
     /// Returns the house number string.
-    fn get_number(&self) -> &str {
+    pub fn get_number(&self) -> &str {
         &self.number
     }
 
@@ -427,7 +431,7 @@ impl HouseNumber {
     }
 
     /// Decides if house_number is invalid according to invalids.
-    fn is_invalid(house_number: &str, invalids: &[String]) -> bool {
+    pub fn is_invalid(house_number: &str, invalids: &[String]) -> bool {
         if invalids.contains(&house_number.to_string()) {
             return true;
         }
@@ -552,6 +556,10 @@ impl Hash for HouseNumber {
 pub struct PyHouseNumber {
     pub house_number: HouseNumber,
 }
+
+type PyHouseNumbers = Vec<PyHouseNumber>;
+type PyNumberedStreet = (PyStreet, PyHouseNumbers);
+pub type PyNumberedStreets = Vec<PyNumberedStreet>;
 
 #[pymethods]
 impl PyHouseNumber {
@@ -959,7 +967,7 @@ fn py_get_reference_cache_path(local: String, refcounty: String) -> String {
 type HouseNumberWithComment = Vec<String>;
 
 /// refcounty -> refsettlement -> street -> housenumbers cache.
-type HouseNumberReferenceCache =
+pub type HouseNumberReferenceCache =
     HashMap<String, HashMap<String, HashMap<String, Vec<HouseNumberWithComment>>>>;
 
 /// Builds an in-memory cache from the reference on-disk TSV (house number version).
@@ -1032,8 +1040,8 @@ fn py_build_reference_cache(
 }
 
 /// Handles a list of references for build_reference_cache().
-fn build_reference_caches(
-    references: Vec<String>,
+pub fn build_reference_caches(
+    references: &[String],
     refcounty: &str,
 ) -> anyhow::Result<Vec<HouseNumberReferenceCache>> {
     references
@@ -1047,7 +1055,7 @@ fn py_build_reference_caches(
     references: Vec<String>,
     refcounty: String,
 ) -> PyResult<Vec<HouseNumberReferenceCache>> {
-    match build_reference_caches(references, &refcounty) {
+    match build_reference_caches(&references, &refcounty) {
         Ok(value) => Ok(value),
         Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
             "build_reference_caches() failed: {}",
@@ -1603,7 +1611,7 @@ fn py_sort_numerically(py: Python<'_>, strings: Vec<PyObject>) -> PyResult<Vec<P
 }
 
 /// Returns items which are in first, but not in second.
-fn get_only_in_first<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
+pub fn get_only_in_first<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
     if first.is_empty() {
         return Vec::new();
     }
@@ -1689,7 +1697,7 @@ fn py_get_only_in_first(
 }
 
 /// Returns items which are in both first and second.
-fn get_in_both<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
+pub fn get_in_both<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
     if first.is_empty() {
         return Vec::new();
     }
