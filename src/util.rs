@@ -222,17 +222,17 @@ impl Street {
     }
 
     /// Constructor that only requires an OSM name.
-    fn from_string(osm_name: &str) -> Street {
+    pub fn from_string(osm_name: &str) -> Street {
         Street::new(osm_name, "", true, 0)
     }
 
     /// Returns the OSM name.
-    pub fn get_osm_name(&self) -> &str {
+    pub fn get_osm_name(&self) -> &String {
         &self.osm_name
     }
 
     /// Returns the reference name.
-    fn get_ref_name(&self) -> &str {
+    fn get_ref_name(&self) -> &String {
         &self.ref_name
     }
 
@@ -247,7 +247,7 @@ impl Street {
     }
 
     /// Returns the OSM type, e.g. 'way'.
-    fn get_osm_type(&self) -> &str {
+    fn get_osm_type(&self) -> &String {
         &self.osm_type
     }
 
