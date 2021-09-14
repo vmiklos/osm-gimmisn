@@ -916,6 +916,10 @@ class PyRelation:
         """
         ...
 
+    def get_missing_streets(self) -> Tuple[List[str], List[str]]:
+        """Tries to find missing streets in a relation."""
+        ...
+
 def py_normalize_housenumber_letters(
         relation: PyRelation,
         house_numbers: str,

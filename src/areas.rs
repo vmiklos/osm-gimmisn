@@ -1016,6 +1016,42 @@ impl Relation {
 
         Ok((ongoing_streets, done_streets))
     }
+
+    /// Tries to find missing streets in a relation.
+    fn get_missing_streets(&self) -> anyhow::Result<(Vec<String>, Vec<String>)> {
+        let reference_streets: Vec<crate::util::Street> = self
+            .get_ref_streets()?
+            .iter()
+            .map(|i| crate::util::Street::from_string(i))
+            .collect();
+        let street_blacklist = self.config.get_street_filters();
+        let osm_streets: Vec<crate::util::Street> = self
+            .get_osm_streets(/*sorted_result=*/ true)?
+            .iter()
+            .map(|street| {
+                crate::util::Street::from_string(
+                    &self
+                        .config
+                        .get_ref_street_from_osm_street(street.get_osm_name()),
+                )
+            })
+            .collect();
+
+        let only_in_reference = crate::util::get_only_in_first(&reference_streets, &osm_streets);
+        let only_in_ref_names: Vec<String> = only_in_reference
+            .iter()
+            .filter(|i| !street_blacklist.contains(i.get_osm_name()))
+            .map(|i| i.get_osm_name())
+            .cloned()
+            .collect();
+        let in_both: Vec<String> = crate::util::get_in_both(&reference_streets, &osm_streets)
+            .iter()
+            .map(|i| i.get_osm_name())
+            .cloned()
+            .collect();
+
+        Ok((only_in_ref_names, in_both))
+    }
 }
 
 #[pyclass]
@@ -1254,6 +1290,16 @@ impl PyRelation {
             py_done_streets.push((py_street, py_housenumbers));
         }
         Ok((py_ongoing_streets, py_done_streets))
+    }
+
+    fn get_missing_streets(&self) -> PyResult<(Vec<String>, Vec<String>)> {
+        match self.relation.get_missing_streets() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_missing_streets() failed: {}",
+                err.to_string()
+            ))),
+        }
     }
 }
 
