@@ -63,6 +63,14 @@ To run a single test:
 env PYTHONPATH=.:tests python3 -m unittest tests.test_areas.TestRelationGetOsmHouseNumbers.test_happy
 ----
 
+== Rust performance profiling
+
+Enable symbols in Cargo.toml, then:
+
+----
+valgrind --tool=callgrind python3 ./missing_housenumbers.py budapest_11
+----
+
 == YAML schema
 
 The YAML schema is meant to provide reference documentation in the long run, so doc/README.adoc can
