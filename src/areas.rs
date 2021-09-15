@@ -176,39 +176,39 @@ impl RelationConfig {
     }
 
     /// Returns a street name -> properties map.
-    fn get_filters(&self) -> Option<serde_json::Value> {
-        self.get_property("filters")
+    fn get_filters(&self) -> Option<&serde_json::Value> {
+        // The schema doesn't allow this key in parent config, no need to go via the slow
+        // get_property().
+        self.dict.get("filters")
     }
 
     /// Returns a street from relation filters.
-    fn get_filter_street(&self, street: &str) -> serde_json::Value {
+    fn get_filter_street(&self, street: &str) -> Option<&serde_json::Value> {
         let filters = match self.get_filters() {
             Some(value) => value,
             None => {
-                return serde_json::json!({});
+                return None;
             }
         };
         let filters_obj = match filters.as_object() {
             Some(value) => value,
             None => {
-                return serde_json::json!({});
+                return None;
             }
         };
 
-        match filters_obj.get(street) {
-            Some(value) => value.clone(),
-            None => serde_json::json!({}),
-        }
+        filters_obj.get(street)
     }
 
     /// Determines in a relation's street is interpolation=all or not.
     fn get_street_is_even_odd(&self, street: &str) -> bool {
-        let value = self.get_filter_street(street);
-        let street_props = value.as_object().unwrap();
         let mut interpolation_all = false;
-        if let Some(value) = street_props.get("interpolation") {
-            if value == "all" {
-                interpolation_all = true;
+        if let Some(filter_for_street) = self.get_filter_street(street) {
+            let street_props = filter_for_street.as_object().unwrap();
+            if let Some(interpolation) = street_props.get("interpolation") {
+                if interpolation == "all" {
+                    interpolation_all = true;
+                }
             }
         }
         !interpolation_all
@@ -216,11 +216,12 @@ impl RelationConfig {
 
     /// Decides is a ref street should be shown for an OSM street.
     fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
-        let value = self.get_filter_street(osm_street_name);
-        let street_props = value.as_object().unwrap();
         let mut show_ref_street = true;
-        if let Some(value) = street_props.get("show-refstreet") {
-            show_ref_street = value.as_bool().unwrap();
+        if let Some(filter_for_street) = self.get_filter_street(osm_street_name) {
+            let street_props = filter_for_street.as_object().unwrap();
+            if let Some(value) = street_props.get("show-refstreet") {
+                show_ref_street = value.as_bool().unwrap();
+            }
         }
 
         show_ref_street

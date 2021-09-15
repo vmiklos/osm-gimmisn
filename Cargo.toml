@@ -41,3 +41,7 @@ default = ["extension-module"]
 [patch.crates-io]
 rust_icu_ustring = { git = "https://github.com/google/rust_icu", rev = "a859f74400cf7505ca4478d82d4c63bafc8f7290" }
 rust_icu_ucol = { git = "https://github.com/google/rust_icu", rev = "a859f74400cf7505ca4478d82d4c63bafc8f7290" }
+
+# Enable symbols (for callgrind):
+# [profile.release]
+# debug = true
