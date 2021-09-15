@@ -1,0 +1,23 @@
+missing-streets: 'yes'
+refstreets:
+  'Akácfa utca': 'Akácfa út'
+  'Dózsa György utca': 'Dózsa György út'
+  'Felső Riezner utca': 'Felső Riesner út'
+  'Folyondár utca': 'Folyandár utca'
+  'Fülemüle út': 'Fülemüle utca'
+  'Gálhegyi út': 'Gálhegy út'
+  'Kilátó utca': 'Kilátó út'
+  'Kukorica utca': 'Kukorica út'
+  'Leánder utca': 'Leander utca'
+  'Margaréta utca': 'Margaretta utca'
+  'Mély utca': 'Mély út'
+  'Óhegyi utca': 'Óhegyi út'
+  'Pillangó utca': 'Pillangó út'
+  'Rozs utca': 'Rozs út'
+  'Szeder út': 'Szeder utca'
+  'Szerpentin utca': 'Szerpentin út'
+  'Testvér utca': 'Testvér út'
+  'Vasút feletti dűlő': 'Vasút-feletti dűlő'
+  'Vörösmarty Mihály utca': 'Vörösmarty Mihály út'
+source: survey
+inactive: false

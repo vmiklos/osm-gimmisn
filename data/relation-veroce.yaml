@@ -1,0 +1,8 @@
+missing-streets: 'yes'
+refstreets:
+  'Fehérhegyi dűlő': 'Fehérhegy dűlő'
+  'Jókai Mór utca': 'Jókai utca'
+  'Losonczi utca': 'Losonci utca'
+  'Petőfi utca': 'Petőfi Sándor utca'
+source: survey
+inactive: false
