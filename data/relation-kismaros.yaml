@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+street-filters:
+  # nem igazi utcák
+  - Vasúti őrház
 refstreets:
   'Akácfa utca': 'Akácfa út'
   'Dózsa György utca': 'Dózsa György út'
@@ -6,6 +9,7 @@ refstreets:
   'Folyondár utca': 'Folyandár utca'
   'Fülemüle út': 'Fülemüle utca'
   'Gálhegyi út': 'Gálhegy út'
+  'Határ utca': 'Határ út'
   'Kilátó utca': 'Kilátó út'
   'Kukorica utca': 'Kukorica út'
   'Leánder utca': 'Leander utca'
