@@ -588,6 +588,10 @@ godollo:
     osmrelation: 1392595
     refcounty: "14"
     refsettlement: "047"
+kismaros:
+    osmrelation: 1440601
+    refcounty: "14"
+    refsettlement: "066"
 kisoroszi:
     osmrelation: 216162
     refcounty: "14"
@@ -644,6 +648,10 @@ veresegyhaz:
     osmrelation: 1390690
     refcounty: "14"
     refsettlement: "178"
+veroce:
+    osmrelation: 1440600
+    refcounty: "14"
+    refsettlement: "179"
 visegrad:
     osmrelation: 216166
     refcounty: "14"
