@@ -1,4 +1,11 @@
 missing-streets: 'yes'
+osm-street-filters:
+  # Nem valós utcák
+  - KDV-VIZIG
+  # Parkok
+  - Migazzi-kastély parkja
+  - Wass Albert emlékpark
+  - Templomkert
 refstreets:
   'Fehérhegyi dűlő': 'Fehérhegy dűlő'
   'Jókai Mór utca': 'Jókai utca'
