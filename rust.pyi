@@ -461,13 +461,6 @@ def py_build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, 
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
     ...
 
-def py_build_reference_caches(
-        references: List[str],
-        refcounty: str
-) -> List[Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]]:
-    """Handles a list of references for build_reference_cache()."""
-    ...
-
 def py_parse_filters(tokens: List[str]) -> Dict[str, str]:
     """Parses a filter description, like 'filter-for', 'refcounty', '42'."""
     ...
@@ -490,10 +483,6 @@ def py_write_html_header(doc: PyDoc) -> None:
 
 def py_process_template(buf: str, osmrelation: int) -> str:
     """Turns an overpass query template to an actual query."""
-    ...
-
-def py_should_expand_range(numbers: List[int], street_is_even_odd: bool) -> Tuple[bool, int]:
-    """Decides if an x-y range should be expanded. Returns a sanitized end value as well."""
     ...
 
 def py_html_table_from_list(table: List[List[PyDoc]]) -> PyDoc:
@@ -557,10 +546,6 @@ def py_get_content(path: str) -> bytes:
 
 def py_get_content_with_meta(path: str) -> Tuple[bytes, List[Tuple[str, str]]]:
     """Gets the content of a file in workdir with metadata."""
-    ...
-
-def py_get_normalizer(street_name: str, normalizers: Dict[str, PyRanges]) -> PyRanges:
-    """Determines the normalizer for a given street."""
     ...
 
 def py_split_house_number_by_separator(
@@ -918,6 +903,22 @@ class PyRelation:
 
     def get_missing_streets(self) -> Tuple[List[str], List[str]]:
         """Tries to find missing streets in a relation."""
+        ...
+
+    def get_additional_streets(self, sorted_result: bool) -> List[PyStreet]:
+        """Tries to find additional streets in a relation."""
+        ...
+
+    def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
+        """Calculate and write stat for the street coverage of a relation."""
+        ...
+
+    def write_additional_streets(self) -> List[PyStreet]:
+        """Calculate and write stat for the unexpected street coverage of a relation."""
+        ...
+
+    def get_street_valid(self) -> Dict[str, List[str]]:
+        """Gets a street name -> valid map, which allows silencing individual false positives."""
         ...
 
 def py_normalize_housenumber_letters(

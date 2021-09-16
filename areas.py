@@ -119,61 +119,21 @@ class Relation:
         """Tries to find missing streets in a relation."""
         return self.rust.get_missing_streets()
 
-    def get_additional_streets(self, sorted_result: bool = True) -> List[util.Street]:
+    def get_additional_streets(self, sorted_result: bool) -> List[util.Street]:
         """Tries to find additional streets in a relation."""
-        ref_streets = [self.get_config().get_osm_street_from_ref_street(street) for street in self.get_ref_streets()]
-        ref_street_objs = [util.Street.from_string(i) for i in ref_streets]
-        osm_streets = self.get_osm_streets(sorted_result)
-        osm_street_blacklist = self.get_config().get_osm_street_filters()
-
-        only_in_osm = util.get_only_in_first(osm_streets, ref_street_objs)
-        only_in_osm = [i for i in only_in_osm if i.get_osm_name() not in osm_street_blacklist]
-
-        return only_in_osm
+        return self.rust.get_additional_streets(sorted_result)
 
     def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
         """Calculate and write stat for the street coverage of a relation."""
-        todo_streets, done_streets = self.get_missing_streets()
-        streets = []
-        for street in todo_streets:
-            streets.append(street)
-        todo_count = len(todo_streets)
-        done_count = len(done_streets)
-        if done_count > 0 or todo_count > 0:
-            percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
-        else:
-            percent = "100.00"
-
-        # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_streets_percent_write_stream(self.__ctx) as stream:
-            stream.write(util.to_bytes(percent))
-
-        return todo_count, done_count, percent, streets
+        return self.rust.write_missing_streets()
 
     def write_additional_streets(self) -> List[util.Street]:
         """Calculate and write stat for the unexpected street coverage of a relation."""
-        additional_streets = self.get_additional_streets()
-
-        # Write the count to a file, so the index page show it fast.
-        with self.get_files().get_streets_additional_count_write_stream(self.__ctx) as stream:
-            stream.write(util.to_bytes(str(len(additional_streets))))
-
-        return additional_streets
+        return self.rust.write_additional_streets()
 
     def get_street_valid(self) -> Dict[str, List[str]]:
         """Gets a street name -> valid map, which allows silencing individual false positives."""
-        valid_dict: Dict[str, List[str]] = {}
-
-        filters_str = self.get_config().get_filters()
-        filters: Dict[str, Any] = {}
-        if filters_str:  # pragma: no cover
-            filters = json.loads(filters_str)
-        for street in filters.keys():
-            if "valid" not in filters[street]:
-                continue
-            valid_dict[street] = filters[street]["valid"]
-
-        return valid_dict
+        return self.rust.get_street_valid()
 
     def numbered_streets_to_table(
         self,

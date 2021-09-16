@@ -36,7 +36,7 @@ def additional_streets_view_txt(
     elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
         output += tr("No reference streets")
     else:
-        streets = relation.get_additional_streets()
+        streets = relation.get_additional_streets(sorted_result=True)
         streets.sort(key=lambda street: util.get_sort_key(street.get_osm_name()))
         for street in streets:
             if chkl:

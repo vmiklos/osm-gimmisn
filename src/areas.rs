@@ -1053,6 +1053,94 @@ impl Relation {
 
         Ok((only_in_ref_names, in_both))
     }
+
+    /// Tries to find additional streets in a relation.
+    fn get_additional_streets(
+        &self,
+        sorted_result: bool,
+    ) -> anyhow::Result<Vec<crate::util::Street>> {
+        let ref_streets: Vec<String> = self
+            .get_ref_streets()?
+            .iter()
+            .map(|street| self.config.get_osm_street_from_ref_street(street))
+            .collect();
+        let ref_street_objs: Vec<_> = ref_streets
+            .iter()
+            .map(|i| crate::util::Street::from_string(i))
+            .collect();
+        let osm_streets = self.get_osm_streets(sorted_result)?;
+        let osm_street_blacklist = self.config.get_osm_street_filters();
+
+        let mut only_in_osm = crate::util::get_only_in_first(&osm_streets, &ref_street_objs);
+        only_in_osm = only_in_osm
+            .iter()
+            .filter(|i| !osm_street_blacklist.contains(i.get_osm_name()))
+            .cloned()
+            .collect();
+
+        Ok(only_in_osm)
+    }
+
+    /// Calculate and write stat for the street coverage of a relation.
+    fn write_missing_streets(&self) -> anyhow::Result<(usize, usize, String, Vec<String>)> {
+        let (todo_streets, done_streets) = self.get_missing_streets()?;
+        let streets = todo_streets.clone();
+        let todo_count = todo_streets.len();
+        let done_count = done_streets.len();
+        let percent: String;
+        if done_count > 0 || todo_count > 0 {
+            let float: f64 = done_count as f64 / (done_count as f64 + todo_count as f64) * 100_f64;
+            percent = format!("{0:.2}", float);
+        } else {
+            percent = "100.00".into();
+        }
+
+        // Write the bottom line to a file, so the index page show it fast.
+        let write = self.file.get_streets_percent_write_stream(&self.ctx)?;
+        let mut guard = write.lock().unwrap();
+        guard.write_all(percent.as_bytes())?;
+
+        Ok((todo_count, done_count, percent, streets))
+    }
+
+    /// Calculate and write stat for the unexpected street coverage of a relation.
+    fn write_additional_streets(&self) -> anyhow::Result<Vec<crate::util::Street>> {
+        let additional_streets = self.get_additional_streets(/*sorted_result=*/ true)?;
+
+        // Write the count to a file, so the index page show it fast.
+        let write = self
+            .file
+            .get_streets_additional_count_write_stream(&self.ctx)?;
+        let mut guard = write.lock().unwrap();
+        guard.write_all(additional_streets.len().to_string().as_bytes())?;
+
+        Ok(additional_streets)
+    }
+
+    /// Gets a street name -> valid map, which allows silencing individual false positives.
+    fn get_street_valid(&self) -> HashMap<String, Vec<String>> {
+        let mut valid_dict: HashMap<String, Vec<String>> = HashMap::new();
+
+        let filters = match self.config.get_filters() {
+            Some(value) => value,
+            None => {
+                return valid_dict;
+            }
+        };
+        for (street, street_filter) in filters.as_object().unwrap() {
+            if let Some(valid) = street_filter.get("valid") {
+                let value: Vec<String> = valid
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|i| i.as_str().unwrap().into())
+                    .collect();
+                valid_dict.insert(street.clone(), value);
+            }
+        }
+
+        valid_dict
+    }
 }
 
 #[pyclass]
@@ -1301,6 +1389,54 @@ impl PyRelation {
                 err.to_string()
             ))),
         }
+    }
+
+    fn get_additional_streets(&self, sorted_result: bool) -> PyResult<Vec<crate::util::PyStreet>> {
+        let ret = match self.relation.get_additional_streets(sorted_result) {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "get_additional_streets() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+
+        Ok(ret
+            .iter()
+            .map(|i| crate::util::PyStreet { street: i.clone() })
+            .collect())
+    }
+
+    fn write_missing_streets(&self) -> PyResult<(usize, usize, String, Vec<String>)> {
+        match self.relation.write_missing_streets() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "write_missing_streets() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn write_additional_streets(&self) -> PyResult<Vec<crate::util::PyStreet>> {
+        let ret = match self.relation.write_additional_streets() {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "write_additional_streets() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+
+        Ok(ret
+            .iter()
+            .map(|i| crate::util::PyStreet { street: i.clone() })
+            .collect())
+    }
+
+    fn get_street_valid(&self) -> HashMap<String, Vec<String>> {
+        self.relation.get_street_valid()
     }
 }
 
