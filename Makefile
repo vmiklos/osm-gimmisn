@@ -211,7 +211,7 @@ else
 	./deploy.sh
 endif
 
-update-pot: areas.py cache.py webframe.py wsgi.py wsgi_additional.py util.py src/util.rs Makefile
+update-pot: areas.py cache.py webframe.py wsgi.py wsgi_additional.py src/areas.rs src/util.rs Makefile
 	xgettext --keyword=tr --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py %.rs,$^)
 
 update-po: po/osm-gimmisn.pot Makefile

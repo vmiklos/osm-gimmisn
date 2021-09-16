@@ -1050,20 +1050,6 @@ pub fn build_reference_caches(
         .collect()
 }
 
-#[pyfunction]
-fn py_build_reference_caches(
-    references: Vec<String>,
-    refcounty: String,
-) -> PyResult<Vec<HouseNumberReferenceCache>> {
-    match build_reference_caches(&references, &refcounty) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "build_reference_caches() failed: {}",
-            err.to_string()
-        ))),
-    }
-}
-
 /// Parses a filter description, like 'filter-for', 'refcounty', '42'.
 fn parse_filters(tokens: &[String]) -> HashMap<String, String> {
     let mut ret: HashMap<String, String> = HashMap::new();
@@ -1216,11 +1202,6 @@ pub fn should_expand_range(numbers: &[i64], street_is_even_odd: bool) -> (bool, 
     }
 
     (true, numbers[1])
-}
-
-#[pyfunction]
-fn py_should_expand_range(numbers: Vec<i64>, street_is_even_odd: bool) -> (bool, i64) {
-    should_expand_range(&numbers, street_is_even_odd)
 }
 
 /// Produces a HTML table from a list of lists.
@@ -1852,21 +1833,6 @@ pub fn get_normalizer(
     normalizer
 }
 
-#[pyfunction]
-fn py_get_normalizer(
-    py: Python<'_>,
-    street_name: String,
-    normalizers: HashMap<String, PyObject>,
-) -> PyResult<crate::ranges::PyRanges> {
-    let mut native_normalizers: HashMap<String, crate::ranges::Ranges> = HashMap::new();
-    for (key, value) in normalizers.iter() {
-        let py_ranges: PyRefMut<'_, crate::ranges::PyRanges> = value.extract(py)?;
-        native_normalizers.insert(key.clone(), py_ranges.ranges.clone());
-    }
-    let ret = get_normalizer(&street_name, &native_normalizers);
-    Ok(crate::ranges::PyRanges { ranges: ret })
-}
-
 /// Splits a house number string (possibly a range) by a given separator.
 /// Returns a filtered and a not filtered list of ints.
 pub fn split_house_number_by_separator(
@@ -2092,14 +2058,12 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_reference_cache_path, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_build_reference_caches, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_parse_filters, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_overpass_error, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_setup_localization, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_gen_link, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_write_html_header, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_process_template, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_should_expand_range, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_html_table_from_list, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_invalid_refstreets_to_html,
@@ -2123,7 +2087,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_in_both, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content_with_meta, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_normalizer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_split_house_number_by_separator,
         module
