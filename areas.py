@@ -11,169 +11,21 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import Tuple
 from typing import cast
 import json
-import yattag
 
-import api
 import context
 import rust
 import util
 
 
 RelationConfig = rust.PyRelationConfig
-
-
-class Relation:
-    """A relation is a closed polygon on the map."""
-    def __init__(
-            self,
-            ctx: context.Context,
-            name: str,
-            parent_config: Dict[str, Any],
-            yaml_cache: Dict[str, Any]
-    ) -> None:
-        self.rust = rust.PyRelation(ctx, name, json.dumps(parent_config), json.dumps(yaml_cache))
-
-    def get_name(self) -> str:
-        """Gets the name of the relation."""
-        return self.rust.get_name()
-
-    def get_files(self) -> rust.PyRelationFiles:
-        """Gets access to the file interface."""
-        return self.rust.get_files()
-
-    def get_config(self) -> RelationConfig:
-        """Gets access to the config interface."""
-        return self.rust.get_config()
-
-    def set_config(self, config: RelationConfig) -> None:
-        """Sets the config interface."""
-        self.rust.set_config(config)
-
-    def get_street_ranges(self) -> Dict[str, rust.PyRanges]:
-        """Gets a street name -> ranges map, which allows silencing false positives."""
-        return self.rust.get_street_ranges()
-
-    def should_show_ref_street(self, osm_street_name: str) -> bool:
-        """Decides is a ref street should be shown for an OSM street."""
-        return self.rust.should_show_ref_street(osm_street_name)
-
-    def get_osm_streets(self, sorted_result: bool) -> List[util.Street]:
-        """Reads list of streets for an area from OSM."""
-        return self.rust.get_osm_streets(sorted_result)
-
-    def get_osm_streets_query(self) -> str:
-        """Produces a query which lists streets in relation."""
-        return self.rust.get_osm_streets_query()
-
-    def get_osm_housenumbers(self, street_name: str) -> List[util.HouseNumber]:
-        """Gets the OSM house number list of a street."""
-        return self.rust.get_osm_housenumbers(street_name)
-
-    def write_ref_streets(self, reference: str) -> None:
-        """Gets known streets (not their coordinates) from a reference site, based on relation names
-        from OSM."""
-        self.rust.write_ref_streets(reference)
-
-    def get_ref_streets(self) -> List[str]:
-        """Gets streets from reference."""
-        return self.rust.get_ref_streets()
-
-    def build_ref_housenumbers(
-            self,
-            reference: Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]],
-            street: str,
-            suffix: str
-    ) -> List[str]:
-        """
-        Builds a list of housenumbers from a reference cache.
-        This is serialized to disk by write_ref_housenumbers().
-        """
-        return self.rust.build_ref_housenumbers(reference, street, suffix)
-
-    def write_ref_housenumbers(self, references: List[str]) -> None:
-        """
-        Writes known house numbers (not their coordinates) from a reference, based on street names
-        from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
-        used by get_ref_housenumbers().
-        """
-        return self.rust.write_ref_housenumbers(references)
-
-    def get_missing_housenumbers(self) -> Tuple[util.NumberedStreets, util.NumberedStreets]:
-        """
-        Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
-        Return value is a pair of ongoing and done streets.
-        Each of of these is a pair of a street name and a house number list.
-        """
-        return self.rust.get_missing_housenumbers()
-
-    def get_missing_streets(self) -> Tuple[List[str], List[str]]:
-        """Tries to find missing streets in a relation."""
-        return self.rust.get_missing_streets()
-
-    def get_additional_streets(self, sorted_result: bool) -> List[util.Street]:
-        """Tries to find additional streets in a relation."""
-        return self.rust.get_additional_streets(sorted_result)
-
-    def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
-        """Calculate and write stat for the street coverage of a relation."""
-        return self.rust.write_missing_streets()
-
-    def write_additional_streets(self) -> List[util.Street]:
-        """Calculate and write stat for the unexpected street coverage of a relation."""
-        return self.rust.write_additional_streets()
-
-    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.Doc]]]:
-        """
-        Calculate a write stat for the house number coverage of a relation.
-        Returns a tuple of: todo street count, todo count, done count, percent and table.
-        """
-        return self.rust.write_missing_housenumbers()
-
-    def get_additional_housenumbers(self) -> util.NumberedStreets:
-        """
-        Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
-        Return value is a list of streets.
-        Each of of these is a pair of a street name and a house number list.
-        """
-        return self.rust.get_additional_housenumbers()
-
-    def write_additional_housenumbers(self) -> Tuple[int, int, List[List[yattag.Doc]]]:
-        """
-        Calculate and write stat for the unexpected house number coverage of a relation.
-        Returns a tuple of: todo street count, todo count and table.
-        """
-        return self.rust.write_additional_housenumbers()
-
-    def get_osm_housenumbers_query(self) -> str:
-        """Produces a query which lists house numbers in relation."""
-        return self.rust.get_osm_housenumbers_query()
-
-    def get_invalid_refstreets(self) -> Tuple[List[str], List[str]]:
-        """Returns invalid osm names and ref names."""
-        return self.rust.get_invalid_refstreets()
-
-    def get_invalid_filter_keys(self) -> List[str]:
-        """Returns invalid filter key names (street not in OSM)."""
-        invalids: List[str] = []
-        filters_str = self.get_config().get_filters()
-        filters: Dict[str, Any] = {}
-        if filters_str:
-            filters = json.loads(filters_str)
-        keys = [key for key, value in filters.items()]
-        osm_streets = [i.get_osm_name() for i in self.get_osm_streets(sorted_result=True)]
-        for key in keys:
-            if key not in osm_streets:
-                invalids.append(key)
-        return invalids
+Relation = rust.PyRelation
 
 
 class Relations:
     """A relations object is a container of named relation objects."""
     def __init__(self, ctx: context.Context) -> None:
-        self.__workdir = ctx.get_ini().get_workdir()
         self.__ctx = ctx
         with ctx.get_file_system().open_read(os.path.join(ctx.get_abspath("data"), "yamls.cache")) as stream:
             self.__yaml_cache: Dict[str, Any] = json.load(stream)
@@ -182,10 +34,11 @@ class Relations:
         self.__activate_all = False
         self.__refcounty_names = self.__yaml_cache["refcounty-names.yaml"]
         self.__refsettlement_names = self.__yaml_cache["refsettlement-names.yaml"]
+        self.rust = rust.PyRelations(ctx)
 
     def get_workdir(self) -> str:
         """Gets the workdir directory path."""
-        return self.__workdir
+        return self.rust.get_workdir()
 
     def get_relation(self, name: str) -> Relation:
         """Gets the relation that has the specified name."""
@@ -194,8 +47,8 @@ class Relations:
                 self.__dict[name] = {}
             self.__relations[name] = Relation(self.__ctx,
                                               name,
-                                              self.__dict[name],
-                                              self.__yaml_cache)
+                                              json.dumps(self.__dict[name]),
+                                              json.dumps(self.__yaml_cache))
         return self.__relations[name]
 
     def get_names(self) -> List[str]:

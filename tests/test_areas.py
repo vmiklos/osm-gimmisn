@@ -269,7 +269,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "139", "Budaörsi út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "139", "Budaörsi út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["139"])
 
     def test_not_in_range(self) -> None:
@@ -278,7 +278,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "999", "Budaörsi út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "999", "Budaörsi út", street_is_even_odd, normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_not_a_number(self) -> None:
@@ -287,7 +287,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "x", "Budaörsi út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "x", "Budaörsi út", street_is_even_odd, normalizers)
         self.assertEqual(house_numbers, [])
 
     def test_nofilter(self) -> None:
@@ -296,7 +296,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "1", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "1", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["1"])
 
     def test_separator_semicolon(self) -> None:
@@ -305,7 +305,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "1;2", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "1;2", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["1", "2"])
 
     def test_separator_interval(self) -> None:
@@ -314,7 +314,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "2-6", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "2-6", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "4", "6"])
 
     def test_separator_interval_parity(self) -> None:
@@ -323,7 +323,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "5-8", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "5-8", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_numbers], ["5", "8"])
 
     def test_separator_interval_interp_all(self) -> None:
@@ -332,7 +332,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Hamzsabégi út")
-        house_numbers = [i.get_number() for i in areas.normalize(relation.rust, "2-5", "Hamzsabégi út", street_is_even_odd, normalizers)]
+        house_numbers = [i.get_number() for i in areas.normalize(relation, "2-5", "Hamzsabégi út", street_is_even_odd, normalizers)]
         self.assertEqual(house_numbers, ["2", "3", "4", "5"])
 
     def test_separator_interval_filter(self) -> None:
@@ -342,7 +342,7 @@ class TestNormalize(unittest.TestCase):
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
         # filter is 137-165
-        house_numbers = areas.normalize(relation.rust, "163-167", "Budaörsi út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "163-167", "Budaörsi út", street_is_even_odd, normalizers)
         # Make sure there is no 167.
         self.assertEqual([i.get_number() for i in house_numbers], ["163", "165"])
 
@@ -352,7 +352,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "2-2000", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "2-2000", "Budaörs út", street_is_even_odd, normalizers)
         # Make sure that we simply ignore 2000: it's larger than the default <998 filter and the
         # 2-2000 range would be too large.
         self.assertEqual([i.get_number() for i in house_numbers], ["2"])
@@ -363,7 +363,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "2-56", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "2-56", "Budaörs út", street_is_even_odd, normalizers)
         # No expansions for 4, 6, etc.
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "56"])
 
@@ -373,7 +373,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "0-42", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "0-42", "Budaörs út", street_is_even_odd, normalizers)
         # No expansion like 0, 2, 4, etc.
         self.assertEqual([i.get_number() for i in house_numbers], ["42"])
 
@@ -383,7 +383,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "42-1", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "42-1", "Budaörs út", street_is_even_odd, normalizers)
         # No "1", just "42".
         self.assertEqual([i.get_number() for i in house_numbers], ["42"])
 
@@ -393,10 +393,10 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_number = areas.normalize(relation.rust, "1*", "Budaörs út", street_is_even_odd, normalizers)
+        house_number = areas.normalize(relation, "1*", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_number], ["1*"])
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_number = areas.normalize(relation.rust, "2", "Budaörs út", street_is_even_odd, normalizers)
+        house_number = areas.normalize(relation, "2", "Budaörs út", street_is_even_odd, normalizers)
         self.assertEqual([i.get_number() for i in house_number], ["2"])
 
     def test_separator_comma(self) -> None:
@@ -405,7 +405,7 @@ class TestNormalize(unittest.TestCase):
         relation = relations.get_relation("gazdagret")
         normalizers = relation.get_street_ranges()
         street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út")
-        house_numbers = areas.normalize(relation.rust, "2,6", "Budaörs út", street_is_even_odd, normalizers)
+        house_numbers = areas.normalize(relation, "2,6", "Budaörs út", street_is_even_odd, normalizers)
         # Same as ";", no 4.
         self.assertEqual([i.get_number() for i in house_numbers], ["2", "6"])
 

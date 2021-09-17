@@ -404,10 +404,6 @@ impl PyRelationConfig {
         self.relation_config.should_check_missing_streets()
     }
 
-    fn should_check_housenumber_letters(&self) -> bool {
-        self.relation_config.should_check_housenumber_letters()
-    }
-
     fn should_check_additional_housenumbers(&self) -> bool {
         self.relation_config.should_check_additional_housenumbers()
     }
@@ -492,14 +488,10 @@ impl PyRelationConfig {
         self.relation_config
             .get_ref_street_from_osm_street(&osm_street_name)
     }
-
-    fn get_osm_street_from_ref_street(&self, ref_street_name: String) -> String {
-        self.relation_config
-            .get_osm_street_from_ref_street(&ref_street_name)
-    }
 }
 
 /// A relation is a closed polygon on the map.
+#[derive(Clone)]
 struct Relation {
     ctx: crate::context::Context,
     name: String,
@@ -513,14 +505,14 @@ impl Relation {
         ctx: &crate::context::Context,
         name: &str,
         parent_config: &serde_json::Value,
-        yaml_cache: &serde_json::Value,
+        yaml_cache: &serde_json::Map<String, serde_json::Value>,
     ) -> anyhow::Result<Self> {
         let mut my_config = serde_json::json!({});
         let file = crate::area_files::RelationFiles::new(&ctx.get_ini().get_workdir()?, name);
         let relation_path = format!("relation-{}.yaml", name);
         // Intentionally don't require this cache to be present, it's fine to omit it for simple
         // relations.
-        if let Some(value) = yaml_cache.as_object().unwrap().get(&relation_path) {
+        if let Some(value) = yaml_cache.get(&relation_path) {
             my_config = value.clone();
         }
         let config = RelationConfig::new(parent_config, &my_config);
@@ -1329,6 +1321,30 @@ impl Relation {
         }
         Ok((osm_invalids, ref_invalids))
     }
+
+    /// Returns invalid filter key names (street not in OSM).
+    fn get_invalid_filter_keys(&self) -> anyhow::Result<Vec<String>> {
+        let filters = match self.config.get_filters() {
+            Some(value) => value,
+            None => {
+                return Ok(Vec::new());
+            }
+        }
+        .as_object()
+        .unwrap();
+        let keys: Vec<String> = filters.iter().map(|(key, _value)| key.clone()).collect();
+        let osm_streets: Vec<String> = self
+            .get_osm_streets(/*sorted_result=*/ true)?
+            .iter()
+            .map(|i| i.get_osm_name())
+            .cloned()
+            .collect();
+        Ok(keys
+            .iter()
+            .filter(|key| !osm_streets.contains(key))
+            .cloned()
+            .collect())
+    }
 }
 
 #[pyclass]
@@ -1366,7 +1382,12 @@ impl PyRelation {
                 )));
             }
         };
-        let relation = match Relation::new(&ctx.context, &name, &parent_value, &cache_value) {
+        let relation = match Relation::new(
+            &ctx.context,
+            &name,
+            &parent_value,
+            cache_value.as_object().unwrap(),
+        ) {
             Ok(value) => value,
             Err(err) => {
                 return Err(pyo3::exceptions::PyOSError::new_err(format!(
@@ -1688,6 +1709,225 @@ impl PyRelation {
             ))),
         }
     }
+
+    fn get_invalid_filter_keys(&self) -> PyResult<Vec<String>> {
+        match self.relation.get_invalid_filter_keys() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_invalid_filter_keys() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+}
+
+/// A relations object is a container of named relation objects.
+struct Relations {
+    workdir: String,
+    ctx: crate::context::Context,
+    yaml_cache: serde_json::Map<String, serde_json::Value>,
+    dict: serde_json::Map<String, serde_json::Value>,
+    relations: HashMap<String, Relation>,
+    activate_all: bool,
+    refcounty_names: HashMap<String, String>,
+    refsettlement_names: HashMap<String, HashMap<String, String>>,
+}
+
+impl Relations {
+    fn new(ctx: &crate::context::Context) -> anyhow::Result<Self> {
+        let workdir = ctx.get_ini().get_workdir()?;
+        let stream = ctx.get_file_system().open_read(&format!(
+            "{}/{}",
+            ctx.get_abspath("data")?,
+            "yamls.cache"
+        ))?;
+        let mut guard = stream.lock().unwrap();
+        let read = guard.deref_mut();
+        let value: serde_json::Value = serde_json::from_reader(read)?;
+        let yaml_cache = value.as_object().unwrap();
+        let dict = yaml_cache
+            .get("relations.yaml")
+            .unwrap()
+            .as_object()
+            .unwrap()
+            .clone();
+        let relations: HashMap<String, Relation> = HashMap::new();
+        let activate_all = false;
+        let refcounty_names: HashMap<String, String> = yaml_cache
+            .get("refcounty-names.yaml")
+            .unwrap()
+            .as_object()
+            .unwrap()
+            .iter()
+            .map(|(key, value)| (key.clone(), value.as_str().unwrap().into()))
+            .collect();
+        let refsettlement_names: HashMap<String, HashMap<String, String>> = yaml_cache
+            .get("refsettlement-names.yaml")
+            .unwrap()
+            .as_object()
+            .unwrap()
+            .iter()
+            .map(|(key, value)| {
+                let value: HashMap<String, String> = value
+                    .as_object()
+                    .unwrap()
+                    .iter()
+                    .map(|(key, value)| (key.clone(), value.as_str().unwrap().into()))
+                    .collect();
+                (key.clone(), value)
+            })
+            .collect();
+        Ok(Relations {
+            workdir,
+            ctx: ctx.clone(),
+            yaml_cache: yaml_cache.clone(),
+            dict,
+            relations,
+            activate_all,
+            refcounty_names,
+            refsettlement_names,
+        })
+    }
+
+    /// Gets the workdir directory path.
+    fn get_workdir(&self) -> &String {
+        &self.workdir
+    }
+
+    /// Gets the relation that has the specified name.
+    fn get_relation(&mut self, name: &str) -> anyhow::Result<Relation> {
+        if !self.relations.contains_key(name) {
+            if !self.dict.contains_key(name) {
+                self.dict.insert(name.into(), serde_json::json!({}));
+            }
+            let relation = Relation::new(
+                &self.ctx,
+                name,
+                self.dict.get(name).unwrap(),
+                &self.yaml_cache,
+            )?;
+            self.relations.insert(name.into(), relation);
+        }
+
+        Ok(self.relations.get(name).unwrap().clone())
+    }
+
+    /// Gets a sorted list of relation names.
+    fn get_names(&self) -> Vec<String> {
+        let mut ret: Vec<String> = self.dict.iter().map(|(key, _value)| key.into()).collect();
+        ret.sort();
+        ret.dedup();
+        ret
+    }
+
+    /// Gets a sorted list of active relation names.
+    fn get_active_names(&mut self) -> anyhow::Result<Vec<String>> {
+        let mut active_relations: Vec<Relation> = Vec::new();
+        for relation in self.get_relations()? {
+            if self.activate_all || relation.config.is_active() {
+                active_relations.push(relation.clone())
+            }
+        }
+        let mut ret: Vec<String> = active_relations
+            .iter()
+            .map(|relation| relation.get_name())
+            .collect();
+        ret.sort();
+        ret.dedup();
+        Ok(ret)
+    }
+
+    /// Gets a list of relations.
+    fn get_relations(&mut self) -> anyhow::Result<Vec<Relation>> {
+        let mut ret: Vec<Relation> = Vec::new();
+        for name in self.get_names() {
+            ret.push(self.get_relation(&name)?)
+        }
+        Ok(ret)
+    }
+
+    /// Produces a UI name for a refcounty.
+    fn refcounty_get_name(&self, refcounty: &str) -> String {
+        match self.refcounty_names.get(refcounty) {
+            Some(value) => value.into(),
+            None => "".into(),
+        }
+    }
+
+    /// Produces a UI name for a refsettlement in refcounty.
+    fn refsettlement_get_name(&self, refcounty_name: &str, refsettlement: &str) -> String {
+        let refcounty = match self.refsettlement_names.get(refcounty_name) {
+            Some(value) => value,
+            None => {
+                return "".into();
+            }
+        };
+        match refcounty.get(refsettlement) {
+            Some(value) => value.clone(),
+            None => "".into(),
+        }
+    }
+}
+
+#[pyclass]
+struct PyRelations {
+    relations: Relations,
+}
+
+#[pymethods]
+impl PyRelations {
+    #[new]
+    fn new(ctx: PyObject) -> PyResult<Self> {
+        let gil = Python::acquire_gil();
+        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let relations = match Relations::new(&ctx.context) {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "Relations::new() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        Ok(PyRelations { relations })
+    }
+
+    fn get_workdir(&self) -> String {
+        self.relations.get_workdir().clone()
+    }
+
+    fn get_relation(&mut self, name: &str) -> PyResult<PyRelation> {
+        match self.relations.get_relation(name) {
+            Ok(value) => Ok(PyRelation { relation: value }),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_relation() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_names(&self) -> Vec<String> {
+        self.relations.get_names()
+    }
+
+    fn get_active_names(&mut self) -> PyResult<Vec<String>> {
+        match self.relations.get_active_names() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_active_names() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn refcounty_get_name(&self, refcounty: &str) -> String {
+        self.relations.refcounty_get_name(refcounty)
+    }
+
+    fn refsettlement_get_name(&self, refcounty_name: &str, refsettlement: &str) -> String {
+        self.relations
+            .refsettlement_get_name(refcounty_name, refsettlement)
+    }
 }
 
 /// Strips down string input to bare minimum that can be interpreted as an
@@ -1830,6 +2070,7 @@ fn normalize_housenumber_letters(
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyRelationConfig>()?;
     module.add_class::<PyRelation>()?;
+    module.add_class::<PyRelations>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_normalize, module)?)?;
     Ok(())
 }

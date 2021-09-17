@@ -436,11 +436,6 @@ def py_format_even_odd(only_in_ref: List[PyHouseNumberRange]) -> List[str]:
     ...
 
 
-def py_format_even_odd_html(only_in_ref: List[PyHouseNumberRange]) -> PyDoc:
-    """Formats even and odd numbers, HTML version."""
-    ...
-
-
 def py_build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     ...
@@ -725,10 +720,6 @@ class PyRelationConfig:
         """Return value can be 'yes', 'no' and 'only'."""
         ...
 
-    def should_check_housenumber_letters(self) -> bool:
-        """Do we care if 42/B is missing when 42/A is provided?."""
-        ...
-
     def should_check_additional_housenumbers(self) -> bool:
         """Do we care if 42 is in OSM when it's not in the ref?."""
         ...
@@ -785,10 +776,6 @@ class PyRelationConfig:
 
     def get_ref_street_from_osm_street(self, osm_street_name: str) -> str:
         """Maps an OSM street name to a ref street name."""
-        ...
-
-    def get_osm_street_from_ref_street(self, ref_street_name: str) -> str:
-        """Maps a reference street name to an OSM street name."""
         ...
 
 class PyRelation:
@@ -919,6 +906,19 @@ class PyRelation:
 
     def get_invalid_refstreets(self) -> Tuple[List[str], List[str]]:
         """Returns invalid osm names and ref names."""
+        ...
+
+    def get_invalid_filter_keys(self) -> List[str]:
+        """Returns invalid filter key names (street not in OSM)."""
+        ...
+
+class PyRelations:
+    """A relations object is a container of named relation objects."""
+    def __init__(self, ctx: PyContext) -> None:
+        ...
+
+    def get_workdir(self) -> str:
+        """Gets the workdir directory path."""
         ...
 
 def py_normalize(relation: PyRelation, house_numbers: str, street_name: str,

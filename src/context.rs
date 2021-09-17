@@ -349,7 +349,11 @@ impl FileSystem for PyAnyFileSystem {
             let binaryio = match self.file_system.call_method1(py, "open_read", (path,)) {
                 Ok(value) => value,
                 Err(err) => {
-                    return Err(anyhow!("failed to call open_read(): {}", err.to_string()));
+                    return Err(anyhow!(
+                        "failed to call open_read('{}'): {}",
+                        path,
+                        err.to_string()
+                    ));
                 }
             };
             let any = match binaryio.call_method0(py, "read") {

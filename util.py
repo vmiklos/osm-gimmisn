@@ -32,11 +32,6 @@ def format_even_odd(only_in_ref: List[HouseNumberRange]) -> List[str]:
     return rust.py_format_even_odd(only_in_ref)
 
 
-def format_even_odd_html(only_in_ref: List[HouseNumberRange]) -> rust.PyDoc:
-    """Formats even and odd numbers, HTML version."""
-    return rust.py_format_even_odd_html(only_in_ref)
-
-
 def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     return rust.py_build_street_reference_cache(local_streets)

@@ -29,33 +29,6 @@ def street_list(streets: List[str]) -> List[util.Street]:
     return [util.Street.from_string(i) for i in streets]
 
 
-class TestFormatEvenOdd(unittest.TestCase):
-    """Tests format_even_odd()."""
-    def test_only_even(self) -> None:
-        """Tests when we have even numbers only."""
-        self.assertEqual(util.format_even_odd(hnr_list(["2", "4"])), ["2, 4"])
-
-    def test_html(self) -> None:
-        """Tests HTML coloring."""
-        doc = util.format_even_odd_html(hnr_list(["2*", "4"]))
-        self.assertEqual(doc.get_value(), '<span style="color: blue;">2</span>, 4')
-
-    def test_html_comment(self) -> None:
-        """Tests HTML commenting."""
-        doc = yattag.Doc()
-        house_numbers = [
-            util.HouseNumberRange("2*", "foo"),
-            util.HouseNumberRange("4", ""),
-        ]
-        doc = util.format_even_odd_html(house_numbers)
-        self.assertEqual(doc.get_value(), '<span style="color: blue;"><abbr title="foo" tabindex="0">2</abbr></span>, 4')
-
-    def test_html_multi_odd(self) -> None:
-        """Tests HTML output with multiple odd numbers."""
-        doc = util.format_even_odd_html(hnr_list(["1", "3"]))
-        self.assertEqual(doc.get_value(), "1, 3")
-
-
 class TestBuildStreetReferenceCache(unittest.TestCase):
     """Tests build_street_reference_cache()."""
     def test_happy(self) -> None:
