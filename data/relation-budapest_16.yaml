@@ -1,6 +1,45 @@
 missing-streets: 'yes'
 filters: {}
 # Paulheim József tér - Pilóta utca 27-nél
+street-filters:
+  - Bánya tér  # Nincs tábla, nincs is teresedés, a Szabályozási Terven sem szerepel. A HERE szerint a Bánya köz vége.
+  - Ikarus tér  # Nem találom nyomát a gyártelep körül, a Szabályozási Terven sem.
+  - Legény köz  # A Szabályozási Terven megvan (Bem apó - Kövirózsa saroknál), de a helyszínen csak kocsibehajtó.
+osm-street-filters:
+  # Nem közterületek
+  - Corvin lakópark
+  - Csobaj utcai természetközeli tematikus közösségi park
+  - Hősök terei sétány
+  - Ikarus gyár
+  - Nagyicce kiserdő
+  - Naplás-tó gátja
+  - Reformátorok tere
+  - Regős Liget
+  - Szilas menti kerékpárút
+  - Szilas-patak menti kerékpár- és futóút
+  - Szilas-patak menti kerékpárút
+  - templomkert
+  - Vasúti átjáró
+  # X. kerület
+  - Dömsödi utca
+  # XIV. kerület
+  - Füredi utca
+  - Vazul utca
+  # XVII. kerület
+  - Naplás út
+  # Csömör
+  - Ady Endre utca
+  - Boglárka utca
+  - Gárdonyi Géza utca
+  - Híd utca
+  - Ibolya utca
+  - Major út
+  - Mező utca
+  - Nagy Sándor utca
+  - Vilma utca
+  - Zsófia utca
+  # Kistarcsa
+  - Külső raktár körút
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Forrásmajori dűlőút': 'Forrásmajori dűlő'
