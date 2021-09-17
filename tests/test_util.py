@@ -31,14 +31,6 @@ def street_list(streets: List[str]) -> List[util.Street]:
 
 class TestFormatEvenOdd(unittest.TestCase):
     """Tests format_even_odd()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        self.assertEqual(util.format_even_odd(hnr_list(["1", "2"])), ["1", "2"])
-
-    def test_only_odd(self) -> None:
-        """Tests when we have odd numbers only."""
-        self.assertEqual(util.format_even_odd(hnr_list(["1", "3"])), ["1, 3"])
-
     def test_only_even(self) -> None:
         """Tests when we have even numbers only."""
         self.assertEqual(util.format_even_odd(hnr_list(["2", "4"])), ["2, 4"])
@@ -389,22 +381,6 @@ class TestSortNumerically(unittest.TestCase):
                                            util.HouseNumber('c', '', ''),
                                            util.HouseNumber('b', '', '')])
         self.assertEqual([i.get_number() for i in ascending], ['a', 'b', 'c'])
-
-
-class TestOnlyInFirst(unittest.TestCase):
-    """Tests get_only_in_first()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ret = util.get_only_in_first(street_list(["1", "2", "3"]), street_list(["3", "4"]))
-        self.assertEqual([i.get_osm_name() for i in ret], ["1", "2"])
-
-
-class TestInBoth(unittest.TestCase):
-    """Tests get_in_both()."""
-    def test_happy(self) -> None:
-        """Tests that happy path."""
-        ret = util.get_in_both(street_list(["1", "2", "3"]), street_list(["2", "3", "4"]))
-        self.assertEqual([i.get_osm_name() for i in ret], ["2", "3"])
 
 
 class TestGetContent(unittest.TestCase):

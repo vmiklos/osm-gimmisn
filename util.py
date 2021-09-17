@@ -9,6 +9,7 @@
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import Set
 from typing import Tuple
 
 import api
@@ -26,11 +27,6 @@ def split_house_number(house_number: str) -> Tuple[int, str]:
     return rust.py_split_house_number(house_number)
 
 
-def split_house_number_range(house_number: HouseNumberRange) -> Tuple[int, str]:
-    """Wrapper around split_house_number() for HouseNumberRange objects."""
-    return rust.py_split_house_number_range(house_number)
-
-
 def format_even_odd(only_in_ref: List[HouseNumberRange]) -> List[str]:
     """Formats even and odd numbers."""
     return rust.py_format_even_odd(only_in_ref)
@@ -39,11 +35,6 @@ def format_even_odd(only_in_ref: List[HouseNumberRange]) -> List[str]:
 def format_even_odd_html(only_in_ref: List[HouseNumberRange]) -> rust.PyDoc:
     """Formats even and odd numbers, HTML version."""
     return rust.py_format_even_odd_html(only_in_ref)
-
-
-def color_house_number(house_number: rust.PyHouseNumberRange) -> rust.PyDoc:
-    """Colors a house number according to its suffix."""
-    return rust.py_color_house_number(house_number)
 
 
 def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
@@ -145,11 +136,6 @@ def sort_numerically(strings: List[rust.PyHouseNumber]) -> List[rust.PyHouseNumb
     return rust.py_sort_numerically(strings)
 
 
-def get_only_in_first(first: List[Any], second: List[Any]) -> List[Any]:
-    """Returns items which are in first, but not in second."""
-    return rust.py_get_only_in_first(first, second)
-
-
 def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
     """Returns items which are in both first and second."""
     return rust.py_get_in_both(first, second)
@@ -165,12 +151,30 @@ def get_content_with_meta(path: str) -> Tuple[bytes, List[Tuple[str, str]]]:
     return rust.py_get_content_with_meta(path)
 
 
-split_house_number_by_separator = rust.py_split_house_number_by_separator
-get_city_key = rust.py_get_city_key
-get_sort_key = rust.py_get_sort_key
-get_valid_settlements = rust.py_get_valid_settlements
-format_percent = rust.py_format_percent
-get_timestamp = rust.py_get_timestamp
+def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
+    """Constructs a city name based on postcode the nominal city."""
+    return rust.py_get_city_key(postcode, city, valid_settlements)
+
+
+def get_sort_key(string: str) -> bytes:
+    """Returns a string comparator which allows Unicode-aware lexical sorting."""
+    return rust.py_get_sort_key(string)
+
+
+def get_valid_settlements(ctx: rust.PyContext) -> Set[str]:
+    """Builds a set of valid settlement names."""
+    return rust.py_get_valid_settlements(ctx)
+
+
+def format_percent(english: str) -> str:
+    """Formats a percentage, taking locale into account."""
+    return rust.py_format_percent(english)
+
+
+def get_timestamp(path: str) -> float:
+    """Gets the timestamp of a file if it exists, 0 otherwise."""
+    return rust.py_get_timestamp(path)
+
 
 HouseNumbers = List[HouseNumber]
 NumberedStreet = Tuple[Street, HouseNumbers]

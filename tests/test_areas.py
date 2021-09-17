@@ -678,10 +678,6 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
-        relation_name = "gazdagret"
-        relation = relations.get_relation(relation_name)
-        expected = util.get_content(relations.get_workdir() + "/gazdagret.percent")
         file_system = test_context.TestFileSystem()
         percent_value = io.BytesIO()
         percent_value.__setattr__("close", lambda: None)
@@ -690,6 +686,10 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
+        relations = areas.Relations(ctx)
+        relation_name = "gazdagret"
+        relation = relations.get_relation(relation_name)
+        expected = util.get_content(relations.get_workdir() + "/gazdagret.percent")
         ret = relation.write_missing_housenumbers()
         todo_street_count, todo_count, done_count, percent, table = ret
         self.assertEqual(todo_street_count, 3)

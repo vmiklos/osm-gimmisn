@@ -214,7 +214,7 @@ impl RelationFiles {
     }
 
     /// Opens the house number percent file of a relation for writing.
-    fn get_housenumbers_percent_write_stream(
+    pub fn get_housenumbers_percent_write_stream(
         &self,
         ctx: &crate::context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
@@ -304,7 +304,7 @@ impl RelationFiles {
     }
 
     /// Opens the housenumbers additional count file of a relation for writing.
-    fn get_housenumbers_additional_count_write_stream(
+    pub fn get_housenumbers_additional_count_write_stream(
         &self,
         ctx: &crate::context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {

@@ -431,10 +431,6 @@ def py_split_house_number(house_number: str) -> Tuple[int, str]:
     """Splits house_number into a numerical and a remainder part."""
     ...
 
-def py_split_house_number_range(house_number: PyHouseNumberRange) -> Tuple[int, str]:
-    """Wrapper around split_house_number() for HouseNumberRange objects."""
-    ...
-
 def py_format_even_odd(only_in_ref: List[PyHouseNumberRange]) -> List[str]:
     """Formats even and odd numbers."""
     ...
@@ -444,10 +440,6 @@ def py_format_even_odd_html(only_in_ref: List[PyHouseNumberRange]) -> PyDoc:
     """Formats even and odd numbers, HTML version."""
     ...
 
-
-def py_color_house_number(house_number: PyHouseNumberRange) -> PyDoc:
-    """Colors a house number according to its suffix."""
-    ...
 
 def py_build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
@@ -531,11 +523,6 @@ def py_sort_numerically(strings: List[PyHouseNumber]) -> List[PyHouseNumber]:
 
 Diff = TypeVar("Diff", PyHouseNumber, PyStreet)
 
-def py_get_only_in_first(first: List[Diff], second: List[Diff]) -> List[Diff]:
-    """Returns items which are in first, but not in second."""
-    ...
-
-
 def py_get_in_both(first: List[Diff], second: List[Diff]) -> List[Diff]:
     """Returns items which are in both first and second."""
     ...
@@ -546,15 +533,6 @@ def py_get_content(path: str) -> bytes:
 
 def py_get_content_with_meta(path: str) -> Tuple[bytes, List[Tuple[str, str]]]:
     """Gets the content of a file in workdir with metadata."""
-    ...
-
-def py_split_house_number_by_separator(
-        house_numbers: str,
-        separator: str,
-        normalizer: PyRanges
-) -> Tuple[List[int], List[int]]:
-    """Splits a house number string (possibly a range) by a given separator.
-    Returns a filtered and a not filtered list of ints."""
     ...
 
 def py_get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
@@ -889,10 +867,6 @@ class PyRelation:
         """
         ...
 
-    def get_ref_housenumbers(self) -> Dict[str, List[PyHouseNumber]]:
-        """Gets house numbers from reference, produced by write_ref_housenumbers()."""
-        ...
-
     def get_missing_housenumbers(self) -> Tuple[List[Tuple[PyStreet, List[PyHouseNumber]]], List[Tuple[PyStreet, List[PyHouseNumber]]]]:
         """
         Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
@@ -917,18 +891,35 @@ class PyRelation:
         """Calculate and write stat for the unexpected street coverage of a relation."""
         ...
 
-    def get_street_valid(self) -> Dict[str, List[str]]:
-        """Gets a street name -> valid map, which allows silencing individual false positives."""
+    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[PyDoc]]]:
+        """
+        Calculate a write stat for the house number coverage of a relation.
+        Returns a tuple of: todo street count, todo count, done count, percent and table.
+        """
         ...
 
-def py_normalize_housenumber_letters(
-        relation: PyRelation,
-        house_numbers: str,
-        suffix: str,
-        comment: str
-) -> List[PyHouseNumber]:
-    """Handles the part of normalize() that deals with housenumber letters."""
-    ...
+    def get_additional_housenumbers(self) -> List[Tuple[PyStreet, List[PyHouseNumber]]]:
+        """
+        Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
+        Return value is a list of streets.
+        Each of of these is a pair of a street name and a house number list.
+        """
+        ...
+
+    def write_additional_housenumbers(self) -> Tuple[int, int, List[List[PyDoc]]]:
+        """
+        Calculate and write stat for the unexpected house number coverage of a relation.
+        Returns a tuple of: todo street count, todo count and table.
+        """
+        ...
+
+    def get_osm_housenumbers_query(self) -> str:
+        """Produces a query which lists house numbers in relation."""
+        ...
+
+    def get_invalid_refstreets(self) -> Tuple[List[str], List[str]]:
+        """Returns invalid osm names and ref names."""
+        ...
 
 def py_normalize(relation: PyRelation, house_numbers: str, street_name: str,
               street_is_even_odd: bool,

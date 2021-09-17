@@ -1141,6 +1141,194 @@ impl Relation {
 
         valid_dict
     }
+
+    /// Turns a list of numbered streets into a HTML table.
+    fn numbered_streets_to_table(
+        &self,
+        numbered_streets: &[crate::util::NumberedStreet],
+    ) -> (Vec<Vec<crate::yattag::Doc>>, usize) {
+        let mut todo_count = 0_usize;
+        let mut table = vec![vec![
+            crate::yattag::Doc::from_text(&tr("Street name")),
+            crate::yattag::Doc::from_text(&tr("Missing count")),
+            crate::yattag::Doc::from_text(&tr("House numbers")),
+        ]];
+        let mut rows: Vec<Vec<crate::yattag::Doc>> = Vec::new();
+        for result in numbered_streets {
+            // street, only_in_ref
+            let mut row: Vec<crate::yattag::Doc> = vec![result.0.to_html()];
+            let number_ranges = crate::util::get_housenumber_ranges(&result.1);
+            row.push(crate::yattag::Doc::from_text(
+                &number_ranges.len().to_string(),
+            ));
+
+            let doc = crate::yattag::Doc::new();
+            if !self.config.get_street_is_even_odd(result.0.get_osm_name()) {
+                let mut sorted = number_ranges.clone();
+                sorted.sort_by(|a, b| {
+                    crate::util::split_house_number_range(a)
+                        .cmp(&crate::util::split_house_number_range(b))
+                });
+                for (index, item) in sorted.iter().enumerate() {
+                    if index > 0 {
+                        doc.text(", ");
+                    }
+                    doc.append_value(crate::util::color_house_number(item).get_value());
+                }
+            } else {
+                doc.append_value(crate::util::format_even_odd_html(&number_ranges).get_value());
+            }
+            row.push(doc);
+
+            todo_count += number_ranges.len();
+            rows.push(row);
+        }
+
+        // It's possible that get_housenumber_ranges() reduces the # of house numbers, e.g. 2, 4 and
+        // 6 may be turned into 2-6, which is just 1 item. Sort by the 2nd col, which is the new
+        // number of items.
+        rows.sort_by(|cells_a, cells_b| {
+            // Reverse.
+            cells_b[1]
+                .get_value()
+                .parse::<usize>()
+                .unwrap()
+                .cmp(&cells_a[1].get_value().parse::<usize>().unwrap())
+        });
+        table.append(&mut rows);
+        (table, todo_count)
+    }
+
+    /// Calculate a write stat for the house number coverage of a relation.
+    /// Returns a tuple of: todo street count, todo count, done count, percent and table.
+    fn write_missing_housenumbers(
+        &mut self,
+    ) -> anyhow::Result<(usize, usize, usize, String, crate::yattag::HtmlTable)> {
+        let (ongoing_streets, done_streets) = self.get_missing_housenumbers()?;
+
+        let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
+
+        let mut done_count = 0;
+        for result in done_streets {
+            let number_ranges = crate::util::get_housenumber_ranges(&result.1);
+            done_count += number_ranges.len();
+        }
+        let percent: String;
+        if done_count > 0 || todo_count > 0 {
+            let float: f64 = done_count as f64 / (done_count as f64 + todo_count as f64) * 100_f64;
+            percent = format!("{0:.2}", float);
+        } else {
+            percent = "100.00".into();
+        }
+
+        // Write the bottom line to a file, so the index page show it fast.
+        let write = self.file.get_housenumbers_percent_write_stream(&self.ctx)?;
+        let mut guard = write.lock().unwrap();
+        guard.write_all(percent.as_bytes())?;
+
+        Ok((
+            ongoing_streets.len(),
+            todo_count,
+            done_count,
+            percent,
+            table,
+        ))
+    }
+
+    /// Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
+    /// Return value is a list of streets.
+    /// Each of of these is a pair of a street name and a house number list.
+    fn get_additional_housenumbers(&mut self) -> anyhow::Result<crate::util::NumberedStreets> {
+        let mut additional = Vec::new();
+
+        let osm_street_names = self.get_osm_streets(/*sorted_result=*/ true)?;
+        let all_ref_house_numbers = self.get_ref_housenumbers()?;
+        let streets_valid = self.get_street_valid();
+        for osm_street in osm_street_names {
+            let osm_street_name = osm_street.get_osm_name();
+            let ref_house_numbers = all_ref_house_numbers.get(osm_street_name).unwrap();
+            let mut osm_house_numbers = self.get_osm_housenumbers(osm_street_name)?;
+
+            if let Some(street_valid) = streets_valid.get(osm_street_name) {
+                let filtered: Vec<_> = osm_house_numbers
+                    .iter()
+                    .filter(|i| !crate::util::HouseNumber::is_invalid(i.get_number(), street_valid))
+                    .cloned()
+                    .collect();
+                osm_house_numbers = filtered;
+            }
+
+            let only_in_osm = crate::util::get_only_in_first(&osm_house_numbers, ref_house_numbers);
+            let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
+            let street = crate::util::Street::new(
+                osm_street_name,
+                &ref_street_name,
+                self.should_show_ref_street(osm_street_name),
+                /*osm_id=*/ 0,
+            );
+            if !only_in_osm.is_empty() {
+                additional.push((street, only_in_osm))
+            }
+        }
+        // Sort by length, reverse.
+        additional.sort_by(|a, b| b.1.len().cmp(&a.1.len()));
+
+        Ok(additional)
+    }
+
+    /// Calculate and write stat for the unexpected house number coverage of a relation.
+    /// Returns a tuple of: todo street count, todo count and table.
+    fn write_additional_housenumbers(
+        &mut self,
+    ) -> anyhow::Result<(usize, usize, crate::yattag::HtmlTable)> {
+        let ongoing_streets = self.get_additional_housenumbers()?;
+
+        let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
+
+        // Write the street count to a file, so the index page show it fast.
+        let write = self
+            .file
+            .get_housenumbers_additional_count_write_stream(&self.ctx)?;
+        let mut guard = write.lock().unwrap();
+        guard.write_all(todo_count.to_string().as_bytes())?;
+
+        Ok((ongoing_streets.len(), todo_count, table))
+    }
+
+    /// Produces a query which lists house numbers in relation.
+    fn get_osm_housenumbers_query(&self) -> anyhow::Result<String> {
+        let contents = std::fs::read_to_string(format!(
+            "{}/{}",
+            self.ctx.get_abspath("data")?,
+            "street-housenumbers-template.txt"
+        ))?;
+        Ok(crate::util::process_template(
+            &contents,
+            self.config.get_osmrelation(),
+        ))
+    }
+
+    /// Returns invalid osm names and ref names.
+    fn get_invalid_refstreets(&self) -> anyhow::Result<(Vec<String>, Vec<String>)> {
+        let mut osm_invalids: Vec<String> = Vec::new();
+        let mut ref_invalids: Vec<String> = Vec::new();
+        let refstreets = self.config.get_refstreets();
+        let osm_streets: Vec<String> = self
+            .get_osm_streets(/*sorted_result=*/ true)?
+            .iter()
+            .map(|i| i.get_osm_name())
+            .cloned()
+            .collect();
+        for (osm_name, ref_name) in refstreets {
+            if !osm_streets.contains(&osm_name) {
+                osm_invalids.push(osm_name);
+            }
+            if osm_streets.contains(&ref_name) {
+                ref_invalids.push(ref_name);
+            }
+        }
+        Ok((osm_invalids, ref_invalids))
+    }
 }
 
 #[pyclass]
@@ -1311,32 +1499,6 @@ impl PyRelation {
         }
     }
 
-    fn get_ref_housenumbers(&self) -> PyResult<HashMap<String, Vec<crate::util::PyHouseNumber>>> {
-        let ret = match self.relation.get_ref_housenumbers() {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_ref_housenumbers() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        let py_ret: HashMap<String, Vec<crate::util::PyHouseNumber>> = ret
-            .iter()
-            .map(|(key, value)| {
-                let py_value = value
-                    .iter()
-                    .map(|i| {
-                        let house_number = i.clone();
-                        crate::util::PyHouseNumber { house_number }
-                    })
-                    .collect();
-                (key.clone(), py_value)
-            })
-            .collect();
-        Ok(py_ret)
-    }
-
     fn get_missing_housenumbers(
         &mut self,
     ) -> PyResult<(
@@ -1435,8 +1597,96 @@ impl PyRelation {
             .collect())
     }
 
-    fn get_street_valid(&self) -> HashMap<String, Vec<String>> {
-        self.relation.get_street_valid()
+    fn write_missing_housenumbers(
+        &mut self,
+    ) -> PyResult<(usize, usize, usize, String, crate::yattag::PyHtmlTable)> {
+        let (ongoing_len, todo, done, percent, table) =
+            match self.relation.write_missing_housenumbers() {
+                Ok(value) => value,
+                Err(err) => {
+                    return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                        "write_missing_housenumbers() failed: {}",
+                        err.to_string()
+                    )));
+                }
+            };
+        let py_table: Vec<Vec<crate::yattag::PyDoc>> = table
+            .iter()
+            .map(|row| {
+                row.iter()
+                    .map(|cell| crate::yattag::PyDoc { doc: cell.clone() })
+                    .collect()
+            })
+            .collect();
+        Ok((ongoing_len, todo, done, percent, py_table))
+    }
+
+    fn get_additional_housenumbers(&mut self) -> PyResult<crate::util::PyNumberedStreets> {
+        let ret = match self.relation.get_additional_housenumbers() {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "get_additional_housenumbers() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        let mut py_ret: Vec<(crate::util::PyStreet, Vec<crate::util::PyHouseNumber>)> = Vec::new();
+        for street in ret {
+            let py_street = crate::util::PyStreet { street: street.0 };
+            let py_housenumbers: Vec<crate::util::PyHouseNumber> = street
+                .1
+                .iter()
+                .map(|i| crate::util::PyHouseNumber {
+                    house_number: i.clone(),
+                })
+                .collect();
+            py_ret.push((py_street, py_housenumbers));
+        }
+        Ok(py_ret)
+    }
+
+    fn write_additional_housenumbers(
+        &mut self,
+    ) -> PyResult<(usize, usize, crate::yattag::PyHtmlTable)> {
+        let (ongoing_len, todo, table) = match self.relation.write_additional_housenumbers() {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "write_additional_housenumbers() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+        let py_table: Vec<Vec<crate::yattag::PyDoc>> = table
+            .iter()
+            .map(|row| {
+                row.iter()
+                    .map(|cell| crate::yattag::PyDoc { doc: cell.clone() })
+                    .collect()
+            })
+            .collect();
+        Ok((ongoing_len, todo, py_table))
+    }
+
+    fn get_osm_housenumbers_query(&self) -> PyResult<String> {
+        match self.relation.get_osm_housenumbers_query() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_osm_housenumbers_query() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn get_invalid_refstreets(&self) -> PyResult<(Vec<String>, Vec<String>)> {
+        match self.relation.get_invalid_refstreets() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_invalid_refstreets() failed: {}",
+                err.to_string()
+            ))),
+        }
     }
 }
 
@@ -1577,44 +1827,9 @@ fn normalize_housenumber_letters(
     )])
 }
 
-#[pyfunction]
-fn py_normalize_housenumber_letters(
-    relation: PyObject,
-    house_numbers: String,
-    suffix: String,
-    comment: String,
-) -> PyResult<Vec<crate::util::PyHouseNumber>> {
-    let gil = Python::acquire_gil();
-    let py_relation: PyRefMut<'_, PyRelation> = relation.extract(gil.python())?;
-    let ret = match normalize_housenumber_letters(
-        &py_relation.relation,
-        &house_numbers,
-        &suffix,
-        &comment,
-    ) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "normalize_housenumber_letters() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok(ret
-        .iter()
-        .map(|i| crate::util::PyHouseNumber {
-            house_number: i.clone(),
-        })
-        .collect())
-}
-
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyRelationConfig>()?;
     module.add_class::<PyRelation>()?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_normalize_housenumber_letters,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_normalize, module)?)?;
     Ok(())
 }
