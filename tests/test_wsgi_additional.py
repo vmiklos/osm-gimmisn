@@ -171,6 +171,7 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
         yamls_cache_value = io.BytesIO()
         yamls_cache_value.write(json.dumps(yamls_cache).encode("utf-8"))
         yamls_cache_value.seek(0)
+        yamls_cache_value.__setattr__("close", lambda: None)
         count_value = io.BytesIO()
         count_value.__setattr__("close", lambda: None)
         files = {

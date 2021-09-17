@@ -840,22 +840,6 @@ pub fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> crate::yattag::
     doc
 }
 
-#[pyfunction]
-fn py_format_even_odd_html(py: Python<'_>, items: Vec<PyObject>) -> PyResult<crate::yattag::PyDoc> {
-    // Convert Vec<PyObject> to Vec<HouseNumberRange>.
-    let items: Vec<HouseNumberRange> = items
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyHouseNumberRange> = item.extract(py)?;
-            Ok(item.house_number_range.clone())
-        })
-        .collect::<PyResult<Vec<HouseNumberRange>>>()?;
-
-    Ok(crate::yattag::PyDoc {
-        doc: format_even_odd_html(&items),
-    })
-}
-
 /// Colors a house number according to its suffix.
 pub fn color_house_number(house_number: &HouseNumberRange) -> crate::yattag::Doc {
     let doc = crate::yattag::Doc::new();
@@ -1945,7 +1929,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyCsvRead>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_split_house_number, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd_html, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_build_street_reference_cache,
         module
@@ -2039,5 +2022,40 @@ mod tests {
     fn test_format_even_odd_only_odd() {
         let expected = vec!["1, 3".to_string()];
         assert_eq!(format_even_odd(&hnr_list(vec!["1", "3"])), expected);
+    }
+
+    /// Tests format_even_odd(): when we have even numbers only.
+    #[test]
+    fn test_format_even_odd_only_even() {
+        let expected = vec!["2, 4".to_string()];
+        assert_eq!(format_even_odd(&hnr_list(vec!["2", "4"])), expected);
+    }
+
+    /// Tests format_even_odd(): HTML coloring.
+    #[test]
+    fn test_format_even_odd_html() {
+        let doc = format_even_odd_html(&hnr_list(vec!["2*", "4"]));
+        let expected = r#"<span style="color: blue;">2</span>, 4"#;
+        assert_eq!(doc.get_value(), expected)
+    }
+
+    /// Tests format_even_odd(): HTML commenting.
+    #[test]
+    fn test_format_even_odd_html_comment() {
+        let house_numbers = vec![
+            HouseNumberRange::new("2*", "foo"),
+            HouseNumberRange::new("4", ""),
+        ];
+        let doc = format_even_odd_html(&house_numbers);
+        let expected =
+            r#"<span style="color: blue;"><abbr title="foo" tabindex="0">2</abbr></span>, 4"#;
+        assert_eq!(doc.get_value(), expected);
+    }
+
+    /// Tests format_even_odd(): HTML output with multiple odd numbers.
+    #[test]
+    fn test_format_even_odd_html_multi_odd() {
+        let doc = format_even_odd_html(&hnr_list(vec!["1", "3"]));
+        assert_eq!(doc.get_value(), "1, 3".to_string());
     }
 }
