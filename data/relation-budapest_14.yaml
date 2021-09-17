@@ -6,14 +6,54 @@ street-filters:
   - Rákosszentmihály MÁV pályaudvar
   # megváltozott a neve, több szakaszra bomlott
   - Városligeti körút
-  # létezik, de nem utcaként/nincs házszám
+osm-street-filters:
+  # létezik, de nem utcaként
+  - Adria park
+  - Az Utolsó Napok Szentjeinek parkja
   - Dromosz
+  - Hermina kápolna kert
+  - Japánkert
+  - Jeszenák park
+  - Kassai téri park
   - Kneipp ösvény
   - Korong utcai aluljáró
+  - Madárbarát Tanösvény
+  - Mogyoródi park
+  - Paskál park
+  - Piknik Park
   - Promenád
+  - Vajdahunyad sétány
   - Vajdahunyadvár  # https://www.openstreetmap.org/node/4685641019
+  - Vakok kertje
+  - Városliget
+  - Vasúti átjáró
+  - Víztorony park
+  - Zugló vasútállomás környéki park
+  # Létezik, de nincs házszám
+  - 56-osok tere
+  - Kántorné utca
+  - Rákosfalva utca
+  - Rózsavölgyi köz  # https://www.openstreetmap.org/node/3535130937
+  - Tapló köz
+  # IV. kerület
+  - Madridi utca
+  # X. kerület
+  - Gépmadár utca
+  - Pilisi utca
+  - Százados út
   # XIII. kerület
+  - Kámfor utca
   - Róbert Károly körút
+  - Szent László út
+  # XV. kerület
+  - Rákospalotai körvasút sor
+  # XVI. kerület
+  - Budapesti út
+  - Körvasút sor
+  - Szolnoki út
+  # vegyes
+  - építési forgalom
+  - Iskola zug
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Argentína tér': 'Argentina tér'
