@@ -8,11 +8,22 @@ street-filters:
   # egyéb
   - Nádastó  # utca vagy park, önmagában nincs
   - Vácduka utca  # hivatalosan ugyan létezik, de valóságban nem, valószínű Vácduka térnek hívják az utcát is
+  # Szabályozási Tervben szerepelnek, de a terepen még egyben művelt szántóföld az egész.
+  - Barack utca
+  - Erdő menti út  # Az SZT-n "Erdőmenti" szerepel.
+  - Hagyma utca
+  - Káka köz
+  - Kékszilva út
+  - Kukorica utca
+  - Nadály utca
+  - Paszternák utca
+  - Turjános körút
 osm-street-filters:
   # Nem valós utcák
   - Árpád úti felüljáró
   - Dugonics utcai felüljáró
   - MÁV üzemi út
+  - Piócás dűlő
   - Szilas pihenő
   # Területhatár
   - Elem utca  # IV. kerület határ
