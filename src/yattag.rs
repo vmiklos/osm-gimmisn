@@ -73,6 +73,8 @@ impl Doc {
     }
 }
 
+pub type HtmlTable = Vec<Vec<Doc>>;
+
 impl Default for Doc {
     fn default() -> Self {
         Self::new()
@@ -119,6 +121,8 @@ impl PyDoc {
         self.doc.text(text)
     }
 }
+
+pub type PyHtmlTable = Vec<Vec<PyDoc>>;
 
 /// Starts a tag, which is closed automatically.
 pub struct Tag {

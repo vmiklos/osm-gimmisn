@@ -85,7 +85,7 @@ impl PyLetterSuffixStyle {
 /// A house number range is a string that may expand to one or more HouseNumber instances in the
 /// future. It can also have a comment.
 #[derive(Clone, Debug)]
-struct HouseNumberRange {
+pub struct HouseNumberRange {
     number: String,
     comment: String,
 }
@@ -262,7 +262,7 @@ impl Street {
     }
 
     /// Writes the street as a HTML string.
-    fn to_html(&self) -> crate::yattag::Doc {
+    pub fn to_html(&self) -> crate::yattag::Doc {
         let doc = crate::yattag::Doc::new();
         doc.text(&self.osm_name);
         if self.osm_name != self.ref_name && self.show_ref_street {
@@ -402,8 +402,8 @@ pub struct HouseNumber {
     comment: String,
 }
 
-type HouseNumbers = Vec<HouseNumber>;
-type NumberedStreet = (Street, HouseNumbers);
+pub type HouseNumbers = Vec<HouseNumber>;
+pub type NumberedStreet = (Street, HouseNumbers);
 pub type NumberedStreets = Vec<NumberedStreet>;
 
 impl HouseNumber {
@@ -748,19 +748,8 @@ pub fn py_split_house_number(house_number: String) -> PyResult<(i32, String)> {
 }
 
 /// Wrapper around split_house_number() for HouseNumberRange objects.
-fn split_house_number_range(house_number: &HouseNumberRange) -> (i32, String) {
+pub fn split_house_number_range(house_number: &HouseNumberRange) -> (i32, String) {
     split_house_number(house_number.get_number())
-}
-
-#[pyfunction]
-pub fn py_split_house_number_range(
-    py: Python<'_>,
-    house_number_range: PyObject,
-) -> PyResult<(i32, String)> {
-    let py_house_number_range: PyRefMut<'_, PyHouseNumberRange> = house_number_range.extract(py)?;
-    Ok(split_house_number_range(
-        &py_house_number_range.house_number_range,
-    ))
 }
 
 /// Separates even and odd numbers.
@@ -828,7 +817,7 @@ fn py_format_even_odd(py: Python<'_>, items: Vec<PyObject>) -> PyResult<Vec<Stri
 }
 
 /// Formats even and odd numbers, HTML version.
-fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> crate::yattag::Doc {
+pub fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> crate::yattag::Doc {
     let mut even: Vec<HouseNumberRange> = Vec::new();
     let mut odd: Vec<HouseNumberRange> = Vec::new();
     separate_even_odd(only_in_ref, &mut even, &mut odd);
@@ -868,7 +857,7 @@ fn py_format_even_odd_html(py: Python<'_>, items: Vec<PyObject>) -> PyResult<cra
 }
 
 /// Colors a house number according to its suffix.
-fn color_house_number(house_number: &HouseNumberRange) -> crate::yattag::Doc {
+pub fn color_house_number(house_number: &HouseNumberRange) -> crate::yattag::Doc {
     let doc = crate::yattag::Doc::new();
     let number = house_number.get_number();
     if !number.ends_with('*') {
@@ -889,14 +878,6 @@ fn color_house_number(house_number: &HouseNumberRange) -> crate::yattag::Doc {
         doc.text(number);
     }
     doc
-}
-
-#[pyfunction]
-fn py_color_house_number(py: Python<'_>, house_number: PyObject) -> PyResult<crate::yattag::PyDoc> {
-    let house_number: PyRefMut<'_, PyHouseNumberRange> = house_number.extract(py)?;
-    Ok(crate::yattag::PyDoc {
-        doc: color_house_number(&house_number.house_number_range),
-    })
 }
 
 /// refcounty -> refsettlement -> streets cache.
@@ -1510,7 +1491,7 @@ fn py_get_street_from_housenumber(py: Python<'_>, stream: PyObject) -> PyResult<
 
 /// Gets a reference range list for a house number list by looking at what range provided a given
 /// house number.
-fn get_housenumber_ranges(house_numbers: &[HouseNumber]) -> Vec<HouseNumberRange> {
+pub fn get_housenumber_ranges(house_numbers: &[HouseNumber]) -> Vec<HouseNumberRange> {
     let mut ret: Vec<HouseNumberRange> = Vec::new();
     for house_number in house_numbers {
         ret.push(HouseNumberRange::new(
@@ -1605,76 +1586,6 @@ pub fn get_only_in_first<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
         .filter(|i| !second.contains(&i.get_diff_key()))
         .cloned()
         .collect()
-}
-
-fn py_get_only_in_first_housenumber(
-    py: Python<'_>,
-    first: &[PyObject],
-    second: &[PyObject],
-) -> PyResult<Vec<PyObject>> {
-    let first: Vec<HouseNumber> = first
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
-            Ok(item.house_number.clone())
-        })
-        .collect::<PyResult<Vec<HouseNumber>>>()?;
-    let second: Vec<HouseNumber> = second
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
-            Ok(item.house_number.clone())
-        })
-        .collect::<PyResult<Vec<HouseNumber>>>()?;
-    let ret = get_only_in_first(&first, &second);
-    Ok(ret
-        .iter()
-        .map(|i| {
-            PyHouseNumber {
-                house_number: i.clone(),
-            }
-            .into_py(py)
-        })
-        .collect::<Vec<PyObject>>())
-}
-
-fn py_get_only_in_first_street(
-    py: Python<'_>,
-    first: &[PyObject],
-    second: &[PyObject],
-) -> PyResult<Vec<PyObject>> {
-    let first: Vec<Street> = first
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyStreet> = item.extract(py)?;
-            Ok(item.street.clone())
-        })
-        .collect::<PyResult<Vec<Street>>>()?;
-    let second: Vec<Street> = second
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyStreet> = item.extract(py)?;
-            Ok(item.street.clone())
-        })
-        .collect::<PyResult<Vec<Street>>>()?;
-    let ret = get_only_in_first(&first, &second);
-    Ok(ret
-        .iter()
-        .map(|i| PyStreet { street: i.clone() }.into_py(py))
-        .collect::<Vec<PyObject>>())
-}
-
-#[pyfunction]
-fn py_get_only_in_first(
-    py: Python<'_>,
-    first: Vec<PyObject>,
-    second: Vec<PyObject>,
-) -> PyResult<Vec<PyObject>> {
-    if let Ok(value) = py_get_only_in_first_housenumber(py, &first, &second) {
-        return Ok(value);
-    }
-
-    py_get_only_in_first_street(py, &first, &second)
 }
 
 /// Returns items which are in both first and second.
@@ -1868,21 +1779,6 @@ pub fn split_house_number_by_separator(
     (ret_numbers, ret_numbers_nofilter)
 }
 
-#[pyfunction]
-fn py_split_house_number_by_separator(
-    py: Python<'_>,
-    house_numbers: String,
-    separator: String,
-    normalizer: PyObject,
-) -> PyResult<(Vec<i64>, Vec<i64>)> {
-    let normalizer: PyRefMut<'_, crate::ranges::PyRanges> = normalizer.extract(py)?;
-    Ok(split_house_number_by_separator(
-        &house_numbers,
-        &separator,
-        &normalizer.ranges,
-    ))
-}
-
 /// Constructs a city name based on postcode the nominal city.
 fn get_city_key(
     postcode: &str,
@@ -2048,10 +1944,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyStreet>()?;
     module.add_class::<PyCsvRead>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_split_house_number, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_split_house_number_range, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd_html, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_color_house_number, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_build_street_reference_cache,
         module
@@ -2083,18 +1977,67 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_housenumber_ranges, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_git_link, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_sort_numerically, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_only_in_first, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_in_both, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content_with_meta, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_split_house_number_by_separator,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_city_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_sort_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_valid_settlements, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_format_percent, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_timestamp, module)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Convers a string list into a street list.
+    fn street_list(streets: &[&str]) -> Vec<Street> {
+        streets.iter().map(|i| Street::from_string(i)).collect()
+    }
+
+    /// Tests get_only_in_first().
+    #[test]
+    fn test_only_in_first() {
+        let ret = get_only_in_first(
+            &street_list(&vec!["1", "2", "3"]),
+            &street_list(&vec!["3", "4"]),
+        );
+        let names: Vec<_> = ret.iter().map(|i| i.get_osm_name()).collect();
+        assert_eq!(names, vec!["1", "2"]);
+    }
+
+    /// Tests get_in_both().
+    #[test]
+    fn test_get_in_both() {
+        let ret = get_in_both(
+            &street_list(&vec!["1", "2", "3"]),
+            &street_list(&vec!["2", "3", "4"]),
+        );
+        let names: Vec<_> = ret.iter().map(|i| i.get_osm_name()).collect();
+        assert_eq!(names, vec!["2", "3"]);
+    }
+
+    /// Converts a string list into a house number range list.
+    fn hnr_list(ranges: Vec<&str>) -> Vec<HouseNumberRange> {
+        ranges
+            .iter()
+            .map(|i| HouseNumberRange::new(i, ""))
+            .collect()
+    }
+
+    /// Tests format_even_odd().
+    #[test]
+    fn test_format_even_odd() {
+        let expected = vec!["1".to_string(), "2".to_string()];
+        assert_eq!(format_even_odd(&hnr_list(vec!["1", "2"])), expected);
+    }
+
+    /// Tests format_even_odd(): when we have odd numbers only.
+    #[test]
+    fn test_format_even_odd_only_odd() {
+        let expected = vec!["1, 3".to_string()];
+        assert_eq!(format_even_odd(&hnr_list(vec!["1", "3"])), expected);
+    }
 }

@@ -16,7 +16,6 @@ from typing import cast
 import json
 import yattag
 
-from rust import py_translate as tr
 import api
 import context
 import rust
@@ -35,7 +34,6 @@ class Relation:
             parent_config: Dict[str, Any],
             yaml_cache: Dict[str, Any]
     ) -> None:
-        self.__ctx = ctx
         self.rust = rust.PyRelation(ctx, name, json.dumps(parent_config), json.dumps(yaml_cache))
 
     def get_name(self) -> str:
@@ -103,10 +101,6 @@ class Relation:
         """
         return self.rust.write_ref_housenumbers(references)
 
-    def get_ref_housenumbers(self) -> Dict[str, List[util.HouseNumber]]:
-        """Gets house numbers from reference, produced by write_ref_housenumbers()."""
-        return self.rust.get_ref_housenumbers()
-
     def get_missing_housenumbers(self) -> Tuple[util.NumberedStreets, util.NumberedStreets]:
         """
         Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
@@ -131,103 +125,35 @@ class Relation:
         """Calculate and write stat for the unexpected street coverage of a relation."""
         return self.rust.write_additional_streets()
 
-    def get_street_valid(self) -> Dict[str, List[str]]:
-        """Gets a street name -> valid map, which allows silencing individual false positives."""
-        return self.rust.get_street_valid()
-
-    def numbered_streets_to_table(
-        self,
-        numbered_streets: util.NumberedStreets
-    ) -> Tuple[List[List[yattag.Doc]], int]:
-        """Turns a list of numbered streets into a HTML table."""
-        todo_count = 0
-        table = []
-        table.append([yattag.Doc.from_text(tr("Street name")),
-                      yattag.Doc.from_text(tr("Missing count")),
-                      yattag.Doc.from_text(tr("House numbers"))])
-        rows = []
-        for result in numbered_streets:
-            # street, only_in_ref
-            row = []
-            row.append(result[0].to_html())
-            number_ranges = util.get_housenumber_ranges(result[1])
-            row.append(yattag.Doc.from_text(str(len(number_ranges))))
-
-            doc = yattag.Doc()
-            if not self.get_config().get_street_is_even_odd(result[0].get_osm_name()):
-                for index, item in enumerate(sorted(number_ranges, key=util.split_house_number_range)):
-                    if index:
-                        doc.text(", ")
-                    doc.append_value(util.color_house_number(item).get_value())
-            else:
-                doc.append_value(util.format_even_odd_html(number_ranges).get_value())
-            row.append(doc)
-
-            todo_count += len(number_ranges)
-            rows.append(row)
-
-        # It's possible that get_housenumber_ranges() reduces the # of house numbers, e.g. 2, 4 and
-        # 6 may be turned into 2-6, which is just 1 item. Sort by the 2nd col, which is the new
-        # number of items.
-        table += sorted(rows, reverse=True, key=lambda cells: int(cells[1].get_value()))
-        return table, todo_count
-
     def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[yattag.Doc]]]:
         """
         Calculate a write stat for the house number coverage of a relation.
         Returns a tuple of: todo street count, todo count, done count, percent and table.
         """
-        ongoing_streets, done_streets = self.get_missing_housenumbers()
+        return self.rust.write_missing_housenumbers()
 
-        table, todo_count = self.numbered_streets_to_table(ongoing_streets)
-
-        done_count = 0
-        for result in done_streets:
-            number_ranges = util.get_housenumber_ranges(result[1])
-            done_count += len(number_ranges)
-        if done_count > 0 or todo_count > 0:
-            percent = "%.2f" % (done_count / (done_count + todo_count) * 100)
-        else:
-            percent = "100.00"
-
-        # Write the bottom line to a file, so the index page show it fast.
-        with self.get_files().get_housenumbers_percent_write_stream(self.__ctx) as stream:
-            stream.write(util.to_bytes(percent))
-
-        return len(ongoing_streets), todo_count, done_count, percent, table
+    def get_additional_housenumbers(self) -> util.NumberedStreets:
+        """
+        Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
+        Return value is a list of streets.
+        Each of of these is a pair of a street name and a house number list.
+        """
+        return self.rust.get_additional_housenumbers()
 
     def write_additional_housenumbers(self) -> Tuple[int, int, List[List[yattag.Doc]]]:
         """
         Calculate and write stat for the unexpected house number coverage of a relation.
         Returns a tuple of: todo street count, todo count and table.
         """
-        ongoing_streets = self.get_additional_housenumbers()
-
-        table, todo_count = self.numbered_streets_to_table(ongoing_streets)
-
-        # Write the street count to a file, so the index page show it fast.
-        with self.get_files().get_housenumbers_additional_count_write_stream(self.__ctx) as stream:
-            stream.write(util.to_bytes(str(todo_count)))
-
-        return len(ongoing_streets), todo_count, table
+        return self.rust.write_additional_housenumbers()
 
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
-        with open(os.path.join(self.__ctx.get_abspath("data"), "street-housenumbers-template.txt")) as stream:
-            return util.process_template(stream.read(), self.get_config().get_osmrelation())
+        return self.rust.get_osm_housenumbers_query()
 
     def get_invalid_refstreets(self) -> Tuple[List[str], List[str]]:
         """Returns invalid osm names and ref names."""
-        osm_invalids: List[str] = []
-        ref_invalids: List[str] = []
-        refstreets = self.get_config().get_refstreets()
-        osm_streets = [i.get_osm_name() for i in self.get_osm_streets(sorted_result=True)]
-        for osm_name, ref_name in refstreets.items():
-            if osm_name not in osm_streets:
-                osm_invalids.append(osm_name)
-            if ref_name in osm_streets:
-                ref_invalids.append(ref_name)
-        return osm_invalids, ref_invalids
+        return self.rust.get_invalid_refstreets()
 
     def get_invalid_filter_keys(self) -> List[str]:
         """Returns invalid filter key names (street not in OSM)."""
@@ -242,38 +168,6 @@ class Relation:
             if key not in osm_streets:
                 invalids.append(key)
         return invalids
-
-    def get_additional_housenumbers(self) -> util.NumberedStreets:
-        """
-        Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
-        Return value is a list of streets.
-        Each of of these is a pair of a street name and a house number list.
-        """
-        additional = []
-
-        osm_street_names = self.get_osm_streets(sorted_result=True)
-        all_ref_house_numbers = self.get_ref_housenumbers()
-        streets_valid = self.get_street_valid()
-        config = self.get_config()
-        for osm_street in osm_street_names:
-            osm_street_name = osm_street.get_osm_name()
-            ref_house_numbers = all_ref_house_numbers[osm_street_name]
-            osm_house_numbers = self.get_osm_housenumbers(osm_street_name)
-
-            if osm_street_name in streets_valid.keys():
-                street_valid = streets_valid[osm_street_name]
-                osm_house_numbers = \
-                    [i for i in osm_house_numbers if not util.HouseNumber.is_invalid(i.get_number(), street_valid)]
-
-            only_in_osm = util.get_only_in_first(osm_house_numbers, ref_house_numbers)
-            ref_street_name = config.get_ref_street_from_osm_street(osm_street_name)
-            street = util.Street(osm_street_name, ref_street_name, self.should_show_ref_street(osm_street_name), osm_id=0)
-            if only_in_osm:
-                additional.append((street, only_in_osm))
-        # Sort by length.
-        additional.sort(key=lambda result: len(result[1]), reverse=True)
-
-        return additional
 
 
 class Relations:
@@ -385,8 +279,12 @@ class Relations:
         return ret
 
 
-normalize_housenumber_letters = rust.py_normalize_housenumber_letters
-normalize = rust.py_normalize
+def normalize(relation: rust.PyRelation, house_numbers: str, street_name: str,
+              street_is_even_odd: bool,
+              normalizers: Dict[str, rust.PyRanges]) -> List[rust.PyHouseNumber]:
+    """Strips down string input to bare minimum that can be interpreted as an
+    actual number. Think about a/b, a-b, and so on."""
+    return rust.py_normalize(relation, house_numbers, street_name, street_is_even_odd, normalizers)
 
 
 def make_turbo_query_for_streets(relation: Relation, streets: List[str]) -> str:
