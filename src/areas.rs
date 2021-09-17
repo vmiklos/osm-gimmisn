@@ -1348,6 +1348,7 @@ impl Relation {
 }
 
 #[pyclass]
+#[derive(Clone)]
 struct PyRelation {
     relation: Relation,
 }
@@ -1812,6 +1813,16 @@ impl Relations {
         Ok(self.relations.get(name).unwrap().clone())
     }
 
+    /// Sets a relation for testing.
+    fn set_relation(&mut self, name: &str, relation: &Relation) {
+        self.relations.insert(name.into(), relation.clone());
+    }
+
+    /// Delets a relation for testing.
+    fn delete_relation(&mut self, name: &str) {
+        self.dict.remove(name);
+    }
+
     /// Gets a sorted list of relation names.
     fn get_names(&self) -> Vec<String> {
         let mut ret: Vec<String> = self.dict.iter().map(|(key, _value)| key.into()).collect();
@@ -1867,6 +1878,11 @@ impl Relations {
             None => "".into(),
         }
     }
+
+    /// Sets if inactive=true is ignored or not.
+    fn activate_all(&mut self, activate_all: bool) {
+        self.activate_all = activate_all;
+    }
 }
 
 #[pyclass]
@@ -1906,6 +1922,14 @@ impl PyRelations {
         }
     }
 
+    fn set_relation(&mut self, name: &str, relation: PyRelation) {
+        self.relations.set_relation(name, &relation.relation)
+    }
+
+    fn delete_relation(&mut self, name: &str) {
+        self.relations.delete_relation(name)
+    }
+
     fn get_names(&self) -> Vec<String> {
         self.relations.get_names()
     }
@@ -1927,6 +1951,29 @@ impl PyRelations {
     fn refsettlement_get_name(&self, refcounty_name: &str, refsettlement: &str) -> String {
         self.relations
             .refsettlement_get_name(refcounty_name, refsettlement)
+    }
+
+    fn activate_all(&mut self, activate_all: bool) {
+        self.relations.activate_all(activate_all);
+    }
+
+    fn get_relations(&mut self) -> PyResult<Vec<PyRelation>> {
+        let ret = match self.relations.get_relations() {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                    "get_relations() failed: {}",
+                    err.to_string()
+                )));
+            }
+        };
+
+        Ok(ret
+            .iter()
+            .map(|i| PyRelation {
+                relation: i.clone(),
+            })
+            .collect::<Vec<PyRelation>>())
     }
 }
 
