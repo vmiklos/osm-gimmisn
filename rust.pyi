@@ -921,6 +921,34 @@ class PyRelations:
         """Gets the workdir directory path."""
         ...
 
+    def get_relation(self, name: str) -> PyRelation:
+        """Gets the relation that has the specified name."""
+        ...
+
+    def set_relation(self, name: str, relation: PyRelation) -> None:
+        """Sets a relation for testing."""
+        ...
+
+    def get_names(self) -> List[str]:
+        """Gets a sorted list of relation names."""
+        ...
+
+    def delete_relation(self, name: str) -> None:
+        """Deletes a relation for testing."""
+        ...
+
+    def get_active_names(self) -> List[str]:
+        """Gets a sorted list of active relation names."""
+        ...
+
+    def activate_all(self, flag: bool) -> None:
+        """Sets if inactive=true is ignored or not."""
+        ...
+
+    def get_relations(self) -> List[PyRelation]:
+        """Gets a list of relations."""
+        ...
+
 def py_normalize(relation: PyRelation, house_numbers: str, street_name: str,
               street_is_even_odd: bool,
               normalizers: Dict[str, PyRanges]) -> List[PyHouseNumber]:

@@ -26,12 +26,9 @@ Relation = rust.PyRelation
 class Relations:
     """A relations object is a container of named relation objects."""
     def __init__(self, ctx: context.Context) -> None:
-        self.__ctx = ctx
         with ctx.get_file_system().open_read(os.path.join(ctx.get_abspath("data"), "yamls.cache")) as stream:
             self.__yaml_cache: Dict[str, Any] = json.load(stream)
         self.__dict = self.__yaml_cache["relations.yaml"]
-        self.__relations: Dict[str, Relation] = {}
-        self.__activate_all = False
         self.__refcounty_names = self.__yaml_cache["refcounty-names.yaml"]
         self.__refsettlement_names = self.__yaml_cache["refsettlement-names.yaml"]
         self.rust = rust.PyRelations(ctx)
@@ -42,37 +39,27 @@ class Relations:
 
     def get_relation(self, name: str) -> Relation:
         """Gets the relation that has the specified name."""
-        if name not in self.__relations.keys():
-            if name not in self.__dict.keys():
-                self.__dict[name] = {}
-            self.__relations[name] = Relation(self.__ctx,
-                                              name,
-                                              json.dumps(self.__dict[name]),
-                                              json.dumps(self.__yaml_cache))
-        return self.__relations[name]
+        return self.rust.get_relation(name)
+
+    def set_relation(self, name: str, relation: rust.PyRelation) -> None:
+        """Sets a relation for testing."""
+        self.rust.set_relation(name, relation)
 
     def get_names(self) -> List[str]:
         """Gets a sorted list of relation names."""
-        return sorted(self.__dict.keys())
+        return self.rust.get_names()
 
     def get_active_names(self) -> List[str]:
         """Gets a sorted list of active relation names."""
-        ret: List[Relation] = []
-        for relation in self.get_relations():
-            if self.__activate_all or relation.get_config().is_active():
-                ret.append(relation)
-        return sorted([relation.get_name() for relation in ret])
+        return self.rust.get_active_names()
 
     def get_relations(self) -> List[Relation]:
         """Gets a list of relations."""
-        ret: List[Relation] = []
-        for name in self.get_names():
-            ret.append(self.get_relation(name))
-        return ret
+        return self.rust.get_relations()
 
     def activate_all(self, flag: bool) -> None:
         """Sets if inactive=true is ignored or not."""
-        self.__activate_all = flag
+        self.rust.activate_all(flag)
 
     def limit_to_refcounty(self, refcounty: Optional[str]) -> None:
         """If refcounty is not None, forget about all relations outside that refcounty."""
@@ -83,6 +70,7 @@ class Relations:
             if relation.get_config().get_refcounty() == refcounty:
                 continue
             del self.__dict[relation_name]
+            self.rust.delete_relation(relation_name)
 
     def limit_to_refsettlement(self, refsettlement: Optional[str]) -> None:
         """If refsettlement is not None, forget about all relations outside that refsettlement."""
@@ -93,6 +81,7 @@ class Relations:
             if relation.get_config().get_refsettlement() == refsettlement:
                 continue
             del self.__dict[relation_name]
+            self.rust.delete_relation(relation_name)
 
     def refcounty_get_name(self, refcounty: str) -> str:
         """Produces a UI name for a refcounty."""

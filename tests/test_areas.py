@@ -727,7 +727,6 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
     def test_interpolation_all(self) -> None:
         """Tests the case when the street is interpolation=all and coloring is wanted."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
         file_system = test_context.TestFileSystem()
         percent_value = io.BytesIO()
         percent_value.__setattr__("close", lambda: None)
@@ -736,6 +735,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
+        relations = areas.Relations(ctx)
         relation_name = "budafok"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_housenumbers()
@@ -750,7 +750,6 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
     def test_sorting(self) -> None:
         """Tests that sorting is performed after range reduction."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
         file_system = test_context.TestFileSystem()
         percent_value = io.BytesIO()
         percent_value.__setattr__("close", lambda: None)
@@ -759,6 +758,7 @@ class TestRelationWriteMissingHouseNumbers(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
+        relations = areas.Relations(ctx)
         relation_name = "gh414"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_housenumbers()
@@ -777,7 +777,6 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
         file_system = test_context.TestFileSystem()
         percent_value = io.BytesIO()
         percent_value.__setattr__("close", lambda: None)
@@ -786,6 +785,7 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
+        relations = areas.Relations(ctx)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         expected = util.get_content(relations.get_workdir() + "/gazdagret-streets.percent")
@@ -801,7 +801,6 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
     def test_empty(self) -> None:
         """Tests the case when percent can't be determined."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
         file_system = test_context.TestFileSystem()
         percent_value = io.BytesIO()
         percent_value.__setattr__("close", lambda: None)
@@ -810,6 +809,7 @@ class TestRelationWriteMissingStreets(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
+        relations = areas.Relations(ctx)
         relation_name = "empty"
         relation = relations.get_relation(relation_name)
         ret = relation.write_missing_streets()
@@ -880,9 +880,6 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
         refpath2 = os.path.join(refdir, "hazszamok_kieg_20190808.tsv")
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
-        relation_name = "gazdagret"
-        expected = util.get_content(relations.get_workdir() + "/street-housenumbers-reference-gazdagret.lst")
         file_system = test_context.TestFileSystem()
         ref_value = io.BytesIO()
         ref_value.__setattr__("close", lambda: None)
@@ -891,6 +888,9 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
+        relations = areas.Relations(ctx)
+        relation_name = "gazdagret"
+        expected = util.get_content(relations.get_workdir() + "/street-housenumbers-reference-gazdagret.lst")
         relation = relations.get_relation(relation_name)
 
         relation.write_ref_housenumbers([refpath, refpath2])
