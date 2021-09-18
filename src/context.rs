@@ -100,6 +100,7 @@ impl PyIterProtocol for PyReadIter {
 /// File-like object, wrapping a Read.
 #[pyclass]
 pub struct PyRead {
+    /// The underlying Rust Read.
     pub read: Arc<Mutex<dyn Read + Send>>,
 }
 
@@ -160,6 +161,7 @@ impl PyIterProtocol for PyRead {
 /// File-like object, wrapping a Write.
 #[pyclass]
 pub struct PyWrite {
+    /// The underlying Rust Write.
     pub write: Arc<Mutex<dyn Write + Send>>,
 }
 
@@ -197,8 +199,9 @@ impl PyWrite {
 }
 
 /// Write implementation, backed by Python.
-struct PyAnyWrite {
-    write: Py<PyAny>,
+pub struct PyAnyWrite {
+    /// The underlying Python object.
+    pub write: Py<PyAny>,
 }
 
 impl Write for PyAnyWrite {
@@ -782,6 +785,7 @@ impl Ini {
     }
 }
 
+/// Python wrapper around a Rust Ini.
 #[pyclass]
 pub struct PyIni {
     ini: Ini,
@@ -882,7 +886,8 @@ pub struct Context {
 }
 
 impl Context {
-    fn new(prefix: &str) -> anyhow::Result<Self> {
+    /// Creates a new Context.
+    pub fn new(prefix: &str) -> anyhow::Result<Self> {
         let root_dir = env!("CARGO_MANIFEST_DIR");
         let root = Path::new(&root_dir)
             .join(&prefix)
@@ -921,10 +926,12 @@ impl Context {
             .to_string())
     }
 
+    /// Gets the ini file.
     pub fn get_ini(&self) -> &Ini {
         &self.ini
     }
 
+    /// Gets the network implementation.
     pub fn get_network(&self) -> &Arc<dyn Network> {
         &self.network
     }
@@ -957,6 +964,7 @@ impl Context {
         self.unit = unit.clone();
     }
 
+    /// Gets the file system implementation.
     pub fn get_file_system(&self) -> &Arc<dyn FileSystem> {
         &self.file_system
     }
@@ -967,7 +975,9 @@ impl Context {
 }
 
 #[pyclass]
+/// Python wrapper around a Rust Context.
 pub struct PyContext {
+    /// The underlying Rust Context.
     pub context: Context,
 }
 
@@ -1056,6 +1066,7 @@ impl PyContext {
     }
 }
 
+/// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyIni>()?;
     module.add_class::<PyContext>()?;

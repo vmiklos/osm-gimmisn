@@ -16,8 +16,9 @@ use pyo3::prelude::*;
 mod accept_language;
 mod area_files;
 mod areas;
-mod context;
+pub mod context;
 mod i18n;
+pub mod missing_housenumbers;
 mod overpass_query;
 mod ranges;
 mod util;
@@ -26,11 +27,12 @@ mod yattag;
 
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
-    areas::register_python_symbols(m)?;
     accept_language::register_python_symbols(m)?;
     area_files::register_python_symbols(m)?;
+    areas::register_python_symbols(m)?;
     context::register_python_symbols(m)?;
     i18n::register_python_symbols(m)?;
+    missing_housenumbers::register_python_symbols(m)?;
     overpass_query::register_python_symbols(m)?;
     ranges::register_python_symbols(m)?;
     util::register_python_symbols(m)?;
