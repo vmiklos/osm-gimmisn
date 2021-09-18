@@ -933,10 +933,6 @@ class PyRelations:
         """Gets a sorted list of relation names."""
         ...
 
-    def delete_relation(self, name: str) -> None:
-        """Deletes a relation for testing."""
-        ...
-
     def get_active_names(self) -> List[str]:
         """Gets a sorted list of active relation names."""
         ...
@@ -947,6 +943,22 @@ class PyRelations:
 
     def get_relations(self) -> List[PyRelation]:
         """Gets a list of relations."""
+        ...
+
+    def limit_to_refcounty(self, refcounty: Optional[str]) -> None:
+        """If refcounty is not None, forget about all relations outside that refcounty."""
+        ...
+
+    def limit_to_refsettlement(self, refsettlement: Optional[str]) -> None:
+        """If refsettlement is not None, forget about all relations outside that refsettlement."""
+        ...
+
+    def refcounty_get_name(self, refcounty: str) -> str:
+        """Produces a UI name for a refcounty."""
+        ...
+
+    def refcounty_get_refsettlement_ids(self, refcounty_name: str) -> List[str]:
+        """Produces refsettlement IDs of a refcounty."""
         ...
 
 def py_normalize(relation: PyRelation, house_numbers: str, street_name: str,

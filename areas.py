@@ -28,8 +28,6 @@ class Relations:
     def __init__(self, ctx: context.Context) -> None:
         with ctx.get_file_system().open_read(os.path.join(ctx.get_abspath("data"), "yamls.cache")) as stream:
             self.__yaml_cache: Dict[str, Any] = json.load(stream)
-        self.__dict = self.__yaml_cache["relations.yaml"]
-        self.__refcounty_names = self.__yaml_cache["refcounty-names.yaml"]
         self.__refsettlement_names = self.__yaml_cache["refsettlement-names.yaml"]
         self.rust = rust.PyRelations(ctx)
 
@@ -63,40 +61,19 @@ class Relations:
 
     def limit_to_refcounty(self, refcounty: Optional[str]) -> None:
         """If refcounty is not None, forget about all relations outside that refcounty."""
-        if not refcounty:
-            return
-        for relation_name in list(self.__dict.keys()):
-            relation = self.get_relation(relation_name)
-            if relation.get_config().get_refcounty() == refcounty:
-                continue
-            del self.__dict[relation_name]
-            self.rust.delete_relation(relation_name)
+        self.rust.limit_to_refcounty(refcounty)
 
     def limit_to_refsettlement(self, refsettlement: Optional[str]) -> None:
         """If refsettlement is not None, forget about all relations outside that refsettlement."""
-        if not refsettlement:
-            return
-        for relation_name in list(self.__dict.keys()):
-            relation = self.get_relation(relation_name)
-            if relation.get_config().get_refsettlement() == refsettlement:
-                continue
-            del self.__dict[relation_name]
-            self.rust.delete_relation(relation_name)
+        self.rust.limit_to_refsettlement(refsettlement)
 
     def refcounty_get_name(self, refcounty: str) -> str:
         """Produces a UI name for a refcounty."""
-        if refcounty in self.__refcounty_names:
-            return cast(str, self.__refcounty_names[refcounty])
-
-        return ""
+        return self.rust.refcounty_get_name(refcounty)
 
     def refcounty_get_refsettlement_ids(self, refcounty_name: str) -> List[str]:
         """Produces refsettlement IDs of a refcounty."""
-        if refcounty_name not in self.__refsettlement_names:
-            return []
-
-        refcounty = self.__refsettlement_names[refcounty_name]
-        return list(refcounty.keys())
+        return self.rust.refcounty_get_refsettlement_ids(refcounty_name)
 
     def refsettlement_get_name(self, refcounty_name: str, refsettlement: str) -> str:
         """Produces a UI name for a refsettlement in refcounty."""
