@@ -1818,11 +1818,6 @@ impl Relations {
         self.relations.insert(name.into(), relation.clone());
     }
 
-    /// Delets a relation for testing.
-    fn delete_relation(&mut self, name: &str) {
-        self.dict.remove(name);
-    }
-
     /// Gets a sorted list of relation names.
     fn get_names(&self) -> Vec<String> {
         let mut ret: Vec<String> = self.dict.iter().map(|(key, _value)| key.into()).collect();
@@ -1883,6 +1878,61 @@ impl Relations {
     fn activate_all(&mut self, activate_all: bool) {
         self.activate_all = activate_all;
     }
+
+    /// If refcounty is not None, forget about all relations outside that refcounty.
+    fn limit_to_refcounty(&mut self, refcounty: &Option<String>) -> anyhow::Result<()> {
+        let refcounty: String = match refcounty {
+            Some(value) => value.clone(),
+            None => {
+                return Ok(());
+            }
+        };
+        let relation_names: Vec<String> =
+            self.dict.iter().map(|(key, _value)| key.clone()).collect();
+        for relation_name in relation_names {
+            let relation = self.get_relation(&relation_name)?;
+            if relation.config.get_refcounty() == refcounty {
+                continue;
+            }
+            self.dict.remove(&relation_name);
+        }
+
+        Ok(())
+    }
+
+    /// If refsettlement is not None, forget about all relations outside that refsettlement.
+    fn limit_to_refsettlement(&mut self, refsettlement: &Option<String>) -> anyhow::Result<()> {
+        let refsettlement: String = match refsettlement {
+            Some(value) => value.clone(),
+            None => {
+                return Ok(());
+            }
+        };
+        let relation_names: Vec<String> =
+            self.dict.iter().map(|(key, _value)| key.clone()).collect();
+        for relation_name in relation_names {
+            let relation = self.get_relation(&relation_name)?;
+            if relation.config.get_refsettlement() == refsettlement {
+                continue;
+            }
+            self.dict.remove(&relation_name);
+        }
+
+        Ok(())
+    }
+
+    /// Produces refsettlement IDs of a refcounty.
+    fn refcounty_get_refsettlement_ids(&self, refcounty_name: &str) -> Vec<String> {
+        let refcounty = match self.refsettlement_names.get(refcounty_name) {
+            Some(value) => value,
+            None => {
+                return Vec::new();
+            }
+        };
+        let mut ret: Vec<String> = refcounty.iter().map(|(key, _value)| key.clone()).collect();
+        ret.sort();
+        ret
+    }
 }
 
 #[pyclass]
@@ -1926,10 +1976,6 @@ impl PyRelations {
         self.relations.set_relation(name, &relation.relation)
     }
 
-    fn delete_relation(&mut self, name: &str) {
-        self.relations.delete_relation(name)
-    }
-
     fn get_names(&self) -> Vec<String> {
         self.relations.get_names()
     }
@@ -1957,6 +2003,26 @@ impl PyRelations {
         self.relations.activate_all(activate_all);
     }
 
+    fn limit_to_refcounty(&mut self, refcounty: Option<String>) -> PyResult<()> {
+        match self.relations.limit_to_refcounty(&refcounty) {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "limit_to_refcounty() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
+    fn limit_to_refsettlement(&mut self, refsettlement: Option<String>) -> PyResult<()> {
+        match self.relations.limit_to_refsettlement(&refsettlement) {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "limit_to_refsettlement() failed: {}",
+                err.to_string()
+            ))),
+        }
+    }
+
     fn get_relations(&mut self) -> PyResult<Vec<PyRelation>> {
         let ret = match self.relations.get_relations() {
             Ok(value) => value,
@@ -1974,6 +2040,11 @@ impl PyRelations {
                 relation: i.clone(),
             })
             .collect::<Vec<PyRelation>>())
+    }
+
+    fn refcounty_get_refsettlement_ids(&self, refcounty_name: &str) -> Vec<String> {
+        self.relations
+            .refcounty_get_refsettlement_ids(refcounty_name)
     }
 }
 
