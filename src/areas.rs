@@ -492,7 +492,7 @@ impl PyRelationConfig {
 
 /// A relation is a closed polygon on the map.
 #[derive(Clone)]
-struct Relation {
+pub struct Relation {
     ctx: crate::context::Context,
     name: String,
     file: crate::area_files::RelationFiles,
@@ -975,7 +975,7 @@ impl Relation {
     /// Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
     /// Return value is a pair of ongoing and done streets.
     /// Each of of these is a pair of a street name and a house number list.
-    fn get_missing_housenumbers(
+    pub fn get_missing_housenumbers(
         &mut self,
     ) -> anyhow::Result<(crate::util::NumberedStreets, crate::util::NumberedStreets)> {
         let mut ongoing_streets = Vec::new();
@@ -1723,7 +1723,7 @@ impl PyRelation {
 }
 
 /// A relations object is a container of named relation objects.
-struct Relations {
+pub struct Relations {
     workdir: String,
     ctx: crate::context::Context,
     yaml_cache: serde_json::Map<String, serde_json::Value>,
@@ -1735,7 +1735,7 @@ struct Relations {
 }
 
 impl Relations {
-    fn new(ctx: &crate::context::Context) -> anyhow::Result<Self> {
+    pub fn new(ctx: &crate::context::Context) -> anyhow::Result<Self> {
         let workdir = ctx.get_ini().get_workdir()?;
         let stream = ctx.get_file_system().open_read(&format!(
             "{}/{}",
@@ -1796,7 +1796,7 @@ impl Relations {
     }
 
     /// Gets the relation that has the specified name.
-    fn get_relation(&mut self, name: &str) -> anyhow::Result<Relation> {
+    pub fn get_relation(&mut self, name: &str) -> anyhow::Result<Relation> {
         if !self.relations.contains_key(name) {
             if !self.dict.contains_key(name) {
                 self.dict.insert(name.into(), serde_json::json!({}));

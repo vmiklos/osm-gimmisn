@@ -99,7 +99,7 @@ impl HouseNumberRange {
     }
 
     /// Returns the house number (range) string.
-    fn get_number(&self) -> &String {
+    pub fn get_number(&self) -> &String {
         &self.number
     }
 
@@ -730,7 +730,7 @@ impl PyCsvRead {
 }
 
 /// Splits house_number into a numerical and a remainder part.
-fn split_house_number(house_number: &str) -> (i32, String) {
+pub fn split_house_number(house_number: &str) -> (i32, String) {
     let mut number = 0;
     let mut remainder: String = "".into();
     if let Some(cap) = NUMBER_WITH_REMAINDER.captures_iter(house_number).next() {

@@ -11,7 +11,7 @@ import unittest
 
 import test_context
 
-import missing_housenumbers
+import rust
 
 
 class TestMain(unittest.TestCase):
@@ -19,12 +19,13 @@ class TestMain(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         argv = ["", "gh195"]
-        buf = io.StringIO()
+        buf = io.BytesIO()
+        buf.__setattr__("close", lambda: None)
         ctx = test_context.make_test_context()
-        missing_housenumbers.main(argv, buf, ctx)
+        rust.py_missing_housenumbers_main(argv, buf, ctx)
 
         buf.seek(0)
-        self.assertEqual(buf.read(), "Kalotaszeg utca\t3\n['25', '27-37', '31*']\n")
+        self.assertEqual(buf.read(), b'Kalotaszeg utca\t3\n["25", "27-37", "31*"]\n')
 
 
 if __name__ == '__main__':

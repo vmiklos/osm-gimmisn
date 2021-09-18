@@ -24,7 +24,6 @@ PYTHON_SAFE_OBJECTS = \
 	cache_yamls.py \
 	context.py \
 	cron.py \
-	missing_housenumbers.py \
 	parse_access_log.py \
 	stats.py \
 	util.py \
@@ -70,11 +69,13 @@ TS_OBJECTS = \
 
 RS_OBJECTS = \
 	src/accept_language.rs \
-	src/areas.rs \
 	src/area_files.rs \
+	src/areas.rs \
+	src/bin/missing_housenumbers.rs \
 	src/context.rs \
 	src/i18n.rs \
 	src/lib.rs \
+	src/missing_housenumbers.rs \
 	src/overpass_query.rs \
 	src/ranges.rs \
 	src/util.rs \
@@ -90,7 +91,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: rust.so target/release/missing_housenumbers builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f config.ts
@@ -113,7 +114,10 @@ rust.so: target/release/librust.so
 	ln -sf target/release/librust.so rust.so
 
 target/release/librust.so: Cargo.toml $(RS_OBJECTS)
-	cargo build --release
+	cargo build --lib --release
+
+target/release/missing_housenumbers: Cargo.toml $(RS_OBJECTS)
+	cargo build --bin missing_housenumbers --release --no-default-features
 
 check-rustunit: Cargo.toml $(RS_OBJECTS)
 	cargo test --lib --no-default-features

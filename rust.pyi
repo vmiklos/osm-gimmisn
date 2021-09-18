@@ -956,4 +956,8 @@ def py_normalize(relation: PyRelation, house_numbers: str, street_name: str,
     actual number. Think about a/b, a-b, and so on."""
     ...
 
+def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
+    """Commandline interface."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

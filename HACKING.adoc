@@ -68,7 +68,7 @@ env PYTHONPATH=.:tests python3 -m unittest tests.test_areas.TestRelationGetOsmHo
 Enable symbols in Cargo.toml, then:
 
 ----
-valgrind --tool=callgrind python3 ./missing_housenumbers.py budapest_11
+valgrind --tool=callgrind target/release/missing_housenumbers budapest_11
 ----
 
 == YAML schema
