@@ -82,6 +82,14 @@ RS_OBJECTS = \
 	src/version.rs \
 	src/yattag.rs \
 
+ifdef RSDEBUG
+CARGO_OPTIONS =
+TARGET_PATH = debug
+else
+CARGO_OPTIONS = --release
+TARGET_PATH = release
+endif
+
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
 	QUIET_MSGFMT = @echo '   ' MSGMFT $@;
@@ -91,7 +99,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: rust.so target/release/missing_housenumbers builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: rust.so target/${TARGET_PATH}/missing_housenumbers builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
 
 clean:
 	rm -f config.ts
@@ -108,19 +116,19 @@ check-rustfmt: Cargo.toml $(RS_OBJECTS)
 	cargo fmt -- --check && touch $@
 
 check-clippy: Cargo.toml $(RS_OBJECTS)
-	cargo clippy && touch $@
+	cargo clippy ${CARGO_OPTIONS} && touch $@
 
-rust.so: target/release/librust.so
-	ln -sf target/release/librust.so rust.so
+rust.so: target/${TARGET_PATH}/librust.so
+	ln -sf target/${TARGET_PATH}/librust.so rust.so
 
-target/release/librust.so: Cargo.toml $(RS_OBJECTS)
-	cargo build --lib --release
+target/${TARGET_PATH}/librust.so: Cargo.toml $(RS_OBJECTS)
+	cargo build --lib ${CARGO_OPTIONS}
 
-target/release/missing_housenumbers: Cargo.toml $(RS_OBJECTS)
-	cargo build --bin missing_housenumbers --release --no-default-features
+target/${TARGET_PATH}/missing_housenumbers: Cargo.toml $(RS_OBJECTS)
+	cargo build --bin missing_housenumbers ${CARGO_OPTIONS} --no-default-features
 
 check-rustunit: Cargo.toml $(RS_OBJECTS)
-	cargo test --lib --no-default-features
+	cargo test --lib --no-default-features ${CARGO_OPTIONS}
 
 config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@

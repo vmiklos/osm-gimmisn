@@ -16,6 +16,6 @@ if [ -n "${GITHUB_WORKFLOW}" ]; then
     sudo apt-get install gettext
 fi
 pip install -r requirements.txt
-make -j$(getconf _NPROCESSORS_ONLN) check
+make -j$(getconf _NPROCESSORS_ONLN) check RSDEBUG=1
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
