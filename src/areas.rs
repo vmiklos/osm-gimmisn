@@ -1933,6 +1933,21 @@ impl Relations {
         ret.sort();
         ret
     }
+
+    /// Provide an alias -> real name map of relations.
+    fn get_aliases(&mut self) -> anyhow::Result<HashMap<String, String>> {
+        let mut ret: HashMap<String, String> = HashMap::new();
+        for relation in self.get_relations()? {
+            let aliases = relation.config.get_alias();
+            if !aliases.is_empty() {
+                let name = relation.get_name();
+                for alias in aliases {
+                    ret.insert(alias, name.clone());
+                }
+            }
+        }
+        Ok(ret)
+    }
 }
 
 #[pyclass]
@@ -2045,6 +2060,16 @@ impl PyRelations {
     fn refcounty_get_refsettlement_ids(&self, refcounty_name: &str) -> Vec<String> {
         self.relations
             .refcounty_get_refsettlement_ids(refcounty_name)
+    }
+
+    fn get_aliases(&mut self) -> PyResult<HashMap<String, String>> {
+        match self.relations.get_aliases() {
+            Ok(value) => Ok(value),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "get_aliases() failed: {}",
+                err.to_string()
+            ))),
+        }
     }
 }
 

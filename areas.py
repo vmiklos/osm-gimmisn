@@ -6,96 +6,16 @@
 
 """The areas module contains the Relations class and associated functionality."""
 
-import os
-from typing import Any
 from typing import Dict
 from typing import List
-from typing import Optional
-from typing import cast
-import json
 
-import context
 import rust
 import util
 
 
 RelationConfig = rust.PyRelationConfig
 Relation = rust.PyRelation
-
-
-class Relations:
-    """A relations object is a container of named relation objects."""
-    def __init__(self, ctx: context.Context) -> None:
-        with ctx.get_file_system().open_read(os.path.join(ctx.get_abspath("data"), "yamls.cache")) as stream:
-            self.__yaml_cache: Dict[str, Any] = json.load(stream)
-        self.__refsettlement_names = self.__yaml_cache["refsettlement-names.yaml"]
-        self.rust = rust.PyRelations(ctx)
-
-    def get_workdir(self) -> str:
-        """Gets the workdir directory path."""
-        return self.rust.get_workdir()
-
-    def get_relation(self, name: str) -> Relation:
-        """Gets the relation that has the specified name."""
-        return self.rust.get_relation(name)
-
-    def set_relation(self, name: str, relation: rust.PyRelation) -> None:
-        """Sets a relation for testing."""
-        self.rust.set_relation(name, relation)
-
-    def get_names(self) -> List[str]:
-        """Gets a sorted list of relation names."""
-        return self.rust.get_names()
-
-    def get_active_names(self) -> List[str]:
-        """Gets a sorted list of active relation names."""
-        return self.rust.get_active_names()
-
-    def get_relations(self) -> List[Relation]:
-        """Gets a list of relations."""
-        return self.rust.get_relations()
-
-    def activate_all(self, flag: bool) -> None:
-        """Sets if inactive=true is ignored or not."""
-        self.rust.activate_all(flag)
-
-    def limit_to_refcounty(self, refcounty: Optional[str]) -> None:
-        """If refcounty is not None, forget about all relations outside that refcounty."""
-        self.rust.limit_to_refcounty(refcounty)
-
-    def limit_to_refsettlement(self, refsettlement: Optional[str]) -> None:
-        """If refsettlement is not None, forget about all relations outside that refsettlement."""
-        self.rust.limit_to_refsettlement(refsettlement)
-
-    def refcounty_get_name(self, refcounty: str) -> str:
-        """Produces a UI name for a refcounty."""
-        return self.rust.refcounty_get_name(refcounty)
-
-    def refcounty_get_refsettlement_ids(self, refcounty_name: str) -> List[str]:
-        """Produces refsettlement IDs of a refcounty."""
-        return self.rust.refcounty_get_refsettlement_ids(refcounty_name)
-
-    def refsettlement_get_name(self, refcounty_name: str, refsettlement: str) -> str:
-        """Produces a UI name for a refsettlement in refcounty."""
-        if refcounty_name not in self.__refsettlement_names:
-            return ""
-
-        refcounty = self.__refsettlement_names[refcounty_name]
-        if refsettlement not in refcounty:
-            return ""
-
-        return cast(str, refcounty[refsettlement])
-
-    def get_aliases(self) -> Dict[str, str]:
-        """Provide an alias -> real name map of relations."""
-        ret: Dict[str, str] = {}
-        for relation in self.get_relations():
-            aliases = relation.get_config().get_alias()
-            if aliases:
-                name = relation.get_name()
-                for alias in aliases:
-                    ret[alias] = name
-        return ret
+Relations = rust.PyRelations
 
 
 def normalize(relation: rust.PyRelation, house_numbers: str, street_name: str,
