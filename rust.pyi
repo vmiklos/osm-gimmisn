@@ -961,6 +961,14 @@ class PyRelations:
         """Produces refsettlement IDs of a refcounty."""
         ...
 
+    def refsettlement_get_name(self, refcounty_name: str, refsettlement: str) -> str:
+        """Produces a UI name for a refsettlement in refcounty."""
+        ...
+
+    def get_aliases(self) -> Dict[str, str]:
+        """Provide an alias -> real name map of relations."""
+        ...
+
 def py_normalize(relation: PyRelation, house_numbers: str, street_name: str,
               street_is_even_odd: bool,
               normalizers: Dict[str, PyRanges]) -> List[PyHouseNumber]:
