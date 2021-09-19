@@ -6,6 +6,7 @@ street-filters:
   - Rákosszentmihály MÁV pályaudvar
   # megváltozott a neve, több szakaszra bomlott
   - Városligeti körút
+  - Vajdahunyadvár  # https://www.openstreetmap.org/node/4685641019
 osm-street-filters:
   # létezik, de nem utcaként
   - Adria park
@@ -23,7 +24,6 @@ osm-street-filters:
   - Piknik Park
   - Promenád
   - Vajdahunyad sétány
-  - Vajdahunyadvár  # https://www.openstreetmap.org/node/4685641019
   - Vakok kertje
   - Városliget
   - Vasúti átjáró
@@ -37,20 +37,9 @@ osm-street-filters:
   - Tapló köz
   # IV. kerület
   - Madridi utca
-  # X. kerület
-  - Gépmadár utca
-  - Pilisi utca
-  - Százados út
   # XIII. kerület
   - Kámfor utca
-  - Róbert Károly körút
   - Szent László út
-  # XV. kerület
-  - Rákospalotai körvasút sor
-  # XVI. kerület
-  - Budapesti út
-  - Körvasút sor
-  - Szolnoki út
   # vegyes
   - építési forgalom
   - Iskola zug
