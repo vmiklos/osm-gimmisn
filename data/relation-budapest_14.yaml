@@ -41,6 +41,9 @@ osm-street-filters:
   # XIII. kerület
   - Kámfor utca
   - Szent László út
+  # XVI. kerület
+  - Körvasút sor
+  - Szolnoki út
   # vegyes
   - építési forgalom
   - Iskola zug
