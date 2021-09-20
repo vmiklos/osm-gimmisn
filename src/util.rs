@@ -530,8 +530,13 @@ impl HouseNumber {
 
 impl Diff for HouseNumber {
     fn get_diff_key(&self) -> String {
-        let re = regex::Regex::new(r"\*$").unwrap();
-        re.replace(&self.number, "").to_string()
+        if self.number.ends_with('*') {
+            let mut chars = self.number.chars();
+            chars.next_back();
+            return chars.as_str().into();
+        }
+
+        self.number.clone()
     }
 }
 
