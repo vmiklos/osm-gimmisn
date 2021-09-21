@@ -2154,44 +2154,6 @@ fn normalize(
         .collect())
 }
 
-#[pyfunction]
-fn py_normalize(
-    relation: PyObject,
-    house_numbers: String,
-    street_name: String,
-    street_is_even_odd: bool,
-    normalizers: HashMap<String, PyObject>,
-) -> PyResult<Vec<crate::util::PyHouseNumber>> {
-    let gil = Python::acquire_gil();
-    let py_relation: PyRefMut<'_, PyRelation> = relation.extract(gil.python())?;
-    let mut py_normalizers: HashMap<String, crate::ranges::Ranges> = HashMap::new();
-    for (key, value) in normalizers.iter() {
-        let py_ranges: PyRefMut<'_, crate::ranges::PyRanges> = value.extract(gil.python())?;
-        py_normalizers.insert(key.into(), py_ranges.ranges.clone());
-    }
-    let ret = match normalize(
-        &py_relation.relation,
-        &house_numbers,
-        &street_name,
-        street_is_even_odd,
-        &py_normalizers,
-    ) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "normalize() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok(ret
-        .iter()
-        .map(|i| crate::util::PyHouseNumber {
-            house_number: i.clone(),
-        })
-        .collect())
-}
-
 /// Handles the part of normalize() that deals with housenumber letters.
 fn normalize_housenumber_letters(
     relation: &Relation,
@@ -2210,10 +2172,405 @@ fn normalize_housenumber_letters(
     )])
 }
 
+/// Creates an overpass query that shows all streets from a missing housenumbers table.
+fn make_turbo_query_for_streets(relation: &Relation, streets: &[String]) -> String {
+    let header = r#"[out:json][timeout:425];
+rel(@RELATION@)->.searchRelation;
+area(@AREA@)->.searchArea;
+(rel(@RELATION@);
+"#;
+    let mut query = crate::util::process_template(header, relation.config.get_osmrelation());
+    for street in streets {
+        query += &format!("way[\"name\"=\"{}\"](r.searchRelation);\n", street);
+        query += &format!("way[\"name\"=\"{}\"](area.searchArea);\n", street);
+    }
+    query += r#");
+out body;
+>;
+out skel qt;
+{{style:
+relation{width:3}
+way{color:blue; width:4;}
+}}"#;
+    query
+}
+
+#[pyfunction]
+fn py_make_turbo_query_for_streets(relation: PyRelation, streets: Vec<String>) -> String {
+    make_turbo_query_for_streets(&relation.relation, &streets)
+}
+
+/// Creates an overpass query that shows all streets from a list.
+fn make_turbo_query_for_street_objs(
+    relation: &Relation,
+    streets: &[crate::util::Street],
+) -> String {
+    let header = r#"[out:json][timeout:425];
+rel(@RELATION@)->.searchRelation;
+area(@AREA@)->.searchArea;
+("#;
+    let mut query = crate::util::process_template(header, relation.config.get_osmrelation());
+    let mut ids = Vec::new();
+    for street in streets {
+        ids.push((street.get_osm_type(), street.get_osm_id().to_string()));
+    }
+    ids.sort();
+    ids.dedup();
+    for (osm_type, osm_id) in ids {
+        query += &format!("{}({});\n", osm_type, osm_id);
+    }
+    query += r#");
+out body;
+>;
+out skel qt;"#;
+    query
+}
+
+#[pyfunction]
+fn py_make_turbo_query_for_street_objs(relation: PyRelation, streets: Vec<PyObject>) -> String {
+    let gil = Python::acquire_gil();
+    let streets: Vec<crate::util::Street> = streets
+        .iter()
+        .map(|i| {
+            let street: PyRefMut<'_, crate::util::PyStreet> = i.extract(gil.python()).unwrap();
+            street.street.clone()
+        })
+        .collect();
+    make_turbo_query_for_street_objs(&relation.relation, &streets)
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyRelationConfig>()?;
     module.add_class::<PyRelation>()?;
     module.add_class::<PyRelations>()?;
-    module.add_function(pyo3::wrap_pyfunction!(py_normalize, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_make_turbo_query_for_streets,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_make_turbo_query_for_street_objs,
+        module
+    )?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Tests normalize().
+    #[test]
+    fn test_normalize() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "139",
+            "Budaörsi út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["139"])
+    }
+
+    /// Tests normalize: when the number is not in range.
+    #[test]
+    fn test_normalize_not_in_range() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "999",
+            "Budaörsi út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        assert_eq!(house_numbers.is_empty(), true);
+    }
+
+    /// Tests normalize: the case when the house number is not a number.
+    #[test]
+    fn test_normalize_not_a_number() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "x",
+            "Budaörsi út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        assert_eq!(house_numbers.is_empty(), true);
+    }
+
+    /// Tests normalize: the case when there is no filter for this street.
+    #[test]
+    fn test_normalize_nofilter() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "1",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["1"])
+    }
+
+    /// Tests normalize: the case when ';' is a separator.
+    #[test]
+    fn test_normalize_separator_semicolon() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "1;2",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["1", "2"])
+    }
+
+    /// Tests normalize: the 2-6 case means implicit 4.
+    #[test]
+    fn test_normalize_separator_interval() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "2-6",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["2", "4", "6"])
+    }
+
+    /// Tests normalize: the 5-8 case: means just 5 and 8 as the parity doesn't match.
+    #[test]
+    fn test_normalize_separator_interval_parity() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "5-8",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["5", "8"])
+    }
+
+    /// Tests normalize: the 2-5 case: means implicit 3 and 4 (interpolation=all).
+    #[test]
+    fn test_normalize_separator_interval_interp_all() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Hamzsabégi út");
+        let house_numbers = normalize(
+            &relation,
+            "2-5",
+            "Hamzsabégi út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["2", "3", "4", "5"])
+    }
+
+    /// Tests normalize: the case where x-y is partially filtered out.
+    #[test]
+    fn test_normalize_separator_interval_filter() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        // filter is 137-165
+        let house_numbers = normalize(
+            &relation,
+            "163-167",
+            "Budaörsi út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        // Make sure there is no 167.
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["163", "165"])
+    }
+
+    /// Tests normalize: the case where x-y is nonsense: y is too large.
+    #[test]
+    fn test_normalize_separator_interval_block() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "2-2000",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        // Make sure that we simply ignore 2000: it's larger than the default <998 filter and the
+        // 2-2000 range would be too large.
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["2"])
+    }
+
+    /// Tests normalize: the case where x-y is nonsense: y-x is too large.
+    #[test]
+    fn test_normalize_separator_interval_block2() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "2-56",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        // No expansions for 4, 6, etc.
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["2", "56"])
+    }
+
+    /// Tests normalize: the case where x-y is nonsense: x is 0.
+    #[test]
+    fn test_normalize_separator_interval_block3() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "0-42",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        // No expansion like 0, 2, 4, etc.
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["42"])
+    }
+
+    /// Tests normalize: the case where x-y is only partially useful: x is OK, but y is a suffix.
+    #[test]
+    fn test_normalize_separator_interval_block4() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "42-1",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        // No "1", just "42".
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["42"])
+    }
+
+    /// Tests normalize: the * suffix is preserved.
+    #[test]
+    fn test_normalize_keep_suffix() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "1*",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["1*"]);
+        let house_numbers = normalize(
+            &relation,
+            "2",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, vec!["2"]);
+    }
+
+    /// Tests normalize: the case when ',' is a separator.
+    #[test]
+    fn test_normalize_separator_comma() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let normalizers = relation.get_street_ranges();
+        let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
+        let house_numbers = normalize(
+            &relation,
+            "2,6",
+            "Budaörs út",
+            street_is_even_odd,
+            &normalizers,
+        )
+        .unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        // Same as ";", no 4.
+        assert_eq!(actual, vec!["2", "6"]);
+    }
 }

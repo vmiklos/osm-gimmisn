@@ -237,7 +237,7 @@ impl Street {
     }
 
     /// Returns the OSM (way) id.
-    fn get_osm_id(&self) -> u64 {
+    pub fn get_osm_id(&self) -> u64 {
         self.osm_id
     }
 
@@ -247,7 +247,7 @@ impl Street {
     }
 
     /// Returns the OSM type, e.g. 'way'.
-    fn get_osm_type(&self) -> &String {
+    pub fn get_osm_type(&self) -> &String {
         &self.osm_type
     }
 
@@ -1515,7 +1515,7 @@ fn py_get_housenumber_ranges(
 }
 
 /// Generates a HTML link based on a website prefix and a git-describe version.
-fn git_link(version: &str, prefix: &str) -> crate::yattag::Doc {
+pub fn git_link(version: &str, prefix: &str) -> crate::yattag::Doc {
     let mut commit_hash: String = "".into();
     if let Some(cap) = GIT_HASH.captures_iter(version).next() {
         commit_hash = cap[1].into();

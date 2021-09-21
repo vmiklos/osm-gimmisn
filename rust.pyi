@@ -117,10 +117,6 @@ def py_parse(raw_languages: str) -> List[str]:
     """
     ...
 
-def py_get_version() -> str:
-    """Gets the git version."""
-    ...
-
 class PyStdFileSystem(api.FileSystem):
     """File system implementation, backed by the Rust stdlib."""
     def __init__(self) -> None:
@@ -969,15 +965,24 @@ class PyRelations:
         """Provide an alias -> real name map of relations."""
         ...
 
-def py_normalize(relation: PyRelation, house_numbers: str, street_name: str,
-              street_is_even_odd: bool,
-              normalizers: Dict[str, PyRanges]) -> List[PyHouseNumber]:
-    """Strips down string input to bare minimum that can be interpreted as an
-    actual number. Think about a/b, a-b, and so on."""
+def py_make_turbo_query_for_streets(relation: PyRelation, streets: List[str]) -> str:
+    """Creates an overpass query that shows all streets from a missing housenumbers table."""
+    ...
+
+def py_make_turbo_query_for_street_objs(relation: PyRelation, streets: List[PyStreet]) -> str:
+    """Creates an overpass query that shows all streets from a list."""
     ...
 
 def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
     """Commandline interface."""
+    ...
+
+def py_get_footer(last_updated: str) -> PyDoc:
+    """Produces the end of the page."""
+    ...
+
+def py_fill_header_function(ctx: PyContext, function: str, relation_name: str, items: List[PyDoc]) -> List[PyDoc]:
+    """Fills items with function-specific links in the header. Returns the extended list."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

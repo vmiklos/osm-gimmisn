@@ -35,77 +35,14 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def get_footer(last_updated: str = "") -> yattag.Doc:
+def get_footer(last_updated: str) -> yattag.Doc:
     """Produces the end of the page."""
-    items: List[yattag.Doc] = []
-    doc = yattag.Doc()
-    doc.text(tr("Version: "))
-    doc.append_value(util.git_link(rust.py_get_version(), "https://github.com/vmiklos/osm-gimmisn/commit/").get_value())
-    items.append(doc)
-    items.append(yattag.Doc.from_text(tr("OSM data © OpenStreetMap contributors.")))
-    if last_updated:
-        items.append(yattag.Doc.from_text(tr("Last update: ") + last_updated))
-    doc = yattag.Doc()
-    doc.stag("hr", [])
-    with doc.tag("div", []):
-        for index, item in enumerate(items):
-            if index:
-                doc.text(" ¦ ")
-            doc.append_value(item.get_value())
-    return doc
+    return rust.py_get_footer(last_updated)
 
 
-def fill_header_function(ctx: context.Context, function: str, relation_name: str, items: List[yattag.Doc]) -> None:
-    """Fills items with function-specific links in the header. Returns a title."""
-    prefix = ctx.get_ini().get_uri_prefix()
-    if function == "missing-housenumbers":
-        # The OSM data source changes much more frequently than the ref one, so add a dedicated link
-        # to update OSM house numbers first.
-        doc = yattag.Doc()
-        with doc.tag("span", [("id", "trigger-street-housenumbers-update")]):
-            with doc.tag("a", [("href", prefix + "/street-housenumbers/" + relation_name + "/update-result")]):
-                doc.text(tr("Update from OSM"))
-        items.append(doc)
-
-        doc = yattag.Doc()
-        with doc.tag("span", [("id", "trigger-missing-housenumbers-update")]):
-            with doc.tag("a", [("href", prefix + "/missing-housenumbers/" + relation_name + "/update-result")]):
-                doc.text(tr("Update from reference"))
-        items.append(doc)
-    elif function in ("missing-streets", "additional-streets"):
-        # The OSM data source changes much more frequently than the ref one, so add a dedicated link
-        # to update OSM streets first.
-        doc = yattag.Doc()
-        with doc.tag("span", [("id", "trigger-streets-update")]):
-            with doc.tag("a", [("href", prefix + "/streets/" + relation_name + "/update-result")]):
-                doc.text(tr("Update from OSM"))
-        items.append(doc)
-
-        doc = yattag.Doc()
-        with doc.tag("span", [("id", "trigger-missing-streets-update")]):
-            with doc.tag("a", [("href", prefix + "/missing-streets/" + relation_name + "/update-result")]):
-                doc.text(tr("Update from reference"))
-        items.append(doc)
-    elif function == "street-housenumbers":
-        doc = yattag.Doc()
-        with doc.tag("span", [("id", "trigger-street-housenumbers-update")]):
-            with doc.tag("a", [("href", prefix + "/street-housenumbers/" + relation_name + "/update-result")]):
-                doc.text(tr("Call Overpass to update"))
-        items.append(doc)
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", prefix + "/street-housenumbers/" + relation_name + "/view-query")]):
-            doc.text(tr("View query"))
-        items.append(doc)
-    elif function == "streets":
-        doc = yattag.Doc()
-        with doc.tag("span", [("id", "trigger-streets-update")]):
-            with doc.tag("a", [("href", prefix + "/streets/" + relation_name + "/update-result")]):
-                doc.text(tr("Call Overpass to update"))
-        items.append(doc)
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", prefix + "/streets/" + relation_name + "/view-query")]):
-            doc.text(tr("View query"))
-        items.append(doc)
+def fill_header_function(ctx: context.Context, function: str, relation_name: str, items: List[yattag.Doc]) -> List[yattag.Doc]:
+    """Fills items with function-specific links in the header. Returns the extended list."""
+    return rust.py_fill_header_function(ctx, function, relation_name, items)
 
 
 def fill_missing_header_items(
@@ -184,7 +121,7 @@ def get_toolbar(
     if relation_name:
         fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
 
-    fill_header_function(ctx, function, relation_name, items)
+    items = fill_header_function(ctx, function, relation_name, items)
 
     if relation_name:
         fill_existing_header_items(ctx, streets, relation_name, items)
@@ -405,7 +342,7 @@ def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) 
         doc.text(tr("""These statistics are estimates, not taking house number filters into account.
 Only cities with house numbers in OSM are considered."""))
 
-    doc.append_value(get_footer().get_value())
+    doc.append_value(get_footer(last_updated=str()).get_value())
     return doc
 
 
@@ -430,7 +367,7 @@ def handle_invalid_refstreets(ctx: context.Context, relations: areas.Relations) 
         doc.append_value(util.invalid_refstreets_to_html(osm_invalids, ref_invalids).get_value())
         doc.append_value(util.invalid_filter_keys_to_html(key_invalids).get_value())
 
-    doc.append_value(get_footer().get_value())
+    doc.append_value(get_footer(last_updated=str()).get_value())
     return doc
 
 
@@ -526,7 +463,7 @@ intended to reflect quality of work done by any given editor in OSM. If you want
 them to motivate yourself, that's fine, but keep in mind that a bit of useful work is
 more meaningful than a lot of useless work."""))
 
-    doc.append_value(get_footer().get_value())
+    doc.append_value(get_footer(last_updated=str()).get_value())
     return doc
 
 
