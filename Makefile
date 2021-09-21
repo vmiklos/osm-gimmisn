@@ -79,8 +79,11 @@ RS_OBJECTS = \
 	src/overpass_query.rs \
 	src/ranges.rs \
 	src/util.rs \
-	src/version.rs \
+	src/webframe.rs \
 	src/yattag.rs \
+
+# Source local config if it's there.
+-include config.mak
 
 ifdef RSDEBUG
 CARGO_OPTIONS =
@@ -127,7 +130,7 @@ target/${TARGET_PATH}/librust.so: Cargo.toml $(RS_OBJECTS)
 target/${TARGET_PATH}/missing_housenumbers: Cargo.toml $(RS_OBJECTS)
 	cargo build --bin missing_housenumbers ${CARGO_OPTIONS} --no-default-features
 
-check-rustunit: Cargo.toml $(RS_OBJECTS)
+check-rustunit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata
 	cargo test --lib --no-default-features ${CARGO_OPTIONS}
 
 config.ts: wsgi.ini Makefile
@@ -223,7 +226,7 @@ else
 	./deploy.sh
 endif
 
-update-pot: cache.py webframe.py wsgi.py wsgi_additional.py src/areas.rs src/util.rs Makefile
+update-pot: cache.py webframe.py wsgi.py wsgi_additional.py src/areas.rs src/util.rs src/webframe.rs Makefile
 	xgettext --keyword=tr --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py %.rs,$^)
 
 update-po: po/osm-gimmisn.pot Makefile

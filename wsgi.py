@@ -796,7 +796,7 @@ def handle_main(request_uri: str, ctx: context.Context, relations: areas.Relatio
         with doc.tag("a", [("href", "https://github.com/vmiklos/osm-gimmisn/tree/master/doc")]):
             doc.text(tr("Add new area"))
 
-    doc.append_value(webframe.get_footer().get_value())
+    doc.append_value(webframe.get_footer(last_updated=str()).get_value())
     return doc
 
 

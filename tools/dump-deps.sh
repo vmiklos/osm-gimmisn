@@ -26,6 +26,9 @@ do
             util)
                 continue
             ;;
+            areas)
+                continue
+            ;;
             yattag)
                 continue
             ;;

@@ -22,7 +22,7 @@ pub mod missing_housenumbers;
 mod overpass_query;
 mod ranges;
 mod util;
-mod version;
+mod webframe;
 mod yattag;
 
 #[pymodule]
@@ -36,7 +36,7 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     overpass_query::register_python_symbols(m)?;
     ranges::register_python_symbols(m)?;
     util::register_python_symbols(m)?;
-    version::register_python_symbols(m)?;
+    webframe::register_python_symbols(m)?;
     yattag::register_python_symbols(m)?;
     Ok(())
 }

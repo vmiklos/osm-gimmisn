@@ -754,7 +754,7 @@ impl Ini {
     }
 
     /// Gets the global URI prefix.
-    fn get_uri_prefix(&self) -> anyhow::Result<String> {
+    pub fn get_uri_prefix(&self) -> anyhow::Result<String> {
         self.config
             .get("wsgi", "uri_prefix")
             .ok_or_else(|| anyhow!("cannot get key uri_prefix"))
@@ -975,6 +975,7 @@ impl Context {
 }
 
 #[pyclass]
+#[derive(Clone)]
 /// Python wrapper around a Rust Context.
 pub struct PyContext {
     /// The underlying Rust Context.
@@ -1071,4 +1072,14 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyIni>()?;
     module.add_class::<PyContext>()?;
     Ok(())
+}
+
+#[cfg(test)]
+pub mod tests {
+    use super::*;
+
+    /// Creates a Context instance for text purposes.
+    pub fn make_test_context() -> anyhow::Result<Context> {
+        Ok(Context::new("tests")?)
+    }
 }
