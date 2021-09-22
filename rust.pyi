@@ -981,8 +981,26 @@ def py_get_footer(last_updated: str) -> PyDoc:
     """Produces the end of the page."""
     ...
 
-def py_fill_header_function(ctx: PyContext, function: str, relation_name: str, items: List[PyDoc]) -> List[PyDoc]:
-    """Fills items with function-specific links in the header. Returns the extended list."""
+def py_fill_missing_header_items(
+    ctx: PyContext,
+    streets: str,
+    additional_housenumbers: bool,
+    relation_name: str,
+    items: List[PyDoc]
+) -> List[PyDoc]:
+    """Generates the 'missing house numbers/streets' part of the header."""
+    ...
+
+def py_get_toolbar(
+        ctx: PyContext,
+        relations: Optional[PyRelations],
+        function: str,
+        relation_name: str,
+        relation_osmid: int
+) -> PyDoc:
+    """Produces the start of the page. Note that the content depends on the function and the
+    relation, but not on the action to keep a balance between too generic and too specific
+    content."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

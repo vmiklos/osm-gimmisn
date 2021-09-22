@@ -40,135 +40,28 @@ def get_footer(last_updated: str) -> yattag.Doc:
     return rust.py_get_footer(last_updated)
 
 
-def fill_header_function(ctx: context.Context, function: str, relation_name: str, items: List[yattag.Doc]) -> List[yattag.Doc]:
-    """Fills items with function-specific links in the header. Returns the extended list."""
-    return rust.py_fill_header_function(ctx, function, relation_name, items)
-
-
 def fill_missing_header_items(
     ctx: context.Context,
     streets: str,
     additional_housenumbers: bool,
     relation_name: str,
     items: List[yattag.Doc]
-) -> None:
+) -> List[yattag.Doc]:
     """Generates the 'missing house numbers/streets' part of the header."""
-    prefix = ctx.get_ini().get_uri_prefix()
-    if streets != "only":
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", prefix + "/missing-housenumbers/" + relation_name + "/view-result")]):
-            doc.text(tr("Missing house numbers"))
-        items.append(doc)
-
-        if additional_housenumbers:
-            doc = yattag.Doc()
-            with doc.tag("a", [("href", prefix + "/additional-housenumbers/" + relation_name + "/view-result")]):
-                doc.text(tr("Additional house numbers"))
-            items.append(doc)
-    if streets != "no":
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", prefix + "/missing-streets/" + relation_name + "/view-result")]):
-            doc.text(tr("Missing streets"))
-        items.append(doc)
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", prefix + "/additional-streets/" + relation_name + "/view-result")]):
-            doc.text(tr("Additional streets"))
-        items.append(doc)
-
-
-def fill_existing_header_items(
-    ctx: context.Context,
-    streets: str,
-    relation_name: str,
-    items: List[yattag.Doc]
-) -> None:
-    """Generates the 'existing house numbers/streets' part of the header."""
-    prefix = ctx.get_ini().get_uri_prefix()
-    if streets != "only":
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", prefix + "/street-housenumbers/" + relation_name + "/view-result")]):
-            doc.text(tr("Existing house numbers"))
-        items.append(doc)
-
-    doc = yattag.Doc()
-    with doc.tag("a", [("href", prefix + "/streets/" + relation_name + "/view-result")]):
-        doc.text(tr("Existing streets"))
-    items.append(doc)
+    return rust.py_fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
 
 
 def get_toolbar(
         ctx: context.Context,
-        relations: Optional[areas.Relations] = None,
-        function: str = "",
-        relation_name: str = "",
-        relation_osmid: int = 0
+        relations: Optional[areas.Relations],
+        function: str,
+        relation_name: str,
+        relation_osmid: int
 ) -> yattag.Doc:
     """Produces the start of the page. Note that the content depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
-    items: List[yattag.Doc] = []
-
-    if relations and relation_name:
-        relation = relations.get_relation(relation_name)
-        streets = relation.get_config().should_check_missing_streets()
-        additional_housenumbers = relation.get_config().should_check_additional_housenumbers()
-
-    doc = yattag.Doc()
-    with doc.tag("a", [("href", ctx.get_ini().get_uri_prefix() + "/")]):
-        doc.text(tr("Area list"))
-    items.append(doc)
-
-    if relation_name:
-        fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
-
-    items = fill_header_function(ctx, function, relation_name, items)
-
-    if relation_name:
-        fill_existing_header_items(ctx, streets, relation_name, items)
-
-    doc = yattag.Doc()
-
-    # Emit localized strings for JS purposes.
-    with doc.tag("div", [("style", "display: none;")]):
-        string_pairs = [
-            ("str-toolbar-overpass-wait", tr("Waiting for Overpass...")),
-            ("str-toolbar-overpass-error", tr("Error from Overpass: ")),
-            ("str-toolbar-reference-wait", tr("Creating from reference...")),
-            ("str-toolbar-reference-error", tr("Error from reference: ")),
-        ]
-        for key, value in string_pairs:
-            with doc.tag("div", [("id", key), ("data-value", value)]):
-                pass
-
-    with doc.tag("a", [("href", "https://overpass-turbo.eu/")]):
-        doc.text(tr("Overpass turbo"))
-    items.append(doc)
-
-    if relation_osmid:
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", "https://www.openstreetmap.org/relation/" + str(relation_osmid))]):
-            doc.text(tr("Area boundary"))
-        items.append(doc)
-    else:
-        # These are on the main page only.
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", ctx.get_ini().get_uri_prefix() + "/housenumber-stats/hungary/")]):
-            doc.text(tr("Statistics"))
-        items.append(doc)
-
-        doc = yattag.Doc()
-        with doc.tag("a", [("href", "https://github.com/vmiklos/osm-gimmisn/tree/master/doc")]):
-            doc.text(tr("Documentation"))
-        items.append(doc)
-
-    doc = yattag.Doc()
-    with doc.tag("div", [("id", "toolbar")]):
-        for index, item in enumerate(items):
-            if index:
-                doc.text(" ¦ ")
-            doc.append_value(item.get_value())
-    doc.stag("hr", [])
-    return doc
+    return rust.py_get_toolbar(ctx, relations, function, relation_name, relation_osmid)
 
 
 def handle_static(ctx: context.Context, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
@@ -292,7 +185,7 @@ def format_timestamp(timestamp: float) -> str:
 def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress."""
     doc = yattag.Doc()
-    doc.append_value(get_toolbar(ctx, relations).get_value())
+    doc.append_value(get_toolbar(ctx, relations, function=str(), relation_name=str(), relation_osmid=0).get_value())
 
     ref_citycounts: Dict[str, int] = {}
     with open(ctx.get_ini().get_reference_citycounts_path(), "r") as stream:
@@ -349,7 +242,7 @@ Only cities with house numbers in OSM are considered."""))
 def handle_invalid_refstreets(ctx: context.Context, relations: areas.Relations) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
     doc = yattag.Doc()
-    doc.append_value(get_toolbar(ctx, relations).get_value())
+    doc.append_value(get_toolbar(ctx, relations, function=str(), relation_name=str(), relation_osmid=0).get_value())
 
     prefix = ctx.get_ini().get_uri_prefix()
     for relation in relations.get_relations():
@@ -380,7 +273,7 @@ def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: 
         return handle_invalid_refstreets(ctx, relations)
 
     doc = yattag.Doc()
-    doc.append_value(get_toolbar(ctx, relations).get_value())
+    doc.append_value(get_toolbar(ctx, relations, function=str(), relation_name=str(), relation_osmid=0).get_value())
 
     prefix = ctx.get_ini().get_uri_prefix()
 

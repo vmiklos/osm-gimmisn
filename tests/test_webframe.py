@@ -120,7 +120,7 @@ class TestFillMissingHeaderItems(unittest.TestCase):
         items: List[yattag.Doc] = []
         additional_housenumbers = True
         ctx = test_context.make_test_context()
-        webframe.fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
+        items = webframe.fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
         html = items[0].get_value()
         self.assertIn("Missing house numbers", html)
         self.assertNotIn("Missing streets", html)
