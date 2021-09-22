@@ -92,6 +92,7 @@ else
 CARGO_OPTIONS = --release
 TARGET_PATH = release
 endif
+CARGO_OPTIONS += --color always
 
 ifndef V
 	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
@@ -114,6 +115,7 @@ clean:
 	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
 check: all check-filters check-flake8 check-mypy check-unit check-rustunit check-pylint check-eslint check-rustfmt check-clippy
+	@echo "make check: ok"
 
 check-rustfmt: Cargo.toml $(RS_OBJECTS)
 	cargo fmt -- --check && touch $@

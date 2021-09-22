@@ -23,7 +23,7 @@ use std::sync::Mutex;
 
 /// A relation configuration comes directly from static data, not a result of some external query.
 #[derive(Clone)]
-struct RelationConfig {
+pub struct RelationConfig {
     parent: serde_json::Value,
     dict: serde_json::Value,
 }
@@ -107,7 +107,7 @@ impl RelationConfig {
     }
 
     /// Return value can be 'yes', 'no' and 'only'.
-    fn should_check_missing_streets(&self) -> String {
+    pub fn should_check_missing_streets(&self) -> String {
         match self.get_property("missing-streets") {
             Some(value) => value.as_str().unwrap().into(),
             None => "yes".into(),
@@ -131,7 +131,7 @@ impl RelationConfig {
     }
 
     /// Do we care if 42 is in OSM when it's not in the ref?
-    fn should_check_additional_housenumbers(&self) -> bool {
+    pub fn should_check_additional_housenumbers(&self) -> bool {
         match self.get_property("additional-housenumbers") {
             Some(value) => value.as_bool().unwrap(),
             None => false,
@@ -539,7 +539,7 @@ impl Relation {
     }
 
     /// Gets access to the config interface.
-    fn get_config(&self) -> RelationConfig {
+    pub fn get_config(&self) -> RelationConfig {
         self.config.clone()
     }
 
@@ -1723,6 +1723,7 @@ impl PyRelation {
 }
 
 /// A relations object is a container of named relation objects.
+#[derive(Clone)]
 pub struct Relations {
     workdir: String,
     ctx: crate::context::Context,
@@ -1951,8 +1952,9 @@ impl Relations {
 }
 
 #[pyclass]
-struct PyRelations {
-    relations: Relations,
+#[derive(Clone)]
+pub struct PyRelations {
+    pub relations: Relations,
 }
 
 #[pymethods]

@@ -777,7 +777,7 @@ def handle_main(request_uri: str, ctx: context.Context, relations: areas.Relatio
     filter_for, refcounty = setup_main_filter_for(request_uri)
 
     doc = yattag.Doc()
-    doc.append_value(webframe.get_toolbar(ctx, relations).get_value())
+    doc.append_value(webframe.get_toolbar(ctx, relations, function=str(), relation_name=str(), relation_osmid=0).get_value())
 
     doc.append_value(handle_main_filters(ctx, relations, refcounty).get_value())
     table = []
