@@ -1,8 +1,18 @@
 filters:
   Dr. Kiss Károly utca:
     show-refstreet: false
+  Kanizsa utca:
+    interpolation: 'all'
+  Köztársaság utca:
+    interpolation: 'all'
+  Pipacs sor:
+    interpolation: 'all'
   Szent László utca:
     show-refstreet: false
+  Vasút utca:
+    interpolation: 'all'
+  Vasúti sétány:
+    interpolation: 'all'
   Zrínyi Miklós utca:
     show-refstreet: false
 street-filters:
