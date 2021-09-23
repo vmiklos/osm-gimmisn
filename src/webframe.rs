@@ -13,6 +13,8 @@
 use crate::i18n::translate as tr;
 use git_version::git_version;
 use pyo3::prelude::*;
+use pyo3::types::PyBytes;
+use std::collections::HashMap;
 
 /// Produces the end of the page.
 fn get_footer(last_updated: &str) -> crate::yattag::Doc {
@@ -522,6 +524,224 @@ fn py_get_toolbar(
     Ok(crate::yattag::PyDoc { doc: ret })
 }
 
+type Headers = Vec<(String, String)>;
+
+/// Handles serving static content.
+fn handle_static(
+    ctx: &crate::context::Context,
+    request_uri: &str,
+) -> anyhow::Result<(Vec<u8>, String, Headers)> {
+    let mut tokens = request_uri.split('/');
+    let path = tokens.next_back().unwrap();
+    let extra_headers: Vec<(String, String)> = Vec::new();
+
+    if request_uri.ends_with(".js") {
+        let content_type = "application/x-javascript";
+        let (content, extra_headers) =
+            crate::util::get_content_with_meta(&ctx.get_abspath(&format!("builddir/{}", path))?)?;
+        return Ok((content, content_type.into(), extra_headers));
+    }
+    if request_uri.ends_with(".css") {
+        let content_type = "text/css";
+        let (content, extra_headers) = crate::util::get_content_with_meta(&format!(
+            "{}/{}",
+            ctx.get_ini().get_workdir()?,
+            path
+        ))?;
+        return Ok((content, content_type.into(), extra_headers));
+    }
+    if request_uri.ends_with(".json") {
+        let content_type = "application/json";
+        let (content, extra_headers) = crate::util::get_content_with_meta(&format!(
+            "{}/stats/{}",
+            ctx.get_ini().get_workdir()?,
+            path
+        ))?;
+        return Ok((content, content_type.into(), extra_headers));
+    }
+    if request_uri.ends_with(".ico") {
+        let content_type = "image/x-icon";
+        let (content, extra_headers) = crate::util::get_content_with_meta(&ctx.get_abspath(path)?)?;
+        return Ok((content, content_type.into(), extra_headers));
+    }
+    if request_uri.ends_with(".svg") {
+        let content_type = "image/svg+xml";
+        let (content, extra_headers) = crate::util::get_content_with_meta(&ctx.get_abspath(path)?)?;
+        return Ok((content, content_type.into(), extra_headers));
+    }
+
+    let bytes: Vec<u8> = Vec::new();
+    Ok((bytes, "".into(), extra_headers))
+}
+
+#[pyfunction]
+fn py_handle_static(
+    ctx: crate::context::PyContext,
+    request_uri: &str,
+) -> PyResult<(PyObject, String, Headers)> {
+    let (content, content_type, extra_headers) = match handle_static(&ctx.context, request_uri) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "handle_static() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+
+    let gil = Python::acquire_gil();
+    Ok((
+        PyBytes::new(gil.python(), &content).into(),
+        content_type,
+        extra_headers,
+    ))
+}
+
+/// A HTTP response, to be sent by send_response().
+#[derive(Clone)]
+struct Response {
+    content_type: String,
+    status: String,
+    output_bytes: Vec<u8>,
+    headers: Headers,
+}
+
+impl Response {
+    fn new(
+        content_type: &str,
+        status: &str,
+        output_bytes: &[u8],
+        headers: &[(String, String)],
+    ) -> Self {
+        Response {
+            content_type: content_type.into(),
+            status: status.into(),
+            output_bytes: output_bytes.to_vec(),
+            headers: headers.to_vec(),
+        }
+    }
+
+    /// Gets the Content-type value.
+    fn get_content_type(&self) -> &String {
+        &self.content_type
+    }
+
+    /// Gets the HTTP status.
+    fn get_status(&self) -> &String {
+        &self.status
+    }
+
+    /// Gets the encoded output.
+    fn get_output_bytes(&self) -> &Vec<u8> {
+        &self.output_bytes
+    }
+
+    /// Gets the HTTP headers.
+    fn get_headers(&self) -> &Headers {
+        &self.headers
+    }
+}
+
+#[pyclass]
+#[derive(Clone)]
+struct PyResponse {
+    response: Response,
+}
+
+#[pymethods]
+impl PyResponse {
+    #[new]
+    fn new(content_type: &str, status: &str, output_bytes: Vec<u8>, headers: Headers) -> Self {
+        let response = Response::new(content_type, status, &output_bytes, &headers);
+        PyResponse { response }
+    }
+
+    fn get_content_type(&self) -> String {
+        self.response.get_content_type().clone()
+    }
+
+    fn get_status(&self) -> String {
+        self.response.get_status().clone()
+    }
+
+    fn get_output_bytes(&self) -> PyObject {
+        let gil = Python::acquire_gil();
+        PyBytes::new(gil.python(), self.response.get_output_bytes()).into()
+    }
+
+    fn get_headers(&self) -> Headers {
+        self.response.get_headers().clone()
+    }
+}
+
+/// Turns an output string into a byte array and sends it.
+fn send_response(
+    environ: &HashMap<String, String>,
+    response: &Response,
+) -> anyhow::Result<(String, Headers, Vec<Vec<u8>>)> {
+    let mut content_type: String = response.get_content_type().into();
+    if content_type != "application/octet-stream" {
+        content_type.push_str("; charset=utf-8");
+    }
+
+    // Apply content encoding: gzip, etc.
+    let accept_encodings = environ.get("HTTP_ACCEPT_ENCODING");
+    let mut output_bytes = response.get_output_bytes().clone();
+    let mut headers: Vec<(String, String)> = Vec::new();
+    if let Some(value) = accept_encodings {
+        let request = rouille::Request::fake_http(
+            "GET",
+            "/",
+            vec![("Accept-Encoding".to_owned(), value.into())],
+            Vec::<u8>::new(),
+        );
+        let response = rouille::Response::from_data("application/x-javascript", output_bytes);
+        let compressed = rouille::content_encoding::apply(&request, response);
+        let (mut reader, _size) = compressed.data.into_reader_and_size();
+        let mut buffer = Vec::new();
+        reader.read_to_end(&mut buffer)?;
+        output_bytes = buffer;
+        let content_encodings: Vec<String> = compressed
+            .headers
+            .iter()
+            .filter(|(key, _value)| key == "Content-Encoding")
+            .map(|(_key, value)| value.to_string())
+            .collect();
+        if let Some(value) = content_encodings.get(0) {
+            headers.push(("Content-Encoding".into(), value.into()));
+        }
+    }
+    let content_length = output_bytes.len();
+    headers.push(("Content-type".into(), content_type));
+    headers.push(("Content-Length".into(), content_length.to_string()));
+    headers.append(&mut response.get_headers().clone());
+    let status = response.get_status();
+    Ok((status.into(), headers, vec![output_bytes]))
+}
+
+#[pyfunction]
+fn py_send_response(
+    environ: HashMap<String, String>,
+    response: PyResponse,
+) -> PyResult<(String, Headers, Vec<PyObject>)> {
+    let (status, headers, output_byte_list) = match send_response(&environ, &response.response) {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "send_response() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+
+    let gil = Python::acquire_gil();
+    let output_byte_list: Vec<PyObject> = output_byte_list
+        .iter()
+        .map(|i| PyBytes::new(gil.python(), i).into())
+        .collect();
+    Ok((status, headers, output_byte_list))
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_footer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -529,5 +749,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         module
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_toolbar, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_static, module)?)?;
+    module.add_class::<PyResponse>()?;
+    module.add_function(pyo3::wrap_pyfunction!(py_send_response, module)?)?;
     Ok(())
 }

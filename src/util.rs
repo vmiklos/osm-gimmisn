@@ -1685,7 +1685,7 @@ fn py_get_content(py: Python<'_>, path: String) -> PyResult<PyObject> {
 type HttpHeaders = Vec<(String, String)>;
 
 /// Gets the content of a file in workdir with metadata.
-fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, HttpHeaders)> {
+pub fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, HttpHeaders)> {
     let buf = get_content(path)?;
 
     let metadata = std::fs::metadata(path)?;
@@ -1694,23 +1694,6 @@ fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, HttpHeaders)> {
 
     let extra_headers = vec![("Last-Modified".to_string(), modified_utc.to_rfc2822())];
     Ok((buf, extra_headers))
-}
-
-#[pyfunction]
-fn py_get_content_with_meta(
-    py: Python<'_>,
-    path: String,
-) -> PyResult<(PyObject, Vec<(String, String)>)> {
-    let (buf, extra_headers) = match get_content_with_meta(&path) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_content_with_meta() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok((PyBytes::new(py, &buf).into(), extra_headers))
 }
 
 /// Determines the normalizer for a given street.
@@ -1967,7 +1950,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_sort_numerically, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_in_both, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_content_with_meta, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_city_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_sort_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_valid_settlements, module)?)?;

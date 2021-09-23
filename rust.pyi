@@ -522,10 +522,6 @@ def py_get_content(path: str) -> bytes:
     """Gets the content of a file in workdir."""
     ...
 
-def py_get_content_with_meta(path: str) -> Tuple[bytes, List[Tuple[str, str]]]:
-    """Gets the content of a file in workdir with metadata."""
-    ...
-
 def py_get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
     """Constructs a city name based on postcode the nominal city."""
     ...
@@ -1001,6 +997,38 @@ def py_get_toolbar(
     """Produces the start of the page. Note that the content depends on the function and the
     relation, but not on the action to keep a balance between too generic and too specific
     content."""
+    ...
+
+def py_handle_static(ctx: PyContext, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
+    """Handles serving static content."""
+    ...
+
+class PyResponse:
+    """A HTTP response, to be sent by send_response()."""
+    def __init__(self, content_type: str, status: str, output_bytes: bytes, headers: List[Tuple[str, str]]) -> None:
+        ...
+
+    def get_content_type(self) -> str:
+        """Gets the Content-type value."""
+        ...
+
+    def get_status(self) -> str:
+        """Gets the HTTP status."""
+        ...
+
+    def get_output_bytes(self) -> bytes:
+        """Gets the encoded output."""
+        ...
+
+    def get_headers(self) -> List[Tuple[str, str]]:
+        """Gets the HTTP headers."""
+        ...
+
+def py_send_response(
+        environ: Dict[str, str],
+        response: PyResponse
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
+    """Turns an output string into a byte array and sends it."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

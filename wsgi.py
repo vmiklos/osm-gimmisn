@@ -879,7 +879,10 @@ def our_application_txt(
             output = missing_housenumbers_view_txt(ctx, relations, request_uri)
     output_bytes = util.to_bytes(output)
     response_properties = webframe.Response(content_type, "200 OK", output_bytes, headers)
-    return webframe.send_response(environ, start_response, response_properties)
+    filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
+    status, headers, output_byte_list = webframe.send_response(filtered_environ, response_properties)
+    start_response(status, headers)
+    return output_byte_list
 
 
 HANDLERS = {
@@ -925,14 +928,19 @@ def our_application(
         if not (request_uri == "/" or request_uri.startswith(ctx.get_ini().get_uri_prefix())):
             doc = webframe.handle_404()
             response = webframe.Response("text/html", "404 Not Found", util.to_bytes(doc.get_value()), [])
-            return webframe.send_response(environ, start_response, response), str()
+            filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
+            status, headers, output_byte_list = webframe.send_response(filtered_environ, response)
+            start_response(status, headers)
+            return output_byte_list, str()
 
         if request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/static/") or \
                 request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
             output, content_type, headers = webframe.handle_static(ctx, request_uri)
-            return webframe.send_response(environ,
-                                          start_response,
-                                          webframe.Response(content_type, "200 OK", output, headers)), str()
+            filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
+            status, headers, output_byte_list = webframe.send_response(filtered_environ,
+                                                                       webframe.Response(content_type, "200 OK", output, headers))
+            start_response(status, headers)
+            return output_byte_list, str()
 
         if ext == "json":
             return wsgi_json.our_application_json(environ, start_response, ctx, relations, request_uri), str()
@@ -957,9 +965,11 @@ def our_application(
         err = ctx.get_unit().make_error()
         if err:
             return [], err
-        return webframe.send_response(environ,
-                                      start_response,
-                                      webframe.Response("text/html", "200 OK", util.to_bytes(doc.get_value()), [])), err
+        filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
+        status, headers, output_byte_list = webframe.send_response(filtered_environ,
+                                                                   webframe.Response("text/html", "200 OK", util.to_bytes(doc.get_value()), []))
+        start_response(status, headers)
+        return output_byte_list, err
     # pylint: disable=broad-except
     except Exception:  # pragma: no cover
         return [], traceback.format_exc()
