@@ -20,7 +20,6 @@ import json
 import os
 import time
 import urllib
-import xmlrpc.client
 
 import yattag
 
@@ -66,82 +65,18 @@ def get_toolbar(
 
 def handle_static(ctx: context.Context, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
-    tokens = request_uri.split("/")
-    path = tokens[-1]
-    extra_headers: List[Tuple[str, str]] = []
-
-    if request_uri.endswith(".js"):
-        content_type = "application/x-javascript"
-        content, extra_headers = util.get_content_with_meta(ctx.get_abspath("builddir/" + path))
-        return content, content_type, extra_headers
-    if request_uri.endswith(".css"):
-        content_type = "text/css"
-        content, extra_headers = util.get_content_with_meta(ctx.get_ini().get_workdir() + "/" + path)
-        return content, content_type, extra_headers
-    if request_uri.endswith(".json"):
-        content_type = "application/json"
-        content, extra_headers = util.get_content_with_meta(os.path.join(ctx.get_ini().get_workdir(), "stats/" + path))
-        return content, content_type, extra_headers
-    if request_uri.endswith(".ico"):
-        content_type = "image/x-icon"
-        content, extra_headers = util.get_content_with_meta(ctx.get_abspath(path))
-        return content, content_type, extra_headers
-    if request_uri.endswith(".svg"):
-        content_type = "image/svg+xml"
-        content, extra_headers = util.get_content_with_meta(ctx.get_abspath(path))
-        return content, content_type, extra_headers
-
-    return bytes(), "", extra_headers
+    return rust.py_handle_static(ctx, request_uri)
 
 
-class Response:
-    """A HTTP response, to be sent by send_response()."""
-    def __init__(self, content_type: str, status: str, output_bytes: bytes, headers: List[Tuple[str, str]]) -> None:
-        self.__content_type: str = content_type
-        self.__status: str = status
-        self.__output_bytes = output_bytes
-        self.__headers = headers
-
-    def get_content_type(self) -> str:
-        """Gets the Content-type value."""
-        return self.__content_type
-
-    def get_status(self) -> str:
-        """Gets the HTTP status."""
-        return self.__status
-
-    def get_output_bytes(self) -> bytes:
-        """Gets the encoded output."""
-        return self.__output_bytes
-
-    def get_headers(self) -> List[Tuple[str, str]]:
-        """Gets the HTTP headers."""
-        return self.__headers
+Response = rust.PyResponse
 
 
 def send_response(
-        environ: Dict[str, Any],
-        start_response: 'StartResponse',
+        environ: Dict[str, str],
         response: Response
-) -> Iterable[bytes]:
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
     """Turns an output string into a byte array and sends it."""
-    content_type = response.get_content_type()
-    if content_type != "application/octet-stream":
-        content_type += "; charset=utf-8"
-    accept_encodings = environ.get("HTTP_ACCEPT_ENCODING", "").split(",")
-    accepts_gzip = "gzip" in accept_encodings
-    output_bytes = response.get_output_bytes()
-    if accepts_gzip:
-        output_bytes = xmlrpc.client.gzip_encode(output_bytes)
-    content_length = len(output_bytes)
-    headers = [('Content-type', content_type),
-               ('Content-Length', str(content_length))]
-    if accepts_gzip:
-        headers.append(("Content-Encoding", "gzip"))
-    headers += response.get_headers()
-    status = response.get_status()
-    start_response(status, headers)
-    return [output_bytes]
+    return rust.py_send_response(environ, response)
 
 
 def handle_exception(
@@ -159,7 +94,10 @@ def handle_exception(
         doc.text(tr("Internal error when serving {0}").format(request_uri) + "\n")
         doc.text(error)
     response_properties = Response("text/html", status, util.to_bytes(doc.get_value()), [])
-    return send_response(environ, start_response, response_properties)
+    filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
+    status, headers, output_byte_list = send_response(filtered_environ, response_properties)
+    start_response(status, headers)
+    return output_byte_list
 
 
 def handle_404() -> yattag.Doc:

@@ -104,6 +104,8 @@ def our_application_json(
         output = missing_streets_update_result_json(ctx, relations, request_uri)
     output_bytes = util.to_bytes(output)
     response = webframe.Response(content_type, "200 OK", output_bytes, headers)
-    return webframe.send_response(environ, start_response, response)
+    status, headers, output_byte_list = webframe.send_response(environ, response)
+    start_response(status, headers)
+    return output_byte_list
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

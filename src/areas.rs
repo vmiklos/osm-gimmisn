@@ -534,13 +534,13 @@ impl Relation {
     }
 
     /// Gets access to the file interface.
-    fn get_files(&self) -> crate::area_files::RelationFiles {
-        self.file.clone()
+    fn get_files(&self) -> &crate::area_files::RelationFiles {
+        &self.file
     }
 
     /// Gets access to the config interface.
-    pub fn get_config(&self) -> RelationConfig {
-        self.config.clone()
+    pub fn get_config(&self) -> &RelationConfig {
+        &self.config
     }
 
     /// Sets the config interface.
@@ -1405,12 +1405,12 @@ impl PyRelation {
     }
 
     fn get_files(&self) -> crate::area_files::PyRelationFiles {
-        let relation_files = self.relation.get_files();
+        let relation_files = self.relation.get_files().clone();
         crate::area_files::PyRelationFiles { relation_files }
     }
 
     fn get_config(&self) -> PyRelationConfig {
-        let relation_config = self.relation.get_config();
+        let relation_config = self.relation.config.clone();
         PyRelationConfig { relation_config }
     }
 
@@ -2574,5 +2574,21 @@ mod tests {
         let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
         // Same as ";", no 4.
         assert_eq!(actual, vec!["2", "6"]);
+    }
+
+    /// Tests Relation.get_osm_streets().
+    #[test]
+    fn test_relation_get_osm_streets() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("test").unwrap();
+        let actual: Vec<String> = relation
+            .get_osm_streets(/*sorted_result=*/ true)
+            .unwrap()
+            .iter()
+            .map(|i| i.get_osm_name().clone())
+            .collect();
+        let expected: Vec<String> = vec!["B1".into(), "B2".into(), "HB1".into(), "HB2".into()];
+        assert_eq!(actual, expected);
     }
 }

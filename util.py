@@ -141,11 +141,6 @@ def get_content(path: str) -> bytes:
     return rust.py_get_content(path)
 
 
-def get_content_with_meta(path: str) -> Tuple[bytes, List[Tuple[str, str]]]:
-    """Gets the content of a file in workdir with metadata."""
-    return rust.py_get_content_with_meta(path)
-
-
 def get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
     """Constructs a city name based on postcode the nominal city."""
     return rust.py_get_city_key(postcode, city, valid_settlements)

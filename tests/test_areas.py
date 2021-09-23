@@ -24,14 +24,6 @@ import yattag
 
 class TestRelationGetOsmStreets(unittest.TestCase):
     """Tests Relation.get_osm_streets()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        relations = areas.Relations(test_context.make_test_context())
-        relation = relations.get_relation("test")
-        actual = [i.get_osm_name() for i in relation.get_osm_streets(sorted_result=True)]
-        expected = ['B1', 'B2', 'HB1', 'HB2']
-        self.assertEqual(actual, expected)
-
     def test_street_is_node(self) -> None:
         """Tests the case when the street name is coming from a house number (node)."""
         relations = areas.Relations(test_context.make_test_context())

@@ -25,6 +25,7 @@ itertools = "0.10.1"
 lazy_static = "1.4.0"
 regex = "1.5.4"
 reqwest = { version = "0.11.4", features = ["blocking"] }
+rouille = "3.3.1"
 rust_icu_ucol = "1.0.1"
 rust_icu_ustring = "1.0.1"
 serde = "1.0.129"
