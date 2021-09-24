@@ -467,7 +467,7 @@ impl Network for PyAnyNetwork {
 }
 
 /// Time interface.
-trait Time: Send + Sync {
+pub trait Time: Send + Sync {
     /// Calculates the current Unix timestamp from GMT.
     fn now(&self) -> i64;
 
@@ -940,7 +940,8 @@ impl Context {
         self.network = network.clone();
     }
 
-    fn get_time(&self) -> &Arc<dyn Time> {
+    /// Gets the time implementation.
+    pub fn get_time(&self) -> &Arc<dyn Time> {
         &self.time
     }
 

@@ -512,12 +512,6 @@ def py_sort_numerically(strings: List[PyHouseNumber]) -> List[PyHouseNumber]:
     """Sorts strings according to their numerical value, not alphabetically."""
     ...
 
-Diff = TypeVar("Diff", PyHouseNumber, PyStreet)
-
-def py_get_in_both(first: List[Diff], second: List[Diff]) -> List[Diff]:
-    """Returns items which are in both first and second."""
-    ...
-
 def py_get_content(path: str) -> bytes:
     """Gets the content of a file in workdir."""
     ...
@@ -1044,6 +1038,10 @@ def py_handle_404() -> PyDoc:
 
 def py_format_timestamp(timestamp: float) -> str:
     """Formats timestamp as UI date-time."""
+    ...
+
+def py_handle_stats(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
