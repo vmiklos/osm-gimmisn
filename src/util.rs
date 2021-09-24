@@ -33,8 +33,9 @@ use std::ops::DerefMut;
 
 lazy_static! {
     static ref NUMBER_PER_LETTER: regex::Regex =
-        regex::Regex::new(r"^([0-9]+)( |/)?[A-Za-z]$").unwrap();
-    static ref NUMBER_PER_NUMBER: regex::Regex = regex::Regex::new(r"^([0-9]+)/[0-9]$").unwrap();
+        regex::Regex::new(r"^([0-9]+)( |/)?([A-Za-z])$").unwrap();
+    static ref NUMBER_PER_NUMBER: regex::Regex =
+        regex::Regex::new(r"^([0-9]+)(/)([0-9])$").unwrap();
     static ref NUMBER_WITH_JUNK: regex::Regex = regex::Regex::new(r"([0-9]+).*").unwrap();
     static ref NUMBER_WITH_REMAINDER: regex::Regex =
         regex::Regex::new(r"^([0-9]*)([^0-9].*|)$").unwrap();
@@ -485,12 +486,11 @@ impl HouseNumber {
             house_number = house_number[..house_number.len() - source_suffix.len()].into();
         }
         // Check for letter suffix.
-        let re = regex::Regex::new(r"^([0-9]+)( |/)?([A-Za-z])$").unwrap();
-        let is_match = re.is_match(&house_number);
+        let is_match = NUMBER_PER_LETTER.is_match(&house_number);
         let mut digit_match = false;
         let mut groups: Vec<String> = Vec::new();
         if is_match {
-            if let Some(cap) = re.captures_iter(&house_number).next() {
+            if let Some(cap) = NUMBER_PER_LETTER.captures_iter(&house_number).next() {
                 for index in 1..=3 {
                     match cap.get(index) {
                         Some(_) => groups.push(cap[index].to_string()),
@@ -500,13 +500,12 @@ impl HouseNumber {
             }
         } else {
             // If not, then try digit suggfix, but then only '/' is OK as a separator.
-            let re = regex::Regex::new(r"^([0-9]+)(/)([0-9])$").unwrap();
-            let is_match = re.is_match(&house_number);
+            let is_match = NUMBER_PER_NUMBER.is_match(&house_number);
             digit_match = true;
             if !is_match {
                 return Err(anyhow!("ValueError"));
             }
-            if let Some(cap) = re.captures_iter(&house_number).next() {
+            if let Some(cap) = NUMBER_PER_NUMBER.captures_iter(&house_number).next() {
                 for index in 1..=3 {
                     match cap.get(index) {
                         Some(_) => groups.push(cap[index].to_string()),
