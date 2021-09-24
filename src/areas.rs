@@ -10,7 +10,13 @@
 
 //! The areas module contains the Relations class and associated functionality.
 
+use crate::area_files;
+use crate::context;
 use crate::i18n::translate as tr;
+use crate::ranges;
+use crate::util;
+use crate::yattag;
+use anyhow::Context;
 use itertools::Itertools;
 use pyo3::prelude::*;
 use std::collections::HashMap;
@@ -150,7 +156,7 @@ impl RelationConfig {
     fn get_letter_suffix_style(&self) -> i32 {
         match self.get_property("letter-suffix-style") {
             Some(value) => value.as_i64().unwrap() as i32,
-            None => crate::util::LetterSuffixStyle::Upper as i32,
+            None => util::LetterSuffixStyle::Upper as i32,
         }
     }
 
@@ -493,22 +499,22 @@ impl PyRelationConfig {
 /// A relation is a closed polygon on the map.
 #[derive(Clone)]
 pub struct Relation {
-    ctx: crate::context::Context,
+    ctx: context::Context,
     name: String,
-    file: crate::area_files::RelationFiles,
+    file: area_files::RelationFiles,
     config: RelationConfig,
-    osm_housenumbers: HashMap<String, Vec<crate::util::HouseNumber>>,
+    osm_housenumbers: HashMap<String, Vec<util::HouseNumber>>,
 }
 
 impl Relation {
     fn new(
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
         name: &str,
         parent_config: &serde_json::Value,
         yaml_cache: &serde_json::Map<String, serde_json::Value>,
     ) -> anyhow::Result<Self> {
         let mut my_config = serde_json::json!({});
-        let file = crate::area_files::RelationFiles::new(&ctx.get_ini().get_workdir()?, name);
+        let file = area_files::RelationFiles::new(&ctx.get_ini().get_workdir()?, name);
         let relation_path = format!("relation-{}.yaml", name);
         // Intentionally don't require this cache to be present, it's fine to omit it for simple
         // relations.
@@ -518,7 +524,7 @@ impl Relation {
         let config = RelationConfig::new(parent_config, &my_config);
         // osm street name -> house number list map, so we don't have to read the on-disk list of the
         // relation again and again for each street.
-        let osm_housenumbers: HashMap<String, Vec<crate::util::HouseNumber>> = HashMap::new();
+        let osm_housenumbers: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
         Ok(Relation {
             ctx: ctx.clone(),
             name: name.into(),
@@ -529,12 +535,12 @@ impl Relation {
     }
 
     /// Gets the name of the relation.
-    fn get_name(&self) -> String {
+    pub fn get_name(&self) -> String {
         self.name.clone()
     }
 
     /// Gets access to the file interface.
-    fn get_files(&self) -> &crate::area_files::RelationFiles {
+    pub fn get_files(&self) -> &area_files::RelationFiles {
         &self.file
     }
 
@@ -549,8 +555,8 @@ impl Relation {
     }
 
     /// Gets a street name -> ranges map, which allows silencing false positives.
-    fn get_street_ranges(&self) -> HashMap<String, crate::ranges::Ranges> {
-        let mut filter_dict: HashMap<String, crate::ranges::Ranges> = HashMap::new();
+    fn get_street_ranges(&self) -> HashMap<String, ranges::Ranges> {
+        let mut filter_dict: HashMap<String, ranges::Ranges> = HashMap::new();
 
         let filters = match self.config.get_filters() {
             Some(value) => value,
@@ -565,7 +571,7 @@ impl Relation {
             if let Some(value) = filter.get("interpolation") {
                 interpolation = value.as_str().unwrap();
             }
-            let mut i: Vec<crate::ranges::Range> = Vec::new();
+            let mut i: Vec<ranges::Range> = Vec::new();
             if let Some(value) = filter.get("ranges") {
                 for start_end in value.as_array().unwrap() {
                     let start_end_obj = start_end.as_object().unwrap();
@@ -583,9 +589,9 @@ impl Relation {
                         .unwrap()
                         .parse::<i64>()
                         .unwrap();
-                    i.push(crate::ranges::Range::new(start, end, interpolation));
+                    i.push(ranges::Range::new(start, end, interpolation));
                 }
-                filter_dict.insert(street.into(), crate::ranges::Ranges::new(i));
+                filter_dict.insert(street.into(), ranges::Ranges::new(i));
             }
         }
 
@@ -625,13 +631,13 @@ impl Relation {
     }
 
     /// Reads list of streets for an area from OSM.
-    fn get_osm_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<crate::util::Street>> {
-        let mut ret: Vec<crate::util::Street> = Vec::new();
+    fn get_osm_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
+        let mut ret: Vec<util::Street> = Vec::new();
         let stream: Arc<Mutex<dyn Read + Send>> =
             self.file.get_osm_streets_read_stream(&self.ctx)?;
         let mut guard = stream.lock().unwrap();
         let mut read = guard.deref_mut();
-        let mut csv_read = crate::util::CsvRead::new(&mut read);
+        let mut csv_read = util::CsvRead::new(&mut read);
         let mut first = true;
         for result in csv_read.records() {
             if first {
@@ -650,7 +656,7 @@ impl Relation {
                 // data/streets-template.txt requests this, so we got garbage, give up.
                 return Err(anyhow::anyhow!("missing name column in CSV"));
             }
-            let mut street = crate::util::Street::new(
+            let mut street = util::Street::new(
                 /*osm_name=*/ &row[1],
                 /*ref_name=*/ "",
                 /*show_ref_street=*/ true,
@@ -662,15 +668,17 @@ impl Relation {
             street.set_source(&tr("street"));
             ret.push(street)
         }
-        if std::path::Path::new(&self.file.get_osm_housenumbers_path()?).exists() {
+        let path = self.file.get_osm_housenumbers_path()?;
+        if std::path::Path::new(&path).exists() {
             let stream: Arc<Mutex<dyn Read + Send>> =
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
             let mut guard = stream.lock().unwrap();
             let mut read = guard.deref_mut();
-            let mut csv_read = crate::util::CsvRead::new(&mut read);
-            ret.append(&mut crate::util::get_street_from_housenumber(
-                &mut csv_read,
-            )?);
+            let mut csv_read = util::CsvRead::new(&mut read);
+            ret.append(
+                &mut util::get_street_from_housenumber(&mut csv_read)
+                    .with_context(|| format!("get_street_from_housenumber() failed on {}", path))?,
+            );
         }
         if sorted_result {
             ret.sort();
@@ -686,7 +694,7 @@ impl Relation {
             self.ctx.get_abspath("data")?,
             "streets-template.txt"
         ))?;
-        Ok(crate::util::process_template(
+        Ok(util::process_template(
             &contents,
             self.config.get_osmrelation(),
         ))
@@ -710,17 +718,17 @@ impl Relation {
     fn get_osm_housenumbers(
         &mut self,
         street_name: &str,
-    ) -> anyhow::Result<Vec<crate::util::HouseNumber>> {
+    ) -> anyhow::Result<Vec<util::HouseNumber>> {
         if self.osm_housenumbers.is_empty() {
             // This function gets called for each & every street, make sure we read the file only
             // once.
             let street_ranges = self.get_street_ranges();
-            let mut house_numbers: HashMap<String, Vec<crate::util::HouseNumber>> = HashMap::new();
+            let mut house_numbers: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
             let stream: Arc<Mutex<dyn Read + Send>> =
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
             let mut guard = stream.lock().unwrap();
             let mut read = guard.deref_mut();
-            let mut csv_read = crate::util::CsvRead::new(&mut read);
+            let mut csv_read = util::CsvRead::new(&mut read);
             let mut first = true;
             let mut columns: HashMap<String, usize> = HashMap::new();
             for result in csv_read.records() {
@@ -763,7 +771,7 @@ impl Relation {
             for (key, value) in house_numbers {
                 let unique: Vec<_> = value.into_iter().unique().collect();
                 self.osm_housenumbers
-                    .insert(key, crate::util::sort_numerically(&unique));
+                    .insert(key, util::sort_numerically(&unique));
             }
         }
         Ok(match self.osm_housenumbers.get(street_name) {
@@ -778,7 +786,7 @@ impl Relation {
     /// Gets known streets (not their coordinates) from a reference site, based on relation names
     /// from OSM.
     fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
-        let memory_cache = crate::util::build_street_reference_cache(reference)?;
+        let memory_cache = util::build_street_reference_cache(reference)?;
 
         let mut lst = self.config.build_ref_streets(&memory_cache);
 
@@ -796,7 +804,7 @@ impl Relation {
     /// This is serialized to disk by write_ref_housenumbers().
     fn build_ref_housenumbers(
         &self,
-        reference: &crate::util::HouseNumberReferenceCache,
+        reference: &util::HouseNumberReferenceCache,
         street: &str,
         suffix: &str,
     ) -> Vec<String> {
@@ -844,8 +852,7 @@ impl Relation {
     /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
     /// used by get_ref_housenumbers().
     fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
-        let memory_caches =
-            crate::util::build_reference_caches(references, &self.config.get_refcounty())?;
+        let memory_caches = util::build_reference_caches(references, &self.config.get_refcounty())?;
 
         let streets: Vec<String> = self
             .get_osm_streets(/*sorted_results=*/ true)?
@@ -898,10 +905,8 @@ impl Relation {
     }
 
     /// Gets house numbers from reference, produced by write_ref_housenumbers()."""
-    fn get_ref_housenumbers(
-        &self,
-    ) -> anyhow::Result<HashMap<String, Vec<crate::util::HouseNumber>>> {
-        let mut ret: HashMap<String, Vec<crate::util::HouseNumber>> = HashMap::new();
+    fn get_ref_housenumbers(&self) -> anyhow::Result<HashMap<String, Vec<util::HouseNumber>>> {
+        let mut ret: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
         let mut lines: HashMap<String, Vec<String>> = HashMap::new();
         let read: Arc<Mutex<dyn Read + Send>> =
             self.file.get_ref_housenumbers_read_stream(&self.ctx)?;
@@ -929,7 +934,7 @@ impl Relation {
         for osm_street in self.get_osm_streets(/*sorted_result=*/ true)? {
             let osm_street_name = osm_street.get_osm_name();
             let street_is_even_odd = self.config.get_street_is_even_odd(osm_street_name);
-            let mut house_numbers: Vec<crate::util::HouseNumber> = Vec::new();
+            let mut house_numbers: Vec<util::HouseNumber> = Vec::new();
             let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
             let mut street_invalid: Vec<String> = Vec::new();
             if let Some(value) = streets_invalid.get(osm_street_name) {
@@ -953,10 +958,7 @@ impl Relation {
                         &mut normalized
                             .iter()
                             .filter(|i| {
-                                !crate::util::HouseNumber::is_invalid(
-                                    i.get_number(),
-                                    &street_invalid,
-                                )
+                                !util::HouseNumber::is_invalid(i.get_number(), &street_invalid)
                             })
                             .cloned()
                             .collect(),
@@ -964,10 +966,7 @@ impl Relation {
                 }
             }
             let unique: Vec<_> = house_numbers.into_iter().unique().collect();
-            ret.insert(
-                osm_street_name.into(),
-                crate::util::sort_numerically(&unique),
-            );
+            ret.insert(osm_street_name.into(), util::sort_numerically(&unique));
         }
         Ok(ret)
     }
@@ -977,7 +976,7 @@ impl Relation {
     /// Each of of these is a pair of a street name and a house number list.
     pub fn get_missing_housenumbers(
         &mut self,
-    ) -> anyhow::Result<(crate::util::NumberedStreets, crate::util::NumberedStreets)> {
+    ) -> anyhow::Result<(util::NumberedStreets, util::NumberedStreets)> {
         let mut ongoing_streets = Vec::new();
         let mut done_streets = Vec::new();
 
@@ -987,11 +986,10 @@ impl Relation {
             let osm_street_name = osm_street.get_osm_name();
             let ref_house_numbers = all_ref_house_numbers.get(osm_street_name).unwrap();
             let osm_house_numbers = self.get_osm_housenumbers(osm_street_name)?;
-            let only_in_reference =
-                crate::util::get_only_in_first(ref_house_numbers, &osm_house_numbers);
-            let in_both = crate::util::get_in_both(ref_house_numbers, &osm_house_numbers);
+            let only_in_reference = util::get_only_in_first(ref_house_numbers, &osm_house_numbers);
+            let in_both = util::get_in_both(ref_house_numbers, &osm_house_numbers);
             let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
-            let street = crate::util::Street::new(
+            let street = util::Street::new(
                 osm_street_name,
                 &ref_street_name,
                 self.should_show_ref_street(osm_street_name),
@@ -1012,17 +1010,17 @@ impl Relation {
 
     /// Tries to find missing streets in a relation.
     fn get_missing_streets(&self) -> anyhow::Result<(Vec<String>, Vec<String>)> {
-        let reference_streets: Vec<crate::util::Street> = self
+        let reference_streets: Vec<util::Street> = self
             .get_ref_streets()?
             .iter()
-            .map(|i| crate::util::Street::from_string(i))
+            .map(|i| util::Street::from_string(i))
             .collect();
         let street_blacklist = self.config.get_street_filters();
-        let osm_streets: Vec<crate::util::Street> = self
+        let osm_streets: Vec<util::Street> = self
             .get_osm_streets(/*sorted_result=*/ true)?
             .iter()
             .map(|street| {
-                crate::util::Street::from_string(
+                util::Street::from_string(
                     &self
                         .config
                         .get_ref_street_from_osm_street(street.get_osm_name()),
@@ -1030,14 +1028,14 @@ impl Relation {
             })
             .collect();
 
-        let only_in_reference = crate::util::get_only_in_first(&reference_streets, &osm_streets);
+        let only_in_reference = util::get_only_in_first(&reference_streets, &osm_streets);
         let only_in_ref_names: Vec<String> = only_in_reference
             .iter()
             .filter(|i| !street_blacklist.contains(i.get_osm_name()))
             .map(|i| i.get_osm_name())
             .cloned()
             .collect();
-        let in_both: Vec<String> = crate::util::get_in_both(&reference_streets, &osm_streets)
+        let in_both: Vec<String> = util::get_in_both(&reference_streets, &osm_streets)
             .iter()
             .map(|i| i.get_osm_name())
             .cloned()
@@ -1047,10 +1045,7 @@ impl Relation {
     }
 
     /// Tries to find additional streets in a relation.
-    fn get_additional_streets(
-        &self,
-        sorted_result: bool,
-    ) -> anyhow::Result<Vec<crate::util::Street>> {
+    fn get_additional_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
         let ref_streets: Vec<String> = self
             .get_ref_streets()?
             .iter()
@@ -1058,12 +1053,12 @@ impl Relation {
             .collect();
         let ref_street_objs: Vec<_> = ref_streets
             .iter()
-            .map(|i| crate::util::Street::from_string(i))
+            .map(|i| util::Street::from_string(i))
             .collect();
         let osm_streets = self.get_osm_streets(sorted_result)?;
         let osm_street_blacklist = self.config.get_osm_street_filters();
 
-        let mut only_in_osm = crate::util::get_only_in_first(&osm_streets, &ref_street_objs);
+        let mut only_in_osm = util::get_only_in_first(&osm_streets, &ref_street_objs);
         only_in_osm = only_in_osm
             .iter()
             .filter(|i| !osm_street_blacklist.contains(i.get_osm_name()))
@@ -1096,7 +1091,7 @@ impl Relation {
     }
 
     /// Calculate and write stat for the unexpected street coverage of a relation.
-    fn write_additional_streets(&self) -> anyhow::Result<Vec<crate::util::Street>> {
+    fn write_additional_streets(&self) -> anyhow::Result<Vec<util::Street>> {
         let additional_streets = self.get_additional_streets(/*sorted_result=*/ true)?;
 
         // Write the count to a file, so the index page show it fast.
@@ -1137,38 +1132,35 @@ impl Relation {
     /// Turns a list of numbered streets into a HTML table.
     fn numbered_streets_to_table(
         &self,
-        numbered_streets: &[crate::util::NumberedStreet],
-    ) -> (Vec<Vec<crate::yattag::Doc>>, usize) {
+        numbered_streets: &[util::NumberedStreet],
+    ) -> (Vec<Vec<yattag::Doc>>, usize) {
         let mut todo_count = 0_usize;
         let mut table = vec![vec![
-            crate::yattag::Doc::from_text(&tr("Street name")),
-            crate::yattag::Doc::from_text(&tr("Missing count")),
-            crate::yattag::Doc::from_text(&tr("House numbers")),
+            yattag::Doc::from_text(&tr("Street name")),
+            yattag::Doc::from_text(&tr("Missing count")),
+            yattag::Doc::from_text(&tr("House numbers")),
         ]];
-        let mut rows: Vec<Vec<crate::yattag::Doc>> = Vec::new();
+        let mut rows: Vec<Vec<yattag::Doc>> = Vec::new();
         for result in numbered_streets {
             // street, only_in_ref
-            let mut row: Vec<crate::yattag::Doc> = vec![result.0.to_html()];
-            let number_ranges = crate::util::get_housenumber_ranges(&result.1);
-            row.push(crate::yattag::Doc::from_text(
-                &number_ranges.len().to_string(),
-            ));
+            let mut row: Vec<yattag::Doc> = vec![result.0.to_html()];
+            let number_ranges = util::get_housenumber_ranges(&result.1);
+            row.push(yattag::Doc::from_text(&number_ranges.len().to_string()));
 
-            let doc = crate::yattag::Doc::new();
+            let doc = yattag::Doc::new();
             if !self.config.get_street_is_even_odd(result.0.get_osm_name()) {
                 let mut sorted = number_ranges.clone();
                 sorted.sort_by(|a, b| {
-                    crate::util::split_house_number_range(a)
-                        .cmp(&crate::util::split_house_number_range(b))
+                    util::split_house_number_range(a).cmp(&util::split_house_number_range(b))
                 });
                 for (index, item) in sorted.iter().enumerate() {
                     if index > 0 {
                         doc.text(", ");
                     }
-                    doc.append_value(crate::util::color_house_number(item).get_value());
+                    doc.append_value(util::color_house_number(item).get_value());
                 }
             } else {
-                doc.append_value(crate::util::format_even_odd_html(&number_ranges).get_value());
+                doc.append_value(util::format_even_odd_html(&number_ranges).get_value());
             }
             row.push(doc);
 
@@ -1195,14 +1187,14 @@ impl Relation {
     /// Returns a tuple of: todo street count, todo count, done count, percent and table.
     fn write_missing_housenumbers(
         &mut self,
-    ) -> anyhow::Result<(usize, usize, usize, String, crate::yattag::HtmlTable)> {
+    ) -> anyhow::Result<(usize, usize, usize, String, yattag::HtmlTable)> {
         let (ongoing_streets, done_streets) = self.get_missing_housenumbers()?;
 
         let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
 
         let mut done_count = 0;
         for result in done_streets {
-            let number_ranges = crate::util::get_housenumber_ranges(&result.1);
+            let number_ranges = util::get_housenumber_ranges(&result.1);
             done_count += number_ranges.len();
         }
         let percent: String;
@@ -1230,7 +1222,7 @@ impl Relation {
     /// Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
     /// Return value is a list of streets.
     /// Each of of these is a pair of a street name and a house number list.
-    fn get_additional_housenumbers(&mut self) -> anyhow::Result<crate::util::NumberedStreets> {
+    fn get_additional_housenumbers(&mut self) -> anyhow::Result<util::NumberedStreets> {
         let mut additional = Vec::new();
 
         let osm_street_names = self.get_osm_streets(/*sorted_result=*/ true)?;
@@ -1244,15 +1236,15 @@ impl Relation {
             if let Some(street_valid) = streets_valid.get(osm_street_name) {
                 let filtered: Vec<_> = osm_house_numbers
                     .iter()
-                    .filter(|i| !crate::util::HouseNumber::is_invalid(i.get_number(), street_valid))
+                    .filter(|i| !util::HouseNumber::is_invalid(i.get_number(), street_valid))
                     .cloned()
                     .collect();
                 osm_house_numbers = filtered;
             }
 
-            let only_in_osm = crate::util::get_only_in_first(&osm_house_numbers, ref_house_numbers);
+            let only_in_osm = util::get_only_in_first(&osm_house_numbers, ref_house_numbers);
             let ref_street_name = self.config.get_ref_street_from_osm_street(osm_street_name);
-            let street = crate::util::Street::new(
+            let street = util::Street::new(
                 osm_street_name,
                 &ref_street_name,
                 self.should_show_ref_street(osm_street_name),
@@ -1272,7 +1264,7 @@ impl Relation {
     /// Returns a tuple of: todo street count, todo count and table.
     fn write_additional_housenumbers(
         &mut self,
-    ) -> anyhow::Result<(usize, usize, crate::yattag::HtmlTable)> {
+    ) -> anyhow::Result<(usize, usize, yattag::HtmlTable)> {
         let ongoing_streets = self.get_additional_housenumbers()?;
 
         let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
@@ -1294,19 +1286,20 @@ impl Relation {
             self.ctx.get_abspath("data")?,
             "street-housenumbers-template.txt"
         ))?;
-        Ok(crate::util::process_template(
+        Ok(util::process_template(
             &contents,
             self.config.get_osmrelation(),
         ))
     }
 
     /// Returns invalid osm names and ref names.
-    fn get_invalid_refstreets(&self) -> anyhow::Result<(Vec<String>, Vec<String>)> {
+    pub fn get_invalid_refstreets(&self) -> anyhow::Result<(Vec<String>, Vec<String>)> {
         let mut osm_invalids: Vec<String> = Vec::new();
         let mut ref_invalids: Vec<String> = Vec::new();
         let refstreets = self.config.get_refstreets();
         let osm_streets: Vec<String> = self
-            .get_osm_streets(/*sorted_result=*/ true)?
+            .get_osm_streets(/*sorted_result=*/ true)
+            .context("get_osm_streets() failed")?
             .iter()
             .map(|i| i.get_osm_name())
             .cloned()
@@ -1323,7 +1316,7 @@ impl Relation {
     }
 
     /// Returns invalid filter key names (street not in OSM).
-    fn get_invalid_filter_keys(&self) -> anyhow::Result<Vec<String>> {
+    pub fn get_invalid_filter_keys(&self) -> anyhow::Result<Vec<String>> {
         let filters = match self.config.get_filters() {
             Some(value) => value,
             None => {
@@ -1363,7 +1356,7 @@ impl PyRelation {
         yaml_cache: String,
     ) -> PyResult<Self> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
 
         let parent_value: serde_json::Value = match serde_json::from_str(&parent_config) {
             Ok(value) => value,
@@ -1404,9 +1397,9 @@ impl PyRelation {
         self.relation.get_name()
     }
 
-    fn get_files(&self) -> crate::area_files::PyRelationFiles {
+    fn get_files(&self) -> area_files::PyRelationFiles {
         let relation_files = self.relation.get_files().clone();
-        crate::area_files::PyRelationFiles { relation_files }
+        area_files::PyRelationFiles { relation_files }
     }
 
     fn get_config(&self) -> PyRelationConfig {
@@ -1428,10 +1421,7 @@ impl PyRelation {
         }
     }
 
-    fn get_osm_housenumbers(
-        &mut self,
-        street_name: String,
-    ) -> PyResult<Vec<crate::util::PyHouseNumber>> {
+    fn get_osm_housenumbers(&mut self, street_name: String) -> PyResult<Vec<util::PyHouseNumber>> {
         let ret = match self.relation.get_osm_housenumbers(&street_name) {
             Ok(value) => value,
             Err(err) => {
@@ -1445,7 +1435,7 @@ impl PyRelation {
             .iter()
             .map(|i| {
                 let house_number = i.clone();
-                crate::util::PyHouseNumber { house_number }
+                util::PyHouseNumber { house_number }
             })
             .collect())
     }
@@ -1460,10 +1450,10 @@ impl PyRelation {
         }
     }
 
-    fn get_street_ranges(&self) -> HashMap<String, crate::ranges::PyRanges> {
-        let mut ret: HashMap<String, crate::ranges::PyRanges> = HashMap::new();
+    fn get_street_ranges(&self) -> HashMap<String, ranges::PyRanges> {
+        let mut ret: HashMap<String, ranges::PyRanges> = HashMap::new();
         for (key, value) in self.relation.get_street_ranges() {
-            ret.insert(key, crate::ranges::PyRanges { ranges: value });
+            ret.insert(key, ranges::PyRanges { ranges: value });
         }
         ret
     }
@@ -1472,7 +1462,7 @@ impl PyRelation {
         self.relation.should_show_ref_street(&osm_street_name)
     }
 
-    fn get_osm_streets(&self, sorted_result: bool) -> PyResult<Vec<crate::util::PyStreet>> {
+    fn get_osm_streets(&self, sorted_result: bool) -> PyResult<Vec<util::PyStreet>> {
         let ret = match self.relation.get_osm_streets(sorted_result) {
             Ok(value) => value,
             Err(err) => {
@@ -1486,7 +1476,7 @@ impl PyRelation {
             .iter()
             .map(|i| {
                 let street = i.clone();
-                crate::util::PyStreet { street }
+                util::PyStreet { street }
             })
             .collect())
     }
@@ -1503,7 +1493,7 @@ impl PyRelation {
 
     fn build_ref_housenumbers(
         &self,
-        reference: crate::util::HouseNumberReferenceCache,
+        reference: util::HouseNumberReferenceCache,
         street: &str,
         suffix: &str,
     ) -> Vec<String> {
@@ -1523,10 +1513,7 @@ impl PyRelation {
 
     fn get_missing_housenumbers(
         &mut self,
-    ) -> PyResult<(
-        crate::util::PyNumberedStreets,
-        crate::util::PyNumberedStreets,
-    )> {
+    ) -> PyResult<(util::PyNumberedStreets, util::PyNumberedStreets)> {
         let (ongoing_streets, done_streets) = match self.relation.get_missing_housenumbers() {
             Ok(value) => value,
             Err(err) => {
@@ -1536,27 +1523,25 @@ impl PyRelation {
                 )));
             }
         };
-        let mut py_ongoing_streets: Vec<(crate::util::PyStreet, Vec<crate::util::PyHouseNumber>)> =
-            Vec::new();
+        let mut py_ongoing_streets: Vec<(util::PyStreet, Vec<util::PyHouseNumber>)> = Vec::new();
         for street in ongoing_streets {
-            let py_street = crate::util::PyStreet { street: street.0 };
-            let py_housenumbers: Vec<crate::util::PyHouseNumber> = street
+            let py_street = util::PyStreet { street: street.0 };
+            let py_housenumbers: Vec<util::PyHouseNumber> = street
                 .1
                 .iter()
-                .map(|i| crate::util::PyHouseNumber {
+                .map(|i| util::PyHouseNumber {
                     house_number: i.clone(),
                 })
                 .collect();
             py_ongoing_streets.push((py_street, py_housenumbers));
         }
-        let mut py_done_streets: Vec<(crate::util::PyStreet, Vec<crate::util::PyHouseNumber>)> =
-            Vec::new();
+        let mut py_done_streets: Vec<(util::PyStreet, Vec<util::PyHouseNumber>)> = Vec::new();
         for street in done_streets {
-            let py_street = crate::util::PyStreet { street: street.0 };
-            let py_housenumbers: Vec<crate::util::PyHouseNumber> = street
+            let py_street = util::PyStreet { street: street.0 };
+            let py_housenumbers: Vec<util::PyHouseNumber> = street
                 .1
                 .iter()
-                .map(|i| crate::util::PyHouseNumber {
+                .map(|i| util::PyHouseNumber {
                     house_number: i.clone(),
                 })
                 .collect();
@@ -1575,7 +1560,7 @@ impl PyRelation {
         }
     }
 
-    fn get_additional_streets(&self, sorted_result: bool) -> PyResult<Vec<crate::util::PyStreet>> {
+    fn get_additional_streets(&self, sorted_result: bool) -> PyResult<Vec<util::PyStreet>> {
         let ret = match self.relation.get_additional_streets(sorted_result) {
             Ok(value) => value,
             Err(err) => {
@@ -1588,7 +1573,7 @@ impl PyRelation {
 
         Ok(ret
             .iter()
-            .map(|i| crate::util::PyStreet { street: i.clone() })
+            .map(|i| util::PyStreet { street: i.clone() })
             .collect())
     }
 
@@ -1602,7 +1587,7 @@ impl PyRelation {
         }
     }
 
-    fn write_additional_streets(&self) -> PyResult<Vec<crate::util::PyStreet>> {
+    fn write_additional_streets(&self) -> PyResult<Vec<util::PyStreet>> {
         let ret = match self.relation.write_additional_streets() {
             Ok(value) => value,
             Err(err) => {
@@ -1615,13 +1600,13 @@ impl PyRelation {
 
         Ok(ret
             .iter()
-            .map(|i| crate::util::PyStreet { street: i.clone() })
+            .map(|i| util::PyStreet { street: i.clone() })
             .collect())
     }
 
     fn write_missing_housenumbers(
         &mut self,
-    ) -> PyResult<(usize, usize, usize, String, crate::yattag::PyHtmlTable)> {
+    ) -> PyResult<(usize, usize, usize, String, yattag::PyHtmlTable)> {
         let (ongoing_len, todo, done, percent, table) =
             match self.relation.write_missing_housenumbers() {
                 Ok(value) => value,
@@ -1632,18 +1617,18 @@ impl PyRelation {
                     )));
                 }
             };
-        let py_table: Vec<Vec<crate::yattag::PyDoc>> = table
+        let py_table: Vec<Vec<yattag::PyDoc>> = table
             .iter()
             .map(|row| {
                 row.iter()
-                    .map(|cell| crate::yattag::PyDoc { doc: cell.clone() })
+                    .map(|cell| yattag::PyDoc { doc: cell.clone() })
                     .collect()
             })
             .collect();
         Ok((ongoing_len, todo, done, percent, py_table))
     }
 
-    fn get_additional_housenumbers(&mut self) -> PyResult<crate::util::PyNumberedStreets> {
+    fn get_additional_housenumbers(&mut self) -> PyResult<util::PyNumberedStreets> {
         let ret = match self.relation.get_additional_housenumbers() {
             Ok(value) => value,
             Err(err) => {
@@ -1653,13 +1638,13 @@ impl PyRelation {
                 )));
             }
         };
-        let mut py_ret: Vec<(crate::util::PyStreet, Vec<crate::util::PyHouseNumber>)> = Vec::new();
+        let mut py_ret: Vec<(util::PyStreet, Vec<util::PyHouseNumber>)> = Vec::new();
         for street in ret {
-            let py_street = crate::util::PyStreet { street: street.0 };
-            let py_housenumbers: Vec<crate::util::PyHouseNumber> = street
+            let py_street = util::PyStreet { street: street.0 };
+            let py_housenumbers: Vec<util::PyHouseNumber> = street
                 .1
                 .iter()
-                .map(|i| crate::util::PyHouseNumber {
+                .map(|i| util::PyHouseNumber {
                     house_number: i.clone(),
                 })
                 .collect();
@@ -1668,9 +1653,7 @@ impl PyRelation {
         Ok(py_ret)
     }
 
-    fn write_additional_housenumbers(
-        &mut self,
-    ) -> PyResult<(usize, usize, crate::yattag::PyHtmlTable)> {
+    fn write_additional_housenumbers(&mut self) -> PyResult<(usize, usize, yattag::PyHtmlTable)> {
         let (ongoing_len, todo, table) = match self.relation.write_additional_housenumbers() {
             Ok(value) => value,
             Err(err) => {
@@ -1680,11 +1663,11 @@ impl PyRelation {
                 )));
             }
         };
-        let py_table: Vec<Vec<crate::yattag::PyDoc>> = table
+        let py_table: Vec<Vec<yattag::PyDoc>> = table
             .iter()
             .map(|row| {
                 row.iter()
-                    .map(|cell| crate::yattag::PyDoc { doc: cell.clone() })
+                    .map(|cell| yattag::PyDoc { doc: cell.clone() })
                     .collect()
             })
             .collect();
@@ -1726,7 +1709,7 @@ impl PyRelation {
 #[derive(Clone)]
 pub struct Relations {
     workdir: String,
-    ctx: crate::context::Context,
+    ctx: context::Context,
     yaml_cache: serde_json::Map<String, serde_json::Value>,
     dict: serde_json::Map<String, serde_json::Value>,
     relations: HashMap<String, Relation>,
@@ -1736,7 +1719,7 @@ pub struct Relations {
 }
 
 impl Relations {
-    pub fn new(ctx: &crate::context::Context) -> anyhow::Result<Self> {
+    pub fn new(ctx: &context::Context) -> anyhow::Result<Self> {
         let workdir = ctx.get_ini().get_workdir()?;
         let stream = ctx.get_file_system().open_read(&format!(
             "{}/{}",
@@ -1845,7 +1828,7 @@ impl Relations {
     }
 
     /// Gets a list of relations.
-    fn get_relations(&mut self) -> anyhow::Result<Vec<Relation>> {
+    pub fn get_relations(&mut self) -> anyhow::Result<Vec<Relation>> {
         let mut ret: Vec<Relation> = Vec::new();
         for name in self.get_names() {
             ret.push(self.get_relation(&name)?)
@@ -1962,7 +1945,7 @@ impl PyRelations {
     #[new]
     fn new(ctx: PyObject) -> PyResult<Self> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let relations = match Relations::new(&ctx.context) {
             Ok(value) => value,
             Err(err) => {
@@ -2082,8 +2065,8 @@ fn normalize(
     house_numbers: &str,
     street_name: &str,
     street_is_even_odd: bool,
-    normalizers: &HashMap<String, crate::ranges::Ranges>,
-) -> anyhow::Result<Vec<crate::util::HouseNumber>> {
+    normalizers: &HashMap<String, ranges::Ranges>,
+) -> anyhow::Result<Vec<util::HouseNumber>> {
     let mut comment: String = "".into();
     let mut house_numbers: String = house_numbers.into();
     if house_numbers.contains('\t') {
@@ -2107,14 +2090,14 @@ fn normalize(
         suffix = house_numbers.chars().last().unwrap().into();
     }
 
-    let normalizer = crate::util::get_normalizer(street_name, normalizers);
+    let normalizer = util::get_normalizer(street_name, normalizers);
 
     let (mut ret_numbers, ret_numbers_nofilter) =
-        crate::util::split_house_number_by_separator(&house_numbers, separator, &normalizer);
+        util::split_house_number_by_separator(&house_numbers, separator, &normalizer);
 
     if separator == "-" {
         let (should_expand, new_stop) =
-            crate::util::should_expand_range(&ret_numbers_nofilter, street_is_even_odd);
+            util::should_expand_range(&ret_numbers_nofilter, street_is_even_odd);
         if should_expand {
             let start = ret_numbers_nofilter[0];
             let stop = new_stop;
@@ -2143,15 +2126,13 @@ fn normalize(
 
     let check_housenumber_letters =
         ret_numbers.len() == 1 && relation.config.should_check_housenumber_letters();
-    if check_housenumber_letters
-        && crate::util::HouseNumber::has_letter_suffix(&house_numbers, &suffix)
-    {
+    if check_housenumber_letters && util::HouseNumber::has_letter_suffix(&house_numbers, &suffix) {
         return normalize_housenumber_letters(relation, &house_numbers, &suffix, &comment);
     }
     Ok(ret_numbers
         .iter()
         .map(|number| {
-            crate::util::HouseNumber::new(&(number.to_string() + &suffix), &house_numbers, &comment)
+            util::HouseNumber::new(&(number.to_string() + &suffix), &house_numbers, &comment)
         })
         .collect())
 }
@@ -2162,12 +2143,11 @@ fn normalize_housenumber_letters(
     house_numbers: &str,
     suffix: &str,
     comment: &str,
-) -> anyhow::Result<Vec<crate::util::HouseNumber>> {
-    let style = crate::util::LetterSuffixStyle::try_from(relation.config.get_letter_suffix_style())
-        .unwrap();
-    let normalized =
-        crate::util::HouseNumber::normalize_letter_suffix(house_numbers, suffix, style)?;
-    Ok(vec![crate::util::HouseNumber::new(
+) -> anyhow::Result<Vec<util::HouseNumber>> {
+    let style =
+        util::LetterSuffixStyle::try_from(relation.config.get_letter_suffix_style()).unwrap();
+    let normalized = util::HouseNumber::normalize_letter_suffix(house_numbers, suffix, style)?;
+    Ok(vec![util::HouseNumber::new(
         &normalized,
         &normalized,
         comment,
@@ -2181,7 +2161,7 @@ rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
 (rel(@RELATION@);
 "#;
-    let mut query = crate::util::process_template(header, relation.config.get_osmrelation());
+    let mut query = util::process_template(header, relation.config.get_osmrelation());
     for street in streets {
         query += &format!("way[\"name\"=\"{}\"](r.searchRelation);\n", street);
         query += &format!("way[\"name\"=\"{}\"](area.searchArea);\n", street);
@@ -2203,15 +2183,12 @@ fn py_make_turbo_query_for_streets(relation: PyRelation, streets: Vec<String>) -
 }
 
 /// Creates an overpass query that shows all streets from a list.
-fn make_turbo_query_for_street_objs(
-    relation: &Relation,
-    streets: &[crate::util::Street],
-) -> String {
+fn make_turbo_query_for_street_objs(relation: &Relation, streets: &[util::Street]) -> String {
     let header = r#"[out:json][timeout:425];
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
 ("#;
-    let mut query = crate::util::process_template(header, relation.config.get_osmrelation());
+    let mut query = util::process_template(header, relation.config.get_osmrelation());
     let mut ids = Vec::new();
     for street in streets {
         ids.push((street.get_osm_type(), street.get_osm_id().to_string()));
@@ -2231,10 +2208,10 @@ out skel qt;"#;
 #[pyfunction]
 fn py_make_turbo_query_for_street_objs(relation: PyRelation, streets: Vec<PyObject>) -> String {
     let gil = Python::acquire_gil();
-    let streets: Vec<crate::util::Street> = streets
+    let streets: Vec<util::Street> = streets
         .iter()
         .map(|i| {
-            let street: PyRefMut<'_, crate::util::PyStreet> = i.extract(gil.python()).unwrap();
+            let street: PyRefMut<'_, util::PyStreet> = i.extract(gil.python()).unwrap();
             street.street.clone()
         })
         .collect();
@@ -2263,7 +2240,7 @@ mod tests {
     /// Tests normalize().
     #[test]
     fn test_normalize() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2283,7 +2260,7 @@ mod tests {
     /// Tests normalize: when the number is not in range.
     #[test]
     fn test_normalize_not_in_range() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2302,7 +2279,7 @@ mod tests {
     /// Tests normalize: the case when the house number is not a number.
     #[test]
     fn test_normalize_not_a_number() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2321,7 +2298,7 @@ mod tests {
     /// Tests normalize: the case when there is no filter for this street.
     #[test]
     fn test_normalize_nofilter() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2341,7 +2318,7 @@ mod tests {
     /// Tests normalize: the case when ';' is a separator.
     #[test]
     fn test_normalize_separator_semicolon() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2361,7 +2338,7 @@ mod tests {
     /// Tests normalize: the 2-6 case means implicit 4.
     #[test]
     fn test_normalize_separator_interval() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2381,7 +2358,7 @@ mod tests {
     /// Tests normalize: the 5-8 case: means just 5 and 8 as the parity doesn't match.
     #[test]
     fn test_normalize_separator_interval_parity() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2401,7 +2378,7 @@ mod tests {
     /// Tests normalize: the 2-5 case: means implicit 3 and 4 (interpolation=all).
     #[test]
     fn test_normalize_separator_interval_interp_all() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2421,7 +2398,7 @@ mod tests {
     /// Tests normalize: the case where x-y is partially filtered out.
     #[test]
     fn test_normalize_separator_interval_filter() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2443,7 +2420,7 @@ mod tests {
     /// Tests normalize: the case where x-y is nonsense: y is too large.
     #[test]
     fn test_normalize_separator_interval_block() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2465,7 +2442,7 @@ mod tests {
     /// Tests normalize: the case where x-y is nonsense: y-x is too large.
     #[test]
     fn test_normalize_separator_interval_block2() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2486,7 +2463,7 @@ mod tests {
     /// Tests normalize: the case where x-y is nonsense: x is 0.
     #[test]
     fn test_normalize_separator_interval_block3() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2507,7 +2484,7 @@ mod tests {
     /// Tests normalize: the case where x-y is only partially useful: x is OK, but y is a suffix.
     #[test]
     fn test_normalize_separator_interval_block4() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2528,7 +2505,7 @@ mod tests {
     /// Tests normalize: the * suffix is preserved.
     #[test]
     fn test_normalize_keep_suffix() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2558,7 +2535,7 @@ mod tests {
     /// Tests normalize: the case when ',' is a separator.
     #[test]
     fn test_normalize_separator_comma() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges();
@@ -2579,7 +2556,7 @@ mod tests {
     /// Tests Relation.get_osm_streets().
     #[test]
     fn test_relation_get_osm_streets() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("test").unwrap();
         let actual: Vec<String> = relation
@@ -2596,11 +2573,23 @@ mod tests {
     /// number (node).
     #[test]
     fn test_relation_get_osm_streets_street_is_node() {
-        let ctx = crate::context::tests::make_test_context().unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gh830").unwrap();
         let actual = relation.get_osm_streets(/*sorted_result=*/ true).unwrap();
         assert_eq!(actual.len(), 1);
         assert_eq!(actual[0].get_osm_type(), "node");
+    }
+
+    /// Tests Relation.get_osm_streets(): the case when we have streets, but no house numbers.
+    #[test]
+    fn test_relation_get_osm_streets_no_house_number() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("ujbuda").unwrap();
+        let osm_streets = relation.get_osm_streets(/*sorted_result=*/ true).unwrap();
+        let actual: Vec<_> = osm_streets.iter().map(|i| i.get_osm_name()).collect();
+        let expected = vec!["OSM Name 1", "Törökugrató utca", "Tűzkő utca"];
+        assert_eq!(actual, expected);
     }
 }

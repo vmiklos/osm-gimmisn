@@ -45,7 +45,7 @@ impl RelationFiles {
     }
 
     /// Build the file name of the OSM street list of a relation.
-    fn get_osm_streets_path(&self) -> anyhow::Result<String> {
+    pub fn get_osm_streets_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("streets-{}.csv", self.name))

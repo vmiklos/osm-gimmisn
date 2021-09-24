@@ -24,14 +24,6 @@ import yattag
 
 class TestRelationGetOsmStreets(unittest.TestCase):
     """Tests Relation.get_osm_streets()."""
-    def test_no_house_number(self) -> None:
-        """Tests the case when we have streets, but no house numbers."""
-        relations = areas.Relations(test_context.make_test_context())
-        relation = relations.get_relation("ujbuda")
-        actual = [i.get_osm_name() for i in relation.get_osm_streets(sorted_result=True)]
-        expected = ['OSM Name 1', 'Törökugrató utca', 'Tűzkő utca']
-        self.assertEqual(actual, expected)
-
     def test_conscriptionnumber(self) -> None:
         """Tests when there is only an addr:conscriptionnumber."""
         relations = areas.Relations(test_context.make_test_context())

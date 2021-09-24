@@ -16,10 +16,15 @@ use crate::i18n::translate as tr;
 use crate::util;
 use crate::yattag;
 use anyhow::anyhow;
+use anyhow::Context;
 use git_version::git_version;
 use pyo3::prelude::*;
 use pyo3::types::PyBytes;
 use std::collections::HashMap;
+use std::io::Read;
+use std::ops::DerefMut;
+use std::sync::Arc;
+use std::sync::Mutex;
 
 /// Produces the end of the page.
 fn get_footer(last_updated: &str) -> yattag::Doc {
@@ -827,6 +832,358 @@ fn py_handle_404() -> yattag::PyDoc {
     yattag::PyDoc { doc }
 }
 
+/// Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress.
+fn handle_stats_cityprogress(
+    ctx: &context::Context,
+    relations: &areas::Relations,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        get_toolbar(
+            ctx,
+            &Some(relations.clone()),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+
+    let mut ref_citycounts: HashMap<String, u64> = HashMap::new();
+    let csv_stream: Arc<Mutex<dyn Read + Send>> = ctx
+        .get_file_system()
+        .open_read(&ctx.get_ini().get_reference_citycounts_path()?)?;
+    let mut guard = csv_stream.lock().unwrap();
+    let mut read = guard.deref_mut();
+    let mut csv_read = util::CsvRead::new(&mut read);
+    let mut first = true;
+    for result in csv_read.records() {
+        if first {
+            first = false;
+            continue;
+        }
+        let row = result?;
+        let city = row.get(0).unwrap();
+        let count: u64 = row.get(1).unwrap().parse()?;
+        ref_citycounts.insert(city.into(), count);
+    }
+    let timestamp = ctx.get_time().now();
+    let naive = chrono::NaiveDateTime::from_timestamp(timestamp, 0);
+    let today = naive.format("%Y-%m-%d").to_string();
+    let mut osm_citycounts: HashMap<String, u64> = HashMap::new();
+    let path = format!("{}/stats/{}.citycount", ctx.get_ini().get_workdir()?, today);
+    let csv_stream: Arc<Mutex<dyn Read + Send>> = ctx.get_file_system().open_read(&path)?;
+    let mut guard = csv_stream.lock().unwrap();
+    let mut read = guard.deref_mut();
+    let mut csv_read = util::CsvRead::new(&mut read);
+    for result in csv_read.records() {
+        let row = result.with_context(|| format!("failed to read row in {}", path))?;
+        let city = row.get(0).unwrap();
+        let count: u64 = row.get(1).unwrap().parse()?;
+        osm_citycounts.insert(city.into(), count);
+    }
+    let ref_cities: Vec<_> = ref_citycounts
+        .iter()
+        .map(|(k, _v)| util::Street::from_string(k))
+        .collect();
+    let osm_cities: Vec<_> = osm_citycounts
+        .iter()
+        .map(|(k, _v)| util::Street::from_string(k))
+        .collect();
+    let in_both = util::get_in_both(&ref_cities, &osm_cities);
+    let mut cities: Vec<_> = in_both.iter().map(|i| i.get_osm_name()).collect();
+    cities.sort_by(|a, b| {
+        util::get_sort_key(a)
+            .unwrap()
+            .cmp(&util::get_sort_key(b).unwrap())
+    });
+    let mut table: Vec<Vec<yattag::Doc>> = vec![vec![
+        yattag::Doc::from_text(&tr("City name")),
+        yattag::Doc::from_text(&tr("House number coverage")),
+        yattag::Doc::from_text(&tr("OSM count")),
+        yattag::Doc::from_text(&tr("Reference count")),
+    ]];
+    for city in cities {
+        let mut percent: String = "100.00".into();
+        if *ref_citycounts.get(city).unwrap() > 0
+            && osm_citycounts.get(city).unwrap() < ref_citycounts.get(city).unwrap()
+        {
+            let osm_count = osm_citycounts[city] as f64;
+            let ref_count = ref_citycounts[city] as f64;
+            percent = format!("{0:.2}", osm_count / ref_count * 100_f64);
+        }
+        table.push(vec![
+            yattag::Doc::from_text(city),
+            yattag::Doc::from_text(
+                &util::format_percent(&percent).context("util::format_percent() failed:")?,
+            ),
+            yattag::Doc::from_text(&osm_citycounts.get(city).unwrap().to_string()),
+            yattag::Doc::from_text(&ref_citycounts.get(city).unwrap().to_string()),
+        ]);
+    }
+    doc.append_value(util::html_table_from_list(&table).get_value());
+
+    {
+        let _h2 = doc.tag("h2", &[]);
+        doc.text(&tr("Note"));
+    }
+    {
+        let _div = doc.tag("div", &[]);
+        doc.text(&tr(
+            r#"These statistics are estimates, not taking house number filters into account.
+Only cities with house numbers in OSM are considered."#,
+        ));
+    }
+
+    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    Ok(doc)
+}
+
+/// Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
+fn handle_invalid_refstreets(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        get_toolbar(
+            ctx,
+            &Some(relations.clone()),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    for relation in relations.get_relations()? {
+        if !ctx
+            .get_file_system()
+            .path_exists(&relation.get_files().get_osm_streets_path()?)
+        {
+            continue;
+        }
+        let (osm_invalids, ref_invalids) = relation
+            .get_invalid_refstreets()
+            .context("get_invalid_refstreets() failed")?;
+        let key_invalids = relation.get_invalid_filter_keys()?;
+        if osm_invalids.is_empty() && ref_invalids.is_empty() && key_invalids.is_empty() {
+            continue;
+        }
+        {
+            let _h1 = doc.tag("h1", &[]);
+            let relation_name = relation.get_name();
+            {
+                let _a = doc.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!("{}/streets/{}/view-result", prefix, relation_name),
+                    )],
+                );
+                doc.text(&relation_name);
+            }
+        }
+        doc.append_value(
+            util::invalid_refstreets_to_html(&osm_invalids, &ref_invalids).get_value(),
+        );
+        doc.append_value(util::invalid_filter_keys_to_html(&key_invalids).get_value());
+    }
+
+    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    Ok(doc)
+}
+
+/// Expected request_uri: e.g. /osm/housenumber-stats/hungary/.
+fn handle_stats(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    request_uri: &str,
+) -> anyhow::Result<yattag::Doc> {
+    if request_uri.ends_with("/cityprogress") {
+        return handle_stats_cityprogress(ctx, relations);
+    }
+
+    if request_uri.ends_with("/invalid-relations") {
+        return handle_invalid_refstreets(ctx, relations);
+    }
+
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        get_toolbar(
+            ctx,
+            &Some(relations.clone()),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+
+    // Emit localized strings for JS purposes.
+    {
+        let _div = doc.tag("div", &[("style", "display: none;")]);
+        let string_pairs = &[
+            (
+                "str-daily-title",
+                tr("New house numbers, last 2 weeks, as of {}"),
+            ),
+            ("str-daily-x-axis", tr("During this day")),
+            ("str-daily-y-axis", tr("New house numbers")),
+            (
+                "str-monthly-title",
+                tr("New house numbers, last year, as of {}"),
+            ),
+            ("str-monthly-x-axis", tr("During this month")),
+            ("str-monthly-y-axis", tr("New house numbers")),
+            (
+                "str-monthlytotal-title",
+                tr("All house numbers, last year, as of {}"),
+            ),
+            ("str-monthlytotal-x-axis", tr("Latest for this month")),
+            ("str-monthlytotal-y-axis", tr("All house numbers")),
+            (
+                "str-dailytotal-title",
+                tr("All house numbers, last 2 weeks, as of {}"),
+            ),
+            ("str-dailytotal-x-axis", tr("At the start of this day")),
+            ("str-dailytotal-y-axis", tr("All house numbers")),
+            (
+                "str-topusers-title",
+                tr("Top house number editors, as of {}"),
+            ),
+            ("str-topusers-x-axis", tr("User name")),
+            (
+                "str-topusers-y-axis",
+                tr("Number of house numbers last changed by this user"),
+            ),
+            ("str-topcities-title", tr("Top edited cities, as of {}")),
+            ("str-topcities-x-axis", tr("City name")),
+            (
+                "str-topcities-y-axis",
+                tr("Number of house numbers added in the past 30 days"),
+            ),
+            ("str-topcities-empty", tr("(empty)")),
+            ("str-topcities-invalid", tr("(invalid)")),
+            (
+                "str-usertotal-title",
+                tr("Number of house number editors, as of {}"),
+            ),
+            ("str-usertotal-x-axis", tr("All editors")),
+            (
+                "str-usertotal-y-axis",
+                tr("Number of editors, at least one housenumber is last changed by these users"),
+            ),
+            ("str-progress-title", tr("Coverage is {1}%, as of {2}")),
+            (
+                "str-progress-x-axis",
+                tr("Number of house numbers in database"),
+            ),
+            ("str-progress-y-axis", tr("Data source")),
+        ];
+        for (key, value) in string_pairs {
+            let _div = doc.tag("div", &[("id", key), ("data-value", value)]);
+        }
+    }
+
+    let title_ids = &[
+        (tr("New house numbers"), "daily"),
+        (tr("All house numbers"), "dailytotal"),
+        (tr("New house numbers, monthly"), "monthly"),
+        (tr("All house numbers, monthly"), "monthlytotal"),
+        (tr("Top house number editors"), "topusers"),
+        (tr("Top edited cities"), "topcities"),
+        (tr("All house number editors"), "usertotal"),
+        (tr("Coverage"), "progress"),
+        (tr("Per-city coverage"), "cityprogress"),
+        (tr("Invalid relation settings"), "invalid-relations"),
+    ];
+
+    {
+        let _ul = doc.tag("ul", &[]);
+        for (title, identifier) in title_ids {
+            let identifier = identifier.to_string();
+            let _li = doc.tag("li", &[]);
+            if identifier == "cityprogress" {
+                let _a = doc.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!("{}/housenumber-stats/hungary/cityprogress", prefix),
+                    )],
+                );
+                doc.text(title);
+                continue;
+            }
+            if identifier == "invalid-relations" {
+                let _a = doc.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!("{}/housenumber-stats/hungary/invalid-relations", prefix),
+                    )],
+                );
+                doc.text(title);
+                continue;
+            }
+            let _a = doc.tag("a", &[("href", &format!("#_{}", identifier))]);
+            doc.text(title);
+        }
+    }
+
+    for (title, identifier) in title_ids {
+        let identifier = identifier.to_string();
+        if identifier == "cityprogress" || identifier == "invalid-relations" {
+            continue;
+        }
+        {
+            let _h2 = doc.tag("h2", &[("id", &format!("_{}", identifier))]);
+            doc.text(title);
+        }
+
+        let _div = doc.tag("div", &[("class", "canvasblock js")]);
+        let _canvas = doc.tag("canvas", &[("id", &identifier)]);
+    }
+
+    {
+        let _h2 = doc.tag("h2", &[]);
+        doc.text(&tr("Note"));
+    }
+    {
+        let _div = doc.tag("div", &[]);
+        doc.text(&tr(
+            r#"These statistics are provided purely for interested editors, and are not
+intended to reflect quality of work done by any given editor in OSM. If you want to use
+them to motivate yourself, that's fine, but keep in mind that a bit of useful work is
+more meaningful than a lot of useless work."#,
+        ));
+    }
+
+    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    Ok(doc)
+}
+
+#[pyfunction]
+fn py_handle_stats(
+    ctx: context::PyContext,
+    mut relations: areas::PyRelations,
+    request_uri: &str,
+) -> PyResult<yattag::PyDoc> {
+    let doc = match handle_stats(&ctx.context, &mut relations.relations, request_uri)
+        .context("handle_stats() failed")
+    {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
+        }
+    };
+
+    Ok(yattag::PyDoc { doc })
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_footer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -840,5 +1197,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_exception, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_404, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_format_timestamp, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_stats, module)?)?;
     Ok(())
 }

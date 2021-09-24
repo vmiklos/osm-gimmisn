@@ -6,7 +6,6 @@
 
 """The util module contains functionality shared between other modules."""
 
-from typing import Any
 from typing import Dict
 from typing import List
 from typing import Set
@@ -129,11 +128,6 @@ def git_link(version: str, prefix: str) -> rust.PyDoc:
 def sort_numerically(strings: List[rust.PyHouseNumber]) -> List[rust.PyHouseNumber]:
     """Sorts strings according to their numerical value, not alphabetically."""
     return rust.py_sort_numerically(strings)
-
-
-def get_in_both(first: List[Any], second: List[Any]) -> List[Any]:
-    """Returns items which are in both first and second."""
-    return rust.py_get_in_both(first, second)
 
 
 def get_content(path: str) -> bytes:

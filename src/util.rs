@@ -1175,7 +1175,7 @@ pub fn should_expand_range(numbers: &[i64], street_is_even_odd: bool) -> (bool, 
 }
 
 /// Produces a HTML table from a list of lists.
-fn html_table_from_list(table: &[Vec<crate::yattag::Doc>]) -> crate::yattag::Doc {
+pub fn html_table_from_list(table: &[Vec<crate::yattag::Doc>]) -> crate::yattag::Doc {
     let doc = crate::yattag::Doc::new();
     let _table = doc.tag("table", &[("class", "sortable")]);
     for (row_index, row_content) in table.iter().enumerate() {
@@ -1214,7 +1214,7 @@ fn py_html_table_from_list(
 }
 
 /// Produces HTML enumerations for 2 string lists.
-fn invalid_refstreets_to_html(
+pub fn invalid_refstreets_to_html(
     osm_invalids: &[String],
     ref_invalids: &[String],
 ) -> crate::yattag::Doc {
@@ -1265,7 +1265,7 @@ fn py_invalid_refstreets_to_html(
 }
 
 /// Produces HTML enumerations for a string list.
-fn invalid_filter_keys_to_html(invalids: &[String]) -> crate::yattag::Doc {
+pub fn invalid_filter_keys_to_html(invalids: &[String]) -> crate::yattag::Doc {
     let doc = crate::yattag::Doc::new();
     if !invalids.is_empty() {
         doc.stag("br", &[]);
@@ -1596,76 +1596,6 @@ pub fn get_in_both<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
         .collect()
 }
 
-fn py_get_in_both_housenumber(
-    py: Python<'_>,
-    first: &[PyObject],
-    second: &[PyObject],
-) -> PyResult<Vec<PyObject>> {
-    let first: Vec<HouseNumber> = first
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
-            Ok(item.house_number.clone())
-        })
-        .collect::<PyResult<Vec<HouseNumber>>>()?;
-    let second: Vec<HouseNumber> = second
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
-            Ok(item.house_number.clone())
-        })
-        .collect::<PyResult<Vec<HouseNumber>>>()?;
-    let ret = get_in_both(&first, &second);
-    Ok(ret
-        .iter()
-        .map(|i| {
-            PyHouseNumber {
-                house_number: i.clone(),
-            }
-            .into_py(py)
-        })
-        .collect::<Vec<PyObject>>())
-}
-
-fn py_get_in_both_street(
-    py: Python<'_>,
-    first: &[PyObject],
-    second: &[PyObject],
-) -> PyResult<Vec<PyObject>> {
-    let first: Vec<Street> = first
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyStreet> = item.extract(py)?;
-            Ok(item.street.clone())
-        })
-        .collect::<PyResult<Vec<Street>>>()?;
-    let second: Vec<Street> = second
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyStreet> = item.extract(py)?;
-            Ok(item.street.clone())
-        })
-        .collect::<PyResult<Vec<Street>>>()?;
-    let ret = get_in_both(&first, &second);
-    Ok(ret
-        .iter()
-        .map(|i| PyStreet { street: i.clone() }.into_py(py))
-        .collect::<Vec<PyObject>>())
-}
-
-#[pyfunction]
-fn py_get_in_both(
-    py: Python<'_>,
-    first: Vec<PyObject>,
-    second: Vec<PyObject>,
-) -> PyResult<Vec<PyObject>> {
-    if let Ok(value) = py_get_in_both_housenumber(py, &first, &second) {
-        return Ok(value);
-    }
-
-    py_get_in_both_street(py, &first, &second)
-}
-
 /// Gets the content of a file in workdir.
 fn get_content(path: &str) -> anyhow::Result<Vec<u8>> {
     Ok(std::fs::read(path)?)
@@ -1798,7 +1728,7 @@ fn py_get_city_key(
 }
 
 /// Returns a string comparator which allows locale-aware lexical sorting.
-fn get_sort_key(bytes: &str) -> anyhow::Result<Vec<u8>> {
+pub fn get_sort_key(bytes: &str) -> anyhow::Result<Vec<u8>> {
     // This is good enough for now, English and Hungarian is all we support and this handles both.
     let collator = ucol::UCollator::try_from("hu")?;
     let string = ustring::UChar::try_from(bytes)?;
@@ -1862,7 +1792,7 @@ fn py_get_valid_settlements(py: Python<'_>, ctx: PyObject) -> PyResult<HashSet<S
 }
 
 /// Formats a percentage, taking locale into account.
-fn format_percent(english: &str) -> anyhow::Result<String> {
+pub fn format_percent(english: &str) -> anyhow::Result<String> {
     let parsed: f64 = english.parse()?;
     let formatted = format!("{0:.2}%", parsed);
     let language: &str = &crate::i18n::get_language();
@@ -1951,7 +1881,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_housenumber_ranges, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_git_link, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_sort_numerically, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_in_both, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_city_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_sort_key, module)?)?;
