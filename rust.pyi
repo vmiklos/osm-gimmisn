@@ -1031,4 +1031,19 @@ def py_send_response(
     """Turns an output string into a byte array and sends it."""
     ...
 
+def py_handle_exception(
+        environ: Dict[str, str],
+        error: str
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
+    """Displays an unhandled exception on the page."""
+    ...
+
+def py_handle_404() -> PyDoc:
+    """Displays a not-found page."""
+    ...
+
+def py_format_timestamp(timestamp: float) -> str:
+    """Formats timestamp as UI date-time."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -9,13 +9,10 @@
 
 from typing import Any
 from typing import Dict
-from typing import Iterable
 from typing import List
 from typing import Optional
-from typing import TYPE_CHECKING
 from typing import Tuple
 from typing import cast
-import datetime
 import json
 import os
 import time
@@ -28,10 +25,6 @@ import areas
 import context
 import rust
 import util
-
-if TYPE_CHECKING:
-    # pylint: disable=no-name-in-module,import-error,unused-import
-    from wsgiref.types import StartResponse
 
 
 def get_footer(last_updated: str) -> yattag.Doc:
@@ -80,44 +73,21 @@ def send_response(
 
 
 def handle_exception(
-        environ: Dict[str, Any],
-        start_response: 'StartResponse',
+        environ: Dict[str, str],
         error: str
-) -> Iterable[bytes]:
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
     """Displays an unhandled exception on the page."""
-    status = '500 Internal Server Error'
-    path_info = environ.get("PATH_INFO")
-    request_uri = path_info
-    doc = yattag.Doc()
-    util.write_html_header(doc)
-    with doc.tag("pre", []):
-        doc.text(tr("Internal error when serving {0}").format(request_uri) + "\n")
-        doc.text(error)
-    response_properties = Response("text/html", status, util.to_bytes(doc.get_value()), [])
-    filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
-    status, headers, output_byte_list = send_response(filtered_environ, response_properties)
-    start_response(status, headers)
-    return output_byte_list
+    return rust.py_handle_exception(environ, error)
 
 
 def handle_404() -> yattag.Doc:
     """Displays a not-found page."""
-    doc = yattag.Doc()
-    util.write_html_header(doc)
-    with doc.tag("html", []):
-        with doc.tag("body", []):
-            with doc.tag("h1", []):
-                doc.text(tr("Not Found"))
-            with doc.tag("p", []):
-                doc.text(tr("The requested URL was not found on this server."))
-    return doc
+    return rust.py_handle_404()
 
 
 def format_timestamp(timestamp: float) -> str:
     """Formats timestamp as UI date-time."""
-    date_time = datetime.datetime.fromtimestamp(timestamp)
-    fmt = '%Y-%m-%d %H:%M'
-    return date_time.strftime(fmt)
+    return rust.py_format_timestamp(timestamp)
 
 
 def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) -> yattag.Doc:
@@ -126,17 +96,14 @@ def handle_stats_cityprogress(ctx: context.Context, relations: areas.Relations) 
     doc.append_value(get_toolbar(ctx, relations, function=str(), relation_name=str(), relation_osmid=0).get_value())
 
     ref_citycounts: Dict[str, int] = {}
-    with open(ctx.get_ini().get_reference_citycounts_path(), "r") as stream:
+    with util.CsvIO(ctx.get_file_system().open_read(ctx.get_ini().get_reference_citycounts_path())) as csv_stream:
         first = True
-        for line in stream:
+        for row in csv_stream.get_rows():
             if first:
                 first = False
                 continue
-            cells = line.strip().split('\t')
-            if len(cells) < 2:
-                continue
-            city = cells[0]
-            count = int(cells[1])
+            city = row[0]
+            count = int(row[1])
             ref_citycounts[city] = count
     today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
     osm_citycounts: Dict[str, int] = {}

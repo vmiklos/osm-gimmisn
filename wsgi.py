@@ -983,7 +983,10 @@ def application(
     """The entry point of this WSGI app."""
     ret, err = our_application(environ, start_response, ctx)
     if err:
-        return webframe.handle_exception(environ, start_response, err)
+        filtered_environ = {k: v for k, v in environ.items() if k in ("HTTP_ACCEPT_ENCODING", "PATH_INFO")}
+        status, headers, output_bytes_list = webframe.handle_exception(filtered_environ, err)
+        start_response(status, headers)
+        return output_bytes_list
     return ret
 
 

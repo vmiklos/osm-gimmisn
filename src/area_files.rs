@@ -10,6 +10,8 @@
 
 //! The area_files module contains file handling functionality, to be used by the areas module.
 
+use crate::context;
+use crate::i18n;
 use anyhow::anyhow;
 use pyo3::prelude::*;
 use std::io::Read;
@@ -86,11 +88,7 @@ impl RelationFiles {
     fn get_housenumbers_htmlcache_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
-            .join(format!(
-                "{}.htmlcache.{}",
-                self.name,
-                crate::i18n::get_language()
-            ))
+            .join(format!("{}.htmlcache.{}", self.name, i18n::get_language()))
             .to_str()
             .ok_or_else(|| anyhow!("cannot convert path to string"))?
             .into())
@@ -143,7 +141,7 @@ impl RelationFiles {
             .join(format!(
                 "{}.additional-htmlcache.{}",
                 self.name,
-                crate::i18n::get_language()
+                i18n::get_language()
             ))
             .to_str()
             .ok_or_else(|| anyhow!("cannot convert path to string"))?
@@ -153,7 +151,7 @@ impl RelationFiles {
     /// Opens the reference street list of a relation for reading.
     pub fn get_ref_streets_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_ref_streets_path()?;
         ctx.get_file_system().open_read(&path)
@@ -162,7 +160,7 @@ impl RelationFiles {
     /// Opens the reference street list of a relation for wrtiting.
     pub fn get_ref_streets_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_ref_streets_path()?;
         ctx.get_file_system().open_write(&path)
@@ -171,7 +169,7 @@ impl RelationFiles {
     /// Opens the OSM street list of a relation for reading.
     pub fn get_osm_streets_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_osm_streets_path()?;
         ctx.get_file_system().open_read(&path)
@@ -180,7 +178,7 @@ impl RelationFiles {
     /// Opens the OSM house number list of a relation for reading.
     pub fn get_osm_housenumbers_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_osm_housenumbers_path()?;
         ctx.get_file_system().open_read(&path)
@@ -189,7 +187,7 @@ impl RelationFiles {
     /// Opens the reference house number list of a relation for reading.
     pub fn get_ref_housenumbers_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_ref_housenumbers_path()?;
         ctx.get_file_system().open_read(&path)
@@ -198,7 +196,7 @@ impl RelationFiles {
     /// Opens the reference house number list of a relation for writing.
     pub fn get_ref_housenumbers_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_ref_housenumbers_path()?;
         ctx.get_file_system().open_write(&path)
@@ -207,7 +205,7 @@ impl RelationFiles {
     /// Opens the house number percent file of a relation for reading.
     fn get_housenumbers_percent_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_housenumbers_percent_path()?;
         ctx.get_file_system().open_read(&path)
@@ -216,7 +214,7 @@ impl RelationFiles {
     /// Opens the house number percent file of a relation for writing.
     pub fn get_housenumbers_percent_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_housenumbers_percent_path()?;
         ctx.get_file_system().open_write(&path)
@@ -225,7 +223,7 @@ impl RelationFiles {
     /// Opens the house number HTML cache file of a relation for reading.
     fn get_housenumbers_htmlcache_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_housenumbers_htmlcache_path()?;
         ctx.get_file_system().open_read(&path)
@@ -234,7 +232,7 @@ impl RelationFiles {
     /// Opens the house number HTML cache file of a relation for writing.
     fn get_housenumbers_htmlcache_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_housenumbers_htmlcache_path()?;
         ctx.get_file_system().open_write(&path)
@@ -243,7 +241,7 @@ impl RelationFiles {
     /// Opens the house number plain text cache file of a relation for reading.
     fn get_housenumbers_txtcache_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_housenumbers_txtcache_path()?;
         ctx.get_file_system().open_read(&path)
@@ -252,7 +250,7 @@ impl RelationFiles {
     /// Opens the house number plain text cache file of a relation for writing.
     fn get_housenumbers_txtcache_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_housenumbers_txtcache_path()?;
         ctx.get_file_system().open_write(&path)
@@ -261,7 +259,7 @@ impl RelationFiles {
     /// Opens the street percent file of a relation for reading.
     fn get_streets_percent_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_streets_percent_path()?;
         ctx.get_file_system().open_read(&path)
@@ -270,7 +268,7 @@ impl RelationFiles {
     /// Opens the street percent file of a relation for writing.
     pub fn get_streets_percent_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_streets_percent_path()?;
         ctx.get_file_system().open_write(&path)
@@ -279,7 +277,7 @@ impl RelationFiles {
     /// Opens the street additional count file of a relation for reading.
     fn get_streets_additional_count_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_streets_additional_count_path()?;
         ctx.get_file_system().open_read(&path)
@@ -288,7 +286,7 @@ impl RelationFiles {
     /// Opens the street additional count file of a relation for writing.
     pub fn get_streets_additional_count_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_streets_additional_count_path()?;
         ctx.get_file_system().open_write(&path)
@@ -297,7 +295,7 @@ impl RelationFiles {
     /// Opens the housenumbers additional count file of a relation for reading.
     fn get_housenumbers_additional_count_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_housenumbers_additional_count_path()?;
         ctx.get_file_system().open_read(&path)
@@ -306,7 +304,7 @@ impl RelationFiles {
     /// Opens the housenumbers additional count file of a relation for writing.
     pub fn get_housenumbers_additional_count_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_housenumbers_additional_count_path()?;
         ctx.get_file_system().open_write(&path)
@@ -315,18 +313,14 @@ impl RelationFiles {
     /// Opens the OSM street list of a relation for writing.
     fn get_osm_streets_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_osm_streets_path()?;
         ctx.get_file_system().open_write(&path)
     }
 
     /// Writes the result for overpass of Relation.get_osm_streets_query().
-    fn write_osm_streets(
-        &self,
-        ctx: &crate::context::Context,
-        result: &str,
-    ) -> anyhow::Result<usize> {
+    fn write_osm_streets(&self, ctx: &context::Context, result: &str) -> anyhow::Result<usize> {
         if result.starts_with("<?xml") {
             // Not a CSV, reject.
             return Ok(0);
@@ -340,7 +334,7 @@ impl RelationFiles {
     /// Opens the OSM house number list of a relation for writing.
     fn get_osm_housenumbers_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_osm_housenumbers_path()?;
         ctx.get_file_system().open_write(&path)
@@ -349,7 +343,7 @@ impl RelationFiles {
     /// Writes the result for overpass of Relation.get_osm_housenumbers_query().
     fn write_osm_housenumbers(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
         result: &str,
     ) -> anyhow::Result<usize> {
         if result.starts_with("<?xml") {
@@ -365,7 +359,7 @@ impl RelationFiles {
     /// Opens the additional house number HTML cache file of a relation for reading.
     fn get_additional_housenumbers_htmlcache_read_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
         let path = self.get_additional_housenumbers_htmlcache_path()?;
         ctx.get_file_system().open_read(&path)
@@ -374,7 +368,7 @@ impl RelationFiles {
     /// Opens the additional house number HTML cache file of a relation for writing.
     fn get_additional_housenumbers_htmlcache_write_stream(
         &self,
-        ctx: &crate::context::Context,
+        ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_additional_housenumbers_htmlcache_path()?;
         ctx.get_file_system().open_write(&path)
@@ -507,9 +501,9 @@ impl PyRelationFiles {
         }
     }
 
-    fn get_ref_streets_read_stream(&self, ctx: PyObject) -> PyResult<crate::context::PyRead> {
+    fn get_ref_streets_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_ref_streets_read_stream(&ctx.context)
@@ -522,12 +516,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
-    fn get_ref_streets_write_stream(&self, ctx: PyObject) -> PyResult<crate::context::PyWrite> {
+    fn get_ref_streets_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_ref_streets_write_stream(&ctx.context)
@@ -540,12 +534,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 
-    fn get_osm_streets_read_stream(&self, ctx: PyObject) -> PyResult<crate::context::PyRead> {
+    fn get_osm_streets_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_osm_streets_read_stream(&ctx.context)
@@ -558,12 +552,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
-    fn get_osm_housenumbers_read_stream(&self, ctx: PyObject) -> PyResult<crate::context::PyRead> {
+    fn get_osm_housenumbers_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_osm_housenumbers_read_stream(&ctx.context)
@@ -576,12 +570,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
-    fn get_ref_housenumbers_read_stream(&self, ctx: PyObject) -> PyResult<crate::context::PyRead> {
+    fn get_ref_housenumbers_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_ref_housenumbers_read_stream(&ctx.context)
@@ -594,15 +588,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
-    fn get_ref_housenumbers_write_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<crate::context::PyWrite> {
+    fn get_ref_housenumbers_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_ref_housenumbers_write_stream(&ctx.context)
@@ -615,15 +606,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 
-    fn get_housenumbers_percent_read_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<crate::context::PyRead> {
+    fn get_housenumbers_percent_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_housenumbers_percent_read_stream(&ctx.context)
@@ -636,15 +624,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
-    fn get_housenumbers_percent_write_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<crate::context::PyWrite> {
+    fn get_housenumbers_percent_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_housenumbers_percent_write_stream(&ctx.context)
@@ -657,15 +642,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 
-    fn get_housenumbers_htmlcache_read_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<crate::context::PyRead> {
+    fn get_housenumbers_htmlcache_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_housenumbers_htmlcache_read_stream(&ctx.context)
@@ -678,15 +660,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
-    fn get_housenumbers_htmlcache_write_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<crate::context::PyWrite> {
+    fn get_housenumbers_htmlcache_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_housenumbers_htmlcache_write_stream(&ctx.context)
@@ -699,15 +678,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 
-    fn get_housenumbers_txtcache_read_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<crate::context::PyRead> {
+    fn get_housenumbers_txtcache_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_housenumbers_txtcache_read_stream(&ctx.context)
@@ -720,15 +696,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
-    fn get_housenumbers_txtcache_write_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<crate::context::PyWrite> {
+    fn get_housenumbers_txtcache_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_housenumbers_txtcache_write_stream(&ctx.context)
@@ -741,12 +714,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 
-    fn get_streets_percent_read_stream(&self, ctx: PyObject) -> PyResult<crate::context::PyRead> {
+    fn get_streets_percent_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_streets_percent_read_stream(&ctx.context)
@@ -759,12 +732,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
-    fn get_streets_percent_write_stream(&self, ctx: PyObject) -> PyResult<crate::context::PyWrite> {
+    fn get_streets_percent_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_streets_percent_write_stream(&ctx.context)
@@ -777,15 +750,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 
-    fn get_streets_additional_count_read_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<crate::context::PyRead> {
+    fn get_streets_additional_count_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_streets_additional_count_read_stream(&ctx.context)
@@ -798,15 +768,15 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
     fn get_streets_additional_count_write_stream(
         &self,
         ctx: PyObject,
-    ) -> PyResult<crate::context::PyWrite> {
+    ) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_streets_additional_count_write_stream(&ctx.context)
@@ -819,15 +789,15 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 
     fn get_housenumbers_additional_count_read_stream(
         &self,
         ctx: PyObject,
-    ) -> PyResult<crate::context::PyRead> {
+    ) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_housenumbers_additional_count_read_stream(&ctx.context)
@@ -840,15 +810,15 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
     fn get_housenumbers_additional_count_write_stream(
         &self,
         ctx: PyObject,
-    ) -> PyResult<crate::context::PyWrite> {
+    ) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_housenumbers_additional_count_write_stream(&ctx.context)
@@ -861,12 +831,12 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 
     fn write_osm_streets(&self, ctx: PyObject, result: String) -> PyResult<usize> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self.relation_files.write_osm_streets(&ctx.context, &result) {
             Ok(value) => value,
             Err(err) => {
@@ -881,7 +851,7 @@ impl PyRelationFiles {
 
     fn write_osm_housenumbers(&self, ctx: PyObject, result: String) -> PyResult<usize> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .write_osm_housenumbers(&ctx.context, &result)
@@ -900,9 +870,9 @@ impl PyRelationFiles {
     fn get_additional_housenumbers_htmlcache_read_stream(
         &self,
         ctx: PyObject,
-    ) -> PyResult<crate::context::PyRead> {
+    ) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_additional_housenumbers_htmlcache_read_stream(&ctx.context)
@@ -915,15 +885,15 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyRead { read: ret })
+        Ok(context::PyRead { read: ret })
     }
 
     fn get_additional_housenumbers_htmlcache_write_stream(
         &self,
         ctx: PyObject,
-    ) -> PyResult<crate::context::PyWrite> {
+    ) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(gil.python())?;
+        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
         let ret = match self
             .relation_files
             .get_additional_housenumbers_htmlcache_write_stream(&ctx.context)
@@ -936,7 +906,7 @@ impl PyRelationFiles {
                 )));
             }
         };
-        Ok(crate::context::PyWrite { write: ret })
+        Ok(context::PyWrite { write: ret })
     }
 }
 
