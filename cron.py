@@ -278,19 +278,14 @@ def update_stats_topusers(ctx: context.Context, today: str) -> None:
 def update_stats_refcount(ctx: context.Context, state_dir: str) -> None:
     """Performs the update of workdir/stats/ref.count."""
     count = 0
-    with ctx.get_file_system().open_read(ctx.get_ini().get_reference_citycounts_path()) as stream:
+    with util.CsvIO(ctx.get_file_system().open_read(ctx.get_ini().get_reference_citycounts_path())) as csv_stream:
         first = True
-        for line_bytes in stream:
-            line = util.from_bytes(line_bytes)
+        for row in csv_stream.get_rows():
             if first:
                 first = False
                 continue
 
-            cells = line.strip().split('\t')
-            if len(cells) < 2:
-                continue
-
-            count += int(cells[1])
+            count += int(row[1])
 
     with ctx.get_file_system().open_write(os.path.join(state_dir, "ref.count")) as stream:
         stream.write(util.to_bytes(str(count) + "\n"))

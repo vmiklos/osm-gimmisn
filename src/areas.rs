@@ -2591,4 +2591,16 @@ mod tests {
         let expected: Vec<String> = vec!["B1".into(), "B2".into(), "HB1".into(), "HB2".into()];
         assert_eq!(actual, expected);
     }
+
+    /// Tests Relation.get_osm_streets(): the case when the street name is coming from a house
+    /// number (node).
+    #[test]
+    fn test_relation_get_osm_streets_street_is_node() {
+        let ctx = crate::context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gh830").unwrap();
+        let actual = relation.get_osm_streets(/*sorted_result=*/ true).unwrap();
+        assert_eq!(actual.len(), 1);
+        assert_eq!(actual[0].get_osm_type(), "node");
+    }
 }

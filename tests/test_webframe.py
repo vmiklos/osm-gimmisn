@@ -102,8 +102,8 @@ class TestHandleException(unittest.TestCase):
         # pylint: disable=broad-except
         except Exception:
             callback = cast('StartResponse', start_response)
-            output_iterable = webframe.handle_exception(environ, callback, traceback.format_exc())
-            output_list = cast(List[bytes], output_iterable)
+            status, headers, output_list = webframe.handle_exception(environ, traceback.format_exc())
+            callback(status, headers)
             self.assertTrue(output_list)
             output = output_list[0].decode('utf-8')
             self.assertIn("ValueError", output)

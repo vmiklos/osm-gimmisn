@@ -51,12 +51,12 @@ impl Doc {
     }
 
     /// Starts a new tag.
-    pub fn tag(&self, name: &str, attrs: Vec<(&str, &str)>) -> Tag {
+    pub fn tag(&self, name: &str, attrs: &[(&str, &str)]) -> Tag {
         Tag::new(&self.value, name, attrs)
     }
 
     /// Starts a new tag and closes it as well.
-    pub fn stag(&self, name: &str, attrs: Vec<(&str, &str)>) {
+    pub fn stag(&self, name: &str, attrs: &[(&str, &str)]) {
         self.append_value(format!("<{}", name));
         for attr in attrs {
             let key = attr.0;
@@ -109,12 +109,12 @@ impl PyDoc {
     }
 
     fn tag(&self, name: &str, attrs: Vec<(&str, &str)>) -> PyTag {
-        let tag = self.doc.tag(name, attrs);
+        let tag = self.doc.tag(name, &attrs);
         PyTag { tag: Some(tag) }
     }
 
     fn stag(&self, name: &str, attrs: Vec<(&str, &str)>) {
-        self.doc.stag(name, attrs)
+        self.doc.stag(name, &attrs)
     }
 
     fn text(&self, text: &str) {
@@ -131,7 +131,7 @@ pub struct Tag {
 }
 
 impl Tag {
-    fn new(value: &Arc<Mutex<String>>, name: &str, attrs: Vec<(&str, &str)>) -> Tag {
+    fn new(value: &Arc<Mutex<String>>, name: &str, attrs: &[(&str, &str)]) -> Tag {
         let mut locked_value = value.lock().unwrap();
         locked_value.push_str(&format!("<{}", name));
         for attr in attrs {
@@ -168,7 +168,7 @@ impl PyTag {
     fn new(py: Python<'_>, doc: PyObject, name: &str, attrs: Vec<(&str, &str)>) -> PyResult<Self> {
         // Convert PyObject to Doc.
         let doc: PyRefMut<'_, PyDoc> = doc.extract(py)?;
-        let tag = Tag::new(&doc.doc.value, name, attrs);
+        let tag = Tag::new(&doc.doc.value, name, &attrs);
         Ok(PyTag { tag: Some(tag) })
     }
 }
