@@ -1184,6 +1184,107 @@ fn py_handle_stats(
     Ok(yattag::PyDoc { doc })
 }
 
+/// Finds out the request URI.
+fn get_request_uri(
+    environ: &HashMap<String, String>,
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+) -> anyhow::Result<String> {
+    let mut request_uri: String = environ.get("PATH_INFO").unwrap().into();
+
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    if !request_uri.is_empty() {
+        // Compatibility.
+        if request_uri.starts_with(&format!("{}/suspicious-streets/", prefix)) {
+            request_uri = request_uri.replace("suspicious-streets", "missing-housenumbers");
+        } else if request_uri.starts_with(&format!("{}/suspicious-relations/", prefix)) {
+            request_uri = request_uri.replace("suspicious-relations", "missing-streets");
+        }
+
+        // Performance: don't bother with relation aliases for non-relation requests.
+        if !request_uri.starts_with(&format!("{}/streets/", prefix))
+            && !request_uri.starts_with(&format!("{}/missing-streets/", prefix))
+            && !request_uri.starts_with(&format!("{}/street-housenumbers/", prefix))
+            && !request_uri.starts_with(&format!("{}/missing-housenumbers/", prefix))
+        {
+            return Ok(request_uri);
+        }
+
+        // Relation aliases.
+        let aliases = relations.get_aliases()?;
+        let mut tokens = request_uri.split('/');
+        tokens.next_back();
+        let relation_name = tokens.next_back().unwrap();
+        if let Some(value) = aliases.get(relation_name) {
+            request_uri = request_uri.replace(relation_name, value);
+        }
+    }
+
+    Ok(request_uri)
+}
+
+#[pyfunction]
+fn py_get_request_uri(
+    environ: HashMap<String, String>,
+    ctx: context::PyContext,
+    mut relations: areas::PyRelations,
+) -> PyResult<String> {
+    match get_request_uri(&environ, &ctx.context, &mut relations.relations)
+        .context("get_request_uri() failed")
+    {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Prevents serving outdated data from a relation that has been renamed.
+fn check_existing_relation(
+    ctx: &context::Context,
+    relations: &areas::Relations,
+    request_uri: &str,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    if !request_uri.starts_with(&format!("{}/streets/", prefix))
+        && !request_uri.starts_with(&format!("{}/missing-streets/", prefix))
+        && !request_uri.starts_with(&format!("{}/street-housenumbers/", prefix))
+        && !request_uri.starts_with(&format!("{}/missing-housenumbers/", prefix))
+    {
+        return Ok(doc);
+    }
+
+    let mut tokens = request_uri.split('/');
+    tokens.next_back();
+    let relation_name: &String = &tokens.next_back().unwrap().to_string();
+    if relations.get_names().contains(relation_name) {
+        return Ok(doc);
+    }
+
+    {
+        let _div = doc.tag("div", &[("id", "no-such-relation-error")]);
+        doc.text(&tr("No such relation: {0}").replace("{0}", relation_name));
+    }
+    Ok(doc)
+}
+
+#[pyfunction]
+fn py_check_existing_relation(
+    ctx: context::PyContext,
+    relations: areas::PyRelations,
+    request_uri: &str,
+) -> PyResult<yattag::PyDoc> {
+    let doc = match check_existing_relation(&ctx.context, &relations.relations, request_uri)
+        .context("check_existing_relation() failed")
+    {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
+        }
+    };
+
+    Ok(yattag::PyDoc { doc })
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_footer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -1198,5 +1299,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_404, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_format_timestamp, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_stats, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_check_existing_relation, module)?)?;
     Ok(())
 }

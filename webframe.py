@@ -12,7 +12,6 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
-from typing import cast
 import json
 import os
 import urllib
@@ -94,54 +93,14 @@ def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: 
     return rust.py_handle_stats(ctx, relations, request_uri)
 
 
-def get_request_uri(environ: Dict[str, Any], ctx: context.Context, relations: areas.Relations) -> str:
+def get_request_uri(environ: Dict[str, str], ctx: context.Context, relations: areas.Relations) -> str:
     """Finds out the request URI."""
-    request_uri = cast(str, environ.get("PATH_INFO"))
-
-    prefix = ctx.get_ini().get_uri_prefix()
-    if request_uri:
-        # Compatibility.
-        if request_uri.startswith(prefix + "/suspicious-streets/"):
-            request_uri = request_uri.replace('suspicious-streets', 'missing-housenumbers')
-        elif request_uri.startswith(prefix + "/suspicious-relations/"):
-            request_uri = request_uri.replace('suspicious-relations', 'missing-streets')
-
-        # Performance: don't bother with relation aliases for non-relation requests.
-        if not request_uri.startswith(prefix + "/streets/") \
-                and not request_uri.startswith(prefix + "/missing-streets/") \
-                and not request_uri.startswith(prefix + "/street-housenumbers/") \
-                and not request_uri.startswith(prefix + "/missing-housenumbers/"):
-            return request_uri
-
-        # Relation aliases.
-        aliases = relations.get_aliases()
-        tokens = request_uri.split("/")
-        relation_name = tokens[-2]
-        if relation_name in aliases:
-            request_uri = request_uri.replace(relation_name, aliases[relation_name])
-
-    return request_uri
+    return rust.py_get_request_uri(environ, ctx, relations)
 
 
 def check_existing_relation(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
     """Prevents serving outdated data from a relation that has been renamed."""
-    doc = yattag.Doc()
-    prefix = ctx.get_ini().get_uri_prefix()
-    if not request_uri.startswith(prefix + "/streets/") \
-            and not request_uri.startswith(prefix + "/missing-streets/") \
-            and not request_uri.startswith(prefix + "/additional-streets/") \
-            and not request_uri.startswith(prefix + "/street-housenumbers/") \
-            and not request_uri.startswith(prefix + "/missing-housenumbers/"):
-        return doc
-
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    if relation_name in relations.get_names():
-        return doc
-
-    with doc.tag("div", [("id", "no-such-relation-error")]):
-        doc.text(tr("No such relation: {0}").format(relation_name))
-    return doc
+    return rust.py_check_existing_relation(ctx, relations, request_uri)
 
 
 def handle_no_osm_streets(prefix: str, relation_name: str) -> yattag.Doc:

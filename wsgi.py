@@ -919,7 +919,8 @@ def our_application(
 
         relations = areas.Relations(ctx)
 
-        request_uri = webframe.get_request_uri(environ, ctx, relations)
+        filtered_environ = {k: v for k, v in environ.items() if k == "PATH_INFO"}
+        request_uri = webframe.get_request_uri(filtered_environ, ctx, relations)
         _, _, ext = request_uri.partition('.')
 
         if ext in ("txt", "chkl"):

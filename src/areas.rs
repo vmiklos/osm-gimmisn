@@ -1803,7 +1803,7 @@ impl Relations {
     }
 
     /// Gets a sorted list of relation names.
-    fn get_names(&self) -> Vec<String> {
+    pub fn get_names(&self) -> Vec<String> {
         let mut ret: Vec<String> = self.dict.iter().map(|(key, _value)| key.into()).collect();
         ret.sort();
         ret.dedup();
@@ -1919,7 +1919,7 @@ impl Relations {
     }
 
     /// Provide an alias -> real name map of relations.
-    fn get_aliases(&mut self) -> anyhow::Result<HashMap<String, String>> {
+    pub fn get_aliases(&mut self) -> anyhow::Result<HashMap<String, String>> {
         let mut ret: HashMap<String, String> = HashMap::new();
         for relation in self.get_relations()? {
             let aliases = relation.config.get_alias();
@@ -2591,5 +2591,34 @@ mod tests {
         let actual: Vec<_> = osm_streets.iter().map(|i| i.get_osm_name()).collect();
         let expected = vec!["OSM Name 1", "Törökugrató utca", "Tűzkő utca"];
         assert_eq!(actual, expected);
+    }
+
+    /// Tests Relation.get_osm_streets(): when there is only an addr:conscriptionnumber.
+    #[test]
+    fn test_relation_get_osm_streets_conscriptionnumber() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gh754").unwrap();
+        let osm_streets = relation.get_osm_streets(/*sorted_result=*/ true).unwrap();
+        let streets: Vec<_> = osm_streets.iter().map(|i| i.get_osm_name()).collect();
+        // This is coming from a house number which has addr:street and addr:conscriptionnumber, but
+        // no addr:housenumber.
+        let expected: &String = &String::from("Barcfa dűlő");
+        assert_eq!(streets.contains(&expected), true);
+    }
+
+    /// Tests Relation.get_osm_streets_query().
+    #[test]
+    fn test_relation_get_osm_streets_query() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        assert_eq!(
+            relations.get_workdir(),
+            &ctx.get_abspath("workdir").unwrap()
+        );
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let ret = relation.get_osm_streets_query().unwrap();
+        assert_eq!(ret, "aaa 2713748 bbb 3602713748 ccc\n");
     }
 }
