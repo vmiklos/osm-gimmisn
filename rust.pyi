@@ -1044,4 +1044,12 @@ def py_handle_stats(ctx: PyContext, relations: PyRelations, request_uri: str) ->
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     ...
 
+def py_get_request_uri(environ: Dict[str, str], ctx: PyContext, relations: PyRelations) -> str:
+    """Finds out the request URI."""
+    ...
+
+def py_check_existing_relation(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
+    """Prevents serving outdated data from a relation that has been renamed."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
