@@ -32,6 +32,9 @@ filters:
     invalid: ['30', '32', '44', '46', '59', '71', '74']
   Báthory utca:
     show-refstreet: false
+  Bem utca:
+    # 2-4: csak 2 van kiírva
+    invalid: ['4']
   Bérc utca:
     # 22: ház sincs nagyon a páros oldalon. a legvégén van 1, nincs száma. 2021-08. RESURVEY 2022
     invalid: ['22']
@@ -39,6 +42,9 @@ filters:
     invalid: ['1']
   Csikász lépcső:
     show-refstreet: false
+  Dembinszky utca:
+    # 6 = Klapka 10
+    invalid: ['6']
   Duna utca:
     # 2 = Balatonfűzfői utca 200
     invalid: ['2']
@@ -104,8 +110,9 @@ filters:
   Radnóti utca:
     show-refstreet: false
   Rákóczi Ferenc utca:
+    # 1 = 3-5-tel azonos telek, de a számozás csak 3 és 5
     # max 43 Balkom
-    invalid: ['59', '63', '89']
+    invalid: ['1', '59', '63', '89']
   Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
     invalid: ['14']
@@ -129,6 +136,9 @@ filters:
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
+  Töhötöm utca:
+    # 10-12: csak 10 van kiírva
+    invalid: ['12']
   Vadász utca:
     # 5 nincs kiírva 2021-08 RESURVEY 2022
     invalid: ['5']
