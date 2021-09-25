@@ -2621,4 +2621,14 @@ mod tests {
         let ret = relation.get_osm_streets_query().unwrap();
         assert_eq!(ret, "aaa 2713748 bbb 3602713748 ccc\n");
     }
+
+    /// Tests Relation.get_osm_housenumbers_query().
+    #[test]
+    fn test_relation_get_osm_housenumbers_query() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let ret = relation.get_osm_housenumbers_query().unwrap();
+        assert_eq!(ret, "housenr aaa 2713748 bbb 3602713748 ccc\n");
+    }
 }

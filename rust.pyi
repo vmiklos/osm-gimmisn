@@ -1052,4 +1052,8 @@ def py_check_existing_relation(ctx: PyContext, relations: PyRelations, request_u
     """Prevents serving outdated data from a relation that has been renamed."""
     ...
 
+def py_handle_no_osm_streets(prefix: str, relation_name: str) -> PyDoc:
+    """Handles the no-osm-streets error on a page using JS."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

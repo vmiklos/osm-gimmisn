@@ -374,6 +374,14 @@ fn fill_existing_header_items(
     Ok(items)
 }
 
+/// Emit localized strings for JS purposes.
+fn emit_l10n_strings_for_js(doc: &yattag::Doc, string_pairs: &[(&str, String)]) {
+    let _div = doc.tag("div", &[("style", "display: none;")]);
+    for (key, value) in string_pairs {
+        let _div = doc.tag("div", &[("id", key), ("data-value", value)]);
+    }
+}
+
 /// Produces the start of the page. Note that the content depends on the function and the
 /// relation, but not on the action to keep a balance between too generic and too specific
 /// content.
@@ -423,22 +431,16 @@ fn get_toolbar(
 
     let doc = yattag::Doc::new();
 
-    // Emit localized strings for JS purposes.
-    {
-        let _div = doc.tag("div", &[("style", "display: none;")]);
-        let string_pairs = &[
-            ("str-toolbar-overpass-wait", tr("Waiting for Overpass...")),
-            ("str-toolbar-overpass-error", tr("Error from Overpass: ")),
-            (
-                "str-toolbar-reference-wait",
-                tr("Creating from reference..."),
-            ),
-            ("str-toolbar-reference-error", tr("Error from reference: ")),
-        ];
-        for (key, value) in string_pairs {
-            let _div = doc.tag("div", &[("id", key), ("data-value", value)]);
-        }
-    }
+    let string_pairs = &[
+        ("str-toolbar-overpass-wait", tr("Waiting for Overpass...")),
+        ("str-toolbar-overpass-error", tr("Error from Overpass: ")),
+        (
+            "str-toolbar-reference-wait",
+            tr("Creating from reference..."),
+        ),
+        ("str-toolbar-reference-error", tr("Error from reference: ")),
+    ];
+    emit_l10n_strings_for_js(&doc, string_pairs);
 
     {
         let _a = doc.tag("a", &[("href", "https://overpass-turbo.eu/")]);
@@ -1023,71 +1025,65 @@ fn handle_stats(
 
     let prefix = ctx.get_ini().get_uri_prefix()?;
 
-    // Emit localized strings for JS purposes.
-    {
-        let _div = doc.tag("div", &[("style", "display: none;")]);
-        let string_pairs = &[
-            (
-                "str-daily-title",
-                tr("New house numbers, last 2 weeks, as of {}"),
-            ),
-            ("str-daily-x-axis", tr("During this day")),
-            ("str-daily-y-axis", tr("New house numbers")),
-            (
-                "str-monthly-title",
-                tr("New house numbers, last year, as of {}"),
-            ),
-            ("str-monthly-x-axis", tr("During this month")),
-            ("str-monthly-y-axis", tr("New house numbers")),
-            (
-                "str-monthlytotal-title",
-                tr("All house numbers, last year, as of {}"),
-            ),
-            ("str-monthlytotal-x-axis", tr("Latest for this month")),
-            ("str-monthlytotal-y-axis", tr("All house numbers")),
-            (
-                "str-dailytotal-title",
-                tr("All house numbers, last 2 weeks, as of {}"),
-            ),
-            ("str-dailytotal-x-axis", tr("At the start of this day")),
-            ("str-dailytotal-y-axis", tr("All house numbers")),
-            (
-                "str-topusers-title",
-                tr("Top house number editors, as of {}"),
-            ),
-            ("str-topusers-x-axis", tr("User name")),
-            (
-                "str-topusers-y-axis",
-                tr("Number of house numbers last changed by this user"),
-            ),
-            ("str-topcities-title", tr("Top edited cities, as of {}")),
-            ("str-topcities-x-axis", tr("City name")),
-            (
-                "str-topcities-y-axis",
-                tr("Number of house numbers added in the past 30 days"),
-            ),
-            ("str-topcities-empty", tr("(empty)")),
-            ("str-topcities-invalid", tr("(invalid)")),
-            (
-                "str-usertotal-title",
-                tr("Number of house number editors, as of {}"),
-            ),
-            ("str-usertotal-x-axis", tr("All editors")),
-            (
-                "str-usertotal-y-axis",
-                tr("Number of editors, at least one housenumber is last changed by these users"),
-            ),
-            ("str-progress-title", tr("Coverage is {1}%, as of {2}")),
-            (
-                "str-progress-x-axis",
-                tr("Number of house numbers in database"),
-            ),
-            ("str-progress-y-axis", tr("Data source")),
-        ];
-        for (key, value) in string_pairs {
-            let _div = doc.tag("div", &[("id", key), ("data-value", value)]);
-        }
-    }
+    let string_pairs = &[
+        (
+            "str-daily-title",
+            tr("New house numbers, last 2 weeks, as of {}"),
+        ),
+        ("str-daily-x-axis", tr("During this day")),
+        ("str-daily-y-axis", tr("New house numbers")),
+        (
+            "str-monthly-title",
+            tr("New house numbers, last year, as of {}"),
+        ),
+        ("str-monthly-x-axis", tr("During this month")),
+        ("str-monthly-y-axis", tr("New house numbers")),
+        (
+            "str-monthlytotal-title",
+            tr("All house numbers, last year, as of {}"),
+        ),
+        ("str-monthlytotal-x-axis", tr("Latest for this month")),
+        ("str-monthlytotal-y-axis", tr("All house numbers")),
+        (
+            "str-dailytotal-title",
+            tr("All house numbers, last 2 weeks, as of {}"),
+        ),
+        ("str-dailytotal-x-axis", tr("At the start of this day")),
+        ("str-dailytotal-y-axis", tr("All house numbers")),
+        (
+            "str-topusers-title",
+            tr("Top house number editors, as of {}"),
+        ),
+        ("str-topusers-x-axis", tr("User name")),
+        (
+            "str-topusers-y-axis",
+            tr("Number of house numbers last changed by this user"),
+        ),
+        ("str-topcities-title", tr("Top edited cities, as of {}")),
+        ("str-topcities-x-axis", tr("City name")),
+        (
+            "str-topcities-y-axis",
+            tr("Number of house numbers added in the past 30 days"),
+        ),
+        ("str-topcities-empty", tr("(empty)")),
+        ("str-topcities-invalid", tr("(invalid)")),
+        (
+            "str-usertotal-title",
+            tr("Number of house number editors, as of {}"),
+        ),
+        ("str-usertotal-x-axis", tr("All editors")),
+        (
+            "str-usertotal-y-axis",
+            tr("Number of editors, at least one housenumber is last changed by these users"),
+        ),
+        ("str-progress-title", tr("Coverage is {1}%, as of {2}")),
+        (
+            "str-progress-x-axis",
+            tr("Number of house numbers in database"),
+        ),
+        ("str-progress-y-axis", tr("Data source")),
+    ];
+    emit_l10n_strings_for_js(&doc, string_pairs);
 
     let title_ids = &[
         (tr("New house numbers"), "daily"),
@@ -1285,6 +1281,32 @@ fn py_check_existing_relation(
     Ok(yattag::PyDoc { doc })
 }
 
+/// Handles the no-osm-streets error on a page using JS.
+fn handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
+    let doc = yattag::Doc::new();
+    let link = format!("{}/streets/{}/uppdate-result", prefix, relation_name);
+    {
+        let _div = doc.tag("div", &[("id", "no-osm-streets")]);
+        let _a = doc.tag("a", &[("href", &link)]);
+        doc.text(&tr("No existing streets: call Overpass to create..."));
+    }
+    let string_pairs = &[
+        (
+            "str-overpass-wait",
+            tr("No existing streets: waiting for Overpass..."),
+        ),
+        ("str-overpass-error", tr("Error from Overpass: ")),
+    ];
+    emit_l10n_strings_for_js(&doc, string_pairs);
+    doc
+}
+
+#[pyfunction]
+fn py_handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::PyDoc {
+    let doc = handle_no_osm_streets(prefix, relation_name);
+    yattag::PyDoc { doc }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_footer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -1301,5 +1323,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_stats, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_check_existing_relation, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_no_osm_streets, module)?)?;
     Ok(())
 }
