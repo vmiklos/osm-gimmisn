@@ -105,21 +105,7 @@ def check_existing_relation(ctx: context.Context, relations: areas.Relations, re
 
 def handle_no_osm_streets(prefix: str, relation_name: str) -> yattag.Doc:
     """Handles the no-osm-streets error on a page using JS."""
-    doc = yattag.Doc()
-    link = prefix + "/streets/" + relation_name + "/update-result"
-    with doc.tag("div", [("id", "no-osm-streets")]):
-        with doc.tag("a", [("href", link)]):
-            doc.text(tr("No existing streets: call Overpass to create..."))
-    # Emit localized strings for JS purposes.
-    with doc.tag("div", [("style", "display: none;")]):
-        string_pairs = [
-            ("str-overpass-wait", tr("No existing streets: waiting for Overpass...")),
-            ("str-overpass-error", tr("Error from Overpass: ")),
-        ]
-        for key, value in string_pairs:
-            with doc.tag("div", [("id", key), ("data-value", value)]):
-                pass
-    return doc
+    return rust.py_handle_no_osm_streets(prefix, relation_name)
 
 
 def handle_no_osm_housenumbers(prefix: str, relation_name: str) -> yattag.Doc:

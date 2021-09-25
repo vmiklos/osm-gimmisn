@@ -22,17 +22,6 @@ import util
 import yattag
 
 
-class TestRelationGetOsmHousenumbersQuery(unittest.TestCase):
-    """Tests Relation.get_osm_housenumbers_query()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        relations = areas.Relations(test_context.make_test_context())
-        relation_name = "gazdagret"
-        relation = relations.get_relation(relation_name)
-        ret = relation.get_osm_housenumbers_query()
-        self.assertEqual(ret, 'housenr aaa 2713748 bbb 3602713748 ccc\n')
-
-
 class TestRelationFilesWriteOsmStreets(unittest.TestCase):
     """Tests RelationFiles.write_osm_streets()."""
     def test_happy(self) -> None:
