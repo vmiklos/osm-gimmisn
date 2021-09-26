@@ -133,6 +133,9 @@ filters:
   Szömörce utca:
     # 9, 30, 62, 64 nincs kiírva 2021-08. RESURVEY 2022
     invalid: ['9', '30', '62', '64']
+  Szúnyog utca:
+    # 1-9 nincsenek házak csak fák, nádas
+    invalid: ['9']
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
