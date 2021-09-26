@@ -1307,6 +1307,36 @@ fn py_handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::PyDoc 
     yattag::PyDoc { doc }
 }
 
+/// Handles the no-osm-housenumbers error on a page using JS.
+fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
+    let doc = yattag::Doc::new();
+    let link = format!(
+        "{}/street-housenumbers/{}/uppdate-result",
+        prefix, relation_name
+    );
+    {
+        let _div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
+        let _a = doc.tag("a", &[("href", &link)]);
+        doc.text(&tr("No existing house numbers: call Overpass to create..."));
+    }
+    // Emit localized strings for JS purposes.
+    let string_pairs = &[
+        (
+            "str-overpass-wait",
+            tr("No existing house numbers: waiting for Overpass..."),
+        ),
+        ("str-overpass-error", tr("Error from Overpass: ")),
+    ];
+    emit_l10n_strings_for_js(&doc, string_pairs);
+    doc
+}
+
+#[pyfunction]
+fn py_handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::PyDoc {
+    let doc = handle_no_osm_housenumbers(prefix, relation_name);
+    yattag::PyDoc { doc }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_footer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -1324,5 +1354,9 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_check_existing_relation, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_no_osm_streets, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_handle_no_osm_housenumbers,
+        module
+    )?)?;
     Ok(())
 }
