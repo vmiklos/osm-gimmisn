@@ -110,21 +110,7 @@ def handle_no_osm_streets(prefix: str, relation_name: str) -> yattag.Doc:
 
 def handle_no_osm_housenumbers(prefix: str, relation_name: str) -> yattag.Doc:
     """Handles the no-osm-housenumbers error on a page using JS."""
-    doc = yattag.Doc()
-    link = prefix + "/street-housenumbers/" + relation_name + "/update-result"
-    with doc.tag("div", [("id", "no-osm-housenumbers")]):
-        with doc.tag("a", [("href", link)]):
-            doc.text(tr("No existing house numbers: call Overpass to create..."))
-    # Emit localized strings for JS purposes.
-    with doc.tag("div", [("style", "display: none;")]):
-        string_pairs = [
-            ("str-overpass-wait", tr("No existing house numbers: waiting for Overpass...")),
-            ("str-overpass-error", tr("Error from Overpass: ")),
-        ]
-        for key, value in string_pairs:
-            with doc.tag("div", [("id", key), ("data-value", value)]):
-                pass
-    return doc
+    return rust.py_handle_no_osm_housenumbers(prefix, relation_name)
 
 
 def handle_no_ref_housenumbers(prefix: str, relation_name: str) -> yattag.Doc:
