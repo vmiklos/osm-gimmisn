@@ -1060,4 +1060,8 @@ def py_handle_no_osm_housenumbers(prefix: str, relation_name: str) -> PyDoc:
     """Handles the no-osm-housenumbers error on a page using JS."""
     ...
 
+def py_handle_no_ref_housenumbers(prefix: str, relation_name: str) -> PyDoc:
+    """Handles the no-ref-housenumbers error on a page using JS."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
