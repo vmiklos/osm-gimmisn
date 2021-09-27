@@ -1337,6 +1337,36 @@ fn py_handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::P
     yattag::PyDoc { doc }
 }
 
+/// Handles the no-ref-housenumbers error on a page using JS.
+fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
+    let doc = yattag::Doc::new();
+    let link = format!(
+        "{}/missing-housenumbers/{}/uppdate-result",
+        prefix, relation_name
+    );
+    {
+        let _div = doc.tag("div", &[("id", "no-ref-housenumbers")]);
+        let _a = doc.tag("a", &[("href", &link)]);
+        doc.text(&tr("No reference house numbers: create from reference..."));
+    }
+    // Emit localized strings for JS purposes.
+    let string_pairs = &[
+        (
+            "str-reference-wait",
+            tr("No reference house numbers: creating from reference..."),
+        ),
+        ("str-reference-error", tr("Error from reference: ")),
+    ];
+    emit_l10n_strings_for_js(&doc, string_pairs);
+    doc
+}
+
+#[pyfunction]
+fn py_handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::PyDoc {
+    let doc = handle_no_ref_housenumbers(prefix, relation_name);
+    yattag::PyDoc { doc }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_footer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -1356,6 +1386,10 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_no_osm_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_handle_no_osm_housenumbers,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_handle_no_ref_housenumbers,
         module
     )?)?;
     Ok(())
