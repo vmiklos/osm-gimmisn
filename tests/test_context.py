@@ -17,11 +17,12 @@ import unittest
 
 import api
 import context
+import rust
 
 
-def make_test_context() -> context.Context:
+def make_test_context() -> rust.PyContext:
     """Creates a Context instance for text purposes."""
-    return context.Context("tests")
+    return context.make_context("tests")
 
 
 class TestFileSystem(api.FileSystem):
@@ -139,6 +140,7 @@ class TestSubprocess(api.Subprocess):
         self.__outputs = outputs
         self.__environments: Dict[str, Dict[str, str]] = {}
         self.__runs: List[str] = []
+        self.__exits: List[int] = []
 
     def get_environment(self, args: str) -> Dict[str, str]:
         """Gets the environment used for one specific cmdline."""
@@ -148,11 +150,18 @@ class TestSubprocess(api.Subprocess):
         """Gets a list of invoked commands."""
         return self.__runs
 
+    def get_exits(self) -> List[int]:
+        """Gets a list of exit codes."""
+        return self.__exits
+
     def run(self, args: List[str], env: Dict[str, str]) -> str:
         key = " ".join(args)
         self.__environments[key] = env
         self.__runs.append(key)
         return self.__outputs[key]
+
+    def exit(self, code: int) -> None:
+        self.__exits.append(code)
 
 
 class TestUnit(api.Unit):

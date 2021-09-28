@@ -18,7 +18,7 @@ import unittest
 
 import test_context
 
-import context
+import rust
 import wsgi
 
 if TYPE_CHECKING:
@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 class TestWsgiJson(unittest.TestCase):
     """Base class for wsgi_json tests."""
 
-    def get_json_for_path(self, ctx: context.Context, path: str) -> Dict[str, Any]:
+    def get_json_for_path(self, ctx: rust.PyContext, path: str) -> Dict[str, Any]:
         """Generates an json dict for a given wsgi path."""
         def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
             # Make sure the built-in exception catcher is not kicking in.

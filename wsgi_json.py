@@ -15,8 +15,6 @@ from typing import List
 from typing import TYPE_CHECKING
 from typing import Tuple
 
-import areas
-import context
 import rust
 import util
 import webframe
@@ -26,7 +24,7 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def streets_update_result_json(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
+def streets_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -42,7 +40,7 @@ def streets_update_result_json(ctx: context.Context, relations: areas.Relations,
     return json.dumps(ret)
 
 
-def street_housenumbers_update_result_json(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
+def street_housenumbers_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -58,7 +56,7 @@ def street_housenumbers_update_result_json(ctx: context.Context, relations: area
     return json.dumps(ret)
 
 
-def missing_housenumbers_update_result_json(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
+def missing_housenumbers_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -70,7 +68,7 @@ def missing_housenumbers_update_result_json(ctx: context.Context, relations: are
     return json.dumps(ret)
 
 
-def missing_streets_update_result_json(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
+def missing_streets_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -85,8 +83,8 @@ def missing_streets_update_result_json(ctx: context.Context, relations: areas.Re
 def our_application_json(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
-        ctx: context.Context,
-        relations: areas.Relations,
+        ctx: rust.PyContext,
+        relations: rust.PyRelations,
         request_uri: str
 ) -> Iterable[bytes]:
     """Dispatches json requests based on their URIs."""
@@ -103,7 +101,7 @@ def our_application_json(
         # Assume that request_uri starts with prefix + "/missing-streets/".
         output = missing_streets_update_result_json(ctx, relations, request_uri)
     output_bytes = util.to_bytes(output)
-    response = webframe.Response(content_type, "200 OK", output_bytes, headers)
+    response = webframe.make_response(content_type, "200 OK", output_bytes, headers)
     status, headers, output_byte_list = webframe.send_response(environ, response)
     start_response(status, headers)
     return output_byte_list

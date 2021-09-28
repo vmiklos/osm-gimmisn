@@ -46,7 +46,7 @@ def error(msg: str, *args: Any, **kwargs: Any) -> None:
     logging.error(get_date_prefix() + " ERROR" + msg, *args, **kwargs)
 
 
-def overpass_sleep(ctx: context.Context) -> None:
+def overpass_sleep(ctx: rust.PyContext) -> None:
     """Sleeps to respect overpass rate limit."""
     while True:
         sleep = rust.py_overpass_query_need_sleep(ctx)
@@ -61,7 +61,7 @@ def should_retry(retry: int) -> bool:
     return retry < 20
 
 
-def update_osm_streets(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
+def update_osm_streets(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the OSM street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -87,7 +87,7 @@ def update_osm_streets(ctx: context.Context, relations: areas.Relations, update:
         info("update_osm_streets: end: %s", relation_name)
 
 
-def update_osm_housenumbers(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
+def update_osm_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the OSM housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -113,7 +113,7 @@ def update_osm_housenumbers(ctx: context.Context, relations: areas.Relations, up
         info("update_osm_housenumbers: end: %s", relation_name)
 
 
-def update_ref_housenumbers(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
+def update_ref_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the reference housenumber list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -133,7 +133,7 @@ def update_ref_housenumbers(ctx: context.Context, relations: areas.Relations, up
         info("update_ref_housenumbers: end: %s", relation_name)
 
 
-def update_ref_streets(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
+def update_ref_streets(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the reference street list of all relations."""
     for relation_name in relations.get_active_names():
         relation = relations.get_relation(relation_name)
@@ -149,7 +149,7 @@ def update_ref_streets(ctx: context.Context, relations: areas.Relations, update:
         info("update_ref_streets: end: %s", relation_name)
 
 
-def update_missing_housenumbers(ctx: context.Context, relations: areas.Relations, update: bool) -> None:
+def update_missing_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the relation's house number coverage stats."""
     info("update_missing_housenumbers: start")
     for relation_name in relations.get_active_names():
@@ -170,7 +170,7 @@ def update_missing_housenumbers(ctx: context.Context, relations: areas.Relations
     info("update_missing_housenumbers: end")
 
 
-def update_missing_streets(_conf: context.Context, relations: areas.Relations, update: bool) -> None:
+def update_missing_streets(_conf: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the relation's street coverage stats."""
     info("update_missing_streets: start")
     for relation_name in relations.get_active_names():
@@ -185,7 +185,7 @@ def update_missing_streets(_conf: context.Context, relations: areas.Relations, u
     info("update_missing_streets: end")
 
 
-def update_additional_streets(_conf: context.Context, relations: areas.Relations, update: bool) -> None:
+def update_additional_streets(_conf: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the relation's "additional streets" stats."""
     info("update_additional_streets: start")
     for relation_name in relations.get_active_names():
@@ -200,14 +200,14 @@ def update_additional_streets(_conf: context.Context, relations: areas.Relations
     info("update_additional_streets: end")
 
 
-def write_count_path(ctx: context.Context, count_path: str, house_numbers: Set[str]) -> None:
+def write_count_path(ctx: rust.PyContext, count_path: str, house_numbers: Set[str]) -> None:
     """Writes a daily .count file."""
     with ctx.get_file_system().open_write(count_path) as stream:
         house_numbers_len = str(len(house_numbers))
         stream.write(util.to_bytes(house_numbers_len + "\n"))
 
 
-def write_city_count_path(ctx: context.Context, city_count_path: str, cities: Dict[str, Set[str]]) -> None:
+def write_city_count_path(ctx: rust.PyContext, city_count_path: str, cities: Dict[str, Set[str]]) -> None:
     """Writes a daily .citycount file."""
     with ctx.get_file_system().open_write(city_count_path) as stream:
         # Locale-aware sort, by key.
@@ -215,7 +215,7 @@ def write_city_count_path(ctx: context.Context, city_count_path: str, cities: Di
             stream.write(util.to_bytes(key + "\t" + str(len(value)) + "\n"))
 
 
-def update_stats_count(ctx: context.Context, today: str) -> None:
+def update_stats_count(ctx: rust.PyContext, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     statedir = ctx.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
@@ -248,7 +248,7 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
     write_city_count_path(ctx, city_count_path, cities)
 
 
-def update_stats_topusers(ctx: context.Context, today: str) -> None:
+def update_stats_topusers(ctx: rust.PyContext, today: str) -> None:
     """Counts the top housenumber editors as of today."""
     statedir = ctx.get_abspath("workdir/stats")
     csv_path = os.path.join(statedir, "%s.csv" % today)
@@ -275,10 +275,10 @@ def update_stats_topusers(ctx: context.Context, today: str) -> None:
         stream.write(util.to_bytes(str(len(users)) + "\n"))
 
 
-def update_stats_refcount(ctx: context.Context, state_dir: str) -> None:
+def update_stats_refcount(ctx: rust.PyContext, state_dir: str) -> None:
     """Performs the update of workdir/stats/ref.count."""
     count = 0
-    with util.CsvIO(ctx.get_file_system().open_read(ctx.get_ini().get_reference_citycounts_path())) as csv_stream:
+    with util.make_csv_io(ctx.get_file_system().open_read(ctx.get_ini().get_reference_citycounts_path())) as csv_stream:
         first = True
         for row in csv_stream.get_rows():
             if first:
@@ -291,7 +291,7 @@ def update_stats_refcount(ctx: context.Context, state_dir: str) -> None:
         stream.write(util.to_bytes(str(count) + "\n"))
 
 
-def update_stats(ctx: context.Context, overpass: bool) -> None:
+def update_stats(ctx: rust.PyContext, overpass: bool) -> None:
     """Performs the update of country-level stats."""
 
     # Fetch house numbers for the whole country.
@@ -338,7 +338,7 @@ def update_stats(ctx: context.Context, overpass: bool) -> None:
     info("update_stats: end")
 
 
-def our_main(ctx: context.Context, relations: areas.Relations, mode: str, update: bool, overpass: bool) -> str:
+def our_main(ctx: rust.PyContext, relations: rust.PyRelations, mode: str, update: bool, overpass: bool) -> str:
     """Performs the actual nightly task."""
     try:
         if mode in ("all", "stats"):
@@ -368,11 +368,11 @@ def our_main(ctx: context.Context, relations: areas.Relations, mode: str, update
     return ctx.get_unit().make_error()
 
 
-def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
+def main(argv: List[str], stdout: TextIO, ctx: rust.PyContext) -> None:
     """Commandline interface to this module."""
 
     workdir = ctx.get_ini().get_workdir()
-    relations = areas.Relations(ctx)
+    relations = areas.make_relations(ctx)
     logpath = os.path.join(workdir, "cron.log")
     logging.basicConfig(filename=logpath,
                         level=logging.INFO,
@@ -410,6 +410,6 @@ def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv, sys.stdout, context.Context(""))
+    main(sys.argv, sys.stdout, context.make_context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

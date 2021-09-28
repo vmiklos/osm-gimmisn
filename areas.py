@@ -9,20 +9,19 @@
 from typing import List
 
 import rust
-import util
 
 
-RelationConfig = rust.PyRelationConfig
-Relation = rust.PyRelation
-Relations = rust.PyRelations
+def make_relations(ctx: rust.PyContext) -> rust.PyRelations:
+    """Factory for rust.PyRelations."""
+    return rust.PyRelations(ctx)
 
 
-def make_turbo_query_for_streets(relation: Relation, streets: List[str]) -> str:
+def make_turbo_query_for_streets(relation: rust.PyRelation, streets: List[str]) -> str:
     """Creates an overpass query that shows all streets from a missing housenumbers table."""
     return rust.py_make_turbo_query_for_streets(relation, streets)
 
 
-def make_turbo_query_for_street_objs(relation: Relation, streets: List[util.Street]) -> str:
+def make_turbo_query_for_street_objs(relation: rust.PyRelation, streets: List[rust.PyStreet]) -> str:
     """Creates an overpass query that shows all streets from a list."""
     return rust.py_make_turbo_query_for_street_objs(relation, streets)
 

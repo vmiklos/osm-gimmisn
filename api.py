@@ -72,6 +72,12 @@ class Subprocess:
         # pylint: disable=unused-argument
         ...
 
+    def exit(self, code: int) -> None:  # pragma: no cover
+        """Terminates the current process with the specified exit code."""
+        # pylint: disable=no-self-use
+        # pylint: disable=unused-argument
+        ...
+
 
 class Unit:
     """Unit testing interface."""

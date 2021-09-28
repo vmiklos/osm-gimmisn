@@ -13,6 +13,7 @@
 use crate::context;
 use crate::i18n;
 use anyhow::anyhow;
+use anyhow::Context;
 use pyo3::prelude::*;
 use std::io::Read;
 use std::io::Write;
@@ -217,7 +218,9 @@ impl RelationFiles {
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_housenumbers_percent_path()?;
-        ctx.get_file_system().open_write(&path)
+        ctx.get_file_system()
+            .open_write(&path)
+            .with_context(|| format!("failed to open {} for writing", path))
     }
 
     /// Opens the house number HTML cache file of a relation for reading.

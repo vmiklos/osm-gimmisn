@@ -17,11 +17,11 @@ import json
 import os
 import time
 
-import context
+import rust
 import util
 
 
-def handle_progress(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
+def handle_progress(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for a global progressbar."""
     ret: Dict[str, Any] = {}
     with open(os.path.join(src_root, "ref.count"), "r") as stream:
@@ -40,7 +40,7 @@ def handle_progress(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> N
     j["progress"] = ret
 
 
-def handle_topusers(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
+def handle_topusers(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for top users."""
     today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
     ret = []
@@ -54,7 +54,7 @@ def handle_topusers(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> N
     j["topusers"] = ret
 
 
-def get_topcities(ctx: context.Context, src_root: str) -> List[Tuple[str, int]]:
+def get_topcities(ctx: rust.PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
@@ -88,7 +88,7 @@ def get_topcities(ctx: context.Context, src_root: str) -> List[Tuple[str, int]]:
     return ret
 
 
-def handle_topcities(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
+def handle_topcities(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> None:
     """
     Generates stats for top cities.
     This lists the top 20 cities which got lots of new house numbers in the past 30 days.
@@ -98,7 +98,7 @@ def handle_topcities(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> 
     j["topcities"] = ret
 
 
-def handle_user_total(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
+def handle_user_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
     """Shows # of total users / day."""
     ret = []
     for day_offset in range(day_range, -1, -1):
@@ -113,7 +113,7 @@ def handle_user_total(ctx: context.Context, src_root: str, j: Dict[str, Any], da
     j["usertotal"] = ret
 
 
-def handle_daily_new(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
+def handle_daily_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
     """Shows # of new housenumbers / day."""
     ret = []
     prev_count = 0
@@ -142,7 +142,7 @@ def get_previous_month(today: datetime.date, months: int) -> datetime.date:
     return month_ago
 
 
-def handle_monthly_new(ctx: context.Context, src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
+def handle_monthly_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
     """Shows # of new housenumbers / month."""
     ret = []
     prev_count = 0
@@ -173,7 +173,7 @@ def handle_monthly_new(ctx: context.Context, src_root: str, j: Dict[str, Any], m
     j["monthly"] = ret
 
 
-def handle_daily_total(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
+def handle_daily_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
     """Shows # of total housenumbers / day."""
     ret = []
     for day_offset in range(day_range, -1, -1):
@@ -188,7 +188,7 @@ def handle_daily_total(ctx: context.Context, src_root: str, j: Dict[str, Any], d
     j["dailytotal"] = ret
 
 
-def handle_monthly_total(ctx: context.Context, src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
+def handle_monthly_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
     """Shows # of total housenumbers / month."""
     ret = []
     for month_offset in range(month_range, -1, -1):
@@ -214,7 +214,7 @@ def handle_monthly_total(ctx: context.Context, src_root: str, j: Dict[str, Any],
     j["monthlytotal"] = ret
 
 
-def generate_json(ctx: context.Context, state_dir: str, stream: BinaryIO) -> None:
+def generate_json(ctx: rust.PyContext, state_dir: str, stream: BinaryIO) -> None:
     """Generates the stats json and writes it to `stream`."""
     j: Dict[str, Any] = {}
     handle_progress(ctx, state_dir, j)

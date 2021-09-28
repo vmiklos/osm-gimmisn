@@ -32,7 +32,7 @@ class TestStreets(test_wsgi.TestWsgi):
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()
@@ -44,7 +44,7 @@ class TestStreets(test_wsgi.TestWsgi):
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         file_system = test_context.TestFileSystem()
@@ -65,7 +65,7 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         relation = relations.get_relation("budafok")
         actual = wsgi.handle_main_housenr_additional_count(ctx, relation)
         self.assertIn("42 house numbers", actual.get_value())
@@ -73,7 +73,7 @@ class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
     def test_no_count_file(self) -> None:
         """Tests what happens when the count file is not there."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         relation = relations.get_relation("budafok")
         hide_path = relation.get_files().get_housenumbers_additional_count_path()
         file_system = test_context.TestFileSystem()
@@ -94,7 +94,7 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()
@@ -107,7 +107,7 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         file_system = test_context.TestFileSystem()
@@ -120,7 +120,7 @@ class TestAdditionalHousenumbers(test_wsgi.TestWsgi):
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         file_system = test_context.TestFileSystem()
@@ -187,7 +187,7 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()
@@ -199,7 +199,7 @@ class TestAdditionalStreets(test_wsgi.TestWsgi):
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         file_system = test_context.TestFileSystem()

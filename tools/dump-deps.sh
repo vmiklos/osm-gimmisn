@@ -32,6 +32,9 @@ do
             yattag)
                 continue
             ;;
+            webframe)
+                continue
+            ;;
         esac
 
         if [ ! -e "$dependency.py" ]; then
