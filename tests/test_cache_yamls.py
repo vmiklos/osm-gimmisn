@@ -34,7 +34,7 @@ class TestMain(unittest.TestCase):
         relation_ids = []
         with open(relation_ids_path) as stream:
             relation_ids = json.load(stream)
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
         self.assertEqual(relation_ids, sorted(set(osmids)))
 

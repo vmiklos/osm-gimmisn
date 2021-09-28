@@ -7,7 +7,6 @@
 """The test_wsgi module covers the wsgi module."""
 
 from typing import Any
-from typing import BinaryIO
 from typing import Container
 from typing import Dict
 from typing import List
@@ -244,7 +243,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()
@@ -256,7 +255,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_osm_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm housenumbers case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         file_system = test_context.TestFileSystem()
@@ -268,7 +267,7 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_no_ref_housenumbers_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref housenumbers case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         file_system = test_context.TestFileSystem()
@@ -358,7 +357,7 @@ Tűzkő utca	31
 
     def test_view_result_chkl_no_osm_streets_hn(self) -> None:
         """Tests the chkl output, no osm streets/hn case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()
@@ -367,7 +366,7 @@ Tűzkő utca	31
         result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
         self.assertEqual(result, "No existing streets")
 
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         file_system.set_hide_paths([hide_path])
@@ -376,7 +375,7 @@ Tűzkő utca	31
 
     def test_view_result_chkl_no_ref_housenumbers(self) -> None:
         """Tests the chkl output, no ref housenumbers case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         file_system = test_context.TestFileSystem()
@@ -387,7 +386,7 @@ Tűzkő utca	31
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()
@@ -398,7 +397,7 @@ Tűzkő utca	31
 
     def test_view_result_txt_no_osm_housenumbers(self) -> None:
         """Tests the txt output, no osm housenumbers case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         file_system = test_context.TestFileSystem()
@@ -409,7 +408,7 @@ Tűzkő utca	31
 
     def test_view_result_txt_no_ref_housenumbers(self) -> None:
         """Tests the txt output, no ref housenumbers case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_housenumbers_path()
         file_system = test_context.TestFileSystem()
@@ -501,7 +500,7 @@ class TestStreetHousenumbers(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_housenumbers_path()
         file_system = test_context.TestFileSystem()
@@ -552,7 +551,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_osm_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()
@@ -564,7 +563,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         file_system = test_context.TestFileSystem()
@@ -586,7 +585,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_osm_streets(self) -> None:
         """Tests the txt output, no osm streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()
@@ -597,7 +596,7 @@ class TestMissingStreets(TestWsgi):
 
     def test_view_result_txt_no_ref_streets(self) -> None:
         """Tests the txt output, no ref streets case."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_ref_streets_path()
         file_system = test_context.TestFileSystem()
@@ -651,7 +650,7 @@ class TestMain(TestWsgi):
             "PATH_INFO": ""
         }
         ctx = test_context.make_test_context()
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         ret = webframe.get_request_uri(environ, ctx, relations)
         self.assertEqual(ret, "")
 
@@ -747,10 +746,10 @@ class TestWebhooks(TestWsgi):
         self.ctx.set_subprocess(subprocess)
         self.get_dom_for_path("/webhooks/github")
         self.assertTrue(subprocess.get_runs() != [])
+        self.assertEqual(subprocess.get_exits(), [1])
 
     def test_github_branch(self) -> None:
         """Tests /osm/webhooks/github, the case when a non-master branch is updated."""
-        environ: Dict[str, BinaryIO] = {}
         ctx = test_context.make_test_context()
         outputs: Dict[str, str] = {}
         subprocess = test_context.TestSubprocess(outputs)
@@ -762,8 +761,7 @@ class TestWebhooks(TestWsgi):
         buf = io.BytesIO()
         buf.write(query_string.encode('utf-8'))
         buf.seek(0)
-        environ["wsgi.input"] = buf
-        webframe.handle_github_webhook(environ, ctx)
+        webframe.handle_github_webhook(buf, ctx)
         self.assertEqual(subprocess.get_runs(), [])
 
 
@@ -812,7 +810,7 @@ class TestInvalidRefstreets(TestWsgi):
 
     def test_no_osm_sreets(self) -> None:
         """Tests error handling when osm street list is missing for a relation."""
-        relations = areas.Relations(test_context.make_test_context())
+        relations = areas.make_relations(test_context.make_test_context())
         relation = relations.get_relation("gazdagret")
         hide_path = relation.get_files().get_osm_streets_path()
         file_system = test_context.TestFileSystem()

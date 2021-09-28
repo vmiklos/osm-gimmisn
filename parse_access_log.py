@@ -20,11 +20,12 @@ import unidecode
 
 import areas
 import context
+import rust
 import stats
 import util
 
 
-def is_complete_relation(relations: areas.Relations, relation_name: str) -> bool:
+def is_complete_relation(relations: rust.PyRelations, relation_name: str) -> bool:
     """Does this relation have 100% house number coverage?"""
     assert relation_name in relations.get_names()
 
@@ -53,7 +54,7 @@ def is_search_bot(line: str) -> bool:
     return False
 
 
-def get_frequent_relations(ctx: context.Context, log_file: str) -> Set[str]:
+def get_frequent_relations(ctx: rust.PyContext, log_file: str) -> Set[str]:
     """Determine the top 20%: set of frequently visited relations."""
     counts: Dict[str, int] = {}
     with open(log_file, "r") as stream:
@@ -94,7 +95,7 @@ def get_frequent_relations(ctx: context.Context, log_file: str) -> Set[str]:
     return frequent_relations
 
 
-def get_relation_create_dates(ctx: context.Context) -> Dict[str, datetime.date]:
+def get_relation_create_dates(ctx: rust.PyContext) -> Dict[str, datetime.date]:
     """Builds a name -> create_date dictionary for relations."""
     ret: Dict[str, datetime.date] = {}
     relations_path = ctx.get_abspath("data/relations.yaml")
@@ -115,14 +116,14 @@ def get_relation_create_dates(ctx: context.Context) -> Dict[str, datetime.date]:
     return ret
 
 
-def is_relation_recently_added(ctx: context.Context, create_dates: Dict[str, datetime.date], name: str) -> bool:
+def is_relation_recently_added(ctx: rust.PyContext, create_dates: Dict[str, datetime.date], name: str) -> bool:
     """Decides if the given relation is recent, based on create_dates."""
     today = datetime.date.fromtimestamp(ctx.get_time().now())
     month_ago = today - datetime.timedelta(days=30)
     return name in create_dates and create_dates[name] > month_ago
 
 
-def check_top_edited_relations(ctx: context.Context, frequent_relations: Set[str]) -> None:
+def check_top_edited_relations(ctx: rust.PyContext, frequent_relations: Set[str]) -> None:
     """
     Update frequent_relations based on get_topcities():
     1) The top 5 edited cities count as frequent, even if they have ~no visitors.
@@ -143,13 +144,13 @@ def check_top_edited_relations(ctx: context.Context, frequent_relations: Set[str
             frequent_relations.remove(city[0])
 
 
-def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
+def main(argv: List[str], stdout: TextIO, ctx: rust.PyContext) -> None:
     """Commandline interface."""
     log_file = argv[1]
 
     relation_create_dates: Dict[str, datetime.date] = get_relation_create_dates(ctx)
 
-    relations = areas.Relations(ctx)
+    relations = areas.make_relations(ctx)
     frequent_relations = get_frequent_relations(ctx, log_file)
     check_top_edited_relations(ctx, frequent_relations)
 
@@ -172,6 +173,6 @@ def main(argv: List[str], stdout: TextIO, ctx: context.Context) -> None:
 
 
 if __name__ == '__main__':
-    main(sys.argv, sys.stdout, context.Context(""))
+    main(sys.argv, sys.stdout, context.make_context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

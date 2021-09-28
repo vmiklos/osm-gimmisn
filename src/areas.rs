@@ -358,30 +358,6 @@ struct PyRelationConfig {
 
 #[pymethods]
 impl PyRelationConfig {
-    #[new]
-    fn new(parent_config: String, my_config: String) -> PyResult<Self> {
-        let parent_value: serde_json::Value = match serde_json::from_str(&parent_config) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "failed to parse parent_config: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        let my_value: serde_json::Value = match serde_json::from_str(&my_config) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "failed to parse my_config: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        let relation_config = RelationConfig::new(&parent_value, &my_value);
-        Ok(PyRelationConfig { relation_config })
-    }
-
     fn set_active(&mut self, active: bool) {
         self.relation_config.set_active(active)
     }
@@ -1206,7 +1182,10 @@ impl Relation {
         }
 
         // Write the bottom line to a file, so the index page show it fast.
-        let write = self.file.get_housenumbers_percent_write_stream(&self.ctx)?;
+        let write = self
+            .file
+            .get_housenumbers_percent_write_stream(&self.ctx)
+            .context("get_housenumbers_percent_write_stream() failed")?;
         let mut guard = write.lock().unwrap();
         guard.write_all(percent.as_bytes())?;
 
@@ -1348,51 +1327,6 @@ struct PyRelation {
 
 #[pymethods]
 impl PyRelation {
-    #[new]
-    fn new(
-        ctx: PyObject,
-        name: String,
-        parent_config: String,
-        yaml_cache: String,
-    ) -> PyResult<Self> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-
-        let parent_value: serde_json::Value = match serde_json::from_str(&parent_config) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "failed to parse parent_config: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        let cache_value: serde_json::Value = match serde_json::from_str(&yaml_cache) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "failed to parse yaml_cache: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        let relation = match Relation::new(
-            &ctx.context,
-            &name,
-            &parent_value,
-            cache_value.as_object().unwrap(),
-        ) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "Relation::new() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(PyRelation { relation })
-    }
-
     fn get_name(&self) -> String {
         self.relation.get_name()
     }
@@ -1607,16 +1541,16 @@ impl PyRelation {
     fn write_missing_housenumbers(
         &mut self,
     ) -> PyResult<(usize, usize, usize, String, yattag::PyHtmlTable)> {
-        let (ongoing_len, todo, done, percent, table) =
-            match self.relation.write_missing_housenumbers() {
-                Ok(value) => value,
-                Err(err) => {
-                    return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                        "write_missing_housenumbers() failed: {}",
-                        err.to_string()
-                    )));
-                }
-            };
+        let (ongoing_len, todo, done, percent, table) = match self
+            .relation
+            .write_missing_housenumbers()
+            .context("write_missing_housenumbers() failed")
+        {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
+            }
+        };
         let py_table: Vec<Vec<yattag::PyDoc>> = table
             .iter()
             .map(|row| {

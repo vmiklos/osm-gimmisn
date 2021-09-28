@@ -23,7 +23,6 @@ import yattag
 from rust import py_translate as tr
 import areas
 import cache
-import context
 import rust
 import util
 import webframe
@@ -35,7 +34,7 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def handle_streets(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_streets(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -67,7 +66,7 @@ def handle_streets(ctx: context.Context, relations: areas.Relations, request_uri
                 doc.text(tr("Update successful."))
     else:
         # assume view-result
-        with util.CsvIO(relation.get_files().get_osm_streets_read_stream(ctx)) as sock:
+        with util.make_csv_io(relation.get_files().get_osm_streets_read_stream(ctx)) as sock:
             table = util.tsv_to_list(sock)
             doc.append_value(util.html_table_from_list(table).get_value())
 
@@ -75,7 +74,7 @@ def handle_streets(ctx: context.Context, relations: areas.Relations, request_uri
     return doc
 
 
-def handle_street_housenumbers(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_street_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -108,7 +107,7 @@ def handle_street_housenumbers(ctx: context.Context, relations: areas.Relations,
             with doc.tag("div", [("id", "no-osm-housenumbers")]):
                 doc.text(tr("No existing house numbers"))
         else:
-            with util.CsvIO(relation.get_files().get_osm_housenumbers_read_stream(ctx)) as sock:
+            with util.make_csv_io(relation.get_files().get_osm_housenumbers_read_stream(ctx)) as sock:
                 doc.append_value(util.html_table_from_list(util.tsv_to_list(sock)).get_value())
 
     date = get_housenumbers_last_modified(relation)
@@ -116,7 +115,7 @@ def handle_street_housenumbers(ctx: context.Context, relations: areas.Relations,
     return doc
 
 
-def missing_housenumbers_view_turbo(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def missing_housenumbers_view_turbo(relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -136,7 +135,7 @@ def missing_housenumbers_view_turbo(relations: areas.Relations, request_uri: str
 
 
 def missing_housenumbers_view_res(
-    ctx: context.Context, relations: areas.Relations, request_uri: str
+    ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result."""
     tokens = request_uri.split("/")
@@ -156,7 +155,7 @@ def missing_housenumbers_view_res(
     return doc
 
 
-def missing_streets_view_result(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def missing_streets_view_result(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -199,7 +198,7 @@ def missing_streets_view_result(ctx: context.Context, relations: areas.Relations
     return doc
 
 
-def missing_housenumbers_view_txt(ctx: context.Context, relations: areas.Relations, request_uri: str) -> str:
+def missing_housenumbers_view_txt(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -226,7 +225,7 @@ def get_chkl_split_limit() -> int:
 
 
 def missing_housenumbers_view_chkl(
-        ctx: context.Context, relations: areas.Relations, request_uri: str
+        ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str
 ) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl."""
     tokens = request_uri.split("/")
@@ -270,7 +269,7 @@ def missing_housenumbers_view_chkl(
 
 
 def missing_streets_view_txt(
-    ctx: context.Context, relations: areas.Relations, request_uri: str, chkl: bool
+    ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str, chkl: bool
 ) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
     tokens = request_uri.split("/")
@@ -294,7 +293,7 @@ def missing_streets_view_txt(
 
 
 def missing_housenumbers_update(
-    ctx: context.Context, relations: areas.Relations, relation_name: str
+    ctx: rust.PyContext, relations: rust.PyRelations, relation_name: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result."""
     references = ctx.get_ini().get_reference_housenumber_paths()
@@ -308,7 +307,7 @@ def missing_housenumbers_update(
     return doc
 
 
-def missing_streets_update(ctx: context.Context, relations: areas.Relations, relation_name: str) -> yattag.Doc:
+def missing_streets_update(ctx: rust.PyContext, relations: rust.PyRelations, relation_name: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
     relation = relations.get_relation(relation_name)
     relation.write_ref_streets(ctx.get_ini().get_reference_street_path())
@@ -318,7 +317,7 @@ def missing_streets_update(ctx: context.Context, relations: areas.Relations, rel
     return doc
 
 
-def handle_missing_housenumbers(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_missing_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -349,7 +348,7 @@ def handle_missing_housenumbers(ctx: context.Context, relations: areas.Relations
     return doc
 
 
-def missing_streets_view_turbo(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def missing_streets_view_turbo(relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ormezo/view-turbo."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -368,7 +367,7 @@ def missing_streets_view_turbo(relations: areas.Relations, request_uri: str) -> 
     return doc
 
 
-def handle_missing_streets(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_missing_streets(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -397,7 +396,7 @@ def handle_missing_streets(ctx: context.Context, relations: areas.Relations, req
     return doc
 
 
-def handle_additional_streets(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_additional_streets(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]
@@ -421,8 +420,8 @@ def handle_additional_streets(ctx: context.Context, relations: areas.Relations, 
 
 
 def handle_additional_housenumbers(
-    ctx: context.Context,
-    relations: areas.Relations,
+    ctx: rust.PyContext,
+    relations: rust.PyRelations,
     request_uri: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query]."""
@@ -449,7 +448,7 @@ def get_last_modified(path: str) -> str:
     return webframe.format_timestamp(util.get_timestamp(path))
 
 
-def ref_housenumbers_last_modified(relations: areas.Relations, name: str) -> str:
+def ref_housenumbers_last_modified(relations: rust.PyRelations, name: str) -> str:
     """Gets the update date for missing house numbers."""
     relation = relations.get_relation(name)
     t_ref = util.get_timestamp(relation.get_files().get_ref_housenumbers_path())
@@ -457,31 +456,31 @@ def ref_housenumbers_last_modified(relations: areas.Relations, name: str) -> str
     return webframe.format_timestamp(max(t_ref, t_housenumbers))
 
 
-def streets_diff_last_modified(relation: areas.Relation) -> str:
+def streets_diff_last_modified(relation: rust.PyRelation) -> str:
     """Gets the update date for missing/additional streets."""
     t_ref = util.get_timestamp(relation.get_files().get_ref_streets_path())
     t_osm = util.get_timestamp(relation.get_files().get_osm_streets_path())
     return webframe.format_timestamp(max(t_ref, t_osm))
 
 
-def housenumbers_diff_last_modified(relation: areas.Relation) -> str:
+def housenumbers_diff_last_modified(relation: rust.PyRelation) -> str:
     """Gets the update date for missing/additional housenumbers."""
     t_ref = util.get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_osm = util.get_timestamp(relation.get_files().get_osm_housenumbers_path())
     return webframe.format_timestamp(max(t_ref, t_osm))
 
 
-def get_housenumbers_last_modified(relation: areas.Relation) -> str:
+def get_housenumbers_last_modified(relation: rust.PyRelation) -> str:
     """Gets the update date of house numbers for a relation."""
     return get_last_modified(relation.get_files().get_osm_housenumbers_path())
 
 
-def get_streets_last_modified(relation: areas.Relation) -> str:
+def get_streets_last_modified(relation: rust.PyRelation) -> str:
     """Gets the update date of streets for a relation."""
     return get_last_modified(relation.get_files().get_osm_streets_path())
 
 
-def handle_main_housenr_percent(ctx: context.Context, relation: areas.Relation) -> Tuple[yattag.Doc, str]:
+def handle_main_housenr_percent(ctx: rust.PyContext, relation: rust.PyRelation) -> Tuple[yattag.Doc, str]:
     """Handles the house number percent part of the main page."""
     prefix = ctx.get_ini().get_uri_prefix()
     url = prefix + "/missing-housenumbers/" + relation.get_name() + "/view-result"
@@ -504,7 +503,7 @@ def handle_main_housenr_percent(ctx: context.Context, relation: areas.Relation) 
     return doc, "0"
 
 
-def handle_main_street_percent(ctx: context.Context, relation: areas.Relation) -> Tuple[yattag.Doc, str]:
+def handle_main_street_percent(ctx: rust.PyContext, relation: rust.PyRelation) -> Tuple[yattag.Doc, str]:
     """Handles the street percent part of the main page."""
     prefix = ctx.get_ini().get_uri_prefix()
     url = prefix + "/missing-streets/" + relation.get_name() + "/view-result"
@@ -527,7 +526,7 @@ def handle_main_street_percent(ctx: context.Context, relation: areas.Relation) -
     return doc, "0"
 
 
-def handle_main_street_additional_count(ctx: context.Context, relation: areas.Relation) -> yattag.Doc:
+def handle_main_street_additional_count(ctx: rust.PyContext, relation: rust.PyRelation) -> yattag.Doc:
     """Handles the street additional count part of the main page."""
     prefix = ctx.get_ini().get_uri_prefix()
     url = prefix + "/additional-streets/" + relation.get_name() + "/view-result"
@@ -550,7 +549,7 @@ def handle_main_street_additional_count(ctx: context.Context, relation: areas.Re
     return doc
 
 
-def handle_main_housenr_additional_count(ctx: context.Context, relation: areas.Relation) -> yattag.Doc:
+def handle_main_housenr_additional_count(ctx: rust.PyContext, relation: rust.PyRelation) -> yattag.Doc:
     """Handles the housenumber additional count part of the main page."""
     if not relation.get_config().should_check_additional_housenumbers():
         return yattag.Doc()
@@ -576,22 +575,22 @@ def handle_main_housenr_additional_count(ctx: context.Context, relation: areas.R
     return doc
 
 
-def filter_for_everything(_complete: bool, _relation: areas.Relation) -> bool:
+def filter_for_everything(_complete: bool, _relation: rust.PyRelation) -> bool:
     """Does not filter out anything."""
     return True
 
 
-def filter_for_incomplete(complete: bool, _relation: areas.Relation) -> bool:
+def filter_for_incomplete(complete: bool, _relation: rust.PyRelation) -> bool:
     """Filters out complete items."""
     return not complete
 
 
-def create_filter_for_refcounty(refcounty_filter: str) -> Callable[[bool, areas.Relation], bool]:
+def create_filter_for_refcounty(refcounty_filter: str) -> Callable[[bool, rust.PyRelation], bool]:
     """Creates a function that filters for a single refcounty."""
     return lambda _complete, relation: relation.get_config().get_refcounty() == refcounty_filter
 
 
-def create_filter_for_relations(relation_filter: str) -> Callable[[bool, areas.Relation], bool]:
+def create_filter_for_relations(relation_filter: str) -> Callable[[bool, rust.PyRelation], bool]:
     """Creates a function that filters for the specified relations."""
     relations: List[int] = []
     if relation_filter:
@@ -602,17 +601,17 @@ def create_filter_for_relations(relation_filter: str) -> Callable[[bool, areas.R
 def create_filter_for_refcounty_refsettlement(
         refcounty_filter: str,
         refsettlement_filter: str
-) -> Callable[[bool, areas.Relation], bool]:
+) -> Callable[[bool, rust.PyRelation], bool]:
     """Creates a function that filters for a single refsettlement in a refcounty."""
-    def filter_for(_complete: bool, relation: areas.Relation) -> bool:
+    def filter_for(_complete: bool, relation: rust.PyRelation) -> bool:
         r_config = relation.get_config()
         return r_config.get_refcounty() == refcounty_filter and r_config.get_refsettlement() == refsettlement_filter
     return filter_for
 
 
 def handle_main_filters_refcounty(
-    ctx: context.Context,
-    relations: areas.Relations,
+    ctx: rust.PyContext,
+    relations: rust.PyRelations,
     refcounty_id: str,
     refcounty: str
 ) -> yattag.Doc:
@@ -645,7 +644,7 @@ def handle_main_filters_refcounty(
     return doc
 
 
-def handle_main_filters(ctx: context.Context, relations: areas.Relations, refcounty_id: str) -> yattag.Doc:
+def handle_main_filters(ctx: rust.PyContext, relations: rust.PyRelations, refcounty_id: str) -> yattag.Doc:
     """Handlers the filter part of the main wsgi page."""
     items: List[yattag.Doc] = []
 
@@ -691,10 +690,10 @@ def handle_main_filters(ctx: context.Context, relations: areas.Relations, refcou
     return doc
 
 
-def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relation], bool], str]:
+def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, rust.PyRelation], bool], str]:
     """Sets up a filter-for function from request uri: only certain areas are shown then."""
     tokens = request_uri.split("/")
-    filter_for: Callable[[bool, areas.Relation], bool] = filter_for_incomplete
+    filter_for: Callable[[bool, rust.PyRelation], bool] = filter_for_incomplete
     filters = util.parse_filters(tokens)
     refcounty = ""
     if "incomplete" in filters:
@@ -719,9 +718,9 @@ def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, areas.Relat
 
 
 def handle_main_relation(
-        ctx: context.Context,
-        relations: areas.Relations,
-        filter_for: Callable[[bool, areas.Relation], bool],
+        ctx: rust.PyContext,
+        relations: rust.PyRelations,
+        filter_for: Callable[[bool, rust.PyRelation], bool],
         relation_name: str
 ) -> List[yattag.Doc]:
     """Handles one relation (one table row) on the main page."""
@@ -770,7 +769,7 @@ def handle_main_relation(
     return row
 
 
-def handle_main(request_uri: str, ctx: context.Context, relations: areas.Relations) -> yattag.Doc:
+def handle_main(request_uri: str, ctx: rust.PyContext, relations: rust.PyRelations) -> yattag.Doc:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
@@ -820,7 +819,7 @@ def get_html_title(request_uri: str) -> str:
     return title
 
 
-def write_html_head(ctx: context.Context, doc: yattag.Doc, title: str) -> None:
+def write_html_head(ctx: rust.PyContext, doc: yattag.Doc, title: str) -> None:
     """Produces the <head> tag and its contents."""
     prefix = ctx.get_ini().get_uri_prefix()
     with doc.tag("head", []):
@@ -848,8 +847,8 @@ def write_html_head(ctx: context.Context, doc: yattag.Doc, title: str) -> None:
 def our_application_txt(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
-        ctx: context.Context,
-        relations: areas.Relations,
+        ctx: rust.PyContext,
+        relations: rust.PyRelations,
         request_uri: str
 ) -> Iterable[bytes]:
     """Dispatches plain text requests based on their URIs."""
@@ -878,7 +877,7 @@ def our_application_txt(
         else:  # assume txt
             output = missing_housenumbers_view_txt(ctx, relations, request_uri)
     output_bytes = util.to_bytes(output)
-    response_properties = webframe.Response(content_type, "200 OK", output_bytes, headers)
+    response_properties = webframe.make_response(content_type, "200 OK", output_bytes, headers)
     filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
     status, headers, output_byte_list = webframe.send_response(filtered_environ, response_properties)
     start_response(status, headers)
@@ -897,9 +896,9 @@ HANDLERS = {
 
 
 def get_handler(
-    ctx: context.Context,
+    ctx: rust.PyContext,
     request_uri: str
-) -> Optional[Callable[[context.Context, areas.Relations, str], yattag.Doc]]:
+) -> Optional[Callable[[rust.PyContext, rust.PyRelations, str], yattag.Doc]]:
     """Decides request_uri matches what handler."""
     prefix = ctx.get_ini().get_uri_prefix()
     for key, value in HANDLERS.items():
@@ -911,13 +910,13 @@ def get_handler(
 def our_application(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
-        ctx: context.Context
+        ctx: rust.PyContext
 ) -> Tuple[Iterable[bytes], str]:
     """Dispatches the request based on its URI."""
     try:
         language = util.setup_localization([(k, v) for k, v in environ.items() if isinstance(v, str)])
 
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
 
         filtered_environ = {k: v for k, v in environ.items() if k == "PATH_INFO"}
         request_uri = webframe.get_request_uri(filtered_environ, ctx, relations)
@@ -928,7 +927,7 @@ def our_application(
 
         if not (request_uri == "/" or request_uri.startswith(ctx.get_ini().get_uri_prefix())):
             doc = webframe.handle_404()
-            response = webframe.Response("text/html", "404 Not Found", util.to_bytes(doc.get_value()), [])
+            response = webframe.make_response("text/html", "404 Not Found", util.to_bytes(doc.get_value()), [])
             filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
             status, headers, output_byte_list = webframe.send_response(filtered_environ, response)
             start_response(status, headers)
@@ -939,7 +938,7 @@ def our_application(
             output, content_type, headers = webframe.handle_static(ctx, request_uri)
             filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
             status, headers, output_byte_list = webframe.send_response(filtered_environ,
-                                                                       webframe.Response(content_type, "200 OK", output, headers))
+                                                                       webframe.make_response(content_type, "200 OK", output, headers))
             start_response(status, headers)
             return output_byte_list, str()
 
@@ -959,7 +958,7 @@ def our_application(
                 elif handler:
                     doc.append_value(handler(ctx, relations, request_uri).get_value())
                 elif request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/webhooks/github"):
-                    doc.append_value(webframe.handle_github_webhook(environ, ctx).get_value())
+                    doc.append_value(webframe.handle_github_webhook(environ["wsgi.input"], ctx).get_value())
                 else:
                     doc.append_value(handle_main(request_uri, ctx, relations).get_value())
 
@@ -968,7 +967,7 @@ def our_application(
             return [], err
         filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
         status, headers, output_byte_list = webframe.send_response(filtered_environ,
-                                                                   webframe.Response("text/html", "200 OK", util.to_bytes(doc.get_value()), []))
+                                                                   webframe.make_response("text/html", "200 OK", util.to_bytes(doc.get_value()), []))
         start_response(status, headers)
         return output_byte_list, err
     # pylint: disable=broad-except
@@ -979,7 +978,7 @@ def our_application(
 def application(
         environ: Dict[str, Any],
         start_response: 'StartResponse',
-        ctx: context.Context
+        ctx: rust.PyContext
 ) -> Iterable[bytes]:
     """The entry point of this WSGI app."""
     ret, err = our_application(environ, start_response, ctx)

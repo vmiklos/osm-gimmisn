@@ -546,9 +546,12 @@ impl Time for PyAnyTime {
 }
 
 /// Subprocess interface.
-trait Subprocess: Send + Sync {
+pub trait Subprocess: Send + Sync {
     /// Runs a commmand, capturing its output.
     fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String>;
+
+    /// Terminates the current process with the specified exit code.
+    fn exit(&self, code: i32);
 }
 
 /// Subprocess implementation, backed by the Rust stdlib.
@@ -564,6 +567,10 @@ impl Subprocess for StdSubprocess {
             .envs(&env)
             .output()?;
         Ok(std::str::from_utf8(&output.stdout)?.to_string())
+    }
+
+    fn exit(&self, code: i32) {
+        std::process::exit(code);
     }
 }
 
@@ -583,6 +590,10 @@ impl PySubprocess {
                 err.to_string()
             ))),
         }
+    }
+
+    fn exit(&self, code: i32) {
+        self.subprocess.exit(code)
     }
 }
 
@@ -617,6 +628,13 @@ impl Subprocess for PyAnySubprocess {
             };
             Ok(string.extract().unwrap())
         })
+    }
+
+    fn exit(&self, code: i32) {
+        let gil = Python::acquire_gil();
+        self.subprocess
+            .call_method1(gil.python(), "exit", (code,))
+            .unwrap();
     }
 }
 
@@ -949,7 +967,8 @@ impl Context {
         self.time = time.clone();
     }
 
-    fn get_subprocess(&self) -> &Arc<dyn Subprocess> {
+    /// Gets the subprocess implementation.
+    pub fn get_subprocess(&self) -> &Arc<dyn Subprocess> {
         &self.subprocess
     }
 

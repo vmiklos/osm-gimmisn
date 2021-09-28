@@ -6,6 +6,7 @@
 
 """The util module contains functionality shared between other modules."""
 
+from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Set
@@ -15,10 +16,19 @@ import api
 import rust
 
 
-HouseNumberRange = rust.PyHouseNumberRange
-Street = rust.PyStreet
-HouseNumber = rust.PyHouseNumber
-CsvIO = rust.PyCsvRead
+def make_street(osm_name: str, ref_name: str, show_ref_street: bool, osm_id: int) -> rust.PyStreet:
+    """Factory for rust.PyStreet."""
+    return rust.PyStreet(osm_name, ref_name, show_ref_street, osm_id)
+
+
+def make_house_number(number: str, source: str, comment: str) -> rust.PyHouseNumber:
+    """Factory for rust.PyHouseNumber."""
+    return rust.PyHouseNumber(number, source, comment)
+
+
+def make_csv_io(stream: BinaryIO) -> rust.PyCsvRead:
+    """Factory for rust.PyCsvRead."""
+    return rust.PyCsvRead(stream)
 
 
 def split_house_number(house_number: str) -> Tuple[int, str]:
@@ -26,7 +36,7 @@ def split_house_number(house_number: str) -> Tuple[int, str]:
     return rust.py_split_house_number(house_number)
 
 
-def format_even_odd(only_in_ref: List[HouseNumberRange]) -> List[str]:
+def format_even_odd(only_in_ref: List[rust.PyHouseNumberRange]) -> List[str]:
     """Formats even and odd numbers."""
     return rust.py_format_even_odd(only_in_ref)
 
@@ -160,8 +170,8 @@ def get_timestamp(path: str) -> float:
     return rust.py_get_timestamp(path)
 
 
-HouseNumbers = List[HouseNumber]
-NumberedStreet = Tuple[Street, HouseNumbers]
+HouseNumbers = List[rust.PyHouseNumber]
+NumberedStreet = Tuple[rust.PyStreet, HouseNumbers]
 NumberedStreets = List[NumberedStreet]
 
 

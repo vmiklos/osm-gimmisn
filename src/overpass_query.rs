@@ -10,10 +10,11 @@
 
 //! The overpass_query module allows getting data out of the OSM DB without a full download.
 
+use crate::context;
 use pyo3::prelude::*;
 
 /// Posts the query string to the overpass API and returns the result string.
-pub fn overpass_query(ctx: &crate::context::Context, query: String) -> anyhow::Result<String> {
+pub fn overpass_query(ctx: &context::Context, query: String) -> anyhow::Result<String> {
     let url = ctx.get_ini().get_overpass_uri() + "/api/interpreter";
 
     ctx.get_network().urlopen(&url, &query)
@@ -21,7 +22,7 @@ pub fn overpass_query(ctx: &crate::context::Context, query: String) -> anyhow::R
 
 #[pyfunction]
 pub fn py_overpass_query(py: Python<'_>, ctx: PyObject, query: String) -> PyResult<String> {
-    let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(py)?;
+    let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(py)?;
     match overpass_query(&ctx.context, query) {
         Ok(value) => Ok(value),
         Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
@@ -32,7 +33,7 @@ pub fn py_overpass_query(py: Python<'_>, ctx: PyObject, query: String) -> PyResu
 }
 
 /// Checks if we need to sleep before executing an overpass query.
-pub fn overpass_query_need_sleep(ctx: &crate::context::Context) -> i32 {
+pub fn overpass_query_need_sleep(ctx: &context::Context) -> i32 {
     let url = ctx.get_ini().get_overpass_uri() + "/api/status";
     let status = match ctx.get_network().urlopen(&url, "") {
         Ok(value) => value,
@@ -72,7 +73,7 @@ pub fn overpass_query_need_sleep(ctx: &crate::context::Context) -> i32 {
 
 #[pyfunction]
 pub fn py_overpass_query_need_sleep(py: Python<'_>, ctx: PyObject) -> PyResult<i32> {
-    let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(py)?;
+    let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(py)?;
     Ok(overpass_query_need_sleep(&ctx.context))
 }
 

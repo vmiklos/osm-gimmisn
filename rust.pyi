@@ -260,9 +260,6 @@ class PyHouseNumberRange:
     A house number range is a string that may expand to one or more HouseNumber instances in the
     future. It can also have a comment.
     """
-    def __init__(self, number: str, comment: str) -> None:
-        ...
-
     def get_number(self) -> str:
         """Returns the house number (range) string."""
         ...
@@ -675,9 +672,6 @@ class PyRelationFiles:
 
 class PyRelationConfig:
     """A relation configuration comes directly from static data, not a result of some external query."""
-    def __init__(self, parent_config: str, my_config: str) -> None:
-        ...
-
     def set_active(self, active: bool) -> None:
         """Sets if the relation is active."""
         ...
@@ -766,15 +760,6 @@ class PyRelationConfig:
 
 class PyRelation:
     """A relation is a closed polygon on the map."""
-    def __init__(
-            self,
-            ctx: PyContext,
-            name: str,
-            parent_config: str,
-            yaml_cache: str
-    ) -> None:
-        ...
-
     def get_name(self) -> str:
         """Gets the name of the relation."""
         ...
@@ -1062,6 +1047,14 @@ def py_handle_no_osm_housenumbers(prefix: str, relation_name: str) -> PyDoc:
 
 def py_handle_no_ref_housenumbers(prefix: str, relation_name: str) -> PyDoc:
     """Handles the no-ref-housenumbers error on a page using JS."""
+    ...
+
+def py_handle_no_ref_streets(prefix: str, relation_name: str) -> PyDoc:
+    """Handles the no-ref-streets error on a page using JS."""
+    ...
+
+def py_handle_github_webhook(stream: BinaryIO, ctx: PyContext) -> PyDoc:
+    """Handles a GitHub style webhook."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

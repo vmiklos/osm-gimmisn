@@ -14,14 +14,14 @@ import yattag
 from rust import py_translate as tr
 import areas
 import cache
-import context
+import rust
 import util
 import webframe
 
 
 def additional_streets_view_txt(
-    ctx: context.Context,
-    relations: areas.Relations,
+    ctx: rust.PyContext,
+    relations: rust.PyRelations,
     request_uri: str,
     chkl: bool
 ) -> Tuple[str, str]:
@@ -47,8 +47,8 @@ def additional_streets_view_txt(
 
 
 def additional_streets_view_result(
-    ctx: context.Context,
-    relations: areas.Relations,
+    ctx: rust.PyContext,
+    relations: rust.PyRelations,
     request_uri: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result."""
@@ -103,8 +103,8 @@ def additional_streets_view_result(
 
 
 def additional_housenumbers_view_result(
-    ctx: context.Context,
-    relations: areas.Relations,
+    ctx: rust.PyContext,
+    relations: rust.PyRelations,
     request_uri: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result."""
@@ -126,7 +126,7 @@ def additional_housenumbers_view_result(
     return doc
 
 
-def additional_streets_view_turbo(relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def additional_streets_view_turbo(relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-turbo."""
     tokens = request_uri.split("/")
     relation_name = tokens[-2]

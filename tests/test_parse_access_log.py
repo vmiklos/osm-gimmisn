@@ -106,7 +106,7 @@ class TestIsCompleteRelation(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         self.assertFalse(parse_access_log.is_complete_relation(relations, "gazdagret"))
 
 

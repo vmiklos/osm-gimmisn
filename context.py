@@ -12,7 +12,9 @@ It intentionally doesn't import any other 'own' modules, so it can be used anywh
 import rust
 
 
-Context = rust.PyContext
+def make_context(prefix: str) -> rust.PyContext:
+    """Factory for rust.PyContext."""
+    return rust.PyContext(prefix)
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

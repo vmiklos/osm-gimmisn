@@ -14,15 +14,16 @@ from typing import TYPE_CHECKING
 
 import cherrypy  # type: ignore
 
-import wsgi
 import context
+import rust
+import wsgi
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
     from wsgiref.types import StartResponse
 
 
-def main(ctx: context.Context) -> None:
+def main(ctx: rust.PyContext) -> None:
     """
     Commandline interface to this module.
 
@@ -49,6 +50,6 @@ def main(ctx: context.Context) -> None:
 
 
 if __name__ == "__main__":
-    main(context.Context(""))
+    main(context.make_context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

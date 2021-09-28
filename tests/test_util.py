@@ -19,14 +19,9 @@ import util
 import yattag
 
 
-def hnr_list(ranges: List[str]) -> List[util.HouseNumberRange]:
-    """Converts a string list into a house number range list."""
-    return [util.HouseNumberRange(i, "") for i in ranges]
-
-
-def street_list(streets: List[str]) -> List[util.Street]:
+def street_list(streets: List[str]) -> List[rust.PyStreet]:
     """Convers a string list into a street list."""
-    return [util.Street.from_string(i) for i in streets]
+    return [rust.PyStreet.from_string(i) for i in streets]
 
 
 class TestBuildStreetReferenceCache(unittest.TestCase):
@@ -217,7 +212,7 @@ class TestTsvToList(unittest.TestCase):
     """Tests tsv_to_list()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        sock = util.CsvIO(io.BytesIO(b"h1\th2\n\nv1\tv2\n"))
+        sock = util.make_csv_io(io.BytesIO(b"h1\th2\n\nv1\tv2\n"))
         ret = util.tsv_to_list(sock)
         self.assertEqual(len(ret), 2)
         row1 = [cell.get_value() for cell in ret[0]]
@@ -227,7 +222,7 @@ class TestTsvToList(unittest.TestCase):
 
     def test_type(self) -> None:
         """Tests when a @type column is available."""
-        stream = util.CsvIO(io.BytesIO(b"@id\t@type\n42\tnode\n"))
+        stream = util.make_csv_io(io.BytesIO(b"@id\t@type\n42\tnode\n"))
         ret = util.tsv_to_list(stream)
         self.assertEqual(len(ret), 2)
         row1 = [cell.get_value() for cell in ret[0]]
@@ -238,7 +233,7 @@ class TestTsvToList(unittest.TestCase):
 
     def test_escape(self) -> None:
         """Tests escaping."""
-        sock = util.CsvIO(io.BytesIO(b"\"h,1\"\th2\n"))
+        sock = util.make_csv_io(io.BytesIO(b"\"h,1\"\th2\n"))
         ret = util.tsv_to_list(sock)
         self.assertEqual(len(ret), 1)
         row1 = [cell.get_value() for cell in ret[0]]
@@ -251,7 +246,7 @@ class TestTsvToList(unittest.TestCase):
 A street\t1
 A street\t10
 A street\t9"""
-        sock = util.CsvIO(io.BytesIO(csv))
+        sock = util.make_csv_io(io.BytesIO(csv))
         ret = util.tsv_to_list(sock)
         # 0th is header
         row3 = [cell.get_value() for cell in ret[3]]
@@ -263,45 +258,44 @@ class TestHouseNumber(unittest.TestCase):
     """Tests the HouseNumber class."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        house_number = util.HouseNumber("1", "1-2", "")
+        house_number = util.make_house_number("1", "1-2", "")
         self.assertEqual(house_number.get_number(), "1")
         self.assertEqual(house_number.get_source(), "1-2")
-        self.assertTrue(util.HouseNumber("1", "1-2", "") != util.HouseNumber("2", "1-2", ""))
-        self.assertEqual(len(set([util.HouseNumber("1", "1-2", ""),
-                                  util.HouseNumber("2", "1-2", ""),
-                                  util.HouseNumber("2", "1-2", "")])), 2)
+        self.assertTrue(util.make_house_number("1", "1-2", "") != util.make_house_number("2", "1-2", ""))
+        self.assertEqual(len(set([util.make_house_number("1", "1-2", ""),
+                                  util.make_house_number("2", "1-2", ""),
+                                  util.make_house_number("2", "1-2", "")])), 2)
 
     def test_is_invalid(self) -> None:
         """Tests is_invalid()."""
-        self.assertTrue(util.HouseNumber.is_invalid("15 a", ["15a"]))
-        self.assertTrue(util.HouseNumber.is_invalid("15/a", ["15a"]))
-        self.assertTrue(util.HouseNumber.is_invalid("15A", ["15a"]))
-        self.assertTrue(util.HouseNumber.is_invalid("67/5*", ["67/5"]))
+        self.assertTrue(rust.PyHouseNumber.is_invalid("15 a", ["15a"]))
+        self.assertTrue(rust.PyHouseNumber.is_invalid("15/a", ["15a"]))
+        self.assertTrue(rust.PyHouseNumber.is_invalid("15A", ["15a"]))
+        self.assertTrue(rust.PyHouseNumber.is_invalid("67/5*", ["67/5"]))
 
         # Make sure we don't throw an exception on input which does not start with a number.
-        self.assertFalse(util.HouseNumber.is_invalid("A", ["15a"]))
+        self.assertFalse(rust.PyHouseNumber.is_invalid("A", ["15a"]))
 
     def test_has_letter_suffix(self) -> None:
         """Tests has_letter_suffix()."""
-        self.assertTrue(util.HouseNumber.has_letter_suffix("42a", ""))
-        self.assertTrue(util.HouseNumber.has_letter_suffix("42 a", ""))
-        self.assertTrue(util.HouseNumber.has_letter_suffix("42/a", ""))
-        self.assertTrue(util.HouseNumber.has_letter_suffix("42/a*", "*"))
-        self.assertTrue(util.HouseNumber.has_letter_suffix("42A", ""))
-        self.assertFalse(util.HouseNumber.has_letter_suffix("42 AB", ""))
+        self.assertTrue(rust.PyHouseNumber.has_letter_suffix("42a", ""))
+        self.assertTrue(rust.PyHouseNumber.has_letter_suffix("42 a", ""))
+        self.assertTrue(rust.PyHouseNumber.has_letter_suffix("42/a", ""))
+        self.assertTrue(rust.PyHouseNumber.has_letter_suffix("42/a*", "*"))
+        self.assertTrue(rust.PyHouseNumber.has_letter_suffix("42A", ""))
+        self.assertFalse(rust.PyHouseNumber.has_letter_suffix("42 AB", ""))
 
     def test_normalize_letter_suffix(self) -> None:
         """Tests normalize_letter_suffix()."""
-        normalize = util.HouseNumber.normalize_letter_suffix
-        self.assertEqual(normalize("42a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
-        self.assertEqual(normalize("42 a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
-        self.assertEqual(normalize("42/a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
-        self.assertEqual(normalize("42/A", "", rust.PyLetterSuffixStyle.upper()), "42/A")
-        self.assertEqual(normalize("42/A*", "*", rust.PyLetterSuffixStyle.upper()), "42/A*")
-        self.assertEqual(normalize("42 A", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(rust.PyHouseNumber.normalize_letter_suffix("42a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(rust.PyHouseNumber.normalize_letter_suffix("42 a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(rust.PyHouseNumber.normalize_letter_suffix("42/a", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(rust.PyHouseNumber.normalize_letter_suffix("42/A", "", rust.PyLetterSuffixStyle.upper()), "42/A")
+        self.assertEqual(rust.PyHouseNumber.normalize_letter_suffix("42/A*", "*", rust.PyLetterSuffixStyle.upper()), "42/A*")
+        self.assertEqual(rust.PyHouseNumber.normalize_letter_suffix("42 A", "", rust.PyLetterSuffixStyle.upper()), "42/A")
         with self.assertRaises(ValueError):
-            util.HouseNumber.normalize_letter_suffix("x", "", rust.PyLetterSuffixStyle.upper())
-        self.assertEqual(normalize("42/A", "", rust.PyLetterSuffixStyle.lower()), "42a")
+            rust.PyHouseNumber.normalize_letter_suffix("x", "", rust.PyLetterSuffixStyle.upper())
+        self.assertEqual(rust.PyHouseNumber.normalize_letter_suffix("42/A", "", rust.PyLetterSuffixStyle.lower()), "42a")
 
 
 class TestGetHousenumberRanges(unittest.TestCase):
@@ -309,14 +303,14 @@ class TestGetHousenumberRanges(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         house_numbers = [
-            util.HouseNumber("25", "25", ""),
-            util.HouseNumber("27", "27-37", ""),
-            util.HouseNumber("29", "27-37", ""),
-            util.HouseNumber("31", "27-37", ""),
-            util.HouseNumber("33", "27-37", ""),
-            util.HouseNumber("35", "27-37", ""),
-            util.HouseNumber("37", "27-37", ""),
-            util.HouseNumber("31*", "31*", ""),
+            util.make_house_number("25", "25", ""),
+            util.make_house_number("27", "27-37", ""),
+            util.make_house_number("29", "27-37", ""),
+            util.make_house_number("31", "27-37", ""),
+            util.make_house_number("33", "27-37", ""),
+            util.make_house_number("35", "27-37", ""),
+            util.make_house_number("37", "27-37", ""),
+            util.make_house_number("31*", "31*", ""),
         ]
         ranges = util.get_housenumber_ranges(house_numbers)
         range_names = [i.get_number() for i in ranges]
@@ -336,23 +330,23 @@ class TestSortNumerically(unittest.TestCase):
     """Tests sort_numerically()."""
     def test_numbers(self) -> None:
         """Tests numbers."""
-        ascending = util.sort_numerically([util.HouseNumber('1', '', ''),
-                                           util.HouseNumber('20', '', ''),
-                                           util.HouseNumber('3', '', '')])
+        ascending = util.sort_numerically([util.make_house_number('1', '', ''),
+                                           util.make_house_number('20', '', ''),
+                                           util.make_house_number('3', '', '')])
         self.assertEqual([i.get_number() for i in ascending], ['1', '3', '20'])
 
     def test_alpha_suffix(self) -> None:
         """Tests numbers with suffixes."""
-        ascending = util.sort_numerically([util.HouseNumber('1a', '', ''),
-                                           util.HouseNumber('20a', '', ''),
-                                           util.HouseNumber('3a', '', '')])
+        ascending = util.sort_numerically([util.make_house_number('1a', '', ''),
+                                           util.make_house_number('20a', '', ''),
+                                           util.make_house_number('3a', '', '')])
         self.assertEqual([i.get_number() for i in ascending], ['1a', '3a', '20a'])
 
     def test_alpha(self) -> None:
         """Tests just suffixes."""
-        ascending = util.sort_numerically([util.HouseNumber('a', '', ''),
-                                           util.HouseNumber('c', '', ''),
-                                           util.HouseNumber('b', '', '')])
+        ascending = util.sort_numerically([util.make_house_number('a', '', ''),
+                                           util.make_house_number('c', '', ''),
+                                           util.make_house_number('b', '', '')])
         self.assertEqual([i.get_number() for i in ascending], ['a', 'b', 'c'])
 
 
@@ -377,7 +371,7 @@ class TestStreet(unittest.TestCase):
     """Tests Street."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        street = util.Street("foo", "bar", show_ref_street=True, osm_id=0)
+        street = util.make_street("foo", "bar", show_ref_street=True, osm_id=0)
         self.assertEqual(street.get_ref_name(), "bar")
         self.assertEqual(street.to_html().get_value(), "foo<br />(bar)")
 
@@ -402,10 +396,10 @@ class TestGetStreetFromHousenumber(unittest.TestCase):
         """Tests the case when addr:place is used."""
         # We already use 'with':
         # pylint: disable=consider-using-with
-        with util.CsvIO(open("tests/workdir/street-housenumbers-gh964.csv", "rb")) as stream:
+        with util.make_csv_io(open("tests/workdir/street-housenumbers-gh964.csv", "rb")) as stream:
             actual = util.get_street_from_housenumber(stream)
         # This is picked up from addr:place because addr:street was empty.
-        self.assertEqual(actual, [util.Street.from_string(osm_name="Tolvajos tanya")])
+        self.assertEqual(actual, [rust.PyStreet.from_string(osm_name="Tolvajos tanya")])
 
 
 class TestInvalidFilterKeysToHtml(unittest.TestCase):

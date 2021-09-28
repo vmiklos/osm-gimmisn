@@ -894,11 +894,7 @@ fn handle_stats_cityprogress(
         .collect();
     let in_both = util::get_in_both(&ref_cities, &osm_cities);
     let mut cities: Vec<_> = in_both.iter().map(|i| i.get_osm_name()).collect();
-    cities.sort_by(|a, b| {
-        util::get_sort_key(a)
-            .unwrap()
-            .cmp(&util::get_sort_key(b).unwrap())
-    });
+    cities.sort_by_key(|i| util::get_sort_key(i).unwrap());
     let mut table: Vec<Vec<yattag::Doc>> = vec![vec![
         yattag::Doc::from_text(&tr("City name")),
         yattag::Doc::from_text(&tr("House number coverage")),
@@ -1367,6 +1363,110 @@ fn py_handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::P
     yattag::PyDoc { doc }
 }
 
+/// Handles the no-ref-streets error on a page using JS.
+fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
+    let doc = yattag::Doc::new();
+    let link = format!("{}/missing-streets/{}/update-result", prefix, relation_name);
+    {
+        let _div = doc.tag("div", &[("id", "no-ref-streets")]);
+        let _a = doc.tag("a", &[("href", &link)]);
+        doc.text(&tr("No street list: create from reference..."));
+    }
+    let string_pairs = &[
+        (
+            "str-reference-wait",
+            tr("No reference streets: creating from reference..."),
+        ),
+        ("str-reference-error", tr("Error from reference: ")),
+    ];
+    emit_l10n_strings_for_js(&doc, string_pairs);
+    doc
+}
+#[pyfunction]
+fn py_handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::PyDoc {
+    let doc = handle_no_ref_streets(prefix, relation_name);
+    yattag::PyDoc { doc }
+}
+
+/// Handles a GitHub style webhook.
+fn handle_github_webhook(
+    stream: &mut dyn Read,
+    ctx: &context::Context,
+) -> anyhow::Result<yattag::Doc> {
+    let mut buffer = Vec::new();
+    stream.read_to_end(&mut buffer)?;
+    let prefixed = format!("http://www.example.com/?{}", String::from_utf8(buffer)?);
+    let url = reqwest::Url::parse(&prefixed)?;
+    let body = url.query_pairs();
+    let payloads: Vec<String> = body
+        .filter(|(key, _value)| key == "payload")
+        .map(|(_key, value)| value.into())
+        .collect();
+    let payload = &payloads[0];
+    let value: serde_json::Value = serde_json::from_str(payload)?;
+    let branch = value
+        .as_object()
+        .unwrap()
+        .get("ref")
+        .unwrap()
+        .as_str()
+        .unwrap();
+    if branch == "refs/heads/master" {
+        let mut my_env: HashMap<String, String> = HashMap::new();
+        my_env.insert(
+            "PATH".into(),
+            format!("osm-gimmisn-env/bin:{}", std::env::var("PATH")?),
+        );
+        ctx.get_subprocess().run(
+            vec![
+                "make".into(),
+                "-C".into(),
+                ctx.get_abspath("")?,
+                "deploy".into(),
+            ],
+            my_env,
+        )?;
+        // Nominally a failure, so the service gets restarted.
+        ctx.get_subprocess().exit(1);
+    }
+
+    Ok(yattag::Doc::from_text(""))
+}
+
+#[pyfunction]
+fn py_handle_github_webhook(stream: PyObject, ctx: context::PyContext) -> PyResult<yattag::PyDoc> {
+    let gil = Python::acquire_gil();
+    let any = match stream.call_method0(gil.python(), "read") {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "read() failed: {}",
+                err.to_string()
+            )));
+        }
+    };
+    let bytes = match any.as_ref(gil.python()).downcast::<PyBytes>() {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!(
+                "read() didn't return bytes: {}",
+                err.to_string()
+            )));
+        }
+    };
+    let mut read: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(bytes.extract().unwrap());
+    let doc = match handle_github_webhook(&mut read, &ctx.context)
+        .context("handle_github_webhook() failed")
+    {
+        Ok(value) => value,
+        Err(err) => {
+            return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
+        }
+    };
+
+    Ok(yattag::PyDoc { doc })
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_footer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -1392,5 +1492,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         py_handle_no_ref_housenumbers,
         module
     )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_no_ref_streets, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_github_webhook, module)?)?;
     Ok(())
 }

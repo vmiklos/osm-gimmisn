@@ -10,7 +10,12 @@
 
 //! The util module contains functionality shared between other modules.
 
+use crate::context;
+use crate::i18n;
 use crate::i18n::translate as tr;
+use crate::overpass_query;
+use crate::ranges;
+use crate::yattag;
 use anyhow::anyhow;
 use lazy_static::lazy_static;
 use pyo3::class::basic::CompareOp;
@@ -147,12 +152,6 @@ struct PyHouseNumberRange {
 
 #[pymethods]
 impl PyHouseNumberRange {
-    #[new]
-    fn new(number: &str, comment: &str) -> Self {
-        let house_number_range = HouseNumberRange::new(number, comment);
-        PyHouseNumberRange { house_number_range }
-    }
-
     fn get_number(&self) -> &String {
         self.house_number_range.get_number()
     }
@@ -263,8 +262,8 @@ impl Street {
     }
 
     /// Writes the street as a HTML string.
-    pub fn to_html(&self) -> crate::yattag::Doc {
-        let doc = crate::yattag::Doc::new();
+    pub fn to_html(&self) -> yattag::Doc {
+        let doc = yattag::Doc::new();
         doc.text(&self.osm_name);
         if self.osm_name != self.ref_name && self.show_ref_street {
             doc.stag("br", &[]);
@@ -364,9 +363,9 @@ impl PyStreet {
         self.street.get_source()
     }
 
-    fn to_html(&self) -> crate::yattag::PyDoc {
+    fn to_html(&self) -> yattag::PyDoc {
         let doc = self.street.to_html();
-        crate::yattag::PyDoc { doc }
+        yattag::PyDoc { doc }
     }
 }
 
@@ -821,11 +820,11 @@ fn py_format_even_odd(py: Python<'_>, items: Vec<PyObject>) -> PyResult<Vec<Stri
 }
 
 /// Formats even and odd numbers, HTML version.
-pub fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> crate::yattag::Doc {
+pub fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> yattag::Doc {
     let mut even: Vec<HouseNumberRange> = Vec::new();
     let mut odd: Vec<HouseNumberRange> = Vec::new();
     separate_even_odd(only_in_ref, &mut even, &mut odd);
-    let doc = crate::yattag::Doc::new();
+    let doc = yattag::Doc::new();
     for (index, elem) in odd.iter().enumerate() {
         if index > 0 {
             doc.text(", ");
@@ -845,8 +844,8 @@ pub fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> crate::yattag::
 }
 
 /// Colors a house number according to its suffix.
-pub fn color_house_number(house_number: &HouseNumberRange) -> crate::yattag::Doc {
-    let doc = crate::yattag::Doc::new();
+pub fn color_house_number(house_number: &HouseNumberRange) -> yattag::Doc {
+    let doc = yattag::Doc::new();
     let number = house_number.get_number();
     if !number.ends_with('*') {
         doc.text(number);
@@ -1054,11 +1053,11 @@ fn py_parse_filters(tokens: Vec<String>) -> HashMap<String, String> {
 }
 
 /// Handles a HTTP error from Overpass.
-fn handle_overpass_error(ctx: &crate::context::Context, http_error: &str) -> crate::yattag::Doc {
-    let doc = crate::yattag::Doc::new();
+fn handle_overpass_error(ctx: &context::Context, http_error: &str) -> yattag::Doc {
+    let doc = yattag::Doc::new();
     let _div = doc.tag("div", &[("id", "overpass-error")]);
     doc.text(&tr("Overpass error: {0}").replace("{0}", http_error));
-    let sleep = crate::overpass_query::overpass_query_need_sleep(ctx);
+    let sleep = overpass_query::overpass_query_need_sleep(ctx);
     if sleep > 0 {
         doc.stag("br", &[]);
         doc.text(&tr("Note: wait for {} seconds").replace("{}", &sleep.to_string()));
@@ -1071,10 +1070,10 @@ fn py_handle_overpass_error(
     py: Python<'_>,
     ctx: PyObject,
     http_error: String,
-) -> PyResult<crate::yattag::PyDoc> {
-    let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(py)?;
+) -> PyResult<yattag::PyDoc> {
+    let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(py)?;
     let doc = handle_overpass_error(&ctx.context, &http_error);
-    Ok(crate::yattag::PyDoc { doc })
+    Ok(yattag::PyDoc { doc })
 }
 
 /// Provides localized strings for this thread.
@@ -1089,7 +1088,7 @@ fn setup_localization(headers: &[(String, String)]) -> String {
         let parsed = accept_language::parse(&languages);
         if !parsed.is_empty() {
             let language = parsed[0].clone();
-            if crate::i18n::set_language(&language).is_err() {
+            if i18n::set_language(&language).is_err() {
                 return "".into();
             }
             return language;
@@ -1104,28 +1103,28 @@ fn py_setup_localization(headers: Vec<(String, String)>) -> String {
 }
 
 /// Generates a link to a URL with a given label.
-fn gen_link(url: &str, label: &str) -> crate::yattag::Doc {
-    let doc = crate::yattag::Doc::new();
+fn gen_link(url: &str, label: &str) -> yattag::Doc {
+    let doc = yattag::Doc::new();
     let _a = doc.tag("a", &[("href", url)]);
     doc.text(&(label.to_string() + "..."));
     doc
 }
 
 #[pyfunction]
-fn py_gen_link(url: String, label: String) -> crate::yattag::PyDoc {
-    crate::yattag::PyDoc {
+fn py_gen_link(url: String, label: String) -> yattag::PyDoc {
+    yattag::PyDoc {
         doc: gen_link(&url, &label),
     }
 }
 
 /// Produces the verify first line of a HTML output.
-pub fn write_html_header(doc: &crate::yattag::Doc) {
+pub fn write_html_header(doc: &yattag::Doc) {
     doc.append_value("<!DOCTYPE html>\n".into())
 }
 
 #[pyfunction]
 fn py_write_html_header(py: Python<'_>, doc: PyObject) -> PyResult<()> {
-    let doc: PyRefMut<'_, crate::yattag::PyDoc> = doc.extract(py)?;
+    let doc: PyRefMut<'_, yattag::PyDoc> = doc.extract(py)?;
     write_html_header(&doc.doc);
     Ok(())
 }
@@ -1174,8 +1173,8 @@ pub fn should_expand_range(numbers: &[i64], street_is_even_odd: bool) -> (bool, 
 }
 
 /// Produces a HTML table from a list of lists.
-pub fn html_table_from_list(table: &[Vec<crate::yattag::Doc>]) -> crate::yattag::Doc {
-    let doc = crate::yattag::Doc::new();
+pub fn html_table_from_list(table: &[Vec<yattag::Doc>]) -> yattag::Doc {
+    let doc = yattag::Doc::new();
     let _table = doc.tag("table", &[("class", "sortable")]);
     for (row_index, row_content) in table.iter().enumerate() {
         let _tr = doc.tag("tr", &[]);
@@ -1194,30 +1193,24 @@ pub fn html_table_from_list(table: &[Vec<crate::yattag::Doc>]) -> crate::yattag:
 }
 
 #[pyfunction]
-fn py_html_table_from_list(
-    py: Python<'_>,
-    table: Vec<Vec<PyObject>>,
-) -> PyResult<crate::yattag::PyDoc> {
+fn py_html_table_from_list(py: Python<'_>, table: Vec<Vec<PyObject>>) -> PyResult<yattag::PyDoc> {
     // Convert Vec<Vec<PyObject>> to Vec<Vec<yattag::Doc>>.
-    let mut native_table: Vec<Vec<crate::yattag::Doc>> = Vec::new();
+    let mut native_table: Vec<Vec<yattag::Doc>> = Vec::new();
     for row in table {
-        let mut native_row: Vec<crate::yattag::Doc> = Vec::new();
+        let mut native_row: Vec<yattag::Doc> = Vec::new();
         for cell in row {
-            let cell: PyRefMut<'_, crate::yattag::PyDoc> = cell.extract(py)?;
+            let cell: PyRefMut<'_, yattag::PyDoc> = cell.extract(py)?;
             native_row.push(cell.doc.clone());
         }
         native_table.push(native_row);
     }
     let doc = html_table_from_list(&native_table);
-    Ok(crate::yattag::PyDoc { doc })
+    Ok(yattag::PyDoc { doc })
 }
 
 /// Produces HTML enumerations for 2 string lists.
-pub fn invalid_refstreets_to_html(
-    osm_invalids: &[String],
-    ref_invalids: &[String],
-) -> crate::yattag::Doc {
-    let doc = crate::yattag::Doc::new();
+pub fn invalid_refstreets_to_html(osm_invalids: &[String], ref_invalids: &[String]) -> yattag::Doc {
+    let doc = yattag::Doc::new();
     if !osm_invalids.is_empty() {
         doc.stag("br", &[]);
         let _div = doc.tag("div", &[("id", "osm-invalids-container")]);
@@ -1258,14 +1251,14 @@ pub fn invalid_refstreets_to_html(
 fn py_invalid_refstreets_to_html(
     osm_invalids: Vec<String>,
     ref_invalids: Vec<String>,
-) -> crate::yattag::PyDoc {
+) -> yattag::PyDoc {
     let doc = invalid_refstreets_to_html(&osm_invalids, &ref_invalids);
-    crate::yattag::PyDoc { doc }
+    yattag::PyDoc { doc }
 }
 
 /// Produces HTML enumerations for a string list.
-pub fn invalid_filter_keys_to_html(invalids: &[String]) -> crate::yattag::Doc {
-    let doc = crate::yattag::Doc::new();
+pub fn invalid_filter_keys_to_html(invalids: &[String]) -> yattag::Doc {
+    let doc = yattag::Doc::new();
     if !invalids.is_empty() {
         doc.stag("br", &[]);
         let _div = doc.tag("div", &[("id", "osm-filter-key-invalids-container")]);
@@ -1282,13 +1275,13 @@ pub fn invalid_filter_keys_to_html(invalids: &[String]) -> crate::yattag::Doc {
 }
 
 #[pyfunction]
-fn py_invalid_filter_keys_to_html(invalids: Vec<String>) -> crate::yattag::PyDoc {
+fn py_invalid_filter_keys_to_html(invalids: Vec<String>) -> yattag::PyDoc {
     let doc = invalid_filter_keys_to_html(&invalids);
-    crate::yattag::PyDoc { doc }
+    yattag::PyDoc { doc }
 }
 
 /// Gets the nth column of row.
-fn get_column(row: &[crate::yattag::Doc], column_index: usize) -> String {
+fn get_column(row: &[yattag::Doc], column_index: usize) -> String {
     let ret: String;
     if column_index >= row.len() {
         ret = row[0].get_value();
@@ -1301,13 +1294,13 @@ fn get_column(row: &[crate::yattag::Doc], column_index: usize) -> String {
 #[pyfunction]
 fn py_get_column(py: Python<'_>, row: Vec<PyObject>, column_index: usize) -> PyResult<String> {
     // Convert Vec<PyObject> to Vec<yattag::Doc>.
-    let row: Vec<crate::yattag::Doc> = row
+    let row: Vec<yattag::Doc> = row
         .iter()
         .map(|item| {
-            let item: PyRefMut<'_, crate::yattag::PyDoc> = item.extract(py)?;
+            let item: PyRefMut<'_, yattag::PyDoc> = item.extract(py)?;
             Ok(item.doc.clone())
         })
-        .collect::<PyResult<Vec<crate::yattag::Doc>>>()?;
+        .collect::<PyResult<Vec<yattag::Doc>>>()?;
     Ok(get_column(&row, column_index))
 }
 
@@ -1326,8 +1319,8 @@ fn py_natnum(column: String) -> u64 {
 }
 
 /// Turns a tab-separated table into a list of lists.
-fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<crate::yattag::Doc>>> {
-    let mut table: Vec<Vec<crate::yattag::Doc>> = Vec::new();
+fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag::Doc>>> {
+    let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
 
     let mut first = true;
     let mut columns: HashMap<String, usize> = HashMap::new();
@@ -1339,15 +1332,15 @@ fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<crate::yatt
                 columns.insert(label.into(), index);
             }
         }
-        let mut cells: Vec<crate::yattag::Doc> = row
+        let mut cells: Vec<yattag::Doc> = row
             .iter()
-            .map(|cell| crate::yattag::Doc::from_text(cell))
+            .map(|cell| yattag::Doc::from_text(cell))
             .collect();
         if !cells.is_empty() && columns.contains_key("@type") {
             // We know the first column is an OSM ID.
             if let Ok(osm_id) = cells[0].get_value().parse::<u64>() {
                 let osm_type = cells[columns["@type"]].get_value();
-                let doc = crate::yattag::Doc::new();
+                let doc = yattag::Doc::new();
                 let href = format!("https://www.openstreetmap.org/{}/{}", osm_type, osm_id);
                 {
                     let _a = doc.tag("a", &[("href", href.as_str()), ("target", "_blank")]);
@@ -1382,7 +1375,7 @@ fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<crate::yatt
 }
 
 #[pyfunction]
-fn py_tsv_to_list(py: Python<'_>, stream: PyObject) -> PyResult<Vec<Vec<crate::yattag::PyDoc>>> {
+fn py_tsv_to_list(py: Python<'_>, stream: PyObject) -> PyResult<Vec<Vec<yattag::PyDoc>>> {
     let mut stream: PyRefMut<'_, PyCsvRead> = stream.extract(py)?;
     let mut cursor = std::io::Cursor::new(&mut stream.buf);
     let mut csv_read = CsvRead::new(&mut cursor);
@@ -1399,10 +1392,10 @@ fn py_tsv_to_list(py: Python<'_>, stream: PyObject) -> PyResult<Vec<Vec<crate::y
         .iter()
         .map(|row| {
             row.iter()
-                .map(|cell| crate::yattag::PyDoc { doc: cell.clone() })
-                .collect::<Vec<crate::yattag::PyDoc>>()
+                .map(|cell| yattag::PyDoc { doc: cell.clone() })
+                .collect::<Vec<yattag::PyDoc>>()
         })
-        .collect::<Vec<Vec<crate::yattag::PyDoc>>>())
+        .collect::<Vec<Vec<yattag::PyDoc>>>())
 }
 
 /// Reads a house number CSV and extracts streets from rows.
@@ -1514,12 +1507,12 @@ fn py_get_housenumber_ranges(
 }
 
 /// Generates a HTML link based on a website prefix and a git-describe version.
-pub fn git_link(version: &str, prefix: &str) -> crate::yattag::Doc {
+pub fn git_link(version: &str, prefix: &str) -> yattag::Doc {
     let mut commit_hash: String = "".into();
     if let Some(cap) = GIT_HASH.captures_iter(version).next() {
         commit_hash = cap[1].into();
     }
-    let doc = crate::yattag::Doc::new();
+    let doc = yattag::Doc::new();
     let _a = doc.tag(
         "a",
         &[("href", (prefix.to_string() + &commit_hash).as_str())],
@@ -1529,9 +1522,9 @@ pub fn git_link(version: &str, prefix: &str) -> crate::yattag::Doc {
 }
 
 #[pyfunction]
-fn py_git_link(version: String, prefix: String) -> crate::yattag::PyDoc {
+fn py_git_link(version: String, prefix: String) -> yattag::PyDoc {
     let doc = git_link(&version, &prefix);
-    crate::yattag::PyDoc { doc }
+    yattag::PyDoc { doc }
 }
 
 /// Sorts strings according to their numerical value, not alphabetically.
@@ -1631,19 +1624,19 @@ pub fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, HttpHeaders
 /// Determines the normalizer for a given street.
 pub fn get_normalizer(
     street_name: &str,
-    normalizers: &HashMap<String, crate::ranges::Ranges>,
-) -> crate::ranges::Ranges {
-    let normalizer: crate::ranges::Ranges;
+    normalizers: &HashMap<String, ranges::Ranges>,
+) -> ranges::Ranges {
+    let normalizer: ranges::Ranges;
     if let Some(value) = normalizers.get(street_name) {
         // Have a custom filter.
         normalizer = value.clone();
     } else {
         // Default sanity checks.
         let default = vec![
-            crate::ranges::Range::new(1, 999, ""),
-            crate::ranges::Range::new(2, 998, ""),
+            ranges::Range::new(1, 999, ""),
+            ranges::Range::new(2, 998, ""),
         ];
-        normalizer = crate::ranges::Ranges::new(default);
+        normalizer = ranges::Ranges::new(default);
     }
     normalizer
 }
@@ -1653,7 +1646,7 @@ pub fn get_normalizer(
 pub fn split_house_number_by_separator(
     house_numbers: &str,
     separator: &str,
-    normalizer: &crate::ranges::Ranges,
+    normalizer: &ranges::Ranges,
 ) -> (Vec<i64>, Vec<i64>) {
     let mut ret_numbers: Vec<i64> = Vec::new();
     // Same as ret_numbers, but if the range is 2-6 and we filter for 2-4, then 6 would be lost, so
@@ -1749,7 +1742,7 @@ fn py_get_sort_key(py: Python<'_>, bytes: String) -> PyResult<PyObject> {
 }
 
 /// Builds a set of valid settlement names.
-fn get_valid_settlements(ctx: &crate::context::Context) -> anyhow::Result<HashSet<String>> {
+fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<String>> {
     let mut settlements: HashSet<String> = HashSet::new();
 
     let path = ctx.get_ini().get_reference_citycounts_path()?;
@@ -1780,7 +1773,7 @@ fn get_valid_settlements(ctx: &crate::context::Context) -> anyhow::Result<HashSe
 
 #[pyfunction]
 fn py_get_valid_settlements(py: Python<'_>, ctx: PyObject) -> PyResult<HashSet<String>> {
-    let ctx: PyRefMut<'_, crate::context::PyContext> = ctx.extract(py)?;
+    let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(py)?;
     match get_valid_settlements(&ctx.context) {
         Ok(value) => Ok(value),
         Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
@@ -1794,7 +1787,7 @@ fn py_get_valid_settlements(py: Python<'_>, ctx: PyObject) -> PyResult<HashSet<S
 pub fn format_percent(english: &str) -> anyhow::Result<String> {
     let parsed: f64 = english.parse()?;
     let formatted = format!("{0:.2}%", parsed);
-    let language: &str = &crate::i18n::get_language();
+    let language: &str = &i18n::get_language();
     let decimal_point = match language {
         "hu" => ",",
         _ => ".",

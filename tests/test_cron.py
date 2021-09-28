@@ -65,7 +65,7 @@ class TestUpdateRefHousenumbers(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name not in ("gazdagret", "ujbuda"):
                 relation = relations.get_relation(relation_name)
@@ -92,7 +92,7 @@ class TestUpdateRefStreets(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -120,7 +120,7 @@ class TestUpdateMissingHousenumbers(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             # ujbuda is streets=only
             if relation_name not in ("gazdagret", "ujbuda"):
@@ -147,7 +147,7 @@ class TestUpdateMissingStreets(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -174,7 +174,7 @@ class TestUpdateAdditionalStreets(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             # gellerthegy is streets=no
             if relation_name not in ("gazdagret", "gellerthegy"):
@@ -213,7 +213,7 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relation = relations.get_relation(relation_name)
@@ -244,7 +244,7 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relation = relations.get_relation(relation_name)
@@ -272,7 +272,7 @@ class TestUpdateOsmHousenumbers(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relation = relations.get_relation(relation_name)
@@ -301,7 +301,7 @@ class TestUpdateOsmStreets(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relation = relations.get_relation(relation_name)
@@ -332,7 +332,7 @@ class TestUpdateOsmStreets(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relation = relations.get_relation(relation_name)
@@ -360,7 +360,7 @@ class TestUpdateOsmStreets(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         for relation_name in relations.get_active_names():
             if relation_name != "gazdagret":
                 relation = relations.get_relation(relation_name)
@@ -521,7 +521,7 @@ class TestOurMain(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
 
         cron.our_main(ctx, relations, mode="relations", update=True, overpass=True)
 
@@ -562,7 +562,7 @@ class TestOurMain(unittest.TestCase):
         file_system.set_files(files)
         ctx.set_file_system(file_system)
 
-        relations = areas.Relations(ctx)
+        relations = areas.make_relations(ctx)
         cron.our_main(ctx, relations, mode="stats", update=False, overpass=True)
 
         self.assertTrue(stats_value.tell())

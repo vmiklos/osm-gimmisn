@@ -7,22 +7,14 @@
 
 """The webframe module provides the header, toolbar and footer code."""
 
-from typing import Any
+from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
-import json
-import os
-import urllib
 
-import yattag
-
-from rust import py_translate as tr
-import areas
-import context
 import rust
-import util
+import yattag
 
 
 def get_footer(last_updated: str) -> yattag.Doc:
@@ -31,7 +23,7 @@ def get_footer(last_updated: str) -> yattag.Doc:
 
 
 def fill_missing_header_items(
-    ctx: context.Context,
+    ctx: rust.PyContext,
     streets: str,
     additional_housenumbers: bool,
     relation_name: str,
@@ -42,8 +34,8 @@ def fill_missing_header_items(
 
 
 def get_toolbar(
-        ctx: context.Context,
-        relations: Optional[areas.Relations],
+        ctx: rust.PyContext,
+        relations: Optional[rust.PyRelations],
         function: str,
         relation_name: str,
         relation_osmid: int
@@ -54,17 +46,19 @@ def get_toolbar(
     return rust.py_get_toolbar(ctx, relations, function, relation_name, relation_osmid)
 
 
-def handle_static(ctx: context.Context, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
+def handle_static(ctx: rust.PyContext, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
     return rust.py_handle_static(ctx, request_uri)
 
 
-Response = rust.PyResponse
+def make_response(content_type: str, status: str, output_bytes: bytes, headers: List[Tuple[str, str]]) -> rust.PyResponse:
+    """Factory for rust.PyResponse."""
+    return rust.PyResponse(content_type, status, output_bytes, headers)
 
 
 def send_response(
         environ: Dict[str, str],
-        response: Response
+        response: rust.PyResponse
 ) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
     """Turns an output string into a byte array and sends it."""
     return rust.py_send_response(environ, response)
@@ -88,17 +82,17 @@ def format_timestamp(timestamp: float) -> str:
     return rust.py_format_timestamp(timestamp)
 
 
-def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def handle_stats(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     return rust.py_handle_stats(ctx, relations, request_uri)
 
 
-def get_request_uri(environ: Dict[str, str], ctx: context.Context, relations: areas.Relations) -> str:
+def get_request_uri(environ: Dict[str, str], ctx: rust.PyContext, relations: rust.PyRelations) -> str:
     """Finds out the request URI."""
     return rust.py_get_request_uri(environ, ctx, relations)
 
 
-def check_existing_relation(ctx: context.Context, relations: areas.Relations, request_uri: str) -> yattag.Doc:
+def check_existing_relation(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Prevents serving outdated data from a relation that has been renamed."""
     return rust.py_check_existing_relation(ctx, relations, request_uri)
 
@@ -120,35 +114,11 @@ def handle_no_ref_housenumbers(prefix: str, relation_name: str) -> yattag.Doc:
 
 def handle_no_ref_streets(prefix: str, relation_name: str) -> yattag.Doc:
     """Handles the no-ref-streets error on a page using JS."""
-    doc = yattag.Doc()
-    link = prefix + "/missing-streets/" + relation_name + "/update-result"
-    with doc.tag("div", [("id", "no-ref-streets")]):
-        with doc.tag("a", [("href", link)]):
-            doc.text(tr("No street list: create from reference..."))
-    # Emit localized strings for JS purposes.
-    with doc.tag("div", [("style", "display: none;")]):
-        string_pairs = [
-            ("str-reference-wait", tr("No reference streets: creating from reference...")),
-            ("str-reference-error", tr("Error from reference: ")),
-        ]
-        for key, value in string_pairs:
-            with doc.tag("div", [("id", key), ("data-value", value)]):
-                pass
-    return doc
+    return rust.py_handle_no_ref_streets(prefix, relation_name)
 
 
-def handle_github_webhook(environ: Dict[str, Any], ctx: context.Context) -> yattag.Doc:
+def handle_github_webhook(stream: BinaryIO, ctx: rust.PyContext) -> yattag.Doc:
     """Handles a GitHub style webhook."""
-
-    body = urllib.parse.parse_qs(util.from_bytes(environ["wsgi.input"].read()))
-    payload = body["payload"][0]
-    root = json.loads(payload)
-    if root["ref"] == "refs/heads/master":
-        my_env: Dict[str, str] = {}
-        my_env["PATH"] = "osm-gimmisn-env/bin:" + os.environ["PATH"]
-        ctx.get_subprocess().run(["make", "-C", ctx.get_abspath(""), "deploy"], env=my_env)
-
-    return yattag.Doc.from_text("")
-
+    return rust.py_handle_github_webhook(stream, ctx)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
