@@ -19,27 +19,8 @@ import util
 import yattag
 
 
-def street_list(streets: List[str]) -> List[rust.PyStreet]:
-    """Convers a string list into a street list."""
-    return [rust.PyStreet.from_string(i) for i in streets]
-
-
 class TestBuildStreetReferenceCache(unittest.TestCase):
     """Tests build_street_reference_cache()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        refdir = os.path.join(os.path.dirname(__file__), "refdir")
-        refpath = os.path.join(refdir, "utcak_20190514.tsv")
-        memory_cache = util.build_street_reference_cache(refpath)
-        expected = {'01': {'011': ['Törökugrató utca',
-                                   'Tűzkő utca',
-                                   'Ref Name 1',
-                                   'Only In Ref utca',
-                                   'Only In Ref Nonsense utca',
-                                   'Hamzsabégi út']}}
-        self.assertEqual(memory_cache, expected)
-        os.unlink(refpath + ".cache")
-
     def test_cached(self) -> None:
         """Tests the case when the cache is already available."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")

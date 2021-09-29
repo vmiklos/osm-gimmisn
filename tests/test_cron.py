@@ -594,6 +594,14 @@ class TestMain(unittest.TestCase):
         """Tests the path when our_main() returns an error."""
         ctx = test_context.make_test_context()
         ctx.set_unit(test_context.TestUnit())
+        file_system = test_context.TestFileSystem()
+        log_value = io.BytesIO()
+        log_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/cron.log"): log_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         argv = ["", "--mode", "stats", "--no-overpass"]
         buf = io.StringIO()
 

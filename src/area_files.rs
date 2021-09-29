@@ -66,7 +66,7 @@ impl RelationFiles {
     }
 
     /// Build the file name of the reference house number list of a relation.
-    fn get_ref_housenumbers_path(&self) -> anyhow::Result<String> {
+    pub fn get_ref_housenumbers_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("street-housenumbers-reference-{}.lst", self.name))
@@ -86,7 +86,7 @@ impl RelationFiles {
     }
 
     /// Builds the file name of the house number HTML cache file of a relation.
-    fn get_housenumbers_htmlcache_path(&self) -> anyhow::Result<String> {
+    pub fn get_housenumbers_htmlcache_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("{}.htmlcache.{}", self.name, i18n::get_language()))
@@ -136,7 +136,7 @@ impl RelationFiles {
     }
 
     /// Builds the file name of the additional house number HTML cache file of a relation.
-    fn get_additional_housenumbers_htmlcache_path(&self) -> anyhow::Result<String> {
+    pub fn get_additional_housenumbers_htmlcache_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!(
@@ -200,7 +200,9 @@ impl RelationFiles {
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
         let path = self.get_ref_housenumbers_path()?;
-        ctx.get_file_system().open_write(&path)
+        ctx.get_file_system()
+            .open_write(&path)
+            .context("open_write() failed")
     }
 
     /// Opens the house number percent file of a relation for reading.
@@ -486,19 +488,6 @@ impl PyRelationFiles {
             Ok(value) => Ok(value),
             Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
                 "get_housenumbers_additional_count_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_additional_housenumbers_htmlcache_path(&self) -> PyResult<String> {
-        match self
-            .relation_files
-            .get_additional_housenumbers_htmlcache_path()
-        {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_additional_housenumbers_htmlcache_path() failed: {}",
                 err.to_string()
             ))),
         }

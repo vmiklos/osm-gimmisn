@@ -67,7 +67,11 @@ impl FileSystem for StdFileSystem {
     }
 
     fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let ret: Arc<Mutex<dyn Write + Send>> = Arc::new(Mutex::new(std::fs::File::create(path)?));
+        use anyhow::Context;
+        let ret: Arc<Mutex<dyn Write + Send>> = Arc::new(Mutex::new(
+            std::fs::File::create(path)
+                .with_context(|| format!("failed to open {} for writing", path))?,
+        ));
         Ok(ret)
     }
 }
