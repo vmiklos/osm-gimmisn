@@ -1102,11 +1102,12 @@ filters:
   Etele út:
     # 32: 32/a, 32/b, 32/c
     # 54-58 panel, bejáratok: 54/a, 54/b, 56/a, 56/b, 58/a
+    # 68: volt Számalk. Elete Plaza már Hadak útja 1-re van számozva
     invalid: ['32', '56', '58b', '67/5']
     ranges:
       - {start: '1', end: '3'}
       - {start: '15', end: '73'}
-      - {start: '2', end: '68'}
+      - {start: '2', end: '66'}
   Fejér Lipót utca:
     invalid: ['2b', '8a']
     ranges:
@@ -2850,8 +2851,6 @@ refstreets:
   'Stoczek József utca': 'Stoczek utca'
   'Új barázda utca': 'Új Barázda utca'
   'Zólyomi köz': 'Zólyom köz'
-  # átnevezve 2021.09.01
-  'Molnár C. Pál lejtő': 'Balogh lejtő'
 osm-street-filters:
   # Nem valós utcák
   - A magyarság útja

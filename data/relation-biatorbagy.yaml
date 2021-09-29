@@ -27,6 +27,9 @@ street-filters:
   # Bodza köz - ???
   # Joó út - ???
   # Viola köz
+osm-street-filters:
+  # Nem valós utcák
+  - M0 tervezett folytatás
 refstreets:
   'Angeli András utca': 'Angeli András út'
   'Dévai Gyula utca': 'Dévay Gyula utca'
