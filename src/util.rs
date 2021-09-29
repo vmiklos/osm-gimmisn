@@ -1969,4 +1969,24 @@ mod tests {
         let doc = format_even_odd_html(&hnr_list(vec!["1", "3"]));
         assert_eq!(doc.get_value(), "1, 3".to_string());
     }
+
+    /// Tests build_street_reference_cache().
+    #[test]
+    fn test_build_street_reference_cache() {
+        let refpath = "tests/refdir/utcak_20190514.tsv";
+        let memory_cache = build_street_reference_cache(refpath).unwrap();
+        let streets: Vec<String> = vec![
+            "Törökugrató utca".into(),
+            "Tűzkő utca".into(),
+            "Ref Name 1".into(),
+            "Only In Ref utca".into(),
+            "Only In Ref Nonsense utca".into(),
+            "Hamzsabégi út".into(),
+        ];
+        let mut settlement: HashMap<String, Vec<String>> = HashMap::new();
+        settlement.insert("011".into(), streets);
+        let mut expected: StreetReferenceCache = HashMap::new();
+        expected.insert("01".into(), settlement);
+        assert_eq!(memory_cache, expected);
+    }
 }

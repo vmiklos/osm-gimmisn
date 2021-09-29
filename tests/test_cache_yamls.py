@@ -6,8 +6,8 @@
 
 """The test_cache_yamls module covers the cache_yamls module."""
 
+import io
 import json
-import os
 import unittest
 
 import test_context
@@ -21,14 +21,24 @@ class TestMain(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         cache_path = "tests/data/yamls.cache"
-        if os.path.exists(cache_path):
-            os.remove(cache_path)
         argv = ["", "data", "workdir"]
         ctx = test_context.make_test_context()
+        file_system = test_context.TestFileSystem()
+        file_system.set_hide_paths([cache_path])
+        cache_value = io.BytesIO()
+        cache_value.__setattr__("close", lambda: None)
+        stats_value = io.BytesIO()
+        stats_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("data/yamls.cache"): cache_value,
+            ctx.get_abspath("workdir/stats/relations.json"): stats_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         cache_yamls.main(argv, ctx)
         # Just assert that the result is created, the actual content is validated by the other
         # tests.
-        self.assertTrue(os.path.exists(cache_path))
+        self.assertTrue(cache_value.tell())
 
         relation_ids_path = "tests/workdir/stats/relations.json"
         relation_ids = []

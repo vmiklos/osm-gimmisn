@@ -30,8 +30,8 @@ def main(argv: List[str], ctx: rust.PyContext) -> None:
             cache[cache_key] = yaml.safe_load(yaml_stream)
 
     cache_path = os.path.join(datadir, "yamls.cache")
-    with open(cache_path, "w") as cache_stream:
-        json.dump(cache, cache_stream)
+    with ctx.get_file_system().open_write(cache_path) as write_stream:
+        write_stream.write(json.dumps(cache).encode("utf-8"))
 
     workdir = ctx.get_abspath(argv[2])
     yaml_path = os.path.join(datadir, "relations.yaml")
@@ -43,8 +43,8 @@ def main(argv: List[str], ctx: rust.PyContext) -> None:
     relation_ids = sorted(set(relation_ids))
     statsdir = os.path.join(workdir, "stats")
     os.makedirs(statsdir, exist_ok=True)
-    with open(os.path.join(statsdir, "relations.json"), "w") as stream:
-        json.dump(relation_ids, stream)
+    with ctx.get_file_system().open_write(os.path.join(statsdir, "relations.json")) as write_stream:
+        write_stream.write(json.dumps(relation_ids).encode("utf-8"))
 
 
 if __name__ == "__main__":

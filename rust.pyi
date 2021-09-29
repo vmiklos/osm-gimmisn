@@ -578,10 +578,6 @@ class PyRelationFiles:
         """Builds the file name of the housenumber additional count file of a relation."""
         ...
 
-    def get_additional_housenumbers_htmlcache_path(self) -> str:
-        """Builds the file name of the additional house number HTML cache file of a relation."""
-        ...
-
     def get_ref_streets_read_stream(self, ctx: PyContext) -> BinaryIO:
         """Opens the reference street list of a relation for reading."""
         ...
@@ -1055,6 +1051,18 @@ def py_handle_no_ref_streets(prefix: str, relation_name: str) -> PyDoc:
 
 def py_handle_github_webhook(stream: BinaryIO, ctx: PyContext) -> PyDoc:
     """Handles a GitHub style webhook."""
+    ...
+
+def py_is_cache_outdated(ctx: PyContext, cache_path: str, dependencies: List[str]) -> bool:
+    """Decides if we have an up to date cache entry or not."""
+    ...
+
+def py_is_missing_housenumbers_html_cached(ctx: PyContext, relation: PyRelation) -> bool:
+    """Decides if we have an up to date HTML cache entry or not."""
+    ...
+
+def py_is_additional_housenumbers_html_cached(ctx: PyContext, relation: PyRelation) -> bool:
+    """Decides if we have an up to date HTML cache entry for additional house numbers or not."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

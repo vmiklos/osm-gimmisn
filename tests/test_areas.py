@@ -689,7 +689,16 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         """Tests the case when the refcounty code is missing in the reference."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-        relations = areas.make_relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        file_system = test_context.TestFileSystem()
+        ref_value = io.BytesIO()
+        ref_value.__setattr__("close", lambda: None)
+        files = {
+            os.path.join(ctx.get_ini().get_workdir(), "street-housenumbers-reference-nosuchrefcounty.lst"): ref_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
+        relations = areas.make_relations(ctx)
         relation_name = "nosuchrefcounty"
         relation = relations.get_relation(relation_name)
         try:
@@ -701,7 +710,16 @@ class TestRelationWriteRefHousenumbers(unittest.TestCase):
         """Tests the case when the refsettlement code is missing in the reference."""
         refdir = os.path.join(os.path.dirname(__file__), "refdir")
         refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-        relations = areas.make_relations(test_context.make_test_context())
+        ctx = test_context.make_test_context()
+        file_system = test_context.TestFileSystem()
+        ref_value = io.BytesIO()
+        ref_value.__setattr__("close", lambda: None)
+        files = {
+            os.path.join(ctx.get_ini().get_workdir(), "street-housenumbers-reference-nosuchrefsettlement.lst"): ref_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
+        relations = areas.make_relations(ctx)
         relation_name = "nosuchrefsettlement"
         relation = relations.get_relation(relation_name)
         try:
@@ -715,14 +733,22 @@ class TestRelationWriteRefStreets(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         ctx = test_context.make_test_context()
+        file_system = test_context.TestFileSystem()
+        ref_value = io.BytesIO()
+        ref_value.__setattr__("close", lambda: None)
+        files = {
+            os.path.join(ctx.get_ini().get_workdir(), "streets-reference-gazdagret.lst"): ref_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
         refpath = ctx.get_abspath(os.path.join("refdir", "utcak_20190514.tsv"))
         relations = areas.make_relations(ctx)
         relation_name = "gazdagret"
         relation = relations.get_relation(relation_name)
         expected = util.get_content(relations.get_workdir() + "/streets-reference-gazdagret.lst")
         relation.write_ref_streets(refpath)
-        actual = util.get_content(relations.get_workdir() + "/streets-reference-gazdagret.lst")
-        self.assertEqual(actual, expected)
+        ref_value.seek(0)
+        self.assertEqual(ref_value.read(), expected)
 
 
 class TestRelations(unittest.TestCase):

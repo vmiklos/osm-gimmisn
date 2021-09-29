@@ -846,7 +846,10 @@ impl Relation {
 
         lst.sort();
         lst.dedup();
-        let stream = self.file.get_ref_housenumbers_write_stream(&self.ctx)?;
+        let stream = self
+            .file
+            .get_ref_housenumbers_write_stream(&self.ctx)
+            .context("get_ref_housenumbers_write_stream() failed")?;
         let mut guard = stream.lock().unwrap();
         let write = guard.deref_mut();
         for line in lst {
@@ -1321,8 +1324,8 @@ impl Relation {
 
 #[pyclass]
 #[derive(Clone)]
-struct PyRelation {
-    relation: Relation,
+pub struct PyRelation {
+    pub relation: Relation,
 }
 
 #[pymethods]
@@ -1436,12 +1439,13 @@ impl PyRelation {
     }
 
     fn write_ref_housenumbers(&self, references: Vec<String>) -> PyResult<()> {
-        match self.relation.write_ref_housenumbers(&references) {
+        match self
+            .relation
+            .write_ref_housenumbers(&references)
+            .context("write_ref_housenumbers() failed")
+        {
             Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "write_ref_housenumbers() failed: {}",
-                err.to_string()
-            ))),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
         }
     }
 

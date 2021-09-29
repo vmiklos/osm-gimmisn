@@ -73,6 +73,7 @@ RS_OBJECTS = \
 	src/areas.rs \
 	src/bin/missing_housenumbers.rs \
 	src/context.rs \
+	src/cache.rs \
 	src/i18n.rs \
 	src/lib.rs \
 	src/missing_housenumbers.rs \

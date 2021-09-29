@@ -19,46 +19,17 @@ import util
 
 def is_cache_outdated(ctx: rust.PyContext, cache_path: str, dependencies: List[str]) -> bool:
     """Decides if we have an up to date cache entry or not."""
-    path_exists = ctx.get_file_system().path_exists
-    getmtime = ctx.get_file_system().getmtime
-    if not path_exists(cache_path):
-        return False
-
-    cache_mtime = getmtime(cache_path)
-
-    for dependency in dependencies:
-        if path_exists(dependency) and getmtime(dependency) > cache_mtime:
-            return False
-
-    return True
+    return rust.py_is_cache_outdated(ctx, cache_path, dependencies)
 
 
 def is_missing_housenumbers_html_cached(ctx: rust.PyContext, relation: rust.PyRelation) -> bool:
     """Decides if we have an up to date HTML cache entry or not."""
-    cache_path = relation.get_files().get_housenumbers_htmlcache_path()
-    datadir = ctx.get_abspath("data")
-    relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
-    dependencies = [
-        relation.get_files().get_osm_streets_path(),
-        relation.get_files().get_osm_housenumbers_path(),
-        relation.get_files().get_ref_housenumbers_path(),
-        relation_path
-    ]
-    return is_cache_outdated(ctx, cache_path, dependencies)
+    return rust.py_is_missing_housenumbers_html_cached(ctx, relation)
 
 
 def is_additional_housenumbers_html_cached(ctx: rust.PyContext, relation: rust.PyRelation) -> bool:
     """Decides if we have an up to date HTML cache entry for additional house numbers or not."""
-    cache_path = relation.get_files().get_additional_housenumbers_htmlcache_path()
-    datadir = ctx.get_abspath("data")
-    relation_path = os.path.join(datadir, "relation-%s.yaml" % relation.get_name())
-    dependencies = [
-        relation.get_files().get_osm_streets_path(),
-        relation.get_files().get_osm_housenumbers_path(),
-        relation.get_files().get_ref_housenumbers_path(),
-        relation_path
-    ]
-    return is_cache_outdated(ctx, cache_path, dependencies)
+    return rust.py_is_additional_housenumbers_html_cached(ctx, relation)
 
 
 def get_missing_housenumbers_html(ctx: rust.PyContext, relation: rust.PyRelation) -> yattag.Doc:

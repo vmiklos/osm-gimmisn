@@ -15,13 +15,14 @@ from typing import Set
 from typing import TextIO
 from typing import cast
 import argparse
+import codecs
 import datetime
 import glob
 import logging
 import os
+import sys
 import time
 import traceback
-import sys
 
 import areas
 import cache
@@ -374,7 +375,8 @@ def main(argv: List[str], stdout: TextIO, ctx: rust.PyContext) -> None:
     workdir = ctx.get_ini().get_workdir()
     relations = areas.make_relations(ctx)
     logpath = os.path.join(workdir, "cron.log")
-    logging.basicConfig(filename=logpath,
+    logstream = cast(TextIO, codecs.getwriter("utf-8")(ctx.get_file_system().open_write(logpath)))
+    logging.basicConfig(stream=logstream,
                         level=logging.INFO,
                         format='%(message)s')
     handler = logging.StreamHandler(stdout)
