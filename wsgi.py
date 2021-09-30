@@ -943,7 +943,10 @@ def our_application(
             return output_byte_list, str()
 
         if ext == "json":
-            return wsgi_json.our_application_json(environ, start_response, ctx, relations, request_uri), str()
+            filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
+            status, headers, output_byte_list = wsgi_json.our_application_json(filtered_environ, ctx, relations, request_uri)
+            start_response(status, headers)
+            return output_byte_list, str()
 
         doc = yattag.Doc()
         util.write_html_header(doc)

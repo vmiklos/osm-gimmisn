@@ -207,7 +207,7 @@ impl RelationConfig {
     }
 
     /// Determines in a relation's street is interpolation=all or not.
-    fn get_street_is_even_odd(&self, street: &str) -> bool {
+    pub fn get_street_is_even_odd(&self, street: &str) -> bool {
         let mut interpolation_all = false;
         if let Some(filter_for_street) = self.get_filter_street(street) {
             let street_props = filter_for_street.as_object().unwrap();
@@ -1164,7 +1164,7 @@ impl Relation {
 
     /// Calculate a write stat for the house number coverage of a relation.
     /// Returns a tuple of: todo street count, todo count, done count, percent and table.
-    fn write_missing_housenumbers(
+    pub fn write_missing_housenumbers(
         &mut self,
     ) -> anyhow::Result<(usize, usize, usize, String, yattag::HtmlTable)> {
         let (ongoing_streets, done_streets) = self.get_missing_housenumbers()?;
@@ -1244,7 +1244,7 @@ impl Relation {
 
     /// Calculate and write stat for the unexpected house number coverage of a relation.
     /// Returns a tuple of: todo street count, todo count and table.
-    fn write_additional_housenumbers(
+    pub fn write_additional_housenumbers(
         &mut self,
     ) -> anyhow::Result<(usize, usize, yattag::HtmlTable)> {
         let ongoing_streets = self.get_additional_housenumbers()?;
@@ -1589,27 +1589,6 @@ impl PyRelation {
             py_ret.push((py_street, py_housenumbers));
         }
         Ok(py_ret)
-    }
-
-    fn write_additional_housenumbers(&mut self) -> PyResult<(usize, usize, yattag::PyHtmlTable)> {
-        let (ongoing_len, todo, table) = match self.relation.write_additional_housenumbers() {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "write_additional_housenumbers() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        let py_table: Vec<Vec<yattag::PyDoc>> = table
-            .iter()
-            .map(|row| {
-                row.iter()
-                    .map(|cell| yattag::PyDoc { doc: cell.clone() })
-                    .collect()
-            })
-            .collect();
-        Ok((ongoing_len, todo, py_table))
     }
 
     fn get_osm_housenumbers_query(&self) -> PyResult<String> {

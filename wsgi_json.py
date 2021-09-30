@@ -8,20 +8,13 @@
 """The wsgi module contains functionality specific to the json part of the web interface."""
 
 import json
-from typing import Any
 from typing import Dict
-from typing import Iterable
 from typing import List
-from typing import TYPE_CHECKING
 from typing import Tuple
 
 import rust
 import util
 import webframe
-
-if TYPE_CHECKING:
-    # pylint: disable=no-name-in-module,import-error,unused-import
-    from wsgiref.types import StartResponse
 
 
 def streets_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
@@ -81,12 +74,11 @@ def missing_streets_update_result_json(ctx: rust.PyContext, relations: rust.PyRe
 
 
 def our_application_json(
-        environ: Dict[str, Any],
-        start_response: 'StartResponse',
+        environ: Dict[str, str],
         ctx: rust.PyContext,
         relations: rust.PyRelations,
         request_uri: str
-) -> Iterable[bytes]:
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
     """Dispatches json requests based on their URIs."""
     content_type = "application/json"
     headers: List[Tuple[str, str]] = []
@@ -102,8 +94,6 @@ def our_application_json(
         output = missing_streets_update_result_json(ctx, relations, request_uri)
     output_bytes = util.to_bytes(output)
     response = webframe.make_response(content_type, "200 OK", output_bytes, headers)
-    status, headers, output_byte_list = webframe.send_response(environ, response)
-    start_response(status, headers)
-    return output_byte_list
+    return webframe.send_response(environ, response)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

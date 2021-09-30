@@ -96,7 +96,7 @@ impl RelationFiles {
     }
 
     /// Builds the file name of the house number plain text cache file of a relation.
-    fn get_housenumbers_txtcache_path(&self) -> anyhow::Result<String> {
+    pub fn get_housenumbers_txtcache_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("{}.txtcache", self.name))
@@ -226,7 +226,7 @@ impl RelationFiles {
     }
 
     /// Opens the house number HTML cache file of a relation for reading.
-    fn get_housenumbers_htmlcache_read_stream(
+    pub fn get_housenumbers_htmlcache_read_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -235,7 +235,7 @@ impl RelationFiles {
     }
 
     /// Opens the house number HTML cache file of a relation for writing.
-    fn get_housenumbers_htmlcache_write_stream(
+    pub fn get_housenumbers_htmlcache_write_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
@@ -244,7 +244,7 @@ impl RelationFiles {
     }
 
     /// Opens the house number plain text cache file of a relation for reading.
-    fn get_housenumbers_txtcache_read_stream(
+    pub fn get_housenumbers_txtcache_read_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -253,7 +253,7 @@ impl RelationFiles {
     }
 
     /// Opens the house number plain text cache file of a relation for writing.
-    fn get_housenumbers_txtcache_write_stream(
+    pub fn get_housenumbers_txtcache_write_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
@@ -362,7 +362,7 @@ impl RelationFiles {
     }
 
     /// Opens the additional house number HTML cache file of a relation for reading.
-    fn get_additional_housenumbers_htmlcache_read_stream(
+    pub fn get_additional_housenumbers_htmlcache_read_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -371,7 +371,7 @@ impl RelationFiles {
     }
 
     /// Opens the additional house number HTML cache file of a relation for writing.
-    fn get_additional_housenumbers_htmlcache_write_stream(
+    pub fn get_additional_housenumbers_htmlcache_write_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
@@ -453,16 +453,6 @@ impl PyRelationFiles {
         }
     }
 
-    fn get_housenumbers_txtcache_path(&self) -> PyResult<String> {
-        match self.relation_files.get_housenumbers_txtcache_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_housenumbers_txtcache_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
     fn get_streets_percent_path(&self) -> PyResult<String> {
         match self.relation_files.get_streets_percent_path() {
             Ok(value) => Ok(value),
@@ -509,24 +499,6 @@ impl PyRelationFiles {
             }
         };
         Ok(context::PyRead { read: ret })
-    }
-
-    fn get_ref_streets_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_ref_streets_write_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_ref_streets_write_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyWrite { write: ret })
     }
 
     fn get_osm_streets_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
@@ -583,24 +555,6 @@ impl PyRelationFiles {
         Ok(context::PyRead { read: ret })
     }
 
-    fn get_ref_housenumbers_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_ref_housenumbers_write_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_ref_housenumbers_write_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyWrite { write: ret })
-    }
-
     fn get_housenumbers_percent_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
         let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
@@ -637,24 +591,6 @@ impl PyRelationFiles {
         Ok(context::PyWrite { write: ret })
     }
 
-    fn get_housenumbers_htmlcache_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_housenumbers_htmlcache_read_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_housenumbers_htmlcache_read_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyRead { read: ret })
-    }
-
     fn get_housenumbers_htmlcache_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
         let gil = Python::acquire_gil();
         let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
@@ -666,42 +602,6 @@ impl PyRelationFiles {
             Err(err) => {
                 return Err(pyo3::exceptions::PyOSError::new_err(format!(
                     "get_housenumbers_htmlcache_write_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyWrite { write: ret })
-    }
-
-    fn get_housenumbers_txtcache_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_housenumbers_txtcache_read_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_housenumbers_txtcache_read_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyRead { read: ret })
-    }
-
-    fn get_housenumbers_txtcache_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_housenumbers_txtcache_write_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_housenumbers_txtcache_write_stream() failed: {}",
                     err.to_string()
                 )));
             }
@@ -857,48 +757,6 @@ impl PyRelationFiles {
             }
         };
         Ok(ret)
-    }
-
-    fn get_additional_housenumbers_htmlcache_read_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<context::PyRead> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_additional_housenumbers_htmlcache_read_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_additional_housenumbers_htmlcache_read_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyRead { read: ret })
-    }
-
-    fn get_additional_housenumbers_htmlcache_write_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<context::PyWrite> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_additional_housenumbers_htmlcache_write_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_additional_housenumbers_htmlcache_write_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyWrite { write: ret })
     }
 }
 

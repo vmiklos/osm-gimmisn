@@ -229,7 +229,7 @@ else
 	./deploy.sh
 endif
 
-update-pot: cache.py wsgi.py wsgi_additional.py src/areas.rs src/util.rs src/webframe.rs Makefile
+update-pot: wsgi.py wsgi_additional.py src/areas.rs src/cache.rs src/util.rs src/webframe.rs Makefile
 	xgettext --keyword=tr --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py %.rs,$^)
 
 update-po: po/osm-gimmisn.pot Makefile
