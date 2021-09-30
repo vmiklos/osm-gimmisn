@@ -20,6 +20,9 @@ do
             api)
                 continue
             ;;
+            cache)
+                continue
+            ;;
             context)
                 continue
             ;;

@@ -787,7 +787,7 @@ fn separate_even_odd(
 }
 
 /// Formats even and odd numbers.
-fn format_even_odd(only_in_ref: &[HouseNumberRange]) -> Vec<String> {
+pub fn format_even_odd(only_in_ref: &[HouseNumberRange]) -> Vec<String> {
     let mut even: Vec<HouseNumberRange> = Vec::new();
     let mut odd: Vec<HouseNumberRange> = Vec::new();
     separate_even_odd(only_in_ref, &mut even, &mut odd);

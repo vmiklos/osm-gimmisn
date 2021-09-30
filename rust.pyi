@@ -562,10 +562,6 @@ class PyRelationFiles:
         """Builds the file name of the house number HTML cache file of a relation."""
         ...
 
-    def get_housenumbers_txtcache_path(self) -> str:
-        """Builds the file name of the house number plain text cache file of a relation."""
-        ...
-
     def get_streets_percent_path(self) -> str:
         """Builds the file name of the street percent file of a relation."""
         ...
@@ -582,10 +578,6 @@ class PyRelationFiles:
         """Opens the reference street list of a relation for reading."""
         ...
 
-    def get_ref_streets_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the reference street list of a relation for wrtiting."""
-        ...
-
     def get_osm_streets_read_stream(self, ctx: PyContext) -> BinaryIO:
         """Opens the OSM street list of a relation for reading."""
         ...
@@ -598,10 +590,6 @@ class PyRelationFiles:
         """Opens the reference house number list of a relation for reading."""
         ...
 
-    def get_ref_housenumbers_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the reference house number list of a relation for writing."""
-        ...
-
     def get_housenumbers_percent_read_stream(self, ctx: PyContext) -> BinaryIO:
         """Opens the house number percent file of a relation for reading."""
         ...
@@ -610,20 +598,8 @@ class PyRelationFiles:
         """Opens the house number percent file of a relation for writing."""
         ...
 
-    def get_housenumbers_htmlcache_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the house number HTML cache file of a relation for reading."""
-        ...
-
     def get_housenumbers_htmlcache_write_stream(self, ctx: PyContext) -> BinaryIO:
         """Opens the house number HTML cache file of a relation for writing."""
-        ...
-
-    def get_housenumbers_txtcache_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the house number plain text cache file of a relation for reading."""
-        ...
-
-    def get_housenumbers_txtcache_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the house number plain text cache file of a relation for writing."""
         ...
 
     def get_streets_percent_read_stream(self, ctx: PyContext) -> BinaryIO:
@@ -656,14 +632,6 @@ class PyRelationFiles:
 
     def write_osm_housenumbers(self, ctx: PyContext, result: str) -> int:
         """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
-        ...
-
-    def get_additional_housenumbers_htmlcache_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the additional house number HTML cache file of a relation for reading."""
-        ...
-
-    def get_additional_housenumbers_htmlcache_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the additional house number HTML cache file of a relation for writing."""
         ...
 
 class PyRelationConfig:
@@ -860,13 +828,6 @@ class PyRelation:
         """
         ...
 
-    def write_additional_housenumbers(self) -> Tuple[int, int, List[List[PyDoc]]]:
-        """
-        Calculate and write stat for the unexpected house number coverage of a relation.
-        Returns a tuple of: todo street count, todo count and table.
-        """
-        ...
-
     def get_osm_housenumbers_query(self) -> str:
         """Produces a query which lists house numbers in relation."""
         ...
@@ -1053,16 +1014,24 @@ def py_handle_github_webhook(stream: BinaryIO, ctx: PyContext) -> PyDoc:
     """Handles a GitHub style webhook."""
     ...
 
-def py_is_cache_outdated(ctx: PyContext, cache_path: str, dependencies: List[str]) -> bool:
-    """Decides if we have an up to date cache entry or not."""
-    ...
-
 def py_is_missing_housenumbers_html_cached(ctx: PyContext, relation: PyRelation) -> bool:
     """Decides if we have an up to date HTML cache entry or not."""
     ...
 
-def py_is_additional_housenumbers_html_cached(ctx: PyContext, relation: PyRelation) -> bool:
-    """Decides if we have an up to date HTML cache entry for additional house numbers or not."""
+def py_get_missing_housenumbers_html(ctx: PyContext, relation: PyRelation) -> PyDoc:
+    """Gets the cached HTML of the missing housenumbers for a relation."""
+    ...
+
+def py_get_additional_housenumbers_html(ctx: PyContext, relation: PyRelation) -> PyDoc:
+    """Gets the cached HTML of the additional housenumbers for a relation."""
+    ...
+
+def py_is_missing_housenumbers_txt_cached(ctx: PyContext, relation: PyRelation) -> bool:
+    """Decides if we have an up to date plain text cache entry or not."""
+    ...
+
+def py_get_missing_housenumbers_txt(ctx: PyContext, relation: PyRelation) -> str:
+    """Gets the cached plain text of the missing housenumbers for a relation."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
