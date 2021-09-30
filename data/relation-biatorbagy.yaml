@@ -30,6 +30,8 @@ street-filters:
 osm-street-filters:
   # Nem valós utcák
   - M0 tervezett folytatás
+  - Kresz park
+  - Százlépcső
 refstreets:
   'Angeli András utca': 'Angeli András út'
   'Dévai Gyula utca': 'Dévay Gyula utca'
