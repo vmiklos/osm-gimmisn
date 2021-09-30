@@ -5,6 +5,10 @@ street-filters:
   # Településrészként fent vannak
   - Kő bánya
   - Lupa sziget
+osm-street-filters:
+  # nem igazi utcák
+  - KRESZ park
+  - Kálvária régészeti park
 refstreets:
   'Batsányi utca': 'Batsányi János utca'
   'Batthyány Lajos utca': 'Batthyány utca'
