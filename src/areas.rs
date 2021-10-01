@@ -1024,7 +1024,7 @@ impl Relation {
     }
 
     /// Tries to find additional streets in a relation.
-    fn get_additional_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
+    pub fn get_additional_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
         let ref_streets: Vec<String> = self
             .get_ref_streets()?
             .iter()
@@ -1070,7 +1070,7 @@ impl Relation {
     }
 
     /// Calculate and write stat for the unexpected street coverage of a relation.
-    fn write_additional_streets(&self) -> anyhow::Result<Vec<util::Street>> {
+    pub fn write_additional_streets(&self) -> anyhow::Result<Vec<util::Street>> {
         let additional_streets = self.get_additional_streets(/*sorted_result=*/ true)?;
 
         // Write the count to a file, so the index page show it fast.
