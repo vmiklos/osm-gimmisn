@@ -81,6 +81,7 @@ RS_OBJECTS = \
 	src/ranges.rs \
 	src/util.rs \
 	src/webframe.rs \
+	src/wsgi_json.rs \
 	src/yattag.rs \
 
 # Source local config if it's there.

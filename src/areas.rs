@@ -664,7 +664,7 @@ impl Relation {
     }
 
     /// Produces a query which lists streets in relation.
-    fn get_osm_streets_query(&self) -> anyhow::Result<String> {
+    pub fn get_osm_streets_query(&self) -> anyhow::Result<String> {
         let contents = std::fs::read_to_string(format!(
             "{}/{}",
             self.ctx.get_abspath("data")?,
@@ -761,7 +761,7 @@ impl Relation {
 
     /// Gets known streets (not their coordinates) from a reference site, based on relation names
     /// from OSM.
-    fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
+    pub fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
         let memory_cache = util::build_street_reference_cache(reference)?;
 
         let mut lst = self.config.build_ref_streets(&memory_cache);
@@ -827,7 +827,7 @@ impl Relation {
     /// Writes known house numbers (not their coordinates) from a reference, based on street names
     /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
     /// used by get_ref_housenumbers().
-    fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
+    pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
         let memory_caches = util::build_reference_caches(references, &self.config.get_refcounty())?;
 
         let streets: Vec<String> = self
@@ -1262,7 +1262,7 @@ impl Relation {
     }
 
     /// Produces a query which lists house numbers in relation.
-    fn get_osm_housenumbers_query(&self) -> anyhow::Result<String> {
+    pub fn get_osm_housenumbers_query(&self) -> anyhow::Result<String> {
         let contents = std::fs::read_to_string(format!(
             "{}/{}",
             self.ctx.get_abspath("data")?,

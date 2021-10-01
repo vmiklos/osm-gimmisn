@@ -594,20 +594,8 @@ class PyRelationFiles:
         """Opens the house number percent file of a relation for reading."""
         ...
 
-    def get_housenumbers_percent_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the house number percent file of a relation for writing."""
-        ...
-
-    def get_housenumbers_htmlcache_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the house number HTML cache file of a relation for writing."""
-        ...
-
     def get_streets_percent_read_stream(self, ctx: PyContext) -> BinaryIO:
         """Opens the street percent file of a relation for reading."""
-        ...
-
-    def get_streets_percent_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the street percent file of a relation for writing."""
         ...
 
     def get_streets_additional_count_read_stream(self, ctx: PyContext) -> BinaryIO:
@@ -1032,6 +1020,22 @@ def py_is_missing_housenumbers_txt_cached(ctx: PyContext, relation: PyRelation) 
 
 def py_get_missing_housenumbers_txt(ctx: PyContext, relation: PyRelation) -> str:
     """Gets the cached plain text of the missing housenumbers for a relation."""
+    ...
+
+def py_streets_update_result_json(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
+    """Expected request_uri: e.g. /osm/streets/ormezo/update-result.json."""
+    ...
+
+def py_street_housenumbers_update_result_json(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
+    """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/update-result.json."""
+    ...
+
+def py_missing_housenumbers_update_result_json(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
+    ...
+
+def py_missing_streets_update_result_json(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
+    """Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
