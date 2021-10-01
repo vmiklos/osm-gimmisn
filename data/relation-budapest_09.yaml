@@ -41,6 +41,7 @@ osm-street-filters:
   - Drive-through
   - Gubacsi hídfő
   - Mélygarázs
+  - Rákóczi híd
   # Kerülethatáron lévő utca
   - Ferihegyi repülőtérre vezető út
   # házszám nélküli sétányok, parkok
@@ -52,11 +53,6 @@ osm-street-filters:
   - Kodály Zoltán park
   - Lukács Miklós út
   - Tóth Aladár út
-  # https://www.ferencvaros.hu/wp-content/uploads/2021/06/325_2021.pdf
-  - Dalai Láma út
-  - Szabad Hongkong út
-  - Ujgur mártírok útja
-  - Hszie Si-kuang püspök út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás
