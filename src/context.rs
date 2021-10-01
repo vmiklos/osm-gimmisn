@@ -732,7 +732,7 @@ impl Ini {
     }
 
     /// Gets the abs paths of ref housenumbers.
-    fn get_reference_housenumber_paths(&self) -> anyhow::Result<Vec<String>> {
+    pub fn get_reference_housenumber_paths(&self) -> anyhow::Result<Vec<String>> {
         let value = self
             .config
             .get("wsgi", "reference_housenumbers")
@@ -750,7 +750,7 @@ impl Ini {
     }
 
     /// Gets the abs path of ref streets.
-    fn get_reference_street_path(&self) -> anyhow::Result<String> {
+    pub fn get_reference_street_path(&self) -> anyhow::Result<String> {
         let relpath = self
             .config
             .get("wsgi", "reference_street")

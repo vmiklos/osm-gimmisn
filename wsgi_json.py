@@ -7,7 +7,6 @@
 
 """The wsgi module contains functionality specific to the json part of the web interface."""
 
-import json
 from typing import Dict
 from typing import List
 from typing import Tuple
@@ -19,58 +18,22 @@ import webframe
 
 def streets_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/streets/ormezo/update-result.json."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-    query = relation.get_osm_streets_query()
-    ret: Dict[str, str] = {}
-    try:
-        buf = rust.py_overpass_query(ctx, query)
-        relation.get_files().write_osm_streets(ctx, buf)
-        ret["error"] = ""
-    except OSError as error:
-        ret["error"] = str(error)
-    return json.dumps(ret)
+    return rust.py_streets_update_result_json(ctx, relations, request_uri)
 
 
 def street_housenumbers_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/update-result.json."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-    query = relation.get_osm_housenumbers_query()
-    ret: Dict[str, str] = {}
-    try:
-        buf = rust.py_overpass_query(ctx, query)
-        relation.get_files().write_osm_housenumbers(ctx, buf)
-        ret["error"] = ""
-    except OSError as error:
-        ret["error"] = str(error)
-    return json.dumps(ret)
+    return rust.py_street_housenumbers_update_result_json(ctx, relations, request_uri)
 
 
 def missing_housenumbers_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    references = ctx.get_ini().get_reference_housenumber_paths()
-    relation = relations.get_relation(relation_name)
-    ret: Dict[str, str] = {}
-    relation.write_ref_housenumbers(references)
-    ret["error"] = ""
-    return json.dumps(ret)
+    return rust.py_missing_housenumbers_update_result_json(ctx, relations, request_uri)
 
 
 def missing_streets_update_result_json(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    reference = ctx.get_ini().get_reference_street_path()
-    relation = relations.get_relation(relation_name)
-    ret: Dict[str, str] = {}
-    relation.write_ref_streets(reference)
-    ret["error"] = ""
-    return json.dumps(ret)
+    return rust.py_missing_streets_update_result_json(ctx, relations, request_uri)
 
 
 def our_application_json(

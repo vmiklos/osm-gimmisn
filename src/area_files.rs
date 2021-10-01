@@ -325,7 +325,7 @@ impl RelationFiles {
     }
 
     /// Writes the result for overpass of Relation.get_osm_streets_query().
-    fn write_osm_streets(&self, ctx: &context::Context, result: &str) -> anyhow::Result<usize> {
+    pub fn write_osm_streets(&self, ctx: &context::Context, result: &str) -> anyhow::Result<usize> {
         if result.starts_with("<?xml") {
             // Not a CSV, reject.
             return Ok(0);
@@ -346,7 +346,7 @@ impl RelationFiles {
     }
 
     /// Writes the result for overpass of Relation.get_osm_housenumbers_query().
-    fn write_osm_housenumbers(
+    pub fn write_osm_housenumbers(
         &self,
         ctx: &context::Context,
         result: &str,
@@ -573,42 +573,6 @@ impl PyRelationFiles {
         Ok(context::PyRead { read: ret })
     }
 
-    fn get_housenumbers_percent_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_housenumbers_percent_write_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_housenumbers_percent_write_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyWrite { write: ret })
-    }
-
-    fn get_housenumbers_htmlcache_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_housenumbers_htmlcache_write_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_housenumbers_htmlcache_write_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyWrite { write: ret })
-    }
-
     fn get_streets_percent_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
         let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
@@ -625,24 +589,6 @@ impl PyRelationFiles {
             }
         };
         Ok(context::PyRead { read: ret })
-    }
-
-    fn get_streets_percent_write_stream(&self, ctx: PyObject) -> PyResult<context::PyWrite> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_streets_percent_write_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_streets_percent_write_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyWrite { write: ret })
     }
 
     fn get_streets_additional_count_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
