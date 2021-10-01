@@ -38,6 +38,9 @@ do
             webframe)
                 continue
             ;;
+            wsgi_additional)
+                continue
+            ;;
             wsgi_json)
                 continue
             ;;

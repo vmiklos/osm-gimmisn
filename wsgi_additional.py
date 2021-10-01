@@ -9,9 +9,6 @@
 
 from typing import Tuple
 
-import yattag
-
-import areas
 import rust
 
 
@@ -29,7 +26,7 @@ def additional_streets_view_result(
     ctx: rust.PyContext,
     relations: rust.PyRelations,
     request_uri: str
-) -> yattag.Doc:
+) -> rust.PyDoc:
     """Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result."""
     return rust.py_additional_streets_view_result(ctx, relations, request_uri)
 
@@ -38,23 +35,13 @@ def additional_housenumbers_view_result(
     ctx: rust.PyContext,
     relations: rust.PyRelations,
     request_uri: str
-) -> yattag.Doc:
+) -> rust.PyDoc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result."""
     return rust.py_additional_housenumbers_view_result(ctx, relations, request_uri)
 
 
-def additional_streets_view_turbo(relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
+def additional_streets_view_turbo(relations: rust.PyRelations, request_uri: str) -> rust.PyDoc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-turbo."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-
-    doc = yattag.Doc()
-    relation = relations.get_relation(relation_name)
-    streets = relation.get_additional_streets(sorted_result=False)
-    query = areas.make_turbo_query_for_street_objs(relation, streets)
-
-    with doc.tag("pre", []):
-        doc.text(query)
-    return doc
+    return rust.py_additional_streets_view_turbo(relations, request_uri)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
