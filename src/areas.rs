@@ -77,7 +77,7 @@ impl RelationConfig {
     }
 
     /// Gets the OSM relation object's ID.
-    fn get_osmrelation(&self) -> u64 {
+    pub fn get_osmrelation(&self) -> u64 {
         self.get_property("osmrelation").unwrap().as_u64().unwrap()
     }
 
@@ -2072,7 +2072,7 @@ fn normalize_housenumber_letters(
 }
 
 /// Creates an overpass query that shows all streets from a missing housenumbers table.
-fn make_turbo_query_for_streets(relation: &Relation, streets: &[String]) -> String {
+pub fn make_turbo_query_for_streets(relation: &Relation, streets: &[String]) -> String {
     let header = r#"[out:json][timeout:425];
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
@@ -2100,7 +2100,7 @@ fn py_make_turbo_query_for_streets(relation: PyRelation, streets: Vec<String>) -
 }
 
 /// Creates an overpass query that shows all streets from a list.
-fn make_turbo_query_for_street_objs(relation: &Relation, streets: &[util::Street]) -> String {
+pub fn make_turbo_query_for_street_objs(relation: &Relation, streets: &[util::Street]) -> String {
     let header = r#"[out:json][timeout:425];
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
@@ -2122,29 +2122,12 @@ out skel qt;"#;
     query
 }
 
-#[pyfunction]
-fn py_make_turbo_query_for_street_objs(relation: PyRelation, streets: Vec<PyObject>) -> String {
-    let gil = Python::acquire_gil();
-    let streets: Vec<util::Street> = streets
-        .iter()
-        .map(|i| {
-            let street: PyRefMut<'_, util::PyStreet> = i.extract(gil.python()).unwrap();
-            street.street.clone()
-        })
-        .collect();
-    make_turbo_query_for_street_objs(&relation.relation, &streets)
-}
-
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyRelationConfig>()?;
     module.add_class::<PyRelation>()?;
     module.add_class::<PyRelations>()?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_make_turbo_query_for_streets,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_make_turbo_query_for_street_objs,
         module
     )?)?;
     Ok(())

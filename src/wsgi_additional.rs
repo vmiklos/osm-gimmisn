@@ -246,6 +246,38 @@ fn py_additional_housenumbers_view_result(
     }
 }
 
+/// Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-turbo.
+fn additional_streets_view_turbo(
+    relations: &mut areas::Relations,
+    request_uri: &str,
+) -> anyhow::Result<yattag::Doc> {
+    let mut tokens = request_uri.split('/');
+    tokens.next_back();
+    let relation_name = tokens.next_back().unwrap();
+    let relation = relations.get_relation(relation_name)?;
+
+    let doc = yattag::Doc::new();
+    let streets = relation.get_additional_streets(/*sorted_result=*/ false)?;
+    let query = areas::make_turbo_query_for_street_objs(&relation, &streets);
+
+    let _pre = doc.tag("pre", &[]);
+    doc.text(&query);
+    Ok(doc)
+}
+
+#[pyfunction]
+fn py_additional_streets_view_turbo(
+    mut relations: areas::PyRelations,
+    request_uri: &str,
+) -> PyResult<yattag::PyDoc> {
+    match additional_streets_view_turbo(&mut relations.relations, request_uri)
+        .context("additional_streets_view_turbo() failed")
+    {
+        Ok(doc) => Ok(yattag::PyDoc { doc }),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(
         py_additional_streets_view_txt,
@@ -257,6 +289,10 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_additional_housenumbers_view_result,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_additional_streets_view_turbo,
         module
     )?)?;
     Ok(())

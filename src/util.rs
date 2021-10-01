@@ -1053,7 +1053,7 @@ fn py_parse_filters(tokens: Vec<String>) -> HashMap<String, String> {
 }
 
 /// Handles a HTTP error from Overpass.
-fn handle_overpass_error(ctx: &context::Context, http_error: &str) -> yattag::Doc {
+pub fn handle_overpass_error(ctx: &context::Context, http_error: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let _div = doc.tag("div", &[("id", "overpass-error")]);
     doc.text(&tr("Overpass error: {0}").replace("{0}", http_error));
@@ -1103,7 +1103,7 @@ fn py_setup_localization(headers: Vec<(String, String)>) -> String {
 }
 
 /// Generates a link to a URL with a given label.
-fn gen_link(url: &str, label: &str) -> yattag::Doc {
+pub fn gen_link(url: &str, label: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let _a = doc.tag("a", &[("href", url)]);
     doc.text(&(label.to_string() + "..."));
@@ -1319,7 +1319,7 @@ fn py_natnum(column: String) -> u64 {
 }
 
 /// Turns a tab-separated table into a list of lists.
-fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag::Doc>>> {
+pub fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag::Doc>>> {
     let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
 
     let mut first = true;
@@ -1807,7 +1807,7 @@ fn py_format_percent(english: String) -> PyResult<String> {
 }
 
 /// Gets the timestamp of a file if it exists, 0 otherwise.
-fn get_timestamp(path: &str) -> f64 {
+pub fn get_timestamp(path: &str) -> f64 {
     let metadata = match std::fs::metadata(path) {
         Ok(value) => value,
         Err(_) => {

@@ -24,6 +24,7 @@ mod overpass_query;
 mod ranges;
 mod util;
 mod webframe;
+mod wsgi;
 mod wsgi_additional;
 mod wsgi_json;
 mod yattag;
@@ -41,6 +42,7 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     ranges::register_python_symbols(m)?;
     util::register_python_symbols(m)?;
     webframe::register_python_symbols(m)?;
+    wsgi::register_python_symbols(m)?;
     wsgi_additional::register_python_symbols(m)?;
     wsgi_json::register_python_symbols(m)?;
     yattag::register_python_symbols(m)?;

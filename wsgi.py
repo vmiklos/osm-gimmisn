@@ -36,102 +36,17 @@ if TYPE_CHECKING:
 
 def handle_streets(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    action = tokens[-1]
-
-    relation = relations.get_relation(relation_name)
-    osmrelation = relation.get_config().get_osmrelation()
-
-    doc = yattag.Doc()
-    doc.append_value(webframe.get_toolbar(ctx, relations, "streets", relation_name, osmrelation).get_value())
-
-    if action == "view-query":
-        with doc.tag("pre", []):
-            doc.text(relation.get_osm_streets_query())
-    elif action == "update-result":
-        query = relation.get_osm_streets_query()
-        try:
-            buf = rust.py_overpass_query(ctx, query)
-        except OSError as error:
-            doc.append_value(util.handle_overpass_error(ctx, str(error)).get_value())
-        else:
-            relation.get_files().write_osm_streets(ctx, buf)
-            streets = relation.get_config().should_check_missing_streets()
-            if streets != "only":
-                doc.text(tr("Update successful: "))
-                link = ctx.get_ini().get_uri_prefix() + "/missing-housenumbers/" + relation_name + "/view-result"
-                doc.append_value(util.gen_link(link, tr("View missing house numbers")).get_value())
-            else:
-                doc.text(tr("Update successful."))
-    else:
-        # assume view-result
-        with util.make_csv_io(relation.get_files().get_osm_streets_read_stream(ctx)) as sock:
-            table = util.tsv_to_list(sock)
-            doc.append_value(util.html_table_from_list(table).get_value())
-
-    doc.append_value(webframe.get_footer(get_streets_last_modified(relation)).get_value())
-    return doc
+    return rust.py_handle_streets(ctx, relations, request_uri)
 
 
 def handle_street_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    action = tokens[-1]
-
-    relation = relations.get_relation(relation_name)
-    osmrelation = relation.get_config().get_osmrelation()
-
-    doc = yattag.Doc()
-    doc.append_value(webframe.get_toolbar(ctx, relations, "street-housenumbers", relation_name, osmrelation).get_value())
-
-    prefix = ctx.get_ini().get_uri_prefix()
-    if action == "view-query":
-        with doc.tag("pre", []):
-            doc.text(relation.get_osm_housenumbers_query())
-    elif action == "update-result":
-        query = relation.get_osm_housenumbers_query()
-        try:
-            buf = rust.py_overpass_query(ctx, query)
-        except OSError as error:
-            doc.append_value(util.handle_overpass_error(ctx, str(error)).get_value())
-        else:
-            relation.get_files().write_osm_housenumbers(ctx, buf)
-            doc.text(tr("Update successful: "))
-            link = prefix + "/missing-housenumbers/" + relation_name + "/view-result"
-            doc.append_value(util.gen_link(link, tr("View missing house numbers")).get_value())
-    else:
-        # assume view-result
-        if not ctx.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
-            with doc.tag("div", [("id", "no-osm-housenumbers")]):
-                doc.text(tr("No existing house numbers"))
-        else:
-            with util.make_csv_io(relation.get_files().get_osm_housenumbers_read_stream(ctx)) as sock:
-                doc.append_value(util.html_table_from_list(util.tsv_to_list(sock)).get_value())
-
-    date = get_housenumbers_last_modified(relation)
-    doc.append_value(webframe.get_footer(date).get_value())
-    return doc
+    return rust.py_handle_street_housenumbers(ctx, relations, request_uri)
 
 
 def missing_housenumbers_view_turbo(relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-
-    doc = yattag.Doc()
-    relation = relations.get_relation(relation_name)
-    ongoing_streets, _ = relation.get_missing_housenumbers()
-    streets: List[str] = []
-    for result in ongoing_streets:
-        # Street name, # of only_in_reference items.
-        streets.append(result[0].get_osm_name())
-    query = areas.make_turbo_query_for_streets(relation, streets)
-
-    with doc.tag("pre", []):
-        doc.text(query)
-    return doc
+    return rust.py_missing_housenumbers_view_turbo(relations, request_uri)
 
 
 def missing_housenumbers_view_res(
@@ -468,16 +383,6 @@ def housenumbers_diff_last_modified(relation: rust.PyRelation) -> str:
     t_ref = util.get_timestamp(relation.get_files().get_ref_housenumbers_path())
     t_osm = util.get_timestamp(relation.get_files().get_osm_housenumbers_path())
     return webframe.format_timestamp(max(t_ref, t_osm))
-
-
-def get_housenumbers_last_modified(relation: rust.PyRelation) -> str:
-    """Gets the update date of house numbers for a relation."""
-    return get_last_modified(relation.get_files().get_osm_housenumbers_path())
-
-
-def get_streets_last_modified(relation: rust.PyRelation) -> str:
-    """Gets the update date of streets for a relation."""
-    return get_last_modified(relation.get_files().get_osm_streets_path())
 
 
 def handle_main_housenr_percent(ctx: rust.PyContext, relation: rust.PyRelation) -> Tuple[yattag.Doc, str]:

@@ -889,10 +889,6 @@ def py_make_turbo_query_for_streets(relation: PyRelation, streets: List[str]) ->
     """Creates an overpass query that shows all streets from a missing housenumbers table."""
     ...
 
-def py_make_turbo_query_for_street_objs(relation: PyRelation, streets: List[PyStreet]) -> str:
-    """Creates an overpass query that shows all streets from a list."""
-    ...
-
 def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
     """Commandline interface."""
     ...
@@ -1054,6 +1050,22 @@ def py_additional_housenumbers_view_result(
     request_uri: str
 ) -> PyDoc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result."""
+    ...
+
+def py_additional_streets_view_turbo(relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-turbo."""
+    ...
+
+def py_handle_streets(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
+    ...
+
+def py_handle_street_housenumbers(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
+    ...
+
+def py_missing_housenumbers_view_turbo(relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

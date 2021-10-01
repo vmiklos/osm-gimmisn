@@ -27,7 +27,7 @@ use std::sync::Arc;
 use std::sync::Mutex;
 
 /// Produces the end of the page.
-fn get_footer(last_updated: &str) -> yattag::Doc {
+pub fn get_footer(last_updated: &str) -> yattag::Doc {
     let mut items: Vec<yattag::Doc> = Vec::new();
     {
         let doc = yattag::Doc::new();
@@ -385,7 +385,7 @@ fn emit_l10n_strings_for_js(doc: &yattag::Doc, string_pairs: &[(&str, String)]) 
 /// Produces the start of the page. Note that the content depends on the function and the
 /// relation, but not on the action to keep a balance between too generic and too specific
 /// content.
-fn get_toolbar(
+pub fn get_toolbar(
     ctx: &context::Context,
     relations: &Option<areas::Relations>,
     function: &str,
@@ -816,7 +816,7 @@ fn handle_404() -> yattag::Doc {
 }
 
 /// Formats timestamp as UI date-time.
-fn format_timestamp(timestamp: i64) -> String {
+pub fn format_timestamp(timestamp: i64) -> String {
     let naive = chrono::NaiveDateTime::from_timestamp(timestamp, 0);
     let utc: chrono::DateTime<chrono::Utc> = chrono::DateTime::from_utc(naive, chrono::Utc);
     let local: chrono::DateTime<chrono::Local> = chrono::DateTime::from(utc);
