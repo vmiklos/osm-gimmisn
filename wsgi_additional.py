@@ -11,12 +11,8 @@ from typing import Tuple
 
 import yattag
 
-from rust import py_translate as tr
 import areas
-import cache
 import rust
-import util
-import webframe
 
 
 def additional_streets_view_txt(
@@ -26,24 +22,7 @@ def additional_streets_view_txt(
     chkl: bool
 ) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.txt."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-
-    output = ""
-    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
-        output += tr("No existing streets")
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
-        output += tr("No reference streets")
-    else:
-        streets = relation.get_additional_streets(sorted_result=True)
-        streets.sort(key=lambda street: util.get_sort_key(street.get_osm_name()))
-        for street in streets:
-            if chkl:
-                output += "[ ] {}\n".format(street.get_osm_name())
-            else:
-                output += "{}\n".format(street.get_osm_name())
-    return output, relation_name
+    return rust.py_additional_streets_view_txt(ctx, relations, request_uri, chkl)
 
 
 def additional_streets_view_result(
@@ -52,54 +31,7 @@ def additional_streets_view_result(
     request_uri: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-
-    doc = yattag.Doc()
-    prefix = ctx.get_ini().get_uri_prefix()
-    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
-        doc.append_value(webframe.handle_no_osm_streets(prefix, relation_name).get_value())
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
-        doc.append_value(webframe.handle_no_ref_streets(prefix, relation_name).get_value())
-    else:
-        # Get "only in OSM" streets.
-        streets = relation.write_additional_streets()
-        count = len(streets)
-        streets.sort(key=lambda street: util.get_sort_key(street.get_osm_name()))
-        table = [[yattag.Doc.from_text(tr("Identifier")),
-                  yattag.Doc.from_text(tr("Type")),
-                  yattag.Doc.from_text(tr("Source")),
-                  yattag.Doc.from_text(tr("Street name"))]]
-        for street in streets:
-            cell = yattag.Doc()
-            href = "https://www.openstreetmap.org/{}/{}".format(street.get_osm_type(), street.get_osm_id())
-            with cell.tag("a", [("href", href), ("target", "_blank")]):
-                cell.text(str(street.get_osm_id()))
-            cells = [
-                cell,
-                yattag.Doc.from_text(street.get_osm_type()),
-                yattag.Doc.from_text(street.get_source()),
-                yattag.Doc.from_text(street.get_osm_name()),
-            ]
-            table.append(cells)
-
-        with doc.tag("p", []):
-            doc.text(tr("OpenStreetMap additionally has the below {0} streets.").format(str(count)))
-            doc.stag("br", [])
-            with doc.tag("a", [("href", prefix + "/additional-streets/" + relation_name + "/view-result.txt")]):
-                doc.text(tr("Plain text format"))
-            doc.stag("br", [])
-            with doc.tag("a", [("href", prefix + "/additional-streets/" + relation_name + "/view-result.chkl")]):
-                doc.text(tr("Checklist format"))
-            doc.stag("br", [])
-            with doc.tag("a", [("href", prefix + "/additional-streets/{}/view-turbo".format(relation_name))]):
-                doc.text(tr("Overpass turbo query for the below streets"))
-
-        doc.append_value(util.html_table_from_list(table).get_value())
-        osm_invalids, ref_invalids = relation.get_invalid_refstreets()
-        doc.append_value(util.invalid_refstreets_to_html(osm_invalids, ref_invalids).get_value())
-    return doc
+    return rust.py_additional_streets_view_result(ctx, relations, request_uri)
 
 
 def additional_housenumbers_view_result(
@@ -108,22 +40,7 @@ def additional_housenumbers_view_result(
     request_uri: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-
-    doc = yattag.Doc()
-    relation = relations.get_relation(relation_name)
-    prefix = ctx.get_ini().get_uri_prefix()
-    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
-        doc.append_value(webframe.handle_no_osm_streets(prefix, relation_name).get_value())
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
-        doc.append_value(webframe.handle_no_osm_housenumbers(prefix, relation_name).get_value())
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
-        doc.append_value(webframe.handle_no_ref_housenumbers(prefix, relation_name).get_value())
-    else:
-        doc = cache.get_additional_housenumbers_html(ctx, relation)
-    return doc
+    return rust.py_additional_housenumbers_view_result(ctx, relations, request_uri)
 
 
 def additional_streets_view_turbo(relations: rust.PyRelations, request_uri: str) -> yattag.Doc:

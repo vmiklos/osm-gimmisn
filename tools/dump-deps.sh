@@ -38,6 +38,9 @@ do
             webframe)
                 continue
             ;;
+            wsgi_json)
+                continue
+            ;;
         esac
 
         if [ ! -e "$dependency.py" ]; then

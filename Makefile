@@ -81,6 +81,7 @@ RS_OBJECTS = \
 	src/ranges.rs \
 	src/util.rs \
 	src/webframe.rs \
+	src/wsgi_additional.rs \
 	src/wsgi_json.rs \
 	src/yattag.rs \
 
@@ -230,7 +231,7 @@ else
 	./deploy.sh
 endif
 
-update-pot: wsgi.py wsgi_additional.py src/areas.rs src/cache.rs src/util.rs src/webframe.rs Makefile
+update-pot: wsgi.py wsgi_additional.py src/areas.rs src/cache.rs src/util.rs src/webframe.rs src/wsgi_additional.rs Makefile
 	xgettext --keyword=tr --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py %.rs,$^)
 
 update-po: po/osm-gimmisn.pot Makefile

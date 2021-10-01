@@ -257,7 +257,7 @@ impl Street {
     }
 
     /// Gets the source of this street.
-    fn get_source(&self) -> &str {
+    pub fn get_source(&self) -> &str {
         &self.source
     }
 

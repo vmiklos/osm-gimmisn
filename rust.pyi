@@ -1022,20 +1022,38 @@ def py_get_missing_housenumbers_txt(ctx: PyContext, relation: PyRelation) -> str
     """Gets the cached plain text of the missing housenumbers for a relation."""
     ...
 
-def py_streets_update_result_json(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
-    """Expected request_uri: e.g. /osm/streets/ormezo/update-result.json."""
+def py_our_application_json(
+        environ: Dict[str, str],
+        ctx: PyContext,
+        relations: PyRelations,
+        request_uri: str
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
+    """Dispatches json requests based on their URIs."""
     ...
 
-def py_street_housenumbers_update_result_json(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
-    """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/update-result.json."""
+def py_additional_streets_view_txt(
+    ctx: PyContext,
+    relations: PyRelations,
+    request_uri: str,
+    chkl: bool
+) -> Tuple[str, str]:
+    """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.txt."""
     ...
 
-def py_missing_housenumbers_update_result_json(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
-    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json."""
+def py_additional_streets_view_result(
+    ctx: PyContext,
+    relations: PyRelations,
+    request_uri: str
+) -> PyDoc:
+    """Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result."""
     ...
 
-def py_missing_streets_update_result_json(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
-    """Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json."""
+def py_additional_housenumbers_view_result(
+    ctx: PyContext,
+    relations: PyRelations,
+    request_uri: str
+) -> PyDoc:
+    """Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

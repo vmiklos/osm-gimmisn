@@ -36,7 +36,7 @@ impl RelationFiles {
     }
 
     /// Build the file name of the reference street list of a relation.
-    fn get_ref_streets_path(&self) -> anyhow::Result<String> {
+    pub fn get_ref_streets_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("streets-reference-{}.lst", self.name))

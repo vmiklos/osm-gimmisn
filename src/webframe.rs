@@ -533,7 +533,7 @@ fn py_get_toolbar(
     Ok(yattag::PyDoc { doc: ret })
 }
 
-type Headers = Vec<(String, String)>;
+pub type Headers = Vec<(String, String)>;
 
 /// Handles serving static content.
 fn handle_static(
@@ -605,7 +605,7 @@ fn py_handle_static(
 
 /// A HTTP response, to be sent by send_response().
 #[derive(Clone)]
-struct Response {
+pub struct Response {
     content_type: String,
     status: String,
     output_bytes: Vec<u8>,
@@ -613,7 +613,7 @@ struct Response {
 }
 
 impl Response {
-    fn new(
+    pub fn new(
         content_type: &str,
         status: &str,
         output_bytes: &[u8],
@@ -681,7 +681,7 @@ impl PyResponse {
 }
 
 /// Turns an output string into a byte array and sends it.
-fn send_response(
+pub fn send_response(
     environ: &HashMap<String, String>,
     response: &Response,
 ) -> anyhow::Result<(String, Headers, Vec<Vec<u8>>)> {
@@ -1278,7 +1278,7 @@ fn py_check_existing_relation(
 }
 
 /// Handles the no-osm-streets error on a page using JS.
-fn handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
+pub fn handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let link = format!("{}/streets/{}/uppdate-result", prefix, relation_name);
     {
@@ -1304,7 +1304,7 @@ fn py_handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::PyDoc 
 }
 
 /// Handles the no-osm-housenumbers error on a page using JS.
-fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
+pub fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let link = format!(
         "{}/street-housenumbers/{}/uppdate-result",
@@ -1334,7 +1334,7 @@ fn py_handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::P
 }
 
 /// Handles the no-ref-housenumbers error on a page using JS.
-fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
+pub fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let link = format!(
         "{}/missing-housenumbers/{}/uppdate-result",
@@ -1364,7 +1364,7 @@ fn py_handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::P
 }
 
 /// Handles the no-ref-streets error on a page using JS.
-fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
+pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let link = format!("{}/missing-streets/{}/update-result", prefix, relation_name);
     {

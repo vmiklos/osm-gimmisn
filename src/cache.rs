@@ -210,7 +210,7 @@ fn py_get_missing_housenumbers_html(
 }
 
 /// Gets the cached HTML of the additional housenumbers for a relation.
-fn get_additional_housenumbers_html(
+pub fn get_additional_housenumbers_html(
     ctx: &context::Context,
     relation: &mut areas::Relation,
 ) -> anyhow::Result<yattag::Doc> {
