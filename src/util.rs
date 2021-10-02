@@ -805,20 +805,6 @@ pub fn format_even_odd(only_in_ref: &[HouseNumberRange]) -> Vec<String> {
     elements
 }
 
-#[pyfunction]
-fn py_format_even_odd(py: Python<'_>, items: Vec<PyObject>) -> PyResult<Vec<String>> {
-    // Convert Vec<PyObject> to Vec<HouseNumberRange>.
-    let items: Vec<HouseNumberRange> = items
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyHouseNumberRange> = item.extract(py)?;
-            Ok(item.house_number_range.clone())
-        })
-        .collect::<PyResult<Vec<HouseNumberRange>>>()?;
-
-    Ok(format_even_odd(&items))
-}
-
 /// Formats even and odd numbers, HTML version.
 pub fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> yattag::Doc {
     let mut even: Vec<HouseNumberRange> = Vec::new();
@@ -1245,15 +1231,6 @@ pub fn invalid_refstreets_to_html(osm_invalids: &[String], ref_invalids: &[Strin
         ));
     }
     doc
-}
-
-#[pyfunction]
-fn py_invalid_refstreets_to_html(
-    osm_invalids: Vec<String>,
-    ref_invalids: Vec<String>,
-) -> yattag::PyDoc {
-    let doc = invalid_refstreets_to_html(&osm_invalids, &ref_invalids);
-    yattag::PyDoc { doc }
 }
 
 /// Produces HTML enumerations for a string list.
@@ -1841,7 +1818,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyStreet>()?;
     module.add_class::<PyCsvRead>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_split_house_number, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_format_even_odd, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_build_street_reference_cache,
         module
@@ -1855,10 +1831,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_write_html_header, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_process_template, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_html_table_from_list, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_invalid_refstreets_to_html,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_invalid_filter_keys_to_html,
         module

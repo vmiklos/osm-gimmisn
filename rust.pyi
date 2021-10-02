@@ -424,11 +424,6 @@ def py_split_house_number(house_number: str) -> Tuple[int, str]:
     """Splits house_number into a numerical and a remainder part."""
     ...
 
-def py_format_even_odd(only_in_ref: List[PyHouseNumberRange]) -> List[str]:
-    """Formats even and odd numbers."""
-    ...
-
-
 def py_build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     ...
@@ -467,10 +462,6 @@ def py_process_template(buf: str, osmrelation: int) -> str:
 
 def py_html_table_from_list(table: List[List[PyDoc]]) -> PyDoc:
     """Produces a HTML table from a list of lists."""
-    ...
-
-def py_invalid_refstreets_to_html(osm_invalids: List[str], ref_invalids: List[str]) -> PyDoc:
-    """Produces HTML enumerations for 2 string lists."""
     ...
 
 def py_invalid_filter_keys_to_html(invalids: List[str]) -> PyDoc:
@@ -978,20 +969,12 @@ def py_check_existing_relation(ctx: PyContext, relations: PyRelations, request_u
     """Prevents serving outdated data from a relation that has been renamed."""
     ...
 
-def py_handle_no_osm_streets(prefix: str, relation_name: str) -> PyDoc:
-    """Handles the no-osm-streets error on a page using JS."""
-    ...
-
 def py_handle_no_osm_housenumbers(prefix: str, relation_name: str) -> PyDoc:
     """Handles the no-osm-housenumbers error on a page using JS."""
     ...
 
 def py_handle_no_ref_housenumbers(prefix: str, relation_name: str) -> PyDoc:
     """Handles the no-ref-housenumbers error on a page using JS."""
-    ...
-
-def py_handle_no_ref_streets(prefix: str, relation_name: str) -> PyDoc:
-    """Handles the no-ref-streets error on a page using JS."""
     ...
 
 def py_handle_github_webhook(stream: BinaryIO, ctx: PyContext) -> PyDoc:
@@ -1066,6 +1049,26 @@ def py_handle_street_housenumbers(ctx: PyContext, relations: PyRelations, reques
 
 def py_missing_housenumbers_view_turbo(relations: PyRelations, request_uri: str) -> PyDoc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo."""
+    ...
+
+def py_missing_housenumbers_view_res(
+    ctx: PyContext, relations: PyRelations, request_uri: str
+) -> PyDoc:
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result."""
+    ...
+
+def py_missing_streets_view_result(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
+    ...
+
+def py_missing_housenumbers_view_txt(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt."""
+    ...
+
+def py_missing_housenumbers_view_chkl(
+        ctx: PyContext, relations: PyRelations, request_uri: str
+) -> Tuple[str, str]:
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

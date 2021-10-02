@@ -1297,12 +1297,6 @@ pub fn handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     doc
 }
 
-#[pyfunction]
-fn py_handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::PyDoc {
-    let doc = handle_no_osm_streets(prefix, relation_name);
-    yattag::PyDoc { doc }
-}
-
 /// Handles the no-osm-housenumbers error on a page using JS.
 pub fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
@@ -1325,12 +1319,6 @@ pub fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::
     ];
     emit_l10n_strings_for_js(&doc, string_pairs);
     doc
-}
-
-#[pyfunction]
-fn py_handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::PyDoc {
-    let doc = handle_no_osm_housenumbers(prefix, relation_name);
-    yattag::PyDoc { doc }
 }
 
 /// Handles the no-ref-housenumbers error on a page using JS.
@@ -1357,12 +1345,6 @@ pub fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::
     doc
 }
 
-#[pyfunction]
-fn py_handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::PyDoc {
-    let doc = handle_no_ref_housenumbers(prefix, relation_name);
-    yattag::PyDoc { doc }
-}
-
 /// Handles the no-ref-streets error on a page using JS.
 pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
@@ -1381,11 +1363,6 @@ pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     ];
     emit_l10n_strings_for_js(&doc, string_pairs);
     doc
-}
-#[pyfunction]
-fn py_handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::PyDoc {
-    let doc = handle_no_ref_streets(prefix, relation_name);
-    yattag::PyDoc { doc }
 }
 
 /// Handles a GitHub style webhook.
@@ -1483,16 +1460,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_stats, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_check_existing_relation, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_no_osm_streets, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_no_osm_housenumbers,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_no_ref_housenumbers,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_no_ref_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_github_webhook, module)?)?;
     Ok(())
 }

@@ -36,11 +36,6 @@ def split_house_number(house_number: str) -> Tuple[int, str]:
     return rust.py_split_house_number(house_number)
 
 
-def format_even_odd(only_in_ref: List[rust.PyHouseNumberRange]) -> List[str]:
-    """Formats even and odd numbers."""
-    return rust.py_format_even_odd(only_in_ref)
-
-
 def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     return rust.py_build_street_reference_cache(local_streets)
@@ -89,11 +84,6 @@ def process_template(buf: str, osmrelation: int) -> str:
 def html_table_from_list(table: List[List[rust.PyDoc]]) -> rust.PyDoc:
     """Produces a HTML table from a list of lists."""
     return rust.py_html_table_from_list(table)
-
-
-def invalid_refstreets_to_html(osm_invalids: List[str], ref_invalids: List[str]) -> rust.PyDoc:
-    """Produces HTML enumerations for 2 string lists."""
-    return rust.py_invalid_refstreets_to_html(osm_invalids, ref_invalids)
 
 
 def invalid_filter_keys_to_html(invalids: List[str]) -> rust.PyDoc:
