@@ -97,26 +97,6 @@ def check_existing_relation(ctx: rust.PyContext, relations: rust.PyRelations, re
     return rust.py_check_existing_relation(ctx, relations, request_uri)
 
 
-def handle_no_osm_streets(prefix: str, relation_name: str) -> yattag.Doc:
-    """Handles the no-osm-streets error on a page using JS."""
-    return rust.py_handle_no_osm_streets(prefix, relation_name)
-
-
-def handle_no_osm_housenumbers(prefix: str, relation_name: str) -> yattag.Doc:
-    """Handles the no-osm-housenumbers error on a page using JS."""
-    return rust.py_handle_no_osm_housenumbers(prefix, relation_name)
-
-
-def handle_no_ref_housenumbers(prefix: str, relation_name: str) -> yattag.Doc:
-    """Handles the no-ref-housenumbers error on a page using JS."""
-    return rust.py_handle_no_ref_housenumbers(prefix, relation_name)
-
-
-def handle_no_ref_streets(prefix: str, relation_name: str) -> yattag.Doc:
-    """Handles the no-ref-streets error on a page using JS."""
-    return rust.py_handle_no_ref_streets(prefix, relation_name)
-
-
 def handle_github_webhook(stream: BinaryIO, ctx: rust.PyContext) -> yattag.Doc:
     """Handles a GitHub style webhook."""
     return rust.py_handle_github_webhook(stream, ctx)

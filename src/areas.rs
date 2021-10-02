@@ -145,7 +145,7 @@ impl RelationConfig {
     }
 
     /// Sets the letter suffix style.
-    fn set_letter_suffix_style(&mut self, letter_suffix_style: i32) {
+    pub fn set_letter_suffix_style(&mut self, letter_suffix_style: i32) {
         self.set_property(
             "letter-suffix-style",
             &serde_json::json!(letter_suffix_style),
@@ -526,7 +526,7 @@ impl Relation {
     }
 
     /// Sets the config interface.
-    fn set_config(&mut self, config: &RelationConfig) {
+    pub fn set_config(&mut self, config: &RelationConfig) {
         self.config = config.clone()
     }
 
@@ -1048,7 +1048,7 @@ impl Relation {
     }
 
     /// Calculate and write stat for the street coverage of a relation.
-    fn write_missing_streets(&self) -> anyhow::Result<(usize, usize, String, Vec<String>)> {
+    pub fn write_missing_streets(&self) -> anyhow::Result<(usize, usize, String, Vec<String>)> {
         let (todo_streets, done_streets) = self.get_missing_streets()?;
         let streets = todo_streets.clone();
         let todo_count = todo_streets.len();

@@ -91,7 +91,7 @@ fn is_additional_housenumbers_html_cached(
 }
 
 /// Gets the cached HTML of the missing housenumbers for a relation.
-fn get_missing_housenumbers_html(
+pub fn get_missing_housenumbers_html(
     ctx: &context::Context,
     relation: &mut areas::Relation,
 ) -> anyhow::Result<yattag::Doc> {
@@ -306,7 +306,7 @@ fn py_is_missing_housenumbers_txt_cached(
 }
 
 /// Gets the cached plain text of the missing housenumbers for a relation.
-fn get_missing_housenumbers_txt(
+pub fn get_missing_housenumbers_txt(
     ctx: &context::Context,
     relation: &mut areas::Relation,
 ) -> anyhow::Result<String> {

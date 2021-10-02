@@ -22,7 +22,6 @@ import yattag
 
 from rust import py_translate as tr
 import areas
-import cache
 import rust
 import util
 import webframe
@@ -53,134 +52,24 @@ def missing_housenumbers_view_res(
     ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-
-    doc = yattag.Doc()
-    relation = relations.get_relation(relation_name)
-    prefix = ctx.get_ini().get_uri_prefix()
-    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
-        doc.append_value(webframe.handle_no_osm_streets(prefix, relation_name).get_value())
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
-        doc.append_value(webframe.handle_no_osm_housenumbers(prefix, relation_name).get_value())
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
-        doc.append_value(webframe.handle_no_ref_housenumbers(prefix, relation_name).get_value())
-    else:
-        doc = cache.get_missing_housenumbers_html(ctx, relation)
-    return doc
+    return rust.py_missing_housenumbers_view_res(ctx, relations, request_uri)
 
 
 def missing_streets_view_result(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-
-    doc = yattag.Doc()
-    prefix = ctx.get_ini().get_uri_prefix()
-    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
-        doc.append_value(webframe.handle_no_osm_streets(prefix, relation_name).get_value())
-        return doc
-
-    if not ctx.get_file_system().path_exists(relation.get_files().get_ref_streets_path()):
-        doc.append_value(webframe.handle_no_ref_streets(prefix, relation_name).get_value())
-        return doc
-
-    ret = relation.write_missing_streets()
-    todo_count, done_count, percent, streets = ret
-    streets.sort(key=util.get_sort_key)
-    table = [[yattag.Doc.from_text(tr("Street name"))]]
-    for street in streets:
-        table.append([yattag.Doc.from_text(street)])
-
-    with doc.tag("p", []):
-        doc.text(tr("OpenStreetMap is possibly missing the below {0} streets.").format(str(todo_count)))
-        doc.text(tr(" (existing: {0}, ready: {1}).").format(str(done_count), util.format_percent(str(percent))))
-        doc.stag("br", [])
-        with doc.tag("a", [("href", prefix + "/missing-streets/{}/view-turbo".format(relation_name))]):
-            doc.text(tr("Overpass turbo query for streets with questionable names"))
-        doc.stag("br", [])
-        with doc.tag("a", [("href", prefix + "/missing-streets/" + relation_name + "/view-result.txt")]):
-            doc.text(tr("Plain text format"))
-        doc.stag("br", [])
-        with doc.tag("a", [("href", prefix + "/missing-streets/" + relation_name + "/view-result.chkl")]):
-            doc.text(tr("Checklist format"))
-
-    doc.append_value(util.html_table_from_list(table).get_value())
-    osm_invalids, ref_invalids = relation.get_invalid_refstreets()
-    doc.append_value(util.invalid_refstreets_to_html(osm_invalids, ref_invalids).get_value())
-    doc.append_value(util.invalid_filter_keys_to_html(relation.get_invalid_filter_keys()).get_value())
-    return doc
+    return rust.py_missing_streets_view_result(ctx, relations, request_uri)
 
 
 def missing_housenumbers_view_txt(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-    config = relation.get_config()
-    config.set_letter_suffix_style(rust.PyLetterSuffixStyle.lower())
-    relation.set_config(config)
-
-    output = ""
-    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
-        output += tr("No existing streets")
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
-        output += tr("No existing house numbers")
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
-        output += tr("No reference house numbers")
-    else:
-        output = cache.get_missing_housenumbers_txt(ctx, relation)
-    return output
-
-
-def get_chkl_split_limit() -> int:
-    """Decides when to split a too long line in the chkl output."""
-    return 20
+    return rust.py_missing_housenumbers_view_txt(ctx, relations, request_uri)
 
 
 def missing_housenumbers_view_chkl(
         ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str
 ) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    relation = relations.get_relation(relation_name)
-    config = relation.get_config()
-    config.set_letter_suffix_style(rust.PyLetterSuffixStyle.lower())
-    relation.set_config(config)
-
-    output = ""
-    if not ctx.get_file_system().path_exists(relation.get_files().get_osm_streets_path()):
-        output += tr("No existing streets")
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_osm_housenumbers_path()):
-        output += tr("No existing house numbers")
-    elif not ctx.get_file_system().path_exists(relation.get_files().get_ref_housenumbers_path()):
-        output += tr("No reference house numbers")
-    else:
-        ongoing_streets, _ignore = relation.get_missing_housenumbers()
-
-        table = []
-        for result in ongoing_streets:
-            range_list = util.get_housenumber_ranges(result[1])
-            # Street name, only_in_reference items.
-            row = "[ ] "
-            if not relation.get_config().get_street_is_even_odd(result[0].get_osm_name()):
-                result_sorted = sorted([i.get_number() for i in range_list], key=util.split_house_number)
-                row += result[0].get_osm_name() + " [" + ", ".join(result_sorted) + "]"
-                table.append(row)
-            else:
-                elements = util.format_even_odd(range_list)
-                if len(elements) > 1 and len(range_list) > get_chkl_split_limit():
-                    for element in elements:
-                        row = "[ ] " + result[0].get_osm_name() + " [" + element + "]"
-                        table.append(row)
-                else:
-                    row += result[0].get_osm_name() + " [" + "], [".join(elements) + "]"
-                    table.append(row)
-        table.sort(key=util.get_sort_key)
-        output += "\n".join(table)
-    return output, relation_name
+    return rust.py_missing_housenumbers_view_chkl(ctx, relations, request_uri)
 
 
 def missing_streets_view_txt(
