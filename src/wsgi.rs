@@ -230,19 +230,6 @@ fn missing_housenumbers_view_turbo(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_missing_housenumbers_view_turbo(
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match missing_housenumbers_view_turbo(&mut relations.relations, request_uri)
-        .context("missing_housenumbers_view_turbo() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.
 fn missing_housenumbers_view_res(
     ctx: &context::Context,
@@ -275,20 +262,6 @@ fn missing_housenumbers_view_res(
         doc = cache::get_missing_housenumbers_html(ctx, &mut relation)?;
     }
     Ok(doc)
-}
-
-#[pyfunction]
-fn py_missing_housenumbers_view_res(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match missing_housenumbers_view_res(&ctx.context, &mut relations.relations, request_uri)
-        .context("missing_housenumbers_view_res() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result.
@@ -541,18 +514,191 @@ fn py_missing_housenumbers_view_chkl(
     }
 }
 
+/// Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt.
+fn missing_streets_view_txt(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    request_uri: &str,
+    chkl: bool,
+) -> anyhow::Result<(String, String)> {
+    let mut tokens = request_uri.split('/');
+    tokens.next_back();
+    let relation_name = tokens.next_back().unwrap();
+    let relation = relations.get_relation(relation_name)?;
+
+    let output: String;
+    if !ctx
+        .get_file_system()
+        .path_exists(&relation.get_files().get_osm_streets_path()?)
+    {
+        output = tr("No existing streets");
+    } else if !ctx
+        .get_file_system()
+        .path_exists(&relation.get_files().get_ref_streets_path()?)
+    {
+        output = tr("No reference streets");
+    } else {
+        let (mut todo_streets, _) = relation.get_missing_streets()?;
+        todo_streets.sort_by_key(|i| util::get_sort_key(i).unwrap());
+        let mut lines: Vec<String> = Vec::new();
+        for street in todo_streets {
+            if chkl {
+                lines.push(format!("[ ] {}\n", street));
+            } else {
+                lines.push(format!("{}\n", street));
+            }
+        }
+        output = lines.join("");
+    }
+    Ok((output, relation_name.into()))
+}
+
+#[pyfunction]
+fn py_missing_streets_view_txt(
+    ctx: context::PyContext,
+    mut relations: areas::PyRelations,
+    request_uri: &str,
+    chkl: bool,
+) -> PyResult<(String, String)> {
+    match missing_streets_view_txt(&ctx.context, &mut relations.relations, request_uri, chkl)
+        .context("missing_streets_view_txt() failed")
+    {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.
+fn missing_housenumbers_update(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    relation_name: &str,
+) -> anyhow::Result<yattag::Doc> {
+    let references = ctx.get_ini().get_reference_housenumber_paths()?;
+    let relation = relations.get_relation(relation_name)?;
+    relation.write_ref_housenumbers(&references)?;
+    let doc = yattag::Doc::new();
+    doc.text(&tr("Update successful: "));
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let link = format!(
+        "{}/missing-housenumbers/{}/view-result",
+        prefix, relation_name
+    );
+    doc.append_value(util::gen_link(&link, &tr("View missing house numbers")).get_value());
+    Ok(doc)
+}
+
+/// Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result.
+fn missing_streets_update(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    relation_name: &str,
+) -> anyhow::Result<yattag::Doc> {
+    let relation = relations.get_relation(relation_name)?;
+    relation.write_ref_streets(&ctx.get_ini().get_reference_street_path()?)?;
+    let doc = yattag::Doc::new();
+    let _div = doc.tag("div", &[("id", "update-success")]);
+    doc.text(&tr("Update successful."));
+    Ok(doc)
+}
+
+#[pyfunction]
+fn py_missing_streets_update(
+    ctx: context::PyContext,
+    mut relations: areas::PyRelations,
+    relation_name: &str,
+) -> PyResult<yattag::PyDoc> {
+    match missing_streets_update(&ctx.context, &mut relations.relations, relation_name)
+        .context("missing_streets_update() failed")
+    {
+        Ok(doc) => Ok(yattag::PyDoc { doc }),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Gets the update date for missing house numbers.
+fn ref_housenumbers_last_modified(
+    relations: &mut areas::Relations,
+    name: &str,
+) -> anyhow::Result<String> {
+    let relation = relations.get_relation(name)?;
+    let t_ref = util::get_timestamp(&relation.get_files().get_ref_housenumbers_path()?);
+    let t_housenumbers = util::get_timestamp(&relation.get_files().get_osm_housenumbers_path()?);
+    Ok(webframe::format_timestamp(std::cmp::max(
+        t_ref as i64,
+        t_housenumbers as i64,
+    )))
+}
+
+/// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query].
+fn handle_missing_housenumbers(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    request_uri: &str,
+) -> anyhow::Result<yattag::Doc> {
+    let mut tokens = request_uri.split('/');
+    let action = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().unwrap();
+    let mut date = "".into();
+
+    let relation = relations.get_relation(relation_name)?;
+    let osmrelation = relation.get_config().get_osmrelation();
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        webframe::get_toolbar(
+            ctx,
+            &Some(relations.clone()),
+            "missing-housenumbers",
+            relation_name,
+            osmrelation,
+        )?
+        .get_value(),
+    );
+
+    if action == "view-turbo" {
+        doc.append_value(missing_housenumbers_view_turbo(relations, request_uri)?.get_value());
+    } else if action == "view-query" {
+        {
+            let _pre = doc.tag("pre", &[]);
+            let stream = relation.get_files().get_ref_housenumbers_read_stream(ctx)?;
+            let mut guard = stream.lock().unwrap();
+            let mut buffer: Vec<u8> = Vec::new();
+            guard.read_to_end(&mut buffer)?;
+            doc.text(&String::from_utf8(buffer)?);
+        }
+        date = get_last_modified(&relation.get_files().get_ref_housenumbers_path()?);
+    } else if action == "update-result" {
+        doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
+    } else {
+        // assume view-result
+        doc.append_value(missing_housenumbers_view_res(ctx, relations, request_uri)?.get_value())
+    }
+
+    if date.is_empty() {
+        date = ref_housenumbers_last_modified(relations, relation_name)?;
+    }
+    doc.append_value(webframe::get_footer(&date).get_value());
+    Ok(doc)
+}
+
+#[pyfunction]
+fn py_handle_missing_housenumbers(
+    ctx: context::PyContext,
+    mut relations: areas::PyRelations,
+    request_uri: &str,
+) -> PyResult<yattag::PyDoc> {
+    match handle_missing_housenumbers(&ctx.context, &mut relations.relations, request_uri)
+        .context("handle_missing_housenumbers() failed")
+    {
+        Ok(doc) => Ok(yattag::PyDoc { doc }),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_handle_street_housenumbers,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_missing_housenumbers_view_turbo,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_missing_housenumbers_view_res,
         module
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -565,6 +711,12 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_missing_housenumbers_view_chkl,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_missing_streets_view_txt, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_missing_streets_update, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_handle_missing_housenumbers,
         module
     )?)?;
     Ok(())

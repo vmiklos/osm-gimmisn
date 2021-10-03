@@ -1047,16 +1047,6 @@ def py_handle_street_housenumbers(ctx: PyContext, relations: PyRelations, reques
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
     ...
 
-def py_missing_housenumbers_view_turbo(relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo."""
-    ...
-
-def py_missing_housenumbers_view_res(
-    ctx: PyContext, relations: PyRelations, request_uri: str
-) -> PyDoc:
-    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result."""
-    ...
-
 def py_missing_streets_view_result(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
     """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
     ...
@@ -1069,6 +1059,20 @@ def py_missing_housenumbers_view_chkl(
         ctx: PyContext, relations: PyRelations, request_uri: str
 ) -> Tuple[str, str]:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl."""
+    ...
+
+def py_missing_streets_view_txt(
+    ctx: PyContext, relations: PyRelations, request_uri: str, chkl: bool
+) -> Tuple[str, str]:
+    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
+    ...
+
+def py_missing_streets_update(ctx: PyContext, relations: PyRelations, relation_name: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
+    ...
+
+def py_handle_missing_housenumbers(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
