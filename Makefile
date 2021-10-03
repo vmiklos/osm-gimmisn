@@ -137,7 +137,7 @@ target/${TARGET_PATH}/missing_housenumbers: Cargo.toml $(RS_OBJECTS)
 	cargo build --bin missing_housenumbers ${CARGO_OPTIONS} --no-default-features
 
 check-rustunit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata
-	cargo test --lib --no-default-features ${CARGO_OPTIONS}
+	cargo test --lib --no-default-features ${CARGO_OPTIONS} -- --test-threads=1
 
 config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@

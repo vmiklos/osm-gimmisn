@@ -988,7 +988,7 @@ impl Relation {
     }
 
     /// Tries to find missing streets in a relation.
-    fn get_missing_streets(&self) -> anyhow::Result<(Vec<String>, Vec<String>)> {
+    pub fn get_missing_streets(&self) -> anyhow::Result<(Vec<String>, Vec<String>)> {
         let reference_streets: Vec<util::Street> = self
             .get_ref_streets()?
             .iter()
