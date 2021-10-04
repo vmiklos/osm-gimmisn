@@ -63,6 +63,16 @@ To run a single test:
 env PYTHONPATH=.:tests python3 -m unittest tests.test_areas.TestRelationGetOsmHouseNumbers.test_happy
 ----
 
+== Rust debugging
+
+'make' defaults to release builds. To switch to a debug build:
+
+----
+rm -rf target/
+echo RSDEBUG=1 > config.mak
+make
+----
+
 == Rust performance profiling
 
 Enable symbols in Cargo.toml, then:

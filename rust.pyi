@@ -1019,36 +1019,12 @@ def py_additional_streets_view_txt(
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.txt."""
     ...
 
-def py_additional_streets_view_result(
-    ctx: PyContext,
-    relations: PyRelations,
-    request_uri: str
-) -> PyDoc:
-    """Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result."""
-    ...
-
-def py_additional_housenumbers_view_result(
-    ctx: PyContext,
-    relations: PyRelations,
-    request_uri: str
-) -> PyDoc:
-    """Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result."""
-    ...
-
-def py_additional_streets_view_turbo(relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-turbo."""
-    ...
-
 def py_handle_streets(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
     """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
     ...
 
 def py_handle_street_housenumbers(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
     """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
-    ...
-
-def py_missing_streets_view_result(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
     ...
 
 def py_missing_housenumbers_view_txt(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
@@ -1067,12 +1043,24 @@ def py_missing_streets_view_txt(
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
     ...
 
-def py_missing_streets_update(ctx: PyContext, relations: PyRelations, relation_name: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
-    ...
-
 def py_handle_missing_housenumbers(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
+    ...
+
+def py_handle_missing_streets(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
+    ...
+
+def py_handle_additional_streets(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
+    """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
+    ...
+
+def py_handle_additional_housenumbers(
+    ctx: PyContext,
+    relations: PyRelations,
+    request_uri: str
+) -> PyDoc:
+    """Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query]."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -43,11 +43,6 @@ def handle_street_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations,
     return rust.py_handle_street_housenumbers(ctx, relations, request_uri)
 
 
-def missing_streets_view_result(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result."""
-    return rust.py_missing_streets_view_result(ctx, relations, request_uri)
-
-
 def missing_housenumbers_view_txt(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> str:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt."""
     return rust.py_missing_housenumbers_view_txt(ctx, relations, request_uri)
@@ -67,85 +62,19 @@ def missing_streets_view_txt(
     return rust.py_missing_streets_view_txt(ctx, relations, request_uri, chkl)
 
 
-def missing_streets_update(ctx: rust.PyContext, relations: rust.PyRelations, relation_name: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result."""
-    return rust.py_missing_streets_update(ctx, relations, relation_name)
-
-
 def handle_missing_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
     return rust.py_handle_missing_housenumbers(ctx, relations, request_uri)
 
 
-def missing_streets_view_turbo(relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
-    """Expected request_uri: e.g. /osm/missing-streets/ormezo/view-turbo."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-
-    doc = yattag.Doc()
-    relation = relations.get_relation(relation_name)
-    refstreets = relation.get_config().get_refstreets()
-    streets: List[str] = []
-    for key, _value in refstreets.items():
-        if relation.should_show_ref_street(key):
-            streets.append(key)
-    query = areas.make_turbo_query_for_streets(relation, streets)
-
-    with doc.tag("pre", []):
-        doc.text(query)
-    return doc
-
-
 def handle_missing_streets(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    action = tokens[-1]
-
-    relation = relations.get_relation(relation_name)
-    osmrelation = relation.get_config().get_osmrelation()
-
-    doc = yattag.Doc()
-    doc.append_value(webframe.get_toolbar(ctx, relations, "missing-streets", relation_name, osmrelation).get_value())
-
-    if action == "view-turbo":
-        doc.append_value(missing_streets_view_turbo(relations, request_uri).get_value())
-    elif action == "view-query":
-        with doc.tag("pre", []):
-            with relation.get_files().get_ref_streets_read_stream(ctx) as sock:
-                doc.text(util.from_bytes(sock.read()))
-    elif action == "update-result":
-        doc.append_value(missing_streets_update(ctx, relations, relation_name).get_value())
-    else:
-        # assume view-result
-        doc.append_value(missing_streets_view_result(ctx, relations, request_uri).get_value())
-
-    date = streets_diff_last_modified(relation)
-    doc.append_value(webframe.get_footer(date).get_value())
-    return doc
+    return rust.py_handle_missing_streets(ctx, relations, request_uri)
 
 
 def handle_additional_streets(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    action = tokens[-1]
-
-    relation = relations.get_relation(relation_name)
-    osmrelation = relation.get_config().get_osmrelation()
-
-    doc = yattag.Doc()
-    doc.append_value(webframe.get_toolbar(ctx, relations, "additional-streets", relation_name, osmrelation).get_value())
-
-    if action == "view-turbo":
-        doc.append_value(wsgi_additional.additional_streets_view_turbo(relations, request_uri).get_value())
-    else:
-        # assume view-result
-        doc.append_value(wsgi_additional.additional_streets_view_result(ctx, relations, request_uri).get_value())
-
-    date = streets_diff_last_modified(relation)
-    doc.append_value(webframe.get_footer(date).get_value())
-    return doc
+    return rust.py_handle_additional_streets(ctx, relations, request_uri)
 
 
 def handle_additional_housenumbers(
@@ -154,41 +83,12 @@ def handle_additional_housenumbers(
     request_uri: str
 ) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query]."""
-    tokens = request_uri.split("/")
-    relation_name = tokens[-2]
-    # action would be tokens[-1]
-
-    relation = relations.get_relation(relation_name)
-    osmrelation = relation.get_config().get_osmrelation()
-
-    doc = yattag.Doc()
-    doc.append_value(webframe.get_toolbar(ctx, relations, "additional-housenumbers", relation_name, osmrelation).get_value())
-
-    # assume action is view-result
-    doc.append_value(wsgi_additional.additional_housenumbers_view_result(ctx, relations, request_uri).get_value())
-
-    date = housenumbers_diff_last_modified(relation)
-    doc.append_value(webframe.get_footer(date).get_value())
-    return doc
+    return rust.py_handle_additional_housenumbers(ctx, relations, request_uri)
 
 
 def get_last_modified(path: str) -> str:
     """Gets the update date string of a file."""
     return webframe.format_timestamp(util.get_timestamp(path))
-
-
-def streets_diff_last_modified(relation: rust.PyRelation) -> str:
-    """Gets the update date for missing/additional streets."""
-    t_ref = util.get_timestamp(relation.get_files().get_ref_streets_path())
-    t_osm = util.get_timestamp(relation.get_files().get_osm_streets_path())
-    return webframe.format_timestamp(max(t_ref, t_osm))
-
-
-def housenumbers_diff_last_modified(relation: rust.PyRelation) -> str:
-    """Gets the update date for missing/additional housenumbers."""
-    t_ref = util.get_timestamp(relation.get_files().get_ref_housenumbers_path())
-    t_osm = util.get_timestamp(relation.get_files().get_osm_housenumbers_path())
-    return webframe.format_timestamp(max(t_ref, t_osm))
 
 
 def handle_main_housenr_percent(ctx: rust.PyContext, relation: rust.PyRelation) -> Tuple[yattag.Doc, str]:

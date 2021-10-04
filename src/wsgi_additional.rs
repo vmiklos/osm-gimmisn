@@ -75,7 +75,7 @@ fn py_additional_streets_view_txt(
 }
 
 /// Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result.
-fn additional_streets_view_result(
+pub fn additional_streets_view_result(
     ctx: &context::Context,
     relations: &mut areas::Relations,
     request_uri: &str,
@@ -184,22 +184,8 @@ fn additional_streets_view_result(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_additional_streets_view_result(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match additional_streets_view_result(&ctx.context, &mut relations.relations, request_uri)
-        .context("additional_streets_view_result() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result.
-fn additional_housenumbers_view_result(
+pub fn additional_housenumbers_view_result(
     ctx: &context::Context,
     relations: &mut areas::Relations,
     request_uri: &str,
@@ -232,22 +218,8 @@ fn additional_housenumbers_view_result(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_additional_housenumbers_view_result(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match additional_housenumbers_view_result(&ctx.context, &mut relations.relations, request_uri)
-        .context("additional_housenumbers_view_result() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-turbo.
-fn additional_streets_view_turbo(
+pub fn additional_streets_view_turbo(
     relations: &mut areas::Relations,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
@@ -265,34 +237,9 @@ fn additional_streets_view_turbo(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_additional_streets_view_turbo(
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match additional_streets_view_turbo(&mut relations.relations, request_uri)
-        .context("additional_streets_view_turbo() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(
         py_additional_streets_view_txt,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_additional_streets_view_result,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_additional_housenumbers_view_result,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_additional_streets_view_turbo,
         module
     )?)?;
     Ok(())

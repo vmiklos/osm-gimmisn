@@ -161,7 +161,7 @@ impl RelationConfig {
     }
 
     /// Returns an OSM name -> ref name map.
-    fn get_refstreets(&self) -> HashMap<String, String> {
+    pub fn get_refstreets(&self) -> HashMap<String, String> {
         let refstreets = match self.get_property("refstreets") {
             Some(value) => value,
             None => {
@@ -602,7 +602,7 @@ impl Relation {
     }
 
     /// Decides is a ref street should be shown for an OSM street.
-    fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
+    pub fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
         self.config.should_show_ref_street(osm_street_name)
     }
 
