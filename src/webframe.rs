@@ -824,11 +824,6 @@ pub fn format_timestamp(timestamp: i64) -> String {
 }
 
 #[pyfunction]
-fn py_format_timestamp(timestamp: f64) -> String {
-    format_timestamp(timestamp as i64)
-}
-
-#[pyfunction]
 fn py_handle_404() -> yattag::PyDoc {
     let doc = handle_404();
     yattag::PyDoc { doc }
@@ -1456,7 +1451,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_send_response, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_exception, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_404, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_format_timestamp, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_stats, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_check_existing_relation, module)?)?;

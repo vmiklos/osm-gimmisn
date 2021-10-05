@@ -242,4 +242,7 @@ locale/hu/LC_MESSAGES/osm-gimmisn.mo: po/hu/osm-gimmisn.po Makefile
 	$(QUIET_MSGFMT)msgfmt --check --statistics --output-file=$@ $<
 
 tags:
-	ctags --python-kinds=-iv --fields=+l --extra=+q -R --totals=yes *
+	rusty-tags vi
+	ln -sf rusty-tags.vi tags
+
+.PHONY: tags

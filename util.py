@@ -150,11 +150,6 @@ def get_valid_settlements(ctx: rust.PyContext) -> Set[str]:
     return rust.py_get_valid_settlements(ctx)
 
 
-def format_percent(english: str) -> str:
-    """Formats a percentage, taking locale into account."""
-    return rust.py_format_percent(english)
-
-
 def get_timestamp(path: str) -> float:
     """Gets the timestamp of a file if it exists, 0 otherwise."""
     return rust.py_get_timestamp(path)

@@ -1772,17 +1772,6 @@ pub fn format_percent(english: &str) -> anyhow::Result<String> {
     Ok(formatted.replace(".", decimal_point))
 }
 
-#[pyfunction]
-fn py_format_percent(english: String) -> PyResult<String> {
-    match format_percent(&english) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "format_percent() failed: {}",
-            err.to_string()
-        ))),
-    }
-}
-
 /// Gets the timestamp of a file if it exists, 0 otherwise.
 pub fn get_timestamp(path: &str) -> f64 {
     let metadata = match std::fs::metadata(path) {
@@ -1849,7 +1838,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_city_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_sort_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_valid_settlements, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_format_percent, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_timestamp, module)?)?;
     Ok(())
 }

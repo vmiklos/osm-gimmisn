@@ -873,6 +873,249 @@ fn py_handle_additional_housenumbers(
     }
 }
 
+/// Handles the house number percent part of the main page.
+fn handle_main_housenr_percent(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<(yattag::Doc, String)> {
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let url = format!(
+        "{}/missing-housenumbers/{}/view-result",
+        prefix,
+        relation.get_name()
+    );
+    let mut percent: String = "N/A".into();
+    if ctx
+        .get_file_system()
+        .path_exists(&relation.get_files().get_housenumbers_percent_path()?)
+    {
+        let stream = relation
+            .get_files()
+            .get_housenumbers_percent_read_stream(ctx)?;
+        let mut guard = stream.lock().unwrap();
+        let mut buffer: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut buffer)?;
+        percent = String::from_utf8(buffer)?;
+    }
+
+    let doc = yattag::Doc::new();
+    if percent != "N/A" {
+        let date = get_last_modified(&relation.get_files().get_housenumbers_percent_path()?);
+        let _strong = doc.tag("strong", &[]);
+        let _a = doc.tag(
+            "a",
+            &[
+                ("href", &url),
+                ("title", &format!("{} {}", tr("updated"), date)),
+            ],
+        );
+        doc.text(&util::format_percent(&percent)?);
+        return Ok((doc, percent));
+    }
+
+    let _strong = doc.tag("strong", &[]);
+    let _a = doc.tag("a", &[("href", &url)]);
+    doc.text(&tr("missing house numbers"));
+    Ok((doc, "0".into()))
+}
+
+#[pyfunction]
+fn py_handle_main_housenr_percent(
+    ctx: context::PyContext,
+    relation: areas::PyRelation,
+) -> PyResult<(yattag::PyDoc, String)> {
+    match handle_main_housenr_percent(&ctx.context, &relation.relation)
+        .context("handle_main_housenr_percent() failed")
+    {
+        Ok((doc, percent)) => Ok((yattag::PyDoc { doc }, percent)),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Handles the street percent part of the main page.
+fn handle_main_street_percent(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<(yattag::Doc, String)> {
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let url = format!(
+        "{}/missing-streets/{}/view-result",
+        prefix,
+        relation.get_name()
+    );
+    let mut percent: String = "N/A".into();
+    if ctx
+        .get_file_system()
+        .path_exists(&relation.get_files().get_streets_percent_path()?)
+    {
+        let stream = relation.get_files().get_streets_percent_read_stream(ctx)?;
+        let mut guard = stream.lock().unwrap();
+        let mut buffer: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut buffer)?;
+        percent = String::from_utf8(buffer)?;
+    }
+
+    let doc = yattag::Doc::new();
+    if percent != "N/A" {
+        let date = get_last_modified(&relation.get_files().get_streets_percent_path()?);
+        let _strong = doc.tag("strong", &[]);
+        let _a = doc.tag(
+            "a",
+            &[
+                ("href", &url),
+                ("title", &format!("{} {}", tr("updated"), date)),
+            ],
+        );
+        doc.text(&util::format_percent(&percent)?);
+        return Ok((doc, percent));
+    }
+
+    let _strong = doc.tag("strong", &[]);
+    let _a = doc.tag("a", &[("href", &url)]);
+    doc.text(&tr("missing streets"));
+    Ok((doc, "0".into()))
+}
+
+#[pyfunction]
+fn py_handle_main_street_percent(
+    ctx: context::PyContext,
+    relation: areas::PyRelation,
+) -> PyResult<(yattag::PyDoc, String)> {
+    match handle_main_street_percent(&ctx.context, &relation.relation)
+        .context("handle_main_street_percent() failed")
+    {
+        Ok((doc, percent)) => Ok((yattag::PyDoc { doc }, percent)),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Handles the street additional count part of the main page.
+fn handle_main_street_additional_count(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<yattag::Doc> {
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let url = format!(
+        "{}/additional-streets/{}/view-result",
+        prefix,
+        relation.get_name()
+    );
+    let mut additional_count: String = "".into();
+    if ctx
+        .get_file_system()
+        .path_exists(&relation.get_files().get_streets_additional_count_path()?)
+    {
+        let stream = relation
+            .get_files()
+            .get_streets_additional_count_read_stream(ctx)?;
+        let mut guard = stream.lock().unwrap();
+        let mut buffer: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut buffer)?;
+        additional_count = String::from_utf8(buffer)?;
+    }
+
+    let doc = yattag::Doc::new();
+    if !additional_count.is_empty() {
+        let date = get_last_modified(&relation.get_files().get_streets_additional_count_path()?);
+        let _strong = doc.tag("strong", &[]);
+        let _a = doc.tag(
+            "a",
+            &[
+                ("href", &url),
+                ("title", &format!("{} {}", tr("updated"), date)),
+            ],
+        );
+        doc.text(&tr("{} streets").replace("{}", &additional_count));
+        return Ok(doc);
+    }
+
+    let _strong = doc.tag("strong", &[]);
+    let _a = doc.tag("a", &[("href", &url)]);
+    doc.text(&tr("additional streets"));
+    Ok(doc)
+}
+
+#[pyfunction]
+fn py_handle_main_street_additional_count(
+    ctx: context::PyContext,
+    relation: areas::PyRelation,
+) -> PyResult<yattag::PyDoc> {
+    match handle_main_street_additional_count(&ctx.context, &relation.relation)
+        .context("handle_main_street_additional_count() failed")
+    {
+        Ok(doc) => Ok(yattag::PyDoc { doc }),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Handles the housenumber additional count part of the main page.
+fn handle_main_housenr_additional_count(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<yattag::Doc> {
+    if !relation.get_config().should_check_additional_housenumbers() {
+        return Ok(yattag::Doc::new());
+    }
+
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let url = format!(
+        "{}/additional-housenumbers/{}/view-result",
+        prefix,
+        relation.get_name()
+    );
+    let mut additional_count: String = "".into();
+    if ctx.get_file_system().path_exists(
+        &relation
+            .get_files()
+            .get_housenumbers_additional_count_path()?,
+    ) {
+        let stream = relation
+            .get_files()
+            .get_housenumbers_additional_count_read_stream(ctx)?;
+        let mut guard = stream.lock().unwrap();
+        let mut buffer: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut buffer)?;
+        additional_count = String::from_utf8(buffer)?.trim().into();
+    }
+
+    let doc = yattag::Doc::new();
+    if !additional_count.is_empty() {
+        let date = get_last_modified(
+            &relation
+                .get_files()
+                .get_housenumbers_additional_count_path()?,
+        );
+        let _strong = doc.tag("strong", &[]);
+        let _a = doc.tag(
+            "a",
+            &[
+                ("href", &url),
+                ("title", &format!("{} {}", tr("updated"), date)),
+            ],
+        );
+        doc.text(&tr("{} house numbers").replace("{}", &additional_count));
+        return Ok(doc);
+    }
+
+    let _strong = doc.tag("strong", &[]);
+    let _a = doc.tag("a", &[("href", &url)]);
+    doc.text(&tr("additional house numbers"));
+    Ok(doc)
+}
+
+#[pyfunction]
+fn py_handle_main_housenr_additional_count(
+    ctx: context::PyContext,
+    relation: areas::PyRelation,
+) -> PyResult<yattag::PyDoc> {
+    match handle_main_housenr_additional_count(&ctx.context, &relation.relation)
+        .context("handle_main_housenr_additional_count() failed")
+    {
+        Ok(doc) => Ok(yattag::PyDoc { doc }),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -899,6 +1142,22 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_handle_additional_housenumbers,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_handle_main_housenr_percent,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_handle_main_street_percent,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_handle_main_street_additional_count,
+        module
+    )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(
+        py_handle_main_housenr_additional_count,
         module
     )?)?;
     Ok(())
