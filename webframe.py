@@ -77,11 +77,6 @@ def handle_404() -> yattag.Doc:
     return rust.py_handle_404()
 
 
-def format_timestamp(timestamp: float) -> str:
-    """Formats timestamp as UI date-time."""
-    return rust.py_format_timestamp(timestamp)
-
-
 def handle_stats(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     return rust.py_handle_stats(ctx, relations, request_uri)

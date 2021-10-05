@@ -86,104 +86,24 @@ def handle_additional_housenumbers(
     return rust.py_handle_additional_housenumbers(ctx, relations, request_uri)
 
 
-def get_last_modified(path: str) -> str:
-    """Gets the update date string of a file."""
-    return webframe.format_timestamp(util.get_timestamp(path))
-
-
 def handle_main_housenr_percent(ctx: rust.PyContext, relation: rust.PyRelation) -> Tuple[yattag.Doc, str]:
     """Handles the house number percent part of the main page."""
-    prefix = ctx.get_ini().get_uri_prefix()
-    url = prefix + "/missing-housenumbers/" + relation.get_name() + "/view-result"
-    percent = "N/A"
-    if ctx.get_file_system().path_exists(relation.get_files().get_housenumbers_percent_path()):
-        with relation.get_files().get_housenumbers_percent_read_stream(ctx) as stream:
-            percent = util.from_bytes(stream.read())
-
-    doc = yattag.Doc()
-    if percent != "N/A":
-        date = get_last_modified(relation.get_files().get_housenumbers_percent_path())
-        with doc.tag("strong", []):
-            with doc.tag("a", [("href", url), ("title", tr("updated") + " " + date)]):
-                doc.text(util.format_percent(percent))
-        return doc, percent
-
-    with doc.tag("strong", []):
-        with doc.tag("a", [("href", url)]):
-            doc.text(tr("missing house numbers"))
-    return doc, "0"
+    return rust.py_handle_main_housenr_percent(ctx, relation)
 
 
 def handle_main_street_percent(ctx: rust.PyContext, relation: rust.PyRelation) -> Tuple[yattag.Doc, str]:
     """Handles the street percent part of the main page."""
-    prefix = ctx.get_ini().get_uri_prefix()
-    url = prefix + "/missing-streets/" + relation.get_name() + "/view-result"
-    percent = "N/A"
-    if ctx.get_file_system().path_exists(relation.get_files().get_streets_percent_path()):
-        with relation.get_files().get_streets_percent_read_stream(ctx) as stream:
-            percent = util.from_bytes(stream.read())
-
-    doc = yattag.Doc()
-    if percent != "N/A":
-        date = get_last_modified(relation.get_files().get_streets_percent_path())
-        with doc.tag("strong", []):
-            with doc.tag("a", [("href", url), ("title", tr("updated") + " " + date)]):
-                doc.text(util.format_percent(percent))
-        return doc, percent
-
-    with doc.tag("strong", []):
-        with doc.tag("a", [("href", url)]):
-            doc.text(tr("missing streets"))
-    return doc, "0"
+    return rust.py_handle_main_street_percent(ctx, relation)
 
 
 def handle_main_street_additional_count(ctx: rust.PyContext, relation: rust.PyRelation) -> yattag.Doc:
     """Handles the street additional count part of the main page."""
-    prefix = ctx.get_ini().get_uri_prefix()
-    url = prefix + "/additional-streets/" + relation.get_name() + "/view-result"
-    additional_count = ""
-    if ctx.get_file_system().path_exists(relation.get_files().get_streets_additional_count_path()):
-        with relation.get_files().get_streets_additional_count_read_stream(ctx) as stream:
-            additional_count = util.from_bytes(stream.read())
-
-    doc = yattag.Doc()
-    if additional_count:
-        date = get_last_modified(relation.get_files().get_streets_additional_count_path())
-        with doc.tag("strong", []):
-            with doc.tag("a", [("href", url), ("title", tr("updated") + " " + date)]):
-                doc.text(tr("{} streets").format(additional_count))
-        return doc
-
-    with doc.tag("strong", []):
-        with doc.tag("a", [("href", url)]):
-            doc.text(tr("additional streets"))
-    return doc
+    return rust.py_handle_main_street_additional_count(ctx, relation)
 
 
 def handle_main_housenr_additional_count(ctx: rust.PyContext, relation: rust.PyRelation) -> yattag.Doc:
     """Handles the housenumber additional count part of the main page."""
-    if not relation.get_config().should_check_additional_housenumbers():
-        return yattag.Doc()
-
-    prefix = ctx.get_ini().get_uri_prefix()
-    url = prefix + "/additional-housenumbers/" + relation.get_name() + "/view-result"
-    additional_count = ""
-    if ctx.get_file_system().path_exists(relation.get_files().get_housenumbers_additional_count_path()):
-        with relation.get_files().get_housenumbers_additional_count_read_stream(ctx) as stream:
-            additional_count = util.from_bytes(stream.read()).strip()
-
-    doc = yattag.Doc()
-    if additional_count:
-        date = get_last_modified(relation.get_files().get_housenumbers_additional_count_path())
-        with doc.tag("strong", []):
-            with doc.tag("a", [("href", url), ("title", tr("updated") + " " + date)]):
-                doc.text(tr("{} house numbers").format(additional_count))
-        return doc
-
-    with doc.tag("strong", []):
-        with doc.tag("a", [("href", url)]):
-            doc.text(tr("additional house numbers"))
-    return doc
+    return rust.py_handle_main_housenr_additional_count(ctx, relation)
 
 
 def filter_for_everything(_complete: bool, _relation: rust.PyRelation) -> bool:

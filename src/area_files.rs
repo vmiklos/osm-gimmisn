@@ -76,7 +76,7 @@ impl RelationFiles {
     }
 
     /// Builds the file name of the house number percent file of a relation.
-    fn get_housenumbers_percent_path(&self) -> anyhow::Result<String> {
+    pub fn get_housenumbers_percent_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("{}.percent", self.name))
@@ -106,7 +106,7 @@ impl RelationFiles {
     }
 
     /// Builds the file name of the street percent file of a relation.
-    fn get_streets_percent_path(&self) -> anyhow::Result<String> {
+    pub fn get_streets_percent_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("{}-streets.percent", self.name))
@@ -116,7 +116,7 @@ impl RelationFiles {
     }
 
     /// Builds the file name of the street additional count file of a relation.
-    fn get_streets_additional_count_path(&self) -> anyhow::Result<String> {
+    pub fn get_streets_additional_count_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("{}-additional-streets.count", self.name))
@@ -126,7 +126,7 @@ impl RelationFiles {
     }
 
     /// Builds the file name of the housenumber additional count file of a relation.
-    fn get_housenumbers_additional_count_path(&self) -> anyhow::Result<String> {
+    pub fn get_housenumbers_additional_count_path(&self) -> anyhow::Result<String> {
         let path = std::path::Path::new(&self.workdir);
         Ok(path
             .join(format!("{}-additional-housenumbers.count", self.name))
@@ -206,7 +206,7 @@ impl RelationFiles {
     }
 
     /// Opens the house number percent file of a relation for reading.
-    fn get_housenumbers_percent_read_stream(
+    pub fn get_housenumbers_percent_read_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -262,7 +262,7 @@ impl RelationFiles {
     }
 
     /// Opens the street percent file of a relation for reading.
-    fn get_streets_percent_read_stream(
+    pub fn get_streets_percent_read_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -280,7 +280,7 @@ impl RelationFiles {
     }
 
     /// Opens the street additional count file of a relation for reading.
-    fn get_streets_additional_count_read_stream(
+    pub fn get_streets_additional_count_read_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -298,7 +298,7 @@ impl RelationFiles {
     }
 
     /// Opens the housenumbers additional count file of a relation for reading.
-    fn get_housenumbers_additional_count_read_stream(
+    pub fn get_housenumbers_additional_count_read_stream(
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
@@ -555,24 +555,6 @@ impl PyRelationFiles {
         Ok(context::PyRead { read: ret })
     }
 
-    fn get_housenumbers_percent_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_housenumbers_percent_read_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_housenumbers_percent_read_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyRead { read: ret })
-    }
-
     fn get_streets_percent_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
         let gil = Python::acquire_gil();
         let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
@@ -584,24 +566,6 @@ impl PyRelationFiles {
             Err(err) => {
                 return Err(pyo3::exceptions::PyOSError::new_err(format!(
                     "get_streets_percent_read_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyRead { read: ret })
-    }
-
-    fn get_streets_additional_count_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_streets_additional_count_read_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_streets_additional_count_read_stream() failed: {}",
                     err.to_string()
                 )));
             }
@@ -628,27 +592,6 @@ impl PyRelationFiles {
             }
         };
         Ok(context::PyWrite { write: ret })
-    }
-
-    fn get_housenumbers_additional_count_read_stream(
-        &self,
-        ctx: PyObject,
-    ) -> PyResult<context::PyRead> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_housenumbers_additional_count_read_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_housenumbers_additional_count_read_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyRead { read: ret })
     }
 
     fn get_housenumbers_additional_count_write_stream(

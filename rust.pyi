@@ -516,10 +516,6 @@ def py_get_valid_settlements(ctx: PyContext) -> Set[str]:
     """Builds a set of valid settlement names."""
     ...
 
-def py_format_percent(english: str) -> str:
-    """Formats a percentage, taking locale into account."""
-    ...
-
 def py_get_timestamp(path: str) -> float:
     """Gets the timestamp of a file if it exists, 0 otherwise."""
     ...
@@ -581,24 +577,12 @@ class PyRelationFiles:
         """Opens the reference house number list of a relation for reading."""
         ...
 
-    def get_housenumbers_percent_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the house number percent file of a relation for reading."""
-        ...
-
     def get_streets_percent_read_stream(self, ctx: PyContext) -> BinaryIO:
         """Opens the street percent file of a relation for reading."""
         ...
 
-    def get_streets_additional_count_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the street additional count file of a relation for reading."""
-        ...
-
     def get_streets_additional_count_write_stream(self, ctx: PyContext) -> BinaryIO:
         """Opens the street additional count file of a relation for writing."""
-        ...
-
-    def get_housenumbers_additional_count_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the housenumbers additional count file of a relation for reading."""
         ...
 
     def get_housenumbers_additional_count_write_stream(self, ctx: PyContext) -> BinaryIO:
@@ -953,10 +937,6 @@ def py_handle_404() -> PyDoc:
     """Displays a not-found page."""
     ...
 
-def py_format_timestamp(timestamp: float) -> str:
-    """Formats timestamp as UI date-time."""
-    ...
-
 def py_handle_stats(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     ...
@@ -1061,6 +1041,22 @@ def py_handle_additional_housenumbers(
     request_uri: str
 ) -> PyDoc:
     """Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query]."""
+    ...
+
+def py_handle_main_housenr_percent(ctx: PyContext, relation: PyRelation) -> Tuple[PyDoc, str]:
+    """Handles the house number percent part of the main page."""
+    ...
+
+def py_handle_main_street_percent(ctx: PyContext, relation: PyRelation) -> Tuple[PyDoc, str]:
+    """Handles the street percent part of the main page."""
+    ...
+
+def py_handle_main_street_additional_count(ctx: PyContext, relation: PyRelation) -> PyDoc:
+    """Handles the street additional count part of the main page."""
+    ...
+
+def py_handle_main_housenr_additional_count(ctx: PyContext, relation: PyRelation) -> PyDoc:
+    """Handles the housenumber additional count part of the main page."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
