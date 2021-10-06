@@ -74,9 +74,10 @@ filters:
     ranges:
       - {start: '2', end: '20'}
   Puskin utca:
+    # átszámozták
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '24', end: '26'}
+      - {start: '1', end: '29'}
+      - {start: '2', end: '10'}
   Rákóczi utca:
     invalid: ['20', '22', '62']
   Sándor utca:
