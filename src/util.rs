@@ -1005,7 +1005,7 @@ pub fn build_reference_caches(
 }
 
 /// Parses a filter description, like 'filter-for', 'refcounty', '42'.
-fn parse_filters(tokens: &[String]) -> HashMap<String, String> {
+pub fn parse_filters(tokens: &[String]) -> HashMap<String, String> {
     let mut ret: HashMap<String, String> = HashMap::new();
     let mut filter_for = false;
     for (index, value) in tokens.iter().enumerate() {

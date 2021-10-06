@@ -82,7 +82,7 @@ impl RelationConfig {
     }
 
     /// Gets the relation's refcounty identifier from reference.
-    fn get_refcounty(&self) -> String {
+    pub fn get_refcounty(&self) -> String {
         match self.get_property("refcounty") {
             Some(value) => value.as_str().unwrap().into(),
             None => "".into(),
@@ -1754,7 +1754,7 @@ impl Relations {
     }
 
     /// Produces a UI name for a refcounty.
-    fn refcounty_get_name(&self, refcounty: &str) -> String {
+    pub fn refcounty_get_name(&self, refcounty: &str) -> String {
         match self.refcounty_names.get(refcounty) {
             Some(value) => value.into(),
             None => "".into(),
@@ -1762,7 +1762,7 @@ impl Relations {
     }
 
     /// Produces a UI name for a refsettlement in refcounty.
-    fn refsettlement_get_name(&self, refcounty_name: &str, refsettlement: &str) -> String {
+    pub fn refsettlement_get_name(&self, refcounty_name: &str, refsettlement: &str) -> String {
         let refcounty = match self.refsettlement_names.get(refcounty_name) {
             Some(value) => value,
             None => {
@@ -1823,7 +1823,7 @@ impl Relations {
     }
 
     /// Produces refsettlement IDs of a refcounty.
-    fn refcounty_get_refsettlement_ids(&self, refcounty_name: &str) -> Vec<String> {
+    pub fn refcounty_get_refsettlement_ids(&self, refcounty_name: &str) -> Vec<String> {
         let refcounty = match self.refsettlement_names.get(refcounty_name) {
             Some(value) => value,
             None => {
