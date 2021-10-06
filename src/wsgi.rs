@@ -22,6 +22,7 @@ use crate::yattag;
 use anyhow::Context;
 use pyo3::prelude::*;
 use std::ops::DerefMut;
+use std::sync::Arc;
 
 /// Gets the update date string of a file.
 fn get_last_modified(path: &str) -> String {
@@ -919,19 +920,6 @@ fn handle_main_housenr_percent(
     Ok((doc, "0".into()))
 }
 
-#[pyfunction]
-fn py_handle_main_housenr_percent(
-    ctx: context::PyContext,
-    relation: areas::PyRelation,
-) -> PyResult<(yattag::PyDoc, String)> {
-    match handle_main_housenr_percent(&ctx.context, &relation.relation)
-        .context("handle_main_housenr_percent() failed")
-    {
-        Ok((doc, percent)) => Ok((yattag::PyDoc { doc }, percent)),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Handles the street percent part of the main page.
 fn handle_main_street_percent(
     ctx: &context::Context,
@@ -974,19 +962,6 @@ fn handle_main_street_percent(
     let _a = doc.tag("a", &[("href", &url)]);
     doc.text(&tr("missing streets"));
     Ok((doc, "0".into()))
-}
-
-#[pyfunction]
-fn py_handle_main_street_percent(
-    ctx: context::PyContext,
-    relation: areas::PyRelation,
-) -> PyResult<(yattag::PyDoc, String)> {
-    match handle_main_street_percent(&ctx.context, &relation.relation)
-        .context("handle_main_street_percent() failed")
-    {
-        Ok((doc, percent)) => Ok((yattag::PyDoc { doc }, percent)),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Handles the street additional count part of the main page.
@@ -1033,19 +1008,6 @@ fn handle_main_street_additional_count(
     let _a = doc.tag("a", &[("href", &url)]);
     doc.text(&tr("additional streets"));
     Ok(doc)
-}
-
-#[pyfunction]
-fn py_handle_main_street_additional_count(
-    ctx: context::PyContext,
-    relation: areas::PyRelation,
-) -> PyResult<yattag::PyDoc> {
-    match handle_main_street_additional_count(&ctx.context, &relation.relation)
-        .context("handle_main_street_additional_count() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Handles the housenumber additional count part of the main page.
@@ -1116,6 +1078,376 @@ fn py_handle_main_housenr_additional_count(
     }
 }
 
+/// Does not filter out anything.
+fn filter_for_everything(_complete: bool, _relation: &areas::Relation) -> bool {
+    true
+}
+
+/// Filters out complete items.
+fn filter_for_incomplete(complete: bool, _relation: &areas::Relation) -> bool {
+    !complete
+}
+
+type RelationFilter = dyn Fn(bool, &areas::Relation) -> bool;
+
+/// Creates a function that filters for a single refcounty.
+fn create_filter_for_refcounty(refcounty_filter: &str) -> Box<RelationFilter> {
+    let refcounty_filter_arc = Arc::new(refcounty_filter.to_string());
+    let refcounty_filter = refcounty_filter_arc;
+    Box::new(move |_complete, relation| {
+        relation.get_config().get_refcounty() == refcounty_filter.as_str()
+    })
+}
+
+/// Creates a function that filters for the specified relations.
+fn create_filter_for_relations(relation_filter: &str) -> Box<RelationFilter> {
+    let mut relations: Vec<u64> = Vec::new();
+    if !relation_filter.is_empty() {
+        relations = relation_filter
+            .split(',')
+            .map(|i| i.parse().unwrap())
+            .collect();
+    }
+    let relations_arc = Arc::new(relations);
+    let relations = relations_arc;
+    Box::new(move |_complete, relation| {
+        relations.contains(&relation.get_config().get_osmrelation())
+    })
+}
+
+/// Creates a function that filters for a single refsettlement in a refcounty.
+fn create_filter_for_refcounty_refsettlement(
+    refcounty_filter: &str,
+    refsettlement_filter: &str,
+) -> Box<RelationFilter> {
+    let refcounty_arc = Arc::new(refcounty_filter.to_string());
+    let refcounty_filter = refcounty_arc;
+    let refsettlement_arc = Arc::new(refsettlement_filter.parse::<u64>().unwrap());
+    let refsettlement_filter = refsettlement_arc;
+    Box::new(move |_complete, relation| {
+        let config = relation.get_config();
+        config.get_refcounty() == refcounty_filter.as_str()
+            && config.get_osmrelation().eq(refsettlement_filter.as_ref())
+    })
+}
+
+/// Sets up a filter-for function from request uri: only certain areas are shown then.
+fn setup_main_filter_for(request_uri: &str) -> (Box<RelationFilter>, String) {
+    let tokens: Vec<String> = request_uri.split('/').map(|i| i.to_string()).collect();
+    let mut filter_for: Box<RelationFilter> = Box::new(filter_for_incomplete);
+    let filters = util::parse_filters(&tokens);
+    let mut refcounty = "";
+    if filters.contains_key("incomplete") {
+        // /osm/filter-for/incomplete
+        filter_for = Box::new(filter_for_incomplete);
+    } else if filters.contains_key("everything") {
+        // /osm/filter-for/everything
+        filter_for = Box::new(filter_for_everything);
+    } else if filters.contains_key("refcounty") && filters.contains_key("refsettlement") {
+        // /osm/filter-for/refcounty/<value>/refsettlement/<value>
+        refcounty = filters.get("refcounty").unwrap();
+        filter_for = create_filter_for_refcounty_refsettlement(
+            filters.get("refcounty").unwrap(),
+            filters.get("refsettlement").unwrap(),
+        );
+    } else if filters.contains_key("refcounty") {
+        // /osm/filter-for/refcounty/<value>/whole-county
+        refcounty = filters.get("refcounty").unwrap();
+        filter_for = create_filter_for_refcounty(refcounty);
+    } else if filters.contains_key("relations") {
+        // /osm/filter-for/relations/<id1>,<id2>
+        let relations = filters.get("relations").unwrap();
+        filter_for = create_filter_for_relations(relations);
+    }
+    (filter_for, refcounty.into())
+}
+
+/// Handles one refcounty in the filter part of the main wsgi page.
+fn handle_main_filters_refcounty(
+    ctx: &context::Context,
+    relations: &areas::Relations,
+    refcounty_id: &str,
+    refcounty: &str,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    let name = relations.refcounty_get_name(refcounty);
+    if name.is_empty() {
+        return Ok(doc);
+    }
+
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    {
+        let _a = doc.tag(
+            "a",
+            &[(
+                "href",
+                &format!("{}/filter-for/refcounty/{}/whole-county", prefix, refcounty),
+            )],
+        );
+        doc.text(&name);
+    }
+    if !refcounty_id.is_empty() && refcounty == refcounty_id {
+        let refsettlement_ids = relations.refcounty_get_refsettlement_ids(refcounty_id);
+        if !refsettlement_ids.is_empty() {
+            let mut names: Vec<yattag::Doc> = Vec::new();
+            for refsettlement_id in refsettlement_ids {
+                let name = relations.refsettlement_get_name(refcounty_id, &refsettlement_id);
+                let name_doc = yattag::Doc::new();
+                {
+                    let href = format!(
+                        "{}/filter-for/refcounty/{}/refsettlement/{}",
+                        prefix, refcounty, refsettlement_id
+                    );
+                    let _a = name_doc.tag("a", &[("href", &href)]);
+                    name_doc.text(&name);
+                }
+                names.push(name_doc);
+            }
+            doc.text(" (");
+            for (index, item) in names.iter().enumerate() {
+                if index > 0 {
+                    doc.text(", ");
+                }
+                doc.append_value(item.get_value());
+            }
+            doc.text(")");
+        }
+    }
+    Ok(doc)
+}
+
+/// Handlers the filter part of the main wsgi page.
+fn handle_main_filters(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    refcounty_id: &str,
+) -> anyhow::Result<yattag::Doc> {
+    let mut items: Vec<yattag::Doc> = Vec::new();
+
+    let mut doc = yattag::Doc::new();
+    {
+        let _span = doc.tag("span", &[("id", "filter-based-on-position")]);
+        let _a = doc.tag("a", &[("href", "#")]);
+        doc.text(&tr("Based on position"))
+    }
+    items.push(doc);
+
+    doc = yattag::Doc::new();
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    {
+        let _a = doc.tag(
+            "a",
+            &[("href", &format!("{}/filter-for/everything", prefix))],
+        );
+        doc.text(&tr("Show complete areas"));
+    }
+    items.push(doc);
+
+    // Sorted set of refcounty values of all relations.
+    let mut refcounties: Vec<_> = relations
+        .get_relations()?
+        .iter()
+        .map(|i| i.get_config().get_refcounty())
+        .collect();
+    refcounties.sort();
+    refcounties.dedup();
+    for refcounty in refcounties {
+        items.push(handle_main_filters_refcounty(
+            ctx,
+            relations,
+            refcounty_id,
+            &refcounty,
+        )?);
+    }
+    doc = yattag::Doc::new();
+    {
+        let _h1 = doc.tag("h1", &[]);
+        doc.text(&tr("Where to map?"));
+    }
+    {
+        let _p = doc.tag("p", &[]);
+        doc.text(&format!("{} ", tr("Filters:")));
+        for (index, item) in items.iter().enumerate() {
+            if index > 0 {
+                doc.text(" ¦ ");
+            }
+            doc.append_value(item.get_value());
+        }
+    }
+
+    let string_pairs = &[
+        ("str-gps-wait", tr("Waiting for GPS...")),
+        ("str-gps-error", tr("Error from GPS: ")),
+        ("str-overpass-wait", tr("Waiting for Overpass...")),
+        ("str-overpass-error", tr("Error from Overpass: ")),
+        ("str-relations-wait", tr("Waiting for relations...")),
+        ("str-relations-error", tr("Error from relations: ")),
+        ("str-redirect-wait", tr("Waiting for redirect...")),
+    ];
+    webframe::emit_l10n_strings_for_js(&doc, string_pairs);
+    Ok(doc)
+}
+
+/// Handles one relation (one table row) on the main page.
+fn handle_main_relation(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    filter_for: &RelationFilter,
+    relation_name: &str,
+) -> anyhow::Result<Vec<yattag::Doc>> {
+    let relation = relations.get_relation(relation_name)?;
+    // If checking both streets and house numbers, then "is complete" refers to both street and
+    // housenr coverage for "hide complete" purposes.
+    let mut complete = true;
+
+    let streets = relation.get_config().should_check_missing_streets();
+
+    let mut row = vec![yattag::Doc::from_text(relation_name)];
+
+    if streets != "only" {
+        let (cell, percent) = handle_main_housenr_percent(ctx, &relation)?;
+        let doc = yattag::Doc::new();
+        doc.append_value(cell.get_value());
+        row.push(doc);
+        complete &= percent.parse::<f64>().unwrap() >= 100_f64;
+
+        row.push(handle_main_housenr_additional_count(ctx, &relation)?);
+    } else {
+        row.push(yattag::Doc::new());
+        row.push(yattag::Doc::new());
+    }
+
+    if streets != "no" {
+        let (cell, percent) = handle_main_street_percent(ctx, &relation)?;
+        row.push(cell);
+        complete &= percent.parse::<f64>().unwrap() >= 100_f64;
+    } else {
+        row.push(yattag::Doc::new());
+    }
+
+    if streets != "no" {
+        row.push(handle_main_street_additional_count(ctx, &relation)?);
+    } else {
+        row.push(yattag::Doc::new());
+    }
+
+    let doc = yattag::Doc::new();
+    {
+        let _a = doc.tag(
+            "a",
+            &[(
+                "href",
+                &format!(
+                    "https://www.openstreetmap.org/relation/{}",
+                    relation.get_config().get_osmrelation()
+                ),
+            )],
+        );
+        doc.text(&tr("area boundary"));
+    }
+    row.push(doc);
+
+    if !filter_for(complete, &relation) {
+        row.clear();
+    }
+
+    Ok(row)
+}
+
+/// Handles the main wsgi page.
+///
+/// Also handles /osm/filter-for/* which filters for a condition.
+fn handle_main(
+    request_uri: &str,
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+) -> anyhow::Result<yattag::Doc> {
+    let (filter_for, refcounty) = setup_main_filter_for(request_uri);
+
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        webframe::get_toolbar(
+            ctx,
+            &Some(relations.clone()),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+
+    doc.append_value(handle_main_filters(ctx, relations, &refcounty)?.get_value());
+    let mut table = vec![vec![
+        yattag::Doc::from_text(&tr("Area")),
+        yattag::Doc::from_text(&tr("House number coverage")),
+        yattag::Doc::from_text(&tr("Additional house numbers")),
+        yattag::Doc::from_text(&tr("Street coverage")),
+        yattag::Doc::from_text(&tr("Additional streets")),
+        yattag::Doc::from_text(&tr("Area boundary")),
+    ]];
+    for relation_name in relations.get_names() {
+        let row = handle_main_relation(ctx, relations, &filter_for, &relation_name)?;
+        if !row.is_empty() {
+            table.push(row);
+        }
+    }
+    doc.append_value(util::html_table_from_list(&table).get_value());
+    {
+        let _p = doc.tag("p", &[]);
+        let _a = doc.tag(
+            "a",
+            &[(
+                "href",
+                "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
+            )],
+        );
+        doc.text(&tr("Add new area"));
+    }
+
+    doc.append_value(webframe::get_footer(/*last_updated=*/ "").get_value());
+    Ok(doc)
+}
+
+#[pyfunction]
+fn py_handle_main(
+    request_uri: &str,
+    ctx: context::PyContext,
+    mut relations: areas::PyRelations,
+) -> PyResult<yattag::PyDoc> {
+    match handle_main(request_uri, &ctx.context, &mut relations.relations)
+        .context("handle_main() failed")
+    {
+        Ok(doc) => Ok(yattag::PyDoc { doc }),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Determines the HTML title for a given function and relation name.
+fn get_html_title(request_uri: &str) -> String {
+    let tokens: Vec<String> = request_uri.split('/').map(|i| i.to_string()).collect();
+    let mut function: String = "".into();
+    let mut relation_name: String = "".into();
+    if tokens.len() > 3 {
+        function = tokens[2].clone();
+        relation_name = tokens[3].clone();
+    }
+    match function.as_str() {
+        "missing-housenumbers" => format!(
+            " - {}",
+            tr("{0} missing house numbers").replace("{0}", &relation_name)
+        ),
+        "missing-streets" => format!(" - {} {}", relation_name, tr("missing streets")),
+        "street-housenumbers" => format!(" - {} {}", relation_name, tr("existing house numbers")),
+        "streets" => format!(" - {} {}", relation_name, tr("existing streets")),
+        _ => "".into(),
+    }
+}
+
+#[pyfunction]
+fn py_get_html_title(request_uri: &str) -> String {
+    get_html_title(request_uri)
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
@@ -1145,20 +1477,10 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         module
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_main_housenr_percent,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_main_street_percent,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_main_street_additional_count,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
         py_handle_main_housenr_additional_count,
         module
     )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_main, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_html_title, module)?)?;
     Ok(())
 }

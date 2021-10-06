@@ -7,19 +7,12 @@
 
 """The webframe module provides the header, toolbar and footer code."""
 
-from typing import BinaryIO
 from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Tuple
 
 import rust
 import yattag
-
-
-def get_footer(last_updated: str) -> yattag.Doc:
-    """Produces the end of the page."""
-    return rust.py_get_footer(last_updated)
 
 
 def fill_missing_header_items(
@@ -33,19 +26,6 @@ def fill_missing_header_items(
     return rust.py_fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
 
 
-def get_toolbar(
-        ctx: rust.PyContext,
-        relations: Optional[rust.PyRelations],
-        function: str,
-        relation_name: str,
-        relation_osmid: int
-) -> yattag.Doc:
-    """Produces the start of the page. Note that the content depends on the function and the
-    relation, but not on the action to keep a balance between too generic and too specific
-    content."""
-    return rust.py_get_toolbar(ctx, relations, function, relation_name, relation_osmid)
-
-
 def handle_static(ctx: rust.PyContext, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
     return rust.py_handle_static(ctx, request_uri)
@@ -56,12 +36,12 @@ def make_response(content_type: str, status: str, output_bytes: bytes, headers: 
     return rust.PyResponse(content_type, status, output_bytes, headers)
 
 
-def send_response(
+def compress_response(
         environ: Dict[str, str],
         response: rust.PyResponse
 ) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
     """Turns an output string into a byte array and sends it."""
-    return rust.py_send_response(environ, response)
+    return rust.py_compress_response(environ, response)
 
 
 def handle_exception(
@@ -92,8 +72,8 @@ def check_existing_relation(ctx: rust.PyContext, relations: rust.PyRelations, re
     return rust.py_check_existing_relation(ctx, relations, request_uri)
 
 
-def handle_github_webhook(stream: BinaryIO, ctx: rust.PyContext) -> yattag.Doc:
+def handle_github_webhook(data: bytes, ctx: rust.PyContext) -> yattag.Doc:
     """Handles a GitHub style webhook."""
-    return rust.py_handle_github_webhook(stream, ctx)
+    return rust.py_handle_github_webhook(data, ctx)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -9,8 +9,6 @@
 from typing import Any
 from typing import Dict
 from typing import List
-from typing import TYPE_CHECKING
-from typing import Tuple
 from typing import cast
 import io
 import json
@@ -21,29 +19,21 @@ import test_context
 import rust
 import wsgi
 
-if TYPE_CHECKING:
-    # pylint: disable=no-name-in-module,import-error,unused-import
-    from wsgiref.types import StartResponse
-
 
 class TestWsgiJson(unittest.TestCase):
     """Base class for wsgi_json tests."""
 
     def get_json_for_path(self, ctx: rust.PyContext, path: str) -> Dict[str, Any]:
         """Generates an json dict for a given wsgi path."""
-        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
-            # Make sure the built-in exception catcher is not kicking in.
-            self.assertEqual(status, "200 OK")
-            header_dict = dict(response_headers)
-            self.assertEqual(header_dict["Content-type"], "application/json; charset=utf-8")
-
         prefix = ctx.get_ini().get_uri_prefix()
-        environ = {
+        request_headers = {
             "PATH_INFO": prefix + path
         }
-        callback = cast('StartResponse', start_response)
-        output_iterable = wsgi.application(environ, callback, ctx)
-        output_list = cast(List[str], output_iterable)
+        status, response_headers, output_bytes_list = wsgi.application(request_headers, bytes(), ctx)
+        self.assertEqual(status, "200 OK")
+        header_dict = dict(response_headers)
+        self.assertEqual(header_dict["Content-type"], "application/json; charset=utf-8")
+        output_list = cast(List[str], output_bytes_list)
         self.assertTrue(output_list)
         output = output_list[0]
         return cast(Dict[str, Any], json.loads(output))

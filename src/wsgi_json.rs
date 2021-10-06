@@ -124,7 +124,7 @@ fn our_application_json(
     }
     let output_bytes = output.as_bytes();
     let response = webframe::Response::new(content_type, "200 OK", output_bytes, &headers);
-    webframe::send_response(environ, &response)
+    webframe::compress_response(environ, &response)
 }
 
 #[pyfunction]

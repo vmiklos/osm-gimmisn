@@ -10,8 +10,6 @@ from typing import Any
 from typing import Container
 from typing import Dict
 from typing import List
-from typing import TYPE_CHECKING
-from typing import Tuple
 from typing import cast
 import calendar
 import datetime
@@ -29,10 +27,6 @@ import areas
 import webframe
 import wsgi
 
-if TYPE_CHECKING:
-    # pylint: disable=no-name-in-module,import-error,unused-import
-    from wsgiref.types import StartResponse
-
 
 class TestWsgi(unittest.TestCase):
     """Base class for wsgi tests."""
@@ -41,17 +35,12 @@ class TestWsgi(unittest.TestCase):
         self.gzip_compress = False
         self.ctx = test_context.make_test_context()
         self.environ: Dict[str, Any] = {}
+        self.bytes = bytes()
 
     def get_dom_for_path(self, path: str, absolute: bool = False, expected_status: str = "") -> ET.Element:
         """Generates an XML DOM for a given wsgi path."""
         if not expected_status:
             expected_status = "200 OK"
-
-        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
-            # Make sure the built-in exception catcher is not kicking in.
-            self.assertEqual(status, expected_status)
-            header_dict = dict(response_headers)
-            self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
         prefix = self.ctx.get_ini().get_uri_prefix()
         if not absolute:
@@ -59,9 +48,11 @@ class TestWsgi(unittest.TestCase):
         self.environ["PATH_INFO"] = path
         if self.gzip_compress:
             self.environ["HTTP_ACCEPT_ENCODING"] = "gzip, deflate"
-        callback = cast('StartResponse', start_response)
-        output_iterable = wsgi.application(self.environ, callback, self.ctx)
-        output_list = cast(List[bytes], output_iterable)
+        status, response_headers, output_list = wsgi.application(self.environ, self.bytes, self.ctx)
+        # Make sure the built-in exception catcher is not kicking in.
+        self.assertEqual(status, expected_status)
+        header_dict = dict(response_headers)
+        self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
         self.assertTrue(output_list)
         if self.gzip_compress:
             output_bytes = xmlrpc.client.gzip_decode(output_list[0])
@@ -74,41 +65,33 @@ class TestWsgi(unittest.TestCase):
 
     def get_txt_for_path(self, path: str) -> str:
         """Generates a string for a given wsgi path."""
-        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
-            # Make sure the built-in exception catcher is not kicking in.
-            self.assertEqual(status, "200 OK")
-            header_dict = dict(response_headers)
-            if path.endswith(".chkl"):
-                self.assertEqual(header_dict["Content-type"], "application/octet-stream")
-            else:
-                self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
-
         prefix = self.ctx.get_ini().get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }
-        callback = cast('StartResponse', start_response)
-        output_iterable = wsgi.application(environ, callback, self.ctx)
-        output_list = cast(List[bytes], output_iterable)
+        status, response_headers, output_list = wsgi.application(environ, bytes(), self.ctx)
+        # Make sure the built-in exception catcher is not kicking in.
+        self.assertEqual(status, "200 OK")
+        header_dict = dict(response_headers)
+        if path.endswith(".chkl"):
+            self.assertEqual(header_dict["Content-type"], "application/octet-stream")
+        else:
+            self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
         self.assertTrue(output_list)
         output = output_list[0].decode('utf-8')
         return output
 
     def get_css_for_path(self, path: str) -> str:
         """Generates a string for a given wsgi path."""
-        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
-            # Make sure the built-in exception catcher is not kicking in.
-            self.assertEqual(status, "200 OK")
-            header_dict = dict(response_headers)
-            self.assertEqual(header_dict["Content-type"], "text/css; charset=utf-8")
-
         prefix = self.ctx.get_ini().get_uri_prefix()
         environ = {
             "PATH_INFO": prefix + path
         }
-        callback = cast('StartResponse', start_response)
-        output_iterable = wsgi.application(environ, callback, self.ctx)
-        output_list = cast(List[bytes], output_iterable)
+        status, response_headers, output_list = wsgi.application(environ, bytes(), self.ctx)
+        # Make sure the built-in exception catcher is not kicking in.
+        self.assertEqual(status, "200 OK")
+        header_dict = dict(response_headers)
+        self.assertEqual(header_dict["Content-type"], "text/css; charset=utf-8")
         self.assertTrue(output_list)
         output = output_list[0].decode('utf-8')
         return output
@@ -710,16 +693,11 @@ class TestMain(TestWsgi):
             "PATH_INFO": "/"
         }
 
-        def start_response(status: str, response_headers: List[Tuple[str, str]]) -> None:
-            self.assertTrue(status.startswith("500"))
-            header_dict = dict(response_headers)
-            self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
+        status, response_headers, output_list = wsgi.application(environ, bytes(), ctx)
+        self.assertTrue(status.startswith("500"))
+        header_dict = dict(response_headers)
+        self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        callback = cast('StartResponse', start_response)
-
-        output_iterable = wsgi.application(environ, callback, ctx)
-
-        output_list = cast(List[bytes], output_iterable)
         self.assertTrue(output_list)
         output = output_list[0].decode('utf-8')
         self.assertIn("TestError", output)
@@ -733,10 +711,7 @@ class TestWebhooks(TestWsgi):
         payload = json.dumps(root)
         body = {"payload": [payload]}
         query_string = urllib.parse.urlencode(body, doseq=True)
-        buf = io.BytesIO()
-        buf.write(query_string.encode('utf-8'))
-        buf.seek(0)
-        self.environ["wsgi.input"] = buf
+        self.bytes = query_string.encode('utf-8')
         ctx = test_context.make_test_context()
         expected_args = "make -C " + ctx.get_abspath("") + " deploy"
         outputs = {
@@ -758,9 +733,7 @@ class TestWebhooks(TestWsgi):
         payload = json.dumps(root)
         body = {"payload": [payload]}
         query_string = urllib.parse.urlencode(body, doseq=True)
-        buf = io.BytesIO()
-        buf.write(query_string.encode('utf-8'))
-        buf.seek(0)
+        buf = query_string.encode('utf-8')
         webframe.handle_github_webhook(buf, ctx)
         self.assertEqual(subprocess.get_runs(), [])
 

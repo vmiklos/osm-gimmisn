@@ -63,12 +63,6 @@ pub fn get_footer(last_updated: &str) -> yattag::Doc {
     doc
 }
 
-#[pyfunction]
-fn py_get_footer(last_updated: &str) -> yattag::PyDoc {
-    let ret = get_footer(last_updated);
-    yattag::PyDoc { doc: ret }
-}
-
 /// Fills items with function-specific links in the header. Returns the extended list.
 fn fill_header_function(
     ctx: &context::Context,
@@ -375,7 +369,7 @@ fn fill_existing_header_items(
 }
 
 /// Emit localized strings for JS purposes.
-fn emit_l10n_strings_for_js(doc: &yattag::Doc, string_pairs: &[(&str, String)]) {
+pub fn emit_l10n_strings_for_js(doc: &yattag::Doc, string_pairs: &[(&str, String)]) {
     let _div = doc.tag("div", &[("style", "display: none;")]);
     for (key, value) in string_pairs {
         let _div = doc.tag("div", &[("id", key), ("data-value", value)]);
@@ -503,36 +497,6 @@ pub fn get_toolbar(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_get_toolbar(
-    ctx: context::PyContext,
-    relations: Option<areas::PyRelations>,
-    function: &str,
-    relation_name: &str,
-    relation_osmid: u64,
-) -> PyResult<yattag::PyDoc> {
-    let relations = match relations {
-        Some(value) => Some(value.relations),
-        None => None,
-    };
-    let ret = match get_toolbar(
-        &ctx.context,
-        &relations,
-        function,
-        relation_name,
-        relation_osmid,
-    ) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_toolbar() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok(yattag::PyDoc { doc: ret })
-}
-
 pub type Headers = Vec<(String, String)>;
 
 /// Handles serving static content.
@@ -603,7 +567,7 @@ fn py_handle_static(
     ))
 }
 
-/// A HTTP response, to be sent by send_response().
+/// A HTTP response, to be sent by compress_response().
 #[derive(Clone)]
 pub struct Response {
     content_type: String,
@@ -681,7 +645,7 @@ impl PyResponse {
 }
 
 /// Turns an output string into a byte array and sends it.
-pub fn send_response(
+pub fn compress_response(
     environ: &HashMap<String, String>,
     response: &Response,
 ) -> anyhow::Result<(String, Headers, Vec<Vec<u8>>)> {
@@ -726,15 +690,16 @@ pub fn send_response(
 }
 
 #[pyfunction]
-fn py_send_response(
+fn py_compress_response(
     environ: HashMap<String, String>,
     response: PyResponse,
 ) -> PyResult<(String, Headers, Vec<PyObject>)> {
-    let (status, headers, output_byte_list) = match send_response(&environ, &response.response) {
+    let (status, headers, output_byte_list) = match compress_response(&environ, &response.response)
+    {
         Ok(value) => value,
         Err(err) => {
             return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "send_response() failed: {}",
+                "compress_response() failed: {}",
                 err.to_string()
             )));
         }
@@ -768,7 +733,7 @@ fn handle_exception(
         doc.text(error);
     }
     let response_properties = Response::new("text/html", status, doc.get_value().as_bytes(), &[]);
-    send_response(environ, &response_properties)
+    compress_response(environ, &response_properties)
 }
 
 #[pyfunction]
@@ -1361,13 +1326,8 @@ pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
 }
 
 /// Handles a GitHub style webhook.
-fn handle_github_webhook(
-    stream: &mut dyn Read,
-    ctx: &context::Context,
-) -> anyhow::Result<yattag::Doc> {
-    let mut buffer = Vec::new();
-    stream.read_to_end(&mut buffer)?;
-    let prefixed = format!("http://www.example.com/?{}", String::from_utf8(buffer)?);
+fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::Result<yattag::Doc> {
+    let prefixed = format!("http://www.example.com/?{}", String::from_utf8(data)?);
     let url = reqwest::Url::parse(&prefixed)?;
     let body = url.query_pairs();
     let payloads: Vec<String> = body
@@ -1406,49 +1366,26 @@ fn handle_github_webhook(
 }
 
 #[pyfunction]
-fn py_handle_github_webhook(stream: PyObject, ctx: context::PyContext) -> PyResult<yattag::PyDoc> {
-    let gil = Python::acquire_gil();
-    let any = match stream.call_method0(gil.python(), "read") {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "read() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    let bytes = match any.as_ref(gil.python()).downcast::<PyBytes>() {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "read() didn't return bytes: {}",
-                err.to_string()
-            )));
-        }
-    };
-    let mut read: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(bytes.extract().unwrap());
-    let doc = match handle_github_webhook(&mut read, &ctx.context)
-        .context("handle_github_webhook() failed")
-    {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
-        }
-    };
+fn py_handle_github_webhook(data: Vec<u8>, ctx: context::PyContext) -> PyResult<yattag::PyDoc> {
+    let doc =
+        match handle_github_webhook(data, &ctx.context).context("handle_github_webhook() failed") {
+            Ok(value) => value,
+            Err(err) => {
+                return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
+            }
+        };
 
     Ok(yattag::PyDoc { doc })
 }
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_get_footer, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_fill_missing_header_items,
         module
     )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_toolbar, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_static, module)?)?;
     module.add_class::<PyResponse>()?;
-    module.add_function(pyo3::wrap_pyfunction!(py_send_response, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_compress_response, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_exception, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_404, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_stats, module)?)?;

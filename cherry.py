@@ -15,7 +15,6 @@ from typing import TYPE_CHECKING
 import cherrypy  # type: ignore
 
 import context
-import rust
 import wsgi
 
 if TYPE_CHECKING:
@@ -23,7 +22,22 @@ if TYPE_CHECKING:
     from wsgiref.types import StartResponse
 
 
-def main(ctx: rust.PyContext) -> None:
+def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
+    """Wraps wsgi.application() to a wsgi app for cherrypy."""
+    ctx = context.make_context("")
+    request_headers: Dict[str, str] = {}
+    request_data = bytes()
+    for key, value in environ.items():
+        if key in ("HTTP_ACCEPT_ENCODING", "HTTP_ACCEPT_LANGUAGE", "PATH_INFO"):
+            request_headers[key] = value
+        elif key == "wsgi.input":
+            request_data = value.read()
+    status, headers, data = wsgi.application(request_headers, request_data, ctx)
+    start_response(status, headers)
+    return data
+
+
+def main() -> None:
     """
     Commandline interface to this module.
 
@@ -34,13 +48,12 @@ def main(ctx: rust.PyContext) -> None:
     ProxyPass / http://127.0.0.1:8000/
     ProxyPassReverse / http://127.0.0.1:8000/
     """
-    def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
-        return wsgi.application(environ, start_response, ctx)
     cherrypy.tree.graft(app, "/")
     cherrypy.server.unsubscribe()
     # This is documented at <https://docs.cherrypy.org/en/latest/advanced.html>, so:
     # pylint: disable=protected-access
     server = cherrypy._cpserver.Server()
+    ctx = context.make_context("")
     server.socket_host = "127.0.0.1"
     server.socket_port = ctx.get_ini().get_tcp_port()
     server.thread_pool = 8
@@ -50,6 +63,6 @@ def main(ctx: rust.PyContext) -> None:
 
 
 if __name__ == "__main__":
-    main(context.make_context(""))
+    main()
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -7,13 +7,10 @@
 
 """The wsgi module contains functionality specific to the web interface."""
 
-from typing import Any
 from typing import Callable
 from typing import Dict
-from typing import Iterable
 from typing import List
 from typing import Optional
-from typing import TYPE_CHECKING
 from typing import Tuple
 import os
 import traceback
@@ -27,10 +24,6 @@ import util
 import webframe
 import wsgi_additional
 import wsgi_json
-
-if TYPE_CHECKING:
-    # pylint: disable=no-name-in-module,import-error,unused-import
-    from wsgiref.types import StartResponse
 
 
 def handle_streets(ctx: rust.PyContext, relations: rust.PyRelations, request_uri: str) -> yattag.Doc:
@@ -86,268 +79,21 @@ def handle_additional_housenumbers(
     return rust.py_handle_additional_housenumbers(ctx, relations, request_uri)
 
 
-def handle_main_housenr_percent(ctx: rust.PyContext, relation: rust.PyRelation) -> Tuple[yattag.Doc, str]:
-    """Handles the house number percent part of the main page."""
-    return rust.py_handle_main_housenr_percent(ctx, relation)
-
-
-def handle_main_street_percent(ctx: rust.PyContext, relation: rust.PyRelation) -> Tuple[yattag.Doc, str]:
-    """Handles the street percent part of the main page."""
-    return rust.py_handle_main_street_percent(ctx, relation)
-
-
-def handle_main_street_additional_count(ctx: rust.PyContext, relation: rust.PyRelation) -> yattag.Doc:
-    """Handles the street additional count part of the main page."""
-    return rust.py_handle_main_street_additional_count(ctx, relation)
-
-
 def handle_main_housenr_additional_count(ctx: rust.PyContext, relation: rust.PyRelation) -> yattag.Doc:
     """Handles the housenumber additional count part of the main page."""
     return rust.py_handle_main_housenr_additional_count(ctx, relation)
-
-
-def filter_for_everything(_complete: bool, _relation: rust.PyRelation) -> bool:
-    """Does not filter out anything."""
-    return True
-
-
-def filter_for_incomplete(complete: bool, _relation: rust.PyRelation) -> bool:
-    """Filters out complete items."""
-    return not complete
-
-
-def create_filter_for_refcounty(refcounty_filter: str) -> Callable[[bool, rust.PyRelation], bool]:
-    """Creates a function that filters for a single refcounty."""
-    return lambda _complete, relation: relation.get_config().get_refcounty() == refcounty_filter
-
-
-def create_filter_for_relations(relation_filter: str) -> Callable[[bool, rust.PyRelation], bool]:
-    """Creates a function that filters for the specified relations."""
-    relations: List[int] = []
-    if relation_filter:
-        relations = [int(i) for i in relation_filter.split(",")]
-    return lambda _complete, relation: relation.get_config().get_osmrelation() in relations
-
-
-def create_filter_for_refcounty_refsettlement(
-        refcounty_filter: str,
-        refsettlement_filter: str
-) -> Callable[[bool, rust.PyRelation], bool]:
-    """Creates a function that filters for a single refsettlement in a refcounty."""
-    def filter_for(_complete: bool, relation: rust.PyRelation) -> bool:
-        r_config = relation.get_config()
-        return r_config.get_refcounty() == refcounty_filter and r_config.get_refsettlement() == refsettlement_filter
-    return filter_for
-
-
-def handle_main_filters_refcounty(
-    ctx: rust.PyContext,
-    relations: rust.PyRelations,
-    refcounty_id: str,
-    refcounty: str
-) -> yattag.Doc:
-    """Handles one refcounty in the filter part of the main wsgi page."""
-    doc = yattag.Doc()
-    name = relations.refcounty_get_name(refcounty)
-    if not name:
-        return doc
-
-    prefix = ctx.get_ini().get_uri_prefix()
-    with doc.tag("a", [("href", prefix + "/filter-for/refcounty/" + refcounty + "/whole-county")]):
-        doc.text(name)
-    if refcounty_id and refcounty == refcounty_id:
-        refsettlement_ids = relations.refcounty_get_refsettlement_ids(refcounty_id)
-        if refsettlement_ids:
-            names: List[yattag.Doc] = []
-            for refsettlement_id in refsettlement_ids:
-                name = relations.refsettlement_get_name(refcounty_id, refsettlement_id)
-                name_doc = yattag.Doc()
-                href_format = prefix + "/filter-for/refcounty/{}/refsettlement/{}"
-                with name_doc.tag("a", [("href", href_format.format(refcounty, refsettlement_id))]):
-                    name_doc.text(name)
-                names.append(name_doc)
-            doc.text(" (")
-            for index, item in enumerate(names):
-                if index:
-                    doc.text(", ")
-                doc.append_value(item.get_value())
-            doc.text(")")
-    return doc
-
-
-def handle_main_filters(ctx: rust.PyContext, relations: rust.PyRelations, refcounty_id: str) -> yattag.Doc:
-    """Handlers the filter part of the main wsgi page."""
-    items: List[yattag.Doc] = []
-
-    doc = yattag.Doc()
-    with doc.tag("span", [("id", "filter-based-on-position")]):
-        with doc.tag("a", [("href", "#")]):
-            doc.text(tr("Based on position"))
-    items.append(doc)
-
-    doc = yattag.Doc()
-    prefix = ctx.get_ini().get_uri_prefix()
-    with doc.tag("a", [("href", prefix + "/filter-for/everything")]):
-        doc.text(tr("Show complete areas"))
-    items.append(doc)
-
-    # Sorted set of refcounty values of all relations.
-    for refcounty in sorted({relation.get_config().get_refcounty() for relation in relations.get_relations()}):
-        items.append(handle_main_filters_refcounty(ctx, relations, refcounty_id, refcounty))
-    doc = yattag.Doc()
-    with doc.tag("h1", []):
-        doc.text(tr("Where to map?"))
-    with doc.tag("p", []):
-        doc.text(tr("Filters:") + " ")
-        for index, item in enumerate(items):
-            if index:
-                doc.text(" ¦ ")
-            doc.append_value(item.get_value())
-
-    # Emit localized strings for JS purposes.
-    with doc.tag("div", [("style", "display: none;")]):
-        string_pairs = [
-            ("str-gps-wait", tr("Waiting for GPS...")),
-            ("str-gps-error", tr("Error from GPS: ")),
-            ("str-overpass-wait", tr("Waiting for Overpass...")),
-            ("str-overpass-error", tr("Error from Overpass: ")),
-            ("str-relations-wait", tr("Waiting for relations...")),
-            ("str-relations-error", tr("Error from relations: ")),
-            ("str-redirect-wait", tr("Waiting for redirect...")),
-        ]
-        for key, value in string_pairs:
-            with doc.tag("div", [("id", key), ("data-value", value)]):
-                pass
-    return doc
-
-
-def setup_main_filter_for(request_uri: str) -> Tuple[Callable[[bool, rust.PyRelation], bool], str]:
-    """Sets up a filter-for function from request uri: only certain areas are shown then."""
-    tokens = request_uri.split("/")
-    filter_for: Callable[[bool, rust.PyRelation], bool] = filter_for_incomplete
-    filters = util.parse_filters(tokens)
-    refcounty = ""
-    if "incomplete" in filters:
-        # /osm/filter-for/incomplete
-        filter_for = filter_for_incomplete
-    elif "everything" in filters:
-        # /osm/filter-for/everything
-        filter_for = filter_for_everything
-    elif "refcounty" in filters and "refsettlement" in filters:
-        # /osm/filter-for/refcounty/<value>/refsettlement/<value>
-        refcounty = filters["refcounty"]
-        filter_for = create_filter_for_refcounty_refsettlement(filters["refcounty"], filters["refsettlement"])
-    elif "refcounty" in filters:
-        # /osm/filter-for/refcounty/<value>/whole-county
-        refcounty = filters["refcounty"]
-        filter_for = create_filter_for_refcounty(refcounty)
-    elif "relations" in filters:
-        # /osm/filter-for/relations/<id1>,<id2>
-        relations = filters["relations"]
-        filter_for = create_filter_for_relations(relations)
-    return filter_for, refcounty
-
-
-def handle_main_relation(
-        ctx: rust.PyContext,
-        relations: rust.PyRelations,
-        filter_for: Callable[[bool, rust.PyRelation], bool],
-        relation_name: str
-) -> List[yattag.Doc]:
-    """Handles one relation (one table row) on the main page."""
-    relation = relations.get_relation(relation_name)
-    # If checking both streets and house numbers, then "is complete" refers to both street and
-    # housenr coverage for "hide complete" purposes.
-    complete = True
-
-    streets = relation.get_config().should_check_missing_streets()
-
-    row = []  # List[yattag.Doc]
-    row.append(yattag.Doc.from_text(relation_name))
-
-    if streets != "only":
-        cell, percent = handle_main_housenr_percent(ctx, relation)
-        doc = yattag.Doc()
-        doc.append_value(cell.get_value())
-        row.append(doc)
-        complete &= float(percent) >= 100.0
-
-        row.append(handle_main_housenr_additional_count(ctx, relation))
-    else:
-        row.append(yattag.Doc())
-        row.append(yattag.Doc())
-
-    if streets != "no":
-        cell, percent = handle_main_street_percent(ctx, relation)
-        row.append(cell)
-        complete &= float(percent) >= 100.0
-    else:
-        row.append(yattag.Doc())
-
-    if streets != "no":
-        row.append(handle_main_street_additional_count(ctx, relation))
-    else:
-        row.append(yattag.Doc())
-
-    doc = yattag.Doc()
-    with doc.tag("a", [("href", "https://www.openstreetmap.org/relation/" + str(relation.get_config().get_osmrelation()))]):
-        doc.text(tr("area boundary"))
-    row.append(doc)
-
-    if not filter_for(complete, relation):
-        row.clear()
-
-    return row
 
 
 def handle_main(request_uri: str, ctx: rust.PyContext, relations: rust.PyRelations) -> yattag.Doc:
     """Handles the main wsgi page.
 
     Also handles /osm/filter-for/* which filters for a condition."""
-    filter_for, refcounty = setup_main_filter_for(request_uri)
-
-    doc = yattag.Doc()
-    doc.append_value(webframe.get_toolbar(ctx, relations, function=str(), relation_name=str(), relation_osmid=0).get_value())
-
-    doc.append_value(handle_main_filters(ctx, relations, refcounty).get_value())
-    table = []
-    table.append([yattag.Doc.from_text(tr("Area")),
-                  yattag.Doc.from_text(tr("House number coverage")),
-                  yattag.Doc.from_text(tr("Additional house numbers")),
-                  yattag.Doc.from_text(tr("Street coverage")),
-                  yattag.Doc.from_text(tr("Additional streets")),
-                  yattag.Doc.from_text(tr("Area boundary"))])
-    for relation_name in relations.get_names():
-        row = handle_main_relation(ctx, relations, filter_for, relation_name)
-        if row:
-            table.append(row)
-    doc.append_value(util.html_table_from_list(table).get_value())
-    with doc.tag("p", []):
-        with doc.tag("a", [("href", "https://github.com/vmiklos/osm-gimmisn/tree/master/doc")]):
-            doc.text(tr("Add new area"))
-
-    doc.append_value(webframe.get_footer(last_updated=str()).get_value())
-    return doc
+    return rust.py_handle_main(request_uri, ctx, relations)
 
 
 def get_html_title(request_uri: str) -> str:
     """Determines the HTML title for a given function and relation name."""
-    tokens = request_uri.split("/")
-    function = ""
-    relation_name = ""
-    if len(tokens) > 3:
-        function = tokens[2]
-        relation_name = tokens[3]
-    title = ""
-    if function == "missing-housenumbers":
-        title = " - " + tr("{0} missing house numbers").format(relation_name)
-    elif function == "missing-streets":
-        title = " - " + relation_name + " " + tr("missing streets")
-    elif function == "street-housenumbers":
-        title = " - " + relation_name + " " + tr("existing house numbers")
-    elif function == "streets":
-        title = " - " + relation_name + " " + tr("existing streets")
-    return title
+    return rust.py_get_html_title(request_uri)
 
 
 def write_html_head(ctx: rust.PyContext, doc: yattag.Doc, title: str) -> None:
@@ -376,12 +122,10 @@ def write_html_head(ctx: rust.PyContext, doc: yattag.Doc, title: str) -> None:
 
 
 def our_application_txt(
-        environ: Dict[str, Any],
-        start_response: 'StartResponse',
         ctx: rust.PyContext,
         relations: rust.PyRelations,
         request_uri: str
-) -> Iterable[bytes]:
+) -> rust.PyResponse:
     """Dispatches plain text requests based on their URIs."""
     content_type = "text/plain"
     headers: List[Tuple[str, str]] = []
@@ -408,11 +152,7 @@ def our_application_txt(
         else:  # assume txt
             output = missing_housenumbers_view_txt(ctx, relations, request_uri)
     output_bytes = util.to_bytes(output)
-    response_properties = webframe.make_response(content_type, "200 OK", output_bytes, headers)
-    filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
-    status, headers, output_byte_list = webframe.send_response(filtered_environ, response_properties)
-    start_response(status, headers)
-    return output_byte_list
+    return webframe.make_response(content_type, "200 OK", output_bytes, headers)
 
 
 HANDLERS = {
@@ -439,89 +179,70 @@ def get_handler(
 
 
 def our_application(
-        environ: Dict[str, Any],
-        start_response: 'StartResponse',
+        request_headers: Dict[str, str],
+        request_data: bytes,
         ctx: rust.PyContext
-) -> Tuple[Iterable[bytes], str]:
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
     """Dispatches the request based on its URI."""
-    try:
-        language = util.setup_localization([(k, v) for k, v in environ.items() if isinstance(v, str)])
+    language = util.setup_localization(list(request_headers.items()))
 
-        relations = areas.make_relations(ctx)
+    relations = areas.make_relations(ctx)
 
-        filtered_environ = {k: v for k, v in environ.items() if k == "PATH_INFO"}
-        request_uri = webframe.get_request_uri(filtered_environ, ctx, relations)
-        _, _, ext = request_uri.partition('.')
+    request_uri = webframe.get_request_uri(request_headers, ctx, relations)
+    _, _, ext = request_uri.partition('.')
 
-        if ext in ("txt", "chkl"):
-            return our_application_txt(environ, start_response, ctx, relations, request_uri), str()
+    if ext in ("txt", "chkl"):
+        return webframe.compress_response(request_headers, our_application_txt(ctx, relations, request_uri))
 
-        if not (request_uri == "/" or request_uri.startswith(ctx.get_ini().get_uri_prefix())):
-            doc = webframe.handle_404()
-            response = webframe.make_response("text/html", "404 Not Found", util.to_bytes(doc.get_value()), [])
-            filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
-            status, headers, output_byte_list = webframe.send_response(filtered_environ, response)
-            start_response(status, headers)
-            return output_byte_list, str()
+    if not (request_uri == "/" or request_uri.startswith(ctx.get_ini().get_uri_prefix())):
+        doc = webframe.handle_404()
+        response = webframe.make_response("text/html", "404 Not Found", util.to_bytes(doc.get_value()), [])
+        return webframe.compress_response(request_headers, response)
 
-        if request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/static/") or \
-                request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
-            output, content_type, headers = webframe.handle_static(ctx, request_uri)
-            filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
-            status, headers, output_byte_list = webframe.send_response(filtered_environ,
-                                                                       webframe.make_response(content_type, "200 OK", output, headers))
-            start_response(status, headers)
-            return output_byte_list, str()
+    if request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/static/") or \
+            request_uri.endswith("favicon.ico") or request_uri.endswith("favicon.svg"):
+        output, content_type, headers = webframe.handle_static(ctx, request_uri)
+        response = webframe.make_response(content_type, "200 OK", output, headers)
+        return webframe.compress_response(request_headers, response)
 
-        if ext == "json":
-            filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
-            status, headers, output_byte_list = wsgi_json.our_application_json(filtered_environ, ctx, relations, request_uri)
-            start_response(status, headers)
-            return output_byte_list, str()
+    if ext == "json":
+        return wsgi_json.our_application_json(request_headers, ctx, relations, request_uri)
 
-        doc = yattag.Doc()
-        util.write_html_header(doc)
-        with doc.tag("html", [("lang", language)]):
-            write_html_head(ctx, doc, get_html_title(request_uri))
+    doc = yattag.Doc()
+    util.write_html_header(doc)
+    with doc.tag("html", [("lang", language)]):
+        write_html_head(ctx, doc, get_html_title(request_uri))
 
-            with doc.tag("body", []):
-                no_such_relation = webframe.check_existing_relation(ctx, relations, request_uri)
-                handler = get_handler(ctx, request_uri)
-                if no_such_relation.get_value():
-                    doc.append_value(no_such_relation.get_value())
-                elif handler:
-                    doc.append_value(handler(ctx, relations, request_uri).get_value())
-                elif request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/webhooks/github"):
-                    doc.append_value(webframe.handle_github_webhook(environ["wsgi.input"], ctx).get_value())
-                else:
-                    doc.append_value(handle_main(request_uri, ctx, relations).get_value())
+        with doc.tag("body", []):
+            no_such_relation = webframe.check_existing_relation(ctx, relations, request_uri)
+            handler = get_handler(ctx, request_uri)
+            if no_such_relation.get_value():
+                doc.append_value(no_such_relation.get_value())
+            elif handler:
+                doc.append_value(handler(ctx, relations, request_uri).get_value())
+            elif request_uri.startswith(ctx.get_ini().get_uri_prefix() + "/webhooks/github"):
+                doc.append_value(webframe.handle_github_webhook(request_data, ctx).get_value())
+            else:
+                doc.append_value(handle_main(request_uri, ctx, relations).get_value())
 
-        err = ctx.get_unit().make_error()
-        if err:
-            return [], err
-        filtered_environ = {k: v for k, v in environ.items() if k == "HTTP_ACCEPT_ENCODING"}
-        status, headers, output_byte_list = webframe.send_response(filtered_environ,
-                                                                   webframe.make_response("text/html", "200 OK", util.to_bytes(doc.get_value()), []))
-        start_response(status, headers)
-        return output_byte_list, err
-    # pylint: disable=broad-except
-    except Exception:  # pragma: no cover
-        return [], traceback.format_exc()
+    err = ctx.get_unit().make_error()
+    if err:
+        raise OSError(err)
+    response = webframe.make_response("text/html", "200 OK", util.to_bytes(doc.get_value()), [])
+    return webframe.compress_response(request_headers, response)
 
 
 def application(
-        environ: Dict[str, Any],
-        start_response: 'StartResponse',
+        request_headers: Dict[str, str],
+        request_data: bytes,
         ctx: rust.PyContext
-) -> Iterable[bytes]:
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
     """The entry point of this WSGI app."""
-    ret, err = our_application(environ, start_response, ctx)
-    if err:
-        filtered_environ = {k: v for k, v in environ.items() if k in ("HTTP_ACCEPT_ENCODING", "PATH_INFO")}
-        status, headers, output_bytes_list = webframe.handle_exception(filtered_environ, err)
-        start_response(status, headers)
-        return output_bytes_list
-    return ret
+    try:
+        return our_application(request_headers, request_data, ctx)
+    # pylint: disable=broad-except
+    except Exception:  # pragma: no cover
+        return webframe.handle_exception(request_headers, traceback.format_exc())
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

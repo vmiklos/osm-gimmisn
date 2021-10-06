@@ -868,10 +868,6 @@ def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyConte
     """Commandline interface."""
     ...
 
-def py_get_footer(last_updated: str) -> PyDoc:
-    """Produces the end of the page."""
-    ...
-
 def py_fill_missing_header_items(
     ctx: PyContext,
     streets: str,
@@ -882,24 +878,12 @@ def py_fill_missing_header_items(
     """Generates the 'missing house numbers/streets' part of the header."""
     ...
 
-def py_get_toolbar(
-        ctx: PyContext,
-        relations: Optional[PyRelations],
-        function: str,
-        relation_name: str,
-        relation_osmid: int
-) -> PyDoc:
-    """Produces the start of the page. Note that the content depends on the function and the
-    relation, but not on the action to keep a balance between too generic and too specific
-    content."""
-    ...
-
 def py_handle_static(ctx: PyContext, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
     """Handles serving static content."""
     ...
 
 class PyResponse:
-    """A HTTP response, to be sent by send_response()."""
+    """A HTTP response, to be sent by compress_response()."""
     def __init__(self, content_type: str, status: str, output_bytes: bytes, headers: List[Tuple[str, str]]) -> None:
         ...
 
@@ -919,7 +903,7 @@ class PyResponse:
         """Gets the HTTP headers."""
         ...
 
-def py_send_response(
+def py_compress_response(
         environ: Dict[str, str],
         response: PyResponse
 ) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
@@ -957,7 +941,7 @@ def py_handle_no_ref_housenumbers(prefix: str, relation_name: str) -> PyDoc:
     """Handles the no-ref-housenumbers error on a page using JS."""
     ...
 
-def py_handle_github_webhook(stream: BinaryIO, ctx: PyContext) -> PyDoc:
+def py_handle_github_webhook(data: bytes, ctx: PyContext) -> PyDoc:
     """Handles a GitHub style webhook."""
     ...
 
@@ -1043,20 +1027,18 @@ def py_handle_additional_housenumbers(
     """Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query]."""
     ...
 
-def py_handle_main_housenr_percent(ctx: PyContext, relation: PyRelation) -> Tuple[PyDoc, str]:
-    """Handles the house number percent part of the main page."""
-    ...
-
-def py_handle_main_street_percent(ctx: PyContext, relation: PyRelation) -> Tuple[PyDoc, str]:
-    """Handles the street percent part of the main page."""
-    ...
-
-def py_handle_main_street_additional_count(ctx: PyContext, relation: PyRelation) -> PyDoc:
-    """Handles the street additional count part of the main page."""
-    ...
-
 def py_handle_main_housenr_additional_count(ctx: PyContext, relation: PyRelation) -> PyDoc:
     """Handles the housenumber additional count part of the main page."""
+    ...
+
+def py_handle_main(request_uri: str, ctx: PyContext, relations: PyRelations) -> PyDoc:
+    """Handles the main wsgi page.
+
+    Also handles /osm/filter-for/* which filters for a condition."""
+    ...
+
+def py_get_html_title(request_uri: str) -> str:
+    """Determines the HTML title for a given function and relation name."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
