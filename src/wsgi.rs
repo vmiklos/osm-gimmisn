@@ -18,9 +18,14 @@ use crate::overpass_query;
 use crate::util;
 use crate::webframe;
 use crate::wsgi_additional;
+use crate::wsgi_json;
 use crate::yattag;
+use anyhow::anyhow;
 use anyhow::Context;
+use lazy_static::lazy_static;
 use pyo3::prelude::*;
+use pyo3::types::PyBytes;
+use std::collections::HashMap;
 use std::ops::DerefMut;
 use std::sync::Arc;
 
@@ -102,20 +107,6 @@ fn handle_streets(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_handle_streets(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match handle_streets(&ctx.context, &mut relations.relations, request_uri)
-        .context("handle_streets() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Gets the update date of house numbers for a relation.
 fn get_housenumbers_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
     Ok(get_last_modified(
@@ -192,20 +183,6 @@ fn handle_street_housenumbers(
     let date = get_housenumbers_last_modified(&relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
-}
-
-#[pyfunction]
-fn py_handle_street_housenumbers(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match handle_street_housenumbers(&ctx.context, &mut relations.relations, request_uri)
-        .context("handle_street_housenumbers() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo.
@@ -401,20 +378,6 @@ fn missing_housenumbers_view_txt(
     Ok(output)
 }
 
-#[pyfunction]
-fn py_missing_housenumbers_view_txt(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<String> {
-    match missing_housenumbers_view_txt(&ctx.context, &mut relations.relations, request_uri)
-        .context("missing_housenumbers_view_txt() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl.
 fn missing_housenumbers_view_chkl(
     ctx: &context::Context,
@@ -488,20 +451,6 @@ fn missing_housenumbers_view_chkl(
     Ok((output, relation_name.into()))
 }
 
-#[pyfunction]
-fn py_missing_housenumbers_view_chkl(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<(String, String)> {
-    match missing_housenumbers_view_chkl(&ctx.context, &mut relations.relations, request_uri)
-        .context("missing_housenumbers_view_chkl() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt.
 fn missing_streets_view_txt(
     ctx: &context::Context,
@@ -539,21 +488,6 @@ fn missing_streets_view_txt(
         output = lines.join("");
     }
     Ok((output, relation_name.into()))
-}
-
-#[pyfunction]
-fn py_missing_streets_view_txt(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-    chkl: bool,
-) -> PyResult<(String, String)> {
-    match missing_streets_view_txt(&ctx.context, &mut relations.relations, request_uri, chkl)
-        .context("missing_streets_view_txt() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.
@@ -655,20 +589,6 @@ fn handle_missing_housenumbers(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_handle_missing_housenumbers(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match handle_missing_housenumbers(&ctx.context, &mut relations.relations, request_uri)
-        .context("handle_missing_housenumbers() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Expected request_uri: e.g. /osm/missing-streets/ormezo/view-turbo.
 fn missing_streets_view_turbo(
     relations: &mut areas::Relations,
@@ -747,20 +667,6 @@ fn handle_missing_streets(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_handle_missing_streets(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match handle_missing_streets(&ctx.context, &mut relations.relations, request_uri)
-        .context("handle_missing_streets() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query].
 fn handle_additional_streets(
     ctx: &context::Context,
@@ -801,20 +707,6 @@ fn handle_additional_streets(
     let date = streets_diff_last_modified(&relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
-}
-
-#[pyfunction]
-fn py_handle_additional_streets(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match handle_additional_streets(&ctx.context, &mut relations.relations, request_uri)
-        .context("handle_additional_streets() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Gets the update date for missing/additional housenumbers.
@@ -858,20 +750,6 @@ fn handle_additional_housenumbers(
     let date = housenumbers_diff_last_modified(&relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
-}
-
-#[pyfunction]
-fn py_handle_additional_housenumbers(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    match handle_additional_housenumbers(&ctx.context, &mut relations.relations, request_uri)
-        .context("handle_additional_housenumbers() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Handles the house number percent part of the main page.
@@ -1408,20 +1286,6 @@ fn handle_main(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_handle_main(
-    request_uri: &str,
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-) -> PyResult<yattag::PyDoc> {
-    match handle_main(request_uri, &ctx.context, &mut relations.relations)
-        .context("handle_main() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Determines the HTML title for a given function and relation name.
 fn get_html_title(request_uri: &str) -> String {
     let tokens: Vec<String> = request_uri.split('/').map(|i| i.to_string()).collect();
@@ -1443,44 +1307,263 @@ fn get_html_title(request_uri: &str) -> String {
     }
 }
 
+/// Produces the <head> tag and its contents.
+fn write_html_head(ctx: &context::Context, doc: &yattag::Doc, title: &str) -> anyhow::Result<()> {
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let _head = doc.tag("head", &[]);
+    doc.stag("meta", &[("charset", "UTF-8")]);
+    doc.stag(
+        "meta",
+        &[
+            ("name", "viewport"),
+            ("content", "width=device-width, initial-scale=1"),
+        ],
+    );
+    {
+        let _title = doc.tag("title", &[]);
+        doc.text(&format!("{}{}", tr("Where to map?"), title))
+    }
+    doc.stag(
+        "link",
+        &[
+            ("rel", "icon"),
+            ("type", "image/vnd.microsoft.icon"),
+            ("sizes", "16x12"),
+            ("href", &format!("{}/favicon.ico", prefix)),
+        ],
+    );
+    doc.stag(
+        "link",
+        &[
+            ("rel", "icon"),
+            ("type", "image/svg+xml"),
+            ("sizes", "any"),
+            ("href", &format!("{}/favicon.svg", prefix)),
+        ],
+    );
+
+    let css_path = format!("{}/{}", ctx.get_ini().get_workdir()?, "osm.min.css");
+    let contents = std::fs::read_to_string(css_path)?;
+    {
+        let _style = doc.tag("style", &[]);
+        doc.text(&contents);
+    }
+
+    {
+        let _noscript = doc.tag("noscript", &[]);
+        let _style = doc.tag("style", &[("type", "text/css")]);
+        doc.text(".no-js { display: block; }");
+        doc.text(".js { display: none; }");
+    }
+
+    let _script = doc.tag(
+        "script",
+        &[
+            ("defer", ""),
+            ("src", &format!("{}/static/bundle.js", prefix)),
+        ],
+    );
+    Ok(())
+}
+
+/// Dispatches plain text requests based on their URIs.
+fn our_application_txt(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    request_uri: &str,
+) -> anyhow::Result<webframe::Response> {
+    let mut content_type = "text/plain";
+    let mut headers: Vec<(String, String)> = Vec::new();
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let chkl = match std::path::Path::new(request_uri).extension() {
+        Some(value) => value == "chkl",
+        None => false,
+    };
+    let data: Vec<u8>;
+    if request_uri.starts_with(&format!("{}/missing-streets/", prefix)) {
+        let (output, relation_name) = missing_streets_view_txt(ctx, relations, request_uri, chkl)?;
+        if chkl {
+            content_type = "application/octet-stream";
+            headers.push((
+                "Content-Disposition".into(),
+                format!(r#"attachment;filename="{}.txt""#, relation_name),
+            ));
+        }
+        data = output.as_bytes().to_vec();
+    } else if request_uri.starts_with(&format!("{}/additional-streets/", prefix)) {
+        let (output, relation_name) =
+            wsgi_additional::additional_streets_view_txt(ctx, relations, request_uri, chkl)?;
+        if chkl {
+            content_type = "application/octet-stream";
+            headers.push((
+                "Content-Disposition".into(),
+                format!(r#"attachment;filename="{}.txt""#, relation_name),
+            ));
+        }
+        data = output.as_bytes().to_vec();
+    } else {
+        // assume prefix + "/missing-housenumbers/"
+        if chkl {
+            let (output, relation_name) =
+                missing_housenumbers_view_chkl(ctx, relations, request_uri)?;
+            content_type = "application/octet-stream";
+            headers.push((
+                "Content-Disposition".into(),
+                format!(r#"attachment;filename="{}.txt""#, relation_name),
+            ));
+            data = output.as_bytes().to_vec();
+        } else if request_uri.ends_with("robots.txt") {
+            data = util::get_content(&ctx.get_abspath("data/robots.txt")?)?;
+        } else {
+            // assume txt
+            let output = missing_housenumbers_view_txt(ctx, relations, request_uri)?;
+            data = output.as_bytes().to_vec();
+        }
+    }
+    Ok(webframe::Response::new(
+        content_type,
+        "200 OK",
+        &data,
+        &headers,
+    ))
+}
+
+type Handler = fn(&context::Context, &mut areas::Relations, &str) -> anyhow::Result<yattag::Doc>;
+
+lazy_static! {
+    static ref HANDLERS: HashMap<String, Handler> = {
+        let mut ret: HashMap<String, Handler> = HashMap::new();
+        ret.insert("/streets/".into(), handle_streets);
+        ret.insert("/missing-streets/".into(), handle_missing_streets);
+        ret.insert("/additional-streets/".into(), handle_additional_streets);
+        ret.insert(
+            "/additional-housenumbers/".into(),
+            handle_additional_housenumbers,
+        );
+        ret.insert("/street-housenumbers/".into(), handle_street_housenumbers);
+        ret.insert("/missing-housenumbers/".into(), handle_missing_housenumbers);
+        ret.insert("/housenumber-stats/".into(), webframe::handle_stats);
+        ret
+    };
+}
+
+/// Decides request_uri matches what handler.
+fn get_handler(ctx: &context::Context, request_uri: &str) -> anyhow::Result<Option<Handler>> {
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    for (key, value) in HANDLERS.iter() {
+        if request_uri.starts_with(&format!("{}{}", prefix, key)) {
+            return Ok(Some(*value));
+        }
+    }
+    Ok(None)
+}
+
+/// Dispatches the request based on its URI.
+fn our_application(
+    request_headers: &HashMap<String, String>,
+    request_data: &[u8],
+    ctx: &context::Context,
+) -> anyhow::Result<(String, webframe::Headers, Vec<Vec<u8>>)> {
+    let request_headers_vec: Vec<(String, String)> = request_headers
+        .iter()
+        .map(|(key, value)| (key.into(), value.into()))
+        .collect();
+    let language = util::setup_localization(&request_headers_vec);
+
+    let mut relations = areas::Relations::new(ctx)?;
+
+    let request_uri = webframe::get_request_uri(request_headers, ctx, &mut relations)?;
+    let mut ext: String = "".into();
+    if let Some(value) = std::path::Path::new(&request_uri).extension() {
+        ext = value.to_str().unwrap().into();
+    }
+
+    if ext == "txt" || ext == "chkl" {
+        return webframe::compress_response(
+            request_headers,
+            &our_application_txt(ctx, &mut relations, &request_uri)?,
+        );
+    }
+
+    let prefix = ctx.get_ini().get_uri_prefix()?;
+    if !(request_uri == "/" || request_uri.starts_with(&prefix)) {
+        let doc = webframe::handle_404();
+        let response = webframe::Response::new(
+            "text/html",
+            "404 Not Found",
+            doc.get_value().as_bytes(),
+            &[],
+        );
+        return webframe::compress_response(request_headers, &response);
+    }
+
+    if request_uri.starts_with(&format!("{}/static/", prefix))
+        || request_uri.ends_with("favicon.ico")
+        || request_uri.ends_with("favicon.svg")
+    {
+        let (output, content_type, headers) = webframe::handle_static(ctx, &request_uri)?;
+        let response = webframe::Response::new(&content_type, "200 OK", &output, &headers);
+        return webframe::compress_response(request_headers, &response);
+    }
+
+    if ext == "json" {
+        return wsgi_json::our_application_json(request_headers, ctx, &mut relations, &request_uri);
+    }
+
+    let doc = yattag::Doc::new();
+    util::write_html_header(&doc);
+    {
+        let _html = doc.tag("html", &[("lang", &language)]);
+        write_html_head(ctx, &doc, &get_html_title(&request_uri))?;
+
+        let _body = doc.tag("body", &[]);
+        let no_such_relation = webframe::check_existing_relation(ctx, &relations, &request_uri)?;
+        let handler = get_handler(ctx, &request_uri)?;
+        if !no_such_relation.get_value().is_empty() {
+            doc.append_value(no_such_relation.get_value());
+        } else if let Some(handler) = handler {
+            doc.append_value(handler(ctx, &mut relations, &request_uri)?.get_value());
+        } else if request_uri.starts_with(&format!("{}/webhooks/github", prefix)) {
+            doc.append_value(
+                webframe::handle_github_webhook(request_data.to_vec(), ctx)?.get_value(),
+            );
+        } else {
+            doc.append_value(handle_main(&request_uri, ctx, &mut relations)?.get_value());
+        }
+    }
+
+    let err = ctx.get_unit().make_error();
+    if !err.is_empty() {
+        return Err(anyhow!(err));
+    }
+    let response = webframe::Response::new("text/html", "200 OK", doc.get_value().as_bytes(), &[]);
+    webframe::compress_response(request_headers, &response)
+}
+
 #[pyfunction]
-fn py_get_html_title(request_uri: &str) -> String {
-    get_html_title(request_uri)
+fn py_our_application(
+    request_headers: HashMap<String, String>,
+    request_data: Vec<u8>,
+    ctx: context::PyContext,
+) -> PyResult<(String, webframe::Headers, Vec<PyObject>)> {
+    let gil = Python::acquire_gil();
+    match our_application(&request_headers, &request_data, &ctx.context)
+        .context("our_application() failed")
+    {
+        Ok(response) => Ok((
+            response.0,
+            response.1,
+            vec![PyBytes::new(gil.python(), &response.2[0]).into()],
+        )),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
 }
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_streets, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_street_housenumbers,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_missing_housenumbers_view_txt,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_missing_housenumbers_view_chkl,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_missing_streets_view_txt, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_missing_housenumbers,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_missing_streets, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_additional_streets,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_additional_housenumbers,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_handle_main_housenr_additional_count,
         module
     )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_main, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_html_title, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_our_application, module)?)?;
     Ok(())
 }

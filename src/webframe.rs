@@ -500,7 +500,7 @@ pub fn get_toolbar(
 pub type Headers = Vec<(String, String)>;
 
 /// Handles serving static content.
-fn handle_static(
+pub fn handle_static(
     ctx: &context::Context,
     request_uri: &str,
 ) -> anyhow::Result<(Vec<u8>, String, Headers)> {
@@ -612,38 +612,6 @@ impl Response {
     }
 }
 
-#[pyclass]
-#[derive(Clone)]
-struct PyResponse {
-    response: Response,
-}
-
-#[pymethods]
-impl PyResponse {
-    #[new]
-    fn new(content_type: &str, status: &str, output_bytes: Vec<u8>, headers: Headers) -> Self {
-        let response = Response::new(content_type, status, &output_bytes, &headers);
-        PyResponse { response }
-    }
-
-    fn get_content_type(&self) -> String {
-        self.response.get_content_type().clone()
-    }
-
-    fn get_status(&self) -> String {
-        self.response.get_status().clone()
-    }
-
-    fn get_output_bytes(&self) -> PyObject {
-        let gil = Python::acquire_gil();
-        PyBytes::new(gil.python(), self.response.get_output_bytes()).into()
-    }
-
-    fn get_headers(&self) -> Headers {
-        self.response.get_headers().clone()
-    }
-}
-
 /// Turns an output string into a byte array and sends it.
 pub fn compress_response(
     environ: &HashMap<String, String>,
@@ -687,30 +655,6 @@ pub fn compress_response(
     headers.append(&mut response.get_headers().clone());
     let status = response.get_status();
     Ok((status.into(), headers, vec![output_bytes]))
-}
-
-#[pyfunction]
-fn py_compress_response(
-    environ: HashMap<String, String>,
-    response: PyResponse,
-) -> PyResult<(String, Headers, Vec<PyObject>)> {
-    let (status, headers, output_byte_list) = match compress_response(&environ, &response.response)
-    {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "compress_response() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-
-    let gil = Python::acquire_gil();
-    let output_byte_list: Vec<PyObject> = output_byte_list
-        .iter()
-        .map(|i| PyBytes::new(gil.python(), i).into())
-        .collect();
-    Ok((status, headers, output_byte_list))
 }
 
 /// Displays an unhandled exception on the page.
@@ -760,7 +704,7 @@ fn py_handle_exception(
 }
 
 /// Displays a not-found page.
-fn handle_404() -> yattag::Doc {
+pub fn handle_404() -> yattag::Doc {
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
@@ -786,12 +730,6 @@ pub fn format_timestamp(timestamp: i64) -> String {
     let utc: chrono::DateTime<chrono::Utc> = chrono::DateTime::from_utc(naive, chrono::Utc);
     let local: chrono::DateTime<chrono::Local> = chrono::DateTime::from(utc);
     local.format("%Y-%m-%d %H:%M").to_string()
-}
-
-#[pyfunction]
-fn py_handle_404() -> yattag::PyDoc {
-    let doc = handle_404();
-    yattag::PyDoc { doc }
 }
 
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress.
@@ -954,7 +892,7 @@ fn handle_invalid_refstreets(
 }
 
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/.
-fn handle_stats(
+pub fn handle_stats(
     ctx: &context::Context,
     relations: &mut areas::Relations,
     request_uri: &str,
@@ -1118,26 +1056,8 @@ more meaningful than a lot of useless work."#,
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_handle_stats(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    let doc = match handle_stats(&ctx.context, &mut relations.relations, request_uri)
-        .context("handle_stats() failed")
-    {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
-        }
-    };
-
-    Ok(yattag::PyDoc { doc })
-}
-
 /// Finds out the request URI.
-fn get_request_uri(
+pub fn get_request_uri(
     environ: &HashMap<String, String>,
     ctx: &context::Context,
     relations: &mut areas::Relations,
@@ -1190,7 +1110,7 @@ fn py_get_request_uri(
 }
 
 /// Prevents serving outdated data from a relation that has been renamed.
-fn check_existing_relation(
+pub fn check_existing_relation(
     ctx: &context::Context,
     relations: &areas::Relations,
     request_uri: &str,
@@ -1217,24 +1137,6 @@ fn check_existing_relation(
         doc.text(&tr("No such relation: {0}").replace("{0}", relation_name));
     }
     Ok(doc)
-}
-
-#[pyfunction]
-fn py_check_existing_relation(
-    ctx: context::PyContext,
-    relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<yattag::PyDoc> {
-    let doc = match check_existing_relation(&ctx.context, &relations.relations, request_uri)
-        .context("check_existing_relation() failed")
-    {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
-        }
-    };
-
-    Ok(yattag::PyDoc { doc })
 }
 
 /// Handles the no-osm-streets error on a page using JS.
@@ -1326,7 +1228,7 @@ pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
 }
 
 /// Handles a GitHub style webhook.
-fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::Result<yattag::Doc> {
+pub fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::Result<yattag::Doc> {
     let prefixed = format!("http://www.example.com/?{}", String::from_utf8(data)?);
     let url = reqwest::Url::parse(&prefixed)?;
     let body = url.query_pairs();
@@ -1384,13 +1286,26 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         module
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_static, module)?)?;
-    module.add_class::<PyResponse>()?;
-    module.add_function(pyo3::wrap_pyfunction!(py_compress_response, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_exception, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_404, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_stats, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_check_existing_relation, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_github_webhook, module)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Tests handle_static().
+    #[test]
+    fn test_handle_static() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+        let (content, content_type, extra_headers) =
+            handle_static(&ctx, &format!("{}/static/osm.min.css", prefix)).unwrap();
+        assert_eq!(content.is_empty(), false);
+        assert_eq!(content_type, "text/css");
+        assert_eq!(extra_headers.len(), 1);
+        assert_eq!(extra_headers[0].0, "Last-Modified");
+    }
 }

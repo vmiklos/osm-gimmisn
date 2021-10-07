@@ -15,8 +15,6 @@ use crate::context;
 use crate::overpass_query;
 use crate::webframe;
 use anyhow::Context;
-use pyo3::prelude::*;
-use pyo3::types::PyBytes;
 use std::collections::HashMap;
 
 /// Expected request_uri: e.g. /osm/streets/ormezo/update-result.json.
@@ -28,7 +26,9 @@ fn streets_update_result_json(
     let mut tokens = request_uri.split('/');
     tokens.next_back();
     let relation_name = tokens.next_back().unwrap();
-    let relation = relations.get_relation(relation_name)?;
+    let relation = relations
+        .get_relation(relation_name)
+        .context("get_relation() failed")?;
     let query = relation.get_osm_streets_query()?;
     let mut ret: HashMap<String, String> = HashMap::new();
     match overpass_query::overpass_query(ctx, query) {
@@ -102,7 +102,7 @@ fn missing_streets_update_result_json(
 }
 
 /// Dispatches json requests based on their URIs.
-fn our_application_json(
+pub fn our_application_json(
     environ: &HashMap<String, String>,
     ctx: &context::Context,
     relations: &mut areas::Relations,
@@ -125,37 +125,4 @@ fn our_application_json(
     let output_bytes = output.as_bytes();
     let response = webframe::Response::new(content_type, "200 OK", output_bytes, &headers);
     webframe::compress_response(environ, &response)
-}
-
-#[pyfunction]
-fn py_our_application_json(
-    environ: HashMap<String, String>,
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-) -> PyResult<(String, webframe::Headers, Vec<PyObject>)> {
-    let (status, headers, output_byte_list) = match our_application_json(
-        &environ,
-        &ctx.context,
-        &mut relations.relations,
-        request_uri,
-    )
-    .context("our_application_json() failed")
-    {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
-        }
-    };
-    let gil = Python::acquire_gil();
-    let output_byte_list: Vec<PyObject> = output_byte_list
-        .iter()
-        .map(|i| PyBytes::new(gil.python(), i).into())
-        .collect();
-    Ok((status, headers, output_byte_list))
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_our_application_json, module)?)?;
-    Ok(())
 }

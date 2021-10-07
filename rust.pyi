@@ -242,10 +242,6 @@ def py_get_language() -> str:
     ...
 
 
-def py_translate(english: str) -> str:
-    """Translates English input according to the current UI language."""
-    ...
-
 class PyLetterSuffixStyle:
     @staticmethod
     def upper() -> int:
@@ -450,10 +446,6 @@ def py_setup_localization(headers: List[Tuple[str, str]]) -> str:
 
 def py_gen_link(url: str, label: str) -> PyDoc:
     """Generates a link to a URL with a given label."""
-    ...
-
-def py_write_html_header(doc: PyDoc) -> None:
-    """Produces the verify first line of a HTML output."""
     ...
 
 def py_process_template(buf: str, osmrelation: int) -> str:
@@ -882,34 +874,6 @@ def py_handle_static(ctx: PyContext, request_uri: str) -> Tuple[bytes, str, List
     """Handles serving static content."""
     ...
 
-class PyResponse:
-    """A HTTP response, to be sent by compress_response()."""
-    def __init__(self, content_type: str, status: str, output_bytes: bytes, headers: List[Tuple[str, str]]) -> None:
-        ...
-
-    def get_content_type(self) -> str:
-        """Gets the Content-type value."""
-        ...
-
-    def get_status(self) -> str:
-        """Gets the HTTP status."""
-        ...
-
-    def get_output_bytes(self) -> bytes:
-        """Gets the encoded output."""
-        ...
-
-    def get_headers(self) -> List[Tuple[str, str]]:
-        """Gets the HTTP headers."""
-        ...
-
-def py_compress_response(
-        environ: Dict[str, str],
-        response: PyResponse
-) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
-    """Turns an output string into a byte array and sends it."""
-    ...
-
 def py_handle_exception(
         environ: Dict[str, str],
         error: str
@@ -917,20 +881,8 @@ def py_handle_exception(
     """Displays an unhandled exception on the page."""
     ...
 
-def py_handle_404() -> PyDoc:
-    """Displays a not-found page."""
-    ...
-
-def py_handle_stats(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
-    ...
-
 def py_get_request_uri(environ: Dict[str, str], ctx: PyContext, relations: PyRelations) -> str:
     """Finds out the request URI."""
-    ...
-
-def py_check_existing_relation(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
-    """Prevents serving outdated data from a relation that has been renamed."""
     ...
 
 def py_handle_no_osm_housenumbers(prefix: str, relation_name: str) -> PyDoc:
@@ -965,80 +917,16 @@ def py_get_missing_housenumbers_txt(ctx: PyContext, relation: PyRelation) -> str
     """Gets the cached plain text of the missing housenumbers for a relation."""
     ...
 
-def py_our_application_json(
-        environ: Dict[str, str],
-        ctx: PyContext,
-        relations: PyRelations,
-        request_uri: str
-) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
-    """Dispatches json requests based on their URIs."""
-    ...
-
-def py_additional_streets_view_txt(
-    ctx: PyContext,
-    relations: PyRelations,
-    request_uri: str,
-    chkl: bool
-) -> Tuple[str, str]:
-    """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.txt."""
-    ...
-
-def py_handle_streets(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/streets/ormezo/view-query."""
-    ...
-
-def py_handle_street_housenumbers(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query."""
-    ...
-
-def py_missing_housenumbers_view_txt(ctx: PyContext, relations: PyRelations, request_uri: str) -> str:
-    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt."""
-    ...
-
-def py_missing_housenumbers_view_chkl(
-        ctx: PyContext, relations: PyRelations, request_uri: str
-) -> Tuple[str, str]:
-    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl."""
-    ...
-
-def py_missing_streets_view_txt(
-    ctx: PyContext, relations: PyRelations, request_uri: str, chkl: bool
-) -> Tuple[str, str]:
-    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt."""
-    ...
-
-def py_handle_missing_housenumbers(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query]."""
-    ...
-
-def py_handle_missing_streets(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query]."""
-    ...
-
-def py_handle_additional_streets(ctx: PyContext, relations: PyRelations, request_uri: str) -> PyDoc:
-    """Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query]."""
-    ...
-
-def py_handle_additional_housenumbers(
-    ctx: PyContext,
-    relations: PyRelations,
-    request_uri: str
-) -> PyDoc:
-    """Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query]."""
-    ...
-
 def py_handle_main_housenr_additional_count(ctx: PyContext, relation: PyRelation) -> PyDoc:
     """Handles the housenumber additional count part of the main page."""
     ...
 
-def py_handle_main(request_uri: str, ctx: PyContext, relations: PyRelations) -> PyDoc:
-    """Handles the main wsgi page.
-
-    Also handles /osm/filter-for/* which filters for a condition."""
-    ...
-
-def py_get_html_title(request_uri: str) -> str:
-    """Determines the HTML title for a given function and relation name."""
+def py_our_application(
+        request_headers: Dict[str, str],
+        request_data: bytes,
+        ctx: PyContext
+) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
+    """Dispatches the request based on its URI."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

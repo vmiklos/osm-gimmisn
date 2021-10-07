@@ -643,7 +643,7 @@ impl Subprocess for PyAnySubprocess {
 }
 
 /// Unit testing interface.
-trait Unit: Send + Sync {
+pub trait Unit: Send + Sync {
     /// Injects a fake error.
     fn make_error(&self) -> String;
 }
@@ -980,7 +980,8 @@ impl Context {
         self.subprocess = subprocess.clone();
     }
 
-    fn get_unit(&self) -> &Arc<dyn Unit> {
+    /// Gets the testing interface.
+    pub fn get_unit(&self) -> &Arc<dyn Unit> {
         &self.unit
     }
 
