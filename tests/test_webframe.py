@@ -25,16 +25,6 @@ if TYPE_CHECKING:
 
 class TestHandleStatic(unittest.TestCase):
     """Tests handle_static()."""
-    def test_happy(self) -> None:
-        """Tests the happy path: css case."""
-        ctx = test_context.make_test_context()
-        prefix = ctx.get_ini().get_uri_prefix()
-        content, content_type, extra_headers = webframe.handle_static(ctx, prefix + "/static/osm.min.css")
-        self.assertTrue(len(content))
-        self.assertEqual(content_type, "text/css")
-        self.assertEqual(len(extra_headers), 1)
-        self.assertEqual(extra_headers[0][0], "Last-Modified")
-
     def test_generated_javascript(self) -> None:
         """Tests the generated javascript case."""
         ctx = test_context.make_test_context()

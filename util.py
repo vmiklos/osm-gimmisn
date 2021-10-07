@@ -71,11 +71,6 @@ def gen_link(url: str, label: str) -> rust.PyDoc:
     return rust.py_gen_link(url, label)
 
 
-def write_html_header(doc: rust.PyDoc) -> None:
-    """Produces the verify first line of a HTML output."""
-    return rust.py_write_html_header(doc)
-
-
 def process_template(buf: str, osmrelation: int) -> str:
     """Turns an overpass query template to an actual query."""
     return rust.py_process_template(buf, osmrelation)

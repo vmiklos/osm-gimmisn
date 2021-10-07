@@ -1063,7 +1063,7 @@ fn py_handle_overpass_error(
 }
 
 /// Provides localized strings for this thread.
-fn setup_localization(headers: &[(String, String)]) -> String {
+pub fn setup_localization(headers: &[(String, String)]) -> String {
     let mut languages: String = "".into();
     for (key, value) in headers {
         if key == "HTTP_ACCEPT_LANGUAGE" {
@@ -1106,13 +1106,6 @@ fn py_gen_link(url: String, label: String) -> yattag::PyDoc {
 /// Produces the verify first line of a HTML output.
 pub fn write_html_header(doc: &yattag::Doc) {
     doc.append_value("<!DOCTYPE html>\n".into())
-}
-
-#[pyfunction]
-fn py_write_html_header(py: Python<'_>, doc: PyObject) -> PyResult<()> {
-    let doc: PyRefMut<'_, yattag::PyDoc> = doc.extract(py)?;
-    write_html_header(&doc.doc);
-    Ok(())
 }
 
 /// Turns an overpass query template to an actual query.
@@ -1566,7 +1559,7 @@ pub fn get_in_both<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
 }
 
 /// Gets the content of a file in workdir.
-fn get_content(path: &str) -> anyhow::Result<Vec<u8>> {
+pub fn get_content(path: &str) -> anyhow::Result<Vec<u8>> {
     Ok(std::fs::read(path)?)
 }
 
@@ -1817,7 +1810,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_overpass_error, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_setup_localization, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_gen_link, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_write_html_header, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_process_template, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_html_table_from_list, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(

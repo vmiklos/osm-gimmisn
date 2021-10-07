@@ -18,10 +18,9 @@ use crate::util;
 use crate::webframe;
 use crate::yattag;
 use anyhow::Context;
-use pyo3::prelude::*;
 
 /// Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.txt.
-fn additional_streets_view_txt(
+pub fn additional_streets_view_txt(
     ctx: &context::Context,
     relations: &mut areas::Relations,
     request_uri: &str,
@@ -30,7 +29,9 @@ fn additional_streets_view_txt(
     let mut tokens = request_uri.split('/');
     tokens.next_back();
     let relation_name = tokens.next_back().unwrap();
-    let relation = relations.get_relation(relation_name)?;
+    let relation = relations
+        .get_relation(relation_name)
+        .context("get_relation() failed")?;
 
     let output: String;
     if !ctx
@@ -57,21 +58,6 @@ fn additional_streets_view_txt(
         output = lines.join("");
     }
     Ok((output, relation_name.into()))
-}
-
-#[pyfunction]
-fn py_additional_streets_view_txt(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    request_uri: &str,
-    chkl: bool,
-) -> PyResult<(String, String)> {
-    match additional_streets_view_txt(&ctx.context, &mut relations.relations, request_uri, chkl)
-        .context("additional_streets_view_txt() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result.
@@ -235,12 +221,4 @@ pub fn additional_streets_view_turbo(
     let _pre = doc.tag("pre", &[]);
     doc.text(&query);
     Ok(doc)
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_additional_streets_view_txt,
-        module
-    )?)?;
-    Ok(())
 }

@@ -81,15 +81,9 @@ pub fn translate(english: &str) -> String {
     })
 }
 
-#[pyfunction]
-pub fn py_translate(_py: Python<'_>, english: String) -> String {
-    translate(&english)
-}
-
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_set_language, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_language, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_translate, module)?)?;
     Ok(())
 }
 

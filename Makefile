@@ -30,8 +30,6 @@ PYTHON_SAFE_OBJECTS = \
 	validator.py \
 	webframe.py \
 	wsgi.py \
-	wsgi_additional.py \
-	wsgi_json.py \
 	yattag.py \
 
 # These have bad coverage.
@@ -232,8 +230,8 @@ else
 	./deploy.sh
 endif
 
-update-pot: wsgi.py src/areas.rs src/cache.rs src/util.rs src/webframe.rs src/wsgi.rs src/wsgi_additional.rs Makefile
-	xgettext --keyword=tr --language=Python --add-comments --sort-output --from-code=UTF-8 -o po/osm-gimmisn.pot $(filter %.py %.rs,$^)
+update-pot: src/areas.rs src/cache.rs src/util.rs src/webframe.rs src/wsgi.rs src/wsgi_additional.rs Makefile
+	xtr --keyword=tr --charset UTF-8 -o po/osm-gimmisn.pot $(filter %.rs,$^)
 
 update-po: po/osm-gimmisn.pot Makefile
 	msgmerge --update po/hu/osm-gimmisn.po po/osm-gimmisn.pot
