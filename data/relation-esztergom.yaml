@@ -206,4 +206,4 @@ refstreets:
   'Mindszenty tér': 'Mindszenty hercegprímás tér'  # új táblákon Mindszenty tér
   'Rudnai Molnár István utca': 'Rudinai Molnár István utca'
   'Siszler utca': 'Siszler út'
-inactive: false
+inactive: true

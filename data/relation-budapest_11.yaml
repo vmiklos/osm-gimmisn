@@ -2821,7 +2821,6 @@ filters:
     invalid: ['2a']
 street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon
-  - Alsóhegyi lépcső  # csak házszám van, az utca helye a susnyában
   - Báthori utca  # nem létezik
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
   - Talaj köz  # nem létezik
@@ -2830,6 +2829,8 @@ street-filters:
   - Kikinda köz  # nem létezik, a helyszínen az Etele úti panel hátulja
   - Üröm utca  # kiépítése folyamatban, nincs még táblázva
   - Lőportorony utca  # nem lett kiépítve, Budafoki út 215 és a Shell kút között
+  - Szerenád utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni
+  - Szonáta utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni
   - Elemér köz  # Hetény utca és a Balatoni út között, Shell kúttól délre, nincs kiépítve
   - Faház köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/891778561
   - Fischer köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/893445329
@@ -2890,11 +2891,7 @@ osm-street-filters:
   - Torockó utca
   - Vörösbegy utca
   # Lesz itt házszám, csak még nincs kiírva, nemrég épültek/építés alatt az épületek
-  - Gyimesbükk utca
-  - Lucerna köz
   - Madárhegyi út
-  # Még nincs kiépítve
-  - Zabfű utca
 source: survey
 housenumber-letters: true
-inactive: true
+inactive: false

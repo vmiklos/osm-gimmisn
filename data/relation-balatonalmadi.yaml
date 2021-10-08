@@ -228,4 +228,4 @@ refstreets:
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
 source: survey
-inactive: false
+inactive: true
