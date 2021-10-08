@@ -144,10 +144,6 @@ class PyIni:
         """Gets the global URI prefix."""
         ...
 
-    def get_tcp_port(self) -> int:
-        """Gets the TCP port to be used."""
-        ...
-
     def get_overpass_uri(self) -> str:
         """Gets the URI of the overpass instance to be used."""
         ...
