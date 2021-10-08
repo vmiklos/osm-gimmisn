@@ -13,10 +13,7 @@
 //! This is more or less a Rust port of the Python package, mostly because
 //! <https://crates.io/crates/html-builder> would require you to manually escape attribute values.
 
-use pyo3::class::PyContextProtocol;
-use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
-use pyo3::types::PyType;
 use std::sync::Arc;
 use std::sync::Mutex;
 
@@ -108,11 +105,6 @@ impl PyDoc {
         self.doc.append_value(value)
     }
 
-    fn tag(&self, name: &str, attrs: Vec<(&str, &str)>) -> PyTag {
-        let tag = self.doc.tag(name, &attrs);
-        PyTag { tag: Some(tag) }
-    }
-
     fn stag(&self, name: &str, attrs: Vec<(&str, &str)>) {
         self.doc.stag(name, &attrs)
     }
@@ -157,44 +149,7 @@ impl Drop for Tag {
     }
 }
 
-#[pyclass]
-pub struct PyTag {
-    tag: Option<Tag>,
-}
-
-#[pymethods]
-impl PyTag {
-    #[new]
-    fn new(py: Python<'_>, doc: PyObject, name: &str, attrs: Vec<(&str, &str)>) -> PyResult<Self> {
-        // Convert PyObject to Doc.
-        let doc: PyRefMut<'_, PyDoc> = doc.extract(py)?;
-        let tag = Tag::new(&doc.doc.value, name, &attrs);
-        Ok(PyTag { tag: Some(tag) })
-    }
-}
-
-#[pyproto]
-impl<'p> PyContextProtocol<'p> for PyTag {
-    fn __enter__(&'p mut self) -> PyResult<()> {
-        Ok(())
-    }
-
-    fn __exit__(
-        &mut self,
-        ty: Option<&'p PyType>,
-        _value: Option<&'p PyAny>,
-        _traceback: Option<&'p PyAny>,
-    ) -> bool {
-        if self.tag.is_some() {
-            self.tag = None;
-        }
-        let gil = Python::acquire_gil();
-        ty == Some(gil.python().get_type::<PyValueError>())
-    }
-}
-
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyDoc>()?;
-    module.add_class::<PyTag>()?;
     Ok(())
 }

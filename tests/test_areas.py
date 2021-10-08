@@ -19,7 +19,6 @@ import test_context
 import areas
 import rust
 import util
-import yattag
 
 
 class TestRelationFilesWriteOsmStreets(unittest.TestCase):
@@ -449,8 +448,8 @@ class TestRelationGetAdditionalHousenumbers(unittest.TestCase):
         self.assertEqual(only_in_osm_strs, [('Only In OSM utca', ['1'])])
 
 
-def table_doc_to_string(table: List[List[yattag.Doc]]) -> List[List[str]]:
-    """Unwraps an escaped matrix of yattag documents into a string matrix."""
+def table_doc_to_string(table: List[List[rust.PyDoc]]) -> List[List[str]]:
+    """Unwraps an escaped matrix of rust.PyDocs into a string matrix."""
     table_content = []
     for row in table:
         row_content = []

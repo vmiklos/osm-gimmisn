@@ -107,7 +107,7 @@ pub fn our_application_json(
     ctx: &context::Context,
     relations: &mut areas::Relations,
     request_uri: &str,
-) -> anyhow::Result<(String, webframe::Headers, Vec<Vec<u8>>)> {
+) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
     let content_type = "application/json";
     let headers: webframe::Headers = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix()?;

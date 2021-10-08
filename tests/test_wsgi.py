@@ -48,16 +48,16 @@ class TestWsgi(unittest.TestCase):
         self.environ["PATH_INFO"] = path
         if self.gzip_compress:
             self.environ["HTTP_ACCEPT_ENCODING"] = "gzip, deflate"
-        status, response_headers, output_list = wsgi.application(self.environ, self.bytes, self.ctx)
+        status, response_headers, data = wsgi.application(self.environ, self.bytes, self.ctx)
         # Make sure the built-in exception catcher is not kicking in.
         self.assertEqual(status, expected_status)
         header_dict = dict(response_headers)
         self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
-        self.assertTrue(output_list)
+        self.assertTrue(data)
         if self.gzip_compress:
-            output_bytes = xmlrpc.client.gzip_decode(output_list[0])
+            output_bytes = xmlrpc.client.gzip_decode(data)
         else:
-            output_bytes = output_list[0]
+            output_bytes = data
         output = output_bytes.decode('utf-8')
         stream = io.StringIO(output)
         tree = ET.parse(stream)
@@ -69,7 +69,7 @@ class TestWsgi(unittest.TestCase):
         environ = {
             "PATH_INFO": prefix + path
         }
-        status, response_headers, output_list = wsgi.application(environ, bytes(), self.ctx)
+        status, response_headers, data = wsgi.application(environ, bytes(), self.ctx)
         # Make sure the built-in exception catcher is not kicking in.
         self.assertEqual(status, "200 OK")
         header_dict = dict(response_headers)
@@ -77,8 +77,8 @@ class TestWsgi(unittest.TestCase):
             self.assertEqual(header_dict["Content-type"], "application/octet-stream")
         else:
             self.assertEqual(header_dict["Content-type"], "text/plain; charset=utf-8")
-        self.assertTrue(output_list)
-        output = output_list[0].decode('utf-8')
+        self.assertTrue(data)
+        output = data.decode('utf-8')
         return output
 
     def get_css_for_path(self, path: str) -> str:
@@ -87,13 +87,13 @@ class TestWsgi(unittest.TestCase):
         environ = {
             "PATH_INFO": prefix + path
         }
-        status, response_headers, output_list = wsgi.application(environ, bytes(), self.ctx)
+        status, response_headers, data = wsgi.application(environ, bytes(), self.ctx)
         # Make sure the built-in exception catcher is not kicking in.
         self.assertEqual(status, "200 OK")
         header_dict = dict(response_headers)
         self.assertEqual(header_dict["Content-type"], "text/css; charset=utf-8")
-        self.assertTrue(output_list)
-        output = output_list[0].decode('utf-8')
+        self.assertTrue(data)
+        output = data.decode('utf-8')
         return output
 
 
@@ -693,13 +693,13 @@ class TestMain(TestWsgi):
             "PATH_INFO": "/"
         }
 
-        status, response_headers, output_list = wsgi.application(environ, bytes(), ctx)
+        status, response_headers, data = wsgi.application(environ, bytes(), ctx)
         self.assertTrue(status.startswith("500"))
         header_dict = dict(response_headers)
         self.assertEqual(header_dict["Content-type"], "text/html; charset=utf-8")
 
-        self.assertTrue(output_list)
-        output = output_list[0].decode('utf-8')
+        self.assertTrue(data)
+        output = data.decode('utf-8')
         self.assertIn("TestError", output)
 
 

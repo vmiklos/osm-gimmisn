@@ -29,14 +29,12 @@ class TestWsgiJson(unittest.TestCase):
         request_headers = {
             "PATH_INFO": prefix + path
         }
-        status, response_headers, output_bytes_list = wsgi.application(request_headers, bytes(), ctx)
+        status, response_headers, data = wsgi.application(request_headers, bytes(), ctx)
         self.assertEqual(status, "200 OK")
         header_dict = dict(response_headers)
         self.assertEqual(header_dict["Content-type"], "application/json; charset=utf-8")
-        output_list = cast(List[str], output_bytes_list)
-        self.assertTrue(output_list)
-        output = output_list[0]
-        return cast(Dict[str, Any], json.loads(output))
+        self.assertTrue(data)
+        return cast(Dict[str, Any], json.loads(data))
 
 
 class TestJsonStreets(TestWsgiJson):

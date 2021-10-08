@@ -1463,7 +1463,7 @@ fn our_application(
     request_headers: &HashMap<String, String>,
     request_data: &[u8],
     ctx: &context::Context,
-) -> anyhow::Result<(String, webframe::Headers, Vec<Vec<u8>>)> {
+) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
     let request_headers_vec: Vec<(String, String)> = request_headers
         .iter()
         .map(|(key, value)| (key.into(), value.into()))
@@ -1540,20 +1540,31 @@ fn our_application(
     webframe::compress_response(request_headers, &response)
 }
 
+/// The entry point of this WSGI app.
+fn application(
+    request_headers: &HashMap<String, String>,
+    request_data: &[u8],
+    ctx: &context::Context,
+) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
+    match our_application(request_headers, request_data, ctx).context("our_application() failed") {
+        Ok(value) => Ok(value),
+        Err(err) => webframe::handle_exception(request_headers, &format!("{:?}", err)),
+    }
+}
+
 #[pyfunction]
-fn py_our_application(
+fn py_application(
     request_headers: HashMap<String, String>,
     request_data: Vec<u8>,
     ctx: context::PyContext,
-) -> PyResult<(String, webframe::Headers, Vec<PyObject>)> {
+) -> PyResult<(String, webframe::Headers, PyObject)> {
     let gil = Python::acquire_gil();
-    match our_application(&request_headers, &request_data, &ctx.context)
-        .context("our_application() failed")
+    match application(&request_headers, &request_data, &ctx.context).context("application() failed")
     {
         Ok(response) => Ok((
             response.0,
             response.1,
-            vec![PyBytes::new(gil.python(), &response.2[0]).into()],
+            PyBytes::new(gil.python(), &response.2).into(),
         )),
         Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
     }
@@ -1564,6 +1575,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         py_handle_main_housenr_additional_count,
         module
     )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_our_application, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_application, module)?)?;
     Ok(())
 }
