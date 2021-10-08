@@ -1,5 +1,14 @@
 missing-streets: 'only'
 filters: {}
+osm-street-filters:
+  # Nem valós utcák
+  - Rollerpálya
+  - Régi 24-es főút
+  # Parkok, sétányok házszám nélkül
+  - Görgő-bikki pihenő
+  - Huszár kert 
+  - Parti sétány
+  - Posta park
 refstreets:
   'Aba út': 'Aba utca'
   'Bajcsy-Zsilinszky Endre körút': 'Bajcsy-Zsilinszky körút'
@@ -11,7 +20,6 @@ refstreets:
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Déli Külhatár utca': 'Déli külhatár utca'
   'Eötvös Loránd tér': 'Eötvös Lóránd tér'
-  'Erdész utca': 'Erdészház utca'
   'Erzsébet királyné út': 'Erzsébet királyné utca'
   'Farkasmály utca': 'Farkasmály'
   'Felsőhíd utca': 'Felsőhid utca'
