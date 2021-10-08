@@ -33,7 +33,6 @@ PYTHON_SAFE_OBJECTS = \
 
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \
-	cherry.py \
 
 PYTHON_OBJECTS = \
 	$(PYTHON_TEST_OBJECTS) \
@@ -69,6 +68,7 @@ RS_OBJECTS = \
 	src/area_files.rs \
 	src/areas.rs \
 	src/bin/missing_housenumbers.rs \
+	src/bin/rouille.rs \
 	src/context.rs \
 	src/cache.rs \
 	src/i18n.rs \
@@ -132,6 +132,9 @@ target/${TARGET_PATH}/librust.so: Cargo.toml $(RS_OBJECTS)
 
 target/${TARGET_PATH}/missing_housenumbers: Cargo.toml $(RS_OBJECTS)
 	cargo build --bin missing_housenumbers ${CARGO_OPTIONS} --no-default-features
+
+target/${TARGET_PATH}/rouille: Cargo.toml $(RS_OBJECTS)
+	cargo build --bin rouille ${CARGO_OPTIONS} --no-default-features
 
 check-rustunit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata
 	cargo test --lib --no-default-features ${CARGO_OPTIONS} -- --test-threads=1
@@ -219,7 +222,7 @@ check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 # Make sure that the current directory is *not* the repo root but something else to catch
 # non-absolute paths.
 run: all
-	cd $(HOME) && $(PWD)/cherry.py
+	cd $(HOME) && $(PWD)/target/${TARGET_PATH}/rouille
 
 deploy:
 ifeq (,$(wildcard ./deploy.sh))

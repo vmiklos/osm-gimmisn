@@ -783,7 +783,7 @@ impl Ini {
     }
 
     /// Gets the TCP port to be used.
-    fn get_tcp_port(&self) -> anyhow::Result<i64> {
+    pub fn get_tcp_port(&self) -> anyhow::Result<i64> {
         match self.config.get("wsgi", "tcp_port") {
             Some(value) => Ok(value.parse::<i64>()?),
             None => Ok(8000),

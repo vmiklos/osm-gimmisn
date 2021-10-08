@@ -41,11 +41,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
     return rust.py_build_street_reference_cache(local_streets)
 
 
-def get_reference_cache_path(local: str, refcounty: str) -> str:
-    """Gets the filename of the (house number) reference cache file."""
-    return rust.py_get_reference_cache_path(local, refcounty)
-
-
 def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
     return rust.py_build_reference_cache(local, refcounty)

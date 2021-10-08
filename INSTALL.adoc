@@ -73,7 +73,7 @@ This allows accessing your local instance for development.
 
 == Production setup
 
-- A more production-friendly launcher is provided as `cherry.py`.
+- The launcher is `target/release/rouille`.
 
 - A sample `osm-gimmisn.service` is provided, you can copy that to
   `/etc/systemd/system/osm-gimmisn.service` and customize it to your needs.

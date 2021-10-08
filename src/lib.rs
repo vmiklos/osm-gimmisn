@@ -24,7 +24,7 @@ mod overpass_query;
 mod ranges;
 mod util;
 mod webframe;
-mod wsgi;
+pub mod wsgi;
 mod wsgi_additional;
 mod wsgi_json;
 mod yattag;
