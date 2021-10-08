@@ -6,7 +6,7 @@ osm-street-filters:
   - Régi 24-es főút
   # Parkok, sétányok házszám nélkül
   - Görgő-bikki pihenő
-  - Huszár kert 
+  - Huszár kert
   - Parti sétány
   - Posta park
 refstreets:
@@ -26,6 +26,7 @@ refstreets:
   'Gyöngyvirág út': 'Gyöngyvirág utca'
   'Kalló utca': 'Kallo utca'
   'Kenyérgyár utca': 'Kenyérgyár út'
+  'Kékestetői út': 'Kékes-alja út'
   'Kont bíró utca': 'Kont Biró utca'
   'Kőkút út': 'Kőkút utca'
   'Mérges út': 'Mérges utca'
