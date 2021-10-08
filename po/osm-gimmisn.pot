@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-02 21:40+0200\n"
+"POT-Creation-Date: 2021-10-08 19:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,538 +17,514 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: cache.py:81 wsgi.py:187
-#, python-brace-format
-msgid " (existing: {0}, ready: {1})."
-msgstr ""
-
-#: webframe.py:470
-msgid "(empty)"
-msgstr ""
-
-#: webframe.py:471
-msgid "(invalid)"
-msgstr ""
-
-#: util.py:578
-msgid "A reference name is invalid if it's in the OSM database."
-msgstr ""
-
-#: wsgi.py:790
-msgid "Add new area"
-msgstr ""
-
-#: webframe.py:128 wsgi.py:779
-msgid "Additional house numbers"
-msgstr ""
-
-#: webframe.py:137 wsgi.py:781
-msgid "Additional streets"
-msgstr ""
-
-#: webframe.py:473
-msgid "All editors"
-msgstr ""
-
-#: webframe.py:493
-msgid "All house number editors"
-msgstr ""
-
-#: webframe.py:460 webframe.py:463 webframe.py:488
-msgid "All house numbers"
-msgstr ""
-
-#: webframe.py:461
-msgid "All house numbers, last 2 weeks, as of {}"
-msgstr ""
-
-#: webframe.py:458
-msgid "All house numbers, last year, as of {}"
-msgstr ""
-
-#: webframe.py:490
-msgid "All house numbers, monthly"
-msgstr ""
-
-#: wsgi.py:777
-msgid "Area"
-msgstr ""
-
-#: webframe.py:215 wsgi.py:782
-msgid "Area boundary"
-msgstr ""
-
-#: webframe.py:180
-msgid "Area list"
-msgstr ""
-
-#: webframe.py:462
-msgid "At the start of this day"
-msgstr ""
-
-#: wsgi.py:645
-msgid "Based on position"
-msgstr ""
-
-#: webframe.py:92 webframe.py:102
-msgid "Call Overpass to update"
-msgstr ""
-
-#: cache.py:94 wsgi.py:196 wsgi_additional.py:92
-msgid "Checklist format"
-msgstr ""
-
-#: webframe.py:387 webframe.py:468
-msgid "City name"
-msgstr ""
-
-#: webframe.py:494
-msgid "Coverage"
-msgstr ""
-
-#: webframe.py:475
-#, python-brace-format
-msgid "Coverage is {1}%, as of {2}"
-msgstr ""
-
-#: webframe.py:198
-msgid "Creating from reference..."
-msgstr ""
-
-#: webframe.py:477
-msgid "Data source"
-msgstr ""
-
-#: webframe.py:226
-msgid "Documentation"
-msgstr ""
-
-#: webframe.py:453
-msgid "During this day"
-msgstr ""
-
-#: webframe.py:456
-msgid "During this month"
-msgstr ""
-
-#: wsgi.py:671
-msgid "Error from GPS: "
-msgstr ""
-
-#: webframe.py:197 webframe.py:596 webframe.py:618 wsgi.py:673
-msgid "Error from Overpass: "
-msgstr ""
-
-#: webframe.py:199 webframe.py:640 webframe.py:662
-msgid "Error from reference: "
-msgstr ""
-
-#: wsgi.py:675
-msgid "Error from relations: "
-msgstr ""
-
-#: webframe.py:152
-msgid "Existing house numbers"
-msgstr ""
-
-#: webframe.py:157
-msgid "Existing streets"
-msgstr ""
-
-#: cache.py:84 cache.py:122
-msgid "Filter incorrect information"
-msgstr ""
-
-#: wsgi.py:661
-msgid "Filters:"
-msgstr ""
-
-#: webframe.py:388 wsgi.py:778
-msgid "House number coverage"
-msgstr ""
-
-#: areas.py:584
-msgid "House numbers"
-msgstr ""
-
-#: wsgi_additional.py:68
-msgid "Identifier"
-msgstr ""
-
-#: webframe.py:330
-#, python-brace-format
-msgid "Internal error when serving {0}"
-msgstr ""
-
-#: webframe.py:496
-msgid "Invalid relation settings"
-msgstr ""
-
-#: webframe.py:46
-msgid "Last update: "
-msgstr ""
-
-#: webframe.py:459
-msgid "Latest for this month"
-msgstr ""
-
-#: areas.py:583
-msgid "Missing count"
-msgstr ""
-
-#: webframe.py:122
-msgid "Missing house numbers"
-msgstr ""
-
-#: webframe.py:133
-msgid "Missing streets"
-msgstr ""
-
-#: webframe.py:454 webframe.py:457 webframe.py:487
-msgid "New house numbers"
-msgstr ""
-
-#: webframe.py:452
-msgid "New house numbers, last 2 weeks, as of {}"
-msgstr ""
-
-#: webframe.py:455
-msgid "New house numbers, last year, as of {}"
-msgstr ""
-
-#: webframe.py:489
-msgid "New house numbers, monthly"
-msgstr ""
-
-#: wsgi.py:114 wsgi.py:215 wsgi.py:239
-msgid "No existing house numbers"
-msgstr ""
-
-#: webframe.py:613
-msgid "No existing house numbers: call Overpass to create..."
-msgstr ""
-
-#: webframe.py:617
-msgid "No existing house numbers: waiting for Overpass..."
-msgstr ""
-
-#: wsgi.py:213 wsgi.py:237 wsgi.py:276 wsgi_additional.py:31
-msgid "No existing streets"
-msgstr ""
-
-#: webframe.py:591
-msgid "No existing streets: call Overpass to create..."
-msgstr ""
-
-#: webframe.py:595
-msgid "No existing streets: waiting for Overpass..."
-msgstr ""
-
-#: wsgi.py:217 wsgi.py:241
-msgid "No reference house numbers"
-msgstr ""
-
-#: webframe.py:635
-msgid "No reference house numbers: create from reference..."
-msgstr ""
-
-#: webframe.py:639
-msgid "No reference house numbers: creating from reference..."
-msgstr ""
-
-#: wsgi.py:278 wsgi_additional.py:33
-msgid "No reference streets"
-msgstr ""
-
-#: webframe.py:661
-msgid "No reference streets: creating from reference..."
-msgstr ""
-
-#: webframe.py:657
-msgid "No street list: create from reference..."
-msgstr ""
-
-#: webframe.py:581
-#, python-brace-format
-msgid "No such relation: {0}"
-msgstr ""
-
-#: webframe.py:343
-msgid "Not Found"
-msgstr ""
-
-#: webframe.py:402 webframe.py:524
-msgid "Note"
-msgstr ""
-
-#: util.py:577
-msgid "Note: an OSM name is invalid if it's not in the OSM database."
-msgstr ""
-
-#: util.py:473
-msgid "Note: wait for {} seconds"
-msgstr ""
-
-#: webframe.py:474
-msgid ""
-"Number of editors, at least one housenumber is last changed by these users"
-msgstr ""
-
-#: webframe.py:472
-msgid "Number of house number editors, as of {}"
-msgstr ""
-
-#: webframe.py:469
-msgid "Number of house numbers added in the past 30 days"
-msgstr ""
-
-#: webframe.py:476
-msgid "Number of house numbers in database"
-msgstr ""
-
-#: webframe.py:466
-msgid "Number of house numbers last changed by this user"
-msgstr ""
-
-#: webframe.py:389
-msgid "OSM count"
-msgstr ""
-
-#: webframe.py:44
-msgid "OSM data © OpenStreetMap contributors."
-msgstr ""
-
-#: cache.py:118
-#, python-brace-format
-msgid ""
-"OpenStreetMap additionally has the below {0} house numbers for {1} streets."
-msgstr ""
-
-#: wsgi_additional.py:86
-#, python-brace-format
-msgid "OpenStreetMap additionally has the below {0} streets."
-msgstr ""
-
-#: cache.py:79
-#, python-brace-format
-msgid ""
-"OpenStreetMap is possibly missing the below {0} house numbers for {1} "
-"streets."
-msgstr ""
-
-#: wsgi.py:186
-#, python-brace-format
-msgid "OpenStreetMap is possibly missing the below {0} streets."
-msgstr ""
-
-#: util.py:469
-#, python-brace-format
-msgid "Overpass error: {0}"
-msgstr ""
-
-#: webframe.py:209
-msgid "Overpass turbo"
-msgstr ""
-
-#: wsgi.py:190
-msgid "Overpass turbo query for streets with questionable names"
-msgstr ""
-
-#: cache.py:88 wsgi_additional.py:95
-msgid "Overpass turbo query for the below streets"
-msgstr ""
-
-#: webframe.py:495
-msgid "Per-city coverage"
-msgstr ""
-
-#: cache.py:91 wsgi.py:193 wsgi_additional.py:89
-msgid "Plain text format"
-msgstr ""
-
-#: webframe.py:390
-msgid "Reference count"
-msgstr ""
-
-#: wsgi.py:651
-msgid "Show complete areas"
-msgstr ""
-
-#: wsgi_additional.py:70
-msgid "Source"
-msgstr ""
-
-#: webframe.py:221
-msgid "Statistics"
-msgstr ""
-
-#: wsgi.py:780
-msgid "Street coverage"
-msgstr ""
-
-#: areas.py:582 wsgi.py:181 wsgi_additional.py:71
-msgid "Street name"
-msgstr ""
-
-#: webframe.py:345
-msgid "The requested URL was not found on this server."
-msgstr ""
-
-#: webframe.py:404
-msgid ""
-"These statistics are estimates, not taking house number filters into "
-"account.\n"
-"Only cities with house numbers in OSM are considered."
-msgstr ""
-
-#: webframe.py:526
-msgid ""
-"These statistics are provided purely for interested editors, and are not\n"
-"intended to reflect quality of work done by any given editor in OSM. If you "
-"want to use\n"
-"them to motivate yourself, that's fine, but keep in mind that a bit of "
-"useful work is\n"
-"more meaningful than a lot of useless work."
-msgstr ""
-
-#: webframe.py:492
-msgid "Top edited cities"
-msgstr ""
-
-#: webframe.py:467
-msgid "Top edited cities, as of {}"
-msgstr ""
-
-#: webframe.py:491
-msgid "Top house number editors"
-msgstr ""
-
-#: webframe.py:464
-msgid "Top house number editors, as of {}"
-msgstr ""
-
-#: wsgi_additional.py:69
-msgid "Type"
-msgstr ""
-
-#: webframe.py:66 webframe.py:80
-msgid "Update from OSM"
-msgstr ""
-
-#: webframe.py:72 webframe.py:86
-msgid "Update from reference"
-msgstr ""
-
-#: wsgi.py:73 wsgi.py:310
-msgid "Update successful."
-msgstr ""
-
-#: wsgi.py:69 wsgi.py:107 wsgi.py:296
-msgid "Update successful: "
-msgstr ""
-
-#: webframe.py:465
-msgid "User name"
-msgstr ""
-
-#: webframe.py:41
-msgid "Version: "
-msgstr ""
-
-#: wsgi.py:71 wsgi.py:109 wsgi.py:299
-msgid "View missing house numbers"
-msgstr ""
-
-#: webframe.py:96 webframe.py:106
-msgid "View query"
-msgstr ""
-
-#: wsgi.py:670
-msgid "Waiting for GPS..."
-msgstr ""
-
-#: webframe.py:196 wsgi.py:672
-msgid "Waiting for Overpass..."
-msgstr ""
-
-#: wsgi.py:676
-msgid "Waiting for redirect..."
-msgstr ""
-
-#: wsgi.py:674
-msgid "Waiting for relations..."
-msgstr ""
-
-#: util.py:562
-msgid ""
-"Warning: broken OSM <-> reference mapping, the following OSM names are "
-"invalid:"
-msgstr ""
-
-#: util.py:570
-msgid ""
-"Warning: broken OSM <-> reference mapping, the following reference names are "
-"invalid:"
-msgstr ""
-
-#: util.py:588
-msgid ""
-"Warning: broken filter key name, the following key names are not OSM names:"
-msgstr ""
-
-#: wsgi.py:659 wsgi.py:823
-msgid "Where to map?"
-msgstr ""
-
-#: wsgi.py:565
-msgid "additional house numbers"
-msgstr ""
-
-#: wsgi.py:539
-msgid "additional streets"
-msgstr ""
-
-#: wsgi.py:757
-msgid "area boundary"
-msgstr ""
-
-#: wsgi.py:810
-msgid "existing house numbers"
-msgstr ""
-
-#: wsgi.py:812
-msgid "existing streets"
-msgstr ""
-
-#: util.py:689
-msgid "housenumber"
-msgstr ""
-
-#: wsgi.py:495
-msgid "missing house numbers"
-msgstr ""
-
-#: wsgi.py:517 wsgi.py:808
-msgid "missing streets"
-msgstr ""
-
-#: areas.py:296
+#: src/areas.rs:644
 msgid "street"
 msgstr ""
 
-#: wsgi.py:489 wsgi.py:511 wsgi.py:533 wsgi.py:559
+#: src/areas.rs:1118 src/wsgi.rs:277 src/wsgi_additional.rs:95
+msgid "Street name"
+msgstr ""
+
+#: src/areas.rs:1119
+msgid "Missing count"
+msgstr ""
+
+#: src/areas.rs:1120
+msgid "House numbers"
+msgstr ""
+
+#: src/cache.rs:118
+msgid "OpenStreetMap is possibly missing the below {0} house numbers for {1} streets."
+msgstr ""
+
+#: src/cache.rs:123 src/wsgi.rs:289
+msgid " (existing: {0}, ready: {1})."
+msgstr ""
+
+#: src/cache.rs:136 src/cache.rs:246
+msgid "Filter incorrect information"
+msgstr ""
+
+#: src/cache.rs:151 src/wsgi_additional.rs:160
+msgid "Overpass turbo query for the below streets"
+msgstr ""
+
+#: src/cache.rs:165 src/wsgi.rs:318 src/wsgi_additional.rs:135
+msgid "Plain text format"
+msgstr ""
+
+#: src/cache.rs:179 src/wsgi.rs:332 src/wsgi_additional.rs:149
+msgid "Checklist format"
+msgstr ""
+
+#: src/cache.rs:234
+msgid "OpenStreetMap additionally has the below {0} house numbers for {1} streets."
+msgstr ""
+
+#: src/util.rs:1035
+msgid "Overpass error: {0}"
+msgstr ""
+
+#: src/util.rs:1039
+msgid "Note: wait for {} seconds"
+msgstr ""
+
+#: src/util.rs:1187
+msgid "Warning: broken OSM <-> reference mapping, the following OSM names are invalid:"
+msgstr ""
+
+#: src/util.rs:1199
+msgid "Warning: broken OSM <-> reference mapping, the following reference names are invalid:"
+msgstr ""
+
+#: src/util.rs:1210
+msgid "Note: an OSM name is invalid if it's not in the OSM database."
+msgstr ""
+
+#: src/util.rs:1213
+msgid "A reference name is invalid if it's in the OSM database."
+msgstr ""
+
+#: src/util.rs:1226
+msgid "Warning: broken filter key name, the following key names are not OSM names:"
+msgstr ""
+
+#: src/util.rs:1404
+msgid "housenumber"
+msgstr ""
+
+#: src/webframe.rs:34
+msgid "Version: "
+msgstr ""
+
+#: src/webframe.rs:44
+msgid "OSM data © OpenStreetMap contributors."
+msgstr ""
+
+#: src/webframe.rs:48
+msgid "Last update: "
+msgstr ""
+
+#: src/webframe.rs:92 src/webframe.rs:129
+msgid "Update from OSM"
+msgstr ""
+
+#: src/webframe.rs:111 src/webframe.rs:145
+msgid "Update from reference"
+msgstr ""
+
+#: src/webframe.rs:164 src/webframe.rs:195
+msgid "Call Overpass to update"
+msgstr ""
+
+#: src/webframe.rs:180 src/webframe.rs:208
+msgid "View query"
+msgstr ""
+
+#: src/webframe.rs:238
+msgid "Missing house numbers"
+msgstr ""
+
+#: src/webframe.rs:255 src/wsgi.rs:1261
+msgid "Additional house numbers"
+msgstr ""
+
+#: src/webframe.rs:270
+msgid "Missing streets"
+msgstr ""
+
+#: src/webframe.rs:285 src/wsgi.rs:1263
+msgid "Additional streets"
+msgstr ""
+
+#: src/webframe.rs:314
+msgid "Existing house numbers"
+msgstr ""
+
+#: src/webframe.rs:328
+msgid "Existing streets"
+msgstr ""
+
+#: src/webframe.rs:369
+msgid "Area list"
+msgstr ""
+
+#: src/webframe.rs:392 src/wsgi.rs:1159
+msgid "Waiting for Overpass..."
+msgstr ""
+
+#: src/webframe.rs:393 src/webframe.rs:1093 src/webframe.rs:1117 src/wsgi.rs:1160
+msgid "Error from Overpass: "
+msgstr ""
+
+#: src/webframe.rs:396
+msgid "Creating from reference..."
+msgstr ""
+
+#: src/webframe.rs:398 src/webframe.rs:1141 src/webframe.rs:1161
+msgid "Error from reference: "
+msgstr ""
+
+#: src/webframe.rs:404
+msgid "Overpass turbo"
+msgstr ""
+
+#: src/webframe.rs:418 src/wsgi.rs:1264
+msgid "Area boundary"
+msgstr ""
+
+#: src/webframe.rs:431
+msgid "Statistics"
+msgstr ""
+
+#: src/webframe.rs:444
+msgid "Documentation"
+msgstr ""
+
+#: src/webframe.rs:615
+msgid "Internal error when serving {0}"
+msgstr ""
+
+#: src/webframe.rs:653
+msgid "Not Found"
+msgstr ""
+
+#: src/webframe.rs:657
+msgid "The requested URL was not found on this server."
+msgstr ""
+
+#: src/webframe.rs:734 src/webframe.rs:894
+msgid "City name"
+msgstr ""
+
+#: src/webframe.rs:735 src/wsgi.rs:1260
+msgid "House number coverage"
+msgstr ""
+
+#: src/webframe.rs:736
+msgid "OSM count"
+msgstr ""
+
+#: src/webframe.rs:737
+msgid "Reference count"
+msgstr ""
+
+#: src/webframe.rs:761 src/webframe.rs:980
+msgid "Note"
+msgstr ""
+
+#: src/webframe.rs:766
+msgid "These statistics are estimates, not taking house number filters into account.\n"
+"Only cities with house numbers in OSM are considered."
+msgstr ""
+
+#: src/webframe.rs:862
+msgid "New house numbers, last 2 weeks, as of {}"
+msgstr ""
+
+#: src/webframe.rs:864
+msgid "During this day"
+msgstr ""
+
+#: src/webframe.rs:865 src/webframe.rs:871 src/webframe.rs:920
+msgid "New house numbers"
+msgstr ""
+
+#: src/webframe.rs:868
+msgid "New house numbers, last year, as of {}"
+msgstr ""
+
+#: src/webframe.rs:870
+msgid "During this month"
+msgstr ""
+
+#: src/webframe.rs:874
+msgid "All house numbers, last year, as of {}"
+msgstr ""
+
+#: src/webframe.rs:876
+msgid "Latest for this month"
+msgstr ""
+
+#: src/webframe.rs:877 src/webframe.rs:883 src/webframe.rs:921
+msgid "All house numbers"
+msgstr ""
+
+#: src/webframe.rs:880
+msgid "All house numbers, last 2 weeks, as of {}"
+msgstr ""
+
+#: src/webframe.rs:882
+msgid "At the start of this day"
+msgstr ""
+
+#: src/webframe.rs:886
+msgid "Top house number editors, as of {}"
+msgstr ""
+
+#: src/webframe.rs:888
+msgid "User name"
+msgstr ""
+
+#: src/webframe.rs:891
+msgid "Number of house numbers last changed by this user"
+msgstr ""
+
+#: src/webframe.rs:893
+msgid "Top edited cities, as of {}"
+msgstr ""
+
+#: src/webframe.rs:897
+msgid "Number of house numbers added in the past 30 days"
+msgstr ""
+
+#: src/webframe.rs:899
+msgid "(empty)"
+msgstr ""
+
+#: src/webframe.rs:900
+msgid "(invalid)"
+msgstr ""
+
+#: src/webframe.rs:903
+msgid "Number of house number editors, as of {}"
+msgstr ""
+
+#: src/webframe.rs:905
+msgid "All editors"
+msgstr ""
+
+#: src/webframe.rs:908
+msgid "Number of editors, at least one housenumber is last changed by these users"
+msgstr ""
+
+#: src/webframe.rs:910
+msgid "Coverage is {1}%, as of {2}"
+msgstr ""
+
+#: src/webframe.rs:913
+msgid "Number of house numbers in database"
+msgstr ""
+
+#: src/webframe.rs:915
+msgid "Data source"
+msgstr ""
+
+#: src/webframe.rs:922
+msgid "New house numbers, monthly"
+msgstr ""
+
+#: src/webframe.rs:923
+msgid "All house numbers, monthly"
+msgstr ""
+
+#: src/webframe.rs:924
+msgid "Top house number editors"
+msgstr ""
+
+#: src/webframe.rs:925
+msgid "Top edited cities"
+msgstr ""
+
+#: src/webframe.rs:926
+msgid "All house number editors"
+msgstr ""
+
+#: src/webframe.rs:927
+msgid "Coverage"
+msgstr ""
+
+#: src/webframe.rs:928
+msgid "Per-city coverage"
+msgstr ""
+
+#: src/webframe.rs:929
+msgid "Invalid relation settings"
+msgstr ""
+
+#: src/webframe.rs:985
+msgid "These statistics are provided purely for interested editors, and are not\n"
+"intended to reflect quality of work done by any given editor in OSM. If you want to use\n"
+"them to motivate yourself, that's fine, but keep in mind that a bit of useful work is\n"
+"more meaningful than a lot of useless work."
+msgstr ""
+
+#: src/webframe.rs:1074
+msgid "No such relation: {0}"
+msgstr ""
+
+#: src/webframe.rs:1086
+msgid "No existing streets: call Overpass to create..."
+msgstr ""
+
+#: src/webframe.rs:1091
+msgid "No existing streets: waiting for Overpass..."
+msgstr ""
+
+#: src/webframe.rs:1109
+msgid "No existing house numbers: call Overpass to create..."
+msgstr ""
+
+#: src/webframe.rs:1115
+msgid "No existing house numbers: waiting for Overpass..."
+msgstr ""
+
+#: src/webframe.rs:1133
+msgid "No reference house numbers: create from reference..."
+msgstr ""
+
+#: src/webframe.rs:1139
+msgid "No reference house numbers: creating from reference..."
+msgstr ""
+
+#: src/webframe.rs:1154
+msgid "No street list: create from reference..."
+msgstr ""
+
+#: src/webframe.rs:1159
+msgid "No reference streets: creating from reference..."
+msgstr ""
+
+#: src/wsgi.rs:79 src/wsgi.rs:151 src/wsgi.rs:503
+msgid "Update successful: "
+msgstr ""
+
+#: src/wsgi.rs:86 src/wsgi.rs:157 src/wsgi.rs:509
+msgid "View missing house numbers"
+msgstr ""
+
+#: src/wsgi.rs:89 src/wsgi.rs:523
+msgid "Update successful."
+msgstr ""
+
+#: src/wsgi.rs:171 src/wsgi.rs:369 src/wsgi.rs:405
+msgid "No existing house numbers"
+msgstr ""
+
+#: src/wsgi.rs:285
+msgid "OpenStreetMap is possibly missing the below {0} streets."
+msgstr ""
+
+#: src/wsgi.rs:303
+msgid "Overpass turbo query for streets with questionable names"
+msgstr ""
+
+#: src/wsgi.rs:364 src/wsgi.rs:400 src/wsgi.rs:471 src/wsgi_additional.rs:41
+msgid "No existing streets"
+msgstr ""
+
+#: src/wsgi.rs:374 src/wsgi.rs:410
+msgid "No reference house numbers"
+msgstr ""
+
+#: src/wsgi.rs:476 src/wsgi_additional.rs:46
+msgid "No reference streets"
+msgstr ""
+
+#: src/wsgi.rs:788 src/wsgi.rs:832 src/wsgi.rs:878 src/wsgi.rs:933
 msgid "updated"
 msgstr ""
 
-#: wsgi.py:806
-#, python-brace-format
-msgid "{0} missing house numbers"
+#: src/wsgi.rs:797
+msgid "missing house numbers"
 msgstr ""
 
-#: wsgi.py:560
+#: src/wsgi.rs:841 src/wsgi.rs:1303
+msgid "missing streets"
+msgstr ""
+
+#: src/wsgi.rs:881
+msgid "{} streets"
+msgstr ""
+
+#: src/wsgi.rs:887
+msgid "additional streets"
+msgstr ""
+
+#: src/wsgi.rs:936
 msgid "{} house numbers"
 msgstr ""
 
-#: wsgi.py:534
-msgid "{} streets"
+#: src/wsgi.rs:942
+msgid "additional house numbers"
+msgstr ""
+
+#: src/wsgi.rs:1109
+msgid "Based on position"
+msgstr ""
+
+#: src/wsgi.rs:1120
+msgid "Show complete areas"
+msgstr ""
+
+#: src/wsgi.rs:1143 src/wsgi.rs:1324
+msgid "Where to map?"
+msgstr ""
+
+#: src/wsgi.rs:1147
+msgid "Filters:"
+msgstr ""
+
+#: src/wsgi.rs:1157
+msgid "Waiting for GPS..."
+msgstr ""
+
+#: src/wsgi.rs:1158
+msgid "Error from GPS: "
+msgstr ""
+
+#: src/wsgi.rs:1161
+msgid "Waiting for relations..."
+msgstr ""
+
+#: src/wsgi.rs:1162
+msgid "Error from relations: "
+msgstr ""
+
+#: src/wsgi.rs:1163
+msgid "Waiting for redirect..."
+msgstr ""
+
+#: src/wsgi.rs:1224
+msgid "area boundary"
+msgstr ""
+
+#: src/wsgi.rs:1259
+msgid "Area"
+msgstr ""
+
+#: src/wsgi.rs:1262
+msgid "Street coverage"
+msgstr ""
+
+#: src/wsgi.rs:1282
+msgid "Add new area"
+msgstr ""
+
+#: src/wsgi.rs:1301
+msgid "{0} missing house numbers"
+msgstr ""
+
+#: src/wsgi.rs:1304
+msgid "existing house numbers"
+msgstr ""
+
+#: src/wsgi.rs:1305
+msgid "existing streets"
+msgstr ""
+
+#: src/wsgi_additional.rs:92
+msgid "Identifier"
+msgstr ""
+
+#: src/wsgi_additional.rs:93
+msgid "Type"
+msgstr ""
+
+#: src/wsgi_additional.rs:94
+msgid "Source"
+msgstr ""
+
+#: src/wsgi_additional.rs:120
+msgid "OpenStreetMap additionally has the below {0} streets."
 msgstr ""
