@@ -34,4 +34,4 @@ filters:
 source: survey
 refstreets:
   'Bocskai sor': 'Bocskai István sor'
-inactive: false
+inactive: true

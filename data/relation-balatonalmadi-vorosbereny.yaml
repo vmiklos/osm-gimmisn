@@ -162,4 +162,4 @@ refstreets:
   'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
 source: survey
-inactive: false
+inactive: true
