@@ -876,16 +876,6 @@ impl PyIni {
         }
     }
 
-    fn get_tcp_port(&self) -> PyResult<i64> {
-        match self.ini.get_tcp_port() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "Ini::get_tcp_port() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
     fn get_overpass_uri(&self) -> String {
         self.ini.get_overpass_uri()
     }
@@ -1106,5 +1096,12 @@ pub mod tests {
     /// Creates a Context instance for text purposes.
     pub fn make_test_context() -> anyhow::Result<Context> {
         Ok(Context::new("tests")?)
+    }
+
+    /// Tests Ini.get_tcp_port().
+    #[test]
+    fn test_ini_get_tcp_port() {
+        let ctx = make_test_context().unwrap();
+        assert_eq!(ctx.get_ini().get_tcp_port().unwrap(), 8000);
     }
 }

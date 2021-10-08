@@ -104,7 +104,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/missing_housenumbers
+all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/missing_housenumbers target/${TARGET_PATH}/rouille
 
 clean:
 	rm -f config.ts
