@@ -10,7 +10,6 @@ from typing import List
 import io
 import os
 import unittest
-import urllib.error
 
 import test_context
 
@@ -18,41 +17,11 @@ import rust
 import util
 
 
-class TestBuildReferenceCache(unittest.TestCase):
-    """Tests build_reference_cache()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        refdir = os.path.join(os.path.dirname(__file__), "refdir")
-        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-        memory_cache = util.build_reference_cache(refpath, "01")
-        expected = {'01': {'011': {'Ref Name 1': [['1', ''], ['2', '']],
-                                   'Törökugrató utca': [['1', 'comment'],
-                                                        ['10', ''], ['11', ''], ['12', ''], ['2', ''], ['7', '']],
-                                   'Tűzkő utca': [['1', ''], ['10', ''], ['2', ''], ['9', '']],
-                                   'Hamzsabégi út': [['1', '']]}}}
-        self.assertEqual(memory_cache, expected)
-        os.unlink(util.get_reference_cache_path(refpath, "01"))
-
-    def test_cached(self) -> None:
-        """Tests the case when the cache is already available."""
-        refdir = os.path.join(os.path.dirname(__file__), "refdir")
-        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-        util.build_reference_cache(refpath, "01")
-        memory_cache = util.build_reference_cache(refpath, "01")
-        expected = {'01': {'011': {'Hamzsabégi út': [['1', '']],
-                                   'Ref Name 1': [['1', ''], ['2', '']],
-                                   'Törökugrató utca': [['1', 'comment'],
-                                                        ['10', ''], ['11', ''], ['12', ''], ['2', ''], ['7', '']],
-                                   'Tűzkő utca': [['1', ''], ['10', ''], ['2', ''], ['9', '']]}}}
-        self.assertEqual(memory_cache, expected)
-        os.unlink(util.get_reference_cache_path(refpath, "01"))
-
-
 class TestHandleOverpassError(unittest.TestCase):
     """Tests handle_overpass_error()."""
     def test_no_sleep(self) -> None:
         """Tests the case when no sleep is needed."""
-        error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, io.BytesIO())
+        error = "HTTP Error 404: no such file"
         ctx = test_context.make_test_context()
         routes: List[test_context.URLRoute] = [
             test_context.URLRoute(url="https://overpass-api.de/api/status",
@@ -61,13 +30,13 @@ class TestHandleOverpassError(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        doc = util.handle_overpass_error(ctx, str(error))
+        doc = util.handle_overpass_error(ctx, error)
         expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file</div>"""
         self.assertEqual(doc.get_value(), expected)
 
     def test_need_sleep(self) -> None:
         """Tests the case when sleep is needed."""
-        error = urllib.error.HTTPError("http://example.com", 404, "no such file", {}, io.BytesIO())
+        error = "HTTP Error 404: no such file"
         ctx = test_context.make_test_context()
         routes: List[test_context.URLRoute] = [
             test_context.URLRoute(url="https://overpass-api.de/api/status",
@@ -76,7 +45,7 @@ class TestHandleOverpassError(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
-        doc = util.handle_overpass_error(ctx, str(error))
+        doc = util.handle_overpass_error(ctx, error)
         expected = """<div id="overpass-error">Overpass error: HTTP Error 404: no such file"""
         expected += """<br />Note: wait for 12 seconds</div>"""
         self.assertEqual(doc.get_value(), expected)

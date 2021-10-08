@@ -1541,7 +1541,7 @@ fn our_application(
 }
 
 /// The entry point of this WSGI app.
-fn application(
+pub fn application(
     request_headers: &HashMap<String, String>,
     request_data: &[u8],
     ctx: &context::Context,
@@ -1570,6 +1570,7 @@ fn py_application(
     }
 }
 
+/// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(
         py_handle_main_housenr_additional_count,

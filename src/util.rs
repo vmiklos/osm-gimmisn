@@ -912,11 +912,6 @@ fn get_reference_cache_path(local: &str, refcounty: &str) -> String {
     format!("{}-{}-v1.cache", local, refcounty)
 }
 
-#[pyfunction]
-fn py_get_reference_cache_path(local: String, refcounty: String) -> String {
-    get_reference_cache_path(&local, &refcounty)
-}
-
 /// Two strings: first is a range, second is an optional comment.
 type HouseNumberWithComment = Vec<String>;
 
@@ -1799,7 +1794,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         py_build_street_reference_cache,
         module
     )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_reference_cache_path, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_overpass_error, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_setup_localization, module)?)?;
@@ -1920,6 +1914,7 @@ mod tests {
     #[test]
     fn test_build_street_reference_cache() {
         let refpath = "tests/refdir/utcak_20190514.tsv";
+        std::fs::remove_file(format!("{}.cache", refpath)).unwrap();
         let memory_cache = build_street_reference_cache(refpath).unwrap();
         let streets: Vec<String> = vec![
             "Törökugrató utca".into(),
@@ -1940,6 +1935,7 @@ mod tests {
     #[test]
     fn test_build_street_reference_cache_cached() {
         let refpath = "tests/refdir/utcak_20190514.tsv";
+        build_street_reference_cache(refpath).unwrap();
         let memory_cache = build_street_reference_cache(refpath).unwrap();
         let streets: Vec<String> = vec![
             "Törökugrató utca".into(),
@@ -1954,7 +1950,101 @@ mod tests {
         let mut expected: StreetReferenceCache = HashMap::new();
         expected.insert("01".into(), settlement);
         assert_eq!(memory_cache, expected);
-        std::fs::remove_file(format!("{}.cache", refpath)).unwrap();
+    }
+
+    /// Tests build_reference_cache().
+    #[test]
+    fn test_build_reference_cache() {
+        let refpath = "tests/refdir/hazszamok_20190511.tsv";
+        let cachepath = format!("{}.cache", refpath);
+        if std::path::Path::new(&cachepath).exists() {
+            std::fs::remove_file(&cachepath).unwrap();
+        }
+        let memory_cache = build_reference_cache(refpath, "01").unwrap();
+        let mut streets: HashMap<String, Vec<HouseNumberWithComment>> = HashMap::new();
+        streets.insert(
+            "Ref Name 1".to_string(),
+            vec![
+                vec!["1".to_string(), "".to_string()],
+                vec!["2".to_string(), "".to_string()],
+            ],
+        );
+        streets.insert(
+            "Törökugrató utca".to_string(),
+            vec![
+                vec!["1".to_string(), "comment".to_string()],
+                vec!["10".to_string(), "".to_string()],
+                vec!["11".to_string(), "".to_string()],
+                vec!["12".to_string(), "".to_string()],
+                vec!["2".to_string(), "".to_string()],
+                vec!["7".to_string(), "".to_string()],
+            ],
+        );
+        streets.insert(
+            "Tűzkő utca".to_string(),
+            vec![
+                vec!["1".to_string(), "".to_string()],
+                vec!["10".to_string(), "".to_string()],
+                vec!["2".to_string(), "".to_string()],
+                vec!["9".to_string(), "".to_string()],
+            ],
+        );
+        streets.insert(
+            "Hamzsabégi út".to_string(),
+            vec![vec!["1".to_string(), "".to_string()]],
+        );
+        let mut settlements: HashMap<String, HashMap<String, Vec<HouseNumberWithComment>>> =
+            HashMap::new();
+        settlements.insert("011".to_string(), streets);
+        let mut expected: HouseNumberReferenceCache = HashMap::new();
+        expected.insert("01".to_string(), settlements);
+        assert_eq!(memory_cache, expected);
+    }
+
+    /// Tests build_reference_cache(): the case when the cache is already available.
+    #[test]
+    fn test_build_reference_cache_cached() {
+        let refpath = "tests/refdir/hazszamok_20190511.tsv";
+        build_reference_cache(refpath, "01").unwrap();
+        let memory_cache = build_reference_cache(refpath, "01").unwrap();
+        let mut streets: HashMap<String, Vec<HouseNumberWithComment>> = HashMap::new();
+        streets.insert(
+            "Ref Name 1".to_string(),
+            vec![
+                vec!["1".to_string(), "".to_string()],
+                vec!["2".to_string(), "".to_string()],
+            ],
+        );
+        streets.insert(
+            "Törökugrató utca".to_string(),
+            vec![
+                vec!["1".to_string(), "comment".to_string()],
+                vec!["10".to_string(), "".to_string()],
+                vec!["11".to_string(), "".to_string()],
+                vec!["12".to_string(), "".to_string()],
+                vec!["2".to_string(), "".to_string()],
+                vec!["7".to_string(), "".to_string()],
+            ],
+        );
+        streets.insert(
+            "Tűzkő utca".to_string(),
+            vec![
+                vec!["1".to_string(), "".to_string()],
+                vec!["10".to_string(), "".to_string()],
+                vec!["2".to_string(), "".to_string()],
+                vec!["9".to_string(), "".to_string()],
+            ],
+        );
+        streets.insert(
+            "Hamzsabégi út".to_string(),
+            vec![vec!["1".to_string(), "".to_string()]],
+        );
+        let mut settlements: HashMap<String, HashMap<String, Vec<HouseNumberWithComment>>> =
+            HashMap::new();
+        settlements.insert("011".to_string(), streets);
+        let mut expected: HouseNumberReferenceCache = HashMap::new();
+        expected.insert("01".to_string(), settlements);
+        assert_eq!(memory_cache, expected);
     }
 
     /// Tests split_house_number(): just numbers.
