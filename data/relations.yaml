@@ -477,6 +477,14 @@ felsotarkany:
     osmrelation: 1418232
     refcounty: "10"
     refsettlement: "037"
+gyongyos:
+    osmrelation: 1417491
+    refcounty: "10"
+    refsettlement: "039"
+gyongyos-matrafured:  # 3232 Gyöngyös-Mátrafüred
+    osmrelation: 6841611
+    refcounty: "10"
+    refsettlement: "039"
 sarud:
     osmrelation: 1325122
     refcounty: "10"
