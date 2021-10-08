@@ -1033,11 +1033,6 @@ pub fn parse_filters(tokens: &[String]) -> HashMap<String, String> {
     ret
 }
 
-#[pyfunction]
-fn py_parse_filters(tokens: Vec<String>) -> HashMap<String, String> {
-    parse_filters(&tokens)
-}
-
 /// Handles a HTTP error from Overpass.
 pub fn handle_overpass_error(ctx: &context::Context, http_error: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
@@ -1806,7 +1801,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_reference_cache_path, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_parse_filters, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_overpass_error, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_setup_localization, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_gen_link, module)?)?;
@@ -1940,5 +1934,85 @@ mod tests {
         let mut expected: StreetReferenceCache = HashMap::new();
         expected.insert("01".into(), settlement);
         assert_eq!(memory_cache, expected);
+    }
+
+    /// Tests build_street_reference_cache(): the case when the cache is already available.
+    #[test]
+    fn test_build_street_reference_cache_cached() {
+        let refpath = "tests/refdir/utcak_20190514.tsv";
+        let memory_cache = build_street_reference_cache(refpath).unwrap();
+        let streets: Vec<String> = vec![
+            "Törökugrató utca".into(),
+            "Tűzkő utca".into(),
+            "Ref Name 1".into(),
+            "Only In Ref utca".into(),
+            "Only In Ref Nonsense utca".into(),
+            "Hamzsabégi út".into(),
+        ];
+        let mut settlement: HashMap<String, Vec<String>> = HashMap::new();
+        settlement.insert("011".into(), streets);
+        let mut expected: StreetReferenceCache = HashMap::new();
+        expected.insert("01".into(), settlement);
+        assert_eq!(memory_cache, expected);
+        std::fs::remove_file(format!("{}.cache", refpath)).unwrap();
+    }
+
+    /// Tests split_house_number(): just numbers.
+    #[test]
+    fn test_split_house_number_only_number() {
+        assert_eq!(split_house_number("42"), (42, "".to_string()));
+    }
+
+    /// Tests split_house_number(): numbers and suffixes.
+    #[test]
+    fn test_split_house_number_number_alpha() {
+        assert_eq!(split_house_number("42ab"), (42, "ab".to_string()));
+    }
+
+    /// Tests split_house_number(): just suffixes.
+    #[test]
+    fn test_split_house_number_only_alpha() {
+        assert_eq!(split_house_number("a"), (0, "a".to_string()));
+    }
+
+    /// Tests parse_filters(): the incomplete case.
+    #[test]
+    fn test_parse_filters_incomplete() {
+        let from = &[
+            "osm".to_string(),
+            "filter-for".to_string(),
+            "incomplete".to_string(),
+        ];
+        assert_eq!(parse_filters(from).contains_key("incomplete"), true)
+    }
+
+    /// Tests parse_filters(): the refcounty case.
+    #[test]
+    fn test_parse_filters_refcounty() {
+        let from = &[
+            "osm".to_string(),
+            "filter-for".to_string(),
+            "refcounty".to_string(),
+            "42".to_string(),
+        ];
+        let mut expected: HashMap<String, String> = HashMap::new();
+        expected.insert("refcounty".into(), "42".into());
+        assert_eq!(parse_filters(from), expected);
+    }
+
+    /// Tests parse_filters(): the refsettlement case.
+    #[test]
+    fn test_parse_filters_refsettlement() {
+        let from = &[
+            "osm".to_string(),
+            "filter-for".to_string(),
+            "refcounty".to_string(),
+            "42".to_string(),
+            "refsettlement".to_string(),
+            "43".to_string(),
+        ];
+        let filters = parse_filters(from);
+        assert_eq!(filters["refcounty"], "42");
+        assert_eq!(filters["refsettlement"], "43");
     }
 }

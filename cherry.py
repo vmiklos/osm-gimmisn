@@ -14,8 +14,7 @@ from typing import TYPE_CHECKING
 
 import cherrypy  # type: ignore
 
-import context
-import wsgi
+import rust
 
 if TYPE_CHECKING:
     # pylint: disable=no-name-in-module,import-error,unused-import
@@ -24,7 +23,7 @@ if TYPE_CHECKING:
 
 def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[bytes]:
     """Wraps wsgi.application() to a wsgi app for cherrypy."""
-    ctx = context.make_context("")
+    ctx = rust.PyContext("")
     request_headers: Dict[str, str] = {}
     request_data = bytes()
     for key, value in environ.items():
@@ -32,9 +31,9 @@ def app(environ: Dict[str, Any], start_response: 'StartResponse') -> Iterable[by
             request_headers[key] = value
         elif key == "wsgi.input":
             request_data = value.read()
-    status, headers, data = wsgi.application(request_headers, request_data, ctx)
+    status, headers, data = rust.py_application(request_headers, request_data, ctx)
     start_response(status, headers)
-    return data
+    return [data]
 
 
 def main() -> None:
@@ -53,7 +52,7 @@ def main() -> None:
     # This is documented at <https://docs.cherrypy.org/en/latest/advanced.html>, so:
     # pylint: disable=protected-access
     server = cherrypy._cpserver.Server()
-    ctx = context.make_context("")
+    ctx = rust.PyContext("")
     server.socket_host = "127.0.0.1"
     server.socket_port = ctx.get_ini().get_tcp_port()
     server.thread_pool = 8

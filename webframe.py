@@ -12,29 +12,12 @@ from typing import List
 from typing import Tuple
 
 import rust
-import yattag
-
-
-def fill_missing_header_items(
-    ctx: rust.PyContext,
-    streets: str,
-    additional_housenumbers: bool,
-    relation_name: str,
-    items: List[yattag.Doc]
-) -> List[yattag.Doc]:
-    """Generates the 'missing house numbers/streets' part of the header."""
-    return rust.py_fill_missing_header_items(ctx, streets, additional_housenumbers, relation_name, items)
-
-
-def handle_static(ctx: rust.PyContext, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
-    """Handles serving static content."""
-    return rust.py_handle_static(ctx, request_uri)
 
 
 def handle_exception(
         environ: Dict[str, str],
         error: str
-) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
+) -> Tuple[str, List[Tuple[str, str]], bytes]:
     """Displays an unhandled exception on the page."""
     return rust.py_handle_exception(environ, error)
 
@@ -44,7 +27,7 @@ def get_request_uri(environ: Dict[str, str], ctx: rust.PyContext, relations: rus
     return rust.py_get_request_uri(environ, ctx, relations)
 
 
-def handle_github_webhook(data: bytes, ctx: rust.PyContext) -> yattag.Doc:
+def handle_github_webhook(data: bytes, ctx: rust.PyContext) -> rust.PyDoc:
     """Handles a GitHub style webhook."""
     return rust.py_handle_github_webhook(data, ctx)
 

@@ -16,25 +16,6 @@ import test_context
 
 import rust
 import util
-import yattag
-
-
-class TestBuildStreetReferenceCache(unittest.TestCase):
-    """Tests build_street_reference_cache()."""
-    def test_cached(self) -> None:
-        """Tests the case when the cache is already available."""
-        refdir = os.path.join(os.path.dirname(__file__), "refdir")
-        refpath = os.path.join(refdir, "utcak_20190514.tsv")
-        util.build_street_reference_cache(refpath)
-        memory_cache = util.build_street_reference_cache(refpath)
-        expected = {'01': {'011': ['Törökugrató utca',
-                                   'Tűzkő utca',
-                                   'Ref Name 1',
-                                   'Only In Ref utca',
-                                   'Only In Ref Nonsense utca',
-                                   'Hamzsabégi út']}}
-        self.assertEqual(memory_cache, expected)
-        os.unlink(refpath + ".cache")
 
 
 class TestBuildReferenceCache(unittest.TestCase):
@@ -65,42 +46,6 @@ class TestBuildReferenceCache(unittest.TestCase):
                                    'Tűzkő utca': [['1', ''], ['10', ''], ['2', ''], ['9', '']]}}}
         self.assertEqual(memory_cache, expected)
         os.unlink(util.get_reference_cache_path(refpath, "01"))
-
-
-class TestSplitHouseNumber(unittest.TestCase):
-    """Tests split_house_number()."""
-    def test_only_number(self) -> None:
-        """Tests just numbers."""
-        self.assertEqual(util.split_house_number('42'), (42, ''))
-
-    def test_number_alpha(self) -> None:
-        """Tests numbers and suffixes."""
-        self.assertEqual(util.split_house_number('42ab'), (42, 'ab'))
-
-    def test_alpha(self) -> None:
-        """Tests just suffixes."""
-        self.assertEqual(util.split_house_number('a'), (0, 'a'))
-
-
-class TestParseFilters(unittest.TestCase):
-    """Tests parse_filters()."""
-    def test_incomplete(self) -> None:
-        """Tests the incomplete case."""
-        fro = ["osm", "filter-for", "incomplete"]
-        self.assertTrue("incomplete" in util.parse_filters(fro))
-
-    def test_refcounty(self) -> None:
-        """Tests the refcounty case."""
-        fro = ["osm", "filter-for", "refcounty", "42"]
-        self.assertEqual(util.parse_filters(fro), {"refcounty": "42"})
-
-    def test_refsettlement(self) -> None:
-        """Tests the refsettlement case."""
-        fro = ["osm", "filter-for", "refcounty", "42", "refsettlement", "43"]
-        filters = util.parse_filters(fro)
-        self.assertEqual(filters["refcounty"], "42")
-        filters = util.parse_filters(fro)
-        self.assertEqual(filters["refsettlement"], "43")
 
 
 class TestHandleOverpassError(unittest.TestCase):
@@ -177,10 +122,10 @@ class TestHtmlTableFromList(unittest.TestCase):
     """Tests html_table_from_list()."""
     def test_happy(self) -> None:
         """Tests the happy path."""
-        fro = [[yattag.Doc.from_text("A1"),
-                yattag.Doc.from_text("B1")],
-               [yattag.Doc.from_text("A2"),
-                yattag.Doc.from_text("B2")]]
+        fro = [[rust.PyDoc.from_text("A1"),
+                rust.PyDoc.from_text("B1")],
+               [rust.PyDoc.from_text("A2"),
+                rust.PyDoc.from_text("B2")]]
         expected = '<table class="sortable">'
         expected += '<tr><th><a href="#">A1</a></th>'
         expected += '<th><a href="#">B1</a></th></tr>'
@@ -402,9 +347,9 @@ class TestGetColumn(unittest.TestCase):
         """Tests the happy path."""
         # id, street name, housenumber
         row = [
-            yattag.Doc.from_text("42"),
-            yattag.Doc.from_text("A street"),
-            yattag.Doc.from_text("1"),
+            rust.PyDoc.from_text("42"),
+            rust.PyDoc.from_text("A street"),
+            rust.PyDoc.from_text("1"),
         ]
         self.assertEqual(util.get_column(row, 1), "A street")
         self.assertEqual(util.natnum(util.get_column(row, 2)), 1)
@@ -415,9 +360,9 @@ class TestGetColumn(unittest.TestCase):
         """Tests the 'housenumber is junk' case."""
         # id, street name, housenumber
         row = [
-            yattag.Doc.from_text("42"),
-            yattag.Doc.from_text("A street"),
-            yattag.Doc.from_text("fixme"),
+            rust.PyDoc.from_text("42"),
+            rust.PyDoc.from_text("A street"),
+            rust.PyDoc.from_text("fixme"),
         ]
         self.assertEqual(util.natnum(util.get_column(row, 2)), 0)
 

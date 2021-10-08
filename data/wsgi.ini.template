@@ -5,5 +5,5 @@ reference_street = refdir/utcak_20211005.tsv
 reference_citycounts = refdir/varosok_count_20211005.tsv
 uri_prefix = /osm
 tcp_port = 8000
-overpass_uri = https://lz4.overpass-api.de
+overpass_uri = https://z.overpass-api.de
 cron_update_inactive = False

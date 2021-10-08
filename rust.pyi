@@ -84,10 +84,6 @@ class PyDoc:
         """Appends escaped content to the value."""
         ...
 
-    def tag(self, name: str, attrs: List[Tuple[str, str]]) -> 'PyTag':
-        """Starts a new tag."""
-        ...
-
     def stag(self, name: str, attrs: List[Tuple[str, str]]) -> None:
         """Starts a new tag and closes it as well."""
         ...
@@ -96,17 +92,6 @@ class PyDoc:
         """Appends unescaped content to the document."""
         ...
 
-
-class PyTag:
-    """Starts a tag, which is closed automatically."""
-    def __init__(self, doc: PyDoc, name: str, attrs: List[Tuple[str, str]]) -> None:
-        ...
-
-    def __enter__(self) -> None:
-        ...
-
-    def __exit__(self, tpe: Any, value: Any, traceback: Any) -> None:
-        ...
 
 def py_parse(raw_languages: str) -> List[str]:
     """
@@ -430,10 +415,6 @@ def py_get_reference_cache_path(local: str, refcounty: str) -> str:
 
 def py_build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    ...
-
-def py_parse_filters(tokens: List[str]) -> Dict[str, str]:
-    """Parses a filter description, like 'filter-for', 'refcounty', '42'."""
     ...
 
 def py_handle_overpass_error(ctx: PyContext, http_error: str) -> PyDoc:
@@ -860,24 +841,10 @@ def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyConte
     """Commandline interface."""
     ...
 
-def py_fill_missing_header_items(
-    ctx: PyContext,
-    streets: str,
-    additional_housenumbers: bool,
-    relation_name: str,
-    items: List[PyDoc]
-) -> List[PyDoc]:
-    """Generates the 'missing house numbers/streets' part of the header."""
-    ...
-
-def py_handle_static(ctx: PyContext, request_uri: str) -> Tuple[bytes, str, List[Tuple[str, str]]]:
-    """Handles serving static content."""
-    ...
-
 def py_handle_exception(
         environ: Dict[str, str],
         error: str
-) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
+) -> Tuple[str, List[Tuple[str, str]], bytes]:
     """Displays an unhandled exception on the page."""
     ...
 
@@ -921,12 +888,11 @@ def py_handle_main_housenr_additional_count(ctx: PyContext, relation: PyRelation
     """Handles the housenumber additional count part of the main page."""
     ...
 
-def py_our_application(
+def py_application(
         request_headers: Dict[str, str],
         request_data: bytes,
         ctx: PyContext
-) -> Tuple[str, List[Tuple[str, str]], List[bytes]]:
-    """Dispatches the request based on its URI."""
-    ...
+) -> Tuple[str, List[Tuple[str, str]], bytes]:
+    """The entry point of this WSGI app."""
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

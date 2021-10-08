@@ -32,16 +32,10 @@ do
             areas)
                 continue
             ;;
-            yattag)
-                continue
-            ;;
             webframe)
                 continue
             ;;
-            wsgi_additional)
-                continue
-            ;;
-            wsgi_json)
+            wsgi)
                 continue
             ;;
         esac

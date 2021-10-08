@@ -51,11 +51,6 @@ def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dic
     return rust.py_build_reference_cache(local, refcounty)
 
 
-def parse_filters(tokens: List[str]) -> Dict[str, str]:
-    """Parses a filter description, like 'filter-for', 'refcounty', '42'."""
-    return rust.py_parse_filters(tokens)
-
-
 def handle_overpass_error(ctx: rust.PyContext, http_error: str) -> rust.PyDoc:
     """Handles a HTTP error from Overpass."""
     return rust.py_handle_overpass_error(ctx, http_error)

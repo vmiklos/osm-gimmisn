@@ -289,43 +289,6 @@ fn fill_missing_header_items(
     Ok(items)
 }
 
-#[pyfunction]
-fn py_fill_missing_header_items(
-    ctx: context::PyContext,
-    streets: &str,
-    additional_housenumbers: bool,
-    relation_name: &str,
-    items: Vec<PyObject>,
-) -> PyResult<Vec<yattag::PyDoc>> {
-    let gil = Python::acquire_gil();
-    let items: Vec<yattag::Doc> = items
-        .iter()
-        .map(|i| {
-            let i: PyRefMut<'_, yattag::PyDoc> = i.extract(gil.python()).unwrap();
-            i.doc.clone()
-        })
-        .collect();
-    let ret = match fill_missing_header_items(
-        &ctx.context,
-        streets,
-        additional_housenumbers,
-        relation_name,
-        &items,
-    ) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "fill_missing_header_items() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok(ret
-        .iter()
-        .map(|i| yattag::PyDoc { doc: i.clone() })
-        .collect())
-}
-
 /// Generates the 'existing house numbers/streets' part of the header.
 fn fill_existing_header_items(
     ctx: &context::Context,
@@ -544,29 +507,6 @@ pub fn handle_static(
     Ok((bytes, "".into(), extra_headers))
 }
 
-#[pyfunction]
-fn py_handle_static(
-    ctx: context::PyContext,
-    request_uri: &str,
-) -> PyResult<(PyObject, String, Headers)> {
-    let (content, content_type, extra_headers) = match handle_static(&ctx.context, request_uri) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "handle_static() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-
-    let gil = Python::acquire_gil();
-    Ok((
-        PyBytes::new(gil.python(), &content).into(),
-        content_type,
-        extra_headers,
-    ))
-}
-
 /// A HTTP response, to be sent by compress_response().
 #[derive(Clone)]
 pub struct Response {
@@ -616,7 +556,7 @@ impl Response {
 pub fn compress_response(
     environ: &HashMap<String, String>,
     response: &Response,
-) -> anyhow::Result<(String, Headers, Vec<Vec<u8>>)> {
+) -> anyhow::Result<(String, Headers, Vec<u8>)> {
     let mut content_type: String = response.get_content_type().into();
     if content_type != "application/octet-stream" {
         content_type.push_str("; charset=utf-8");
@@ -654,14 +594,14 @@ pub fn compress_response(
     headers.push(("Content-Length".into(), content_length.to_string()));
     headers.append(&mut response.get_headers().clone());
     let status = response.get_status();
-    Ok((status.into(), headers, vec![output_bytes]))
+    Ok((status.into(), headers, output_bytes))
 }
 
 /// Displays an unhandled exception on the page.
-fn handle_exception(
+pub fn handle_exception(
     environ: &HashMap<String, String>,
     error: &str,
-) -> anyhow::Result<(String, Headers, Vec<Vec<u8>>)> {
+) -> anyhow::Result<(String, Headers, Vec<u8>)> {
     let status = "500 Internal Server Error";
     let request_uri = environ
         .get("PATH_INFO")
@@ -684,8 +624,8 @@ fn handle_exception(
 fn py_handle_exception(
     environ: HashMap<String, String>,
     error: String,
-) -> PyResult<(String, Headers, Vec<PyObject>)> {
-    let (status, headers, output_byte_list) = match handle_exception(&environ, &error) {
+) -> PyResult<(String, Headers, PyObject)> {
+    let (status, headers, data) = match handle_exception(&environ, &error) {
         Ok(value) => value,
         Err(err) => {
             return Err(pyo3::exceptions::PyOSError::new_err(format!(
@@ -696,11 +636,8 @@ fn py_handle_exception(
     };
 
     let gil = Python::acquire_gil();
-    let output_byte_list: Vec<PyObject> = output_byte_list
-        .iter()
-        .map(|i| PyBytes::new(gil.python(), i).into())
-        .collect();
-    Ok((status, headers, output_byte_list))
+    let data = PyBytes::new(gil.python(), &data);
+    Ok((status, headers, data.into()))
 }
 
 /// Displays a not-found page.
@@ -1281,11 +1218,6 @@ fn py_handle_github_webhook(data: Vec<u8>, ctx: context::PyContext) -> PyResult<
 }
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_fill_missing_header_items,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_static, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_exception, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_github_webhook, module)?)?;
@@ -1307,5 +1239,87 @@ mod tests {
         assert_eq!(content_type, "text/css");
         assert_eq!(extra_headers.len(), 1);
         assert_eq!(extra_headers[0].0, "Last-Modified");
+    }
+
+    /// Tests handle_static: the generated javascript case.
+    #[test]
+    fn test_handle_static_generated_javascript() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+        let (content, content_type, extra_headers) =
+            handle_static(&ctx, &format!("{}/static/bundle.js", prefix)).unwrap();
+        assert_eq!("// bundle.js\n".as_bytes(), content);
+        assert_eq!(content_type, "application/x-javascript");
+        assert_eq!(extra_headers.len(), 1);
+        assert_eq!(extra_headers[0].0, "Last-Modified");
+    }
+
+    /// Tests handle_static: the json case.
+    #[test]
+    fn test_handle_static_json() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+        let (content, content_type, extra_headers) =
+            handle_static(&ctx, &format!("{}/static/stats-empty.json", prefix)).unwrap();
+        assert_eq!(content.starts_with(b"{"), true);
+        assert_eq!(content_type, "application/json");
+        assert_eq!(extra_headers.len(), 1);
+        assert_eq!(extra_headers[0].0, "Last-Modified");
+    }
+
+    /// Tests handle_static: the ico case.
+    #[test]
+    fn test_handle_static_ico() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let (content, content_type, extra_headers) = handle_static(&ctx, "/favicon.ico").unwrap();
+        assert_eq!(content.is_empty(), false);
+        assert_eq!(content_type, "image/x-icon");
+        assert_eq!(extra_headers.len(), 1);
+        assert_eq!(extra_headers[0].0, "Last-Modified");
+    }
+
+    /// Tests handle_static: the svg case.
+    #[test]
+    fn test_handle_static_svg() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let (content, content_type, extra_headers) = handle_static(&ctx, "/favicon.svg").unwrap();
+        assert_eq!(content.is_empty(), false);
+        assert_eq!(content_type, "image/svg+xml");
+        assert_eq!(extra_headers.len(), 1);
+        assert_eq!(extra_headers[0].0, "Last-Modified");
+    }
+
+    /// Tests the case when the content type is not recognized.
+    #[test]
+    fn test_handle_static_else() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+        let (content, content_type, extra_headers) =
+            handle_static(&ctx, &format!("{}/static/test.xyz", prefix)).unwrap();
+        assert_eq!(content.is_empty(), true);
+        assert_eq!(content_type.is_empty(), true);
+        // No last modified non-existing file.
+        assert_eq!(extra_headers.is_empty(), true);
+    }
+
+    /// Tests fill_missing_header_items().
+    #[test]
+    fn test_fill_missing_header_items() {
+        let streets = "no";
+        let relation_name = "gazdagret";
+        let mut items: Vec<yattag::Doc> = Vec::new();
+        let additional_housenumbers = true;
+        let ctx = context::tests::make_test_context().unwrap();
+        items = fill_missing_header_items(
+            &ctx,
+            streets,
+            additional_housenumbers,
+            relation_name,
+            &items,
+        )
+        .unwrap();
+        let html = items[0].get_value();
+        assert_eq!(html.contains("Missing house numbers"), true);
+        assert_eq!(html.contains("Missing streets"), false);
     }
 }

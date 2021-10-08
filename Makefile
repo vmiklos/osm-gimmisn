@@ -30,7 +30,6 @@ PYTHON_SAFE_OBJECTS = \
 	validator.py \
 	webframe.py \
 	wsgi.py \
-	yattag.py \
 
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \
@@ -105,7 +104,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo
+all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/missing_housenumbers
 
 clean:
 	rm -f config.ts
@@ -116,7 +115,7 @@ clean:
 	rm -rf $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS)) .mypy_cache
 	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
-check: all check-filters check-flake8 check-mypy check-unit check-rustunit check-pylint check-eslint check-rustfmt check-clippy target/${TARGET_PATH}/missing_housenumbers
+check: all check-filters check-flake8 check-mypy check-unit check-rustunit check-pylint check-eslint check-rustfmt check-clippy
 	@echo "make check: ok"
 
 check-rustfmt: Cargo.toml $(RS_OBJECTS)
