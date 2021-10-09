@@ -666,6 +666,9 @@ class TestMain(TestWsgi):
         root = self.get_dom_for_path("/filter-for/refcounty/01/refsettlement/011")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
+        results = root.findall("body/table/tr")
+        # header + 5 relations, was just 1 when the filter was buggy
+        self.assertEqual(len(results), 6)
 
     def test_filter_for_relations(self) -> None:
         """Tests if the /osm/filter-for/relations/... output is well-formed."""

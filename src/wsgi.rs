@@ -1000,12 +1000,12 @@ fn create_filter_for_refcounty_refsettlement(
 ) -> Box<RelationFilter> {
     let refcounty_arc = Arc::new(refcounty_filter.to_string());
     let refcounty_filter = refcounty_arc;
-    let refsettlement_arc = Arc::new(refsettlement_filter.parse::<u64>().unwrap());
+    let refsettlement_arc = Arc::new(refsettlement_filter.to_string());
     let refsettlement_filter = refsettlement_arc;
     Box::new(move |_complete, relation| {
         let config = relation.get_config();
         config.get_refcounty() == refcounty_filter.as_str()
-            && config.get_osmrelation().eq(refsettlement_filter.as_ref())
+            && config.get_refsettlement() == refsettlement_filter.as_str()
     })
 }
 
