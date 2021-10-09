@@ -90,7 +90,7 @@ impl RelationConfig {
     }
 
     /// Gets the relation's refsettlement identifier from reference.
-    fn get_refsettlement(&self) -> String {
+    pub fn get_refsettlement(&self) -> String {
         self.get_property("refsettlement")
             .unwrap()
             .as_str()
