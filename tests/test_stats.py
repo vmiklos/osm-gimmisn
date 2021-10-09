@@ -33,7 +33,7 @@ class TestHandleProgress(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_progress(ctx, src_root, j)
+        j = stats.handle_progress(ctx, src_root, j)
         progress = j["progress"]
         self.assertEqual(progress["date"], "2020-05-10")
         # 254651 / 300 * 100
@@ -45,7 +45,7 @@ class TestHandleProgress(unittest.TestCase):
         ctx.set_time(make_test_time_old())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_progress(ctx, src_root, j)
+        j = stats.handle_progress(ctx, src_root, j)
         progress = j["progress"]
         self.assertEqual(progress["date"], "1970-01-01")
 

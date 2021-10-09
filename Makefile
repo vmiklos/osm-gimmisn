@@ -76,6 +76,7 @@ RS_OBJECTS = \
 	src/missing_housenumbers.rs \
 	src/overpass_query.rs \
 	src/ranges.rs \
+	src/stats.rs \
 	src/util.rs \
 	src/webframe.rs \
 	src/wsgi.rs \

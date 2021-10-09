@@ -984,7 +984,8 @@ impl Context {
         &self.file_system
     }
 
-    fn set_file_system(&mut self, file_system: &Arc<dyn FileSystem>) {
+    /// Sets the file system implementation.
+    pub fn set_file_system(&mut self, file_system: &Arc<dyn FileSystem>) {
         self.file_system = file_system.clone();
     }
 }
@@ -1092,10 +1093,94 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    use std::io::Seek;
+    use std::io::SeekFrom;
 
     /// Creates a Context instance for text purposes.
     pub fn make_test_context() -> anyhow::Result<Context> {
         Ok(Context::new("tests")?)
+    }
+
+    /// File system implementation, for test purposes.
+    pub struct TestFileSystem {
+        hide_paths: Vec<String>,
+        mtimes: HashMap<String, f64>,
+        files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>>,
+    }
+
+    impl TestFileSystem {
+        pub fn new() -> Self {
+            TestFileSystem {
+                hide_paths: Vec::new(),
+                mtimes: HashMap::new(),
+                files: HashMap::new(),
+            }
+        }
+
+        /*/// Sets the hide paths.
+        fn set_hide_paths(&mut self, hide_paths: &[String]) {
+            self.hide_paths = hide_paths.to_vec();
+        }*/
+
+        /*/// Sets the mtimes.
+        fn set_mtimes(&mut self, mtimes: &HashMap<String, f64>) {
+            self.mtimes = mtimes.clone();
+        }*/
+
+        /// Sets the files.
+        pub fn set_files(&mut self, files: &HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>>) {
+            self.files = files.clone()
+        }
+    }
+
+    impl FileSystem for TestFileSystem {
+        fn path_exists(&self, path: &str) -> bool {
+            if self.hide_paths.contains(&path.to_string()) {
+                return false;
+            }
+
+            if self.files.contains_key(path) {
+                return true;
+            }
+
+            Path::new(path).exists()
+        }
+
+        fn getmtime(&self, path: &str) -> anyhow::Result<f64> {
+            if self.mtimes.contains_key(path) {
+                return Ok(self.mtimes[path]);
+            }
+
+            let metadata = std::fs::metadata(path)?;
+            let modified = metadata.modified()?;
+            let mtime = modified.duration_since(std::time::SystemTime::UNIX_EPOCH)?;
+            Ok(mtime.as_secs_f64())
+        }
+
+        fn open_read(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+            if self.files.contains_key(path) {
+                let ret = self.files[path].clone();
+                ret.lock().unwrap().seek(SeekFrom::Start(0))?;
+                return Ok(ret);
+            }
+            let ret: Arc<Mutex<dyn Read + Send>> = Arc::new(Mutex::new(std::fs::File::open(path)?));
+            Ok(ret)
+        }
+
+        fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+            if self.files.contains_key(path) {
+                let ret = self.files[path].clone();
+                ret.lock().unwrap().seek(SeekFrom::Start(0))?;
+                return Ok(ret);
+            }
+
+            use anyhow::Context;
+            let ret: Arc<Mutex<dyn Write + Send>> = Arc::new(Mutex::new(
+                std::fs::File::create(path)
+                    .with_context(|| format!("failed to open {} for writing", path))?,
+            ));
+            Ok(ret)
+        }
     }
 
     /// Tests Ini.get_tcp_port().

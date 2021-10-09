@@ -22,6 +22,7 @@ mod i18n;
 pub mod missing_housenumbers;
 mod overpass_query;
 mod ranges;
+mod stats;
 mod util;
 mod webframe;
 pub mod wsgi;
@@ -40,6 +41,7 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     missing_housenumbers::register_python_symbols(m)?;
     overpass_query::register_python_symbols(m)?;
     ranges::register_python_symbols(m)?;
+    stats::register_python_symbols(m)?;
     util::register_python_symbols(m)?;
     webframe::register_python_symbols(m)?;
     wsgi::register_python_symbols(m)?;

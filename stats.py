@@ -21,23 +21,9 @@ import rust
 import util
 
 
-def handle_progress(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> None:
+def handle_progress(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> Any:
     """Generates stats for a global progressbar."""
-    ret: Dict[str, Any] = {}
-    with open(os.path.join(src_root, "ref.count"), "r") as stream:
-        num_ref = int(stream.read().strip())
-    today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
-    num_osm = 0
-    count_path = os.path.join(src_root, "%s.count" % today)
-    if os.path.exists(count_path):
-        with open(count_path, "r") as stream:
-            num_osm = int(stream.read().strip())
-    percentage = round(num_osm * 100 / num_ref, 2)
-    ret["date"] = today
-    ret["percentage"] = percentage
-    ret["reference"] = num_ref
-    ret["osm"] = num_osm
-    j["progress"] = ret
+    return json.loads(rust.py_handle_progress(ctx, src_root, json.dumps(j)))
 
 
 def handle_topusers(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> None:
@@ -217,7 +203,7 @@ def handle_monthly_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], 
 def generate_json(ctx: rust.PyContext, state_dir: str, stream: BinaryIO) -> None:
     """Generates the stats json and writes it to `stream`."""
     j: Dict[str, Any] = {}
-    handle_progress(ctx, state_dir, j)
+    j = handle_progress(ctx, state_dir, j)
     handle_topusers(ctx, state_dir, j)
     handle_topcities(ctx, state_dir, j)
     handle_user_total(ctx, state_dir, j)
