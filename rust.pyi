@@ -886,5 +886,10 @@ def py_application(
         ctx: PyContext
 ) -> Tuple[str, List[Tuple[str, str]], bytes]:
     """The entry point of this WSGI app."""
+    ...
+
+def py_handle_progress(ctx: PyContext, src_root: str, j: str) -> str:
+    """Generates stats for a global progressbar."""
+    ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

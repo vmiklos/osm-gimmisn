@@ -21,61 +21,6 @@ import rust
 import util
 
 
-class TestRelationFilesWriteOsmStreets(unittest.TestCase):
-    """Tests RelationFiles.write_osm_streets()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        relations = areas.make_relations(ctx)
-        relation_name = "gazdagret"
-        relation = relations.get_relation(relation_name)
-        result_from_overpass = "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n"
-        expected = util.get_content(relations.get_workdir() + "/streets-gazdagret.csv")
-        file_system = test_context.TestFileSystem()
-        streets_value = io.BytesIO()
-        streets_value.__setattr__("close", lambda: None)
-        files = {
-            ctx.get_abspath("workdir/streets-gazdagret.csv"): streets_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-        relation.get_files().write_osm_streets(ctx, result_from_overpass)
-        streets_value.seek(0)
-        self.assertEqual(streets_value.read(), expected)
-
-
-class TestRelationFilesWriteOsmHousenumbers(unittest.TestCase):
-    """Tests RelationFiles.write_osm_housenumbers()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        relations = areas.make_relations(ctx)
-        relation_name = "gazdagret"
-        result_from_overpass = "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t"
-        result_from_overpass += "addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n"
-        result_from_overpass += "1\tTörökugrató utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTörökugrató utca\t2\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTűzkő utca\t9\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tTűzkő utca\t10\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOSM Name 1\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOSM Name 1\t2\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-        result_from_overpass += "1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n"
-        expected = util.get_content(relations.get_workdir() + "/street-housenumbers-gazdagret.csv")
-        relation = relations.get_relation(relation_name)
-        file_system = test_context.TestFileSystem()
-        housenumbers_value = io.BytesIO()
-        housenumbers_value.__setattr__("close", lambda: None)
-        files = {
-            ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"): housenumbers_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-        relation.get_files().write_osm_housenumbers(ctx, result_from_overpass)
-        housenumbers_value.seek(0)
-        self.assertEqual(housenumbers_value.read(), expected)
-
-
 def make_range(start: int, end: int) -> rust.PyRange:
     """Factory for Range without specifying interpolation."""
     return rust.PyRange(start, end, interpolation="")

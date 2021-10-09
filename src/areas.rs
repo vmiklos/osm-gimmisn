@@ -2136,6 +2136,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::io::Seek;
+    use std::io::SeekFrom;
 
     /// Tests normalize().
     #[test]
@@ -2530,5 +2532,82 @@ mod tests {
         let relation = relations.get_relation("gazdagret").unwrap();
         let ret = relation.get_osm_housenumbers_query().unwrap();
         assert_eq!(ret, "housenr aaa 2713748 bbb 3602713748 ccc\n");
+    }
+
+    /// Tests RelationFiles.write_osm_streets().
+    #[test]
+    fn test_relation_files_write_osm_streets() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let result_from_overpass =
+            "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n";
+        let expected = util::get_content("tests/workdir/streets-gazdagret.csv").unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
+            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
+        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        files.insert(
+            ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap(),
+            streets_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        relation
+            .get_files()
+            .write_osm_streets(&ctx, result_from_overpass)
+            .unwrap();
+        let mut guard = streets_value.lock().unwrap();
+        guard.seek(SeekFrom::Start(0)).unwrap();
+        let mut actual: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut actual).unwrap();
+        assert_eq!(actual, expected);
+    }
+
+    /// Tests RelationFiles.write_osm_housenumbers().
+    #[test]
+    fn test_relation_files_write_osm_housenumbers() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let result_from_overpass =
+            "@id\taddr:street\taddr:housenumber\taddr:postcode\taddr:housename\t\
+addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@type\n\n\
+1\tTörökugrató utca\t1\t\t\t\t\t\t\t\t\tnode\n\
+1\tTörökugrató utca\t2\t\t\t\t\t\t\t\t\tnode\n\
+1\tTűzkő utca\t9\t\t\t\t\t\t\t\t\tnode\n\
+1\tTűzkő utca\t10\t\t\t\t\t\t\t\t\tnode\n\
+1\tOSM Name 1\t1\t\t\t\t\t\t\t\t\tnode\n\
+1\tOSM Name 1\t2\t\t\t\t\t\t\t\t\tnode\n\
+1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n\
+1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n";
+        let expected = String::from_utf8(
+            util::get_content("tests/workdir/street-housenumbers-gazdagret.csv").unwrap(),
+        )
+        .unwrap();
+        let relation = relations.get_relation(relation_name).unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let housenumbers_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
+            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
+        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        files.insert(
+            ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv")
+                .unwrap(),
+            housenumbers_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        relation
+            .get_files()
+            .write_osm_housenumbers(&ctx, result_from_overpass)
+            .unwrap();
+        let mut guard = housenumbers_value.lock().unwrap();
+        guard.seek(SeekFrom::Start(0)).unwrap();
+        let mut actual: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut actual).unwrap();
+        assert_eq!(String::from_utf8(actual).unwrap(), expected);
     }
 }
