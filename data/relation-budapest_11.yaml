@@ -1868,7 +1868,10 @@ filters:
       - {start: '1', end: '1'}
       - {start: '5', end: '5'}
       - {start: '2', end: '14'}
-  # Hosszúrét
+  # Hosszúrét/Madárhegy
+  Beléndek utca:
+    # TODO: nyoma sincs építkezésnek: 2021-09
+    invalid: ['5', '7']
   Csonttollú utca:
     ranges:
       - {start: '1', end: '11'}
@@ -1910,6 +1913,9 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '4'}
+  Rozsdafarkú utca:
+    # 2 = Keltike lejtő 15
+    invalid: ['2']
   # Őrmező
   Árokpart sor:
     ranges: []
@@ -2166,7 +2172,8 @@ filters:
       - {start: '9', end: '11'}
       - {start: '2', end: '16'}
   Ördögorom lejtő:
-    invalid: ['1b', '6a', '7a', '25', '32', '34', '36b']
+    # 33-35 = Varjúháj utca 6.
+    invalid: ['1b', '6a', '7a', '25', '32', '33', '34', '35', '36b']
     ranges:
       # 45-53 között telkek házszám nélkül
       - {start: '1', end: '45'}
@@ -2676,7 +2683,8 @@ filters:
       - {start: '2', end: '14'}
   Fehérló utca:
     # 22a: 22 és 22/b
-    invalid: ['22a']
+    # 29a: ld. Töhötöm utca 19/b
+    invalid: ['22a', '29a']
   Hegytető utca:
     # 7: 7/a, 7/b
     # 13: 13/a, 13/b
@@ -2743,6 +2751,7 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
   Töhötöm utca:
+    # 19/b: TODO: Fehérlő utca utolsó háza. építkezés folyamatban, nincs kint házszám 2021-10: Földhivatal: Töhötöm utca 19/B. "felülvizsgálat alatt"
     # 35: 35/a, 35/b
     invalid: ['35']
   Zólyomi út:
