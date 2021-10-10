@@ -13,6 +13,7 @@
 use crate::context;
 use anyhow::Context;
 use pyo3::prelude::*;
+use std::io::BufRead;
 
 /// Generates stats for a global progressbar.
 fn handle_progress(
@@ -58,8 +59,47 @@ fn py_handle_progress(ctx: context::PyContext, src_root: &str, j: &str) -> PyRes
     }
 }
 
+/// Generates stats for top users.
+fn handle_topusers(
+    ctx: &context::Context,
+    src_root: &str,
+    j: &mut serde_json::Value,
+) -> anyhow::Result<()> {
+    let today = {
+        let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+        now.format("%Y-%m-%d").to_string()
+    };
+    let mut ret: Vec<(String, String)> = Vec::new();
+    let topusers_path = format!("{}/{}.topusers", src_root, today);
+    if std::path::Path::new(&topusers_path).exists() {
+        let stream = std::io::BufReader::new(std::fs::File::open(topusers_path)?);
+        for line in stream.lines() {
+            let line = line?.trim().to_string();
+            let mut tokens = line.split(' ');
+            let count = tokens.next().unwrap();
+            let user = tokens.next().unwrap();
+            ret.push((user.into(), count.into()));
+        }
+    }
+    j.as_object_mut()
+        .unwrap()
+        .insert("topusers".into(), serde_json::to_value(&ret)?);
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_handle_topusers(ctx: context::PyContext, src_root: &str, j: &str) -> PyResult<String> {
+    let mut j = serde_json::from_str(j).unwrap();
+    match handle_topusers(&ctx.context, src_root, &mut j).context("handle_topusers() failed") {
+        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_progress, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_topusers, module)?)?;
     Ok(())
 }

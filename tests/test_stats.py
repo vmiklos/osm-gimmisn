@@ -58,7 +58,7 @@ class TestHandleTopusers(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_topusers(ctx, src_root, j)
+        j = stats.handle_topusers(ctx, src_root, j)
         topusers = j["topusers"]
         self.assertEqual(len(topusers), 20)
         self.assertEqual(topusers[0], ["user1", "68885"])
@@ -69,7 +69,7 @@ class TestHandleTopusers(unittest.TestCase):
         ctx.set_time(make_test_time_old())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_topusers(ctx, src_root, j)
+        j = stats.handle_topusers(ctx, src_root, j)
         topusers = j["topusers"]
         self.assertFalse(topusers)
 

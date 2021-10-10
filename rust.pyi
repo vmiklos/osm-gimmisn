@@ -892,4 +892,8 @@ def py_handle_progress(ctx: PyContext, src_root: str, j: str) -> str:
     """Generates stats for a global progressbar."""
     ...
 
+def py_handle_topusers(ctx: PyContext, src_root: str, j: str) -> str:
+    """Generates stats for top users."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

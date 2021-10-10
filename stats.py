@@ -15,7 +15,6 @@ from typing import Tuple
 import datetime
 import json
 import os
-import time
 
 import rust
 import util
@@ -26,18 +25,9 @@ def handle_progress(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> An
     return json.loads(rust.py_handle_progress(ctx, src_root, json.dumps(j)))
 
 
-def handle_topusers(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> None:
+def handle_topusers(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> Any:
     """Generates stats for top users."""
-    today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
-    ret = []
-    topusers_path = os.path.join(src_root, "%s.topusers" % today)
-    if os.path.exists(topusers_path):
-        with open(topusers_path, "r") as stream:
-            for line in stream:
-                line = line.strip()
-                count, _, user = line.partition(' ')
-                ret.append([user, count])
-    j["topusers"] = ret
+    return json.loads(rust.py_handle_topusers(ctx, src_root, json.dumps(j)))
 
 
 def get_topcities(ctx: rust.PyContext, src_root: str) -> List[Tuple[str, int]]:
@@ -204,7 +194,7 @@ def generate_json(ctx: rust.PyContext, state_dir: str, stream: BinaryIO) -> None
     """Generates the stats json and writes it to `stream`."""
     j: Dict[str, Any] = {}
     j = handle_progress(ctx, state_dir, j)
-    handle_topusers(ctx, state_dir, j)
+    j = handle_topusers(ctx, state_dir, j)
     handle_topcities(ctx, state_dir, j)
     handle_user_total(ctx, state_dir, j)
     handle_daily_new(ctx, state_dir, j)
