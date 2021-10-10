@@ -1884,10 +1884,12 @@ filters:
     # Madárhegy lakópark G épület = 27, nem a házszám része (E=25, F,H=Bakfű utca 4-6, A-D Pacsirtafű utca 2-8 nincs kiírva)
     invalid: ['27g']
   Keltike lejtő:
+    # 9 = Csonttollú utca 1.
+    # 15: KCR a és b épület, helyszínen nincs kiírva
+    invalid: ['9', '15a', '15b']
     ranges:
       # kcr-ben 34-ig van számozva
-      - {start: '1', end: '7'}
-      - {start: '11', end: '99'}
+      - {start: '1', end: '99'}
       - {start: '2', end: '34'}
   Medvetalp utca:
     ranges:
@@ -2827,7 +2829,6 @@ street-filters:
   - Árasztó út  # Dunaparty meglállónál, közlöny szerint megszűnt
   - Poprádi köz  # nem létezik, a helyszínen erdő van
   - Kikinda köz  # nem létezik, a helyszínen az Etele úti panel hátulja
-  - Üröm utca  # kiépítése folyamatban, nincs még táblázva
   - Lőportorony utca  # nem lett kiépítve, Budafoki út 215 és a Shell kút között
   - Szerenád utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni
   - Szonáta utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni
