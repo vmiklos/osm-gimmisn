@@ -1056,7 +1056,7 @@ fn py_handle_overpass_error(
 pub fn setup_localization(headers: &[(String, String)]) -> String {
     let mut languages: String = "".into();
     for (key, value) in headers {
-        if key == "HTTP_ACCEPT_LANGUAGE" {
+        if key == "Accept-Language" {
             languages = value.into();
         }
     }
