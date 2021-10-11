@@ -896,4 +896,25 @@ def py_handle_topusers(ctx: PyContext, src_root: str, j: str) -> str:
     """Generates stats for top users."""
     ...
 
+def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
+    """
+    Generates a list of cities, sorted by how many new hours numbers they got recently.
+    """
+    ...
+
+def py_handle_topcities(ctx: PyContext, src_root: str, j: str) -> str:
+    """
+    Generates stats for top cities.
+    This lists the top 20 cities which got lots of new house numbers in the past 30 days.
+    """
+    ...
+
+def py_handle_user_total(ctx: PyContext, src_root: str, j: str, day_range: int) -> str:
+    """Shows # of total users / day."""
+    ...
+
+def py_handle_daily_new(ctx: PyContext, src_root: str, j: str, day_range: int) -> str:
+    """Shows # of new housenumbers / day."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

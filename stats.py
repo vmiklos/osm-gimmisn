@@ -34,79 +34,25 @@ def get_topcities(ctx: rust.PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
-    ret: List[Tuple[str, int]] = []
-    new_day = datetime.date.fromtimestamp(ctx.get_time().now()).strftime("%Y-%m-%d")
-    day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(days=30)
-    old_day = day_delta.strftime("%Y-%m-%d")
-    old_counts: Dict[str, int] = {}
-    counts: List[Tuple[str, int]] = []
-
-    old_count_path = os.path.join(src_root, "%s.citycount" % old_day)
-    if not ctx.get_file_system().path_exists(old_count_path):
-        return ret
-    with ctx.get_file_system().open_read(old_count_path) as stream:
-        for line_bytes in stream:
-            line = util.from_bytes(line_bytes).strip()
-            city, _, count = line.partition('\t')
-            if count:
-                old_counts[city] = int(count)
-
-    new_count_path = os.path.join(src_root, "%s.citycount" % new_day)
-    if not ctx.get_file_system().path_exists(new_count_path):
-        return ret
-    with ctx.get_file_system().open_read(new_count_path) as stream:
-        for line_bytes in stream:
-            line = util.from_bytes(line_bytes.strip())
-            city, _, count = line.partition('\t')
-            if count and city in old_counts:
-                counts.append((city, int(count) - old_counts[city]))
-    ret = sorted(counts, key=lambda x: x[1], reverse=True)
-    return ret
+    return rust.py_get_topcities(ctx, src_root)
 
 
-def handle_topcities(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> None:
+def handle_topcities(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> Any:
     """
     Generates stats for top cities.
     This lists the top 20 cities which got lots of new house numbers in the past 30 days.
     """
-    ret = get_topcities(ctx, src_root)
-    ret = ret[:20]
-    j["topcities"] = ret
+    return json.loads(rust.py_handle_topcities(ctx, src_root, json.dumps(j)))
 
 
-def handle_user_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
+def handle_user_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int) -> Any:
     """Shows # of total users / day."""
-    ret = []
-    for day_offset in range(day_range, -1, -1):
-        day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(day_offset)
-        day = day_delta.strftime("%Y-%m-%d")
-        count_path = os.path.join(src_root, "%s.usercount" % day)
-        if not os.path.exists(count_path):
-            break
-        with open(count_path, "r") as stream:
-            count = int(stream.read().strip())
-        ret.append([day, count])
-    j["usertotal"] = ret
+    return json.loads(rust.py_handle_user_total(ctx, src_root, json.dumps(j), day_range))
 
 
-def handle_daily_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
+def handle_daily_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int) -> Any:
     """Shows # of new housenumbers / day."""
-    ret = []
-    prev_count = 0
-    prev_day = ""
-    for day_offset in range(day_range, -1, -1):
-        day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(day_offset)
-        day = day_delta.strftime("%Y-%m-%d")
-        count_path = os.path.join(src_root, "%s.count" % day)
-        if not os.path.exists(count_path):
-            break
-        with open(count_path, "r") as stream:
-            count = int(stream.read().strip())
-        if prev_count:
-            ret.append([prev_day, count - prev_count])
-        prev_count = count
-        prev_day = day
-    j["daily"] = ret
+    return json.loads(rust.py_handle_daily_new(ctx, src_root, json.dumps(j), day_range))
 
 
 def get_previous_month(today: datetime.date, months: int) -> datetime.date:
@@ -195,9 +141,9 @@ def generate_json(ctx: rust.PyContext, state_dir: str, stream: BinaryIO) -> None
     j: Dict[str, Any] = {}
     j = handle_progress(ctx, state_dir, j)
     j = handle_topusers(ctx, state_dir, j)
-    handle_topcities(ctx, state_dir, j)
-    handle_user_total(ctx, state_dir, j)
-    handle_daily_new(ctx, state_dir, j)
+    j = handle_topcities(ctx, state_dir, j)
+    j = handle_user_total(ctx, state_dir, j, day_range=13)
+    j = handle_daily_new(ctx, state_dir, j, day_range=14)
     handle_daily_total(ctx, state_dir, j)
     handle_monthly_new(ctx, state_dir, j)
     handle_monthly_total(ctx, state_dir, j)

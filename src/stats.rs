@@ -13,7 +13,9 @@
 use crate::context;
 use anyhow::Context;
 use pyo3::prelude::*;
+use std::collections::HashMap;
 use std::io::BufRead;
+use std::ops::DerefMut;
 
 /// Generates stats for a global progressbar.
 fn handle_progress(
@@ -97,9 +99,208 @@ fn py_handle_topusers(ctx: context::PyContext, src_root: &str, j: &str) -> PyRes
     }
 }
 
+/// Generates a list of cities, sorted by how many new hours numbers they got recently.
+fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, u64)>> {
+    let new_day = {
+        let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+        now.format("%Y-%m-%d").to_string()
+    };
+    let day_delta =
+        chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0) - chrono::Duration::days(30);
+    let old_day = day_delta.format("%Y-%m-%d").to_string();
+    let mut old_counts: HashMap<String, u64> = HashMap::new();
+    let mut counts: Vec<(String, u64)> = Vec::new();
+
+    let old_count_path = format!("{}/{}.citycount", src_root, old_day);
+    if !ctx.get_file_system().path_exists(&old_count_path) {
+        return Ok(vec![]);
+    }
+    let stream = ctx.get_file_system().open_read(&old_count_path)?;
+    let mut guard = stream.lock().unwrap();
+    let read = std::io::BufReader::new(guard.deref_mut());
+    for result in read.lines() {
+        let line = result?;
+        let mut tokens = line.trim().split('\t');
+        let city = match tokens.next() {
+            Some(value) => value,
+            None => {
+                continue;
+            }
+        };
+        let count = match tokens.next() {
+            Some(value) => value,
+            None => {
+                continue;
+            }
+        };
+        if !count.is_empty() {
+            let count: u64 = count.parse()?;
+            old_counts.insert(city.into(), count);
+        }
+    }
+
+    let new_count_path = format!("{}/{}.citycount", src_root, new_day);
+    if !ctx.get_file_system().path_exists(&new_count_path) {
+        return Ok(vec![]);
+    }
+    let stream = ctx.get_file_system().open_read(&new_count_path)?;
+    let mut guard = stream.lock().unwrap();
+    let read = std::io::BufReader::new(guard.deref_mut());
+    for result in read.lines() {
+        let line = result?;
+        let mut tokens = line.trim().split('\t');
+        let city = match tokens.next() {
+            Some(value) => value,
+            None => {
+                continue;
+            }
+        };
+        let count = match tokens.next() {
+            Some(value) => value,
+            None => {
+                continue;
+            }
+        };
+        if !count.is_empty() && old_counts.contains_key(city) {
+            let count: u64 = count.parse()?;
+            counts.push((city.into(), count - old_counts[city]));
+        }
+    }
+    counts.sort_by_key(|x| x.1);
+    counts.reverse();
+    Ok(counts)
+}
+
+#[pyfunction]
+fn py_get_topcities(ctx: context::PyContext, src_root: &str) -> PyResult<Vec<(String, u64)>> {
+    match get_topcities(&ctx.context, src_root).context("get_topcities() failed") {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Generates stats for top cities.
+/// This lists the top 20 cities which got lots of new house numbers in the past 30 days.
+fn handle_topcities(
+    ctx: &context::Context,
+    src_root: &str,
+    j: &mut serde_json::Value,
+) -> anyhow::Result<()> {
+    let mut ret = get_topcities(ctx, src_root)?;
+    ret = ret[0..std::cmp::min(20, ret.len())].to_vec();
+    j.as_object_mut()
+        .unwrap()
+        .insert("topcities".into(), serde_json::to_value(&ret)?);
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_handle_topcities(ctx: context::PyContext, src_root: &str, j: &str) -> PyResult<String> {
+    let mut j = serde_json::from_str(j).unwrap();
+    match handle_topcities(&ctx.context, src_root, &mut j).context("handle_topcities() failed") {
+        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Shows # of total users / day.
+fn handle_user_total(
+    ctx: &context::Context,
+    src_root: &str,
+    j: &mut serde_json::Value,
+    day_range: i64,
+) -> anyhow::Result<()> {
+    let mut ret: Vec<(String, u64)> = Vec::new();
+    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    for day_offset in (0..=day_range).rev() {
+        let day_delta = now - chrono::Duration::days(day_offset);
+        let day = day_delta.format("%Y-%m-%d");
+        let count_path = format!("{}/{}.usercount", src_root, day);
+        if !std::path::Path::new(&count_path).exists() {
+            break;
+        }
+        let count: u64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        ret.push((day.to_string(), count));
+    }
+    j.as_object_mut()
+        .unwrap()
+        .insert("usertotal".into(), serde_json::to_value(&ret)?);
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_handle_user_total(
+    ctx: context::PyContext,
+    src_root: &str,
+    j: &str,
+    day_range: i64,
+) -> PyResult<String> {
+    let mut j = serde_json::from_str(j).unwrap();
+    match handle_user_total(&ctx.context, src_root, &mut j, day_range)
+        .context("handle_user_total() failed")
+    {
+        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Shows # of new housenumbers / day.
+fn handle_daily_new(
+    ctx: &context::Context,
+    src_root: &str,
+    j: &mut serde_json::Value,
+    day_range: i64,
+) -> anyhow::Result<()> {
+    let mut ret: Vec<(String, i64)> = Vec::new();
+    let mut prev_count = 0;
+    let mut prev_day: String = "".into();
+    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    for day_offset in (0..=day_range).rev() {
+        let day_delta = now - chrono::Duration::days(day_offset);
+        let day = day_delta.format("%Y-%m-%d");
+        let count_path = format!("{}/{}.count", src_root, day);
+        if !std::path::Path::new(&count_path).exists() {
+            break;
+        }
+        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        if prev_count > 0 {
+            ret.push((prev_day, count - prev_count));
+        }
+        prev_count = count;
+        prev_day = day.to_string();
+    }
+    j.as_object_mut()
+        .unwrap()
+        .insert("daily".into(), serde_json::to_value(&ret)?);
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_handle_daily_new(
+    ctx: context::PyContext,
+    src_root: &str,
+    j: &str,
+    day_range: i64,
+) -> PyResult<String> {
+    let mut j = serde_json::from_str(j).unwrap();
+    match handle_daily_new(&ctx.context, src_root, &mut j, day_range)
+        .context("handle_daily_new() failed")
+    {
+        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_progress, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_topusers, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_topcities, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_topcities, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_user_total, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_daily_new, module)?)?;
     Ok(())
 }
