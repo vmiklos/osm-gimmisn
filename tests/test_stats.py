@@ -94,11 +94,11 @@ budapest_02\t200
         ctx.set_file_system(file_system)
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_topcities(ctx, src_root, j)
+        j = stats.handle_topcities(ctx, src_root, j)
         topcities = j["topcities"]
         self.assertEqual(len(topcities), 2)
-        self.assertEqual(topcities[0], ("budapest_02", 190))
-        self.assertEqual(topcities[1], ("budapest_01", 90))
+        self.assertEqual(topcities[0], ["budapest_02", 190])
+        self.assertEqual(topcities[1], ["budapest_01", 90])
 
 
 class TestHandleDailyNew(unittest.TestCase):
@@ -111,7 +111,7 @@ class TestHandleDailyNew(unittest.TestCase):
         j: Dict[str, Any] = {}
         # From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
         # (till a file is missing.)
-        stats.handle_daily_new(ctx, src_root, j)
+        j = stats.handle_daily_new(ctx, src_root, j, day_range=14)
         daily = j["daily"]
         self.assertEqual(len(daily), 1)
         self.assertEqual(daily[0], ["2020-04-26", 364])
@@ -122,7 +122,7 @@ class TestHandleDailyNew(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_daily_new(ctx, src_root, j, day_range=-1)
+        j = stats.handle_daily_new(ctx, src_root, j, day_range=-1)
         daily = j["daily"]
         self.assertFalse(daily)
 
@@ -205,7 +205,7 @@ class TestHandleUserTotal(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_user_total(ctx, src_root, j)
+        j = stats.handle_user_total(ctx, src_root, j, day_range=13)
         usertotal = j["usertotal"]
         self.assertEqual(len(usertotal), 1)
         self.assertEqual(usertotal[0], ["2020-04-27", 43])
@@ -216,7 +216,7 @@ class TestHandleUserTotal(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_user_total(ctx, src_root, j, day_range=-1)
+        j = stats.handle_user_total(ctx, src_root, j, day_range=-1)
         usertotal = j["usertotal"]
         self.assertFalse(usertotal)
 
