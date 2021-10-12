@@ -53,8 +53,8 @@ filters:
     # 6a: csak sima 6
     # 10: 10/a, 10/b
     # 26: 26/a, 26/b
-    # 27: 27/a, 27/b
     # 28: 28/a, 28/b
+    # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? TODO: 2021-10
     # 40a, 40b: csak sima 40 van
     # 45: 45/a, 45/b
     # 52: 52/a, 52/b
@@ -67,7 +67,7 @@ filters:
     # 144: Domboldal utca 8 = Brassó út 144: A és B épület
     # 147: 147/a, 147/b
     # 154: 154/a, 154/b
-    invalid: ['6a', '10', '14', '26', '27', '28', '40a', '40b', '45', '52', '54a', '54b', '55a', '55b', '57b', '95', '107a', '113', '144a', '144b', '147', '154', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
+    invalid: ['6a', '10', '14', '21', '26', '29', '28', '40a', '40b', '45', '52', '54a', '54b', '55a', '55b', '57b', '95', '107a', '113', '144a', '144b', '147', '154', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
     ranges:
       - {start: '1', end: '169'}
       - {start: '2', end: '158'}
@@ -444,6 +444,8 @@ filters:
       - {start: '2', end: '22'}
   Rózsabarack utca:
     # 1-7 hoszuret, 9- es a páros madarhegy
+    # 4: 4/a, 4/b
+    invalid: ['4']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '20'}
@@ -795,7 +797,7 @@ filters:
       - {start: '2', end: '18'}
   Torbágy utca:
     interpolation: all
-    invalid: ['5c']
+    invalid: ['5c', '7a']
   Törökugrató utca:
     invalid: ['3e', '12c', '14b', '16a', '18e', '20d', '22c', '24b', '26a']
     ranges:
@@ -939,6 +941,8 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
   Nevegy utca:
+    # 3: 3/a, 3/b
+    invalid: ['3']
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '24'}
