@@ -229,7 +229,6 @@ deploy:
 ifeq (,$(wildcard ./deploy.sh))
 	git pull -r
 	make
-	cat data/wsgi.ini.template > wsgi.ini
 else
 	./deploy.sh
 endif
