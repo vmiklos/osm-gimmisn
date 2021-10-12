@@ -1890,6 +1890,9 @@ filters:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     # Madárhegy lakópark G épület = 27, nem a házszám része (E=25, F,H=Bakfű utca 4-6, A-D Pacsirtafű utca 2-8 nincs kiírva)
     invalid: ['27g']
+  Kányakapu köz:
+    # 6: 6/a, 6/b, 6/c
+    invalid: ['6']
   Keltike lejtő:
     # 9 = Csonttollú utca 1.
     # 15: KCR a és b épület, helyszínen nincs kiírva
