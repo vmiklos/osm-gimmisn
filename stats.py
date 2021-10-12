@@ -8,13 +8,10 @@
 """The stats module creates statistics about missing / non-missing house numbers."""
 
 from typing import Any
-from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Tuple
-import datetime
 import json
-import os
 
 import rust
 import util
@@ -55,99 +52,39 @@ def handle_daily_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_
     return json.loads(rust.py_handle_daily_new(ctx, src_root, json.dumps(j), day_range))
 
 
-def get_previous_month(today: datetime.date, months: int) -> datetime.date:
+def get_previous_month(today: int, months: int) -> int:
     """Returns a date that was today N months ago."""
-    month_ago = today
-    for _month in range(months):
-        first_of_current = month_ago.replace(day=1)
-        month_ago = first_of_current - datetime.timedelta(days=1)
-    return month_ago
+    return rust.py_get_previous_month(today, months)
 
 
-def handle_monthly_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
+def handle_monthly_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int) -> Any:
     """Shows # of new housenumbers / month."""
-    ret = []
-    prev_count = 0
-    prev_month = ""
-    path_exists = ctx.get_file_system().path_exists
-    for month_offset in range(month_range, -1, -1):
-        month_delta = get_previous_month(datetime.date.fromtimestamp(ctx.get_time().now()), month_offset)
-        # Get the first day of each month.
-        month = month_delta.replace(day=1).strftime("%Y-%m-%d")
-        count_path = os.path.join(src_root, "%s.count" % month)
-        if not path_exists(count_path):
-            break
-        with open(count_path, "r") as stream:
-            count = int(stream.read().strip())
-        if prev_count:
-            ret.append([prev_month[:len("YYYY-MM")], count - prev_count])
-        prev_count = count
-        prev_month = month
-
-    # Also show the current, incomplete month.
-    day = datetime.date.fromtimestamp(ctx.get_time().now()).strftime("%Y-%m-%d")
-    count_path = os.path.join(src_root, "%s.count" % day)
-    if path_exists(count_path):
-        with open(count_path, "r") as stream:
-            count = int(stream.read().strip())
-        ret.append([day[:len("YYYY-MM")], count - prev_count])
-
-    j["monthly"] = ret
+    return json.loads(rust.py_handle_monthly_new(ctx, src_root, json.dumps(j), month_range))
 
 
-def handle_daily_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
+def handle_daily_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int) -> Any:
     """Shows # of total housenumbers / day."""
-    ret = []
-    for day_offset in range(day_range, -1, -1):
-        day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(day_offset)
-        day = day_delta.strftime("%Y-%m-%d")
-        count_path = os.path.join(src_root, "%s.count" % day)
-        if not os.path.exists(count_path):
-            break
-        with open(count_path, "r") as stream:
-            count = int(stream.read().strip())
-        ret.append([day, count])
-    j["dailytotal"] = ret
+    return json.loads(rust.py_handle_daily_total(ctx, src_root, json.dumps(j), day_range))
 
 
-def handle_monthly_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
+def handle_monthly_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int) -> Any:
     """Shows # of total housenumbers / month."""
-    ret = []
-    for month_offset in range(month_range, -1, -1):
-        today = datetime.date.fromtimestamp(ctx.get_time().now())
-        month_delta = get_previous_month(today, month_offset)
-        prev_month_delta = get_previous_month(today, month_offset + 1)
-        # Get the first day of each past month.
-        month = month_delta.replace(day=1).strftime("%Y-%m-%d")
-        prev_month = prev_month_delta.replace(day=1).strftime("%Y-%m")
-        count_path = os.path.join(src_root, "%s.count" % month)
-        if not os.path.exists(count_path):
-            break
-        with open(count_path, "r") as stream:
-            count = int(stream.read().strip())
-        ret.append([prev_month, count])
-
-        if month_offset == 0:
-            # Current month: show today's count as well.
-            month = month_delta.strftime("%Y-%m-%d")
-            with open(os.path.join(src_root, "%s.count" % month), "r") as stream:
-                count = int(stream.read().strip())
-            ret.append([month[:len("YYYY-MM")], count])
-    j["monthlytotal"] = ret
+    return json.loads(rust.py_handle_monthly_total(ctx, src_root, json.dumps(j), month_range))
 
 
-def generate_json(ctx: rust.PyContext, state_dir: str, stream: BinaryIO) -> None:
+def generate_json(ctx: rust.PyContext, state_dir: str, json_path: str) -> None:
     """Generates the stats json and writes it to `stream`."""
-    j: Dict[str, Any] = {}
-    j = handle_progress(ctx, state_dir, j)
-    j = handle_topusers(ctx, state_dir, j)
-    j = handle_topcities(ctx, state_dir, j)
-    j = handle_user_total(ctx, state_dir, j, day_range=13)
-    j = handle_daily_new(ctx, state_dir, j, day_range=14)
-    handle_daily_total(ctx, state_dir, j)
-    handle_monthly_new(ctx, state_dir, j)
-    handle_monthly_total(ctx, state_dir, j)
-    stream.write(util.to_bytes(json.dumps(j)))
+    with ctx.get_file_system().open_write(json_path) as stream:
+        j: Dict[str, Any] = {}
+        j = handle_progress(ctx, state_dir, j)
+        j = handle_topusers(ctx, state_dir, j)
+        j = handle_topcities(ctx, state_dir, j)
+        j = handle_user_total(ctx, state_dir, j, day_range=13)
+        j = handle_daily_new(ctx, state_dir, j, day_range=14)
+        j = handle_daily_total(ctx, state_dir, j, day_range=13)
+        j = handle_monthly_new(ctx, state_dir, j, month_range=12)
+        j = handle_monthly_total(ctx, state_dir, j, month_range=11)
+        stream.write(util.to_bytes(json.dumps(j)))
 
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

@@ -12,6 +12,7 @@
 
 use crate::context;
 use anyhow::Context;
+use chrono::Datelike;
 use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::io::BufRead;
@@ -294,6 +295,185 @@ fn py_handle_daily_new(
     }
 }
 
+/// Returns a date that was today N months ago.
+fn get_previous_month(today: i64, months: i64) -> anyhow::Result<i64> {
+    let today = chrono::NaiveDateTime::from_timestamp(today, 0);
+    let mut month_ago = today;
+    for _month in 0..months {
+        let first_of_current = month_ago.with_day(1).unwrap();
+        month_ago = first_of_current - chrono::Duration::days(1);
+    }
+    Ok(month_ago.timestamp())
+}
+
+#[pyfunction]
+fn py_get_previous_month(today: i64, months: i64) -> PyResult<i64> {
+    match get_previous_month(today, months).context("get_previous_month() failed") {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Shows # of new housenumbers / month.
+fn handle_monthly_new(
+    ctx: &context::Context,
+    src_root: &str,
+    j: &mut serde_json::Value,
+    month_range: i64,
+) -> anyhow::Result<()> {
+    let mut ret: Vec<(String, i64)> = Vec::new();
+    let mut prev_count = 0;
+    let mut prev_month: String = "".into();
+    for month_offset in (0..=month_range).rev() {
+        let month_delta = chrono::NaiveDateTime::from_timestamp(
+            get_previous_month(ctx.get_time().now(), month_offset)?,
+            0,
+        );
+        // Get the first day of each month.
+        let month = month_delta.with_day(1).unwrap().format("%Y-%m");
+        let count_path = format!("{}/{}-01.count", src_root, month);
+        if !ctx.get_file_system().path_exists(&count_path) {
+            break;
+        }
+        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        if prev_count > 0 {
+            ret.push((prev_month, count - prev_count));
+        }
+        prev_count = count;
+        prev_month = month.to_string();
+    }
+
+    // Also show the current, incomplete month.
+    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let mut month = now.format("%Y-%m-%d").to_string();
+    let count_path = format!("{}/{}.count", src_root, month);
+    if ctx.get_file_system().path_exists(&count_path) {
+        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        month = now.format("%Y-%m").to_string();
+        ret.push((month, count - prev_count));
+    }
+
+    j.as_object_mut()
+        .unwrap()
+        .insert("monthly".into(), serde_json::to_value(&ret)?);
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_handle_monthly_new(
+    ctx: context::PyContext,
+    src_root: &str,
+    j: &str,
+    day_range: i64,
+) -> PyResult<String> {
+    let mut j = serde_json::from_str(j).unwrap();
+    match handle_monthly_new(&ctx.context, src_root, &mut j, day_range)
+        .context("handle_monthly_new() failed")
+    {
+        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Shows # of total housenumbers / day.
+fn handle_daily_total(
+    ctx: &context::Context,
+    src_root: &str,
+    j: &mut serde_json::Value,
+    day_range: i64,
+) -> anyhow::Result<()> {
+    let mut ret: Vec<(String, i64)> = Vec::new();
+    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    for day_offset in (0..=day_range).rev() {
+        let day_delta = now - chrono::Duration::days(day_offset);
+        let day = day_delta.format("%Y-%m-%d");
+        let count_path = format!("{}/{}.count", src_root, day);
+        if !std::path::Path::new(&count_path).exists() {
+            break;
+        }
+        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        ret.push((day.to_string(), count));
+    }
+    j.as_object_mut()
+        .unwrap()
+        .insert("dailytotal".into(), serde_json::to_value(&ret)?);
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_handle_daily_total(
+    ctx: context::PyContext,
+    src_root: &str,
+    j: &str,
+    day_range: i64,
+) -> PyResult<String> {
+    let mut j = serde_json::from_str(j).unwrap();
+    match handle_daily_total(&ctx.context, src_root, &mut j, day_range)
+        .context("handle_daily_total() failed")
+    {
+        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Shows # of total housenumbers / month.
+fn handle_monthly_total(
+    ctx: &context::Context,
+    src_root: &str,
+    j: &mut serde_json::Value,
+    month_range: i64,
+) -> anyhow::Result<()> {
+    let mut ret: Vec<(String, i64)> = Vec::new();
+    let today = ctx.get_time().now();
+    for month_offset in (0..=month_range).rev() {
+        let month_delta =
+            chrono::NaiveDateTime::from_timestamp(get_previous_month(today, month_offset)?, 0);
+        let prev_month_delta =
+            chrono::NaiveDateTime::from_timestamp(get_previous_month(today, month_offset + 1)?, 0);
+        // Get the first day of each past month.
+        let mut month = month_delta.with_day(1).unwrap().format("%Y-%m");
+        let prev_month = prev_month_delta.with_day(1).unwrap().format("%Y-%m");
+        let mut count_path = format!("{}/{}-01.count", src_root, month);
+        if !ctx.get_file_system().path_exists(&count_path) {
+            break;
+        }
+        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        ret.push((prev_month.to_string(), count));
+
+        if month_offset == 0 {
+            // Current month: show today's count as well.
+            month = month_delta.format("%Y-%m-%d");
+            count_path = format!("{}/{}.count", src_root, month);
+            let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+            month = month_delta.format("%Y-%m");
+            ret.push((month.to_string(), count));
+        }
+    }
+    j.as_object_mut()
+        .unwrap()
+        .insert("monthlytotal".into(), serde_json::to_value(&ret)?);
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_handle_monthly_total(
+    ctx: context::PyContext,
+    src_root: &str,
+    j: &str,
+    month_range: i64,
+) -> PyResult<String> {
+    let mut j = serde_json::from_str(j).unwrap();
+    match handle_monthly_total(&ctx.context, src_root, &mut j, month_range)
+        .context("handle_monthly_total() failed")
+    {
+        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_progress, module)?)?;
@@ -302,5 +482,9 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_topcities, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_user_total, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_daily_new, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_get_previous_month, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_monthly_new, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_daily_total, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_handle_monthly_total, module)?)?;
     Ok(())
 }

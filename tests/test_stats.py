@@ -135,7 +135,7 @@ class TestHandleMonthlyNew(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_monthly_new(ctx, src_root, j)
+        j = stats.handle_monthly_new(ctx, src_root, j, month_range=12)
         monthly = j["monthly"]
         self.assertEqual(len(monthly), 2)
         # 2019-05 start -> end
@@ -149,7 +149,7 @@ class TestHandleMonthlyNew(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_monthly_new(ctx, src_root, j, month_range=-1)
+        j = stats.handle_monthly_new(ctx, src_root, j, month_range=-1)
         monthly = j["monthly"]
         self.assertTrue(monthly)
 
@@ -165,7 +165,7 @@ class TestHandleMonthlyNew(unittest.TestCase):
         file_system.set_hide_paths([hide_path])
         ctx.set_file_system(file_system)
 
-        stats.handle_monthly_new(ctx, src_root, j)
+        j = stats.handle_monthly_new(ctx, src_root, j, month_range=12)
         monthly = j["monthly"]
         # 1st element: 2019-05 start -> end
         # No 2nd element, would be diff from last month end -> today
@@ -181,7 +181,7 @@ class TestHandleDailyTotal(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_daily_total(ctx, src_root, j)
+        j = stats.handle_daily_total(ctx, src_root, j, day_range=13)
         dailytotal = j["dailytotal"]
         self.assertEqual(len(dailytotal), 1)
         self.assertEqual(dailytotal[0], ["2020-04-27", 251614])
@@ -192,7 +192,7 @@ class TestHandleDailyTotal(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_daily_total(ctx, src_root, j, day_range=-1)
+        j = stats.handle_daily_total(ctx, src_root, j, day_range=-1)
         dailytotal = j["dailytotal"]
         self.assertFalse(dailytotal)
 
@@ -229,7 +229,7 @@ class TestHandleMonthlyTotal(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_monthly_total(ctx, src_root, j)
+        j = stats.handle_monthly_total(ctx, src_root, j, month_range=11)
         monthlytotal = j["monthlytotal"]
         self.assertEqual(len(monthlytotal), 1)
         self.assertEqual(monthlytotal[0], ['2019-05', 203317])
@@ -240,7 +240,7 @@ class TestHandleMonthlyTotal(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_monthly_total(ctx, src_root, j, month_range=-1)
+        j = stats.handle_monthly_total(ctx, src_root, j, month_range=-1)
         monthlytotal = j["monthlytotal"]
         self.assertFalse(monthlytotal)
 
@@ -250,7 +250,7 @@ class TestHandleMonthlyTotal(unittest.TestCase):
         ctx.set_time(test_context.make_test_time())
         src_root = ctx.get_abspath("workdir/stats")
         j: Dict[str, Any] = {}
-        stats.handle_monthly_total(ctx, src_root, j, month_range=0)
+        j = stats.handle_monthly_total(ctx, src_root, j, month_range=0)
         monthlytotal = j["monthlytotal"]
         self.assertEqual(len(monthlytotal), 2)
         self.assertEqual(monthlytotal[0], ["2020-04", 253027])
@@ -262,9 +262,9 @@ class TestGetPreviousMonth(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         time = test_context.make_test_time()
-        today = datetime.date.fromtimestamp(time.now())
+        today = int(time.now())
 
-        actual = stats.get_previous_month(today, 2)
+        actual = datetime.date.fromtimestamp(stats.get_previous_month(today, 2))
 
         expected = datetime.date(2020, 3, 31)
         self.assertEqual(actual, expected)

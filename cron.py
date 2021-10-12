@@ -333,8 +333,7 @@ def update_stats(ctx: rust.PyContext, overpass: bool) -> None:
 
     info("update_stats: generating json")
     json_path = os.path.join(statedir, "stats.json")
-    with ctx.get_file_system().open_write(json_path) as stream:
-        stats.generate_json(ctx, statedir, stream)
+    stats.generate_json(ctx, statedir, json_path)
 
     info("update_stats: end")
 
