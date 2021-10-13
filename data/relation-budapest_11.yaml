@@ -1901,6 +1901,9 @@ filters:
       # kcr-ben 34-ig van számozva
       - {start: '1', end: '99'}
       - {start: '2', end: '34'}
+  Lucerna köz:
+    # 6a: nincs épület. KCR szerint is csak sima 6 van.
+    invalid: ['6a']
   Medvetalp utca:
     ranges:
       - {start: '1', end: '17'}
@@ -1909,7 +1912,7 @@ filters:
       # 22-is van
       - {start: '14', end: '22'}
     # van a és b épület de külön házszámon. A épület Medvetalp utca 3, B épület Keserűfű utca 4
-    invalid: ['3a', '3b']
+    invalid: ['3a', '3b', '5b']
   Molnárfecske utca:
     # https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/ujbudahu/2018_09/kmbt28220180914083648.pdf
     ranges:
@@ -2688,6 +2691,9 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '14'}
+  Fátra tér:
+    # 3: 3/a, 3/b
+    invalid: ['3']
   Fehérló utca:
     # 22a: 22 és 22/b
     # 29a: ld. Töhötöm utca 19/b
