@@ -888,10 +888,6 @@ def py_application(
     """The entry point of this WSGI app."""
     ...
 
-def py_handle_progress(ctx: PyContext, src_root: str, j: str) -> str:
-    """Generates stats for a global progressbar."""
-    ...
-
 def py_handle_topusers(ctx: PyContext, src_root: str, j: str) -> str:
     """Generates stats for top users."""
     ...
@@ -931,6 +927,10 @@ def py_handle_daily_total(ctx: PyContext, src_root: str, j: str, day_range: int)
 
 def py_handle_monthly_total(ctx: PyContext, src_root: str, j: str, month_range: int) -> str:
     """Shows # of total housenumbers / month."""
+    ...
+
+def py_generate_json(ctx: PyContext, state_dir: str, json_path: str) -> None:
+    """Generates the stats json and writes it to `stream`."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

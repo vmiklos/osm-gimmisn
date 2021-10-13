@@ -25,44 +25,8 @@ def make_test_time_old() -> api.Time:
     return test_context.TestTime(calendar.timegm(datetime.date(1970, 1, 1).timetuple()))
 
 
-class TestHandleProgress(unittest.TestCase):
-    """Tests handle_progress()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_progress(ctx, src_root, j)
-        progress = j["progress"]
-        self.assertEqual(progress["date"], "2020-05-10")
-        # 254651 / 300 * 100
-        self.assertEqual(progress["percentage"], 84883.67)
-
-    def test_old_time(self) -> None:
-        """Tests the case when the .count file doesn't exist for a date."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(make_test_time_old())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_progress(ctx, src_root, j)
-        progress = j["progress"]
-        self.assertEqual(progress["date"], "1970-01-01")
-
-
 class TestHandleTopusers(unittest.TestCase):
     """Tests handle_topusers()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_topusers(ctx, src_root, j)
-        topusers = j["topusers"]
-        self.assertEqual(len(topusers), 20)
-        self.assertEqual(topusers[0], ["user1", "68885"])
-
     def test_old_time(self) -> None:
         """Tests the case when the .count file doesn't exist for a date."""
         ctx = test_context.make_test_context()
