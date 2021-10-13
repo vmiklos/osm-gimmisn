@@ -957,7 +957,8 @@ impl Context {
         &self.time
     }
 
-    fn set_time(&mut self, time: &Arc<dyn Time>) {
+    /// Sets the time implementation.
+    pub fn set_time(&mut self, time: &Arc<dyn Time>) {
         self.time = time.clone();
     }
 
@@ -1180,6 +1181,43 @@ pub mod tests {
                     .with_context(|| format!("failed to open {} for writing", path))?,
             ));
             Ok(ret)
+        }
+    }
+
+    /// Generates unix timestamp for 2020-05-10.
+    pub fn make_test_time() -> TestTime {
+        TestTime::new(2020, 5, 10)
+    }
+
+    /// Time implementation, for test purposes.
+    pub struct TestTime {
+        now: i64,
+        sleep: Arc<Mutex<u64>>,
+    }
+
+    impl TestTime {
+        pub fn new(year: i32, month: u32, day: u32) -> Self {
+            let now = chrono::NaiveDate::from_ymd(year, month, day)
+                .and_hms(0, 0, 0)
+                .timestamp();
+            let sleep = Arc::new(Mutex::new(0_u64));
+            TestTime { now, sleep }
+        }
+
+        /*/// Gets the duration of the last sleep.
+        fn get_sleep(&self) -> u64 {
+            *self.sleep.lock().unwrap()
+        }*/
+    }
+
+    impl Time for TestTime {
+        fn now(&self) -> i64 {
+            self.now
+        }
+
+        fn sleep(&self, seconds: u64) {
+            let mut guard = self.sleep.lock().unwrap();
+            *guard.deref_mut() = seconds;
         }
     }
 

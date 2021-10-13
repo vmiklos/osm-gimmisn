@@ -53,15 +53,6 @@ fn handle_progress(
     Ok(())
 }
 
-#[pyfunction]
-fn py_handle_progress(ctx: context::PyContext, src_root: &str, j: &str) -> PyResult<String> {
-    let mut j = serde_json::from_str(j).unwrap();
-    match handle_progress(&ctx.context, src_root, &mut j).context("handle_progress() failed") {
-        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Generates stats for top users.
 fn handle_topusers(
     ctx: &context::Context,
@@ -474,9 +465,35 @@ fn py_handle_monthly_total(
     }
 }
 
+/// Generates the stats json and writes it to `json_path`.
+fn generate_json(ctx: &context::Context, state_dir: &str, json_path: &str) -> anyhow::Result<()> {
+    let mut j = serde_json::json!({});
+    handle_progress(ctx, state_dir, &mut j)?;
+    handle_topusers(ctx, state_dir, &mut j)?;
+    handle_topcities(ctx, state_dir, &mut j)?;
+    handle_user_total(ctx, state_dir, &mut j, /*day_range=*/ 13)?;
+    handle_daily_new(ctx, state_dir, &mut j, /*day_range=*/ 14)?;
+    handle_daily_total(ctx, state_dir, &mut j, /*day_range=*/ 13)?;
+    handle_monthly_new(ctx, state_dir, &mut j, /*month_range=*/ 12)?;
+    handle_monthly_total(ctx, state_dir, &mut j, /*month_range=*/ 11)?;
+    let stream = ctx.get_file_system().open_write(json_path)?;
+    let mut guard = stream.lock().unwrap();
+    let write = guard.deref_mut();
+    serde_json::to_writer(write, &j)?;
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_generate_json(ctx: context::PyContext, state_dir: &str, json_path: &str) -> PyResult<()> {
+    match generate_json(&ctx.context, state_dir, json_path).context("generate_json() failed") {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_progress, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_topusers, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_topcities, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_topcities, module)?)?;
@@ -486,5 +503,61 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_handle_monthly_new, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_daily_total, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_monthly_total, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_generate_json, module)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::Arc;
+
+    fn make_test_time_old() -> context::tests::TestTime {
+        context::tests::TestTime::new(1970, 1, 1)
+    }
+
+    /// Tests handle_progress().
+    #[test]
+    fn test_handle_progress() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_progress(&ctx, &src_root, &mut j).unwrap();
+        let progress = &j.as_object().unwrap()["progress"];
+        assert_eq!(progress["date"], "2020-05-10");
+        // 254651 / 300 * 100
+        assert_eq!(progress["percentage"], 84883.67);
+    }
+
+    /// Tests handle_progress(): the case when the .count file doesn't exist for a date.
+    #[test]
+    fn test_handle_progress_old_time() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = make_test_time_old();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_progress(&ctx, &src_root, &mut j).unwrap();
+        let progress = &j.as_object().unwrap()["progress"];
+        assert_eq!(progress["date"], "1970-01-01");
+    }
+
+    /// Tests handle_topusers().
+    #[test]
+    fn test_handle_topusers() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_topusers(&ctx, &src_root, &mut j).unwrap();
+        let topusers = &j.as_object().unwrap()["topusers"].as_array().unwrap();
+        assert_eq!(topusers.len(), 20);
+        assert_eq!(topusers[0], serde_json::json!(["user1", "68885"]));
+    }
 }
