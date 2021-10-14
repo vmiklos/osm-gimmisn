@@ -82,15 +82,6 @@ fn handle_topusers(
     Ok(())
 }
 
-#[pyfunction]
-fn py_handle_topusers(ctx: context::PyContext, src_root: &str, j: &str) -> PyResult<String> {
-    let mut j = serde_json::from_str(j).unwrap();
-    match handle_topusers(&ctx.context, src_root, &mut j).context("handle_topusers() failed") {
-        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
 fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, u64)>> {
     let new_day = {
@@ -187,15 +178,6 @@ fn handle_topcities(
     Ok(())
 }
 
-#[pyfunction]
-fn py_handle_topcities(ctx: context::PyContext, src_root: &str, j: &str) -> PyResult<String> {
-    let mut j = serde_json::from_str(j).unwrap();
-    match handle_topcities(&ctx.context, src_root, &mut j).context("handle_topcities() failed") {
-        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Shows # of total users / day.
 fn handle_user_total(
     ctx: &context::Context,
@@ -268,22 +250,6 @@ fn handle_daily_new(
         .insert("daily".into(), serde_json::to_value(&ret)?);
 
     Ok(())
-}
-
-#[pyfunction]
-fn py_handle_daily_new(
-    ctx: context::PyContext,
-    src_root: &str,
-    j: &str,
-    day_range: i64,
-) -> PyResult<String> {
-    let mut j = serde_json::from_str(j).unwrap();
-    match handle_daily_new(&ctx.context, src_root, &mut j, day_range)
-        .context("handle_daily_new() failed")
-    {
-        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Returns a date that was today N months ago.
@@ -494,11 +460,8 @@ fn py_generate_json(ctx: context::PyContext, state_dir: &str, json_path: &str) -
 
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_topusers, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_topcities, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_topcities, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_user_total, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_daily_new, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_previous_month, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_monthly_new, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_daily_total, module)?)?;
@@ -511,6 +474,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 mod tests {
     use super::*;
     use std::sync::Arc;
+    use std::sync::Mutex;
 
     fn make_test_time_old() -> context::tests::TestTime {
         context::tests::TestTime::new(1970, 1, 1)
@@ -559,5 +523,81 @@ mod tests {
         let topusers = &j.as_object().unwrap()["topusers"].as_array().unwrap();
         assert_eq!(topusers.len(), 20);
         assert_eq!(topusers[0], serde_json::json!(["user1", "68885"]));
+    }
+
+    /// Tests handle_topusers(): the case when the .count file doesn't exist for a date.
+    #[test]
+    fn test_handle_topusers_old_time() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = make_test_time_old();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_topusers(&ctx, &src_root, &mut j).unwrap();
+        let topusers = &j.as_object().unwrap()["topusers"].as_array().unwrap();
+        assert_eq!(topusers.len(), 0);
+    }
+
+    /// Tests handle_topcities().
+    #[test]
+    fn test_handle_topcities() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let today_citycount = b"budapest_01\t100\n\
+budapest_02\t200\n\
+\t42\n";
+        let today_citycount_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
+            Arc::new(Mutex::new(std::io::Cursor::new(today_citycount.to_vec())));
+        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        files.insert(
+            ctx.get_abspath("workdir/stats/2020-05-10.citycount")
+                .unwrap(),
+            today_citycount_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut j = serde_json::json!({});
+        handle_topcities(&ctx, &src_root, &mut j).unwrap();
+        let topcities = &j.as_object().unwrap()["topcities"].as_array().unwrap();
+        assert_eq!(topcities.len(), 2);
+        assert_eq!(topcities[0], serde_json::json!(["budapest_02", 190]));
+        assert_eq!(topcities[1], serde_json::json!(["budapest_01", 90]));
+    }
+
+    /// Tests handle_daily_new().
+    #[test]
+    fn test_hanle_daily_new() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        // From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
+        // (till a file is missing.)
+        handle_daily_new(&ctx, &src_root, &mut j, /*day_range=*/ 14).unwrap();
+        let daily = &j.as_object().unwrap()["daily"].as_array().unwrap();
+        assert_eq!(daily.len(), 1);
+        assert_eq!(daily[0], serde_json::json!(["2020-04-26", 364]));
+    }
+
+    /// Tests handle_daily_new(): the case when the day range is empty.
+    #[test]
+    fn test_hanle_daily_new_empty_day_range() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_daily_new(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
+        let daily = &j.as_object().unwrap()["daily"].as_array().unwrap();
+        assert_eq!(daily.len(), 0);
     }
 }

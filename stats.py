@@ -16,11 +16,6 @@ import json
 import rust
 
 
-def handle_topusers(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> Any:
-    """Generates stats for top users."""
-    return json.loads(rust.py_handle_topusers(ctx, src_root, json.dumps(j)))
-
-
 def get_topcities(ctx: rust.PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
@@ -28,22 +23,9 @@ def get_topcities(ctx: rust.PyContext, src_root: str) -> List[Tuple[str, int]]:
     return rust.py_get_topcities(ctx, src_root)
 
 
-def handle_topcities(ctx: rust.PyContext, src_root: str, j: Dict[str, Any]) -> Any:
-    """
-    Generates stats for top cities.
-    This lists the top 20 cities which got lots of new house numbers in the past 30 days.
-    """
-    return json.loads(rust.py_handle_topcities(ctx, src_root, json.dumps(j)))
-
-
 def handle_user_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int) -> Any:
     """Shows # of total users / day."""
     return json.loads(rust.py_handle_user_total(ctx, src_root, json.dumps(j), day_range))
-
-
-def handle_daily_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int) -> Any:
-    """Shows # of new housenumbers / day."""
-    return json.loads(rust.py_handle_daily_new(ctx, src_root, json.dumps(j), day_range))
 
 
 def get_previous_month(today: int, months: int) -> int:

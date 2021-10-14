@@ -10,7 +10,6 @@ from typing import Any
 from typing import Dict
 import calendar
 import datetime
-import io
 import os
 import unittest
 
@@ -23,72 +22,6 @@ import stats
 def make_test_time_old() -> api.Time:
     """Generates unix timestamp for an old date."""
     return test_context.TestTime(calendar.timegm(datetime.date(1970, 1, 1).timetuple()))
-
-
-class TestHandleTopusers(unittest.TestCase):
-    """Tests handle_topusers()."""
-    def test_old_time(self) -> None:
-        """Tests the case when the .count file doesn't exist for a date."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(make_test_time_old())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_topusers(ctx, src_root, j)
-        topusers = j["topusers"]
-        self.assertFalse(topusers)
-
-
-class TestHandleTopcities(unittest.TestCase):
-    """Tests handle_topcities()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        file_system = test_context.TestFileSystem()
-        today_citycount = b"""budapest_01\t100
-budapest_02\t200
-\t42
-"""
-        today_citycount_value = io.BytesIO(today_citycount)
-        today_citycount_value.__setattr__("close", lambda: None)
-        files = {
-            ctx.get_abspath("workdir/stats/2020-05-10.citycount"): today_citycount_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_topcities(ctx, src_root, j)
-        topcities = j["topcities"]
-        self.assertEqual(len(topcities), 2)
-        self.assertEqual(topcities[0], ["budapest_02", 190])
-        self.assertEqual(topcities[1], ["budapest_01", 90])
-
-
-class TestHandleDailyNew(unittest.TestCase):
-    """Tests handle_daily_new()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        # From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
-        # (till a file is missing.)
-        j = stats.handle_daily_new(ctx, src_root, j, day_range=14)
-        daily = j["daily"]
-        self.assertEqual(len(daily), 1)
-        self.assertEqual(daily[0], ["2020-04-26", 364])
-
-    def test_empty_day_range(self) -> None:
-        """Tests the case when the day range is empty."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_daily_new(ctx, src_root, j, day_range=-1)
-        daily = j["daily"]
-        self.assertFalse(daily)
 
 
 class TestHandleMonthlyNew(unittest.TestCase):
