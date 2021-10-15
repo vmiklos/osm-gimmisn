@@ -33,11 +33,6 @@ def get_previous_month(today: int, months: int) -> int:
     return rust.py_get_previous_month(today, months)
 
 
-def handle_monthly_new(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int) -> Any:
-    """Shows # of new housenumbers / month."""
-    return json.loads(rust.py_handle_monthly_new(ctx, src_root, json.dumps(j), month_range))
-
-
 def handle_daily_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int) -> Any:
     """Shows # of total housenumbers / day."""
     return json.loads(rust.py_handle_daily_total(ctx, src_root, json.dumps(j), day_range))

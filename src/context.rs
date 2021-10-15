@@ -1118,10 +1118,10 @@ pub mod tests {
             }
         }
 
-        /*/// Sets the hide paths.
-        fn set_hide_paths(&mut self, hide_paths: &[String]) {
+        /// Sets the hide paths.
+        pub fn set_hide_paths(&mut self, hide_paths: &[String]) {
             self.hide_paths = hide_paths.to_vec();
-        }*/
+        }
 
         /*/// Sets the mtimes.
         fn set_mtimes(&mut self, mtimes: &HashMap<String, f64>) {
