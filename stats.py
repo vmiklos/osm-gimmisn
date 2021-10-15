@@ -23,19 +23,9 @@ def get_topcities(ctx: rust.PyContext, src_root: str) -> List[Tuple[str, int]]:
     return rust.py_get_topcities(ctx, src_root)
 
 
-def handle_user_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int) -> Any:
-    """Shows # of total users / day."""
-    return json.loads(rust.py_handle_user_total(ctx, src_root, json.dumps(j), day_range))
-
-
 def get_previous_month(today: int, months: int) -> int:
     """Returns a date that was today N months ago."""
     return rust.py_get_previous_month(today, months)
-
-
-def handle_daily_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], day_range: int) -> Any:
-    """Shows # of total housenumbers / day."""
-    return json.loads(rust.py_handle_daily_total(ctx, src_root, json.dumps(j), day_range))
 
 
 def handle_monthly_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int) -> Any:
