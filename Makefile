@@ -8,7 +8,6 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_missing_housenumbers.py \
 	tests/test_overpass_query.py \
 	tests/test_parse_access_log.py \
-	tests/test_stats.py \
 	tests/test_util.py \
 	tests/test_validator.py \
 	tests/test_webframe.py \
