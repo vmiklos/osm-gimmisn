@@ -894,16 +894,8 @@ def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     ...
 
-def py_handle_user_total(ctx: PyContext, src_root: str, j: str, day_range: int) -> str:
-    """Shows # of total users / day."""
-    ...
-
 def py_get_previous_month(today: int, months: int) -> int:
     """Returns a date that was today N months ago."""
-    ...
-
-def py_handle_daily_total(ctx: PyContext, src_root: str, j: str, day_range: int) -> str:
-    """Shows # of total housenumbers / day."""
     ...
 
 def py_handle_monthly_total(ctx: PyContext, src_root: str, j: str, month_range: int) -> str:

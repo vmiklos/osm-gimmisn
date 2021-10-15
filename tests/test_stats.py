@@ -24,56 +24,8 @@ def make_test_time_old() -> api.Time:
     return test_context.TestTime(calendar.timegm(datetime.date(1970, 1, 1).timetuple()))
 
 
-class TestHandleDailyTotal(unittest.TestCase):
-    """Tests handle_daily_total()."""
-    def test_empty_day_range(self) -> None:
-        """Tests the case when the day range is empty."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_daily_total(ctx, src_root, j, day_range=-1)
-        dailytotal = j["dailytotal"]
-        self.assertFalse(dailytotal)
-
-
-class TestHandleUserTotal(unittest.TestCase):
-    """Tests handle_user_total()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_user_total(ctx, src_root, j, day_range=13)
-        usertotal = j["usertotal"]
-        self.assertEqual(len(usertotal), 1)
-        self.assertEqual(usertotal[0], ["2020-04-27", 43])
-
-    def test_empty_day_range(self) -> None:
-        """Tests the case when the day range is empty."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_user_total(ctx, src_root, j, day_range=-1)
-        usertotal = j["usertotal"]
-        self.assertFalse(usertotal)
-
-
 class TestHandleMonthlyTotal(unittest.TestCase):
     """Tests handle_monthly_total()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_monthly_total(ctx, src_root, j, month_range=11)
-        monthlytotal = j["monthlytotal"]
-        self.assertEqual(len(monthlytotal), 1)
-        self.assertEqual(monthlytotal[0], ['2019-05', 203317])
-
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
         ctx = test_context.make_test_context()

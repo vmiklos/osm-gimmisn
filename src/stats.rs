@@ -204,22 +204,6 @@ fn handle_user_total(
     Ok(())
 }
 
-#[pyfunction]
-fn py_handle_user_total(
-    ctx: context::PyContext,
-    src_root: &str,
-    j: &str,
-    day_range: i64,
-) -> PyResult<String> {
-    let mut j = serde_json::from_str(j).unwrap();
-    match handle_user_total(&ctx.context, src_root, &mut j, day_range)
-        .context("handle_user_total() failed")
-    {
-        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Shows # of new housenumbers / day.
 fn handle_daily_new(
     ctx: &context::Context,
@@ -343,22 +327,6 @@ fn handle_daily_total(
     Ok(())
 }
 
-#[pyfunction]
-fn py_handle_daily_total(
-    ctx: context::PyContext,
-    src_root: &str,
-    j: &str,
-    day_range: i64,
-) -> PyResult<String> {
-    let mut j = serde_json::from_str(j).unwrap();
-    match handle_daily_total(&ctx.context, src_root, &mut j, day_range)
-        .context("handle_daily_total() failed")
-    {
-        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Shows # of total housenumbers / month.
 fn handle_monthly_total(
     ctx: &context::Context,
@@ -445,9 +413,7 @@ fn py_generate_json(ctx: context::PyContext, state_dir: &str, json_path: &str) -
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_topcities, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_user_total, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_previous_month, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_daily_total, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_monthly_total, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_generate_json, module)?)?;
     Ok(())
@@ -653,5 +619,63 @@ budapest_02\t200\n\
         let dailytotal = &j.as_object().unwrap()["dailytotal"].as_array().unwrap();
         assert_eq!(dailytotal.len(), 1);
         assert_eq!(dailytotal[0], serde_json::json!(["2020-04-27", 251614]));
+    }
+
+    /// Tests handle_daily_total(): the case when the day range is empty.
+    #[test]
+    fn test_handle_daily_total_empty_day_range() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_daily_total(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
+        let dailytotal = &j.as_object().unwrap()["dailytotal"].as_array().unwrap();
+        assert_eq!(dailytotal.is_empty(), true);
+    }
+
+    /// Tests handle_user_total().
+    #[test]
+    fn test_handle_user_total() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_user_total(&ctx, &src_root, &mut j, /*day_range=*/ 13).unwrap();
+        let usertotal = &j.as_object().unwrap()["usertotal"].as_array().unwrap();
+        assert_eq!(usertotal.len(), 1);
+        assert_eq!(usertotal[0], serde_json::json!(["2020-04-27", 43]));
+    }
+
+    /// Tests handle_user_total(): the case when the day range is empty.
+    #[test]
+    fn test_handle_user_total_empty_day_range() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_user_total(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
+        let usertotal = &j.as_object().unwrap()["usertotal"].as_array().unwrap();
+        assert_eq!(usertotal.is_empty(), true);
+    }
+
+    /// Tests handle_monthly_total().
+    #[test]
+    fn test_handle_monthly_total() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ 11).unwrap();
+        let monthlytotal = &j.as_object().unwrap()["monthlytotal"].as_array().unwrap();
+        assert_eq!(monthlytotal.len(), 1);
+        assert_eq!(monthlytotal[0], serde_json::json!(["2019-05", 203317]))
     }
 }
