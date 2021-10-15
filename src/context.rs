@@ -948,7 +948,8 @@ impl Context {
         &self.network
     }
 
-    fn set_network(&mut self, network: &Arc<dyn Network>) {
+    /// Sets the network implementation.
+    pub fn set_network(&mut self, network: &Arc<dyn Network>) {
         self.network = network.clone();
     }
 
@@ -1218,6 +1219,78 @@ pub mod tests {
         fn sleep(&self, seconds: u64) {
             let mut guard = self.sleep.lock().unwrap();
             *guard.deref_mut() = seconds;
+        }
+    }
+
+    /// Contains info about how to patch out one URL.
+    #[derive(Clone)]
+    pub struct URLRoute {
+        /// The request URL
+        url: String,
+        /// Path of expected POST data, empty for GET
+        data_path: String,
+        /// Path of expected result data
+        result_path: String,
+    }
+
+    impl URLRoute {
+        pub fn new(url: &str, data_path: &str, result_path: &str) -> Self {
+            URLRoute {
+                url: url.into(),
+                data_path: data_path.into(),
+                result_path: result_path.into(),
+            }
+        }
+    }
+
+    /// Network implementation, for test purposes.
+    pub struct TestNetwork {
+        routes: Arc<Mutex<Vec<URLRoute>>>,
+    }
+
+    impl TestNetwork {
+        pub fn new(routes: &[URLRoute]) -> Self {
+            let routes = Arc::new(Mutex::new(routes.to_vec()));
+            TestNetwork { routes }
+        }
+    }
+
+    impl Network for TestNetwork {
+        /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.
+        fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
+            let mut ret: String = "".into();
+            let mut remove: Option<usize> = None;
+            let mut locked_routes = self.routes.lock().unwrap();
+            for (index, route) in locked_routes.iter().enumerate() {
+                if url != route.url {
+                    continue;
+                }
+
+                if !route.data_path.is_empty() {
+                    let expected = std::fs::read_to_string(&route.data_path)?;
+                    assert_eq!(data, expected);
+                }
+
+                assert_eq!(
+                    route.result_path.is_empty(),
+                    false,
+                    "empty result_path for url '{}'",
+                    url
+                );
+                ret = std::fs::read_to_string(&route.result_path)?;
+                remove = Some(index);
+                break;
+            }
+
+            assert_eq!(
+                ret.is_empty(),
+                false,
+                "url missing from route list: '{}'",
+                url
+            );
+            // Allow specifying multiple results for the same URL.
+            locked_routes.remove(remove.unwrap());
+            Ok(ret)
         }
     }
 

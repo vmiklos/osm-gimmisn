@@ -25,27 +25,6 @@ class PyRange:
     def __init__(self, start: int, end: int, interpolation: str) -> None:
         ...
 
-    def get_start(self) -> int:
-        """The smallest integer."""
-        ...
-
-    def get_end(self) -> int:
-        """The largest integer."""
-        ...
-
-    def is_odd(self) -> Optional[bool]:
-        """None for all house numbers on one side, bool otherwise."""
-        ...
-
-    def __contains__(self, item: int) -> bool:
-        ...
-
-    def __repr__(self) -> str:
-        ...
-
-    def __eq__(self, other: object) -> bool:
-        ...
-
 
 class PyRanges:
     """A Ranges object contains an item if any of its Range objects contains it."""
@@ -265,18 +244,9 @@ class PyStreet:
     A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
     name differs.
     """
-    def __init__(
-        self, osm_name: str, ref_name: str, show_ref_street: bool, osm_id: int
-    ) -> None:
-        ...
-
     @staticmethod
     def from_string(osm_name: str) -> "PyStreet":
         """Constructor that only requires an OSM name."""
-        ...
-
-    def get_diff_key(self) -> str:
-        """Gets a string that is used while diffing."""
         ...
 
     def get_osm_name(self) -> str:
@@ -332,15 +302,8 @@ class PyHouseNumber:
     can generate 3 house numbers, all of them with the same range.
     The comment is similar to source, it's ignored during __eq__() and __hash__().
     """
-    def __init__(self, number: str, source: str, comment: str) -> None:
-        ...
-
     def get_number(self) -> str:
         """Returns the house number string."""
-        ...
-
-    def get_diff_key(self) -> str:
-        """Gets a string that is used while diffing."""
         ...
 
     def get_source(self) -> str:
@@ -409,60 +372,9 @@ def py_build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, 
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
     ...
 
-def py_handle_overpass_error(ctx: PyContext, http_error: str) -> PyDoc:
-    """Handles a HTTP error from Overpass."""
-    ...
-
-def py_setup_localization(headers: List[Tuple[str, str]]) -> str:
-    """Provides localized strings for this thread."""
-    ...
-
-def py_gen_link(url: str, label: str) -> PyDoc:
-    """Generates a link to a URL with a given label."""
-    ...
-
-def py_process_template(buf: str, osmrelation: int) -> str:
-    """Turns an overpass query template to an actual query."""
-    ...
-
-def py_html_table_from_list(table: List[List[PyDoc]]) -> PyDoc:
-    """Produces a HTML table from a list of lists."""
-    ...
-
-def py_invalid_filter_keys_to_html(invalids: List[str]) -> PyDoc:
-    """Produces HTML enumerations for a string list."""
-    ...
-
-def py_get_column(row: List[PyDoc], column_index: int) -> str:
-    """Gets the nth column of row."""
-    ...
-
-def py_natnum(column: str) -> int:
-    """Interpret the content as an integer."""
-    ...
-
-def py_tsv_to_list(stream: PyCsvRead) -> List[List[PyDoc]]:
-    """Turns a tab-separated table into a list of lists."""
-    ...
-
-def py_get_street_from_housenumber(sock: PyCsvRead) -> List[PyStreet]:
-    """
-    Reads a house number CSV and extracts streets from rows.
-    Returns a list of street objects, with their name, ID and type set.
-    """
-    ...
-
 def py_get_housenumber_ranges(house_numbers: List[PyHouseNumber]) -> List[PyHouseNumberRange]:
     """Gets a reference range list for a house number list by looking at what range provided a givne
     house number."""
-    ...
-
-def py_git_link(version: str, prefix: str) -> PyDoc:
-    """Generates a HTML link based on a website prefix and a git-describe version."""
-    ...
-
-def py_sort_numerically(strings: List[PyHouseNumber]) -> List[PyHouseNumber]:
-    """Sorts strings according to their numerical value, not alphabetically."""
     ...
 
 def py_get_content(path: str) -> bytes:
@@ -479,10 +391,6 @@ def py_get_sort_key(string: str) -> bytes:
 
 def py_get_valid_settlements(ctx: PyContext) -> Set[str]:
     """Builds a set of valid settlement names."""
-    ...
-
-def py_get_timestamp(path: str) -> float:
-    """Gets the timestamp of a file if it exists, 0 otherwise."""
     ...
 
 class PyRelationFiles:

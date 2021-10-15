@@ -32,21 +32,6 @@ impl Range {
         Range { start, end, is_odd }
     }
 
-    /// The smallest integer.
-    fn get_start(&self) -> i64 {
-        self.start
-    }
-
-    /// The largest integer.
-    fn get_end(&self) -> i64 {
-        self.end
-    }
-
-    /// None for all house numbers on one side, bool otherwise.
-    fn is_odd(&self) -> Option<bool> {
-        self.is_odd
-    }
-
     fn contains(&self, item: i64) -> bool {
         if let Some(is_odd) = self.is_odd {
             if is_odd != (item % 2 == 1) {
@@ -81,7 +66,6 @@ impl PartialEq for Range {
 }
 
 #[pyclass]
-#[derive(Debug)]
 pub struct PyRange {
     range: Range,
 }
@@ -92,39 +76,6 @@ impl PyRange {
     fn new(start: i64, end: i64, interpolation: String) -> Self {
         let range = Range::new(start, end, &interpolation);
         PyRange { range }
-    }
-
-    fn get_start(&self) -> i64 {
-        self.range.get_start()
-    }
-
-    fn get_end(&self) -> i64 {
-        self.range.get_end()
-    }
-
-    fn is_odd(&self) -> Option<bool> {
-        self.range.is_odd()
-    }
-}
-
-#[pyproto]
-impl PySequenceProtocol for PyRange {
-    fn __contains__(&self, item: i64) -> PyResult<bool> {
-        Ok(self.range.contains(item))
-    }
-}
-
-#[pyproto]
-impl<'p> PyObjectProtocol<'p> for PyRange {
-    fn __repr__(&self) -> PyResult<String> {
-        Ok(format!("{:?}", self))
-    }
-
-    fn __richcmp__(&'p self, other: PyRef<'p, PyRange>, op: CompareOp) -> PyResult<PyObject> {
-        match op {
-            CompareOp::Eq => Ok(self.range.eq(&(*other).range).into_py(other.py())),
-            _ => Ok(other.py().NotImplemented()),
-        }
     }
 }
 
@@ -254,8 +205,8 @@ mod tests {
         assert_eq!(test.contains(1), true);
         assert_eq!(test.contains(3), true);
         assert_eq!(test.contains(5), true);
-        assert_eq!(test.get_start(), 1);
-        assert_eq!(test.get_end(), 5);
+        assert_eq!(test.start, 1);
+        assert_eq!(test.end, 5);
     }
 
     /// Range: Tests equality code.

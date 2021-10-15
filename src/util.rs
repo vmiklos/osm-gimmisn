@@ -319,20 +319,10 @@ pub struct PyStreet {
 
 #[pymethods]
 impl PyStreet {
-    #[new]
-    fn new(osm_name: &str, ref_name: &str, show_ref_street: bool, osm_id: u64) -> Self {
-        let street = Street::new(osm_name, ref_name, show_ref_street, osm_id);
-        PyStreet { street }
-    }
-
     #[staticmethod]
     fn from_string(osm_name: &str) -> Self {
         let street = Street::from_string(osm_name);
         PyStreet { street }
-    }
-
-    fn get_diff_key(&self) -> String {
-        self.street.get_diff_key()
     }
 
     fn get_osm_name(&self) -> &str {
@@ -566,18 +556,8 @@ pub type PyNumberedStreets = Vec<PyNumberedStreet>;
 
 #[pymethods]
 impl PyHouseNumber {
-    #[new]
-    fn new(number: &str, source: &str, comment: &str) -> Self {
-        let house_number = HouseNumber::new(number, source, comment);
-        PyHouseNumber { house_number }
-    }
-
     fn get_number(&self) -> &str {
         self.house_number.get_number()
-    }
-
-    fn get_diff_key(&self) -> String {
-        self.house_number.get_diff_key()
     }
 
     fn get_source(&self) -> &str {
@@ -1041,17 +1021,6 @@ pub fn handle_overpass_error(ctx: &context::Context, http_error: &str) -> yattag
     doc
 }
 
-#[pyfunction]
-fn py_handle_overpass_error(
-    py: Python<'_>,
-    ctx: PyObject,
-    http_error: String,
-) -> PyResult<yattag::PyDoc> {
-    let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(py)?;
-    let doc = handle_overpass_error(&ctx.context, &http_error);
-    Ok(yattag::PyDoc { doc })
-}
-
 /// Provides localized strings for this thread.
 pub fn setup_localization(headers: &[(String, String)]) -> String {
     let mut languages: String = "".into();
@@ -1073,24 +1042,12 @@ pub fn setup_localization(headers: &[(String, String)]) -> String {
     "".into()
 }
 
-#[pyfunction]
-fn py_setup_localization(headers: Vec<(String, String)>) -> String {
-    setup_localization(&headers)
-}
-
 /// Generates a link to a URL with a given label.
 pub fn gen_link(url: &str, label: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let _a = doc.tag("a", &[("href", url)]);
     doc.text(&(label.to_string() + "..."));
     doc
-}
-
-#[pyfunction]
-fn py_gen_link(url: String, label: String) -> yattag::PyDoc {
-    yattag::PyDoc {
-        doc: gen_link(&url, &label),
-    }
 }
 
 /// Produces the verify first line of a HTML output.
@@ -1105,11 +1062,6 @@ pub fn process_template(buf: &str, osm_relation: u64) -> String {
     // in https://github.com/tyrasd/overpass-turbo
     buf = buf.replace("@AREA@", &(3600000000 + osm_relation).to_string());
     buf
-}
-
-#[pyfunction]
-fn py_process_template(buf: String, osm_relation: u64) -> String {
-    process_template(&buf, osm_relation)
 }
 
 /// Decides if an x-y range should be expanded. Returns a sanitized end value as well.
@@ -1159,22 +1111,6 @@ pub fn html_table_from_list(table: &[Vec<yattag::Doc>]) -> yattag::Doc {
         }
     }
     doc
-}
-
-#[pyfunction]
-fn py_html_table_from_list(py: Python<'_>, table: Vec<Vec<PyObject>>) -> PyResult<yattag::PyDoc> {
-    // Convert Vec<Vec<PyObject>> to Vec<Vec<yattag::Doc>>.
-    let mut native_table: Vec<Vec<yattag::Doc>> = Vec::new();
-    for row in table {
-        let mut native_row: Vec<yattag::Doc> = Vec::new();
-        for cell in row {
-            let cell: PyRefMut<'_, yattag::PyDoc> = cell.extract(py)?;
-            native_row.push(cell.doc.clone());
-        }
-        native_table.push(native_row);
-    }
-    let doc = html_table_from_list(&native_table);
-    Ok(yattag::PyDoc { doc })
 }
 
 /// Produces HTML enumerations for 2 string lists.
@@ -1234,12 +1170,6 @@ pub fn invalid_filter_keys_to_html(invalids: &[String]) -> yattag::Doc {
     doc
 }
 
-#[pyfunction]
-fn py_invalid_filter_keys_to_html(invalids: Vec<String>) -> yattag::PyDoc {
-    let doc = invalid_filter_keys_to_html(&invalids);
-    yattag::PyDoc { doc }
-}
-
 /// Gets the nth column of row.
 fn get_column(row: &[yattag::Doc], column_index: usize) -> String {
     let ret: String;
@@ -1251,19 +1181,6 @@ fn get_column(row: &[yattag::Doc], column_index: usize) -> String {
     ret
 }
 
-#[pyfunction]
-fn py_get_column(py: Python<'_>, row: Vec<PyObject>, column_index: usize) -> PyResult<String> {
-    // Convert Vec<PyObject> to Vec<yattag::Doc>.
-    let row: Vec<yattag::Doc> = row
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, yattag::PyDoc> = item.extract(py)?;
-            Ok(item.doc.clone())
-        })
-        .collect::<PyResult<Vec<yattag::Doc>>>()?;
-    Ok(get_column(&row, column_index))
-}
-
 /// Interpret the content as an integer.
 fn natnum(column: &str) -> u64 {
     let mut number: String = "".into();
@@ -1271,11 +1188,6 @@ fn natnum(column: &str) -> u64 {
         number = cap[1].into();
     }
     number.parse::<u64>().unwrap_or(0)
-}
-
-#[pyfunction]
-fn py_natnum(column: String) -> u64 {
-    natnum(&column)
 }
 
 /// Turns a tab-separated table into a list of lists.
@@ -1334,30 +1246,6 @@ pub fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag:
     Ok(table)
 }
 
-#[pyfunction]
-fn py_tsv_to_list(py: Python<'_>, stream: PyObject) -> PyResult<Vec<Vec<yattag::PyDoc>>> {
-    let mut stream: PyRefMut<'_, PyCsvRead> = stream.extract(py)?;
-    let mut cursor = std::io::Cursor::new(&mut stream.buf);
-    let mut csv_read = CsvRead::new(&mut cursor);
-    let ret = match tsv_to_list(&mut csv_read) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "tsv_to_list() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok(ret
-        .iter()
-        .map(|row| {
-            row.iter()
-                .map(|cell| yattag::PyDoc { doc: cell.clone() })
-                .collect::<Vec<yattag::PyDoc>>()
-        })
-        .collect::<Vec<Vec<yattag::PyDoc>>>())
-}
-
 /// Reads a house number CSV and extracts streets from rows.
 /// Returns a list of street objects, with their name, ID and type set.
 pub fn get_street_from_housenumber(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Street>> {
@@ -1406,28 +1294,6 @@ pub fn get_street_from_housenumber(csv_read: &mut CsvRead<'_>) -> anyhow::Result
     }
 
     Ok(ret)
-}
-
-#[pyfunction]
-fn py_get_street_from_housenumber(py: Python<'_>, stream: PyObject) -> PyResult<Vec<PyStreet>> {
-    let mut stream: PyRefMut<'_, PyCsvRead> = stream.extract(py)?;
-    let mut cursor = std::io::Cursor::new(&mut stream.buf);
-    let mut csv_read = CsvRead::new(&mut cursor);
-    let ret = match get_street_from_housenumber(&mut csv_read) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_street_from_housenumber() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok(ret
-        .iter()
-        .map(|street| PyStreet {
-            street: street.clone(),
-        })
-        .collect::<Vec<PyStreet>>())
 }
 
 /// Gets a reference range list for a house number list by looking at what range provided a given
@@ -1481,12 +1347,6 @@ pub fn git_link(version: &str, prefix: &str) -> yattag::Doc {
     doc
 }
 
-#[pyfunction]
-fn py_git_link(version: String, prefix: String) -> yattag::PyDoc {
-    let doc = git_link(&version, &prefix);
-    yattag::PyDoc { doc }
-}
-
 /// Sorts strings according to their numerical value, not alphabetically.
 pub fn sort_numerically(strings: &[HouseNumber]) -> Vec<HouseNumber> {
     let mut ret: Vec<HouseNumber> = strings.to_owned();
@@ -1496,24 +1356,6 @@ pub fn sort_numerically(strings: &[HouseNumber]) -> Vec<HouseNumber> {
         a_key.cmp(&b_key)
     });
     ret
-}
-
-#[pyfunction]
-fn py_sort_numerically(py: Python<'_>, strings: Vec<PyObject>) -> PyResult<Vec<PyHouseNumber>> {
-    let mut house_numbers: Vec<HouseNumber> = strings
-        .iter()
-        .map(|item| {
-            let item: PyRefMut<'_, PyHouseNumber> = item.extract(py)?;
-            Ok(item.house_number.clone())
-        })
-        .collect::<PyResult<Vec<HouseNumber>>>()?;
-    house_numbers = sort_numerically(&house_numbers);
-    Ok(house_numbers
-        .iter()
-        .map(|house_number| PyHouseNumber {
-            house_number: house_number.clone(),
-        })
-        .collect())
 }
 
 /// Returns items which are in first, but not in second.
@@ -1778,11 +1620,6 @@ pub fn get_timestamp(path: &str) -> f64 {
     mtime.as_secs_f64()
 }
 
-#[pyfunction]
-fn py_get_timestamp(path: String) -> f64 {
-    get_timestamp(&path)
-}
-
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
@@ -1795,36 +1632,19 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         module
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_overpass_error, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_setup_localization, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_gen_link, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_process_template, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_html_table_from_list, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_invalid_filter_keys_to_html,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_column, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_natnum, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_tsv_to_list, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_get_street_from_housenumber,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_housenumber_ranges, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_git_link, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_sort_numerically, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_city_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_sort_key, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_valid_settlements, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_timestamp, module)?)?;
     Ok(())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use itertools::Itertools;
+    use std::sync::Arc;
 
     /// Convers a string list into a street list.
     fn street_list(streets: &[&str]) -> Vec<Street> {
@@ -2104,5 +1924,416 @@ mod tests {
         let filters = parse_filters(from);
         assert_eq!(filters["refcounty"], "42");
         assert_eq!(filters["refsettlement"], "43");
+    }
+
+    /// Tests handle_overpass_error(): the case when no sleep is needed.
+    #[test]
+    fn test_handle_overpass_error_no_sleep() {
+        let error = "HTTP Error 404: no such file";
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let doc = handle_overpass_error(&ctx, error);
+        let expected =
+            r#"<div id="overpass-error">Overpass error: HTTP Error 404: no such file</div>"#;
+        assert_eq!(doc.get_value(), expected);
+    }
+
+    /// Tests handle_overpass_error(): the case when sleep is needed.
+    #[test]
+    fn test_handle_overpass_error_need_sleep() {
+        let error = "HTTP Error 404: no such file";
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-status-wait.txt",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let doc = handle_overpass_error(&ctx, error);
+        let expected = r#"<div id="overpass-error">Overpass error: HTTP Error 404: no such file<br />Note: wait for 12 seconds</div>"#;
+        assert_eq!(doc.get_value(), expected);
+    }
+
+    /// Tests setup_localization().
+    #[test]
+    fn test_setup_localization() {
+        let environ = vec![(
+            "Accept-Language".to_string(),
+            "hu,en;q=0.9,en-US;q=0.8".to_string(),
+        )];
+        i18n::set_language("en").unwrap();
+        setup_localization(&environ);
+        assert_eq!(i18n::get_language(), "hu");
+        i18n::set_language("en").unwrap();
+    }
+
+    /// Tests setup_localization(): the error path.
+    #[test]
+    fn test_setup_localization_parse_error() {
+        let environ = vec![("Accept-Language".to_string(), ",".to_string())];
+        i18n::set_language("en").unwrap();
+        setup_localization(&environ);
+        assert_eq!(i18n::get_language(), "en");
+    }
+
+    /// Tests gen_link().
+    #[test]
+    fn test_gen_link() {
+        let doc = gen_link("http://www.example.com", "label");
+        let expected = r#"<a href="http://www.example.com">label...</a>"#;
+        assert_eq!(doc.get_value(), expected);
+    }
+
+    /// Tests process_template().
+    #[test]
+    fn test_process_template() {
+        let template = "aaa @RELATION@ bbb @AREA@ ccc";
+        let expected = "aaa 42 bbb 3600000042 ccc";
+        let actual = process_template(&template, 42);
+        assert_eq!(actual, expected);
+    }
+
+    /// Tests html_table_from_list().
+    #[test]
+    fn test_html_table_from_list() {
+        let fro = vec![
+            vec![yattag::Doc::from_text("A1"), yattag::Doc::from_text("B1")],
+            vec![yattag::Doc::from_text("A2"), yattag::Doc::from_text("B2")],
+        ];
+        let expected = "<table class=\"sortable\">\
+<tr><th><a href=\"#\">A1</a></th>\
+<th><a href=\"#\">B1</a></th></tr>\
+<tr><td>A2</td><td>B2</td></tr></table>";
+        let ret = html_table_from_list(&fro).get_value();
+        assert_eq!(ret, expected);
+    }
+
+    /// Tests tsv_to_list().
+    #[test]
+    fn test_tsv_to_list() {
+        let mut cursor = std::io::Cursor::new(b"h1\th2\n\nv1\tv2\n");
+        let mut csv_read = CsvRead::new(&mut cursor);
+        let ret = tsv_to_list(&mut csv_read).unwrap();
+        assert_eq!(ret.len(), 2);
+        let row1: Vec<_> = ret[0].iter().map(|cell| cell.get_value()).collect();
+        assert_eq!(row1, vec!["h1", "h2"]);
+        let row2: Vec<_> = ret[1].iter().map(|cell| cell.get_value()).collect();
+        assert_eq!(row2, vec!["v1", "v2"]);
+    }
+
+    /// Tests tsv_to_list(): when a @type column is available.
+    #[test]
+    fn test_tsv_to_list_type() {
+        let mut cursor = std::io::Cursor::new(b"@id\t@type\n42\tnode\n");
+        let mut csv_read = CsvRead::new(&mut cursor);
+        let ret = tsv_to_list(&mut csv_read).unwrap();
+        assert_eq!(ret.len(), 2);
+        let row1: Vec<_> = ret[0].iter().map(|cell| cell.get_value()).collect();
+        assert_eq!(row1, vec!["@id", "@type"]);
+        let row2: Vec<_> = ret[1].iter().map(|cell| cell.get_value()).collect();
+        let cell_a2 = r#"<a href="https://www.openstreetmap.org/node/42" target="_blank">42</a>"#;
+        assert_eq!(row2, vec![cell_a2, "node"]);
+    }
+
+    /// Tests tsv_to_list(): escaping.
+    #[test]
+    fn test_tsv_to_list_escape() {
+        let mut cursor = std::io::Cursor::new(b"\"h,1\"\th2\n");
+        let mut csv_read = CsvRead::new(&mut cursor);
+        let ret = tsv_to_list(&mut csv_read).unwrap();
+        assert_eq!(ret.len(), 1);
+        let row1: Vec<_> = ret[0].iter().map(|cell| cell.get_value()).collect();
+        // Note how this is just h,1 and not "h,1".
+        assert_eq!(row1, vec!["h,1", "h2"]);
+    }
+
+    /// Tests tsv_to_list(): sorting.
+    #[test]
+    fn test_tsv_to_list_sort() {
+        let mut cursor = std::io::Cursor::new(
+            b"addr:street\taddr:housenumber\n\
+A street\t1\n\
+A street\t10\n\
+A street\t9",
+        );
+        let mut csv_read = CsvRead::new(&mut cursor);
+        let ret = tsv_to_list(&mut csv_read).unwrap();
+        // 0th is header
+        let row3: Vec<_> = ret[3].iter().map(|cell| cell.get_value()).collect();
+        // Note how 10 is ordered after 9.
+        assert_eq!(row3[1], "10");
+    }
+
+    /// Tests the HouseNumber class.
+    #[test]
+    fn test_house_number() {
+        let house_number = HouseNumber::new("1", "1-2", "");
+        assert_eq!(house_number.get_number(), "1");
+        assert_eq!(house_number.get_source(), "1-2");
+        assert_eq!(
+            HouseNumber::new("1", "1-2", "") != HouseNumber::new("2", "1-2", ""),
+            true
+        );
+        let house_numbers = vec![
+            HouseNumber::new("1", "1-2", ""),
+            HouseNumber::new("2", "1-2", ""),
+            HouseNumber::new("2", "1-2", ""),
+        ];
+        let unique: Vec<_> = house_numbers.into_iter().unique().collect();
+        assert_eq!(unique.len(), 2);
+    }
+
+    /// Tests HouseNumber::is_invalid().
+    #[test]
+    fn test_house_number_is_invalid() {
+        assert_eq!(HouseNumber::is_invalid("15 a", &["15a".to_string()]), true);
+        assert_eq!(HouseNumber::is_invalid("15/a", &["15a".to_string()]), true);
+        assert_eq!(HouseNumber::is_invalid("15A", &["15a".to_string()]), true);
+        assert_eq!(
+            HouseNumber::is_invalid("67/5*", &["67/5".to_string()]),
+            true
+        );
+
+        // Make sure we don't panic on input which does not start with a number.
+        assert_eq!(HouseNumber::is_invalid("A", &["15a".to_string()]), false);
+    }
+
+    /// Tests HouseNumber::has_letter_suffix().
+    #[test]
+    fn test_house_number_letter_suffix() {
+        assert_eq!(HouseNumber::has_letter_suffix("42a", ""), true);
+        assert_eq!(HouseNumber::has_letter_suffix("42 a", ""), true);
+        assert_eq!(HouseNumber::has_letter_suffix("42/a", ""), true);
+        assert_eq!(HouseNumber::has_letter_suffix("42/a*", "*"), true);
+        assert_eq!(HouseNumber::has_letter_suffix("42A", ""), true);
+        assert_eq!(HouseNumber::has_letter_suffix("42 AB", ""), false);
+    }
+
+    /// Tests HouseNumber::normalize_letter_suffix().
+    #[test]
+    fn test_house_number_normalize_letter_suffix() {
+        assert_eq!(
+            HouseNumber::normalize_letter_suffix("42a", "", LetterSuffixStyle::Upper).unwrap(),
+            "42/A"
+        );
+        assert_eq!(
+            HouseNumber::normalize_letter_suffix("42 a", "", LetterSuffixStyle::Upper).unwrap(),
+            "42/A"
+        );
+        assert_eq!(
+            HouseNumber::normalize_letter_suffix("42/a", "", LetterSuffixStyle::Upper).unwrap(),
+            "42/A"
+        );
+        assert_eq!(
+            HouseNumber::normalize_letter_suffix("42/A", "", LetterSuffixStyle::Upper).unwrap(),
+            "42/A"
+        );
+        assert_eq!(
+            HouseNumber::normalize_letter_suffix("42/A*", "*", LetterSuffixStyle::Upper).unwrap(),
+            "42/A*"
+        );
+        assert_eq!(
+            HouseNumber::normalize_letter_suffix("42 A", "", LetterSuffixStyle::Upper).unwrap(),
+            "42/A"
+        );
+        assert_eq!(
+            HouseNumber::normalize_letter_suffix("x", "", LetterSuffixStyle::Upper).is_err(),
+            true
+        );
+        assert_eq!(
+            HouseNumber::normalize_letter_suffix("42/A", "", LetterSuffixStyle::Lower).unwrap(),
+            "42a"
+        );
+    }
+
+    /// Tests get_housenumber_ranges().
+    #[test]
+    fn test_get_housenumber_ranges() {
+        let house_numbers = [
+            HouseNumber::new("25", "25", ""),
+            HouseNumber::new("27", "27-37", ""),
+            HouseNumber::new("29", "27-37", ""),
+            HouseNumber::new("31", "27-37", ""),
+            HouseNumber::new("33", "27-37", ""),
+            HouseNumber::new("35", "27-37", ""),
+            HouseNumber::new("37", "27-37", ""),
+            HouseNumber::new("31*", "31*", ""),
+        ];
+        let ranges = get_housenumber_ranges(&house_numbers);
+        let range_names: Vec<_> = ranges.iter().map(|i| i.get_number()).collect();
+        assert_eq!(range_names, ["25", "27-37", "31*"]);
+    }
+
+    /// Tests git_link().
+    #[test]
+    fn test_git_link() {
+        let actual = git_link("v1-151-g64ecc85", "http://www.example.com/").get_value();
+        let expected = "<a href=\"http://www.example.com/64ecc85\">v1-151-g64ecc85</a>";
+        assert_eq!(actual, expected);
+    }
+
+    /// Tests sort_numerically(): numbers.
+    #[test]
+    fn test_sort_numerically_numbers() {
+        let ascending = sort_numerically(&[
+            HouseNumber::new("1", "", ""),
+            HouseNumber::new("20", "", ""),
+            HouseNumber::new("3", "", ""),
+        ]);
+        let actual: Vec<_> = ascending.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, ["1", "3", "20"]);
+    }
+
+    /// Tests sort_numerically(): numbers with suffixes.
+    #[test]
+    fn test_sort_numerically_alpha_suffix() {
+        let ascending = sort_numerically(&[
+            HouseNumber::new("1a", "", ""),
+            HouseNumber::new("20a", "", ""),
+            HouseNumber::new("3a", "", ""),
+        ]);
+        let actual: Vec<_> = ascending.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, ["1a", "3a", "20a"]);
+    }
+
+    /// Tests sort_numerically(): just suffixes.
+    #[test]
+    fn test_sort_numerically_alpha() {
+        let ascending = sort_numerically(&[
+            HouseNumber::new("a", "", ""),
+            HouseNumber::new("c", "", ""),
+            HouseNumber::new("b", "", ""),
+        ]);
+        let actual: Vec<_> = ascending.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, ["a", "b", "c"]);
+    }
+
+    /// Tests get_content().
+    #[test]
+    fn test_get_content() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let workdir = ctx.get_abspath("workdir").unwrap();
+        let actual =
+            String::from_utf8(get_content(&format!("{}/gazdagret.percent", workdir)).unwrap())
+                .unwrap();
+        let expected = "54.55";
+        assert_eq!(actual, expected);
+    }
+
+    /// Tests Street.
+    #[test]
+    fn test_street() {
+        let street = Street::new(
+            "foo", "bar", /*show_ref_street=*/ true, /*osm_id=*/ 0,
+        );
+        assert_eq!(street.get_ref_name(), "bar");
+        assert_eq!(street.to_html().get_value(), "foo<br />(bar)");
+    }
+
+    /// Tests get_city_key().
+    #[test]
+    fn test_get_city_key() {
+        let mut valid_settlements: HashSet<String> = HashSet::new();
+        valid_settlements.insert("lábatlan".into());
+        assert_eq!(
+            get_city_key("1234", "Budapest", &valid_settlements).unwrap(),
+            "budapest_23"
+        );
+        assert_eq!(
+            get_city_key("1889", "Budapest", &valid_settlements).unwrap(),
+            "budapest"
+        );
+        assert_eq!(
+            get_city_key("9999", "", &valid_settlements).unwrap(),
+            "_Empty"
+        );
+        assert_eq!(
+            get_city_key("9999", "Lábatlan", &valid_settlements).unwrap(),
+            "lábatlan"
+        );
+        assert_eq!(
+            get_city_key("9999", "junk", &valid_settlements).unwrap(),
+            "_Invalid"
+        );
+        // Even if the pos does not start with 1.
+        assert_eq!(
+            get_city_key("9999", "Budapest", &valid_settlements).unwrap(),
+            "budapest"
+        );
+    }
+
+    /// Tests get_street_from_housenumber(): the case when addr:place is used.
+    #[test]
+    fn test_get_street_from_housenumber_addr_place() {
+        let mut read = std::fs::File::open("tests/workdir/street-housenumbers-gh964.csv").unwrap();
+        let mut csv_read = CsvRead::new(&mut read);
+        let actual = get_street_from_housenumber(&mut csv_read).unwrap();
+        // This is picked up from addr:place because addr:street was empty.
+        assert_eq!(actual, [Street::from_string("Tolvajos tanya")]);
+    }
+
+    /// Tests invalid_filter_keys_to_html().
+    #[test]
+    fn test_invalid_filter_keys_to_html() {
+        let ret = invalid_filter_keys_to_html(&["foo".into()]);
+        assert_eq!(ret.get_value().contains("<li>"), true);
+    }
+
+    /// Tests invalid_filter_keys_to_html(): when the arg is empty.
+    #[test]
+    fn test_invalid_filter_keys_to_html_empty() {
+        let ret = invalid_filter_keys_to_html(&[]);
+        assert_eq!(ret.get_value(), "");
+    }
+
+    /// Tests get_column().
+    #[test]
+    fn test_get_column() {
+        // id, street name, housenumber
+        let row = [
+            yattag::Doc::from_text("42"),
+            yattag::Doc::from_text("A street"),
+            yattag::Doc::from_text("1"),
+        ];
+        assert_eq!(get_column(&row, 1), "A street");
+        assert_eq!(natnum(&get_column(&row, 2)), 1);
+        // Too large column index -> first column.
+        assert_eq!(get_column(&row, 3), "42");
+    }
+
+    /// Tests get_column(): the 'housenumber is junk' case.
+    #[test]
+    fn test_get_column_junk() {
+        // id, street name, housenumber
+        let row = [
+            yattag::Doc::from_text("42"),
+            yattag::Doc::from_text("A street"),
+            yattag::Doc::from_text("fixme"),
+        ];
+        assert_eq!(natnum(&get_column(&row, 2)), 0);
+    }
+
+    /// Tests get_timestamp(): what happens when the file is not there.
+    #[test]
+    fn test_get_timestamp_no_such_file() {
+        assert_eq!(get_timestamp(""), 0_f64);
+    }
+
+    /// Tests get_lexical_sort_key().
+    #[test]
+    fn test_get_lexical_sort_key() {
+        // This is less naive than the classic "a, "á", "b", "c" list.
+        let mut strings = vec!["Kőpor", "Kórház"];
+        strings.sort_by_key(|i| get_sort_key(i).unwrap());
+        assert_eq!(strings, ["Kórház", "Kőpor"]);
     }
 }
