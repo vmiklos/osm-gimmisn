@@ -894,14 +894,6 @@ def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     ...
 
-def py_get_previous_month(today: int, months: int) -> int:
-    """Returns a date that was today N months ago."""
-    ...
-
-def py_handle_monthly_total(ctx: PyContext, src_root: str, j: str, month_range: int) -> str:
-    """Shows # of total housenumbers / month."""
-    ...
-
 def py_generate_json(ctx: PyContext, state_dir: str, json_path: str) -> None:
     """Generates the stats json and writes it to `stream`."""
     ...

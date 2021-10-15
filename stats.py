@@ -7,11 +7,8 @@
 
 """The stats module creates statistics about missing / non-missing house numbers."""
 
-from typing import Any
-from typing import Dict
 from typing import List
 from typing import Tuple
-import json
 
 import rust
 
@@ -21,16 +18,6 @@ def get_topcities(ctx: rust.PyContext, src_root: str) -> List[Tuple[str, int]]:
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
     return rust.py_get_topcities(ctx, src_root)
-
-
-def get_previous_month(today: int, months: int) -> int:
-    """Returns a date that was today N months ago."""
-    return rust.py_get_previous_month(today, months)
-
-
-def handle_monthly_total(ctx: rust.PyContext, src_root: str, j: Dict[str, Any], month_range: int) -> Any:
-    """Shows # of total housenumbers / month."""
-    return json.loads(rust.py_handle_monthly_total(ctx, src_root, json.dumps(j), month_range))
 
 
 def generate_json(ctx: rust.PyContext, state_dir: str, json_path: str) -> None:
