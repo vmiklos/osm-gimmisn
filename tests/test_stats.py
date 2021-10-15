@@ -24,65 +24,8 @@ def make_test_time_old() -> api.Time:
     return test_context.TestTime(calendar.timegm(datetime.date(1970, 1, 1).timetuple()))
 
 
-class TestHandleMonthlyNew(unittest.TestCase):
-    """Tests handle_monthly_new()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_monthly_new(ctx, src_root, j, month_range=12)
-        monthly = j["monthly"]
-        self.assertEqual(len(monthly), 2)
-        # 2019-05 start -> end
-        self.assertEqual(monthly[0], ["2019-05", 3799])
-        # diff from last month end -> today
-        self.assertEqual(monthly[1], ["2020-05", 51334])
-
-    def test_empty_month_range(self) -> None:
-        """Tests the case when the month range is empty."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_monthly_new(ctx, src_root, j, month_range=-1)
-        monthly = j["monthly"]
-        self.assertTrue(monthly)
-
-    def test_incomplete_last_month(self) -> None:
-        """Tests the case when we have no data for the last, incomplete month."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        # This would be the data for the current state of the last, incomplete month.
-        hide_path = ctx.get_abspath("workdir/stats/2020-05-10.count")
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        ctx.set_file_system(file_system)
-
-        j = stats.handle_monthly_new(ctx, src_root, j, month_range=12)
-        monthly = j["monthly"]
-        # 1st element: 2019-05 start -> end
-        # No 2nd element, would be diff from last month end -> today
-        self.assertEqual(len(monthly), 1)
-        self.assertEqual(monthly[0], ["2019-05", 3799])
-
-
 class TestHandleDailyTotal(unittest.TestCase):
     """Tests handle_daily_total()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        src_root = ctx.get_abspath("workdir/stats")
-        j: Dict[str, Any] = {}
-        j = stats.handle_daily_total(ctx, src_root, j, day_range=13)
-        dailytotal = j["dailytotal"]
-        self.assertEqual(len(dailytotal), 1)
-        self.assertEqual(dailytotal[0], ["2020-04-27", 251614])
-
     def test_empty_day_range(self) -> None:
         """Tests the case when the day range is empty."""
         ctx = test_context.make_test_context()

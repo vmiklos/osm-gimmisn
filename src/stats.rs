@@ -317,22 +317,6 @@ fn handle_monthly_new(
     Ok(())
 }
 
-#[pyfunction]
-fn py_handle_monthly_new(
-    ctx: context::PyContext,
-    src_root: &str,
-    j: &str,
-    day_range: i64,
-) -> PyResult<String> {
-    let mut j = serde_json::from_str(j).unwrap();
-    match handle_monthly_new(&ctx.context, src_root, &mut j, day_range)
-        .context("handle_monthly_new() failed")
-    {
-        Ok(_) => Ok(serde_json::to_string(&j).unwrap()),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Shows # of total housenumbers / day.
 fn handle_daily_total(
     ctx: &context::Context,
@@ -463,7 +447,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_topcities, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_user_total, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_previous_month, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_monthly_new, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_daily_total, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_monthly_total, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_generate_json, module)?)?;
@@ -589,7 +572,7 @@ budapest_02\t200\n\
 
     /// Tests handle_daily_new(): the case when the day range is empty.
     #[test]
-    fn test_hanle_daily_new_empty_day_range() {
+    fn test_handle_daily_new_empty_day_range() {
         let mut ctx = context::tests::make_test_context().unwrap();
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
@@ -599,5 +582,76 @@ budapest_02\t200\n\
         handle_daily_new(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
         let daily = &j.as_object().unwrap()["daily"].as_array().unwrap();
         assert_eq!(daily.len(), 0);
+    }
+
+    /// Tests handle_monthly_new().
+    #[test]
+    fn test_handle_monthly_new() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ 12).unwrap();
+        let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();
+        assert_eq!(monthly.len(), 2);
+        // 2019-05 start -> end
+        assert_eq!(monthly[0], serde_json::json!(["2019-05", 3799]));
+        // diff from last month end -> today
+        assert_eq!(monthly[1], serde_json::json!(["2020-05", 51334]));
+    }
+
+    /// Tests handle_monthly_new(): the case when the month range is empty.
+    #[test]
+    fn test_handle_monthly_new_empty_month_range() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ -1).unwrap();
+        let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();
+        assert_eq!(monthly.is_empty(), false);
+    }
+
+    /// Tests handle_monthly_new(): the case when we have no data for the last, incomplete month.
+    #[test]
+    fn test_handle_monthly_new_incomplete_last_month() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        // This would be the data for the current state of the last, incomplete month.
+        let hide_path = ctx.get_abspath("workdir/stats/2020-05-10.count").unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ 12).unwrap();
+        let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();
+        // 1st element: 2019-05 start -> end
+        // No 2nd element, would be diff from last month end -> today
+        assert_eq!(monthly.len(), 1);
+        assert_eq!(monthly[0], serde_json::json!(["2019-05", 3799]));
+    }
+
+    /// Tests handle_daily_total().
+    #[test]
+    fn test_handle_daily_total() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let mut j = serde_json::json!({});
+        handle_daily_total(&ctx, &src_root, &mut j, /*day_range=*/ 13).unwrap();
+        let dailytotal = &j.as_object().unwrap()["dailytotal"].as_array().unwrap();
+        assert_eq!(dailytotal.len(), 1);
+        assert_eq!(dailytotal[0], serde_json::json!(["2020-04-27", 251614]));
     }
 }
