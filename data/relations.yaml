@@ -225,6 +225,19 @@ zoldmal:
     osmrelation: 3174399
     refcounty: "01"
     refsettlement: "002"
+# 03
+aquincum:
+    osmrelation: 6484084
+    refcounty: "01"
+    refsettlement: "003"
+kaszasdulo:
+    osmrelation: 6484394
+    refcounty: "01"
+    refsettlement: "003"
+obuda:
+    osmrelation: 3228284
+    refcounty: "01"
+    refsettlement: "003"
 # 11
 # már egyben van, mert kész van
 # 12
