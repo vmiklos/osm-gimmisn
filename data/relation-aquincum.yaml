@@ -1,14 +1,25 @@
 missing-streets: 'no'
 filters:
+  # Terület lehatárolás
   Bogdáni út:
     ranges:
       - {start: '1', end: '3'}
+  Harang utca:
+    ranges:
+      - {start: '3', end: '99'}
   Kazal utca:
     ranges:
       - {start: '1', end: '199'}
-  Szentedrei út:
+  Keled út:
+    ranges: []
+  Szentendrei út:
     ranges:
       - {start: '31', end: '139'}
-      - {start: '38', end: '150'}
+      - {start: '106', end: '150'}
+  Vízimolnár utca:
+    ranges: []
+  Zsófia utca:
+    ranges:
+      - {start: '2', end: '32'}
 source: survey
 inactive: true
