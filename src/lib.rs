@@ -18,6 +18,7 @@ mod area_files;
 mod areas;
 mod cache;
 pub mod context;
+mod cron;
 mod i18n;
 pub mod missing_housenumbers;
 mod overpass_query;
@@ -37,6 +38,7 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     areas::register_python_symbols(m)?;
     cache::register_python_symbols(m)?;
     context::register_python_symbols(m)?;
+    cron::register_python_symbols(m)?;
     i18n::register_python_symbols(m)?;
     missing_housenumbers::register_python_symbols(m)?;
     overpass_query::register_python_symbols(m)?;

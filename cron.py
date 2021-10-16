@@ -7,7 +7,6 @@
 
 """The cron module allows doing nightly tasks."""
 
-from typing import Any
 from typing import Callable
 from typing import Dict
 from typing import List
@@ -15,10 +14,8 @@ from typing import Set
 from typing import TextIO
 from typing import cast
 import argparse
-import codecs
 import datetime
 import glob
-import logging
 import os
 import sys
 import time
@@ -32,19 +29,14 @@ import stats
 import util
 
 
-def get_date_prefix() -> str:
-    """Generates the current date as a log prefix."""
-    return time.strftime("%Y-%m-%d %H:%M:%S")
+def info(msg: str) -> None:
+    """Wrapper around py_info()."""
+    rust.py_info(msg)
 
 
-def info(msg: str, *args: Any, **kwargs: Any) -> None:
-    """Wrapper around logging.info()."""
-    logging.info(get_date_prefix() + " INFO " + msg, *args, **kwargs)
-
-
-def error(msg: str, *args: Any, **kwargs: Any) -> None:
-    """Wrapper around logging.error()."""
-    logging.error(get_date_prefix() + " ERROR" + msg, *args, **kwargs)
+def error(msg: str) -> None:
+    """Wrapper around py_error()."""
+    rust.py_error(msg)
 
 
 def overpass_sleep(ctx: rust.PyContext) -> None:
@@ -53,7 +45,7 @@ def overpass_sleep(ctx: rust.PyContext) -> None:
         sleep = rust.py_overpass_query_need_sleep(ctx)
         if not sleep:
             break
-        info("overpass_sleep: waiting for %s seconds", sleep)
+        info("overpass_sleep: waiting for {} seconds".format(sleep))
         ctx.get_time().sleep(sleep)
 
 
@@ -68,24 +60,24 @@ def update_osm_streets(ctx: rust.PyContext, relations: rust.PyRelations, update:
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_osm_streets_path()):
             continue
-        info("update_osm_streets: start: %s", relation_name)
+        info("update_osm_streets: start: {}".format(relation_name))
         retry = 0
         while should_retry(retry):
             if retry > 0:
-                info("update_osm_streets: try #%s", retry)
+                info("update_osm_streets: try #{}".format(retry))
             retry += 1
             overpass_sleep(ctx)
             query = relation.get_osm_streets_query()
             try:
                 buf = rust.py_overpass_query(ctx, query)
             except OSError as err:
-                info("update_osm_streets: http error: %s", str(err))
+                info("update_osm_streets: http error: {}".format(str(err)))
                 continue
             if relation.get_files().write_osm_streets(ctx, buf) == 0:
                 info("update_osm_streets: short write")
                 continue
             break
-        info("update_osm_streets: end: %s", relation_name)
+        info("update_osm_streets: end: {}".format(relation_name))
 
 
 def update_osm_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
@@ -94,24 +86,24 @@ def update_osm_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, up
         relation = relations.get_relation(relation_name)
         if not update and os.path.exists(relation.get_files().get_osm_housenumbers_path()):
             continue
-        info("update_osm_housenumbers: start: %s", relation_name)
+        info("update_osm_housenumbers: start: {}".format(relation_name))
         retry = 0
         while should_retry(retry):
             if retry > 0:
-                info("update_osm_housenumbers: try #%s", retry)
+                info("update_osm_housenumbers: try #{}".format(retry))
             retry += 1
             overpass_sleep(ctx)
             query = relation.get_osm_housenumbers_query()
             try:
                 buf = rust.py_overpass_query(ctx, query)
             except OSError as err:
-                info("update_osm_housenumbers: http error: %s", str(err))
+                info("update_osm_housenumbers: http error: {}".format(str(err)))
                 continue
             if relation.get_files().write_osm_housenumbers(ctx, buf) == 0:
                 info("update_osm_housenumbers: short write")
                 continue
             break
-        info("update_osm_housenumbers: end: %s", relation_name)
+        info("update_osm_housenumbers: end: {}".format(relation_name))
 
 
 def update_ref_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
@@ -125,13 +117,13 @@ def update_ref_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, up
         if streets == "only":
             continue
 
-        info("update_ref_housenumbers: start: %s", relation_name)
+        info("update_ref_housenumbers: start: {}".format(relation_name))
         try:
             relation.write_ref_housenumbers(references)
         except OSError as err:  # pragma: no cover
-            info("update_osm_housenumbers: failed: %s", str(err))
+            info("update_osm_housenumbers: failed: {}".format(str(err)))
             continue
-        info("update_ref_housenumbers: end: %s", relation_name)
+        info("update_ref_housenumbers: end: {}".format(relation_name))
 
 
 def update_ref_streets(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
@@ -145,9 +137,9 @@ def update_ref_streets(ctx: rust.PyContext, relations: rust.PyRelations, update:
         if streets == "no":
             continue
 
-        info("update_ref_streets: start: %s", relation_name)
+        info("update_ref_streets: start: {}".format(relation_name))
         relation.write_ref_streets(reference)
-        info("update_ref_streets: end: %s", relation_name)
+        info("update_ref_streets: end: {}".format(relation_name))
 
 
 def update_missing_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
@@ -307,13 +299,13 @@ def update_stats(ctx: rust.PyContext, overpass: bool) -> None:
         retry = 0
         while should_retry(retry):
             if retry > 0:
-                info("update_stats: try #%s", retry)
+                info("update_stats: try #{}".format(retry))
             retry += 1
             overpass_sleep(ctx)
             try:
                 response = rust.py_overpass_query(ctx, query)
             except OSError as err:
-                info("update_stats: http error: %s", str(err))
+                info("update_stats: http error: {}".format(str(err)))
                 continue
             with ctx.get_file_system().open_write(csv_path) as stream:
                 stream.write(util.to_bytes(response))
@@ -329,7 +321,7 @@ def update_stats(ctx: rust.PyContext, overpass: bool) -> None:
         creation_time = os.path.getmtime(csv)
         if (current_time - creation_time) // (24 * 3600) >= 7:
             os.unlink(csv)
-            info("update_stats: removed old %s", csv)
+            info("update_stats: removed old {}".format(csv))
 
     info("update_stats: generating json")
     json_path = os.path.join(statedir, "stats.json")
@@ -360,7 +352,7 @@ def our_main(ctx: rust.PyContext, relations: rust.PyRelations, mode: str, update
                 if line.startswith("VmPeak:"):
                     vm_peak = line.strip()
                 if vm_peak or not line:
-                    info("our_main: %s", line.strip())
+                    info("our_main: {}".format(line.strip()))
                     break
     # pylint: disable=broad-except
     except Exception:  # pragma: no cover
@@ -368,18 +360,10 @@ def our_main(ctx: rust.PyContext, relations: rust.PyRelations, mode: str, update
     return ctx.get_unit().make_error()
 
 
-def main(argv: List[str], stdout: TextIO, ctx: rust.PyContext) -> None:
+def main(argv: List[str], _stdout: TextIO, ctx: rust.PyContext) -> None:
     """Commandline interface to this module."""
 
-    workdir = ctx.get_ini().get_workdir()
     relations = areas.make_relations(ctx)
-    logpath = os.path.join(workdir, "cron.log")
-    logstream = cast(TextIO, codecs.getwriter("utf-8")(ctx.get_file_system().open_write(logpath)))
-    logging.basicConfig(stream=logstream,
-                        level=logging.INFO,
-                        format='%(message)s')
-    handler = logging.StreamHandler(stdout)
-    logging.getLogger().addHandler(handler)
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--refcounty", type=str,
@@ -403,14 +387,13 @@ def main(argv: List[str], stdout: TextIO, ctx: rust.PyContext) -> None:
     relations.limit_to_refsettlement(args.refsettlement)
     err = our_main(ctx, relations, args.mode, args.update, args.overpass)
     if err:
-        error("main: unhandled exception: %s", err)
+        error("main: unhandled exception: {}".format(err))
     delta = ctx.get_time().now() - start
-    info("main: finished in %s", str(datetime.timedelta(seconds=delta)))
-    logging.getLogger().removeHandler(handler)
-    logging.shutdown()
+    info("main: finished in {}".format(str(datetime.timedelta(seconds=delta))))
 
 
 if __name__ == "__main__":
+    rust.py_setup_logging(context.make_context(""))
     main(sys.argv, sys.stdout, context.make_context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
