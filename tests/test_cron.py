@@ -607,7 +607,8 @@ class TestMain(unittest.TestCase):
 
         cron.main(argv, buf, ctx)
 
-        self.assertIn("ERROR", buf.getvalue())
+        # No logging initialized -> no output.
+        self.assertEqual(buf.getvalue(), "")
 
 
 class TestUpdateStatsCount(unittest.TestCase):

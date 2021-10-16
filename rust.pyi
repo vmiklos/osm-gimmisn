@@ -806,4 +806,16 @@ def py_generate_json(ctx: PyContext, state_dir: str, json_path: str) -> None:
     """Generates the stats json and writes it to `stream`."""
     ...
 
+def py_setup_logging(ctx: PyContext) -> None:
+    """Sets up logging."""
+    ...
+
+def py_info(msg: str) -> None:
+    """Wrapper around info()."""
+    ...
+
+def py_error(msg: str) -> None:
+    """Wrapper around error()."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

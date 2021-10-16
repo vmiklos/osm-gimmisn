@@ -69,6 +69,7 @@ RS_OBJECTS = \
 	src/bin/rouille.rs \
 	src/context.rs \
 	src/cache.rs \
+	src/cron.rs \
 	src/i18n.rs \
 	src/lib.rs \
 	src/missing_housenumbers.rs \
