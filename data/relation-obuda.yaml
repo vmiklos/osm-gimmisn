@@ -1,8 +1,41 @@
 missing-streets: 'no'
 filters:
-  Szentedrei út:
+  Árpád fejedelem útja:
+    interpolation: all
+    ranges:
+      - {start: '70', end: '99'}
+  Bécsi út:
+    ranges:
+      - {start: '87', end: '261'}
+  Hévízi út:
+    ranges:
+      - {start: '1', end: '9'}
+  Hunor utca:
+    ranges:
+      - {start: '1', end: '39'}
+      - {start: '2', end: '30'}
+  Kiscelli utca:
+    ranges:
+      - {start: '1', end: '83'}
+      - {start: '2', end: '94'}
+  Kunigunda útja:
+    ranges:
+      - {start: '9', end: '99'}
+      - {start: '18', end: '98'}
+  Lajos utca:
+    ranges:
+      - {start: '93', end: '199'}
+      - {start: '92', end: '198'}
+  Nagyszombat utca:
+    ranges:
+      - {start: '1', end: '19'}
+  Szentendrei út:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '36'}
+  Vörösvári út:
+    ranges:
+      - {start: '107', end: '199'}
+      - {start: '2', end: '198'}
 source: survey
 inactive: true
