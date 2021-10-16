@@ -3,7 +3,7 @@ filters:
   Bogdáni út:
     ranges:
       - {start: '1', end: '3'}
-  Kazal utca
+  Kazal utca:
     ranges:
       - {start: '1', end: '199'}
   Szentedrei út:
