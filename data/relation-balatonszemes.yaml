@@ -153,7 +153,7 @@ refstreets:
   'Arany János utca': 'Nyár utca'
   'Árnyas fasor': 'Árnyas utca'
   'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
-  'Baross Gábor tér': 'Állomás tér'
+  # 'Baross Gábor tér': 'Állomás tér' - ez így nem jó ha mindkét féle házszám van a térképen: https://github.com/vmiklos/osm-gimmisn/issues/1660#issuecomment-916665398
   'Bem József utca': 'Bem utca'
   'Bocskai István utca': 'Bocskay utca'
   'Csonka Pál utca': 'Kápolna köz'
