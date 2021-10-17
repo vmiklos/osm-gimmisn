@@ -41,12 +41,7 @@ def error(msg: str) -> None:
 
 def overpass_sleep(ctx: rust.PyContext) -> None:
     """Sleeps to respect overpass rate limit."""
-    while True:
-        sleep = rust.py_overpass_query_need_sleep(ctx)
-        if not sleep:
-            break
-        info("overpass_sleep: waiting for {} seconds".format(sleep))
-        ctx.get_time().sleep(sleep)
+    rust.py_overpass_sleep(ctx)
 
 
 def should_retry(retry: int) -> bool:
@@ -56,28 +51,7 @@ def should_retry(retry: int) -> bool:
 
 def update_osm_streets(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the OSM street list of all relations."""
-    for relation_name in relations.get_active_names():
-        relation = relations.get_relation(relation_name)
-        if not update and os.path.exists(relation.get_files().get_osm_streets_path()):
-            continue
-        info("update_osm_streets: start: {}".format(relation_name))
-        retry = 0
-        while should_retry(retry):
-            if retry > 0:
-                info("update_osm_streets: try #{}".format(retry))
-            retry += 1
-            overpass_sleep(ctx)
-            query = relation.get_osm_streets_query()
-            try:
-                buf = rust.py_overpass_query(ctx, query)
-            except OSError as err:
-                info("update_osm_streets: http error: {}".format(str(err)))
-                continue
-            if relation.get_files().write_osm_streets(ctx, buf) == 0:
-                info("update_osm_streets: short write")
-                continue
-            break
-        info("update_osm_streets: end: {}".format(relation_name))
+    rust.py_update_osm_streets(ctx, relations, update)
 
 
 def update_osm_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:

@@ -1728,7 +1728,7 @@ impl Relations {
     }
 
     /// Gets a sorted list of active relation names.
-    fn get_active_names(&mut self) -> anyhow::Result<Vec<String>> {
+    pub fn get_active_names(&mut self) -> anyhow::Result<Vec<String>> {
         let mut active_relations: Vec<Relation> = Vec::new();
         for relation in self.get_relations()? {
             if self.activate_all || relation.config.is_active() {
