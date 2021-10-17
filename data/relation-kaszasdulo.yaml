@@ -27,8 +27,10 @@ filters:
       - {start: '2', end: '98'}
   Kunigunda útja:
     ranges:
-      - {start: '1', end: '17'}
-      - {start: '2', end: '16'}
+      - {start: '9', end: '99'}
+      - {start: '18', end: '98'}
+  Ladik utca:
+    ranges: []
   Szentendrei út:
     ranges:
       - {start: '38', end: '104'}
