@@ -818,4 +818,12 @@ def py_error(msg: str) -> None:
     """Wrapper around error()."""
     ...
 
+def py_overpass_sleep(ctx: PyContext) -> None:
+    """Sleeps to respect overpass rate limit."""
+    ...
+
+def py_update_osm_streets(ctx: PyContext, relations: PyRelations, update: bool) -> None:
+    """Update the OSM street list of all relations."""
+    ...
+
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
