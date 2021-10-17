@@ -12,7 +12,6 @@ filters:
     ranges: []
 refstreets:
   'Farkaserdő utca': 'Farkas-erdő utca'  # utcatábla = OSM
-  'Körösbánya utca': 'Kőrösbánya utca'   # falu röviddel van, helyesírási probléma
 source: survey
 inactive: false
 housenumber-letters: false
