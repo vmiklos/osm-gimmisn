@@ -301,14 +301,14 @@ filters:
     ranges:
       - {start: '2', end: '44'}
   Karolina út:
-    # 7-19: minden 17-re van számozva, vagy a Daróczi útra
+    # 9-19: minden 17-re van számozva, vagy a Daróczi útra
     # 23: nincs a 19-21 után 27 következik
     # 2e: 2, 2/c
     # 34: 34/a, 34/b
     # 38: 38/a, 38/b
     # 48: 38 után 56, közben park illetve máshonnan számozva
     # 61-63
-    invalid: ['7', '23', '33', '33d', '35', '55a', '61b', '2e', '34', '38', '48']
+    invalid: ['23', '33', '33d', '35', '55a', '61b', '2e', '34', '38', '48']
     ranges:
       - {start: '1', end: '69'}
       - {start: '2', end: '72'}

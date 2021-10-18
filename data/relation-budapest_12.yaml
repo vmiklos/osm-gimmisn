@@ -416,7 +416,6 @@ osm-street-filters:
   - Eötvös Loránd park
   - Gesztenyés kert
   - Mini Városmajor park
-  - Szent Család park
   - Zugligeti Szent Család Plébánia
   # Hivatalosan nincs, de utcatábla van
   - Kalóz köz
@@ -469,8 +468,6 @@ refstreets:
   'Hunyad-orom lépcső': 'Hunyadorom lépcső'  # utcajegyzék: Hunyad Orom lépcső
   # hibás írásmód
   'Széchenyi-emlék út': 'Széchenyi- emlék út'
-  # megváltozott az utcanév
-  'Sztehlo Gábor utca': 'Árnyas köz'  # ref javítás után törlendő
   # Felmérendő melyik a helyes
   'Tearózsa út': 'Tearózsa utca'  # utcajegyzék Tearózsa utca
 source: survey
