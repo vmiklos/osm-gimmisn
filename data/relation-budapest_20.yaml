@@ -4,7 +4,9 @@ street-filters:
   # nem igazi utcák / csak hrsz.
   - Helsinki hévállomás
   - Gubacs puszta
+  # park, sétány
   - Dunapart
+  - Duna sétány
   # egyéb
   - Eperjes köz  # = Rózsás utca
   - Kraszna köz  # Időközben magántulajdonba került Hrsz: 182098/118
