@@ -1350,11 +1350,7 @@ pub fn git_link(version: &str, prefix: &str) -> yattag::Doc {
 /// Sorts strings according to their numerical value, not alphabetically.
 pub fn sort_numerically(strings: &[HouseNumber]) -> Vec<HouseNumber> {
     let mut ret: Vec<HouseNumber> = strings.to_owned();
-    ret.sort_by(|a, b| {
-        let a_key = split_house_number(a.get_number());
-        let b_key = split_house_number(b.get_number());
-        a_key.cmp(&b_key)
-    });
+    ret.sort_by_cached_key(|i| split_house_number(i.get_number()));
     ret
 }
 
