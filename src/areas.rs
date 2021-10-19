@@ -762,13 +762,17 @@ impl Relation {
     /// Gets known streets (not their coordinates) from a reference site, based on relation names
     /// from OSM.
     pub fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
-        let memory_cache = util::build_street_reference_cache(reference)?;
+        let memory_cache = util::build_street_reference_cache(reference)
+            .context("build_street_reference_cache() failed")?;
 
         let mut lst = self.config.build_ref_streets(&memory_cache);
 
         lst.sort();
         lst.dedup();
-        let write = self.file.get_ref_streets_write_stream(&self.ctx)?;
+        let write = self
+            .file
+            .get_ref_streets_write_stream(&self.ctx)
+            .context("get_ref_streets_write_stream() failed")?;
         let mut guard = write.lock().unwrap();
         for line in lst {
             guard.write_all((line + "\n").as_bytes())?;
@@ -1378,21 +1382,14 @@ impl PyRelation {
     }
 
     fn write_ref_streets(&self, reference: &str) -> PyResult<()> {
-        match self.relation.write_ref_streets(reference) {
+        match self
+            .relation
+            .write_ref_streets(reference)
+            .context("write_ref_streets() failed")
+        {
             Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "write_ref_streets() failed: {}",
-                err.to_string()
-            ))),
+            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
         }
-    }
-
-    fn get_street_ranges(&self) -> HashMap<String, ranges::PyRanges> {
-        let mut ret: HashMap<String, ranges::PyRanges> = HashMap::new();
-        for (key, value) in self.relation.get_street_ranges() {
-            ret.insert(key, ranges::PyRanges { ranges: value });
-        }
-        ret
     }
 
     fn should_show_ref_street(&self, osm_street_name: String) -> bool {
@@ -2609,5 +2606,48 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
         let mut actual: Vec<u8> = Vec::new();
         guard.read_to_end(&mut actual).unwrap();
         assert_eq!(String::from_utf8(actual).unwrap(), expected);
+    }
+
+    /// Tests Relation::get_street_ranges().
+    #[test]
+    fn test_relation_get_street_ranges() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let filters = relation.get_street_ranges();
+        let mut expected_filters: HashMap<String, ranges::Ranges> = HashMap::new();
+        expected_filters.insert(
+            "Budaörsi út".into(),
+            ranges::Ranges::new(vec![ranges::Range::new(137, 165, "")]),
+        );
+        expected_filters.insert(
+            "Csiki-hegyek utca".into(),
+            ranges::Ranges::new(vec![
+                ranges::Range::new(1, 15, ""),
+                ranges::Range::new(2, 26, ""),
+            ]),
+        );
+        expected_filters.insert(
+            "Hamzsabégi út".into(),
+            ranges::Ranges::new(vec![ranges::Range::new(1, 12, "all")]),
+        );
+        assert_eq!(filters, expected_filters);
+        let mut expected_streets: HashMap<String, String> = HashMap::new();
+        expected_streets.insert("OSM Name 1".into(), "Ref Name 1".into());
+        expected_streets.insert("OSM Name 2".into(), "Ref Name 2".into());
+        expected_streets.insert("Misspelled OSM Name 1".into(), "OSM Name 1".into());
+        assert_eq!(relation.get_config().get_refstreets(), expected_streets);
+        let street_blacklist = relation.get_config().get_street_filters();
+        assert_eq!(street_blacklist, ["Only In Ref Nonsense utca".to_string()]);
+    }
+
+    /// Tests Relation::get_street_ranges(): when the filter file is empty.
+    #[test]
+    fn test_relation_get_street_ranges_empty() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("empty").unwrap();
+        let filters = relation.get_street_ranges();
+        assert_eq!(filters.is_empty(), true);
     }
 }

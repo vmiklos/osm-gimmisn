@@ -91,12 +91,6 @@ impl PyDoc {
         PyDoc { doc }
     }
 
-    #[staticmethod]
-    fn from_text(text: String) -> Self {
-        let doc = Doc::from_text(&text);
-        PyDoc { doc }
-    }
-
     fn get_value(&self) -> String {
         self.doc.get_value()
     }

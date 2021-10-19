@@ -21,11 +21,6 @@ import rust
 import util
 
 
-def make_range(start: int, end: int) -> rust.PyRange:
-    """Factory for Range without specifying interpolation."""
-    return rust.PyRange(start, end, interpolation="")
-
-
 def get_filters(relation: rust.PyRelation) -> Dict[str, Any]:
     """Wrapper around get_config.get_filters() that doesn't return an Optional."""
     filters_str = relation.get_config().get_filters()
@@ -33,37 +28,6 @@ def get_filters(relation: rust.PyRelation) -> Dict[str, Any]:
     if filters_str:
         filters = json.loads(filters_str)
     return filters
-
-
-class TestRelationGetStreetRanges(unittest.TestCase):
-    """Tests Relation.get_street_ranges()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        filters = relation.get_street_ranges()
-        expected_filters = {
-            "Budaörsi út": rust.PyRanges([make_range(137, 165)]),
-            "Csiki-hegyek utca": rust.PyRanges([make_range(1, 15), make_range(2, 26)]),
-            'Hamzsabégi út': rust.PyRanges([rust.PyRange(start=1, end=12, interpolation="all")])
-        }
-        self.assertEqual(filters, expected_filters)
-        expected_streets = {
-            'OSM Name 1': 'Ref Name 1',
-            'OSM Name 2': 'Ref Name 2',
-            'Misspelled OSM Name 1': 'OSM Name 1',
-        }
-        relations = areas.make_relations(test_context.make_test_context())
-        self.assertEqual(relations.get_relation("gazdagret").get_config().get_refstreets(), expected_streets)
-        street_blacklist = relations.get_relation("gazdagret").get_config().get_street_filters()
-        self.assertEqual(street_blacklist, ['Only In Ref Nonsense utca'])
-
-    def test_empty(self) -> None:
-        """Tests when the filter file is empty."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("empty")
-        filters = relation.get_street_ranges()
-        self.assertEqual(filters, {})
 
 
 class TestRelationGetRefStreetFromOsmStreet(unittest.TestCase):
