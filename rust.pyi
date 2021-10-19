@@ -20,39 +20,9 @@ from typing import cast
 import api
 
 
-class PyRange:
-    """A range object represents an odd or even range of integer numbers."""
-    def __init__(self, start: int, end: int, interpolation: str) -> None:
-        ...
-
-
-class PyRanges:
-    """A Ranges object contains an item if any of its Range objects contains it."""
-    def __init__(self, items: List[PyRange]) -> None:
-        ...
-
-    def get_items(self) -> List[PyRange]:
-        """The list of contained Range objects."""
-        ...
-
-    def __contains__(self, item: int) -> bool:
-        ...
-
-    def __repr__(self) -> str:
-        ...
-
-    def __eq__(self, other: object) -> bool:
-        ...
-
-
 class PyDoc:
     """Generates xml/html documents."""
     def __init__(self) -> None:
-        ...
-
-    @staticmethod
-    def from_text(text: str) -> 'PyDoc':
-        """Factory of yattag.Doc from a string."""
         ...
 
     def get_value(self) -> str:
@@ -576,10 +546,6 @@ class PyRelation:
         """Sets the config interface."""
         ...
 
-    def get_street_ranges(self) -> Dict[str, PyRanges]:
-        """Gets a street name -> ranges map, which allows silencing false positives."""
-        ...
-
     def should_show_ref_street(self, osm_street_name: str) -> bool:
         """Decides is a ref street should be shown for an OSM street."""
         ...
@@ -824,6 +790,30 @@ def py_overpass_sleep(ctx: PyContext) -> None:
 
 def py_update_osm_streets(ctx: PyContext, relations: PyRelations, update: bool) -> None:
     """Update the OSM street list of all relations."""
+    ...
+
+def py_update_osm_housenumbers(ctx: PyContext, relations: PyRelations, update: bool) -> None:
+    """Update the OSM housenumber list of all relations."""
+    ...
+
+def py_update_ref_housenumbers(ctx: PyContext, relations: PyRelations, update: bool) -> None:
+    """Update the reference housenumber list of all relations."""
+    ...
+
+def py_update_ref_streets(ctx: PyContext, relations: PyRelations, update: bool) -> None:
+    """Update the reference street list of all relations."""
+    ...
+
+def py_update_missing_housenumbers(ctx: PyContext, relations: PyRelations, update: bool) -> None:
+    """Update the relation's house number coverage stats."""
+    ...
+
+def py_update_missing_streets(relations: PyRelations, update: bool) -> None:
+    """Update the relation's street coverage stats."""
+    ...
+
+def py_update_additional_streets(relations: PyRelations, update: bool) -> None:
+    """Update the relation's "additional streets" stats."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

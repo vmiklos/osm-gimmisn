@@ -83,6 +83,10 @@ RS_OBJECTS = \
 	src/wsgi_json.rs \
 	src/yattag.rs \
 
+BINARY_CRATES = \
+	missing_housenumbers \
+	rouille \
+
 # Source local config if it's there.
 -include config.mak
 
@@ -104,7 +108,7 @@ ifndef V
 	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
-all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/missing_housenumbers target/${TARGET_PATH}/rouille
+all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo $(foreach BINARY_CRATE,$(BINARY_CRATES),target/$(TARGET_PATH)/$(BINARY_CRATE))
 
 clean:
 	rm -f config.ts
@@ -130,11 +134,8 @@ rust.so: target/${TARGET_PATH}/librust.so
 target/${TARGET_PATH}/librust.so: Cargo.toml $(RS_OBJECTS)
 	cargo build --lib ${CARGO_OPTIONS}
 
-target/${TARGET_PATH}/missing_housenumbers: Cargo.toml $(RS_OBJECTS)
-	cargo build --bin missing_housenumbers ${CARGO_OPTIONS} --no-default-features
-
-target/${TARGET_PATH}/rouille: Cargo.toml $(RS_OBJECTS)
-	cargo build --bin rouille ${CARGO_OPTIONS} --no-default-features
+$(foreach BINARY_CRATE,$(BINARY_CRATES),target/${TARGET_PATH}/$(BINARY_CRATE)) &: $(RS_OBJECTS) Cargo.toml Makefile
+	cargo build $(foreach BINARY_CRATE,$(BINARY_CRATES),--bin $(BINARY_CRATE)) ${CARGO_OPTIONS} --no-default-features
 
 check-rustunit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata
 	cargo test --lib --no-default-features ${CARGO_OPTIONS} -- --test-threads=1

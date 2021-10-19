@@ -17,6 +17,7 @@ use crate::overpass_query;
 use crate::ranges;
 use crate::yattag;
 use anyhow::anyhow;
+use anyhow::Context;
 use lazy_static::lazy_static;
 use pyo3::class::basic::CompareOp;
 use pyo3::class::PyObjectProtocol;
@@ -842,12 +843,15 @@ pub fn build_street_reference_cache(local_streets: &str) -> anyhow::Result<Stree
 
     let disk_cache = local_streets.to_string() + ".cache";
     if std::path::Path::new(&disk_cache).exists() {
-        let stream = std::fs::File::open(disk_cache)?;
+        let stream = std::fs::File::open(disk_cache).context("std::fs::File::open() failed")?;
         memory_cache = serde_json::from_reader(&stream)?;
         return Ok(memory_cache);
     }
 
-    let stream = std::io::BufReader::new(std::fs::File::open(local_streets)?);
+    let stream = std::io::BufReader::new(
+        std::fs::File::open(local_streets)
+            .context(format!("std::fs::File::open({}) failed", local_streets))?,
+    );
     let mut first = true;
     for line in stream.lines() {
         let line = line?.to_string();

@@ -22,7 +22,6 @@ import time
 import traceback
 
 import areas
-import cache
 import context
 import rust
 import stats
@@ -56,115 +55,32 @@ def update_osm_streets(ctx: rust.PyContext, relations: rust.PyRelations, update:
 
 def update_osm_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the OSM housenumber list of all relations."""
-    for relation_name in relations.get_active_names():
-        relation = relations.get_relation(relation_name)
-        if not update and os.path.exists(relation.get_files().get_osm_housenumbers_path()):
-            continue
-        info("update_osm_housenumbers: start: {}".format(relation_name))
-        retry = 0
-        while should_retry(retry):
-            if retry > 0:
-                info("update_osm_housenumbers: try #{}".format(retry))
-            retry += 1
-            overpass_sleep(ctx)
-            query = relation.get_osm_housenumbers_query()
-            try:
-                buf = rust.py_overpass_query(ctx, query)
-            except OSError as err:
-                info("update_osm_housenumbers: http error: {}".format(str(err)))
-                continue
-            if relation.get_files().write_osm_housenumbers(ctx, buf) == 0:
-                info("update_osm_housenumbers: short write")
-                continue
-            break
-        info("update_osm_housenumbers: end: {}".format(relation_name))
+    rust.py_update_osm_housenumbers(ctx, relations, update)
 
 
 def update_ref_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the reference housenumber list of all relations."""
-    for relation_name in relations.get_active_names():
-        relation = relations.get_relation(relation_name)
-        if not update and os.path.exists(relation.get_files().get_ref_housenumbers_path()):
-            continue
-        references = ctx.get_ini().get_reference_housenumber_paths()
-        streets = relation.get_config().should_check_missing_streets()
-        if streets == "only":
-            continue
-
-        info("update_ref_housenumbers: start: {}".format(relation_name))
-        try:
-            relation.write_ref_housenumbers(references)
-        except OSError as err:  # pragma: no cover
-            info("update_osm_housenumbers: failed: {}".format(str(err)))
-            continue
-        info("update_ref_housenumbers: end: {}".format(relation_name))
+    rust.py_update_ref_housenumbers(ctx, relations, update)
 
 
 def update_ref_streets(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the reference street list of all relations."""
-    for relation_name in relations.get_active_names():
-        relation = relations.get_relation(relation_name)
-        if not update and os.path.exists(relation.get_files().get_ref_streets_path()):
-            continue
-        reference = ctx.get_ini().get_reference_street_path()
-        streets = relation.get_config().should_check_missing_streets()
-        if streets == "no":
-            continue
-
-        info("update_ref_streets: start: {}".format(relation_name))
-        relation.write_ref_streets(reference)
-        info("update_ref_streets: end: {}".format(relation_name))
+    rust.py_update_ref_streets(ctx, relations, update)
 
 
 def update_missing_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the relation's house number coverage stats."""
-    info("update_missing_housenumbers: start")
-    for relation_name in relations.get_active_names():
-        relation = relations.get_relation(relation_name)
-        if not update and os.path.exists(relation.get_files().get_housenumbers_percent_path()):
-            continue
-        streets = relation.get_config().should_check_missing_streets()
-        if streets == "only":
-            continue
-
-        orig_language = rust.py_get_language()
-        relation.write_missing_housenumbers()
-        for language in ["en", "hu"]:
-            rust.py_set_language(language)
-            cache.get_missing_housenumbers_html(ctx, relation)
-        rust.py_set_language(orig_language)
-        cache.get_missing_housenumbers_txt(ctx, relation)
-    info("update_missing_housenumbers: end")
+    rust.py_update_missing_housenumbers(ctx, relations, update)
 
 
-def update_missing_streets(_conf: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
+def update_missing_streets(relations: rust.PyRelations, update: bool) -> None:
     """Update the relation's street coverage stats."""
-    info("update_missing_streets: start")
-    for relation_name in relations.get_active_names():
-        relation = relations.get_relation(relation_name)
-        if not update and os.path.exists(relation.get_files().get_streets_percent_path()):
-            continue
-        streets = relation.get_config().should_check_missing_streets()
-        if streets == "no":
-            continue
-
-        relation.write_missing_streets()
-    info("update_missing_streets: end")
+    rust.py_update_missing_streets(relations, update)
 
 
-def update_additional_streets(_conf: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
+def update_additional_streets(relations: rust.PyRelations, update: bool) -> None:
     """Update the relation's "additional streets" stats."""
-    info("update_additional_streets: start")
-    for relation_name in relations.get_active_names():
-        relation = relations.get_relation(relation_name)
-        if not update and os.path.exists(relation.get_files().get_streets_additional_count_path()):
-            continue
-        streets = relation.get_config().should_check_missing_streets()
-        if streets == "no":
-            continue
-
-        relation.write_additional_streets()
-    info("update_additional_streets: end")
+    rust.py_update_additional_streets(relations, update)
 
 
 def write_count_path(ctx: rust.PyContext, count_path: str, house_numbers: Set[str]) -> None:
@@ -314,9 +230,9 @@ def our_main(ctx: rust.PyContext, relations: rust.PyRelations, mode: str, update
             update_osm_housenumbers(ctx, relations, update)
             update_ref_streets(ctx, relations, update)
             update_ref_housenumbers(ctx, relations, update)
-            update_missing_streets(ctx, relations, update)
+            update_missing_streets(relations, update)
             update_missing_housenumbers(ctx, relations, update)
-            update_additional_streets(ctx, relations, update)
+            update_additional_streets(relations, update)
 
         pid = str(os.getpid())
         with open("/proc/" + pid + "/status", "r") as stream:
