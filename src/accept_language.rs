@@ -10,14 +10,19 @@
 
 //! The accept_language module parses an Accept-Language HTTP header.
 
-use pyo3::prelude::*;
+#[cfg(test)]
+mod tests {
+    /// Tests accept_language::parse().
+    #[test]
+    fn test_accept_language_parse() {
+        let parsed = accept_language::parse("hu,en;q=0.9,en-US;q=0.8");
+        assert_eq!(parsed[0], "hu");
+    }
 
-#[pyfunction]
-pub fn py_parse(raw_languages: &str) -> Vec<String> {
-    accept_language::parse(raw_languages)
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_parse, module)?)?;
-    Ok(())
+    /// Tests accept_language::parse(): when the language is not explicitly set.
+    #[test]
+    fn test_accept_language_parse_english() {
+        let parsed = accept_language::parse("en-US,en;q=0.5");
+        assert_eq!(parsed[0], "en-US");
+    }
 }

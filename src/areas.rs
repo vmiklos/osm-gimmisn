@@ -465,11 +465,6 @@ impl PyRelationConfig {
     ) -> Vec<String> {
         self.relation_config.build_ref_streets(&reference)
     }
-
-    fn get_ref_street_from_osm_street(&self, osm_street_name: String) -> String {
-        self.relation_config
-            .get_ref_street_from_osm_street(&osm_street_name)
-    }
 }
 
 /// A relation is a closed polygon on the map.
@@ -2649,5 +2644,115 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
         let relation = relations.get_relation("empty").unwrap();
         let filters = relation.get_street_ranges();
         assert_eq!(filters.is_empty(), true);
+    }
+
+    /// Tests Relation::get_ref_street_from_osm_street().
+    #[test]
+    fn test_relation_get_ref_street_from_osm_street() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let street = "Budaörsi út";
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let refcounty = relation.get_config().get_refcounty();
+        let street = relation.get_config().get_ref_street_from_osm_street(street);
+        assert_eq!(refcounty, "01");
+        assert_eq!(
+            relation.get_config().get_street_refsettlement(&street),
+            ["011"]
+        );
+        assert_eq!(street, "Budaörsi út");
+    }
+
+    /// Tests Relation::get_ref_street_from_osm_street(): street-specific refsettlement override.
+    #[test]
+    fn test_relation_get_ref_street_from_osm_street_refsettlement_override() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let street = "Teszt utca";
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let refcounty = relation.get_config().get_refcounty();
+        let street = relation.get_config().get_ref_street_from_osm_street(street);
+        assert_eq!(refcounty, "01");
+        assert_eq!(
+            relation.get_config().get_street_refsettlement(&street),
+            ["012"]
+        );
+        assert_eq!(street, "Teszt utca");
+    }
+
+    /// Tests Relation.get_ref_street_from_osm_street(): OSM -> ref name mapping.
+    #[test]
+    fn test_relation_get_ref_street_from_osm_street_refstreets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let street = "OSM Name 1";
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let refcounty = relation.get_config().get_refcounty();
+        let street = relation
+            .get_config()
+            .get_ref_street_from_osm_street(&street);
+        assert_eq!(refcounty, "01");
+        assert_eq!(
+            relation.get_config().get_street_refsettlement(&street),
+            ["011"]
+        );
+        assert_eq!(street, "Ref Name 1");
+    }
+
+    /// Tests Relation.get_ref_street_from_osm_street(): relation without a filter file.
+    #[test]
+    fn test_relation_get_ref_street_from_osm_street_nosuchrelation() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let street = "OSM Name 1";
+        let relation_name = "nosuchrelation";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let refcounty = relation.get_config().get_refcounty();
+        let street = relation.get_config().get_ref_street_from_osm_street(street);
+        assert_eq!(refcounty, "01");
+        assert_eq!(
+            relation.get_config().get_street_refsettlement(&street),
+            ["011"]
+        );
+        assert_eq!(street, "OSM Name 1");
+    }
+
+    /// Tests Relation.get_ref_street_from_osm_street(): a relation with an empty filter file.
+    #[test]
+    fn test_relation_get_ref_street_from_osm_street_emptyrelation() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let street = "OSM Name 1";
+        let relation_name = "empty";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let refcounty = relation.get_config().get_refcounty();
+        let street = relation.get_config().get_ref_street_from_osm_street(street);
+        assert_eq!(refcounty, "01");
+        assert_eq!(
+            relation.get_config().get_street_refsettlement(&street),
+            ["011"]
+        );
+        assert_eq!(street, "OSM Name 1");
+    }
+
+    /// Tests Relation.get_ref_street_from_osm_street(): the refsettlement range-level override.
+    #[test]
+    fn test_relation_get_ref_street_from_osm_street_range_level_override() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let street = "Csiki-hegyek utca";
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let refcounty = relation.get_config().get_refcounty();
+        let street = relation.get_config().get_ref_street_from_osm_street(street);
+        assert_eq!(refcounty, "01");
+        assert_eq!(
+            relation.get_config().get_street_refsettlement(&street),
+            ["011", "013"]
+        );
+        assert_eq!(street, "Csiki-hegyek utca");
     }
 }

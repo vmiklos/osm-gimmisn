@@ -21,10 +21,8 @@ use anyhow::Context;
 use lazy_static::lazy_static;
 use pyo3::class::basic::CompareOp;
 use pyo3::class::PyObjectProtocol;
-use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use pyo3::types::PyBytes;
-use pyo3::types::PyType;
 use rust_icu_ucol as ucol;
 use rust_icu_ustring as ustring;
 use std::collections::hash_map::DefaultHasher;
@@ -648,68 +646,6 @@ impl<'a> CsvRead<'a> {
     /// Gets access to the rows of the CSV.
     pub fn records(&mut self) -> csv::StringRecordsIter<'_, &'a mut dyn Read> {
         self.reader.records()
-    }
-}
-
-#[pyclass]
-struct PyCsvRead {
-    buf: Vec<u8>,
-}
-
-#[pymethods]
-impl PyCsvRead {
-    #[new]
-    fn new(py: Python<'_>, stream: PyObject) -> PyResult<Self> {
-        let any = match stream.call_method0(py, "read") {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(err.to_string()));
-            }
-        };
-        stream.call_method0(py, "close").unwrap();
-        let bytes = match any.as_ref(py).downcast::<PyBytes>() {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(err.to_string()));
-            }
-        };
-        let buf: Vec<u8> = bytes.extract().unwrap();
-        Ok(PyCsvRead { buf })
-    }
-
-    fn get_rows(&mut self) -> PyResult<Vec<Vec<String>>> {
-        let mut rows: Vec<Vec<String>> = Vec::new();
-        let mut cursor = std::io::Cursor::new(&mut self.buf);
-        let mut csv_read = CsvRead::new(&mut cursor);
-        for result in csv_read.records() {
-            let record: csv::StringRecord = match result {
-                Ok(value) => value,
-                Err(err) => {
-                    return Err(pyo3::exceptions::PyOSError::new_err(err.to_string()));
-                }
-            };
-            let mut row: Vec<String> = Vec::new();
-            for col in record.iter() {
-                row.push(col.into());
-            }
-            rows.push(row);
-        }
-        Ok(rows)
-    }
-
-    fn __enter__(&self) -> Self {
-        let buf = self.buf.clone();
-        PyCsvRead { buf }
-    }
-
-    fn __exit__(
-        &mut self,
-        ty: Option<&PyType>,
-        _value: Option<&PyAny>,
-        _traceback: Option<&PyAny>,
-    ) -> bool {
-        let gil = Python::acquire_gil();
-        ty == Some(gil.python().get_type::<PyValueError>())
     }
 }
 
@@ -1479,7 +1415,7 @@ pub fn split_house_number_by_separator(
 }
 
 /// Constructs a city name based on postcode the nominal city.
-fn get_city_key(
+pub fn get_city_key(
     postcode: &str,
     city: &str,
     valid_settlements: &HashSet<String>,
@@ -1506,21 +1442,6 @@ fn get_city_key(
     Ok("_Empty".into())
 }
 
-#[pyfunction]
-fn py_get_city_key(
-    postcode: String,
-    city: String,
-    valid_settlements: HashSet<String>,
-) -> PyResult<String> {
-    match get_city_key(&postcode, &city, &valid_settlements) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "get_city_key() failed: {}",
-            err.to_string()
-        ))),
-    }
-}
-
 /// Returns a string comparator which allows locale-aware lexical sorting.
 pub fn get_sort_key(bytes: &str) -> anyhow::Result<Vec<u8>> {
     // This is good enough for now, English and Hungarian is all we support and this handles both.
@@ -1529,22 +1450,8 @@ pub fn get_sort_key(bytes: &str) -> anyhow::Result<Vec<u8>> {
     Ok(collator.get_sort_key(&string))
 }
 
-#[pyfunction]
-fn py_get_sort_key(py: Python<'_>, bytes: String) -> PyResult<PyObject> {
-    let buf = match get_sort_key(&bytes) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_sort_key() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok(PyBytes::new(py, &buf).into())
-}
-
 /// Builds a set of valid settlement names.
-fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<String>> {
+pub fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<String>> {
     let mut settlements: HashSet<String> = HashSet::new();
 
     let path = ctx.get_ini().get_reference_citycounts_path()?;
@@ -1571,18 +1478,6 @@ fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<Strin
     }
 
     Ok(settlements)
-}
-
-#[pyfunction]
-fn py_get_valid_settlements(py: Python<'_>, ctx: PyObject) -> PyResult<HashSet<String>> {
-    let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(py)?;
-    match get_valid_settlements(&ctx.context) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "get_valid_settlements() failed: {}",
-            err.to_string()
-        ))),
-    }
 }
 
 /// Formats a percentage, taking locale into account.
@@ -1625,7 +1520,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumberRange>()?;
     module.add_class::<PyLetterSuffixStyle>()?;
     module.add_class::<PyStreet>()?;
-    module.add_class::<PyCsvRead>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_split_house_number, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_build_street_reference_cache,
@@ -1634,9 +1528,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_housenumber_ranges, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_city_key, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_sort_key, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_valid_settlements, module)?)?;
     Ok(())
 }
 
