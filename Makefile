@@ -1,5 +1,4 @@
 PYTHON_TEST_OBJECTS = \
-	tests/test_accept_language.py \
 	tests/test_areas.py \
 	tests/test_cache.py \
 	tests/test_cache_yamls.py \

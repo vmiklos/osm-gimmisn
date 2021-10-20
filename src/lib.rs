@@ -33,7 +33,6 @@ mod yattag;
 
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
-    accept_language::register_python_symbols(m)?;
     area_files::register_python_symbols(m)?;
     areas::register_python_symbols(m)?;
     cache::register_python_symbols(m)?;

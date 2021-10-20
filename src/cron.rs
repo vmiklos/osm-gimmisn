@@ -15,8 +15,14 @@ use crate::cache;
 use crate::context;
 use crate::i18n;
 use crate::overpass_query;
+use crate::util;
 use anyhow::Context;
 use pyo3::prelude::*;
+use std::cmp::Reverse;
+use std::collections::HashMap;
+use std::collections::HashSet;
+use std::io::BufRead;
+use std::ops::DerefMut;
 
 /// Sets up logging.
 fn setup_logging(ctx: &context::Context) -> anyhow::Result<()> {
@@ -382,6 +388,169 @@ fn py_update_additional_streets(mut relations: areas::PyRelations, update: bool)
     }
 }
 
+/// Writes a daily .count file.
+fn write_count_path(
+    ctx: &context::Context,
+    count_path: &str,
+    house_numbers: &HashSet<String>,
+) -> anyhow::Result<()> {
+    let stream = ctx.get_file_system().open_write(count_path)?;
+    let mut guard = stream.lock().unwrap();
+    let house_numbers_len = house_numbers.len().to_string();
+    Ok(guard.write_all(house_numbers_len.as_bytes())?)
+}
+
+/// Writes a daily .citycount file.
+fn write_city_count_path(
+    ctx: &context::Context,
+    city_count_path: &str,
+    cities: &HashMap<String, HashSet<String>>,
+) -> anyhow::Result<()> {
+    let stream = ctx.get_file_system().open_write(city_count_path)?;
+    let mut guard = stream.lock().unwrap();
+    let mut cities: Vec<_> = cities.iter().map(|(key, value)| (key, value)).collect();
+    cities.sort_by_key(|(key, _value)| util::get_sort_key(key).unwrap());
+    cities.dedup();
+    // Locale-aware sort, by key.
+    for (key, value) in cities {
+        let line = format!("{}\t{}\n", key, value.len());
+        guard.write_all(line.as_bytes())?;
+    }
+
+    Ok(())
+}
+
+/// Counts the # of all house numbers as of today.
+fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
+    let statedir = ctx.get_abspath("workdir/stats")?;
+    let csv_path = format!("{}/{}.csv", statedir, today);
+    if !ctx.get_file_system().path_exists(&csv_path) {
+        return Ok(());
+    }
+    let count_path = format!("{}/{}.count", statedir, today);
+    let city_count_path = format!("{}/{}.citycount", statedir, today);
+    let mut house_numbers: HashSet<String> = HashSet::new();
+    let mut cities: HashMap<String, HashSet<String>> = HashMap::new();
+    let mut first = true;
+    let valid_settlements = util::get_valid_settlements(ctx)?;
+    let stream = ctx.get_file_system().open_read(&csv_path)?;
+    let mut guard = stream.lock().unwrap();
+    let reader = std::io::BufReader::new(guard.deref_mut());
+    for line in reader.lines() {
+        if first {
+            // Ignore the oneliner header.
+            first = false;
+            continue;
+        }
+        let line = line?.to_string();
+        // postcode, city name, street name, house number, user
+        let cells: Vec<String> = line.split('\t').map(|i| i.into()).collect();
+        // Ignore last column, which is the user who touched the object last.
+        house_numbers.insert(cells[0..4].join("\t"));
+        let city_key = util::get_city_key(&cells[0], &cells[1], &valid_settlements)?;
+        let city_value = cells[2..4].join("\t");
+        let entry = cities.entry(city_key).or_insert_with(HashSet::new);
+        entry.insert(city_value);
+    }
+    write_count_path(ctx, &count_path, &house_numbers)?;
+    write_city_count_path(ctx, &city_count_path, &cities)
+}
+
+#[pyfunction]
+fn py_update_stats_count(ctx: context::PyContext, today: &str) -> PyResult<()> {
+    match update_stats_count(&ctx.context, today).context("update_stats_count() failed") {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Counts the top housenumber editors as of today.
+fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
+    let statedir = ctx.get_abspath("workdir/stats")?;
+    let csv_path = format!("{}/{}.csv", statedir, today);
+    if !ctx.get_file_system().path_exists(&csv_path) {
+        return Ok(());
+    }
+    let topusers_path = format!("{}/{}.topusers", statedir, today);
+    let usercount_path = format!("{}/{}.usercount", statedir, today);
+    let mut users: HashMap<String, u64> = HashMap::new();
+    {
+        let stream = ctx.get_file_system().open_read(&csv_path)?;
+        let mut guard = stream.lock().unwrap();
+        let reader = std::io::BufReader::new(guard.deref_mut());
+        for line in reader.lines() {
+            let line = line?.to_string();
+            let cells: Vec<String> = line.split('\t').map(|i| i.into()).collect();
+            // Only care about the last column.
+            let user = cells[cells.len() - 1].clone();
+            let entry = users.entry(user).or_insert(0);
+            (*entry) += 1;
+        }
+    }
+    {
+        let stream = ctx.get_file_system().open_write(&topusers_path)?;
+        let mut guard = stream.lock().unwrap();
+        let mut users: Vec<_> = users.iter().map(|(key, value)| (key, value)).collect();
+        users.sort_by_key(|i| Reverse(i.1));
+        users.dedup();
+        users = users[0..std::cmp::min(20, users.len())].to_vec();
+        for user in users {
+            let line = format!("{} {}\n", user.1, user.0);
+            guard.write_all(line.as_bytes())?;
+        }
+    }
+
+    let stream = ctx.get_file_system().open_write(&usercount_path)?;
+    let mut guard = stream.lock().unwrap();
+    let line = format!("{}\n", users.len());
+    Ok(guard.write_all(line.as_bytes())?)
+}
+
+#[pyfunction]
+fn py_update_stats_topusers(ctx: context::PyContext, today: &str) -> PyResult<()> {
+    match update_stats_topusers(&ctx.context, today).context("update_stats_topusers() failed") {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Performs the update of workdir/stats/ref.count.
+fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
+    let mut count = 0;
+    {
+        let stream = ctx
+            .get_file_system()
+            .open_read(&ctx.get_ini().get_reference_citycounts_path()?)?;
+        let mut guard = stream.lock().unwrap();
+        let mut read = guard.deref_mut();
+        let mut csv_read = util::CsvRead::new(&mut read);
+        let mut first = true;
+        for result in csv_read.records() {
+            let row = result?;
+            if first {
+                first = false;
+                continue;
+            }
+
+            count += row[1].parse::<i32>()?;
+        }
+    }
+
+    let stream = ctx
+        .get_file_system()
+        .open_write(&format!("{}/ref.count", state_dir))?;
+    let mut guard = stream.lock().unwrap();
+    Ok(guard.write_all(format!("{}\n", count).as_bytes())?)
+}
+
+#[pyfunction]
+fn py_update_stats_refcount(ctx: context::PyContext, state_dir: &str) -> PyResult<()> {
+    match update_stats_refcount(&ctx.context, state_dir).context("update_stats_refcount() failed") {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_info, module)?)?;
@@ -400,5 +569,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         py_update_additional_streets,
         module
     )?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_update_stats_count, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_update_stats_topusers, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_update_stats_refcount, module)?)?;
     Ok(())
 }

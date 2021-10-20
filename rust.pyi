@@ -42,15 +42,6 @@ class PyDoc:
         ...
 
 
-def py_parse(raw_languages: str) -> List[str]:
-    """
-    Parse a RFC 2616 Accept-Language string.
-    https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14
-
-    :param accept_language_str: A string in RFC 2616 format.
-    """
-    ...
-
 class PyStdFileSystem(api.FileSystem):
     """File system implementation, backed by the Rust stdlib."""
     def __init__(self) -> None:
@@ -316,20 +307,6 @@ class PyHouseNumber:
         """
         ...
 
-class PyCsvRead:
-    def __init__(self, stream: BinaryIO) -> None:
-        ...
-
-    def __enter__(self) -> 'PyCsvRead':
-        ...
-
-    def __exit__(self, _exc_type: Any, _exc_value: Any, _exc_traceback: Any) -> bool:
-        ...
-
-    def get_rows(self) -> List[List[str]]:
-        """Gets access to the rows of the CSV."""
-        ...
-
 def py_split_house_number(house_number: str) -> Tuple[int, str]:
     """Splits house_number into a numerical and a remainder part."""
     ...
@@ -349,18 +326,6 @@ def py_get_housenumber_ranges(house_numbers: List[PyHouseNumber]) -> List[PyHous
 
 def py_get_content(path: str) -> bytes:
     """Gets the content of a file in workdir."""
-    ...
-
-def py_get_city_key(postcode: str, city: str, valid_settlements: Set[str]) -> str:
-    """Constructs a city name based on postcode the nominal city."""
-    ...
-
-def py_get_sort_key(string: str) -> bytes:
-    """Returns a string comparator which allows Unicode-aware lexical sorting."""
-    ...
-
-def py_get_valid_settlements(ctx: PyContext) -> Set[str]:
-    """Builds a set of valid settlement names."""
     ...
 
 class PyRelationFiles:
@@ -522,10 +487,6 @@ class PyRelationConfig:
         """
         Builds a list of streets from a reference cache.
         """
-        ...
-
-    def get_ref_street_from_osm_street(self, osm_street_name: str) -> str:
-        """Maps an OSM street name to a ref street name."""
         ...
 
 class PyRelation:
@@ -814,6 +775,18 @@ def py_update_missing_streets(relations: PyRelations, update: bool) -> None:
 
 def py_update_additional_streets(relations: PyRelations, update: bool) -> None:
     """Update the relation's "additional streets" stats."""
+    ...
+
+def py_update_stats_count(ctx: PyContext, today: str) -> None:
+    """Counts the # of all house numbers as of today."""
+    ...
+
+def py_update_stats_topusers(ctx: PyContext, today: str) -> None:
+    """Counts the top housenumber editors as of today."""
+    ...
+
+def py_update_stats_refcount(ctx: PyContext, state_dir: str) -> None:
+    """Performs the update of workdir/stats/ref.count."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
