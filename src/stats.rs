@@ -71,7 +71,12 @@ fn handle_topusers(
             let line = line?.trim().to_string();
             let mut tokens = line.split(' ');
             let count = tokens.next().unwrap();
-            let user = tokens.next().unwrap();
+            let user = tokens.next();
+            if user.is_none() {
+                // Busted, skip it.
+                continue;
+            }
+            let user = user.unwrap();
             ret.push((user.into(), count.into()));
         }
     }
@@ -83,7 +88,7 @@ fn handle_topusers(
 }
 
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
-fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, u64)>> {
+fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, i64)>> {
     let new_day = {
         let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
         now.format("%Y-%m-%d").to_string()
@@ -91,8 +96,8 @@ fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(
     let day_delta =
         chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0) - chrono::Duration::days(30);
     let old_day = day_delta.format("%Y-%m-%d").to_string();
-    let mut old_counts: HashMap<String, u64> = HashMap::new();
-    let mut counts: Vec<(String, u64)> = Vec::new();
+    let mut old_counts: HashMap<String, i64> = HashMap::new();
+    let mut counts: Vec<(String, i64)> = Vec::new();
 
     let old_count_path = format!("{}/{}.citycount", src_root, old_day);
     if !ctx.get_file_system().path_exists(&old_count_path) {
@@ -117,7 +122,7 @@ fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(
             }
         };
         if !count.is_empty() {
-            let count: u64 = count.parse()?;
+            let count: i64 = count.parse()?;
             old_counts.insert(city.into(), count);
         }
     }
@@ -145,7 +150,7 @@ fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(
             }
         };
         if !count.is_empty() && old_counts.contains_key(city) {
-            let count: u64 = count.parse()?;
+            let count: i64 = count.parse()?;
             counts.push((city.into(), count - old_counts[city]));
         }
     }
@@ -155,7 +160,7 @@ fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(
 }
 
 #[pyfunction]
-fn py_get_topcities(ctx: context::PyContext, src_root: &str) -> PyResult<Vec<(String, u64)>> {
+fn py_get_topcities(ctx: context::PyContext, src_root: &str) -> PyResult<Vec<(String, i64)>> {
     match get_topcities(&ctx.context, src_root).context("get_topcities() failed") {
         Ok(value) => Ok(value),
         Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
@@ -360,7 +365,11 @@ fn handle_monthly_total(
 }
 
 /// Generates the stats json and writes it to `json_path`.
-fn generate_json(ctx: &context::Context, state_dir: &str, json_path: &str) -> anyhow::Result<()> {
+pub fn generate_json(
+    ctx: &context::Context,
+    state_dir: &str,
+    json_path: &str,
+) -> anyhow::Result<()> {
     let mut j = serde_json::json!({});
     handle_progress(ctx, state_dir, &mut j)?;
     handle_topusers(ctx, state_dir, &mut j)?;
@@ -378,18 +387,9 @@ fn generate_json(ctx: &context::Context, state_dir: &str, json_path: &str) -> an
     Ok(())
 }
 
-#[pyfunction]
-fn py_generate_json(ctx: context::PyContext, state_dir: &str, json_path: &str) -> PyResult<()> {
-    match generate_json(&ctx.context, state_dir, json_path).context("generate_json() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_get_topcities, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_generate_json, module)?)?;
     Ok(())
 }
 

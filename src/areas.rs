@@ -1347,35 +1347,6 @@ impl PyRelation {
         self.relation.set_config(&config.relation_config)
     }
 
-    fn get_ref_streets(&self) -> PyResult<Vec<String>> {
-        match self.relation.get_ref_streets() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_ref_streets() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_osm_housenumbers(&mut self, street_name: String) -> PyResult<Vec<util::PyHouseNumber>> {
-        let ret = match self.relation.get_osm_housenumbers(&street_name) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_osm_housenumbers() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(ret
-            .iter()
-            .map(|i| {
-                let house_number = i.clone();
-                util::PyHouseNumber { house_number }
-            })
-            .collect())
-    }
-
     fn write_ref_streets(&self, reference: &str) -> PyResult<()> {
         match self
             .relation
@@ -1441,72 +1412,6 @@ impl PyRelation {
         }
     }
 
-    fn get_missing_housenumbers(
-        &mut self,
-    ) -> PyResult<(util::PyNumberedStreets, util::PyNumberedStreets)> {
-        let (ongoing_streets, done_streets) = match self.relation.get_missing_housenumbers() {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_missing_housenumbers() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        let mut py_ongoing_streets: Vec<(util::PyStreet, Vec<util::PyHouseNumber>)> = Vec::new();
-        for street in ongoing_streets {
-            let py_street = util::PyStreet { street: street.0 };
-            let py_housenumbers: Vec<util::PyHouseNumber> = street
-                .1
-                .iter()
-                .map(|i| util::PyHouseNumber {
-                    house_number: i.clone(),
-                })
-                .collect();
-            py_ongoing_streets.push((py_street, py_housenumbers));
-        }
-        let mut py_done_streets: Vec<(util::PyStreet, Vec<util::PyHouseNumber>)> = Vec::new();
-        for street in done_streets {
-            let py_street = util::PyStreet { street: street.0 };
-            let py_housenumbers: Vec<util::PyHouseNumber> = street
-                .1
-                .iter()
-                .map(|i| util::PyHouseNumber {
-                    house_number: i.clone(),
-                })
-                .collect();
-            py_done_streets.push((py_street, py_housenumbers));
-        }
-        Ok((py_ongoing_streets, py_done_streets))
-    }
-
-    fn get_missing_streets(&self) -> PyResult<(Vec<String>, Vec<String>)> {
-        match self.relation.get_missing_streets() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_missing_streets() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_additional_streets(&self, sorted_result: bool) -> PyResult<Vec<util::PyStreet>> {
-        let ret = match self.relation.get_additional_streets(sorted_result) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_additional_streets() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-
-        Ok(ret
-            .iter()
-            .map(|i| util::PyStreet { street: i.clone() })
-            .collect())
-    }
-
     fn write_missing_streets(&self) -> PyResult<(usize, usize, String, Vec<String>)> {
         match self.relation.write_missing_streets() {
             Ok(value) => Ok(value),
@@ -1532,55 +1437,6 @@ impl PyRelation {
             .iter()
             .map(|i| util::PyStreet { street: i.clone() })
             .collect())
-    }
-
-    fn write_missing_housenumbers(
-        &mut self,
-    ) -> PyResult<(usize, usize, usize, String, yattag::PyHtmlTable)> {
-        let (ongoing_len, todo, done, percent, table) = match self
-            .relation
-            .write_missing_housenumbers()
-            .context("write_missing_housenumbers() failed")
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
-            }
-        };
-        let py_table: Vec<Vec<yattag::PyDoc>> = table
-            .iter()
-            .map(|row| {
-                row.iter()
-                    .map(|cell| yattag::PyDoc { doc: cell.clone() })
-                    .collect()
-            })
-            .collect();
-        Ok((ongoing_len, todo, done, percent, py_table))
-    }
-
-    fn get_additional_housenumbers(&mut self) -> PyResult<util::PyNumberedStreets> {
-        let ret = match self.relation.get_additional_housenumbers() {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_additional_housenumbers() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        let mut py_ret: Vec<(util::PyStreet, Vec<util::PyHouseNumber>)> = Vec::new();
-        for street in ret {
-            let py_street = util::PyStreet { street: street.0 };
-            let py_housenumbers: Vec<util::PyHouseNumber> = street
-                .1
-                .iter()
-                .map(|i| util::PyHouseNumber {
-                    house_number: i.clone(),
-                })
-                .collect();
-            py_ret.push((py_street, py_housenumbers));
-        }
-        Ok(py_ret)
     }
 
     fn get_osm_housenumbers_query(&self) -> PyResult<String> {
@@ -1768,12 +1624,12 @@ impl Relations {
     }
 
     /// Sets if inactive=true is ignored or not.
-    fn activate_all(&mut self, activate_all: bool) {
+    pub fn activate_all(&mut self, activate_all: bool) {
         self.activate_all = activate_all;
     }
 
     /// If refcounty is not None, forget about all relations outside that refcounty.
-    fn limit_to_refcounty(&mut self, refcounty: &Option<String>) -> anyhow::Result<()> {
+    pub fn limit_to_refcounty(&mut self, refcounty: &Option<String>) -> anyhow::Result<()> {
         let refcounty: String = match refcounty {
             Some(value) => value.clone(),
             None => {
@@ -1794,7 +1650,7 @@ impl Relations {
     }
 
     /// If refsettlement is not None, forget about all relations outside that refsettlement.
-    fn limit_to_refsettlement(&mut self, refsettlement: &Option<String>) -> anyhow::Result<()> {
+    pub fn limit_to_refsettlement(&mut self, refsettlement: &Option<String>) -> anyhow::Result<()> {
         let refsettlement: String = match refsettlement {
             Some(value) => value.clone(),
             None => {
@@ -2086,11 +1942,6 @@ way{color:blue; width:4;}
     query
 }
 
-#[pyfunction]
-fn py_make_turbo_query_for_streets(relation: PyRelation, streets: Vec<String>) -> String {
-    make_turbo_query_for_streets(&relation.relation, &streets)
-}
-
 /// Creates an overpass query that shows all streets from a list.
 pub fn make_turbo_query_for_street_objs(relation: &Relation, streets: &[util::Street]) -> String {
     let header = r#"[out:json][timeout:425];
@@ -2118,10 +1969,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyRelationConfig>()?;
     module.add_class::<PyRelation>()?;
     module.add_class::<PyRelations>()?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_make_turbo_query_for_streets,
-        module
-    )?)?;
     Ok(())
 }
 
@@ -2754,5 +2601,532 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             ["011", "013"]
         );
         assert_eq!(street, "Csiki-hegyek utca");
+    }
+
+    /// Tests make_turbo_query_for_streets().
+    #[test]
+    fn test_make_turbo_query_for_streets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let from = ["A2".to_string()];
+        let ret = make_turbo_query_for_streets(&relation, &from);
+        let expected = r#"[out:json][timeout:425];
+rel(2713748)->.searchRelation;
+area(3602713748)->.searchArea;
+(rel(2713748);
+way["name"="A2"](r.searchRelation);
+way["name"="A2"](area.searchArea);
+);
+out body;
+>;
+out skel qt;
+{{style:
+relation{width:3}
+way{color:blue; width:4;}
+}}"#;
+        assert_eq!(ret, expected);
+    }
+
+    /// Tests Relation::get_ref_streets().
+    #[test]
+    fn test_relation_get_ref_streets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let streets = relation.get_ref_streets().unwrap();
+        assert_eq!(
+            streets,
+            [
+                "Hamzsabégi út",
+                "Only In Ref Nonsense utca",
+                "Only In Ref utca",
+                "Ref Name 1",
+                "Törökugrató utca",
+                "Tűzkő utca"
+            ]
+        );
+    }
+
+    /// Tests Relation::get_osm_housenumbers().
+    #[test]
+    fn test_relation_get_osm_housenumbers() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let street_name = "Törökugrató utca";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        let house_numbers = relation.get_osm_housenumbers(street_name).unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, ["1", "2"]);
+    }
+
+    /// Tests Relation::get_osm_housenumbers(): the case when addr:place is used instead of addr:street.
+    #[test]
+    fn test_relation_get_osm_housenumbers_addr_place() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh964";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        let street_name = "Tolvajos tanya";
+        let house_numbers = relation.get_osm_housenumbers(street_name).unwrap();
+        let actual: Vec<_> = house_numbers.iter().map(|i| i.get_number()).collect();
+        assert_eq!(actual, ["52"]);
+    }
+
+    /// Tests Relation::get_missing_housenumbers().
+    #[test]
+    fn test_relation_get_missing_housenumbers() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        let (ongoing_streets, done_streets) = relation.get_missing_housenumbers().unwrap();
+        let ongoing_streets_strs: Vec<_> = ongoing_streets
+            .iter()
+            .map(|(name, numbers)| {
+                let numbers: Vec<_> = numbers.iter().map(|i| i.get_number()).collect();
+                (name.get_osm_name().clone(), numbers)
+            })
+            .collect();
+        // Notice how 11 and 12 is filtered out by the 'invalid' mechanism for 'Törökugrató utca'.
+        assert_eq!(
+            ongoing_streets_strs,
+            [
+                ("Törökugrató utca".to_string(), vec!["7", "10"]),
+                ("Tűzkő utca".to_string(), vec!["1", "2"]),
+                ("Hamzsabégi út".to_string(), vec!["1"])
+            ]
+        );
+        let expected = [
+            ("OSM Name 1".to_string(), vec!["1", "2"]),
+            ("Törökugrató utca".to_string(), vec!["1", "2"]),
+            ("Tűzkő utca".to_string(), vec!["9", "10"]),
+        ];
+        let done_streets_strs: Vec<_> = done_streets
+            .iter()
+            .map(|(name, numbers)| {
+                let numbers: Vec<_> = numbers.iter().map(|i| i.get_number()).collect();
+                (name.get_osm_name().clone(), numbers)
+            })
+            .collect();
+        assert_eq!(done_streets_strs, expected);
+    }
+
+    /// Tests Relation::get_missing_housenumbers(): 7/A is detected when 7/B is already mapped.
+    #[test]
+    fn test_relation_get_missing_housenumbers_letter_suffix() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh267";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        // Opt-in, this is not the default behavior.
+        let mut config = relation.get_config().clone();
+        config.set_housenumber_letters(true);
+        relation.set_config(&config);
+        let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers().unwrap();
+        let ongoing_street = ongoing_streets[0].clone();
+        let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
+        let mut housenumber_range_names: Vec<_> =
+            housenumber_ranges.iter().map(|i| i.get_number()).collect();
+        housenumber_range_names.sort_by_key(|i| util::split_house_number(i));
+        // Make sure that 1/1 shows up in the output: it's not the same as '1' or '11'.
+        let expected = [
+            "1", "1/1", "1/2", "3", "5", "7", "7/A", "7/B", "7/C", "9", "11", "13", "13-15",
+        ];
+        assert_eq!(housenumber_range_names, expected);
+    }
+
+    /// Tests Relation::get_missing_housenumbers(): how 'invalid' interacts with normalization.
+    #[test]
+    fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh296";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        // Opt-in, this is not the default behavior.
+        let mut config = relation.get_config().clone();
+        config.set_housenumber_letters(true);
+        // Set custom 'invalid' map.
+        let filters = serde_json::json!({
+            "Rétköz utca": {
+                "invalid": ["9", "47"]
+            }
+        });
+        config.set_filters(&filters);
+        relation.set_config(&config);
+        let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+        let ongoing_street = ongoing_streets[0].clone();
+        let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
+        let mut housenumber_range_names: Vec<_> =
+            housenumber_ranges.iter().map(|i| i.get_number()).collect();
+        housenumber_range_names.sort_by_key(|i| util::split_house_number(i));
+        // Notice how '9 A 1' is missing here: it's not a simple house number, so it gets normalized
+        // to just '9' and the above filter silences it.
+        let expected = ["9/A"];
+        assert_eq!(housenumber_range_names, expected);
+    }
+
+    /// Tests Relation::get_missing_housenumbers(): how 'invalid' interacts with housenumber-letters: true or false.
+    #[test]
+    fn test_relation_get_missing_housenumbers_invalid_simplify() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh385";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+
+        // Default case: housenumber-letters=false.
+        {
+            let filters = serde_json::json!({
+                "Kővirág sor": {
+                    "invalid": ["37b"]
+                }
+            });
+            let mut config = relation.get_config().clone();
+            config.set_filters(&filters);
+            relation.set_config(&config);
+            let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+            // Note how 37b from invalid is simplified to 37; and how 37/B from ref is simplified to
+            // 37 as well, so we find the match.
+            assert_eq!(ongoing_streets.is_empty(), true);
+        }
+
+        // Opt-in case: housenumber-letters=true.
+        {
+            let mut config = relation.get_config().clone();
+            config.set_housenumber_letters(true);
+            relation.set_config(&config);
+            let filters = serde_json::json!({
+                "Kővirág sor": {
+                    "invalid": ["37b"]
+                }
+            });
+            config.set_filters(&filters);
+            relation.set_config(&config);
+            let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+            // In this case 37b from invalid matches 37/B from ref.
+            assert_eq!(ongoing_streets.is_empty(), true);
+        }
+
+        // Make sure out-of-range invalid elements are just ignored and no exception is raised.
+        let mut config = relation.get_config().clone();
+        config.set_housenumber_letters(false);
+        relation.set_config(&config);
+        let filters = serde_json::json!({
+            "Kővirág sor": {
+                "invalid": ["5"],
+                "ranges": [{"start": "1", "end": "3"}],
+            }
+        });
+        config.set_filters(&filters);
+        relation.set_config(&config);
+        relation.get_missing_housenumbers().unwrap();
+    }
+
+    /// Tests Relation::get_missing_housenumbers(): '42 A' vs '42/A' is recognized as a match.
+    #[test]
+    fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh286";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        // Opt-in, this is not the default behavior.
+        let mut config = relation.get_config().clone();
+        config.set_housenumber_letters(true);
+        relation.set_config(&config);
+        let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+        let ongoing_street = ongoing_streets[0].clone();
+        let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
+        let mut housenumber_range_names: Vec<_> =
+            housenumber_ranges.iter().map(|i| i.get_number()).collect();
+        housenumber_range_names.sort_by_key(|i| util::split_house_number(i));
+        // Note how 10/B is not in this list.
+        let expected = ["10/A"];
+        assert_eq!(housenumber_range_names, expected);
+    }
+
+    /// Tests Relation::get_missing_housenumbers(): '42/A*' and '42/a' matches.
+    #[test]
+    fn test_relation_get_missing_housenumbers_letter_suffix_source_suffix() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh299";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        // Opt-in, this is not the default behavior.
+        let mut config = relation.get_config().clone();
+        config.set_housenumber_letters(true);
+        relation.set_config(&config);
+        let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+        // Note how '52/B*' is not in this list.
+        assert_eq!(ongoing_streets, []);
+    }
+
+    /// Tests Relation::get_missing_housenumbers(): 'a' is not stripped from '1;3a'.
+    #[test]
+    fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh303";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        // Opt-in, this is not the default behavior.
+        let mut config = relation.get_config().clone();
+        config.set_housenumber_letters(true);
+        relation.set_config(&config);
+        let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+        let ongoing_street = ongoing_streets[0].clone();
+        let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
+        let mut housenumber_range_names: Vec<_> =
+            housenumber_ranges.iter().map(|i| i.get_number()).collect();
+        housenumber_range_names.sort_by_key(|i| util::split_house_number(i));
+        // Note how 43/B and 43/C is not here.
+        let expected = ["43/A", "43/D"];
+        assert_eq!(housenumber_range_names, expected);
+    }
+
+    /// Tests Relation::get_missing_streets().
+    #[test]
+    fn test_relation_get_missing_streets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let (only_in_reference, in_both) = relation.get_missing_streets().unwrap();
+
+        // Note that 'Only In Ref Nonsense utca' is missing from this list.
+        assert_eq!(only_in_reference, ["Only In Ref utca"]);
+
+        assert_eq!(
+            in_both,
+            [
+                "Hamzsabégi út",
+                "Ref Name 1",
+                "Törökugrató utca",
+                "Tűzkő utca"
+            ]
+        );
+    }
+
+    /// Tests Relation::get_additional_streets().
+    #[test]
+    fn test_relation_get_additional_streets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let only_in_osm = relation
+            .get_additional_streets(/*sorted_result=*/ true)
+            .unwrap();
+
+        assert_eq!(only_in_osm, [util::Street::from_string("Only In OSM utca")]);
+
+        // These is filtered out, even if it's OSM-only.
+        let osm_street_blacklist = relation.get_config().get_osm_street_filters();
+        assert_eq!(osm_street_blacklist, ["Second Only In OSM utca"]);
+    }
+
+    /// Tests Relation::get_additional_streets(): when the osm-street-filters key is missing.
+    #[test]
+    fn test_relation_get_additional_streets_no_osm_street_filters() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh385";
+        let relation = relations.get_relation(relation_name).unwrap();
+        assert_eq!(
+            relation.get_config().get_osm_street_filters().is_empty(),
+            true
+        );
+    }
+
+    /// Relation::get_additional_housenumbers().
+    #[test]
+    fn test_relation_get_additional_housenumbers() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        let only_in_osm = relation.get_additional_housenumbers().unwrap();
+        let only_in_osm_strs: Vec<_> = only_in_osm
+            .iter()
+            .map(|(name, numbers)| {
+                let numbers: Vec<_> = numbers.iter().map(|i| i.get_number()).collect();
+                (name.get_osm_name(), numbers)
+            })
+            .collect();
+        // Note how Second Only In OSM utca 1 is filtered out explicitly.
+        assert_eq!(
+            only_in_osm_strs,
+            [(&"Only In OSM utca".to_string(), vec!["1"])]
+        );
+    }
+
+    /// Wrapper around get_config.get_filters() that doesn't return an Optional.
+    fn get_filters(relation: &Relation) -> serde_json::Map<String, serde_json::Value> {
+        let mut filters = serde_json::json!({});
+        if let Some(value) = relation.config.get_filters() {
+            filters = value.clone();
+        }
+        filters.as_object().unwrap().clone()
+    }
+
+    /// Unwraps an escaped matrix of rust.PyDocs into a string matrix.
+    fn table_doc_to_string(table: &[Vec<yattag::Doc>]) -> Vec<Vec<String>> {
+        let mut table_content = Vec::new();
+        for row in table {
+            let mut row_content = Vec::new();
+            for cell in row {
+                row_content.push(cell.get_value());
+            }
+            table_content.push(row_content);
+        }
+        table_content
+    }
+
+    /// Tests Relation::write_missing_housenumbers().
+    #[test]
+    fn test_relation_write_missing_housenumbers() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let percent_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
+            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
+        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        files.insert(
+            ctx.get_abspath("workdir/gazdagret.percent").unwrap(),
+            percent_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        let expected = String::from_utf8(
+            util::get_content(&ctx.get_abspath("workdir/gazdagret.percent").unwrap()).unwrap(),
+        )
+        .unwrap();
+
+        let ret = relation.write_missing_housenumbers().unwrap();
+
+        let (todo_street_count, todo_count, done_count, percent, table) = ret;
+        assert_eq!(todo_street_count, 3);
+        assert_eq!(todo_count, 5);
+        assert_eq!(done_count, 6);
+        assert_eq!(percent, "54.55");
+        let string_table = table_doc_to_string(&table);
+        assert_eq!(
+            string_table,
+            [
+                ["Street name", "Missing count", "House numbers"],
+                ["Törökugrató utca", "2", "7<br />10"],
+                ["Tűzkő utca", "2", "1<br />2"],
+                ["Hamzsabégi út", "1", "1"]
+            ]
+        );
+        let mut guard = percent_value.lock().unwrap();
+        guard.seek(SeekFrom::Start(0)).unwrap();
+        let mut actual: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut actual).unwrap();
+        assert_eq!(String::from_utf8(actual).unwrap(), expected);
+    }
+
+    /// Tests Relation::write_missing_housenumbers(): the case when percent can't be determined.
+    #[test]
+    fn test_relation_write_missing_housenumbers_empty() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let percent_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
+            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
+        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        files.insert(
+            ctx.get_abspath("workdir/empty.percent").unwrap(),
+            percent_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "empty";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+
+        let ret = relation.write_missing_housenumbers().unwrap();
+
+        let (_todo_street_count, _todo_count, _done_count, percent, _table) = ret;
+        assert_eq!(percent, "100.00");
+        assert_eq!(get_filters(&relation).is_empty(), true);
+    }
+
+    /// Tests Relation::write_missing_housenumbers(): the case when the street is interpolation=all and coloring is wanted.
+    #[test]
+    fn test_relation_write_missing_housenumbers_interpolation_all() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let percent_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
+            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
+        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        files.insert(
+            ctx.get_abspath("workdir/budafok.percent").unwrap(),
+            percent_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "budafok";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+
+        let ret = relation.write_missing_housenumbers().unwrap();
+
+        let (_todo_street_count, _todo_count, _done_count, _percent, table) = ret;
+        let string_table = table_doc_to_string(&table);
+        assert_eq!(
+            string_table,
+            [
+                ["Street name", "Missing count", "House numbers"],
+                [
+                    "Vöröskúti határsor",
+                    "4",
+                    "2, 12, 34, <span style=\"color: blue;\">36</span>"
+                ]
+            ]
+        );
+        let mut guard = percent_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
+
+    /// Tests Relation::write_missing_housenumbers(): sorting is performed after range reduction.
+    #[test]
+    fn test_relation_write_missing_housenumbers_sorting() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let percent_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
+            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
+        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        files.insert(
+            ctx.get_abspath("workdir/gh414.percent").unwrap(),
+            percent_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gh414";
+        let mut relation = relations.get_relation(relation_name).unwrap();
+
+        let ret = relation.write_missing_housenumbers().unwrap();
+
+        let (_todo_street_count, _todo_count, _done_count, _percent, table) = ret;
+        let string_table = table_doc_to_string(&table);
+        // Note how 'A utca' is logically 5 house numbers, but it's a single range, so it's
+        // ordered after 'B utca'.
+        assert_eq!(
+            string_table,
+            [
+                ["Street name", "Missing count", "House numbers"],
+                ["B utca", "2", "1, 3"],
+                ["A utca", "1", "2-10"]
+            ]
+        );
+        let mut guard = percent_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 }

@@ -307,21 +307,12 @@ class PyHouseNumber:
         """
         ...
 
-def py_split_house_number(house_number: str) -> Tuple[int, str]:
-    """Splits house_number into a numerical and a remainder part."""
-    ...
-
 def py_build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     ...
 
 def py_build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    ...
-
-def py_get_housenumber_ranges(house_numbers: List[PyHouseNumber]) -> List[PyHouseNumberRange]:
-    """Gets a reference range list for a house number list by looking at what range provided a givne
-    house number."""
     ...
 
 def py_get_content(path: str) -> bytes:
@@ -519,17 +510,9 @@ class PyRelation:
         """Produces a query which lists streets in relation."""
         ...
 
-    def get_osm_housenumbers(self, street_name: str) -> List[PyHouseNumber]:
-        """Gets the OSM house number list of a street."""
-        ...
-
     def write_ref_streets(self, reference: str) -> None:
         """Gets known streets (not their coordinates) from a reference site, based on relation names
         from OSM."""
-        ...
-
-    def get_ref_streets(self) -> List[str]:
-        """Gets streets from reference."""
         ...
 
     def build_ref_housenumbers(
@@ -552,43 +535,12 @@ class PyRelation:
         """
         ...
 
-    def get_missing_housenumbers(self) -> Tuple[List[Tuple[PyStreet, List[PyHouseNumber]]], List[Tuple[PyStreet, List[PyHouseNumber]]]]:
-        """
-        Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
-        Return value is a pair of ongoing and done streets.
-        Each of of these is a pair of a street name and a house number list.
-        """
-        ...
-
-    def get_missing_streets(self) -> Tuple[List[str], List[str]]:
-        """Tries to find missing streets in a relation."""
-        ...
-
-    def get_additional_streets(self, sorted_result: bool) -> List[PyStreet]:
-        """Tries to find additional streets in a relation."""
-        ...
-
     def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
         """Calculate and write stat for the street coverage of a relation."""
         ...
 
     def write_additional_streets(self) -> List[PyStreet]:
         """Calculate and write stat for the unexpected street coverage of a relation."""
-        ...
-
-    def write_missing_housenumbers(self) -> Tuple[int, int, int, str, List[List[PyDoc]]]:
-        """
-        Calculate a write stat for the house number coverage of a relation.
-        Returns a tuple of: todo street count, todo count, done count, percent and table.
-        """
-        ...
-
-    def get_additional_housenumbers(self) -> List[Tuple[PyStreet, List[PyHouseNumber]]]:
-        """
-        Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
-        Return value is a list of streets.
-        Each of of these is a pair of a street name and a house number list.
-        """
         ...
 
     def get_osm_housenumbers_query(self) -> str:
@@ -660,10 +612,6 @@ class PyRelations:
         """Provide an alias -> real name map of relations."""
         ...
 
-def py_make_turbo_query_for_streets(relation: PyRelation, streets: List[str]) -> str:
-    """Creates an overpass query that shows all streets from a missing housenumbers table."""
-    ...
-
 def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
     """Commandline interface."""
     ...
@@ -729,20 +677,8 @@ def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     ...
 
-def py_generate_json(ctx: PyContext, state_dir: str, json_path: str) -> None:
-    """Generates the stats json and writes it to `stream`."""
-    ...
-
 def py_setup_logging(ctx: PyContext) -> None:
     """Sets up logging."""
-    ...
-
-def py_info(msg: str) -> None:
-    """Wrapper around info()."""
-    ...
-
-def py_error(msg: str) -> None:
-    """Wrapper around error()."""
     ...
 
 def py_overpass_sleep(ctx: PyContext) -> None:
@@ -785,8 +721,16 @@ def py_update_stats_topusers(ctx: PyContext, today: str) -> None:
     """Counts the top housenumber editors as of today."""
     ...
 
-def py_update_stats_refcount(ctx: PyContext, state_dir: str) -> None:
-    """Performs the update of workdir/stats/ref.count."""
+def py_update_stats(ctx: PyContext, overpass: bool) -> None:
+    """Performs the update of country-level stats."""
+    ...
+
+def py_our_main(ctx: PyContext, relations: PyRelations, mode: str, update: bool, overpass: bool) -> None:
+    """Performs the actual nightly task."""
+    ...
+
+def py_cron_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
+    """Commandline interface."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

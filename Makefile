@@ -64,6 +64,7 @@ RS_OBJECTS = \
 	src/accept_language.rs \
 	src/area_files.rs \
 	src/areas.rs \
+	src/bin/cron.rs \
 	src/bin/missing_housenumbers.rs \
 	src/bin/rouille.rs \
 	src/context.rs \
@@ -83,6 +84,7 @@ RS_OBJECTS = \
 	src/yattag.rs \
 
 BINARY_CRATES = \
+	cron \
 	missing_housenumbers \
 	rouille \
 
@@ -118,7 +120,7 @@ clean:
 	rm -rf $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS)) .mypy_cache
 	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
-check: all check-filters check-flake8 check-mypy check-unit check-rustunit check-pylint check-eslint check-rustfmt check-clippy
+check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint check-rustfmt check-clippy
 	@echo "make check: ok"
 
 check-rustfmt: Cargo.toml $(RS_OBJECTS)
@@ -136,7 +138,9 @@ target/${TARGET_PATH}/librust.so: Cargo.toml $(RS_OBJECTS)
 $(foreach BINARY_CRATE,$(BINARY_CRATES),target/${TARGET_PATH}/$(BINARY_CRATE)) &: $(RS_OBJECTS) Cargo.toml Makefile
 	cargo build $(foreach BINARY_CRATE,$(BINARY_CRATES),--bin $(BINARY_CRATE)) ${CARGO_OPTIONS} --no-default-features
 
-check-rustunit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata
+check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata rust.so data/yamls.cache
+	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
+	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 	cargo test --lib --no-default-features ${CARGO_OPTIONS} -- --test-threads=1
 
 config.ts: wsgi.ini Makefile
@@ -206,10 +210,6 @@ check-mypy: $(PYTHON_OBJECTS)
 
 %.flake8: %.py Makefile setup.cfg
 	$(QUIET_FLAKE8)flake8 $< && touch $@
-
-check-unit: rust.so data/yamls.cache testdata
-	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
-	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
 
 check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 

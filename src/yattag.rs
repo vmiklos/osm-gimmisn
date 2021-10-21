@@ -108,8 +108,6 @@ impl PyDoc {
     }
 }
 
-pub type PyHtmlTable = Vec<Vec<PyDoc>>;
-
 /// Starts a tag, which is closed automatically.
 pub struct Tag {
     value: Arc<Mutex<String>>,

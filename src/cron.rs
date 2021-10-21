@@ -15,17 +15,20 @@ use crate::cache;
 use crate::context;
 use crate::i18n;
 use crate::overpass_query;
+use crate::stats;
 use crate::util;
 use anyhow::Context;
+use chrono::Datelike;
 use pyo3::prelude::*;
 use std::cmp::Reverse;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::io::BufRead;
+use std::io::Write;
 use std::ops::DerefMut;
 
 /// Sets up logging.
-fn setup_logging(ctx: &context::Context) -> anyhow::Result<()> {
+pub fn setup_logging(ctx: &context::Context) -> anyhow::Result<()> {
     let config = simplelog::ConfigBuilder::new()
         .set_time_format("%Y-%m-%d %H:%M:%S".into())
         .set_time_to_local(true)
@@ -51,16 +54,6 @@ fn py_setup_logging(ctx: context::PyContext) -> PyResult<()> {
         Ok(value) => Ok(value),
         Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
     }
-}
-
-#[pyfunction]
-fn py_info(msg: String) {
-    log::info!("{}", msg);
-}
-
-#[pyfunction]
-fn py_error(msg: String) {
-    log::error!("{}", msg);
 }
 
 /// Sleeps to respect overpass rate limit.
@@ -437,12 +430,16 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
     let mut guard = stream.lock().unwrap();
     let reader = std::io::BufReader::new(guard.deref_mut());
     for line in reader.lines() {
+        let line = line?.to_string();
+        if line.starts_with("<?xml") {
+            // Not a CSV, reject.
+            break;
+        }
         if first {
             // Ignore the oneliner header.
             first = false;
             continue;
         }
-        let line = line?.to_string();
         // postcode, city name, street name, house number, user
         let cells: Vec<String> = line.split('\t').map(|i| i.into()).collect();
         // Ignore last column, which is the user who touched the object last.
@@ -543,18 +540,236 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
     Ok(guard.write_all(format!("{}\n", count).as_bytes())?)
 }
 
+/// Performs the update of country-level stats.
+fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
+    // Fetch house numbers for the whole country.
+    log::info!("update_stats: start, updating whole-country csv");
+    let query = String::from_utf8(util::get_content(
+        &ctx.get_abspath("data/street-housenumbers-hungary.txt")?,
+    )?)?;
+    let statedir = ctx.get_abspath("workdir/stats")?;
+    std::fs::create_dir_all(&statedir)?;
+    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let today = now.format("%Y-%m-%d").to_string();
+    let csv_path = format!("{}/{}.csv", statedir, today);
+
+    if overpass {
+        log::info!("update_stats: talking to overpass");
+        let mut retry = 0;
+        while should_retry(retry) {
+            if retry > 0 {
+                log::info!("update_stats: try #{}", retry);
+            }
+            retry += 1;
+            overpass_sleep(ctx);
+            let response = match overpass_query::overpass_query(ctx, query.clone()) {
+                Ok(value) => value,
+                Err(err) => {
+                    log::info!("update_stats: http error: {}", err);
+                    continue;
+                }
+            };
+            let stream = ctx.get_file_system().open_write(&csv_path)?;
+            let mut guard = stream.lock().unwrap();
+            guard.write_all(response.as_bytes())?;
+            break;
+        }
+    }
+
+    update_stats_count(ctx, &today)?;
+    update_stats_topusers(ctx, &today)?;
+    update_stats_refcount(ctx, &statedir)?;
+
+    // Remove old CSV files as they are created daily and each is around 11M.
+    for entry in std::fs::read_dir(&statedir)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.extension().unwrap() != "csv" {
+            continue;
+        }
+
+        let metadata = std::fs::metadata(&path)?;
+        let last_modified = metadata.modified()?.elapsed()?.as_secs();
+
+        if last_modified >= 24 * 3600 * 7 && metadata.is_file() {
+            std::fs::remove_file(&path)?;
+            let file_name = path.file_name().unwrap().to_str().unwrap();
+            log::info!("update_stats: removed old {}", file_name);
+        }
+    }
+
+    log::info!("update_stats: generating json");
+    let json_path = format!("{}/stats.json", &statedir);
+    stats::generate_json(ctx, &statedir, &json_path)?;
+
+    log::info!("update_stats: end");
+
+    Ok(())
+}
+
 #[pyfunction]
-fn py_update_stats_refcount(ctx: context::PyContext, state_dir: &str) -> PyResult<()> {
-    match update_stats_refcount(&ctx.context, state_dir).context("update_stats_refcount() failed") {
+fn py_update_stats(ctx: context::PyContext, overpass: bool) -> PyResult<()> {
+    match update_stats(&ctx.context, overpass).context("update_stats() failed") {
         Ok(value) => Ok(value),
         Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
     }
 }
 
+/// Performs the actual nightly task.
+fn our_main(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    mode: &str,
+    update: bool,
+    overpass: bool,
+) -> anyhow::Result<()> {
+    if mode == "all" || mode == "stats" {
+        update_stats(ctx, overpass)?;
+    }
+    if mode == "all" || mode == "relations" {
+        update_osm_streets(ctx, relations, update)?;
+        update_osm_housenumbers(ctx, relations, update)?;
+        update_ref_streets(ctx, relations, update)?;
+        update_ref_housenumbers(ctx, relations, update)?;
+        update_missing_streets(relations, update)?;
+        update_missing_housenumbers(ctx, relations, update)?;
+        update_additional_streets(relations, update)?;
+    }
+
+    let pid = std::process::id();
+    let stream = std::fs::File::open(format!("/proc/{}/status", pid))?;
+    let reader = std::io::BufReader::new(stream);
+    for line in reader.lines() {
+        let line = line?.to_string();
+        if line.starts_with("VmPeak:") {
+            let vm_peak = line.trim();
+            log::info!("our_main: {}", vm_peak);
+            break;
+        }
+    }
+    let err = ctx.get_unit().make_error();
+    if !err.is_empty() {
+        return Err(anyhow::anyhow!(err));
+    }
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_our_main(
+    ctx: context::PyContext,
+    mut relations: areas::PyRelations,
+    mode: &str,
+    update: bool,
+    overpass: bool,
+) -> PyResult<()> {
+    match our_main(
+        &ctx.context,
+        &mut relations.relations,
+        mode,
+        update,
+        overpass,
+    )
+    .context("our_main() failed")
+    {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
+    }
+}
+
+/// Commandline interface to this module.
+pub fn main(
+    argv: &[String],
+    _stream: &mut dyn Write,
+    ctx: &context::Context,
+) -> anyhow::Result<()> {
+    let mut relations = areas::Relations::new(ctx)?;
+
+    let args = clap::App::new("osm-gimmisn")
+        .arg(
+            clap::Arg::with_name("refcounty")
+                .long("refcounty")
+                .takes_value(true)
+                .help("limit the list of relations to a given refcounty"),
+        )
+        .arg(
+            clap::Arg::with_name("refsettlement")
+                .long("refsettlement")
+                .takes_value(true)
+                .help("limit the list of relations to a given refsettlement"),
+        )
+        .arg(
+            clap::Arg::with_name("no-update") // default: true
+                .long("no-update")
+                .help("don't update existing state of relations"),
+        )
+        .arg(
+            clap::Arg::with_name("mode")
+                .long("mode")
+                .takes_value(true)
+                .default_value("relations")
+                .help("only perform the given sub-task or all of them [all, stats or relations]"),
+        )
+        .arg(
+            clap::Arg::with_name("no-overpass") // default: true
+                .long("no-overpass")
+                .help("when updating stats, don't perform any overpass update"),
+        )
+        .get_matches_from_safe(argv)?;
+
+    let start = ctx.get_time().now();
+    // Query inactive relations once a month.
+    let now = chrono::NaiveDateTime::from_timestamp(start, 0);
+    let first_day_of_month = now.date().day() == 1;
+    relations.activate_all(ctx.get_ini().get_cron_update_inactive() || first_day_of_month);
+    let refcounty = args.value_of("refcounty").map(|value| value.to_string());
+    relations.limit_to_refcounty(&refcounty)?;
+    // Use map(), which handles optional values.
+    let refsettlement = args
+        .value_of("refsettlement")
+        .map(|value| value.to_string());
+    relations.limit_to_refsettlement(&refsettlement)?;
+    let update = !args.is_present("no-update");
+    let overpass = !args.is_present("no-overpass");
+    match our_main(
+        ctx,
+        &mut relations,
+        args.value_of("mode").unwrap(),
+        update,
+        overpass,
+    ) {
+        Ok(_) => (),
+        Err(err) => log::error!("main: unhandled error: {:?}", err),
+    }
+    let duration = chrono::Duration::seconds(ctx.get_time().now() - start);
+    let seconds = duration.num_seconds() % 60;
+    let minutes = duration.num_minutes() % 60;
+    let hours = duration.num_hours();
+    log::info!(
+        "main: finished in {}:{:0>2}:{:0>2}",
+        hours,
+        minutes,
+        seconds
+    );
+
+    Ok(())
+}
+
+#[pyfunction]
+fn py_cron_main(argv: Vec<String>, stdout: PyObject, ctx: &context::PyContext) -> PyResult<()> {
+    let mut stream = context::PyAnyWrite { write: stdout };
+    match main(&argv, &mut stream, &ctx.context) {
+        Ok(value) => Ok(value),
+        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
+            "main() failed: {}",
+            err.to_string()
+        ))),
+    }
+}
+
+/// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_info, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_error, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_overpass_sleep, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_osm_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_osm_housenumbers, module)?)?;
@@ -571,6 +786,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_count, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_topusers, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_stats_refcount, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_update_stats, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_our_main, module)?)?;
+    module.add_function(pyo3::wrap_pyfunction!(py_cron_main, module)?)?;
     Ok(())
 }
