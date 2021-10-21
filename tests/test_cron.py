@@ -402,6 +402,21 @@ class TestUpdateStats(unittest.TestCase):
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
 
+        file_system = test_context.TestFileSystem()
+        citycount_value = io.BytesIO()
+        citycount_value.__setattr__("close", lambda: None)
+        count_value = io.BytesIO()
+        count_value.__setattr__("close", lambda: None)
+        topusers_value = io.BytesIO()
+        topusers_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/stats/2020-05-10.citycount"): citycount_value,
+            ctx.get_abspath("workdir/stats/2020-05-10.count"): count_value,
+            ctx.get_abspath("workdir/stats/2020-05-10.topusers"): topusers_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
+
         # Create a CSV that is definitely old enough to be removed.
         old_path = ctx.get_abspath("workdir/stats/old.csv")
         create_old_file(old_path)
@@ -430,6 +445,22 @@ class TestUpdateStats(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
+
+        file_system = test_context.TestFileSystem()
+        citycount_value = io.BytesIO()
+        citycount_value.__setattr__("close", lambda: None)
+        count_value = io.BytesIO()
+        count_value.__setattr__("close", lambda: None)
+        topusers_value = io.BytesIO()
+        topusers_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/stats/2020-05-10.citycount"): citycount_value,
+            ctx.get_abspath("workdir/stats/2020-05-10.count"): count_value,
+            ctx.get_abspath("workdir/stats/2020-05-10.topusers"): topusers_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
+
         old_mtime = ctx.get_file_system().getmtime(ctx.get_abspath("workdir/stats/stats.json"))
         time.sleep(0.1)
         cron.update_stats(ctx, overpass=True)
@@ -451,6 +482,21 @@ class TestUpdateStats(unittest.TestCase):
         ]
         network = test_context.TestNetwork(routes)
         ctx.set_network(network)
+
+        file_system = test_context.TestFileSystem()
+        citycount_value = io.BytesIO()
+        citycount_value.__setattr__("close", lambda: None)
+        count_value = io.BytesIO()
+        count_value.__setattr__("close", lambda: None)
+        topusers_value = io.BytesIO()
+        topusers_value.__setattr__("close", lambda: None)
+        files = {
+            ctx.get_abspath("workdir/stats/2020-05-10.citycount"): citycount_value,
+            ctx.get_abspath("workdir/stats/2020-05-10.count"): count_value,
+            ctx.get_abspath("workdir/stats/2020-05-10.topusers"): topusers_value,
+        }
+        file_system.set_files(files)
+        ctx.set_file_system(file_system)
 
         cron.update_stats(ctx, overpass=False)
 
@@ -582,13 +628,14 @@ class TestMain(unittest.TestCase):
         file_system.set_files(files)
         ctx.set_file_system(file_system)
         argv = ["", "--mode", "stats", "--no-overpass"]
-        buf = io.StringIO()
+        buf = io.BytesIO()
+        buf.__setattr__("close", lambda: None)
 
         cron.main(argv, buf, ctx)
 
         # Make sure that stats.json is updated without an error.
         self.assertTrue(stats_value.tell())
-        self.assertNotIn("ERROR", buf.getvalue())
+        self.assertNotIn(b"ERROR", buf.getvalue())
 
     def test_error(self) -> None:
         """Tests the path when our_main() returns an error."""
@@ -603,12 +650,13 @@ class TestMain(unittest.TestCase):
         file_system.set_files(files)
         ctx.set_file_system(file_system)
         argv = ["", "--mode", "stats", "--no-overpass"]
-        buf = io.StringIO()
+        buf = io.BytesIO()
+        buf.__setattr__("close", lambda: None)
 
         cron.main(argv, buf, ctx)
 
         # No logging initialized -> no output.
-        self.assertEqual(buf.getvalue(), "")
+        self.assertEqual(buf.getvalue(), b"")
 
 
 class TestUpdateStatsCount(unittest.TestCase):

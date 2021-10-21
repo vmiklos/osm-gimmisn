@@ -799,7 +799,7 @@ impl Ini {
     }
 
     /// Should cron.py update inactive relations?
-    fn get_cron_update_inactive(&self) -> bool {
+    pub fn get_cron_update_inactive(&self) -> bool {
         match self.config.get("wsgi", "cron_update_inactive") {
             Some(value) => value == "True",
             None => false,

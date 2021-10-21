@@ -20,9 +20,4 @@ def get_topcities(ctx: rust.PyContext, src_root: str) -> List[Tuple[str, int]]:
     return rust.py_get_topcities(ctx, src_root)
 
 
-def generate_json(ctx: rust.PyContext, state_dir: str, json_path: str) -> None:
-    """Generates the stats json and writes it to `stream`."""
-    rust.py_generate_json(ctx, state_dir, json_path)
-
-
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

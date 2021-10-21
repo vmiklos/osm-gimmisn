@@ -18,7 +18,7 @@ mod area_files;
 mod areas;
 mod cache;
 pub mod context;
-mod cron;
+pub mod cron;
 mod i18n;
 pub mod missing_housenumbers;
 mod overpass_query;

@@ -8,15 +8,9 @@
 
 from typing import Dict
 from typing import List
-from typing import Tuple
 
 import api
 import rust
-
-
-def split_house_number(house_number: str) -> Tuple[int, str]:
-    """Splits house_number into a numerical and a remainder part."""
-    return rust.py_split_house_number(house_number)
 
 
 def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
@@ -27,12 +21,6 @@ def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List
 def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]:
     """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
     return rust.py_build_reference_cache(local, refcounty)
-
-
-def get_housenumber_ranges(house_numbers: List[rust.PyHouseNumber]) -> List[rust.PyHouseNumberRange]:
-    """Gets a reference range list for a house number list by looking at what range provided a givne
-    house number."""
-    return rust.py_get_housenumber_ranges(house_numbers)
 
 
 def get_content(path: str) -> bytes:

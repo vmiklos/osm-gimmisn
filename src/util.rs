@@ -549,10 +549,6 @@ pub struct PyHouseNumber {
     pub house_number: HouseNumber,
 }
 
-type PyHouseNumbers = Vec<PyHouseNumber>;
-type PyNumberedStreet = (PyStreet, PyHouseNumbers);
-pub type PyNumberedStreets = Vec<PyNumberedStreet>;
-
 #[pymethods]
 impl PyHouseNumber {
     fn get_number(&self) -> &str {
@@ -660,11 +656,6 @@ pub fn split_house_number(house_number: &str) -> (i32, String) {
         remainder = cap[2].to_string();
     }
     (number, remainder)
-}
-
-#[pyfunction]
-pub fn py_split_house_number(house_number: String) -> PyResult<(i32, String)> {
-    Ok(split_house_number(&house_number))
 }
 
 /// Wrapper around split_house_number() for HouseNumberRange objects.
@@ -1251,27 +1242,6 @@ pub fn get_housenumber_ranges(house_numbers: &[HouseNumber]) -> Vec<HouseNumberR
     ret
 }
 
-#[pyfunction]
-fn py_get_housenumber_ranges(
-    py: Python<'_>,
-    house_numbers: Vec<PyObject>,
-) -> PyResult<Vec<PyHouseNumberRange>> {
-    let house_numbers: Vec<HouseNumber> = house_numbers
-        .iter()
-        .map(|house_number| {
-            let house_number: PyRefMut<'_, PyHouseNumber> = house_number.extract(py)?;
-            Ok(house_number.house_number.clone())
-        })
-        .collect::<PyResult<Vec<HouseNumber>>>()?;
-    let ret = get_housenumber_ranges(&house_numbers);
-    Ok(ret
-        .iter()
-        .map(|house_number_range| PyHouseNumberRange {
-            house_number_range: house_number_range.clone(),
-        })
-        .collect())
-}
-
 /// Generates a HTML link based on a website prefix and a git-describe version.
 pub fn git_link(version: &str, prefix: &str) -> yattag::Doc {
     let mut commit_hash: String = "".into();
@@ -1520,13 +1490,11 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumberRange>()?;
     module.add_class::<PyLetterSuffixStyle>()?;
     module.add_class::<PyStreet>()?;
-    module.add_function(pyo3::wrap_pyfunction!(py_split_house_number, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_build_street_reference_cache,
         module
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_housenumber_ranges, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     Ok(())
 }
