@@ -496,11 +496,6 @@ class PyRelation:
         """Produces a query which lists streets in relation."""
         ...
 
-    def write_ref_streets(self, reference: str) -> None:
-        """Gets known streets (not their coordinates) from a reference site, based on relation names
-        from OSM."""
-        ...
-
     def build_ref_housenumbers(
             self,
             reference: Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]],
@@ -554,20 +549,8 @@ class PyRelations:
         """Gets a sorted list of active relation names."""
         ...
 
-    def activate_all(self, flag: bool) -> None:
-        """Sets if inactive=true is ignored or not."""
-        ...
-
     def get_relations(self) -> List[PyRelation]:
         """Gets a list of relations."""
-        ...
-
-    def limit_to_refcounty(self, refcounty: Optional[str]) -> None:
-        """If refcounty is not None, forget about all relations outside that refcounty."""
-        ...
-
-    def limit_to_refsettlement(self, refsettlement: Optional[str]) -> None:
-        """If refsettlement is not None, forget about all relations outside that refsettlement."""
         ...
 
     def refcounty_get_name(self, refcounty: str) -> str:

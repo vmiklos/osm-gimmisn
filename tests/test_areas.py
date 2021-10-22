@@ -6,107 +6,16 @@
 
 """The test_areas module covers the areas module."""
 
-import io
-import os
 import unittest
 
 import test_context
 
 import areas
 import rust
-import util
-
-
-class TestRelationWriteRefStreets(unittest.TestCase):
-    """Tests Relation.WriteRefStreets()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        file_system = test_context.TestFileSystem()
-        ref_value = io.BytesIO()
-        ref_value.__setattr__("close", lambda: None)
-        files = {
-            os.path.join(ctx.get_ini().get_workdir(), "streets-reference-gazdagret.lst"): ref_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-        refpath = ctx.get_abspath(os.path.join("refdir", "utcak_20190514.tsv"))
-        relations = areas.make_relations(ctx)
-        relation_name = "gazdagret"
-        relation = relations.get_relation(relation_name)
-        expected = util.get_content(relations.get_workdir() + "/streets-reference-gazdagret.lst")
-        relation.write_ref_streets(refpath)
-        ref_value.seek(0)
-        self.assertEqual(ref_value.read(), expected)
-
-
-class TestRelations(unittest.TestCase):
-    """Tests the Relations class."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        relations = areas.make_relations(test_context.make_test_context())
-        expected_relation_names = [
-            "budafok",
-            "empty",
-            "gazdagret",
-            "gellerthegy",
-            "inactiverelation",
-            "nosuchrefcounty",
-            "nosuchrefsettlement",
-            "nosuchrelation",
-            "test",
-            "ujbuda"
-        ]
-        self.assertEqual(relations.get_names(), expected_relation_names)
-        self.assertTrue("inactiverelation" not in relations.get_active_names())
-        osmids = sorted([relation.get_config().get_osmrelation() for relation in relations.get_relations()])
-        self.assertEqual([13, 42, 42, 43, 44, 45, 66, 221998, 2702687, 2713748], osmids)
-        self.assertEqual("only", relations.get_relation("ujbuda").get_config().should_check_missing_streets())
-
-        relations.activate_all(True)
-        self.assertTrue("inactiverelation" in relations.get_active_names())
-
-        # Allow seeing data of a relation even if it's not in relations.yaml.
-        relations.get_relation("gh195")
-
-        # Test limit_to_refcounty().
-        # 01
-        self.assertTrue("gazdagret" in relations.get_active_names())
-        # 43
-        self.assertTrue("budafok" in relations.get_active_names())
-        relations.limit_to_refcounty("01")
-        self.assertTrue("gazdagret" in relations.get_active_names())
-        self.assertTrue("budafok" not in relations.get_active_names())
-
-        # Test limit_to_refsettlement().
-        # 011
-        self.assertTrue("gazdagret" in relations.get_active_names())
-        # 99
-        self.assertTrue("nosuchrefsettlement" in relations.get_active_names())
-        relations.limit_to_refsettlement("99")
-        self.assertTrue("gazdagret" not in relations.get_active_names())
-        self.assertTrue("nosuchrefsettlement" in relations.get_active_names())
 
 
 class TestRelationConfigMissingStreets(unittest.TestCase):
     """Tests RelationConfig.should_check_missing_streets()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        relation_name = "ujbuda"
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation(relation_name)
-        ret = relation.get_config().should_check_missing_streets()
-        self.assertEqual(ret, "only")
-
-    def test_empty(self) -> None:
-        """Tests the default value."""
-        relation_name = "empty"
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation(relation_name)
-        self.assertEqual(relation.get_name(), "empty")
-        ret = relation.get_config().should_check_missing_streets()
-        self.assertEqual(ret, "yes")
-
     def test_nosuchrelation(self) -> None:
         """Tests a relation without a filter file."""
         relation_name = "nosuchrelation"
