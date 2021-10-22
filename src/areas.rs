@@ -382,10 +382,6 @@ impl PyRelationConfig {
         self.relation_config.get_alias()
     }
 
-    fn should_check_missing_streets(&self) -> String {
-        self.relation_config.should_check_missing_streets()
-    }
-
     fn should_check_additional_housenumbers(&self) -> bool {
         self.relation_config.should_check_additional_housenumbers()
     }
@@ -1716,10 +1712,6 @@ impl PyRelations {
         }
     }
 
-    fn refcounty_get_name(&self, refcounty: &str) -> String {
-        self.relations.refcounty_get_name(refcounty)
-    }
-
     fn refsettlement_get_name(&self, refcounty_name: &str, refsettlement: &str) -> String {
         self.relations
             .refsettlement_get_name(refcounty_name, refsettlement)
@@ -1742,11 +1734,6 @@ impl PyRelations {
                 relation: i.clone(),
             })
             .collect::<Vec<PyRelation>>())
-    }
-
-    fn refcounty_get_refsettlement_ids(&self, refcounty_name: &str) -> Vec<String> {
-        self.relations
-            .refcounty_get_refsettlement_ids(refcounty_name)
     }
 
     fn get_aliases(&mut self) -> PyResult<HashMap<String, String>> {
@@ -3465,5 +3452,60 @@ way{color:blue; width:4;}
         assert_eq!(relation.get_name(), "empty");
         let ret = relation.get_config().should_check_missing_streets();
         assert_eq!(ret, "yes");
+    }
+
+    /// Tests RelationConfig::should_check_missing_streets(): a relation without a filter file.
+    #[test]
+    fn test_relation_config_should_check_missing_streets_nosuchrelation() {
+        let relation_name = "nosuchrelation";
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation(relation_name).unwrap();
+        let ret = relation.get_config().should_check_missing_streets();
+        assert_eq!(ret, "yes");
+    }
+
+    /// Tests RelationConfig::get_letter_suffix_style().
+    #[test]
+    fn test_relation_config_get_letter_suffix_style() {
+        let relation_name = "empty";
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let mut relation = relations.get_relation(relation_name).unwrap();
+        assert_eq!(
+            relation.config.get_letter_suffix_style(),
+            util::LetterSuffixStyle::Upper as i32
+        );
+        let mut config = relation.config.clone();
+        config.set_letter_suffix_style(util::LetterSuffixStyle::Lower as i32);
+        relation.set_config(&config);
+        assert_eq!(
+            relation.config.get_letter_suffix_style(),
+            util::LetterSuffixStyle::Lower as i32
+        );
+    }
+
+    /// Tests refcounty_get_name().
+    #[test]
+    fn test_refcounty_get_name() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let relations = Relations::new(&ctx).unwrap();
+        assert_eq!(relations.refcounty_get_name("01"), "Budapest");
+        assert_eq!(relations.refcounty_get_name("99"), "");
+    }
+
+    /// Tests refcounty_get_refsettlement_ids().
+    #[test]
+    fn test_refcounty_get_refsettlement_ids() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let relations = Relations::new(&ctx).unwrap();
+        assert_eq!(
+            relations.refcounty_get_refsettlement_ids("01"),
+            ["011".to_string(), "012".to_string()]
+        );
+        assert_eq!(
+            relations.refcounty_get_refsettlement_ids("99").is_empty(),
+            true
+        );
     }
 }
