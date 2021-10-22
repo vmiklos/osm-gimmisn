@@ -1095,6 +1095,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    use std::io::Cursor;
     use std::io::Seek;
     use std::io::SeekFrom;
 
@@ -1123,8 +1124,16 @@ pub mod tests {
             Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())))
         }
 
-        pub fn make_files() -> HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> {
-            HashMap::new()
+        pub fn make_files(
+            ctx: &Context,
+            files: &[(&str, &Arc<Mutex<Cursor<Vec<u8>>>>)],
+        ) -> HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> {
+            let mut ret = HashMap::new();
+            for file in files {
+                let (path, content) = file;
+                ret.insert(ctx.get_abspath(path).unwrap(), (*content).clone());
+            }
+            ret
         }
 
         /// Sets the hide paths.

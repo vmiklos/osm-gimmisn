@@ -307,10 +307,6 @@ class PyHouseNumber:
         """
         ...
 
-def py_build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
-    """Builds an in-memory cache from the reference on-disk TSV (street version)."""
-    ...
-
 def py_get_content(path: str) -> bytes:
     """Gets the content of a file in workdir."""
     ...
@@ -470,12 +466,6 @@ class PyRelationConfig:
         """Gets list of streets which are only in OSM, but have to be filtered out."""
         ...
 
-    def build_ref_streets(self, reference: Dict[str, Dict[str, List[str]]]) -> List[str]:
-        """
-        Builds a list of streets from a reference cache.
-        """
-        ...
-
 class PyRelation:
     """A relation is a closed polygon on the map."""
     def get_name(self) -> str:
@@ -520,14 +510,6 @@ class PyRelation:
         """
         Builds a list of housenumbers from a reference cache.
         This is serialized to disk by write_ref_housenumbers().
-        """
-        ...
-
-    def write_ref_housenumbers(self, references: List[str]) -> None:
-        """
-        Writes known house numbers (not their coordinates) from a reference, based on street names
-        from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
-        used by get_ref_housenumbers().
         """
         ...
 

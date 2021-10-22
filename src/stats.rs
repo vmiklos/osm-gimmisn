@@ -480,11 +480,9 @@ budapest_02\t200\n\
             .unwrap()
             .write_all(today_citycount)
             .unwrap();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/stats/2020-05-10.citycount")
-                .unwrap(),
-            today_citycount_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/stats/2020-05-10.citycount", &today_citycount_value)],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);

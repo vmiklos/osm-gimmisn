@@ -807,17 +807,6 @@ pub fn build_street_reference_cache(local_streets: &str) -> anyhow::Result<Stree
     Ok(memory_cache)
 }
 
-#[pyfunction]
-fn py_build_street_reference_cache(local_streets: String) -> PyResult<StreetReferenceCache> {
-    match build_street_reference_cache(&local_streets) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "build_street_reference_cache() failed: {}",
-            err.to_string()
-        ))),
-    }
-}
-
 /// Gets the filename of the (house number) reference cache file.
 fn get_reference_cache_path(local: &str, refcounty: &str) -> String {
     format!("{}-{}-v1.cache", local, refcounty)
@@ -1476,10 +1465,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumberRange>()?;
     module.add_class::<PyLetterSuffixStyle>()?;
     module.add_class::<PyStreet>()?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_build_street_reference_cache,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     Ok(())
 }
