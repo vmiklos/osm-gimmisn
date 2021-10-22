@@ -22,12 +22,26 @@ filters:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '10'}
+  Folyamőr utca:
+    # páratlan: Waterfront city épül, nem ismert a házszámuk 2021-10
+    # páros: 2-6 panel, utána a panelek merőlegesen a másik utcáról számozódnak. Az utca végén 1 szóló ház a végén: 22.
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '6'}
+      - {start: '22', end: '22'}
   Igló utca:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '58'}
   Kaszásdűlő utca:
     show-refstreet: false
+  Ladik utca:
+    # semmi nincs ki, az utca negy része le van zárva, magánterület, bevásárlóközpontot terveztek ide
+    # a HÉV-vel párhuzamos részen se szám se utcanév
+    invalid: ['2', '6']
+    ranges:
+      - {start: '2', end: '6'}
+      - {start: '1', end: '1'}
   Szérűskert utca:
     show-refstreet: false
   Uszály utca:
