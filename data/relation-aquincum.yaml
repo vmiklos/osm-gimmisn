@@ -21,5 +21,13 @@ filters:
   Zsófia utca:
     ranges:
       - {start: '2', end: '32'}
+  # Szűrők
+  Ladik utca:
+    # semmi nincs ki, az utca negy része le van zárva, magánterület, bevásárlóközpontot terveztek ide
+    # a HÉV-vel párhuzamos részen se szám se utcanév
+    invalid: ['2', '6']
+    ranges:
+      - {start: '2', end: '6'}
+      - {start: '1', end: '1'}
 source: survey
 inactive: true

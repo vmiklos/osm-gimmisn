@@ -2512,25 +2512,27 @@ filters:
   Oltvány árok:
     # 13: két épület van de nincs 13/a 13/b-re alábontva
     # 14b: egy épület 14-re számozva
+    # 20: 20/a 20/b 20/c
     # 23: 23/a 23/b
-    invalid: ['13a', '13b', '14b', '23']
+    invalid: ['13a', '13b', '14b', '20', '23']
     ranges:
       - {start: '1', end: '43'}
       - {start: '4', end: '34'}
   Oltvány utca:
     # 12: 12/a, 12/b
     # 32: nincs
-    # 47b: kiírva nincs, a bedobott levélen 47. B épüet volt a cím
+    # 47b: kiírva nincs, a bedobott levélen 47. B épület volt a cím, de inkább 47/b lesz az, tekintve hogy 47/a-ra van ETDR hivatkozás
     # 49 = Beregszász út 40 IV. épület
-    invalid: ['12', '32', '47b', '49']
+    invalid: ['12', '32', '47', '49']
     ranges:
       - {start: '3', end: '53'}
       - {start: '2', end: '62'}
   Őrség utca:
     # 4: 4/a, 4/b
+    # 6: 6/a, 6/b
     # 9: kerítésen 9, első házon 9/a, hátsó házon az ott lakó szerint 9/b
     # 19: ikerház - az egyik felén nincs szám, a másik fele 19/a
-    invalid: ['4', '19']
+    invalid: ['4', '6', '19']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '40'}
