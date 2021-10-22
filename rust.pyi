@@ -311,10 +311,6 @@ def py_build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, L
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     ...
 
-def py_build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]:
-    """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    ...
-
 def py_get_content(path: str) -> bytes:
     """Gets the content of a file in workdir."""
     ...
@@ -533,10 +529,6 @@ class PyRelation:
         from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
         used by get_ref_housenumbers().
         """
-        ...
-
-    def write_missing_streets(self) -> Tuple[int, int, str, List[str]]:
-        """Calculate and write stat for the street coverage of a relation."""
         ...
 
     def write_additional_streets(self) -> List[PyStreet]:

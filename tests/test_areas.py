@@ -6,11 +6,7 @@
 
 """The test_areas module covers the areas module."""
 
-from typing import Any
-from typing import Dict
-from typing import List
 import io
-import json
 import os
 import unittest
 
@@ -19,107 +15,6 @@ import test_context
 import areas
 import rust
 import util
-
-
-def get_filters(relation: rust.PyRelation) -> Dict[str, Any]:
-    """Wrapper around get_config.get_filters() that doesn't return an Optional."""
-    filters_str = relation.get_config().get_filters()
-    filters: Dict[str, Any] = {}
-    if filters_str:
-        filters = json.loads(filters_str)
-    return filters
-
-
-def table_doc_to_string(table: List[List[rust.PyDoc]]) -> List[List[str]]:
-    """Unwraps an escaped matrix of rust.PyDocs into a string matrix."""
-    table_content = []
-    for row in table:
-        row_content = []
-        for cell in row:
-            row_content.append(cell.get_value())
-        table_content.append(row_content)
-    return table_content
-
-
-class TestRelationWriteMissingStreets(unittest.TestCase):
-    """Tests Relation.write_missing_streets()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        file_system = test_context.TestFileSystem()
-        percent_value = io.BytesIO()
-        percent_value.__setattr__("close", lambda: None)
-        files = {
-            os.path.join(ctx.get_ini().get_workdir(), "gazdagret-streets.percent"): percent_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-        relations = areas.make_relations(ctx)
-        relation_name = "gazdagret"
-        relation = relations.get_relation(relation_name)
-        expected = util.get_content(relations.get_workdir() + "/gazdagret-streets.percent")
-        ret = relation.write_missing_streets()
-        todo_count, done_count, percent, streets = ret
-        self.assertEqual(todo_count, 1)
-        self.assertEqual(done_count, 4)
-        self.assertEqual(percent, '80.00')
-        self.assertEqual(streets, ['Only In Ref utca'])
-        percent_value.seek(0)
-        self.assertEqual(percent_value.read(), expected)
-
-    def test_empty(self) -> None:
-        """Tests the case when percent can't be determined."""
-        ctx = test_context.make_test_context()
-        file_system = test_context.TestFileSystem()
-        percent_value = io.BytesIO()
-        percent_value.__setattr__("close", lambda: None)
-        files = {
-            ctx.get_abspath("workdir/empty-streets.percent"): percent_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-        relations = areas.make_relations(ctx)
-        relation_name = "empty"
-        relation = relations.get_relation(relation_name)
-        ret = relation.write_missing_streets()
-        self.assertTrue(percent_value.tell())
-        _todo_count, _done_count, percent, _streets = ret
-        self.assertEqual(percent, '100.00')
-
-
-class TestRelationBuildRefHousenumbers(unittest.TestCase):
-    """Tests Relation.build_ref_housenumbers()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        refdir = os.path.join(os.path.dirname(__file__), "refdir")
-        relations = areas.make_relations(test_context.make_test_context())
-        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-        memory_cache = util.build_reference_cache(refpath, "01")
-        relation_name = "gazdagret"
-        street = "Törökugrató utca"
-        relation = relations.get_relation(relation_name)
-        ret = relation.build_ref_housenumbers(memory_cache, street, "")
-        expected = [
-            'Törökugrató utca\t1\tcomment',
-            'Törökugrató utca\t10\t',
-            'Törökugrató utca\t11\t',
-            'Törökugrató utca\t12\t',
-            'Törökugrató utca\t2\t',
-            'Törökugrató utca\t7\t',
-        ]
-        self.assertEqual(ret, expected)
-
-    def test_missing(self) -> None:
-        """Tests the case when the street is not in the reference."""
-        relations = areas.make_relations(test_context.make_test_context())
-        refdir = os.path.join(os.path.dirname(__file__), "refdir")
-        refpath = os.path.join(refdir, "hazszamok_20190511.tsv")
-        memory_cache = util.build_reference_cache(refpath, "01")
-        relation_name = "gazdagret"
-        street = "No such utca"
-        relation = relations.get_relation(relation_name)
-        ret = relation.build_ref_housenumbers(memory_cache, street, "")
-        self.assertEqual(ret, [])
 
 
 class TestRelationBuildRefStreets(unittest.TestCase):

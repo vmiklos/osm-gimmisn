@@ -1119,6 +1119,14 @@ pub mod tests {
             }
         }
 
+        pub fn make_file() -> Arc<Mutex<std::io::Cursor<Vec<u8>>>> {
+            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())))
+        }
+
+        pub fn make_files() -> HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> {
+            HashMap::new()
+        }
+
         /// Sets the hide paths.
         pub fn set_hide_paths(&mut self, hide_paths: &[String]) {
             self.hide_paths = hide_paths.to_vec();

@@ -9,18 +9,12 @@
 from typing import Dict
 from typing import List
 
-import api
 import rust
 
 
 def build_street_reference_cache(local_streets: str) -> Dict[str, Dict[str, List[str]]]:
     """Builds an in-memory cache from the reference on-disk TSV (street version)."""
     return rust.py_build_street_reference_cache(local_streets)
-
-
-def build_reference_cache(local: str, refcounty: str) -> Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]]:
-    """Builds an in-memory cache from the reference on-disk TSV (house number version)."""
-    return rust.py_build_reference_cache(local, refcounty)
 
 
 def get_content(path: str) -> bytes:
