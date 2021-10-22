@@ -458,13 +458,6 @@ impl PyRelationConfig {
     fn get_osm_street_filters(&self) -> Vec<String> {
         self.relation_config.get_osm_street_filters()
     }
-
-    fn build_ref_streets(
-        &self,
-        reference: HashMap<String, HashMap<String, Vec<String>>>,
-    ) -> Vec<String> {
-        self.relation_config.build_ref_streets(&reference)
-    }
 }
 
 /// A relation is a closed polygon on the map.
@@ -1399,17 +1392,6 @@ impl PyRelation {
     ) -> Vec<String> {
         self.relation
             .build_ref_housenumbers(&reference, street, suffix)
-    }
-
-    fn write_ref_housenumbers(&self, references: Vec<String>) -> PyResult<()> {
-        match self
-            .relation
-            .write_ref_housenumbers(&references)
-            .context("write_ref_housenumbers() failed")
-        {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-        }
     }
 
     fn write_additional_streets(&self) -> PyResult<Vec<util::PyStreet>> {
@@ -2375,10 +2357,9 @@ mod tests {
         let expected = util::get_content("tests/workdir/streets-gazdagret.csv").unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap(),
-            streets_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/streets-gazdagret.csv", &streets_value)],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2418,11 +2399,12 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
         let relation = relations.get_relation(relation_name).unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let housenumbers_value = context::tests::TestFileSystem::make_file();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv")
-                .unwrap(),
-            housenumbers_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[(
+                "workdir/street-housenumbers-gazdagret.csv",
+                &housenumbers_value,
+            )],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2976,10 +2958,9 @@ way{color:blue; width:4;}
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/gazdagret.percent").unwrap(),
-            percent_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/gazdagret.percent", &percent_value)],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -3022,10 +3003,9 @@ way{color:blue; width:4;}
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/empty.percent").unwrap(),
-            percent_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/empty.percent", &percent_value)],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -3047,10 +3027,9 @@ way{color:blue; width:4;}
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/budafok.percent").unwrap(),
-            percent_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/budafok.percent", &percent_value)],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -3084,10 +3063,9 @@ way{color:blue; width:4;}
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/gh414.percent").unwrap(),
-            percent_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/gh414.percent", &percent_value)],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -3120,11 +3098,9 @@ way{color:blue; width:4;}
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/gazdagret-streets.percent")
-                .unwrap(),
-            percent_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/gazdagret-streets.percent", &percent_value)],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -3162,10 +3138,9 @@ way{color:blue; width:4;}
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
-        let mut files = context::tests::TestFileSystem::make_files();
-        files.insert(
-            ctx.get_abspath("workdir/empty-streets.percent").unwrap(),
-            percent_value.clone(),
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/empty-streets.percent", &percent_value)],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -3205,7 +3180,7 @@ way{color:blue; width:4;}
         assert_eq!(ret, expected);
     }
 
-    /// Tests Relation.build_ref_housenumbers(): the case when the street is not in the reference.
+    /// Tests Relation::build_ref_housenumbers(): the case when the street is not in the reference.
     #[test]
     fn test_relation_build_ref_housenumbers_missing() {
         let ctx = context::tests::make_test_context().unwrap();
@@ -3220,5 +3195,123 @@ way{color:blue; width:4;}
         let ret = relation.build_ref_housenumbers(&memory_cache, street, "");
 
         assert_eq!(ret.is_empty(), true);
+    }
+
+    /// Tests Relation::build_ref_streets().
+    #[test]
+    fn test_relation_build_ref_streets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refpath = format!("{}/utcak_20190514.tsv", refdir);
+        let memory_cache = util::build_street_reference_cache(&refpath).unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+
+        let ret = relation.config.build_ref_streets(&memory_cache);
+
+        assert_eq!(
+            ret,
+            [
+                "Törökugrató utca",
+                "Tűzkő utca",
+                "Ref Name 1",
+                "Only In Ref utca",
+                "Only In Ref Nonsense utca",
+                "Hamzsabégi út"
+            ]
+        );
+    }
+
+    /// Tests Relation::write_ref_housenumbers().
+    #[test]
+    fn test_relation_writer_ref_housenumbers() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+        let refpath2 = format!("{}/hazszamok_kieg_20190808.tsv", refdir);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let ref_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[(
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &ref_value,
+            )],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let expected = String::from_utf8(
+            util::get_content(
+                &ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst")
+                    .unwrap(),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        let relation = relations.get_relation(relation_name).unwrap();
+
+        relation
+            .write_ref_housenumbers(&[refpath, refpath2])
+            .unwrap();
+
+        let mut guard = ref_value.lock().unwrap();
+        guard.seek(SeekFrom::Start(0)).unwrap();
+        let mut actual: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut actual).unwrap();
+        assert_eq!(String::from_utf8(actual).unwrap(), expected);
+    }
+
+    /// Tests Relation::write_ref_housenumbers(): the case when the refcounty code is missing in the reference.
+    #[test]
+    fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let ref_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[(
+                "workdir/street-housenumbers-reference-nosuchrefcounty.lst",
+                &ref_value,
+            )],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "nosuchrefcounty";
+        let relation = relations.get_relation(relation_name).unwrap();
+
+        relation.write_ref_housenumbers(&[refpath]).unwrap();
+    }
+
+    /// Tests Relation::write_ref_housenumbers(): the case when the refsettlement code is missing in the reference.
+    #[test]
+    fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let ref_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[(
+                "workdir/street-housenumbers-reference-nosuchrefsettlement.lst",
+                &ref_value,
+            )],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "nosuchrefsettlement";
+        let relation = relations.get_relation(relation_name).unwrap();
+
+        relation.write_ref_housenumbers(&[refpath]).unwrap();
     }
 }
