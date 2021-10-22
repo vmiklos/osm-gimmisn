@@ -1340,17 +1340,6 @@ impl PyRelation {
         self.relation.set_config(&config.relation_config)
     }
 
-    fn write_ref_streets(&self, reference: &str) -> PyResult<()> {
-        match self
-            .relation
-            .write_ref_streets(reference)
-            .context("write_ref_streets() failed")
-        {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-        }
-    }
-
     fn should_show_ref_street(&self, osm_street_name: String) -> bool {
         self.relation.should_show_ref_street(&osm_street_name)
     }
@@ -1734,30 +1723,6 @@ impl PyRelations {
     fn refsettlement_get_name(&self, refcounty_name: &str, refsettlement: &str) -> String {
         self.relations
             .refsettlement_get_name(refcounty_name, refsettlement)
-    }
-
-    fn activate_all(&mut self, activate_all: bool) {
-        self.relations.activate_all(activate_all);
-    }
-
-    fn limit_to_refcounty(&mut self, refcounty: Option<String>) -> PyResult<()> {
-        match self.relations.limit_to_refcounty(&refcounty) {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "limit_to_refcounty() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn limit_to_refsettlement(&mut self, refsettlement: Option<String>) -> PyResult<()> {
-        match self.relations.limit_to_refsettlement(&refsettlement) {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "limit_to_refsettlement() failed: {}",
-                err.to_string()
-            ))),
-        }
     }
 
     fn get_relations(&mut self) -> PyResult<Vec<PyRelation>> {
@@ -3313,5 +3278,192 @@ way{color:blue; width:4;}
         let relation = relations.get_relation(relation_name).unwrap();
 
         relation.write_ref_housenumbers(&[refpath]).unwrap();
+    }
+
+    /// Tests Relation::write_ref_streets().
+    #[test]
+    fn test_relation_write_ref_streets() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let ref_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/streets-reference-gazdagret.lst", &ref_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refpath = format!("{}/utcak_20190514.tsv", refdir);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let expected = String::from_utf8(
+            util::get_content(
+                &ctx.get_abspath("workdir/streets-reference-gazdagret.lst")
+                    .unwrap(),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+
+        relation.write_ref_streets(&refpath).unwrap();
+
+        let mut guard = ref_value.lock().unwrap();
+        guard.seek(SeekFrom::Start(0)).unwrap();
+        let mut actual: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut actual).unwrap();
+        assert_eq!(String::from_utf8(actual).unwrap(), expected);
+    }
+
+    /// Tests the Relations struct.
+    #[test]
+    fn test_relations() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let expected_relation_names = [
+            "budafok",
+            "empty",
+            "gazdagret",
+            "gellerthegy",
+            "inactiverelation",
+            "nosuchrefcounty",
+            "nosuchrefsettlement",
+            "nosuchrelation",
+            "test",
+            "ujbuda",
+        ];
+        assert_eq!(relations.get_names(), expected_relation_names);
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"inactiverelation".to_string()),
+            false
+        );
+        let mut osmids: Vec<_> = relations
+            .get_relations()
+            .unwrap()
+            .iter()
+            .map(|relation| relation.get_config().get_osmrelation())
+            .collect();
+        osmids.sort();
+        assert_eq!(
+            osmids,
+            [13, 42, 42, 43, 44, 45, 66, 221998, 2702687, 2713748]
+        );
+        assert_eq!(
+            relations
+                .get_relation("ujbuda")
+                .unwrap()
+                .get_config()
+                .should_check_missing_streets(),
+            "only"
+        );
+
+        relations.activate_all(true);
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"inactiverelation".to_string()),
+            true
+        );
+
+        // Allow seeing data of a relation even if it's not in relations.yaml.
+        relations.get_relation("gh195").unwrap();
+
+        // Test limit_to_refcounty().
+        // 01
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"gazdagret".to_string()),
+            true
+        );
+        // 43
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"budafok".to_string()),
+            true
+        );
+        relations
+            .limit_to_refcounty(&Some("01".to_string()))
+            .unwrap();
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"gazdagret".to_string()),
+            true
+        );
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"budafok".to_string()),
+            false
+        );
+
+        // Test limit_to_refsettlement().
+        // 011
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"gazdagret".to_string()),
+            true
+        );
+        // 99
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"nosuchrefsettlement".to_string()),
+            true
+        );
+        relations
+            .limit_to_refsettlement(&Some("99".to_string()))
+            .unwrap();
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"gazdagret".to_string()),
+            false
+        );
+        assert_eq!(
+            relations
+                .get_active_names()
+                .unwrap()
+                .contains(&"nosuchrefsettlement".to_string()),
+            true
+        );
+    }
+
+    /// Tests RelationConfig::should_check_missing_streets().
+    #[test]
+    fn test_relation_config_should_check_missing_streets() {
+        let relation_name = "ujbuda";
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation(relation_name).unwrap();
+        let ret = relation.get_config().should_check_missing_streets();
+        assert_eq!(ret, "only");
+    }
+
+    /// Tests RelationConfig::should_check_missing_streets(): the default value.
+    #[test]
+    fn test_relation_config_should_check_missing_streets_empty() {
+        let relation_name = "empty";
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation(relation_name).unwrap();
+        assert_eq!(relation.get_name(), "empty");
+        let ret = relation.get_config().should_check_missing_streets();
+        assert_eq!(ret, "yes");
     }
 }
