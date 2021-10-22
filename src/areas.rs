@@ -1412,16 +1412,6 @@ impl PyRelation {
         }
     }
 
-    fn write_missing_streets(&self) -> PyResult<(usize, usize, String, Vec<String>)> {
-        match self.relation.write_missing_streets() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "write_missing_streets() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
     fn write_additional_streets(&self) -> PyResult<Vec<util::PyStreet>> {
         let ret = match self.relation.write_additional_streets() {
             Ok(value) => value,
@@ -2384,9 +2374,8 @@ mod tests {
             "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n";
         let expected = util::get_content("tests/workdir/streets-gazdagret.csv").unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
-        let streets_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
-            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
-        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let mut files = context::tests::TestFileSystem::make_files();
         files.insert(
             ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap(),
             streets_value.clone(),
@@ -2428,9 +2417,8 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
         .unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
-        let housenumbers_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
-            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
-        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        let housenumbers_value = context::tests::TestFileSystem::make_file();
+        let mut files = context::tests::TestFileSystem::make_files();
         files.insert(
             ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv")
                 .unwrap(),
@@ -2987,9 +2975,8 @@ way{color:blue; width:4;}
     fn test_relation_write_missing_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
-        let percent_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
-            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
-        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        let percent_value = context::tests::TestFileSystem::make_file();
+        let mut files = context::tests::TestFileSystem::make_files();
         files.insert(
             ctx.get_abspath("workdir/gazdagret.percent").unwrap(),
             percent_value.clone(),
@@ -3034,9 +3021,8 @@ way{color:blue; width:4;}
     fn test_relation_write_missing_housenumbers_empty() {
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
-        let percent_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
-            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
-        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        let percent_value = context::tests::TestFileSystem::make_file();
+        let mut files = context::tests::TestFileSystem::make_files();
         files.insert(
             ctx.get_abspath("workdir/empty.percent").unwrap(),
             percent_value.clone(),
@@ -3060,9 +3046,8 @@ way{color:blue; width:4;}
     fn test_relation_write_missing_housenumbers_interpolation_all() {
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
-        let percent_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
-            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
-        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        let percent_value = context::tests::TestFileSystem::make_file();
+        let mut files = context::tests::TestFileSystem::make_files();
         files.insert(
             ctx.get_abspath("workdir/budafok.percent").unwrap(),
             percent_value.clone(),
@@ -3098,9 +3083,8 @@ way{color:blue; width:4;}
     fn test_relation_write_missing_housenumbers_sorting() {
         let mut ctx = context::tests::make_test_context().unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
-        let percent_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
-            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())));
-        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        let percent_value = context::tests::TestFileSystem::make_file();
+        let mut files = context::tests::TestFileSystem::make_files();
         files.insert(
             ctx.get_abspath("workdir/gh414.percent").unwrap(),
             percent_value.clone(),
@@ -3128,5 +3112,113 @@ way{color:blue; width:4;}
         );
         let mut guard = percent_value.lock().unwrap();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
+
+    /// Tests Relation::write_missing_streets().
+    #[test]
+    fn test_write_missing_streets() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let percent_value = context::tests::TestFileSystem::make_file();
+        let mut files = context::tests::TestFileSystem::make_files();
+        files.insert(
+            ctx.get_abspath("workdir/gazdagret-streets.percent")
+                .unwrap(),
+            percent_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "gazdagret";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let expected = String::from_utf8(
+            util::get_content(
+                &ctx.get_abspath("workdir/gazdagret-streets.percent")
+                    .unwrap(),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+
+        let ret = relation.write_missing_streets().unwrap();
+
+        let (todo_count, done_count, percent, streets) = ret;
+
+        assert_eq!(todo_count, 1);
+        assert_eq!(done_count, 4);
+        assert_eq!(percent, "80.00");
+        assert_eq!(streets, ["Only In Ref utca"]);
+        let mut guard = percent_value.lock().unwrap();
+        guard.seek(SeekFrom::Start(0)).unwrap();
+        let mut actual: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut actual).unwrap();
+        assert_eq!(String::from_utf8(actual).unwrap(), expected);
+    }
+
+    /// Tests Relation::write_missing_streets(): the case when percent can't be determined.
+    #[test]
+    fn test_write_missing_streets_empty() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let percent_value = context::tests::TestFileSystem::make_file();
+        let mut files = context::tests::TestFileSystem::make_files();
+        files.insert(
+            ctx.get_abspath("workdir/empty-streets.percent").unwrap(),
+            percent_value.clone(),
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation_name = "empty";
+        let relation = relations.get_relation(relation_name).unwrap();
+
+        let ret = relation.write_missing_streets().unwrap();
+
+        let mut guard = percent_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let (_todo_count, _done_count, percent, _streets) = ret;
+        assert_eq!(percent, "100.00");
+    }
+
+    /// Tests Relation::build_ref_housenumbers().
+    #[test]
+    fn test_relation_build_ref_housenumbers() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let refdir = ctx.get_abspath("refdir").unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+        let memory_cache = util::build_reference_cache(&refpath, "01").unwrap();
+        let relation_name = "gazdagret";
+        let street = "Törökugrató utca";
+        let relation = relations.get_relation(relation_name).unwrap();
+        let ret = relation.build_ref_housenumbers(&memory_cache, street, "");
+        let expected = [
+            "Törökugrató utca\t1\tcomment",
+            "Törökugrató utca\t10\t",
+            "Törökugrató utca\t11\t",
+            "Törökugrató utca\t12\t",
+            "Törökugrató utca\t2\t",
+            "Törökugrató utca\t7\t",
+        ];
+        assert_eq!(ret, expected);
+    }
+
+    /// Tests Relation.build_ref_housenumbers(): the case when the street is not in the reference.
+    #[test]
+    fn test_relation_build_ref_housenumbers_missing() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+        let memory_cache = util::build_reference_cache(&refpath, "01").unwrap();
+        let relation_name = "gazdagret";
+        let street = "No such utca";
+        let relation = relations.get_relation(relation_name).unwrap();
+
+        let ret = relation.build_ref_housenumbers(&memory_cache, street, "");
+
+        assert_eq!(ret.is_empty(), true);
     }
 }

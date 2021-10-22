@@ -831,7 +831,7 @@ pub type HouseNumberReferenceCache =
     HashMap<String, HashMap<String, HashMap<String, Vec<HouseNumberWithComment>>>>;
 
 /// Builds an in-memory cache from the reference on-disk TSV (house number version).
-fn build_reference_cache(
+pub fn build_reference_cache(
     local: &str,
     refcounty: &str,
 ) -> anyhow::Result<HouseNumberReferenceCache> {
@@ -883,20 +883,6 @@ fn build_reference_cache(
     serde_json::to_writer(&stream, &memory_cache)?;
 
     Ok(memory_cache)
-}
-
-#[pyfunction]
-fn py_build_reference_cache(
-    local: String,
-    refcounty: String,
-) -> PyResult<HouseNumberReferenceCache> {
-    match build_reference_cache(&local, &refcounty) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "build_reference_cache() failed: {}",
-            err.to_string()
-        ))),
-    }
 }
 
 /// Handles a list of references for build_reference_cache().
@@ -1494,7 +1480,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
         py_build_street_reference_cache,
         module
     )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_build_reference_cache, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     Ok(())
 }

@@ -396,8 +396,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::io::Write;
     use std::sync::Arc;
-    use std::sync::Mutex;
 
     fn make_test_time_old() -> context::tests::TestTime {
         context::tests::TestTime::new(1970, 1, 1)
@@ -474,9 +474,13 @@ mod tests {
         let today_citycount = b"budapest_01\t100\n\
 budapest_02\t200\n\
 \t42\n";
-        let today_citycount_value: Arc<Mutex<std::io::Cursor<Vec<u8>>>> =
-            Arc::new(Mutex::new(std::io::Cursor::new(today_citycount.to_vec())));
-        let mut files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> = HashMap::new();
+        let today_citycount_value = context::tests::TestFileSystem::make_file();
+        today_citycount_value
+            .lock()
+            .unwrap()
+            .write_all(today_citycount)
+            .unwrap();
+        let mut files = context::tests::TestFileSystem::make_files();
         files.insert(
             ctx.get_abspath("workdir/stats/2020-05-10.citycount")
                 .unwrap(),
