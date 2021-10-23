@@ -1,8 +1,29 @@
 missing-streets: 'no'
-filters: {}
+filters:
+  # Akadémia utca:
+  #   6/1: nincs kitáblázva, de van egy épület a 6 és a 8 között.
+  Árnyas utca:
+    # 6: a páros oldalon nincsenek épületek, ott erdő van.
+    invalid: ['6']
+  Béke utca:
+    # 3: ez és az Avar utca 3. ugyanaz a telek, de bejárat és házszám csak az Avar utcáról van.
+    invalid: ['3']
+  Bene vezér tér:
+    interpolation: 'all'
+  Dévai Sándor utca:
+    # 16: sima 16 nincs, csak 16/A, 16/2.
+    invalid: ['16']
+  Erdész utca:
+    # 77: a páratlan olalon a 13 az utolsó házszám.
+    invalid: ['77']
+  Kékesi utca:
+    # 21: ez elírás, helyesen 2/1. A páratlan oldalon az 5 az utolsó házszám.
+    invalid: ['21']
+  Parádi út:
+    # 45/A: nincs ilyen, csak 45 és 45/1 van.
+    invalid: ['45a']
 refstreets:
   'Kalló utca': 'Kallo utca'
-  'Turista út': 'Turista utca'
 source: survey
 housenumber-letters: true
 inactive: false
