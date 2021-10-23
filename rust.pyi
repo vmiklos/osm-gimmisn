@@ -442,14 +442,6 @@ class PyRelationConfig:
         """Returns a street name -> properties map."""
         ...
 
-    def get_street_is_even_odd(self, street: str) -> bool:
-        """Determines in a relation's street is interpolation=all or not."""
-        ...
-
-    def should_show_ref_street(self, osm_street_name: str) -> bool:
-        """Decides is a ref street should be shown for an OSM street."""
-        ...
-
     def get_street_refsettlement(self, street: str) -> List[str]:
         """Returns a list of refsettlement values specific to a street."""
         ...
@@ -478,10 +470,6 @@ class PyRelation:
 
     def set_config(self, config: PyRelationConfig) -> None:
         """Sets the config interface."""
-        ...
-
-    def should_show_ref_street(self, osm_street_name: str) -> bool:
-        """Decides is a ref street should be shown for an OSM street."""
         ...
 
     def get_osm_streets(self, sorted_result: bool) -> List[PyStreet]:
@@ -547,14 +535,6 @@ class PyRelations:
 
     def get_relations(self) -> List[PyRelation]:
         """Gets a list of relations."""
-        ...
-
-    def refsettlement_get_name(self, refcounty_name: str, refsettlement: str) -> str:
-        """Produces a UI name for a refsettlement in refcounty."""
-        ...
-
-    def get_aliases(self) -> Dict[str, str]:
-        """Provide an alias -> real name map of relations."""
         ...
 
 def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
