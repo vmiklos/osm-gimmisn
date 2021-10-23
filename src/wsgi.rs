@@ -603,7 +603,7 @@ fn missing_streets_view_turbo(
     let refstreets = relation.get_config().get_refstreets();
     let mut streets: Vec<String> = Vec::new();
     for (key, _value) in refstreets {
-        if relation.should_show_ref_street(&key) {
+        if relation.get_config().should_show_ref_street(&key) {
             streets.push(key)
         }
     }

@@ -221,7 +221,7 @@ impl RelationConfig {
     }
 
     /// Decides is a ref street should be shown for an OSM street.
-    fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
+    pub fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
         let mut show_ref_street = true;
         if let Some(filter_for_street) = self.get_filter_street(osm_street_name) {
             let street_props = filter_for_street.as_object().unwrap();
@@ -434,15 +434,6 @@ impl PyRelationConfig {
         }
     }
 
-    fn get_street_is_even_odd(&self, street: String) -> bool {
-        self.relation_config.get_street_is_even_odd(&street)
-    }
-
-    fn should_show_ref_street(&self, osm_street_name: String) -> bool {
-        self.relation_config
-            .should_show_ref_street(&osm_street_name)
-    }
-
     fn get_street_refsettlement(&self, street: String) -> Vec<String> {
         self.relation_config.get_street_refsettlement(&street)
     }
@@ -583,11 +574,6 @@ impl Relation {
         }
 
         invalid_dict
-    }
-
-    /// Decides is a ref street should be shown for an OSM street.
-    pub fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
-        self.config.should_show_ref_street(osm_street_name)
     }
 
     /// Reads list of streets for an area from OSM.
@@ -959,7 +945,7 @@ impl Relation {
             let street = util::Street::new(
                 osm_street_name,
                 &ref_street_name,
-                self.should_show_ref_street(osm_street_name),
+                self.config.should_show_ref_street(osm_street_name),
                 /*osm_id=*/ 0,
             );
             if !only_in_reference.is_empty() {
@@ -1217,7 +1203,7 @@ impl Relation {
             let street = util::Street::new(
                 osm_street_name,
                 &ref_street_name,
-                self.should_show_ref_street(osm_street_name),
+                self.config.should_show_ref_street(osm_street_name),
                 /*osm_id=*/ 0,
             );
             if !only_in_osm.is_empty() {
@@ -1334,10 +1320,6 @@ impl PyRelation {
 
     fn set_config(&mut self, config: PyRelationConfig) {
         self.relation.set_config(&config.relation_config)
-    }
-
-    fn should_show_ref_street(&self, osm_street_name: String) -> bool {
-        self.relation.should_show_ref_street(&osm_street_name)
     }
 
     fn get_osm_streets(&self, sorted_result: bool) -> PyResult<Vec<util::PyStreet>> {
@@ -1712,11 +1694,6 @@ impl PyRelations {
         }
     }
 
-    fn refsettlement_get_name(&self, refcounty_name: &str, refsettlement: &str) -> String {
-        self.relations
-            .refsettlement_get_name(refcounty_name, refsettlement)
-    }
-
     fn get_relations(&mut self) -> PyResult<Vec<PyRelation>> {
         let ret = match self.relations.get_relations() {
             Ok(value) => value,
@@ -1734,16 +1711,6 @@ impl PyRelations {
                 relation: i.clone(),
             })
             .collect::<Vec<PyRelation>>())
-    }
-
-    fn get_aliases(&mut self) -> PyResult<HashMap<String, String>> {
-        match self.relations.get_aliases() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_aliases() failed: {}",
-                err.to_string()
-            ))),
-        }
     }
 }
 
@@ -3505,6 +3472,57 @@ way{color:blue; width:4;}
         );
         assert_eq!(
             relations.refcounty_get_refsettlement_ids("99").is_empty(),
+            true
+        );
+    }
+
+    /// Tests refsettlement_get_name().
+    #[test]
+    fn test_refsettlement_get_name() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let relations = Relations::new(&ctx).unwrap();
+        assert_eq!(relations.refsettlement_get_name("01", "011"), "Újbuda");
+        assert_eq!(relations.refsettlement_get_name("99", ""), "");
+        assert_eq!(relations.refsettlement_get_name("01", "99"), "");
+    }
+
+    /// Tests Relalations::get_aliases().
+    #[test]
+    fn test_relations_get_aliases() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        // Expect an alias -> canonicalname map.
+        let mut expected = HashMap::new();
+        expected.insert("budapest_22".to_string(), "budafok".to_string());
+        assert_eq!(relations.get_aliases().unwrap(), expected);
+    }
+
+    /// Tests RelationConfig::get_street_is_even_odd().
+    #[test]
+    fn test_relation_config_get_street_is_even_odd() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        assert_eq!(
+            relation.config.get_street_is_even_odd("Hamzsabégi út"),
+            false
+        );
+
+        assert_eq!(relation.config.get_street_is_even_odd("Teszt utca"), true);
+    }
+
+    /// Tests RelationConfig::should_show_ref_street().
+    #[test]
+    fn test_relation_config_should_show_ref_street() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        assert_eq!(
+            relation.config.should_show_ref_street("Törökugrató utca"),
+            false
+        );
+        assert_eq!(
+            relation.config.should_show_ref_street("Hamzsabégi út"),
             true
         );
     }
