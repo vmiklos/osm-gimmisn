@@ -3526,4 +3526,13 @@ way{color:blue; width:4;}
             true
         );
     }
+
+    /// Tests RelationConfig::is_active().
+    #[test]
+    fn test_relation_config_is_active() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        assert_eq!(relation.get_config().is_active(), true);
+    }
 }

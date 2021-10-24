@@ -17,44 +17,6 @@ import cache
 
 class TestIsMissingHousenumbersHtmlCached(unittest.TestCase):
     """Tests is_missing_housenumbers_html_cached()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        relations = areas.make_relations(ctx)
-        relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_html(ctx, relation)
-        self.assertTrue(cache.is_missing_housenumbers_html_cached(ctx, relation))
-
-    def test_no_cache(self) -> None:
-        """Tests the case when there is no cache."""
-        ctx = test_context.make_test_context()
-        relations = areas.make_relations(ctx)
-        relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_html(ctx, relation)
-        cache_path = relation.get_files().get_housenumbers_htmlcache_path()
-
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([cache_path])
-        ctx.set_file_system(file_system)
-        self.assertFalse(cache.is_missing_housenumbers_html_cached(ctx, relation))
-
-    def test_osm_housenumbers_new(self) -> None:
-        """Tests the case when osm_housenumbers is new, so the cache entry is old."""
-        ctx = test_context.make_test_context()
-        relations = areas.make_relations(ctx)
-        relation = relations.get_relation("gazdagret")
-        cache.get_missing_housenumbers_html(ctx, relation)
-        cache_path = relation.get_files().get_housenumbers_htmlcache_path()
-        osm_housenumbers_path = relation.get_files().get_osm_housenumbers_path()
-
-        file_system = test_context.TestFileSystem()
-        mtimes = {
-            osm_housenumbers_path: os.path.getmtime(cache_path) + 1,
-        }
-        file_system.set_mtimes(mtimes)
-        ctx.set_file_system(file_system)
-        self.assertFalse(cache.is_missing_housenumbers_html_cached(ctx, relation))
-
     def test_ref_housenumbers_new(self) -> None:
         """Tests the case when ref_housenumbers is new, so the cache entry is old."""
         ctx = test_context.make_test_context()

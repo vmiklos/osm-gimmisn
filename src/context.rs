@@ -1141,10 +1141,10 @@ pub mod tests {
             self.hide_paths = hide_paths.to_vec();
         }
 
-        /*/// Sets the mtimes.
-        fn set_mtimes(&mut self, mtimes: &HashMap<String, f64>) {
+        /// Sets the mtimes.
+        pub fn set_mtimes(&mut self, mtimes: &HashMap<String, f64>) {
             self.mtimes = mtimes.clone();
-        }*/
+        }
 
         /// Sets the files.
         pub fn set_files(&mut self, files: &HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>>) {

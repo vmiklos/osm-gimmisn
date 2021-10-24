@@ -393,3 +393,75 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     )?)?;
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashMap;
+    use std::sync::Arc;
+
+    /// Tests is_missing_housenumbers_html_cached().
+    #[test]
+    fn test_is_missing_housenumbers_html_cached() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let mut relation = relations.get_relation("gazdagret").unwrap();
+        get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
+        assert_eq!(
+            is_missing_housenumbers_html_cached(&ctx, &mut relation).unwrap(),
+            true
+        );
+    }
+
+    /// Tests is_missing_housenumbers_html_cached(): the case when there is no cache.
+    #[test]
+    fn test_is_missing_housenumbers_html_cached_no_cache() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let mut relation = relations.get_relation("gazdagret").unwrap();
+        get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
+        let cache_path = relation
+            .get_files()
+            .get_housenumbers_htmlcache_path()
+            .unwrap();
+
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[cache_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        assert_eq!(
+            is_missing_housenumbers_html_cached(&ctx, &relation).unwrap(),
+            false
+        );
+    }
+
+    /// Tests is_missing_housenumbers_html_cached(): the case when osm_housenumbers is new, so the cache entry is old.
+    #[test]
+    fn test_is_missing_housenumbers_html_cached_osm_housenumbers_new() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let mut relation = relations.get_relation("gazdagret").unwrap();
+        get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
+        let cache_path = relation
+            .get_files()
+            .get_housenumbers_htmlcache_path()
+            .unwrap();
+        let osm_housenumbers_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+
+        let mut file_system = context::tests::TestFileSystem::new();
+        let mut mtimes: HashMap<String, f64> = HashMap::new();
+        let metadata = std::fs::metadata(cache_path).unwrap();
+        let modified = metadata.modified().unwrap();
+        let mtime = modified
+            .duration_since(std::time::SystemTime::UNIX_EPOCH)
+            .unwrap();
+        mtimes.insert(osm_housenumbers_path, mtime.as_secs_f64() + 1_f64);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        assert_eq!(
+            is_missing_housenumbers_html_cached(&ctx, &relation).unwrap(),
+            false
+        );
+    }
+}
