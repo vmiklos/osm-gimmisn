@@ -14,6 +14,10 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
+  Benedek Elek utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '26'}
   Bivalyos utca:
     ranges:
       - {start: '1', end: '57'}
@@ -42,6 +46,16 @@ filters:
     ranges:
       - {start: '2', end: '6'}
       - {start: '1', end: '1'}
+  Reményi Ede utca:
+    # 5 nincs kiírva, de 3 után 23 jön
+    invalid: ['5']
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '24'}
+  Sujtás utca:
+    # nincsenek házszámok, csak 20 a művház
+    # páratlan oldal Aquincum múzeum
+    invalid: ['3', '10']
   Szérűskert utca:
     show-refstreet: false
   Uszály utca:
