@@ -22,6 +22,10 @@ filters:
     ranges:
       - {start: '2', end: '32'}
   # Szűrők
+  Benedek Elek utca:
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '26'}
   Ladik utca:
     # semmi nincs ki, az utca negy része le van zárva, magánterület, bevásárlóközpontot terveztek ide
     # a HÉV-vel párhuzamos részen se szám se utcanév
@@ -29,5 +33,15 @@ filters:
     ranges:
       - {start: '2', end: '6'}
       - {start: '1', end: '1'}
+  Reményi Ede utca:
+    # 5 nincs kiírva, de 3 után 23 jön
+    invalid: ['5']
+    ranges:
+      - {start: '1', end: '23'}
+      - {start: '2', end: '24'}
+  Sujtás utca:
+    # nincsenek házszámok, csak 20 a művház
+    # páratlan oldal Aquincum múzeum
+    invalid: ['3', '10']
 source: survey
 inactive: true
