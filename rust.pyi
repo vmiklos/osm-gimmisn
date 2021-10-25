@@ -564,18 +564,6 @@ def py_handle_github_webhook(data: bytes, ctx: PyContext) -> PyDoc:
     """Handles a GitHub style webhook."""
     ...
 
-def py_is_missing_housenumbers_html_cached(ctx: PyContext, relation: PyRelation) -> bool:
-    """Decides if we have an up to date HTML cache entry or not."""
-    ...
-
-def py_get_missing_housenumbers_html(ctx: PyContext, relation: PyRelation) -> PyDoc:
-    """Gets the cached HTML of the missing housenumbers for a relation."""
-    ...
-
-def py_get_additional_housenumbers_html(ctx: PyContext, relation: PyRelation) -> PyDoc:
-    """Gets the cached HTML of the additional housenumbers for a relation."""
-    ...
-
 def py_is_missing_housenumbers_txt_cached(ctx: PyContext, relation: PyRelation) -> bool:
     """Decides if we have an up to date plain text cache entry or not."""
     ...

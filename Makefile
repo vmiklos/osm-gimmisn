@@ -1,5 +1,4 @@
 PYTHON_TEST_OBJECTS = \
-	tests/test_cache.py \
 	tests/test_cache_yamls.py \
 	tests/test_context.py \
 	tests/test_cron.py \
@@ -16,7 +15,6 @@ PYTHON_TEST_OBJECTS = \
 PYTHON_SAFE_OBJECTS = \
 	api.py \
 	areas.py \
-	cache.py \
 	cache_yamls.py \
 	context.py \
 	cron.py \

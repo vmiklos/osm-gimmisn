@@ -58,19 +58,6 @@ fn is_missing_housenumbers_html_cached(
     is_cache_outdated(ctx, &cache_path, &dependencies)
 }
 
-#[pyfunction]
-fn py_is_missing_housenumbers_html_cached(
-    ctx: context::PyContext,
-    relation: areas::PyRelation,
-) -> PyResult<bool> {
-    match is_missing_housenumbers_html_cached(&ctx.context, &relation.relation)
-        .context("is_missing_housenumbers_html_cached() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Decides if we have an up to date HTML cache entry for additional house numbers or not.
 fn is_additional_housenumbers_html_cached(
     ctx: &context::Context,
@@ -196,19 +183,6 @@ pub fn get_missing_housenumbers_html(
     Ok(doc)
 }
 
-#[pyfunction]
-fn py_get_missing_housenumbers_html(
-    ctx: context::PyContext,
-    mut relation: areas::PyRelation,
-) -> PyResult<yattag::PyDoc> {
-    match get_missing_housenumbers_html(&ctx.context, &mut relation.relation)
-        .context("get_missing_housenumbers_html() failed")
-    {
-        Ok(value) => Ok(yattag::PyDoc { doc: value }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Gets the cached HTML of the additional housenumbers for a relation.
 pub fn get_additional_housenumbers_html(
     ctx: &context::Context,
@@ -260,19 +234,6 @@ pub fn get_additional_housenumbers_html(
     guard.write_all(doc.get_value().as_bytes())?;
 
     Ok(doc)
-}
-
-#[pyfunction]
-fn py_get_additional_housenumbers_html(
-    ctx: context::PyContext,
-    mut relation: areas::PyRelation,
-) -> PyResult<yattag::PyDoc> {
-    match get_additional_housenumbers_html(&ctx.context, &mut relation.relation)
-        .context("get_additional_housenumbers_html() failed")
-    {
-        Ok(value) => Ok(yattag::PyDoc { doc: value }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Decides if we have an up to date plain text cache entry or not.
@@ -372,18 +333,6 @@ fn py_get_missing_housenumbers_txt(
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(
-        py_is_missing_housenumbers_html_cached,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_get_missing_housenumbers_html,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_get_additional_housenumbers_html,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
         py_is_missing_housenumbers_txt_cached,
         module
     )?)?;
@@ -462,6 +411,91 @@ mod tests {
         assert_eq!(
             is_missing_housenumbers_html_cached(&ctx, &relation).unwrap(),
             false
+        );
+    }
+
+    /// Tests is_missing_housenumbers_html_cached(): the case when ref_housenumbers is new, so the cache entry is old.
+    #[test]
+    fn test_is_missing_housenumbers_html_cached_ref_housenumbers_new() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let mut relation = relations.get_relation("gazdagret").unwrap();
+        get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
+        let cache_path = relation
+            .get_files()
+            .get_housenumbers_htmlcache_path()
+            .unwrap();
+        let ref_housenumbers_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+
+        let mut file_system = context::tests::TestFileSystem::new();
+        let mut mtimes: HashMap<String, f64> = HashMap::new();
+        let metadata = std::fs::metadata(cache_path).unwrap();
+        let modified = metadata.modified().unwrap();
+        let mtime = modified
+            .duration_since(std::time::SystemTime::UNIX_EPOCH)
+            .unwrap();
+        mtimes.insert(ref_housenumbers_path, mtime.as_secs_f64() + 1_f64);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        assert_eq!(
+            is_missing_housenumbers_html_cached(&ctx, &relation).unwrap(),
+            false
+        );
+    }
+
+    /// Tests is_missing_housenumbers_html_cached(): the case when relation is new, so the cache entry is old.
+    #[test]
+    fn test_is_missing_housenumbers_html_cached_relation_new() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let mut relation = relations.get_relation("gazdagret").unwrap();
+        get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
+        let cache_path = relation
+            .get_files()
+            .get_housenumbers_htmlcache_path()
+            .unwrap();
+        let datadir = ctx.get_abspath("data").unwrap();
+        let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
+
+        let mut file_system = context::tests::TestFileSystem::new();
+        let mut mtimes: HashMap<String, f64> = HashMap::new();
+        let metadata = std::fs::metadata(cache_path).unwrap();
+        let modified = metadata.modified().unwrap();
+        let mtime = modified
+            .duration_since(std::time::SystemTime::UNIX_EPOCH)
+            .unwrap();
+        mtimes.insert(relation_path, mtime.as_secs_f64() + 1_f64);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        assert_eq!(
+            is_missing_housenumbers_html_cached(&ctx, &relation).unwrap(),
+            false
+        );
+    }
+
+    /// Tests get_additional_housenumbers_html(): the case when we find the result in cache
+    #[test]
+    fn test_get_additional_housenumbers_html() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let mut relation = relations.get_relation("gazdagret").unwrap();
+        let first = get_additional_housenumbers_html(&ctx, &mut relation).unwrap();
+        let second = get_additional_housenumbers_html(&ctx, &mut relation).unwrap();
+        assert_eq!(first.get_value(), second.get_value());
+    }
+
+    /// Tests is_missing_housenumbers_txt_cached().
+    #[test]
+    fn test_is_missing_housenumbers_txt_cached() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let mut relation = relations.get_relation("gazdagret").unwrap();
+        get_missing_housenumbers_txt(&ctx, &mut relation).unwrap();
+        assert_eq!(
+            is_missing_housenumbers_txt_cached(&ctx, &relation).unwrap(),
+            true
         );
     }
 }
