@@ -135,8 +135,11 @@ filters:
     # 41 nincs, utolsó szám 13
     invalid: ['41']
   Szömörce utca:
-    # 9, 30, 62, 64 nincs kiírva 2021-08. RESURVEY 2022
-    invalid: ['9', '30', '62', '64']
+    # 9, 30, 62, 64, 82, 84 nincs kiírva 2021-08. RESURVEY 2022
+    invalid: ['9', '30', '62', '64', '82', '84']
+  Szürkebarát utca:
+    # 40: Felső vízszintes részen nincsenek kint házszámok 2021-08. RESURVEY 2022
+    invalid: ['40']
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
