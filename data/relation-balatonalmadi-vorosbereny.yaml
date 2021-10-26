@@ -67,8 +67,9 @@ filters:
     # 30 helyén 34, 32 helyén 36, 44-46 helyén 48a, 48b
     invalid: ['30', '32', '44', '46', '59', '71', '74']
   Bérc utca:
+    # 10: van egy építkezés, de nem tudni, hogy az a 10-e. 2021-10. RESURVEY 2022
     # 22: ház sincs nagyon a páros oldalon. a legvégén van 1, nincs száma. 2021-08. RESURVEY 2022
-    invalid: ['22']
+    invalid: ['10', '22']
   Csaba köz:
     invalid: ['1']
   Duna utca:
@@ -82,6 +83,9 @@ filters:
     # 4, 10-12: nincs kiírva: 2021-08. RESURVEY 2022
     # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja
     invalid: ['4', '5', '10', '12', '14']
+  Gesztenye utca:
+    # 2: talán ez: w971150527, de nincs kiírva: 2021-10. RESURVEY 2022
+    invalid: ['2']
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
@@ -118,6 +122,9 @@ filters:
     # 4 nincs kiírva, épület sincs az út mentén, lehet feljebb van mert hosszúkásak a telkek. RESURVEY 2022
     # utolsó ház a 15
     invalid: ['4', '23']
+  Pacsirta köz:
+    # 20-22: csak 22 van kiírva
+    invalid: ['20']
   Rekettye utca:
     # 12 után 16, de a 18-nál van egy 14/b
     invalid: ['14']

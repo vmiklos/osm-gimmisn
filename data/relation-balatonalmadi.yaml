@@ -36,8 +36,9 @@ filters:
     # 2-4: csak 2 van kiírva
     invalid: ['4']
   Bérc utca:
+    # 10: van egy építkezés, de nem tudni, hogy az a 10-e. 2021-10. RESURVEY 2022
     # 22: ház sincs nagyon a páros oldalon. a legvégén van 1, nincs száma. 2021-08. RESURVEY 2022
-    invalid: ['22']
+    invalid: ['10', '22']
   Csaba köz:
     invalid: ['1']
   Csikász lépcső:
@@ -56,6 +57,9 @@ filters:
     # 4, 10-12: nincs kiírva: 2021-08. RESURVEY 2022
     # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja
     invalid: ['4', '5', '10', '12', '14']
+  Gesztenye utca:
+    # 2: talán ez: w971150527, de nincs kiírva: 2021-10. RESURVEY 2022
+    invalid: ['2']
   Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
     invalid: ['1', '3', '5']
@@ -107,6 +111,9 @@ filters:
   Noszlopy Gáspár utca:
     # 6: nincs, 4 és 8 egy ikerház
     invalid: ['6']
+  Pacsirta köz:
+    # 20-22: csak 22 van kiírva
+    invalid: ['20']
   Radnóti utca:
     show-refstreet: false
   Rákóczi Ferenc utca:
