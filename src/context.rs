@@ -477,6 +477,9 @@ pub trait Time: Send + Sync {
 
     /// Delay execution for a given number of seconds.
     fn sleep(&self, seconds: u64);
+
+    /// Allows accessing the implementing struct.
+    fn as_any(&self) -> &dyn std::any::Any;
 }
 
 /// Time implementation, backed by the chrono.
@@ -490,6 +493,10 @@ impl Time for StdTime {
 
     fn sleep(&self, seconds: u64) {
         std::thread::sleep(std::time::Duration::from_secs(seconds));
+    }
+
+    fn as_any(&self) -> &dyn std::any::Any {
+        self
     }
 }
 
@@ -546,6 +553,10 @@ impl Time for PyAnyTime {
         Python::with_gil(|py| {
             self.time.call_method1(py, "sleep", (seconds,)).unwrap();
         })
+    }
+
+    fn as_any(&self) -> &dyn std::any::Any {
+        self
     }
 }
 
@@ -1222,10 +1233,10 @@ pub mod tests {
             TestTime { now, sleep }
         }
 
-        /*/// Gets the duration of the last sleep.
-        fn get_sleep(&self) -> u64 {
+        /// Gets the duration of the last sleep.
+        pub fn get_sleep(&self) -> u64 {
             *self.sleep.lock().unwrap()
-        }*/
+        }
     }
 
     impl Time for TestTime {
@@ -1236,6 +1247,10 @@ pub mod tests {
         fn sleep(&self, seconds: u64) {
             let mut guard = self.sleep.lock().unwrap();
             *guard.deref_mut() = seconds;
+        }
+
+        fn as_any(&self) -> &dyn std::any::Any {
+            self
         }
     }
 

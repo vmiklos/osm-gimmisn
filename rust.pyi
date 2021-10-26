@@ -594,24 +594,12 @@ def py_setup_logging(ctx: PyContext) -> None:
     """Sets up logging."""
     ...
 
-def py_overpass_sleep(ctx: PyContext) -> None:
-    """Sleeps to respect overpass rate limit."""
-    ...
-
 def py_update_osm_streets(ctx: PyContext, relations: PyRelations, update: bool) -> None:
     """Update the OSM street list of all relations."""
     ...
 
 def py_update_osm_housenumbers(ctx: PyContext, relations: PyRelations, update: bool) -> None:
     """Update the OSM housenumber list of all relations."""
-    ...
-
-def py_update_ref_housenumbers(ctx: PyContext, relations: PyRelations, update: bool) -> None:
-    """Update the reference housenumber list of all relations."""
-    ...
-
-def py_update_ref_streets(ctx: PyContext, relations: PyRelations, update: bool) -> None:
-    """Update the reference street list of all relations."""
     ...
 
 def py_update_missing_housenumbers(ctx: PyContext, relations: PyRelations, update: bool) -> None:
