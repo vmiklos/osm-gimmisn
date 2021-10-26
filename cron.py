@@ -13,11 +13,6 @@ from typing import BinaryIO
 import rust
 
 
-def overpass_sleep(ctx: rust.PyContext) -> None:
-    """Sleeps to respect overpass rate limit."""
-    rust.py_overpass_sleep(ctx)
-
-
 def update_osm_streets(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the OSM street list of all relations."""
     rust.py_update_osm_streets(ctx, relations, update)
@@ -26,16 +21,6 @@ def update_osm_streets(ctx: rust.PyContext, relations: rust.PyRelations, update:
 def update_osm_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
     """Update the OSM housenumber list of all relations."""
     rust.py_update_osm_housenumbers(ctx, relations, update)
-
-
-def update_ref_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
-    """Update the reference housenumber list of all relations."""
-    rust.py_update_ref_housenumbers(ctx, relations, update)
-
-
-def update_ref_streets(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
-    """Update the reference street list of all relations."""
-    rust.py_update_ref_streets(ctx, relations, update)
 
 
 def update_missing_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:

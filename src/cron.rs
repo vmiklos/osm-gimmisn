@@ -68,11 +68,6 @@ fn overpass_sleep(ctx: &context::Context) {
     }
 }
 
-#[pyfunction]
-fn py_overpass_sleep(ctx: context::PyContext) {
-    overpass_sleep(&ctx.context)
-}
-
 /// Decides if we should retry a query or not.
 fn should_retry(retry: i32) -> bool {
     retry < 20
@@ -216,20 +211,6 @@ fn update_ref_housenumbers(
     Ok(())
 }
 
-#[pyfunction]
-fn py_update_ref_housenumbers(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    update: bool,
-) -> PyResult<()> {
-    match update_ref_housenumbers(&ctx.context, &mut relations.relations, update)
-        .context("update_ref_housenumbers() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Update the reference street list of all relations.
 fn update_ref_streets(
     ctx: &context::Context,
@@ -253,20 +234,6 @@ fn update_ref_streets(
     }
 
     Ok(())
-}
-
-#[pyfunction]
-fn py_update_ref_streets(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    update: bool,
-) -> PyResult<()> {
-    match update_ref_streets(&ctx.context, &mut relations.relations, update)
-        .context("update_ref_streets() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Update the relation's house number coverage stats.
@@ -770,11 +737,8 @@ fn py_cron_main(argv: Vec<String>, stdout: PyObject, ctx: &context::PyContext) -
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_overpass_sleep, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_osm_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_osm_housenumbers, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_ref_housenumbers, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_ref_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(
         py_update_missing_housenumbers,
         module
@@ -790,4 +754,170 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_our_main, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_cron_main, module)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::Arc;
+
+    /// Tests overpass_sleep(): the case when no sleep is needed.
+    #[test]
+    fn test_overpass_sleep_no_sleep() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+
+        overpass_sleep(&ctx);
+
+        let time = time_arc
+            .as_any()
+            .downcast_ref::<context::tests::TestTime>()
+            .unwrap();
+        assert_eq!(time.get_sleep(), 0);
+    }
+
+    /// Tests overpass_sleep(): the case when sleep is needed.
+    #[test]
+    fn test_overpass_sleep_need_sleep() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-wait.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+
+        overpass_sleep(&ctx);
+
+        let time = time_arc
+            .as_any()
+            .downcast_ref::<context::tests::TestTime>()
+            .unwrap();
+        assert_eq!(time.get_sleep(), 12);
+    }
+
+    /// Tests update_ref_housenumbers().
+    #[test]
+    fn test_update_ref_housenumbers() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            if relation_name != "gazdagret" && relation_name != "ujbuda" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx
+            .get_abspath("workdir/street-housenumbers-reference-gazdagret.lst")
+            .unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        std::fs::remove_file(&path).unwrap();
+
+        update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
+
+        let expected_mtime: std::time::Duration;
+        {
+            let metadata = std::fs::metadata(&path).unwrap();
+            let modified = metadata.modified().unwrap();
+            expected_mtime = modified
+                .duration_since(std::time::SystemTime::UNIX_EPOCH)
+                .unwrap();
+        }
+
+        update_ref_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
+
+        let actual_mtime: std::time::Duration;
+        {
+            let metadata = std::fs::metadata(&path).unwrap();
+            let modified = metadata.modified().unwrap();
+            actual_mtime = modified
+                .duration_since(std::time::SystemTime::UNIX_EPOCH)
+                .unwrap();
+        }
+        assert_eq!(actual_mtime, expected_mtime);
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+        // Make sure housenumber ref is not created for the streets=only case.
+        let ujbuda_path = ctx
+            .get_abspath("workdir/street-housenumbers-reference-ujbuda.lst")
+            .unwrap();
+        assert_eq!(std::path::Path::new(&ujbuda_path).exists(), false);
+    }
+
+    /// Tests update_ref_streets().
+    #[test]
+    fn test_update_ref_streets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            // gellerthegy is streets=no
+            if relation_name != "gazdagret" && relation_name != "gellerthegy" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx
+            .get_abspath("workdir/streets-reference-gazdagret.lst")
+            .unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        std::fs::remove_file(&path).unwrap();
+
+        update_ref_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
+
+        let expected_mtime: std::time::Duration;
+        {
+            let metadata = std::fs::metadata(&path).unwrap();
+            let modified = metadata.modified().unwrap();
+            expected_mtime = modified
+                .duration_since(std::time::SystemTime::UNIX_EPOCH)
+                .unwrap();
+        }
+
+        update_ref_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
+
+        let actual_mtime: std::time::Duration;
+        {
+            let metadata = std::fs::metadata(&path).unwrap();
+            let modified = metadata.modified().unwrap();
+            actual_mtime = modified
+                .duration_since(std::time::SystemTime::UNIX_EPOCH)
+                .unwrap();
+        }
+        assert_eq!(actual_mtime, expected_mtime);
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+        // Make sure street ref is not created for the streets=no case.
+        let ujbuda_path = ctx
+            .get_abspath("workdir/street-reference-ujbuda.lst")
+            .unwrap();
+        assert_eq!(std::path::Path::new(&ujbuda_path).exists(), false);
+    }
 }

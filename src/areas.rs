@@ -64,7 +64,7 @@ impl RelationConfig {
     }
 
     /// Sets if the relation is active.
-    fn set_active(&mut self, active: bool) {
+    pub fn set_active(&mut self, active: bool) {
         self.set_property("inactive", &serde_json::json!(!active))
     }
 
@@ -1502,7 +1502,7 @@ impl Relations {
     }
 
     /// Sets a relation for testing.
-    fn set_relation(&mut self, name: &str, relation: &Relation) {
+    pub fn set_relation(&mut self, name: &str, relation: &Relation) {
         self.relations.insert(name.into(), relation.clone());
     }
 
