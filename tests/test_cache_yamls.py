@@ -13,7 +13,7 @@ import unittest
 import test_context
 
 import areas
-import cache_yamls
+import rust
 
 
 class TestMain(unittest.TestCase):
@@ -35,7 +35,7 @@ class TestMain(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
-        cache_yamls.main(argv, ctx)
+        rust.py_cache_yamls_main(argv, ctx)
         # Just assert that the result is created, the actual content is validated by the other
         # tests.
         self.assertTrue(cache_value.tell())

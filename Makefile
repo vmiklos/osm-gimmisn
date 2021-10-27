@@ -15,7 +15,6 @@ PYTHON_TEST_OBJECTS = \
 PYTHON_SAFE_OBJECTS = \
 	api.py \
 	areas.py \
-	cache_yamls.py \
 	context.py \
 	cron.py \
 	parse_access_log.py \
@@ -66,6 +65,7 @@ RS_OBJECTS = \
 	src/bin/rouille.rs \
 	src/context.rs \
 	src/cache.rs \
+	src/cache_yamls.rs \
 	src/cron.rs \
 	src/i18n.rs \
 	src/lib.rs \
@@ -81,6 +81,7 @@ RS_OBJECTS = \
 	src/yattag.rs \
 
 BINARY_CRATES = \
+	cache_yamls \
 	cron \
 	missing_housenumbers \
 	rouille \
@@ -180,11 +181,11 @@ tests/workdir/osm.min.css: workdir/osm.min.css
 wsgi.ini:
 	cp data/wsgi.ini.template wsgi.ini
 
-data/yamls.cache: cache_yamls.py rust.so $(YAML_OBJECTS)
-	./cache_yamls.py data workdir
+data/yamls.cache: target/${TARGET_PATH}/cache_yamls rust.so $(YAML_OBJECTS)
+	target/${TARGET_PATH}/cache_yamls data workdir
 
-tests/data/yamls.cache: cache_yamls.py rust.so $(YAML_TEST_OBJECTS)
-	./cache_yamls.py tests/data tests/workdir
+tests/data/yamls.cache: target/${TARGET_PATH}/cache_yamls rust.so $(YAML_TEST_OBJECTS)
+	target/${TARGET_PATH}/cache_yamls tests/data tests/workdir
 
 check-filters: check-filters-syntax check-filters-schema
 

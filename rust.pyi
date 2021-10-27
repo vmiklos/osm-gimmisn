@@ -541,6 +541,10 @@ def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyConte
     """Commandline interface."""
     ...
 
+def py_cache_yamls_main(argv: List[str], ctx: PyContext) -> None:
+    """Commandline interface."""
+    ...
+
 def py_handle_exception(
         environ: Dict[str, str],
         error: str
@@ -592,10 +596,6 @@ def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
 
 def py_setup_logging(ctx: PyContext) -> None:
     """Sets up logging."""
-    ...
-
-def py_update_osm_streets(ctx: PyContext, relations: PyRelations, update: bool) -> None:
-    """Update the OSM street list of all relations."""
     ...
 
 def py_update_stats_count(ctx: PyContext, today: str) -> None:
