@@ -18,11 +18,6 @@ def update_osm_streets(ctx: rust.PyContext, relations: rust.PyRelations, update:
     rust.py_update_osm_streets(ctx, relations, update)
 
 
-def update_osm_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
-    """Update the OSM housenumber list of all relations."""
-    rust.py_update_osm_housenumbers(ctx, relations, update)
-
-
 def update_stats_count(ctx: rust.PyContext, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     rust.py_update_stats_count(ctx, today)

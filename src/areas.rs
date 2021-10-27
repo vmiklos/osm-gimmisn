@@ -1425,11 +1425,11 @@ pub struct Relations {
 impl Relations {
     pub fn new(ctx: &context::Context) -> anyhow::Result<Self> {
         let workdir = ctx.get_ini().get_workdir()?;
-        let stream = ctx.get_file_system().open_read(&format!(
-            "{}/{}",
-            ctx.get_abspath("data")?,
-            "yamls.cache"
-        ))?;
+        let yamls_cache = format!("{}/{}", ctx.get_abspath("data")?, "yamls.cache");
+        let stream = ctx
+            .get_file_system()
+            .open_read(&yamls_cache)
+            .context(format!("failed to open {} for reading", yamls_cache))?;
         let mut guard = stream.lock().unwrap();
         let read = guard.deref_mut();
         let value: serde_json::Value = serde_json::from_reader(read)?;

@@ -20,6 +20,7 @@ import urllib.error
 import urllib.parse
 import xml.etree.ElementTree as ET
 import xmlrpc.client
+import os
 
 import test_context
 
@@ -176,6 +177,9 @@ class TestMissingHousenumbers(TestWsgi):
     """Tests the missing house numbers page."""
     def test_well_formed(self) -> None:
         """Tests if the output is well-formed."""
+        cache_path = self.ctx.get_abspath("workdir/gazdagret.htmlcache.en")
+        if os.path.exists(cache_path):
+            os.unlink(cache_path)
         root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
         results = root.findall("body/table")
         self.assertEqual(len(results), 1)
@@ -268,6 +272,8 @@ class TestMissingHousenumbers(TestWsgi):
 
     def test_view_result_txt_even_odd(self) -> None:
         """Tests the txt output (even-odd streets)."""
+        if os.path.exists(self.ctx.get_abspath("workdir/gazdagret.txtcache")):
+            os.unlink(self.ctx.get_abspath("workdir/gazdagret.txtcache"))
         result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
         expected = """Hamzsabégi út	[1]
 Törökugrató utca	[7], [10]

@@ -598,10 +598,6 @@ def py_update_osm_streets(ctx: PyContext, relations: PyRelations, update: bool) 
     """Update the OSM street list of all relations."""
     ...
 
-def py_update_osm_housenumbers(ctx: PyContext, relations: PyRelations, update: bool) -> None:
-    """Update the OSM housenumber list of all relations."""
-    ...
-
 def py_update_stats_count(ctx: PyContext, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     ...

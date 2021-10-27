@@ -1470,7 +1470,7 @@ fn our_application(
         .collect();
     let language = util::setup_localization(&request_headers_vec);
 
-    let mut relations = areas::Relations::new(ctx)?;
+    let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
 
     let request_uri = webframe::get_request_uri(request_headers, ctx, &mut relations)?;
     let mut ext: String = "".into();
