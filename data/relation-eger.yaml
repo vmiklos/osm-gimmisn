@@ -70,15 +70,12 @@ refstreets:
   # note
   # Akácfa utca - Akácos utca: dupla nem mappelhető
   'Bem tábornok utca': 'Bem tábornok tér'
-  'Breznay Imre utca': 'Breznai Imre utca'
   'Csákósor utca': 'Csákó sor utca'
   'Deméndi utca': 'Deméndi út'
-  'Dézsmaház': 'Dézsmaház utca'
   'Disznófő-sor': 'Szépasszonyvölgy-Disznófősor utca'
   'Egri út': 'Egri utca'
   'Foglár utca': 'Foglár György utca'
   'Garay János utca': 'Garai János utca'
-  'Hatvanas ezred utca': 'Hatvanasezred utca'
   'Hevesi Sándor utca': 'Hevesy Sándor utca'
   'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'
   'Ipolyi utca': 'Ipolyi Arnold utca'
@@ -93,7 +90,6 @@ refstreets:
   'Pyrker tér': 'Pyrker János tér'
   'Szervita utca': 'Servita utca'
   'Tibrik dűlő': 'Tibrikdűlő utca'
-  'Tizes honvéd utca': 'Tizeshonvéd utca'
   'Törvényház út': 'Törvényház utca'
   'Vörösmarty Mihály út': 'Vörösmarty Mihály utca'
 source: survey
