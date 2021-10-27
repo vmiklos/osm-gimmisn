@@ -10,7 +10,6 @@ from typing import List
 import io
 import json
 import os
-import time
 import unittest
 
 import test_context
@@ -20,95 +19,8 @@ import cron
 import util
 
 
-class TestUpdateOsmStreets(unittest.TestCase):
-    """Tests update_osm_streets()."""
-    def test_xml_as_csv(self) -> None:
-        """Tests the case when we ask for CSV but get XML."""
-        ctx = test_context.make_test_context()
-        routes: List[test_context.URLRoute] = [
-            test_context.URLRoute(url="https://overpass-api.de/api/status",
-                                  data_path="",
-                                  result_path="tests/network/overpass-status-happy.txt"),
-            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                  data_path="",
-                                  result_path="tests/network/overpass.xml"),
-        ]
-        network = test_context.TestNetwork(routes)
-        ctx.set_network(network)
-        relations = areas.make_relations(ctx)
-        for relation_name in relations.get_active_names():
-            if relation_name != "gazdagret":
-                relation = relations.get_relation(relation_name)
-                config = relation.get_config()
-                config.set_active(False)
-                relation.set_config(config)
-                relations.set_relation(relation_name, relation)
-        path = os.path.join(relations.get_workdir(), "streets-gazdagret.csv")
-        expected = util.get_content(path)
-        cron.update_osm_streets(ctx, relations, update=True)
-        self.assertEqual(util.get_content(path), expected)
-
-
-def create_old_file(path: str) -> None:
-    """Creates a 8 days old file."""
-    current_time = time.time()
-    old_time = current_time - (8 * 24 * 3600)
-    old_access_time = old_time
-    old_modification_time = old_time
-    with open(path, "w"):
-        pass
-    os.utime(path, (old_access_time, old_modification_time))
-
-
 class TestUpdateStats(unittest.TestCase):
     """Tests update_stats()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
-        routes: List[test_context.URLRoute] = [
-            test_context.URLRoute(url="https://overpass-api.de/api/status",
-                                  data_path="",
-                                  result_path="tests/network/overpass-status-happy.txt"),
-            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                  data_path="",
-                                  result_path="tests/network/overpass-stats.csv"),
-        ]
-        network = test_context.TestNetwork(routes)
-        ctx.set_network(network)
-
-        file_system = test_context.TestFileSystem()
-        citycount_value = io.BytesIO()
-        citycount_value.__setattr__("close", lambda: None)
-        count_value = io.BytesIO()
-        count_value.__setattr__("close", lambda: None)
-        topusers_value = io.BytesIO()
-        topusers_value.__setattr__("close", lambda: None)
-        files = {
-            ctx.get_abspath("workdir/stats/2020-05-10.citycount"): citycount_value,
-            ctx.get_abspath("workdir/stats/2020-05-10.count"): count_value,
-            ctx.get_abspath("workdir/stats/2020-05-10.topusers"): topusers_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-
-        # Create a CSV that is definitely old enough to be removed.
-        old_path = ctx.get_abspath("workdir/stats/old.csv")
-        create_old_file(old_path)
-
-        today = time.strftime("%Y-%m-%d")
-        path = ctx.get_abspath("workdir/stats/%s.csv" % today)
-        cron.update_stats(ctx, overpass=True)
-        actual = util.get_content(path)
-        self.assertEqual(actual, util.get_content("tests/network/overpass-stats.csv"))
-
-        # Make sure that the old CSV is removed.
-        self.assertFalse(os.path.exists(old_path))
-
-        with open(ctx.get_abspath("workdir/stats/ref.count"), "r") as stream:
-            num_ref = int(stream.read().strip())
-        self.assertEqual(num_ref, 300)
-
     def test_http_error(self) -> None:
         """Tests the case when we keep getting HTTP errors."""
         ctx = test_context.make_test_context()
@@ -135,12 +47,12 @@ class TestUpdateStats(unittest.TestCase):
         }
         file_system.set_files(files)
         ctx.set_file_system(file_system)
+        if os.path.exists(ctx.get_abspath("workdir/stats/stats.json")):
+            os.unlink(ctx.get_abspath("workdir/stats/stats.json"))
 
-        old_mtime = ctx.get_file_system().getmtime(ctx.get_abspath("workdir/stats/stats.json"))
-        time.sleep(0.1)
         cron.update_stats(ctx, overpass=True)
-        new_mtime = ctx.get_file_system().getmtime(ctx.get_abspath("workdir/stats/stats.json"))
-        self.assertGreater(new_mtime, old_mtime)
+
+        self.assertTrue(os.path.exists(ctx.get_abspath("workdir/stats/stats.json")))
 
     def test_no_overpass(self) -> None:
         """Tests the case when we don't call overpass."""

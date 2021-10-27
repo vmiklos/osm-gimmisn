@@ -112,20 +112,6 @@ fn update_osm_streets(
     Ok(())
 }
 
-#[pyfunction]
-fn py_update_osm_streets(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    update: bool,
-) -> PyResult<()> {
-    match update_osm_streets(&ctx.context, &mut relations.relations, update)
-        .context("update_osm_streets() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Update the OSM housenumber list of all relations.
 fn update_osm_housenumbers(
     ctx: &context::Context,
@@ -689,7 +675,6 @@ fn py_cron_main(argv: Vec<String>, stdout: PyObject, ctx: &context::PyContext) -
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_osm_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_count, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_topusers, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats, module)?)?;
@@ -1194,5 +1179,124 @@ mod tests {
         // leave the last state unchanged.
         let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
+    }
+
+    /// Tests update_osm_streets(): the case when we ask for CSV but get XML.
+    #[test]
+    fn test_update_osm_streets_xml_as_csv() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass.xml",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            if relation_name != "gazdagret" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+
+        update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
+
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+    }
+
+    /// Creates a 8 days old file.
+    fn create_old_file(path: &str) {
+        let now = chrono::Local::now();
+        let current_time = now.naive_local().timestamp();
+        let old_time = current_time - (8 * 24 * 3600);
+        let old_access_time = old_time;
+        let old_modification_time = old_time;
+        std::fs::File::create(path).unwrap();
+        utime::set_file_times(path, old_access_time, old_modification_time).unwrap();
+    }
+
+    /// Tests update_stats().
+    #[test]
+    fn test_update_stats() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-stats.csv",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+
+        let mut file_system = context::tests::TestFileSystem::new();
+        let citycount_value = context::tests::TestFileSystem::make_file();
+        let count_value = context::tests::TestFileSystem::make_file();
+        let topusers_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/stats/2020-05-10.citycount", &citycount_value),
+                ("workdir/stats/2020-05-10.count", &count_value),
+                ("workdir/stats/2020-05-10.topusers", &topusers_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        // Create a CSV that is definitely old enough to be removed.
+        let old_path = ctx.get_abspath("workdir/stats/old.csv").unwrap();
+        create_old_file(&old_path);
+
+        let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+        let today = now.format("%Y-%m-%d").to_string();
+        let path = ctx
+            .get_abspath(&format!("workdir/stats/{}.csv", today))
+            .unwrap();
+
+        update_stats(&ctx, /*overpass=*/ true).unwrap();
+
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(
+            actual,
+            String::from_utf8(util::get_content("tests/network/overpass-stats.csv").unwrap())
+                .unwrap()
+        );
+
+        // Make sure that the old CSV is removed.
+        assert_eq!(ctx.get_file_system().path_exists(&old_path), false);
+
+        let num_ref: i64 =
+            std::fs::read_to_string(&ctx.get_abspath("workdir/stats/ref.count").unwrap())
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap();
+        assert_eq!(num_ref, 300);
     }
 }

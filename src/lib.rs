@@ -17,6 +17,7 @@ mod accept_language;
 mod area_files;
 mod areas;
 mod cache;
+pub mod cache_yamls;
 pub mod context;
 pub mod cron;
 mod i18n;
@@ -36,6 +37,7 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     area_files::register_python_symbols(m)?;
     areas::register_python_symbols(m)?;
     cache::register_python_symbols(m)?;
+    cache_yamls::register_python_symbols(m)?;
     context::register_python_symbols(m)?;
     cron::register_python_symbols(m)?;
     i18n::register_python_symbols(m)?;
