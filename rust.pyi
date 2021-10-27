@@ -602,18 +602,6 @@ def py_update_osm_housenumbers(ctx: PyContext, relations: PyRelations, update: b
     """Update the OSM housenumber list of all relations."""
     ...
 
-def py_update_missing_housenumbers(ctx: PyContext, relations: PyRelations, update: bool) -> None:
-    """Update the relation's house number coverage stats."""
-    ...
-
-def py_update_missing_streets(relations: PyRelations, update: bool) -> None:
-    """Update the relation's street coverage stats."""
-    ...
-
-def py_update_additional_streets(relations: PyRelations, update: bool) -> None:
-    """Update the relation's "additional streets" stats."""
-    ...
-
 def py_update_stats_count(ctx: PyContext, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     ...
