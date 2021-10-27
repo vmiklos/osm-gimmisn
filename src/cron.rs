@@ -269,20 +269,6 @@ fn update_missing_housenumbers(
     Ok(())
 }
 
-#[pyfunction]
-fn py_update_missing_housenumbers(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    update: bool,
-) -> PyResult<()> {
-    match update_missing_housenumbers(&ctx.context, &mut relations.relations, update)
-        .context("update_missing_housenumbers() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Update the relation's street coverage stats.
 fn update_missing_streets(relations: &mut areas::Relations, update: bool) -> anyhow::Result<()> {
     log::info!("update_missing_streets: start");
@@ -303,16 +289,6 @@ fn update_missing_streets(relations: &mut areas::Relations, update: bool) -> any
     log::info!("update_missing_streets: end");
 
     Ok(())
-}
-
-#[pyfunction]
-fn py_update_missing_streets(mut relations: areas::PyRelations, update: bool) -> PyResult<()> {
-    match update_missing_streets(&mut relations.relations, update)
-        .context("update_missing_streets() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Update the relation's "additional streets" stats.
@@ -336,16 +312,6 @@ fn update_additional_streets(relations: &mut areas::Relations, update: bool) -> 
     log::info!("update_additional_streets: end");
 
     Ok(())
-}
-
-#[pyfunction]
-fn py_update_additional_streets(mut relations: areas::PyRelations, update: bool) -> PyResult<()> {
-    match update_additional_streets(&mut relations.relations, update)
-        .context("update_additional_streets() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Writes a daily .count file.
@@ -739,15 +705,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_osm_streets, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_osm_housenumbers, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_update_missing_housenumbers,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_missing_streets, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_update_additional_streets,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_count, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_topusers, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats, module)?)?;
@@ -759,6 +716,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use context::FileSystem;
     use std::sync::Arc;
 
     /// Tests overpass_sleep(): the case when no sleep is needed.
@@ -919,5 +877,177 @@ mod tests {
             .get_abspath("workdir/street-reference-ujbuda.lst")
             .unwrap();
         assert_eq!(std::path::Path::new(&ujbuda_path).exists(), false);
+    }
+
+    /// Tests update_missing_housenumbers().
+    #[test]
+    fn test_update_missing_housenumbers() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            // ujbuda is streets=only
+            if relation_name != "gazdagret" && relation_name != "ujbuda" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx.get_abspath("workdir/gazdagret.percent").unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        std::fs::remove_file(&path).unwrap();
+
+        update_missing_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
+
+        let expected_mtime: std::time::Duration;
+        {
+            let metadata = std::fs::metadata(&path).unwrap();
+            let modified = metadata.modified().unwrap();
+            expected_mtime = modified
+                .duration_since(std::time::SystemTime::UNIX_EPOCH)
+                .unwrap();
+        }
+
+        update_missing_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
+
+        let actual_mtime: std::time::Duration;
+        {
+            let metadata = std::fs::metadata(&path).unwrap();
+            let modified = metadata.modified().unwrap();
+            actual_mtime = modified
+                .duration_since(std::time::SystemTime::UNIX_EPOCH)
+                .unwrap();
+        }
+        assert_eq!(actual_mtime, expected_mtime);
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+        // Make sure housenumber stat is not created for the streets=only case.
+        let ujbuda_path = format!("workdir/ujbuda.percent");
+        assert_eq!(std::path::Path::new(&ujbuda_path).exists(), false);
+    }
+
+    /// Tests update_missing_streets().
+    #[test]
+    fn test_update_missing_streets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let file_system = context::tests::TestFileSystem::new();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            // gellerthegy is streets=no
+            if relation_name != "gazdagret" && relation_name != "gellerthegy" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx
+            .get_abspath("workdir/gazdagret-streets.percent")
+            .unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        std::fs::remove_file(&path).unwrap();
+        update_missing_streets(&mut relations, /*update=*/ true).unwrap();
+        let mtime = file_system.getmtime(&path).unwrap();
+
+        update_missing_streets(&mut relations, /*update=*/ false).unwrap();
+
+        assert_eq!(file_system.getmtime(&path).unwrap(), mtime);
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+        // Make sure street stat is not created for the streets=no case.
+        assert_eq!(
+            file_system.path_exists(
+                &ctx.get_abspath("workdir/gellerthegy-streets.percent")
+                    .unwrap()
+            ),
+            false
+        );
+    }
+
+    /// Tests update_additional_streets().
+    #[test]
+    fn test_update_additional_streets() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let file_system = context::tests::TestFileSystem::new();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            // gellerthegy is streets=no
+            if relation_name != "gazdagret" && relation_name != "gellerthegy" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx
+            .get_abspath("workdir/gazdagret-additional-streets.count")
+            .unwrap();
+        let expected: String = "1".into();
+        if file_system.path_exists(&path) {
+            std::fs::remove_file(&path).unwrap();
+        }
+        update_additional_streets(&mut relations, /*update=*/ true).unwrap();
+        let mtime = file_system.getmtime(&path).unwrap();
+
+        update_additional_streets(&mut relations, /*update=*/ false).unwrap();
+
+        assert_eq!(file_system.getmtime(&path).unwrap(), mtime);
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+        // Make sure street stat is not created for the streets=no case.
+        assert_eq!(
+            file_system.path_exists(
+                &ctx.get_abspath("workdir/gellerthegy-additional-streets.count")
+                    .unwrap()
+            ),
+            false
+        );
+    }
+
+    /// Tests update_osm_housenumbers().
+    #[test]
+    fn test_update_osm_housenumbers() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-housenumbers-gazdagret.csv",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            if relation_name != "gazdagret" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx
+            .get_abspath("workdir/street-housenumbers-gazdagret.csv")
+            .unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        std::fs::remove_file(&path).unwrap();
+        update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
+        let mtime = ctx.get_file_system().getmtime(&path).unwrap();
+
+        update_osm_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
+
+        assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
     }
 }

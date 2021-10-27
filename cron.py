@@ -23,21 +23,6 @@ def update_osm_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, up
     rust.py_update_osm_housenumbers(ctx, relations, update)
 
 
-def update_missing_housenumbers(ctx: rust.PyContext, relations: rust.PyRelations, update: bool) -> None:
-    """Update the relation's house number coverage stats."""
-    rust.py_update_missing_housenumbers(ctx, relations, update)
-
-
-def update_missing_streets(relations: rust.PyRelations, update: bool) -> None:
-    """Update the relation's street coverage stats."""
-    rust.py_update_missing_streets(relations, update)
-
-
-def update_additional_streets(relations: rust.PyRelations, update: bool) -> None:
-    """Update the relation's "additional streets" stats."""
-    rust.py_update_additional_streets(relations, update)
-
-
 def update_stats_count(ctx: rust.PyContext, today: str) -> None:
     """Counts the # of all house numbers as of today."""
     rust.py_update_stats_count(ctx, today)
