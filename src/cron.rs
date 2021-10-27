@@ -167,20 +167,6 @@ fn update_osm_housenumbers(
     Ok(())
 }
 
-#[pyfunction]
-fn py_update_osm_housenumbers(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    update: bool,
-) -> PyResult<()> {
-    match update_osm_housenumbers(&ctx.context, &mut relations.relations, update)
-        .context("update_osm_housenumbers() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Update the reference housenumber list of all relations.
 fn update_ref_housenumbers(
     ctx: &context::Context,
@@ -704,7 +690,6 @@ fn py_cron_main(argv: Vec<String>, stdout: PyObject, ctx: &context::PyContext) -
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_osm_streets, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_osm_housenumbers, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_count, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_topusers, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats, module)?)?;
@@ -1047,6 +1032,166 @@ mod tests {
         update_osm_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
 
         assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+    }
+
+    /// Tests update_osm_housenumbers(): the case when we keep getting HTTP errors.
+    #[test]
+    fn test_update_osm_housenumbers_http_error() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            if relation_name != "gazdagret" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx
+            .get_abspath("workdir/street-housenumbers-gazdagret.csv")
+            .unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
+        // Make sure that in case we keep getting errors we give up at some stage and
+        // leave the last state unchanged.
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+    }
+
+    /// Tests update_osm_housenumbers(): the case when we ask for CSV but get XML.
+    #[test]
+    fn test_update_osm_housenumbers_xml_as_csv() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass.xml",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            if relation_name != "gazdagret" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx
+            .get_abspath("workdir/street-housenumbers-gazdagret.csv")
+            .unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+    }
+
+    /// Tests update_osm_streets().
+    #[test]
+    fn test_update_osm_streets() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-streets-gazdagret.csv",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            if relation_name != "gazdagret" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        std::fs::remove_file(&path).unwrap();
+        update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
+        let mtime = ctx.get_file_system().getmtime(&path).unwrap();
+
+        update_osm_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
+
+        assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
+        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+    }
+
+    /// Tests update_osm_streets(): the case when we keep getting HTTP errors.
+    #[test]
+    fn test_update_osm_streets_http_error() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            if relation_name != "gazdagret" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        let path = ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap();
+        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+
+        update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
+
+        // Make sure that in case we keep getting errors we give up at some stage and
+        // leave the last state unchanged.
         let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
     }

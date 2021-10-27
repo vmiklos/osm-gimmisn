@@ -1303,23 +1303,17 @@ pub mod tests {
                     assert_eq!(data, expected);
                 }
 
-                assert_eq!(
-                    route.result_path.is_empty(),
-                    false,
-                    "empty result_path for url '{}'",
-                    url
-                );
+                if route.result_path.is_empty() {
+                    return Err(anyhow::anyhow!("empty result_path for url '{}'", url));
+                }
                 ret = std::fs::read_to_string(&route.result_path)?;
                 remove = Some(index);
                 break;
             }
 
-            assert_eq!(
-                ret.is_empty(),
-                false,
-                "url missing from route list: '{}'",
-                url
-            );
+            if ret.is_empty() {
+                return Err(anyhow::anyhow!("url missing from route list: '{}'", url));
+            }
             // Allow specifying multiple results for the same URL.
             locked_routes.remove(remove.unwrap());
             Ok(ret)
