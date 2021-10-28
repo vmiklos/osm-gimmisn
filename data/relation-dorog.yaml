@@ -104,6 +104,7 @@ street-filters:
   - Mész telep  # területként
 osm-street-filters:
   # Nem valós utcák
+  - Hősök tere-belső udvar
   - Munkás utcai garázssor
   - Pataksor park
   - Petőfi park
