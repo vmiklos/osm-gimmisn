@@ -1,0 +1,90 @@
+missing-streets: 'yes'
+filters:
+  # terület lehatárolás + invalid
+  Bajcsy-Zsilinszky út:
+    # 48: nincs kiírva 2021-08. RESURVEY 2022
+    # 56-58: csak 58 van kiírva
+    invalid: ['48', '56']
+    ranges:
+      - {start: '5', end: '99'}
+      - {start: '2', end: '98'}
+  Ferenczy Károly utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '2'}
+  Galagonya utca:
+    ranges:
+      - {start: '41', end: '99'}
+      - {start: '68', end: '98'}
+  József Attila út:
+    ranges:
+      - {start: '31', end: '199'}
+      - {start: '2', end: '198'}
+  Kisberényi út:
+    # 48-52: csak 52 van
+    # 70 helyett 72 van táblázva
+    invalid: ['48', '50', '70']
+    ranges:
+      - {start: '1', end: '5'}
+      - {start: '2', end: '72'}
+  Kővirág utca:
+    ranges:
+      - {start: '2', end: '10'}
+  Pinkóczi út:
+    ranges:
+      - {start: '1', end: '67'}
+      - {start: '2', end: '62'}
+  Szabadság út:
+    ranges:
+      - {start: '1', end: '87'}
+      - {start: '2', end: '6'}
+  Szabadság-kilátó út:
+    show-refstreet: false
+    ranges:
+      - {start: '1', end: '99'}
+  Szinyei Merse Pál utca:
+    ranges:
+      - {start: '7', end: '99'}
+      - {start: '6', end: '98'}
+  Szép Ilonka utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '98'}
+  Veszprémi út:
+    # 5, 7: 3 után 9 jön, valahol belül lehet, de nincs kiírva
+    # 46-48: csak 48 van kiírva
+    # 83 templom kellene leyen, de más források szerint a kolostor, de ott 85 van kiírva
+    # 89: Máltai alapszabályában 89, a facebook oldalukon 87-es házszám van
+    # 101: 99 után 103
+    invalid: ['5', '7', '46', '83', '101']
+    ranges:
+      - {start: '1', end: '67'}
+      - {start: '2', end: '80'}
+  Vöröskő utca:
+    ranges:
+      - {start: '2', end: '8'}
+  Vörösmarty utca:
+    ranges:
+      - {start: '1', end: '33'}
+    show-refstreet: false
+  # szűrők
+  Báthory utca:
+    show-refstreet: false
+  Csikász lépcső:
+    show-refstreet: false
+  Radnóti utca:
+    show-refstreet: false
+refstreets:
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'
+  'Dózsa György utca': 'Dózsa György út'
+  'Fadrusz János utca': 'Fadrusz utca'
+  'Pacsirta út': 'Pacsirta utca'
+  # ellenőrzött
+  'Báthory utca': 'Báthori utca'  # Táblán Báthory utca
+  'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
+  'Erdőalja út': 'Erdőalja utca'  # táblán Erdőalja út
+  'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
+  'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
+  'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
+source: survey
+inactive: true

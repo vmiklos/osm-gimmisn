@@ -1,0 +1,37 @@
+missing-streets: 'yes'
+filters:
+  # terület lehatárolás + invalid
+  Bajcsy-Zsilinszky út:
+    ranges:
+      - {start: '1', end: '3'}
+  Balatonfűzfői út:
+    # 5-9: csak 9 van kiírva
+    # 140 nincs
+    # 158: autószerviz és a Kürt utca közt nincs ház
+    # 226: szervizút végén 228, mellette 224
+    invalid: ['5', '7', '140', '158', '226']
+    ranges:
+      - {start: '1', end: '199'}
+  József Attila út:
+    ranges:
+      - {start: '1', end: '29'}
+  Mandula utca:
+    ranges:
+      - {start: '1', end: '99'}
+  Szabadság út:
+    ranges:
+      - {start: '18', end: '198	'}
+  #
+  Báthory utca:
+    show-refstreet: false
+  Radnóti utca:
+    show-refstreet: false
+refstreets:
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'
+  'Dózsa György utca': 'Dózsa György út'
+  # ellenőrzött
+  'Báthory utca': 'Báthori utca'  # Táblán Báthory utca
+  'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
+  'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
+source: survey
+inactive: true
