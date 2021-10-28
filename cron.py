@@ -23,16 +23,6 @@ def update_stats_topusers(ctx: rust.PyContext, today: str) -> None:
     rust.py_update_stats_topusers(ctx, today)
 
 
-def update_stats(ctx: rust.PyContext, overpass: bool) -> None:
-    """Performs the update of country-level stats."""
-    rust.py_update_stats(ctx, overpass)
-
-
-def our_main(ctx: rust.PyContext, relations: rust.PyRelations, mode: str, update: bool, overpass: bool) -> None:
-    """Performs the actual nightly task."""
-    return rust.py_our_main(ctx, relations, mode, update, overpass)
-
-
 def main(argv: List[str], stdout: BinaryIO, ctx: rust.PyContext) -> None:
     """Commandline interface to this module."""
     rust.py_cron_main(argv, stdout, ctx)

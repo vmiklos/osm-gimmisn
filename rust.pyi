@@ -606,14 +606,6 @@ def py_update_stats_topusers(ctx: PyContext, today: str) -> None:
     """Counts the top housenumber editors as of today."""
     ...
 
-def py_update_stats(ctx: PyContext, overpass: bool) -> None:
-    """Performs the update of country-level stats."""
-    ...
-
-def py_our_main(ctx: PyContext, relations: PyRelations, mode: str, update: bool, overpass: bool) -> None:
-    """Performs the actual nightly task."""
-    ...
-
 def py_cron_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
     """Commandline interface."""
     ...
