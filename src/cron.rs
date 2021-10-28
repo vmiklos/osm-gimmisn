@@ -512,14 +512,6 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     Ok(())
 }
 
-#[pyfunction]
-fn py_update_stats(ctx: context::PyContext, overpass: bool) -> PyResult<()> {
-    match update_stats(&ctx.context, overpass).context("update_stats() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Performs the actual nightly task.
 fn our_main(
     ctx: &context::Context,
@@ -558,28 +550,6 @@ fn our_main(
     }
 
     Ok(())
-}
-
-#[pyfunction]
-fn py_our_main(
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-    mode: &str,
-    update: bool,
-    overpass: bool,
-) -> PyResult<()> {
-    match our_main(
-        &ctx.context,
-        &mut relations.relations,
-        mode,
-        update,
-        overpass,
-    )
-    .context("our_main() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Commandline interface to this module.
@@ -677,8 +647,6 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_count, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_topusers, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_stats, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_our_main, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_cron_main, module)?)?;
     Ok(())
 }
@@ -687,6 +655,8 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 mod tests {
     use super::*;
     use context::FileSystem;
+    use std::io::Seek;
+    use std::io::SeekFrom;
     use std::sync::Arc;
 
     /// Tests overpass_sleep(): the case when no sleep is needed.
@@ -1298,5 +1268,265 @@ mod tests {
                 .parse()
                 .unwrap();
         assert_eq!(num_ref, 300);
+    }
+
+    /// Tests update_stats(): the case when we keep getting HTTP errors.
+    #[test]
+    fn test_update_stats_http_error() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+
+        let mut file_system = context::tests::TestFileSystem::new();
+        let citycount_value = context::tests::TestFileSystem::make_file();
+        let count_value = context::tests::TestFileSystem::make_file();
+        let topusers_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/stats/2020-05-10.citycount", &citycount_value),
+                ("workdir/stats/2020-05-10.count", &count_value),
+                ("workdir/stats/2020-05-10.topusers", &topusers_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let stats_path = ctx.get_abspath("workdir/stats/stats.json").unwrap();
+        if std::path::Path::new(&stats_path).exists() {
+            std::fs::remove_file(&stats_path).unwrap();
+        }
+
+        update_stats(&ctx, /*overpass=*/ true).unwrap();
+
+        assert_eq!(std::path::Path::new(&stats_path).exists(), true);
+    }
+
+    /// Tests update_stats(): the case when we don't call overpass.
+    #[test]
+    fn test_update_stats_no_overpass() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-wait.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+
+        let mut file_system = context::tests::TestFileSystem::new();
+        let citycount_value = context::tests::TestFileSystem::make_file();
+        let count_value = context::tests::TestFileSystem::make_file();
+        let topusers_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/stats/2020-05-10.citycount", &citycount_value),
+                ("workdir/stats/2020-05-10.count", &count_value),
+                ("workdir/stats/2020-05-10.topusers", &topusers_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        update_stats(&ctx, /*overpass=*/ false).unwrap();
+
+        let time = time_arc
+            .as_any()
+            .downcast_ref::<context::tests::TestTime>()
+            .unwrap();
+        assert_eq!(time.get_sleep(), 0);
+    }
+
+    /// Tests our_main().
+    #[test]
+    fn test_our_main() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-streets-gazdagret.csv",
+            ),
+            // For update_osm_housenumbers().
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-housenumbers-gazdagret.csv",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 2713748,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+            "refcounty-names.yaml": {
+            },
+            "refsettlement-names.yaml": {
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.lock().unwrap();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let osm_streets_value = context::tests::TestFileSystem::make_file();
+        let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
+        let ref_streets_value = context::tests::TestFileSystem::make_file();
+        let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
+        let missing_streets_value = context::tests::TestFileSystem::make_file();
+        let missing_housenumbers_value = context::tests::TestFileSystem::make_file();
+        let additional_streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/streets-gazdagret.csv", &osm_streets_value),
+                (
+                    "workdir/street-housenumbers-gazdagret.csv",
+                    &osm_housenumbers_value,
+                ),
+                (
+                    "workdir/streets-reference-gazdagret.lst",
+                    &ref_streets_value,
+                ),
+                (
+                    "workdir/street-housenumbers-reference-gazdagret.lst",
+                    &ref_housenumbers_value,
+                ),
+                ("workdir/gazdagret-streets.percent", &missing_streets_value),
+                ("workdir/gazdagret.percent", &missing_housenumbers_value),
+                (
+                    "workdir/gazdagret-additional-streets.count",
+                    &additional_streets_value,
+                ),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+
+        our_main(
+            &ctx,
+            &mut relations,
+            /*mode=*/ "relations",
+            /*update=*/ true,
+            /*overpass=*/ true,
+        )
+        .unwrap();
+
+        // update_osm_streets() is called.
+        {
+            let mut guard = osm_streets_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        // update_osm_housenumbers() is called.
+        {
+            let mut guard = osm_housenumbers_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        // update_ref_streets() is called.
+        {
+            let mut guard = ref_streets_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        // update_ref_housenumbers() is called.
+        {
+            let mut guard = ref_housenumbers_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        // update_missing_streets() is called.
+        {
+            let mut guard = missing_streets_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        // update_missing_housenumbers() is called.
+        {
+            let mut guard = missing_housenumbers_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        // update_additional_streets() is called.
+        {
+            let mut guard = additional_streets_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+    }
+
+    /// Tests our_main(): the stats case.
+    #[test]
+    fn test_our_main_stats() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/status",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            ),
+            context::tests::URLRoute::new(
+                /*url=*/ "https://overpass-api.de/api/interpreter",
+                /*data_path=*/ "",
+                /*result_path=*/ "tests/network/overpass-stats.csv",
+            ),
+        ];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let stats_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/stats/stats.json", &stats_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+
+        our_main(
+            &ctx,
+            &mut relations,
+            /*mode=*/ "stats",
+            /*update=*/ false,
+            /*overpass=*/ true,
+        )
+        .unwrap();
+
+        let mut guard = stats_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 }
