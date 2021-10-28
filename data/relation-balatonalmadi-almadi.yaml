@@ -1,8 +1,6 @@
 missing-streets: 'no'
 filters:
   # terület lehatárolás + invalid
-  József Attila utca:
-    ranges: []
   Bajcsy-Zsilinszky út:
     # 48: nincs kiírva 2021-08. RESURVEY 2022
     # 56-58: csak 58 van kiírva
@@ -10,6 +8,8 @@ filters:
     ranges:
       - {start: '5', end: '99'}
       - {start: '2', end: '98'}
+  Balatonfüredi út:
+    ranges: []
   Damjanich utca:
     ranges:
       - {start: '11', end: '99'}
