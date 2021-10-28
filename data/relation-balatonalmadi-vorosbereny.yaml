@@ -65,7 +65,8 @@ filters:
     # 74 nincs kiírva
     # 32-48 között teljes káosz: 28 után 34,36,38, majd megint 36, utána nincs kírva 48-ig semmi 2021-08. RESURVEY 2022
     # 30 helyén 34, 32 helyén 36, 44-46 helyén 48a, 48b
-    invalid: ['30', '32', '44', '46', '59', '71', '74']
+    # 152: nincs kiírva 2021-10. RESURVEY 2022
+    invalid: ['30', '32', '44', '46', '59', '71', '74', '152']
   Bérc utca:
     # 10: van egy építkezés, de nem tudni, hogy az a 10-e. 2021-10. RESURVEY 2022
     # 22: ház sincs nagyon a páros oldalon. a legvégén van 1, nincs száma. 2021-08. RESURVEY 2022
