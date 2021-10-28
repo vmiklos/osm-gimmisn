@@ -44,6 +44,7 @@ street-filters:
   - Tulics tanya
 osm-street-filters:
   # Nem valós utcák
+  - Pilisjászfalu Kálvária
   - Tinnyei úti ipartelep
   # Területhatáron lévő utca
   - Béke utca
