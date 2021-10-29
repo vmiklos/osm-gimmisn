@@ -38,8 +38,8 @@ filters:
     # 86: sima 86 nincs, csak 86/A, 86/B.
     # 174: a páros oldalon a 172 az utolsó házszám.
     invalid: ['13a', '61/1', '75', '2a', '40a', '42', '86', '174']
-# Szabadság tér:
-#   2: nem találtam meg, nincs kitáblázva.
+  # Szabadság tér:
+  #   2: nem találtam meg, nincs kitáblázva.
 street-filters:
   # hiányzók
   # Kismetszés köz

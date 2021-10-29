@@ -104,14 +104,12 @@ ifndef V
 	QUIET_PYLINT = @echo '   ' PYLINT $@;
 	QUIET_ESLINT = @echo '   ' ESLINT $@;
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
-	QUIET_YAMLLINT = @echo '   ' YAMLLINT $@;
 endif
 
 all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo $(foreach BINARY_CRATE,$(BINARY_CRATES),target/$(TARGET_PATH)/$(BINARY_CRATE))
 
 clean:
 	rm -f config.ts
-	rm -f $(patsubst %.yaml,%.yamllint,$(filter-out .github/workflows/tests.yml,$(YAML_OBJECTS)))
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
@@ -187,10 +185,6 @@ data/yamls.cache: target/${TARGET_PATH}/cache_yamls rust.so $(YAML_OBJECTS)
 tests/data/yamls.cache: target/${TARGET_PATH}/cache_yamls rust.so $(YAML_TEST_OBJECTS)
 	target/${TARGET_PATH}/cache_yamls tests/data tests/workdir
 
-check-filters: check-filters-syntax check-filters-schema
-
-check-filters-syntax: $(patsubst %.yaml,%.yamllint,$(YAML_OBJECTS))
-
 check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
 
 check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
@@ -209,13 +203,10 @@ check-mypy: $(PYTHON_OBJECTS)
 %.flake8: %.py Makefile setup.cfg
 	$(QUIET_FLAKE8)flake8 $< && touch $@
 
-check-filters-schema: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
+check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
 %.validyaml : %.yaml validator.py
 	$(QUIET_VALIDATOR)./validator.py $< && touch $@
-
-%.yamllint : %.yaml Makefile .yamllint
-	$(QUIET_YAMLLINT)yamllint --strict $< && touch $@
 
 # Make sure that the current directory is *not* the repo root but something else to catch
 # non-absolute paths.
