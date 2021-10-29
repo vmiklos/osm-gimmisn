@@ -36,6 +36,8 @@ filters:
   Kővirág utca:
     ranges:
       - {start: '2', end: '10'}
+  Neptun utca:
+    ranges: []
   Noszlopy Gáspár utca:
     # 6: nincs, 4 és 8 egy ikerház
     invalid: ['6']
