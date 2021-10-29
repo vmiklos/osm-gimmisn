@@ -108,6 +108,7 @@ filters:
     show-refstreet: false
   Magyar utca:
     # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
+    # 12: új épület RESURVEY 2022
     invalid: ['25', '45', '55', '75']
   Malomvölgyi utca:
     # 7: 5 után 9. 7 a kereszteződésre esik
@@ -123,6 +124,9 @@ filters:
     # 4 nincs kiírva, épület sincs az út mentén, lehet feljebb van mert hosszúkásak a telkek. RESURVEY 2022
     # utolsó ház a 15
     invalid: ['4', '23']
+  Moha utca:
+    # 1: 1 ház kész + 1 épülőben. 2021-10. RESURVEY 2022
+    invalid: ['1']
   Pacsirta köz:
     # 20-22: csak 22 van kiírva
     invalid: ['20']
