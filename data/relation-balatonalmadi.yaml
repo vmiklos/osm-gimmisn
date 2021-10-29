@@ -145,6 +145,7 @@ filters:
     # páros oldalon a vasút megy
     # 9-11: csak 11 van helyben
     # 25-27 nincs kiírva
+    invalid: ['9']
     ranges:
       - {start: '1', end: '27'}
   Noszlopy Gáspár utca:
