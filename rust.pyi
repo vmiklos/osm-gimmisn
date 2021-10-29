@@ -598,16 +598,8 @@ def py_setup_logging(ctx: PyContext) -> None:
     """Sets up logging."""
     ...
 
-def py_update_stats_count(ctx: PyContext, today: str) -> None:
-    """Counts the # of all house numbers as of today."""
-    ...
-
 def py_update_stats_topusers(ctx: PyContext, today: str) -> None:
     """Counts the top housenumber editors as of today."""
-    ...
-
-def py_cron_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
-    """Commandline interface."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
