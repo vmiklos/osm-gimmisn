@@ -7,24 +7,11 @@
 
 """The cron module allows doing nightly tasks."""
 
-from typing import List
-from typing import BinaryIO
-
 import rust
-
-
-def update_stats_count(ctx: rust.PyContext, today: str) -> None:
-    """Counts the # of all house numbers as of today."""
-    rust.py_update_stats_count(ctx, today)
 
 
 def update_stats_topusers(ctx: rust.PyContext, today: str) -> None:
     """Counts the top housenumber editors as of today."""
     rust.py_update_stats_topusers(ctx, today)
-
-
-def main(argv: List[str], stdout: BinaryIO, ctx: rust.PyContext) -> None:
-    """Commandline interface to this module."""
-    rust.py_cron_main(argv, stdout, ctx)
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

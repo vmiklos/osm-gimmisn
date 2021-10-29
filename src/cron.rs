@@ -358,14 +358,6 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
     write_city_count_path(ctx, &city_count_path, &cities)
 }
 
-#[pyfunction]
-fn py_update_stats_count(ctx: context::PyContext, today: &str) -> PyResult<()> {
-    match update_stats_count(&ctx.context, today).context("update_stats_count() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Counts the top housenumber editors as of today.
 fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
     let statedir = ctx.get_abspath("workdir/stats")?;
@@ -630,24 +622,10 @@ pub fn main(
     Ok(())
 }
 
-#[pyfunction]
-fn py_cron_main(argv: Vec<String>, stdout: PyObject, ctx: &context::PyContext) -> PyResult<()> {
-    let mut stream = context::PyAnyWrite { write: stdout };
-    match main(&argv, &mut stream, &ctx.context) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "main() failed: {}",
-            err.to_string()
-        ))),
-    }
-}
-
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_stats_count, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_update_stats_topusers, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_cron_main, module)?)?;
     Ok(())
 }
 
@@ -1528,5 +1506,125 @@ mod tests {
 
         let mut guard = stats_value.lock().unwrap();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
+
+    /// Tests main().
+    #[test]
+    fn test_main() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let stats_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/stats/stats.json", &stats_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let argv = vec![
+            "".to_string(),
+            "--mode".to_string(),
+            "stats".to_string(),
+            "--no-overpass".to_string(),
+        ];
+        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+
+        main(&argv, &mut buf, &mut ctx).unwrap();
+
+        // Make sure that stats.json is updated.
+        let mut guard = stats_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
+
+    /// Tests main(): the path when our_main() returns an error.
+    #[test]
+    fn test_main_error() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let unit = context::tests::TestUnit::new();
+        let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
+        ctx.set_unit(&unit_arc);
+        let argv = vec![
+            "".to_string(),
+            "--mode".to_string(),
+            "stats".to_string(),
+            "--no-overpass".to_string(),
+        ];
+        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+
+        // main() catches the error returned by our_main().
+        main(&argv, &mut buf, &mut ctx).unwrap();
+    }
+
+    /// Tests update_stats_count().
+    #[test]
+    fn test_update_stats_count() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let today_csv_value = context::tests::TestFileSystem::make_file();
+        today_csv_value
+            .lock()
+            .unwrap()
+            .write_all(
+                r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user
+7677	Orfű	Dollár utca	1	mgpx
+"#
+                .as_bytes(),
+            )
+            .unwrap();
+        let today_count_value = context::tests::TestFileSystem::make_file();
+        let today_citycount_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/stats/2020-05-10.csv", &today_csv_value),
+                ("workdir/stats/2020-05-10.count", &today_count_value),
+                ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        update_stats_count(&ctx, "2020-05-10").unwrap();
+
+        {
+            let mut guard = today_count_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        {
+            let mut guard = today_citycount_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+    }
+
+    /// Tests update_stats_count(): the case then the .csv is missing.
+    #[test]
+    fn test_update_stats_count_no_csv() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let today_count_value = context::tests::TestFileSystem::make_file();
+        let today_citycount_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/stats/2020-05-10.count", &today_count_value),
+                ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
+            ],
+        );
+        file_system.set_files(&files);
+        file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv").unwrap()]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        update_stats_count(&ctx, "2020-05-10").unwrap();
+
+        {
+            let mut guard = today_count_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
+        }
+        {
+            let mut guard = today_citycount_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
+        }
     }
 }

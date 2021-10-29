@@ -988,7 +988,8 @@ impl Context {
         &self.unit
     }
 
-    fn set_unit(&mut self, unit: &Arc<dyn Unit>) {
+    /// Sets the unit implementation.
+    pub fn set_unit(&mut self, unit: &Arc<dyn Unit>) {
         self.unit = unit.clone();
     }
 
@@ -1317,6 +1318,21 @@ pub mod tests {
             // Allow specifying multiple results for the same URL.
             locked_routes.remove(remove.unwrap());
             Ok(ret)
+        }
+    }
+
+    /// Unit implementation, which intentionally fails.
+    pub struct TestUnit {}
+
+    impl TestUnit {
+        pub fn new() -> Self {
+            TestUnit {}
+        }
+    }
+
+    impl Unit for TestUnit {
+        fn make_error(&self) -> String {
+            return "TestError".into();
         }
     }
 
