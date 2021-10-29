@@ -8,8 +8,6 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '66'}
-  József Attila út:
-    ranges: []
   Szabadság-kilátó út:
     show-refstreet: false
     ranges:
