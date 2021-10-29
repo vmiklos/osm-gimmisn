@@ -44,6 +44,8 @@ filters:
   Szabadság út:
     ranges:
       - {start: '18', end: '198	'}
+  Véghely Dezső utca:
+    ranges: []
   # Szűrők
   Báthory utca:
     show-refstreet: false
