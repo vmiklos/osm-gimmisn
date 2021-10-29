@@ -17,6 +17,9 @@ filters:
     # 9, 11 semmi nincs táblázva, 1 ház van csak
     # 13-15: csak 13
     invalid: ['9', '15']
+  Balaton utca:
+    ranges:
+      - {start: '2', end: '16'}
   Balatonfűzfői út:
     # 5-9: csak 9 van kiírva
     # 140 nincs
@@ -40,6 +43,13 @@ filters:
     # 10: van egy építkezés, de nem tudni, hogy az a 10-e. 2021-10. RESURVEY 2022
     # 22: ház sincs nagyon a páros oldalon. a legvégén van 1, nincs száma. 2021-08. RESURVEY 2022
     invalid: ['10', '22']
+  Blaha Lujza sétány:
+    # 4: nincsenek ház
+    # 8 = Töltés utca 19
+    invalid: ['4', '8']
+  Bocskai tér:
+    # ez egy park
+    ranges: []
   Csaba köz:
     invalid: ['1']
   Csikász lépcső:
@@ -53,6 +63,13 @@ filters:
   Erkel Ferenc utca:
     invalid: ['44', '96']
     show-refstreet: false
+  Eötvös utca:
+    # 6: üres telek
+    invalid: ['6']
+  Építő utca:
+    # 2 = Rákóczi 41
+    # 4 = nincs kiírva: 2021-10. RESURVEY 2022
+    invalid: ['2', '4']
   Fürj köz:
     # 3-5: csak 3 van kiírva
     # 4, 10-12: nincs kiírva: 2021-08. RESURVEY 2022
@@ -76,6 +93,9 @@ filters:
     invalid: ['3', '8', '11']
   Hörpintő utca:
     invalid: ['7']
+  Huba utca:
+    # 11: 9-11-13 nincs kiírva, a 3 számra jut 2 ikerház: 2021-10. RESURVEY 2022
+    invalid: ['11']
   Kert utca:
     invalid: ['21', '23']
   Kisberényi út:
@@ -84,16 +104,25 @@ filters:
     invalid: ['48', '50', '70']
   Kölcsey Ferenc utca:
     show-refstreet: false
+  József Attila út:
+    # 25 üres telek
+    # 27 nincs
+    invalid: ['25', '27']
   Laposa Dániel utca:
     # 3: nincs, 1 után 5
     # 4 és 6: Ungár József utca 4, 6
     invalid: ['3', '4', '6']
+  Lóczy Lajos tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '3'}
   Madách Imre tér:
     show-refstreet: false
   Madách Imre utca:
     show-refstreet: false
   Magyar utca:
     # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
+    # 12: új épület RESURVEY 2022
     invalid: ['25', '45', '55', '75']
   Malomvölgyi utca:
     # 7: 5 után 9. 7 a kereszteződésre esik
@@ -109,6 +138,15 @@ filters:
     # 4 nincs kiírva, épület sincs az út mentén, lehet feljebb van mert hosszúkásak a telkek. RESURVEY 2022
     # utolsó ház a 15
     invalid: ['4', '23']
+  Moha utca:
+    # 1: 1 ház kész + 1 épülőben. 2021-10. RESURVEY 2022
+    invalid: ['1']
+  Neptun utca:
+    # páros oldalon a vasút megy
+    # 9-11: csak 11 van helyben
+    # 25-27 nincs kiírva
+    ranges:
+      - {start: '1', end: '27'}
   Noszlopy Gáspár utca:
     # 6: nincs, 4 és 8 egy ikerház
     invalid: ['6']
@@ -132,6 +170,13 @@ filters:
     invalid: ['9']
   Szabadság-kilátó út:
     show-refstreet: false
+  Szabolcs utca:
+    # 1-7 nincs, 9-től indul a számozás
+    # 28, 30 nincs, Rákóczi 28, 30 van a Szabolcs utca másik oldalán
+    # páros oldalon csak az Aldi tömbnek van száma (2), Balkom a Rákóczira van számozva
+    ranges:
+      - {start: '9', end: '35'}
+      - {start: '2', end: '6'}
   Széchenyi utca:
     # 25 = Erkel Ferenc utca 40
     invalid: ['25']
