@@ -395,6 +395,9 @@ filters:
   Kútvölgyi lejtő:
     # 1-9, 2-8
     invalid: ['16']
+  Dániel út:
+    # 1-25
+    invalid: ['71']
 street-filters:
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
   - Orgona ösvény
