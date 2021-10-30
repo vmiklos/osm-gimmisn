@@ -19,7 +19,6 @@ use crate::stats;
 use crate::util;
 use anyhow::Context;
 use chrono::Datelike;
-use pyo3::prelude::*;
 use std::cmp::Reverse;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -48,14 +47,6 @@ pub fn setup_logging(ctx: &context::Context) -> anyhow::Result<()> {
     Ok(())
 }
 
-#[pyfunction]
-fn py_setup_logging(ctx: context::PyContext) -> PyResult<()> {
-    match setup_logging(&ctx.context).context("setup_logging() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Sleeps to respect overpass rate limit.
 fn overpass_sleep(ctx: &context::Context) {
     loop {
@@ -79,7 +70,10 @@ fn update_osm_streets(
     relations: &mut areas::Relations,
     update: bool,
 ) -> anyhow::Result<()> {
-    for relation_name in relations.get_active_names()? {
+    for relation_name in relations
+        .get_active_names()
+        .context("get_active_names() failed")?
+    {
         let relation = relations.get_relation(&relation_name)?;
         if !update && std::path::Path::new(&relation.get_files().get_osm_streets_path()?).exists() {
             continue;
@@ -400,14 +394,6 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
     Ok(guard.write_all(line.as_bytes())?)
 }
 
-#[pyfunction]
-fn py_update_stats_topusers(ctx: context::PyContext, today: &str) -> PyResult<()> {
-    match update_stats_topusers(&ctx.context, today).context("update_stats_topusers() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Performs the update of workdir/stats/ref.count.
 fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
     let mut count = 0;
@@ -619,13 +605,6 @@ pub fn main(
         seconds
     );
 
-    Ok(())
-}
-
-/// Registers Python wrappers of Rust structs into the Python module.
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_setup_logging, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_update_stats_topusers, module)?)?;
     Ok(())
 }
 
@@ -1618,12 +1597,87 @@ mod tests {
 
         update_stats_count(&ctx, "2020-05-10").unwrap();
 
+        // No .csv, no .count or .citycount.
         {
             let mut guard = today_count_value.lock().unwrap();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
         }
         {
             let mut guard = today_citycount_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
+        }
+    }
+
+    /// Tests update_stats_topusers().
+    #[test]
+    fn test_update_stats_topusers() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let today_csv_value = context::tests::TestFileSystem::make_file();
+        today_csv_value
+            .lock()
+            .unwrap()
+            .write_all(
+                r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user
+7677	Orfű	Dollár utca	1	mgpx
+"#
+                .as_bytes(),
+            )
+            .unwrap();
+        let today_topusers_value = context::tests::TestFileSystem::make_file();
+        let today_usercount_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/stats/2020-05-10.csv", &today_csv_value),
+                ("workdir/stats/2020-05-10.topusers", &today_topusers_value),
+                ("workdir/stats/2020-05-10.usercount", &today_usercount_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        update_stats_topusers(&ctx, "2020-05-10").unwrap();
+
+        {
+            let mut guard = today_topusers_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        {
+            let mut guard = today_usercount_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+    }
+
+    /// Tests update_stats_topusers(): the case then the .csv is missing.
+    #[test]
+    fn test_update_stats_topusers_no_csv() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let today_topusers_value = context::tests::TestFileSystem::make_file();
+        let today_usercount_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/stats/2020-05-10.topusers", &today_topusers_value),
+                ("workdir/stats/2020-05-10.usercount", &today_usercount_value),
+            ],
+        );
+        file_system.set_files(&files);
+        file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv").unwrap()]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        update_stats_topusers(&ctx, "2020-05-10").unwrap();
+
+        // No .csv, no .topusers or .usercount.
+        {
+            let mut guard = today_topusers_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
+        }
+        {
+            let mut guard = today_usercount_value.lock().unwrap();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
         }
     }

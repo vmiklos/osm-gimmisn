@@ -39,7 +39,6 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     cache::register_python_symbols(m)?;
     cache_yamls::register_python_symbols(m)?;
     context::register_python_symbols(m)?;
-    cron::register_python_symbols(m)?;
     i18n::register_python_symbols(m)?;
     missing_housenumbers::register_python_symbols(m)?;
     overpass_query::register_python_symbols(m)?;

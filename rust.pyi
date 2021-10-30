@@ -594,12 +594,4 @@ def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     ...
 
-def py_setup_logging(ctx: PyContext) -> None:
-    """Sets up logging."""
-    ...
-
-def py_update_stats_topusers(ctx: PyContext, today: str) -> None:
-    """Counts the top housenumber editors as of today."""
-    ...
-
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

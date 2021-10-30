@@ -14,11 +14,6 @@ def get_content(path: str) -> bytes:
     return rust.py_get_content(path)
 
 
-def to_bytes(string: str) -> bytes:
-    """Encodes the string to UTF-8."""
-    return string.encode("utf-8")
-
-
 def from_bytes(array: bytes) -> str:
     """Decodes the string from UTF-8."""
     return array.decode("utf-8")
