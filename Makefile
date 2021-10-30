@@ -1,8 +1,5 @@
 PYTHON_TEST_OBJECTS = \
-	tests/test_cache_yamls.py \
 	tests/test_context.py \
-	tests/test_cron.py \
-	tests/test_missing_housenumbers.py \
 	tests/test_overpass_query.py \
 	tests/test_parse_access_log.py \
 	tests/test_validator.py \
@@ -16,7 +13,6 @@ PYTHON_SAFE_OBJECTS = \
 	api.py \
 	areas.py \
 	context.py \
-	cron.py \
 	parse_access_log.py \
 	stats.py \
 	util.py \
@@ -60,6 +56,7 @@ RS_OBJECTS = \
 	src/accept_language.rs \
 	src/area_files.rs \
 	src/areas.rs \
+	src/bin/cache_yamls.rs \
 	src/bin/cron.rs \
 	src/bin/missing_housenumbers.rs \
 	src/bin/rouille.rs \
