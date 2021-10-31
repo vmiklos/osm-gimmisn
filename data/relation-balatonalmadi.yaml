@@ -63,6 +63,8 @@ filters:
   Dembinszky utca:
     # 6 = Klapka 10
     invalid: ['6']
+  Dózsa György utca:
+    show-refstreet: false
   Duna utca:
     # 2 = Balatonfűzfői utca 200
     invalid: ['2']
@@ -76,6 +78,8 @@ filters:
     # 2 = Rákóczi 41
     # 4 = nincs kiírva: 2021-10. RESURVEY 2022
     invalid: ['2', '4']
+  Fadrusz János utca:
+    show-refstreet: false
   Fürj köz:
     # 3-5: csak 3 van kiírva
     # 4, 10-12: nincs kiírva: 2021-08. RESURVEY 2022
@@ -136,6 +140,9 @@ filters:
     # 30-44 között semmi sincs kiírva 2021-08. RESURVEY 2022
     # 71: 39 az utolsó páratlan
     invalid: ['7', '25', '36', '40', '42', '71']
+  Martinovics utca:
+    # 14: 2 db 16 van táblázva
+    invalid: ['14']
   Maros utca:
     # 5, 7: nincs kiírva 2021-08 RESURVEY 2022
     # 15-17: csak 17 van kiírva
@@ -255,6 +262,7 @@ filters:
 osm-street-filters:
   # Területhatár
   - Balaton körút  # Balatonfűzfő
+  - Kötéssűrű utca  # Szentkirályszabadja
   - Uszodai út  # Balatonfűzfő
   # Sétányok, parkok
   - Spirál
@@ -262,7 +270,11 @@ osm-street-filters:
   - Szent Erzsébet liget
   # Ellenőrzött, létező
   - Fürj köz
+  - Géza köz
+  - Hársas köz
+  - Ipoly köz
   - Madách köz
+  - Othelló utca
 street-filters:
   # Nem igazi utcák
   - Óvári kilátó
@@ -282,15 +294,15 @@ street-filters:
   - Temető köz  # Temető utcára számozva - Temető utca 3 és 5 számok
   - Tücsök utca  # Tücsök köz szerepel a táblán
 refstreets:
-  'Dózsa György utca': 'Dózsa György út'
-  'Fadrusz János utca': 'Fadrusz utca'
   'Pacsirta út': 'Pacsirta utca'
   # ellenőrzött
   'Báthory utca': 'Báthori utca'  # táblán Báthory utca
   'Berzsenyi Dániel utca': 'Berzsenyi utca'  # táblán Berzsenyi Dániel
   'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
+  'Dózsa György utca': 'Dózsa György út'  # táblán Dózsa György utca
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
   'Erdőalja út': 'Erdőalja utca'  # táblán Erdőalja út
+  'Fadrusz János utca': 'Fadrusz utca'  # hivatalos táblán Fadrusz János illetve Fadrusz J, a kézi gányolt táblán Fadrusz
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
   'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca
