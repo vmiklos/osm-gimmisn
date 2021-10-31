@@ -67,30 +67,30 @@ refstreets:
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Markhot Ferenc utca': 'Markhót Ferenc utca'
   'Vízimolnár utca': 'Vizimolnár utca'
+  # Ellenőrzött
+  'Csákósor utca': 'Csákó sor utca'  # Az utcanévtábla szerint Csákósor utca
   # note
   # Akácfa utca - Akácos utca: dupla nem mappelhető
-  'Bem tábornok utca': 'Bem tábornok tér'
-  'Csákósor utca': 'Csákó sor utca'
-  'Deméndi utca': 'Deméndi út'
-  'Disznófő-sor': 'Szépasszonyvölgy-Disznófősor utca'
-  'Egri út': 'Egri utca'
-  'Foglár utca': 'Foglár György utca'
-  'Garay János utca': 'Garai János utca'
-  'Hevesi Sándor utca': 'Hevesy Sándor utca'
+  'Bem tábornok utca': 'Bem tábornok tér'  # Note 2803168
+  'Deméndi utca': 'Deméndi út'  # Note 2803218
+  'Disznófő-sor': 'Szépasszonyvölgy-Disznófősor utca'  # Note 2803215
+  'Egri út': 'Egri utca'  # Note 2803225
+  'Foglár utca': 'Foglár György utca'  # Note 2803211
+  'Garay János utca': 'Garai János utca'  # Note 2803221
+  'Hevesi Sándor utca': 'Hevesy Sándor utca'  # Note 2803219
   'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'
-  'Ipolyi utca': 'Ipolyi Arnold utca'
-  'Koháry István út': 'Koháry István utca'
   'Kőlyuktetői pincesor': 'Kőlyuktető'
-  'Maczki Valér utca': 'Macki Valér utca'
-  'Nagylapos utca': 'Nagylaposi út'
-  'Pápay Sámuel utca': 'Pápai Sámuel utca'
-  'Pásztorvölgyi utca': 'Pásztorvölgy utca'
-  'Rottenstein köz': 'Rottenstein Károly utca'
-  'Rózsa völgy': 'Rózsavölgy utca'
-  'Pyrker tér': 'Pyrker János tér'
+  'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212
+  'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
+  'Pápay Sámuel utca': 'Pápai Sámuel utca'  # Note 2803207
+  'Pásztorvölgyi utca': 'Pásztorvölgy utca'  # Note 2803217
+  'Rottenstein köz': 'Rottenstein Károly utca'  # Note 2803227
+  'Rózsa völgy': 'Rózsavölgy utca'  # Note 2803213
+  'Pyrker tér': 'Pyrker János tér'  # Note 2803223
   'Szervita utca': 'Servita utca'
-  'Tibrik dűlő': 'Tibrikdűlő utca'
-  'Törvényház út': 'Törvényház utca'
-  'Vörösmarty Mihály út': 'Vörösmarty Mihály utca'
+  'Tibrik dűlő': 'Tibrikdűlő utca'  # Note 2803220
+  'Törvényház út': 'Törvényház utca'  # Note 2803216
+  'Vörösmarty Mihály út': 'Vörösmarty Mihály utca'  # Note 2803226
+
 source: survey
 inactive: true
