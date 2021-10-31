@@ -95,14 +95,6 @@ impl PyDoc {
         self.doc.get_value()
     }
 
-    fn append_value(&self, value: String) {
-        self.doc.append_value(value)
-    }
-
-    fn stag(&self, name: &str, attrs: Vec<(&str, &str)>) {
-        self.doc.stag(name, &attrs)
-    }
-
     fn text(&self, text: &str) {
         self.doc.text(text)
     }

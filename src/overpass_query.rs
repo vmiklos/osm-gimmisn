@@ -11,25 +11,12 @@
 //! The overpass_query module allows getting data out of the OSM DB without a full download.
 
 use crate::context;
-use pyo3::prelude::*;
 
 /// Posts the query string to the overpass API and returns the result string.
 pub fn overpass_query(ctx: &context::Context, query: String) -> anyhow::Result<String> {
     let url = ctx.get_ini().get_overpass_uri() + "/api/interpreter";
 
     ctx.get_network().urlopen(&url, &query)
-}
-
-#[pyfunction]
-pub fn py_overpass_query(py: Python<'_>, ctx: PyObject, query: String) -> PyResult<String> {
-    let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(py)?;
-    match overpass_query(&ctx.context, query) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "overpass_query() failed: {}",
-            err.to_string()
-        ))),
-    }
 }
 
 /// Checks if we need to sleep before executing an overpass query.
@@ -71,17 +58,75 @@ pub fn overpass_query_need_sleep(ctx: &context::Context) -> i32 {
     sleep
 }
 
-#[pyfunction]
-pub fn py_overpass_query_need_sleep(py: Python<'_>, ctx: PyObject) -> PyResult<i32> {
-    let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(py)?;
-    Ok(overpass_query_need_sleep(&ctx.context))
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::Arc;
 
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_overpass_query, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_overpass_query_need_sleep,
-        module
-    )?)?;
-    Ok(())
+    /// Tests overpass_query_need_sleep().
+    #[test]
+    fn test_overpass_query_need_sleep() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+
+        assert_eq!(overpass_query_need_sleep(&ctx), 0);
+    }
+
+    /// Tests overpass_query_need_sleep(): the wait path.
+    #[test]
+    fn test_overpass_query_need_sleep_wait() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-status-wait.txt",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+
+        assert_eq!(overpass_query_need_sleep(&ctx), 12);
+    }
+
+    /// Tests overpass_query_need_sleep(): the wait for negative amount path.
+    #[test]
+    fn test_overpass_query_need_sleep_wait_negative() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/status",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-status-wait-negative.txt",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+
+        assert_eq!(overpass_query_need_sleep(&ctx), 1);
+    }
+
+    /// Tests overpass_query().
+    #[test]
+    fn test_overpass_query() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "tests/network/overpass-happy.expected-data",
+            /*result_path=*/ "tests/network/overpass-happy.csv",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        ctx.set_network(&network_arc);
+        let query = std::fs::read_to_string("tests/network/overpass-happy.expected-data").unwrap();
+
+        let buf = overpass_query(&ctx, query).unwrap();
+
+        assert_eq!(buf.starts_with("@id"), true);
+    }
 }

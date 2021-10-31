@@ -10,8 +10,6 @@
 
 //! The i18n module allows UI translation via gettext.
 
-use pyo3::prelude::*;
-
 thread_local! {
     static TRANSLATIONS: std::cell::RefCell<Option<gettext::Catalog>> = std::cell::RefCell::new(None);
     static LANGUAGE: std::cell::RefCell<Option<String>> = std::cell::RefCell::new(None);
@@ -43,17 +41,6 @@ pub fn set_language(language: &str) -> anyhow::Result<()> {
     Ok(())
 }
 
-#[pyfunction]
-pub fn py_set_language(language: String) -> PyResult<()> {
-    match set_language(&language) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "set_language() failed: {}",
-            err.to_string()
-        ))),
-    }
-}
-
 /// Gets the language of the current thread.
 pub fn get_language() -> String {
     LANGUAGE.with(|language| {
@@ -65,11 +52,6 @@ pub fn get_language() -> String {
     })
 }
 
-#[pyfunction]
-pub fn py_get_language(_py: Python<'_>) -> String {
-    get_language()
-}
-
 /// Translates English input according to the current UI language.
 pub fn translate(english: &str) -> String {
     TRANSLATIONS.with(|translations| {
@@ -79,12 +61,6 @@ pub fn translate(english: &str) -> String {
             None => english.to_string(),
         }
     })
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_set_language, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_get_language, module)?)?;
-    Ok(())
 }
 
 #[cfg(test)]
