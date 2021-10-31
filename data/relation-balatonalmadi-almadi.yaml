@@ -48,6 +48,9 @@ filters:
     ranges:
       - {start: '1', end: '67'}
       - {start: '2', end: '62'}
+  Seregély utca:
+    # 9: 9 nincs, 7 az utolsó ami ki van írva
+    invalid: ['9']
   Szabadság út:
     ranges:
       - {start: '1', end: '87'}
@@ -81,13 +84,19 @@ filters:
     ranges:
       - {start: '1', end: '33'}
     show-refstreet: false
-  # szűrők
+  # szűrők ---------------------------------------------------
   Balaton utca:
     ranges:
       - {start: '2', end: '16'}
+  Batthyány utca:
+    # 1-3: csak 1 van
+    # 28: 26/b után 32
+    invalid: ['3', '28']
   Bem utca:
     # 2-4: csak 2 van kiírva
     invalid: ['4']
+  Berzsenyi Dániel utca:
+    show-refstreet: false
   Blaha Lujza sétány:
     # 4: nincsenek ház
     # 8 = Töltés utca 19
@@ -105,15 +114,23 @@ filters:
     invalid: ['1']
   Radnóti utca:
     show-refstreet: false
+  Remetevölgyi út:
+    # 31- nincsenek kiírva számok
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '4'}
+  Szent István sétány:
+    # 4-6: Wesselényi Strand: csak a 6 van használatban
+    invalid: ['4']
   Zrínyi Ilona utca:
     # max házszám 15
     invalid: ['31']
 refstreets:
-  'Berzsenyi Dániel utca': 'Berzsenyi utca'
   'Dózsa György utca': 'Dózsa György út'
   'Fadrusz János utca': 'Fadrusz utca'
   'Pacsirta út': 'Pacsirta utca'
   # ellenőrzött
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'  # táblán Berzsenyi Dániel
   'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
   'Erdőalja út': 'Erdőalja utca'  # táblán Erdőalja út
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
