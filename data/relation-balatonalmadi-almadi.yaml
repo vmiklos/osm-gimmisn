@@ -106,12 +106,19 @@ filters:
   Dembinszky utca:
     # 6 = Klapka 10
     invalid: ['6']
+  Dózsa György utca:
+    show-refstreet: false
+  Fadrusz János utca:
+    show-refstreet: false
   Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
     invalid: ['1', '3', '5']
   Hétvezér utca:
     # 1 = Bajcsy-Zsilinszky út 32
     invalid: ['1']
+  Martinovics utca:
+    # 14: 2 db 16 van táblázva
+    invalid: ['14']
   Radnóti utca:
     show-refstreet: false
   Remetevölgyi út:
@@ -126,13 +133,13 @@ filters:
     # max házszám 15
     invalid: ['31']
 refstreets:
-  'Dózsa György utca': 'Dózsa György út'
-  'Fadrusz János utca': 'Fadrusz utca'
   'Pacsirta út': 'Pacsirta utca'
   # ellenőrzött
   'Berzsenyi Dániel utca': 'Berzsenyi utca'  # táblán Berzsenyi Dániel
   'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
+  'Dózsa György utca': 'Dózsa György út'
   'Erdőalja út': 'Erdőalja utca'  # táblán Erdőalja út
+  'Fadrusz János utca': 'Fadrusz utca'
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
