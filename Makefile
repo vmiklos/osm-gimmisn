@@ -1,6 +1,5 @@
 PYTHON_TEST_OBJECTS = \
 	tests/test_context.py \
-	tests/test_overpass_query.py \
 	tests/test_parse_access_log.py \
 	tests/test_validator.py \
 	tests/test_webframe.py \

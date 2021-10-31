@@ -29,14 +29,6 @@ class PyDoc:
         """Gets the escaped value."""
         ...
 
-    def append_value(self, value: str) -> None:
-        """Appends escaped content to the value."""
-        ...
-
-    def stag(self, name: str, attrs: List[Tuple[str, str]]) -> None:
-        """Starts a new tag and closes it as well."""
-        ...
-
     def text(self, text: str) -> None:
         """Appends unescaped content to the document."""
         ...
@@ -144,24 +136,6 @@ class PyContext:
     def get_file_system(self) -> api.FileSystem:
         """Gets the file system implementation."""
         ...
-
-def py_overpass_query(ctx: PyContext, query: str) -> str:
-    """Posts the query string to the overpass API and returns the result string."""
-    ...
-
-def py_overpass_query_need_sleep(ctx: PyContext) -> int:
-    """Checks if we need to sleep before executing an overpass query."""
-    ...
-
-def py_set_language(language: str) -> None:
-    """Sets the language of the current thread."""
-    ...
-
-
-def py_get_language() -> str:
-    """Gets the language of the current thread."""
-    ...
-
 
 class PyLetterSuffixStyle:
     @staticmethod
