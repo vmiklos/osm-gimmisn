@@ -531,6 +531,7 @@ impl Relation {
                         .unwrap()
                         .as_str()
                         .unwrap()
+                        .trim()
                         .parse::<i64>()
                         .unwrap();
                     let end = start_end_obj
@@ -538,6 +539,7 @@ impl Relation {
                         .unwrap()
                         .as_str()
                         .unwrap()
+                        .trim()
                         .parse::<i64>()
                         .unwrap();
                     i.push(ranges::Range::new(start, end, interpolation));
