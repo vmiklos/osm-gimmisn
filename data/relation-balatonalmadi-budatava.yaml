@@ -33,7 +33,7 @@ filters:
       - {start: '20', end: '42'}
   Szabadság út:
     ranges:
-      - {start: '18', end: '198	'}
+      - {start: '18', end: '198'}
   Véghely Dezső utca:
     ranges: []
   # Szűrők
