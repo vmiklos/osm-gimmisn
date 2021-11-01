@@ -19,7 +19,6 @@ use anyhow::anyhow;
 use anyhow::Context;
 use git_version::git_version;
 use pyo3::prelude::*;
-use pyo3::types::PyBytes;
 use std::collections::HashMap;
 use std::io::Read;
 use std::ops::DerefMut;
@@ -597,8 +596,8 @@ pub fn compress_response(
     Ok((status.into(), headers, output_bytes))
 }
 
-/// Displays an unhandled exception on the page.
-pub fn handle_exception(
+/// Displays an unhandled error on the page.
+pub fn handle_error(
     environ: &HashMap<String, String>,
     error: &str,
 ) -> anyhow::Result<(String, Headers, Vec<u8>)> {
@@ -618,26 +617,6 @@ pub fn handle_exception(
     }
     let response_properties = Response::new("text/html", status, doc.get_value().as_bytes(), &[]);
     compress_response(environ, &response_properties)
-}
-
-#[pyfunction]
-fn py_handle_exception(
-    environ: HashMap<String, String>,
-    error: String,
-) -> PyResult<(String, Headers, PyObject)> {
-    let (status, headers, data) = match handle_exception(&environ, &error) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "handle_exception() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-
-    let gil = Python::acquire_gil();
-    let data = PyBytes::new(gil.python(), &data);
-    Ok((status, headers, data.into()))
 }
 
 /// Displays a not-found page.
@@ -1218,7 +1197,6 @@ fn py_handle_github_webhook(data: Vec<u8>, ctx: context::PyContext) -> PyResult<
 }
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_exception, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_handle_github_webhook, module)?)?;
     Ok(())
@@ -1227,6 +1205,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::context::Unit;
 
     /// Tests handle_static().
     #[test]
@@ -1321,5 +1300,29 @@ mod tests {
         let html = items[0].get_value();
         assert_eq!(html.contains("Missing house numbers"), true);
         assert_eq!(html.contains("Missing streets"), false);
+    }
+
+    /// Tests handle_error().
+    #[test]
+    fn test_handle_error() {
+        let mut environ: HashMap<String, String> = HashMap::new();
+        environ.insert("PATH_INFO".into(), "/".into());
+
+        let unit = context::tests::TestUnit::new();
+        let err = unit.make_error();
+
+        let (status, headers, data) = handle_error(&environ, &err).unwrap();
+
+        assert_eq!(status.starts_with("500"), true);
+
+        let mut headers_map = HashMap::new();
+        for (key, value) in headers {
+            headers_map.insert(key, value);
+        }
+        assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
+        assert_eq!(data.is_empty(), false);
+
+        let output = String::from_utf8(data).unwrap();
+        assert_eq!(output.contains("TestError"), true);
     }
 }

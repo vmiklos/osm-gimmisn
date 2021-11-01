@@ -8,18 +8,8 @@
 """The webframe module provides the header, toolbar and footer code."""
 
 from typing import Dict
-from typing import List
-from typing import Tuple
 
 import rust
-
-
-def handle_exception(
-        environ: Dict[str, str],
-        error: str
-) -> Tuple[str, List[Tuple[str, str]], bytes]:
-    """Displays an unhandled exception on the page."""
-    return rust.py_handle_exception(environ, error)
 
 
 def get_request_uri(environ: Dict[str, str], ctx: rust.PyContext, relations: rust.PyRelations) -> str:

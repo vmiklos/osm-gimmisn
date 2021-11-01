@@ -1548,7 +1548,7 @@ pub fn application(
 ) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
     match our_application(request_headers, request_data, ctx).context("our_application() failed") {
         Ok(value) => Ok(value),
-        Err(err) => webframe::handle_exception(request_headers, &format!("{:?}", err)),
+        Err(err) => webframe::handle_error(request_headers, &format!("{:?}", err)),
     }
 }
 
@@ -1578,4 +1578,281 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_application, module)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::Seek;
+    use std::io::SeekFrom;
+
+    /// Shared struct for wsgi tests.
+    struct TestWsgi {
+        gzip_compress: bool,
+        ctx: context::Context,
+        environ: HashMap<String, String>,
+        bytes: Vec<u8>,
+        absolute_path: bool,
+        expected_status: String,
+    }
+
+    impl TestWsgi {
+        fn new() -> Self {
+            let gzip_compress = false;
+            let ctx = context::tests::make_test_context().unwrap();
+            let environ: HashMap<String, String> = HashMap::new();
+            let bytes: Vec<u8> = Vec::new();
+            let absolute_path = false;
+            let expected_status: String = "200 OK".into();
+            TestWsgi {
+                gzip_compress,
+                ctx,
+                environ,
+                bytes,
+                absolute_path,
+                expected_status,
+            }
+        }
+
+        /// Finds all matching subelements, by tag name or path.
+        fn find_all(element: &elementtree::Element, path: &str) -> Vec<elementtree::Element> {
+            let attr_specifier = regex::Regex::new(r"(.*)\[@(.*)='(.*)'\]").unwrap();
+            if let Some(cap) = attr_specifier.captures_iter(path).next() {
+                let path: String = cap[1].into();
+                let attr_name: String = cap[2].into();
+                let attr_value: String = cap[3].into();
+                let tags: Vec<&str> = path.split('/').collect();
+                let (last, tags) = tags.split_last().unwrap();
+                let last: String = last.to_string();
+                let child = element.navigate(&tags).unwrap();
+                for i in child.find_all(&*last) {
+                    if let Some(value) = i.get_attr(&*attr_name) {
+                        if value == attr_value {
+                            return vec![i.clone()];
+                        }
+                    }
+                }
+                return vec![];
+            }
+
+            let tags: Vec<&str> = path.split('/').collect();
+            match element.navigate(&tags) {
+                Some(value) => vec![value.clone()],
+                None => vec![],
+            }
+        }
+
+        /// Generates an XML DOM for a given wsgi path.
+        fn get_dom_for_path(&mut self, path: &str) -> elementtree::Element {
+            let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
+            let abspath: String;
+            if self.absolute_path {
+                abspath = path.into();
+            } else {
+                abspath = format!("{}{}", prefix, path);
+            }
+            self.environ.insert("PATH_INFO".into(), abspath);
+            if self.gzip_compress {
+                self.environ
+                    .insert("HTTP_ACCEPT_ENCODING".into(), "gzip, deflate".into());
+            }
+            let (status, response_headers, data) =
+                application(&self.environ, &self.bytes, &self.ctx).unwrap();
+            // Make sure the built-in error catcher is not kicking in.
+            assert_eq!(status, self.expected_status);
+            let mut headers_map = HashMap::new();
+            for (key, value) in response_headers {
+                headers_map.insert(key, value);
+            }
+            assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
+            assert_eq!(data.is_empty(), false);
+            let mut output: Vec<u8> = Vec::new();
+            if self.gzip_compress {
+                //output_bytes = xmlrpc.client.gzip_decode(data)
+                assert!(false);
+            } else {
+                output = data;
+            }
+            let root = elementtree::Element::from_reader(output.as_slice()).unwrap();
+            root
+        }
+    }
+
+    /// Tests handle_streets(): if the output is well-formed.
+    #[test]
+    fn test_handle_streets_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/streets/gazdagret/view-result");
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_streets(): if the view-query output is well-formed.
+    #[test]
+    fn test_handle_streets_view_query_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/streets/gazdagret/view-query");
+        let results = TestWsgi::find_all(&root, "body/pre");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_streets(): if the update-result output is well-formed.
+    #[test]
+    fn test_handle_streets_update_result_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-streets-gazdagret.csv",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.ctx.set_network(&network_arc);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("workdir/streets-gazdagret.csv", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/streets/gazdagret/update-result");
+
+        let mut guard = streets_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let results = TestWsgi::find_all(&root, "body");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_streets(): if the update-result output on error is well-formed.
+    #[test]
+    fn test_handle_streets_update_result_error_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "", // no result -> error
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.ctx.set_network(&network_arc);
+
+        let root = test_wsgi.get_dom_for_path("/streets/gazdagret/update-result");
+
+        let results = TestWsgi::find_all(&root, "body/div[@id='overpass-error']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_streets(): if the update-result output is well-formed for
+    /// should_check_missing_streets() == "only".
+    #[test]
+    fn test_handle_streets_update_result_missing_streets_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-streets-ujbuda.csv",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.ctx.set_network(&network_arc);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("workdir/streets-ujbuda.csv", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/streets/ujbuda/update-result");
+
+        let mut guard = streets_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let results = TestWsgi::find_all(&root, "body");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: if the output is well-formed.
+    #[test]
+    fn test_missing_housenumbers_well_formed() {
+        let cache_path = "workdir/gazdagret.htmlcache.en";
+        if std::path::Path::new(cache_path).exists() {
+            std::fs::remove_file(cache_path).unwrap();
+        }
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
+        let mut results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+
+        // refstreets: >0 invalid osm name
+        results = TestWsgi::find_all(&root, "body/div[@id='osm-invalids-container']");
+        assert_eq!(results.len(), 1);
+        // refstreets: >0 invalid ref name
+        results = TestWsgi::find_all(&root, "body/div[@id='ref-invalids-container']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: the output for a non-existing relation.
+    #[test]
+    fn test_missing_housenumbers_no_such_relation() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret42/view-result");
+        let results = TestWsgi::find_all(&root, "body/div[@id='no-such-relation-error']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: if the output is well-formed (URL rewrite).
+    #[test]
+    fn test_missing_housenumbers_compat() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let htmlcache_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[
+                ("workdir/gazdagret.percent", &streets_value),
+                ("workdir/gazdagret.htmlcache.en", &htmlcache_value),
+            ],
+        );
+        file_system.set_files(&files);
+        // Make sure the cache is outdated.
+        let mut mtimes: HashMap<String, f64> = HashMap::new();
+        mtimes.insert(
+            test_wsgi
+                .ctx
+                .get_abspath("workdir/gazdagret.htmlcache.en")
+                .unwrap(),
+            0_f64,
+        );
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/suspicious-streets/gazdagret/view-result");
+
+        {
+            let mut guard = streets_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        {
+            let mut guard = htmlcache_value.lock().unwrap();
+            assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        }
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: if the output is well-formed (URL rewrite for relation name).
+    #[test]
+    fn test_missing_housenumbers_compat_relation() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/suspicious-streets/budapest_22/view-result");
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
 }
