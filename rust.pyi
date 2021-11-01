@@ -519,13 +519,6 @@ def py_cache_yamls_main(argv: List[str], ctx: PyContext) -> None:
     """Commandline interface."""
     ...
 
-def py_handle_exception(
-        environ: Dict[str, str],
-        error: str
-) -> Tuple[str, List[Tuple[str, str]], bytes]:
-    """Displays an unhandled exception on the page."""
-    ...
-
 def py_get_request_uri(environ: Dict[str, str], ctx: PyContext, relations: PyRelations) -> str:
     """Finds out the request URI."""
     ...
