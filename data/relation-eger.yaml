@@ -87,10 +87,7 @@ refstreets:
   'Rottenstein köz': 'Rottenstein Károly utca'  # Note 2803227
   'Rózsa völgy': 'Rózsavölgy utca'  # Note 2803213
   'Pyrker tér': 'Pyrker János tér'  # Note 2803223
-  'Szervita utca': 'Servita utca'
   'Tibrik dűlő': 'Tibrikdűlő utca'  # Note 2803220
   'Törvényház út': 'Törvényház utca'  # Note 2803216
-  'Vörösmarty Mihály út': 'Vörösmarty Mihály utca'  # Note 2803226
-
 source: survey
 inactive: true
