@@ -100,48 +100,6 @@ class TestWsgi(unittest.TestCase):
 
 class TestMissingHousenumbers(TestWsgi):
     """Tests the missing house numbers page."""
-    def test_no_osm_streets_well_formed(self) -> None:
-        """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
-        results = root.findall("body/div[@id='no-osm-streets']")
-        self.assertEqual(len(results), 1)
-
-    def test_no_osm_housenumbers_well_formed(self) -> None:
-        """Tests if the output is well-formed, no osm housenumbers case."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_housenumbers_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
-        results = root.findall("body/div[@id='no-osm-housenumbers']")
-        self.assertEqual(len(results), 1)
-
-    def test_no_ref_housenumbers_well_formed(self) -> None:
-        """Tests if the output is well-formed, no ref housenumbers case."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_ref_housenumbers_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/missing-housenumbers/gazdagret/view-result")
-        results = root.findall("body/div[@id='no-ref-housenumbers']")
-        self.assertEqual(len(results), 1)
-
-    def test_view_result_txt(self) -> None:
-        """Tests the txt output."""
-        result = self.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt")
-        # Note how 12 is ordered after 2.
-        self.assertEqual(result, "Vöröskúti határsor\t[2, 12, 34, 36*]")
-
     def test_view_result_txt_even_odd(self) -> None:
         """Tests the txt output (even-odd streets)."""
         if os.path.exists(self.ctx.get_abspath("workdir/gazdagret.txtcache")):

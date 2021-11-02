@@ -1676,6 +1676,29 @@ mod tests {
             let root = elementtree::Element::from_reader(output.as_slice()).unwrap();
             root
         }
+
+        /// Generates a string for a given wsgi path.
+        fn get_txt_for_path(&mut self, path: &str) -> String {
+            let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
+            self.environ
+                .insert("PATH_INFO".into(), format!("{}{}", prefix, path));
+            let (status, response_headers, data) =
+                application(&self.environ, &self.bytes, &self.ctx).unwrap();
+            // Make sure the built-in exception catcher is not kicking in.
+            assert_eq!(status, "200 OK");
+            let mut headers_map = HashMap::new();
+            for (key, value) in response_headers {
+                headers_map.insert(key, value);
+            }
+            if path.ends_with(".chkl") {
+                assert_eq!(headers_map["Content-type"], "application/octet-stream");
+            } else {
+                assert_eq!(headers_map["Content-type"], "text/plain; charset=utf-8");
+            }
+            assert_eq!(data.is_empty(), false);
+            let output = String::from_utf8(data).unwrap();
+            output
+        }
     }
 
     /// Tests handle_streets(): if the output is well-formed.
@@ -1854,5 +1877,62 @@ mod tests {
         let root = test_wsgi.get_dom_for_path("/suspicious-streets/budapest_22/view-result");
         let results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: if the output is well-formed, no osm streets case.
+    #[test]
+    fn test_missing_housenumbers_no_osm_streets() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
+        let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-streets']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: if the output is well-formed, no osm housenumbers case.
+    #[test]
+    fn test_missing_housenumbers_no_osm_housenumbers() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
+        let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-housenumbers']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: if the output is well-formed, no ref housenumbers case.
+    #[test]
+    fn test_missing_housenumbers_no_ref_housenumbers_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
+        let results = TestWsgi::find_all(&root, "body/div[@id='no-ref-housenumbers']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: the txt output.
+    #[test]
+    fn test_missing_housenumbers_view_result_txt() {
+        let mut test_wsgi = TestWsgi::new();
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt");
+        // Note how 12 is ordered after 2.
+        assert_eq!(result, "Vöröskúti határsor\t[2, 12, 34, 36*]");
     }
 }
