@@ -94,10 +94,6 @@ impl PyDoc {
     fn get_value(&self) -> String {
         self.doc.get_value()
     }
-
-    fn text(&self, text: &str) {
-        self.doc.text(text)
-    }
 }
 
 /// Starts a tag, which is closed automatically.

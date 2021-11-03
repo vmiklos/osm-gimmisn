@@ -29,10 +29,6 @@ class PyDoc:
         """Gets the escaped value."""
         ...
 
-    def text(self, text: str) -> None:
-        """Appends unescaped content to the document."""
-        ...
-
 
 class PyStdFileSystem(api.FileSystem):
     """File system implementation, backed by the Rust stdlib."""
@@ -78,10 +74,6 @@ class PyIni:
 
     def get_overpass_uri(self) -> str:
         """Gets the URI of the overpass instance to be used."""
-        ...
-
-    def get_cron_update_inactive(self) -> bool:
-        """Should cron.py update inactive relations?"""
         ...
 
 class PyContext:
