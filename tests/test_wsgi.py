@@ -20,7 +20,6 @@ import urllib.error
 import urllib.parse
 import xml.etree.ElementTree as ET
 import xmlrpc.client
-import os
 
 import test_context
 
@@ -100,80 +99,6 @@ class TestWsgi(unittest.TestCase):
 
 class TestMissingHousenumbers(TestWsgi):
     """Tests the missing house numbers page."""
-    def test_view_result_txt_even_odd(self) -> None:
-        """Tests the txt output (even-odd streets)."""
-        if os.path.exists(self.ctx.get_abspath("workdir/gazdagret.txtcache")):
-            os.unlink(self.ctx.get_abspath("workdir/gazdagret.txtcache"))
-        result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt")
-        expected = """Hamzsabégi út	[1]
-Törökugrató utca	[7], [10]
-Tűzkő utca	[1], [2]"""
-        self.assertEqual(result, expected)
-
-    def test_view_result_chkl(self) -> None:
-        """Tests the chkl output."""
-        result = self.get_txt_for_path("/missing-housenumbers/budafok/view-result.chkl")
-        # Note how 12 is ordered after 2.
-        self.assertEqual(result, "[ ] Vöröskúti határsor [2, 12, 34, 36*]")
-
-    def test_view_result_chkl_even_odd(self) -> None:
-        """Tests the chkl output (even-odd streets)."""
-        result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
-        expected = """[ ] Hamzsabégi út [1]
-[ ] Törökugrató utca [7], [10]
-[ ] Tűzkő utca [1], [2]"""
-        self.assertEqual(result, expected)
-
-    def test_view_result_chkl_even_odd_split(self) -> None:
-        """Tests the chkl output (even-odd streets)."""
-        hoursnumbers_ref = """Hamzsabégi út	1
-Ref Name 1	1
-Ref Name 1	2
-Törökugrató utca	1	comment
-Törökugrató utca	10
-Törökugrató utca	11
-Törökugrató utca	12
-Törökugrató utca	2
-Törökugrató utca	7
-Tűzkő utca	1
-Tűzkő utca	2
-Tűzkő utca	9
-Tűzkő utca	10
-Tűzkő utca	12
-Tűzkő utca	13
-Tűzkő utca	14
-Tűzkő utca	15
-Tűzkő utca	16
-Tűzkő utca	17
-Tűzkő utca	18
-Tűzkő utca	19
-Tűzkő utca	20
-Tűzkő utca	21
-Tűzkő utca	22
-Tűzkő utca	22
-Tűzkő utca	24
-Tűzkő utca	25
-Tűzkő utca	26
-Tűzkő utca	27
-Tűzkő utca	28
-Tűzkő utca	29
-Tűzkő utca	30
-Tűzkő utca	31
-"""
-        hoursnumbers_ref_value = io.BytesIO()
-        hoursnumbers_ref_value.write(hoursnumbers_ref.encode("utf-8"))
-        hoursnumbers_ref_value.seek(0)
-        file_system = test_context.TestFileSystem()
-        hoursnumbers_ref_path = self.ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst")
-        file_system.set_files({hoursnumbers_ref_path: hoursnumbers_ref_value})
-        self.ctx.set_file_system(file_system)
-        result = self.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl")
-        expected = """[ ] Hamzsabégi út [1]
-[ ] Törökugrató utca [7], [10]
-[ ] Tűzkő utca [1, 13, 15, 17, 19, 21, 25, 27, 29, 31]
-[ ] Tűzkő utca [2, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]"""
-        self.assertEqual(result, expected)
-
     def test_view_result_chkl_no_osm_streets_hn(self) -> None:
         """Tests the chkl output, no osm streets/hn case."""
         relations = areas.make_relations(test_context.make_test_context())

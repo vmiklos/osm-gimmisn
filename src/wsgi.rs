@@ -238,7 +238,8 @@ fn missing_housenumbers_view_res(
     {
         doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
-        doc = cache::get_missing_housenumbers_html(ctx, &mut relation)?;
+        doc = cache::get_missing_housenumbers_html(ctx, &mut relation)
+            .context("get_missing_housenumbers_html() failed")?;
     }
     Ok(doc)
 }
@@ -579,7 +580,11 @@ fn handle_missing_housenumbers(
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
     } else {
         // assume view-result
-        doc.append_value(missing_housenumbers_view_res(ctx, relations, request_uri)?.get_value())
+        doc.append_value(
+            missing_housenumbers_view_res(ctx, relations, request_uri)
+                .context("missing_housenumbers_view_res() failed")?
+                .get_value(),
+        )
     }
 
     if date.is_empty() {
@@ -1522,7 +1527,11 @@ fn our_application(
         if !no_such_relation.get_value().is_empty() {
             doc.append_value(no_such_relation.get_value());
         } else if let Some(handler) = handler {
-            doc.append_value(handler(ctx, &mut relations, &request_uri)?.get_value());
+            doc.append_value(
+                handler(ctx, &mut relations, &request_uri)
+                    .context("handler() failed")?
+                    .get_value(),
+            );
         } else if request_uri.starts_with(&format!("{}/webhooks/github", prefix)) {
             doc.append_value(
                 webframe::handle_github_webhook(request_data.to_vec(), ctx)?.get_value(),
@@ -1585,6 +1594,7 @@ mod tests {
     use super::*;
     use std::io::Seek;
     use std::io::SeekFrom;
+    use std::io::Write;
 
     /// Shared struct for wsgi tests.
     struct TestWsgi {
@@ -1934,5 +1944,106 @@ mod tests {
         let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt");
         // Note how 12 is ordered after 2.
         assert_eq!(result, "Vöröskúti határsor\t[2, 12, 34, 36*]");
+    }
+
+    /// Tests the missing house numbers page: the txt output (even-odd streets).
+    #[test]
+    fn test_missing_housenumbers_view_result_txt_even_odd() {
+        let mut test_wsgi = TestWsgi::new();
+        let cache_path = test_wsgi
+            .ctx
+            .get_abspath("workdir/gazdagret.txtcache")
+            .unwrap();
+        if std::path::Path::new(&cache_path).exists() {
+            std::fs::remove_file(&cache_path).unwrap();
+        }
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
+        let expected = r#"Hamzsabégi út	[1]
+Törökugrató utca	[7], [10]
+Tűzkő utca	[1], [2]"#;
+        assert_eq!(result, expected);
+    }
+
+    /// Tests the missing house numbers page: the chkl output.
+    #[test]
+    fn test_missing_housenumbers_view_result_chkl() {
+        let mut test_wsgi = TestWsgi::new();
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.chkl");
+        // Note how 12 is ordered after 2.
+        assert_eq!(result, "[ ] Vöröskúti határsor [2, 12, 34, 36*]");
+    }
+
+    /// Tests the missing house numbers page: the chkl output (even-odd streets).
+    #[test]
+    fn test_missing_housenumbers_view_result_chkl_even_odd() {
+        let mut test_wsgi = TestWsgi::new();
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
+        let expected = r#"[ ] Hamzsabégi út [1]
+[ ] Törökugrató utca [7], [10]
+[ ] Tűzkő utca [1], [2]"#;
+        assert_eq!(result, expected);
+    }
+
+    /// Tests the missing house numbers page: the chkl output (even-odd streets).
+    #[test]
+    fn test_missing_housenumbers_view_result_chkl_even_odd_split() {
+        let mut test_wsgi = TestWsgi::new();
+        let hoursnumbers_ref = r#"Hamzsabégi út	1
+Ref Name 1	1
+Ref Name 1	2
+Törökugrató utca	1	comment
+Törökugrató utca	10
+Törökugrató utca	11
+Törökugrató utca	12
+Törökugrató utca	2
+Törökugrató utca	7
+Tűzkő utca	1
+Tűzkő utca	2
+Tűzkő utca	9
+Tűzkő utca	10
+Tűzkő utca	12
+Tűzkő utca	13
+Tűzkő utca	14
+Tűzkő utca	15
+Tűzkő utca	16
+Tűzkő utca	17
+Tűzkő utca	18
+Tűzkő utca	19
+Tűzkő utca	20
+Tűzkő utca	21
+Tűzkő utca	22
+Tűzkő utca	22
+Tűzkő utca	24
+Tűzkő utca	25
+Tűzkő utca	26
+Tűzkő utca	27
+Tűzkő utca	28
+Tűzkő utca	29
+Tűzkő utca	30
+Tűzkő utca	31
+"#;
+        let housenumbers_ref_value = context::tests::TestFileSystem::make_file();
+        housenumbers_ref_value
+            .lock()
+            .unwrap()
+            .write_all(hoursnumbers_ref.as_bytes())
+            .unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[(
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &housenumbers_ref_value,
+            )],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
+        let expected = r#"[ ] Hamzsabégi út [1]
+[ ] Törökugrató utca [7], [10]
+[ ] Tűzkő utca [1, 13, 15, 17, 19, 21, 25, 27, 29, 31]
+[ ] Tűzkő utca [2, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]"#;
+        assert_eq!(result, expected);
     }
 }

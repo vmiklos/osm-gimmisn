@@ -890,10 +890,6 @@ impl PyIni {
     fn get_overpass_uri(&self) -> String {
         self.ini.get_overpass_uri()
     }
-
-    fn get_cron_update_inactive(&self) -> bool {
-        self.ini.get_cron_update_inactive()
-    }
 }
 
 /// Context owns global state which is set up once and then read everywhere.

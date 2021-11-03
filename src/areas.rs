@@ -506,13 +506,13 @@ impl Relation {
     }
 
     /// Gets a street name -> ranges map, which allows silencing false positives.
-    fn get_street_ranges(&self) -> HashMap<String, ranges::Ranges> {
+    fn get_street_ranges(&self) -> anyhow::Result<HashMap<String, ranges::Ranges>> {
         let mut filter_dict: HashMap<String, ranges::Ranges> = HashMap::new();
 
         let filters = match self.config.get_filters() {
             Some(value) => value,
             None => {
-                return filter_dict;
+                return Ok(filter_dict);
             }
         };
         let filters_obj = filters.as_object().unwrap();
@@ -533,7 +533,7 @@ impl Relation {
                         .unwrap()
                         .trim()
                         .parse::<i64>()
-                        .unwrap();
+                        .context("failed to parse() 'start'")?;
                     let end = start_end_obj
                         .get("end")
                         .unwrap()
@@ -541,14 +541,14 @@ impl Relation {
                         .unwrap()
                         .trim()
                         .parse::<i64>()
-                        .unwrap();
+                        .context("failed to parse() 'end'")?;
                     i.push(ranges::Range::new(start, end, interpolation));
                 }
                 filter_dict.insert(street.into(), ranges::Ranges::new(i));
             }
         }
 
-        filter_dict
+        Ok(filter_dict)
     }
 
     /// Gets a street name -> invalid map, which allows silencing individual false positives.
@@ -670,7 +670,7 @@ impl Relation {
         if self.osm_housenumbers.is_empty() {
             // This function gets called for each & every street, make sure we read the file only
             // once.
-            let street_ranges = self.get_street_ranges();
+            let street_ranges = self.get_street_ranges()?;
             let mut house_numbers: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
             let stream: Arc<Mutex<dyn Read + Send>> =
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
@@ -846,7 +846,7 @@ impl Relation {
         }
 
         let mut normalized_invalids: Vec<String> = Vec::new();
-        let street_ranges = self.get_street_ranges();
+        let street_ranges = self.get_street_ranges()?;
         let street_is_even_odd = self.config.get_street_is_even_odd(osm_street_name);
         for i in street_invalid {
             let normalizeds =
@@ -884,7 +884,9 @@ impl Relation {
             }
             lines.get_mut(&key).unwrap().push(value.into());
         }
-        let street_ranges = self.get_street_ranges();
+        let street_ranges = self
+            .get_street_ranges()
+            .context("get_street_ranges() failed")?;
         let streets_invalid = self.get_street_invalid();
         for osm_street in self.get_osm_streets(/*sorted_result=*/ true)? {
             let osm_street_name = osm_street.get_osm_name();
@@ -936,7 +938,9 @@ impl Relation {
         let mut done_streets = Vec::new();
 
         let osm_street_names = self.get_osm_streets(/*sorted_result=*/ true)?;
-        let all_ref_house_numbers = self.get_ref_housenumbers()?;
+        let all_ref_house_numbers = self
+            .get_ref_housenumbers()
+            .context("get_ref_housenumbers() failed")?;
         for osm_street in osm_street_names {
             let osm_street_name = osm_street.get_osm_name();
             let ref_house_numbers = all_ref_house_numbers.get(osm_street_name).unwrap();
@@ -1143,7 +1147,9 @@ impl Relation {
     pub fn write_missing_housenumbers(
         &mut self,
     ) -> anyhow::Result<(usize, usize, usize, String, yattag::HtmlTable)> {
-        let (ongoing_streets, done_streets) = self.get_missing_housenumbers()?;
+        let (ongoing_streets, done_streets) = self
+            .get_missing_housenumbers()
+            .context("get_missing_housenumbers() failed")?;
 
         let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
 
@@ -1877,7 +1883,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -1897,7 +1903,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -1916,7 +1922,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -1935,7 +1941,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -1955,7 +1961,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -1975,7 +1981,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -1995,7 +2001,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.get_config().get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -2015,7 +2021,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Hamzsabégi út");
         let house_numbers = normalize(
             &relation,
@@ -2035,7 +2041,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         // filter is 137-165
         let house_numbers = normalize(
@@ -2057,7 +2063,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -2079,7 +2085,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -2100,7 +2106,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -2121,7 +2127,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -2142,7 +2148,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -2172,7 +2178,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let normalizers = relation.get_street_ranges();
+        let normalizers = relation.get_street_ranges().unwrap();
         let street_is_even_odd = relation.config.get_street_is_even_odd("Budaörsi út");
         let house_numbers = normalize(
             &relation,
@@ -2347,7 +2353,7 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let filters = relation.get_street_ranges();
+        let filters = relation.get_street_ranges().unwrap();
         let mut expected_filters: HashMap<String, ranges::Ranges> = HashMap::new();
         expected_filters.insert(
             "Budaörsi út".into(),
@@ -2380,7 +2386,7 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("empty").unwrap();
-        let filters = relation.get_street_ranges();
+        let filters = relation.get_street_ranges().unwrap();
         assert_eq!(filters.is_empty(), true);
     }
 

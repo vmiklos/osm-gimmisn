@@ -94,8 +94,9 @@ pub fn get_missing_housenumbers_html(
         return Ok(doc);
     }
 
-    let (todo_street_count, todo_count, done_count, percent, table) =
-        relation.write_missing_housenumbers()?;
+    let (todo_street_count, todo_count, done_count, percent, table) = relation
+        .write_missing_housenumbers()
+        .context("write_missing_housenumbers() failed")?;
 
     {
         let _p = doc.tag("p", &[]);
