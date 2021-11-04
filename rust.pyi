@@ -56,24 +56,8 @@ class PyIni:
         """Gets the directory which is writable."""
         ...
 
-    def get_reference_housenumber_paths(self) -> List[str]:
-        """Gets the abs paths of ref housenumbers."""
-        ...
-
-    def get_reference_street_path(self) -> str:
-        """Gets the abs path of ref streets."""
-        ...
-
-    def get_reference_citycounts_path(self) -> str:
-        """Gets the abs path of ref citycounts."""
-        ...
-
     def get_uri_prefix(self) -> str:
         """Gets the global URI prefix."""
-        ...
-
-    def get_overpass_uri(self) -> str:
-        """Gets the URI of the overpass instance to be used."""
         ...
 
 class PyContext:
@@ -127,15 +111,6 @@ class PyContext:
 
     def get_file_system(self) -> api.FileSystem:
         """Gets the file system implementation."""
-        ...
-
-class PyLetterSuffixStyle:
-    @staticmethod
-    def upper() -> int:
-        ...
-
-    @staticmethod
-    def lower() -> int:
         ...
 
 class PyHouseNumberRange:
@@ -250,27 +225,6 @@ class PyHouseNumber:
 
     def __hash__(self) -> int:
         """Source is explicitly non-interesting."""
-        ...
-
-    @staticmethod
-    def is_invalid(house_number: str, invalids: List[str]) -> bool:
-        """Decides if house_number is invalid according to invalids."""
-        ...
-
-    @staticmethod
-    def has_letter_suffix(house_number: str, source_suffix: str) -> bool:
-        """
-        Determines if the input is a house number, allowing letter suffixes. This means not only
-        '42' is allowed, but also '42a', '42/a' and '42 a'. Everything else is still considered just
-        junk after the numbers.
-        """
-        ...
-
-    @staticmethod
-    def normalize_letter_suffix(house_number: str, source_suffix: str, style: int) -> str:
-        """
-        Turn '42A' and '42 A' (and their lowercase versions) into '42/A'.
-        """
         ...
 
 def py_get_content(path: str) -> bytes:
