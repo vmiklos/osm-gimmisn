@@ -847,36 +847,6 @@ impl PyIni {
         }
     }
 
-    fn get_reference_housenumber_paths(&self) -> PyResult<Vec<String>> {
-        match self.ini.get_reference_housenumber_paths() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "Ini::get_reference_housenumber_paths() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_reference_street_path(&self) -> PyResult<String> {
-        match self.ini.get_reference_street_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "Ini::get_reference_street_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_reference_citycounts_path(&self) -> PyResult<String> {
-        match self.ini.get_reference_citycounts_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "Ini::get_reference_citycounts_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
     fn get_uri_prefix(&self) -> PyResult<String> {
         match self.ini.get_uri_prefix() {
             Ok(value) => Ok(value),
@@ -885,10 +855,6 @@ impl PyIni {
                 err.to_string()
             ))),
         }
-    }
-
-    fn get_overpass_uri(&self) -> String {
-        self.ini.get_overpass_uri()
     }
 }
 

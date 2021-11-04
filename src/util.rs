@@ -58,7 +58,6 @@ pub enum LetterSuffixStyle {
     Lower,
 }
 
-/// Only needed for Python interop.
 impl TryFrom<i32> for LetterSuffixStyle {
     type Error = ();
 
@@ -68,22 +67,6 @@ impl TryFrom<i32> for LetterSuffixStyle {
             x if x == LetterSuffixStyle::Lower as i32 => Ok(LetterSuffixStyle::Lower),
             _ => Err(()),
         }
-    }
-}
-
-#[pyclass]
-pub struct PyLetterSuffixStyle {}
-
-#[pymethods]
-impl PyLetterSuffixStyle {
-    #[staticmethod]
-    fn upper() -> i32 {
-        LetterSuffixStyle::Upper as i32
-    }
-
-    #[staticmethod]
-    fn lower() -> i32 {
-        LetterSuffixStyle::Lower as i32
     }
 }
 
@@ -561,43 +544,6 @@ impl PyHouseNumber {
 
     fn get_comment(&self) -> &str {
         self.house_number.get_comment()
-    }
-
-    #[staticmethod]
-    fn is_invalid(house_number: &str, invalids: Vec<String>) -> bool {
-        HouseNumber::is_invalid(house_number, &invalids)
-    }
-
-    #[staticmethod]
-    fn has_letter_suffix(house_number: &str, source_suffix: &str) -> bool {
-        HouseNumber::has_letter_suffix(house_number, source_suffix)
-    }
-
-    #[staticmethod]
-    fn normalize_letter_suffix(
-        house_number: &str,
-        source_suffix: &str,
-        style: i32,
-    ) -> PyResult<String> {
-        let style: LetterSuffixStyle = match LetterSuffixStyle::try_from(style) {
-            Ok(value) => value,
-            Err(_) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(
-                    "failed to convert style to LetterSuffixStyle",
-                ));
-            }
-        };
-        match HouseNumber::normalize_letter_suffix(
-            house_number,
-            source_suffix,
-            style as LetterSuffixStyle,
-        ) {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyValueError::new_err(format!(
-                "normalize_letter_suffix() failed: {}",
-                err.to_string()
-            ))),
-        }
     }
 }
 
@@ -1463,7 +1409,6 @@ pub fn get_timestamp(path: &str) -> f64 {
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
     module.add_class::<PyHouseNumberRange>()?;
-    module.add_class::<PyLetterSuffixStyle>()?;
     module.add_class::<PyStreet>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     Ok(())

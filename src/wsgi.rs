@@ -2046,4 +2046,142 @@ Tűzkő utca	31
 [ ] Tűzkő utca [2, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]"#;
         assert_eq!(result, expected);
     }
+
+    /// Tests the missing house numbers page: the chkl output, no osm streets case.
+    #[test]
+    fn test_missing_housenumbers_view_result_chkl_no_osm_streets() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
+        assert_eq!(result, "No existing streets");
+    }
+
+    /// Tests the missing house numbers page: the chkl output, no osm housenumbers case.
+    #[test]
+    fn test_missing_housenumbers_view_result_chkl_no_osm_housenumbers() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
+        assert_eq!(result, "No existing house numbers");
+    }
+
+    /// Tests the missing house numbers page: the chkl output, no ref housenumbers case.
+    #[test]
+    fn test_missing_housenumbers_view_result_chkl_no_ref_housenumbers() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
+        assert_eq!(result, "No reference house numbers");
+    }
+
+    /// Tests the missing house numbers page: the txt output, no osm streets case.
+    #[test]
+    fn test_missing_housenumbers_view_result_txt_no_osm_streets() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
+        assert_eq!(result, "No existing streets");
+    }
+
+    /// Tests the missing house numbers page: the txt output, no osm housenumbers case.
+    #[test]
+    fn test_missing_housenumbers_view_result_txt_no_osm_housenumbers() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
+        assert_eq!(result, "No existing house numbers");
+    }
+
+    /// Tests the missing house numbers page: the txt output, no ref housenumbers case.
+    #[test]
+    fn test_missing_housenumbers_view_result_txt_no_ref_housenumbers() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
+        assert_eq!(result, "No reference house numbers");
+    }
+
+    /// Tests the missing house numbers page: if the view-turbo output is well-formed.
+    #[test]
+    fn test_missing_housenumbers_view_turbo_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-turbo");
+        let results = TestWsgi::find_all(&root, "body/pre");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: if the view-query output is well-formed.
+    #[test]
+    fn test_missing_housenumbers_view_query_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-query");
+        let results = TestWsgi::find_all(&root, "body/pre");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing house numbers page: if the update-result output links back to the correct page.
+    #[test]
+    fn test_missing_housenumbers_update_result_link() {
+        let mut test_wsgi = TestWsgi::new();
+        let housenumbers_value = context::tests::TestFileSystem::make_file();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[(
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &housenumbers_value,
+            )],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/update-result");
+        let mut guard = housenumbers_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let prefix = test_wsgi.ctx.get_ini().get_uri_prefix().unwrap();
+        let results = TestWsgi::find_all(
+            &root,
+            &format!(
+                "body/a[@href='{}/missing-housenumbers/gazdagret/view-result']",
+                prefix
+            ),
+        );
+        assert_eq!(results.len(), 1);
+    }
 }
