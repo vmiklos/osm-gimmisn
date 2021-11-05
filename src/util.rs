@@ -126,53 +126,6 @@ impl Hash for HouseNumberRange {
     }
 }
 
-#[pyclass]
-#[derive(Debug)]
-struct PyHouseNumberRange {
-    house_number_range: HouseNumberRange,
-}
-
-#[pymethods]
-impl PyHouseNumberRange {
-    fn get_number(&self) -> &String {
-        self.house_number_range.get_number()
-    }
-
-    fn get_comment(&self) -> &String {
-        self.house_number_range.get_comment()
-    }
-}
-
-#[pyproto]
-impl<'p> PyObjectProtocol<'p> for PyHouseNumberRange {
-    fn __repr__(&self) -> PyResult<String> {
-        Ok(format!("{:?}", self))
-    }
-
-    fn __richcmp__(
-        &'p self,
-        other: PyRef<'p, PyHouseNumberRange>,
-        op: CompareOp,
-    ) -> PyResult<PyObject> {
-        match op {
-            CompareOp::Eq => Ok(self
-                .house_number_range
-                .eq(&(*other).house_number_range)
-                .into_py(other.py())),
-            CompareOp::Lt => Ok((self.house_number_range.cmp(&(*other).house_number_range)
-                == std::cmp::Ordering::Less)
-                .into_py(other.py())),
-            _ => Ok(other.py().NotImplemented()),
-        }
-    }
-
-    fn __hash__(&self) -> PyResult<isize> {
-        let mut hasher = DefaultHasher::new();
-        self.house_number_range.hash(&mut hasher);
-        Ok(hasher.finish() as isize)
-    }
-}
-
 /// Used to diff two lists of elements.
 pub trait Diff {
     /// Gets a string that is used while diffing.
@@ -1408,7 +1361,6 @@ pub fn get_timestamp(path: &str) -> f64 {
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_class::<PyHouseNumber>()?;
-    module.add_class::<PyHouseNumberRange>()?;
     module.add_class::<PyStreet>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     Ok(())

@@ -9,7 +9,6 @@
 from typing import Any
 from typing import Container
 from typing import Dict
-from typing import List
 from typing import cast
 import calendar
 import datetime
@@ -97,120 +96,8 @@ class TestWsgi(unittest.TestCase):
         return output
 
 
-class TestStreetHousenumbers(TestWsgi):
-    """Tests handle_street_housenumbers()."""
-    def test_view_result_update_result_link(self) -> None:
-        """Tests view result: the update-result link."""
-        ctx = test_context.make_test_context()
-        root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
-        uri = ctx.get_ini().get_uri_prefix() + "/missing-housenumbers/gazdagret/view-result"
-        results = root.findall("body/div[@id='toolbar']/a[@href='" + uri + "']")
-        self.assertTrue(results)
-
-    def test_view_query_well_formed(self) -> None:
-        """Tests if the view-query output is well-formed."""
-        root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-query")
-        results = root.findall("body/pre")
-        self.assertEqual(len(results), 1)
-
-    def test_update_result_well_formed(self) -> None:
-        """Tests if the update-result output is well-formed."""
-        routes: List[test_context.URLRoute] = [
-            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                  data_path="",
-                                  result_path="tests/network/overpass-housenumbers-gazdagret.csv"),
-        ]
-        network = test_context.TestNetwork(routes)
-        self.ctx.set_network(network)
-        file_system = test_context.TestFileSystem()
-        streets_value = io.BytesIO()
-        streets_value.__setattr__("close", lambda: None)
-        files = {
-            self.ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"): streets_value,
-        }
-        file_system.set_files(files)
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
-        self.assertTrue(streets_value.tell())
-        results = root.findall("body")
-        self.assertEqual(len(results), 1)
-
-    def test_update_result_error_well_formed(self) -> None:
-        """Tests if the update-result output on error is well-formed."""
-        routes: List[test_context.URLRoute] = [
-            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                  data_path="",
-                                  result_path=""),
-        ]
-        network = test_context.TestNetwork(routes)
-        self.ctx.set_network(network)
-        root = self.get_dom_for_path("/street-housenumbers/gazdagret/update-result")
-        results = root.findall("body/div[@id='overpass-error']")
-        self.assertTrue(results)
-
-    def test_no_osm_streets_well_formed(self) -> None:
-        """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_housenumbers_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/street-housenumbers/gazdagret/view-result")
-        results = root.findall("body/div[@id='no-osm-housenumbers']")
-        self.assertEqual(len(results), 1)
-
-
 class TestMissingStreets(TestWsgi):
     """Tests the missing streets page."""
-    def test_well_formed(self) -> None:
-        """Tests if the output is well-formed."""
-        file_system = test_context.TestFileSystem()
-        streets_value = io.BytesIO()
-        streets_value.__setattr__("close", lambda: None)
-        files = {
-            self.ctx.get_abspath("workdir/gazdagret-streets.percent"): streets_value,
-        }
-        file_system.set_files(files)
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
-        self.assertTrue(streets_value.tell())
-        results = root.findall("body/table")
-        self.assertEqual(len(results), 1)
-        # refstreets: >0 invalid osm name
-        results = root.findall("body/div[@id='osm-invalids-container']")
-        self.assertEqual(len(results), 1)
-        # refstreets: >0 invalid ref name
-        results = root.findall("body/div[@id='ref-invalids-container']")
-        self.assertEqual(len(results), 1)
-
-    def test_well_formed_compat(self) -> None:
-        """Tests if the output is well-formed (URL rewrite)."""
-        file_system = test_context.TestFileSystem()
-        streets_value = io.BytesIO()
-        streets_value.__setattr__("close", lambda: None)
-        files = {
-            self.ctx.get_abspath("workdir/gazdagret-streets.percent"): streets_value,
-        }
-        file_system.set_files(files)
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/suspicious-relations/gazdagret/view-result")
-        self.assertTrue(streets_value.tell())
-        results = root.findall("body/table")
-        self.assertEqual(len(results), 1)
-
-    def test_no_osm_streets_well_formed(self) -> None:
-        """Tests if the output is well-formed, no osm streets case."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
-        results = root.findall("body/div[@id='no-osm-streets']")
-        self.assertEqual(len(results), 1)
-
     def test_no_ref_streets_well_formed(self) -> None:
         """Tests if the output is well-formed, no ref streets case."""
         relations = areas.make_relations(test_context.make_test_context())

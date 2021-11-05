@@ -113,34 +113,6 @@ class PyContext:
         """Gets the file system implementation."""
         ...
 
-class PyHouseNumberRange:
-    """
-    A house number range is a string that may expand to one or more HouseNumber instances in the
-    future. It can also have a comment.
-    """
-    def get_number(self) -> str:
-        """Returns the house number (range) string."""
-        ...
-
-    def get_comment(self) -> str:
-        """Returns the comment."""
-        ...
-
-    def __repr__(self) -> str:
-        ...
-
-    def __eq__(self, other: object) -> bool:
-        """Comment is explicitly non-interesting."""
-        ...
-
-    def __lt__(self, other: object) -> bool:
-        """Comment is explicitly non-interesting."""
-        ...
-
-    def __hash__(self) -> int:
-        """Comment is explicitly non-interesting."""
-        ...
-
 class PyStreet:
     """
     A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
@@ -334,10 +306,6 @@ class PyRelationConfig:
         """Gets the alias(es) of the relation: alternative names which are also accepted."""
         ...
 
-    def should_check_additional_housenumbers(self) -> bool:
-        """Do we care if 42 is in OSM when it's not in the ref?."""
-        ...
-
     def set_housenumber_letters(self, housenumber_letters: bool) -> None:
         """Sets the housenumber_letters property from code."""
         ...
@@ -392,28 +360,8 @@ class PyRelation:
         """Sets the config interface."""
         ...
 
-    def get_osm_streets(self, sorted_result: bool) -> List[PyStreet]:
-        """Reads list of streets for an area from OSM."""
-        ...
-
     def get_osm_streets_query(self) -> str:
         """Produces a query which lists streets in relation."""
-        ...
-
-    def build_ref_housenumbers(
-            self,
-            reference: Dict[str, Dict[str, Dict[str, List[api.HouseNumberWithComment]]]],
-            street: str,
-            suffix: str
-    ) -> List[str]:
-        """
-        Builds a list of housenumbers from a reference cache.
-        This is serialized to disk by write_ref_housenumbers().
-        """
-        ...
-
-    def write_additional_streets(self) -> List[PyStreet]:
-        """Calculate and write stat for the unexpected street coverage of a relation."""
         ...
 
     def get_osm_housenumbers_query(self) -> str:
