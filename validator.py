@@ -53,11 +53,13 @@ def validate_range(errors: List[str], parent: str, range_data: Dict[str, Any], f
     context = parent + "."
     for key, value in range_data.items():
         if key == "start":
-            if not isinstance(value, str):
-                errors.append("expected value type for '%s%s' is str" % (context, key))
+            # Require a string that can be converted to a number. Whitespace around the number is no
+            # OK.
+            if not isinstance(value, str) or not str.isdigit(value):
+                errors.append("expected value type for '%s%s' is a digit str" % (context, key))
         elif key == "end":
-            if not isinstance(value, str):
-                errors.append("expected value type for '%s%s' is str" % (context, key))
+            if not isinstance(value, str) or not str.isdigit(value):
+                errors.append("expected value type for '%s%s' is a digit str" % (context, key))
         elif key == "refsettlement":
             if not isinstance(value, str):
                 errors.append("expected value type for '%s%s' is str" % (context, key))
