@@ -120,14 +120,6 @@ impl RelationConfig {
         }
     }
 
-    /// Sets the housenumber_letters property from code.
-    fn set_housenumber_letters(&mut self, housenumber_letters: bool) {
-        self.set_property(
-            "housenumber-letters",
-            &serde_json::json!(housenumber_letters),
-        )
-    }
-
     /// Do we care if 42/B is missing when 42/A is provided?
     fn should_check_housenumber_letters(&self) -> bool {
         match self.get_property("housenumber-letters") {
@@ -174,11 +166,6 @@ impl RelationConfig {
             ret.insert(key.into(), value.as_str().unwrap().into());
         }
         ret
-    }
-
-    /// Sets the 'filters' key from code.
-    fn set_filters(&mut self, filters: &serde_json::Value) {
-        self.set_property("filters", filters)
     }
 
     /// Returns a street name -> properties map.
@@ -364,73 +351,6 @@ impl PyRelationConfig {
 
     fn is_active(&self) -> bool {
         self.relation_config.is_active()
-    }
-
-    fn get_osmrelation(&self) -> u64 {
-        self.relation_config.get_osmrelation()
-    }
-
-    fn get_refcounty(&self) -> String {
-        self.relation_config.get_refcounty()
-    }
-
-    fn get_refsettlement(&self) -> String {
-        self.relation_config.get_refsettlement()
-    }
-
-    fn get_alias(&self) -> Vec<String> {
-        self.relation_config.get_alias()
-    }
-
-    fn set_housenumber_letters(&mut self, housenumber_letters: bool) {
-        self.relation_config
-            .set_housenumber_letters(housenumber_letters)
-    }
-
-    fn get_refstreets(&self) -> HashMap<String, String> {
-        self.relation_config.get_refstreets()
-    }
-
-    fn set_filters(&mut self, filters: String) -> PyResult<()> {
-        let serde_value: serde_json::Value = match serde_json::from_str(&filters) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "failed to parse value: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        self.relation_config.set_filters(&serde_value);
-        Ok(())
-    }
-
-    fn get_filters(&self) -> PyResult<Option<String>> {
-        let ret = match self.relation_config.get_filters() {
-            Some(value) => value,
-            None => {
-                return Ok(None);
-            }
-        };
-        match serde_json::to_string(&ret) {
-            Ok(value) => Ok(Some(value)),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "serde_json::to_string() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_street_refsettlement(&self, street: String) -> Vec<String> {
-        self.relation_config.get_street_refsettlement(&street)
-    }
-
-    fn get_street_filters(&self) -> Vec<String> {
-        self.relation_config.get_street_filters()
-    }
-
-    fn get_osm_street_filters(&self) -> Vec<String> {
-        self.relation_config.get_osm_street_filters()
     }
 }
 
@@ -1316,36 +1236,6 @@ impl PyRelation {
     fn set_config(&mut self, config: PyRelationConfig) {
         self.relation.set_config(&config.relation_config)
     }
-
-    fn get_osm_streets_query(&self) -> PyResult<String> {
-        match self.relation.get_osm_streets_query() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_osm_streets_query() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_osm_housenumbers_query(&self) -> PyResult<String> {
-        match self.relation.get_osm_housenumbers_query() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_osm_housenumbers_query() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_invalid_refstreets(&self) -> PyResult<(Vec<String>, Vec<String>)> {
-        match self.relation.get_invalid_refstreets() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_invalid_refstreets() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
 }
 
 /// A relations object is a container of named relation objects.
@@ -1415,11 +1305,6 @@ impl Relations {
             refcounty_names,
             refsettlement_names,
         })
-    }
-
-    /// Gets the workdir directory path.
-    fn get_workdir(&self) -> &String {
-        &self.workdir
     }
 
     /// Gets the relation that has the specified name.
@@ -1601,10 +1486,6 @@ impl PyRelations {
         Ok(PyRelations { relations })
     }
 
-    fn get_workdir(&self) -> String {
-        self.relations.get_workdir().clone()
-    }
-
     fn get_relation(&mut self, name: &str) -> PyResult<PyRelation> {
         match self.relations.get_relation(name) {
             Ok(value) => Ok(PyRelation { relation: value }),
@@ -1615,22 +1496,8 @@ impl PyRelations {
         }
     }
 
-    fn set_relation(&mut self, name: &str, relation: PyRelation) {
-        self.relations.set_relation(name, &relation.relation)
-    }
-
     fn get_names(&self) -> Vec<String> {
         self.relations.get_names()
-    }
-
-    fn get_active_names(&mut self) -> PyResult<Vec<String>> {
-        match self.relations.get_active_names() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_active_names() failed: {}",
-                err.to_string()
-            ))),
-        }
     }
 
     fn get_relations(&mut self) -> PyResult<Vec<PyRelation>> {
@@ -2183,10 +2050,6 @@ mod tests {
     fn test_relation_get_osm_streets_query() {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
-        assert_eq!(
-            relations.get_workdir(),
-            &ctx.get_abspath("workdir").unwrap()
-        );
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
         let ret = relation.get_osm_streets_query().unwrap();
@@ -2542,6 +2405,19 @@ way{color:blue; width:4;}
         assert_eq!(done_streets_strs, expected);
     }
 
+    /// Sets the housenumber_letters property from code.
+    fn set_config_housenumber_letters(config: &mut RelationConfig, housenumber_letters: bool) {
+        config.set_property(
+            "housenumber-letters",
+            &serde_json::json!(housenumber_letters),
+        )
+    }
+
+    /// Sets the 'filters' key from code.
+    fn set_config_filters(config: &mut RelationConfig, filters: &serde_json::Value) {
+        config.set_property("filters", filters)
+    }
+
     /// Tests Relation::get_missing_housenumbers(): 7/A is detected when 7/B is already mapped.
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix() {
@@ -2551,7 +2427,7 @@ way{color:blue; width:4;}
         let mut relation = relations.get_relation(relation_name).unwrap();
         // Opt-in, this is not the default behavior.
         let mut config = relation.get_config().clone();
-        config.set_housenumber_letters(true);
+        set_config_housenumber_letters(&mut config, true);
         relation.set_config(&config);
         let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers().unwrap();
         let ongoing_street = ongoing_streets[0].clone();
@@ -2575,14 +2451,14 @@ way{color:blue; width:4;}
         let mut relation = relations.get_relation(relation_name).unwrap();
         // Opt-in, this is not the default behavior.
         let mut config = relation.get_config().clone();
-        config.set_housenumber_letters(true);
+        set_config_housenumber_letters(&mut config, true);
         // Set custom 'invalid' map.
         let filters = serde_json::json!({
             "Rétköz utca": {
                 "invalid": ["9", "47"]
             }
         });
-        config.set_filters(&filters);
+        set_config_filters(&mut config, &filters);
         relation.set_config(&config);
         let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
         let ongoing_street = ongoing_streets[0].clone();
@@ -2612,7 +2488,7 @@ way{color:blue; width:4;}
                 }
             });
             let mut config = relation.get_config().clone();
-            config.set_filters(&filters);
+            set_config_filters(&mut config, &filters);
             relation.set_config(&config);
             let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
             // Note how 37b from invalid is simplified to 37; and how 37/B from ref is simplified to
@@ -2623,14 +2499,14 @@ way{color:blue; width:4;}
         // Opt-in case: housenumber-letters=true.
         {
             let mut config = relation.get_config().clone();
-            config.set_housenumber_letters(true);
+            set_config_housenumber_letters(&mut config, true);
             relation.set_config(&config);
             let filters = serde_json::json!({
                 "Kővirág sor": {
                     "invalid": ["37b"]
                 }
             });
-            config.set_filters(&filters);
+            set_config_filters(&mut config, &filters);
             relation.set_config(&config);
             let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
             // In this case 37b from invalid matches 37/B from ref.
@@ -2639,7 +2515,7 @@ way{color:blue; width:4;}
 
         // Make sure out-of-range invalid elements are just ignored and no exception is raised.
         let mut config = relation.get_config().clone();
-        config.set_housenumber_letters(false);
+        set_config_housenumber_letters(&mut config, true);
         relation.set_config(&config);
         let filters = serde_json::json!({
             "Kővirág sor": {
@@ -2647,7 +2523,7 @@ way{color:blue; width:4;}
                 "ranges": [{"start": "1", "end": "3"}],
             }
         });
-        config.set_filters(&filters);
+        set_config_filters(&mut config, &filters);
         relation.set_config(&config);
         relation.get_missing_housenumbers().unwrap();
     }
@@ -2661,7 +2537,7 @@ way{color:blue; width:4;}
         let mut relation = relations.get_relation(relation_name).unwrap();
         // Opt-in, this is not the default behavior.
         let mut config = relation.get_config().clone();
-        config.set_housenumber_letters(true);
+        set_config_housenumber_letters(&mut config, true);
         relation.set_config(&config);
         let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
         let ongoing_street = ongoing_streets[0].clone();
@@ -2683,7 +2559,7 @@ way{color:blue; width:4;}
         let mut relation = relations.get_relation(relation_name).unwrap();
         // Opt-in, this is not the default behavior.
         let mut config = relation.get_config().clone();
-        config.set_housenumber_letters(true);
+        set_config_housenumber_letters(&mut config, true);
         relation.set_config(&config);
         let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
         // Note how '52/B*' is not in this list.
@@ -2699,7 +2575,7 @@ way{color:blue; width:4;}
         let mut relation = relations.get_relation(relation_name).unwrap();
         // Opt-in, this is not the default behavior.
         let mut config = relation.get_config().clone();
-        config.set_housenumber_letters(true);
+        set_config_housenumber_letters(&mut config, true);
         relation.set_config(&config);
         let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
         let ongoing_street = ongoing_streets[0].clone();

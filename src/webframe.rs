@@ -18,7 +18,6 @@ use crate::yattag;
 use anyhow::anyhow;
 use anyhow::Context;
 use git_version::git_version;
-use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::io::Read;
 use std::ops::DerefMut;
@@ -1011,20 +1010,6 @@ pub fn get_request_uri(
     Ok(request_uri)
 }
 
-#[pyfunction]
-fn py_get_request_uri(
-    environ: HashMap<String, String>,
-    ctx: context::PyContext,
-    mut relations: areas::PyRelations,
-) -> PyResult<String> {
-    match get_request_uri(&environ, &ctx.context, &mut relations.relations)
-        .context("get_request_uri() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Prevents serving outdated data from a relation that has been renamed.
 pub fn check_existing_relation(
     ctx: &context::Context,
@@ -1145,10 +1130,8 @@ pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
 
 /// Handles a GitHub style webhook.
 pub fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::Result<yattag::Doc> {
-    let prefixed = format!("http://www.example.com/?{}", String::from_utf8(data)?);
-    let url = reqwest::Url::parse(&prefixed)?;
-    let body = url.query_pairs();
-    let payloads: Vec<String> = body
+    let pairs = url::form_urlencoded::parse(&data);
+    let payloads: Vec<String> = pairs
         .filter(|(key, _value)| key == "payload")
         .map(|(_key, value)| value.into())
         .collect();
@@ -1181,25 +1164,6 @@ pub fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::R
     }
 
     Ok(yattag::Doc::from_text(""))
-}
-
-#[pyfunction]
-fn py_handle_github_webhook(data: Vec<u8>, ctx: context::PyContext) -> PyResult<yattag::PyDoc> {
-    let doc =
-        match handle_github_webhook(data, &ctx.context).context("handle_github_webhook() failed") {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err)));
-            }
-        };
-
-    Ok(yattag::PyDoc { doc })
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_get_request_uri, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(py_handle_github_webhook, module)?)?;
-    Ok(())
 }
 
 #[cfg(test)]

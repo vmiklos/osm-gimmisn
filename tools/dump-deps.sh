@@ -32,9 +32,6 @@ do
             areas)
                 continue
             ;;
-            webframe)
-                continue
-            ;;
             wsgi)
                 continue
             ;;

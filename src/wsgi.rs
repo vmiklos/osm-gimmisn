@@ -1592,6 +1592,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::io::Read;
     use std::io::Seek;
     use std::io::SeekFrom;
     use std::io::Write;
@@ -1661,8 +1662,8 @@ mod tests {
             assert_eq!(data.is_empty(), false);
             let mut output: Vec<u8> = Vec::new();
             if self.gzip_compress {
-                //output_bytes = xmlrpc.client.gzip_decode(data)
-                assert!(false);
+                let mut gz = flate2::read::GzDecoder::new(data.as_slice());
+                gz.read_to_end(&mut output).unwrap();
             } else {
                 output = data;
             }
@@ -1693,6 +1694,21 @@ mod tests {
             assert_eq!(data.is_empty(), false);
             let output = String::from_utf8(data).unwrap();
             output
+        }
+
+        /// Generates a CSS string for a given wsgi path.
+        fn get_css_for_path(&mut self, path: &str) -> String {
+            let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
+            self.environ
+                .insert("PATH_INFO".into(), format!("{}{}", prefix, path));
+            let (status, response_headers, data) =
+                application(&self.environ, &self.bytes, &self.ctx).unwrap();
+            // Make sure the built-in exception catcher is not kicking in.
+            assert_eq!(status, "200 OK");
+            let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
+            assert_eq!(headers_map["Content-type"], "text/css; charset=utf-8");
+            assert_eq!(data.is_empty(), false);
+            String::from_utf8(data).unwrap()
         }
     }
 
@@ -2440,5 +2456,276 @@ Tűzkő utca	31
         assert_eq!(results[0].contains("OSM Name 1"), true);
         // This is silenced with `show-refstreet: false`.
         assert_eq!(results[0].contains("OSM Name 2"), false);
+    }
+
+    /// Tests handle_main(): if the output is well-formed.
+    #[test]
+    fn test_main_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/");
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_main(): the case when PATH_INFO is empty (should give the main page).
+    #[test]
+    fn test_main_no_path() {
+        let mut environ: HashMap<String, String> = HashMap::new();
+        environ.insert("PATH_INFO".into(), "".into());
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let ret = webframe::get_request_uri(&environ, &ctx, &mut relations).unwrap();
+        assert_eq!(ret, "");
+    }
+
+    /// Tests handle_main(): if the /osm/filter-for/incomplete output is well-formed.
+    #[test]
+    fn test_main_filter_for_incomplete_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/filter-for/incomplete");
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_main(): if the /osm/filter-for/everything output is well-formed.
+    #[test]
+    fn test_main_filter_for_everything_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/filter-for/everything");
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_main(): if the /osm/filter-for/refcounty output is well-formed.
+    #[test]
+    fn test_main_filter_for_refcounty_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/filter-for/refcounty/01/whole-county");
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_main(): if the /osm/filter-for/refcounty output is well-formed.
+    #[test]
+    fn test_main_filter_for_refcounty_no_refsettlement() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/filter-for/refcounty/67/whole-county");
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_main(): the /osm/filter-for/refcounty/<value>/refsettlement/<value> output.
+    #[test]
+    fn test_main_filter_for_refcounty_refsettlement() {
+        let mut test_wsgi = TestWsgi::new();
+
+        let root = test_wsgi.get_dom_for_path("/filter-for/refcounty/01/refsettlement/011");
+
+        let mut results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+        results = TestWsgi::find_all(&root, "body/table/tr");
+        // header + 5 relations, was just 1 when the filter was buggy
+        assert_eq!(results.len(), 6);
+    }
+
+    /// Tests handle_main(): the /osm/filter-for/relations/... output
+    #[test]
+    fn test_main_filter_for_relations() {
+        let mut test_wsgi = TestWsgi::new();
+
+        let root = test_wsgi.get_dom_for_path("/filter-for/relations/44,45");
+
+        let mut results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+        results = TestWsgi::find_all(&root, "body/table/tr");
+        // header + the two requested relations
+        assert_eq!(results.len(), 3);
+    }
+
+    /// Tests handle_main(): the /osm/filter-for/relations/ output.
+    #[test]
+    fn test_main_filter_for_relations_empty() {
+        let mut test_wsgi = TestWsgi::new();
+
+        let root = test_wsgi.get_dom_for_path("/filter-for/relations/");
+
+        let mut results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+        results = TestWsgi::find_all(&root, "body/table/tr");
+        // header + no requested relations
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests application(): the error handling case.
+    #[test]
+    fn test_application_error() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let unit = context::tests::TestUnit::new();
+        let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
+        ctx.set_unit(&unit_arc);
+        let environ: HashMap<_, _> = vec![("PATH_INFO".to_string(), "/".to_string())]
+            .into_iter()
+            .collect();
+        let bytes: Vec<u8> = Vec::new();
+
+        let (status, response_headers, data) = application(&environ, &bytes, &ctx).unwrap();
+
+        assert_eq!(status.starts_with("500"), true);
+        let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
+        assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
+        assert_eq!(data.is_empty(), false);
+        let output = String::from_utf8(data).unwrap();
+        assert_eq!(output.contains("TestError"), true);
+    }
+
+    /// Tests /osm/webhooks/: /osm/webhooks/github.
+    #[test]
+    fn test_webhooks_github() {
+        let root = serde_json::json!({"ref": "refs/heads/master"});
+        let payload = serde_json::to_string(&root).unwrap();
+        let query_string: String = url::form_urlencoded::Serializer::new(String::new())
+            .append_pair("payload", &payload)
+            .finish();
+        let mut test_wsgi = TestWsgi::new();
+        test_wsgi.bytes = query_string.as_bytes().to_vec();
+        let expected_args = format!("make -C {} deploy", test_wsgi.ctx.get_abspath("").unwrap());
+        let outputs: HashMap<_, _> = vec![(expected_args, "".to_string())].into_iter().collect();
+        let subprocess = context::tests::TestSubprocess::new(&outputs);
+        let subprocess_arc: Arc<dyn context::Subprocess> = Arc::new(subprocess);
+        test_wsgi.ctx.set_subprocess(&subprocess_arc);
+
+        test_wsgi.get_dom_for_path("/webhooks/github");
+
+        let subprocess = subprocess_arc
+            .as_any()
+            .downcast_ref::<context::tests::TestSubprocess>()
+            .unwrap();
+        assert_eq!(subprocess.get_runs().is_empty(), false);
+        assert_eq!(subprocess.get_exits(), &[1]);
+    }
+
+    /// Tests /osm/webhooks/: /osm/webhooks/github, the case when a non-master branch is updated.
+    #[test]
+    fn test_webhooks_github_branch() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let outputs: HashMap<String, String> = HashMap::new();
+        let subprocess = context::tests::TestSubprocess::new(&outputs);
+        let subprocess_arc: Arc<dyn context::Subprocess> = Arc::new(subprocess);
+        ctx.set_subprocess(&subprocess_arc);
+        let root = serde_json::json!({"ref": "refs/heads/stable"});
+        let payload = serde_json::to_string(&root).unwrap();
+        let query_string: String = url::form_urlencoded::Serializer::new(String::new())
+            .append_pair("payload", &payload)
+            .finish();
+        let buf = query_string.as_bytes().to_vec();
+
+        webframe::handle_github_webhook(buf, &ctx).unwrap();
+
+        let subprocess = subprocess_arc
+            .as_any()
+            .downcast_ref::<context::tests::TestSubprocess>()
+            .unwrap();
+        assert_eq!(subprocess.get_runs().is_empty(), true);
+    }
+
+    /// Tests handle_stats().
+    #[test]
+    fn test_handle_stats() {
+        let mut test_wsgi = TestWsgi::new();
+
+        let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/");
+
+        let results = TestWsgi::find_all(&root, "body/h2");
+        // 8 chart types + note
+        assert_eq!(results.len(), 9);
+    }
+
+    /// Tests /osm/static/: the css case.
+    #[test]
+    fn test_static_css() {
+        let mut test_wsgi = TestWsgi::new();
+
+        let result = test_wsgi.get_css_for_path("/static/osm.min.css");
+
+        assert_eq!(result.ends_with("}"), true);
+    }
+
+    /// Tests /osm/static/: the plain text case.
+    #[test]
+    fn test_static_text() {
+        let mut test_wsgi = TestWsgi::new();
+
+        let result = test_wsgi.get_txt_for_path("/robots.txt");
+
+        assert_eq!(result, "User-agent: *\n");
+    }
+
+    /// Tests handle_stats_cityprogress(): if the output is well-formed.
+    #[test]
+    fn test_handle_stats_cityprogress_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        test_wsgi.ctx.set_time(&time_arc);
+
+        let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/cityprogress");
+
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_invalid_refstreets(): if the output is well-formed.
+    #[test]
+    fn test_handle_invalid_refstreets_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+
+        let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
+
+        let results = TestWsgi::find_all(&root, "body/h1/a");
+        assert_eq!(results.is_empty(), false);
+    }
+
+    /// Tests handle_invalid_refstreets(): error handling when osm street list is missing for a relation.
+    #[test]
+    fn test_handle_invalid_refstreets_no_osm_sreets() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
+
+        let results = TestWsgi::find_all(&root, "body");
+        assert_eq!(results.is_empty(), false);
+    }
+
+    /// Tests the not-found page: if the output is well-formed.
+    #[test]
+    fn test_not_found_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        test_wsgi.absolute_path = true;
+        test_wsgi.expected_status = "404 Not Found".into();
+
+        let root = test_wsgi.get_dom_for_path("/asdf");
+
+        let results = TestWsgi::find_all(&root, "body/h1");
+
+        assert_eq!(results.is_empty(), false);
+    }
+
+    /// Tests gzip compress case.
+    #[test]
+    fn test_compress() {
+        let mut test_wsgi = TestWsgi::new();
+        test_wsgi.gzip_compress = true;
+
+        let root = test_wsgi.get_dom_for_path("/");
+
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
     }
 }
