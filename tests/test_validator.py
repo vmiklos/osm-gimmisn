@@ -153,7 +153,7 @@ class TestValidatorMainFailureMsg1(TestValidatorMainFailureMsgBase):
     def test_relation_filters_ranges_bad_end(self) -> None:
         """Tests the relation path: bad filters -> ... -> ranges -> end type."""
         expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml"
-        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].end' is str\n"
+        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\n"
         expected += "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml"
         expected += ": expected end >= start for 'filters.Budaörsi út.ranges[0]'\n"
         expected += "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml"
@@ -175,7 +175,7 @@ class TestValidatorMainFailureMsg1(TestValidatorMainFailureMsgBase):
     def test_relation_filters_ranges_bad_start(self) -> None:
         """Tests the relation path: bad filters -> ... -> ranges -> start type."""
         expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml"
-        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].start' is str\n"
+        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\n"
         expected += "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml"
         expected += ": expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-start.yaml", expected)
@@ -242,6 +242,18 @@ class TestValidatorMainFailureMsg2(TestValidatorMainFailureMsgBase):
         expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad-type.yaml"
         expected += ": expected value type for 'filters.Budaörsi út.valid' is list\n"
         self.assert_failure_msg("tests/data/relation-gazdagret-filter-valid-bad-type.yaml", expected)
+
+    def test_start_whitespace(self) -> None:
+        """Tests that we do not accept whitespace in the value of the 'start' key."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start2.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-start2.yaml", expected)
+
+    def test_end_whitespace(self) -> None:
+        """Tests that we do not accept whitespace in the value of the 'end' key."""
+        expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end2.yaml"
+        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\n"
+        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-end2.yaml", expected)
 
 
 if __name__ == '__main__':
