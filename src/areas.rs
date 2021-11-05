@@ -382,10 +382,6 @@ impl PyRelationConfig {
         self.relation_config.get_alias()
     }
 
-    fn should_check_additional_housenumbers(&self) -> bool {
-        self.relation_config.should_check_additional_housenumbers()
-    }
-
     fn set_housenumber_letters(&mut self, housenumber_letters: bool) {
         self.relation_config
             .set_housenumber_letters(housenumber_letters)
@@ -1330,25 +1326,6 @@ impl PyRelation {
         self.relation.set_config(&config.relation_config)
     }
 
-    fn get_osm_streets(&self, sorted_result: bool) -> PyResult<Vec<util::PyStreet>> {
-        let ret = match self.relation.get_osm_streets(sorted_result) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_osm_streets() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(ret
-            .iter()
-            .map(|i| {
-                let street = i.clone();
-                util::PyStreet { street }
-            })
-            .collect())
-    }
-
     fn get_osm_streets_query(&self) -> PyResult<String> {
         match self.relation.get_osm_streets_query() {
             Ok(value) => Ok(value),
@@ -1357,33 +1334,6 @@ impl PyRelation {
                 err.to_string()
             ))),
         }
-    }
-
-    fn build_ref_housenumbers(
-        &self,
-        reference: util::HouseNumberReferenceCache,
-        street: &str,
-        suffix: &str,
-    ) -> Vec<String> {
-        self.relation
-            .build_ref_housenumbers(&reference, street, suffix)
-    }
-
-    fn write_additional_streets(&self) -> PyResult<Vec<util::PyStreet>> {
-        let ret = match self.relation.write_additional_streets() {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "write_additional_streets() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-
-        Ok(ret
-            .iter()
-            .map(|i| util::PyStreet { street: i.clone() })
-            .collect())
     }
 
     fn get_osm_housenumbers_query(&self) -> PyResult<String> {

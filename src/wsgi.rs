@@ -2184,4 +2184,160 @@ Tűzkő utca	31
         );
         assert_eq!(results.len(), 1);
     }
+
+    /// Tests handle_street_housenumbers(): view result: the update-result link.
+    #[test]
+    fn test_housenumbers_view_result_update_result_link() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-result");
+        let uri = format!(
+            "{}/missing-housenumbers/gazdagret/view-result",
+            test_wsgi.ctx.get_ini().get_uri_prefix().unwrap()
+        );
+        // TODO merge these two together when find_all() can handle XPath properly
+        let toolbars = TestWsgi::find_all(&root, "body/div[@id='toolbar']");
+        assert_eq!(toolbars.len(), 1);
+        let results = TestWsgi::find_all(&toolbars[0], &format!("a[@href='{}']", uri));
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_street_housenumbers(): if the view-query output is well-formed.
+    #[test]
+    fn test_housenumbers_view_query_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-query");
+        let results = TestWsgi::find_all(&root, "body/pre");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_street_housenumbers(): if the update-result output is well-formed.
+    #[test]
+    fn test_housenumbers_update_result_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-housenumbers-gazdagret.csv",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.ctx.set_network(&network_arc);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("workdir/street-housenumbers-gazdagret.csv", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/update-result");
+
+        let mut guard = streets_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let results = TestWsgi::find_all(&root, "body");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_street_housenumbers(): if the update-result output on error is well-formed.
+    #[test]
+    fn test_housenumbers_update_result_error_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.ctx.set_network(&network_arc);
+
+        let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/update-result");
+
+        let results = TestWsgi::find_all(&root, "body/div[@id='overpass-error']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_street_housenumbers(): if the output is well-formed, no osm streets case.
+    #[test]
+    fn test_housenumbers_no_osm_streets_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-result");
+        let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-housenumbers']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing streets page: if the output is well-formed.
+    #[test]
+    fn test_missing_streets_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("workdir/gazdagret-streets.percent", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
+
+        let mut guard = streets_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let mut results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+        // refstreets: >0 invalid osm name
+        results = TestWsgi::find_all(&root, "body/div[@id='osm-invalids-container']");
+        assert_eq!(results.len(), 1);
+        // refstreets: >0 invalid ref name
+        results = TestWsgi::find_all(&root, "body/div[@id='ref-invalids-container']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing streets page: if the output is well-formed (URL rewrite).
+    #[test]
+    fn test_missing_streets_well_formed_compat() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("workdir/gazdagret-streets.percent", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/suspicious-relations/gazdagret/view-result");
+
+        let mut guard = streets_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing streets page: if the output is well-formed, no osm streets case.
+    #[test]
+    fn test_missing_streets_no_osm_streets_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
+        let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-streets']");
+        assert_eq!(results.len(), 1);
+    }
 }
