@@ -19,13 +19,10 @@ use crate::yattag;
 use anyhow::anyhow;
 use anyhow::Context;
 use lazy_static::lazy_static;
-use pyo3::class::basic::CompareOp;
-use pyo3::class::PyObjectProtocol;
 use pyo3::prelude::*;
 use pyo3::types::PyBytes;
 use rust_icu_ucol as ucol;
 use rust_icu_ustring as ustring;
-use std::collections::hash_map::DefaultHasher;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::convert::TryFrom;
@@ -166,11 +163,6 @@ impl Street {
         &self.osm_name
     }
 
-    /// Returns the reference name.
-    fn get_ref_name(&self) -> &String {
-        &self.ref_name
-    }
-
     /// Returns the OSM (way) id.
     pub fn get_osm_id(&self) -> u64 {
         self.osm_id
@@ -243,77 +235,6 @@ impl Hash for Street {
     /// OSM id is explicitly not interesting.
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.osm_name.hash(state);
-    }
-}
-
-#[pyclass]
-#[derive(Debug)]
-pub struct PyStreet {
-    pub street: Street,
-}
-
-#[pymethods]
-impl PyStreet {
-    #[staticmethod]
-    fn from_string(osm_name: &str) -> Self {
-        let street = Street::from_string(osm_name);
-        PyStreet { street }
-    }
-
-    fn get_osm_name(&self) -> &str {
-        self.street.get_osm_name()
-    }
-
-    fn get_ref_name(&self) -> &str {
-        self.street.get_ref_name()
-    }
-
-    fn get_osm_id(&self) -> u64 {
-        self.street.get_osm_id()
-    }
-
-    fn set_osm_type(&mut self, osm_type: &str) {
-        self.street.set_osm_type(osm_type)
-    }
-
-    fn get_osm_type(&self) -> &str {
-        self.street.get_osm_type()
-    }
-
-    fn set_source(&mut self, source: &str) {
-        self.street.set_source(source)
-    }
-
-    fn get_source(&self) -> &str {
-        self.street.get_source()
-    }
-
-    fn to_html(&self) -> yattag::PyDoc {
-        let doc = self.street.to_html();
-        yattag::PyDoc { doc }
-    }
-}
-
-#[pyproto]
-impl<'p> PyObjectProtocol<'p> for PyStreet {
-    fn __repr__(&self) -> PyResult<String> {
-        Ok(format!("{:?}", self))
-    }
-
-    fn __richcmp__(&'p self, other: PyRef<'p, PyStreet>, op: CompareOp) -> PyResult<PyObject> {
-        match op {
-            CompareOp::Eq => Ok(self.street.eq(&(*other).street).into_py(other.py())),
-            CompareOp::Lt => Ok(
-                (self.street.cmp(&(*other).street) == std::cmp::Ordering::Less).into_py(other.py()),
-            ),
-            _ => Ok(other.py().NotImplemented()),
-        }
-    }
-
-    fn __hash__(&self) -> PyResult<isize> {
-        let mut hasher = DefaultHasher::new();
-        self.street.hash(&mut hasher);
-        Ok(hasher.finish() as isize)
     }
 }
 
@@ -476,50 +397,6 @@ impl Hash for HouseNumber {
     /// Source is explicitly non-interesting.
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.number.hash(state);
-    }
-}
-
-#[pyclass]
-#[derive(Debug)]
-pub struct PyHouseNumber {
-    pub house_number: HouseNumber,
-}
-
-#[pymethods]
-impl PyHouseNumber {
-    fn get_number(&self) -> &str {
-        self.house_number.get_number()
-    }
-
-    fn get_source(&self) -> &str {
-        self.house_number.get_source()
-    }
-
-    fn get_comment(&self) -> &str {
-        self.house_number.get_comment()
-    }
-}
-
-#[pyproto]
-impl<'p> PyObjectProtocol<'p> for PyHouseNumber {
-    fn __repr__(&self) -> PyResult<String> {
-        Ok(format!("{:?}", self))
-    }
-
-    fn __richcmp__(&'p self, other: PyRef<'p, PyHouseNumber>, op: CompareOp) -> PyResult<PyObject> {
-        match op {
-            CompareOp::Eq => Ok(self
-                .house_number
-                .eq(&(*other).house_number)
-                .into_py(other.py())),
-            _ => Ok(other.py().NotImplemented()),
-        }
-    }
-
-    fn __hash__(&self) -> PyResult<isize> {
-        let mut hasher = DefaultHasher::new();
-        self.house_number.hash(&mut hasher);
-        Ok(hasher.finish() as isize)
     }
 }
 
@@ -1360,8 +1237,6 @@ pub fn get_timestamp(path: &str) -> f64 {
 }
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_class::<PyHouseNumber>()?;
-    module.add_class::<PyStreet>()?;
     module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
     Ok(())
 }
@@ -1961,7 +1836,6 @@ A street\t9",
         let street = Street::new(
             "foo", "bar", /*show_ref_street=*/ true, /*osm_id=*/ 0,
         );
-        assert_eq!(street.get_ref_name(), "bar");
         assert_eq!(street.to_html().get_value(), "foo<br />(bar)");
     }
 

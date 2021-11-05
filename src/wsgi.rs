@@ -1625,35 +1625,18 @@ mod tests {
         }
 
         /// Finds all matching subelements, by tag name or path.
-        fn find_all(element: &elementtree::Element, path: &str) -> Vec<elementtree::Element> {
-            let attr_specifier = regex::Regex::new(r"(.*)\[@(.*)='(.*)'\]").unwrap();
-            if let Some(cap) = attr_specifier.captures_iter(path).next() {
-                let path: String = cap[1].into();
-                let attr_name: String = cap[2].into();
-                let attr_value: String = cap[3].into();
-                let tags: Vec<&str> = path.split('/').collect();
-                let (last, tags) = tags.split_last().unwrap();
-                let last: String = last.to_string();
-                let child = element.navigate(&tags).unwrap();
-                for i in child.find_all(&*last) {
-                    if let Some(value) = i.get_attr(&*attr_name) {
-                        if value == attr_value {
-                            return vec![i.clone()];
-                        }
-                    }
-                }
-                return vec![];
-            }
-
-            let tags: Vec<&str> = path.split('/').collect();
-            match element.navigate(&tags) {
-                Some(value) => vec![value.clone()],
-                None => vec![],
-            }
+        fn find_all(package: &sxd_document::Package, path: &str) -> Vec<String> {
+            let document = package.as_document();
+            let value = sxd_xpath::evaluate_xpath(&document, &format!("/html/{}", path)).unwrap();
+            let mut ret: Vec<String> = Vec::new();
+            if let sxd_xpath::Value::Nodeset(nodeset) = value {
+                ret = nodeset.iter().map(|i| i.string_value()).collect();
+            };
+            ret
         }
 
         /// Generates an XML DOM for a given wsgi path.
-        fn get_dom_for_path(&mut self, path: &str) -> elementtree::Element {
+        fn get_dom_for_path(&mut self, path: &str) -> sxd_document::Package {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             let abspath: String;
             if self.absolute_path {
@@ -1683,8 +1666,10 @@ mod tests {
             } else {
                 output = data;
             }
-            let root = elementtree::Element::from_reader(output.as_slice()).unwrap();
-            root
+            let output_xml =
+                format!("{}", String::from_utf8(output).unwrap()).replace("<!DOCTYPE html>", "");
+            let package = sxd_document::parser::parse(&output_xml).unwrap();
+            package
         }
 
         /// Generates a string for a given wsgi path.
@@ -2194,10 +2179,10 @@ Tűzkő utca	31
             "{}/missing-housenumbers/gazdagret/view-result",
             test_wsgi.ctx.get_ini().get_uri_prefix().unwrap()
         );
-        // TODO merge these two together when find_all() can handle XPath properly
-        let toolbars = TestWsgi::find_all(&root, "body/div[@id='toolbar']");
-        assert_eq!(toolbars.len(), 1);
-        let results = TestWsgi::find_all(&toolbars[0], &format!("a[@href='{}']", uri));
+        let results = TestWsgi::find_all(
+            &root,
+            &format!("body/div[@id='toolbar']/a[@href='{}']", uri),
+        );
         assert_eq!(results.len(), 1);
     }
 
@@ -2339,5 +2324,121 @@ Tűzkő utca	31
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
         let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-streets']");
         assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing streets page: if the output is well-formed, no ref streets case.
+    #[test]
+    fn test_missing_streets_no_ref_streets_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_ref_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
+        let results = TestWsgi::find_all(&root, "body/div[@id='no-ref-streets']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing streets page: the txt output.
+    #[test]
+    fn test_missing_streets_view_result_txt() {
+        let mut test_wsgi = TestWsgi::new();
+        let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
+        assert_eq!(result, "Only In Ref utca\n");
+    }
+
+    /// Tests the missing streets page: the chkl output.
+    #[test]
+    fn test_missing_streets_view_result_chkl() {
+        let mut test_wsgi = TestWsgi::new();
+        let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.chkl");
+        assert_eq!(result, "[ ] Only In Ref utca\n");
+    }
+
+    /// Tests the missing streets page: the txt output, no osm streets case.
+    #[test]
+    fn test_missing_streets_view_result_txt_no_osm_streets() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
+
+        assert_eq!(result, "No existing streets");
+    }
+
+    /// Tests the missing streets page: the txt output, no ref streets case.
+    #[test]
+    fn test_missing_streets_view_result_txt_no_ref_streets() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_ref_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
+
+        assert_eq!(result, "No reference streets");
+    }
+
+    /// Tests the missing streets page: if the view-query output is well-formed.
+    #[test]
+    fn test_missing_streets_view_query_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+
+        let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-query");
+
+        let results = TestWsgi::find_all(&root, "body/pre");
+
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing streets page: the update-result output.
+    #[test]
+    fn test_missing_streets_update_result() {
+        let mut test_wsgi = TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("workdir/streets-reference-gazdagret.lst", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/update-result");
+
+        let mut guard = streets_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+
+        let results = TestWsgi::find_all(&root, "body/div[@id='update-success']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the missing streets page: the view-turbo output.
+    #[test]
+    fn test_missing_streets_view_turbo() {
+        let mut test_wsgi = TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-turbo");
+
+        let results = TestWsgi::find_all(&root, "body/pre");
+
+        assert_eq!(results.len(), 1);
+
+        assert_eq!(results[0].contains("OSM Name 1"), true);
+        // This is silenced with `show-refstreet: false`.
+        assert_eq!(results[0].contains("OSM Name 2"), false);
     }
 }

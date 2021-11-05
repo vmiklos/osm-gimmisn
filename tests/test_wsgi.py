@@ -7,9 +7,7 @@
 """The test_wsgi module covers the wsgi module."""
 
 from typing import Any
-from typing import Container
 from typing import Dict
-from typing import cast
 import calendar
 import datetime
 import io
@@ -94,83 +92,6 @@ class TestWsgi(unittest.TestCase):
         self.assertTrue(data)
         output = data.decode('utf-8')
         return output
-
-
-class TestMissingStreets(TestWsgi):
-    """Tests the missing streets page."""
-    def test_no_ref_streets_well_formed(self) -> None:
-        """Tests if the output is well-formed, no ref streets case."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_ref_streets_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/missing-streets/gazdagret/view-result")
-        results = root.findall("body/div[@id='no-ref-streets']")
-        self.assertEqual(len(results), 1)
-
-    def test_view_result_txt(self) -> None:
-        """Tests the txt output."""
-        result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
-        self.assertEqual(result, "Only In Ref utca\n")
-
-    def test_view_result_chkl(self) -> None:
-        """Tests the chkl output."""
-        result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.chkl")
-        self.assertEqual(result, "[ ] Only In Ref utca\n")
-
-    def test_view_result_txt_no_osm_streets(self) -> None:
-        """Tests the txt output, no osm streets case."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
-        self.assertEqual(result, "No existing streets")
-
-    def test_view_result_txt_no_ref_streets(self) -> None:
-        """Tests the txt output, no ref streets case."""
-        relations = areas.make_relations(test_context.make_test_context())
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_ref_streets_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        result = self.get_txt_for_path("/missing-streets/gazdagret/view-result.txt")
-        self.assertEqual(result, "No reference streets")
-
-    def test_view_query_well_formed(self) -> None:
-        """Tests if the view-query output is well-formed."""
-        root = self.get_dom_for_path("/missing-streets/gazdagret/view-query")
-        results = root.findall("body/pre")
-        self.assertEqual(len(results), 1)
-
-    def test_update_result(self) -> None:
-        """Tests the update-result output."""
-        file_system = test_context.TestFileSystem()
-        streets_value = io.BytesIO()
-        streets_value.__setattr__("close", lambda: None)
-        files = {
-            self.ctx.get_abspath("workdir/streets-reference-gazdagret.lst"): streets_value,
-        }
-        file_system.set_files(files)
-        self.ctx.set_file_system(file_system)
-        root = self.get_dom_for_path("/missing-streets/gazdagret/update-result")
-        self.assertTrue(streets_value.tell())
-        results = root.findall("body/div[@id='update-success']")
-        self.assertEqual(len(results), 1)
-
-    def test_view_turbo(self) -> None:
-        """Tests the view-turbo output."""
-        root = self.get_dom_for_path("/missing-streets/gazdagret/view-turbo")
-        results = root.findall("body/pre")
-        self.assertEqual(len(results), 1)
-        self.assertIn("OSM Name 1", cast(Container[Any], results[0].text))
-        # This is silenced with `show-refstreet: false`.
-        self.assertNotIn("OSM Name 2", cast(Container[Any], results[0].text))
 
 
 class TestMain(TestWsgi):

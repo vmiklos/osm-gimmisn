@@ -12,7 +12,6 @@
 
 use crate::context;
 use anyhow::Context;
-use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::ops::DerefMut;
 
@@ -20,7 +19,8 @@ use std::ops::DerefMut;
 pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     let mut cache: HashMap<String, serde_json::Value> = HashMap::new();
     let datadir = ctx.get_abspath(&argv[1])?;
-    let entries = std::fs::read_dir(&datadir).unwrap();
+    let entries =
+        std::fs::read_dir(&datadir).context(format!("failed to read_dir() {}", datadir))?;
     let mut yaml_paths: Vec<String> = Vec::new();
     for entry in entries {
         let path = entry.unwrap().path();
@@ -72,21 +72,6 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
         serde_json::to_writer(write, &relation_ids).unwrap();
     }
 
-    Ok(())
-}
-
-/// Commandline interface.
-#[pyfunction]
-pub fn py_cache_yamls_main(argv: Vec<String>, ctx: &context::PyContext) -> PyResult<()> {
-    match main(&argv, &ctx.context).context("main() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
-/// Registers Python wrappers of Rust structs into the Python module.
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_cache_yamls_main, module)?)?;
     Ok(())
 }
 

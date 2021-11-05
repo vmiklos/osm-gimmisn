@@ -387,15 +387,6 @@ impl PyRelationConfig {
             .set_housenumber_letters(housenumber_letters)
     }
 
-    fn set_letter_suffix_style(&mut self, letter_suffix_style: i32) {
-        self.relation_config
-            .set_letter_suffix_style(letter_suffix_style)
-    }
-
-    fn get_letter_suffix_style(&self) -> i32 {
-        self.relation_config.get_letter_suffix_style()
-    }
-
     fn get_refstreets(&self) -> HashMap<String, String> {
         self.relation_config.get_refstreets()
     }
@@ -1351,16 +1342,6 @@ impl PyRelation {
             Ok(value) => Ok(value),
             Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
                 "get_invalid_refstreets() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_invalid_filter_keys(&self) -> PyResult<Vec<String>> {
-        match self.relation.get_invalid_filter_keys() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_invalid_filter_keys() failed: {}",
                 err.to_string()
             ))),
         }

@@ -186,7 +186,7 @@ check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
 
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
-check-mypy: $(PYTHON_OBJECTS)
+check-mypy: $(PYTHON_OBJECTS) rust.pyi
 	env PYTHONPATH=.:tests mypy --python-version 3.6 --strict --no-error-summary . && touch $@
 
 %.pylint : %.py Makefile .pylintrc rust.so
