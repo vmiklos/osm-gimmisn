@@ -40,7 +40,6 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     context::register_python_symbols(m)?;
     stats::register_python_symbols(m)?;
     util::register_python_symbols(m)?;
-    webframe::register_python_symbols(m)?;
     wsgi::register_python_symbols(m)?;
     yattag::register_python_symbols(m)?;
     Ok(())

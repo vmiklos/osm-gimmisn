@@ -567,6 +567,9 @@ pub trait Subprocess: Send + Sync {
 
     /// Terminates the current process with the specified exit code.
     fn exit(&self, code: i32);
+
+    /// Allows accessing the implementing struct.
+    fn as_any(&self) -> &dyn std::any::Any;
 }
 
 /// Subprocess implementation, backed by the Rust stdlib.
@@ -586,6 +589,10 @@ impl Subprocess for StdSubprocess {
 
     fn exit(&self, code: i32) {
         std::process::exit(code);
+    }
+
+    fn as_any(&self) -> &dyn std::any::Any {
+        self
     }
 }
 
@@ -650,6 +657,10 @@ impl Subprocess for PyAnySubprocess {
         self.subprocess
             .call_method1(gil.python(), "exit", (code,))
             .unwrap();
+    }
+
+    fn as_any(&self) -> &dyn std::any::Any {
+        self
     }
 }
 
@@ -941,7 +952,8 @@ impl Context {
         &self.subprocess
     }
 
-    fn set_subprocess(&mut self, subprocess: &Arc<dyn Subprocess>) {
+    /// Sets the subprocess implementation.
+    pub fn set_subprocess(&mut self, subprocess: &Arc<dyn Subprocess>) {
         self.subprocess = subprocess.clone();
     }
 
@@ -1295,6 +1307,58 @@ pub mod tests {
     impl Unit for TestUnit {
         fn make_error(&self) -> String {
             return "TestError".into();
+        }
+    }
+
+    /// Subprocess implementation for test purposes.
+    pub struct TestSubprocess {
+        outputs: HashMap<String, String>,
+        /// Command-line -> key-value pairs map.
+        environments: Arc<Mutex<HashMap<String, HashMap<String, String>>>>,
+        runs: Arc<Mutex<Vec<String>>>,
+        exits: Arc<Mutex<Vec<i32>>>,
+    }
+
+    impl TestSubprocess {
+        pub fn new(outputs: &HashMap<String, String>) -> Self {
+            let outputs = outputs.clone();
+            let environments: Arc<Mutex<HashMap<String, HashMap<String, String>>>> =
+                Arc::new(Mutex::new(HashMap::new()));
+            let runs: Arc<Mutex<Vec<String>>> = Arc::new(Mutex::new(Vec::new()));
+            let exits: Arc<Mutex<Vec<i32>>> = Arc::new(Mutex::new(Vec::new()));
+            TestSubprocess {
+                outputs,
+                environments,
+                runs,
+                exits,
+            }
+        }
+
+        /// Gets a list of invoked commands.
+        pub fn get_runs(&self) -> Vec<String> {
+            self.runs.lock().unwrap().clone()
+        }
+
+        /// Gets a list of exit codes.
+        pub fn get_exits(&self) -> Vec<i32> {
+            self.exits.lock().unwrap().clone()
+        }
+    }
+
+    impl Subprocess for TestSubprocess {
+        fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String> {
+            let key = args.join(" ");
+            self.environments.lock().unwrap().insert(key.clone(), env);
+            self.runs.lock().unwrap().push(key.clone());
+            Ok(self.outputs[&key].clone())
+        }
+
+        fn exit(&self, code: i32) {
+            self.exits.lock().unwrap().push(code);
+        }
+
+        fn as_any(&self) -> &dyn std::any::Any {
+            self
         }
     }
 

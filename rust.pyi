@@ -204,50 +204,6 @@ class PyRelationConfig:
         """Gets if the relation is active."""
         ...
 
-    def get_osmrelation(self) -> int:
-        """Gets the OSM relation object's ID."""
-        ...
-
-    def get_refcounty(self) -> str:
-        """Gets the relation's refcounty identifier from reference."""
-        ...
-
-    def get_refsettlement(self) -> str:
-        """Gets the relation's refsettlement identifier from reference."""
-        ...
-
-    def get_alias(self) -> List[str]:
-        """Gets the alias(es) of the relation: alternative names which are also accepted."""
-        ...
-
-    def set_housenumber_letters(self, housenumber_letters: bool) -> None:
-        """Sets the housenumber_letters property from code."""
-        ...
-
-    def get_refstreets(self) -> Dict[str, str]:
-        """Returns an OSM name -> ref name map."""
-        ...
-
-    def set_filters(self, filters: str) -> None:
-        """Sets the 'filters' key from code."""
-        ...
-
-    def get_filters(self) -> Optional[str]:
-        """Returns a street name -> properties map."""
-        ...
-
-    def get_street_refsettlement(self, street: str) -> List[str]:
-        """Returns a list of refsettlement values specific to a street."""
-        ...
-
-    def get_street_filters(self) -> List[str]:
-        """Gets list of streets which are only in reference, but have to be filtered out."""
-        ...
-
-    def get_osm_street_filters(self) -> List[str]:
-        """Gets list of streets which are only in OSM, but have to be filtered out."""
-        ...
-
 class PyRelation:
     """A relation is a closed polygon on the map."""
     def get_name(self) -> str:
@@ -266,50 +222,22 @@ class PyRelation:
         """Sets the config interface."""
         ...
 
-    def get_osm_streets_query(self) -> str:
-        """Produces a query which lists streets in relation."""
-        ...
-
-    def get_osm_housenumbers_query(self) -> str:
-        """Produces a query which lists house numbers in relation."""
-        ...
-
-    def get_invalid_refstreets(self) -> Tuple[List[str], List[str]]:
-        """Returns invalid osm names and ref names."""
-        ...
-
 class PyRelations:
     """A relations object is a container of named relation objects."""
     def __init__(self, ctx: PyContext) -> None:
-        ...
-
-    def get_workdir(self) -> str:
-        """Gets the workdir directory path."""
         ...
 
     def get_relation(self, name: str) -> PyRelation:
         """Gets the relation that has the specified name."""
         ...
 
-    def set_relation(self, name: str, relation: PyRelation) -> None:
-        """Sets a relation for testing."""
-        ...
-
     def get_names(self) -> List[str]:
         """Gets a sorted list of relation names."""
-        ...
-
-    def get_active_names(self) -> List[str]:
-        """Gets a sorted list of active relation names."""
         ...
 
     def get_relations(self) -> List[PyRelation]:
         """Gets a list of relations."""
         ...
-
-def py_get_request_uri(environ: Dict[str, str], ctx: PyContext, relations: PyRelations) -> str:
-    """Finds out the request URI."""
-    ...
 
 def py_handle_no_osm_housenumbers(prefix: str, relation_name: str) -> PyDoc:
     """Handles the no-osm-housenumbers error on a page using JS."""
@@ -317,10 +245,6 @@ def py_handle_no_osm_housenumbers(prefix: str, relation_name: str) -> PyDoc:
 
 def py_handle_no_ref_housenumbers(prefix: str, relation_name: str) -> PyDoc:
     """Handles the no-ref-housenumbers error on a page using JS."""
-    ...
-
-def py_handle_github_webhook(data: bytes, ctx: PyContext) -> PyDoc:
-    """Handles a GitHub style webhook."""
     ...
 
 def py_is_missing_housenumbers_txt_cached(ctx: PyContext, relation: PyRelation) -> bool:

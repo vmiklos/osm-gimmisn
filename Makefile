@@ -15,7 +15,6 @@ PYTHON_SAFE_OBJECTS = \
 	stats.py \
 	util.py \
 	validator.py \
-	webframe.py \
 	wsgi.py \
 
 # These have bad coverage.
