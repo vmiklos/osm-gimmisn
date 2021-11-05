@@ -113,92 +113,6 @@ class PyContext:
         """Gets the file system implementation."""
         ...
 
-class PyStreet:
-    """
-    A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
-    name differs.
-    """
-    @staticmethod
-    def from_string(osm_name: str) -> "PyStreet":
-        """Constructor that only requires an OSM name."""
-        ...
-
-    def get_osm_name(self) -> str:
-        """Returns the OSM name."""
-        ...
-
-    def get_ref_name(self) -> str:
-        """Returns the reference name."""
-        ...
-
-    def get_osm_id(self) -> int:
-        """Returns the OSM (way) id."""
-        ...
-
-    def set_osm_type(self, osm_type: str) -> None:
-        """Sets the OSM type, e.g. 'way'."""
-        ...
-
-    def get_osm_type(self) -> str:
-        """Returns the OSM type, e.g. 'way'."""
-        ...
-
-    def set_source(self, source: str) -> None:
-        """Sets the source of this street."""
-        ...
-
-    def get_source(self) -> str:
-        """Gets the source of this street."""
-        ...
-
-    def to_html(self) -> PyDoc:
-        """Writes the street as a HTML string."""
-        ...
-
-    def __repr__(self) -> str:
-        ...
-
-    def __eq__(self, other: object) -> bool:
-        """OSM id is explicitly non-interesting."""
-        ...
-
-    def __lt__(self, other: object) -> bool:
-        """OSM id is explicitly non-interesting."""
-        ...
-
-    def __hash__(self) -> int:
-        """OSM id is explicitly not interesting."""
-        ...
-
-class PyHouseNumber:
-    """
-    A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
-    can generate 3 house numbers, all of them with the same range.
-    The comment is similar to source, it's ignored during __eq__() and __hash__().
-    """
-    def get_number(self) -> str:
-        """Returns the house number string."""
-        ...
-
-    def get_source(self) -> str:
-        """Returns the source range."""
-        ...
-
-    def get_comment(self) -> str:
-        """Returns the comment."""
-        ...
-
-    def __repr__(self) -> str:
-        ...
-
-    def __eq__(self, other: object) -> bool:
-        """Source is explicitly non-interesting."""
-        ...
-
-    def __hash__(self) -> int:
-        """Source is explicitly non-interesting."""
-        ...
-
 def py_get_content(path: str) -> bytes:
     """Gets the content of a file in workdir."""
     ...
@@ -310,14 +224,6 @@ class PyRelationConfig:
         """Sets the housenumber_letters property from code."""
         ...
 
-    def set_letter_suffix_style(self, letter_suffix_style: int) -> None:
-        """Sets the letter suffix style."""
-        ...
-
-    def get_letter_suffix_style(self) -> int:
-        """Gets the letter suffix style."""
-        ...
-
     def get_refstreets(self) -> Dict[str, str]:
         """Returns an OSM name -> ref name map."""
         ...
@@ -372,10 +278,6 @@ class PyRelation:
         """Returns invalid osm names and ref names."""
         ...
 
-    def get_invalid_filter_keys(self) -> List[str]:
-        """Returns invalid filter key names (street not in OSM)."""
-        ...
-
 class PyRelations:
     """A relations object is a container of named relation objects."""
     def __init__(self, ctx: PyContext) -> None:
@@ -404,14 +306,6 @@ class PyRelations:
     def get_relations(self) -> List[PyRelation]:
         """Gets a list of relations."""
         ...
-
-def py_missing_housenumbers_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
-    """Commandline interface."""
-    ...
-
-def py_cache_yamls_main(argv: List[str], ctx: PyContext) -> None:
-    """Commandline interface."""
-    ...
 
 def py_get_request_uri(environ: Dict[str, str], ctx: PyContext, relations: PyRelations) -> str:
     """Finds out the request URI."""

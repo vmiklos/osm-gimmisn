@@ -13,7 +13,6 @@
 use crate::areas;
 use crate::context;
 use crate::util;
-use pyo3::prelude::*;
 use std::io::Write;
 
 /// Commandline interface.
@@ -36,32 +35,6 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
         stream.write_all(format!("{:?}\n", range_strings).as_bytes())?;
     }
 
-    Ok(())
-}
-
-/// Commandline interface.
-#[pyfunction]
-pub fn py_missing_housenumbers_main(
-    argv: Vec<String>,
-    stdout: PyObject,
-    ctx: &context::PyContext,
-) -> PyResult<()> {
-    let mut stream = context::PyAnyWrite { write: stdout };
-    match main(&argv, &mut stream, &ctx.context) {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-            "main() failed: {}",
-            err.to_string()
-        ))),
-    }
-}
-
-/// Registers Python wrappers of Rust structs into the Python module.
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_missing_housenumbers_main,
-        module
-    )?)?;
     Ok(())
 }
 
