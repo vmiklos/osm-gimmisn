@@ -614,39 +614,6 @@ impl PyRelationFiles {
         };
         Ok(context::PyWrite { write: ret })
     }
-
-    fn write_osm_streets(&self, ctx: PyObject, result: String) -> PyResult<usize> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self.relation_files.write_osm_streets(&ctx.context, &result) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "write_osm_streets() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(ret)
-    }
-
-    fn write_osm_housenumbers(&self, ctx: PyObject, result: String) -> PyResult<usize> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .write_osm_housenumbers(&ctx.context, &result)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "write_osm_housenumbers() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(ret)
-    }
 }
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {

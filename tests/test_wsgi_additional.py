@@ -17,49 +17,6 @@ import areas
 import wsgi
 
 
-class TestStreets(test_wsgi.TestWsgi):
-    """Tests additional streets."""
-    def test_view_result_txt(self) -> None:
-        """Tests the txt output."""
-        result = self.get_txt_for_path("/additional-streets/gazdagret/view-result.txt")
-        self.assertEqual(result, "Only In OSM utca\n")
-
-    def test_view_result_chkl(self) -> None:
-        """Tests the chkl output."""
-        result = self.get_txt_for_path("/additional-streets/gazdagret/view-result.chkl")
-        self.assertEqual(result, "[ ] Only In OSM utca\n")
-
-    def test_view_result_txt_no_osm_streets(self) -> None:
-        """Tests the txt output, no osm streets case."""
-        ctx = test_context.make_test_context()
-        relations = areas.make_relations(ctx)
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_osm_streets_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        result = self.get_txt_for_path("/additional-streets/gazdagret/view-result.txt")
-        self.assertEqual(result, "No existing streets")
-
-    def test_view_result_txt_no_ref_streets(self) -> None:
-        """Tests the txt output, no ref streets case."""
-        ctx = test_context.make_test_context()
-        relations = areas.make_relations(ctx)
-        relation = relations.get_relation("gazdagret")
-        hide_path = relation.get_files().get_ref_streets_path()
-        file_system = test_context.TestFileSystem()
-        file_system.set_hide_paths([hide_path])
-        self.ctx.set_file_system(file_system)
-        result = self.get_txt_for_path("/additional-streets/gazdagret/view-result.txt")
-        self.assertEqual(result, "No reference streets")
-
-    def test_view_turbo_well_formed(self) -> None:
-        """Tests if the view-turbo output is well-formed."""
-        root = self.get_dom_for_path("/additional-streets/gazdagret/view-turbo")
-        results = root.findall("body/pre")
-        self.assertEqual(len(results), 1)
-
-
 class TestHandleMainHousenrAdditionalCount(test_wsgi.TestWsgi):
     """Tests handle_main_housenr_additional_count()."""
     def test_happy(self) -> None:

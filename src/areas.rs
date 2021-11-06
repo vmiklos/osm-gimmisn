@@ -345,10 +345,6 @@ struct PyRelationConfig {
 
 #[pymethods]
 impl PyRelationConfig {
-    fn set_active(&mut self, active: bool) {
-        self.relation_config.set_active(active)
-    }
-
     fn is_active(&self) -> bool {
         self.relation_config.is_active()
     }

@@ -16,7 +16,6 @@ use crate::i18n::translate as tr;
 use crate::util;
 use crate::yattag;
 use anyhow::Context;
-use pyo3::prelude::*;
 
 /// Decides if we have an up to date cache entry or not.
 fn is_cache_outdated(
@@ -254,19 +253,6 @@ fn is_missing_housenumbers_txt_cached(
     is_cache_outdated(ctx, &cache_path, &dependencies)
 }
 
-#[pyfunction]
-fn py_is_missing_housenumbers_txt_cached(
-    ctx: context::PyContext,
-    relation: areas::PyRelation,
-) -> PyResult<bool> {
-    match is_missing_housenumbers_txt_cached(&ctx.context, &relation.relation)
-        .context("is_missing_housenumbers_txt_cached() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Gets the cached plain text of the missing housenumbers for a relation.
 pub fn get_missing_housenumbers_txt(
     ctx: &context::Context,
@@ -317,31 +303,6 @@ pub fn get_missing_housenumbers_txt(
     let mut guard = stream.lock().unwrap();
     guard.write_all(output.as_bytes())?;
     Ok(output)
-}
-
-#[pyfunction]
-fn py_get_missing_housenumbers_txt(
-    ctx: context::PyContext,
-    mut relation: areas::PyRelation,
-) -> PyResult<String> {
-    match get_missing_housenumbers_txt(&ctx.context, &mut relation.relation)
-        .context("get_missing_housenumbers_txt() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_is_missing_housenumbers_txt_cached,
-        module
-    )?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_get_missing_housenumbers_txt,
-        module
-    )?)?;
-    Ok(())
 }
 
 #[cfg(test)]
