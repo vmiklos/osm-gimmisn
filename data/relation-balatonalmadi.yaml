@@ -65,6 +65,14 @@ filters:
     invalid: ['6']
   Dózsa György utca:
     show-refstreet: false
+  Dr. Óvári Ferenc utca:
+    # 22 = József Attila út 67
+    # 50-52 = Verseny utca 3
+    # 54-56: nagy üres terület lebontott házakkal
+    invalid: ['22', '50', '52', '56']
+    ranges:
+      - {start: '1', end: '131'}
+      - {start: '2', end: '72'}
   Duna utca:
     # 2 = Balatonfűzfői utca 200
     invalid: ['2']
@@ -94,9 +102,18 @@ filters:
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
+  Héja utca:
+    # 7 = Rigó köz 2
+    invalid: ['7']
   Hétvezér utca:
     # 1 = Bajcsy-Zsilinszky út 32
     invalid: ['1']
+  Holló köz:
+    # 12: Holló utca 12
+    invalid: ['12']
+  Holló utca:
+    # 5: nincs, 3 után 9
+    invalid: ['5']
   Homok utca:
     # terv és a valóság nincs összhangban
     # 6-8: csak 6
@@ -106,6 +123,9 @@ filters:
   Huba utca:
     # 11: 9-11-13 nincs kiírva, a 3 számra jut 2 ikerház: 2021-10. RESURVEY 2022
     invalid: ['11']
+  Juhász Gyula köz:
+    # 4 = Kiírás szerint a Villa Succa címe 5
+    invalid: ['4']
   Kert utca:
     invalid: ['21', '23']
   Kisberényi út:
@@ -167,6 +187,9 @@ filters:
   Pacsirta köz:
     # 20-22: csak 22 van kiírva
     invalid: ['20']
+  Park utca:
+    # 16 = Baross Gábor út 45
+    invalid: ['16']
   Radnóti utca:
     show-refstreet: false
   Rákóczi Ferenc utca:
@@ -183,6 +206,9 @@ filters:
   Rezeda utca:
     # 2 = Noszlopy G. utca 17.
     invalid: ['2']
+  Rigó köz:
+    # 27: nincs
+    invalid: ['27']
   Seregély utca:
     # 9: 9 nincs, 7 az utolsó ami ki van írva
     invalid: ['9']
@@ -216,6 +242,8 @@ filters:
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
+  Töltés utca:
+    invalid: ['15']
   Töhötöm utca:
     # 10-12: csak 10 van kiírva
     invalid: ['12']
