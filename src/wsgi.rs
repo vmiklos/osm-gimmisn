@@ -1590,7 +1590,7 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
     use std::io::Read;
     use std::io::Seek;
@@ -1598,7 +1598,7 @@ mod tests {
     use std::io::Write;
 
     /// Shared struct for wsgi tests.
-    struct TestWsgi {
+    pub struct TestWsgi {
         gzip_compress: bool,
         ctx: context::Context,
         environ: HashMap<String, String>,
@@ -1608,7 +1608,7 @@ mod tests {
     }
 
     impl TestWsgi {
-        fn new() -> Self {
+        pub fn new() -> Self {
             let gzip_compress = false;
             let ctx = context::tests::make_test_context().unwrap();
             let environ: HashMap<String, String> = HashMap::new();
@@ -1625,8 +1625,12 @@ mod tests {
             }
         }
 
+        pub fn get_ctx(&mut self) -> &mut context::Context {
+            &mut self.ctx
+        }
+
         /// Finds all matching subelements, by tag name or path.
-        fn find_all(package: &sxd_document::Package, path: &str) -> Vec<String> {
+        pub fn find_all(package: &sxd_document::Package, path: &str) -> Vec<String> {
             let document = package.as_document();
             let value = sxd_xpath::evaluate_xpath(&document, &format!("/html/{}", path)).unwrap();
             let mut ret: Vec<String> = Vec::new();
@@ -1637,7 +1641,7 @@ mod tests {
         }
 
         /// Generates an XML DOM for a given wsgi path.
-        fn get_dom_for_path(&mut self, path: &str) -> sxd_document::Package {
+        pub fn get_dom_for_path(&mut self, path: &str) -> sxd_document::Package {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             let abspath: String;
             if self.absolute_path {
@@ -1674,7 +1678,7 @@ mod tests {
         }
 
         /// Generates a string for a given wsgi path.
-        fn get_txt_for_path(&mut self, path: &str) -> String {
+        pub fn get_txt_for_path(&mut self, path: &str) -> String {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             self.environ
                 .insert("PATH_INFO".into(), format!("{}{}", prefix, path));

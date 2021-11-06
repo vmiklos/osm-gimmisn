@@ -77,6 +77,8 @@ fn fill_header_function(
         {
             let _span = doc.tag("span", &[("id", "trigger-street-housenumbers-update")]);
             {
+                // TODO consider using HTTP POST here, see
+                // https://stackoverflow.com/questions/1367409/how-to-make-button-look-like-a-link
                 let _a = doc.tag(
                     "a",
                     &[(

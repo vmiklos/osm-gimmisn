@@ -186,20 +186,8 @@ class PyRelationFiles:
         """Opens the housenumbers additional count file of a relation for writing."""
         ...
 
-    def write_osm_streets(self, ctx: PyContext, result: str) -> int:
-        """Writes the result for overpass of Relation.get_osm_streets_query()."""
-        ...
-
-    def write_osm_housenumbers(self, ctx: PyContext, result: str) -> int:
-        """Writes the result for overpass of Relation.get_osm_housenumbers_query()."""
-        ...
-
 class PyRelationConfig:
     """A relation configuration comes directly from static data, not a result of some external query."""
-    def set_active(self, active: bool) -> None:
-        """Sets if the relation is active."""
-        ...
-
     def is_active(self) -> bool:
         """Gets if the relation is active."""
         ...
@@ -238,22 +226,6 @@ class PyRelations:
     def get_relations(self) -> List[PyRelation]:
         """Gets a list of relations."""
         ...
-
-def py_handle_no_osm_housenumbers(prefix: str, relation_name: str) -> PyDoc:
-    """Handles the no-osm-housenumbers error on a page using JS."""
-    ...
-
-def py_handle_no_ref_housenumbers(prefix: str, relation_name: str) -> PyDoc:
-    """Handles the no-ref-housenumbers error on a page using JS."""
-    ...
-
-def py_is_missing_housenumbers_txt_cached(ctx: PyContext, relation: PyRelation) -> bool:
-    """Decides if we have an up to date plain text cache entry or not."""
-    ...
-
-def py_get_missing_housenumbers_txt(ctx: PyContext, relation: PyRelation) -> str:
-    """Gets the cached plain text of the missing housenumbers for a relation."""
-    ...
 
 def py_handle_main_housenr_additional_count(ctx: PyContext, relation: PyRelation) -> PyDoc:
     """Handles the housenumber additional count part of the main page."""

@@ -222,3 +222,75 @@ pub fn additional_streets_view_turbo(
     doc.text(&query);
     Ok(doc)
 }
+
+#[cfg(test)]
+mod tests {
+    use std::sync::Arc;
+
+    use crate::areas;
+    use crate::context;
+    use crate::wsgi;
+
+    /// Tests additional streets: the txt output.
+    #[test]
+    fn test_streets_view_result_txt() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+
+        let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.txt");
+
+        assert_eq!(result, "Only In OSM utca\n");
+    }
+
+    /// Tests additional streets: the chkl output.
+    #[test]
+    fn test_streets_view_result_chkl() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+
+        let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.chkl");
+
+        assert_eq!(result, "[ ] Only In OSM utca\n");
+    }
+
+    /// Tests additional streets: the txt output, no osm streets case.
+    #[test]
+    fn test_streets_view_result_txt_no_osm_streets() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.txt");
+
+        assert_eq!(result, "No existing streets");
+    }
+
+    /// Tests additional streets: the txt output, no ref streets case.
+    #[test]
+    fn test_streets_view_result_txt_no_ref_streets() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_ref_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.txt");
+
+        assert_eq!(result, "No reference streets");
+    }
+
+    /// Tests additional streets: if the view-turbo output is well-formed.
+    #[test]
+    fn test_streets_view_turbo_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-turbo");
+        let results = wsgi::tests::TestWsgi::find_all(&root, "body/pre");
+        assert_eq!(results.len(), 1);
+    }
+}
