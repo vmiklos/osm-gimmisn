@@ -894,7 +894,7 @@ fn handle_main_street_additional_count(
 }
 
 /// Handles the housenumber additional count part of the main page.
-fn handle_main_housenr_additional_count(
+pub fn handle_main_housenr_additional_count(
     ctx: &context::Context,
     relation: &areas::Relation,
 ) -> anyhow::Result<yattag::Doc> {
@@ -946,19 +946,6 @@ fn handle_main_housenr_additional_count(
     let _a = doc.tag("a", &[("href", &url)]);
     doc.text(&tr("additional house numbers"));
     Ok(doc)
-}
-
-#[pyfunction]
-fn py_handle_main_housenr_additional_count(
-    ctx: context::PyContext,
-    relation: areas::PyRelation,
-) -> PyResult<yattag::PyDoc> {
-    match handle_main_housenr_additional_count(&ctx.context, &relation.relation)
-        .context("handle_main_housenr_additional_count() failed")
-    {
-        Ok(doc) => Ok(yattag::PyDoc { doc }),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Does not filter out anything.
@@ -1581,10 +1568,6 @@ fn py_application(
 
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_handle_main_housenr_additional_count,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_application, module)?)?;
     Ok(())
 }

@@ -166,26 +166,6 @@ class PyRelationFiles:
         """Opens the OSM street list of a relation for reading."""
         ...
 
-    def get_osm_housenumbers_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the OSM house number list of a relation for reading."""
-        ...
-
-    def get_ref_housenumbers_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the reference house number list of a relation for reading."""
-        ...
-
-    def get_streets_percent_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the street percent file of a relation for reading."""
-        ...
-
-    def get_streets_additional_count_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the street additional count file of a relation for writing."""
-        ...
-
-    def get_housenumbers_additional_count_write_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the housenumbers additional count file of a relation for writing."""
-        ...
-
 class PyRelationConfig:
     """A relation configuration comes directly from static data, not a result of some external query."""
     def is_active(self) -> bool:
@@ -226,10 +206,6 @@ class PyRelations:
     def get_relations(self) -> List[PyRelation]:
         """Gets a list of relations."""
         ...
-
-def py_handle_main_housenr_additional_count(ctx: PyContext, relation: PyRelation) -> PyDoc:
-    """Handles the housenumber additional count part of the main page."""
-    ...
 
 def py_application(
         request_headers: Dict[str, str],
