@@ -293,4 +293,78 @@ mod tests {
         let results = wsgi::tests::TestWsgi::find_all(&root, "body/pre");
         assert_eq!(results.len(), 1);
     }
+
+    /// Tests handle_main_housenr_additional_count().
+    #[test]
+    fn test_handle_main_housenr_additional_count() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("budafok").unwrap();
+        let actual = wsgi::handle_main_housenr_additional_count(&ctx, &relation).unwrap();
+        assert_eq!(actual.get_value().contains("42 house numbers"), true);
+    }
+
+    /// Tests handle_main_housenr_additional_count(): what happens when the count file is not there.
+    #[test]
+    fn test_handle_main_housenr_additional_count_no_count_file() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("budafok").unwrap();
+        let hide_path = relation
+            .get_files()
+            .get_housenumbers_additional_count_path()
+            .unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        let actual = wsgi::handle_main_housenr_additional_count(&ctx, &relation).unwrap();
+
+        // Assert that the info is not there to ensure a fast main page.
+        assert_eq!(actual.get_value().contains("42 house numbers"), false);
+    }
+
+    /// Tests the additional house numbers page: if the output is well-formed.
+    #[test]
+    fn test_additional_housenumbers_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
+        let results = wsgi::tests::TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the additional house numbers page: if the output is well-formed, no osm streets case.
+    #[test]
+    fn test_additional_housenumbers_no_osm_streets_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+        let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
+        let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-osm-streets']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the additional house numbers page: if the output is well-formed, no osm housenumbers case.
+    #[test]
+    fn test_additional_housenumbers_no_osm_housenumbers_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
+
+        let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-osm-housenumbers']");
+        assert_eq!(results.len(), 1);
+    }
 }
