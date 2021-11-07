@@ -324,7 +324,8 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
     let mut house_numbers: HashSet<String> = HashSet::new();
     let mut cities: HashMap<String, HashSet<String>> = HashMap::new();
     let mut first = true;
-    let valid_settlements = util::get_valid_settlements(ctx)?;
+    let valid_settlements =
+        util::get_valid_settlements(ctx).context("get_valid_settlements() failed")?;
     let stream = ctx.get_file_system().open_read(&csv_path)?;
     let mut guard = stream.lock().unwrap();
     let reader = std::io::BufReader::new(guard.deref_mut());
@@ -459,7 +460,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
         }
     }
 
-    update_stats_count(ctx, &today)?;
+    update_stats_count(ctx, &today).context("update_stats_count() failed")?;
     update_stats_topusers(ctx, &today)?;
     update_stats_refcount(ctx, &statedir)?;
 

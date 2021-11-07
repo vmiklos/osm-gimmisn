@@ -1176,7 +1176,10 @@ pub fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<S
     let mut settlements: HashSet<String> = HashSet::new();
 
     let path = ctx.get_ini().get_reference_citycounts_path()?;
-    let stream = ctx.get_file_system().open_read(&path)?;
+    let stream = ctx
+        .get_file_system()
+        .open_read(&path)
+        .context("open_read() failed")?;
     let mut guard = stream.lock().unwrap();
     let mut read = guard.deref_mut();
     let mut csv_read = CsvRead::new(&mut read);

@@ -11,6 +11,10 @@
 //! Abstractions to help writing unit tests: filesystem, network, etc.
 
 use anyhow::anyhow;
+use anyhow::Context as AnyhowContext;
+use isahc::config::Configurable;
+use isahc::ReadResponseExt;
+use isahc::RequestExt;
 use pyo3::class::PyIterProtocol;
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
@@ -62,12 +66,14 @@ impl FileSystem for StdFileSystem {
     }
 
     fn open_read(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let ret: Arc<Mutex<dyn Read + Send>> = Arc::new(Mutex::new(std::fs::File::open(path)?));
+        let ret: Arc<Mutex<dyn Read + Send>> = Arc::new(Mutex::new(
+            std::fs::File::open(path)
+                .with_context(|| format!("failed to open {} for reading", path))?,
+        ));
         Ok(ret)
     }
 
     fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        use anyhow::Context;
         let ret: Arc<Mutex<dyn Write + Send>> = Arc::new(Mutex::new(
             std::fs::File::create(path)
                 .with_context(|| format!("failed to open {} for writing", path))?,
@@ -407,23 +413,28 @@ pub trait Network: Send + Sync {
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String>;
 }
 
-/// Network implementation, backed by the reqwest.
+/// Network implementation, backed by a real HTTP library.
 struct StdNetwork {}
 
 impl Network for StdNetwork {
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
         if !data.is_empty() {
-            let client = reqwest::blocking::Client::builder()
+            let mut buf = isahc::Request::post(url)
+                .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
                 .timeout(Duration::from_secs(425))
-                .build()?;
-            let body = String::from(data);
-            let buf = client.post(url).body(body).send()?;
-            return Ok(buf.text()?);
+                .body(data)?
+                .send()?;
+            let ret = buf.text()?;
+            return Ok(ret);
         }
 
-        let buf = reqwest::blocking::get(url)?;
-
-        Ok(buf.text()?)
+        let mut buf = isahc::Request::get(url)
+            .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
+            .timeout(Duration::from_secs(425))
+            .body(())?
+            .send()?;
+        let ret = buf.text()?;
+        Ok(ret)
     }
 }
 
