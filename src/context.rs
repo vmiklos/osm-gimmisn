@@ -703,37 +703,6 @@ impl PyUnit {
     }
 }
 
-/// Unit implementation, backed by Python code.
-struct PyAnyUnit {
-    unit: Py<PyAny>,
-}
-
-impl PyAnyUnit {
-    fn new(unit: Py<PyAny>) -> Self {
-        PyAnyUnit { unit }
-    }
-}
-
-impl Unit for PyAnyUnit {
-    fn make_error(&self) -> String {
-        Python::with_gil(|py| {
-            let any = match self.unit.call_method0(py, "make_error") {
-                Ok(value) => value,
-                Err(_) => {
-                    return String::from("");
-                }
-            };
-            let string = match any.as_ref(py).downcast::<PyUnicode>() {
-                Ok(value) => value,
-                Err(_) => {
-                    return String::from("");
-                }
-            };
-            string.extract().unwrap()
-        })
-    }
-}
-
 /// Configuration file reader.
 #[derive(Clone)]
 pub struct Ini {
@@ -1063,11 +1032,6 @@ impl PyContext {
         PyUnit {
             unit: self.context.get_unit().clone(),
         }
-    }
-
-    fn set_unit(&mut self, unit: &PyAny) {
-        let unit: Arc<dyn Unit> = Arc::new(PyAnyUnit::new(unit.into()));
-        self.context.set_unit(&unit);
     }
 
     fn get_file_system(&self) -> PyFileSystem {

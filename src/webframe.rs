@@ -567,6 +567,7 @@ pub fn compress_response(
     let mut output_bytes = response.get_output_bytes().clone();
     let mut headers: Vec<(String, String)> = Vec::new();
     if let Some(value) = accept_encodings {
+        // TODO pass down the original request instead of constructing a fake one.
         let request = rouille::Request::fake_http(
             "GET",
             "/",
@@ -1148,6 +1149,7 @@ pub fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::R
         .unwrap();
     if branch == "refs/heads/master" {
         let mut my_env: HashMap<String, String> = HashMap::new();
+        // TODO was only needed for Python.
         my_env.insert(
             "PATH".into(),
             format!("osm-gimmisn-env/bin:{}", std::env::var("PATH")?),

@@ -20,16 +20,6 @@ from typing import cast
 import api
 
 
-class PyDoc:
-    """Generates xml/html documents."""
-    def __init__(self) -> None:
-        ...
-
-    def get_value(self) -> str:
-        """Gets the escaped value."""
-        ...
-
-
 class PyStdFileSystem(api.FileSystem):
     """File system implementation, backed by the Rust stdlib."""
     def __init__(self) -> None:
@@ -97,10 +87,6 @@ class PyContext:
         """Gets the subprocess implementation."""
         ...
 
-    def set_unit(self, unit: api.Unit) -> None:
-        """Sets the unit implementation."""
-        ...
-
     def get_unit(self) -> api.Unit:
         """Gets the unit implementation."""
         ...
@@ -152,18 +138,6 @@ class PyRelationFiles:
 
     def get_streets_additional_count_path(self) -> str:
         """Builds the file name of the street additional count file of a relation."""
-        ...
-
-    def get_housenumbers_additional_count_path(self) -> str:
-        """Builds the file name of the housenumber additional count file of a relation."""
-        ...
-
-    def get_ref_streets_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the reference street list of a relation for reading."""
-        ...
-
-    def get_osm_streets_read_stream(self, ctx: PyContext) -> BinaryIO:
-        """Opens the OSM street list of a relation for reading."""
         ...
 
 class PyRelationConfig:
