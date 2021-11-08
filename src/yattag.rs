@@ -13,7 +13,6 @@
 //! This is more or less a Rust port of the Python package, mostly because
 //! <https://crates.io/crates/html-builder> would require you to manually escape attribute values.
 
-use pyo3::prelude::*;
 use std::sync::Arc;
 use std::sync::Mutex;
 
@@ -78,24 +77,6 @@ impl Default for Doc {
     }
 }
 
-#[pyclass]
-pub struct PyDoc {
-    pub doc: Doc,
-}
-
-#[pymethods]
-impl PyDoc {
-    #[new]
-    fn new() -> Self {
-        let doc = Doc::new();
-        PyDoc { doc }
-    }
-
-    fn get_value(&self) -> String {
-        self.doc.get_value()
-    }
-}
-
 /// Starts a tag, which is closed automatically.
 pub struct Tag {
     value: Arc<Mutex<String>>,
@@ -127,9 +108,4 @@ impl Drop for Tag {
             .unwrap()
             .push_str(&format!("</{}>", self.name));
     }
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_class::<PyDoc>()?;
-    Ok(())
 }

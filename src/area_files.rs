@@ -472,52 +472,6 @@ impl PyRelationFiles {
             ))),
         }
     }
-
-    fn get_housenumbers_additional_count_path(&self) -> PyResult<String> {
-        match self.relation_files.get_housenumbers_additional_count_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_housenumbers_additional_count_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_ref_streets_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_ref_streets_read_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_ref_streets_read_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyRead { read: ret })
-    }
-
-    fn get_osm_streets_read_stream(&self, ctx: PyObject) -> PyResult<context::PyRead> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let ret = match self
-            .relation_files
-            .get_osm_streets_read_stream(&ctx.context)
-        {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_osm_streets_read_stream() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(context::PyRead { read: ret })
-    }
 }
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {

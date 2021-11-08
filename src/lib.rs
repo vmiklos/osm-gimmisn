@@ -40,6 +40,5 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     stats::register_python_symbols(m)?;
     util::register_python_symbols(m)?;
     wsgi::register_python_symbols(m)?;
-    yattag::register_python_symbols(m)?;
     Ok(())
 }

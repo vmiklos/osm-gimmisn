@@ -3,7 +3,6 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_parse_access_log.py \
 	tests/test_validator.py \
 	tests/test_wsgi.py \
-	tests/test_wsgi_additional.py \
 	tests/test_wsgi_json.py \
 
 # These have good coverage.

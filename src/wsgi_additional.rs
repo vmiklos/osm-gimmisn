@@ -225,6 +225,9 @@ pub fn additional_streets_view_turbo(
 
 #[cfg(test)]
 mod tests {
+    use std::io::Seek;
+    use std::io::SeekFrom;
+    use std::ops::DerefMut;
     use std::sync::Arc;
 
     use crate::areas;
@@ -366,5 +369,130 @@ mod tests {
 
         let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-osm-housenumbers']");
         assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the additional house numbers page: if the output is well-formed, no ref housenumbers case.
+    #[test]
+    fn test_additional_housenumbers_no_ref_housenumbers_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
+
+        let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-ref-housenumbers']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the additional streets page: if the output is well-formed.
+    #[test]
+    fn test_streets_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let count_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[("workdir/gazdagret-additional-streets.count", &count_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
+
+        let mut guard = count_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let mut results = wsgi::tests::TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+        // refstreets: >0 invalid osm name
+        results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='osm-invalids-container']");
+        assert_eq!(results.len(), 1);
+        // refstreets: >0 invalid ref name
+        results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='ref-invalids-container']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the additional streets page: if the output is well-formed when the street name comes
+    /// from a housenr.
+    #[test]
+    fn test_streets_street_from_housenr_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gh611": {
+                    "osmrelation": 42,
+                },
+            },
+            "refcounty-names.yaml": {
+            },
+            "refsettlement-names.yaml": {
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.lock().unwrap();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let count_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/gh611-additional-streets.count", &count_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/additional-streets/gh611/view-result");
+
+        let mut guard = count_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let results = wsgi::tests::TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the additional streets page: if the output is well-formed, no osm streets case.
+    #[test]
+    fn test_streets_no_osm_streets_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
+
+        let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-osm-streets']");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests the additional streets page: if the output is well-formed, no ref streets case.
+    #[test]
+    fn test_streets_no_ref_streets_well_formed() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
+        let relation = relations.get_relation("gazdagret").unwrap();
+        let hide_path = relation.get_files().get_ref_streets_path().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_hide_paths(&[hide_path]);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
+
+        let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-ref-streets']");
+        assert_eq!(results.len(), 1)
     }
 }
