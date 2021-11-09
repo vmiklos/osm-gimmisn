@@ -8,7 +8,6 @@
 
 from typing import Any
 from typing import Dict
-from typing import List
 from typing import cast
 import io
 import json
@@ -35,82 +34,6 @@ class TestWsgiJson(unittest.TestCase):
         self.assertEqual(header_dict["Content-type"], "application/json; charset=utf-8")
         self.assertTrue(data)
         return cast(Dict[str, Any], json.loads(data))
-
-
-class TestJsonStreets(TestWsgiJson):
-    """Tests streets_update_result_json()."""
-    def test_update_result_json(self) -> None:
-        """Tests if the update-result json output is well-formed."""
-        ctx = test_context.make_test_context()
-        routes: List[test_context.URLRoute] = [
-            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                  data_path="",
-                                  result_path="tests/network/overpass-streets-gazdagret.csv")
-        ]
-        network = test_context.TestNetwork(routes)
-        ctx.set_network(network)
-        file_system = test_context.TestFileSystem()
-        streets_value = io.BytesIO()
-        streets_value.__setattr__("close", lambda: None)
-        files = {
-            ctx.get_abspath("workdir/streets-gazdagret.csv"): streets_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-        root = self.get_json_for_path(ctx, "/streets/gazdagret/update-result.json")
-        self.assertEqual(root["error"], "")
-        self.assertTrue(streets_value.tell())
-
-    def test_update_result_json_error(self) -> None:
-        """Tests if the update-result json output on error is well-formed."""
-        ctx = test_context.make_test_context()
-        routes: List[test_context.URLRoute] = [
-            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                  data_path="",
-                                  result_path="")
-        ]
-        network = test_context.TestNetwork(routes)
-        ctx.set_network(network)
-        root = self.get_json_for_path(ctx, "/streets/gazdagret/update-result.json")
-        self.assertIn("error", root)
-
-
-class TestJsonStreetHousenumbers(TestWsgiJson):
-    """Tests street_housenumbers_update_result_json()."""
-    def test_update_result_json(self) -> None:
-        """Tests if the update-result output is well-formed."""
-        ctx = test_context.make_test_context()
-        routes: List[test_context.URLRoute] = [
-            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                  data_path="",
-                                  result_path="tests/network/overpass-housenumbers-gazdagret.csv")
-        ]
-        network = test_context.TestNetwork(routes)
-        ctx.set_network(network)
-        file_system = test_context.TestFileSystem()
-        housenumbers_value = io.BytesIO()
-        housenumbers_value.__setattr__("close", lambda: None)
-        files = {
-            ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"): housenumbers_value,
-        }
-        file_system.set_files(files)
-        ctx.set_file_system(file_system)
-        root = self.get_json_for_path(ctx, "/street-housenumbers/gazdagret/update-result.json")
-        self.assertEqual(root["error"], "")
-        self.assertTrue(housenumbers_value.tell())
-
-    def test_update_result_error_json(self) -> None:
-        """Tests if the update-result output on error is well-formed."""
-        ctx = test_context.make_test_context()
-        routes: List[test_context.URLRoute] = [
-            test_context.URLRoute(url="https://overpass-api.de/api/interpreter",
-                                  data_path="",
-                                  result_path="")
-        ]
-        network = test_context.TestNetwork(routes)
-        ctx.set_network(network)
-        root = self.get_json_for_path(ctx, "/street-housenumbers/gazdagret/update-result.json")
-        self.assertIn("error", root)
 
 
 class TestJsonMissingHousenumbers(TestWsgiJson):

@@ -120,24 +120,8 @@ class PyRelationFiles:
         """Build the file name of the OSM house number list of a relation."""
         ...
 
-    def get_ref_housenumbers_path(self) -> str:
-        """Build the file name of the reference house number list of a relation."""
-        ...
-
     def get_housenumbers_percent_path(self) -> str:
         """Builds the file name of the house number percent file of a relation."""
-        ...
-
-    def get_housenumbers_htmlcache_path(self) -> str:
-        """Builds the file name of the house number HTML cache file of a relation."""
-        ...
-
-    def get_streets_percent_path(self) -> str:
-        """Builds the file name of the street percent file of a relation."""
-        ...
-
-    def get_streets_additional_count_path(self) -> str:
-        """Builds the file name of the street additional count file of a relation."""
         ...
 
 class PyRelationConfig:

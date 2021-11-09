@@ -21,6 +21,7 @@ fn app(request: &rouille::Request) -> anyhow::Result<rouille::Response> {
     for (key, value) in request.headers() {
         request_headers.insert(key.to_string(), value.to_string());
     }
+    // TODO work with the rouille::Request in wsgi::application() instead of this mapping.
     request_headers.insert("PATH_INFO".to_string(), request.url());
     let mut request_data = Vec::new();
     if let Some(mut reader) = request.data() {

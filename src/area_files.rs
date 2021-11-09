@@ -423,51 +423,11 @@ impl PyRelationFiles {
         }
     }
 
-    fn get_ref_housenumbers_path(&self) -> PyResult<String> {
-        match self.relation_files.get_ref_housenumbers_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_ref_housenumbers_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
     fn get_housenumbers_percent_path(&self) -> PyResult<String> {
         match self.relation_files.get_housenumbers_percent_path() {
             Ok(value) => Ok(value),
             Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
                 "get_housenumbers_percent_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_housenumbers_htmlcache_path(&self) -> PyResult<String> {
-        match self.relation_files.get_housenumbers_htmlcache_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_housenumbers_htmlcache_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_streets_percent_path(&self) -> PyResult<String> {
-        match self.relation_files.get_streets_percent_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_streets_percent_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_streets_additional_count_path(&self) -> PyResult<String> {
-        match self.relation_files.get_streets_additional_count_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_streets_additional_count_path() failed: {}",
                 err.to_string()
             ))),
         }
