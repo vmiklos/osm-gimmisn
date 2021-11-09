@@ -126,3 +126,111 @@ pub fn our_application_json(
     let response = webframe::Response::new(content_type, "200 OK", output_bytes, &headers);
     webframe::compress_response(environ, &response)
 }
+
+#[cfg(test)]
+mod tests {
+    use std::io::Seek;
+    use std::io::SeekFrom;
+    use std::sync::Arc;
+
+    use crate::context;
+    use crate::wsgi;
+
+    /// Tests streets_update_result_json(): if the update-result json output is well-formed.
+    #[test]
+    fn test_json_streets_update_result() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-streets-gazdagret.csv",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.get_ctx().set_network(&network_arc);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[("workdir/streets-gazdagret.csv", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_json_for_path("/streets/gazdagret/update-result.json");
+
+        assert_eq!(root.as_object().unwrap()["error"], "");
+        let mut guard = streets_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
+
+    /// Tests streets_update_result_json(): if the update-result json output on error is well-formed.
+    #[test]
+    fn test_json_streets_update_result_error() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.get_ctx().set_network(&network_arc);
+
+        let root = test_wsgi.get_json_for_path("/streets/gazdagret/update-result.json");
+
+        assert_eq!(root.as_object().unwrap().contains_key("error"), true);
+    }
+
+    /// Tests street_housenumbers_update_result_json(): if the update-result output is well-formed.
+    #[test]
+    fn test_json_housenumbers_update_result() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "tests/network/overpass-housenumbers-gazdagret.csv",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.get_ctx().set_network(&network_arc);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let housenumbers_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[(
+                "workdir/street-housenumbers-gazdagret.csv",
+                &housenumbers_value,
+            )],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_json_for_path("/street-housenumbers/gazdagret/update-result.json");
+
+        assert_eq!(root.as_object().unwrap()["error"], "");
+        let mut guard = housenumbers_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
+
+    /// Tests street_housenumbers_update_result_json(): if the update-result output on error is
+    /// well-formed.
+    #[test]
+    fn test_json_housenumbers_update_result_error() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let routes = vec![context::tests::URLRoute::new(
+            /*url=*/ "https://overpass-api.de/api/interpreter",
+            /*data_path=*/ "",
+            /*result_path=*/ "",
+        )];
+        let network = context::tests::TestNetwork::new(&routes);
+        let network_arc: Arc<dyn context::Network> = Arc::new(network);
+        test_wsgi.get_ctx().set_network(&network_arc);
+
+        let root = test_wsgi.get_json_for_path("/street-housenumbers/gazdagret/update-result.json");
+
+        assert_eq!(root.as_object().unwrap().contains_key("error"), true);
+    }
+}

@@ -1683,6 +1683,26 @@ pub mod tests {
             output
         }
 
+        /// Generates an json value for a given wsgi path.
+        pub fn get_json_for_path(&mut self, path: &str) -> serde_json::Value {
+            let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
+            self.environ
+                .insert("PATH_INFO".into(), format!("{}{}", prefix, path));
+            let (status, response_headers, data) =
+                application(&self.environ, &self.bytes, &self.ctx).unwrap();
+            // Make sure the built-in exception catcher is not kicking in.
+            assert_eq!(status, "200 OK");
+            let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
+            assert_eq!(
+                headers_map["Content-type"],
+                "application/json; charset=utf-8"
+            );
+            assert_eq!(data.is_empty(), false);
+            let value: serde_json::Value =
+                serde_json::from_str(&String::from_utf8(data).unwrap()).unwrap();
+            value
+        }
+
         /// Generates a CSS string for a given wsgi path.
         fn get_css_for_path(&mut self, path: &str) -> String {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
