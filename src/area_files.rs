@@ -393,36 +393,6 @@ impl PyRelationFiles {
         PyRelationFiles { relation_files }
     }
 
-    fn get_ref_streets_path(&self) -> PyResult<String> {
-        match self.relation_files.get_ref_streets_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_ref_streets_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_osm_streets_path(&self) -> PyResult<String> {
-        match self.relation_files.get_osm_streets_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_osm_streets_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_osm_housenumbers_path(&self) -> PyResult<String> {
-        match self.relation_files.get_osm_housenumbers_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_osm_housenumbers_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
     fn get_housenumbers_percent_path(&self) -> PyResult<String> {
         match self.relation_files.get_housenumbers_percent_path() {
             Ok(value) => Ok(value),
