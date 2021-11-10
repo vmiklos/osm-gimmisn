@@ -12,67 +12,29 @@ from typing import Dict
 from typing import List
 from typing import TextIO
 from typing import Tuple
+import json
 import os
 import re
 import sys
 
 import yaml
 
+import rust
+
 if sys.platform.startswith("win"):
     import _locale
 
 
-def validate_range_missing_keys(
-        errors: List[str],
-        parent: str,
-        range_data: Dict[str, Any],
-        filter_data: Dict[str, Any]
-) -> None:
-    """Validates a range description: check for missing keys."""
-    if "start" not in range_data.keys():
-        errors.append("unexpected missing key 'start' for '%s'" % parent)
-
-    if "end" not in range_data.keys():
-        errors.append("unexpected missing key 'end' for '%s'" % parent)
-
-    if "start" not in range_data.keys() or "end" not in range_data.keys():
-        return
-
-    start = int(range_data["start"])
-    end = int(range_data["end"])
-    if int(start > end):
-        errors.append("expected end >= start for '%s'" % parent)
-
-    if "interpolation" not in filter_data.keys():
-        if start % 2 != end % 2:
-            errors.append("expected start % 2 == end % 2 for '" + parent + "'")
-
-
-def validate_range(errors: List[str], parent: str, range_data: Dict[str, Any], filter_data: Dict[str, Any]) -> None:
+def validate_range(errors: List[str], parent: str, range_data: Dict[str, Any], filter_data: Dict[str, Any]) -> List[str]:
     """Validates a range description."""
-    context = parent + "."
-    for key, value in range_data.items():
-        if key == "start":
-            # Require a string that can be converted to a number. Whitespace around the number is no
-            # OK.
-            if not isinstance(value, str) or not str.isdigit(value):
-                errors.append("expected value type for '%s%s' is a digit str" % (context, key))
-        elif key == "end":
-            if not isinstance(value, str) or not str.isdigit(value):
-                errors.append("expected value type for '%s%s' is a digit str" % (context, key))
-        elif key == "refsettlement":
-            if not isinstance(value, str):
-                errors.append("expected value type for '%s%s' is str" % (context, key))
-        else:
-            errors.append("unexpected key '%s%s'" % (context, key))
-    validate_range_missing_keys(errors, parent, range_data, filter_data)
+    return rust.py_validate_range(errors, parent, json.dumps(range_data), json.dumps(filter_data))
 
 
 def validate_ranges(errors: List[str], parent: str, ranges: List[Any], filter_data: Dict[str, Any]) -> None:
     """Validates a range list."""
     context = parent
     for index, range_data in enumerate(ranges):
-        validate_range(errors, "%s[%s]" % (context, index), range_data, filter_data)
+        errors += validate_range([], "%s[%s]" % (context, index), range_data, filter_data)
 
 
 def validate_filter_invalid_valid(errors: List[str], parent: str, invalid: List[Any]) -> None:

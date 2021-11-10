@@ -233,4 +233,50 @@ mod tests {
 
         assert_eq!(root.as_object().unwrap().contains_key("error"), true);
     }
+
+    /// Tests missing_housenumbers_update_result_json().
+    #[test]
+    fn test_missing_housenumbers_update_result_json() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let housenumbers_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[(
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &housenumbers_value,
+            )],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root =
+            test_wsgi.get_json_for_path("/missing-housenumbers/gazdagret/update-result.json");
+
+        assert_eq!(root.as_object().unwrap()["error"], "");
+        let mut guard = housenumbers_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
+
+    /// Tests missing_streets_update_result_json().
+    #[test]
+    fn test_missing_streets_update_result_json() {
+        let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[("workdir/streets-reference-gazdagret.lst", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+        let root = test_wsgi.get_json_for_path("/missing-streets/gazdagret/update-result.json");
+
+        assert_eq!(root.as_object().unwrap()["error"], "");
+        let mut guard = streets_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
 }

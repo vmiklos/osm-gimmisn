@@ -72,50 +72,6 @@ class TestFileSystem(api.FileSystem):
         return open(path, "wb")
 
 
-class URLRoute:
-    """Contains info about how to patch out one URL."""
-    # The request URL
-    url: str
-    # Path of expected POST data, empty for GET
-    data_path: str
-    # Path of expected result data
-    result_path: str
-
-    def __init__(self, url: str, data_path: str, result_path: str) -> None:
-        self.url = url
-        self.data_path = data_path
-        self.result_path = result_path
-
-
-class TestNetwork(api.Network):
-    """Network implementation, for test purposes."""
-    def __init__(self, routes: List[URLRoute]) -> None:
-        self.__routes = routes
-
-    def urlopen(self, url: str, data: str) -> str:
-        for route in self.__routes:
-            if url != route.url:
-                continue
-
-            if route.data_path:
-                with open(route.data_path, "r") as stream:
-                    expected = stream.read()
-                    if data != expected:
-                        assert data
-                        assert data == expected, \
-                            "bad data: actual is '" + data + \
-                            "', expected '" + expected + "'"
-
-            if not route.result_path:
-                raise OSError("empty result_path for url '" + url + "'")
-            with open(route.result_path, "r") as stream:
-                # Allow specifying multiple results for the same URL.
-                self.__routes.remove(route)
-                return stream.read()
-
-        raise OSError("url missing from route list: '" + url + "'")
-
-
 class TestTime(api.Time):
     """Time implementation, for test purposes."""
     def __init__(self, now: float) -> None:

@@ -23,8 +23,6 @@ use crate::yattag;
 use anyhow::anyhow;
 use anyhow::Context;
 use lazy_static::lazy_static;
-use pyo3::prelude::*;
-use pyo3::types::PyBytes;
 use std::collections::HashMap;
 use std::ops::DerefMut;
 use std::sync::Arc;
@@ -1546,30 +1544,6 @@ pub fn application(
         Ok(value) => Ok(value),
         Err(err) => webframe::handle_error(request_headers, &format!("{:?}", err)),
     }
-}
-
-#[pyfunction]
-fn py_application(
-    request_headers: HashMap<String, String>,
-    request_data: Vec<u8>,
-    ctx: context::PyContext,
-) -> PyResult<(String, webframe::Headers, PyObject)> {
-    let gil = Python::acquire_gil();
-    match application(&request_headers, &request_data, &ctx.context).context("application() failed")
-    {
-        Ok(response) => Ok((
-            response.0,
-            response.1,
-            PyBytes::new(gil.python(), &response.2).into(),
-        )),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
-/// Registers Python wrappers of Rust structs into the Python module.
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_application, module)?)?;
-    Ok(())
 }
 
 #[cfg(test)]

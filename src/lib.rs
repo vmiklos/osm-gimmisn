@@ -26,6 +26,7 @@ mod overpass_query;
 mod ranges;
 mod stats;
 mod util;
+mod validator;
 mod webframe;
 pub mod wsgi;
 mod wsgi_additional;
@@ -39,6 +40,6 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     context::register_python_symbols(m)?;
     stats::register_python_symbols(m)?;
     util::register_python_symbols(m)?;
-    wsgi::register_python_symbols(m)?;
+    validator::register_python_symbols(m)?;
     Ok(())
 }

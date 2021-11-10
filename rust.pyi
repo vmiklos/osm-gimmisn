@@ -108,18 +108,6 @@ class PyRelationFiles:
     def __init__(self, workdir: str, name: str):
         ...
 
-    def get_ref_streets_path(self) -> str:
-        """Build the file name of the reference street list of a relation."""
-        ...
-
-    def get_osm_streets_path(self) -> str:
-        """Build the file name of the OSM street list of a relation."""
-        ...
-
-    def get_osm_housenumbers_path(self) -> str:
-        """Build the file name of the OSM house number list of a relation."""
-        ...
-
     def get_housenumbers_percent_path(self) -> str:
         """Builds the file name of the house number percent file of a relation."""
         ...
@@ -165,18 +153,14 @@ class PyRelations:
         """Gets a list of relations."""
         ...
 
-def py_application(
-        request_headers: Dict[str, str],
-        request_data: bytes,
-        ctx: PyContext
-) -> Tuple[str, List[Tuple[str, str]], bytes]:
-    """The entry point of this WSGI app."""
-    ...
-
 def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
+    ...
+
+def py_validate_range(errors: List[str], parent: str, range_data: str, filter_data: str) -> List[str]:
+    """Validates a range description."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

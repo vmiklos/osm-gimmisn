@@ -2,8 +2,6 @@ PYTHON_TEST_OBJECTS = \
 	tests/test_context.py \
 	tests/test_parse_access_log.py \
 	tests/test_validator.py \
-	tests/test_wsgi.py \
-	tests/test_wsgi_json.py \
 
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
@@ -14,7 +12,6 @@ PYTHON_SAFE_OBJECTS = \
 	stats.py \
 	util.py \
 	validator.py \
-	wsgi.py \
 
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \
@@ -67,6 +64,7 @@ RS_OBJECTS = \
 	src/ranges.rs \
 	src/stats.rs \
 	src/util.rs \
+	src/validator.rs \
 	src/webframe.rs \
 	src/wsgi.rs \
 	src/wsgi_additional.rs \
@@ -198,7 +196,7 @@ check-mypy: $(PYTHON_OBJECTS) rust.pyi
 
 check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
-%.validyaml : %.yaml validator.py
+%.validyaml : %.yaml validator.py rust.so
 	$(QUIET_VALIDATOR)./validator.py $< && touch $@
 
 # Make sure that the current directory is *not* the repo root but something else to catch
