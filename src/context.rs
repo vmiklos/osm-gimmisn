@@ -22,7 +22,6 @@ use pyo3::types::PyBool;
 use pyo3::types::PyBytes;
 use pyo3::types::PyFloat;
 use pyo3::types::PyInt;
-use pyo3::types::PyString;
 use pyo3::types::PyType;
 use pyo3::types::PyUnicode;
 use std::collections::HashMap;
@@ -435,49 +434,6 @@ impl Network for StdNetwork {
             .send()?;
         let ret = buf.text()?;
         Ok(ret)
-    }
-}
-
-/// Python wrapper around a Network.
-#[pyclass]
-pub struct PyNetwork {
-    network: Arc<dyn Network>,
-}
-
-#[pymethods]
-impl PyNetwork {
-    fn urlopen(&self, url: &str, data: &str) -> PyResult<String> {
-        match self.network.urlopen(url, data) {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(err.to_string())),
-        }
-    }
-}
-
-/// Network implementation, backed by Python code.
-struct PyAnyNetwork {
-    network: Py<PyAny>,
-}
-
-impl PyAnyNetwork {
-    fn new(network: Py<PyAny>) -> Self {
-        PyAnyNetwork { network }
-    }
-}
-
-impl Network for PyAnyNetwork {
-    fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
-        Python::with_gil(|py| {
-            let any = self.network.call_method1(py, "urlopen", (url, data))?;
-            let data = match any.as_ref(py).downcast::<PyString>() {
-                Ok(value) => value,
-                _ => {
-                    return Err(anyhow!("urlopen() didn't return a PyString"));
-                }
-            };
-
-            Ok(data.to_string())
-        })
     }
 }
 
@@ -993,17 +949,6 @@ impl PyContext {
         PyIni {
             ini: self.context.get_ini().clone(),
         }
-    }
-
-    fn get_network(&self) -> PyNetwork {
-        PyNetwork {
-            network: self.context.get_network().clone(),
-        }
-    }
-
-    fn set_network(&mut self, network: &PyAny) {
-        let network: Arc<dyn Network> = Arc::new(PyAnyNetwork::new(network.into()));
-        self.context.set_network(&network);
     }
 
     fn get_time(&self) -> PyTime {
