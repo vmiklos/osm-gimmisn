@@ -14,7 +14,6 @@ from typing import TextIO
 from typing import Tuple
 import json
 import os
-import re
 import sys
 
 import yaml
@@ -25,69 +24,12 @@ if sys.platform.startswith("win"):
     import _locale
 
 
-def validate_range(errors: List[str], parent: str, range_data: Dict[str, Any], filter_data: Dict[str, Any]) -> List[str]:
-    """Validates a range description."""
-    return rust.py_validate_range(errors, parent, json.dumps(range_data), json.dumps(filter_data))
-
-
-def validate_ranges(errors: List[str], parent: str, ranges: List[Any], filter_data: Dict[str, Any]) -> None:
-    """Validates a range list."""
-    context = parent
-    for index, range_data in enumerate(ranges):
-        errors += validate_range([], "%s[%s]" % (context, index), range_data, filter_data)
-
-
-def validate_filter_invalid_valid(errors: List[str], parent: str, invalid: List[Any]) -> None:
-    """Validates an 'invalid' or 'valid' list."""
-    context = parent
-    for index, invalid_data in enumerate(invalid):
-        if not isinstance(invalid_data, str):
-            errors.append("expected value type for '%s[%s]' is str" % (context, index))
-            continue
-        if re.match(r"^[0-9]+$", invalid_data):
-            continue
-        if re.match(r"^[0-9]+[a-z]$", invalid_data):
-            continue
-        if re.match(r"^[0-9]+/[0-9]$", invalid_data):
-            continue
-        errors.append("expected format for '%s[%s]' is '42', '42a' or '42/1'" % (context, index))
-
-
-def validate_filter(errors: List[str], parent: str, filter_data: Dict[str, Any]) -> None:
-    """Validates a filter dictionary."""
-    context = parent + "."
-    for key, value in filter_data.items():
-        if key == "ranges":
-            if not isinstance(value, list):
-                errors.append("expected value type for '%s%s' is list" % (context, key))
-                continue
-            validate_ranges(errors, context + "ranges", value, filter_data)
-        elif key in ("invalid", "valid"):
-            if not isinstance(value, list):
-                errors.append("expected value type for '%s%s' is list" % (context, key))
-                continue
-            validate_filter_invalid_valid(errors, context + key, value)
-        elif key == "refsettlement":
-            if not isinstance(value, str):
-                errors.append("expected value type for '%s%s' is str" % (context, key))
-        elif key == "interpolation":
-            if not isinstance(value, str):
-                errors.append("expected value type for '%s%s' is str" % (context, key))
-        elif key == "show-refstreet":
-            if not isinstance(value, bool):
-                errors.append("expected value type for '%s%s' is bool" % (context, key))
-        else:
-            errors.append("unexpected key '%s%s'" % (context, key))
-
-
-def validate_filters(errors: List[str], parent: str, filters: Dict[str, Any]) -> None:
+def validate_filters(errors: List[str], parent: str, filters: Dict[str, Any]) -> List[str]:
     """Validates a filter list."""
-    context = parent + "."
-    for key, value in filters.items():
-        validate_filter(errors, context + key, value)
+    return rust.py_validate_filters(errors, parent, json.dumps(filters))
 
 
-def validate_refstreets(errors: List[str], parent: str, refstreets: Dict[str, Any]) -> None:
+def validate_refstreets(errors: List[str], parent: str, refstreets: Dict[str, Any]) -> List[str]:
     """Validates a reference streets list."""
     context = parent + "."
     for key, value in refstreets.items():
@@ -101,22 +43,25 @@ def validate_refstreets(errors: List[str], parent: str, refstreets: Dict[str, An
     reverse = {v: k for k, v in refstreets.items()}
     if len(refstreets) != len(reverse):
         errors.append("osm and ref streets are not a 1:1 mapping in '%s'" % context)
+    return errors
 
 
-def validate_street_filters(errors: List[str], parent: str, street_filters: List[Any]) -> None:
+def validate_street_filters(errors: List[str], parent: str, street_filters: List[Any]) -> List[str]:
     """Validates a street filter list."""
     context = parent
     for index, street_filter in enumerate(street_filters):
         if not isinstance(street_filter, str):
             errors.append("expected value type for '%s[%s]' is str" % (context, index))
+    return errors
 
 
-def validate_relation_alias(errors: List[str], parent: str, alias: List[Any]) -> None:
+def validate_relation_alias(errors: List[str], parent: str, alias: List[Any]) -> List[str]:
     """Validates an 'alias' list."""
     context = parent
     for index, alias_data in enumerate(alias):
         if not isinstance(alias_data, str):
             errors.append("expected value type for '%s[%s]' is str" % (context, index))
+    return errors
 
 
 def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) -> None:
@@ -153,7 +98,7 @@ def validate_relation(errors: List[str], parent: str, relation: Dict[str, Any]) 
             if not isinstance(value, value_type):
                 errors.append("expected value type for '%s%s' is %s" % (context, key, value_type))
             if handler:
-                handler(errors, context + key, value)
+                errors += handler([], context + key, value)
         else:
             errors.append("unexpected key '%s%s'" % (context, key))
 

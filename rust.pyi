@@ -63,14 +63,6 @@ class PyContext:
         """Gets the ini file."""
         ...
 
-    def set_network(self, network: api.Network) -> None:
-        """Sets the network implementation."""
-        ...
-
-    def get_network(self) -> api.Network:
-        """Gets the network implementation."""
-        ...
-
     def set_time(self, time: api.Time) -> None:
         """Sets the time implementation."""
         ...
@@ -159,8 +151,11 @@ def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     ...
 
-def py_validate_range(errors: List[str], parent: str, range_data: str, filter_data: str) -> List[str]:
-    """Validates a range description."""
+def py_validate_filter_invalid_valid(errors: List[str], parent: str, invalid: str) -> List[str]:
+    """Validates an 'invalid' or 'valid' list."""
     ...
+
+def py_validate_filters(errors: List[str], parent: str, filters: str) -> List[str]:
+    """Validates a filter list."""
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
