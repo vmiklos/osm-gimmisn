@@ -546,4 +546,83 @@ mod tests {
             expected,
         );
     }
+
+    /// Tests the relation path: quote in refstreets key or value.
+    #[test]
+    fn test_relation_refstreets_quote() {
+        let expected = r#"failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected no quotes in 'refstreets.OSM Name 1''
+failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected no quotes in value of 'refstreets.OSM Name 1''
+"#;
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-refstreets-quote.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> interpolation value type.
+    #[test]
+    fn test_relation_filters_interpolation_bad() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-interpolation-bad.yaml: expected value type for 'filters.Hamzsabégi út.interpolation' is str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-interpolation-bad.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filterssubkey name.
+    #[test]
+    fn test_relation_filters_bad_subkey() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-bad.yaml: unexpected key 'filters.Budaörsi út.unexpected'\n";
+        assert_failure_msg("tests/data/relation-gazdagret-filter-bad.yaml", expected);
+    }
+
+    /// Tests the relation path: bad filters -> refsettlement value type.
+    #[test]
+    fn test_relation_filters_refsettlement_bad() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-refsettlement-bad.yaml: expected value type for 'filters.Hamzsabégi út.refsettlement' is str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-refsettlement-bad.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> invalid subkey.
+    #[test]
+    fn test_relation_filters_invalid_bad() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad.yaml: expected value type for 'filters.Budaörsi út.invalid[0]' is str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-invalid-bad.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> invalid subkey.
+    #[test]
+    fn test_relation_filters_invalid_bad2() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad2.yaml: expected format for 'filters.Budaörsi út.invalid[0]' is '42', '42a' or '42/1'\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-invalid-bad2.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad type for the filters -> ... -> invalid subkey.
+    #[test]
+    fn test_relation_filters_invalid_bad_type() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad-type.yaml: expected value type for 'filters.Budaörsi út.invalid' is list\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-invalid-bad-type.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> ranges subkey.
+    #[test]
+    fn test_relation_filters_ranges_bad() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad.yaml: unexpected key 'filters.Budaörsi út.ranges[0].unexpected'\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-bad.yaml",
+            expected,
+        );
+    }
 }

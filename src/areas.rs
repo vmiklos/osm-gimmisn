@@ -1228,10 +1228,6 @@ impl PyRelation {
         let relation_config = self.relation.config.clone();
         PyRelationConfig { relation_config }
     }
-
-    fn set_config(&mut self, config: PyRelationConfig) {
-        self.relation.set_config(&config.relation_config)
-    }
 }
 
 /// A relations object is a container of named relation objects.

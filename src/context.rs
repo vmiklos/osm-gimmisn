@@ -263,46 +263,6 @@ impl Read for PyAnyRead {
     }
 }
 
-/// Python wrapper around a FileSystem.
-#[pyclass]
-pub struct PyFileSystem {
-    file_system: Arc<dyn FileSystem>,
-}
-
-#[pymethods]
-impl PyFileSystem {
-    fn path_exists(&self, path: &str) -> bool {
-        self.file_system.path_exists(path)
-    }
-
-    fn getmtime(&self, path: &str) -> PyResult<f64> {
-        match self.file_system.getmtime(path) {
-            Ok(value) => Ok(value),
-            Err(_) => Err(pyo3::exceptions::PyIOError::new_err("getmtime() failed")),
-        }
-    }
-
-    fn open_read(&self, path: &str) -> PyResult<PyRead> {
-        match self.file_system.open_read(path) {
-            Ok(value) => Ok(PyRead { read: value }),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "open_read() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn open_write(&self, path: &str) -> PyResult<PyWrite> {
-        match self.file_system.open_write(path) {
-            Ok(value) => Ok(PyWrite { write: value }),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "open_write() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-}
-
 /// FileSystem implementation, backed by Python code.
 struct PyAnyFileSystem {
     file_system: Py<PyAny>,
@@ -793,16 +753,6 @@ impl PyIni {
             ))),
         }
     }
-
-    fn get_uri_prefix(&self) -> PyResult<String> {
-        match self.ini.get_uri_prefix() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "Ini::get_uri_prefix() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
 }
 
 /// Context owns global state which is set up once and then read everywhere.
@@ -971,12 +921,6 @@ impl PyContext {
     fn set_subprocess(&mut self, subprocess: &PyAny) {
         let subprocess: Arc<dyn Subprocess> = Arc::new(PyAnySubprocess::new(subprocess.into()));
         self.context.set_subprocess(&subprocess);
-    }
-
-    fn get_file_system(&self) -> PyFileSystem {
-        PyFileSystem {
-            file_system: self.context.get_file_system().clone(),
-        }
     }
 
     fn set_file_system(&mut self, file_system: &PyAny) {
