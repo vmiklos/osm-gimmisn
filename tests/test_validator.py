@@ -24,30 +24,32 @@ class TestValidatorMain(unittest.TestCase):
         ]
         for path in paths:
             argv = ["", path]
-            ret = validator.main(argv, io.StringIO())
+            ret = validator.main(argv, io.BytesIO())
             self.assertEqual(ret, 0)
 
     def test_relations_missing_osmrelation(self) -> None:
         """Tests the missing-osmrelation relations path."""
         # Set up arguments.
         argv = ["", "tests/data/relations-missing-osmrelation/relations.yaml"]
-        buf = io.StringIO()
+        buf = io.BytesIO()
+        buf.__setattr__("close", lambda: None)
         ret = validator.main(argv, buf)
         self.assertEqual(ret, 1)
         buf.seek(0)
         expected = "failed to validate tests/data/relations-missing-osmrelation/relations.yaml"
         expected += ": missing key 'gazdagret.osmrelation'\n"
-        self.assertEqual(buf.read(), expected)
+        self.assertEqual(buf.read(), expected.encode("utf-8"))
 
     def test_relation_happy(self) -> None:
         """Tests the happy relation path."""
         # Set up arguments.
         argv = ["", "tests/data/relation-gazdagret.yaml"]
-        buf = io.StringIO()
+        buf = io.BytesIO()
+        buf.__setattr__("close", lambda: None)
         ret = validator.main(argv, buf)
         self.assertEqual(ret, 0)
         buf.seek(0)
-        self.assertEqual(buf.read(), "")
+        self.assertEqual(buf.read(), b"")
 
 
 class TestValidatorMainFailureMsgBase(unittest.TestCase):
@@ -55,11 +57,12 @@ class TestValidatorMainFailureMsgBase(unittest.TestCase):
     def assert_failure_msg(self, path: str, expected: str) -> None:
         """Asserts that a given input fails with a given error message."""
         argv = ["", path]
-        buf = io.StringIO()
+        buf = io.BytesIO()
+        buf.__setattr__("close", lambda: None)
         ret = validator.main(argv, buf)
         self.assertEqual(ret, 1)
         buf.seek(0)
-        self.assertEqual(buf.read(), expected)
+        self.assertEqual(buf.read(), expected.encode("utf-8"))
 
 
 class TestValidatorMainFailureMsg1(TestValidatorMainFailureMsgBase):

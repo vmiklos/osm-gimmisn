@@ -155,7 +155,8 @@ def py_validate_filter_invalid_valid(errors: List[str], parent: str, invalid: st
     """Validates an 'invalid' or 'valid' list."""
     ...
 
-def py_validate_filters(errors: List[str], parent: str, filters: str) -> List[str]:
-    """Validates a filter list."""
+def py_validator_main(argv: List[str], stdout: BinaryIO) -> int:
+    """Commandline interface to this module."""
+    ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:
