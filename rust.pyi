@@ -46,10 +46,6 @@ class PyIni:
         """Gets the directory which is writable."""
         ...
 
-    def get_uri_prefix(self) -> str:
-        """Gets the global URI prefix."""
-        ...
-
 class PyContext:
     """Context owns global state which is set up once and then read everywhere."""
     def __init__(self, prefix: str) -> None:
@@ -83,10 +79,6 @@ class PyContext:
         """Sets the file system implementation."""
         ...
 
-    def get_file_system(self) -> api.FileSystem:
-        """Gets the file system implementation."""
-        ...
-
 def py_get_content(path: str) -> bytes:
     """Gets the content of a file in workdir."""
     ...
@@ -118,10 +110,6 @@ class PyRelation:
 
     def get_config(self) -> PyRelationConfig:
         """Gets access to the config interface."""
-        ...
-
-    def set_config(self, config: PyRelationConfig) -> None:
-        """Sets the config interface."""
         ...
 
 class PyRelations:
