@@ -53,6 +53,7 @@ RS_OBJECTS = \
 	src/bin/cron.rs \
 	src/bin/missing_housenumbers.rs \
 	src/bin/rouille.rs \
+	src/bin/validator.rs \
 	src/context.rs \
 	src/cache.rs \
 	src/cache_yamls.rs \
@@ -76,6 +77,7 @@ BINARY_CRATES = \
 	cron \
 	missing_housenumbers \
 	rouille \
+	validator \
 
 # Source local config if it's there.
 -include config.mak
@@ -196,8 +198,8 @@ check-mypy: $(PYTHON_OBJECTS) rust.pyi
 
 check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
-%.validyaml : %.yaml validator.py rust.so
-	$(QUIET_VALIDATOR)./validator.py $< && touch $@
+%.validyaml : %.yaml target/${TARGET_PATH}/validator rust.so
+	$(QUIET_VALIDATOR)target/${TARGET_PATH}/validator $< && touch $@
 
 # Make sure that the current directory is *not* the repo root but something else to catch
 # non-absolute paths.

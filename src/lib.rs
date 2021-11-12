@@ -26,7 +26,7 @@ mod overpass_query;
 mod ranges;
 mod stats;
 mod util;
-mod validator;
+pub mod validator;
 mod webframe;
 pub mod wsgi;
 mod wsgi_additional;
