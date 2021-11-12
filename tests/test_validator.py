@@ -11,7 +11,7 @@ import unittest
 import validator
 
 
-class TestValidatorMainFailureMsgBase(unittest.TestCase):
+class TestValidatorMainFailureMsg(unittest.TestCase):
     """Tests main(), the way it fails."""
     def assert_failure_msg(self, path: str, expected: str) -> None:
         """Asserts that a given input fails with a given error message."""
@@ -22,60 +22,6 @@ class TestValidatorMainFailureMsgBase(unittest.TestCase):
         self.assertEqual(ret, 1)
         buf.seek(0)
         self.assertEqual(buf.read(), expected.encode("utf-8"))
-
-
-class TestValidatorMainFailureMsg1(TestValidatorMainFailureMsgBase):
-    """First suite of expected error messages."""
-    def test_relation_filters_ranges_bad_type(self) -> None:
-        """Tests the relation path: bad filters -> ... -> ranges subkey type."""
-        expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-type.yaml"
-        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].refsettlement' is str\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-type.yaml", expected)
-
-    def test_relation_filters_ranges_bad_end(self) -> None:
-        """Tests the relation path: bad filters -> ... -> ranges -> end type."""
-        expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml"
-        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-end.yaml", expected)
-
-    def test_relation_filters_ranges_start_end_swap(self) -> None:
-        """Tests the relation path: bad filters -> ... -> ranges -> if start/end is swapped type."""
-        expected = "failed to validate tests/data/relation-gazdagret-filter-range-start-end-swap.yaml"
-        expected += ": expected end >= start for 'filters.Budaörsi út.ranges[0]'\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-start-end-swap.yaml", expected)
-
-    def test_relation_filters_ranges_start_end_even_odd(self) -> None:
-        """Tests the relation path: bad filters -> ... -> ranges -> if start/end is either both even/odd or not."""
-        expected = "failed to validate tests/data/relation-gazdagret-filter-range-start-end-even-odd.yaml"
-        expected += ": expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-start-end-even-odd.yaml", expected)
-
-    def test_relation_filters_ranges_bad_start(self) -> None:
-        """Tests the relation path: bad filters -> ... -> ranges -> start type."""
-        expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml"
-        expected += ": expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-bad-start.yaml", expected)
-
-    def test_relation_filters_ranges_missing_start(self) -> None:
-        """Tests the relation path: missing filters -> ... -> ranges -> start key."""
-        expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-start.yaml"
-        expected += ": unexpected missing key 'start' for 'filters.Budaörsi út.ranges[0]'\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-missing-start.yaml", expected)
-
-    def test_relation_filters_ranges_missing_end(self) -> None:
-        """Tests the relation path: missing filters -> ... -> ranges -> end key."""
-        expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-end.yaml"
-        expected += ": unexpected missing key 'end' for 'filters.Budaörsi út.ranges[0]'\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-filter-range-missing-end.yaml", expected)
-
-
-class TestValidatorMainFailureMsg2(TestValidatorMainFailureMsgBase):
-    """Second suite of expected error messages."""
-    def test_relation_housenumber_letters_bad(self) -> None:
-        """"Tests the housenumber-letters key: bad type."""
-        expected = "failed to validate tests/data/relation-gazdagret-housenumber-letters-bad.yaml"
-        expected += ": expected value type for 'housenumber-letters' is <class 'bool'>\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-housenumber-letters-bad.yaml", expected)
 
     def test_relation_alias_bad(self) -> None:
         """Tests the relation path: bad alias subkey."""
