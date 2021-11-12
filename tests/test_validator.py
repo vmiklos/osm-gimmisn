@@ -11,47 +11,6 @@ import unittest
 import validator
 
 
-class TestValidatorMain(unittest.TestCase):
-    """Tests main()."""
-    def test_relations_happy(self) -> None:
-        """Tests the happy relations path."""
-        paths = [
-            "tests/data/relations.yaml",
-            "tests/data/relation-gazdagret-filter-invalid-good.yaml",
-            "tests/data/relation-gazdagret-filter-invalid-good2.yaml",
-            "tests/data/relation-gazdagret-filter-valid-good.yaml",
-            "tests/data/relation-gazdagret-filter-valid-good2.yaml",
-        ]
-        for path in paths:
-            argv = ["", path]
-            ret = validator.main(argv, io.BytesIO())
-            self.assertEqual(ret, 0)
-
-    def test_relations_missing_osmrelation(self) -> None:
-        """Tests the missing-osmrelation relations path."""
-        # Set up arguments.
-        argv = ["", "tests/data/relations-missing-osmrelation/relations.yaml"]
-        buf = io.BytesIO()
-        buf.__setattr__("close", lambda: None)
-        ret = validator.main(argv, buf)
-        self.assertEqual(ret, 1)
-        buf.seek(0)
-        expected = "failed to validate tests/data/relations-missing-osmrelation/relations.yaml"
-        expected += ": missing key 'gazdagret.osmrelation'\n"
-        self.assertEqual(buf.read(), expected.encode("utf-8"))
-
-    def test_relation_happy(self) -> None:
-        """Tests the happy relation path."""
-        # Set up arguments.
-        argv = ["", "tests/data/relation-gazdagret.yaml"]
-        buf = io.BytesIO()
-        buf.__setattr__("close", lambda: None)
-        ret = validator.main(argv, buf)
-        self.assertEqual(ret, 0)
-        buf.seek(0)
-        self.assertEqual(buf.read(), b"")
-
-
 class TestValidatorMainFailureMsgBase(unittest.TestCase):
     """Tests main(), the way it fails."""
     def assert_failure_msg(self, path: str, expected: str) -> None:
@@ -67,36 +26,6 @@ class TestValidatorMainFailureMsgBase(unittest.TestCase):
 
 class TestValidatorMainFailureMsg1(TestValidatorMainFailureMsgBase):
     """First suite of expected error messages."""
-    def test_relation_source_bad_type(self) -> None:
-        """Tests the relation path: bad source type."""
-        expected = "failed to validate tests/data/relation-gazdagret-source-int.yaml"
-        expected += ": expected value type for 'source' is <class 'str'>\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-source-int.yaml", expected)
-
-    def test_relation_filters_bad_type(self) -> None:
-        """Tests the relation path: bad filters type."""
-        expected = "failed to validate tests/data/relation-gazdagret-filters-bad.yaml"
-        expected += ": expected value type for 'filters.Budaörsi út.ranges' is list\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-filters-bad.yaml", expected)
-
-    def test_relation_bad_key_name(self) -> None:
-        """Tests the relation path: bad toplevel key name."""
-        expected = "failed to validate tests/data/relation-gazdagret-bad-key.yaml"
-        expected += ": unexpected key 'invalid'\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-bad-key.yaml", expected)
-
-    def test_relation_strfilters_bad_type(self) -> None:
-        """Tests the relation path: bad strfilters value type."""
-        expected = "failed to validate tests/data/relation-gazdagret-street-filters-bad.yaml"
-        expected += ": expected value type for 'street-filters[0]' is str\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-street-filters-bad.yaml", expected)
-
-    def test_relation_refstreets_bad_value_type(self) -> None:
-        """Tests the relation path: bad refstreets value type."""
-        expected = "failed to validate tests/data/relation-gazdagret-refstreets-bad-value.yaml"
-        expected += ": expected value type for 'refstreets.OSM Name 1' is str\n"
-        self.assert_failure_msg("tests/data/relation-gazdagret-refstreets-bad-value.yaml", expected)
-
     def test_relation_refstreets_quote(self) -> None:
         """Tests the relation path: quote in refstreets key or value."""
         expected = "failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml"

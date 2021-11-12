@@ -973,12 +973,6 @@ impl PyContext {
         self.context.set_subprocess(&subprocess);
     }
 
-    fn get_unit(&self) -> PyUnit {
-        PyUnit {
-            unit: self.context.get_unit().clone(),
-        }
-    }
-
     fn get_file_system(&self) -> PyFileSystem {
         PyFileSystem {
             file_system: self.context.get_file_system().clone(),
