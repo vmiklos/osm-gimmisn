@@ -625,4 +625,85 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
             expected,
         );
     }
+
+    /// Tests the relation path: bad filters -> ... -> ranges subkey type.
+    #[test]
+    fn test_relation_filters_ranges_bad_type() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-type.yaml: expected value type for 'filters.Budaörsi út.ranges[0].refsettlement' is str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-bad-type.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> ranges -> end type.
+    #[test]
+    fn test_relation_filters_ranges_bad_end() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml: expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-bad-end.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> ranges -> if start/end is swapped type.
+    #[test]
+    fn test_relation_filters_ranges_start_end_swap() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-start-end-swap.yaml: expected end >= start for 'filters.Budaörsi út.ranges[0]'\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-start-end-swap.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> ranges -> if start/end is either both
+    /// even/odd or not.
+    #[test]
+    fn test_relation_filters_ranges_start_end_even_odd() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-start-end-even-odd.yaml: expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-start-end-even-odd.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> ranges -> start type.
+    #[test]
+    fn test_relation_filters_ranges_bad_start() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml: expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-bad-start.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: missing filters -> ... -> ranges -> start key.
+    #[test]
+    fn test_relation_filters_ranges_missing_start() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-start.yaml: unexpected missing key 'start' for 'filters.Budaörsi út.ranges[0]'\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-missing-start.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: missing filters -> ... -> ranges -> end key.
+    #[test]
+    fn test_relation_filters_ranges_missing_end() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-end.yaml: unexpected missing key 'end' for 'filters.Budaörsi út.ranges[0]'\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-missing-end.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the housenumber-letters key: bad type.
+    #[test]
+    fn test_relation_housenumber_letters_bad() {
+        let expected = "failed to validate tests/data/relation-gazdagret-housenumber-letters-bad.yaml: expected value type for 'housenumber-letters' is <class 'bool'>\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-housenumber-letters-bad.yaml",
+            expected,
+        );
+    }
 }
