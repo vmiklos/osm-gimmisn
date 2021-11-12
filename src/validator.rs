@@ -448,3 +448,102 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_validator_main, module)?)?;
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Tests main(): valid relations.
+    #[test]
+    fn test_relations() {
+        let paths = [
+            "tests/data/relations.yaml",
+            "tests/data/relation-gazdagret-filter-invalid-good.yaml",
+            "tests/data/relation-gazdagret-filter-invalid-good2.yaml",
+            "tests/data/relation-gazdagret-filter-valid-good.yaml",
+            "tests/data/relation-gazdagret-filter-valid-good2.yaml",
+        ];
+        for path in paths {
+            let argv = ["".to_string(), path.to_string()];
+            let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+            let ret = main(&argv, &mut buf).unwrap();
+            assert_eq!(ret, 0);
+        }
+    }
+
+    /// Tests the missing-osmrelation relations path.
+    #[test]
+    fn test_relations_missing_osmrelation() {
+        // Set up arguments.
+        let argv: &[String] = &[
+            "".into(),
+            "tests/data/relations-missing-osmrelation/relations.yaml".into(),
+        ];
+        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+        let ret = main(argv, &mut buf).unwrap();
+        assert_eq!(ret, 1);
+        let expected = b"failed to validate tests/data/relations-missing-osmrelation/relations.yaml: missing key 'gazdagret.osmrelation'\n";
+        assert_eq!(buf.into_inner(), expected);
+    }
+
+    /// Tests the happy relation path.
+    #[test]
+    fn test_relation() {
+        // Set up arguments.
+        let argv: &[String] = &["".into(), "tests/data/relation-gazdagret.yaml".into()];
+        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+        let ret = main(argv, &mut buf).unwrap();
+        assert_eq!(ret, 0);
+        assert_eq!(buf.into_inner(), b"");
+    }
+
+    /// Asserts that a given input fails with a given error message.
+    fn assert_failure_msg(path: &str, expected: &str) {
+        let argv: &[String] = &["".to_string(), path.to_string()];
+        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+        let ret = main(argv, &mut buf).unwrap();
+        assert_eq!(ret, 1);
+        assert_eq!(buf.into_inner(), expected.as_bytes());
+    }
+
+    /// Tests the relation path: bad source type.
+    #[test]
+    fn test_relation_source_bad_type() {
+        let expected = "failed to validate tests/data/relation-gazdagret-source-int.yaml: expected value type for 'source' is <class 'str'>\n";
+        assert_failure_msg("tests/data/relation-gazdagret-source-int.yaml", expected);
+    }
+
+    /// Tests the relation path: bad filters type.
+    #[test]
+    fn test_relation_filters_bad_type() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filters-bad.yaml: expected value type for 'filters.Budaörsi út.ranges' is list\n";
+        assert_failure_msg("tests/data/relation-gazdagret-filters-bad.yaml", expected);
+    }
+
+    /// Tests the relation path: bad toplevel key name.
+    #[test]
+    fn test_relation_bad_key_name() {
+        let expected = "failed to validate tests/data/relation-gazdagret-bad-key.yaml: unexpected key 'invalid'\n";
+        assert_failure_msg("tests/data/relation-gazdagret-bad-key.yaml", expected);
+    }
+
+    /// Tests the relation path: bad strfilters value type.
+    #[test]
+    fn test_relation_strfilters_bad_type() {
+        let expected = "failed to validate tests/data/relation-gazdagret-street-filters-bad.yaml: expected value type for 'street-filters[0]' is str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-street-filters-bad.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad refstreets value type.
+    #[test]
+    fn test_relation_refstreets_bad_value_type() {
+        let expected = "failed to validate tests/data/relation-gazdagret-refstreets-bad-value.yaml: expected value type for 'refstreets.OSM Name 1' is str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-refstreets-bad-value.yaml",
+            expected,
+        );
+    }
+}

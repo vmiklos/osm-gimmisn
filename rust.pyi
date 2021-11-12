@@ -79,10 +79,6 @@ class PyContext:
         """Gets the subprocess implementation."""
         ...
 
-    def get_unit(self) -> api.Unit:
-        """Gets the unit implementation."""
-        ...
-
     def set_file_system(self, file_system: api.FileSystem) -> None:
         """Sets the file system implementation."""
         ...
@@ -141,18 +137,10 @@ class PyRelations:
         """Gets a sorted list of relation names."""
         ...
 
-    def get_relations(self) -> List[PyRelation]:
-        """Gets a list of relations."""
-        ...
-
 def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
-    ...
-
-def py_validate_filter_invalid_valid(errors: List[str], parent: str, invalid: str) -> List[str]:
-    """Validates an 'invalid' or 'valid' list."""
     ...
 
 def py_validator_main(argv: List[str], stdout: BinaryIO) -> int:

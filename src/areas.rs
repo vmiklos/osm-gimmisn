@@ -1495,25 +1495,6 @@ impl PyRelations {
     fn get_names(&self) -> Vec<String> {
         self.relations.get_names()
     }
-
-    fn get_relations(&mut self) -> PyResult<Vec<PyRelation>> {
-        let ret = match self.relations.get_relations() {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "get_relations() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-
-        Ok(ret
-            .iter()
-            .map(|i| PyRelation {
-                relation: i.clone(),
-            })
-            .collect::<Vec<PyRelation>>())
-    }
 }
 
 /// Strips down string input to bare minimum that can be interpreted as an
