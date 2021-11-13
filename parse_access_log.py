@@ -10,9 +10,7 @@
 from typing import List
 from typing import Set
 from typing import BinaryIO
-import sys
 
-import context
 import rust
 
 
@@ -34,9 +32,5 @@ def check_top_edited_relations(ctx: rust.PyContext, frequent_relations: Set[str]
 def main(argv: List[str], stdout: BinaryIO, ctx: rust.PyContext) -> None:
     """Commandline interface."""
     rust.py_main(argv, stdout, ctx)
-
-
-if __name__ == '__main__':
-    main(sys.argv, sys.stdout.buffer, context.make_context(""))
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

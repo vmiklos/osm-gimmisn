@@ -48,6 +48,7 @@ RS_OBJECTS = \
 	src/bin/cache_yamls.rs \
 	src/bin/cron.rs \
 	src/bin/missing_housenumbers.rs \
+	src/bin/parse_access_log.rs \
 	src/bin/rouille.rs \
 	src/bin/validator.rs \
 	src/cache.rs \
@@ -73,6 +74,7 @@ BINARY_CRATES = \
 	cache_yamls \
 	cron \
 	missing_housenumbers \
+	parse_access_log \
 	rouille \
 	validator \
 
