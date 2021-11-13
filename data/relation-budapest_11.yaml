@@ -356,9 +356,6 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '36'}
-  Kőoltár utca:
-    # 4ab: van a és b épület de a házszám csak 4
-    invalid: ['4a', '4b']
   Magyar tudósok körútja:
     invalid: ['2a', '2b', '2c', '2d', '2q']
   Mányoki út:
@@ -452,10 +449,12 @@ filters:
       - {start: '2', end: '20'}
   Rupphegyi út:
     # páratlan oldal nincs beépítve
-    # nincsenek megállapított házszámok, csak helyrajzi számok, ez egy régi házszám a spanyolréti oldalon
     # 6: a házszám sima 6, a telken belül vannak a,b,c,d,f épületek
+    # 8: nincs pecsenyesütő, th. épül, TODO
+    # 11: a,b,c,d épületek
     # 40/b: nincs ilyen
-    invalid: ['6a', '6b', '6c', '6d', '6f', '40b', '70']
+    # 70: nincsenek megállapított házszámok, csak helyrajzi számok, ez egy régi házszám a spanyolréti oldalon
+    invalid: ['6a', '6b', '6c', '6d', '6f', '11a', '11b', '11c', '11d', '40b', '70']
   Solt utca:
     # 3a, 3b: csak sima 3 van
     # 7, 7b: csak 7a van
@@ -1874,9 +1873,8 @@ filters:
       - {start: '5', end: '5'}
       - {start: '2', end: '14'}
   # Hosszúrét/Madárhegy
-  Beléndek utca:
-    # TODO: nyoma sincs építkezésnek: 2021-09
-    invalid: ['5', '7']
+  # Beléndek utca:
+  # 5-7: hirdeti egy plakát, hogy majd épül valami
   Csonttollú utca:
     ranges:
       - {start: '1', end: '11'}
@@ -1897,11 +1895,19 @@ filters:
   Keltike lejtő:
     # 9 = Csonttollú utca 1.
     # 15: KCR a és b épület, helyszínen nincs kiírva
-    invalid: ['9', '15a', '15b']
+    invalid: ['15a', '15b']
     ranges:
       # kcr-ben 34-ig van számozva
       - {start: '1', end: '99'}
       - {start: '2', end: '34'}
+  Keserűfű utca:
+    # 9: 9/1 van kiírva az egyik házra, a másikra semmi
+    invalid: ['9']
+  Kőoltár utca:
+    # 2: játszótér
+    #
+    # 4ab: van a és b épület de a házszám csak 4
+    invalid: ['2', '3', '4a', '4b']
   Lucerna köz:
     # 6a: nincs épület. KCR szerint is csak sima 6 van.
     invalid: ['6a']
