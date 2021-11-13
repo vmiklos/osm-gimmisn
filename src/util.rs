@@ -19,8 +19,6 @@ use crate::yattag;
 use anyhow::anyhow;
 use anyhow::Context;
 use lazy_static::lazy_static;
-use pyo3::prelude::*;
-use pyo3::types::PyBytes;
 use rust_icu_ucol as ucol;
 use rust_icu_ustring as ustring;
 use std::collections::HashMap;
@@ -1049,21 +1047,8 @@ pub fn get_in_both<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
 
 /// Gets the content of a file in workdir.
 pub fn get_content(path: &str) -> anyhow::Result<Vec<u8>> {
+    // TODO just use std::fs::read() directly, this was 12 lines originally.
     Ok(std::fs::read(path)?)
-}
-
-#[pyfunction]
-fn py_get_content(py: Python<'_>, path: String) -> PyResult<PyObject> {
-    let buf = match get_content(&path) {
-        Ok(value) => value,
-        Err(err) => {
-            return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_content() failed: {}",
-                err.to_string()
-            )));
-        }
-    };
-    Ok(PyBytes::new(py, &buf).into())
 }
 
 type HttpHeaders = Vec<(String, String)>;
@@ -1237,11 +1222,6 @@ pub fn get_timestamp(path: &str) -> f64 {
         }
     };
     mtime.as_secs_f64()
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_get_content, module)?)?;
-    Ok(())
 }
 
 #[cfg(test)]

@@ -23,6 +23,7 @@ pub mod cron;
 mod i18n;
 pub mod missing_housenumbers;
 mod overpass_query;
+mod parse_access_log;
 mod ranges;
 mod stats;
 mod util;
@@ -38,8 +39,6 @@ fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     area_files::register_python_symbols(m)?;
     areas::register_python_symbols(m)?;
     context::register_python_symbols(m)?;
-    stats::register_python_symbols(m)?;
-    util::register_python_symbols(m)?;
-    validator::register_python_symbols(m)?;
+    parse_access_log::register_python_symbols(m)?;
     Ok(())
 }

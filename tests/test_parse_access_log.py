@@ -21,9 +21,9 @@ class TestMain(unittest.TestCase):
     def test_happy(self) -> None:
         """Tests the happy path."""
         argv = ["", "tests/mock/access_log"]
-        buf = io.StringIO()
+        buf = io.BytesIO()
+        buf.__setattr__("close", lambda: None)
         ctx = test_context.make_test_context()
-        ctx.set_time(test_context.make_test_time())
         ctx.set_time(test_context.make_test_time())
         relations_path = ctx.get_abspath("data/relations.yaml")
         # 2020-05-09, so this will be recent
@@ -38,7 +38,7 @@ author-time 1588975200
         parse_access_log.main(argv, buf, ctx)
 
         buf.seek(0)
-        actual = buf.read()
+        actual = buf.read().decode("utf-8")
         self.assertIn("data/relation-inactiverelation.yaml: set inactive: false\n", actual)
         self.assertIn("data/relation-gazdagret.yaml: set inactive: true\n", actual)
         self.assertNotIn("data/relation-nosuchrelation.yaml: set inactive: ", actual)
@@ -90,7 +90,7 @@ baz\t2
         ctx.set_file_system(file_system)
 
         frequent_relations: Set[str] = {"foo", "bar"}
-        parse_access_log.check_top_edited_relations(ctx, frequent_relations)
+        frequent_relations = parse_access_log.check_top_edited_relations(ctx, frequent_relations)
 
         self.assertIn("foo", frequent_relations)
         self.assertIn("city1", frequent_relations)

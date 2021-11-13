@@ -69,7 +69,7 @@ impl RelationConfig {
     }
 
     /// Gets if the relation is active.
-    fn is_active(&self) -> bool {
+    pub fn is_active(&self) -> bool {
         match self.get_property("inactive") {
             Some(value) => !value.as_bool().unwrap(),
             None => true,
