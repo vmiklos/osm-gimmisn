@@ -222,7 +222,7 @@ fn py_check_top_edited_relations(
 }
 
 /// Commandline interface.
-fn main(argv: &[String], stdout: &mut dyn Write, ctx: &context::Context) -> anyhow::Result<()> {
+pub fn main(argv: &[String], stdout: &mut dyn Write, ctx: &context::Context) -> anyhow::Result<()> {
     let log_file = &argv[1];
 
     let relation_create_dates = get_relation_create_dates(ctx)?;

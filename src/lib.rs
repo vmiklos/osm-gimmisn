@@ -23,7 +23,7 @@ pub mod cron;
 mod i18n;
 pub mod missing_housenumbers;
 mod overpass_query;
-mod parse_access_log;
+pub mod parse_access_log;
 mod ranges;
 mod stats;
 mod util;
