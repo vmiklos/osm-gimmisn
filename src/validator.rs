@@ -706,4 +706,78 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
             expected,
         );
     }
+
+    /// Tests the relation path: bad alias subkey.
+    #[test]
+    fn test_relation_alias_bad() {
+        let expected = "failed to validate tests/data/relation-budafok-alias-bad.yaml: expected value type for 'alias[0]' is str\n";
+        assert_failure_msg("tests/data/relation-budafok-alias-bad.yaml", expected);
+    }
+
+    /// Tests the relation path: bad type for the alias subkey.
+    #[test]
+    fn test_relation_filters_alias_bad_type() {
+        let expected = "failed to validate tests/data/relation-budafok-alias-bad-type.yaml: expected value type for 'alias' is <class 'list'>\n";
+        assert_failure_msg("tests/data/relation-budafok-alias-bad-type.yaml", expected);
+    }
+
+    /// Tests the relation path: bad filters -> show-refstreet value type.
+    #[test]
+    fn test_relation_filters_show_refstreet_bad() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-show-refstreet-bad.yaml: expected value type for 'filters.Hamzsabégi út.show-refstreet' is bool\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-show-refstreet-bad.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad refstreets map, not 1:1.
+    #[test]
+    fn test_relation_refstreets_bad_map_type() {
+        let expected = "failed to validate tests/data/relation-gazdagret-refstreets-bad-map.yaml: osm and ref streets are not a 1:1 mapping in 'refstreets.'\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-refstreets-bad-map.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> valid subkey
+    #[test]
+    fn test_relation_filters_valid_bad() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad.yaml: expected value type for 'filters.Budaörsi út.valid[0]' is str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-valid-bad.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad filters -> ... -> valid subkey.
+    #[test]
+    fn test_relation_filters_valid_bad2() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad2.yaml: expected format for 'filters.Budaörsi út.valid[0]' is '42', '42a' or '42/1'\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-valid-bad2.yaml",
+            expected,
+        );
+    }
+
+    /// Tests the relation path: bad type for the filters -> ... -> valid subkey.
+    #[test]
+    fn test_relation_filters_valid_bad_type() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad-type.yaml: expected value type for 'filters.Budaörsi út.valid' is list\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-valid-bad-type.yaml",
+            expected,
+        );
+    }
+
+    /// Tests that we do not accept whitespace in the value of the 'start' key.
+    #[test]
+    fn test_start_whitespace() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start2.yaml: expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-bad-start2.yaml",
+            expected,
+        );
+    }
 }
