@@ -1,7 +1,6 @@
 PYTHON_TEST_OBJECTS = \
 	tests/test_context.py \
 	tests/test_parse_access_log.py \
-	tests/test_validator.py \
 
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
@@ -9,9 +8,6 @@ PYTHON_SAFE_OBJECTS = \
 	areas.py \
 	context.py \
 	parse_access_log.py \
-	stats.py \
-	util.py \
-	validator.py \
 
 # These have bad coverage.
 PYTHON_UNSAFE_OBJECTS = \
@@ -54,14 +50,15 @@ RS_OBJECTS = \
 	src/bin/missing_housenumbers.rs \
 	src/bin/rouille.rs \
 	src/bin/validator.rs \
-	src/context.rs \
 	src/cache.rs \
 	src/cache_yamls.rs \
+	src/context.rs \
 	src/cron.rs \
 	src/i18n.rs \
 	src/lib.rs \
 	src/missing_housenumbers.rs \
 	src/overpass_query.rs \
+	src/parse_access_log.rs \
 	src/ranges.rs \
 	src/stats.rs \
 	src/util.rs \

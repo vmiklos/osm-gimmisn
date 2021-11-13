@@ -79,10 +79,6 @@ class PyContext:
         """Sets the file system implementation."""
         ...
 
-def py_get_content(path: str) -> bytes:
-    """Gets the content of a file in workdir."""
-    ...
-
 class PyRelationFiles:
     """A relation's file interface provides access to files associated with a relation."""
     def __init__(self, workdir: str, name: str):
@@ -125,14 +121,21 @@ class PyRelations:
         """Gets a sorted list of relation names."""
         ...
 
-def py_get_topcities(ctx: PyContext, src_root: str) -> List[Tuple[str, int]]:
+def py_is_complete_relation(relations: PyRelations, relation_name: str) -> bool:
+    """Does this relation have 100% house number coverage?"""
+    ...
+
+def py_check_top_edited_relations(ctx: PyContext, frequent_relations: Set[str]) -> Set[str]:
     """
-    Generates a list of cities, sorted by how many new hours numbers they got recently.
+    Update frequent_relations based on get_topcities():
+    1) The top 5 edited cities count as frequent, even if they have ~no visitors.
+    2) If a relation got <5 house numbers in the last 30 days, then they are not frequent, even with
+    lots of visitors.
     """
     ...
 
-def py_validator_main(argv: List[str], stdout: BinaryIO) -> int:
-    """Commandline interface to this module."""
+def py_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
+    """Commandline interface."""
     ...
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

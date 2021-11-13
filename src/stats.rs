@@ -13,7 +13,6 @@
 use crate::context;
 use anyhow::Context;
 use chrono::Datelike;
-use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::io::BufRead;
 use std::ops::DerefMut;
@@ -88,7 +87,7 @@ fn handle_topusers(
 }
 
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
-fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, i64)>> {
+pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, i64)>> {
     let new_day = {
         let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
         now.format("%Y-%m-%d").to_string()
@@ -157,14 +156,6 @@ fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(
     counts.sort_by_key(|x| x.1);
     counts.reverse();
     Ok(counts)
-}
-
-#[pyfunction]
-fn py_get_topcities(ctx: context::PyContext, src_root: &str) -> PyResult<Vec<(String, i64)>> {
-    match get_topcities(&ctx.context, src_root).context("get_topcities() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
 }
 
 /// Generates stats for top cities.
@@ -384,12 +375,6 @@ pub fn generate_json(
     let write = guard.deref_mut();
     serde_json::to_writer(write, &j)?;
 
-    Ok(())
-}
-
-/// Registers Python wrappers of Rust structs into the Python module.
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_get_topcities, module)?)?;
     Ok(())
 }
 

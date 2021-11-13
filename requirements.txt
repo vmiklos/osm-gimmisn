@@ -2,4 +2,3 @@ coverage==5.5
 flake8==3.9.2
 mypy==0.812
 pylint==2.9.3
-unidecode==1.2.0

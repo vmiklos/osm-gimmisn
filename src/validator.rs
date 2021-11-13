@@ -12,11 +12,8 @@
 
 use anyhow::Context;
 use lazy_static::lazy_static;
-use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::io::Write;
-
-use crate::context;
 
 /// Validates a range description: check for missing keys."""
 fn validate_range_missing_keys(
@@ -416,7 +413,8 @@ pub fn main(argv: &[String], stream: &mut dyn Write) -> anyhow::Result<i32> {
     let yaml_path = argv[1].clone();
     let path = std::path::Path::new(&yaml_path);
     let data = std::fs::read_to_string(&yaml_path)?;
-    let yaml_data = serde_yaml::from_str::<serde_json::Value>(&data)?;
+    let yaml_data: serde_json::Value =
+        serde_yaml::from_str(&data).context("serde_yaml::from_str() failed")?;
     let mut errors: Vec<String> = Vec::new();
     if path.ends_with("relations.yaml") {
         validate_relations(&mut errors, yaml_data.as_object().unwrap())?;
@@ -432,21 +430,6 @@ pub fn main(argv: &[String], stream: &mut dyn Write) -> anyhow::Result<i32> {
         return Ok(1_i32);
     }
     Ok(0_i32)
-}
-
-#[pyfunction]
-fn py_validator_main(argv: Vec<String>, stream: PyObject) -> PyResult<i32> {
-    let mut stream = context::PyAnyWrite { write: stream };
-    match main(&argv, &mut stream).context("main() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
-/// Registers Python wrappers of Rust structs into the Python module.
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_validator_main, module)?)?;
-    Ok(())
 }
 
 #[cfg(test)]
@@ -777,6 +760,16 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
         let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start2.yaml: expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-range-bad-start2.yaml",
+            expected,
+        );
+    }
+
+    /// Tests that we do not accept whitespace in the value of the 'end' key.
+    #[test]
+    fn test_end_whitespace() {
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end2.yaml: expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\n";
+        assert_failure_msg(
+            "tests/data/relation-gazdagret-filter-range-bad-end2.yaml",
             expected,
         );
     }
