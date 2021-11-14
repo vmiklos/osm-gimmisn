@@ -18,7 +18,6 @@ use crate::util;
 use crate::yattag;
 use anyhow::Context;
 use itertools::Itertools;
-use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::convert::TryFrom;
 use std::io::BufRead;
@@ -1282,6 +1281,7 @@ impl Relations {
     }
 
     /// Sets a relation for testing.
+    #[cfg(test)]
     pub fn set_relation(&mut self, name: &str, relation: &Relation) {
         self.relations.insert(name.into(), relation.clone());
     }
@@ -1415,31 +1415,6 @@ impl Relations {
             }
         }
         Ok(ret)
-    }
-}
-
-#[pyclass]
-#[derive(Clone)]
-pub struct PyRelations {
-    pub relations: Relations,
-}
-
-#[pymethods]
-impl PyRelations {
-    #[new]
-    fn new(ctx: PyObject) -> PyResult<Self> {
-        let gil = Python::acquire_gil();
-        let ctx: PyRefMut<'_, context::PyContext> = ctx.extract(gil.python())?;
-        let relations = match Relations::new(&ctx.context) {
-            Ok(value) => value,
-            Err(err) => {
-                return Err(pyo3::exceptions::PyOSError::new_err(format!(
-                    "Relations::new() failed: {}",
-                    err.to_string()
-                )));
-            }
-        };
-        Ok(PyRelations { relations })
     }
 }
 
@@ -1583,11 +1558,6 @@ out body;
 >;
 out skel qt;"#;
     query
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_class::<PyRelations>()?;
-    Ok(())
 }
 
 #[cfg(test)]

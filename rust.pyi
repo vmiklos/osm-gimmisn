@@ -45,15 +45,6 @@ class PyContext:
         """Gets the subprocess implementation."""
         ...
 
-class PyRelations:
-    """A relations object is a container of named relation objects."""
-    def __init__(self, ctx: PyContext) -> None:
-        ...
-
-def py_is_complete_relation(relations: PyRelations, relation_name: str) -> bool:
-    """Does this relation have 100% house number coverage?"""
-    ...
-
 def py_main(argv: List[str], stdout: BinaryIO, ctx: PyContext) -> None:
     """Commandline interface."""
     ...
