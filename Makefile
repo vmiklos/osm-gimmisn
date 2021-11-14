@@ -1,21 +1,3 @@
-PYTHON_TEST_OBJECTS = \
-	tests/test_context.py \
-	tests/test_parse_access_log.py \
-
-# These have good coverage.
-PYTHON_SAFE_OBJECTS = \
-	api.py \
-	context.py \
-	parse_access_log.py \
-
-# These have bad coverage.
-PYTHON_UNSAFE_OBJECTS = \
-
-PYTHON_OBJECTS = \
-	$(PYTHON_TEST_OBJECTS) \
-	$(PYTHON_SAFE_OBJECTS) \
-	$(PYTHON_UNSAFE_OBJECTS) \
-
 # These are valid.
 YAML_SAFE_OBJECTS = \
 	$(wildcard data/relation-*.yaml) \
@@ -90,24 +72,19 @@ endif
 CARGO_OPTIONS += --color always
 
 ifndef V
-	QUIET_FLAKE8 = @echo '   ' FLAKE8 $@;
 	QUIET_MSGFMT = @echo '   ' MSGMFT $@;
-	QUIET_PYLINT = @echo '   ' PYLINT $@;
 	QUIET_ESLINT = @echo '   ' ESLINT $@;
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
 endif
 
-all: rust.so builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo $(foreach BINARY_CRATE,$(BINARY_CRATES),target/$(TARGET_PATH)/$(BINARY_CRATE))
+all: builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo $(foreach BINARY_CRATE,$(BINARY_CRATES),target/$(TARGET_PATH)/$(BINARY_CRATE))
 
 clean:
 	rm -f config.ts
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
-	rm -f $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
-	rm -f $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
-	rm -rf $(patsubst %.py,%.mypy,$(PYTHON_OBJECTS)) .mypy_cache
 	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
 
-check: all check-filters check-flake8 check-mypy check-unit check-pylint check-eslint check-rustfmt check-clippy
+check: all check-filters check-unit check-eslint check-rustfmt check-clippy
 	@echo "make check: ok"
 
 check-rustfmt: Cargo.toml $(RS_OBJECTS)
@@ -116,18 +93,10 @@ check-rustfmt: Cargo.toml $(RS_OBJECTS)
 check-clippy: Cargo.toml $(RS_OBJECTS)
 	cargo clippy ${CARGO_OPTIONS} && touch $@
 
-rust.so: target/${TARGET_PATH}/librust.so
-	ln -sf target/${TARGET_PATH}/librust.so rust.so
-
-target/${TARGET_PATH}/librust.so: Cargo.toml $(RS_OBJECTS)
-	cargo build --lib ${CARGO_OPTIONS}
-
 $(foreach BINARY_CRATE,$(BINARY_CRATES),target/${TARGET_PATH}/$(BINARY_CRATE)) &: $(RS_OBJECTS) Cargo.toml Makefile
 	cargo build $(foreach BINARY_CRATE,$(BINARY_CRATES),--bin $(BINARY_CRATE)) ${CARGO_OPTIONS} --no-default-features
 
-check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata rust.so data/yamls.cache
-	env PYTHONPATH=.:tests coverage run --branch --module unittest $(PYTHON_TEST_OBJECTS)
-	env PYTHONPATH=.:tests coverage report --show-missing --fail-under=100 $(PYTHON_SAFE_OBJECTS)
+check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata data/yamls.cache
 	cargo test --lib --no-default-features ${CARGO_OPTIONS} -- --test-threads=1
 
 config.ts: wsgi.ini Makefile
@@ -170,33 +139,20 @@ tests/workdir/osm.min.css: workdir/osm.min.css
 wsgi.ini:
 	cp data/wsgi.ini.template wsgi.ini
 
-data/yamls.cache: target/${TARGET_PATH}/cache_yamls rust.so $(YAML_OBJECTS)
+data/yamls.cache: target/${TARGET_PATH}/cache_yamls  $(YAML_OBJECTS)
 	target/${TARGET_PATH}/cache_yamls data workdir
 
-tests/data/yamls.cache: target/${TARGET_PATH}/cache_yamls rust.so $(YAML_TEST_OBJECTS)
+tests/data/yamls.cache: target/${TARGET_PATH}/cache_yamls $(YAML_TEST_OBJECTS)
 	target/${TARGET_PATH}/cache_yamls tests/data tests/workdir
 
-check-flake8: $(patsubst %.py,%.flake8,$(PYTHON_OBJECTS))
-
-check-pylint: $(patsubst %.py,%.pylint,$(PYTHON_OBJECTS))
-
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
-
-check-mypy: $(PYTHON_OBJECTS) rust.pyi
-	env PYTHONPATH=.:tests mypy --python-version 3.6 --strict --no-error-summary . && touch $@
-
-%.pylint : %.py Makefile .pylintrc rust.so
-	$(QUIET_PYLINT)env PYTHONPATH=. pylint $< && touch $@
 
 %.eslint : %.ts Makefile .eslintrc
 	$(QUIET_ESLINT)node_modules/.bin/eslint $< && touch $@
 
-%.flake8: %.py Makefile setup.cfg
-	$(QUIET_FLAKE8)flake8 $< && touch $@
-
 check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
-%.validyaml : %.yaml target/${TARGET_PATH}/validator rust.so
+%.validyaml : %.yaml target/${TARGET_PATH}/validator
 	$(QUIET_VALIDATOR)target/${TARGET_PATH}/validator $< && touch $@
 
 # Make sure that the current directory is *not* the repo root but something else to catch

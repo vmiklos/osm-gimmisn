@@ -264,6 +264,9 @@ pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
 mod tests {
     use super::*;
 
+    use std::io::Read;
+    use std::io::Seek;
+    use std::io::SeekFrom;
     use std::sync::Arc;
 
     /// Tests check_top_edited_relations().
@@ -335,5 +338,60 @@ baz\t2\n";
             is_complete_relation(&mut relations, "gazdagret").unwrap(),
             false
         );
+    }
+
+    /// Tests main().
+    #[test]
+    fn test_main() {
+        let argv = ["".to_string(), "tests/mock/access_log".to_string()];
+        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let relations_path = ctx.get_abspath("data/relations.yaml").unwrap();
+        // 2020-05-09, so this will be recent
+        let expected_args = format!("git blame --line-porcelain {}", relations_path);
+        let expected_out = "\n\
+author-time 1588975200\n\
+\tujbuda:\n"
+            .to_string();
+        let outputs: HashMap<_, _> = vec![(expected_args, expected_out)].into_iter().collect();
+        let subprocess = context::tests::TestSubprocess::new(&outputs);
+        let subprocess_arc: Arc<dyn context::Subprocess> = Arc::new(subprocess);
+        ctx.set_subprocess(&subprocess_arc);
+
+        main(&argv, &mut buf, &ctx).unwrap();
+
+        buf.seek(SeekFrom::Start(0)).unwrap();
+        let mut actual: Vec<u8> = Vec::new();
+        buf.read_to_end(&mut actual).unwrap();
+        let actual = String::from_utf8(actual).unwrap();
+        assert_eq!(
+            actual.contains("data/relation-inactiverelation.yaml: set inactive: false\n"),
+            true
+        );
+        assert_eq!(
+            actual.contains("data/relation-gazdagret.yaml: set inactive: true\n"),
+            true
+        );
+        assert_eq!(
+            actual.contains("data/relation-nosuchrelation.yaml: set inactive: "),
+            false
+        );
+
+        // This is not in the output because it's considered as a recent relation.
+        assert_eq!(
+            actual.contains("data/relation-ujbuda.yaml: set inactive: "),
+            false
+        );
+
+        // This is not in the output as it's not a valid relation name.
+        assert_eq!(actual.contains("budafokxxx"), false);
+
+        // This is not in the output as it's a search bot, so such visits don't count.
+        // Also, if this would be not ignored, it would push 'inactiverelation' out of the active
+        // relation list.
+        assert_eq!(actual.contains("gyomaendrod"), false);
     }
 }
