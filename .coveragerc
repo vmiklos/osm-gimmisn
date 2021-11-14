@@ -1,7 +1,0 @@
-[report]
-exclude_lines =
-    \# pragma: no cover$
-    def __repr__
-    ^if __name__ == .__main__.:$
-    if sys.platform.startswith\("win"\):$
-    if TYPE_CHECKING:$
