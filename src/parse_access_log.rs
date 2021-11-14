@@ -38,19 +38,6 @@ fn is_complete_relation(
     Ok(percent == "100.00")
 }
 
-#[pyfunction]
-fn py_is_complete_relation(
-    mut relations: areas::PyRelations,
-    relation_name: &str,
-) -> PyResult<bool> {
-    match is_complete_relation(&mut relations.relations, relation_name)
-        .context("is_complete_relation() failed")
-    {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Determine if 'line' has a user agent which looks like a search bot.
 fn is_search_bot(line: &str) -> bool {
     let search_bots = vec![
@@ -269,7 +256,6 @@ fn py_main(argv: Vec<String>, stream: PyObject, ctx: context::PyContext) -> PyRe
 
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_is_complete_relation, module)?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_main, module)?)?;
     Ok(())
 }
@@ -338,5 +324,16 @@ baz\t2\n";
         assert_eq!(frequent_relations.contains("city4"), true);
         assert_eq!(frequent_relations.contains("bar"), false);
         assert_eq!(frequent_relations.contains("baz"), false);
+    }
+
+    /// Tests is_complete_relation().
+    #[test]
+    fn test_is_complete_relation() {
+        let ctx = context::tests::make_test_context().unwrap();
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        assert_eq!(
+            is_complete_relation(&mut relations, "gazdagret").unwrap(),
+            false
+        );
     }
 }

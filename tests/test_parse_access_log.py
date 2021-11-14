@@ -11,7 +11,6 @@ import unittest
 
 import test_context
 
-import areas
 import parse_access_log
 
 
@@ -52,15 +51,6 @@ author-time 1588975200
         # Also, if this would be not ignored, it would push 'inactiverelation' out of the active
         # relation list.
         self.assertNotIn("gyomaendrod", actual)
-
-
-class TestIsCompleteRelation(unittest.TestCase):
-    """Tests is_complete_relation()."""
-    def test_happy(self) -> None:
-        """Tests the happy path."""
-        ctx = test_context.make_test_context()
-        relations = areas.make_relations(ctx)
-        self.assertFalse(parse_access_log.is_complete_relation(relations, "gazdagret"))
 
 
 if __name__ == '__main__':

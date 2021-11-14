@@ -5,7 +5,6 @@ PYTHON_TEST_OBJECTS = \
 # These have good coverage.
 PYTHON_SAFE_OBJECTS = \
 	api.py \
-	areas.py \
 	context.py \
 	parse_access_log.py \
 

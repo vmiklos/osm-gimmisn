@@ -13,11 +13,6 @@ from typing import BinaryIO
 import rust
 
 
-def is_complete_relation(relations: rust.PyRelations, relation_name: str) -> bool:
-    """Does this relation have 100% house number coverage?"""
-    return rust.py_is_complete_relation(relations, relation_name)
-
-
 def main(argv: List[str], stdout: BinaryIO, ctx: rust.PyContext) -> None:
     """Commandline interface."""
     rust.py_main(argv, stdout, ctx)

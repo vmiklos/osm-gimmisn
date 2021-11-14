@@ -36,7 +36,6 @@ mod yattag;
 
 #[pymodule]
 fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
-    areas::register_python_symbols(m)?;
     context::register_python_symbols(m)?;
     parse_access_log::register_python_symbols(m)?;
     Ok(())
