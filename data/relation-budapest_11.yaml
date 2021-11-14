@@ -497,9 +497,10 @@ filters:
     # 38: 38/a, 38/b
     # 44b: csak sima 44 van
     # 46a, 46d: 46, 46/b
+    # 50: 50/a, 50/b
     # 58: 58/a, 58/b
     # 90: beépítetlen terület
-    invalid: ['4', '8a', '26b', '32a', '32b', '38', '44b', '46a', '46d', '58', '77a', '79c', '85a', '90']
+    invalid: ['4', '8a', '26b', '32a', '32b', '38', '44b', '46a', '46d', '50', '58', '77a', '79c', '85a', '90']
     ranges:
       - {start: '77', end: '119'}
       - {start: '2', end: '998'}
@@ -2157,8 +2158,8 @@ filters:
     # 9 = Bolygó utca 19
     invalid: ['1', '9']
   # Pösingermajor
-  Barackmag utca:
-    invalid: ['17a']
+  # Barackmag utca:
+  #  invalid: ['17a'] -- újra, épült ott vmi
   Irhás árok:
     # 10a-10b-10c: át lett számozva: 10-12-14
     # 24a: 22,22/B,24, 1 házrészen nincs szám
@@ -2209,7 +2210,7 @@ filters:
     invalid: ['3a', '3b', '5', '5c', '5/5', '6b', '7', '11', '15a', '15b', '20d']
     ranges:
       - {start: '1', end: '19'}
-      - {start: '2', end: '24'}
+      - {start: '2', end: '26'}
   Örkény István utca:
     invalid: ['13']
   Spanyolrét út:
