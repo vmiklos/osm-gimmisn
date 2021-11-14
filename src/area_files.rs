@@ -14,7 +14,6 @@ use crate::context;
 use crate::i18n;
 use anyhow::anyhow;
 use anyhow::Context;
-use pyo3::prelude::*;
 use std::io::Read;
 use std::io::Write;
 use std::sync::Arc;
@@ -378,33 +377,4 @@ impl RelationFiles {
         let path = self.get_additional_housenumbers_htmlcache_path()?;
         ctx.get_file_system().open_write(&path)
     }
-}
-
-#[pyclass]
-pub struct PyRelationFiles {
-    pub relation_files: RelationFiles,
-}
-
-#[pymethods]
-impl PyRelationFiles {
-    #[new]
-    fn new(workdir: String, name: String) -> Self {
-        let relation_files = RelationFiles::new(&workdir, &name);
-        PyRelationFiles { relation_files }
-    }
-
-    fn get_housenumbers_percent_path(&self) -> PyResult<String> {
-        match self.relation_files.get_housenumbers_percent_path() {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_housenumbers_percent_path() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-}
-
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_class::<PyRelationFiles>()?;
-    Ok(())
 }
