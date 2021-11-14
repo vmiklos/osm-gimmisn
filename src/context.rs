@@ -15,18 +15,9 @@ use anyhow::Context as AnyhowContext;
 use isahc::config::Configurable;
 use isahc::ReadResponseExt;
 use isahc::RequestExt;
-use pyo3::class::PyIterProtocol;
-use pyo3::exceptions::PyValueError;
-use pyo3::prelude::*;
-use pyo3::types::PyBytes;
-use pyo3::types::PyInt;
-use pyo3::types::PyType;
-use pyo3::types::PyUnicode;
 use std::collections::HashMap;
-use std::io::BufRead;
 use std::io::Read;
 use std::io::Write;
-use std::ops::DerefMut;
 use std::path::Path;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -76,188 +67,6 @@ impl FileSystem for StdFileSystem {
                 .with_context(|| format!("failed to open {} for writing", path))?,
         ));
         Ok(ret)
-    }
-}
-
-/// Iterator for PyRead.
-#[pyclass]
-pub struct PyReadIter {
-    inner: std::vec::IntoIter<String>,
-}
-
-#[pyproto]
-impl PyIterProtocol for PyReadIter {
-    fn __iter__(slf: PyRef<Self>) -> PyRef<Self> {
-        slf
-    }
-
-    fn __next__(mut slf: PyRefMut<Self>) -> Option<PyObject> {
-        let string: String;
-        match slf.inner.next() {
-            Some(value) => string = value,
-            None => {
-                return None;
-            }
-        };
-        let buf: Vec<u8> = string.into_bytes();
-        Python::with_gil(|py| Some(PyBytes::new(py, &buf).into()))
-    }
-}
-
-/// File-like object, wrapping a Read.
-#[pyclass]
-pub struct PyRead {
-    /// The underlying Rust Read.
-    pub read: Arc<Mutex<dyn Read + Send>>,
-}
-
-#[pymethods]
-impl PyRead {
-    fn read(&mut self) -> PyResult<PyObject> {
-        Python::with_gil(|py| {
-            let mut buf: Vec<u8> = Vec::new();
-            self.read.lock().unwrap().read_to_end(&mut buf)?;
-            Ok(PyBytes::new(py, &buf).into())
-        })
-    }
-
-    fn close(&mut self) -> PyResult<()> {
-        Ok(())
-    }
-
-    fn __enter__(&self) -> Self {
-        let read = self.read.clone();
-        PyRead { read }
-    }
-
-    fn __exit__(
-        &mut self,
-        ty: Option<&PyType>,
-        _value: Option<&PyAny>,
-        _traceback: Option<&PyAny>,
-    ) -> bool {
-        let gil = Python::acquire_gil();
-        ty == Some(gil.python().get_type::<PyValueError>())
-    }
-}
-
-#[pyproto]
-impl PyIterProtocol for PyRead {
-    fn __iter__(slf: PyRef<Self>) -> PyResult<Py<PyReadIter>> {
-        let mut guard = slf.read.lock().unwrap();
-        let mut reader = std::io::BufReader::new(guard.deref_mut());
-        let mut lines: Vec<String> = Vec::new();
-        loop {
-            let mut line = String::new();
-            if let Ok(len) = reader.read_line(&mut line) {
-                if len == 0 {
-                    break;
-                }
-                lines.push(line);
-                continue;
-            }
-            break;
-        }
-        let iter = PyReadIter {
-            inner: lines.into_iter(),
-        };
-        Py::new(slf.py(), iter)
-    }
-}
-
-/// File-like object, wrapping a Write.
-#[pyclass]
-pub struct PyWrite {
-    /// The underlying Rust Write.
-    pub write: Arc<Mutex<dyn Write + Send>>,
-}
-
-#[pymethods]
-impl PyWrite {
-    fn write(&mut self, buf: &[u8]) -> PyResult<usize> {
-        let mut guard = self.write.lock().unwrap();
-        match guard.write_all(buf) {
-            Ok(_) => Ok(buf.len()),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "write() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn close(&mut self) -> PyResult<()> {
-        Ok(())
-    }
-
-    fn __enter__(&self) -> Self {
-        let write = self.write.clone();
-        PyWrite { write }
-    }
-
-    fn __exit__(
-        &mut self,
-        ty: Option<&PyType>,
-        _value: Option<&PyAny>,
-        _traceback: Option<&PyAny>,
-    ) -> bool {
-        let gil = Python::acquire_gil();
-        ty == Some(gil.python().get_type::<PyValueError>())
-    }
-}
-
-/// Write implementation, backed by Python.
-pub struct PyAnyWrite {
-    /// The underlying Python object.
-    pub write: Py<PyAny>,
-}
-
-impl Write for PyAnyWrite {
-    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        Python::with_gil(|py| {
-            let any = match self.write.call_method1(py, "write", (buf,)) {
-                Ok(value) => value,
-                Err(err) => {
-                    return Err(std::io::Error::new(
-                        std::io::ErrorKind::Other,
-                        format!("failed to write: {}", err.to_string()),
-                    ));
-                }
-            };
-            let size = match any.as_ref(py).downcast::<PyInt>() {
-                Ok(value) => value,
-                Err(err) => {
-                    return Err(std::io::Error::new(
-                        std::io::ErrorKind::Other,
-                        format!("failed to downcast to PyInt: {}", err.to_string()),
-                    ));
-                }
-            };
-            let ret: usize = size.extract().unwrap();
-            Ok(ret)
-        })
-    }
-
-    fn flush(&mut self) -> std::io::Result<()> {
-        Ok(())
-    }
-}
-
-impl Drop for PyAnyWrite {
-    fn drop(&mut self) {
-        Python::with_gil(|py| {
-            self.write.call_method0(py, "close").unwrap();
-        })
-    }
-}
-
-/// Read implementation, backed by Python.
-struct PyAnyRead {
-    cursor: std::io::Cursor<Vec<u8>>,
-}
-
-impl Read for PyAnyRead {
-    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
-        self.cursor.read(buf)
     }
 }
 
@@ -322,66 +131,6 @@ impl Time for StdTime {
     }
 }
 
-/// Python wrapper around a Time.
-#[pyclass]
-pub struct PyTime {
-    time: Arc<dyn Time>,
-}
-
-#[pymethods]
-impl PyTime {
-    fn now(&self) -> i64 {
-        self.time.now()
-    }
-
-    fn sleep(&self, seconds: u64) {
-        self.time.sleep(seconds)
-    }
-}
-
-/// Time implementation, backed by Python code.
-struct PyAnyTime {
-    time: Py<PyAny>,
-}
-
-impl PyAnyTime {
-    fn new(time: Py<PyAny>) -> Self {
-        PyAnyTime { time }
-    }
-}
-
-impl Time for PyAnyTime {
-    fn now(&self) -> i64 {
-        Python::with_gil(|py| {
-            let any = match self.time.call_method0(py, "now") {
-                Ok(value) => value,
-                _ => {
-                    return 0;
-                }
-            };
-            let int = match any.as_ref(py).downcast::<PyInt>() {
-                Ok(value) => value,
-                _ => {
-                    return 0;
-                }
-            };
-
-            let ret: i64 = int.extract().unwrap();
-            ret
-        })
-    }
-
-    fn sleep(&self, seconds: u64) {
-        Python::with_gil(|py| {
-            self.time.call_method1(py, "sleep", (seconds,)).unwrap();
-        })
-    }
-
-    fn as_any(&self) -> &dyn std::any::Any {
-        self
-    }
-}
-
 /// Subprocess interface.
 pub trait Subprocess: Send + Sync {
     /// Runs a commmand, capturing its output.
@@ -418,74 +167,6 @@ impl Subprocess for StdSubprocess {
     }
 }
 
-/// Python wrapper around a Subprocess.
-#[pyclass]
-pub struct PySubprocess {
-    subprocess: Arc<dyn Subprocess>,
-}
-
-#[pymethods]
-impl PySubprocess {
-    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> PyResult<String> {
-        match self.subprocess.run(args, env) {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "failed to run: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn exit(&self, code: i32) {
-        self.subprocess.exit(code)
-    }
-}
-
-/// Subprocess implementation, backed by Python code.
-struct PyAnySubprocess {
-    subprocess: Py<PyAny>,
-}
-
-impl PyAnySubprocess {
-    fn new(subprocess: Py<PyAny>) -> Self {
-        PyAnySubprocess { subprocess }
-    }
-}
-
-impl Subprocess for PyAnySubprocess {
-    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String> {
-        Python::with_gil(|py| {
-            let any = match self.subprocess.call_method1(py, "run", (args, env)) {
-                Ok(value) => value,
-                Err(err) => {
-                    return Err(anyhow!("failed to call run(): {}", err.to_string()));
-                }
-            };
-            let string = match any.as_ref(py).downcast::<PyUnicode>() {
-                Ok(value) => value,
-                Err(err) => {
-                    return Err(anyhow!(
-                        "failed to downcast to PyUnicode: {}",
-                        err.to_string()
-                    ));
-                }
-            };
-            Ok(string.extract().unwrap())
-        })
-    }
-
-    fn exit(&self, code: i32) {
-        let gil = Python::acquire_gil();
-        self.subprocess
-            .call_method1(gil.python(), "exit", (code,))
-            .unwrap();
-    }
-
-    fn as_any(&self) -> &dyn std::any::Any {
-        self
-    }
-}
-
 /// Unit testing interface.
 pub trait Unit: Send + Sync {
     /// Injects a fake error.
@@ -498,19 +179,6 @@ struct StdUnit {}
 impl Unit for StdUnit {
     fn make_error(&self) -> String {
         String::from("")
-    }
-}
-
-/// Python wrapper around a Unit.
-#[pyclass]
-pub struct PyUnit {
-    unit: Arc<dyn Unit>,
-}
-
-#[pymethods]
-impl PyUnit {
-    fn make_error(&self) -> String {
-        self.unit.make_error()
     }
 }
 
@@ -729,72 +397,13 @@ impl Context {
     }
 }
 
-#[pyclass]
-#[derive(Clone)]
-/// Python wrapper around a Rust Context.
-pub struct PyContext {
-    /// The underlying Rust Context.
-    pub context: Context,
-}
-
-#[pymethods]
-impl PyContext {
-    #[new]
-    fn new(prefix: &str) -> PyResult<Self> {
-        match Context::new(prefix) {
-            Ok(value) => Ok(PyContext { context: value }),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "Context::new() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_abspath(&self, rel_path: &str) -> PyResult<String> {
-        match self.context.get_abspath(rel_path) {
-            Ok(value) => Ok(value),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "context.get_abspath() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_time(&self) -> PyTime {
-        PyTime {
-            time: self.context.get_time().clone(),
-        }
-    }
-
-    fn set_time(&mut self, time: &PyAny) {
-        let time: Arc<dyn Time> = Arc::new(PyAnyTime::new(time.into()));
-        self.context.set_time(&time);
-    }
-
-    fn get_subprocess(&self) -> PySubprocess {
-        PySubprocess {
-            subprocess: self.context.get_subprocess().clone(),
-        }
-    }
-
-    fn set_subprocess(&mut self, subprocess: &PyAny) {
-        let subprocess: Arc<dyn Subprocess> = Arc::new(PyAnySubprocess::new(subprocess.into()));
-        self.context.set_subprocess(&subprocess);
-    }
-}
-
-/// Registers Python wrappers of Rust structs into the Python module.
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_class::<PyContext>()?;
-    Ok(())
-}
-
 #[cfg(test)]
 pub mod tests {
     use super::*;
     use std::io::Cursor;
     use std::io::Seek;
     use std::io::SeekFrom;
+    use std::ops::DerefMut;
 
     /// Creates a Context instance for text purposes.
     pub fn make_test_context() -> anyhow::Result<Context> {

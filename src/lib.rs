@@ -11,8 +11,6 @@
 
 //! Finds objects missing from the OSM DB.
 
-use pyo3::prelude::*;
-
 mod accept_language;
 mod area_files;
 mod areas;
@@ -33,10 +31,3 @@ pub mod wsgi;
 mod wsgi_additional;
 mod wsgi_json;
 mod yattag;
-
-#[pymodule]
-fn rust(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
-    context::register_python_symbols(m)?;
-    parse_access_log::register_python_symbols(m)?;
-    Ok(())
-}

@@ -11,7 +11,6 @@
 //! Parses the Apache access log of osm-gimmisn for 1 month.
 
 use anyhow::Context;
-use pyo3::prelude::*;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::io::BufRead;
@@ -103,7 +102,9 @@ fn get_frequent_relations(
         ctx.get_ini().get_workdir()?
     ))?;
     for item in count_list.iter() {
-        csv_stream.write_all(format!("{}\t{}\n", item.0, item.1).as_bytes())?;
+        csv_stream
+            .write_all(format!("{}\t{}\n", item.0, item.1).as_bytes())
+            .context("write_all() failed")?;
     }
 
     let relation_count = count_list.len() as f64;
@@ -242,21 +243,6 @@ pub fn main(argv: &[String], stdout: &mut dyn Write, ctx: &context::Context) -> 
         .as_bytes(),
     )?;
 
-    Ok(())
-}
-
-#[pyfunction]
-fn py_main(argv: Vec<String>, stream: PyObject, ctx: context::PyContext) -> PyResult<()> {
-    let mut stream = context::PyAnyWrite { write: stream };
-    match main(&argv, &mut stream, &ctx.context).context("main() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
-/// Registers Python wrappers of Rust structs into the Python module.
-pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_function(pyo3::wrap_pyfunction!(py_main, module)?)?;
     Ok(())
 }
 
