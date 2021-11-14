@@ -6,13 +6,10 @@
 
 """The test_config module covers the config module."""
 
-from typing import BinaryIO
 from typing import Dict
 from typing import List
 import calendar
 import datetime
-import io
-import os
 
 import api
 import context
@@ -22,54 +19,6 @@ import rust
 def make_test_context() -> rust.PyContext:
     """Creates a Context instance for text purposes."""
     return context.make_context("tests")
-
-
-class TestFileSystem(api.FileSystem):
-    """File system implementation, for test purposes."""
-    def __init__(self) -> None:
-        self.__hide_paths: List[str] = []
-        self.__mtimes: Dict[str, float] = {}
-        self.__files: Dict[str, io.BytesIO] = {}
-
-    def set_hide_paths(self, hide_paths: List[str]) -> None:
-        """Sets the hide paths."""
-        self.__hide_paths = hide_paths
-
-    def set_mtimes(self, mtimes: Dict[str, float]) -> None:
-        """Sets the mtimes."""
-        self.__mtimes = mtimes
-
-    def path_exists(self, path: str) -> bool:
-        if path in self.__hide_paths:
-            return False
-        if path in self.__files:
-            return True
-        return os.path.exists(path)
-
-    def getmtime(self, path: str) -> float:
-        if path in self.__mtimes:
-            return self.__mtimes[path]
-        return os.path.getmtime(path)
-
-    def set_files(self, files: Dict[str, io.BytesIO]) -> None:
-        """Sets the files."""
-        self.__files = files
-
-    def open_read(self, path: str) -> BinaryIO:
-        if path in self.__files:
-            self.__files[path].seek(0)
-            return self.__files[path]
-        # The caller will do this:
-        # pylint: disable=consider-using-with
-        return open(path, "rb")
-
-    def open_write(self, path: str) -> BinaryIO:
-        if path in self.__files:
-            self.__files[path].seek(0)
-            return self.__files[path]
-        # The caller will do this:
-        # pylint: disable=consider-using-with
-        return open(path, "wb")
 
 
 class TestTime(api.Time):

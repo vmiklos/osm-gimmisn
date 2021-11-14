@@ -208,19 +208,6 @@ fn check_top_edited_relations(
     Ok(())
 }
 
-#[pyfunction]
-fn py_check_top_edited_relations(
-    ctx: context::PyContext,
-    mut frequent_relations: HashSet<String>,
-) -> PyResult<HashSet<String>> {
-    match check_top_edited_relations(&ctx.context, &mut frequent_relations)
-        .context("check_top_edited_relations() failed")
-    {
-        Ok(_) => Ok(frequent_relations),
-        Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!("{:?}", err))),
-    }
-}
-
 /// Commandline interface.
 pub fn main(argv: &[String], stdout: &mut dyn Write, ctx: &context::Context) -> anyhow::Result<()> {
     let log_file = &argv[1];
@@ -283,10 +270,73 @@ fn py_main(argv: Vec<String>, stream: PyObject, ctx: context::PyContext) -> PyRe
 /// Registers Python wrappers of Rust structs into the Python module.
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
     module.add_function(pyo3::wrap_pyfunction!(py_is_complete_relation, module)?)?;
-    module.add_function(pyo3::wrap_pyfunction!(
-        py_check_top_edited_relations,
-        module
-    )?)?;
     module.add_function(pyo3::wrap_pyfunction!(py_main, module)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use std::sync::Arc;
+
+    /// Tests check_top_edited_relations().
+    #[test]
+    fn test_check_top_edited_relations() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let mut file_system = context::tests::TestFileSystem::new();
+        let old_citycount = b"foo\t0\n\
+city1\t0\n\
+city2\t0\n\
+city3\t0\n\
+city4\t0\n\
+bar\t0\n\
+baz\t0\n";
+        let old_citycount_value = context::tests::TestFileSystem::make_file();
+        old_citycount_value
+            .lock()
+            .unwrap()
+            .write_all(old_citycount)
+            .unwrap();
+        let new_citycount = b"foo\t1000\n\
+city1\t1000\n\
+city2\t1000\n\
+city3\t1000\n\
+city4\t1000\n\
+bar\t2\n\
+baz\t2\n";
+        let new_citycount_value = context::tests::TestFileSystem::make_file();
+        new_citycount_value
+            .lock()
+            .unwrap()
+            .write_all(new_citycount)
+            .unwrap();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/stats/2020-04-10.citycount", &old_citycount_value),
+                ("workdir/stats/2020-05-10.citycount", &new_citycount_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
+        let mut frequent_relations: HashSet<String> = ["foo".to_string(), "bar".to_string()]
+            .iter()
+            .cloned()
+            .collect();
+        check_top_edited_relations(&ctx, &mut frequent_relations).unwrap();
+
+        assert_eq!(frequent_relations.contains("foo"), true);
+        assert_eq!(frequent_relations.contains("city1"), true);
+        assert_eq!(frequent_relations.contains("city2"), true);
+        assert_eq!(frequent_relations.contains("city3"), true);
+        assert_eq!(frequent_relations.contains("city4"), true);
+        assert_eq!(frequent_relations.contains("bar"), false);
+        assert_eq!(frequent_relations.contains("baz"), false);
+    }
 }

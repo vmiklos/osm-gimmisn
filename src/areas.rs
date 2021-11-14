@@ -337,19 +337,6 @@ impl RelationConfig {
     }
 }
 
-#[pyclass]
-#[derive(Clone)]
-struct PyRelationConfig {
-    relation_config: RelationConfig,
-}
-
-#[pymethods]
-impl PyRelationConfig {
-    fn is_active(&self) -> bool {
-        self.relation_config.is_active()
-    }
-}
-
 /// A relation is a closed polygon on the map.
 #[derive(Clone)]
 pub struct Relation {
@@ -1207,29 +1194,6 @@ impl Relation {
     }
 }
 
-#[pyclass]
-#[derive(Clone)]
-pub struct PyRelation {
-    pub relation: Relation,
-}
-
-#[pymethods]
-impl PyRelation {
-    fn get_name(&self) -> String {
-        self.relation.get_name()
-    }
-
-    fn get_files(&self) -> area_files::PyRelationFiles {
-        let relation_files = self.relation.get_files().clone();
-        area_files::PyRelationFiles { relation_files }
-    }
-
-    fn get_config(&self) -> PyRelationConfig {
-        let relation_config = self.relation.config.clone();
-        PyRelationConfig { relation_config }
-    }
-}
-
 /// A relations object is a container of named relation objects.
 #[derive(Clone)]
 pub struct Relations {
@@ -1477,20 +1441,6 @@ impl PyRelations {
         };
         Ok(PyRelations { relations })
     }
-
-    fn get_relation(&mut self, name: &str) -> PyResult<PyRelation> {
-        match self.relations.get_relation(name) {
-            Ok(value) => Ok(PyRelation { relation: value }),
-            Err(err) => Err(pyo3::exceptions::PyOSError::new_err(format!(
-                "get_relation() failed: {}",
-                err.to_string()
-            ))),
-        }
-    }
-
-    fn get_names(&self) -> Vec<String> {
-        self.relations.get_names()
-    }
 }
 
 /// Strips down string input to bare minimum that can be interpreted as an
@@ -1636,8 +1586,6 @@ out skel qt;"#;
 }
 
 pub fn register_python_symbols(module: &PyModule) -> PyResult<()> {
-    module.add_class::<PyRelationConfig>()?;
-    module.add_class::<PyRelation>()?;
     module.add_class::<PyRelations>()?;
     Ok(())
 }
