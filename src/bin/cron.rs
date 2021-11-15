@@ -12,9 +12,9 @@
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
-    let ctx = rust::context::Context::new("")?;
-    rust::cron::setup_logging(&ctx)?;
-    rust::cron::main(&args, &mut std::io::stdout(), &ctx)?;
+    let ctx = osm_gimmisn::context::Context::new("")?;
+    osm_gimmisn::cron::setup_logging(&ctx)?;
+    osm_gimmisn::cron::main(&args, &mut std::io::stdout(), &ctx)?;
 
     Ok(())
 }

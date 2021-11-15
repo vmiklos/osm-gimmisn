@@ -10,13 +10,13 @@
 
 //! Provides the glue layer between the Rouille app server and the wsgi module.
 
-use rust::wsgi;
+use osm_gimmisn::wsgi;
 use std::collections::HashMap;
 use std::io::Read;
 
 /// Wraps wsgi::application() to an app for rouille.
 fn app(request: &rouille::Request) -> anyhow::Result<rouille::Response> {
-    let ctx = rust::context::Context::new("")?;
+    let ctx = osm_gimmisn::context::Context::new("")?;
     let mut request_headers: HashMap<String, String> = HashMap::new();
     for (key, value) in request.headers() {
         request_headers.insert(key.to_string(), value.to_string());
@@ -60,7 +60,7 @@ fn app(request: &rouille::Request) -> anyhow::Result<rouille::Response> {
 /// ProxyPass / http://127.0.0.1:8000/
 /// ProxyPassReverse / http://127.0.0.1:8000/
 fn main() -> anyhow::Result<()> {
-    let ctx = rust::context::Context::new("")?;
+    let ctx = osm_gimmisn::context::Context::new("")?;
     let port = ctx.get_ini().get_tcp_port()?;
     let prefix = ctx.get_ini().get_uri_prefix()?;
     // TODO no matching stop message.

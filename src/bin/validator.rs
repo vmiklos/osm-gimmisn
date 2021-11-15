@@ -12,7 +12,7 @@
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
-    rust::validator::main(&args, &mut std::io::stdout())?;
+    osm_gimmisn::validator::main(&args, &mut std::io::stdout())?;
 
     Ok(())
 }

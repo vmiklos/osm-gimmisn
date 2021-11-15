@@ -12,8 +12,8 @@
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
-    let ctx = rust::context::Context::new("")?;
-    rust::parse_access_log::main(&args, &mut std::io::stdout(), &ctx)?;
+    let ctx = osm_gimmisn::context::Context::new("")?;
+    osm_gimmisn::parse_access_log::main(&args, &mut std::io::stdout(), &ctx)?;
 
     Ok(())
 }

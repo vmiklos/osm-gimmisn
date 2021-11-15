@@ -12,8 +12,8 @@
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
-    let ctx = rust::context::Context::new("")?;
-    rust::cache_yamls::main(&args, &ctx)?;
+    let ctx = osm_gimmisn::context::Context::new("")?;
+    osm_gimmisn::cache_yamls::main(&args, &ctx)?;
 
     Ok(())
 }
