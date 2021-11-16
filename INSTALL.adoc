@@ -2,63 +2,40 @@
 
 == HW requirements
 
-- single CPU core should be enough
+- at least 1 CPU core
 
-- at least 1GB memory
+- at least 1 GB memory
 
-- at least 1GB of disk space
+- at least 1 GB disk space
 
 == Install steps
 
-- Install locale support: i.e. in case `locale -a|grep hu_HU.utf8` reports nothing, you can fix that
-  on e.g. Fedora using `dnf install glibc-langpack-hu`.
+- Install dependencies, e.g. on Fedora:
 
-- Install `git`
+----
+dnf install git
+dnf install make
+dnf install npm
+dnf install cargo
+dnf install openssl-devel
+dnf install libicu-devel
+dnf install llvm-devel
+dnf install clang-devel
+----
 
-- Install Python (3.6 or newer)
-
-- Install `npm` (If the version in your distribution is too old: `sudo npm install -g n && sudo n stable`)
-
-- Install `make`
+If the `npm` version in your distribution is too old: `sudo npm install -g n && sudo n stable`.
 
 - Clone the repo:
 
 ----
-git clone <URL> # You read this file somewhere, right? :-)
+git clone git://github.com/vmiklos/osm-gimmisn
 cd osm-gimmisn
-----
-
-- Set up a virtual environment:
-
-----
-python3 -m venv osm-gimmisn-env
-. osm-gimmisn-env/bin/activate
-----
-
-This makes sure that you will have exactly the same version of the depdendencies as everyone else.
-
-- Install the dependencies (Python, node and eslint):
-
-----
-pip install -r requirements.txt
 ----
 
 - Build the generated code and data:
 
 ----
 make
-----
-
-- Run the tests:
-
-----
-make check
-----
-
-- Create a local config and working directory:
-
-----
-mkdir workdir
 ----
 
 Populate the reference directory with TSV files for the house number and street list.
