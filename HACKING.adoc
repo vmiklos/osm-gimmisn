@@ -1,48 +1,25 @@
 = Development notes
 
-Even tough Python is an interpreted language, this project uses some generated code and build-time
-created caches, so always run `make` after changing the code and before using it.
+Even tough Rust comes with its own `cargo` build tool, this project uses some build-time created
+caches, so always run `make` after changing the code and before using it.
 
 == Coding style
 
-- Build HTML strings using `yattag`, return a `yattag.Doc` if the result is an escaped string. The
-  following commands find problematic code:
+- Build HTML strings using `yattag`, return a `yattag::Doc` if the result is an escaped string.
 
-----
-# Don't build HTML strings manually where escaping can be forgotten.
-git grep "'<" *.py
-git grep '"<' *.py
-# Ensure unescaped string can be added do a document as-is only in case it's an escaped string.
-git grep -n -w append_value|grep -v get_value
-----
-
-Exception to this rule is the HTML DOCTYPE header and cache content produced by `yattag`.
-
-- Path handling: make relative paths absolute using `config.Config.get_abspath()`:
-
-----
-git grep __file__ *.py
-git grep os.getcwd *.py
-git grep os.chdir *.py
-----
+- Path handling: make relative paths absolute using `context::Context::get_abspath()`.
 
 This has the benefit that real and test config/data (under `/` and `tests/`) can be separated via a
-single parameter to the `config.Config` constructor.
+single parameter to the `context::Context` constructor.
 
-Exception to this rule is the `config.Config` constructor itself.
-
-- Try to keep module size under 800 lines, so a random small improvement does not trigger the CI
-  failure at 1000 lines:
+- Try to keep module size under 1000 lines to avoid monster modules:
 
 ----
-for i in *.py; do lines=$(wc -l < $i); if [ $lines -gt 800 ]; then echo "$i is too large: $lines lines"; fi; done
+for i in $(git ls-files|grep rs$); do lines=$(wc -l < $i); if [ $lines -gt 1000 ]; then echo "$i is too large: $lines lines"; fi; done
 ----
 
 - Try to make JS optional. If a link can be handled with and without JS, then generate HTML which
   goes to the no-JS version, then JS can tweak the DOM to invoke JS instead.
-- Avoid using `<noscript>` tags. One exception is the single one placed in the `<head>` for
-  setting up the js/no-js CSS classes. This is beneficial as it allows for eliminating page
-  blinking when initially setting up progressive elements through JavaScript.
 
 == TS debugging
 
@@ -55,14 +32,6 @@ make TSDEBUG=1
 
 produces output that is for debugging.
 
-== Python debugging
-
-To run a single test:
-
-----
-env PYTHONPATH=.:tests python3 -m unittest tests.test_areas.TestRelationGetOsmHouseNumbers.test_happy
-----
-
 == Rust debugging
 
 'make' defaults to release builds. To switch to a debug build:
@@ -71,6 +40,12 @@ env PYTHONPATH=.:tests python3 -m unittest tests.test_areas.TestRelationGetOsmHo
 rm -rf target/
 echo RSDEBUG=1 > config.mak
 make
+----
+
+To run a single test:
+
+----
+cargo test --lib -- --test-threads=1 wsgi_json::tests::test_missing_streets_update_result_json
 ----
 
 == Rust performance profiling
@@ -101,6 +76,6 @@ things which are not part of CI:
 - CSS validation:
   http://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fosm-gimmisn.vmiklos.hu%2Fosm%2Fstatic%2Fosm.min.css
 
-- Run `piprot` from time to time and make sure Python dependencies are reasonably up to date.
+- Run `cargo outdated --depth=1` from time to time and make sure Rust dependencies are reasonably up to date.
 
 - Run `npm outdated` from time to time and make sure JS dependencies are reasonably up to date.
