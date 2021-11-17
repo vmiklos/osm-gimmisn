@@ -312,6 +312,27 @@ fn write_city_count_path(
     Ok(())
 }
 
+/// Writes a daily .zipcount file.
+fn write_zip_count_path(
+    ctx: &context::Context,
+    zip_count_path: &str,
+    zips: &HashMap<String, HashSet<String>>,
+) -> anyhow::Result<()> {
+    let stream = ctx.get_file_system().open_write(zip_count_path)?;
+    let mut guard = stream.lock().unwrap();
+    let mut zips: Vec<_> = zips.iter().map(|(key, value)| (key, value)).collect();
+
+    zips.sort_by_key(|(key, _value)| key.to_string());
+    zips.dedup();
+    for (key, value) in zips {
+        let key = if key.is_empty() { "_Empty" } else { &key };
+        let line = format!("{}\t{}\n", key, value.len());
+        guard.write_all(line.as_bytes())?;
+    }
+
+    Ok(())
+}
+
 /// Counts the # of all house numbers as of today.
 fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
     let statedir = ctx.get_abspath("workdir/stats")?;
@@ -321,8 +342,10 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
     }
     let count_path = format!("{}/{}.count", statedir, today);
     let city_count_path = format!("{}/{}.citycount", statedir, today);
+    let zip_count_path = format!("{}/{}.zipcount", statedir, today);
     let mut house_numbers: HashSet<String> = HashSet::new();
     let mut cities: HashMap<String, HashSet<String>> = HashMap::new();
+    let mut zips: HashMap<String, HashSet<String>> = HashMap::new();
     let mut first = true;
     let valid_settlements =
         util::get_valid_settlements(ctx).context("get_valid_settlements() failed")?;
@@ -348,9 +371,17 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         let city_value = cells[2..4].join("\t");
         let entry = cities.entry(city_key).or_insert_with(HashSet::new);
         entry.insert(city_value);
+
+        // Postcode.
+        let zip_key = cells[0].to_string();
+        // Street name and housenumber.
+        let zip_value = cells[2..4].join("\t");
+        let zip_entry = zips.entry(zip_key).or_insert_with(HashSet::new);
+        zip_entry.insert(zip_value);
     }
     write_count_path(ctx, &count_path, &house_numbers)?;
-    write_city_count_path(ctx, &city_count_path, &cities)
+    write_city_count_path(ctx, &city_count_path, &cities)?;
+    write_zip_count_path(ctx, &zip_count_path, &zips)
 }
 
 /// Counts the top housenumber editors as of today.
@@ -1553,12 +1584,14 @@ mod tests {
             .unwrap();
         let today_count_value = context::tests::TestFileSystem::make_file();
         let today_citycount_value = context::tests::TestFileSystem::make_file();
+        let today_zipcount_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[
                 ("workdir/stats/2020-05-10.csv", &today_csv_value),
                 ("workdir/stats/2020-05-10.count", &today_count_value),
                 ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
+                ("workdir/stats/2020-05-10.zipcount", &today_zipcount_value),
             ],
         );
         file_system.set_files(&files);
@@ -1575,6 +1608,8 @@ mod tests {
             let mut guard = today_citycount_value.lock().unwrap();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
+        let mut guard = today_zipcount_value.lock().unwrap();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
     /// Tests update_stats_count(): the case then the .csv is missing.
