@@ -1148,21 +1148,12 @@ pub fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::R
         .as_str()
         .unwrap();
     if branch == "refs/heads/master" {
-        let mut my_env: HashMap<String, String> = HashMap::new();
-        // TODO was only needed for Python.
-        my_env.insert(
-            "PATH".into(),
-            format!("osm-gimmisn-env/bin:{}", std::env::var("PATH")?),
-        );
-        ctx.get_subprocess().run(
-            vec![
-                "make".into(),
-                "-C".into(),
-                ctx.get_abspath("")?,
-                "deploy".into(),
-            ],
-            my_env,
-        )?;
+        ctx.get_subprocess().run(vec![
+            "make".into(),
+            "-C".into(),
+            ctx.get_abspath("")?,
+            "deploy".into(),
+        ])?;
         // Nominally a failure, so the service gets restarted.
         ctx.get_subprocess().exit(1);
     }

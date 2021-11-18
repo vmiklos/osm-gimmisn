@@ -6,38 +6,16 @@
 #
 
 #
-# Dumps a dependency graph of python modules.
+# Dumps a dependency graph of rust modules.
 #
 
 echo "digraph {" > deps.dot
-for module_file in *.py
+for module_file in src/*.rs
 do
-    module=$(basename $module_file .py)
-    for dependency in $(grep ^import $module_file|sed 's/import //'; grep ^from $module_file |sed 's/from \(.*\) import.*/\1/g'|sort -u)
+    module=$(basename $module_file .rs)
+    for dependency in $(grep "^use crate::" $module_file |sed 's/use crate::\([^:]*\).*;/\1/' |sort -u)
     do
-        # Silence stubs for rust modules.
-        case $dependency in
-            api)
-                continue
-            ;;
-            cache)
-                continue
-            ;;
-            context)
-                continue
-            ;;
-            util)
-                continue
-            ;;
-            areas)
-                continue
-            ;;
-            wsgi)
-                continue
-            ;;
-        esac
-
-        if [ ! -e "$dependency.py" ]; then
+        if [ ! -e "src/$dependency.rs" ]; then
             continue
         fi
         echo "$module -> $dependency;" >> deps.dot

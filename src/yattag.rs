@@ -10,7 +10,7 @@
 
 //! Generate HTML with Rust.
 //!
-//! This is more or less a Rust port of the Python package, mostly because
+//! This is more or less a Rust port of <https://www.yattag.org/>, mostly because
 //! <https://crates.io/crates/html-builder> would require you to manually escape attribute values.
 
 use std::sync::Arc;

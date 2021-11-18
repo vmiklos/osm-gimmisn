@@ -15,7 +15,6 @@ use anyhow::Context as AnyhowContext;
 use isahc::config::Configurable;
 use isahc::ReadResponseExt;
 use isahc::RequestExt;
-use std::collections::HashMap;
 use std::io::Read;
 use std::io::Write;
 use std::path::Path;
@@ -134,7 +133,7 @@ impl Time for StdTime {
 /// Subprocess interface.
 pub trait Subprocess: Send + Sync {
     /// Runs a commmand, capturing its output.
-    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String>;
+    fn run(&self, args: Vec<String>) -> anyhow::Result<String>;
 
     /// Terminates the current process with the specified exit code.
     fn exit(&self, code: i32);
@@ -147,14 +146,11 @@ pub trait Subprocess: Send + Sync {
 struct StdSubprocess {}
 
 impl Subprocess for StdSubprocess {
-    fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String> {
+    fn run(&self, args: Vec<String>) -> anyhow::Result<String> {
         let (first, rest) = args
             .split_first()
             .ok_or_else(|| anyhow!("args is an empty list"))?;
-        let output = std::process::Command::new(first)
-            .args(rest)
-            .envs(&env)
-            .output()?;
+        let output = std::process::Command::new(first).args(rest).output()?;
         Ok(std::str::from_utf8(&output.stdout)?.to_string())
     }
 
@@ -400,6 +396,7 @@ impl Context {
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    use std::collections::HashMap;
     use std::io::Cursor;
     use std::io::Seek;
     use std::io::SeekFrom;
@@ -633,8 +630,6 @@ pub mod tests {
     /// Subprocess implementation for test purposes.
     pub struct TestSubprocess {
         outputs: HashMap<String, String>,
-        /// Command-line -> key-value pairs map.
-        environments: Arc<Mutex<HashMap<String, HashMap<String, String>>>>,
         runs: Arc<Mutex<Vec<String>>>,
         exits: Arc<Mutex<Vec<i32>>>,
     }
@@ -642,13 +637,10 @@ pub mod tests {
     impl TestSubprocess {
         pub fn new(outputs: &HashMap<String, String>) -> Self {
             let outputs = outputs.clone();
-            let environments: Arc<Mutex<HashMap<String, HashMap<String, String>>>> =
-                Arc::new(Mutex::new(HashMap::new()));
             let runs: Arc<Mutex<Vec<String>>> = Arc::new(Mutex::new(Vec::new()));
             let exits: Arc<Mutex<Vec<i32>>> = Arc::new(Mutex::new(Vec::new()));
             TestSubprocess {
                 outputs,
-                environments,
                 runs,
                 exits,
             }
@@ -666,9 +658,8 @@ pub mod tests {
     }
 
     impl Subprocess for TestSubprocess {
-        fn run(&self, args: Vec<String>, env: HashMap<String, String>) -> anyhow::Result<String> {
+        fn run(&self, args: Vec<String>) -> anyhow::Result<String> {
             let key = args.join(" ");
-            self.environments.lock().unwrap().insert(key.clone(), env);
             self.runs.lock().unwrap().push(key.clone());
             Ok(self.outputs[&key].clone())
         }
