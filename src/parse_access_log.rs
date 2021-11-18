@@ -120,15 +120,12 @@ fn get_relation_create_dates(
 ) -> anyhow::Result<HashMap<String, chrono::NaiveDateTime>> {
     let mut ret: HashMap<String, chrono::NaiveDateTime> = HashMap::new();
     let relations_path = ctx.get_abspath("data/relations.yaml")?;
-    let process_stdout = ctx.get_subprocess().run(
-        vec![
-            "git".into(),
-            "blame".into(),
-            "--line-porcelain".into(),
-            relations_path,
-        ],
-        HashMap::new(),
-    )?;
+    let process_stdout = ctx.get_subprocess().run(vec![
+        "git".into(),
+        "blame".into(),
+        "--line-porcelain".into(),
+        relations_path,
+    ])?;
     let mut timestamp = 0_i64;
 
     for line in process_stdout.lines() {
