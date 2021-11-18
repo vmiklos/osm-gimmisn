@@ -2315,11 +2315,12 @@ filters:
       - {start: '1', end: '23'}
       - {start: '2', end: '20'}
   Botfalu utca:
+    # 15b: ikerház de csak 15 van kiírva
     # 21a: 21, 21/b
     # 35a, 35b: csak sima 35
     # 42: 42/a, 42/b
     # 47a, 47b: csak sima 57
-    invalid: ['19b', '21a', '35a', '35b', '42', '47a', '47b']
+    invalid: ['15b', '19b', '21a', '35a', '35b', '42', '47a', '47b']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '46'}
@@ -2636,7 +2637,8 @@ filters:
     # Sasadi 58-60 / Előpatak 63-69: egy lakópark több házzal, de Sasadiról 2 egyedi szám, sima 58 és 60
     # 108/b,c: 108-110: A B C épületek
     # 152a: 152, 152b
-    invalid: ['1b', '3s', '11a', '58a', '58f', '58g', '60b', '60c', '108b', '108c', '152a']
+    # 172a: 172 van a kapun
+    invalid: ['1b', '3s', '11a', '58a', '58f', '58g', '60b', '60c', '108b', '108c', '152a', '172a']
   Sümegvár köz:
     # 2ab: csak sima 2 van
     # 6: 6/a, 6/b
