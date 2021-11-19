@@ -753,6 +753,108 @@ Only cities with house numbers in OSM are considered."#,
     Ok(doc)
 }
 
+/// Expected request_uri: e.g. /osm/housenumber-stats/hungary/zipprogress.
+fn handle_stats_zipprogress(
+    ctx: &context::Context,
+    relations: &areas::Relations,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        get_toolbar(
+            ctx,
+            &Some(relations.clone()),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+    let mut ref_zipcounts: HashMap<String, u64> = HashMap::new();
+    let csv_stream: Arc<Mutex<dyn Read + Send>> = ctx
+        .get_file_system()
+        .open_read(&ctx.get_ini().get_reference_zipcounts_path()?)?;
+    let mut guard = csv_stream.lock().unwrap();
+    let mut read = guard.deref_mut();
+    let mut csv_read = util::CsvRead::new(&mut read);
+    let mut first = true;
+    for result in csv_read.records() {
+        if first {
+            first = false;
+            continue;
+        }
+        let row = result?;
+        let zip = row.get(0).unwrap();
+        let count: u64 = row.get(1).unwrap().parse()?;
+        ref_zipcounts.insert(zip.into(), count);
+    }
+    let timestamp = ctx.get_time().now();
+    let naive = chrono::NaiveDateTime::from_timestamp(timestamp, 0);
+    let today = naive.format("%Y-%m-%d").to_string();
+    let mut osm_zipcounts: HashMap<String, u64> = HashMap::new();
+    let path = format!("{}/stats/{}.zipcount", ctx.get_ini().get_workdir()?, today);
+    let csv_stream: Arc<Mutex<dyn Read + Send>> = ctx.get_file_system().open_read(&path)?;
+    let mut guard = csv_stream.lock().unwrap();
+    let mut read = guard.deref_mut();
+    let mut csv_read = util::CsvRead::new(&mut read);
+    for result in csv_read.records() {
+        let row = result.with_context(|| format!("failed to read row in {}", path))?;
+        let zip = row.get(0).unwrap();
+        let count: u64 = row.get(1).unwrap().parse()?;
+        osm_zipcounts.insert(zip.into(), count);
+    }
+    let ref_zips: Vec<_> = ref_zipcounts
+        .iter()
+        .map(|(k, _v)| util::Street::from_string(k))
+        .collect();
+    let osm_zips: Vec<_> = osm_zipcounts
+        .iter()
+        .map(|(k, _v)| util::Street::from_string(k))
+        .collect();
+    let in_both = util::get_in_both(&ref_zips, &osm_zips);
+    let mut zips: Vec<_> = in_both.iter().map(|i| i.get_osm_name()).collect();
+    zips.sort_by_key(|i| util::get_sort_key(i).unwrap());
+    let mut table: Vec<Vec<yattag::Doc>> = vec![vec![
+        yattag::Doc::from_text(&tr("ZIP code")),
+        yattag::Doc::from_text(&tr("House number coverage")),
+        yattag::Doc::from_text(&tr("OSM count")),
+        yattag::Doc::from_text(&tr("Reference count")),
+    ]];
+    for zip in zips {
+        let mut percent: String = "100.00".into();
+        if *ref_zipcounts.get(zip).unwrap() > 0
+            && osm_zipcounts.get(zip).unwrap() < ref_zipcounts.get(zip).unwrap()
+        {
+            let osm_count = osm_zipcounts[zip] as f64;
+            let ref_count = ref_zipcounts[zip] as f64;
+            percent = format!("{0:.2}", osm_count / ref_count * 100_f64);
+        }
+        table.push(vec![
+            yattag::Doc::from_text(zip),
+            yattag::Doc::from_text(
+                &util::format_percent(&percent).context("util::format_percent() failed:")?,
+            ),
+            yattag::Doc::from_text(&osm_zipcounts.get(zip).unwrap().to_string()),
+            yattag::Doc::from_text(&ref_zipcounts.get(zip).unwrap().to_string()),
+        ]);
+    }
+    doc.append_value(util::html_table_from_list(&table).get_value());
+
+    {
+        let _h2 = doc.tag("h2", &[]);
+        doc.text(&tr("Note"));
+    }
+    {
+        let _div = doc.tag("div", &[]);
+        doc.text(&tr(
+            r#"These statistics are estimates, not taking house number filters into account.
+Only zip codes with house numbers in OSM are considered."#,
+        ));
+    }
+
+    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    Ok(doc)
+}
+
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
 fn handle_invalid_refstreets(
     ctx: &context::Context,
@@ -817,6 +919,10 @@ pub fn handle_stats(
 ) -> anyhow::Result<yattag::Doc> {
     if request_uri.ends_with("/cityprogress") {
         return handle_stats_cityprogress(ctx, relations);
+    }
+
+    if request_uri.ends_with("/zipprogress") {
+        return handle_stats_zipprogress(ctx, relations);
     }
 
     if request_uri.ends_with("/invalid-relations") {
@@ -907,6 +1013,7 @@ pub fn handle_stats(
         (tr("All house number editors"), "usertotal"),
         (tr("Coverage"), "progress"),
         (tr("Per-city coverage"), "cityprogress"),
+        (tr("Per-ZIP coverage"), "zipprogress"),
         (tr("Invalid relation settings"), "invalid-relations"),
     ];
 
@@ -921,6 +1028,17 @@ pub fn handle_stats(
                     &[(
                         "href",
                         &format!("{}/housenumber-stats/hungary/cityprogress", prefix),
+                    )],
+                );
+                doc.text(title);
+                continue;
+            }
+            if identifier == "zipprogress" {
+                let _a = doc.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!("{}/housenumber-stats/hungary/zipprogress", prefix),
                     )],
                 );
                 doc.text(title);

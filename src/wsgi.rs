@@ -2617,8 +2617,8 @@ Tűzkő utca	31
         let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/");
 
         let results = TestWsgi::find_all(&root, "body/h2");
-        // 8 chart types + note
-        assert_eq!(results.len(), 9);
+        // 9 chart types + note
+        assert_eq!(results.len(), 10);
     }
 
     /// Tests /osm/static/: the css case.
@@ -2650,6 +2650,20 @@ Tűzkő utca	31
         test_wsgi.ctx.set_time(&time_arc);
 
         let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/cityprogress");
+
+        let results = TestWsgi::find_all(&root, "body/table");
+        assert_eq!(results.len(), 1);
+    }
+
+    /// Tests handle_stats_zipprogress(): if the output is well-formed.
+    #[test]
+    fn test_handle_stats_zipprogress_well_formed() {
+        let mut test_wsgi = TestWsgi::new();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        test_wsgi.ctx.set_time(&time_arc);
+
+        let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/zipprogress");
 
         let results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);

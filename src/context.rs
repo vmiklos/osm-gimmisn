@@ -252,6 +252,15 @@ impl Ini {
             .to_string())
     }
 
+    /// Gets the abs path of ref zipcounts.
+    pub fn get_reference_zipcounts_path(&self) -> anyhow::Result<String> {
+        let relpath = self
+            .config
+            .get("wsgi", "reference_zipcounts")
+            .context("cannot get key reference_zipcounts")?;
+        Ok(format!("{}/{}", self.root, relpath))
+    }
+
     /// Gets the global URI prefix.
     pub fn get_uri_prefix(&self) -> anyhow::Result<String> {
         self.config
