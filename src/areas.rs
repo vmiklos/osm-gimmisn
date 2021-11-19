@@ -505,7 +505,7 @@ impl Relation {
             street.set_source(&tr("street"));
             ret.push(street)
         }
-        let path = self.file.get_osm_housenumbers_path()?;
+        let path = self.file.get_osm_housenumbers_path();
         if std::path::Path::new(&path).exists() {
             let stream: Arc<Mutex<dyn Read + Send>> =
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;

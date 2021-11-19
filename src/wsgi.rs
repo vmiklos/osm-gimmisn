@@ -35,7 +35,7 @@ fn get_last_modified(path: &str) -> String {
 /// Gets the update date of streets for a relation.
 fn get_streets_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
     Ok(get_last_modified(
-        &relation.get_files().get_osm_streets_path()?,
+        &relation.get_files().get_osm_streets_path(),
     ))
 }
 
@@ -108,7 +108,7 @@ fn handle_streets(
 /// Gets the update date of house numbers for a relation.
 fn get_housenumbers_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
     Ok(get_last_modified(
-        &relation.get_files().get_osm_housenumbers_path()?,
+        &relation.get_files().get_osm_housenumbers_path(),
     ))
 }
 
@@ -163,7 +163,7 @@ fn handle_street_housenumbers(
         // assume view-result
         if !ctx
             .get_file_system()
-            .path_exists(&relation.get_files().get_osm_housenumbers_path()?)
+            .path_exists(&relation.get_files().get_osm_housenumbers_path())
         {
             let _div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
             doc.text(&tr("No existing house numbers"));
@@ -222,17 +222,17 @@ fn missing_housenumbers_view_res(
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path()?)
+        .path_exists(&relation.get_files().get_osm_streets_path())
     {
         doc = webframe::handle_no_osm_streets(&prefix, relation_name);
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_housenumbers_path()?)
+        .path_exists(&relation.get_files().get_osm_housenumbers_path())
     {
         doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_ref_housenumbers_path()?)
+        .path_exists(&relation.get_files().get_ref_housenumbers_path())
     {
         doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
@@ -257,7 +257,7 @@ fn missing_streets_view_result(
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path()?)
+        .path_exists(&relation.get_files().get_osm_streets_path())
     {
         doc.append_value(webframe::handle_no_osm_streets(&prefix, relation_name).get_value());
         return Ok(doc);
@@ -265,7 +265,7 @@ fn missing_streets_view_result(
 
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_ref_streets_path()?)
+        .path_exists(&relation.get_files().get_ref_streets_path())
     {
         doc.append_value(webframe::handle_no_ref_streets(&prefix, relation_name).get_value());
         return Ok(doc);
@@ -358,17 +358,17 @@ fn missing_housenumbers_view_txt(
     let output: String;
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path()?)
+        .path_exists(&relation.get_files().get_osm_streets_path())
     {
         output = tr("No existing streets");
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_housenumbers_path()?)
+        .path_exists(&relation.get_files().get_osm_housenumbers_path())
     {
         output = tr("No existing house numbers");
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_ref_housenumbers_path()?)
+        .path_exists(&relation.get_files().get_ref_housenumbers_path())
     {
         output = tr("No reference house numbers");
     } else {
@@ -394,17 +394,17 @@ fn missing_housenumbers_view_chkl(
     let output: String;
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path()?)
+        .path_exists(&relation.get_files().get_osm_streets_path())
     {
         output = tr("No existing streets");
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_housenumbers_path()?)
+        .path_exists(&relation.get_files().get_osm_housenumbers_path())
     {
         output = tr("No existing house numbers");
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_ref_housenumbers_path()?)
+        .path_exists(&relation.get_files().get_ref_housenumbers_path())
     {
         output = tr("No reference house numbers");
     } else {
@@ -465,12 +465,12 @@ fn missing_streets_view_txt(
     let output: String;
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path()?)
+        .path_exists(&relation.get_files().get_osm_streets_path())
     {
         output = tr("No existing streets");
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_ref_streets_path()?)
+        .path_exists(&relation.get_files().get_ref_streets_path())
     {
         output = tr("No reference streets");
     } else {
@@ -529,8 +529,8 @@ fn ref_housenumbers_last_modified(
     name: &str,
 ) -> anyhow::Result<String> {
     let relation = relations.get_relation(name)?;
-    let t_ref = util::get_timestamp(&relation.get_files().get_ref_housenumbers_path()?);
-    let t_housenumbers = util::get_timestamp(&relation.get_files().get_osm_housenumbers_path()?);
+    let t_ref = util::get_timestamp(&relation.get_files().get_ref_housenumbers_path());
+    let t_housenumbers = util::get_timestamp(&relation.get_files().get_osm_housenumbers_path());
     Ok(webframe::format_timestamp(std::cmp::max(
         t_ref as i64,
         t_housenumbers as i64,
@@ -573,7 +573,7 @@ fn handle_missing_housenumbers(
             guard.read_to_end(&mut buffer)?;
             doc.text(&String::from_utf8(buffer)?);
         }
-        date = get_last_modified(&relation.get_files().get_ref_housenumbers_path()?);
+        date = get_last_modified(&relation.get_files().get_ref_housenumbers_path());
     } else if action == "update-result" {
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
     } else {
@@ -619,8 +619,9 @@ fn missing_streets_view_turbo(
 
 /// Gets the update date for missing/additional streets.
 fn streets_diff_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
-    let t_ref = util::get_timestamp(&relation.get_files().get_ref_streets_path()?) as i64;
-    let t_osm = util::get_timestamp(&relation.get_files().get_osm_streets_path()?) as i64;
+    let t_ref = util::get_timestamp(&relation.get_files().get_ref_streets_path()) as i64;
+    let t_osm = util::get_timestamp(&relation.get_files().get_osm_streets_path()) as i64;
+    // TODO this can't fail
     Ok(webframe::format_timestamp(std::cmp::max(t_ref, t_osm)))
 }
 
@@ -714,8 +715,9 @@ fn handle_additional_streets(
 
 /// Gets the update date for missing/additional housenumbers.
 fn housenumbers_diff_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
-    let t_ref = util::get_timestamp(&relation.get_files().get_ref_housenumbers_path()?) as i64;
-    let t_osm = util::get_timestamp(&relation.get_files().get_osm_housenumbers_path()?) as i64;
+    let t_ref = util::get_timestamp(&relation.get_files().get_ref_housenumbers_path()) as i64;
+    let t_osm = util::get_timestamp(&relation.get_files().get_osm_housenumbers_path()) as i64;
+    // TODO this can never fail
     Ok(webframe::format_timestamp(std::cmp::max(t_ref, t_osm)))
 }
 
@@ -769,7 +771,7 @@ fn handle_main_housenr_percent(
     let mut percent: String = "N/A".into();
     if ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_housenumbers_percent_path()?)
+        .path_exists(&relation.get_files().get_housenumbers_percent_path())
     {
         let stream = relation
             .get_files()
@@ -782,7 +784,7 @@ fn handle_main_housenr_percent(
 
     let doc = yattag::Doc::new();
     if percent != "N/A" {
-        let date = get_last_modified(&relation.get_files().get_housenumbers_percent_path()?);
+        let date = get_last_modified(&relation.get_files().get_housenumbers_percent_path());
         let _strong = doc.tag("strong", &[]);
         let _a = doc.tag(
             "a",
@@ -815,7 +817,7 @@ fn handle_main_street_percent(
     let mut percent: String = "N/A".into();
     if ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_streets_percent_path()?)
+        .path_exists(&relation.get_files().get_streets_percent_path())
     {
         let stream = relation.get_files().get_streets_percent_read_stream(ctx)?;
         let mut guard = stream.lock().unwrap();
@@ -826,7 +828,7 @@ fn handle_main_street_percent(
 
     let doc = yattag::Doc::new();
     if percent != "N/A" {
-        let date = get_last_modified(&relation.get_files().get_streets_percent_path()?);
+        let date = get_last_modified(&relation.get_files().get_streets_percent_path());
         let _strong = doc.tag("strong", &[]);
         let _a = doc.tag(
             "a",
@@ -859,7 +861,7 @@ fn handle_main_street_additional_count(
     let mut additional_count: String = "".into();
     if ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_streets_additional_count_path()?)
+        .path_exists(&relation.get_files().get_streets_additional_count_path())
     {
         let stream = relation
             .get_files()
@@ -872,7 +874,7 @@ fn handle_main_street_additional_count(
 
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
-        let date = get_last_modified(&relation.get_files().get_streets_additional_count_path()?);
+        let date = get_last_modified(&relation.get_files().get_streets_additional_count_path());
         let _strong = doc.tag("strong", &[]);
         let _a = doc.tag(
             "a",
@@ -910,7 +912,7 @@ pub fn handle_main_housenr_additional_count(
     if ctx.get_file_system().path_exists(
         &relation
             .get_files()
-            .get_housenumbers_additional_count_path()?,
+            .get_housenumbers_additional_count_path(),
     ) {
         let stream = relation
             .get_files()
@@ -926,7 +928,7 @@ pub fn handle_main_housenr_additional_count(
         let date = get_last_modified(
             &relation
                 .get_files()
-                .get_housenumbers_additional_count_path()?,
+                .get_housenumbers_additional_count_path(),
         );
         let _strong = doc.tag("strong", &[]);
         let _a = doc.tag(
@@ -1877,7 +1879,7 @@ pub mod tests {
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -1893,7 +1895,7 @@ pub mod tests {
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -1909,7 +1911,7 @@ pub mod tests {
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_ref_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2035,7 +2037,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2050,7 +2052,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2065,7 +2067,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_ref_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2080,7 +2082,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2095,7 +2097,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2110,7 +2112,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_ref_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2247,7 +2249,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2313,7 +2315,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2329,7 +2331,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_streets_path().unwrap();
+        let hide_path = relation.get_files().get_ref_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2361,7 +2363,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2378,7 +2380,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_streets_path().unwrap();
+        let hide_path = relation.get_files().get_ref_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2686,7 +2688,7 @@ Tűzkő utca	31
         let mut test_wsgi = TestWsgi::new();
         let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);

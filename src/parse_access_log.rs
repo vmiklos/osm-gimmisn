@@ -27,12 +27,12 @@ fn is_complete_relation(
     relation_name: &str,
 ) -> anyhow::Result<bool> {
     let relation = relations.get_relation(relation_name)?;
-    if !std::path::Path::new(&relation.get_files().get_housenumbers_percent_path()?).exists() {
+    if !std::path::Path::new(&relation.get_files().get_housenumbers_percent_path()).exists() {
         return Ok(false);
     }
 
     let percent = String::from_utf8(util::get_content(
-        &relation.get_files().get_housenumbers_percent_path()?,
+        &relation.get_files().get_housenumbers_percent_path(),
     )?)?;
     Ok(percent == "100.00")
 }

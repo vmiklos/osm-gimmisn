@@ -36,12 +36,12 @@ pub fn additional_streets_view_txt(
     let output: String;
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path()?)
+        .path_exists(&relation.get_files().get_osm_streets_path())
     {
         output = tr("No existing streets");
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_ref_streets_path()?)
+        .path_exists(&relation.get_files().get_ref_streets_path())
     {
         output = tr("No reference streets");
     } else {
@@ -75,12 +75,12 @@ pub fn additional_streets_view_result(
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path()?)
+        .path_exists(&relation.get_files().get_osm_streets_path())
     {
         doc.append_value(webframe::handle_no_osm_streets(&prefix, relation_name).get_value());
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_ref_streets_path()?)
+        .path_exists(&relation.get_files().get_ref_streets_path())
     {
         doc.append_value(webframe::handle_no_ref_streets(&prefix, relation_name).get_value());
     } else {
@@ -185,17 +185,17 @@ pub fn additional_housenumbers_view_result(
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_streets_path()?)
+        .path_exists(&relation.get_files().get_osm_streets_path())
     {
         doc = webframe::handle_no_osm_streets(&prefix, relation_name);
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_osm_housenumbers_path()?)
+        .path_exists(&relation.get_files().get_osm_housenumbers_path())
     {
         doc = webframe::handle_no_osm_housenumbers(&prefix, relation_name);
     } else if !ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_ref_housenumbers_path()?)
+        .path_exists(&relation.get_files().get_ref_housenumbers_path())
     {
         doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
@@ -260,7 +260,7 @@ mod tests {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
         let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -277,7 +277,7 @@ mod tests {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
         let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_streets_path().unwrap();
+        let hide_path = relation.get_files().get_ref_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -315,8 +315,7 @@ mod tests {
         let relation = relations.get_relation("budafok").unwrap();
         let hide_path = relation
             .get_files()
-            .get_housenumbers_additional_count_path()
-            .unwrap();
+            .get_housenumbers_additional_count_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -343,7 +342,7 @@ mod tests {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
         let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -359,7 +358,7 @@ mod tests {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
         let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_osm_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -377,7 +376,7 @@ mod tests {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
         let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_housenumbers_path().unwrap();
+        let hide_path = relation.get_files().get_ref_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -466,7 +465,7 @@ mod tests {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
         let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path().unwrap();
+        let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -484,7 +483,7 @@ mod tests {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
         let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_streets_path().unwrap();
+        let hide_path = relation.get_files().get_ref_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
