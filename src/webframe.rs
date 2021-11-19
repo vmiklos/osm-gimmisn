@@ -876,7 +876,7 @@ fn handle_invalid_refstreets(
     for relation in relations.get_relations()? {
         if !ctx
             .get_file_system()
-            .path_exists(&relation.get_files().get_osm_streets_path()?)
+            .path_exists(&relation.get_files().get_osm_streets_path())
         {
             continue;
         }

@@ -12,7 +12,6 @@
 
 use crate::context;
 use crate::i18n;
-use anyhow::anyhow;
 use anyhow::Context;
 use std::io::Read;
 use std::io::Write;
@@ -35,117 +34,74 @@ impl RelationFiles {
     }
 
     /// Build the file name of the reference street list of a relation.
-    pub fn get_ref_streets_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("streets-reference-{}.lst", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_ref_streets_path(&self) -> String {
+        format!("{}/streets-reference-{}.lst", self.workdir, self.name)
     }
 
     /// Build the file name of the OSM street list of a relation.
-    pub fn get_osm_streets_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("streets-{}.csv", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_osm_streets_path(&self) -> String {
+        format!("{}/streets-{}.csv", self.workdir, self.name)
     }
 
     /// Build the file name of the OSM house number list of a relation.
-    pub fn get_osm_housenumbers_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("street-housenumbers-{}.csv", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_osm_housenumbers_path(&self) -> String {
+        format!("{}/street-housenumbers-{}.csv", self.workdir, self.name)
     }
 
     /// Build the file name of the reference house number list of a relation.
-    pub fn get_ref_housenumbers_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("street-housenumbers-reference-{}.lst", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_ref_housenumbers_path(&self) -> String {
+        format!(
+            "{}/street-housenumbers-reference-{}.lst",
+            self.workdir, self.name
+        )
     }
 
     /// Builds the file name of the house number percent file of a relation.
-    pub fn get_housenumbers_percent_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("{}.percent", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_housenumbers_percent_path(&self) -> String {
+        format!("{}/{}.percent", self.workdir, self.name)
     }
 
     /// Builds the file name of the house number HTML cache file of a relation.
-    pub fn get_housenumbers_htmlcache_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("{}.htmlcache.{}", self.name, i18n::get_language()))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_housenumbers_htmlcache_path(&self) -> String {
+        format!(
+            "{}/{}.htmlcache.{}",
+            self.workdir,
+            self.name,
+            i18n::get_language()
+        )
     }
 
     /// Builds the file name of the house number plain text cache file of a relation.
-    pub fn get_housenumbers_txtcache_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("{}.txtcache", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_housenumbers_txtcache_path(&self) -> String {
+        format!("{}/{}.txtcache", self.workdir, self.name)
     }
 
     /// Builds the file name of the street percent file of a relation.
-    pub fn get_streets_percent_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("{}-streets.percent", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_streets_percent_path(&self) -> String {
+        format!("{}/{}-streets.percent", self.workdir, self.name)
     }
 
     /// Builds the file name of the street additional count file of a relation.
-    pub fn get_streets_additional_count_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("{}-additional-streets.count", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_streets_additional_count_path(&self) -> String {
+        format!("{}/{}-additional-streets.count", self.workdir, self.name)
     }
 
     /// Builds the file name of the housenumber additional count file of a relation.
-    pub fn get_housenumbers_additional_count_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!("{}-additional-housenumbers.count", self.name))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_housenumbers_additional_count_path(&self) -> String {
+        format!(
+            "{}/{}-additional-housenumbers.count",
+            self.workdir, self.name
+        )
     }
 
     /// Builds the file name of the additional house number HTML cache file of a relation.
-    pub fn get_additional_housenumbers_htmlcache_path(&self) -> anyhow::Result<String> {
-        let path = std::path::Path::new(&self.workdir);
-        Ok(path
-            .join(format!(
-                "{}.additional-htmlcache.{}",
-                self.name,
-                i18n::get_language()
-            ))
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .into())
+    pub fn get_additional_housenumbers_htmlcache_path(&self) -> String {
+        format!(
+            "{}/{}.additional-htmlcache.{}",
+            self.workdir,
+            self.name,
+            i18n::get_language()
+        )
     }
 
     /// Opens the reference street list of a relation for reading.
@@ -153,7 +109,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_ref_streets_path()?;
+        let path = self.get_ref_streets_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -162,7 +118,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_ref_streets_path()?;
+        let path = self.get_ref_streets_path();
         ctx.get_file_system().open_write(&path)
     }
 
@@ -171,7 +127,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_osm_streets_path()?;
+        let path = self.get_osm_streets_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -180,7 +136,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_osm_housenumbers_path()?;
+        let path = self.get_osm_housenumbers_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -189,7 +145,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_ref_housenumbers_path()?;
+        let path = self.get_ref_housenumbers_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -198,7 +154,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_ref_housenumbers_path()?;
+        let path = self.get_ref_housenumbers_path();
         ctx.get_file_system()
             .open_write(&path)
             .context("open_write() failed")
@@ -209,7 +165,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_housenumbers_percent_path()?;
+        let path = self.get_housenumbers_percent_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -218,7 +174,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_housenumbers_percent_path()?;
+        let path = self.get_housenumbers_percent_path();
         ctx.get_file_system()
             .open_write(&path)
             .with_context(|| format!("failed to open {} for writing", path))
@@ -229,7 +185,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_housenumbers_htmlcache_path()?;
+        let path = self.get_housenumbers_htmlcache_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -238,7 +194,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_housenumbers_htmlcache_path()?;
+        let path = self.get_housenumbers_htmlcache_path();
         ctx.get_file_system().open_write(&path)
     }
 
@@ -247,7 +203,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_housenumbers_txtcache_path()?;
+        let path = self.get_housenumbers_txtcache_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -256,7 +212,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_housenumbers_txtcache_path()?;
+        let path = self.get_housenumbers_txtcache_path();
         ctx.get_file_system().open_write(&path)
     }
 
@@ -265,7 +221,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_streets_percent_path()?;
+        let path = self.get_streets_percent_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -274,7 +230,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_streets_percent_path()?;
+        let path = self.get_streets_percent_path();
         ctx.get_file_system().open_write(&path)
     }
 
@@ -283,7 +239,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_streets_additional_count_path()?;
+        let path = self.get_streets_additional_count_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -292,7 +248,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_streets_additional_count_path()?;
+        let path = self.get_streets_additional_count_path();
         ctx.get_file_system().open_write(&path)
     }
 
@@ -301,7 +257,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_housenumbers_additional_count_path()?;
+        let path = self.get_housenumbers_additional_count_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -310,7 +266,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_housenumbers_additional_count_path()?;
+        let path = self.get_housenumbers_additional_count_path();
         ctx.get_file_system().open_write(&path)
     }
 
@@ -319,7 +275,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_osm_streets_path()?;
+        let path = self.get_osm_streets_path();
         ctx.get_file_system().open_write(&path)
     }
 
@@ -340,7 +296,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_osm_housenumbers_path()?;
+        let path = self.get_osm_housenumbers_path();
         ctx.get_file_system().open_write(&path)
     }
 
@@ -365,7 +321,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let path = self.get_additional_housenumbers_htmlcache_path()?;
+        let path = self.get_additional_housenumbers_htmlcache_path();
         ctx.get_file_system().open_read(&path)
     }
 
@@ -374,7 +330,7 @@ impl RelationFiles {
         &self,
         ctx: &context::Context,
     ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let path = self.get_additional_housenumbers_htmlcache_path()?;
+        let path = self.get_additional_housenumbers_htmlcache_path();
         ctx.get_file_system().open_write(&path)
     }
 }
