@@ -40,6 +40,24 @@ make
 
 Populate the reference directory with TSV files for the house number and street list.
 
+== Install steps (Windows)
+
+- Install `git` and `cargo`.
+
+- Open e.g. the Command Prompt and clone the repo (see above).
+
+- Build the validator:
+
+----
+cargo build --bin validator --release --no-default-features
+----
+
+- Run the validator:
+
+----
+target\release\validator.exe data\relation-budapest_11.yaml
+----
+
 == Developer setup
 
 ----
