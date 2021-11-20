@@ -182,13 +182,7 @@ impl RelationConfig {
                 return None;
             }
         };
-        let filters_obj = match filters.as_object() {
-            Some(value) => value,
-            None => {
-                return None;
-            }
-        };
-
+        let filters_obj = filters.as_object().unwrap();
         filters_obj.get(street)
     }
 
@@ -943,9 +937,8 @@ impl Relation {
         let additional_streets = self.get_additional_streets(/*sorted_result=*/ true)?;
 
         // Write the count to a file, so the index page show it fast.
-        let write = self
-            .file
-            .get_streets_additional_count_write_stream(&self.ctx)?;
+        let file = &self.file;
+        let write = file.get_streets_additional_count_write_stream(&self.ctx)?;
         let mut guard = write.lock().unwrap();
         guard.write_all(additional_streets.len().to_string().as_bytes())?;
 
@@ -956,12 +949,7 @@ impl Relation {
     fn get_street_valid(&self) -> HashMap<String, Vec<String>> {
         let mut valid_dict: HashMap<String, Vec<String>> = HashMap::new();
 
-        let filters = match self.config.get_filters() {
-            Some(value) => value,
-            None => {
-                return valid_dict;
-            }
-        };
+        let filters = self.config.get_filters().unwrap();
         for (street, street_filter) in filters.as_object().unwrap() {
             if let Some(valid) = street_filter.get("valid") {
                 let value: Vec<String> = valid
@@ -1123,9 +1111,8 @@ impl Relation {
         let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
 
         // Write the street count to a file, so the index page show it fast.
-        let write = self
-            .file
-            .get_housenumbers_additional_count_write_stream(&self.ctx)?;
+        let file = &self.file;
+        let write = file.get_housenumbers_additional_count_write_stream(&self.ctx)?;
         let mut guard = write.lock().unwrap();
         guard.write_all(todo_count.to_string().as_bytes())?;
 
@@ -1565,6 +1552,7 @@ mod tests {
     use super::*;
     use std::io::Seek;
     use std::io::SeekFrom;
+    use std::io::Write;
 
     /// Tests normalize().
     #[test]
@@ -1896,6 +1884,33 @@ mod tests {
             .collect();
         let expected: Vec<String> = vec!["B1".into(), "B2".into(), "HB1".into(), "HB2".into()];
         assert_eq!(actual, expected);
+    }
+
+    /// Tests Relation.get_osm_streets(): when overpass gives garbage output.
+    #[test]
+    fn test_relation_get_osm_streets_bad_overpass() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        // This is garbage, it only has a single column.
+        streets_value
+            .lock()
+            .unwrap()
+            .write_all(b"@id\n42\n")
+            .unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("workdir/streets-test.csv", &streets_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = Relations::new(&ctx).unwrap();
+        let relation = relations.get_relation("test").unwrap();
+        assert_eq!(
+            relation.get_osm_streets(/*sorted_result=*/ true).is_err(),
+            true
+        );
     }
 
     /// Tests Relation.get_osm_streets(): the case when the street name is coming from a house
@@ -2555,15 +2570,6 @@ way{color:blue; width:4;}
         );
     }
 
-    /// Wrapper around get_config.get_filters() that doesn't return an Optional.
-    fn get_filters(relation: &Relation) -> serde_json::Map<String, serde_json::Value> {
-        let mut filters = serde_json::json!({});
-        if let Some(value) = relation.config.get_filters() {
-            filters = value.clone();
-        }
-        filters.as_object().unwrap().clone()
-    }
-
     /// Unwraps an escaped matrix of rust.PyDocs into a string matrix.
     fn table_doc_to_string(table: &[Vec<yattag::Doc>]) -> Vec<Vec<String>> {
         let mut table_content = Vec::new();
@@ -2643,7 +2649,7 @@ way{color:blue; width:4;}
 
         let (_todo_street_count, _todo_count, _done_count, percent, _table) = ret;
         assert_eq!(percent, "100.00");
-        assert_eq!(get_filters(&relation).is_empty(), true);
+        assert_eq!(relation.config.get_filters().is_none(), true);
     }
 
     /// Tests Relation::write_missing_housenumbers(): the case when the street is interpolation=all and coloring is wanted.
@@ -3012,23 +3018,12 @@ way{color:blue; width:4;}
             osmids,
             [13, 42, 42, 43, 44, 45, 66, 221998, 2702687, 2713748]
         );
-        assert_eq!(
-            relations
-                .get_relation("ujbuda")
-                .unwrap()
-                .get_config()
-                .should_check_missing_streets(),
-            "only"
-        );
+        let ujbuda = relations.get_relation("ujbuda").unwrap();
+        assert_eq!(ujbuda.get_config().should_check_missing_streets(), "only");
 
         relations.activate_all(true);
-        assert_eq!(
-            relations
-                .get_active_names()
-                .unwrap()
-                .contains(&"inactiverelation".to_string()),
-            true
-        );
+        let active_names = relations.get_active_names().unwrap();
+        assert_eq!(active_names.contains(&"inactiverelation".to_string()), true);
 
         // Allow seeing data of a relation even if it's not in relations.yaml.
         relations.get_relation("gh195").unwrap();
