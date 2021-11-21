@@ -78,6 +78,8 @@ pub trait Network: Send + Sync {
 /// Network implementation, backed by a real HTTP library.
 struct StdNetwork {}
 
+// Real network is intentionally mocked.
+#[cfg(not(tarpaulin_include))]
 impl Network for StdNetwork {
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
         if !data.is_empty() {
@@ -115,6 +117,8 @@ pub trait Time: Send + Sync {
 /// Time implementation, backed by the chrono.
 struct StdTime {}
 
+// Real time is intentionally mocked.
+#[cfg(not(tarpaulin_include))]
 impl Time for StdTime {
     fn now(&self) -> i64 {
         let now = chrono::Local::now();
@@ -145,6 +149,8 @@ pub trait Subprocess: Send + Sync {
 /// Subprocess implementation, backed by the Rust stdlib.
 struct StdSubprocess {}
 
+// Real processes are intentionally mocked.
+#[cfg(not(tarpaulin_include))]
 impl Subprocess for StdSubprocess {
     fn run(&self, args: Vec<String>) -> anyhow::Result<String> {
         let (first, rest) = args
@@ -188,6 +194,7 @@ pub struct Ini {
 impl Ini {
     fn new(config_path: &str, root: &str) -> anyhow::Result<Self> {
         let mut config = configparser::ini::Ini::new();
+        // TODO error handling?
         let _ret = config.load(config_path);
         Ok(Ini {
             config,
@@ -200,12 +207,8 @@ impl Ini {
         let workdir = self
             .config
             .get("wsgi", "workdir")
-            .ok_or_else(|| anyhow!("cannot get key workdir"))?;
-        Ok(Path::new(&self.root)
-            .join(&workdir)
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .to_string())
+            .context("no wsgi.workdir in config")?;
+        Ok(format!("{}/{}", self.root, workdir))
     }
 
     /// Gets the abs paths of ref housenumbers.
@@ -213,17 +216,11 @@ impl Ini {
         let value = self
             .config
             .get("wsgi", "reference_housenumbers")
-            .ok_or_else(|| anyhow!("cannot get key reference_housenumbers"))?;
+            .context("no wsgi.reference_housenumbers in config")?;
         let relpaths = value.split(' ');
-        relpaths
-            .map(|relpath| -> anyhow::Result<String> {
-                Ok(Path::new(&self.root)
-                    .join(&relpath)
-                    .to_str()
-                    .ok_or_else(|| anyhow!("cannot convert path to string"))?
-                    .to_string())
-            })
-            .collect::<anyhow::Result<Vec<String>>>()
+        Ok(relpaths
+            .map(|relpath| format!("{}/{}", self.root, relpath))
+            .collect())
     }
 
     /// Gets the abs path of ref streets.
@@ -231,12 +228,8 @@ impl Ini {
         let relpath = self
             .config
             .get("wsgi", "reference_street")
-            .ok_or_else(|| anyhow!("cannot get key reference_street"))?;
-        Ok(Path::new(&self.root)
-            .join(&relpath)
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .to_string())
+            .context("no wsgi.reference_street in config")?;
+        Ok(format!("{}/{}", self.root, relpath))
     }
 
     /// Gets the abs path of ref citycounts.
@@ -244,12 +237,8 @@ impl Ini {
         let relpath = self
             .config
             .get("wsgi", "reference_citycounts")
-            .ok_or_else(|| anyhow!("cannot get key reference_citycounts"))?;
-        Ok(Path::new(&self.root)
-            .join(&relpath)
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .to_string())
+            .context("no wsgi.reference_citycounts in config")?;
+        Ok(format!("{}/{}", self.root, relpath))
     }
 
     /// Gets the abs path of ref zipcounts.
@@ -257,7 +246,7 @@ impl Ini {
         let relpath = self
             .config
             .get("wsgi", "reference_zipcounts")
-            .context("cannot get key reference_zipcounts")?;
+            .context("no wsgi.reference_zipcounts in config")?;
         Ok(format!("{}/{}", self.root, relpath))
     }
 
@@ -265,31 +254,30 @@ impl Ini {
     pub fn get_uri_prefix(&self) -> anyhow::Result<String> {
         self.config
             .get("wsgi", "uri_prefix")
-            .ok_or_else(|| anyhow!("cannot get key uri_prefix"))
+            .context("no wsgi.uri_prefix in config")
+    }
+
+    fn get_with_fallback(&self, key: &str, fallback: &str) -> String {
+        match self.config.get("wsgi", key) {
+            Some(value) => value,
+            None => String::from(fallback),
+        }
     }
 
     /// Gets the TCP port to be used.
     pub fn get_tcp_port(&self) -> anyhow::Result<i64> {
-        match self.config.get("wsgi", "tcp_port") {
-            Some(value) => Ok(value.parse::<i64>()?),
-            None => Ok(8000),
-        }
+        Ok(self.get_with_fallback("tcp_port", "8000").parse::<i64>()?)
     }
 
     /// Gets the URI of the overpass instance to be used.
     pub fn get_overpass_uri(&self) -> String {
-        match self.config.get("wsgi", "overpass_uri") {
-            Some(value) => value,
-            None => String::from("https://overpass-api.de"),
-        }
+        self.get_with_fallback("overpass_uri", "https://overpass-api.de")
     }
 
-    /// Should cron.py update inactive relations?
+    /// Should the cron job update inactive relations?
     pub fn get_cron_update_inactive(&self) -> bool {
-        match self.config.get("wsgi", "cron_update_inactive") {
-            Some(value) => value == "True",
-            None => false,
-        }
+        let value = self.get_with_fallback("cron_update_inactive", "False");
+        value == "True"
     }
 }
 
@@ -308,19 +296,8 @@ pub struct Context {
 impl Context {
     /// Creates a new Context.
     pub fn new(prefix: &str) -> anyhow::Result<Self> {
-        let root_dir = env!("CARGO_MANIFEST_DIR");
-        let root = Path::new(&root_dir)
-            .join(&prefix)
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .to_string();
-        let ini = Ini::new(
-            Path::new(&root)
-                .join("wsgi.ini")
-                .to_str()
-                .ok_or_else(|| anyhow!("cannot convert path to string"))?,
-            &root,
-        )?;
+        let root = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), prefix);
+        let ini = Ini::new(&format!("{}/wsgi.ini", root), &root)?;
         let network = Arc::new(StdNetwork {});
         let time = Arc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
@@ -339,11 +316,8 @@ impl Context {
 
     /// Make a path absolute, taking the repo root as a base dir.
     pub fn get_abspath(&self, rel_path: &str) -> anyhow::Result<String> {
-        Ok(Path::new(&self.root)
-            .join(rel_path)
-            .to_str()
-            .ok_or_else(|| anyhow!("cannot convert path to string"))?
-            .to_string())
+        // TODO not needed Result in return type
+        Ok(format!("{}/{}", self.root, rel_path))
     }
 
     /// Gets the ini file.
@@ -687,5 +661,19 @@ pub mod tests {
     fn test_ini_get_tcp_port() {
         let ctx = make_test_context().unwrap();
         assert_eq!(ctx.get_ini().get_tcp_port().unwrap(), 8000);
+    }
+
+    /// Tests Ini.get_with_fallack().
+    #[test]
+    fn test_ini_get_with_fallback() {
+        let ctx = make_test_context().unwrap();
+        assert_eq!(
+            ctx.get_ini().get_with_fallback("workdir", "myfallback"),
+            "workdir"
+        );
+        assert_eq!(
+            ctx.get_ini().get_with_fallback("mykey", "myfallback"),
+            "myfallback"
+        );
     }
 }
