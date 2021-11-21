@@ -107,6 +107,15 @@ filters:
   Kőhát utca:
     ranges:
       - {start: '1', end: '9'}
+  Kőhíd utca:
+    # lényegében csak a hegy felöli oldal van számozva
+    # át lett számozva az utca: régen egyesével volt számozva, most a páros számoknak kéne itt lenni és a számozás iránya is megfordult
+    # 4 = régi 23 van kiírva
+    # 6 = régi 22 van kiírva
+    # 8 = régi 21, de 8 van kiírva
+    # 10 = régi 20 van kiírva
+    # 16 = régi 17/a, de van 16/m a völgy felöli oldalon
+    invalid: ['1', '3', '6', '9', '10', '11', '13', '15', '21']
   Kőkapu utca:
     invalid: ['14', '19']
   Kőszikla utca:
@@ -163,6 +172,9 @@ filters:
     ranges:
       - {start: '1', end: '69'}
       - {start: '2', end: '60'}
+  Présház utca:
+    # 16: nincs lépcső egyik oldala 14 másik oldala 18
+    invalid: ['16']
   Rákóczi utca:
     # belváros 2-36, 1-35
     ranges:
