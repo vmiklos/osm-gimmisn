@@ -243,7 +243,7 @@ housenumber ranges in a sensible way. Here are some examples:
 |13 |42-1 |Defaults |42 because -1 is considered as a suffix
 |=======
 
-See `tests/test_areas.py` for even more details.
+See the tests in `src/areas.rs` for even more details.
 
 === Additional house numbers analysis
 

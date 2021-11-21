@@ -83,9 +83,8 @@ pub fn get_missing_housenumbers_html(
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     if is_missing_housenumbers_html_cached(ctx, relation)? {
-        let stream = relation
-            .get_files()
-            .get_housenumbers_htmlcache_read_stream(ctx)?;
+        let files = relation.get_files();
+        let stream = files.get_housenumbers_htmlcache_read_stream(ctx)?;
         let mut guard = stream.lock().unwrap();
         let mut buffer = Vec::new();
         guard.read_to_end(&mut buffer)?;
@@ -174,9 +173,8 @@ pub fn get_missing_housenumbers_html(
         util::invalid_filter_keys_to_html(&relation.get_invalid_filter_keys()?).get_value(),
     );
 
-    let stream = relation
-        .get_files()
-        .get_housenumbers_htmlcache_write_stream(ctx)?;
+    let files = relation.get_files();
+    let stream = files.get_housenumbers_htmlcache_write_stream(ctx)?;
     let mut guard = stream.lock().unwrap();
     guard.write_all(doc.get_value().as_bytes())?;
 
@@ -190,9 +188,8 @@ pub fn get_additional_housenumbers_html(
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     if is_additional_housenumbers_html_cached(ctx, relation)? {
-        let stream = relation
-            .get_files()
-            .get_additional_housenumbers_htmlcache_read_stream(ctx)?;
+        let files = relation.get_files();
+        let stream = files.get_additional_housenumbers_htmlcache_read_stream(ctx)?;
         let mut guard = stream.lock().unwrap();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
@@ -227,9 +224,8 @@ pub fn get_additional_housenumbers_html(
         util::invalid_filter_keys_to_html(&relation.get_invalid_filter_keys()?).get_value(),
     );
 
-    let stream = relation
-        .get_files()
-        .get_additional_housenumbers_htmlcache_write_stream(ctx)?;
+    let files = relation.get_files();
+    let stream = files.get_additional_housenumbers_htmlcache_write_stream(ctx)?;
     let mut guard = stream.lock().unwrap();
     guard.write_all(doc.get_value().as_bytes())?;
 
@@ -260,9 +256,8 @@ pub fn get_missing_housenumbers_txt(
 ) -> anyhow::Result<String> {
     let output: String;
     if is_missing_housenumbers_txt_cached(ctx, relation)? {
-        let stream = relation
-            .get_files()
-            .get_housenumbers_txtcache_read_stream(ctx)?;
+        let files = relation.get_files();
+        let stream = files.get_housenumbers_txtcache_read_stream(ctx)?;
         let mut guard = stream.lock().unwrap();
         let mut buffer = Vec::new();
         guard.read_to_end(&mut buffer)?;
@@ -297,9 +292,8 @@ pub fn get_missing_housenumbers_txt(
     table.sort_by_key(|i| util::get_sort_key(i).unwrap());
     output = table.join("\n");
 
-    let stream = relation
-        .get_files()
-        .get_housenumbers_txtcache_write_stream(ctx)?;
+    let files = relation.get_files();
+    let stream = files.get_housenumbers_txtcache_write_stream(ctx)?;
     let mut guard = stream.lock().unwrap();
     guard.write_all(output.as_bytes())?;
     Ok(output)
