@@ -1356,9 +1356,9 @@ impl Relations {
     }
 
     /// If refsettlement is not None, forget about all relations outside that refsettlement.
-    pub fn limit_to_refsettlement(&mut self, refsettlement: &Option<String>) -> anyhow::Result<()> {
+    pub fn limit_to_refsettlement(&mut self, refsettlement: &Option<&str>) -> anyhow::Result<()> {
         let refsettlement: String = match refsettlement {
-            Some(value) => value.clone(),
+            Some(value) => value.to_string(),
             None => {
                 return Ok(());
             }
@@ -3080,9 +3080,7 @@ way{color:blue; width:4;}
                 .contains(&"nosuchrefsettlement".to_string()),
             true
         );
-        relations
-            .limit_to_refsettlement(&Some("99".to_string()))
-            .unwrap();
+        relations.limit_to_refsettlement(&Some("99")).unwrap();
         assert_eq!(
             relations
                 .get_active_names()
