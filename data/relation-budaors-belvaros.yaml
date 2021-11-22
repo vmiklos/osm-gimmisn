@@ -91,9 +91,15 @@ filters:
     ranges:
       - {start: '1', end: '85'}
       - {start: '4', end: '82'}
+  Kisfaludy utca:
+    # 10: nincs, kereszteződés egyik oldalán 8, másik oldalán 12
+    invalid: ['10']
   Komáromi utca:
     ranges:
       - {start: '1', end: '73'}
+  Kossuth Lajos utca:
+    # 3 lakóház, 5 Johannita, 9 rendelő, 13 gyógyszertár
+    invalid: ['5', '7', '11']
   Kökény utca:
     ranges:
       - {start: '1', end: '9'}
@@ -115,6 +121,7 @@ filters:
     # 8 = régi 21, de 8 van kiírva
     # 10 = régi 20 van kiírva
     # 16 = régi 17/a, de van 16/m a völgy felöli oldalon
+    # 72 = Bor utca 72, utcanév nincs kiírva
     invalid: ['1', '3', '6', '9', '10', '11', '13', '15', '21']
   Kőkapu utca:
     invalid: ['14', '19']
@@ -130,6 +137,9 @@ filters:
       - {start: '13', end: '15'}
       - {start: '23', end: '23'}
       - {start: '32', end: '35'}
+  Maros köz:
+    # 1, 9 nincs
+    invalid: ['1', '9']
   Mátyás király utca:
     ranges:
       - {start: '1', end: '99'}
