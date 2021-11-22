@@ -26,27 +26,6 @@ use std::io::BufRead;
 use std::io::Write;
 use std::ops::DerefMut;
 
-/// Sets up logging.
-pub fn setup_logging(ctx: &context::Context) -> anyhow::Result<()> {
-    let config = simplelog::ConfigBuilder::new()
-        .set_time_format("%Y-%m-%d %H:%M:%S".into())
-        .set_time_to_local(true)
-        .build();
-    let logpath = ctx.get_abspath("workdir/cron.log")?;
-    let file = std::fs::File::create(logpath)?;
-    simplelog::CombinedLogger::init(vec![
-        simplelog::TermLogger::new(
-            simplelog::LevelFilter::Info,
-            config.clone(),
-            simplelog::TerminalMode::Stdout,
-            simplelog::ColorChoice::Never,
-        ),
-        simplelog::WriteLogger::new(simplelog::LevelFilter::Info, config, file),
-    ])?;
-
-    Ok(())
-}
-
 /// Sleeps to respect overpass rate limit.
 fn overpass_sleep(ctx: &context::Context) {
     loop {
@@ -70,10 +49,8 @@ fn update_osm_streets(
     relations: &mut areas::Relations,
     update: bool,
 ) -> anyhow::Result<()> {
-    for relation_name in relations
-        .get_active_names()
-        .context("get_active_names() failed")?
-    {
+    let active_names = relations.get_active_names();
+    for relation_name in active_names.context("get_active_names() failed")? {
         let relation = relations.get_relation(&relation_name)?;
         if !update && std::path::Path::new(&relation.get_files().get_osm_streets_path()).exists() {
             continue;
@@ -262,10 +239,8 @@ fn update_additional_streets(relations: &mut areas::Relations, update: bool) -> 
     log::info!("update_additional_streets: start");
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
-        if !update
-            && std::path::Path::new(&relation.get_files().get_streets_additional_count_path())
-                .exists()
-        {
+        let relation_path = relation.get_files().get_streets_additional_count_path();
+        if !update && std::path::Path::new(&relation_path).exists() {
             continue;
         }
         let streets = relation.get_config().should_check_missing_streets();
@@ -570,37 +545,29 @@ pub fn main(
 ) -> anyhow::Result<()> {
     let mut relations = areas::Relations::new(ctx)?;
 
-    let args = clap::App::new("osm-gimmisn")
-        .arg(
-            clap::Arg::with_name("refcounty")
-                .long("refcounty")
-                .takes_value(true)
-                .help("limit the list of relations to a given refcounty"),
-        )
-        .arg(
-            clap::Arg::with_name("refsettlement")
-                .long("refsettlement")
-                .takes_value(true)
-                .help("limit the list of relations to a given refsettlement"),
-        )
-        .arg(
-            clap::Arg::with_name("no-update") // default: true
-                .long("no-update")
-                .help("don't update existing state of relations"),
-        )
-        .arg(
-            clap::Arg::with_name("mode")
-                .long("mode")
-                .takes_value(true)
-                .default_value("relations")
-                .help("only perform the given sub-task or all of them [all, stats or relations]"),
-        )
-        .arg(
-            clap::Arg::with_name("no-overpass") // default: true
-                .long("no-overpass")
-                .help("when updating stats, don't perform any overpass update"),
-        )
-        .get_matches_from_safe(argv)?;
+    let refcounty = clap::Arg::with_name("refcounty")
+        .long("refcounty")
+        .takes_value(true)
+        .help("limit the list of relations to a given refcounty");
+    let refsettlement = clap::Arg::with_name("refsettlement")
+        .long("refsettlement")
+        .takes_value(true)
+        .help("limit the list of relations to a given refsettlement");
+    // Default: true.
+    let no_update = clap::Arg::with_name("no-update")
+        .long("no-update")
+        .help("don't update existing state of relations");
+    let mode = clap::Arg::with_name("mode")
+        .long("mode")
+        .takes_value(true)
+        .default_value("relations")
+        .help("only perform the given sub-task or all of them [all, stats or relations]");
+    let no_overpass = clap::Arg::with_name("no-overpass") // default: true
+        .long("no-overpass")
+        .help("when updating stats, don't perform any overpass update");
+    let args = [refcounty, refsettlement, no_update, mode, no_overpass];
+    let app = clap::App::new("osm-gimmisn");
+    let args = app.args(&args).get_matches_from_safe(argv)?;
 
     let start = ctx.get_time().now();
     // Query inactive relations once a month.
@@ -610,9 +577,7 @@ pub fn main(
     let refcounty = args.value_of("refcounty").map(|value| value.to_string());
     relations.limit_to_refcounty(&refcounty)?;
     // Use map(), which handles optional values.
-    let refsettlement = args
-        .value_of("refsettlement")
-        .map(|value| value.to_string());
+    let refsettlement = args.value_of("refsettlement");
     relations.limit_to_refsettlement(&refsettlement)?;
     let update = !args.is_present("no-update");
     let overpass = !args.is_present("no-overpass");
@@ -1716,5 +1681,43 @@ mod tests {
             let mut guard = today_usercount_value.lock().unwrap();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
         }
+    }
+
+    /// Tests update_ref_housenumbers(): the case when we ask for CSV but get XML.
+    #[test]
+    fn test_update_ref_housenumbers_xml_as_csv() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let osm_streets_value = context::tests::TestFileSystem::make_file();
+        let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
+        osm_streets_value
+            .lock()
+            .unwrap()
+            .write_all(b"@id\n42\n")
+            .unwrap();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/streets-gazdagret.csv", &osm_streets_value),
+                (
+                    "workdir/street-housenumbers-reference-gazdagret.lst",
+                    &ref_housenumbers_value,
+                ),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+        for relation_name in relations.get_active_names().unwrap() {
+            if relation_name != "gazdagret" {
+                let mut relation = relations.get_relation(&relation_name).unwrap();
+                let mut config = relation.get_config().clone();
+                config.set_active(false);
+                relation.set_config(&config);
+                relations.set_relation(&relation_name, &relation);
+            }
+        }
+        update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
     }
 }
