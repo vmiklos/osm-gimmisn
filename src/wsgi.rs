@@ -352,7 +352,7 @@ fn missing_housenumbers_view_txt(
     let relation_name = tokens.next_back().unwrap();
     let mut relation = relations.get_relation(relation_name)?;
     let mut config = relation.get_config().clone();
-    config.set_letter_suffix_style(util::LetterSuffixStyle::Lower as i32);
+    config.set_letter_suffix_style(util::LetterSuffixStyle::Lower);
     relation.set_config(&config);
 
     let output: String;
@@ -388,7 +388,7 @@ fn missing_housenumbers_view_chkl(
     let relation_name = tokens.next_back().unwrap();
     let mut relation = relations.get_relation(relation_name)?;
     let mut config = relation.get_config().clone();
-    config.set_letter_suffix_style(util::LetterSuffixStyle::Lower as i32);
+    config.set_letter_suffix_style(util::LetterSuffixStyle::Lower);
     relation.set_config(&config);
 
     let output: String;

@@ -19,7 +19,6 @@ use crate::yattag;
 use anyhow::Context;
 use itertools::Itertools;
 use std::collections::HashMap;
-use std::convert::TryFrom;
 use std::io::BufRead;
 use std::io::Read;
 use std::ops::DerefMut;
@@ -31,6 +30,7 @@ use std::sync::Mutex;
 pub struct RelationConfig {
     parent: serde_json::Value,
     dict: serde_json::Value,
+    letter_suffix_style: util::LetterSuffixStyle,
 }
 
 impl RelationConfig {
@@ -38,6 +38,7 @@ impl RelationConfig {
         RelationConfig {
             parent: parent_config.clone(),
             dict: my_config.clone(),
+            letter_suffix_style: util::LetterSuffixStyle::Upper,
         }
     }
 
@@ -136,19 +137,13 @@ impl RelationConfig {
     }
 
     /// Sets the letter suffix style.
-    pub fn set_letter_suffix_style(&mut self, letter_suffix_style: i32) {
-        self.set_property(
-            "letter-suffix-style",
-            &serde_json::json!(letter_suffix_style),
-        )
+    pub fn set_letter_suffix_style(&mut self, letter_suffix_style: util::LetterSuffixStyle) {
+        self.letter_suffix_style = letter_suffix_style
     }
 
     /// Gets the letter suffix style.
-    fn get_letter_suffix_style(&self) -> i32 {
-        match self.get_property("letter-suffix-style") {
-            Some(value) => value.as_i64().unwrap() as i32,
-            None => util::LetterSuffixStyle::Upper as i32,
-        }
+    fn get_letter_suffix_style(&self) -> util::LetterSuffixStyle {
+        self.letter_suffix_style
     }
 
     /// Returns an OSM name -> ref name map.
@@ -1491,8 +1486,7 @@ fn normalize_housenumber_letters(
     suffix: &str,
     comment: &str,
 ) -> anyhow::Result<Vec<util::HouseNumber>> {
-    let style =
-        util::LetterSuffixStyle::try_from(relation.config.get_letter_suffix_style()).unwrap();
+    let style = relation.config.get_letter_suffix_style();
     let normalized = util::HouseNumber::normalize_letter_suffix(house_numbers, suffix, style)?;
     Ok(vec![util::HouseNumber::new(
         &normalized,
@@ -3140,14 +3134,14 @@ way{color:blue; width:4;}
         let mut relation = relations.get_relation(relation_name).unwrap();
         assert_eq!(
             relation.config.get_letter_suffix_style(),
-            util::LetterSuffixStyle::Upper as i32
+            util::LetterSuffixStyle::Upper
         );
         let mut config = relation.config.clone();
-        config.set_letter_suffix_style(util::LetterSuffixStyle::Lower as i32);
+        config.set_letter_suffix_style(util::LetterSuffixStyle::Lower);
         relation.set_config(&config);
         assert_eq!(
             relation.config.get_letter_suffix_style(),
-            util::LetterSuffixStyle::Lower as i32
+            util::LetterSuffixStyle::Lower
         );
     }
 

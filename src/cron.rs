@@ -201,10 +201,10 @@ fn update_missing_housenumbers(
         let orig_language = i18n::get_language();
         relation.write_missing_housenumbers()?;
         for language in ["en", "hu"] {
-            i18n::set_language(language)?;
+            i18n::set_language(language);
             cache::get_missing_housenumbers_html(ctx, &mut relation)?;
         }
-        i18n::set_language(&orig_language)?;
+        i18n::set_language(&orig_language);
         cache::get_missing_housenumbers_txt(ctx, &mut relation)?;
     }
     log::info!("update_missing_housenumbers: end");

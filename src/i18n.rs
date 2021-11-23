@@ -16,7 +16,7 @@ thread_local! {
 }
 
 /// Sets the language of the current thread.
-pub fn set_language(language: &str) -> anyhow::Result<()> {
+pub fn set_language(language: &str) {
     // Not using ctx.get_abspath() here, tests/ doesn't have its own dummy translations.
     let root_dir = env!("CARGO_MANIFEST_DIR");
     let path = format!(
@@ -25,8 +25,10 @@ pub fn set_language(language: &str) -> anyhow::Result<()> {
     );
 
     if std::path::Path::new(&path).exists() {
-        let file = std::fs::File::open(path)?;
-        let catalog = gettext::Catalog::parse(file)?;
+        // The file exists, so this should not fail.
+        let file = std::fs::File::open(path).expect("File::open() failed");
+        // We produce this build-time, so this should not fail.
+        let catalog = gettext::Catalog::parse(file).expect("Catalog::parse() failed");
         TRANSLATIONS.with(|it| {
             *it.borrow_mut() = Some(catalog);
         });
@@ -38,7 +40,6 @@ pub fn set_language(language: &str) -> anyhow::Result<()> {
     LANGUAGE.with(|it| {
         *it.borrow_mut() = Some(String::from(language));
     });
-    Ok(())
 }
 
 /// Gets the language of the current thread.
@@ -73,7 +74,7 @@ mod tests {
     impl LanguageContext {
         /// Switches to the new language.
         fn new(language: &str) -> Self {
-            assert_eq!(set_language(language).is_ok(), true);
+            set_language(language);
             LanguageContext {}
         }
     }
@@ -81,7 +82,7 @@ mod tests {
     impl Drop for LanguageContext {
         /// Switches back to the old language.
         fn drop(&mut self) {
-            assert_eq!(set_language("en").is_ok(), true)
+            set_language("en");
         }
     }
 
