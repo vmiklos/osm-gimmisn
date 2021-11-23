@@ -43,24 +43,12 @@ lazy_static! {
 }
 
 /// Specifies the style of the output of normalize_letter_suffix().
-#[derive(PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum LetterSuffixStyle {
     /// "42/A"
     Upper,
     /// "42a"
     Lower,
-}
-
-impl TryFrom<i32> for LetterSuffixStyle {
-    type Error = ();
-
-    fn try_from(v: i32) -> Result<Self, Self::Error> {
-        match v {
-            x if x == LetterSuffixStyle::Upper as i32 => Ok(LetterSuffixStyle::Upper),
-            x if x == LetterSuffixStyle::Lower as i32 => Ok(LetterSuffixStyle::Lower),
-            _ => Err(()),
-        }
-    }
 }
 
 /// A house number range is a string that may expand to one or more HouseNumber instances in the
@@ -111,13 +99,6 @@ impl PartialEq for HouseNumberRange {
 }
 
 impl Eq for HouseNumberRange {}
-
-impl Hash for HouseNumberRange {
-    /// Comment is explicitly non-interesting.
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.number.hash(state);
-    }
-}
 
 /// Used to diff two lists of elements.
 pub trait Diff {
@@ -227,16 +208,9 @@ impl PartialEq for Street {
 
 impl Eq for Street {}
 
-impl Hash for Street {
-    /// OSM id is explicitly not interesting.
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.osm_name.hash(state);
-    }
-}
-
 /// A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
 /// can generate 3 house numbers, all of them with the same range.
-/// The comment is similar to source, it's ignored during __eq__() and __hash__().
+/// The comment is similar to source, it's ignored during eq() and hash().
 #[derive(Clone, Debug)]
 pub struct HouseNumber {
     number: String,
@@ -348,10 +322,7 @@ impl HouseNumber {
             }
             if let Some(cap) = NUMBER_PER_NUMBER.captures_iter(&house_number).next() {
                 for index in 1..=3 {
-                    match cap.get(index) {
-                        Some(_) => groups.push(cap[index].to_string()),
-                        None => groups.push(String::from("")),
-                    }
+                    groups.push(cap[index].to_string());
                 }
             };
         }
@@ -711,9 +682,7 @@ pub fn setup_localization(headers: &[(String, String)]) -> String {
         let parsed = accept_language::parse(&languages);
         if !parsed.is_empty() {
             let language = parsed[0].clone();
-            if i18n::set_language(&language).is_err() {
-                return "".into();
-            }
+            i18n::set_language(&language);
             return language;
         }
     }
@@ -1217,18 +1186,15 @@ pub fn get_timestamp(path: &str) -> f64 {
             return 0.0;
         }
     };
-    let modified = match metadata.modified() {
-        Ok(value) => value,
-        Err(_) => {
-            return 0.0;
-        }
-    };
-    let mtime = match modified.duration_since(std::time::SystemTime::UNIX_EPOCH) {
-        Ok(value) => value,
-        Err(_) => {
-            return 0.0;
-        }
-    };
+
+    // This should never fail on relevant platforms.
+    let modified = metadata.modified().expect("modified() failed");
+
+    // This should never fail, since the mtime is always newer than the epoch.
+    let mtime = modified
+        .duration_since(std::time::SystemTime::UNIX_EPOCH)
+        .expect("duration_since() failed");
+
     mtime.as_secs_f64()
 }
 
@@ -1236,6 +1202,9 @@ pub fn get_timestamp(path: &str) -> f64 {
 mod tests {
     use super::*;
     use itertools::Itertools;
+    use std::io::Seek;
+    use std::io::SeekFrom;
+    use std::io::Write;
     use std::sync::Arc;
 
     /// Convers a string list into a street list.
@@ -1368,7 +1337,7 @@ mod tests {
     #[test]
     fn test_build_reference_cache() {
         let refpath = "tests/refdir/hazszamok_20190511.tsv";
-        let cachepath = format!("{}.cache", refpath);
+        let cachepath = format!("{}-01-v1.cache", refpath);
         if std::path::Path::new(&cachepath).exists() {
             std::fs::remove_file(&cachepath).unwrap();
         }
@@ -1562,17 +1531,17 @@ mod tests {
             "Accept-Language".to_string(),
             "hu,en;q=0.9,en-US;q=0.8".to_string(),
         )];
-        i18n::set_language("en").unwrap();
+        i18n::set_language("en");
         setup_localization(&environ);
         assert_eq!(i18n::get_language(), "hu");
-        i18n::set_language("en").unwrap();
+        i18n::set_language("en");
     }
 
     /// Tests setup_localization(): the error path.
     #[test]
     fn test_setup_localization_parse_error() {
         let environ = vec![("Accept-Language".to_string(), ",".to_string())];
-        i18n::set_language("en").unwrap();
+        i18n::set_language("en");
         setup_localization(&environ);
         assert_eq!(i18n::get_language(), "en");
     }
@@ -1870,6 +1839,16 @@ A street\t9",
         let actual = get_street_from_housenumber(&mut csv_read).unwrap();
         // This is picked up from addr:place because addr:street was empty.
         assert_eq!(actual, [Street::from_string("Tolvajos tanya")]);
+    }
+
+    /// Tests get_street_from_housenumber(): the case when the addr:housenumber column is missing.
+    #[test]
+    fn test_get_street_from_housenumber_missing_column() {
+        let mut cursor = std::io::Cursor::new(Vec::new());
+        cursor.write_all(b"@id\n42\n").unwrap();
+        cursor.seek(SeekFrom::Start(0)).unwrap();
+        let mut csv_read = CsvRead::new(&mut cursor);
+        assert_eq!(get_street_from_housenumber(&mut csv_read).is_err(), true);
     }
 
     /// Tests invalid_filter_keys_to_html().
