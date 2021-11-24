@@ -15,7 +15,6 @@ use crate::context;
 use crate::i18n::translate as tr;
 use crate::util;
 use crate::yattag;
-use anyhow::anyhow;
 use anyhow::Context;
 use git_version::git_version;
 use std::collections::HashMap;
@@ -606,7 +605,7 @@ pub fn handle_error(
     let status = "500 Internal Server Error";
     let request_uri = environ
         .get("PATH_INFO")
-        .ok_or_else(|| anyhow!("no PATH_INFO in the environment"))?;
+        .context("no PATH_INFO in the environment")?;
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
