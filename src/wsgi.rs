@@ -2653,8 +2653,9 @@ Tűzkő utca	31
 
         let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/cityprogress");
 
-        let results = TestWsgi::find_all(&root, "body/table");
-        assert_eq!(results.len(), 1);
+        let results = TestWsgi::find_all(&root, "body/table/tr");
+        // header; also budapest_11 is both in ref and osm
+        assert_eq!(results.len(), 2);
     }
 
     /// Tests handle_stats_zipprogress(): if the output is well-formed.
@@ -2665,10 +2666,22 @@ Tűzkő utca	31
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         test_wsgi.ctx.set_time(&time_arc);
 
+        let mut file_system = context::tests::TestFileSystem::new();
+        let zips_value = context::tests::TestFileSystem::make_file();
+        zips_value.lock().unwrap().write_all(b"1111\t10\n").unwrap();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("workdir/stats/2020-05-10.zipcount", &zips_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
         let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/zipprogress");
 
-        let results = TestWsgi::find_all(&root, "body/table");
-        assert_eq!(results.len(), 1);
+        let results = TestWsgi::find_all(&root, "body/table/tr");
+        // header; also 1111 is both in ref and osm
+        assert_eq!(results.len(), 2);
     }
 
     /// Tests handle_invalid_refstreets(): if the output is well-formed.
