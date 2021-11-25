@@ -473,7 +473,7 @@ pub fn handle_static(
     if request_uri.ends_with(".js") {
         let content_type = "application/x-javascript";
         let (content, extra_headers) =
-            util::get_content_with_meta(&ctx.get_abspath(&format!("builddir/{}", path))?)?;
+            util::get_content_with_meta(&ctx.get_abspath(&format!("builddir/{}", path)))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".css") {
@@ -493,12 +493,12 @@ pub fn handle_static(
     }
     if request_uri.ends_with(".ico") {
         let content_type = "image/x-icon";
-        let (content, extra_headers) = util::get_content_with_meta(&ctx.get_abspath(path)?)?;
+        let (content, extra_headers) = util::get_content_with_meta(&ctx.get_abspath(path))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".svg") {
         let content_type = "image/svg+xml";
-        let (content, extra_headers) = util::get_content_with_meta(&ctx.get_abspath(path)?)?;
+        let (content, extra_headers) = util::get_content_with_meta(&ctx.get_abspath(path))?;
         return Ok((content, content_type.into(), extra_headers));
     }
 
@@ -1268,7 +1268,7 @@ pub fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::R
         ctx.get_subprocess().run(vec![
             "make".into(),
             "-C".into(),
-            ctx.get_abspath("")?,
+            ctx.get_abspath(""),
             "deploy".into(),
         ])?;
         // Nominally a failure, so the service gets restarted.

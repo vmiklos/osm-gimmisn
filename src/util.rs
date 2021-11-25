@@ -1782,7 +1782,7 @@ A street\t9",
     #[test]
     fn test_get_content() {
         let ctx = context::tests::make_test_context().unwrap();
-        let workdir = ctx.get_abspath("workdir").unwrap();
+        let workdir = ctx.get_abspath("workdir");
         let actual =
             String::from_utf8(get_content(&format!("{}/gazdagret.percent", workdir)).unwrap())
                 .unwrap();

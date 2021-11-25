@@ -517,7 +517,7 @@ impl Relation {
     pub fn get_osm_streets_query(&self) -> anyhow::Result<String> {
         let contents = std::fs::read_to_string(format!(
             "{}/{}",
-            self.ctx.get_abspath("data")?,
+            self.ctx.get_abspath("data"),
             "streets-template.txt"
         ))?;
         Ok(util::process_template(
@@ -1118,7 +1118,7 @@ impl Relation {
     pub fn get_osm_housenumbers_query(&self) -> anyhow::Result<String> {
         let contents = std::fs::read_to_string(format!(
             "{}/{}",
-            self.ctx.get_abspath("data")?,
+            self.ctx.get_abspath("data"),
             "street-housenumbers-template.txt"
         ))?;
         Ok(util::process_template(
@@ -1191,7 +1191,7 @@ pub struct Relations {
 impl Relations {
     pub fn new(ctx: &context::Context) -> anyhow::Result<Self> {
         let workdir = ctx.get_ini().get_workdir()?;
-        let yamls_cache = format!("{}/{}", ctx.get_abspath("data")?, "yamls.cache");
+        let yamls_cache = format!("{}/{}", ctx.get_abspath("data"), "yamls.cache");
         let stream = ctx
             .get_file_system()
             .open_read(&yamls_cache)
@@ -2594,7 +2594,7 @@ way{color:blue; width:4;}
         let relation_name = "gazdagret";
         let mut relation = relations.get_relation(relation_name).unwrap();
         let expected = String::from_utf8(
-            util::get_content(&ctx.get_abspath("workdir/gazdagret.percent").unwrap()).unwrap(),
+            util::get_content(&ctx.get_abspath("workdir/gazdagret.percent")).unwrap(),
         )
         .unwrap();
 
@@ -2734,11 +2734,7 @@ way{color:blue; width:4;}
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
         let expected = String::from_utf8(
-            util::get_content(
-                &ctx.get_abspath("workdir/gazdagret-streets.percent")
-                    .unwrap(),
-            )
-            .unwrap(),
+            util::get_content(&ctx.get_abspath("workdir/gazdagret-streets.percent")).unwrap(),
         )
         .unwrap();
 
@@ -2786,7 +2782,7 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_build_ref_housenumbers() {
         let ctx = context::tests::make_test_context().unwrap();
-        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refdir = ctx.get_abspath("refdir");
         let mut relations = Relations::new(&ctx).unwrap();
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let memory_cache = util::build_reference_cache(&refpath, "01").unwrap();
@@ -2810,7 +2806,7 @@ way{color:blue; width:4;}
     fn test_relation_build_ref_housenumbers_missing() {
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
-        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let memory_cache = util::build_reference_cache(&refpath, "01").unwrap();
         let relation_name = "gazdagret";
@@ -2826,7 +2822,7 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_build_ref_streets() {
         let ctx = context::tests::make_test_context().unwrap();
-        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/utcak_20190514.tsv", refdir);
         let memory_cache = util::build_street_reference_cache(&refpath).unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
@@ -2852,7 +2848,7 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_writer_ref_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let refpath2 = format!("{}/hazszamok_kieg_20190808.tsv", refdir);
         let mut file_system = context::tests::TestFileSystem::new();
@@ -2871,8 +2867,7 @@ way{color:blue; width:4;}
         let relation_name = "gazdagret";
         let expected = String::from_utf8(
             util::get_content(
-                &ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst")
-                    .unwrap(),
+                &ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
             )
             .unwrap(),
         )
@@ -2894,7 +2889,7 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let mut file_system = context::tests::TestFileSystem::new();
         let ref_value = context::tests::TestFileSystem::make_file();
@@ -2919,7 +2914,7 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let mut file_system = context::tests::TestFileSystem::new();
         let ref_value = context::tests::TestFileSystem::make_file();
@@ -2953,17 +2948,13 @@ way{color:blue; width:4;}
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);
-        let refdir = ctx.get_abspath("refdir").unwrap();
+        let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/utcak_20190514.tsv", refdir);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
         let expected = String::from_utf8(
-            util::get_content(
-                &ctx.get_abspath("workdir/streets-reference-gazdagret.lst")
-                    .unwrap(),
-            )
-            .unwrap(),
+            util::get_content(&ctx.get_abspath("workdir/streets-reference-gazdagret.lst")).unwrap(),
         )
         .unwrap();
 

@@ -310,7 +310,7 @@ fn write_zip_count_path(
 
 /// Counts the # of all house numbers as of today.
 fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
-    let statedir = ctx.get_abspath("workdir/stats")?;
+    let statedir = ctx.get_abspath("workdir/stats");
     let csv_path = format!("{}/{}.csv", statedir, today);
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
@@ -361,7 +361,7 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
 
 /// Counts the top housenumber editors as of today.
 fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
-    let statedir = ctx.get_abspath("workdir/stats")?;
+    let statedir = ctx.get_abspath("workdir/stats");
     let csv_path = format!("{}/{}.csv", statedir, today);
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
@@ -435,9 +435,9 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     // Fetch house numbers for the whole country.
     log::info!("update_stats: start, updating whole-country csv");
     let query = String::from_utf8(util::get_content(
-        &ctx.get_abspath("data/street-housenumbers-hungary.txt")?,
+        &ctx.get_abspath("data/street-housenumbers-hungary.txt"),
     )?)?;
-    let statedir = ctx.get_abspath("workdir/stats")?;
+    let statedir = ctx.get_abspath("workdir/stats");
     std::fs::create_dir_all(&statedir)?;
     let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
     let today = now.format("%Y-%m-%d").to_string();
@@ -684,9 +684,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx
-            .get_abspath("workdir/street-housenumbers-reference-gazdagret.lst")
-            .unwrap();
+        let path = ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         std::fs::remove_file(&path).unwrap();
 
@@ -715,9 +713,7 @@ mod tests {
         let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
         // Make sure housenumber ref is not created for the streets=only case.
-        let ujbuda_path = ctx
-            .get_abspath("workdir/street-housenumbers-reference-ujbuda.lst")
-            .unwrap();
+        let ujbuda_path = ctx.get_abspath("workdir/street-housenumbers-reference-ujbuda.lst");
         assert_eq!(std::path::Path::new(&ujbuda_path).exists(), false);
     }
 
@@ -736,9 +732,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx
-            .get_abspath("workdir/streets-reference-gazdagret.lst")
-            .unwrap();
+        let path = ctx.get_abspath("workdir/streets-reference-gazdagret.lst");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         std::fs::remove_file(&path).unwrap();
 
@@ -767,9 +761,7 @@ mod tests {
         let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
         // Make sure street ref is not created for the streets=no case.
-        let ujbuda_path = ctx
-            .get_abspath("workdir/street-reference-ujbuda.lst")
-            .unwrap();
+        let ujbuda_path = ctx.get_abspath("workdir/street-reference-ujbuda.lst");
         assert_eq!(std::path::Path::new(&ujbuda_path).exists(), false);
     }
 
@@ -788,7 +780,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx.get_abspath("workdir/gazdagret.percent").unwrap();
+        let path = ctx.get_abspath("workdir/gazdagret.percent");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         std::fs::remove_file(&path).unwrap();
 
@@ -837,9 +829,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx
-            .get_abspath("workdir/gazdagret-streets.percent")
-            .unwrap();
+        let path = ctx.get_abspath("workdir/gazdagret-streets.percent");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         std::fs::remove_file(&path).unwrap();
         update_missing_streets(&mut relations, /*update=*/ true).unwrap();
@@ -852,10 +842,7 @@ mod tests {
         assert_eq!(actual, expected);
         // Make sure street stat is not created for the streets=no case.
         assert_eq!(
-            file_system.path_exists(
-                &ctx.get_abspath("workdir/gellerthegy-streets.percent")
-                    .unwrap()
-            ),
+            file_system.path_exists(&ctx.get_abspath("workdir/gellerthegy-streets.percent")),
             false
         );
     }
@@ -876,9 +863,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx
-            .get_abspath("workdir/gazdagret-additional-streets.count")
-            .unwrap();
+        let path = ctx.get_abspath("workdir/gazdagret-additional-streets.count");
         let expected: String = "1".into();
         if file_system.path_exists(&path) {
             std::fs::remove_file(&path).unwrap();
@@ -893,10 +878,8 @@ mod tests {
         assert_eq!(actual, expected);
         // Make sure street stat is not created for the streets=no case.
         assert_eq!(
-            file_system.path_exists(
-                &ctx.get_abspath("workdir/gellerthegy-additional-streets.count")
-                    .unwrap()
-            ),
+            file_system
+                .path_exists(&ctx.get_abspath("workdir/gellerthegy-additional-streets.count")),
             false
         );
     }
@@ -930,9 +913,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx
-            .get_abspath("workdir/street-housenumbers-gazdagret.csv")
-            .unwrap();
+        let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         std::fs::remove_file(&path).unwrap();
         update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -974,9 +955,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx
-            .get_abspath("workdir/street-housenumbers-gazdagret.csv")
-            .unwrap();
+        let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
         // Make sure that in case we keep getting errors we give up at some stage and
@@ -1014,9 +993,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx
-            .get_abspath("workdir/street-housenumbers-gazdagret.csv")
-            .unwrap();
+        let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
         let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
@@ -1052,7 +1029,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap();
+        let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
         std::fs::remove_file(&path).unwrap();
         update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -1094,7 +1071,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap();
+        let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
 
         update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -1134,7 +1111,7 @@ mod tests {
                 relations.set_relation(&relation_name, &relation);
             }
         }
-        let path = ctx.get_abspath("workdir/streets-gazdagret.csv").unwrap();
+        let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
         let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
 
         update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -1194,14 +1171,12 @@ mod tests {
         ctx.set_file_system(&file_system_arc);
 
         // Create a CSV that is definitely old enough to be removed.
-        let old_path = ctx.get_abspath("workdir/stats/old.csv").unwrap();
+        let old_path = ctx.get_abspath("workdir/stats/old.csv");
         create_old_file(&old_path);
 
         let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
         let today = now.format("%Y-%m-%d").to_string();
-        let path = ctx
-            .get_abspath(&format!("workdir/stats/{}.csv", today))
-            .unwrap();
+        let path = ctx.get_abspath(&format!("workdir/stats/{}.csv", today));
 
         update_stats(&ctx, /*overpass=*/ true).unwrap();
 
@@ -1215,12 +1190,11 @@ mod tests {
         // Make sure that the old CSV is removed.
         assert_eq!(ctx.get_file_system().path_exists(&old_path), false);
 
-        let num_ref: i64 =
-            std::fs::read_to_string(&ctx.get_abspath("workdir/stats/ref.count").unwrap())
-                .unwrap()
-                .trim()
-                .parse()
-                .unwrap();
+        let num_ref: i64 = std::fs::read_to_string(&ctx.get_abspath("workdir/stats/ref.count"))
+            .unwrap()
+            .trim()
+            .parse()
+            .unwrap();
         assert_eq!(num_ref, 300);
     }
 
@@ -1255,7 +1229,7 @@ mod tests {
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);
-        let stats_path = ctx.get_abspath("workdir/stats/stats.json").unwrap();
+        let stats_path = ctx.get_abspath("workdir/stats/stats.json");
         if std::path::Path::new(&stats_path).exists() {
             std::fs::remove_file(&stats_path).unwrap();
         }
@@ -1592,7 +1566,7 @@ mod tests {
             ],
         );
         file_system.set_files(&files);
-        file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv").unwrap()]);
+        file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv")]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);
 
@@ -1666,7 +1640,7 @@ mod tests {
             ],
         );
         file_system.set_files(&files);
-        file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv").unwrap()]);
+        file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv")]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);
 
