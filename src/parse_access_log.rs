@@ -119,7 +119,7 @@ fn get_relation_create_dates(
     ctx: &context::Context,
 ) -> anyhow::Result<HashMap<String, chrono::NaiveDateTime>> {
     let mut ret: HashMap<String, chrono::NaiveDateTime> = HashMap::new();
-    let relations_path = ctx.get_abspath("data/relations.yaml")?;
+    let relations_path = ctx.get_abspath("data/relations.yaml");
     let process_stdout = ctx.get_subprocess().run(vec![
         "git".into(),
         "blame".into(),
@@ -332,7 +332,7 @@ baz\t2\n";
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let relations_path = ctx.get_abspath("data/relations.yaml").unwrap();
+        let relations_path = ctx.get_abspath("data/relations.yaml");
         // 2020-05-09, so this will be recent
         let expected_args = format!("git blame --line-porcelain {}", relations_path);
         let expected_out = "\n\

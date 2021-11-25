@@ -46,7 +46,7 @@ fn is_missing_housenumbers_html_cached(
     relation: &areas::Relation,
 ) -> anyhow::Result<bool> {
     let cache_path = relation.get_files().get_housenumbers_htmlcache_path();
-    let datadir = ctx.get_abspath("data")?;
+    let datadir = ctx.get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
     let dependencies = vec![
         relation.get_files().get_osm_streets_path(),
@@ -65,7 +65,7 @@ fn is_additional_housenumbers_html_cached(
     let cache_path = relation
         .get_files()
         .get_additional_housenumbers_htmlcache_path();
-    let datadir = ctx.get_abspath("data")?;
+    let datadir = ctx.get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
     let dependencies = vec![
         relation.get_files().get_osm_streets_path(),
@@ -238,7 +238,7 @@ fn is_missing_housenumbers_txt_cached(
     relation: &areas::Relation,
 ) -> anyhow::Result<bool> {
     let cache_path = relation.get_files().get_housenumbers_txtcache_path();
-    let datadir = ctx.get_abspath("data")?;
+    let datadir = ctx.get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
     let dependencies = vec![
         relation.get_files().get_osm_streets_path(),
@@ -399,7 +399,7 @@ mod tests {
         let mut relation = relations.get_relation("gazdagret").unwrap();
         get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
         let cache_path = relation.get_files().get_housenumbers_htmlcache_path();
-        let datadir = ctx.get_abspath("data").unwrap();
+        let datadir = ctx.get_abspath("data");
         let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
 
         let mut file_system = context::tests::TestFileSystem::new();

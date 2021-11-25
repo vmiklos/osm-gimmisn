@@ -395,7 +395,7 @@ mod tests {
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_progress(&ctx, &src_root, &mut j).unwrap();
         let progress = &j.as_object().unwrap()["progress"];
@@ -411,7 +411,7 @@ mod tests {
         let time = make_test_time_old();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_progress(&ctx, &src_root, &mut j).unwrap();
         let progress = &j.as_object().unwrap()["progress"];
@@ -425,7 +425,7 @@ mod tests {
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_topusers(&ctx, &src_root, &mut j).unwrap();
         let topusers = &j.as_object().unwrap()["topusers"].as_array().unwrap();
@@ -440,7 +440,7 @@ mod tests {
         let time = make_test_time_old();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_topusers(&ctx, &src_root, &mut j).unwrap();
         let topusers = &j.as_object().unwrap()["topusers"].as_array().unwrap();
@@ -454,7 +454,7 @@ mod tests {
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut file_system = context::tests::TestFileSystem::new();
         let today_citycount = b"budapest_01\t100\n\
 budapest_02\t200\n\
@@ -487,7 +487,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         // From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
         // (till a file is missing.)
@@ -504,7 +504,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_daily_new(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
         let daily = &j.as_object().unwrap()["daily"].as_array().unwrap();
@@ -518,7 +518,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ 12).unwrap();
         let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();
@@ -536,7 +536,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ -1).unwrap();
         let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();
@@ -550,10 +550,10 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         // This would be the data for the current state of the last, incomplete month.
-        let hide_path = ctx.get_abspath("workdir/stats/2020-05-10.count").unwrap();
+        let hide_path = ctx.get_abspath("workdir/stats/2020-05-10.count");
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -574,7 +574,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_daily_total(&ctx, &src_root, &mut j, /*day_range=*/ 13).unwrap();
         let dailytotal = &j.as_object().unwrap()["dailytotal"].as_array().unwrap();
@@ -589,7 +589,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_daily_total(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
         let dailytotal = &j.as_object().unwrap()["dailytotal"].as_array().unwrap();
@@ -603,7 +603,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_user_total(&ctx, &src_root, &mut j, /*day_range=*/ 13).unwrap();
         let usertotal = &j.as_object().unwrap()["usertotal"].as_array().unwrap();
@@ -618,7 +618,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_user_total(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
         let usertotal = &j.as_object().unwrap()["usertotal"].as_array().unwrap();
@@ -632,7 +632,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ 11).unwrap();
         let monthlytotal = &j.as_object().unwrap()["monthlytotal"].as_array().unwrap();
@@ -647,7 +647,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ -1).unwrap();
         let monthlytotal = &j.as_object().unwrap()["monthlytotal"].as_array().unwrap();
@@ -661,7 +661,7 @@ budapest_02\t200\n\
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         let mut j = serde_json::json!({});
         handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ 0).unwrap();
         let monthlytotal = &j.as_object().unwrap()["monthlytotal"].as_array().unwrap();
@@ -691,7 +691,7 @@ budapest_02\t200\n\
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
         let mut file_system = context::tests::TestFileSystem::new();
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         file_system.set_hide_paths(&vec![format!("{}/2020-04-10.citycount", src_root)]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);
@@ -707,7 +707,7 @@ budapest_02\t200\n\
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
         let mut file_system = context::tests::TestFileSystem::new();
-        let src_root = ctx.get_abspath("workdir/stats").unwrap();
+        let src_root = ctx.get_abspath("workdir/stats");
         file_system.set_hide_paths(&vec![format!("{}/2020-05-10.citycount", src_root)]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);

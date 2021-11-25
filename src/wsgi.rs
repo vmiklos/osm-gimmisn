@@ -1405,7 +1405,7 @@ fn our_application_txt(
             ));
             data = output.as_bytes().to_vec();
         } else if request_uri.ends_with("robots.txt") {
-            data = util::get_content(&ctx.get_abspath("data/robots.txt")?)?;
+            data = util::get_content(&ctx.get_abspath("data/robots.txt"))?;
         } else {
             // assume txt
             let output = missing_housenumbers_view_txt(ctx, relations, request_uri)?;
@@ -1840,10 +1840,7 @@ pub mod tests {
         // Make sure the cache is outdated.
         let mut mtimes: HashMap<String, f64> = HashMap::new();
         mtimes.insert(
-            test_wsgi
-                .ctx
-                .get_abspath("workdir/gazdagret.htmlcache.en")
-                .unwrap(),
+            test_wsgi.ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
             0_f64,
         );
         file_system.set_mtimes(&mtimes);
@@ -1934,10 +1931,7 @@ pub mod tests {
     #[test]
     fn test_missing_housenumbers_view_result_txt_even_odd() {
         let mut test_wsgi = TestWsgi::new();
-        let cache_path = test_wsgi
-            .ctx
-            .get_abspath("workdir/gazdagret.txtcache")
-            .unwrap();
+        let cache_path = test_wsgi.ctx.get_abspath("workdir/gazdagret.txtcache");
         if std::path::Path::new(&cache_path).exists() {
             std::fs::remove_file(&cache_path).unwrap();
         }
@@ -2571,7 +2565,7 @@ Tűzkő utca	31
             .finish();
         let mut test_wsgi = TestWsgi::new();
         test_wsgi.bytes = query_string.as_bytes().to_vec();
-        let expected_args = format!("make -C {} deploy", test_wsgi.ctx.get_abspath("").unwrap());
+        let expected_args = format!("make -C {} deploy", test_wsgi.ctx.get_abspath(""));
         let outputs: HashMap<_, _> = vec![(expected_args, "".to_string())].into_iter().collect();
         let subprocess = context::tests::TestSubprocess::new(&outputs);
         let subprocess_arc: Arc<dyn context::Subprocess> = Arc::new(subprocess);

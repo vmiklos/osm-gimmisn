@@ -18,7 +18,7 @@ use std::ops::DerefMut;
 /// Commandline interface.
 pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     let mut cache: HashMap<String, serde_json::Value> = HashMap::new();
-    let datadir = ctx.get_abspath(&argv[1])?;
+    let datadir = ctx.get_abspath(&argv[1]);
     let entries =
         std::fs::read_dir(&datadir).context(format!("failed to read_dir() {}", datadir))?;
     let mut yaml_paths: Vec<String> = Vec::new();
@@ -87,7 +87,7 @@ mod tests {
     #[test]
     fn test_main() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let cache_path = ctx.get_abspath("data/yamls.cache").unwrap();
+        let cache_path = ctx.get_abspath("data/yamls.cache");
         let argv = vec!["".to_string(), "data".to_string(), "workdir".to_string()];
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[cache_path]);
@@ -113,7 +113,7 @@ mod tests {
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
 
-        let relation_ids_path = ctx.get_abspath("workdir/stats/relations.json").unwrap();
+        let relation_ids_path = ctx.get_abspath("workdir/stats/relations.json");
         let file = std::fs::File::open(relation_ids_path).unwrap();
         let relation_ids: serde_json::Value = serde_json::from_reader(&file).unwrap();
         let relation_ids: Vec<_> = relation_ids

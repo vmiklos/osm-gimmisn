@@ -315,9 +315,8 @@ impl Context {
     }
 
     /// Make a path absolute, taking the repo root as a base dir.
-    pub fn get_abspath(&self, rel_path: &str) -> anyhow::Result<String> {
-        // TODO not needed Result in return type
-        Ok(format!("{}/{}", self.root, rel_path))
+    pub fn get_abspath(&self, rel_path: &str) -> String {
+        format!("{}/{}", self.root, rel_path)
     }
 
     /// Gets the ini file.
@@ -417,7 +416,7 @@ pub mod tests {
             let mut ret = HashMap::new();
             for file in files {
                 let (path, content) = file;
-                ret.insert(ctx.get_abspath(path).unwrap(), (*content).clone());
+                ret.insert(ctx.get_abspath(path), (*content).clone());
             }
             ret
         }

@@ -16,7 +16,7 @@ pub fn setup_logging(ctx: &osm_gimmisn::context::Context) -> anyhow::Result<()> 
         .set_time_format("%Y-%m-%d %H:%M:%S".into())
         .set_time_to_local(true)
         .build();
-    let logpath = ctx.get_abspath("workdir/cron.log")?;
+    let logpath = ctx.get_abspath("workdir/cron.log");
     let file = std::fs::File::create(logpath)?;
     simplelog::CombinedLogger::init(vec![
         simplelog::TermLogger::new(
