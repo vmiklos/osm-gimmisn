@@ -16,6 +16,8 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - autós tanpálya
+  - Dock 2. porta átjáró
+  - Vízművek lakótelep
   # parkok
   - Csepeli Akácfa utcai kiserdő
   - Görgey park
@@ -59,6 +61,7 @@ osm-street-filters:
   - Gyapjútárházi út
   - Matrózszálló út
   # Határon átlógó - Szigetszentmiklós
+  - Csepeli elkerülő
   - Háros utca
   - Kócsag utca
   - Kormorán utca
