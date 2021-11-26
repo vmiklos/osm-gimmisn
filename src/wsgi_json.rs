@@ -75,10 +75,8 @@ fn missing_housenumbers_update_result_json(
     let references = ctx.get_ini().get_reference_housenumber_paths()?;
     let relation = relations.get_relation(relation_name)?;
     let mut ret: HashMap<String, String> = HashMap::new();
-    match relation.write_ref_housenumbers(&references) {
-        Ok(_) => ret.insert("error".into(), "".into()),
-        Err(err) => ret.insert("error".into(), err.to_string()),
-    };
+    relation.write_ref_housenumbers(&references)?;
+    ret.insert("error".into(), "".into());
     Ok(serde_json::to_string(&ret)?)
 }
 
@@ -94,10 +92,8 @@ fn missing_streets_update_result_json(
     let reference = ctx.get_ini().get_reference_street_path()?;
     let relation = relations.get_relation(relation_name)?;
     let mut ret: HashMap<String, String> = HashMap::new();
-    match relation.write_ref_streets(&reference) {
-        Ok(_) => ret.insert("error".into(), "".into()),
-        Err(err) => ret.insert("error".into(), err.to_string()),
-    };
+    relation.write_ref_streets(&reference)?;
+    ret.insert("error".into(), "".into());
     Ok(serde_json::to_string(&ret)?)
 }
 
