@@ -96,10 +96,8 @@ check-clippy: Cargo.toml $(RS_OBJECTS)
 $(foreach BINARY_CRATE,$(BINARY_CRATES),target/${TARGET_PATH}/$(BINARY_CRATE)) &: $(RS_OBJECTS) Cargo.toml Makefile
 	cargo build $(foreach BINARY_CRATE,$(BINARY_CRATES),--bin $(BINARY_CRATE)) ${CARGO_OPTIONS}
 
+# Without coverage: cargo test --lib -- --test-threads=1
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata data/yamls.cache
-	cargo test --lib ${CARGO_OPTIONS} -- --test-threads=1
-
-check-cov:
 	cargo tarpaulin --lib -v --skip-clean --fail-under 100 --target-dir ${PWD}/target-cov ${CARGO_OPTIONS} -- --test-threads=1
 
 config.ts: wsgi.ini Makefile
