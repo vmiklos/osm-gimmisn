@@ -865,9 +865,8 @@ mod tests {
         }
         let path = ctx.get_abspath("workdir/gazdagret-additional-streets.count");
         let expected: String = "1".into();
-        if file_system.path_exists(&path) {
-            std::fs::remove_file(&path).unwrap();
-        }
+        std::fs::File::create(&path).unwrap();
+        std::fs::remove_file(&path).unwrap();
         update_additional_streets(&mut relations, /*update=*/ true).unwrap();
         let mtime = file_system.getmtime(&path).unwrap();
 

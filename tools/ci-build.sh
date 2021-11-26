@@ -14,6 +14,8 @@ if [ -n "${GITHUB_WORKFLOW}" ]; then
     sudo locale-gen hu_HU.UTF-8
 
     sudo apt-get install gettext
+
+    cargo install --version 0.18.5 cargo-tarpaulin
 fi
 make -j$(getconf _NPROCESSORS_ONLN) check RSDEBUG=1
 
