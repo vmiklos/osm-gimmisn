@@ -109,3 +109,22 @@ impl Drop for Tag {
             .push_str(&format!("</{}>", self.name));
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Tests the required escaping.
+    #[test]
+    fn test_escape() {
+        let doc = Doc::default();
+        {
+            let _a = doc.tag("a", &[("href", r#"https://www.example.com/"x"#)]);
+            doc.text("here>y");
+        }
+        assert_eq!(
+            doc.get_value(),
+            r#"<a href="https://www.example.com/&quot;x">here&gt;y</a>"#
+        );
+    }
+}
