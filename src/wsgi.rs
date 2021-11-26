@@ -10,6 +10,7 @@
 
 //! The wsgi module contains functionality specific to the web interface
 
+use crate::area_files;
 use crate::areas;
 use crate::cache;
 use crate::context;
@@ -236,8 +237,8 @@ fn missing_housenumbers_view_res(
     {
         doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
-        doc = cache::get_missing_housenumbers_html(ctx, &mut relation)
-            .context("get_missing_housenumbers_html() failed")?;
+        let ret = cache::get_missing_housenumbers_html(ctx, &mut relation);
+        doc = ret.context("get_missing_housenumbers_html() failed")?;
     }
     Ok(doc)
 }
@@ -578,9 +579,9 @@ fn handle_missing_housenumbers(
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
     } else {
         // assume view-result
+        let ret = missing_housenumbers_view_res(ctx, relations, request_uri);
         doc.append_value(
-            missing_housenumbers_view_res(ctx, relations, request_uri)
-                .context("missing_housenumbers_view_res() failed")?
+            ret.context("missing_housenumbers_view_res() failed")?
                 .get_value(),
         )
     }
@@ -769,13 +770,12 @@ fn handle_main_housenr_percent(
         relation.get_name()
     );
     let mut percent: String = "N/A".into();
+    let files = relation.get_files();
     if ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_housenumbers_percent_path())
+        .path_exists(&files.get_housenumbers_percent_path())
     {
-        let stream = relation
-            .get_files()
-            .get_housenumbers_percent_read_stream(ctx)?;
+        let stream = files.get_housenumbers_percent_read_stream(ctx)?;
         let mut guard = stream.lock().unwrap();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
@@ -784,7 +784,7 @@ fn handle_main_housenr_percent(
 
     let doc = yattag::Doc::new();
     if percent != "N/A" {
-        let date = get_last_modified(&relation.get_files().get_housenumbers_percent_path());
+        let date = get_last_modified(&files.get_housenumbers_percent_path());
         let _strong = doc.tag("strong", &[]);
         let _a = doc.tag(
             "a",
@@ -859,13 +859,12 @@ fn handle_main_street_additional_count(
         relation.get_name()
     );
     let mut additional_count: String = "".into();
+    let files = relation.get_files();
     if ctx
         .get_file_system()
-        .path_exists(&relation.get_files().get_streets_additional_count_path())
+        .path_exists(&files.get_streets_additional_count_path())
     {
-        let stream = relation
-            .get_files()
-            .get_streets_additional_count_read_stream(ctx)?;
+        let stream = files.get_streets_additional_count_read_stream(ctx)?;
         let mut guard = stream.lock().unwrap();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
@@ -874,7 +873,7 @@ fn handle_main_street_additional_count(
 
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
-        let date = get_last_modified(&relation.get_files().get_streets_additional_count_path());
+        let date = get_last_modified(&files.get_streets_additional_count_path());
         let _strong = doc.tag("strong", &[]);
         let _a = doc.tag(
             "a",
@@ -893,6 +892,25 @@ fn handle_main_street_additional_count(
     Ok(doc)
 }
 
+fn get_housenr_additional_count(
+    ctx: &context::Context,
+    files: &area_files::RelationFiles,
+) -> anyhow::Result<String> {
+    if ctx
+        .get_file_system()
+        .path_exists(&files.get_housenumbers_additional_count_path())
+    {
+        let stream = files.get_housenumbers_additional_count_read_stream(ctx)?;
+
+        let mut guard = stream.lock().unwrap();
+        let mut buffer: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut buffer)?;
+        return Ok(String::from_utf8(buffer)?.trim().into());
+    }
+
+    Ok("".into())
+}
+
 /// Handles the housenumber additional count part of the main page.
 pub fn handle_main_housenr_additional_count(
     ctx: &context::Context,
@@ -908,28 +926,12 @@ pub fn handle_main_housenr_additional_count(
         prefix,
         relation.get_name()
     );
-    let mut additional_count: String = "".into();
-    if ctx.get_file_system().path_exists(
-        &relation
-            .get_files()
-            .get_housenumbers_additional_count_path(),
-    ) {
-        let stream = relation
-            .get_files()
-            .get_housenumbers_additional_count_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
-        let mut buffer: Vec<u8> = Vec::new();
-        guard.read_to_end(&mut buffer)?;
-        additional_count = String::from_utf8(buffer)?.trim().into();
-    }
+    let files = relation.get_files();
+    let additional_count = get_housenr_additional_count(ctx, files)?;
 
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
-        let date = get_last_modified(
-            &relation
-                .get_files()
-                .get_housenumbers_additional_count_path(),
-        );
+        let date = get_last_modified(&files.get_housenumbers_additional_count_path());
         let _strong = doc.tag("strong", &[]);
         let _a = doc.tag(
             "a",
@@ -1367,10 +1369,10 @@ fn our_application_txt(
     let mut content_type = "text/plain";
     let mut headers: Vec<(String, String)> = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix()?;
-    let chkl = match std::path::Path::new(request_uri).extension() {
-        Some(value) => value == "chkl",
-        None => false,
-    };
+    let mut chkl = false;
+    if let Some(value) = std::path::Path::new(request_uri).extension() {
+        chkl = value == "chkl";
+    }
     let data: Vec<u8>;
     if request_uri.starts_with(&format!("{}/missing-streets/", prefix)) {
         let (output, relation_name) = missing_streets_view_txt(ctx, relations, request_uri, chkl)?;
@@ -1514,11 +1516,10 @@ fn our_application(
         if !no_such_relation.get_value().is_empty() {
             doc.append_value(no_such_relation.get_value());
         } else if let Some(handler) = handler {
-            doc.append_value(
-                handler(ctx, &mut relations, &request_uri)
-                    .context("handler() failed")?
-                    .get_value(),
-            );
+            let value = handler(ctx, &mut relations, &request_uri)
+                .context("handler() failed")?
+                .get_value();
+            doc.append_value(value);
         } else if request_uri.starts_with(&format!("{}/webhooks/github", prefix)) {
             doc.append_value(
                 webframe::handle_github_webhook(request_data.to_vec(), ctx)?.get_value(),
@@ -1797,9 +1798,8 @@ pub mod tests {
     #[test]
     fn test_missing_housenumbers_well_formed() {
         let cache_path = "workdir/gazdagret.htmlcache.en";
-        if std::path::Path::new(cache_path).exists() {
-            std::fs::remove_file(cache_path).unwrap();
-        }
+        std::fs::File::create(cache_path).unwrap();
+        std::fs::remove_file(cache_path).unwrap();
         let mut test_wsgi = TestWsgi::new();
         let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
         let mut results = TestWsgi::find_all(&root, "body/table");
