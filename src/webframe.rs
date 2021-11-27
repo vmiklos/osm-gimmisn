@@ -1061,7 +1061,10 @@ pub fn handle_stats(
 
     for (title, identifier) in title_ids {
         let identifier = identifier.to_string();
-        if identifier == "cityprogress" || identifier == "invalid-relations" {
+        if identifier == "cityprogress"
+            || identifier == "zipprogress"
+            || identifier == "invalid-relations"
+        {
             continue;
         }
         {

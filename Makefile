@@ -17,10 +17,10 @@ YAML_TEST_OBJECTS = \
 	tests/data/refsettlement-names.yaml \
 
 TS_OBJECTS = \
-	config.ts \
-	main.ts \
-	stats.ts \
-	types.d.ts \
+	src/browser/config.ts \
+	src/browser/main.ts \
+	src/browser/stats.ts \
+	src/browser/types.d.ts \
 
 RS_OBJECTS = \
 	src/accept_language.rs \
@@ -100,7 +100,7 @@ $(foreach BINARY_CRATE,$(BINARY_CRATES),target/${TARGET_PATH}/$(BINARY_CRATE)) &
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata data/yamls.cache
 	cargo tarpaulin --lib -v --skip-clean --fail-under 100 --target-dir ${PWD}/target-cov ${CARGO_OPTIONS} -- --test-threads=1
 
-config.ts: wsgi.ini Makefile
+src/browser/config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
 
 ifdef TSDEBUG
