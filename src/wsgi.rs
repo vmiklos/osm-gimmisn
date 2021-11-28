@@ -25,6 +25,7 @@ use anyhow::anyhow;
 use anyhow::Context;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
+use std::io::Read;
 use std::ops::DerefMut;
 use std::sync::Arc;
 
@@ -1539,13 +1540,25 @@ fn our_application(
 
 /// The entry point of this WSGI app.
 pub fn application(
-    request_headers: &HashMap<String, String>,
-    request_data: &[u8],
+    request: &rouille::Request,
     ctx: &context::Context,
 ) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
-    match our_application(request_headers, request_data, ctx).context("our_application() failed") {
+    let mut request_headers: HashMap<String, String> = HashMap::new();
+    for (key, value) in request.headers() {
+        request_headers.insert(key.to_string(), value.to_string());
+    }
+    // TODO work with the rouille::Request in our_application() and webframe::handle_error()
+    // instead of this mapping.
+    request_headers.insert("PATH_INFO".to_string(), request.url());
+    let mut request_data = Vec::new();
+    if let Some(mut reader) = request.data() {
+        reader.read_to_end(&mut request_data)?;
+    }
+
+    match our_application(&request_headers, &request_data, ctx).context("our_application() failed")
+    {
         Ok(value) => Ok(value),
-        Err(err) => webframe::handle_error(request_headers, &format!("{:?}", err)),
+        Err(err) => webframe::handle_error(&request_headers, &format!("{:?}", err)),
     }
 }
 
@@ -1609,13 +1622,18 @@ pub mod tests {
             } else {
                 abspath = format!("{}{}", prefix, path);
             }
-            self.environ.insert("PATH_INFO".into(), abspath);
             if self.gzip_compress {
                 self.environ
                     .insert("HTTP_ACCEPT_ENCODING".into(), "gzip, deflate".into());
             }
-            let (status, response_headers, data) =
-                application(&self.environ, &self.bytes, &self.ctx).unwrap();
+            let rouille_headers: Vec<(String, String)> = self
+                .environ
+                .iter()
+                .map(|(key, value)| (key.into(), value.into()))
+                .collect();
+            let request =
+                rouille::Request::fake_http("GET", abspath, rouille_headers, self.bytes.clone());
+            let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
             // Make sure the built-in error catcher is not kicking in.
             assert_eq!(status, self.expected_status);
             let mut headers_map = HashMap::new();
@@ -1640,10 +1658,9 @@ pub mod tests {
         /// Generates a string for a given wsgi path.
         pub fn get_txt_for_path(&mut self, path: &str) -> String {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
-            self.environ
-                .insert("PATH_INFO".into(), format!("{}{}", prefix, path));
-            let (status, response_headers, data) =
-                application(&self.environ, &self.bytes, &self.ctx).unwrap();
+            let abspath = format!("{}{}", prefix, path);
+            let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
+            let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
             assert_eq!(status, "200 OK");
             let mut headers_map = HashMap::new();
@@ -1663,10 +1680,9 @@ pub mod tests {
         /// Generates an json value for a given wsgi path.
         pub fn get_json_for_path(&mut self, path: &str) -> serde_json::Value {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
-            self.environ
-                .insert("PATH_INFO".into(), format!("{}{}", prefix, path));
-            let (status, response_headers, data) =
-                application(&self.environ, &self.bytes, &self.ctx).unwrap();
+            let abspath = format!("{}{}", prefix, path);
+            let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
+            let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
             assert_eq!(status, "200 OK");
             let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
@@ -1683,10 +1699,9 @@ pub mod tests {
         /// Generates a CSS string for a given wsgi path.
         fn get_css_for_path(&mut self, path: &str) -> String {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
-            self.environ
-                .insert("PATH_INFO".into(), format!("{}{}", prefix, path));
-            let (status, response_headers, data) =
-                application(&self.environ, &self.bytes, &self.ctx).unwrap();
+            let abspath = format!("{}{}", prefix, path);
+            let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
+            let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
             assert_eq!(status, "200 OK");
             let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
@@ -2540,12 +2555,12 @@ Tűzkő utca	31
         let unit = context::tests::TestUnit::new();
         let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
         ctx.set_unit(&unit_arc);
-        let environ: HashMap<_, _> = vec![("PATH_INFO".to_string(), "/".to_string())]
-            .into_iter()
-            .collect();
         let bytes: Vec<u8> = Vec::new();
 
-        let (status, response_headers, data) = application(&environ, &bytes, &ctx).unwrap();
+        let abspath: String = "/".into();
+        let rouille_headers: Vec<(String, String)> = Vec::new();
+        let request = rouille::Request::fake_http("GET", abspath, rouille_headers, bytes);
+        let (status, response_headers, data) = application(&request, &ctx).unwrap();
 
         assert_eq!(status.starts_with("500"), true);
         let headers_map: HashMap<_, _> = response_headers.into_iter().collect();

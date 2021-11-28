@@ -11,24 +11,12 @@
 //! Provides the glue layer between the Rouille app server and the wsgi module.
 
 use osm_gimmisn::wsgi;
-use std::collections::HashMap;
-use std::io::Read;
 
 /// Wraps wsgi::application() to an app for rouille.
 fn app(request: &rouille::Request) -> anyhow::Result<rouille::Response> {
     let ctx = osm_gimmisn::context::Context::new("")?;
-    let mut request_headers: HashMap<String, String> = HashMap::new();
-    for (key, value) in request.headers() {
-        request_headers.insert(key.to_string(), value.to_string());
-    }
-    // TODO work with the rouille::Request in wsgi::application() instead of this mapping.
-    request_headers.insert("PATH_INFO".to_string(), request.url());
-    let mut request_data = Vec::new();
-    if let Some(mut reader) = request.data() {
-        reader.read_to_end(&mut request_data)?;
-    }
     // TODO return a numeric status in the first place.
-    let (status, headers, data) = wsgi::application(&request_headers, &request_data, &ctx)?;
+    let (status, headers, data) = wsgi::application(request, &ctx)?;
     let mut tokens = status.split(' ');
     let status_code: u16 = tokens.next().unwrap().parse()?;
     let headers: Vec<(
