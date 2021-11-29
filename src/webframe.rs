@@ -599,25 +599,29 @@ pub fn compress_response(
 
 /// Displays an unhandled error on the page.
 pub fn handle_error(
-    environ: &HashMap<String, String>,
+    request: &rouille::Request,
     error: &str,
 ) -> anyhow::Result<(String, Headers, Vec<u8>)> {
+    // TODO avoid this conversion
+    let mut environ: HashMap<String, String> = HashMap::new();
+    for (key, value) in request.headers() {
+        environ.insert(key.to_string(), value.to_string());
+    }
+
     let status = "500 Internal Server Error";
-    let request_uri = environ
-        .get("PATH_INFO")
-        .context("no PATH_INFO in the environment")?;
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
         let _pre = doc.tag("pre", &[]);
+        let url = request.url();
         doc.text(&format!(
             "{}\n",
-            tr("Internal error when serving {0}").replace("{0}", request_uri)
+            tr("Internal error when serving {0}").replace("{0}", &url)
         ));
         doc.text(error);
     }
     let response_properties = Response::new("text/html", status, doc.get_value().as_bytes(), &[]);
-    compress_response(environ, &response_properties)
+    compress_response(&environ, &response_properties)
 }
 
 /// Displays a not-found page.
@@ -1384,13 +1388,13 @@ mod tests {
     /// Tests handle_error().
     #[test]
     fn test_handle_error() {
-        let mut environ: HashMap<String, String> = HashMap::new();
-        environ.insert("PATH_INFO".into(), "/".into());
+        let headers = vec![("Accept-Language".to_string(), ",".to_string())];
+        let request = rouille::Request::fake_http("GET", "/", headers, vec![]);
 
         let unit = context::tests::TestUnit::new();
         let err = unit.make_error();
 
-        let (status, headers, data) = handle_error(&environ, &err).unwrap();
+        let (status, headers, data) = handle_error(&request, &err).unwrap();
 
         assert_eq!(status.starts_with("500"), true);
 
