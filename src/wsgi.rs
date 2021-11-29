@@ -1547,8 +1547,7 @@ pub fn application(
     for (key, value) in request.headers() {
         request_headers.insert(key.to_string(), value.to_string());
     }
-    // TODO work with the rouille::Request in our_application() and webframe::handle_error()
-    // instead of this mapping.
+    // TODO work with the rouille::Request in our_application() instead of this mapping.
     request_headers.insert("PATH_INFO".to_string(), request.url());
     let mut request_data = Vec::new();
     if let Some(mut reader) = request.data() {
@@ -1558,7 +1557,7 @@ pub fn application(
     match our_application(&request_headers, &request_data, ctx).context("our_application() failed")
     {
         Ok(value) => Ok(value),
-        Err(err) => webframe::handle_error(&request_headers, &format!("{:?}", err)),
+        Err(err) => webframe::handle_error(request, &format!("{:?}", err)),
     }
 }
 
