@@ -1,4 +1,12 @@
 missing-streets: 'yes'
+filters:
+  Erdő utca:
+    # 2-12, 1-9
+    invalid: ['54']
+  Klapka utca:
+    # Pilisszentiván/Pilisvörösvár határ
+    ranges:
+      - {start: '1', end: '121'}
 refstreets:
   'Bányatelep': 'Bánya telep'
   'Táncsics Mihály utca': 'Táncsics utca'
