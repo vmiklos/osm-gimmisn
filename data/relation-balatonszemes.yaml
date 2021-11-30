@@ -135,6 +135,7 @@ osm-street-filters:
   # Nem valós utcák
   - Baross Gábor park
   - Fenyves park
+  - Orosz Tábor
   - Platán park
   - Rózsa park
   # Létező, de házszám nélküli utcák, közök, ösvények
