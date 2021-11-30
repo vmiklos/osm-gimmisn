@@ -1455,10 +1455,20 @@ fn get_handler(ctx: &context::Context, request_uri: &str) -> anyhow::Result<Opti
 
 /// Dispatches the request based on its URI.
 fn our_application(
-    request_headers: &HashMap<String, String>,
-    request_data: &[u8],
+    request: &rouille::Request,
     ctx: &context::Context,
 ) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
+    // TODO work with the rouille::Request instead of this mapping.
+    let mut request_headers: HashMap<String, String> = HashMap::new();
+    for (key, value) in request.headers() {
+        request_headers.insert(key.to_string(), value.to_string());
+    }
+    request_headers.insert("PATH_INFO".to_string(), request.url());
+    let mut request_data = Vec::new();
+    if let Some(mut reader) = request.data() {
+        reader.read_to_end(&mut request_data)?;
+    }
+
     let request_headers_vec: Vec<(String, String)> = request_headers
         .iter()
         .map(|(key, value)| (key.into(), value.into()))
@@ -1467,7 +1477,7 @@ fn our_application(
 
     let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
 
-    let request_uri = webframe::get_request_uri(request_headers, ctx, &mut relations)?;
+    let request_uri = webframe::get_request_uri(&request_headers, ctx, &mut relations)?;
     let mut ext: String = "".into();
     if let Some(value) = std::path::Path::new(&request_uri).extension() {
         ext = value.to_str().unwrap().into();
@@ -1475,7 +1485,7 @@ fn our_application(
 
     if ext == "txt" || ext == "chkl" {
         return webframe::compress_response(
-            request_headers,
+            &request_headers,
             &our_application_txt(ctx, &mut relations, &request_uri)?,
         );
     }
@@ -1489,7 +1499,7 @@ fn our_application(
             doc.get_value().as_bytes(),
             &[],
         );
-        return webframe::compress_response(request_headers, &response);
+        return webframe::compress_response(&request_headers, &response);
     }
 
     if request_uri.starts_with(&format!("{}/static/", prefix))
@@ -1498,11 +1508,16 @@ fn our_application(
     {
         let (output, content_type, headers) = webframe::handle_static(ctx, &request_uri)?;
         let response = webframe::Response::new(&content_type, "200 OK", &output, &headers);
-        return webframe::compress_response(request_headers, &response);
+        return webframe::compress_response(&request_headers, &response);
     }
 
     if ext == "json" {
-        return wsgi_json::our_application_json(request_headers, ctx, &mut relations, &request_uri);
+        return wsgi_json::our_application_json(
+            &request_headers,
+            ctx,
+            &mut relations,
+            &request_uri,
+        );
     }
 
     let doc = yattag::Doc::new();
@@ -1535,7 +1550,7 @@ fn our_application(
         return Err(anyhow!(err));
     }
     let response = webframe::Response::new("text/html", "200 OK", doc.get_value().as_bytes(), &[]);
-    webframe::compress_response(request_headers, &response)
+    webframe::compress_response(&request_headers, &response)
 }
 
 /// The entry point of this WSGI app.
@@ -1543,19 +1558,7 @@ pub fn application(
     request: &rouille::Request,
     ctx: &context::Context,
 ) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
-    let mut request_headers: HashMap<String, String> = HashMap::new();
-    for (key, value) in request.headers() {
-        request_headers.insert(key.to_string(), value.to_string());
-    }
-    // TODO work with the rouille::Request in our_application() instead of this mapping.
-    request_headers.insert("PATH_INFO".to_string(), request.url());
-    let mut request_data = Vec::new();
-    if let Some(mut reader) = request.data() {
-        reader.read_to_end(&mut request_data)?;
-    }
-
-    match our_application(&request_headers, &request_data, ctx).context("our_application() failed")
-    {
+    match our_application(request, ctx).context("our_application() failed") {
         Ok(value) => Ok(value),
         Err(err) => webframe::handle_error(request, &format!("{:?}", err)),
     }
