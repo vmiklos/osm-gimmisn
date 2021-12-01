@@ -1469,11 +1469,7 @@ fn our_application(
         reader.read_to_end(&mut request_data)?;
     }
 
-    let request_headers_vec: Vec<(String, String)> = request_headers
-        .iter()
-        .map(|(key, value)| (key.into(), value.into()))
-        .collect();
-    let language = util::setup_localization(&request_headers_vec);
+    let language = util::setup_localization(request.headers());
 
     let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
 
