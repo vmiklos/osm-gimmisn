@@ -12,7 +12,6 @@ street-filters:
   # Területként fent van
   - Almáskerti Ipari park
   # Dupla
-  - Millennium liget  # Kőrösi Csoma Sándor utca
   - Tégla sor  # ref: Tégla utcán van a házszámok nagy része
   # kérdéses -----------
   # Kerekerdő sor
@@ -28,6 +27,16 @@ street-filters:
   # Ostoros utca
   # Petőfi liget
   # Selyemakác utca
+osm-street-filters:
+  # tanyák
+  - 11-volt Szűcs tanya
+  - 16-volt Kaczkó tanya
+  # nem igazi utcák / csak hrsz.
+  - Jókai utca kerékpárút
+  - Pósteleki buszforduló
+  # parkok, sétautak amire nincs számozva semmi
+  - Kisszik domb
+  - Széchenyi liget
 refstreets:
   '4-es honvéd utca': '4-es Honvéd utca'
   'Alsó-Körös sor': 'Alsó Körös sor'
