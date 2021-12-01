@@ -671,7 +671,7 @@ pub fn handle_overpass_error(ctx: &context::Context, http_error: &str) -> yattag
 }
 
 /// Provides localized strings for this thread.
-pub fn setup_localization(headers: &[(String, String)]) -> String {
+pub fn setup_localization(headers: rouille::HeadersIter<'_>) -> String {
     let mut languages: String = "".into();
     for (key, value) in headers {
         if key == "Accept-Language" {
@@ -1527,12 +1527,17 @@ mod tests {
     /// Tests setup_localization().
     #[test]
     fn test_setup_localization() {
-        let environ = vec![(
-            "Accept-Language".to_string(),
-            "hu,en;q=0.9,en-US;q=0.8".to_string(),
-        )];
+        let request = rouille::Request::fake_http(
+            "GET",
+            "/",
+            vec![(
+                "Accept-Language".to_string(),
+                "hu,en;q=0.9,en-US;q=0.8".to_string(),
+            )],
+            Vec::new(),
+        );
         i18n::set_language("en");
-        setup_localization(&environ);
+        setup_localization(request.headers());
         assert_eq!(i18n::get_language(), "hu");
         i18n::set_language("en");
     }
@@ -1540,9 +1545,14 @@ mod tests {
     /// Tests setup_localization(): the error path.
     #[test]
     fn test_setup_localization_parse_error() {
-        let environ = vec![("Accept-Language".to_string(), ",".to_string())];
+        let request = rouille::Request::fake_http(
+            "GET",
+            "/",
+            vec![("Accept-Language".to_string(), ",".to_string())],
+            Vec::new(),
+        );
         i18n::set_language("en");
-        setup_localization(&environ);
+        setup_localization(request.headers());
         assert_eq!(i18n::get_language(), "en");
     }
 
