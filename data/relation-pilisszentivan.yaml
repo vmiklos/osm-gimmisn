@@ -12,6 +12,18 @@ refstreets:
   'Hosszú-árok': 'Hosszú árok'
   'Táncsics Mihály utca': 'Táncsics utca'
   'Templomhegy utca': 'Templom hegy'
+street-filters:
+  # nem igazi utcák
+  - Erdészház
+  - Táró
+  # Külterület
+  - Hosszúréti erdő
+  - Kakukk-hegy
+  - Kálváriadomb
+  - Széles Földek
+  - Szénás-hegy
+  - Vadászrét
+  - Zsíroshegyi erdő
 osm-street-filters:
   # nem igazi utcák
   - felszedett bányavasút
