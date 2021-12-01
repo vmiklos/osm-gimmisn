@@ -9,7 +9,13 @@ filters:
       - {start: '1', end: '121'}
 refstreets:
   'Bányatelep': 'Bánya telep'
+  'Hosszú-árok': 'Hosszú árok'
   'Táncsics Mihály utca': 'Táncsics utca'
   'Templomhegy utca': 'Templom hegy'
+osm-street-filters:
+  # nem igazi utcák
+  - felszedett bányavasút
+  # Pilisvörösvár
+  - Szentiváni utca
 source: survey
 inactive: true
