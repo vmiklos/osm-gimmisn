@@ -1256,8 +1256,16 @@ pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
 }
 
 /// Handles a GitHub style webhook.
-pub fn handle_github_webhook(data: Vec<u8>, ctx: &context::Context) -> anyhow::Result<yattag::Doc> {
-    let pairs = url::form_urlencoded::parse(&data);
+pub fn handle_github_webhook(
+    request: &rouille::Request,
+    ctx: &context::Context,
+) -> anyhow::Result<yattag::Doc> {
+    let mut request_data = Vec::new();
+    if let Some(mut reader) = request.data() {
+        reader.read_to_end(&mut request_data)?;
+    }
+
+    let pairs = url::form_urlencoded::parse(&request_data);
     let payloads: Vec<String> = pairs
         .filter(|(key, _value)| key == "payload")
         .map(|(_key, value)| value.into())
