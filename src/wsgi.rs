@@ -25,7 +25,6 @@ use anyhow::anyhow;
 use anyhow::Context;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
-use std::io::Read;
 use std::ops::DerefMut;
 use std::sync::Arc;
 
@@ -1464,10 +1463,6 @@ fn our_application(
         request_headers.insert(key.to_string(), value.to_string());
     }
     request_headers.insert("PATH_INFO".to_string(), request.url());
-    let mut request_data = Vec::new();
-    if let Some(mut reader) = request.data() {
-        reader.read_to_end(&mut request_data)?;
-    }
 
     let language = util::setup_localization(request.headers());
 
@@ -1533,9 +1528,7 @@ fn our_application(
                 .get_value();
             doc.append_value(value);
         } else if request_uri.starts_with(&format!("{}/webhooks/github", prefix)) {
-            doc.append_value(
-                webframe::handle_github_webhook(request_data.to_vec(), ctx)?.get_value(),
-            );
+            doc.append_value(webframe::handle_github_webhook(request, ctx)?.get_value());
         } else {
             doc.append_value(handle_main(&request_uri, ctx, &mut relations)?.get_value());
         }
@@ -2608,8 +2601,9 @@ Tűzkő utca	31
             .append_pair("payload", &payload)
             .finish();
         let buf = query_string.as_bytes().to_vec();
+        let request = rouille::Request::fake_http("GET", "/", vec![], buf);
 
-        webframe::handle_github_webhook(buf, &ctx).unwrap();
+        webframe::handle_github_webhook(&request, &ctx).unwrap();
 
         let subprocess = subprocess_arc
             .as_any()
