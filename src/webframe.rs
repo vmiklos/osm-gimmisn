@@ -510,7 +510,7 @@ pub fn handle_static(
 #[derive(Clone)]
 pub struct Response {
     content_type: String,
-    status: String,
+    status: u16,
     output_bytes: Vec<u8>,
     headers: Headers,
 }
@@ -518,13 +518,13 @@ pub struct Response {
 impl Response {
     pub fn new(
         content_type: &str,
-        status: &str,
+        status: u16,
         output_bytes: &[u8],
         headers: &[(String, String)],
     ) -> Self {
         Response {
             content_type: content_type.into(),
-            status: status.into(),
+            status,
             output_bytes: output_bytes.to_vec(),
             headers: headers.to_vec(),
         }
@@ -536,8 +536,8 @@ impl Response {
     }
 
     /// Gets the HTTP status.
-    fn get_status(&self) -> &String {
-        &self.status
+    fn get_status(&self) -> u16 {
+        self.status
     }
 
     /// Gets the encoded output.
@@ -555,7 +555,7 @@ impl Response {
 pub fn compress_response(
     request: &rouille::Request,
     response: &Response,
-) -> anyhow::Result<(String, Headers, Vec<u8>)> {
+) -> anyhow::Result<(u16, Headers, Vec<u8>)> {
     let mut content_type: String = response.get_content_type().into();
     if content_type != "application/octet-stream" {
         content_type.push_str("; charset=utf-8");
@@ -584,15 +584,14 @@ pub fn compress_response(
     headers.push(("Content-type".into(), content_type));
     headers.append(&mut response.get_headers().clone());
     let status = response.get_status();
-    Ok((status.into(), headers, output_bytes))
+    Ok((status, headers, output_bytes))
 }
 
 /// Displays an unhandled error on the page.
 pub fn handle_error(
     request: &rouille::Request,
     error: &str,
-) -> anyhow::Result<(String, Headers, Vec<u8>)> {
-    let status = "500 Internal Server Error";
+) -> anyhow::Result<(u16, Headers, Vec<u8>)> {
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
@@ -604,7 +603,7 @@ pub fn handle_error(
         ));
         doc.text(error);
     }
-    let response_properties = Response::new("text/html", status, doc.get_value().as_bytes(), &[]);
+    let response_properties = Response::new("text/html", 500_u16, doc.get_value().as_bytes(), &[]);
     compress_response(request, &response_properties)
 }
 
@@ -1388,7 +1387,7 @@ mod tests {
 
         let (status, headers, data) = handle_error(&request, &err).unwrap();
 
-        assert_eq!(status.starts_with("500"), true);
+        assert_eq!(status, 500);
 
         let mut headers_map = HashMap::new();
         for (key, value) in headers {
