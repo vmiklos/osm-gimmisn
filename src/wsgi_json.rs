@@ -99,7 +99,7 @@ fn missing_streets_update_result_json(
 
 /// Dispatches json requests based on their URIs.
 pub fn our_application_json(
-    environ: &HashMap<String, String>,
+    request: &rouille::Request,
     ctx: &context::Context,
     relations: &mut areas::Relations,
     request_uri: &str,
@@ -120,7 +120,7 @@ pub fn our_application_json(
     }
     let output_bytes = output.as_bytes();
     let response = webframe::Response::new(content_type, "200 OK", output_bytes, &headers);
-    webframe::compress_response(environ, &response)
+    webframe::compress_response(request, &response)
 }
 
 #[cfg(test)]
