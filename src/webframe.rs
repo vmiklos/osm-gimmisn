@@ -553,7 +553,7 @@ impl Response {
 
 /// Turns an output string into a byte array and sends it.
 pub fn compress_response(
-    environ: &HashMap<String, String>,
+    request: &rouille::Request,
     response: &Response,
 ) -> anyhow::Result<(String, Headers, Vec<u8>)> {
     let mut content_type: String = response.get_content_type().into();
@@ -562,36 +562,26 @@ pub fn compress_response(
     }
 
     // Apply content encoding: gzip, etc.
-    let accept_encodings = environ.get("HTTP_ACCEPT_ENCODING");
     let mut output_bytes = response.get_output_bytes().clone();
     let mut headers: Vec<(String, String)> = Vec::new();
-    if let Some(value) = accept_encodings {
-        // TODO pass down the original request instead of constructing a fake one.
-        let request = rouille::Request::fake_http(
-            "GET",
-            "/",
-            vec![("Accept-Encoding".to_owned(), value.into())],
-            Vec::<u8>::new(),
-        );
-        let response = rouille::Response::from_data("application/x-javascript", output_bytes);
-        let compressed = rouille::content_encoding::apply(&request, response);
-        let (mut reader, _size) = compressed.data.into_reader_and_size();
-        let mut buffer = Vec::new();
-        reader.read_to_end(&mut buffer)?;
-        output_bytes = buffer;
-        let content_encodings: Vec<String> = compressed
-            .headers
-            .iter()
-            .filter(|(key, _value)| key == "Content-Encoding")
-            .map(|(_key, value)| value.to_string())
-            .collect();
-        if let Some(value) = content_encodings.get(0) {
-            headers.push(("Content-Encoding".into(), value.into()));
-        }
+    // TODO avoid this mapping.
+    let rouille_response = rouille::Response::from_data("application/x-javascript", output_bytes);
+    let compressed = rouille::content_encoding::apply(request, rouille_response);
+    // TODO avoid this mapping.
+    let (mut reader, _size) = compressed.data.into_reader_and_size();
+    let mut buffer = Vec::new();
+    reader.read_to_end(&mut buffer)?;
+    output_bytes = buffer;
+    let content_encodings: Vec<String> = compressed
+        .headers
+        .iter()
+        .filter(|(key, _value)| key == "Content-Encoding")
+        .map(|(_key, value)| value.to_string())
+        .collect();
+    if let Some(value) = content_encodings.get(0) {
+        headers.push(("Content-Encoding".into(), value.into()));
     }
-    let content_length = output_bytes.len();
     headers.push(("Content-type".into(), content_type));
-    headers.push(("Content-Length".into(), content_length.to_string()));
     headers.append(&mut response.get_headers().clone());
     let status = response.get_status();
     Ok((status.into(), headers, output_bytes))
@@ -602,12 +592,6 @@ pub fn handle_error(
     request: &rouille::Request,
     error: &str,
 ) -> anyhow::Result<(String, Headers, Vec<u8>)> {
-    // TODO avoid this conversion
-    let mut environ: HashMap<String, String> = HashMap::new();
-    for (key, value) in request.headers() {
-        environ.insert(key.to_string(), value.to_string());
-    }
-
     let status = "500 Internal Server Error";
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
@@ -621,7 +605,7 @@ pub fn handle_error(
         doc.text(error);
     }
     let response_properties = Response::new("text/html", status, doc.get_value().as_bytes(), &[]);
-    compress_response(&environ, &response_properties)
+    compress_response(request, &response_properties)
 }
 
 /// Displays a not-found page.

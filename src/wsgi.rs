@@ -1457,13 +1457,6 @@ fn our_application(
     request: &rouille::Request,
     ctx: &context::Context,
 ) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
-    // TODO work with the rouille::Request instead of this mapping.
-    let mut request_headers: HashMap<String, String> = HashMap::new();
-    for (key, value) in request.headers() {
-        request_headers.insert(key.to_string(), value.to_string());
-    }
-    request_headers.insert("PATH_INFO".to_string(), request.url());
-
     let language = util::setup_localization(request.headers());
 
     let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
@@ -1476,7 +1469,7 @@ fn our_application(
 
     if ext == "txt" || ext == "chkl" {
         return webframe::compress_response(
-            &request_headers,
+            request,
             &our_application_txt(ctx, &mut relations, &request_uri)?,
         );
     }
@@ -1490,7 +1483,7 @@ fn our_application(
             doc.get_value().as_bytes(),
             &[],
         );
-        return webframe::compress_response(&request_headers, &response);
+        return webframe::compress_response(request, &response);
     }
 
     if request_uri.starts_with(&format!("{}/static/", prefix))
@@ -1499,16 +1492,11 @@ fn our_application(
     {
         let (output, content_type, headers) = webframe::handle_static(ctx, &request_uri)?;
         let response = webframe::Response::new(&content_type, "200 OK", &output, &headers);
-        return webframe::compress_response(&request_headers, &response);
+        return webframe::compress_response(request, &response);
     }
 
     if ext == "json" {
-        return wsgi_json::our_application_json(
-            &request_headers,
-            ctx,
-            &mut relations,
-            &request_uri,
-        );
+        return wsgi_json::our_application_json(request, ctx, &mut relations, &request_uri);
     }
 
     let doc = yattag::Doc::new();
@@ -1539,7 +1527,7 @@ fn our_application(
         return Err(anyhow!(err));
     }
     let response = webframe::Response::new("text/html", "200 OK", doc.get_value().as_bytes(), &[]);
-    webframe::compress_response(&request_headers, &response)
+    webframe::compress_response(request, &response)
 }
 
 /// The entry point of this WSGI app.
@@ -1565,7 +1553,7 @@ pub mod tests {
     pub struct TestWsgi {
         gzip_compress: bool,
         ctx: context::Context,
-        environ: HashMap<String, String>,
+        headers: Vec<(String, String)>,
         bytes: Vec<u8>,
         absolute_path: bool,
         expected_status: String,
@@ -1575,14 +1563,14 @@ pub mod tests {
         pub fn new() -> Self {
             let gzip_compress = false;
             let ctx = context::tests::make_test_context().unwrap();
-            let environ: HashMap<String, String> = HashMap::new();
+            let headers: Vec<(String, String)> = Vec::new();
             let bytes: Vec<u8> = Vec::new();
             let absolute_path = false;
             let expected_status: String = "200 OK".into();
             TestWsgi {
                 gzip_compress,
                 ctx,
-                environ,
+                headers,
                 bytes,
                 absolute_path,
                 expected_status,
@@ -1614,16 +1602,15 @@ pub mod tests {
                 abspath = format!("{}{}", prefix, path);
             }
             if self.gzip_compress {
-                self.environ
-                    .insert("HTTP_ACCEPT_ENCODING".into(), "gzip, deflate".into());
+                self.headers
+                    .push(("Accept-Encoding".into(), "gzip, deflate".into()));
             }
-            let rouille_headers: Vec<(String, String)> = self
-                .environ
-                .iter()
-                .map(|(key, value)| (key.into(), value.into()))
-                .collect();
-            let request =
-                rouille::Request::fake_http("GET", abspath, rouille_headers, self.bytes.clone());
+            let request = rouille::Request::fake_http(
+                "GET",
+                abspath,
+                self.headers.clone(),
+                self.bytes.clone(),
+            );
             let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
             // Make sure the built-in error catcher is not kicking in.
             assert_eq!(status, self.expected_status);
@@ -2453,8 +2440,6 @@ Tűzkő utca	31
     /// Tests handle_main(): the case when the URL is empty (should give the main page).
     #[test]
     fn test_main_no_path() {
-        let mut environ: HashMap<String, String> = HashMap::new();
-        environ.insert("PATH_INFO".into(), "".into());
         let request = rouille::Request::fake_http("GET", "", vec![], vec![]);
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = areas::Relations::new(&ctx).unwrap();
