@@ -19,6 +19,7 @@ use crate::yattag;
 use anyhow::anyhow;
 use anyhow::Context;
 use lazy_static::lazy_static;
+use std::borrow::Cow;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::convert::TryFrom;
@@ -1018,7 +1019,8 @@ pub fn get_content(path: &str) -> anyhow::Result<Vec<u8>> {
     Ok(std::fs::read(path)?)
 }
 
-type HttpHeaders = Vec<(String, String)>;
+// TODO move to webframe and avoid the duplication with webframe::Headers.
+type HttpHeaders = Vec<(Cow<'static, str>, Cow<'static, str>)>;
 
 /// Gets the content of a file in workdir with metadata.
 pub fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, HttpHeaders)> {
@@ -1028,7 +1030,7 @@ pub fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, HttpHeaders
     let modified = metadata.modified()?;
     let modified_utc: chrono::DateTime<chrono::offset::Utc> = modified.into();
 
-    let extra_headers = vec![("Last-Modified".to_string(), modified_utc.to_rfc2822())];
+    let extra_headers = vec![("Last-Modified".into(), modified_utc.to_rfc2822().into())];
     Ok((buf, extra_headers))
 }
 
