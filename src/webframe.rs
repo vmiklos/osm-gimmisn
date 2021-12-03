@@ -1100,11 +1100,11 @@ more meaningful than a lot of useless work."#,
 
 /// Finds out the request URI.
 pub fn get_request_uri(
-    environ: &HashMap<String, String>,
+    request: &rouille::Request,
     ctx: &context::Context,
     relations: &mut areas::Relations,
 ) -> anyhow::Result<String> {
-    let mut request_uri: String = environ.get("PATH_INFO").unwrap().into();
+    let mut request_uri = request.url();
 
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if !request_uri.is_empty() {

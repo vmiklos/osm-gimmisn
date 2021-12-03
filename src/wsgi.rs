@@ -1468,7 +1468,7 @@ fn our_application(
 
     let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
 
-    let request_uri = webframe::get_request_uri(&request_headers, ctx, &mut relations)?;
+    let request_uri = webframe::get_request_uri(request, ctx, &mut relations)?;
     let mut ext: String = "".into();
     if let Some(value) = std::path::Path::new(&request_uri).extension() {
         ext = value.to_str().unwrap().into();
@@ -2450,14 +2450,15 @@ Tűzkő utca	31
         assert_eq!(results.len(), 1);
     }
 
-    /// Tests handle_main(): the case when PATH_INFO is empty (should give the main page).
+    /// Tests handle_main(): the case when the URL is empty (should give the main page).
     #[test]
     fn test_main_no_path() {
         let mut environ: HashMap<String, String> = HashMap::new();
         environ.insert("PATH_INFO".into(), "".into());
+        let request = rouille::Request::fake_http("GET", "", vec![], vec![]);
         let ctx = context::tests::make_test_context().unwrap();
         let mut relations = areas::Relations::new(&ctx).unwrap();
-        let ret = webframe::get_request_uri(&environ, &ctx, &mut relations).unwrap();
+        let ret = webframe::get_request_uri(&request, &ctx, &mut relations).unwrap();
         assert_eq!(ret, "");
     }
 
