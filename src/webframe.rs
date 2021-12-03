@@ -17,6 +17,7 @@ use crate::util;
 use crate::yattag;
 use anyhow::Context;
 use git_version::git_version;
+use std::borrow::Cow;
 use std::collections::HashMap;
 use std::io::Read;
 use std::ops::DerefMut;
@@ -459,7 +460,7 @@ pub fn get_toolbar(
     Ok(doc)
 }
 
-pub type Headers = Vec<(String, String)>;
+pub type Headers = Vec<(Cow<'static, str>, Cow<'static, str>)>;
 
 /// Handles serving static content.
 pub fn handle_static(
@@ -468,7 +469,7 @@ pub fn handle_static(
 ) -> anyhow::Result<(Vec<u8>, String, Headers)> {
     let mut tokens = request_uri.split('/');
     let path = tokens.next_back().unwrap();
-    let extra_headers: Vec<(String, String)> = Vec::new();
+    let extra_headers = Vec::new();
 
     if request_uri.ends_with(".js") {
         let content_type = "application/x-javascript";
@@ -520,7 +521,7 @@ impl Response {
         content_type: &str,
         status: u16,
         output_bytes: &[u8],
-        headers: &[(String, String)],
+        headers: &[(Cow<'static, str>, Cow<'static, str>)],
     ) -> Self {
         Response {
             content_type: content_type.into(),
@@ -563,7 +564,7 @@ pub fn compress_response(
 
     // Apply content encoding: gzip, etc.
     let mut output_bytes = response.get_output_bytes().clone();
-    let mut headers: Vec<(String, String)> = Vec::new();
+    let mut headers: Headers = Vec::new();
     // TODO avoid this mapping.
     let rouille_response = rouille::Response::from_data("application/x-javascript", output_bytes);
     let compressed = rouille::content_encoding::apply(request, rouille_response);
@@ -579,9 +580,9 @@ pub fn compress_response(
         .map(|(_key, value)| value.to_string())
         .collect();
     if let Some(value) = content_encodings.get(0) {
-        headers.push(("Content-Encoding".into(), value.into()));
+        headers.push(("Content-Encoding".into(), value.clone().into()));
     }
-    headers.push(("Content-type".into(), content_type));
+    headers.push(("Content-type".into(), content_type.into()));
     headers.append(&mut response.get_headers().clone());
     let status = response.get_status();
     Ok((status, headers, output_bytes))

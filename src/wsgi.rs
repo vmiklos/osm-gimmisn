@@ -1367,7 +1367,7 @@ fn our_application_txt(
     request_uri: &str,
 ) -> anyhow::Result<webframe::Response> {
     let mut content_type = "text/plain";
-    let mut headers: Vec<(String, String)> = Vec::new();
+    let mut headers: webframe::Headers = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix()?;
     let mut chkl = false;
     if let Some(value) = std::path::Path::new(request_uri).extension() {
@@ -1380,7 +1380,7 @@ fn our_application_txt(
             content_type = "application/octet-stream";
             headers.push((
                 "Content-Disposition".into(),
-                format!(r#"attachment;filename="{}.txt""#, relation_name),
+                format!(r#"attachment;filename="{}.txt""#, relation_name).into(),
             ));
         }
         data = output.as_bytes().to_vec();
@@ -1391,7 +1391,7 @@ fn our_application_txt(
             content_type = "application/octet-stream";
             headers.push((
                 "Content-Disposition".into(),
-                format!(r#"attachment;filename="{}.txt""#, relation_name),
+                format!(r#"attachment;filename="{}.txt""#, relation_name).into(),
             ));
         }
         data = output.as_bytes().to_vec();
@@ -1403,7 +1403,7 @@ fn our_application_txt(
             content_type = "application/octet-stream";
             headers.push((
                 "Content-Disposition".into(),
-                format!(r#"attachment;filename="{}.txt""#, relation_name),
+                format!(r#"attachment;filename="{}.txt""#, relation_name).into(),
             ));
             data = output.as_bytes().to_vec();
         } else if request_uri.ends_with("robots.txt") {

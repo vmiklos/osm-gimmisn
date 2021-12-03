@@ -17,18 +17,6 @@ fn app(request: &rouille::Request) -> anyhow::Result<rouille::Response> {
     let ctx = osm_gimmisn::context::Context::new("")?;
     // TODO return a rouille::Response in the first place.
     let (status_code, headers, data) = wsgi::application(request, &ctx)?;
-    let headers: Vec<(
-        std::borrow::Cow<'static, str>,
-        std::borrow::Cow<'static, str>,
-    )> = headers
-        .iter()
-        .map(|(key, value)| {
-            (
-                std::borrow::Cow::Owned(key.into()),
-                std::borrow::Cow::Owned(value.into()),
-            )
-        })
-        .collect();
     Ok(rouille::Response {
         status_code,
         headers,
