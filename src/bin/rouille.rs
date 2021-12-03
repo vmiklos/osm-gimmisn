@@ -15,10 +15,8 @@ use osm_gimmisn::wsgi;
 /// Wraps wsgi::application() to an app for rouille.
 fn app(request: &rouille::Request) -> anyhow::Result<rouille::Response> {
     let ctx = osm_gimmisn::context::Context::new("")?;
-    // TODO return a numeric status in the first place.
-    let (status, headers, data) = wsgi::application(request, &ctx)?;
-    let mut tokens = status.split(' ');
-    let status_code: u16 = tokens.next().unwrap().parse()?;
+    // TODO return a rouille::Response in the first place.
+    let (status_code, headers, data) = wsgi::application(request, &ctx)?;
     let headers: Vec<(
         std::borrow::Cow<'static, str>,
         std::borrow::Cow<'static, str>,

@@ -1416,7 +1416,7 @@ fn our_application_txt(
     }
     Ok(webframe::Response::new(
         content_type,
-        "200 OK",
+        200_u16,
         &data,
         &headers,
     ))
@@ -1456,7 +1456,7 @@ fn get_handler(ctx: &context::Context, request_uri: &str) -> anyhow::Result<Opti
 fn our_application(
     request: &rouille::Request,
     ctx: &context::Context,
-) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
+) -> anyhow::Result<(u16, webframe::Headers, Vec<u8>)> {
     let language = util::setup_localization(request.headers());
 
     let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
@@ -1477,12 +1477,8 @@ fn our_application(
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if !(request_uri == "/" || request_uri.starts_with(&prefix)) {
         let doc = webframe::handle_404();
-        let response = webframe::Response::new(
-            "text/html",
-            "404 Not Found",
-            doc.get_value().as_bytes(),
-            &[],
-        );
+        let response =
+            webframe::Response::new("text/html", 404_u16, doc.get_value().as_bytes(), &[]);
         return webframe::compress_response(request, &response);
     }
 
@@ -1491,7 +1487,7 @@ fn our_application(
         || request_uri.ends_with("favicon.svg")
     {
         let (output, content_type, headers) = webframe::handle_static(ctx, &request_uri)?;
-        let response = webframe::Response::new(&content_type, "200 OK", &output, &headers);
+        let response = webframe::Response::new(&content_type, 200_u16, &output, &headers);
         return webframe::compress_response(request, &response);
     }
 
@@ -1526,7 +1522,7 @@ fn our_application(
     if !err.is_empty() {
         return Err(anyhow!(err));
     }
-    let response = webframe::Response::new("text/html", "200 OK", doc.get_value().as_bytes(), &[]);
+    let response = webframe::Response::new("text/html", 200_u16, doc.get_value().as_bytes(), &[]);
     webframe::compress_response(request, &response)
 }
 
@@ -1534,7 +1530,7 @@ fn our_application(
 pub fn application(
     request: &rouille::Request,
     ctx: &context::Context,
-) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
+) -> anyhow::Result<(u16, webframe::Headers, Vec<u8>)> {
     match our_application(request, ctx).context("our_application() failed") {
         Ok(value) => Ok(value),
         Err(err) => webframe::handle_error(request, &format!("{:?}", err)),
@@ -1556,7 +1552,7 @@ pub mod tests {
         headers: Vec<(String, String)>,
         bytes: Vec<u8>,
         absolute_path: bool,
-        expected_status: String,
+        expected_status: u16,
     }
 
     impl TestWsgi {
@@ -1566,7 +1562,7 @@ pub mod tests {
             let headers: Vec<(String, String)> = Vec::new();
             let bytes: Vec<u8> = Vec::new();
             let absolute_path = false;
-            let expected_status: String = "200 OK".into();
+            let expected_status = 200_u16;
             TestWsgi {
                 gzip_compress,
                 ctx,
@@ -1640,7 +1636,7 @@ pub mod tests {
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
             let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
-            assert_eq!(status, "200 OK");
+            assert_eq!(status, 200);
             let mut headers_map = HashMap::new();
             for (key, value) in response_headers {
                 headers_map.insert(key, value);
@@ -1662,7 +1658,7 @@ pub mod tests {
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
             let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
-            assert_eq!(status, "200 OK");
+            assert_eq!(status, 200);
             let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
             assert_eq!(
                 headers_map["Content-type"],
@@ -1681,7 +1677,7 @@ pub mod tests {
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
             let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
-            assert_eq!(status, "200 OK");
+            assert_eq!(status, 200);
             let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
             assert_eq!(headers_map["Content-type"], "text/css; charset=utf-8");
             assert_eq!(data.is_empty(), false);
@@ -2539,7 +2535,7 @@ Tűzkő utca	31
         let request = rouille::Request::fake_http("GET", abspath, rouille_headers, bytes);
         let (status, response_headers, data) = application(&request, &ctx).unwrap();
 
-        assert_eq!(status.starts_with("500"), true);
+        assert_eq!(status, 500);
         let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
         assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
         assert_eq!(data.is_empty(), false);
@@ -2705,7 +2701,7 @@ Tűzkő utca	31
     fn test_not_found_well_formed() {
         let mut test_wsgi = TestWsgi::new();
         test_wsgi.absolute_path = true;
-        test_wsgi.expected_status = "404 Not Found".into();
+        test_wsgi.expected_status = 404;
 
         let root = test_wsgi.get_dom_for_path("/asdf");
 

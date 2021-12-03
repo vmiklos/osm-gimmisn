@@ -103,7 +103,7 @@ pub fn our_application_json(
     ctx: &context::Context,
     relations: &mut areas::Relations,
     request_uri: &str,
-) -> anyhow::Result<(String, webframe::Headers, Vec<u8>)> {
+) -> anyhow::Result<(u16, webframe::Headers, Vec<u8>)> {
     let content_type = "application/json";
     let headers: webframe::Headers = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix()?;
@@ -119,7 +119,7 @@ pub fn our_application_json(
         output = missing_streets_update_result_json(ctx, relations, request_uri)?;
     }
     let output_bytes = output.as_bytes();
-    let response = webframe::Response::new(content_type, "200 OK", output_bytes, &headers);
+    let response = webframe::Response::new(content_type, 200_u16, output_bytes, &headers);
     webframe::compress_response(request, &response)
 }
 
