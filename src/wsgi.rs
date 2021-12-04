@@ -1530,11 +1530,15 @@ fn our_application(
 pub fn application(
     request: &rouille::Request,
     ctx: &context::Context,
-) -> anyhow::Result<(u16, webframe::Headers, Vec<u8>)> {
-    match our_application(request, ctx).context("our_application() failed") {
-        Ok(value) => Ok(value),
-        Err(err) => webframe::handle_error(request, &format!("{:?}", err)),
-    }
+) -> anyhow::Result<rouille::Response> {
+    // TODO return a rouille::Response in the first place.
+    let (status_code, headers, data) =
+        match our_application(request, ctx).context("our_application() failed") {
+            Ok(value) => value,
+            Err(err) => webframe::handle_error(request, &format!("{:?}", err))?,
+        };
+
+    Ok(webframe::make_response(status_code, headers, data))
 }
 
 #[cfg(test)]
@@ -1607,11 +1611,14 @@ pub mod tests {
                 self.headers.clone(),
                 self.bytes.clone(),
             );
-            let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
+            let response = application(&request, &self.ctx).unwrap();
+            let mut data = Vec::new();
+            let (mut reader, _size) = response.data.into_reader_and_size();
+            reader.read_to_end(&mut data).unwrap();
             // Make sure the built-in error catcher is not kicking in.
-            assert_eq!(status, self.expected_status);
+            assert_eq!(response.status_code, self.expected_status);
             let mut headers_map = HashMap::new();
-            for (key, value) in response_headers {
+            for (key, value) in response.headers {
                 headers_map.insert(key, value);
             }
             assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
@@ -1634,11 +1641,14 @@ pub mod tests {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             let abspath = format!("{}{}", prefix, path);
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
-            let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
+            let response = application(&request, &self.ctx).unwrap();
+            let mut data = Vec::new();
+            let (mut reader, _size) = response.data.into_reader_and_size();
+            reader.read_to_end(&mut data).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
-            assert_eq!(status, 200);
+            assert_eq!(response.status_code, 200);
             let mut headers_map = HashMap::new();
-            for (key, value) in response_headers {
+            for (key, value) in response.headers {
                 headers_map.insert(key, value);
             }
             if path.ends_with(".chkl") {
@@ -1656,10 +1666,13 @@ pub mod tests {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             let abspath = format!("{}{}", prefix, path);
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
-            let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
+            let response = application(&request, &self.ctx).unwrap();
+            let mut data = Vec::new();
+            let (mut reader, _size) = response.data.into_reader_and_size();
+            reader.read_to_end(&mut data).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
-            assert_eq!(status, 200);
-            let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
+            assert_eq!(response.status_code, 200);
+            let headers_map: HashMap<_, _> = response.headers.into_iter().collect();
             assert_eq!(
                 headers_map["Content-type"],
                 "application/json; charset=utf-8"
@@ -1675,10 +1688,13 @@ pub mod tests {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             let abspath = format!("{}{}", prefix, path);
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
-            let (status, response_headers, data) = application(&request, &self.ctx).unwrap();
+            let response = application(&request, &self.ctx).unwrap();
+            let mut data = Vec::new();
+            let (mut reader, _size) = response.data.into_reader_and_size();
+            reader.read_to_end(&mut data).unwrap();
             // Make sure the built-in exception catcher is not kicking in.
-            assert_eq!(status, 200);
-            let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
+            assert_eq!(response.status_code, 200);
+            let headers_map: HashMap<_, _> = response.headers.into_iter().collect();
             assert_eq!(headers_map["Content-type"], "text/css; charset=utf-8");
             assert_eq!(data.is_empty(), false);
             String::from_utf8(data).unwrap()
@@ -2533,10 +2549,13 @@ Tűzkő utca	31
         let abspath: String = "/".into();
         let rouille_headers: Vec<(String, String)> = Vec::new();
         let request = rouille::Request::fake_http("GET", abspath, rouille_headers, bytes);
-        let (status, response_headers, data) = application(&request, &ctx).unwrap();
+        let response = application(&request, &ctx).unwrap();
+        let mut data = Vec::new();
+        let (mut reader, _size) = response.data.into_reader_and_size();
+        reader.read_to_end(&mut data).unwrap();
 
-        assert_eq!(status, 500);
-        let headers_map: HashMap<_, _> = response_headers.into_iter().collect();
+        assert_eq!(response.status_code, 500);
+        let headers_map: HashMap<_, _> = response.headers.into_iter().collect();
         assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
         assert_eq!(data.is_empty(), false);
         let output = String::from_utf8(data).unwrap();

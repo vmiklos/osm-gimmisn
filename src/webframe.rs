@@ -1277,6 +1277,16 @@ pub fn handle_github_webhook(
     Ok(yattag::Doc::from_text(""))
 }
 
+/// Factory for rouille::Response.
+pub fn make_response(status_code: u16, headers: Headers, data: Vec<u8>) -> rouille::Response {
+    rouille::Response {
+        status_code,
+        headers,
+        data: rouille::ResponseBody::from_data(data),
+        upgrade: None,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

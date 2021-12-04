@@ -15,14 +15,7 @@ use osm_gimmisn::wsgi;
 /// Wraps wsgi::application() to an app for rouille.
 fn app(request: &rouille::Request) -> anyhow::Result<rouille::Response> {
     let ctx = osm_gimmisn::context::Context::new("")?;
-    // TODO return a rouille::Response in the first place.
-    let (status_code, headers, data) = wsgi::application(request, &ctx)?;
-    Ok(rouille::Response {
-        status_code,
-        headers,
-        data: rouille::ResponseBody::from_data(data),
-        upgrade: None,
-    })
+    wsgi::application(request, &ctx)
 }
 
 /// Commandline interface to this module.
