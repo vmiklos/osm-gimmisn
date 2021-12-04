@@ -16,7 +16,16 @@ jobs:
         with:
           toolchain: 1.56.1
       - name: Rust Cache
-        uses: Swatinem/rust-cache@v1
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+            target-cov/
+          key: ${{ runner.os }}-cargo-1.56.1-${{ hashFiles('**/Cargo.toml') }}
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
