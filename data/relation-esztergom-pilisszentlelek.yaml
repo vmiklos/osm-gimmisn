@@ -12,6 +12,8 @@ filters:
     ranges:
       - {start: '1', end: '69'}
       - {start: '2', end: '80'}
+  Pálosok utcája:
+    invalid: ['17']
 source: survey
 refstreets:
   'Hunyadi János utca': 'Hunyadi János P utca'
