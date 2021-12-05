@@ -589,10 +589,7 @@ pub fn compress_response(
 }
 
 /// Displays an unhandled error on the page.
-pub fn handle_error(
-    request: &rouille::Request,
-    error: &str,
-) -> anyhow::Result<(u16, Headers, Vec<u8>)> {
+pub fn handle_error(request: &rouille::Request, error: &str) -> anyhow::Result<rouille::Response> {
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
@@ -605,7 +602,8 @@ pub fn handle_error(
         doc.text(error);
     }
     let response_properties = Response::new("text/html", 500_u16, doc.get_value().as_bytes(), &[]);
-    compress_response(request, &response_properties)
+    let (status_code, headers, data) = compress_response(request, &response_properties)?;
+    Ok(make_response(status_code, headers, data))
 }
 
 /// Displays a not-found page.
@@ -1396,14 +1394,14 @@ mod tests {
         let unit = context::tests::TestUnit::new();
         let err = unit.make_error();
 
-        let (status, headers, data) = handle_error(&request, &err).unwrap();
+        let response = handle_error(&request, &err).unwrap();
+        let mut data = Vec::new();
+        let (mut reader, _size) = response.data.into_reader_and_size();
+        reader.read_to_end(&mut data).unwrap();
 
-        assert_eq!(status, 500);
+        assert_eq!(response.status_code, 500);
 
-        let mut headers_map = HashMap::new();
-        for (key, value) in headers {
-            headers_map.insert(key, value);
-        }
+        let headers_map: HashMap<_, _> = response.headers.into_iter().collect();
         assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
         assert_eq!(data.is_empty(), false);
 
