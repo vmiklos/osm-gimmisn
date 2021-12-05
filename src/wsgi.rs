@@ -1456,7 +1456,7 @@ fn get_handler(ctx: &context::Context, request_uri: &str) -> anyhow::Result<Opti
 fn our_application(
     request: &rouille::Request,
     ctx: &context::Context,
-) -> anyhow::Result<(u16, webframe::Headers, Vec<u8>)> {
+) -> anyhow::Result<rouille::Response> {
     let language = util::setup_localization(request.headers());
 
     let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
@@ -1468,10 +1468,12 @@ fn our_application(
     }
 
     if ext == "txt" || ext == "chkl" {
-        return webframe::compress_response(
+        // TODO return a rouille::Response in the first place.
+        let (status_code, headers, data) = webframe::compress_response(
             request,
             &our_application_txt(ctx, &mut relations, &request_uri)?,
-        );
+        )?;
+        return Ok(webframe::make_response(status_code, headers, data));
     }
 
     let prefix = ctx.get_ini().get_uri_prefix()?;
@@ -1479,7 +1481,9 @@ fn our_application(
         let doc = webframe::handle_404();
         let response =
             webframe::Response::new("text/html", 404_u16, doc.get_value().as_bytes(), &[]);
-        return webframe::compress_response(request, &response);
+        // TODO return a rouille::Response in the first place.
+        let (status_code, headers, data) = webframe::compress_response(request, &response)?;
+        return Ok(webframe::make_response(status_code, headers, data));
     }
 
     if request_uri.starts_with(&format!("{}/static/", prefix))
@@ -1488,11 +1492,16 @@ fn our_application(
     {
         let (output, content_type, headers) = webframe::handle_static(ctx, &request_uri)?;
         let response = webframe::Response::new(&content_type, 200_u16, &output, &headers);
-        return webframe::compress_response(request, &response);
+        // TODO return a rouille::Response in the first place.
+        let (status_code, headers, data) = webframe::compress_response(request, &response)?;
+        return Ok(webframe::make_response(status_code, headers, data));
     }
 
     if ext == "json" {
-        return wsgi_json::our_application_json(request, ctx, &mut relations, &request_uri);
+        // TODO return a rouille::Response in the first place.
+        let (status_code, headers, data) =
+            wsgi_json::our_application_json(request, ctx, &mut relations, &request_uri)?;
+        return Ok(webframe::make_response(status_code, headers, data));
     }
 
     let doc = yattag::Doc::new();
@@ -1523,7 +1532,9 @@ fn our_application(
         return Err(anyhow!(err));
     }
     let response = webframe::Response::new("text/html", 200_u16, doc.get_value().as_bytes(), &[]);
-    webframe::compress_response(request, &response)
+    // TODO return a rouille::Response in the first place.
+    let (status_code, headers, data) = webframe::compress_response(request, &response)?;
+    Ok(webframe::make_response(status_code, headers, data))
 }
 
 /// The entry point of this WSGI app.
@@ -1531,14 +1542,11 @@ pub fn application(
     request: &rouille::Request,
     ctx: &context::Context,
 ) -> anyhow::Result<rouille::Response> {
-    // TODO return a rouille::Response in the first place.
-    let (status_code, headers, data) =
-        match our_application(request, ctx).context("our_application() failed") {
-            Ok(value) => value,
-            Err(err) => webframe::handle_error(request, &format!("{:?}", err))?,
-        };
-
-    Ok(webframe::make_response(status_code, headers, data))
+    // TODO this should never fail
+    match our_application(request, ctx).context("our_application() failed") {
+        Ok(value) => Ok(value),
+        Err(err) => Ok(webframe::handle_error(request, &format!("{:?}", err))?),
+    }
 }
 
 #[cfg(test)]
