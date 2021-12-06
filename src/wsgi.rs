@@ -1366,7 +1366,7 @@ fn our_application_txt(
     relations: &mut areas::Relations,
     request_uri: &str,
 ) -> anyhow::Result<webframe::Response> {
-    let mut content_type = "text/plain";
+    let mut content_type = "text/plain; charset=utf-8";
     let mut headers: webframe::Headers = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix()?;
     let mut chkl = false;
@@ -1414,12 +1414,8 @@ fn our_application_txt(
             data = output.as_bytes().to_vec();
         }
     }
-    Ok(webframe::Response::new(
-        content_type,
-        200_u16,
-        &data,
-        &headers,
-    ))
+    headers.push(("Content-type".into(), content_type.into()));
+    Ok(webframe::Response::new(200_u16, &headers, &data))
 }
 
 type Handler = fn(&context::Context, &mut areas::Relations, &str) -> anyhow::Result<yattag::Doc>;
@@ -1479,8 +1475,11 @@ fn our_application(
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if !(request_uri == "/" || request_uri.starts_with(&prefix)) {
         let doc = webframe::handle_404();
-        let response =
-            webframe::Response::new("text/html", 404_u16, doc.get_value().as_bytes(), &[]);
+        let response = webframe::Response::new(
+            404_u16,
+            &[("Content-type".into(), "text/html; charset=utf-8".into())],
+            doc.get_value().as_bytes(),
+        );
         // TODO return a rouille::Response in the first place.
         let (status_code, headers, data) = webframe::compress_response(request, &response)?;
         return Ok(webframe::make_response(status_code, headers, data));
@@ -1490,8 +1489,9 @@ fn our_application(
         || request_uri.ends_with("favicon.ico")
         || request_uri.ends_with("favicon.svg")
     {
-        let (output, content_type, headers) = webframe::handle_static(ctx, &request_uri)?;
-        let response = webframe::Response::new(&content_type, 200_u16, &output, &headers);
+        let (output, content_type, mut headers) = webframe::handle_static(ctx, &request_uri)?;
+        headers.push(("Content-type".into(), content_type.into()));
+        let response = webframe::Response::new(200_u16, &headers, &output);
         // TODO return a rouille::Response in the first place.
         let (status_code, headers, data) = webframe::compress_response(request, &response)?;
         return Ok(webframe::make_response(status_code, headers, data));
@@ -1531,7 +1531,11 @@ fn our_application(
     if !err.is_empty() {
         return Err(anyhow!(err));
     }
-    let response = webframe::Response::new("text/html", 200_u16, doc.get_value().as_bytes(), &[]);
+    let response = webframe::Response::new(
+        200_u16,
+        &[("Content-type".into(), "text/html; charset=utf-8".into())],
+        doc.get_value().as_bytes(),
+    );
     // TODO return a rouille::Response in the first place.
     let (status_code, headers, data) = webframe::compress_response(request, &response)?;
     Ok(webframe::make_response(status_code, headers, data))
