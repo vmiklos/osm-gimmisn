@@ -472,19 +472,19 @@ pub fn handle_static(
     let extra_headers = Vec::new();
 
     if request_uri.ends_with(".js") {
-        let content_type = "application/x-javascript";
+        let content_type = "application/x-javascript; charset=utf-8";
         let (content, extra_headers) =
             util::get_content_with_meta(&ctx.get_abspath(&format!("builddir/{}", path)))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".css") {
-        let content_type = "text/css";
+        let content_type = "text/css; charset=utf-8";
         let (content, extra_headers) =
             util::get_content_with_meta(&format!("{}/{}", ctx.get_ini().get_workdir()?, path))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".json") {
-        let content_type = "application/json";
+        let content_type = "application/json; charset=utf-8";
         let (content, extra_headers) = util::get_content_with_meta(&format!(
             "{}/stats/{}",
             ctx.get_ini().get_workdir()?,
@@ -498,7 +498,7 @@ pub fn handle_static(
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".svg") {
-        let content_type = "image/svg+xml";
+        let content_type = "image/svg+xml; charset=utf-8";
         let (content, extra_headers) = util::get_content_with_meta(&ctx.get_abspath(path))?;
         return Ok((content, content_type.into(), extra_headers));
     }
@@ -510,30 +510,22 @@ pub fn handle_static(
 /// A HTTP response, to be sent by compress_response().
 #[derive(Clone)]
 pub struct Response {
-    content_type: String,
     status: u16,
-    output_bytes: Vec<u8>,
     headers: Headers,
+    output_bytes: Vec<u8>,
 }
 
 impl Response {
     pub fn new(
-        content_type: &str,
         status: u16,
-        output_bytes: &[u8],
         headers: &[(Cow<'static, str>, Cow<'static, str>)],
+        output_bytes: &[u8],
     ) -> Self {
         Response {
-            content_type: content_type.into(),
             status,
-            output_bytes: output_bytes.to_vec(),
             headers: headers.to_vec(),
+            output_bytes: output_bytes.to_vec(),
         }
-    }
-
-    /// Gets the Content-type value.
-    fn get_content_type(&self) -> &String {
-        &self.content_type
     }
 
     /// Gets the HTTP status.
@@ -557,11 +549,6 @@ pub fn compress_response(
     request: &rouille::Request,
     response: &Response,
 ) -> anyhow::Result<(u16, Headers, Vec<u8>)> {
-    let mut content_type: String = response.get_content_type().into();
-    if content_type != "application/octet-stream" {
-        content_type.push_str("; charset=utf-8");
-    }
-
     // Apply content encoding: gzip, etc.
     let mut output_bytes = response.get_output_bytes().clone();
     let mut headers: Headers = Vec::new();
@@ -582,7 +569,6 @@ pub fn compress_response(
     if let Some(value) = content_encodings.get(0) {
         headers.push(("Content-Encoding".into(), value.clone().into()));
     }
-    headers.push(("Content-type".into(), content_type.into()));
     headers.append(&mut response.get_headers().clone());
     let status = response.get_status();
     Ok((status, headers, output_bytes))
@@ -601,7 +587,11 @@ pub fn handle_error(request: &rouille::Request, error: &str) -> anyhow::Result<r
         ));
         doc.text(error);
     }
-    let response_properties = Response::new("text/html", 500_u16, doc.get_value().as_bytes(), &[]);
+    let response_properties = Response::new(
+        500_u16,
+        &[("Content-type".into(), "text/html; charset=utf-8".into())],
+        doc.get_value().as_bytes(),
+    );
     let (status_code, headers, data) = compress_response(request, &response_properties)?;
     Ok(make_response(status_code, headers, data))
 }
@@ -1298,7 +1288,7 @@ mod tests {
         let (content, content_type, extra_headers) =
             handle_static(&ctx, &format!("{}/static/osm.min.css", prefix)).unwrap();
         assert_eq!(content.is_empty(), false);
-        assert_eq!(content_type, "text/css");
+        assert_eq!(content_type, "text/css; charset=utf-8");
         assert_eq!(extra_headers.len(), 1);
         assert_eq!(extra_headers[0].0, "Last-Modified");
     }
@@ -1311,7 +1301,7 @@ mod tests {
         let (content, content_type, extra_headers) =
             handle_static(&ctx, &format!("{}/static/bundle.js", prefix)).unwrap();
         assert_eq!("// bundle.js\n".as_bytes(), content);
-        assert_eq!(content_type, "application/x-javascript");
+        assert_eq!(content_type, "application/x-javascript; charset=utf-8");
         assert_eq!(extra_headers.len(), 1);
         assert_eq!(extra_headers[0].0, "Last-Modified");
     }
@@ -1324,7 +1314,7 @@ mod tests {
         let (content, content_type, extra_headers) =
             handle_static(&ctx, &format!("{}/static/stats-empty.json", prefix)).unwrap();
         assert_eq!(content.starts_with(b"{"), true);
-        assert_eq!(content_type, "application/json");
+        assert_eq!(content_type, "application/json; charset=utf-8");
         assert_eq!(extra_headers.len(), 1);
         assert_eq!(extra_headers[0].0, "Last-Modified");
     }
@@ -1346,7 +1336,7 @@ mod tests {
         let ctx = context::tests::make_test_context().unwrap();
         let (content, content_type, extra_headers) = handle_static(&ctx, "/favicon.svg").unwrap();
         assert_eq!(content.is_empty(), false);
-        assert_eq!(content_type, "image/svg+xml");
+        assert_eq!(content_type, "image/svg+xml; charset=utf-8");
         assert_eq!(extra_headers.len(), 1);
         assert_eq!(extra_headers[0].0, "Last-Modified");
     }

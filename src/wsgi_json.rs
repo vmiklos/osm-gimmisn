@@ -104,8 +104,7 @@ pub fn our_application_json(
     relations: &mut areas::Relations,
     request_uri: &str,
 ) -> anyhow::Result<(u16, webframe::Headers, Vec<u8>)> {
-    let content_type = "application/json";
-    let headers: webframe::Headers = Vec::new();
+    let mut headers: webframe::Headers = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix()?;
     let output: String;
     if request_uri.starts_with(&format!("{}/streets/", prefix)) {
@@ -119,7 +118,11 @@ pub fn our_application_json(
         output = missing_streets_update_result_json(ctx, relations, request_uri)?;
     }
     let output_bytes = output.as_bytes();
-    let response = webframe::Response::new(content_type, 200_u16, output_bytes, &headers);
+    headers.push((
+        "Content-type".into(),
+        "application/json; charset=utf-8".into(),
+    ));
+    let response = webframe::Response::new(200_u16, &headers, output_bytes);
     webframe::compress_response(request, &response)
 }
 
