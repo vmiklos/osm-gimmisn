@@ -550,28 +550,20 @@ pub fn compress_response(
     response: &Response,
 ) -> anyhow::Result<(u16, Headers, Vec<u8>)> {
     // Apply content encoding: gzip, etc.
-    let mut output_bytes = response.get_output_bytes().clone();
-    let mut headers: Headers = Vec::new();
     // TODO avoid this mapping.
-    let rouille_response = rouille::Response::from_data("application/x-javascript", output_bytes);
-    let compressed = rouille::content_encoding::apply(request, rouille_response);
+    let response = make_response(
+        response.get_status(),
+        response.get_headers().clone(),
+        response.get_output_bytes().clone(),
+    );
+
+    let compressed = rouille::content_encoding::apply(request, response);
+
     // TODO avoid this mapping.
     let (mut reader, _size) = compressed.data.into_reader_and_size();
     let mut buffer = Vec::new();
     reader.read_to_end(&mut buffer)?;
-    output_bytes = buffer;
-    let content_encodings: Vec<String> = compressed
-        .headers
-        .iter()
-        .filter(|(key, _value)| key == "Content-Encoding")
-        .map(|(_key, value)| value.to_string())
-        .collect();
-    if let Some(value) = content_encodings.get(0) {
-        headers.push(("Content-Encoding".into(), value.clone().into()));
-    }
-    headers.append(&mut response.get_headers().clone());
-    let status = response.get_status();
-    Ok((status, headers, output_bytes))
+    Ok((compressed.status_code, compressed.headers, buffer))
 }
 
 /// Displays an unhandled error on the page.
