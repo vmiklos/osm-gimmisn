@@ -117,13 +117,13 @@ pub fn our_application_json(
         // Assume that request_uri starts with prefix + "/missing-streets/".
         output = missing_streets_update_result_json(ctx, relations, request_uri)?;
     }
-    let output_bytes = output.as_bytes();
+    let output_bytes = output.as_bytes().to_vec();
     headers.push((
         "Content-type".into(),
         "application/json; charset=utf-8".into(),
     ));
-    let response = webframe::Response::new(200_u16, &headers, output_bytes);
-    webframe::compress_response(request, &response)
+    let response = webframe::make_response(200_u16, headers, output_bytes);
+    webframe::compress_response(request, response)
 }
 
 #[cfg(test)]
