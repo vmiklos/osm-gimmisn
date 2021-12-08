@@ -507,56 +507,12 @@ pub fn handle_static(
     Ok((bytes, "".into(), extra_headers))
 }
 
-/// A HTTP response, to be sent by compress_response().
-#[derive(Clone)]
-pub struct Response {
-    status: u16,
-    headers: Headers,
-    output_bytes: Vec<u8>,
-}
-
-impl Response {
-    pub fn new(
-        status: u16,
-        headers: &[(Cow<'static, str>, Cow<'static, str>)],
-        output_bytes: &[u8],
-    ) -> Self {
-        Response {
-            status,
-            headers: headers.to_vec(),
-            output_bytes: output_bytes.to_vec(),
-        }
-    }
-
-    /// Gets the HTTP status.
-    fn get_status(&self) -> u16 {
-        self.status
-    }
-
-    /// Gets the encoded output.
-    fn get_output_bytes(&self) -> &Vec<u8> {
-        &self.output_bytes
-    }
-
-    /// Gets the HTTP headers.
-    fn get_headers(&self) -> &Headers {
-        &self.headers
-    }
-}
-
 /// Turns an output string into a byte array and sends it.
 pub fn compress_response(
     request: &rouille::Request,
-    response: &Response,
+    response: rouille::Response,
 ) -> anyhow::Result<(u16, Headers, Vec<u8>)> {
     // Apply content encoding: gzip, etc.
-    // TODO avoid this mapping.
-    let response = make_response(
-        response.get_status(),
-        response.get_headers().clone(),
-        response.get_output_bytes().clone(),
-    );
-
     let compressed = rouille::content_encoding::apply(request, response);
 
     // TODO avoid this mapping.
@@ -579,12 +535,12 @@ pub fn handle_error(request: &rouille::Request, error: &str) -> anyhow::Result<r
         ));
         doc.text(error);
     }
-    let response_properties = Response::new(
+    let response = make_response(
         500_u16,
-        &[("Content-type".into(), "text/html; charset=utf-8".into())],
-        doc.get_value().as_bytes(),
+        vec![("Content-type".into(), "text/html; charset=utf-8".into())],
+        doc.get_value().as_bytes().to_vec(),
     );
-    let (status_code, headers, data) = compress_response(request, &response_properties)?;
+    let (status_code, headers, data) = compress_response(request, response)?;
     Ok(make_response(status_code, headers, data))
 }
 
