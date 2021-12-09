@@ -1464,12 +1464,10 @@ fn our_application(
     }
 
     if ext == "txt" || ext == "chkl" {
-        // TODO return a rouille::Response in the first place.
-        let (status_code, headers, data) = webframe::compress_response(
+        return webframe::compress_response(
             request,
             our_application_txt(ctx, &mut relations, &request_uri)?,
-        )?;
-        return Ok(webframe::make_response(status_code, headers, data));
+        );
     }
 
     let prefix = ctx.get_ini().get_uri_prefix()?;
@@ -1480,9 +1478,7 @@ fn our_application(
             vec![("Content-type".into(), "text/html; charset=utf-8".into())],
             doc.get_value().as_bytes().to_vec(),
         );
-        // TODO return a rouille::Response in the first place.
-        let (status_code, headers, data) = webframe::compress_response(request, response)?;
-        return Ok(webframe::make_response(status_code, headers, data));
+        return webframe::compress_response(request, response);
     }
 
     if request_uri.starts_with(&format!("{}/static/", prefix))
@@ -1492,16 +1488,11 @@ fn our_application(
         let (output, content_type, mut headers) = webframe::handle_static(ctx, &request_uri)?;
         headers.push(("Content-type".into(), content_type.into()));
         let response = webframe::make_response(200_u16, headers, output);
-        // TODO return a rouille::Response in the first place.
-        let (status_code, headers, data) = webframe::compress_response(request, response)?;
-        return Ok(webframe::make_response(status_code, headers, data));
+        return webframe::compress_response(request, response);
     }
 
     if ext == "json" {
-        // TODO return a rouille::Response in the first place.
-        let (status_code, headers, data) =
-            wsgi_json::our_application_json(request, ctx, &mut relations, &request_uri)?;
-        return Ok(webframe::make_response(status_code, headers, data));
+        return wsgi_json::our_application_json(request, ctx, &mut relations, &request_uri);
     }
 
     let doc = yattag::Doc::new();
@@ -1536,9 +1527,7 @@ fn our_application(
         vec![("Content-type".into(), "text/html; charset=utf-8".into())],
         doc.get_value().as_bytes().to_vec(),
     );
-    // TODO return a rouille::Response in the first place.
-    let (status_code, headers, data) = webframe::compress_response(request, response)?;
-    Ok(webframe::make_response(status_code, headers, data))
+    webframe::compress_response(request, response)
 }
 
 /// The entry point of this WSGI app.
