@@ -508,7 +508,7 @@ pub fn handle_static(
 }
 
 /// Displays an unhandled error on the page.
-pub fn handle_error(request: &rouille::Request, error: &str) -> anyhow::Result<rouille::Response> {
+pub fn handle_error(request: &rouille::Request, error: &str) -> rouille::Response {
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
@@ -520,12 +520,11 @@ pub fn handle_error(request: &rouille::Request, error: &str) -> anyhow::Result<r
         ));
         doc.text(error);
     }
-    // TODO this never fails
-    Ok(make_response(
+    make_response(
         500_u16,
         vec![("Content-type".into(), "text/html; charset=utf-8".into())],
         doc.get_value().as_bytes().to_vec(),
-    ))
+    )
 }
 
 /// Displays a not-found page.
@@ -1316,7 +1315,7 @@ mod tests {
         let unit = context::tests::TestUnit::new();
         let err = unit.make_error();
 
-        let response = handle_error(&request, &err).unwrap();
+        let response = handle_error(&request, &err);
         let mut data = Vec::new();
         let (mut reader, _size) = response.data.into_reader_and_size();
         reader.read_to_end(&mut data).unwrap();

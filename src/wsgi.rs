@@ -1533,7 +1533,7 @@ pub fn application(
     match our_application(request, ctx).context("our_application() failed") {
         // Compress.
         Ok(value) => Ok(rouille::content_encoding::apply(request, value)),
-        Err(err) => Ok(webframe::handle_error(request, &format!("{:?}", err))?),
+        Err(err) => Ok(webframe::handle_error(request, &format!("{:?}", err))),
     }
 }
 
