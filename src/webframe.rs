@@ -511,15 +511,9 @@ pub fn handle_static(
 pub fn compress_response(
     request: &rouille::Request,
     response: rouille::Response,
-) -> anyhow::Result<(u16, Headers, Vec<u8>)> {
-    // Apply content encoding: gzip, etc.
-    let compressed = rouille::content_encoding::apply(request, response);
-
-    // TODO avoid this mapping.
-    let (mut reader, _size) = compressed.data.into_reader_and_size();
-    let mut buffer = Vec::new();
-    reader.read_to_end(&mut buffer)?;
-    Ok((compressed.status_code, compressed.headers, buffer))
+) -> anyhow::Result<rouille::Response> {
+    // TODO clean up this not needed wrapper.
+    Ok(rouille::content_encoding::apply(request, response))
 }
 
 /// Displays an unhandled error on the page.
@@ -540,8 +534,7 @@ pub fn handle_error(request: &rouille::Request, error: &str) -> anyhow::Result<r
         vec![("Content-type".into(), "text/html; charset=utf-8".into())],
         doc.get_value().as_bytes().to_vec(),
     );
-    let (status_code, headers, data) = compress_response(request, response)?;
-    Ok(make_response(status_code, headers, data))
+    compress_response(request, response)
 }
 
 /// Displays a not-found page.
