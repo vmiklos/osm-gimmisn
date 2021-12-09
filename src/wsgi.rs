@@ -1464,21 +1464,17 @@ fn our_application(
     }
 
     if ext == "txt" || ext == "chkl" {
-        return webframe::compress_response(
-            request,
-            our_application_txt(ctx, &mut relations, &request_uri)?,
-        );
+        return our_application_txt(ctx, &mut relations, &request_uri);
     }
 
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if !(request_uri == "/" || request_uri.starts_with(&prefix)) {
         let doc = webframe::handle_404();
-        let response = webframe::make_response(
+        return Ok(webframe::make_response(
             404_u16,
             vec![("Content-type".into(), "text/html; charset=utf-8".into())],
             doc.get_value().as_bytes().to_vec(),
-        );
-        return webframe::compress_response(request, response);
+        ));
     }
 
     if request_uri.starts_with(&format!("{}/static/", prefix))
@@ -1487,12 +1483,11 @@ fn our_application(
     {
         let (output, content_type, mut headers) = webframe::handle_static(ctx, &request_uri)?;
         headers.push(("Content-type".into(), content_type.into()));
-        let response = webframe::make_response(200_u16, headers, output);
-        return webframe::compress_response(request, response);
+        return Ok(webframe::make_response(200_u16, headers, output));
     }
 
     if ext == "json" {
-        return wsgi_json::our_application_json(request, ctx, &mut relations, &request_uri);
+        return wsgi_json::our_application_json(ctx, &mut relations, &request_uri);
     }
 
     let doc = yattag::Doc::new();
@@ -1522,12 +1517,11 @@ fn our_application(
     if !err.is_empty() {
         return Err(anyhow!(err));
     }
-    let response = webframe::make_response(
+    Ok(webframe::make_response(
         200_u16,
         vec![("Content-type".into(), "text/html; charset=utf-8".into())],
         doc.get_value().as_bytes().to_vec(),
-    );
-    webframe::compress_response(request, response)
+    ))
 }
 
 /// The entry point of this WSGI app.
@@ -1537,7 +1531,8 @@ pub fn application(
 ) -> anyhow::Result<rouille::Response> {
     // TODO this should never fail
     match our_application(request, ctx).context("our_application() failed") {
-        Ok(value) => Ok(value),
+        // Compress.
+        Ok(value) => Ok(rouille::content_encoding::apply(request, value)),
         Err(err) => Ok(webframe::handle_error(request, &format!("{:?}", err))?),
     }
 }
