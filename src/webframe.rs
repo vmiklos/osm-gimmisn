@@ -507,15 +507,6 @@ pub fn handle_static(
     Ok((bytes, "".into(), extra_headers))
 }
 
-/// Turns an output string into a byte array and sends it.
-pub fn compress_response(
-    request: &rouille::Request,
-    response: rouille::Response,
-) -> anyhow::Result<rouille::Response> {
-    // TODO clean up this not needed wrapper.
-    Ok(rouille::content_encoding::apply(request, response))
-}
-
 /// Displays an unhandled error on the page.
 pub fn handle_error(request: &rouille::Request, error: &str) -> anyhow::Result<rouille::Response> {
     let doc = yattag::Doc::new();
@@ -529,12 +520,12 @@ pub fn handle_error(request: &rouille::Request, error: &str) -> anyhow::Result<r
         ));
         doc.text(error);
     }
-    let response = make_response(
+    // TODO this never fails
+    Ok(make_response(
         500_u16,
         vec![("Content-type".into(), "text/html; charset=utf-8".into())],
         doc.get_value().as_bytes().to_vec(),
-    );
-    compress_response(request, response)
+    ))
 }
 
 /// Displays a not-found page.
