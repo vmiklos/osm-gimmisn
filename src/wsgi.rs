@@ -1525,15 +1525,11 @@ fn our_application(
 }
 
 /// The entry point of this WSGI app.
-pub fn application(
-    request: &rouille::Request,
-    ctx: &context::Context,
-) -> anyhow::Result<rouille::Response> {
-    // TODO this should never fail
+pub fn application(request: &rouille::Request, ctx: &context::Context) -> rouille::Response {
     match our_application(request, ctx).context("our_application() failed") {
         // Compress.
-        Ok(value) => Ok(rouille::content_encoding::apply(request, value)),
-        Err(err) => Ok(webframe::handle_error(request, &format!("{:?}", err))),
+        Ok(value) => rouille::content_encoding::apply(request, value),
+        Err(err) => webframe::handle_error(request, &format!("{:?}", err)),
     }
 }
 
@@ -1607,7 +1603,7 @@ pub mod tests {
                 self.headers.clone(),
                 self.bytes.clone(),
             );
-            let response = application(&request, &self.ctx).unwrap();
+            let response = application(&request, &self.ctx);
             let mut data = Vec::new();
             let (mut reader, _size) = response.data.into_reader_and_size();
             reader.read_to_end(&mut data).unwrap();
@@ -1637,7 +1633,7 @@ pub mod tests {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             let abspath = format!("{}{}", prefix, path);
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
-            let response = application(&request, &self.ctx).unwrap();
+            let response = application(&request, &self.ctx);
             let mut data = Vec::new();
             let (mut reader, _size) = response.data.into_reader_and_size();
             reader.read_to_end(&mut data).unwrap();
@@ -1662,7 +1658,7 @@ pub mod tests {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             let abspath = format!("{}{}", prefix, path);
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
-            let response = application(&request, &self.ctx).unwrap();
+            let response = application(&request, &self.ctx);
             let mut data = Vec::new();
             let (mut reader, _size) = response.data.into_reader_and_size();
             reader.read_to_end(&mut data).unwrap();
@@ -1684,7 +1680,7 @@ pub mod tests {
             let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
             let abspath = format!("{}{}", prefix, path);
             let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
-            let response = application(&request, &self.ctx).unwrap();
+            let response = application(&request, &self.ctx);
             let mut data = Vec::new();
             let (mut reader, _size) = response.data.into_reader_and_size();
             reader.read_to_end(&mut data).unwrap();
@@ -2545,7 +2541,7 @@ Tűzkő utca	31
         let abspath: String = "/".into();
         let rouille_headers: Vec<(String, String)> = Vec::new();
         let request = rouille::Request::fake_http("GET", abspath, rouille_headers, bytes);
-        let response = application(&request, &ctx).unwrap();
+        let response = application(&request, &ctx);
         let mut data = Vec::new();
         let (mut reader, _size) = response.data.into_reader_and_size();
         reader.read_to_end(&mut data).unwrap();

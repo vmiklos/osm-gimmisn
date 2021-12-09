@@ -13,8 +13,8 @@
 use osm_gimmisn::wsgi;
 
 /// Wraps wsgi::application() to an app for rouille.
-fn app(request: &rouille::Request) -> anyhow::Result<rouille::Response> {
-    let ctx = osm_gimmisn::context::Context::new("")?;
+fn app(request: &rouille::Request) -> rouille::Response {
+    let ctx = osm_gimmisn::context::Context::new("").unwrap();
     wsgi::application(request, &ctx)
 }
 
@@ -36,6 +36,6 @@ fn main() -> anyhow::Result<()> {
         port, prefix
     );
     rouille::start_server_with_pool(format!("127.0.0.1:{}", port), None, move |request| {
-        app(request).unwrap()
+        app(request)
     });
 }
