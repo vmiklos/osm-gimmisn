@@ -474,32 +474,29 @@ pub fn handle_static(
     if request_uri.ends_with(".js") {
         let content_type = "application/x-javascript; charset=utf-8";
         let (content, extra_headers) =
-            util::get_content_with_meta(&ctx.get_abspath(&format!("builddir/{}", path)))?;
+            get_content_with_meta(&ctx.get_abspath(&format!("builddir/{}", path)))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".css") {
         let content_type = "text/css; charset=utf-8";
         let (content, extra_headers) =
-            util::get_content_with_meta(&format!("{}/{}", ctx.get_ini().get_workdir()?, path))?;
+            get_content_with_meta(&format!("{}/{}", ctx.get_ini().get_workdir()?, path))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".json") {
         let content_type = "application/json; charset=utf-8";
-        let (content, extra_headers) = util::get_content_with_meta(&format!(
-            "{}/stats/{}",
-            ctx.get_ini().get_workdir()?,
-            path
-        ))?;
+        let (content, extra_headers) =
+            get_content_with_meta(&format!("{}/stats/{}", ctx.get_ini().get_workdir()?, path))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".ico") {
         let content_type = "image/x-icon";
-        let (content, extra_headers) = util::get_content_with_meta(&ctx.get_abspath(path))?;
+        let (content, extra_headers) = get_content_with_meta(&ctx.get_abspath(path))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".svg") {
         let content_type = "image/svg+xml; charset=utf-8";
-        let (content, extra_headers) = util::get_content_with_meta(&ctx.get_abspath(path))?;
+        let (content, extra_headers) = get_content_with_meta(&ctx.get_abspath(path))?;
         return Ok((content, content_type.into(), extra_headers));
     }
 
@@ -1204,6 +1201,18 @@ pub fn make_response(status_code: u16, headers: Headers, data: Vec<u8>) -> rouil
         data: rouille::ResponseBody::from_data(data),
         upgrade: None,
     }
+}
+
+/// Gets the content of a file in workdir with metadata.
+fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, Headers)> {
+    let buf = util::get_content(path)?;
+
+    let metadata = std::fs::metadata(path)?;
+    let modified = metadata.modified()?;
+    let modified_utc: chrono::DateTime<chrono::offset::Utc> = modified.into();
+
+    let extra_headers = vec![("Last-Modified".into(), modified_utc.to_rfc2822().into())];
+    Ok((buf, extra_headers))
 }
 
 #[cfg(test)]
