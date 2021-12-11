@@ -619,11 +619,10 @@ fn missing_streets_view_turbo(
 }
 
 /// Gets the update date for missing/additional streets.
-fn streets_diff_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
+fn streets_diff_last_modified(relation: &areas::Relation) -> String {
     let t_ref = util::get_timestamp(&relation.get_files().get_ref_streets_path()) as i64;
     let t_osm = util::get_timestamp(&relation.get_files().get_osm_streets_path()) as i64;
-    // TODO this can't fail
-    Ok(webframe::format_timestamp(std::cmp::max(t_ref, t_osm)))
+    webframe::format_timestamp(std::cmp::max(t_ref, t_osm))
 }
 
 /// Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query].
@@ -667,7 +666,7 @@ fn handle_missing_streets(
         doc.append_value(missing_streets_view_result(ctx, relations, request_uri)?.get_value());
     }
 
-    let date = streets_diff_last_modified(&relation)?;
+    let date = streets_diff_last_modified(&relation);
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
@@ -709,17 +708,16 @@ fn handle_additional_streets(
         )
     }
 
-    let date = streets_diff_last_modified(&relation)?;
+    let date = streets_diff_last_modified(&relation);
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
 
 /// Gets the update date for missing/additional housenumbers.
-fn housenumbers_diff_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
+fn housenumbers_diff_last_modified(relation: &areas::Relation) -> String {
     let t_ref = util::get_timestamp(&relation.get_files().get_ref_housenumbers_path()) as i64;
     let t_osm = util::get_timestamp(&relation.get_files().get_osm_housenumbers_path()) as i64;
-    // TODO this can never fail
-    Ok(webframe::format_timestamp(std::cmp::max(t_ref, t_osm)))
+    webframe::format_timestamp(std::cmp::max(t_ref, t_osm))
 }
 
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query].
@@ -753,7 +751,7 @@ fn handle_additional_housenumbers(
             .get_value(),
     );
 
-    let date = housenumbers_diff_last_modified(&relation)?;
+    let date = housenumbers_diff_last_modified(&relation);
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
