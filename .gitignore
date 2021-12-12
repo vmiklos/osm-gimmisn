@@ -8,6 +8,7 @@ wsgi.ini
 # Rust
 Cargo.lock
 target
+target-cov
 check-clippy
 check-rustfmt
 
