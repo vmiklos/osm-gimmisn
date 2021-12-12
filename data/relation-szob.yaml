@@ -1,9 +1,6 @@
 missing-streets: 'yes'
 filters: {}
 refstreets:
-  'Akácfa utca': 'Akác utca'
-  'Bányatelep út': 'Bányatelep utca'
-  'Ipolyság út': 'Ipolysági utca'
   'Jókai Mór utca': 'Jókai utca'
   'Mátyás király út': 'Mátyás király utca'
   'Radnóti Miklós utca': 'Radnóti utca'
