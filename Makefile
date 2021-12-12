@@ -51,14 +51,6 @@ RS_OBJECTS = \
 	src/wsgi_json.rs \
 	src/yattag.rs \
 
-BINARY_CRATES = \
-	cache_yamls \
-	cron \
-	missing_housenumbers \
-	parse_access_log \
-	rouille \
-	validator \
-
 # Source local config if it's there.
 -include config.mak
 
@@ -77,7 +69,7 @@ ifndef V
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
 endif
 
-all: builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo $(foreach BINARY_CRATE,$(BINARY_CRATES),target/$(TARGET_PATH)/$(BINARY_CRATE))
+all: builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo build
 
 clean:
 	rm -f config.ts
@@ -93,8 +85,8 @@ check-rustfmt: Cargo.toml $(RS_OBJECTS)
 check-clippy: Cargo.toml $(RS_OBJECTS)
 	cargo clippy ${CARGO_OPTIONS} && touch $@
 
-$(foreach BINARY_CRATE,$(BINARY_CRATES),target/${TARGET_PATH}/$(BINARY_CRATE)) &: $(RS_OBJECTS) Cargo.toml Makefile
-	cargo build $(foreach BINARY_CRATE,$(BINARY_CRATES),--bin $(BINARY_CRATE)) ${CARGO_OPTIONS}
+build: $(RS_OBJECTS) Cargo.toml Makefile
+	cargo build ${CARGO_OPTIONS}
 
 # Without coverage: cargo test --lib -- --test-threads=1
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata data/yamls.cache
@@ -140,10 +132,10 @@ tests/workdir/osm.min.css: workdir/osm.min.css
 wsgi.ini:
 	cp data/wsgi.ini.template wsgi.ini
 
-data/yamls.cache: target/${TARGET_PATH}/cache_yamls  $(YAML_OBJECTS)
+data/yamls.cache: build $(YAML_OBJECTS)
 	target/${TARGET_PATH}/cache_yamls data workdir
 
-tests/data/yamls.cache: target/${TARGET_PATH}/cache_yamls $(YAML_TEST_OBJECTS)
+tests/data/yamls.cache: build $(YAML_TEST_OBJECTS)
 	target/${TARGET_PATH}/cache_yamls tests/data tests/workdir
 
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
@@ -153,7 +145,7 @@ check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
 check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
-%.validyaml : %.yaml target/${TARGET_PATH}/validator
+%.validyaml : %.yaml build
 	$(QUIET_VALIDATOR)target/${TARGET_PATH}/validator $< && touch $@
 
 # Make sure that the current directory is *not* the repo root but something else to catch
