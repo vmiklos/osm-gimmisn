@@ -75,7 +75,7 @@ refstreets:
   'Gyöngyvirágos utca': 'Gyöngyvirágos út'  # tábla régi u. illetve utca
   'Révész utca': 'Révész út'  # tábla régi: u.
   'Salak utca': 'Salak út'  # táblán Salak utca
-  'Túróci Balázs utca': 'Turóci Balázs utca:'  # táblán: Túróci Balázs utca
+  'Túróci Balázs utca': 'Turóci Balázs utca'  # táblán: Túróci Balázs utca
   'Zerge utca': 'Zerge út'  # táblán Zerge utca
   # nincs tábla
   'Simon Bolivar sétány': 'Simon Bolivár sétány'
