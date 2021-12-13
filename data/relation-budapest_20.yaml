@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters: {}
+osm-street-filters:
+  - Duna sétány
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Helsinki hévállomás

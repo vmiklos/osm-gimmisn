@@ -12,7 +12,6 @@ street-filters:
   - Varjú köz  # Varjú utca/Szent István között volt, Toboz utcával kb. szemben
   # egyéb
   # Előd utca - Temetődűlő utca?
-  # Kisduna sor - Dunapart mellett, Szállító utcától északra
 osm-street-filters:
   # nem igazi utcák
   - autós tanpálya
@@ -28,6 +27,7 @@ osm-street-filters:
   - I. utca
   - II. utca
   - V. utca
+  - VI. utca
   # Csepel Művek belső utcák
   - Alumínium-hengerde utca
   - Bronzöntő utca
@@ -60,11 +60,16 @@ osm-street-filters:
   - Gabonatárházi út
   - Gyapjútárházi út
   - Matrózszálló út
+  # Kavicsos tó utcák
+  - Jó szerencsét utca
+  - Sóderes utca
+  - Süllő utca
   # Határon átlógó - Szigetszentmiklós
   - Csepeli elkerülő
   - Háros utca
   - Kócsag utca
   - Kormorán utca
+  - Szák utca
   - Üdülő sor
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
@@ -83,6 +88,7 @@ refstreets:
   # Utcajegyzék = OSM
   'Báthory utca': 'Báthori utca'
   'Deák tér': 'Deák Ferenc tér'
+  'Kis-Duna sor': 'Kisduna sor'
   'Kórház köz': 'Kórház utca'
   'Nagy-Duna sor': 'Nagydunasor'
   'Plútó utca': 'Plutó utca'
