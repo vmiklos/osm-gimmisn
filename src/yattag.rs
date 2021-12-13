@@ -13,19 +13,19 @@
 //! This is more or less a Rust port of <https://www.yattag.org/>, mostly because
 //! <https://crates.io/crates/html-builder> would require you to manually escape attribute values.
 
-use std::sync::Arc;
-use std::sync::Mutex;
+use std::cell::RefCell;
+use std::rc::Rc;
 
 /// Generates xml/html documents.
 #[derive(Clone)]
 pub struct Doc {
-    value: Arc<Mutex<String>>,
+    value: Rc<RefCell<String>>,
 }
 
 impl Doc {
     pub fn new() -> Doc {
         Doc {
-            value: Arc::new(Mutex::new(String::from(""))),
+            value: Rc::new(RefCell::new(String::from(""))),
         }
     }
 
@@ -38,12 +38,12 @@ impl Doc {
 
     /// Gets the escaped value.
     pub fn get_value(&self) -> String {
-        self.value.lock().unwrap().clone()
+        self.value.borrow().clone()
     }
 
     /// Appends escaped content to the value.
     pub fn append_value(&self, value: String) {
-        self.value.lock().unwrap().push_str(&value)
+        self.value.borrow_mut().push_str(&value)
     }
 
     /// Starts a new tag.
@@ -79,20 +79,20 @@ impl Default for Doc {
 
 /// Starts a tag, which is closed automatically.
 pub struct Tag {
-    value: Arc<Mutex<String>>,
+    value: Rc<RefCell<String>>,
     name: String,
 }
 
 impl Tag {
-    fn new(value: &Arc<Mutex<String>>, name: &str, attrs: &[(&str, &str)]) -> Tag {
-        let mut locked_value = value.lock().unwrap();
-        locked_value.push_str(&format!("<{}", name));
+    fn new(value: &Rc<RefCell<String>>, name: &str, attrs: &[(&str, &str)]) -> Tag {
+        let mut guard = value.borrow_mut();
+        guard.push_str(&format!("<{}", name));
         for attr in attrs {
             let key = attr.0;
             let val = html_escape::encode_double_quoted_attribute(&attr.1);
-            locked_value.push_str(&format!(" {}=\"{}\"", key, val));
+            guard.push_str(&format!(" {}=\"{}\"", key, val));
         }
-        locked_value.push('>');
+        guard.push('>');
         let value = value.clone();
         Tag {
             value,
@@ -104,8 +104,7 @@ impl Tag {
 impl Drop for Tag {
     fn drop(&mut self) {
         self.value
-            .lock()
-            .unwrap()
+            .borrow_mut()
             .push_str(&format!("</{}>", self.name));
     }
 }
