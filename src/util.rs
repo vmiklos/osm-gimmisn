@@ -851,10 +851,7 @@ pub fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag:
                 columns.insert(label.into(), index);
             }
         }
-        let mut cells: Vec<yattag::Doc> = row
-            .iter()
-            .map(|cell| yattag::Doc::from_text(cell))
-            .collect();
+        let mut cells: Vec<yattag::Doc> = row.iter().map(yattag::Doc::from_text).collect();
         if !cells.is_empty() && columns.contains_key("@type") {
             // We know the first column is an OSM ID.
             if let Ok(osm_id) = cells[0].get_value().parse::<u64>() {

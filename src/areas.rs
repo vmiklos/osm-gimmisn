@@ -1178,7 +1178,6 @@ impl Relation {
 /// A relations object is a container of named relation objects.
 #[derive(Clone)]
 pub struct Relations {
-    workdir: String,
     ctx: context::Context,
     yaml_cache: serde_json::Map<String, serde_json::Value>,
     dict: serde_json::Map<String, serde_json::Value>,
@@ -1190,7 +1189,6 @@ pub struct Relations {
 
 impl Relations {
     pub fn new(ctx: &context::Context) -> anyhow::Result<Self> {
-        let workdir = ctx.get_ini().get_workdir()?;
         let yamls_cache = format!("{}/{}", ctx.get_abspath("data"), "yamls.cache");
         let stream = ctx
             .get_file_system()
@@ -1233,7 +1231,6 @@ impl Relations {
             })
             .collect();
         Ok(Relations {
-            workdir,
             ctx: ctx.clone(),
             yaml_cache: yaml_cache.clone(),
             dict,
