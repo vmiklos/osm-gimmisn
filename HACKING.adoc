@@ -50,10 +50,11 @@ cargo test --lib -- --test-threads=1 wsgi_json::tests::test_missing_streets_upda
 
 == Rust performance profiling
 
-Enable symbols in Cargo.toml, then:
+The symbols profile enables debug symbols while keeping optimizations on:
 
 ----
-valgrind --tool=callgrind target/release/missing_housenumbers budapest_11
+cargo build --profile symbols
+valgrind --tool=callgrind target/symbols/missing_housenumbers budapest_11
 ----
 
 == YAML schema

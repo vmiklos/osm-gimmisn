@@ -36,6 +36,6 @@ utime = "0.3.1"
 icu = ["rust_icu_ucol", "rust_icu_ustring"]
 default = ["icu"]
 
-# Enable symbols (for callgrind):
-# [profile.release]
-# debug = true
+[profile.symbols]
+inherits = "release"
+debug = true
