@@ -1125,7 +1125,7 @@ pub fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<S
         .get_file_system()
         .open_read(&path)
         .context("open_read() failed")?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let mut read = guard.deref_mut();
     let mut csv_read = CsvRead::new(&mut read);
     let mut first = true;

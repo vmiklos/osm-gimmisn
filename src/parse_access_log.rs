@@ -269,8 +269,7 @@ bar\t0\n\
 baz\t0\n";
         let old_citycount_value = context::tests::TestFileSystem::make_file();
         old_citycount_value
-            .lock()
-            .unwrap()
+            .borrow_mut()
             .write_all(old_citycount)
             .unwrap();
         let new_citycount = b"foo\t1000\n\
@@ -282,8 +281,7 @@ bar\t2\n\
 baz\t2\n";
         let new_citycount_value = context::tests::TestFileSystem::make_file();
         new_citycount_value
-            .lock()
-            .unwrap()
+            .borrow_mut()
             .write_all(new_citycount)
             .unwrap();
         let files = context::tests::TestFileSystem::make_files(

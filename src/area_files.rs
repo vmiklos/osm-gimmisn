@@ -13,10 +13,10 @@
 use crate::context;
 use crate::i18n;
 use anyhow::Context;
+use std::cell::RefCell;
 use std::io::Read;
 use std::io::Write;
-use std::sync::Arc;
-use std::sync::Mutex;
+use std::rc::Rc;
 
 /// A relation's file interface provides access to files associated with a relation.
 #[derive(Clone)]
@@ -108,7 +108,7 @@ impl RelationFiles {
     pub fn get_ref_streets_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_ref_streets_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -117,7 +117,7 @@ impl RelationFiles {
     pub fn get_ref_streets_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_ref_streets_path();
         ctx.get_file_system().open_write(&path)
     }
@@ -126,7 +126,7 @@ impl RelationFiles {
     pub fn get_osm_streets_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_osm_streets_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -135,7 +135,7 @@ impl RelationFiles {
     pub fn get_osm_housenumbers_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_osm_housenumbers_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -144,7 +144,7 @@ impl RelationFiles {
     pub fn get_ref_housenumbers_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_ref_housenumbers_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -153,7 +153,7 @@ impl RelationFiles {
     pub fn get_ref_housenumbers_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_ref_housenumbers_path();
         ctx.get_file_system()
             .open_write(&path)
@@ -164,7 +164,7 @@ impl RelationFiles {
     pub fn get_housenumbers_percent_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_housenumbers_percent_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -173,7 +173,7 @@ impl RelationFiles {
     pub fn get_housenumbers_percent_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_housenumbers_percent_path();
         ctx.get_file_system()
             .open_write(&path)
@@ -184,7 +184,7 @@ impl RelationFiles {
     pub fn get_housenumbers_htmlcache_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_housenumbers_htmlcache_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -193,7 +193,7 @@ impl RelationFiles {
     pub fn get_housenumbers_htmlcache_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_housenumbers_htmlcache_path();
         ctx.get_file_system().open_write(&path)
     }
@@ -202,7 +202,7 @@ impl RelationFiles {
     pub fn get_housenumbers_txtcache_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_housenumbers_txtcache_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -211,7 +211,7 @@ impl RelationFiles {
     pub fn get_housenumbers_txtcache_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_housenumbers_txtcache_path();
         ctx.get_file_system().open_write(&path)
     }
@@ -220,7 +220,7 @@ impl RelationFiles {
     pub fn get_streets_percent_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_streets_percent_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -229,7 +229,7 @@ impl RelationFiles {
     pub fn get_streets_percent_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_streets_percent_path();
         ctx.get_file_system().open_write(&path)
     }
@@ -238,7 +238,7 @@ impl RelationFiles {
     pub fn get_streets_additional_count_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_streets_additional_count_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -247,7 +247,7 @@ impl RelationFiles {
     pub fn get_streets_additional_count_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_streets_additional_count_path();
         ctx.get_file_system().open_write(&path)
     }
@@ -256,7 +256,7 @@ impl RelationFiles {
     pub fn get_housenumbers_additional_count_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_housenumbers_additional_count_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -265,7 +265,7 @@ impl RelationFiles {
     pub fn get_housenumbers_additional_count_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_housenumbers_additional_count_path();
         ctx.get_file_system().open_write(&path)
     }
@@ -274,7 +274,7 @@ impl RelationFiles {
     fn get_osm_streets_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_osm_streets_path();
         ctx.get_file_system().open_write(&path)
     }
@@ -287,7 +287,7 @@ impl RelationFiles {
         }
 
         let write = self.get_osm_streets_write_stream(ctx)?;
-        let mut guard = write.lock().unwrap();
+        let mut guard = write.borrow_mut();
         Ok(guard.write(result.as_bytes())?)
     }
 
@@ -295,7 +295,7 @@ impl RelationFiles {
     fn get_osm_housenumbers_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_osm_housenumbers_path();
         ctx.get_file_system().open_write(&path)
     }
@@ -312,7 +312,7 @@ impl RelationFiles {
         }
 
         let write = self.get_osm_housenumbers_write_stream(ctx)?;
-        let mut guard = write.lock().unwrap();
+        let mut guard = write.borrow_mut();
         Ok(guard.write(result.as_bytes())?)
     }
 
@@ -320,7 +320,7 @@ impl RelationFiles {
     pub fn get_additional_housenumbers_htmlcache_read_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_additional_housenumbers_htmlcache_path();
         ctx.get_file_system().open_read(&path)
     }
@@ -329,7 +329,7 @@ impl RelationFiles {
     pub fn get_additional_housenumbers_htmlcache_write_stream(
         &self,
         ctx: &context::Context,
-    ) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
         let path = self.get_additional_housenumbers_htmlcache_path();
         ctx.get_file_system().open_write(&path)
     }

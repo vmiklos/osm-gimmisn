@@ -158,7 +158,7 @@ mod tests {
         let root = test_wsgi.get_json_for_path("/streets/gazdagret/update-result.json");
 
         assert_eq!(root.as_object().unwrap()["error"], "");
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
@@ -208,7 +208,7 @@ mod tests {
         let root = test_wsgi.get_json_for_path("/street-housenumbers/gazdagret/update-result.json");
 
         assert_eq!(root.as_object().unwrap()["error"], "");
-        let mut guard = housenumbers_value.lock().unwrap();
+        let mut guard = housenumbers_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
@@ -252,7 +252,7 @@ mod tests {
             test_wsgi.get_json_for_path("/missing-housenumbers/gazdagret/update-result.json");
 
         assert_eq!(root.as_object().unwrap()["error"], "");
-        let mut guard = housenumbers_value.lock().unwrap();
+        let mut guard = housenumbers_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
@@ -273,7 +273,7 @@ mod tests {
         let root = test_wsgi.get_json_for_path("/missing-streets/gazdagret/update-result.json");
 
         assert_eq!(root.as_object().unwrap()["error"], "");
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 }

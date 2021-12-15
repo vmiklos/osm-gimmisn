@@ -15,15 +15,16 @@ use anyhow::Context as AnyhowContext;
 use isahc::config::Configurable;
 use isahc::ReadResponseExt;
 use isahc::RequestExt;
+use std::cell::RefCell;
 use std::io::Read;
 use std::io::Write;
 use std::path::Path;
+use std::rc::Rc;
 use std::sync::Arc;
-use std::sync::Mutex;
 use std::time::Duration;
 
 /// File system interface.
-pub trait FileSystem: Send + Sync {
+pub trait FileSystem {
     /// Test whether a path exists.
     fn path_exists(&self, path: &str) -> bool;
 
@@ -31,10 +32,10 @@ pub trait FileSystem: Send + Sync {
     fn getmtime(&self, path: &str) -> anyhow::Result<f64>;
 
     /// Opens a file for reading in binary mode.
-    fn open_read(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>>;
+    fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>>;
 
     /// Opens a file for writing in binary mode.
-    fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>>;
+    fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>>;
 }
 
 /// File system implementation, backed by the Rust stdlib.
@@ -52,16 +53,16 @@ impl FileSystem for StdFileSystem {
         Ok(mtime.as_secs_f64())
     }
 
-    fn open_read(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
-        let ret: Arc<Mutex<dyn Read + Send>> = Arc::new(Mutex::new(
+    fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
+        let ret: Rc<RefCell<dyn Read>> = Rc::new(RefCell::new(
             std::fs::File::open(path)
                 .with_context(|| format!("failed to open {} for reading", path))?,
         ));
         Ok(ret)
     }
 
-    fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
-        let ret: Arc<Mutex<dyn Write + Send>> = Arc::new(Mutex::new(
+    fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
+        let ret: Rc<RefCell<dyn Write>> = Rc::new(RefCell::new(
             std::fs::File::create(path)
                 .with_context(|| format!("failed to open {} for writing", path))?,
         ));
@@ -70,7 +71,7 @@ impl FileSystem for StdFileSystem {
 }
 
 /// Network interface.
-pub trait Network: Send + Sync {
+pub trait Network {
     /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String>;
 }
@@ -103,7 +104,7 @@ impl Network for StdNetwork {
 }
 
 /// Time interface.
-pub trait Time: Send + Sync {
+pub trait Time {
     /// Calculates the current Unix timestamp from GMT.
     fn now(&self) -> i64;
 
@@ -135,7 +136,7 @@ impl Time for StdTime {
 }
 
 /// Subprocess interface.
-pub trait Subprocess: Send + Sync {
+pub trait Subprocess {
     /// Runs a commmand, capturing its output.
     fn run(&self, args: Vec<String>) -> anyhow::Result<String>;
 
@@ -393,7 +394,7 @@ pub mod tests {
     pub struct TestFileSystem {
         hide_paths: Vec<String>,
         mtimes: HashMap<String, f64>,
-        files: HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>>,
+        files: HashMap<String, Rc<RefCell<std::io::Cursor<Vec<u8>>>>>,
     }
 
     impl TestFileSystem {
@@ -405,14 +406,14 @@ pub mod tests {
             }
         }
 
-        pub fn make_file() -> Arc<Mutex<std::io::Cursor<Vec<u8>>>> {
-            Arc::new(Mutex::new(std::io::Cursor::new(Vec::new())))
+        pub fn make_file() -> Rc<RefCell<std::io::Cursor<Vec<u8>>>> {
+            Rc::new(RefCell::new(std::io::Cursor::new(Vec::new())))
         }
 
         pub fn make_files(
             ctx: &Context,
-            files: &[(&str, &Arc<Mutex<Cursor<Vec<u8>>>>)],
-        ) -> HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>> {
+            files: &[(&str, &Rc<RefCell<Cursor<Vec<u8>>>>)],
+        ) -> HashMap<String, Rc<RefCell<std::io::Cursor<Vec<u8>>>>> {
             let mut ret = HashMap::new();
             for file in files {
                 let (path, content) = file;
@@ -432,7 +433,10 @@ pub mod tests {
         }
 
         /// Sets the files.
-        pub fn set_files(&mut self, files: &HashMap<String, Arc<Mutex<std::io::Cursor<Vec<u8>>>>>) {
+        pub fn set_files(
+            &mut self,
+            files: &HashMap<String, Rc<RefCell<std::io::Cursor<Vec<u8>>>>>,
+        ) {
             self.files = files.clone()
         }
     }
@@ -461,25 +465,25 @@ pub mod tests {
             Ok(mtime.as_secs_f64())
         }
 
-        fn open_read(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Read + Send>>> {
+        fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
             if self.files.contains_key(path) {
                 let ret = self.files[path].clone();
-                ret.lock().unwrap().seek(SeekFrom::Start(0))?;
+                ret.borrow_mut().seek(SeekFrom::Start(0))?;
                 return Ok(ret);
             }
-            let ret: Arc<Mutex<dyn Read + Send>> = Arc::new(Mutex::new(std::fs::File::open(path)?));
+            let ret: Rc<RefCell<dyn Read>> = Rc::new(RefCell::new(std::fs::File::open(path)?));
             Ok(ret)
         }
 
-        fn open_write(&self, path: &str) -> anyhow::Result<Arc<Mutex<dyn Write + Send>>> {
+        fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
             if self.files.contains_key(path) {
                 let ret = self.files[path].clone();
-                ret.lock().unwrap().seek(SeekFrom::Start(0))?;
+                ret.borrow_mut().seek(SeekFrom::Start(0))?;
                 return Ok(ret);
             }
 
             use anyhow::Context;
-            let ret: Arc<Mutex<dyn Write + Send>> = Arc::new(Mutex::new(
+            let ret: Rc<RefCell<dyn Write>> = Rc::new(RefCell::new(
                 std::fs::File::create(path)
                     .with_context(|| format!("failed to open {} for writing", path))?,
             ));
@@ -495,7 +499,7 @@ pub mod tests {
     /// Time implementation, for test purposes.
     pub struct TestTime {
         now: i64,
-        sleep: Arc<Mutex<u64>>,
+        sleep: Rc<RefCell<u64>>,
     }
 
     impl TestTime {
@@ -503,13 +507,13 @@ pub mod tests {
             let now = chrono::NaiveDate::from_ymd(year, month, day)
                 .and_hms(0, 0, 0)
                 .timestamp();
-            let sleep = Arc::new(Mutex::new(0_u64));
+            let sleep = Rc::new(RefCell::new(0_u64));
             TestTime { now, sleep }
         }
 
         /// Gets the duration of the last sleep.
         pub fn get_sleep(&self) -> u64 {
-            *self.sleep.lock().unwrap()
+            *self.sleep.borrow_mut()
         }
     }
 
@@ -519,7 +523,7 @@ pub mod tests {
         }
 
         fn sleep(&self, seconds: u64) {
-            let mut guard = self.sleep.lock().unwrap();
+            let mut guard = self.sleep.borrow_mut();
             *guard.deref_mut() = seconds;
         }
 
@@ -551,12 +555,12 @@ pub mod tests {
 
     /// Network implementation, for test purposes.
     pub struct TestNetwork {
-        routes: Arc<Mutex<Vec<URLRoute>>>,
+        routes: Rc<RefCell<Vec<URLRoute>>>,
     }
 
     impl TestNetwork {
         pub fn new(routes: &[URLRoute]) -> Self {
-            let routes = Arc::new(Mutex::new(routes.to_vec()));
+            let routes = Rc::new(RefCell::new(routes.to_vec()));
             TestNetwork { routes }
         }
     }
@@ -566,7 +570,7 @@ pub mod tests {
         fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
             let mut ret: String = "".into();
             let mut remove: Option<usize> = None;
-            let mut locked_routes = self.routes.lock().unwrap();
+            let mut locked_routes = self.routes.borrow_mut();
             for (index, route) in locked_routes.iter().enumerate() {
                 if url != route.url {
                     continue;
@@ -612,15 +616,15 @@ pub mod tests {
     /// Subprocess implementation for test purposes.
     pub struct TestSubprocess {
         outputs: HashMap<String, String>,
-        runs: Arc<Mutex<Vec<String>>>,
-        exits: Arc<Mutex<Vec<i32>>>,
+        runs: Rc<RefCell<Vec<String>>>,
+        exits: Rc<RefCell<Vec<i32>>>,
     }
 
     impl TestSubprocess {
         pub fn new(outputs: &HashMap<String, String>) -> Self {
             let outputs = outputs.clone();
-            let runs: Arc<Mutex<Vec<String>>> = Arc::new(Mutex::new(Vec::new()));
-            let exits: Arc<Mutex<Vec<i32>>> = Arc::new(Mutex::new(Vec::new()));
+            let runs: Rc<RefCell<Vec<String>>> = Rc::new(RefCell::new(Vec::new()));
+            let exits: Rc<RefCell<Vec<i32>>> = Rc::new(RefCell::new(Vec::new()));
             TestSubprocess {
                 outputs,
                 runs,
@@ -630,24 +634,24 @@ pub mod tests {
 
         /// Gets a list of invoked commands.
         pub fn get_runs(&self) -> Vec<String> {
-            self.runs.lock().unwrap().clone()
+            self.runs.borrow_mut().clone()
         }
 
         /// Gets a list of exit codes.
         pub fn get_exits(&self) -> Vec<i32> {
-            self.exits.lock().unwrap().clone()
+            self.exits.borrow_mut().clone()
         }
     }
 
     impl Subprocess for TestSubprocess {
         fn run(&self, args: Vec<String>) -> anyhow::Result<String> {
             let key = args.join(" ");
-            self.runs.lock().unwrap().push(key.clone());
+            self.runs.borrow_mut().push(key.clone());
             Ok(self.outputs[&key].clone())
         }
 
         fn exit(&self, code: i32) {
-            self.exits.lock().unwrap().push(code);
+            self.exits.borrow_mut().push(code);
         }
 
         fn as_any(&self) -> &dyn std::any::Any {

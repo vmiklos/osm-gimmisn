@@ -404,7 +404,7 @@ mod tests {
 
         let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
 
-        let mut guard = count_value.lock().unwrap();
+        let mut guard = count_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let mut results = wsgi::tests::TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
@@ -435,7 +435,7 @@ mod tests {
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
         {
-            let mut guard = yamls_cache_value.lock().unwrap();
+            let mut guard = yamls_cache_value.borrow_mut();
             let write = guard.deref_mut();
             serde_json::to_writer(write, &yamls_cache).unwrap();
         }
@@ -453,7 +453,7 @@ mod tests {
 
         let root = test_wsgi.get_dom_for_path("/additional-streets/gh611/view-result");
 
-        let mut guard = count_value.lock().unwrap();
+        let mut guard = count_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let results = wsgi::tests::TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);

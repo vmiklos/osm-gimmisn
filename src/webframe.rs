@@ -18,11 +18,11 @@ use crate::yattag;
 use anyhow::Context;
 use git_version::git_version;
 use std::borrow::Cow;
+use std::cell::RefCell;
 use std::collections::HashMap;
 use std::io::Read;
 use std::ops::DerefMut;
-use std::sync::Arc;
-use std::sync::Mutex;
+use std::rc::Rc;
 
 /// Produces the end of the page.
 pub fn get_footer(last_updated: &str) -> yattag::Doc {
@@ -571,10 +571,10 @@ fn handle_stats_cityprogress(
     );
 
     let mut ref_citycounts: HashMap<String, u64> = HashMap::new();
-    let csv_stream: Arc<Mutex<dyn Read + Send>> = ctx
+    let csv_stream: Rc<RefCell<dyn Read>> = ctx
         .get_file_system()
         .open_read(&ctx.get_ini().get_reference_citycounts_path()?)?;
-    let mut guard = csv_stream.lock().unwrap();
+    let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     let mut first = true;
@@ -593,8 +593,8 @@ fn handle_stats_cityprogress(
     let today = naive.format("%Y-%m-%d").to_string();
     let mut osm_citycounts: HashMap<String, u64> = HashMap::new();
     let path = format!("{}/stats/{}.citycount", ctx.get_ini().get_workdir()?, today);
-    let csv_stream: Arc<Mutex<dyn Read + Send>> = ctx.get_file_system().open_read(&path)?;
-    let mut guard = csv_stream.lock().unwrap();
+    let csv_stream: Rc<RefCell<dyn Read>> = ctx.get_file_system().open_read(&path)?;
+    let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     for result in csv_read.records() {
@@ -673,10 +673,10 @@ fn handle_stats_zipprogress(
         .get_value(),
     );
     let mut ref_zipcounts: HashMap<String, u64> = HashMap::new();
-    let csv_stream: Arc<Mutex<dyn Read + Send>> = ctx
+    let csv_stream: Rc<RefCell<dyn Read>> = ctx
         .get_file_system()
         .open_read(&ctx.get_ini().get_reference_zipcounts_path()?)?;
-    let mut guard = csv_stream.lock().unwrap();
+    let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     let mut first = true;
@@ -695,8 +695,8 @@ fn handle_stats_zipprogress(
     let today = naive.format("%Y-%m-%d").to_string();
     let mut osm_zipcounts: HashMap<String, u64> = HashMap::new();
     let path = format!("{}/stats/{}.zipcount", ctx.get_ini().get_workdir()?, today);
-    let csv_stream: Arc<Mutex<dyn Read + Send>> = ctx.get_file_system().open_read(&path)?;
-    let mut guard = csv_stream.lock().unwrap();
+    let csv_stream: Rc<RefCell<dyn Read>> = ctx.get_file_system().open_read(&path)?;
+    let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     for result in csv_read.records() {
