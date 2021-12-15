@@ -58,6 +58,9 @@ filters:
   Zöldárok utca:
     # nincsenek kint számok
     ranges: []
+osm-street-filters:
+  # Határon névő utca
+  - Pilisvörösvár - Lahner György utca / Pilisszentiván - Határ utca
 street-filters:
   - Búzavirág köz  # Búzavirág utca néven fut, az is jön a ref-ben
   - Cseresznye utca  # Alma és Körte között lenne, de nincs, csak egy füves kocsibehajtó
