@@ -1,4 +1,11 @@
 missing-streets: 'only'
+osm-street-filters:
+  # nem valós utcák
+  - Árvízvédelmi töltés
+  - Avasi autóbusz-állomás
+  - Csanyik - Családok és Nyugdíjasok Idegenf. Közp.
+  # parkok, sétányok amire nincs számozva semmi
+  - Szabó Lőrinc sétány
 street-filters:
   - Árpád vezér út
   - Ősz utca  # valószínű elírás
@@ -162,6 +169,7 @@ refstreets:
   # 3524
   'Pattantyús Ábrahám Géza utca': 'Pattantyús-Ábrahám Géza utca'
   # 3525
+  'Alsóbábonyibérc dűlő': 'Alsó Bábonyi Bérc'
   'Bábonyibérc alsósor': 'Bábonyi bérc alsósor'
   'Bedegvölgy utca': 'Bedeghvölgy utca'
   'Marjalaki Kiss László utca': 'Marjalaki Kiss Lajos utca'
