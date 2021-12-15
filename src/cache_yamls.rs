@@ -45,7 +45,7 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     let cache_path = format!("{}/yamls.cache", datadir);
     {
         let write_stream = ctx.get_file_system().open_write(&cache_path).unwrap();
-        let mut guard = write_stream.lock().unwrap();
+        let mut guard = write_stream.borrow_mut();
         let write = guard.deref_mut();
         serde_json::to_writer(write, &cache).unwrap();
     }
@@ -67,7 +67,7 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
             .get_file_system()
             .open_write(&format!("{}/relations.json", statsdir))
             .unwrap();
-        let mut guard = write_stream.lock().unwrap();
+        let mut guard = write_stream.borrow_mut();
         let write = guard.deref_mut();
         serde_json::to_writer(write, &relation_ids).unwrap();
     }
@@ -109,7 +109,7 @@ mod tests {
         // Just assert that the result is created, the actual content is validated by the other
         // tests.
         {
-            let mut guard = cache_value.lock().unwrap();
+            let mut guard = cache_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
 

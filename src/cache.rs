@@ -85,7 +85,7 @@ pub fn get_missing_housenumbers_html(
     if is_missing_housenumbers_html_cached(ctx, relation)? {
         let files = relation.get_files();
         let stream = files.get_housenumbers_htmlcache_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut buffer = Vec::new();
         guard.read_to_end(&mut buffer)?;
         doc.append_value(String::from_utf8(buffer)?);
@@ -175,7 +175,7 @@ pub fn get_missing_housenumbers_html(
 
     let files = relation.get_files();
     let stream = files.get_housenumbers_htmlcache_write_stream(ctx)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     guard.write_all(doc.get_value().as_bytes())?;
 
     Ok(doc)
@@ -190,7 +190,7 @@ pub fn get_additional_housenumbers_html(
     if is_additional_housenumbers_html_cached(ctx, relation)? {
         let files = relation.get_files();
         let stream = files.get_additional_housenumbers_htmlcache_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
         doc.append_value(String::from_utf8(buffer)?);
@@ -226,7 +226,7 @@ pub fn get_additional_housenumbers_html(
 
     let files = relation.get_files();
     let stream = files.get_additional_housenumbers_htmlcache_write_stream(ctx)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     guard.write_all(doc.get_value().as_bytes())?;
 
     Ok(doc)
@@ -258,7 +258,7 @@ pub fn get_missing_housenumbers_txt(
     if is_missing_housenumbers_txt_cached(ctx, relation)? {
         let files = relation.get_files();
         let stream = files.get_housenumbers_txtcache_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut buffer = Vec::new();
         guard.read_to_end(&mut buffer)?;
         output = String::from_utf8(buffer)?;
@@ -294,7 +294,7 @@ pub fn get_missing_housenumbers_txt(
 
     let files = relation.get_files();
     let stream = files.get_housenumbers_txtcache_write_stream(ctx)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     guard.write_all(output.as_bytes())?;
     Ok(output)
 }

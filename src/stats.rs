@@ -103,7 +103,7 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
         return Ok(vec![]);
     }
     let stream = ctx.get_file_system().open_read(&old_count_path)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let read = std::io::BufReader::new(guard.deref_mut());
     for result in read.lines() {
         let line = result?;
@@ -131,7 +131,7 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
         return Ok(vec![]);
     }
     let stream = ctx.get_file_system().open_read(&new_count_path)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let read = std::io::BufReader::new(guard.deref_mut());
     for result in read.lines() {
         let line = result?;
@@ -371,7 +371,7 @@ pub fn generate_json(
     handle_monthly_new(ctx, state_dir, &mut j, /*month_range=*/ 12)?;
     handle_monthly_total(ctx, state_dir, &mut j, /*month_range=*/ 11)?;
     let stream = ctx.get_file_system().open_write(json_path)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let write = guard.deref_mut();
     serde_json::to_writer(write, &j)?;
 
@@ -461,8 +461,7 @@ budapest_02\t200\n\
 \t42\n";
         let today_citycount_value = context::tests::TestFileSystem::make_file();
         today_citycount_value
-            .lock()
-            .unwrap()
+            .borrow_mut()
             .write_all(today_citycount)
             .unwrap();
         let files = context::tests::TestFileSystem::make_files(

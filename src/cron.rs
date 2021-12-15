@@ -262,7 +262,7 @@ fn write_count_path(
     house_numbers: &HashSet<String>,
 ) -> anyhow::Result<()> {
     let stream = ctx.get_file_system().open_write(count_path)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let house_numbers_len = house_numbers.len().to_string();
     Ok(guard.write_all(house_numbers_len.as_bytes())?)
 }
@@ -274,7 +274,7 @@ fn write_city_count_path(
     cities: &HashMap<String, HashSet<String>>,
 ) -> anyhow::Result<()> {
     let stream = ctx.get_file_system().open_write(city_count_path)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let mut cities: Vec<_> = cities.iter().map(|(key, value)| (key, value)).collect();
     cities.sort_by_key(|(key, _value)| util::get_sort_key(key).unwrap());
     cities.dedup();
@@ -294,7 +294,7 @@ fn write_zip_count_path(
     zips: &HashMap<String, HashSet<String>>,
 ) -> anyhow::Result<()> {
     let stream = ctx.get_file_system().open_write(zip_count_path)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let mut zips: Vec<_> = zips.iter().map(|(key, value)| (key, value)).collect();
 
     zips.sort_by_key(|(key, _value)| key.to_string());
@@ -325,7 +325,7 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
     let valid_settlements =
         util::get_valid_settlements(ctx).context("get_valid_settlements() failed")?;
     let stream = ctx.get_file_system().open_read(&csv_path)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let reader = std::io::BufReader::new(guard.deref_mut());
     for line in reader.lines() {
         let line = line?.to_string();
@@ -371,7 +371,7 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
     let mut users: HashMap<String, u64> = HashMap::new();
     {
         let stream = ctx.get_file_system().open_read(&csv_path)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let reader = std::io::BufReader::new(guard.deref_mut());
         for line in reader.lines() {
             let line = line?.to_string();
@@ -384,7 +384,7 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
     }
     {
         let stream = ctx.get_file_system().open_write(&topusers_path)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut users: Vec<_> = users.iter().map(|(key, value)| (key, value)).collect();
         users.sort_by_key(|i| Reverse(i.1));
         users.dedup();
@@ -396,7 +396,7 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
     }
 
     let stream = ctx.get_file_system().open_write(&usercount_path)?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     let line = format!("{}\n", users.len());
     Ok(guard.write_all(line.as_bytes())?)
 }
@@ -408,7 +408,7 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
         let stream = ctx
             .get_file_system()
             .open_read(&ctx.get_ini().get_reference_citycounts_path()?)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut read = guard.deref_mut();
         let mut csv_read = util::CsvRead::new(&mut read);
         let mut first = true;
@@ -426,7 +426,7 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
     let stream = ctx
         .get_file_system()
         .open_write(&format!("{}/ref.count", state_dir))?;
-    let mut guard = stream.lock().unwrap();
+    let mut guard = stream.borrow_mut();
     Ok(guard.write_all(format!("{}\n", count).as_bytes())?)
 }
 
@@ -460,7 +460,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
                 }
             };
             let stream = ctx.get_file_system().open_write(&csv_path)?;
-            let mut guard = stream.lock().unwrap();
+            let mut guard = stream.borrow_mut();
             guard.write_all(response.as_bytes())?;
             break;
         }
@@ -1327,7 +1327,7 @@ mod tests {
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
         {
-            let mut guard = yamls_cache_value.lock().unwrap();
+            let mut guard = yamls_cache_value.borrow_mut();
             let write = guard.deref_mut();
             serde_json::to_writer(write, &yamls_cache).unwrap();
         }
@@ -1379,37 +1379,37 @@ mod tests {
 
         // update_osm_streets() is called.
         {
-            let mut guard = osm_streets_value.lock().unwrap();
+            let mut guard = osm_streets_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         // update_osm_housenumbers() is called.
         {
-            let mut guard = osm_housenumbers_value.lock().unwrap();
+            let mut guard = osm_housenumbers_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         // update_ref_streets() is called.
         {
-            let mut guard = ref_streets_value.lock().unwrap();
+            let mut guard = ref_streets_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         // update_ref_housenumbers() is called.
         {
-            let mut guard = ref_housenumbers_value.lock().unwrap();
+            let mut guard = ref_housenumbers_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         // update_missing_streets() is called.
         {
-            let mut guard = missing_streets_value.lock().unwrap();
+            let mut guard = missing_streets_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         // update_missing_housenumbers() is called.
         {
-            let mut guard = missing_housenumbers_value.lock().unwrap();
+            let mut guard = missing_housenumbers_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         // update_additional_streets() is called.
         {
-            let mut guard = additional_streets_value.lock().unwrap();
+            let mut guard = additional_streets_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
     }
@@ -1453,7 +1453,7 @@ mod tests {
         )
         .unwrap();
 
-        let mut guard = stats_value.lock().unwrap();
+        let mut guard = stats_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
@@ -1481,7 +1481,7 @@ mod tests {
         main(&argv, &mut buf, &mut ctx).unwrap();
 
         // Make sure that stats.json is updated.
-        let mut guard = stats_value.lock().unwrap();
+        let mut guard = stats_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
@@ -1511,8 +1511,7 @@ mod tests {
         let mut file_system = context::tests::TestFileSystem::new();
         let today_csv_value = context::tests::TestFileSystem::make_file();
         today_csv_value
-            .lock()
-            .unwrap()
+            .borrow_mut()
             .write_all(
                 r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user
 7677	Orfű	Dollár utca	1	mgpx
@@ -1539,14 +1538,14 @@ mod tests {
         update_stats_count(&ctx, "2020-05-10").unwrap();
 
         {
-            let mut guard = today_count_value.lock().unwrap();
+            let mut guard = today_count_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         {
-            let mut guard = today_citycount_value.lock().unwrap();
+            let mut guard = today_citycount_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
-        let mut guard = today_zipcount_value.lock().unwrap();
+        let mut guard = today_zipcount_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
@@ -1573,11 +1572,11 @@ mod tests {
 
         // No .csv, no .count or .citycount.
         {
-            let mut guard = today_count_value.lock().unwrap();
+            let mut guard = today_count_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
         }
         {
-            let mut guard = today_citycount_value.lock().unwrap();
+            let mut guard = today_citycount_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
         }
     }
@@ -1589,8 +1588,7 @@ mod tests {
         let mut file_system = context::tests::TestFileSystem::new();
         let today_csv_value = context::tests::TestFileSystem::make_file();
         today_csv_value
-            .lock()
-            .unwrap()
+            .borrow_mut()
             .write_all(
                 r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user
 7677	Orfű	Dollár utca	1	mgpx
@@ -1615,11 +1613,11 @@ mod tests {
         update_stats_topusers(&ctx, "2020-05-10").unwrap();
 
         {
-            let mut guard = today_topusers_value.lock().unwrap();
+            let mut guard = today_topusers_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         {
-            let mut guard = today_usercount_value.lock().unwrap();
+            let mut guard = today_usercount_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
     }
@@ -1647,11 +1645,11 @@ mod tests {
 
         // No .csv, no .topusers or .usercount.
         {
-            let mut guard = today_topusers_value.lock().unwrap();
+            let mut guard = today_topusers_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
         }
         {
-            let mut guard = today_usercount_value.lock().unwrap();
+            let mut guard = today_usercount_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
         }
     }
@@ -1664,8 +1662,7 @@ mod tests {
         let osm_streets_value = context::tests::TestFileSystem::make_file();
         let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
         osm_streets_value
-            .lock()
-            .unwrap()
+            .borrow_mut()
             .write_all(b"@id\n42\n")
             .unwrap();
         let files = context::tests::TestFileSystem::make_files(

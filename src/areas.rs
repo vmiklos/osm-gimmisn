@@ -18,12 +18,12 @@ use crate::util;
 use crate::yattag;
 use anyhow::Context;
 use itertools::Itertools;
+use std::cell::RefCell;
 use std::collections::HashMap;
 use std::io::BufRead;
 use std::io::Read;
 use std::ops::DerefMut;
-use std::sync::Arc;
-use std::sync::Mutex;
+use std::rc::Rc;
 
 /// A relation configuration comes directly from static data, not a result of some external query.
 #[derive(Clone)]
@@ -459,9 +459,8 @@ impl Relation {
     /// Reads list of streets for an area from OSM.
     fn get_osm_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
         let mut ret: Vec<util::Street> = Vec::new();
-        let stream: Arc<Mutex<dyn Read + Send>> =
-            self.file.get_osm_streets_read_stream(&self.ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let stream: Rc<RefCell<dyn Read>> = self.file.get_osm_streets_read_stream(&self.ctx)?;
+        let mut guard = stream.borrow_mut();
         let mut read = guard.deref_mut();
         let mut csv_read = util::CsvRead::new(&mut read);
         let mut first = true;
@@ -496,9 +495,9 @@ impl Relation {
         }
         let path = self.file.get_osm_housenumbers_path();
         if std::path::Path::new(&path).exists() {
-            let stream: Arc<Mutex<dyn Read + Send>> =
+            let stream: Rc<RefCell<dyn Read>> =
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
-            let mut guard = stream.lock().unwrap();
+            let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
             let mut csv_read = util::CsvRead::new(&mut read);
             ret.append(
@@ -529,8 +528,8 @@ impl Relation {
     /// Gets streets from reference.
     fn get_ref_streets(&self) -> anyhow::Result<Vec<String>> {
         let mut streets: Vec<String> = Vec::new();
-        let read: Arc<Mutex<dyn Read + Send>> = self.file.get_ref_streets_read_stream(&self.ctx)?;
-        let mut guard = read.lock().unwrap();
+        let read: Rc<RefCell<dyn Read>> = self.file.get_ref_streets_read_stream(&self.ctx)?;
+        let mut guard = read.borrow_mut();
         let stream = std::io::BufReader::new(guard.deref_mut());
         for line in stream.lines() {
             streets.push(line?);
@@ -550,9 +549,9 @@ impl Relation {
             // once.
             let street_ranges = self.get_street_ranges()?;
             let mut house_numbers: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
-            let stream: Arc<Mutex<dyn Read + Send>> =
+            let stream: Rc<RefCell<dyn Read>> =
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
-            let mut guard = stream.lock().unwrap();
+            let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
             let mut csv_read = util::CsvRead::new(&mut read);
             let mut first = true;
@@ -623,7 +622,7 @@ impl Relation {
             .file
             .get_ref_streets_write_stream(&self.ctx)
             .context("get_ref_streets_write_stream() failed")?;
-        let mut guard = write.lock().unwrap();
+        let mut guard = write.borrow_mut();
         for line in lst {
             guard.write_all((line + "\n").as_bytes())?;
         }
@@ -704,7 +703,7 @@ impl Relation {
             .file
             .get_ref_housenumbers_write_stream(&self.ctx)
             .context("get_ref_housenumbers_write_stream() failed")?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let write = guard.deref_mut();
         for line in lst {
             write.write_all((line + "\n").as_bytes())?;
@@ -741,9 +740,8 @@ impl Relation {
     fn get_ref_housenumbers(&self) -> anyhow::Result<HashMap<String, Vec<util::HouseNumber>>> {
         let mut ret: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
         let mut lines: HashMap<String, Vec<String>> = HashMap::new();
-        let read: Arc<Mutex<dyn Read + Send>> =
-            self.file.get_ref_housenumbers_read_stream(&self.ctx)?;
-        let mut guard = read.lock().unwrap();
+        let read: Rc<RefCell<dyn Read>> = self.file.get_ref_housenumbers_read_stream(&self.ctx)?;
+        let mut guard = read.borrow_mut();
         let stream = std::io::BufReader::new(guard.deref_mut());
         for line in stream.lines() {
             let line = line?;
@@ -921,7 +919,7 @@ impl Relation {
 
         // Write the bottom line to a file, so the index page show it fast.
         let write = self.file.get_streets_percent_write_stream(&self.ctx)?;
-        let mut guard = write.lock().unwrap();
+        let mut guard = write.borrow_mut();
         guard.write_all(percent.as_bytes())?;
 
         Ok((todo_count, done_count, percent, streets))
@@ -934,7 +932,7 @@ impl Relation {
         // Write the count to a file, so the index page show it fast.
         let file = &self.file;
         let write = file.get_streets_additional_count_write_stream(&self.ctx)?;
-        let mut guard = write.lock().unwrap();
+        let mut guard = write.borrow_mut();
         guard.write_all(additional_streets.len().to_string().as_bytes())?;
 
         Ok(additional_streets)
@@ -1043,7 +1041,7 @@ impl Relation {
             .file
             .get_housenumbers_percent_write_stream(&self.ctx)
             .context("get_housenumbers_percent_write_stream() failed")?;
-        let mut guard = write.lock().unwrap();
+        let mut guard = write.borrow_mut();
         guard.write_all(percent.as_bytes())?;
 
         Ok((
@@ -1108,7 +1106,7 @@ impl Relation {
         // Write the street count to a file, so the index page show it fast.
         let file = &self.file;
         let write = file.get_housenumbers_additional_count_write_stream(&self.ctx)?;
-        let mut guard = write.lock().unwrap();
+        let mut guard = write.borrow_mut();
         guard.write_all(todo_count.to_string().as_bytes())?;
 
         Ok((ongoing_streets.len(), todo_count, table))
@@ -1194,7 +1192,7 @@ impl Relations {
             .get_file_system()
             .open_read(&yamls_cache)
             .context(format!("failed to open {} for reading", yamls_cache))?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let read = guard.deref_mut();
         let value: serde_json::Value = serde_json::from_reader(read)?;
         let yaml_cache = value.as_object().unwrap();
@@ -1544,6 +1542,7 @@ mod tests {
     use std::io::Seek;
     use std::io::SeekFrom;
     use std::io::Write;
+    use std::sync::Arc;
 
     /// Tests normalize().
     #[test]
@@ -1883,11 +1882,7 @@ mod tests {
         let mut ctx = context::tests::make_test_context().unwrap();
         let streets_value = context::tests::TestFileSystem::make_file();
         // This is garbage, it only has a single column.
-        streets_value
-            .lock()
-            .unwrap()
-            .write_all(b"@id\n42\n")
-            .unwrap();
+        streets_value.borrow_mut().write_all(b"@id\n42\n").unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -1986,7 +1981,7 @@ mod tests {
             .get_files()
             .write_osm_streets(&ctx, result_from_overpass)
             .unwrap();
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         guard.seek(SeekFrom::Start(0)).unwrap();
         let mut actual: Vec<u8> = Vec::new();
         guard.read_to_end(&mut actual).unwrap();
@@ -2031,7 +2026,7 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             .get_files()
             .write_osm_housenumbers(&ctx, result_from_overpass)
             .unwrap();
-        let mut guard = housenumbers_value.lock().unwrap();
+        let mut guard = housenumbers_value.borrow_mut();
         guard.seek(SeekFrom::Start(0)).unwrap();
         let mut actual: Vec<u8> = Vec::new();
         guard.read_to_end(&mut actual).unwrap();
@@ -2612,7 +2607,7 @@ way{color:blue; width:4;}
                 ["Hamzsabégi út", "1", "1"]
             ]
         );
-        let mut guard = percent_value.lock().unwrap();
+        let mut guard = percent_value.borrow_mut();
         guard.seek(SeekFrom::Start(0)).unwrap();
         let mut actual: Vec<u8> = Vec::new();
         guard.read_to_end(&mut actual).unwrap();
@@ -2675,7 +2670,7 @@ way{color:blue; width:4;}
                 ]
             ]
         );
-        let mut guard = percent_value.lock().unwrap();
+        let mut guard = percent_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
@@ -2710,7 +2705,7 @@ way{color:blue; width:4;}
                 ["A utca", "1", "2-10"]
             ]
         );
-        let mut guard = percent_value.lock().unwrap();
+        let mut guard = percent_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
 
@@ -2743,7 +2738,7 @@ way{color:blue; width:4;}
         assert_eq!(done_count, 4);
         assert_eq!(percent, "80.00");
         assert_eq!(streets, ["Only In Ref utca"]);
-        let mut guard = percent_value.lock().unwrap();
+        let mut guard = percent_value.borrow_mut();
         guard.seek(SeekFrom::Start(0)).unwrap();
         let mut actual: Vec<u8> = Vec::new();
         guard.read_to_end(&mut actual).unwrap();
@@ -2769,7 +2764,7 @@ way{color:blue; width:4;}
 
         let ret = relation.write_missing_streets().unwrap();
 
-        let mut guard = percent_value.lock().unwrap();
+        let mut guard = percent_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let (_todo_count, _done_count, percent, _streets) = ret;
         assert_eq!(percent, "100.00");
@@ -2875,7 +2870,7 @@ way{color:blue; width:4;}
             .write_ref_housenumbers(&[refpath, refpath2])
             .unwrap();
 
-        let mut guard = ref_value.lock().unwrap();
+        let mut guard = ref_value.borrow_mut();
         guard.seek(SeekFrom::Start(0)).unwrap();
         let mut actual: Vec<u8> = Vec::new();
         guard.read_to_end(&mut actual).unwrap();
@@ -2957,7 +2952,7 @@ way{color:blue; width:4;}
 
         relation.write_ref_streets(&refpath).unwrap();
 
-        let mut guard = ref_value.lock().unwrap();
+        let mut guard = ref_value.borrow_mut();
         guard.seek(SeekFrom::Start(0)).unwrap();
         let mut actual: Vec<u8> = Vec::new();
         guard.read_to_end(&mut actual).unwrap();

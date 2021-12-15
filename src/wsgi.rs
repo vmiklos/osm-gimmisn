@@ -95,7 +95,7 @@ fn handle_streets(
     } else {
         // assume view-result
         let stream = relation.get_files().get_osm_streets_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut read = guard.deref_mut();
         let mut csv_read = util::CsvRead::new(&mut read);
         let table = util::tsv_to_list(&mut csv_read)?;
@@ -170,7 +170,7 @@ fn handle_street_housenumbers(
             doc.text(&tr("No existing house numbers"));
         } else {
             let stream = relation.get_files().get_osm_housenumbers_read_stream(ctx)?;
-            let mut guard = stream.lock().unwrap();
+            let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
             let mut csv_read = util::CsvRead::new(&mut read);
             doc.append_value(
@@ -569,7 +569,7 @@ fn handle_missing_housenumbers(
         {
             let _pre = doc.tag("pre", &[]);
             let stream = relation.get_files().get_ref_housenumbers_read_stream(ctx)?;
-            let mut guard = stream.lock().unwrap();
+            let mut guard = stream.borrow_mut();
             let mut buffer: Vec<u8> = Vec::new();
             guard.read_to_end(&mut buffer)?;
             doc.text(&String::from_utf8(buffer)?);
@@ -655,7 +655,7 @@ fn handle_missing_streets(
     } else if action == "view-query" {
         let _pre = doc.tag("pre", &[]);
         let stream = relation.get_files().get_ref_streets_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
         doc.text(&String::from_utf8(buffer)?);
@@ -774,7 +774,7 @@ fn handle_main_housenr_percent(
         .path_exists(&files.get_housenumbers_percent_path())
     {
         let stream = files.get_housenumbers_percent_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
         percent = String::from_utf8(buffer)?;
@@ -818,7 +818,7 @@ fn handle_main_street_percent(
         .path_exists(&relation.get_files().get_streets_percent_path())
     {
         let stream = relation.get_files().get_streets_percent_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
         percent = String::from_utf8(buffer)?;
@@ -863,7 +863,7 @@ fn handle_main_street_additional_count(
         .path_exists(&files.get_streets_additional_count_path())
     {
         let stream = files.get_streets_additional_count_read_stream(ctx)?;
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
         additional_count = String::from_utf8(buffer)?;
@@ -900,7 +900,7 @@ fn get_housenr_additional_count(
     {
         let stream = files.get_housenumbers_additional_count_read_stream(ctx)?;
 
-        let mut guard = stream.lock().unwrap();
+        let mut guard = stream.borrow_mut();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
         return Ok(String::from_utf8(buffer)?.trim().into());
@@ -1733,7 +1733,7 @@ pub mod tests {
 
         let root = test_wsgi.get_dom_for_path("/streets/gazdagret/update-result");
 
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let results = TestWsgi::find_all(&root, "body");
         assert_eq!(results.len(), 1);
@@ -1783,7 +1783,7 @@ pub mod tests {
 
         let root = test_wsgi.get_dom_for_path("/streets/ujbuda/update-result");
 
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let results = TestWsgi::find_all(&root, "body");
         assert_eq!(results.len(), 1);
@@ -1845,11 +1845,11 @@ pub mod tests {
         let root = test_wsgi.get_dom_for_path("/suspicious-streets/gazdagret/view-result");
 
         {
-            let mut guard = streets_value.lock().unwrap();
+            let mut guard = streets_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         {
-            let mut guard = htmlcache_value.lock().unwrap();
+            let mut guard = htmlcache_value.borrow_mut();
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
         let results = TestWsgi::find_all(&root, "body/table");
@@ -1997,8 +1997,7 @@ Tűzkő utca	31
 "#;
         let housenumbers_ref_value = context::tests::TestFileSystem::make_file();
         housenumbers_ref_value
-            .lock()
-            .unwrap()
+            .borrow_mut()
             .write_all(hoursnumbers_ref.as_bytes())
             .unwrap();
         let mut file_system = context::tests::TestFileSystem::new();
@@ -2145,7 +2144,7 @@ Tűzkő utca	31
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         test_wsgi.ctx.set_file_system(&file_system_arc);
         let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/update-result");
-        let mut guard = housenumbers_value.lock().unwrap();
+        let mut guard = housenumbers_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let prefix = test_wsgi.ctx.get_ini().get_uri_prefix().unwrap();
         let results = TestWsgi::find_all(
@@ -2207,7 +2206,7 @@ Tűzkő utca	31
 
         let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/update-result");
 
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let results = TestWsgi::find_all(&root, "body");
         assert_eq!(results.len(), 1);
@@ -2264,7 +2263,7 @@ Tűzkő utca	31
 
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
 
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let mut results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
@@ -2292,7 +2291,7 @@ Tűzkő utca	31
 
         let root = test_wsgi.get_dom_for_path("/suspicious-relations/gazdagret/view-result");
 
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         let results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
@@ -2408,7 +2407,7 @@ Tűzkő utca	31
 
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/update-result");
 
-        let mut guard = streets_value.lock().unwrap();
+        let mut guard = streets_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
 
         let results = TestWsgi::find_all(&root, "body/div[@id='update-success']");
@@ -2660,7 +2659,7 @@ Tűzkő utca	31
 
         let mut file_system = context::tests::TestFileSystem::new();
         let zips_value = context::tests::TestFileSystem::make_file();
-        zips_value.lock().unwrap().write_all(b"1111\t10\n").unwrap();
+        zips_value.borrow_mut().write_all(b"1111\t10\n").unwrap();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[("workdir/stats/2020-05-10.zipcount", &zips_value)],
