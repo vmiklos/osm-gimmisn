@@ -1,5 +1,37 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Ady Endre utca:
+    invalid: ['64']
+  Bártfa utca:
+    invalid: ['14']
+  Ipolysági utca:
+    invalid: ['67', '912']
+  Malomvölgy telep:
+    invalid: ['2', '3', '4', '8', '50']
+  Kiserdő utca:
+    invalid: ['34']
+  Rigó utca:
+    invalid: ['16']
+  Rév utca:
+    invalid: ['625']
+  Szent Imre köz:
+    invalid: ['61']
+  Verbic dűlő:
+    invalid: ['198']
+osm-street-filters:
+  # nem igazi utcák
+  - közbenső feladóállomás kezelővágány
+  # parkok, sétányok amire nincs számozva semmi
+  - Luczenbacher sétány
+street-filters:
+  # nincs
+  - Diófa köz
+  # nem igazi utcák
+  - 137. őrház
+  - 138. őrház
+  # tanyák
+  - Bő-Szob tanya
+  - Csákhegy tanya
 refstreets:
   'Jókai Mór utca': 'Jókai utca'
   'Mátyás király út': 'Mátyás király utca'
