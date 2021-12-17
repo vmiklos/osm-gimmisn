@@ -4,7 +4,16 @@ osm-street-filters:
   - Árvízvédelmi töltés
   - Avasi autóbusz-állomás
   - Csanyik - Családok és Nyugdíjasok Idegenf. Közp.
+  - Kidőlt fák!
+  - Komlóstető Bike Park
+  - Mechatronikai Ipari Park
+  - Perecesi napközis tábor
+  - kriptasor
   # parkok, sétányok amire nincs számozva semmi
+  - Kálvária
+  - Kis erdő
+  - Lendeczky út
+  - Lillafüredi Függőkert
   - Szabó Lőrinc sétány
 street-filters:
   - Árpád vezér út
@@ -33,6 +42,10 @@ street-filters:
   - Somlay Artur utca  # Somlay Artúr utca
   - Tetemvár sor  # Tetemvár Alsó sor stb..
   - Varga oldal  # Vargaloldal
+  # nem valós utcák
+  - MÁV 77-es őrház
+  - MÁV vasgyári 6-os őrház
+  - Rendező pályaudvar
   # csak hrsz / nincs hsz.
   - Ágazat
   - Alsó Bábonyi Bérc
@@ -78,14 +91,15 @@ street-filters:
   # - Levendula dűlőút
   # - Pitypang dűlőút
   # - Akó utca
-  # - Bálint utca
-  # - Mély út
-  # - Nagy-avas felsősor
-  # - Ó utca
+  # - Bálint utca - https://www.openstreetmap.org/note/2611025
+  # - Berekkert utca
+  # - Mély út - ?
+  # - Nagy-avas felsősor - https://www.openstreetmap.org/note/2973171
   # - Örömhegy utca
   # - Szőlőskert sétány
-  # - Tarna utca
-  # - Terplán Zénó utca
+  # - Takata út
+  # - Tarna utca - https://www.openstreetmap.org/note/2973175
+  # - Vörösmarty Mihály tér
   # - Visó utca
   # hiányzó egyéb
   # - Annabánya telep
@@ -99,7 +113,6 @@ street-filters:
   # - Erenyő völgy
   # - Fürészmalom
   # - Garadna
-  # - Garadna erdészház
   # - Garadnavölgy
   # - Gubacska tanya
   # - József Attila telep
@@ -116,12 +129,11 @@ street-filters:
   # - Lyukóvölgy Gulyakút
   # - Lyukóvölgy Kitérő
   # - Lyukóvölgy Kutyor egyéb
-  # - MÁV 77-es őrház
-  # - MÁV vasgyári 6-os őrház
   # - Nagypást tanya
   # - Pap tanya
   # - Rendező pályaudvar
   # - Rózsás dűlő
+  # - Szentbenedekhegyi dűlő
   # - Szilvásvölgy
   # - Táncihegy
   # - Vadászlak
@@ -141,11 +153,15 @@ refstreets:
   # 3517
   'Puskaporos utca': 'Puskaporos'
   # 3518
+  'Akácos dűlő': 'Akácos dűlőút'
   'Bellervölgy utca': 'Bellervölgy'
+  'Pünkösdhegyi út': 'Pünkösdhegyi utca'
+  'Tehéntánc dűlő': 'Tehéntánc dűlőút'
   # 3519
   'Görömbölyi utca': 'Görömbölyi út'
   'Kiskőkötő dűlő': 'Kiskőkőtő dűlő'
   'Külsőcsabai út': 'Külső Csabai utca'
+  'Lenkey utca': 'Lenkey Zoltán utca'
   'Máriássy utca': 'Máriássy Sándor utca'
   'Mécs utca': 'Mécs László utca'
   'Monostori út': 'Monostor utca'
@@ -174,8 +190,10 @@ refstreets:
   'Bedegvölgy utca': 'Bedeghvölgy utca'
   'Marjalaki Kiss László utca': 'Marjalaki Kiss Lajos utca'
   'Széchenyi István utca': 'Széchenyi István út'  # 3530 is
+  'Széphegy dűlő': 'Széphegy dűlőút'
   # 3526
   'Bulcsú utca': 'Bulcsu utca'
+  'Hétvezér tér': 'Hét vezér tér'
   'Levente vezér út': 'Leventevezér utca'
   'Tas utca': 'Tass utca'
   # 3527
@@ -214,6 +232,7 @@ refstreets:
   'Lövei sor': 'Lővei sor'
   'Muszkásoldal dűlő': 'Muszkás oldal'
   # 3532
+  'Kislyukó dűlő': 'Kislyukó dűlőút'
   'Szarkahegy - Fenyő dűlő': 'Szarkahegy-Fenyő dűlő'
   'Szarkahegy - Szegfű dűlő': 'Szarkahegy-Szegfű dűlő'
   'Szarkaláb dűlőút': 'Szarkaláb dűlő'
@@ -221,6 +240,7 @@ refstreets:
   'Báthory sor': 'Báthori sor'
   'Komlóstető utca': 'Komlós tető'
   'Láditelepi út': 'Ládi telep'
+  'Vasgyári Újtelep utca': 'Vasgyári újtelep'
   'Vörös Bérc utca': 'Vörös bérc utca'
   # 3534
   'Csipkevirág utca': 'Csipke virág utca'
@@ -228,6 +248,11 @@ refstreets:
   'Mártonbíró utca': 'Márton bíró utca'
   'Tatár árok': 'Tatárárok utca'
   # 3535
+  'Ágó dűlő': 'Ágó dűlőút'
   'Alsó Papírgyár telep': 'Alsó Papirgyár telep'
+  'Bakancs dűlő': 'Bakancs dűlőút'
   'Fülep József utca': 'Fülepp József utca'
+  'Pecér dűlő': 'Pecér dűlőút'
+  'Petákos dűlő': 'Petákos dűlőút'
+  'Saroglya dűlő': 'Saroglya dűlőút'
 inactive: true
