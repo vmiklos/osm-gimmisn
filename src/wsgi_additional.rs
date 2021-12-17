@@ -102,8 +102,8 @@ pub fn additional_streets_view_result(
                 street.get_osm_id()
             );
             {
-                let _a = cell.tag("a", &[("href", &href), ("target", "_blank")]);
-                cell.text(&street.get_osm_id().to_string());
+                let a = cell.tag("a", &[("href", &href), ("target", "_blank")]);
+                a.text(&street.get_osm_id().to_string());
             }
             let cells = vec![
                 cell,
@@ -115,14 +115,14 @@ pub fn additional_streets_view_result(
         }
 
         {
-            let _p = doc.tag("p", &[]);
-            doc.text(
+            let p = doc.tag("p", &[]);
+            p.text(
                 &tr("OpenStreetMap additionally has the below {0} streets.")
                     .replace("{0}", &count.to_string()),
             );
-            doc.stag("br", &[]);
+            p.stag("br", &[]);
             {
-                let _a = doc.tag(
+                let a = p.tag(
                     "a",
                     &[(
                         "href",
@@ -132,11 +132,11 @@ pub fn additional_streets_view_result(
                         ),
                     )],
                 );
-                doc.text(&tr("Plain text format"));
+                a.text(&tr("Plain text format"));
             }
-            doc.stag("br", &[]);
+            p.stag("br", &[]);
             {
-                let _a = doc.tag(
+                let a = p.tag(
                     "a",
                     &[(
                         "href",
@@ -146,18 +146,18 @@ pub fn additional_streets_view_result(
                         ),
                     )],
                 );
-                doc.text(&tr("Checklist format"));
+                a.text(&tr("Checklist format"));
             }
-            doc.stag("br", &[]);
+            p.stag("br", &[]);
             {
-                let _a = doc.tag(
+                let a = doc.tag(
                     "a",
                     &[(
                         "href",
                         &format!("{}/additional-streets/{}/view-turbo", prefix, relation_name),
                     )],
                 );
-                doc.text(&tr("Overpass turbo query for the below streets"));
+                a.text(&tr("Overpass turbo query for the below streets"));
             }
         }
 
@@ -218,8 +218,8 @@ pub fn additional_streets_view_turbo(
     let streets = relation.get_additional_streets(/*sorted_result=*/ false)?;
     let query = areas::make_turbo_query_for_street_objs(&relation, &streets);
 
-    let _pre = doc.tag("pre", &[]);
-    doc.text(&query);
+    let pre = doc.tag("pre", &[]);
+    pre.text(&query);
     Ok(doc)
 }
 

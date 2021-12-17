@@ -48,14 +48,14 @@ pub fn get_footer(last_updated: &str) -> yattag::Doc {
         }
     }
     let doc = yattag::Doc::new();
-    doc.stag("hr", &[]);
+    doc.stag("hr");
     {
-        let _div = doc.tag("div", &[]);
+        let div = doc.tag("div", &[]);
         for (index, item) in items.iter().enumerate() {
             if index > 0 {
-                doc.text(" ¦ ");
+                div.text(" ¦ ");
             }
-            doc.append_value(item.get_value());
+            div.append_value(item.get_value());
         }
     }
     doc
@@ -75,11 +75,11 @@ fn fill_header_function(
         // to update OSM house numbers first.
         let doc = yattag::Doc::new();
         {
-            let _span = doc.tag("span", &[("id", "trigger-street-housenumbers-update")]);
+            let span = doc.tag("span", &[("id", "trigger-street-housenumbers-update")]);
             {
                 // TODO consider using HTTP POST here, see
                 // https://stackoverflow.com/questions/1367409/how-to-make-button-look-like-a-link
-                let _a = doc.tag(
+                let a = span.tag(
                     "a",
                     &[(
                         "href",
@@ -89,16 +89,16 @@ fn fill_header_function(
                         ),
                     )],
                 );
-                doc.text(&tr("Update from OSM"));
+                a.text(&tr("Update from OSM"));
             }
         }
         items.push(doc);
 
         let doc = yattag::Doc::new();
         {
-            let _span = doc.tag("span", &[("id", "trigger-missing-housenumbers-update")]);
+            let span = doc.tag("span", &[("id", "trigger-missing-housenumbers-update")]);
             {
-                let _a = doc.tag(
+                let a = span.tag(
                     "a",
                     &[(
                         "href",
@@ -108,7 +108,7 @@ fn fill_header_function(
                         ),
                     )],
                 );
-                doc.text(&tr("Update from reference"));
+                a.text(&tr("Update from reference"));
             }
         }
         items.push(doc);
@@ -117,41 +117,41 @@ fn fill_header_function(
         // to update OSM streets first.
         let doc = yattag::Doc::new();
         {
-            let _span = doc.tag("span", &[("id", "trigger-streets-update")]);
+            let span = doc.tag("span", &[("id", "trigger-streets-update")]);
             {
-                let _a = doc.tag(
+                let a = span.tag(
                     "a",
                     &[(
                         "href",
                         &format!("{}/streets/{}/update-result", prefix, relation_name),
                     )],
                 );
-                doc.text(&tr("Update from OSM"));
+                a.text(&tr("Update from OSM"));
             }
         }
         items.push(doc);
 
         let doc = yattag::Doc::new();
         {
-            let _span = doc.tag("span", &[("id", "trigger-missing-streets-update")]);
+            let span = doc.tag("span", &[("id", "trigger-missing-streets-update")]);
             {
-                let _a = doc.tag(
+                let a = span.tag(
                     "a",
                     &[(
                         "href",
                         &format!("{}/missing-streets/{}/update-result", prefix, relation_name),
                     )],
                 );
-                doc.text(&tr("Update from reference"));
+                a.text(&tr("Update from reference"));
             }
         }
         items.push(doc);
     } else if function == "street-housenumbers" {
         let doc = yattag::Doc::new();
         {
-            let _span = doc.tag("span", &[("id", "trigger-street-housenumbers-update")]);
+            let span = doc.tag("span", &[("id", "trigger-street-housenumbers-update")]);
             {
-                let _a = doc.tag(
+                let a = span.tag(
                     "a",
                     &[(
                         "href",
@@ -161,13 +161,13 @@ fn fill_header_function(
                         ),
                     )],
                 );
-                doc.text(&tr("Call Overpass to update"));
+                a.text(&tr("Call Overpass to update"));
             }
         }
         items.push(doc);
         let doc = yattag::Doc::new();
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -177,35 +177,35 @@ fn fill_header_function(
                     ),
                 )],
             );
-            doc.text(&tr("View query"));
+            a.text(&tr("View query"));
         }
         items.push(doc);
     } else if function == "streets" {
         let doc = yattag::Doc::new();
         {
-            let _span = doc.tag("span", &[("id", "trigger-streets-update")]);
+            let span = doc.tag("span", &[("id", "trigger-streets-update")]);
             {
-                let _a = doc.tag(
+                let a = span.tag(
                     "a",
                     &[(
                         "href",
                         &format!("{}/streets/{}/update-result", prefix, relation_name),
                     )],
                 );
-                doc.text(&tr("Call Overpass to update"));
+                a.text(&tr("Call Overpass to update"));
             }
         }
         items.push(doc);
         let doc = yattag::Doc::new();
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
                     &format!("{}/streets/{}/view-query", prefix, relation_name),
                 )],
             );
-            doc.text(&tr("View query"));
+            a.text(&tr("View query"));
         }
         items.push(doc);
     }
@@ -225,7 +225,7 @@ fn fill_missing_header_items(
     if streets != "only" {
         let doc = yattag::Doc::new();
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -235,14 +235,14 @@ fn fill_missing_header_items(
                     ),
                 )],
             );
-            doc.text(&tr("Missing house numbers"));
+            a.text(&tr("Missing house numbers"));
         }
         items.push(doc);
 
         if additional_housenumbers {
             let doc = yattag::Doc::new();
             {
-                let _a = doc.tag(
+                let a = doc.tag(
                     "a",
                     &[(
                         "href",
@@ -252,7 +252,7 @@ fn fill_missing_header_items(
                         ),
                     )],
                 );
-                doc.text(&tr("Additional house numbers"));
+                a.text(&tr("Additional house numbers"));
             }
             items.push(doc);
         }
@@ -260,19 +260,19 @@ fn fill_missing_header_items(
     if streets != "no" {
         let doc = yattag::Doc::new();
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
                     &format!("{}/missing-streets/{}/view-result", prefix, relation_name),
                 )],
             );
-            doc.text(&tr("Missing streets"));
+            a.text(&tr("Missing streets"));
         }
         items.push(doc);
         let doc = yattag::Doc::new();
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -282,7 +282,7 @@ fn fill_missing_header_items(
                     ),
                 )],
             );
-            doc.text(&tr("Additional streets"));
+            a.text(&tr("Additional streets"));
         }
         items.push(doc);
     }
@@ -301,7 +301,7 @@ fn fill_existing_header_items(
     if streets != "only" {
         let doc = yattag::Doc::new();
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -311,21 +311,21 @@ fn fill_existing_header_items(
                     ),
                 )],
             );
-            doc.text(&tr("Existing house numbers"));
+            a.text(&tr("Existing house numbers"));
         }
         items.push(doc);
     }
 
     let doc = yattag::Doc::new();
     {
-        let _a = doc.tag(
+        let a = doc.tag(
             "a",
             &[(
                 "href",
                 &format!("{}/streets/{}/view-result", prefix, relation_name),
             )],
         );
-        doc.text(&tr("Existing streets"));
+        a.text(&tr("Existing streets"));
     }
     items.push(doc);
     Ok(items)
@@ -333,9 +333,10 @@ fn fill_existing_header_items(
 
 /// Emit localized strings for JS purposes.
 pub fn emit_l10n_strings_for_js(doc: &yattag::Doc, string_pairs: &[(&str, String)]) {
-    let _div = doc.tag("div", &[("style", "display: none;")]);
+    let div = doc.tag("div", &[("style", "display: none;")]);
     for (key, value) in string_pairs {
-        let _div = doc.tag("div", &[("id", key), ("data-value", value)]);
+        let div = div.tag("div", &[("id", key), ("data-value", value)]);
+        drop(div);
     }
 }
 
@@ -365,8 +366,8 @@ pub fn get_toolbar(
 
     let doc = yattag::Doc::new();
     {
-        let _a = doc.tag("a", &[("href", &(ctx.get_ini().get_uri_prefix()? + "/"))]);
-        doc.text(&tr("Area list"))
+        let a = doc.tag("a", &[("href", &(ctx.get_ini().get_uri_prefix()? + "/"))]);
+        a.text(&tr("Area list"))
     }
     items.push(doc);
 
@@ -400,63 +401,63 @@ pub fn get_toolbar(
     emit_l10n_strings_for_js(&doc, string_pairs);
 
     {
-        let _a = doc.tag("a", &[("href", "https://overpass-turbo.eu/")]);
-        doc.text(&tr("Overpass turbo"));
+        let a = doc.tag("a", &[("href", "https://overpass-turbo.eu/")]);
+        a.text(&tr("Overpass turbo"));
     }
     items.push(doc);
 
     let doc = yattag::Doc::new();
     if relation_osmid > 0 {
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
                     &format!("https://www.openstreetmap.org/relation/{}", relation_osmid),
                 )],
             );
-            doc.text(&tr("Area boundary"))
+            a.text(&tr("Area boundary"))
         }
         items.push(doc);
     } else {
         // These are on the main page only.
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
                     &(ctx.get_ini().get_uri_prefix()? + "/housenumber-stats/hungary/"),
                 )],
             );
-            doc.text(&tr("Statistics"));
+            a.text(&tr("Statistics"));
         }
         items.push(doc);
 
         let doc = yattag::Doc::new();
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
                     "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
                 )],
             );
-            doc.text(&tr("Documentation"));
+            a.text(&tr("Documentation"));
         }
         items.push(doc);
     }
 
     let doc = yattag::Doc::new();
     {
-        let _div = doc.tag("div", &[("id", "toolbar")]);
+        let div = doc.tag("div", &[("id", "toolbar")]);
         for (index, item) in items.iter().enumerate() {
             if index > 0 {
-                doc.text(" ¦ ");
+                div.text(" ¦ ");
             }
-            doc.append_value(item.get_value());
+            div.append_value(item.get_value());
         }
     }
-    doc.stag("hr", &[]);
+    doc.stag("hr");
     Ok(doc)
 }
 
@@ -509,13 +510,13 @@ pub fn handle_error(request: &rouille::Request, error: &str) -> rouille::Respons
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
-        let _pre = doc.tag("pre", &[]);
+        let pre = doc.tag("pre", &[]);
         let url = request.url();
-        doc.text(&format!(
+        pre.text(&format!(
             "{}\n",
             tr("Internal error when serving {0}").replace("{0}", &url)
         ));
-        doc.text(error);
+        pre.text(error);
     }
     make_response(
         500_u16,
@@ -529,16 +530,16 @@ pub fn handle_404() -> yattag::Doc {
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
-        let _html = doc.tag("html", &[]);
+        let html = doc.tag("html", &[]);
         {
-            let _body = doc.tag("body", &[]);
+            let body = html.tag("body", &[]);
             {
-                let _h1 = doc.tag("h1", &[]);
-                doc.text(&tr("Not Found"));
+                let h1 = body.tag("h1", &[]);
+                h1.text(&tr("Not Found"));
             }
             {
-                let _p = doc.tag("p", &[]);
-                doc.text(&tr("The requested URL was not found on this server."));
+                let p = doc.tag("p", &[]);
+                p.text(&tr("The requested URL was not found on this server."));
             }
         }
     }
@@ -641,12 +642,12 @@ fn handle_stats_cityprogress(
     doc.append_value(util::html_table_from_list(&table).get_value());
 
     {
-        let _h2 = doc.tag("h2", &[]);
-        doc.text(&tr("Note"));
+        let h2 = doc.tag("h2", &[]);
+        h2.text(&tr("Note"));
     }
     {
-        let _div = doc.tag("div", &[]);
-        doc.text(&tr(
+        let div = doc.tag("div", &[]);
+        div.text(&tr(
             r#"These statistics are estimates, not taking house number filters into account.
 Only cities with house numbers in OSM are considered."#,
         ));
@@ -743,12 +744,12 @@ fn handle_stats_zipprogress(
     doc.append_value(util::html_table_from_list(&table).get_value());
 
     {
-        let _h2 = doc.tag("h2", &[]);
-        doc.text(&tr("Note"));
+        let h2 = doc.tag("h2", &[]);
+        h2.text(&tr("Note"));
     }
     {
-        let _div = doc.tag("div", &[]);
-        doc.text(&tr(
+        let div = doc.tag("div", &[]);
+        div.text(&tr(
             r#"These statistics are estimates, not taking house number filters into account.
 Only zip codes with house numbers in OSM are considered."#,
         ));
@@ -791,17 +792,17 @@ fn handle_invalid_refstreets(
             continue;
         }
         {
-            let _h1 = doc.tag("h1", &[]);
+            let h1 = doc.tag("h1", &[]);
             let relation_name = relation.get_name();
             {
-                let _a = doc.tag(
+                let a = h1.tag(
                     "a",
                     &[(
                         "href",
                         &format!("{}/streets/{}/view-result", prefix, relation_name),
                     )],
                 );
-                doc.text(&relation_name);
+                a.text(&relation_name);
             }
         }
         doc.append_value(
@@ -921,45 +922,45 @@ pub fn handle_stats(
     ];
 
     {
-        let _ul = doc.tag("ul", &[]);
+        let ul = doc.tag("ul", &[]);
         for (title, identifier) in title_ids {
             let identifier = identifier.to_string();
-            let _li = doc.tag("li", &[]);
+            let li = ul.tag("li", &[]);
             if identifier == "cityprogress" {
-                let _a = doc.tag(
+                let a = li.tag(
                     "a",
                     &[(
                         "href",
                         &format!("{}/housenumber-stats/hungary/cityprogress", prefix),
                     )],
                 );
-                doc.text(title);
+                a.text(title);
                 continue;
             }
             if identifier == "zipprogress" {
-                let _a = doc.tag(
+                let a = li.tag(
                     "a",
                     &[(
                         "href",
                         &format!("{}/housenumber-stats/hungary/zipprogress", prefix),
                     )],
                 );
-                doc.text(title);
+                a.text(title);
                 continue;
             }
             if identifier == "invalid-relations" {
-                let _a = doc.tag(
+                let a = li.tag(
                     "a",
                     &[(
                         "href",
                         &format!("{}/housenumber-stats/hungary/invalid-relations", prefix),
                     )],
                 );
-                doc.text(title);
+                a.text(title);
                 continue;
             }
-            let _a = doc.tag("a", &[("href", &format!("#_{}", identifier))]);
-            doc.text(title);
+            let a = li.tag("a", &[("href", &format!("#_{}", identifier))]);
+            a.text(title);
         }
     }
 
@@ -972,21 +973,22 @@ pub fn handle_stats(
             continue;
         }
         {
-            let _h2 = doc.tag("h2", &[("id", &format!("_{}", identifier))]);
-            doc.text(title);
+            let h2 = doc.tag("h2", &[("id", &format!("_{}", identifier))]);
+            h2.text(title);
         }
 
-        let _div = doc.tag("div", &[("class", "canvasblock js")]);
-        let _canvas = doc.tag("canvas", &[("id", &identifier)]);
+        let div = doc.tag("div", &[("class", "canvasblock js")]);
+        let canvas = div.tag("canvas", &[("id", &identifier)]);
+        drop(canvas);
     }
 
     {
-        let _h2 = doc.tag("h2", &[]);
-        doc.text(&tr("Note"));
+        let h2 = doc.tag("h2", &[]);
+        h2.text(&tr("Note"));
     }
     {
-        let _div = doc.tag("div", &[]);
-        doc.text(&tr(
+        let div = doc.tag("div", &[]);
+        div.text(&tr(
             r#"These statistics are provided purely for interested editors, and are not
 intended to reflect quality of work done by any given editor in OSM. If you want to use
 them to motivate yourself, that's fine, but keep in mind that a bit of useful work is
@@ -1061,8 +1063,8 @@ pub fn check_existing_relation(
     }
 
     {
-        let _div = doc.tag("div", &[("id", "no-such-relation-error")]);
-        doc.text(&tr("No such relation: {0}").replace("{0}", relation_name));
+        let div = doc.tag("div", &[("id", "no-such-relation-error")]);
+        div.text(&tr("No such relation: {0}").replace("{0}", relation_name));
     }
     Ok(doc)
 }
@@ -1072,9 +1074,9 @@ pub fn handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let link = format!("{}/streets/{}/uppdate-result", prefix, relation_name);
     {
-        let _div = doc.tag("div", &[("id", "no-osm-streets")]);
-        let _a = doc.tag("a", &[("href", &link)]);
-        doc.text(&tr("No existing streets: call Overpass to create..."));
+        let div = doc.tag("div", &[("id", "no-osm-streets")]);
+        let a = div.tag("a", &[("href", &link)]);
+        a.text(&tr("No existing streets: call Overpass to create..."));
     }
     let string_pairs = &[
         (
@@ -1095,9 +1097,9 @@ pub fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::
         prefix, relation_name
     );
     {
-        let _div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
-        let _a = doc.tag("a", &[("href", &link)]);
-        doc.text(&tr("No existing house numbers: call Overpass to create..."));
+        let div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
+        let a = div.tag("a", &[("href", &link)]);
+        a.text(&tr("No existing house numbers: call Overpass to create..."));
     }
     // Emit localized strings for JS purposes.
     let string_pairs = &[
@@ -1119,9 +1121,9 @@ pub fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::
         prefix, relation_name
     );
     {
-        let _div = doc.tag("div", &[("id", "no-ref-housenumbers")]);
-        let _a = doc.tag("a", &[("href", &link)]);
-        doc.text(&tr("No reference house numbers: create from reference..."));
+        let div = doc.tag("div", &[("id", "no-ref-housenumbers")]);
+        let a = div.tag("a", &[("href", &link)]);
+        a.text(&tr("No reference house numbers: create from reference..."));
     }
     // Emit localized strings for JS purposes.
     let string_pairs = &[
@@ -1140,9 +1142,9 @@ pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
     let link = format!("{}/missing-streets/{}/update-result", prefix, relation_name);
     {
-        let _div = doc.tag("div", &[("id", "no-ref-streets")]);
-        let _a = doc.tag("a", &[("href", &link)]);
-        doc.text(&tr("No street list: create from reference..."));
+        let div = doc.tag("div", &[("id", "no-ref-streets")]);
+        let a = div.tag("a", &[("href", &link)]);
+        a.text(&tr("No street list: create from reference..."));
     }
     let string_pairs = &[
         (

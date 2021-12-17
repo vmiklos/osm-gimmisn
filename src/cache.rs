@@ -97,34 +97,34 @@ pub fn get_missing_housenumbers_html(
         .context("write_missing_housenumbers() failed")?;
 
     {
-        let _p = doc.tag("p", &[]);
+        let p = doc.tag("p", &[]);
         let prefix = ctx.get_ini().get_uri_prefix()?;
         let relation_name = relation.get_name();
-        doc.text(
+        p.text(
             &tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
                 .replace("{0}", &todo_count.to_string())
                 .replace("{1}", &todo_street_count.to_string()),
         );
-        doc.text(
+        p.text(
             &tr(" (existing: {0}, ready: {1}).")
                 .replace("{0}", &done_count.to_string())
                 .replace("{1}", &util::format_percent(&percent)?),
         );
-        doc.stag("br", &[]);
+        doc.stag("br");
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
                     "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
                 )],
             );
-            doc.text(&tr("Filter incorrect information"));
+            a.text(&tr("Filter incorrect information"));
         }
         doc.text(".");
-        doc.stag("br", &[]);
+        doc.stag("br");
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -134,11 +134,11 @@ pub fn get_missing_housenumbers_html(
                     ),
                 )],
             );
-            doc.text(&tr("Overpass turbo query for the below streets"));
+            a.text(&tr("Overpass turbo query for the below streets"));
         }
-        doc.stag("br", &[]);
+        doc.stag("br");
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -148,11 +148,11 @@ pub fn get_missing_housenumbers_html(
                     ),
                 )],
             );
-            doc.text(&tr("Plain text format"));
+            a.text(&tr("Plain text format"));
         }
-        doc.stag("br", &[]);
+        doc.stag("br");
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -162,7 +162,7 @@ pub fn get_missing_housenumbers_html(
                     ),
                 )],
             );
-            doc.text(&tr("Checklist format"));
+            a.text(&tr("Checklist format"));
         }
     }
 
@@ -200,21 +200,21 @@ pub fn get_additional_housenumbers_html(
     let (todo_street_count, todo_count, table) = relation.write_additional_housenumbers()?;
 
     {
-        let _p = doc.tag("p", &[]);
-        doc.text(
+        let p = doc.tag("p", &[]);
+        p.text(
             &tr("OpenStreetMap additionally has the below {0} house numbers for {1} streets.")
                 .replace("{0}", &todo_count.to_string())
                 .replace("{1}", &todo_street_count.to_string()),
         );
-        doc.stag("br", &[]);
-        let _a = doc.tag(
+        doc.stag("br");
+        let a = doc.tag(
             "a",
             &[(
                 "href",
                 "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
             )],
         );
-        doc.text(&tr("Filter incorrect information"));
+        a.text(&tr("Filter incorrect information"));
     }
 
     doc.append_value(util::html_table_from_list(&table).get_value());
