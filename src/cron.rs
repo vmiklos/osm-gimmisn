@@ -342,7 +342,8 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         let cells: Vec<String> = line.split('\t').map(|i| i.into()).collect();
         // Ignore last column, which is the user who touched the object last.
         house_numbers.insert(cells[0..4].join("\t"));
-        let city_key = util::get_city_key(&cells[0], &cells[1], &valid_settlements)?;
+        let city_key = util::get_city_key(&cells[0], &cells[1], &valid_settlements)
+            .context("get_city_key() failed")?;
         let city_value = cells[2..4].join("\t");
         let entry = cities.entry(city_key).or_insert_with(HashSet::new);
         entry.insert(city_value);
@@ -354,9 +355,10 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         let zip_entry = zips.entry(zip_key).or_insert_with(HashSet::new);
         zip_entry.insert(zip_value);
     }
-    write_count_path(ctx, &count_path, &house_numbers)?;
-    write_city_count_path(ctx, &city_count_path, &cities)?;
-    write_zip_count_path(ctx, &zip_count_path, &zips)
+    write_count_path(ctx, &count_path, &house_numbers).context("write_count_path() failed")?;
+    write_city_count_path(ctx, &city_count_path, &cities)
+        .context("write_city_count_path() failed")?;
+    write_zip_count_path(ctx, &zip_count_path, &zips).context("write_zip_count_path() failed")
 }
 
 /// Counts the top housenumber editors as of today.

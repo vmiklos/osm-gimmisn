@@ -1082,7 +1082,12 @@ pub fn get_city_key(
         let mut chars = postcode.chars();
         chars.next();
         chars.next_back();
-        let district = chars.as_str().parse::<i32>()?;
+        let district = match chars.as_str().parse::<i32>() {
+            Ok(value) => value,
+            Err(_) => {
+                return Ok("_Invalid".into());
+            }
+        };
         if (1..=23).contains(&district) {
             return Ok(city + "_" + chars.as_str());
         }
@@ -1821,6 +1826,11 @@ A street\t9",
         assert_eq!(
             get_city_key("9999", "Budapest", &valid_settlements).unwrap(),
             "budapest"
+        );
+        // postcode vs housenumber swap.
+        assert_eq!(
+            get_city_key("1/A", "junk", &valid_settlements).unwrap(),
+            "_Invalid"
         );
     }
 
