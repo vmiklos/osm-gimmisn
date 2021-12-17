@@ -8,6 +8,8 @@ street-filters:
   - Pankos tető  # Pankostető
   - Susnyár  # Susnyár dűlőként már fent van
   # Vróc - még nincs fent
+  # Budakalász
+  - Ország út  # Pomáz Országút utca
 refstreets:
   'Alma sor': 'Almasor utca'
   'Barátpatak utca': 'Barát-patak utca'
@@ -16,7 +18,6 @@ refstreets:
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Felsőhegy utca': 'Felső-Hegy utca'
   'Messelia utca': 'Meselia utca'
-  'Ország út': 'Országút utca'
   'Ugralovica dűlő': 'Uglarovica dűlő'
   'Wattay utca': 'Watthay utca'
 source: survey
