@@ -1204,14 +1204,8 @@ impl Relations {
             .clone();
         let relations: HashMap<String, Relation> = HashMap::new();
         let activate_all = false;
-        let refcounty_names: HashMap<String, String> = yaml_cache
-            .get("refcounty-names.yaml")
-            .unwrap()
-            .as_object()
-            .unwrap()
-            .iter()
-            .map(|(key, value)| (key.clone(), value.as_str().unwrap().into()))
-            .collect();
+        let refcounty_names: HashMap<String, String> =
+            serde_json::from_value(yaml_cache["refcounty-names.yaml"].clone()).unwrap();
         let refsettlement_names: HashMap<String, HashMap<String, String>> = yaml_cache
             .get("refsettlement-names.yaml")
             .unwrap()
