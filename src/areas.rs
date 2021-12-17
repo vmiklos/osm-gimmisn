@@ -1206,22 +1206,8 @@ impl Relations {
         let activate_all = false;
         let refcounty_names: HashMap<String, String> =
             serde_json::from_value(yaml_cache["refcounty-names.yaml"].clone()).unwrap();
-        let refsettlement_names: HashMap<String, HashMap<String, String>> = yaml_cache
-            .get("refsettlement-names.yaml")
-            .unwrap()
-            .as_object()
-            .unwrap()
-            .iter()
-            .map(|(key, value)| {
-                let value: HashMap<String, String> = value
-                    .as_object()
-                    .unwrap()
-                    .iter()
-                    .map(|(key, value)| (key.clone(), value.as_str().unwrap().into()))
-                    .collect();
-                (key.clone(), value)
-            })
-            .collect();
+        let refsettlement_names: HashMap<String, HashMap<String, String>> =
+            serde_json::from_value(yaml_cache["refsettlement-names.yaml"].clone()).unwrap();
         Ok(Relations {
             ctx: ctx.clone(),
             yaml_cache: yaml_cache.clone(),
