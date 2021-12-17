@@ -52,14 +52,8 @@ impl Doc {
     }
 
     /// Starts a new tag and closes it as well.
-    pub fn stag(&self, name: &str, attrs: &[(&str, &str)]) {
-        self.append_value(format!("<{}", name));
-        for attr in attrs {
-            let key = attr.0;
-            let value = html_escape::encode_double_quoted_attribute(&attr.1);
-            self.append_value(format!(" {}=\"{}\"", key, value));
-        }
-        self.append_value(String::from(" />"))
+    pub fn stag(&self, name: &str) {
+        self.append_value(format!("<{} />", name));
     }
 
     /// Appends unescaped content to the document.
@@ -99,6 +93,33 @@ impl Tag {
             name: name.to_string(),
         }
     }
+
+    /// Appends unescaped content inside a tag.
+    pub fn text(&self, text: &str) {
+        let encoded = html_escape::encode_safe(text).to_string();
+        self.value.borrow_mut().push_str(&encoded)
+    }
+
+    /// Starts a new tag inside a tag.
+    pub fn tag(&self, name: &str, attrs: &[(&str, &str)]) -> Tag {
+        Tag::new(&self.value, name, attrs)
+    }
+
+    /// Starts a new tag and closes it as well, inside a tag.
+    pub fn stag(&self, name: &str, attrs: &[(&str, &str)]) {
+        self.append_value(format!("<{}", name));
+        for attr in attrs {
+            let key = attr.0;
+            let value = html_escape::encode_double_quoted_attribute(&attr.1);
+            self.append_value(format!(" {}=\"{}\"", key, value));
+        }
+        self.append_value(String::from("/>"))
+    }
+
+    /// Appends escaped content inside a tag.
+    pub fn append_value(&self, value: String) {
+        self.value.borrow_mut().push_str(&value)
+    }
 }
 
 impl Drop for Tag {
@@ -118,8 +139,8 @@ mod tests {
     fn test_escape() {
         let doc = Doc::default();
         {
-            let _a = doc.tag("a", &[("href", r#"https://www.example.com/"x"#)]);
-            doc.text("here>y");
+            let a = doc.tag("a", &[("href", r#"https://www.example.com/"x"#)]);
+            a.text("here>y");
         }
         assert_eq!(
             doc.get_value(),

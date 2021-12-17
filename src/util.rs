@@ -170,7 +170,7 @@ impl Street {
         let doc = yattag::Doc::new();
         doc.text(&self.osm_name);
         if self.osm_name != self.ref_name && self.show_ref_street {
-            doc.stag("br", &[]);
+            doc.stag("br");
             doc.text("(");
             doc.text(&self.ref_name);
             doc.text(")");
@@ -469,7 +469,7 @@ pub fn format_even_odd_html(only_in_ref: &[HouseNumberRange]) -> yattag::Doc {
         doc.append_value(color_house_number(elem).get_value());
     }
     if !even.is_empty() && !odd.is_empty() {
-        doc.stag("br", &[]);
+        doc.stag("br");
     }
     for (index, elem) in even.iter().enumerate() {
         if index > 0 {
@@ -492,14 +492,14 @@ pub fn color_house_number(house_number: &HouseNumberRange) -> yattag::Doc {
     chars.next_back();
     let number = chars.as_str();
     let title = house_number.get_comment().replace("&#013;", "\n");
-    let _span = doc.tag("span", &[("style", "color: blue;")]);
+    let span = doc.tag("span", &[("style", "color: blue;")]);
     if !title.is_empty() {
         {
-            let _abbr = doc.tag("abbr", &[("title", title.as_str()), ("tabindex", "0")]);
-            doc.text(number);
+            let abbr = doc.tag("abbr", &[("title", title.as_str()), ("tabindex", "0")]);
+            abbr.text(number);
         }
     } else {
-        doc.text(number);
+        span.text(number);
     }
     doc
 }
@@ -660,11 +660,11 @@ pub fn parse_filters(tokens: &[String]) -> HashMap<String, String> {
 /// Handles a HTTP error from Overpass.
 pub fn handle_overpass_error(ctx: &context::Context, http_error: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
-    let _div = doc.tag("div", &[("id", "overpass-error")]);
-    doc.text(&tr("Overpass error: {0}").replace("{0}", http_error));
+    let div = doc.tag("div", &[("id", "overpass-error")]);
+    div.text(&tr("Overpass error: {0}").replace("{0}", http_error));
     let sleep = overpass_query::overpass_query_need_sleep(ctx);
     if sleep > 0 {
-        doc.stag("br", &[]);
+        doc.stag("br");
         doc.text(&tr("Note: wait for {} seconds").replace("{}", &sleep.to_string()));
     }
     doc
@@ -692,8 +692,8 @@ pub fn setup_localization(headers: rouille::HeadersIter<'_>) -> String {
 /// Generates a link to a URL with a given label.
 pub fn gen_link(url: &str, label: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
-    let _a = doc.tag("a", &[("href", url)]);
-    doc.text(&(label.to_string() + "..."));
+    let a = doc.tag("a", &[("href", url)]);
+    a.text(&(label.to_string() + "..."));
     doc
 }
 
@@ -743,17 +743,17 @@ pub fn should_expand_range(numbers: &[i64], street_is_even_odd: bool) -> (bool, 
 /// Produces a HTML table from a list of lists.
 pub fn html_table_from_list(table: &[Vec<yattag::Doc>]) -> yattag::Doc {
     let doc = yattag::Doc::new();
-    let _table = doc.tag("table", &[("class", "sortable")]);
+    let table_tag = doc.tag("table", &[("class", "sortable")]);
     for (row_index, row_content) in table.iter().enumerate() {
-        let _tr = doc.tag("tr", &[]);
+        let tr = table_tag.tag("tr", &[]);
         for cell in row_content {
             if row_index == 0 {
-                let _th = doc.tag("th", &[]);
-                let _a = doc.tag("a", &[("href", "#")]);
-                doc.text(&cell.get_value());
+                let th = tr.tag("th", &[]);
+                let a = th.tag("a", &[("href", "#")]);
+                a.text(&cell.get_value());
             } else {
-                let _td = doc.tag("td", &[]);
-                doc.append_value(cell.get_value())
+                let td = tr.tag("td", &[]);
+                td.append_value(cell.get_value())
             }
         }
     }
@@ -764,31 +764,31 @@ pub fn html_table_from_list(table: &[Vec<yattag::Doc>]) -> yattag::Doc {
 pub fn invalid_refstreets_to_html(osm_invalids: &[String], ref_invalids: &[String]) -> yattag::Doc {
     let doc = yattag::Doc::new();
     if !osm_invalids.is_empty() {
-        doc.stag("br", &[]);
-        let _div = doc.tag("div", &[("id", "osm-invalids-container")]);
-        doc.text(&tr(
+        doc.stag("br");
+        let div = doc.tag("div", &[("id", "osm-invalids-container")]);
+        div.text(&tr(
             "Warning: broken OSM <-> reference mapping, the following OSM names are invalid:",
         ));
-        let _ul = doc.tag("ul", &[]);
+        let ul = doc.tag("ul", &[]);
         for osm_invalid in osm_invalids {
-            let _li = doc.tag("li", &[]);
-            doc.text(osm_invalid);
+            let li = ul.tag("li", &[]);
+            li.text(osm_invalid);
         }
     }
     if !ref_invalids.is_empty() {
-        doc.stag("br", &[]);
-        let _div = doc.tag("div", &[("id", "ref-invalids-container")]);
-        doc.text(&tr(
+        doc.stag("br");
+        let div = doc.tag("div", &[("id", "ref-invalids-container")]);
+        div.text(&tr(
             "Warning: broken OSM <-> reference mapping, the following reference names are invalid:",
         ));
-        let _ul = doc.tag("ul", &[]);
+        let ul = doc.tag("ul", &[]);
         for ref_invalid in ref_invalids {
-            let _li = doc.tag("li", &[]);
-            doc.text(ref_invalid);
+            let li = ul.tag("li", &[]);
+            li.text(ref_invalid);
         }
     }
     if !osm_invalids.is_empty() || !ref_invalids.is_empty() {
-        doc.stag("br", &[]);
+        doc.stag("br");
         doc.text(&tr(
             "Note: an OSM name is invalid if it's not in the OSM database.",
         ));
@@ -803,15 +803,15 @@ pub fn invalid_refstreets_to_html(osm_invalids: &[String], ref_invalids: &[Strin
 pub fn invalid_filter_keys_to_html(invalids: &[String]) -> yattag::Doc {
     let doc = yattag::Doc::new();
     if !invalids.is_empty() {
-        doc.stag("br", &[]);
-        let _div = doc.tag("div", &[("id", "osm-filter-key-invalids-container")]);
-        doc.text(&tr(
+        doc.stag("br");
+        let div = doc.tag("div", &[("id", "osm-filter-key-invalids-container")]);
+        div.text(&tr(
             "Warning: broken filter key name, the following key names are not OSM names:",
         ));
-        let _ul = doc.tag("ul", &[]);
+        let ul = doc.tag("ul", &[]);
         for invalid in invalids {
-            let _li = doc.tag("li", &[]);
-            doc.text(invalid);
+            let li = ul.tag("li", &[]);
+            li.text(invalid);
         }
     }
     doc
@@ -859,8 +859,8 @@ pub fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag:
                 let doc = yattag::Doc::new();
                 let href = format!("https://www.openstreetmap.org/{}/{}", osm_type, osm_id);
                 {
-                    let _a = doc.tag("a", &[("href", href.as_str()), ("target", "_blank")]);
-                    doc.text(&osm_id.to_string());
+                    let a = doc.tag("a", &[("href", href.as_str()), ("target", "_blank")]);
+                    a.text(&osm_id.to_string());
                 }
                 cells[0] = doc;
             }
@@ -962,11 +962,11 @@ pub fn git_link(version: &str, prefix: &str) -> yattag::Doc {
         commit_hash = cap[1].into();
     }
     let doc = yattag::Doc::new();
-    let _a = doc.tag(
+    let a = doc.tag(
         "a",
         &[("href", (prefix.to_string() + &commit_hash).as_str())],
     );
-    doc.text(version);
+    a.text(version);
     doc
 }
 

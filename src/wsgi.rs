@@ -66,8 +66,8 @@ fn handle_streets(
     );
 
     if action == "view-query" {
-        let _pre = doc.tag("pre", &[]);
-        doc.text(&relation.get_osm_streets_query()?);
+        let pre = doc.tag("pre", &[]);
+        pre.text(&relation.get_osm_streets_query()?);
     } else if action == "update-result" {
         let query = relation.get_osm_streets_query()?;
         match overpass_query::overpass_query(ctx, query) {
@@ -140,8 +140,8 @@ fn handle_street_housenumbers(
 
     let prefix = ctx.get_ini().get_uri_prefix()?;
     if action == "view-query" {
-        let _pre = doc.tag("pre", &[]);
-        doc.text(&relation.get_osm_housenumbers_query()?);
+        let pre = doc.tag("pre", &[]);
+        pre.text(&relation.get_osm_housenumbers_query()?);
     } else if action == "update-result" {
         let query = relation.get_osm_housenumbers_query()?;
         match overpass_query::overpass_query(ctx, query) {
@@ -166,8 +166,8 @@ fn handle_street_housenumbers(
             .get_file_system()
             .path_exists(&relation.get_files().get_osm_housenumbers_path())
         {
-            let _div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
-            doc.text(&tr("No existing house numbers"));
+            let div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
+            div.text(&tr("No existing house numbers"));
         } else {
             let stream = relation.get_files().get_osm_housenumbers_read_stream(ctx)?;
             let mut guard = stream.borrow_mut();
@@ -203,8 +203,8 @@ fn missing_housenumbers_view_turbo(
     }
     let query = areas::make_turbo_query_for_streets(&relation, &streets);
 
-    let _pre = doc.tag("pre", &[]);
-    doc.text(&query);
+    let pre = doc.tag("pre", &[]);
+    pre.text(&query);
     Ok(doc)
 }
 
@@ -280,32 +280,32 @@ fn missing_streets_view_result(
     }
 
     {
-        let _p = doc.tag("p", &[]);
-        doc.text(
+        let p = doc.tag("p", &[]);
+        p.text(
             &tr("OpenStreetMap is possibly missing the below {0} streets.")
                 .replace("{0}", &todo_count.to_string()),
         );
-        doc.text(
+        p.text(
             &tr(" (existing: {0}, ready: {1}).")
                 .replace("{0}", &done_count.to_string())
                 .replace("{1}", &util::format_percent(&percent)?),
         );
-        doc.stag("br", &[]);
+        p.stag("br", &[]);
         {
-            let _a = doc.tag(
+            let a = p.tag(
                 "a",
                 &[(
                     "href",
                     &format!("{}/missing-streets/{}/view-turbo", prefix, relation_name),
                 )],
             );
-            doc.text(&tr(
+            a.text(&tr(
                 "Overpass turbo query for streets with questionable names",
             ));
         }
-        doc.stag("br", &[]);
+        p.stag("br", &[]);
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -315,11 +315,11 @@ fn missing_streets_view_result(
                     ),
                 )],
             );
-            doc.text(&tr("Plain text format"));
+            a.text(&tr("Plain text format"));
         }
-        doc.stag("br", &[]);
+        p.stag("br", &[]);
         {
-            let _a = doc.tag(
+            let a = doc.tag(
                 "a",
                 &[(
                     "href",
@@ -329,7 +329,7 @@ fn missing_streets_view_result(
                     ),
                 )],
             );
-            doc.text(&tr("Checklist format"));
+            a.text(&tr("Checklist format"));
         }
     }
 
@@ -519,8 +519,8 @@ fn missing_streets_update(
     let relation = relations.get_relation(relation_name)?;
     relation.write_ref_streets(&ctx.get_ini().get_reference_street_path()?)?;
     let doc = yattag::Doc::new();
-    let _div = doc.tag("div", &[("id", "update-success")]);
-    doc.text(&tr("Update successful."));
+    let div = doc.tag("div", &[("id", "update-success")]);
+    div.text(&tr("Update successful."));
     Ok(doc)
 }
 
@@ -567,12 +567,12 @@ fn handle_missing_housenumbers(
         doc.append_value(missing_housenumbers_view_turbo(relations, request_uri)?.get_value());
     } else if action == "view-query" {
         {
-            let _pre = doc.tag("pre", &[]);
+            let pre = doc.tag("pre", &[]);
             let stream = relation.get_files().get_ref_housenumbers_read_stream(ctx)?;
             let mut guard = stream.borrow_mut();
             let mut buffer: Vec<u8> = Vec::new();
             guard.read_to_end(&mut buffer)?;
-            doc.text(&String::from_utf8(buffer)?);
+            pre.text(&String::from_utf8(buffer)?);
         }
         date = get_last_modified(&relation.get_files().get_ref_housenumbers_path());
     } else if action == "update-result" {
@@ -613,8 +613,8 @@ fn missing_streets_view_turbo(
     }
     let query = areas::make_turbo_query_for_streets(&relation, &streets);
 
-    let _pre = doc.tag("pre", &[]);
-    doc.text(&query);
+    let pre = doc.tag("pre", &[]);
+    pre.text(&query);
     Ok(doc)
 }
 
@@ -653,12 +653,12 @@ fn handle_missing_streets(
     if action == "view-turbo" {
         doc.append_value(missing_streets_view_turbo(relations, request_uri)?.get_value());
     } else if action == "view-query" {
-        let _pre = doc.tag("pre", &[]);
+        let pre = doc.tag("pre", &[]);
         let stream = relation.get_files().get_ref_streets_read_stream(ctx)?;
         let mut guard = stream.borrow_mut();
         let mut buffer: Vec<u8> = Vec::new();
         guard.read_to_end(&mut buffer)?;
-        doc.text(&String::from_utf8(buffer)?);
+        pre.text(&String::from_utf8(buffer)?);
     } else if action == "update-result" {
         doc.append_value(missing_streets_update(ctx, relations, relation_name)?.get_value());
     } else {
@@ -783,21 +783,21 @@ fn handle_main_housenr_percent(
     let doc = yattag::Doc::new();
     if percent != "N/A" {
         let date = get_last_modified(&files.get_housenumbers_percent_path());
-        let _strong = doc.tag("strong", &[]);
-        let _a = doc.tag(
+        let strong = doc.tag("strong", &[]);
+        let a = strong.tag(
             "a",
             &[
                 ("href", &url),
                 ("title", &format!("{} {}", tr("updated"), date)),
             ],
         );
-        doc.text(&util::format_percent(&percent)?);
+        a.text(&util::format_percent(&percent)?);
         return Ok((doc, percent));
     }
 
-    let _strong = doc.tag("strong", &[]);
-    let _a = doc.tag("a", &[("href", &url)]);
-    doc.text(&tr("missing house numbers"));
+    let strong = doc.tag("strong", &[]);
+    let a = strong.tag("a", &[("href", &url)]);
+    a.text(&tr("missing house numbers"));
     Ok((doc, "0".into()))
 }
 
@@ -827,21 +827,21 @@ fn handle_main_street_percent(
     let doc = yattag::Doc::new();
     if percent != "N/A" {
         let date = get_last_modified(&relation.get_files().get_streets_percent_path());
-        let _strong = doc.tag("strong", &[]);
-        let _a = doc.tag(
+        let strong = doc.tag("strong", &[]);
+        let a = strong.tag(
             "a",
             &[
                 ("href", &url),
                 ("title", &format!("{} {}", tr("updated"), date)),
             ],
         );
-        doc.text(&util::format_percent(&percent)?);
+        a.text(&util::format_percent(&percent)?);
         return Ok((doc, percent));
     }
 
-    let _strong = doc.tag("strong", &[]);
-    let _a = doc.tag("a", &[("href", &url)]);
-    doc.text(&tr("missing streets"));
+    let strong = doc.tag("strong", &[]);
+    let a = strong.tag("a", &[("href", &url)]);
+    a.text(&tr("missing streets"));
     Ok((doc, "0".into()))
 }
 
@@ -872,21 +872,21 @@ fn handle_main_street_additional_count(
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
         let date = get_last_modified(&files.get_streets_additional_count_path());
-        let _strong = doc.tag("strong", &[]);
-        let _a = doc.tag(
+        let strong = doc.tag("strong", &[]);
+        let a = strong.tag(
             "a",
             &[
                 ("href", &url),
                 ("title", &format!("{} {}", tr("updated"), date)),
             ],
         );
-        doc.text(&tr("{} streets").replace("{}", &additional_count));
+        a.text(&tr("{} streets").replace("{}", &additional_count));
         return Ok(doc);
     }
 
-    let _strong = doc.tag("strong", &[]);
-    let _a = doc.tag("a", &[("href", &url)]);
-    doc.text(&tr("additional streets"));
+    let strong = doc.tag("strong", &[]);
+    let a = strong.tag("a", &[("href", &url)]);
+    a.text(&tr("additional streets"));
     Ok(doc)
 }
 
@@ -930,21 +930,21 @@ pub fn handle_main_housenr_additional_count(
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
         let date = get_last_modified(&files.get_housenumbers_additional_count_path());
-        let _strong = doc.tag("strong", &[]);
-        let _a = doc.tag(
+        let strong = doc.tag("strong", &[]);
+        let a = strong.tag(
             "a",
             &[
                 ("href", &url),
                 ("title", &format!("{} {}", tr("updated"), date)),
             ],
         );
-        doc.text(&tr("{} house numbers").replace("{}", &additional_count));
+        a.text(&tr("{} house numbers").replace("{}", &additional_count));
         return Ok(doc);
     }
 
-    let _strong = doc.tag("strong", &[]);
-    let _a = doc.tag("a", &[("href", &url)]);
-    doc.text(&tr("additional house numbers"));
+    let strong = doc.tag("strong", &[]);
+    let a = strong.tag("a", &[("href", &url)]);
+    a.text(&tr("additional house numbers"));
     Ok(doc)
 }
 
@@ -1047,14 +1047,14 @@ fn handle_main_filters_refcounty(
 
     let prefix = ctx.get_ini().get_uri_prefix()?;
     {
-        let _a = doc.tag(
+        let a = doc.tag(
             "a",
             &[(
                 "href",
                 &format!("{}/filter-for/refcounty/{}/whole-county", prefix, refcounty),
             )],
         );
-        doc.text(&name);
+        a.text(&name);
     }
     if !refcounty_id.is_empty() && refcounty == refcounty_id {
         let refsettlement_ids = relations.refcounty_get_refsettlement_ids(refcounty_id);
@@ -1068,8 +1068,8 @@ fn handle_main_filters_refcounty(
                         "{}/filter-for/refcounty/{}/refsettlement/{}",
                         prefix, refcounty, refsettlement_id
                     );
-                    let _a = name_doc.tag("a", &[("href", &href)]);
-                    name_doc.text(&name);
+                    let a = name_doc.tag("a", &[("href", &href)]);
+                    a.text(&name);
                 }
                 names.push(name_doc);
             }
@@ -1096,20 +1096,20 @@ fn handle_main_filters(
 
     let mut doc = yattag::Doc::new();
     {
-        let _span = doc.tag("span", &[("id", "filter-based-on-position")]);
-        let _a = doc.tag("a", &[("href", "#")]);
-        doc.text(&tr("Based on position"))
+        let span = doc.tag("span", &[("id", "filter-based-on-position")]);
+        let a = span.tag("a", &[("href", "#")]);
+        a.text(&tr("Based on position"))
     }
     items.push(doc);
 
     doc = yattag::Doc::new();
     let prefix = ctx.get_ini().get_uri_prefix()?;
     {
-        let _a = doc.tag(
+        let a = doc.tag(
             "a",
             &[("href", &format!("{}/filter-for/everything", prefix))],
         );
-        doc.text(&tr("Show complete areas"));
+        a.text(&tr("Show complete areas"));
     }
     items.push(doc);
 
@@ -1131,12 +1131,12 @@ fn handle_main_filters(
     }
     doc = yattag::Doc::new();
     {
-        let _h1 = doc.tag("h1", &[]);
-        doc.text(&tr("Where to map?"));
+        let h1 = doc.tag("h1", &[]);
+        h1.text(&tr("Where to map?"));
     }
     {
-        let _p = doc.tag("p", &[]);
-        doc.text(&format!("{} ", tr("Filters:")));
+        let p = doc.tag("p", &[]);
+        p.text(&format!("{} ", tr("Filters:")));
         for (index, item) in items.iter().enumerate() {
             if index > 0 {
                 doc.text(" ¦ ");
@@ -1203,7 +1203,7 @@ fn handle_main_relation(
 
     let doc = yattag::Doc::new();
     {
-        let _a = doc.tag(
+        let a = doc.tag(
             "a",
             &[(
                 "href",
@@ -1213,7 +1213,7 @@ fn handle_main_relation(
                 ),
             )],
         );
-        doc.text(&tr("area boundary"));
+        a.text(&tr("area boundary"));
     }
     row.push(doc);
 
@@ -1263,15 +1263,15 @@ fn handle_main(
     }
     doc.append_value(util::html_table_from_list(&table).get_value());
     {
-        let _p = doc.tag("p", &[]);
-        let _a = doc.tag(
+        let p = doc.tag("p", &[]);
+        let a = p.tag(
             "a",
             &[(
                 "href",
                 "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
             )],
         );
-        doc.text(&tr("Add new area"));
+        a.text(&tr("Add new area"));
     }
 
     doc.append_value(webframe::get_footer(/*last_updated=*/ "").get_value());
@@ -1300,11 +1300,11 @@ fn get_html_title(request_uri: &str) -> String {
 }
 
 /// Produces the <head> tag and its contents.
-fn write_html_head(ctx: &context::Context, doc: &yattag::Doc, title: &str) -> anyhow::Result<()> {
+fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> anyhow::Result<()> {
     let prefix = ctx.get_ini().get_uri_prefix()?;
-    let _head = doc.tag("head", &[]);
-    doc.stag("meta", &[("charset", "UTF-8")]);
-    doc.stag(
+    let head = doc.tag("head", &[]);
+    head.stag("meta", &[("charset", "UTF-8")]);
+    head.stag(
         "meta",
         &[
             ("name", "viewport"),
@@ -1312,10 +1312,10 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Doc, title: &str) -> an
         ],
     );
     {
-        let _title = doc.tag("title", &[]);
-        doc.text(&format!("{}{}", tr("Where to map?"), title))
+        let title_tag = head.tag("title", &[]);
+        title_tag.text(&format!("{}{}", tr("Where to map?"), title))
     }
-    doc.stag(
+    head.stag(
         "link",
         &[
             ("rel", "icon"),
@@ -1324,7 +1324,7 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Doc, title: &str) -> an
             ("href", &format!("{}/favicon.ico", prefix)),
         ],
     );
-    doc.stag(
+    head.stag(
         "link",
         &[
             ("rel", "icon"),
@@ -1337,24 +1337,25 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Doc, title: &str) -> an
     let css_path = format!("{}/{}", ctx.get_ini().get_workdir()?, "osm.min.css");
     let contents = std::fs::read_to_string(css_path)?;
     {
-        let _style = doc.tag("style", &[]);
-        doc.text(&contents);
+        let style = head.tag("style", &[]);
+        style.text(&contents);
     }
 
     {
-        let _noscript = doc.tag("noscript", &[]);
-        let _style = doc.tag("style", &[("type", "text/css")]);
-        doc.text(".no-js { display: block; }");
-        doc.text(".js { display: none; }");
+        let noscript = head.tag("noscript", &[]);
+        let style = noscript.tag("style", &[("type", "text/css")]);
+        style.text(".no-js { display: block; }");
+        style.text(".js { display: none; }");
     }
 
-    let _script = doc.tag(
+    let script = head.tag(
         "script",
         &[
             ("defer", ""),
             ("src", &format!("{}/static/bundle.js", prefix)),
         ],
     );
+    drop(script);
     Ok(())
 }
 
@@ -1491,23 +1492,23 @@ fn our_application(
     let doc = yattag::Doc::new();
     util::write_html_header(&doc);
     {
-        let _html = doc.tag("html", &[("lang", &language)]);
-        write_html_head(ctx, &doc, &get_html_title(&request_uri))?;
+        let html = doc.tag("html", &[("lang", &language)]);
+        write_html_head(ctx, &html, &get_html_title(&request_uri))?;
 
-        let _body = doc.tag("body", &[]);
+        let body = html.tag("body", &[]);
         let no_such_relation = webframe::check_existing_relation(ctx, &relations, &request_uri)?;
         let handler = get_handler(ctx, &request_uri)?;
         if !no_such_relation.get_value().is_empty() {
-            doc.append_value(no_such_relation.get_value());
+            body.append_value(no_such_relation.get_value());
         } else if let Some(handler) = handler {
             let value = handler(ctx, &mut relations, &request_uri)
                 .context("handler() failed")?
                 .get_value();
-            doc.append_value(value);
+            body.append_value(value);
         } else if request_uri.starts_with(&format!("{}/webhooks/github", prefix)) {
-            doc.append_value(webframe::handle_github_webhook(request, ctx)?.get_value());
+            body.append_value(webframe::handle_github_webhook(request, ctx)?.get_value());
         } else {
-            doc.append_value(handle_main(&request_uri, ctx, &mut relations)?.get_value());
+            body.append_value(handle_main(&request_uri, ctx, &mut relations)?.get_value());
         }
     }
 
