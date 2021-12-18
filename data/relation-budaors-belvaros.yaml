@@ -129,6 +129,12 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '20'}
+  Kötő utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
+  Lomnici köz:
+    invalid: ['10', '96']
   Máriavölgy utca:
     invalid: ['33']
     interpolation: all
@@ -140,6 +146,8 @@ filters:
   Maros köz:
     # 1, 9 nincs
     invalid: ['1', '9']
+  Mátra utca:
+    invalid: ['5', '31']
   Mátyás király utca:
     ranges:
       - {start: '1', end: '99'}
@@ -197,7 +205,7 @@ filters:
   Szabadság út:
     ranges:
       - {start: '1', end: '111'}
-      - {start: '132', end: '132'}
+      - {start: '2', end: '132'}
       - {start: '136', end: '136'}
   Szőlő köz:
     # 1 után 7 jön
@@ -228,6 +236,8 @@ filters:
       - {start: '1', end: '27'}
       - {start: '2', end: '36'}
   Víg utca:
+    # ezek nem léteznek/nincsenek kiírva
+    invalid: ['1', '7', '9', '19', '51']
     ranges:
       - {start: '1', end: '51'}
   Víztorony utca:
