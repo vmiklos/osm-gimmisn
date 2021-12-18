@@ -340,7 +340,7 @@ impl Relation {
         ctx: &context::Context,
         name: &str,
         parent_config: &serde_json::Value,
-        yaml_cache: &serde_json::Map<String, serde_json::Value>,
+        yaml_cache: &HashMap<String, serde_json::Value>,
     ) -> anyhow::Result<Self> {
         let mut my_config = serde_json::json!({});
         let file = area_files::RelationFiles::new(&ctx.get_ini().get_workdir()?, name);
@@ -1177,7 +1177,7 @@ impl Relation {
 #[derive(Clone)]
 pub struct Relations {
     ctx: context::Context,
-    yaml_cache: serde_json::Map<String, serde_json::Value>,
+    yaml_cache: HashMap<String, serde_json::Value>,
     dict: serde_json::Map<String, serde_json::Value>,
     relations: HashMap<String, Relation>,
     activate_all: bool,
@@ -1194,8 +1194,7 @@ impl Relations {
             .context(format!("failed to open {} for reading", yamls_cache))?;
         let mut guard = stream.borrow_mut();
         let read = guard.deref_mut();
-        let value: serde_json::Value = serde_json::from_reader(read)?;
-        let yaml_cache = value.as_object().unwrap();
+        let yaml_cache: HashMap<String, serde_json::Value> = serde_json::from_reader(read)?;
         let dict = yaml_cache
             .get("relations.yaml")
             .unwrap()
@@ -1210,7 +1209,7 @@ impl Relations {
             serde_json::from_value(yaml_cache["refsettlement-names.yaml"].clone()).unwrap();
         Ok(Relations {
             ctx: ctx.clone(),
-            yaml_cache: yaml_cache.clone(),
+            yaml_cache,
             dict,
             relations,
             activate_all,
