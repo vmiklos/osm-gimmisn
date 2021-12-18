@@ -230,6 +230,10 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '20'}
+  Kötő utca:
+    ranges:
+      - {start: '1', end: '9'}
+      - {start: '2', end: '10'}
   Láng utca:
     ranges:
       - {start: '1', end: '11'}
@@ -241,12 +245,16 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '44'}
+  Lomnici köz:
+    invalid: ['10', '96']
   Máriavölgy utca:
     # össze vissza számozva, csoda hogy csak ezek hiányoznak
     invalid: ['11', '12', '22', '33']
   Maros köz:
     # 1, 9 nincs
     invalid: ['1', '9']
+  Mátra utca:
+    invalid: ['5', '31']
   Meggy utca:
     # gyéren táblázva, ezek nincsenek
     invalid: ['33', '66']
@@ -436,6 +444,9 @@ filters:
     invalid: ['1', '7']
     ranges:
       - {start: '1', end: '9'}
+  Víg utca:
+    # ezek nem léteznek/nincsenek kiírva
+    invalid: ['1', '7', '9', '19', '51']
   Víztorony utca:
     invalid: ['7']
     ranges:
