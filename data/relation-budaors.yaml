@@ -14,14 +14,6 @@ filters:
   Akácos utca:
     interpolation: all
     invalid: ['4']
-  Árokparti utca:
-    invalid: ['7']
-  Avar utca:
-    # újraszámozva, keveredik páros/páratlan
-    ranges:
-      - {start: '1', end: '37'}
-      - {start: '2', end: '18'}
-      - {start: '22', end: '24'}
   Akácfa utca:
     ranges:
       - {start: '1', end: '29'}
@@ -40,7 +32,15 @@ filters:
     # páros felmérendő mégegyszer, nem úgy tűnik, hogy lenne egyáltalán
     ranges:
       - {start: '1', end: '19'}
-      - {start: '2', end: '98'}
+      - {start: '2', end: '6'}
+  Árokparti utca:
+    invalid: ['7']
+  Avar utca:
+    # újraszámozva, keveredik páros/páratlan
+    ranges:
+      - {start: '1', end: '37'}
+      - {start: '2', end: '18'}
+      - {start: '22', end: '24'}
   Bányász utca:
     # furcsa számozás, így jön a páratlan 1/a 1 3 11 9 15 13/b 17 19
     invalid: ['5', '7', '29']
@@ -63,8 +63,6 @@ filters:
     # 1, 5, 12: nincsenek
     interpolation: all
     invalid: ['1', '5', '12']
-  Bor utca:
-    invalid: ['3']
   Boróka utca:
     # az utcában viskók vannak, csak 2 normális házon van szám 5 és 6
     invalid: ['7', '8', '9', '10', '12']
@@ -168,7 +166,10 @@ filters:
   József Attila utca:
     # 7 = Árpád utca 4-8 iskola hátsó fele
     # 14: 12 után 16
-    invalid: ['2', '14']
+    invalid: ['2', '7', '14']
+    ranges:
+      - {start: '1', end: '35'}
+      - {start: '2', end: '38'}
   Kassai utca:
     # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
     invalid: ['4', '6']
@@ -481,6 +482,9 @@ filters:
       - {start: '2', end: '28'}
   Zengő utca:
     invalid: ['25']
+  Zichy Péter utca:
+    # 32: utolsó szám a 6-os
+    invalid: ['32']
   Zombori utca:
     # 44: 42 után 48 jön
     # 57: 55 után 59 jön, az 55 ikerházm de nincs kiírva az 57, inkább 55/a-nak látszik a kukán
