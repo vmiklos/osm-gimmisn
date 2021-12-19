@@ -41,6 +41,8 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
       - {start: '18', end: '20'}
+  Csalló köz:
+    invalid: ['1']
   Csap utca:
     ranges:
       - {start: '1', end: '99'}
@@ -53,6 +55,8 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '2'}
+  Dráva köz:
+    invalid: ['3', '5', '7']
   Gida utca:
     # 4 és 6 nincs, a 2 után 5/a jön
     invalid: ['4', '6']
@@ -68,6 +72,8 @@ filters:
     # nincs házszám a belváros részen
     ranges: []
   Farkasréti út:
+    # 40 után 52
+    invalid: ['42', '44']
     ranges:
       - {start: '1', end: '33'}
       - {start: '2', end: '50'}
@@ -81,6 +87,10 @@ filters:
     # 7 = Árpád utca 4-8 iskola hátsó fele
     # 14: 12 után 16
     invalid: ['2', '14']
+  Kálvária utca:
+    ranges:
+      - {start: '1', end: '15'}
+      - {start: '2', end: '28'}
   Károly király utca:
     # 2: nincs, 4-től indul a számozás, a sarki első épület Szabadság út 51
     # 18: nincs, 16 után 20 jön, kettő között a Baross utca húzódik
@@ -99,7 +109,8 @@ filters:
       - {start: '1', end: '73'}
   Kossuth Lajos utca:
     # 3 lakóház, 5 Johannita, 9 rendelő, 13 gyógyszertár
-    invalid: ['5', '7', '11']
+    # 43: 39-41 után 45/1, de van a kettő között egy bejáró
+    invalid: ['5', '7', '11', '43']
   Kökény utca:
     ranges:
       - {start: '1', end: '9'}
@@ -127,6 +138,7 @@ filters:
     invalid: ['14', '19']
   Kőszikla utca:
     interpolation: all
+    invalid: ['1', '3']
     ranges:
       - {start: '1', end: '20'}
   Kötő utca:
@@ -165,9 +177,13 @@ filters:
       - {start: '1', end: '19'}
       - {start: '2', end: '4'}
   Nefelejcs utca:
+    # 15: park van a helyén
+    invalid: ['15']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '26'}
+  Nyitra köz:
+    invalid: ['8']
   Ostor köz:
     ranges:
       - {start: '6', end: '8'}
@@ -203,10 +219,14 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '12'}
   Szabadság út:
+    # 96: 96 beépítve az újonnan épült 98-ba
+    invalid: ['18', '23', '58', '81', '83', '96']
     ranges:
       - {start: '1', end: '111'}
       - {start: '2', end: '132'}
       - {start: '136', end: '136'}
+  Száva köz:
+    invalid: ['9']
   Szőlő köz:
     # 1 után 7 jön
     invalid: ['3', '5']
