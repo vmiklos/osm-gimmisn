@@ -68,6 +68,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-daily-title").replace("{}", progress.date),
             },
             scales: {
@@ -117,6 +118,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-monthly-title").replace("{}", progress.date),
             },
             scales: {
@@ -166,6 +168,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-monthlytotal-title").replace("{}", progress.date),
             },
             scales: {
@@ -215,6 +218,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-dailytotal-title").replace("{}", progress.date),
             },
             scales: {
@@ -263,6 +267,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-topusers-title").replace("{}", progress.date),
             },
             scales: {
@@ -319,6 +324,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-topcities-title").replace("{}", progress.date),
             },
             scales: {
@@ -368,6 +374,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-usertotal-title").replace("{}", progress.date),
             },
             scales: {
@@ -420,6 +427,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-progress-title").replace("{1}", progress.percentage.toString()).replace("{2}", progress.date),
             },
             scales: {
