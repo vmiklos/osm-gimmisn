@@ -1,10 +1,17 @@
 missing-streets: 'yes'
 filters: {}
+osm-street-filters:
+  # nem igazi utcák
+  - Gödöllő Airport
+  - Oktatóközpont udvar
+  # parkok, sétányok
+  - Gödöllői Arborétum
+  - Nemzeti Együvé Tartozás Parkja
 street-filters:
   - Szadai utca  # Rossze helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
   # Dűlők/tanyák
   # - Bonoka tanya
-  - Babat puszta  # szerepel Babatpuszta néven
+  - Babat puszta  # szerepel Babatpuszta néven, place-ként
   # - Gulyás tanya
   - Küttel tanya  # szerepel place-ként
   - Peres dűlő  # szerepel Peres néven
@@ -30,8 +37,6 @@ street-filters:
   - Tessedik Kollégium
   - Repülőtér
   - Vágóhíd
-  # Dupla
-  - Palota-kert  # Az OSM-ben a Palotakert alakú név szerepel
   # Területként
   - Száritó puszta  # szerepel Szárítópusztaként
   # Hiányzó
@@ -42,13 +47,13 @@ street-filters:
   # - Makarenkó telep
 refstreets:
   'Alkony út': 'Alkony utca'
+  'Ambrus köz': 'Ambrus Zoltán köz'
   'Antalhegy lejtő': 'Antalhegyi lejtő'
   'Arany János utca': 'Arany János út'
-  'Ambrus köz': 'Ambrus Zoltán köz'
   'Babati út': 'Babati utca'
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
-  'Borbolya út': 'Borbolya utca'
   'Báthory István utca': 'Báthori István utca'
+  'Borbolya út': 'Borbolya utca'
   'Csillagfürt út': 'Csillagfürt utca'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Ganz Ábrahám út': 'Ganz Ábrahám utca'
@@ -58,6 +63,7 @@ refstreets:
   'Klebelsberg Kunó utca': 'Klebelsberg Kuno utca'
   'Körösfői Kriesch Aladár utca': 'Körösfői K. Aladár utca'
   'Kőrösi Csoma Sándor utca': 'Kőrösi Csoma utca'
+  'Palotakert': 'Palota-kert'
   'Petőfi Sándor utca': 'Petőfi Sándor út'
   'Pitypang út': 'Pitypang utca'
   'Podmaniczky Frigyes utca': 'Podmaniczky utca'
