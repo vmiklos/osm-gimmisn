@@ -55,14 +55,8 @@ fn handle_streets(
 
     let doc = yattag::Doc::new();
     doc.append_value(
-        webframe::get_toolbar(
-            ctx,
-            &Some(relations.clone()),
-            "streets",
-            relation_name,
-            osmrelation,
-        )?
-        .get_value(),
+        webframe::get_toolbar(ctx, Some(relations), "streets", relation_name, osmrelation)?
+            .get_value(),
     );
 
     if action == "view-query" {
@@ -130,7 +124,7 @@ fn handle_street_housenumbers(
     doc.append_value(
         webframe::get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             "street-housenumbers",
             relation_name,
             osmrelation,
@@ -555,7 +549,7 @@ fn handle_missing_housenumbers(
     doc.append_value(
         webframe::get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             "missing-housenumbers",
             relation_name,
             osmrelation,
@@ -642,7 +636,7 @@ fn handle_missing_streets(
     doc.append_value(
         webframe::get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             "missing-streets",
             relation_name,
             osmrelation,
@@ -688,7 +682,7 @@ fn handle_additional_streets(
     doc.append_value(
         webframe::get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             "additional-streets",
             relation_name,
             osmrelation,
@@ -737,7 +731,7 @@ fn handle_additional_housenumbers(
     doc.append_value(
         webframe::get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             "additional-housenumbers",
             relation_name,
             osmrelation,
@@ -1238,7 +1232,7 @@ fn handle_main(
     doc.append_value(
         webframe::get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             /*function=*/ "",
             /*relation_name=*/ "",
             /*relation_osmid=*/ 0,

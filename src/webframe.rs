@@ -345,7 +345,7 @@ pub fn emit_l10n_strings_for_js(doc: &yattag::Doc, string_pairs: &[(&str, String
 /// content.
 pub fn get_toolbar(
     ctx: &context::Context,
-    relations: &Option<areas::Relations>,
+    relations: Option<&mut areas::Relations>,
     function: &str,
     relation_name: &str,
     relation_osmid: u64,
@@ -354,12 +354,8 @@ pub fn get_toolbar(
 
     let mut streets: String = "".into();
     let mut additional_housenumbers = false;
-    if !relations.is_none() && !relation_name.is_empty() {
-        let relation = relations
-            .as_ref()
-            .unwrap()
-            .clone()
-            .get_relation(relation_name)?;
+    if relations.is_some() && !relation_name.is_empty() {
+        let relation = relations.unwrap().get_relation(relation_name)?;
         streets = relation.get_config().should_check_missing_streets();
         additional_housenumbers = relation.get_config().should_check_additional_housenumbers();
     }
@@ -557,13 +553,13 @@ pub fn format_timestamp(timestamp: i64) -> String {
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress.
 fn handle_stats_cityprogress(
     ctx: &context::Context,
-    relations: &areas::Relations,
+    relations: &mut areas::Relations,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     doc.append_value(
         get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             /*function=*/ "",
             /*relation_name=*/ "",
             /*relation_osmid=*/ 0,
@@ -660,13 +656,13 @@ Only cities with house numbers in OSM are considered."#,
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/zipprogress.
 fn handle_stats_zipprogress(
     ctx: &context::Context,
-    relations: &areas::Relations,
+    relations: &mut areas::Relations,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     doc.append_value(
         get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             /*function=*/ "",
             /*relation_name=*/ "",
             /*relation_osmid=*/ 0,
@@ -768,7 +764,7 @@ fn handle_invalid_refstreets(
     doc.append_value(
         get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             /*function=*/ "",
             /*relation_name=*/ "",
             /*relation_osmid=*/ 0,
@@ -837,7 +833,7 @@ pub fn handle_stats(
     doc.append_value(
         get_toolbar(
             ctx,
-            &Some(relations.clone()),
+            Some(relations),
             /*function=*/ "",
             /*relation_name=*/ "",
             /*relation_osmid=*/ 0,
