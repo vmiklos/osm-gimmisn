@@ -63,6 +63,8 @@ filters:
     # 1, 5, 12: nincsenek
     interpolation: all
     invalid: ['1', '5', '12']
+  Bor utca:
+    invalid: ['3']
   Boróka utca:
     # az utcában viskók vannak, csak 2 normális házon van szám 5 és 6
     invalid: ['7', '8', '9', '10', '12']
@@ -216,6 +218,9 @@ filters:
     # 3 lakóház, 5 Johannita, 9 rendelő, 13 gyógyszertár
     # 43: 39-41 után 45/1, de van a kettő között egy bejáró
     invalid: ['5', '7', '11', '43']
+  Kőfejtő utca:
+    # újraszámozva az utca, ezek a számok nincsenek
+    invalid: ['11', '17', '19', '50']
   Kőhalom utca:
     interpolation: all
   Kőhát utca:

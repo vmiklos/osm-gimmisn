@@ -23,6 +23,8 @@ filters:
     ranges:
       - {start: '2', end: '74'}
       - {start: '1', end: '75'}
+  Bor utca:
+    invalid: ['3']
   Budapesti út:
     invalid: ['10', '25', '43']
     ranges:
@@ -111,6 +113,9 @@ filters:
     # 3 lakóház, 5 Johannita, 9 rendelő, 13 gyógyszertár
     # 43: 39-41 után 45/1, de van a kettő között egy bejáró
     invalid: ['5', '7', '11', '43']
+  Kőfejtő utca:
+    # újraszámozva az utca, ezek a számok nincsenek
+    invalid: ['11', '17', '19', '50']
   Kökény utca:
     ranges:
       - {start: '1', end: '9'}
