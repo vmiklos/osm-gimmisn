@@ -5,10 +5,28 @@ osm-street-filters:
   - Gödöllő Airport
   - Oktatóközpont udvar
   # parkok, sétányok
+  - Erzsébet park
+  - Felső park
   - Gödöllői Arborétum
+  - Mária kert
   - Nemzeti Együvé Tartozás Parkja
+  - Rét
+  - Szentháromság park
+  # Alsó park és sétányai
+  - Alsó park
+  - Bad Ischl sétány
+  - Beregszász sétány
+  - Bogor sétány
+  - Csíkszereda sétány
+  - Dunaszerdahely sétány
+  - Forssa sétány
+  - Laxenburg sétány
+  - Turnhouth sétány
+  - Valdemoro sétány
+  - Zenta sétány
+  - Żywiec sétány
 street-filters:
-  - Szadai utca  # Rossze helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
+  - Szadai utca  # Rossz helyen fut a Szada/Gödöllő határ, vagy az utca van rossz helyen
   # Dűlők/tanyák
   # - Bonoka tanya
   - Babat puszta  # szerepel Babatpuszta néven, place-ként
