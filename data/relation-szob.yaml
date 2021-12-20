@@ -7,13 +7,18 @@ filters:
   Ipolysági utca:
     invalid: ['67', '912']
   Malomvölgy telep:
-    invalid: ['2', '3', '4', '8', '50']
+    ranges:
+      - {start: '1', end: '1'}
   Kiserdő utca:
     invalid: ['34']
   Rigó utca:
     invalid: ['16']
   Rév utca:
     invalid: ['625']
+  Szabadság tér:
+    interpolation: all
+    ranges:
+      - {start: '1', end: '5'}
   Szent Imre köz:
     invalid: ['61']
   Verbic dűlő:
