@@ -18,7 +18,7 @@ filters:
   Szabadság tér:
     interpolation: all
     ranges:
-      - {start: '1', end: '5'}
+      - {start: '1', end: '3'}
   Szent Imre köz:
     invalid: ['61']
   Verbic dűlő:
