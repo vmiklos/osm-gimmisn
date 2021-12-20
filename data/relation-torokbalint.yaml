@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters: {}
+osm-street-filters:
+  # nem igazi utcák
+  - Benőtt
+  - Benőtt, járhatatlan, szúrós
+  - Benőtt, ránézésre járhatatlan
 street-filters:
   # nem igazi utca
   - Falvitanya  # fent van farmként
