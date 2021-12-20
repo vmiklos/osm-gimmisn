@@ -71,6 +71,7 @@ osm-street-filters:
   - Kormorán utca
   - Szák utca
   - Üdülő sor
+  - Vízililiom utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = REF
