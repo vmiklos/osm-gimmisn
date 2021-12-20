@@ -1173,12 +1173,15 @@ impl Relation {
     }
 }
 
+/// List of relations from data/relations.yaml.
+type RelationsDict = HashMap<String, serde_json::Value>;
+
 /// A relations object is a container of named relation objects.
 #[derive(Clone)]
 pub struct Relations {
     ctx: context::Context,
     yaml_cache: HashMap<String, serde_json::Value>,
-    dict: serde_json::Map<String, serde_json::Value>,
+    dict: RelationsDict,
     relations: HashMap<String, Relation>,
     activate_all: bool,
     refcounty_names: HashMap<String, String>,
@@ -1195,12 +1198,8 @@ impl Relations {
         let mut guard = stream.borrow_mut();
         let read = guard.deref_mut();
         let yaml_cache: HashMap<String, serde_json::Value> = serde_json::from_reader(read)?;
-        let dict = yaml_cache
-            .get("relations.yaml")
-            .unwrap()
-            .as_object()
-            .unwrap()
-            .clone();
+        let dict: RelationsDict =
+            serde_json::from_value(yaml_cache["relations.yaml"].clone()).unwrap();
         let relations: HashMap<String, Relation> = HashMap::new();
         let activate_all = false;
         let refcounty_names: HashMap<String, String> =
