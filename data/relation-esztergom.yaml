@@ -195,19 +195,29 @@ osm-street-filters:
   - Pala Tópart (stégek)
   - Vízmű üzemi terület
   - Volánbusz
-  # parkok, sétányok, lépcsők
+  # parkok, sétányok, lépcsők, turistautak
+  - Kálvária
+  - Két ember útja
   - Lógató-sziget
   - Macskalépcső
   - Palatinus tanösvény
+  - Palkovics pad
+  - Postás út
+  - Sobieski sétány
+  - Sötétkapu
+  - Szent István lépcső
   - Szontagh Ottó útja
   # loc_name
   - Hoffmann út
   # place
   - Galagonyás úton túl
-  # 2 oldalon különböző név
+  # Dorog/Esztergom határ
   - Patak sor / Bocskai István sor
+  - Pataksor-alsó utca
 street-filters:
   # nem igazi utcák
+  - Csenkei híd
+  - Gyepmester telep
   - MÁV lakások telep
   # dűlők
   - Csapási dűlő
@@ -224,9 +234,10 @@ street-filters:
   - Petőfi Sándor P utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'AMP út': 'AMP utca'
   'Bocskai sor': 'Bocskai István sor'
+  'dr. Jócsik Lajos utca': 'Dr. Jócsik Lajos utca'
   'Hegytető utca': 'Hegy-tető utca'
-  'Kateri dűlő': 'Kateri-dűlő'
   'Kenderesi utca': 'Kenderesi út'
   'Madách Imre tér': 'Madách Imre út'
   'Mindszenty tér': 'Mindszenty hercegprímás tér'  # új táblákon Mindszenty tér
