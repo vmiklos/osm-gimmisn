@@ -187,6 +187,28 @@ filters:
     # ezek nincsenek kint
     invalid: ['161', '4', '8', '12', '44', '66', '856']
 source: survey
+osm-street-filters:
+  # nem igazi utcák
+  - Árvízvédelmi töltés
+  - Átjáró (Geoda)
+  - Major
+  - Pala Tópart (stégek)
+  - Vízmű üzemi terület
+  - Volánbusz
+  # parkok, sétányok, lépcsők
+  - Erzsébet park
+  - Lógató-sziget
+  - Macskalépcső
+  - Palatinus tanösvény
+  - Szent Tamás kálvária lépcső
+  - Szontagh Ottó útja
+  - Testvérvárosok parkja
+  # loc_name
+  - Hoffmann út
+  # place
+  - Galagonyás úton túl
+  # 2 oldalon különböző név
+  - Patak sor / Bocskai István sor
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Állami Gazdaság
