@@ -196,13 +196,10 @@ osm-street-filters:
   - Vízmű üzemi terület
   - Volánbusz
   # parkok, sétányok, lépcsők
-  - Erzsébet park
   - Lógató-sziget
   - Macskalépcső
   - Palatinus tanösvény
-  - Szent Tamás kálvária lépcső
   - Szontagh Ottó útja
-  - Testvérvárosok parkja
   # loc_name
   - Hoffmann út
   # place
@@ -210,35 +207,15 @@ osm-street-filters:
   # 2 oldalon különböző név
   - Patak sor / Bocskai István sor
 street-filters:
-  # nem igazi utcák / csak hrsz.
-  - Állami Gazdaság
-  - Aranyhegy víztorony egyéb
-  - Baromfi telep
-  - Búbánat völgy
+  # nem igazi utcák
   - MÁV lakások telep
-  - Vasútállomás
-  - Vasút őrház
-  # - Zsidódi híd
-  # dűlők.
-  - Cigánykút dűlő
+  # dűlők
   - Csapási dűlő
   - Dankhegy dűlő
-  - Duna dűlő
   - Kerektó dűlő
-  - Kettőspince dűlő
-  - Kis-Ispitahegy dűlő
-  - Kiskuria dűlő
-  - Laposi dűlő
-  - Mexikó dűlő
   - Öreg-kúria dűlő
   - Szamárhegy dűlő
-  - Szt. Jánoskút dűlő
-  - Töltések közötti dűlő
-  - Vaskapu dűlő
-  # egyéb
-  - Bocskoros kút  # Bocskoroskút dűlő, dupla
   # AMP utca
-  # Palatinus utca - Kassai utca folytatás, most Pala-part néven fut
   # városhatár
   # - Bocskai István sor  # Eszergom / Dorog határ: Patak sor / Bocskai sor
   # Pilisszentlélek, nem mappelhető
