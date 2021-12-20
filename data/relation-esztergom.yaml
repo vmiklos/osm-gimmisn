@@ -191,6 +191,8 @@ osm-street-filters:
   # nem igazi utcák
   - Árvízvédelmi töltés
   - Átjáró (Geoda)
+  - Csenkei híd
+  - Gyepmester telep
   - Major
   - Pala Tópart (stégek)
   - Vízmű üzemi terület
@@ -216,8 +218,6 @@ osm-street-filters:
   - Pataksor-alsó utca
 street-filters:
   # nem igazi utcák
-  - Csenkei híd
-  - Gyepmester telep
   - MÁV lakások telep
   # dűlők
   - Csapási dűlő
@@ -225,7 +225,6 @@ street-filters:
   - Kerektó dűlő
   - Öreg-kúria dűlő
   - Szamárhegy dűlő
-  # AMP utca
   # városhatár
   # - Bocskai István sor  # Eszergom / Dorog határ: Patak sor / Bocskai sor
   # Pilisszentlélek, nem mappelhető
@@ -237,6 +236,7 @@ refstreets:
   'AMP út': 'AMP utca'
   'Bocskai sor': 'Bocskai István sor'
   'dr. Jócsik Lajos utca': 'Dr. Jócsik Lajos utca'
+  'Gróh József utca': 'Dr. Gróh József utca'
   'Hegytető utca': 'Hegy-tető utca'
   'Kenderesi utca': 'Kenderesi út'
   'Madách Imre tér': 'Madách Imre út'
