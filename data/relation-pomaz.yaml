@@ -1,5 +1,8 @@
 missing-streets: 'yes'
 filters: {}
+osm-street-filters:
+  # Budakalász
+  - Ország út
 street-filters:
   # Településrészként fent vannak
   - Dolina  # Dolinapuszta
