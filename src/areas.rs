@@ -25,16 +25,65 @@ use std::io::Read;
 use std::ops::DerefMut;
 use std::rc::Rc;
 
+/// A relations from data/relation-<name>.yaml.
+#[derive(Clone, serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub struct RelationDict {
+    additional_housenumbers: Option<serde_json::Value>,
+    alias: Option<serde_json::Value>,
+    filters: Option<serde_json::Value>,
+    housenumber_letters: Option<serde_json::Value>,
+    inactive: Option<serde_json::Value>,
+    missing_streets: Option<serde_json::Value>,
+    osm_street_filters: Option<serde_json::Value>,
+    osmrelation: Option<serde_json::Value>,
+    refcounty: Option<serde_json::Value>,
+    refsettlement: Option<serde_json::Value>,
+    refstreets: Option<serde_json::Value>,
+    street_filters: Option<serde_json::Value>,
+}
+
+impl Default for RelationDict {
+    fn default() -> Self {
+        let additional_housenumbers = None;
+        let alias = None;
+        let filters = None;
+        let housenumber_letters = None;
+        let inactive = None;
+        let missing_streets = None;
+        let osm_street_filters = None;
+        let osmrelation = None;
+        let refcounty = None;
+        let refsettlement = None;
+        let refstreets = None;
+        let street_filters = None;
+        RelationDict {
+            additional_housenumbers,
+            alias,
+            filters,
+            housenumber_letters,
+            inactive,
+            missing_streets,
+            osm_street_filters,
+            osmrelation,
+            refcounty,
+            refsettlement,
+            refstreets,
+            street_filters,
+        }
+    }
+}
+
 /// A relation configuration comes directly from static data, not a result of some external query.
 #[derive(Clone)]
 pub struct RelationConfig {
-    parent: serde_json::Value,
-    dict: serde_json::Value,
+    parent: RelationDict,
+    dict: RelationDict,
     letter_suffix_style: util::LetterSuffixStyle,
 }
 
 impl RelationConfig {
-    pub fn new(parent_config: &serde_json::Value, my_config: &serde_json::Value) -> Self {
+    pub fn new(parent_config: &RelationDict, my_config: &RelationDict) -> Self {
         RelationConfig {
             parent: parent_config.clone(),
             dict: my_config.clone(),
@@ -43,34 +92,30 @@ impl RelationConfig {
     }
 
     /// Gets the untyped value of a property transparently.
-    fn get_property(&self, key: &str) -> Option<serde_json::Value> {
-        if let Some(value) = self.dict.get(key) {
+    fn get_property(
+        &self,
+        parent_value: &Option<serde_json::Value>,
+        my_value: &Option<serde_json::Value>,
+    ) -> Option<serde_json::Value> {
+        if let Some(value) = my_value {
             return Some(value.clone());
         }
 
-        if let Some(value) = self.parent.get(key) {
+        if let Some(value) = parent_value {
             return Some(value.clone());
         }
 
         None
     }
 
-    /// Sets an untyped value.
-    fn set_property(&mut self, key: &str, value: &serde_json::Value) {
-        self.dict
-            .as_object_mut()
-            .unwrap()
-            .insert(key.into(), value.clone());
-    }
-
     /// Sets if the relation is active.
     pub fn set_active(&mut self, active: bool) {
-        self.set_property("inactive", &serde_json::json!(!active))
+        self.dict.inactive = Some(serde_json::json!(!active));
     }
 
     /// Gets if the relation is active.
     pub fn is_active(&self) -> bool {
-        match self.get_property("inactive") {
+        match self.get_property(&self.parent.inactive, &self.dict.inactive) {
             Some(value) => !value.as_bool().unwrap(),
             None => true,
         }
@@ -78,12 +123,15 @@ impl RelationConfig {
 
     /// Gets the OSM relation object's ID.
     pub fn get_osmrelation(&self) -> u64 {
-        self.get_property("osmrelation").unwrap().as_u64().unwrap()
+        self.get_property(&self.parent.osmrelation, &self.dict.osmrelation)
+            .unwrap()
+            .as_u64()
+            .unwrap()
     }
 
     /// Gets the relation's refcounty identifier from reference.
     pub fn get_refcounty(&self) -> String {
-        match self.get_property("refcounty") {
+        match self.get_property(&self.parent.refcounty, &self.dict.refcounty) {
             Some(value) => value.as_str().unwrap().into(),
             None => "".into(),
         }
@@ -91,7 +139,7 @@ impl RelationConfig {
 
     /// Gets the relation's refsettlement identifier from reference.
     pub fn get_refsettlement(&self) -> String {
-        self.get_property("refsettlement")
+        self.get_property(&self.parent.refsettlement, &self.dict.refsettlement)
             .unwrap()
             .as_str()
             .unwrap()
@@ -100,7 +148,7 @@ impl RelationConfig {
 
     /// Gets the alias(es) of the relation: alternative names which are also accepted.
     fn get_alias(&self) -> Vec<String> {
-        match self.get_property("alias") {
+        match self.get_property(&self.parent.alias, &self.dict.alias) {
             Some(value) => {
                 let aliases = value.as_array().unwrap();
                 aliases
@@ -114,7 +162,7 @@ impl RelationConfig {
 
     /// Return value can be 'yes', 'no' and 'only'.
     pub fn should_check_missing_streets(&self) -> String {
-        match self.get_property("missing-streets") {
+        match self.get_property(&self.parent.missing_streets, &self.dict.missing_streets) {
             Some(value) => value.as_str().unwrap().into(),
             None => "yes".into(),
         }
@@ -122,7 +170,10 @@ impl RelationConfig {
 
     /// Do we care if 42/B is missing when 42/A is provided?
     fn should_check_housenumber_letters(&self) -> bool {
-        match self.get_property("housenumber-letters") {
+        match self.get_property(
+            &self.parent.housenumber_letters,
+            &self.dict.housenumber_letters,
+        ) {
             Some(value) => value.as_bool().unwrap(),
             None => false,
         }
@@ -130,7 +181,10 @@ impl RelationConfig {
 
     /// Do we care if 42 is in OSM when it's not in the ref?
     pub fn should_check_additional_housenumbers(&self) -> bool {
-        match self.get_property("additional-housenumbers") {
+        match self.get_property(
+            &self.parent.additional_housenumbers,
+            &self.dict.additional_housenumbers,
+        ) {
             Some(value) => value.as_bool().unwrap(),
             None => false,
         }
@@ -148,7 +202,7 @@ impl RelationConfig {
 
     /// Returns an OSM name -> ref name map.
     pub fn get_refstreets(&self) -> HashMap<String, String> {
-        let refstreets = match self.get_property("refstreets") {
+        let refstreets = match self.get_property(&self.parent.refstreets, &self.dict.refstreets) {
             Some(value) => value,
             None => {
                 return HashMap::new();
@@ -166,7 +220,10 @@ impl RelationConfig {
     fn get_filters(&self) -> Option<&serde_json::Value> {
         // The schema doesn't allow this key in parent config, no need to go via the slow
         // get_property().
-        self.dict.get("filters")
+        if let Some(ref value) = self.dict.filters {
+            return Some(value);
+        }
+        None
     }
 
     /// Returns a street from relation filters.
@@ -256,12 +313,13 @@ impl RelationConfig {
 
     /// Gets list of streets which are only in reference, but have to be filtered out.
     fn get_street_filters(&self) -> Vec<String> {
-        let street_filters = match self.get_property("street-filters") {
-            Some(value) => value,
-            None => {
-                return vec![];
-            }
-        };
+        let street_filters =
+            match self.get_property(&self.parent.street_filters, &self.dict.street_filters) {
+                Some(value) => value,
+                None => {
+                    return vec![];
+                }
+            };
         street_filters
             .as_array()
             .unwrap()
@@ -272,7 +330,10 @@ impl RelationConfig {
 
     /// Gets list of streets which are only in OSM, but have to be filtered out.
     fn get_osm_street_filters(&self) -> Vec<String> {
-        let osm_street_filters = match self.get_property("osm-street-filters") {
+        let osm_street_filters = match self.get_property(
+            &self.parent.osm_street_filters,
+            &self.dict.osm_street_filters,
+        ) {
             Some(value) => value,
             None => {
                 return vec![];
@@ -339,16 +400,16 @@ impl Relation {
     fn new(
         ctx: &context::Context,
         name: &str,
-        parent_config: &serde_json::Value,
+        parent_config: &RelationDict,
         yaml_cache: &HashMap<String, serde_json::Value>,
     ) -> anyhow::Result<Self> {
-        let mut my_config = serde_json::json!({});
+        let mut my_config = RelationDict::default();
         let file = area_files::RelationFiles::new(&ctx.get_ini().get_workdir()?, name);
         let relation_path = format!("relation-{}.yaml", name);
         // Intentionally don't require this cache to be present, it's fine to omit it for simple
         // relations.
         if let Some(value) = yaml_cache.get(&relation_path) {
-            my_config = value.clone();
+            my_config = serde_json::from_value(value.clone()).unwrap();
         }
         let config = RelationConfig::new(parent_config, &my_config);
         // osm street name -> house number list map, so we don't have to read the on-disk list of the
@@ -1174,7 +1235,7 @@ impl Relation {
 }
 
 /// List of relations from data/relations.yaml.
-type RelationsDict = HashMap<String, serde_json::Value>;
+type RelationsDict = HashMap<String, RelationDict>;
 
 /// A relations object is a container of named relation objects.
 #[derive(Clone)]
@@ -1221,7 +1282,7 @@ impl Relations {
     pub fn get_relation(&mut self, name: &str) -> anyhow::Result<Relation> {
         if !self.relations.contains_key(name) {
             if !self.dict.contains_key(name) {
-                self.dict.insert(name.into(), serde_json::json!({}));
+                self.dict.insert(name.into(), RelationDict::default());
             }
             let relation = Relation::new(
                 &self.ctx,
@@ -2277,15 +2338,12 @@ way{color:blue; width:4;}
 
     /// Sets the housenumber_letters property from code.
     fn set_config_housenumber_letters(config: &mut RelationConfig, housenumber_letters: bool) {
-        config.set_property(
-            "housenumber-letters",
-            &serde_json::json!(housenumber_letters),
-        )
+        config.dict.housenumber_letters = Some(serde_json::json!(housenumber_letters));
     }
 
     /// Sets the 'filters' key from code.
     fn set_config_filters(config: &mut RelationConfig, filters: &serde_json::Value) {
-        config.set_property("filters", filters)
+        config.dict.filters = Some(filters.clone());
     }
 
     /// Tests Relation::get_missing_housenumbers(): 7/A is detected when 7/B is already mapped.
