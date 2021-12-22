@@ -56,6 +56,7 @@ filters:
     ranges:
       - {start: '1', end: '99'}
   Csata utca:
+    # páros belváros, páratlan gazdasági
     # 10: nincs, 10 után 16 jön, kettő között a Károly király utca 85 és 82 van
     invalid: ['10']
     ranges:
@@ -100,7 +101,7 @@ filters:
     ranges:
       - {start: '2', end: '4'}
   Hársfa utca:
-    # páratlan 1-21 belváros, 23-29, illetve páros intézményi
+    # páratlan 1-21 belváros, 23-29, illetve páros gazdasági
     ranges:
       - {start: '1', end: '21'}
   József Attila utca:
@@ -115,6 +116,7 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '28'}
   Károly király utca:
+    # belvaros 1-85, 2-82, többi gazdasági
     # 2: nincs, 4-től indul a számozás, a sarki első épület Szabadság út 51
     # 18: nincs, 16 után 20 jön, kettő között a Baross utca húzódik
     # 23: nincs, 21 után 25 jön, kettő között a Baross utca húzódik
@@ -228,6 +230,7 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '4'}
   Pacsirta utca:
+    # 1-5 belvaros, 2-6 gazdasagi
     ranges:
       - {start: '1', end: '5'}
   Petőfi Sándor utca:
@@ -285,6 +288,7 @@ filters:
     ranges:
       - {start: '1', end: '22'}
   Törökbálinti utca:
+    # belvaros 1-19, 2-34, többi gazdasági
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '34'}
@@ -313,4 +317,4 @@ source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Petőfi Sándor utca: Petőfi utca
-inactive: true
+inactive: false

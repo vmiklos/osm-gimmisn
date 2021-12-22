@@ -1,0 +1,7 @@
+missing-streets: 'no'
+filters:
+  Szüret utca:
+    ranges:
+      - {start: '19', end: '99'}
+source: survey
+inactive: true

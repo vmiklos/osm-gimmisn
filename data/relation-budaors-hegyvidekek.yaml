@@ -1,0 +1,51 @@
+missing-streets: 'no'
+filters:
+  Akácos utca:
+    ranges: []
+  Baross utca:
+    ranges:
+      - {start: '179', end: '299'}
+    invalid: ['86']
+  Budakeszi utca:
+    # össze vissza számozva
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '29', end: '99'}
+      - {start: '34', end: '98'}
+  Csap utca:
+    ranges:
+      - {start: '2', end: '98'}
+  Csikó utca:
+    # páratlan hegyvidékek, páros belváros
+    ranges:
+      - {start: '1', end: '99'}
+  Domb utca:
+    ranges:
+      - {start: '37', end: '99'}
+      - {start: '6', end: '98'}
+  Koszorú utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '10', end: '98'}
+  Máriavölgy utca:
+    # számozás össze vissza
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '13', end: '19'}
+  Puttony utca:
+    ranges: []
+  Szabadság út:
+    ranges:
+      - {start: '317', end: '999'}
+      - {start: '164', end: '390'}
+  Szüret utca:
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '2', end: '98'}
+  Otthon utca:
+    ranges: []
+  Víg utca:
+    ranges:
+      - {start: '2', end: '98'}
+source: survey
+inactive: true

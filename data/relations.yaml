@@ -593,6 +593,14 @@ budaors-frankhegy:
     osmrelation: 10477569
     refcounty: "14"
     refsettlement: "015"
+budaors-gazdasagi:
+    osmrelation: 10478258
+    refcounty: "14"
+    refsettlement: "015"
+budaors-hegyvidekek:
+    osmrelation: 10478047
+    refcounty: "14"
+    refsettlement: "015"
 budaors-kamaraerdo:
     osmrelation: 10478302
     refcounty: "14"
@@ -603,6 +611,10 @@ budaors-kertvaros:
     refsettlement: "015"
 budaors-lakotelep:
     osmrelation: 10477968
+    refcounty: "14"
+    refsettlement: "015"
+budaors-szallasok:
+    osmrelation: 10477768
     refcounty: "14"
     refsettlement: "015"
 godollo:

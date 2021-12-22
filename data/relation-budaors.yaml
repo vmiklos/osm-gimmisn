@@ -179,9 +179,9 @@ filters:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '38'}
-  Kassai utca:
-    # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
-    invalid: ['4', '6']
+  Kajszi utca:
+    # 2 kiirva nincs, HÉSZ-en nem szerepel
+    invalid: ['2']
   Kálvária utca:
     ranges:
       - {start: '1', end: '15'}
@@ -197,6 +197,9 @@ filters:
     ranges:
       - {start: '1', end: '199'}
       - {start: '4', end: '198'}
+  Kassai utca:
+    # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
+    invalid: ['4', '6']
   Kertész köz:
     ranges:
       - {start: '1', end: '5'}
@@ -582,11 +585,11 @@ street-filters:
   - Sáfrány utca  # Ringló utcáról nyíló ösvény - törölve
   - Szeder utca  # Lezárt magánút Naphegy utcáról - törölve
 refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Aszú utca': 'Aszu utca'  # utcatábla Aszú utca
-  'Írisz utca': 'Irisz utca'  # nincs utcatábla
-  'Csík falu köz': 'Csik Falu köz'
-  'Kamaraerdei út': 'Kamaraerdei utca'  # utcatábla Kamaraerdei út
-  'Petőfi Sándor utca': 'Petőfi utca'  # táblák vegyesen
-  'Széchenyi utca': 'Széchenyi István utca'  # utcatábla Széchenyi utca
+  # OSM Name 1: Ref Name 1
+  Aszú utca: Aszu utca  # utcatábla Aszú utca
+  Írisz utca: Irisz utca  # nincs utcatábla
+  Csík falu köz: Csik Falu köz
+  Kamaraerdei út: Kamaraerdei utca  # utcatábla Kamaraerdei út
+  Petőfi Sándor utca: Petőfi utca  # táblák vegyesen
+  Széchenyi utca: Széchenyi István utca  # utcatábla Széchenyi utca
 inactive: false
