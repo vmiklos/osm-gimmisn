@@ -154,7 +154,7 @@ filters:
   Rózsa utca:
     ranges:
       - {start: '17', end: '29'}
-      - {start: '14', end: '20'}
+      - {start: '12', end: '20'}
   Széchenyi utca:
     invalid: ['20']
   Szellő köz:

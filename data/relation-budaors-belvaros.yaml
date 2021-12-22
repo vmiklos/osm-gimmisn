@@ -46,6 +46,10 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
       - {start: '18', end: '20'}
+  Clementis László utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '32'}
   Csalló köz:
     invalid: ['1']
   Csap utca:
@@ -95,6 +99,10 @@ filters:
   Gesztenye utca:
     ranges:
       - {start: '2', end: '4'}
+  Hársfa utca:
+    # páratlan 1-21 belváros, 23-29, illetve páros intézményi
+    ranges:
+      - {start: '1', end: '21'}
   József Attila utca:
     # 7 = Árpád utca 4-8 iskola hátsó fele
     # 14: 12 után 16
@@ -181,6 +189,9 @@ filters:
   Mátyás király utca:
     ranges:
       - {start: '1', end: '99'}
+  Mester utca:
+    # 6: nincs kiírva
+    invalid: ['6']
   Moha utca:
     # belváros páros, autópálya menti páratlan
     ranges:
@@ -216,6 +227,9 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '4'}
+  Pacsirta utca:
+    ranges:
+      - {start: '1', end: '5'}
   Petőfi Sándor utca:
     # belváros 2-60, 1-69
     # 7-9: 7-re van számozva
@@ -235,7 +249,12 @@ filters:
   Rózsa utca:
     ranges:
       - {start: '3', end: '17'}
-      - {start: '2', end: '12'}
+      - {start: '2', end: '10'}
+  Stefánia utca:
+    # 22-24, 32 intézményi, de a 32 a páratlan oldalon van
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '18'}
   Szabadság út:
     # 96: 96 beépítve az újonnan épült 98-ba
     invalid: ['18', '23', '58', '81', '83', '96']
