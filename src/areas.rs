@@ -25,13 +25,21 @@ use std::io::Read;
 use std::ops::DerefMut;
 use std::rc::Rc;
 
+/// The filters -> <street> -> ranges key from data/relation-<name>.yaml.
+#[derive(Clone, serde::Deserialize)]
+pub struct RelationRangesDict {
+    end: String,
+    refsettlement: Option<String>,
+    start: String,
+}
+
 /// The filters key from data/relation-<name>.yaml.
 #[derive(Clone, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct RelationFiltersDict {
     interpolation: Option<String>,
     invalid: Option<Vec<String>>,
-    ranges: Option<serde_json::Value>,
+    ranges: Option<Vec<RelationRangesDict>>,
     valid: Option<Vec<String>>,
     refsettlement: Option<String>,
     show_refstreet: Option<bool>,
@@ -262,18 +270,9 @@ impl RelationConfig {
                 ret = vec![refsettlement.to_string()];
             }
             if let Some(ref ranges) = value.ranges {
-                let ranges = ranges.as_array().unwrap();
                 for street_range in ranges {
-                    let street_range_dict = street_range.as_object().unwrap();
-                    if street_range_dict.contains_key("refsettlement") {
-                        ret.push(
-                            street_range_dict
-                                .get("refsettlement")
-                                .unwrap()
-                                .as_str()
-                                .unwrap()
-                                .into(),
-                        );
+                    if let Some(ref refsettlement) = street_range.refsettlement {
+                        ret.push(refsettlement.to_string());
                     }
                 }
             }
@@ -418,21 +417,14 @@ impl Relation {
             }
             let mut i: Vec<ranges::Range> = Vec::new();
             if let Some(ref value) = filter.ranges {
-                for start_end in value.as_array().unwrap() {
-                    let start_end_obj = start_end.as_object().unwrap();
-                    let start = start_end_obj
-                        .get("start")
-                        .unwrap()
-                        .as_str()
-                        .unwrap()
+                for range in value {
+                    let start = range
+                        .start
                         .trim()
                         .parse::<i64>()
                         .context("failed to parse() 'start'")?;
-                    let end = start_end_obj
-                        .get("end")
-                        .unwrap()
-                        .as_str()
-                        .unwrap()
+                    let end = range
+                        .end
                         .trim()
                         .parse::<i64>()
                         .context("failed to parse() 'end'")?;
