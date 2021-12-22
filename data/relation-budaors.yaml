@@ -83,6 +83,10 @@ filters:
       - {start: '1', end: '33'}
       - {start: '39', end: '133'}
       - {start: '2', end: '140'}
+  Clementis László utca:
+    ranges:
+      - {start: '1', end: '19'}
+      - {start: '2', end: '32'}
   Csalló köz:
     invalid: ['1']
   Csalit utca:
@@ -154,6 +158,11 @@ filters:
     invalid: ['4', '6']
   Gyöngyvirág utca:
     invalid: ['3']
+  Hársfa utca:
+    # páratlan 1-21 belváros, 23-29, illetve páros intézményi
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '6'}
   Hárslevelű utca:
     # le van zárva az utca, nem felmérhető
     invalid: ['5']
@@ -279,6 +288,9 @@ filters:
   Merengő utca:
     # néhol kaotikus, vannak részek ahol csak hrsz.
     invalid: ['8', '10', '15', '37', '40', '47']
+  Mester utca:
+    # 6: nincs kiírva
+    invalid: ['6']
   Mozdony utca:
     ranges:
       - {start: '1', end: '19'}
@@ -389,6 +401,14 @@ filters:
     # 11 valószínű az építkezés TODO
     # 22 nincs kiírva: 2021-04 TODO
     invalid: ['22']
+  Stefánia utca:
+    # 22-24, 32 intézményi, de a 32 a páratlan oldalon van
+    # 22 posta, de nincs kiírva
+    # 34 gáztelep, de az ipartelep címe 32
+    invalid: ['22']
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '2', end: '32'}
   Szabadság út:
     # 181-209 többségében a Holdfény utcára van számozva
     invalid: ['136', '144', '153', '183', '185', '187', '189', '191', '201', '205', '209']
