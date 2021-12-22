@@ -1,0 +1,59 @@
+missing-streets: 'no'
+filters:
+  Ady Endre utca:
+    # belvaros 3-59, 2-38
+    ranges:
+      - {start: '40', end: '40'}
+  Baross utca:
+    # 1-69 belvaros, 165- lakotelep, paros vegyes
+    ranges:
+      - {start: '77', end: '163'}
+  Budafoki utca:
+    # páratlan kertváros, páros vegyes
+    ranges:
+      - {start: '20', end: '98'}
+  Csata utca:
+    # páros belváros, páratlan gazdasági
+    ranges:
+      - {start: '2', end: '22'}
+  Hársfa utca:
+    # páratlan 1-21 belváros, 23-29, illetve páros gazdasagi
+    ranges:
+      - {start: '23', end: '29'}
+      - {start: '2', end: '6'}
+  Moha utca:
+    # belváros páros, autópálya menti páratlan
+    ranges:
+      - {start: '1', end: '5'}
+  Munkácsy utca:
+    # itt elvileg nincs haz
+    ranges:
+      - {start: '41', end: '99'}
+      - {start: '50', end: '98'}
+  Pacsirta utca:
+    # 1-5 belvaros, 2-6 gazdasagi
+    ranges:
+      - {start: '2', end: '6'}
+  Petőfi Sándor utca:
+    # belváros 2-60, 1-69
+    ranges:
+      - {start: '71', end: '99'}
+      - {start: '62', end: '98'}
+  Stefánia utca:
+    # 22-24, 32 intézményi, de a 32 a páratlan oldalon van
+    invalid: ['22']
+    ranges:
+      - {start: '20', end: '32'}
+  Széles utca:
+    ranges: []
+  Törökbálinti utca:
+    # belvaros 1-19, 2-34, többi gazdasági
+    ranges:
+      - {start: '21', end: '99'}
+      - {start: '36', end: '98'}
+source: survey
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  Petőfi Sándor utca: Petőfi utca
+  Kamaraerdei út: Kamaraerdei utca  # utcatábla Kamaraerdei út
+inactive: true
