@@ -25,22 +25,22 @@ use std::io::Read;
 use std::ops::DerefMut;
 use std::rc::Rc;
 
-/// A relations from data/relation-<name>.yaml.
+/// A relation from data/relation-<name>.yaml.
 #[derive(Clone, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct RelationDict {
-    additional_housenumbers: Option<serde_json::Value>,
-    alias: Option<serde_json::Value>,
-    filters: Option<serde_json::Value>,
-    housenumber_letters: Option<serde_json::Value>,
-    inactive: Option<serde_json::Value>,
-    missing_streets: Option<serde_json::Value>,
-    osm_street_filters: Option<serde_json::Value>,
-    osmrelation: Option<serde_json::Value>,
-    refcounty: Option<serde_json::Value>,
-    refsettlement: Option<serde_json::Value>,
-    refstreets: Option<serde_json::Value>,
-    street_filters: Option<serde_json::Value>,
+    additional_housenumbers: Option<bool>,
+    alias: Option<Vec<String>>,
+    filters: Option<HashMap<String, serde_json::Value>>,
+    housenumber_letters: Option<bool>,
+    inactive: Option<bool>,
+    missing_streets: Option<String>,
+    osm_street_filters: Option<Vec<String>>,
+    osmrelation: Option<u64>,
+    refcounty: Option<String>,
+    refsettlement: Option<String>,
+    refstreets: Option<HashMap<String, String>>,
+    street_filters: Option<Vec<String>>,
 }
 
 impl Default for RelationDict {
@@ -91,12 +91,8 @@ impl RelationConfig {
         }
     }
 
-    /// Gets the untyped value of a property transparently.
-    fn get_property(
-        &self,
-        parent_value: &Option<serde_json::Value>,
-        my_value: &Option<serde_json::Value>,
-    ) -> Option<serde_json::Value> {
+    /// Gets the typed value of a property transparently.
+    fn get_property<T: Clone>(parent_value: &Option<T>, my_value: &Option<T>) -> Option<T> {
         if let Some(value) = my_value {
             return Some(value.clone());
         }
@@ -110,84 +106,68 @@ impl RelationConfig {
 
     /// Sets if the relation is active.
     pub fn set_active(&mut self, active: bool) {
-        self.dict.inactive = Some(serde_json::json!(!active));
+        self.dict.inactive = Some(!active);
     }
 
     /// Gets if the relation is active.
     pub fn is_active(&self) -> bool {
-        match self.get_property(&self.parent.inactive, &self.dict.inactive) {
-            Some(value) => !value.as_bool().unwrap(),
+        match RelationConfig::get_property(&self.parent.inactive, &self.dict.inactive) {
+            Some(value) => !value,
             None => true,
         }
     }
 
     /// Gets the OSM relation object's ID.
     pub fn get_osmrelation(&self) -> u64 {
-        self.get_property(&self.parent.osmrelation, &self.dict.osmrelation)
-            .unwrap()
-            .as_u64()
-            .unwrap()
+        RelationConfig::get_property(&self.parent.osmrelation, &self.dict.osmrelation).unwrap()
     }
 
     /// Gets the relation's refcounty identifier from reference.
     pub fn get_refcounty(&self) -> String {
-        match self.get_property(&self.parent.refcounty, &self.dict.refcounty) {
-            Some(value) => value.as_str().unwrap().into(),
+        match RelationConfig::get_property(&self.parent.refcounty, &self.dict.refcounty) {
+            Some(value) => value,
             None => "".into(),
         }
     }
 
     /// Gets the relation's refsettlement identifier from reference.
     pub fn get_refsettlement(&self) -> String {
-        self.get_property(&self.parent.refsettlement, &self.dict.refsettlement)
-            .unwrap()
-            .as_str()
-            .unwrap()
-            .into()
+        RelationConfig::get_property(&self.parent.refsettlement, &self.dict.refsettlement).unwrap()
     }
 
     /// Gets the alias(es) of the relation: alternative names which are also accepted.
     fn get_alias(&self) -> Vec<String> {
-        match self.get_property(&self.parent.alias, &self.dict.alias) {
-            Some(value) => {
-                let aliases = value.as_array().unwrap();
-                aliases
-                    .iter()
-                    .map(|alias| alias.as_str().unwrap().into())
-                    .collect()
-            }
+        match RelationConfig::get_property(&self.parent.alias, &self.dict.alias) {
+            Some(value) => value,
             None => Vec::new(),
         }
     }
 
     /// Return value can be 'yes', 'no' and 'only'.
     pub fn should_check_missing_streets(&self) -> String {
-        match self.get_property(&self.parent.missing_streets, &self.dict.missing_streets) {
-            Some(value) => value.as_str().unwrap().into(),
+        match RelationConfig::get_property(&self.parent.missing_streets, &self.dict.missing_streets)
+        {
+            Some(value) => value,
             None => "yes".into(),
         }
     }
 
     /// Do we care if 42/B is missing when 42/A is provided?
     fn should_check_housenumber_letters(&self) -> bool {
-        match self.get_property(
+        RelationConfig::get_property(
             &self.parent.housenumber_letters,
             &self.dict.housenumber_letters,
-        ) {
-            Some(value) => value.as_bool().unwrap(),
-            None => false,
-        }
+        )
+        .unwrap_or(false)
     }
 
     /// Do we care if 42 is in OSM when it's not in the ref?
     pub fn should_check_additional_housenumbers(&self) -> bool {
-        match self.get_property(
+        RelationConfig::get_property(
             &self.parent.additional_housenumbers,
             &self.dict.additional_housenumbers,
-        ) {
-            Some(value) => value.as_bool().unwrap(),
-            None => false,
-        }
+        )
+        .unwrap_or(false)
     }
 
     /// Sets the letter suffix style.
@@ -202,22 +182,14 @@ impl RelationConfig {
 
     /// Returns an OSM name -> ref name map.
     pub fn get_refstreets(&self) -> HashMap<String, String> {
-        let refstreets = match self.get_property(&self.parent.refstreets, &self.dict.refstreets) {
+        match RelationConfig::get_property(&self.parent.refstreets, &self.dict.refstreets) {
             Some(value) => value,
-            None => {
-                return HashMap::new();
-            }
-        };
-
-        let mut ret: HashMap<String, String> = HashMap::new();
-        for (key, value) in refstreets.as_object().unwrap() {
-            ret.insert(key.into(), value.as_str().unwrap().into());
+            None => HashMap::new(),
         }
-        ret
     }
 
     /// Returns a street name -> properties map.
-    fn get_filters(&self) -> Option<&serde_json::Value> {
+    fn get_filters(&self) -> Option<&HashMap<String, serde_json::Value>> {
         // The schema doesn't allow this key in parent config, no need to go via the slow
         // get_property().
         if let Some(ref value) = self.dict.filters {
@@ -234,8 +206,7 @@ impl RelationConfig {
                 return None;
             }
         };
-        let filters_obj = filters.as_object().unwrap();
-        filters_obj.get(street)
+        filters.get(street)
     }
 
     /// Determines in a relation's street is interpolation=all or not.
@@ -275,7 +246,6 @@ impl RelationConfig {
             }
         };
 
-        let filters = filters.as_object().unwrap();
         for (filter_street, value) in filters {
             if filter_street != street {
                 continue;
@@ -313,38 +283,21 @@ impl RelationConfig {
 
     /// Gets list of streets which are only in reference, but have to be filtered out.
     fn get_street_filters(&self) -> Vec<String> {
-        let street_filters =
-            match self.get_property(&self.parent.street_filters, &self.dict.street_filters) {
-                Some(value) => value,
-                None => {
-                    return vec![];
-                }
-            };
-        street_filters
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(|i| i.as_str().unwrap().into())
-            .collect()
+        match RelationConfig::get_property(&self.parent.street_filters, &self.dict.street_filters) {
+            Some(value) => value,
+            None => vec![],
+        }
     }
 
     /// Gets list of streets which are only in OSM, but have to be filtered out.
     fn get_osm_street_filters(&self) -> Vec<String> {
-        let osm_street_filters = match self.get_property(
+        match RelationConfig::get_property(
             &self.parent.osm_street_filters,
             &self.dict.osm_street_filters,
         ) {
             Some(value) => value,
-            None => {
-                return vec![];
-            }
-        };
-        osm_street_filters
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(|i| i.as_str().unwrap().into())
-            .collect()
+            None => vec![],
+        }
     }
 
     /// Builds a list of streets from a reference cache.
@@ -454,10 +407,9 @@ impl Relation {
                 return Ok(filter_dict);
             }
         };
-        let filters_obj = filters.as_object().unwrap();
-        for street in filters_obj.keys() {
+        for street in filters.keys() {
             let mut interpolation = "";
-            let filter = filters_obj.get(street).unwrap().as_object().unwrap();
+            let filter = filters.get(street).unwrap().as_object().unwrap();
             if let Some(value) = filter.get("interpolation") {
                 interpolation = value.as_str().unwrap();
             }
@@ -500,9 +452,8 @@ impl Relation {
                 return invalid_dict;
             }
         };
-        let filters_obj = filters.as_object().unwrap();
-        for street in filters_obj.keys() {
-            let filter = filters_obj.get(street).unwrap().as_object().unwrap();
+        for street in filters.keys() {
+            let filter = filters.get(street).unwrap().as_object().unwrap();
             if let Some(value) = filter.get("invalid") {
                 let values: Vec<String> = value
                     .as_array()
@@ -1004,7 +955,7 @@ impl Relation {
         let mut valid_dict: HashMap<String, Vec<String>> = HashMap::new();
 
         let filters = self.config.get_filters().unwrap();
-        for (street, street_filter) in filters.as_object().unwrap() {
+        for (street, street_filter) in filters {
             if let Some(valid) = street_filter.get("valid") {
                 let value: Vec<String> = valid
                     .as_array()
@@ -1216,9 +1167,7 @@ impl Relation {
             None => {
                 return Ok(Vec::new());
             }
-        }
-        .as_object()
-        .unwrap();
+        };
         let keys: Vec<String> = filters.iter().map(|(key, _value)| key.clone()).collect();
         let osm_streets: Vec<String> = self
             .get_osm_streets(/*sorted_result=*/ true)?
@@ -2338,11 +2287,14 @@ way{color:blue; width:4;}
 
     /// Sets the housenumber_letters property from code.
     fn set_config_housenumber_letters(config: &mut RelationConfig, housenumber_letters: bool) {
-        config.dict.housenumber_letters = Some(serde_json::json!(housenumber_letters));
+        config.dict.housenumber_letters = Some(housenumber_letters);
     }
 
     /// Sets the 'filters' key from code.
-    fn set_config_filters(config: &mut RelationConfig, filters: &serde_json::Value) {
+    fn set_config_filters(
+        config: &mut RelationConfig,
+        filters: &HashMap<String, serde_json::Value>,
+    ) {
         config.dict.filters = Some(filters.clone());
     }
 
@@ -2381,11 +2333,13 @@ way{color:blue; width:4;}
         let mut config = relation.get_config().clone();
         set_config_housenumber_letters(&mut config, true);
         // Set custom 'invalid' map.
-        let filters = serde_json::json!({
-            "Rétköz utca": {
-                "invalid": ["9", "47"]
-            }
-        });
+        let filters: HashMap<String, serde_json::Value> =
+            serde_json::from_value(serde_json::json!({
+                "Rétköz utca": {
+                    "invalid": ["9", "47"]
+                }
+            }))
+            .unwrap();
         set_config_filters(&mut config, &filters);
         relation.set_config(&config);
         let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
@@ -2410,11 +2364,13 @@ way{color:blue; width:4;}
 
         // Default case: housenumber-letters=false.
         {
-            let filters = serde_json::json!({
-                "Kővirág sor": {
-                    "invalid": ["37b"]
-                }
-            });
+            let filters: HashMap<String, serde_json::Value> =
+                serde_json::from_value(serde_json::json!({
+                    "Kővirág sor": {
+                        "invalid": ["37b"]
+                    }
+                }))
+                .unwrap();
             let mut config = relation.get_config().clone();
             set_config_filters(&mut config, &filters);
             relation.set_config(&config);
@@ -2429,11 +2385,13 @@ way{color:blue; width:4;}
             let mut config = relation.get_config().clone();
             set_config_housenumber_letters(&mut config, true);
             relation.set_config(&config);
-            let filters = serde_json::json!({
-                "Kővirág sor": {
-                    "invalid": ["37b"]
-                }
-            });
+            let filters: HashMap<String, serde_json::Value> =
+                serde_json::from_value(serde_json::json!({
+                    "Kővirág sor": {
+                        "invalid": ["37b"]
+                    }
+                }))
+                .unwrap();
             set_config_filters(&mut config, &filters);
             relation.set_config(&config);
             let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
@@ -2445,12 +2403,14 @@ way{color:blue; width:4;}
         let mut config = relation.get_config().clone();
         set_config_housenumber_letters(&mut config, true);
         relation.set_config(&config);
-        let filters = serde_json::json!({
-            "Kővirág sor": {
-                "invalid": ["5"],
-                "ranges": [{"start": "1", "end": "3"}],
-            }
-        });
+        let filters: HashMap<String, serde_json::Value> =
+            serde_json::from_value(serde_json::json!({
+                "Kővirág sor": {
+                    "invalid": ["5"],
+                    "ranges": [{"start": "1", "end": "3"}],
+                }
+            }))
+            .unwrap();
         set_config_filters(&mut config, &filters);
         relation.set_config(&config);
         relation.get_missing_housenumbers().unwrap();
