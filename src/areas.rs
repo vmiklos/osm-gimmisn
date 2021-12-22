@@ -303,18 +303,13 @@ impl RelationConfig {
     }
 
     /// Builds a list of streets from a reference cache.
-    fn build_ref_streets(
+    fn get_ref_streets<'a>(
         &self,
-        reference: &HashMap<String, HashMap<String, Vec<String>>>,
-    ) -> Vec<String> {
+        reference: &'a HashMap<String, HashMap<String, Vec<String>>>,
+    ) -> &'a Vec<String> {
         let refcounty = self.get_refcounty();
         let refsettlement = self.get_refsettlement();
-        reference
-            .get(&refcounty)
-            .unwrap()
-            .get(&refsettlement)
-            .unwrap()
-            .clone()
+        &reference[&refcounty][&refsettlement]
     }
 
     /// Maps an OSM street name to a ref street name.
@@ -615,7 +610,7 @@ impl Relation {
         let memory_cache = util::build_street_reference_cache(reference)
             .context("build_street_reference_cache() failed")?;
 
-        let mut lst = self.config.build_ref_streets(&memory_cache);
+        let mut lst = self.config.get_ref_streets(&memory_cache).clone();
 
         lst.sort();
         lst.dedup();
@@ -2801,11 +2796,11 @@ way{color:blue; width:4;}
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
 
-        let ret = relation.config.build_ref_streets(&memory_cache);
+        let ret = relation.config.get_ref_streets(&memory_cache);
 
         assert_eq!(
             ret,
-            [
+            &[
                 "Törökugrató utca",
                 "Tűzkő utca",
                 "Ref Name 1",
