@@ -25,13 +25,25 @@ use std::io::Read;
 use std::ops::DerefMut;
 use std::rc::Rc;
 
+/// The filters key from data/relation-<name>.yaml.
+#[derive(Clone, serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub struct RelationFiltersDict {
+    interpolation: Option<String>,
+    invalid: Option<Vec<String>>,
+    ranges: Option<serde_json::Value>,
+    valid: Option<Vec<String>>,
+    refsettlement: Option<String>,
+    show_refstreet: Option<bool>,
+}
+
 /// A relation from data/relation-<name>.yaml.
 #[derive(Clone, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct RelationDict {
     additional_housenumbers: Option<bool>,
     alias: Option<Vec<String>>,
-    filters: Option<HashMap<String, serde_json::Value>>,
+    filters: Option<HashMap<String, RelationFiltersDict>>,
     housenumber_letters: Option<bool>,
     inactive: Option<bool>,
     missing_streets: Option<String>,
@@ -189,17 +201,14 @@ impl RelationConfig {
     }
 
     /// Returns a street name -> properties map.
-    fn get_filters(&self) -> Option<&HashMap<String, serde_json::Value>> {
+    fn get_filters(&self) -> &Option<HashMap<String, RelationFiltersDict>> {
         // The schema doesn't allow this key in parent config, no need to go via the slow
         // get_property().
-        if let Some(ref value) = self.dict.filters {
-            return Some(value);
-        }
-        None
+        &self.dict.filters
     }
 
     /// Returns a street from relation filters.
-    fn get_filter_street(&self, street: &str) -> Option<&serde_json::Value> {
+    fn get_filter_street(&self, street: &str) -> Option<&RelationFiltersDict> {
         let filters = match self.get_filters() {
             Some(value) => value,
             None => {
@@ -213,8 +222,7 @@ impl RelationConfig {
     pub fn get_street_is_even_odd(&self, street: &str) -> bool {
         let mut interpolation_all = false;
         if let Some(filter_for_street) = self.get_filter_street(street) {
-            let street_props = filter_for_street.as_object().unwrap();
-            if let Some(interpolation) = street_props.get("interpolation") {
+            if let Some(ref interpolation) = filter_for_street.interpolation {
                 if interpolation == "all" {
                     interpolation_all = true;
                 }
@@ -227,9 +235,8 @@ impl RelationConfig {
     pub fn should_show_ref_street(&self, osm_street_name: &str) -> bool {
         let mut show_ref_street = true;
         if let Some(filter_for_street) = self.get_filter_street(osm_street_name) {
-            let street_props = filter_for_street.as_object().unwrap();
-            if let Some(value) = street_props.get("show-refstreet") {
-                show_ref_street = value.as_bool().unwrap();
+            if let Some(value) = filter_for_street.show_refstreet {
+                show_ref_street = value;
             }
         }
 
@@ -251,15 +258,11 @@ impl RelationConfig {
                 continue;
             }
 
-            let value = value.as_object().unwrap();
-
-            if value.contains_key("refsettlement") {
-                let refsettlement: String =
-                    value.get("refsettlement").unwrap().as_str().unwrap().into();
-                ret = vec![refsettlement];
+            if let Some(ref refsettlement) = value.refsettlement {
+                ret = vec![refsettlement.to_string()];
             }
-            if value.contains_key("ranges") {
-                let ranges = value.get("ranges").unwrap().as_array().unwrap();
+            if let Some(ref ranges) = value.ranges {
+                let ranges = ranges.as_array().unwrap();
                 for street_range in ranges {
                     let street_range_dict = street_range.as_object().unwrap();
                     if street_range_dict.contains_key("refsettlement") {
@@ -409,12 +412,12 @@ impl Relation {
         };
         for street in filters.keys() {
             let mut interpolation = "";
-            let filter = filters.get(street).unwrap().as_object().unwrap();
-            if let Some(value) = filter.get("interpolation") {
-                interpolation = value.as_str().unwrap();
+            let filter = filters.get(street).unwrap();
+            if let Some(ref value) = filter.interpolation {
+                interpolation = value;
             }
             let mut i: Vec<ranges::Range> = Vec::new();
-            if let Some(value) = filter.get("ranges") {
+            if let Some(ref value) = filter.ranges {
                 for start_end in value.as_array().unwrap() {
                     let start_end_obj = start_end.as_object().unwrap();
                     let start = start_end_obj
@@ -453,15 +456,9 @@ impl Relation {
             }
         };
         for street in filters.keys() {
-            let filter = filters.get(street).unwrap().as_object().unwrap();
-            if let Some(value) = filter.get("invalid") {
-                let values: Vec<String> = value
-                    .as_array()
-                    .unwrap()
-                    .iter()
-                    .map(|i| i.as_str().unwrap().into())
-                    .collect();
-                invalid_dict.insert(street.into(), values);
+            let filter = filters.get(street).unwrap();
+            if let Some(ref value) = filter.invalid {
+                invalid_dict.insert(street.into(), value.to_vec());
             }
         }
 
@@ -954,16 +951,11 @@ impl Relation {
     fn get_street_valid(&self) -> HashMap<String, Vec<String>> {
         let mut valid_dict: HashMap<String, Vec<String>> = HashMap::new();
 
-        let filters = self.config.get_filters().unwrap();
-        for (street, street_filter) in filters {
-            if let Some(valid) = street_filter.get("valid") {
-                let value: Vec<String> = valid
-                    .as_array()
-                    .unwrap()
-                    .iter()
-                    .map(|i| i.as_str().unwrap().into())
-                    .collect();
-                valid_dict.insert(street.clone(), value);
+        if let Some(ref filters) = self.config.get_filters() {
+            for (street, street_filter) in filters {
+                if let Some(ref valid) = street_filter.valid {
+                    valid_dict.insert(street.clone(), valid.to_vec());
+                }
             }
         }
 
@@ -2293,7 +2285,7 @@ way{color:blue; width:4;}
     /// Sets the 'filters' key from code.
     fn set_config_filters(
         config: &mut RelationConfig,
-        filters: &HashMap<String, serde_json::Value>,
+        filters: &HashMap<String, RelationFiltersDict>,
     ) {
         config.dict.filters = Some(filters.clone());
     }
@@ -2333,7 +2325,7 @@ way{color:blue; width:4;}
         let mut config = relation.get_config().clone();
         set_config_housenumber_letters(&mut config, true);
         // Set custom 'invalid' map.
-        let filters: HashMap<String, serde_json::Value> =
+        let filters: HashMap<String, RelationFiltersDict> =
             serde_json::from_value(serde_json::json!({
                 "Rétköz utca": {
                     "invalid": ["9", "47"]
@@ -2364,7 +2356,7 @@ way{color:blue; width:4;}
 
         // Default case: housenumber-letters=false.
         {
-            let filters: HashMap<String, serde_json::Value> =
+            let filters: HashMap<String, RelationFiltersDict> =
                 serde_json::from_value(serde_json::json!({
                     "Kővirág sor": {
                         "invalid": ["37b"]
@@ -2385,7 +2377,7 @@ way{color:blue; width:4;}
             let mut config = relation.get_config().clone();
             set_config_housenumber_letters(&mut config, true);
             relation.set_config(&config);
-            let filters: HashMap<String, serde_json::Value> =
+            let filters: HashMap<String, RelationFiltersDict> =
                 serde_json::from_value(serde_json::json!({
                     "Kővirág sor": {
                         "invalid": ["37b"]
@@ -2403,7 +2395,7 @@ way{color:blue; width:4;}
         let mut config = relation.get_config().clone();
         set_config_housenumber_letters(&mut config, true);
         relation.set_config(&config);
-        let filters: HashMap<String, serde_json::Value> =
+        let filters: HashMap<String, RelationFiltersDict> =
             serde_json::from_value(serde_json::json!({
                 "Kővirág sor": {
                     "invalid": ["5"],
