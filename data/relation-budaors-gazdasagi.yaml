@@ -15,12 +15,23 @@ filters:
   Csata utca:
     # páros belváros, páratlan gazdasági
     ranges:
-      - {start: '2', end: '22'}
+      - {start: '1', end: '99'}
   Hársfa utca:
     # páratlan 1-21 belváros, 23-29, illetve páros gazdasagi
     ranges:
       - {start: '23', end: '29'}
       - {start: '2', end: '6'}
+  Kamaraerdei út:
+    ranges:
+      - {start: '1', end: '21'}
+  Károly király utca:
+    # belvaros 1-85, 2-82, többi gazdasági
+    ranges:
+      - {start: '87', end: '199'}
+      - {start: '84', end: '198'}
+  Komáromi utca:
+    ranges:
+      - {start: '2', end: '98'}
   Moha utca:
     # belváros páros, autópálya menti páratlan
     ranges:
@@ -46,6 +57,10 @@ filters:
       - {start: '20', end: '32'}
   Széles utca:
     ranges: []
+  Rákóczi utca:
+    # belváros 2-36, 1-35
+    ranges:
+      - {start: '40', end: '40'}
   Törökbálinti utca:
     # belvaros 1-19, 2-34, többi gazdasági
     ranges:
