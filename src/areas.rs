@@ -359,7 +359,8 @@ impl Relation {
         // Intentionally don't require this cache to be present, it's fine to omit it for simple
         // relations.
         if let Some(value) = yaml_cache.get(&relation_path) {
-            my_config = serde_json::from_value(value.clone()).unwrap();
+            my_config = serde_json::from_value(value.clone())
+                .context(format!("failed to parse '{}'", relation_path))?;
         }
         let config = RelationConfig::new(parent_config, &my_config);
         // osm street name -> house number list map, so we don't have to read the on-disk list of the
@@ -404,9 +405,8 @@ impl Relation {
                 return Ok(filter_dict);
             }
         };
-        for street in filters.keys() {
+        for (street, filter) in filters {
             let mut interpolation = "";
-            let filter = filters.get(street).unwrap();
             if let Some(ref value) = filter.interpolation {
                 interpolation = value;
             }
@@ -436,16 +436,11 @@ impl Relation {
     fn get_street_invalid(&self) -> HashMap<String, Vec<String>> {
         let mut invalid_dict: HashMap<String, Vec<String>> = HashMap::new();
 
-        let filters = match self.config.get_filters() {
-            Some(value) => value,
-            None => {
-                return invalid_dict;
-            }
-        };
-        for street in filters.keys() {
-            let filter = filters.get(street).unwrap();
-            if let Some(ref value) = filter.invalid {
-                invalid_dict.insert(street.into(), value.to_vec());
+        if let Some(filters) = self.config.get_filters() {
+            for (street, filter) in filters {
+                if let Some(ref value) = filter.invalid {
+                    invalid_dict.insert(street.into(), value.to_vec());
+                }
             }
         }
 
@@ -566,20 +561,17 @@ impl Relation {
                     }
                     continue;
                 }
-                let mut street = &row[*columns.get("addr:street").unwrap()];
+                let mut street = &row[columns["addr:street"]];
                 let street_is_even_odd = self.config.get_street_is_even_odd(street);
                 if street.is_empty() {
                     if let Some(value) = columns.get("addr:place") {
                         street = &row[*value];
                     }
                 }
-                for house_number in row[*columns.get("addr:housenumber").unwrap()].split(';') {
-                    if !house_numbers.contains_key(street) {
-                        house_numbers.insert(street.into(), Vec::new());
-                    }
+                for house_number in row[columns["addr:housenumber"]].split(';') {
                     house_numbers
-                        .get_mut(street)
-                        .unwrap()
+                        .entry(street.to_string())
+                        .or_insert_with(Vec::new)
                         .append(&mut normalize(
                             self,
                             house_number,
@@ -751,10 +743,7 @@ impl Relation {
             if let Some(v) = iter.next() {
                 value = v;
             }
-            if !lines.contains_key(&key) {
-                lines.insert(key.clone(), Vec::new());
-            }
-            lines.get_mut(&key).unwrap().push(value.into());
+            lines.entry(key).or_insert_with(Vec::new).push(value.into());
         }
         let street_ranges = self
             .get_street_ranges()
@@ -815,7 +804,7 @@ impl Relation {
             .context("get_ref_housenumbers() failed")?;
         for osm_street in osm_street_names {
             let osm_street_name = osm_street.get_osm_name();
-            let ref_house_numbers = all_ref_house_numbers.get(osm_street_name).unwrap();
+            let ref_house_numbers = &all_ref_house_numbers[osm_street_name];
             let osm_house_numbers = self.get_osm_housenumbers(osm_street_name)?;
             let only_in_reference = util::get_only_in_first(ref_house_numbers, &osm_house_numbers);
             let in_both = util::get_in_both(ref_house_numbers, &osm_house_numbers);
@@ -1055,7 +1044,7 @@ impl Relation {
         let streets_valid = self.get_street_valid();
         for osm_street in osm_street_names {
             let osm_street_name = osm_street.get_osm_name();
-            let ref_house_numbers = all_ref_house_numbers.get(osm_street_name).unwrap();
+            let ref_house_numbers = &all_ref_house_numbers[osm_street_name];
             let mut osm_house_numbers = self.get_osm_housenumbers(osm_street_name)?;
 
             if let Some(street_valid) = streets_valid.get(osm_street_name) {
@@ -1187,14 +1176,16 @@ impl Relations {
         let mut guard = stream.borrow_mut();
         let read = guard.deref_mut();
         let yaml_cache: HashMap<String, serde_json::Value> = serde_json::from_reader(read)?;
-        let dict: RelationsDict =
-            serde_json::from_value(yaml_cache["relations.yaml"].clone()).unwrap();
+        let dict: RelationsDict = serde_json::from_value(yaml_cache["relations.yaml"].clone())
+            .context("failed to parse relations.yaml")?;
         let relations: HashMap<String, Relation> = HashMap::new();
         let activate_all = false;
         let refcounty_names: HashMap<String, String> =
-            serde_json::from_value(yaml_cache["refcounty-names.yaml"].clone()).unwrap();
+            serde_json::from_value(yaml_cache["refcounty-names.yaml"].clone())
+                .context("failed to parse refcounty-names.yaml")?;
         let refsettlement_names: HashMap<String, HashMap<String, String>> =
-            serde_json::from_value(yaml_cache["refsettlement-names.yaml"].clone()).unwrap();
+            serde_json::from_value(yaml_cache["refsettlement-names.yaml"].clone())
+                .context("failed to parse refsettlement-names.yaml")?;
         Ok(Relations {
             ctx: ctx.clone(),
             yaml_cache,
@@ -1209,19 +1200,18 @@ impl Relations {
     /// Gets the relation that has the specified name.
     pub fn get_relation(&mut self, name: &str) -> anyhow::Result<Relation> {
         if !self.relations.contains_key(name) {
-            if !self.dict.contains_key(name) {
-                self.dict.insert(name.into(), RelationDict::default());
-            }
             let relation = Relation::new(
                 &self.ctx,
                 name,
-                self.dict.get(name).unwrap(),
+                self.dict
+                    .entry(name.to_string())
+                    .or_insert_with(RelationDict::default),
                 &self.yaml_cache,
             )?;
             self.relations.insert(name.into(), relation);
         }
 
-        Ok(self.relations.get(name).unwrap().clone())
+        Ok(self.relations[name].clone())
     }
 
     /// Sets a relation for testing.
@@ -1390,8 +1380,9 @@ fn normalize(
 
     // Determine suffix which is not normalized away.
     let mut suffix: String = "".into();
-    if house_numbers.ends_with('*') {
-        suffix = house_numbers.chars().last().unwrap().into();
+    let star = '*';
+    if house_numbers.ends_with(star) {
+        suffix = star.into();
     }
 
     let normalizer = util::get_normalizer(street_name, normalizers);
