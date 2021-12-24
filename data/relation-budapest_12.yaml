@@ -400,8 +400,8 @@ filters:
     invalid: ['71']
 street-filters:
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
-  - Orgona ösvény
   - Pipacs ösvény
+  - Perem ösvény  # Perem dűlő van kiírva helyben, a nagy táblán meg Perem ösvény
 osm-street-filters:
   # Nem valós utcák
   - Élmény a természetben
