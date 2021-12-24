@@ -266,10 +266,12 @@ filters:
       - {start: '1', end: '29'}
       - {start: '2', end: '18'}
   Szabadság út:
+    # 2-18: ezek közül 1 nagy társasház 14-es számmal
+    # 28: a színház parkolója
     # 29-33 közt épül valami, a kint lévő terven csak 33-at említ
     # 42: 40 után 44
     # 96: 96 beépítve az újonnan épült 98-ba
-    invalid: ['18', '23', '29', '31', '42', '58', '81', '83', '96']
+    invalid: ['16', '18', '23', '28', '29', '31', '42', '58', '81', '83', '96']
     ranges:
       - {start: '1', end: '111'}
       - {start: '14', end: '132'}
