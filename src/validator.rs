@@ -10,8 +10,8 @@
 
 //! The validator module validates yaml files under data/.
 
+use crate::areas;
 use anyhow::Context;
-use lazy_static::lazy_static;
 use std::collections::HashMap;
 use std::io::Write;
 
@@ -19,30 +19,10 @@ use std::io::Write;
 fn validate_range_missing_keys(
     errors: &mut Vec<String>,
     parent: &str,
-    range_data: &serde_json::Value,
-    filter_data: &serde_json::Map<String, serde_json::Value>,
+    range_data: &areas::RelationRangesDict,
+    filter_data: &areas::RelationFiltersDict,
 ) -> anyhow::Result<()> {
-    let range_data = range_data.as_object().unwrap();
-
-    if !range_data.contains_key("start") {
-        errors.push(format!("unexpected missing key 'start' for '{}'", parent));
-    }
-
-    if !range_data.contains_key("end") {
-        errors.push(format!("unexpected missing key 'end' for '{}'", parent));
-    }
-
-    if !range_data.contains_key("start") || !range_data.contains_key("end") {
-        return Ok(());
-    }
-
-    let start = match range_data["start"].as_str() {
-        Some(value) => value,
-        None => {
-            return Ok(());
-        }
-    };
-    let start: i64 = match start.parse() {
+    let start: i64 = match range_data.start.parse() {
         Ok(value) => value,
         Err(_) => {
             errors.push(format!(
@@ -52,13 +32,7 @@ fn validate_range_missing_keys(
             return Ok(());
         }
     };
-    let end = match range_data["end"].as_str() {
-        Some(value) => value,
-        None => {
-            return Ok(());
-        }
-    };
-    let end: i64 = match end.parse() {
+    let end: i64 = match range_data.end.parse() {
         Ok(value) => value,
         Err(_) => {
             errors.push(format!(
@@ -72,7 +46,7 @@ fn validate_range_missing_keys(
         errors.push(format!("expected end >= start for '{}'", parent));
     }
 
-    if !filter_data.contains_key("interpolation") && start % 2 != end % 2 {
+    if filter_data.interpolation.is_none() && start % 2 != end % 2 {
         errors.push(format!("expected start % 2 == end % 2 for '{}'", parent))
     }
 
@@ -83,36 +57,9 @@ fn validate_range_missing_keys(
 fn validate_range(
     errors: &mut Vec<String>,
     parent: &str,
-    range_data: &serde_json::Value,
-    filter_data: &serde_json::Map<String, serde_json::Value>,
+    range_data: &areas::RelationRangesDict,
+    filter_data: &areas::RelationFiltersDict,
 ) -> anyhow::Result<()> {
-    let context = format!("{}.", parent);
-    for (key, value) in range_data.as_object().unwrap() {
-        if key == "start" {
-            if !value.is_string() {
-                errors.push(format!(
-                    "expected value type for '{}{}' is a digit str",
-                    context, key
-                ));
-            }
-        } else if key == "end" {
-            if !value.is_string() {
-                errors.push(format!(
-                    "expected value type for '{}{}' is a digit str",
-                    context, key
-                ))
-            }
-        } else if key == "refsettlement" {
-            if !value.is_string() {
-                errors.push(format!(
-                    "expected value type for '{}{}' is str",
-                    context, key
-                ));
-            }
-        } else {
-            errors.push(format!("unexpected key '{}{}'", context, key));
-        }
-    }
     validate_range_missing_keys(errors, parent, range_data, filter_data)?;
     Ok(())
 }
@@ -121,8 +68,8 @@ fn validate_range(
 fn validate_ranges(
     errors: &mut Vec<String>,
     parent: &str,
-    ranges: &[serde_json::Value],
-    filter_data: &serde_json::Map<String, serde_json::Value>,
+    ranges: &[areas::RelationRangesDict],
+    filter_data: &areas::RelationFiltersDict,
 ) -> anyhow::Result<()> {
     for (index, range_data) in ranges.iter().enumerate() {
         validate_range(
@@ -140,17 +87,9 @@ fn validate_ranges(
 fn validate_filter_invalid_valid(
     errors: &mut Vec<String>,
     parent: &str,
-    invalid: &serde_json::Value,
+    invalid: &[String],
 ) -> anyhow::Result<()> {
-    for (index, invalid_data) in invalid.as_array().unwrap().iter().enumerate() {
-        if !invalid_data.is_string() {
-            errors.push(format!(
-                "expected value type for '{}[{}]' is str",
-                parent, index
-            ));
-            continue;
-        }
-        let invalid_data = invalid_data.as_str().unwrap();
+    for (index, invalid_data) in invalid.iter().enumerate() {
         if regex::Regex::new(r"^[0-9]+$")
             .unwrap()
             .is_match(invalid_data)
@@ -182,50 +121,18 @@ fn validate_filter_invalid_valid(
 fn validate_filter(
     errors: &mut Vec<String>,
     parent: &str,
-    filter_data: &serde_json::Map<String, serde_json::Value>,
+    filter_data: &areas::RelationFiltersDict,
 ) -> anyhow::Result<()> {
     let context = format!("{}.", parent);
-    for (key, value) in filter_data {
-        if key == "ranges" {
-            if !value.is_array() {
-                errors.push(format!(
-                    "expected value type for '{}{}' is list",
-                    context, key
-                ));
-                continue;
-            }
-            validate_ranges(
-                errors,
-                &format!("{}ranges", context),
-                value.as_array().unwrap(),
-                filter_data,
-            )?;
-        } else if key == "invalid" || key == "valid" {
-            if !value.is_array() {
-                errors.push(format!(
-                    "expected value type for '{}{}' is list",
-                    context, key
-                ));
-                continue;
-            }
-            validate_filter_invalid_valid(errors, &format!("{}{}", context, key), value)?;
-        } else if key == "refsettlement" || key == "interpolation" {
-            if !value.is_string() {
-                errors.push(format!(
-                    "expected value type for '{}{}' is str",
-                    context, key
-                ));
-            }
-        } else if key == "show-refstreet" {
-            if !value.is_boolean() {
-                errors.push(format!(
-                    "expected value type for '{}{}' is bool",
-                    context, key
-                ));
-            }
-        } else {
-            errors.push(format!("unexpected key '{}{}'", context, key));
-        }
+    if let Some(ref ranges) = filter_data.ranges {
+        validate_ranges(errors, &format!("{}ranges", context), ranges, filter_data)?;
+    }
+
+    if let Some(ref invalid) = filter_data.invalid {
+        validate_filter_invalid_valid(errors, &format!("{}{}", context, "invalid"), invalid)?;
+    }
+    if let Some(ref valid) = filter_data.valid {
+        validate_filter_invalid_valid(errors, &format!("{}{}", context, "valid"), valid)?;
     }
 
     Ok(())
@@ -235,16 +142,11 @@ fn validate_filter(
 fn validate_filters(
     errors: &mut Vec<String>,
     parent: &str,
-    filters: &serde_json::Value,
+    filters: &HashMap<String, areas::RelationFiltersDict>,
 ) -> anyhow::Result<()> {
-    let filters = filters.as_object().unwrap();
     let context = format!("{}.", parent);
     for (key, value) in filters {
-        validate_filter(
-            errors,
-            &format!("{}{}", context, key),
-            value.as_object().unwrap(),
-        )?;
+        validate_filter(errors, &format!("{}{}", context, key), value)?;
     }
 
     Ok(())
@@ -254,19 +156,16 @@ fn validate_filters(
 fn validate_refstreets(
     errors: &mut Vec<String>,
     parent: &str,
-    refstreets: &serde_json::Value,
+    refstreets: &HashMap<String, String>,
 ) -> anyhow::Result<()> {
-    let refstreets = refstreets.as_object().unwrap();
     let context = format!("{}.", parent);
     for (key, value) in refstreets {
-        if !value.is_string() {
+        if value.parse::<i64>().is_ok() {
             errors.push(format!(
                 "expected value type for '{}{}' is str",
                 context, key
             ));
-            continue;
         }
-        let value = value.as_str().unwrap();
         if key.contains('\'') || key.contains('"') {
             errors.push(format!("expected no quotes in '{}{}'", context, key));
         }
@@ -281,7 +180,7 @@ fn validate_refstreets(
         .iter()
         .map(|(_key, value)| value.as_str())
         .collect();
-    reverse.sort();
+    reverse.sort_unstable();
     reverse.dedup();
     if refstreets.keys().len() != reverse.len() {
         // TODO use parent here, not context
@@ -298,11 +197,10 @@ fn validate_refstreets(
 fn validate_street_filters(
     errors: &mut Vec<String>,
     parent: &str,
-    street_filters: &serde_json::Value,
+    street_filters: &[String],
 ) -> anyhow::Result<()> {
-    let street_filters = street_filters.as_array().unwrap();
     for (index, street_filter) in street_filters.iter().enumerate() {
-        if !street_filter.is_string() {
+        if street_filter.parse::<i64>().is_ok() {
             errors.push(format!(
                 "expected value type for '{}[{}]' is str",
                 parent, index
@@ -311,56 +209,13 @@ fn validate_street_filters(
     }
 
     Ok(())
-}
-
-/// Validates an 'alias' list.
-fn validate_relation_alias(
-    errors: &mut Vec<String>,
-    parent: &str,
-    alias: &serde_json::Value,
-) -> anyhow::Result<()> {
-    let alias = alias.as_array().unwrap();
-    for (index, alias_data) in alias.iter().enumerate() {
-        if !alias_data.is_string() {
-            errors.push(format!(
-                "expected value type for '{}[{}]' is str",
-                parent, index
-            ));
-        }
-    }
-
-    Ok(())
-}
-
-type TypeHandler = fn(&serde_json::Value) -> bool;
-type ValueHandler = Option<fn(&mut Vec<String>, &str, &serde_json::Value) -> anyhow::Result<()>>;
-
-lazy_static! {
-    // TODO fix these odd value types.
-    static ref HANDLERS: HashMap<String, (TypeHandler, String, ValueHandler)> = {
-        let mut ret: HashMap<String, (TypeHandler, String, ValueHandler)> = HashMap::new();
-        ret.insert("osmrelation".into(), (|v: &serde_json::Value| v.is_number(), "<class 'int'>".into(), None));
-        ret.insert("refcounty".into(), (|v: &serde_json::Value| v.is_string(), "<class 'str'>".into(), None));
-        ret.insert("refsettlement".into(), (|v: &serde_json::Value| v.is_string(), "<class 'str'>".into(), None));
-        ret.insert("source".into(), (|v: &serde_json::Value| v.is_string(), "<class 'str'>".into(), None));
-        ret.insert("filters".into(), (|v: &serde_json::Value| v.is_object(), "<class 'dict'>".into(), Some(validate_filters)));
-        ret.insert("refstreets".into(), (|v: &serde_json::Value| v.is_object(), "<class 'dict'>".into(), Some(validate_refstreets)));
-        ret.insert("missing-streets".into(), (|v: &serde_json::Value| v.is_string(), "<class 'str'>".into(), None));
-        ret.insert("street-filters".into(), (|v: &serde_json::Value| v.is_array(), "<class 'list'>".into(), Some(validate_street_filters)));
-        ret.insert("osm-street-filters".into(), (|v: &serde_json::Value| v.is_array(), "<class 'list'>".into(), Some(validate_street_filters)));
-        ret.insert("inactive".into(), (|v: &serde_json::Value| v.is_boolean(), "<class 'bool'>".into(), None));
-        ret.insert("housenumber-letters".into(), (|v: &serde_json::Value| v.is_boolean(), "<class 'bool'>".into(), None));
-        ret.insert("additional-housenumbers".into(), (|v: &serde_json::Value| v.is_boolean(), "<class 'bool'>".into(), None));
-        ret.insert("alias".into(), (|v: &serde_json::Value| v.is_array(), "<class 'list'>".into(), Some(validate_relation_alias)));
-        ret
-    };
 }
 
 /// Validates a toplevel or a nested relation.
 fn validate_relation(
     errors: &mut Vec<String>,
     parent: &str,
-    relation: &serde_json::Map<String, serde_json::Value>,
+    relation: &areas::RelationDict,
 ) -> anyhow::Result<()> {
     let mut context: String = "".into();
     if !parent.is_empty() {
@@ -368,28 +223,47 @@ fn validate_relation(
 
         // Just to be consistent, we require these keys in relations.yaml for now, even if code would
         // handle having them there or in relation-foo.yaml as well.
-        for key in ["osmrelation", "refcounty", "refsettlement"] {
-            if !relation.contains_key(key) {
-                errors.push(format!("missing key '{}{}'", context, key));
-            }
+        if relation.osmrelation.is_none() {
+            errors.push(format!("missing key '{}osmrelation'", context));
+        }
+        if relation.refcounty.is_none() {
+            errors.push(format!("missing key '{}refcounty'", context));
+        }
+        if relation.refsettlement.is_none() {
+            errors.push(format!("missing key '{}refsettlement'", context));
         }
     }
 
-    for (key, value) in relation {
-        if HANDLERS.contains_key(key) {
-            let (type_check, ref value_type, handler) = HANDLERS[key];
-            if !type_check(value) {
+    if let Some(ref filters) = relation.filters {
+        validate_filters(errors, &format!("{}{}", context, "filters"), filters)?;
+    }
+    if let Some(ref refstreets) = relation.refstreets {
+        validate_refstreets(errors, &format!("{}{}", context, "refstreets"), refstreets)?;
+    }
+    if let Some(ref street_filters) = relation.street_filters {
+        validate_street_filters(
+            errors,
+            &format!("{}{}", context, "street-filters"),
+            street_filters,
+        )?;
+    }
+    // TODO fix these odd value types.
+    if let Some(ref source) = relation.source {
+        if source.parse::<i64>().is_ok() {
+            errors.push(format!(
+                "expected value type for '{}source' is <class 'str'>",
+                context
+            ));
+        }
+    }
+    if let Some(ref aliases) = relation.alias {
+        for (index, alias) in aliases.iter().enumerate() {
+            if alias.parse::<i64>().is_ok() {
                 errors.push(format!(
-                    "expected value type for '{}{}' is {}",
-                    context, key, value_type
+                    "expected value type for '{}alias[{}]' is str",
+                    context, index
                 ));
-                continue;
             }
-            if let Some(func) = handler {
-                func(errors, &format!("{}{}", context, key), value)?;
-            }
-        } else {
-            errors.push(format!("unexpected key '{}{}'", context, key));
         }
     }
 
@@ -399,10 +273,10 @@ fn validate_relation(
 /// Validates a relation list.
 fn validate_relations(
     errors: &mut Vec<String>,
-    relations: &serde_json::Map<String, serde_json::Value>,
+    relations: &areas::RelationsDict,
 ) -> anyhow::Result<()> {
     for (key, value) in relations {
-        validate_relation(errors, key, value.as_object().unwrap())?;
+        validate_relation(errors, key, value)?;
     }
 
     Ok(())
@@ -413,14 +287,22 @@ pub fn main(argv: &[String], stream: &mut dyn Write) -> anyhow::Result<i32> {
     let yaml_path = argv[1].clone();
     let path = std::path::Path::new(&yaml_path);
     let data = std::fs::read_to_string(&yaml_path)?;
-    let yaml_data: serde_json::Value =
-        serde_yaml::from_str(&data).context("serde_yaml::from_str() failed")?;
     let mut errors: Vec<String> = Vec::new();
     if path.ends_with("relations.yaml") {
-        validate_relations(&mut errors, yaml_data.as_object().unwrap())?;
+        let relations_dict: areas::RelationsDict =
+            serde_yaml::from_str(&data).context("serde_yaml::from_str() failed")?;
+        validate_relations(&mut errors, &relations_dict)?;
     } else {
+        let relation_dict: areas::RelationDict = match serde_yaml::from_str(&data) {
+            Ok(value) => value,
+            Err(err) => {
+                stream
+                    .write_all(format!("failed to validate {}: {}\n", yaml_path, err).as_bytes())?;
+                return Ok(1_i32);
+            }
+        };
         let parent = "";
-        validate_relation(&mut errors, parent, yaml_data.as_object().unwrap())?;
+        validate_relation(&mut errors, parent, &relation_dict)?;
     }
     if !errors.is_empty() {
         for error in errors {
@@ -469,6 +351,36 @@ mod tests {
         assert_eq!(buf.into_inner(), expected);
     }
 
+    /// Tests the missing-refcounty relations path.
+    #[test]
+    fn test_relations_missing_refcounty() {
+        // Set up arguments.
+        let argv: &[String] = &[
+            "".into(),
+            "tests/data/relations-missing-refcounty/relations.yaml".into(),
+        ];
+        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+        let ret = main(argv, &mut buf).unwrap();
+        assert_eq!(ret, 1);
+        let expected = b"failed to validate tests/data/relations-missing-refcounty/relations.yaml: missing key 'gazdagret.refcounty'\n";
+        assert_eq!(buf.into_inner(), expected);
+    }
+
+    /// Tests the missing-refsettlement relations path.
+    #[test]
+    fn test_relations_missing_refsettlement() {
+        // Set up arguments.
+        let argv: &[String] = &[
+            "".into(),
+            "tests/data/relations-missing-refsettlement/relations.yaml".into(),
+        ];
+        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+        let ret = main(argv, &mut buf).unwrap();
+        assert_eq!(ret, 1);
+        let expected = b"failed to validate tests/data/relations-missing-refsettlement/relations.yaml: missing key 'gazdagret.refsettlement'\n";
+        assert_eq!(buf.into_inner(), expected);
+    }
+
     /// Tests the happy relation path.
     #[test]
     fn test_relation() {
@@ -486,7 +398,7 @@ mod tests {
         let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
         let ret = main(argv, &mut buf).unwrap();
         assert_eq!(ret, 1);
-        assert_eq!(buf.into_inner(), expected.as_bytes());
+        assert_eq!(String::from_utf8(buf.into_inner()).unwrap(), expected);
     }
 
     /// Tests the relation path: bad source type.
@@ -499,14 +411,14 @@ mod tests {
     /// Tests the relation path: bad filters type.
     #[test]
     fn test_relation_filters_bad_type() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filters-bad.yaml: expected value type for 'filters.Budaörsi út.ranges' is list\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filters-bad.yaml: filters.Budaörsi út.ranges: invalid type: integer `42`, expected a sequence at line 3 column 13\n";
         assert_failure_msg("tests/data/relation-gazdagret-filters-bad.yaml", expected);
     }
 
     /// Tests the relation path: bad toplevel key name.
     #[test]
     fn test_relation_bad_key_name() {
-        let expected = "failed to validate tests/data/relation-gazdagret-bad-key.yaml: unexpected key 'invalid'\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-bad-key.yaml: unknown field `invalid`, expected one of `additional-housenumbers`, `alias`, `filters`, `housenumber-letters`, `inactive`, `missing-streets`, `osm-street-filters`, `osmrelation`, `refcounty`, `refsettlement`, `refstreets`, `street-filters`, `source` at line 1 column 1\n";
         assert_failure_msg("tests/data/relation-gazdagret-bad-key.yaml", expected);
     }
 
@@ -542,41 +454,11 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
         );
     }
 
-    /// Tests the relation path: bad filters -> interpolation value type.
-    #[test]
-    fn test_relation_filters_interpolation_bad() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-interpolation-bad.yaml: expected value type for 'filters.Hamzsabégi út.interpolation' is str\n";
-        assert_failure_msg(
-            "tests/data/relation-gazdagret-filter-interpolation-bad.yaml",
-            expected,
-        );
-    }
-
     /// Tests the relation path: bad filterssubkey name.
     #[test]
     fn test_relation_filters_bad_subkey() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-bad.yaml: unexpected key 'filters.Budaörsi út.unexpected'\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-bad.yaml: filters.Budaörsi út: unknown field `unexpected`, expected one of `interpolation`, `invalid`, `ranges`, `valid`, `refsettlement`, `show-refstreet` at line 3 column 5\n";
         assert_failure_msg("tests/data/relation-gazdagret-filter-bad.yaml", expected);
-    }
-
-    /// Tests the relation path: bad filters -> refsettlement value type.
-    #[test]
-    fn test_relation_filters_refsettlement_bad() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-refsettlement-bad.yaml: expected value type for 'filters.Hamzsabégi út.refsettlement' is str\n";
-        assert_failure_msg(
-            "tests/data/relation-gazdagret-filter-refsettlement-bad.yaml",
-            expected,
-        );
-    }
-
-    /// Tests the relation path: bad filters -> ... -> invalid subkey.
-    #[test]
-    fn test_relation_filters_invalid_bad() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad.yaml: expected value type for 'filters.Budaörsi út.invalid[0]' is str\n";
-        assert_failure_msg(
-            "tests/data/relation-gazdagret-filter-invalid-bad.yaml",
-            expected,
-        );
     }
 
     /// Tests the relation path: bad filters -> ... -> invalid subkey.
@@ -592,7 +474,7 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the relation path: bad type for the filters -> ... -> invalid subkey.
     #[test]
     fn test_relation_filters_invalid_bad_type() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad-type.yaml: expected value type for 'filters.Budaörsi út.invalid' is list\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-invalid-bad-type.yaml: filters.Budaörsi út.invalid: invalid type: string \"hello\", expected a sequence at line 3 column 14\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-invalid-bad-type.yaml",
             expected,
@@ -602,19 +484,9 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the relation path: bad filters -> ... -> ranges subkey.
     #[test]
     fn test_relation_filters_ranges_bad() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad.yaml: unexpected key 'filters.Budaörsi út.ranges[0].unexpected'\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad.yaml: filters.Budaörsi út.ranges[0]: unknown field `unexpected`, expected one of `end`, `refsettlement`, `start` at line 4 column 36\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-range-bad.yaml",
-            expected,
-        );
-    }
-
-    /// Tests the relation path: bad filters -> ... -> ranges subkey type.
-    #[test]
-    fn test_relation_filters_ranges_bad_type() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-type.yaml: expected value type for 'filters.Budaörsi út.ranges[0].refsettlement' is str\n";
-        assert_failure_msg(
-            "tests/data/relation-gazdagret-filter-range-bad-type.yaml",
             expected,
         );
     }
@@ -622,7 +494,8 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the relation path: bad filters -> ... -> ranges -> end type.
     #[test]
     fn test_relation_filters_ranges_bad_end() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml: expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml: expected end >= start for 'filters.Budaörsi út.ranges[0]'\n\
+failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml: expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-range-bad-end.yaml",
             expected,
@@ -653,7 +526,7 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the relation path: bad filters -> ... -> ranges -> start type.
     #[test]
     fn test_relation_filters_ranges_bad_start() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml: expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-bad-start.yaml: expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-range-bad-start.yaml",
             expected,
@@ -663,7 +536,7 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the relation path: missing filters -> ... -> ranges -> start key.
     #[test]
     fn test_relation_filters_ranges_missing_start() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-start.yaml: unexpected missing key 'start' for 'filters.Budaörsi út.ranges[0]'\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-start.yaml: filters.Budaörsi út.ranges[0]: missing field `start` at line 4 column 9\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-range-missing-start.yaml",
             expected,
@@ -673,7 +546,7 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the relation path: missing filters -> ... -> ranges -> end key.
     #[test]
     fn test_relation_filters_ranges_missing_end() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-end.yaml: unexpected missing key 'end' for 'filters.Budaörsi út.ranges[0]'\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-range-missing-end.yaml: filters.Budaörsi út.ranges[0]: missing field `end` at line 4 column 9\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-range-missing-end.yaml",
             expected,
@@ -683,7 +556,7 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the housenumber-letters key: bad type.
     #[test]
     fn test_relation_housenumber_letters_bad() {
-        let expected = "failed to validate tests/data/relation-gazdagret-housenumber-letters-bad.yaml: expected value type for 'housenumber-letters' is <class 'bool'>\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-housenumber-letters-bad.yaml: housenumber-letters: invalid type: integer `42`, expected a boolean at line 1 column 22\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-housenumber-letters-bad.yaml",
             expected,
@@ -700,14 +573,14 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the relation path: bad type for the alias subkey.
     #[test]
     fn test_relation_filters_alias_bad_type() {
-        let expected = "failed to validate tests/data/relation-budafok-alias-bad-type.yaml: expected value type for 'alias' is <class 'list'>\n";
+        let expected = "failed to validate tests/data/relation-budafok-alias-bad-type.yaml: alias: invalid type: string \"hello\", expected a sequence at line 1 column 8\n";
         assert_failure_msg("tests/data/relation-budafok-alias-bad-type.yaml", expected);
     }
 
     /// Tests the relation path: bad filters -> show-refstreet value type.
     #[test]
     fn test_relation_filters_show_refstreet_bad() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-show-refstreet-bad.yaml: expected value type for 'filters.Hamzsabégi út.show-refstreet' is bool\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-show-refstreet-bad.yaml: filters.Hamzsabégi út.show-refstreet: invalid type: integer `42`, expected a boolean at line 3 column 21\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-show-refstreet-bad.yaml",
             expected,
@@ -720,16 +593,6 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
         let expected = "failed to validate tests/data/relation-gazdagret-refstreets-bad-map.yaml: osm and ref streets are not a 1:1 mapping in 'refstreets.'\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-refstreets-bad-map.yaml",
-            expected,
-        );
-    }
-
-    /// Tests the relation path: bad filters -> ... -> valid subkey
-    #[test]
-    fn test_relation_filters_valid_bad() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad.yaml: expected value type for 'filters.Budaörsi út.valid[0]' is str\n";
-        assert_failure_msg(
-            "tests/data/relation-gazdagret-filter-valid-bad.yaml",
             expected,
         );
     }
@@ -747,7 +610,7 @@ failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml: expected
     /// Tests the relation path: bad type for the filters -> ... -> valid subkey.
     #[test]
     fn test_relation_filters_valid_bad_type() {
-        let expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad-type.yaml: expected value type for 'filters.Budaörsi út.valid' is list\n";
+        let expected = "failed to validate tests/data/relation-gazdagret-filter-valid-bad-type.yaml: filters.Budaörsi út.valid: invalid type: string \"hello\", expected a sequence at line 3 column 12\n";
         assert_failure_msg(
             "tests/data/relation-gazdagret-filter-valid-bad-type.yaml",
             expected,

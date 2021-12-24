@@ -27,20 +27,22 @@ use std::rc::Rc;
 
 /// The filters -> <street> -> ranges key from data/relation-<name>.yaml.
 #[derive(Clone, serde::Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct RelationRangesDict {
-    end: String,
+    pub end: String,
     refsettlement: Option<String>,
-    start: String,
+    pub start: String,
 }
 
 /// The filters key from data/relation-<name>.yaml.
 #[derive(Clone, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
+#[serde(deny_unknown_fields)]
 pub struct RelationFiltersDict {
-    interpolation: Option<String>,
-    invalid: Option<Vec<String>>,
-    ranges: Option<Vec<RelationRangesDict>>,
-    valid: Option<Vec<String>>,
+    pub interpolation: Option<String>,
+    pub invalid: Option<Vec<String>>,
+    pub ranges: Option<Vec<RelationRangesDict>>,
+    pub valid: Option<Vec<String>>,
     refsettlement: Option<String>,
     show_refstreet: Option<bool>,
 }
@@ -48,19 +50,21 @@ pub struct RelationFiltersDict {
 /// A relation from data/relation-<name>.yaml.
 #[derive(Clone, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
+#[serde(deny_unknown_fields)]
 pub struct RelationDict {
     additional_housenumbers: Option<bool>,
-    alias: Option<Vec<String>>,
-    filters: Option<HashMap<String, RelationFiltersDict>>,
+    pub alias: Option<Vec<String>>,
+    pub filters: Option<HashMap<String, RelationFiltersDict>>,
     housenumber_letters: Option<bool>,
     inactive: Option<bool>,
     missing_streets: Option<String>,
     osm_street_filters: Option<Vec<String>>,
-    osmrelation: Option<u64>,
-    refcounty: Option<String>,
-    refsettlement: Option<String>,
-    refstreets: Option<HashMap<String, String>>,
-    street_filters: Option<Vec<String>>,
+    pub osmrelation: Option<u64>,
+    pub refcounty: Option<String>,
+    pub refsettlement: Option<String>,
+    pub refstreets: Option<HashMap<String, String>>,
+    pub street_filters: Option<Vec<String>>,
+    pub source: Option<String>,
 }
 
 impl Default for RelationDict {
@@ -77,6 +81,7 @@ impl Default for RelationDict {
         let refsettlement = None;
         let refstreets = None;
         let street_filters = None;
+        let source = None;
         RelationDict {
             additional_housenumbers,
             alias,
@@ -90,6 +95,7 @@ impl Default for RelationDict {
             refsettlement,
             refstreets,
             street_filters,
+            source,
         }
     }
 }
@@ -1152,7 +1158,7 @@ impl Relation {
 }
 
 /// List of relations from data/relations.yaml.
-type RelationsDict = HashMap<String, RelationDict>;
+pub type RelationsDict = HashMap<String, RelationDict>;
 
 /// A relations object is a container of named relation objects.
 #[derive(Clone)]
