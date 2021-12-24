@@ -33,6 +33,11 @@ filters:
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
+  Árok köz:
+    # lezárt utca, nem felmérhető
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '2', end: '2'}
   Árokparti utca:
     invalid: ['7']
   Avar utca:
@@ -94,6 +99,10 @@ filters:
     ranges:
       - {start: '4', end: '10'}
       - {start: '20', end: '20'}
+  Csap utca:
+    ranges:
+      - {start: '1', end: '7'}
+      - {start: '2', end: '22'}
   Csata utca:
     # 10: nincs, 10 után 16 jön, kettő között a Károly király utca 85 és 82 van
     invalid: ['10']
@@ -316,6 +325,9 @@ filters:
       - {start: '20', end: '52'}
   Napsugár sétány:
     invalid: ['14', '17', '224']
+  Nefelejcs köz:
+    # nincs számozva itt semmi
+    ranges: []
   Nefelejcs utca:
     # 15: park van a helyén
     invalid: ['15']
@@ -413,8 +425,12 @@ filters:
       - {start: '1', end: '29'}
       - {start: '2', end: '32'}
   Szabadság út:
+    # 29-33 közt épül valami, a kint lévő terven csak 33-at említ
+    # 42: 40 után 44
     # 181-209 többségében a Holdfény utcára van számozva
-    invalid: ['136', '144', '153', '183', '185', '187', '189', '191', '201', '205', '209']
+    invalid: ['18', '23', '29', '31', '42', '58', '81', '83', '96', '136', '144', '153', '183', '185', '187', '189', '191', '201', '205', '209']
+  Szálláshegy utca:
+    interpolation: all
   Szamorodni utca:
     # nincsenek házszámok
     invalid: ['3', '6']
@@ -434,6 +450,14 @@ filters:
     ranges:
       - {start: '1', end: '47'}
       - {start: '2', end: '26'}
+  Szép utca:
+    # az utcát 2x újraszámozták ezért a végén el vanna csúszva a számok néhol a kiírásban
+    # 64: 68 van kint
+    invalid: ['64']
+    ranges:
+      - {start: '1', end: '29'}
+      - {start: '39', end: '53'}
+      - {start: '2', end: '62'}
   Szépkilátó utca:
     # átszámozták az utcát, keverednek a régi és új számok
     invalid: ['18', '64', '68', '70', '78', '80']
@@ -453,6 +477,7 @@ filters:
       - {start: '2', end: '98'}
   Templom tér:
     interpolation: all
+    invalid: ['2', '10']
     ranges:
       - {start: '1', end: '22'}
   Toboz utca:
@@ -493,7 +518,7 @@ filters:
       - {start: '1', end: '9'}
   Víg utca:
     # ezek nem léteznek/nincsenek kiírva
-    invalid: ['1', '7', '9', '19', '51']
+    invalid: ['1', '7', '9', '19', '26', '51']
   Víztorony utca:
     invalid: ['7']
     ranges:

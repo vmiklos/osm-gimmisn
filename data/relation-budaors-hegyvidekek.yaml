@@ -2,6 +2,9 @@ missing-streets: 'no'
 filters:
   Akácos utca:
     ranges: []
+  Árok utca:
+    ranges:
+      - {start: '5', end: '7'}
   Baross utca:
     ranges:
       - {start: '179', end: '299'}
@@ -14,7 +17,7 @@ filters:
       - {start: '34', end: '98'}
   Csap utca:
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '2', end: '22'}
   Csikó utca:
     # páratlan hegyvidékek, páros belváros
     ranges:
@@ -38,6 +41,8 @@ filters:
     ranges:
       - {start: '317', end: '999'}
       - {start: '164', end: '390'}
+  Szálláshegy utca:
+    interpolation: all
   Szüret utca:
     ranges:
       - {start: '1', end: '17'}
@@ -45,7 +50,14 @@ filters:
   Otthon utca:
     ranges: []
   Víg utca:
+    # 26: nincs kiírva
+    # hegyvidékek: 2-46 .. 55-63 .. 60..68
+    # belváros: 1-7
+    # lakótelep: 48-54
+    invalid: ['26']
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '55', end: '63'}
+      - {start: '2', end: '46'}
+      - {start: '60', end: '98'}
 source: survey
 inactive: true

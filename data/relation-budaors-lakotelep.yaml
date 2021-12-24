@@ -3,6 +3,10 @@ filters:
   Ág utca:
     ranges:
       - {start: '1', end: '1'}
+  Árok utca:
+    ranges:
+      - {start: '1', end: '3'}
+      - {start: '2', end: '2'}
   Baross utca:
     ranges:
       - {start: '76', end: '138'}
@@ -41,6 +45,9 @@ filters:
       - {start: '37', end: '99'}
       - {start: '58', end: '98'}
   Víg utca:
+    # hegyvidékek: 2-46 .. 55-63 .. 60..68
+    # belváros: 1-7
+    # lakótelep: 48-54
     ranges:
       - {start: '48', end: '54'}
 source: survey
