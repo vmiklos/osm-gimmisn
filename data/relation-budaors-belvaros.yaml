@@ -88,6 +88,10 @@ filters:
   Építők útja:
     # nincs házszám a belváros részen
     ranges: []
+  Esze Tamás utca:
+    # páros oldal a Templom téri házak hátulja
+    ranges:
+      - {start: '1', end: '17'}
   Farkasréti út:
     # 40 után 52
     invalid: ['42', '44']
@@ -268,7 +272,7 @@ filters:
     invalid: ['18', '23', '29', '31', '42', '58', '81', '83', '96']
     ranges:
       - {start: '1', end: '111'}
-      - {start: '2', end: '132'}
+      - {start: '14', end: '132'}
       - {start: '136', end: '136'}
   Száva köz:
     invalid: ['9']

@@ -58,6 +58,6 @@ filters:
     ranges:
       - {start: '55', end: '63'}
       - {start: '2', end: '46'}
-      - {start: '60', end: '98'}
+      - {start: '60', end: '70'}
 source: survey
 inactive: true
