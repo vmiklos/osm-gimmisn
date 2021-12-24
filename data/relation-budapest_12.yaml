@@ -252,8 +252,6 @@ filters:
   Meredek utca:
     ranges:
       - {start: '1', end: '41'}
-  Moha köz:
-
   Moha utca:
     # 4-6: csak 4 van kiírva
     # 33: 31 után 35
