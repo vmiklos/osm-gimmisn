@@ -26,6 +26,10 @@ filters:
     ranges:
       - {start: '37', end: '99'}
       - {start: '6', end: '98'}
+  Hegyalja utca:
+    # 6, 12: nincs
+    # 108-110: csak 108 van kiírva
+    invalid: ['6', '12', '110']
   Koszorú utca:
     ranges:
       - {start: '1', end: '99'}
@@ -49,15 +53,19 @@ filters:
       - {start: '2', end: '98'}
   Otthon utca:
     ranges: []
+  Víg köz:
+    # max házszám 8 és 11
+    invalid: ['42', '52']
   Víg utca:
-    # 26: nincs kiírva
+    # 26: 60 után 64
     # hegyvidékek: 2-46 .. 55-63 .. 60..68
     # belváros: 1-7
     # lakótelep: 48-54
-    invalid: ['26']
+    invalid: ['62']
     ranges:
       - {start: '55', end: '63'}
       - {start: '2', end: '46'}
       - {start: '60', end: '70'}
+  bla
 source: survey
 inactive: true
