@@ -66,6 +66,5 @@ filters:
       - {start: '55', end: '63'}
       - {start: '2', end: '46'}
       - {start: '60', end: '70'}
-  bla
 source: survey
 inactive: true
