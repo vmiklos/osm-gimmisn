@@ -23,53 +23,50 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
         std::fs::read_dir(&datadir).context(format!("failed to read_dir() {}", datadir))?;
     let mut yaml_paths: Vec<String> = Vec::new();
     for entry in entries {
-        let path = entry.unwrap().path();
-        let path = path.to_str().unwrap();
+        let path = entry?.path();
+        let path = path.to_str().context("failed to convert path to string")?;
         if path.ends_with(".yaml") {
             yaml_paths.push(path.to_string());
         }
     }
     yaml_paths.sort();
     for yaml_path in yaml_paths {
-        let cache_key = std::path::Path::new(&yaml_path)
-            .strip_prefix(&datadir)
-            .unwrap()
-            .to_str()
-            .unwrap()
+        let cache_key = yaml_path
+            .strip_prefix(&format!("{}/", datadir))
+            .context("yaml outside datadir")?
             .to_string();
-        let data = std::fs::read_to_string(&yaml_path).unwrap();
-        let cache_value = serde_yaml::from_str::<serde_json::Value>(&data).unwrap();
+        let data = std::fs::read_to_string(&yaml_path)?;
+        let cache_value = serde_yaml::from_str::<serde_json::Value>(&data)?;
         cache.insert(cache_key, cache_value);
     }
 
     let cache_path = format!("{}/yamls.cache", datadir);
     {
-        let write_stream = ctx.get_file_system().open_write(&cache_path).unwrap();
+        let write_stream = ctx.get_file_system().open_write(&cache_path)?;
         let mut guard = write_stream.borrow_mut();
         let write = guard.deref_mut();
-        serde_json::to_writer(write, &cache).unwrap();
+        serde_json::to_writer(write, &cache)?;
     }
 
     let workdir = argv[2].clone();
     let yaml_path = format!("{}/relations.yaml", datadir);
     let mut relation_ids: Vec<u64> = Vec::new();
-    let stream = std::fs::File::open(yaml_path).unwrap();
-    let relations: serde_yaml::Value = serde_yaml::from_reader(stream).unwrap();
-    for (_key, value) in relations.as_mapping().unwrap() {
-        relation_ids.push(value["osmrelation"].as_u64().unwrap());
+    let stream = std::fs::File::open(yaml_path)?;
+    let relations: serde_yaml::Value = serde_yaml::from_reader(stream)?;
+    for (_key, value) in relations.as_mapping().context("not an obj")? {
+        relation_ids.push(value["osmrelation"].as_u64().context("not a num")?);
     }
     relation_ids.sort_unstable();
     relation_ids.dedup();
     let statsdir = format!("{}/stats", workdir);
-    std::fs::create_dir_all(&statsdir).unwrap();
+    std::fs::create_dir_all(&statsdir)?;
     {
         let write_stream = ctx
             .get_file_system()
-            .open_write(&format!("{}/relations.json", statsdir))
-            .unwrap();
+            .open_write(&format!("{}/relations.json", statsdir))?;
         let mut guard = write_stream.borrow_mut();
         let write = guard.deref_mut();
-        serde_json::to_writer(write, &relation_ids).unwrap();
+        serde_json::to_writer(write, &relation_ids)?;
     }
 
     Ok(())
