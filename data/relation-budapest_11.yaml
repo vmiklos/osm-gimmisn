@@ -2162,9 +2162,10 @@ filters:
   #  invalid: ['17a'] -- újra, épült ott vmi
   Irhás árok:
     # 10a-10b-10c: át lett számozva: 10-12-14
+    # 20: 20/1, 20/2
     # 24a: 22,22/B,24, 1 házrészen nincs szám
     # 30: 30/A, 30/B, 30/C
-    invalid: ['8a', '10a', '10b', '10c', '24a', '30']
+    invalid: ['8a', '10a', '10b', '10c', '20', '24a', '30']
     ranges:
       - {start: '2', end: '36'}
   Irhás köz:
