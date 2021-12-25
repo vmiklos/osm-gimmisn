@@ -62,9 +62,8 @@ filters:
     ranges:
       - {start: '2', end: '22'}
   Csikó utca:
-    # páratlan hegyvidékek, páros belváros
-    ranges:
-      - {start: '2', end: '98'}
+    # páratlan hegyvidékek, páros belváros, de az a Budakeszi utcára számozva
+    ranges: []
   Csillag utca:
     interpolation: all
     ranges:
