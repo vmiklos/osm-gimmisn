@@ -179,6 +179,10 @@ filters:
   Hárslevelű utca:
     # le van zárva az utca, nem felmérhető
     invalid: ['5']
+  Hegyalja utca:
+    # 6, 12: nincs
+    # 108-110: csak 108 van kiírva
+    invalid: ['6', '12', '110']
   Hurok utca:
     # gyengén van táblázva
     interpolation: all
@@ -525,9 +529,12 @@ filters:
     invalid: ['1', '7']
     ranges:
       - {start: '1', end: '9'}
+  Víg köz:
+    # max házszám 8 és 11
+    invalid: ['42', '52']
   Víg utca:
     # ezek nem léteznek/nincsenek kiírva
-    invalid: ['1', '7', '9', '19', '26', '51', '72']
+    invalid: ['1', '7', '9', '19', '51', '62', '72']
   Víztorony utca:
     invalid: ['7']
     ranges:
