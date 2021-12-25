@@ -8,6 +8,7 @@
 - Resolves: gh#1746 fix disappeared localized strings
 - Resolves: gh#1815 validator now rejects trailing whitespace when converting numbers to strings
 - Resolves: gh#1839 stats: report per-zip coverage of housenumbers
+- Resolves: gh#1950 fix the validator's exit code to actually fail on validation errors during CI
 
 == 7.2
 
