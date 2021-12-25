@@ -254,8 +254,9 @@ filters:
       - {start: '1', end: '41'}
   Moha utca:
     # 4-6: csak 4 van kiírva
+    # 13: 11-13 helyén 1 db ház épül, régi 11-es szám van kint, 13-as kerítés elbontva
     # 33: 31 után 35
-    invalid: ['6', '33']
+    invalid: ['6', '13', '33']
   Művész út:
     ranges:
       - {start: '1', end: '11'}
