@@ -4,6 +4,11 @@ filters:
     # belvaros 3-59, 2-38
     ranges:
       - {start: '40', end: '40'}
+  Árok köz:
+    # lezárt utca, nem felmérhető
+    ranges:
+      - {start: '1', end: '1'}
+      - {start: '2', end: '2'}
   Baross utca:
     # 1-69 belvaros, 165- lakotelep, paros vegyes
     ranges:
@@ -30,8 +35,8 @@ filters:
       - {start: '87', end: '199'}
       - {start: '84', end: '198'}
   Komáromi utca:
-    ranges:
-      - {start: '2', end: '98'}
+    # páros oldal, de a számok a Baross utcátl északra vannak, az pedig a lakótelep körzet
+    ranges: []
   Moha utca:
     # belváros páros, autópálya menti páratlan
     ranges:
