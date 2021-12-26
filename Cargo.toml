@@ -1,7 +1,7 @@
 [package]
 name = "osm-gimmisn"
 version = "7.2.0"
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 accept-language = "2.0.0"
