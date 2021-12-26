@@ -36,7 +36,8 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
             .context("yaml outside datadir")?
             .to_string();
         let data = std::fs::read_to_string(&yaml_path)?;
-        let cache_value = serde_yaml::from_str::<serde_json::Value>(&data)?;
+        let cache_value = serde_yaml::from_str::<serde_json::Value>(&data)
+            .context(format!("serde_yaml::from_str() failed for {}", yaml_path))?;
         cache.insert(cache_key, cache_value);
     }
 
