@@ -731,7 +731,10 @@ impl Relation {
     }
 
     /// Gets house numbers from reference, produced by write_ref_housenumbers()."""
-    fn get_ref_housenumbers(&self) -> anyhow::Result<HashMap<String, Vec<util::HouseNumber>>> {
+    fn get_ref_housenumbers(
+        &self,
+        osm_street_names: &[util::Street],
+    ) -> anyhow::Result<HashMap<String, Vec<util::HouseNumber>>> {
         let mut ret: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
         let mut lines: HashMap<String, Vec<String>> = HashMap::new();
         let read: Rc<RefCell<dyn Read>> = self.file.get_ref_housenumbers_read_stream(&self.ctx)?;
@@ -755,7 +758,7 @@ impl Relation {
             .get_street_ranges()
             .context("get_street_ranges() failed")?;
         let streets_invalid = self.get_street_invalid();
-        for osm_street in self.get_osm_streets(/*sorted_result=*/ true)? {
+        for osm_street in osm_street_names {
             let osm_street_name = osm_street.get_osm_name();
             let street_is_even_odd = self.config.get_street_is_even_odd(osm_street_name);
             let mut house_numbers: Vec<util::HouseNumber> = Vec::new();
@@ -806,7 +809,7 @@ impl Relation {
 
         let osm_street_names = self.get_osm_streets(/*sorted_result=*/ true)?;
         let all_ref_house_numbers = self
-            .get_ref_housenumbers()
+            .get_ref_housenumbers(&osm_street_names)
             .context("get_ref_housenumbers() failed")?;
         for osm_street in osm_street_names {
             let osm_street_name = osm_street.get_osm_name();
@@ -1046,7 +1049,7 @@ impl Relation {
         let mut additional = Vec::new();
 
         let osm_street_names = self.get_osm_streets(/*sorted_result=*/ true)?;
-        let all_ref_house_numbers = self.get_ref_housenumbers()?;
+        let all_ref_house_numbers = self.get_ref_housenumbers(&osm_street_names)?;
         let streets_valid = self.get_street_valid();
         for osm_street in osm_street_names {
             let osm_street_name = osm_street.get_osm_name();
