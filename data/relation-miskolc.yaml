@@ -9,13 +9,18 @@ osm-street-filters:
   - Mechatronikai Ipari Park
   - Perecesi napközis tábor
   - kriptasor
+  - építkezési út
   # parkok, sétányok amire nincs számozva semmi
   - Ferenczi Pihenő
   - Kálvária
+  - Keresztút
   - Kis erdő
   - Lendeczky út
   - Lillafüredi Függőkert
   - Szabó Lőrinc sétány
+  - Szala József út
+  - Városliget
+  - Weidlich udvar
 street-filters:
   - Árpád vezér út
   - Ősz utca  # valószínű elírás

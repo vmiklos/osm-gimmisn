@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Ág utca:
+    # 1 helyén is 3 van a terven, 1 nincs kiírva
+    invalid: ['1']
   Akácos utca:
     ranges: []
   Árok utca:
@@ -39,6 +42,8 @@ filters:
     ranges:
       - {start: '1', end: '1'}
       - {start: '13', end: '19'}
+  Otthon utca:
+    ranges: []
   Puttony utca:
     ranges: []
   Szabadság út:
@@ -51,8 +56,10 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '98'}
-  Otthon utca:
-    ranges: []
+  Törökugrató utca:
+    # 26: 22 után 28
+    # 96: max páros 40
+    invalid: ['26', '96']
   Víg köz:
     # max házszám 8 és 11
     invalid: ['42', '52']
