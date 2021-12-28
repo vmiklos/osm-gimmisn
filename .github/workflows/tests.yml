@@ -15,6 +15,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: 1.57.0
+          components: rustfmt, clippy
       - name: Rust Cache
         uses: actions/cache@v2
         with:
