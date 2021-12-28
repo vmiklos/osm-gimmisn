@@ -7,7 +7,8 @@ street-filters:
   # megváltozott a neve, több szakaszra bomlott
   - Városligeti körút
   - Vajdahunyadvár  # https://www.openstreetmap.org/node/4685641019
-  - Róbert Károly körút  # csak a XIII. kerületben van része
+  # csak a XIII. kerületben van része
+  - Róbert Károly körút  
 osm-street-filters:
   # létezik, de nem utcaként
   - Adria park
@@ -24,6 +25,7 @@ osm-street-filters:
   - Paskál park
   - Piknik Park
   - Promenád
+  - Széchenyi-sziget
   - Vajdahunyad sétány
   - Vakok kertje
   - Városliget
