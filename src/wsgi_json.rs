@@ -25,7 +25,7 @@ fn streets_update_result_json(
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("short tokens")?;
     let relation = relations
         .get_relation(relation_name)
         .context("get_relation() failed")?;
@@ -49,7 +49,7 @@ fn street_housenumbers_update_result_json(
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("short tokens")?;
     let relation = relations.get_relation(relation_name)?;
     let query = relation.get_osm_housenumbers_query()?;
     let mut ret: HashMap<String, String> = HashMap::new();
@@ -71,7 +71,7 @@ fn missing_housenumbers_update_result_json(
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("short tokens")?;
     let references = ctx.get_ini().get_reference_housenumber_paths()?;
     let relation = relations.get_relation(relation_name)?;
     let mut ret: HashMap<String, String> = HashMap::new();
@@ -88,7 +88,7 @@ fn missing_streets_update_result_json(
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("short tokens")?;
     let reference = ctx.get_ini().get_reference_street_path()?;
     let relation = relations.get_relation(relation_name)?;
     let mut ret: HashMap<String, String> = HashMap::new();
