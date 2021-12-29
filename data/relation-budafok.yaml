@@ -10,7 +10,6 @@ filters:
     # 65: sima 65 nincs, csak 65/1, 65/2.
     # 81: sima 81 nincs, csak 81/A, 81/B, 81/C, 81/D.
     # 83: sima 83 nincs, csak 83/A.
-    # 83/B: nincs ilyen, csak 83/A.
     # 131: sima 131 nincs, csak 131/A, 131/B.
     # 145/A: csak sima 145 van.
     # 149: sima 149 nincs, csak 149/A, 149/B.
@@ -24,7 +23,7 @@ filters:
     # 104: sima 104 nincs, csak 104/A, 104/1 (nem elírás).
     # 110: sima 110 nincs, csak 110/A, 110/B, 110/C.
     # 120: a 118-120 egyetlen telek, de a házszám csak 118.
-    invalid: ['39a', '45a', '49a', '65', '81', '83', '83b', '131', '145a', '149', '32c', '44', '50', '74', '96', '98b', '102a', '104', '110', '120']
+    invalid: ['39a', '45a', '49a', '65', '81', '83', '131', '145a', '149', '32c', '44', '50', '74', '96', '98b', '102a', '104', '110', '120']
   Aranyfácán utca:
     # 11: sima 11 nincs, csak 11/A, 11/B.
     invalid: ['11']
@@ -184,6 +183,7 @@ filters:
     # 3/B: nincs ilyen, csak sima 3.
     # 9: sima 9 nincs, csak 9/A, 9/B.
     # 11: sima 11 nincs, csak 11/A, 11/B.
+    # 19: ez és a Püspök utca 1. közös telken van, házszám és bejárat a Püspök utca felől van csak.
     # 27/B: nincs ilyen, csak 27, 27/A.
     # 29: sima 29 nincs, csak 29/A, 29/B, 29/C, 29/D.
     # 37: sima 37 nincs, csak 37/A, 37/B.
@@ -200,7 +200,7 @@ filters:
     # 48/B: nincs ilyen, csak sima 48.
     # 50/A: nincs ilyen, csak sima 50.
     # 58/A: a páros oldalon az 50 az utolsó házszám.
-    invalid: ['3b', '9', '11', '27b', '29', '37', '41', '47', '2', '4', '26', '34b', '36', '40b', '42', '48a', '48b', '50a', '58a']
+    invalid: ['3b', '9', '11', '19', '27b', '29', '37', '41', '47', '2', '4', '26', '34b', '36', '40b', '42', '48a', '48b', '50a', '58a']
   Játék utca:
     ranges:
       - {start: '17', end: '19'}
@@ -436,7 +436,6 @@ filters:
     # 30: a páros oldalon a 10 az utolsó házszám.
     invalid: ['1', '7a', '30']
   Püspök utca:
-    # TODO: A Püspök utca 1. és a Ják utca 19. közös telken van, házszámot sehol sem látok, de a bejárat a Püspök utca felől van.
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '6'}
