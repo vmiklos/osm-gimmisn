@@ -1,4 +1,52 @@
 missing-streets: 'yes'
+filters:
+  Árpád út:
+    invalid: ['120']
+  # hrsz. szűrések
+  Duna sor:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Dévai utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Faluföle utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Garam utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Görbe utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Meredek utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Migazzi utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Orom utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Szamos utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Szőlős utca:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Tábor út:
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
 osm-street-filters:
   # Nem valós utcák
   - KDV-VIZIG
