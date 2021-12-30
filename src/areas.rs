@@ -1189,12 +1189,18 @@ impl Relations {
             .context("failed to parse relations.yaml")?;
         let relations: HashMap<String, Relation> = HashMap::new();
         let activate_all = false;
-        let refcounty_names: HashMap<String, String> =
-            serde_json::from_value(yaml_cache["refcounty-names.yaml"].clone())
-                .context("failed to parse refcounty-names.yaml")?;
+        let refcounty_names: HashMap<String, String> = match yaml_cache.get("refcounty-names.yaml")
+        {
+            Some(value) => serde_json::from_value(value.clone())
+                .context("failed to parse refcounty-names.yaml")?,
+            None => HashMap::new(),
+        };
         let refsettlement_names: HashMap<String, HashMap<String, String>> =
-            serde_json::from_value(yaml_cache["refsettlement-names.yaml"].clone())
-                .context("failed to parse refsettlement-names.yaml")?;
+            match yaml_cache.get("refsettlement-names.yaml") {
+                Some(value) => serde_json::from_value(value.clone())
+                    .context("failed to parse refsettlement-names.yaml")?,
+                None => HashMap::new(),
+            };
         Ok(Relations {
             ctx: ctx.clone(),
             yaml_cache,
@@ -1554,10 +1560,6 @@ mod tests {
                     },
                 },
             },
-            "refcounty-names.yaml": {
-            },
-            "refsettlement-names.yaml": {
-            },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
         {
@@ -1598,10 +1600,6 @@ mod tests {
                     "osmrelation": 2713748,
                 },
             },
-            "refcounty-names.yaml": {
-            },
-            "refsettlement-names.yaml": {
-            },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
         {
@@ -1641,10 +1639,6 @@ mod tests {
                 "gazdagret": {
                     "osmrelation": 2713748,
                 },
-            },
-            "refcounty-names.yaml": {
-            },
-            "refsettlement-names.yaml": {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
@@ -1874,10 +1868,6 @@ mod tests {
                     "osmrelation": 2713748,
                 },
             },
-            "refcounty-names.yaml": {
-            },
-            "refsettlement-names.yaml": {
-            },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
         {
@@ -1928,10 +1918,6 @@ mod tests {
                 "gazdagret": {
                     "osmrelation": 2713748,
                 },
-            },
-            "refcounty-names.yaml": {
-            },
-            "refsettlement-names.yaml": {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
@@ -2300,10 +2286,6 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
                 "gazdagret": {
                     "osmrelation": 2713748,
                 },
-            },
-            "refcounty-names.yaml": {
-            },
-            "refsettlement-names.yaml": {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();

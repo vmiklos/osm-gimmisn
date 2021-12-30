@@ -1322,10 +1322,6 @@ mod tests {
                     "refsettlement": "011",
                 },
             },
-            "refcounty-names.yaml": {
-            },
-            "refsettlement-names.yaml": {
-            },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
         {
