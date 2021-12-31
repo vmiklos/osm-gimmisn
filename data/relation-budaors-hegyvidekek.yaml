@@ -37,6 +37,12 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '10', end: '98'}
+  Kökörcsin utca:
+    # 11-15: csak 13 van kiírva
+    # 49: el van számozva a valóságban a 49-es telken a 45-ös ház áll
+    # 85: 83-85 telken 2 ház épület 83-as számmal
+    # 105-107: 105
+    invalid: ['11', '15', '85', '105']
   Máriavölgy utca:
     # számozás össze vissza
     ranges:
