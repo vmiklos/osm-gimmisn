@@ -564,6 +564,7 @@ pub type HouseNumberReferenceCache =
 
 /// Builds an in-memory cache from the reference on-disk TSV (house number version).
 pub fn build_reference_cache(
+    ctx: &context::Context,
     local: &str,
     refcounty: &str,
 ) -> anyhow::Result<HouseNumberReferenceCache> {
@@ -571,10 +572,13 @@ pub fn build_reference_cache(
 
     let disk_cache = get_reference_cache_path(local, refcounty);
 
-    if std::path::Path::new(&disk_cache).exists() {
-        let stream = std::fs::File::open(disk_cache)?;
-        memory_cache = serde_json::from_reader(&stream)?;
-        return Ok(memory_cache);
+    if ctx.get_file_system().path_exists(&disk_cache) {
+        let stream = ctx.get_file_system().open_read(&disk_cache)?;
+        let mut guard = stream.borrow_mut();
+        // Handle an empty cache file like having no cache.
+        if let Ok(memory_cache) = serde_json::from_reader(guard.deref_mut()) {
+            return Ok(memory_cache);
+        }
     }
 
     let stream = std::io::BufReader::new(std::fs::File::open(local)?);
@@ -611,20 +615,22 @@ pub fn build_reference_cache(
         street_key.push(vec![num, comment]);
     }
 
-    let stream = std::fs::File::create(disk_cache)?;
-    serde_json::to_writer(&stream, &memory_cache)?;
+    let stream = ctx.get_file_system().open_write(&disk_cache)?;
+    let mut guard = stream.borrow_mut();
+    serde_json::to_writer(guard.deref_mut(), &memory_cache)?;
 
     Ok(memory_cache)
 }
 
 /// Handles a list of references for build_reference_cache().
 pub fn build_reference_caches(
+    ctx: &context::Context,
     references: &[String],
     refcounty: &str,
 ) -> anyhow::Result<Vec<HouseNumberReferenceCache>> {
     references
         .iter()
-        .map(|reference| build_reference_cache(reference, refcounty))
+        .map(|reference| build_reference_cache(ctx, reference, refcounty))
         .collect()
 }
 
@@ -1329,7 +1335,8 @@ mod tests {
         if std::path::Path::new(&cachepath).exists() {
             std::fs::remove_file(&cachepath).unwrap();
         }
-        let memory_cache = build_reference_cache(refpath, "01").unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
+        let memory_cache = build_reference_cache(&ctx, refpath, "01").unwrap();
         let mut streets: HashMap<String, Vec<HouseNumberWithComment>> = HashMap::new();
         streets.insert(
             "Ref Name 1".to_string(),
@@ -1373,9 +1380,10 @@ mod tests {
     /// Tests build_reference_cache(): the case when the cache is already available.
     #[test]
     fn test_build_reference_cache_cached() {
+        let ctx = context::tests::make_test_context().unwrap();
         let refpath = "tests/refdir/hazszamok_20190511.tsv";
-        build_reference_cache(refpath, "01").unwrap();
-        let memory_cache = build_reference_cache(refpath, "01").unwrap();
+        build_reference_cache(&ctx, refpath, "01").unwrap();
+        let memory_cache = build_reference_cache(&ctx, refpath, "01").unwrap();
         let mut streets: HashMap<String, Vec<HouseNumberWithComment>> = HashMap::new();
         streets.insert(
             "Ref Name 1".to_string(),
