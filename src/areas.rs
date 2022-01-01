@@ -675,7 +675,8 @@ impl Relation {
     /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
     /// used by get_ref_housenumbers().
     pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
-        let memory_caches = util::build_reference_caches(references, &self.config.get_refcounty())?;
+        let memory_caches =
+            util::build_reference_caches(&self.ctx, references, &self.config.get_refcounty())?;
 
         let streets: Vec<String> = self
             .get_osm_streets(/*sorted_results=*/ true)?
@@ -3121,7 +3122,7 @@ way{color:blue; width:4;}
         let refdir = ctx.get_abspath("refdir");
         let mut relations = Relations::new(&ctx).unwrap();
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
-        let memory_cache = util::build_reference_cache(&refpath, "01").unwrap();
+        let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
         let relation_name = "gazdagret";
         let street = "Törökugrató utca";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3155,9 +3156,16 @@ way{color:blue; width:4;}
             let write = guard.deref_mut();
             serde_json::to_writer(write, &yamls_cache).unwrap();
         }
+        let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
-            &[("data/yamls.cache", &yamls_cache_value)],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                    &ref_housenumbers_cache,
+                ),
+            ],
         );
         file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -3165,7 +3173,7 @@ way{color:blue; width:4;}
         let mut relations = Relations::new(&ctx).unwrap();
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
-        let memory_cache = util::build_reference_cache(&refpath, "01").unwrap();
+        let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
         let relation_name = "myrelation";
         let street = "mystreet";
         let relation = relations.get_relation(relation_name).unwrap();
