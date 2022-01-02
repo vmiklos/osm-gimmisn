@@ -62,6 +62,9 @@ filters:
     invalid: ['14']
   Otthon utca:
     ranges: []
+  Pipacs utca:
+    # 14, 16: nem kerültek ki az új számok, így páratlanra vannak számozva: 2022-01
+    invalid: ['14', '16']
   Puttony utca:
     ranges: []
   Szabadság út:
