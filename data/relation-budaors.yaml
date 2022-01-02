@@ -198,6 +198,15 @@ filters:
     # gyengén van táblázva
     interpolation: all
     invalid: ['7', '10', '12', '13', '18']
+  Ibolya köz:
+    # 9: nincs
+    invalid: ['9']
+  Ibolya utca:
+    # 12: 10 után 14-16
+    # 38: 36 után 40
+    # 52-54: csak 52 van kiírva
+    # 126: 124 után 128 2x
+    invalid: ['12', '38', '54', '126']
   Ifjúság utca:
     invalid: ['2', '37']
   József Attila utca:
@@ -289,8 +298,8 @@ filters:
     # 11-15: csak 13 van kiírva
     # 49: el van számozva a valóságban a 49-es telken a 45-ös ház áll
     # 85: 83-85 telken 2 ház épület 83-as számmal
-    # 105-107: 105
-    invalid: ['11', '15', '85', '105']
+    # 105-107: csak 105 van kiírva
+    invalid: ['11', '15', '85', '107']
   Kőláb utca:
     interpolation: all
   Kőszikla utca:
@@ -354,6 +363,9 @@ filters:
       - {start: '20', end: '52'}
   Napsugár sétány:
     invalid: ['14', '17', '224']
+  Nárcisz utca:
+    # 12-14: csak 12 van kiírva
+    invalid: ['14']
   Nefelejcs köz:
     # nincs számozva itt semmi
     ranges: []
@@ -524,6 +536,10 @@ filters:
   Tölgy utca:
     # semmilyen házszám sincs kiírva az utcában
     invalid: ['1', '3']
+  Törökugrató utca:
+    # 24, 26: 22 után 28
+    # 96: max páros 40
+    invalid: ['24', '26', '96']
   Turistaház utca:
     # nincsenek kiírva házszámok
     ranges: []

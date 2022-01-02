@@ -33,6 +33,15 @@ filters:
     # 6, 12: nincs
     # 108-110: csak 108 van kiírva
     invalid: ['6', '12', '110']
+  Ibolya köz:
+    # 9: nincs
+    invalid: ['9']
+  Ibolya utca:
+    # 12: 10 után 14-16
+    # 38: 36 után 40
+    # 52-54: csak 52 van kiírva
+    # 126: 124 után 128 2x
+    invalid: ['12', '38', '54', '126']
   Koszorú utca:
     ranges:
       - {start: '1', end: '99'}
@@ -41,13 +50,16 @@ filters:
     # 11-15: csak 13 van kiírva
     # 49: el van számozva a valóságban a 49-es telken a 45-ös ház áll
     # 85: 83-85 telken 2 ház épület 83-as számmal
-    # 105-107: 105
-    invalid: ['11', '15', '85', '105']
+    # 105-107: csak 105 van kiírva
+    invalid: ['11', '15', '85', '107']
   Máriavölgy utca:
     # számozás össze vissza
     ranges:
       - {start: '1', end: '1'}
       - {start: '13', end: '19'}
+  Nárcisz utca:
+    # 12-14: csak 12 van kiírva
+    invalid: ['14']
   Otthon utca:
     ranges: []
   Puttony utca:
@@ -63,9 +75,9 @@ filters:
       - {start: '1', end: '17'}
       - {start: '2', end: '98'}
   Törökugrató utca:
-    # 26: 22 után 28
+    # 24, 26: 22 után 28
     # 96: max páros 40
-    invalid: ['26', '96']
+    invalid: ['24', '26', '96']
   Víg köz:
     # max házszám 8 és 11
     invalid: ['42', '52']
