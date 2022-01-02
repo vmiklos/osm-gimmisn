@@ -605,7 +605,7 @@ impl Relation {
     /// Gets known streets (not their coordinates) from a reference site, based on relation names
     /// from OSM.
     pub fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
-        let memory_cache = util::build_street_reference_cache(reference)
+        let memory_cache = util::build_street_reference_cache(&self.ctx, reference)
             .context("build_street_reference_cache() failed")?;
 
         let mut lst = self.config.get_ref_streets(&memory_cache).clone();
@@ -3118,12 +3118,42 @@ way{color:blue; width:4;}
     /// Tests Relation::build_ref_housenumbers().
     #[test]
     fn test_relation_build_ref_housenumbers() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                    &ref_housenumbers_cache,
+                ),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let refdir = ctx.get_abspath("refdir");
         let mut relations = Relations::new(&ctx).unwrap();
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
-        let relation_name = "gazdagret";
+        let relation_name = "myrelation";
         let street = "Törökugrató utca";
         let relation = relations.get_relation(relation_name).unwrap();
         let ret = relation.build_ref_housenumbers(&memory_cache, street, "");
@@ -3186,12 +3216,39 @@ way{color:blue; width:4;}
     /// Tests Relation::build_ref_streets().
     #[test]
     fn test_relation_build_ref_streets() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "refsettlement": "42",
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let ref_streets_cache = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/utcak_20190514.tsv", refdir);
-        let memory_cache = util::build_street_reference_cache(&refpath).unwrap();
+        let memory_cache = util::build_street_reference_cache(&ctx, &refpath).unwrap();
         let mut relations = Relations::new(&ctx).unwrap();
-        let relation_name = "gazdagret";
+        let relation_name = "myrelation";
         let relation = relations.get_relation(relation_name).unwrap();
 
         let ret = relation.config.get_ref_streets(&memory_cache);
@@ -3484,8 +3541,29 @@ way{color:blue; width:4;}
     /// Tests RelationConfig::get_letter_suffix_style().
     #[test]
     fn test_relation_config_get_letter_suffix_style() {
-        let relation_name = "empty";
-        let ctx = context::tests::make_test_context().unwrap();
+        let relation_name = "myrelation";
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                relation_name: {
+                    "refsettlement": "42",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let mut relation = relations.get_relation(relation_name).unwrap();
         assert_eq!(

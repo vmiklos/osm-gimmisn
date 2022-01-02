@@ -508,14 +508,23 @@ pub fn color_house_number(house_number: &HouseNumberRange) -> yattag::Doc {
 type StreetReferenceCache = HashMap<String, HashMap<String, Vec<String>>>;
 
 /// Builds an in-memory cache from the reference on-disk TSV (street version).
-pub fn build_street_reference_cache(local_streets: &str) -> anyhow::Result<StreetReferenceCache> {
+pub fn build_street_reference_cache(
+    ctx: &context::Context,
+    local_streets: &str,
+) -> anyhow::Result<StreetReferenceCache> {
     let mut memory_cache: StreetReferenceCache = HashMap::new();
 
     let disk_cache = local_streets.to_string() + ".cache";
-    if std::path::Path::new(&disk_cache).exists() {
-        let stream = std::fs::File::open(disk_cache).context("std::fs::File::open() failed")?;
-        memory_cache = serde_json::from_reader(&stream)?;
-        return Ok(memory_cache);
+    if ctx.get_file_system().path_exists(&disk_cache) {
+        let stream = ctx
+            .get_file_system()
+            .open_read(&disk_cache)
+            .context("std::fs::File::open() failed")?;
+        let mut guard = stream.borrow_mut();
+        // Handle an empty cache file like having no cache.
+        if let Ok(memory_cache) = serde_json::from_reader(guard.deref_mut()) {
+            return Ok(memory_cache);
+        }
     }
 
     let stream = std::io::BufReader::new(
@@ -544,8 +553,9 @@ pub fn build_street_reference_cache(local_streets: &str) -> anyhow::Result<Stree
         refsettlement_key.push(street);
     }
 
-    let stream = std::fs::File::create(disk_cache)?;
-    serde_json::to_writer(&stream, &memory_cache)?;
+    let stream = ctx.get_file_system().open_write(&disk_cache)?;
+    let mut guard = stream.borrow_mut();
+    serde_json::to_writer(guard.deref_mut(), &memory_cache)?;
 
     Ok(memory_cache)
 }
@@ -1290,7 +1300,8 @@ mod tests {
     fn test_build_street_reference_cache() {
         let refpath = "tests/refdir/utcak_20190514.tsv";
         std::fs::remove_file(format!("{}.cache", refpath)).unwrap();
-        let memory_cache = build_street_reference_cache(refpath).unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
+        let memory_cache = build_street_reference_cache(&ctx, refpath).unwrap();
         let streets: Vec<String> = vec![
             "Törökugrató utca".into(),
             "Tűzkő utca".into(),
@@ -1310,8 +1321,9 @@ mod tests {
     #[test]
     fn test_build_street_reference_cache_cached() {
         let refpath = "tests/refdir/utcak_20190514.tsv";
-        build_street_reference_cache(refpath).unwrap();
-        let memory_cache = build_street_reference_cache(refpath).unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
+        build_street_reference_cache(&ctx, refpath).unwrap();
+        let memory_cache = build_street_reference_cache(&ctx, refpath).unwrap();
         let streets: Vec<String> = vec![
             "Törökugrató utca".into(),
             "Tűzkő utca".into(),
