@@ -2278,21 +2278,37 @@ mod tests {
     #[test]
     fn test_relation_files_write_osm_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let streets_value = context::tests::TestFileSystem::make_file();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("workdir/streets-gazdagret.csv", &streets_value),
+                ("data/yamls.cache", &yamls_cache_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
         let result_from_overpass =
             "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n";
         let expected = util::get_content("tests/workdir/streets-gazdagret.csv").unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
-        let streets_value = context::tests::TestFileSystem::make_file();
-        let files = context::tests::TestFileSystem::make_files(
-            &ctx,
-            &[("workdir/streets-gazdagret.csv", &streets_value)],
-        );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
         relation
             .get_files()
             .write_osm_streets(&ctx, result_from_overpass)
@@ -2308,6 +2324,34 @@ mod tests {
     #[test]
     fn test_relation_files_write_osm_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let housenumbers_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                (
+                    "workdir/street-housenumbers-gazdagret.csv",
+                    &housenumbers_value,
+                ),
+                ("data/yamls.cache", &yamls_cache_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let result_from_overpass =
@@ -2326,18 +2370,6 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
         )
         .unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
-        let housenumbers_value = context::tests::TestFileSystem::make_file();
-        let files = context::tests::TestFileSystem::make_files(
-            &ctx,
-            &[(
-                "workdir/street-housenumbers-gazdagret.csv",
-                &housenumbers_value,
-            )],
-        );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
         relation
             .get_files()
             .write_osm_housenumbers(&ctx, result_from_overpass)
@@ -2882,7 +2914,38 @@ way{color:blue; width:4;}
     /// Relation::get_additional_housenumbers().
     #[test]
     fn test_relation_get_additional_housenumbers() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "filters": {
+                    "Second Only In OSM utca": {
+                        "valid": ['1'],
+                    },
+                },
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                }
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -3507,31 +3570,64 @@ way{color:blue; width:4;}
     /// Tests RelationConfig::should_check_missing_streets().
     #[test]
     fn test_relation_config_should_check_missing_streets() {
-        let relation_name = "ujbuda";
-        let ctx = context::tests::make_test_context().unwrap();
+        let relation_name = "myrelation";
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                relation_name: {
+                    "refsettlement": "42",
+                },
+            },
+            "relation-myrelation.yaml": {
+                "missing-streets": "only",
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
         let ret = relation.get_config().should_check_missing_streets();
         assert_eq!(ret, "only");
     }
 
-    /// Tests RelationConfig::should_check_missing_streets(): the default value.
+    /// Tests RelationConfig::should_check_missing_streets(): the default.
     #[test]
-    fn test_relation_config_should_check_missing_streets_empty() {
-        let relation_name = "empty";
-        let ctx = context::tests::make_test_context().unwrap();
-        let mut relations = Relations::new(&ctx).unwrap();
-        let relation = relations.get_relation(relation_name).unwrap();
-        assert_eq!(relation.get_name(), "empty");
-        let ret = relation.get_config().should_check_missing_streets();
-        assert_eq!(ret, "yes");
-    }
-
-    /// Tests RelationConfig::should_check_missing_streets(): a relation without a filter file.
-    #[test]
-    fn test_relation_config_should_check_missing_streets_nosuchrelation() {
-        let relation_name = "nosuchrelation";
-        let ctx = context::tests::make_test_context().unwrap();
+    fn test_relation_config_should_check_missing_streets_default() {
+        let relation_name = "myrelation";
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                relation_name: {
+                    "refsettlement": "42",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
         let ret = relation.get_config().should_check_missing_streets();
@@ -3704,7 +3800,37 @@ way{color:blue; width:4;}
     /// Tests RelationConfig::get_street_is_even_odd().
     #[test]
     fn test_relation_config_get_street_is_even_odd() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "filters": {
+                    "Hamzsabégi út": {
+                        "interpolation": "all",
+                    },
+                    "Teszt utca": {
+                        "interpolation": "notall",
+                    },
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         assert_eq!(
@@ -3718,25 +3844,72 @@ way{color:blue; width:4;}
     /// Tests RelationConfig::should_show_ref_street().
     #[test]
     fn test_relation_config_should_show_ref_street() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-myrelation.yaml": {
+                "filters": {
+                    "mystreet1": {
+                        "show-refstreet": false,
+                    },
+                    "mystreet2": {
+                        "show-refstreet": true,
+                    },
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        assert_eq!(
-            relation.config.should_show_ref_street("Törökugrató utca"),
-            false
-        );
-        assert_eq!(
-            relation.config.should_show_ref_street("Hamzsabégi út"),
-            true
-        );
+        let relation = relations.get_relation("myrelation").unwrap();
+        assert_eq!(relation.config.should_show_ref_street("mystreet1"), false);
+        assert_eq!(relation.config.should_show_ref_street("mystreet2"), true);
     }
 
     /// Tests RelationConfig::is_active().
     #[test]
     fn test_relation_config_is_active() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let relation_name = "myrelation";
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                relation_name: {
+                    "refsettlement": "42",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
+        let relation = relations.get_relation(relation_name).unwrap();
         assert_eq!(relation.get_config().is_active(), true);
     }
 }
