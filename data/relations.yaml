@@ -481,11 +481,6 @@ dunaujvaros:
     osmrelation: 1420733
     refcounty: "07"
     refsettlement: "024"
-# 09 - Hajdú-Bihar
-hosszupalyi:
-    osmrelation: 1443909
-    refcounty: "09"
-    refsettlement: "039"
 # 10 - Heves
 eger:
     osmrelation: 1418156

@@ -63,8 +63,8 @@ filters:
   Otthon utca:
     ranges: []
   Pipacs utca:
-    # 14, 16: nem kerültek ki az új számok, így páratlanra vannak számozva: 2022-01
-    invalid: ['14', '16']
+    # 16, 18: nem kerültek ki az új számok, így páratlanra vannak számozva: 2022-01
+    invalid: ['16', '18']
   Puttony utca:
     ranges: []
   Szabadság út:
@@ -77,6 +77,8 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '98'}
+  Tátika utca:
+    interpolation: all
   Törökugrató utca:
     # 24, 26: 22 után 28
     # 96: max páros 40
