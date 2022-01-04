@@ -425,8 +425,8 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '8'}
   Pipacs utca:
-    # 14, 16: nem kerültek ki az új számok, így páratlanra vannak számozva: 2022-01
-    invalid: ['14', '16']
+    # 16, 18: nem kerültek ki az új számok, így páratlanra vannak számozva: 2022-01
+    invalid: ['16', '18']
   Présház utca:
     # 16: nincs lépcső egyik oldala 14 másik oldala 18
     invalid: ['16']
@@ -524,6 +524,8 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Tátika utca:
+    interpolation: all
   Templom tér:
     interpolation: all
     invalid: ['2', '10']
@@ -646,6 +648,7 @@ street-filters:
   - Erdő utca  # Nincs
   - Frank-hegy
   - Geisbardt dűlő  # megszűnt
+  - Harangvirág utca  # Pitypang utcában, ahol volt jelölve, ott nincs utca
   - Malom dűlő  # igazából már Törökbálint, lehet a határ van rossz helyen
   - MÁV állomás
   - Méhecske utca  # Törökbálintra esik, lehet a határ van rossz helyen
