@@ -2822,7 +2822,28 @@ way{color:blue; width:4;}
     /// Tests Relation::get_missing_housenumbers(): '42/A*' and '42/a' matches.
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix_source_suffix() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gh299": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh299";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2838,7 +2859,28 @@ way{color:blue; width:4;}
     /// Tests Relation::get_missing_housenumbers(): 'a' is not stripped from '1;3a'.
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gh303": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh303";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2883,7 +2925,36 @@ way{color:blue; width:4;}
     /// Tests Relation::get_additional_streets().
     #[test]
     fn test_relation_get_additional_streets() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "osm-street-filters": [
+                    "Second Only In OSM utca",
+                ],
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -2901,7 +2972,28 @@ way{color:blue; width:4;}
     /// Tests Relation::get_additional_streets(): when the osm-street-filters key is missing.
     #[test]
     fn test_relation_get_additional_streets_no_osm_street_filters() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gh385": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = yamls_cache_value.borrow_mut();
+            let write = guard.deref_mut();
+            serde_json::to_writer(write, &yamls_cache).unwrap();
+        }
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh385";
         let relation = relations.get_relation(relation_name).unwrap();
