@@ -227,7 +227,6 @@ pub fn additional_streets_view_turbo(
 mod tests {
     use std::io::Seek;
     use std::io::SeekFrom;
-    use std::ops::DerefMut;
     use std::sync::Arc;
 
     use crate::areas;
@@ -430,11 +429,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let count_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             test_wsgi.get_ctx(),

@@ -1530,11 +1530,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1583,11 +1579,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1623,11 +1615,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1663,11 +1651,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1704,11 +1688,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1744,11 +1724,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1785,11 +1761,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1833,11 +1805,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1886,11 +1854,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1928,11 +1892,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1970,11 +1930,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2012,11 +1968,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2054,11 +2006,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2096,11 +2044,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2147,11 +2091,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2288,11 +2228,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[
@@ -2333,11 +2269,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let housenumbers_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -2547,11 +2479,7 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2682,7 +2610,24 @@ way{color:blue; width:4;}
     /// Tests Relation::get_missing_housenumbers(): 7/A is detected when 7/B is already mapped.
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gh267": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh267";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2706,7 +2651,24 @@ way{color:blue; width:4;}
     /// Tests Relation::get_missing_housenumbers(): how 'invalid' interacts with normalization.
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gh296": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh296";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2738,7 +2700,24 @@ way{color:blue; width:4;}
     /// Tests Relation::get_missing_housenumbers(): how 'invalid' interacts with housenumber-letters: true or false.
     #[test]
     fn test_relation_get_missing_housenumbers_invalid_simplify() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gh385": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh385";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2800,7 +2779,24 @@ way{color:blue; width:4;}
     /// Tests Relation::get_missing_housenumbers(): '42 A' vs '42/A' is recognized as a match.
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gh286": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::make_file();
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh286";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2832,11 +2828,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2869,11 +2861,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2943,11 +2931,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2982,11 +2966,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3026,11 +3006,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3285,11 +3261,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3336,11 +3308,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3383,11 +3351,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let ref_streets_cache = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3676,11 +3640,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3708,11 +3668,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3740,11 +3696,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3780,11 +3732,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3816,11 +3764,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3857,11 +3801,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3911,11 +3851,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3956,11 +3892,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3988,11 +3920,7 @@ way{color:blue; width:4;}
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
