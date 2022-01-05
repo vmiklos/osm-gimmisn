@@ -1,7 +1,6 @@
 missing-streets: 'yes'
 filters: {}
 street-filters:
-  - Vasutsor  # Dupla: Vasút sor
   # Településrészként fent vannak
   - Kő bánya
   - Lupa sziget
@@ -19,6 +18,5 @@ refstreets:
   'Martinovics Ignác utca': 'Martinovics utca'
   'Scholcz Ferenc utca': 'Scholz Ferenc utca'
   'Széchenyi István utca': 'Széchenyi utca'
-  'Vasút sor': 'Vasutsor'
 source: survey
 inactive: false
