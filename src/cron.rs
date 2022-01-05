@@ -1324,11 +1324,7 @@ mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        {
-            let mut guard = yamls_cache_value.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, &yamls_cache).unwrap();
-        }
+        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
         let osm_streets_value = context::tests::TestFileSystem::make_file();
         let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
         let ref_streets_value = context::tests::TestFileSystem::make_file();
