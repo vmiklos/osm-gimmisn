@@ -55,6 +55,7 @@ osm-street-filters:
   - Wass Albert emlékpark
   - Templomkert
 refstreets:
+  'Brassói út': 'Brassói utca'  # táblák Brassói út
   'Fehérhegyi dűlő': 'Fehérhegy dűlő'
   'Jókai Mór utca': 'Jókai utca'
   'Losonczi utca': 'Losonci utca'
