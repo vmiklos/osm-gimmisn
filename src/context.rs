@@ -406,6 +406,16 @@ pub mod tests {
             }
         }
 
+        /// Shorthand for new() + set_files() + cast to trait.
+        pub fn from_files(
+            files: &HashMap<String, Rc<RefCell<std::io::Cursor<Vec<u8>>>>>,
+        ) -> Arc<dyn FileSystem> {
+            let mut file_system = TestFileSystem::new();
+            file_system.set_files(files);
+            let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+            file_system_arc
+        }
+
         pub fn make_file() -> Rc<RefCell<std::io::Cursor<Vec<u8>>>> {
             Rc::new(RefCell::new(std::io::Cursor::new(Vec::new())))
         }

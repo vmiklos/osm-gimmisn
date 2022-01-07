@@ -1155,7 +1155,6 @@ mod tests {
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         ctx.set_network(&network_arc);
 
-        let mut file_system = context::tests::TestFileSystem::new();
         let citycount_value = context::tests::TestFileSystem::make_file();
         let count_value = context::tests::TestFileSystem::make_file();
         let topusers_value = context::tests::TestFileSystem::make_file();
@@ -1167,9 +1166,8 @@ mod tests {
                 ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
 
         // Create a CSV that is definitely old enough to be removed.
         let old_path = ctx.get_abspath("workdir/stats/old.csv");
@@ -1215,7 +1213,6 @@ mod tests {
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         ctx.set_network(&network_arc);
 
-        let mut file_system = context::tests::TestFileSystem::new();
         let citycount_value = context::tests::TestFileSystem::make_file();
         let count_value = context::tests::TestFileSystem::make_file();
         let topusers_value = context::tests::TestFileSystem::make_file();
@@ -1227,9 +1224,8 @@ mod tests {
                 ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let stats_path = ctx.get_abspath("workdir/stats/stats.json");
         if std::path::Path::new(&stats_path).exists() {
             std::fs::remove_file(&stats_path).unwrap();
@@ -1263,7 +1259,6 @@ mod tests {
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         ctx.set_network(&network_arc);
 
-        let mut file_system = context::tests::TestFileSystem::new();
         let citycount_value = context::tests::TestFileSystem::make_file();
         let count_value = context::tests::TestFileSystem::make_file();
         let topusers_value = context::tests::TestFileSystem::make_file();
@@ -1275,9 +1270,8 @@ mod tests {
                 ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
 
         update_stats(&ctx, /*overpass=*/ false).unwrap();
 
@@ -1313,7 +1307,6 @@ mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         ctx.set_network(&network_arc);
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1356,9 +1349,8 @@ mod tests {
                 ),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = areas::Relations::new(&ctx).unwrap();
 
         our_main(

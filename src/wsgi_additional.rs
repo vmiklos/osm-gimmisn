@@ -391,15 +391,13 @@ mod tests {
     #[test]
     fn test_streets_well_formed() {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
-        let mut file_system = context::tests::TestFileSystem::new();
         let count_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             test_wsgi.get_ctx(),
             &[("workdir/gazdagret-additional-streets.count", &count_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.get_ctx().set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
 
@@ -420,7 +418,6 @@ mod tests {
     #[test]
     fn test_streets_street_from_housenr_well_formed() {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gh611": {
@@ -437,9 +434,8 @@ mod tests {
                 ("workdir/gh611-additional-streets.count", &count_value),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.get_ctx().set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/additional-streets/gh611/view-result");
 
