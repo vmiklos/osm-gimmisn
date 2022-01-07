@@ -259,7 +259,6 @@ mod tests {
         let time = context::tests::make_test_time();
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
-        let mut file_system = context::tests::TestFileSystem::new();
         let old_citycount = b"foo\t0\n\
 city1\t0\n\
 city2\t0\n\
@@ -291,9 +290,8 @@ baz\t2\n";
                 ("workdir/stats/2020-05-10.citycount", &new_citycount_value),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
 
         let mut frequent_relations: HashSet<String> = ["foo".to_string(), "bar".to_string()]
             .iter()

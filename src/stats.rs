@@ -455,7 +455,6 @@ mod tests {
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         ctx.set_time(&time_arc);
         let src_root = ctx.get_abspath("workdir/stats");
-        let mut file_system = context::tests::TestFileSystem::new();
         let today_citycount = b"budapest_01\t100\n\
 budapest_02\t200\n\
 \t42\n";
@@ -468,9 +467,8 @@ budapest_02\t200\n\
             &ctx,
             &[("workdir/stats/2020-05-10.citycount", &today_citycount_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut j = serde_json::json!({});
         handle_topcities(&ctx, &src_root, &mut j).unwrap();
         let topcities = &j.as_object().unwrap()["topcities"].as_array().unwrap();

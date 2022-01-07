@@ -1716,15 +1716,13 @@ pub mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.ctx.set_network(&network_arc);
-        let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[("workdir/streets-gazdagret.csv", &streets_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/streets/gazdagret/update-result");
 
@@ -1766,15 +1764,13 @@ pub mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.ctx.set_network(&network_arc);
-        let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[("workdir/streets-ujbuda.csv", &streets_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/streets/ujbuda/update-result");
 
@@ -1995,7 +1991,6 @@ Tűzkő utca	31
             .borrow_mut()
             .write_all(hoursnumbers_ref.as_bytes())
             .unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[(
@@ -2003,9 +1998,8 @@ Tűzkő utca	31
                 &housenumbers_ref_value,
             )],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
         let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
         let expected = r#"[ ] Hamzsabégi út [1]
 [ ] Törökugrató utca [7], [10]
@@ -2127,7 +2121,6 @@ Tűzkő utca	31
     fn test_missing_housenumbers_update_result_link() {
         let mut test_wsgi = TestWsgi::new();
         let housenumbers_value = context::tests::TestFileSystem::make_file();
-        let mut file_system = context::tests::TestFileSystem::new();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[(
@@ -2135,9 +2128,8 @@ Tűzkő utca	31
                 &housenumbers_value,
             )],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
         let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/update-result");
         let mut guard = housenumbers_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
@@ -2189,15 +2181,13 @@ Tűzkő utca	31
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.ctx.set_network(&network_arc);
-        let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[("workdir/street-housenumbers-gazdagret.csv", &streets_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/update-result");
 
@@ -2246,15 +2236,13 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_well_formed() {
         let mut test_wsgi = TestWsgi::new();
-        let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[("workdir/gazdagret-streets.percent", &streets_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
 
@@ -2274,15 +2262,13 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_well_formed_compat() {
         let mut test_wsgi = TestWsgi::new();
-        let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[("workdir/gazdagret-streets.percent", &streets_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/suspicious-relations/gazdagret/view-result");
 
@@ -2390,15 +2376,13 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_update_result() {
         let mut test_wsgi = TestWsgi::new();
-        let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[("workdir/streets-reference-gazdagret.lst", &streets_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/update-result");
 
@@ -2652,16 +2636,14 @@ Tűzkő utca	31
         let time_arc: Arc<dyn context::Time> = Arc::new(time);
         test_wsgi.ctx.set_time(&time_arc);
 
-        let mut file_system = context::tests::TestFileSystem::new();
         let zips_value = context::tests::TestFileSystem::make_file();
         zips_value.borrow_mut().write_all(b"1111\t10\n").unwrap();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[("workdir/stats/2020-05-10.zipcount", &zips_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        test_wsgi.ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/zipprogress");
 

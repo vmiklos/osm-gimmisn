@@ -1518,13 +1518,11 @@ mod tests {
     use std::io::Seek;
     use std::io::SeekFrom;
     use std::io::Write;
-    use std::sync::Arc;
 
     /// Tests normalize().
     #[test]
     fn test_normalize() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -1536,9 +1534,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("myrelation").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1559,7 +1556,6 @@ mod tests {
     #[test]
     fn test_normalize_not_in_range() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1584,9 +1580,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1606,7 +1601,6 @@ mod tests {
     #[test]
     fn test_normalize_not_a_number() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1619,9 +1613,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1641,7 +1634,6 @@ mod tests {
     #[test]
     fn test_normalize_nofilter() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1654,9 +1646,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1677,7 +1668,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_semicolon() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1690,9 +1680,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1713,7 +1702,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_interval() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -1725,9 +1713,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("myrelation").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1748,7 +1735,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_interval_parity() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1761,9 +1747,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1784,7 +1769,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_interval_interp_all() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1804,9 +1788,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1827,7 +1810,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_interval_filter() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1852,9 +1834,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1877,7 +1858,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_interval_block() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -1889,9 +1869,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("myrelation").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1914,7 +1893,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_interval_block2() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -1926,9 +1904,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("myrelation").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1950,7 +1927,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_interval_block3() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -1963,9 +1939,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -1987,7 +1962,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_interval_block4() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -2000,9 +1974,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -2024,7 +1997,6 @@ mod tests {
     #[test]
     fn test_normalize_keep_suffix() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -2037,9 +2009,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -2070,7 +2041,6 @@ mod tests {
     #[test]
     fn test_normalize_separator_comma() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -2083,9 +2053,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let normalizers = relation.get_street_ranges().unwrap();
@@ -2126,14 +2095,12 @@ mod tests {
         let streets_value = context::tests::TestFileSystem::make_file();
         // This is garbage, it only has a single column.
         streets_value.borrow_mut().write_all(b"@id\n42\n").unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("workdir/streets-test.csv", &streets_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("test").unwrap();
         assert_eq!(
@@ -2184,7 +2151,6 @@ mod tests {
     #[test]
     fn test_relation_get_osm_streets_query() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -2197,9 +2163,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -2211,7 +2176,6 @@ mod tests {
     #[test]
     fn test_relation_get_osm_housenumbers_query() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -2224,9 +2188,8 @@ mod tests {
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let ret = relation.get_osm_housenumbers_query().unwrap();
@@ -2237,7 +2200,6 @@ mod tests {
     #[test]
     fn test_relation_files_write_osm_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
@@ -2254,9 +2216,8 @@ mod tests {
                 ("data/yamls.cache", &yamls_cache_value),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -2278,7 +2239,6 @@ mod tests {
     #[test]
     fn test_relation_files_write_osm_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -2298,9 +2258,8 @@ mod tests {
                 ("data/yamls.cache", &yamls_cache_value),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let result_from_overpass =
@@ -2333,34 +2292,50 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
     /// Tests Relation::get_street_ranges().
     #[test]
     fn test_relation_get_street_ranges() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relation-myrelation.yaml": {
+                "filters": {
+                    "mystreet1": {
+                        "ranges": [
+                            {
+                                "start": "1",
+                                "end": "3",
+                            },
+                        ],
+                    },
+                },
+                "refstreets": {
+                    "myosm": "myref",
+                },
+                "street-filters": [
+                    "mystreet2",
+                ],
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
+        let relation = relations.get_relation("myrelation").unwrap();
         let filters = relation.get_street_ranges().unwrap();
         let mut expected_filters: HashMap<String, ranges::Ranges> = HashMap::new();
         expected_filters.insert(
-            "Budaörsi út".into(),
-            ranges::Ranges::new(vec![ranges::Range::new(137, 165, "")]),
-        );
-        expected_filters.insert(
-            "Csiki-hegyek utca".into(),
-            ranges::Ranges::new(vec![
-                ranges::Range::new(1, 15, ""),
-                ranges::Range::new(2, 26, ""),
-            ]),
-        );
-        expected_filters.insert(
-            "Hamzsabégi út".into(),
-            ranges::Ranges::new(vec![ranges::Range::new(1, 12, "all")]),
+            "mystreet1".into(),
+            ranges::Ranges::new(vec![ranges::Range::new(1, 3, "")]),
         );
         assert_eq!(filters, expected_filters);
+
         let mut expected_streets: HashMap<String, String> = HashMap::new();
-        expected_streets.insert("OSM Name 1".into(), "Ref Name 1".into());
-        expected_streets.insert("OSM Name 2".into(), "Ref Name 2".into());
-        expected_streets.insert("Misspelled OSM Name 1".into(), "OSM Name 1".into());
+        expected_streets.insert("myosm".into(), "myref".into());
         assert_eq!(relation.get_config().get_refstreets(), expected_streets);
+
         let street_blacklist = relation.get_config().get_street_filters();
-        assert_eq!(street_blacklist, ["Only In Ref Nonsense utca".to_string()]);
+        assert_eq!(street_blacklist, ["mystreet2".to_string()]);
     }
 
     /// Tests Relation::get_street_ranges(): when the filter file is empty.
@@ -2376,26 +2351,43 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
     /// Tests Relation::get_ref_street_from_osm_street().
     #[test]
     fn test_relation_get_ref_street_from_osm_street() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
-        let street = "Budaörsi út";
-        let relation_name = "gazdagret";
+        let mut street: String = "mystreet".into();
+        let relation_name = "myrelation";
         let relation = relations.get_relation(relation_name).unwrap();
         let refcounty = relation.get_config().get_refcounty();
-        let street = relation.get_config().get_ref_street_from_osm_street(street);
+        street = relation
+            .get_config()
+            .get_ref_street_from_osm_street(&street);
         assert_eq!(refcounty, "01");
         assert_eq!(
             relation.get_config().get_street_refsettlement(&street),
             ["011"]
         );
-        assert_eq!(street, "Budaörsi út");
+        assert_eq!(street, "mystreet");
     }
 
     /// Tests Relation::get_ref_street_from_osm_street(): street-specific refsettlement override.
     #[test]
     fn test_relation_get_ref_street_from_osm_street_refsettlement_override() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -2419,9 +2411,8 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let street = "mystreet";
         let relation_name = "myrelation";
@@ -2440,7 +2431,6 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
     #[test]
     fn test_relation_get_ref_street_from_osm_street_refstreets() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -2460,9 +2450,8 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let street = "OSM Name 1";
         let relation_name = "myrelation";
@@ -2479,31 +2468,29 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
         assert_eq!(street, "Ref Name 1");
     }
 
-    /// Tests Relation.get_ref_street_from_osm_street(): relation without a filter file.
-    #[test]
-    fn test_relation_get_ref_street_from_osm_street_nosuchrelation() {
-        let ctx = context::tests::make_test_context().unwrap();
-        let mut relations = Relations::new(&ctx).unwrap();
-        let street = "OSM Name 1";
-        let relation_name = "nosuchrelation";
-        let relation = relations.get_relation(relation_name).unwrap();
-        let refcounty = relation.get_config().get_refcounty();
-        let street = relation.get_config().get_ref_street_from_osm_street(street);
-        assert_eq!(refcounty, "01");
-        assert_eq!(
-            relation.get_config().get_street_refsettlement(&street),
-            ["011"]
-        );
-        assert_eq!(street, "OSM Name 1");
-    }
-
     /// Tests Relation.get_ref_street_from_osm_street(): a relation with an empty filter file.
     #[test]
     fn test_relation_get_ref_street_from_osm_street_emptyrelation() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let street = "OSM Name 1";
-        let relation_name = "empty";
+        let relation_name = "myrelation";
         let relation = relations.get_relation(relation_name).unwrap();
         let refcounty = relation.get_config().get_refcounty();
         let street = relation.get_config().get_ref_street_from_osm_street(street);
@@ -2519,7 +2506,6 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
     #[test]
     fn test_relation_get_ref_street_from_osm_street_range_level_override() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -2547,9 +2533,8 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let street = "mystreet";
         let relation_name = "myrelation";
@@ -2568,7 +2553,6 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
     #[test]
     fn test_make_turbo_query_for_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -2581,9 +2565,8 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         let from = ["A2".to_string()];
@@ -2630,7 +2613,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_osm_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
             },
@@ -2640,9 +2622,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let street_name = "Törökugrató utca";
@@ -2656,7 +2637,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_osm_housenumbers_addr_place() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
             },
@@ -2666,9 +2646,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh964";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2682,7 +2661,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_missing_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
             },
@@ -2702,9 +2680,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2757,7 +2734,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gh267": {
@@ -2770,9 +2746,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh267";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2797,7 +2772,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gh296": {
@@ -2810,9 +2784,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh296";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2845,7 +2818,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_missing_housenumbers_invalid_simplify() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gh385": {
@@ -2858,9 +2830,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh385";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2923,7 +2894,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gh286": {
@@ -2936,9 +2906,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh286";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2961,7 +2930,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix_source_suffix() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gh299": {
@@ -2974,9 +2942,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh299";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -2993,7 +2960,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gh303": {
@@ -3006,9 +2972,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh303";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -3031,7 +2996,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_missing_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
             },
@@ -3049,9 +3013,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3075,7 +3038,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_additional_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -3096,9 +3058,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3117,7 +3078,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_additional_streets_no_osm_street_filters() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gh385": {
@@ -3130,9 +3090,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh385";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3146,7 +3105,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_get_additional_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -3169,9 +3127,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -3207,15 +3164,13 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_write_missing_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("workdir/gazdagret.percent", &percent_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -3252,15 +3207,13 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_write_missing_housenumbers_empty() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("workdir/empty.percent", &percent_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "empty";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -3276,15 +3229,13 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_write_missing_housenumbers_interpolation_all() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("workdir/budafok.percent", &percent_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "budafok";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -3312,15 +3263,13 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_write_missing_housenumbers_sorting() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("workdir/gh414.percent", &percent_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gh414";
         let mut relation = relations.get_relation(relation_name).unwrap();
@@ -3347,15 +3296,13 @@ way{color:blue; width:4;}
     #[test]
     fn test_write_missing_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("workdir/gazdagret-streets.percent", &percent_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3383,15 +3330,13 @@ way{color:blue; width:4;}
     #[test]
     fn test_write_missing_streets_empty() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let percent_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("workdir/empty-streets.percent", &percent_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "empty";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3408,7 +3353,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_build_ref_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -3430,10 +3374,9 @@ way{color:blue; width:4;}
                 ),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
         let refdir = ctx.get_abspath("refdir");
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
@@ -3456,7 +3399,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_build_ref_housenumbers_missing() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -3476,9 +3418,8 @@ way{color:blue; width:4;}
                 ),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
@@ -3496,7 +3437,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_build_ref_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -3515,12 +3455,11 @@ way{color:blue; width:4;}
                 ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
             ],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/utcak_20190514.tsv", refdir);
         let memory_cache = util::build_street_reference_cache(&ctx, &refpath).unwrap();
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "myrelation";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3547,7 +3486,6 @@ way{color:blue; width:4;}
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let refpath2 = format!("{}/hazszamok_kieg_20190808.tsv", refdir);
-        let mut file_system = context::tests::TestFileSystem::new();
         let ref_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3556,9 +3494,8 @@ way{color:blue; width:4;}
                 &ref_value,
             )],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let expected = String::from_utf8(
@@ -3587,7 +3524,6 @@ way{color:blue; width:4;}
         let mut ctx = context::tests::make_test_context().unwrap();
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
-        let mut file_system = context::tests::TestFileSystem::new();
         let ref_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3596,9 +3532,8 @@ way{color:blue; width:4;}
                 &ref_value,
             )],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "nosuchrefcounty";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3612,7 +3547,6 @@ way{color:blue; width:4;}
         let mut ctx = context::tests::make_test_context().unwrap();
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
-        let mut file_system = context::tests::TestFileSystem::new();
         let ref_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3621,9 +3555,8 @@ way{color:blue; width:4;}
                 &ref_value,
             )],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "nosuchrefsettlement";
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3635,15 +3568,13 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_write_ref_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let ref_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("workdir/streets-reference-gazdagret.lst", &ref_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/utcak_20190514.tsv", refdir);
         let mut relations = Relations::new(&ctx).unwrap();
@@ -3783,7 +3714,6 @@ way{color:blue; width:4;}
     fn test_relation_config_should_check_missing_streets() {
         let relation_name = "myrelation";
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 relation_name: {
@@ -3799,9 +3729,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
         let ret = relation.get_config().should_check_missing_streets();
@@ -3813,7 +3742,6 @@ way{color:blue; width:4;}
     fn test_relation_config_should_check_missing_streets_default() {
         let relation_name = "myrelation";
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 relation_name: {
@@ -3826,9 +3754,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
         let ret = relation.get_config().should_check_missing_streets();
@@ -3840,7 +3767,6 @@ way{color:blue; width:4;}
     fn test_relation_config_get_letter_suffix_style() {
         let relation_name = "myrelation";
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 relation_name: {
@@ -3853,9 +3779,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let mut relation = relations.get_relation(relation_name).unwrap();
         assert_eq!(
@@ -3875,7 +3800,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_refcounty_get_name() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
             },
@@ -3888,9 +3812,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let relations = Relations::new(&ctx).unwrap();
         assert_eq!(relations.refcounty_get_name("01"), "Budapest");
         assert_eq!(relations.refcounty_get_name("99"), "");
@@ -3900,7 +3823,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_refcounty_get_refsettlement_ids() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
             },
@@ -3919,9 +3841,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let relations = Relations::new(&ctx).unwrap();
         assert_eq!(
             relations.refcounty_get_refsettlement_ids("01"),
@@ -3937,7 +3858,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_refsettlement_get_name() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
             },
@@ -3955,9 +3875,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let relations = Relations::new(&ctx).unwrap();
         assert_eq!(
             relations.refsettlement_get_name("01", "011"),
@@ -3982,7 +3901,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_config_get_street_is_even_odd() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "gazdagret": {
@@ -4004,9 +3922,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("gazdagret").unwrap();
         assert_eq!(
@@ -4021,7 +3938,6 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_config_should_show_ref_street() {
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 "myrelation": {
@@ -4044,9 +3960,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("myrelation").unwrap();
         assert_eq!(relation.config.should_show_ref_street("mystreet1"), false);
@@ -4058,7 +3973,6 @@ way{color:blue; width:4;}
     fn test_relation_config_is_active() {
         let relation_name = "myrelation";
         let mut ctx = context::tests::make_test_context().unwrap();
-        let mut file_system = context::tests::TestFileSystem::new();
         let yamls_cache = serde_json::json!({
             "relations.yaml": {
                 relation_name: {
@@ -4071,9 +3985,8 @@ way{color:blue; width:4;}
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
         );
-        file_system.set_files(&files);
-        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-        ctx.set_file_system(&file_system_arc);
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
         assert_eq!(relation.get_config().is_active(), true);
