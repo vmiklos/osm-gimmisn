@@ -3165,9 +3165,32 @@ way{color:blue; width:4;}
     fn test_relation_write_missing_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
         let percent_value = context::tests::TestFileSystem::make_file();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "filters": {
+                    "Törökugrató utca": {
+                        "invalid": ["11", "12"],
+                    },
+                },
+                "street-filters": ["Only In Ref Nonsense utca"],
+                "osm-street-filters": ["Second Only In OSM utca"],
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                }
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
-            &[("workdir/gazdagret.percent", &percent_value)],
+            &[
+                ("workdir/gazdagret.percent", &percent_value),
+                ("data/yamls.cache", &yamls_cache_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         ctx.set_file_system(&file_system);
@@ -3522,15 +3545,32 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
         let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "nosuchrefcounty": {
+                    "refsettlement": "43",
+                    "refcounty": "98",
+                    "refsettlement": "99",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let ref_streets_cache = context::tests::TestFileSystem::make_file();
+        let ref_hns_cache = context::tests::TestFileSystem::make_file();
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let ref_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
-            &[(
-                "workdir/street-housenumbers-reference-nosuchrefcounty.lst",
-                &ref_value,
-            )],
+            &[
+                (
+                    "workdir/street-housenumbers-reference-nosuchrefcounty.lst",
+                    &ref_value,
+                ),
+                ("data/yamls.cache", &yamls_cache_value),
+                ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+                ("refdir/hazszamok_20190511.tsv-98-v1.cache", &ref_hns_cache),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         ctx.set_file_system(&file_system);
@@ -3545,15 +3585,31 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
         let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "nosuchrefsettlement": {
+                    "refcounty": "01",
+                    "refsettlement": "99",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let ref_streets_cache = context::tests::TestFileSystem::make_file();
+        let ref_hns_cache = context::tests::TestFileSystem::make_file();
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let ref_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
-            &[(
-                "workdir/street-housenumbers-reference-nosuchrefsettlement.lst",
-                &ref_value,
-            )],
+            &[
+                (
+                    "workdir/street-housenumbers-reference-nosuchrefsettlement.lst",
+                    &ref_value,
+                ),
+                ("data/yamls.cache", &yamls_cache_value),
+                ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+                ("refdir/hazszamok_20190511.tsv-01-v1.cache", &ref_hns_cache),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         ctx.set_file_system(&file_system);
@@ -3569,9 +3625,24 @@ way{color:blue; width:4;}
     fn test_relation_write_ref_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
         let ref_value = context::tests::TestFileSystem::make_file();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let ref_streets_cache = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
-            &[("workdir/streets-reference-gazdagret.lst", &ref_value)],
+            &[
+                ("workdir/streets-reference-gazdagret.lst", &ref_value),
+                ("data/yamls.cache", &yamls_cache_value),
+                ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         ctx.set_file_system(&file_system);
