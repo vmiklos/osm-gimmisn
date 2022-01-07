@@ -411,12 +411,15 @@ pub mod tests {
         }
 
         pub fn write_json_to_file(
-            file: &Rc<RefCell<std::io::Cursor<Vec<u8>>>>,
             json: &serde_json::Value,
-        ) {
-            let mut guard = file.borrow_mut();
-            let write = guard.deref_mut();
-            serde_json::to_writer(write, json).unwrap();
+        ) -> Rc<RefCell<std::io::Cursor<Vec<u8>>>> {
+            let file = TestFileSystem::make_file();
+            {
+                let mut guard = file.borrow_mut();
+                let write = guard.deref_mut();
+                serde_json::to_writer(write, json).unwrap();
+            }
+            file
         }
 
         pub fn make_files(

@@ -1531,8 +1531,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1580,8 +1579,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1616,8 +1614,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1652,8 +1649,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1689,8 +1685,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1725,8 +1720,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1762,8 +1756,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1806,8 +1799,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1855,8 +1847,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1893,8 +1884,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1931,8 +1921,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -1969,8 +1958,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2007,8 +1995,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2045,8 +2032,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2092,8 +2078,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2198,12 +2183,28 @@ mod tests {
     /// Tests Relation.get_osm_streets_query().
     #[test]
     fn test_relation_get_osm_streets_query() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
         let ret = relation.get_osm_streets_query().unwrap();
-        assert_eq!(ret, "aaa 2713748 bbb 3602713748 ccc\n");
+        assert_eq!(ret, "aaa 42 bbb 3600000042 ccc\n");
     }
 
     /// Tests Relation.get_osm_housenumbers_query().
@@ -2218,8 +2219,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2246,8 +2246,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[
@@ -2287,8 +2286,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let housenumbers_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -2396,10 +2394,37 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
     /// Tests Relation::get_ref_street_from_osm_street(): street-specific refsettlement override.
     #[test]
     fn test_relation_get_ref_street_from_osm_street_refsettlement_override() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+            "relation-myrelation.yaml": {
+                "filters": {
+                    "mystreet": {
+                        // this would be 011 by default, but here it's overwritten at a street
+                        // level
+                        "refsettlement": "012",
+                    }
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
-        let street = "Teszt utca";
-        let relation_name = "gazdagret";
+        let street = "mystreet";
+        let relation_name = "myrelation";
         let relation = relations.get_relation(relation_name).unwrap();
         let refcounty = relation.get_config().get_refcounty();
         let street = relation.get_config().get_ref_street_from_osm_street(street);
@@ -2408,16 +2433,39 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             relation.get_config().get_street_refsettlement(&street),
             ["012"]
         );
-        assert_eq!(street, "Teszt utca");
+        assert_eq!(street, "mystreet");
     }
 
     /// Tests Relation.get_ref_street_from_osm_street(): OSM -> ref name mapping.
     #[test]
     fn test_relation_get_ref_street_from_osm_street_refstreets() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+            "relation-myrelation.yaml": {
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
         let street = "OSM Name 1";
-        let relation_name = "gazdagret";
+        let relation_name = "myrelation";
         let relation = relations.get_relation(relation_name).unwrap();
         let refcounty = relation.get_config().get_refcounty();
         let street = relation
@@ -2470,10 +2518,41 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
     /// Tests Relation.get_ref_street_from_osm_street(): the refsettlement range-level override.
     #[test]
     fn test_relation_get_ref_street_from_osm_street_range_level_override() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+            "relation-myrelation.yaml": {
+                "filters": {
+                    "mystreet": {
+                        "ranges": [
+                        {
+                            "start": "1",
+                            "end": "1",
+                            "refsettlement": "013",
+                        },
+                        ]
+                    },
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let mut relations = Relations::new(&ctx).unwrap();
-        let street = "Csiki-hegyek utca";
-        let relation_name = "gazdagret";
+        let street = "mystreet";
+        let relation_name = "myrelation";
         let relation = relations.get_relation(relation_name).unwrap();
         let refcounty = relation.get_config().get_refcounty();
         let street = relation.get_config().get_ref_street_from_osm_street(street);
@@ -2482,7 +2561,7 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
             relation.get_config().get_street_refsettlement(&street),
             ["011", "013"]
         );
-        assert_eq!(street, "Csiki-hegyek utca");
+        assert_eq!(street, "mystreet");
     }
 
     /// Tests make_turbo_query_for_streets().
@@ -2497,8 +2576,7 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2557,8 +2635,7 @@ way{color:blue; width:4;}
             "relations.yaml": {
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2584,8 +2661,7 @@ way{color:blue; width:4;}
             "relations.yaml": {
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2621,8 +2697,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2690,8 +2765,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2731,8 +2805,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2780,8 +2853,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2859,8 +2931,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2898,8 +2969,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2931,8 +3001,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -2975,8 +3044,7 @@ way{color:blue; width:4;}
                 ],
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3023,8 +3091,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3058,8 +3125,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3098,8 +3164,7 @@ way{color:blue; width:4;}
                 }
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3353,8 +3418,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3400,8 +3464,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3443,8 +3506,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let ref_streets_cache = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
@@ -3732,8 +3794,7 @@ way{color:blue; width:4;}
                 "missing-streets": "only",
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3760,8 +3821,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3788,8 +3848,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3824,8 +3883,7 @@ way{color:blue; width:4;}
                 "01": "Budapest",
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3856,8 +3914,7 @@ way{color:blue; width:4;}
                 }
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3893,8 +3950,7 @@ way{color:blue; width:4;}
                 }
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3943,8 +3999,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -3984,8 +4039,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],
@@ -4012,8 +4066,7 @@ way{color:blue; width:4;}
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
             &[("data/yamls.cache", &yamls_cache_value)],

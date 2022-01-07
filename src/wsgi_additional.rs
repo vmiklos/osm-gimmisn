@@ -428,8 +428,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let count_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             test_wsgi.get_ctx(),

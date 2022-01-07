@@ -1323,8 +1323,7 @@ mod tests {
                 },
             },
         });
-        let yamls_cache_value = context::tests::TestFileSystem::make_file();
-        context::tests::TestFileSystem::write_json_to_file(&yamls_cache_value, &yamls_cache);
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let osm_streets_value = context::tests::TestFileSystem::make_file();
         let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
         let ref_streets_value = context::tests::TestFileSystem::make_file();
