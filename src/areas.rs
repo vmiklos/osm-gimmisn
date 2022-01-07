@@ -1178,16 +1178,18 @@ pub struct Relations {
 
 impl Relations {
     pub fn new(ctx: &context::Context) -> anyhow::Result<Self> {
-        let yamls_cache = format!("{}/{}", ctx.get_abspath("data"), "yamls.cache");
-        let stream = ctx
-            .get_file_system()
-            .open_read(&yamls_cache)
-            .context(format!("failed to open {} for reading", yamls_cache))?;
-        let mut guard = stream.borrow_mut();
-        let read = guard.deref_mut();
-        let yaml_cache: HashMap<String, serde_json::Value> = serde_json::from_reader(read)?;
-        let dict: RelationsDict = serde_json::from_value(yaml_cache["relations.yaml"].clone())
-            .context("failed to parse relations.yaml")?;
+        let yamls_cache_path = format!("{}/{}", ctx.get_abspath("data"), "yamls.cache");
+        let mut yaml_cache: HashMap<String, serde_json::Value> = HashMap::new();
+        if let Ok(stream) = ctx.get_file_system().open_read(&yamls_cache_path) {
+            let mut guard = stream.borrow_mut();
+            let read = guard.deref_mut();
+            yaml_cache = serde_json::from_reader(read)?;
+        }
+        let mut dict: RelationsDict = HashMap::new();
+        if let Some(value) = yaml_cache.get("relations.yaml") {
+            dict =
+                serde_json::from_value(value.clone()).context("failed to parse relations.yaml")?;
+        }
         let relations: HashMap<String, Relation> = HashMap::new();
         let activate_all = false;
         let refcounty_names: HashMap<String, String> = match yaml_cache.get("refcounty-names.yaml")
