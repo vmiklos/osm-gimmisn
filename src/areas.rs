@@ -3319,10 +3319,29 @@ way{color:blue; width:4;}
     #[test]
     fn test_write_missing_streets() {
         let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                },
+                "street-filters": ["Only In Ref Nonsense utca"],
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let percent_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
-            &[("workdir/gazdagret-streets.percent", &percent_value)],
+            &[
+                ("workdir/gazdagret-streets.percent", &percent_value),
+                ("data/yamls.cache", &yamls_cache_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         ctx.set_file_system(&file_system);
@@ -3506,16 +3525,44 @@ way{color:blue; width:4;}
     #[test]
     fn test_relation_writer_ref_housenumbers() {
         let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                }
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
+        let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
         let refdir = ctx.get_abspath("refdir");
         let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
         let refpath2 = format!("{}/hazszamok_kieg_20190808.tsv", refdir);
         let ref_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &ctx,
-            &[(
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &ref_value,
-            )],
+            &[
+                (
+                    "workdir/street-housenumbers-reference-gazdagret.lst",
+                    &ref_value,
+                ),
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                    &ref_housenumbers_cache,
+                ),
+                (
+                    "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                    &ref_housenumbers2_cache,
+                ),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         ctx.set_file_system(&file_system);
@@ -3668,26 +3715,47 @@ way{color:blue; width:4;}
     /// Tests the Relations struct.
     #[test]
     fn test_relations() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation1": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+                "myrelation2": {
+                    "osmrelation": 43,
+                    "refcounty": "43", // not 01
+                    "refsettlement": "011",
+                },
+                "myrelation3": {
+                    "osmrelation": 44,
+                    "refcounty": "01",
+                    "refsettlement": "99", // not 011
+                },
+            },
+            "relation-myrelation2.yaml": {
+                "inactive": true,
+            },
+            "relation-myrelation3.yaml": {
+                "missing-streets": "only",
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
-        let expected_relation_names = [
-            "budafok",
-            "empty",
-            "gazdagret",
-            "gellerthegy",
-            "inactiverelation",
-            "nosuchrefcounty",
-            "nosuchrefsettlement",
-            "nosuchrelation",
-            "test",
-            "ujbuda",
-        ];
+        let expected_relation_names = ["myrelation1", "myrelation2", "myrelation3"];
         assert_eq!(relations.get_names(), expected_relation_names);
         assert_eq!(
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"inactiverelation".to_string()),
+                .contains(&"myrelation2".to_string()),
             false
         );
         let mut osmids: Vec<_> = relations
@@ -3697,16 +3765,13 @@ way{color:blue; width:4;}
             .map(|relation| relation.get_config().get_osmrelation())
             .collect();
         osmids.sort();
-        assert_eq!(
-            osmids,
-            [13, 42, 42, 43, 44, 45, 66, 221998, 2702687, 2713748]
-        );
-        let ujbuda = relations.get_relation("ujbuda").unwrap();
+        assert_eq!(osmids, [42, 43, 44]);
+        let ujbuda = relations.get_relation("myrelation3").unwrap();
         assert_eq!(ujbuda.get_config().should_check_missing_streets(), "only");
 
         relations.activate_all(true);
         let active_names = relations.get_active_names().unwrap();
-        assert_eq!(active_names.contains(&"inactiverelation".to_string()), true);
+        assert_eq!(active_names.contains(&"myrelation2".to_string()), true);
 
         // Allow seeing data of a relation even if it's not in relations.yaml.
         relations.get_relation("gh195").unwrap();
@@ -3717,7 +3782,7 @@ way{color:blue; width:4;}
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"gazdagret".to_string()),
+                .contains(&"myrelation1".to_string()),
             true
         );
         // 43
@@ -3725,7 +3790,7 @@ way{color:blue; width:4;}
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"budafok".to_string()),
+                .contains(&"myrelation2".to_string()),
             true
         );
         relations
@@ -3735,14 +3800,14 @@ way{color:blue; width:4;}
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"gazdagret".to_string()),
+                .contains(&"myrelation1".to_string()),
             true
         );
         assert_eq!(
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"budafok".to_string()),
+                .contains(&"myrelation2".to_string()),
             false
         );
 
@@ -3752,7 +3817,7 @@ way{color:blue; width:4;}
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"gazdagret".to_string()),
+                .contains(&"myrelation1".to_string()),
             true
         );
         // 99
@@ -3760,7 +3825,7 @@ way{color:blue; width:4;}
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"nosuchrefsettlement".to_string()),
+                .contains(&"myrelation3".to_string()),
             true
         );
         relations.limit_to_refsettlement(&Some("99")).unwrap();
@@ -3768,14 +3833,14 @@ way{color:blue; width:4;}
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"gazdagret".to_string()),
+                .contains(&"myrelation1".to_string()),
             false
         );
         assert_eq!(
             relations
                 .get_active_names()
                 .unwrap()
-                .contains(&"nosuchrefsettlement".to_string()),
+                .contains(&"myrelation3".to_string()),
             true
         );
     }
@@ -3960,7 +4025,23 @@ way{color:blue; width:4;}
     /// Tests Relalations::get_aliases().
     #[test]
     fn test_relations_get_aliases() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "budafok": {
+                },
+            },
+            "relation-budafok.yaml": {
+                "alias": ["budapest_22"],
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = Relations::new(&ctx).unwrap();
         // Expect an alias -> canonicalname map.
         let mut expected = HashMap::new();
