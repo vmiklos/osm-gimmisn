@@ -75,6 +75,8 @@ filters:
     # 1, 5, 12: nincsenek
     interpolation: all
     invalid: ['1', '5', '12']
+  Boglárka utca:
+    invalid: ['37']
   Boróka utca:
     # az utcában viskók vannak, csak 2 normális házon van szám 5 és 6
     invalid: ['7', '8', '9', '10', '12']
@@ -117,6 +119,12 @@ filters:
     # 18/*: Csalit utcára számozták ezeket
     # 39: régi szám, új szám 44
     invalid: ['18', '39']
+  Csiki utca:
+    # 21,23: 19 után 25 jön
+    # 33: 29 és a 33 egy telek, csak 29 van kint
+    # 45 nincs kiírva
+    # 51 helyén 53/a van kiírva, de van még egy telek elvileg
+    invalid: ['21', '23', '33', '45']
   Csillagvölgyi utca:
     # 19: nincs kiírva
     invalid: ['19']
@@ -377,6 +385,8 @@ filters:
       - {start: '2', end: '52'}
   Nyitra köz:
     invalid: ['8']
+  Orchidea utca:
+    invalid: ['1']
   Ostor köz:
     ranges:
       - {start: '6', end: '8'}
@@ -514,6 +524,8 @@ filters:
   Szépkilátó utca:
     # átszámozták az utcát, keverednek a régi és új számok
     invalid: ['18', '64', '68', '70', '78', '80']
+  Szirom utca:
+    invalid: ['1']
   Szivárvány utca:
     invalid: ['9', '40', '58', '135']
   Szőlőhegyi utca:
@@ -525,9 +537,14 @@ filters:
       - {start: '1', end: '13'}
       - {start: '2', end: '6'}
   Tárogató utca:
+    # 6,8: nincs
+    # 11: nincs
+    # 13-15: csak 13 van kiírva
+    # 28-36: 26 van kiírva utoljára, de még van pár ház: 2022-01
+    invalid: ['6', '8', '11', '15']
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '59'}
+      - {start: '2', end: '26'}
   Tátika utca:
     interpolation: all
   Templom tér:
@@ -648,6 +665,7 @@ osm-street-filters:
   - Tv út
   # egyéb
   - Budapark
+  - Lőtéri út
 street-filters:
   - Budafruct  # Volt HungaroFruct hűtőház, ma Vasút utca 9
   - Csiki dűlő
@@ -655,9 +673,8 @@ street-filters:
   - Frank-hegy
   - Geisbardt dűlő  # megszűnt
   - Harangvirág utca  # Pitypang utcában, ahol volt jelölve, ott nincs utca
-  # - MÁV állomás
   - Méhecske utca  # Törökbálintra esik, lehet a határ van rossz helyen
-  # - Torockó utca  # Rossz helyen megy a Bp határ szerintem
+  - Sás utca  # Megváltozott, ma Som köz
   - Törökugrató dűlő
   - Vasútáll.és körny. dűlő  # Vasút dűlő folytatása - nincs kiírva
   # Iskolai körzetlistából jön, máshol nincs nyoma
