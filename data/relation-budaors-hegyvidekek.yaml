@@ -12,6 +12,8 @@ filters:
     ranges:
       - {start: '179', end: '299'}
     invalid: ['86']
+  Boglárka utca:
+    invalid: ['37']
   Budakeszi utca:
     # össze vissza számozva
     ranges:
@@ -21,6 +23,12 @@ filters:
   Csap utca:
     ranges:
       - {start: '2', end: '22'}
+  Csiki utca:
+    # 21,23: 19 után 25 jön
+    # 33: 29 és a 33 egy telek, csak 29 van kint
+    # 45 nincs kiírva
+    # 51 helyén 53/a van kiírva, de van még egy telek elvileg
+    invalid: ['21', '23', '33', '45']
   Csikó utca:
     # páratlan hegyvidékek, páros belváros
     ranges:
@@ -63,6 +71,8 @@ filters:
   Nárcisz utca:
     # 12-14: csak 12 van kiírva
     invalid: ['14']
+  Orchidea utca:
+    invalid: ['1']
   Otthon utca:
     ranges: []
   Pipacs utca:
@@ -80,6 +90,8 @@ filters:
       - {start: '164', end: '390'}
   Szálláshegy utca:
     interpolation: all
+  Szirom utca:
+    invalid: ['1']
   Szüret utca:
     ranges:
       - {start: '1', end: '17'}
@@ -87,10 +99,14 @@ filters:
   Tátika utca:
     interpolation: all
   Tárogató utca:
+    # 6,8: nincs
+    # 11: nincs
+    # 13-15: csak 13 van kiírva
     # 28-36: 26 van kiírva utoljára, de még van pár ház: 2022-01
+    invalid: ['6', '8', '11', '15']
     ranges:
       - {start: '1', end: '59'}
-      - {start: '2', end: '34'}
+      - {start: '2', end: '26'}
   Törökugrató utca:
     # 24, 26: 22 után 28
     # 96: max páros 40
