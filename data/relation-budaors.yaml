@@ -468,6 +468,10 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '32'}
+  Sóska utca:
+    # nincsenek kint a házszámok
+    interpolation: all
+    invalid: ['2', '3', '4']
   Szabadság út:
     # 2-18: ezek közül 1 nagy társasház 14-es számmal
     # 28: a színház parkolója
@@ -577,6 +581,8 @@ filters:
   Víg utca:
     # ezek nem léteznek/nincsenek kiírva
     invalid: ['1', '7', '9', '19', '51', '62', '72']
+  Virág utca:
+    invalid: ['3']
   Víztorony utca:
     invalid: ['7']
     ranges:
@@ -649,10 +655,9 @@ street-filters:
   - Frank-hegy
   - Geisbardt dűlő  # megszűnt
   - Harangvirág utca  # Pitypang utcában, ahol volt jelölve, ott nincs utca
-  - Malom dűlő  # igazából már Törökbálint, lehet a határ van rossz helyen
-  - MÁV állomás
+  # - MÁV állomás
   - Méhecske utca  # Törökbálintra esik, lehet a határ van rossz helyen
-  - Torockó utca  # Rossz helyen megy a Bp határ szerintem
+  # - Torockó utca  # Rossz helyen megy a Bp határ szerintem
   - Törökugrató dűlő
   - Vasútáll.és körny. dűlő  # Vasút dűlő folytatása - nincs kiírva
   # Iskolai körzetlistából jön, máshol nincs nyoma
