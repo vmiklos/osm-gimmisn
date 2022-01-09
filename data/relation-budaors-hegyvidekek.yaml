@@ -29,6 +29,10 @@ filters:
     ranges:
       - {start: '37', end: '99'}
       - {start: '6', end: '98'}
+  Fügefa utca:
+    ranges:
+      - {start: '1', end: '97'}
+      - {start: '2', end: '136'}
   Hegyalja utca:
     # 6, 12: nincs
     # 108-110: csak 108 van kiírva
@@ -55,7 +59,6 @@ filters:
   Máriavölgy utca:
     # számozás össze vissza
     ranges:
-      - {start: '1', end: '1'}
       - {start: '13', end: '19'}
   Nárcisz utca:
     # 12-14: csak 12 van kiírva
@@ -67,6 +70,10 @@ filters:
     invalid: ['16', '18']
   Puttony utca:
     ranges: []
+  Sóska utca:
+    # nincsenek kint a házszámok
+    interpolation: all
+    invalid: ['2', '3', '4']
   Szabadság út:
     ranges:
       - {start: '317', end: '999'}
@@ -79,6 +86,11 @@ filters:
       - {start: '2', end: '98'}
   Tátika utca:
     interpolation: all
+  Tárogató utca:
+    # 28-36: 26 van kiírva utoljára, de még van pár ház: 2022-01
+    ranges:
+      - {start: '1', end: '59'}
+      - {start: '2', end: '34'}
   Törökugrató utca:
     # 24, 26: 22 után 28
     # 96: max páros 40
@@ -96,5 +108,8 @@ filters:
       - {start: '55', end: '63'}
       - {start: '2', end: '46'}
       - {start: '60', end: '70'}
+  Virág utca:
+    # 6: másik terület
+    invalid: ['3', '6']
 source: survey
 inactive: true
