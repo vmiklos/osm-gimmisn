@@ -10,6 +10,7 @@
 
 //! The cache_yamls module caches YAML files from the data/ directory.
 
+use crate::areas;
 use crate::context;
 use anyhow::Context;
 use std::collections::HashMap;
@@ -53,9 +54,9 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     let yaml_path = format!("{}/relations.yaml", datadir);
     let mut relation_ids: Vec<u64> = Vec::new();
     let stream = std::fs::File::open(yaml_path)?;
-    let relations: serde_yaml::Value = serde_yaml::from_reader(stream)?;
-    for (_key, value) in relations.as_mapping().context("not an obj")? {
-        relation_ids.push(value["osmrelation"].as_u64().context("not a num")?);
+    let relations: areas::RelationsDict = serde_yaml::from_reader(stream)?;
+    for (_key, value) in relations {
+        relation_ids.push(value.osmrelation.context("no osmrelation")?);
     }
     relation_ids.sort_unstable();
     relation_ids.dedup();
