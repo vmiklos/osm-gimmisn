@@ -50,7 +50,7 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
         serde_json::to_writer(write, &cache)?;
     }
 
-    let workdir = argv[2].clone();
+    let workdir = ctx.get_abspath(&argv[2]);
     let yaml_path = format!("{}/relations.yaml", datadir);
     let mut relation_ids: Vec<u64> = Vec::new();
     let stream = std::fs::File::open(yaml_path)?;
@@ -112,9 +112,11 @@ mod tests {
             assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
         }
 
-        let relation_ids_path = ctx.get_abspath("workdir/stats/relations.json");
-        let file = std::fs::File::open(relation_ids_path).unwrap();
-        let relation_ids: serde_json::Value = serde_json::from_reader(&file).unwrap();
+        let mut guard = stats_value.borrow_mut();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        guard.seek(SeekFrom::Start(0)).unwrap();
+        let mut read = guard.deref_mut();
+        let relation_ids: serde_json::Value = serde_json::from_reader(&mut read).unwrap();
         let relation_ids: Vec<_> = relation_ids
             .as_array()
             .unwrap()
