@@ -1,5 +1,19 @@
 missing-streets: 'yes'
 filters: {}
+osm-street-filters:
+  # nem igazi utcák
+  # repülőtér
+  - 2-es terminál érkezés
+  - 2-es terminál indulás
+  - Air Cargo
+  - BUD Nemzetközi II repülőtér
+  - Ferihegy I. Terminál
+  # parkok, sétányok
+  - Búbosbanka tanösvény
+  - Brenner János park
+  - Ervin park
+  - Herrich Károly téri park
+  - Karvaly tanösvény
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Fővárosi dűlő

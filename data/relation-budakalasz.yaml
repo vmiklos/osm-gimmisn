@@ -1,11 +1,14 @@
 missing-streets: 'yes'
 filters: {}
 street-filters:
+  # Nem igazi utca
+  - Hév vasútállomás
   # Településrészként fent vannak
   - Kő bánya
   - Lupa sziget
 osm-street-filters:
   # nem igazi utcák
+  - Berdó gyalogos tengely
   - KRESZ park
   - Kálvária régészeti park
 refstreets:
