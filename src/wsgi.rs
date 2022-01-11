@@ -1529,10 +1529,12 @@ pub fn application(request: &rouille::Request, ctx: &context::Context) -> rouill
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    use std::cell::RefCell;
     use std::io::Read;
     use std::io::Seek;
     use std::io::SeekFrom;
     use std::io::Write;
+    use std::rc::Rc;
 
     /// Shared struct for wsgi tests.
     pub struct TestWsgi {
@@ -1824,10 +1826,10 @@ pub mod tests {
         );
         file_system.set_files(&files);
         // Make sure the cache is outdated.
-        let mut mtimes: HashMap<String, f64> = HashMap::new();
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
         mtimes.insert(
             test_wsgi.ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
-            0_f64,
+            Rc::new(RefCell::new(0_f64)),
         );
         file_system.set_mtimes(&mtimes);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
