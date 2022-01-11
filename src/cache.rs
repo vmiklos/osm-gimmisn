@@ -302,7 +302,9 @@ pub fn get_missing_housenumbers_txt(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::cell::RefCell;
     use std::collections::HashMap;
+    use std::rc::Rc;
     use std::sync::Arc;
 
     /// Tests is_missing_housenumbers_html_cached().
@@ -348,13 +350,16 @@ mod tests {
         let osm_housenumbers_path = relation.get_files().get_osm_housenumbers_path();
 
         let mut file_system = context::tests::TestFileSystem::new();
-        let mut mtimes: HashMap<String, f64> = HashMap::new();
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
         let metadata = std::fs::metadata(cache_path).unwrap();
         let modified = metadata.modified().unwrap();
         let mtime = modified
             .duration_since(std::time::SystemTime::UNIX_EPOCH)
             .unwrap();
-        mtimes.insert(osm_housenumbers_path, mtime.as_secs_f64() + 1_f64);
+        mtimes.insert(
+            osm_housenumbers_path,
+            Rc::new(RefCell::new(mtime.as_secs_f64() + 1_f64)),
+        );
         file_system.set_mtimes(&mtimes);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);
@@ -375,13 +380,16 @@ mod tests {
         let ref_housenumbers_path = relation.get_files().get_ref_housenumbers_path();
 
         let mut file_system = context::tests::TestFileSystem::new();
-        let mut mtimes: HashMap<String, f64> = HashMap::new();
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
         let metadata = std::fs::metadata(cache_path).unwrap();
         let modified = metadata.modified().unwrap();
         let mtime = modified
             .duration_since(std::time::SystemTime::UNIX_EPOCH)
             .unwrap();
-        mtimes.insert(ref_housenumbers_path, mtime.as_secs_f64() + 1_f64);
+        mtimes.insert(
+            ref_housenumbers_path,
+            Rc::new(RefCell::new(mtime.as_secs_f64() + 1_f64)),
+        );
         file_system.set_mtimes(&mtimes);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);
@@ -403,13 +411,16 @@ mod tests {
         let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
 
         let mut file_system = context::tests::TestFileSystem::new();
-        let mut mtimes: HashMap<String, f64> = HashMap::new();
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
         let metadata = std::fs::metadata(cache_path).unwrap();
         let modified = metadata.modified().unwrap();
         let mtime = modified
             .duration_since(std::time::SystemTime::UNIX_EPOCH)
             .unwrap();
-        mtimes.insert(relation_path, mtime.as_secs_f64() + 1_f64);
+        mtimes.insert(
+            relation_path,
+            Rc::new(RefCell::new(mtime.as_secs_f64() + 1_f64)),
+        );
         file_system.set_mtimes(&mtimes);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         ctx.set_file_system(&file_system_arc);

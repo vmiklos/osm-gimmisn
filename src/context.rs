@@ -393,7 +393,7 @@ pub mod tests {
     /// File system implementation, for test purposes.
     pub struct TestFileSystem {
         hide_paths: Vec<String>,
-        mtimes: HashMap<String, f64>,
+        mtimes: HashMap<String, Rc<RefCell<f64>>>,
         files: HashMap<String, Rc<RefCell<std::io::Cursor<Vec<u8>>>>>,
     }
 
@@ -450,7 +450,7 @@ pub mod tests {
         }
 
         /// Sets the mtimes.
-        pub fn set_mtimes(&mut self, mtimes: &HashMap<String, f64>) {
+        pub fn set_mtimes(&mut self, mtimes: &HashMap<String, Rc<RefCell<f64>>>) {
             self.mtimes = mtimes.clone();
         }
 
@@ -477,8 +477,8 @@ pub mod tests {
         }
 
         fn getmtime(&self, path: &str) -> anyhow::Result<f64> {
-            if self.mtimes.contains_key(path) {
-                return Ok(self.mtimes[path]);
+            if let Some(value) = self.mtimes.get(path) {
+                return Ok(*value.borrow());
             }
 
             let metadata = std::fs::metadata(path)?;
@@ -499,6 +499,12 @@ pub mod tests {
 
         fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
             if self.files.contains_key(path) {
+                if let Some(ref value) = self.mtimes.get(path) {
+                    let now = chrono::Local::now();
+                    let mut guard = value.borrow_mut();
+                    *guard = now.naive_local().timestamp() as f64;
+                }
+
                 let ret = self.files[path].clone();
                 ret.borrow_mut().seek(SeekFrom::Start(0))?;
                 return Ok(ret);
