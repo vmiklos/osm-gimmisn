@@ -54,7 +54,7 @@ fn is_missing_housenumbers_html_cached(
         relation.get_files().get_ref_housenumbers_path(),
         relation_path,
     ];
-    is_cache_outdated(ctx, &cache_path, &dependencies)
+    is_cache_outdated(ctx, &cache_path, &dependencies).context("is_cache_outdated() failed")
 }
 
 /// Decides if we have an up to date HTML cache entry for additional house numbers or not.
@@ -82,13 +82,19 @@ pub fn get_missing_housenumbers_html(
     relation: &mut areas::Relation,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
-    if is_missing_housenumbers_html_cached(ctx, relation)? {
+    if is_missing_housenumbers_html_cached(ctx, relation)
+        .context("is_missing_housenumbers_html_cached() failed")?
+    {
         let files = relation.get_files();
-        let stream = files.get_housenumbers_htmlcache_read_stream(ctx)?;
+        let stream = files
+            .get_housenumbers_htmlcache_read_stream(ctx)
+            .context("get_housenumbers_htmlcache_read_stream() failed")?;
         let mut guard = stream.borrow_mut();
         let mut buffer = Vec::new();
-        guard.read_to_end(&mut buffer)?;
-        doc.append_value(String::from_utf8(buffer)?);
+        guard
+            .read_to_end(&mut buffer)
+            .context("read_to_end() failed")?;
+        doc.append_value(String::from_utf8(buffer).context("from_utf8() failed")?);
         return Ok(doc);
     }
 
@@ -98,7 +104,10 @@ pub fn get_missing_housenumbers_html(
 
     {
         let p = doc.tag("p", &[]);
-        let prefix = ctx.get_ini().get_uri_prefix()?;
+        let prefix = ctx
+            .get_ini()
+            .get_uri_prefix()
+            .context("get_uri_prefix() failed")?;
         let relation_name = relation.get_name();
         p.text(
             &tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
@@ -108,7 +117,10 @@ pub fn get_missing_housenumbers_html(
         p.text(
             &tr(" (existing: {0}, ready: {1}).")
                 .replace("{0}", &done_count.to_string())
-                .replace("{1}", &util::format_percent(&percent)?),
+                .replace(
+                    "{1}",
+                    &util::format_percent(&percent).context("format_percent() failed")?,
+                ),
         );
         doc.stag("br");
         {
@@ -174,7 +186,9 @@ pub fn get_missing_housenumbers_html(
     );
 
     let files = relation.get_files();
-    let stream = files.get_housenumbers_htmlcache_write_stream(ctx)?;
+    let stream = files
+        .get_housenumbers_htmlcache_write_stream(ctx)
+        .context("get_housenumbers_htmlcache_write_stream() failed")?;
     let mut guard = stream.borrow_mut();
     guard.write_all(doc.get_value().as_bytes())?;
 

@@ -41,6 +41,8 @@ pub trait FileSystem {
 /// File system implementation, backed by the Rust stdlib.
 struct StdFileSystem {}
 
+// Real file-system is intentionally mocked.
+#[cfg(not(tarpaulin_include))]
 impl FileSystem for StdFileSystem {
     fn path_exists(&self, path: &str) -> bool {
         Path::new(path).exists()
@@ -442,6 +444,14 @@ pub mod tests {
                 ret.insert(ctx.get_abspath(path), (*content).clone());
             }
             ret
+        }
+
+        pub fn get_content(file: &Rc<RefCell<std::io::Cursor<Vec<u8>>>>) -> String {
+            let mut guard = file.borrow_mut();
+            guard.seek(SeekFrom::Start(0)).unwrap();
+            let mut buf: Vec<u8> = Vec::new();
+            guard.read_to_end(&mut buf).unwrap();
+            String::from_utf8(buf).unwrap()
         }
 
         /// Sets the hide paths.
