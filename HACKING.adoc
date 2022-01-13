@@ -45,7 +45,7 @@ make
 To run a single test:
 
 ----
-cargo test --lib -- --test-threads=1 wsgi_json::tests::test_missing_streets_update_result_json
+cargo test --lib -- --test-threads=1 --exact wsgi_json::tests::test_missing_streets_update_result_json
 ----
 
 == Rust performance profiling

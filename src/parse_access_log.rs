@@ -97,12 +97,13 @@ fn get_frequent_relations(
     count_list.sort_by(|a, b| b.1.cmp(a.1));
 
     // Dump relations and their visit count to workdir for further inspection.
-    let mut csv_stream = std::fs::File::create(format!(
+    let csv_stream = ctx.get_file_system().open_write(&format!(
         "{}/frequent-relations.csv",
         ctx.get_ini().get_workdir()?
     ))?;
+    let mut guard = csv_stream.borrow_mut();
     for item in count_list.iter() {
-        csv_stream
+        guard
             .write_all(format!("{}\t{}\n", item.0, item.1).as_bytes())
             .context("write_all() failed")?;
     }
@@ -340,6 +341,31 @@ author-time 1588975200\n\
         let subprocess_arc: Arc<dyn context::Subprocess> = Arc::new(subprocess);
         ctx.set_subprocess(&subprocess_arc);
 
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "inactiverelation": {
+                    "inactive": true,
+                },
+                "gazdagret": {
+                },
+                "nosuchrelation": {
+                    "inactive": true,
+                },
+                "ujbuda": {
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let frequent_relations = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/frequent-relations.csv", &frequent_relations),
+            ],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         main(&argv, &mut buf, &ctx).unwrap();
 
         buf.seek(SeekFrom::Start(0)).unwrap();

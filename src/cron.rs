@@ -686,96 +686,147 @@ mod tests {
     /// Tests update_ref_housenumbers().
     #[test]
     fn test_update_ref_housenumbers() {
-        let ctx = context::tests::make_test_context().unwrap();
-        let mut relations = areas::Relations::new(&ctx).unwrap();
-        for relation_name in relations.get_active_names().unwrap() {
-            if relation_name != "gazdagret" && relation_name != "ujbuda" {
-                let mut relation = relations.get_relation(&relation_name).unwrap();
-                let mut config = relation.get_config().clone();
-                config.set_active(false);
-                relation.set_config(&config);
-                relations.set_relation(&relation_name, &relation);
-            }
-        }
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "refsettlement": "42",
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+                "ujbuda": {
+                    "refsettlement": "42",
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                },
+            },
+            "relation-ujbuda.yaml": {
+                "missing-streets": "only",
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let ref_file1 = context::tests::TestFileSystem::make_file();
+        let ref_file2 = context::tests::TestFileSystem::make_file();
+        let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
+        let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                (
+                    "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                    &ref_housenumbers_cache,
+                ),
+                (
+                    "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                    &ref_housenumbers2_cache,
+                ),
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "workdir/street-housenumbers-reference-gazdagret.lst",
+                    &ref_file1,
+                ),
+                (
+                    "workdir/street-housenumbers-reference-ujbuda.lst",
+                    &ref_file2,
+                ),
+            ],
+        );
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
         let path = ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst");
-        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
-        std::fs::remove_file(&path).unwrap();
+        mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_files(&files);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
 
         update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
 
-        let expected_mtime: std::time::Duration;
-        {
-            let metadata = std::fs::metadata(&path).unwrap();
-            let modified = metadata.modified().unwrap();
-            expected_mtime = modified
-                .duration_since(std::time::SystemTime::UNIX_EPOCH)
-                .unwrap();
-        }
+        let mtime = ctx.get_file_system().getmtime(&path).unwrap();
+        assert!(mtime > 0_f64);
 
         update_ref_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
 
-        let actual_mtime: std::time::Duration;
-        {
-            let metadata = std::fs::metadata(&path).unwrap();
-            let modified = metadata.modified().unwrap();
-            actual_mtime = modified
-                .duration_since(std::time::SystemTime::UNIX_EPOCH)
-                .unwrap();
-        }
-        assert_eq!(actual_mtime, expected_mtime);
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
+        let actual = context::tests::TestFileSystem::get_content(&ref_file1);
+        let expected = std::fs::read_to_string(&path).unwrap();
         assert_eq!(actual, expected);
         // Make sure housenumber ref is not created for the streets=only case.
-        let ujbuda_path = ctx.get_abspath("workdir/street-housenumbers-reference-ujbuda.lst");
-        assert_eq!(std::path::Path::new(&ujbuda_path).exists(), false);
+        let mut guard = ref_file2.borrow_mut();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
     }
 
     /// Tests update_ref_streets().
     #[test]
     fn test_update_ref_streets() {
-        let ctx = context::tests::make_test_context().unwrap();
-        let mut relations = areas::Relations::new(&ctx).unwrap();
-        for relation_name in relations.get_active_names().unwrap() {
-            // gellerthegy is streets=no
-            if relation_name != "gazdagret" && relation_name != "gellerthegy" {
-                let mut relation = relations.get_relation(&relation_name).unwrap();
-                let mut config = relation.get_config().clone();
-                config.set_active(false);
-                relation.set_config(&config);
-                relations.set_relation(&relation_name, &relation);
-            }
-        }
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "refsettlement": "42",
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+                "gellerthegy": {
+                    "refsettlement": "42",
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                },
+            },
+            "relation-gellerthegy.yaml": {
+                "missing-streets": "no",
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let streets_ref_myrelation1 = context::tests::TestFileSystem::make_file();
+        let streets_ref_myrelation2 = context::tests::TestFileSystem::make_file();
+        let ref_streets_cache = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "workdir/streets-reference-gazdagret.lst",
+                    &streets_ref_myrelation1,
+                ),
+                (
+                    "workdir/streets-reference-gellerthegy.lst",
+                    &streets_ref_myrelation2,
+                ),
+                ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+            ],
+        );
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
         let path = ctx.get_abspath("workdir/streets-reference-gazdagret.lst");
-        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
-        std::fs::remove_file(&path).unwrap();
+        mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_files(&files);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
 
         update_ref_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
-        let expected_mtime: std::time::Duration;
-        {
-            let metadata = std::fs::metadata(&path).unwrap();
-            let modified = metadata.modified().unwrap();
-            expected_mtime = modified
-                .duration_since(std::time::SystemTime::UNIX_EPOCH)
-                .unwrap();
-        }
+        let mtime = ctx.get_file_system().getmtime(&path).unwrap();
+        assert!(mtime > 0_f64);
 
         update_ref_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
-        let actual_mtime: std::time::Duration;
-        {
-            let metadata = std::fs::metadata(&path).unwrap();
-            let modified = metadata.modified().unwrap();
-            actual_mtime = modified
-                .duration_since(std::time::SystemTime::UNIX_EPOCH)
-                .unwrap();
-        }
-        assert_eq!(actual_mtime, expected_mtime);
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
+        let actual = context::tests::TestFileSystem::get_content(&streets_ref_myrelation1);
+        let expected = std::fs::read_to_string(&path).unwrap();
         assert_eq!(actual, expected);
         // Make sure street ref is not created for the streets=no case.
-        let ujbuda_path = ctx.get_abspath("workdir/street-reference-ujbuda.lst");
-        assert_eq!(std::path::Path::new(&ujbuda_path).exists(), false);
+        let mut guard = streets_ref_myrelation2.borrow_mut();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
     }
 
     /// Tests update_missing_housenumbers().
@@ -1122,26 +1173,43 @@ mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         ctx.set_network(&network_arc);
-        let mut relations = areas::Relations::new(&ctx).unwrap();
-        for relation_name in relations.get_active_names().unwrap() {
-            if relation_name != "gazdagret" {
-                let mut relation = relations.get_relation(&relation_name).unwrap();
-                let mut config = relation.get_config().clone();
-                config.set_active(false);
-                relation.set_config(&config);
-                relations.set_relation(&relation_name, &relation);
-            }
-        }
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let osm_streets_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/streets-gazdagret.csv", &osm_streets_value),
+            ],
+        );
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
         let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
-        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
-        std::fs::remove_file(&path).unwrap();
+        mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_files(&files);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+        let mut relations = areas::Relations::new(&ctx).unwrap();
+
         update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
+
         let mtime = ctx.get_file_system().getmtime(&path).unwrap();
+        assert!(mtime > 0_f64);
 
         update_osm_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
         assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+
+        let actual = context::tests::TestFileSystem::get_content(&osm_streets_value);
+        let expected = std::fs::read_to_string(&path).unwrap();
         assert_eq!(actual, expected);
     }
 
