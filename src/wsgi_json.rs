@@ -145,15 +145,28 @@ mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.get_ctx().set_network(&network_arc);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             test_wsgi.get_ctx(),
-            &[("workdir/streets-gazdagret.csv", &streets_value)],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/streets-myrelation.csv", &streets_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.get_ctx().set_file_system(&file_system);
 
-        let root = test_wsgi.get_json_for_path("/streets/gazdagret/update-result.json");
+        let root = test_wsgi.get_json_for_path("/streets/myrelation/update-result.json");
 
         assert_eq!(root.as_object().unwrap()["error"], "");
         let mut guard = streets_value.borrow_mut();
@@ -172,10 +185,25 @@ mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.get_ctx().set_network(&network_arc);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.get_ctx().set_file_system(&file_system);
 
-        let root = test_wsgi.get_json_for_path("/streets/gazdagret/update-result.json");
+        let root = test_wsgi.get_json_for_path("/streets/myrelation/update-result.json");
 
-        assert_eq!(root.as_object().unwrap().contains_key("error"), true);
+        let error = root.as_object().unwrap()["error"].as_str().unwrap();
+        assert_eq!(error.is_empty(), false);
     }
 
     /// Tests street_housenumbers_update_result_json(): if the update-result output is well-formed.
@@ -231,13 +259,36 @@ mod tests {
     #[test]
     fn test_missing_housenumbers_update_result_json() {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
+        let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let housenumbers_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             test_wsgi.get_ctx(),
-            &[(
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &housenumbers_value,
-            )],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                    &ref_housenumbers_cache,
+                ),
+                (
+                    "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                    &ref_housenumbers2_cache,
+                ),
+                (
+                    "workdir/street-housenumbers-reference-gazdagret.lst",
+                    &housenumbers_value,
+                ),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.get_ctx().set_file_system(&file_system);
@@ -254,10 +305,25 @@ mod tests {
     #[test]
     fn test_missing_streets_update_result_json() {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let ref_streets_cache = context::tests::TestFileSystem::make_file();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             test_wsgi.get_ctx(),
-            &[("workdir/streets-reference-gazdagret.lst", &streets_value)],
+            &[
+                ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/streets-reference-gazdagret.lst", &streets_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.get_ctx().set_file_system(&file_system);
