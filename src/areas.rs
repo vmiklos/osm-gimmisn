@@ -3427,7 +3427,7 @@ way{color:blue; width:4;}
         let relation = relations.get_relation(relation_name).unwrap();
         let ret = relation.build_ref_housenumbers(&memory_cache, street, "");
         let expected = [
-            "Törökugrató utca\t1\tcomment",
+            "Törökugrató utca\t1\t",
             "Törökugrató utca\t10\t",
             "Törökugrató utca\t11\t",
             "Törökugrató utca\t12\t",
