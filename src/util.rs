@@ -591,38 +591,39 @@ pub fn build_reference_cache(
         }
     }
 
-    let stream = std::io::BufReader::new(std::fs::File::open(local)?);
+    let mut stream = std::io::BufReader::new(std::fs::File::open(local)?);
+    let mut csv_read = CsvRead::new(&mut stream);
     let mut first = true;
-    for line in stream.lines() {
-        let line = line?.to_string();
+    for result in csv_read.records() {
+        let row = result?;
         if first {
             first = false;
             continue;
         }
 
-        if !line.starts_with(refcounty) {
+        let mut iter = row.iter();
+        let county = iter.next().context("no county")?;
+        if county != refcounty {
             continue;
         }
 
-        let columns: Vec<&str> = line.split('\t').collect();
-        let refcounty = columns[0];
-        let refsettlement = columns[1];
-        let street = columns[2];
-        let num: String = columns[3].into();
-        let mut comment: String = "".into();
-        if columns.len() >= 5 {
-            comment = columns[4].into();
-        }
+        let settlement = iter.next().context("no settlement")?;
+        let street = iter.next().context("no street")?;
+        let housenumber = iter.next().context("no housenumber")?.to_string();
+        let comment: String = match iter.next() {
+            Some(value) => value.to_string(),
+            None => "".to_string(),
+        };
         let refcounty_key = memory_cache
-            .entry(refcounty.into())
+            .entry(county.into())
             .or_insert_with(HashMap::new);
         let refsettlement_key = refcounty_key
-            .entry(refsettlement.into())
+            .entry(settlement.into())
             .or_insert_with(HashMap::new);
         let street_key = refsettlement_key
             .entry(street.into())
             .or_insert_with(Vec::new);
-        street_key.push(vec![num, comment]);
+        street_key.push(vec![housenumber, comment]);
     }
 
     let stream = ctx.get_file_system().open_write(&disk_cache)?;
@@ -1354,7 +1355,7 @@ mod tests {
         streets.insert(
             "Törökugrató utca".to_string(),
             vec![
-                vec!["1".to_string(), "comment".to_string()],
+                vec!["1".to_string(), "".to_string()],
                 vec!["10".to_string(), "".to_string()],
                 vec!["11".to_string(), "".to_string()],
                 vec!["12".to_string(), "".to_string()],
@@ -1401,7 +1402,7 @@ mod tests {
         streets.insert(
             "Törökugrató utca".to_string(),
             vec![
-                vec!["1".to_string(), "comment".to_string()],
+                vec!["1".to_string(), "".to_string()],
                 vec!["10".to_string(), "".to_string()],
                 vec!["11".to_string(), "".to_string()],
                 vec!["12".to_string(), "".to_string()],
