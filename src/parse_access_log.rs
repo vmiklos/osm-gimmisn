@@ -19,7 +19,6 @@ use std::io::Write;
 use crate::areas;
 use crate::context;
 use crate::stats;
-use crate::util;
 
 /// Does this relation have 100% house number coverage?
 fn is_complete_relation(
@@ -31,7 +30,7 @@ fn is_complete_relation(
         return Ok(false);
     }
 
-    let percent = String::from_utf8(util::get_content(
+    let percent = String::from_utf8(std::fs::read(
         &relation.get_files().get_housenumbers_percent_path(),
     )?)?;
     Ok(percent == "100.00")

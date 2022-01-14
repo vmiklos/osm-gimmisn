@@ -2223,7 +2223,7 @@ mod tests {
         let relation = relations.get_relation(relation_name).unwrap();
         let result_from_overpass =
             "@id\tname\n1\tTűzkő utca\n2\tTörökugrató utca\n3\tOSM Name 1\n4\tHamzsabégi út\n";
-        let expected = util::get_content("tests/workdir/streets-gazdagret.csv").unwrap();
+        let expected = std::fs::read("tests/workdir/streets-gazdagret.csv").unwrap();
         relation
             .get_files()
             .write_osm_streets(&ctx, result_from_overpass)
@@ -2274,7 +2274,7 @@ addr:conscriptionnumber\taddr:flats\taddr:floor\taddr:door\taddr:unit\tname\t@ty
 1\tOnly In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n\
 1\tSecond Only In OSM utca\t1\t\t\t\t\t\t\t\t\tnode\n";
         let expected = String::from_utf8(
-            util::get_content("tests/workdir/street-housenumbers-gazdagret.csv").unwrap(),
+            std::fs::read("tests/workdir/street-housenumbers-gazdagret.csv").unwrap(),
         )
         .unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3198,7 +3198,7 @@ way{color:blue; width:4;}
         let relation_name = "gazdagret";
         let mut relation = relations.get_relation(relation_name).unwrap();
         let expected = String::from_utf8(
-            util::get_content(&ctx.get_abspath("workdir/gazdagret.percent")).unwrap(),
+            std::fs::read(&ctx.get_abspath("workdir/gazdagret.percent")).unwrap(),
         )
         .unwrap();
 
@@ -3349,7 +3349,7 @@ way{color:blue; width:4;}
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
         let expected = String::from_utf8(
-            util::get_content(&ctx.get_abspath("workdir/gazdagret-streets.percent")).unwrap(),
+            std::fs::read(&ctx.get_abspath("workdir/gazdagret-streets.percent")).unwrap(),
         )
         .unwrap();
 
@@ -3569,10 +3569,8 @@ way{color:blue; width:4;}
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let expected = String::from_utf8(
-            util::get_content(
-                &ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
-            )
-            .unwrap(),
+            std::fs::read(&ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
+                .unwrap(),
         )
         .unwrap();
         let relation = relations.get_relation(relation_name).unwrap();
@@ -3699,7 +3697,7 @@ way{color:blue; width:4;}
         let relation_name = "gazdagret";
         let relation = relations.get_relation(relation_name).unwrap();
         let expected = String::from_utf8(
-            util::get_content(&ctx.get_abspath("workdir/streets-reference-gazdagret.lst")).unwrap(),
+            std::fs::read(&ctx.get_abspath("workdir/streets-reference-gazdagret.lst")).unwrap(),
         )
         .unwrap();
 

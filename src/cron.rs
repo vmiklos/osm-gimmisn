@@ -445,7 +445,7 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
 fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     // Fetch house numbers for the whole country.
     log::info!("update_stats: start, updating whole-country csv");
-    let query = String::from_utf8(util::get_content(
+    let query = String::from_utf8(std::fs::read(
         &ctx.get_abspath("data/street-housenumbers-hungary.txt"),
     )?)?;
     let statedir = ctx.get_abspath("workdir/stats");
@@ -1076,7 +1076,7 @@ mod tests {
         update_osm_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
 
         assert_eq!(ctx.get_file_system().getmtime(&path).unwrap(), mtime);
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
     }
 
@@ -1110,11 +1110,11 @@ mod tests {
             }
         }
         let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
-        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
         update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
         // Make sure that in case we keep getting errors we give up at some stage and
         // leave the last state unchanged.
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
     }
 
@@ -1148,9 +1148,9 @@ mod tests {
             }
         }
         let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
-        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
         update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
     }
 
@@ -1243,13 +1243,13 @@ mod tests {
             }
         }
         let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
-        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
 
         update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
         // Make sure that in case we keep getting errors we give up at some stage and
         // leave the last state unchanged.
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
     }
 
@@ -1283,11 +1283,11 @@ mod tests {
             }
         }
         let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
-        let expected = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
 
         update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
         assert_eq!(actual, expected);
     }
 
@@ -1349,11 +1349,10 @@ mod tests {
 
         update_stats(&ctx, /*overpass=*/ true).unwrap();
 
-        let actual = String::from_utf8(util::get_content(&path).unwrap()).unwrap();
+        let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
         assert_eq!(
             actual,
-            String::from_utf8(util::get_content("tests/network/overpass-stats.csv").unwrap())
-                .unwrap()
+            String::from_utf8(std::fs::read("tests/network/overpass-stats.csv").unwrap()).unwrap()
         );
 
         // Make sure that the old CSV is removed.

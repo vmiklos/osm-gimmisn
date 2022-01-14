@@ -1025,12 +1025,6 @@ pub fn get_in_both<T: Clone + Diff>(first: &[T], second: &[T]) -> Vec<T> {
         .collect()
 }
 
-/// Gets the content of a file in workdir.
-pub fn get_content(path: &str) -> anyhow::Result<Vec<u8>> {
-    // TODO just use std::fs::read() directly, this was 12 lines originally.
-    Ok(std::fs::read(path)?)
-}
-
 /// Determines the normalizer for a given street.
 pub fn get_normalizer(
     street_name: &str,
@@ -1794,18 +1788,6 @@ A street\t9",
         ]);
         let actual: Vec<_> = ascending.iter().map(|i| i.get_number()).collect();
         assert_eq!(actual, ["a", "b", "c"]);
-    }
-
-    /// Tests get_content().
-    #[test]
-    fn test_get_content() {
-        let ctx = context::tests::make_test_context().unwrap();
-        let workdir = ctx.get_abspath("workdir");
-        let actual =
-            String::from_utf8(get_content(&format!("{}/gazdagret.percent", workdir)).unwrap())
-                .unwrap();
-        let expected = "54.55";
-        assert_eq!(actual, expected);
     }
 
     /// Tests Street.

@@ -1400,7 +1400,7 @@ fn our_application_txt(
             ));
             data = output.as_bytes().to_vec();
         } else if request_uri.ends_with("robots.txt") {
-            data = util::get_content(&ctx.get_abspath("data/robots.txt"))?;
+            data = std::fs::read(&ctx.get_abspath("data/robots.txt"))?;
         } else {
             // assume txt
             let output = missing_housenumbers_view_txt(ctx, relations, request_uri)?;
