@@ -1203,7 +1203,7 @@ pub fn make_response(status_code: u16, headers: Headers, data: Vec<u8>) -> rouil
 
 /// Gets the content of a file in workdir with metadata.
 fn get_content_with_meta(path: &str) -> anyhow::Result<(Vec<u8>, Headers)> {
-    let buf = util::get_content(path)?;
+    let buf = std::fs::read(path)?;
 
     let metadata = std::fs::metadata(path)?;
     let modified = metadata.modified()?;
