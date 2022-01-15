@@ -218,13 +218,26 @@ mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.get_ctx().set_network(&network_arc);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let housenumbers_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             test_wsgi.get_ctx(),
-            &[(
-                "workdir/street-housenumbers-gazdagret.csv",
-                &housenumbers_value,
-            )],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "workdir/street-housenumbers-gazdagret.csv",
+                    &housenumbers_value,
+                ),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.get_ctx().set_file_system(&file_system);
