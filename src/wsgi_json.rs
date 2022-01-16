@@ -262,10 +262,27 @@ mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.get_ctx().set_network(&network_arc);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.get_ctx().set_file_system(&file_system);
 
         let root = test_wsgi.get_json_for_path("/street-housenumbers/gazdagret/update-result.json");
 
-        assert_eq!(root.as_object().unwrap().contains_key("error"), true);
+        let error = root.as_object().unwrap()["error"].as_str().unwrap();
+        assert_eq!(error.is_empty(), false);
     }
 
     /// Tests missing_housenumbers_update_result_json().
