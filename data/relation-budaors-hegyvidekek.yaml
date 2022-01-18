@@ -43,8 +43,7 @@ filters:
   Fügefa utca:
     # 90: helyén 88
     # 108: nincs kiírva
-    # 122-126: 124 van kiírva
-    invalid: ['32', '90', '108']
+    invalid: ['90', '108']
     ranges:
       - {start: '1', end: '97'}
       - {start: '2', end: '136'}
@@ -121,7 +120,8 @@ filters:
   Szüret utca:
     # 2 és 19+ Szállások
     # 10: Csík falu köz 4
-    invalid: ['10']
+    # 38 = Som utca 38
+    invalid: ['10', '38']
     ranges:
       - {start: '1', end: '17'}
       - {start: '4', end: '98'}
