@@ -111,7 +111,7 @@ filters:
   Szabadság út:
     # 360: 358 utcán 362
     # 387: utolsó szám 385
-    invalid: ['360']
+    invalid: ['304', '360']
     ranges:
       - {start: '317', end: '385'}
       - {start: '164', end: '390'}
