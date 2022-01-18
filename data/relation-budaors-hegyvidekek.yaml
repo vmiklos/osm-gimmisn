@@ -38,6 +38,9 @@ filters:
       - {start: '37', end: '99'}
       - {start: '6', end: '98'}
   Fügefa utca:
+    # 108: nincs kiírva
+    # 122-126: 124 van kiírva
+    invalid: ['108']
     ranges:
       - {start: '1', end: '97'}
       - {start: '2', end: '136'}
@@ -68,6 +71,9 @@ filters:
     # számozás össze vissza
     ranges:
       - {start: '13', end: '19'}
+  Meredek utca:
+    # vannak bódék, de 10-12-14 nincs kiírva
+    invalid: ['10', '12', '14']
   Nárcisz utca:
     # 12-14: csak 12 van kiírva
     invalid: ['14']
@@ -80,22 +86,41 @@ filters:
     invalid: ['16', '18']
   Puttony utca:
     ranges: []
+  Séta utca:
+    # 3: 1 van kiírva, majd utána van 5 és 5-7
+    # 12, 14: valószínű átszámozva, 10 az utolsó páros ami ki van írva
+    invalid: ['3', '12', '14']
   Sóska utca:
     # nincsenek kint a házszámok
     interpolation: all
     invalid: ['2', '3', '4']
-  Szabadság út:
+  Som köz:
+    # 11 = Som utca 15
+    interpolation: all
+    invalid: ['11']
     ranges:
-      - {start: '317', end: '999'}
+      - {start: '1', end: '13'}
+  Som utca:
+    # 22 = Szüret utca 32
+    invalid: ['22']
+  Szabadság út:
+    # 360: 358 utcán 362
+    # 387: utolsó szám 385
+    invalid: ['360']
+    ranges:
+      - {start: '317', end: '385'}
       - {start: '164', end: '390'}
   Szálláshegy utca:
     interpolation: all
   Szirom utca:
     invalid: ['1']
   Szüret utca:
+    # 2 és 19+ Szállások
+    # 10: Csík falu köz 4
+    invalid: ['10']
     ranges:
       - {start: '1', end: '17'}
-      - {start: '2', end: '98'}
+      - {start: '4', end: '98'}
   Tátika utca:
     interpolation: all
   Tárogató utca:
