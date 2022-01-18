@@ -104,12 +104,14 @@ filters:
     ranges:
       - {start: '1', end: '13'}
   Som utca:
-    # 22 = Szüret utca 32
-    invalid: ['22']
+    # 17-19: csak 17 van kiírva
+    # 20 = Szüret utca 32
+    # 46: 44 után 48
+    invalid: ['19', '20', '46']
   Szabadság út:
     # 360: 358 utcán 362
     # 387: utolsó szám 385
-    invalid: ['360']
+    invalid: ['304', '360']
     ranges:
       - {start: '317', end: '385'}
       - {start: '164', end: '390'}
