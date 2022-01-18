@@ -491,7 +491,8 @@ pub mod tests {
                 return Ok(*value.borrow());
             }
 
-            let metadata = std::fs::metadata(path)?;
+            let metadata =
+                std::fs::metadata(path).context(format!("metadata() failed for '{}'", path))?;
             let modified = metadata.modified()?;
             let mtime = modified.duration_since(std::time::SystemTime::UNIX_EPOCH)?;
             Ok(mtime.as_secs_f64())
