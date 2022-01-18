@@ -477,7 +477,8 @@ pub fn handle_static(
     if request_uri.ends_with(".css") {
         let content_type = "text/css; charset=utf-8";
         let (content, extra_headers) =
-            get_content_with_meta(ctx, &format!("{}/{}", ctx.get_ini().get_workdir()?, path))?;
+            get_content_with_meta(ctx, &format!("{}/{}", ctx.get_ini().get_workdir()?, path))
+                .context("get_content_with_meta() failed")?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".json") {
@@ -1205,12 +1206,18 @@ pub fn make_response(status_code: u16, headers: Headers, data: Vec<u8>) -> rouil
 
 /// Gets the content of a file in workdir with metadata.
 fn get_content_with_meta(ctx: &context::Context, path: &str) -> anyhow::Result<(Vec<u8>, Headers)> {
-    let stream = ctx.get_file_system().open_read(path)?;
+    let stream = ctx
+        .get_file_system()
+        .open_read(path)
+        .context("open_read() failed")?;
     let mut buf: Vec<u8> = Vec::new();
     let mut guard = stream.borrow_mut();
     guard.read_to_end(&mut buf).unwrap();
 
-    let mtime = ctx.get_file_system().getmtime(path)?;
+    let mtime = ctx
+        .get_file_system()
+        .getmtime(path)
+        .context("getmtime() failed")?;
     let naive = chrono::NaiveDateTime::from_timestamp(mtime as i64, 0);
     let utc: chrono::DateTime<chrono::Utc> = chrono::DateTime::from_utc(naive, chrono::Utc);
 
@@ -1222,14 +1229,34 @@ fn get_content_with_meta(ctx: &context::Context, path: &str) -> anyhow::Result<(
 mod tests {
     use super::*;
     use crate::context::Unit;
+    use std::io::Write;
+    use std::sync::Arc;
 
     /// Tests handle_static().
     #[test]
     fn test_handle_static() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let css = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = css.borrow_mut();
+            let write = guard.deref_mut();
+            write.write_all(b"/* comment */").unwrap();
+        }
+        let mut file_system = context::tests::TestFileSystem::new();
+        let files =
+            context::tests::TestFileSystem::make_files(&ctx, &[("workdir/osm.min.css", &css)]);
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+        let path = ctx.get_abspath("workdir/osm.min.css");
+        mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+        file_system.set_files(&files);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
         let prefix = ctx.get_ini().get_uri_prefix().unwrap();
         let (content, content_type, extra_headers) =
             handle_static(&ctx, &format!("{}/static/osm.min.css", prefix)).unwrap();
+
         assert_eq!(content.is_empty(), false);
         assert_eq!(content_type, "text/css; charset=utf-8");
         assert_eq!(extra_headers.len(), 1);
@@ -1265,8 +1292,25 @@ mod tests {
     /// Tests handle_static: the ico case.
     #[test]
     fn test_handle_static_ico() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let ico = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = ico.borrow_mut();
+            let write = guard.deref_mut();
+            write.write_all(b"\0").unwrap();
+        }
+        let mut file_system = context::tests::TestFileSystem::new();
+        let files = context::tests::TestFileSystem::make_files(&ctx, &[("favicon.ico", &ico)]);
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+        let path = ctx.get_abspath("favicon.ico");
+        mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+        file_system.set_files(&files);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
         let (content, content_type, extra_headers) = handle_static(&ctx, "/favicon.ico").unwrap();
+
         assert_eq!(content.is_empty(), false);
         assert_eq!(content_type, "image/x-icon");
         assert_eq!(extra_headers.len(), 1);
@@ -1276,8 +1320,25 @@ mod tests {
     /// Tests handle_static: the svg case.
     #[test]
     fn test_handle_static_svg() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let svg = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = svg.borrow_mut();
+            let write = guard.deref_mut();
+            write.write_all(b"<svg").unwrap();
+        }
+        let mut file_system = context::tests::TestFileSystem::new();
+        let files = context::tests::TestFileSystem::make_files(&ctx, &[("favicon.svg", &svg)]);
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+        let path = ctx.get_abspath("favicon.svg");
+        mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+        file_system.set_files(&files);
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
+
         let (content, content_type, extra_headers) = handle_static(&ctx, "/favicon.svg").unwrap();
+
         assert_eq!(content.is_empty(), false);
         assert_eq!(content_type, "image/svg+xml; charset=utf-8");
         assert_eq!(extra_headers.len(), 1);
