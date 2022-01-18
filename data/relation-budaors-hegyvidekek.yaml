@@ -37,10 +37,14 @@ filters:
     ranges:
       - {start: '37', end: '99'}
       - {start: '6', end: '98'}
+  Fehérvirág köz:
+    # 1 = Szilva utca 5
+    invalid: ['1']
   Fügefa utca:
+    # 90: helyén 88
     # 108: nincs kiírva
     # 122-126: 124 van kiírva
-    invalid: ['108']
+    invalid: ['32', '90', '108']
     ranges:
       - {start: '1', end: '97'}
       - {start: '2', end: '136'}
@@ -152,5 +156,7 @@ filters:
   Virág utca:
     # 6: másik terület
     invalid: ['3', '6']
+  Zöldvirág köz:
+    invalid: ['9']
 source: survey
 inactive: true
