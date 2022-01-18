@@ -175,6 +175,13 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '4', end: '4'}
+  Fügefa utca:
+    # 90: helyén 88
+    # 108: nincs kiírva
+    invalid: ['90', '108']
+    ranges:
+      - {start: '1', end: '97'}
+      - {start: '2', end: '136'}
   Frankhegyi utca:
     # nincsenek kint házszámok, csak a 4
     invalid: ['10', '12', '14']
@@ -557,6 +564,14 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '6'}
+  Szüret utca:
+    # 2 és 19+ Szállások
+    # 10: Csík falu köz 4
+    # 38 = Som utca 38
+    invalid: ['10', '38']
+    ranges:
+      - {start: '1', end: '17'}
+      - {start: '4', end: '98'}
   Tárogató utca:
     # 6,8: nincs
     # 11: nincs
