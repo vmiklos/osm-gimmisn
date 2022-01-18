@@ -155,6 +155,9 @@ filters:
   Farkasréti út:
     # 40 után 52
     invalid: ['41', '42', '44']
+  Fehérvirág köz:
+    # 1 = Szilva utca 5
+    invalid: ['1']
   Felsőhatár utca:
     # Páros oldal Budapest: Felső határ út néven
     # 97, 101: csak 99 van kiírva előtte utána semmi
@@ -637,6 +640,8 @@ filters:
     # 57: 55 után 59 jön, az 55 ikerházm de nincs kiírva az 57, inkább 55/a-nak látszik a kukán
     # 72: lebontva, az idősek otthona parkolója van a helyén
     invalid: ['44', '57', '72']
+  Zöldvirág köz:
+    invalid: ['9']
   Zúzmara utca:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']
