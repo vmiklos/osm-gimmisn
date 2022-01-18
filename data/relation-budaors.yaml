@@ -502,8 +502,10 @@ filters:
     ranges:
       - {start: '1', end: '13'}
   Som utca:
-    # 22 = Szüret utca 32
-    invalid: ['22']
+    # 17-19: csak 17 van kiírva
+    # 20 = Szüret utca 32
+    # 46: 44 után 48
+    invalid: ['19', '20', '46']
   Sóska utca:
     # nincsenek kint a házszámok
     interpolation: all
