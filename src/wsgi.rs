@@ -1295,7 +1295,10 @@ fn get_html_title(request_uri: &str) -> String {
 
 /// Produces the <head> tag and its contents.
 fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> anyhow::Result<()> {
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx
+        .get_ini()
+        .get_uri_prefix()
+        .context("get_uri_prefix() failed")?;
     let head = doc.tag("head", &[]);
     head.stag("meta", &[("charset", "UTF-8")]);
     head.stag(
@@ -1329,8 +1332,12 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
     );
 
     let css_path = format!("{}/{}", ctx.get_ini().get_workdir()?, "osm.min.css");
-    let contents = std::fs::read_to_string(css_path)?;
     {
+        let stream = ctx.get_file_system().open_read(&css_path)?;
+        let mut buf: Vec<u8> = Vec::new();
+        let mut guard = stream.borrow_mut();
+        guard.read_to_end(&mut buf).unwrap();
+        let contents = String::from_utf8(buf)?;
         let style = head.tag("style", &[]);
         style.text(&contents);
     }
@@ -1450,7 +1457,8 @@ fn our_application(
 
     let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
 
-    let request_uri = webframe::get_request_uri(request, ctx, &mut relations)?;
+    let request_uri = webframe::get_request_uri(request, ctx, &mut relations)
+        .context("get_request_uri() failed")?;
     let mut ext: String = "".into();
     if let Some(value) = std::path::Path::new(&request_uri).extension() {
         ext = value.to_str().unwrap().into();
@@ -1460,7 +1468,10 @@ fn our_application(
         return our_application_txt(ctx, &mut relations, &request_uri);
     }
 
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx
+        .get_ini()
+        .get_uri_prefix()
+        .context("get_uri_prefix() failed")?;
     if !(request_uri == "/" || request_uri.starts_with(&prefix)) {
         let doc = webframe::handle_404();
         return Ok(webframe::make_response(
@@ -1487,11 +1498,12 @@ fn our_application(
     util::write_html_header(&doc);
     {
         let html = doc.tag("html", &[("lang", &language)]);
-        write_html_head(ctx, &html, &get_html_title(&request_uri))?;
+        write_html_head(ctx, &html, &get_html_title(&request_uri))
+            .context("write_html_head() failed")?;
 
         let body = html.tag("body", &[]);
         let no_such_relation = webframe::check_existing_relation(ctx, &relations, &request_uri)?;
-        let handler = get_handler(ctx, &request_uri)?;
+        let handler = get_handler(ctx, &request_uri).context("get_handler() failed")?;
         if !no_such_relation.get_value().is_empty() {
             body.append_value(no_such_relation.get_value());
         } else if let Some(handler) = handler {
@@ -1502,7 +1514,9 @@ fn our_application(
         } else if request_uri.starts_with(&format!("{}/webhooks/github", prefix)) {
             body.append_value(webframe::handle_github_webhook(request, ctx)?.get_value());
         } else {
-            body.append_value(handle_main(&request_uri, ctx, &mut relations)?.get_value());
+            let doc =
+                handle_main(&request_uri, ctx, &mut relations).context("handle_main() failed")?;
+            body.append_value(doc.get_value());
         }
     }
 
@@ -2514,6 +2528,18 @@ Tűzkő utca	31
         let unit = context::tests::TestUnit::new();
         let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
         ctx.set_unit(&unit_arc);
+        let css = context::tests::TestFileSystem::make_file();
+        {
+            let mut guard = css.borrow_mut();
+            let write = guard.deref_mut();
+            write.write_all(b"/* comment */").unwrap();
+        }
+        let mut file_system = context::tests::TestFileSystem::new();
+        let files =
+            context::tests::TestFileSystem::make_files(&ctx, &[("workdir/osm.min.css", &css)]);
+        file_system.set_files(&files);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        ctx.set_file_system(&file_system_arc);
         let bytes: Vec<u8> = Vec::new();
 
         let abspath: String = "/".into();
@@ -2529,6 +2555,7 @@ Tűzkő utca	31
         assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
         assert_eq!(data.is_empty(), false);
         let output = String::from_utf8(data).unwrap();
+        println!("debug, output is {:?}", output);
         assert_eq!(output.contains("TestError"), true);
     }
 
