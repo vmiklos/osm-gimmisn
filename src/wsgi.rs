@@ -1332,7 +1332,7 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
     );
 
     let css_path = format!("{}/{}", ctx.get_ini().get_workdir()?, "osm.min.css");
-    {
+    if ctx.get_file_system().path_exists(&css_path) {
         let stream = ctx.get_file_system().open_read(&css_path)?;
         let mut buf: Vec<u8> = Vec::new();
         let mut guard = stream.borrow_mut();
@@ -1633,6 +1633,7 @@ pub mod tests {
             }
             let output_xml =
                 format!("{}", String::from_utf8(output).unwrap()).replace("<!DOCTYPE html>", "");
+            // println!("get_dom_for_path: output_xml is '{}'", output_xml);
             let package = sxd_document::parser::parse(&output_xml).unwrap();
             package
         }
@@ -1760,6 +1761,20 @@ pub mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.ctx.set_network(&network_arc);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 2713748,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.get_ctx().set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/streets/gazdagret/update-result");
 
@@ -1781,9 +1796,23 @@ pub mod tests {
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.ctx.set_network(&network_arc);
         let streets_value = context::tests::TestFileSystem::make_file();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "ujbuda": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-ujbuda.yaml": {
+                "missing-streets": "only",
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
-            &[("workdir/streets-ujbuda.csv", &streets_value)],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/streets-ujbuda.csv", &streets_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.ctx.set_file_system(&file_system);
@@ -2555,7 +2584,6 @@ Tűzkő utca	31
         assert_eq!(headers_map["Content-type"], "text/html; charset=utf-8");
         assert_eq!(data.is_empty(), false);
         let output = String::from_utf8(data).unwrap();
-        println!("debug, output is {:?}", output);
         assert_eq!(output.contains("TestError"), true);
     }
 
@@ -2685,6 +2713,25 @@ Tűzkő utca	31
     #[test]
     fn test_handle_invalid_refstreets_well_formed() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 2713748,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "refstreets": {
+                    "Misspelled OSM Name 1": "OSM Name 1",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.get_ctx().set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
 
