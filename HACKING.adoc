@@ -45,8 +45,13 @@ make
 To run a single test:
 
 ----
-cargo test --lib -- --test-threads=1 --exact wsgi_json::tests::test_missing_streets_update_result_json
+cargo test --lib -- --test-threads=1 --exact --nocapture wsgi_json::tests::test_missing_streets_update_result_json
 ----
+
+Tests follow the
+https://stackoverflow.blog/2022/01/03/favor-real-dependencies-for-unit-testing/[Favor real
+dependencies for unit testing] pattern, i.e. apart from filesystem, network or time (see
+`src/context.rs` for the exact list), no mocking is used.
 
 == Rust performance profiling
 
