@@ -11,6 +11,7 @@
 //! The stats module creates statistics about missing / non-missing house numbers.
 
 use crate::context;
+use crate::util;
 use anyhow::Context;
 use chrono::Datelike;
 use std::collections::HashMap;
@@ -48,6 +49,71 @@ fn handle_progress(
     ret_obj.insert("reference".into(), serde_json::json!(num_ref));
     ret_obj.insert("osm".into(), serde_json::json!(num_osm));
     j.as_object_mut().unwrap().insert("progress".into(), ret);
+
+    Ok(())
+}
+
+/// Generates status for the progress of the capital.
+fn handle_capital_progress(
+    ctx: &context::Context,
+    src_root: &str,
+    j: &mut serde_json::Value,
+) -> anyhow::Result<()> {
+    let mut ret = serde_json::json!({});
+    let mut ref_count = 0;
+    {
+        let ref_path = ctx.get_ini().get_reference_citycounts_path()?;
+        let stream = ctx.get_file_system().open_read(&ref_path)?;
+        let mut guard = stream.borrow_mut();
+        let mut read = guard.deref_mut();
+        let mut csv_read = util::CsvRead::new(&mut read);
+        let mut first = true;
+        for result in csv_read.records() {
+            let row = result?;
+            if first {
+                first = false;
+                continue;
+            }
+
+            if row[0].starts_with("budapest_") {
+                ref_count += row[1].parse::<i32>()?;
+            }
+        }
+    }
+
+    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let today = now.format("%Y-%m-%d").to_string();
+    let mut osm_count = 0;
+    let osm_path = format!("{}/{}.citycount", src_root, today);
+    if ctx.get_file_system().path_exists(&osm_path) {
+        let stream = ctx.get_file_system().open_read(&osm_path)?;
+        let mut guard = stream.borrow_mut();
+        let mut read = guard.deref_mut();
+        let mut csv_read = util::CsvRead::new(&mut read);
+        let mut first = true;
+        for result in csv_read.records() {
+            let row = result?;
+            if first {
+                first = false;
+                continue;
+            }
+
+            if row[0].starts_with("budapest_") {
+                osm_count += row[1].parse::<i32>()?;
+            }
+        }
+    }
+
+    // Round to 2 digits.
+    let percentage = ((osm_count as f64 * 100.0 / ref_count as f64) * 100.0).round() / 100.0;
+    let ret_obj = ret.as_object_mut().unwrap();
+    ret_obj.insert("date".into(), serde_json::json!(today));
+    ret_obj.insert("percentage".into(), serde_json::json!(percentage));
+    ret_obj.insert("reference".into(), serde_json::json!(ref_count));
+    ret_obj.insert("osm".into(), serde_json::json!(osm_count));
+    j.as_object_mut()
+        .unwrap()
+        .insert("capital-progress".into(), ret);
 
     Ok(())
 }
@@ -363,6 +429,7 @@ pub fn generate_json(
 ) -> anyhow::Result<()> {
     let mut j = serde_json::json!({});
     handle_progress(ctx, state_dir, &mut j)?;
+    handle_capital_progress(ctx, state_dir, &mut j)?;
     handle_topusers(ctx, state_dir, &mut j)?;
     handle_topcities(ctx, state_dir, &mut j)?;
     handle_user_total(ctx, state_dir, &mut j, /*day_range=*/ 13)?;
@@ -404,6 +471,22 @@ mod tests {
         assert_eq!(progress["percentage"], 84883.67);
     }
 
+    /// Tests handle_capital_progress().
+    #[test]
+    fn test_handle_capital_progress() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = context::tests::make_test_time();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats");
+        let mut j = serde_json::json!({});
+        handle_capital_progress(&ctx, &src_root, &mut j).unwrap();
+        let progress = &j.as_object().unwrap()["capital-progress"];
+        assert_eq!(progress["date"], "2020-05-10");
+        // 211 / 300 * 100
+        assert_eq!(progress["percentage"], 70.33);
+    }
+
     /// Tests handle_progress(): the case when the .count file doesn't exist for a date.
     #[test]
     fn test_handle_progress_old_time() {
@@ -415,6 +498,20 @@ mod tests {
         let mut j = serde_json::json!({});
         handle_progress(&ctx, &src_root, &mut j).unwrap();
         let progress = &j.as_object().unwrap()["progress"];
+        assert_eq!(progress["date"], "1970-01-01");
+    }
+
+    /// Tests handle_capital_progress(): the case when the .count file doesn't exist for a date.
+    #[test]
+    fn test_handle_capital_progress_old_time() {
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let time = make_test_time_old();
+        let time_arc: Arc<dyn context::Time> = Arc::new(time);
+        ctx.set_time(&time_arc);
+        let src_root = ctx.get_abspath("workdir/stats");
+        let mut j = serde_json::json!({});
+        handle_capital_progress(&ctx, &src_root, &mut j).unwrap();
+        let progress = &j.as_object().unwrap()["capital-progress"];
         assert_eq!(progress["date"], "1970-01-01");
     }
 
