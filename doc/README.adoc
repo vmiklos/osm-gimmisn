@@ -286,7 +286,9 @@ git push origin master:private/$USER/master
 - After this, open the PR https://github.com/vmiklos/osm-gimmisn/pull/new/private/$USER/master[from
   your browser]
 
-- Agree to create the PR, put the `automerge` label on it.
+- Agree to create the PR, finally push the
+  https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request[Enable
+  auto-merge] button.
 
 == Reporting issues
 
