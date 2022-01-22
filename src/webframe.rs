@@ -903,6 +903,15 @@ pub fn handle_stats(
             tr("Number of house numbers in database"),
         ),
         ("str-progress-y-axis", tr("Data source")),
+        (
+            "str-capital-progress-title",
+            tr("Coverage is {1}% for the capital, as of {2}"),
+        ),
+        (
+            "str-capital-progress-x-axis",
+            tr("Number of house numbers in database for the capital"),
+        ),
+        ("str-reference", tr("Reference")),
     ];
     emit_l10n_strings_for_js(&doc, string_pairs);
 
@@ -915,6 +924,7 @@ pub fn handle_stats(
         (tr("Top edited cities"), "topcities"),
         (tr("All house number editors"), "usertotal"),
         (tr("Coverage"), "progress"),
+        (tr("Capital coverage"), "capital-progress"),
         (tr("Per-city coverage"), "cityprogress"),
         (tr("Per-ZIP coverage"), "zipprogress"),
         (tr("Invalid relation settings"), "invalid-relations"),

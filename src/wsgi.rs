@@ -2646,8 +2646,8 @@ Tűzkő utca	31
         let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/");
 
         let results = TestWsgi::find_all(&root, "body/h2");
-        // 8 chart types + note
-        assert_eq!(results.len(), 9);
+        // 9 chart types + note
+        assert_eq!(results.len(), 10);
     }
 
     /// Tests /osm/static/: the css case.
