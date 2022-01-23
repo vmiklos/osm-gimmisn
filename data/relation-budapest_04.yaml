@@ -30,7 +30,6 @@ street-filters:
   - Landler Jenő MÁV őrházlak
   # egyéb
   - Kossuth út  # Kossuth Lajos utca, nem lehet kétfelé mappelni
-  - Báthori utca  # Dupla, van Báthory utca is, ez nem kell
   # semmilyen forrásban sem találtam
   - Káposztásmegyeri köz
   - Sobrik Joska utca

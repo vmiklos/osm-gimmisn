@@ -15,8 +15,6 @@ refstreets:
   # helyesírás, ref hibás
   'Kiss János altábornagy utca': 'Kiss János altbgy. utca'
   # utcajegyzék = OSM, ref hibás
-  'Áchim András utca': 'Achim András utca'
-  'Báthory utca': 'Báthori utca'
   'Bóné András utca': 'Bohné András utca'
   'Drágfy köz': 'Drágffy köz'
   'Györffy István tér': 'Győrffy István tér'

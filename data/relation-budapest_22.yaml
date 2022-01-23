@@ -51,16 +51,9 @@ osm-street-filters:
   - Tétényi út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Arany János utca': 'Arany János út'  # A személyiadat- és lakcímnyilvántartóban út volt, de 2020 végén javították utcára
-  'Báthory utca': 'Báthori utca'
-  'Csút utca': 'Csut utca'
-  'Enyedi utca': 'Enyedy utca'
-  'Felső Sas utca': 'Felsősas utca'
-  'Gyepű utca': 'Gyepü utca'
-  'Jobbágy út': 'Jobbágy utca'  # utcatáblán és utcajegyzékben is Jobbágy út
-  'Kamaraerdei út': 'Kamaraerdei utca'
-  'Kiskőbánya utca': 'Kis Kőbánya utca'
-  'Kőház sor': 'Kőházsor'
-  'Ménes utca': 'Ménesi utca'
+  'Boros utca': 'Boros út'
+  'Kiskőbánya utca': 'Kis Kőbánya utca'  # utcatáblán Kiskőbánya utca
+  'Nagykőbánya utca': 'Nagy Kőbánya utca'
+  'Szentkorona utca': 'Szent korona utca'
 source: survey
 inactive: true

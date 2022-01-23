@@ -16,7 +16,7 @@ street-filters:
   # nem igazi utca
   - Erdészlak
   # dűlők
-  - Baád szőlőhegy  # Bád
+  - Baád szőlőhegy dűlő  # Bád
   - Szent Balázs-hegy dűlő  # Szent Balázs-hegy
   - Szent György-hegy dűlő  # Szent György-hegy
 refstreets:

@@ -17,8 +17,6 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás, rövidítés: ref hibás
   'Hizlaló tér': 'Hízlaló tér'
-  'Sütöde utca': 'Sütőde utca'
-  'Vízimalom utca': 'Vizimalom utca'
   # utcajegyzék = OSM: ref hibás
   'Ceglédi út': 'Ceglédi utca'
   'Kis Sörgyár utca': 'Kissörgyár utca'

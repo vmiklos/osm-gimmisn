@@ -596,13 +596,10 @@ filters:
     invalid: ['9', '9d', '11']
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Arany János utca': 'Arany János út'  # A személyiadat- és lakcímnyilvántartóban út volt, de 2020 végén javították utcára
-  'Enyedi utca': 'Enyedy utca'
-  'Felső Sas utca': 'Felsősas utca'  # utcatáblán Felső Sas utca
-  'Hegyfok köz': 'hegyfok köz'
-  'Jobbágy út': 'Jobbágy utca'  # utcatáblán és utcajegyzékben is Jobbágy út
+  'Boros utca': 'Boros út'
   'Kiskőbánya utca': 'Kis Kőbánya utca'  # utcatáblán Kiskőbánya utca
-  'Ménes utca': 'Ménesi utca'
+  'Nagykőbánya utca': 'Nagy Kőbánya utca'
+  'Szentkorona utca': 'Szent korona utca'
 source: survey
 housenumber-letters: true
 inactive: true

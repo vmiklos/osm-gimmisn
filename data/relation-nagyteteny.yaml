@@ -94,11 +94,6 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '18'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Báthory utca': 'Báthori utca'
-  'Csút utca': 'Csut utca'
-  'Gyepű utca': 'Gyepü utca'
 source: survey
 housenumber-letters: true
 inactive: true

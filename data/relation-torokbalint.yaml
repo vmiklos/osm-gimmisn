@@ -10,8 +10,6 @@ street-filters:
   - Falvitanya  # fent van farmként
   # - Hosszúrét tanya  # Hosszúrétitanya
   - MÁV állomás
-  # egyéb
-  - Séta út  # dupla, Séta utca is van
 refstreets:
   'Baross Gábor utca': 'Baross utca'
   'Báthori István utca': 'Báthori utca'

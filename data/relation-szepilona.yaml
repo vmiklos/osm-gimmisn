@@ -33,8 +33,5 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Labanc út': 'Labanc utca'
 source: survey
 inactive: true

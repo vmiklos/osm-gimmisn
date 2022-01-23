@@ -5,7 +5,7 @@ filters:
     ranges: []
 street-filters:
   # dűlők
-  - Bárocadűlő  # Báróca
+  - Bárocadűlő dűlő # Báróca
   - Felsőrét dűlő  # Felsőrét
   - Mocsárhegy  # Mocsár
   - Tő-dülő dűlő  # Tő-dűlő

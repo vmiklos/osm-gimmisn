@@ -1,6 +1,6 @@
 missing-streets: 'no'
 filters:
-  Alsó Völgy utca:
+  Alsó völgy utca:
     # területhatárt metsző: pasaret/lipotmezo
     ranges:
       - {start: '10', end: '98'}
@@ -30,8 +30,5 @@ filters:
     ranges:
       - {start: '1', end: '25'}
       - {start: '2', end: '14'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Alsó Völgy utca': 'Alsó völgy utca'
 source: survey
 inactive: true

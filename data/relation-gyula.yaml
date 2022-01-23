@@ -22,9 +22,6 @@ street-filters:
   # nem igazi utcák
   - Máv pályaudvar
   - Külterület tanya
-  # dupla
-  - Ferenczi Béni utca  # Ferenczy Béni utca
-  - Pósteleki út  # Pósteleki utcán jönnek a házszámok, itt csak 1 db hrsz. van
   # tanyák
   # - Aranyág tanya
   # - Bánom tanya
