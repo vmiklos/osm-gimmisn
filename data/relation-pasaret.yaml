@@ -63,8 +63,5 @@ filters:
     ranges:
       - {start: '25', end: '39'}
       - {start: '22', end: '32'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Alsó Völgy utca': 'Alsó völgy utca'
 source: survey
 inactive: true

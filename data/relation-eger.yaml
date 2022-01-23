@@ -64,8 +64,6 @@ street-filters:
   # - Rizskása malom
 refstreets:
   # helyesírás
-  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
-  'Markhot Ferenc utca': 'Markhót Ferenc utca'
   'Vízimolnár utca': 'Vizimolnár utca'
   # Ellenőrzött
   'Csákósor utca': 'Csákó sor utca'  # Az utcanévtábla szerint Csákósor utca
@@ -76,13 +74,10 @@ refstreets:
   'Disznófő-sor': 'Szépasszonyvölgy-Disznófősor utca'  # Note 2803215
   'Egri út': 'Egri utca'  # Note 2803225
   'Foglár utca': 'Foglár György utca'  # Note 2803211
-  'Garay János utca': 'Garai János utca'  # Note 2803221
   'Hevesi Sándor utca': 'Hevesy Sándor utca'  # Note 2803219
   'II. Rákóczi Ferenc út': 'II. Rákóczi Ferenc utca'
-  'Kőlyuktetői pincesor': 'Kőlyuktető'
   'Maczki Valér utca': 'Macki Valér utca'  # Note 2803212
   'Nagylapos utca': 'Nagylaposi út'  # Note 2803222
-  'Pápay Sámuel utca': 'Pápai Sámuel utca'  # Note 2803207
   'Pásztorvölgyi utca': 'Pásztorvölgy utca'  # Note 2803217
   'Rottenstein köz': 'Rottenstein Károly utca'  # Note 2803227
   'Rózsa völgy': 'Rózsavölgy utca'  # Note 2803213

@@ -38,12 +38,10 @@ refstreets:
   # utcajegyzék = OSM: ref hibás
   'Áchim András utca': 'Achim András utca'
   'Besence utca': 'Besence út'
-  'Darányi Ignác utca': 'Darányi utca'
   'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
   'Ipacsfa utca': 'Ipacsfa út'
   'Királyhágó út': 'Királyhágó utca'
   'Körös utca': 'Kőrös utca'
-  'Tas utca': 'Tass utca'
   'Zádor utca': 'Zádor út'
   # utcatábla hibák, utcatábla = OSM
   'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'

@@ -63,9 +63,5 @@ filters:
     # páros nagyobb számok: Újpalota
     ranges:
       - {start: '142', end: '198'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  # utcajegyzék = OSM: ref hibás
-  'Gazdálkodó utca': 'Gazdálkodó út'
 source: survey
 inactive: true

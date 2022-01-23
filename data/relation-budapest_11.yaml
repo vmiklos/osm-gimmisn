@@ -2860,14 +2860,9 @@ filters:
     invalid: ['2a']
 street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon
-  - Báthori utca  # nem létezik
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
-  - Talaj köz  # nem létezik
-  - Árasztó út  # Dunaparty meglállónál, közlöny szerint megszűnt
   - Poprádi köz  # nem létezik, a helyszínen erdő van
   - Kikinda köz  # nem létezik, a helyszínen az Etele úti panel hátulja
-  - Lőportorony utca  # nem lett kiépítve, Budafoki út 215 és a Shell kút között
-  - Szerenád utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni
   - Szonáta utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni
   - Elemér köz  # Hetény utca és a Balatoni út között, Shell kúttól délre, nincs kiépítve
   - Faház köz  # Kőérberek, nincs neve helyben: https://www.openstreetmap.org/way/891778561
@@ -2880,7 +2875,7 @@ refstreets:
   'Boldizsár utca': 'Boldizsár út'
   'Citadella utca': 'Citadella út'  # Vegyesen vannak a táblák
   'Csíkihegyek utca': 'Csiki-hegyek utca'
-  'Felső határút': 'Felső Határ út'
+  'Felső határút': 'Felső határ út'
   'Gombocz Zoltán utca': 'Gombócz Zoltán utca'
   'Henryk Sławik rakpart': 'Henryk Slawik rakpart'
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'

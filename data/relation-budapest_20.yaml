@@ -17,7 +17,6 @@ refstreets:
   # helyesírás, ref hibás
   'Bolyai János utca': 'Bólyai János utca'
   # Utcajegyzék = OSM, ref hibás
-  'Báthory utca': 'Báthori utca'
   'Tinódi utca': 'Tinódy utca'
   'Vereckei utca': 'Verecke utca'
   # utcajegyzék = REF, OSM eltér

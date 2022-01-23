@@ -310,7 +310,6 @@ street-filters:
   - Újhegy
   - Vöröshegy
   - Templom tér  # A Vörösberényi templomnál kellene lennie, de ott igazából nincs tér, csak egy park, nyoma nincs a feliratnak
-  - Sip köz  # dupla, van Síp köz is
   # nincs az osm-en ------------------------------
   # Berkenye köz - Borostyán közzel szemben
   # Dési Huber István utca - Káptalan utca és Szinyei Merse Pál utca között

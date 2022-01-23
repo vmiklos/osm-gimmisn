@@ -69,9 +69,5 @@ filters:
     # páros nagyobb számok: Pestújhely
     ranges:
       - {start: '64', end: '98'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  # utcajegyzék = OSM: ref hibás
-  'Gazdálkodó utca': 'Gazdálkodó út'
 source: survey
 inactive: true

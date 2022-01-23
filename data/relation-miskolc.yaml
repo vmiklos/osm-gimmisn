@@ -22,7 +22,6 @@ osm-street-filters:
   - Városliget
   - Weidlich udvar
 street-filters:
-  - Árpád vezér út
   - Ősz utca  # valószínű elírás
   - Kisavas sor  # Kisavas, Első sor stb..
   - Közdomb  # Közdomb utca, I. sor stb..
@@ -42,10 +41,8 @@ street-filters:
   - Nagyavasi sor  # Nagyavas-alsó sor stb.
   - Nagy Csermőke dűlő  # Nagycsermőke dűlő
   - Nagykőkötő  # Nagy-kőkötő utca
-  - Nagy Sándor utca  # Nagysándor József utca
   - Nagy magas hegy  # Nagymagashegy
   - Ruzsinszőlő utca  # Ruzsinszőlő dűlő
-  - Somlay Artur utca  # Somlay Artúr utca
   - Tetemvár sor  # Tetemvár Alsó sor stb..
   - Varga oldal  # Vargaloldal
   # nem valós utcák
@@ -54,7 +51,6 @@ street-filters:
   - Rendező pályaudvar
   # csak hrsz / nincs hsz.
   - Ágazat
-  - Alsó Bábonyi Bérc
   - Bolló alja dűlő
   - Csabagyöngye I. dűlő
   - Erenyő
@@ -103,7 +99,6 @@ street-filters:
   # - Nagy-avas felsősor - https://www.openstreetmap.org/note/2973171
   # - Örömhegy utca
   # - Szőlőskert sétány
-  # - Takata út
   # - Tarna utca - https://www.openstreetmap.org/note/2973175
   # - Vörösmarty Mihály tér
   # - Visó utca
@@ -130,7 +125,6 @@ street-filters:
   # - Nagymagashegy
   # - Kutyorvölgy
   # - Lyukóoldal
-  # - Lyukóvölgy
   # - Lyukóvölgy Bánya oldal
   # - Lyukóvölgy Gulyakút
   # - Lyukóvölgy Kitérő
@@ -149,7 +143,7 @@ refstreets:
   'Poeltenberg Ernő utca': 'Pöltenberg Ernő utca'
   # 3515
   'Dimitrovhegy dűlő': 'Dimitrov-hegy'
-  'Nagy Kőkötő utca': 'Nagy-kőkötő utca'
+  'Nagy Kőkötő utca': 'Nagy-Kőkötő utca'
   # 3516
   'Bacsinszky András út': 'Bacsinszky András utca'
   'Kozma utca': 'Kozma Andor utca'
@@ -172,7 +166,6 @@ refstreets:
   'Mécs utca': 'Mécs László utca'
   'Monostori út': 'Monostor utca'
   'Szentbenedekhegyi út': 'Szentbenedek-hegyi utca'
-  'Szűrcsapó utca': 'Szürcsapó utca'
   'Tímár utca': 'Timár utca'
   # 3521
   'Árvácska út': 'Árvácska utca'
@@ -255,7 +248,6 @@ refstreets:
   'Tatár árok': 'Tatárárok utca'
   # 3535
   'Ágó dűlő': 'Ágó dűlőút'
-  'Alsó Papírgyár telep': 'Alsó Papirgyár telep'
   'Bakancs dűlő': 'Bakancs dűlőút'
   'Fülep József utca': 'Fülepp József utca'
   'Pecér dűlő': 'Pecér dűlőút'

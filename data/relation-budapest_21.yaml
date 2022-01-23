@@ -4,7 +4,6 @@ street-filters:
   # nem igazi utcák / csak hrsz.
   - Szigetcsúcs
   # dupla, más írásmód is létezik
-  - Áruház tér  # Görgey Artúr tér
   - Szikratávíró út  # Szikratáviró utca
   - Színesfém utca  # Szinesfém utcára vannak a hászámok felvéve
   - Szállító utca  # Szállitó utcára vannak a hászámok felvéve

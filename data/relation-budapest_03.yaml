@@ -93,7 +93,6 @@ refstreets:
   'Szérűskert utca': 'Szérüskert utca'
   # utcajegyzék = OSM, ref hibás
   'Jó szerencse utca': 'Jószerencse út'
-  'Nefelejcs utca': 'Nefelejts utca'
   'Petur utca': 'Petúr utca'
   # utcajegyzék = REF, OSM eltér
   'Barátpatak utca': 'Barát-patak utca'  # osm = utcatábla
