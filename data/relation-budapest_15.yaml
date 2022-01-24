@@ -38,9 +38,5 @@ osm-street-filters:
   - Kaktusz kert  # Note
   - Páskom liget
   - Szilas-patak tanösvény
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  # utcajegyzék = OSM: ref hibás
-  'Kosd utca': 'Kozsd utca'
 source: survey
 inactive: false

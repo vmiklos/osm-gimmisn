@@ -113,9 +113,6 @@ filters:
       - {start: '4', end: '56'}
   Veresegyházi utca:
     invalid: ['6a', '10', '44a', '67', '75', '92', '102', '106']
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  'Kosd utca': 'Kozsd utca'
 source: survey
 inactive: true
 housenumber-letters: true

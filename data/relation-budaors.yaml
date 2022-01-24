@@ -730,12 +730,13 @@ street-filters:
   - Hegyközi utca  # egy benőtt ösvény a Cserebogár utcából
   - Sáfrány utca  # Ringló utcáról nyíló ösvény - törölve
   - Szeder utca  # Lezárt magánút Naphegy utcáról - törölve
+  # Az utca Budapesten fut, de vannak számok a Budaörsi oldalon
+  # - Kamaraerdei köz
 refstreets:
   # OSM Name 1: Ref Name 1
   Aszú utca: Aszu utca  # utcatábla Aszú utca
   Írisz utca: Irisz utca  # nincs utcatábla
   Csík falu köz: Csik Falu köz
-  Kamaraerdei út: Kamaraerdei utca  # utcatábla Kamaraerdei út
   Petőfi Sándor utca: Petőfi utca  # táblák vegyesen
   Széchenyi utca: Széchenyi István utca  # utcatábla Széchenyi utca
 inactive: false

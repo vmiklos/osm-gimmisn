@@ -251,10 +251,6 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '20'}
-refstreets:
-  # 'OSM Name 1': 'Ref Name 1'
-  # utcajegyzék = OSM: ref hibás
-  'Kosd utca': 'Kozsd utca'
 source: survey
 inactive: false
 housenumber-letters: true

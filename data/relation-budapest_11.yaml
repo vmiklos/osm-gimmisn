@@ -2861,6 +2861,7 @@ filters:
 street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
+  - Talaj köz  # nem létezik
   - Poprádi köz  # nem létezik, a helyszínen erdő van
   - Kikinda köz  # nem létezik, a helyszínen az Etele úti panel hátulja
   - Szonáta utca  # nem lett kiépítve, Lőportorony utcáról fog nyílni
