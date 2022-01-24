@@ -64,4 +64,5 @@ filters:
       - {start: '25', end: '39'}
       - {start: '22', end: '32'}
 source: survey
+housenumber-letters: true
 inactive: true
