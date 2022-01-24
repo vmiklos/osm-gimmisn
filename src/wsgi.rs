@@ -1707,7 +1707,23 @@ pub mod tests {
     #[test]
     fn test_handle_streets_well_formed() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
+
         let root = test_wsgi.get_dom_for_path("/streets/gazdagret/view-result");
+
         let results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
     }
@@ -1716,7 +1732,23 @@ pub mod tests {
     #[test]
     fn test_handle_streets_view_query_well_formed() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
+
         let root = test_wsgi.get_dom_for_path("/streets/gazdagret/view-query");
+
         let results = TestWsgi::find_all(&root, "body/pre");
         assert_eq!(results.len(), 1);
     }
@@ -1734,9 +1766,20 @@ pub mod tests {
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.ctx.set_network(&network_arc);
         let streets_value = context::tests::TestFileSystem::make_file();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
-            &[("workdir/streets-gazdagret.csv", &streets_value)],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/streets-gazdagret.csv", &streets_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.ctx.set_file_system(&file_system);
@@ -2254,6 +2297,20 @@ Tűzkő utca	31
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.ctx.set_network(&network_arc);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/update-result");
 
@@ -2270,6 +2327,19 @@ Tűzkő utca	31
         let hide_path = relation.get_files().get_osm_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         test_wsgi.ctx.set_file_system(&file_system_arc);
         let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-result");
