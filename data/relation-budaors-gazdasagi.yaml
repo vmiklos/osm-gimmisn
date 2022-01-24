@@ -75,5 +75,4 @@ source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Petőfi Sándor utca: Petőfi utca
-  Kamaraerdei út: Kamaraerdei utca  # utcatábla Kamaraerdei út
 inactive: true
