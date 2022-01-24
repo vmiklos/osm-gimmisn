@@ -1,6 +1,6 @@
 missing-streets: 'no'
 filters:
-  Alsó völgy utca:
+  Alsó Völgy utca:
     # területhatárt metsző: pasaret/lipotmezo
     ranges:
       - {start: '10', end: '98'}
