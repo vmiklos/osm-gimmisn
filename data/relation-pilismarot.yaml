@@ -84,23 +84,28 @@ filters:
     show-refstreet: false
     ranges:
       - {start: '1', end: '15'}
+osm-street-filters:
+ - Benőtt út
+ - Mozgássérült felhajtó
+ - Mozgássérült feljáró
 street-filters:
   # nem igazi utca
   - Bitóczi vadászház
   # hamlet
   - Basaharc
-  # dupla
-  - Akácfa utca
+  # dupla   
+  - Akácfa utca  # Akácos út
   # hiányzók
+  # - Akácos út
   # - Bitóczi-völgyi köz
   # - Bitóczi-völgyi út
   # - Egér út
+  # - Nagyrét utca
   # - Margaréta köz - Dunapart
   # - Mókus utca - Dunapart
   # - Szőlő utca - Dunapart
   # - Szobi rév út
 refstreets:
-  'Akácos út': 'Akácfa utca'
   'Csányi utca': 'Csányi út'
   'Hoffmann út': 'Dobogókői út'
   'Erdőalja utca': 'Erdőalja út'

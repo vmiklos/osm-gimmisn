@@ -94,7 +94,6 @@ street-filters:
   # - Pitypang dűlőút
   # - Akó utca
   # - Bálint utca - https://www.openstreetmap.org/note/2611025
-  # - Berekkert utca
   # - Mély út - ?
   # - Nagy-avas felsősor - https://www.openstreetmap.org/note/2973171
   # - Örömhegy utca
@@ -154,8 +153,10 @@ refstreets:
   'Puskaporos utca': 'Puskaporos'
   # 3518
   'Akácos dűlő': 'Akácos dűlőút'
+  'Alma utca': 'Alma dűlőút'
   'Bellervölgy utca': 'Bellervölgy'
-  'Pünkösdhegyi út': 'Pünkösdhegyi utca'
+  'Kis Erenyő dűlő': 'Kiserenyő'
+  'Pünkösdhegyi út': 'Pünkösdhegy utca'
   'Tehéntánc dűlő': 'Tehéntánc dűlőút'
   # 3519
   'Görömbölyi utca': 'Görömbölyi út'
@@ -171,6 +172,7 @@ refstreets:
   'Árvácska út': 'Árvácska utca'
   'Babits Mihály út': 'Babits Mihály utca'
   'Barát út': 'Barát utca'
+  'Berekkert út': 'Berekkert utca'
   'Erkel Ferenc út': 'Erkel Ferenc utca'
   'Hajnóczy József út': 'Hajnóczy József utca'
   'Jenkei út': 'Jenkei utca'
@@ -184,7 +186,7 @@ refstreets:
   # 3524
   'Pattantyús Ábrahám Géza utca': 'Pattantyús-Ábrahám Géza utca'
   # 3525
-  'Alsóbábonyibérc dűlő': 'Alsó Bábonyi Bérc'
+  'Alsóbábonyibérc dűlő': 'Alsó Bábonyibérc dűlő'
   'Bábonyibérc alsósor': 'Bábonyi bérc alsósor'
   'Bedegvölgy utca': 'Bedeghvölgy utca'
   'Marjalaki Kiss László utca': 'Marjalaki Kiss Lajos utca'
@@ -228,11 +230,16 @@ refstreets:
   'Munkácsy utca': 'Munkácsy Mihály utca'
   'Nagyavas középső sor': 'Nagyavas-közép sor'
   # 3531
+  'Danlos': 'Danlos dűlő'
   'Lövei sor': 'Lővei sor'
   'Muszkásoldal dűlő': 'Muszkás oldal'
   # 3532
   'Kislyukó dűlő': 'Kislyukó dűlőút'
+  'Kutyor völgy': 'Kutyorvölgy'
+  'Szarkahegy - Dália dűlő': 'Szarkahegy-Dália dűlő'
   'Szarkahegy - Fenyő dűlő': 'Szarkahegy-Fenyő dűlő'
+  'Szarkahegy - Orgona dűlő': 'Szarkahegy-Orgona dűlő'
+  'Szarkahegy - Rózsa dűlő': 'Szarkahegy-Rózsa dűlő'
   'Szarkahegy - Szegfű dűlő': 'Szarkahegy-Szegfű dűlő'
   'Szarkaláb dűlőút': 'Szarkaláb dűlő'
   # 3533
