@@ -765,6 +765,10 @@ balatoncsicso:
     osmrelation: 1078574
     refcounty: "19"
     refsettlement: "023"
+epleny:
+    osmrelation: 1078459
+    refcounty: "19"
+    refsettlement: "062"
 nemesgulacs:
     osmrelation: 1078632
     refcounty: "19"
