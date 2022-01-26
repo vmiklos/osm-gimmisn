@@ -53,7 +53,6 @@ osm-street-filters:
   - Régi vasút
   - Várhegy
   # parkok, sétányok, lépcsők, udvarok, ösvények
-  - Apátkúti-völgy
   - Áprily park
   - Községkert sétány
   - Muflon ösvény
@@ -87,6 +86,7 @@ street-filters:
   # Rigó köz
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Apátkúti-völgy': 'Apátkúti völgy'
   'Áprily Lajos Völgy': 'Áprily Lajos-völgy'
   'Bányatelep': 'Bányatelep utca'
   'Magasköz utca': 'Magas köz'
