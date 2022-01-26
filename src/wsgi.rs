@@ -2236,7 +2236,23 @@ Tűzkő utca	31
     #[test]
     fn test_housenumbers_view_result_update_result_link() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
+
         let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-result");
+
         let uri = format!(
             "{}/missing-housenumbers/gazdagret/view-result",
             test_wsgi.ctx.get_ini().get_uri_prefix().unwrap()
@@ -2252,7 +2268,23 @@ Tűzkő utca	31
     #[test]
     fn test_housenumbers_view_query_well_formed() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
+
         let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-query");
+
         let results = TestWsgi::find_all(&root, "body/pre");
         assert_eq!(results.len(), 1);
     }
@@ -2270,9 +2302,20 @@ Tűzkő utca	31
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         test_wsgi.ctx.set_network(&network_arc);
         let streets_value = context::tests::TestFileSystem::make_file();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
-            &[("workdir/street-housenumbers-gazdagret.csv", &streets_value)],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/street-housenumbers-gazdagret.csv", &streets_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.ctx.set_file_system(&file_system);
@@ -2582,14 +2625,35 @@ Tűzkő utca	31
     #[test]
     fn test_main_filter_for_refcounty_refsettlement() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation1": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+                "myrelation2": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "012",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/filter-for/refcounty/01/refsettlement/011");
 
         let mut results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
         results = TestWsgi::find_all(&root, "body/table/tr");
-        // header + 5 relations, was just 1 when the filter was buggy
-        assert_eq!(results.len(), 6);
+        // header + myrelation1 (but not myrelation2) was just 1 when the filter was buggy
+        assert_eq!(results.len(), 2);
     }
 
     /// Tests handle_main(): the /osm/filter-for/relations/... output
