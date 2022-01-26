@@ -2556,9 +2556,9 @@ filters:
     invalid: ['2b', '35b']
     ranges:
       - {start: '1', end: '47'}
-      - {end: '61', start: '51'}
+      - {start: '51', end: '61'}
       - {start: '2', end: '44'}
-      - {end: '58', start: '50'}
+      - {start: '50', end: '58'}
   Povl Bang-Jensen utca:
     # Sasad liget: 1b, 1d, 2b, 2c: ezek épület betűjelek
     invalid: ['1b', '1d', '2b', '2c']
