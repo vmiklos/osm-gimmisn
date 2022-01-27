@@ -1,7 +1,7 @@
 [wsgi]
 workdir = workdir
-reference_housenumbers = refdir/hazszamok_20220124.tsv refdir/hazszamok_kieg_20220123.tsv
-reference_street = refdir/utcak_20220123.tsv
+reference_housenumbers = refdir/hazszamok_20220125.tsv refdir/hazszamok_kieg_20220125.tsv
+reference_street = refdir/utcak_20220125.tsv
 reference_citycounts = refdir/varosok_count_20220123.tsv
 reference_zipcounts = refdir/irsz_count_20220124.tsv
 uri_prefix = /osm
