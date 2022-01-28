@@ -1903,9 +1903,18 @@ pub mod tests {
         let mut file_system = context::tests::TestFileSystem::new();
         let streets_value = context::tests::TestFileSystem::make_file();
         let htmlcache_value = context::tests::TestFileSystem::make_file();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[
+                ("data/yamls.cache", &yamls_cache_value),
                 ("workdir/gazdagret.percent", &streets_value),
                 ("workdir/gazdagret.htmlcache.en", &htmlcache_value),
             ],
@@ -1939,7 +1948,42 @@ pub mod tests {
     #[test]
     fn test_missing_housenumbers_compat_relation() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "budafok": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-budafok.yaml": {
+                "alias": [
+                    "budapest_22",
+                ],
+            }
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let htmlcache_value = context::tests::TestFileSystem::make_file();
+        let percent_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/budafok.htmlcache.en", &htmlcache_value),
+                ("workdir/budafok.percent", &percent_value),
+            ],
+        );
+        let mut file_system = context::tests::TestFileSystem::new();
+        file_system.set_files(&files);
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+        mtimes.insert(
+            test_wsgi.ctx.get_abspath("workdir/budafok.htmlcache.en"),
+            Rc::new(RefCell::new(0_f64)),
+        );
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
         let root = test_wsgi.get_dom_for_path("/suspicious-streets/budapest_22/view-result");
+
         let results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
     }
@@ -1969,9 +2013,24 @@ pub mod tests {
         let hide_path = relation.get_files().get_osm_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         test_wsgi.ctx.set_file_system(&file_system_arc);
+
         let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
+
         let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-housenumbers']");
         assert_eq!(results.len(), 1);
     }
@@ -2660,8 +2719,34 @@ Tűzkő utca	31
     #[test]
     fn test_main_filter_for_relations() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "myrelation1": {
+                    "osmrelation": 42,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+                "myrelation2": {
+                    "osmrelation": 43,
+                    "refcounty": "01",
+                    "refsettlement": "012",
+                },
+                "myrelation3": {
+                    "osmrelation": 44,
+                    "refcounty": "01",
+                    "refsettlement": "013",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
-        let root = test_wsgi.get_dom_for_path("/filter-for/relations/44,45");
+        let root = test_wsgi.get_dom_for_path("/filter-for/relations/42,43");
 
         let mut results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
