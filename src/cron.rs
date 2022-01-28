@@ -556,29 +556,29 @@ pub fn main(
 ) -> anyhow::Result<()> {
     let mut relations = areas::Relations::new(ctx)?;
 
-    let refcounty = clap::Arg::with_name("refcounty")
+    let refcounty = clap::Arg::new("refcounty")
         .long("refcounty")
         .takes_value(true)
         .help("limit the list of relations to a given refcounty");
-    let refsettlement = clap::Arg::with_name("refsettlement")
+    let refsettlement = clap::Arg::new("refsettlement")
         .long("refsettlement")
         .takes_value(true)
         .help("limit the list of relations to a given refsettlement");
     // Default: true.
-    let no_update = clap::Arg::with_name("no-update")
+    let no_update = clap::Arg::new("no-update")
         .long("no-update")
         .help("don't update existing state of relations");
-    let mode = clap::Arg::with_name("mode")
+    let mode = clap::Arg::new("mode")
         .long("mode")
         .takes_value(true)
         .default_value("relations")
         .help("only perform the given sub-task or all of them [all, stats or relations]");
-    let no_overpass = clap::Arg::with_name("no-overpass") // default: true
+    let no_overpass = clap::Arg::new("no-overpass") // default: true
         .long("no-overpass")
         .help("when updating stats, don't perform any overpass update");
     let args = [refcounty, refsettlement, no_update, mode, no_overpass];
     let app = clap::App::new("osm-gimmisn");
-    let args = app.args(&args).get_matches_from_safe(argv)?;
+    let args = app.args(&args).try_get_matches_from(argv)?;
 
     let start = ctx.get_time().now();
     // Query inactive relations once a month.
