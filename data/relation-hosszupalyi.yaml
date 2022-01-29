@@ -7,9 +7,11 @@ refstreets:
   'Damjanich János utca': 'Damjanich utca'
   # 'Homok telep': 'Homoktelep'
   'Klapka György utca': 'Klapka utca'
+  'Máriás tanya': 'Máriás-tanya'
   'Olgakert': 'Olga-kert'
   'Táncsics Mihály utca': 'Táncsics utca'
   'Új köz': 'Új-köz'
   # Kérdéses
   'Bagosi út': 'Bagosi utca'
+  'Jókai Mór utca': 'Jókai utca'
 source: survey
