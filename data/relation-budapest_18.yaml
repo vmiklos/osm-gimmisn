@@ -2,18 +2,32 @@ missing-streets: 'yes'
 filters: {}
 osm-street-filters:
   # nem igazi utcák
+  - Garázs-sor
   # repülőtér
   - 2-es terminál érkezés
   - 2-es terminál indulás
   - Air Cargo
   - BUD Nemzetközi II repülőtér
   - Ferihegy I. Terminál
+  - Kilátó terasz 
   # parkok, sétányok
   - Búbosbanka tanösvény
   - Brenner János park
   - Ervin park
+  - Sportpark
+  - Tersánszky Józsi Jenő sétány
+  # - Eötvös Loránd park
   - Herrich Károly téri park
   - Karvaly tanösvény
+  - Budapest-Pestszentlőrinc-Erzsébettelep (Szent Erzsébet) Római Katolikus Plébánia
+  # kerülethatáron / átlógó
+  - Almáskert út  # Vecsés
+  - Határ út  # Gyál
+  - Kacsóh Pongrác utca  # Gyál
+  # hivatalosan nincs, de kiírva
+  - Nap köz
+  # nincs
+  # Gyalóka köz - Note
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Fővárosi dűlő

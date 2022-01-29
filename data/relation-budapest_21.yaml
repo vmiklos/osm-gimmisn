@@ -21,6 +21,7 @@ osm-street-filters:
   - Görgey park
   - Pihenő Sziget
   - Rákóczi Kert Civil és Közösségi Ház
+  - Simon Bolivar park
   - Szánkódomb
   - Tejút park
   # Csepeli Papírgyár belső utcák
@@ -85,7 +86,6 @@ refstreets:
   'Zerge utca': 'Zerge út'  # táblán Zerge utca
   # nincs tábla
   'Simon Bolivar sétány': 'Simon Bolivár sétány'
-  'Simon Bolivar park': 'Simon Bolivár park'
   # Utcajegyzék = OSM
   'Báthory utca': 'Báthori utca'
   'Deák tér': 'Deák Ferenc tér'
