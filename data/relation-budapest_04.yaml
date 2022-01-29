@@ -18,6 +18,7 @@ osm-street-filters:
   - Dynamic park
   - Gróf Károlyi István park
   - Népsziget park
+  - Sándor István park
   - Szabadság park
   - Szilas park
   - Tulipánkert
@@ -28,11 +29,6 @@ osm-street-filters:
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Landler Jenő MÁV őrházlak
-  # egyéb
-  - Kossuth út  # Kossuth Lajos utca, nem lehet kétfelé mappelni
-  # semmilyen forrásban sem találtam
-  - Káposztásmegyeri köz
-  - Sobrik Joska utca
   # Kilián György tér - Note
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'

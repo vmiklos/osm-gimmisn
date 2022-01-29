@@ -49,6 +49,8 @@ osm-street-filters:
   # Érd-Budapest határa, a közigazgatási határ a kerítések vonalán fut: az épületek Érden vannak, a Budafoki út és a Tétényi út egy része pedig Budapest területére esik
   - Budafoki út
   - Tétényi út
+  # Megszűnt
+  - Dráva utca  # https://www.openstreetmap.org/node/6779492219
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Boros utca': 'Boros út'
