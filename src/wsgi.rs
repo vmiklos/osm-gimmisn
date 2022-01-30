@@ -2094,11 +2094,42 @@ pub mod tests {
     #[test]
     fn test_missing_housenumbers_view_result_txt_even_odd() {
         let mut test_wsgi = TestWsgi::new();
-        let cache_path = test_wsgi.ctx.get_abspath("workdir/gazdagret.txtcache");
-        if std::path::Path::new(&cache_path).exists() {
-            std::fs::remove_file(&cache_path).unwrap();
-        }
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "filters": {
+                    "Törökugrató utca": {
+                        "invalid": ["11", "12"],
+                    },
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let txt_cache_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/gazdagret.txtcache", &txt_cache_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+        mtimes.insert(
+            test_wsgi.ctx.get_abspath("workdir/gazdagret.txtcache"),
+            Rc::new(RefCell::new(0_f64)),
+        );
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
         let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
+
         let expected = r#"Hamzsabégi út	[1]
 Törökugrató utca	[7], [10]
 Tűzkő utca	[1], [2]"#;
@@ -2118,7 +2149,30 @@ Tűzkő utca	[1], [2]"#;
     #[test]
     fn test_missing_housenumbers_view_result_chkl_even_odd() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "filters": {
+                    "Törökugrató utca": {
+                        "invalid": ["11", "12"],
+                    },
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
+
         let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
+
         let expected = r#"[ ] Hamzsabégi út [1]
 [ ] Törökugrató utca [7], [10]
 [ ] Tűzkő utca [1], [2]"#;
@@ -2129,6 +2183,21 @@ Tűzkő utca	[1], [2]"#;
     #[test]
     fn test_missing_housenumbers_view_result_chkl_even_odd_split() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "filters": {
+                    "Törökugrató utca": {
+                        "invalid": ["11", "12"],
+                    },
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let hoursnumbers_ref = r#"Hamzsabégi út	1
 Ref Name 1	1
 Ref Name 1	2
@@ -2170,14 +2239,19 @@ Tűzkő utca	31
             .unwrap();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
-            &[(
-                "workdir/street-housenumbers-reference-gazdagret.lst",
-                &housenumbers_ref_value,
-            )],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "workdir/street-housenumbers-reference-gazdagret.lst",
+                    &housenumbers_ref_value,
+                ),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.ctx.set_file_system(&file_system);
+
         let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
+
         let expected = r#"[ ] Hamzsabégi út [1]
 [ ] Törökugrató utca [7], [10]
 [ ] Tűzkő utca [1, 13, 15, 17, 19, 21, 25, 27, 29, 31]
@@ -2279,7 +2353,23 @@ Tűzkő utca	31
     #[test]
     fn test_missing_housenumbers_view_turbo_well_formed() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
+
         let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-turbo");
+
         let results = TestWsgi::find_all(&root, "body/pre");
         assert_eq!(results.len(), 1);
     }
