@@ -9,9 +9,11 @@ filters:
     ranges:
       - {start: '5', end: '7'}
   Baross utca:
+    # 179: 177 után 181/a Jehova
+    # 183-185: 181 után 187
     ranges:
       - {start: '179', end: '299'}
-    invalid: ['86']
+    invalid: ['86', '179', '183', '185']
   Boglárka utca:
     invalid: ['37']
   Budakeszi utca:
@@ -59,7 +61,8 @@ filters:
     # 38: 36 után 40
     # 52-54: csak 52 van kiírva
     # 126: 124 után 128 2x
-    invalid: ['12', '38', '54', '126']
+    # 134: 132 után 136-138
+    invalid: ['12', '38', '54', '126', '134']
   Koszorú utca:
     ranges:
       - {start: '1', end: '99'}
