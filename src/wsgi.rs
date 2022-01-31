@@ -1871,11 +1871,41 @@ pub mod tests {
     /// Tests the missing house numbers page: if the output is well-formed.
     #[test]
     fn test_missing_housenumbers_well_formed() {
-        let cache_path = "workdir/gazdagret.htmlcache.en";
-        std::fs::File::create(cache_path).unwrap();
-        std::fs::remove_file(cache_path).unwrap();
         let mut test_wsgi = TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "refstreets": {
+                    "Misspelled OSM Name 1": "OSM Name 1",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let html_cache_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/gazdagret.htmlcache.en", &html_cache_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+        mtimes.insert(
+            test_wsgi.ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
+            Rc::new(RefCell::new(0_f64)),
+        );
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
+
         let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
+
         let mut results = TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
 
@@ -2665,9 +2695,24 @@ Tűzkő utca	31
         let hide_path = relation.get_files().get_osm_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 2713748,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         test_wsgi.ctx.set_file_system(&file_system_arc);
+
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
+
         let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-streets']");
         assert_eq!(results.len(), 1);
     }
@@ -2681,9 +2726,24 @@ Tűzkő utca	31
         let hide_path = relation.get_files().get_ref_streets_path();
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 2713748,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         test_wsgi.ctx.set_file_system(&file_system_arc);
+
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
+
         let results = TestWsgi::find_all(&root, "body/div[@id='no-ref-streets']");
         assert_eq!(results.len(), 1);
     }
@@ -2754,10 +2814,25 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_update_result() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 2713748,
+                    "refcounty": "01",
+                    "refsettlement": "011",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let ref_streets_cache = context::tests::TestFileSystem::make_file();
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
-            &[("workdir/streets-reference-gazdagret.lst", &streets_value)],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+                ("workdir/streets-reference-gazdagret.lst", &streets_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.ctx.set_file_system(&file_system);
