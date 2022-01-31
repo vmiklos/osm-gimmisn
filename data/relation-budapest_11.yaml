@@ -1936,8 +1936,6 @@ filters:
     # 2 = Keltike lejtő 15
     invalid: ['2']
   # Őrmező
-  Árokpart sor:
-    ranges: []
   Boldizsár utca:
     ranges: []
   Cirmos utca:
