@@ -3197,10 +3197,6 @@ way{color:blue; width:4;}
         let mut relations = Relations::new(&ctx).unwrap();
         let relation_name = "gazdagret";
         let mut relation = relations.get_relation(relation_name).unwrap();
-        let expected = String::from_utf8(
-            std::fs::read(&ctx.get_abspath("workdir/gazdagret.percent")).unwrap(),
-        )
-        .unwrap();
 
         let ret = relation.write_missing_housenumbers().unwrap();
 
@@ -3223,7 +3219,7 @@ way{color:blue; width:4;}
         guard.seek(SeekFrom::Start(0)).unwrap();
         let mut actual: Vec<u8> = Vec::new();
         guard.read_to_end(&mut actual).unwrap();
-        assert_eq!(String::from_utf8(actual).unwrap(), expected);
+        assert_eq!(String::from_utf8(actual).unwrap(), "54.55");
     }
 
     /// Tests Relation::write_missing_housenumbers(): the case when percent can't be determined.
