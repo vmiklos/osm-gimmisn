@@ -12,14 +12,16 @@ osm-street-filters:
   - Kilátó terasz 
   # parkok, sétányok
   - Búbosbanka tanösvény
+  - Budapest-Pestszentlőrinc-Erzsébettelep (Szent Erzsébet) Római Katolikus Plébánia
   - Brenner János park
+  # - Eötvös Loránd park
   - Ervin park
+  - Herrich Károly téri park
+  - Hősök tere
+  - Karvaly tanösvény
   - Sportpark
   - Tersánszky Józsi Jenő sétány
-  # - Eötvös Loránd park
-  - Herrich Károly téri park
-  - Karvaly tanösvény
-  - Budapest-Pestszentlőrinc-Erzsébettelep (Szent Erzsébet) Római Katolikus Plébánia
+  - Tímea tér
   # kerülethatáron / átlógó
   - Almáskert út  # Vecsés
   - Határ út  # Gyál
