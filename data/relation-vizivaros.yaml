@@ -58,9 +58,6 @@ filters:
       - {start: '47', end: '51', refsettlement: '002'}
       - {start: '61', end: '83', refsettlement: '002'}
       - {start: '62', end: '92', refsettlement: '002'}
-  Frankel Leó út:
-    refsettlement: '002'
-    ranges: []
   Ganz utca:
     refsettlement: '002'
   Gyorskocsi utca:
