@@ -2752,7 +2752,29 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_view_result_txt() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "street-filters": ["Only In Ref Nonsense utca"],
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
+
         let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
+
         assert_eq!(result, "Only In Ref utca\n");
     }
 
@@ -2760,7 +2782,29 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_view_result_chkl() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "street-filters": ["Only In Ref Nonsense utca"],
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
+
         let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.chkl");
+
         assert_eq!(result, "[ ] Only In Ref utca\n");
     }
 
@@ -2802,6 +2846,20 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_view_query_well_formed() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
 
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-query");
 
@@ -2850,6 +2908,31 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_view_turbo() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "filters": {
+                    "OSM Name 2": {
+                        "show-refstreet": false,
+                    },
+                },
+                "refstreets": {
+                    "OSM Name 1": "Ref Name 1",
+                    "OSM Name 2": "Ref Name 2",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        test_wsgi.ctx.set_file_system(&file_system);
         let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-turbo");
 
         let results = TestWsgi::find_all(&root, "body/pre");
