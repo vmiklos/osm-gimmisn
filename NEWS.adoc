@@ -1,6 +1,6 @@
 = Version descriptions
 
-== master
+== 7.3
 
 - Ported to Rust, the missing-housenumbers analysis is now about 5 times faster
 - Resolves: gh#1664 re-try overpass when response is XML (an error message) and CSV was requested
