@@ -1694,12 +1694,14 @@ pub mod tests {
             let mut data = Vec::new();
             let (mut reader, _size) = response.data.into_reader_and_size();
             reader.read_to_end(&mut data).unwrap();
+            let css = String::from_utf8(data).unwrap();
+            // println!("get_css_for_path: css is '{}'", css);
             // Make sure the built-in exception catcher is not kicking in.
             assert_eq!(response.status_code, 200);
             let headers_map: HashMap<_, _> = response.headers.into_iter().collect();
             assert_eq!(headers_map["Content-type"], "text/css; charset=utf-8");
-            assert_eq!(data.is_empty(), false);
-            String::from_utf8(data).unwrap()
+            assert_eq!(css.is_empty(), false);
+            css
         }
     }
 
@@ -2644,10 +2646,26 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_well_formed() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-gazdagret.yaml": {
+                "refstreets": {
+                    "Misspelled OSM Name 1": "OSM Name 1",
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
-            &[("workdir/gazdagret-streets.percent", &streets_value)],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/gazdagret-streets.percent", &streets_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.ctx.set_file_system(&file_system);
@@ -2670,10 +2688,21 @@ Tűzkő utca	31
     #[test]
     fn test_missing_streets_well_formed_compat() {
         let mut test_wsgi = TestWsgi::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
         let streets_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
-            &[("workdir/gazdagret-streets.percent", &streets_value)],
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/gazdagret-streets.percent", &streets_value),
+            ],
         );
         let file_system = context::tests::TestFileSystem::from_files(&files);
         test_wsgi.ctx.set_file_system(&file_system);
@@ -3192,6 +3221,22 @@ Tűzkő utca	31
     #[test]
     fn test_static_css() {
         let mut test_wsgi = TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let css_value = context::tests::TestFileSystem::make_file();
+        css_value.borrow_mut().write_all(b"{}").unwrap();
+        let files = context::tests::TestFileSystem::make_files(
+            &test_wsgi.ctx,
+            &[("workdir/osm.min.css", &css_value)],
+        );
+        file_system.set_files(&files);
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+        mtimes.insert(
+            test_wsgi.ctx.get_abspath("workdir/osm.min.css"),
+            Rc::new(RefCell::new(0_f64)),
+        );
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.ctx.set_file_system(&file_system_arc);
 
         let result = test_wsgi.get_css_for_path("/static/osm.min.css");
 

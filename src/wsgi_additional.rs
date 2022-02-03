@@ -359,6 +359,19 @@ mod tests {
         let relation = relations.get_relation("gazdagret").unwrap();
         let hide_path = relation.get_files().get_osm_housenumbers_path();
         let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
         file_system.set_hide_paths(&[hide_path]);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         test_wsgi.get_ctx().set_file_system(&file_system_arc);
