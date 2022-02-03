@@ -756,9 +756,9 @@ street-filters:
   # - Kamaraerdei köz
 refstreets:
   # OSM Name 1: Ref Name 1
-  Aszú utca: Aszu utca  # utcatábla Aszú utca
-  Írisz utca: Irisz utca  # nincs utcatábla
-  Csík falu köz: Csik Falu köz
-  Petőfi Sándor utca: Petőfi utca  # táblák vegyesen
-  Széchenyi utca: Széchenyi István utca  # utcatábla Széchenyi utca
+  Aszú utca: Aszu utca  # Szállások: utcatábla Aszú utca
+  Írisz utca: Irisz utca  # Hegyvidékek: nincs utcatábla
+  Csík falu köz: Csik Falu köz  # Hegyvidékek: utcatábla Csík falu köz
+  Petőfi Sándor utca: Petőfi utca  # Belváros/Gazdasági: táblák vegyesen
+  Széchenyi utca: Széchenyi István utca  # Kertváros: utcatábla Széchenyi utca
 inactive: false

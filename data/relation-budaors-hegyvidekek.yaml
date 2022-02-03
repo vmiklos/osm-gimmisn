@@ -180,4 +180,7 @@ filters:
   Zöldvirág köz:
     invalid: ['9']
 source: survey
-inactive: true
+refstreets:
+  Csík falu köz: Csik Falu köz  # utcatábla Csík falu köz
+  Írisz utca: Irisz utca  # nincs utcatábla
+inactive: false
