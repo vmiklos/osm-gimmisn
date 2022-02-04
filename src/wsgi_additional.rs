@@ -225,8 +225,11 @@ pub fn additional_streets_view_turbo(
 
 #[cfg(test)]
 mod tests {
+    use std::cell::RefCell;
+    use std::collections::HashMap;
     use std::io::Seek;
     use std::io::SeekFrom;
+    use std::rc::Rc;
     use std::sync::Arc;
 
     use crate::areas;
@@ -299,10 +302,29 @@ mod tests {
     /// Tests handle_main_housenr_additional_count().
     #[test]
     fn test_handle_main_housenr_additional_count() {
-        let ctx = context::tests::make_test_context().unwrap();
+        let mut ctx = context::tests::make_test_context().unwrap();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "budafok": {
+                    "osmrelation": 42,
+                },
+            },
+            "relation-budafok.yaml": {
+                "additional-housenumbers": true,
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            &ctx,
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        let file_system = context::tests::TestFileSystem::from_files(&files);
+        ctx.set_file_system(&file_system);
         let mut relations = areas::Relations::new(&ctx).unwrap();
         let relation = relations.get_relation("budafok").unwrap();
+
         let actual = wsgi::handle_main_housenr_additional_count(&ctx, &relation).unwrap();
+
         assert_eq!(actual.get_value().contains("42 house numbers"), true);
     }
 
@@ -330,7 +352,42 @@ mod tests {
     #[test]
     fn test_additional_housenumbers_well_formed() {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
+        let mut file_system = context::tests::TestFileSystem::new();
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let count_value = context::tests::TestFileSystem::make_file();
+        let cache_value = context::tests::TestFileSystem::make_file();
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[
+                ("data/yamls.cache", &yamls_cache_value),
+                (
+                    "workdir/gazdagret-additional-housenumbers.count",
+                    &count_value,
+                ),
+                ("workdir/gazdagret.additional-htmlcache.en", &cache_value),
+            ],
+        );
+        file_system.set_files(&files);
+        let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+        mtimes.insert(
+            test_wsgi
+                .get_ctx()
+                .get_abspath("workdir/gazdagret.additional-htmlcache.en"),
+            Rc::new(RefCell::new(0_f64)),
+        );
+        file_system.set_mtimes(&mtimes);
+        let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+        test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
         let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
+
         let results = wsgi::tests::TestWsgi::find_all(&root, "body/table");
         assert_eq!(results.len(), 1);
     }
@@ -339,14 +396,29 @@ mod tests {
     #[test]
     fn test_additional_housenumbers_no_osm_streets_well_formed() {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
-        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_osm_streets_path();
+        let hide_path = test_wsgi
+            .get_ctx()
+            .get_abspath("workdir/streets-gazdagret.csv");
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
         let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
+
         let results = wsgi::tests::TestWsgi::find_all(&root, "body/div[@id='no-osm-streets']");
         assert_eq!(results.len(), 1);
     }
@@ -386,11 +458,24 @@ mod tests {
     #[test]
     fn test_additional_housenumbers_no_ref_housenumbers_well_formed() {
         let mut test_wsgi = wsgi::tests::TestWsgi::new();
-        let mut relations = areas::Relations::new(test_wsgi.get_ctx()).unwrap();
-        let relation = relations.get_relation("gazdagret").unwrap();
-        let hide_path = relation.get_files().get_ref_housenumbers_path();
+        let hide_path = test_wsgi
+            .get_ctx()
+            .get_abspath("workdir/street-housenumbers-reference-gazdagret.lst");
         let mut file_system = context::tests::TestFileSystem::new();
         file_system.set_hide_paths(&[hide_path]);
+        let yamls_cache = serde_json::json!({
+            "relations.yaml": {
+                "gazdagret": {
+                    "osmrelation": 42,
+                },
+            },
+        });
+        let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let files = context::tests::TestFileSystem::make_files(
+            test_wsgi.get_ctx(),
+            &[("data/yamls.cache", &yamls_cache_value)],
+        );
+        file_system.set_files(&files);
         let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
         test_wsgi.get_ctx().set_file_system(&file_system_arc);
 
