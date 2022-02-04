@@ -96,25 +96,25 @@ src/browser/config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
 
 ifdef TSDEBUG
-BROWSERIFY_OPTIONS = --debug
+WEBPACK_OPTIONS = --mode=development --devtool inline-source-map
 else
-BROWSERIFY_OPTIONS = --plugin tinyify
+WEBPACK_OPTIONS = --mode=production
 endif
-BROWSERIFY_OPTIONS += --plugin tsify
 
-builddir/bundle.js: $(TS_OBJECTS) package-lock.json
+builddir/bundle.js: $(TS_OBJECTS) package-lock.json Makefile
 	mkdir -p builddir
-	node_modules/.bin/browserify -o builddir/bundle.js $(BROWSERIFY_OPTIONS) $(TS_OBJECTS)
+	npx webpack ${WEBPACK_OPTIONS} --config webpack.config.js
+	touch $@
 
 package-lock.json: package.json
 	npm install
-	touch package-lock.json
+	touch $@
 
 css: workdir/osm.min.css
 
 workdir/osm.min.css: static/osm.css package-lock.json
 	mkdir -p workdir
-	[ -x "./node_modules/.bin/cleancss" ] && ./node_modules/.bin/cleancss -o $@ $< || cp -a $< $@
+	[ -x "./node_modules/.bin/cleancss" ] && npx cleancss -o $@ $< || cp -a $< $@
 
 testdata: tests/data/yamls.cache tests/workdir/osm.min.css tests/favicon.ico tests/favicon.svg
 
@@ -141,7 +141,7 @@ tests/data/yamls.cache: build $(YAML_TEST_OBJECTS)
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
 %.eslint : %.ts Makefile .eslintrc
-	$(QUIET_ESLINT)node_modules/.bin/eslint $< && touch $@
+	$(QUIET_ESLINT)npx eslint $< && touch $@
 
 check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 

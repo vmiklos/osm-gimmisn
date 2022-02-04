@@ -4,13 +4,36 @@
  * found in the LICENSE file.
  */
 
-import Chart = require("chart.js");
-import "chartjs-plugin-datalabels"; // only for its side-effects
+import {
+    Chart,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    LineController,
+    CategoryScale,
+    LinearScale,
+    Legend,
+    Title
+} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as ChartDatalabels from "chartjs-plugin-datalabels/types/context";
-import chartJsTrendline = require("chartjs-plugin-trendline");
-Chart.plugins.register(chartJsTrendline);
-
+import ChartTrendline from "chartjs-plugin-trendline";
 import * as config from './config';
+
+Chart.register(
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    LineController,
+    CategoryScale,
+    LinearScale,
+    Legend,
+    Title,
+    ChartTrendline,
+    ChartDataLabels
+);
 
 function getString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
@@ -68,37 +91,34 @@ function addCharts(stats: Stats) {
         type: "bar",
         data: dailyData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-daily-title").replace("{}", progress.date),
-            },
-            scales: {
-                xAxes: [{
-                    ticks: { suggestedMin: 0, },
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-daily-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-daily-y-axis"),
-                    },
-                }]
-            },
             plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-daily-title").replace("{}", progress.date),
+                },
                 datalabels: {
                     align: "top",
                     anchor: "end",
                 }
             },
-            tooltips: {
-                enabled: false,
-            },
-            legend: {
-                display: false,
+            scales: {
+                x: {
+                    suggestedMin: 0,
+                    title: {
+                        display: true,
+                        text: getString("str-daily-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-daily-y-axis"),
+                    },
+                }
             },
         }
     });
@@ -118,37 +138,34 @@ function addCharts(stats: Stats) {
         type: "bar",
         data: monthlyData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-monthly-title").replace("{}", progress.date),
-            },
-            scales: {
-                xAxes: [{
-                    ticks: { suggestedMin: 0, },
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-monthly-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-monthly-y-axis"),
-                    },
-                }]
-            },
             plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-monthly-title").replace("{}", progress.date),
+                },
                 datalabels: {
                     align: "top",
                     anchor: "end",
                 }
             },
-            tooltips: {
-                enabled: false,
-            },
-            legend: {
-                display: false,
+            scales: {
+                x: {
+                    suggestedMin: 0,
+                    title: {
+                        display: true,
+                        text: getString("str-monthly-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-monthly-y-axis"),
+                    },
+                }
             },
         }
     });
@@ -168,36 +185,33 @@ function addCharts(stats: Stats) {
         type: "line",
         data: monthlytotalData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-monthlytotal-title").replace("{}", progress.date),
-            },
-            scales: {
-                xAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-monthlytotal-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-monthlytotal-y-axis"),
-                    },
-                }]
-            },
             plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-monthlytotal-title").replace("{}", progress.date),
+                },
                 datalabels: {
                     align: "top",
                     anchor: "end",
                 }
             },
-            tooltips: {
-                enabled: false,
-            },
-            legend: {
-                display: false,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: getString("str-monthlytotal-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-monthlytotal-y-axis"),
+                    },
+                }
             },
         }
     });
@@ -218,36 +232,33 @@ function addCharts(stats: Stats) {
         type: "line",
         data: dailytotalData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-dailytotal-title").replace("{}", progress.date),
-            },
-            scales: {
-                xAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-dailytotal-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-dailytotal-y-axis"),
-                    },
-                }]
-            },
             plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-dailytotal-title").replace("{}", progress.date),
+                },
                 datalabels: {
                     align: "top",
                     anchor: "end",
                 }
             },
-            tooltips: {
-                enabled: false,
-            },
-            legend: {
-                display: false,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: getString("str-dailytotal-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-dailytotal-y-axis"),
+                    },
+                }
             },
         }
     });
@@ -267,37 +278,34 @@ function addCharts(stats: Stats) {
         type: "bar",
         data: topusersData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-topusers-title").replace("{}", progress.date),
-            },
-            scales: {
-                xAxes: [{
-                    ticks: { suggestedMin: 0, },
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-topusers-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-topusers-y-axis"),
-                    },
-                }]
-            },
             plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-topusers-title").replace("{}", progress.date),
+                },
                 datalabels: {
                     align: "top",
                     anchor: "end",
                 }
             },
-            tooltips: {
-                enabled: false,
-            },
-            legend: {
-                display: false,
+            scales: {
+                x: {
+                    suggestedMin: 0,
+                    title: {
+                        display: true,
+                        text: getString("str-topusers-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-topusers-y-axis"),
+                    },
+                }
             },
         }
     });
@@ -324,37 +332,34 @@ function addCharts(stats: Stats) {
         type: "bar",
         data: topcitiesData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-topcities-title").replace("{}", progress.date),
-            },
-            scales: {
-                xAxes: [{
-                    ticks: { suggestedMin: 0, },
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-topcities-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-topcities-y-axis"),
-                    },
-                }]
-            },
             plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-topcities-title").replace("{}", progress.date),
+                },
                 datalabels: {
                     align: "top",
                     anchor: "end",
                 }
             },
-            tooltips: {
-                enabled: false,
-            },
-            legend: {
-                display: false,
+            scales: {
+                x: {
+                    suggestedMin: 0,
+                    title: {
+                        display: true,
+                        text: getString("str-topcities-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-topcities-y-axis"),
+                    },
+                }
             },
         }
     });
@@ -374,42 +379,41 @@ function addCharts(stats: Stats) {
         type: "bar",
         data: usertotalData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-usertotal-title").replace("{}", progress.date),
-            },
-            scales: {
-                xAxes: [{
-                    ticks: { suggestedMin: 0, },
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-usertotal-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-usertotal-y-axis"),
-                    },
-                }]
-            },
             plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-usertotal-title").replace("{}", progress.date),
+                },
                 datalabels: {
                     align: "top",
                     anchor: "end",
                 }
             },
-            tooltips: {
-                enabled: false,
-            },
-            legend: {
-                display: false,
+            scales: {
+                x: {
+                    suggestedMin: 0,
+                    title: {
+                        display: true,
+                        text: getString("str-usertotal-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-usertotal-y-axis"),
+                    },
+                }
             },
         }
     });
 
     const progressData = {
+        // One data set has a single value here, so no visible label is needed.
+        labels: [""],
         datasets: [{
             label: getString("str-reference"),
             backgroundColor: "rgba(255, 0, 0, 0.5)",
@@ -424,30 +428,16 @@ function addCharts(stats: Stats) {
     const progressCanvas = <HTMLCanvasElement>document.getElementById("progress");
     const progressCtx = progressCanvas.getContext("2d");
     new Chart(progressCtx, {
-        type: "horizontalBar",
+        type: "bar",
         data: progressData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-progress-title").replace("{1}", progress.percentage.toString()).replace("{2}", progress.date),
-            },
-            scales: {
-                xAxes: [{
-                    ticks: { min: 0.0, },
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-progress-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-progress-y-axis"),
-                    },
-                }]
-            },
+            indexAxis: "y",
             plugins: {
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-progress-title").replace("{1}", progress.percentage.toString()).replace("{2}", progress.date),
+                },
                 datalabels: {
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     formatter: function(value: number, context: ChartDatalabels.Context) {
@@ -456,13 +446,26 @@ function addCharts(stats: Stats) {
                     }
                 }
             },
-            tooltips: {
-                enabled: false,
-            }
+            scales: {
+                x: {
+                    min: 0.0,
+                    title: {
+                        display: true,
+                        text: getString("str-progress-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-progress-y-axis"),
+                    },
+                }
+            },
         }
     });
 
     const capitalProgressData = {
+        labels: [""],
         datasets: [{
             label: getString("str-reference"),
             backgroundColor: "rgba(255, 0, 0, 0.5)",
@@ -477,30 +480,16 @@ function addCharts(stats: Stats) {
     const capitalProgressCanvas = <HTMLCanvasElement>document.getElementById("capital-progress");
     const capitalProgressCtx = capitalProgressCanvas.getContext("2d");
     new Chart(capitalProgressCtx, {
-        type: "horizontalBar",
+        type: "bar",
         data: capitalProgressData,
         options: {
-            title: {
-                display: true,
-                padding: 30, // default would be 10, which may overlap
-                text: getString("str-capital-progress-title").replace("{1}", capitalProgress.percentage.toString()).replace("{2}", capitalProgress.date),
-            },
-            scales: {
-                xAxes: [{
-                    ticks: { min: 0.0, },
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-capital-progress-x-axis"),
-                    },
-                }],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: getString("str-progress-y-axis"),
-                    },
-                }]
-            },
+            indexAxis: "y",
             plugins: {
+                title: {
+                    display: true,
+                    padding: 30, // default would be 10, which may overlap
+                    text: getString("str-capital-progress-title").replace("{1}", capitalProgress.percentage.toString()).replace("{2}", capitalProgress.date),
+                },
                 datalabels: {
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     formatter: function(value: number, context: ChartDatalabels.Context) {
@@ -509,9 +498,21 @@ function addCharts(stats: Stats) {
                     }
                 }
             },
-            tooltips: {
-                enabled: false,
-            }
+            scales: {
+                x: {
+                    min: 0.0,
+                    title: {
+                        display: true,
+                        text: getString("str-capital-progress-x-axis"),
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: getString("str-progress-y-axis"),
+                    },
+                }
+            },
         }
     });
 }
