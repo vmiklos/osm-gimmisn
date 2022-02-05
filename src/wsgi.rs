@@ -1888,11 +1888,13 @@ pub mod tests {
             },
         });
         let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+        let percent_value = context::tests::TestFileSystem::make_file();
         let html_cache_value = context::tests::TestFileSystem::make_file();
         let files = context::tests::TestFileSystem::make_files(
             &test_wsgi.ctx,
             &[
                 ("data/yamls.cache", &yamls_cache_value),
+                ("workdir/gazdagret.percent", &percent_value),
                 ("workdir/gazdagret.htmlcache.en", &html_cache_value),
             ],
         );
