@@ -486,6 +486,10 @@ hosszupalyi:
     osmrelation: 1443909
     refcounty: "09"
     refsettlement: "039"
+monostorpalyi:
+    osmrelation: 1443910
+    refcounty: "09"
+    refsettlement: "052"
 # 10 - Heves
 eger:
     osmrelation: 1418156
