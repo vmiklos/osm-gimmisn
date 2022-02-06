@@ -2,16 +2,6 @@ gazdagret:
     osmrelation: 2713748
     refcounty: "01"
     refsettlement: "011"
-# this relation has no filter file
-nosuchrelation:
-    osmrelation: 42
-    refcounty: "01"
-    refsettlement: "011"
-# this relation has an empty filter file
-empty:
-    osmrelation: 13
-    refcounty: "01"
-    refsettlement: "011"
 # this relation has 'missing-streets: only' set
 ujbuda:
     osmrelation: 221998
@@ -22,23 +12,6 @@ gellerthegy:
     osmrelation: 2702687
     refcounty: "01"
     refsettlement: "011"
-# just so that we can test its osm street list
-test:
-    osmrelation: 66
-    refcounty: "67"
-    refsettlement: "68"
-nosuchrefcounty:
-    osmrelation: 43
-    refcounty: "98"
-    refsettlement: "99"
-nosuchrefsettlement:
-    osmrelation: 44
-    refcounty: "01"
-    refsettlement: "99"
-inactiverelation:
-    osmrelation: 45
-    refcounty: "01"
-    refsettlement: "98"
 budafok:
     osmrelation: 42
     refcounty: "43"
