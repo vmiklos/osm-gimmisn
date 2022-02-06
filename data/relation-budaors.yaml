@@ -244,6 +244,12 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '28'}
+  Kamaraerdei út:
+    # 65: 63 után 67 jön
+    invalid: ['65']
+    ranges:
+      - {start: '2', end: '10'}
+      - {start: '1', end: '79'}
   Károly király utca:
     # 2: nincs, 4-től indul a számozás, a sarki első épület Szabadság út 51
     # 18: nincs, 16 után 20 jön, kettő között a Baross utca húzódik
@@ -752,8 +758,6 @@ street-filters:
   - Hegyközi utca  # egy benőtt ösvény a Cserebogár utcából
   - Sáfrány utca  # Ringló utcáról nyíló ösvény - törölve
   - Szeder utca  # Lezárt magánút Naphegy utcáról - törölve
-  # Az utca Budapesten fut, de vannak számok a Budaörsi oldalon
-  # - Kamaraerdei köz
 refstreets:
   # OSM Name 1: Ref Name 1
   Aszú utca: Aszu utca  # Szállások: utcatábla Aszú utca

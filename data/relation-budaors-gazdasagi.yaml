@@ -29,6 +29,7 @@ filters:
   Kamaraerdei út:
     ranges:
       - {start: '1', end: '21'}
+      - {start: '2', end: '10'}
   Károly király utca:
     # belvaros 1-85, 2-82, többi gazdasági
     ranges:
