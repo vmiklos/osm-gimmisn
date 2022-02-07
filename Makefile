@@ -23,7 +23,6 @@ TS_OBJECTS = \
 	src/browser/types.d.ts \
 
 RS_OBJECTS = \
-	src/accept_language.rs \
 	src/area_files.rs \
 	src/areas.rs \
 	src/bin/cache_yamls.rs \

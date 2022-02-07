@@ -11,7 +11,6 @@
 
 //! Finds objects missing from the OSM DB.
 
-mod accept_language;
 mod area_files;
 mod areas;
 mod cache;
