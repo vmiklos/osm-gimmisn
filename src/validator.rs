@@ -11,6 +11,7 @@
 //! The validator module validates yaml files under data/.
 
 use crate::areas;
+use crate::context;
 use anyhow::Context;
 use std::collections::HashMap;
 use std::io::Write;
@@ -283,10 +284,14 @@ fn validate_relations(
 }
 
 /// Commandline interface to this module.
-pub fn main(argv: &[String], stream: &mut dyn Write) -> anyhow::Result<i32> {
+pub fn main(
+    argv: &[String],
+    stream: &mut dyn Write,
+    ctx: &context::Context,
+) -> anyhow::Result<i32> {
     let yaml_path = argv[1].clone();
     let path = std::path::Path::new(&yaml_path);
-    let data = std::fs::read_to_string(&yaml_path)?;
+    let data = ctx.get_file_system().read_to_string(&yaml_path)?;
     let mut errors: Vec<String> = Vec::new();
     if path.ends_with("relations.yaml") {
         let relations_dict: areas::RelationsDict =
@@ -331,7 +336,8 @@ mod tests {
         for path in paths {
             let argv = ["".to_string(), path.to_string()];
             let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-            let ret = main(&argv, &mut buf).unwrap();
+            let ctx = context::tests::make_test_context().unwrap();
+            let ret = main(&argv, &mut buf, &ctx).unwrap();
             assert_eq!(ret, 0);
         }
     }
@@ -345,7 +351,8 @@ mod tests {
             "tests/data/relations-missing-osmrelation/relations.yaml".into(),
         ];
         let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-        let ret = main(argv, &mut buf).unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
+        let ret = main(argv, &mut buf, &ctx).unwrap();
         assert_eq!(ret, 1);
         let expected = b"failed to validate tests/data/relations-missing-osmrelation/relations.yaml: missing key 'gazdagret.osmrelation'\n";
         assert_eq!(buf.into_inner(), expected);
@@ -360,7 +367,8 @@ mod tests {
             "tests/data/relations-missing-refcounty/relations.yaml".into(),
         ];
         let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-        let ret = main(argv, &mut buf).unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
+        let ret = main(argv, &mut buf, &ctx).unwrap();
         assert_eq!(ret, 1);
         let expected = b"failed to validate tests/data/relations-missing-refcounty/relations.yaml: missing key 'gazdagret.refcounty'\n";
         assert_eq!(buf.into_inner(), expected);
@@ -375,7 +383,8 @@ mod tests {
             "tests/data/relations-missing-refsettlement/relations.yaml".into(),
         ];
         let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-        let ret = main(argv, &mut buf).unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
+        let ret = main(argv, &mut buf, &ctx).unwrap();
         assert_eq!(ret, 1);
         let expected = b"failed to validate tests/data/relations-missing-refsettlement/relations.yaml: missing key 'gazdagret.refsettlement'\n";
         assert_eq!(buf.into_inner(), expected);
@@ -387,7 +396,8 @@ mod tests {
         // Set up arguments.
         let argv: &[String] = &["".into(), "tests/data/relation-gazdagret.yaml".into()];
         let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-        let ret = main(argv, &mut buf).unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
+        let ret = main(argv, &mut buf, &ctx).unwrap();
         assert_eq!(ret, 0);
         assert_eq!(buf.into_inner(), b"");
     }
@@ -396,7 +406,8 @@ mod tests {
     fn assert_failure_msg(path: &str, expected: &str) {
         let argv: &[String] = &["".to_string(), path.to_string()];
         let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-        let ret = main(argv, &mut buf).unwrap();
+        let ctx = context::tests::make_test_context().unwrap();
+        let ret = main(argv, &mut buf, &ctx).unwrap();
         assert_eq!(ret, 1);
         assert_eq!(String::from_utf8(buf.into_inner()).unwrap(), expected);
     }

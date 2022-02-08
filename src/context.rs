@@ -36,6 +36,15 @@ pub trait FileSystem {
 
     /// Opens a file for writing in binary mode.
     fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>>;
+
+    /// Read the entire contents of a file into a string.
+    fn read_to_string(&self, path: &str) -> anyhow::Result<String> {
+        let stream = self.open_read(path)?;
+        let mut guard = stream.borrow_mut();
+        let mut bytes: Vec<u8> = Vec::new();
+        guard.read_to_end(&mut bytes).unwrap();
+        Ok(String::from_utf8(bytes)?)
+    }
 }
 
 /// File system implementation, backed by the Rust stdlib.
