@@ -511,7 +511,7 @@ impl Relation {
 
     /// Produces a query which lists streets in relation.
     pub fn get_osm_streets_query(&self) -> anyhow::Result<String> {
-        let contents = std::fs::read_to_string(format!(
+        let contents = self.ctx.get_file_system().read_to_string(&format!(
             "{}/{}",
             self.ctx.get_abspath("data"),
             "streets-template.txt"
@@ -1104,7 +1104,7 @@ impl Relation {
 
     /// Produces a query which lists house numbers in relation.
     pub fn get_osm_housenumbers_query(&self) -> anyhow::Result<String> {
-        let contents = std::fs::read_to_string(format!(
+        let contents = self.ctx.get_file_system().read_to_string(&format!(
             "{}/{}",
             self.ctx.get_abspath("data"),
             "street-housenumbers-template.txt"

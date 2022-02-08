@@ -119,7 +119,10 @@ mod tests {
         let network = context::tests::TestNetwork::new(&routes);
         let network_arc: Arc<dyn context::Network> = Arc::new(network);
         ctx.set_network(&network_arc);
-        let query = std::fs::read_to_string("tests/network/overpass-happy.expected-data").unwrap();
+        let query = ctx
+            .get_file_system()
+            .read_to_string("tests/network/overpass-happy.expected-data")
+            .unwrap();
 
         let buf = overpass_query(&ctx, query).unwrap();
 

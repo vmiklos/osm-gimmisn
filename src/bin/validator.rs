@@ -12,7 +12,8 @@
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
-    match osm_gimmisn::validator::main(&args, &mut std::io::stdout()) {
+    let ctx = osm_gimmisn::context::Context::new("").unwrap();
+    match osm_gimmisn::validator::main(&args, &mut std::io::stdout(), &ctx) {
         Ok(exit_code) => std::process::exit(exit_code),
         Err(err) => Err(err),
     }
