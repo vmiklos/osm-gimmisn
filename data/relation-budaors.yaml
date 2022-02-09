@@ -245,8 +245,9 @@ filters:
       - {start: '1', end: '15'}
       - {start: '2', end: '28'}
   Kamaraerdei út:
+    # 15-19: 13 után 21
     # 65: 63 után 67 jön
-    invalid: ['65']
+    invalid: ['15', '17', '19', '65']
     ranges:
       - {start: '2', end: '10'}
       - {start: '1', end: '79'}
