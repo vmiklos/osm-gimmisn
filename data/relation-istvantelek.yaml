@@ -40,5 +40,5 @@ filters:
 refstreets:
   'Ódry Árpád utca': 'Ódry utca'  # utcatábla = OSM
 source: survey
-housenumber-letters: true
+housenumber-letters: false
 inactive: true
