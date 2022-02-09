@@ -76,4 +76,4 @@ source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   Petőfi Sándor utca: Petőfi utca
-inactive: true
+inactive: false
