@@ -22,4 +22,4 @@ refstreets:
   'Scholcz Ferenc utca': 'Scholz Ferenc utca'
   'Széchenyi István utca': 'Széchenyi utca'
 source: survey
-inactive: false
+inactive: true

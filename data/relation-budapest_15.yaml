@@ -39,4 +39,4 @@ osm-street-filters:
   - Páskom liget
   - Szilas-patak tanösvény
 source: survey
-inactive: false
+inactive: true

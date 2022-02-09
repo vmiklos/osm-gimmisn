@@ -39,4 +39,4 @@ refstreets:
   'Kalló utca': 'Kallo utca'
 source: survey
 housenumber-letters: true
-inactive: false
+inactive: true

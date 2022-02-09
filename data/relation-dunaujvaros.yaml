@@ -106,3 +106,4 @@ refstreets:
   'Városréti út': 'Városréti utca'
   'Vizimolnárok utca': 'Vízimolnárok utca'
 source: survey
+inactive: true

@@ -85,4 +85,4 @@ refstreets:
   'Tibrik dűlő': 'Tibrikdűlő utca'  # Note 2803220
   'Törvényház út': 'Törvényház utca'  # Note 2803216
 source: survey
-inactive: true
+inactive: false

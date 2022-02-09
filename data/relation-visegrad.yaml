@@ -92,4 +92,4 @@ refstreets:
   'Magasköz utca': 'Magas köz'
   'Szentgyörgypusztai út': 'Szentgyörgypuszta út'
   'Temető sor': 'Temetősor utca'
-inactive: true
+inactive: false

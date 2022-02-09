@@ -63,4 +63,4 @@ refstreets:
   'Losonczi utca': 'Losonci utca'
   'Petőfi utca': 'Petőfi Sándor utca'
 source: survey
-inactive: false
+inactive: true

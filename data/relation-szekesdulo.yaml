@@ -3,5 +3,5 @@ filters:
   Váci út:
     ranges: []
 source: survey
-inactive: false
 housenumber-letters: false
+inactive: true

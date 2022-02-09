@@ -23,3 +23,4 @@ refstreets:
   # Szarkás dűlő - 47.74700927734375,18.58931922912598
   # Szénásvölgy pincesor
 source: survey
+inactive: true

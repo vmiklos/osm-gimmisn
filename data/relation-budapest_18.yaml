@@ -67,4 +67,4 @@ refstreets:
   'Rudavszky utca': 'Rudawszky utca'
   'Rim utca': 'Rím utca'
 source: survey
-inactive: false
+inactive: true

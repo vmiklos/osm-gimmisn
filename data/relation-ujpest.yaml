@@ -77,5 +77,5 @@ refstreets:
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # utcatábla = OSM
   'Venetiáner utca': 'Venetianer utca'  # utcatábla = OSM
 source: survey
-inactive: false
 housenumber-letters: false
+inactive: true
