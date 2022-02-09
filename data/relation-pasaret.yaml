@@ -75,4 +75,4 @@ filters:
     invalid: ['3']
 source: survey
 housenumber-letters: true
-inactive: true
+inactive: false

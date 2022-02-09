@@ -24,4 +24,4 @@ refstreets:
   'Béla király sétány': 'Béla sétány'
   'Jókai Mór utca': 'Jókai utca'
 source: survey
-inactive: false
+inactive: true

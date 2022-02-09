@@ -24,4 +24,4 @@ refstreets:
   'Táncsics Mihály utca': 'Táncsics utca'
   'Vörösmarty utca': 'Vörösmarty Mihály utca'
 source: survey
-inactive: false
+inactive: true

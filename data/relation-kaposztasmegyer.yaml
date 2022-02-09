@@ -13,5 +13,5 @@ filters:
 refstreets:
   'Farkaserdő utca': 'Farkas-erdő utca'  # utcatábla = OSM
 source: survey
-inactive: false
 housenumber-letters: false
+inactive: true

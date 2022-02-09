@@ -15,4 +15,4 @@ filters:
 refstreets:
   'József Attila út': 'József Attila utca'
 source: survey
-inactive: false
+inactive: true

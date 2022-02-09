@@ -23,4 +23,4 @@ refstreets:
   'Testvér utca': 'Testvér út'
   'Vasút feletti dűlő': 'Vasút-feletti dűlő'
 source: survey
-inactive: false
+inactive: true

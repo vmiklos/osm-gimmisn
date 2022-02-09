@@ -252,5 +252,5 @@ filters:
       - {start: '1', end: '21'}
       - {start: '2', end: '20'}
 source: survey
-inactive: false
 housenumber-letters: true
+inactive: true

@@ -59,4 +59,4 @@ filters:
       - {start: '1', end: '31'}
       - {start: '2', end: '40'}
 source: survey
-inactive: false
+inactive: true

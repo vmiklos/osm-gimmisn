@@ -37,5 +37,5 @@ filters:
       - {start: '91', end: '199'}
       - {start: '104', end: '198'}
 source: survey
-inactive: false
 housenumber-letters: false
+inactive: true

@@ -24,4 +24,4 @@ refstreets:
   'Ugralovica dűlő': 'Uglarovica dűlő'
   'Wattay utca': 'Watthay utca'
 source: survey
-inactive: false
+inactive: true
