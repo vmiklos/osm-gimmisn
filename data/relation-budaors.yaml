@@ -371,9 +371,6 @@ filters:
     invalid: ['1', '9']
   Mátra utca:
     invalid: ['5', '31']
-  Meggy utca:
-    # gyéren táblázva, ezek nincsenek
-    invalid: ['33', '66']
   Meredek utca:
     # vannak bódék, de 10-12-14 nincs kiírva
     invalid: ['10', '12', '14']
@@ -419,6 +416,9 @@ filters:
       - {start: '2', end: '52'}
   Nyitra köz:
     invalid: ['8']
+  Odvas-hegy utca:
+    # ide nincs számozva semmi
+    ranges: []
   Orchidea utca:
     invalid: ['1']
   Ostor köz:
@@ -755,6 +755,7 @@ street-filters:
   - Lomb utca
   # Csak terven létezik, tábla nincs
   - Ágas utca  # valóságban nem létezik
+  - Bérc utca  # w108362524 - valóságban egy erdei ösvény - törölve
   - Darázs utca  # Szarvas utca vége volt ennek jelölve, a helyszínen Szarvas utcára van számozva minden
   - Hegyközi utca  # egy benőtt ösvény a Cserebogár utcából
   - Sáfrány utca  # Ringló utcáról nyíló ösvény - törölve
