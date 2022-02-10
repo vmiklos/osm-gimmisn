@@ -27,6 +27,8 @@ filters:
       - {start: '23', end: '29'}
       - {start: '2', end: '6'}
   Kamaraerdei út:
+    # 13 után 21
+    invalid: ['15', '17', '19']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '10'}

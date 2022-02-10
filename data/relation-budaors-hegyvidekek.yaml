@@ -84,6 +84,9 @@ filters:
     # számozás össze vissza
     ranges:
       - {start: '13', end: '19'}
+  Meggy utca:
+    # a házszámok a szállások területén
+    ranges: []
   Meredek utca:
     # vannak bódék, de 10-12-14 nincs kiírva
     invalid: ['10', '12', '14']
@@ -179,8 +182,8 @@ filters:
     invalid: ['3', '6']
   Zöldvirág köz:
     invalid: ['9']
-source: survey
 refstreets:
   Csík falu köz: Csik Falu köz  # utcatábla Csík falu köz
   Írisz utca: Irisz utca  # nincs utcatábla
+source: survey
 inactive: false
