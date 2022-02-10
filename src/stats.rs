@@ -25,7 +25,9 @@ fn handle_progress(
     j: &mut serde_json::Value,
 ) -> anyhow::Result<()> {
     let mut ret = serde_json::json!({});
-    let num_ref: f64 = std::fs::read_to_string(format!("{}/ref.count", src_root))?
+    let num_ref: f64 = ctx
+        .get_file_system()
+        .read_to_string(&format!("{}/ref.count", src_root))?
         .trim()
         .parse()
         .context("failed to parse ref.count")?;
@@ -36,7 +38,9 @@ fn handle_progress(
     let mut num_osm = 0_f64;
     let count_path = format!("{}/{}.count", src_root, today);
     if std::path::Path::new(&count_path).exists() {
-        num_osm = std::fs::read_to_string(&count_path)?
+        num_osm = ctx
+            .get_file_system()
+            .read_to_string(&count_path)?
             .trim()
             .parse()
             .context("failed to parse today.count")?;
@@ -256,7 +260,11 @@ fn handle_user_total(
         if !std::path::Path::new(&count_path).exists() {
             break;
         }
-        let count: u64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        let count: u64 = ctx
+            .get_file_system()
+            .read_to_string(&count_path)?
+            .trim()
+            .parse()?;
         ret.push((day.to_string(), count));
     }
     j.as_object_mut()
@@ -284,7 +292,11 @@ fn handle_daily_new(
         if !std::path::Path::new(&count_path).exists() {
             break;
         }
-        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        let count: i64 = ctx
+            .get_file_system()
+            .read_to_string(&count_path)?
+            .trim()
+            .parse()?;
         if prev_count > 0 {
             ret.push((prev_day, count - prev_count));
         }
@@ -330,7 +342,11 @@ fn handle_monthly_new(
         if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
-        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        let count: i64 = ctx
+            .get_file_system()
+            .read_to_string(&count_path)?
+            .trim()
+            .parse()?;
         if prev_count > 0 {
             ret.push((prev_month, count - prev_count));
         }
@@ -343,7 +359,11 @@ fn handle_monthly_new(
     let mut month = now.format("%Y-%m-%d").to_string();
     let count_path = format!("{}/{}.count", src_root, month);
     if ctx.get_file_system().path_exists(&count_path) {
-        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        let count: i64 = ctx
+            .get_file_system()
+            .read_to_string(&count_path)?
+            .trim()
+            .parse()?;
         month = now.format("%Y-%m").to_string();
         ret.push((month, count - prev_count));
     }
@@ -371,7 +391,11 @@ fn handle_daily_total(
         if !std::path::Path::new(&count_path).exists() {
             break;
         }
-        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        let count: i64 = ctx
+            .get_file_system()
+            .read_to_string(&count_path)?
+            .trim()
+            .parse()?;
         ret.push((day.to_string(), count));
     }
     j.as_object_mut()
@@ -402,14 +426,22 @@ fn handle_monthly_total(
         if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
-        let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+        let count: i64 = ctx
+            .get_file_system()
+            .read_to_string(&count_path)?
+            .trim()
+            .parse()?;
         ret.push((prev_month.to_string(), count));
 
         if month_offset == 0 {
             // Current month: show today's count as well.
             month = month_delta.format("%Y-%m-%d");
             count_path = format!("{}/{}.count", src_root, month);
-            let count: i64 = std::fs::read_to_string(count_path)?.trim().parse()?;
+            let count: i64 = ctx
+                .get_file_system()
+                .read_to_string(&count_path)?
+                .trim()
+                .parse()?;
             month = month_delta.format("%Y-%m");
             ret.push((month.to_string(), count));
         }
