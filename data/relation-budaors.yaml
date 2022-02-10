@@ -416,9 +416,6 @@ filters:
       - {start: '2', end: '52'}
   Nyitra köz:
     invalid: ['8']
-  Odvas-hegy utca:
-    # ide nincs számozva semmi
-    ranges: []
   Orchidea utca:
     invalid: ['1']
   Ostor köz:
