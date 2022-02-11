@@ -445,9 +445,9 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
 fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     // Fetch house numbers for the whole country.
     log::info!("update_stats: start, updating whole-country csv");
-    let query = String::from_utf8(std::fs::read(
-        &ctx.get_abspath("data/street-housenumbers-hungary.txt"),
-    )?)?;
+    let query = ctx
+        .get_file_system()
+        .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.txt"))?;
     let statedir = ctx.get_abspath("workdir/stats");
     std::fs::create_dir_all(&statedir)?;
     let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);

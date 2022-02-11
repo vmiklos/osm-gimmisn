@@ -79,7 +79,7 @@ fn test_is_complete_relation() {
     let ctx = context::tests::make_test_context().unwrap();
     let mut relations = areas::Relations::new(&ctx).unwrap();
     assert_eq!(
-        is_complete_relation(&mut relations, "gazdagret").unwrap(),
+        is_complete_relation(&ctx, &mut relations, "gazdagret").unwrap(),
         false
     );
 }

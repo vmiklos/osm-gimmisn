@@ -86,6 +86,7 @@ check-clippy: Cargo.toml $(RS_OBJECTS)
 
 build: $(RS_OBJECTS) Cargo.toml Makefile
 	cargo build ${CARGO_OPTIONS}
+	cargo test ${CARGO_OPTIONS} --lib --no-run
 
 # Without coverage: cargo test --lib -- --test-threads=1
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata data/yamls.cache
