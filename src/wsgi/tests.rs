@@ -638,6 +638,27 @@ Tűzkő utca	[1], [2]"#;
 #[test]
 fn test_missing_housenumbers_view_result_chkl() {
     let mut test_wsgi = TestWsgi::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "budafok": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-budafok.yaml": {
+            "filters": {
+                "Vöröskúti határsor": {
+                    "interpolation": "all",
+                }
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.chkl");
     // Note how 12 is ordered after 2.
     assert_eq!(result, "[ ] Vöröskúti határsor [2, 12, 34, 36*]");
@@ -1829,4 +1850,33 @@ fn test_compress() {
 
     let results = TestWsgi::find_all(&root, "body/table");
     assert_eq!(results.len(), 1);
+}
+
+/// Test get_housenr_additional_count().
+#[test]
+fn test_get_housenr_additional_count() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-myrelation.yaml": {
+            "additional-housenumbers": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
+
+    let ret = get_housenr_additional_count(&ctx, relation.get_files()).unwrap();
+
+    assert_eq!(ret, "");
 }
