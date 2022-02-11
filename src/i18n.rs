@@ -65,31 +65,4 @@ pub fn translate(english: &str) -> String {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    /// Context manager for translate().
-    struct LanguageContext {}
-
-    impl LanguageContext {
-        /// Switches to the new language.
-        fn new(language: &str) -> Self {
-            set_language(language);
-            LanguageContext {}
-        }
-    }
-
-    impl Drop for LanguageContext {
-        /// Switches back to the old language.
-        fn drop(&mut self) {
-            set_language("en");
-        }
-    }
-
-    /// Tests translate().
-    #[test]
-    fn test_translate() {
-        let _lc = LanguageContext::new("hu");
-        assert_eq!(translate("Area"), "Terület");
-    }
-}
+mod tests;
