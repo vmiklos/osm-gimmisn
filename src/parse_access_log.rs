@@ -22,6 +22,7 @@ use crate::stats;
 
 /// Does this relation have 100% house number coverage?
 fn is_complete_relation(
+    ctx: &context::Context,
     relations: &mut areas::Relations,
     relation_name: &str,
 ) -> anyhow::Result<bool> {
@@ -30,9 +31,9 @@ fn is_complete_relation(
         return Ok(false);
     }
 
-    let percent = String::from_utf8(std::fs::read(
-        &relation.get_files().get_housenumbers_percent_path(),
-    )?)?;
+    let percent = ctx
+        .get_file_system()
+        .read_to_string(&relation.get_files().get_housenumbers_percent_path())?;
     Ok(percent == "100.00")
 }
 
@@ -210,7 +211,7 @@ pub fn main(argv: &[String], stdout: &mut dyn Write, ctx: &context::Context) -> 
         let relation = relations.get_relation(&relation_name)?;
         let actual = relation.get_config().is_active();
         let expected = frequent_relations.contains(&relation_name)
-            && !is_complete_relation(&mut relations, &relation_name)?;
+            && !is_complete_relation(ctx, &mut relations, &relation_name)?;
         if actual != expected {
             if actual {
                 if !is_relation_recently_added(ctx, &relation_create_dates, &relation_name) {
