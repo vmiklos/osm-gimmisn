@@ -1,16 +1,33 @@
 missing-streets: 'no'
 filters:
+  Akácos utca:
+    # 14, 15 nincs kiírva
+    interpolation: all
+    invalid: ['14', '15']
   Egres utca:
     # 13,15: 1 db házszám van, értelmezhetetlen a 2. karakter, ezt 13-nak vettem fel
     invalid: ['15']
+  Ezerjó utca:
+    # nincsenek házszámok
+    invalid: ['2']
   Felsőszállás utca:
     # 83 = Galagonya utca 91
     invalid: ['83']
+  Hárslevelű utca:
+    # le van zárva az utca, nem felmérhető
+    invalid: ['5']
+  Puttony utca:
+    # Káosz a nyugati végen: 14-16 (új 145-147), 18, 141, 22; másik oldalon 120 mellett a 12
+    # gyéren táblázva, ezek nincsenek
+    invalid: ['46', '58', '66', '105', '127', '129', '145', '147']
   Sóvirág utca:
     # páros: 2 hegyvidékek, 4-szállások, páratlan: szállások
     ranges:
       - {start: '1', end: '99'}
       - {start: '4', end: '98'}
+  Szamorodni utca:
+    # nincsenek házszámok
+    invalid: ['3', '6']
   Szüret utca:
     # 2 és 19+ Szállások
     # 25 nincs
