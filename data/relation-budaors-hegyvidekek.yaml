@@ -80,6 +80,9 @@ filters:
     # 85: 83-85 telken 2 ház épület 83-as számmal
     # 105-107: csak 105 van kiírva
     invalid: ['11', '15', '85', '107']
+  Lóvölgy utca:
+    # ezen a területen nincsenek házszámok
+    ranges: []
   Máriavölgy utca:
     # számozás össze vissza
     ranges:
@@ -130,10 +133,16 @@ filters:
     # 20 = Szüret utca 32
     # 46: 44 után 48
     invalid: ['19', '20', '46']
+  Sóvirág utca:
+    # páros: 2 hegyvidékek, 4-szállások, páratlan: szállások
+    ranges:
+      - {start: '2', end: '2'}
   Szabadság út:
+    # 242: helyén 214 van kiírva
+    # 314: heléyn 312/a van kírva
     # 360: 358 utcán 362
     # 387: utolsó szám 385
-    invalid: ['360']
+    invalid: ['314', '360']
     ranges:
       - {start: '317', end: '385'}
       - {start: '164', end: '390'}
@@ -143,7 +152,7 @@ filters:
     invalid: ['1']
   Szüret utca:
     # 2 és 19+ Szállások
-    # 10: Csík falu köz 4
+    # 10 = Csík falu köz 4
     # 38 = Som utca 38
     invalid: ['10', '38']
     ranges:
