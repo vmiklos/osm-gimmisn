@@ -1878,5 +1878,39 @@ fn test_get_housenr_additional_count() {
 
     let ret = get_housenr_additional_count(&ctx, relation.get_files()).unwrap();
 
+    // Not a failure, just no pre-calculated result.
     assert_eq!(ret, "");
+}
+
+/// Tests handle_main_housenr_additional_count().
+#[test]
+fn test_handle_main_housenr_additional_count() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-myrelation.yaml": {
+            "additional-housenumbers": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
+
+    let ret = handle_main_housenr_additional_count(&ctx, &relation).unwrap();
+
+    // No pre-calculated data, so no numbers.
+    assert_eq!(
+        ret.get_value(),
+        r#"<strong><a href="/osm/additional-housenumbers/myrelation/view-result">additional house numbers</a></strong>"#
+    );
 }
