@@ -1,6 +1,21 @@
 missing-streets: 'no'
 filters:
+  Egres utca:
+    # 13,15: 1 db házszám van, értelmezhetetlen a 2. karakter, ezt 13-nak vettem fel
+    invalid: ['15']
+  Felsőszállás utca:
+    # 83 = Galagonya utca 91
+    invalid: ['83']
+  Sóvirág utca:
+    # páros: 2 hegyvidékek, 4-szállások, páratlan: szállások
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '4', end: '98'}
   Szüret utca:
+    # 2 és 19+ Szállások
+    # 25 nincs
+    # 47-49 helyén 37-39
+    invalid: ['25', '47', '49']
     ranges:
       - {start: '19', end: '99'}
 refstreets:
