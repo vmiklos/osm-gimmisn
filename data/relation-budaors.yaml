@@ -15,8 +15,9 @@ filters:
     # főként hrsz. van
     invalid: ['2', '15']
   Akácos utca:
+    # 14, 15 nincs kiírva
     interpolation: all
-    invalid: ['4']
+    invalid: ['14', '15']
   Akácfa köz:
     ranges:
       - {start: '1', end: '13'}
@@ -486,9 +487,9 @@ filters:
     # 16: nincs lépcső egyik oldala 14 másik oldala 18
     invalid: ['16']
   Puttony utca:
-    # Káosz a nyugati végen: 14-16, 18, 141, 22; másik oldalon 120 mellett a 12
+    # Káosz a nyugati végen: 14-16 (új 145-147), 18, 141, 22; másik oldalon 120 mellett a 12
     # gyéren táblázva, ezek nincsenek
-    invalid: ['19', '44', '46', '48', '58', '66', '83', '105', '127', '129', '145', '147']
+    invalid: ['46', '58', '66', '105', '127', '129', '145', '147']
   Rekettye utca:
     invalid: ['14']
   Réz utca:
