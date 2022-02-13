@@ -166,7 +166,11 @@ filters:
     # 72 = Bor utca 72, utcanév nincs kiírva
     invalid: ['1', '3', '6', '9', '10', '11', '13', '15', '21']
   Kőkapu utca:
-    invalid: ['14', '19']
+    # újraszámozott utca
+    # 14: 3 van kiírva a helyén
+    # 19: 16 van kiírva a helyén
+    # 21: 18 van kiírva a helyén
+    invalid: ['14', '19', '21']
   Kőszikla utca:
     interpolation: all
     invalid: ['1', '3']
