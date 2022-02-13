@@ -7,8 +7,3 @@ ujbuda:
     osmrelation: 221998
     refcounty: "01"
     refsettlement: "011"
-# this relation has 'missing-streets: no' set
-gellerthegy:
-    osmrelation: 2702687
-    refcounty: "01"
-    refsettlement: "011"
