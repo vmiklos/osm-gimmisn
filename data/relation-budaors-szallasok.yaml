@@ -16,6 +16,12 @@ filters:
   Hárslevelű utca:
     # le van zárva az utca, nem felmérhető
     invalid: ['5']
+  Kadarka utca:
+    # nincsenek házszámok
+    invalid: ['5']
+  Muskotály utca:
+    # gyéren táblázva, ezek nincsenek
+    invalid: ['50', '56']
   Puttony utca:
     # Káosz a nyugati végen: 14-16 (új 145-147), 18, 141, 22; másik oldalon 120 mellett a 12
     # gyéren táblázva, ezek nincsenek

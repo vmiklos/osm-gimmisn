@@ -96,6 +96,10 @@ filters:
   Nárcisz utca:
     # 12-14: csak 12 van kiírva
     invalid: ['14']
+  Odvas-hegy utca:
+    # 2,4,8-10, 12 nincs kiírva
+    # 30: a mellékutcás szakaszon van elvileg, ott egyetlen házszám sincs
+    invalid: ['12', '30']
   Orchidea utca:
     invalid: ['1']
   Otthon utca:
