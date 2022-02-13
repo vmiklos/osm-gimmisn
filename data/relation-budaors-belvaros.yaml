@@ -177,7 +177,7 @@ filters:
       - {start: '1', end: '9'}
       - {start: '2', end: '10'}
   Lomnici köz:
-    invalid: ['10', '96']
+    invalid: ['10', '16', '96']
   Máriavölgy utca:
     invalid: ['33']
     interpolation: all
@@ -207,6 +207,8 @@ filters:
       - {start: '1', end: '39'}
       - {start: '2', end: '48'}
   Naphegy utca:
+    # 2 = Diófa utca 2, még épül RESURVEY 2022 ősz
+    invalid: ['2']
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '4'}

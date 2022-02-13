@@ -244,6 +244,9 @@ filters:
     ranges:
       - {start: '1', end: '35'}
       - {start: '2', end: '38'}
+  Kadarka utca:
+    # nincsenek házszámok
+    invalid: ['5']
   Kajszi utca:
     # 2 kiirva nincs, HÉSZ-en nem szerepel
     invalid: ['2']
@@ -369,7 +372,7 @@ filters:
       - {start: '1', end: '29'}
       - {start: '2', end: '44'}
   Lomnici köz:
-    invalid: ['10', '96']
+    invalid: ['10', '16', '96']
   Máriavölgy utca:
     # össze vissza számozva, csoda hogy csak ezek hiányoznak
     invalid: ['11', '12', '22', '33']
@@ -398,11 +401,13 @@ filters:
       - {start: '2', end: '48'}
   Muskotály utca:
     # gyéren táblázva, ezek nincsenek
-    invalid: ['21', '23', '50', '80', '82']
+    invalid: ['50', '56']
   Naphegy dűlő:
     ranges:
       - {start: '1', end: '5'}
   Naphegy utca:
+    # 2 = Diófa utca 2, még épül RESURVEY 2022 ősz
+    invalid: ['2']
     ranges:
       - {start: '1', end: '47'}
       - {start: '2', end: '4'}
@@ -423,6 +428,10 @@ filters:
       - {start: '2', end: '52'}
   Nyitra köz:
     invalid: ['8']
+  Odvas-hegy utca:
+    # 2,4,8-10, 12 nincs kiírva
+    # 30: a mellékutcás szakaszon van elvileg, ott egyetlen házszám sincs
+    invalid: ['12', '30']
   Orchidea utca:
     invalid: ['1']
   Ostor köz:
@@ -744,14 +753,12 @@ osm-street-filters:
   - Budapark
   - Lőtéri út
 street-filters:
-  - Budafruct  # Volt HungaroFruct hűtőház, ma Vasút utca 9
   - Csiki dűlő
   - Erdő utca  # Nincs
   - Frank-hegy
   - Geisbardt dűlő  # megszűnt
   - Harangvirág utca  # Pitypang utcában, ahol volt jelölve, ott nincs utca
   - Méhecske utca  # Törökbálintra esik, lehet a határ van rossz helyen
-  - Sás utca  # Megváltozott, ma Som köz
   - Törökugrató dűlő
   - Vasútáll.és körny. dűlő  # Vasút dűlő folytatása - nincs kiírva
   # Iskolai körzetlistából jön, máshol nincs nyoma
