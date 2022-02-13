@@ -134,7 +134,8 @@ filters:
   Nagyenyed utca:
     refsettlement: '012'
   Naphegy utca:
-    # last segment is outside the relation
+    # 1-65 krisztinavaros, 67 taban
+    # 2-38 krisztinavaros
     ranges:
       - {start: '1', end: '65'}
       - {start: '2', end: '48'}
