@@ -25,7 +25,8 @@ filters:
   Kereszt utca:
     ranges: []
   Krisztina körút:
-    ranges: []
+    ranges:
+      - {start: '101', end: '101'}
   Naphegy utca:
     # 1-65 krisztinavaros, 67 taban
     # 2-38 krisztinavaros
