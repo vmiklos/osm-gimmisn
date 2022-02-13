@@ -39,6 +39,9 @@ filters:
     ranges: []
   Sánc utca:
     ranges: []
+  Szent Gellért rakpart:
+    # ld. Gellérthegy
+    ranges: []
   Váralja utca:
     ranges:
       - {start: '18', end: '98'}
