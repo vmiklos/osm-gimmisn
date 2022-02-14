@@ -2,8 +2,3 @@ gazdagret:
     osmrelation: 2713748
     refcounty: "01"
     refsettlement: "011"
-# this relation has 'missing-streets: only' set
-ujbuda:
-    osmrelation: 221998
-    refcounty: "01"
-    refsettlement: "011"

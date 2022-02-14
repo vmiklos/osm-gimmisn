@@ -2674,3 +2674,29 @@ fn test_relation_numbered_streets_to_table() {
     // No line break here.
     assert_eq!(row[2].get_value(), "1, 2");
 }
+
+/// Tests RelationConfig::set_active().
+#[test]
+fn test_relation_config_set_active() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
+    let mut config = relation.get_config().clone();
+    assert_eq!(config.is_active(), true);
+    config.set_active(false);
+    assert_eq!(config.is_active(), false);
+}

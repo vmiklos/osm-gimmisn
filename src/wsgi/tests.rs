@@ -1949,3 +1949,38 @@ fn test_handle_main_relation() {
     // same for additional streets.
     assert_eq!(ret[4].get_value(), "");
 }
+
+/// Tests handle_main_relation() for the missing-streets=only case.
+#[test]
+fn test_handle_main_relation_streets_only() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-myrelation.yaml": {
+            "missing-streets": "only",
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    let filter_for = Box::new(filter_for_everything);
+
+    let ret = handle_main_relation(&ctx, &mut relations, &filter_for, "myrelation").unwrap();
+
+    // area, missing housenumbers, additional housenumbers, missing streets, additional streets,
+    // relation link
+    assert_eq!(ret.len(), 6);
+    // missing-streets=only, so 'missing housenumbers' should be empty.
+    assert_eq!(ret[1].get_value(), "");
+    // same for additional housenumbers.
+    assert_eq!(ret[2].get_value(), "");
+}
