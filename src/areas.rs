@@ -1232,12 +1232,6 @@ impl Relations {
         Ok(self.relations[name].clone())
     }
 
-    /// Sets a relation for testing.
-    #[cfg(test)]
-    pub fn set_relation(&mut self, name: &str, relation: &Relation) {
-        self.relations.insert(name.into(), relation.clone());
-    }
-
     /// Gets a sorted list of relation names.
     pub fn get_names(&self) -> Vec<String> {
         let mut ret: Vec<String> = self.dict.iter().map(|(key, _value)| key.into()).collect();

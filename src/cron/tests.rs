@@ -492,15 +492,6 @@ fn test_update_osm_housenumbers_http_error() {
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    for relation_name in relations.get_active_names().unwrap() {
-        if relation_name != "gazdagret" {
-            let mut relation = relations.get_relation(&relation_name).unwrap();
-            let mut config = relation.get_config().clone();
-            config.set_active(false);
-            relation.set_config(&config);
-            relations.set_relation(&relation_name, &relation);
-        }
-    }
     let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
     let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
     update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -530,15 +521,6 @@ fn test_update_osm_housenumbers_xml_as_csv() {
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    for relation_name in relations.get_active_names().unwrap() {
-        if relation_name != "gazdagret" {
-            let mut relation = relations.get_relation(&relation_name).unwrap();
-            let mut config = relation.get_config().clone();
-            config.set_active(false);
-            relation.set_config(&config);
-            relations.set_relation(&relation_name, &relation);
-        }
-    }
     let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
     let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
     update_osm_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -625,15 +607,6 @@ fn test_update_osm_streets_http_error() {
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    for relation_name in relations.get_active_names().unwrap() {
-        if relation_name != "gazdagret" {
-            let mut relation = relations.get_relation(&relation_name).unwrap();
-            let mut config = relation.get_config().clone();
-            config.set_active(false);
-            relation.set_config(&config);
-            relations.set_relation(&relation_name, &relation);
-        }
-    }
     let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
     let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
 
@@ -665,15 +638,6 @@ fn test_update_osm_streets_xml_as_csv() {
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    for relation_name in relations.get_active_names().unwrap() {
-        if relation_name != "gazdagret" {
-            let mut relation = relations.get_relation(&relation_name).unwrap();
-            let mut config = relation.get_config().clone();
-            config.set_active(false);
-            relation.set_config(&config);
-            relations.set_relation(&relation_name, &relation);
-        }
-    }
     let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
     let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
 
@@ -1225,14 +1189,5 @@ fn test_update_ref_housenumbers_xml_as_csv() {
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    for relation_name in relations.get_active_names().unwrap() {
-        if relation_name != "gazdagret" {
-            let mut relation = relations.get_relation(&relation_name).unwrap();
-            let mut config = relation.get_config().clone();
-            config.set_active(false);
-            relation.set_config(&config);
-            relations.set_relation(&relation_name, &relation);
-        }
-    }
     update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
 }
