@@ -754,28 +754,27 @@ fn handle_additional_housenumbers(
 fn handle_main_housenr_percent(
     ctx: &context::Context,
     relation: &areas::Relation,
-) -> anyhow::Result<(yattag::Doc, String)> {
+) -> anyhow::Result<(yattag::Doc, f64)> {
     let prefix = ctx.get_ini().get_uri_prefix()?;
     let url = format!(
         "{}/missing-housenumbers/{}/view-result",
         prefix,
         relation.get_name()
     );
-    let mut percent: String = "N/A".into();
+    let mut percent: Option<f64> = None;
     let files = relation.get_files();
     if ctx
         .get_file_system()
         .path_exists(&files.get_housenumbers_percent_path())
     {
-        let stream = files.get_housenumbers_percent_read_stream(ctx)?;
-        let mut guard = stream.borrow_mut();
-        let mut buffer: Vec<u8> = Vec::new();
-        guard.read_to_end(&mut buffer)?;
-        percent = String::from_utf8(buffer)?;
+        let string = ctx
+            .get_file_system()
+            .read_to_string(&files.get_housenumbers_percent_path())?;
+        percent = Some(string.parse::<f64>().context("parse to f64 failed")?);
     }
 
     let doc = yattag::Doc::new();
-    if percent != "N/A" {
+    if let Some(percent) = percent {
         let date = get_last_modified(&files.get_housenumbers_percent_path());
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
@@ -785,14 +784,16 @@ fn handle_main_housenr_percent(
                 ("title", &format!("{} {}", tr("updated"), date)),
             ],
         );
-        a.text(&util::format_percent(&percent)?);
+        let percent_string = util::format_percent(&format!("{0:.2}", percent))
+            .context("util::format_percent() failed")?;
+        a.text(&percent_string);
         return Ok((doc, percent));
     }
 
     let strong = doc.tag("strong", &[]);
     let a = strong.tag("a", &[("href", &url)]);
     a.text(&tr("missing house numbers"));
-    Ok((doc, "0".into()))
+    Ok((doc, 0_f64))
 }
 
 /// Handles the street percent part of the main page.
@@ -1169,11 +1170,12 @@ fn handle_main_relation(
     let mut row = vec![yattag::Doc::from_text(relation_name)];
 
     if streets != "only" {
-        let (cell, percent) = handle_main_housenr_percent(ctx, &relation)?;
+        let (cell, percent) = handle_main_housenr_percent(ctx, &relation)
+            .context("handle_main_housenr_percent() failed")?;
         let doc = yattag::Doc::new();
         doc.append_value(cell.get_value());
         row.push(doc);
-        complete &= percent.parse::<f64>().unwrap() >= 100_f64;
+        complete &= percent >= 100_f64;
 
         row.push(handle_main_housenr_additional_count(ctx, &relation)?);
     } else {
@@ -1250,7 +1252,8 @@ fn handle_main(
         yattag::Doc::from_text(&tr("Area boundary")),
     ]];
     for relation_name in relations.get_names() {
-        let row = handle_main_relation(ctx, relations, &filter_for, &relation_name)?;
+        let row = handle_main_relation(ctx, relations, &filter_for, &relation_name)
+            .context("handle_main_relation() failed")?;
         if !row.is_empty() {
             table.push(row);
         }

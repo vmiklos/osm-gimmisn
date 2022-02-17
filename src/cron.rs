@@ -577,7 +577,7 @@ pub fn main(
         .long("no-overpass")
         .help("when updating stats, don't perform any overpass update");
     let args = [refcounty, refsettlement, no_update, mode, no_overpass];
-    let app = clap::App::new("osm-gimmisn");
+    let app = clap::Command::new("osm-gimmisn");
     let args = app.args(&args).try_get_matches_from(argv)?;
 
     let start = ctx.get_time().now();

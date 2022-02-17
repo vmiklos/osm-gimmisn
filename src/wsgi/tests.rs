@@ -80,8 +80,6 @@ impl TestWsgi {
         let mut data = Vec::new();
         let (mut reader, _size) = response.data.into_reader_and_size();
         reader.read_to_end(&mut data).unwrap();
-        // Make sure the built-in error catcher is not kicking in.
-        assert_eq!(response.status_code, self.expected_status);
         let mut headers_map = HashMap::new();
         for (key, value) in response.headers {
             headers_map.insert(key, value);
@@ -98,6 +96,8 @@ impl TestWsgi {
         let output_xml =
             format!("{}", String::from_utf8(output).unwrap()).replace("<!DOCTYPE html>", "");
         // println!("get_dom_for_path: output_xml is '{}'", output_xml);
+        // Make sure the built-in error catcher is not kicking in.
+        assert_eq!(response.status_code, self.expected_status);
         let package = sxd_document::parser::parse(&output_xml).unwrap();
         package
     }

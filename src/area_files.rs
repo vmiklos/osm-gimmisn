@@ -160,15 +160,6 @@ impl RelationFiles {
             .context("open_write() failed")
     }
 
-    /// Opens the house number percent file of a relation for reading.
-    pub fn get_housenumbers_percent_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_housenumbers_percent_path();
-        ctx.get_file_system().open_read(&path)
-    }
-
     /// Opens the house number percent file of a relation for writing.
     pub fn get_housenumbers_percent_write_stream(
         &self,

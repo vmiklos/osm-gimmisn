@@ -1166,7 +1166,9 @@ pub fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<S
 
 /// Formats a percentage, taking locale into account.
 pub fn format_percent(english: &str) -> anyhow::Result<String> {
-    let parsed: f64 = english.parse()?;
+    let parsed: f64 = english
+        .parse()
+        .context(format!("failed to parse '{}'", english))?;
     let formatted = format!("{0:.2}%", parsed);
     let language: &str = &i18n::get_language();
     let decimal_point = match language {
