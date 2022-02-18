@@ -279,6 +279,7 @@ fn missing_streets_view_result(
             &tr("OpenStreetMap is possibly missing the below {0} streets.")
                 .replace("{0}", &todo_count.to_string()),
         );
+        let percent = format!("{0:.2}", percent);
         p.text(
             &tr(" (existing: {0}, ready: {1}).")
                 .replace("{0}", &done_count.to_string())

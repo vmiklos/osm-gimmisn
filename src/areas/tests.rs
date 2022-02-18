@@ -1846,7 +1846,7 @@ fn test_write_missing_streets() {
 
     assert_eq!(todo_count, 1);
     assert_eq!(done_count, 4);
-    assert_eq!(percent, "80.00");
+    assert_eq!(format!("{0:.2}", percent), "80.00");
     assert_eq!(streets, ["Only In Ref utca"]);
     let mut guard = percent_value.borrow_mut();
     guard.seek(SeekFrom::Start(0)).unwrap();
@@ -1875,7 +1875,7 @@ fn test_write_missing_streets_empty() {
     let mut guard = percent_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     let (_todo_count, _done_count, percent, _streets) = ret;
-    assert_eq!(percent, "100.00");
+    assert_eq!(format!("{0:.2}", percent), "100.00");
 }
 
 /// Tests Relation::build_ref_housenumbers().

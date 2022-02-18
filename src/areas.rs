@@ -899,23 +899,24 @@ impl Relation {
     }
 
     /// Calculate and write stat for the street coverage of a relation.
-    pub fn write_missing_streets(&self) -> anyhow::Result<(usize, usize, String, Vec<String>)> {
+    pub fn write_missing_streets(&self) -> anyhow::Result<(usize, usize, f64, Vec<String>)> {
         let (todo_streets, done_streets) = self.get_missing_streets()?;
         let streets = todo_streets.clone();
         let todo_count = todo_streets.len();
         let done_count = done_streets.len();
-        let percent: String;
+        let percent: f64;
         if done_count > 0 || todo_count > 0 {
             let float: f64 = done_count as f64 / (done_count as f64 + todo_count as f64) * 100_f64;
-            percent = format!("{0:.2}", float);
+            percent = float;
         } else {
-            percent = "100.00".into();
+            percent = 100_f64;
         }
 
         // Write the bottom line to a file, so the index page show it fast.
+        let string = format!("{0:.2}", percent);
         self.ctx
             .get_file_system()
-            .write_from_string(&percent, &self.file.get_streets_percent_path())?;
+            .write_from_string(&string, &self.file.get_streets_percent_path())?;
 
         Ok((todo_count, done_count, percent, streets))
     }
