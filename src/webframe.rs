@@ -621,19 +621,19 @@ fn handle_stats_cityprogress(
         yattag::Doc::from_text(&tr("Reference count")),
     ]];
     for city in cities {
-        let mut percent: String = "100.00".into();
+        let mut percent = 100_f64;
         if *ref_citycounts.get(city).unwrap() > 0
             && osm_citycounts.get(city).unwrap() < ref_citycounts.get(city).unwrap()
         {
             let osm_count = osm_citycounts[city] as f64;
             let ref_count = ref_citycounts[city] as f64;
-            percent = format!("{0:.2}", osm_count / ref_count * 100_f64);
+            percent = osm_count / ref_count * 100_f64;
         }
+        let percent = util::format_percent(&format!("{0:.2}", percent))
+            .context("util::format_percent() failed:")?;
         table.push(vec![
             yattag::Doc::from_text(city),
-            yattag::Doc::from_text(
-                &util::format_percent(&percent).context("util::format_percent() failed:")?,
-            ),
+            yattag::Doc::from_text(&percent),
             yattag::Doc::from_text(&osm_citycounts.get(city).unwrap().to_string()),
             yattag::Doc::from_text(&ref_citycounts.get(city).unwrap().to_string()),
         ]);
@@ -723,19 +723,19 @@ fn handle_stats_zipprogress(
         yattag::Doc::from_text(&tr("Reference count")),
     ]];
     for zip in zips {
-        let mut percent: String = "100.00".into();
+        let mut percent = 100_f64;
         if *ref_zipcounts.get(zip).unwrap() > 0
             && osm_zipcounts.get(zip).unwrap() < ref_zipcounts.get(zip).unwrap()
         {
             let osm_count = osm_zipcounts[zip] as f64;
             let ref_count = ref_zipcounts[zip] as f64;
-            percent = format!("{0:.2}", osm_count / ref_count * 100_f64);
+            percent = osm_count / ref_count * 100_f64;
         }
+        let percent = util::format_percent(&format!("{0:.2}", percent))
+            .context("util::format_percent() failed:")?;
         table.push(vec![
             yattag::Doc::from_text(zip),
-            yattag::Doc::from_text(
-                &util::format_percent(&percent).context("util::format_percent() failed:")?,
-            ),
+            yattag::Doc::from_text(&percent),
             yattag::Doc::from_text(&osm_zipcounts.get(zip).unwrap().to_string()),
             yattag::Doc::from_text(&ref_zipcounts.get(zip).unwrap().to_string()),
         ]);
