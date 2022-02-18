@@ -800,27 +800,26 @@ fn handle_main_housenr_percent(
 fn handle_main_street_percent(
     ctx: &context::Context,
     relation: &areas::Relation,
-) -> anyhow::Result<(yattag::Doc, String)> {
+) -> anyhow::Result<(yattag::Doc, f64)> {
     let prefix = ctx.get_ini().get_uri_prefix()?;
     let url = format!(
         "{}/missing-streets/{}/view-result",
         prefix,
         relation.get_name()
     );
-    let mut percent: String = "N/A".into();
+    let mut percent: Option<f64> = None;
     if ctx
         .get_file_system()
         .path_exists(&relation.get_files().get_streets_percent_path())
     {
-        let stream = relation.get_files().get_streets_percent_read_stream(ctx)?;
-        let mut guard = stream.borrow_mut();
-        let mut buffer: Vec<u8> = Vec::new();
-        guard.read_to_end(&mut buffer)?;
-        percent = String::from_utf8(buffer)?;
+        let string = ctx
+            .get_file_system()
+            .read_to_string(&relation.get_files().get_streets_percent_path())?;
+        percent = Some(string.parse::<f64>().context("parse to f64 failed")?);
     }
 
     let doc = yattag::Doc::new();
-    if percent != "N/A" {
+    if let Some(percent) = percent {
         let date = get_last_modified(&relation.get_files().get_streets_percent_path());
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
@@ -830,14 +829,16 @@ fn handle_main_street_percent(
                 ("title", &format!("{} {}", tr("updated"), date)),
             ],
         );
-        a.text(&util::format_percent(&percent)?);
+        let percent_string = util::format_percent(&format!("{0:.2}", percent))
+            .context("util::format_percent() failed")?;
+        a.text(&percent_string);
         return Ok((doc, percent));
     }
 
     let strong = doc.tag("strong", &[]);
     let a = strong.tag("a", &[("href", &url)]);
     a.text(&tr("missing streets"));
-    Ok((doc, "0".into()))
+    Ok((doc, 0_f64))
 }
 
 /// Handles the street additional count part of the main page.
@@ -1186,7 +1187,7 @@ fn handle_main_relation(
     if streets != "no" {
         let (cell, percent) = handle_main_street_percent(ctx, &relation)?;
         row.push(cell);
-        complete &= percent.parse::<f64>().unwrap() >= 100_f64;
+        complete &= percent >= 100_f64;
     } else {
         row.push(yattag::Doc::new());
     }
