@@ -913,9 +913,9 @@ impl Relation {
         }
 
         // Write the bottom line to a file, so the index page show it fast.
-        let write = self.file.get_streets_percent_write_stream(&self.ctx)?;
-        let mut guard = write.borrow_mut();
-        guard.write_all(percent.as_bytes())?;
+        self.ctx
+            .get_file_system()
+            .write_from_string(&percent, &self.file.get_streets_percent_path())?;
 
         Ok((todo_count, done_count, percent, streets))
     }
@@ -926,9 +926,10 @@ impl Relation {
 
         // Write the count to a file, so the index page show it fast.
         let file = &self.file;
-        let write = file.get_streets_additional_count_write_stream(&self.ctx)?;
-        let mut guard = write.borrow_mut();
-        guard.write_all(additional_streets.len().to_string().as_bytes())?;
+        self.ctx.get_file_system().write_from_string(
+            &additional_streets.len().to_string(),
+            &file.get_streets_additional_count_path(),
+        )?;
 
         Ok(additional_streets)
     }
@@ -1027,12 +1028,9 @@ impl Relation {
         }
 
         // Write the bottom line to a file, so the index page show it fast.
-        let write = self
-            .file
-            .get_housenumbers_percent_write_stream(&self.ctx)
-            .context("get_housenumbers_percent_write_stream() failed")?;
-        let mut guard = write.borrow_mut();
-        guard.write_all(percent.as_bytes())?;
+        self.ctx
+            .get_file_system()
+            .write_from_string(&percent, &self.file.get_housenumbers_percent_path())?;
 
         Ok((
             ongoing_streets.len(),
@@ -1095,9 +1093,10 @@ impl Relation {
 
         // Write the street count to a file, so the index page show it fast.
         let file = &self.file;
-        let write = file.get_housenumbers_additional_count_write_stream(&self.ctx)?;
-        let mut guard = write.borrow_mut();
-        guard.write_all(todo_count.to_string().as_bytes())?;
+        self.ctx.get_file_system().write_from_string(
+            &todo_count.to_string(),
+            &file.get_housenumbers_additional_count_path(),
+        )?;
 
         Ok((ongoing_streets.len(), todo_count, table))
     }

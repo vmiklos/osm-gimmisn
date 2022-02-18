@@ -160,17 +160,6 @@ impl RelationFiles {
             .context("open_write() failed")
     }
 
-    /// Opens the house number percent file of a relation for writing.
-    pub fn get_housenumbers_percent_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_housenumbers_percent_path();
-        ctx.get_file_system()
-            .open_write(&path)
-            .with_context(|| format!("failed to open {} for writing", path))
-    }
-
     /// Opens the house number HTML cache file of a relation for reading.
     pub fn get_housenumbers_htmlcache_read_stream(
         &self,
@@ -178,15 +167,6 @@ impl RelationFiles {
     ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_housenumbers_htmlcache_path();
         ctx.get_file_system().open_read(&path)
-    }
-
-    /// Opens the house number HTML cache file of a relation for writing.
-    pub fn get_housenumbers_htmlcache_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_housenumbers_htmlcache_path();
-        ctx.get_file_system().open_write(&path)
     }
 
     /// Opens the house number plain text cache file of a relation for reading.
@@ -198,24 +178,6 @@ impl RelationFiles {
         ctx.get_file_system().open_read(&path)
     }
 
-    /// Opens the house number plain text cache file of a relation for writing.
-    pub fn get_housenumbers_txtcache_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_housenumbers_txtcache_path();
-        ctx.get_file_system().open_write(&path)
-    }
-
-    /// Opens the street percent file of a relation for writing.
-    pub fn get_streets_percent_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_streets_percent_path();
-        ctx.get_file_system().open_write(&path)
-    }
-
     /// Opens the street additional count file of a relation for reading.
     pub fn get_streets_additional_count_read_stream(
         &self,
@@ -225,15 +187,6 @@ impl RelationFiles {
         ctx.get_file_system().open_read(&path)
     }
 
-    /// Opens the street additional count file of a relation for writing.
-    pub fn get_streets_additional_count_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_streets_additional_count_path();
-        ctx.get_file_system().open_write(&path)
-    }
-
     /// Opens the housenumbers additional count file of a relation for reading.
     pub fn get_housenumbers_additional_count_read_stream(
         &self,
@@ -241,15 +194,6 @@ impl RelationFiles {
     ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_housenumbers_additional_count_path();
         ctx.get_file_system().open_read(&path)
-    }
-
-    /// Opens the housenumbers additional count file of a relation for writing.
-    pub fn get_housenumbers_additional_count_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_housenumbers_additional_count_path();
-        ctx.get_file_system().open_write(&path)
     }
 
     /// Opens the OSM street list of a relation for writing.
@@ -305,14 +249,5 @@ impl RelationFiles {
     ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let path = self.get_additional_housenumbers_htmlcache_path();
         ctx.get_file_system().open_read(&path)
-    }
-
-    /// Opens the additional house number HTML cache file of a relation for writing.
-    pub fn get_additional_housenumbers_htmlcache_write_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let path = self.get_additional_housenumbers_htmlcache_path();
-        ctx.get_file_system().open_write(&path)
     }
 }

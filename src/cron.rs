@@ -264,18 +264,6 @@ fn update_additional_streets(relations: &mut areas::Relations, update: bool) -> 
     Ok(())
 }
 
-/// Writes a daily .count file.
-fn write_count_path(
-    ctx: &context::Context,
-    count_path: &str,
-    house_numbers: &HashSet<String>,
-) -> anyhow::Result<()> {
-    let stream = ctx.get_file_system().open_write(count_path)?;
-    let mut guard = stream.borrow_mut();
-    let house_numbers_len = house_numbers.len().to_string();
-    Ok(guard.write_all(house_numbers_len.as_bytes())?)
-}
-
 /// Writes a daily .citycount file.
 fn write_city_count_path(
     ctx: &context::Context,
@@ -364,7 +352,8 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
         let zip_entry = zips.entry(zip_key).or_insert_with(HashSet::new);
         zip_entry.insert(zip_value);
     }
-    write_count_path(ctx, &count_path, &house_numbers).context("write_count_path() failed")?;
+    ctx.get_file_system()
+        .write_from_string(&house_numbers.len().to_string(), &count_path)?;
     write_city_count_path(ctx, &city_count_path, &cities)
         .context("write_city_count_path() failed")?;
     write_zip_count_path(ctx, &zip_count_path, &zips).context("write_zip_count_path() failed")
@@ -406,10 +395,9 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
         }
     }
 
-    let stream = ctx.get_file_system().open_write(&usercount_path)?;
-    let mut guard = stream.borrow_mut();
     let line = format!("{}\n", users.len());
-    Ok(guard.write_all(line.as_bytes())?)
+    ctx.get_file_system()
+        .write_from_string(&line, &usercount_path)
 }
 
 /// Performs the update of workdir/stats/ref.count.
@@ -434,11 +422,9 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
         }
     }
 
-    let stream = ctx
-        .get_file_system()
-        .open_write(&format!("{}/ref.count", state_dir))?;
-    let mut guard = stream.borrow_mut();
-    Ok(guard.write_all(format!("{}\n", count).as_bytes())?)
+    let string = format!("{}\n", count);
+    let path = format!("{}/ref.count", state_dir);
+    ctx.get_file_system().write_from_string(&string, &path)
 }
 
 /// Performs the update of country-level stats.
@@ -470,9 +456,8 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
                     continue;
                 }
             };
-            let stream = ctx.get_file_system().open_write(&csv_path)?;
-            let mut guard = stream.borrow_mut();
-            guard.write_all(response.as_bytes())?;
+            ctx.get_file_system()
+                .write_from_string(&response, &csv_path)?;
             break;
         }
     }
