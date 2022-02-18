@@ -1007,7 +1007,7 @@ impl Relation {
     /// Returns a tuple of: todo street count, todo count, done count, percent and table.
     pub fn write_missing_housenumbers(
         &mut self,
-    ) -> anyhow::Result<(usize, usize, usize, String, yattag::HtmlTable)> {
+    ) -> anyhow::Result<(usize, usize, usize, f64, yattag::HtmlTable)> {
         let (ongoing_streets, done_streets) = self
             .get_missing_housenumbers()
             .context("get_missing_housenumbers() failed")?;
@@ -1019,18 +1019,19 @@ impl Relation {
             let number_ranges = util::get_housenumber_ranges(&result.1);
             done_count += number_ranges.len();
         }
-        let percent: String;
+        let percent: f64;
         if done_count > 0 || todo_count > 0 {
             let float: f64 = done_count as f64 / (done_count as f64 + todo_count as f64) * 100_f64;
-            percent = format!("{0:.2}", float);
+            percent = float;
         } else {
-            percent = "100.00".into();
+            percent = 100_f64;
         }
 
         // Write the bottom line to a file, so the index page show it fast.
-        self.ctx
-            .get_file_system()
-            .write_from_string(&percent, &self.file.get_housenumbers_percent_path())?;
+        self.ctx.get_file_system().write_from_string(
+            &format!("{0:.2}", percent),
+            &self.file.get_housenumbers_percent_path(),
+        )?;
 
         Ok((
             ongoing_streets.len(),

@@ -1695,7 +1695,7 @@ fn test_relation_write_missing_housenumbers() {
     assert_eq!(todo_street_count, 3);
     assert_eq!(todo_count, 5);
     assert_eq!(done_count, 6);
-    assert_eq!(percent, "54.55");
+    assert_eq!(format!("{0:.2}", percent), "54.55");
     let string_table = table_doc_to_string(&table);
     assert_eq!(
         string_table,
@@ -1731,7 +1731,7 @@ fn test_relation_write_missing_housenumbers_empty() {
     let ret = relation.write_missing_housenumbers().unwrap();
 
     let (_todo_street_count, _todo_count, _done_count, percent, _table) = ret;
-    assert_eq!(percent, "100.00");
+    assert_eq!(percent, 100.0);
     assert_eq!(relation.config.get_filters().is_none(), true);
 }
 
