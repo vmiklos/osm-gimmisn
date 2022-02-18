@@ -186,11 +186,8 @@ pub fn get_missing_housenumbers_html(
     );
 
     let files = relation.get_files();
-    let stream = files
-        .get_housenumbers_htmlcache_write_stream(ctx)
-        .context("get_housenumbers_htmlcache_write_stream() failed")?;
-    let mut guard = stream.borrow_mut();
-    guard.write_all(doc.get_value().as_bytes())?;
+    ctx.get_file_system()
+        .write_from_string(&doc.get_value(), &files.get_housenumbers_htmlcache_path())?;
 
     Ok(doc)
 }
@@ -239,9 +236,10 @@ pub fn get_additional_housenumbers_html(
     );
 
     let files = relation.get_files();
-    let stream = files.get_additional_housenumbers_htmlcache_write_stream(ctx)?;
-    let mut guard = stream.borrow_mut();
-    guard.write_all(doc.get_value().as_bytes())?;
+    ctx.get_file_system().write_from_string(
+        &doc.get_value(),
+        &files.get_additional_housenumbers_htmlcache_path(),
+    )?;
 
     Ok(doc)
 }
@@ -307,9 +305,8 @@ pub fn get_missing_housenumbers_txt(
     output = table.join("\n");
 
     let files = relation.get_files();
-    let stream = files.get_housenumbers_txtcache_write_stream(ctx)?;
-    let mut guard = stream.borrow_mut();
-    guard.write_all(output.as_bytes())?;
+    ctx.get_file_system()
+        .write_from_string(&output, &files.get_housenumbers_txtcache_path())?;
     Ok(output)
 }
 

@@ -45,6 +45,13 @@ pub trait FileSystem {
         guard.read_to_end(&mut bytes).unwrap();
         Ok(String::from_utf8(bytes)?)
     }
+
+    /// Write the entire string to a file.
+    fn write_from_string(&self, string: &str, path: &str) -> anyhow::Result<()> {
+        let stream = self.open_write(path)?;
+        let mut guard = stream.borrow_mut();
+        Ok(guard.write_all(string.as_bytes())?)
+    }
 }
 
 /// File system implementation, backed by the Rust stdlib.
