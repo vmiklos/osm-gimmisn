@@ -708,7 +708,7 @@ filters:
   Sáfrány utca:
     # 11/b: nincs
     # 57: 57/a, 57/b
-    invalid: ['11b','57']
+    invalid: ['11b', '57']
     ranges:
       - {start: '1', end: '19'}
       - {start: '23', end: '81'}
@@ -2193,7 +2193,8 @@ filters:
       - {start: '2', end: '16'}
   Ördögorom lejtő:
     # 33-35 = Varjúháj utca 6.
-    invalid: ['1b', '6a', '7a', '25', '32', '33', '34', '35', '36b']
+    # 39 = 39/a, 39/b
+    invalid: ['1b', '6a', '7a', '25', '32', '33', '34', '35', '36b', '39']
     ranges:
       # 45-53 között telkek házszám nélkül
       - {start: '1', end: '45'}
@@ -2917,6 +2918,7 @@ osm-street-filters:
   # Kőérberek: ismeretlen státuszú, de valóságban táblázott
   - Fenyves sor
   - Kevin utca
+  - Villő utca  # Villő utca 2 táblázott
   # Kerülethatáron lévő utca (eltérő név az utca 2 oldalán/másik terület az utca - ezen a néven nincs házszám)
   - Felsőhatár utca
   - Horogszegi határsor
@@ -2929,4 +2931,3 @@ osm-street-filters:
 source: survey
 housenumber-letters: true
 inactive: false
-
