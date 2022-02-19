@@ -114,8 +114,7 @@ pub fn get_missing_housenumbers_html(
                 .replace("{0}", &todo_count.to_string())
                 .replace("{1}", &todo_street_count.to_string()),
         );
-        let percent =
-            util::format_percent(&format!("{0:.2}", percent)).context("format_percent() failed")?;
+        let percent = util::format_percent(percent).context("format_percent() failed")?;
         p.text(
             &tr(" (existing: {0}, ready: {1}).")
                 .replace("{0}", &done_count.to_string())

@@ -279,11 +279,10 @@ fn missing_streets_view_result(
             &tr("OpenStreetMap is possibly missing the below {0} streets.")
                 .replace("{0}", &todo_count.to_string()),
         );
-        let percent = format!("{0:.2}", percent);
         p.text(
             &tr(" (existing: {0}, ready: {1}).")
                 .replace("{0}", &done_count.to_string())
-                .replace("{1}", &util::format_percent(&percent)?),
+                .replace("{1}", &util::format_percent(percent)?),
         );
         p.stag("br", &[]);
         {
@@ -785,8 +784,8 @@ fn handle_main_housenr_percent(
                 ("title", &format!("{} {}", tr("updated"), date)),
             ],
         );
-        let percent_string = util::format_percent(&format!("{0:.2}", percent))
-            .context("util::format_percent() failed")?;
+        let percent_string =
+            util::format_percent(percent).context("util::format_percent() failed")?;
         a.text(&percent_string);
         return Ok((doc, percent));
     }
@@ -830,8 +829,8 @@ fn handle_main_street_percent(
                 ("title", &format!("{} {}", tr("updated"), date)),
             ],
         );
-        let percent_string = util::format_percent(&format!("{0:.2}", percent))
-            .context("util::format_percent() failed")?;
+        let percent_string =
+            util::format_percent(percent).context("util::format_percent() failed")?;
         a.text(&percent_string);
         return Ok((doc, percent));
     }
