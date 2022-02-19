@@ -1,5 +1,9 @@
 = Version descriptions
 
+== master
+
+- Ported to chartjs v3, the javascript bundle size is now about 20% smaller
+
 == 7.3
 
 - Ported to Rust, the missing-housenumbers analysis is now about 5 times faster

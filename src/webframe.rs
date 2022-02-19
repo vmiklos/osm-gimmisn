@@ -629,8 +629,7 @@ fn handle_stats_cityprogress(
             let ref_count = ref_citycounts[city] as f64;
             percent = osm_count / ref_count * 100_f64;
         }
-        let percent = util::format_percent(&format!("{0:.2}", percent))
-            .context("util::format_percent() failed:")?;
+        let percent = util::format_percent(percent).context("util::format_percent() failed:")?;
         table.push(vec![
             yattag::Doc::from_text(city),
             yattag::Doc::from_text(&percent),
@@ -731,8 +730,7 @@ fn handle_stats_zipprogress(
             let ref_count = ref_zipcounts[zip] as f64;
             percent = osm_count / ref_count * 100_f64;
         }
-        let percent = util::format_percent(&format!("{0:.2}", percent))
-            .context("util::format_percent() failed:")?;
+        let percent = util::format_percent(percent).context("util::format_percent() failed:")?;
         table.push(vec![
             yattag::Doc::from_text(zip),
             yattag::Doc::from_text(&percent),
