@@ -12,8 +12,8 @@ filters:
     # 1 helyén is 3 van a terven, 1 nincs kiírva
     invalid: ['1']
   Agancs utca:
-    # főként hrsz. van
-    invalid: ['2', '15']
+    # főként hrsz. van 2022-02
+    invalid: ['2', '11', '15']
   Akácos utca:
     # 14, 15 nincs kiírva
     interpolation: all
@@ -261,6 +261,9 @@ filters:
     ranges:
       - {start: '2', end: '10'}
       - {start: '1', end: '79'}
+  Kapa utca:
+    # 15: csak 9658 hrsz van kírva 2022-02
+    invalid: ['15']
   Károly király utca:
     # 2: nincs, 4-től indul a számozás, a sarki első épület Szabadság út 51
     # 18: nincs, 16 után 20 jön, kettő között a Baross utca húzódik
@@ -393,7 +396,9 @@ filters:
     invalid: ['10', '12', '14']
   Merengő utca:
     # néhol kaotikus, vannak részek ahol csak hrsz.
-    invalid: ['8', '10', '15', '37', '40', '47']
+    # 1 = Felsőhatár utca 127
+    # 46: helyén 54 van kiírva
+    invalid: ['1', '8', '9', '10', '15', '37', '40', '46', '47']
   Mester utca:
     # 6: nincs kiírva
     invalid: ['6']

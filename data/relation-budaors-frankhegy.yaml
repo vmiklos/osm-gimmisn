@@ -5,8 +5,8 @@ filters:
     ranges:
       - {start: '31', end: '35'}
   Agancs utca:
-    # főként hrsz. van
-    invalid: ['2', '15']
+    # főként hrsz. van 2022-02
+    invalid: ['2', '11', '15']
   Árokparti utca:
     invalid: ['7']
   Berkenye utca:
@@ -61,6 +61,9 @@ filters:
     # gyengén van táblázva
     interpolation: all
     invalid: ['7', '10', '12', '13', '18']
+  Kapa utca:
+    # 15: csak 9658 hrsz van kírva 2022-02
+    invalid: ['15']
   Kőhalom utca:
     interpolation: all
     ranges:
@@ -70,7 +73,9 @@ filters:
       - {start: '13', end: '21'}
   Merengő utca:
     # néhol kaotikus, vannak részek ahol csak hrsz.
-    invalid: ['8', '10', '15', '37', '40', '47']
+    # 1 = Felsőhatár utca 127
+    # 46: helyén 54 van kiírva
+    invalid: ['1', '8', '9', '10', '15', '37', '40', '46', '47']
   Naphegy utca:
     ranges:
       - {start: '45', end: '99'}
