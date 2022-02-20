@@ -7,6 +7,9 @@ filters:
   Agancs utca:
     # főként hrsz. van 2022-02
     invalid: ['2', '11', '15']
+  Ágas utca:
+    # a teteje lezárva, privát lépcső, de nincs semmilyen felirat
+    invalid: ['4']
   Árokparti utca:
     invalid: ['7']
   Berkenye utca:
@@ -28,11 +31,11 @@ filters:
       - {start: '23', end: '99'}
       - {start: '24', end: '98'}
   Csillagvölgyi utca:
-    # 19: nincs kiírva
-    invalid: ['19']
+    # 16a, 19: nincs kiírva
+    invalid: ['16a', '19']
   Erdész utca:
-    # 7 csomó bódé, semmi sincs kiírva a páratlan oldalon
-    invalid: ['7']
+    # 5, 7 csomó bódé, semmi sincs kiírva a páratlan oldalon
+    invalid: ['5', '7']
   Erdőalja utca:
     # 2, 12 nincs kiírva, de ez utóbbi egyértelnű
     interpolation: all
@@ -112,7 +115,7 @@ filters:
     invalid: ['7']
   Szépkilátó utca:
     # átszámozták az utcát, keverednek a régi és új számok
-    invalid: ['18', '64', '68', '70', '78', '80']
+    invalid: ['18', '61', '64', '68', '70', '78', '80']
   Szőlőhegyi utca:
     invalid: ['26']
   Toboz utca:
@@ -151,7 +154,8 @@ filters:
     ranges:
       - {start: '2', end: '28'}
   Zengő utca:
-    invalid: ['25']
+    # 45 = 44. lakó szerint el van írva a szám, de még nem hivatalos
+    invalid: ['25', '45', '56']
   Zúzmara utca:
     # páros oldalon, az elején 2 ház is van, de egyiken sincs szám, de biztos, hogy nem 16
     invalid: ['16']
