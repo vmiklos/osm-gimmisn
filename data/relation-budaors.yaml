@@ -14,6 +14,9 @@ filters:
   Agancs utca:
     # főként hrsz. van 2022-02
     invalid: ['2', '11', '15']
+  Ágas utca:
+    # a teteje lezárva, privát lépcső, de nincs semmilyen felirat
+    invalid: ['4']
   Akácos utca:
     # 14, 15 nincs kiírva
     interpolation: all
@@ -129,8 +132,8 @@ filters:
     # 51 helyén 53/a van kiírva, de van még egy telek elvileg
     invalid: ['21', '23', '33', '45']
   Csillagvölgyi utca:
-    # 19: nincs kiírva
-    invalid: ['19']
+    # 16a, 19: nincs kiírva
+    invalid: ['16a', '19']
   Dráva köz:
     invalid: ['3', '5', '7']
   Ebner György köz:
@@ -142,8 +145,8 @@ filters:
   Erdélyi utca:
     invalid: ['9', '9b', '15', '17']
   Erdész utca:
-    # 7 csomó bódé, semmi sincs kiírva a páratlan oldalon
-    invalid: ['7']
+    # 5, 7 csomó bódé, semmi sincs kiírva a páratlan oldalon
+    invalid: ['5', '7']
   Erdőalja utca:
     # 2, 12 nincs kiírva, de ez utóbbi egyértelnű
     interpolation: all
@@ -609,7 +612,7 @@ filters:
       - {start: '2', end: '62'}
   Szépkilátó utca:
     # átszámozták az utcát, keverednek a régi és új számok
-    invalid: ['18', '64', '68', '70', '78', '80']
+    invalid: ['18', '61', '64', '68', '70', '78', '80']
   Szirom utca:
     invalid: ['1']
   Szivárvány utca:
