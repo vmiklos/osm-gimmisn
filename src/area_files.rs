@@ -178,15 +178,6 @@ impl RelationFiles {
         ctx.get_file_system().open_read(&path)
     }
 
-    /// Opens the street additional count file of a relation for reading.
-    pub fn get_streets_additional_count_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_streets_additional_count_path();
-        ctx.get_file_system().open_read(&path)
-    }
-
     /// Opens the housenumbers additional count file of a relation for reading.
     pub fn get_housenumbers_additional_count_read_stream(
         &self,
