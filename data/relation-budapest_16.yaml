@@ -39,5 +39,7 @@ refstreets:
   'Centenáriumi sétány': 'Centenárium sétány'
   'Knézich utca': 'Knézits utca'
   'Nyitrai utca': 'Nyitra utca'
+  #
+  'Regős liget': 'Regös liget'
 source: survey
 inactive: false
