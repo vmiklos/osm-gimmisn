@@ -505,6 +505,20 @@ fn test_update_osm_housenumbers_http_error() {
 #[test]
 fn test_update_osm_housenumbers_xml_as_csv() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
     let routes = vec![
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
@@ -622,6 +636,20 @@ fn test_update_osm_streets_http_error() {
 #[test]
 fn test_update_osm_streets_xml_as_csv() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
     let routes = vec![
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
