@@ -35,6 +35,7 @@ osm-street-filters:
   # nem igazi utcák / csak hrsz.
   - Jókai utca kerékpárút
   - Pósteleki buszforduló
+  - Békéscsaba - Gyula kerékpárút
   # parkok, sétautak amire nincs számozva semmi
   - Kisszik domb
   - Széchenyi liget
