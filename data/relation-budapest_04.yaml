@@ -8,6 +8,7 @@ osm-street-filters:
   - Kiss & Ride
   - Kresz pálya
   - MÁV üzemi út
+  - MÁV Üzemi út
   - Obi udvar
   - Vezetéstechnikai pálya
   # Farkaserdő
@@ -36,10 +37,11 @@ refstreets:
   # utcajegyzék = OSM, ref hibás
   'Duna sor': 'Dunasor'
   # utcajegyzék = REF, OSM eltér
-  'Farkaserdő utca': 'Farkas-erdő utca'  # utcatábla = OSM
-  'Kossuth Lajos utca': 'Kossuth utca'  # utcatábla = OSM
-  'Kölcsey Ferenc utca': 'Kölcsey utca'  # utcatábla = OSM
-  'Ódry Árpád utca': 'Ódry utca'  # utcatábla = OSM
-  'Venetiáner utca': 'Venetianer utca'  # utcatábla = OSM
+  'Farkaserdő utca': 'Farkas-erdő utca'  # utcatábla Farkaserdő utca
+  'Kossuth Lajos utca': 'Kossuth utca'  # utcatábla Kossuth Lajos utca
+  'Kölcsey Ferenc utca': 'Kölcsey utca'  # utcatábla Kölcsey Ferenc utca
+  # 'Óceánárok utca': 'Óceán-árok utca'  # utcatálba Óceánárok utca
+  'Ódry Árpád utca': 'Ódry utca'  # utcatábla Ódry Árpád u.
+  'Venetiáner utca': 'Venetianer utca'  # utcatábla Venetiáner utca
 source: survey
 inactive: true
