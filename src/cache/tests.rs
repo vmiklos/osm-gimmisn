@@ -173,10 +173,46 @@ fn test_get_additional_housenumbers_html() {
 /// Tests is_missing_housenumbers_txt_cached().
 #[test]
 fn test_is_missing_housenumbers_txt_cached() {
-    let ctx = context::tests::make_test_context().unwrap();
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 2713748,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "filters": {
+                "Tűzkő utca": {
+                    "interpolation": "all",
+                },
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let txt_cache_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/gazdagret.txtcache", &txt_cache_value),
+        ],
+    );
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.txtcache"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let mut relation = relations.get_relation("gazdagret").unwrap();
-    get_missing_housenumbers_txt(&ctx, &mut relation).unwrap();
+
+    let ret = get_missing_housenumbers_txt(&ctx, &mut relation).unwrap();
+    assert_eq!(ret.contains("Tűzkő utca\t[1, 2]"), true);
+
     assert_eq!(
         is_missing_housenumbers_txt_cached(&ctx, &relation).unwrap(),
         true
