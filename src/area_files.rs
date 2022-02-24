@@ -169,15 +169,6 @@ impl RelationFiles {
         ctx.get_file_system().open_read(&path)
     }
 
-    /// Opens the house number plain text cache file of a relation for reading.
-    pub fn get_housenumbers_txtcache_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_housenumbers_txtcache_path();
-        ctx.get_file_system().open_read(&path)
-    }
-
     /// Opens the housenumbers additional count file of a relation for reading.
     pub fn get_housenumbers_additional_count_read_stream(
         &self,

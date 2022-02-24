@@ -267,11 +267,9 @@ pub fn get_missing_housenumbers_txt(
     let output: String;
     if is_missing_housenumbers_txt_cached(ctx, relation)? {
         let files = relation.get_files();
-        let stream = files.get_housenumbers_txtcache_read_stream(ctx)?;
-        let mut guard = stream.borrow_mut();
-        let mut buffer = Vec::new();
-        guard.read_to_end(&mut buffer)?;
-        output = String::from_utf8(buffer)?;
+        output = ctx
+            .get_file_system()
+            .read_to_string(&files.get_housenumbers_txtcache_path())?;
         return Ok(output);
     }
 
