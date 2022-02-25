@@ -1177,6 +1177,7 @@ pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
 
 /// Gets the timestamp of a file if it exists, 0 otherwise.
 pub fn get_timestamp(path: &str) -> f64 {
+    // TODO use FileSystem::getmtime().
     let metadata = match std::fs::metadata(path) {
         Ok(value) => value,
         Err(_) => {
