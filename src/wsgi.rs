@@ -35,6 +35,7 @@ fn get_last_modified(path: &str) -> String {
 
 /// Gets the update date of streets for a relation.
 fn get_streets_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
+    // TODO not needed Result type.
     Ok(get_last_modified(
         &relation.get_files().get_osm_streets_path(),
     ))
