@@ -1195,6 +1195,7 @@ fn test_update_stats_topusers_no_csv() {
 /// Tests update_ref_housenumbers(): the case when we ask for CSV but get XML.
 #[test]
 fn test_update_ref_housenumbers_xml_as_csv() {
+    // Given a junk osm_streets_value:
     let mut ctx = context::tests::make_test_context().unwrap();
     let mut file_system = context::tests::TestFileSystem::new();
     let osm_streets_value = context::tests::TestFileSystem::make_file();
@@ -1203,9 +1204,20 @@ fn test_update_ref_housenumbers_xml_as_csv() {
         .borrow_mut()
         .write_all(b"@id\n42\n")
         .unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 2713748,
+                "refcounty": "01",
+                "refsettlement": "011",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
+            ("data/yamls.cache", &yamls_cache_value),
             ("workdir/streets-gazdagret.csv", &osm_streets_value),
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
@@ -1217,5 +1229,11 @@ fn test_update_ref_housenumbers_xml_as_csv() {
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
+
+    // When updating ref housenumbers:
     update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
+
+    // Then make sure that the problematic relation is just skipped instead of failing:
+    let mut guard = ref_housenumbers_value.borrow_mut();
+    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap(), 0);
 }
