@@ -2027,3 +2027,48 @@ fn test_handle_main_housenr_percent() {
     assert_eq!(doc.get_value().is_empty(), false);
     assert_eq!(percent, 4.2_f64);
 }
+
+/// Tests handle_main_street_percent().
+#[test]
+fn test_handle_main_street_percent() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let percent_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/gazdagret-streets.percent", &percent_value),
+        ],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    file_system
+        .write_from_string(
+            "80.0",
+            &ctx.get_abspath("workdir/gazdagret-streets.percent"),
+        )
+        .unwrap();
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret-streets.percent"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+
+    let (doc, percent) = handle_main_street_percent(&ctx, &relation).unwrap();
+
+    assert_eq!(doc.get_value().is_empty(), false);
+    assert_eq!(percent, 80.0_f64);
+}
