@@ -11,6 +11,7 @@
 //! Tests for the cache module.
 
 use super::*;
+use context::FileSystem;
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -217,4 +218,45 @@ fn test_is_missing_housenumbers_txt_cached() {
         is_missing_housenumbers_txt_cached(&ctx, &relation).unwrap(),
         true
     );
+}
+
+/// Tests get_missing_housenumbers_txt().
+#[test]
+fn test_get_missing_housenumbers_txt() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let txt_cache_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/gazdagret.txtcache", &txt_cache_value),
+        ],
+    );
+    file_system.set_files(&files);
+    file_system
+        .write_from_string("cached", &ctx.get_abspath("workdir/gazdagret.txtcache"))
+        .unwrap();
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.txtcache"),
+        Rc::new(RefCell::new(9999999999_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    let mut relation = relations.get_relation("gazdagret").unwrap();
+
+    let ret = get_missing_housenumbers_txt(&ctx, &mut relation).unwrap();
+
+    assert_eq!(ret, "cached");
 }
