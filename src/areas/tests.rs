@@ -1835,10 +1835,7 @@ fn test_write_missing_streets() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let relation = relations.get_relation(relation_name).unwrap();
-    let expected = String::from_utf8(
-        std::fs::read(&ctx.get_abspath("workdir/gazdagret-streets.percent")).unwrap(),
-    )
-    .unwrap();
+    let expected = "80.00".to_string();
 
     let ret = relation.write_missing_streets().unwrap();
 
