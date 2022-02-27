@@ -1849,6 +1849,8 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '6'}
   Csonttollú utca:
+    # 3a: csak sima 3 van
+    invalid: ['3a']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
@@ -1890,8 +1892,9 @@ filters:
     # Van egy ikerház egyik fele 12b másik fele nincs kiírva - 2020.01.21
     invalid: ['12']
   Lucerna köz:
-    # 6a: nincs épület. KCR szerint is csak sima 6 van.
-    invalid: ['6a']
+    # 6a, 6c: nincs épület. KCR szerint is csak sima 6 van.
+    # 12: nincs semmi sem kiírva
+    invalid: ['6a', '6c', '12']
   Medvetalp utca:
     ranges:
       - {start: '1', end: '17'}
