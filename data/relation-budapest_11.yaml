@@ -492,8 +492,11 @@ filters:
     # 46a, 46d: 46, 46/b
     # 50: 50/a, 50/b
     # 58: 58/a, 58/b
+    # 77, 77/a: csak 77/b, a másik fele a háznak Irhás árok 2
+    # 79: csak 79/c
+    # 83/a: csak 83
     # 90: beépítetlen terület
-    invalid: ['4', '8a', '26b', '32a', '32b', '38', '44b', '46a', '46d', '50', '58', '77a', '79c', '85a', '90']
+    invalid: ['4', '8a', '26b', '32a', '32b', '38', '44b', '46a', '46d', '50', '58', '77', '77a', '79', '83a', '85a', '90']
     ranges:
       - {start: '77', end: '119'}
       - {start: '2', end: '998'}
@@ -1854,12 +1857,16 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
+  Deáki utca:
+    # 12 = Üröm utca 8
+    invalid: ['12']
   Facsemete utca:
     # 19/1 van csak a másik kettő nem létezik
     invalid: ['1/2', '1/9', '19']
   Fatörzs utca:
+    # 2-4 = Facsemete utca 1/1-1/21
     # 8a, 8b: bár 2 épület van, csak sima 8 van kiírva
-    invalid: ['8a', '8b']
+    invalid: ['4', '8a', '8b']
   Hosszúréti utca:
     # hosszúréti páratlan madárhegy, páros hosszúrét
     # Madárhegy lakópark G épület = 27, nem a házszám része (E=25, F,H=Bakfű utca 4-6, A-D Pacsirtafű utca 2-8 nincs kiírva)
