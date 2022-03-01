@@ -1482,11 +1482,28 @@ fn test_main_no_path() {
 
 /// Tests handle_main(): if the /osm/filter-for/incomplete output is well-formed.
 #[test]
-fn test_main_filter_for_incomplete_well_formed() {
+fn test_main_filter_for_incomplete() {
     let mut test_wsgi = TestWsgi::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
+
     let root = test_wsgi.get_dom_for_path("/filter-for/incomplete");
-    let results = TestWsgi::find_all(&root, "body/table");
-    assert_eq!(results.len(), 1);
+
+    let results = TestWsgi::find_all(&root, "body/table/tr");
+    // header + 1 relation
+    assert_eq!(results.len(), 2);
 }
 
 /// Tests handle_main(): if the /osm/filter-for/everything output is well-formed.
