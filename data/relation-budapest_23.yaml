@@ -11,6 +11,17 @@ street-filters:
   # Szigetdűlő középső útja - Szigetdűlő közepén
   # Szőlősor utca - Temető mellett
   # Tisza köz - Tisza utcából nyílik - note felvéve
+osm-street-filters:
+  # átlógó, Bp. XVIII.
+  - Közműhelytelep utca
+  - Ózon utca
+  # átlógó, Bp. XX:
+  - Szabad köz
+  - Virág Benedek utca
+  # Átlógó, Gyál
+  - Gesztenye utca
+  # park
+  - Juta-dombi tüzérek tere
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # nincs tábla
