@@ -1515,13 +1515,42 @@ fn test_main_filter_for_everything_well_formed() {
     assert_eq!(results.len(), 1);
 }
 
-/// Tests handle_main(): if the /osm/filter-for/refcounty output is well-formed.
+/// Tests handle_main(): the /osm/filter-for/refcounty output.
 #[test]
-fn test_main_filter_for_refcounty_well_formed() {
+fn test_main_filter_for_refcounty() {
     let mut test_wsgi = TestWsgi::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+                "refcounty": "01",
+                "refsettlement": "011",
+            },
+        },
+        "refcounty-names.yaml": {
+            "01": "Budapest",
+            "67": "Sixtyseven",
+        },
+        "refsettlement-names.yaml": {
+            "01": {
+                "011": "Ujbuda",
+                "012": "Hegyvidek",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
+
     let root = test_wsgi.get_dom_for_path("/filter-for/refcounty/01/whole-county");
-    let results = TestWsgi::find_all(&root, "body/table");
-    assert_eq!(results.len(), 1);
+
+    let results = TestWsgi::find_all(&root, "body/table/tr");
+    // header + 1 relation
+    assert_eq!(results.len(), 2);
 }
 
 /// Tests handle_main(): if the /osm/filter-for/refcounty output is well-formed.
