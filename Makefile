@@ -115,7 +115,7 @@ workdir/osm.min.css: static/osm.css package-lock.json
 	mkdir -p workdir
 	[ -x "./node_modules/.bin/cleancss" ] && npx cleancss -o $@ $< || cp -a $< $@
 
-testdata: tests/data/yamls.cache tests/workdir/osm.min.css tests/favicon.ico tests/favicon.svg
+testdata: tests/workdir/osm.min.css tests/favicon.ico tests/favicon.svg
 
 tests/favicon.ico: favicon.ico
 	cp -a $< $@
@@ -133,9 +133,6 @@ wsgi.ini:
 
 data/yamls.cache: build $(YAML_OBJECTS)
 	target/${TARGET_PATH}/cache_yamls data workdir
-
-tests/data/yamls.cache: build $(YAML_TEST_OBJECTS)
-	target/${TARGET_PATH}/cache_yamls tests/data tests/workdir
 
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
