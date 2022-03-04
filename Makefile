@@ -115,10 +115,7 @@ workdir/osm.min.css: static/osm.css package-lock.json
 	mkdir -p workdir
 	[ -x "./node_modules/.bin/cleancss" ] && npx cleancss -o $@ $< || cp -a $< $@
 
-testdata: tests/workdir/osm.min.css tests/favicon.ico tests/favicon.svg
-
-tests/favicon.ico: favicon.ico
-	cp -a $< $@
+testdata: tests/workdir/osm.min.css tests/favicon.svg
 
 tests/favicon.svg: favicon.svg
 	cp -a $< $@

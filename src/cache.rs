@@ -279,22 +279,21 @@ pub fn get_missing_housenumbers_txt(
         let range_list = util::get_housenumber_ranges(&result.1);
         let mut range_strings: Vec<String> =
             range_list.iter().map(|i| i.get_number()).cloned().collect();
-        let row: String;
         // Street name, only_in_reference items.
-        if !relation
+        let row: String = if !relation
             .get_config()
             .get_street_is_even_odd(result.0.get_osm_name())
         {
             range_strings.sort_by_key(|i| util::split_house_number(i));
-            row = format!(
+            format!(
                 "{}\t[{}]",
                 result.0.get_osm_name(),
                 range_strings.join(", ")
-            );
+            )
         } else {
             let elements = util::format_even_odd(&range_list);
-            row = format!("{}\t[{}]", result.0.get_osm_name(), elements.join("], ["));
-        }
+            format!("{}\t[{}]", result.0.get_osm_name(), elements.join("], ["))
+        };
         table.push(row);
     }
     table.sort_by_key(|i| util::get_sort_key(i).unwrap());
