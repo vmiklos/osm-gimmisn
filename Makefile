@@ -81,7 +81,7 @@ check: all check-filters check-unit check-eslint check-rustfmt check-clippy
 check-rustfmt: Cargo.toml $(RS_OBJECTS)
 	cargo fmt -- --check && touch $@
 
-check-clippy: Cargo.toml $(RS_OBJECTS)
+check-clippy: Cargo.toml .github/workflows/tests.yml $(RS_OBJECTS)
 	cargo clippy ${CARGO_OPTIONS} && touch $@
 
 build: $(RS_OBJECTS) Cargo.toml Makefile
