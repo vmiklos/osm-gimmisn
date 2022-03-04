@@ -835,12 +835,11 @@ pub fn invalid_filter_keys_to_html(invalids: &[String]) -> yattag::Doc {
 
 /// Gets the nth column of row.
 fn get_column(row: &[yattag::Doc], column_index: usize) -> String {
-    let ret: String;
-    if column_index >= row.len() {
-        ret = row[0].get_value();
+    let ret: String = if column_index >= row.len() {
+        row[0].get_value()
     } else {
-        ret = row[column_index].get_value();
-    }
+        row[column_index].get_value()
+    };
     ret
 }
 
@@ -1030,18 +1029,17 @@ pub fn get_normalizer(
     street_name: &str,
     normalizers: &HashMap<String, ranges::Ranges>,
 ) -> ranges::Ranges {
-    let normalizer: ranges::Ranges;
-    if let Some(value) = normalizers.get(street_name) {
+    let normalizer: ranges::Ranges = if let Some(value) = normalizers.get(street_name) {
         // Have a custom filter.
-        normalizer = value.clone();
+        value.clone()
     } else {
         // Default sanity checks.
         let default = vec![
             ranges::Range::new(1, 999, ""),
             ranges::Range::new(2, 998, ""),
         ];
-        normalizer = ranges::Ranges::new(default);
-    }
+        ranges::Ranges::new(default)
+    };
     normalizer
 }
 
@@ -1172,7 +1170,7 @@ pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
         "hu" => ",",
         _ => ".",
     };
-    Ok(formatted.replace(".", decimal_point))
+    Ok(formatted.replace('.', decimal_point))
 }
 
 /// Gets the timestamp of a file if it exists, 0 otherwise.

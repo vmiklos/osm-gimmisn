@@ -297,7 +297,7 @@ fn write_zip_count_path(
     zips.sort_by_key(|(key, _value)| key.to_string());
     zips.dedup();
     for (key, value) in zips {
-        let key = if key.is_empty() { "_Empty" } else { &key };
+        let key = if key.is_empty() { "_Empty" } else { key };
         let line = format!("{}\t{}\n", key, value.len());
         guard.write_all(line.as_bytes())?;
     }

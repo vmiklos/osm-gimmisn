@@ -904,13 +904,12 @@ impl Relation {
         let streets = todo_streets.clone();
         let todo_count = todo_streets.len();
         let done_count = done_streets.len();
-        let percent: f64;
-        if done_count > 0 || todo_count > 0 {
+        let percent: f64 = if done_count > 0 || todo_count > 0 {
             let float: f64 = done_count as f64 / (done_count as f64 + todo_count as f64) * 100_f64;
-            percent = float;
+            float
         } else {
-            percent = 100_f64;
-        }
+            100_f64
+        };
 
         // Write the bottom line to a file, so the index page show it fast.
         let string = format!("{0:.2}", percent);
@@ -1020,13 +1019,12 @@ impl Relation {
             let number_ranges = util::get_housenumber_ranges(&result.1);
             done_count += number_ranges.len();
         }
-        let percent: f64;
-        if done_count > 0 || todo_count > 0 {
+        let percent: f64 = if done_count > 0 || todo_count > 0 {
             let float: f64 = done_count as f64 / (done_count as f64 + todo_count as f64) * 100_f64;
-            percent = float;
+            float
         } else {
-            percent = 100_f64;
-        }
+            100_f64
+        };
 
         // Write the bottom line to a file, so the index page show it fast.
         self.ctx.get_file_system().write_from_string(
