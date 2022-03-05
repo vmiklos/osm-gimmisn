@@ -64,13 +64,16 @@ filters:
     # 134: 132 után 136-138
     invalid: ['12', '38', '54', '126', '134']
   Koszorú utca:
-    # teljes káosz az utcában és csak nagyobb lesz, mert az egyik részét átnevezték, de ennek nyoma sincs a helyszínen:
+    # teljes káosz az utcában, az egyik részét Panoráma utcára átnevezték, így a hászámok most vegyesen vannak
     # 146/2019. (IX. 18.) Képviselő-testületi határozat Közterület átnevezése (Koszorú utca átnevezése a 11438 hrsz-ú ingatlantól a Lejtő utcáig)
     # Budaörs Város Önkormányzat Képviselő-testülete a Budaörs, 8348/2 helyrajzi számú, Koszorú utca elnevezésű közutat a 11438 helyrajzi számú ingatlantól a Lejtő utcáig Panoráma utcává nevezi át.
     # Ez a határozat akkor lép hatályba, amikor a Pest Megyei Kormányhivatal Budakeszi Járási Hivatala Földhivatali Osztálya előtt a telekalakítási eljárás sikeresen és véglegesen befejeződik.
-    # 30: 11433 hrsz: 58 van kiírva
-    # 19, 48: nincs
-    invalid: ['19', '30', '48']
+    # 19: nincs
+    # 30: 11433 hrsz: 58 van kiírva, valójában Panoráma utca 62.
+    # 46 => Panoráma utca 46
+    # 48 => 78 van kiírva, valójában Panoráma utca 44.
+    # 51 => Panormáma utca 59 (földhivatal 61)
+    invalid: ['19', '30', '46', '48']
     ranges:
       - {start: '1', end: '99'}
       - {start: '10', end: '98'}

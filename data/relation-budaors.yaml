@@ -131,6 +131,10 @@ filters:
     # 45 nincs kiírva
     # 51 helyén 53/a van kiírva, de van még egy telek elvileg
     invalid: ['21', '23', '33', '45']
+  Csikó utca:
+    # páratlan hegyvidékek, páros belváros de minden a Budakeszi utcára van számozva
+    ranges:
+      - {start: '1', end: '99'}
   Csillagvölgyi utca:
     # 16a, 19: nincs kiírva
     invalid: ['16a', '19']
@@ -317,16 +321,16 @@ filters:
     # 43: 39-41 után 45/1, de van a kettő között egy bejáró
     invalid: ['5', '7', '11', '43']
   Koszorú utca:
-    # teljes káosz az utcában és csak nagyobb lesz, mert az egyik részét átnevezték, de ennek nyoma sincs a helyszínen:
+    # teljes káosz az utcában, az egyik részét Panoráma utcára átnevezték, így a hászámok most vegyesen vannak
     # 146/2019. (IX. 18.) Képviselő-testületi határozat Közterület átnevezése (Koszorú utca átnevezése a 11438 hrsz-ú ingatlantól a Lejtő utcáig)
     # Budaörs Város Önkormányzat Képviselő-testülete a Budaörs, 8348/2 helyrajzi számú, Koszorú utca elnevezésű közutat a 11438 helyrajzi számú ingatlantól a Lejtő utcáig Panoráma utcává nevezi át.
     # Ez a határozat akkor lép hatályba, amikor a Pest Megyei Kormányhivatal Budakeszi Járási Hivatala Földhivatali Osztálya előtt a telekalakítási eljárás sikeresen és véglegesen befejeződik.
-    # 30: 11433 hrsz: 58 van kiírva
-    # 19, 48: nincs
-    invalid: ['19', '30', '48']
-    ranges:
-      - {start: '1', end: '99'}
-      - {start: '10', end: '98'}
+    # 19: nincs
+    # 30: 11433 hrsz: 58 van kiírva, valójában Panoráma utca 62.
+    # 46 => Panoráma utca 46
+    # 48 => 78 van kiírva, valójában Panoráma utca 44.
+    # 51 => Panormáma utca 59 (földhivatal 61)
+    invalid: ['19', '30', '46', '48']
   Kőfejtő utca:
     # újraszámozva az utca, ezek a számok nincsenek
     invalid: ['11', '17', '19', '50']
