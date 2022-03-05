@@ -159,9 +159,9 @@ filters:
     # These are all towards the end of the odd side, all non-existing.
     invalid: ['29', '35', '41', '43']
   Irhás árok:
-    # 35: itt nincs ház, Adorján út 2 a legközelebbi ehhez
+    # 33-35: Adorján út 2-re van számozva
     # 43: 41 és 43 nincs beépítve, bódék vannak
-    invalid: ['35', '43']
+    invalid: ['33', '35', '43']
     ranges:
       - {start: '1', end: '105'}
       - {start: '48', end: '58'}
