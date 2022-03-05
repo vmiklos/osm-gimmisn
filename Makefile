@@ -88,7 +88,7 @@ build: $(RS_OBJECTS) Cargo.toml Makefile
 	cargo build ${CARGO_OPTIONS}
 
 # Without coverage: cargo test --lib -- --test-threads=1
-check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo testdata data/yamls.cache
+check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/yamls.cache
 	cargo tarpaulin --lib -v --skip-clean --fail-under 100 --target-dir ${PWD}/target-cov ${CARGO_OPTIONS} -- --test-threads=1
 
 src/browser/config.ts: wsgi.ini Makefile
@@ -114,12 +114,6 @@ css: workdir/osm.min.css
 workdir/osm.min.css: static/osm.css package-lock.json
 	mkdir -p workdir
 	[ -x "./node_modules/.bin/cleancss" ] && npx cleancss -o $@ $< || cp -a $< $@
-
-testdata: tests/workdir/osm.min.css
-
-tests/workdir/osm.min.css: workdir/osm.min.css
-	mkdir -p tests/workdir
-	cp -a $< $@
 
 # Intentionally don't update this when the source changes.
 wsgi.ini:
