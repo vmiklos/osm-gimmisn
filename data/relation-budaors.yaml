@@ -244,6 +244,9 @@ filters:
     invalid: ['12', '38', '54', '126', '134']
   Ifjúság utca:
     invalid: ['2', '37']
+  Jókai utca:
+    # 17 az utolsó ház átszámozás után
+    invalid: ['19']
   József Attila utca:
     # 7 = Árpád utca 4-8 iskola hátsó fele
     # 14: 12 után 16
@@ -713,7 +716,8 @@ filters:
       - {start: '1', end: '9'}
       - {start: '2', end: '28'}
   Zengő utca:
-    invalid: ['25']
+    # 45 = 44. lakó szerint el van írva a szám, de még nem hivatalos
+    invalid: ['25', '45', '56']
   Zichy Péter utca:
     # 32: utolsó szám a 6-os
     invalid: ['32']
