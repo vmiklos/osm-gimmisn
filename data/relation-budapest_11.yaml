@@ -2453,9 +2453,6 @@ filters:
     # 10: 10/b van csak kiírva
     # 12/b: régi házszám, = 10/b
     invalid: ['10', '12b']
-    ranges:
-      - {start: '1', end: '9'}
-      - {start: '2', end: '12'}
   Hársmajor utca:
     # 14: 14/a óvoda, 14/b nincs kiírva
     invalid: ['14']
