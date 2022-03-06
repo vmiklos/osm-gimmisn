@@ -91,6 +91,9 @@ filters:
   Halom utca:
     ranges:
       - {start: '12', end: '12'}
+  Jókai utca:
+    # 17 az utolsó ház átszámozás után
+    invalid: ['19']
   Kertész köz:
     ranges:
       - {start: '1', end: '5'}
