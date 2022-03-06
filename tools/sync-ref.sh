@@ -9,6 +9,12 @@
 # This script synchronizes reference data between a public instance and a local dev instance.
 #
 
+if [ -z "$1" ]; then
+    echo "usage:"
+    echo "tools/sync-ref.sh https://www.example.com/osm/data/"
+    exit 1
+fi
+
 refs=$(grep -o '[a-z0-9_]\+.tsv' data/wsgi.ini.template)
 mkdir refdir.new
 cd refdir.new
