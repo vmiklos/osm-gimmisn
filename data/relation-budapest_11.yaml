@@ -1689,6 +1689,9 @@ filters:
     # 14 = Husáng utca 6
     invalid: ['3', '4', '14']
   # Kőérberek +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Fenyves sor:
+    # hrsz.
+    invalid: ['141']
   Löveg utca:
     # 2: 2/A, 2/B, 2/C van 1. és 2. lépcsőház mindenhol, ezért kell szűrni a 2-t (2/A/1 -> 2)
     # 3: egyik részénél 3/X másik részénél 3. X. épület formában van, egységesen vittem fel 3/X formában
@@ -2140,6 +2143,9 @@ filters:
     ranges:
       - {start: '3', end: '53'}
       - {start: '4', end: '56'}
+  Karéjos utca:
+    # hrsz.
+    invalid: ['641/1']
   Péterhegyi dűlő:
     # Ezen a néven csak helyrajzi számok vannak
     # Valószínű Karéjos utca lesz belőle, ha lesznek házszámok, de nincs kitáblázva, csak a szenyvizátemelőn
