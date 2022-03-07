@@ -1001,9 +1001,13 @@ fn test_main() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
+    let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/stats/stats.json", &stats_value)],
+        &[
+            ("workdir/stats/stats.json", &stats_value),
+            ("workdir/stats/ref.count", &ref_count),
+        ],
     );
     file_system.set_files(&files);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -1021,6 +1025,13 @@ fn test_main() {
     // Make sure that stats.json is updated.
     let mut guard = stats_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+
+    let actual = ctx
+        .get_file_system()
+        .read_to_string(&ctx.get_abspath("workdir/stats/ref.count"))
+        .unwrap();
+    // Same as in test_update_stats().
+    assert_eq!(actual, "300\n");
 }
 
 /// Tests main(): the path when our_main() returns an error.
