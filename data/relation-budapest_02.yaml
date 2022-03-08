@@ -46,6 +46,7 @@ osm-street-filters:
   # Hivatalosan nincs, de van utcatábla
   - Derschner köz  # valószínű a tulaj csináltatta
   - Gyurkovics Mária lépcső
+  - Maci köz  # https://www.openstreetmap.org/note/2505642
   # problémásak --------------------------------------------------
   # Ady lépcső - buszmegálló van, régi térképen nincs rajta
   # Detrekő lépcső - Detrekő utca, note
