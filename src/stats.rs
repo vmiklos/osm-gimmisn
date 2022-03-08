@@ -37,7 +37,7 @@ fn handle_progress(
     };
     let mut num_osm = 0_f64;
     let count_path = format!("{}/{}.count", src_root, today);
-    if std::path::Path::new(&count_path).exists() {
+    if ctx.get_file_system().path_exists(&count_path) {
         num_osm = ctx
             .get_file_system()
             .read_to_string(&count_path)?
