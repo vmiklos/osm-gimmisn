@@ -815,12 +815,22 @@ fn test_update_stats_no_overpass() {
     let citycount_value = context::tests::TestFileSystem::make_file();
     let count_value = context::tests::TestFileSystem::make_file();
     let topusers_value = context::tests::TestFileSystem::make_file();
+    let ref_count = context::tests::TestFileSystem::make_file();
+    let today_count = context::tests::TestFileSystem::make_file();
+    today_count
+        .borrow_mut()
+        .write_all("254651\n".as_bytes())
+        .unwrap();
+    let stats_json = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
             ("workdir/stats/2020-05-10.count", &count_value),
             ("workdir/stats/2020-05-10.topusers", &topusers_value),
+            ("workdir/stats/2020-05-10.count", &today_count),
+            ("workdir/stats/ref.count", &ref_count),
+            ("workdir/stats/stats.json", &stats_json),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -833,6 +843,12 @@ fn test_update_stats_no_overpass() {
         .downcast_ref::<context::tests::TestTime>()
         .unwrap();
     assert_eq!(time.get_sleep(), 0);
+    let actual = ctx
+        .get_file_system()
+        .read_to_string(&ctx.get_abspath("workdir/stats/ref.count"))
+        .unwrap();
+    // Same as in test_update_stats().
+    assert_eq!(actual, "300\n");
 }
 
 /// Tests our_main().
