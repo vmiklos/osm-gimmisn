@@ -768,25 +768,32 @@ fn test_update_stats_http_error() {
 
     let citycount_value = context::tests::TestFileSystem::make_file();
     let count_value = context::tests::TestFileSystem::make_file();
+    count_value
+        .borrow_mut()
+        .write_all("254651\n".as_bytes())
+        .unwrap();
     let topusers_value = context::tests::TestFileSystem::make_file();
+    let ref_count = context::tests::TestFileSystem::make_file();
+    let stats_json = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
             ("workdir/stats/2020-05-10.count", &count_value),
             ("workdir/stats/2020-05-10.topusers", &topusers_value),
+            ("workdir/stats/ref.count", &ref_count),
+            ("workdir/stats/stats.json", &stats_json),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
-    let stats_path = ctx.get_abspath("workdir/stats/stats.json");
-    if std::path::Path::new(&stats_path).exists() {
-        std::fs::remove_file(&stats_path).unwrap();
-    }
 
     update_stats(&ctx, /*overpass=*/ true).unwrap();
 
-    assert_eq!(std::path::Path::new(&stats_path).exists(), true);
+    {
+        let mut guard = stats_json.borrow_mut();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
 }
 
 /// Tests update_stats(): the case when we don't call overpass.
