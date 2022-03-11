@@ -717,14 +717,24 @@ fn test_update_stats() {
     ctx.set_network(&network_arc);
 
     let citycount_value = context::tests::TestFileSystem::make_file();
+    let zipcount_value = context::tests::TestFileSystem::make_file();
     let count_value = context::tests::TestFileSystem::make_file();
     let topusers_value = context::tests::TestFileSystem::make_file();
+    let csv_value = context::tests::TestFileSystem::make_file();
+    let usercount_value = context::tests::TestFileSystem::make_file();
+    let ref_count = context::tests::TestFileSystem::make_file();
+    let stats_json = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
+            ("workdir/stats/2020-05-10.zipcount", &zipcount_value),
             ("workdir/stats/2020-05-10.count", &count_value),
             ("workdir/stats/2020-05-10.topusers", &topusers_value),
+            ("workdir/stats/2020-05-10.csv", &csv_value),
+            ("workdir/stats/2020-05-10.usercount", &usercount_value),
+            ("workdir/stats/ref.count", &ref_count),
+            ("workdir/stats/stats.json", &stats_json),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -740,7 +750,7 @@ fn test_update_stats() {
 
     update_stats(&ctx, /*overpass=*/ true).unwrap();
 
-    let actual = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
+    let actual = ctx.get_file_system().read_to_string(&path).unwrap();
     assert_eq!(
         actual,
         String::from_utf8(std::fs::read("tests/network/overpass-stats.csv").unwrap()).unwrap()
@@ -749,7 +759,9 @@ fn test_update_stats() {
     // Make sure that the old CSV is removed.
     assert_eq!(ctx.get_file_system().path_exists(&old_path), false);
 
-    let num_ref: i64 = std::fs::read_to_string(&ctx.get_abspath("workdir/stats/ref.count"))
+    let num_ref: i64 = ctx
+        .get_file_system()
+        .read_to_string(&ctx.get_abspath("workdir/stats/ref.count"))
         .unwrap()
         .trim()
         .parse()
