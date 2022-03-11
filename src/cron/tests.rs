@@ -820,6 +820,7 @@ fn test_update_stats_no_overpass() {
     ctx.set_network(&network_arc);
 
     let citycount_value = context::tests::TestFileSystem::make_file();
+    let zipcount_value = context::tests::TestFileSystem::make_file();
     let count_value = context::tests::TestFileSystem::make_file();
     let topusers_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
@@ -833,6 +834,7 @@ fn test_update_stats_no_overpass() {
         &ctx,
         &[
             ("workdir/stats/2020-05-10.citycount", &citycount_value),
+            ("workdir/stats/2020-05-10.zipcount", &zipcount_value),
             ("workdir/stats/2020-05-10.count", &count_value),
             ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ("workdir/stats/2020-05-10.count", &today_count),
