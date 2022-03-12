@@ -1017,13 +1017,32 @@ fn test_our_main_stats() {
     ctx.set_network(&network_arc);
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
+    let today_csv = context::tests::TestFileSystem::make_file();
+    let today_count = context::tests::TestFileSystem::make_file();
+    let today_citycount = context::tests::TestFileSystem::make_file();
+    let today_zipcount = context::tests::TestFileSystem::make_file();
+    let today_topusers = context::tests::TestFileSystem::make_file();
+    let today_usercount = context::tests::TestFileSystem::make_file();
+    let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/stats/stats.json", &stats_value)],
+        &[
+            ("workdir/stats/stats.json", &stats_value),
+            ("workdir/stats/2020-05-10.csv", &today_csv),
+            ("workdir/stats/2020-05-10.count", &today_count),
+            ("workdir/stats/2020-05-10.citycount", &today_citycount),
+            ("workdir/stats/2020-05-10.zipcount", &today_zipcount),
+            ("workdir/stats/2020-05-10.topusers", &today_topusers),
+            ("workdir/stats/2020-05-10.usercount", &today_usercount),
+            ("workdir/stats/ref.count", &ref_count),
+        ],
     );
     file_system.set_files(&files);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
+    let time = context::tests::make_test_time();
+    let time_arc: Arc<dyn context::Time> = Arc::new(time);
+    ctx.set_time(&time_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     our_main(
