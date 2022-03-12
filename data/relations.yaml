@@ -481,6 +481,11 @@ dunaujvaros:
     osmrelation: 1420733
     refcounty: "07"
     refsettlement: "024"
+# 08 - Győr-Moson-Sopron
+gyor:
+    osmrelation: 1440627
+    refcounty: "08"
+    refsettlement: "059"
 # 09 - Hajdú-Bihar
 hosszupalyi:
     osmrelation: 1443909
