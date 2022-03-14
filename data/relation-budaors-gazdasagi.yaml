@@ -5,9 +5,9 @@ filters:
     ranges:
       - {start: '40', end: '40'}
   Árok köz:
-    # lezárt utca, nem felmérhető
+    # részben lezárt utca, nem felmérhető
     ranges:
-      - {start: '1', end: '1'}
+      - {start: '1', end: '3'}
       - {start: '2', end: '2'}
   Baross utca:
     # 1-69 belvaros, 165- lakotelep, paros vegyes
@@ -19,6 +19,9 @@ filters:
       - {start: '20', end: '98'}
   Csata utca:
     # páros belváros, páratlan gazdasági
+    # 5: 3 után 7
+    # 13 = Károly Király utca 89
+    invalid: ['5', '13', '19']
     ranges:
       - {start: '1', end: '99'}
   Hársfa utca:
@@ -35,11 +38,13 @@ filters:
   Károly király utca:
     # belvaros 1-85, 2-82, többi gazdasági
     ranges:
-      - {start: '87', end: '199'}
-      - {start: '84', end: '198'}
+      - {start: '87', end: '145'}
+      - {start: '84', end: '90'}
   Komáromi utca:
-    # páros oldal, de a számok a Baross utcátl északra vannak, az pedig a lakótelep körzet
-    ranges: []
+    # páratlan: belváros
+    # páros: 2-20 lakótelep, 22- gazdasági
+    ranges:
+      - {start: '22', end: '22'}
   Moha utca:
     # belváros páros, autópálya menti páratlan
     ranges:

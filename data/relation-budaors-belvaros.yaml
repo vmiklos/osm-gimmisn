@@ -133,6 +133,8 @@ filters:
     # 10: nincs, kereszteződés egyik oldalán 8, másik oldalán 12
     invalid: ['10']
   Komáromi utca:
+    # páratlan: belváros
+    # páros: 2-20 lakótelep, 22- gazdasági
     ranges:
       - {start: '1', end: '73'}
   Kossuth Lajos utca:
