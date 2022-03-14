@@ -19,6 +19,8 @@ filters:
   Ifjúság utca:
     invalid: ['2', '37']
   Komáromi utca:
+    # páratlan: belváros
+    # páros: 2-20 lakótelep, 22- gazdasági
     ranges:
       - {start: '2', end: '20'}
   Koszorú utca:
