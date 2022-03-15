@@ -13,6 +13,9 @@ filters:
     # 1-69 belvaros, 165- lakotelep, paros vegyes
     ranges:
       - {start: '77', end: '163'}
+  Bazsalikom utca:
+    # teljes terület hegyvidékek
+    ranges: []
   Budafoki utca:
     # páratlan kertváros, páros vegyes
     ranges:

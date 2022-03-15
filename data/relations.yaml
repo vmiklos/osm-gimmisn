@@ -627,8 +627,16 @@ budaors-lakotelep:
     osmrelation: 10477968
     refcounty: "14"
     refsettlement: "015"
+budaors-nyugat:
+    osmrelation: 10478104
+    refcounty: "14"
+    refsettlement: "015"
 budaors-szallasok:
     osmrelation: 10477768
+    refcounty: "14"
+    refsettlement: "015"
+budaors-szilvas:
+    osmrelation: 10478374
     refcounty: "14"
     refsettlement: "015"
 godollo:
