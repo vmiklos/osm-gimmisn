@@ -345,14 +345,14 @@ fn test_update_missing_streets() {
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let expected: String = "50.00".into();
 
-    update_missing_streets(&mut relations, /*update=*/ true).unwrap();
+    update_missing_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
-    let expected_mtime = file_system_arc.getmtime(&path1).unwrap();
+    let expected_mtime = ctx.get_file_system().getmtime(&path1).unwrap();
     assert_eq!(expected_mtime > 0_f64, true);
 
-    update_missing_streets(&mut relations, /*update=*/ false).unwrap();
+    update_missing_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
-    let actual_mtime = file_system_arc.getmtime(&path1).unwrap();
+    let actual_mtime = ctx.get_file_system().getmtime(&path1).unwrap();
     assert_eq!(actual_mtime, expected_mtime);
     let actual = context::tests::TestFileSystem::get_content(&count_file1);
     assert_eq!(actual, expected);
