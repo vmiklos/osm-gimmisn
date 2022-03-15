@@ -1,0 +1,7 @@
+missing-streets: 'no'
+filters:
+  Vasút utca:
+    # teljes utca a autópáyla menti gazdasági területekre számozva
+    ranges: []
+source: survey
+inactive: false

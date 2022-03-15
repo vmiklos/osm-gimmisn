@@ -1,0 +1,14 @@
+missing-streets: 'no'
+filters:
+  Muskétás utca:
+    # teljes utca a Hegyvidékek területre számozva
+    ranges: []
+  Szabadság út:
+    # ez a szakasz külterület, nincs szám
+    ranges: []
+  Virág utca:
+    # csak a Csiki pihenőkert és egy autószerviz
+    ranges:
+      - {start: '6', end: '6'}
+source: survey
+inactive: false
