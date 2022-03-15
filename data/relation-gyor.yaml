@@ -1,0 +1,131 @@
+missing-streets: 'yes'
+source: survey
+osm-street-filters:
+  # nem igazi utcák
+  - EuroVelo6
+  - TSZ udvar bekötő út
+  - Viziszínpad
+  # hidak/aluljáró
+  - Jedlik Ányos híd
+  - Petőfi híd
+  - Rába kettős híd
+  - Nádor aluljáró
+  # ösvények/parkok
+  - Barátság park
+  - Bezerédj park
+  - Bisinger József park
+  - Cserók sétány
+  - Deák Ferenc sétány
+  - Egyetem belső udvara
+  - Eötvös park
+  - Erzsébet-liget
+  - Füvészkert (Szitás-domb tanösvény)
+  - Kismegyeri emlékpark
+  - Kuopio park
+  - Malom liget
+  - Mihálkovics sétány
+  - Millennium emlékpark
+  - Millenniumi emlékpark
+  - Móra park
+  - Várfal sétány
+  - Wennes Jenő sétány
+  - Zöld utcai futópálya
+  # átlógó utcák
+  - Kákostó utca
+  - Mártírok utca
+  - Méhész utca
+  - Üdülő utca
+  # Audi
+  - 6-os porta bejárat
+  - Audi út
+  - Audi-Nyári út
+street-filters:
+  # - Kertes utca  # 01416/39 hrsz
+  # - Sáfrány utca  # 01337 hrsz
+  - Kékmadár utca  # hrsz. 5308/2 úgy tűnik Szentiváni útra vagy Régi Szentiváni útra változott
+  # Kör utca - Kör tér  # https://www.openstreetmap.org/note/3089579
+refstreets:
+  # OSM Name 1: Ref Name 1
+  'Bálványos utca': 'Bálvány utca'  # utcatábla 2019.06: Báványos utca
+  'Bolyai Farkas utca': 'Bólyai Farkas utca'  # ember Bolyai Farkas
+  'Hargita utca': 'Hargitta utca'  # utcatábla 2019.06: Hargita u.
+  'Rát Mátyás tér': 'Ráth Mátyás tér'  # utcatábla: 2021.07: Rát Mátyás tér 1.
+  # kérdéses
+  'Állomás utca': 'Állomás út'
+  'Andrásvári utca': 'Andrásvári út'
+  'Aranyos utca': 'Aranyos út'
+  'Áchim András utca': 'Achim András utca'
+  'Barackos utca': 'Barackos út'
+  'Báthori utca': 'Báthori út'
+  'Benczúr utca': 'Benczur utca'
+  'Bulcsú utca': 'Bulcsu utca'
+  'Bükkfa út': 'Bükkfa utca'
+  'Csíkostói utca': 'Csíkostó út'
+  'Csonkaér utca': 'Csonkaér út'
+  'Csontváry Kosztka Tivadar utca': 'Csontváry utca'
+  'Dr. Schweitzer utca': 'Dr. Schweitzer Albert utca'
+  'Diák utca': 'Diák út'
+  'Egysori utca': 'Egysori út'
+  'Eszperantó utca': 'Eszperantó út'
+  'Ezerjó utca': 'Ezerjó út'
+  'Eörsy Péter utca': 'Eőrsy Péter utca'
+  'Fecske utca': 'Fecske út'
+  'Fehér akác utca': 'Fehérakác utca'  # https://www.openstreetmap.org/note/3089226
+  'Felüljáró utca': 'Felüljáró út'
+  'Fő út': 'Fő utca'
+  'Füzes köz': 'Füzes utca'  # https://www.openstreetmap.org/note/3089392
+  'Galántai út': 'Galántai utca'
+  'Gólyarét utca': 'Gólyarét'
+  'Gutenberg János tér': 'Gutenberg tér'
+  'Gyirmóti utca': 'Gyirmóti út'
+  'Hármashatár utca': 'Hármashatár út'
+  'Hídalja utca': 'Hídalja'
+  'Hegyalja út': 'Hegyalja utca'
+  'Homokbánya utca': 'Homokbánya út'
+  'Iskola köz': 'Iskola utca'  # https://www.openstreetmap.org/note/3089458
+  'Jegenyefa utca': 'Jegenyefa sor'  # https://www.openstreetmap.org/note/3089467
+  'Kálmán Imre utca': 'Kálmán Imre út'
+  'Kishegyi utca': 'Kishegyi út'
+  'Kiskert utca': 'Kiskert út'
+  'Kiskút liget': 'Kiskúti liget'
+  'Kisvasút utca': 'Kisvasúti út'
+  'Komlóvölgyi utca': 'Komlóvölgyi út'
+  'Konini utca': 'Konini út'
+  'Krúdy utca': 'Krúdy Gyula utca'
+  'Lehár Ferenc utca': 'Lehár Ferenc út'
+  'Lőtér utca': 'Lőtér út'
+  'Lahner György utca': 'Láhner György utca'
+  'Lajta utca': 'Lajta út'  # https://www.openstreetmap.org/note/3089595
+  'Mátyás tér': 'Mátyás király tér'
+  'Ménfői utca': 'Ménfői út'
+  'Malom utca': 'Malom út'
+  'Nagy Imre út': 'Nagy Imre utca'
+  'Napfény utca': 'Napfény út'
+  'Nádasdy utca': 'Nádasdy Ferenc utca'
+  'Öreg utca': 'Öreg út'
+  'Ősi utca': 'Ősi út'
+  'Pengős utca': 'Pengős út'
+  'Péterfy Sándor utca': 'Péterffy Sándor utca'
+  'Pór Bertalan utca': 'Poór Bertalan út'
+  'Pósa Lajos utca': 'Pósa Lajos út'
+  'Régiposta utca': 'Régiposta út'
+  'Rómer Flóris utca': 'Rómer Flóris út'
+  'Rózsa utca': 'Rózsa út'
+  'Sárkereki utca': 'Sárkereki út'
+  'Sashegyi út': 'Sashegyi utca'
+  'Szabó János utca': 'Szabó János út'
+  'Szalvay Mihály utca': 'Szalvai Mihály utca'
+  'Szent Vid utca': 'Szentvid utca'
+  'Szigetvári utca': 'Szigetvári út'
+  'Szikes utca': 'Szikes út'
+  'Szőnyi Márton út': 'Szőnyi Márton utca'
+  'Tavi utca': 'Tavi út'
+  'Új élet út': 'Új Élet út'
+  'Újkapu utca': 'Új kapu utca'
+  'Urbantsok Tibor utca': 'Urbantsok utca'  # új táblán: Urbantsok Tibor utca
+  'Űrhajós út': 'Űrhajós utca'
+  'Víztorony utca': 'Viztorony utca'
+  'Völgyszigeti utca': 'Völgyszigeti út'
+  'Vonal utca': 'Vonal út'
+  'Vonat utca': 'Vonat út'
+inactive: false
