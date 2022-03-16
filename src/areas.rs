@@ -491,7 +491,7 @@ impl Relation {
             ret.push(street)
         }
         let path = self.file.get_osm_housenumbers_path();
-        if std::path::Path::new(&path).exists() {
+        if self.ctx.get_file_system().path_exists(&path) {
             let stream: Rc<RefCell<dyn Read>> =
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
             let mut guard = stream.borrow_mut();
