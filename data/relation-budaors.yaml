@@ -45,9 +45,9 @@ filters:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
   Árok köz:
-    # lezárt utca, nem felmérhető
+    # részben lezárt utca, nem felmérhető
     ranges:
-      - {start: '1', end: '1'}
+      - {start: '1', end: '3'}
       - {start: '2', end: '2'}
   Árokparti utca:
     invalid: ['7']
@@ -279,12 +279,12 @@ filters:
     # 18: nincs, 16 után 20 jön, kettő között a Baross utca húzódik
     # 23: nincs, 21 után 25 jön, kettő között a Baross utca húzódik
     # 58: nincs, 56 után 60 jön
-    # 81-83: 79 van az épülő házon, utána 85 jön
-    # 96: 96 beépítve az újonnan épült 98-ba
-    invalid: ['18', '23', '58', '81', '83', '96']
+    # 81-83: 79 van az épülő házon, utána 85 jön, majd 89
+    # 149: nincs, 145 Lidl/Diego az utolsó telek
+    invalid: ['18', '23', '58', '81', '83', '87']
     ranges:
-      - {start: '1', end: '199'}
-      - {start: '4', end: '198'}
+      - {start: '1', end: '145'}
+      - {start: '4', end: '90'}
   Kassai utca:
     # 4-6: 1 házon nincs házszám, de 2 szám hiányzik 2021-04 TODO
     invalid: ['4', '6']
@@ -296,10 +296,17 @@ filters:
     # nem felmérhető, elzárt magánterület
     ranges: []
   Kikelet utca:
+    # 25: 23 után 27 a kettő között hátul a 29-es számhoz tartozó 3 ház egyike
+    invalid: ['25']
     ranges:
       - {start: '1', end: '13'}
       - {start: '21', end: '41'}
       - {start: '2', end: '32'}
+  Kinizsi utca:
+    # 12-16: 10 után 18 jön
+    # 34: vastelep, nincs. 36-ban lakó megvette az utat.
+    # 42: nincs: 38-40 Musztáng, 44 Koos Weber
+    invalid: ['12', '14', '16', '34', '42']
   Kisfaludy utca:
     # 10: nincs, kereszteződés egyik oldalán 8, másik oldalán 12
     invalid: ['10']
@@ -315,7 +322,7 @@ filters:
   Komáromi utca:
     ranges:
       - {start: '1', end: '73'}
-      - {start: '2', end: '20'}
+      - {start: '2', end: '22'}
   Kovács utca:
     # páratlan oldal így megy 1 3 5 5/a 5/b 9/a 9/b
     invalid: ['7']
@@ -535,6 +542,10 @@ filters:
     ranges:
       - {start: '3', end: '29'}
       - {start: '2', end: '20'}
+  Rubik Ernő utca:
+    # 4 a Mol kút, de magát 3-nak hírdeti (Agip utca 4 volt)
+    # 6 földhivatal szerint a felújítás alatt lévő épület. MMV Zrt székhely. ennek nyoma sincs itt. RESURVEY 2022 ősz
+    invalid: ['4', '6']
   Sas köz:
     invalid: ['1', '5']
   Sas utca:
@@ -579,6 +590,7 @@ filters:
     # 28: a színház parkolója
     # 29-33 közt épül valami, a kint lévő terven csak 33-at említ
     # 42: 40 után 44
+    # 96: 96 beépítve az újonnan épült 98-ba
     # 181-209 többségében a Holdfény utcára van számozva
     # 242: helyén 214 van kiírva
     # 314: heléyn 312/a van kírva
