@@ -2087,6 +2087,9 @@ filters:
     ranges:
       - {start: '2', end: '20'}
       - {start: '1', end: '43'}
+  Vitorlázó út:
+    # 17-21: KCR hírdetmény szerint ezek vannak, viszont nem úgy vannak a telkek és a házak, hogy ezeket ki lehessen osztani
+    invalid: ['17', '19', '21']
   # Péterhegy +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Bolygó utca:
     # 1 = Péterhegyi út 47/a
