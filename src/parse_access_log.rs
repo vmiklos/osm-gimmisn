@@ -27,7 +27,10 @@ fn is_complete_relation(
     relation_name: &str,
 ) -> anyhow::Result<bool> {
     let relation = relations.get_relation(relation_name)?;
-    if !std::path::Path::new(&relation.get_files().get_housenumbers_percent_path()).exists() {
+    if !ctx
+        .get_file_system()
+        .path_exists(&relation.get_files().get_housenumbers_percent_path())
+    {
         return Ok(false);
     }
 
