@@ -52,7 +52,11 @@ fn update_osm_streets(
     let active_names = relations.get_active_names();
     for relation_name in active_names.context("get_active_names() failed")? {
         let relation = relations.get_relation(&relation_name)?;
-        if !update && std::path::Path::new(&relation.get_files().get_osm_streets_path()).exists() {
+        if !update
+            && ctx
+                .get_file_system()
+                .path_exists(&relation.get_files().get_osm_streets_path())
+        {
             continue;
         }
         log::info!("update_osm_streets: start: {}", relation_name);
@@ -92,7 +96,9 @@ fn update_osm_housenumbers(
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
         if !update
-            && std::path::Path::new(&relation.get_files().get_osm_housenumbers_path()).exists()
+            && ctx
+                .get_file_system()
+                .path_exists(&relation.get_files().get_osm_housenumbers_path())
         {
             continue;
         }
@@ -133,7 +139,9 @@ fn update_ref_housenumbers(
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
         if !update
-            && std::path::Path::new(&relation.get_files().get_ref_housenumbers_path()).exists()
+            && ctx
+                .get_file_system()
+                .path_exists(&relation.get_files().get_ref_housenumbers_path())
         {
             continue;
         }
@@ -162,7 +170,11 @@ fn update_ref_streets(
 ) -> anyhow::Result<()> {
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
-        if !update && std::path::Path::new(&relation.get_files().get_ref_streets_path()).exists() {
+        if !update
+            && ctx
+                .get_file_system()
+                .path_exists(&relation.get_files().get_ref_streets_path())
+        {
             continue;
         }
         let reference = ctx.get_ini().get_reference_street_path()?;
@@ -194,7 +206,9 @@ fn update_missing_housenumbers(
             .get_relation(&relation_name)
             .context("get_relation() failed")?;
         if !update
-            && std::path::Path::new(&relation.get_files().get_housenumbers_percent_path()).exists()
+            && ctx
+                .get_file_system()
+                .path_exists(&relation.get_files().get_housenumbers_percent_path())
         {
             continue;
         }
@@ -250,12 +264,16 @@ fn update_missing_streets(
 }
 
 /// Update the relation's "additional streets" stats.
-fn update_additional_streets(relations: &mut areas::Relations, update: bool) -> anyhow::Result<()> {
+fn update_additional_streets(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    update: bool,
+) -> anyhow::Result<()> {
     log::info!("update_additional_streets: start");
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
         let relation_path = relation.get_files().get_streets_additional_count_path();
-        if !update && std::path::Path::new(&relation_path).exists() {
+        if !update && ctx.get_file_system().path_exists(&relation_path) {
             continue;
         }
         let streets = relation.get_config().should_check_missing_streets();
@@ -517,7 +535,7 @@ fn our_main(
         update_ref_housenumbers(ctx, relations, update)?;
         update_missing_streets(ctx, relations, update)?;
         update_missing_housenumbers(ctx, relations, update)?;
-        update_additional_streets(relations, update)?;
+        update_additional_streets(ctx, relations, update)?;
     }
 
     let pid = std::process::id();

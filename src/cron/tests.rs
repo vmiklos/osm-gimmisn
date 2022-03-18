@@ -409,10 +409,10 @@ fn test_update_additional_streets() {
     ctx.set_file_system(&file_system_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let expected: String = "1".into();
-    update_additional_streets(&mut relations, /*update=*/ true).unwrap();
+    update_additional_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
     let mtime = file_system_arc.getmtime(&path1).unwrap();
 
-    update_additional_streets(&mut relations, /*update=*/ false).unwrap();
+    update_additional_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
     assert_eq!(file_system_arc.getmtime(&path1).unwrap(), mtime);
     let actual = context::tests::TestFileSystem::get_content(&count_file1);
