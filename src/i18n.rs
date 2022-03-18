@@ -10,13 +10,15 @@
 
 //! The i18n module allows UI translation via gettext.
 
+use crate::context;
+
 thread_local! {
     static TRANSLATIONS: std::cell::RefCell<Option<gettext::Catalog>> = std::cell::RefCell::new(None);
     static LANGUAGE: std::cell::RefCell<Option<String>> = std::cell::RefCell::new(None);
 }
 
 /// Sets the language of the current thread.
-pub fn set_language(language: &str) {
+pub fn set_language(ctx: &context::Context, language: &str) {
     // Not using ctx.get_abspath() here, tests/ doesn't have its own dummy translations.
     let root_dir = env!("CARGO_MANIFEST_DIR");
     let path = format!(
@@ -24,7 +26,7 @@ pub fn set_language(language: &str) {
         root_dir, language
     );
 
-    if std::path::Path::new(&path).exists() {
+    if ctx.get_file_system().path_exists(&path) {
         // The file exists, so this should not fail.
         let file = std::fs::File::open(path).expect("File::open() failed");
         // We produce this build-time, so this should not fail.

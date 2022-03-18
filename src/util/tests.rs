@@ -340,6 +340,7 @@ fn test_handle_overpass_error_need_sleep() {
 /// Tests setup_localization().
 #[test]
 fn test_setup_localization() {
+    let ctx = context::tests::make_test_context().unwrap();
     let request = rouille::Request::fake_http(
         "GET",
         "/",
@@ -349,23 +350,24 @@ fn test_setup_localization() {
         )],
         Vec::new(),
     );
-    i18n::set_language("en");
-    setup_localization(request.headers());
+    i18n::set_language(&ctx, "en");
+    setup_localization(&ctx, request.headers());
     assert_eq!(i18n::get_language(), "hu");
-    i18n::set_language("en");
+    i18n::set_language(&ctx, "en");
 }
 
 /// Tests setup_localization(): the error path.
 #[test]
 fn test_setup_localization_parse_error() {
+    let ctx = context::tests::make_test_context().unwrap();
     let request = rouille::Request::fake_http(
         "GET",
         "/",
         vec![("Accept-Language".to_string(), ",".to_string())],
         Vec::new(),
     );
-    i18n::set_language("en");
-    setup_localization(request.headers());
+    i18n::set_language(&ctx, "en");
+    setup_localization(&ctx, request.headers());
     assert_eq!(i18n::get_language(), "en");
 }
 

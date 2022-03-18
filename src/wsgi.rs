@@ -1453,7 +1453,7 @@ fn our_application(
     request: &rouille::Request,
     ctx: &context::Context,
 ) -> anyhow::Result<rouille::Response> {
-    let language = util::setup_localization(request.headers());
+    let language = util::setup_localization(ctx, request.headers());
 
     let mut relations = areas::Relations::new(ctx).context("areas::Relations::new() failed")?;
 
