@@ -17,7 +17,6 @@ use crate::ranges;
 use crate::util;
 use crate::yattag;
 use anyhow::Context;
-use itertools::Itertools;
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::io::BufRead;
@@ -587,10 +586,11 @@ impl Relation {
                         )?)
                 }
             }
-            for (key, value) in house_numbers {
-                let unique: Vec<_> = value.into_iter().unique().collect();
+            for (key, mut value) in house_numbers {
+                value.sort_unstable();
+                value.dedup();
                 self.osm_housenumbers
-                    .insert(key, util::sort_numerically(&unique));
+                    .insert(key, util::sort_numerically(&value));
             }
         }
         Ok(match self.osm_housenumbers.get(street_name) {
@@ -793,8 +793,12 @@ impl Relation {
                     );
                 }
             }
-            let unique: Vec<_> = house_numbers.into_iter().unique().collect();
-            ret.insert(osm_street_name.into(), util::sort_numerically(&unique));
+            house_numbers.sort_unstable();
+            house_numbers.dedup();
+            ret.insert(
+                osm_street_name.into(),
+                util::sort_numerically(&house_numbers),
+            );
         }
         Ok(ret)
     }
