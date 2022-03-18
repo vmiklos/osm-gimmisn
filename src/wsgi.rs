@@ -1369,8 +1369,9 @@ fn our_application_txt(
     let mut headers: webframe::Headers = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix()?;
     let mut chkl = false;
-    if let Some(value) = std::path::Path::new(request_uri).extension() {
-        chkl = value == "chkl";
+    let tokens: Vec<_> = request_uri.split('.').collect();
+    if tokens.len() >= 2 {
+        chkl = tokens.last().cloned().unwrap() == "chkl";
     }
     let data: Vec<u8>;
     if request_uri.starts_with(&format!("{}/missing-streets/", prefix)) {
@@ -1459,8 +1460,9 @@ fn our_application(
     let request_uri = webframe::get_request_uri(request, ctx, &mut relations)
         .context("get_request_uri() failed")?;
     let mut ext: String = "".into();
-    if let Some(value) = std::path::Path::new(&request_uri).extension() {
-        ext = value.to_str().unwrap().into();
+    let tokens: Vec<_> = request_uri.split('.').collect();
+    if tokens.len() >= 2 {
+        ext = tokens.last().cloned().unwrap().to_string();
     }
 
     if ext == "txt" || ext == "chkl" {
