@@ -687,7 +687,7 @@ pub fn handle_overpass_error(ctx: &context::Context, http_error: &str) -> yattag
 }
 
 /// Provides localized strings for this thread.
-pub fn setup_localization(headers: rouille::HeadersIter<'_>) -> String {
+pub fn setup_localization(ctx: &context::Context, headers: rouille::HeadersIter<'_>) -> String {
     let mut languages: String = "".into();
     for (key, value) in headers {
         if key == "Accept-Language" {
@@ -698,7 +698,7 @@ pub fn setup_localization(headers: rouille::HeadersIter<'_>) -> String {
         let parsed = accept_language::parse(&languages);
         if !parsed.is_empty() {
             let language = parsed[0].clone();
-            i18n::set_language(&language);
+            i18n::set_language(ctx, &language);
             return language;
         }
     }
