@@ -11,7 +11,6 @@
 //! Tests for the util module.
 
 use super::*;
-use itertools::Itertools;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::io::Write;
@@ -469,13 +468,14 @@ fn test_house_number() {
         HouseNumber::new("1", "1-2", "") != HouseNumber::new("2", "1-2", ""),
         true
     );
-    let house_numbers = vec![
+    let mut house_numbers = vec![
         HouseNumber::new("1", "1-2", ""),
         HouseNumber::new("2", "1-2", ""),
         HouseNumber::new("2", "1-2", ""),
     ];
-    let unique: Vec<_> = house_numbers.into_iter().unique().collect();
-    assert_eq!(unique.len(), 2);
+    house_numbers.sort_unstable();
+    house_numbers.dedup();
+    assert_eq!(house_numbers.len(), 2);
 }
 
 /// Tests HouseNumber::is_invalid().

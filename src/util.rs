@@ -21,8 +21,6 @@ use anyhow::Context;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 use std::collections::HashSet;
-use std::hash::Hash;
-use std::hash::Hasher;
 use std::io::BufRead;
 use std::io::Read;
 use std::ops::DerefMut;
@@ -359,10 +357,16 @@ impl PartialEq for HouseNumber {
 
 impl Eq for HouseNumber {}
 
-impl Hash for HouseNumber {
+impl Ord for HouseNumber {
     /// Source is explicitly non-interesting.
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.number.hash(state);
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.number.cmp(&other.number)
+    }
+}
+
+impl PartialOrd for HouseNumber {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
     }
 }
 
