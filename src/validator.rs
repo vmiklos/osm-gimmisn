@@ -283,12 +283,23 @@ fn validate_relations(
     Ok(())
 }
 
-/// Commandline interface to this module.
-pub fn main(
+/// Similar to plain main(), but with an interface that allows testing.
+pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> i32 {
+    match our_main(argv, stream, ctx) {
+        Ok(_) => 0,
+        Err(err) => {
+            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            1
+        }
+    }
+}
+
+/// Inner main() that is allowed to fail.
+pub fn our_main(
     argv: &[String],
     stream: &mut dyn Write,
     ctx: &context::Context,
-) -> anyhow::Result<i32> {
+) -> anyhow::Result<()> {
     let yaml_path = argv[1].clone();
     let path = std::path::Path::new(&yaml_path);
     let data = ctx.get_file_system().read_to_string(&yaml_path)?;
@@ -298,25 +309,19 @@ pub fn main(
             serde_yaml::from_str(&data).context("serde_yaml::from_str() failed")?;
         validate_relations(&mut errors, &relations_dict)?;
     } else {
-        let relation_dict: areas::RelationDict = match serde_yaml::from_str(&data) {
-            Ok(value) => value,
-            Err(err) => {
-                stream
-                    .write_all(format!("failed to validate {}: {}\n", yaml_path, err).as_bytes())?;
-                return Ok(1_i32);
-            }
-        };
+        let relation_dict: areas::RelationDict =
+            serde_yaml::from_str(&data).context(format!("failed to validate {}", yaml_path))?;
         let parent = "";
         validate_relation(&mut errors, parent, &relation_dict)?;
     }
     if !errors.is_empty() {
         for error in errors {
-            stream
-                .write_all(format!("failed to validate {}: {}\n", yaml_path, error).as_bytes())?;
+            stream.write_all(format!("{}\n", error).as_bytes())?;
         }
-        return Ok(1_i32);
+        return Err(anyhow::anyhow!("failed to validate {}", yaml_path));
     }
-    Ok(0_i32)
+
+    Ok(())
 }
 
 #[cfg(test)]

@@ -10,11 +10,12 @@
 
 //! Provides the 'validator' cmdline tool.
 
-fn main() -> anyhow::Result<()> {
+fn main() {
     let args: Vec<String> = std::env::args().collect();
     let ctx = osm_gimmisn::context::Context::new("").unwrap();
-    match osm_gimmisn::validator::main(&args, &mut std::io::stdout(), &ctx) {
-        Ok(exit_code) => std::process::exit(exit_code),
-        Err(err) => Err(err),
-    }
+    std::process::exit(osm_gimmisn::validator::main(
+        &args,
+        &mut std::io::stdout(),
+        &ctx,
+    ))
 }
