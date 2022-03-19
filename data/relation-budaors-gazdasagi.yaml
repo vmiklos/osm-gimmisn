@@ -24,7 +24,7 @@ filters:
     invalid: ['5', '13', '19']
     ranges:
       - {start: '1', end: '99'}
-  Garibalid utca:
+  Garibaldi utca:
     # 4,6: nincs 2-re van minden számozva: KFC, MOL, McDonalds
     invalid: ['4', '6']
   Hársfa utca:
@@ -72,7 +72,7 @@ filters:
     # belváros 2-60, 1-69
     ranges:
       - {start: '71', end: '73'}
-      - {start: '62', end: '74'}
+      - {start: '62', end: '64'}
   Rubik Ernő utca:
     # 4 a Mol kút, de magát 3-nak hírdeti (Agip utca 4 volt)
     # 6 földhivatal szerint a felújítás alatt lévő épület. MMV Zrt székhely. ennek nyoma sincs itt. RESURVEY 2022 ősz

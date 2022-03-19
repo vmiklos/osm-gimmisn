@@ -119,8 +119,11 @@ filters:
       - {start: '1', end: '7'}
       - {start: '2', end: '22'}
   Csata utca:
+    # páros belváros, páratlan gazdasági
+    # 5: 3 után 7
     # 10: nincs, 10 után 16 jön, kettő között a Károly király utca 85 és 82 van
-    invalid: ['10']
+    # 13 = Károly Király utca 89
+    invalid: ['5', '10', '13', '19']
   Cserebogár utca:
     # 18/*: Csalit utcára számozták ezeket
     # 39: régi szám, új szám 44
@@ -201,7 +204,7 @@ filters:
   Frankhegyi utca:
     # nincsenek kint házszámok, csak a 4
     invalid: ['10', '12', '14']
-  Garibalid utca:
+  Garibaldi utca:
     # 4,6: nincs 2-re van minden számozva: KFC, MOL, McDonalds
     invalid: ['4', '6']
   Gereblye utca:
@@ -210,6 +213,10 @@ filters:
   Gerle köz:
     # ezek nincsenek kiírva, de sok ház van szám nélkül, a számozás nem logikus
     invalid: ['2', '5', '8']
+  Gesztenye köz:
+    ranges:
+      - {start: '4', end: '4'}
+      - {start: '1', end: '3'}
   Gesztenye utca:
     ranges:
       - {start: '1', end: '15'}
