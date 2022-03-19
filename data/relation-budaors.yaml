@@ -201,6 +201,9 @@ filters:
   Frankhegyi utca:
     # nincsenek kint házszámok, csak a 4
     invalid: ['10', '12', '14']
+  Garibalid utca:
+    # 4,6: nincs 2-re van minden számozva: KFC, MOL, McDonalds
+    invalid: ['4', '6']
   Gereblye utca:
     # 2-es ház a lakó bemondására, egyébként a 4-essel szemben van
     invalid: ['1', '5']
