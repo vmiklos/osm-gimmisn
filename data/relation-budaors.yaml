@@ -418,6 +418,11 @@ filters:
     invalid: ['1', '9']
   Mátra utca:
     invalid: ['5', '31']
+  Méhecske utca:
+    # Másik fele Törökbálint, de ott nincs szám
+    # 14 = 32 van kiírva
+    interpolation: all
+    invalid: ['14']
   Meredek utca:
     # vannak bódék, de 10-12-14 nincs kiírva
     invalid: ['10', '12', '14']
@@ -711,6 +716,8 @@ filters:
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '36'}
+  Vasút dűlő:
+    invalid: ['1']
   Veréb utca:
     # 7: nincs kiíva: 2021-04
     invalid: ['7']
@@ -803,9 +810,8 @@ street-filters:
   - Frank-hegy
   - Geisbardt dűlő  # megszűnt
   - Harangvirág utca  # Pitypang utcában, ahol volt jelölve, ott nincs utca
-  - Méhecske utca  # Törökbálintra esik, lehet a határ van rossz helyen
   - Törökugrató dűlő
-  - Vasútáll.és körny. dűlő  # Vasút dűlő folytatása - nincs kiírva
+  - Vasútáll.és körny. dűlő  # Váltóőr utca régi neve (itt van kiírva, valószínű az egész környék az volt)
   # Iskolai körzetlistából jön, máshol nincs nyoma
   - Dézsma köz
   - Franktanya utca

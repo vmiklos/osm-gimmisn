@@ -1,5 +1,12 @@
 missing-streets: 'no'
 filters:
+  Méhecske utca:
+    # Másik fele Törökbálint, de ott nincs szám
+    # 14 = 32 van kiírva
+    interpolation: all
+    invalid: ['14']
+  Vasút dűlő:
+    invalid: ['1']
   Vasút utca:
     # teljes utca a autópáyla menti gazdasági területekre számozva
     ranges: []
