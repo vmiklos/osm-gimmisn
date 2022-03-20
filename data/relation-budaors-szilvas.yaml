@@ -2,13 +2,17 @@ missing-streets: 'no'
 filters:
   Méhecske utca:
     # Másik fele Törökbálint, de ott nincs szám
+    # 4:  = ismeretlen hol kellene legyen
     # 14 = 32 van kiírva
     interpolation: all
-    invalid: ['14']
+    invalid: ['4', '14']
   Vasút dűlő:
     invalid: ['1']
   Vasút utca:
     # teljes utca a autópáyla menti gazdasági területekre számozva
     ranges: []
+  Vasútsor utca:
+    # 19: nincs kettévágott utca: 1-17-ig, majd 25-49. Illetve a 19 helyén a Váltóőr utca 1.
+    invalid: ['19']
 source: survey
 inactive: false
