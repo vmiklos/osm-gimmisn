@@ -99,8 +99,9 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
   Kikelet utca:
+    # így jönnek sorba: 5, 11, 13, 9, 21
     # 25: 23 után 27 a kettő között hátul a 29-es számhoz tartozó 3 ház egyike
-    invalid: ['25']
+    invalid: ['7', '25']
     ranges:
       - {start: '1', end: '13'}
       - {start: '21', end: '41'}
@@ -173,7 +174,7 @@ filters:
   Szellő utca:
     invalid: ['45']
     ranges:
-      - {start: '1', end: '47'}
+      - {start: '1', end: '51'}
       - {start: '2', end: '26'}
   Szegfű utca:
     # páratlan belváros, páros kertváros, kivéve 26
