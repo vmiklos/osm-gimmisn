@@ -301,10 +301,9 @@ pub fn our_main(
     ctx: &context::Context,
 ) -> anyhow::Result<()> {
     let yaml_path = argv[1].clone();
-    let path = std::path::Path::new(&yaml_path);
     let data = ctx.get_file_system().read_to_string(&yaml_path)?;
     let mut errors: Vec<String> = Vec::new();
-    if path.ends_with("relations.yaml") {
+    if yaml_path.ends_with("relations.yaml") {
         let relations_dict: areas::RelationsDict =
             serde_yaml::from_str(&data).context("serde_yaml::from_str() failed")?;
         validate_relations(&mut errors, &relations_dict)?;
