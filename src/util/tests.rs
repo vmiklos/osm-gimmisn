@@ -148,12 +148,15 @@ fn test_build_street_reference_cache_cached() {
 #[test]
 fn test_build_reference_cache() {
     let refpath = "tests/refdir/hazszamok_20190511.tsv";
-    let cachepath = format!("{}-01-v1.cache", refpath);
-    if std::path::Path::new(&cachepath).exists() {
-        std::fs::remove_file(&cachepath).unwrap();
-    }
-    let ctx = context::tests::make_test_context().unwrap();
+    let cache_path = format!("{}-01-v1.cache", refpath);
+    let cache = context::tests::TestFileSystem::make_file();
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let files = context::tests::TestFileSystem::make_files(&ctx, &[(&cache_path, &cache)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
     let memory_cache = build_reference_cache(&ctx, refpath, "01").unwrap();
+
     let mut streets: HashMap<String, Vec<HouseNumberWithComment>> = HashMap::new();
     streets.insert(
         "Ref Name 1".to_string(),
