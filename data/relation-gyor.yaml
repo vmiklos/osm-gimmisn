@@ -5,7 +5,7 @@ osm-street-filters:
   - EuroVelo6
   - Tetőparkoló bejárat
   - TSZ udvar bekötő út
-  - Viziszínpad
+  - Víziszínpad
   # hidak/aluljáró
   - Jedlik Ányos híd
   - Petőfi híd
@@ -32,7 +32,7 @@ osm-street-filters:
   - Wennes Jenő sétány
   - Zöld utcai futópálya
   # átlógó utcák
-  - Kákostó utca
+  - Bábota dűlő
   - Mártírok utca
   - Méhész utca
   - Üdülő utca
@@ -78,6 +78,7 @@ refstreets:
   'Fecske utca': 'Fecske út'
   'Fehér akác utca': 'Fehérakác utca'  # https://www.openstreetmap.org/note/3089226
   'Felüljáró utca': 'Felüljáró út'
+  'Fő út': 'Fő utca'
   'Füzes köz': 'Füzes utca'  # https://www.openstreetmap.org/note/3089392
   'Galántai út': 'Galántai utca'
   'Gólyarét utca': 'Gólyarét'
