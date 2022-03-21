@@ -631,10 +631,10 @@ filters:
   Szellő köz:
     # nem femérhető: magánterületen van a 7-21, 8-14
     ranges:
-      - {start: '1', end: '5'}
-      - {start: '2', end: '6'}
+      - {start: '1', end: '21'}
+      - {start: '2', end: '14'}
   Szellő utca:
-    invalid: ['45']
+    invalid: ['45', '49']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '26'}
@@ -721,8 +721,9 @@ filters:
   Vasút dűlő:
     invalid: ['1']
   Vasútsor utca:
+    # 3: helyén 1/b van kiírva
     # 19: nincs kettévágott utca: 1-17-ig, majd 25-49. Illetve a 19 helyén a Váltóőr utca 1.
-    invalid: ['19']
+    invalid: ['3', '19']
   Veréb utca:
     # 7: nincs kiíva: 2021-04
     invalid: ['7']

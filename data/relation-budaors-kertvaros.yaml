@@ -5,8 +5,9 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '6'}
   Átlós utca:
-    # nem kertváros
-    ranges: []
+    ranges:
+      - {start: '1', end: '27'}
+      - {start: '2', end: '28'}
   Aradi utca:
     ranges:
       - {start: '1', end: '47'}
@@ -169,10 +170,10 @@ filters:
   Szellő köz:
     # nem femérhető: magánterületen van a 7-21, 8-14
     ranges:
-      - {start: '1', end: '5'}
-      - {start: '2', end: '6'}
+      - {start: '1', end: '21'}
+      - {start: '2', end: '14'}
   Szellő utca:
-    invalid: ['45']
+    invalid: ['45', '49']
     ranges:
       - {start: '1', end: '51'}
       - {start: '2', end: '26'}

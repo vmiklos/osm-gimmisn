@@ -12,7 +12,8 @@ filters:
     # teljes utca a autópáyla menti gazdasági területekre számozva
     ranges: []
   Vasútsor utca:
+    # 3: helyén 1/b van kiírva
     # 19: nincs kettévágott utca: 1-17-ig, majd 25-49. Illetve a 19 helyén a Váltóőr utca 1.
-    invalid: ['19']
+    invalid: ['3', '19']
 source: survey
 inactive: false
