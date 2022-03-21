@@ -3,6 +3,7 @@ source: survey
 osm-street-filters:
   # nem igazi utcák
   - EuroVelo6
+  - Tetőparkoló bejárat
   - TSZ udvar bekötő út
   - Viziszínpad
   # hidak/aluljáró
@@ -54,18 +55,19 @@ refstreets:
   'Bolyai Farkas utca': 'Bólyai Farkas utca'  # ember Bolyai Farkas
   'Hargita utca': 'Hargitta utca'  # utcatábla 2019.06: Hargita u.
   'Rát Mátyás tér': 'Ráth Mátyás tér'  # utcatábla: 2021.07: Rát Mátyás tér 1.
-  # kérdéses
-  'Állomás utca': 'Állomás út'
-  'Andrásvári utca': 'Andrásvári út'
-  'Aranyos utca': 'Aranyos út'
-  'Áchim András utca': 'Achim András utca'
-  'Barackos utca': 'Barackos út'
-  'Báthori utca': 'Báthori út'
+  # helyesírás
   'Benczúr utca': 'Benczur utca'
   'Bulcsú utca': 'Bulcsu utca'
-  'Bükkfa út': 'Bükkfa utca'
-  'Csíkostói utca': 'Csíkostó út'
-  'Csonkaér utca': 'Csonkaér út'
+  # kérdéses - note: x utca vagy x út szerepel az utcatáblán?
+  'Állomás utca': 'Állomás út'  # https://www.openstreetmap.org/note/3096175
+  'Andrásvári utca': 'Andrásvári út'  # https://www.openstreetmap.org/note/3096173
+  'Aranyos utca': 'Aranyos út'  # https://www.openstreetmap.org/note/3096180
+  'Áchim András utca': 'Achim András utca'  # https://www.openstreetmap.org/note/3096179
+  'Barackos utca': 'Barackos út'  # https://www.openstreetmap.org/note/3096178
+  'Báthori utca': 'Báthori út'  # https://www.openstreetmap.org/note/3096177
+  'Bükkfa út': 'Bükkfa utca'  # https://www.openstreetmap.org/note/3096176
+  'Csíkostói utca': 'Csíkostó út'  # https://www.openstreetmap.org/note/3096174
+  'Csonkaér utca': 'Csonkaér út'  # https://www.openstreetmap.org/note/3096172
   'Csontváry Kosztka Tivadar utca': 'Csontváry utca'
   'Dr. Schweitzer utca': 'Dr. Schweitzer Albert utca'
   'Diák utca': 'Diák út'
@@ -82,6 +84,7 @@ refstreets:
   'Gutenberg János tér': 'Gutenberg tér'
   'Gyirmóti utca': 'Gyirmóti út'
   'Hármashatár utca': 'Hármashatár út'
+  'Hegyalja út': 'Hegyalja utca'  # https://www.openstreetmap.org/note/3096162
   'Hídalja utca': 'Hídalja'
   'Homokbánya utca': 'Homokbánya út'
   'Jegenyefa utca': 'Jegenyefa sor'  # https://www.openstreetmap.org/note/3089467
