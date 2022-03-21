@@ -44,6 +44,10 @@ street-filters:
   # - Sáfrány utca  # 01337 hrsz
   - Kékmadár utca  # hrsz. 5308/2 úgy tűnik Szentiváni útra vagy Régi Szentiváni útra változott
   # Kör utca - Kör tér  # https://www.openstreetmap.org/note/3089579
+  # nem igazi utcák
+  - Gátőrház
+  - Soproni 4-es vasúti őrház
+  - Vasúti őrházak
 refstreets:
   # OSM Name 1: Ref Name 1
   'Bálványos utca': 'Bálvány utca'  # utcatábla 2019.06: Báványos utca
@@ -72,7 +76,6 @@ refstreets:
   'Fecske utca': 'Fecske út'
   'Fehér akác utca': 'Fehérakác utca'  # https://www.openstreetmap.org/note/3089226
   'Felüljáró utca': 'Felüljáró út'
-  'Fő út': 'Fő utca'
   'Füzes köz': 'Füzes utca'  # https://www.openstreetmap.org/note/3089392
   'Galántai út': 'Galántai utca'
   'Gólyarét utca': 'Gólyarét'
@@ -80,9 +83,7 @@ refstreets:
   'Gyirmóti utca': 'Gyirmóti út'
   'Hármashatár utca': 'Hármashatár út'
   'Hídalja utca': 'Hídalja'
-  'Hegyalja út': 'Hegyalja utca'
   'Homokbánya utca': 'Homokbánya út'
-  'Iskola köz': 'Iskola utca'  # https://www.openstreetmap.org/note/3089458
   'Jegenyefa utca': 'Jegenyefa sor'  # https://www.openstreetmap.org/note/3089467
   'Kálmán Imre utca': 'Kálmán Imre út'
   'Kishegyi utca': 'Kishegyi út'
