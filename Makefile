@@ -25,6 +25,7 @@ TS_OBJECTS = \
 RS_OBJECTS = \
 	src/area_files.rs \
 	src/areas.rs \
+	src/areas/tests.rs \
 	src/bin/cache_yamls.rs \
 	src/bin/cron.rs \
 	src/bin/missing_housenumbers.rs \
@@ -32,23 +33,40 @@ RS_OBJECTS = \
 	src/bin/rouille.rs \
 	src/bin/validator.rs \
 	src/cache.rs \
+	src/cache/tests.rs \
 	src/cache_yamls.rs \
+	src/cache_yamls/tests.rs \
 	src/context.rs \
+	src/context/tests.rs \
 	src/cron.rs \
+	src/cron/tests.rs \
 	src/i18n.rs \
+	src/i18n/tests.rs \
 	src/lib.rs \
 	src/missing_housenumbers.rs \
+	src/missing_housenumbers/tests.rs \
 	src/overpass_query.rs \
+	src/overpass_query/tests.rs \
 	src/parse_access_log.rs \
+	src/parse_access_log/tests.rs \
 	src/ranges.rs \
+	src/ranges/tests.rs \
 	src/stats.rs \
+	src/stats/tests.rs \
 	src/util.rs \
+	src/util/tests.rs \
 	src/validator.rs \
+	src/validator/tests.rs \
 	src/webframe.rs \
+	src/webframe/tests.rs \
 	src/wsgi.rs \
+	src/wsgi/tests.rs \
 	src/wsgi_additional.rs \
+	src/wsgi_additional/tests.rs \
 	src/wsgi_json.rs \
+	src/wsgi_json/tests.rs \
 	src/yattag.rs \
+	src/yattag/tests.rs \
 
 # Source local config if it's there.
 -include config.mak
