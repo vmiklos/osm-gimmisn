@@ -134,7 +134,7 @@ fn handle_topusers(
     };
     let mut ret: Vec<(String, String)> = Vec::new();
     let topusers_path = format!("{}/{}.topusers", src_root, today);
-    if std::path::Path::new(&topusers_path).exists() {
+    if ctx.get_file_system().path_exists(&topusers_path) {
         let stream = std::io::BufReader::new(std::fs::File::open(topusers_path)?);
         for line in stream.lines() {
             let line = line?.trim().to_string();
@@ -257,7 +257,7 @@ fn handle_user_total(
         let day_delta = now - chrono::Duration::days(day_offset);
         let day = day_delta.format("%Y-%m-%d");
         let count_path = format!("{}/{}.usercount", src_root, day);
-        if !std::path::Path::new(&count_path).exists() {
+        if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
         let count: u64 = ctx
@@ -289,7 +289,7 @@ fn handle_daily_new(
         let day_delta = now - chrono::Duration::days(day_offset);
         let day = day_delta.format("%Y-%m-%d");
         let count_path = format!("{}/{}.count", src_root, day);
-        if !std::path::Path::new(&count_path).exists() {
+        if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
         let count: i64 = ctx
@@ -388,7 +388,7 @@ fn handle_daily_total(
         let day_delta = now - chrono::Duration::days(day_offset);
         let day = day_delta.format("%Y-%m-%d");
         let count_path = format!("{}/{}.count", src_root, day);
-        if !std::path::Path::new(&count_path).exists() {
+        if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
         let count: i64 = ctx
