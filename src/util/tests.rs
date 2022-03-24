@@ -147,15 +147,17 @@ fn test_build_street_reference_cache_cached() {
 /// Tests build_reference_cache().
 #[test]
 fn test_build_reference_cache() {
-    let refpath = "tests/refdir/hazszamok_20190511.tsv";
-    let cache_path = format!("{}-01-v1.cache", refpath);
-    let cache = context::tests::TestFileSystem::make_file();
     let mut ctx = context::tests::make_test_context().unwrap();
-    let files = context::tests::TestFileSystem::make_files(&ctx, &[(&cache_path, &cache)]);
+    let cache = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("refdir/hazszamok_20190511.tsv-01-v1.cache", &cache)],
+    );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
 
-    let memory_cache = build_reference_cache(&ctx, refpath, "01").unwrap();
+    let refpath = ctx.get_abspath("refdir/hazszamok_20190511.tsv");
+    let memory_cache = build_reference_cache(&ctx, &refpath, "01").unwrap();
 
     let mut streets: HashMap<String, Vec<HouseNumberWithComment>> = HashMap::new();
     streets.insert(
