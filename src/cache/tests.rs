@@ -54,19 +54,31 @@ fn test_is_missing_housenumbers_html_cached() {
 #[test]
 fn test_is_missing_housenumbers_html_cached_no_cache() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-    let mut relation = relations.get_relation("gazdagret").unwrap();
-    get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
-    let cache_path = relation.get_files().get_housenumbers_htmlcache_path();
-
     let mut file_system = context::tests::TestFileSystem::new();
-    file_system.set_hide_paths(&[cache_path]);
+    let relation_percent = context::tests::TestFileSystem::make_file();
+    let relation_htmlcache = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("workdir/gazdagret.percent", &relation_percent),
+            ("workdir/gazdagret.htmlcache.en", &relation_htmlcache),
+        ],
+    );
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
-    assert_eq!(
-        is_missing_housenumbers_html_cached(&ctx, &relation).unwrap(),
-        false
-    );
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+
+    let is_cached = is_missing_housenumbers_html_cached(&ctx, &relation).unwrap();
+
+    assert_eq!(is_cached, false);
 }
 
 /// Tests is_missing_housenumbers_html_cached(): the case when osm_housenumbers is new, so the cache entry is old.
