@@ -134,23 +134,20 @@ impl FileSystem for TestFileSystem {
     }
 
     fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        if self.files.contains_key(path) {
-            if let Some(ref value) = self.mtimes.get(path) {
-                let now = chrono::Local::now();
-                let mut guard = value.borrow_mut();
-                *guard = now.naive_local().timestamp() as f64;
-            }
+        assert!(
+            self.files.contains_key(path),
+            "open_write: self.files doesn't contain '{}'",
+            path
+        );
 
-            let ret = self.files[path].clone();
-            ret.borrow_mut().seek(SeekFrom::Start(0))?;
-            return Ok(ret);
+        if let Some(ref value) = self.mtimes.get(path) {
+            let now = chrono::Local::now();
+            let mut guard = value.borrow_mut();
+            *guard = now.naive_local().timestamp() as f64;
         }
 
-        use anyhow::Context;
-        let ret: Rc<RefCell<dyn Write>> = Rc::new(RefCell::new(
-            std::fs::File::create(path)
-                .with_context(|| format!("failed to open {} for writing", path))?,
-        ));
+        let ret = self.files[path].clone();
+        ret.borrow_mut().seek(SeekFrom::Start(0))?;
         Ok(ret)
     }
 }
