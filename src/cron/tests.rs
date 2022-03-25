@@ -921,6 +921,12 @@ fn test_our_main() {
     let missing_streets_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_value = context::tests::TestFileSystem::make_file();
     let additional_streets_value = context::tests::TestFileSystem::make_file();
+    let ref_housenumbers_cache_value = context::tests::TestFileSystem::make_file();
+    let ref_housenumbers_extra_cache_value = context::tests::TestFileSystem::make_file();
+    let ref_streets_cache_value = context::tests::TestFileSystem::make_file();
+    let missing_housenumbers_txt = context::tests::TestFileSystem::make_file();
+    let missing_housenumbers_html_en = context::tests::TestFileSystem::make_file();
+    let missing_housenumbers_html_hu = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -944,10 +950,38 @@ fn test_our_main() {
                 "workdir/gazdagret-additional-streets.count",
                 &additional_streets_value,
             ),
+            ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache_value),
+            (
+                "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                &ref_housenumbers_cache_value,
+            ),
+            (
+                "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                &ref_housenumbers_extra_cache_value,
+            ),
+            ("workdir/gazdagret.txtcache", &missing_housenumbers_txt),
+            (
+                "workdir/gazdagret.htmlcache.en",
+                &missing_housenumbers_html_en,
+            ),
+            (
+                "workdir/gazdagret.htmlcache.hu",
+                &missing_housenumbers_html_hu,
+            ),
         ],
     );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let path = ctx.get_abspath("workdir/gazdagret.htmlcache.en");
+    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    let path = ctx.get_abspath("workdir/gazdagret.htmlcache.hu");
+    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    let path = ctx.get_abspath("workdir/gazdagret.txtcache");
+    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     our_main(
