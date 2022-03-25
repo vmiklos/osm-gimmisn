@@ -1983,9 +1983,9 @@ fn test_relation_build_ref_streets() {
     );
     let refdir = ctx.get_abspath("refdir");
     let refpath = format!("{}/utcak_20190514.tsv", refdir);
-    let memory_cache = util::build_street_reference_cache(&ctx, &refpath).unwrap();
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    let memory_cache = util::build_street_reference_cache(&ctx, &refpath).unwrap();
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "myrelation";
     let relation = relations.get_relation(relation_name).unwrap();
