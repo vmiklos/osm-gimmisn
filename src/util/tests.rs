@@ -104,9 +104,10 @@ fn test_format_even_odd_html_multi_odd() {
 #[test]
 fn test_build_street_reference_cache() {
     let refpath = "tests/refdir/utcak_20190514.tsv";
-    std::fs::remove_file(format!("{}.cache", refpath)).unwrap();
     let ctx = context::tests::make_test_context().unwrap();
+
     let memory_cache = build_street_reference_cache(&ctx, refpath).unwrap();
+
     let streets: Vec<String> = vec![
         "Törökugrató utca".into(),
         "Tűzkő utca".into(),
