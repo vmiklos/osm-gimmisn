@@ -86,29 +86,37 @@ fn test_is_missing_housenumbers_html_cached_no_cache() {
 fn test_is_missing_housenumbers_html_cached_osm_housenumbers_new() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    let mut relation = relations.get_relation("gazdagret").unwrap();
-    get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
-    let cache_path = relation.get_files().get_housenumbers_htmlcache_path();
-    let osm_housenumbers_path = relation.get_files().get_osm_housenumbers_path();
-
+    let relation = relations.get_relation("gazdagret").unwrap();
+    let osm_housenumbers = context::tests::TestFileSystem::make_file();
+    let html_cache = context::tests::TestFileSystem::make_file();
     let mut file_system = context::tests::TestFileSystem::new();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            (
+                "workdir/street-housenumbers-gazdagret.csv",
+                &osm_housenumbers,
+            ),
+            ("workdir/gazdagret.htmlcache.en", &html_cache),
+        ],
+    );
+    file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    let metadata = std::fs::metadata(cache_path).unwrap();
-    let modified = metadata.modified().unwrap();
-    let mtime = modified
-        .duration_since(std::time::SystemTime::UNIX_EPOCH)
-        .unwrap();
     mtimes.insert(
-        osm_housenumbers_path,
-        Rc::new(RefCell::new(mtime.as_secs_f64() + 1_f64)),
+        ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"),
+        Rc::new(RefCell::new(1_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
-    assert_eq!(
-        is_missing_housenumbers_html_cached(&ctx, &relation).unwrap(),
-        false
-    );
+
+    let ret = is_missing_housenumbers_html_cached(&ctx, &relation).unwrap();
+
+    assert_eq!(ret, false);
 }
 
 /// Tests is_missing_housenumbers_html_cached(): the case when ref_housenumbers is new, so the cache entry is old.
