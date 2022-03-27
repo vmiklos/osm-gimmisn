@@ -224,6 +224,8 @@ filters:
   Gida utca:
     # 4 és 6 nincs, a 2 után 5/a jön
     invalid: ['4', '6']
+  Gyár utca:
+    invalid: ['3', '4']
   Gyöngyvirág utca:
     invalid: ['3']
   Hársfa utca:
@@ -423,8 +425,9 @@ filters:
     # Másik fele Törökbálint, de ott nincs szám
     # 4:  = ismeretlen hol kellene legyen
     # 14 = 32 van kiírva
+    # 49 = nincs kiírva, egy putri van itt
     interpolation: all
-    invalid: ['4', '14']
+    invalid: ['4', '14', '49']
   Meredek utca:
     # vannak bódék, de 10-12-14 nincs kiírva
     invalid: ['10', '12', '14']

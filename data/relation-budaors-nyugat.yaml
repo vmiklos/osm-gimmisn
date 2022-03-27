@@ -1,5 +1,9 @@
 missing-streets: 'no'
 filters:
+  Gyár utca:
+    # ezen a területen csak a 2 van
+    ranges:
+      - {start: '2', end: '2'}
   Muskátli utca:
     # teljes utca a Hegyvidékek területre számozva
     ranges: []

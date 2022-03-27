@@ -4,8 +4,9 @@ filters:
     # Másik fele Törökbálint, de ott nincs szám
     # 4:  = ismeretlen hol kellene legyen
     # 14 = 32 van kiírva
+    # 49 = nincs kiírva, egy putri van itt
     interpolation: all
-    invalid: ['4', '14']
+    invalid: ['4', '14', '49']
   Vasút dűlő:
     invalid: ['1']
   Vasút utca:
