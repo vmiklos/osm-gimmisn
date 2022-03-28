@@ -161,31 +161,62 @@ fn test_is_missing_housenumbers_html_cached_ref_housenumbers_new() {
 #[test]
 fn test_is_missing_housenumbers_html_cached_relation_new() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-    let mut relation = relations.get_relation("gazdagret").unwrap();
-    get_missing_housenumbers_html(&ctx, &mut relation).unwrap();
-    let cache_path = relation.get_files().get_housenumbers_htmlcache_path();
-    let datadir = ctx.get_abspath("data");
-    let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
-
+    let osm_streets = context::tests::TestFileSystem::make_file();
+    let osm_housenumbers = context::tests::TestFileSystem::make_file();
+    let ref_housenumbers = context::tests::TestFileSystem::make_file();
+    let html_cache = context::tests::TestFileSystem::make_file();
+    let relation_file = context::tests::TestFileSystem::make_file();
     let mut file_system = context::tests::TestFileSystem::new();
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    let metadata = std::fs::metadata(cache_path).unwrap();
-    let modified = metadata.modified().unwrap();
-    let mtime = modified
-        .duration_since(std::time::SystemTime::UNIX_EPOCH)
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("workdir/streets-gazdagret.csv", &osm_streets),
+            (
+                "workdir/street-housenumbers-gazdagret.csv",
+                &osm_housenumbers,
+            ),
+            (
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &ref_housenumbers,
+            ),
+            ("workdir/gazdagret.htmlcache.en", &html_cache),
+            ("data/relation-gazdagret.yaml", &relation_file),
+        ],
+    );
+    file_system.set_files(&files);
+    file_system
+        .write_from_string("cached", &ctx.get_abspath("workdir/gazdagret.htmlcache.en"))
         .unwrap();
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        relation_path,
-        Rc::new(RefCell::new(mtime.as_secs_f64() + 1_f64)),
+        ctx.get_abspath("workdir/streets-gazdagret.csv"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("data/relation-gazdagret.yaml"),
+        Rc::new(RefCell::new(1_f64)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
-    assert_eq!(
-        is_missing_housenumbers_html_cached(&ctx, &relation).unwrap(),
-        false
-    );
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+
+    let ret = is_missing_housenumbers_html_cached(&ctx, &relation).unwrap();
+
+    assert_eq!(ret, false);
 }
 
 /// Tests get_additional_housenumbers_html(): the case when we find the result in cache

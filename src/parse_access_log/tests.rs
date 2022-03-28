@@ -17,6 +17,8 @@ use std::io::Seek;
 use std::io::SeekFrom;
 use std::sync::Arc;
 
+use context::FileSystem as _;
+
 /// Tests check_top_edited_relations().
 #[test]
 fn test_check_top_edited_relations() {
@@ -82,6 +84,29 @@ fn test_is_complete_relation() {
         is_complete_relation(&ctx, &mut relations, "gazdagret").unwrap(),
         false
     );
+}
+
+/// Tests is_complete_relation_complete(), the complete case.
+#[test]
+fn test_is_complete_relation_complete() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let housenumbers_percent = context::tests::TestFileSystem::make_file();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("workdir/gazdagret.percent", &housenumbers_percent)],
+    );
+    file_system.set_files(&files);
+    file_system
+        .write_from_string("100.00", &ctx.get_abspath("workdir/gazdagret.percent"))
+        .unwrap();
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+
+    let ret = is_complete_relation(&ctx, &mut relations, "gazdagret").unwrap();
+
+    assert_eq!(ret, true);
 }
 
 /// Tests main().
