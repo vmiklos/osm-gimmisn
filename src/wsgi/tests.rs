@@ -112,6 +112,8 @@ impl TestWsgi {
         let mut data = Vec::new();
         let (mut reader, _size) = response.data.into_reader_and_size();
         reader.read_to_end(&mut data).unwrap();
+        let output = String::from_utf8(data).unwrap();
+        // println!("get_txt_for_path: output is '{}'", output);
         // Make sure the built-in exception catcher is not kicking in.
         assert_eq!(response.status_code, 200);
         let mut headers_map = HashMap::new();
@@ -123,8 +125,7 @@ impl TestWsgi {
         } else {
             assert_eq!(headers_map["Content-type"], "text/plain; charset=utf-8");
         }
-        assert_eq!(data.is_empty(), false);
-        let output = String::from_utf8(data).unwrap();
+        assert_eq!(output.is_empty(), false);
         output
     }
 
@@ -584,7 +585,24 @@ fn test_missing_housenumbers_no_ref_housenumbers_well_formed() {
 #[test]
 fn test_missing_housenumbers_view_result_txt() {
     let mut test_wsgi = TestWsgi::new();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let txt_cache = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("workdir/budafok.txtcache", &txt_cache)],
+    );
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        test_wsgi.ctx.get_abspath("workdir/budafok.txtcache"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_arc);
+
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt");
+
     // Note how 12 is ordered after 2.
     assert_eq!(result, "Vöröskúti határsor\t[2, 12, 34, 36*]");
 }

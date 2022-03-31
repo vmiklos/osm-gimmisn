@@ -18,7 +18,7 @@ use crate::yattag;
 use anyhow::Context;
 
 /// Decides if we have an up to date cache entry or not.
-fn is_cache_outdated(
+fn is_cache_current(
     ctx: &context::Context,
     cache_path: &str,
     dependencies: &[String],
@@ -54,7 +54,7 @@ fn is_missing_housenumbers_html_cached(
         relation.get_files().get_ref_housenumbers_path(),
         relation_path,
     ];
-    is_cache_outdated(ctx, &cache_path, &dependencies).context("is_cache_outdated() failed")
+    is_cache_current(ctx, &cache_path, &dependencies).context("is_cache_current() failed")
 }
 
 /// Decides if we have an up to date HTML cache entry for additional house numbers or not.
@@ -73,7 +73,7 @@ fn is_additional_housenumbers_html_cached(
         relation.get_files().get_ref_housenumbers_path(),
         relation_path,
     ];
-    is_cache_outdated(ctx, &cache_path, &dependencies)
+    is_cache_current(ctx, &cache_path, &dependencies)
 }
 
 /// Gets the cached HTML of the missing housenumbers for a relation.
@@ -256,7 +256,7 @@ fn is_missing_housenumbers_txt_cached(
         relation.get_files().get_ref_housenumbers_path(),
         relation_path,
     ];
-    is_cache_outdated(ctx, &cache_path, &dependencies)
+    is_cache_current(ctx, &cache_path, &dependencies)
 }
 
 /// Gets the cached plain text of the missing housenumbers for a relation.
