@@ -40,7 +40,7 @@ refstreets:
   'Farkaserdő utca': 'Farkas-erdő utca'  # utcatábla Farkaserdő utca
   'Kossuth Lajos utca': 'Kossuth utca'  # utcatábla Kossuth Lajos utca
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # utcatábla Kölcsey Ferenc utca
-  # 'Óceánárok utca': 'Óceán-árok utca'  # utcatálba Óceánárok utca
+  'Óceánárok utca': 'Óceán-árok utca'  # utcatálba Óceánárok utca
   'Ódry Árpád utca': 'Ódry utca'  # utcatábla Ódry Árpád u.
   'Venetiáner utca': 'Venetianer utca'  # utcatábla Venetiáner utca
 source: survey
