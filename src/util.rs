@@ -594,7 +594,9 @@ pub fn build_reference_cache(
         }
     }
 
-    let mut stream = std::io::BufReader::new(std::fs::File::open(local)?);
+    let mut stream = std::io::BufReader::new(
+        std::fs::File::open(local).context(format!("failed to open {}", local))?,
+    );
     let mut csv_read = CsvRead::new(&mut stream);
     let mut first = true;
     for result in csv_read.records() {
