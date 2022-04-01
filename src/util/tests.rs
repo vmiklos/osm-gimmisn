@@ -223,10 +223,21 @@ fn test_build_reference_cache() {
 /// Tests build_reference_cache(): the case when the cache is already available.
 #[test]
 fn test_build_reference_cache_cached() {
-    let ctx = context::tests::make_test_context().unwrap();
-    let refpath = "tests/refdir/hazszamok_20190511.tsv";
-    build_reference_cache(&ctx, refpath, "01").unwrap();
-    let memory_cache = build_reference_cache(&ctx, refpath, "01").unwrap();
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let refpath = ctx.get_abspath("refdir/hazszamok_20190511.tsv");
+    let mut file_system = context::tests::TestFileSystem::new();
+    let file_cache = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("refdir/hazszamok_20190511.tsv-01-v1.cache", &file_cache)],
+    );
+    file_system.set_files(&files);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+    build_reference_cache(&ctx, &refpath, "01").unwrap();
+
+    let memory_cache = build_reference_cache(&ctx, &refpath, "01").unwrap();
+
     let mut streets: HashMap<String, Vec<HouseNumberWithComment>> = HashMap::new();
     streets.insert(
         "Ref Name 1".to_string(),
