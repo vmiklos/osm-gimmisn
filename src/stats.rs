@@ -27,7 +27,8 @@ fn handle_progress(
     let mut ret = serde_json::json!({});
     let num_ref: f64 = ctx
         .get_file_system()
-        .read_to_string(&format!("{}/ref.count", src_root))?
+        .read_to_string(&format!("{}/ref.count", src_root))
+        .context("failed to read ref.count")?
         .trim()
         .parse()
         .context("failed to parse ref.count")?;
