@@ -126,10 +126,21 @@ fn test_build_street_reference_cache() {
 /// Tests build_street_reference_cache(): the case when the cache is already available.
 #[test]
 fn test_build_street_reference_cache_cached() {
-    let refpath = "tests/refdir/utcak_20190514.tsv";
-    let ctx = context::tests::make_test_context().unwrap();
-    build_street_reference_cache(&ctx, refpath).unwrap();
-    let memory_cache = build_street_reference_cache(&ctx, refpath).unwrap();
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let refpath = ctx.get_abspath("refdir/utcak_20190514.tsv");
+    let mut file_system = context::tests::TestFileSystem::new();
+    let file_cache = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("refdir/utcak_20190514.tsv.cache", &file_cache)],
+    );
+    file_system.set_files(&files);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+    build_street_reference_cache(&ctx, &refpath).unwrap();
+
+    let memory_cache = build_street_reference_cache(&ctx, &refpath).unwrap();
+
     let streets: Vec<String> = vec![
         "Törökugrató utca".into(),
         "Tűzkő utca".into(),
