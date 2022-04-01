@@ -27,10 +27,23 @@ street-filters:
   # dupla
   - Faddi völgy  # Faddivölgy-ön jönnek a házszámok
   - Saul-völgy  # Sauli-völgy
+osm-street-filters:
+  # nem igazi utcák
+  - Attila Birtok bejárati út
+  - Bodri pincészet gazdasági út
+  - Buszforduló
+  - Külterület
+  - Heimann birtok bekötőút
+  - Sió töltés - Északi oldal
+  - Sötétvölgyi tanösvény
+  # átlógó
+  - Lajvér
 refstreets:
+  'Avar utca': 'Avar út'
   'Baranya völgy': 'Baranyavölgy'
   'Baráth utca': 'Barát János utca'
   'Bolyai János utca': 'Bólyai János utca'
+  'Borkút': 'Borkút utca'
   'Bródy Sándor köz': 'Bródy köz'
   'Dobó István utca': 'Dobó utca'
   'Dr. Hadnagy Albert utca': 'dr. Hadnagy Albert utca'
@@ -45,9 +58,13 @@ refstreets:
   'Liszt Ferenc tér': 'Liszt tér'
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Piactér': 'Piac tér'
+  'Sauli völgy': 'Saul-völgy'
   'Semmelweis Ignác utca': 'Semmelweis utca'
   'Szentgáli Gyula utca': 'Dr. Szentgáli Gyula utca'
   'Szalaivölgy': 'Szalai völgy'
+  'Szücsény szurdok': 'Szücsény-szurdik'
+  'Tartsay lakótelep': 'Tartsay Vilmos lakótelep'
+  'TOTÉV Ipartelep': 'TOTÉV ipartelep'
   'Újfalussy Imre utca': 'Ujfalussy Imre utca'
   'Vasvári Pál utca': 'Vasvári utca'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
