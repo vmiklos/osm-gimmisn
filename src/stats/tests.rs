@@ -27,9 +27,23 @@ fn test_handle_progress() {
     let time = context::tests::make_test_time();
     let time_arc: Arc<dyn context::Time> = Arc::new(time);
     ctx.set_time(&time_arc);
+    let ref_count = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("workdir/stats/ref.count", &ref_count)],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    file_system
+        .write_from_string("300", &ctx.get_abspath("workdir/stats/ref.count"))
+        .unwrap();
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_progress(&ctx, &src_root, &mut j).unwrap();
+
     let progress = &j.as_object().unwrap()["progress"];
     assert_eq!(progress["date"], "2020-05-10");
     // 254651 / 300 * 100
