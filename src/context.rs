@@ -189,7 +189,7 @@ impl Subprocess for StdSubprocess {
 }
 
 /// Unit testing interface.
-pub trait Unit: Send + Sync {
+pub trait Unit {
     /// Injects a fake error.
     fn make_error(&self) -> String;
 }
