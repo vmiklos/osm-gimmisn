@@ -244,6 +244,7 @@ pub fn main(argv: &[String], stdout: &mut dyn Write, ctx: &context::Context) -> 
         .as_bytes(),
     )?;
 
+    // TODO return i32 here
     Ok(())
 }
 

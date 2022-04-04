@@ -19,7 +19,13 @@ use std::ops::DerefMut;
 
 /// Creates a Context instance for text purposes.
 pub fn make_test_context() -> anyhow::Result<Context> {
-    Ok(Context::new("tests")?)
+    let mut ctx = Context::new("tests")?;
+
+    let file_system = TestFileSystem::new();
+    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+
+    Ok(ctx)
 }
 
 /// File system implementation, for test purposes.

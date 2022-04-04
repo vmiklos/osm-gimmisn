@@ -1138,6 +1138,22 @@ fn test_main_error() {
     let unit = context::tests::TestUnit::new();
     let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
     ctx.set_unit(&unit_arc);
+    let ref_count = context::tests::TestFileSystem::make_file();
+    let stats_json = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("workdir/stats/ref.count", &ref_count),
+            ("workdir/stats/stats.json", &stats_json),
+        ],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    file_system
+        .write_from_string("300", &ctx.get_abspath("workdir/stats/ref.count"))
+        .unwrap();
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
     let argv = vec![
         "".to_string(),
         "--mode".to_string(),
@@ -1148,6 +1164,8 @@ fn test_main_error() {
 
     // main() catches the error returned by our_main().
     main(&argv, &mut buf, &mut ctx).unwrap();
+
+    // TODO assert the contents of buf here
 }
 
 /// Tests update_stats_count().
