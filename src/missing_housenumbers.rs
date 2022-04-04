@@ -35,6 +35,7 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
         stream.write_all(format!("{:?}\n", range_strings).as_bytes())?;
     }
 
+    // TODO return i32 here
     Ok(())
 }
 

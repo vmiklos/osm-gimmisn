@@ -71,6 +71,7 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
         serde_json::to_writer(write, &relation_ids)?;
     }
 
+    // TODO return i32 here
     Ok(())
 }
 
