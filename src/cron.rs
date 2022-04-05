@@ -459,7 +459,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.txt"))?;
     let statedir = ctx.get_abspath("workdir/stats");
-    std::fs::create_dir_all(&statedir)?;
+    ctx.get_file_system().makedirs(&statedir)?;
     let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
     let today = now.format("%Y-%m-%d").to_string();
     let csv_path = format!("{}/{}.csv", statedir, today);
@@ -491,19 +491,16 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     update_stats_refcount(ctx, &statedir)?;
 
     // Remove old CSV files as they are created daily and each is around 11M.
-    for entry in std::fs::read_dir(&statedir)? {
-        let entry = entry?;
-        let path = entry.path();
-        if path.extension().unwrap() != "csv" {
+    for file_name in ctx.get_file_system().listdir(&statedir)? {
+        if !file_name.ends_with("csv") {
             continue;
         }
 
-        let metadata = std::fs::metadata(&path)?;
-        let last_modified = metadata.modified()?.elapsed()?.as_secs();
+        let last_modified =
+            ctx.get_time().now() as f64 - ctx.get_file_system().getmtime(&file_name)?;
 
-        if last_modified >= 24 * 3600 * 7 && metadata.is_file() {
-            std::fs::remove_file(&path)?;
-            let file_name = path.file_name().unwrap().to_str().unwrap();
+        if last_modified >= 24_f64 * 3600_f64 * 7_f64 {
+            ctx.get_file_system().unlink(&file_name)?;
             log::info!("update_stats: removed old {}", file_name);
         }
     }

@@ -37,6 +37,15 @@ pub trait FileSystem {
     /// Opens a file for writing in binary mode.
     fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>>;
 
+    /// Removes a file.
+    fn unlink(&self, path: &str) -> anyhow::Result<()>;
+
+    /// Super-mkdir; create a leaf directory and all intermediate ones.
+    fn makedirs(&self, path: &str) -> anyhow::Result<()>;
+
+    /// Return a list containing the names of the files in the directory.
+    fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>>;
+
     /// Read the entire contents of a file into a string.
     fn read_to_string(&self, path: &str) -> anyhow::Result<String> {
         let stream = self.open_read(path)?;
@@ -85,6 +94,25 @@ impl FileSystem for StdFileSystem {
                 .with_context(|| format!("failed to open {} for writing", path))?,
         ));
         Ok(ret)
+    }
+
+    fn unlink(&self, path: &str) -> anyhow::Result<()> {
+        Ok(std::fs::remove_file(path)?)
+    }
+
+    fn makedirs(&self, path: &str) -> anyhow::Result<()> {
+        Ok(std::fs::create_dir_all(&path)?)
+    }
+
+    fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>> {
+        let mut contents: Vec<String> = Vec::new();
+        for entry in std::fs::read_dir(&path)? {
+            let entry = entry?;
+            let path = entry.path();
+            let file_name = path.into_os_string().into_string().unwrap();
+            contents.push(file_name);
+        }
+        Ok(contents)
     }
 }
 
