@@ -682,17 +682,6 @@ fn test_update_osm_streets_xml_as_csv() {
     assert_eq!(actual, expected);
 }
 
-/// Creates a 8 days old file.
-fn create_old_file(path: &str) {
-    let now = chrono::Local::now();
-    let current_time = now.naive_local().timestamp();
-    let old_time = current_time - (8 * 24 * 3600);
-    let old_access_time = old_time;
-    let old_modification_time = old_time;
-    std::fs::File::create(path).unwrap();
-    utime::set_file_times(path, old_access_time, old_modification_time).unwrap();
-}
-
 /// Tests update_stats().
 #[test]
 fn test_update_stats() {
@@ -724,6 +713,8 @@ fn test_update_stats() {
     let usercount_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
+    let old_csv = context::tests::TestFileSystem::make_file();
+    let old_path = "workdir/stats/old.csv";
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -735,14 +726,22 @@ fn test_update_stats() {
             ("workdir/stats/2020-05-10.usercount", &usercount_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
+            (old_path, &old_csv),
         ],
     );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-
-    // Create a CSV that is definitely old enough to be removed.
-    let old_path = ctx.get_abspath("workdir/stats/old.csv");
-    create_old_file(&old_path);
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(ctx.get_time().now() as f64)),
+    );
+    let path = ctx.get_abspath("workdir/stats/old.csv");
+    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
 
     let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
     let today = now.format("%Y-%m-%d").to_string();
@@ -757,7 +756,11 @@ fn test_update_stats() {
     );
 
     // Make sure that the old CSV is removed.
-    assert_eq!(ctx.get_file_system().path_exists(&old_path), false);
+    assert_eq!(
+        ctx.get_file_system()
+            .path_exists(&ctx.get_abspath(old_path)),
+        false
+    );
 
     let num_ref: i64 = ctx
         .get_file_system()
@@ -1049,6 +1052,9 @@ fn test_our_main_stats() {
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
+    let time = context::tests::make_test_time();
+    let time_arc: Arc<dyn context::Time> = Arc::new(time);
+    ctx.set_time(&time_arc);
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
     let today_csv = context::tests::TestFileSystem::make_file();
@@ -1072,11 +1078,15 @@ fn test_our_main_stats() {
         ],
     );
     file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(ctx.get_time().now() as f64)),
+    );
+    file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     our_main(

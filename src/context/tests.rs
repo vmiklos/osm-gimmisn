@@ -30,7 +30,7 @@ pub fn make_test_context() -> anyhow::Result<Context> {
 
 /// File system implementation, for test purposes.
 pub struct TestFileSystem {
-    hide_paths: Vec<String>,
+    hide_paths: Rc<RefCell<Vec<String>>>,
     mtimes: HashMap<String, Rc<RefCell<f64>>>,
     files: HashMap<String, Rc<RefCell<std::io::Cursor<Vec<u8>>>>>,
 }
@@ -38,7 +38,7 @@ pub struct TestFileSystem {
 impl TestFileSystem {
     pub fn new() -> Self {
         TestFileSystem {
-            hide_paths: Vec::new(),
+            hide_paths: Rc::new(RefCell::new(Vec::new())),
             mtimes: HashMap::new(),
             files: HashMap::new(),
         }
@@ -90,7 +90,7 @@ impl TestFileSystem {
 
     /// Sets the hide paths.
     pub fn set_hide_paths(&mut self, hide_paths: &[String]) {
-        self.hide_paths = hide_paths.to_vec();
+        self.hide_paths = Rc::new(RefCell::new(hide_paths.to_vec()));
     }
 
     /// Sets the mtimes.
@@ -106,7 +106,7 @@ impl TestFileSystem {
 
 impl FileSystem for TestFileSystem {
     fn path_exists(&self, path: &str) -> bool {
-        if self.hide_paths.contains(&path.to_string()) {
+        if self.hide_paths.borrow().contains(&path.to_string()) {
             return false;
         }
 
@@ -146,6 +146,12 @@ impl FileSystem for TestFileSystem {
             path
         );
 
+        let mut hide_paths = self.hide_paths.borrow_mut();
+        if hide_paths.contains(&path.to_string()) {
+            let position = hide_paths.iter().position(|i| *i == path).unwrap();
+            hide_paths.remove(position);
+        }
+
         if let Some(ref value) = self.mtimes.get(path) {
             let now = chrono::Local::now();
             let mut guard = value.borrow_mut();
@@ -155,6 +161,39 @@ impl FileSystem for TestFileSystem {
         let ret = self.files[path].clone();
         ret.borrow_mut().seek(SeekFrom::Start(0))?;
         Ok(ret)
+    }
+
+    fn unlink(&self, path: &str) -> anyhow::Result<()> {
+        let mut hide_paths = self.hide_paths.borrow_mut();
+        assert!(
+            self.files.contains_key(path) && !hide_paths.contains(&path.to_string()),
+            "unlink: {}: no such file",
+            path
+        );
+
+        Ok(hide_paths.push(path.to_string()))
+    }
+
+    fn makedirs(&self, _path: &str) -> anyhow::Result<()> {
+        // No need to do anything, TestFileSystem only has files, not dirs.
+        Ok(())
+    }
+
+    fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>> {
+        let mut contents: Vec<String> = Vec::new();
+        for file in self.files.iter() {
+            if self.hide_paths.borrow().contains(&file.0) {
+                continue;
+            }
+
+            if !file.0.starts_with(path) {
+                continue;
+            }
+
+            contents.push(file.0.clone());
+        }
+
+        Ok(contents)
     }
 }
 
