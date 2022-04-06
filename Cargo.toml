@@ -31,7 +31,6 @@ url = "2.2.2"
 flate2 = "1.0.22"
 sxd-document = "0.3.2"
 sxd-xpath = "0.4.2"
-utime = "0.3.1"
 
 [features]
 icu = ["rust_icu_ucol", "rust_icu_ustring"]
