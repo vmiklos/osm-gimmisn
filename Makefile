@@ -105,9 +105,9 @@ check-clippy: Cargo.toml .github/workflows/tests.yml $(RS_OBJECTS)
 build: $(RS_OBJECTS) Cargo.toml Makefile
 	cargo build ${CARGO_OPTIONS}
 
-# Without coverage: cargo test --lib -- --test-threads=1
+# Without coverage: cargo test --lib
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/yamls.cache
-	cargo tarpaulin --lib -v --skip-clean --fail-under 100 --target-dir ${PWD}/target-cov ${CARGO_OPTIONS} -- --test-threads=1
+	cargo tarpaulin --lib -v --skip-clean --fail-under 100 --target-dir ${PWD}/target-cov ${CARGO_OPTIONS}
 
 src/browser/config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
