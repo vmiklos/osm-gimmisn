@@ -219,15 +219,15 @@ impl Subprocess for StdSubprocess {
 /// Unit testing interface.
 pub trait Unit {
     /// Injects a fake error.
-    fn make_error(&self) -> String;
+    fn make_error(&self) -> anyhow::Result<()>;
 }
 
 /// Unit implementation, which intentionally does nothing.
 struct StdUnit {}
 
 impl Unit for StdUnit {
-    fn make_error(&self) -> String {
-        String::from("")
+    fn make_error(&self) -> anyhow::Result<()> {
+        Ok(())
     }
 }
 
