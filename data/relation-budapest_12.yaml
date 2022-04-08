@@ -482,7 +482,5 @@ refstreets:
   'Hunyad-orom lépcső': 'Hunyadorom lépcső'  # utcajegyzék: Hunyad Orom lépcső
   # hibás írásmód
   'Szent Család park': 'Szent család park'
-  # Felmérendő melyik a helyes
-  'Tearózsa út': 'Tearózsa utca'  # utcajegyzék Tearózsa utca
 source: survey
 inactive: false
