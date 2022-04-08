@@ -314,8 +314,8 @@ impl TestUnit {
 }
 
 impl Unit for TestUnit {
-    fn make_error(&self) -> String {
-        return "TestError".into();
+    fn make_error(&self) -> anyhow::Result<()> {
+        Err(anyhow::anyhow!("TestError"))
     }
 }
 

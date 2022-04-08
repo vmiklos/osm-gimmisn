@@ -546,12 +546,8 @@ fn our_main(
             break;
         }
     }
-    let err = ctx.get_unit().make_error();
-    if !err.is_empty() {
-        return Err(anyhow::anyhow!(err));
-    }
 
-    Ok(())
+    ctx.get_unit().make_error()
 }
 
 /// Commandline interface to this module.

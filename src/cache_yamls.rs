@@ -14,10 +14,11 @@ use crate::areas;
 use crate::context;
 use anyhow::Context;
 use std::collections::HashMap;
+use std::io::Write;
 use std::ops::DerefMut;
 
-/// Commandline interface.
-pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
+/// Inner main() that is allowed to fail.
+pub fn our_main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     let mut cache: HashMap<String, serde_json::Value> = HashMap::new();
     let datadir = ctx.get_abspath(&argv[1]);
     let entries =
@@ -71,8 +72,18 @@ pub fn main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
         serde_json::to_writer(write, &relation_ids)?;
     }
 
-    // TODO return i32 here
-    Ok(())
+    ctx.get_unit().make_error()
+}
+
+/// Similar to plain main(), but with an interface that allows testing.
+pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> i32 {
+    match our_main(argv, ctx) {
+        Ok(_) => 0,
+        Err(err) => {
+            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            1
+        }
+    }
 }
 
 #[cfg(test)]

@@ -21,7 +21,6 @@ use crate::webframe;
 use crate::wsgi_additional;
 use crate::wsgi_json;
 use crate::yattag;
-use anyhow::anyhow;
 use anyhow::Context;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
@@ -1521,10 +1520,7 @@ fn our_application(
         }
     }
 
-    let err = ctx.get_unit().make_error();
-    if !err.is_empty() {
-        return Err(anyhow!(err));
-    }
+    ctx.get_unit().make_error()?;
     Ok(webframe::make_response(
         200_u16,
         vec![("Content-type".into(), "text/html; charset=utf-8".into())],

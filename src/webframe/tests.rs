@@ -170,7 +170,7 @@ fn test_handle_error() {
     let unit = context::tests::TestUnit::new();
     let err = unit.make_error();
 
-    let response = handle_error(&request, &err);
+    let response = handle_error(&request, &format!("{:?}", err));
     let mut data = Vec::new();
     let (mut reader, _size) = response.data.into_reader_and_size();
     reader.read_to_end(&mut data).unwrap();
