@@ -33,11 +33,8 @@ fn get_last_modified(path: &str) -> String {
 }
 
 /// Gets the update date of streets for a relation.
-fn get_streets_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
-    // TODO not needed Result type.
-    Ok(get_last_modified(
-        &relation.get_files().get_osm_streets_path(),
-    ))
+fn get_streets_last_modified(relation: &areas::Relation) -> String {
+    get_last_modified(&relation.get_files().get_osm_streets_path())
 }
 
 /// Expected request_uri: e.g. /osm/streets/ormezo/view-query.
@@ -96,7 +93,7 @@ fn handle_streets(
         doc.append_value(util::html_table_from_list(&table).get_value());
     }
 
-    doc.append_value(webframe::get_footer(&get_streets_last_modified(&relation)?).get_value());
+    doc.append_value(webframe::get_footer(&get_streets_last_modified(&relation)).get_value());
     Ok(doc)
 }
 
