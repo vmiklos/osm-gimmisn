@@ -30,7 +30,6 @@ fn main() -> anyhow::Result<()> {
     let ctx = osm_gimmisn::context::Context::new("")?;
     let port = ctx.get_ini().get_tcp_port()?;
     let prefix = ctx.get_ini().get_uri_prefix()?;
-    // TODO no matching stop message.
     println!(
         "Starting the server at <http://127.0.0.1:{}{}/>.",
         port, prefix

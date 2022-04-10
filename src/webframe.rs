@@ -1196,6 +1196,7 @@ pub fn handle_github_webhook(
             "deploy".into(),
         ])?;
         // Nominally a failure, so the service gets restarted.
+        println!("Stopping the server after deploy.");
         ctx.get_subprocess().exit(1);
     }
 
