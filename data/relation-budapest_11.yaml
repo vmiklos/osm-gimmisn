@@ -1988,9 +1988,7 @@ filters:
       - {start: '34', end: '44'}
   Jégcsap utca:
     # 4/6: 4 és 6 külön vannak
-    # 7: 7A, 7B
-    # 9: nem tudni, hogy 9/A vagy 9, maradt az eredeti 9 azon a felén az ikerháznak
-    invalid: ['4/6', '7', '9a']
+    invalid: ['4/6']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '24'}
@@ -2067,6 +2065,9 @@ filters:
     invalid: ['7a', '9a', '15g']
     ranges:
       - {start: '5', end: '17'}
+  Táncos utca:
+    # 2a: csak 2/b van kírvan az ikerház másik felére
+    invalid: ['2a']
   Vizsla utca:
     ranges:
       - {start: '1', end: '3'}
