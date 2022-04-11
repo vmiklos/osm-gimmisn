@@ -239,10 +239,15 @@ pub struct Ini {
 }
 
 impl Ini {
-    fn new(config_path: &str, root: &str) -> anyhow::Result<Self> {
+    fn new(
+        file_system: &Arc<dyn FileSystem>,
+        config_path: &str,
+        root: &str,
+    ) -> anyhow::Result<Self> {
         let mut config = configparser::ini::Ini::new();
-        // TODO error handling?
-        let _ret = config.load(config_path);
+        if let Err(err) = config.read(file_system.read_to_string(config_path)?) {
+            return Err(anyhow::anyhow!("failed to load {}: {}", config_path, err));
+        }
         Ok(Ini {
             config,
             root: String::from(root),
@@ -344,12 +349,12 @@ impl Context {
     /// Creates a new Context.
     pub fn new(prefix: &str) -> anyhow::Result<Self> {
         let root = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), prefix);
-        let ini = Ini::new(&format!("{}/wsgi.ini", root), &root)?;
         let network = Arc::new(StdNetwork {});
         let time = Arc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
-        let file_system = Arc::new(StdFileSystem {});
+        let file_system: Arc<dyn FileSystem> = Arc::new(StdFileSystem {});
+        let ini = Ini::new(&file_system, &format!("{}/wsgi.ini", root), &root)?;
         Ok(Context {
             root,
             ini,
