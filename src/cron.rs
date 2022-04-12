@@ -515,7 +515,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
 }
 
 /// Performs the actual nightly task.
-fn our_main(
+fn our_main_inner(
     ctx: &context::Context,
     relations: &mut areas::Relations,
     mode: &str,
@@ -550,8 +550,8 @@ fn our_main(
     ctx.get_unit().make_error()
 }
 
-/// Commandline interface to this module.
-pub fn main(
+/// Inner main() that is allowed to fail.
+pub fn our_main(
     argv: &[String],
     _stream: &mut dyn Write,
     ctx: &context::Context,
@@ -594,16 +594,13 @@ pub fn main(
     relations.limit_to_refsettlement(&refsettlement)?;
     let update = !args.is_present("no-update");
     let overpass = !args.is_present("no-overpass");
-    match our_main(
+    our_main_inner(
         ctx,
         &mut relations,
         args.value_of("mode").unwrap(),
         update,
         overpass,
-    ) {
-        Ok(_) => (),
-        Err(err) => log::error!("main: unhandled error: {:?}", err),
-    }
+    )?;
     let duration = chrono::Duration::seconds(ctx.get_time().now() - start);
     let seconds = duration.num_seconds() % 60;
     let minutes = duration.num_minutes() % 60;
@@ -615,8 +612,18 @@ pub fn main(
         seconds
     );
 
-    // TODO return i32 here
     Ok(())
+}
+
+/// Similar to plain main(), but with an interface that allows testing.
+pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> i32 {
+    match our_main(argv, stream, ctx) {
+        Ok(_) => 0,
+        Err(err) => {
+            log::error!("main: unhandled error: {:?}", err);
+            1
+        }
+    }
 }
 
 #[cfg(test)]
