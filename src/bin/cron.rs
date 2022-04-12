@@ -31,11 +31,8 @@ pub fn setup_logging(ctx: &osm_gimmisn::context::Context) -> anyhow::Result<()> 
     Ok(())
 }
 
-fn main() -> anyhow::Result<()> {
+fn main() {
     let args: Vec<String> = std::env::args().collect();
-    let ctx = osm_gimmisn::context::Context::new("")?;
-    setup_logging(&ctx)?;
-    osm_gimmisn::cron::main(&args, &mut std::io::stdout(), &ctx)?;
-
-    Ok(())
+    let ctx = osm_gimmisn::context::Context::new("").unwrap();
+    std::process::exit(osm_gimmisn::cron::main(&args, &mut std::io::stdout(), &ctx))
 }

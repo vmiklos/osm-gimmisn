@@ -987,7 +987,7 @@ fn test_our_main() {
     ctx.set_file_system(&file_system_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
-    our_main(
+    our_main_inner(
         &ctx,
         &mut relations,
         /*mode=*/ "relations",
@@ -1089,7 +1089,7 @@ fn test_our_main_stats() {
     ctx.set_file_system(&file_system_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
-    our_main(
+    our_main_inner(
         &ctx,
         &mut relations,
         /*mode=*/ "stats",
@@ -1127,8 +1127,9 @@ fn test_main() {
     ];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
 
-    main(&argv, &mut buf, &mut ctx).unwrap();
+    let ret = main(&argv, &mut buf, &mut ctx);
 
+    assert_eq!(ret, 0);
     // Make sure that stats.json is updated.
     let mut guard = stats_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
@@ -1173,9 +1174,9 @@ fn test_main_error() {
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
 
     // main() catches the error returned by our_main().
-    main(&argv, &mut buf, &mut ctx).unwrap();
+    let ret = main(&argv, &mut buf, &mut ctx);
 
-    // TODO assert the contents of buf here
+    assert_eq!(ret, 1);
 }
 
 /// Tests update_stats_count().
