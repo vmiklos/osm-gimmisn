@@ -15,8 +15,12 @@ use crate::context;
 use crate::util;
 use std::io::Write;
 
-/// Commandline interface.
-pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> anyhow::Result<()> {
+/// Inner main() that is allowed to fail.
+pub fn our_main(
+    argv: &[String],
+    stream: &mut dyn Write,
+    ctx: &context::Context,
+) -> anyhow::Result<()> {
     let relation_name = argv[1].clone();
 
     let mut relations = areas::Relations::new(ctx)?;
@@ -35,8 +39,18 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
         stream.write_all(format!("{:?}\n", range_strings).as_bytes())?;
     }
 
-    // TODO return i32 here
-    Ok(())
+    ctx.get_unit().make_error()
+}
+
+/// Similar to plain main(), but with an interface that allows testing.
+pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> i32 {
+    match our_main(argv, stream, ctx) {
+        Ok(_) => 0,
+        Err(err) => {
+            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            1
+        }
+    }
 }
 
 #[cfg(test)]
