@@ -14,6 +14,7 @@ use super::*;
 use std::io::Read;
 use std::io::Seek;
 use std::io::SeekFrom;
+use std::sync::Arc;
 
 /// Tests main().
 #[test]
@@ -22,8 +23,9 @@ fn test_main() {
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut ctx = context::tests::make_test_context().unwrap();
 
-    main(&argv, &mut buf, &mut ctx).unwrap();
+    let ret = main(&argv, &mut buf, &mut ctx);
 
+    assert_eq!(ret, 0);
     buf.seek(SeekFrom::Start(0)).unwrap();
     let mut actual: Vec<u8> = Vec::new();
     buf.read_to_end(&mut actual).unwrap();
@@ -31,4 +33,19 @@ fn test_main() {
         actual,
         b"Kalotaszeg utca\t3\n[\"25\", \"27-37\", \"31*\"]\n"
     );
+}
+
+/// Tests main(), the failing case.
+#[test]
+fn test_main_error() {
+    let argv = vec!["".to_string(), "gh195".to_string()];
+    let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let unit = context::tests::TestUnit::new();
+    let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
+    ctx.set_unit(&unit_arc);
+
+    let ret = main(&argv, &mut buf, &mut ctx);
+
+    assert_eq!(ret, 1);
 }
