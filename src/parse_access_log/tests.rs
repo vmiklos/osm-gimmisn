@@ -155,8 +155,10 @@ author-time 1588975200\n\
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
-    main(&argv, &mut buf, &ctx).unwrap();
 
+    let ret = main(&argv, &mut buf, &ctx);
+
+    assert_eq!(ret, 0);
     buf.seek(SeekFrom::Start(0)).unwrap();
     let mut actual: Vec<u8> = Vec::new();
     buf.read_to_end(&mut actual).unwrap();
@@ -187,4 +189,16 @@ author-time 1588975200\n\
     // Also, if this would be not ignored, it would push 'inactiverelation' out of the active
     // relation list.
     assert_eq!(actual.contains("gyomaendrod"), false);
+}
+
+/// Tests main(), the failing case: missing required parameter.
+#[test]
+fn test_main_error() {
+    let argv = vec!["".to_string()];
+    let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+    let mut ctx = context::tests::make_test_context().unwrap();
+
+    let ret = main(&argv, &mut buf, &mut ctx);
+
+    assert_eq!(ret, 1);
 }
