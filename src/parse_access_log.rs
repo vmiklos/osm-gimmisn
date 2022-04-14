@@ -197,8 +197,16 @@ fn check_top_edited_relations(
     Ok(())
 }
 
-/// Commandline interface.
-pub fn main(argv: &[String], stdout: &mut dyn Write, ctx: &context::Context) -> anyhow::Result<()> {
+/// Inner main() that is allowed to fail.
+pub fn our_main(
+    argv: &[String],
+    stdout: &mut dyn Write,
+    ctx: &context::Context,
+) -> anyhow::Result<()> {
+    if argv.len() < 2 {
+        return Err(anyhow::anyhow!("missing parameter: logfile"));
+    }
+
     let log_file = &argv[1];
 
     let relation_create_dates = get_relation_create_dates(ctx)?;
@@ -244,8 +252,18 @@ pub fn main(argv: &[String], stdout: &mut dyn Write, ctx: &context::Context) -> 
         .as_bytes(),
     )?;
 
-    // TODO return i32 here
-    Ok(())
+    ctx.get_unit().make_error()
+}
+
+/// Similar to plain main(), but with an interface that allows testing.
+pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> i32 {
+    match our_main(argv, stream, ctx) {
+        Ok(_) => 0,
+        Err(err) => {
+            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            1
+        }
+    }
 }
 
 #[cfg(test)]

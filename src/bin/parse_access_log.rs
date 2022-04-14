@@ -10,10 +10,12 @@
 
 //! Provides the 'parse_access_log' cmdline tool.
 
-fn main() -> anyhow::Result<()> {
+fn main() {
     let args: Vec<String> = std::env::args().collect();
-    let ctx = osm_gimmisn::context::Context::new("")?;
-    osm_gimmisn::parse_access_log::main(&args, &mut std::io::stdout(), &ctx)?;
-
-    Ok(())
+    let ctx = osm_gimmisn::context::Context::new("").unwrap();
+    std::process::exit(osm_gimmisn::parse_access_log::main(
+        &args,
+        &mut std::io::stdout(),
+        &ctx,
+    ))
 }
