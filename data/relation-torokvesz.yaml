@@ -17,6 +17,13 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Bimbó út:
+    # 104: 102 után 106
+    # 155: 151 után 157/b, de van egy üres telek
+    # 181 = Rügy utca 8
+    # 183 = Rügy utca 10
+    # 191 = Balogh Ádám utca 18/a
+    # 208: 206/a, 206, 210
+    invalid: ['104', '155', '181', '183', '191', '208']
     ranges:
       - {start: '102', end: '234'}
       - {start: '103', end: '207'}
@@ -30,6 +37,8 @@ filters:
   Endrődi köz:
     ranges: []
   Endrődi Sándor utca:
+    # 34: 32 van kiírva, földhivatal szerint 32 és 34, valamint Ábrányi Emil utca 11 ugyanaz
+    invalid: ['34']
     ranges:
       - {start: '61', end: '99'}
       - {start: '2', end: '98'}
@@ -90,6 +99,12 @@ filters:
   Radna utca:
     ranges:
       - {start: '2', end: '98'}
+  Rügy utca:
+    # 2 = Bimbó út 177.
+    invalid: ['2']
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '24'}
   Törökvész út:
     ranges:
       - {start: '84', end: '126'}
