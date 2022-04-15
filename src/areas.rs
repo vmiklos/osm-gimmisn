@@ -1168,7 +1168,6 @@ impl Relation {
 pub type RelationsDict = HashMap<String, RelationDict>;
 
 /// A relations object is a container of named relation objects.
-#[derive(Clone)]
 pub struct Relations {
     ctx: context::Context,
     yaml_cache: HashMap<String, serde_json::Value>,
