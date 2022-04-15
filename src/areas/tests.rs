@@ -1025,6 +1025,14 @@ fn test_relation_get_ref_street_from_osm_street_range_level_override() {
                     },
                     ]
                 },
+                "mystreet2": {
+                    "ranges": [
+                    {
+                        "start": "1",
+                        "end": "1",
+                    },
+                    ]
+                },
             },
         },
     });
@@ -1045,6 +1053,11 @@ fn test_relation_get_ref_street_from_osm_street_range_level_override() {
     assert_eq!(
         relation.get_config().get_street_refsettlement(&street),
         ["011", "013"]
+    );
+    // mystreet2 has ranges, but no refsettlement in the single range.
+    assert_eq!(
+        relation.get_config().get_street_refsettlement("mystreet2"),
+        ["011"]
     );
     assert_eq!(street, "mystreet");
 }
