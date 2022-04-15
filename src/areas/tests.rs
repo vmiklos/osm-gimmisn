@@ -898,6 +898,10 @@ fn test_relation_get_ref_street_from_osm_street_refsettlement_override() {
                     // this would be 011 by default, but here it's overwritten at a street
                     // level
                     "refsettlement": "012",
+                },
+                "mystreet2": {
+                    // make sure the above 012 is picked up, not this one
+                    "refsettlement": "013",
                 }
             },
         },
