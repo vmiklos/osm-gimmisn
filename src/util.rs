@@ -1180,24 +1180,15 @@ pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
 }
 
 /// Gets the timestamp of a file if it exists, 0 otherwise.
-pub fn get_timestamp(path: &str) -> f64 {
-    // TODO use FileSystem::getmtime().
-    let metadata = match std::fs::metadata(path) {
+pub fn get_timestamp(ctx: &context::Context, path: &str) -> f64 {
+    let mtime = match ctx.get_file_system().getmtime(path) {
         Ok(value) => value,
         Err(_) => {
             return 0.0;
         }
     };
 
-    // This should never fail on relevant platforms.
-    let modified = metadata.modified().expect("modified() failed");
-
-    // This should never fail, since the mtime is always newer than the epoch.
-    let mtime = modified
-        .duration_since(std::time::SystemTime::UNIX_EPOCH)
-        .expect("duration_since() failed");
-
-    mtime.as_secs_f64()
+    mtime
 }
 
 #[cfg(test)]

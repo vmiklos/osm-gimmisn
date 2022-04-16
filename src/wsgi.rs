@@ -28,13 +28,13 @@ use std::ops::DerefMut;
 use std::sync::Arc;
 
 /// Gets the update date string of a file.
-fn get_last_modified(path: &str) -> String {
-    webframe::format_timestamp(util::get_timestamp(path) as i64)
+fn get_last_modified(ctx: &context::Context, path: &str) -> String {
+    webframe::format_timestamp(util::get_timestamp(ctx, path) as i64)
 }
 
 /// Gets the update date of streets for a relation.
-fn get_streets_last_modified(relation: &areas::Relation) -> String {
-    get_last_modified(&relation.get_files().get_osm_streets_path())
+fn get_streets_last_modified(ctx: &context::Context, relation: &areas::Relation) -> String {
+    get_last_modified(ctx, &relation.get_files().get_osm_streets_path())
 }
 
 /// Expected request_uri: e.g. /osm/streets/ormezo/view-query.
@@ -93,13 +93,17 @@ fn handle_streets(
         doc.append_value(util::html_table_from_list(&table).get_value());
     }
 
-    doc.append_value(webframe::get_footer(&get_streets_last_modified(&relation)).get_value());
+    doc.append_value(webframe::get_footer(&get_streets_last_modified(ctx, &relation)).get_value());
     Ok(doc)
 }
 
 /// Gets the update date of house numbers for a relation.
-fn get_housenumbers_last_modified(relation: &areas::Relation) -> anyhow::Result<String> {
+fn get_housenumbers_last_modified(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<String> {
     Ok(get_last_modified(
+        ctx,
         &relation.get_files().get_osm_housenumbers_path(),
     ))
 }
@@ -170,7 +174,7 @@ fn handle_street_housenumbers(
         }
     }
 
-    let date = get_housenumbers_last_modified(&relation)?;
+    let date = get_housenumbers_last_modified(ctx, &relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
@@ -517,12 +521,14 @@ fn missing_streets_update(
 
 /// Gets the update date for missing house numbers.
 fn ref_housenumbers_last_modified(
+    ctx: &context::Context,
     relations: &mut areas::Relations,
     name: &str,
 ) -> anyhow::Result<String> {
     let relation = relations.get_relation(name)?;
-    let t_ref = util::get_timestamp(&relation.get_files().get_ref_housenumbers_path());
-    let t_housenumbers = util::get_timestamp(&relation.get_files().get_osm_housenumbers_path());
+    let t_ref = util::get_timestamp(ctx, &relation.get_files().get_ref_housenumbers_path());
+    let t_housenumbers =
+        util::get_timestamp(ctx, &relation.get_files().get_osm_housenumbers_path());
     Ok(webframe::format_timestamp(std::cmp::max(
         t_ref as i64,
         t_housenumbers as i64,
@@ -565,7 +571,7 @@ fn handle_missing_housenumbers(
             guard.read_to_end(&mut buffer)?;
             pre.text(&String::from_utf8(buffer)?);
         }
-        date = get_last_modified(&relation.get_files().get_ref_housenumbers_path());
+        date = get_last_modified(ctx, &relation.get_files().get_ref_housenumbers_path());
     } else if action == "update-result" {
         doc.append_value(missing_housenumbers_update(ctx, relations, relation_name)?.get_value())
     } else {
@@ -578,7 +584,7 @@ fn handle_missing_housenumbers(
     }
 
     if date.is_empty() {
-        date = ref_housenumbers_last_modified(relations, relation_name)?;
+        date = ref_housenumbers_last_modified(ctx, relations, relation_name)?;
     }
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
@@ -610,9 +616,9 @@ fn missing_streets_view_turbo(
 }
 
 /// Gets the update date for missing/additional streets.
-fn streets_diff_last_modified(relation: &areas::Relation) -> String {
-    let t_ref = util::get_timestamp(&relation.get_files().get_ref_streets_path()) as i64;
-    let t_osm = util::get_timestamp(&relation.get_files().get_osm_streets_path()) as i64;
+fn streets_diff_last_modified(ctx: &context::Context, relation: &areas::Relation) -> String {
+    let t_ref = util::get_timestamp(ctx, &relation.get_files().get_ref_streets_path()) as i64;
+    let t_osm = util::get_timestamp(ctx, &relation.get_files().get_osm_streets_path()) as i64;
     webframe::format_timestamp(std::cmp::max(t_ref, t_osm))
 }
 
@@ -657,7 +663,7 @@ fn handle_missing_streets(
         doc.append_value(missing_streets_view_result(ctx, relations, request_uri)?.get_value());
     }
 
-    let date = streets_diff_last_modified(&relation);
+    let date = streets_diff_last_modified(ctx, &relation);
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
@@ -699,15 +705,15 @@ fn handle_additional_streets(
         )
     }
 
-    let date = streets_diff_last_modified(&relation);
+    let date = streets_diff_last_modified(ctx, &relation);
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
 
 /// Gets the update date for missing/additional housenumbers.
-fn housenumbers_diff_last_modified(relation: &areas::Relation) -> String {
-    let t_ref = util::get_timestamp(&relation.get_files().get_ref_housenumbers_path()) as i64;
-    let t_osm = util::get_timestamp(&relation.get_files().get_osm_housenumbers_path()) as i64;
+fn housenumbers_diff_last_modified(ctx: &context::Context, relation: &areas::Relation) -> String {
+    let t_ref = util::get_timestamp(ctx, &relation.get_files().get_ref_housenumbers_path()) as i64;
+    let t_osm = util::get_timestamp(ctx, &relation.get_files().get_osm_housenumbers_path()) as i64;
     webframe::format_timestamp(std::cmp::max(t_ref, t_osm))
 }
 
@@ -742,7 +748,7 @@ fn handle_additional_housenumbers(
             .get_value(),
     );
 
-    let date = housenumbers_diff_last_modified(&relation);
+    let date = housenumbers_diff_last_modified(ctx, &relation);
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
@@ -772,7 +778,7 @@ fn handle_main_housenr_percent(
 
     let doc = yattag::Doc::new();
     if let Some(percent) = percent {
-        let date = get_last_modified(&files.get_housenumbers_percent_path());
+        let date = get_last_modified(ctx, &files.get_housenumbers_percent_path());
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
             "a",
@@ -817,7 +823,7 @@ fn handle_main_street_percent(
 
     let doc = yattag::Doc::new();
     if let Some(percent) = percent {
-        let date = get_last_modified(&relation.get_files().get_streets_percent_path());
+        let date = get_last_modified(ctx, &relation.get_files().get_streets_percent_path());
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
             "a",
@@ -858,7 +864,7 @@ fn handle_main_street_additional_count(
 
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
-        let date = get_last_modified(&path);
+        let date = get_last_modified(ctx, &path);
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
             "a",
@@ -916,7 +922,7 @@ pub fn handle_main_housenr_additional_count(
 
     let doc = yattag::Doc::new();
     if !additional_count.is_empty() {
-        let date = get_last_modified(&files.get_housenumbers_additional_count_path());
+        let date = get_last_modified(ctx, &files.get_housenumbers_additional_count_path());
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
             "a",

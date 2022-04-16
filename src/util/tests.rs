@@ -750,7 +750,8 @@ fn test_get_column_junk() {
 /// Tests get_timestamp(): what happens when the file is not there.
 #[test]
 fn test_get_timestamp_no_such_file() {
-    assert_eq!(get_timestamp(""), 0_f64);
+    let ctx = context::tests::make_test_context().unwrap();
+    assert_eq!(get_timestamp(&ctx, ""), 0_f64);
 }
 
 /// Tests get_lexical_sort_key().
