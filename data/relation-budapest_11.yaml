@@ -399,7 +399,8 @@ filters:
     # Sasad liget:
     # 5f, 5g - ezek épület betűjelek
     # 9 meg lett időközdben osztva 9/a (A. épület) és 9/b-re (G. épület)
-    invalid: ['5f', '5g', '9', '9g']
+    # 24: 24/a, 24/b
+    invalid: ['5f', '5g', '9', '9g', '24']
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
@@ -1290,7 +1291,8 @@ filters:
       - {start: '1', end: '35'}
       - {start: '4', end: '26'}
   Petzvál József utca:
-    invalid: ['8a', '9', '11', '14', '17', '18', '22', '22c', '22d', '22e', '23']
+    # 1b: csak 1 van kiírva
+    invalid: ['1b', '8a', '9', '11', '14', '17', '18', '22', '22c', '22d', '22e', '23']
     ranges:
       - {start: '1', end: '27'}
       - {start: '31', end: '43'}
@@ -1982,6 +1984,8 @@ filters:
   Igmándi köz:
     ranges: []
   Igmándi utca:
+    # 10-16 panel, nincsenek betűk
+    invalid: ['16a', '53d']
     ranges:
       - {start: '1', end: '65'}
       - {start: '2', end: '30'}
@@ -2311,6 +2315,10 @@ filters:
   Bereck utca:
     # csak sima 4 van
     invalid: ['4/1']
+  Beregszász tér:
+    interpolation: all
+    ranges:
+      - {start: '13', end: '17'}
   Beregszász út:
     # 4: 4 A/B: A,B,C épületek; 4/C külön épület
     # 6/a: Sasad Liget több épület. C/1, C/2, F/1
@@ -2467,6 +2475,9 @@ filters:
   Hársmajor utca:
     # 14: 14/a óvoda, 14/b nincs kiírva
     invalid: ['14']
+  Hegyes utca:
+    # 3-5: nincs. az első ikerház egyik fele 5 a másik 7
+    invalid: ['3']
   Homonna köz:
     ranges: []
   Homoród utca:
@@ -2596,6 +2607,11 @@ filters:
       - {start: '51', end: '61'}
       - {start: '2', end: '44'}
       - {start: '50', end: '58'}
+  Pálinkás Antal utca:
+    # 2: 2/A (A. épület), 2/B (C. épület)
+    # 3: 3/A (D. épület), 3/B (F. épület)
+    # 6: 6/A (C. épület), 6/B (D. épület)
+    invalid: ['2', '3', '6']
   Povl Bang-Jensen utca:
     # Sasad liget: 1b, 1d, 2b, 2c: ezek épület betűjelek
     invalid: ['1b', '1d', '2b', '2c']
