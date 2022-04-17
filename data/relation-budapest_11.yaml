@@ -101,6 +101,7 @@ filters:
     # 43: 43/a, 43/b
     # 45-55, 47-49: 45 MTA kutatóház, 47 nincs, laktanya 49-53, 55-71 között nincs szám, 73-75 volt Balassi kollégium telke
     # 83-99 között gyakorlatilag nincs számozva semmi
+    # 101/2: csak 101
     # 105: csak 105/b
     # 109: 109/a..c fent
     # 125: 125/a..d
@@ -112,6 +113,7 @@ filters:
     # 201-223 közt semmi nincs
     # páros ------------------------------------------------------------------
     # 24a: csak sima 24 van.
+    # 34: 34/a, 34/b, 34/c
     # 36-nál lekopott házszámok
     # 44a kint van a kapun, de a házon 44 van és nincs 44b kiírva
     # 48-50 az irodaház
@@ -130,7 +132,7 @@ filters:
     # 170: Safru
     # 178: nincs
     # 180: 180/b - 180/i között
-    invalid: ['23', '23b', '25', '29a', '29b', '33', '33/3', '41b', '43', '47', '55', '101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '141a', '149', '151', '163', '181', '181b', '183', '187a', '201', '259b', '24a', '32', '32e', '36a', '36b', '36d', '40', '44a', '44b', '48a', '48b', '50b', '58', '112a', '112b', '112c', '120c', '140', '146', '148a', '168', '178b', '180/1', '180a']
+    invalid: ['23', '23b', '25', '29a', '29b', '33', '33/3', '34', '41b', '43', '47', '55', '101/2', '101a', '101b', '101c', '105', '109', '123', '125', '125e', '125g', '127', '129', '129d', '129g', '141a', '149', '151', '163', '181', '181b', '183', '187a', '201', '259b', '24a', '32', '32e', '36a', '36b', '36d', '40', '44a', '44b', '48a', '48b', '50b', '58', '112a', '112b', '112c', '120c', '140', '146', '148a', '168', '178b', '180/1', '180a']
     ranges:
       - {start: '1', end: '81'}
       - {start: '101', end: '999'}
@@ -1821,9 +1823,10 @@ filters:
     # 17: alagsori fodrászat - termászetben Vak Bottyán utca 2 felől van a bejárat, ez van a honlapján is
     invalid: ['14a', '14b', '17']
   Műegyetem rakpart:
+    # 3/d: csak sima 3 - BME D épület
     # 3/k: csak sima 3 - BME K épület
     # 1-3, 3-9: alternatív címek a BME-re, a honlapjukon csak sima 3 szám szerepel
-    invalid: ['3k']
+    invalid: ['3d', '3k']
     ranges:
       - {start: '3', end: '3'}
   Október huszonharmadika utca:
@@ -1886,7 +1889,8 @@ filters:
   Keltike lejtő:
     # 9 = Csonttollú utca 1.
     # 15: KCR a és b épület, helyszínen nincs kiírva
-    invalid: ['15a', '15b']
+    # 24: kettébontották: 24/a, 24/b
+    invalid: ['15a', '15b', '24']
     ranges:
       # kcr-ben 34-ig van számozva
       - {start: '1', end: '99'}
