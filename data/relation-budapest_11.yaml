@@ -216,6 +216,7 @@ filters:
   Fehérvári út:
     # páratlan ---------------------------------------------------------------
     # 81: nincs, 79 után 83 jön
+    # 83/a, 83/b: csak 83 van számtalan üzlettel
     # 161 Andor utca sarka-179 Ventura között semmi nincs, 183-tól jön a panel
     # 215: panel, nincs betű
     # 225-233: panel, nincs betű
@@ -233,7 +234,7 @@ filters:
     # 150 = Temesvár utca 2
     # 154-164: 152 után 160 jön, majd 166 a benzikút, de épp épül itt valami TODO 2020-05
     # 182-190: lakóház egyben, a és b épület/lépcsőház
-    invalid: ['21a', '45a', '79a', '81', '83b', '85c', '145a', '179a', '179c', '179d', '181', '189a', '215l', '225b', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '114', '118', '122', '124', '130a', '146a', '146b', '146z', '150', '168b', '180a', '182a']
+    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '145a', '179a', '179c', '179d', '181', '189a', '215l', '225b', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '114', '118', '122', '124', '130a', '146a', '146b', '146z', '150', '168b', '180a', '182a']
     ranges:
       - {start: '1', end: '161'}
       - {start: '179', end: '247'}
@@ -1055,7 +1056,8 @@ filters:
     # 1-7 Ventura oldala, nincs házszám, 9 nincs
     # 2-16 masik utcakra számozva
     # 22-32-t felbontották úgy, hogy minden háznak külön házszáma van, de közben megmaradt a betűje is
-    invalid: ['18', '20', '21a', '22a', '24e', '24o', '38', '38b', '39']
+    # 36: 36/a, 36/b
+    invalid: ['18', '20', '21a', '22a', '24e', '24o', '36', '38', '38b', '39']
     ranges:
       - {start: '11', end: '39'}
       - {start: '18', end: '40'}
@@ -1200,7 +1202,7 @@ filters:
   Kondorfa utca:
     ranges:
       - {start: '1', end: '3'}
-      - {start: '6', end: '10'}
+      - {start: '2', end: '10'}
   Kopaszi gát:
     invalid: ['10']
   Kovászna utca:
