@@ -184,10 +184,9 @@ fn validate_refstreets(
     reverse.sort_unstable();
     reverse.dedup();
     if refstreets.keys().len() != reverse.len() {
-        // TODO use parent here, not context
         errors.push(format!(
             "osm and ref streets are not a 1:1 mapping in '{}'",
-            context
+            parent
         ));
     }
 
