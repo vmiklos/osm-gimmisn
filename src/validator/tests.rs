@@ -329,7 +329,7 @@ Caused by:
 /// Tests the relation path: bad refstreets map, not 1:1.
 #[test]
 fn test_relation_refstreets_bad_map_type() {
-    let expected = "osm and ref streets are not a 1:1 mapping in 'refstreets.'\nfailed to validate tests/data/relation-gazdagret-refstreets-bad-map.yaml\n";
+    let expected = "osm and ref streets are not a 1:1 mapping in 'refstreets'\nfailed to validate tests/data/relation-gazdagret-refstreets-bad-map.yaml\n";
     assert_failure_msg(
         "tests/data/relation-gazdagret-refstreets-bad-map.yaml",
         expected,
