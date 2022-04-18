@@ -11,6 +11,13 @@ filters:
     # 95-97: nincs épület
     # 120: nincs
     invalid: ['20', '80', '85', '86', '120']
+  Sáfrány utca:
+    # 1 = Menta utca 1
+    # 2: nincs kint
+    invalid: ['1', '2']
+  Vértes utca:
+    # 4: nincs ház
+    invalid: ['4']
 osm-street-filters:
   # nem igazi utcák
   - Benőtt
