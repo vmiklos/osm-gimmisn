@@ -104,7 +104,7 @@ fn assert_failure_msg(path: &str, expected: &str) {
 /// Tests the relation path: bad source type.
 #[test]
 fn test_relation_source_bad_type() {
-    let expected = "expected value type for 'source' is <class 'str'>\nfailed to validate tests/data/relation-gazdagret-source-int.yaml\n";
+    let expected = "expected value type for 'source' is str\nfailed to validate tests/data/relation-gazdagret-source-int.yaml\n";
     assert_failure_msg("tests/data/relation-gazdagret-source-int.yaml", expected);
 }
 

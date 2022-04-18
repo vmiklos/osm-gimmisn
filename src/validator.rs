@@ -247,11 +247,10 @@ fn validate_relation(
             street_filters,
         )?;
     }
-    // TODO fix these odd value types.
     if let Some(ref source) = relation.source {
         if source.parse::<i64>().is_ok() {
             errors.push(format!(
-                "expected value type for '{}source' is <class 'str'>",
+                "expected value type for '{}source' is str",
                 context
             ));
         }
