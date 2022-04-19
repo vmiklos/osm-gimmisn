@@ -255,12 +255,8 @@ impl Ini {
     }
 
     /// Gets the directory which is writable.
-    pub fn get_workdir(&self) -> anyhow::Result<String> {
-        let workdir = self
-            .config
-            .get("wsgi", "workdir")
-            .context("no wsgi.workdir in config")?;
-        Ok(format!("{}/{}", self.root, workdir))
+    pub fn get_workdir(&self) -> String {
+        format!("{}/workdir", self.root)
     }
 
     /// Gets the abs paths of ref housenumbers.

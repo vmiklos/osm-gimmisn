@@ -1,5 +1,4 @@
 [wsgi]
-workdir = workdir
 reference_housenumbers = refdir/hazszamok_20220410.tsv refdir/hazszamok_kieg_20220410.tsv
 reference_street = refdir/utcak_20220410.tsv
 reference_citycounts = refdir/varosok_count_20220410.tsv

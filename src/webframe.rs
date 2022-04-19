@@ -477,7 +477,7 @@ pub fn handle_static(
     if request_uri.ends_with(".css") {
         let content_type = "text/css; charset=utf-8";
         let (content, extra_headers) =
-            get_content_with_meta(ctx, &format!("{}/{}", ctx.get_ini().get_workdir()?, path))
+            get_content_with_meta(ctx, &format!("{}/{}", ctx.get_ini().get_workdir(), path))
                 .context("get_content_with_meta() failed")?;
         return Ok((content, content_type.into(), extra_headers));
     }
@@ -485,7 +485,7 @@ pub fn handle_static(
         let content_type = "application/json; charset=utf-8";
         let (content, extra_headers) = get_content_with_meta(
             ctx,
-            &format!("{}/stats/{}", ctx.get_ini().get_workdir()?, path),
+            &format!("{}/stats/{}", ctx.get_ini().get_workdir(), path),
         )?;
         return Ok((content, content_type.into(), extra_headers));
     }
@@ -592,7 +592,7 @@ fn handle_stats_cityprogress(
     let naive = chrono::NaiveDateTime::from_timestamp(timestamp, 0);
     let today = naive.format("%Y-%m-%d").to_string();
     let mut osm_citycounts: HashMap<String, u64> = HashMap::new();
-    let path = format!("{}/stats/{}.citycount", ctx.get_ini().get_workdir()?, today);
+    let path = format!("{}/stats/{}.citycount", ctx.get_ini().get_workdir(), today);
     let csv_stream: Rc<RefCell<dyn Read>> = ctx.get_file_system().open_read(&path)?;
     let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
@@ -693,7 +693,7 @@ fn handle_stats_zipprogress(
     let naive = chrono::NaiveDateTime::from_timestamp(timestamp, 0);
     let today = naive.format("%Y-%m-%d").to_string();
     let mut osm_zipcounts: HashMap<String, u64> = HashMap::new();
-    let path = format!("{}/stats/{}.zipcount", ctx.get_ini().get_workdir()?, today);
+    let path = format!("{}/stats/{}.zipcount", ctx.get_ini().get_workdir(), today);
     let csv_stream: Rc<RefCell<dyn Read>> = ctx.get_file_system().open_read(&path)?;
     let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
