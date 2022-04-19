@@ -1332,7 +1332,7 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
         ],
     );
 
-    let css_path = format!("{}/{}", ctx.get_ini().get_workdir()?, "osm.min.css");
+    let css_path = format!("{}/{}", ctx.get_ini().get_workdir(), "osm.min.css");
     if ctx.get_file_system().path_exists(&css_path) {
         let stream = ctx.get_file_system().open_read(&css_path)?;
         let mut buf: Vec<u8> = Vec::new();

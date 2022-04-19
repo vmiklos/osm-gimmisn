@@ -102,7 +102,7 @@ fn get_frequent_relations(
     // Dump relations and their visit count to workdir for further inspection.
     let csv_stream = ctx.get_file_system().open_write(&format!(
         "{}/frequent-relations.csv",
-        ctx.get_ini().get_workdir()?
+        ctx.get_ini().get_workdir()
     ))?;
     let mut guard = csv_stream.borrow_mut();
     for item in count_list.iter() {
@@ -175,7 +175,7 @@ fn check_top_edited_relations(
     ctx: &context::Context,
     frequent_relations: &mut HashSet<String>,
 ) -> anyhow::Result<()> {
-    let workdir = ctx.get_ini().get_workdir()?;
+    let workdir = ctx.get_ini().get_workdir();
     // List of 'city name' <-> '# of new house numbers' pairs.
     let topcities = stats::get_topcities(ctx, &format!("{}/stats", workdir))?;
     let topcities: Vec<_> = topcities

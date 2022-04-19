@@ -359,7 +359,7 @@ impl Relation {
         yaml_cache: &HashMap<String, serde_json::Value>,
     ) -> anyhow::Result<Self> {
         let mut my_config = RelationDict::default();
-        let file = area_files::RelationFiles::new(&ctx.get_ini().get_workdir()?, name);
+        let file = area_files::RelationFiles::new(&ctx.get_ini().get_workdir(), name);
         let relation_path = format!("relation-{}.yaml", name);
         // Intentionally don't require this cache to be present, it's fine to omit it for simple
         // relations.
