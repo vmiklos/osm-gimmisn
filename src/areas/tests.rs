@@ -2748,3 +2748,31 @@ fn test_get_invalid_filter_keys() {
     let expected: Vec<String> = vec!["mystreet".to_string()];
     assert_eq!(ret, expected);
 }
+
+/// Tests Relation::new() error handling.
+#[test]
+fn test_relation_new_error() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "invalidkey": 42
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+
+    let ret = relations.get_relation("gazdagret");
+
+    assert_eq!(ret.is_err(), true);
+}
