@@ -867,6 +867,39 @@ fn test_relation_get_street_ranges_error() {
     assert_eq!(ret.is_err(), true);
 }
 
+/// Tests Relation::get_street_ranges() error handling, end case.
+#[test]
+fn test_relation_get_street_ranges_error_end() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relation-myrelation.yaml": {
+            "filters": {
+                "mystreet": {
+                    "ranges": [
+                        {
+                            "start": "1",
+                            "end": "foo",
+                        },
+                    ],
+                },
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
+
+    let ret = relation.get_street_ranges();
+
+    assert_eq!(ret.is_err(), true);
+}
+
 /// Tests Relation::get_street_ranges(): when the filter file is empty.
 #[test]
 fn test_relation_get_street_ranges_empty() {
