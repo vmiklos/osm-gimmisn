@@ -605,6 +605,18 @@ fn test_relation_get_osm_streets_bad_overpass() {
     );
 }
 
+/// Tests Relation::get_osm_streets(): when get_osm_streets_read_stream() fails.
+#[test]
+fn test_relation_get_osm_streets_error() {
+    let ctx = context::tests::make_test_context().unwrap();
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
+
+    let ret = relation.get_osm_streets(/*sorted_result=*/ false);
+
+    assert_eq!(ret.is_err(), true);
+}
+
 /// Tests Relation.get_osm_streets(): the case when the street name is coming from a house
 /// number (node).
 #[test]
