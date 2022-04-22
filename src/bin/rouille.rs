@@ -26,6 +26,8 @@ fn app(request: &rouille::Request) -> rouille::Response {
 /// ProxyPreserveHost On
 /// ProxyPass / http://127.0.0.1:8000/
 /// ProxyPassReverse / http://127.0.0.1:8000/
+/// # Default would be 60
+/// ProxyTimeout 120
 fn main() -> anyhow::Result<()> {
     let ctx = osm_gimmisn::context::Context::new("")?;
     let port = ctx.get_ini().get_tcp_port()?;

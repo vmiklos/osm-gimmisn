@@ -11,13 +11,13 @@
 //! Provides the 'cron' cmdline tool.
 
 /// Sets up logging.
-pub fn setup_logging(ctx: &osm_gimmisn::context::Context) -> anyhow::Result<()> {
+fn setup_logging(ctx: &osm_gimmisn::context::Context) {
     let config = simplelog::ConfigBuilder::new()
         .set_time_format("%Y-%m-%d %H:%M:%S".into())
         .set_time_to_local(true)
         .build();
     let logpath = ctx.get_abspath("workdir/cron.log");
-    let file = std::fs::File::create(logpath)?;
+    let file = std::fs::File::create(logpath).expect("failed to create cron.log");
     simplelog::CombinedLogger::init(vec![
         simplelog::TermLogger::new(
             simplelog::LevelFilter::Info,
@@ -26,13 +26,13 @@ pub fn setup_logging(ctx: &osm_gimmisn::context::Context) -> anyhow::Result<()> 
             simplelog::ColorChoice::Never,
         ),
         simplelog::WriteLogger::new(simplelog::LevelFilter::Info, config, file),
-    ])?;
-
-    Ok(())
+    ])
+    .expect("failed to init the combined logger");
 }
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let ctx = osm_gimmisn::context::Context::new("").unwrap();
+    setup_logging(&ctx);
     std::process::exit(osm_gimmisn::cron::main(&args, &mut std::io::stdout(), &ctx))
 }
