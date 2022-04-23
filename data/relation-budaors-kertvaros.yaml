@@ -89,6 +89,8 @@ filters:
     ranges:
       - {start: '1', end: '15'}
       - {start: '10', end: '12'}
+  Gyöngy utca:
+    invalid: ['4']
   Halom utca:
     ranges:
       - {start: '12', end: '12'}
