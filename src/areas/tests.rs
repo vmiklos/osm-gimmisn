@@ -617,6 +617,31 @@ fn test_relation_get_osm_streets_error() {
     assert_eq!(ret.is_err(), true);
 }
 
+/// Tests Relation::get_osm_streets(): when get_osm_streets_read_stream() fails due to
+/// not-well-formed CSV.
+#[test]
+fn test_relation_get_osm_streets_csv_error() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let streets_value = context::tests::TestFileSystem::make_file();
+    // This is garbage, 1st row has 2 cols, 2nd row has 1 col.
+    streets_value
+        .borrow_mut()
+        .write_all(b"@id\t@name\n42\n")
+        .unwrap();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("workdir/streets-myrelation.csv", &streets_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
+
+    let ret = relation.get_osm_streets(/*sorted_result=*/ false).unwrap();
+
+    assert_eq!(ret.is_empty(), true);
+}
+
 /// Tests Relation.get_osm_streets(): the case when the street name is coming from a house
 /// number (node).
 #[test]
