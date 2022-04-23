@@ -23,7 +23,7 @@ filters:
   Bárány utca:
     # össze vissza számozva
     interpolation: all
-    invalid: ['1', '11', '12']
+    invalid: ['1', '7', '11', '12']
   Baross utca:
     ranges:
       - {start: '2', end: '74'}

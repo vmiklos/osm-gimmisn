@@ -63,7 +63,7 @@ filters:
   Bárány utca:
     # össze vissza számozva
     interpolation: all
-    invalid: ['1', '11', '12']
+    invalid: ['1', '7', '11', '12']
   Baross utca:
     # 179: 177 után 181/a Jehova
     # 183-185: 181 után 187
@@ -226,6 +226,8 @@ filters:
     invalid: ['4', '6']
   Gyár utca:
     invalid: ['3', '4']
+  Gyöngy utca:
+    invalid: ['4']
   Gyöngyvirág utca:
     invalid: ['3']
   Hársfa utca:
@@ -679,7 +681,8 @@ filters:
     # 11: nincs
     # 13-15: csak 13 van kiírva
     # 28-36: 26 van kiírva utoljára, de még van pár ház: 2022-01
-    invalid: ['6', '8', '11', '15']
+    # 45-47: csak 45, utána 49 van
+    invalid: ['6', '8', '11', '15', '47']
     ranges:
       - {start: '1', end: '59'}
       - {start: '2', end: '26'}
