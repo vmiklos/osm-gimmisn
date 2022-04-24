@@ -1307,7 +1307,9 @@ filters:
     ranges:
       - {start: '2', end: '12'}
   Prielle Kornélia utca:
-    invalid: ['19']
+    # 8/b: A MOL kút ami 25-ös házszámon fut helytelenül
+    # 14-18: valójában Kaposvár 14-18
+    invalid: ['8b', '14', '19']
     ranges:
       - {start: '1', end: '35'}
       - {start: '45', end: '55'}

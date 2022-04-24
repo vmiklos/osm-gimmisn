@@ -1,5 +1,11 @@
 missing-streets: 'yes'
 filters:
+  Barlang utca:
+    # nincsenek kint házszámok 2022-03
+    invalid: ['1', '2', '6', '8', '10']
+  Borsika utca:
+    # összesen 1 db ház, azon sincs szám 2022-03
+    ranges: []
   Fennsík utca:
     # 20: ismeretlen
     invalid: ['20']
@@ -14,13 +20,17 @@ filters:
     # 80: nincs kiírva
     # 85: 83 után 87, de egymás mögött vannak a házak
     # 86: nincs. 84 után 88
+    # 92: nincs
     # 95-97: nincs épület
     # 120: nincs
-    invalid: ['20', '80', '85', '86', '120']
+    invalid: ['20', '80', '85', '86', '92', '120']
   Sáfrány utca:
     # 1 = Menta utca 1
     # 2: nincs kint
     invalid: ['1', '2']
+  Tiszti házak köz:
+    # nincsenek kint házszámok 2022-03
+    ranges: []
   Vértes utca:
     # 4: nincs ház
     # 12: egy privát parkoló van a helyén
