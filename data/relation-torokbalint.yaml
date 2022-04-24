@@ -3,6 +3,12 @@ filters:
   Fennsík utca:
     # 20: ismeretlen
     invalid: ['20']
+  Hortenzia utca:
+    # 45: nincs
+    invalid: ['45']
+  Kékes utca:
+    # 9 = Zöldfa utca 5
+    invalid: ['9']
   Pistály dűlő:
     # 20: nincs. 18 után 22
     # 80: nincs kiírva
@@ -17,7 +23,8 @@ filters:
     invalid: ['1', '2']
   Vértes utca:
     # 4: nincs ház
-    invalid: ['4']
+    # 12: egy privát parkoló van a helyén
+    invalid: ['4', '12']
 osm-street-filters:
   # nem igazi utcák
   - Benőtt
