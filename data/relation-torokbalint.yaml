@@ -4,8 +4,8 @@ filters:
     # 20: ismeretlen
     invalid: ['20']
   Hortenzia utca:
-    # 45: nincs
-    invalid: ['45']
+    # 49: nincs
+    invalid: ['49']
   Kékes utca:
     # 9 = Zöldfa utca 5
     invalid: ['9']
