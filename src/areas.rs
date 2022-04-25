@@ -207,8 +207,8 @@ impl RelationConfig {
 
     /// Returns an OSM name -> ref name map.
     pub fn get_refstreets(&self) -> HashMap<String, String> {
-        match RelationConfig::get_property(&self.parent.refstreets, &self.dict.refstreets) {
-            Some(value) => value,
+        match self.dict.refstreets {
+            Some(ref value) => value.clone(),
             None => HashMap::new(),
         }
     }
