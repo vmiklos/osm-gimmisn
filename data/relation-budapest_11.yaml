@@ -2589,7 +2589,8 @@ filters:
     # 32: nincs
     # 47b: kiírva nincs, a bedobott levélen 47. B épület volt a cím, de inkább 47/b lesz az, tekintve hogy 47/a-ra van ETDR hivatkozás
     # 49 = Beregszász út 40 IV. épület
-    invalid: ['12', '32', '47', '49']
+    # 51a: csak sima 51
+    invalid: ['12', '32', '47', '49', '51a']
     ranges:
       - {start: '3', end: '53'}
       - {start: '2', end: '62'}
@@ -2620,6 +2621,10 @@ filters:
     # 3: 3/A (D. épület), 3/B (F. épület)
     # 6: 6/A (C. épület), 6/B (D. épület)
     invalid: ['2', '3', '6']
+  Pecz Samu utca:
+    # 2: 2/a, 2/b
+    # 4: 4/c, 4/d, 4/e
+    invalid: ['2', '4']
   Povl Bang-Jensen utca:
     # Sasad liget: 1b, 1d, 2b, 2c: ezek épület betűjelek
     invalid: ['1b', '1d', '2b', '2c']
