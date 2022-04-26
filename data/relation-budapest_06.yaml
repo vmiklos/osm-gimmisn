@@ -54,6 +54,7 @@ filters:
       - {start: '30', end: '46'}
 osm-street-filters:
   # Nem valós utcák
+  - Bajzagút
   - Central Passage
   - Eiffel tér
   - Ferdinánd híd
