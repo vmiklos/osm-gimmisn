@@ -1180,6 +1180,8 @@ filters:
       - {start: '30', end: '38'}
   Kanizsai utca:
     invalid: ['1a', '1b']
+  Kászony utca:
+    invalid: ['8b']
   Kaposvár utca:
     ranges:
       - {start: '5', end: '7'}
@@ -2550,11 +2552,13 @@ filters:
       - {start: '2', end: '8'}
   Nagyszalonta utca:
     # 4: 4/a, 4/b
+    # 5: 5/a, 5/b
+    # 7: 7/a, 7/b
     # 8b: csak sima 8 van
     # 13: 13/a, 13/b
     # 14: 14/a, 14/b
     # 35: 35/a, 35/b
-    invalid: ['4', '8b', '13', '14', '35']
+    invalid: ['4', '5', '7', '8b', '13', '14', '35']
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '68'}
@@ -2656,9 +2660,9 @@ filters:
       - {start: '2', end: '60'}
   Ramocsa utca:
     # 1a: 1, 1/b
-    # 17: nincs kiírva semmi, 2 bejárat van
+    # 17a: 17 és 17/b van kiírva
     # 23: 23/a, 23/b
-    invalid: ['1a', '23']
+    invalid: ['1a', '17a', '23']
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '30'}
@@ -2680,8 +2684,9 @@ filters:
       - {start: '7', end: '17'}
   Rozmaring utca:
     # not sure about the 16
+    # 11/a: 11, 11/b
     # 12/9: 12/a, 12/b
-    invalid: ['12/9']
+    invalid: ['11a', '12/9']
     ranges:
       - {start: '3', end: '19'}
       - {start: '4', end: '16'}
