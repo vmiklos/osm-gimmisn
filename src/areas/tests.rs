@@ -2930,3 +2930,44 @@ fn test_relation_config_get_alias_parent() {
 
     assert_eq!(ret, vec!["myoldrelation".to_string()]);
 }
+
+/// Tests Relation::normalize_invalids().
+#[test]
+fn test_relation_normalize_invalids() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "filters": {
+                "Tűzkő utca": {
+                    "ranges": [
+                        {
+                            "start": "1",
+                            "end": "3",
+                        }
+                    ],
+                },
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+
+    let ret = relation
+        .normalize_invalids("Tűzkő utca", &vec!["5".to_string()])
+        .unwrap();
+
+    // This is empty because 5 is outside 1-3.
+    assert_eq!(ret.is_empty(), true);
+}
