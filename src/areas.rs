@@ -144,7 +144,7 @@ impl RelationConfig {
 
     /// Gets the OSM relation object's ID.
     pub fn get_osmrelation(&self) -> u64 {
-        RelationConfig::get_property(&self.parent.osmrelation, &self.dict.osmrelation).unwrap()
+        self.parent.osmrelation.unwrap()
     }
 
     /// Gets the relation's refcounty identifier from reference.
