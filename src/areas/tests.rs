@@ -1441,9 +1441,8 @@ fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
     let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
     let ongoing_street = ongoing_streets[0].clone();
     let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
-    let mut housenumber_range_names: Vec<_> =
+    let housenumber_range_names: Vec<_> =
         housenumber_ranges.iter().map(|i| i.get_number()).collect();
-    housenumber_range_names.sort_by_key(|i| util::split_house_number(i));
     // Notice how '9 A 1' is missing here: it's not a simple house number, so it gets normalized
     // to just '9' and the above filter silences it.
     let expected = ["9/A"];
@@ -1553,9 +1552,8 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
     let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
     let ongoing_street = ongoing_streets[0].clone();
     let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
-    let mut housenumber_range_names: Vec<_> =
+    let housenumber_range_names: Vec<_> =
         housenumber_ranges.iter().map(|i| i.get_number()).collect();
-    housenumber_range_names.sort_by_key(|i| util::split_house_number(i));
     // Note how 10/B is not in this list.
     let expected = ["10/A"];
     assert_eq!(housenumber_range_names, expected);
