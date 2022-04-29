@@ -2996,3 +2996,36 @@ fn test_relation_normalize_invalids() {
     // This is empty because 5 is outside 1-3.
     assert_eq!(ret.is_empty(), true);
 }
+
+/// Tests Relation::get_osm_streets(), when the housenumbers CSV is invalid.
+#[test]
+fn test_relation_get_osm_streets_invalid_housenumbers_csv() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let streets_value = context::tests::TestFileSystem::make_file();
+    // This is a valid OSM streets CSV.
+    streets_value
+        .borrow_mut()
+        .write_all(b"@id\t@name\n42\tfoo\n")
+        .unwrap();
+    let housenumbers_value = context::tests::TestFileSystem::make_file();
+    // This is not a valid OSM housenumbers CSV: missing addr:housenumber.
+    housenumbers_value
+        .borrow_mut()
+        .write_all(b"@id\t@name\n42\tfoo\n")
+        .unwrap();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("workdir/street-housenumbers-myrelation.csv", &streets_value),
+            ("workdir/streets-myrelation.csv", &housenumbers_value),
+        ],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("myrelation").unwrap();
+
+    let ret = relation.get_osm_streets(/*sorted_result=*/ false);
+
+    assert_eq!(ret.is_err(), true);
+}
