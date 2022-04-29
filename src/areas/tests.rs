@@ -2616,6 +2616,31 @@ fn test_refcounty_get_refsettlement_ids() {
     );
 }
 
+/// Tests Relations::new(), when refsettlement-names.yaml is invalid.
+#[test]
+fn test_relations_new_invalid_refsettlement_names() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+        },
+        "refcounty-names.yaml": {
+            "01": "mycity",
+        },
+        "refsettlement-names.yaml": "hello",
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
+    let ret = Relations::new(&ctx);
+
+    assert_eq!(ret.is_err(), true);
+}
+
 /// Tests refsettlement_get_name().
 #[test]
 fn test_refsettlement_get_name() {
