@@ -1366,6 +1366,46 @@ impl Relations {
     }
 }
 
+/// Expands numbers_nofilter into a list of numbers, returns ret_numbers otherwise.
+fn normalize_expand(
+    street_is_even_odd: bool,
+    separator: &str,
+    normalizer: &ranges::Ranges,
+    numbers_nofilter: &[i64],
+    mut ret_numbers: Vec<i64>,
+) -> Vec<i64> {
+    if separator != "-" {
+        return ret_numbers;
+    }
+
+    let (should_expand, new_stop) = util::should_expand_range(numbers_nofilter, street_is_even_odd);
+    if should_expand {
+        let start = numbers_nofilter[0];
+        let stop = new_stop;
+        if stop == 0 {
+            ret_numbers = vec![start]
+                .iter()
+                .filter(|number| normalizer.contains(**number))
+                .cloned()
+                .collect();
+        } else if street_is_even_odd {
+            // Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
+            // Closed interval, even only or odd only case.
+            ret_numbers = (start..stop + 2)
+                .step_by(2)
+                .filter(|number| normalizer.contains(*number))
+                .collect();
+        } else {
+            // Closed interval, but mixed even and odd.
+            ret_numbers = (start..stop + 1)
+                .filter(|number| normalizer.contains(*number))
+                .collect();
+        }
+    }
+
+    ret_numbers
+}
+
 /// Strips down string input to bare minimum that can be interpreted as an
 /// actual number. Think about a/b, a-b, and so on.
 fn normalize(
@@ -1404,34 +1444,13 @@ fn normalize(
     let (mut ret_numbers, ret_numbers_nofilter) =
         util::split_house_number_by_separator(&house_numbers, separator, &normalizer);
 
-    if separator == "-" {
-        let (should_expand, new_stop) =
-            util::should_expand_range(&ret_numbers_nofilter, street_is_even_odd);
-        if should_expand {
-            let start = ret_numbers_nofilter[0];
-            let stop = new_stop;
-            if stop == 0 {
-                ret_numbers = vec![start]
-                    .iter()
-                    .filter(|number| normalizer.contains(**number))
-                    .cloned()
-                    .collect();
-            } else if street_is_even_odd {
-                // Assume that e.g. 2-6 actually means 2, 4 and 6, not only 2 and 4.
-                // Closed interval, even only or odd only case.
-                //ret_numbers = [number for number in range(start, stop + 2, 2) if number in normalizer]
-                ret_numbers = (start..stop + 2)
-                    .step_by(2)
-                    .filter(|number| normalizer.contains(*number))
-                    .collect();
-            } else {
-                // Closed interval, but mixed even and odd.
-                ret_numbers = (start..stop + 1)
-                    .filter(|number| normalizer.contains(*number))
-                    .collect();
-            }
-        }
-    }
+    ret_numbers = normalize_expand(
+        street_is_even_odd,
+        separator,
+        &normalizer,
+        &ret_numbers_nofilter,
+        ret_numbers,
+    );
 
     let check_housenumber_letters =
         ret_numbers.len() == 1 && relation.config.should_check_housenumber_letters();
