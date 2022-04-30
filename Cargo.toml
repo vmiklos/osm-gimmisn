@@ -5,21 +5,21 @@ edition = "2021"
 
 [dependencies]
 accept-language = "2.0.0"
-anyhow = "1.0.56"
+anyhow = "1.0.57"
 chrono = "0.4.19"
-clap = "3.1.6"
+clap = "3.1.12"
 configparser = "3.0.0"
 csv = "1.1.6"
 gettext = "0.4.0"
 git-version = "0.3.5"
 html-escape = "0.2.11"
-isahc = "1.7.0"
+isahc = "1.7.1"
 lazy_static = "1.4.0"
 log = "0.4.16"
 regex = "1.5.5"
 rouille = "3.5.0"
-rust_icu_ucol = { version = "2.0.0", optional = true }
-rust_icu_ustring = { version = "2.0.0", optional = true }
+rust_icu_ucol = { version = "2.0.3", optional = true }
+rust_icu_ustring = { version = "2.0.3", optional = true }
 serde = { version = "1.0.136", features = ["derive"] }
 serde_json = "1.0.79"
 serde_yaml = "0.8.23"
@@ -28,7 +28,7 @@ unidecode = "0.3.0"
 url = "2.2.2"
 
 [dev-dependencies]
-flate2 = "1.0.22"
+flate2 = "1.0.23"
 sxd-document = "0.3.2"
 sxd-xpath = "0.4.2"
 
