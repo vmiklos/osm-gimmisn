@@ -10,11 +10,7 @@
 
 //! Abstractions to help writing unit tests: filesystem, network, etc.
 
-use anyhow::anyhow;
-use anyhow::Context as AnyhowContext;
-use isahc::config::Configurable;
-use isahc::ReadResponseExt;
-use isahc::RequestExt;
+use anyhow::Context as _;
 use std::cell::RefCell;
 use std::io::Read;
 use std::io::Write;
@@ -63,58 +59,7 @@ pub trait FileSystem {
     }
 }
 
-/// File system implementation, backed by the Rust stdlib.
-struct StdFileSystem {}
-
-// Real file-system is intentionally mocked.
-#[cfg(not(tarpaulin_include))]
-impl FileSystem for StdFileSystem {
-    fn path_exists(&self, path: &str) -> bool {
-        Path::new(path).exists()
-    }
-
-    fn getmtime(&self, path: &str) -> anyhow::Result<f64> {
-        let metadata = std::fs::metadata(path)?;
-        let modified = metadata.modified()?;
-        let mtime = modified.duration_since(std::time::SystemTime::UNIX_EPOCH)?;
-        Ok(mtime.as_secs_f64())
-    }
-
-    fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let ret: Rc<RefCell<dyn Read>> = Rc::new(RefCell::new(
-            std::fs::File::open(path)
-                .with_context(|| format!("failed to open {} for reading", path))?,
-        ));
-        Ok(ret)
-    }
-
-    fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        let ret: Rc<RefCell<dyn Write>> = Rc::new(RefCell::new(
-            std::fs::File::create(path)
-                .with_context(|| format!("failed to open {} for writing", path))?,
-        ));
-        Ok(ret)
-    }
-
-    fn unlink(&self, path: &str) -> anyhow::Result<()> {
-        Ok(std::fs::remove_file(path)?)
-    }
-
-    fn makedirs(&self, path: &str) -> anyhow::Result<()> {
-        Ok(std::fs::create_dir_all(&path)?)
-    }
-
-    fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>> {
-        let mut contents: Vec<String> = Vec::new();
-        for entry in std::fs::read_dir(&path)? {
-            let entry = entry?;
-            let path = entry.path();
-            let file_name = path.into_os_string().into_string().unwrap();
-            contents.push(file_name);
-        }
-        Ok(contents)
-    }
-}
+pub use system::StdFileSystem;
 
 /// Network interface.
 pub trait Network {
@@ -122,32 +67,7 @@ pub trait Network {
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String>;
 }
 
-/// Network implementation, backed by a real HTTP library.
-struct StdNetwork {}
-
-// Real network is intentionally mocked.
-#[cfg(not(tarpaulin_include))]
-impl Network for StdNetwork {
-    fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
-        if !data.is_empty() {
-            let mut buf = isahc::Request::post(url)
-                .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
-                .timeout(Duration::from_secs(425))
-                .body(data)?
-                .send()?;
-            let ret = buf.text()?;
-            return Ok(ret);
-        }
-
-        let mut buf = isahc::Request::get(url)
-            .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
-            .timeout(Duration::from_secs(425))
-            .body(())?
-            .send()?;
-        let ret = buf.text()?;
-        Ok(ret)
-    }
-}
+pub use system::StdNetwork;
 
 /// Time interface.
 pub trait Time {
@@ -161,25 +81,7 @@ pub trait Time {
     fn as_any(&self) -> &dyn std::any::Any;
 }
 
-/// Time implementation, backed by the chrono.
-struct StdTime {}
-
-// Real time is intentionally mocked.
-#[cfg(not(tarpaulin_include))]
-impl Time for StdTime {
-    fn now(&self) -> i64 {
-        let now = chrono::Local::now();
-        now.naive_local().timestamp()
-    }
-
-    fn sleep(&self, seconds: u64) {
-        std::thread::sleep(std::time::Duration::from_secs(seconds));
-    }
-
-    fn as_any(&self) -> &dyn std::any::Any {
-        self
-    }
-}
+pub use system::StdTime;
 
 /// Subprocess interface.
 pub trait Subprocess {
@@ -193,28 +95,7 @@ pub trait Subprocess {
     fn as_any(&self) -> &dyn std::any::Any;
 }
 
-/// Subprocess implementation, backed by the Rust stdlib.
-struct StdSubprocess {}
-
-// Real processes are intentionally mocked.
-#[cfg(not(tarpaulin_include))]
-impl Subprocess for StdSubprocess {
-    fn run(&self, args: Vec<String>) -> anyhow::Result<String> {
-        let (first, rest) = args
-            .split_first()
-            .ok_or_else(|| anyhow!("args is an empty list"))?;
-        let output = std::process::Command::new(first).args(rest).output()?;
-        Ok(std::str::from_utf8(&output.stdout)?.to_string())
-    }
-
-    fn exit(&self, code: i32) {
-        std::process::exit(code);
-    }
-
-    fn as_any(&self) -> &dyn std::any::Any {
-        self
-    }
-}
+pub use system::StdSubprocess;
 
 /// Unit testing interface.
 pub trait Unit {
@@ -222,14 +103,7 @@ pub trait Unit {
     fn make_error(&self) -> anyhow::Result<()>;
 }
 
-/// Unit implementation, which intentionally does nothing.
-struct StdUnit {}
-
-impl Unit for StdUnit {
-    fn make_error(&self) -> anyhow::Result<()> {
-        Ok(())
-    }
-}
+pub use system::StdUnit;
 
 /// Configuration file reader.
 #[derive(Clone)]
@@ -423,5 +297,6 @@ impl Context {
     }
 }
 
+pub mod system;
 #[cfg(test)]
 pub mod tests;
