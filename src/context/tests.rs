@@ -140,11 +140,12 @@ impl FileSystem for TestFileSystem {
     }
 
     fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
-        assert!(
-            self.files.contains_key(path),
-            "open_write: self.files doesn't contain '{}'",
-            path
-        );
+        if !self.files.contains_key(path) {
+            return Err(anyhow::anyhow!(
+                "open_write: self.files doesn't contain '{}'",
+                path
+            ));
+        }
 
         let mut hide_paths = self.hide_paths.borrow_mut();
         if hide_paths.contains(&path.to_string()) {
@@ -165,11 +166,9 @@ impl FileSystem for TestFileSystem {
 
     fn unlink(&self, path: &str) -> anyhow::Result<()> {
         let mut hide_paths = self.hide_paths.borrow_mut();
-        assert!(
-            self.files.contains_key(path) && !hide_paths.contains(&path.to_string()),
-            "unlink: {}: no such file",
-            path
-        );
+        if !self.files.contains_key(path) || hide_paths.contains(&path.to_string()) {
+            return Err(anyhow::anyhow!("unlink: {}: no such file", path));
+        }
 
         Ok(hide_paths.push(path.to_string()))
     }
@@ -400,6 +399,26 @@ fn test_ini_new() {
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
 
     let ret = Ini::new(&file_system_arc, &ctx.get_abspath("wsgi.ini"), "tests");
+
+    assert_eq!(ret.is_err(), true);
+}
+
+/// Tests TestFileSystem::unlink().
+#[test]
+fn test_file_system_unlink() {
+    let ctx = make_test_context().unwrap();
+
+    let ret = ctx.get_file_system().unlink("no such file");
+
+    assert_eq!(ret.is_err(), true);
+}
+
+/// Tests TestFileSystem::open_write().
+#[test]
+fn test_file_system_open_write() {
+    let ctx = make_test_context().unwrap();
+
+    let ret = ctx.get_file_system().open_write("no such file");
 
     assert_eq!(ret.is_err(), true);
 }
