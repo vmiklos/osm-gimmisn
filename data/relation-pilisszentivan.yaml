@@ -28,6 +28,11 @@ street-filters:
   - Szénás-hegy
   - Vadászrét
   - Zsíroshegyi erdő
+  # ellenőrizve - nincs kiírva
+  - Éger utca
+  - József Attila köz
+  - Károlyhegyi dűlő
+  - Öregtemető köz
 osm-street-filters:
   # nem igazi utcák
   - felszedett bányavasút
