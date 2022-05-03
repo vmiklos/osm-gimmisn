@@ -57,20 +57,24 @@ filters:
     # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? TODO: 2021-10
     # 40a, 40b: csak sima 40 van
     # 45: 45/a, 45/b
+    # 51: 51/a, 51/b, 51/c
     # 52: 52/a, 52/b
     # 54a, 54b: 54, 56
     # 55a, 55b: csak sima 55
     # 57b: semmi sincs kiírva
+    # 76,78: park: 74 után 80
     # 95:  95/a, 95/b
     # 107a: semmi sincs kiírva a házra
     # 113: 113/a, 113/b, 113/c
+    # 119: 119/a, 119/b
     # 144: Domboldal utca 8 = Brassó út 144: A és B épület
     # 147: 147/a, 147/b
     # 154: 154/a, 154/b
-    invalid: ['6a', '10', '14', '21', '26', '29', '28', '40a', '40b', '45', '52', '54a', '54b', '55a', '55b', '57b', '95', '107a', '113', '144a', '144b', '147', '154', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
+    invalid: ['6a', '10', '14', '21', '26', '29', '28', '40a', '40b', '45', '52', '54a', '54b', '55a', '55b', '57b', '95', '107a', '113', '119', '144a', '144b', '147', '154', '169a', '169b', '169c', '169d', '169e', '169f', '169h']
     ranges:
       - {start: '1', end: '169'}
-      - {start: '2', end: '158'}
+      - {start: '2', end: '74'}
+      - {start: '80', end: '158'}
   Budafoki út:
     # 10: 10/a, 10/b, 10/c
     # 21-27: Katonai Nemzetbiztonsági Szolgálat: Bartókra van számozva
@@ -89,7 +93,7 @@ filters:
     # 62-64: csak a 64 használatos
     # 78, 82/A, 82/B: zöldmező
     # 84: Albertfalva
-    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '52a', '56c', '60g', '62', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '51', '52a', '56c', '60g', '62', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
@@ -2370,12 +2374,14 @@ filters:
       - {start: '2', end: '32'}
   Botfalu köz:
     # 12a: nincs semmi sem kiírva
+    # 15a: csak 15. régebben lehetett /a és /b, ez utóbbi nyoma még látszik
     # 23: 23/a, 23/b
-    invalid: ['12a', '23']
+    invalid: ['12a', '15a', '23']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '20'}
   Botfalu utca:
+    # 8/a: nincs. 8 és 8/b a térképen, kiírva viszont csak a 8/b van
     # 15b: ikerház de csak 15 van kiírva
     # 21a: 21, 21/b
     # 35a, 35b: csak sima 35
@@ -2456,7 +2462,7 @@ filters:
     # 22, 22b, 22c: 22/1, 22/2, 22/3, 22/4
     # 24/*: csak 24 és 24/1
     # 27/*: csak sima 27 van
-    invalid: ['1a', '2', '2/4', '9b', '9d', '20/2', '20/3', '20/4', '20a', '20b', '23b', '22', '22b', '22c', '24/2', '24/4', '24a', '24c', '27/1', '27/6', '27b']
+    invalid: ['1a', '2', '2/4', '9b', '9d', '20/2', '20/3', '20/4', '20a', '20b', '23b', '22', '22b', '22c', '24/2', '24/4', '24a', '24b', '24c', '27/1', '27/6', '27b']
     ranges:
       - {start: '1', end: '27'}
       - {start: '2', end: '24'}
@@ -2586,7 +2592,8 @@ filters:
     # 14b: egy épület 14-re számozva
     # 20: 20/a 20/b 20/c
     # 23: 23/a 23/b
-    invalid: ['13a', '13b', '14b', '20', '23']
+    # 41: 41/a, 41/b
+    invalid: ['13a', '13b', '14b', '20', '23', '41']
     ranges:
       - {start: '1', end: '43'}
       - {start: '4', end: '34'}
@@ -2700,7 +2707,7 @@ filters:
       - {start: '2', end: '12'}
   Sasadi köz:
     # 1: 1/a, 1/b
-    invalid: ['1']
+    invalid: ['1', '1c']
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '4'}
