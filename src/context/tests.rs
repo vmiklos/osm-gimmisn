@@ -422,3 +422,25 @@ fn test_file_system_open_write() {
 
     assert_eq!(ret.is_err(), true);
 }
+
+/// Tests TestFileSystem::list_dir().
+#[test]
+fn test_file_system_list_dir() {
+    let ctx = make_test_context().unwrap();
+    let mut file_system = TestFileSystem::new();
+    file_system.set_hide_paths(&[ctx.get_abspath("hidden file")]);
+    let hidden_file = TestFileSystem::make_file();
+    let visible_file = TestFileSystem::make_file();
+    let files = TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("hidden file", &hidden_file),
+            ("visible file", &visible_file),
+        ],
+    );
+    file_system.set_files(&files);
+
+    let ret = file_system.listdir("dir").unwrap();
+
+    assert_eq!(ret.is_empty(), true);
+}
