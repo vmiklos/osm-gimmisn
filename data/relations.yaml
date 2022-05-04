@@ -691,6 +691,10 @@ szigetmonostor:
     osmrelation: 216157
     refcounty: "14"
     refsettlement: "132"
+szigetszentmiklos:
+    osmrelation: 222329
+    refcounty: "14"
+    refsettlement: "134"
 szob:
     osmrelation: 1370263
     refcounty: "14"
