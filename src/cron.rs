@@ -605,12 +605,8 @@ pub fn our_main(
     let seconds = duration.num_seconds() % 60;
     let minutes = duration.num_minutes() % 60;
     let hours = duration.num_hours();
-    log::info!(
-        "main: finished in {}:{:0>2}:{:0>2}",
-        hours,
-        minutes,
-        seconds
-    );
+    let duration = format!("{}:{:0>2}:{:0>2}", hours, minutes, seconds);
+    log::info!("main: finished in {}", duration,);
 
     Ok(())
 }
