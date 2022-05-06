@@ -53,6 +53,12 @@ https://stackoverflow.blog/2022/01/03/favor-real-dependencies-for-unit-testing/[
 dependencies for unit testing] pattern, i.e. apart from filesystem, network or time (see
 `src/context.rs` for the exact list), no mocking is used.
 
+Debugging `workdir/stats/stats.json` generation:
+
+----
+cargo run --bin cron -- --mode stats --no-overpass
+----
+
 == Rust performance profiling
 
 The symbols profile enables debug symbols while keeping optimizations on:

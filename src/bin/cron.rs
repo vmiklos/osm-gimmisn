@@ -13,8 +13,11 @@
 /// Sets up logging.
 fn setup_logging(ctx: &osm_gimmisn::context::Context) {
     let config = simplelog::ConfigBuilder::new()
-        .set_time_format("%Y-%m-%d %H:%M:%S".into())
-        .set_time_to_local(true)
+        .set_time_format_custom(simplelog::format_description!(
+            "[year]-[month]-[day] [hour]:[minute]:[second]"
+        ))
+        .set_time_offset_to_local()
+        .unwrap()
         .build();
     let logpath = ctx.get_abspath("workdir/cron.log");
     let file = std::fs::File::create(logpath).expect("failed to create cron.log");
