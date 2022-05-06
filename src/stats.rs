@@ -175,16 +175,20 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     }
     let stream = ctx.get_file_system().open_read(&old_count_path)?;
     let mut guard = stream.borrow_mut();
-    let read = std::io::BufReader::new(guard.deref_mut());
-    for result in read.lines() {
-        let line = result?;
-        let mut tokens = line.trim().split('\t');
+    let mut read = std::io::BufReader::new(guard.deref_mut());
+    let mut csv_read = util::CsvRead::new(&mut read);
+    for result in csv_read.records() {
+        let row = result?;
+        let mut tokens = row.iter();
         let city = match tokens.next() {
             Some(value) => value,
             None => {
                 continue;
             }
         };
+        if city.is_empty() {
+            continue;
+        }
         let count = match tokens.next() {
             Some(value) => value,
             None => {
@@ -203,10 +207,11 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     }
     let stream = ctx.get_file_system().open_read(&new_count_path)?;
     let mut guard = stream.borrow_mut();
-    let read = std::io::BufReader::new(guard.deref_mut());
-    for result in read.lines() {
-        let line = result?;
-        let mut tokens = line.trim().split('\t');
+    let mut read = std::io::BufReader::new(guard.deref_mut());
+    let mut csv_read = util::CsvRead::new(&mut read);
+    for result in csv_read.records() {
+        let row = result?;
+        let mut tokens = row.iter();
         let city = match tokens.next() {
             Some(value) => value,
             None => {
