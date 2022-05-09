@@ -1256,6 +1256,39 @@ fn test_update_stats_count_no_csv() {
     }
 }
 
+/// Tests update_stats_count(): the case when we ask for CSV but get XML.
+#[test]
+fn test_update_stats_count_xml_as_csv() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let today_csv_value = context::tests::TestFileSystem::make_file();
+    today_csv_value
+        .borrow_mut()
+        .write_all("<?xml\n".as_bytes())
+        .unwrap();
+    let today_count_value = context::tests::TestFileSystem::make_file();
+    let today_citycount_value = context::tests::TestFileSystem::make_file();
+    let today_zipcount_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("workdir/stats/2020-05-10.csv", &today_csv_value),
+            ("workdir/stats/2020-05-10.count", &today_count_value),
+            ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
+            ("workdir/stats/2020-05-10.zipcount", &today_zipcount_value),
+        ],
+    );
+    file_system.set_files(&files);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+
+    update_stats_count(&ctx, "2020-05-10").unwrap();
+
+    let path = ctx.get_abspath("workdir/stats/2020-05-10.count");
+    let actual = ctx.get_file_system().read_to_string(&path).unwrap();
+    assert_eq!(actual, "0");
+}
+
 /// Tests update_stats_topusers().
 #[test]
 fn test_update_stats_topusers() {
