@@ -1712,10 +1712,11 @@ filters:
     # 3: egyik részénél 3/X másik részénél 3. X. épület formában van, egységesen vittem fel 3/X formában
     invalid: ['2']
   Kánai út:
-    # páros számok 4- a tó van, nincs is lehetőség épületre
-    # páratlan nagyobb számok nincsenek beépítve
+    # páros számok 4- egyelőre a tó van üres telkek, de még nem kezdődött az építkezés 2022-05
+    # páratlan nagyobb számokat most kezdik beépíteni 2022-05
+    # 2a: talán a focipálya, kiírva nincs, 1 sportegyesületi hivatkozás van rá
     # 3: 3/a, 3/b
-    invalid: ['7b']
+    invalid: ['2a', '7b']
     ranges:
       - {start: '3', end: '9'}
       - {start: '2', end: '2'}
@@ -1735,7 +1736,7 @@ filters:
       - {start: '2', end: '2'}
   Tóberek utca:
     # csak sima számok
-    invalid: ['2b', '8a']
+    invalid: ['2b', '3b', '8a']
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '8'}
@@ -2581,10 +2582,10 @@ filters:
     # 20b: nincs, az is lehet, hogy a 22 új száma lenne, de ott nincs kiírva
     # 25b: csak sima 25 van
     # 26a, 26b: most 22a, 22b
-    # 28b: épület 4 részből áll, egyik rész 28a a többi sima 28
+    # 28b, 28c: épület 4 részből áll, egyik rész 28a a többi sima 28
     # 31, 31c: 4 részből áll, kettesével vannak a számok: 31a, 31b
     # 32a, 32b, 32c, 32d: ez a régi száma a 28-ason lévő 4 részből álló sorháznak
-    invalid: ['20b', '25b', '26a', '26b', '28b', '31', '31c', '32a', '32b', '32c', '32d']
+    invalid: ['20b', '25b', '26a', '26b', '28b', '28c', '28d', '31', '31c', '32a', '32b', '32c', '32d']
     ranges:
       - {start: '1', end: '41'}
       - {start: '2', end: '40'}
