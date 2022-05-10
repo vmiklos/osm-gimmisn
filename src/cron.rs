@@ -26,6 +26,12 @@ use std::io::BufRead;
 use std::io::Write;
 use std::ops::DerefMut;
 
+#[cfg(not(test))]
+use log::{error, info, warn};
+
+#[cfg(test)]
+use std::{println as info, println as warn, println as error};
+
 /// Sleeps to respect overpass rate limit.
 fn overpass_sleep(ctx: &context::Context) {
     loop {
@@ -33,7 +39,7 @@ fn overpass_sleep(ctx: &context::Context) {
         if sleep == 0 {
             break;
         }
-        log::info!("overpass_sleep: waiting for {} seconds", sleep);
+        info!("overpass_sleep: waiting for {} seconds", sleep);
         ctx.get_time().sleep(sleep as u64);
     }
 }
@@ -59,11 +65,11 @@ fn update_osm_streets(
         {
             continue;
         }
-        log::info!("update_osm_streets: start: {}", relation_name);
+        info!("update_osm_streets: start: {}", relation_name);
         let mut retry = 0;
         while should_retry(retry) {
             if retry > 0 {
-                log::info!("update_osm_streets: try #{}", retry);
+                info!("update_osm_streets: try #{}", retry);
             }
             retry += 1;
             overpass_sleep(ctx);
@@ -71,17 +77,17 @@ fn update_osm_streets(
             let buf = match overpass_query::overpass_query(ctx, query) {
                 Ok(value) => value,
                 Err(err) => {
-                    log::info!("update_osm_streets: http error: {:?}", err);
+                    info!("update_osm_streets: http error: {:?}", err);
                     continue;
                 }
             };
             if relation.get_files().write_osm_streets(ctx, &buf)? == 0 {
-                log::info!("update_osm_streets: short write");
+                info!("update_osm_streets: short write");
                 continue;
             }
             break;
         }
-        log::info!("update_osm_streets: end: {}", relation_name);
+        info!("update_osm_streets: end: {}", relation_name);
     }
 
     Ok(())
@@ -102,11 +108,11 @@ fn update_osm_housenumbers(
         {
             continue;
         }
-        log::info!("update_osm_housenumbers: start: {}", relation_name);
+        info!("update_osm_housenumbers: start: {}", relation_name);
         let mut retry = 0;
         while should_retry(retry) {
             if retry > 0 {
-                log::info!("update_osm_housenumbers: try #{}", retry);
+                info!("update_osm_housenumbers: try #{}", retry);
             }
             retry += 1;
             overpass_sleep(ctx);
@@ -114,17 +120,17 @@ fn update_osm_housenumbers(
             let buf = match overpass_query::overpass_query(ctx, query) {
                 Ok(value) => value,
                 Err(err) => {
-                    log::info!("update_osm_housenumbers: http error: {:?}", err);
+                    info!("update_osm_housenumbers: http error: {:?}", err);
                     continue;
                 }
             };
             if relation.get_files().write_osm_housenumbers(ctx, &buf)? == 0 {
-                log::info!("update_osm_housenumbers: short write");
+                info!("update_osm_housenumbers: short write");
                 continue;
             }
             break;
         }
-        log::info!("update_osm_housenumbers: end: {}", relation_name);
+        info!("update_osm_housenumbers: end: {}", relation_name);
     }
 
     Ok(())
@@ -151,12 +157,12 @@ fn update_ref_housenumbers(
             continue;
         }
 
-        log::info!("update_ref_housenumbers: start: {}", relation_name);
+        info!("update_ref_housenumbers: start: {}", relation_name);
         if let Err(err) = relation.write_ref_housenumbers(&references) {
-            log::info!("update_osm_housenumbers: failed: {:?}", err);
+            info!("update_osm_housenumbers: failed: {:?}", err);
             continue;
         }
-        log::info!("update_ref_housenumbers: end: {}", relation_name);
+        info!("update_ref_housenumbers: end: {}", relation_name);
     }
 
     Ok(())
@@ -183,9 +189,9 @@ fn update_ref_streets(
             continue;
         }
 
-        log::info!("update_ref_streets: start: {}", relation_name);
+        info!("update_ref_streets: start: {}", relation_name);
         relation.write_ref_streets(&reference)?;
-        log::info!("update_ref_streets: end: {}", relation_name);
+        info!("update_ref_streets: end: {}", relation_name);
     }
 
     Ok(())
@@ -197,7 +203,7 @@ fn update_missing_housenumbers(
     relations: &mut areas::Relations,
     update: bool,
 ) -> anyhow::Result<()> {
-    log::info!("update_missing_housenumbers: start");
+    info!("update_missing_housenumbers: start");
     let active_names = relations
         .get_active_names()
         .context("get_active_names() failed")?;
@@ -230,7 +236,7 @@ fn update_missing_housenumbers(
         cache::get_missing_housenumbers_txt(ctx, &mut relation)
             .context("get_missing_housenumbers_txt() failed")?;
     }
-    log::info!("update_missing_housenumbers: end");
+    info!("update_missing_housenumbers: end");
 
     Ok(())
 }
@@ -241,7 +247,7 @@ fn update_missing_streets(
     relations: &mut areas::Relations,
     update: bool,
 ) -> anyhow::Result<()> {
-    log::info!("update_missing_streets: start");
+    info!("update_missing_streets: start");
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
         if !update
@@ -258,7 +264,7 @@ fn update_missing_streets(
 
         relation.write_missing_streets()?;
     }
-    log::info!("update_missing_streets: end");
+    info!("update_missing_streets: end");
 
     Ok(())
 }
@@ -269,7 +275,7 @@ fn update_additional_streets(
     relations: &mut areas::Relations,
     update: bool,
 ) -> anyhow::Result<()> {
-    log::info!("update_additional_streets: start");
+    info!("update_additional_streets: start");
     for relation_name in relations.get_active_names()? {
         let relation = relations.get_relation(&relation_name)?;
         let relation_path = relation.get_files().get_streets_additional_count_path();
@@ -283,7 +289,7 @@ fn update_additional_streets(
 
         relation.write_additional_streets()?;
     }
-    log::info!("update_additional_streets: end");
+    info!("update_additional_streets: end");
 
     Ok(())
 }
@@ -469,7 +475,7 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
 /// Performs the update of country-level stats.
 fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     // Fetch house numbers for the whole country.
-    log::info!("update_stats: start, updating whole-country csv");
+    info!("update_stats: start, updating whole-country csv");
     let query = ctx
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.txt"))?;
@@ -480,18 +486,18 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     let csv_path = format!("{}/{}.csv", statedir, today);
 
     if overpass {
-        log::info!("update_stats: talking to overpass");
+        info!("update_stats: talking to overpass");
         let mut retry = 0;
         while should_retry(retry) {
             if retry > 0 {
-                log::info!("update_stats: try #{}", retry);
+                info!("update_stats: try #{}", retry);
             }
             retry += 1;
             overpass_sleep(ctx);
             let response = match overpass_query::overpass_query(ctx, query.clone()) {
                 Ok(value) => value,
                 Err(err) => {
-                    log::info!("update_stats: http error: {}", err);
+                    info!("update_stats: http error: {}", err);
                     continue;
                 }
             };
@@ -516,15 +522,15 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
 
         if last_modified >= 24_f64 * 3600_f64 * 7_f64 {
             ctx.get_file_system().unlink(&file_name)?;
-            log::info!("update_stats: removed old {}", file_name);
+            info!("update_stats: removed old {}", file_name);
         }
     }
 
-    log::info!("update_stats: generating json");
+    info!("update_stats: generating json");
     let json_path = format!("{}/stats.json", &statedir);
     stats::generate_json(ctx, &statedir, &json_path)?;
 
-    log::info!("update_stats: end");
+    info!("update_stats: end");
 
     Ok(())
 }
@@ -557,7 +563,7 @@ fn our_main_inner(
         let line = line?.to_string();
         if line.starts_with("VmPeak:") {
             let vm_peak = line.trim();
-            log::info!("our_main: {}", vm_peak);
+            info!("our_main: {}", vm_peak);
             break;
         }
     }
@@ -621,7 +627,7 @@ pub fn our_main(
     let minutes = duration.num_minutes() % 60;
     let hours = duration.num_hours();
     let duration = format!("{}:{:0>2}:{:0>2}", hours, minutes, seconds);
-    log::info!("main: finished in {}", duration,);
+    info!("main: finished in {}", duration,);
 
     Ok(())
 }
@@ -631,7 +637,7 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     match our_main(argv, stream, ctx) {
         Ok(_) => 0,
         Err(err) => {
-            log::error!("main: unhandled error: {:?}", err);
+            error!("main: unhandled error: {:?}", err);
             1
         }
     }
