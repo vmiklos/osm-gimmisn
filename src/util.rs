@@ -21,7 +21,6 @@ use anyhow::Context;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 use std::collections::HashSet;
-use std::io::BufRead;
 use std::io::Read;
 use std::ops::DerefMut;
 
@@ -530,23 +529,23 @@ pub fn build_street_reference_cache(
         }
     }
 
-    let stream = std::io::BufReader::new(
+    let mut stream = std::io::BufReader::new(
         std::fs::File::open(local_streets)
             .context(format!("std::fs::File::open({}) failed", local_streets))?,
     );
+    let mut csv_read = CsvRead::new(&mut stream);
     let mut first = true;
-    for line in stream.lines() {
-        let line = line?.to_string();
+    for result in csv_read.records() {
+        let row = result?;
         if first {
             first = false;
             continue;
         }
 
-        let columns: Vec<&str> = line.split('\t').collect();
-        let refcounty = columns[0];
-        let refsettlement = columns[1];
+        let refcounty = &row[0];
+        let refsettlement = &row[1];
         // Filter out invalid street type.
-        let street = NULL_END.replace(columns[2], "").to_string();
+        let street = NULL_END.replace(&row[2], "").to_string();
         let refcounty_key = memory_cache
             .entry(refcounty.into())
             .or_insert_with(HashMap::new);
