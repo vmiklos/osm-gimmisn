@@ -2312,10 +2312,11 @@ filters:
       - {start: '1', end: '23'}
       - {start: '2', end: '24'}
   Barackos köz:
+    # 4a: csak 4
     # 5: 5/a, 5/b
     # 7/a: 7 és 7/b
     # 8/b: 8 és 8/a
-    invalid: ['5', '7a', '8b']
+    invalid: ['4a', '5', '7a', '8b']
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
@@ -2405,8 +2406,10 @@ filters:
     # 32: 32/a, 32/b
     # 36: 36/a, 36/b
     # 42a, 44a: csak 42 és 44
+    # 52b: 52 és 52/a
+    # 54a, 54/b: 54, 54 és 54/c a 3 rész házszáma
     # 56a, 56b: több részből áll, mindegyiken 56-os szám
-    invalid: ['22', '32', '36', '42a', '44a', '56a', '56b']
+    invalid: ['22', '32', '36', '42a', '44a', '52b', '54a', '54b', '56a', '56b']
     ranges:
       - {start: '1', end: '61'}
       - {start: '2', end: '36'}
@@ -2755,10 +2758,12 @@ filters:
     ranges: []
   Törcsvár utca:
     # 1ab: csak sima 1 van, csak az utcatáblán van 1a
+    # 5/a: csak sima 5
     # 16: 16/a, 16/b
     # 22: 22/a, 22/b
     # 42b: 42, 42/a
-    invalid: ['1a', '1b', '16', '22', '42b']
+    # 47b: építkezés
+    invalid: ['1a', '1b', '5a', '16', '22', '42b', '47b']
   Ugron Gábor utca:
     # 10b: 10, 10a
     # 69a: 69, 69b
