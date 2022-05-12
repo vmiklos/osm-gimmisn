@@ -1362,6 +1362,33 @@ fn test_update_stats_topusers_no_csv() {
     }
 }
 
+/// Tests write_city_count_path().
+#[test]
+fn test_write_city_count_path() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let file = context::tests::TestFileSystem::make_file();
+    let relpath = "workdir/stats/2020-05-10.citycount";
+    let abspath = ctx.get_abspath(relpath);
+    let files = context::tests::TestFileSystem::make_files(&ctx, &[(relpath, &file)]);
+    file_system.set_files(&files);
+    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system);
+    let city1: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
+    let city2: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
+    let cities: HashMap<String, HashSet<String>> = [
+        ("mycity2".to_string(), city2),
+        ("mycity1".to_string(), city1),
+    ]
+    .into_iter()
+    .collect();
+
+    write_city_count_path(&ctx, &abspath, &cities).unwrap();
+
+    let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
+    assert_eq!(content, "mycity1\t2\nmycity2\t2\n");
+}
+
 /// Tests update_ref_housenumbers(): the case when we ask for CSV but get XML.
 #[test]
 fn test_update_ref_housenumbers_xml_as_csv() {
