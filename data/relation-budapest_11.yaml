@@ -2435,8 +2435,8 @@ filters:
     # 12: 12/a, 12/b
     # 23: 23/a és 23 ki van írva, illetve az egyik kapun le van kopva a 23/ vége
     # 32/*: 5 részből álló ház, 2 oldalon 32, egyik kapunk 32/4
-    # 57: 57/b, 57/2
-    invalid: ['2', '2c', '6', '7b', '10', '12', '23/1', '23b', '23c', '32/1', '32/2', '57', '57a']
+    # 57: 57/b, 57/2 -> 57/a
+    invalid: ['2', '2c', '6', '7b', '10', '12', '23/1', '23b', '23c', '32/1', '32/2', '57', '57/2']
     ranges:
       - {start: '1', end: '77'}
       - {start: '2', end: '56'}
@@ -2577,6 +2577,7 @@ filters:
       - {start: '1', end: '57'}
       - {start: '2', end: '68'}
   Németvölgyi út:
+    # 132a: 132 és 132/b
     # 136b: Csak sima 136 van: Jardinette
     invalid: ['136b']
     ranges:
