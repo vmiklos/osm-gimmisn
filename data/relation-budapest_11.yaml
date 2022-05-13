@@ -2472,7 +2472,7 @@ filters:
       - {start: '2', end: '24'}
   Hajtás utca:
     # 5a: csak sima 5 van
-    invalid: ['5a']
+    invalid: ['5a', '5b']
   Haraszt utca:
     ranges:
       - {start: '1', end: '29'}
