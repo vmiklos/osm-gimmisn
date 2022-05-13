@@ -1389,6 +1389,31 @@ fn test_write_city_count_path() {
     assert_eq!(content, "mycity1\t2\nmycity2\t2\n");
 }
 
+/// Tests write_zip_count_path().
+#[test]
+fn test_write_zip_count_path() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let file = context::tests::TestFileSystem::make_file();
+    let relpath = "workdir/stats/2020-05-10.zipcount";
+    let abspath = ctx.get_abspath(relpath);
+    let files = context::tests::TestFileSystem::make_files(&ctx, &[(relpath, &file)]);
+    file_system.set_files(&files);
+    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system);
+    let zip1: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
+    let zip2: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
+    let cities: HashMap<String, HashSet<String>> =
+        [("myzip2".to_string(), zip2), ("myzip1".to_string(), zip1)]
+            .into_iter()
+            .collect();
+
+    write_zip_count_path(&ctx, &abspath, &cities).unwrap();
+
+    let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
+    assert_eq!(content, "myzip1\t2\nmyzip2\t2\n");
+}
+
 /// Tests update_ref_housenumbers(): the case when we ask for CSV but get XML.
 #[test]
 fn test_update_ref_housenumbers_xml_as_csv() {
