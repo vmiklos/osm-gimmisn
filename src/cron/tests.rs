@@ -1299,7 +1299,9 @@ fn test_update_stats_topusers() {
         .borrow_mut()
         .write_all(
             r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user
-7677	Orfű	Dollár utca	1	mgpx
+1234	mycity	mystreet1	1	myuser1
+1234	mycity	mystreet1	2	myuser1
+1234	mycity	mystreet2	1	myuser2
 "#
             .as_bytes(),
         )
@@ -1321,8 +1323,9 @@ fn test_update_stats_topusers() {
     update_stats_topusers(&ctx, "2020-05-10").unwrap();
 
     {
-        let mut guard = today_topusers_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+        let abspath = ctx.get_abspath("workdir/stats/2020-05-10.topusers");
+        let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
+        assert_eq!(content, "2 myuser1\n1 myuser2\n");
     }
     {
         let mut guard = today_usercount_value.borrow_mut();
