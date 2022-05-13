@@ -1296,9 +1296,9 @@ impl Relations {
     }
 
     /// If refcounty is not None, forget about all relations outside that refcounty.
-    pub fn limit_to_refcounty(&mut self, refcounty: &Option<String>) -> anyhow::Result<()> {
+    pub fn limit_to_refcounty(&mut self, refcounty: &Option<&str>) -> anyhow::Result<()> {
         let refcounty: String = match refcounty {
-            Some(value) => value.clone(),
+            Some(value) => value.to_string(),
             None => {
                 return Ok(());
             }
