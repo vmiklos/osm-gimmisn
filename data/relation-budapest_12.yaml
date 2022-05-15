@@ -412,6 +412,9 @@ filters:
   Tearózsa utca:
     # no labeled houses in this street
     invalid: ['9']
+  Mese köz:
+    # 1-5, 2-10
+    invalid: ['11', '12', '13']
 street-filters:
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
   - Pipacs ösvény
