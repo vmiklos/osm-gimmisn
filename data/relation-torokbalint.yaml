@@ -66,6 +66,7 @@ refstreets:
   'Szőlőskert utca': 'Szőlőskerti út'
   'Vadrózsa utca': 'Vadrózsa út'
   'Virágtanya': 'Virág tanya'
-  'Villányi utca': 'Villányi út'  # megváltozott
+  # ref-ben, táblákon és földhivatalban is Villányi út, csak az eligazító táblán Villányi utca
+  # 'Villányi utca': 'Villányi út'
 source: survey
 inactive: true
