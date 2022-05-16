@@ -1,3 +1,29 @@
 missing-streets: 'yes'
 filters: {}
+# street-filters:
+# Bíbic utca - https://www.openstreetmap.org/note/3181302
+# Bevásárló utca - https://www.openstreetmap.org/note/3181305
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Alma utca': 'Almafa utca'
+  'Bercsényi út': 'Bercsényi utca'
+  'Bóbitás köz': 'Bóbítás köz'
+  'Dunadűlő út': 'Duna dűlő'
+  'Dunaharaszti út': 'Dunaharaszti utca'
+  'Ezüst tó utca': 'Ezüsttó utca'
+  'Fehér rózsa utca': 'Fehérrózsa utca'
+  'Folyondár utca': 'Folyandár utca'
+  'Hét vezér utca': 'Hétvezér utca'
+  'Kántor utca': 'Kántor út'
+  'Körös utca': 'Kőrös utca'
+  'Leshegy utca': 'Leshegy út'
+  'Massányi Károly út': 'Massányi Károly utca'
+  'Ozsváry Miklós utca': 'Ozsvári Miklós utca'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Ponty utca': 'Ponty út'
+  'Reményik Sándor utca': 'Reményik Sándor köz'
+  'Sárga rózsa utca': 'Sárgarózsa utca'
+  'Somogyvári Gyula utca': 'Somogyváry Gyula utca'
+  'Vak Bottyán út': 'Vak Bottyán utca'
+  'Zsámbék utca': 'Zsombék utca'
 source: survey
