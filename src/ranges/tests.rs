@@ -60,6 +60,18 @@ fn test_range_interpolation_all() {
     assert_eq!(Range::new(1, 3, /*interpolation=*/ "all").contains(2), true);
 }
 
+/// Range: test traits.
+#[test]
+fn test_range_traits() {
+    let range = make_range(1, 3);
+    assert_eq!(
+        format!("{:?}", range),
+        "Range { start: 1, end: 3, is_odd: Some(true) }"
+    );
+    let range2 = range.clone();
+    assert_eq!(range2, range);
+}
+
 /// Ranges: Tests when the arg is in the first range.
 #[test]
 fn test_ranges_a() {
@@ -86,4 +98,12 @@ fn test_ranges_ab() {
 fn test_ranges_none() {
     let test = Ranges::new(vec![make_range(0, 0), make_range(1, 1)]);
     assert_eq!(test.contains(2), false);
+}
+
+/// Ranges: test traits.
+#[test]
+fn test_ranges_traits() {
+    let ranges = Ranges::new(vec![make_range(0, 0), make_range(1, 1)]);
+    let expected = "Ranges { items: [Range { start: 0, end: 0, is_odd: Some(false) }, Range { start: 1, end: 1, is_odd: Some(true) }] }";
+    assert_eq!(format!("{:?}", ranges), expected);
 }
