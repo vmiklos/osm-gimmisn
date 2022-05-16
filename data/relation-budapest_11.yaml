@@ -2321,7 +2321,8 @@ filters:
   Baradla köz:
     # 3: 3/a, 3/b
     # 6/a megszűnt - https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2020_02/skmbt_28320020711510.pdf
-    invalid: ['3', '6a']
+    # 10a: 10 és 10/b
+    invalid: ['3', '6a', '10a']
   Baradla utca:
     # 4-es kapun nem láttam semmit, nem derült ki hogy 4a vagy 4
     # 6a, 6b: csak sima hat van kiírva
@@ -2440,9 +2441,10 @@ filters:
       - {start: '2', end: '56'}
   Érdi út:
     # 6: 6/a, 6/b
-    # 12a: 12 és 12/1..4
+    # 10: 10/a, 10/b
+    # 12a, 12b: 12 és 12/1..4
     # 14b: 14a és 14
-    invalid: ['6', '12a', '14b']
+    invalid: ['6', '10', '12a', '12b', '14b']
     ranges:
       - {start: '2', end: '16'}
   Görbe utca:
@@ -2663,13 +2665,14 @@ filters:
       - {start: '2', end: '32'}
   Rákó utca:
     # 1/b: 1 és 1/a
-    # 4/a: nincs kiírva semmi
+    # 4: 4/a, 4/b
     # 12/1: csak sima 12
     # 15a: csak sima 15
     # 40b: csak sima 40 van kiírva
     # 47: 47/a, 47/b
+    # 53a, 53b: csak 53
     # 60: 60/a, 60/b
-    invalid: ['1b', '4a', '12/1', '40b', '47', '60']
+    invalid: ['1b', '4', '12/1', '40b', '47', '53a', '53b', '60']
     ranges:
       - {start: '1', end: '57'}
       - {start: '2', end: '60'}
