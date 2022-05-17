@@ -57,12 +57,30 @@ fn test_handle_capital_progress() {
     let time = context::tests::make_test_time();
     let time_arc: Arc<dyn context::Time> = Arc::new(time);
     ctx.set_time(&time_arc);
+    let mut file_system = context::tests::TestFileSystem::new();
+    let city_count = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("refdir/varosok_count_20190717.tsv", &city_count)],
+    );
+    file_system.set_files(&files);
+    file_system
+        .write_from_string(
+            "CITY\tCOUNT\nbudapest_11\t100\nbudapest_12\t200\nmycity\t42\n",
+            &ctx.get_abspath("refdir/varosok_count_20190717.tsv"),
+        )
+        .unwrap();
+    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system);
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
+
     handle_capital_progress(&ctx, &src_root, &mut j).unwrap();
+
     let progress = &j.as_object().unwrap()["capital-progress"];
     assert_eq!(progress["date"], "2020-05-10");
     // 211 / 300 * 100
+    // Note that the capital sum is 300, the total sum is 342.
     assert_eq!(progress["percentage"], 70.33);
 }
 
