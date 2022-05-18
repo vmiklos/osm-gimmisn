@@ -136,8 +136,10 @@ fn handle_topusers(
     let mut ret: Vec<(String, String)> = Vec::new();
     let topusers_path = format!("{}/{}.topusers", src_root, today);
     if ctx.get_file_system().path_exists(&topusers_path) {
-        let stream = std::io::BufReader::new(std::fs::File::open(topusers_path)?);
-        for line in stream.lines() {
+        let stream = ctx.get_file_system().open_read(&topusers_path)?;
+        let mut guard = stream.borrow_mut();
+        let read = std::io::BufReader::new(guard.deref_mut());
+        for line in read.lines() {
             let line = line?.trim().to_string();
             let mut tokens = line.split(' ');
             let count = tokens.next().unwrap();
