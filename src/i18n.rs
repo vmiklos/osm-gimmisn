@@ -20,10 +20,11 @@ thread_local! {
 /// Sets the language of the current thread.
 pub fn set_language(ctx: &context::Context, language: &str) {
     // Not using ctx.get_abspath() here, tests/ doesn't have its own dummy translations.
-    let root_dir = env!("CARGO_MANIFEST_DIR");
+    let current_dir = std::env::current_dir().expect("current_dir() failed");
+    let current_dir_str = current_dir.to_str().expect("PathBuf::to_str() failed");
     let path = format!(
         "{}/locale/{}/LC_MESSAGES/osm-gimmisn.mo",
-        root_dir, language
+        current_dir_str, language
     );
 
     if ctx.get_file_system().path_exists(&path) {
