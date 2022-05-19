@@ -218,7 +218,9 @@ pub struct Context {
 impl Context {
     /// Creates a new Context.
     pub fn new(prefix: &str) -> anyhow::Result<Self> {
-        let root = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), prefix);
+        let current_dir = std::env::current_dir()?;
+        let current_dir_str = current_dir.to_str().context("current_dir() failed")?;
+        let root = format!("{}/{}", current_dir_str, prefix);
         let network = Arc::new(StdNetwork {});
         let time = Arc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
