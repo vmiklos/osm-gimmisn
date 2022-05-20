@@ -112,6 +112,7 @@ fn test_build_street_reference_cache() {
         &[("refdir/utcak_20190514.tsv.cache", &file_cache)],
     );
     file_system.set_files(&files);
+    file_system.set_hide_paths(&[ctx.get_abspath("refdir/utcak_20190514.tsv.cache")]);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
 
