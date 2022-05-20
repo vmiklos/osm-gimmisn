@@ -3,7 +3,6 @@ filters:
   Ajtósi Dürer sor:
     ranges:
       - {start: '1', end: '35'}
-      - {start: '2', end: '2'}
   Besnyői utca:
     ranges:
       - {start: '1', end: '5'}

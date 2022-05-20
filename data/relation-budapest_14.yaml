@@ -9,6 +9,8 @@ street-filters:
   - Vajdahunyadvár  # https://www.openstreetmap.org/node/4685641019
   # csak a XIII. kerületben van része
   - Róbert Károly körút  
+  # Belőle lett a Variházi Oszkár utca
+  - Újvidék köz
 osm-street-filters:
   # létezik, de nem utcaként
   - Adria park
