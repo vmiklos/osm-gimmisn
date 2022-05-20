@@ -294,6 +294,7 @@ fn test_split_house_number_number_alpha() {
 #[test]
 fn test_split_house_number_only_alpha() {
     assert_eq!(split_house_number("a"), (0, "a".to_string()));
+    assert_eq!(split_house_number(""), (0, "".to_string()));
 }
 
 /// Tests parse_filters(): the incomplete case.
