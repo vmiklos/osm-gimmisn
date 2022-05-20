@@ -181,26 +181,10 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     let mut csv_read = util::CsvRead::new(&mut read);
     for result in csv_read.records() {
         let row = result?;
-        let mut tokens = row.iter();
-        let city = match tokens.next() {
-            Some(value) => value,
-            None => {
-                continue;
-            }
-        };
-        if city.is_empty() {
-            continue;
-        }
-        let count = match tokens.next() {
-            Some(value) => value,
-            None => {
-                continue;
-            }
-        };
-        if !count.is_empty() {
-            let count: i64 = count.parse()?;
-            old_counts.insert(city.into(), count);
-        }
+        let city = &row[0];
+        let count = &row[1];
+        let count: i64 = count.parse()?;
+        old_counts.insert(city.into(), count);
     }
 
     let new_count_path = format!("{}/{}.citycount", src_root, new_day);
@@ -213,20 +197,9 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     let mut csv_read = util::CsvRead::new(&mut read);
     for result in csv_read.records() {
         let row = result?;
-        let mut tokens = row.iter();
-        let city = match tokens.next() {
-            Some(value) => value,
-            None => {
-                continue;
-            }
-        };
-        let count = match tokens.next() {
-            Some(value) => value,
-            None => {
-                continue;
-            }
-        };
-        if !count.is_empty() && old_counts.contains_key(city) {
+        let city = &row[0];
+        let count = &row[1];
+        if old_counts.contains_key(city) {
             let count: i64 = count.parse()?;
             counts.push((city.into(), count - old_counts[city]));
         }

@@ -190,8 +190,7 @@ fn test_handle_topcities() {
     ctx.set_time(&time_arc);
     let src_root = ctx.get_abspath("workdir/stats");
     let today_citycount = b"budapest_01\t100\n\
-budapest_02\t200\n\
-\t42\n";
+budapest_02\t200\n";
     let today_citycount_value = context::tests::TestFileSystem::make_file();
     today_citycount_value
         .borrow_mut()
