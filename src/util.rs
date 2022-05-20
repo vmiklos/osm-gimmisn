@@ -297,30 +297,25 @@ impl HouseNumber {
             house_number = house_number[..house_number.len() - source_suffix.len()].into();
         }
         // Check for letter suffix.
-        let is_match = NUMBER_PER_LETTER.is_match(&house_number);
         let mut digit_match = false;
         let mut groups: Vec<String> = Vec::new();
-        if is_match {
-            if let Some(cap) = NUMBER_PER_LETTER.captures_iter(&house_number).next() {
-                for index in 1..=3 {
-                    match cap.get(index) {
-                        Some(_) => groups.push(cap[index].to_string()),
-                        None => groups.push(String::from("")),
-                    }
+        if let Some(cap) = NUMBER_PER_LETTER.captures_iter(&house_number).next() {
+            for index in 1..=3 {
+                match cap.get(index) {
+                    Some(_) => groups.push(cap[index].to_string()),
+                    None => groups.push(String::from("")),
                 }
             }
         } else {
             // If not, then try digit suggfix, but then only '/' is OK as a separator.
-            let is_match = NUMBER_PER_NUMBER.is_match(&house_number);
             digit_match = true;
-            if !is_match {
-                return Err(anyhow!("ValueError"));
-            }
             if let Some(cap) = NUMBER_PER_NUMBER.captures_iter(&house_number).next() {
                 for index in 1..=3 {
                     groups.push(cap[index].to_string());
                 }
-            };
+            } else {
+                return Err(anyhow!("ValueError"));
+            }
         }
 
         let mut ret: String = groups[0].clone();
