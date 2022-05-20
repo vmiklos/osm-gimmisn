@@ -388,13 +388,15 @@ impl<'a> CsvRead<'a> {
 /// Splits house_number into a numerical and a remainder part.
 pub fn split_house_number(house_number: &str) -> (i32, String) {
     let mut number = 0;
-    let mut remainder: String = "".into();
-    if let Some(cap) = NUMBER_WITH_REMAINDER.captures_iter(house_number).next() {
-        if let Ok(value) = cap[1].parse::<i32>() {
-            number = value;
-        }
-        remainder = cap[2].to_string();
+    // There will be always a capture, but it may be an empty string.
+    let cap = NUMBER_WITH_REMAINDER
+        .captures_iter(house_number)
+        .next()
+        .unwrap();
+    if let Ok(value) = cap[1].parse::<i32>() {
+        number = value;
     }
+    let remainder = cap[2].to_string();
     (number, remainder)
 }
 
