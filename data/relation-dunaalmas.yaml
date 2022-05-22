@@ -1,0 +1,11 @@
+missing-streets: 'yes'
+filters: {}
+# street-filters:
+refstreets:
+  # 'OSM Name 1': 'Ref Name 1'
+  'Baráthegyi utca': 'Baráthegy utca'
+  'Fűzihegy út': 'Füzihegy út'
+  'Jázmin utca': 'Jázmin út'
+  'Kossuthliget út': 'Kossuth liget út'
+  'Piritó út': 'Pirító út'
+source: survey
