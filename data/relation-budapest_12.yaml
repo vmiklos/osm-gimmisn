@@ -415,6 +415,9 @@ filters:
   Mese köz:
     # 1-5, 2-10
     invalid: ['11', '12', '13']
+  Mese utca:
+    # 1-15, 2-14
+    invalid: ['21']
 street-filters:
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
   - Pipacs ösvény
