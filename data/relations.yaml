@@ -546,6 +546,10 @@ dorog:
     osmrelation: 1027821
     refcounty: "12"
     refsettlement: "023"
+dunaalmas:
+    osmrelation: 1027793
+    refcounty: "12"
+    refsettlement: "025"
 esztergom:
     osmrelation: 1027785
     refcounty: "12"
