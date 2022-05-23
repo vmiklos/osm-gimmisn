@@ -239,6 +239,7 @@ fn test_update_missing_housenumbers() {
             },
         },
         "relation-gazdagret.yaml": {
+            "housenumber-letters": true,
         },
         "relation-ujbuda.yaml": {
             "missing-streets": "only",
@@ -250,6 +251,7 @@ fn test_update_missing_housenumbers() {
     let html_cache1 = context::tests::TestFileSystem::make_file();
     let html_cache2 = context::tests::TestFileSystem::make_file();
     let txt_cache = context::tests::TestFileSystem::make_file();
+    let ref_housenumbers = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -259,10 +261,20 @@ fn test_update_missing_housenumbers() {
             ("workdir/gazdagret.htmlcache.en", &html_cache1),
             ("workdir/gazdagret.htmlcache.hu", &html_cache2),
             ("workdir/gazdagret.txtcache", &txt_cache),
+            (
+                "workdir/street-housenumbers-reference-gazdagret.lst",
+                &ref_housenumbers,
+            ),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
+    file_system
+        .write_from_string(
+            "Tűzkő utca\t1/A\t",
+            &ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"),
+        )
+        .unwrap();
     let path1 = ctx.get_abspath("workdir/gazdagret.percent");
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(path1.to_string(), Rc::new(RefCell::new(0_f64)));
@@ -282,7 +294,8 @@ fn test_update_missing_housenumbers() {
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
-    let expected: String = "36.36".into();
+    // Only one housenumber and it's missing.
+    let expected: String = "0.00".into();
 
     update_missing_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
 
@@ -298,6 +311,14 @@ fn test_update_missing_housenumbers() {
     // Make sure housenumber stat is not created for the streets=only case.
     let mut guard = count_file2.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, false);
+
+    // Check the letter sufix style: should be 1a, not 1/A.
+    let actual = ctx
+        .get_file_system()
+        .read_to_string(&ctx.get_abspath("workdir/gazdagret.txtcache"))
+        .unwrap();
+    let expected = "Tűzkő utca\t[1a]";
+    assert_eq!(actual, expected);
 }
 
 /// Tests update_missing_streets().

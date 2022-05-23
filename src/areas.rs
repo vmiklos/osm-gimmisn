@@ -397,7 +397,9 @@ impl Relation {
 
     /// Sets the config interface.
     pub fn set_config(&mut self, config: &RelationConfig) {
-        self.config = config.clone()
+        self.config = config.clone();
+        // config.letter_suffix_style possibly changed, empty the osm_housenumbers cache.
+        self.osm_housenumbers.clear();
     }
 
     /// Gets a street name -> ranges map, which allows silencing false positives.
