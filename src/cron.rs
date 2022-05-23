@@ -233,6 +233,12 @@ fn update_missing_housenumbers(
                 .context("get_missing_housenumbers_html() failed")?;
         }
         i18n::set_language(ctx, &orig_language);
+
+        // To be in sync with wsgi::missing_housenumbers_view_txt().
+        let mut config = relation.get_config().clone();
+        config.set_letter_suffix_style(util::LetterSuffixStyle::Lower);
+        relation.set_config(&config);
+
         cache::get_missing_housenumbers_txt(ctx, &mut relation)
             .context("get_missing_housenumbers_txt() failed")?;
     }
