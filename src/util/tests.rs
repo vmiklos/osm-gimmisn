@@ -175,7 +175,10 @@ fn test_build_reference_cache() {
         &ctx,
         &[("refdir/hazszamok_20190511.tsv-01-v1.cache", &cache)],
     );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    file_system.set_hide_paths(&[ctx.get_abspath("refdir/hazszamok_20190511.tsv-01-v1.cache")]);
+    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system);
 
     let refpath = ctx.get_abspath("refdir/hazszamok_20190511.tsv");
