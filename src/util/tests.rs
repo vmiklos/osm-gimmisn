@@ -767,3 +767,14 @@ fn test_get_lexical_sort_key() {
     strings.sort_by_key(|i| get_sort_key(i).unwrap());
     assert_eq!(strings, ["Kórház", "Kőpor"]);
 }
+
+/// Tests split_house_number_by_separator().
+#[test]
+fn test_split_house_number_by_separator() {
+    let normalizer = ranges::Ranges::new(vec![ranges::Range::new(2, 4, "")]);
+
+    let ret = split_house_number_by_separator("2-6", "-", &normalizer);
+
+    assert_eq!(ret.0, vec![2]);
+    assert_eq!(ret.1, vec![2, 6]);
+}

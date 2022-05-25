@@ -1060,12 +1060,8 @@ pub fn split_house_number_by_separator(
     for house_number in house_numbers.split(separator) {
         let mut number: i64 = 0;
         if let Some(cap) = NUMBER_WITH_JUNK.captures_iter(house_number).next() {
-            match cap[1].parse::<i64>() {
-                Ok(value) => number = value,
-                Err(_) => {
-                    continue;
-                }
-            }
+            // If parse() fails, then NUMBER_WITH_JUNK is broken.
+            number = cap[1].parse::<i64>().unwrap();
         }
 
         ret_numbers_nofilter.push(number);
