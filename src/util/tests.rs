@@ -778,3 +778,46 @@ fn test_split_house_number_by_separator() {
     assert_eq!(ret.0, vec![2]);
     assert_eq!(ret.1, vec![2, 6]);
 }
+
+/// Tests get_valid_settlements().
+#[test]
+fn test_get_valid_settlements() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let citycounts_path = "refdir/varosok_count_20190717.tsv";
+    let citycounts = context::tests::TestFileSystem::make_file();
+    citycounts
+        .borrow_mut()
+        .write_all(b"CITY\tCNT\nmycity1\t1\nmycity2\t2\n")
+        .unwrap();
+    let files = context::tests::TestFileSystem::make_files(&ctx, &[(citycounts_path, &citycounts)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
+    let ret = get_valid_settlements(&ctx).unwrap();
+
+    let mut expected: HashSet<String> = HashSet::new();
+    expected.insert("mycity1".to_string());
+    expected.insert("mycity2".to_string());
+    assert_eq!(ret, expected);
+}
+
+/// Tests get_valid_settlements(): ignore broken lines.
+#[test]
+fn test_get_valid_settlements_error() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let citycounts_path = "refdir/varosok_count_20190717.tsv";
+    let citycounts = context::tests::TestFileSystem::make_file();
+    citycounts
+        .borrow_mut()
+        .write_all(b"CITY\tCNT\nmycity1\t1\nmycity2\n")
+        .unwrap();
+    let files = context::tests::TestFileSystem::make_files(&ctx, &[(citycounts_path, &citycounts)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
+    let ret = get_valid_settlements(&ctx).unwrap();
+
+    let mut expected: HashSet<String> = HashSet::new();
+    expected.insert("mycity1".to_string());
+    assert_eq!(ret, expected);
+}
