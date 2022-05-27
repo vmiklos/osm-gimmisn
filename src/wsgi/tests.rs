@@ -1877,10 +1877,21 @@ fn test_handle_invalid_refstreets_well_formed() {
 #[test]
 fn test_handle_invalid_refstreets_no_osm_sreets() {
     let mut test_wsgi = TestWsgi::new();
-    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
-    let relation = relations.get_relation("gazdagret").unwrap();
-    let hide_path = relation.get_files().get_osm_streets_path();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 2713748,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
     let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let hide_path = test_wsgi.ctx.get_abspath("workdir/streets-gazdagret.csv");
     file_system.set_hide_paths(&[hide_path]);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_arc);
