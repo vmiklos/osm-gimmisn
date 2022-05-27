@@ -821,3 +821,43 @@ fn test_get_valid_settlements_error() {
     expected.insert("mycity1".to_string());
     assert_eq!(ret, expected);
 }
+
+/// Tests that LetterSuffixStyle implementes the Debug trait.
+#[test]
+fn test_letter_suffix_style_debug() {
+    let style = LetterSuffixStyle::Upper;
+
+    let ret = format!("{:?}", style);
+
+    assert_eq!(ret, "Upper");
+}
+
+/// Tests that HouseNumberRange implements the Debug trait.
+#[test]
+fn test_house_number_range_debug() {
+    let range = HouseNumberRange::new("1", "");
+
+    let ret = format!("{:?}", range);
+
+    assert_eq!(ret.starts_with("HouseNumberRange"), true);
+}
+
+/// Tests that Street implements the Debug trait.
+#[test]
+fn test_street_debug() {
+    let street = Street::from_string("mystreet");
+
+    let ret = format!("{:?}", street);
+
+    assert_eq!(ret.starts_with("Street"), true);
+}
+
+/// Tests that HouseNumber implements the Debug trait.
+#[test]
+fn test_house_number_debug() {
+    let street = HouseNumber::new("1", "1-3", "");
+
+    let ret = format!("{:?}", street);
+
+    assert_eq!(ret.starts_with("HouseNumber"), true);
+}
