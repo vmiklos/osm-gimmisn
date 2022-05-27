@@ -598,7 +598,7 @@ fn handle_stats_cityprogress(
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     for result in csv_read.records() {
-        let row = result.with_context(|| format!("failed to read row in {}", path))?;
+        let row = result.context(format!("failed to read row in {}", path))?;
         let city = row.get(0).unwrap();
         let count: u64 = row.get(1).unwrap().parse()?;
         osm_citycounts.insert(city.into(), count);
@@ -1170,9 +1170,8 @@ pub fn handle_github_webhook(
     ctx: &context::Context,
 ) -> anyhow::Result<yattag::Doc> {
     let mut request_data = Vec::new();
-    if let Some(mut reader) = request.data() {
-        reader.read_to_end(&mut request_data)?;
-    }
+    let mut reader = request.data().context("data() gave None")?;
+    reader.read_to_end(&mut request_data)?;
 
     let pairs = url::form_urlencoded::parse(&request_data);
     let payloads: Vec<String> = pairs
