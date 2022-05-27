@@ -1007,7 +1007,8 @@ filters:
     # itt semmilyen bejegyzett cím nincs, ami jön a govcenterből az fals
     ranges: []
   Bikszádi utca:
-    invalid: ['3', '5', '6', '8', '9', '12']
+    # 35: 35/a, 35/b
+    invalid: ['3', '6', '8', '12', '35']
     ranges:
       - {start: '1', end: '15'}
       - {start: '25', end: '39'}
