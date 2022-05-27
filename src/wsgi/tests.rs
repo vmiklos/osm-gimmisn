@@ -1902,6 +1902,36 @@ fn test_handle_invalid_refstreets_no_osm_sreets() {
     assert_eq!(results.is_empty(), false);
 }
 
+/// Tests handle_invalid_refstreets(): ignore relations which have empty invalid lists.
+#[test]
+fn test_handle_invalid_refstreets_no_invalids() {
+    let mut test_wsgi = TestWsgi::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let osm_streets = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/streets-myrelation.csv", &osm_streets),
+        ],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system);
+
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
+
+    let results = TestWsgi::find_all(&root, "body/h1/a");
+    assert_eq!(results.is_empty(), true);
+}
+
 /// Tests the not-found page: if the output is well-formed.
 #[test]
 fn test_not_found_well_formed() {
