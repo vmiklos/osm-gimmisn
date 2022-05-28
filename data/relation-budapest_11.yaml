@@ -54,7 +54,7 @@ filters:
     # 10: 10/a, 10/b
     # 26: 26/a, 26/b
     # 28: 28/a, 28/b
-    # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? TODO: 2021-10
+    # TODO 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? CHECK 2021-10
     # 40a, 40b: csak sima 40 van
     # 45: 45/a, 45/b
     # 51: 51/a, 51/b, 51/c
@@ -381,6 +381,7 @@ filters:
     # 61/a-c: 61 A,B,C épületek
     # 61z: KCR hirdetmény 2019.02.07 - megszűnt - https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2019_02/skmbt_28319020807520.pdf
     # 71/a: 71, 71/b
+    # TODO 77/a: 77 van kiírva, de még építkeznek. CHECK 2022-05-23
     # 79b: 77-79 újra lettek számozva, 79/b->79 lett belőle, 79->77/b
     # 85: 85/a, 85/b
     # páros ------------------------------------------------------------------
@@ -452,7 +453,7 @@ filters:
   Rupphegyi út:
     # páratlan oldal nincs beépítve
     # 6: a házszám sima 6, a telken belül vannak a,b,c,d,f épületek
-    # 8: nincs pecsenyesütő, th. épül, TODO 2022-03
+    # TODO 8: nincs pecsenyesütő, th. épül, 2022-03
     # 11: a,b,c,d épületek
     # 40/b: nincs ilyen
     # 70: nincsenek megállapított házszámok, csak helyrajzi számok, ez egy régi házszám a spanyolréti oldalon
@@ -1916,7 +1917,7 @@ filters:
     # 4ab: van a és b épület de a házszám csak 4
     invalid: ['2', '3', '4a', '4b']
   Lépés utca:
-    # Van egy ikerház egyik fele 12b másik fele nincs kiírva - 2020.01.21
+    # 12 TODO: Van egy ikerház egyik fele 12b másik fele nincs kiírva 2020-01-21
     invalid: ['12']
   Lucerna köz:
     # 6a, 6c: nincs épület. KCR szerint is csak sima 6 van.
@@ -1973,7 +1974,7 @@ filters:
     # 2 = Keltike lejtő 15
     invalid: ['2']
   Söjtör utca:
-    # 1-es címen ikerház van, csak 1-es van kiírva - 2020.01.21
+    # 1-es címen ikerház van, csak 1-es van kiírva
     invalid: ['1a', '1b']
   Virágkertész utca:
     # 4c =:4 C. épület
@@ -2912,10 +2913,10 @@ filters:
     # 6/2: csak sima 6 van "Géza-udvar"
     invalid: ['6/2']
   Elek utca:
-    # TODO: 3: 3a, 3b de építkeznek a 3/a helyén 2020-07
+    # TODO: 3: 3a, 3b. 3/a helyén nincs kiírva semmi. CHECK 2022-05-23
     # 9: 9a, 9b
     # 28a: csak sima
-    invalid: ['9', '28a']
+    invalid: ['3', '9', '28a']
     ranges:
       - {start: '1', end: '15'}
       - {start: '2', end: '28'}
