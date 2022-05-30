@@ -699,7 +699,7 @@ fn handle_stats_zipprogress(
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     for result in csv_read.records() {
-        let row = result.with_context(|| format!("failed to read row in {}", path))?;
+        let row = result.context(format!("failed to read row in {}", path))?;
         let zip = row.get(0).unwrap();
         let count: u64 = row.get(1).unwrap().parse()?;
         osm_zipcounts.insert(zip.into(), count);
