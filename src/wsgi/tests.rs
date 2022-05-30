@@ -1811,12 +1811,23 @@ fn test_handle_stats_cityprogress_well_formed() {
     let time = context::tests::make_test_time();
     let time_arc: Arc<dyn context::Time> = Arc::new(time);
     test_wsgi.ctx.set_time(&time_arc);
+    let citycount_value = context::tests::TestFileSystem::make_file();
+    citycount_value
+        .borrow_mut()
+        .write_all(b"budapest_11\t11\nbudapest_12\t12\n")
+        .unwrap();
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("workdir/stats/2020-05-10.citycount", &citycount_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.ctx.set_file_system(&file_system);
 
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/cityprogress");
 
     let results = TestWsgi::find_all(&root, "body/table/tr");
-    // header; also budapest_11 is both in ref and osm
-    assert_eq!(results.len(), 2);
+    // header; also budapest_11/budapest_12 are both in ref and osm
+    assert_eq!(results.len(), 3);
 }
 
 /// Tests handle_stats_zipprogress(): if the output is well-formed.
