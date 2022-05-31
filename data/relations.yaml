@@ -452,6 +452,11 @@ telkibanya:
     osmrelation: 1280993
     refcounty: "05"
     refsettlement: "313"
+# 06 - Csongrád-Csanád megye
+csongrad:
+    osmrelation: 1025084  # Csongrád egész
+    refcounty: "06"
+    refsettlement: "013"
 # 07 - Fejér megye
 gardony:
     osmrelation: 1418516  # Gárdony egész
