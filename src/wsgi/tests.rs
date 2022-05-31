@@ -1839,7 +1839,10 @@ fn test_handle_stats_zipprogress_well_formed() {
     test_wsgi.ctx.set_time(&time_arc);
 
     let zips_value = context::tests::TestFileSystem::make_file();
-    zips_value.borrow_mut().write_all(b"1111\t10\n").unwrap();
+    zips_value
+        .borrow_mut()
+        .write_all(b"1111\t10\n1121\t20\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[("workdir/stats/2020-05-10.zipcount", &zips_value)],
@@ -1850,8 +1853,8 @@ fn test_handle_stats_zipprogress_well_formed() {
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/zipprogress");
 
     let results = TestWsgi::find_all(&root, "body/table/tr");
-    // header; also 1111 is both in ref and osm
-    assert_eq!(results.len(), 2);
+    // header; also 1111/1121 is both in ref and osm
+    assert_eq!(results.len(), 3);
 }
 
 /// Tests handle_invalid_refstreets(): if the output is well-formed.
