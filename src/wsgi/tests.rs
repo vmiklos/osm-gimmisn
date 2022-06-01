@@ -2235,3 +2235,84 @@ fn test_handle_main_street_additional_count() {
 
     assert_eq!(doc.get_value().contains("42 streets"), true);
 }
+
+/// Tests handle_main_filters_refcounty().
+#[test]
+fn test_handle_main_filters_refcounty() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "refcounty-names.yaml": {
+            "01": "Budapest",
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let relations = areas::Relations::new(&ctx).unwrap();
+
+    let ret = handle_main_filters_refcounty(&ctx, &relations, "", "01").unwrap();
+
+    assert_eq!(
+        ret.get_value(),
+        "<a href=\"/osm/filter-for/refcounty/01/whole-county\">Budapest</a>"
+    );
+}
+
+/// Tests handle_main_filters_refcounty(), the case when refcounty_id is non-empty.
+#[test]
+fn test_handle_main_filters_refcounty_filter() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "refcounty-names.yaml": {
+            "01": "Budapest",
+        },
+        "refsettlement-names.yaml": {
+            "01": {
+                "011": "Ujbuda",
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let relations = areas::Relations::new(&ctx).unwrap();
+
+    let ret = handle_main_filters_refcounty(&ctx, &relations, "01", "01").unwrap();
+
+    assert_eq!(ret.get_value(), "<a href=\"/osm/filter-for/refcounty/01/whole-county\">Budapest</a> (<a href=\"/osm/filter-for/refcounty/01/refsettlement/011\">Ujbuda</a>)");
+}
+
+/// Tests handle_main_filters_refcounty(), the case when refcounty_id is non-empty, but the county
+/// has no settlements.
+#[test]
+fn test_handle_main_filters_refcounty_filter_no_settlements() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "refcounty-names.yaml": {
+            "01": "Budapest",
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let relations = areas::Relations::new(&ctx).unwrap();
+
+    let ret = handle_main_filters_refcounty(&ctx, &relations, "01", "01").unwrap();
+
+    assert_eq!(
+        ret.get_value(),
+        "<a href=\"/osm/filter-for/refcounty/01/whole-county\">Budapest</a>"
+    );
+}
