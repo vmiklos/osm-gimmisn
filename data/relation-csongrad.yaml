@@ -1,0 +1,19 @@
+missing-streets: 'yes'
+street-filters: []
+refstreets:
+  'Bolyai János utca': 'Bólyai János utca'
+  'Csáky György utca': 'Csáki György utca'
+  'Csokonai Vitéz Mihály utca': 'Csokonai utca'
+  'Dohány sor': 'Dohány sor utca'
+  'Gróf Andrássy Gyula utca': 'Gr. Andrássy Gyula utca'
+  'Gróf Apponyi Albert utca': 'Gr. Apponyi Albert utca'
+  'Jósika utca': 'Jósika Miklós utca'
+  'Kis Tisza utca': 'Kis-Tisza utca'
+  'Klauzál Gábor utca': 'Klauzál utca'
+  'Nyilt utca': 'Nyílt utca'
+  'Ordódy Pál rakpart': 'Ordódy rakpart'
+  'Pálffy János utca': 'Pálffy utca'
+  'Szántó Kóvács János utca': 'Szántó Kovács János utca'
+  'Széchenyi utca': 'Széchenyi út'
+source: survey
+inactive: false
