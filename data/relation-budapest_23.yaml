@@ -36,7 +36,7 @@ refstreets:
   'Új élet utca': 'Új Élet utca'
   'Vízisport utca': 'Vízisport út'
   'Wagner utca': 'Wágner utca'
-  # tábla hibés
+  # tábla hibás
   'Horgász part köz': 'Horgászpart köz'
 source: survey
 inactive: true
