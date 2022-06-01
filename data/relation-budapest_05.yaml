@@ -210,6 +210,7 @@ filters:
 source: survey
 osm-street-filters:
   # Nem igazi utcák
+  - Ferencziek Bazára
   - Károlyi kert
   - Olimpia park
   - Széchenyi lánchíd
