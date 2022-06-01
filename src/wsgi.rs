@@ -1026,6 +1026,9 @@ fn setup_main_filter_for(request_uri: &str) -> (Box<RelationFilter>, String) {
 }
 
 /// Handles one refcounty in the filter part of the main wsgi page.
+///
+/// refcounty_id is the county we filter for.
+/// refcounty is one item in the county list.
 fn handle_main_filters_refcounty(
     ctx: &context::Context,
     relations: &areas::Relations,
