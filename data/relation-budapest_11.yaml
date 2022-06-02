@@ -214,8 +214,8 @@ filters:
     # 2 nincs, a többi helyrajzi szám az is a Péterhegyi dűlőhöz tartozik
     ranges: []
   Fadrusz utca:
-    # 11,11b: TODO: 2021-04-15 még tart az építkezés, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami
-    # invalid: ['11', '11b']
+    # 11,11b: TODO: 2022-06-01 felépült, de még nincs kint házszám, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami
+    invalid: ['11', '11b']
     ranges:
       - {start: '1', end: '31'}
       - {start: '2', end: '38'}
