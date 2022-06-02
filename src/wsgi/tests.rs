@@ -1294,7 +1294,6 @@ fn test_missing_streets_view_result_txt() {
             },
         },
         "relation-gazdagret.yaml": {
-            "street-filters": ["Only In Ref Nonsense utca"],
             "refstreets": {
                 "OSM Name 1": "Ref Name 1",
             },
@@ -1310,7 +1309,7 @@ fn test_missing_streets_view_result_txt() {
 
     let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
 
-    assert_eq!(result, "Only In Ref utca\n");
+    assert_eq!(result, "Only In Ref Nonsense utca\nOnly In Ref utca\n");
 }
 
 /// Tests the missing streets page: the chkl output.
