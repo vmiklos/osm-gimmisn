@@ -111,7 +111,7 @@ check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/y
 	cargo tarpaulin --lib -v --skip-clean --fail-under 100 --target-dir ${PWD}/target-cov ${CARGO_OPTIONS}
 
 check-unit-llvm: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/yamls.cache
-	cargo llvm-cov --lib -q --ignore-filename-regex system.rs --html --fail-under-lines 100
+	cargo llvm-cov --lib -q --ignore-filename-regex system.rs --html --fail-under-lines 100 ${CARGO_OPTIONS} -- --test-threads=1
 
 src/browser/config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
