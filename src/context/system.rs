@@ -19,7 +19,6 @@ use isahc::RequestExt as _;
 pub struct StdFileSystem {}
 
 // Real file-system is intentionally mocked.
-#[cfg(not(tarpaulin_include))]
 impl FileSystem for StdFileSystem {
     fn path_exists(&self, path: &str) -> bool {
         Path::new(path).exists()
@@ -72,7 +71,6 @@ impl FileSystem for StdFileSystem {
 pub struct StdNetwork {}
 
 // Real network is intentionally mocked.
-#[cfg(not(tarpaulin_include))]
 impl Network for StdNetwork {
     fn urlopen(&self, url: &str, data: &str) -> anyhow::Result<String> {
         if !data.is_empty() {
@@ -99,7 +97,6 @@ impl Network for StdNetwork {
 pub struct StdTime {}
 
 // Real time is intentionally mocked.
-#[cfg(not(tarpaulin_include))]
 impl Time for StdTime {
     fn now(&self) -> i64 {
         let now = chrono::Local::now();
@@ -119,7 +116,6 @@ impl Time for StdTime {
 pub struct StdSubprocess {}
 
 // Real processes are intentionally mocked.
-#[cfg(not(tarpaulin_include))]
 impl Subprocess for StdSubprocess {
     fn run(&self, args: Vec<String>) -> anyhow::Result<String> {
         let (first, rest) = args
