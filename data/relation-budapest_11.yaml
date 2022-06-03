@@ -1212,7 +1212,7 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '10'}
   Kopaszi gát:
-    invalid: ['10']
+    invalid: ['11']
   Kovászna utca:
     invalid: ['4', '4c']
     ranges:
