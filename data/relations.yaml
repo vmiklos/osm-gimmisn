@@ -543,6 +543,10 @@ csolnok:
     osmrelation: 1027815
     refcounty: "12"
     refsettlement: "020"
+dag:
+    osmrelation: 1027830
+    refcounty: "12"
+    refsettlement: "022"
 domos:
     osmrelation: 1027819
     refcounty: "12"
