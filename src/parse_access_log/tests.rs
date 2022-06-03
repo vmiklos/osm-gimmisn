@@ -23,9 +23,6 @@ use context::FileSystem as _;
 #[test]
 fn test_check_top_edited_relations() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let old_citycount = b"foo\t0\n\
 city1\t0\n\
 city2\t0\n\
@@ -115,9 +112,6 @@ fn test_main() {
     let argv = ["".to_string(), "tests/mock/access_log".to_string()];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let relations_path = ctx.get_abspath("data/relations.yaml");
     // 2020-05-09, so this will be recent
     let expected_args = format!("git blame --line-porcelain {}", relations_path);

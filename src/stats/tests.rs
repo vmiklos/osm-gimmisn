@@ -24,9 +24,6 @@ fn make_test_time_old() -> context::tests::TestTime {
 #[test]
 fn test_handle_progress() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -54,9 +51,6 @@ fn test_handle_progress() {
 #[test]
 fn test_handle_capital_progress() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let mut file_system = context::tests::TestFileSystem::new();
     let city_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
@@ -129,10 +123,7 @@ fn test_handle_capital_progress_old_time() {
 /// Tests handle_topusers().
 #[test]
 fn test_handle_topusers() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_topusers(&ctx, &src_root, &mut j).unwrap();
@@ -159,9 +150,6 @@ fn test_handle_topusers_old_time() {
 #[test]
 fn test_handle_topusers_broken_input() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let today_topusers = b"myuser\n";
     let today_topusers_value = context::tests::TestFileSystem::make_file();
     today_topusers_value
@@ -185,9 +173,6 @@ fn test_handle_topusers_broken_input() {
 #[test]
 fn test_handle_topcities() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let src_root = ctx.get_abspath("workdir/stats");
     let today_citycount = b"budapest_01\t100\n\
 budapest_02\t200\n";
@@ -213,10 +198,7 @@ budapest_02\t200\n";
 /// Tests handle_daily_new().
 #[test]
 fn test_hanle_daily_new() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     // From now on, today is 2020-05-10, so this will read 2020-04-26, 2020-04-27, etc
@@ -230,10 +212,7 @@ fn test_hanle_daily_new() {
 /// Tests handle_daily_new(): the case when the day range is empty.
 #[test]
 fn test_handle_daily_new_empty_day_range() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_daily_new(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
@@ -244,10 +223,7 @@ fn test_handle_daily_new_empty_day_range() {
 /// Tests handle_monthly_new().
 #[test]
 fn test_handle_monthly_new() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ 12).unwrap();
@@ -262,10 +238,7 @@ fn test_handle_monthly_new() {
 /// Tests handle_monthly_new(): the case when the month range is empty.
 #[test]
 fn test_handle_monthly_new_empty_month_range() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ -1).unwrap();
@@ -277,9 +250,6 @@ fn test_handle_monthly_new_empty_month_range() {
 #[test]
 fn test_handle_monthly_new_incomplete_last_month() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     // This would be the data for the current state of the last, incomplete month.
@@ -300,10 +270,7 @@ fn test_handle_monthly_new_incomplete_last_month() {
 /// Tests handle_daily_total().
 #[test]
 fn test_handle_daily_total() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_daily_total(&ctx, &src_root, &mut j, /*day_range=*/ 13).unwrap();
@@ -315,10 +282,7 @@ fn test_handle_daily_total() {
 /// Tests handle_daily_total(): the case when the day range is empty.
 #[test]
 fn test_handle_daily_total_empty_day_range() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_daily_total(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
@@ -329,10 +293,7 @@ fn test_handle_daily_total_empty_day_range() {
 /// Tests handle_user_total().
 #[test]
 fn test_handle_user_total() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_user_total(&ctx, &src_root, &mut j, /*day_range=*/ 13).unwrap();
@@ -344,10 +305,7 @@ fn test_handle_user_total() {
 /// Tests handle_user_total(): the case when the day range is empty.
 #[test]
 fn test_handle_user_total_empty_day_range() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_user_total(&ctx, &src_root, &mut j, /*day_range=*/ -1).unwrap();
@@ -358,10 +316,7 @@ fn test_handle_user_total_empty_day_range() {
 /// Tests handle_monthly_total().
 #[test]
 fn test_handle_monthly_total() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ 11).unwrap();
@@ -373,10 +328,7 @@ fn test_handle_monthly_total() {
 /// Tests handle_monthly_total(): the case when the day range is empty.
 #[test]
 fn test_handle_monthly_total_empty_day_range() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ -1).unwrap();
@@ -387,10 +339,7 @@ fn test_handle_monthly_total_empty_day_range() {
 /// Tests handle_monthly_total(): the case when the day range is of just one element.
 #[test]
 fn test_handle_monthly_total_one_element_day_range() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_monthly_total(&ctx, &src_root, &mut j, /*month_range=*/ 0).unwrap();
@@ -403,8 +352,8 @@ fn test_handle_monthly_total_one_element_day_range() {
 /// Tests get_previous_month().
 #[test]
 fn test_get_previous_month() {
-    let time: &dyn context::Time = &context::tests::make_test_time();
-    let today = time.now();
+    let ctx = context::tests::make_test_context().unwrap();
+    let today = ctx.get_time().now();
 
     let actual = chrono::NaiveDateTime::from_timestamp(get_previous_month(today, 2).unwrap(), 0);
 
@@ -416,9 +365,6 @@ fn test_get_previous_month() {
 #[test]
 fn test_get_topcities_test_old_missing() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let mut file_system = context::tests::TestFileSystem::new();
     let src_root = ctx.get_abspath("workdir/stats");
     file_system.set_hide_paths(&vec![format!("{}/2020-04-10.citycount", src_root)]);
@@ -432,9 +378,6 @@ fn test_get_topcities_test_old_missing() {
 #[test]
 fn test_get_topcities_test_new_missing() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let mut file_system = context::tests::TestFileSystem::new();
     let src_root = ctx.get_abspath("workdir/stats");
     file_system.set_hide_paths(&vec![format!("{}/2020-05-10.citycount", src_root)]);

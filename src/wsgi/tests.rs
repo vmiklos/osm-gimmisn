@@ -1807,9 +1807,6 @@ fn test_static_text() {
 #[test]
 fn test_handle_stats_cityprogress_well_formed() {
     let mut test_wsgi = TestWsgi::new();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    test_wsgi.ctx.set_time(&time_arc);
     let citycount_value = context::tests::TestFileSystem::make_file();
     citycount_value
         .borrow_mut()
@@ -1833,9 +1830,6 @@ fn test_handle_stats_cityprogress_well_formed() {
 #[test]
 fn test_handle_stats_zipprogress_well_formed() {
     let mut test_wsgi = TestWsgi::new();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    test_wsgi.ctx.set_time(&time_arc);
 
     let zips_value = context::tests::TestFileSystem::make_file();
     zips_value
