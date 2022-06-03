@@ -35,7 +35,6 @@ fn test_streets_view_result_txt() {
             "refstreets": {
                 "OSM Name 1": "Ref Name 1",
             },
-            "osm-street-filters": ["Second Only In OSM utca"],
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
@@ -48,7 +47,7 @@ fn test_streets_view_result_txt() {
 
     let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.txt");
 
-    assert_eq!(result, "Only In OSM utca\n");
+    assert_eq!(result, "Only In OSM utca\nSecond Only In OSM utca\n");
 }
 
 /// Tests additional streets: the chkl output.
