@@ -30,13 +30,11 @@ fn test_overpass_sleep_no_sleep() {
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
 
     overpass_sleep(&ctx);
 
-    let time = time_arc
+    let time = ctx
+        .get_time()
         .as_any()
         .downcast_ref::<context::tests::TestTime>()
         .unwrap();
@@ -62,13 +60,11 @@ fn test_overpass_sleep_need_sleep() {
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
 
     overpass_sleep(&ctx);
 
-    let time = time_arc
+    let time = ctx
+        .get_time()
         .as_any()
         .downcast_ref::<context::tests::TestTime>()
         .unwrap();
@@ -707,9 +703,6 @@ fn test_update_osm_streets_xml_as_csv() {
 #[test]
 fn test_update_stats() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let routes = vec![
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
@@ -797,9 +790,6 @@ fn test_update_stats() {
 #[test]
 fn test_update_stats_http_error() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/status",
         /*data_path=*/ "",
@@ -843,9 +833,6 @@ fn test_update_stats_http_error() {
 #[test]
 fn test_update_stats_no_overpass() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let routes = vec![
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
@@ -890,7 +877,8 @@ fn test_update_stats_no_overpass() {
 
     update_stats(&ctx, /*overpass=*/ false).unwrap();
 
-    let time = time_arc
+    let time = ctx
+        .get_time()
         .as_any()
         .downcast_ref::<context::tests::TestTime>()
         .unwrap();
@@ -1073,9 +1061,6 @@ fn test_our_main_stats() {
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
-    let time = context::tests::make_test_time();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
     let today_csv = context::tests::TestFileSystem::make_file();

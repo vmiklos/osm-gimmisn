@@ -24,6 +24,9 @@ pub fn make_test_context() -> anyhow::Result<Context> {
     let file_system = TestFileSystem::new();
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
+    let time = TestTime::new(2020, 5, 10);
+    let time_arc: Arc<dyn Time> = Arc::new(time);
+    ctx.set_time(&time_arc);
 
     Ok(ctx)
 }
@@ -194,11 +197,6 @@ impl FileSystem for TestFileSystem {
 
         Ok(contents)
     }
-}
-
-/// Generates unix timestamp for 2020-05-10.
-pub fn make_test_time() -> TestTime {
-    TestTime::new(2020, 5, 10)
 }
 
 /// Time implementation, for test purposes.
