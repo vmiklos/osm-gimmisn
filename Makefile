@@ -84,6 +84,7 @@ CARGO_OPTIONS += --color always
 ifndef V
 	QUIET_MSGFMT = @echo '   ' MSGMFT $@;
 	QUIET_ESLINT = @echo '   ' ESLINT $@;
+	QUIET_WEBPACK = @echo '   ' WEBPACK $@;
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
 endif
 
@@ -108,9 +109,6 @@ build: $(RS_OBJECTS) Cargo.toml Makefile
 
 # Without coverage: cargo test --lib
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/yamls.cache
-	cargo tarpaulin --lib -v --skip-clean --fail-under 100 --target-dir ${PWD}/target-cov ${CARGO_OPTIONS}
-
-check-unit-llvm: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/yamls.cache
 	cargo llvm-cov --lib -q --ignore-filename-regex system.rs --html --fail-under-lines 100 ${CARGO_OPTIONS} -- --test-threads=1
 
 src/browser/config.ts: wsgi.ini Makefile
@@ -124,7 +122,7 @@ endif
 
 builddir/bundle.js: $(TS_OBJECTS) package-lock.json Makefile
 	mkdir -p builddir
-	npx webpack ${WEBPACK_OPTIONS} --config webpack.config.js
+	$(QUIET_WEBPACK)npx webpack ${WEBPACK_OPTIONS} --config webpack.config.js
 	touch $@
 
 package-lock.json: package.json
