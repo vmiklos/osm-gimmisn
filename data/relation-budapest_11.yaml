@@ -1410,6 +1410,13 @@ filters:
     ranges:
       - {start: '1', end: '59'}
       - {start: '2', end: '80'}
+  Vahot utca:
+    # 2 = Tétényi út 63
+    # 4: nincs
+    # 6 = Etele út 55
+    # 8 = Díjbeszedő
+    # 10: terepen 10/a, 10/b, 10/c. földhivatal szerint 10.
+    invalid: ['2', '4', '6']
   Vasút utca:
     invalid: ['1', '1b', '1c']
     ranges:
