@@ -390,6 +390,13 @@ filters:
     # 2: ez és a Tegzes utca 14. közös telken van, házszám a Tegzes utcáról van csak.
     # 6: sima 6 nincs, csak 6/1, 6/2.
     invalid: ['1', '5', '2', '6']
+  Panoráma utca:
+    # 31: sima 31 nincs, csak 31/A, 31/B.
+    # 12: sima 12 nincs, csak 12/A, 12/B.
+    # 22: ez és az Aranyfácán utca 1. közös telken van, házszám az Aranyfácán utcáról van csak.
+    # 34/A: ez és a Kerékgyártó út 2. közös telken van, de házszámot sehonnan sem láttam.
+    # 34/B: ez és a Kerékgyártó út 1. közös telken van, házszám a Kerékgyártó útról van csak.
+    invalid: ['31', '12', '22', '34b']
   Páva utca:
     # 1: ez és a Bem József utca 13-15. közös telken van, házszám a Bem József utcáról van csak.
     # 2: ez és a Bem József utca 17. közös telken van, házszám a Bem József utcáról van csak.
@@ -428,8 +435,13 @@ filters:
     # 456/B: a páros oldalon a 162 az utolsó házszám.
     invalid: ['97', '99b', '149', '151', '155', '18e', '76b', '78b', '122', '136a', '140', '456b']
   Plébánia utca:
+    # 63: sima 63 nincs, csak 63/A, 63/B.
+    # 10: az utcatábla szerint ez a Törley birtok, de a Plébánia utca felől végig fal van.
     # 18: sima 18 nincs, csak 18/A, 18/B.
-    invalid: ['18']
+    # 20/A: a telek középen el van választva kerítéssel, de mindkét félre sima 20 van kitáblázva.
+    # 20/B: a telek középen el van választva kerítéssel, de mindkét félre sima 20 van kitáblázva.
+    # 36/A: nincs kitáblázva, de a 36 és a 38 között van egy nagyon benőtt szolgalmi út, és az ortofotón is csak fák látszanak a telken.
+    invalid: ['63', '10', '18']
   Pogány utca:
     # 1: ez, a Zombori utca 6. és a Bárány utca 20. közös telken van, házszám a Zombori utcáról és a Bárány utcáról van csak.
     # 7/A: nincs ilyen, csak sima 7 van.
