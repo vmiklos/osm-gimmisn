@@ -2,5 +2,5 @@ missing-streets: 'yes'
 source: survey
 street-filters:
   - Bindery tanya  # Fent van pontként, illetve Binderpuszta farmként
-  - Kiscsév puszta # Fent van Kiscsévpuszta néven famként
+  - Kiscsév puszta # Fent van Kiscsévpuszta néven farmként
 inactive: true
