@@ -35,15 +35,33 @@ fn test_relations() {
 #[test]
 fn test_relations_missing_osmrelation() {
     // Set up arguments.
-    let argv: &[String] = &[
-        "".into(),
-        "tests/data/relations-missing-osmrelation/relations.yaml".into(),
-    ];
+    let relations_yaml_path = "data/relations-missing-osmrelation/relations.yaml";
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let argv: &[String] = &["".into(), ctx.get_abspath(relations_yaml_path)];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-    let ctx = context::tests::make_test_context().unwrap();
+    let relations_yaml = context::tests::TestFileSystem::make_file();
+    relations_yaml
+        .borrow_mut()
+        .write_all(
+            br#"gazdagret:
+# osmrelation is intentionally missing.
+    refcounty: "01"
+    refsettlement: "011"
+"#,
+        )
+        .unwrap();
+    let files =
+        context::tests::TestFileSystem::make_files(&ctx, &[(relations_yaml_path, &relations_yaml)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
     let ret = main(argv, &mut buf, &ctx);
+
     assert_eq!(ret, 1);
-    let expected = "missing key 'gazdagret.osmrelation'\nfailed to validate tests/data/relations-missing-osmrelation/relations.yaml\n";
+    let expected = format!(
+        "missing key 'gazdagret.osmrelation'\nfailed to validate {}\n",
+        ctx.get_abspath(relations_yaml_path)
+    );
     assert_eq!(String::from_utf8(buf.into_inner()).unwrap(), expected);
 }
 
