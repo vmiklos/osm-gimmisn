@@ -29,5 +29,10 @@ refstreets:
   'Homokiszőlő dűlő': 'Homokiszőlő dűlőút'  # nincs tábla
   'Kis-Káros-híd utca': 'Kis Károshíd utca'  # note
   'Nagy-Káros-híd dűlő': 'Nagy Károshíd dűlő'  # nincs tábla
+osm-street-filters:
+  # nem igazi utcák
+  - Hiányos turistajelzés
+  - Szilas-patak menti kerékpárút
+  #
 source: survey
 inactive: true
