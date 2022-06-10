@@ -128,6 +128,10 @@ filters:
     invalid: ['27']
   Evetke út:
     invalid: ['12']
+  Farkasvölgyi út:
+    # 2 nincs
+    # 9 = Svájci út 13
+    invalid: ['2', '9']
   Gaál József út:
     # at least 70-72 looks invalid
     ranges:
@@ -255,6 +259,12 @@ filters:
   Meredek utca:
     ranges:
       - {start: '1', end: '41'}
+  Mese köz:
+    # 1-5, 2-10
+    invalid: ['11', '12', '13']
+  Mese utca:
+    # 1-15, 2-14
+    invalid: ['21']
   Moha utca:
     # 4-6: csak 4 van kiírva
     # 13: 11-13 helyén 1 db ház épül, régi 11-es szám van kint, 13-as kerítés elbontva
@@ -361,6 +371,9 @@ filters:
     ranges:
       - {start: '7', end: '29'}
       - {start: '2', end: '14'}
+  Tearózsa utca:
+    # no labeled houses in this street
+    invalid: ['9']
   Temes utca:
     ranges:
       - {start: '2', end: '2'}
@@ -412,15 +425,6 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '10'}
-  Tearózsa utca:
-    # no labeled houses in this street
-    invalid: ['9']
-  Mese köz:
-    # 1-5, 2-10
-    invalid: ['11', '12', '13']
-  Mese utca:
-    # 1-15, 2-14
-    invalid: ['21']
 street-filters:
   # Csillebérc létező ösvények, a path szűrés miatt nem dobja fel
   - Pipacs ösvény
