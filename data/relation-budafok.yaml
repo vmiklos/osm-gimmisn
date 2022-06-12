@@ -423,6 +423,9 @@ filters:
   Péter Pál utca:
     # 97: a 95 után közvetlenül a 99/C következik, nincs 97.
     # 99/B: a 95 után közvetlenül a 99/C következik, nincs 99/B.
+    # 107: ez és az Arany János utca 54/b közös telken van, házszám az Arany János utcáról van csak.
+    # 127: ez és az Arany János utca 76. közös telken van, házszám az Arany János utcáról van csak.
+    # 129: ez és az Arany János utca 78. közös telken van, házszám az Arany János utcáról van csak.
     # 149: sima 149 nincs, csak 149/A, 149/B.
     # 151: sima 151 nincs, csak 151/A, 151/B.
     # 155: sima 155 nincs, csak 155/A, 155/B.
@@ -433,7 +436,7 @@ filters:
     # 136/A: csak sima 136 és 136/B van kitáblázva.
     # 140: sima 155 nincs, csak 140/A, 140/B.
     # 456/B: a páros oldalon a 162 az utolsó házszám.
-    invalid: ['97', '99b', '149', '151', '155', '18e', '76b', '78b', '122', '136a', '140', '456b']
+    invalid: ['97', '99b', '107', '127', '129', '149', '151', '155', '18e', '76b', '78b', '122', '136a', '140', '456b']
   Plébánia utca:
     # 63: sima 63 nincs, csak 63/A, 63/B.
     # 10: az utcatábla szerint ez a Törley birtok, de a Plébánia utca felől végig fal van.
