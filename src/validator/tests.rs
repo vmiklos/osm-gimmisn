@@ -103,16 +103,34 @@ fn test_relations_missing_refcounty() {
 #[test]
 fn test_relations_missing_refsettlement() {
     // Set up arguments.
-    let argv: &[String] = &[
-        "".into(),
-        "tests/data/relations-missing-refsettlement/relations.yaml".into(),
-    ];
+    let relations_yaml_path = "data/relations-missing-refsettlements/relations.yaml";
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let argv: &[String] = &["".into(), ctx.get_abspath(relations_yaml_path)];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-    let ctx = context::tests::make_test_context().unwrap();
+    let relations_yaml = context::tests::TestFileSystem::make_file();
+    relations_yaml
+        .borrow_mut()
+        .write_all(
+            br#"gazdagret:
+    osmrelation: 42
+    refcounty: "01"
+    # refsettlement is intentionally missing
+"#,
+        )
+        .unwrap();
+    let files =
+        context::tests::TestFileSystem::make_files(&ctx, &[(relations_yaml_path, &relations_yaml)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
     let ret = main(argv, &mut buf, &ctx);
+
     assert_eq!(ret, 1);
-    let expected = b"missing key 'gazdagret.refsettlement'\nfailed to validate tests/data/relations-missing-refsettlement/relations.yaml\n";
-    assert_eq!(buf.into_inner(), expected);
+    let expected = format!(
+        "missing key 'gazdagret.refsettlement'\nfailed to validate {}\n",
+        ctx.get_abspath(relations_yaml_path)
+    );
+    assert_eq!(String::from_utf8(buf.into_inner()).unwrap(), expected);
 }
 
 /// Tests the happy relation path.
