@@ -11,6 +11,8 @@
 //! Tests for the validator module.
 
 use super::*;
+use std::cell::RefCell;
+use std::rc::Rc;
 
 /// Tests main(): valid relations.
 #[test]
@@ -35,7 +37,7 @@ fn test_relations() {
 #[test]
 fn test_relations_missing_osmrelation() {
     // Set up arguments.
-    let relations_yaml_path = "data/relations-missing-osmrelation/relations.yaml";
+    let relations_yaml_path = "data/relations.yaml";
     let mut ctx = context::tests::make_test_context().unwrap();
     let argv: &[String] = &["".into(), ctx.get_abspath(relations_yaml_path)];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
@@ -69,7 +71,7 @@ fn test_relations_missing_osmrelation() {
 #[test]
 fn test_relations_missing_refcounty() {
     // Set up arguments.
-    let relations_yaml_path = "data/relations-missing-refcounty/relations.yaml";
+    let relations_yaml_path = "data/relations.yaml";
     let mut ctx = context::tests::make_test_context().unwrap();
     let argv: &[String] = &["".into(), ctx.get_abspath(relations_yaml_path)];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
@@ -103,7 +105,7 @@ fn test_relations_missing_refcounty() {
 #[test]
 fn test_relations_missing_refsettlement() {
     // Set up arguments.
-    let relations_yaml_path = "data/relations-missing-refsettlements/relations.yaml";
+    let relations_yaml_path = "data/relations.yaml";
     let mut ctx = context::tests::make_test_context().unwrap();
     let argv: &[String] = &["".into(), ctx.get_abspath(relations_yaml_path)];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
@@ -152,6 +154,26 @@ fn assert_failure_msg(path: &str, expected: &str) {
     let ctx = context::tests::make_test_context().unwrap();
     let ret = main(argv, &mut buf, &ctx);
     assert_eq!(ret, 1);
+    assert_eq!(String::from_utf8(buf.into_inner()).unwrap(), expected);
+}
+
+/// Asserts that a given input (path, content) fails with a given error message.
+fn assert_failure_msg2(
+    path: &str,
+    content: &Rc<RefCell<std::io::Cursor<Vec<u8>>>>,
+    expected: &str,
+) {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let argv: &[String] = &["".into(), ctx.get_abspath(path)];
+    let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+    let files = context::tests::TestFileSystem::make_files(&ctx, &[(path, &content)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
+    let ret = main(argv, &mut buf, &ctx);
+
+    assert_eq!(ret, 1);
+    let expected = expected.replace("{0}", &ctx.get_abspath(path));
     assert_eq!(String::from_utf8(buf.into_inner()).unwrap(), expected);
 }
 
@@ -362,8 +384,17 @@ fn test_relation_alias_bad() {
 /// Tests the relation path: bad type for the alias subkey.
 #[test]
 fn test_relation_filters_alias_bad_type() {
-    let expected = "failed to validate tests/data/relation-budafok-alias-bad-type.yaml\n\nCaused by:\n    alias: invalid type: string \"hello\", expected a sequence at line 1 column 8\n";
-    assert_failure_msg("tests/data/relation-budafok-alias-bad-type.yaml", expected);
+    let path = "data/relation-myrelation.yaml";
+    let content = context::tests::TestFileSystem::make_file();
+    content
+        .borrow_mut()
+        .write_all(
+            br#"alias: "hello"
+"#,
+        )
+        .unwrap();
+    let expected = "failed to validate {0}\n\nCaused by:\n    alias: invalid type: string \"hello\", expected a sequence at line 1 column 8\n";
+    assert_failure_msg2(path, &content, expected);
 }
 
 /// Tests the relation path: bad filters -> show-refstreet value type.
