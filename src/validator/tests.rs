@@ -158,11 +158,8 @@ fn assert_failure_msg(path: &str, expected: &str) {
 }
 
 /// Asserts that a given input (path, content) fails with a given error message.
-fn assert_failure_msg2(
-    path: &str,
-    content: &Rc<RefCell<std::io::Cursor<Vec<u8>>>>,
-    expected: &str,
-) {
+fn assert_failure_msg2(content: &Rc<RefCell<std::io::Cursor<Vec<u8>>>>, expected: &str) {
+    let path = "data/relation-myrelation.yaml";
     let mut ctx = context::tests::make_test_context().unwrap();
     let argv: &[String] = &["".into(), ctx.get_abspath(path)];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
@@ -377,14 +374,21 @@ Caused by:
 /// Tests the relation path: bad alias subkey.
 #[test]
 fn test_relation_alias_bad() {
-    let expected = "expected value type for 'alias[0]' is str\nfailed to validate tests/data/relation-budafok-alias-bad.yaml\n";
-    assert_failure_msg("tests/data/relation-budafok-alias-bad.yaml", expected);
+    let content = context::tests::TestFileSystem::make_file();
+    content
+        .borrow_mut()
+        .write_all(
+            br#"alias: [1]
+"#,
+        )
+        .unwrap();
+    let expected = "expected value type for 'alias[0]' is str\nfailed to validate {0}\n";
+    assert_failure_msg2(&content, expected);
 }
 
 /// Tests the relation path: bad type for the alias subkey.
 #[test]
 fn test_relation_filters_alias_bad_type() {
-    let path = "data/relation-myrelation.yaml";
     let content = context::tests::TestFileSystem::make_file();
     content
         .borrow_mut()
@@ -394,7 +398,7 @@ fn test_relation_filters_alias_bad_type() {
         )
         .unwrap();
     let expected = "failed to validate {0}\n\nCaused by:\n    alias: invalid type: string \"hello\", expected a sequence at line 1 column 8\n";
-    assert_failure_msg2(path, &content, expected);
+    assert_failure_msg2(&content, expected);
 }
 
 /// Tests the relation path: bad filters -> show-refstreet value type.
