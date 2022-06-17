@@ -347,9 +347,6 @@ fn missing_housenumbers_view_txt(
     tokens.next_back();
     let relation_name = tokens.next_back().unwrap();
     let mut relation = relations.get_relation(relation_name)?;
-    let mut config = relation.get_config().clone();
-    config.set_letter_suffix_style(util::LetterSuffixStyle::Lower);
-    relation.set_config(&config);
 
     let output: String;
     if !ctx
@@ -383,9 +380,6 @@ fn missing_housenumbers_view_chkl(
     tokens.next_back();
     let relation_name = tokens.next_back().unwrap();
     let mut relation = relations.get_relation(relation_name)?;
-    let mut config = relation.get_config().clone();
-    config.set_letter_suffix_style(util::LetterSuffixStyle::Lower);
-    relation.set_config(&config);
 
     let output: String;
     if !ctx

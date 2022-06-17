@@ -104,7 +104,6 @@ impl Default for RelationDict {
 pub struct RelationConfig {
     parent: RelationDict,
     dict: RelationDict,
-    letter_suffix_style: util::LetterSuffixStyle,
 }
 
 impl RelationConfig {
@@ -112,7 +111,6 @@ impl RelationConfig {
         RelationConfig {
             parent: parent_config.clone(),
             dict: my_config.clone(),
-            letter_suffix_style: util::LetterSuffixStyle::Upper,
         }
     }
 
@@ -193,16 +191,6 @@ impl RelationConfig {
             &self.dict.additional_housenumbers,
         )
         .unwrap_or(false)
-    }
-
-    /// Sets the letter suffix style.
-    pub fn set_letter_suffix_style(&mut self, letter_suffix_style: util::LetterSuffixStyle) {
-        self.letter_suffix_style = letter_suffix_style
-    }
-
-    /// Gets the letter suffix style.
-    fn get_letter_suffix_style(&self) -> util::LetterSuffixStyle {
-        self.letter_suffix_style
     }
 
     /// Returns an OSM name -> ref name map.
@@ -398,8 +386,6 @@ impl Relation {
     /// Sets the config interface.
     pub fn set_config(&mut self, config: &RelationConfig) {
         self.config = config.clone();
-        // config.letter_suffix_style possibly changed, empty the osm_housenumbers cache.
-        self.osm_housenumbers.clear();
     }
 
     /// Gets a street name -> ranges map, which allows silencing false positives.
@@ -1457,7 +1443,7 @@ fn normalize(
     let check_housenumber_letters =
         ret_numbers.len() == 1 && relation.config.should_check_housenumber_letters();
     if check_housenumber_letters && util::HouseNumber::has_letter_suffix(&house_numbers, &suffix) {
-        return normalize_housenumber_letters(relation, &house_numbers, &suffix, &comment);
+        return normalize_housenumber_letters(&house_numbers, &suffix, &comment);
     }
     Ok(ret_numbers
         .iter()
@@ -1469,13 +1455,11 @@ fn normalize(
 
 /// Handles the part of normalize() that deals with housenumber letters.
 fn normalize_housenumber_letters(
-    relation: &Relation,
     house_numbers: &str,
     suffix: &str,
     comment: &str,
 ) -> anyhow::Result<Vec<util::HouseNumber>> {
-    let style = relation.config.get_letter_suffix_style();
-    let normalized = util::HouseNumber::normalize_letter_suffix(house_numbers, suffix, style)?;
+    let normalized = util::HouseNumber::normalize_letter_suffix(house_numbers, suffix)?;
     Ok(vec![util::HouseNumber::new(
         &normalized,
         &normalized,

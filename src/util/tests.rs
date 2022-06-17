@@ -550,37 +550,41 @@ fn test_house_number_letter_suffix() {
 #[test]
 fn test_house_number_normalize_letter_suffix() {
     assert_eq!(
-        HouseNumber::normalize_letter_suffix("42a", "", LetterSuffixStyle::Upper).unwrap(),
+        HouseNumber::normalize_letter_suffix("42a", "").unwrap(),
         "42/A"
     );
     assert_eq!(
-        HouseNumber::normalize_letter_suffix("42 a", "", LetterSuffixStyle::Upper).unwrap(),
+        HouseNumber::normalize_letter_suffix("42 a", "").unwrap(),
         "42/A"
     );
     assert_eq!(
-        HouseNumber::normalize_letter_suffix("42/a", "", LetterSuffixStyle::Upper).unwrap(),
+        HouseNumber::normalize_letter_suffix("42/a", "").unwrap(),
         "42/A"
     );
     assert_eq!(
-        HouseNumber::normalize_letter_suffix("42/A", "", LetterSuffixStyle::Upper).unwrap(),
+        HouseNumber::normalize_letter_suffix("42/A", "").unwrap(),
         "42/A"
     );
     assert_eq!(
-        HouseNumber::normalize_letter_suffix("42/A*", "*", LetterSuffixStyle::Upper).unwrap(),
+        HouseNumber::normalize_letter_suffix("42/A*", "*").unwrap(),
         "42/A*"
     );
     assert_eq!(
-        HouseNumber::normalize_letter_suffix("42 A", "", LetterSuffixStyle::Upper).unwrap(),
+        HouseNumber::normalize_letter_suffix("42 A", "").unwrap(),
         "42/A"
     );
-    assert_eq!(
-        HouseNumber::normalize_letter_suffix("x", "", LetterSuffixStyle::Upper).is_err(),
-        true
-    );
-    assert_eq!(
-        HouseNumber::normalize_letter_suffix("42/A", "", LetterSuffixStyle::Lower).unwrap(),
-        "42a"
-    );
+    assert_eq!(HouseNumber::normalize_letter_suffix("x", "").is_err(), true);
+}
+
+/// Tests HouseNumberRange::get_lowercase_number().
+#[test]
+fn test_house_number_range_get_lowercase_number() {
+    let range = HouseNumberRange::new("42/A", "");
+    assert_eq!(range.get_lowercase_number(), "42a");
+    let range = HouseNumberRange::new("43b", "");
+    assert_eq!(range.get_lowercase_number(), "43b");
+    let range = HouseNumberRange::new("44/C*", "");
+    assert_eq!(range.get_lowercase_number(), "44c*");
 }
 
 /// Tests get_housenumber_ranges().
@@ -820,16 +824,6 @@ fn test_get_valid_settlements_error() {
     let mut expected: HashSet<String> = HashSet::new();
     expected.insert("mycity1".to_string());
     assert_eq!(ret, expected);
-}
-
-/// Tests that LetterSuffixStyle implementes the Debug trait.
-#[test]
-fn test_letter_suffix_style_debug() {
-    let style = LetterSuffixStyle::Upper;
-
-    let ret = format!("{:?}", style);
-
-    assert_eq!(ret, "Upper");
 }
 
 /// Tests that HouseNumberRange implements the Debug trait.

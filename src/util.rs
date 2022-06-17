@@ -38,15 +38,6 @@ lazy_static! {
     static ref GIT_HASH: regex::Regex = regex::Regex::new(r".*-g([0-9a-f]+)(-modified)?").unwrap();
 }
 
-/// Specifies the style of the output of normalize_letter_suffix().
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum LetterSuffixStyle {
-    /// "42/A"
-    Upper,
-    /// "42a"
-    Lower,
-}
-
 /// A house number range is a string that may expand to one or more HouseNumber instances in the
 /// future. It can also have a comment.
 #[derive(Clone, Debug)]
@@ -66,6 +57,18 @@ impl HouseNumberRange {
     /// Returns the house number (range) string.
     pub fn get_number(&self) -> &String {
         &self.number
+    }
+
+    /// Returns the house number string in '42a' form (as opposed to '42/A').
+    pub fn get_lowercase_number(&self) -> String {
+        let re = regex::Regex::new(r"^(.*[0-9]+)( |/)([A-Za-z])(.*)$").unwrap();
+        if let Some(cap) = re.captures_iter(&self.number).next() {
+            let prefix = cap[1].to_string();
+            let letter = cap[3].to_string();
+            let suffix = cap[4].to_string();
+            return format!("{}{}{}", prefix, letter.to_lowercase(), suffix);
+        }
+        self.number.to_string()
     }
 
     /// Returns the comment.
@@ -290,14 +293,12 @@ impl HouseNumber {
     pub fn normalize_letter_suffix(
         house_number: &str,
         source_suffix: &str,
-        style: LetterSuffixStyle,
     ) -> anyhow::Result<String> {
         let mut house_number: String = house_number.into();
         if !source_suffix.is_empty() {
             house_number = house_number[..house_number.len() - source_suffix.len()].into();
         }
         // Check for letter suffix.
-        let mut digit_match = false;
         let mut groups: Vec<String> = Vec::new();
         if let Some(cap) = NUMBER_PER_LETTER.captures_iter(&house_number).next() {
             for index in 1..=3 {
@@ -308,7 +309,6 @@ impl HouseNumber {
             }
         } else {
             // If not, then try digit suggfix, but then only '/' is OK as a separator.
-            digit_match = true;
             if let Some(cap) = NUMBER_PER_NUMBER.captures_iter(&house_number).next() {
                 for index in 1..=3 {
                     groups.push(cap[index].to_string());
@@ -319,12 +319,8 @@ impl HouseNumber {
         }
 
         let mut ret: String = groups[0].clone();
-        if style == LetterSuffixStyle::Upper || digit_match {
-            ret += "/";
-            ret += &groups[2].to_uppercase();
-        } else {
-            ret += &groups[2].to_lowercase();
-        }
+        ret += "/";
+        ret += &groups[2].to_uppercase();
         ret += source_suffix;
         Ok(ret)
     }
@@ -441,9 +437,9 @@ pub fn format_even_odd(only_in_ref: &[HouseNumberRange]) -> Vec<String> {
     let mut even: Vec<HouseNumberRange> = Vec::new();
     let mut odd: Vec<HouseNumberRange> = Vec::new();
     separate_even_odd(only_in_ref, &mut even, &mut odd);
-    let even_numbers: Vec<String> = even.iter().map(|i| i.get_number().clone()).collect();
+    let even_numbers: Vec<String> = even.iter().map(|i| i.get_lowercase_number()).collect();
     let even_string = even_numbers.join(", ");
-    let odd_numbers: Vec<String> = odd.iter().map(|i| i.get_number().clone()).collect();
+    let odd_numbers: Vec<String> = odd.iter().map(|i| i.get_lowercase_number()).collect();
     let mut elements: Vec<String> = Vec::new();
     let odd_string = odd_numbers.join(", ");
     if !odd_string.is_empty() {
