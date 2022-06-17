@@ -277,8 +277,10 @@ pub fn get_missing_housenumbers_txt(
     let mut table: Vec<String> = Vec::new();
     for result in ongoing_streets {
         let range_list = util::get_housenumber_ranges(&result.1);
-        let mut range_strings: Vec<String> =
-            range_list.iter().map(|i| i.get_number()).cloned().collect();
+        let mut range_strings: Vec<String> = range_list
+            .iter()
+            .map(|i| i.get_lowercase_number())
+            .collect();
         // Street name, only_in_reference items.
         let row: String = if !relation
             .get_config()

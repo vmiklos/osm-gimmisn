@@ -2520,40 +2520,6 @@ fn test_relation_config_should_check_missing_streets_default() {
     assert_eq!(ret, "yes");
 }
 
-/// Tests RelationConfig::get_letter_suffix_style().
-#[test]
-fn test_relation_config_get_letter_suffix_style() {
-    let relation_name = "myrelation";
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            relation_name: {
-                "refsettlement": "42",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let mut relations = Relations::new(&ctx).unwrap();
-    let mut relation = relations.get_relation(relation_name).unwrap();
-    assert_eq!(
-        relation.config.get_letter_suffix_style(),
-        util::LetterSuffixStyle::Upper
-    );
-    let mut config = relation.config.clone();
-    config.set_letter_suffix_style(util::LetterSuffixStyle::Lower);
-    relation.set_config(&config);
-    assert_eq!(
-        relation.config.get_letter_suffix_style(),
-        util::LetterSuffixStyle::Lower
-    );
-}
-
 /// Tests refcounty_get_name().
 #[test]
 fn test_refcounty_get_name() {
