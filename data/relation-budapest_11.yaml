@@ -963,13 +963,13 @@ filters:
     # 21: 21a,21b,21c,21d van
     # 23: 23/A: I,II,III lépcsőházak vannak
     # 27-31 egyben
-    # TODO: 2021-04: valami épül a 60-as után
-    invalid: ['21', '23', '52']
+    # 60 után 76: Solt 44 társasház egyik bejárata
+    invalid: ['21', '23', '52', '58']
     ranges:
       - {start: '1', end: '31'}
       - {start: '47', end: '49'}
-      - {start: '2', end: '54'}
-      - {start: '60', end: '78'}  # TODO
+      - {start: '2', end: '60'}
+      - {start: '76', end: '76'}
   Bajmóci utca:
     ranges:
       - {start: '1', end: '17'}
