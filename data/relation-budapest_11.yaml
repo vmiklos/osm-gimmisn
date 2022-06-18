@@ -1034,8 +1034,9 @@ filters:
       - {start: '12', end: '20'}
   Bornemissza utca:
     # 20: 20/a, 20/b
+    # 28: 28/a, 28/b
     # 31-37/a: 31 = Bornemissza tér 16, 37/a van
-    invalid: ['20', '31', '34a', '35a', '35b']
+    invalid: ['20', '28', '31', '34a', '35a', '35b']
     ranges:
       - {start: '1', end: '37'}
       - {start: '2', end: '34'}
