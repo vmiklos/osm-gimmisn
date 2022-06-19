@@ -188,6 +188,9 @@ filters:
       - {start: '1', end: '99'}
       - {start: '2', end: '36'}
       - {start: '42', end: '44'}
+  Járőr utca:
+    # 1-15, 2-12
+    invalid: ['31', '35']
   Kakukk út:
     ranges:
       - {start: '1', end: '23'}
