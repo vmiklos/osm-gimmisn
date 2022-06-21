@@ -1800,7 +1800,7 @@ filters:
     invalid: ['26']
   Bertalan Lajos utca:
     invalid: ['2z']
-  Bogdánfy Ödön utca:
+  Bogdánfy utca:
     ranges:
       - {start: '1', end: '7'}
       - {start: '2', end: '8'}
@@ -2971,7 +2971,6 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Alsóhegy lépcső': 'Alsóhegyi lépcső'  # tábla hiba
-  'Bogdánfy Ödön utca': 'Bogdánfy utca'
   'Boldizsár utca': 'Boldizsár út'
   'Citadella utca': 'Citadella út'  # Vegyesen vannak a táblák
   'Csíkihegyek utca': 'Csiki-hegyek utca'
