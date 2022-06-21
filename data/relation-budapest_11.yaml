@@ -1718,7 +1718,7 @@ filters:
   Löveg utca:
     # 2: 2/A, 2/B, 2/C van 1. és 2. lépcsőház mindenhol, ezért kell szűrni a 2-t (2/A/1 -> 2)
     # 3: egyik részénél 3/X másik részénél 3. X. épület formában van, egységesen vittem fel 3/X formában
-    invalid: ['2']
+    invalid: ['2', '3']
   Kánai út:
     # páros számok 4- egyelőre a tó van üres telkek, de még nem kezdődött az építkezés 2022-05
     # páratlan nagyobb számokat most kezdik beépíteni 2022-05
@@ -1750,6 +1750,9 @@ filters:
       - {start: '2', end: '8'}
   Tóváros út:
     interpolation: all
+  Vöröskúti határsor:
+    # XI. kerületi oldalon hrsz.
+    invalid: ['152/7']
   # Kőérberki dűlő +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   # túlnyomó részt helyrajzi számok, amelyek akár 2 jegyűek is lehetnek, mert itt indul Budapesten a hrsz. számozása 1-gyel
   Kőérberki dűlő:
