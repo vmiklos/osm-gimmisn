@@ -201,12 +201,13 @@ Caused by:
 /// Tests the relation path: bad toplevel key name.
 #[test]
 fn test_relation_bad_key_name() {
-    let expected = r#"failed to validate tests/data/relation-gazdagret-bad-key.yaml
+    let content = "invalid: 42\n";
+    let expected = r#"failed to validate {0}
 
 Caused by:
     unknown field `invalid`, expected one of `additional-housenumbers`, `alias`, `filters`, `housenumber-letters`, `inactive`, `missing-streets`, `osm-street-filters`, `osmrelation`, `refcounty`, `refsettlement`, `refstreets`, `street-filters`, `source` at line 1 column 1
 "#;
-    assert_failure_msg("tests/data/relation-gazdagret-bad-key.yaml", expected);
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad strfilters value type.
