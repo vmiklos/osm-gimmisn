@@ -1676,10 +1676,11 @@ filters:
     # 28b: csak sima 28 van
     # 44 = Mélykút utca 1
     # 58a = csak sima 58 van
+    # 58b = Hegyeshalom utca 2
     # 72: 72/a, 72/b
     # 80: 80/1, 80/2
     # 120 = Bazsalikom utca 2
-    invalid: ['10a', '24', '28b', '58a', '72', '80', '88b', '88c', '44', '120']
+    invalid: ['10a', '24', '28b', '58a', '58b', '72', '80', '88b', '88c', '44', '120']
     ranges:
       - {start: '2', end: '130'}
   Szabadharcosok útja:

@@ -69,7 +69,6 @@ refstreets:
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Fenyő út': 'Fenyő utca'
   'Ferenczi Béni utca': 'Ferenczy Béni utca'  # A házszámok nagy része az y-os írásmódon jön
-  'Halácsy út': 'Halácsy utca'
   # 'Hosszú utca': 'Hosszúkás utca' -- van másik Hosszú utca, nem lehet mappelni
   'Körös utca': 'Kőrös utca'
   'Lilaakác utca': 'Lila akác utca'
