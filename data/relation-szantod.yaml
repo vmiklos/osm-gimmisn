@@ -1,0 +1,10 @@
+missing-streets: 'yes'
+refstreets:
+  'Endrődi utca': 'Endrődi Sándor utca'
+  'Fűrész utca': 'Fürész utca'
+  'Gyulai Jenő utca': 'Gyulay Jenő utca'
+  'Vajda János utca': 'Vajda utca'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+source: survey
+housenumber-letters: false
+inactive: true
