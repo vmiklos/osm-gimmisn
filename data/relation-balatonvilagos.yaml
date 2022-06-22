@@ -1,0 +1,10 @@
+missing-streets: 'yes'
+refstreets:
+  'Dózsa György utca': 'Dózsa György út'
+  'Erdei Ferenc utca': 'Erdei utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Rákóczi Ferenc utca': 'Rákóczi út'
+  'Rózsa Ferenc utca': 'Rózsa utca'
+source: survey
+housenumber-letters: false
+inactive: true

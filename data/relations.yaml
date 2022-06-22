@@ -608,6 +608,10 @@ biatorbagy:
     osmrelation: 113461
     refcounty: "14"
     refsettlement: "011"
+budakalasz:
+    osmrelation: 216158
+    refcounty: "14"
+    refsettlement: "013"
 budaors:
     osmrelation: 113463
     refcounty: "14"
@@ -688,6 +692,10 @@ pilisvorosvar:
     osmrelation: 215943
     refcounty: "14"
     refsettlement: "112"
+pomaz:
+    osmrelation: 216159
+    refcounty: "14"
+    refsettlement: "113"
 remeteszolos:
     osmrelation: 215947
     refcounty: "14"
@@ -716,6 +724,10 @@ torokbalint:
     osmrelation: 113462
     refcounty: "14"
     refsettlement: "158"
+ujszilvas:
+    osmrelation: 1323405
+    refcounty: "14"
+    refsettlement: "163"
 veresegyhaz:
     osmrelation: 1390690
     refcounty: "14"
@@ -728,19 +740,11 @@ visegrad:
     osmrelation: 216166
     refcounty: "14"
     refsettlement: "181"
-ujszilvas:
-    osmrelation: 1323405
-    refcounty: "14"
-    refsettlement: "163"
-pomaz:
-    osmrelation: 216159
-    refcounty: "14"
-    refsettlement: "113"
-budakalasz:
-    osmrelation: 216158
-    refcounty: "14"
-    refsettlement: "013"
 # 15 - Somogy megye
+balatonfoldvar:
+    osmrelation: 1367849
+    refcounty: "15"
+    refsettlement: "010"
 balatonlelle:
     osmrelation: 1368026
     refcounty: "15"
@@ -757,14 +761,30 @@ balatonszemes:
     osmrelation: 1367995
     refcounty: "15"
     refsettlement: "017"
-somogysard:
-    osmrelation: 1367837
+balatonvilagos:
+    osmrelation: 1458087
     refcounty: "15"
-    refsettlement: "192"
+    refsettlement: "246"
 sersekszolos:
     osmrelation: 1367864
     refcounty: "15"
     refsettlement: "173"
+siofok:
+    osmrelation: 1368046
+    refcounty: "15"
+    refsettlement: "175"
+somogysard:
+    osmrelation: 1367837
+    refcounty: "15"
+    refsettlement: "192"
+szantod:
+    osmrelation: 1368096
+    refcounty: "15"
+    refsettlement: "204"
+zamardi:
+    osmrelation: 1368080
+    refcounty: "15"
+    refsettlement: "238"
 # 17 - Tolna
 bonyhad:
     osmrelation: 1501376

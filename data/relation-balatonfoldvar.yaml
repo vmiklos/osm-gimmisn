@@ -1,0 +1,11 @@
+missing-streets: 'yes'
+refstreets:
+  'Badacsony utca': 'Badacsonyi utca'
+  'Kemping utca': 'Camping utca'
+  'Gárdonyi utca': 'Gárdonyi Géza utca'
+  'Hunyadi utca': 'Hunyadi János utca'
+  'Kvassay sétány': 'Kwassay sétány'
+  'Radnóti utca': 'Radnóti Miklós utca'
+source: survey
+housenumber-letters: false
+inactive: true
