@@ -109,7 +109,7 @@ build: $(RS_OBJECTS) Cargo.toml Makefile
 
 # Without coverage: cargo test --lib
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/yamls.cache
-	cargo llvm-cov --lib -q --ignore-filename-regex system.rs --html --fail-under-lines 100 ${CARGO_OPTIONS} -- --test-threads=1
+	cargo llvm-cov --lib -q --ignore-filename-regex system.rs --show-missing-lines --fail-under-lines 100 ${CARGO_OPTIONS} -- --test-threads=1
 
 src/browser/config.ts: wsgi.ini Makefile
 	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@

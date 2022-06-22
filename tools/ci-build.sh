@@ -15,11 +15,11 @@ if [ -n "${GITHUB_WORKFLOW}" ]; then
 
     sudo apt-get install gettext
 
-    # Build from source: cargo install --version 0.4.4 cargo-llvm-cov
+    # Build from source: cargo install --version 0.4.6 cargo-llvm-cov
     # Binary install:
     wget https://github.com/ryankurte/cargo-binstall/releases/latest/download/cargo-binstall-x86_64-unknown-linux-gnu.tgz
     tar -xvf cargo-binstall-x86_64-unknown-linux-gnu.tgz
-    ./cargo-binstall --no-confirm --version 0.4.4 cargo-llvm-cov
+    ./cargo-binstall --no-confirm --version 0.4.6 cargo-llvm-cov
 fi
 make -j$(getconf _NPROCESSORS_ONLN) check RSDEBUG=1
 
