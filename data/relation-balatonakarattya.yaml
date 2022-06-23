@@ -1,4 +1,12 @@
 missing-streets: 'yes'
+refstreets:
+  # helyesírás
+  'Örs vezér utca': 'Őrs vezér utca'
+  # kérdéses
+  'Bezerédj lejáró': 'Bezerédy lejáró'
+  'Hét vezér utca': 'Hétvezér utca'
+street-filters:
+  - Hámán Kató tér  # Pécsi Sándor utca régi neve
 source: survey
 housenumber-letters: false
 inactive: true
