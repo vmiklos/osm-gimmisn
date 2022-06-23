@@ -7,6 +7,14 @@ refstreets:
   'Hét vezér utca': 'Hétvezér utca'
 street-filters:
   - Hámán Kató tér  # Pécsi Sándor utca régi neve
+osm-street-filters:
+  # Balatonkenese átlógó utcák
+  - Alteleki út
+  - Balatoni út
+  # nem igazi utcák
+  - Büfésor
+  # parkok
+  - Rákóczi park
 source: survey
 housenumber-letters: false
 inactive: true
