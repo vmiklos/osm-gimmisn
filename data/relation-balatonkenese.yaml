@@ -1,4 +1,14 @@
 missing-streets: 'yes'
+refstreets:
+   # helyesírás
+  'Kun utca': 'Kún utca'
+  'Rozgonyi Cecília utca': 'Rozgonyi Cecilia utca'
+  # kérdéses
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Bocskai István utca': 'Bocskay utca'
+  'Bolyai János utca': 'Bólyai János utca'
+  'Gesztenye fasor': 'Gesztenyefa sor'
+  'Rigóvölgyi út': 'Rigóvölgyi utca'
 source: survey
 housenumber-letters: false
 inactive: true
