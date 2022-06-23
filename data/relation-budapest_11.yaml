@@ -2207,14 +2207,14 @@ filters:
       - {start: '20', end: '34'}
       - {start: '38', end: '58'}
   Péterhegyi lejtő:
-    # 43: Nincs, a Kápolna köz van a helyén. A Kápolna köz előtt 41, a Kápolna köz után 45 van.
     # 7: Nincs, 7/a, 7/b van.
     # 11b: Nincs. Van egy gyakorlatilag üres nyeles telek a 9 és a 11 között, de nincs kiíva rá semmi.
+    # 43: Nincs, a Kápolna köz van a helyén. A Kápolna köz előtt 41, a Kápolna köz után 45 van.
+    # 47a: Nincs. 2 ház van, de csak 47 van kiírva.
     # 61a: Nincs, csak sima 61 van.
-    invalid: ['7', '11b', '61a']
+    invalid: ['7', '11b', '43', '47a', '61a']
     ranges:
-      - {start: '1', end: '41'}
-      - {start: '45', end: '73'}
+      - {start: '1', end: '73'}
       - {start: '2', end: '36'}
   Ütköző sor:
     # 1 = Péterhegyi út 43
