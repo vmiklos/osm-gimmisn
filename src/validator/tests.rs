@@ -213,11 +213,11 @@ Caused by:
 /// Tests the relation path: bad strfilters value type.
 #[test]
 fn test_relation_strfilters_bad_type() {
-    let expected = "expected value type for 'street-filters[0]' is str\nfailed to validate tests/data/relation-gazdagret-street-filters-bad.yaml\n";
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-street-filters-bad.yaml",
-        expected,
-    );
+    let content = r#"street-filters:
+  - 42
+"#;
+    let expected = "expected value type for 'street-filters[0]' is str\nfailed to validate {0}\n";
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad refstreets value type.
