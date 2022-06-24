@@ -223,11 +223,13 @@ fn test_relation_strfilters_bad_type() {
 /// Tests the relation path: bad refstreets value type.
 #[test]
 fn test_relation_refstreets_bad_value_type() {
-    let expected = "expected value type for 'refstreets.OSM Name 1' is str\nfailed to validate tests/data/relation-gazdagret-refstreets-bad-value.yaml\n";
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-refstreets-bad-value.yaml",
-        expected,
-    );
+    let content = r#"refstreets:
+  'OSM Name 1': 42
+"#;
+    let expected = r#"expected value type for 'refstreets.OSM Name 1' is str
+failed to validate {0}
+"#;
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: quote in refstreets key or value.
