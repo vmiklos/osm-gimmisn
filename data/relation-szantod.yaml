@@ -1,7 +1,8 @@
 missing-streets: 'yes'
 refstreets:
-  'Endrődi utca': 'Endrődi Sándor utca'
+  # helyesírás
   'Fűrész utca': 'Fürész utca'
+  # ellenőrizve, tábla = osm
   'Gyulai Jenő utca': 'Gyulay Jenő utca'
   'Vajda János utca': 'Vajda utca'
   'Zrínyi Miklós utca': 'Zrínyi utca'
