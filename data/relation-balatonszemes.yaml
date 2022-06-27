@@ -22,6 +22,12 @@ filters:
   Bagolyvár utca:
     # 37: nincs ilyen, a 35 után a 39 következik.
     invalid: ['37']
+  Bajcsy-Zsilinszky utca:
+    # 41/A: nincs ilyen, csak 41 van.
+    # 47: ez és a Nagy Imre utca 62. közös telken van, de házszám a Nagy Imre utcáról van csak.
+    # 82: sima 82 nincs, csak 82/A, 82/B.
+    # 110/A: nincs ilyen, csak sima 110 van.
+    invalid: ['41a', '47', '82', '110a']
   Bánk bán utca:
     # 802/0: ez helyrajzi szám, nem házszám.
     invalid: ['802/0']
@@ -84,6 +90,9 @@ filters:
     # 14: sima 14 nincs, csak 14/A, 14/B.
     # 32/B: nincs ilyen, csak sima 32. A páros oldalon a 32 az utolsó házszám.
     invalid: ['3', '7', '11/2', '17', '14', '32b']
+  Nagy Imre utca:
+    # 66: sima 66 nincs, csak 66/A, 66/B, 66/C, 66/D.
+    invalid: ['66']
   Petőfi Sándor utca:
     # 29/A: a 29 egy ikerház, de minkét felén sima 29 van.
     # 12/C: az utcában kettő 12 is van, de mindkettő csak sima 12.
@@ -98,6 +107,10 @@ filters:
     # 34: sima 34 nincs, csak 34/A, 34/B.
     # 64: sima 64 nincs, csak 64/A, 64/B.
     invalid: ['21', '34', '64']
+  Széchenyi utca:
+    # 6/A: nincs ilyen, csak sima 6 van.
+    # 52/B: nincs ilyen, csak sima 52 van.
+    invalid: ['6a', '52b']
   Szél utca:
     # 5: sima 5 nincs, csak 5/A, 5/B.
     invalid: ['5']
@@ -163,6 +176,7 @@ refstreets:
   'Eötvös Károly utca': 'Eötvös utca'
   'Fő utca': 'Fő út'
   'Hét vezér utca': 'Hétvezér utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'
   'Kölcsey Ferenc utca': 'Kölcsey utca'
   'Madách Imre utca': 'Madách utca'
   'Munkácsy Mihály utca': 'Munkácsy utca'
