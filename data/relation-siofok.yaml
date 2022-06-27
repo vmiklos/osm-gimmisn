@@ -9,16 +9,16 @@ refstreets:
   'Csíky Gergely utca': 'Csiky Gergely utca'
   'Csordahegy köz': 'Csorda-hegy köz'
   'Ifjúsági utca': 'Ifjúság útja'
-  'Pusztatorony tér': 'Puszta-torony tér'
   #'Rákóczi utca': 'Rákóczi Ferenc utca'
   'Régi Reptér utca': 'Régi reptér utca'
   'Somló utca': 'Somlói utca'
   'Szépvölgyi köz': 'Szép-völgyi köz'
   'Szépvölgyi utca': 'Szép-völgyi utca'
   'Szűcs utca': 'Szücs utca'
-  'Turi István utca': 'Türr István utca'
   'Új Piac tér': 'Új-piac tér'
   'Wesselényi Miklós utca': 'Wesselényi utca'
+  # ellenőrizve, osm=utcatábla
+  'Pusztatorony tér': 'Puszta-torony tér'
 source: survey
 housenumber-letters: false
 inactive: true

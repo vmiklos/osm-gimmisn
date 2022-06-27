@@ -1,10 +1,11 @@
 missing-streets: 'yes'
 refstreets:
-  'Dózsa György utca': 'Dózsa György út'
-  'Erdei Ferenc utca': 'Erdei utca'
-  'Kossuth Lajos utca': 'Kossuth utca'
-  'Rákóczi Ferenc utca': 'Rákóczi út'
   'Rózsa Ferenc utca': 'Rózsa utca'
+  # ellenőrizve
+  'Dózsa György utca': 'Dózsa György út'  # van út is régi tálával, és van utca is új táblával. A polgármesteri hivatal előtti településtérképen út van
+  'Erdei Ferenc utca': 'Erdei utca'  # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
+  'Kossuth Lajos utca': 'Kossuth utca'  # tábla = osm
+  'Rákóczi Ferenc utca': 'Rákóczi út'  # nincs utcatábla, a házszámtáblákon vegyesen
 source: survey
 housenumber-letters: false
 inactive: true

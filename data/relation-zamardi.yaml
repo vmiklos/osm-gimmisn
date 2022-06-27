@@ -2,19 +2,18 @@ missing-streets: 'yes'
 refstreets:
    # helyesírás
   'Nyírfa utca': 'Nyirfa utca'
-   # kérdéses
-  'Alsó pincesor': 'Alsópincesor'
+   # ellenőrizve, tábla = osm
   'Bercsényi Miklós utca': 'Bercsényi utca'
   'Dessewffy Arisztid utca': 'Dessewffy utca'
-  #'Jegenye utca': 'Jegenye tér'
-  'Káposztáskert': 'Káposztáskerti utca'
   'Klapka György utca': 'Klapka utca'
-  'Lenkey János utca': 'Lenkei János utca'
-  'Margittay utca': 'Margittai utca'
-  'Purebl György utca': 'Purebl Győző utca'
-  'Rákóczi köz': 'Rákóczi Ferenc köz'
-  'Római út': 'Római utca'
   'Schweidel József utca': 'Schweidel utca'
+  'Margittay Rikárd utca': 'Margittai utca'  # Tábán Margittay R. utca
+   # kérdéses
+  'Alsó pincesor': 'Alsópincesor'
+  'Káposztáskert': 'Káposztáskerti utca'
+  'Lenkey János utca': 'Lenkei János utca'
+  'Purebl György utca': 'Purebl Győző utca'
+  'Római út': 'Római utca'
   'Siófoki út': 'Siófoki utca'
   'Szélescsapás út': 'Szélescsapás utca'
   'Szigligeti Ede utca': 'Szigligeti utca'

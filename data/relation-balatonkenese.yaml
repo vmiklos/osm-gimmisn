@@ -9,6 +9,12 @@ refstreets:
   'Bolyai János utca': 'Bólyai János utca'
   'Gesztenye fasor': 'Gesztenyefa sor'
   'Rigóvölgyi út': 'Rigóvölgyi utca'
+osm-street-filters:
+  # nem igazi utcák
+  - Régi játszótér
+  # parkok
+  - Liget
+  - Uniós park
 source: survey
 housenumber-letters: false
 inactive: true
