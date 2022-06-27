@@ -1,4 +1,25 @@
 missing-streets: 'yes'
+osm-street-filters:
+   # Mirabella Camping utcái, forrás: https://mirabellacamping.hu/
+   - 1. utca
+   - 2. utca
+   - 3. utca
+   - 4. utca
+   - 5. utca
+   - 6. utca
+   - 7. utca
+   - 8. utca
+   - 9. utca
+   - 10. utca
+   - 11. utca
+   - 12. utca
+   - 13. utca
+   - 14. utca
+   - 15. utca
+   - 16. utca
+   # Parkok
+   - Honfoglalás park
+   - Lengyel Testvérvárosi Park
 refstreets:
    # helyesírás
   'Nyírfa utca': 'Nyirfa utca'
@@ -7,7 +28,7 @@ refstreets:
   'Dessewffy Arisztid utca': 'Dessewffy utca'
   'Klapka György utca': 'Klapka utca'
   'Schweidel József utca': 'Schweidel utca'
-  'Margittay Rikárd utca': 'Margittai utca'  # Tábán Margittay R. utca
+  'Margittay Rikárd utca': 'Margittai utca'  # Táblán Margittay R. utca
    # kérdéses
   'Alsó pincesor': 'Alsópincesor'
   'Káposztáskert': 'Káposztáskerti utca'
