@@ -26,7 +26,6 @@ RS_OBJECTS = \
 	src/area_files.rs \
 	src/areas.rs \
 	src/areas/tests.rs \
-	src/bin/cache_yamls.rs \
 	src/bin/cron.rs \
 	src/bin/missing_housenumbers.rs \
 	src/bin/parse_access_log.rs \
@@ -44,6 +43,7 @@ RS_OBJECTS = \
 	src/i18n.rs \
 	src/i18n/tests.rs \
 	src/lib.rs \
+	src/main.rs \
 	src/missing_housenumbers.rs \
 	src/missing_housenumbers/tests.rs \
 	src/overpass_query.rs \
@@ -140,7 +140,7 @@ wsgi.ini:
 	cp data/wsgi.ini.template wsgi.ini
 
 data/yamls.cache: build $(YAML_OBJECTS)
-	target/${TARGET_PATH}/cache_yamls data workdir
+	target/${TARGET_PATH}/osm-gimmisn cache_yamls data workdir
 
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
