@@ -40,5 +40,5 @@ refstreets:
   'Szőlőhegyi út': 'Szőlőhegyi utca'
   'Vadkacsa utca': 'Vadkacsa sor'
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true

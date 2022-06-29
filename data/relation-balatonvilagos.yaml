@@ -7,5 +7,5 @@ refstreets:
   'Kossuth Lajos utca': 'Kossuth utca'  # tábla = osm
   'Rákóczi Ferenc utca': 'Rákóczi út'  # nincs utcatábla, a házszámtáblákon vegyesen
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true

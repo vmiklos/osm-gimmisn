@@ -6,5 +6,5 @@ refstreets:
   'Kvassay sétány': 'Kwassay sétány'
   'Radnóti utca': 'Radnóti Miklós utca'
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
