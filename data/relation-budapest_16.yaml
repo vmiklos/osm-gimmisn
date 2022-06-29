@@ -42,4 +42,4 @@ refstreets:
   #
   'Regős liget': 'Regös liget'
 source: survey
-inactive: false
+inactive: true

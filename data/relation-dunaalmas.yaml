@@ -9,3 +9,4 @@ refstreets:
   'Kossuthliget út': 'Kossuth liget út'
   'Piritó út': 'Pirító út'
 source: survey
+inactive: true

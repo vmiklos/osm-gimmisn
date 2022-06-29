@@ -5,3 +5,4 @@ refstreets:
   # Kérdéses
   'Lorántffy Zsuzsanna utca': 'Lórántffy Zsuzsanna utca'
 source: survey
+inactive: true

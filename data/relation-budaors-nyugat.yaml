@@ -15,4 +15,4 @@ filters:
     ranges:
       - {start: '6', end: '6'}
 source: survey
-inactive: false
+inactive: true

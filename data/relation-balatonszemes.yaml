@@ -185,4 +185,4 @@ refstreets:
   'Szemesi út': 'Szemesi utca'
 source: survey
 housenumber-letters: true
-inactive: true
+inactive: false

@@ -44,4 +44,4 @@ filters:
     # páratlan oldal Aquincum múzeum
     invalid: ['3', '10']
 source: survey
-inactive: true
+inactive: false

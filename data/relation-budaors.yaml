@@ -846,4 +846,4 @@ refstreets:
   Csík falu köz: Csik Falu köz  # Hegyvidékek: utcatábla Csík falu köz
   Petőfi Sándor utca: Petőfi utca  # Belváros/Gazdasági: táblák vegyesen
   Széchenyi utca: Széchenyi István utca  # Kertváros: utcatábla Széchenyi utca
-inactive: false
+inactive: true

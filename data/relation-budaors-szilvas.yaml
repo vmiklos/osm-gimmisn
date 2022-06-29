@@ -17,4 +17,4 @@ filters:
     # 19: nincs kettévágott utca: 1-17-ig, majd 25-49. Illetve a 19 helyén a Váltóőr utca 1.
     invalid: ['3', '19']
 source: survey
-inactive: false
+inactive: true

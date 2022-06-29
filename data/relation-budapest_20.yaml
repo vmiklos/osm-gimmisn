@@ -24,4 +24,4 @@ refstreets:
   'Knézich utca': 'Knézits utca'  # utcanévtábla = osm
   'Téglagyártó utca': 'Téglagyártó út'  # utcanévtábla = osm
 source: survey
-inactive: false
+inactive: true
