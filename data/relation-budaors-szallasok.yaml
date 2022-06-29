@@ -45,4 +45,4 @@ refstreets:
   # OSM Name 1: Ref Name 1
   Aszú utca: Aszu utca  # utcatábla Aszú utca
 source: survey
-inactive: false
+inactive: true

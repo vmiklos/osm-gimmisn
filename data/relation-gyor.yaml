@@ -133,4 +133,4 @@ refstreets:
   'Völgyszigeti utca': 'Völgyszigeti út'
   'Vonal utca': 'Vonal út'
   'Vonat utca': 'Vonat út'
-inactive: false
+inactive: true

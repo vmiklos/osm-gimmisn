@@ -14,3 +14,4 @@ refstreets:
   # Kérdéses
   'Bagosi út': 'Bagosi utca'
 source: survey
+inactive: true

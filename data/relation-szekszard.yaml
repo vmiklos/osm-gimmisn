@@ -72,4 +72,4 @@ refstreets:
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
   'Zápor köz': 'Zápor-köz'
 source: survey
-inactive: false
+inactive: true

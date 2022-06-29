@@ -203,4 +203,4 @@ refstreets:
   Csík falu köz: Csik Falu köz  # utcatábla Csík falu köz
   Írisz utca: Irisz utca  # nincs utcatábla
 source: survey
-inactive: false
+inactive: true
