@@ -20,5 +20,5 @@ refstreets:
   # ellenőrizve, osm=utcatábla
   'Pusztatorony tér': 'Puszta-torony tér'
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true

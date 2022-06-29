@@ -7,5 +7,5 @@ refstreets:
   'Vajda János utca': 'Vajda utca'
   'Zrínyi Miklós utca': 'Zrínyi utca'
 source: survey
-housenumber-letters: false
+housenumber-letters: true
 inactive: true
