@@ -235,14 +235,14 @@ failed to validate {0}
 /// Tests the relation path: quote in refstreets key or value.
 #[test]
 fn test_relation_refstreets_quote() {
+    let content = r#"refstreets:
+  OSM Name 1': 42'
+"#;
     let expected = r#"expected no quotes in 'refstreets.OSM Name 1''
 expected no quotes in value of 'refstreets.OSM Name 1''
-failed to validate tests/data/relation-gazdagret-refstreets-quote.yaml
+failed to validate {0}
 "#;
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-refstreets-quote.yaml",
-        expected,
-    );
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad filterssubkey name.
