@@ -143,9 +143,9 @@ filters:
 street-filters:
   # Nem igazi utcák
   - Szedres
-osm-street-filters:
-  # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012 - refben rögzítve
+  # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012
   - Nyár utca  # táblázva Arany János utcára
+osm-street-filters:
   # Nem valós utcák
   - Baross Gábor park
   - Fenyves park
