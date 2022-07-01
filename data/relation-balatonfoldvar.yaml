@@ -1,10 +1,17 @@
 missing-streets: 'yes'
 refstreets:
-  'Kemping utca': 'Camping utca'
+  # rövidítés
+  'Kis János altábornagy utca': 'Kiss János atb. utca'
+  # kérdéses
   'Gárdonyi utca': 'Gárdonyi Géza utca'
   'Hunyadi utca': 'Hunyadi János utca'
   'Kvassay sétány': 'Kwassay sétány'
   'Radnóti utca': 'Radnóti Miklós utca'
+street-filters:
+  # nem igazi utcák
+  - 118/A vasúti őrház
+  # dupla a ref-ben
+  - Camping utca
 source: survey
 housenumber-letters: true
 inactive: true
