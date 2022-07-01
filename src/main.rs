@@ -19,6 +19,7 @@ lazy_static::lazy_static! {
     static ref HANDLERS: HashMap<String, Handler> = {
         let mut ret: HashMap<String, Handler> = HashMap::new();
         ret.insert("cache_yamls".into(), osm_gimmisn::cache_yamls::main);
+        ret.insert("validator".into(), osm_gimmisn::validator::main);
         ret
     };
 }

@@ -30,7 +30,6 @@ RS_OBJECTS = \
 	src/bin/missing_housenumbers.rs \
 	src/bin/parse_access_log.rs \
 	src/bin/rouille.rs \
-	src/bin/validator.rs \
 	src/cache.rs \
 	src/cache/tests.rs \
 	src/cache_yamls.rs \
@@ -88,7 +87,7 @@ ifndef V
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
 endif
 
-all: builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo build
+all: builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/osm-gimmisn
 
 clean:
 	rm -f config.ts
@@ -104,7 +103,7 @@ check-rustfmt: Cargo.toml $(RS_OBJECTS)
 check-clippy: Cargo.toml .github/workflows/tests.yml $(RS_OBJECTS)
 	cargo clippy ${CARGO_OPTIONS} && touch $@
 
-build: $(RS_OBJECTS) Cargo.toml Makefile
+target/${TARGET_PATH}/osm-gimmisn: $(RS_OBJECTS) Cargo.toml Makefile
 	cargo build ${CARGO_OPTIONS}
 
 # Without coverage: cargo test --lib
@@ -139,7 +138,7 @@ workdir/osm.min.css: static/osm.css package-lock.json
 wsgi.ini:
 	cp data/wsgi.ini.template wsgi.ini
 
-data/yamls.cache: build $(YAML_OBJECTS)
+data/yamls.cache: target/${TARGET_PATH}/osm-gimmisn $(YAML_OBJECTS)
 	target/${TARGET_PATH}/osm-gimmisn cache_yamls data workdir
 
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
@@ -149,8 +148,8 @@ check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
 check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 
-%.validyaml : %.yaml build
-	$(QUIET_VALIDATOR)target/${TARGET_PATH}/validator $< && touch $@
+%.validyaml : %.yaml target/${TARGET_PATH}/osm-gimmisn
+	$(QUIET_VALIDATOR)target/${TARGET_PATH}/osm-gimmisn validator $< && touch $@
 
 run: all
 	target/${TARGET_PATH}/rouille
