@@ -145,6 +145,7 @@ street-filters:
   - Szedres
 osm-street-filters:
   # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012 - refben rögzítve
+  - Nyár utca  # táblázva Arany János utcára
   # Nem valós utcák
   - Baross Gábor park
   - Fenyves park
@@ -164,7 +165,6 @@ osm-street-filters:
   # Területhatár
   - Hárs utca
 refstreets:
-  'Arany János utca': 'Nyár utca'
   'Árnyas fasor': 'Árnyas utca'
   'Bajcsy-Zsilinszky utca': 'Bajcsy-Zsilinszky út'
   # 'Baross Gábor tér': 'Állomás tér' - ez így nem jó ha mindkét féle házszám van a térképen: https://github.com/vmiklos/osm-gimmisn/issues/1660#issuecomment-916665398
