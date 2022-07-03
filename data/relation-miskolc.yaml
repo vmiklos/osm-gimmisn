@@ -10,6 +10,8 @@ osm-street-filters:
   - Perecesi napközis tábor
   - kriptasor
   - építkezési út
+  - Egri Országút
+  - Vízitelepek
   # parkok, sétányok amire nincs számozva semmi
   - Ferenczi Pihenő
   - Kálvária
@@ -21,6 +23,8 @@ osm-street-filters:
   - Szala József út
   - Városliget
   - Weidlich udvar
+  # turistaút
+  - Aranylépcső
 street-filters:
   - Ősz utca  # valószínű elírás
   - Kisavas sor  # Kisavas, Első sor stb..
@@ -50,10 +54,6 @@ street-filters:
   - MÁV vasgyári 6-os őrház
   - Rendező pályaudvar
   - Garadna erdészház
-  - Egri Országút
-  - Vízitelepek
-  # park/turistaút
-  - Aranylépcső
   # csak hrsz / nincs hsz.
   - Ágazat
   - Bolló alja dűlő
