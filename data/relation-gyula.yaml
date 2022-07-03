@@ -15,9 +15,10 @@ osm-street-filters:
   - BUS
   - HGV
   - Békéscsaba - Gyula kerékpárút
+  - Gyulavári körgát
   # parkok
   - Göndöcs kert
-  - Lenin gödör
+  - Lenin-gödör
   # Békéscsaba
   - Fényesi utca
 street-filters:
