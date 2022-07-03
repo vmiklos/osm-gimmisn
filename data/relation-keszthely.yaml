@@ -8,12 +8,18 @@ filters:
     show-refstreet: false
   Kazinczy Ferenc utca:
     show-refstreet: false
+  Kárpát utca:
+    interpolation: all
   Kísérleti utca:
     show-refstreet: false
+  Tomaji sor:
+    interpolation: all
   Tipegő utca:
     show-refstreet: false
   Semmelweis Ignác utca:
     show-refstreet: false
+  Szendrey major:
+    interpolation: all
 street-filters:
   # nem igazi utca - 249/2015. (XI.26.) önk. határozat által átnevezett külterületek
   - Fenéki határ       # Fenéki vasúti őrház és a Fenékpuszta vasúti megálló
