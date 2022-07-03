@@ -35,10 +35,14 @@ osm-street-filters:
   - Külterület
   - Heimann birtok bekötőút
   - Sió töltés - Északi oldal
+  - Sió menti kerékpárút
   - Sötétvölgyi tanösvény
   - Szekszárd autóbusz állomás
   # átlógó
   - Lajvér
+  # parkok
+  - Beatrix királyné park
+  - Bezons park
 refstreets:
   'Avar utca': 'Avar út'
   'Baranya völgy': 'Baranyavölgy'
