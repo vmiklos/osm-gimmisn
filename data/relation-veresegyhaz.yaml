@@ -13,6 +13,22 @@ street-filters:
   # Lovász tér Előd vezér/Álmos vezér - Holdfény étterem
   # Omega köz
   # Szentlélek tér
+osm-street-filters:
+  # nem valós utcák
+  # parkok
+  - Búcsú tér
+  - Iskola előtti park és parkoló
+  - Templomkert
+  # Erdőkertes
+  - Juhar utca
+  - Veresegyházi utca 
+  # Őrbottyán
+  - Babits Mihály utca
+  - Cseresnyés út
+  - Veresi út
+  # Szada
+  - Cipősök utca
+  - Fenyveserdő utca
 refstreets:
   'Belső Tópart utca': 'Belső-Tópart utca'
   'Budapesti út': 'Budapesti utca'
