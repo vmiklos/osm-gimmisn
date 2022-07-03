@@ -18,6 +18,7 @@ street-filters:
   # Zobák puszta
 osm-street-filters:
   # nem igazi utcák
+  - Bányász emlékút
   # parkok
   - Arborétum
   - Bányászpark
