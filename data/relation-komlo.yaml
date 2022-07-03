@@ -16,6 +16,12 @@ street-filters:
   # Mecsekjánosi puszta
   # Vadvirág utca
   # Zobák puszta
+osm-street-filters:
+  # nem igazi utcák
+  # parkok
+  - Arborétum
+  - Bányászpark
+  - KRESZ park
 refstreets:
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Béketelep I. sor': 'Béketelep I sor'
