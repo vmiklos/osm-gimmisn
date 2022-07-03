@@ -13,6 +13,7 @@ filters:
       - {start: '1', end: '121'}
 refstreets:
   'Bányatelep': 'Bánya telep'
+  'Erzsébet park': 'Erzsébetpark'
   'Hosszú-árok': 'Hosszú árok'
   'Táncsics Mihály utca': 'Táncsics utca'
   'Templomhegy utca': 'Templom hegy'
