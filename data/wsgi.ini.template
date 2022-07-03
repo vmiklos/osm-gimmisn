@@ -1,6 +1,6 @@
 [wsgi]
-reference_housenumbers = refdir/hazszamok_20220517.tsv refdir/hazszamok_kieg_20220623.tsv
-reference_street = refdir/utcak_20220601.tsv
+reference_housenumbers = refdir/hazszamok_20220517.tsv refdir/hazszamok_kieg_20220703.tsv
+reference_street = refdir/utcak_20220704.tsv
 reference_citycounts = refdir/varosok_count_20220410.tsv
 reference_zipcounts = refdir/irsz_count_20220410.tsv
 uri_prefix = /osm
