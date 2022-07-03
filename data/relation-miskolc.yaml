@@ -49,6 +49,11 @@ street-filters:
   - MÁV 77-es őrház
   - MÁV vasgyári 6-os őrház
   - Rendező pályaudvar
+  - Garadna erdészház
+  - Egri Országút
+  - Vízitelepek
+  # park/turistaút
+  - Aranylépcső
   # csak hrsz / nincs hsz.
   - Ágazat
   - Bolló alja dűlő
