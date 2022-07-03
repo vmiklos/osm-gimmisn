@@ -3,6 +3,7 @@ filters: {}
 osm-street-filters:
   # nem igazi utcák
   - Árpád úti felüljáró
+  - Autóklub
   - Főtér passzázs
   - Homoktövis tanösvény
   - Kiss & Ride

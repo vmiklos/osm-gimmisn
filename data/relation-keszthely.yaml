@@ -20,14 +20,15 @@ street-filters:
   - Fenékpuszta major  # Fenékpuszta 0415
   - Gáti major         # Gáti csárda 0191/9
   - Lovas major        # 0201/2
-  - Szendrey major     # Szendreytelep 0253/2
+  # - Szendrey major     # Szendreytelep 0253/2
   - Tőzeg telep        # Tőzegtelep 0372/5
   - Transzformátor telep  # Keszthely alállomás 0156/2
   - Úsztató major      # Úsztatómajor 0191/9
   - Vadas kert         # Vadaskert 0126/2
   # dűlők, tanyák
   - Sömögye dűlő
-  # Koponár utca    - w204692963 Öv utca nyugat - földút, nem volt tábla az elején
+  - Koponár utca       # w204692963 Öv utca nyugat - nincs beépítve, földút, nincs tábla az elején
+  # - Ipar utca        # Lidl mellett?
 osm-street-filters:
   # nem igazi utcák
   - Keszthely nyugati elkerülő út
@@ -55,6 +56,7 @@ osm-street-filters:
   - Várvölgyi utca
   # külterület
   - Alsópáhoki út
+  - Szendreytelepi út # nincs tábla, de akár lehet is, van rá hivatkozás, de lehet Újmajori út is
 refstreets:
   'György bíró utca': 'György Biró utca'  # marad így, helyesírásilag ez a forma jó, utcanévtábla uppercase és rövid
   # ellenőrzött 2020-06, utcatábán az osm név

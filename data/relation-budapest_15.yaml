@@ -26,6 +26,7 @@ osm-street-filters:
   - MÁV üzemi út
   - Piócás dűlő
   - Szilas pihenő
+  - M3 autópálya
   # Területhatár
   - Elem utca  # IV. kerület határ
   - Szilágyi utca  # Rákospalota-Újpest vasútállomás XV. kerületben van, de at egész utca postacíme IV. kerületi
