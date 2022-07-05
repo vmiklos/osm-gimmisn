@@ -27,7 +27,6 @@ RS_OBJECTS = \
 	src/areas.rs \
 	src/areas/tests.rs \
 	src/bin/cron.rs \
-	src/bin/missing_housenumbers.rs \
 	src/bin/parse_access_log.rs \
 	src/bin/rouille.rs \
 	src/cache.rs \
