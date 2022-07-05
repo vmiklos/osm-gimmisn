@@ -214,6 +214,9 @@ filters:
   Kossuth tér:
     # 2-9
     invalid: ['21', '26']
+  Bodza köz:
+    # 1-3, 4-4
+    invalid: ['6', '8']
 source: survey
 street-filters:
   - Nagydunasétány utca
