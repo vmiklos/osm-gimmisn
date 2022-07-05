@@ -65,7 +65,7 @@ The symbols profile enables debug symbols while keeping optimizations on:
 
 ----
 cargo build --profile symbols
-valgrind --tool=callgrind target/symbols/missing_housenumbers budapest_11
+valgrind --tool=callgrind target/symbols/osm-gimmisn missing_housenumbers budapest_11
 ----
 
 == YAML schema
