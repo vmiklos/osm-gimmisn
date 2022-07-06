@@ -18,6 +18,12 @@ use std::collections::HashMap;
 use std::io::BufRead;
 use std::ops::DerefMut;
 
+#[cfg(not(test))]
+use log::info;
+
+#[cfg(test)]
+use std::println as info;
+
 /// Generates stats for a global progressbar.
 fn handle_progress(
     ctx: &context::Context,
@@ -173,6 +179,10 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
 
     let old_count_path = format!("{}/{}.citycount", src_root, old_day);
     if !ctx.get_file_system().path_exists(&old_count_path) {
+        info!(
+            "get_topcities: empty result: no such path: {}",
+            old_count_path
+        );
         return Ok(vec![]);
     }
     let stream = ctx.get_file_system().open_read(&old_count_path)?;
