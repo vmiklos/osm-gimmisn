@@ -44,12 +44,7 @@ fn main() {
         }
     };
     args.remove(1);
-    let handlers: Vec<&Handler> = HANDLERS
-        .iter()
-        .filter(|(k, _v)| *k == &command)
-        .map(|(_k, v)| v)
-        .collect();
-    let handler: &Handler = match handlers.get(0) {
+    let handler: &Handler = match HANDLERS.get(&command) {
         Some(value) => value,
         None => {
             println!("osm_gimmisn: invalid command\n");
