@@ -6,6 +6,10 @@ refstreets:
   'Erdei Ferenc utca': 'Erdei utca'  # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
   'Kossuth Lajos utca': 'Kossuth utca'  # tábla = osm
   'Rákóczi Ferenc utca': 'Rákóczi út'  # nincs utcatábla, a házszámtáblákon vegyesen
+street-filters:
+  # nem igazi utcák
+  - Balatonvilágos vasúti megálló
+  - Vasútállomás
 source: survey
 housenumber-letters: true
 inactive: true
