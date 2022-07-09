@@ -20,6 +20,7 @@ lazy_static::lazy_static! {
         let mut ret: HashMap<String, Handler> = HashMap::new();
         ret.insert("cache_yamls".into(), osm_gimmisn::cache_yamls::main);
         ret.insert("missing_housenumbers".into(), osm_gimmisn::missing_housenumbers::main);
+        ret.insert("parse_access_log".into(), osm_gimmisn::parse_access_log::main);
         ret.insert("validator".into(), osm_gimmisn::validator::main);
         ret
     };
