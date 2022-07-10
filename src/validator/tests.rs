@@ -274,15 +274,16 @@ fn test_relation_filters_invalid_bad2() {
 /// Tests the relation path: bad type for the filters -> ... -> invalid subkey.
 #[test]
 fn test_relation_filters_invalid_bad_type() {
-    let expected = r#"failed to validate tests/data/relation-gazdagret-filter-invalid-bad-type.yaml
+    let content = r#"filters:
+  'Budaörsi út':
+    invalid: "hello"
+"#;
+    let expected = r#"failed to validate {0}
 
 Caused by:
     filters.Budaörsi út.invalid: invalid type: string "hello", expected a sequence at line 3 column 14
 "#;
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-invalid-bad-type.yaml",
-        expected,
-    );
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges subkey.
