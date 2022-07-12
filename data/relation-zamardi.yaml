@@ -14,7 +14,9 @@ filters:
     show-refstreet: false
   Margittay Rikárd utca:
     show-refstreet: false
-  Szigligeti Ede utca:
+  Római út:
+    show-refstreet: false
+  Szigligeti utca:
     show-refstreet: false
 osm-street-filters:
    # Mirabella Camping utcái, forrás: https://mirabellacamping.hu/
@@ -47,7 +49,6 @@ refstreets:
   'Klapka György utca': 'Klapka utca'
   'Schweidel József utca': 'Schweidel utca'
   'Margittay Rikárd utca': 'Margittai utca'  # Táblán Margittay R. utca
-  'Szigligeti Ede utca': 'Szigligeti utca'
    # kérdéses
   'Alsó pincesor': 'Alsópincesor'
   'Káposztáskert': 'Káposztáskerti utca'
