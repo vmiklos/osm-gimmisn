@@ -1,4 +1,21 @@
 missing-streets: 'yes'
+filters:
+  Nyírfa utca:
+    show-refstreet: false
+  Leiningen-Westerburg Károly köz:
+    show-refstreet: false
+  Bercsényi Miklós utca:
+    show-refstreet: false
+  Dessewffy Arisztid utca:
+    show-refstreet: false
+  Klapka György utca:
+    show-refstreet: false
+  Schweidel József utca:
+    show-refstreet: false
+  Margittay Rikárd utca:
+    show-refstreet: false
+  Szigligeti Ede utca:
+    show-refstreet: false
 osm-street-filters:
    # Mirabella Camping utcái, forrás: https://mirabellacamping.hu/
    - 1. utca
@@ -21,14 +38,16 @@ osm-street-filters:
    - Honfoglalás park
    - Lengyel Testvérvárosi Park
 refstreets:
-   # helyesírás
+   # helyesírás / rövidítés
   'Nyírfa utca': 'Nyirfa utca'
+  'Leiningen-Westerburg Károly köz': 'Leiningen-W. Károly köz'  # táblán: Leiningen-W. Károly köz
    # ellenőrizve, tábla = osm
   'Bercsényi Miklós utca': 'Bercsényi utca'
   'Dessewffy Arisztid utca': 'Dessewffy utca'
   'Klapka György utca': 'Klapka utca'
   'Schweidel József utca': 'Schweidel utca'
   'Margittay Rikárd utca': 'Margittai utca'  # Táblán Margittay R. utca
+  'Szigligeti Ede utca': 'Szigligeti utca'
    # kérdéses
   'Alsó pincesor': 'Alsópincesor'
   'Káposztáskert': 'Káposztáskerti utca'
@@ -36,7 +55,6 @@ refstreets:
   'Római út': 'Római utca'
   'Siófoki út': 'Siófoki utca'
   'Szélescsapás út': 'Szélescsapás utca'
-  'Szigligeti Ede utca': 'Szigligeti utca'
   'Szőlőhegyi út': 'Szőlőhegyi utca'
   'Vadkacsa utca': 'Vadkacsa sor'
 source: survey
