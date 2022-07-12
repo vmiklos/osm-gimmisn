@@ -26,33 +26,31 @@ lazy_static::lazy_static! {
     };
 }
 
-fn usage() {
-    println!("Valid commands:\n");
-    for (k, _v) in HANDLERS.iter() {
-        println!("{}", k);
-    }
-}
-
 fn main() {
     let mut args: Vec<String> = std::env::args().collect();
     let ctx = osm_gimmisn::context::Context::new("").unwrap();
-    let command = match args.get(1) {
-        Some(value) => value.to_string(),
-        None => {
-            println!("osm_gimmisn: missing command\n");
-            usage();
-            std::process::exit(1);
-        }
-    };
+    let cache_yamls =
+        clap::Command::new("cache_yamls").about("Caches YAML files from the data/ directory");
+    let missing_housenumbers = clap::Command::new("missing_housenumbers")
+        .about("Compares reference house numbers with OSM ones and shows the diff");
+    let parse_access_log = clap::Command::new("parse_access_log")
+        .about("Parses the Apache access log of osm-gimmisn for 1 month");
+    let validator = clap::Command::new("validator")
+        .about("The validator module validates yaml files under data/");
+    let subcommands = vec![
+        cache_yamls,
+        missing_housenumbers,
+        parse_access_log,
+        validator,
+    ];
+    let app = clap::Command::new("osm-gimmisn").subcommand_required(true);
+    let argv: Vec<String> = args.iter().take(2).cloned().collect();
+    let matches = app
+        .subcommands(subcommands)
+        .try_get_matches_from(&argv)
+        .unwrap_or_else(|e| e.exit());
     args.remove(1);
-    let handler: &Handler = match HANDLERS.get(&command) {
-        Some(value) => value,
-        None => {
-            println!("osm_gimmisn: invalid command\n");
-            usage();
-            std::process::exit(1);
-        }
-    };
+    let handler: &Handler = HANDLERS.get(matches.subcommand().unwrap().0).unwrap();
 
     std::process::exit(handler(&args, &mut std::io::stdout(), &ctx))
 }
