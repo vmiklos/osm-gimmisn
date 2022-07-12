@@ -6,6 +6,7 @@ refstreets:
   'Erdei Ferenc utca': 'Erdei utca'  # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
   'Kossuth Lajos utca': 'Kossuth utca'  # tábla = osm
   'Rákóczi Ferenc utca': 'Rákóczi út'  # nincs utcatábla, a házszámtáblákon vegyesen
+   # Táncsics Mihály utca az utcanévtáblán csak Táncsics utca, de minden más utca teljes névvel van, így ez is marad.
 street-filters:
   # nem igazi utcák
   - Balatonvilágos vasúti megálló
