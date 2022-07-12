@@ -656,6 +656,10 @@ budaors-szilvas:
     osmrelation: 10478374
     refcounty: "14"
     refsettlement: "015"
+erd:
+    osmrelation: 112435
+    refcounty: "14"
+    refsettlement: "038"
 godollo:
     osmrelation: 1392595
     refcounty: "14"
@@ -720,6 +724,10 @@ szob:
     osmrelation: 1370263
     refcounty: "14"
     refsettlement: "136"
+tarnok:
+    osmrelation: 112434
+    refcounty: "14"
+    refsettlement: "151"
 torokbalint:
     osmrelation: 113462
     refcounty: "14"
