@@ -9,7 +9,7 @@ refstreets:
   'Kis János altábornagy utca': 'Kiss János atb. utca'
   # ellenőrizva
   'Jókai Mór utca': 'Jókai utca'  # Jókai Mór utca az egyik sarkon ki van írva teljes névvel, a másikon nincs, de mivel a környéken mindenhol teljes névvel vannak az utcák az osm-re is ez került.
-  'Camping utca': 'Kemping utca '  # Camping utca van írva a hivatalos utcanévtáblára, de az épületeken Kemping utcaként is szerepel.
+  'Camping utca': 'Kemping utca'  # Camping utca van írva a hivatalos utcanévtáblára, de az épületeken Kemping utcaként is szerepel.
   # kérdéses
   'Kvassay sétány': 'Kwassay sétány'
   'Radnóti utca': 'Radnóti Miklós utca'
