@@ -217,6 +217,9 @@ filters:
   Bodza köz:
     # 1-3, 4-4
     invalid: ['6', '8']
+  Galagonya tér:
+    # 1-13, 2-10
+    invalid: ['12', '14']
 source: survey
 street-filters:
   - Nagydunasétány utca
