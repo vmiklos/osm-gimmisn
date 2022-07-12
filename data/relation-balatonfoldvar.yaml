@@ -3,8 +3,6 @@ refstreets:
   # rövidítés
   'Kis János altábornagy utca': 'Kiss János atb. utca'
   # kérdéses
-  'Gárdonyi utca': 'Gárdonyi Géza utca'
-  'Hunyadi utca': 'Hunyadi János utca'
   'Kvassay sétány': 'Kwassay sétány'
   'Radnóti utca': 'Radnóti Miklós utca'
 street-filters:
