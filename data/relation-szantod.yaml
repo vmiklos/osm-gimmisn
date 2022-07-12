@@ -6,6 +6,8 @@ refstreets:
   'Gyulai Jenő utca': 'Gyulay Jenő utca'
   'Vajda János utca': 'Vajda utca'
   'Zrínyi Miklós utca': 'Zrínyi utca'
+   # Apály utca nincs, Hattyú utca van kitáblázva
+   # Római út az út én nem utca
 source: survey
 housenumber-letters: true
 inactive: true
