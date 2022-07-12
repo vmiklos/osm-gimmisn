@@ -40,23 +40,24 @@ osm-street-filters:
    - Honfoglalás park
    - Lengyel Testvérvárosi Park
 refstreets:
-   # helyesírás / rövidítés
+  # helyesírás / rövidítés
   'Nyírfa utca': 'Nyirfa utca'
   'Leiningen-Westerburg Károly köz': 'Leiningen-W. Károly köz'  # táblán: Leiningen-W. Károly köz
-   # ellenőrizve, tábla = osm
+  # ellenőrizve, tábla = osm
+  'Alsó pincesor': 'Alsópincesor'  # Alsó pincesor így van írva, bár nagy P-vel.
   'Bercsényi Miklós utca': 'Bercsényi utca'
   'Dessewffy Arisztid utca': 'Dessewffy utca'
+   # Erkel Ferenc utca nincs utcanévtáblán, de minden épületen teljes névvel van kiírva az utcanév
+  'Káposztáskert': 'Káposztáskerti utca'  # Káposztáskert így van írva, nincs közterület jelleg.
   'Klapka György utca': 'Klapka utca'
-  'Schweidel József utca': 'Schweidel utca'
+  'Lenkey János utca': 'Lenkei János utca'  # Lenkey János utca Y-nal van.
   'Margittay Rikárd utca': 'Margittai utca'  # Táblán Margittay R. utca
-   # kérdéses
-  'Alsó pincesor': 'Alsópincesor'
-  'Káposztáskert': 'Káposztáskerti utca'
-  'Lenkey János utca': 'Lenkei János utca'
-  'Római út': 'Római utca'
+  'Schweidel József utca': 'Schweidel utca'
   'Siófoki út': 'Siófoki utca'
-  'Szélescsapás út': 'Szélescsapás utca'
-  'Szőlőhegyi út': 'Szőlőhegyi utca'
+  'Szélescsapás út': 'Szélescsapás utca'  # Szélescsapás út az út és nem utca.
+  # kérdéses
+  'Római út': 'Római utca'
+  'Szőlőhegyi út': 'Szőlőhegyi utca'  # Szőlőhegyi utca a főútnál út, de a dombon mindenhol utca
   'Vadkacsa utca': 'Vadkacsa sor'
 source: survey
 housenumber-letters: true
