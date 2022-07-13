@@ -1,4 +1,20 @@
 missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  # 'Anasztázia utca': 'Anasztázia puszta'
+  'Dózsa György utca': 'Dózsa György út'
+  'Írisz utca': 'Irisz utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Madách Imre utca': 'Madách utca'
+  'Munkácsy Mihály utca': 'Munkácsy utca'
+  'Rákóczi Ferenc út': 'Rákóczi út'
+  'Siklósi utca': 'Siklósi út'
+  'Szegfű utca': 'Szegfü utca'
+  # 'Szőlőhegyi út': 'Szőlőhegy'
+  'Tompa Mihály utca': 'Tompa utca'
+  'Újhegyi út': 'Ujhegyi út'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
 source: survey
 housenumber-letters: true
 inactive: true
