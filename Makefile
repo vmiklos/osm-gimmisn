@@ -27,7 +27,6 @@ RS_OBJECTS = \
 	src/areas.rs \
 	src/areas/tests.rs \
 	src/bin/cron.rs \
-	src/bin/rouille.rs \
 	src/cache.rs \
 	src/cache/tests.rs \
 	src/cache_yamls.rs \
@@ -150,7 +149,7 @@ check-filters: $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
 	$(QUIET_VALIDATOR)target/${TARGET_PATH}/osm-gimmisn validator $< && touch $@
 
 run: all
-	target/${TARGET_PATH}/rouille
+	target/${TARGET_PATH}/osm-gimmisn rouille
 
 deploy:
 ifeq (,$(wildcard ./deploy.sh))
