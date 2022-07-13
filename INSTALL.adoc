@@ -68,7 +68,7 @@ This allows accessing your local instance for development.
 
 == Production setup
 
-- The launcher is `target/release/rouille`.
+- The launcher is `target/release/osm-gimmisn rouille`.
 
 - A sample `osm-gimmisn.service` is provided, you can copy that to
   `/etc/systemd/system/osm-gimmisn.service` and customize it to your needs.
