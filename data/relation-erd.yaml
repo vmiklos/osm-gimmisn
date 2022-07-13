@@ -1,4 +1,23 @@
 missing-streets: 'yes'
+refstreets:
+  # helyesírás
+  'Báthori István utca': 'Báthory István utca'	
+  'Kálvin tér': 'Calvin tér'	
+  'Gladiolus utca': 'Gladiólusz utca'	
+  # 'Hegyalja utca': 'Hegyaljai utca'
+  # 'Hegyaljai út': 'Hegyaljai utca'
+  'Ínfű utca': 'Infű utca'	
+  'Ligetszépe út': 'Ligetszépe utca'	
+  'Loránd utca': 'Lóránd utca'
+  'Mély utca': 'Mély út'	
+  'Othelló utca': 'Otelló utca'
+  'Sánchegyi út': 'Sánchegyi utca'	
+  'Simonpuszta': 'Simon puszta'	
+  'Szomorodni utca': 'Szamorodni utca'
+  'Tétényi út': 'Tétényi utca'
+  'Tokaj utca': 'Tokaji utca'
+  # 'Vasútállomás utcája': 'Vasútállomás'
+  'Vízöntő utca': 'Vízöntő út'	
 source: survey
 housenumber-letters: true
 inactive: true
