@@ -4,8 +4,7 @@ refstreets:
   'Báthori István utca': 'Báthory István utca'
   'Kálvin tér': 'Calvin tér'
   'Gladiolus utca': 'Gladiólusz utca'
-  # 'Hegyalja utca': 'Hegyaljai utca'
-  # 'Hegyaljai út': 'Hegyaljai utca'
+  'Hegyaljai út': 'Hegyaljai utca'
   'Ínfű utca': 'Infű utca'
   'Ligetszépe út': 'Ligetszépe utca'
   'Loránd utca': 'Lóránd utca'
@@ -18,6 +17,9 @@ refstreets:
   'Tokaj utca': 'Tokaji utca'
   # 'Vasútállomás utcája': 'Vasútállomás'
   'Vízöntő utca': 'Vízöntő út'
+  # osm-street-filters:
+  # Diósd átlógó
+  # - Hegyalja utca
 source: survey
 housenumber-letters: true
 inactive: true
