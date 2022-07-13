@@ -8,6 +8,7 @@ refstreets:
   'Pusztatorony tér': 'Puszta-torony tér'
    # kérdéses
   'Béri Balogh Ádám utca': 'Béri Balog Ádám utca'
+  'Csik Ferenc utca': 'Csík Ferenc utca'
   'Csíky Gergely utca': 'Csiky Gergely utca'
   'Csordahegy köz': 'Csorda-hegy köz'
   'Halápy János utca': 'Halápi János utca'
@@ -29,6 +30,9 @@ refstreets:
 osm-street-filters:
   # Nem valós utcák
   - M7 autópálya
+  # Balatonviláos
+  - Temető utca
+  - Vörösmarty utca
 source: survey
 housenumber-letters: true
 inactive: true
