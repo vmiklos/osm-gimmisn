@@ -5,6 +5,8 @@ filters:
     interpolation: 'all'
   Köztársaság utca:
     interpolation: 'all'
+    # 206: az utolsó házszám a 85.
+    invalid: ['206']
   Pipacs sor:
     interpolation: 'all'
   Szent László utca:
@@ -38,7 +40,6 @@ refstreets:
   # todo
   'Berzsenyi Dániel utca': 'Berzsenyi utca'
   'Dobó Katica utca': 'Dobó Katalin utca'
-  'Hajnal utca': 'Hajnalka utca'
   'Jókai Mór utca': 'Jókai utca'
   'Kölcsey Ferenc utca': 'Kölcsey utca'
   'Margaréta köz': 'Margaréta utca'
