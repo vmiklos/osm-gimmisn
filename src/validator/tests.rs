@@ -289,15 +289,17 @@ Caused by:
 /// Tests the relation path: bad filters -> ... -> ranges subkey.
 #[test]
 fn test_relation_filters_ranges_bad() {
-    let expected = r#"failed to validate tests/data/relation-gazdagret-filter-range-bad.yaml
+    let content = r#"filters:
+  'Budaörsi út':
+    ranges:
+      - {start: '137', end: '165', unexpected: 42}
+"#;
+    let expected = r#"failed to validate {0}
 
 Caused by:
     filters.Budaörsi út.ranges[0]: unknown field `unexpected`, expected one of `end`, `refsettlement`, `start` at line 4 column 36
 "#;
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-range-bad.yaml",
-        expected,
-    );
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges -> end type.
