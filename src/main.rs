@@ -45,10 +45,39 @@ fn rouille_main(_: &[String], stream: &mut dyn Write, ctx: &osm_gimmisn::context
     });
 }
 
+/// Sets up logging.
+fn cron_setup_logging(ctx: &osm_gimmisn::context::Context) {
+    let config = simplelog::ConfigBuilder::new()
+        .set_time_format_custom(simplelog::format_description!(
+            "[year]-[month]-[day] [hour]:[minute]:[second]"
+        ))
+        .set_time_offset_to_local()
+        .unwrap()
+        .build();
+    let logpath = ctx.get_abspath("workdir/cron.log");
+    let file = std::fs::File::create(logpath).expect("failed to create cron.log");
+    simplelog::CombinedLogger::init(vec![
+        simplelog::TermLogger::new(
+            simplelog::LevelFilter::Info,
+            config.clone(),
+            simplelog::TerminalMode::Stdout,
+            simplelog::ColorChoice::Never,
+        ),
+        simplelog::WriteLogger::new(simplelog::LevelFilter::Info, config, file),
+    ])
+    .expect("failed to init the combined logger");
+}
+
+fn cron_main(args: &[String], stream: &mut dyn Write, ctx: &osm_gimmisn::context::Context) -> i32 {
+    cron_setup_logging(ctx);
+    osm_gimmisn::cron::main(args, stream, ctx)
+}
+
 lazy_static::lazy_static! {
     static ref HANDLERS: HashMap<String, Handler> = {
         let mut ret: HashMap<String, Handler> = HashMap::new();
         ret.insert("cache_yamls".into(), osm_gimmisn::cache_yamls::main);
+        ret.insert("cron".into(), cron_main);
         ret.insert("missing_housenumbers".into(), osm_gimmisn::missing_housenumbers::main);
         ret.insert("parse_access_log".into(), osm_gimmisn::parse_access_log::main);
         ret.insert("rouille".into(), rouille_main);
@@ -62,6 +91,7 @@ fn main() {
     let ctx = osm_gimmisn::context::Context::new("").unwrap();
     let cache_yamls =
         clap::Command::new("cache_yamls").about("Caches YAML files from the data/ directory");
+    let cron = clap::Command::new("cron").about("Performs nightly tasks");
     let missing_housenumbers = clap::Command::new("missing_housenumbers")
         .about("Compares reference house numbers with OSM ones and shows the diff");
     let parse_access_log = clap::Command::new("parse_access_log")
@@ -70,6 +100,7 @@ fn main() {
     let validator = clap::Command::new("validator").about("Validates yaml files under data/");
     let subcommands = vec![
         cache_yamls,
+        cron,
         missing_housenumbers,
         parse_access_log,
         rouille,
