@@ -26,7 +26,6 @@ RS_OBJECTS = \
 	src/area_files.rs \
 	src/areas.rs \
 	src/areas/tests.rs \
-	src/bin/cron.rs \
 	src/cache.rs \
 	src/cache/tests.rs \
 	src/cache_yamls.rs \

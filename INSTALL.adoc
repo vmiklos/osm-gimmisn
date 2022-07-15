@@ -81,7 +81,7 @@ This allows accessing your local instance for development.
 
 ----
 # daily, at 0:05
-5 0 * * * cd /home/osm-gimmisn/git/osm-gimmisn && target/release/cron --mode all
+5 0 * * * cd /home/osm-gimmisn/git/osm-gimmisn && target/release/osm-gimmisn cron --mode all
 ----
 
-See `target/release/cron --help` for details on what switches are supported for that tool.
+See `target/release/osm-gimmisn cron --help` for details on what switches are supported for that tool.
