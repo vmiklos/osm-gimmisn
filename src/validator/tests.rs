@@ -305,14 +305,16 @@ Caused by:
 /// Tests the relation path: bad filters -> ... -> ranges -> end type.
 #[test]
 fn test_relation_filters_ranges_bad_end() {
+    let content = r#"filters:
+  'Budaörsi út':
+    ranges:
+      - {start: '137', end: 42}
+"#;
     let expected = r#"expected end >= start for 'filters.Budaörsi út.ranges[0]'
 expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'
-failed to validate tests/data/relation-gazdagret-filter-range-bad-end.yaml
+failed to validate {0}
 "#;
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-range-bad-end.yaml",
-        expected,
-    );
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges -> if start/end is swapped type.
