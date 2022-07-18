@@ -1,0 +1,11 @@
+missing-streets: 'yes'
+refstreets:
+  'Bogonhátimajor': 'Bogonháti major'
+  'Erzsébet királyné utca': 'Erzsébet királyné út'
+  'Kis utca': 'Kiss utca'
+  'Pap-réti út': 'Paprét utca'
+  'Plébánia utca': 'Plébánia út'
+  'Szent Donát utca': 'Szent Donát út'
+  'Öregkálvária utca': 'Öreg Kálvária utca'
+source: survey
+inactive: true
