@@ -1,10 +1,15 @@
 missing-streets: 'yes'
+filters:
+  Plébánia utca:
+    show-refstreet: false
 refstreets:
+   # ellenőrzött
+  'Plébánia utca': 'Plébánia út'  # Plébánia utca van a tábnán
+   # kérdéses
   'Bogonhátimajor': 'Bogonháti major'
   'Erzsébet királyné utca': 'Erzsébet királyné út'
   'Kis utca': 'Kiss utca'
   'Pap-réti út': 'Paprét utca'
-  'Plébánia utca': 'Plébánia út'
   'Szent Donát utca': 'Szent Donát út'
   'Öregkálvária utca': 'Öreg Kálvária utca'
 source: survey
