@@ -14,6 +14,7 @@
 //! <https://crates.io/crates/html-builder> would require you to manually escape attribute values.
 
 use std::cell::RefCell;
+use std::fmt::Write as _;
 use std::rc::Rc;
 
 /// Generates xml/html documents.
@@ -80,11 +81,11 @@ pub struct Tag {
 impl Tag {
     fn new(value: &Rc<RefCell<String>>, name: &str, attrs: &[(&str, &str)]) -> Tag {
         let mut guard = value.borrow_mut();
-        guard.push_str(&format!("<{}", name));
+        write!(guard, "<{}", name).unwrap();
         for attr in attrs {
             let key = attr.0;
             let val = html_escape::encode_double_quoted_attribute(&attr.1);
-            guard.push_str(&format!(" {}=\"{}\"", key, val));
+            write!(guard, " {}=\"{}\"", key, val).unwrap();
         }
         guard.push('>');
         let value = value.clone();
@@ -124,9 +125,7 @@ impl Tag {
 
 impl Drop for Tag {
     fn drop(&mut self) {
-        self.value
-            .borrow_mut()
-            .push_str(&format!("</{}>", self.name));
+        let _ = write!(self.value.borrow_mut(), "</{}>", self.name);
     }
 }
 

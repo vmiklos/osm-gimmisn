@@ -19,6 +19,7 @@ use crate::yattag;
 use anyhow::Context;
 use std::cell::RefCell;
 use std::collections::HashMap;
+use std::fmt::Write as _;
 use std::io::BufRead;
 use std::io::Read;
 use std::ops::DerefMut;
@@ -1476,8 +1477,8 @@ area(@AREA@)->.searchArea;
 "#;
     let mut query = util::process_template(header, relation.config.get_osmrelation());
     for street in streets {
-        query += &format!("way[\"name\"=\"{}\"](r.searchRelation);\n", street);
-        query += &format!("way[\"name\"=\"{}\"](area.searchArea);\n", street);
+        writeln!(query, "way[\"name\"=\"{}\"](r.searchRelation);", street).unwrap();
+        writeln!(query, "way[\"name\"=\"{}\"](area.searchArea);", street).unwrap();
     }
     query += r#");
 out body;
@@ -1504,7 +1505,7 @@ area(@AREA@)->.searchArea;
     ids.sort();
     ids.dedup();
     for (osm_type, osm_id) in ids {
-        query += &format!("{}({});\n", osm_type, osm_id);
+        writeln!(query, "{}({});", osm_type, osm_id).unwrap();
     }
     query += r#");
 out body;
