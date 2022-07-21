@@ -320,11 +320,14 @@ failed to validate {0}
 /// Tests the relation path: bad filters -> ... -> ranges -> if start/end is swapped type.
 #[test]
 fn test_relation_filters_ranges_start_end_swap() {
-    let expected = "expected end >= start for 'filters.Budaörsi út.ranges[0]'\nfailed to validate tests/data/relation-gazdagret-filter-range-start-end-swap.yaml\n";
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-range-start-end-swap.yaml",
-        expected,
-    );
+    let content = r#"filters:
+  'Budaörsi út':
+    ranges:
+      - {start: '142', end: '42'}
+"#;
+    let expected =
+        "expected end >= start for 'filters.Budaörsi út.ranges[0]'\nfailed to validate {0}\n";
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges -> if start/end is either both
