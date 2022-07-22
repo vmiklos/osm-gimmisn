@@ -83,12 +83,12 @@ ifndef V
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
 endif
 
-all: builddir/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/osm-gimmisn
+all: target/browser/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/osm-gimmisn
 
 clean:
-	rm -f config.ts
+	rm -rf target
 	rm -f $(patsubst %.yaml,%.validyaml,$(YAML_SAFE_OBJECTS))
-	rm -rf $(patsubst %.ts,%.eslint,$(TS_OBJECTS)) builddir
+	rm -f config.ts $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
 check: all check-filters check-unit check-eslint check-rustfmt check-clippy
 	@echo "make check: ok"
@@ -115,8 +115,8 @@ else
 WEBPACK_OPTIONS = --mode=production
 endif
 
-builddir/bundle.js: $(TS_OBJECTS) package-lock.json Makefile
-	mkdir -p builddir
+target/browser/bundle.js: $(TS_OBJECTS) package-lock.json Makefile
+	mkdir -p target/browser
 	$(QUIET_WEBPACK)npx webpack ${WEBPACK_OPTIONS} --config webpack.config.js
 	touch $@
 

@@ -471,7 +471,7 @@ pub fn handle_static(
     if request_uri.ends_with(".js") {
         let content_type = "application/x-javascript; charset=utf-8";
         let (content, extra_headers) =
-            get_content_with_meta(ctx, &ctx.get_abspath(&format!("builddir/{}", path)))?;
+            get_content_with_meta(ctx, &ctx.get_abspath(&format!("target/browser/{}", path)))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".css") {

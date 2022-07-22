@@ -12,7 +12,6 @@ check-clippy
 check-rustfmt
 
 # TypeScript
-builddir
 *.eslint
 node_modules
 package-lock.json
@@ -28,3 +27,6 @@ config.ts
 # ctags
 tags
 rusty-tags.vi
+
+# make
+config.mak
