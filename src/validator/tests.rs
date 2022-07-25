@@ -334,11 +334,13 @@ fn test_relation_filters_ranges_start_end_swap() {
 /// even/odd or not.
 #[test]
 fn test_relation_filters_ranges_start_end_even_odd() {
-    let expected = "expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\nfailed to validate tests/data/relation-gazdagret-filter-range-start-end-even-odd.yaml\n";
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-range-start-end-even-odd.yaml",
-        expected,
-    );
+    let content = r#"filters:
+  'Budaörsi út':
+    ranges:
+      - {start: '42', end: '143'}
+"#;
+    let expected = "expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\nfailed to validate {0}\n";
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges -> start type.
