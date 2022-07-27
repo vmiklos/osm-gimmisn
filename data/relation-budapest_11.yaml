@@ -749,8 +749,9 @@ filters:
     # 3 = az egyik autóstelep, 5 a Savolya ház, közte nincs kiírva semmit
     invalid: ['2', '3']
   Vasvirág sor:
+    # 2: 2/a, 2/b
     # 48: 48/a, 48/b
-    invalid: ['48']
+    invalid: ['2', '48']
   Verbéna utca:
     # az utca páros oldalát újraszámozták: 62 -> 48; 54-> 36 stb..
     ranges:
