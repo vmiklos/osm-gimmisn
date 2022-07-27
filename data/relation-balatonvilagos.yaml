@@ -17,7 +17,6 @@ filters:
   Sirály köz:
     interpolation: 'all'
 refstreets:
-  'Rózsa Ferenc utca': 'Rózsa utca'
   # ellenőrizve
   'Dózsa György utca': 'Dózsa György út'  # van út is régi tálával, és van utca is új táblával. A polgármesteri hivatal előtti településtérképen út van
   'Erdei Ferenc utca': 'Erdei utca'  # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
