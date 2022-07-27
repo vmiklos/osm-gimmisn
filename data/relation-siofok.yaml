@@ -1,4 +1,23 @@
 missing-streets: 'yes'
+filters:
+  Béri Balogh Ádám utca:
+    show-refstreet: false
+  Csokonai Vitéz Mihály utca:
+    show-refstreet: false
+  Kiss János altábornagy utca:
+    show-refstreet: false
+  Pusztatorony tér:
+    show-refstreet: false
+  Szépvölgyi köz:
+    show-refstreet: false
+  Szépvölgyi köz:
+    show-refstreet: false
+  Szűcs utca:
+    show-refstreet: false
+  Tinódi Lantos Sebestyén tér:
+    show-refstreet: false
+  Wesselényi Miklós utca:
+    show-refstreet: false
 refstreets:
    # rövidítés
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
@@ -7,12 +26,12 @@ refstreets:
    # ellenőrizve, osm=utcatábla
   'Béri Balogh Ádám utca': 'Béri Balog Ádám utca'  # Béri Balogh Ádám utca szerepel az utcanévtáblán is H-val a végén.
   'Hubay Jenő utca': 'Hubai Jenő utca'  # A teljes név van kitáblázva, Y-nal a vezetéknév végén.
+  'Medgyessy Ferenc utca': 'Medgyesi Ferenc utca'
   'Pusztatorony tér': 'Puszta-torony tér'
   'Szilágyi Erzsébet utca': 'Szilágyi Erzsébet fasor'  # Szilágyi Erzsébet utca szerepel a táblán
   'Szépvölgyi köz': 'Szép-völgyi köz'  # Nincs utcanévtábla, csak az egyik épületre van kiírva egybe írva.
-  'Szűcs utca': 'Szücs utca'
-  'Medgyessy Ferenc utca': 'Medgyesi Ferenc utca'
   'Szépvölgyi utca': 'Szép-völgyi utca'  # Egybe van írva, Szépvölgyi utca.
+  'Szűcs utca': 'Szücs utca'
   'Thököly Imre utca': 'Thököly utca'
   'Wesselényi Miklós utca': 'Wesselényi utca'  # A régi utcanévtáblán teljes név van, az újon már csak vezetéknév. Marad az OSM-en, ahogy van, teljes névvel.
    # kérdéses
