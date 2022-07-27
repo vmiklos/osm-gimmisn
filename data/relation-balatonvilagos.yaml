@@ -1,4 +1,21 @@
 missing-streets: 'yes'
+filters:
+  Csók István sétány:
+    interpolation: 'all'
+  Fecske köz:
+    interpolation: 'all'
+  Harkály köz:
+    interpolation: 'all'
+  Mészöly Géza sétány:
+    interpolation: 'all'
+  Petőfi Sándor utca:
+    interpolation: 'all'
+  Rákóczi Ferenc utca:
+    interpolation: 'all'
+  Rigó köz:
+    interpolation: 'all'
+  Sirály köz:
+    interpolation: 'all'
 refstreets:
   'Rózsa Ferenc utca': 'Rózsa utca'
   # ellenőrizve
