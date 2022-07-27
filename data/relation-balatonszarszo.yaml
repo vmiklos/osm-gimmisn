@@ -36,20 +36,35 @@ filters:
 # Ond utca:
 #   2/B: nem látszik kitáblázva.
 refstreets:
-  # Almahegy
-  # Ebhegy
-  # Kenderföld dűlő
-  'Akácos utca': 'Akácos út'
-  'Bartók Béla út': 'Bartók Béla utca'
+  # helyesírás
   'Bulcsú utca': 'Bulcsu utca'
-  'Keleti üdülőtelep': 'Keleti üdülő-telep'
-  'Kültelek utca': 'Kültelek'
-  'Öreghegyi út': 'Öreg hegy'
   'Örs utca': 'Őrs utca'
-  'Petőfi Sándor köz': 'Petőfi köz'
-  'Széchenyi István utca': 'Széchenyi utca'
-  'Újélet utca': 'Új Élet utca'
-  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  # todo - mi szerepel az utcatáblán?
+  'Akácos utca': 'Akácos út'  # https://www.openstreetmap.org/note/3286508
+  'Bartók Béla út': 'Bartók Béla utca'  # https://www.openstreetmap.org/note/3286515
+  'Keleti üdülőtelep': 'Keleti üdülő-telep'  # https://www.openstreetmap.org/note/3286533
+  'Kültelek utca': 'Kültelek'  # https://www.openstreetmap.org/note/3286536
+  'Öreghegyi út': 'Öreg hegy'  # https://www.openstreetmap.org/note/3286530
+  'Petőfi Sándor köz': 'Petőfi köz'  # https://www.openstreetmap.org/note/3286531
+  'Széchenyi István utca': 'Széchenyi utca'  # https://www.openstreetmap.org/note/3286532
+  'Újélet utca': 'Új Élet utca'  # https://www.openstreetmap.org/note/3286519
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'  # https://www.openstreetmap.org/note/3286518
+street-filters:
+  # nem igazi utcák
+  - Külterület telep
+  - Zártkert dűlő
+  # településrészek
+  - Almahegy  # https://www.openstreetmap.org/node/1280175940
+  - Ebhegy  # https://www.openstreetmap.org/node/1123269675
+  # Kenderföld dűlő - https://www.openstreetmap.org/note/3286498
+osm-street-filters:
+  # parkok
+  - József Attila park
+  - Óra tér
+  # nem igazi utcák
+  - Rendezvénytér
+  # átlógó utcák, Balatonszemes
+  - Hullám utca
 source: survey
 housenumber-letters: true
 inactive: true
