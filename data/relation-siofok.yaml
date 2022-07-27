@@ -5,28 +5,26 @@ refstreets:
   'Kiss János altábornagy utca': 'Kiss János altbn. utca'
   'Tinódi Lantos Sebestyén tér': 'Tinódi L. Sebestyén tér'
    # ellenőrizve, osm=utcatábla
+  'Béri Balogh Ádám utca': 'Béri Balog Ádám utca'  # Béri Balogh Ádám utca szerepel az utcanévtáblán is H-val a végén.
+  'Hubay Jenő utca': 'Hubai Jenő utca'  # A teljes név van kitáblázva, Y-nal a vezetéknév végén.
   'Pusztatorony tér': 'Puszta-torony tér'
+  'Szilágyi Erzsébet utca': 'Szilágyi Erzsébet fasor'  # Szilágyi Erzsébet utca szerepel a táblán
+  'Szépvölgyi köz': 'Szép-völgyi köz'  # Nincs utcanévtábla, csak az egyik épületre van kiírva egybe írva.
+  'Szűcs utca': 'Szücs utca'
+  'Medgyessy Ferenc utca': 'Medgyesi Ferenc utca'
+  'Szépvölgyi utca': 'Szép-völgyi utca'  # Egybe van írva, Szépvölgyi utca.
+  'Thököly Imre utca': 'Thököly utca'
+  'Wesselényi Miklós utca': 'Wesselényi utca'  # A régi utcanévtáblán teljes név van, az újon már csak vezetéknév. Marad az OSM-en, ahogy van, teljes névvel.
    # kérdéses
-  'Béri Balogh Ádám utca': 'Béri Balog Ádám utca'
-  'Csik Ferenc utca': 'Csík Ferenc utca'
-  'Csíky Gergely utca': 'Csiky Gergely utca'
   'Csordahegy köz': 'Csorda-hegy köz'
   'Halápy János utca': 'Halápi János utca'
-  'Hubay utca': 'Hubai Jenő utca'
-  'Ifjúsági utca': 'Ifjúság útja'
   'Jodi hegy': 'Jódi hegy'
   'Rákóczi utca': 'Rákóczi Ferenc utca'
   'Millennium park': 'Millenium park'
-  'Medgyessy Ferenc utca': 'Medgyesi Ferenc utca'
   'Régi Reptér utca': 'Régi reptér utca'
-  'Somló utca': 'Somlói utca'
-  'Szépvölgyi köz': 'Szép-völgyi köz'
-  'Szépvölgyi utca': 'Szép-völgyi utca'
-  'Szűcs utca': 'Szücs utca'
-  'Thököly Imre utca': 'Thököly utca'
   'Új Piac tér': 'Új-piac tér'
-  'Vikár utca': 'Vikár Béla utca'
-  'Wesselényi Miklós utca': 'Wesselényi utca'
+street-filters:
+  - Rádióállomás egyéb  # Nincs kint utcanévtábla és a toronynak sincs házszáma kitáblázva. https://www.openstreetmap.org/note/3265989
 osm-street-filters:
   # Nem valós utcák
   - M7 autópálya
