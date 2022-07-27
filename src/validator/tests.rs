@@ -358,15 +358,17 @@ fn test_relation_filters_ranges_bad_start() {
 /// Tests the relation path: missing filters -> ... -> ranges -> start key.
 #[test]
 fn test_relation_filters_ranges_missing_start() {
-    let expected = r#"failed to validate tests/data/relation-gazdagret-filter-range-missing-start.yaml
+    let content = r#"filters:
+  'Budaörsi út':
+    ranges:
+      - {end: '137'}
+"#;
+    let expected = r#"failed to validate {0}
 
 Caused by:
     filters.Budaörsi út.ranges[0]: missing field `start` at line 4 column 9
 "#;
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-range-missing-start.yaml",
-        expected,
-    );
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: missing filters -> ... -> ranges -> end key.
