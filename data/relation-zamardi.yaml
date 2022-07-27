@@ -45,6 +45,7 @@ refstreets:
   'Leiningen-Westerburg Károly köz': 'Leiningen-W. Károly köz'  # táblán: Leiningen-W. Károly köz
   # ellenőrizve, tábla = osm
   'Alsó pincesor': 'Alsópincesor'  # Alsó pincesor így van írva, bár nagy P-vel.
+   # Felső pincesor: egy fatáblán egybe van írva, de van Alsó pincesor és Nyugati pincesor különírva, és a referenciában is így van
   'Bercsényi Miklós utca': 'Bercsényi utca'
   'Dessewffy Arisztid utca': 'Dessewffy utca'
    # Erkel Ferenc utca nincs utcanévtáblán, de minden épületen teljes névvel van kiírva az utcanév
