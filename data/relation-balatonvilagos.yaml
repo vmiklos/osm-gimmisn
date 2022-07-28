@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 filters:
+  Belső utca:
+    interpolation: 'all'
   Csók István sétány:
     interpolation: 'all'
   Fecske köz:
@@ -16,9 +18,12 @@ filters:
     interpolation: 'all'
   Sirály köz:
     interpolation: 'all'
+  Zrínyi út:
+    interpolation: 'all'
 refstreets:
   # ellenőrizve
   'Dózsa György utca': 'Dózsa György út'  # van út is régi tálával, és van utca is új táblával. A polgármesteri hivatal előtti településtérképen út van
+  'Engel utca': 'Engel út'  # tábla = osm
   'Erdei Ferenc utca': 'Erdei utca'  # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
   'Kossuth Lajos utca': 'Kossuth utca'  # tábla = osm
   'Rákóczi Ferenc utca': 'Rákóczi út'  # nincs utcatábla, a házszámtáblákon vegyesen
