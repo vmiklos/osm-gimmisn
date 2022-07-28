@@ -23,7 +23,7 @@ filters:
     # 37: nincs ilyen, a 35 után a 39 következik.
     invalid: ['37']
   Bajcsy-Zsilinszky utca:
-    # 41/A: nincs ilyen, csak 41 van.
+    # 41/A: nincs ilyen, csak sima 41 van.
     # 47: ez és a Nagy Imre utca 62. közös telken van, de házszám a Nagy Imre utcáról van csak.
     # 82: sima 82 nincs, csak 82/A, 82/B.
     # 110/A: nincs ilyen, csak sima 110 van.
@@ -31,6 +31,9 @@ filters:
   Bánk bán utca:
     # 802/0: ez helyrajzi szám, nem házszám.
     invalid: ['802/0']
+  Bem József utca:
+    # 11: sima 11 nincs, csak 11/A, 11/B, 11/C.
+    invalid: ['11']
   Berzsenyi Dániel utca:
     # 226/3: a 67 az utolsó házszám.
     # 226/5: a 67 az utolsó házszám.
@@ -47,7 +50,8 @@ filters:
   Dózsa György utca:
     # A páros oldalon címrendezés lehetett, mert nagyon sok a duplikált házszám.
     # 9: nincs ilyen, a 7 után a 11 következik.
-    invalid: ['9']
+    # 10/A: nincs ilyen, csak sima 10 van.
+    invalid: ['9', '10a']
   Fő utca:
     # 39: nincs ilyen, a 37 után a 41 következik, össze van vonva a 41-gyel.
     # 45: nincs ilyen, a 43 után a 49 következik.
@@ -70,6 +74,9 @@ filters:
     # 1/A: nincs ilyen, csak Kikötő utca 1. A épület.
     # 1/B: nincs ilyen, csak Kikötő utca 1. B épület.
     invalid: ['1a', '1b']
+  Kölcsey Ferenc utca:
+    # 17/A: az épületen csak sima 17 van. Mellette viszont van 17/B.
+    invalid: ['17a']
   Kossuth Lajos utca:
     # 13/A: nincs ilyen, csak sima 13 van.
     # 17: a páratlan oldalon a 13 az utolsó házszám.
@@ -81,6 +88,10 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
+  Madách Imre utca:
+    # 9/A: nincs ilyen, csak sima 9 van. A 15 után viszont van egy 9/B.
+    # 16/B: nincs ilyen, csak sima 16 van. A páros oldalon a 16 az utolsó házszám.
+    invalid: ['9a', '16b']
   Mártírok útja:
     # 3: nincs ilyen, az 1 után az 5 következik.
     # 7: ez a kertmozi, de annak a címe Kossuth Lajos utca 2.
@@ -88,7 +99,7 @@ filters:
     # 17: nincs ilyen, a 15 után a 19 követközik.
     # 31/A: több épület is van egy összenyitott telken, de egyiken sincs házszám.
     # 14: sima 14 nincs, csak 14/A, 14/B.
-    # 32/B: nincs ilyen, csak sima 32. A páros oldalon a 32 az utolsó házszám.
+    # 32/B: nincs ilyen, csak sima 32 van. A páros oldalon a 32 az utolsó házszám.
     invalid: ['3', '7', '11/2', '17', '14', '32b']
   Nagy Imre utca:
     # 66: sima 66 nincs, csak 66/A, 66/B, 66/C, 66/D.
