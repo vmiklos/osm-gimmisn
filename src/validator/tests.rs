@@ -374,15 +374,17 @@ Caused by:
 /// Tests the relation path: missing filters -> ... -> ranges -> end key.
 #[test]
 fn test_relation_filters_ranges_missing_end() {
-    let expected = r#"failed to validate tests/data/relation-gazdagret-filter-range-missing-end.yaml
+    let content = r#"filters:
+  'Budaörsi út':
+    ranges:
+      - {start: '137'}
+"#;
+    let expected = r#"failed to validate {0}
 
 Caused by:
     filters.Budaörsi út.ranges[0]: missing field `end` at line 4 column 9
 "#;
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-range-missing-end.yaml",
-        expected,
-    );
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the housenumber-letters key: bad type.
