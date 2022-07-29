@@ -65,6 +65,8 @@ filters:
   Halász utca:
     # 12/A: nincs ilyen, csak sima 12 van.
     invalid: ['12a']
+  Határ utca:
+    interpolation: 'all'
   Hét vezér utca:
     # 64: a páros oldalon a 10 az utolsó házszám.
     invalid: ['64']
@@ -96,6 +98,8 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '2', end: '12'}
+  Lellei utca:
+    interpolation: 'all'
   Madách Imre utca:
     # 9/A: nincs ilyen, csak sima 9 van. A 15 után viszont van egy 9/B.
     # 16/B: nincs ilyen, csak sima 16 van. A páros oldalon a 16 az utolsó házszám.
@@ -146,6 +150,8 @@ filters:
   Tűzoltó utca:
     # 63: a páratlan oldalon a 31 az utolsó házszám.
     invalid: ['63']
+  Új utca:
+    interpolation: 'all'
   Vadvirág utca:
     # 14: a páros oldalon nincsenek házak, ott szántóföld van.
     invalid: ['14']
