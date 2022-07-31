@@ -271,7 +271,8 @@ filters:
     # Budapart egy része éríntett: 13-19, 12-20 Nádorkerthez tartozik
     # 4a, 6b, 4c, 4d: Nádorliget utca 7/a-7/b-7/c-7/d-re számozva
     # 7a: nincs
-    invalid: ['4a', '4c', '4d', '6b', '7a']
+    # 10 = Budafoki út 97-103
+    invalid: ['4a', '4c', '4d', '6b', '7a', '10']
   Homonna utca:
     # 13 could be 21, but it's in fact 13-21
     # 20: 20/a, 20/b
@@ -324,6 +325,7 @@ filters:
     # 11-13: csak 11 van kiírva
     # 29: 29/a, 29/b
     # 35a, 35/b: 35 a és b épület
+    # 40: 40/a, 40/b
     # 42: csak 42/a
     # 44a: csak sima 44 a kerítésen, az házat lebontották
     # 45: 45/a, 45/b
@@ -336,7 +338,7 @@ filters:
     # 70: 70/a, 70/b
     # 72, 74: másik utcára számozódnak
     # 77b: csak sima 77
-    invalid: ['13', '29', '35a', '35b', '42', '44a', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
+    invalid: ['13', '29', '35a', '35b', '40', '42', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
     ranges:
       - {start: '1', end: '81'}
       - {start: '2', end: '70'}
@@ -481,7 +483,9 @@ filters:
     # 23+ zöldterület
     ranges: []
   Szüret utca:
-    ranges:
+    # 9: 9/a, 9/b 
+    invalid: ['9']
+    ranges:      
       - {start: '1', end: '29'}
       - {start: '2', end: '18'}
   Tas vezér utca:
@@ -882,6 +886,7 @@ filters:
     invalid: ['1b']
   Minerva utca:
     # 2: 2/a vízművek
+    # 3/a, 3/b: 3/a-b ez 3-nak képződik le.
     # 9: 2 épület, de csak sima 9 van kiírva.
     # 17: 17/a lebontva, 17/b
     invalid: ['2', '9a', '9b', '17']
@@ -891,7 +896,8 @@ filters:
     # 22/3: csak sima 22
     # 27: csak 27/b, mert 27/a = Menta utca 5.
     # 29b: 29, 29/a
-    invalid: ['14b', '16b', '22/3', '27', '29b']
+    # 33: 33/a, 33/b
+    invalid: ['14b', '16b', '22/3', '27', '29b', '33']
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '24'}
