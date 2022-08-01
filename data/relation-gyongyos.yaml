@@ -6,9 +6,11 @@ osm-street-filters:
   - Régi 24-es főút
   # Parkok, sétányok házszám nélkül
   - Görgő-bikki pihenő
+  - Kékes téri park
   - Huszár kert
   - Parti sétány
   - Posta park
+  - Somor-patak-völgye
 refstreets:
   'Aba út': 'Aba utca'
   'Bajcsy-Zsilinszky Endre körút': 'Bajcsy-Zsilinszky körút'
