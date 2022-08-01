@@ -1,0 +1,21 @@
+missing-streets: 'yes'
+refstreets:
+  # helyesírás
+  # kérdéses
+  'Bitskey utca': 'Bitskey Gyula utca'
+  'Csömöri utca': 'Csömöri út'
+  'Jókai Mór utca': 'Jókai Mór út'
+  'Középhegyi utca': 'Középhegy utca'
+  'Mandula utca': 'Mandulás utca'
+  'Mogyoródi utca': 'Mogyoródi út'
+  'Rét utca': 'Rét út'
+  'Szedervölgy köz': 'Szedervölgyi köz'
+  'Szedervölgyi utca': 'Szedervölgyi út'
+  'Új-Hegy út': 'Új-hegy út'
+# street-filters:
+#  - Dummy
+#osm-street-filters:
+#  - Dummy
+source: survey
+housenumber-letters: false
+inactive: true

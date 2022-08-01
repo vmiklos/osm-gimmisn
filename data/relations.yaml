@@ -656,6 +656,10 @@ budaors-szilvas:
     osmrelation: 10478374
     refcounty: "14"
     refsettlement: "015"
+csomor:
+    osmrelation: 1390432
+    refcounty: "14"
+    refsettlement: "023"
 dunabogdany:
     osmrelation: 216165
     refcounty: "14"
