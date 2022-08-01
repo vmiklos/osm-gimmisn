@@ -4,6 +4,7 @@ refstreets:
   # kérdéses
   'Bitskey utca': 'Bitskey Gyula utca'
   'Csömöri utca': 'Csömöri út'
+  'Emlékmű utca': 'Emlékmű köz'
   'Jókai Mór utca': 'Jókai Mór út'
   'Középhegyi utca': 'Középhegy utca'
   'Mandula utca': 'Mandulás utca'
@@ -12,10 +13,21 @@ refstreets:
   'Szedervölgy köz': 'Szedervölgyi köz'
   'Szedervölgyi utca': 'Szedervölgyi út'
   'Új-Hegy út': 'Új-hegy út'
-# street-filters:
-#  - Dummy
-#osm-street-filters:
-#  - Dummy
+street-filters:
+  # hrsz utcák
+  - 0108 utca
+  - 0147 utca
+osm-street-filters:
+  # nem igazi utcák
+  - 3-as számú bekötőút
+  # parkok
+  - Bulgárkert
+  # határon futó/átlógó utcán
+  - Asztag utca
+  - Csöbör utca
+  - Hunyadi utca 
+  - Szlanka utca
+  - Timur utca
 source: survey
 housenumber-letters: false
 inactive: true
