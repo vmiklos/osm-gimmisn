@@ -477,7 +477,7 @@ pub fn handle_static(
     if request_uri.ends_with(".css") {
         let content_type = "text/css; charset=utf-8";
         let (content, extra_headers) =
-            get_content_with_meta(ctx, &format!("{}/{}", ctx.get_ini().get_workdir(), path))
+            get_content_with_meta(ctx, &ctx.get_abspath(&format!("target/browser/{}", path)))
                 .context("get_content_with_meta() failed")?;
         return Ok((content, content_type.into(), extra_headers));
     }

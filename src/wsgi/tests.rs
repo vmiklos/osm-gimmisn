@@ -1682,7 +1682,8 @@ fn test_application_error() {
         write.write_all(b"/* comment */").unwrap();
     }
     let mut file_system = context::tests::TestFileSystem::new();
-    let files = context::tests::TestFileSystem::make_files(&ctx, &[("workdir/osm.min.css", &css)]);
+    let files =
+        context::tests::TestFileSystem::make_files(&ctx, &[("target/browser/osm.min.css", &css)]);
     file_system.set_files(&files);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
@@ -1776,12 +1777,12 @@ fn test_static_css() {
     css_value.borrow_mut().write_all(b"{}").unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[("workdir/osm.min.css", &css_value)],
+        &[("target/browser/osm.min.css", &css_value)],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/osm.min.css"),
+        test_wsgi.ctx.get_abspath("target/browser/osm.min.css"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);

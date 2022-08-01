@@ -144,7 +144,9 @@ impl FileSystem for TestFileSystem {
             ret.borrow_mut().seek(SeekFrom::Start(0))?;
             return Ok(ret);
         }
-        let ret: Rc<RefCell<dyn Read>> = Rc::new(RefCell::new(std::fs::File::open(path)?));
+        let ret: Rc<RefCell<dyn Read>> = Rc::new(RefCell::new(
+            std::fs::File::open(path).context(format!("failed to open '{}'", path))?,
+        ));
         Ok(ret)
     }
 

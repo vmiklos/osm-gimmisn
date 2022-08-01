@@ -26,9 +26,10 @@ fn test_handle_static() {
         write.write_all(b"/* comment */").unwrap();
     }
     let mut file_system = context::tests::TestFileSystem::new();
-    let files = context::tests::TestFileSystem::make_files(&ctx, &[("workdir/osm.min.css", &css)]);
+    let files =
+        context::tests::TestFileSystem::make_files(&ctx, &[("target/browser/osm.min.css", &css)]);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/osm.min.css");
+    let path = ctx.get_abspath("target/browser/osm.min.css");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
