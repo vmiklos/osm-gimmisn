@@ -124,9 +124,9 @@ package-lock.json: package.json
 	npm install
 	touch $@
 
-css: workdir/osm.min.css
+css: target/browser/osm.min.css
 
-workdir/osm.min.css: static/osm.css package-lock.json
+target/browser/osm.min.css: static/osm.css package-lock.json
 	mkdir -p workdir
 	[ -x "./node_modules/.bin/cleancss" ] && npx cleancss -o $@ $< || cp -a $< $@
 
