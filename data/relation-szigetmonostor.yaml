@@ -239,7 +239,7 @@ street-filters:
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Füzeserdő-Kisdunapart': 'Füzeserdő-Kisdunap.'
-  'Horánygyöngye üdülő': 'Horány gyöngye üdülő'
+  # 'Horánygyöngye üdülő': 'Horány gyöngye üdülő'
   'Illyés Gyula köz': 'Illyés köz'
   # https://www.mapillary.com/map/im/kBq3KsAgLcrCQmjeiVam9U
   'Jegenye sor': 'Jegenyesor'
