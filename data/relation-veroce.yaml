@@ -51,6 +51,7 @@ filters:
       - {start: '2', end: '98'}
 osm-street-filters:
   # Nem valós utcák
+  - Szob-Vác EuroVelo-6 kerékpárút
   - KDV-VIZIG
   # Parkok
   - Migazzi-kastély parkja
