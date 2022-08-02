@@ -1,6 +1,6 @@
 = Version descriptions
 
-== master
+== 7.4
 
 - Ported to chartjs v3, the javascript bundle size is now about 20% smaller
 
