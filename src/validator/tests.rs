@@ -434,11 +434,14 @@ Caused by:
 /// Tests the relation path: bad refstreets map, not 1:1.
 #[test]
 fn test_relation_refstreets_bad_map_type() {
-    let expected = "osm and ref streets are not a 1:1 mapping in 'refstreets'\nfailed to validate tests/data/relation-gazdagret-refstreets-bad-map.yaml\n";
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-refstreets-bad-map.yaml",
-        expected,
-    );
+    let content = r#"refstreets:
+  'OSM Name 1': "Ref Name 1"
+  # maps to the same ref name
+  'OSM Name 2': "Ref Name 1"
+"#;
+    let expected =
+        "osm and ref streets are not a 1:1 mapping in 'refstreets'\nfailed to validate {0}\n";
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> valid subkey.
