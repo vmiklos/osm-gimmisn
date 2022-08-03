@@ -5,10 +5,10 @@ refstreets:
   'Rozgonyi Cecília utca': 'Rozgonyi Cecilia utca'
   # kérdéses
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
-  'Bocskai István utca': 'Bocskay utca'
   'Bolyai János utca': 'Bólyai János utca'
   'Gesztenye fasor': 'Gesztenyefa sor'
-  'Rigóvölgyi út': 'Rigóvölgyi utca'
+  # tábla = osm
+  'Bocskai István utca': 'Bocskay utca'
 osm-street-filters:
   # nem igazi utcák
   - Régi játszótér
