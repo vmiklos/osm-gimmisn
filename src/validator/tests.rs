@@ -447,11 +447,12 @@ fn test_relation_refstreets_bad_map_type() {
 /// Tests the relation path: bad filters -> ... -> valid subkey.
 #[test]
 fn test_relation_filters_valid_bad2() {
-    let expected = "expected format for 'filters.Budaörsi út.valid[0]' is '42', '42a' or '42/1'\nfailed to validate tests/data/relation-gazdagret-filter-valid-bad2.yaml\n";
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-valid-bad2.yaml",
-        expected,
-    );
+    let content = r#"filters:
+  'Budaörsi út':
+    valid: ['1c 1']
+"#;
+    let expected = "expected format for 'filters.Budaörsi út.valid[0]' is '42', '42a' or '42/1'\nfailed to validate {0}\n";
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests the relation path: bad type for the filters -> ... -> valid subkey.
