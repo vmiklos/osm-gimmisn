@@ -458,15 +458,16 @@ fn test_relation_filters_valid_bad2() {
 /// Tests the relation path: bad type for the filters -> ... -> valid subkey.
 #[test]
 fn test_relation_filters_valid_bad_type() {
-    let expected = r#"failed to validate tests/data/relation-gazdagret-filter-valid-bad-type.yaml
+    let content = r#"filters:
+  'Budaörsi út':
+    valid: "hello"
+"#;
+    let expected = r#"failed to validate {0}
 
 Caused by:
     filters.Budaörsi út.valid: invalid type: string "hello", expected a sequence at line 3 column 12
 "#;
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-valid-bad-type.yaml",
-        expected,
-    );
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests that we do not accept whitespace in the value of the 'start' key.
