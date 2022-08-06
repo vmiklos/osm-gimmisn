@@ -1,27 +1,28 @@
 missing-streets: 'yes'
 refstreets:
-  # helyesírás
-  # kérdéses
-  'Bitskey utca': 'Bitskey Gyula utca'
-  'Csömöri utca': 'Csömöri út'
-  'Emlékmű utca': 'Emlékmű köz'
-  'Középhegyi utca': 'Középhegy utca'
-  'Mandula utca': 'Mandulás utca'
-  'Mogyoródi utca': 'Mogyoródi út'
-  'Rét utca': 'Rét út'
-  'Szedervölgy köz': 'Szedervölgyi köz'
-  'Szedervölgyi utca': 'Szedervölgyi út'
+  # helyesírás / allcaps
   'Új-Hegy út': 'Új-hegy út'
+  # ellenőrzött
+  'Csokonai utca': 'Csokonai út'  # táblán Csokonai u. házakon van ahol Csokonai út
+  'Csömöri utca': 'Csömöri út'  # Budapesten Csömöri út, csömörön Csömöri utca
+  'Hegyalja utca': 'Hegyalja út'
+  'Mogyoródi utca': 'Mogyoródi út'
+  # 'Szedervölgyi utca': 'Szedervölgyi út'  # 2 tábla út, 1 tábla utca
+  # 'Rét utca': 'Rét út'  # táblák vegyesen
+  # 'Középhegyi utca': 'Középhegy utca'  # táblák többségén Középhegy utca
 street-filters:
   # hrsz utcák
   - 0108 utca
   - 0147 utca
+  # nincs
+  - Avar utca
 osm-street-filters:
   # nem igazi utcák
-  - 3-as számú bekötőút
+  - Laki sarok
   # parkok
   - Bulgárkert
-  # határon futó/átlógó utcán
+  - Laky park
+  # határon futó/átlógó utcák
   - Asztag utca
   - Csöbör utca
   - Hunyadi utca
