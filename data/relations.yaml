@@ -457,6 +457,10 @@ csongrad:
     osmrelation: 1025084  # Csongrád egész
     refcounty: "06"
     refsettlement: "013"
+morahalom:
+    osmrelation: 1025067
+    refcounty: "06"
+    refsettlement: "036"
 # 07 - Fejér megye
 gardony:
     osmrelation: 1418516  # Gárdony egész
