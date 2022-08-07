@@ -1,15 +1,42 @@
 missing-streets: 'yes'
+filters:
+  Csokonai utca:
+    show-refstreet: false
+  Csömöri utca:
+    show-refstreet: false
+  Hegyalja utca:
+    show-refstreet: false
+  Levendula utca:
+    # 100+ az hrsz
+    invalid: ['106']
+  Mogyoródi utca:
+    show-refstreet: false
+  Páskom utca:
+    # 100+ az hrsz 
+    invalid: ['110', '138']
+  Rét út:
+    # 105+ az hrsz 
+    invalid: ['141', '145', '147', '494']
+  Szedervölgyi köz:
+    # 100+ az hrsz 
+    invalid: ['130']
+  Szedervölgyi út:
+    # 100+ az hrsz 
+    invalid: ['119', '129']
+  Vízmosás utca:
+    # 100+ az hrsz 
+    invalid: ['259']
 refstreets:
   # helyesírás / allcaps
-  'Új-Hegy út': 'Új-hegy út'
+  Új-Hegy út: Új-hegy út
   # ellenőrzött
-  'Csokonai utca': 'Csokonai út'  # táblán Csokonai u. házakon van ahol Csokonai út
-  'Csömöri utca': 'Csömöri út'  # Budapesten Csömöri út, csömörön Csömöri utca
-  'Hegyalja utca': 'Hegyalja út'
-  'Mogyoródi utca': 'Mogyoródi út'
-  # 'Szedervölgyi utca': 'Szedervölgyi út'  # 2 tábla út, 1 tábla utca
-  # 'Rét utca': 'Rét út'  # táblák vegyesen
-  # 'Középhegyi utca': 'Középhegy utca'  # táblák többségén Középhegy utca
+  Csokonai utca: Csokonai út  # táblán Csokonai u. házakon van ahol Csokonai út
+  Csömöri utca: Csömöri út  # Budapesten Csömöri út, csömörön Csömöri utca
+  Hegyalja utca: Hegyalja út
+  Mogyoródi utca: Mogyoródi út
+  # Szedervölgyi utca: Szedervölgyi út  # 2 tábla út, 1 tábla utca
+  # Rét utca: Rét út  # táblák vegyesen
+  # Középhegyi utca: Középhegy utca  # táblák többségén Középhegy utca
 street-filters:
   # hrsz utcák
   - 0108 utca
@@ -30,4 +57,4 @@ osm-street-filters:
   - Timur utca
 source: survey
 housenumber-letters: false
-inactive: true
+inactive: false
