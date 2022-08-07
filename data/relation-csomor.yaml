@@ -12,19 +12,19 @@ filters:
   Mogyoródi utca:
     show-refstreet: false
   Páskom utca:
-    # 100+ az hrsz 
+    # 100+ az hrsz
     invalid: ['110', '138']
   Rét út:
-    # 105+ az hrsz 
+    # 105+ az hrsz
     invalid: ['141', '145', '147', '494']
   Szedervölgyi köz:
-    # 100+ az hrsz 
+    # 100+ az hrsz
     invalid: ['130']
   Szedervölgyi út:
-    # 100+ az hrsz 
+    # 100+ az hrsz
     invalid: ['119', '129']
   Vízmosás utca:
-    # 100+ az hrsz 
+    # 100+ az hrsz
     invalid: ['259']
 refstreets:
   # helyesírás / allcaps
