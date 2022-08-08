@@ -30,6 +30,7 @@ refstreets:
   # helyesírás / allcaps
   Új-Hegy út: Új-hegy út
   # ellenőrzött
+  Akácos utca: Akácos út  # táblán Akácos u. van
   Csokonai utca: Csokonai út  # táblán Csokonai u. házakon van ahol Csokonai út
   Csömöri utca: Csömöri út  # Budapesten Csömöri út, csömörön Csömöri utca
   Hegyalja utca: Hegyalja út
