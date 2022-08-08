@@ -1,9 +1,14 @@
 missing-streets: 'yes'
 filters:
+  Akácos utca:
+    show-refstreet: false
   Csokonai utca:
     show-refstreet: false
   Csömöri utca:
     show-refstreet: false
+  Erzsébet utca:
+    # 83: nincs, ezek vannak: 81, 81/b, 85
+    invalid: ['83']
   Hegyalja utca:
     show-refstreet: false
   Levendula utca:
