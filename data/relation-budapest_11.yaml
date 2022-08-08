@@ -627,10 +627,11 @@ filters:
       - {start: '13', end: '29'}
       - {start: '10', end: '28'}
   Hunyadi János út:
+    # 6-10: Pappas Autó csak 6 van kiírva
     # 9a, 9b: csak sima 9 van, ipartelep több számozott épülettel
     # 12a: csak sima 12 van, ipartelep
     # 19 Savoya, 23 OBI, 162 volt házgyár
-    invalid: ['5', '9a', '9b', '12a', '13', '17', '19a', '21', '21a', '23a']
+    invalid: ['5', '8', '9a', '9b', '10', '12a', '13', '17', '19a', '21', '21a', '23a']
     ranges:
       - {start: '1', end: '23'}
       - {start: '2', end: '16'}
