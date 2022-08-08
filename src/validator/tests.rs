@@ -473,11 +473,13 @@ Caused by:
 /// Tests that we do not accept whitespace in the value of the 'start' key.
 #[test]
 fn test_start_whitespace() {
-    let expected = "expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\nfailed to validate tests/data/relation-gazdagret-filter-range-bad-start2.yaml\n";
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-range-bad-start2.yaml",
-        expected,
-    );
+    let content = r#"filters:
+  'Budaörsi út':
+    ranges:
+      - {start: '137 ', end: '165'}
+"#;
+    let expected = "expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\nfailed to validate {0}\n";
+    assert_failure_msg2(content, expected);
 }
 
 /// Tests that we do not accept whitespace in the value of the 'end' key.
