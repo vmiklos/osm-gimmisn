@@ -1,9 +1,11 @@
 missing-streets: 'yes'
 filters:
   0108. utca:
+    # 110 = 0110/54
     show-refstreet: false
-  0147. utca:
-    show-refstreet: false
+    invalid: ['110']
+  # 0147. utca:
+  #  show-refstreet: false
   Akácos utca:
     show-refstreet: false
   Csokonai utca:
@@ -15,32 +17,57 @@ filters:
     invalid: ['83']
   Hegyalja utca:
     show-refstreet: false
+  Kerepesi-határ út:
+    # 53/14: hrsz
+    invalid: ['53']
   Levendula utca:
     # 100+ az hrsz
     invalid: ['106']
+  Nektár utca:
+    # 300+ az hrsz
+    invalid: ['364', '374']
   Mogyoródi utca:
     show-refstreet: false
   Páskom utca:
     # 100+ az hrsz
     invalid: ['110', '138']
+  Páva út:
+    # 100+ az hrsz
+    invalid: ['532']
   Rét út:
     # 105+ az hrsz
     invalid: ['141', '145', '147', '494']
+  Rozmaring utca:
+    # 100+ az hrsz
+    invalid: ['381', '391']
   Szedervölgyi köz:
     # 100+ az hrsz
     invalid: ['130']
   Szedervölgyi út:
     # 100+ az hrsz
     invalid: ['119', '129']
+  Szőlő utca:
+    ranges:
+      - {start: '1', end: '199'}
+      - {start: '2', end: '198'}
+  Tinódi utca:
+    # 63/19 hrsz.
+    invalid: ['63']
+  Vadkerti Zsigmond utca:
+    # 100+ az hrsz
+    invalid: ['434', '435']
   Vízmosás utca:
     # 100+ az hrsz
     invalid: ['259']
+  Vízműsor utca:
+    # 100+ az hrsz
+    invalid: ['362']
 refstreets:
   # helyesírás / allcaps
   Új-Hegy út: Új-hegy út
   # hrsz. utca
   0108. utca: 0108 utca  # táblán 0108. utca
-  0147. utca: 0147 utca
+  # 0147. utca: 0147 utca  # egyelőre nincs felrajzolva
   # ellenőrzött
   Akácos utca: Akácos út  # táblán Akácos u. van
   Csokonai utca: Csokonai út  # táblán Csokonai u. házakon van ahol Csokonai út
