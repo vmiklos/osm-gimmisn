@@ -145,16 +145,6 @@ fn test_relation() {
     assert_eq!(buf.into_inner(), b"");
 }
 
-/// Asserts that a given input fails with a given error message.
-fn assert_failure_msg(path: &str, expected: &str) {
-    let argv: &[String] = &["".to_string(), path.to_string()];
-    let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-    let ctx = context::tests::make_test_context().unwrap();
-    let ret = main(argv, &mut buf, &ctx);
-    assert_eq!(ret, 1);
-    assert_eq!(String::from_utf8(buf.into_inner()).unwrap(), expected);
-}
-
 /// Asserts that a given input (path, content) fails with a given error message.
 fn assert_failure_msg2(content: &str, expected: &str) {
     let path = "data/relation-myrelation.yaml";
@@ -485,9 +475,11 @@ fn test_start_whitespace() {
 /// Tests that we do not accept whitespace in the value of the 'end' key.
 #[test]
 fn test_end_whitespace() {
-    let expected = "expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\nfailed to validate tests/data/relation-gazdagret-filter-range-bad-end2.yaml\n";
-    assert_failure_msg(
-        "tests/data/relation-gazdagret-filter-range-bad-end2.yaml",
-        expected,
-    );
+    let content = r#"filters:
+  'Budaörsi út':
+    ranges:
+      - {start: '137', end: '165 '}
+"#;
+    let expected = "expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\nfailed to validate {0}\n";
+    assert_failure_msg2(content, expected);
 }
