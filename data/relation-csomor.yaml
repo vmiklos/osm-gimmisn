@@ -1,8 +1,8 @@
 missing-streets: 'yes'
 filters:
-  0108 utca:
+  0108. utca:
     show-refstreet: false
-  0147 utca:
+  0147. utca:
     show-refstreet: false
   Akácos utca:
     show-refstreet: false
