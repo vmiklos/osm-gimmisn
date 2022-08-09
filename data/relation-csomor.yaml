@@ -1,5 +1,9 @@
 missing-streets: 'yes'
 filters:
+  0108 utca:
+    show-refstreet: false
+  0147 utca:
+    show-refstreet: false
   Akácos utca:
     show-refstreet: false
   Csokonai utca:
@@ -34,6 +38,9 @@ filters:
 refstreets:
   # helyesírás / allcaps
   Új-Hegy út: Új-hegy út
+  # hrsz. utca
+  0108. utca: 0108 utca  # táblán 0108. utca
+  0147. utca: 0147 utca
   # ellenőrzött
   Akácos utca: Akácos út  # táblán Akácos u. van
   Csokonai utca: Csokonai út  # táblán Csokonai u. házakon van ahol Csokonai út
@@ -44,9 +51,6 @@ refstreets:
   # Rét utca: Rét út  # táblák vegyesen
   # Középhegyi utca: Középhegy utca  # táblák többségén Középhegy utca
 street-filters:
-  # hrsz utcák
-  - 0108 utca
-  - 0147 utca
   # nincs
   - Avar utca
 osm-street-filters:
