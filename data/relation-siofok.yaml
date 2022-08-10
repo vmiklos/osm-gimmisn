@@ -47,10 +47,11 @@ refstreets:
   # - Patak utca: a vége hiányzott a térképről. Megrajzoltam, elneveztem.
   # - Rákóczi Ferenc utca: teljes névvel és csak vezetéknévvel is ki van táblázva. Az OSM-en átírtam teljes névre.
 street-filters:
+  # nem igazi utcák
   - Rádióállomás egyéb  # Nincs kint utcanévtábla és a toronynak sincs házszáma kitáblázva. https://www.openstreetmap.org/note/3265989
+  - Lovasiskola
 osm-street-filters:
   # Nem valós utcák
-  - Lovasiskola
   - M7 autópálya
   # Balatonviláos
   - Temető utca
