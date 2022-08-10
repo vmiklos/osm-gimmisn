@@ -25,6 +25,8 @@ refstreets:
   'Tinódi Lantos Sebestyén tér': 'Tinódi L. Sebestyén tér'
    # ellenőrizve, osm=utcatábla
   'Béri Balogh Ádám utca': 'Béri Balog Ádám utca'  # Béri Balogh Ádám utca szerepel az utcanévtáblán is H-val a végén.
+  'Csordahegy köz': 'Csorda-hegy köz'
+  'Halápy János utca': 'Halápi János utca'
   'Hubay Jenő utca': 'Hubai Jenő utca'  # A teljes név van kitáblázva, Y-nal a vezetéknév végén.
   'Medgyessy Ferenc utca': 'Medgyesi Ferenc utca'
   'Pusztatorony tér': 'Puszta-torony tér'
@@ -35,13 +37,15 @@ refstreets:
   'Thököly Imre utca': 'Thököly utca'
   'Wesselényi Miklós utca': 'Wesselényi utca'  # A régi utcanévtáblán teljes név van, az újon már csak vezetéknév. Marad az OSM-en, ahogy van, teljes névvel.
    # kérdéses
-  'Csordahegy köz': 'Csorda-hegy köz'
-  'Halápy János utca': 'Halápi János utca'
   'Jodi hegy': 'Jódi hegy'
-  'Rákóczi utca': 'Rákóczi Ferenc utca'
   'Millennium park': 'Millenium park'
   'Régi Reptér utca': 'Régi reptér utca'
   'Új Piac tér': 'Új-piac tér'
+  # javítva
+  # - Alsó utca, Rét utca, Szigeti dűlő: ezen a három néven futott az utca, de valójában végig Alsó utca a házszámtáblák alapján. Átneveztem az összes szakaszt.
+  # - Cseppkő utca: kint van a Cseppkő utca tábla, de nincs meg az utca :) A FÖMI-n még látszik egy földút, de a Maxaron már parcellázott, beépített terület. Az „utca” valószínűleg a fasor helyén lesz majd valamikor. vagy volt, csak a természet visszahódította.
+  # - Patak utca: a vége hiányzott a térképről. Megrajzoltam, elneveztem.
+  # - Rákóczi Ferenc utca: teljes névvel és csak vezetéknévvel is ki van táblázva. Az OSM-en átírtam teljes névre.
 street-filters:
   - Rádióállomás egyéb  # Nincs kint utcanévtábla és a toronynak sincs házszáma kitáblázva. https://www.openstreetmap.org/note/3265989
 osm-street-filters:
