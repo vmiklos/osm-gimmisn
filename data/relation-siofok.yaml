@@ -50,6 +50,7 @@ street-filters:
   - Rádióállomás egyéb  # Nincs kint utcanévtábla és a toronynak sincs házszáma kitáblázva. https://www.openstreetmap.org/note/3265989
 osm-street-filters:
   # Nem valós utcák
+  - Lovasiskola
   - M7 autópálya
   # Balatonviláos
   - Temető utca
