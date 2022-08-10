@@ -39,30 +39,29 @@ osm-street-filters:
   - Kamarás park
   # Balatonboglár határ, a számok ott vannak
   - Határ köz
-  # Alsó utca - szabályozási terven van - https://www.openstreetmap.org/note/3286298
-  # Fenyő köz - szabályozási terven van
-  # Zöldfa köz - szabályozási terven van
-  # Martinovics Nándor tér - terven csak az eleje látszik az utcanévnek (2), a másik szelvényen nem folytatódik a név (1)
-  # Martinovics utca - a terven (1) nincs neve 
   # Határ utca - a terven (7) nincs neve
-  # Kishegyi út - Kishegy településrészre vezető külterületi út - a terven (6-12-13) nincs neve
   # Panoráma utca - Kishegy településrészen - külterület - terven (13) nincs neve
-  # Ruttner Lajos utca - terven Ruttner utca
+  # -- kérdéses
+  # Fenyő köz - szabályozási terven van - nincs utcanévtábla
+  # Kishegyi út: a terven nincs neve - a fa útjelzőtáblán csak Kishegy van.
+  # Martinovics utca: a terven nincs neve  - nincs utcanévtábla.
 refstreets:
   # helyesírás
   'Dr. Kiss Károly utca': 'Dr.Kiss Károly utca'
   'Szent László utca': 'Szt.László utca'
   'Zrínyi Miklós utca': 'Zrinyi Miklós utca'
   # todo - mi szerepel az utcatáblán?
+  # ellenőrzött
+  'Margaréta köz': 'Margaréta utca'  # https://www.openstreetmap.org/note/3286437
+  # A régi utcanévtáblákon Vezetéknév Keresztnév szerepel, az új utcanévtáblákon csak Vezetéknév. Feltételezem, hogy minden utca teljes nevű. Ez az egész településre értendő.
   'Berzsenyi Dániel utca': 'Berzsenyi utca'  # https://www.openstreetmap.org/note/3286417
-  'Dobó Katica utca': 'Dobó Katalin utca' # https://www.openstreetmap.org/note/3286420
   'Jókai Mór utca': 'Jókai utca' # https://www.openstreetmap.org/note/3286428
   'Kölcsey Ferenc utca': 'Kölcsey utca' # https://www.openstreetmap.org/note/3286435
-  'Margaréta köz': 'Margaréta utca'  # https://www.openstreetmap.org/note/3286437
-  'Nyír köz': 'Nyár utca'  # https://www.openstreetmap.org/note/3286394
   'Petőfi Sándor utca': 'Petőfi utca'  # https://www.openstreetmap.org/note/3286434
-  'Rózsavölgyi köz': 'Rózsavölgy köz' # https://www.openstreetmap.org/note/3286439
-  'Szent István utca': 'Szent István út' # https://www.openstreetmap.org/note/3286441
+  # - Dobó Katalin utca: Katalin és nem Katica.
+  # - Rózsavölgy köz: ez van kitáblázva, I nélkül.
+  # - Szent István út: így van az utcanévtáblán.
+  # - Nyár utca van a táblán nem Nyír köz
 source: survey
 housenumber-letters: true
 inactive: true
