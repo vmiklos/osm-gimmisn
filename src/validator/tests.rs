@@ -146,7 +146,7 @@ fn test_relation() {
 }
 
 /// Asserts that a given input (path, content) fails with a given error message.
-fn assert_failure_msg2(content: &str, expected: &str) {
+fn assert_failure_msg(content: &str, expected: &str) {
     let path = "data/relation-myrelation.yaml";
     let mut ctx = context::tests::make_test_context().unwrap();
     let argv: &[String] = &["".into(), ctx.get_abspath(path)];
@@ -170,7 +170,7 @@ fn assert_failure_msg2(content: &str, expected: &str) {
 fn test_relation_source_bad_type() {
     let content = "source: 42\n";
     let expected = "expected value type for 'source' is str\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters type.
@@ -185,7 +185,7 @@ fn test_relation_filters_bad_type() {
 Caused by:
     filters.Budaörsi út.ranges: invalid type: integer `42`, expected a sequence at line 3 column 13
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad toplevel key name.
@@ -197,7 +197,7 @@ fn test_relation_bad_key_name() {
 Caused by:
     unknown field `invalid`, expected one of `additional-housenumbers`, `alias`, `filters`, `housenumber-letters`, `inactive`, `missing-streets`, `osm-street-filters`, `osmrelation`, `refcounty`, `refsettlement`, `refstreets`, `street-filters`, `source` at line 1 column 1
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad strfilters value type.
@@ -207,7 +207,7 @@ fn test_relation_strfilters_bad_type() {
   - 42
 "#;
     let expected = "expected value type for 'street-filters[0]' is str\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad refstreets value type.
@@ -219,7 +219,7 @@ fn test_relation_refstreets_bad_value_type() {
     let expected = r#"expected value type for 'refstreets.OSM Name 1' is str
 failed to validate {0}
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: quote in refstreets key or value.
@@ -232,7 +232,7 @@ fn test_relation_refstreets_quote() {
 expected no quotes in value of 'refstreets.OSM Name 1''
 failed to validate {0}
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filterssubkey name.
@@ -247,7 +247,7 @@ fn test_relation_filters_bad_subkey() {
 Caused by:
     filters.Budaörsi út: unknown field `unexpected`, expected one of `interpolation`, `invalid`, `ranges`, `valid`, `refsettlement`, `show-refstreet` at line 3 column 5
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> invalid subkey.
@@ -258,7 +258,7 @@ fn test_relation_filters_invalid_bad2() {
     invalid: ['1c 1']
 "#;
     let expected = "expected format for 'filters.Budaörsi út.invalid[0]' is '42', '42a' or '42/1'\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad type for the filters -> ... -> invalid subkey.
@@ -273,7 +273,7 @@ fn test_relation_filters_invalid_bad_type() {
 Caused by:
     filters.Budaörsi út.invalid: invalid type: string "hello", expected a sequence at line 3 column 14
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges subkey.
@@ -289,7 +289,7 @@ fn test_relation_filters_ranges_bad() {
 Caused by:
     filters.Budaörsi út.ranges[0]: unknown field `unexpected`, expected one of `end`, `refsettlement`, `start` at line 4 column 36
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges -> end type.
@@ -304,7 +304,7 @@ fn test_relation_filters_ranges_bad_end() {
 expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'
 failed to validate {0}
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges -> if start/end is swapped type.
@@ -317,7 +317,7 @@ fn test_relation_filters_ranges_start_end_swap() {
 "#;
     let expected =
         "expected end >= start for 'filters.Budaörsi út.ranges[0]'\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges -> if start/end is either both
@@ -330,7 +330,7 @@ fn test_relation_filters_ranges_start_end_even_odd() {
       - {start: '42', end: '143'}
 "#;
     let expected = "expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> ranges -> start type.
@@ -342,7 +342,7 @@ fn test_relation_filters_ranges_bad_start() {
       - {start: 42, end: '137'}
 "#;
     let expected = "expected start % 2 == end % 2 for 'filters.Budaörsi út.ranges[0]'\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: missing filters -> ... -> ranges -> start key.
@@ -358,7 +358,7 @@ fn test_relation_filters_ranges_missing_start() {
 Caused by:
     filters.Budaörsi út.ranges[0]: missing field `start` at line 4 column 9
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: missing filters -> ... -> ranges -> end key.
@@ -374,7 +374,7 @@ fn test_relation_filters_ranges_missing_end() {
 Caused by:
     filters.Budaörsi út.ranges[0]: missing field `end` at line 4 column 9
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the housenumber-letters key: bad type.
@@ -386,7 +386,7 @@ fn test_relation_housenumber_letters_bad() {
 Caused by:
     housenumber-letters: invalid type: integer `42`, expected a boolean at line 1 column 22
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad alias subkey.
@@ -394,7 +394,7 @@ Caused by:
 fn test_relation_alias_bad() {
     let content = "alias: [1]\n";
     let expected = "expected value type for 'alias[0]' is str\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad type for the alias subkey.
@@ -403,7 +403,7 @@ fn test_relation_filters_alias_bad_type() {
     let content = r#"alias: "hello"
 "#;
     let expected = "failed to validate {0}\n\nCaused by:\n    alias: invalid type: string \"hello\", expected a sequence at line 1 column 8\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters -> show-refstreet value type.
@@ -418,7 +418,7 @@ fn test_relation_filters_show_refstreet_bad() {
 Caused by:
     filters.Hamzsabégi út.show-refstreet: invalid type: integer `42`, expected a boolean at line 3 column 21
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad refstreets map, not 1:1.
@@ -431,7 +431,7 @@ fn test_relation_refstreets_bad_map_type() {
 "#;
     let expected =
         "osm and ref streets are not a 1:1 mapping in 'refstreets'\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad filters -> ... -> valid subkey.
@@ -442,7 +442,7 @@ fn test_relation_filters_valid_bad2() {
     valid: ['1c 1']
 "#;
     let expected = "expected format for 'filters.Budaörsi út.valid[0]' is '42', '42a' or '42/1'\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests the relation path: bad type for the filters -> ... -> valid subkey.
@@ -457,7 +457,7 @@ fn test_relation_filters_valid_bad_type() {
 Caused by:
     filters.Budaörsi út.valid: invalid type: string "hello", expected a sequence at line 3 column 12
 "#;
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests that we do not accept whitespace in the value of the 'start' key.
@@ -469,7 +469,7 @@ fn test_start_whitespace() {
       - {start: '137 ', end: '165'}
 "#;
     let expected = "expected value type for 'filters.Budaörsi út.ranges[0].start' is a digit str\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
 
 /// Tests that we do not accept whitespace in the value of the 'end' key.
@@ -481,5 +481,5 @@ fn test_end_whitespace() {
       - {start: '137', end: '165 '}
 "#;
     let expected = "expected value type for 'filters.Budaörsi út.ranges[0].end' is a digit str\nfailed to validate {0}\n";
-    assert_failure_msg2(content, expected);
+    assert_failure_msg(content, expected);
 }
