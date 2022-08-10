@@ -39,16 +39,20 @@ refstreets:
   # helyesírás
   'Bulcsú utca': 'Bulcsu utca'
   'Örs utca': 'Őrs utca'
-  # todo - mi szerepel az utcatáblán?
+  # ellenőrzött
   'Akácos utca': 'Akácos út'  # https://www.openstreetmap.org/note/3286508
-  'Bartók Béla út': 'Bartók Béla utca'  # https://www.openstreetmap.org/note/3286515
-  'Keleti üdülőtelep': 'Keleti üdülő-telep'  # https://www.openstreetmap.org/note/3286533
   'Kültelek utca': 'Kültelek'  # https://www.openstreetmap.org/note/3286536
-  'Öreghegyi út': 'Öreg hegy'  # https://www.openstreetmap.org/note/3286530
-  'Petőfi Sándor köz': 'Petőfi köz'  # https://www.openstreetmap.org/note/3286531
   'Széchenyi István utca': 'Széchenyi utca'  # https://www.openstreetmap.org/note/3286532
-  'Újélet utca': 'Új Élet utca'  # https://www.openstreetmap.org/note/3286519
   'Vörösmarty Mihály utca': 'Vörösmarty utca'  # https://www.openstreetmap.org/note/3286518
+  # A régi utcanévtáblákon Vezetéknév Keresztnév szerepel, az új utcanévtáblákon csak Vezetéknév. Feltételezem, hogy minden utca teljes nevű. Ez az egész településre értendő.
+  'Petőfi Sándor köz': 'Petőfi köz'  # régi táblán teljes név, új táblán csak vezetéknév. Mindkettő ki van téve. Az OSM-en maradjon teljes névvel.
+  # todo - mi szerepel az utcatáblán?
+  'Keleti üdülőtelep': 'Keleti üdülő-telep'  # https://www.openstreetmap.org/note/3286533
+  'Öreghegyi út': 'Öreg hegy'  # - Öreghegyi út: nincs utcanévtábla. A főútnál csak egy útjelző tábla van, rajta Öreghegy. Lezárom, mert a terepen ezt nem lehet ellenőrizni. Más forrás kell hozzá. - https://www.openstreetmap.org/note/3286530 
+  # javítva
+  # - Bartók Béla utca: ez utca és nem út. OSM-en javítottam az utca nevét és az épületek címét is.
+  # - Csárda utca: a Töltéssy Zoltán utca része is Csárda utca a helyszínen. Javítottam.
+  # - Új Élet utca: így van az utcanévtáblán. Javítottam.
 street-filters:
   # nem igazi utcák
   - Külterület telep
@@ -58,11 +62,10 @@ street-filters:
   - Ebhegy  # https://www.openstreetmap.org/node/1123269675
   # Kenderföld dűlő - https://www.openstreetmap.org/note/3286498
 osm-street-filters:
+  # Kenderföld dűlő: ez akkor melyik lehet?
   # parkok
   - József Attila park
   - Óra tér
-  # nem igazi utcák
-  - Rendezvénytér
   # átlógó utcák, Balatonszemes
   - Hullám utca
 source: survey
