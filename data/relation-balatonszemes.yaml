@@ -108,7 +108,7 @@ filters:
     # 695: ez helyrajzi szám, nem házszám.
     # 695/B: ez helyrajzi szám, nem házszám.
     interpolation: 'all'
-    invalid: ['694', '695', '695b']
+    invalid: ['694/0', '695', '695b']
   Madách Imre utca:
     # 9/A: nincs ilyen, csak sima 9 van. A 15 után viszont van egy 9/B.
     # 16/B: nincs ilyen, csak sima 16 van. A páros oldalon a 16 az utolsó házszám.
