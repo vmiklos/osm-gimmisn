@@ -48,7 +48,7 @@ refstreets:
   'Petőfi Sándor köz': 'Petőfi köz'  # régi táblán teljes név, új táblán csak vezetéknév. Mindkettő ki van téve. Az OSM-en maradjon teljes névvel.
   # todo - mi szerepel az utcatáblán?
   'Keleti üdülőtelep': 'Keleti üdülő-telep'  # https://www.openstreetmap.org/note/3286533
-  'Öreghegyi út': 'Öreg hegy'  # - Öreghegyi út: nincs utcanévtábla. A főútnál csak egy útjelző tábla van, rajta Öreghegy. Lezárom, mert a terepen ezt nem lehet ellenőrizni. Más forrás kell hozzá. - https://www.openstreetmap.org/note/3286530 
+  'Öreghegyi út': 'Öreg hegy'  # - Öreghegyi út: nincs utcanévtábla. A főútnál csak egy útjelző tábla van, rajta Öreghegy. - https://www.openstreetmap.org/note/3286530 
   # javítva
   # - Bartók Béla utca: ez utca és nem út. OSM-en javítottam az utca nevét és az épületek címét is.
   # - Csárda utca: a Töltéssy Zoltán utca része is Csárda utca a helyszínen. Javítottam.
@@ -60,9 +60,8 @@ street-filters:
   # településrészek
   - Almahegy  # https://www.openstreetmap.org/node/1280175940
   - Ebhegy  # https://www.openstreetmap.org/node/1123269675
-  # Kenderföld dűlő - https://www.openstreetmap.org/note/3286498
-osm-street-filters:
   # Kenderföld dűlő: ez akkor melyik lehet?
+osm-street-filters:
   # parkok
   - József Attila park
   - Óra tér
