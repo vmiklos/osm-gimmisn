@@ -46,16 +46,22 @@ Populate the reference directory with TSV files for the house number and street 
 
 - Open e.g. the Command Prompt and clone the repo (see above).
 
-- Build the validator:
+- Build the code:
 
 ----
-cargo build --bin validator --release --no-default-features
+cargo build --release --no-default-features
+----
+
+- Create a default config:
+
+----
+copy data\wsgi.ini.template wsgi.ini
 ----
 
 - Run the validator:
 
 ----
-target\release\validator.exe data\relation-budapest_11.yaml
+target\release\osm-gimmisn.exe validator data\relation-budapest_11.yaml
 ----
 
 == Developer setup
