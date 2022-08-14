@@ -366,8 +366,12 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '36'}
+  Magyar Nobel-díjasok útja:
+    # más utcákra van számozva
+    invalid: ['1', '2']
   Magyar tudósok körútja:
-    invalid: ['2a', '2b', '2c', '2d', '2q']
+    # max páratlan: 11
+    invalid: ['2a', '2b', '2c', '2d', '2q', '13']
   Mányoki út:
     # páros: Szentimreváros, páratlan: Gellérthegy
     ranges:
