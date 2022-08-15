@@ -17,7 +17,6 @@ use super::*;
 fn test_relations() {
     let paths = [
         "tests/data/relations.yaml",
-        "tests/data/relation-gazdagret-filter-invalid-good2.yaml",
         "tests/data/relation-gazdagret-filter-valid-good.yaml",
         "tests/data/relation-gazdagret-filter-valid-good2.yaml",
     ];
