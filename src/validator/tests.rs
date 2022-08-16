@@ -18,7 +18,6 @@ fn test_relations() {
     let paths = [
         "tests/data/relations.yaml",
         "tests/data/relation-gazdagret-filter-valid-good.yaml",
-        "tests/data/relation-gazdagret-filter-valid-good2.yaml",
     ];
     for path in paths {
         let argv = ["".to_string(), path.to_string()];
@@ -161,6 +160,34 @@ fn assert_failure_msg(content: &str, expected: &str) {
     assert_eq!(ret, 1);
     let expected = expected.replace("{0}", &ctx.get_abspath(path));
     assert_eq!(String::from_utf8(buf.into_inner()).unwrap(), expected);
+}
+
+/// Asserts that a given input (content) succeeds.
+fn assert_success(content: &str) {
+    let path = "data/relation-myrelation.yaml";
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let argv: &[String] = &["".into(), ctx.get_abspath(path)];
+    let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+
+    let file = context::tests::TestFileSystem::make_file();
+    file.borrow_mut().write_all(content.as_bytes()).unwrap();
+    let files = context::tests::TestFileSystem::make_files(&ctx, &[(path, &file)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
+    let ret = main(argv, &mut buf, &ctx);
+
+    assert_eq!(ret, 0);
+}
+
+/// Tests validate_filter_invalid_valid(): 42/1 is a valid filter item.
+#[test]
+fn test_validate_filter_invalid_valid() {
+    let content = r#"filters:
+  'Budaörsi út':
+    valid: ['42/1']
+"#;
+    assert_success(content);
 }
 
 /// Tests the relation path: bad source type.
