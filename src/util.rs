@@ -265,7 +265,7 @@ impl HouseNumber {
             let mut iter = NUMBER_SUFFIX.captures_iter(house_number);
             if let Some(cap) = iter.next() {
                 suffix = "/".into();
-                suffix += &cap[1].to_string();
+                suffix += &cap[1];
             }
         }
 
