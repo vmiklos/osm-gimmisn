@@ -15,10 +15,7 @@ use super::*;
 /// Tests main(): valid relations.
 #[test]
 fn test_relations() {
-    let paths = [
-        "tests/data/relations.yaml",
-        "tests/data/relation-gazdagret-filter-valid-good.yaml",
-    ];
+    let paths = ["tests/data/relations.yaml"];
     for path in paths {
         let argv = ["".to_string(), path.to_string()];
         let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
@@ -186,6 +183,16 @@ fn test_validate_filter_invalid_valid() {
     let content = r#"filters:
   'Budaörsi út':
     valid: ['42/1']
+"#;
+    assert_success(content);
+}
+
+/// Tests validate_filter_invalid_valid(): 1c is a valid filter item.
+#[test]
+fn test_validate_filter_invalid_valid2() {
+    let content = r#"filters:
+  'Budaörsi út':
+    valid: ['1c']
 "#;
     assert_success(content);
 }
