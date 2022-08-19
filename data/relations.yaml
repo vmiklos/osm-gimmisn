@@ -591,6 +591,10 @@ pilismarot:
     osmrelation: 1027768
     refcounty: "12"
     refsettlement: "053"
+szomod:
+    osmrelation: 1027786
+    refcounty: "12"
+    refsettlement: "061"
 tat:
     osmrelation: 1027833
     refcounty: "12"
