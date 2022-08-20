@@ -251,6 +251,8 @@ filters:
     # 5 nincs kiírva 2021-08 RESURVEY 2022
     invalid: ['5']
   Vadvirág utca:
+    # 20-24: csak 24 van kiírva
+    invalid: ['20', '22']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
