@@ -24,6 +24,7 @@ pub struct Doc {
 }
 
 impl Doc {
+    /// Creates an empty Doc.
     pub fn new() -> Doc {
         Doc {
             value: Rc::new(RefCell::new(String::from(""))),
@@ -64,6 +65,7 @@ impl Doc {
     }
 }
 
+/// HtmlTable is a matrix (rows, then cols) of Doc instances.
 pub type HtmlTable = Vec<Vec<Doc>>;
 
 impl Default for Doc {
