@@ -9,6 +9,8 @@ filters:
     ranges:
       - {start: '84', end: '298'}
   Kisberényi út:
+    # 91-93: csak 91 van kiírva
+    invalid: ['93']
     ranges:
       - {start: '7', end: '95'}
   Kővirág utca:
@@ -96,6 +98,9 @@ filters:
     invalid: ['3', '8', '11']
   Hörpintő utca:
     invalid: ['7']
+  István utca:
+    # 3-5: csak 3 van kiírva
+    invalid: ['5']
   Kert utca:
     invalid: ['21', '23']
   Laposa Dániel utca:
