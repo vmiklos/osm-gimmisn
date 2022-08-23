@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Ifjúság utca:
+    # 225: a páratlan oldalon az 51 az utolsó házszám.
+    # 300/8: a páros oldalon a 46 az utolsó házszám.
+    invalid: ['225', '300/8']
 street-filters:
   # nem igazi utcák
   - Borkombinát egyéb
@@ -16,12 +21,10 @@ refstreets:
   'Hunyadi János utca': 'Hunyadi utca'
   'Jurisics Miklós utca': 'Jurisics utca'
   'Kinizsi utca': 'Kinizsi Pál utca'
-  'Kishegyi út': 'Kishegyi utca'
   'Klapka György utca': 'Klapka utca'
   'Kupa vezér utca': 'Kupavezér utca'
   'Madách Imre utca': 'Madách utca'
   'Mikszáth Kálmán utca': 'Mikszáth utca'
-  'Római út': 'Római utca'
   'Szent István király tér': 'Szent István tér'
   'Szondi György utca': 'Szondy utca'
   'Táncsics Mihály utca': 'Táncsics utca'
