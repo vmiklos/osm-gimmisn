@@ -11,7 +11,6 @@
 //! Tests for the cache_yamls module.
 
 use super::*;
-use crate::areas;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::sync::Arc;
@@ -25,11 +24,22 @@ fn test_main() {
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[cache_path]);
+    let relations_value = context::tests::TestFileSystem::make_file();
+    let relations_content = r#"gazdagret:
+    osmrelation: 2713748
+    refcounty: "01"
+    refsettlement: "011"
+"#;
+    relations_value
+        .borrow_mut()
+        .write_all(relations_content.as_bytes())
+        .unwrap();
     let cache_value = context::tests::TestFileSystem::make_file();
     let stats_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
+            ("data/relations.yaml", &relations_value),
             ("data/yamls.cache", &cache_value),
             ("workdir/stats/relations.json", &stats_value),
         ],
@@ -59,16 +69,7 @@ fn test_main() {
         .iter()
         .map(|i| i.as_u64().unwrap())
         .collect();
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-    let mut osmids: Vec<_> = relations
-        .get_relations()
-        .unwrap()
-        .iter()
-        .map(|i| i.get_config().get_osmrelation())
-        .collect();
-    osmids.sort();
-    osmids.dedup();
-    assert_eq!(relation_ids, osmids);
+    assert_eq!(relation_ids, [2713748]);
 }
 
 /// Tests main() failure.

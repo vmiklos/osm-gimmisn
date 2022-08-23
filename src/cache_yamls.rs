@@ -54,8 +54,9 @@ pub fn our_main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     let workdir = ctx.get_abspath(&argv[2]);
     let yaml_path = format!("{}/relations.yaml", datadir);
     let mut relation_ids: Vec<u64> = Vec::new();
-    let stream = std::fs::File::open(yaml_path)?;
-    let relations: areas::RelationsDict = serde_yaml::from_reader(stream)?;
+    let data = ctx.get_file_system().read_to_string(&yaml_path)?;
+    let relations: areas::RelationsDict = serde_yaml::from_str(&data)
+        .context(format!("serde_yaml::from_str() failed for {}", yaml_path))?;
     for (_key, value) in relations {
         relation_ids.push(value.osmrelation.context("no osmrelation")?);
     }

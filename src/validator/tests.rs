@@ -15,14 +15,24 @@ use super::*;
 /// Tests main(): valid relations.
 #[test]
 fn test_relations() {
-    let paths = ["tests/data/relations.yaml"];
-    for path in paths {
-        let argv = ["".to_string(), path.to_string()];
-        let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-        let ctx = context::tests::make_test_context().unwrap();
-        let ret = main(&argv, &mut buf, &ctx);
-        assert_eq!(ret, 0);
-    }
+    let content = r#"gazdagret:
+    osmrelation: 2713748
+    refcounty: "01"
+    refsettlement: "011"
+"#;
+    let path = "data/relations.yaml";
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let argv: &[String] = &["".into(), ctx.get_abspath(path)];
+    let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+    let file = context::tests::TestFileSystem::make_file();
+    file.borrow_mut().write_all(content.as_bytes()).unwrap();
+    let files = context::tests::TestFileSystem::make_files(&ctx, &[(path, &file)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
+    let ret = main(argv, &mut buf, &ctx);
+
+    assert_eq!(ret, 0);
 }
 
 /// Tests the missing-osmrelation relations path.
