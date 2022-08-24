@@ -140,11 +140,27 @@ fn test_relations_missing_refsettlement() {
 /// Tests the happy relation path.
 #[test]
 fn test_relation() {
-    // Set up arguments.
-    let argv: &[String] = &["".into(), "tests/data/relation-gazdagret.yaml".into()];
+    let relations_yaml_path = "data/relation-gazdagret.yaml";
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let argv: &[String] = &["".into(), ctx.get_abspath(relations_yaml_path)];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
-    let ctx = context::tests::make_test_context().unwrap();
+    let relations_yaml = context::tests::TestFileSystem::make_file();
+    relations_yaml
+        .borrow_mut()
+        .write_all(
+            br#"filters:
+  'my street':
+    valid: ['1']
+"#,
+        )
+        .unwrap();
+    let files =
+        context::tests::TestFileSystem::make_files(&ctx, &[(relations_yaml_path, &relations_yaml)]);
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
     let ret = main(argv, &mut buf, &ctx);
+
     assert_eq!(ret, 0);
     assert_eq!(buf.into_inner(), b"");
 }
