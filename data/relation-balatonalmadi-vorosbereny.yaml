@@ -40,9 +40,10 @@ filters:
       - {start: '69', end: '199'}
       - {start: '82', end: '198'}
   Vörösmarty utca:
-    # 1 db ff Vörösmarty utca, 1 db ff Vörösmarty Mihály utca, 1 db kék-sárga Vörösmarty utca
+    # utcatáblák: 1 db ff Vörösmarty utca, 1 db ff Vörösmarty Mihály utca, 1 db kék-sárga Vörösmarty utca
     # 6 után 10 jön
-    invalid: ['8']
+    # 26-28: csak 28 van kiírva
+    invalid: ['8', '26']
     ranges:
       - {start: '35', end: '99'}
       - {start: '2', end: '98'}
@@ -97,7 +98,8 @@ filters:
     # 6-8: csak 6
     invalid: ['3', '8', '11']
   Hörpintő utca:
-    invalid: ['7']
+    # 15-17: csak 17 van kiírva
+    invalid: ['7', '15']
   István utca:
     # 3-5: csak 3 van kiírva
     invalid: ['5']

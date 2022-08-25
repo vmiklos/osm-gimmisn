@@ -1816,7 +1816,7 @@ filters:
   # Lágymányos / Infopark +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Bercsényi utca:
     # 26: 26/b van csak
-    invalid: ['26']
+    invalid: ['9f', '26']
   Bertalan Lajos utca:
     invalid: ['2z']
   Bogdánfy utca:
