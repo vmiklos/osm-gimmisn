@@ -77,10 +77,12 @@ filters:
       - {start: '80', end: '158'}
   Budafoki út:
     # 10: 10/a, 10/b, 10/c
+    # 17: 17/a, 17/b, 17/c a házakon, a kapun meg 17 a,b,c
     # 21-27: Katonai Nemzetbiztonsági Szolgálat: Bartókra van számozva
+    # 57: 57/a, 57/b
     # 59-63: 59-es van használatban
     # 65-77: nincs
-    # 97-103: 95 után 105 jön, máshonnan számozódik (ubuda szerint 97-103, régen volt egy cetli, amint 103-107 volt, de máe nincs)
+    # 97-103: 95 után 105 jön, máshonnan számozódik (ujbuda szerint 97-103, régen volt egy cetli, amint 103-107 volt, de már nincs)
     # 107: I,II,II épület, illetve 107-109 a-b épület
     # 115-181: Újbuda Center, Hengermalomra számozva
     # 215: páratlan: utolso ismert páratlan a 215, de meg vannak telkek
@@ -93,7 +95,7 @@ filters:
     # 62-64: csak a 64 használatos
     # 78, 82/A, 82/B: zöldmező
     # 84: Albertfalva
-    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '51', '52a', '56c', '60g', '62', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
+    invalid: ['10', '26', '32b', '34c', '36', '42', '44', '48b', '50', '51', '52a', '56c', '57', '60g', '62', '78', '82a', '82b', '23', '83b', '101', '103', '107a', '107b', '107/1', '107/2', '107/3', '107/6', '107/7', '117']
     ranges:
       - {start: '1', end: '59'}
       - {start: '79', end: '229'}
