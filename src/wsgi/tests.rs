@@ -1798,6 +1798,19 @@ fn test_static_css() {
 #[test]
 fn test_static_text() {
     let mut test_wsgi = TestWsgi::new();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let txt_value = context::tests::TestFileSystem::make_file();
+    txt_value
+        .borrow_mut()
+        .write_all(b"User-agent: *\n")
+        .unwrap();
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.ctx,
+        &[("data/robots.txt", &txt_value)],
+    );
+    file_system.set_files(&files);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_arc);
 
     let result = test_wsgi.get_txt_for_path("/robots.txt");
 
