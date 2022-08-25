@@ -119,7 +119,8 @@ filters:
     # 6-8: csak 6
     invalid: ['3', '8', '11']
   Hörpintő utca:
-    invalid: ['7']
+    # 15-17: csak 17 van kiírva
+    invalid: ['7', '15']
   Huba utca:
     # 11: 9-11-13 nincs kiírva, a 3 számra jut 2 ikerház: 2021-10. RESURVEY 2022
     invalid: ['11']
@@ -287,9 +288,10 @@ filters:
       - {start: '2', end: '60'}
     show-refstreet: false
   Vörösmarty utca:
-    # 1 db ff Vörösmarty utca, 1 db ff Vörösmarty Mihály utca, 1 db kék-sárga Vörösmarty utca
+    # utcatáblák: 1 db ff Vörösmarty utca, 1 db ff Vörösmarty Mihály utca, 1 db kék-sárga Vörösmarty utca
     # 6 után 10 jön
-    invalid: ['8']
+    # 26-28: csak 28 van kiírva
+    invalid: ['8', '26']
   Zrínyi Ilona utca:
     # max házszám 15
     invalid: ['31']
