@@ -47,13 +47,13 @@ refstreets:
   # A régi utcanévtáblákon Vezetéknév Keresztnév szerepel, az új utcanévtáblákon csak Vezetéknév. Feltételezem, hogy minden utca teljes nevű. Ez az egész településre értendő.
   'Petőfi Sándor köz': 'Petőfi köz'  # régi táblán teljes név, új táblán csak vezetéknév. Mindkettő ki van téve. Az OSM-en maradjon teljes névvel.
   # todo - mi szerepel az utcatáblán?
-  'Keleti üdülőtelep': 'Keleti üdülő-telep'  # https://www.openstreetmap.org/note/3286533
   'Öreghegyi út': 'Öreg hegy'  # - Öreghegyi út: nincs utcanévtábla. A főútnál csak egy útjelző tábla van, rajta Öreghegy. - https://www.openstreetmap.org/note/3286530 
   # javítva
   # - Bartók Béla utca: ez utca és nem út. OSM-en javítottam az utca nevét és az épületek címét is.
   # - Csárda utca: a Töltéssy Zoltán utca része is Csárda utca a helyszínen. Javítottam.
   # - Új Élet utca: így van az utcanévtáblán. Javítottam.
 street-filters:
+  - Keleti üdülő-telep  # helyszínen Panoráma utca van
   # nem igazi utcák
   - Külterület telep
   - Zártkert dűlő
