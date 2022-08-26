@@ -16,19 +16,21 @@ osm-street-filters:
   - Kápolna-domb
   - Strand sétány
 refstreets:
-  'Berzsenyi Dániel utca': 'Berzsenyi utca'
-  'Bója köz': 'Bólya köz'
-  'Hunyadi János utca': 'Hunyadi utca'
-  'Jurisics Miklós utca': 'Jurisics utca'
-  'Kinizsi utca': 'Kinizsi Pál utca'
-  'Klapka György utca': 'Klapka utca'
-  'Kupa vezér utca': 'Kupavezér utca'
-  'Madách Imre utca': 'Madách utca'
   'Mikszáth Kálmán utca': 'Mikszáth utca'
-  'Szent István király tér': 'Szent István tér'
-  'Szondi György utca': 'Szondy utca'
-  'Táncsics Mihály utca': 'Táncsics utca'
-  'Zrínyi Miklós utca': 'Zrínyi utca'
+  # ellenőrzött
+  'Bója köz': 'Bólya köz'  # táblán Bója köz
+  'Hunyadi János utca': 'Hunyadi utca'  # Hunyadi János utca: mindkét végén csak Hunyadi utcaként van kitáblázva, de több épületen is teljes névvel szerepel a házszámtáblán. Mivel a környéken minden utca teljes névvel van kitáblázva, hagynám az OSM-en is teljes névvel.
+  'Jurisics Miklós utca': 'Jurisics utca'  # teljes névvel van kitáblázva egy régi táblán.
+  'Klapka György utca': 'Klapka utca'  # teljes névvel van kitáblázva egy régi táblán.
+  'Kupa vezér utca': 'Kupavezér utca'  # szóközzel szerepel az utcanévtáblán
+  'Madách Imre utca': 'Madách utca'  # teljes névvel van kitáblázva egy régi táblán.
+  'Római utca': 'Római út'  # utcaként szerepel a táblán, nem út. De csak Balatonlelle határáig, mert a balatonlellei oldalon lévő táblán Római út van.
+  'Szent István király tér': 'Szent István tér'  # táblán: Szent Isván Király tér
+  'Szondy György utca': 'Szondy utca'  # táblán Szondy György utca
+  'Táncsics Mihály utca': 'Táncsics utca'  # teljes névvel van kitáblázva egy régi táblán.
+  'Zrínyi Miklós utca': 'Zrínyi utca'  # van csak vezetéknév és teljes névvel is tábla. Maradjon teljes névvel.
+  # 'Berzsenyi Dániel utca': 'Berzsenyi utca' - csak vezetéknévvel van kitáblázva. ott lakó lakcímkártyáján is csak Berzsenyi utca van.
+  # 'Kinizsi utca': 'Kinizsi Pál utca' - Kinizsi Pál utca: egyik oldalon Kinizsi utca, a másik oldalon Kinizsi Pál utca van a táblán.
 source: survey
 housenumber-letters: true
 inactive: true
