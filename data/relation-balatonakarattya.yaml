@@ -2,9 +2,10 @@ missing-streets: 'yes'
 refstreets:
   # helyesírás
   'Örs vezér utca': 'Őrs vezér utca'
+  # ellenőrzött
+  # - Hétvezér utca: az utcanévtáblán egybe van írva
   # kérdéses
   'Bezerédj lejáró': 'Bezerédy lejáró'
-  'Hét vezér utca': 'Hétvezér utca'
 street-filters:
   - Hámán Kató tér  # Pécsi Sándor utca régi neve
 osm-street-filters:
