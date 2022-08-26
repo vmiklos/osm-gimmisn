@@ -5,10 +5,10 @@ edition = "2021"
 
 [dependencies]
 accept-language = "2.0.0"
-anyhow = "1.0.58"
-chrono = "0.4.19"
-clap = "=3.2.15"
-configparser = "3.0.0"
+anyhow = "1.0.62"
+chrono = "0.4.22"
+clap = "=3.2.17"
+configparser = "3.0.1"
 csv = "1.1.6"
 gettext = "0.4.0"
 git-version = "0.3.5"
@@ -20,13 +20,13 @@ regex = "1.6.0"
 rouille = "3.5.0"
 rust_icu_ucol = { version = "2.0.3", optional = true }
 rust_icu_ustring = { version = "2.0.3", optional = true }
-serde = { version = "1.0.140", features = ["derive"] }
-serde_json = "1.0.82"
-serde_yaml = "0.8.26"
+serde = { version = "1.0.144", features = ["derive"] }
+serde_json = "1.0.85"
+serde_yaml = "0.9.10"
 simplelog = "0.12.0"
 unidecode = "0.3.0"
 url = "2.2.2"
-time = { version = "0.3.11", features = ["formatting", "macros"] }
+time = { version = "0.3.14", features = ["formatting", "macros"] }
 
 [dev-dependencies]
 flate2 = "1.0.24"
