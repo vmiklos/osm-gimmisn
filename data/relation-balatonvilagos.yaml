@@ -1,32 +1,44 @@
-missing-streets: 'yes'
+missing-streets: yes
 filters:
   Belső utca:
-    interpolation: 'all'
+    interpolation: all
   Csók István sétány:
-    interpolation: 'all'
+    interpolation: all
+  Dózsa György utca:
+    show-refstreet: false
+  Engel utca:
+    show-refstreet: false
+  Erdei Ferenc utca:
+    show-refstreet: false
   Fecske köz:
-    interpolation: 'all'
+    interpolation: all
   Harkály köz:
-    interpolation: 'all'
+    interpolation: all
+  Hétvezér utca:
+    show-refstreet: false
+  Kossuth Lajos utca:
+    show-refstreet: false
   Mészöly Géza sétány:
-    interpolation: 'all'
+    interpolation: all
   Petőfi Sándor utca:
-    interpolation: 'all'
+    interpolation: all
   Rákóczi Ferenc utca:
-    interpolation: 'all'
+    interpolation: all
+    show-refstreet: false
   Rigó köz:
-    interpolation: 'all'
+    interpolation: all
   Sirály köz:
-    interpolation: 'all'
+    interpolation: all
   Zrínyi út:
-    interpolation: 'all'
+    interpolation: all
 refstreets:
   # ellenőrizve
-  'Dózsa György utca': 'Dózsa György út'  # van út is régi tálával, és van utca is új táblával. A polgármesteri hivatal előtti településtérképen út van
-  'Engel utca': 'Engel út'  # tábla = osm
-  'Erdei Ferenc utca': 'Erdei utca'  # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
-  'Kossuth Lajos utca': 'Kossuth utca'  # tábla = osm
-  'Rákóczi Ferenc utca': 'Rákóczi út'  # nincs utcatábla, a házszámtáblákon vegyesen
+  Dózsa György utca: Dózsa György út  # van út is régi tálával, és van utca is új táblával. A polgármesteri hivatal előtti településtérképen út van
+  Engel utca: Engel út  # táblán Engel utca
+  Erdei Ferenc utca: Erdei utca  # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
+  Hétvezér utca: Hét vezér utca  # táblán Hétvezér utca
+  Kossuth Lajos utca: Kossuth utca  # táblán Kossuth Lajos utca
+  Rákóczi Ferenc utca: Rákóczi út  # nincs utcatábla, a házszámtáblákon vegyesen
    # Táncsics Mihály utca az utcanévtáblán csak Táncsics utca, de minden más utca teljes névvel van, így ez is marad.
 street-filters:
   # nem igazi utcák
