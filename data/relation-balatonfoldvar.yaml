@@ -15,15 +15,18 @@ refstreets:
    # Gárdonyi Géza utca teljes névvel van kiírva.
    # Hunyadi János utca teljes névvel ki van írva.
    # Jókai Mór utca az egyik sarkon ki van írva teljes névvel, a másikon nincs. A környéken mindenhol teljes névvel vannak az utcák.
+   # Radnóti Miklós utca teljes névvel van kiírva.
    # Séta utca az utca és nem út, egy tulaj szerint az épületek Szántódon vannak, az épületek előtti árok a határ, de az utca Balatonföldváron van.
   # kérdéses
   'Kvassay sétány': 'Kwassay sétány'
-  'Radnóti utca': 'Radnóti Miklós utca'
 street-filters:
   # nem igazi utcák
   - 118/A vasúti őrház
   # dupla a ref-ben
   - Camping utca
+osm-street-filters:
+  # Szántód átlógó utcák
+  - Telep utca
 source: survey
 housenumber-letters: true
 inactive: true
