@@ -4,10 +4,12 @@ refstreets:
   'Fűrész utca': 'Fürész utca'
   # ellenőrizve, tábla = osm
   'Gyulai Jenő utca': 'Gyulay Jenő utca'
+  'Kisfaludy Sándor utca': 'Kisfaludy utca'
   'Vajda János utca': 'Vajda utca'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
   'Zrínyi Miklós utca': 'Zrínyi utca'
-   # Apály utca nincs, Hattyú utca van kitáblázva
-   # Római út az út és nem utca
+  # Apály utca nincs, Hattyú utca van kitáblázva
+  # Római út az út és nem utca
 source: survey
 housenumber-letters: true
 inactive: true
