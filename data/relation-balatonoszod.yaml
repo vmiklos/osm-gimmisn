@@ -45,6 +45,9 @@ street-filters:
   # Kismetszés köz
   # dupla
   - Dülő út  # Dűlő utca
+osm-street-filters:
+  # az utca Balatonszemesen van, 1 db balatonőszdi ház erről van számozva
+  - Pósa Lajos utca
 refstreets:
   'Bozsik József út': 'Bozsik József utca'
   'Hidegkuti Nándor köz': 'Hidegkúti Nándor köz'
