@@ -10,6 +10,9 @@ refstreets:
   'Zrínyi Miklós utca': 'Zrínyi utca'
   # Apály utca nincs, Hattyú utca van kitáblázva
   # Római út az út és nem utca
+osm-street-filters:
+  # park
+  - Kossuth park
 source: survey
 housenumber-letters: true
 inactive: true
