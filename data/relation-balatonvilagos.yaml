@@ -32,13 +32,14 @@ filters:
   Zrínyi út:
     interpolation: all
 refstreets:
+  'KPM lakótelep': 'Kpm lakótelep'
   # ellenőrizve
-  Dózsa György utca: Dózsa György út  # van út is régi tálával, és van utca is új táblával. A polgármesteri hivatal előtti településtérképen út van
-  Engel utca: Engel út  # táblán Engel utca
-  Erdei Ferenc utca: Erdei utca  # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
-  Hétvezér utca: Hét vezér utca  # táblán Hétvezér utca
-  Kossuth Lajos utca: Kossuth utca  # táblán Kossuth Lajos utca
-  Rákóczi Ferenc utca: Rákóczi út  # nincs utcatábla, a házszámtáblákon vegyesen
+  'Dózsa György utca': 'Dózsa György út'  # van út is régi tálával, és van utca is új táblával. A polgármesteri hivatal előtti településtérképen út van
+  'Engel utca': 'Engel út'  # táblán Engel utca
+  'Erdei Ferenc utca': 'Erdei utca' # nincs utcatábla, önkormányzati térképen Erdei Ferenc utca
+  'Hétvezér utca': 'Hét vezér utca'  # táblán Hétvezér utca
+  'Kossuth Lajos utca': 'Kossuth utca'  # táblán Kossuth Lajos utca
+  'Rákóczi Ferenc utca': 'Rákóczi út'  # nincs utcatábla, a házszámtáblákon vegyesen
    # Táncsics Mihály utca az utcanévtáblán csak Táncsics utca, de minden más utca teljes névvel van, így ez is marad.
 street-filters:
   # nem igazi utcák
