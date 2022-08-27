@@ -74,7 +74,9 @@ street-filters:
   # Kenderföld dűlő: ez akkor melyik lehet?
 osm-street-filters:
   # parkok
-  - József Attila park
+  - Erzsébet park
+  - Kegyeleti park
+  - Tóparti park
   - Óra tér
   # átlógó utcák, Balatonszemes
   - Hullám utca
