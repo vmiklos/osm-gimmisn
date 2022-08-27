@@ -31,10 +31,20 @@ filters:
     # 44/A: a Kisfaludy Sándor utca és a Tas utca sarkán lévő telken nincs házszám.
     interpolation: 'all'
     invalid: ['8a']
-# Mikszáth Kálmán utca:
-#   6/B: a 6-os ház osztott telken van, de mindkét felén csak 6. szerepel.
-# Ond utca:
-#   2/B: nem látszik kitáblázva.
+  Kültelek utca:
+    # 960: ez helyrajzi szám, nem házszám.
+    invalid: ['960']
+  # Mikszáth Kálmán utca:
+  #   6/B: a 6-os ház osztott telken van, de mindkét felén csak 6. szerepel.
+  Móricz Zsigmond utca:
+    # 815: ez helyrajzi szám, nem házszám.
+    # 815/6: ez helyrajzi szám, nem házszám.
+    invalid: ['815', '815/6']
+  # Ond utca:
+  #   2/B: nem látszik kitáblázva.
+  Tábor utca:
+    # 954: ez helyrajzi szám, nem házszám.
+    invalid: ['954']
 refstreets:
   # helyesírás
   'Bulcsú utca': 'Bulcsu utca'
