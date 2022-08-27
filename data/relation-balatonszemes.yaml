@@ -181,6 +181,8 @@ street-filters:
   - Szőlőhegy
   # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012
   - Nyár utca  # táblázva Arany János utcára
+  # megszűnt
+  - Rózsa köz  # bekebelezésre került az OTP üdülő által
 osm-street-filters:
   # Nem valós utcák
   - Baross Gábor park
