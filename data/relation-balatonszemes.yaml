@@ -178,6 +178,7 @@ filters:
 street-filters:
   # Nem igazi utcák
   - Szedres
+  - Szőlőhegy
   # Balatonszemesi Községi Önkormányzati Hivatal, ügyiratszám: 1584/2012
   - Nyár utca  # táblázva Arany János utcára
 osm-street-filters:
