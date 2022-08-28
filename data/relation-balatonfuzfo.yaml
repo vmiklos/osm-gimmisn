@@ -1,0 +1,20 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Bercsényi Miklós utca': 'Bercsényi utca'
+  'Bugyogóforrás utca': 'Bugyogó forrás utca'
+  'Eötvös utca': 'Eötvös József utca'
+  'Felsővillasor utca': 'Felsővillasor'
+  'Gyöngyvirág köz': 'Gyöngyvirág utca'
+  'Jánoshegy utca': 'Jánoshegyi út'
+  'Zrínyi Miklós utca': 'Zrínyi utca'
+street-filters:
+  - Máma utca  # hibás -> Mámatető utca
+#osm-street-filters:
+  # Balatonkenese átlógó utcák
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true
