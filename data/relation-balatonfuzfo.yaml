@@ -11,9 +11,15 @@ refstreets:
   'Zrínyi Miklós utca': 'Zrínyi utca'
 street-filters:
   - Máma utca  # hibás -> Mámatető utca
-#osm-street-filters:
-  # Balatonkenese átlógó utcák
   # nem igazi utcák
+  - Gyártelep
+  - Munkásszálló
+  - Őrház
+osm-street-filters:
+  # határoló/átlógó utak
+  - Balatonfűzfői út
+  # nem igazi utcák
+  - Nirtokémia
   # parkok
 source: survey
 housenumber-letters: false
