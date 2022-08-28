@@ -1,0 +1,27 @@
+missing-streets: 'yes'
+refstreets:
+  # helyesírás
+  'Búzavirág köz': 'Buzavirág köz'
+  # Balatonalmádival közös utca
+  'Hóvirág utca': 'Halacs-Hóvirág utca'
+  # kérdéses
+  'Bihari János utca': 'Bihari utca'
+  'Feketerigó utca': 'Fekete rigó utca'
+  'Felsőmáli út': 'Felső-Máli út'
+  'Halacs-Erdőalja utca': 'Halacs-Erdőalja út'
+  'Hunyadi János utca': 'Hunyadi utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'
+  'Kisloki utca': 'Kisloki út'
+  'Muskotályos köz': 'Muskotályos utca'
+  'Petőfi Sándor köz': 'Petőfi köz'
+  'Táncsics utca': 'Táncsics Mihály utca'
+  'Vízöntő utca': 'Vizöntő utca'
+street-filters:
+  - Muskotályos utca  # hibás -> Muskotályos köz
+#osm-street-filters:
+  # Balatonkenese átlógó utcák
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true
