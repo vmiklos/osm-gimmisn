@@ -46,6 +46,10 @@ street-filters:
   # dupla
   - Dülő út  # Dűlő utca
 osm-street-filters:
+  # Balatonszemesről átlógó utca, mert a településtábla nem a határvonalon van, hanem attól 50 méterre Balatonőszöd területén
+  - Bajcsy-Zsilinszky utca
+  # park
+  - Öreg-hegyi pihenő
   # az utca Balatonszemesen van, 1 db balatonőszdi ház erről van számozva
   - Pósa Lajos utca
 refstreets:
