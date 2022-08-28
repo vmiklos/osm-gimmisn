@@ -20,7 +20,7 @@ filters:
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Irmapuszta
-  # - Kishegy telep - Konyári Pince
+  - Kishegy telep  # Konyári Pince
   - Maort telep
   - Öreghegy
   - Pósatanya
