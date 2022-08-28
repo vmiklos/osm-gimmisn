@@ -823,6 +823,10 @@ szekszard:
     refcounty: "17"
     refsettlement: "095"
 # 19 - Veszprém megye
+alsoors:
+    osmrelation: 1078460
+    refcounty: "19"
+    refsettlement: "004"
 balatonakarattya:
     osmrelation: 3854416
     refcounty: "19"
