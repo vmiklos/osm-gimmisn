@@ -56,6 +56,14 @@ osm-street-filters:
   # Balatonviláos
   - Temető utca
   - Vörösmarty utca
+  # településrészek
+  - Állami Gazdaság major
+  - Békás dűlő
+  - Foki szőlőhegy
+  - Kiliti szőlőhegy
+  - Papkuta puszta
+  - Szigeti szőlőhegy
+  - Töreki hegy
 source: survey
 housenumber-letters: true
 inactive: true
