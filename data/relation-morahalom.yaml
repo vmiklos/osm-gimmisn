@@ -1,0 +1,19 @@
+missing-streets: 'yes'
+osm-street-filters:
+  # Nem igazi utca
+  - Mórahalom északi elkerülő
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+street-filters:
+  # Tanyák
+  - V. körzet tanya
+refstreets:
+  'Balogh Páter utca': 'Balogh páter utca'
+  'Dobó utca': 'Dobó István utca'
+  'Móradombi körút': 'Móradomb körút'
+  'II. körzet': 'II. körzet tanya'
+  'IV. kerület': 'IV. körzet tanya'
+  'VI. kerület': 'VI. körzet tanya'
+  'VII. kerület': 'VII. körzet tanya'
+source: survey
+inactive: true
