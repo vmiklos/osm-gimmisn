@@ -1,1 +1,5 @@
+street-filters:
+  # nem igazi utcák
+  - Gátőrház
+  - Keverőüzem telep
 inactive: true
