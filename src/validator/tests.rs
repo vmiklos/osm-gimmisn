@@ -246,18 +246,6 @@ Caused by:
     assert_failure_msg(content, expected);
 }
 
-/// Tests the relation path: bad toplevel key name.
-#[test]
-fn test_relation_bad_key_name() {
-    let content = "invalid: 42\n";
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    unknown field `invalid`, expected one of `additional-housenumbers`, `alias`, `filters`, `housenumber-letters`, `inactive`, `missing-streets`, `osm-street-filters`, `osmrelation`, `refcounty`, `refsettlement`, `refstreets`, `street-filters`, `source`
-"#;
-    assert_failure_msg(content, expected);
-}
-
 /// Tests the relation path: bad strfilters value type.
 #[test]
 fn test_relation_strfilters_bad_type() {
