@@ -33,7 +33,15 @@ osm-street-filters:
   # nem igazi utcák
   - Bakancsos utcai piac
   - Hiányos turistajelzés
+  - Piros futókör
   - Szilas-patak menti kerékpárút
-  #
+  # parkok, sétányok
+  - Dísztó-park
+  - Dr. Kósa Pál park
+  - Emlékezés park
+  - Karvaly tanösvény
+  - Merzse tanösvény
+  # átlógó, Ecser
+  - Vida dűlő
 source: survey
 inactive: true
