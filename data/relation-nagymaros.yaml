@@ -23,5 +23,30 @@ refstreets:
   # Ellenőrizve, osm név jó
   'Béla király sétány': 'Béla sétány'
   'Jókai Mór utca': 'Jókai utca'
+osm-street-filters:
+  # nem igazi utcák
+  - 1-2. vágány peron
+  - 2-3. vágány peron
+  - 4-5. vágány peron
+  - Beatrix királynő kerékpárút
+  - Vízáteresztő alagút
+  # turistautak
+  - Első-árok
+  - Gesztenyés tanösvény
+  - Gesztenyés / Törökmezői tanösvény
+  - Kút-völgy
+  - Rizs-völgy
+  - Törökmezői tanösvény
+  # parkok
+  - Dám (Loreley/Erzsébet-pihenő)
+  - Fűzfa liget	
+  - Plébániakert
+  - Papkert
+  # hrsz
+  - 10710/5 utca
+  - 13352 hrsz. közút
+  - 2416/10 út
+  - 788/1 utca
+  - 867/5 utca
 source: survey
 inactive: true
