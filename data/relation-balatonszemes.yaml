@@ -190,16 +190,6 @@ osm-street-filters:
   - Orosz Tábor
   - Platán park
   - Rózsa park
-  # Létező, de házszám nélküli utcák, közök, ösvények
-  - Ady sétány
-  - Baross Gábor tér
-  - Csonka Pál utca
-  - Fiumei köz
-  - Hattyú sétány
-  - Mariana sétány
-  - Mócsy János utca
-  - Nyugati móló sétány
-  - Óvoda köz
   # Területhatár
   - Hárs utca
 refstreets:

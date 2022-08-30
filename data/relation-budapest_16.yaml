@@ -15,9 +15,12 @@ osm-street-filters:
   - Naplás-tó gátja
   - Reformátorok tere
   - Regős Liget
+  - Sashalmi erdő
   - Szilas-patak menti kerékpárút
   - templomkert
   - Vasúti átjáró
+  # X. kerület
+  - Lovasvölgyi utca
   # XIV. kerület
   - Füredi utca
   - Vazul utca
