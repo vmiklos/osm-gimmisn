@@ -16,6 +16,8 @@ osm-street-filters:
   # Kerülethatáron lévő utca
   - Citadella sétány
   # parkok, sétányok, lépcsők, udvarok
+  - Déli kertek
+  - Ellyps sétány
   - Európa liget
   - Ferences-udvar
   - Filozófusok sétaútja
