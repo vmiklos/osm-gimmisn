@@ -7,6 +7,7 @@ refstreets:
   # kérdéses
   'Bezerédj lejáró': 'Bezerédy lejáró'
 street-filters:
+  - Akarattya puszta  # https://www.openstreetmap.org/node/1132273639
   - Hámán Kató tér  # Pécsi Sándor utca régi neve
 osm-street-filters:
   # Balatonkenese átlógó utcák
