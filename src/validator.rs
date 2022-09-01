@@ -301,6 +301,12 @@ pub fn our_main(
     let yaml_path = argv[1].clone();
     let data = ctx.get_file_system().read_to_string(&yaml_path)?;
     let mut errors: Vec<String> = Vec::new();
+
+    if data.contains('\t') {
+        // serde can parse this, but not some of the 3rd-party parsers.
+        errors.push("expected indent with 2 spaces, not with tabs".to_string());
+    }
+
     if yaml_path.ends_with("relations.yaml") {
         let relations_dict: areas::RelationsDict =
             serde_yaml::from_str(&data).context("serde_yaml::from_str() failed")?;

@@ -12,7 +12,7 @@ street-filters:
   - Bánom hegy
   # megváltozott
   - Téglagyár utca  # Bercsényi utca lett belőle
-  # Szöcske utca - https://www.openstreetmap.org/note/3307358 - nincs utcatábla	
+  # Szöcske utca - https://www.openstreetmap.org/note/3307358 - nincs utcatábla
   # Venyige köz - https://www.openstreetmap.org/note/3307352 - nincs utcatábla
 osm-street-filters:
   # parkok, sétányok
