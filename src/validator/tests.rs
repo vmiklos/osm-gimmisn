@@ -231,6 +231,14 @@ fn test_relation_source_bad_type() {
     assert_failure_msg(content, expected);
 }
 
+/// Tests the relation path: bad tab indent.
+#[test]
+fn test_relation_tab() {
+    let content = "source:\tsurvey\n";
+    let expected = "expected indent with 2 spaces, not with tabs\nfailed to validate {0}\n";
+    assert_failure_msg(content, expected);
+}
+
 /// Tests the relation path: bad filters type.
 #[test]
 fn test_relation_filters_bad_type() {
