@@ -49,6 +49,7 @@ street-filters:
   # Kör utca - Kör tér  # https://www.openstreetmap.org/note/3089579
   # nem igazi utcák
   - Gátőrház
+  - Szabadhegyi vasútállomás utcája  # Serfőződombi dűlő lett - https://www.openstreetmap.org/way/125913678
   - Soproni 4-es vasúti őrház
   - Vasúti őrházak
 refstreets:
