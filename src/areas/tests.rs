@@ -716,9 +716,17 @@ fn test_relation_get_osm_streets_query() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let template_value = context::tests::TestFileSystem::make_file();
+    template_value
+        .borrow_mut()
+        .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("data/streets-template.txt", &template_value),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);

@@ -12,6 +12,7 @@
 
 use std::io::Seek;
 use std::io::SeekFrom;
+use std::io::Write as _;
 use std::sync::Arc;
 
 use crate::context;
@@ -40,10 +41,16 @@ fn test_json_streets_update_result() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let streets_value = context::tests::TestFileSystem::make_file();
+    let template_value = context::tests::TestFileSystem::make_file();
+    template_value
+        .borrow_mut()
+        .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
+            ("data/streets-template.txt", &template_value),
             ("workdir/streets-myrelation.csv", &streets_value),
         ],
     );
@@ -77,9 +84,17 @@ fn test_json_streets_update_result_error() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let template_value = context::tests::TestFileSystem::make_file();
+    template_value
+        .borrow_mut()
+        .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("data/streets-template.txt", &template_value),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
