@@ -7,9 +7,10 @@ filters:
 street-filters:
   # nem igazi utcák
   - Borkombinát egyéb
-  # hegyként
-  - János hegy
-  - Bánom hegy
+  # terület/place
+  - János hegy  # https://www.openstreetmap.org/way/963493825
+  - Bánom hegy  # https://www.openstreetmap.org/node/1123214136
+  - Landord puszta  # https://www.openstreetmap.org/node/5417039603
   # megváltozott
   - Téglagyár utca  # Bercsényi utca lett belőle
   # Szöcske utca - https://www.openstreetmap.org/note/3307358 - nincs utcatábla
