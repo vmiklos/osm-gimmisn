@@ -594,11 +594,17 @@ fn test_update_osm_streets() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let osm_streets_value = context::tests::TestFileSystem::make_file();
+    let template_value = context::tests::TestFileSystem::make_file();
+    template_value
+        .borrow_mut()
+        .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/streets-gazdagret.csv", &osm_streets_value),
+            ("data/streets-template.txt", &template_value),
         ],
     );
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
@@ -668,9 +674,17 @@ fn test_update_osm_streets_xml_as_csv() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let template_value = context::tests::TestFileSystem::make_file();
+    template_value
+        .borrow_mut()
+        .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("data/streets-template.txt", &template_value),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -939,6 +953,11 @@ fn test_our_main() {
     let missing_housenumbers_txt = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_html_en = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_html_hu = context::tests::TestFileSystem::make_file();
+    let template_value = context::tests::TestFileSystem::make_file();
+    template_value
+        .borrow_mut()
+        .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -980,6 +999,7 @@ fn test_our_main() {
                 "workdir/gazdagret.htmlcache.hu",
                 &missing_housenumbers_html_hu,
             ),
+            ("data/streets-template.txt", &template_value),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
