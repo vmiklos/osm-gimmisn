@@ -462,6 +462,14 @@ morahalom:
     refcounty: "06"
     refsettlement: "036"
 # 07 - Fejér megye
+dunaujvaros:
+    osmrelation: 1420733
+    refcounty: "07"
+    refsettlement: "024"
+fule:
+    osmrelation: 1458114
+    refcounty: "07"
+    refsettlement: "031"
 gardony:
     osmrelation: 1418516  # Gárdony egész
     refcounty: "07"
@@ -486,10 +494,6 @@ velence:
     osmrelation: 1418512
     refcounty: "07"
     refsettlement: "102"
-dunaujvaros:
-    osmrelation: 1420733
-    refcounty: "07"
-    refsettlement: "024"
 # 08 - Győr-Moson-Sopron
 gyor:
     osmrelation: 1440627
