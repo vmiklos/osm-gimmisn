@@ -1,0 +1,14 @@
+missing-streets: 'yes'
+refstreets:
+  # helyesírás/rövidítés
+  'Bálint major': 'Bálintmajor'
+  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
+  'Kiscséri új telep': 'Kiscséri uj telep'
+# street-filters:
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true

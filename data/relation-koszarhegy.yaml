@@ -1,0 +1,12 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Dankó Pista utca': 'Dankó utca'
+# street-filters:
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true

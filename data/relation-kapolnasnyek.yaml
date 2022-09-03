@@ -1,0 +1,15 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Jókai Mór utca': 'Jókai utca'
+  # 'Kossuth Lajos utca': 'Kossuth Lajos út'
+  # 'Kossuth utca': 'Kossuth Lajos út'
+  'Petőfi Sándor utca': 'Petőfi Sándor út'
+# street-filters:
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true
