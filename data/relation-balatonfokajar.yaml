@@ -3,11 +3,15 @@ refstreets:
   # kérdéses
   'Perczeltelep': 'Perczel telep'
   'Reptér út': 'Reptér'
-# street-filters:
-# osm-street-filters:
-  # átlógó utcák
+street-filters:
   # nem igazi utcák
-  # parkok
+  - Állomás
+  - Felső Állomás
+  # place
+  - Öreghegy  # https://www.openstreetmap.org/node/5446074977
+osm-street-filters:
+  # átlógó utcák
+  - Sirály utca
 source: survey
 housenumber-letters: false
 inactive: true
