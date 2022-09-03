@@ -1,0 +1,13 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Perczeltelep': 'Perczel telep'
+  'Reptér út': 'Reptér'
+# street-filters:
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true
