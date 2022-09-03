@@ -486,10 +486,26 @@ gardony-kozpont:
     osmrelation: 6804399  # 2483 Gárdony
     refcounty: "07"
     refsettlement: "033"
+kapolnasnyek:
+    osmrelation: 1370243
+    refcounty: "07"
+    refsettlement: "043"
+koszarhegy:
+    osmrelation: 1361445
+    refcounty: "07"
+    refsettlement: "047"
 martonvasar:
     osmrelation: 1370244  # 2462 Martonvásár
     refcounty: "07"
     refsettlement: "053"
+polgardi:
+    osmrelation: 1458115
+    refcounty: "07"
+    refsettlement: "073"
+szabadbattyan:
+    osmrelation: 1361452
+    refcounty: "07"
+    refsettlement: "090"
 velence:
     osmrelation: 1418512
     refcounty: "07"
