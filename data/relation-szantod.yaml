@@ -10,6 +10,9 @@ refstreets:
   'Zrínyi Miklós utca': 'Zrínyi utca'
   # Apály utca nincs, Hattyú utca van kitáblázva
   # Római út az út és nem utca
+street-filters:
+  # place
+  - Szántód puszta  # https://www.openstreetmap.org/node/1123296376
 osm-street-filters:
   # park
   - Kossuth park
