@@ -4,11 +4,16 @@ refstreets:
   'Kossuth Lajos utca': 'Kossuth utca'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
-# street-filters:
-# osm-street-filters:
-  # átlógó utcák
+street-filters:
   # nem igazi utcák
-  # parkok
+  - Vasútállomás
+  # place
+  - Alsóhegy  # Alsó-hegy - https://www.openstreetmap.org/node/3704733993
+  - Kölestelek puszta  # Kölestelek - https://www.openstreetmap.org/node/1123388413
+  # Kőhegy szőlőhegy - Kőhegy - https://www.openstreetmap.org/node/3704734002
+osm-street-filters:
+  # nem igazi utcák
+  - M7 autópálya
 source: survey
 housenumber-letters: false
 inactive: true
