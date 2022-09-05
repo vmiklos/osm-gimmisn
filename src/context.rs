@@ -119,8 +119,10 @@ impl Ini {
         root: &str,
     ) -> anyhow::Result<Self> {
         let mut config = configparser::ini::Ini::new();
-        if let Err(err) = config.read(file_system.read_to_string(config_path)?) {
-            return Err(anyhow::anyhow!("failed to load {}: {}", config_path, err));
+        if let Ok(data) = file_system.read_to_string(config_path) {
+            if let Err(err) = config.read(data) {
+                return Err(anyhow::anyhow!("failed to load {}: {}", config_path, err));
+            }
         }
         Ok(Ini {
             config,

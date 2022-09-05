@@ -139,6 +139,10 @@ impl FileSystem for TestFileSystem {
     }
 
     fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
+        if self.hide_paths.borrow().contains(&path.to_string()) {
+            return Err(anyhow::anyhow!("'{}' is hidden", path));
+        }
+
         if self.files.contains_key(path) {
             let ret = self.files[path].clone();
             ret.borrow_mut().seek(SeekFrom::Start(0))?;
@@ -407,6 +411,19 @@ fn test_ini_new() {
     let ret = Ini::new(&file_system_arc, &ctx.get_abspath("wsgi.ini"), "tests");
 
     assert_eq!(ret.is_err(), true);
+}
+
+/// Tests Ini.new() with a non-existing wsgi.ini.
+#[test]
+fn test_ini_new_no_config() {
+    let ctx = make_test_context().unwrap();
+    let mut file_system = TestFileSystem::new();
+    file_system.set_hide_paths(&[ctx.get_abspath("wsgi.ini")]);
+    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+
+    let ret = Ini::new(&file_system_arc, &ctx.get_abspath("wsgi.ini"), "");
+
+    assert_eq!(ret.is_err(), false);
 }
 
 /// Tests TestFileSystem::unlink().
