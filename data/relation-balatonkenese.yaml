@@ -6,7 +6,6 @@ refstreets:
   # kérdéses
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Bolyai János utca': 'Bólyai János utca'
-  'Gesztenye fasor': 'Gesztenyefa sor'
   # tábla = osm
   'Bocskai István utca': 'Bocskay utca'
 osm-street-filters:
