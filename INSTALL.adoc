@@ -52,12 +52,6 @@ Populate the reference directory with TSV files for the house number and street 
 cargo build --release --no-default-features
 ----
 
-- Create a default config:
-
-----
-copy data\wsgi.ini.template wsgi.ini
-----
-
 - Run the validator:
 
 ----
