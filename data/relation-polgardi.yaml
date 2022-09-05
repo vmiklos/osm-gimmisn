@@ -1,12 +1,22 @@
 missing-streets: 'yes'
 refstreets:
+  # kérdéses
+  'Kossuth Lajos utca': 'Kossuth utca'
   # helyesírás/rövidítés
   'Bálint major': 'Bálintmajor'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Kiscséri új telep': 'Kiscséri uj telep'
-# street-filters:
-# osm-street-filters:
+street-filters:
+  # nem igazi utcák
+  - 6.vasúti őrház
+  - 10.vasúti őrház
+  - 142.vasúti őrház
+  - MÁV Kiscséripuszta vasútállomás
+  - MÁV Polgárdi Ipart. vasútállomás
+  - MÁV Polgárdi vasútállomás
+osm-street-filters:
   # átlógó utcák
+  - Fő út
   # nem igazi utcák
   # parkok
 source: survey
