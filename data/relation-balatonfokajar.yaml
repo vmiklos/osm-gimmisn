@@ -2,6 +2,7 @@ missing-streets: 'yes'
 refstreets:
   # kérdéses
   'Perczeltelep': 'Perczel telep'
+  # nincs tábla
   'Reptér út': 'Reptér'
 street-filters:
   # nem igazi utcák
