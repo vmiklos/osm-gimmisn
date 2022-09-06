@@ -9,10 +9,13 @@ refstreets:
   'Petőfi Sándor utca': 'Petőfi utca'
   'Rákóczi Ferenc utca': 'Rákóczi utca'
 # street-filters:
-# osm-street-filters:
+osm-street-filters:
   # átlógó utcák
   # nem igazi utcák
+  - M7
   # parkok
+  - Cifrakert
+  - Szabadbattyán vára
 source: survey
 housenumber-letters: false
 inactive: true
