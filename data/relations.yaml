@@ -868,6 +868,10 @@ szentjakabfa:
     osmrelation: 1078544
     refcounty: "19"
     refsettlement: "181"
+szentkiralyszabadja:
+    osmrelation: 1078600
+    refcounty: "19"
+    refsettlement: "182"
 tagyon:
     osmrelation: 1078627
     refcounty: "19"
