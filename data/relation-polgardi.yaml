@@ -14,6 +14,8 @@ street-filters:
   - MÁV Kiscséripuszta vasútállomás
   - MÁV Polgárdi Ipart. vasútállomás
   - MÁV Polgárdi vasútállomás
+  # place
+  - Tekerespuszta  # https://www.openstreetmap.org/node/9406751139
 osm-street-filters:
   # átlógó utcák
   - Fő út
