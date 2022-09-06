@@ -10,6 +10,9 @@ filters:
       - {start: '2', end: '98'}
   Balatonfüredi út:
     ranges: []
+  Csokonai köz:
+    # 1-3: csak 1 van kiírva
+    invalid: ['3']
   Damjanich utca:
     ranges:
       - {start: '11', end: '99'}
@@ -58,6 +61,8 @@ filters:
     # 9: 9 nincs, 7 az utolsó ami ki van írva
     invalid: ['9']
   Szabadság út:
+    # 49-51: csak 49 van kiírva
+    invalid: ['51']
     ranges:
       - {start: '1', end: '87'}
       - {start: '2', end: '6'}
@@ -75,6 +80,9 @@ filters:
       - {start: '2', end: '98'}
   Töltés utca:
     invalid: ['15']
+  Városház tér:
+    # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
+    invalid: ['2']
   Veszprémi út:
     # 5, 7: 3 után 9 jön, valahol belül lehet, de nincs kiírva
     # 46-48: csak 48 van kiírva
@@ -117,10 +125,12 @@ filters:
   Dózsa György utca:
     show-refstreet: false
   Dr. Óvári Ferenc utca:
+    # 10-12: csak 12 van kiírva
+    # 18: 16 után 20
     # 22 = József Attila út 67
     # 50-52 = Verseny utca 3
     # 54-56: nagy üres terület lebontott házakkal
-    invalid: ['22', '50', '52', '56']
+    invalid: ['10', '18', '22', '50', '52', '56']
     ranges:
       - {start: '1', end: '131'}
       - {start: '2', end: '72'}
