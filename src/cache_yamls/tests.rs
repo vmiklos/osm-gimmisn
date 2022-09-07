@@ -34,12 +34,25 @@ fn test_main() {
         .borrow_mut()
         .write_all(relations_content.as_bytes())
         .unwrap();
+    let refsettlements_names_value = context::tests::TestFileSystem::make_file();
+    let refsettlements_names_content = r#"'01':
+    '011': 'Újbuda'
+    '012': 'Hegyvidék'
+"#;
+    refsettlements_names_value
+        .borrow_mut()
+        .write_all(refsettlements_names_content.as_bytes())
+        .unwrap();
     let cache_value = context::tests::TestFileSystem::make_file();
     let stats_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/relations.yaml", &relations_value),
+            (
+                "data/refsettlements-names.yaml",
+                &refsettlements_names_value,
+            ),
             ("data/yamls.cache", &cache_value),
             ("workdir/stats/relations.json", &stats_value),
         ],

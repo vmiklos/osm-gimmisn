@@ -21,12 +21,12 @@ use std::ops::DerefMut;
 pub fn our_main(argv: &[String], ctx: &context::Context) -> anyhow::Result<()> {
     let mut cache: HashMap<String, serde_json::Value> = HashMap::new();
     let datadir = ctx.get_abspath(&argv[1]);
-    let entries =
-        std::fs::read_dir(&datadir).context(format!("failed to read_dir() {}", datadir))?;
+    let entries = ctx
+        .get_file_system()
+        .listdir(&datadir)
+        .context(format!("failed to listdir() {}", datadir))?;
     let mut yaml_paths: Vec<String> = Vec::new();
-    for entry in entries {
-        let path = entry?.path();
-        let path = path.to_str().context("failed to convert path to string")?;
+    for path in entries {
         if path.ends_with(".yaml") {
             yaml_paths.push(path.to_string());
         }
