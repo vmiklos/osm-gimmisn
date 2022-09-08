@@ -2,14 +2,15 @@ missing-streets: 'yes'
 refstreets:
   # kérdéses
   'Jókai Mór utca': 'Jókai utca'
-  # 'Kossuth Lajos utca': 'Kossuth Lajos út'
-  # 'Kossuth utca': 'Kossuth Lajos út'
-  'Petőfi Sándor utca': 'Petőfi Sándor út'
+  'Kossuth Lajos utca': 'Kossuth Lajos út'  # Pettenden. Van a központban Kossuth utca
+  'Petőfi Sándor utca': 'Petőfi Sándor út'  # Pettenden. Van a központban Petőfi utca
 # street-filters:
-# osm-street-filters:
+osm-street-filters:
   # átlógó utcák
   # nem igazi utcák
+  - 7-es főút
   # parkok
+  - Vörösmarty park
 source: survey
 housenumber-letters: false
 inactive: true
