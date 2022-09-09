@@ -741,6 +741,7 @@ fn test_update_stats() {
     let usercount_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
+    let overpass_template = context::tests::TestFileSystem::make_file();
     let old_csv = context::tests::TestFileSystem::make_file();
     let old_path = "workdir/stats/old.csv";
     let files = context::tests::TestFileSystem::make_files(
@@ -754,6 +755,7 @@ fn test_update_stats() {
             ("workdir/stats/2020-05-10.usercount", &usercount_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
+            ("data/street-housenumbers-hungary.txt", &overpass_template),
             (old_path, &old_csv),
         ],
     );
@@ -822,6 +824,7 @@ fn test_update_stats_http_error() {
     let topusers_value = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
+    let overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -830,6 +833,7 @@ fn test_update_stats_http_error() {
             ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
+            ("data/street-housenumbers-hungary.txt", &overpass_template),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -874,6 +878,7 @@ fn test_update_stats_no_overpass() {
         .write_all("254651\n".as_bytes())
         .unwrap();
     let stats_json = context::tests::TestFileSystem::make_file();
+    let overpass_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -884,6 +889,7 @@ fn test_update_stats_no_overpass() {
             ("workdir/stats/2020-05-10.count", &today_count),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
+            ("data/street-housenumbers-hungary.txt", &overpass_template),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -1083,6 +1089,7 @@ fn test_our_main_stats() {
     ctx.set_network(&network_arc);
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
+    let overpass_template = context::tests::TestFileSystem::make_file();
     let today_csv = context::tests::TestFileSystem::make_file();
     let today_count = context::tests::TestFileSystem::make_file();
     let today_citycount = context::tests::TestFileSystem::make_file();
@@ -1094,6 +1101,7 @@ fn test_our_main_stats() {
         &ctx,
         &[
             ("workdir/stats/stats.json", &stats_value),
+            ("data/street-housenumbers-hungary.txt", &overpass_template),
             ("workdir/stats/2020-05-10.csv", &today_csv),
             ("workdir/stats/2020-05-10.count", &today_count),
             ("workdir/stats/2020-05-10.citycount", &today_citycount),
@@ -1134,11 +1142,13 @@ fn test_main() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
+    let overpass_template = context::tests::TestFileSystem::make_file();
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/stats/stats.json", &stats_value),
+            ("data/street-housenumbers-hungary.txt", &overpass_template),
             ("workdir/stats/ref.count", &ref_count),
         ],
     );
