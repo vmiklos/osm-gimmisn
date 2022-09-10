@@ -48,8 +48,16 @@ refstreets:
   # - Rákóczi Ferenc utca: teljes névvel és csak vezetéknévvel is ki van táblázva. Az OSM-en átírtam teljes névre.
 street-filters:
   # nem igazi utcák
+  - Állami Gazdaság major
   - Rádióállomás egyéb  # Nincs kint utcanévtábla és a toronynak sincs házszáma kitáblázva. https://www.openstreetmap.org/note/3265989
   - Lovasiskola
+  # településrész/dűlő
+  - Békás dűlő
+  - Foki szőlőhegy
+  - Kiliti szőlőhegy
+  - Papkuta puszta
+  - Szigeti szőlőhegy
+  - Töreki hegy
 osm-street-filters:
   # Nem valós utcák
   - M7 autópálya
