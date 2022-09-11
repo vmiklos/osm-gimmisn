@@ -251,6 +251,9 @@ filters:
     invalid: ['22']
   Magasút dűlő:
     ranges: []
+  Magas út:
+    # This is Magasút dűlő, probably.
+    invalid: ['61']
   Magasúti lejtő:
     ranges:
       - {start: '1', end: '15'}
