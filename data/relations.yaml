@@ -635,6 +635,11 @@ uny:
     osmrelation: 1027787
     refcounty: "12"
     refsettlement: "070"
+# 13 - Nógrád megye
+balassagyarmat:
+    osmrelation: 1370323
+    refcounty: "13"
+    refsettlement: "003"
 # 14 - Pest megye
 biatorbagy:
     osmrelation: 113461
