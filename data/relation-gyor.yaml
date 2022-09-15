@@ -103,7 +103,7 @@ refstreets:
   'Lehár Ferenc utca': 'Lehár Ferenc út'
   'Lőtér utca': 'Lőtér út'
   'Lahner György utca': 'Láhner György utca'
-  'Lajta utca': 'Lajta út'  # https://www.openstreetmap.org/note/3089595
+  # 'Lajta utca': 'Lajta út'  # https://www.openstreetmap.org/note/3089595
   'Mátyás tér': 'Mátyás király tér'
   'Ménfői utca': 'Ménfői út'
   'Malom utca': 'Malom út'

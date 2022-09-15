@@ -1,0 +1,38 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Ady Endre út': 'Ady Endre utca'
+  'Bajcsy-Zsilinszky Endre út': 'Bajcsy-Zsilinszky utca'
+  'Bay Zoltán út': 'Bay Zoltán utca'
+  'Bélahalma út': 'Bélahalma utca'
+  'Bocskai István út': 'Bocskai István utca'
+  'Farkas Kálmán út': 'Farkas Kálmán utca'
+  'Gát út': 'Gát utca'
+  'Hunyadi út': 'Hunyadi utca'
+  'Huszár Andor út': 'Huszár Andor utca'
+  'Izabella út': 'Izabella utca'
+  'Kandó Kálmán út': 'Kandó Kálmán utca'
+  'Karinthy Frigyes út': 'Karinthy Frigyes utca'
+  'Kosztolányi Dezső út': 'Kosztolányi Dezső utca'
+  'Krisztina út': 'Krisztina utca'
+  'Lévay József út': 'Lévai József utca'
+  'Liszt Ferenc út': 'Liszt Ferenc utca'
+  'Petőfi Sándor út': 'Petőfi Sándor utca'
+  'Sarolta út': 'Sarolta utca'
+  'Sulymoshát út': 'Sulymoshát utca'
+  'Szabadság út': 'Szabadság utca'
+  'Táncsics Mihály út': 'Táncsics Mihály utca'
+  'Tárnok út': 'Tárnok utca'
+  'Tompa Mihály út': 'Tompa Mihály utca'
+  'Tűzoltó út': 'Tűzoltó utca'
+  'Vasvári Pál út': 'Vasvári Pál utca'
+  'Vörösmarty utca': 'Vörösmarty Mihály út'
+  'Zita út': 'Zita utca'
+# street-filters:
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true

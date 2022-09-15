@@ -452,6 +452,10 @@ telkibanya:
     osmrelation: 1280993
     refcounty: "05"
     refsettlement: "313"
+tiszaujvaros:
+    osmrelation: 1440871
+    refcounty: "05"
+    refsettlement: "326"
 # 06 - Csongrád-Csanád megye
 csongrad:
     osmrelation: 1025084  # Csongrád egész
