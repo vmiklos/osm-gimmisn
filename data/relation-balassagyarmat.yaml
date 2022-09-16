@@ -5,7 +5,6 @@ refstreets:
   'Báthory utca': 'Báthori utca'
   'Égerfa utca': 'Égerfa út'
   'Erdőkerülő utca': 'Erdőkerülő út'
-  'Felső malom utca': 'Felsőmalom utca'
   'Fenyves utca': 'Fenyves út'
   'Fülemüle utca': 'Fülemüle út'
   'Jókai Mór utca': 'Jókai utca'
@@ -23,10 +22,20 @@ refstreets:
   'Patvarci út': 'Patvarci utca'
   'Petőfi Sándor utca': 'Petőfi utca'
   'Rákóczi fejedelem útja': 'Rákóczi fejedelem út'
-  'Rózsvölgyi Márk utca': 'Rózsavölgyi Márk utca'
   'Sipeki Balázs Ferenc utca': 'Sipeki Balás Ferenc utca'
   'Tópart utca': 'Tópart út'
   '16-os honvéd utca': '16-os Honvéd utca'
+street-filters:
+  # nem igazi utcák
+  - 24. MÁV őrház 
+  # place
+  - Homoki szőlő  # Homokiszőlő https://www.openstreetmap.org/node/7340848754
+  - O.F.B.földek  # OFB-földek https://www.openstreetmap.org/node/7340848752
+osm-street-filters:
+  # nem igazi utcák
+  - Kamionterminál
+  # parkok
+  - Május 1. úti játszótér 
 source: survey
 housenumber-letters: true
 inactive: true
