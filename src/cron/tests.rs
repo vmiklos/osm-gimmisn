@@ -454,10 +454,16 @@ fn test_update_osm_housenumbers() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
+    let overpass_template = context::tests::TestFileSystem::make_file();
+    overpass_template
+        .borrow_mut()
+        .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
+            ("data/street-housenumbers-template.txt", &overpass_template),
             (
                 "workdir/street-housenumbers-gazdagret.csv",
                 &osm_housenumbers_value,
@@ -537,9 +543,17 @@ fn test_update_osm_housenumbers_xml_as_csv() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let overpass_template = context::tests::TestFileSystem::make_file();
+    overpass_template
+        .borrow_mut()
+        .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("data/street-housenumbers-template.txt", &overpass_template),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -964,6 +978,11 @@ fn test_our_main() {
         .borrow_mut()
         .write_all(b"aaa @RELATION@ bbb @AREA@ ccc\n")
         .unwrap();
+    let housenr_template = context::tests::TestFileSystem::make_file();
+    housenr_template
+        .borrow_mut()
+        .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -1006,6 +1025,7 @@ fn test_our_main() {
                 &missing_housenumbers_html_hu,
             ),
             ("data/streets-template.txt", &template_value),
+            ("data/street-housenumbers-template.txt", &housenr_template),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();

@@ -1062,9 +1062,17 @@ fn test_housenumbers_view_query_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let overpass_template = context::tests::TestFileSystem::make_file();
+    overpass_template
+        .borrow_mut()
+        .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("data/street-housenumbers-template.txt", &overpass_template),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
@@ -1096,10 +1104,16 @@ fn test_housenumbers_update_result_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let overpass_template = context::tests::TestFileSystem::make_file();
+    overpass_template
+        .borrow_mut()
+        .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
+            ("data/street-housenumbers-template.txt", &overpass_template),
             ("workdir/street-housenumbers-gazdagret.csv", &streets_value),
         ],
     );
@@ -1134,9 +1148,17 @@ fn test_housenumbers_update_result_error_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let overpass_template = context::tests::TestFileSystem::make_file();
+    overpass_template
+        .borrow_mut()
+        .write_all(b"housenr aaa @RELATION@ bbb @AREA@ ccc\n")
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[("data/yamls.cache", &yamls_cache_value)],
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("data/street-housenumbers-template.txt", &overpass_template),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
