@@ -60,6 +60,7 @@ osm-street-filters:
   # Határon lévő, átlógó
 street-filters:
   # Nem igazi utcák
+  - Tanyák
   - Vasúti őrházak
   # Kérdéses
   # - Csaba utca
