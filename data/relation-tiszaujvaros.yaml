@@ -24,6 +24,7 @@ refstreets:
   'Táncsics Mihály út': 'Táncsics Mihály utca'
   'Tárnok út': 'Tárnok utca'
   'Tompa Mihály út': 'Tompa Mihály utca'
+  'Tóth Árpád utca': 'Tóth Árpád út'
   'Tűzoltó út': 'Tűzoltó utca'
   'Vasvári Pál út': 'Vasvári Pál utca'
   'Vörösmarty utca': 'Vörösmarty Mihály út'
@@ -50,11 +51,13 @@ osm-street-filters:
   - U4
   - U5
   # átlógó utcák
+  - Tiszaúti tanya
   # nem igazi utcák
-  # parkok
-  - Ifjúsági park
-  - KRESZ park
+  # parkok, sétányok
+  - Dísztó sétány
   - Lórántffy Zsuzsanna Szoborpark
+  - Sétáló út
+  - Városháztér
 source: survey
 housenumber-letters: false
 inactive: true
