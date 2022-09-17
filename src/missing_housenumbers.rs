@@ -29,11 +29,16 @@ pub fn our_main(
 
     for result in ongoing_streets {
         // House number, # of only_in_reference items.
-        let range_list = util::get_housenumber_ranges(&result.1);
+        let range_list = util::get_housenumber_ranges(&result.house_numbers);
         let mut range_strings: Vec<&String> = range_list.iter().map(|i| i.get_number()).collect();
         range_strings.sort_by_key(|i| util::split_house_number(i));
         stream.write_all(
-            format!("{}\t{}\n", result.0.get_osm_name(), range_strings.len()).as_bytes(),
+            format!(
+                "{}\t{}\n",
+                result.street.get_osm_name(),
+                range_strings.len()
+            )
+            .as_bytes(),
         )?;
         // only_in_reference items.
         stream.write_all(format!("{:?}\n", range_strings).as_bytes())?;

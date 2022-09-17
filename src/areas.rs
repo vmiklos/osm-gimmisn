@@ -819,14 +819,20 @@ impl Relation {
                 /*osm_id=*/ 0,
             );
             if !only_in_reference.is_empty() {
-                ongoing_streets.push((street.clone(), only_in_reference))
+                ongoing_streets.push(util::NumberedStreet {
+                    street: street.clone(),
+                    house_numbers: only_in_reference,
+                })
             }
             if !in_both.is_empty() {
-                done_streets.push((street, in_both));
+                done_streets.push(util::NumberedStreet {
+                    street,
+                    house_numbers: in_both,
+                });
             }
         }
         // Sort by length, reverse.
-        ongoing_streets.sort_by(|a, b| b.1.len().cmp(&a.1.len()));
+        ongoing_streets.sort_by(|a, b| b.house_numbers.len().cmp(&a.house_numbers.len()));
 
         Ok((ongoing_streets, done_streets))
     }
@@ -956,12 +962,15 @@ impl Relation {
         let mut rows: Vec<Vec<yattag::Doc>> = Vec::new();
         for result in numbered_streets {
             // street, only_in_ref
-            let mut row: Vec<yattag::Doc> = vec![result.0.to_html()];
-            let number_ranges = util::get_housenumber_ranges(&result.1);
+            let mut row: Vec<yattag::Doc> = vec![result.street.to_html()];
+            let number_ranges = util::get_housenumber_ranges(&result.house_numbers);
             row.push(yattag::Doc::from_text(&number_ranges.len().to_string()));
 
             let doc = yattag::Doc::new();
-            if !self.config.get_street_is_even_odd(result.0.get_osm_name()) {
+            if !self
+                .config
+                .get_street_is_even_odd(result.street.get_osm_name())
+            {
                 let mut sorted = number_ranges.clone();
                 sorted.sort_by(|a, b| {
                     util::split_house_number_range(a).cmp(&util::split_house_number_range(b))
@@ -1009,7 +1018,7 @@ impl Relation {
 
         let mut done_count = 0;
         for result in done_streets {
-            let number_ranges = util::get_housenumber_ranges(&result.1);
+            let number_ranges = util::get_housenumber_ranges(&result.house_numbers);
             done_count += number_ranges.len();
         }
         let percent: f64 = if done_count > 0 || todo_count > 0 {
@@ -1066,11 +1075,14 @@ impl Relation {
                 /*osm_id=*/ 0,
             );
             if !only_in_osm.is_empty() {
-                additional.push((street, only_in_osm))
+                additional.push(util::NumberedStreet {
+                    street,
+                    house_numbers: only_in_osm,
+                })
             }
         }
         // Sort by length, reverse.
-        additional.sort_by(|a, b| b.1.len().cmp(&a.1.len()));
+        additional.sort_by(|a, b| b.house_numbers.len().cmp(&a.house_numbers.len()));
 
         Ok(additional)
     }

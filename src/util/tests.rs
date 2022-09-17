@@ -855,3 +855,18 @@ fn test_house_number_debug() {
 
     assert_eq!(ret.starts_with("HouseNumber"), true);
 }
+
+/// Tests that NumberedStreet implements the Debug trait.
+#[test]
+fn test_numbered_street_debug() {
+    let street = Street::from_string("mystreet");
+    let house_numbers = Vec::new();
+    let numbered_street = NumberedStreet {
+        street,
+        house_numbers,
+    };
+
+    let ret = format!("{:?}", numbered_street);
+
+    assert_eq!(ret.starts_with("NumberedStreet"), true);
+}

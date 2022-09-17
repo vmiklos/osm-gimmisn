@@ -1344,9 +1344,13 @@ fn test_relation_get_missing_housenumbers() {
     let (ongoing_streets, done_streets) = relation.get_missing_housenumbers().unwrap();
     let ongoing_streets_strs: Vec<_> = ongoing_streets
         .iter()
-        .map(|(name, numbers)| {
-            let numbers: Vec<_> = numbers.iter().map(|i| i.get_number()).collect();
-            (name.get_osm_name().clone(), numbers)
+        .map(|numbered_street| {
+            let numbers: Vec<_> = numbered_street
+                .house_numbers
+                .iter()
+                .map(|i| i.get_number())
+                .collect();
+            (numbered_street.street.get_osm_name().clone(), numbers)
         })
         .collect();
     // Notice how 11 and 12 is filtered out by the 'invalid' mechanism for 'Törökugrató utca'.
@@ -1365,9 +1369,13 @@ fn test_relation_get_missing_housenumbers() {
     ];
     let done_streets_strs: Vec<_> = done_streets
         .iter()
-        .map(|(name, numbers)| {
-            let numbers: Vec<_> = numbers.iter().map(|i| i.get_number()).collect();
-            (name.get_osm_name().clone(), numbers)
+        .map(|numbered_street| {
+            let numbers: Vec<_> = numbered_street
+                .house_numbers
+                .iter()
+                .map(|i| i.get_number())
+                .collect();
+            (numbered_street.street.get_osm_name().clone(), numbers)
         })
         .collect();
     assert_eq!(done_streets_strs, expected);
@@ -1410,7 +1418,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix() {
     relation.set_config(&config);
     let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers().unwrap();
     let ongoing_street = ongoing_streets[0].clone();
-    let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
+    let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.house_numbers);
     let mut housenumber_range_names: Vec<_> =
         housenumber_ranges.iter().map(|i| i.get_number()).collect();
     housenumber_range_names.sort_by_key(|i| util::split_house_number(i));
@@ -1456,7 +1464,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
     relation.set_config(&config);
     let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
     let ongoing_street = ongoing_streets[0].clone();
-    let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
+    let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.house_numbers);
     let housenumber_range_names: Vec<_> =
         housenumber_ranges.iter().map(|i| i.get_number()).collect();
     // Notice how '9 A 1' is missing here: it's not a simple house number, so it gets normalized
@@ -1567,7 +1575,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
     relation.set_config(&config);
     let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
     let ongoing_street = ongoing_streets[0].clone();
-    let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
+    let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.house_numbers);
     let housenumber_range_names: Vec<_> =
         housenumber_ranges.iter().map(|i| i.get_number()).collect();
     // Note how 10/B is not in this list.
@@ -1602,7 +1610,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_source_suffix() {
     relation.set_config(&config);
     let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
     // Note how '52/B*' is not in this list.
-    assert_eq!(ongoing_streets, []);
+    assert_eq!(ongoing_streets.len(), 0);
 }
 
 /// Tests Relation::get_missing_housenumbers(): 'a' is not stripped from '1;3a'.
@@ -1632,7 +1640,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
     relation.set_config(&config);
     let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
     let ongoing_street = ongoing_streets[0].clone();
-    let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.1);
+    let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.house_numbers);
     let mut housenumber_range_names: Vec<_> =
         housenumber_ranges.iter().map(|i| i.get_number()).collect();
     housenumber_range_names.sort_by_key(|i| util::split_house_number(i));
@@ -1784,9 +1792,13 @@ fn test_relation_get_additional_housenumbers() {
     let only_in_osm = relation.get_additional_housenumbers().unwrap();
     let only_in_osm_strs: Vec<_> = only_in_osm
         .iter()
-        .map(|(name, numbers)| {
-            let numbers: Vec<_> = numbers.iter().map(|i| i.get_number()).collect();
-            (name.get_osm_name(), numbers)
+        .map(|numbered_street| {
+            let numbers: Vec<_> = numbered_street
+                .house_numbers
+                .iter()
+                .map(|i| i.get_number())
+                .collect();
+            (numbered_street.street.get_osm_name(), numbers)
         })
         .collect();
     // Note how Second Only In OSM utca 1 is filtered out explicitly.
@@ -2805,7 +2817,10 @@ fn test_relation_numbered_streets_to_table() {
         util::HouseNumber::new("1", "1", ""),
         util::HouseNumber::new("2", "2", ""),
     ];
-    let streets = vec![(street, house_numbers)];
+    let streets = vec![util::NumberedStreet {
+        street,
+        house_numbers,
+    }];
 
     let (table, _todo_count) = relation.numbered_streets_to_table(&streets);
 
