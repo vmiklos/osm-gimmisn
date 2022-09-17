@@ -218,7 +218,14 @@ pub struct HouseNumber {
 }
 
 pub type HouseNumbers = Vec<HouseNumber>;
-pub type NumberedStreet = (Street, HouseNumbers);
+
+/// A numbered street is a street with associated house numbers.
+#[derive(Clone, Debug)]
+pub struct NumberedStreet {
+    pub street: Street,
+    pub house_numbers: HouseNumbers,
+}
+
 pub type NumberedStreets = Vec<NumberedStreet>;
 
 impl HouseNumber {

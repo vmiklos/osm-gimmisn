@@ -276,7 +276,7 @@ pub fn get_missing_housenumbers_txt(
     let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers()?;
     let mut table: Vec<String> = Vec::new();
     for result in ongoing_streets {
-        let range_list = util::get_housenumber_ranges(&result.1);
+        let range_list = util::get_housenumber_ranges(&result.house_numbers);
         let mut range_strings: Vec<String> = range_list
             .iter()
             .map(|i| i.get_lowercase_number())
@@ -284,17 +284,21 @@ pub fn get_missing_housenumbers_txt(
         // Street name, only_in_reference items.
         let row: String = if !relation
             .get_config()
-            .get_street_is_even_odd(result.0.get_osm_name())
+            .get_street_is_even_odd(result.street.get_osm_name())
         {
             range_strings.sort_by_key(|i| util::split_house_number(i));
             format!(
                 "{}\t[{}]",
-                result.0.get_osm_name(),
+                result.street.get_osm_name(),
                 range_strings.join(", ")
             )
         } else {
             let elements = util::format_even_odd(&range_list);
-            format!("{}\t[{}]", result.0.get_osm_name(), elements.join("], ["))
+            format!(
+                "{}\t[{}]",
+                result.street.get_osm_name(),
+                elements.join("], [")
+            )
         };
         table.push(row);
     }

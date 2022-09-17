@@ -193,8 +193,7 @@ fn missing_housenumbers_view_turbo(
     let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers()?;
     let mut streets: Vec<String> = Vec::new();
     for result in ongoing_streets {
-        // Street name, # of only_in_reference items.
-        streets.push(result.0.get_osm_name().into());
+        streets.push(result.street.get_osm_name().into());
     }
     let query = areas::make_turbo_query_for_streets(&relation, &streets);
 
@@ -402,18 +401,17 @@ fn missing_housenumbers_view_chkl(
 
         let mut table: Vec<String> = Vec::new();
         for result in ongoing_streets {
-            let range_list = util::get_housenumber_ranges(&result.1);
-            // Street name, only_in_reference items.
+            let range_list = util::get_housenumber_ranges(&result.house_numbers);
             if !relation
                 .get_config()
-                .get_street_is_even_odd(result.0.get_osm_name())
+                .get_street_is_even_odd(result.street.get_osm_name())
             {
                 let mut result_sorted: Vec<String> =
                     range_list.iter().map(|i| i.get_number().into()).collect();
                 result_sorted.sort_by_key(|i| util::split_house_number(i));
                 let row = format!(
                     "[ ] {} [{}]",
-                    result.0.get_osm_name(),
+                    result.street.get_osm_name(),
                     result_sorted.join(", ")
                 );
                 table.push(row);
@@ -421,13 +419,13 @@ fn missing_housenumbers_view_chkl(
                 let elements = util::format_even_odd(&range_list);
                 if elements.len() > 1 && range_list.len() > 20 {
                     for element in elements {
-                        let row = format!("[ ] {} [{}]", result.0.get_osm_name(), element);
+                        let row = format!("[ ] {} [{}]", result.street.get_osm_name(), element);
                         table.push(row);
                     }
                 } else {
                     let row = format!(
                         "[ ] {} [{}]",
-                        result.0.get_osm_name(),
+                        result.street.get_osm_name(),
                         elements.join("], [")
                     );
                     table.push(row);
