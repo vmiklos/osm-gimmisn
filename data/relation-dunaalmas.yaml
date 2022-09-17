@@ -1,6 +1,8 @@
 missing-streets: 'yes'
 filters: {}
-# street-filters:
+street-filters:
+  # nem igazi utcák
+  - Tsz. kertészet telep
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Baráthegyi utca': 'Baráthegy utca'
