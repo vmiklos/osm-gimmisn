@@ -1,10 +1,6 @@
 missing-streets: 'yes'
-filters:
-  Dr. Magyar Pál utca:
-    show-refstreet: false
+filters: {}
 refstreets:
-   # írásmód
-  'Dr. Magyar Pál utca': 'dr. Magyar Pál utca'
    # kérdéses
   'Ady Endre út': 'Ady Endre utca'
   'Árnyas utca': 'Árnyas út'
