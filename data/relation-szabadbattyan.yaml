@@ -5,9 +5,7 @@ refstreets:
   'Jókai Mór telep': 'Jókai telep'
   'Jókai Mór utca': 'Jókai utca'
   'Kossuth Lajos utca': 'Kossuth utca'
-  'Kölcsey Ferenc utca': 'Kölcsey utca'
   'Petőfi Sándor utca': 'Petőfi utca'
-  'Rákóczi Ferenc utca': 'Rákóczi utca'
 street-filters:
   # nem igazi utcák
   - Vasútállomás
