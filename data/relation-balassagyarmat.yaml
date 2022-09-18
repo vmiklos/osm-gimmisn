@@ -1,5 +1,11 @@
 missing-streets: 'yes'
+filters:
+  Dr. Magyar Pál utca:
+    show-refstreet: false
 refstreets:
+   # írásmód
+  'Dr. Magyar Pál utca': 'dr. Magyar Pál utca'
+   # kérdéses
   'Ady Endre út': 'Ady Endre utca'
   'Árnyas utca': 'Árnyas út'
   'Báthory utca': 'Báthori utca'
@@ -16,11 +22,14 @@ refstreets:
   'Kölcsey Ferenc utca': 'Kölcsey utca'
   'Május 1. út': 'Május 1. utca'
   'Mikszáth Kálmán út': 'Mikszáth Kálmán utca'
+  'Mindszenty József bíboros tér': 'Mindszenty József bíboros tere'
   'Nyírfa utca': 'Nyírfa út'
   'Nyírjesi út': 'Nyírjesi utca'
+  'Palóc Triatlon utca': 'Palóc Triatlon út'
   'Patakpart utca': 'Patakpart út'
   'Patvarci út': 'Patvarci utca'
   'Petőfi Sándor utca': 'Petőfi utca'
+  'Reményik Károly utca': 'Reményi Károly utca'
   'Rákóczi fejedelem útja': 'Rákóczi fejedelem út'
   'Sipeki Balázs Ferenc utca': 'Sipeki Balás Ferenc utca'
   'Tópart utca': 'Tópart út'
