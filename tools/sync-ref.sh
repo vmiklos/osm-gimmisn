@@ -20,7 +20,7 @@ mkdir refdir.new
 cd refdir.new
 for i in $refs
 do
-    wget --cipher 'DEFAULT:!DH' $1/$i
+    curl -O $1/$i
 done
 cd ..
 rm -rf refdir
