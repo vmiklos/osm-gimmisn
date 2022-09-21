@@ -460,21 +460,6 @@ fn test_relation_filters_alias_bad_type() {
     assert_failure_msg(content, expected);
 }
 
-/// Tests the relation path: bad filters -> show-refstreet value type.
-#[test]
-fn test_relation_filters_show_refstreet_bad() {
-    let content = r#"filters:
-  'Hamzsabégi út':
-    show-refstreet: 42
-"#;
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    filters.Hamzsabégi út.show-refstreet: invalid type: integer `42`, expected a boolean at line 3 column 21
-"#;
-    assert_failure_msg(content, expected);
-}
-
 /// Tests the relation path: bad refstreets map, not 1:1.
 #[test]
 fn test_relation_refstreets_bad_map_type() {
