@@ -239,21 +239,6 @@ fn test_relation_tab() {
     assert_failure_msg(content, expected);
 }
 
-/// Tests the relation path: bad filters type.
-#[test]
-fn test_relation_filters_bad_type() {
-    let content = r#"filters:
-  'Budaörsi út':
-    ranges: 42
-"#;
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    filters.Budaörsi út.ranges: invalid type: integer `42`, expected a sequence at line 3 column 13
-"#;
-    assert_failure_msg(content, expected);
-}
-
 /// Tests the relation path: bad strfilters value type.
 #[test]
 fn test_relation_strfilters_bad_type() {
