@@ -383,14 +383,18 @@ komlo:
     refcounty: "02"
     refsettlement: "137"
 # 03 - Bács-Kiskun megye
-orgovany:
-    osmrelation: 1130371
-    refcounty: "03"
-    refsettlement: "089"
 kaskantyu:
     osmrelation: 1130333
     refcounty: "03"
     refsettlement: "057"
+kecskemet:
+    osmrelation: 1130433
+    refcounty: "03"
+    refsettlement: "060"
+orgovany:
+    osmrelation: 1130371
+    refcounty: "03"
+    refsettlement: "089"
 pahi:
     osmrelation: 1130352
     refcounty: "03"

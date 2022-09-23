@@ -1,0 +1,50 @@
+missing-streets: 'yes'
+filters:
+  Bajcsy-Zsilinszky Endre körút:
+    show-refstreet: false
+  Szív utca:
+    show-refstreet: false
+refstreets:
+  # írásmód
+  'Bajcsy-Zsilinszky Endre körút': 'Bajcsy-Zsilinszky E. körút'
+  'Szív utca': 'Sziv utca'
+  # kérdéses
+  'Aradi vértanúk tere': 'Aradi vértanuk tere'
+  'Beniczky utca': 'Beniczky Ferenc utca'
+  'Bernáth János utca': 'Bernát János utca'
+  'Besenyő utca': 'Bessenyő utca'
+  'Bezerédy utca': 'Bezerédi utca'
+  'Erkel Ferenc utca': 'Erkel utca'
+  'Fecske utca': 'Fecske I. utca'
+  'Hetény Külsőnyi-tanya': 'Hetény-Külsőnyir tanya'
+  'Írisz utca': 'Irisz utca'
+  'Kandó Kálmán utca': 'Kandó Kálmán út'
+  'Kis Hegedűs köz': 'Kis hegedűs köz'
+  'Kisnyíri utca': 'Kisnyiri utca'
+  'Kodály Zoltán tér': 'Kodály Zoltán I. tér'
+  'Külső-Szegedi út': 'Külső Szegedi út'
+  'Lajta László utca': 'Lajtha László utca'
+  'Lorántffy Zsuzsanna utca': 'Lórántffy Zsuzsanna utca'
+  'Matis Kálmán utca': 'Mátis Kálmán utca'
+  'Mezőfi utca': 'Mezőfi István utca'
+  'Mikes Kelemen utca': 'Mikes utca'
+  'Munkácsy Mihály utca': 'Munkácsy utca'
+  'Nyírő József köz': 'Nyírő köz'
+  'Nádasdi Kálmán utca': 'Nádasdy Kálmán utca'
+  'Petúr bán utca': 'Petur bán utca'
+  'Pusztaszeri utca': 'Pusztaszer utca'
+  'Szalag utca': 'Szalag I. utca'
+  'Széchy utca': 'Széchy Mária utca'
+  'Szérűskert utca': 'Szérüskert utca'
+  'Thököly út': 'Thököly utca'
+  'Zrínyi Ilona utca': 'Zrínyi utca'
+# street-filters:
+  # nem igazi utcák
+  # place
+# osm-street-filters:
+  # átlógó utcák
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true
