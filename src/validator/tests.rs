@@ -274,21 +274,6 @@ failed to validate {0}
     assert_failure_msg(content, expected);
 }
 
-/// Tests the relation path: bad filterssubkey name.
-#[test]
-fn test_relation_filters_bad_subkey() {
-    let content = r#"filters:
-  'Budaörsi út':
-    unexpected: 42
-"#;
-    let expected = r#"failed to validate {0}
-
-Caused by:
-    filters.Budaörsi út: unknown field `unexpected`, expected one of `interpolation`, `invalid`, `ranges`, `valid`, `refsettlement`, `show-refstreet` at line 3 column 5
-"#;
-    assert_failure_msg(content, expected);
-}
-
 /// Tests the relation path: bad filters -> ... -> invalid subkey.
 #[test]
 fn test_relation_filters_invalid_bad2() {
