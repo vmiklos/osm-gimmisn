@@ -665,6 +665,10 @@ dunabogdany:
     osmrelation: 216165
     refcounty: "14"
     refsettlement: "032"
+dunaharaszti:
+    osmrelation: 222340
+    refcounty: "14"
+    refsettlement: "033"
 erd:
     osmrelation: 112435
     refcounty: "14"
