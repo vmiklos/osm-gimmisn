@@ -50,6 +50,8 @@ filters:
   Park utca:
     # 16 = Baross Gábor út 45
     invalid: ['16']
+  Petőfi Sándor utca:
+    invalid: ['17']
   Pinkóczi út:
     ranges:
       - {start: '1', end: '67'}
