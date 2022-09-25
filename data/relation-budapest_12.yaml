@@ -279,6 +279,9 @@ filters:
     ranges:
       - {start: '1', end: '11'}
       - {start: '2', end: '6'}
+  Nagykapos utca:
+    # no labeled houses in this street
+    invalid: ['14']
   Normafa út:
     ranges:
       - {start: '1', end: '57'}
