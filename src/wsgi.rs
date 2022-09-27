@@ -190,7 +190,7 @@ fn missing_housenumbers_view_turbo(
 
     let doc = yattag::Doc::new();
     let mut relation = relations.get_relation(relation_name)?;
-    let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers()?;
+    let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;
     let mut streets: Vec<String> = Vec::new();
     for result in ongoing_streets {
         streets.push(result.street.get_osm_name().into());
@@ -397,7 +397,7 @@ fn missing_housenumbers_view_chkl(
     {
         output = tr("No reference house numbers");
     } else {
-        let (ongoing_streets, _) = relation.get_missing_housenumbers()?;
+        let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;
 
         let mut table: Vec<String> = Vec::new();
         for result in ongoing_streets {

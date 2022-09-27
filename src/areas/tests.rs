@@ -1341,8 +1341,9 @@ fn test_relation_get_missing_housenumbers() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
-    let (ongoing_streets, done_streets) = relation.get_missing_housenumbers().unwrap();
-    let ongoing_streets_strs: Vec<_> = ongoing_streets
+    let missing_housenumbers = relation.get_missing_housenumbers().unwrap();
+    let ongoing_streets_strs: Vec<_> = missing_housenumbers
+        .ongoing_streets
         .iter()
         .map(|numbered_street| {
             let numbers: Vec<_> = numbered_street
@@ -1367,7 +1368,8 @@ fn test_relation_get_missing_housenumbers() {
         ("Törökugrató utca".to_string(), vec!["1", "2"]),
         ("Tűzkő utca".to_string(), vec!["9", "10"]),
     ];
-    let done_streets_strs: Vec<_> = done_streets
+    let done_streets_strs: Vec<_> = missing_housenumbers
+        .done_streets
         .iter()
         .map(|numbered_street| {
             let numbers: Vec<_> = numbered_street
@@ -1416,7 +1418,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix() {
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
     relation.set_config(&config);
-    let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers().unwrap();
+    let ongoing_streets = relation.get_missing_housenumbers().unwrap().ongoing_streets;
     let ongoing_street = ongoing_streets[0].clone();
     let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.house_numbers);
     let mut housenumber_range_names: Vec<_> =
@@ -1462,7 +1464,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_invalid() {
     .unwrap();
     set_config_filters(&mut config, &filters);
     relation.set_config(&config);
-    let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+    let ongoing_streets = relation.get_missing_housenumbers().unwrap().ongoing_streets;
     let ongoing_street = ongoing_streets[0].clone();
     let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.house_numbers);
     let housenumber_range_names: Vec<_> =
@@ -1507,7 +1509,7 @@ fn test_relation_get_missing_housenumbers_invalid_simplify() {
         let mut config = relation.get_config().clone();
         set_config_filters(&mut config, &filters);
         relation.set_config(&config);
-        let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+        let ongoing_streets = relation.get_missing_housenumbers().unwrap().ongoing_streets;
         // Note how 37b from invalid is simplified to 37; and how 37/B from ref is simplified to
         // 37 as well, so we find the match.
         assert_eq!(ongoing_streets.is_empty(), true);
@@ -1527,7 +1529,7 @@ fn test_relation_get_missing_housenumbers_invalid_simplify() {
             .unwrap();
         set_config_filters(&mut config, &filters);
         relation.set_config(&config);
-        let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+        let ongoing_streets = relation.get_missing_housenumbers().unwrap().ongoing_streets;
         // In this case 37b from invalid matches 37/B from ref.
         assert_eq!(ongoing_streets.is_empty(), true);
     }
@@ -1573,7 +1575,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize() {
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
     relation.set_config(&config);
-    let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+    let ongoing_streets = relation.get_missing_housenumbers().unwrap().ongoing_streets;
     let ongoing_street = ongoing_streets[0].clone();
     let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.house_numbers);
     let housenumber_range_names: Vec<_> =
@@ -1608,7 +1610,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_source_suffix() {
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
     relation.set_config(&config);
-    let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+    let ongoing_streets = relation.get_missing_housenumbers().unwrap().ongoing_streets;
     // Note how '52/B*' is not in this list.
     assert_eq!(ongoing_streets.len(), 0);
 }
@@ -1638,7 +1640,7 @@ fn test_relation_get_missing_housenumbers_letter_suffix_normalize_semicolon() {
     let mut config = relation.get_config().clone();
     set_config_housenumber_letters(&mut config, true);
     relation.set_config(&config);
-    let (ongoing_streets, _) = relation.get_missing_housenumbers().unwrap();
+    let ongoing_streets = relation.get_missing_housenumbers().unwrap().ongoing_streets;
     let ongoing_street = ongoing_streets[0].clone();
     let housenumber_ranges = util::get_housenumber_ranges(&ongoing_street.house_numbers);
     let mut housenumber_range_names: Vec<_> =

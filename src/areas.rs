@@ -330,6 +330,12 @@ impl RelationConfig {
     }
 }
 
+/// Return type of Relation::get_missing_housenumbers().
+pub struct MissingHousenumbers {
+    pub ongoing_streets: util::NumberedStreets,
+    pub done_streets: util::NumberedStreets,
+}
+
 /// A relation is a closed polygon on the map.
 #[derive(Clone)]
 pub struct Relation {
@@ -795,9 +801,7 @@ impl Relation {
     /// Compares ref and osm house numbers, prints the ones which are in ref, but not in osm.
     /// Return value is a pair of ongoing and done streets.
     /// Each of of these is a pair of a street name and a house number list.
-    pub fn get_missing_housenumbers(
-        &mut self,
-    ) -> anyhow::Result<(util::NumberedStreets, util::NumberedStreets)> {
+    pub fn get_missing_housenumbers(&mut self) -> anyhow::Result<MissingHousenumbers> {
         let mut ongoing_streets = Vec::new();
         let mut done_streets = Vec::new();
 
@@ -834,7 +838,10 @@ impl Relation {
         // Sort by length, reverse.
         ongoing_streets.sort_by(|a, b| b.house_numbers.len().cmp(&a.house_numbers.len()));
 
-        Ok((ongoing_streets, done_streets))
+        Ok(MissingHousenumbers {
+            ongoing_streets,
+            done_streets,
+        })
     }
 
     /// Tries to find missing streets in a relation.
@@ -1010,14 +1017,15 @@ impl Relation {
     pub fn write_missing_housenumbers(
         &mut self,
     ) -> anyhow::Result<(usize, usize, usize, f64, yattag::HtmlTable)> {
-        let (ongoing_streets, done_streets) = self
+        let missing_housenumbers = self
             .get_missing_housenumbers()
             .context("get_missing_housenumbers() failed")?;
 
-        let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
+        let (table, todo_count) =
+            self.numbered_streets_to_table(&missing_housenumbers.ongoing_streets);
 
         let mut done_count = 0;
-        for result in done_streets {
+        for result in missing_housenumbers.done_streets {
             let number_ranges = util::get_housenumber_ranges(&result.house_numbers);
             done_count += number_ranges.len();
         }
@@ -1035,7 +1043,7 @@ impl Relation {
         )?;
 
         Ok((
-            ongoing_streets.len(),
+            missing_housenumbers.ongoing_streets.len(),
             todo_count,
             done_count,
             percent,
