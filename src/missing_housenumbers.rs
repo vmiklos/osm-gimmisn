@@ -25,7 +25,7 @@ pub fn our_main(
 
     let mut relations = areas::Relations::new(ctx)?;
     let mut relation = relations.get_relation(&relation_name)?;
-    let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers()?;
+    let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;
 
     for result in ongoing_streets {
         // House number, # of only_in_reference items.

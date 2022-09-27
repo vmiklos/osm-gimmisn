@@ -273,7 +273,7 @@ pub fn get_missing_housenumbers_txt(
         return Ok(output);
     }
 
-    let (ongoing_streets, _done_streets) = relation.get_missing_housenumbers()?;
+    let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;
     let mut table: Vec<String> = Vec::new();
     for result in ongoing_streets {
         let range_list = util::get_housenumber_ranges(&result.house_numbers);
