@@ -11,6 +11,7 @@
 //! Contains functionality specific to the json part of the web interface.
 
 use crate::areas;
+use crate::cache;
 use crate::context;
 use crate::overpass_query;
 use crate::webframe;
@@ -80,6 +81,19 @@ fn missing_housenumbers_update_result_json(
     Ok(serde_json::to_string(&ret)?)
 }
 
+/// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.json.
+fn missing_housenumbers_view_result_json(
+    ctx: &context::Context,
+    relations: &mut areas::Relations,
+    request_uri: &str,
+) -> anyhow::Result<String> {
+    let mut tokens = request_uri.split('/');
+    tokens.next_back();
+    let relation_name = tokens.next_back().context("short tokens")?;
+    let mut relation = relations.get_relation(relation_name)?;
+    cache::get_missing_housenumbers_json(ctx, &mut relation)
+}
+
 /// Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json.
 fn missing_streets_update_result_json(
     ctx: &context::Context,
@@ -111,7 +125,12 @@ pub fn our_application_json(
     } else if request_uri.starts_with(&format!("{}/street-housenumbers/", prefix)) {
         output = street_housenumbers_update_result_json(ctx, relations, request_uri)?;
     } else if request_uri.starts_with(&format!("{}/missing-housenumbers/", prefix)) {
-        output = missing_housenumbers_update_result_json(ctx, relations, request_uri)?;
+        if request_uri.ends_with("/update-result.json") {
+            output = missing_housenumbers_update_result_json(ctx, relations, request_uri)?;
+        } else {
+            // Assume view-result.json.
+            output = missing_housenumbers_view_result_json(ctx, relations, request_uri)?;
+        }
     } else {
         // Assume that request_uri starts with prefix + "/missing-streets/".
         output = missing_streets_update_result_json(ctx, relations, request_uri)?;

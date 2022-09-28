@@ -10,11 +10,15 @@
 
 //! Tests for the wsgi_json module.
 
+use std::cell::RefCell;
+use std::collections::HashMap;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::io::Write as _;
+use std::rc::Rc;
 use std::sync::Arc;
 
+use crate::areas;
 use crate::context;
 use crate::wsgi;
 
@@ -275,4 +279,37 @@ fn test_missing_streets_update_result_json() {
     assert_eq!(root.as_object().unwrap()["error"], "");
     let mut guard = streets_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+}
+
+/// Tests missing_housenumbers_view_result_json().
+#[test]
+fn test_missing_housenumbers_view_result_json() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let json_cache = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &test_wsgi.get_ctx(),
+        &[("workdir/budafok.cache.json", &json_cache)],
+    );
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        test_wsgi
+            .get_ctx()
+            .get_abspath("workdir/budafok.cache.json"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+    let result = test_wsgi.get_json_for_path("/missing-housenumbers/budafok/view-result.json");
+
+    // The json equivalent of test_missing_housenumbers_view_result_txt().
+    let missing_housenumbers: areas::MissingHousenumbers = serde_json::from_value(result).unwrap();
+    assert_eq!(missing_housenumbers.ongoing_streets.len(), 1);
+    let ongoing_street = &missing_housenumbers.ongoing_streets[0];
+    assert_eq!(ongoing_street.street.get_osm_name(), "Vöröskúti határsor");
+    // 2, 12, 34, 36.
+    assert_eq!(ongoing_street.house_numbers.len(), 4);
 }

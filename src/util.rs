@@ -107,7 +107,8 @@ pub trait Diff {
 
 /// A street has an OSM and a reference name. Ideally the two are the same. Sometimes the reference
 /// name differs.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+#[serde(rename_all = "kebab-case")]
 pub struct Street {
     osm_name: String,
     ref_name: String,
@@ -210,7 +211,7 @@ impl Eq for Street {}
 /// A house number is a string which remembers what was its provider range.  E.g. the "1-3" string
 /// can generate 3 house numbers, all of them with the same range.
 /// The comment is similar to source, it's ignored during eq() and hash().
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub struct HouseNumber {
     number: String,
     source: String,
@@ -220,7 +221,8 @@ pub struct HouseNumber {
 pub type HouseNumbers = Vec<HouseNumber>;
 
 /// A numbered street is a street with associated house numbers.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+#[serde(rename_all = "kebab-case")]
 pub struct NumberedStreet {
     pub street: Street,
     pub house_numbers: HouseNumbers,
