@@ -331,6 +331,8 @@ impl RelationConfig {
 }
 
 /// Return type of Relation::get_missing_housenumbers().
+#[derive(serde::Deserialize, serde::Serialize)]
+#[serde(rename_all = "kebab-case")]
 pub struct MissingHousenumbers {
     pub ongoing_streets: util::NumberedStreets,
     pub done_streets: util::NumberedStreets,

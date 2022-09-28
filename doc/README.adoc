@@ -290,6 +290,12 @@ git push origin master:private/$USER/master
   https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request[Enable
   auto-merge] button.
 
+=== Developer API
+
+In case the `/osm/missing-housenumbers/.../view-result` HTML output looks interesting to you and you
+would like to use that information in your application, no need to scrape the webpage, you can get
+the raw input of that analysis as `/osm/missing-housenumbers/.../view-result.json` instead.
+
 == Reporting issues
 
 You can file a new issue (bugreport, feature request) at https://github.com/vmiklos/osm-gimmisn/issues/new[GitHub]. Please always describe a single problem.

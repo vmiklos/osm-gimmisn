@@ -1,5 +1,10 @@
 = Version descriptions
 
+== master
+
+- New `/osm/missing-housenumbers/.../view-result.json` endpoint, exposing the missing-housenumbers
+  analysis result for a relation in a machine-readable format.
+
 == 7.4
 
 - Ported to chartjs v3, the javascript bundle size is now about 20% smaller

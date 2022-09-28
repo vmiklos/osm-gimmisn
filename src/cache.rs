@@ -311,5 +311,45 @@ pub fn get_missing_housenumbers_txt(
     Ok(output)
 }
 
+/// Decides if we have an up to date json cache entry or not.
+fn is_missing_housenumbers_json_cached(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<bool> {
+    let cache_path = relation.get_files().get_housenumbers_jsoncache_path();
+    let datadir = ctx.get_abspath("data");
+    let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
+    let dependencies = vec![
+        relation.get_files().get_osm_streets_path(),
+        relation.get_files().get_osm_housenumbers_path(),
+        relation.get_files().get_ref_housenumbers_path(),
+        relation_path,
+    ];
+    is_cache_current(ctx, &cache_path, &dependencies)
+}
+
+/// Gets the cached json of the missing housenumbers for a relation.
+pub fn get_missing_housenumbers_json(
+    ctx: &context::Context,
+    relation: &mut areas::Relation,
+) -> anyhow::Result<String> {
+    let output: String;
+    if is_missing_housenumbers_json_cached(ctx, relation)? {
+        let files = relation.get_files();
+        output = ctx
+            .get_file_system()
+            .read_to_string(&files.get_housenumbers_jsoncache_path())?;
+        return Ok(output);
+    }
+
+    let missing_housenumbers = relation.get_missing_housenumbers()?;
+    output = serde_json::to_string(&missing_housenumbers)?;
+
+    let files = relation.get_files();
+    ctx.get_file_system()
+        .write_from_string(&output, &files.get_housenumbers_jsoncache_path())?;
+    Ok(output)
+}
+
 #[cfg(test)]
 mod tests;
