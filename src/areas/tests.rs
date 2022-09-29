@@ -14,6 +14,7 @@ use super::*;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::io::Write;
+use std::sync::Arc;
 
 /// Tests normalize().
 #[test]
@@ -1828,6 +1829,7 @@ fn table_doc_to_string(table: &[Vec<yattag::Doc>]) -> Vec<Vec<String>> {
 fn test_relation_write_missing_housenumbers() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let percent_value = context::tests::TestFileSystem::make_file();
+    let json_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -1853,10 +1855,19 @@ fn test_relation_write_missing_housenumbers() {
         &[
             ("workdir/gazdagret.percent", &percent_value),
             ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/gazdagret.cache.json", &json_value),
         ],
     );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.cache.json"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1890,12 +1901,24 @@ fn test_relation_write_missing_housenumbers() {
 fn test_relation_write_missing_housenumbers_empty() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let percent_value = context::tests::TestFileSystem::make_file();
+    let json_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/empty.percent", &percent_value)],
+        &[
+            ("workdir/empty.percent", &percent_value),
+            ("workdir/empty.cache.json", &json_value),
+        ],
     );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        ctx.get_abspath("workdir/empty.cache.json"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "empty";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1912,12 +1935,22 @@ fn test_relation_write_missing_housenumbers_empty() {
 fn test_relation_write_missing_housenumbers_interpolation_all() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let percent_value = context::tests::TestFileSystem::make_file();
+    let json_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/budafok.percent", &percent_value)],
+        &[
+            ("workdir/budafok.percent", &percent_value),
+            ("workdir/budafok.cache.json", &json_value),
+        ],
     );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let path = ctx.get_abspath("workdir/budafok.cache.json");
+    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "budafok";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1946,12 +1979,24 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
 fn test_relation_write_missing_housenumbers_sorting() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let percent_value = context::tests::TestFileSystem::make_file();
+    let json_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/gh414.percent", &percent_value)],
+        &[
+            ("workdir/gh414.percent", &percent_value),
+            ("workdir/gh414.cache.json", &json_value),
+        ],
     );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        ctx.get_abspath("workdir/gh414.cache.json"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh414";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1971,6 +2016,8 @@ fn test_relation_write_missing_housenumbers_sorting() {
         ]
     );
     let mut guard = percent_value.borrow_mut();
+    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let mut guard = json_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
 }
 

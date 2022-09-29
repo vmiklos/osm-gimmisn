@@ -11,6 +11,7 @@
 //! The areas module contains the Relations class and associated functionality.
 
 use crate::area_files;
+use crate::cache;
 use crate::context;
 use crate::i18n::translate as tr;
 use crate::ranges;
@@ -1019,9 +1020,11 @@ impl Relation {
     pub fn write_missing_housenumbers(
         &mut self,
     ) -> anyhow::Result<(usize, usize, usize, f64, yattag::HtmlTable)> {
-        let missing_housenumbers = self
-            .get_missing_housenumbers()
-            .context("get_missing_housenumbers() failed")?;
+        // TODO avoid this clone()
+        let ctx = self.ctx.clone();
+
+        let json = cache::get_missing_housenumbers_json(&ctx, self)?;
+        let missing_housenumbers: MissingHousenumbers = serde_json::from_str(&json)?;
 
         let (table, todo_count) =
             self.numbered_streets_to_table(&missing_housenumbers.ongoing_streets);
