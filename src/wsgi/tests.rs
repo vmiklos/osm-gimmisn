@@ -96,7 +96,7 @@ impl TestWsgi {
         }
         let output_xml =
             format!("{}", String::from_utf8(output).unwrap()).replace("<!DOCTYPE html>", "");
-        // println!("get_dom_for_path: output_xml is '{}'", output_xml);
+        println!("get_dom_for_path: output_xml is '{}'", output_xml);
         // Make sure the built-in error catcher is not kicking in.
         assert_eq!(response.status_code, self.expected_status);
         let package = sxd_document::parser::parse(&output_xml).unwrap();
@@ -384,18 +384,24 @@ fn test_missing_housenumbers_well_formed() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let percent_value = context::tests::TestFileSystem::make_file();
     let html_cache_value = context::tests::TestFileSystem::make_file();
+    let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/gazdagret.percent", &percent_value),
             ("workdir/gazdagret.htmlcache.en", &html_cache_value),
+            ("workdir/gazdagret.cache.json", &json_cache_value),
         ],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        test_wsgi.ctx.get_abspath("workdir/gazdagret.cache.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -431,6 +437,7 @@ fn test_missing_housenumbers_compat() {
     let mut file_system = context::tests::TestFileSystem::new();
     let streets_value = context::tests::TestFileSystem::make_file();
     let htmlcache_value = context::tests::TestFileSystem::make_file();
+    let jsoncache_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -445,6 +452,7 @@ fn test_missing_housenumbers_compat() {
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/gazdagret.percent", &streets_value),
             ("workdir/gazdagret.htmlcache.en", &htmlcache_value),
+            ("workdir/gazdagret.cache.json", &jsoncache_value),
         ],
     );
     file_system.set_files(&files);
@@ -452,6 +460,10 @@ fn test_missing_housenumbers_compat() {
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        test_wsgi.ctx.get_abspath("workdir/gazdagret.cache.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -466,6 +478,10 @@ fn test_missing_housenumbers_compat() {
     }
     {
         let mut guard = htmlcache_value.borrow_mut();
+        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    }
+    {
+        let mut guard = jsoncache_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
     let results = TestWsgi::find_all(&root, "body/table");
@@ -490,12 +506,14 @@ fn test_missing_housenumbers_compat_relation() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let htmlcache_value = context::tests::TestFileSystem::make_file();
+    let jsoncache_value = context::tests::TestFileSystem::make_file();
     let percent_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/budafok.htmlcache.en", &htmlcache_value),
+            ("workdir/budafok.cache.json", &jsoncache_value),
             ("workdir/budafok.percent", &percent_value),
         ],
     );
@@ -504,6 +522,10 @@ fn test_missing_housenumbers_compat_relation() {
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/budafok.htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        test_wsgi.ctx.get_abspath("workdir/budafok.cache.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);

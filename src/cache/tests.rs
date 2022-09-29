@@ -24,17 +24,23 @@ fn test_is_missing_housenumbers_html_cached() {
     let mut file_system = context::tests::TestFileSystem::new();
     let percent_value = context::tests::TestFileSystem::make_file();
     let html_cache_value = context::tests::TestFileSystem::make_file();
+    let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/gazdagret.percent", &percent_value),
             ("workdir/gazdagret.htmlcache.en", &html_cache_value),
+            ("workdir/gazdagret.cache.json", &json_cache_value),
         ],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.cache.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);

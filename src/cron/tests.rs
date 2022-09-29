@@ -246,6 +246,7 @@ fn test_update_missing_housenumbers() {
     let count_file2 = context::tests::TestFileSystem::make_file();
     let html_cache1 = context::tests::TestFileSystem::make_file();
     let html_cache2 = context::tests::TestFileSystem::make_file();
+    let json_cache = context::tests::TestFileSystem::make_file();
     let txt_cache = context::tests::TestFileSystem::make_file();
     let ref_housenumbers = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
@@ -256,6 +257,7 @@ fn test_update_missing_housenumbers() {
             ("workdir/ujbuda.percent", &count_file2),
             ("workdir/gazdagret.htmlcache.en", &html_cache1),
             ("workdir/gazdagret.htmlcache.hu", &html_cache2),
+            ("workdir/gazdagret.cache.json", &json_cache),
             ("workdir/gazdagret.txtcache", &txt_cache),
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
@@ -280,6 +282,10 @@ fn test_update_missing_housenumbers() {
     );
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret.htmlcache.hu"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.cache.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     mtimes.insert(
@@ -973,6 +979,7 @@ fn test_our_main() {
     let missing_housenumbers_txt = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_html_en = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_html_hu = context::tests::TestFileSystem::make_file();
+    let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
         .borrow_mut()
@@ -1024,6 +1031,7 @@ fn test_our_main() {
                 "workdir/gazdagret.htmlcache.hu",
                 &missing_housenumbers_html_hu,
             ),
+            ("workdir/gazdagret.cache.json", &missing_housenumbers_json),
             ("data/streets-template.txt", &template_value),
             ("data/street-housenumbers-template.txt", &housenr_template),
         ],
@@ -1034,6 +1042,8 @@ fn test_our_main() {
     let path = ctx.get_abspath("workdir/gazdagret.htmlcache.en");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
     let path = ctx.get_abspath("workdir/gazdagret.htmlcache.hu");
+    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    let path = ctx.get_abspath("workdir/gazdagret.cache.json");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
     let path = ctx.get_abspath("workdir/gazdagret.txtcache");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
