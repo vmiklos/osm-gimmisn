@@ -10,8 +10,6 @@ refstreets:
   'Szív utca': 'Sziv utca'
   # tanyák
   'Alsócsalános' : 'Alsócsalános tanya'
-  # 'Alsószéktó': 'Alsószéktó tanya'
-  # 'Budaihegy': 'Budaihegy tanya'
   'Kőrösi hegy': 'Kőrösihegy tanya'
   'Műkert': 'Műkert város'
   'Vacsi hegy': 'Vacsihegy tanya'
@@ -59,15 +57,25 @@ street-filters:
   - Szent László város  # X. kerület - Szent László-város - https://www.openstreetmap.org/node/984225123
   # egyéb településrészek
   - Alsószéktó
-  - Borbás  # https://www.openstreetmap.org/node/984232823
   - Budaihegy  # https://www.openstreetmap.org/node/1306531159
   - Homokbánya  # https://www.openstreetmap.org/node/984225116
   - Parasztfőiskola  # https://www.openstreetmap.org/node/984273255
   - Külső Máriaváros
-# osm-street-filters:
+osm-street-filters:
+  # településrész - földhivatal szerint ezek vannam de felülvizsgálat alatt
+  - Borbás
+  - Városföld
   # átlógó utcák
   # nem igazi utcák
+  - M44
   # parkok
+  - Diófás
+  - Hankovszky Zsigmond liget
+  - Honvéd park
+  - Hunyadi park
+  - Kiserdő
+  - Kiskunsági Nemzeti Park Igazgatóság
+  - Vasútkert
 source: survey
 housenumber-letters: false
 inactive: true
