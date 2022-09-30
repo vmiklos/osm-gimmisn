@@ -202,6 +202,100 @@ fn missing_housenumbers_view_turbo(
     Ok(doc)
 }
 
+/// The actual HTML part of missing_housenumbers_view_res().
+fn missing_housenumbers_view_res_html(
+    ctx: &context::Context,
+    relation: &mut areas::Relation,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    let (todo_street_count, todo_count, done_count, percent, table) = relation
+        .write_missing_housenumbers()
+        .context("write_missing_housenumbers() failed")?;
+
+    {
+        let p = doc.tag("p", &[]);
+        let prefix = ctx
+            .get_ini()
+            .get_uri_prefix()
+            .context("get_uri_prefix() failed")?;
+        let relation_name = relation.get_name();
+        p.text(
+            &tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
+                .replace("{0}", &todo_count.to_string())
+                .replace("{1}", &todo_street_count.to_string()),
+        );
+        let percent = util::format_percent(percent).context("format_percent() failed")?;
+        p.text(
+            &tr(" (existing: {0}, ready: {1}).")
+                .replace("{0}", &done_count.to_string())
+                .replace("{1}", &percent),
+        );
+        doc.stag("br");
+        {
+            let a = doc.tag(
+                "a",
+                &[(
+                    "href",
+                    "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
+                )],
+            );
+            a.text(&tr("Filter incorrect information"));
+        }
+        doc.text(".");
+        doc.stag("br");
+        {
+            let a = doc.tag(
+                "a",
+                &[(
+                    "href",
+                    &format!(
+                        "{}/missing-housenumbers/{}/view-turbo",
+                        prefix, relation_name
+                    ),
+                )],
+            );
+            a.text(&tr("Overpass turbo query for the below streets"));
+        }
+        doc.stag("br");
+        {
+            let a = doc.tag(
+                "a",
+                &[(
+                    "href",
+                    &format!(
+                        "{}/missing-housenumbers/{}/view-result.txt",
+                        prefix, relation_name
+                    ),
+                )],
+            );
+            a.text(&tr("Plain text format"));
+        }
+        doc.stag("br");
+        {
+            let a = doc.tag(
+                "a",
+                &[(
+                    "href",
+                    &format!(
+                        "{}/missing-housenumbers/{}/view-result.chkl",
+                        prefix, relation_name
+                    ),
+                )],
+            );
+            a.text(&tr("Checklist format"));
+        }
+    }
+
+    doc.append_value(util::html_table_from_list(&table).get_value());
+    let (osm_invalids, ref_invalids) = relation.get_invalid_refstreets()?;
+    doc.append_value(util::invalid_refstreets_to_html(&osm_invalids, &ref_invalids).get_value());
+    doc.append_value(
+        util::invalid_filter_keys_to_html(&relation.get_invalid_filter_keys()?).get_value(),
+    );
+
+    Ok(doc)
+}
+
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.
 fn missing_housenumbers_view_res(
     ctx: &context::Context,
@@ -231,7 +325,7 @@ fn missing_housenumbers_view_res(
     {
         doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
-        let ret = cache::get_missing_housenumbers_html(ctx, &mut relation);
+        let ret = missing_housenumbers_view_res_html(ctx, &mut relation);
         doc = ret.context("get_missing_housenumbers_html() failed")?;
     }
     Ok(doc)

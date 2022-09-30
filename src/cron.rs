@@ -13,7 +13,6 @@
 use crate::areas;
 use crate::cache;
 use crate::context;
-use crate::i18n;
 use crate::overpass_query;
 use crate::stats;
 use crate::util;
@@ -223,16 +222,9 @@ fn update_missing_housenumbers(
             continue;
         }
 
-        let orig_language = i18n::get_language();
         relation
             .write_missing_housenumbers()
             .context("write_missing_housenumbers() failed")?;
-        for language in ["en", "hu"] {
-            i18n::set_language(ctx, language);
-            cache::get_missing_housenumbers_html(ctx, &mut relation)
-                .context("get_missing_housenumbers_html() failed")?;
-        }
-        i18n::set_language(ctx, &orig_language);
 
         cache::get_missing_housenumbers_txt(ctx, &mut relation)
             .context("get_missing_housenumbers_txt() failed")?;

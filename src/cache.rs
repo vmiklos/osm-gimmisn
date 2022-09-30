@@ -15,7 +15,6 @@ use crate::context;
 use crate::i18n::translate as tr;
 use crate::util;
 use crate::yattag;
-use anyhow::Context;
 
 /// Decides if we have an up to date cache entry or not.
 fn is_cache_current(
@@ -40,23 +39,6 @@ fn is_cache_current(
     Ok(true)
 }
 
-/// Decides if we have an up to date HTML cache entry or not.
-fn is_missing_housenumbers_html_cached(
-    ctx: &context::Context,
-    relation: &areas::Relation,
-) -> anyhow::Result<bool> {
-    let cache_path = relation.get_files().get_housenumbers_htmlcache_path();
-    let datadir = ctx.get_abspath("data");
-    let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
-    let dependencies = vec![
-        relation.get_files().get_osm_streets_path(),
-        relation.get_files().get_osm_housenumbers_path(),
-        relation.get_files().get_ref_housenumbers_path(),
-        relation_path,
-    ];
-    is_cache_current(ctx, &cache_path, &dependencies).context("is_cache_current() failed")
-}
-
 /// Decides if we have an up to date HTML cache entry for additional house numbers or not.
 fn is_additional_housenumbers_html_cached(
     ctx: &context::Context,
@@ -74,120 +56,6 @@ fn is_additional_housenumbers_html_cached(
         relation_path,
     ];
     is_cache_current(ctx, &cache_path, &dependencies)
-}
-
-/// Gets the cached HTML of the missing housenumbers for a relation.
-pub fn get_missing_housenumbers_html(
-    ctx: &context::Context,
-    relation: &mut areas::Relation,
-) -> anyhow::Result<yattag::Doc> {
-    let doc = yattag::Doc::new();
-    if is_missing_housenumbers_html_cached(ctx, relation)
-        .context("is_missing_housenumbers_html_cached() failed")?
-    {
-        let files = relation.get_files();
-        let stream = files
-            .get_housenumbers_htmlcache_read_stream(ctx)
-            .context("get_housenumbers_htmlcache_read_stream() failed")?;
-        let mut guard = stream.borrow_mut();
-        let mut buffer = Vec::new();
-        guard
-            .read_to_end(&mut buffer)
-            .context("read_to_end() failed")?;
-        doc.append_value(String::from_utf8(buffer).context("from_utf8() failed")?);
-        return Ok(doc);
-    }
-
-    let (todo_street_count, todo_count, done_count, percent, table) = relation
-        .write_missing_housenumbers()
-        .context("write_missing_housenumbers() failed")?;
-
-    {
-        let p = doc.tag("p", &[]);
-        let prefix = ctx
-            .get_ini()
-            .get_uri_prefix()
-            .context("get_uri_prefix() failed")?;
-        let relation_name = relation.get_name();
-        p.text(
-            &tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
-                .replace("{0}", &todo_count.to_string())
-                .replace("{1}", &todo_street_count.to_string()),
-        );
-        let percent = util::format_percent(percent).context("format_percent() failed")?;
-        p.text(
-            &tr(" (existing: {0}, ready: {1}).")
-                .replace("{0}", &done_count.to_string())
-                .replace("{1}", &percent),
-        );
-        doc.stag("br");
-        {
-            let a = doc.tag(
-                "a",
-                &[(
-                    "href",
-                    "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
-                )],
-            );
-            a.text(&tr("Filter incorrect information"));
-        }
-        doc.text(".");
-        doc.stag("br");
-        {
-            let a = doc.tag(
-                "a",
-                &[(
-                    "href",
-                    &format!(
-                        "{}/missing-housenumbers/{}/view-turbo",
-                        prefix, relation_name
-                    ),
-                )],
-            );
-            a.text(&tr("Overpass turbo query for the below streets"));
-        }
-        doc.stag("br");
-        {
-            let a = doc.tag(
-                "a",
-                &[(
-                    "href",
-                    &format!(
-                        "{}/missing-housenumbers/{}/view-result.txt",
-                        prefix, relation_name
-                    ),
-                )],
-            );
-            a.text(&tr("Plain text format"));
-        }
-        doc.stag("br");
-        {
-            let a = doc.tag(
-                "a",
-                &[(
-                    "href",
-                    &format!(
-                        "{}/missing-housenumbers/{}/view-result.chkl",
-                        prefix, relation_name
-                    ),
-                )],
-            );
-            a.text(&tr("Checklist format"));
-        }
-    }
-
-    doc.append_value(util::html_table_from_list(&table).get_value());
-    let (osm_invalids, ref_invalids) = relation.get_invalid_refstreets()?;
-    doc.append_value(util::invalid_refstreets_to_html(&osm_invalids, &ref_invalids).get_value());
-    doc.append_value(
-        util::invalid_filter_keys_to_html(&relation.get_invalid_filter_keys()?).get_value(),
-    );
-
-    let files = relation.get_files();
-    ctx.get_file_system()
-        .write_from_string(&doc.get_value(), &files.get_housenumbers_htmlcache_path())?;
-
-    Ok(doc)
 }
 
 /// Gets the cached HTML of the additional housenumbers for a relation.

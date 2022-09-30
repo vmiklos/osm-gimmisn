@@ -244,8 +244,6 @@ fn test_update_missing_housenumbers() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let count_file1 = context::tests::TestFileSystem::make_file();
     let count_file2 = context::tests::TestFileSystem::make_file();
-    let html_cache1 = context::tests::TestFileSystem::make_file();
-    let html_cache2 = context::tests::TestFileSystem::make_file();
     let json_cache = context::tests::TestFileSystem::make_file();
     let txt_cache = context::tests::TestFileSystem::make_file();
     let ref_housenumbers = context::tests::TestFileSystem::make_file();
@@ -255,8 +253,6 @@ fn test_update_missing_housenumbers() {
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/gazdagret.percent", &count_file1),
             ("workdir/ujbuda.percent", &count_file2),
-            ("workdir/gazdagret.htmlcache.en", &html_cache1),
-            ("workdir/gazdagret.htmlcache.hu", &html_cache2),
             ("workdir/gazdagret.cache.json", &json_cache),
             ("workdir/gazdagret.txtcache", &txt_cache),
             (
@@ -276,14 +272,6 @@ fn test_update_missing_housenumbers() {
     let path1 = ctx.get_abspath("workdir/gazdagret.percent");
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(path1.to_string(), Rc::new(RefCell::new(0_f64)));
-    mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret.htmlcache.en"),
-        Rc::new(RefCell::new(0_f64)),
-    );
-    mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret.htmlcache.hu"),
-        Rc::new(RefCell::new(0_f64)),
-    );
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret.cache.json"),
         Rc::new(RefCell::new(0_f64)),
@@ -977,8 +965,6 @@ fn test_our_main() {
     let ref_housenumbers_extra_cache_value = context::tests::TestFileSystem::make_file();
     let ref_streets_cache_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_txt = context::tests::TestFileSystem::make_file();
-    let missing_housenumbers_html_en = context::tests::TestFileSystem::make_file();
-    let missing_housenumbers_html_hu = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
@@ -1023,14 +1009,6 @@ fn test_our_main() {
                 &ref_housenumbers_extra_cache_value,
             ),
             ("workdir/gazdagret.txtcache", &missing_housenumbers_txt),
-            (
-                "workdir/gazdagret.htmlcache.en",
-                &missing_housenumbers_html_en,
-            ),
-            (
-                "workdir/gazdagret.htmlcache.hu",
-                &missing_housenumbers_html_hu,
-            ),
             ("workdir/gazdagret.cache.json", &missing_housenumbers_json),
             ("data/streets-template.txt", &template_value),
             ("data/street-housenumbers-template.txt", &housenr_template),
@@ -1039,10 +1017,6 @@ fn test_our_main() {
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/gazdagret.htmlcache.en");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
-    let path = ctx.get_abspath("workdir/gazdagret.htmlcache.hu");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
     let path = ctx.get_abspath("workdir/gazdagret.cache.json");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
     let path = ctx.get_abspath("workdir/gazdagret.txtcache");
