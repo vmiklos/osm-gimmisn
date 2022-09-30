@@ -61,16 +61,6 @@ impl RelationFiles {
         format!("{}/{}.percent", self.workdir, self.name)
     }
 
-    /// Builds the file name of the house number HTML cache file of a relation.
-    pub fn get_housenumbers_htmlcache_path(&self) -> String {
-        format!(
-            "{}/{}.htmlcache.{}",
-            self.workdir,
-            self.name,
-            i18n::get_language()
-        )
-    }
-
     /// Builds the file name of the house number plain text cache file of a relation.
     pub fn get_housenumbers_txtcache_path(&self) -> String {
         format!("{}/{}.txtcache", self.workdir, self.name)
@@ -163,15 +153,6 @@ impl RelationFiles {
         ctx.get_file_system()
             .open_write(&path)
             .context("open_write() failed")
-    }
-
-    /// Opens the house number HTML cache file of a relation for reading.
-    pub fn get_housenumbers_htmlcache_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_housenumbers_htmlcache_path();
-        ctx.get_file_system().open_read(&path)
     }
 
     /// Opens the housenumbers additional count file of a relation for reading.
