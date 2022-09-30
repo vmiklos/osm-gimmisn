@@ -8,6 +8,15 @@ refstreets:
   # írásmód
   'Bajcsy-Zsilinszky Endre körút': 'Bajcsy-Zsilinszky E. körút'
   'Szív utca': 'Sziv utca'
+  # tanyák
+  'Alsócsalános' : 'Alsócsalános tanya'
+  'Alsószéktó': 'Alsószéktó tanya'
+  'Belsőnyír': 'Belsőnyír tanya'
+  'Borbás': 'Borbás tanya'
+  'Budaihegy': 'Budaihegy tanya'
+  'Kőrösi hegy': 'Kőrösihegy tanya'
+  'Műkert': 'Műkert város'
+  'Vacsi hegy': 'Vacsihegy tanya'
   # kérdéses
   'Aradi vértanúk tere': 'Aradi vértanuk tere'
   'Beniczky utca': 'Beniczky Ferenc utca'
@@ -38,9 +47,22 @@ refstreets:
   'Szérűskert utca': 'Szérüskert utca'
   'Thököly út': 'Thököly utca'
   'Zrínyi Ilona utca': 'Zrínyi utca'
-# street-filters:
+street-filters:
   # nem igazi utcák
   # place
+  # kerületek
+  - Árpádváros  # I. kerület - https://www.openstreetmap.org/node/984225158
+  - Máriaváros  # II. kerület - https://www.openstreetmap.org/node/984206848
+  - Széchenyiváros  # III.  kerület - https://www.openstreetmap.org/node/984206845
+  - Bethlenváros  # IV. kerület - https://www.openstreetmap.org/node/984225151
+  - Rákócziváros  # V. kerület - https://www.openstreetmap.org/node/984225154
+  - Hunyadiváros  # VIII. kerület - https://www.openstreetmap.org/node/984225130
+  - Szent István város  # IX. kerület - Szent István-város - https://www.openstreetmap.org/node/984225143
+  - Szent László város  # X. kerület - Szent László-város - https://www.openstreetmap.org/node/984225123
+  # egyéb településrészek
+  - Homokbánya  # https://www.openstreetmap.org/node/984225116
+  - Parasztfőiskola  # https://www.openstreetmap.org/node/984273255
+  - Külső Máriaváros
 # osm-street-filters:
   # átlógó utcák
   # nem igazi utcák
