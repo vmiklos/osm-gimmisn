@@ -3031,7 +3031,7 @@ osm-street-filters:
   - Olimpiai-park
   - Ottlik-kert
   - Sas-liget
-  - Sósfürdő park
+  # - Sósfürdő park - hivatalos neve Sósfürdő tér
   # Létező, de házszám nélküli utcák
   - Bonc utca
   - Ildikó tér
