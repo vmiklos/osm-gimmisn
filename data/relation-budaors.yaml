@@ -817,6 +817,7 @@ osm-street-filters:
   # egyéb
   - Budapark
   - Lőtéri út
+  - Rudolf király emlékpark
 street-filters:
   - Csiki dűlő
   - Erdő utca  # Nincs
