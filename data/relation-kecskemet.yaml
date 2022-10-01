@@ -62,7 +62,7 @@ street-filters:
   - Parasztfőiskola  # https://www.openstreetmap.org/node/984273255
   - Külső Máriaváros
 osm-street-filters:
-  # településrész - földhivatal szerint ezek vannam de felülvizsgálat alatt
+  # településrész - földhivatal szerint ezek vannak, de felülvizsgálat alatt
   - Borbás
   - Városföld
   # átlógó utcák
@@ -75,6 +75,7 @@ osm-street-filters:
   - Hunyadi park
   - Kiserdő
   - Kiskunsági Nemzeti Park Igazgatóság
+  - Petőfi park
   - Vasútkert
 source: survey
 housenumber-letters: false
