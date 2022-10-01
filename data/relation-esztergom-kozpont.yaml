@@ -166,6 +166,7 @@ filters:
 source: survey
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Döbönkút utca': 'Döbönkút dűlő'
   'Hegytető utca': 'Hegy-tető utca'
   'Kateri dűlő': 'Kateri-dűlő'
   'Kenderesi utca': 'Kenderesi út'
