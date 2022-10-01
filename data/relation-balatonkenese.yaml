@@ -1,11 +1,9 @@
 missing-streets: 'yes'
 refstreets:
    # helyesírás
+  'Bolyai János utca': 'Bólyai János utca'  # nincs tábla
   'Kun utca': 'Kún utca'
   'Rozgonyi Cecília utca': 'Rozgonyi Cecilia utca'
-  # kérdéses
-  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
-  'Bolyai János utca': 'Bólyai János utca'
   # tábla = osm
   'Bocskai István utca': 'Bocskay utca'
 osm-street-filters:
