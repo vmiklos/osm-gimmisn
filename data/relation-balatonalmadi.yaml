@@ -3,6 +3,9 @@ filters:
   Ady Endre utca:
     # Ezek nincsenek
     invalid: ['17', '33', '39']
+  Álmos utca:
+    # 2-4: a tüzép csak Álmos utca 2 néven fut
+    invalid: ['4']
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
@@ -144,6 +147,9 @@ filters:
     invalid: ['48', '50', '70', '93']
   Kölcsey Ferenc utca:
     show-refstreet: false
+  Kövesalja utca:
+    # 8 helyén 4 van kiírva
+    invalid: ['8']
   József Attila út:
     # 25 üres telek
     # 27 nincs
@@ -174,9 +180,8 @@ filters:
     # 14: 2 db 16 van táblázva
     invalid: ['14']
   Maros utca:
-    # 5, 7: nincs kiírva 2021-08 RESURVEY 2022
     # 15-17: csak 17 van kiírva
-    invalid: ['5', '7', '15']
+    invalid: ['15']
   Megyehegyi út:
     # 4 nincs kiírva, épület sincs az út mentén, lehet feljebb van mert hosszúkásak a telkek. RESURVEY 2022
     # utolsó ház a 15
@@ -240,6 +245,9 @@ filters:
   Széchenyi utca:
     # 25 = Erkel Ferenc utca 40
     invalid: ['25']
+  Szegfű utca:
+    # 11-13: csak 11 van kiírva
+    invalid: ['13']
   Szellő utca:
     # 41 nincs, utolsó szám 13
     invalid: ['41']
@@ -263,6 +271,9 @@ filters:
   Töhötöm utca:
     # 10-12: csak 10 van kiírva
     invalid: ['12']
+  Újhegy köz:
+    # 1-3: csak 1 van kiírva
+    invalid: ['3']
   Vadász utca:
     # 5 nincs kiírva 2021-08 RESURVEY 2022
     invalid: ['5']
@@ -293,14 +304,16 @@ filters:
     # 1 fa táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
     # külső részen alig vannak táblázva
     # 13: nincs kiírva
-    # 21: HÉSZ szerint egy egész utca több házzal, nincs kiírva semmi
     # 33: nincs kiírva
     # 38-40: HÉSZ szerinti helyén 36 van táblázva
-    invalid: ['13', '21', '33', '38', '40']
+    invalid: ['13', '33', '38', '40']
     ranges:
       - {start: '1', end: '41'}
       - {start: '2', end: '60'}
     show-refstreet: false
+  Vöröskő utca:
+    # 8: 3 van kiírva
+    invalid: ['8']
   Vörösmarty utca:
     # utcatáblák: 1 db ff Vörösmarty utca, 1 db ff Vörösmarty Mihály utca, 1 db kék-sárga Vörösmarty utca
     # 6 után 10 jön

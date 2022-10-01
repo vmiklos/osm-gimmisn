@@ -124,9 +124,8 @@ filters:
     # 71: 39 az utolsó páratlan
     invalid: ['7', '25', '36', '40', '42', '71']
   Maros utca:
-    # 5, 7: nincs kiírva 2021-08. RESURVEY 2022
     # 15-17: csak 17 van kiírva
-    invalid: ['5', '7', '15']
+    invalid: ['15']
   Megyehegyi út:
     # 4 nincs kiírva, épület sincs az út mentén, lehet feljebb van mert hosszúkásak a telkek. RESURVEY 2022
     # utolsó ház a 15
@@ -155,6 +154,9 @@ filters:
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
+  Újhegy köz:
+    # 1-3: csak 1 van kiírva
+    invalid: ['3']
   Vadász utca:
     # 5 nincs kiírva 2021-08. RESURVEY 2022
     invalid: ['5']
@@ -171,10 +173,9 @@ filters:
     # 1 fa táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
     # külső részen alig vannak táblázva
     # 13: nincs kiírva
-    # 21: HÉSZ szerint egy egész utca több házzal, nincs kiírva semmi
     # 33: nincs kiírva
     # 38-40: HÉSZ szerinti helyén 36 van táblázva
-    invalid: ['13', '21', '33', '38', '40']
+    invalid: ['13', '33', '38', '40']
     ranges:
       - {start: '1', end: '41'}
       - {start: '2', end: '60'}
