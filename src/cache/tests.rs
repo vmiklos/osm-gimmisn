@@ -74,17 +74,23 @@ fn test_is_missing_housenumbers_txt_cached() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let txt_cache_value = context::tests::TestFileSystem::make_file();
+    let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/gazdagret.txtcache", &txt_cache_value),
+            ("workdir/gazdagret.cache.json", &json_cache_value),
         ],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret.txtcache"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("workdir/gazdagret.cache.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);

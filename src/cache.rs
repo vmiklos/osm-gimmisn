@@ -141,7 +141,9 @@ pub fn get_missing_housenumbers_txt(
         return Ok(output);
     }
 
-    let ongoing_streets = relation.get_missing_housenumbers()?.ongoing_streets;
+    let json = get_missing_housenumbers_json(ctx, relation)?;
+    let missing_housenumbers: areas::MissingHousenumbers = serde_json::from_str(&json)?;
+    let ongoing_streets = missing_housenumbers.ongoing_streets;
     let mut table: Vec<String> = Vec::new();
     for result in ongoing_streets {
         let range_list = util::get_housenumber_ranges(&result.house_numbers);
