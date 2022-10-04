@@ -245,7 +245,6 @@ fn test_update_missing_housenumbers() {
     let count_file1 = context::tests::TestFileSystem::make_file();
     let count_file2 = context::tests::TestFileSystem::make_file();
     let json_cache = context::tests::TestFileSystem::make_file();
-    let txt_cache = context::tests::TestFileSystem::make_file();
     let ref_housenumbers = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -254,7 +253,6 @@ fn test_update_missing_housenumbers() {
             ("workdir/gazdagret.percent", &count_file1),
             ("workdir/ujbuda.percent", &count_file2),
             ("workdir/gazdagret.cache.json", &json_cache),
-            ("workdir/gazdagret.txtcache", &txt_cache),
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &ref_housenumbers,
@@ -274,10 +272,6 @@ fn test_update_missing_housenumbers() {
     mtimes.insert(path1.to_string(), Rc::new(RefCell::new(0_f64)));
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret.cache.json"),
-        Rc::new(RefCell::new(0_f64)),
-    );
-    mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret.txtcache"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -301,14 +295,6 @@ fn test_update_missing_housenumbers() {
     // Make sure housenumber stat is not created for the streets=only case.
     let mut guard = count_file2.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, false);
-
-    // Check the letter sufix style: should be 1a, not 1/A.
-    let actual = ctx
-        .get_file_system()
-        .read_to_string(&ctx.get_abspath("workdir/gazdagret.txtcache"))
-        .unwrap();
-    let expected = "Tűzkő utca\t[1a]";
-    assert_eq!(actual, expected);
 }
 
 /// Tests update_missing_streets().
@@ -964,7 +950,6 @@ fn test_our_main() {
     let ref_housenumbers_cache_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_extra_cache_value = context::tests::TestFileSystem::make_file();
     let ref_streets_cache_value = context::tests::TestFileSystem::make_file();
-    let missing_housenumbers_txt = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
@@ -1008,7 +993,6 @@ fn test_our_main() {
                 "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
                 &ref_housenumbers_extra_cache_value,
             ),
-            ("workdir/gazdagret.txtcache", &missing_housenumbers_txt),
             ("workdir/gazdagret.cache.json", &missing_housenumbers_json),
             ("data/streets-template.txt", &template_value),
             ("data/street-housenumbers-template.txt", &housenr_template),
@@ -1018,8 +1002,6 @@ fn test_our_main() {
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/gazdagret.cache.json");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
-    let path = ctx.get_abspath("workdir/gazdagret.txtcache");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);

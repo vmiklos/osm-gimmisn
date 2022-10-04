@@ -11,7 +11,6 @@
 //! The cron module allows doing nightly tasks.
 
 use crate::areas;
-use crate::cache;
 use crate::context;
 use crate::overpass_query;
 use crate::stats;
@@ -225,9 +224,6 @@ fn update_missing_housenumbers(
         relation
             .write_missing_housenumbers()
             .context("write_missing_housenumbers() failed")?;
-
-        cache::get_missing_housenumbers_txt(ctx, &mut relation)
-            .context("get_missing_housenumbers_txt() failed")?;
     }
     info!("update_missing_housenumbers: end");
 

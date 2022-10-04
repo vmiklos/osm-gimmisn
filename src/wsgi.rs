@@ -441,25 +441,60 @@ fn missing_housenumbers_view_txt(
     let relation_name = tokens.next_back().unwrap();
     let mut relation = relations.get_relation(relation_name)?;
 
-    let output: String;
     if !ctx
         .get_file_system()
         .path_exists(&relation.get_files().get_osm_streets_path())
     {
-        output = tr("No existing streets");
-    } else if !ctx
+        return Ok(tr("No existing streets"));
+    }
+
+    if !ctx
         .get_file_system()
         .path_exists(&relation.get_files().get_osm_housenumbers_path())
     {
-        output = tr("No existing house numbers");
-    } else if !ctx
+        return Ok(tr("No existing house numbers"));
+    }
+
+    if !ctx
         .get_file_system()
         .path_exists(&relation.get_files().get_ref_housenumbers_path())
     {
-        output = tr("No reference house numbers");
-    } else {
-        output = cache::get_missing_housenumbers_txt(ctx, &mut relation)?;
+        return Ok(tr("No reference house numbers"));
     }
+
+    let json = cache::get_missing_housenumbers_json(ctx, &mut relation)?;
+    let missing_housenumbers: areas::MissingHousenumbers = serde_json::from_str(&json)?;
+    let ongoing_streets = missing_housenumbers.ongoing_streets;
+    let mut table: Vec<String> = Vec::new();
+    for result in ongoing_streets {
+        let range_list = util::get_housenumber_ranges(&result.house_numbers);
+        let mut range_strings: Vec<String> = range_list
+            .iter()
+            .map(|i| i.get_lowercase_number())
+            .collect();
+        // Street name, only_in_reference items.
+        let row: String = if !relation
+            .get_config()
+            .get_street_is_even_odd(result.street.get_osm_name())
+        {
+            range_strings.sort_by_key(|i| util::split_house_number(i));
+            format!(
+                "{}\t[{}]",
+                result.street.get_osm_name(),
+                range_strings.join(", ")
+            )
+        } else {
+            let elements = util::format_even_odd(&range_list);
+            format!(
+                "{}\t[{}]",
+                result.street.get_osm_name(),
+                elements.join("], [")
+            )
+        };
+        table.push(row);
+    }
+    table.sort_by_key(|i| util::get_sort_key(i).unwrap());
+    let output = table.join("\n");
     Ok(output)
 }
 
