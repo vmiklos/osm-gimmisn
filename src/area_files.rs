@@ -61,11 +61,6 @@ impl RelationFiles {
         format!("{}/{}.percent", self.workdir, self.name)
     }
 
-    /// Builds the file name of the house number plain text cache file of a relation.
-    pub fn get_housenumbers_txtcache_path(&self) -> String {
-        format!("{}/{}.txtcache", self.workdir, self.name)
-    }
-
     /// Builds the file name of the house number json cache file of a relation.
     pub fn get_housenumbers_jsoncache_path(&self) -> String {
         format!("{}/{}.cache.json", self.workdir, self.name)

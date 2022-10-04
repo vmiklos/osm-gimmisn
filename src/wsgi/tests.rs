@@ -614,21 +614,13 @@ fn test_missing_housenumbers_no_ref_housenumbers_well_formed() {
 fn test_missing_housenumbers_view_result_txt() {
     let mut test_wsgi = TestWsgi::new();
     let mut file_system = context::tests::TestFileSystem::new();
-    let txt_cache = context::tests::TestFileSystem::make_file();
     let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("workdir/budafok.txtcache", &txt_cache),
-            ("workdir/budafok.cache.json", &json_cache),
-        ],
+        &[("workdir/budafok.cache.json", &json_cache)],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/budafok.txtcache"),
-        Rc::new(RefCell::new(0_f64)),
-    );
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/budafok.cache.json"),
         Rc::new(RefCell::new(0_f64)),
@@ -659,26 +651,23 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
                 "Törökugrató utca": {
                     "invalid": ["11", "12"],
                 },
+                "Tűzkő utca": {
+                    "interpolation": "all",
+                },
             },
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let txt_cache_value = context::tests::TestFileSystem::make_file();
     let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret.txtcache", &txt_cache_value),
             ("workdir/gazdagret.cache.json", &json_cache_value),
         ],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/gazdagret.txtcache"),
-        Rc::new(RefCell::new(0_f64)),
-    );
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/gazdagret.cache.json"),
         Rc::new(RefCell::new(0_f64)),
@@ -691,7 +680,7 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
 
     let expected = r#"Hamzsabégi út	[1]
 Törökugrató utca	[7], [10]
-Tűzkő utca	[1], [2]"#;
+Tűzkő utca	[1, 2]"#;
     assert_eq!(result, expected);
 }
 
