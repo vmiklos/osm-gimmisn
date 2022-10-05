@@ -898,11 +898,7 @@ impl Relation {
         let osm_street_blacklist = self.config.get_osm_street_filters();
 
         let mut only_in_osm = util::get_only_in_first(&osm_streets, &ref_street_objs);
-        only_in_osm = only_in_osm
-            .iter()
-            .filter(|i| !osm_street_blacklist.contains(i.get_osm_name()))
-            .cloned()
-            .collect();
+        only_in_osm.retain(|i| !osm_street_blacklist.contains(i.get_osm_name()));
 
         Ok(only_in_osm)
     }
