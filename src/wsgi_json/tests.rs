@@ -20,6 +20,7 @@ use std::sync::Arc;
 
 use crate::areas;
 use crate::context;
+use crate::util;
 use crate::wsgi;
 
 /// Tests streets_update_result_json(): if the update-result json output is well-formed.
@@ -312,4 +313,45 @@ fn test_missing_housenumbers_view_result_json() {
     assert_eq!(ongoing_street.street.get_osm_name(), "Vöröskúti határsor");
     // 2, 12, 34, 36.
     assert_eq!(ongoing_street.house_numbers.len(), 4);
+}
+
+/// Tests additional_housenumbers_view_result_json().
+#[test]
+fn test_additional_housenumbers_view_result_json() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    let mut file_system = context::tests::TestFileSystem::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 42,
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let cache_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        test_wsgi.get_ctx(),
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/additional-cache-budafok.json", &cache_value),
+        ],
+    );
+    file_system.set_files(&files);
+    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    mtimes.insert(
+        test_wsgi
+            .get_ctx()
+            .get_abspath("workdir/additional-cache-budafok.json"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    file_system.set_mtimes(&mtimes);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+
+    let result = test_wsgi.get_json_for_path("/additional-housenumbers/budafok/view-result.json");
+
+    // The json equivalent of test_additional_housenumbers_well_formed().
+    let additional_housenumbers: Vec<util::NumberedStreet> =
+        serde_json::from_value(result).unwrap();
+    assert_eq!(additional_housenumbers.len(), 0);
 }
