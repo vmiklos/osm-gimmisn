@@ -1055,7 +1055,7 @@ impl Relation {
     /// Compares ref and osm house numbers, prints the ones which are in osm, but not in ref.
     /// Return value is a list of streets.
     /// Each of of these is a pair of a street name and a house number list.
-    fn get_additional_housenumbers(&mut self) -> anyhow::Result<util::NumberedStreets> {
+    pub fn get_additional_housenumbers(&mut self) -> anyhow::Result<util::NumberedStreets> {
         let mut additional = Vec::new();
 
         let osm_street_names = self.get_osm_streets(/*sorted_result=*/ true)?;

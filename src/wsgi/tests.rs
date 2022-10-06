@@ -138,6 +138,9 @@ impl TestWsgi {
         let mut data = Vec::new();
         let (mut reader, _size) = response.data.into_reader_and_size();
         reader.read_to_end(&mut data).unwrap();
+        assert_eq!(data.is_empty(), false);
+        let output = String::from_utf8(data).unwrap();
+        println!("get_json_for_path: output is '{}'", output);
         // Make sure the built-in exception catcher is not kicking in.
         assert_eq!(response.status_code, 200);
         let headers_map: HashMap<_, _> = response.headers.into_iter().collect();
@@ -145,9 +148,7 @@ impl TestWsgi {
             headers_map["Content-type"],
             "application/json; charset=utf-8"
         );
-        assert_eq!(data.is_empty(), false);
-        let value: serde_json::Value =
-            serde_json::from_str(&String::from_utf8(data).unwrap()).unwrap();
+        let value: serde_json::Value = serde_json::from_str(&output).unwrap();
         value
     }
 
