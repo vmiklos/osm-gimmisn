@@ -351,7 +351,6 @@ fn test_additional_housenumbers_view_result_json() {
     let result = test_wsgi.get_json_for_path("/additional-housenumbers/budafok/view-result.json");
 
     // The json equivalent of test_additional_housenumbers_well_formed().
-    let additional_housenumbers: Vec<util::NumberedStreet> =
-        serde_json::from_value(result).unwrap();
+    let additional_housenumbers: util::NumberedStreets = serde_json::from_value(result).unwrap();
     assert_eq!(additional_housenumbers.len(), 0);
 }
