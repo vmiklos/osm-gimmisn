@@ -23,6 +23,7 @@ fn test_get_additional_housenumbers_html() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let relation_count = context::tests::TestFileSystem::make_file();
     let relation_htmlcache = context::tests::TestFileSystem::make_file();
+    let relation_jsoncache = context::tests::TestFileSystem::make_file();
     let mut file_system = context::tests::TestFileSystem::new();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -35,11 +36,19 @@ fn test_get_additional_housenumbers_html() {
                 "workdir/gazdagret.additional-htmlcache.en",
                 &relation_htmlcache,
             ),
+            (
+                "workdir/additional-cache-gazdagret.json",
+                &relation_jsoncache,
+            ),
         ],
     );
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret.additional-htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        ctx.get_abspath("workdir/additional-cache-gazdagret.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_files(&files);

@@ -203,6 +203,7 @@ fn test_additional_housenumbers_well_formed() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let count_value = context::tests::TestFileSystem::make_file();
     let cache_value = context::tests::TestFileSystem::make_file();
+    let jsoncache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
@@ -212,6 +213,7 @@ fn test_additional_housenumbers_well_formed() {
                 &count_value,
             ),
             ("workdir/gazdagret.additional-htmlcache.en", &cache_value),
+            ("workdir/additional-cache-gazdagret.json", &jsoncache_value),
         ],
     );
     file_system.set_files(&files);
@@ -220,6 +222,12 @@ fn test_additional_housenumbers_well_formed() {
         test_wsgi
             .get_ctx()
             .get_abspath("workdir/gazdagret.additional-htmlcache.en"),
+        Rc::new(RefCell::new(0_f64)),
+    );
+    mtimes.insert(
+        test_wsgi
+            .get_ctx()
+            .get_abspath("workdir/additional-cache-gazdagret.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
