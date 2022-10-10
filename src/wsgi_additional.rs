@@ -11,7 +11,6 @@
 //! The wsgi_additional module contains functionality for additional streets.
 
 use crate::areas;
-use crate::cache;
 use crate::context;
 use crate::i18n::translate as tr;
 use crate::util;
@@ -199,7 +198,7 @@ pub fn additional_housenumbers_view_result(
     {
         doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
-        doc = cache::get_additional_housenumbers_html(ctx, &mut relation)?;
+        doc = additional_housenumbers_view_result_html(ctx, &mut relation)?;
     }
     Ok(doc)
 }
@@ -220,6 +219,48 @@ pub fn additional_streets_view_turbo(
 
     let pre = doc.tag("pre", &[]);
     pre.text(&query);
+    Ok(doc)
+}
+
+/// The actual HTML part of additional_housenumbers_view_result().
+fn additional_housenumbers_view_result_html(
+    ctx: &context::Context,
+    relation: &mut areas::Relation,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    let (todo_street_count, todo_count, table) = relation.write_additional_housenumbers()?;
+
+    {
+        let p = doc.tag("p", &[]);
+        p.text(
+            &tr("OpenStreetMap additionally has the below {0} house numbers for {1} streets.")
+                .replace("{0}", &todo_count.to_string())
+                .replace("{1}", &todo_street_count.to_string()),
+        );
+        doc.stag("br");
+        let a = doc.tag(
+            "a",
+            &[(
+                "href",
+                "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
+            )],
+        );
+        a.text(&tr("Filter incorrect information"));
+    }
+
+    doc.append_value(util::html_table_from_list(&table).get_value());
+    let (osm_invalids, ref_invalids) = relation.get_invalid_refstreets()?;
+    doc.append_value(util::invalid_refstreets_to_html(&osm_invalids, &ref_invalids).get_value());
+    doc.append_value(
+        util::invalid_filter_keys_to_html(&relation.get_invalid_filter_keys()?).get_value(),
+    );
+
+    let files = relation.get_files();
+    ctx.get_file_system().write_from_string(
+        &doc.get_value(),
+        &files.get_additional_housenumbers_htmlcache_path(),
+    )?;
+
     Ok(doc)
 }
 

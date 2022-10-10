@@ -17,51 +17,6 @@ use std::collections::HashMap;
 use std::rc::Rc;
 use std::sync::Arc;
 
-/// Tests get_additional_housenumbers_html(): the case when we find the result in cache
-#[test]
-fn test_get_additional_housenumbers_html() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let relation_count = context::tests::TestFileSystem::make_file();
-    let relation_htmlcache = context::tests::TestFileSystem::make_file();
-    let relation_jsoncache = context::tests::TestFileSystem::make_file();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            (
-                "workdir/gazdagret-additional-housenumbers.count",
-                &relation_count,
-            ),
-            (
-                "workdir/gazdagret.additional-htmlcache.en",
-                &relation_htmlcache,
-            ),
-            (
-                "workdir/additional-cache-gazdagret.json",
-                &relation_jsoncache,
-            ),
-        ],
-    );
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret.additional-htmlcache.en"),
-        Rc::new(RefCell::new(0_f64)),
-    );
-    mtimes.insert(
-        ctx.get_abspath("workdir/additional-cache-gazdagret.json"),
-        Rc::new(RefCell::new(0_f64)),
-    );
-    file_system.set_files(&files);
-    file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-    let mut relation = relations.get_relation("gazdagret").unwrap();
-    let first = get_additional_housenumbers_html(&ctx, &mut relation).unwrap();
-    let second = get_additional_housenumbers_html(&ctx, &mut relation).unwrap();
-    assert_eq!(first.get_value(), second.get_value());
-}
-
 /// Tests get_missing_housenumbers_json(): the cached case.
 ///
 /// The non-cached case is covered by higher level
