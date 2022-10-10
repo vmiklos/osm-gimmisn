@@ -6,6 +6,9 @@ filters:
   Álmos utca:
     # 2-4: a tüzép csak Álmos utca 2 néven fut
     invalid: ['4']
+  Alpár Ignác utca:
+    # 3-5: csak 3 van kiírva
+    invalid: ['5']
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
@@ -325,6 +328,12 @@ filters:
     # 6 után 10 jön
     # 26-28: csak 28 van kiírva
     invalid: ['8', '26']
+  Ybl Miklós utca:
+    # 2-4: 2/a, 2/b van kiírva
+    invalid: ['4']
+  Zichy Mihály utca:
+    # 32-34: csak 32 van kiírva
+    invalid: ['34']
   Zrínyi Ilona utca:
     # max házszám 15
     invalid: ['31']

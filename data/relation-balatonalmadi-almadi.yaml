@@ -107,6 +107,9 @@ filters:
       - {start: '1', end: '33'}
     show-refstreet: false
   # szűrők ---------------------------------------------------
+  Alpár Ignác utca:
+    # 3-5: csak 3 van kiírva
+    invalid: ['5']
   Balaton utca:
     ranges:
       - {start: '2', end: '16'}
@@ -176,6 +179,12 @@ filters:
   Vennyige utca:
     # 1-3: csak 3 van kiírva
     invalid: ['1']
+  Ybl Miklós utca:
+    # 2-4: 2/a, 2/b van kiírva
+    invalid: ['4']
+  Zichy Mihály utca:
+    # 32-34: csak 32 van kiírva
+    invalid: ['34']
   Zrínyi Ilona utca:
     # max házszám 15
     invalid: ['31']
