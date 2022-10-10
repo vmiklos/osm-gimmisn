@@ -209,13 +209,4 @@ impl RelationFiles {
         let mut guard = write.borrow_mut();
         Ok(guard.write(result.as_bytes())?)
     }
-
-    /// Opens the additional house number HTML cache file of a relation for reading.
-    pub fn get_additional_housenumbers_htmlcache_read_stream(
-        &self,
-        ctx: &context::Context,
-    ) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
-        let path = self.get_additional_housenumbers_htmlcache_path();
-        ctx.get_file_system().open_read(&path)
-    }
 }

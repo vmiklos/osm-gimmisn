@@ -68,4 +68,4 @@ pub fn translate(english: &str) -> String {
 }
 
 #[cfg(test)]
-mod tests;
+pub mod tests;
