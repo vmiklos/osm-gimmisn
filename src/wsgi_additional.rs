@@ -198,7 +198,7 @@ pub fn additional_housenumbers_view_result(
     {
         doc = webframe::handle_no_ref_housenumbers(&prefix, relation_name);
     } else {
-        doc = additional_housenumbers_view_result_html(ctx, &mut relation)?;
+        doc = additional_housenumbers_view_result_html(&mut relation)?;
     }
     Ok(doc)
 }
@@ -224,7 +224,6 @@ pub fn additional_streets_view_turbo(
 
 /// The actual HTML part of additional_housenumbers_view_result().
 fn additional_housenumbers_view_result_html(
-    ctx: &context::Context,
     relation: &mut areas::Relation,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
@@ -254,12 +253,6 @@ fn additional_housenumbers_view_result_html(
     doc.append_value(
         util::invalid_filter_keys_to_html(&relation.get_invalid_filter_keys()?).get_value(),
     );
-
-    let files = relation.get_files();
-    ctx.get_file_system().write_from_string(
-        &doc.get_value(),
-        &files.get_additional_housenumbers_htmlcache_path(),
-    )?;
 
     Ok(doc)
 }
