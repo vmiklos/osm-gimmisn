@@ -11,7 +11,6 @@
 //! The area_files module contains file handling functionality, to be used by the areas module.
 
 use crate::context;
-use crate::i18n;
 use anyhow::Context;
 use std::cell::RefCell;
 use std::io::Read;
@@ -86,16 +85,6 @@ impl RelationFiles {
         format!(
             "{}/{}-additional-housenumbers.count",
             self.workdir, self.name
-        )
-    }
-
-    /// Builds the file name of the additional house number HTML cache file of a relation.
-    pub fn get_additional_housenumbers_htmlcache_path(&self) -> String {
-        format!(
-            "{}/{}.additional-htmlcache.{}",
-            self.workdir,
-            self.name,
-            i18n::get_language()
         )
     }
 
