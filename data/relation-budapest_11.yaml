@@ -382,6 +382,7 @@ filters:
   Ménesi út:
     # páratlan ---------------------------------------------------------------
     # 1a: csak csima 1 van
+    # 4a: régi házszám, a kapucsengőn csak 4 van
     # 17: 17/a, 17/b
     # 31ab: 31 A és B épület
     # 43: nincs 41 után 45 jön, ami a Budai Arborétum felső kertje
@@ -389,14 +390,14 @@ filters:
     # 61/a-c: 61 A,B,C épületek
     # 61z: KCR hirdetmény 2019.02.07 - megszűnt - https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2019_02/skmbt_28319020807520.pdf
     # 71/a: 71, 71/b
-    # TODO 77/a: 77 van kiírva, de még építkeznek. CHECK 2022-05-23
+    # 77/a: 77 van kiírva, de még építkeznek. CHECK 2022-10-11 TODO
     # 79b: 77-79 újra lettek számozva, 79/b->79 lett belőle, 79->77/b
     # 85: 85/a, 85/b
     # páros ------------------------------------------------------------------
     # 42: nincs
     # 46,54: Arborétum hátsó fele
     # 84: nincs, Köbölkút utca 27-29 iskola hátsó fele
-    invalid: ['1a', '17', '31a', '31b', '43', '59', '61a', '61b', '61c', '61z', '71a', '79b', '85', '42', '46', '54', '84']
+    invalid: ['1a', '4a', '17', '31a', '31b', '43', '59', '61a', '61b', '61c', '61z', '71a', '77a', '79b', '85', '42', '46', '54', '84']
     ranges:
       - {start: '1', end: '87'}
       - {start: '2', end: '104'}
