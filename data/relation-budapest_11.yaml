@@ -1448,6 +1448,9 @@ filters:
       - {start: '1', end: '39'}
       - {start: '2', end: '36'}
   # Kelenvölgy ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Abroncs utca:
+    # 6a: régi hírdetésben az utca eleján kint van a 6/a, ahogy régi képen is, de most már a házon 6 van
+    invalid: ['6a']
   Adács utca:
     # 21a1, 21/a (21a1, 21a2), 21/b
     invalid: ['21']
