@@ -109,7 +109,10 @@ fn test_is_complete_relation_complete() {
 /// Tests main().
 #[test]
 fn test_main() {
-    let argv = ["".to_string(), "tests/mock/access_log".to_string()];
+    let argv = [
+        "".to_string(),
+        "src/fixtures/file-system/access_log".to_string(),
+    ];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut ctx = context::tests::make_test_context().unwrap();
     let relations_path = ctx.get_abspath("data/relations.yaml");
