@@ -923,21 +923,13 @@ filters:
       - {start: '8', end: '8'}
   Somlói út:
     # 2: 2/a, 2/b
-    # 5: 5/a, 5/b
-    # 7/b: Trió Presszó volt, bezárt
     # 15/a: 15, 15/b
     # 18: nincs 14-16 után 20 jön
-    # 20/a, 20/b: csak sima 20
-    # 25/b: 25, 25/a
     # 28: 28/a, 28/b
-    # 29/d,31/e: Lakópark 5 épülettel: Iglói 2, 4, 6a, 6b, Somlói 29, 31
-    # 37/6: 37/b
+    # 39: 39/a, 39/b
     # 46: csak 46/a van
-    # 49: nincs. XI. kerület utolsó száma a 47/d, ezután 51 jön az I. kerületben Mathias Corvinus Collegium tömbje
-    # 60: 60/a, 60/b
     # 62/a, 62/b: a és b épület, de a házszám 62
-    # 68/a, 68/b: 3 egyforma új épület 64, 66, 68
-    invalid: ['2', '5', '15a', '18', '20a', '20b', '25b', '28', '29d', '31e', '37/6', '46', '60', '62a', '62b', '68a', '68b']
+    invalid: ['2', '15a', '18', '28', '39', '46', '62a', '62b']
     ranges:
       - {start: '1', end: '47'}
       - {start: '2', end: '98'}
