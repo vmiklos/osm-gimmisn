@@ -25,7 +25,7 @@ fn test_overpass_sleep_no_sleep() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/status",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-status-happy.txt",
+        /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
@@ -49,12 +49,12 @@ fn test_overpass_sleep_need_sleep() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-wait.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-wait.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -456,12 +456,12 @@ fn test_update_osm_housenumbers() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-housenumbers-gazdagret.csv",
+            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -490,7 +490,7 @@ fn test_update_osm_housenumbers_http_error() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
@@ -541,12 +541,12 @@ fn test_update_osm_housenumbers_xml_as_csv() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass.xml",
+            /*result_path=*/ "src/fixtures/network/overpass.xml",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -568,12 +568,12 @@ fn test_update_osm_streets() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-streets-gazdagret.csv",
+            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -633,7 +633,7 @@ fn test_update_osm_streets_http_error() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
@@ -686,12 +686,12 @@ fn test_update_osm_streets_xml_as_csv() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass.xml",
+            /*result_path=*/ "src/fixtures/network/overpass.xml",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -715,12 +715,12 @@ fn test_update_stats() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-stats.csv",
+            /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -776,7 +776,8 @@ fn test_update_stats() {
     let actual = ctx.get_file_system().read_to_string(&path).unwrap();
     assert_eq!(
         actual,
-        String::from_utf8(std::fs::read("tests/network/overpass-stats.csv").unwrap()).unwrap()
+        String::from_utf8(std::fs::read("src/fixtures/network/overpass-stats.csv").unwrap())
+            .unwrap()
     );
 
     // Make sure that the old CSV is removed.
@@ -803,7 +804,7 @@ fn test_update_stats_http_error() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/status",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-status-happy.txt",
+        /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
@@ -849,12 +850,12 @@ fn test_update_stats_no_overpass() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-wait.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-wait.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -913,18 +914,18 @@ fn test_our_main() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-streets-gazdagret.csv",
+            /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
         ),
         // For update_osm_housenumbers().
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-housenumbers-gazdagret.csv",
+            /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
@@ -1062,12 +1063,12 @@ fn test_our_main_stats() {
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/status",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-status-happy.txt",
+            /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
         ),
         context::tests::URLRoute::new(
             /*url=*/ "https://overpass-api.de/api/interpreter",
             /*data_path=*/ "",
-            /*result_path=*/ "tests/network/overpass-stats.csv",
+            /*result_path=*/ "src/fixtures/network/overpass-stats.csv",
         ),
     ];
     let network = context::tests::TestNetwork::new(&routes);
