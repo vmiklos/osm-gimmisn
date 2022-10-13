@@ -30,7 +30,7 @@ fn test_json_streets_update_result() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/interpreter",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-streets-gazdagret.csv",
+        /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
@@ -117,7 +117,7 @@ fn test_json_housenumbers_update_result() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/interpreter",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-housenumbers-gazdagret.csv",
+        /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);

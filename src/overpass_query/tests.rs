@@ -20,7 +20,7 @@ fn test_overpass_query_need_sleep() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/status",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-status-happy.txt",
+        /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
@@ -36,7 +36,7 @@ fn test_overpass_query_need_sleep_wait() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/status",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-status-wait.txt",
+        /*result_path=*/ "src/fixtures/network/overpass-status-wait.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
@@ -52,7 +52,7 @@ fn test_overpass_query_need_sleep_wait_negative() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/status",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-status-wait-negative.txt",
+        /*result_path=*/ "src/fixtures/network/overpass-status-wait-negative.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
@@ -67,15 +67,15 @@ fn test_overpass_query() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/interpreter",
-        /*data_path=*/ "tests/network/overpass-happy.expected-data",
-        /*result_path=*/ "tests/network/overpass-happy.csv",
+        /*data_path=*/ "src/fixtures/network/overpass-happy.expected-data",
+        /*result_path=*/ "src/fixtures/network/overpass-happy.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
     ctx.set_network(&network_arc);
     let query = ctx
         .get_file_system()
-        .read_to_string("tests/network/overpass-happy.expected-data")
+        .read_to_string("src/fixtures/network/overpass-happy.expected-data")
         .unwrap();
 
     let buf = overpass_query(&ctx, query).unwrap();

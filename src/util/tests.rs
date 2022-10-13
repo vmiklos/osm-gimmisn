@@ -350,7 +350,7 @@ fn test_handle_overpass_error_no_sleep() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/status",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-status-happy.txt",
+        /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
@@ -368,7 +368,7 @@ fn test_handle_overpass_error_need_sleep() {
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/status",
         /*data_path=*/ "",
-        /*result_path=*/ "tests/network/overpass-status-wait.txt",
+        /*result_path=*/ "src/fixtures/network/overpass-status-wait.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
