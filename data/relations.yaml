@@ -532,6 +532,10 @@ monostorpalyi:
     osmrelation: 1443910
     refcounty: "09"
     refsettlement: "052"
+polgar:
+    osmrelation: 1431870
+    refcounty: "09"
+    refsettlement: "062"
 # 10 - Heves
 eger:
     osmrelation: 1418156
