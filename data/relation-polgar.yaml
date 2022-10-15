@@ -1,0 +1,22 @@
+missing-streets: 'yes'
+#osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+#street-filters:
+  # Tanyák
+refstreets:
+  'Bacsó Béla utca': 'Bacsó utca'
+  'Báthory utca': 'Báthori utca'
+  'Dózsa György út': 'Dózsa György utca'
+  'Gorkij fasor utca': 'Gorkijfasor utca'
+  'Jókai Mór utca': 'Jókai utca'
+  'Rákóczi Ferenc utca': 'Rákóczi utca'
+  'Ságvár utca': 'Ságvári utca'
+  'Selypes köz': 'Selypesköz tanya'
+  'Széchenyi István utca': 'Széchenyi utca'
+  'Taskó István utca': 'Taskó utca'
+  'Vas Gereben utca': 'Vasgereben utca'
+  'Vasvári Pál utca': 'Vasvári utca'
+source: survey
+inactive: true
