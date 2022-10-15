@@ -1,0 +1,73 @@
+missing-streets: 'yes'
+#osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+#street-filters:
+  # Tanyák
+refstreets:
+  'Ady Endre utca': 'Ady Endre út'
+  'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
+  'Bánfi utca': 'Bánffy utca'
+  'Bárdi utca': 'Bárd utca'
+  'Báthory utca': 'Báthori utca'
+  'Béla cigány utca': 'Bélacigány utca'
+  'Berzsenyi Dániel utca': 'Berzsenyi utca'
+  'Bezerédy utca': 'Bezerédi utca'
+  # 'Ciriák utca': 'Ciriák tanya'
+  'Egressy Béni utca': 'Egressy utca'
+  # 'Hatrongyosi út': 'Hatrongyosi tanya'
+  # 'Hódtó utca': 'Hódtó tanya'
+  'Kazinczy Ferenc utca': 'Kazinczy utca'
+  'Kiss Ernő utca': 'Kis Ernő utca'
+  'Kocka utca': 'Koczka utca'
+  'Makói út': 'Makói országút'
+  'Nyizsnay Gusztáv utca': 'Nyizsnyai Gusztáv utca'
+  'Ötvenhat mártír utca': 'Ötvenhatmártír utca'
+  # 'Rárósi utca': 'Rárós puszta'
+  'Sarkalyi utca': 'Sarkaji utca'
+  'Serház tér': 'Serháztér utca'
+  'Szalai utca': 'Szalay utca'
+  'Szentkirály utca': 'Szentkirályi utca'
+  'Téglagyári utca': 'Téglagyár utca'
+  'Tóth-malom utca': 'Tóth malom utca'
+  # Batida
+  'Gagarin utca': 'Batida Gagarin utca'
+  'Gárdonyi utca': 'Batida Gárdonyi utca'
+  'Iskola utca': 'Batida Iskola utca'
+  'Kossuth Lajos utca': 'Batida Kossuth Lajos utca'
+  'Szabadság utca': 'Batida Szabadság utca'
+  'Vágotthalom utca': 'Batida Vágotthalom utca'
+  'Vásárhelyi utca': 'Batida Vásárhelyi utca'
+  # Erzsébet
+  'Barátság utca': 'Erzsébet Barátság utca'
+  'Ciriák utca': 'Erzsébet Ciriák utca'
+  'Gyöngyvirág utca': 'Erzsébet Gyöngyvirág utca'
+  'Kossuth utca': 'Erzsébet Kossuth utca'
+  'Tiszavirág utca': 'Erzsébet Gyöngyvirág utca'
+  'Posta utca': 'Erzsébet Posta utca'
+  'Vasvári utca': 'Erzsébet Vasvári utca'
+  # Kútvölgy
+  'Bem József utca': 'Kútvölgy Bem József utca'
+  # 'Dózsa György utca': 'Kútvölgy Dózsa György út' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
+  # 'Petőfi utca': 'Kútvölgy Petőfi utca' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
+  'Rákóczi utca': 'Kútvölgy Rákóczi utca'
+  'Táncsics Mihály utca': 'Kútvölgy Táncsics M. utca'
+  # Szikáncs
+  'Ács Lajos utca': 'Szikáncs Ács Lajos utca'
+  'Ady Endre utca': 'Szikáncs Ady Endre utca'
+  # 'Dózsa György utca': 'Szikáncs Dózsa Gy. utca' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
+  'Fő utca': 'Szikáncs Fő utca'
+  'Hétvezér tér': 'Szikáncs Hét vezér tér'
+  # 'Petőfi utca': 'Szikáncs Petőfi Sándor utca' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
+  # Üdülő
+  'Árnyas utca': 'Üdülő Árnyas utca'
+  'Barkász utca': 'Üdülő Barkász Lajos utca'
+  'Csuka utca': 'Üdülő Csuka utca'
+  'Hal utca': 'Üdülő Hal utca'
+  'Keszeg utca': 'Üdülő Keszeg utca'
+  'Kócsag utca': 'Üdülő Kócsag utca'
+  'Szeder utca': 'Üdülő Szeder utca'
+  'Tiszavirág utca': 'Üdülő Tiszavirág utca'
+source: survey
+inactive: true
