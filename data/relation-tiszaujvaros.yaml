@@ -25,9 +25,7 @@ osm-street-filters:
   # nem igazi utcák
   # parkok, sétányok
   - Dísztó sétány
-  - Lórántffy Zsuzsanna Szoborpark
   - Sétáló út
-  - Városháztér
 source: survey
 housenumber-letters: false
 inactive: true
