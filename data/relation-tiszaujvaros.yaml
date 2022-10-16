@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 street-filters:
+  # tervezett, de még nem kiépült utcák 2022-10
+  - Barátság út
+  - Csíkszereda út
+  - Rimaszombat út
+  - Friesenheim út
   # nem igazi utcák
   - Gátőrház
   - TVK ipartelep
