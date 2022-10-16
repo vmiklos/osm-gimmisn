@@ -3,10 +3,11 @@ missing-streets: 'yes'
   # Nem igazi utca
   # Parkok, sétautak amire nincs számozva semmi
   # Területhatáron lévő utca
-#street-filters:
-  # Tanyák
+street-filters:
+  - Szikáncs Ady Endre utca  # nem mappelhető, mert van sima Ady Endre utca is
+  - Üdülő Szeder utca  # nem mappelhető, mert van sima Szerer utca is
 refstreets:
-  'Ady Endre utca': 'Ady Endre út'
+  'Ady Endre utca': 'Ady Endre út'  # van Szikáncs Ady is
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Bánfi utca': 'Bánffy utca'
   'Bárdi utca': 'Bárd utca'
@@ -14,17 +15,13 @@ refstreets:
   'Béla cigány utca': 'Bélacigány utca'
   'Berzsenyi Dániel utca': 'Berzsenyi utca'
   'Bezerédy utca': 'Bezerédi utca'
-  # 'Ciriák utca': 'Ciriák tanya'
   'Egressy Béni utca': 'Egressy utca'
-  # 'Hatrongyosi út': 'Hatrongyosi tanya'
-  # 'Hódtó utca': 'Hódtó tanya'
   'Kazinczy Ferenc utca': 'Kazinczy utca'
   'Kiss Ernő utca': 'Kis Ernő utca'
   'Kocka utca': 'Koczka utca'
   'Makói út': 'Makói országút'
   'Nyizsnay Gusztáv utca': 'Nyizsnyai Gusztáv utca'
   'Ötvenhat mártír utca': 'Ötvenhatmártír utca'
-  # 'Rárósi utca': 'Rárós puszta'
   'Sarkalyi utca': 'Sarkaji utca'
   'Serház tér': 'Serháztér utca'
   'Szalai utca': 'Szalay utca'
@@ -55,8 +52,8 @@ refstreets:
   'Táncsics Mihály utca': 'Kútvölgy Táncsics M. utca'
   # Szikáncs
   'Ács Lajos utca': 'Szikáncs Ács Lajos utca'
-  'Ady Endre utca': 'Szikáncs Ady Endre utca'
-  # 'Dózsa György utca': 'Szikáncs Dózsa Gy. utca' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
+  # 'Ady Endre utca': 'Szikáncs Ady Endre utca'  * nem mappelhető, van sima Ady Endre utca is
+  'Dózsa György utca': 'Szikáncs Dózsa Gy. utca' # Kútvölgy/Szikáncs is Dózsa György utca
   'Fő utca': 'Szikáncs Fő utca'
   'Hétvezér tér': 'Szikáncs Hét vezér tér'
   # 'Petőfi utca': 'Szikáncs Petőfi Sándor utca' - Kútvölgy/Szikáncs ugyanaz a név nem mappelhető
@@ -67,7 +64,8 @@ refstreets:
   'Hal utca': 'Üdülő Hal utca'
   'Keszeg utca': 'Üdülő Keszeg utca'
   'Kócsag utca': 'Üdülő Kócsag utca'
-  'Szeder utca': 'Üdülő Szeder utca'
+  # 'Szeder utca': 'Üdülő Szeder utca'  - van sima Szeder utca is
   'Tiszavirág utca': 'Üdülő Tiszavirág utca'
 source: survey
 inactive: true
+housenumber-letters: true
