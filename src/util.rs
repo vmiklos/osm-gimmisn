@@ -523,7 +523,7 @@ pub fn build_street_reference_cache(
         let stream = ctx
             .get_file_system()
             .open_read(&disk_cache)
-            .context("std::fs::File::open() failed")?;
+            .context("open_read() failed")?;
         let mut guard = stream.borrow_mut();
         // Handle an empty cache file like having no cache.
         if let Ok(memory_cache) = serde_json::from_reader(guard.deref_mut()) {
@@ -531,11 +531,13 @@ pub fn build_street_reference_cache(
         }
     }
 
-    let mut stream = std::io::BufReader::new(
-        std::fs::File::open(local_streets)
-            .context(format!("std::fs::File::open({}) failed", local_streets))?,
-    );
-    let mut csv_read = CsvRead::new(&mut stream);
+    let stream = ctx
+        .get_file_system()
+        .open_read(local_streets)
+        .context("open_read() failed")?;
+    let mut guard = stream.borrow_mut();
+    let mut bufstream = std::io::BufReader::new(guard.deref_mut());
+    let mut csv_read = CsvRead::new(&mut bufstream);
     let mut first = true;
     for result in csv_read.records() {
         let row = result?;
