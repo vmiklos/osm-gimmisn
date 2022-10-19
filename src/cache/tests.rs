@@ -38,19 +38,19 @@ fn test_get_missing_housenumbers_json() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret.cache.json", &json_cache_value),
+            ("workdir/cache-gazdagret.json", &json_cache_value),
         ],
     );
     file_system.set_files(&files);
     file_system
         .write_from_string(
             "{'cached':'yes'}",
-            &ctx.get_abspath("workdir/gazdagret.cache.json"),
+            &ctx.get_abspath("workdir/cache-gazdagret.json"),
         )
         .unwrap();
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret.cache.json"),
+        ctx.get_abspath("workdir/cache-gazdagret.json"),
         Rc::new(RefCell::new(9999999999_f64)),
     );
     file_system.set_mtimes(&mtimes);

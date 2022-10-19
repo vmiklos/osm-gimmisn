@@ -290,14 +290,14 @@ fn test_missing_housenumbers_view_result_json() {
     let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.get_ctx(),
-        &[("workdir/budafok.cache.json", &json_cache)],
+        &[("workdir/cache-budafok.json", &json_cache)],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
         test_wsgi
             .get_ctx()
-            .get_abspath("workdir/budafok.cache.json"),
+            .get_abspath("workdir/cache-budafok.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);

@@ -1855,14 +1855,14 @@ fn test_relation_write_missing_housenumbers() {
         &[
             ("workdir/gazdagret.percent", &percent_value),
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret.cache.json", &json_value),
+            ("workdir/cache-gazdagret.json", &json_value),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret.cache.json"),
+        ctx.get_abspath("workdir/cache-gazdagret.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -1906,14 +1906,14 @@ fn test_relation_write_missing_housenumbers_empty() {
         &ctx,
         &[
             ("workdir/empty.percent", &percent_value),
-            ("workdir/empty.cache.json", &json_value),
+            ("workdir/cache-empty.json", &json_value),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        ctx.get_abspath("workdir/empty.cache.json"),
+        ctx.get_abspath("workdir/cache-empty.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -1940,13 +1940,13 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
         &ctx,
         &[
             ("workdir/budafok.percent", &percent_value),
-            ("workdir/budafok.cache.json", &json_value),
+            ("workdir/cache-budafok.json", &json_value),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/budafok.cache.json");
+    let path = ctx.get_abspath("workdir/cache-budafok.json");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -1984,14 +1984,14 @@ fn test_relation_write_missing_housenumbers_sorting() {
         &ctx,
         &[
             ("workdir/gh414.percent", &percent_value),
-            ("workdir/gh414.cache.json", &json_value),
+            ("workdir/cache-gh414.json", &json_value),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        ctx.get_abspath("workdir/gh414.cache.json"),
+        ctx.get_abspath("workdir/cache-gh414.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);

@@ -252,7 +252,7 @@ fn test_update_missing_housenumbers() {
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/gazdagret.percent", &count_file1),
             ("workdir/ujbuda.percent", &count_file2),
-            ("workdir/gazdagret.cache.json", &json_cache),
+            ("workdir/cache-gazdagret.json", &json_cache),
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &ref_housenumbers,
@@ -271,7 +271,7 @@ fn test_update_missing_housenumbers() {
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(path1.to_string(), Rc::new(RefCell::new(0_f64)));
     mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret.cache.json"),
+        ctx.get_abspath("workdir/cache-gazdagret.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -994,7 +994,7 @@ fn test_our_main() {
                 "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
                 &ref_housenumbers_extra_cache_value,
             ),
-            ("workdir/gazdagret.cache.json", &missing_housenumbers_json),
+            ("workdir/cache-gazdagret.json", &missing_housenumbers_json),
             ("data/streets-template.txt", &template_value),
             ("data/street-housenumbers-template.txt", &housenr_template),
         ],
@@ -1002,7 +1002,7 @@ fn test_our_main() {
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    let path = ctx.get_abspath("workdir/gazdagret.cache.json");
+    let path = ctx.get_abspath("workdir/cache-gazdagret.json");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
