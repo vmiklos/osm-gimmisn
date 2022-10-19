@@ -390,13 +390,13 @@ fn test_missing_housenumbers_well_formed() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/gazdagret.percent", &percent_value),
-            ("workdir/gazdagret.cache.json", &json_cache_value),
+            ("workdir/cache-gazdagret.json", &json_cache_value),
         ],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/gazdagret.cache.json"),
+        test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -445,14 +445,14 @@ fn test_missing_housenumbers_compat() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/gazdagret.percent", &streets_value),
-            ("workdir/gazdagret.cache.json", &jsoncache_value),
+            ("workdir/cache-gazdagret.json", &jsoncache_value),
         ],
     );
     file_system.set_files(&files);
     // Make sure the cache is outdated.
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/gazdagret.cache.json"),
+        test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -496,7 +496,7 @@ fn test_missing_housenumbers_compat_relation() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/budafok.cache.json", &jsoncache_value),
+            ("workdir/cache-budafok.json", &jsoncache_value),
             ("workdir/budafok.percent", &percent_value),
         ],
     );
@@ -504,7 +504,7 @@ fn test_missing_housenumbers_compat_relation() {
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/budafok.cache.json"),
+        test_wsgi.ctx.get_abspath("workdir/cache-budafok.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -618,12 +618,12 @@ fn test_missing_housenumbers_view_result_txt() {
     let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[("workdir/budafok.cache.json", &json_cache)],
+        &[("workdir/cache-budafok.json", &json_cache)],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/budafok.cache.json"),
+        test_wsgi.ctx.get_abspath("workdir/cache-budafok.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
@@ -664,13 +664,13 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret.cache.json", &json_cache_value),
+            ("workdir/cache-gazdagret.json", &json_cache_value),
         ],
     );
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
     mtimes.insert(
-        test_wsgi.ctx.get_abspath("workdir/gazdagret.cache.json"),
+        test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
         Rc::new(RefCell::new(0_f64)),
     );
     file_system.set_mtimes(&mtimes);
