@@ -2,7 +2,9 @@
 
 == master
 
-- New `/osm/missing-housenumbers/.../view-result.json` endpoint, exposing the missing-housenumbers
+- New `/missing-housenumbers/.../view-result.json` endpoint, exposing the missing-housenumbers
+  analysis result for a relation in a machine-readable format.
+- New `/additional-housenumbers/.../view-result.json` endpoint, exposing the additional-housenumbers
   analysis result for a relation in a machine-readable format.
 
 == 7.4
