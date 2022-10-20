@@ -107,7 +107,7 @@ check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/y
 	cargo llvm-cov --lib -q --ignore-filename-regex system.rs --show-missing-lines --fail-under-lines 100 ${CARGO_OPTIONS} -- --test-threads=1
 
 src/browser/config.ts: wsgi.ini Makefile
-	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell grep prefix wsgi.ini |sed 's/uri_prefix = //') > $@
+	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell (grep uri_prefix wsgi.ini || echo "/osm") |sed 's/uri_prefix = //') > $@
 
 ifdef TSDEBUG
 WEBPACK_OPTIONS = --mode=development --devtool inline-source-map

@@ -175,10 +175,8 @@ impl Ini {
     }
 
     /// Gets the global URI prefix.
-    pub fn get_uri_prefix(&self) -> anyhow::Result<String> {
-        self.config
-            .get("wsgi", "uri_prefix")
-            .context("no wsgi.uri_prefix in config")
+    pub fn get_uri_prefix(&self) -> String {
+        self.get_with_fallback("uri_prefix", "/osm")
     }
 
     fn get_with_fallback(&self, key: &str, fallback: &str) -> String {

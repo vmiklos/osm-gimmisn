@@ -67,7 +67,7 @@ fn handle_streets(
                 let streets = relation.get_config().should_check_missing_streets();
                 if streets != "only" {
                     doc.text(&tr("Update successful: "));
-                    let prefix = ctx.get_ini().get_uri_prefix()?;
+                    let prefix = ctx.get_ini().get_uri_prefix();
                     let link = format!(
                         "{}/missing-housenumbers/{}/view-result",
                         prefix, relation_name
@@ -133,7 +133,7 @@ fn handle_street_housenumbers(
         .get_value(),
     );
 
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if action == "view-query" {
         let pre = doc.tag("pre", &[]);
         pre.text(&relation.get_osm_housenumbers_query()?);
@@ -214,10 +214,7 @@ fn missing_housenumbers_view_res_html(
 
     {
         let p = doc.tag("p", &[]);
-        let prefix = ctx
-            .get_ini()
-            .get_uri_prefix()
-            .context("get_uri_prefix() failed")?;
+        let prefix = ctx.get_ini().get_uri_prefix();
         let relation_name = relation.get_name();
         p.text(
             &tr("OpenStreetMap is possibly missing the below {0} house numbers for {1} streets.")
@@ -308,7 +305,7 @@ fn missing_housenumbers_view_res(
 
     let doc: yattag::Doc;
     let mut relation = relations.get_relation(relation_name)?;
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if !ctx
         .get_file_system()
         .path_exists(&relation.get_files().get_osm_streets_path())
@@ -343,7 +340,7 @@ fn missing_streets_view_result(
     let relation = relations.get_relation(relation_name)?;
 
     let doc = yattag::Doc::new();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if !ctx
         .get_file_system()
         .path_exists(&relation.get_files().get_osm_streets_path())
@@ -617,7 +614,7 @@ fn missing_housenumbers_update(
     relation.write_ref_housenumbers(&references)?;
     let doc = yattag::Doc::new();
     doc.text(&tr("Update successful: "));
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     let link = format!(
         "{}/missing-housenumbers/{}/view-result",
         prefix, relation_name
@@ -879,7 +876,7 @@ fn handle_main_housenr_percent(
     ctx: &context::Context,
     relation: &areas::Relation,
 ) -> anyhow::Result<(yattag::Doc, f64)> {
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     let url = format!(
         "{}/missing-housenumbers/{}/view-result",
         prefix,
@@ -925,7 +922,7 @@ fn handle_main_street_percent(
     ctx: &context::Context,
     relation: &areas::Relation,
 ) -> anyhow::Result<(yattag::Doc, f64)> {
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     let url = format!(
         "{}/missing-streets/{}/view-result",
         prefix,
@@ -970,7 +967,7 @@ fn handle_main_street_additional_count(
     ctx: &context::Context,
     relation: &areas::Relation,
 ) -> anyhow::Result<yattag::Doc> {
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     let url = format!(
         "{}/additional-streets/{}/view-result",
         prefix,
@@ -1032,7 +1029,7 @@ pub fn handle_main_housenr_additional_count(
         return Ok(yattag::Doc::new());
     }
 
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     let url = format!(
         "{}/additional-housenumbers/{}/view-result",
         prefix,
@@ -1162,7 +1159,7 @@ fn handle_main_filters_refcounty(
         return Ok(doc);
     }
 
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     {
         let a = doc.tag(
             "a",
@@ -1220,7 +1217,7 @@ fn handle_main_filters(
     items.push(doc);
 
     doc = yattag::Doc::new();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     {
         let a = doc.tag(
             "a",
@@ -1420,10 +1417,7 @@ fn get_html_title(request_uri: &str) -> String {
 
 /// Produces the <head> tag and its contents.
 fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> anyhow::Result<()> {
-    let prefix = ctx
-        .get_ini()
-        .get_uri_prefix()
-        .context("get_uri_prefix() failed")?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     let head = doc.tag("head", &[]);
     head.stag("meta", &[("charset", "UTF-8")]);
     head.stag(
@@ -1493,7 +1487,7 @@ fn our_application_txt(
 ) -> anyhow::Result<rouille::Response> {
     let mut content_type = "text/plain; charset=utf-8";
     let mut headers: webframe::Headers = Vec::new();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     let mut chkl = false;
     let tokens: Vec<_> = request_uri.split('.').collect();
     if tokens.len() >= 2 {
@@ -1569,7 +1563,7 @@ lazy_static! {
 
 /// Decides request_uri matches what handler.
 fn get_handler(ctx: &context::Context, request_uri: &str) -> anyhow::Result<Option<Handler>> {
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     for (key, value) in HANDLERS.iter() {
         if request_uri.starts_with(&format!("{}{}", prefix, key)) {
             return Ok(Some(*value));
@@ -1599,10 +1593,7 @@ fn our_application(
         return our_application_txt(ctx, &mut relations, &request_uri);
     }
 
-    let prefix = ctx
-        .get_ini()
-        .get_uri_prefix()
-        .context("get_uri_prefix() failed")?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if !(request_uri == "/" || request_uri.starts_with(&prefix)) {
         let doc = webframe::handle_404();
         return Ok(webframe::make_response(

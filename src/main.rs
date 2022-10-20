@@ -33,7 +33,7 @@ fn rouille_app(request: &rouille::Request) -> rouille::Response {
 /// ProxyTimeout 120
 fn rouille_main(_: &[String], stream: &mut dyn Write, ctx: &osm_gimmisn::context::Context) -> i32 {
     let port = ctx.get_ini().get_tcp_port().unwrap();
-    let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+    let prefix = ctx.get_ini().get_uri_prefix();
     writeln!(
         stream,
         "Starting the server at <http://127.0.0.1:{}{}/>.",
