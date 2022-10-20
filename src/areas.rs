@@ -1188,6 +1188,7 @@ pub struct Relations {
     dict: RelationsDict,
     relations: HashMap<String, Relation>,
     activate_all: bool,
+    activate_new: bool,
     refcounty_names: HashMap<String, String>,
     refsettlement_names: HashMap<String, HashMap<String, String>>,
 }
@@ -1208,6 +1209,7 @@ impl Relations {
         }
         let relations: HashMap<String, Relation> = HashMap::new();
         let activate_all = false;
+        let activate_new = false;
         let refcounty_names: HashMap<String, String> = match yaml_cache.get("refcounty-names.yaml")
         {
             Some(value) => serde_json::from_value(value.clone())
@@ -1226,6 +1228,7 @@ impl Relations {
             dict,
             relations,
             activate_all,
+            activate_new,
             refcounty_names,
             refsettlement_names,
         })
@@ -1256,11 +1259,30 @@ impl Relations {
         ret
     }
 
+    fn is_new(&self, relation: &Relation) -> bool {
+        if !self.activate_new {
+            return false;
+        }
+
+        let file_system = self.ctx.get_file_system();
+        let files = relation.get_files();
+        if file_system.path_exists(&files.get_osm_streets_path())
+            && file_system.path_exists(&files.get_osm_housenumbers_path())
+            && file_system.path_exists(&files.get_ref_streets_path())
+            && file_system.path_exists(&files.get_ref_housenumbers_path())
+            && file_system.path_exists(&files.get_streets_percent_path())
+            && file_system.path_exists(&files.get_housenumbers_percent_path())
+        {
+            return false;
+        }
+        true
+    }
+
     /// Gets a sorted list of active relation names.
     pub fn get_active_names(&mut self) -> anyhow::Result<Vec<String>> {
         let mut active_relations: Vec<Relation> = Vec::new();
         for relation in self.get_relations()? {
-            if self.activate_all || relation.config.is_active() {
+            if self.activate_all || relation.config.is_active() || self.is_new(&relation) {
                 active_relations.push(relation.clone())
             }
         }
@@ -1307,6 +1329,11 @@ impl Relations {
     /// Sets if inactive=true is ignored or not.
     pub fn activate_all(&mut self, activate_all: bool) {
         self.activate_all = activate_all;
+    }
+
+    /// Activates relations which don't have state in workdir/ yet.
+    pub fn activate_new(&mut self) {
+        self.activate_new = true;
     }
 
     /// If refcounty is not None, forget about all relations outside that refcounty.

@@ -3071,3 +3071,80 @@ fn test_relation_get_osm_streets_invalid_housenumbers_csv() {
 
     assert_eq!(ret.is_err(), true);
 }
+
+/// Tests Relations::is_new().
+#[test]
+fn test_relations_is_new() {
+    // Case 1: active-new is false -> myrelation is not found.
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "myrelation": {
+                "osmrelation": 42,
+            },
+        },
+        "relation-myrelation.yaml": {
+            "inactive": true,
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+
+    let actual = relations.get_active_names().unwrap();
+
+    assert!(actual.is_empty());
+
+    // Case 2: active-new is true -> myrelation is not found.
+    relations.activate_new();
+
+    println!("debug, test: before get_active_names() with activate-new + no fake files");
+    let actual = relations.get_active_names().unwrap();
+    println!("debug, test: after get_active_names() with activate-new + no fake files");
+
+    assert_eq!(actual, vec!["myrelation".to_string()]);
+
+    // Case 3: active-new is true and myrelation is not new -> myrelation is not found.
+    let osm_streets_value = context::tests::TestFileSystem::make_file();
+    let ref_streets_value = context::tests::TestFileSystem::make_file();
+    let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
+    let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
+    let percent_streets_value = context::tests::TestFileSystem::make_file();
+    let percent_housenumbers_value = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("data/yamls.cache", &yamls_cache_value),
+            ("workdir/streets-myrelation.csv", &osm_streets_value),
+            (
+                "workdir/streets-reference-myrelation.lst",
+                &ref_streets_value,
+            ),
+            (
+                "workdir/street-housenumbers-myrelation.csv",
+                &osm_housenumbers_value,
+            ),
+            (
+                "workdir/street-housenumbers-reference-myrelation.lst",
+                &ref_housenumbers_value,
+            ),
+            ("workdir/myrelation.percent", &percent_housenumbers_value),
+            ("workdir/myrelation-streets.percent", &percent_streets_value),
+        ],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+    let mut relations = Relations::new(&ctx).unwrap();
+    relations.activate_new();
+
+    println!("debug, test: before get_active_names() with activate-new + fake files");
+    let actual = relations.get_active_names().unwrap();
+    println!("debug, test: after get_active_names() with activate-new + fake files");
+
+    assert!(actual.is_empty());
+}
