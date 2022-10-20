@@ -69,7 +69,7 @@ fn fill_header_function(
     items: &[yattag::Doc],
 ) -> anyhow::Result<Vec<yattag::Doc>> {
     let mut items: Vec<yattag::Doc> = items.to_vec();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if function == "missing-housenumbers" {
         // The OSM data source changes much more frequently than the ref one, so add a dedicated link
         // to update OSM house numbers first.
@@ -221,7 +221,7 @@ fn fill_missing_header_items(
     items: &[yattag::Doc],
 ) -> anyhow::Result<Vec<yattag::Doc>> {
     let mut items: Vec<yattag::Doc> = items.to_vec();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if streets != "only" {
         let doc = yattag::Doc::new();
         {
@@ -297,7 +297,7 @@ fn fill_existing_header_items(
     items: &[yattag::Doc],
 ) -> anyhow::Result<Vec<yattag::Doc>> {
     let mut items: Vec<yattag::Doc> = items.to_vec();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if streets != "only" {
         let doc = yattag::Doc::new();
         {
@@ -362,7 +362,7 @@ pub fn get_toolbar(
 
     let doc = yattag::Doc::new();
     {
-        let a = doc.tag("a", &[("href", &(ctx.get_ini().get_uri_prefix()? + "/"))]);
+        let a = doc.tag("a", &[("href", &(ctx.get_ini().get_uri_prefix() + "/"))]);
         a.text(&tr("Area list"))
     }
     items.push(doc);
@@ -422,7 +422,7 @@ pub fn get_toolbar(
                 "a",
                 &[(
                     "href",
-                    &(ctx.get_ini().get_uri_prefix()? + "/housenumber-stats/hungary/"),
+                    &(ctx.get_ini().get_uri_prefix() + "/housenumber-stats/hungary/"),
                 )],
             );
             a.text(&tr("Statistics"));
@@ -773,7 +773,7 @@ fn handle_invalid_refstreets(
         .get_value(),
     );
 
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     for relation in relations.get_relations()? {
         if !ctx
             .get_file_system()
@@ -842,7 +842,7 @@ pub fn handle_stats(
         .get_value(),
     );
 
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
 
     let string_pairs = &[
         (
@@ -1015,7 +1015,7 @@ pub fn get_request_uri(
 ) -> anyhow::Result<String> {
     let mut request_uri = request.url();
 
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if !request_uri.is_empty() {
         // Compatibility.
         if request_uri.starts_with(&format!("{}/suspicious-streets/", prefix)) {
@@ -1053,7 +1053,7 @@ pub fn check_existing_relation(
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if !request_uri.starts_with(&format!("{}/streets/", prefix))
         && !request_uri.starts_with(&format!("{}/missing-streets/", prefix))
         && !request_uri.starts_with(&format!("{}/street-housenumbers/", prefix))

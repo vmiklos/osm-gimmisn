@@ -85,3 +85,11 @@ This allows accessing your local instance for development.
 ----
 
 See `target/release/osm-gimmisn cron --help` for details on what switches are supported for that tool.
+
+== Custom configuration
+
+`wsgi.ini` contains the configuration. Common keys to be customized (showing the defaults):
+
+----
+uri_prefix = /osm
+----

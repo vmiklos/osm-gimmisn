@@ -64,7 +64,7 @@ impl TestWsgi {
 
     /// Generates an XML DOM for a given wsgi path.
     pub fn get_dom_for_path(&mut self, path: &str) -> sxd_document::Package {
-        let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
+        let prefix = self.ctx.get_ini().get_uri_prefix();
         let abspath: String;
         if self.absolute_path {
             abspath = path.into();
@@ -105,7 +105,7 @@ impl TestWsgi {
 
     /// Generates a string for a given wsgi path.
     pub fn get_txt_for_path(&mut self, path: &str) -> String {
-        let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
+        let prefix = self.ctx.get_ini().get_uri_prefix();
         let abspath = format!("{}{}", prefix, path);
         let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
         let response = application(&request, &self.ctx);
@@ -131,7 +131,7 @@ impl TestWsgi {
 
     /// Generates an json value for a given wsgi path.
     pub fn get_json_for_path(&mut self, path: &str) -> serde_json::Value {
-        let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
+        let prefix = self.ctx.get_ini().get_uri_prefix();
         let abspath = format!("{}{}", prefix, path);
         let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
         let response = application(&request, &self.ctx);
@@ -154,7 +154,7 @@ impl TestWsgi {
 
     /// Generates a CSS string for a given wsgi path.
     fn get_css_for_path(&mut self, path: &str) -> String {
-        let prefix = self.ctx.get_ini().get_uri_prefix().unwrap();
+        let prefix = self.ctx.get_ini().get_uri_prefix();
         let abspath = format!("{}{}", prefix, path);
         let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
         let response = application(&request, &self.ctx);
@@ -1011,7 +1011,7 @@ fn test_missing_housenumbers_update_result_link() {
 
     let mut guard = housenumbers_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-    let prefix = test_wsgi.ctx.get_ini().get_uri_prefix().unwrap();
+    let prefix = test_wsgi.ctx.get_ini().get_uri_prefix();
     let results = TestWsgi::find_all(
         &root,
         &format!(
@@ -1045,7 +1045,7 @@ fn test_housenumbers_view_result_update_result_link() {
 
     let uri = format!(
         "{}/missing-housenumbers/gazdagret/view-result",
-        test_wsgi.ctx.get_ini().get_uri_prefix().unwrap()
+        test_wsgi.ctx.get_ini().get_uri_prefix()
     );
     let results = TestWsgi::find_all(
         &root,

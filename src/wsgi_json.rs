@@ -131,7 +131,7 @@ pub fn our_application_json(
     request_uri: &str,
 ) -> anyhow::Result<rouille::Response> {
     let mut headers: webframe::Headers = Vec::new();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     let output: String;
     if request_uri.starts_with(&format!("{}/streets/", prefix)) {
         output = streets_update_result_json(ctx, relations, request_uri)?;

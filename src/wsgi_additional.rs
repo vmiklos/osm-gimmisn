@@ -71,7 +71,7 @@ pub fn additional_streets_view_result(
     let relation = relations.get_relation(relation_name)?;
 
     let doc = yattag::Doc::new();
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if !ctx
         .get_file_system()
         .path_exists(&relation.get_files().get_osm_streets_path())
@@ -181,7 +181,7 @@ pub fn additional_housenumbers_view_result(
     let mut relation = relations.get_relation(relation_name)?;
 
     let doc: yattag::Doc;
-    let prefix = ctx.get_ini().get_uri_prefix()?;
+    let prefix = ctx.get_ini().get_uri_prefix();
     if !ctx
         .get_file_system()
         .path_exists(&relation.get_files().get_osm_streets_path())

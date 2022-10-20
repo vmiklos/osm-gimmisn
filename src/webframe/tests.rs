@@ -36,7 +36,7 @@ fn test_handle_static() {
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
 
-    let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+    let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
         handle_static(&ctx, &format!("{}/static/osm.min.css", prefix)).unwrap();
 
@@ -50,7 +50,7 @@ fn test_handle_static() {
 #[test]
 fn test_handle_static_generated_javascript() {
     let ctx = context::tests::make_test_context().unwrap();
-    let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+    let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
         handle_static(&ctx, &format!("{}/static/bundle.js", prefix)).unwrap();
     assert_eq!("// bundle.js\n".as_bytes(), content);
@@ -63,7 +63,7 @@ fn test_handle_static_generated_javascript() {
 #[test]
 fn test_handle_static_json() {
     let ctx = context::tests::make_test_context().unwrap();
-    let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+    let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
         handle_static(&ctx, &format!("{}/static/stats-empty.json", prefix)).unwrap();
     assert_eq!(content.starts_with(b"{"), true);
@@ -132,7 +132,7 @@ fn test_handle_static_svg() {
 #[test]
 fn test_handle_static_else() {
     let ctx = context::tests::make_test_context().unwrap();
-    let prefix = ctx.get_ini().get_uri_prefix().unwrap();
+    let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
         handle_static(&ctx, &format!("{}/static/test.xyz", prefix)).unwrap();
     assert_eq!(content.is_empty(), true);
