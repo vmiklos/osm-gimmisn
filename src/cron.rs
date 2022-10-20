@@ -597,6 +597,7 @@ pub fn our_main(
     let now = chrono::NaiveDateTime::from_timestamp(start, 0);
     let first_day_of_month = now.date().day() == 1;
     relations.activate_all(ctx.get_ini().get_cron_update_inactive() || first_day_of_month);
+    relations.activate_new();
     let refcounty = args.value_of("refcounty");
     relations.limit_to_refcounty(&refcounty)?;
     // Use map(), which handles optional values.
