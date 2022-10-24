@@ -2494,7 +2494,9 @@ fn test_relations() {
             .contains(&"myrelation2".to_string()),
         true
     );
-    relations.limit_to_refcounty(&Some("01")).unwrap();
+    relations
+        .limit_to_refcounty(&Some(&"01".to_string()))
+        .unwrap();
     assert_eq!(
         relations
             .get_active_names()
@@ -2527,7 +2529,9 @@ fn test_relations() {
             .contains(&"myrelation3".to_string()),
         true
     );
-    relations.limit_to_refsettlement(&Some("99")).unwrap();
+    relations
+        .limit_to_refsettlement(&Some(&"99".to_string()))
+        .unwrap();
     assert_eq!(
         relations
             .get_active_names()

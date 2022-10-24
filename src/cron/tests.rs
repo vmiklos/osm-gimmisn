@@ -1012,7 +1012,7 @@ fn test_our_main() {
     our_main_inner(
         &ctx,
         &mut relations,
-        /*mode=*/ "relations",
+        /*mode=*/ &"relations".to_string(),
         /*update=*/ true,
         /*overpass=*/ true,
     )
@@ -1113,7 +1113,7 @@ fn test_our_main_stats() {
     our_main_inner(
         &ctx,
         &mut relations,
-        /*mode=*/ "stats",
+        /*mode=*/ &"stats".to_string(),
         /*update=*/ false,
         /*overpass=*/ true,
     )
