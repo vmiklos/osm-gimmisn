@@ -528,7 +528,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
 fn our_main_inner(
     ctx: &context::Context,
     relations: &mut areas::Relations,
-    mode: &str,
+    mode: &String,
     update: bool,
     overpass: bool,
 ) -> anyhow::Result<()> {
@@ -570,23 +570,22 @@ pub fn our_main(
 
     let refcounty = clap::Arg::new("refcounty")
         .long("refcounty")
-        .takes_value(true)
         .help("limit the list of relations to a given refcounty");
     let refsettlement = clap::Arg::new("refsettlement")
         .long("refsettlement")
-        .takes_value(true)
         .help("limit the list of relations to a given refsettlement");
     // Default: true.
     let no_update = clap::Arg::new("no-update")
         .long("no-update")
+        .action(clap::ArgAction::SetTrue)
         .help("don't update existing state of relations");
     let mode = clap::Arg::new("mode")
         .long("mode")
-        .takes_value(true)
         .default_value("relations")
         .help("only perform the given sub-task or all of them [all, stats or relations]");
     let no_overpass = clap::Arg::new("no-overpass") // default: true
         .long("no-overpass")
+        .action(clap::ArgAction::SetTrue)
         .help("when updating stats, don't perform any overpass update");
     let args = [refcounty, refsettlement, no_update, mode, no_overpass];
     let app = clap::Command::new("osm-gimmisn");
@@ -598,17 +597,17 @@ pub fn our_main(
     let first_day_of_month = now.date().day() == 1;
     relations.activate_all(ctx.get_ini().get_cron_update_inactive() || first_day_of_month);
     relations.activate_new();
-    let refcounty = args.value_of("refcounty");
+    let refcounty: Option<&String> = args.get_one("refcounty");
     relations.limit_to_refcounty(&refcounty)?;
     // Use map(), which handles optional values.
-    let refsettlement = args.value_of("refsettlement");
+    let refsettlement: Option<&String> = args.get_one("refsettlement");
     relations.limit_to_refsettlement(&refsettlement)?;
-    let update = !args.is_present("no-update");
-    let overpass = !args.is_present("no-overpass");
+    let update = !args.contains_id("no-update");
+    let overpass = !args.contains_id("no-overpass");
     our_main_inner(
         ctx,
         &mut relations,
-        args.value_of("mode").unwrap(),
+        args.get_one("mode").unwrap(),
         update,
         overpass,
     )?;

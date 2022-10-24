@@ -1337,7 +1337,7 @@ impl Relations {
     }
 
     /// If refcounty is not None, forget about all relations outside that refcounty.
-    pub fn limit_to_refcounty(&mut self, refcounty: &Option<&str>) -> anyhow::Result<()> {
+    pub fn limit_to_refcounty(&mut self, refcounty: &Option<&String>) -> anyhow::Result<()> {
         let refcounty: String = match refcounty {
             Some(value) => value.to_string(),
             None => {
@@ -1358,7 +1358,10 @@ impl Relations {
     }
 
     /// If refsettlement is not None, forget about all relations outside that refsettlement.
-    pub fn limit_to_refsettlement(&mut self, refsettlement: &Option<&str>) -> anyhow::Result<()> {
+    pub fn limit_to_refsettlement(
+        &mut self,
+        refsettlement: &Option<&String>,
+    ) -> anyhow::Result<()> {
         let refsettlement: String = match refsettlement {
             Some(value) => value.to_string(),
             None => {

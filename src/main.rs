@@ -164,7 +164,6 @@ fn sync_ref_main(
     ));
 
     // TODO get rid of these
-    config.push("tcp_port = 8000".into());
     config.push("overpass_uri = https://z.overpass-api.de".into());
     config.push("cron_update_inactive = False".into());
     config.push(String::new());
