@@ -93,4 +93,5 @@ See `target/release/osm-gimmisn cron --help` for details on what switches are su
 ----
 uri_prefix = /osm
 tcp_port = 8000
+overpass_uri = https://z.overpass-api.de
 ----
