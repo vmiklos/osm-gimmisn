@@ -193,7 +193,7 @@ impl Ini {
 
     /// Gets the URI of the overpass instance to be used.
     pub fn get_overpass_uri(&self) -> String {
-        self.get_with_fallback("overpass_uri", "https://overpass-api.de")
+        self.get_with_fallback("overpass_uri", "https://z.overpass-api.de")
     }
 
     /// Should the cron job update inactive relations?
