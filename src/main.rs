@@ -162,9 +162,6 @@ fn sync_ref_main(
         "reference_zipcounts = refdir/irsz_count_{}.tsv",
         files["irsz_count"]
     ));
-
-    // TODO get rid of these
-    config.push("cron_update_inactive = False".into());
     config.push(String::new());
 
     // Write config.
