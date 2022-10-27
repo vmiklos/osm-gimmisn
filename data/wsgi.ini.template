@@ -3,4 +3,3 @@ reference_housenumbers = refdir/hazszamok_20221001.tsv refdir/hazszamok_kieg_202
 reference_street = refdir/utcak_20221015.tsv
 reference_citycounts = refdir/varosok_count_20221001.tsv
 reference_zipcounts = refdir/irsz_count_20221001.tsv
-cron_update_inactive = False
