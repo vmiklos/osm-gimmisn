@@ -79,14 +79,10 @@ fn cron_main(args: &[String], stream: &mut dyn Write, ctx: &osm_gimmisn::context
 fn sync_ref_main(
     args: &[String],
     _stream: &mut dyn Write,
-    _ctx: &osm_gimmisn::context::Context,
+    ctx: &osm_gimmisn::context::Context,
 ) -> i32 {
     // TODO move this to a library and write tests.
     // Download HTML.
-    use isahc::config::Configurable as _;
-    use isahc::ReadResponseExt as _;
-    use isahc::RequestExt as _;
-
     let mut args_iter = args.iter();
     let _self = args_iter.next();
     let url = match args_iter.next() {
@@ -97,13 +93,7 @@ fn sync_ref_main(
         }
     };
     // let html = std::fs::read_to_string("osm-data.html").unwrap();
-    let mut buf = isahc::Request::get(url)
-        .redirect_policy(isahc::config::RedirectPolicy::Limit(1))
-        .body(())
-        .unwrap()
-        .send()
-        .unwrap();
-    let html: String = buf.text().unwrap();
+    let html = ctx.get_network().urlopen(url, "").unwrap();
 
     // Parse the HTML.
     let dom = html_parser::Dom::parse(&html).unwrap();
