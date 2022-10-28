@@ -1,7 +1,5 @@
 missing-streets: 'yes'
 refstreets:
-  # kérdéses
-  'Kossuth Lajos utca': 'Kossuth utca'
   # helyesírás/rövidítés
   'Bálint major': 'Bálintmajor'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
