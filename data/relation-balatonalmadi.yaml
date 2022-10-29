@@ -292,7 +292,7 @@ filters:
   Városház tér:
     # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
     invalid: ['2']
-  Vennyige utca:
+  Venyige utca:
     # 1-3: csak 3 van kiírva
     invalid: ['1']
   Veszprémi út:

@@ -1,9 +1,4 @@
 missing-streets: 'yes'
-refstreets:
-  # kérdéses
-  'Kossuth Lajos utca': 'Kossuth utca'
-  'Rákóczi Ferenc utca': 'Rákóczi utca'
-  'Vörösmarty Mihály utca': 'Vörösmarty utca'
 street-filters:
   # nem igazi utcák
   - Vasútállomás
