@@ -4,6 +4,8 @@ refstreets:
   'Bálint major': 'Bálintmajor'
   'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Kiscséri új telep': 'Kiscséri uj telep'
+  # ellenőrzött
+  'Balassi Bálint út': 'Balassy Bálint utca'  # nincs tábla, 1 házon van kint Balassi Bálint út 1
 street-filters:
   # nem igazi utcák
   - 6.vasúti őrház
@@ -15,6 +17,8 @@ street-filters:
   # place
   - Tekeres puszta  # Tekerespuszta  - https://www.openstreetmap.org/node/9406751139
 osm-street-filters:
+  # name:left / name:right
+  - Munkácsy Mihály lakótelep / Ifjúság utca
   # átlógó utcák
   - Fő út
   # nem igazi utcák
