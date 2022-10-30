@@ -16,6 +16,8 @@ street-filters:
   - MÁV Polgárdi vasútállomás
   # place
   - Tekeres puszta  # Tekerespuszta  - https://www.openstreetmap.org/node/9406751139
+  # nincs kiépítve
+  - Bánki Donát utca
 osm-street-filters:
   # name:left / name:right
   - Munkácsy Mihály lakótelep / Ifjúság utca
