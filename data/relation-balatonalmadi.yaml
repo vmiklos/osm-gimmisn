@@ -32,6 +32,9 @@ filters:
     # 158: autószerviz és a Kürt utca közt nincs ház
     # 226: szervizút végén 228, mellette 224
     invalid: ['5', '7', '140', '158', '226']
+  Barabás Miklós utca:
+    # 14-16: semmi sincs kiírva, terven 16 van
+    invalid: ['14']
   Bartók Béla út:
     # 59 helyén 57/b van kírva, a házon és a kukán is
     # 71 nincs kiírva és ház sincs
@@ -99,6 +102,13 @@ filters:
     invalid: ['2', '4']
   Fadrusz János utca:
     show-refstreet: false
+  Fagyöngy utca:
+    # 3-5: csak 3 van kiírva
+    invalid: ['5']
+  Felsőörsi út:
+    # 9 = Rózsa utca 8
+    # 48 = 46-ra van számozva, ez az utolsó ház Balatonalmádiban
+    invalid: ['9', '48']
   Fürj köz:
     # 3-5: csak 3 van kiírva
     # 4, 10-12: nincs kiírva: 2021-08. RESURVEY 2022
@@ -294,6 +304,9 @@ filters:
     invalid: ['2']
   Venyige utca:
     # 1-3: csak 3 van kiírva
+    invalid: ['1']
+  Verseny utca:
+    # 1: nincs, 3=Ciszterci, más épület nincs
     invalid: ['1']
   Veszprémi út:
     # 5, 7: 3 után 9 jön, valahol belül lehet, de nincs kiírva
