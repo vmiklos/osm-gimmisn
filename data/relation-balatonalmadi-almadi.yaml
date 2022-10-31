@@ -113,6 +113,9 @@ filters:
   Balaton utca:
     ranges:
       - {start: '2', end: '16'}
+  Barabás Miklós utca:
+    # 14-16: semmi sincs kiírva, terven 16 van
+    invalid: ['14']
   Batthyány utca:
     # 1-3: csak 1 van
     # 28: 26/b után 32
@@ -145,6 +148,13 @@ filters:
       - {start: '2', end: '72'}
   Fadrusz János utca:
     show-refstreet: false
+  Fagyöngy utca:
+    # 3-5: csak 3 van kiírva
+    invalid: ['5']
+  Felsőörsi út:
+    # 9 = Rózsa utca 8
+    # 48 = 46-ra van számozva, ez az utolsó ház Balatonalmádiban
+    invalid: ['9', '48']
   Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
     invalid: ['1', '3', '5']
@@ -178,6 +188,9 @@ filters:
     invalid: ['4']
   Venyige utca:
     # 1-3: csak 3 van kiírva
+    invalid: ['1']
+  Verseny utca:
+    # 1: nincs, 3=Ciszterci, más épület nincs
     invalid: ['1']
   Ybl Miklós utca:
     # 2-4: 2/a, 2/b van kiírva
