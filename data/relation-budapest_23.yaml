@@ -9,8 +9,17 @@ street-filters:
   - Közös legelő dűlő
   # egyéb
   # Szigetdűlő középső útja - Szigetdűlő közepén
-  # Szőlősor utca - Temető mellett
-  # Tisza köz - Tisza utcából nyílik - note felvéve
+  # proposed
+  - Fatimai köz
+  - Homokliliom utca
+  - Legyezőfű utca
+  - Liliomfa utca
+  - Ökörszem köz
+  - Passuth László utca
+  - Sisakvirág utca
+  - Sportcsarnok utca
+  - Víziboglárka utca
+  - Zsombékos utca
 osm-street-filters:
   # átlógó, Bp. XVIII.
   - Közműhelytelep utca
