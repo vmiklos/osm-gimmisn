@@ -65,6 +65,9 @@ filters:
   Bocskai tér:
     # ez egy park
     ranges: []
+  Bokréta utca:
+    # földhivatal szerint 13 a Felsőörsi út 41 és ami épül mellette az a 41. 2022-11. RESURVEY 2023
+    invalid: ['13']
   Csaba köz:
     invalid: ['1']
   Csikász lépcső:
