@@ -19,6 +19,7 @@ osm-street-filters:
   - E udvar
   - F udvar
   # sétányok, parkok
+  - Janikovszky Éva park
   - Remíz sétány
 refstreets:
   # 'Alsó erdősor utca': 'Alsó erdősor'  # utctáblán is Alsó erdősor - https://www.openstreetmap.org/changeset/126698434
