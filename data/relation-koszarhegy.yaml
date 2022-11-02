@@ -3,8 +3,10 @@ refstreets:
   # kérdéses
   'Dankó Pista utca': 'Dankó utca'
 # street-filters:
-# osm-street-filters:
+osm-street-filters:
   # átlógó utcák
+  - Diófa dűlő
+  - Krúdy dűlő
   # nem igazi utcák
   # parkok
 source: survey
