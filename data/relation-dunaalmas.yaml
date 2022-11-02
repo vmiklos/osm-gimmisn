@@ -3,6 +3,11 @@ filters: {}
 street-filters:
   # nem igazi utcák
   - Tsz. kertészet telep
+osm-street-filters:
+  # name:left / right
+  - Szőlősor út / Tatai út
+  # nem igazi utcák / erdei út
+  - Római kőhordó út
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Baráthegyi utca': 'Baráthegy utca'
