@@ -156,7 +156,9 @@ fn sync_ref_main(
 
     // Write config.
     let config_file = "data/wsgi.ini.template";
-    std::fs::write(config_file, config.join("\n")).unwrap();
+    ctx.get_file_system()
+        .write_from_string(&config.join("\n"), config_file)
+        .unwrap();
     let max = files.iter().map(|(_k, v)| v).max().unwrap();
     println!(
         "Now you can run: git commit -m 'Update reference to {}'",
