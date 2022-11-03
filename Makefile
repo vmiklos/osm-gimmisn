@@ -49,6 +49,8 @@ RS_OBJECTS = \
 	src/ranges/tests.rs \
 	src/stats.rs \
 	src/stats/tests.rs \
+	src/sync_ref.rs \
+	src/sync_ref/tests.rs \
 	src/util.rs \
 	src/util/tests.rs \
 	src/validator.rs \

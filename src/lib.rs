@@ -23,6 +23,7 @@ mod overpass_query;
 pub mod parse_access_log;
 mod ranges;
 mod stats;
+pub mod sync_ref;
 mod util;
 pub mod validator;
 mod webframe;
