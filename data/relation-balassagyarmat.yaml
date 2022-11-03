@@ -39,7 +39,10 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Kamionterminál
-  # parkok
+  # parkok, sétányok, ösvények
+  - Civitas Fortissima tanösvény
+  - Ipoly tanösvény
+  - Gregori park
   - Május 1. úti játszótér
 source: survey
 housenumber-letters: true
