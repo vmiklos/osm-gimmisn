@@ -11,32 +11,35 @@
 //! Synchronizes reference data between a public instance and a local dev instance.
 
 use crate::context;
+use anyhow::Context as _;
 use std::collections::HashMap;
 use std::io::Write;
 
-/// This handles the update of data/wsgi.ini.template, tools/sync-ref.sh has to be still invoked
-/// after this.
-/// TODO merge tools/sync-ref.sh into this function.
-pub fn main(args: &[String], stream: &mut dyn Write, ctx: &context::Context) -> i32 {
+/// Inner main() that is allowed to fail.
+pub fn our_main(
+    args: &[String],
+    stream: &mut dyn Write,
+    ctx: &context::Context,
+) -> anyhow::Result<()> {
     // Download HTML.
     let mut args_iter = args.iter();
     let _self = args_iter.next();
     let url = match args_iter.next() {
         Some(s) => s,
         None => {
-            stream
-                .write_all(b"usage: osm-gimmisn sync-ref https://www.example.com/osm/data/")
-                .unwrap();
-            return 1;
+            return Err(anyhow::anyhow!(
+                "usage: osm-gimmisn sync-ref https://www.example.com/osm/data/"
+            ));
         }
     };
-    // let html = std::fs::read_to_string("osm-data.html").unwrap();
-    let html = ctx.get_network().urlopen(url, "").unwrap();
+    let html = ctx.get_network().urlopen(url, "")?;
 
     // Parse the HTML.
-    let dom = html_parser::Dom::parse(&html).unwrap();
+    let dom = html_parser::Dom::parse(&html)?;
     let mut dom_iter = dom.children.iter();
-    let mut root = dom_iter.next().unwrap();
+    let mut root = dom_iter
+        .next()
+        .context("failed to get first child of dom")?;
     if root.text().is_some() {
         // Skip a first-line comment before the real root.
         root = dom_iter.next().unwrap();
@@ -46,25 +49,28 @@ pub fn main(args: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     // The format is type_date.tsv, figure out the latest date for each type.
     let mut files: HashMap<String, u64> = HashMap::new();
     for node in root {
-        if node.element().is_none() {
-            continue;
-        }
-
-        let element = node.element().unwrap();
+        let element = match node.element() {
+            Some(value) => value,
+            None => {
+                continue;
+            }
+        };
         if element.name != "a" {
             continue;
         }
 
-        let href_value: Option<String> = element.attributes.get("href").unwrap().clone();
+        let href_value = element.attributes.get("href").unwrap().clone();
         let mut href = href_value.unwrap();
-        if !href.ends_with(".tsv") {
-            continue;
-        }
-
-        href = href.strip_suffix(".tsv").unwrap().into();
+        href = match href.strip_suffix(".tsv") {
+            Some(value) => value.into(),
+            None => {
+                // Does not end with ".tsv".
+                continue;
+            }
+        };
         let tokens: Vec<&str> = href.split('_').collect();
         let file: String = tokens[0..tokens.len() - 1].join("_");
-        let href_date: u64 = tokens[tokens.len() - 1].parse().unwrap();
+        let href_date: u64 = tokens[tokens.len() - 1].parse()?;
         files
             .entry(file)
             .and_modify(|date| *date = std::cmp::max(*date, href_date))
@@ -95,14 +101,30 @@ pub fn main(args: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     // Write config.
     let config_file = ctx.get_abspath("data/wsgi.ini.template");
     ctx.get_file_system()
-        .write_from_string(&config.join("\n"), &config_file)
-        .unwrap();
-    let max = files.iter().map(|(_k, v)| v).max().unwrap();
-    println!(
-        "Now you can run: git commit -m 'Update reference to {}'",
-        max
-    );
-    0
+        .write_from_string(&config.join("\n"), &config_file)?;
+    let max = files.iter().map(|(_k, v)| v).max().context("empty files")?;
+    stream.write_all(
+        format!(
+            "Now you can run: git commit -m 'Update reference to {}'\n",
+            max
+        )
+        .as_bytes(),
+    )?;
+    Ok(())
+}
+
+/// This handles the update of data/wsgi.ini.template, tools/sync-ref.sh has to be still invoked
+/// after this.
+/// TODO merge tools/sync-ref.sh into this function.
+/// Similar to plain main(), but with an interface that allows testing.
+pub fn main(args: &[String], stream: &mut dyn Write, ctx: &context::Context) -> i32 {
+    match our_main(args, stream, ctx) {
+        Ok(_) => 0,
+        Err(err) => {
+            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            1
+        }
+    }
 }
 
 #[cfg(test)]
