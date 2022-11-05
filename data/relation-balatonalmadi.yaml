@@ -394,7 +394,7 @@ refstreets:
   'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
   'Dózsa György utca': 'Dózsa György út'  # táblán Dózsa György utca
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
-  'Erdőalja út': 'Erdőalja utca'  # táblán Erdőalja út
+  # 'Erdőalja út': 'Erdőalja utca'  # táblán alul Erdőalja út, felül Erdőalja utca
   'Fadrusz János utca': 'Fadrusz utca'  # hivatalos táblán Fadrusz János illetve Fadrusz J, a kézi gányolt táblán Fadrusz
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
