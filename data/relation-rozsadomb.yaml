@@ -22,10 +22,11 @@ filters:
     # 11 = Ady Endre utca 24
     invalid: ['11']
   Bimbó út:
+    # 13 = Ady Endre utca 2-4
     # 55 = Pajzs utca 1
-    invalid: ['55']
+    invalid: ['13', '55']
     ranges:
-      - {start: '15', end: '63'}
+      - {start: '13', end: '63'}
       - {start: '12', end: '42'}
   Bolyai utca:
     ranges:
