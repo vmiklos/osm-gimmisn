@@ -161,6 +161,11 @@ filters:
   Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
     invalid: ['1', '3', '5']
+  Harkály utca:
+    # 7-9: csak 7 és 11 van kiírva egy kapun
+    # 15-17: csak 15 van kiírva
+    # 23: Galamb utca felől lenne. RESURVEY 2023
+    invalid: ['9', '17', '23']
   Héja utca:
     # 7 = Rigó köz 2
     invalid: ['7']
