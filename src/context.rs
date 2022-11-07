@@ -36,9 +36,6 @@ pub trait FileSystem {
     /// Removes a file.
     fn unlink(&self, path: &str) -> anyhow::Result<()>;
 
-    /// Super-mkdir; create a leaf directory and all intermediate ones.
-    fn makedirs(&self, path: &str) -> anyhow::Result<()>;
-
     /// Return a list containing the names of the files in the directory.
     fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>>;
 

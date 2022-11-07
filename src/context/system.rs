@@ -40,6 +40,12 @@ impl FileSystem for StdFileSystem {
     }
 
     fn open_write(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Write>>> {
+        // Create containing directory if needed.
+        let path_obj = std::path::Path::new(path);
+        let dir_obj = path_obj.parent().context("failed to get parent dir")?;
+        let dir = dir_obj.to_str().context("failed to get dir as string")?;
+        std::fs::create_dir_all(dir)?;
+
         let ret: Rc<RefCell<dyn Write>> = Rc::new(RefCell::new(
             std::fs::File::create(path)
                 .with_context(|| format!("failed to open {} for writing", path))?,
@@ -49,10 +55,6 @@ impl FileSystem for StdFileSystem {
 
     fn unlink(&self, path: &str) -> anyhow::Result<()> {
         Ok(std::fs::remove_file(path)?)
-    }
-
-    fn makedirs(&self, path: &str) -> anyhow::Result<()> {
-        Ok(std::fs::create_dir_all(&path)?)
     }
 
     fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>> {

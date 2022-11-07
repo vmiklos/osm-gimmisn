@@ -188,11 +188,6 @@ impl FileSystem for TestFileSystem {
         Ok(hide_paths.push(path.to_string()))
     }
 
-    fn makedirs(&self, _path: &str) -> anyhow::Result<()> {
-        // No need to do anything, TestFileSystem only has files, not dirs.
-        Ok(())
-    }
-
     fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>> {
         let mut contents: Vec<String> = Vec::new();
         for file in self.files.iter() {
