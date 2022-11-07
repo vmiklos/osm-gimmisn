@@ -210,7 +210,6 @@ filters:
     # max házszám 15
     invalid: ['31']
 refstreets:
-  'Pacsirta út': 'Pacsirta utca'
   # ellenőrzött
   'Berzsenyi Dániel utca': 'Berzsenyi utca'  # táblán Berzsenyi Dániel
   'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső

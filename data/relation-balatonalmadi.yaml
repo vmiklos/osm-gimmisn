@@ -392,7 +392,6 @@ street-filters:
   - Temető köz  # Temető utcára számozva - Temető utca 3 és 5 számok
   - Tücsök utca  # Tücsök köz szerepel a táblán
 refstreets:
-  'Pacsirta út': 'Pacsirta utca'
   # ellenőrzött
   'Báthory utca': 'Báthori utca'  # táblán Báthory utca
   'Berzsenyi Dániel utca': 'Berzsenyi utca'  # táblán Berzsenyi Dániel
