@@ -469,7 +469,6 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.txt"))?;
     let statedir = ctx.get_abspath("workdir/stats");
-    ctx.get_file_system().makedirs(&statedir)?;
     let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
     let today = now.format("%Y-%m-%d").to_string();
     let csv_path = format!("{}/{}.csv", statedir, today);
