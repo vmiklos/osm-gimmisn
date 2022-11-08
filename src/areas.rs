@@ -1176,6 +1176,10 @@ impl Relation {
             .cloned()
             .collect())
     }
+
+    pub fn get_ctx(&mut self) -> &mut context::Context {
+        &mut self.ctx
+    }
 }
 
 /// List of relations from data/relations.yaml.

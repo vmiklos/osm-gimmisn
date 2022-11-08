@@ -37,12 +37,9 @@ fn is_cache_current(
 }
 
 /// Decides if we have an up to date json cache entry or not.
-fn is_missing_housenumbers_json_cached(
-    ctx: &context::Context,
-    relation: &areas::Relation,
-) -> anyhow::Result<bool> {
+fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation) -> anyhow::Result<bool> {
     let cache_path = relation.get_files().get_housenumbers_jsoncache_path();
-    let datadir = ctx.get_abspath("data");
+    let datadir = relation.get_ctx().get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
     let dependencies = vec![
         relation.get_files().get_osm_streets_path(),
@@ -50,7 +47,7 @@ fn is_missing_housenumbers_json_cached(
         relation.get_files().get_ref_housenumbers_path(),
         relation_path,
     ];
-    is_cache_current(ctx, &cache_path, &dependencies)
+    is_cache_current(relation.get_ctx(), &cache_path, &dependencies)
 }
 
 /// Gets the cached json of the missing housenumbers for a relation.
@@ -59,7 +56,7 @@ pub fn get_missing_housenumbers_json(
     relation: &mut areas::Relation,
 ) -> anyhow::Result<String> {
     let output: String;
-    if is_missing_housenumbers_json_cached(ctx, relation)? {
+    if is_missing_housenumbers_json_cached(relation)? {
         let files = relation.get_files();
         output = ctx
             .get_file_system()
