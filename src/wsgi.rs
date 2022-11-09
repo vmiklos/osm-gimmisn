@@ -459,7 +459,7 @@ fn missing_housenumbers_view_txt(
         return Ok(tr("No reference house numbers"));
     }
 
-    let json = cache::get_missing_housenumbers_json(ctx, &mut relation)?;
+    let json = cache::get_missing_housenumbers_json(&mut relation)?;
     let missing_housenumbers: areas::MissingHousenumbers = serde_json::from_str(&json)?;
     let ongoing_streets = missing_housenumbers.ongoing_streets;
     let mut table: Vec<String> = Vec::new();

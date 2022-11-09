@@ -83,7 +83,6 @@ fn missing_housenumbers_update_result_json(
 
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.json.
 fn missing_housenumbers_view_result_json(
-    ctx: &context::Context,
     relations: &mut areas::Relations,
     request_uri: &str,
 ) -> anyhow::Result<String> {
@@ -91,7 +90,7 @@ fn missing_housenumbers_view_result_json(
     tokens.next_back();
     let relation_name = tokens.next_back().context("short tokens")?;
     let mut relation = relations.get_relation(relation_name)?;
-    cache::get_missing_housenumbers_json(ctx, &mut relation)
+    cache::get_missing_housenumbers_json(&mut relation)
 }
 
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-result.json.
@@ -142,7 +141,7 @@ pub fn our_application_json(
             output = missing_housenumbers_update_result_json(ctx, relations, request_uri)?;
         } else {
             // Assume view-result.json.
-            output = missing_housenumbers_view_result_json(ctx, relations, request_uri)?;
+            output = missing_housenumbers_view_result_json(relations, request_uri)?;
         }
     } else if request_uri.starts_with(&format!("{}/additional-housenumbers/", prefix)) {
         // Assume view-result.json.

@@ -51,25 +51,24 @@ fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation) -> anyhow
 }
 
 /// Gets the cached json of the missing housenumbers for a relation.
-pub fn get_missing_housenumbers_json(
-    ctx: &context::Context,
-    relation: &mut areas::Relation,
-) -> anyhow::Result<String> {
+pub fn get_missing_housenumbers_json(relation: &mut areas::Relation) -> anyhow::Result<String> {
     let output: String;
+    let jsoncache_path = relation.get_files().get_housenumbers_jsoncache_path();
     if is_missing_housenumbers_json_cached(relation)? {
-        let files = relation.get_files();
-        output = ctx
+        output = relation
+            .get_ctx()
             .get_file_system()
-            .read_to_string(&files.get_housenumbers_jsoncache_path())?;
+            .read_to_string(&jsoncache_path)?;
         return Ok(output);
     }
 
     let missing_housenumbers = relation.get_missing_housenumbers()?;
     output = serde_json::to_string(&missing_housenumbers)?;
 
-    let files = relation.get_files();
-    ctx.get_file_system()
-        .write_from_string(&output, &files.get_housenumbers_jsoncache_path())?;
+    relation
+        .get_ctx()
+        .get_file_system()
+        .write_from_string(&output, &jsoncache_path)?;
     Ok(output)
 }
 

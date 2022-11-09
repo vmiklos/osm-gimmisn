@@ -1016,10 +1016,7 @@ impl Relation {
     pub fn write_missing_housenumbers(
         &mut self,
     ) -> anyhow::Result<(usize, usize, usize, f64, yattag::HtmlTable)> {
-        // TODO avoid this clone()
-        let ctx = self.ctx.clone();
-
-        let json = cache::get_missing_housenumbers_json(&ctx, self)?;
+        let json = cache::get_missing_housenumbers_json(self)?;
         let missing_housenumbers: MissingHousenumbers = serde_json::from_str(&json)?;
 
         let (table, todo_count) =
