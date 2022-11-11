@@ -1098,10 +1098,7 @@ impl Relation {
     pub fn write_additional_housenumbers(
         &mut self,
     ) -> anyhow::Result<(usize, usize, yattag::HtmlTable)> {
-        // TODO avoid this clone()
-        let ctx = self.ctx.clone();
-
-        let json = cache::get_additional_housenumbers_json(&ctx, self)?;
+        let json = cache::get_additional_housenumbers_json(self)?;
         let ongoing_streets: util::NumberedStreets = serde_json::from_str(&json)?;
 
         let (table, todo_count) = self.numbered_streets_to_table(&ongoing_streets);
