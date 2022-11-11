@@ -106,7 +106,7 @@ fn test_get_additional_housenumbers_json() {
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let mut relation = relations.get_relation("gazdagret").unwrap();
 
-    let ret = get_additional_housenumbers_json(&ctx, &mut relation).unwrap();
+    let ret = get_additional_housenumbers_json(&mut relation).unwrap();
 
     assert_eq!(ret, "{'cached':'yes'}");
 }
