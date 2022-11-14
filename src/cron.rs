@@ -601,8 +601,8 @@ pub fn our_main(
     // Use map(), which handles optional values.
     let refsettlement: Option<&String> = args.get_one("refsettlement");
     relations.limit_to_refsettlement(&refsettlement)?;
-    let update = !args.contains_id("no-update");
-    let overpass = !args.contains_id("no-overpass");
+    let update = !args.get_one::<bool>("no-update").unwrap();
+    let overpass = !args.get_one::<bool>("no-overpass").unwrap();
     our_main_inner(
         ctx,
         &mut relations,
