@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 accept-language = "2.0.0"
 anyhow = "1.0.66"
-chrono = "0.4.22"
+chrono = "=0.4.22"
 clap = "=4.0.18"
 configparser = "3.0.2"
 csv = "1.1.6"
