@@ -67,7 +67,7 @@ fn test_overpass_query() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://overpass-api.de/api/interpreter",
-        /*data_path=*/ "src/fixtures/network/overpass-happy.expected-data",
+        /*data_path=*/ "src/fixtures/network/overpass-happy.overpassql",
         /*result_path=*/ "src/fixtures/network/overpass-happy.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
@@ -75,7 +75,7 @@ fn test_overpass_query() {
     ctx.set_network(&network_arc);
     let query = ctx
         .get_file_system()
-        .read_to_string("src/fixtures/network/overpass-happy.expected-data")
+        .read_to_string("src/fixtures/network/overpass-happy.overpassql")
         .unwrap();
 
     let buf = overpass_query(&ctx, query).unwrap();
