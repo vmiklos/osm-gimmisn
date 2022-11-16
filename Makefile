@@ -137,7 +137,7 @@ wsgi.ini:
 	cp data/wsgi.ini.template wsgi.ini
 
 data/yamls.cache: target/${TARGET_PATH}/osm-gimmisn $(YAML_OBJECTS)
-	target/${TARGET_PATH}/osm-gimmisn cache_yamls data workdir
+	target/${TARGET_PATH}/osm-gimmisn cache-yamls data workdir
 
 check-eslint: $(patsubst %.ts,%.eslint,$(TS_OBJECTS))
 
