@@ -76,7 +76,7 @@ fn cron_main(args: &[String], stream: &mut dyn Write, ctx: &osm_gimmisn::context
 lazy_static::lazy_static! {
     static ref HANDLERS: HashMap<String, Handler> = {
         let mut ret: HashMap<String, Handler> = HashMap::new();
-        ret.insert("cache_yamls".into(), osm_gimmisn::cache_yamls::main);
+        ret.insert("cache-yamls".into(), osm_gimmisn::cache_yamls::main);
         ret.insert("cron".into(), cron_main);
         ret.insert("missing_housenumbers".into(), osm_gimmisn::missing_housenumbers::main);
         ret.insert("parse_access_log".into(), osm_gimmisn::parse_access_log::main);
@@ -91,7 +91,7 @@ fn main() {
     let mut args: Vec<String> = std::env::args().collect();
     let ctx = osm_gimmisn::context::Context::new("").unwrap();
     let cache_yamls =
-        clap::Command::new("cache_yamls").about("Caches YAML files from the data/ directory");
+        clap::Command::new("cache-yamls").about("Caches YAML files from the data/ directory");
     let cron = clap::Command::new("cron").about("Performs nightly tasks");
     let missing_housenumbers = clap::Command::new("missing_housenumbers")
         .about("Compares reference house numbers with OSM ones and shows the diff");
