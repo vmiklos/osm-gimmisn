@@ -78,7 +78,7 @@ lazy_static::lazy_static! {
         let mut ret: HashMap<String, Handler> = HashMap::new();
         ret.insert("cache-yamls".into(), osm_gimmisn::cache_yamls::main);
         ret.insert("cron".into(), cron_main);
-        ret.insert("missing_housenumbers".into(), osm_gimmisn::missing_housenumbers::main);
+        ret.insert("missing-housenumbers".into(), osm_gimmisn::missing_housenumbers::main);
         ret.insert("parse_access_log".into(), osm_gimmisn::parse_access_log::main);
         ret.insert("rouille".into(), rouille_main);
         ret.insert("sync-ref".into(), osm_gimmisn::sync_ref::main);
@@ -93,7 +93,7 @@ fn main() {
     let cache_yamls =
         clap::Command::new("cache-yamls").about("Caches YAML files from the data/ directory");
     let cron = clap::Command::new("cron").about("Performs nightly tasks");
-    let missing_housenumbers = clap::Command::new("missing_housenumbers")
+    let missing_housenumbers = clap::Command::new("missing-housenumbers")
         .about("Compares reference house numbers with OSM ones and shows the diff");
     let parse_access_log = clap::Command::new("parse_access_log")
         .about("Parses the Apache access log of osm-gimmisn for 1 month");
