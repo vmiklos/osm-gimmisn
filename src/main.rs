@@ -79,7 +79,7 @@ lazy_static::lazy_static! {
         ret.insert("cache-yamls".into(), osm_gimmisn::cache_yamls::main);
         ret.insert("cron".into(), cron_main);
         ret.insert("missing-housenumbers".into(), osm_gimmisn::missing_housenumbers::main);
-        ret.insert("parse_access_log".into(), osm_gimmisn::parse_access_log::main);
+        ret.insert("parse-access-log".into(), osm_gimmisn::parse_access_log::main);
         ret.insert("rouille".into(), rouille_main);
         ret.insert("sync-ref".into(), osm_gimmisn::sync_ref::main);
         ret.insert("validator".into(), osm_gimmisn::validator::main);
@@ -95,7 +95,7 @@ fn main() {
     let cron = clap::Command::new("cron").about("Performs nightly tasks");
     let missing_housenumbers = clap::Command::new("missing-housenumbers")
         .about("Compares reference house numbers with OSM ones and shows the diff");
-    let parse_access_log = clap::Command::new("parse_access_log")
+    let parse_access_log = clap::Command::new("parse-access-log")
         .about("Parses the Apache access log of osm-gimmisn for 1 month");
     let rouille = clap::Command::new("rouille").about("Starts the web interface");
     let sync_ref = clap::Command::new("sync-ref")
