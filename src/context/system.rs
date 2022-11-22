@@ -59,7 +59,7 @@ impl FileSystem for StdFileSystem {
 
     fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>> {
         let mut contents: Vec<String> = Vec::new();
-        for entry in std::fs::read_dir(&path)? {
+        for entry in std::fs::read_dir(path)? {
             let entry = entry?;
             let path = entry.path();
             let file_name = path.into_os_string().into_string().unwrap();
