@@ -539,17 +539,22 @@ pub fn build_street_reference_cache(
     let mut bufstream = std::io::BufReader::new(guard.deref_mut());
     let mut csv_read = CsvRead::new(&mut bufstream);
     let mut first = true;
+    let mut columns: HashMap<String, usize> = HashMap::new();
     for result in csv_read.records() {
         let row = result?;
         if first {
             first = false;
+            for (index, label) in row.iter().enumerate() {
+                columns.insert(label.into(), index);
+            }
             continue;
         }
 
-        let refcounty = &row[0];
-        let refsettlement = &row[1];
+        let refcounty = &row[*columns.get("MEGYEKOD").unwrap()];
+        let refsettlement = &row[*columns.get("TELEPULESKOD").unwrap()];
         // Filter out invalid street type.
-        let street = NULL_END.replace(&row[2], "").to_string();
+        let mut street = row[*columns.get("KOZTERULET").unwrap()].to_string();
+        street = NULL_END.replace(&street, "").to_string();
         let refcounty_key = memory_cache
             .entry(refcounty.into())
             .or_insert_with(HashMap::new);
