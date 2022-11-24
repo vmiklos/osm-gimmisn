@@ -607,24 +607,31 @@ pub fn build_reference_cache(
     );
     let mut csv_read = CsvRead::new(&mut stream);
     let mut first = true;
+    let mut columns: HashMap<String, usize> = HashMap::new();
     for result in csv_read.records() {
         let row = result?;
         if first {
             first = false;
+            for (index, label) in row.iter().enumerate() {
+                columns.insert(label.into(), index);
+            }
             continue;
         }
 
-        let mut iter = row.iter();
-        let county = iter.next().context("no county")?;
+        let county = &row[*columns.get("MEGYEKOD").unwrap()];
         if county != refcounty {
             continue;
         }
 
-        let settlement = iter.next().context("no settlement")?;
-        let street = iter.next().context("no street")?;
-        let housenumber = iter.next().context("no housenumber")?.to_string();
-        let comment: String = match iter.next() {
-            Some(value) => value.to_string(),
+        let settlement = &row[*columns.get("TELEPULESKOD").unwrap()];
+        let street = row[*columns.get("KOZTERULET").unwrap()].to_string();
+        let housenumber_col = match columns.get("HAZSZAM") {
+            Some(value) => *value,
+            None => *columns.get("UPPER(HAZSZAM)").unwrap(),
+        };
+        let housenumber = row[housenumber_col].to_string();
+        let comment: String = match columns.get("CIM") {
+            Some(comment_col) => row[*comment_col].to_string(),
             None => "".to_string(),
         };
         let refcounty_key = memory_cache
@@ -633,9 +640,7 @@ pub fn build_reference_cache(
         let refsettlement_key = refcounty_key
             .entry(settlement.into())
             .or_insert_with(HashMap::new);
-        let street_key = refsettlement_key
-            .entry(street.into())
-            .or_insert_with(Vec::new);
+        let street_key = refsettlement_key.entry(street).or_insert_with(Vec::new);
         street_key.push(vec![housenumber, comment]);
     }
 
