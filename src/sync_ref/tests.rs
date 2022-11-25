@@ -18,6 +18,7 @@ use std::sync::Arc;
 fn test_main() {
     let argv = vec![
         "".to_string(),
+        "--url".to_string(),
         "https://www.example.com/osm/data/".to_string(),
     ];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());

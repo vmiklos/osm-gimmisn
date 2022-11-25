@@ -17,22 +17,25 @@ use std::io::Write;
 
 /// Inner main() that is allowed to fail.
 pub fn our_main(
-    args: &[String],
+    argv: &[String],
     stream: &mut dyn Write,
     ctx: &context::Context,
 ) -> anyhow::Result<()> {
+    let url = clap::Arg::new("url")
+        .long("url")
+        .required(true)
+        .help("public instance URL");
+    let args = [url];
+    let app = clap::Command::new("osm-gimmisn")
+        .override_usage("osm-gimmisn sync-ref --url https://www.example.com/osm/data/");
+    let args = app.args(&args).try_get_matches_from(argv)?;
+    let url = args
+        .get_one::<String>("url")
+        .context("missing url")?
+        .to_string();
+
     // Download HTML.
-    let mut args_iter = args.iter();
-    let _self = args_iter.next();
-    let url = match args_iter.next() {
-        Some(s) => s,
-        None => {
-            return Err(anyhow::anyhow!(
-                "usage: osm-gimmisn sync-ref https://www.example.com/osm/data/"
-            ));
-        }
-    };
-    let html = ctx.get_network().urlopen(url, "")?;
+    let html = ctx.get_network().urlopen(&url, "")?;
 
     // Parse the HTML.
     let dom = html_parser::Dom::parse(&html)?;
