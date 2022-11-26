@@ -11,7 +11,6 @@
 
 if [ -n "${GITHUB_WORKFLOW}" ]; then
     sudo apt-get install tzdata locales
-    sudo locale-gen hu_HU.UTF-8
 
     sudo apt-get install gettext
 
