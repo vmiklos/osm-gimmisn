@@ -10,8 +10,7 @@
 #
 
 if [ -n "${GITHUB_WORKFLOW}" ]; then
-    sudo apt-get install tzdata locales
-
+    sudo apt-get install tzdata
     sudo apt-get install gettext
 
     # Build from source: cargo install --version 0.4.6 cargo-llvm-cov
