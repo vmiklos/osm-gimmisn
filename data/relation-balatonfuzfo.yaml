@@ -1,14 +1,19 @@
 missing-streets: 'yes'
+filters:
+  Gagarin utca:
+    ranges:
+      - {start: '2', end: '26'}
+      - {start: '1', end: '29'}
 refstreets:
   # kérdéses
   'Bajcsy-Zsilinszky Endre utca': 'Bajcsy-Zsilinszky utca'
   'Bercsényi Miklós utca': 'Bercsényi utca'
-  'Bugyogóforrás utca': 'Bugyogó forrás utca'
   'Eötvös utca': 'Eötvös József utca'
   'Felsővillasor utca': 'Felsővillasor'
   'Gyöngyvirág köz': 'Gyöngyvirág utca'
   'Jánoshegy utca': 'Jánoshegyi út'
-  'Zrínyi Miklós utca': 'Zrínyi utca'
+  # ellenőrzött
+  'Bugyogóforrás utca': 'Bugyogó forrás utca'  # egyben és kötőjellel vannak a táblák, külön írva nincs
 street-filters:
   - Máma utca  # hibás -> Mámatető utca
   # nem igazi utcák
