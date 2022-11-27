@@ -100,8 +100,6 @@ filters:
     ranges:
       - {start: '39', end: '57'}
       - {start: '34', end: '60'}
-  Rózsahegy utca:
-    ranges: []
   Szemlőhegy utca:
     # 24 = Vérhalom utca 20
     invalid: ['24']
