@@ -469,7 +469,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.txt"))?;
     let statedir = ctx.get_abspath("workdir/stats");
-    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
     let today = now.format("%Y-%m-%d").to_string();
     let csv_path = format!("{}/{}.csv", statedir, today);
 
@@ -592,7 +592,7 @@ pub fn our_main(
 
     let start = ctx.get_time().now();
     // Query inactive relations once a month.
-    let now = chrono::NaiveDateTime::from_timestamp(start, 0);
+    let now = chrono::NaiveDateTime::from_timestamp_opt(start, 0).unwrap();
     let first_day_of_month = now.date().day() == 1;
     relations.activate_all(ctx.get_ini().get_cron_update_inactive() || first_day_of_month);
     relations.activate_new();

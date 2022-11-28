@@ -39,7 +39,7 @@ fn handle_progress(
         .parse()
         .context("failed to parse ref.count")?;
     let today = {
-        let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+        let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
         now.format("%Y-%m-%d").to_string()
     };
     let mut num_osm = 0_f64;
@@ -92,7 +92,7 @@ fn handle_capital_progress(
         }
     }
 
-    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
     let today = now.format("%Y-%m-%d").to_string();
     let mut osm_count = 0;
     let osm_path = format!("{}/{}.citycount", src_root, today);
@@ -136,7 +136,7 @@ fn handle_topusers(
     j: &mut serde_json::Value,
 ) -> anyhow::Result<()> {
     let today = {
-        let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+        let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
         now.format("%Y-%m-%d").to_string()
     };
     let mut ret: Vec<(String, String)> = Vec::new();
@@ -168,11 +168,11 @@ fn handle_topusers(
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
 pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, i64)>> {
     let new_day = {
-        let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+        let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
         now.format("%Y-%m-%d").to_string()
     };
-    let day_delta =
-        chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0) - chrono::Duration::days(30);
+    let day_delta = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap()
+        - chrono::Duration::days(30);
     let old_day = day_delta.format("%Y-%m-%d").to_string();
     let mut old_counts: HashMap<String, i64> = HashMap::new();
     let mut counts: Vec<(String, i64)> = Vec::new();
@@ -243,7 +243,7 @@ fn handle_user_total(
     day_range: i64,
 ) -> anyhow::Result<()> {
     let mut ret: Vec<(String, u64)> = Vec::new();
-    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - chrono::Duration::days(day_offset);
         let day = day_delta.format("%Y-%m-%d");
@@ -275,7 +275,7 @@ fn handle_daily_new(
     let mut ret: Vec<(String, i64)> = Vec::new();
     let mut prev_count = 0;
     let mut prev_day: String = "".into();
-    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - chrono::Duration::days(day_offset);
         let day = day_delta.format("%Y-%m-%d");
@@ -303,7 +303,7 @@ fn handle_daily_new(
 
 /// Returns a date that was today N months ago.
 fn get_previous_month(today: i64, months: i64) -> anyhow::Result<i64> {
-    let today = chrono::NaiveDateTime::from_timestamp(today, 0);
+    let today = chrono::NaiveDateTime::from_timestamp_opt(today, 0).unwrap();
     let mut month_ago = today;
     for _month in 0..months {
         let first_of_current = month_ago.with_day(1).unwrap();
@@ -323,10 +323,11 @@ fn handle_monthly_new(
     let mut prev_count = 0;
     let mut prev_month: String = "".into();
     for month_offset in (0..=month_range).rev() {
-        let month_delta = chrono::NaiveDateTime::from_timestamp(
+        let month_delta = chrono::NaiveDateTime::from_timestamp_opt(
             get_previous_month(ctx.get_time().now(), month_offset)?,
             0,
-        );
+        )
+        .unwrap();
         // Get the first day of each month.
         let month = month_delta.with_day(1).unwrap().format("%Y-%m");
         let count_path = format!("{}/{}-01.count", src_root, month);
@@ -346,7 +347,7 @@ fn handle_monthly_new(
     }
 
     // Also show the current, incomplete month.
-    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
     let mut month = now.format("%Y-%m-%d").to_string();
     let count_path = format!("{}/{}.count", src_root, month);
     if ctx.get_file_system().path_exists(&count_path) {
@@ -374,7 +375,7 @@ fn handle_daily_total(
     day_range: i64,
 ) -> anyhow::Result<()> {
     let mut ret: Vec<(String, i64)> = Vec::new();
-    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - chrono::Duration::days(day_offset);
         let day = day_delta.format("%Y-%m-%d");
@@ -407,9 +408,13 @@ fn handle_monthly_total(
     let today = ctx.get_time().now();
     for month_offset in (0..=month_range).rev() {
         let month_delta =
-            chrono::NaiveDateTime::from_timestamp(get_previous_month(today, month_offset)?, 0);
-        let prev_month_delta =
-            chrono::NaiveDateTime::from_timestamp(get_previous_month(today, month_offset + 1)?, 0);
+            chrono::NaiveDateTime::from_timestamp_opt(get_previous_month(today, month_offset)?, 0)
+                .unwrap();
+        let prev_month_delta = chrono::NaiveDateTime::from_timestamp_opt(
+            get_previous_month(today, month_offset + 1)?,
+            0,
+        )
+        .unwrap();
         // Get the first day of each past month.
         let mut month = month_delta.with_day(1).unwrap().format("%Y-%m");
         let prev_month = prev_month_delta.with_day(1).unwrap().format("%Y-%m");

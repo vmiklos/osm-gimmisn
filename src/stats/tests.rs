@@ -355,9 +355,14 @@ fn test_get_previous_month() {
     let ctx = context::tests::make_test_context().unwrap();
     let today = ctx.get_time().now();
 
-    let actual = chrono::NaiveDateTime::from_timestamp(get_previous_month(today, 2).unwrap(), 0);
+    let actual =
+        chrono::NaiveDateTime::from_timestamp_opt(get_previous_month(today, 2).unwrap(), 0)
+            .expect("from_timestamp_opt() failed");
 
-    let expected = chrono::NaiveDate::from_ymd(2020, 3, 31).and_hms(0, 0, 0);
+    let expected = chrono::NaiveDate::from_ymd_opt(2020, 3, 31)
+        .expect("from_ymd_opt() failed")
+        .and_hms_opt(0, 0, 0)
+        .expect("and_hms_opt() failed");
     assert_eq!(actual, expected);
 }
 

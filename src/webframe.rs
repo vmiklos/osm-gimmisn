@@ -547,7 +547,7 @@ pub fn handle_404() -> yattag::Doc {
 
 /// Formats timestamp as UI date-time.
 pub fn format_timestamp(timestamp: i64) -> String {
-    let naive = chrono::NaiveDateTime::from_timestamp(timestamp, 0);
+    let naive = chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
     let utc: chrono::DateTime<chrono::Utc> = chrono::DateTime::from_utc(naive, chrono::Utc);
     let local: chrono::DateTime<chrono::Local> = chrono::DateTime::from(utc);
     local.format("%Y-%m-%d %H:%M").to_string()
@@ -589,7 +589,7 @@ fn handle_stats_cityprogress(
         ref_citycounts.insert(city.into(), count);
     }
     let timestamp = ctx.get_time().now();
-    let naive = chrono::NaiveDateTime::from_timestamp(timestamp, 0);
+    let naive = chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
     let today = naive.format("%Y-%m-%d").to_string();
     let mut osm_citycounts: HashMap<String, u64> = HashMap::new();
     let path = format!("{}/stats/{}.citycount", ctx.get_ini().get_workdir(), today);
@@ -690,7 +690,7 @@ fn handle_stats_zipprogress(
         ref_zipcounts.insert(zip.into(), count);
     }
     let timestamp = ctx.get_time().now();
-    let naive = chrono::NaiveDateTime::from_timestamp(timestamp, 0);
+    let naive = chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
     let today = naive.format("%Y-%m-%d").to_string();
     let mut osm_zipcounts: HashMap<String, u64> = HashMap::new();
     let path = format!("{}/stats/{}.zipcount", ctx.get_ini().get_workdir(), today);
@@ -1226,7 +1226,7 @@ fn get_content_with_meta(ctx: &context::Context, path: &str) -> anyhow::Result<(
         .get_file_system()
         .getmtime(path)
         .context("getmtime() failed")?;
-    let naive = chrono::NaiveDateTime::from_timestamp(mtime as i64, 0);
+    let naive = chrono::NaiveDateTime::from_timestamp_opt(mtime as i64, 0).unwrap();
     let utc: chrono::DateTime<chrono::Utc> = chrono::DateTime::from_utc(naive, chrono::Utc);
 
     let extra_headers = vec![("Last-Modified".into(), utc.to_rfc2822().into())];

@@ -140,7 +140,7 @@ fn get_relation_create_dates(
             let name = &matches[1];
             ret.insert(
                 name.to_string(),
-                chrono::NaiveDateTime::from_timestamp(timestamp, 0),
+                chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap(),
             );
             continue;
         }
@@ -162,7 +162,7 @@ fn is_relation_recently_added(
     create_dates: &HashMap<String, chrono::NaiveDateTime>,
     name: &str,
 ) -> bool {
-    let today = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let today = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
     let month_ago = today - chrono::Duration::days(30);
     create_dates.contains_key(name) && create_dates[name] > month_ago
 }
