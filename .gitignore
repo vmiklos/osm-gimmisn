@@ -6,7 +6,6 @@ wsgi.ini
 *.validyaml
 
 # Rust
-Cargo.lock
 target
 check-clippy
 check-rustfmt

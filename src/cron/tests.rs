@@ -767,7 +767,8 @@ fn test_update_stats() {
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
 
-    let now = chrono::NaiveDateTime::from_timestamp(ctx.get_time().now(), 0);
+    let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0)
+        .expect("from_timestamp_opt() failed");
     let today = now.format("%Y-%m-%d").to_string();
     let path = ctx.get_abspath(&format!("workdir/stats/{}.csv", today));
 

@@ -214,8 +214,10 @@ pub struct TestTime {
 
 impl TestTime {
     pub fn new(year: i32, month: u32, day: u32) -> Self {
-        let now = chrono::NaiveDate::from_ymd(year, month, day)
-            .and_hms(0, 0, 0)
+        let now = chrono::NaiveDate::from_ymd_opt(year, month, day)
+            .expect("from_ymd_opt() failed")
+            .and_hms_opt(0, 0, 0)
+            .expect("and_hms_opt() failed")
             .timestamp();
         let sleep = Rc::new(RefCell::new(0_u64));
         TestTime { now, sleep }
