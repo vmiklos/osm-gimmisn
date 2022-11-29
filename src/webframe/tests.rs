@@ -185,3 +185,13 @@ fn test_handle_error() {
     let output = String::from_utf8(data).unwrap();
     assert_eq!(output.contains("TestError"), true);
 }
+
+/// Tests get_toolbar().
+#[test]
+fn test_get_toolbar() {
+    let ctx = context::tests::make_test_context().unwrap();
+
+    let ret = get_toolbar(&ctx, None, "myfunc", "myrel", 42).unwrap();
+
+    assert_eq!(ret.get_value().is_empty(), false);
+}
