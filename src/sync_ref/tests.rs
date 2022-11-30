@@ -11,6 +11,7 @@
 //! Tests for the sync_ref module.
 
 use super::*;
+use std::ops::DerefMut as _;
 use std::sync::Arc;
 
 /// Tests main().
@@ -53,6 +54,73 @@ reference_citycounts = refdir/varosok_count_20221001.tsv
 reference_zipcounts = refdir/irsz_count_20221001.tsv
 "#;
     assert_eq!(actual, expected);
+}
+
+/// Tests main(), the download mode.
+#[test]
+fn test_main_download() {
+    let argv = vec![
+        "".to_string(),
+        "--mode".to_string(),
+        "download".to_string(),
+        "--url".to_string(),
+        "https://www.example.com/osm/data/".to_string(),
+    ];
+    let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let wsgi_ini = context::tests::TestFileSystem::make_file();
+    let wsgi_ini_template = context::tests::TestFileSystem::make_file();
+    {
+        let mut guard = wsgi_ini_template.borrow_mut();
+        let write = guard.deref_mut();
+        write
+            .write_all(
+                r#"[wsgi]
+reference_housenumbers = refdir/hazszamok_20190511.tsv refdir/hazszamok_kieg_20190808.tsv
+reference_street = refdir/utcak_20190514.tsv
+reference_citycounts = refdir/varosok_count_20190717.tsv
+reference_zipcounts = refdir/irsz_count_20200717.tsv
+"#
+                .as_bytes(),
+            )
+            .unwrap();
+    }
+    let zipcount = context::tests::TestFileSystem::make_file();
+    let zipcount_old = context::tests::TestFileSystem::make_file();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[
+            ("data/wsgi.ini.template", &wsgi_ini_template),
+            ("wsgi.ini", &wsgi_ini),
+            ("refdir/irsz_count_20200717.tsv", &zipcount),
+            ("refdir/irsz_count_20190717.tsv", &zipcount_old),
+        ],
+    );
+    let mut file_system = context::tests::TestFileSystem::new();
+    file_system.set_files(&files);
+    file_system.set_hide_paths(&[ctx.get_abspath("refdir/irsz_count_20200717.tsv")]);
+    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    ctx.set_file_system(&file_system_arc);
+    let routes = vec![context::tests::URLRoute::new(
+        /*url=*/ "https://www.example.com/osm/data/irsz_count_20200717.tsv",
+        /*data_path=*/ "",
+        /*result_path=*/ "src/fixtures/network/zipcount-new.tsv",
+    )];
+    let network = context::tests::TestNetwork::new(&routes);
+    let network_arc: Arc<dyn context::Network> = Arc::new(network);
+    ctx.set_network(&network_arc);
+
+    let ret = main(&argv, &mut buf, &mut ctx);
+
+    let buf = String::from_utf8(buf.into_inner()).unwrap();
+    assert_eq!(
+        buf,
+        r#"sync-ref: downloading 'https://www.example.com/osm/data/irsz_count_20200717.tsv'...
+sync-ref: removing 'refdir/irsz_count_20190717.tsv'...
+sync-ref: ok
+"#
+    );
+    assert_eq!(ret, 0);
 }
 
 /// Tests main(), missing URL.
