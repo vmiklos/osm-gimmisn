@@ -25,14 +25,75 @@ pub fn our_main(
         .long("url")
         .required(true)
         .help("public instance URL");
-    let args = [url];
-    let app = clap::Command::new("osm-gimmisn")
-        .override_usage("osm-gimmisn sync-ref --url https://www.example.com/osm/data/");
+    let mode = clap::Arg::new("mode")
+        .long("mode")
+        .default_value("config")
+        .help("update the config or download based on config [config or download]");
+    let args = [url, mode];
+    let app = clap::Command::new("osm-gimmisn").override_usage(
+        "osm-gimmisn sync-ref [--mode download] --url https://www.example.com/osm/data/",
+    );
     let args = app.args(&args).try_get_matches_from(argv)?;
     let url = args
         .get_one::<String>("url")
         .context("missing url")?
         .to_string();
+
+    let config_file = ctx.get_abspath("data/wsgi.ini.template");
+    if args.get_one::<String>("mode").unwrap() == "download" {
+        let mut config = configparser::ini::Ini::new();
+        let config_data = ctx.get_file_system().read_to_string(&config_file)?;
+        config.read(config_data.clone()).unwrap();
+        let mut paths: Vec<String> = Vec::new();
+        let values = config
+            .get("wsgi", "reference_housenumbers")
+            .context("no wsgi.reference_housenumbers in config")?;
+        paths.append(
+            &mut values
+                .split(' ')
+                .map(|value| value.strip_prefix("refdir/").unwrap().to_string())
+                .collect(),
+        );
+        let value = config
+            .get("wsgi", "reference_street")
+            .context("no wsgi.reference_street in config")?;
+        paths.push(value.strip_prefix("refdir/").unwrap().to_string());
+        let value = config
+            .get("wsgi", "reference_citycounts")
+            .context("no wsgi.reference_citycounts in config")?;
+        paths.push(value.strip_prefix("refdir/").unwrap().to_string());
+        let value = config
+            .get("wsgi", "reference_zipcounts")
+            .context("no wsgi.reference_zipcounts in config")?;
+        paths.push(value.strip_prefix("refdir/").unwrap().to_string());
+
+        let mut dests: Vec<String> = Vec::new();
+        for path in paths {
+            let url = format!("{}{}", url, path);
+            let dest = ctx.get_abspath(&format!("refdir/{}", path));
+            dests.push(dest.clone());
+            if ctx.get_file_system().path_exists(&dest) {
+                continue;
+            }
+
+            stream.write_all(format!("sync-ref: downloading '{}'...\n", url).as_bytes())?;
+            let buf = ctx.get_network().urlopen(&url, "")?;
+            ctx.get_file_system().write_from_string(&buf, &dest)?;
+        }
+        for path in ctx.get_file_system().listdir(&ctx.get_abspath("refdir"))? {
+            if dests.contains(&path) {
+                continue;
+            }
+            let relpath = path.strip_prefix(&ctx.get_abspath("")).unwrap();
+            stream.write_all(format!("sync-ref: removing '{}'...\n", relpath).as_bytes())?;
+            ctx.get_file_system().unlink(&path)?;
+        }
+
+        ctx.get_file_system()
+            .write_from_string(&config_data, &ctx.get_abspath("wsgi.ini"))?;
+        stream.write_all("sync-ref: ok\n".as_bytes())?;
+        return Ok(());
+    }
 
     // Download HTML.
     let html = ctx.get_network().urlopen(&url, "")?;
@@ -102,7 +163,6 @@ pub fn our_main(
     config.push(String::new());
 
     // Write config.
-    let config_file = ctx.get_abspath("data/wsgi.ini.template");
     ctx.get_file_system()
         .write_from_string(&config.join("\n"), &config_file)?;
     let max = files.iter().map(|(_k, v)| v).max().context("empty files")?;
@@ -116,9 +176,7 @@ pub fn our_main(
     Ok(())
 }
 
-/// This handles the update of data/wsgi.ini.template, tools/sync-ref.sh has to be still invoked
-/// after this.
-/// TODO merge tools/sync-ref.sh into this function.
+/// This handles the update of data/wsgi.ini.template, or download based on that.
 /// Similar to plain main(), but with an interface that allows testing.
 pub fn main(args: &[String], stream: &mut dyn Write, ctx: &context::Context) -> i32 {
     match our_main(args, stream, ctx) {
