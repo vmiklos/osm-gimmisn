@@ -34,6 +34,7 @@ osm-street-filters:
   - Százlépcső
 refstreets:
   'Angeli András utca': 'Angeli András út'
+  'Budaörsi út': 'Budaörsi utca'  # Outlet - összes blokkon Budaörsi út
   'Dévai Gyula utca': 'Dévay Gyula utca'
   'Hunyadi utca': 'Hunyadi János utca'
   'Kálmosi út': 'Kálmos út'
