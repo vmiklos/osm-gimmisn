@@ -32,13 +32,18 @@ osm-street-filters:
   # tanyák
   - 11-volt Szűcs tanya
   - 16-volt Kaczkó tanya
+  - Póstelek tanya
   # nem igazi utcák / csak hrsz.
+  - Békéscsaba - Gyula kerékpárút
   - Jókai utca kerékpárút
   - Pósteleki buszforduló
-  - Békéscsaba - Gyula kerékpárút
+  - Repülőhíd
+  - Vállalkozói udvar
+  - Wenckheim kerékpárút
   # parkok, sétautak amire nincs számozva semmi
   - Kisszik domb
   - Széchenyi liget
+  - Veres Péter utcai park
 refstreets:
   '4-es honvéd utca': '4-es Honvéd utca'
   'Alsó-Körös sor': 'Alsó Körös sor'
