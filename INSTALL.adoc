@@ -38,7 +38,11 @@ cd osm-gimmisn
 make
 ----
 
-Populate the reference directory with TSV files for the house number and street list.
+Populate the reference directory with TSV files for the house number and street list:
+
+----
+osm-gimmisn sync-ref --mode download --url https://www.example.com/osm/data/
+----
 
 == Install steps (Windows)
 
