@@ -60,7 +60,7 @@ fn test_handle_capital_progress() {
     file_system.set_files(&files);
     file_system
         .write_from_string(
-            "CITY\tCOUNT\nbudapest_11\t100\nbudapest_12\t200\nmycity\t42\n",
+            "VAROS\tCNT\nbudapest_11\t100\nbudapest_12\t200\nmycity\t42\n",
             &ctx.get_abspath("refdir/varosok_count_20190717.tsv"),
         )
         .unwrap();
