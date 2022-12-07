@@ -79,15 +79,19 @@ fn handle_capital_progress(
         let mut read = guard.deref_mut();
         let mut csv_read = util::CsvRead::new(&mut read);
         let mut first = true;
+        let mut columns: HashMap<String, usize> = HashMap::new();
         for result in csv_read.records() {
             let row = result?;
             if first {
                 first = false;
+                for (index, label) in row.iter().enumerate() {
+                    columns.insert(label.into(), index);
+                }
                 continue;
             }
 
-            if row[0].starts_with("budapest_") {
-                ref_count += row[1].parse::<i32>()?;
+            if row[*columns.get("VAROS").unwrap()].starts_with("budapest_") {
+                ref_count += row[*columns.get("CNT").unwrap()].parse::<i32>()?;
             }
         }
     }
