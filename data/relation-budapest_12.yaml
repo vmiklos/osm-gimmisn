@@ -164,6 +164,9 @@ filters:
   Hegyhát út:
     # These are all towards the end of the odd side, all non-existing.
     invalid: ['29', '35', '41', '43']
+  Hollós út:
+    # 1-9, 2-8
+    invalid: ['32']
   Irhás árok:
     # 33-35: Adorján út 2-re van számozva
     # 43: 41 és 43 nincs beépítve, bódék vannak
