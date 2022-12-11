@@ -467,7 +467,7 @@ pub fn handle_static(
     request_uri: &str,
 ) -> anyhow::Result<(Vec<u8>, String, Headers)> {
     let mut tokens = request_uri.split('/');
-    let path = tokens.next_back().unwrap();
+    let path = tokens.next_back().context("next_back() failed")?;
     let extra_headers = Vec::new();
 
     if request_uri.ends_with(".js") {
