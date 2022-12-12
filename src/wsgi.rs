@@ -29,7 +29,7 @@ use std::sync::Arc;
 
 /// Gets the update date string of a file.
 fn get_last_modified(ctx: &context::Context, path: &str) -> String {
-    webframe::format_timestamp(util::get_timestamp(ctx, path) as i64)
+    webframe::format_timestamp(util::get_timestamp(ctx, path) as i64).unwrap()
 }
 
 /// Gets the update date of streets for a relation.
@@ -647,10 +647,7 @@ fn ref_housenumbers_last_modified(
     let t_ref = util::get_timestamp(ctx, &relation.get_files().get_ref_housenumbers_path());
     let t_housenumbers =
         util::get_timestamp(ctx, &relation.get_files().get_osm_housenumbers_path());
-    Ok(webframe::format_timestamp(std::cmp::max(
-        t_ref as i64,
-        t_housenumbers as i64,
-    )))
+    webframe::format_timestamp(std::cmp::max(t_ref as i64, t_housenumbers as i64))
 }
 
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query].
@@ -737,7 +734,7 @@ fn missing_streets_view_turbo(
 fn streets_diff_last_modified(ctx: &context::Context, relation: &areas::Relation) -> String {
     let t_ref = util::get_timestamp(ctx, &relation.get_files().get_ref_streets_path()) as i64;
     let t_osm = util::get_timestamp(ctx, &relation.get_files().get_osm_streets_path()) as i64;
-    webframe::format_timestamp(std::cmp::max(t_ref, t_osm))
+    webframe::format_timestamp(std::cmp::max(t_ref, t_osm)).unwrap()
 }
 
 /// Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query].
@@ -832,7 +829,7 @@ fn handle_additional_streets(
 fn housenumbers_diff_last_modified(ctx: &context::Context, relation: &areas::Relation) -> String {
     let t_ref = util::get_timestamp(ctx, &relation.get_files().get_ref_housenumbers_path()) as i64;
     let t_osm = util::get_timestamp(ctx, &relation.get_files().get_osm_housenumbers_path()) as i64;
-    webframe::format_timestamp(std::cmp::max(t_ref, t_osm))
+    webframe::format_timestamp(std::cmp::max(t_ref, t_osm)).unwrap()
 }
 
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query].

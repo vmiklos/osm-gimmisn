@@ -548,11 +548,12 @@ pub fn handle_404() -> yattag::Doc {
 }
 
 /// Formats timestamp as UI date-time.
-pub fn format_timestamp(timestamp: i64) -> String {
-    let naive = chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
+pub fn format_timestamp(timestamp: i64) -> anyhow::Result<String> {
+    let naive = chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0)
+        .context("from_timestamp_opt() failed")?;
     let utc: chrono::DateTime<chrono::Utc> = chrono::DateTime::from_utc(naive, chrono::Utc);
     let local: chrono::DateTime<chrono::Local> = chrono::DateTime::from(utc);
-    local.format("%Y-%m-%d %H:%M").to_string()
+    Ok(local.format("%Y-%m-%d %H:%M").to_string())
 }
 
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress.
