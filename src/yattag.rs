@@ -83,11 +83,11 @@ pub struct Tag {
 impl Tag {
     fn new(value: &Rc<RefCell<String>>, name: &str, attrs: &[(&str, &str)]) -> Tag {
         let mut guard = value.borrow_mut();
-        write!(guard, "<{}", name).unwrap();
+        guard.push_str(&format!("<{}", name));
         for attr in attrs {
             let key = attr.0;
             let val = html_escape::encode_double_quoted_attribute(&attr.1);
-            write!(guard, " {}=\"{}\"", key, val).unwrap();
+            guard.push_str(&format!(" {}=\"{}\"", key, val));
         }
         guard.push('>');
         let value = value.clone();
