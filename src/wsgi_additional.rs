@@ -27,7 +27,7 @@ pub fn additional_streets_view_txt(
 ) -> anyhow::Result<(String, String)> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("next_back() failed")?;
     let relation = relations
         .get_relation(relation_name)
         .context("get_relation() failed")?;
@@ -67,7 +67,7 @@ pub fn additional_streets_view_result(
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("next_back() failed")?;
     let relation = relations.get_relation(relation_name)?;
 
     let doc = yattag::Doc::new();
@@ -177,7 +177,7 @@ pub fn additional_housenumbers_view_result(
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("next_back() failed")?;
     let mut relation = relations.get_relation(relation_name)?;
 
     let doc: yattag::Doc;
@@ -210,7 +210,7 @@ pub fn additional_streets_view_turbo(
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("next_back() failed")?;
     let relation = relations.get_relation(relation_name)?;
 
     let doc = yattag::Doc::new();
