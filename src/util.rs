@@ -1128,20 +1128,20 @@ pub fn get_city_key(
 
 /// Returns a string comparator which allows locale-aware lexical sorting.
 #[cfg(feature = "icu")]
-pub fn get_sort_key(bytes: &str) -> anyhow::Result<Vec<u8>> {
+pub fn get_sort_key(bytes: &str) -> Vec<u8> {
     use rust_icu_ucol as ucol;
     use rust_icu_ustring as ustring;
 
     // This is good enough for now, English and Hungarian is all we support and this handles both.
-    let collator = ucol::UCollator::try_from("hu")?;
-    let string = ustring::UChar::try_from(bytes)?;
-    Ok(collator.get_sort_key(&string))
+    let collator = ucol::UCollator::try_from("hu").expect("UCollator::try_from() failed");
+    let string = ustring::UChar::try_from(bytes).expect("UChar::try_from() failed");
+    collator.get_sort_key(&string)
 }
 
 /// Returns the intput as-is to avoid depending on ICU.
 #[cfg(not(feature = "icu"))]
-pub fn get_sort_key(bytes: &str) -> anyhow::Result<Vec<u8>> {
-    Ok(bytes.as_bytes().to_vec())
+pub fn get_sort_key(bytes: &str) -> Vec<u8> {
+    bytes.as_bytes().to_vec()
 }
 
 /// Builds a set of valid settlement names.

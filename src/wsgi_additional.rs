@@ -45,7 +45,7 @@ pub fn additional_streets_view_txt(
         output = tr("No reference streets");
     } else {
         let mut streets = relation.get_additional_streets(/*sorted_result=*/ true)?;
-        streets.sort_by_key(|street| util::get_sort_key(street.get_osm_name()).unwrap());
+        streets.sort_by_key(|street| util::get_sort_key(street.get_osm_name()));
         let mut lines: Vec<String> = Vec::new();
         for street in streets {
             if chkl {
@@ -86,7 +86,7 @@ pub fn additional_streets_view_result(
         // Get "only in OSM" streets.
         let mut streets = relation.write_additional_streets()?;
         let count = streets.len();
-        streets.sort_by_key(|street| util::get_sort_key(street.get_osm_name()).unwrap());
+        streets.sort_by_key(|street| util::get_sort_key(street.get_osm_name()));
         let mut table = vec![vec![
             yattag::Doc::from_text(&tr("Identifier")),
             yattag::Doc::from_text(&tr("Type")),
