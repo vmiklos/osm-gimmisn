@@ -616,7 +616,7 @@ fn handle_stats_cityprogress(
         .collect();
     let in_both = util::get_in_both(&ref_cities, &osm_cities);
     let mut cities: Vec<_> = in_both.iter().map(|i| i.get_osm_name()).collect();
-    cities.sort_by_key(|i| util::get_sort_key(i).unwrap());
+    cities.sort_by_key(|i| util::get_sort_key(i));
     let mut table: Vec<Vec<yattag::Doc>> = vec![vec![
         yattag::Doc::from_text(&tr("City name")),
         yattag::Doc::from_text(&tr("House number coverage")),
@@ -717,7 +717,7 @@ fn handle_stats_zipprogress(
         .collect();
     let in_both = util::get_in_both(&ref_zips, &osm_zips);
     let mut zips: Vec<_> = in_both.iter().map(|i| i.get_osm_name()).collect();
-    zips.sort_by_key(|i| util::get_sort_key(i).unwrap());
+    zips.sort_by_key(|i| util::get_sort_key(i));
     let mut table: Vec<Vec<yattag::Doc>> = vec![vec![
         yattag::Doc::from_text(&tr("ZIP code")),
         yattag::Doc::from_text(&tr("House number coverage")),

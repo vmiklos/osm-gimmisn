@@ -292,7 +292,7 @@ fn write_city_count_path(
     let stream = ctx.get_file_system().open_write(city_count_path)?;
     let mut guard = stream.borrow_mut();
     let mut cities: Vec<_> = cities.iter().map(|(key, value)| (key, value)).collect();
-    cities.sort_by_key(|(key, _value)| util::get_sort_key(key).unwrap());
+    cities.sort_by_key(|(key, _value)| util::get_sort_key(key));
     cities.dedup();
     // Locale-aware sort, by key.
     for (key, value) in cities {

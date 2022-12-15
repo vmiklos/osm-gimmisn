@@ -768,7 +768,7 @@ fn test_get_timestamp_no_such_file() {
 fn test_get_lexical_sort_key() {
     // This is less naive than the classic "a, "á", "b", "c" list.
     let mut strings = vec!["Kőpor", "Kórház"];
-    strings.sort_by_key(|i| get_sort_key(i).unwrap());
+    strings.sort_by_key(|i| get_sort_key(i));
     assert_eq!(strings, ["Kórház", "Kőpor"]);
 }
 

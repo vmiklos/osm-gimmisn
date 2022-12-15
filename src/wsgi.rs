@@ -358,7 +358,7 @@ fn missing_streets_view_result(
     }
 
     let (todo_count, done_count, percent, mut streets) = relation.write_missing_streets()?;
-    streets.sort_by_key(|i| util::get_sort_key(i).unwrap());
+    streets.sort_by_key(|i| util::get_sort_key(i));
     let mut table = vec![vec![yattag::Doc::from_text(&tr("Street name"))]];
     for street in streets {
         table.push(vec![yattag::Doc::from_text(&street)]);
@@ -490,7 +490,7 @@ fn missing_housenumbers_view_txt(
         };
         table.push(row);
     }
-    table.sort_by_key(|i| util::get_sort_key(i).unwrap());
+    table.sort_by_key(|i| util::get_sort_key(i));
     let output = table.join("\n");
     Ok(output)
 }
@@ -558,7 +558,7 @@ fn missing_housenumbers_view_chkl(
                 }
             }
         }
-        table.sort_by_key(|i| util::get_sort_key(i).unwrap());
+        table.sort_by_key(|i| util::get_sort_key(i));
         output = table.join("\n");
     }
     Ok((output, relation_name.into()))
@@ -589,7 +589,7 @@ fn missing_streets_view_txt(
         output = tr("No reference streets");
     } else {
         let (mut todo_streets, _) = relation.get_missing_streets()?;
-        todo_streets.sort_by_key(|i| util::get_sort_key(i).unwrap());
+        todo_streets.sort_by_key(|i| util::get_sort_key(i));
         let mut lines: Vec<String> = Vec::new();
         for street in todo_streets {
             if chkl {
