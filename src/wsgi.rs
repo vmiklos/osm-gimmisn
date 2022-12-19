@@ -33,8 +33,11 @@ fn get_last_modified(ctx: &context::Context, path: &str) -> anyhow::Result<Strin
 }
 
 /// Gets the update date of streets for a relation.
-fn get_streets_last_modified(ctx: &context::Context, relation: &areas::Relation) -> String {
-    get_last_modified(ctx, &relation.get_files().get_osm_streets_path()).unwrap()
+fn get_streets_last_modified(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<String> {
+    get_last_modified(ctx, &relation.get_files().get_osm_streets_path())
 }
 
 /// Expected request_uri: e.g. /osm/streets/ormezo/view-query.
@@ -44,8 +47,8 @@ fn handle_streets(
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
-    let action = tokens.next_back().unwrap();
-    let relation_name = tokens.next_back().unwrap();
+    let action = tokens.next_back().context("no action")?;
+    let relation_name = tokens.next_back().context("no relation_name")?;
 
     let relation = relations.get_relation(relation_name)?;
     let osmrelation = relation.get_config().get_osmrelation();
@@ -93,7 +96,7 @@ fn handle_streets(
         doc.append_value(util::html_table_from_list(&table).get_value());
     }
 
-    doc.append_value(webframe::get_footer(&get_streets_last_modified(ctx, &relation)).get_value());
+    doc.append_value(webframe::get_footer(&get_streets_last_modified(ctx, &relation)?).get_value());
     Ok(doc)
 }
 
@@ -112,8 +115,8 @@ fn handle_street_housenumbers(
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
-    let action = tokens.next_back().unwrap();
-    let relation_name = tokens.next_back().unwrap();
+    let action = tokens.next_back().context("no action")?;
+    let relation_name = tokens.next_back().context("no relation_name")?;
 
     let relation = relations.get_relation(relation_name)?;
     let osmrelation = relation.get_config().get_osmrelation();
@@ -183,7 +186,7 @@ fn missing_housenumbers_view_turbo(
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("no relation_name")?;
 
     let doc = yattag::Doc::new();
     let mut relation = relations.get_relation(relation_name)?;
@@ -298,7 +301,7 @@ fn missing_housenumbers_view_res(
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("no relation_name")?;
 
     let doc: yattag::Doc;
     let mut relation = relations.get_relation(relation_name)?;
@@ -333,7 +336,7 @@ fn missing_streets_view_result(
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("no relation_name")?;
     let relation = relations.get_relation(relation_name)?;
 
     let doc = yattag::Doc::new();
@@ -432,7 +435,7 @@ fn missing_housenumbers_view_txt(
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("no relation_name")?;
     let mut relation = relations.get_relation(relation_name)?;
 
     if !ctx
@@ -500,7 +503,7 @@ fn missing_housenumbers_view_chkl(
 ) -> anyhow::Result<(String, String)> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("no relation_name")?;
     let mut relation = relations.get_relation(relation_name)?;
 
     let output: String;
@@ -570,7 +573,7 @@ fn missing_streets_view_txt(
 ) -> anyhow::Result<(String, String)> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("no relation_name")?;
     let relation = relations.get_relation(relation_name)?;
 
     let output: String;
@@ -654,8 +657,8 @@ fn handle_missing_housenumbers(
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
-    let action = tokens.next_back().unwrap();
-    let relation_name = tokens.next_back().unwrap();
+    let action = tokens.next_back().context("no action")?;
+    let relation_name = tokens.next_back().context("no relation_name")?;
     let mut date = "".into();
 
     let relation = relations.get_relation(relation_name)?;
@@ -709,7 +712,7 @@ fn missing_streets_view_turbo(
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
     tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("no relation_name")?;
 
     let doc = yattag::Doc::new();
     let relation = relations.get_relation(relation_name)?;
@@ -728,10 +731,13 @@ fn missing_streets_view_turbo(
 }
 
 /// Gets the update date for missing/additional streets.
-fn streets_diff_last_modified(ctx: &context::Context, relation: &areas::Relation) -> String {
+fn relation_streets_get_last_modified(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<String> {
     let t_ref = util::get_timestamp(ctx, &relation.get_files().get_ref_streets_path()) as i64;
     let t_osm = util::get_timestamp(ctx, &relation.get_files().get_osm_streets_path()) as i64;
-    webframe::format_timestamp(std::cmp::max(t_ref, t_osm)).unwrap()
+    webframe::format_timestamp(std::cmp::max(t_ref, t_osm))
 }
 
 /// Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query].
@@ -741,8 +747,8 @@ fn handle_missing_streets(
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
-    let action = tokens.next_back().unwrap();
-    let relation_name = tokens.next_back().unwrap();
+    let action = tokens.next_back().context("no action")?;
+    let relation_name = tokens.next_back().context("no relation_name")?;
 
     let relation = relations.get_relation(relation_name)?;
     let osmrelation = relation.get_config().get_osmrelation();
@@ -775,7 +781,7 @@ fn handle_missing_streets(
         doc.append_value(missing_streets_view_result(ctx, relations, request_uri)?.get_value());
     }
 
-    let date = streets_diff_last_modified(ctx, &relation);
+    let date = relation_streets_get_last_modified(ctx, &relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
@@ -787,8 +793,8 @@ fn handle_additional_streets(
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
-    let action = tokens.next_back().unwrap();
-    let relation_name = tokens.next_back().unwrap();
+    let action = tokens.next_back().context("no action")?;
+    let relation_name = tokens.next_back().context("no relation_name")?;
 
     let relation = relations.get_relation(relation_name)?;
     let osmrelation = relation.get_config().get_osmrelation();
@@ -817,16 +823,19 @@ fn handle_additional_streets(
         )
     }
 
-    let date = streets_diff_last_modified(ctx, &relation);
+    let date = relation_streets_get_last_modified(ctx, &relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
 
 /// Gets the update date for missing/additional housenumbers.
-fn housenumbers_diff_last_modified(ctx: &context::Context, relation: &areas::Relation) -> String {
+fn relation_housenumbers_get_last_modified(
+    ctx: &context::Context,
+    relation: &areas::Relation,
+) -> anyhow::Result<String> {
     let t_ref = util::get_timestamp(ctx, &relation.get_files().get_ref_housenumbers_path()) as i64;
     let t_osm = util::get_timestamp(ctx, &relation.get_files().get_osm_housenumbers_path()) as i64;
-    webframe::format_timestamp(std::cmp::max(t_ref, t_osm)).unwrap()
+    webframe::format_timestamp(std::cmp::max(t_ref, t_osm))
 }
 
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query].
@@ -837,7 +846,7 @@ fn handle_additional_housenumbers(
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
     let _action = tokens.next_back();
-    let relation_name = tokens.next_back().unwrap();
+    let relation_name = tokens.next_back().context("no relation_name")?;
 
     let relation = relations.get_relation(relation_name)?;
     let osmrelation = relation.get_config().get_osmrelation();
@@ -860,7 +869,7 @@ fn handle_additional_housenumbers(
             .get_value(),
     );
 
-    let date = housenumbers_diff_last_modified(ctx, &relation);
+    let date = relation_housenumbers_get_last_modified(ctx, &relation)?;
     doc.append_value(webframe::get_footer(&date).get_value());
     Ok(doc)
 }
