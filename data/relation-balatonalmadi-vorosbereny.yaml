@@ -105,6 +105,9 @@ filters:
     invalid: ['5']
   Kert utca:
     invalid: ['21', '23']
+  Könyök utca:
+    # 9-11: Tamás Autó 81 Kft. melléképülete, épülőben, innen nem hiszem hogy lesz bejárat. RESURVEY 2023
+    invalid: ['9', '11']
   Laposa Dániel utca:
     # 3: nincs, 1 után 5
     # 4 és 6: Ungár József utca 4, 6

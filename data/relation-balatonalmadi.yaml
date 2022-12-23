@@ -166,15 +166,26 @@ filters:
     # 70 helyett 72 van táblázva
     # 91-93: csak 91 van kiírva
     invalid: ['48', '50', '70', '93']
+  Kisfaludy köz:
+    # 2-4: csak 4 van a kukán, kiírva nincs semmi
+    invalid: ['2']
+  Kisfaludy utca:
+    # 13-15: csak 15 van kiírva
+    # 16-18: csak 16 van kiírva
+    invalid: ['13', '18']
   Kölcsey Ferenc utca:
     show-refstreet: false
+  Könyök utca:
+    # 9-11: Tamás Autó 81 Kft. melléképülete, épülőben, innen nem hiszem hogy lesz bejárat. RESURVEY 2023
+    invalid: ['9', '11']
   Kövesalja utca:
     # 8 helyén 4 van kiírva
     invalid: ['8']
   József Attila út:
     # 25 üres telek
     # 27 nincs
-    invalid: ['25', '27']
+    # 87-89: csak 87 van kiírva
+    invalid: ['25', '27', '89']
   Laposa Dániel utca:
     # 3: nincs, 1 után 5
     # 4 és 6: Ungár József utca 4, 6
