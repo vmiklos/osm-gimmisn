@@ -10,16 +10,10 @@ filters:
       - {start: '2', end: '98'}
   Balatonfüredi út:
     ranges: []
-  Csokonai köz:
-    # 1-3: csak 1 van kiírva
-    invalid: ['3']
   Damjanich utca:
     ranges:
       - {start: '11', end: '99'}
       - {start: '10', end: '98'}
-  Deák Ferenc utca:
-    # 4-6: Csak 4 van kiírva
-    invalid: ['6']
   Ferenczy Károly utca:
     ranges:
       - {start: '1', end: '7'}
@@ -41,13 +35,6 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '72'}
-  Kisfaludy köz:
-    # 2-4: csak 4 van a kukán, kiírva nincs semmi
-    invalid: ['2']
-  Kisfaludy utca:
-    # 13-15: csak 15 van kiírva
-    # 16-18: csak 16 van kiírva
-    invalid: ['13', '18']
   Kővirág utca:
     ranges:
       - {start: '2', end: '10'}
@@ -125,6 +112,9 @@ filters:
   Balaton utca:
     ranges:
       - {start: '2', end: '16'}
+  Babits Mihály utca:
+    # nincsenek kint házszámok
+    ranges: []
   Barabás Miklós utca:
     # 14-16: semmi sincs kiírva, terven 16 van
     invalid: ['14']
@@ -146,6 +136,12 @@ filters:
     invalid: ['13']
   Csikász lépcső:
     show-refstreet: false
+  Csokonai köz:
+    # 1-3: csak 1 van kiírva
+    invalid: ['3']
+  Deák Ferenc utca:
+    # 4-6: Csak 4 van kiírva
+    invalid: ['6']
   Dembinszky utca:
     # 6 = Klapka 10
     invalid: ['6']
@@ -193,6 +189,13 @@ filters:
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
+  Kisfaludy köz:
+    # 2-4: csak 4 van a kukán, kiírva nincs semmi
+    invalid: ['2']
+  Kisfaludy utca:
+    # 13-15: csak 15 van kiírva
+    # 16-18: csak 16 van kiírva
+    invalid: ['13', '18']
   Martinovics utca:
     # 14: 2 db 16 van táblázva
     invalid: ['14']

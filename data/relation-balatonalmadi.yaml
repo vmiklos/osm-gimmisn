@@ -15,6 +15,9 @@ filters:
   Árpád utca:
     # 25: 25-27, de csak 27 van kiírva
     invalid: ['25']
+  Babits Mihály utca:
+    # nincsenek kint házszámok
+    ranges: []
   Bajcsy-Zsilinszky út:
     # 48: nincs kiírva 2021-08. RESURVEY 2022
     # 56-58: csak 58 van kiírva
