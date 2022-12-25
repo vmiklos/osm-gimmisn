@@ -1087,10 +1087,11 @@ fn create_filter_for_refcounty(refcounty_filter: &str) -> Box<RelationFilter> {
 fn create_filter_for_relations(relation_filter: &str) -> Box<RelationFilter> {
     let mut relations: Vec<u64> = Vec::new();
     if !relation_filter.is_empty() {
-        relations = relation_filter
-            .split(',')
-            .map(|i| i.parse().unwrap())
-            .collect();
+        for relation in relation_filter.split(',') {
+            if let Ok(val) = relation.parse() {
+                relations.push(val);
+            }
+        }
     }
     let relations_arc = Arc::new(relations);
     let relations = relations_arc;
@@ -1116,7 +1117,7 @@ fn create_filter_for_refcounty_refsettlement(
 }
 
 /// Sets up a filter-for function from request uri: only certain areas are shown then.
-fn setup_main_filter_for(request_uri: &str) -> (Box<RelationFilter>, String) {
+fn setup_main_filter_for(request_uri: &str) -> anyhow::Result<(Box<RelationFilter>, String)> {
     let tokens: Vec<String> = request_uri.split('/').map(|i| i.to_string()).collect();
     let mut filter_for: Box<RelationFilter> = Box::new(filter_for_incomplete);
     let filters = util::parse_filters(&tokens);
@@ -1129,21 +1130,21 @@ fn setup_main_filter_for(request_uri: &str) -> (Box<RelationFilter>, String) {
         filter_for = Box::new(filter_for_everything);
     } else if filters.contains_key("refcounty") && filters.contains_key("refsettlement") {
         // /osm/filter-for/refcounty/<value>/refsettlement/<value>
-        refcounty = filters.get("refcounty").unwrap();
+        refcounty = filters.get("refcounty").context("no refcounty")?;
         filter_for = create_filter_for_refcounty_refsettlement(
-            filters.get("refcounty").unwrap(),
-            filters.get("refsettlement").unwrap(),
+            filters.get("refcounty").context("no refcounty")?,
+            filters.get("refsettlement").context("no refsettlement")?,
         );
     } else if filters.contains_key("refcounty") {
         // /osm/filter-for/refcounty/<value>/whole-county
-        refcounty = filters.get("refcounty").unwrap();
+        refcounty = filters.get("refcounty").context("no refcounty")?;
         filter_for = create_filter_for_refcounty(refcounty);
     } else if filters.contains_key("relations") {
         // /osm/filter-for/relations/<id1>,<id2>
-        let relations = filters.get("relations").unwrap();
+        let relations = filters.get("relations").context("no relations")?;
         filter_for = create_filter_for_relations(relations);
     }
-    (filter_for, refcounty.into())
+    Ok((filter_for, refcounty.into()))
 }
 
 /// Handles one refcounty in the filter part of the main wsgi page.
@@ -1350,7 +1351,7 @@ fn handle_main(
     ctx: &context::Context,
     relations: &mut areas::Relations,
 ) -> anyhow::Result<yattag::Doc> {
-    let (filter_for, refcounty) = setup_main_filter_for(request_uri);
+    let (filter_for, refcounty) = setup_main_filter_for(request_uri)?;
 
     let doc = yattag::Doc::new();
     doc.append_value(
@@ -1458,7 +1459,7 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
         let stream = ctx.get_file_system().open_read(&css_path)?;
         let mut buf: Vec<u8> = Vec::new();
         let mut guard = stream.borrow_mut();
-        guard.read_to_end(&mut buf).unwrap();
+        guard.read_to_end(&mut buf)?;
         let contents = String::from_utf8(buf)?;
         let style = head.tag("style", &[]);
         style.text(&contents);
@@ -1493,8 +1494,8 @@ fn our_application_txt(
     let prefix = ctx.get_ini().get_uri_prefix();
     let mut chkl = false;
     let tokens: Vec<_> = request_uri.split('.').collect();
-    if tokens.len() >= 2 {
-        chkl = tokens.last().cloned().unwrap() == "chkl";
+    if let Some((last, _elements)) = tokens.split_last() {
+        chkl = last == &"chkl";
     }
     let data: Vec<u8>;
     if request_uri.starts_with(&format!("{}/missing-streets/", prefix)) {
@@ -1588,8 +1589,8 @@ fn our_application(
         .context("get_request_uri() failed")?;
     let mut ext: String = "".into();
     let tokens: Vec<_> = request_uri.split('.').collect();
-    if tokens.len() >= 2 {
-        ext = tokens.last().cloned().unwrap().to_string();
+    if let Some((last, _elements)) = tokens.split_last() {
+        ext = (*last).into();
     }
 
     if ext == "txt" || ext == "chkl" {
