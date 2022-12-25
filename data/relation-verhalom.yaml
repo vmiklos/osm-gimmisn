@@ -7,6 +7,9 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '17', end: '39'}
+  Cimbalom köz:
+   # 2 = Kupeczky utca 9.
+    invalid: ['2']
   Cimbalom utca:
     ranges:
       - {start: '2', end: '24'}
@@ -40,9 +43,15 @@ filters:
     ranges:
       - {start: '4', end: '12'}
       - {start: '20', end: '44'}
+  Gomba utca:
+    # 4 = régi házszám, ma Muraközi utca 26.
+    # 5 = Vend utca 30
+    invalid: ['5', '4']
   Kapy utca:
     ranges:
       - {start: '57', end: '63'}
+  Muraközi utca:
+    invalid: ['28']
   Pusztaszeri út:
     ranges:
       - {start: '59', end: '99'}
@@ -57,6 +66,10 @@ filters:
     ranges:
       - {start: '1', end: '61'}
       - {start: '2', end: '82'}
+  Vend utca:
+    # 9 = Kupeczky utca 16
+    # 25 = Muraközi utca 17
+    invalid: ['9', '25']
   Vérhalom tér:
     interpolation: all
     ranges:
