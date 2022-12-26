@@ -34,6 +34,10 @@ filters:
   Törökvész út:
     ranges:
       - {start: '63', end: '93'}
+  Zuhany utca:
+    # 14 = Felső Zöldmáli út 88-90.
+    # 46 = Ferenchegyi lépcső 2
+    invalid: ['14', '46']
   Zöldkert út:
     ranges:
       - {start: '1', end: '3'}

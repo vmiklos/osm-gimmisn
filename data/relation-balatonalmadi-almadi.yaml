@@ -28,6 +28,11 @@ filters:
     ranges:
       - {start: '31', end: '199'}
       - {start: '2', end: '198'}
+  Kilátóhegyi út:
+    # 2: 10 van kiírva # 2022-12. RESURVEY 2023
+    # 4: 6 van kiírva  # 2022-12. RESURVEY 2023
+    # 5 nincs kiírva semmi
+    invalid: ['2', '4', '5']
   Kisberényi út:
     # 48-52: csak 52 van
     # 70 helyett 72 van táblázva
@@ -121,7 +126,8 @@ filters:
   Batthyány utca:
     # 1-3: csak 1 van
     # 28: 26/b után 32
-    invalid: ['3', '28']
+    # 30-32: csak 32 van kiírva
+    invalid: ['3', '28', '30']
   Bem utca:
     # 2-4: csak 2 van kiírva
     invalid: ['4']
