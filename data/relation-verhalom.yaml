@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Ali utca:
+    # 15-17: csak 17 van kiírva
+    invalid: ['15']
   Alsó Törökvész út:
     ranges:
       - {start: '1', end: '1'}
@@ -7,6 +10,10 @@ filters:
     ranges:
       - {start: '1', end: '13'}
       - {start: '17', end: '39'}
+  Búzavirág utca:
+    ranges:
+      - {start: '1', end: '11'}
+      - {start: '2', end: '14'}
   Cimbalom köz:
    # 2 = Kupeczky utca 9.
     invalid: ['2']
@@ -20,9 +27,8 @@ filters:
       - {start: '9', end: '59'}
   Ferenchegyi út:
     # 4: 2-16 MNB komplexum oldala, 18/a az első ház a páros oldalon
-    invalid: ['4']
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '18', end: '98'}
   Fullánk utca:
     # 3: 1 után 5 jön, ref szerint 1-3 van, de ez a helyszínen nem láttam
     # 12 = Gárdonyi Géza út 20/a
