@@ -165,6 +165,11 @@ filters:
     invalid: ['4']
   Kert utca:
     invalid: ['21', '23']
+  Kilátóhegyi utca:
+    # 2: 10 van kiírva # 2022-12. RESURVEY 2023
+    # 4: 6 van kiírva  # 2022-12. RESURVEY 2023
+    # 5 nincs kiírva semmi
+    invalid: ['2', '4', '5']
   Kisberényi út:
     # 48-52: csak 52 van
     # 70 helyett 72 van táblázva
