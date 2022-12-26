@@ -169,9 +169,10 @@ impl FileSystem for TestFileSystem {
         }
 
         if let Some(ref value) = self.mtimes.get(path) {
-            let now = chrono::Local::now();
+            let now = time::OffsetDateTime::now_local().expect("offset cannot be determined");
+            let offset = now.offset().whole_seconds() as i64;
             let mut guard = value.borrow_mut();
-            *guard = now.naive_local().timestamp() as f64;
+            *guard = (now.unix_timestamp() + offset) as f64;
         }
 
         let ret = self.files[path].clone();
@@ -214,11 +215,14 @@ pub struct TestTime {
 
 impl TestTime {
     pub fn new(year: i32, month: u32, day: u32) -> Self {
-        let now = chrono::NaiveDate::from_ymd_opt(year, month, day)
-            .expect("from_ymd_opt() failed")
-            .and_hms_opt(0, 0, 0)
-            .expect("and_hms_opt() failed")
-            .timestamp();
+        let date = time::Date::from_calendar_date(
+            year,
+            time::Month::try_from(month as u8).unwrap(),
+            day as u8,
+        )
+        .unwrap()
+        .midnight();
+        let now = date.assume_utc().unix_timestamp();
         let sleep = Rc::new(RefCell::new(0_u64));
         TestTime { now, sleep }
     }
