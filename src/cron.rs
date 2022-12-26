@@ -16,7 +16,6 @@ use crate::overpass_query;
 use crate::stats;
 use crate::util;
 use anyhow::Context;
-use chrono::Datelike;
 use std::cmp::Reverse;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -469,8 +468,9 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.txt"))?;
     let statedir = ctx.get_abspath("workdir/stats");
-    let now = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
-    let today = now.format("%Y-%m-%d").to_string();
+    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now()).unwrap();
+    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let today = now.format(&format)?;
     let csv_path = format!("{}/{}.csv", statedir, today);
 
     if overpass {
@@ -595,7 +595,7 @@ pub fn our_main(
 
     let start = ctx.get_time().now();
     // Query inactive relations once a month.
-    let now = chrono::NaiveDateTime::from_timestamp_opt(start, 0).unwrap();
+    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now()).unwrap();
     let first_day_of_month = now.date().day() == 1;
     relations.activate_all(ctx.get_ini().get_cron_update_inactive() || first_day_of_month);
     relations.activate_new();
@@ -613,12 +613,12 @@ pub fn our_main(
         update,
         overpass,
     )?;
-    let duration = chrono::Duration::seconds(ctx.get_time().now() - start);
-    let seconds = duration.num_seconds() % 60;
-    let minutes = duration.num_minutes() % 60;
-    let hours = duration.num_hours();
+    let duration = time::Duration::new(ctx.get_time().now() - start, 0);
+    let seconds = duration.whole_seconds() % 60;
+    let minutes = duration.whole_minutes() % 60;
+    let hours = duration.whole_hours();
     let duration = format!("{}:{:0>2}:{:0>2}", hours, minutes, seconds);
-    info!("main: finished in {}", duration,);
+    info!("main: finished in {}", duration);
 
     Ok(())
 }
