@@ -495,8 +495,11 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
         }
     }
 
+    info!("update_stats: updating count");
     update_stats_count(ctx, &today).context("update_stats_count() failed")?;
+    info!("update_stats: updating topusers");
     update_stats_topusers(ctx, &today)?;
+    info!("update_stats: updating refcount");
     update_stats_refcount(ctx, &statedir)?;
 
     // Remove old CSV files as they are created daily and each is around 11M.

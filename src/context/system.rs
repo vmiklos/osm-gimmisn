@@ -95,14 +95,15 @@ impl Network for StdNetwork {
     }
 }
 
-/// Time implementation, backed by the chrono.
+/// Time implementation, backed by the the actual time.
 pub struct StdTime {}
 
 // Real time is intentionally mocked.
 impl Time for StdTime {
     fn now(&self) -> i64 {
-        let now = chrono::Local::now();
-        now.naive_local().timestamp()
+        let now = time::OffsetDateTime::now_local().expect("offset cannot be determined");
+        let offset = now.offset().whole_seconds() as i64;
+        now.unix_timestamp() + offset
     }
 
     fn sleep(&self, seconds: u64) {
