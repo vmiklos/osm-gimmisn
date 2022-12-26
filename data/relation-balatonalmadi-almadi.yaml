@@ -9,6 +9,7 @@ filters:
       - {start: '5', end: '99'}
       - {start: '2', end: '98'}
   Balatonfüredi út:
+    # Káptalanfüred mind
     ranges: []
   Damjanich utca:
     ranges:
@@ -23,17 +24,14 @@ filters:
       - {start: '41', end: '99'}
       - {start: '68', end: '98'}
   József Attila út:
+    # 1-29 Budatava
     # 87-89: csak 87 van kiírva
     invalid: ['89']
     ranges:
       - {start: '31', end: '199'}
       - {start: '2', end: '198'}
-  Kilátóhegyi út:
-    # 2: 10 van kiírva # 2022-12. RESURVEY 2023
-    # 4: 6 van kiírva  # 2022-12. RESURVEY 2023
-    # 5 nincs kiírva semmi
-    invalid: ['2', '4', '5']
   Kisberényi út:
+    # 7- Vörösberény
     # 48-52: csak 52 van
     # 70 helyett 72 van táblázva
     invalid: ['48', '50', '70']
@@ -41,6 +39,7 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '72'}
   Kővirág utca:
+    # páratlan: Vörösberény
     ranges:
       - {start: '2', end: '10'}
   Neptun utca:
@@ -51,23 +50,12 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '18'}
-  Park utca:
-    # 16 = Baross Gábor út 45
-    invalid: ['16']
-  Petőfi Sándor utca:
-    invalid: ['17']
   Pinkóczi út:
     # 11 nincs, csak egy lekopott szám
     invalid: ['11']
     ranges:
       - {start: '1', end: '67'}
       - {start: '2', end: '62'}
-  Rigó köz:
-    # 27: nincs
-    invalid: ['27']
-  Seregély utca:
-    # 9: 9 nincs, 7 az utolsó ami ki van írva
-    invalid: ['9']
   Szabadság út:
     # 49-51: csak 49 van kiírva
     invalid: ['51']
@@ -86,11 +74,6 @@ filters:
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '98'}
-  Töltés utca:
-    invalid: ['15']
-  Városház tér:
-    # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
-    invalid: ['2']
   Veszprémi út:
     # 5, 7: 3 után 9 jön, valahol belül lehet, de nincs kiírva
     # 46-48: csak 48 van kiírva
@@ -195,6 +178,11 @@ filters:
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
+  Kilátóhegyi utca:
+    # 2: 10 van kiírva # 2022-12. RESURVEY 2023
+    # 4: 6 van kiírva  # 2022-12. RESURVEY 2023
+    # 5 nincs kiírva semmi
+    invalid: ['2', '4', '5']
   Kisfaludy köz:
     # 2-4: csak 4 van a kukán, kiírva nincs semmi
     invalid: ['2']
@@ -205,6 +193,11 @@ filters:
   Martinovics utca:
     # 14: 2 db 16 van táblázva
     invalid: ['14']
+  Park utca:
+    # 16 = Baross Gábor út 45
+    invalid: ['16']
+  Petőfi Sándor utca:
+    invalid: ['17']
   Radnóti utca:
     show-refstreet: false
   Remetevölgyi út:
@@ -212,9 +205,20 @@ filters:
     ranges:
       - {start: '1', end: '29'}
       - {start: '2', end: '4'}
+  Rigó köz:
+    # 27: nincs
+    invalid: ['27']
+  Seregély utca:
+    # 9: 9 nincs, 7 az utolsó ami ki van írva
+    invalid: ['9']
   Szent István sétány:
     # 4-6: Wesselényi Strand: csak a 6 van használatban
     invalid: ['4']
+  Töltés utca:
+    invalid: ['15']
+  Városház tér:
+    # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
+    invalid: ['2']
   Venyige utca:
     # 1-3: csak 3 van kiírva
     invalid: ['1']
