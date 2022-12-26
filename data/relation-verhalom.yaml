@@ -58,6 +58,9 @@ filters:
     ranges:
       - {start: '59', end: '99'}
       - {start: '68', end: '98'}
+  Tömörkény utca:
+    # 1-17
+    invalid: ['25']
   Törökvész lejtő:
     # 25 = Gárdonyi Géza út 12
     invalid: ['25']
