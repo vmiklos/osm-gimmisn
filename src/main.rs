@@ -40,6 +40,7 @@ fn rouille_main(_: &[String], stream: &mut dyn Write, ctx: &osm_gimmisn::context
         port, prefix
     )
     .unwrap();
+    osm_gimmisn::util::get_tz_offset();
     rouille::start_server_with_pool(format!("127.0.0.1:{}", port), None, move |request| {
         rouille_app(request)
     });

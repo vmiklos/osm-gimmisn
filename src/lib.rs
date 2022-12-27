@@ -24,7 +24,7 @@ pub mod parse_access_log;
 mod ranges;
 mod stats;
 pub mod sync_ref;
-mod util;
+pub mod util;
 pub mod validator;
 mod webframe;
 pub mod wsgi;

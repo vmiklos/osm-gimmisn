@@ -549,11 +549,10 @@ pub fn handle_404() -> yattag::Doc {
 
 /// Formats timestamp as UI date-time.
 pub fn format_timestamp(timestamp: i64) -> anyhow::Result<String> {
-    let naive = chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0)
-        .context("from_timestamp_opt() failed")?;
-    let utc: chrono::DateTime<chrono::Utc> = chrono::DateTime::from_utc(naive, chrono::Utc);
-    let local: chrono::DateTime<chrono::Local> = chrono::DateTime::from(utc);
-    Ok(local.format("%Y-%m-%d %H:%M").to_string())
+    let now =
+        time::OffsetDateTime::from_unix_timestamp(timestamp)?.to_offset(util::get_tz_offset());
+    let format = time::format_description::parse("[year]-[month]-[day] [hour]:[minute]")?;
+    Ok(now.format(&format)?)
 }
 
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress.
@@ -592,8 +591,10 @@ fn handle_stats_cityprogress(
         ref_citycounts.insert(city.into(), count);
     }
     let timestamp = ctx.get_time().now();
-    let naive = chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
-    let today = naive.format("%Y-%m-%d").to_string();
+    let date_time =
+        time::OffsetDateTime::from_unix_timestamp(timestamp)?.to_offset(util::get_tz_offset());
+    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let today = date_time.format(&format)?;
     let mut osm_citycounts: HashMap<String, u64> = HashMap::new();
     let path = format!("{}/stats/{}.citycount", ctx.get_ini().get_workdir(), today);
     let csv_stream: Rc<RefCell<dyn Read>> = ctx.get_file_system().open_read(&path)?;

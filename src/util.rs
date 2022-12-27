@@ -36,6 +36,7 @@ lazy_static! {
     static ref NUMBER_SUFFIX: regex::Regex = regex::Regex::new(r"^.*/([0-9])\*?$").unwrap();
     static ref NULL_END: regex::Regex = regex::Regex::new(r" null$").unwrap();
     static ref GIT_HASH: regex::Regex = regex::Regex::new(r".*-g([0-9a-f]+)(-modified)?").unwrap();
+    static ref TZ_OFFSET: time::UtcOffset = time::UtcOffset::current_local_offset().unwrap();
 }
 
 /// A house number range is a string that may expand to one or more HouseNumber instances in the
@@ -119,6 +120,7 @@ pub struct Street {
 }
 
 impl Street {
+    /// Constructor that requires both an OSM and a ref name.
     pub fn new(osm_name: &str, ref_name: &str, show_ref_street: bool, osm_id: u64) -> Street {
         Street {
             osm_name: osm_name.into(),
@@ -218,19 +220,24 @@ pub struct HouseNumber {
     comment: String,
 }
 
+/// A list of HouseNumber values.
 pub type HouseNumbers = Vec<HouseNumber>;
 
 /// A numbered street is a street with associated house numbers.
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct NumberedStreet {
+    /// The common part for all housenumbers.
     pub street: Street,
+    /// Housenumbers of this street.
     pub house_numbers: HouseNumbers,
 }
 
+/// A list of NumberedStreet values.
 pub type NumberedStreets = Vec<NumberedStreet>;
 
 impl HouseNumber {
+    /// Creates a new HouseNumber.
     pub fn new(number: &str, source: &str, comment: &str) -> Self {
         HouseNumber {
             number: number.into(),
@@ -375,6 +382,7 @@ pub struct CsvRead<'a> {
 }
 
 impl<'a> CsvRead<'a> {
+    /// Creates a new CsvRead.
     pub fn new(read: &'a mut dyn Read) -> Self {
         let reader = csv::ReaderBuilder::new()
             .has_headers(false)
@@ -1002,6 +1010,11 @@ pub fn git_link(version: &str, prefix: &str) -> yattag::Doc {
     );
     a.text(version);
     doc
+}
+
+/// Gets the current timezone offset. Has to be first called when there are no threads yet.
+pub fn get_tz_offset() -> time::UtcOffset {
+    *TZ_OFFSET
 }
 
 /// Sorts strings according to their numerical value, not alphabetically.
