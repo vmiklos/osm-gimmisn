@@ -121,8 +121,8 @@ fn get_frequent_relations(
 /// Builds a name -> create_date dictionary for relations.
 fn get_relation_create_dates(
     ctx: &context::Context,
-) -> anyhow::Result<HashMap<String, chrono::NaiveDateTime>> {
-    let mut ret: HashMap<String, chrono::NaiveDateTime> = HashMap::new();
+) -> anyhow::Result<HashMap<String, time::OffsetDateTime>> {
+    let mut ret: HashMap<String, time::OffsetDateTime> = HashMap::new();
     let relations_path = ctx.get_abspath("data/relations.yaml");
     let process_stdout = ctx.get_subprocess().run(vec![
         "git".into(),
@@ -140,7 +140,7 @@ fn get_relation_create_dates(
             let name = &matches[1];
             ret.insert(
                 name.to_string(),
-                chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap(),
+                time::OffsetDateTime::from_unix_timestamp(timestamp).unwrap(),
             );
             continue;
         }
@@ -159,11 +159,11 @@ fn get_relation_create_dates(
 /// Decides if the given relation is recent, based on create_dates.
 fn is_relation_recently_added(
     ctx: &context::Context,
-    create_dates: &HashMap<String, chrono::NaiveDateTime>,
+    create_dates: &HashMap<String, time::OffsetDateTime>,
     name: &str,
 ) -> bool {
-    let today = chrono::NaiveDateTime::from_timestamp_opt(ctx.get_time().now(), 0).unwrap();
-    let month_ago = today - chrono::Duration::days(30);
+    let today = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now()).unwrap();
+    let month_ago = today - time::Duration::days(30);
     create_dates.contains_key(name) && create_dates[name] > month_ago
 }
 
