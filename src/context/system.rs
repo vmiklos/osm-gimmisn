@@ -101,9 +101,8 @@ pub struct StdTime {}
 // Real time is intentionally mocked.
 impl Time for StdTime {
     fn now(&self) -> i64 {
-        let now = time::OffsetDateTime::now_local().expect("offset cannot be determined");
-        let offset = now.offset().whole_seconds() as i64;
-        now.unix_timestamp() + offset
+        let now = time::OffsetDateTime::now_utc();
+        now.unix_timestamp() as i64
     }
 
     fn sleep(&self, seconds: u64) {
