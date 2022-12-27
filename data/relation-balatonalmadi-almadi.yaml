@@ -97,6 +97,9 @@ filters:
   Alpár Ignác utca:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
+  Attila utca:
+    # 5-7: csak 7 volt a postaládába dobott levélen
+    invalid: ['5']
   Balaton utca:
     ranges:
       - {start: '2', end: '16'}
@@ -123,6 +126,10 @@ filters:
   Bokréta utca:
     # földhivatal szerint 13 a Felsőörsi út 41 és ami épül mellette az a 41. 2022-11. RESURVEY 2023
     invalid: ['13']
+  Csalogány utca:
+    # 9: rom, nincs kiírva
+    # 11: nincs
+    invalid: ['11']
   Csikász lépcső:
     show-refstreet: false
   Csokonai köz:
@@ -161,7 +168,7 @@ filters:
   Harkály utca:
     # 7-9: csak 7 és 11 van kiírva egy kapun
     # 15-17: csak 15 van kiírva
-    # 23: Galamb utca felől lenne. RESURVEY 2023
+    # 23: Galamb utca felől lenne. 2022-10. RESURVEY 2023
     invalid: ['9', '17', '23']
   Héja utca:
     # 7 = Rigó köz 2
@@ -180,9 +187,8 @@ filters:
     invalid: ['4']
   Kilátóhegyi utca:
     # 2: 10 van kiírva # 2022-12. RESURVEY 2023
-    # 4: 6 van kiírva  # 2022-12. RESURVEY 2023
     # 5 nincs kiírva semmi
-    invalid: ['2', '4', '5']
+    invalid: ['2', '5']
   Kisfaludy köz:
     # 2-4: csak 4 van a kukán, kiírva nincs semmi
     invalid: ['2']
@@ -193,6 +199,9 @@ filters:
   Martinovics utca:
     # 14: 2 db 16 van táblázva
     invalid: ['14']
+  Mátyás király út:
+    # 64: beépítetlen rész. 2022-12. RESURVEY 2023
+    invalid: ['64']
   Park utca:
     # 16 = Baross Gábor út 45
     invalid: ['16']
