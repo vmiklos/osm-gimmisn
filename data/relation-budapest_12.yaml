@@ -218,6 +218,9 @@ filters:
       - {start: '1', end: '59'}
       - {start: '2', end: '2'}
       - {start: '6', end: '88'}
+  Kissvábhegyi út:
+    # 1-7, 2-6
+    invalid: ['16', '18']
   Konkoly-Thege Miklós út:
     # ifi kp 21, kfki 29-33
     invalid: ['24', '38']
