@@ -24,12 +24,16 @@ filters:
       - {start: '41', end: '99'}
       - {start: '68', end: '98'}
   József Attila út:
+    # 6: régi 2, az van kiírva
+    # 8: MÁV üzemi épület? nincs kiírva semmi
+    # 16 üres telek
+    # 18 Káptalanfüred
     # 1-29 Budatava
     # 87-89: csak 87 van kiírva
-    invalid: ['89']
+    invalid: ['6', '8', '16', '89']
     ranges:
       - {start: '31', end: '199'}
-      - {start: '2', end: '198'}
+      - {start: '2', end: '16'}
   Kisberényi út:
     # 7- Vörösberény
     # 48-52: csak 52 van
