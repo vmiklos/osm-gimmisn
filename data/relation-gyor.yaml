@@ -65,7 +65,6 @@ refstreets:
   'Állomás utca': 'Állomás út'  # https://www.openstreetmap.org/note/3096175
   'Andrásvári utca': 'Andrásvári út'  # https://www.openstreetmap.org/note/3096173
   'Aranyos utca': 'Aranyos út'  # https://www.openstreetmap.org/note/3096180
-  'Áchim András utca': 'Achim András utca'  # https://www.openstreetmap.org/note/3096179
   'Barackos utca': 'Barackos út'  # https://www.openstreetmap.org/note/3096178
   'Báthori utca': 'Báthori út'  # https://www.openstreetmap.org/note/3096177
   'Bükkfa út': 'Bükkfa utca'  # https://www.openstreetmap.org/note/3096176
@@ -102,7 +101,6 @@ refstreets:
   'Lehár Ferenc utca': 'Lehár Ferenc út'
   'Lőtér utca': 'Lőtér út'
   'Lahner György utca': 'Láhner György utca'
-  # 'Lajta utca': 'Lajta út'  # https://www.openstreetmap.org/note/3089595
   'Mátyás tér': 'Mátyás király tér'
   'Ménfői utca': 'Ménfői út'
   'Malom utca': 'Malom út'
@@ -135,4 +133,7 @@ refstreets:
   'Völgyszigeti utca': 'Völgyszigeti út'
   'Vonal utca': 'Vonal út'
   'Vonat utca': 'Vonat út'
+  # javítva
+  # 'Áchim András utca': 'Achim András utca'  # https://www.openstreetmap.org/note/3096179
+  # 'Lajta utca': 'Lajta út'  # https://www.openstreetmap.org/note/3089595
 inactive: true
