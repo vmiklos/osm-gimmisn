@@ -694,8 +694,10 @@ fn handle_stats_zipprogress(
         ref_zipcounts.insert(zip.into(), count);
     }
     let timestamp = ctx.get_time().now();
-    let naive = chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
-    let today = naive.format("%Y-%m-%d").to_string();
+    let now =
+        time::OffsetDateTime::from_unix_timestamp(timestamp)?.to_offset(util::get_tz_offset());
+    let format = time::format_description::parse("[year]-[month]-[day]")?;
+    let today = now.format(&format)?;
     let mut osm_zipcounts: HashMap<String, u64> = HashMap::new();
     let path = format!("{}/stats/{}.zipcount", ctx.get_ini().get_workdir(), today);
     let csv_stream: Rc<RefCell<dyn Read>> = ctx.get_file_system().open_read(&path)?;
@@ -1230,10 +1232,14 @@ fn get_content_with_meta(ctx: &context::Context, path: &str) -> anyhow::Result<(
         .get_file_system()
         .getmtime(path)
         .context("getmtime() failed")?;
-    let naive = chrono::NaiveDateTime::from_timestamp_opt(mtime as i64, 0).unwrap();
-    let utc: chrono::DateTime<chrono::Utc> = chrono::DateTime::from_utc(naive, chrono::Utc);
+    let date_time = time::OffsetDateTime::from_unix_timestamp(mtime as i64)?;
 
-    let extra_headers = vec![("Last-Modified".into(), utc.to_rfc2822().into())];
+    let extra_headers: Headers = vec![(
+        "Last-Modified".into(),
+        date_time
+            .format(&time::format_description::well_known::Rfc2822)?
+            .into(),
+    )];
     Ok((buf, extra_headers))
 }
 
