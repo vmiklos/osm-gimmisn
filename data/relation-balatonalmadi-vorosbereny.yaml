@@ -62,18 +62,18 @@ filters:
     # 9, 11 semmi nincs táblázva, 1 ház van csak
     # 13-15: csak 13
     invalid: ['9', '15']
-  Bartók Béla út:
+  # Bartók Béla út:
     # 59 helyén 57/b van kírva, a házon és a kukán is
     # 71 nincs kiírva és ház sincs
     # 74 nincs kiírva
     # 32-48 között teljes káosz: 28 után 34,36,38, majd megint 36, utána nincs kírva 48-ig semmi 2021-08. RESURVEY 2022
     # 30 helyén 34, 32 helyén 36, 44-46 helyén 48a, 48b
     # 152: nincs kiírva 2021-10. RESURVEY 2022
-    invalid: ['30', '32', '44', '46', '59', '71', '74', '152']
-  Bérc utca:
+    # újra - invalid: ['30', '32', '44', '46', '59', '71', '74', '152']
+  # Bérc utca:
     # 10: van egy építkezés, de nem tudni, hogy az a 10-e. 2021-10. RESURVEY 2022
     # 22: ház sincs nagyon a páros oldalon. a legvégén van 1, nincs száma. 2021-08. RESURVEY 2022
-    invalid: ['10', '22']
+    # újra - invalid: ['10', '22']
   Csaba köz:
     invalid: ['1']
   Duna utca:
@@ -82,14 +82,14 @@ filters:
   Erkel Ferenc utca:
     invalid: ['44', '96']
     show-refstreet: false
-  Fürj köz:
+  # Fürj köz:
     # 3-5: csak 3 van kiírva
     # 4, 10-12: nincs kiírva: 2021-08. RESURVEY 2022
     # 14: A Vadász utca felöli utcacsonk magáról a Vadász köz 14-et állítja
-    invalid: ['4', '5', '10', '12', '14']
-  Gesztenye utca:
+    # újra - invalid: ['4', '5', '10', '12', '14']
+  # Gesztenye utca:
     # 2: talán ez: w971150527, de nincs kiírva: 2021-10. RESURVEY 2022
-    invalid: ['2']
+    # invalid: ['2']
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
@@ -116,26 +116,26 @@ filters:
     show-refstreet: false
   Madách Imre utca:
     show-refstreet: false
-  Magyar utca:
+  # Magyar utca:
     # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
     # 12: új épület RESURVEY 2022
-    invalid: ['25', '45', '55', '75']
-  Malomvölgyi utca:
+    # invalid: ['25', '45', '55', '75']
+  # Malomvölgyi utca:
     # 7: 5 után 9. 7 a kereszteződésre esik
     # 25: domboldal, nincs látszik épkézláb bejárat lentről
     # 30-44 között semmi sincs kiírva 2021-08. RESURVEY 2022
     # 71: 39 az utolsó páratlan
-    invalid: ['7', '25', '36', '40', '42', '71']
+    # invalid: ['7', '25', '36', '40', '42', '71']
   Maros utca:
     # 15-17: csak 17 van kiírva
     invalid: ['15']
-  Megyehegyi út:
+  # Megyehegyi út:
     # 4 nincs kiírva, épület sincs az út mentén, lehet feljebb van mert hosszúkásak a telkek. RESURVEY 2022
     # utolsó ház a 15
-    invalid: ['4', '23']
-  Moha utca:
+    # invalid: ['4', '23']
+  # Moha utca:
     # 1: 1 ház kész + 1 épülőben. 2021-10. RESURVEY 2022
-    invalid: ['1']
+    # invalid: ['1']
   Pacsirta köz:
     # 20-22: csak 22 van kiírva
     invalid: ['20']
@@ -148,30 +148,30 @@ filters:
   Szellő utca:
     # 41 nincs, utolsó szám 13
     invalid: ['41']
-  Szömörce utca:
+  # Szömörce utca:
     # 9, 30, 62, 64, 82, 84 nincs kiírva 2021-08. RESURVEY 2022
-    invalid: ['9', '30', '62', '64', '82', '84']
-  Szürkebarát utca:
+    # invalid: ['9', '30', '62', '64', '82', '84']
+  # Szürkebarát utca:
     # 40: Felső vízszintes részen nincsenek kint házszámok 2021-08. RESURVEY 2022
-    invalid: ['40']
+    # invalid: ['40']
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
   Újhegy köz:
     # 1-3: csak 1 van kiírva
     invalid: ['3']
-  Vadász utca:
+  # Vadász utca:
     # 5 nincs kiírva 2021-08. RESURVEY 2022
-    invalid: ['5']
+    # invalid: ['5']
   Vadvirág utca:
     # 20-24: csak 24 van kiírva
     invalid: ['20', '22']
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
-  Vidovszky Béla utca:
+  # Vidovszky Béla utca:
     # 25, 26 nincs kiírva, kuka nincs, tervvel nincs összhangban a számozás. eladó telek. 2021-08. RESURVEY 2022
-    invalid: ['25', '26']
+    # invalid: ['25', '26']
   Vöröshegyi utca:
     # 1 fa táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
     # külső részen alig vannak táblázva

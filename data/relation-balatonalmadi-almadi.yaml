@@ -2,9 +2,8 @@ missing-streets: 'no'
 filters:
   # terület lehatárolás + invalid
   Bajcsy-Zsilinszky út:
-    # 48: nincs kiírva 2021-08. RESURVEY 2022
     # 56-58: csak 58 van kiírva
-    invalid: ['48', '56']
+    invalid: ['56']
     ranges:
       - {start: '5', end: '99'}
       - {start: '2', end: '98'}
@@ -186,6 +185,7 @@ filters:
   Holló utca:
     # 5: nincs, 3 után 9
     invalid: ['5']
+  # Huszár utca: 2022-12. RESURVEY 2023
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
@@ -200,6 +200,11 @@ filters:
     # 13-15: csak 15 van kiírva
     # 16-18: csak 16 van kiírva
     invalid: ['13', '18']
+  Lomb utca:
+    # 2022-12. RESURVEY 2023
+    # 5: nincs kiírva csak a 11
+    # 9: terv szerint ez a 7, nincs kiírva. 
+    invalid: ['5']
   Martinovics utca:
     # 14: 2 db 16 van táblázva
     invalid: ['14']
@@ -227,6 +232,10 @@ filters:
   Szent István sétány:
     # 4-6: Wesselényi Strand: csak a 6 van használatban
     invalid: ['4']
+  Tóállás utca:
+    # 35: elvileg a 33-35 egy telek, 33 van kiírva
+    # 37 nincs kiírva, kizárásos alapon. 2022-12. RESURVEY 2023
+    invalid: ['35']
   Töltés utca:
     invalid: ['15']
   Városház tér:
