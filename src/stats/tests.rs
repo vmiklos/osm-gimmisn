@@ -356,13 +356,9 @@ fn test_get_previous_month() {
     let today = ctx.get_time().now();
 
     let actual =
-        chrono::NaiveDateTime::from_timestamp_opt(get_previous_month(today, 2).unwrap(), 0)
-            .expect("from_timestamp_opt() failed");
+        time::OffsetDateTime::from_unix_timestamp(get_previous_month(today, 2).unwrap()).unwrap();
 
-    let expected = chrono::NaiveDate::from_ymd_opt(2020, 3, 31)
-        .expect("from_ymd_opt() failed")
-        .and_hms_opt(0, 0, 0)
-        .expect("and_hms_opt() failed");
+    let expected = time::macros::datetime!(2020-03-31 0:00:00).assume_utc();
     assert_eq!(actual, expected);
 }
 
