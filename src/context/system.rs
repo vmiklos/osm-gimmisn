@@ -11,6 +11,7 @@
 //! Trait implementations using the real file system, network, time, etc.
 
 use super::*;
+use crate::util;
 use isahc::config::Configurable as _;
 use isahc::ReadResponseExt as _;
 use isahc::RequestExt as _;
@@ -100,9 +101,9 @@ pub struct StdTime {}
 
 // Real time is intentionally mocked.
 impl Time for StdTime {
-    fn now(&self) -> i64 {
+    fn now(&self) -> time::OffsetDateTime {
         let now = time::OffsetDateTime::now_utc();
-        now.unix_timestamp() as i64
+        now.to_offset(util::get_tz_offset())
     }
 
     fn sleep(&self, seconds: u64) {

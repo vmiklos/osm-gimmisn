@@ -169,10 +169,9 @@ impl FileSystem for TestFileSystem {
         }
 
         if let Some(ref value) = self.mtimes.get(path) {
-            let now = time::OffsetDateTime::now_local().expect("offset cannot be determined");
-            let offset = now.offset().whole_seconds() as i64;
+            let now = time::OffsetDateTime::now_utc();
             let mut guard = value.borrow_mut();
-            *guard = (now.unix_timestamp() + offset) as f64;
+            *guard = now.unix_timestamp() as f64;
         }
 
         let ret = self.files[path].clone();
@@ -209,7 +208,7 @@ impl FileSystem for TestFileSystem {
 
 /// Time implementation, for test purposes.
 pub struct TestTime {
-    now: i64,
+    now: time::OffsetDateTime,
     sleep: Rc<RefCell<u64>>,
 }
 
@@ -222,7 +221,7 @@ impl TestTime {
         )
         .unwrap()
         .midnight();
-        let now = date.assume_utc().unix_timestamp();
+        let now = date.assume_utc();
         let sleep = Rc::new(RefCell::new(0_u64));
         TestTime { now, sleep }
     }
@@ -234,7 +233,7 @@ impl TestTime {
 }
 
 impl Time for TestTime {
-    fn now(&self) -> i64 {
+    fn now(&self) -> time::OffsetDateTime {
         self.now
     }
 

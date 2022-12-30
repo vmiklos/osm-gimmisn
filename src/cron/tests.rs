@@ -759,7 +759,7 @@ fn test_update_stats() {
     let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
     mtimes.insert(
         path.to_string(),
-        Rc::new(RefCell::new(ctx.get_time().now() as f64)),
+        Rc::new(RefCell::new(ctx.get_time().now().unix_timestamp() as f64)),
     );
     let path = ctx.get_abspath("workdir/stats/old.csv");
     mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
@@ -767,7 +767,7 @@ fn test_update_stats() {
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
 
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now()).unwrap();
+    let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]").unwrap();
     let today = now.format(&format).unwrap();
     let path = ctx.get_abspath(&format!("workdir/stats/{}.csv", today));
@@ -1104,7 +1104,7 @@ fn test_our_main_stats() {
     let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
     mtimes.insert(
         path.to_string(),
-        Rc::new(RefCell::new(ctx.get_time().now() as f64)),
+        Rc::new(RefCell::new(ctx.get_time().now().unix_timestamp() as f64)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
