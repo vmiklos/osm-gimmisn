@@ -33,6 +33,9 @@ filters:
     ranges:
       - {start: '31', end: '199'}
       - {start: '2', end: '16'}
+  Káplár utca:
+    # 7 kivételével nincsenek kint házszámok: 2022-12. RESURVEY 2023
+    invalid: ['4', '11']
   Kisberényi út:
     # 7- Vörösberény
     # 48-52: csak 52 van
@@ -53,6 +56,10 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '18'}
+  Pacsirta utca:
+    # 9: 7 van kiírva
+    # 10: nincs
+    invalid: ['9', '10']
   Pinkóczi út:
     # 11 nincs, csak egy lekopott szám
     invalid: ['11']
@@ -165,6 +172,12 @@ filters:
     # 9 = Rózsa utca 8
     # 48 = 46-ra van számozva, ez az utolsó ház Balatonalmádiban
     invalid: ['9', '48']
+  Forrás utca:
+    # 2022-12. RESURVEY 2023
+    # 6-22 egy zsákutcás osztatlan telek tele sok apró üdülőházzal
+    # 6: nem a zsákutcás részen
+    # 10: ez az egyetlen normális ház, a többin nincs házszám
+    invalid: ['4', '8', '12', '14', '16', '18', '20', '22']
   Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
     invalid: ['1', '3', '5']
@@ -247,6 +260,10 @@ filters:
   Verseny utca:
     # 1: nincs, 3=Ciszterci, más épület nincs
     invalid: ['1']
+  Vödörvölgyi út:
+    # páratlan oldal Szentkirályszabadja
+    ranges:
+      - {start: '2', end: '98'}
   Ybl Miklós utca:
     # 2-4: 2/a, 2/b van kiírva
     invalid: ['4']
