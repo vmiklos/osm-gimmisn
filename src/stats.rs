@@ -308,13 +308,16 @@ fn handle_daily_new(
 }
 
 /// Returns a date that was today N months ago.
-fn get_previous_month(today: &time::OffsetDateTime, months: i64) -> anyhow::Result<i64> {
+fn get_previous_month(
+    today: &time::OffsetDateTime,
+    months: i64,
+) -> anyhow::Result<time::OffsetDateTime> {
     let mut month_ago = *today;
     for _month in 0..months {
         let first_of_current = month_ago.replace_day(1).unwrap();
         month_ago = first_of_current - time::Duration::days(1);
     }
-    Ok(month_ago.unix_timestamp())
+    Ok(month_ago)
 }
 
 /// Shows # of new housenumbers / month.
@@ -329,11 +332,7 @@ fn handle_monthly_new(
     let mut prev_month: String = "".into();
     let ym = time::format_description::parse("[year]-[month]")?;
     for month_offset in (0..=month_range).rev() {
-        let month_delta = time::OffsetDateTime::from_unix_timestamp(get_previous_month(
-            &ctx.get_time().now(),
-            month_offset,
-        )?)?
-        .to_offset(util::get_tz_offset());
+        let month_delta = get_previous_month(&ctx.get_time().now(), month_offset)?;
         // Get the first day of each month.
         let month = month_delta.replace_day(1).unwrap().format(&ym)?;
         let count_path = format!("{}/{}-01.count", src_root, month);
@@ -417,14 +416,8 @@ fn handle_monthly_total(
     let ym = time::format_description::parse("[year]-[month]")?;
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     for month_offset in (0..=month_range).rev() {
-        let month_delta =
-            time::OffsetDateTime::from_unix_timestamp(get_previous_month(&today, month_offset)?)?
-                .to_offset(util::get_tz_offset());
-        let prev_month_delta = time::OffsetDateTime::from_unix_timestamp(get_previous_month(
-            &today,
-            month_offset + 1,
-        )?)?
-        .to_offset(util::get_tz_offset());
+        let month_delta = get_previous_month(&today, month_offset)?;
+        let prev_month_delta = get_previous_month(&today, month_offset + 1)?;
         // Get the first day of each past month.
         let mut month = month_delta.replace_day(1)?.format(&ym)?;
         let prev_month = prev_month_delta.replace_day(1).unwrap().format(&ym)?;
