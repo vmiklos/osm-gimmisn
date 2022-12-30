@@ -68,8 +68,8 @@ pub use system::StdNetwork;
 
 /// Time interface.
 pub trait Time {
-    /// Calculates the current Unix timestamp from GMT.
-    fn now(&self) -> i64;
+    /// Calculates the current time.
+    fn now(&self) -> time::OffsetDateTime;
 
     /// Delay execution for a given number of seconds.
     fn sleep(&self, seconds: u64);

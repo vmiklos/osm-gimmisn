@@ -356,7 +356,7 @@ fn test_get_previous_month() {
     let today = ctx.get_time().now();
 
     let actual =
-        time::OffsetDateTime::from_unix_timestamp(get_previous_month(today, 2).unwrap()).unwrap();
+        time::OffsetDateTime::from_unix_timestamp(get_previous_month(&today, 2).unwrap()).unwrap();
 
     let expected = time::macros::datetime!(2020-03-31 0:00:00).assume_utc();
     assert_eq!(actual, expected);

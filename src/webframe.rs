@@ -590,9 +590,7 @@ fn handle_stats_cityprogress(
         let count: u64 = row.get(1).unwrap().parse()?;
         ref_citycounts.insert(city.into(), count);
     }
-    let timestamp = ctx.get_time().now();
-    let date_time =
-        time::OffsetDateTime::from_unix_timestamp(timestamp)?.to_offset(util::get_tz_offset());
+    let date_time = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = date_time.format(&format)?;
     let mut osm_citycounts: HashMap<String, u64> = HashMap::new();
@@ -693,9 +691,7 @@ fn handle_stats_zipprogress(
         let count: u64 = row.get(1).unwrap().parse()?;
         ref_zipcounts.insert(zip.into(), count);
     }
-    let timestamp = ctx.get_time().now();
-    let now =
-        time::OffsetDateTime::from_unix_timestamp(timestamp)?.to_offset(util::get_tz_offset());
+    let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     let mut osm_zipcounts: HashMap<String, u64> = HashMap::new();

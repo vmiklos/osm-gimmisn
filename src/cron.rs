@@ -468,7 +468,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
         .get_file_system()
         .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.txt"))?;
     let statedir = ctx.get_abspath("workdir/stats");
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now()).unwrap();
+    let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     let csv_path = format!("{}/{}.csv", statedir, today);
@@ -508,8 +508,8 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
             continue;
         }
 
-        let last_modified =
-            ctx.get_time().now() as f64 - ctx.get_file_system().getmtime(&file_name)?;
+        let last_modified = ctx.get_time().now().unix_timestamp() as f64
+            - ctx.get_file_system().getmtime(&file_name)?;
 
         if last_modified >= 24_f64 * 3600_f64 * 7_f64 {
             ctx.get_file_system().unlink(&file_name)?;
@@ -595,7 +595,7 @@ pub fn our_main(
 
     let start = ctx.get_time().now();
     // Query inactive relations once a month.
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now()).unwrap();
+    let now = ctx.get_time().now();
     let first_day_of_month = now.date().day() == 1;
     relations.activate_all(ctx.get_ini().get_cron_update_inactive() || first_day_of_month);
     relations.activate_new();
@@ -613,7 +613,7 @@ pub fn our_main(
         update,
         overpass,
     )?;
-    let duration = time::Duration::new(ctx.get_time().now() - start, 0);
+    let duration = ctx.get_time().now() - start;
     let seconds = duration.whole_seconds() % 60;
     let minutes = duration.whole_minutes() % 60;
     let hours = duration.whole_hours();

@@ -162,7 +162,7 @@ fn is_relation_recently_added(
     create_dates: &HashMap<String, time::OffsetDateTime>,
     name: &str,
 ) -> bool {
-    let today = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now()).unwrap();
+    let today = ctx.get_time().now();
     let month_ago = today - time::Duration::days(30);
     create_dates.contains_key(name) && create_dates[name] > month_ago
 }

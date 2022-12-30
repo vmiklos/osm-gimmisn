@@ -38,8 +38,7 @@ fn handle_progress(
         .parse()
         .context("failed to parse ref.count")?;
     let today = {
-        let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now())?
-            .to_offset(util::get_tz_offset());
+        let now = ctx.get_time().now();
         let format = time::format_description::parse("[year]-[month]-[day]")?;
         now.format(&format)?
     };
@@ -97,8 +96,7 @@ fn handle_capital_progress(
         }
     }
 
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now())?
-        .to_offset(util::get_tz_offset());
+    let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     let mut osm_count = 0;
@@ -143,8 +141,7 @@ fn handle_topusers(
     j: &mut serde_json::Value,
 ) -> anyhow::Result<()> {
     let today = {
-        let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now())?
-            .to_offset(util::get_tz_offset());
+        let now = ctx.get_time().now();
         let format = time::format_description::parse("[year]-[month]-[day]")?;
         now.format(&format)?
     };
@@ -176,8 +173,7 @@ fn handle_topusers(
 
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
 pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, i64)>> {
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now())?
-        .to_offset(util::get_tz_offset());
+    let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     let new_day = now.format(&ymd)?;
     let day_delta = now - time::Duration::days(30);
@@ -251,8 +247,7 @@ fn handle_user_total(
     day_range: i64,
 ) -> anyhow::Result<()> {
     let mut ret: Vec<(String, u64)> = Vec::new();
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now())?
-        .to_offset(util::get_tz_offset());
+    let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
@@ -285,8 +280,7 @@ fn handle_daily_new(
     let mut ret: Vec<(String, i64)> = Vec::new();
     let mut prev_count = 0;
     let mut prev_day: String = "".into();
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now())?
-        .to_offset(util::get_tz_offset());
+    let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
@@ -314,9 +308,8 @@ fn handle_daily_new(
 }
 
 /// Returns a date that was today N months ago.
-fn get_previous_month(today: i64, months: i64) -> anyhow::Result<i64> {
-    let today = time::OffsetDateTime::from_unix_timestamp(today)?.to_offset(util::get_tz_offset());
-    let mut month_ago = today;
+fn get_previous_month(today: &time::OffsetDateTime, months: i64) -> anyhow::Result<i64> {
+    let mut month_ago = *today;
     for _month in 0..months {
         let first_of_current = month_ago.replace_day(1).unwrap();
         month_ago = first_of_current - time::Duration::days(1);
@@ -337,7 +330,7 @@ fn handle_monthly_new(
     let ym = time::format_description::parse("[year]-[month]")?;
     for month_offset in (0..=month_range).rev() {
         let month_delta = time::OffsetDateTime::from_unix_timestamp(get_previous_month(
-            ctx.get_time().now(),
+            &ctx.get_time().now(),
             month_offset,
         )?)?
         .to_offset(util::get_tz_offset());
@@ -360,8 +353,7 @@ fn handle_monthly_new(
     }
 
     // Also show the current, incomplete month.
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now())?
-        .to_offset(util::get_tz_offset());
+    let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     let mut month = now.format(&ymd)?;
     let count_path = format!("{}/{}.count", src_root, month);
@@ -390,8 +382,7 @@ fn handle_daily_total(
     day_range: i64,
 ) -> anyhow::Result<()> {
     let mut ret: Vec<(String, i64)> = Vec::new();
-    let now = time::OffsetDateTime::from_unix_timestamp(ctx.get_time().now())?
-        .to_offset(util::get_tz_offset());
+    let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
@@ -427,10 +418,10 @@ fn handle_monthly_total(
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     for month_offset in (0..=month_range).rev() {
         let month_delta =
-            time::OffsetDateTime::from_unix_timestamp(get_previous_month(today, month_offset)?)?
+            time::OffsetDateTime::from_unix_timestamp(get_previous_month(&today, month_offset)?)?
                 .to_offset(util::get_tz_offset());
         let prev_month_delta = time::OffsetDateTime::from_unix_timestamp(get_previous_month(
-            today,
+            &today,
             month_offset + 1,
         )?)?
         .to_offset(util::get_tz_offset());
