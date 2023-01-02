@@ -548,11 +548,9 @@ pub fn handle_404() -> yattag::Doc {
 }
 
 /// Formats timestamp as UI date-time.
-pub fn format_timestamp(timestamp: i64) -> anyhow::Result<String> {
-    let now =
-        time::OffsetDateTime::from_unix_timestamp(timestamp)?.to_offset(util::get_tz_offset());
+pub fn format_timestamp(timestamp: &time::OffsetDateTime) -> anyhow::Result<String> {
     let format = time::format_description::parse("[year]-[month]-[day] [hour]:[minute]")?;
-    Ok(now.format(&format)?)
+    Ok(timestamp.format(&format)?)
 }
 
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress.
