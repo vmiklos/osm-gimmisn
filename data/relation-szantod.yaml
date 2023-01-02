@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Vajda János utca:
+    # 2: sima 2 nincs, csak 2/A, 2/B.
+    interpolation: 'all'
+    invalid: ['2']
 refstreets:
   # helyesírás
   'Fűrész utca': 'Fürész utca'
