@@ -1201,12 +1201,14 @@ pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
     Ok(formatted.replace('.', decimal_point))
 }
 
-/// Gets the timestamp of a file if it exists, 0 otherwise.
-pub fn get_timestamp(ctx: &context::Context, path: &str) -> f64 {
+/// Gets the mtime of a file if it exists, 0 otherwise.
+pub fn get_mtime(ctx: &context::Context, path: &str) -> time::OffsetDateTime {
     let mtime = match ctx.get_file_system().getmtime(path) {
-        Ok(value) => value,
+        Ok(value) => time::OffsetDateTime::from_unix_timestamp(value as i64)
+            .unwrap()
+            .to_offset(get_tz_offset()),
         Err(_) => {
-            return 0.0;
+            return time::OffsetDateTime::UNIX_EPOCH;
         }
     };
 
