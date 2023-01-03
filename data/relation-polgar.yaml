@@ -1,7 +1,10 @@
 missing-streets: 'yes'
-#osm-street-filters:
+osm-street-filters:
   # Nem igazi utca
+  - M3 Archeopark
   # Parkok, sétautak amire nincs számozva semmi
+  - Kálvária
+  - Templomkert
   # Területhatáron lévő utca
 #street-filters:
   # Tanyák
