@@ -85,6 +85,8 @@ filters:
     invalid: ['6']
   Dózsa György utca:
     show-refstreet: false
+    # 13-15: csak 13 van kiírva
+    invalid: ['15']
   Dr. Óvári Ferenc utca:
     # 10-12: csak 12 van kiírva
     # 18: 16 után 20

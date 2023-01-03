@@ -153,6 +153,8 @@ filters:
     invalid: ['6']
   Dózsa György utca:
     show-refstreet: false
+    # 13-15: csak 13 van kiírva
+    invalid: ['15']
   Dr. Óvári Ferenc utca:
     # 10-12: csak 12 van kiírva
     # 18: 16 után 20
@@ -257,6 +259,9 @@ filters:
   Venyige utca:
     # 1-3: csak 3 van kiírva
     invalid: ['1']
+  Vízneder utca:
+    # 3: Feszty Árpád/Vízmeder sarok: nincs kint a házszám, 2022-12. RESURVEY 2023.
+    invalid: ['3']
   Verseny utca:
     # 1: nincs, 3=Ciszterci, más épület nincs
     invalid: ['1']

@@ -26,9 +26,10 @@ osm-street-filters:
   - Szent Lukács park
   - futókör
   - vitorlázó start-rámpa
-  - virágpiac
+  - Virágpiac
   # parkok, sétányok, lépcsők, udvarok, ösvények
   - Bánffy György emlékpark
+  - Emlékek útvesztője
   - Érzékek ösvénye
   - KRESZ park
   - Kálvária
@@ -39,6 +40,7 @@ osm-street-filters:
   - Millenáris park
   - Pap-kert
   - Szemlő-hegyi-barlang felszíne
+  - Széna téri emlékpark
   - Szűz Mária 7 fájdalmas stációja
   - Templomkert
   - Tükörben az élővilág
