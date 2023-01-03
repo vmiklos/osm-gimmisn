@@ -34,6 +34,7 @@ osm-street-filters:
   - 16-volt Kaczkó tanya
   - Póstelek tanya
   # nem igazi utcák / csak hrsz.
+  - ANGRO áruátvétel szervizút
   - Békéscsaba - Gyula kerékpárút
   - Jókai utca kerékpárút
   - Pósteleki buszforduló
@@ -48,6 +49,7 @@ refstreets:
   '4-es honvéd utca': '4-es Honvéd utca'
   'Alsó-Körös sor': 'Alsó Körös sor'
   'Bánszky utca': 'Bánszki utca'
+  'Berthóty utca': 'Berthóty udvar'
   'Bezerédi utca': 'Bezerédj utca'
   'Borjúrét utca': 'Borjú-rét utca'
   'Botyánszky Pálné utca': 'Botyánszki Pálné utca'
