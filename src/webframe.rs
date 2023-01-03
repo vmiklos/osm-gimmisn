@@ -1226,11 +1226,10 @@ fn get_content_with_meta(ctx: &context::Context, path: &str) -> anyhow::Result<(
         .get_file_system()
         .getmtime(path)
         .context("getmtime() failed")?;
-    let date_time = time::OffsetDateTime::from_unix_timestamp(mtime as i64)?;
 
     let extra_headers: Headers = vec![(
         "Last-Modified".into(),
-        date_time
+        mtime
             .format(&time::format_description::well_known::Rfc2822)?
             .into(),
     )];

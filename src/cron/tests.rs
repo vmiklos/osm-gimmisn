@@ -135,7 +135,7 @@ fn test_update_ref_housenumbers() {
     update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
 
     let mtime = ctx.get_file_system().getmtime(&path).unwrap();
-    assert!(mtime > 0_f64);
+    assert!(mtime > time::OffsetDateTime::UNIX_EPOCH);
 
     update_ref_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
 
@@ -204,7 +204,7 @@ fn test_update_ref_streets() {
     update_ref_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
     let mtime = ctx.get_file_system().getmtime(&path).unwrap();
-    assert!(mtime > 0_f64);
+    assert!(mtime > time::OffsetDateTime::UNIX_EPOCH);
 
     update_ref_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
@@ -284,7 +284,7 @@ fn test_update_missing_housenumbers() {
     update_missing_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
 
     let expected_mtime = file_system_arc.getmtime(&path1).unwrap();
-    assert_eq!(expected_mtime > 0_f64, true);
+    assert!(expected_mtime > time::OffsetDateTime::UNIX_EPOCH);
 
     update_missing_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
 
@@ -345,7 +345,7 @@ fn test_update_missing_streets() {
     update_missing_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
     let expected_mtime = ctx.get_file_system().getmtime(&path1).unwrap();
-    assert_eq!(expected_mtime > 0_f64, true);
+    assert!(expected_mtime > time::OffsetDateTime::UNIX_EPOCH);
 
     update_missing_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
@@ -614,7 +614,7 @@ fn test_update_osm_streets() {
     update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
 
     let mtime = ctx.get_file_system().getmtime(&path).unwrap();
-    assert!(mtime > 0_f64);
+    assert!(mtime > time::OffsetDateTime::UNIX_EPOCH);
 
     update_osm_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 

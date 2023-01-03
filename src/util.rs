@@ -36,7 +36,6 @@ lazy_static! {
     static ref NUMBER_SUFFIX: regex::Regex = regex::Regex::new(r"^.*/([0-9])\*?$").unwrap();
     static ref NULL_END: regex::Regex = regex::Regex::new(r" null$").unwrap();
     static ref GIT_HASH: regex::Regex = regex::Regex::new(r".*-g([0-9a-f]+)(-modified)?").unwrap();
-    static ref TZ_OFFSET: time::UtcOffset = time::UtcOffset::current_local_offset().unwrap();
 }
 
 /// A house number range is a string that may expand to one or more HouseNumber instances in the
@@ -1012,11 +1011,6 @@ pub fn git_link(version: &str, prefix: &str) -> yattag::Doc {
     doc
 }
 
-/// Gets the current timezone offset. Has to be first called when there are no threads yet.
-pub fn get_tz_offset() -> time::UtcOffset {
-    *TZ_OFFSET
-}
-
 /// Sorts strings according to their numerical value, not alphabetically.
 pub fn sort_numerically(strings: &[HouseNumber]) -> Vec<HouseNumber> {
     let mut ret: Vec<HouseNumber> = strings.to_owned();
@@ -1204,12 +1198,8 @@ pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
 /// Gets the mtime of a file if it exists, 0 otherwise.
 pub fn get_mtime(ctx: &context::Context, path: &str) -> time::OffsetDateTime {
     let mtime = match ctx.get_file_system().getmtime(path) {
-        Ok(value) => time::OffsetDateTime::from_unix_timestamp(value as i64)
-            .unwrap()
-            .to_offset(get_tz_offset()),
-        Err(_) => {
-            return time::OffsetDateTime::UNIX_EPOCH;
-        }
+        Ok(value) => value,
+        Err(_) => time::OffsetDateTime::UNIX_EPOCH,
     };
 
     mtime
