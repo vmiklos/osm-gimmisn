@@ -1,7 +1,28 @@
 missing-streets: 'yes'
 filters:
+  Áprily Lajos utca:
+    # hrsz
+    invalid: ['446']
+  Bányatelep utca:
+    # hrsz
+    invalid: ['185']
+  Diófa utca:
+    # hrsz
+    invalid: ['101']
+  Fácános utca:
+    # hrsz
+    invalid: ['756', '780']
+  Kálvária út:
+    # hrsz
+    invalid: ['249']
+  Öregkálvária utca:
+    # hrsz
+    invalid: ['446']
   Plébánia utca:
     show-refstreet: false
+  Svábhegy utca:
+    # hrsz
+    invalid: ['624', '628', '630']
 refstreets:
    # ellenőrzött
   'Plébánia utca': 'Plébánia út'  # Plébánia utca van a tábnán
