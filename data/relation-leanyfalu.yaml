@@ -1,0 +1,15 @@
+missing-streets: 'yes'
+#osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+#street-filters:
+  # Tanyák
+refstreets:
+  'Hermányhegyi utca': 'Hermány-hegyi utca'
+  'Kálvária utca': 'Kálvária út'
+  'Ravasz püspök utca': 'Ravasz László püspök utca'
+  'Szendrei Júlia utca': 'Szendrey Júlia utca'
+  'Szent Imre Herceg útja': 'Szent Imre herceg utca'
+source: survey
+inactive: false
