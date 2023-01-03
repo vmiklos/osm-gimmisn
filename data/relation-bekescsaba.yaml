@@ -43,6 +43,7 @@ osm-street-filters:
   - Wenckheim kerékpárút
   # parkok, sétautak amire nincs számozva semmi
   - Kisszik domb
+  - Kisszik-park
   - Széchenyi liget
   - Veres Péter utcai park
 refstreets:
