@@ -36,7 +36,6 @@ osm-street-filters:
   - Víztorony park
   - Zugló vasútállomás környéki park
   # Létezik, de nincs házszám
-  - 56-osok tere
   - Kántorné utca
   - Rákosfalva utca
   - Rózsavölgyi köz  # https://www.openstreetmap.org/node/3535130937
@@ -54,6 +53,7 @@ osm-street-filters:
   - Iskola zug
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  '56-osok tere': 'Ötvenhatosok tere'
   'Argentína tér': 'Argentina tér'
   'Báthory István park': 'Báthori István park'
   'Dvořák sétány': 'Dvorzsák sétány'
