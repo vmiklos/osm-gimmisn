@@ -1,0 +1,21 @@
+missing-streets: 'yes'
+#osm-street-filters:
+  # Nem igazi utca
+  # Parkok, sétautak amire nincs számozva semmi
+  # Területhatáron lévő utca
+#street-filters:
+  # Tanyák
+refstreets:
+  'Ady Endre utca': 'Ady Endre út'
+  'Almássy László utca': 'Almásy László utca'
+  'Bercsényi utca': 'Bercsényi út'
+  'Duna sor': 'Dunasor'
+  'Ereszvény utca': 'Ereszvények utca'
+  # 'Felsőszérűk utca': 'Felsőszérűk dűlő'
+  'Kernstok Károly utca': 'Kernstock Károly utca'
+  'Külső Nyulas utca': 'Külső-Nyulas utca'
+  'Pisztrángos telep út': 'Pisztrángos telep'
+  'Villasor': 'Villa sor'
+  'Vöröskő utca': 'Vöröskő út'
+source: survey
+inactive: false

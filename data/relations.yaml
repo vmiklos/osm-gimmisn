@@ -693,6 +693,10 @@ kisoroszi:
     osmrelation: 216162
     refcounty: "14"
     refsettlement: "068"
+leanyfalu:
+    osmrelation: 216164
+    refcounty: "14"
+    refsettlement: "075"
 nagykovacsi:
     osmrelation: 215946
     refcounty: "14"
@@ -745,6 +749,10 @@ szob:
     osmrelation: 1370263
     refcounty: "14"
     refsettlement: "136"
+tahitotfalu:
+    osmrelation: 216161
+    refcounty: "14"
+    refsettlement: "140"
 tarnok:
     osmrelation: 112434
     refcounty: "14"
