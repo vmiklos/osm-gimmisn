@@ -6,8 +6,10 @@ missing-streets: 'yes'
 #street-filters:
   # Tanyák
 refstreets:
+  'Határ utca': 'Határ út'
   'Hermányhegyi utca': 'Hermány-hegyi utca'
   'Kálvária utca': 'Kálvária út'
+  'Lázár-köz': 'Lázár köz'
   'Ravasz püspök utca': 'Ravasz László püspök utca'
   'Szendrei Júlia utca': 'Szendrey Júlia utca'
   'Szent Imre Herceg útja': 'Szent Imre herceg utca'
