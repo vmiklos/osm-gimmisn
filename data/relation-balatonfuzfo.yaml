@@ -14,6 +14,7 @@ refstreets:
   'Jánoshegy utca': 'Jánoshegyi út'
   # ellenőrzött
   'Bugyogóforrás utca': 'Bugyogó forrás utca'  # egyben és kötőjellel vannak a táblák, külön írva nincs
+  'Uszodai út': 'Uszodai utca'  # nincs kint tábla
 street-filters:
   - Máma utca  # hibás -> Mámatető utca
   # nem igazi utcák
