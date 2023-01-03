@@ -508,10 +508,9 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
             continue;
         }
 
-        let last_modified = ctx.get_time().now().unix_timestamp() as f64
-            - ctx.get_file_system().getmtime(&file_name)?;
+        let last_modified = ctx.get_time().now() - ctx.get_file_system().getmtime(&file_name)?;
 
-        if last_modified >= 24_f64 * 3600_f64 * 7_f64 {
+        if last_modified.whole_seconds() >= 24_i64 * 3600_i64 * 7_i64 {
             ctx.get_file_system().unlink(&file_name)?;
             info!("update_stats: removed old {}", file_name);
         }

@@ -126,16 +126,15 @@ impl FileSystem for TestFileSystem {
         Path::new(path).exists()
     }
 
-    fn getmtime(&self, path: &str) -> anyhow::Result<f64> {
+    fn getmtime(&self, path: &str) -> anyhow::Result<time::OffsetDateTime> {
         if let Some(value) = self.mtimes.get(path) {
-            return Ok(*value.borrow());
+            let nano = (*value.borrow() * 1_000_000_000_f64) as i128;
+            return Ok(time::OffsetDateTime::from_unix_timestamp_nanos(nano)?);
         }
 
         let metadata =
             std::fs::metadata(path).context(format!("metadata() failed for '{}'", path))?;
-        let modified = metadata.modified()?;
-        let mtime = modified.duration_since(std::time::SystemTime::UNIX_EPOCH)?;
-        Ok(mtime.as_secs_f64())
+        Ok(time::OffsetDateTime::try_from(metadata.modified()?)?)
     }
 
     fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>> {

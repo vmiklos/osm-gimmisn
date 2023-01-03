@@ -11,10 +11,19 @@
 //! Trait implementations using the real file system, network, time, etc.
 
 use super::*;
-use crate::util;
 use isahc::config::Configurable as _;
 use isahc::ReadResponseExt as _;
 use isahc::RequestExt as _;
+use lazy_static::lazy_static;
+
+lazy_static! {
+    static ref TZ_OFFSET: time::UtcOffset = time::UtcOffset::current_local_offset().unwrap();
+}
+
+/// Gets the current timezone offset. Has to be first called when there are no threads yet.
+pub fn get_tz_offset() -> time::UtcOffset {
+    *TZ_OFFSET
+}
 
 /// File system implementation, backed by the Rust stdlib.
 pub struct StdFileSystem {}
@@ -25,11 +34,10 @@ impl FileSystem for StdFileSystem {
         Path::new(path).exists()
     }
 
-    fn getmtime(&self, path: &str) -> anyhow::Result<f64> {
+    fn getmtime(&self, path: &str) -> anyhow::Result<time::OffsetDateTime> {
         let metadata = std::fs::metadata(path)?;
-        let modified = metadata.modified()?;
-        let mtime = modified.duration_since(std::time::SystemTime::UNIX_EPOCH)?;
-        Ok(mtime.as_secs_f64())
+        let modified = time::OffsetDateTime::try_from(metadata.modified()?)?;
+        Ok(modified.to_offset(get_tz_offset()))
     }
 
     fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
@@ -103,7 +111,7 @@ pub struct StdTime {}
 impl Time for StdTime {
     fn now(&self) -> time::OffsetDateTime {
         let now = time::OffsetDateTime::now_utc();
-        now.to_offset(util::get_tz_offset())
+        now.to_offset(get_tz_offset())
     }
 
     fn sleep(&self, seconds: u64) {

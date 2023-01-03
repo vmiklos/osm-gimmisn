@@ -25,7 +25,7 @@ pub trait FileSystem {
     fn path_exists(&self, path: &str) -> bool;
 
     /// Return the last modification time of a file.
-    fn getmtime(&self, path: &str) -> anyhow::Result<f64>;
+    fn getmtime(&self, path: &str) -> anyhow::Result<time::OffsetDateTime>;
 
     /// Opens a file for reading in binary mode.
     fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>>;
