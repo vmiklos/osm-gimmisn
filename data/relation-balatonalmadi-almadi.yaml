@@ -259,7 +259,7 @@ filters:
   Venyige utca:
     # 1-3: csak 3 van kiírva
     invalid: ['1']
-  Vízneder utca:
+  Vízmeder utca:
     # 3: Feszty Árpád/Vízmeder sarok: nincs kint a házszám, 2022-12. RESURVEY 2023.
     invalid: ['3']
   Verseny utca:

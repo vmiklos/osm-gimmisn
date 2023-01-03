@@ -375,6 +375,9 @@ filters:
   Vidovszky Béla utca:
     # 25, 26 nincs kiírva, kuka nincs, tervvel nincs összhangban a számozás. eladó telek. 2021-08. RESURVEY 2022
     invalid: ['25', '26']
+  Vízmeder utca:
+    # 3: Feszty Árpád/Vízmeder sarok: nincs kint a házszám, 2022-12. RESURVEY 2023.
+    invalid: ['3']
   Vödörvölgyi út:
     # páratlan oldal Szentkirályszabadja
     ranges:
