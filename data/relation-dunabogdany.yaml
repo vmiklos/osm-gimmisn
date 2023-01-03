@@ -2,10 +2,12 @@ missing-streets: 'yes'
 filters:
   Áprily Lajos utca:
     # hrsz
-    invalid: ['446']
+    invalid: ['794']
   Bányatelep utca:
     # hrsz
-    invalid: ['185']
+    invalid: ['158']
+  Bogonhátimajor:
+    invalid: ['237']
   Diófa utca:
     # hrsz
     invalid: ['101']
@@ -15,6 +17,8 @@ filters:
   Kálvária út:
     # hrsz
     invalid: ['249']
+  Málna utca:
+    invalid: ['728']
   Öregkálvária utca:
     # hrsz
     invalid: ['446']
