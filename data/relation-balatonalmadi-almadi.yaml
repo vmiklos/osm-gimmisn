@@ -145,6 +145,9 @@ filters:
     invalid: ['11']
   Csikász lépcső:
     show-refstreet: false
+  Csóka köz:
+    # 2-4: nincs kiírva: 2022-11. RESURVEY 2023
+    invalid: ['2', '4']
   Csokonai köz:
     # 1-3: csak 1 van kiírva
     invalid: ['3']
@@ -186,6 +189,12 @@ filters:
     # 6: nem a zsákutcás részen
     # 10: ez az egyetlen normális ház, a többin nincs házszám
     invalid: ['4', '8', '12', '14', '16', '18', '20', '22']
+  Galamb utca:
+    # 18-20: csak 20 van kiírva
+    invalid: ['18']
+  Győri utca:
+    # 21-23: Vízmeder utca 22 címet használja
+    invalid: ['21', '23']
   Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
     invalid: ['1', '3', '5']
@@ -207,6 +216,9 @@ filters:
   Holló utca:
     # 5: nincs, 3 után 9
     invalid: ['5']
+  Hordó utca:
+    # 12: 10/a, 10/b, 14
+    invalid: ['12']
   # Huszár utca: 2022-12. RESURVEY 2023
   Jedlik Ányos utca:
     # 40: 44 van kiírva. 2022-12. RESURVEY 2023
