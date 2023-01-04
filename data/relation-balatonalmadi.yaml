@@ -71,7 +71,8 @@ filters:
     ranges: []
   Bokréta utca:
     # földhivatal szerint 13 a Felsőörsi út 41 és ami épül mellette az a 41. 2022-11. RESURVEY 2023
-    invalid: ['13']
+    # 14 = Paál László utca 34: ÉTDR. még nem épül. 2022-11. RESURVEY 2023
+    invalid: ['13', '14']
   Csaba köz:
     invalid: ['1']
   Csalogány utca:
