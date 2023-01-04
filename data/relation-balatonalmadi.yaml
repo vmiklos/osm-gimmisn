@@ -37,6 +37,9 @@ filters:
     # 158: autószerviz és a Kürt utca közt nincs ház
     # 226: szervizút végén 228, mellette 224
     invalid: ['5', '7', '140', '158', '226']
+  Ballada köz:
+    # 8-10: még épül. 2022-12. RESURVEY 2023
+    invalid: ['8', '10']
   Barabás Miklós utca:
     # 14-16: semmi sincs kiírva, terven 16 van
     invalid: ['14']
@@ -119,6 +122,9 @@ filters:
     # 9 = Rózsa utca 8
     # 48 = 46-ra van számozva, ez az utolsó ház Balatonalmádiban
     invalid: ['9', '48']
+  Fény utca:
+    # 3-13: 3, 5, 11 van kiírva, utána van még egy ház
+    invalid: ['7', '9', '13']
   Forrás utca:
     # 2022-12. RESURVEY 2023
     # 6-22 egy zsákutcás osztatlan telek tele sok apró üdülőházzal
@@ -138,8 +144,9 @@ filters:
   Harkály utca:
     # 7-9: csak 7 és 11 van kiírva egy kapun
     # 15-17: csak 15 van kiírva
+    # 18-20: csak 20 van kiírva
     # 23: Galamb utca felől lenne. 2022-10. RESURVEY 2023
-    invalid: ['9', '17', '23']
+    invalid: ['9', '17', '18', '23']
   Hársas utca:
     # terv és a valóság nincs összhangban
     invalid: ['49']
@@ -171,6 +178,9 @@ filters:
   István utca:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
+  Jedlik Ányos utca:
+    # 40: 44 van kiírva. 2022-12. RESURVEY 2023
+    invalid: ['40']
   József Attila út:
     # 6: régi 2, az van kiírva
     # 8: MÁV üzemi épület? nincs kiírva semmi
@@ -261,6 +271,9 @@ filters:
   Noszlopy Gáspár utca:
     # 6: nincs, 4 és 8 egy ikerház
     invalid: ['6']
+  Őszapó utca:
+    # 6-8: még épül, nincs kiírva semmi. 2022-12. RESURVEY 2023
+    invalid: ['6', '8']
   Pacsirta köz:
     # 20-22: csak 22 van kiírva
     invalid: ['20']
@@ -339,6 +352,9 @@ filters:
     # 35: elvileg a 33-35 egy telek, 33 van kiírva
     # 37 nincs kiírva, kizárásos alapon. 2022-12. RESURVEY 2023
     invalid: ['35']
+  Tóth Árpád utca:
+    # 34: 36 van kiírva, következő 2 házon nincs házszám. 2022-12. RESURVEY 2023
+    invalid: ['34']
   Töltés utca:
     invalid: ['15']
   Töhötöm utca:
