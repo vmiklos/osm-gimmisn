@@ -30,8 +30,8 @@ filters:
 refstreets:
    # ellenőrzött
   'Plébánia utca': 'Plébánia út'  # Plébánia utca van a tábnán
+  'Bogonhát major': 'Bogonháti major'
    # kérdéses
-  'Bogonhátimajor': 'Bogonháti major'
   'Erzsébet királyné utca': 'Erzsébet királyné út'
   'Pap-réti út': 'Paprét utca'
   'Szent Donát utca': 'Szent Donát út'
