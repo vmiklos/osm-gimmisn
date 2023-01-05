@@ -122,9 +122,12 @@ fn test_update_ref_housenumbers() {
             ),
         ],
     );
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
@@ -191,9 +194,12 @@ fn test_update_ref_streets() {
             ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
         ],
     );
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/streets-reference-gazdagret.lst");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
@@ -268,11 +274,14 @@ fn test_update_missing_housenumbers() {
         )
         .unwrap();
     let path1 = ctx.get_abspath("workdir/gazdagret.percent");
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    mtimes.insert(path1.to_string(), Rc::new(RefCell::new(0_f64)));
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
+    mtimes.insert(
+        path1.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     mtimes.insert(
         ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
@@ -333,9 +342,12 @@ fn test_update_missing_streets() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path1 = ctx.get_abspath("workdir/gazdagret-streets.percent");
-    mtimes.insert(path1.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path1.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
@@ -397,8 +409,11 @@ fn test_update_additional_streets() {
         ],
     );
     let path1 = ctx.get_abspath("workdir/gazdagret-additional-streets.count");
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
-    mtimes.insert(path1.to_string(), Rc::new(RefCell::new(0_f64)));
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
+    mtimes.insert(
+        path1.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
@@ -601,9 +616,12 @@ fn test_update_osm_streets() {
             ("data/streets-template.txt", &template_value),
         ],
     );
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
@@ -755,14 +773,17 @@ fn test_update_stats() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
     mtimes.insert(
         path.to_string(),
-        Rc::new(RefCell::new(ctx.get_time().now().unix_timestamp() as f64)),
+        Rc::new(RefCell::new(ctx.get_time().now())),
     );
     let path = ctx.get_abspath("workdir/stats/old.csv");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
@@ -1002,9 +1023,12 @@ fn test_our_main() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/cache-gazdagret.json");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
@@ -1100,11 +1124,11 @@ fn test_our_main_stats() {
         ],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
     mtimes.insert(
         path.to_string(),
-        Rc::new(RefCell::new(ctx.get_time().now().unix_timestamp() as f64)),
+        Rc::new(RefCell::new(ctx.get_time().now())),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);

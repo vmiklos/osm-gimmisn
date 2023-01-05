@@ -1860,10 +1860,10 @@ fn test_relation_write_missing_housenumbers() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -1911,10 +1911,10 @@ fn test_relation_write_missing_housenumbers_empty() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/cache-empty.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -1945,9 +1945,12 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/cache-budafok.json");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
@@ -1989,10 +1992,10 @@ fn test_relation_write_missing_housenumbers_sorting() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/cache-gh414.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);

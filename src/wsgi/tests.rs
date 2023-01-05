@@ -394,10 +394,10 @@ fn test_missing_housenumbers_well_formed() {
         ],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -450,10 +450,10 @@ fn test_missing_housenumbers_compat() {
     );
     file_system.set_files(&files);
     // Make sure the cache is outdated.
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -502,10 +502,10 @@ fn test_missing_housenumbers_compat_relation() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/cache-budafok.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -621,10 +621,10 @@ fn test_missing_housenumbers_view_result_txt() {
         &[("workdir/cache-budafok.json", &json_cache)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/cache-budafok.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -668,10 +668,10 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         ],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -1834,10 +1834,10 @@ fn test_static_css() {
         &[("target/browser/osm.min.css", &css_value)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         test_wsgi.ctx.get_abspath("target/browser/osm.min.css"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2191,10 +2191,10 @@ fn test_handle_main_housenr_percent() {
     file_system
         .write_from_string("4.2", &ctx.get_abspath("workdir/gazdagret.percent"))
         .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret.percent"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2236,10 +2236,10 @@ fn test_handle_main_street_percent() {
             &ctx.get_abspath("workdir/gazdagret-streets.percent"),
         )
         .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret-streets.percent"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -2281,10 +2281,10 @@ fn test_handle_main_street_additional_count() {
             &ctx.get_abspath("workdir/gazdagret-additional-streets.count"),
         )
         .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/gazdagret-additional-streets.count"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);

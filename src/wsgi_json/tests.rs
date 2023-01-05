@@ -293,12 +293,12 @@ fn test_missing_housenumbers_view_result_json() {
         &[("workdir/cache-budafok.json", &json_cache)],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         test_wsgi
             .get_ctx()
             .get_abspath("workdir/cache-budafok.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -337,12 +337,12 @@ fn test_additional_housenumbers_view_result_json() {
         ],
     );
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         test_wsgi
             .get_ctx()
             .get_abspath("workdir/additional-cache-budafok.json"),
-        Rc::new(RefCell::new(0_f64)),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
