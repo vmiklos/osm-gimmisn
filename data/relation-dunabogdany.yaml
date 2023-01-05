@@ -6,8 +6,8 @@ filters:
   Bányatelep utca:
     # hrsz
     invalid: ['158']
-  Bogonhátimajor:
-    invalid: ['237']
+  Bogonhát major:
+    invalid: ['23', '237']
   Diófa utca:
     # hrsz
     invalid: ['101']
@@ -36,5 +36,8 @@ refstreets:
   'Pap-réti út': 'Paprét utca'
   'Szent Donát utca': 'Szent Donát út'
   'Öregkálvária utca': 'Öreg Kálvária utca'
+osm-street-filters:
+  # nem igazi utcák
+  - 11. számú főút
 source: survey
 inactive: true
