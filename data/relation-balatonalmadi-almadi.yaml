@@ -311,9 +311,11 @@ refstreets:
   # ellenőrzött
   'Berzsenyi Dániel utca': 'Berzsenyi utca'  # táblán Berzsenyi Dániel
   'Csikász lépcső': 'Csikász Imre lépcső'  # táblán Csikász lépcső
-  'Dózsa György utca': 'Dózsa György út'
-  'Fadrusz János utca': 'Fadrusz utca'
+  'Dózsa György utca': 'Dózsa György út'  # táblán Dózsa György utca
+  'Fadrusz János utca': 'Fadrusz utca'  # hivatalos táblán Fadrusz János illetve Fadrusz J, a kézi gányolt táblán Fadrusz
+  'Kisfaludy Sándor utca': 'Kisfaludy utca'  # táblán Kisfaludy Sándor utca
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
+  'Mátyás király utca': 'Mátyás király út'  # táblán Mátyás király utca, házakon út
   'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
 source: survey
