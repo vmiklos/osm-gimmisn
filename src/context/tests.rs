@@ -40,7 +40,7 @@ pub fn make_test_context() -> anyhow::Result<Context> {
 /// File system implementation, for test purposes.
 pub struct TestFileSystem {
     hide_paths: Rc<RefCell<Vec<String>>>,
-    mtimes: HashMap<String, Rc<RefCell<f64>>>,
+    mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>>,
     files: HashMap<String, Rc<RefCell<std::io::Cursor<Vec<u8>>>>>,
 }
 
@@ -103,7 +103,7 @@ impl TestFileSystem {
     }
 
     /// Sets the mtimes.
-    pub fn set_mtimes(&mut self, mtimes: &HashMap<String, Rc<RefCell<f64>>>) {
+    pub fn set_mtimes(&mut self, mtimes: &HashMap<String, Rc<RefCell<time::OffsetDateTime>>>) {
         self.mtimes = mtimes.clone();
     }
 
@@ -128,8 +128,7 @@ impl FileSystem for TestFileSystem {
 
     fn getmtime(&self, path: &str) -> anyhow::Result<time::OffsetDateTime> {
         if let Some(value) = self.mtimes.get(path) {
-            let nano = (*value.borrow() * 1_000_000_000_f64) as i128;
-            return Ok(time::OffsetDateTime::from_unix_timestamp_nanos(nano)?);
+            return Ok(*value.borrow());
         }
 
         let metadata =
@@ -168,9 +167,8 @@ impl FileSystem for TestFileSystem {
         }
 
         if let Some(ref value) = self.mtimes.get(path) {
-            let now = time::OffsetDateTime::now_utc();
             let mut guard = value.borrow_mut();
-            *guard = now.unix_timestamp() as f64;
+            *guard = time::OffsetDateTime::now_utc();
         }
 
         let ret = self.files[path].clone();

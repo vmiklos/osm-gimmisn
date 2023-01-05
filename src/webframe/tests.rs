@@ -28,9 +28,12 @@ fn test_handle_static() {
     let mut file_system = context::tests::TestFileSystem::new();
     let files =
         context::tests::TestFileSystem::make_files(&ctx, &[("target/browser/osm.min.css", &css)]);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("target/browser/osm.min.css");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -84,9 +87,12 @@ fn test_handle_static_ico() {
     }
     let mut file_system = context::tests::TestFileSystem::new();
     let files = context::tests::TestFileSystem::make_files(&ctx, &[("favicon.ico", &ico)]);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("favicon.ico");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -112,9 +118,12 @@ fn test_handle_static_svg() {
     }
     let mut file_system = context::tests::TestFileSystem::new();
     let files = context::tests::TestFileSystem::make_files(&ctx, &[("favicon.svg", &svg)]);
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("favicon.svg");
-    mtimes.insert(path.to_string(), Rc::new(RefCell::new(0_f64)));
+    mtimes.insert(
+        path.to_string(),
+        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
+    );
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);

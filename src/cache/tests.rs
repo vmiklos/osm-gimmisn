@@ -48,10 +48,12 @@ fn test_get_missing_housenumbers_json() {
             &ctx.get_abspath("workdir/cache-gazdagret.json"),
         )
         .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/cache-gazdagret.json"),
-        Rc::new(RefCell::new(9999999999_f64)),
+        Rc::new(RefCell::new(
+            time::OffsetDateTime::from_unix_timestamp(9999999999).unwrap(),
+        )),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -95,10 +97,12 @@ fn test_get_additional_housenumbers_json() {
             &ctx.get_abspath("workdir/additional-cache-gazdagret.json"),
         )
         .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<f64>>> = HashMap::new();
+    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     mtimes.insert(
         ctx.get_abspath("workdir/additional-cache-gazdagret.json"),
-        Rc::new(RefCell::new(9999999999_f64)),
+        Rc::new(RefCell::new(
+            time::OffsetDateTime::from_unix_timestamp(9999999999).unwrap(),
+        )),
     );
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
