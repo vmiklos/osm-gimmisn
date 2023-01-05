@@ -478,9 +478,11 @@ refstreets:
   'Erkel Ferenc utca': 'Erkel Ferenc út'  # táblán Erkel Ferenc utca
   # 'Erdőalja út': 'Erdőalja utca'  # táblán alul Erdőalja út, felül Erdőalja utca
   'Fadrusz János utca': 'Fadrusz utca'  # hivatalos táblán Fadrusz János illetve Fadrusz J, a kézi gányolt táblán Fadrusz
+  'Kisfaludy Sándor utca': 'Kisfaludy utca'  # táblán Kisfaludy Sándor utca
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
   'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca
+  'Mátyás király utca': 'Mátyás király út'  # táblán Mátyás király utca, házakon út
   'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
