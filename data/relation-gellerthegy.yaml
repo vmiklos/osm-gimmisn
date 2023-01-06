@@ -124,7 +124,7 @@ filters:
     invalid: ['13', '29', '35a', '35b', '40', '42', '45', '46', '47', '48a', '48b', '49b', '52a', '54a', '54b', '60', '70', '77b']
     ranges:
       - {start: '1', end: '81'}
-      - {start: '2', end: '70'}
+      - {start: '12', end: '70'}
   Mányoki út:
     # páros: Szentimreváros
     refsettlement: '011'
