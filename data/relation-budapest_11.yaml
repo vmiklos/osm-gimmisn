@@ -54,7 +54,7 @@ filters:
     # 10: 10/a, 10/b
     # 26: 26/a, 26/b
     # 28: 28/a, 28/b
-    # TODO 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? CHECK 2021-10
+    # 21,29: 19, 25, 27, x, 27/a, 27/b; x=29? CHECK 2021-10 RESURVEY
     # 40a, 40b: csak sima 40 van
     # 45: 45/a, 45/b
     # 51: 51/a, 51/b, 51/c
@@ -216,7 +216,7 @@ filters:
     # 2 nincs, a többi helyrajzi szám az is a Péterhegyi dűlőhöz tartozik
     ranges: []
   Fadrusz utca:
-    # 11,11b: TODO: 2022-06-01 felépült, de még nincs kint házszám, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami
+    # 11,11b: CHECK 2022-06-01 felépült, de még nincs kint házszám, nem lehet tudni, hogy mi lesz a házszám 11,11b,13 közül valami. RESURVEY
     invalid: ['11', '11b']
     ranges:
       - {start: '1', end: '31'}
@@ -225,6 +225,7 @@ filters:
     # páratlan ---------------------------------------------------------------
     # 81: nincs, 79 után 83 jön
     # 83/a, 83/b: csak 83 van számtalan üzlettel
+    # 107: 107/a, 107/b
     # 161 Andor utca sarka-179 Ventura között semmi nincs, 183-tól jön a panel
     # 215: panel, nincs betű
     # 225-233: panel, nincs betű
@@ -242,7 +243,7 @@ filters:
     # 150 = Temesvár utca 2
     # 154-164: 152 után 160 jön, majd 166 a benzinkút
     # 182-190: lakóház egyben, a és b épület/lépcsőház
-    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '145a', '179a', '179c', '179d', '181', '189a', '215l', '225b', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '114', '118', '122', '124', '130a', '146a', '146b', '146z', '150', '168b', '180a', '182a']
+    invalid: ['21a', '45a', '79a', '81', '83a', '83b', '85c', '107', '145a', '179a', '179c', '179d', '181', '189a', '215l', '225b', '231b', '245', '40', '44a', '44h', '64a', '96', '100a', '102', '102a', '102b', '106', '114', '118', '122', '124', '130a', '146a', '146b', '146z', '150', '168b', '180a', '182a']
     ranges:
       - {start: '1', end: '161'}
       - {start: '179', end: '247'}
@@ -390,7 +391,7 @@ filters:
     # 61/a-c: 61 A,B,C épületek
     # 61z: KCR hirdetmény 2019.02.07 - megszűnt - https://kozigazgatas.ujbuda.hu/sites/default/files/attachments/files/kozigazgatasujbudahu/2019_02/skmbt_28319020807520.pdf
     # 71/a: 71, 71/b
-    # 77/a: 77 van kiírva, de még építkeznek. CHECK 2022-10-11 TODO
+    # 77/a: 77 van kiírva, de még építkeznek. CHECK 2022-10-11 RESURVEY
     # 79b: 77-79 újra lettek számozva, 79/b->79 lett belőle, 79->77/b
     # 85: 85/a, 85/b
     # páros ------------------------------------------------------------------
@@ -462,7 +463,7 @@ filters:
   Rupphegyi út:
     # páratlan oldal nincs beépítve
     # 6: a házszám sima 6, a telken belül vannak a,b,c,d,f épületek
-    # TODO 8: nincs pecsenyesütő, th. épül, 2022-03
+    # 8: nincs pecsenyesütő, th. épül, CHECK 2022-03. RESURVEY
     # 11: a,b,c,d épületek
     # 40/b: nincs ilyen
     # 70: nincsenek megállapított házszámok, csak helyrajzi számok, ez egy régi házszám a spanyolréti oldalon
@@ -524,7 +525,7 @@ filters:
   Villányi út:
     # páratlan ---------------------------------------------------------------
     # 9b: csak sima 9 van
-    # Edutus 11-13, Templom 25, Szie 29-43 (31, 35-43)
+    # Edutus 11-13, Templom 25 (hivatalosan 15), Gimnázium 27 (hivatalosan 17), Szie 29-43 (31, 35-43)
     # 49d: csak sima 49 van
     # 75b: csak sima 75 van
     # 83-85 A-H épületek, addr:unit-batn jelölve
@@ -541,7 +542,7 @@ filters:
     # 48: 48a,48b
     # 62a, 62b: sima 62 a és b lépcsőház van, magánterületen belül
     # 70e: csak sima 70 van
-    invalid: ['6a', '9b', '18c', '19', '20/2', '21b', '22', '24a', '24b', '24c', '28a', '28b', '28c', '28g', '30', '30c', '48', '48d', '49d', '62a', '62b', '70e', '75b', '78c', '78d', '83b', '83c', '83d', '83h', '85h', '89h', '105']
+    invalid: ['6a', '9b', '15', '17', '18c', '19', '20/2', '21b', '22', '24a', '24b', '24c', '28a', '28b', '28c', '28g', '30', '30c', '48', '48d', '49d', '62a', '62b', '70e', '75b', '78c', '78d', '83b', '83c', '83d', '83h', '85h', '89h', '105']
     ranges:
       - {start: '1', end: '115'}
       - {start: '2', end: '86'}
@@ -1201,8 +1202,10 @@ filters:
       - {start: '13', end: '15'}
       - {start: '8', end: '18'}
   Kelenföldi út:
-    # 1-13 egyben, 33-45 között majd minden lebontva a 35/a kivételével
-    invalid: ['35', '35b', '52a', '52b']
+    # 1-13 egyben, 
+    # 15-17 csak A lépcsőház, a B lépcsőház a Thallóczy Lajos utca 23-25-re van számozva
+    # 33-45 között majd minden lebontva a 35/a kivételével
+    invalid: ['17b', '35', '35b', '52a', '52b']
     ranges:
       - {start: '1', end: '21'}
       - {start: '31', end: '45'}
@@ -1650,7 +1653,8 @@ filters:
     invalid: ['3a', '3b', '24']
   Ózdi utca:
     # 12 = Bánhida utca 28
-    invalid: ['12']
+    # 15: 15/a, 15/b
+    invalid: ['12', '15']
   Parittya utca:
     ranges:
       - {start: '3', end: '3'}
@@ -1941,7 +1945,7 @@ filters:
     # 4ab: van a és b épület de a házszám csak 4
     invalid: ['2', '3', '4a', '4b']
   Lépés utca:
-    # 12 TODO: Van egy ikerház egyik fele 12b másik fele nincs kiírva 2020-01-21
+    # 12: Van egy ikerház egyik fele 12b másik fele nincs kiírva 2020-01-21. RESURVEY
     invalid: ['12']
   Lucerna köz:
     # 6a, 6c: nincs épület. KCR szerint is csak sima 6 van.
@@ -2898,7 +2902,7 @@ filters:
       - {start: '1', end: '11'}
       - {start: '2', end: '24'}
   Töhötöm utca:
-    # 19/b: TODO: Fehérló utca utolsó háza. építkezés folyamatban, nincs kint házszám 2021-10: Földhivatal: Töhötöm utca 19/B. "felülvizsgálat alatt"
+    # 19/b: Fehérló utca utolsó háza. építkezés folyamatban, nincs kint házszám 2021-10: Földhivatal: Töhötöm utca 19/B. "felülvizsgálat alatt" RESURVEY
     # 35: 35/a, 35/b
     invalid: ['35']
   Zólyomi út:
@@ -2937,7 +2941,7 @@ filters:
     # 6/2: csak sima 6 van "Géza-udvar"
     invalid: ['6/2']
   Elek utca:
-    # TODO: 3: 3a, 3b. 3/a helyén nincs kiírva semmi. CHECK 2022-05-23
+    # 3: 3a, 3b. 3/a helyén nincs kiírva semmi. CHECK 2022-05-23 RESURVEY
     # 9: 9a, 9b
     # 28a: csak sima
     invalid: ['3', '9', '28a']
@@ -2959,9 +2963,8 @@ filters:
       - {start: '14', end: '14'}
   Köbölkút utca:
     # 11b: csak sima 11 van
-    # 23: 23/a és 23/b
     # 40/a: ez a lakótelep Villányi út 83-85-ról számozódik A-H épületig, itt csak a 40 van kint
-    invalid: ['11b', '23', '31', '33', '40a']
+    invalid: ['11b']
     ranges:
       - {start: '1', end: '43'}
       - {start: '2', end: '40'}
@@ -2973,6 +2976,9 @@ filters:
   Tarcali utca:
     # 2a: 2,2b
     invalid: ['2a']
+  Vöröskúti határsor:
+    # 151/xx helyrajzi számok, sima nincs
+    invalid: ['151']
 street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva
