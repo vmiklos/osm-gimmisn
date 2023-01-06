@@ -1170,6 +1170,7 @@ dependencies = [
  "regex",
  "rouille",
  "rust_icu_ucol",
+ "rust_icu_unumberformatter",
  "rust_icu_ustring",
  "serde",
  "serde_json",
@@ -1482,6 +1483,68 @@ dependencies = [
  "paste",
  "rust_icu_common",
  "rust_icu_sys",
+]
+
+[[package]]
+name = "rust_icu_uformattable"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e0f19626d0133bc604b9cf9995f4e4ba55966e0662963fbd02a2cb60dcdc9a4e"
+dependencies = [
+ "anyhow",
+ "log",
+ "paste",
+ "rust_icu_common",
+ "rust_icu_sys",
+ "rust_icu_ustring",
+]
+
+[[package]]
+name = "rust_icu_uloc"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "276efae72ddb751c3ef4f872cd40e1f184ec96623ef9c457081e262095c09908"
+dependencies = [
+ "anyhow",
+ "log",
+ "paste",
+ "rust_icu_common",
+ "rust_icu_sys",
+ "rust_icu_uenum",
+ "rust_icu_ustring",
+]
+
+[[package]]
+name = "rust_icu_unum"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "79c83b91305f52c457a6629df78caec9dff31c491695bd25fdcbc4d004ad6f0c"
+dependencies = [
+ "anyhow",
+ "log",
+ "paste",
+ "rust_icu_common",
+ "rust_icu_sys",
+ "rust_icu_uformattable",
+ "rust_icu_uloc",
+ "rust_icu_ustring",
+]
+
+[[package]]
+name = "rust_icu_unumberformatter"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7870d3f1099a37ddce445a78172a70f0590acfdbafecbd578819d619b12a0e09"
+dependencies = [
+ "anyhow",
+ "log",
+ "paste",
+ "rust_icu_common",
+ "rust_icu_sys",
+ "rust_icu_uformattable",
+ "rust_icu_uloc",
+ "rust_icu_unum",
+ "rust_icu_ustring",
 ]
 
 [[package]]

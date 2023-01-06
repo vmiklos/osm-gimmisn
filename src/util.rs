@@ -1186,13 +1186,12 @@ pub fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<S
 
 /// Formats a percentage, taking locale into account.
 pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
-    let formatted = format!("{0:.2}%", parsed);
+    use rust_icu_unumberformatter as unumberformatter;
+
     let language: &str = &i18n::get_language();
-    let decimal_point = match language {
-        "hu" => ",",
-        _ => ".",
-    };
-    Ok(formatted.replace('.', decimal_point))
+    let formatter = unumberformatter::UNumberFormatter::try_new("% .00", language)?;
+    let formatted = formatter.format_double(parsed)?;
+    Ok(formatted.try_into()?)
 }
 
 /// Gets the mtime of a file if it exists, 0 otherwise.
