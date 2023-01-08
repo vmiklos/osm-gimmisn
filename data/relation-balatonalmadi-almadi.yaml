@@ -234,7 +234,7 @@ filters:
   Kisfaludy köz:
     # 2-4: csak 4 van a kukán, kiírva nincs semmi
     invalid: ['2']
-  Kisfaludy utca:
+  Kisfaludy Sándor utca:
     # 13-15: csak 15 van kiírva
     # 16-18: csak 16 van kiírva
     invalid: ['13', '18']
@@ -246,7 +246,7 @@ filters:
   Martinovics utca:
     # 14: 2 db 16 van táblázva
     invalid: ['14']
-  Mátyás király út:
+  Mátyás király utca:
     # 64: beépítetlen rész. 2022-12. RESURVEY 2023
     invalid: ['64']
   Őszapó utca:
