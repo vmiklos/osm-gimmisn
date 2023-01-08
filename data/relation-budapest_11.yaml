@@ -2977,8 +2977,8 @@ filters:
     # 2a: 2,2b
     invalid: ['2a']
   Vöröskúti határsor:
-    # 151/xx helyrajzi számok, sima nincs
-    invalid: ['151']
+    # 15x/y helyrajzi számok, sima nincs
+    invalid: ['151', '152/7']
 street-filters:
   - Alsóhatár utca  # Budaörsön fut nem a határon
   - Forgalmi utca  # megszűnt, Kerékpárút van a helyén a kocsiszín mellett, https://terinfo.ujbuda.hu/ még ismeri, de nincs kitáblázva

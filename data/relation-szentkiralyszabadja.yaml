@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+filters:
+  Radnóti Miklós utca:
+    show-refstreet: false
 refstreets:
   # ellenőrzött, tábla = osm
   'Radnóti Miklós utca': 'Radnóti utca'
@@ -8,10 +11,19 @@ refstreets:
   'István király tér': 'Istvánkirály tér'
   'Jókai Mór utca': 'Jókai utca'
   'Zrínyi utca': 'Zrinyi utca'
-# street-filters:
-# osm-street-filters:
-  # átlógó utcák
+street-filters:
   # nem igazi utcák
+  - Kültelek
+  # - Vasútállomás  # nincs is vasút már 50 éve
+  # területként
+  # - Meggyespuszta
+  # - Vödörvölgy
+osm-street-filters:
+  # átlógó/határoló utcák
+  - Pint utca
+  - Vödörvölgyi út
+  # nem igazi utcák
+  - Szent István kerékpárút 
   # parkok
 source: survey
 housenumber-letters: false
