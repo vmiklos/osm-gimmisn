@@ -21,5 +21,6 @@ refstreets:
   'Munkácsy Mihály körút': 'Munkácsy Mihály utca'
   'Semmelweis Ignác utca': 'Semmelweis utca'  # táblán Semmelweis I. utca
   'Táncsics Mihály utca': 'Táncsics utca'  # táblán Táncsics Mihály utca
+  'Vasvári Pál köz': 'Vasvári köz'  # táblán Vasvári Pál köz
 source: survey
 inactive: true
