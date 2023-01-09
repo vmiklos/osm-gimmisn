@@ -1204,5 +1204,11 @@ pub fn get_mtime(ctx: &context::Context, path: &str) -> time::OffsetDateTime {
     mtime
 }
 
+/// Removes the leading and trailing ' from a string.
+pub fn strip_quotes(input: &str) -> &str {
+    let quote: &[_] = &['\''];
+    input.trim_matches(quote)
+}
+
 #[cfg(test)]
 mod tests;

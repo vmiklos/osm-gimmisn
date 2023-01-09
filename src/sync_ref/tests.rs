@@ -48,10 +48,10 @@ fn test_main() {
         .read_to_string(&ctx.get_abspath("data/wsgi.ini.template"))
         .unwrap();
     let expected = r#"[wsgi]
-reference_housenumbers = refdir/hazszamok_20221001.tsv refdir/hazszamok_kieg_20221016.tsv
-reference_street = refdir/utcak_20221016.tsv
-reference_citycounts = refdir/varosok_count_20221001.tsv
-reference_zipcounts = refdir/irsz_count_20221001.tsv
+reference_housenumbers = 'refdir/hazszamok_20221001.tsv refdir/hazszamok_kieg_20221016.tsv'
+reference_street = 'refdir/utcak_20221016.tsv'
+reference_citycounts = 'refdir/varosok_count_20221001.tsv'
+reference_zipcounts = 'refdir/irsz_count_20221001.tsv'
 "#;
     assert_eq!(actual, expected);
 }
@@ -76,10 +76,10 @@ fn test_main_download() {
         write
             .write_all(
                 r#"[wsgi]
-reference_housenumbers = refdir/hazszamok_20190511.tsv refdir/hazszamok_kieg_20190808.tsv
-reference_street = refdir/utcak_20190514.tsv
-reference_citycounts = refdir/varosok_count_20190717.tsv
-reference_zipcounts = refdir/irsz_count_20200717.tsv
+reference_housenumbers = 'refdir/hazszamok_20190511.tsv refdir/hazszamok_kieg_20190808.tsv'
+reference_street = 'refdir/utcak_20190514.tsv'
+reference_citycounts = 'refdir/varosok_count_20190717.tsv'
+reference_zipcounts = 'refdir/irsz_count_20200717.tsv'
 "#
                 .as_bytes(),
             )

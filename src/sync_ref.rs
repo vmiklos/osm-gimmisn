@@ -11,6 +11,7 @@
 //! Synchronizes reference data between a public instance and a local dev instance.
 
 use crate::context;
+use crate::util;
 use anyhow::Context as _;
 use std::collections::HashMap;
 use std::io::Write;
@@ -45,26 +46,38 @@ pub fn our_main(
         let config_data = ctx.get_file_system().read_to_string(&config_file)?;
         config.read(config_data.clone()).unwrap();
         let mut paths: Vec<String> = Vec::new();
-        let values = config
-            .get("wsgi", "reference_housenumbers")
-            .context("no wsgi.reference_housenumbers in config")?;
+        let values = util::strip_quotes(
+            &config
+                .get("wsgi", "reference_housenumbers")
+                .context("no wsgi.reference_housenumbers in config")?,
+        )
+        .to_string();
         paths.append(
             &mut values
                 .split(' ')
                 .map(|value| value.strip_prefix("refdir/").unwrap().to_string())
                 .collect(),
         );
-        let value = config
-            .get("wsgi", "reference_street")
-            .context("no wsgi.reference_street in config")?;
+        let value = util::strip_quotes(
+            &config
+                .get("wsgi", "reference_street")
+                .context("no wsgi.reference_street in config")?,
+        )
+        .to_string();
         paths.push(value.strip_prefix("refdir/").unwrap().to_string());
-        let value = config
-            .get("wsgi", "reference_citycounts")
-            .context("no wsgi.reference_citycounts in config")?;
+        let value = util::strip_quotes(
+            &config
+                .get("wsgi", "reference_citycounts")
+                .context("no wsgi.reference_citycounts in config")?,
+        )
+        .to_string();
         paths.push(value.strip_prefix("refdir/").unwrap().to_string());
-        let value = config
-            .get("wsgi", "reference_zipcounts")
-            .context("no wsgi.reference_zipcounts in config")?;
+        let value = util::strip_quotes(
+            &config
+                .get("wsgi", "reference_zipcounts")
+                .context("no wsgi.reference_zipcounts in config")?,
+        )
+        .to_string();
         paths.push(value.strip_prefix("refdir/").unwrap().to_string());
 
         let mut dests: Vec<String> = Vec::new();
@@ -145,19 +158,19 @@ pub fn our_main(
     let mut config: Vec<String> = Vec::new();
     config.push("[wsgi]".into());
     config.push(format!(
-        "reference_housenumbers = refdir/hazszamok_{}.tsv refdir/hazszamok_kieg_{}.tsv",
+        "reference_housenumbers = 'refdir/hazszamok_{}.tsv refdir/hazszamok_kieg_{}.tsv'",
         files["hazszamok"], files["hazszamok_kieg"]
     ));
     config.push(format!(
-        "reference_street = refdir/utcak_{}.tsv",
+        "reference_street = 'refdir/utcak_{}.tsv'",
         files["utcak"]
     ));
     config.push(format!(
-        "reference_citycounts = refdir/varosok_count_{}.tsv",
+        "reference_citycounts = 'refdir/varosok_count_{}.tsv'",
         files["varosok_count"]
     ));
     config.push(format!(
-        "reference_zipcounts = refdir/irsz_count_{}.tsv",
+        "reference_zipcounts = 'refdir/irsz_count_{}.tsv'",
         files["irsz_count"]
     ));
     config.push(String::new());
