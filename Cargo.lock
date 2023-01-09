@@ -327,12 +327,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "configparser"
-version = "3.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5458d9d1a587efaf5091602c59d299696a3877a439c8f6d461a2d3cce11df87a"
-
-[[package]]
 name = "core-foundation-sys"
 version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1157,7 +1151,6 @@ dependencies = [
  "accept-language",
  "anyhow",
  "clap 4.0.32",
- "configparser",
  "csv",
  "flate2",
  "gettext",
@@ -1179,6 +1172,7 @@ dependencies = [
  "sxd-document",
  "sxd-xpath",
  "time",
+ "toml",
  "unidecode",
  "url",
 ]
@@ -1869,6 +1863,15 @@ name = "tinyvec_macros"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
+
+[[package]]
+name = "toml"
+version = "0.5.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1333c76748e868a4d9d1017b5ab53171dfd095f70c712fdb4653a406547f598f"
+dependencies = [
+ "serde",
+]
 
 [[package]]
 name = "tracing"

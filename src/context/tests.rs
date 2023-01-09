@@ -383,11 +383,12 @@ fn test_ini_get_tcp_port() {
 fn test_ini_get_with_fallback() {
     let ctx = make_test_context().unwrap();
     assert_eq!(
-        ctx.get_ini().get_with_fallback("uri_prefix", "myfallback"),
+        ctx.get_ini()
+            .get_with_fallback(&Some("/osm".to_string()), "myfallback"),
         "/osm"
     );
     assert_eq!(
-        ctx.get_ini().get_with_fallback("mykey", "myfallback"),
+        ctx.get_ini().get_with_fallback(&None, "myfallback"),
         "myfallback"
     );
 }

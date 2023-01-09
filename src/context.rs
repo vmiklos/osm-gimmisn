@@ -19,8 +19,6 @@ use std::rc::Rc;
 use std::sync::Arc;
 use std::time::Duration;
 
-use crate::util;
-
 /// File system interface.
 pub trait FileSystem {
     /// Test whether a path exists.
@@ -104,10 +102,34 @@ pub trait Unit {
 
 pub use system::StdUnit;
 
+/// The root of the wsgi.ini config file.
+#[derive(Clone, Default, serde::Deserialize)]
+pub struct IniConfig {
+    /// The wsgi section in the config file.
+    pub wsgi: WsgiConfig,
+}
+
+/// The wsgi section in the config file.
+#[derive(Clone, Default, serde::Deserialize)]
+pub struct WsgiConfig {
+    /// Space-separated list of housenumber references.
+    pub reference_housenumbers: String,
+    /// Street reference file path.
+    pub reference_street: String,
+    /// City counts reference file path.
+    pub reference_citycounts: String,
+    /// ZIP counts reference file path.
+    pub reference_zipcounts: String,
+    uri_prefix: Option<String>,
+    tcp_port: Option<String>,
+    overpass_uri: Option<String>,
+    cron_update_inactive: Option<String>,
+}
+
 /// Configuration file reader.
 #[derive(Clone)]
 pub struct Ini {
-    config: configparser::ini::Ini,
+    config: IniConfig,
     root: String,
 }
 
@@ -117,11 +139,9 @@ impl Ini {
         config_path: &str,
         root: &str,
     ) -> anyhow::Result<Self> {
-        let mut config = configparser::ini::Ini::new();
+        let mut config = IniConfig::default();
         if let Ok(data) = file_system.read_to_string(config_path) {
-            if let Err(err) = config.read(data) {
-                return Err(anyhow::anyhow!("failed to load {}: {}", config_path, err));
-            }
+            config = toml::from_str(&data)?;
         }
         Ok(Ini {
             config,
@@ -136,11 +156,8 @@ impl Ini {
 
     /// Gets the abs paths of ref housenumbers.
     pub fn get_reference_housenumber_paths(&self) -> anyhow::Result<Vec<String>> {
-        let value = self
-            .config
-            .get("wsgi", "reference_housenumbers")
-            .context("no wsgi.reference_housenumbers in config")?;
-        let relpaths = util::strip_quotes(&value).split(' ');
+        let value = &self.config.wsgi.reference_housenumbers;
+        let relpaths = value.split(' ');
         Ok(relpaths
             .map(|relpath| format!("{}/{}", self.root, relpath))
             .collect())
@@ -148,56 +165,49 @@ impl Ini {
 
     /// Gets the abs path of ref streets.
     pub fn get_reference_street_path(&self) -> anyhow::Result<String> {
-        let relpath = self
-            .config
-            .get("wsgi", "reference_street")
-            .context("no wsgi.reference_street in config")?;
-        Ok(format!("{}/{}", self.root, util::strip_quotes(&relpath)))
+        let relpath = &self.config.wsgi.reference_street;
+        Ok(format!("{}/{}", self.root, relpath))
     }
 
     /// Gets the abs path of ref citycounts.
     pub fn get_reference_citycounts_path(&self) -> anyhow::Result<String> {
-        let relpath = self
-            .config
-            .get("wsgi", "reference_citycounts")
-            .context("no wsgi.reference_citycounts in config")?;
-        Ok(format!("{}/{}", self.root, util::strip_quotes(&relpath)))
+        let relpath = &self.config.wsgi.reference_citycounts;
+        Ok(format!("{}/{}", self.root, relpath))
     }
 
     /// Gets the abs path of ref zipcounts.
     pub fn get_reference_zipcounts_path(&self) -> anyhow::Result<String> {
-        let relpath = self
-            .config
-            .get("wsgi", "reference_zipcounts")
-            .context("no wsgi.reference_zipcounts in config")?;
-        Ok(format!("{}/{}", self.root, util::strip_quotes(&relpath)))
+        let relpath = &self.config.wsgi.reference_zipcounts;
+        Ok(format!("{}/{}", self.root, relpath))
     }
 
     /// Gets the global URI prefix.
     pub fn get_uri_prefix(&self) -> String {
-        self.get_with_fallback("uri_prefix", "/osm")
+        self.get_with_fallback(&self.config.wsgi.uri_prefix, "/osm")
     }
 
-    fn get_with_fallback(&self, key: &str, fallback: &str) -> String {
-        match self.config.get("wsgi", key) {
-            Some(value) => util::strip_quotes(&value).to_string(),
+    fn get_with_fallback(&self, option: &Option<String>, fallback: &str) -> String {
+        match option {
+            Some(value) => value.to_string(),
             None => String::from(fallback),
         }
     }
 
     /// Gets the TCP port to be used.
     pub fn get_tcp_port(&self) -> anyhow::Result<i64> {
-        Ok(self.get_with_fallback("tcp_port", "8000").parse::<i64>()?)
+        Ok(self
+            .get_with_fallback(&self.config.wsgi.tcp_port, "8000")
+            .parse::<i64>()?)
     }
 
     /// Gets the URI of the overpass instance to be used.
     pub fn get_overpass_uri(&self) -> String {
-        self.get_with_fallback("overpass_uri", "https://z.overpass-api.de")
+        self.get_with_fallback(&self.config.wsgi.overpass_uri, "https://z.overpass-api.de")
     }
 
     /// Should the cron job update inactive relations?
     pub fn get_cron_update_inactive(&self) -> bool {
-        let value = self.get_with_fallback("cron_update_inactive", "False");
+        let value = self.get_with_fallback(&self.config.wsgi.cron_update_inactive, "False");
         value == "True"
     }
 }

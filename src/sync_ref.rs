@@ -11,7 +11,6 @@
 //! Synchronizes reference data between a public instance and a local dev instance.
 
 use crate::context;
-use crate::util;
 use anyhow::Context as _;
 use std::collections::HashMap;
 use std::io::Write;
@@ -42,42 +41,21 @@ pub fn our_main(
 
     let config_file = ctx.get_abspath("data/wsgi.ini.template");
     if args.get_one::<String>("mode").unwrap() == "download" {
-        let mut config = configparser::ini::Ini::new();
         let config_data = ctx.get_file_system().read_to_string(&config_file)?;
-        config.read(config_data.clone()).unwrap();
+        let config: context::IniConfig = toml::from_str(&config_data)?;
         let mut paths: Vec<String> = Vec::new();
-        let values = util::strip_quotes(
-            &config
-                .get("wsgi", "reference_housenumbers")
-                .context("no wsgi.reference_housenumbers in config")?,
-        )
-        .to_string();
+        let values = config.wsgi.reference_housenumbers;
         paths.append(
             &mut values
                 .split(' ')
                 .map(|value| value.strip_prefix("refdir/").unwrap().to_string())
                 .collect(),
         );
-        let value = util::strip_quotes(
-            &config
-                .get("wsgi", "reference_street")
-                .context("no wsgi.reference_street in config")?,
-        )
-        .to_string();
+        let value = config.wsgi.reference_street;
         paths.push(value.strip_prefix("refdir/").unwrap().to_string());
-        let value = util::strip_quotes(
-            &config
-                .get("wsgi", "reference_citycounts")
-                .context("no wsgi.reference_citycounts in config")?,
-        )
-        .to_string();
+        let value = config.wsgi.reference_citycounts;
         paths.push(value.strip_prefix("refdir/").unwrap().to_string());
-        let value = util::strip_quotes(
-            &config
-                .get("wsgi", "reference_zipcounts")
-                .context("no wsgi.reference_zipcounts in config")?,
-        )
-        .to_string();
+        let value = config.wsgi.reference_zipcounts;
         paths.push(value.strip_prefix("refdir/").unwrap().to_string());
 
         let mut dests: Vec<String> = Vec::new();
