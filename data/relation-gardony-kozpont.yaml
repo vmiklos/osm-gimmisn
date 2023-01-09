@@ -5,6 +5,12 @@ filters:
       - {start: '1', end: '99'}
   Alkotmány utca:
     ranges: []
+  Bikavölgyi út:
+    # 168/42: ez helyrajzi szám, nem házszám.
+    invalid: ['168/42']
+  Határ utca:
+    # 491/30: ez helyrajzi szám, nem házszám.
+    invalid: ['491/30']
   Jókai Mór utca:
     ranges:
       - {start: '1', end: '17'}
@@ -23,4 +29,5 @@ refstreets:
   'Táncsics Mihály utca': 'Táncsics utca'  # táblán Táncsics Mihály utca
   'Vasvári Pál köz': 'Vasvári köz'  # táblán Vasvári Pál köz
 source: survey
+housenumber-letters: true
 inactive: true
