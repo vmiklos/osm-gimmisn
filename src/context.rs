@@ -19,6 +19,8 @@ use std::rc::Rc;
 use std::sync::Arc;
 use std::time::Duration;
 
+use crate::util;
+
 /// File system interface.
 pub trait FileSystem {
     /// Test whether a path exists.
@@ -138,7 +140,7 @@ impl Ini {
             .config
             .get("wsgi", "reference_housenumbers")
             .context("no wsgi.reference_housenumbers in config")?;
-        let relpaths = value.split(' ');
+        let relpaths = util::strip_quotes(&value).split(' ');
         Ok(relpaths
             .map(|relpath| format!("{}/{}", self.root, relpath))
             .collect())
@@ -150,7 +152,7 @@ impl Ini {
             .config
             .get("wsgi", "reference_street")
             .context("no wsgi.reference_street in config")?;
-        Ok(format!("{}/{}", self.root, relpath))
+        Ok(format!("{}/{}", self.root, util::strip_quotes(&relpath)))
     }
 
     /// Gets the abs path of ref citycounts.
@@ -159,7 +161,7 @@ impl Ini {
             .config
             .get("wsgi", "reference_citycounts")
             .context("no wsgi.reference_citycounts in config")?;
-        Ok(format!("{}/{}", self.root, relpath))
+        Ok(format!("{}/{}", self.root, util::strip_quotes(&relpath)))
     }
 
     /// Gets the abs path of ref zipcounts.
@@ -168,7 +170,7 @@ impl Ini {
             .config
             .get("wsgi", "reference_zipcounts")
             .context("no wsgi.reference_zipcounts in config")?;
-        Ok(format!("{}/{}", self.root, relpath))
+        Ok(format!("{}/{}", self.root, util::strip_quotes(&relpath)))
     }
 
     /// Gets the global URI prefix.
@@ -178,7 +180,7 @@ impl Ini {
 
     fn get_with_fallback(&self, key: &str, fallback: &str) -> String {
         match self.config.get("wsgi", key) {
-            Some(value) => value,
+            Some(value) => util::strip_quotes(&value).to_string(),
             None => String::from(fallback),
         }
     }
