@@ -5,16 +5,26 @@ filters:
       - {start: '1', end: '99'}
   Alkotmány utca:
     ranges: []
+  Benczúr Gyula tér:
+    interpolation: 'all'
   Bikavölgyi út:
     # 168/42: ez helyrajzi szám, nem házszám.
-    invalid: ['168/42']
+    invalid: ['168']
+  Csók István tér:
+    interpolation: 'all'
+  Derkovits Gyula tér:
+    interpolation: 'all'
+  Egry József tér:
+    interpolation: 'all'
   Határ utca:
     # 491/30: ez helyrajzi szám, nem házszám.
-    invalid: ['491/30']
+    invalid: ['491']
   Jókai Mór utca:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '98'}
+  Szőnyi István tér:
+    interpolation: 'all'
 refstreets:
   'Áchim András utca': 'Achim András utca'
   'Bem József utca': 'Bem köz'  # az utca egyik végén Bem köz (régi tábla), a másik végén Bem József utca (új tábla) van kitéve. földhivatal Bem utca
