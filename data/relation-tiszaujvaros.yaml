@@ -1,4 +1,6 @@
 missing-streets: 'yes'
+refstreets:
+  'Vasút út': 'Vasút utca'  # ld: https://www.openstreetmap.org/changeset/128977589
 street-filters:
   # tervezett, de még nem kiépült utcák 2022-10
   - Barátság út
