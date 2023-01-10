@@ -7,7 +7,7 @@ caches, so always run `make` after changing the code and before using it.
 
 - Build HTML strings using `yattag`, return a `yattag::Doc` if the result is an escaped string.
 
-# Path handling: make relative paths absolute using `context::Context::get_abspath()`.
+- Path handling: make relative paths absolute using `context::Context::get_abspath()`.
 
 This has the benefit that real and test config/data (under `/` and `tests/`) can be separated via a
 single parameter to the `context::Context` constructor.
