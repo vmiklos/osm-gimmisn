@@ -4,6 +4,7 @@ street-filters:
   # nem igazi utcák / csak hrsz.
   - 162-es őrház
   - 165-ös őrház
+  - Matonyai tanya
   # dupla
   - Agárd-Balatoni út  # Balatoni út
   - Agárd-Gárdonyi utca  # = Gárdonyi Géza utca
@@ -23,6 +24,7 @@ refstreets:
   'Mikszáth utca': 'Mikszáth Kálmán utca'
   'Munkácsy Mihály körút': 'Munkácsy Mihály utca'
   'Napfény Sétány': 'Napfény sétány'
+  'Pálmajorpuszta': 'Pálmajor puszta'
   'Szúnyog utca': 'Szunyog utca'
   'Tímár utca': 'Timár utca'
   # Gárdony ellenőrzött
@@ -51,6 +53,7 @@ refstreets:
   'Gazdász utca': 'Csiribpuszta-Gazdász utca'
   'Nádasdy utca': 'Csiribpuszta-Nádasdy utca'
   'Pál utca': 'Csiribpuszta-Pál utca'
+  'Tamás utca': 'Csiribpuszta-Tamás utca'
   # Dinnyés
   # 'Ady Endre utca': 'Dinnyés-Ady Endre utca' -- Agárd: Ady Endre utca
   # 'Alkotmány utca': 'Dinnyés-Alkotmány utca' -- Agárd: Alkotmány utca
@@ -61,7 +64,5 @@ refstreets:
   'Rákóczi Ferenc utca': 'Dinnyés-Rákóczi utca'  # Agárd: Rákóczi utca
   # 'Rózsa utca': 'Dinnyés-Rózsa utca'  # Gárdony: Rózsa utca
   'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca
-#osm-street-filters:
-# Móricz Zsigmond köz: a helyszínen nem volt utcanévtábla, a földhivatalnál: GÁRDONY belterület 2553/11, 2483 GÁRDONY Névtelen utca.
 source: survey
 inactive: true
