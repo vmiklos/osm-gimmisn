@@ -1,6 +1,6 @@
-= Install instructions
+# Install instructions
 
-== HW requirements
+## HW requirements
 
 - at least 1 CPU core
 
@@ -8,11 +8,11 @@
 
 - at least 1 GB disk space
 
-== Install steps
+## Install steps
 
 - Install dependencies, e.g. on Fedora:
 
-----
+```bash
 dnf install git
 dnf install make
 dnf install npm
@@ -21,30 +21,30 @@ dnf install openssl-devel
 dnf install libicu-devel
 dnf install llvm-devel
 dnf install clang-devel
-----
+```
 
 If the `npm` version in your distribution is too old: `sudo npm install -g n && sudo n stable`.
 
 - Clone the repo:
 
-----
-git clone git://github.com/vmiklos/osm-gimmisn
+```
+git clone https://github.com/vmiklos/osm-gimmisn
 cd osm-gimmisn
-----
+```
 
-- Build the generated code and data:
+- Build the code and cached data:
 
-----
+```
 make
-----
+```
 
 Populate the reference directory with TSV files for the house number and street list:
 
-----
+```
 osm-gimmisn sync-ref --mode download --url https://www.example.com/osm/data/
-----
+```
 
-== Install steps (Windows)
+## Install steps (Windows)
 
 - Install `git` and `cargo`.
 
@@ -52,27 +52,27 @@ osm-gimmisn sync-ref --mode download --url https://www.example.com/osm/data/
 
 - Build the code:
 
-----
+```
 cargo build --release --no-default-features
-----
+```
 
 - Run the validator:
 
-----
-target\release\osm-gimmisn.exe validator data\relation-budapest_11.yaml
-----
+```
+osm-gimmisn.exe validator data\relation-budapest_11.yaml
+```
 
-== Developer setup
+## Developer setup
 
-----
+```
 make run
-----
+```
 
 This allows accessing your local instance for development.
 
-== Production setup
+## Production setup
 
-- The launcher is `target/release/osm-gimmisn rouille`.
+- The launcher is `osm-gimmisn rouille`.
 
 - A sample `osm-gimmisn.service` is provided, you can copy that to
   `/etc/systemd/system/osm-gimmisn.service` and customize it to your needs.
@@ -83,20 +83,20 @@ This allows accessing your local instance for development.
 
 - Optionally, add `cron` as a daily crontab:
 
-----
+```
 # daily, at 0:05
 5 0 * * * cd /home/osm-gimmisn/git/osm-gimmisn && target/release/osm-gimmisn cron --mode all
-----
+```
 
-See `target/release/osm-gimmisn cron --help` for details on what switches are supported for that tool.
+See `osm-gimmisn cron --help` for details on what switches are supported for that tool.
 
-== Custom configuration
+## Custom configuration
 
 `wsgi.ini` contains the configuration. Common keys to be customized (showing the defaults):
 
-----
-uri_prefix = /osm
-tcp_port = 8000
-overpass_uri = https://z.overpass-api.de
-cron_update_inactive = False
-----
+```
+uri_prefix = '/osm'
+tcp_port = '8000'
+overpass_uri = 'https://z.overpass-api.de'
+cron_update_inactive = 'False'
+```
