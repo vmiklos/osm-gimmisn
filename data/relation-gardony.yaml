@@ -13,6 +13,7 @@ street-filters:
   - Dinnyés-Petőfi utca
   - Dinnyés-Rózsa utca
   - Akácfa út  # Akácfa utca
+  - Pálmajor puszta  # Pálmajorpuszta, place nem mappelhető
 refstreets:
   'Áchim András utca': 'Achim András utca'  # önkormányzati dokumentumban Áchim András utca
   'Berzsenyi Dániel utca': 'Berzsenyi utca'  # önkormányzati dokumentumban Berzsenyi utca
@@ -24,7 +25,7 @@ refstreets:
   'Mikszáth utca': 'Mikszáth Kálmán utca'
   'Munkácsy Mihály körút': 'Munkácsy Mihály utca'
   'Napfény Sétány': 'Napfény sétány'
-  'Pálmajorpuszta': 'Pálmajor puszta'
+  # 'Pálmajorpuszta': 'Pálmajor puszta' - place, nem mappelhető
   'Szúnyog utca': 'Szunyog utca'
   'Tímár utca': 'Timár utca'
   # Gárdony ellenőrzött
@@ -64,5 +65,7 @@ refstreets:
   'Rákóczi Ferenc utca': 'Dinnyés-Rákóczi utca'  # Agárd: Rákóczi utca
   # 'Rózsa utca': 'Dinnyés-Rózsa utca'  # Gárdony: Rózsa utca
   'Vörösmarty Mihály utca': 'Dinnyés-Vörösmarty utca'  # Agárd: Vörösmarty utca
+osm-street-filters:
+  - Pálmajorpuszta  # Pálmajor puszta, nem mappelhető
 source: survey
 inactive: true
