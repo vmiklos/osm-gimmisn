@@ -1,6 +1,6 @@
-= Version descriptions
+# Changelog
 
-== master
+## master
 
 - New `/missing-housenumbers/.../view-result.json` endpoint, exposing the missing-housenumbers
   analysis result for a relation in a machine-readable format.
@@ -9,11 +9,11 @@
 - Resolves: gh#2592 cron now creates state for new, inactive relations
 - Resolves: gh#2628 rename `*.expected-data` to `*.overpassql`
 
-== 7.4
+## 7.4
 
 - Ported to chartjs v3, the javascript bundle size is now about 20% smaller
 
-== 7.3
+## 7.3
 
 - Ported to Rust, the missing-housenumbers analysis is now about 5 times faster
 - Resolves: gh#1664 re-try overpass when response is XML (an error message) and CSV was requested
@@ -24,11 +24,11 @@
 - Resolves: gh#1950 fix the validator's exit code to actually fail on validation errors during CI
 - Resolves: gh#2009 stats: separate progressbar for the capital
 
-== 7.2
+## 7.2
 
-- Resolves: gh#964 get_street_from_housenumber: consider addr:place when addr:street is empty
+- Resolves: gh#964 `get_street_from_housenumber`: consider addr:place when addr:street is empty
 
-- Resolves: gh#978 gettext: check wsgi_additional.py for l10n strings
+- Resolves: gh#978 gettext: check `wsgi_additional.py` for l10n strings
 
 - Resolves: gh#1008 invalid refstreets: add to missing/additional streets as well
 
@@ -42,11 +42,11 @@
 
 - Resolves: gh#1126 stats, invalid-relations: ignore relation without an osm street list
 
-- Resolves: gh#1198 tests: fix missing test_config.TestCase base class
+- Resolves: gh#1198 tests: fix missing `test_config.TestCase` base class
 
 - Resolves: gh#1206 Cache missing-housenumbers plain text output
 
-- Resolves: gh#1201 parse_access_log: ignore complete areas harder
+- Resolves: gh#1201 `parse_access_log`: ignore complete areas harder
 
 - Resolves: gh#1209 cron: also cache localized missing housenumbers html output
 
@@ -54,14 +54,14 @@
 
 - Resolves: gh#1408 Fix Hungarian sort order
 
-- Resolves: gh#1463 stats: handle missing files in get_topcities()
+- Resolves: gh#1463 stats: handle missing files in `get_topcities()`
 
 - Resolves: gh#1508 webframe: context time is in utc, datetime.date.fromtimestamp takes a local time
 
-== 7.1
+## 7.1
 
 - Resolves: gh#576 garbage collection: if a relation was created <1 month ago, then ignore it in
-  parse_access_log.py
+  `parse_access_log.py`
 
 - Resolves: gh#578 garbage collection: exclude completed areas
 
@@ -104,13 +104,13 @@
 
 - Resolves: gh#886 additional streets have a proper last update date
 
-== 7.0
+## 7.0
 
 - Resolves: gh#564 wsgi: add support for locale-aware percent formatting
 
 - Resolves: gh#563 city progress: avoid double link
 
-- Resolves: gh#561 cron: update ref.count from reference_citycounts
+- Resolves: gh#561 cron: update ref.count from `reference_citycounts`
 
 - Resolves: gh#521 sync missing-housenumbers and missing-streets toolbars
 
@@ -122,7 +122,7 @@
 
 - The stats feature now tracks the count of house number editors over time
 
-== 6.0
+## 6.0
 
 - The stats feature now has localized strings
 
@@ -149,7 +149,7 @@
 
 - Resolves: gh#372 commercial house numbers now can have comments, visible as tooltips
 
-== 5.0
+## 5.0
 
 - A new `/osm/housenumber-stats/hungary/` page featuring new and all-time house number data
 
@@ -161,7 +161,7 @@
 - gh#363 next to letter suffixes (42/a), now digit
   suffixes are also accepted (42/1). Both are still limited to a single-char suffix (2020-03-23)
 
-== 4.0
+## 4.0
 
 - gh#344 next to the existing "txt" output, a new
   "chkl" output is available for missing house numbers of a relation, providing a plain text
@@ -171,11 +171,11 @@
 
 - complete line coverage for the cron code, which was the last uncovered module
 
-== 3.0
+## 3.0
 
 - complete test coverage for the wsgi code
 
-== 2.0
+## 2.0
 
 - gh#322 alias names are now supported for relations,
   so compatibility (with existing bookmarks) does not break when renaming. (2019-01-10)
@@ -208,7 +208,7 @@
 - gh#204: added possibility to list certain
   reftelepules names when a specific refmegye is selected on the main page. (2019-10-09)
 
-== 1.0
+## 1.0
 
 - Initial release
 

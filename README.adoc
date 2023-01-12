@@ -1,13 +1,12 @@
 = osm-gimmisn
 
 image:https://github.com/vmiklos/osm-gimmisn/workflows/tests/badge.svg["Build Status", link="https://github.com/vmiklos/osm-gimmisn/actions"]
-image:https://tokei.rs/b1/github/vmiklos/osm-gimmisn?category=code["LoC"]
 
 Finds objects missing from the OSM DB. As a start, it finds missing streets and house numbers based
 on a reference list.
 
 The latest version is v7.4, released on 2022-08-02.  See the
-https://github.com/vmiklos/osm-gimmisn/blob/master/NEWS.adoc[release notes].
+https://github.com/vmiklos/osm-gimmisn/blob/master/NEWS.md[release notes].
 
 == Description
 
