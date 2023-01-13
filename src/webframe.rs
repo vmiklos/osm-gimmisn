@@ -433,13 +433,7 @@ pub fn get_toolbar(
 
         let doc = yattag::Doc::new();
         {
-            let a = doc.tag(
-                "a",
-                &[(
-                    "href",
-                    "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
-                )],
-            );
+            let a = doc.tag("a", &[("href", &tr("https://vmiklos.hu/osm-gimmisn"))]);
             a.text(&tr("Documentation"));
         }
         items.push(doc);

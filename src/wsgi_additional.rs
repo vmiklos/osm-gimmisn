@@ -241,7 +241,9 @@ fn additional_housenumbers_view_result_html(
             "a",
             &[(
                 "href",
-                "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
+                &tr(
+                    "https://vmiklos.hu/osm-gimmisn/usage.html#filtering-out-incorrect-information",
+                ),
             )],
         );
         a.text(&tr("Filter incorrect information"));

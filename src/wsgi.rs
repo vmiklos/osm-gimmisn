@@ -233,7 +233,7 @@ fn missing_housenumbers_view_res_html(
                 "a",
                 &[(
                     "href",
-                    "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
+                    &tr("https://vmiklos.hu/osm-gimmisn/usage.html#filtering-out-incorrect-information"),
                 )],
             );
             a.text(&tr("Filter incorrect information"));
@@ -1387,7 +1387,7 @@ fn handle_main(
             "a",
             &[(
                 "href",
-                "https://github.com/vmiklos/osm-gimmisn/tree/master/doc",
+                &tr("https://vmiklos.hu/osm-gimmisn/usage.html#how-to-add-a-new-area"),
             )],
         );
         a.text(&tr("Add new area"));

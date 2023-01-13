@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-13 20:27+0000\n"
+"POT-Creation-Date: 2023-01-13 20:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Waiting for Overpass..."
 msgstr ""
 
-#: src/webframe.rs:392 src/webframe.rs:1093 src/webframe.rs:1117 src/wsgi.rs:1269
+#: src/webframe.rs:392 src/webframe.rs:1087 src/webframe.rs:1111 src/wsgi.rs:1269
 msgid "Error from Overpass: "
 msgstr ""
 
@@ -133,7 +133,7 @@ msgstr ""
 msgid "Creating from reference..."
 msgstr ""
 
-#: src/webframe.rs:397 src/webframe.rs:1141 src/webframe.rs:1161
+#: src/webframe.rs:397 src/webframe.rs:1135 src/webframe.rs:1155
 msgid "Error from reference: "
 msgstr ""
 
@@ -149,240 +149,244 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#: src/webframe.rs:443
+#: src/webframe.rs:436
+msgid "https://vmiklos.hu/osm-gimmisn"
+msgstr ""
+
+#: src/webframe.rs:437
 msgid "Documentation"
 msgstr ""
 
-#: src/webframe.rs:518
+#: src/webframe.rs:512
 msgid "Internal error when serving {0}"
 msgstr ""
 
-#: src/webframe.rs:539
+#: src/webframe.rs:533
 msgid "Not Found"
 msgstr ""
 
-#: src/webframe.rs:543
+#: src/webframe.rs:537
 msgid "The requested URL was not found on this server."
 msgstr ""
 
-#: src/webframe.rs:618 src/webframe.rs:882
+#: src/webframe.rs:612 src/webframe.rs:876
 msgid "City name"
 msgstr ""
 
-#: src/webframe.rs:619 src/webframe.rs:720 src/wsgi.rs:1370
+#: src/webframe.rs:613 src/webframe.rs:714 src/wsgi.rs:1370
 msgid "House number coverage"
 msgstr ""
 
-#: src/webframe.rs:620 src/webframe.rs:721
+#: src/webframe.rs:614 src/webframe.rs:715
 msgid "OSM count"
 msgstr ""
 
-#: src/webframe.rs:621 src/webframe.rs:722
+#: src/webframe.rs:615 src/webframe.rs:716
 msgid "Reference count"
 msgstr ""
 
-#: src/webframe.rs:644 src/webframe.rs:745 src/webframe.rs:994
+#: src/webframe.rs:638 src/webframe.rs:739 src/webframe.rs:988
 msgid "Note"
 msgstr ""
 
-#: src/webframe.rs:649
+#: src/webframe.rs:643
 msgid "These statistics are estimates, not taking house number filters into account.\n"
 "Only cities with house numbers in OSM are considered."
 msgstr ""
 
-#: src/webframe.rs:719
+#: src/webframe.rs:713
 msgid "ZIP code"
 msgstr ""
 
-#: src/webframe.rs:750
+#: src/webframe.rs:744
 msgid "These statistics are estimates, not taking house number filters into account.\n"
 "Only zip codes with house numbers in OSM are considered."
 msgstr ""
 
-#: src/webframe.rs:850
+#: src/webframe.rs:844
 msgid "New house numbers, last 2 weeks, as of {}"
 msgstr ""
 
-#: src/webframe.rs:852
+#: src/webframe.rs:846
 msgid "During this day"
 msgstr ""
 
-#: src/webframe.rs:853 src/webframe.rs:859 src/webframe.rs:917
+#: src/webframe.rs:847 src/webframe.rs:853 src/webframe.rs:911
 msgid "New house numbers"
 msgstr ""
 
-#: src/webframe.rs:856
+#: src/webframe.rs:850
 msgid "New house numbers, last year, as of {}"
 msgstr ""
 
-#: src/webframe.rs:858
+#: src/webframe.rs:852
 msgid "During this month"
 msgstr ""
 
-#: src/webframe.rs:862
+#: src/webframe.rs:856
 msgid "All house numbers, last year, as of {}"
 msgstr ""
 
-#: src/webframe.rs:864
+#: src/webframe.rs:858
 msgid "Latest for this month"
 msgstr ""
 
-#: src/webframe.rs:865 src/webframe.rs:871 src/webframe.rs:918
+#: src/webframe.rs:859 src/webframe.rs:865 src/webframe.rs:912
 msgid "All house numbers"
 msgstr ""
 
-#: src/webframe.rs:868
+#: src/webframe.rs:862
 msgid "All house numbers, last 2 weeks, as of {}"
 msgstr ""
 
-#: src/webframe.rs:870
+#: src/webframe.rs:864
 msgid "At the start of this day"
 msgstr ""
 
-#: src/webframe.rs:874
+#: src/webframe.rs:868
 msgid "Top house number editors, as of {}"
 msgstr ""
 
-#: src/webframe.rs:876
+#: src/webframe.rs:870
 msgid "User name"
 msgstr ""
 
-#: src/webframe.rs:879
+#: src/webframe.rs:873
 msgid "Number of house numbers last changed by this user"
 msgstr ""
 
-#: src/webframe.rs:881
+#: src/webframe.rs:875
 msgid "Top edited cities, as of {}"
 msgstr ""
 
-#: src/webframe.rs:885
+#: src/webframe.rs:879
 msgid "Number of house numbers added in the past 30 days"
 msgstr ""
 
-#: src/webframe.rs:887
+#: src/webframe.rs:881
 msgid "(empty)"
 msgstr ""
 
-#: src/webframe.rs:888
+#: src/webframe.rs:882
 msgid "(invalid)"
 msgstr ""
 
-#: src/webframe.rs:891
+#: src/webframe.rs:885
 msgid "Number of house number editors, as of {}"
 msgstr ""
 
-#: src/webframe.rs:893
+#: src/webframe.rs:887
 msgid "All editors"
 msgstr ""
 
-#: src/webframe.rs:896
+#: src/webframe.rs:890
 msgid "Number of editors, at least one housenumber is last changed by these users"
 msgstr ""
 
-#: src/webframe.rs:898
+#: src/webframe.rs:892
 msgid "Coverage is {1}%, as of {2}"
 msgstr ""
 
-#: src/webframe.rs:901
+#: src/webframe.rs:895
 msgid "Number of house numbers in database"
 msgstr ""
 
-#: src/webframe.rs:903
+#: src/webframe.rs:897
 msgid "Data source"
 msgstr ""
 
-#: src/webframe.rs:906
+#: src/webframe.rs:900
 msgid "Coverage is {1}% for the capital, as of {2}"
 msgstr ""
 
-#: src/webframe.rs:910
+#: src/webframe.rs:904
 msgid "Number of house numbers in database for the capital"
 msgstr ""
 
-#: src/webframe.rs:912
+#: src/webframe.rs:906
 msgid "Reference"
 msgstr ""
 
-#: src/webframe.rs:919
+#: src/webframe.rs:913
 msgid "New house numbers, monthly"
 msgstr ""
 
-#: src/webframe.rs:920
+#: src/webframe.rs:914
 msgid "All house numbers, monthly"
 msgstr ""
 
-#: src/webframe.rs:921
+#: src/webframe.rs:915
 msgid "Top house number editors"
 msgstr ""
 
-#: src/webframe.rs:922
+#: src/webframe.rs:916
 msgid "Top edited cities"
 msgstr ""
 
-#: src/webframe.rs:923
+#: src/webframe.rs:917
 msgid "All house number editors"
 msgstr ""
 
-#: src/webframe.rs:924
+#: src/webframe.rs:918
 msgid "Coverage"
 msgstr ""
 
-#: src/webframe.rs:925
+#: src/webframe.rs:919
 msgid "Capital coverage"
 msgstr ""
 
-#: src/webframe.rs:926
+#: src/webframe.rs:920
 msgid "Per-city coverage"
 msgstr ""
 
-#: src/webframe.rs:927
+#: src/webframe.rs:921
 msgid "Per-ZIP coverage"
 msgstr ""
 
-#: src/webframe.rs:928
+#: src/webframe.rs:922
 msgid "Invalid relation settings"
 msgstr ""
 
-#: src/webframe.rs:999
+#: src/webframe.rs:993
 msgid "These statistics are provided purely for interested editors, and are not\n"
 "intended to reflect quality of work done by any given editor in OSM. If you want to use\n"
 "them to motivate yourself, that's fine, but keep in mind that a bit of useful work is\n"
 "more meaningful than a lot of useless work."
 msgstr ""
 
-#: src/webframe.rs:1074
+#: src/webframe.rs:1068
 msgid "No such relation: {0}"
 msgstr ""
 
-#: src/webframe.rs:1086
+#: src/webframe.rs:1080
 msgid "No existing streets: call Overpass to create..."
 msgstr ""
 
-#: src/webframe.rs:1091
+#: src/webframe.rs:1085
 msgid "No existing streets: waiting for Overpass..."
 msgstr ""
 
-#: src/webframe.rs:1109
+#: src/webframe.rs:1103
 msgid "No existing house numbers: call Overpass to create..."
 msgstr ""
 
-#: src/webframe.rs:1115
+#: src/webframe.rs:1109
 msgid "No existing house numbers: waiting for Overpass..."
 msgstr ""
 
-#: src/webframe.rs:1133
+#: src/webframe.rs:1127
 msgid "No reference house numbers: create from reference..."
 msgstr ""
 
-#: src/webframe.rs:1139
+#: src/webframe.rs:1133
 msgid "No reference house numbers: creating from reference..."
 msgstr ""
 
-#: src/webframe.rs:1154
+#: src/webframe.rs:1148
 msgid "No street list: create from reference..."
 msgstr ""
 
-#: src/webframe.rs:1159
+#: src/webframe.rs:1153
 msgid "No reference streets: creating from reference..."
 msgstr ""
 
@@ -410,7 +414,11 @@ msgstr ""
 msgid " (existing: {0}, ready: {1})."
 msgstr ""
 
-#: src/wsgi.rs:239 src/wsgi_additional.rs:247
+#: src/wsgi.rs:236 src/wsgi_additional.rs:245
+msgid "https://vmiklos.hu/osm-gimmisn/usage.html#filtering-out-incorrect-information"
+msgstr ""
+
+#: src/wsgi.rs:239 src/wsgi_additional.rs:249
 msgid "Filter incorrect information"
 msgstr ""
 
@@ -520,6 +528,10 @@ msgstr ""
 
 #: src/wsgi.rs:1372
 msgid "Street coverage"
+msgstr ""
+
+#: src/wsgi.rs:1390
+msgid "https://vmiklos.hu/osm-gimmisn/usage.html#how-to-add-a-new-area"
 msgstr ""
 
 #: src/wsgi.rs:1393
