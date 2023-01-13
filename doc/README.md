@@ -1,8 +1,8 @@
-= Using osm-gimmisn
+# Using osm-gimmisn
 
-== Up to date list of missing streets and house numbers
+## Up to date list of missing streets and house numbers
 
-The https://osm-gimmisn.vmiklos.hu/osm[website] provides you with hints regarding where to map
+The [website](https://osm-gimmisn.vmiklos.hu/osm) provides you with hints regarding where to map
 house numbers. The main page has the following columns:
 
 - House number coverage: lists missing house numbers.
@@ -34,52 +34,53 @@ The missing house numbers are colored:
 
 - black means a residential house number
 
-- blue means a commercial house number (text view: '*' suffix)
+- blue means a commercial house number (text view: `*` suffix)
 
 - commercial house numbers can have comments, you can see them if you hover your mouse over them
 
-NOTE: in case there is both a letter suffix and a source suffix, then the syntax is '42/A*', i.e.
+NOTE: in case there is both a letter suffix and a source suffix, then the syntax is `42/A*`, i.e.
 first the letter suffix, and then the source suffix.
 
-== How to add a new area
+## How to add a new area
 
 A settlement, village or district of a large city is represented in the OSM database as relations.
 Based on this, osm-gimmisn refers to managed areas as relations. To add a new relation, you need to
 do the following steps:
 
-- Be prepared to edit the https://github.com/vmiklos/osm-gimmisn[git repository]. This is possible
+- Be prepared to edit the [git repository](https://github.com/vmiklos/osm-gimmisn). This is possible
   via command-line `git clone` or via
-  https://help.github.com/en/articles/editing-files-in-your-repository[web-based editing].
+  [web-based editing](https://help.github.com/en/articles/editing-files-in-your-repository).
 
-- Search for the relation on https://www.openstreetmap.org[osm.org], e.g. 'Kelenföld, Budapest'. The
+- Search for the relation on [osm.org](https://www.openstreetmap.org), e.g. 'Kelenföld, Budapest'. The
   first hit is usually a relation link, e.g. https://www.openstreetmap.org/relation/2700869. Now you
   know the OSM identifier of the relation.
 
 You'll also need the county reference ('refcounty' below) and settlement reference ('refsettlement'
 below) of the area, you can find codes for Hungary in the
-https://github.com/vmiklos/osm-gimmisn/blob/master/doc/refcodes[refcodes] file.
+[refcodes](https://github.com/vmiklos/osm-gimmisn/blob/master/doc/refcodes) file.
 
 (These codes are specific to Hungary, but in case your country has a larger and smaller container
 for streets and house numbers, it's easy to adapt.)
 
 - Add a new entry to the `data/relations.yaml` file in the git repository, using the following form:
 
-----
+```yaml
 kelenfold:
     missing-streets: "no"
     osmrelation: 2700869
     refcounty: "01"
     refsettlement: "011"
-----
+```
 
-Names are snake_case by convention, e.g. `kelenfold`. The other fields should match the values you
+Names are `snake_case` by convention, e.g. `kelenfold`. The other fields should match the values you
 obtained in the previous bullet point. (`missing-streets: "no"` means that this OSM relation is
 only a subset of the referenced settlement, so it's pointless to search for missing streets here.)
 
-- Finally you can send your modification as a https://github.com/vmiklos/osm-gimmisn/pull/new[pull
-  request], it'll be probably accepted after review.
+- Finally you can send your modification as a [pull
+  request](https://github.com/vmiklos/osm-gimmisn/pull/new), it'll be probably accepted after
+  review.
 
-== Filtering (out) incorrect information
+## Filtering (out) incorrect information
 
 This action is similar to adding a new relation, but in this case you'll need to work with a file
 dedicated to detailed information about the relation. The path derives from the relation name, e.g.
@@ -99,17 +100,17 @@ OSM database. The following steps area needed to silence this hint of osm-gimmis
 
 - You can describe the Magasúti köz street like this:
 
-----
+```yaml
   Magasúti köz:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
-----
+```
 
 This is a machine-readable way of describing your survey result. In case the OSM and the reference
 name of the street differs, use the OSM name here.
 
-- Send a https://github.com/vmiklos/osm-gimmisn/pull/new[pull request] to contribute your created
+- Send a [pull request](https://github.com/vmiklos/osm-gimmisn/pull/new) to contribute your created
   filter, and then the website will be updated accordingly.
 
 In other words, there is only minimal filtering for the reference data (1-999 and 2-998 is
@@ -119,10 +120,10 @@ numbers with ranges, and whatever is not in this range will be filtered out.
 An alternative way of filtering out invalid data from the reference is explicitly stating what items
 are invalid:
 
-----
+```yaml
   Magasúti köz:
     invalid: ['7', '11']
-----
+```
 
 Sometimes this results in a more compact filter than the above presented `ranges` way. Note that the
 values of the invalid list is compared to house numbers after normalization, e.g. '47/49D' can be
@@ -133,7 +134,7 @@ case '42a' is normalized to '42', you can write '42a' in the invalid list, and i
 This has the benefit that the `invalid` items will keep working even if you later decide to set the
 `housenumber-letters: true` mode.
 
-== Searching for missing streets
+## Searching for missing streets
 
 The yaml format is like this:
 
@@ -150,7 +151,7 @@ For each reported missing street, the outcomes can be the followings:
 
 - silence the street name if it should have no equivalent in OSM (`street-filters` key)
 
-== Searching for additional streets
+## Searching for additional streets
 
 The purpose of this check is to detect street names in OSM, which are not in the reference, i.e.
 "additional" is the opposite of "missing".
@@ -164,7 +165,7 @@ For each reported additional street, the outcomes can be the followings:
 
 - silence the street name if it should have no equivalent in the reference (`osm-street-filters` key)
 
-== Advanced topics
+## Advanced topics
 
 Apart from filtering out noise, you can also specify other settings, though these are needed less
 frequently:
@@ -225,27 +226,25 @@ OSM is fixed or `show-refstreet: false` is added.
 It is expected that "normalization" not only filters out noise from the reference, but also expands
 housenumber ranges in a sensible way. Here are some examples:
 
-[options="header"]
-|=======
-|Case ID|Given a range |When this setting is used |Expands to
-|1 |139 |range is `{start: '137', end: '165'}` |139 as it is in range
-|2 |999 |range is `{start: '137', end: '165'}` |Empty list as it is not in range
-|3 |x |Defaults |Empty list as it is not a number
-|4 |1 |Defaults | 1, as the default ranges are 1-999 and 2-998
-|5 |1;2 |Defaults | 1 and 2 as a semicolon is a separator
-|6 |2-6 |Defaults |2, 4, and 6 as the even range is expanded
-|7 |5-8 |Defaults |5 and 8 as the parity doesn't match
-|8 |2-5 |`interpolation=all` |2, 3, 4 and 5
-|9 |163-167 |range is `{start: '137', end: '165'}` |163 and 165, no 167
-|10 |2-2000 |Defaults |2 because 2000 large(r than 1000)
-|11 |2-56 |Defaults |2 and 56 because the diff of two is large(r than 24)
-|12 |0-42 |Defaults |42 because 0 is too small
-|13 |42-1 |Defaults |42 because -1 is considered as a suffix
-|=======
+|Case ID|Given a range|When this setting is used             |Expands to                                           |
+|-------|-------------|--------------------------------------|-----------------------------------------------------|
+|1      |139          |range is `{start: '137', end: '165'}` |139 as it is in range                                |
+|2      |999          |range is `{start: '137', end: '165'}` |Empty list as it is not in range                     |
+|3      |x            |Defaults                              |Empty list as it is not a number                     |
+|4      |1            |Defaults                              |1, as the default ranges are 1-999 and 2-998         |
+|5      |1;2          |Defaults                              |1 and 2 as a semicolon is a separator                |
+|6      |2-6          |Defaults                              |2, 4, and 6 as the even range is expanded            |
+|7      |5-8          |Defaults                              |5 and 8 as the parity doesn't match                  |
+|8      |2-5          |`interpolation=all`                   |2, 3, 4 and 5                                        |
+|9      |163-167      |range is `{start: '137', end: '165'}` |163 and 165, no 167                                  |
+|10     |2-2000       |Defaults                              |2 because 2000 large(r than 1000)                    |
+|11     |2-56         |Defaults                              |2 and 56 because the diff of two is large(r than 24) |
+|12     |0-42         |Defaults                              |42 because 0 is too small                            |
+|13     |42-1         |Defaults                              |42 because -1 is considered as a suffix              |
 
-See the tests in `src/areas.rs` for even more details.
+See the tests in `src/areas/tests.rs` for even more details.
 
-=== Additional house numbers analysis
+### Additional house numbers analysis
 
 This is the opposite of missing housenumbers, i.e. check for OSM objects which are not in the
 reference. This can be helpful to find errors, but use it with care: just because you did not find a
@@ -253,19 +252,19 @@ housenumber by survey, it doesn't mean it has to be deleted.
 
 The way to filter out valid data from the OSM list is to explicitly state what items are valid:
 
-----
+```yaml
   Magasúti köz:
     valid: ['13', '15']
-----
+```
 
-=== Automerge workflow for committers
+### Automerge workflow for committers
 
 If you contribute to osm-gimmisn frequently, then you'll likely get self-review permissions granted.
 Once that's the case you can use this workflow to submit your changes in a fire & forget way, from
 command-line:
 
 - Once:
-  https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account[set up your ssh key]
+  [set up your ssh key](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
 
 - Once: `git clone git@github.com:vmiklos/osm-gimmisn`
 
@@ -274,23 +273,23 @@ command-line:
 - For each PR: this can be repeated in case you want multiple commits in a single PR or CI finds an
   error:
 
-----
+```console
 git fetch --prune # if the PR has been merged on the server, then the remote private/$USER/master has been deleted, we learn about that here
 git rebase origin/master # we work on a fresh master
 ... hack hack hack ...
 git commit -a -m "data: blabla"
 git show # optional but recommended: review your changes, "q" quits from less
 git push origin master:private/$USER/master
-----
+```
 
-- After this, open the PR https://github.com/vmiklos/osm-gimmisn/pull/new/private/$USER/master[from
-  your browser]
+- After this, open the PR [from your browser](https://github.com/vmiklos/osm-gimmisn/pull/new/private/$USER/master)
 
 - Agree to create the PR, finally push the
-  https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request[Enable
-  auto-merge] button.
+  [Enable
+  auto-merge](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request)
+  button.
 
-=== Developer API
+### Developer API
 
 In case the `/missing-housenumbers/.../view-result` HTML output looks interesting to you and you
 would like to use that information in your application, no need to scrape the webpage, you can get
@@ -299,22 +298,22 @@ the raw input of that analysis as `/missing-housenumbers/.../view-result.json` i
 Similarly, the `/additional-housenumbers/.../view-result` HTML output has a matching
 `/additional-housenumbers/.../view-result.json`.
 
-== Reporting issues
+## Reporting issues
 
-You can file a new issue (bugreport, feature request) at https://github.com/vmiklos/osm-gimmisn/issues/new[GitHub]. Please always describe a single problem.
+You can file a new issue (bugreport, feature request) at [GitHub](https://github.com/vmiklos/osm-gimmisn/issues/new). Please always describe a single problem.
 
 Here is a minimal template:
 
-=== Reproducer steps
+### Reproducer steps
 
 1. First step
 2. Second step
 3. Third step
 
-=== Actual result
+### Actual result
 
 A description of what happens currently.
 
-=== Expected behavior
+### Expected behavior
 
 A description of what you expected to happen.
