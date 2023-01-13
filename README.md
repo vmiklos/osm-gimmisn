@@ -5,13 +5,12 @@
 Finds objects missing from the OSM DB. As a start, it finds missing streets and house numbers based
 on a reference list.
 
-The latest version is v7.4, released on 2022-08-02.  See the
-[release notes](https://github.com/vmiklos/osm-gimmisn/blob/master/NEWS.md).
-
 ## Description
 
-It works by fetching the street and house number list for a relation (area), then suggesting what
-possibly missing objects are a good idea to survey.
+Check out the [user guide](https://vmiklos.hu/osm-gimmisn/) for a list of features and installation
+and usage information.
 
-You can see this in action at public instances: [vmiklos.hu](https://osm-gimmisn.vmiklos.hu/osm),
-[vasony.hu](https://osm.vasony.hu/).
+## License
+
+Use of this source code is governed by a BSD-style license that can be found in
+the LICENSE file.

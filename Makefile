@@ -173,4 +173,7 @@ tags:
 	rusty-tags vi
 	ln -sf rusty-tags.vi tags
 
+run-guide:
+	cd guide && mdbook serve --hostname 127.0.0.1
+
 .PHONY: tags

@@ -1,4 +1,4 @@
-# Using osm-gimmisn
+# Usage
 
 ## Up to date list of missing streets and house numbers
 
@@ -57,7 +57,7 @@ do the following steps:
 
 You'll also need the county reference ('refcounty' below) and settlement reference ('refsettlement'
 below) of the area, you can find codes for Hungary in the
-[refcodes](https://github.com/vmiklos/osm-gimmisn/blob/master/doc/refcodes) file.
+[refcodes](https://github.com/vmiklos/osm-gimmisn/blob/master/guide/refcodes) file.
 
 (These codes are specific to Hungary, but in case your country has a larger and smaller container
 for streets and house numbers, it's easy to adapt.)
@@ -297,23 +297,3 @@ the raw input of that analysis as `/missing-housenumbers/.../view-result.json` i
 
 Similarly, the `/additional-housenumbers/.../view-result` HTML output has a matching
 `/additional-housenumbers/.../view-result.json`.
-
-## Reporting issues
-
-You can file a new issue (bugreport, feature request) at [GitHub](https://github.com/vmiklos/osm-gimmisn/issues/new). Please always describe a single problem.
-
-Here is a minimal template:
-
-### Reproducer steps
-
-1. First step
-2. Second step
-3. Third step
-
-### Actual result
-
-A description of what happens currently.
-
-### Expected behavior
-
-A description of what you expected to happen.

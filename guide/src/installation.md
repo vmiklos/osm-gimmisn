@@ -1,4 +1,4 @@
-# Install instructions
+# Installation
 
 ## HW requirements
 
@@ -27,20 +27,20 @@ If the `npm` version in your distribution is too old: `sudo npm install -g n && 
 
 - Clone the repo:
 
-```
+```bash
 git clone https://github.com/vmiklos/osm-gimmisn
 cd osm-gimmisn
 ```
 
 - Build the code and cached data:
 
-```
+```bash
 make
 ```
 
 Populate the reference directory with TSV files for the house number and street list:
 
-```
+```bash
 osm-gimmisn sync-ref --mode download --url https://www.example.com/osm/data/
 ```
 
@@ -52,19 +52,19 @@ osm-gimmisn sync-ref --mode download --url https://www.example.com/osm/data/
 
 - Build the code:
 
-```
+```bash
 cargo build --release --no-default-features
 ```
 
 - Run the validator:
 
-```
+```bash
 osm-gimmisn.exe validator data\relation-budapest_11.yaml
 ```
 
 ## Developer setup
 
-```
+```bash
 make run
 ```
 
@@ -83,7 +83,7 @@ This allows accessing your local instance for development.
 
 - Optionally, add `cron` as a daily crontab:
 
-```
+```cron
 # daily, at 0:05
 5 0 * * * cd /home/osm-gimmisn/git/osm-gimmisn && target/release/osm-gimmisn cron --mode all
 ```
@@ -94,7 +94,7 @@ See `osm-gimmisn cron --help` for details on what switches are supported for tha
 
 `wsgi.ini` contains the configuration. Common keys to be customized (showing the defaults):
 
-```
+```toml
 uri_prefix = '/osm'
 tcp_port = '8000'
 overpass_uri = 'https://z.overpass-api.de'
