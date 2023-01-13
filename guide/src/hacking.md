@@ -70,7 +70,7 @@ valgrind --tool=callgrind target/symbols/osm-gimmisn missing_housenumbers budape
 
 ## YAML schema
 
-The YAML schema is meant to provide reference documentation in the long run, so doc/README.adoc can
+The YAML schema is meant to provide reference documentation in the long run, so guide/src/usage.md can
 focus on tutorial documentation.
 
 ```bash
