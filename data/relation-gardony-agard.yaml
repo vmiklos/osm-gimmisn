@@ -13,14 +13,13 @@ refstreets:
   'Akácfa utca': 'Akácfa út'
   'Lehel vezér utca': 'Lehel utca'
   'Mikszáth utca': 'Mikszáth Kálmán utca'
-  'Napfény Sétány': 'Napfény sétány'
   'Szúnyog utca': 'Szunyog utca'
   'Tímár utca': 'Timár utca'
   # Agárd
   'Alkotmány utca': 'Agárd-Alkotmány utca'
   'Balatoni út': 'Agárd-Balatoni út'
-  'Gárdonyi Géza utca': 'Agárd-Gárdonyi utca'
-  'Petőfi Sándor utca': Agárd-Petőfi utca
+  'Gárdonyi Géza utca': 'Agárd-Gárdonyi utca' # táblán Gárdonyi Géza utca
+  'Petőfi Sándor utca': Agárd-Petőfi utca  # táblák vegyesen?
   'Iskola utca': 'Agárd-Iskola utca'
   'Vasút utca': 'Agárd-Vasút utca'
   # Csiribpuszta
