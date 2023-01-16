@@ -31,3 +31,4 @@ osm-gimmisn has been used on Linux, but the data validator is known to work Wind
 ## License
 
 Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+See the [license bundle](license.html) for details.

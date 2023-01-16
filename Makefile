@@ -173,7 +173,11 @@ tags:
 	rusty-tags vi
 	ln -sf rusty-tags.vi tags
 
+guide:
+	cd guide && mdbook build
+	cargo about generate about.hbs > guide/book/license.html
+
 run-guide:
 	cd guide && mdbook serve --hostname 127.0.0.1
 
-.PHONY: tags
+.PHONY: tags guide
