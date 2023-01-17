@@ -1,7 +1,12 @@
 missing-streets: 'yes'
-#osm-street-filters:
+osm-street-filters:
   # Nem igazi utca
+  - Nyári gát
+  # Erdészeti utak
+  - Király-völgyi út
+  - Pap-réti út
   # Parkok, sétautak amire nincs számozva semmi
+  - Tiranon-park
   # Területhatáron lévő utca
 #street-filters:
   # Tanyák
