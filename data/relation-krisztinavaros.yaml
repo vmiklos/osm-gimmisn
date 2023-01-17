@@ -146,6 +146,9 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '6'}
+  Palota út:
+    # this is outside the relation
+    invalid: ['1']
   Pethényi út:
     ranges: []
   Ráth György utca:
@@ -182,6 +185,9 @@ filters:
     refsettlement: '012'
     ranges:
       - {start: '2', end: '2'}
+  Tóth Árpád sétány:
+    # var
+    ranges: []
   Ugocsa utca:
     # 1 is only block end
     ranges:
@@ -214,9 +220,6 @@ filters:
       - {start: '2', end: '10'}
   Zerge lépcső:
     ranges: []
-  Palota út:
-    # this is outside the relation
-    invalid: ['1']
 source: survey
 housenumber-letters: false
 inactive: true
