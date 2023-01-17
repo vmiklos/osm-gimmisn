@@ -9,17 +9,14 @@ filters:
   Szabadság út:
     ranges: []
 refstreets:
-  'Áchim András utca': 'Achim András utca'
   'Akácfa utca': 'Akácfa út'
-  'Lehel vezér utca': 'Lehel utca'
-  'Mikszáth utca': 'Mikszáth Kálmán utca'
-  'Szúnyog utca': 'Szunyog utca'
+  'Szúnyog utca': 'Szunyog utca'  # új táblákon Szúnyog utca
   'Tímár utca': 'Timár utca'
   # Agárd
   'Alkotmány utca': 'Agárd-Alkotmány utca'
   'Balatoni út': 'Agárd-Balatoni út'
   'Gárdonyi Géza utca': 'Agárd-Gárdonyi utca' # táblán Gárdonyi Géza utca
-  'Petőfi Sándor utca': Agárd-Petőfi utca  # táblák vegyesen?
+  'Petőfi Sándor utca': Agárd-Petőfi utca  # táblák vegyesen
   'Iskola utca': 'Agárd-Iskola utca'
   'Vasút utca': 'Agárd-Vasút utca'
   # Csiribpuszta
