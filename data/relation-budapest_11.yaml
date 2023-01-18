@@ -1290,7 +1290,8 @@ filters:
       - {start: '31', end: '45'}
       - {start: '2', end: '20'}
   Nándorfejérvári út:
-    invalid: ['5a', '7', '8', '15a', '16a', '17b', '20c', '31a', '31b', '31c', '31d']
+    # 36-40: a, b, c, d épületek, a kapun 40, a portás szerint viszont 36-40. Ezen kívül van még egy 40/a bejárat is a fitnessnél
+    invalid: ['5a', '7', '8', '15a', '16a', '17b', '20c', '31a', '31b', '31c', '31d', '40d']
     ranges:
       - {start: '1', end: '9'}
       - {start: '13', end: '25'}
