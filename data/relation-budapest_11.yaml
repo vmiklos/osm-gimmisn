@@ -2839,10 +2839,11 @@ filters:
     invalid: ['22a', '29a']
   Hegytető utca:
     # 7: 7/a, 7/b
+    # 11a: csak 11
     # 13: 13/a, 13/b
     # 15: másik utcáról számozva
     # 20a: 20-nak van jelölve, nincs kiírva semmi, 20/b van kint a másik felén
-    invalid: ['7', '13', '15b', '20a']
+    invalid: ['7', '11a', '13', '15b', '20a']
   Hermánd utca:
     # 10/b: nincs kiríva se ez se az Antónia lépcső 6, de innen van a főbejárat
     # 23: 23/a ki van írva, a másik felén a háznak nincs szám
