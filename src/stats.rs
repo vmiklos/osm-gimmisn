@@ -77,21 +77,12 @@ fn handle_capital_progress(
         let stream = ctx.get_file_system().open_read(&ref_path)?;
         let mut guard = stream.borrow_mut();
         let mut read = guard.deref_mut();
-        let mut csv_read = util::CsvRead::new(&mut read);
-        let mut first = true;
-        let mut columns: HashMap<String, usize> = HashMap::new();
-        for result in csv_read.records() {
-            let row = result?;
-            if first {
-                first = false;
-                for (index, label) in row.iter().enumerate() {
-                    columns.insert(label.into(), index);
-                }
-                continue;
-            }
+        let mut csv_reader = util::make_csv_reader(&mut read);
+        for result in csv_reader.deserialize() {
+            let row: util::CityCount = result?;
 
-            if row[*columns.get("VAROS").unwrap()].starts_with("budapest_") {
-                ref_count += row[*columns.get("CNT").unwrap()].parse::<i32>()?;
+            if row.city.starts_with("budapest_") {
+                ref_count += row.count;
             }
         }
     }
