@@ -572,14 +572,18 @@ fn handle_stats_cityprogress(
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     let mut first = true;
+    let mut columns: HashMap<String, usize> = HashMap::new();
     for result in csv_read.records() {
+        let row = result?;
         if first {
             first = false;
+            for (index, label) in row.iter().enumerate() {
+                columns.insert(label.into(), index);
+            }
             continue;
         }
-        let row = result?;
-        let city = row.get(0).unwrap();
-        let count: u64 = row.get(1).unwrap().parse()?;
+        let city = &row[*columns.get("VAROS").unwrap()];
+        let count: u64 = row[*columns.get("CNT").unwrap()].parse()?;
         ref_citycounts.insert(city.into(), count);
     }
     let date_time = ctx.get_time().now();
