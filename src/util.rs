@@ -397,6 +397,26 @@ impl<'a> CsvRead<'a> {
     }
 }
 
+/// One row in refdir/city_count_<DATE>.tsv.
+#[derive(serde::Deserialize)]
+pub struct CityCount {
+    /// City name.
+    #[serde(rename = "VAROS")]
+    pub city: String,
+    /// Reference count of all housenumbers.
+    #[serde(rename = "CNT")]
+    pub count: u64,
+}
+
+/// Creates a new CsvRead.
+pub fn make_csv_reader(read: &mut dyn Read) -> csv::Reader<&mut dyn Read> {
+    let reader = csv::ReaderBuilder::new()
+        .delimiter(b'\t')
+        .double_quote(true)
+        .from_reader(read);
+    reader
+}
+
 /// Splits house_number into a numerical and a remainder part.
 pub fn split_house_number(house_number: &str) -> (i32, String) {
     let mut number = 0;

@@ -570,21 +570,10 @@ fn handle_stats_cityprogress(
         .open_read(&ctx.get_ini().get_reference_citycounts_path()?)?;
     let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
-    let mut csv_read = util::CsvRead::new(&mut read);
-    let mut first = true;
-    let mut columns: HashMap<String, usize> = HashMap::new();
-    for result in csv_read.records() {
-        let row = result?;
-        if first {
-            first = false;
-            for (index, label) in row.iter().enumerate() {
-                columns.insert(label.into(), index);
-            }
-            continue;
-        }
-        let city = &row[*columns.get("VAROS").unwrap()];
-        let count: u64 = row[*columns.get("CNT").unwrap()].parse()?;
-        ref_citycounts.insert(city.into(), count);
+    let mut csv_reader = util::make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: util::CityCount = result?;
+        ref_citycounts.insert(row.city, row.count);
     }
     let date_time = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;

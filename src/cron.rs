@@ -442,16 +442,11 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
             .open_read(&ctx.get_ini().get_reference_citycounts_path()?)?;
         let mut guard = stream.borrow_mut();
         let mut read = guard.deref_mut();
-        let mut csv_read = util::CsvRead::new(&mut read);
-        let mut first = true;
-        for result in csv_read.records() {
-            let row = result?;
-            if first {
-                first = false;
-                continue;
-            }
+        let mut csv_reader = util::make_csv_reader(&mut read);
+        for result in csv_reader.deserialize() {
+            let row: util::CityCount = result?;
 
-            count += row[1].parse::<i32>()?;
+            count += row.count;
         }
     }
 
