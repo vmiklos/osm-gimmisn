@@ -642,6 +642,17 @@ Only cities with house numbers in OSM are considered."#,
     Ok(doc)
 }
 
+/// One row in refdir/zip_count_<DATE>.tsv.
+#[derive(serde::Deserialize)]
+struct ZipCount {
+    /// Zip name.
+    #[serde(rename = "IRSZ")]
+    pub zip: String,
+    /// Reference count of all housenumbers.
+    #[serde(rename = "CNT")]
+    pub count: u64,
+}
+
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/zipprogress.
 fn handle_stats_zipprogress(
     ctx: &context::Context,
@@ -664,17 +675,10 @@ fn handle_stats_zipprogress(
         .open_read(&ctx.get_ini().get_reference_zipcounts_path()?)?;
     let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
-    let mut csv_read = util::CsvRead::new(&mut read);
-    let mut first = true;
-    for result in csv_read.records() {
-        if first {
-            first = false;
-            continue;
-        }
-        let row = result?;
-        let zip = row.get(0).unwrap();
-        let count: u64 = row.get(1).unwrap().parse()?;
-        ref_zipcounts.insert(zip.into(), count);
+    let mut csv_reader = util::make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: ZipCount = result?;
+        ref_zipcounts.insert(row.zip, row.count);
     }
     let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;
