@@ -375,7 +375,7 @@ impl PartialOrd for HouseNumber {
     }
 }
 
-/// Like Read, but for CSV reading.
+/// Like Read, but for untyped CSV reading.
 pub struct CsvRead<'a> {
     reader: csv::Reader<&'a mut dyn Read>,
 }
@@ -408,7 +408,7 @@ pub struct CityCount {
     pub count: u64,
 }
 
-/// Creates a new CsvRead.
+/// Creates a new typed CSV reader.
 pub fn make_csv_reader(read: &mut dyn Read) -> csv::Reader<&mut dyn Read> {
     let reader = csv::ReaderBuilder::new()
         .delimiter(b'\t')
@@ -608,6 +608,29 @@ type HouseNumberWithComment = Vec<String>;
 pub type HouseNumberReferenceCache =
     HashMap<String, HashMap<String, HashMap<String, Vec<HouseNumberWithComment>>>>;
 
+/// One row in refdir/housenumbers_<DATE>.tsv.
+#[derive(serde::Deserialize)]
+pub struct RefHouseNumber {
+    /// County code.
+    #[serde(rename = "MEGYEKOD")]
+    pub county: String,
+    /// Settlement code.
+    #[serde(rename = "TELEPULESKOD")]
+    pub settlement: String,
+    /// Street name.
+    #[serde(rename = "KOZTERULET")]
+    pub street: String,
+    /// House number.
+    #[serde(rename = "HAZSZAM")]
+    pub housenumber: Option<String>,
+    /// Alternative house number.
+    #[serde(rename = "UPPER(HAZSZAM)")]
+    pub alt_housenumber: Option<String>,
+    /// Comment.
+    #[serde(rename = "CIM")]
+    pub comment: Option<String>,
+}
+
 /// Builds an in-memory cache from the reference on-disk TSV (house number version).
 pub fn build_reference_cache(
     ctx: &context::Context,
@@ -627,45 +650,27 @@ pub fn build_reference_cache(
         }
     }
 
-    let mut stream = std::io::BufReader::new(
+    let mut read = std::io::BufReader::new(
         std::fs::File::open(local).context(format!("failed to open {}", local))?,
     );
-    let mut csv_read = CsvRead::new(&mut stream);
-    let mut first = true;
-    let mut columns: HashMap<String, usize> = HashMap::new();
-    for result in csv_read.records() {
-        let row = result?;
-        if first {
-            first = false;
-            for (index, label) in row.iter().enumerate() {
-                columns.insert(label.into(), index);
-            }
+    let mut csv_reader = make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: RefHouseNumber = result?;
+
+        if row.county != refcounty {
             continue;
         }
 
-        let county = &row[*columns.get("MEGYEKOD").unwrap()];
-        if county != refcounty {
-            continue;
-        }
-
-        let settlement = &row[*columns.get("TELEPULESKOD").unwrap()];
-        let street = row[*columns.get("KOZTERULET").unwrap()].to_string();
-        let housenumber_col = match columns.get("HAZSZAM") {
-            Some(value) => *value,
-            None => *columns.get("UPPER(HAZSZAM)").unwrap(),
+        let housenumber = match row.housenumber {
+            Some(value) => value,
+            None => row.alt_housenumber.context("no alt housenumber")?,
         };
-        let housenumber = row[housenumber_col].to_string();
-        let comment: String = match columns.get("CIM") {
-            Some(comment_col) => row[*comment_col].to_string(),
-            None => "".to_string(),
-        };
-        let refcounty_key = memory_cache
-            .entry(county.into())
-            .or_insert_with(HashMap::new);
+        let comment = row.comment.unwrap_or_default();
+        let refcounty_key = memory_cache.entry(row.county).or_insert_with(HashMap::new);
         let refsettlement_key = refcounty_key
-            .entry(settlement.into())
+            .entry(row.settlement)
             .or_insert_with(HashMap::new);
-        let street_key = refsettlement_key.entry(street).or_insert_with(Vec::new);
+        let street_key = refsettlement_key.entry(row.street).or_insert_with(Vec::new);
         street_key.push(vec![housenumber, comment]);
     }
 
