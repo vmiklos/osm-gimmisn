@@ -339,6 +339,19 @@ pub struct MissingHousenumbers {
     pub done_streets: util::NumberedStreets,
 }
 
+/// One row in workdir/streets-<relation>.csv. Keep this in sync with data/streets-template.txt.
+#[derive(serde::Deserialize)]
+pub struct OsmStreet {
+    /// Object ID.
+    #[serde(rename = "@id")]
+    pub id: u64,
+    /// Street name.
+    pub name: String,
+    /// Object type.
+    #[serde(rename = "@type")]
+    pub object_type: Option<String>,
+}
+
 /// A relation is a closed polygon on the map.
 #[derive(Clone)]
 pub struct Relation {
@@ -455,34 +468,16 @@ impl Relation {
         let mut ret: Vec<util::Street> = Vec::new();
         let stream: Rc<RefCell<dyn Read>> = self.file.get_osm_streets_read_stream(&self.ctx)?;
         let mut guard = stream.borrow_mut();
-        let mut read = guard.deref_mut();
-        let mut csv_read = util::CsvRead::new(&mut read);
-        let mut first = true;
-        for result in csv_read.records() {
-            if first {
-                first = false;
-                continue;
-            }
-
-            let row = match result {
-                Ok(value) => value,
-                Err(_) => {
-                    continue;
-                }
-            };
-            // 0: @id, 1: name, 6: @type
-            if row.get(1).is_none() {
-                // data/streets-template.txt requests this, so we got garbage, give up.
-                return Err(anyhow::anyhow!("missing name column in CSV"));
-            }
+        let mut read = std::io::BufReader::new(guard.deref_mut());
+        let mut csv_reader = util::make_csv_reader(&mut read);
+        for result in csv_reader.deserialize() {
+            let row: OsmStreet = result?;
             let mut street = util::Street::new(
-                /*osm_name=*/ &row[1],
-                /*ref_name=*/ "",
-                /*show_ref_street=*/ true,
-                /*osm_id=*/ row[0].parse::<u64>().unwrap(),
+                &row.name, /*ref_name=*/ "", /*show_ref_street=*/ true,
+                /*osm_id=*/ row.id,
             );
-            if let Some(value) = row.get(6) {
-                street.set_osm_type(value);
+            if let Some(value) = row.object_type {
+                street.set_osm_type(&value);
             }
             street.set_source(&tr("street"));
             ret.push(street)
@@ -496,7 +491,7 @@ impl Relation {
             let mut csv_read = util::CsvRead::new(&mut read);
             ret.append(
                 &mut util::get_street_from_housenumber(&mut csv_read)
-                    .with_context(|| format!("get_street_from_housenumber() failed on {}", path))?,
+                    .context("get_street_from_housenumber() failed")?,
             );
         }
         if sorted_result {

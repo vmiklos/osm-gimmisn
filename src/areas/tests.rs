@@ -638,9 +638,9 @@ fn test_relation_get_osm_streets_csv_error() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("myrelation").unwrap();
 
-    let ret = relation.get_osm_streets(/*sorted_result=*/ false).unwrap();
+    let ret = relation.get_osm_streets(/*sorted_result=*/ false);
 
-    assert_eq!(ret.is_empty(), true);
+    assert_eq!(ret.is_err(), true);
 }
 
 /// Tests Relation::get_osm_housenumbers(): when it fails due to not-well-formed CSV.
@@ -3110,9 +3110,7 @@ fn test_relations_is_new() {
     // Case 2: active-new is true -> myrelation is not found.
     relations.activate_new();
 
-    println!("debug, test: before get_active_names() with activate-new + no fake files");
     let actual = relations.get_active_names().unwrap();
-    println!("debug, test: after get_active_names() with activate-new + no fake files");
 
     assert_eq!(actual, vec!["myrelation".to_string()]);
 
@@ -3149,9 +3147,7 @@ fn test_relations_is_new() {
     let mut relations = Relations::new(&ctx).unwrap();
     relations.activate_new();
 
-    println!("debug, test: before get_active_names() with activate-new + fake files");
     let actual = relations.get_active_names().unwrap();
-    println!("debug, test: after get_active_names() with activate-new + fake files");
 
     assert!(actual.is_empty());
 }
