@@ -538,6 +538,20 @@ pub fn color_house_number(house_number: &HouseNumberRange) -> yattag::Doc {
 /// refcounty -> refsettlement -> streets cache.
 type StreetReferenceCache = HashMap<String, HashMap<String, Vec<String>>>;
 
+/// One row in refdir/streets_<DATE>.tsv.
+#[derive(serde::Deserialize)]
+pub struct RefStreet {
+    /// County code.
+    #[serde(rename = "MEGYEKOD")]
+    pub county: String,
+    /// Settlement code.
+    #[serde(rename = "TELEPULESKOD")]
+    pub settlement: String,
+    /// Street name.
+    #[serde(rename = "KOZTERULET")]
+    pub street: String,
+}
+
 /// Builds an in-memory cache from the reference on-disk TSV (street version).
 pub fn build_street_reference_cache(
     ctx: &context::Context,
@@ -563,31 +577,15 @@ pub fn build_street_reference_cache(
         .open_read(local_streets)
         .context("open_read() failed")?;
     let mut guard = stream.borrow_mut();
-    let mut bufstream = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_read = CsvRead::new(&mut bufstream);
-    let mut first = true;
-    let mut columns: HashMap<String, usize> = HashMap::new();
-    for result in csv_read.records() {
-        let row = result?;
-        if first {
-            first = false;
-            for (index, label) in row.iter().enumerate() {
-                columns.insert(label.into(), index);
-            }
-            continue;
-        }
+    let mut read = std::io::BufReader::new(guard.deref_mut());
+    let mut csv_reader = make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: RefStreet = result?;
 
-        let refcounty = &row[*columns.get("MEGYEKOD").unwrap()];
-        let refsettlement = &row[*columns.get("TELEPULESKOD").unwrap()];
         // Filter out invalid street type.
-        let mut street = row[*columns.get("KOZTERULET").unwrap()].to_string();
-        street = NULL_END.replace(&street, "").to_string();
-        let refcounty_key = memory_cache
-            .entry(refcounty.into())
-            .or_insert_with(HashMap::new);
-        let refsettlement_key = refcounty_key
-            .entry(refsettlement.into())
-            .or_insert_with(Vec::new);
+        let street = NULL_END.replace(&row.street, "").to_string();
+        let refcounty_key = memory_cache.entry(row.county).or_insert_with(HashMap::new);
+        let refsettlement_key = refcounty_key.entry(row.settlement).or_insert_with(Vec::new);
         refsettlement_key.push(street);
     }
 
