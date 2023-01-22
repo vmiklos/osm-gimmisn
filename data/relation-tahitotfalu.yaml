@@ -11,10 +11,8 @@ osm-street-filters:
 #street-filters:
   # Tanyák
 refstreets:
-  'Almássy László utca': 'Almásy László utca'
   'Bercsényi utca': 'Bercsényi út'
   'Duna sor': 'Dunasor'
-  'Ereszvény utca': 'Ereszvények utca'
   # 'Felsőszérűk utca': 'Felsőszérűk dűlő'
   'Kernstok Károly utca': 'Kernstock Károly utca'
   'Külső Nyulas utca': 'Külső-Nyulas utca'
