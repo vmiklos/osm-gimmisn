@@ -699,8 +699,8 @@ fn test_get_city_key() {
 #[test]
 fn test_get_street_from_housenumber_addr_place() {
     let mut read = std::fs::File::open("tests/workdir/street-housenumbers-gh964.csv").unwrap();
-    let mut csv_read = CsvRead::new(&mut read);
-    let actual = get_street_from_housenumber(&mut csv_read).unwrap();
+    let mut csv_reader = make_csv_reader(&mut read);
+    let actual = get_street_from_housenumber(&mut csv_reader).unwrap();
     // This is picked up from addr:place because addr:street was empty.
     assert_eq!(actual, [Street::from_string("Tolvajos tanya")]);
 }
@@ -711,8 +711,8 @@ fn test_get_street_from_housenumber_missing_column() {
     let mut cursor = std::io::Cursor::new(Vec::new());
     cursor.write_all(b"@id\n42\n").unwrap();
     cursor.seek(SeekFrom::Start(0)).unwrap();
-    let mut csv_read = CsvRead::new(&mut cursor);
-    assert_eq!(get_street_from_housenumber(&mut csv_read).is_err(), true);
+    let mut csv_reader = make_csv_reader(&mut cursor);
+    assert_eq!(get_street_from_housenumber(&mut csv_reader).is_err(), true);
 }
 
 /// Tests invalid_filter_keys_to_html().
