@@ -954,49 +954,58 @@ pub fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag:
     Ok(table)
 }
 
+/// One row in workdir/street-housenumbers-<relation>.csv. Keep this in sync with
+/// data/street-housenumbers-template.txt.
+#[derive(serde::Deserialize)]
+pub struct OsmHouseNumber {
+    /// Object ID.
+    #[serde(rename = "@id")]
+    pub id: u64,
+    /// House number.
+    #[serde(rename = "addr:housenumber")]
+    pub housenumber: String,
+    /// Conscription number.
+    #[serde(rename = "addr:conscriptionnumber")]
+    pub conscriptionnumber: String,
+    /// Street name.
+    #[serde(rename = "addr:street")]
+    pub street: String,
+    /// Place name.
+    #[serde(rename = "addr:place")]
+    pub place: Option<String>,
+    /// Object type.
+    #[serde(rename = "@type")]
+    pub object_type: String,
+}
+
 /// Reads a house number CSV and extracts streets from rows.
 /// Returns a list of street objects, with their name, ID and type set.
-pub fn get_street_from_housenumber(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Street>> {
+pub fn get_street_from_housenumber(
+    csv_read: &mut csv::Reader<&mut dyn Read>,
+) -> anyhow::Result<Vec<Street>> {
     let mut ret: Vec<Street> = Vec::new();
 
-    let mut first = true;
-    let mut columns: HashMap<String, usize> = HashMap::new();
-    for result in csv_read.records() {
-        let row = result?;
-        if first {
-            first = false;
-            for (index, label) in row.iter().enumerate() {
-                columns.insert(label.into(), index);
-            }
+    for result in csv_read.deserialize() {
+        let row: OsmHouseNumber = result?;
+
+        if row.housenumber.is_empty() && row.conscriptionnumber.is_empty() {
             continue;
         }
 
-        let housenumber_col = *match columns.get("addr:housenumber") {
-            Some(value) => value,
-            None => {
-                // data/street-housenumbers-template.txt requests this, so we got garbage, give up.
-                return Err(anyhow::anyhow!("missing addr:housenumber column in CSV"));
+        let mut street_name = &row.street;
+
+        if street_name.is_empty() {
+            if let Some(ref value) = row.place {
+                street_name = value;
             }
-        };
-
-        let has_housenumber = &row[housenumber_col];
-        let has_conscriptionnumber = &row[*columns.get("addr:conscriptionnumber").unwrap()];
-        if has_housenumber.is_empty() && has_conscriptionnumber.is_empty() {
-            continue;
         }
 
-        let mut street_name = &row[*columns.get("addr:street").unwrap()];
-        if street_name.is_empty() && columns.contains_key("addr:place") {
-            street_name = &row[*columns.get("addr:place").unwrap()];
-        }
         if street_name.is_empty() {
             continue;
         }
 
-        let osm_type = &row[*columns.get("@type").unwrap()];
-        let osm_id = row[0].parse::<u64>().unwrap_or(0);
-        let mut street = Street::new(street_name, "", true, osm_id);
-        street.set_osm_type(osm_type);
+        let mut street = Street::new(street_name, "", true, row.id);
+        street.set_osm_type(&row.object_type);
         street.set_source(&tr("housenumber"));
         ret.push(street);
     }

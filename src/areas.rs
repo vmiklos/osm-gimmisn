@@ -488,9 +488,9 @@ impl Relation {
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
             let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
-            let mut csv_read = util::CsvRead::new(&mut read);
+            let mut csv_reader = util::make_csv_reader(&mut read);
             ret.append(
-                &mut util::get_street_from_housenumber(&mut csv_read)
+                &mut util::get_street_from_housenumber(&mut csv_reader)
                     .context("get_street_from_housenumber() failed")?,
             );
         }
