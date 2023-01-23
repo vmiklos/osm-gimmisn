@@ -97,7 +97,7 @@ refstreets:
   # utcajegyzék = REF, OSM eltér
   'Barátpatak utca': 'Barát-patak utca'  # osm = utcatábla
   'Bebo Károly utca': 'Bebó Károly utca'  # nem hivatalos táblán Bebó Károly, nincs rendes kép
-  'Feketesalak út': 'Fekete salak utca'  # nincs tábla
+  # 'Feketesalak út': 'Fekete salak utca'  # nincs tábla - közben át lett variálva
   'Kis Csikós köz': 'Kiscsikós köz'  # nincs tábla
   'Montevideo utca': 'Montevideo út'  # osm = utcatábla
   'Nagy-Kevély utca': 'Nagykevély utca'  # régi kép van
