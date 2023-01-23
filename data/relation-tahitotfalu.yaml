@@ -1,4 +1,7 @@
 missing-streets: 'yes'
+filters:
+  Villasor:
+    show-refstreet: false
 osm-street-filters:
   # Nem igazi utca
   - Nyári gát
@@ -11,7 +14,6 @@ osm-street-filters:
 #street-filters:
   # Tanyák
 refstreets:
-  'Bercsényi utca': 'Bercsényi út'
   'Duna sor': 'Dunasor'
   # 'Felsőszérűk utca': 'Felsőszérűk dűlő'
   'Kernstok Károly utca': 'Kernstock Károly utca'
