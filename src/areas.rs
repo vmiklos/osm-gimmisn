@@ -542,31 +542,17 @@ impl Relation {
                 self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
             let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
-            let mut csv_read = util::CsvRead::new(&mut read);
-            let mut first = true;
-            let mut columns: HashMap<String, usize> = HashMap::new();
-            for result in csv_read.records() {
-                let row = match result {
-                    Ok(value) => value,
-                    Err(_) => {
-                        continue;
-                    }
-                };
-                if first {
-                    first = false;
-                    for (index, label) in row.iter().enumerate() {
-                        columns.insert(label.into(), index);
-                    }
-                    continue;
-                }
-                let mut street = &row[columns["addr:street"]];
+            let mut csv_reader = util::make_csv_reader(&mut read);
+            for result in csv_reader.deserialize() {
+                let row: util::OsmHouseNumber = result?;
+                let mut street = &row.street;
                 let street_is_even_odd = self.config.get_street_is_even_odd(street);
                 if street.is_empty() {
-                    if let Some(value) = columns.get("addr:place") {
-                        street = &row[*value];
+                    if let Some(ref value) = row.place {
+                        street = value;
                     }
                 }
-                for house_number in row[columns["addr:housenumber"]].split(';') {
+                for house_number in row.housenumber.split(';') {
                     house_numbers
                         .entry(street.to_string())
                         .or_insert_with(Vec::new)

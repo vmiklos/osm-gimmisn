@@ -662,9 +662,9 @@ fn test_relation_get_osm_housenumers_csv_error() {
     let mut relations = Relations::new(&ctx).unwrap();
     let mut relation = relations.get_relation("myrelation").unwrap();
 
-    let ret = relation.get_osm_housenumbers("").unwrap();
+    let ret = relation.get_osm_housenumbers("");
 
-    assert_eq!(ret.is_empty(), true);
+    assert_eq!(ret.is_err(), true);
 }
 
 /// Tests Relation.get_osm_streets(): the case when the street name is coming from a house
