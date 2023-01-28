@@ -1177,7 +1177,7 @@ pub fn get_sort_key(bytes: &str) -> Vec<u8> {
     collator.get_sort_key(&string)
 }
 
-/// Returns the intput as-is to avoid depending on ICU.
+/// Returns the input as-is to avoid depending on ICU.
 #[cfg(not(feature = "icu"))]
 pub fn get_sort_key(bytes: &str) -> Vec<u8> {
     bytes.as_bytes().to_vec()
@@ -1217,6 +1217,7 @@ pub fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<S
 }
 
 /// Formats a percentage, taking locale into account.
+#[cfg(feature = "icu")]
 pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
     use rust_icu_unumberformatter as unumberformatter;
 
@@ -1224,6 +1225,13 @@ pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
     let formatter = unumberformatter::UNumberFormatter::try_new("% .00", language)?;
     let formatted = formatter.format_double(parsed)?;
     Ok(formatted.try_into()?)
+}
+
+/// Formats the input without ICU.
+#[cfg(not(feature = "icu"))]
+pub fn format_percent(parsed: f64) -> anyhow::Result<String> {
+    let _language: &str = &i18n::get_language();
+    Ok(format!("{0:.2}%", parsed))
 }
 
 /// Gets the mtime of a file if it exists, 0 otherwise.
