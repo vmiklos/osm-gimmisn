@@ -79,7 +79,7 @@ refstreets:
   'Diós utca': 'Diós út'  # táblán Diós utca
   'Dűlő út': 'Dűlő utak'
   'Erdőalja utca': 'Erdőalja út'  # tábla régi: u.
-  'Gyöngyvirágos utca': 'Gyöngyvirágos út'  # tábla régi u. illetve utca
+  # 'Gyöngyvirágos utca': 'Gyöngyvirágos út'  # tábla régi u. illetve utca, de a lakcímkártyán út
   'Révész utca': 'Révész út'  # tábla régi: u.
   'Salak utca': 'Salak út'  # táblán Salak utca
   'Túróci Balázs utca': 'Turóci Balázs utca'  # táblán: Túróci Balázs utca
