@@ -16,7 +16,6 @@ use crate::i18n::translate as tr;
 use crate::util;
 use crate::yattag;
 use anyhow::Context;
-use git_version::git_version;
 use std::borrow::Cow;
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -32,7 +31,7 @@ pub fn get_footer(last_updated: &str) -> yattag::Doc {
         doc.text(&tr("Version: "));
         doc.append_value(
             util::git_link(
-                git_version!(),
+                git_version::git_version!(args = ["--always", "--long"]),
                 "https://github.com/vmiklos/osm-gimmisn/commit/",
             )
             .get_value(),
