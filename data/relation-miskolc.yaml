@@ -33,6 +33,8 @@ street-filters:
   - Közdomb  # Közdomb utca, I. sor stb..
   - Termál barlangfürdő  # Van rendes címe
   - Tiszai pályaudvar  # Van rendes címe
+  - Sporttelep utca  # átnevezve: Vanger Vilmos utca
+  - Vendég utca  # átnevezve: Vanger Vilmos utca
   # dupla
   - Bábonyi bérc telep  # Bábonyibérc telep
   - Bábonyibérc telep  # Bábonyibérc Új telep
