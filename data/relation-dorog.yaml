@@ -104,13 +104,13 @@ street-filters:
   - Mész telep  # területként
 osm-street-filters:
   # Nem valós utcák
-  - Homoksikló alagút
   - Hősök tere-belső udvar
   - Munkás utcai garázssor
   - Pataksor park
   - Petőfi park
   - Piactéri garázssor
   - Schmidt Villa
+  - Sikló alagút
   - Tömedékakna Ipartelep
   - Volánbusz
   # Létező, de házszám nélküli utcák
