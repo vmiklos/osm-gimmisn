@@ -18,6 +18,8 @@ osm-street-filters:
   - D udvar
   - E udvar
   - F udvar
+  # food court
+  - Karaván
   # sétányok, parkok
   - Janikovszky Éva park
   - Remíz sétány
