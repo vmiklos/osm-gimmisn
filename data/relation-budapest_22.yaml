@@ -1018,3 +1018,4 @@ refstreets:
   'Szentkorona utca': 'Szent korona utca'
 source: survey
 inactive: false
+housenumber-letters: true
