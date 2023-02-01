@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 7.5
 
 - New `/missing-housenumbers/.../view-result.json` endpoint, exposing the missing-housenumbers
   analysis result for a relation in a machine-readable format.
