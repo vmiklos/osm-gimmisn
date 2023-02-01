@@ -1,5 +1,6 @@
 missing-streets: 'no'
 filters:
+  # terület határolás
   Budakeszi út:
     # területhatár: II: kurucles/harshegy/szepilona XII: budakeszierdo/janoshegy/viranyos/zugliget
     ranges:
@@ -30,5 +31,9 @@ filters:
     # területhatár: harshegy/petneházyrét
     # ezen a részen nincs házszám
     ranges: []
+  # házszám szűrők
+  Dénes utca:
+    # páratlan oldalon nincs kiírva házszám, máshohhan számozódik
+    invalid: ['1', '3']
 source: survey
 inactive: true

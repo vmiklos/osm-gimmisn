@@ -1,5 +1,6 @@
 missing-streets: 'no'
 filters:
+  # terület határolás
   Bátori László utca:
     # területhatár: huvosvolgy/erzsebettelek
     # ezen a részen nincs házszám
@@ -37,5 +38,9 @@ filters:
     ranges:
       - {start: '27', end: '99'}
       - {start: '16', end: '98'}
+  # házszám szűrők
+  Modori utca:
+    # 1 = Hűvösvölgyi út 179
+    invalid: ['1']
 source: survey
 inactive: true
