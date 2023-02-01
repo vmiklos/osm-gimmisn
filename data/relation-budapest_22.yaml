@@ -1,4 +1,4 @@
-missing-streets: only
+missing-streets: 'yes'
 filters:
   Agyagfalva utca:
     # 1: ez és az Aradi utca 16. közös telken van, házszám az Aradi utcáról van csak.
@@ -1017,4 +1017,4 @@ refstreets:
   'Nagykőbánya utca': 'Nagy Kőbánya utca'
   'Szentkorona utca': 'Szent korona utca'
 source: survey
-inactive: true
+inactive: false
