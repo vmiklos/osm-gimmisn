@@ -104,6 +104,7 @@ budapest_22:
     osmrelation: 215621
     refcounty: "01"
     refsettlement: "022"
+    alias: ['barossgabortelep', 'budafok', 'budateteny', 'nagyteteny']
 budapest_23:
     osmrelation: 1550597
     refcounty: "01"
@@ -238,10 +239,8 @@ obuda:
     osmrelation: 3228284
     refcounty: "01"
     refsettlement: "003"
-# 11
-# már egyben van, mert kész van
-# 12
-# már egyben van, nincs annyi hiányzó
+# 11 - már egyben van, mert kész van
+# 12 - már egyben van, mert kész van
 # 15
 rakospalota:
     osmrelation: 3237867
@@ -264,23 +263,7 @@ ujpalota:
     osmrelation: 3237889
     refcounty: "01"
     refsettlement: "015"
-# 22
-barossgabortelep:
-    osmrelation: 3186063
-    refcounty: "01"
-    refsettlement: "022"
-budafok:
-    osmrelation: 3186370
-    refcounty: "01"
-    refsettlement: "022"
-budateteny:
-    osmrelation: 3186116
-    refcounty: "01"
-    refsettlement: "022"
-nagyteteny:
-    osmrelation: 3186376
-    refcounty: "01"
-    refsettlement: "022"
+# 22. kerület kérésre összevonva 
 # pest-belvaros
 # 5. kerület összevonva
 # 8. kerulet szinten eleg, nem kotelezo tovabb bontani
