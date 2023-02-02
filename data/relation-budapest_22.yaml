@@ -901,13 +901,10 @@ filters:
     invalid: ['34']
     ranges:
       - {start: '22', end: '35'}
-  X. utca:
-    # Területhatár: Budatétény/Baross Gábor-telep
+  XI. utca:
     # 3: sima 3 nincs, csak 3/a, 3/b.
     # 30: sima 30 nincs, csak 30/a, 30/b.
     invalid: ['3', '30']
-  # XI. utca:
-    # Területhatár: Budatétény/Baross Gábor-telep
   XII. utca:
     ranges:
       - {start: '1', end: '51'}
