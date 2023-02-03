@@ -131,18 +131,18 @@ pub fn our_application_json(
     let mut headers: webframe::Headers = Vec::new();
     let prefix = ctx.get_ini().get_uri_prefix();
     let output: String;
-    if request_uri.starts_with(&format!("{}/streets/", prefix)) {
+    if request_uri.starts_with(&format!("{prefix}/streets/")) {
         output = streets_update_result_json(ctx, relations, request_uri)?;
-    } else if request_uri.starts_with(&format!("{}/street-housenumbers/", prefix)) {
+    } else if request_uri.starts_with(&format!("{prefix}/street-housenumbers/")) {
         output = street_housenumbers_update_result_json(ctx, relations, request_uri)?;
-    } else if request_uri.starts_with(&format!("{}/missing-housenumbers/", prefix)) {
+    } else if request_uri.starts_with(&format!("{prefix}/missing-housenumbers/")) {
         if request_uri.ends_with("/update-result.json") {
             output = missing_housenumbers_update_result_json(ctx, relations, request_uri)?;
         } else {
             // Assume view-result.json.
             output = missing_housenumbers_view_result_json(relations, request_uri)?;
         }
-    } else if request_uri.starts_with(&format!("{}/additional-housenumbers/", prefix)) {
+    } else if request_uri.starts_with(&format!("{prefix}/additional-housenumbers/")) {
         // Assume view-result.json.
         output = additional_housenumbers_view_result_json(relations, request_uri)?;
     } else {
