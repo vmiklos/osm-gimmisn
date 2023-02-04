@@ -9,9 +9,11 @@ filters:
       - {start: '1', end: '39'}
       - {start: '2', end: '66'}
   Szabadság-kilátó út:
-    show-refstreet: false
+    # 28: 24 van kiírva; 24 után nyeles telek szám nélkül és 32
+    invalid: ['28']
     ranges:
       - {start: '2', end: '98'}
+    show-refstreet: false
   Szinyei Merse Pál utca:
     ranges:
       - {start: '1', end: '5'}

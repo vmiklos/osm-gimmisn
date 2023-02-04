@@ -77,9 +77,11 @@ filters:
     ranges:
       - {start: '1', end: '99'}
   Szinyei Merse Pál utca:
+    # 12-14: csak 12 van kiírva
+    invalid: ['14']
     ranges:
-      - {start: '7', end: '99'}
-      - {start: '6', end: '98'}
+      - {start: '7', end: '51'}
+      - {start: '6', end: '54'}
   Szép Ilonka utca:
     ranges:
       - {start: '1', end: '3'}
@@ -127,6 +129,9 @@ filters:
     # 28: 26/b után 32
     # 30-32: csak 32 van kiírva
     invalid: ['3', '28', '30']
+  Béke utca:
+    # 11, 13: üres telek 2023-01. RESURVEY 2024.
+    invalid: ['11', '13']
   Bem utca:
     # 2-4: csak 2 van kiírva
     invalid: ['4']
@@ -222,8 +227,9 @@ filters:
     invalid: ['12']
   # Huszár utca: 2022-12. RESURVEY 2023
   Jedlik Ányos utca:
+    # 19: 17 van kiírva, de eléggé a jobb szélén van a teleknek, ez és a faház között egy üres telek.
     # 40: 44 van kiírva. 2022-12. RESURVEY 2023
-    invalid: ['40']
+    invalid: ['19', '40']
   Juhász Gyula köz:
     # 4 = Kiírás szerint a Villa Succa címe 5
     invalid: ['4']
@@ -316,6 +322,7 @@ refstreets:
   'Kisfaludy Sándor utca': 'Kisfaludy utca'  # táblán Kisfaludy Sándor utca
   'Kölcsey Ferenc utca': 'Kölcsey utca'  # táblán Kölcsey Ferenc utca
   'Mátyás király utca': 'Mátyás király út'  # táblán Mátyás király utca, házakon út
+  'Mikszáth Kálmán utca': 'Mikszáth utca'  # táblákon Mikszáth Kálmán utca
   'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
 source: survey
