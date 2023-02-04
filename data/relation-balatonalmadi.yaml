@@ -98,9 +98,10 @@ filters:
     # 10-12: csak 12 van kiírva
     # 18: 16 után 20
     # 22 = József Attila út 67
-    # 50-52 = Verseny utca 3
+    # 50 = Verseny utca 3
+    # 52 = Pápai Irgalmas Nővérek egykori nyaralója, lebontandó
     # 54-56: nagy üres terület lebontott házakkal
-    invalid: ['10', '18', '22', '50', '52', '56']
+    invalid: ['10', '18', '22', '50', '56']
     ranges:
       - {start: '1', end: '131'}
       - {start: '2', end: '72'}
