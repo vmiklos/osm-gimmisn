@@ -367,7 +367,7 @@ fn test_get_topcities_test_old_missing() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let mut file_system = context::tests::TestFileSystem::new();
     let src_root = ctx.get_abspath("workdir/stats");
-    file_system.set_hide_paths(&vec![format!("{}/2020-04-10.citycount", src_root)]);
+    file_system.set_hide_paths(&vec![format!("{src_root}/2020-04-10.citycount")]);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
     let ret = get_topcities(&ctx, &src_root).unwrap();
@@ -380,7 +380,7 @@ fn test_get_topcities_test_new_missing() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let mut file_system = context::tests::TestFileSystem::new();
     let src_root = ctx.get_abspath("workdir/stats");
-    file_system.set_hide_paths(&vec![format!("{}/2020-05-10.citycount", src_root)]);
+    file_system.set_hide_paths(&vec![format!("{src_root}/2020-05-10.citycount")]);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
     let ret = get_topcities(&ctx, &src_root).unwrap();

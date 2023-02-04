@@ -36,7 +36,7 @@ fn overpass_sleep(ctx: &context::Context) {
         if sleep == 0 {
             break;
         }
-        info!("overpass_sleep: waiting for {} seconds", sleep);
+        info!("overpass_sleep: waiting for {sleep} seconds");
         ctx.get_time().sleep(sleep as u64);
     }
 }
@@ -62,11 +62,11 @@ fn update_osm_streets(
         {
             continue;
         }
-        info!("update_osm_streets: start: {}", relation_name);
+        info!("update_osm_streets: start: {relation_name}");
         let mut retry = 0;
         while should_retry(retry) {
             if retry > 0 {
-                info!("update_osm_streets: try #{}", retry);
+                info!("update_osm_streets: try #{retry}");
             }
             retry += 1;
             overpass_sleep(ctx);
@@ -74,7 +74,7 @@ fn update_osm_streets(
             let buf = match overpass_query::overpass_query(ctx, query) {
                 Ok(value) => value,
                 Err(err) => {
-                    info!("update_osm_streets: http error: {:?}", err);
+                    info!("update_osm_streets: http error: {err:?}");
                     continue;
                 }
             };
@@ -84,7 +84,7 @@ fn update_osm_streets(
             }
             break;
         }
-        info!("update_osm_streets: end: {}", relation_name);
+        info!("update_osm_streets: end: {relation_name}");
     }
 
     Ok(())
@@ -105,11 +105,11 @@ fn update_osm_housenumbers(
         {
             continue;
         }
-        info!("update_osm_housenumbers: start: {}", relation_name);
+        info!("update_osm_housenumbers: start: {relation_name}");
         let mut retry = 0;
         while should_retry(retry) {
             if retry > 0 {
-                info!("update_osm_housenumbers: try #{}", retry);
+                info!("update_osm_housenumbers: try #{retry}");
             }
             retry += 1;
             overpass_sleep(ctx);
@@ -117,7 +117,7 @@ fn update_osm_housenumbers(
             let buf = match overpass_query::overpass_query(ctx, query) {
                 Ok(value) => value,
                 Err(err) => {
-                    info!("update_osm_housenumbers: http error: {:?}", err);
+                    info!("update_osm_housenumbers: http error: {err:?}");
                     continue;
                 }
             };
@@ -127,7 +127,7 @@ fn update_osm_housenumbers(
             }
             break;
         }
-        info!("update_osm_housenumbers: end: {}", relation_name);
+        info!("update_osm_housenumbers: end: {relation_name}");
     }
 
     Ok(())
@@ -154,12 +154,12 @@ fn update_ref_housenumbers(
             continue;
         }
 
-        info!("update_ref_housenumbers: start: {}", relation_name);
+        info!("update_ref_housenumbers: start: {relation_name}");
         if let Err(err) = relation.write_ref_housenumbers(&references) {
-            info!("update_osm_housenumbers: failed: {:?}", err);
+            info!("update_osm_housenumbers: failed: {err:?}");
             continue;
         }
-        info!("update_ref_housenumbers: end: {}", relation_name);
+        info!("update_ref_housenumbers: end: {relation_name}");
     }
 
     Ok(())
@@ -186,9 +186,9 @@ fn update_ref_streets(
             continue;
         }
 
-        info!("update_ref_streets: start: {}", relation_name);
+        info!("update_ref_streets: start: {relation_name}");
         relation.write_ref_streets(&reference)?;
-        info!("update_ref_streets: end: {}", relation_name);
+        info!("update_ref_streets: end: {relation_name}");
     }
 
     Ok(())
@@ -326,13 +326,13 @@ fn write_zip_count_path(
 /// Counts the # of all house numbers as of today.
 fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
     let statedir = ctx.get_abspath("workdir/stats");
-    let csv_path = format!("{}/{}.csv", statedir, today);
+    let csv_path = format!("{statedir}/{today}.csv");
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
     }
-    let count_path = format!("{}/{}.count", statedir, today);
-    let city_count_path = format!("{}/{}.citycount", statedir, today);
-    let zip_count_path = format!("{}/{}.zipcount", statedir, today);
+    let count_path = format!("{statedir}/{today}.count");
+    let city_count_path = format!("{statedir}/{today}.citycount");
+    let zip_count_path = format!("{statedir}/{today}.zipcount");
     let mut house_numbers: HashSet<String> = HashSet::new();
     let mut cities: HashMap<String, HashSet<String>> = HashMap::new();
     let mut zips: HashMap<String, HashSet<String>> = HashMap::new();
@@ -386,12 +386,12 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
 /// Counts the top housenumber editors as of today.
 fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<()> {
     let statedir = ctx.get_abspath("workdir/stats");
-    let csv_path = format!("{}/{}.csv", statedir, today);
+    let csv_path = format!("{statedir}/{today}.csv");
     if !ctx.get_file_system().path_exists(&csv_path) {
         return Ok(());
     }
-    let topusers_path = format!("{}/{}.topusers", statedir, today);
-    let usercount_path = format!("{}/{}.usercount", statedir, today);
+    let topusers_path = format!("{statedir}/{today}.topusers");
+    let usercount_path = format!("{statedir}/{today}.usercount");
     let mut users: HashMap<String, u64> = HashMap::new();
     {
         let stream = ctx.get_file_system().open_read(&csv_path)?;
@@ -450,8 +450,8 @@ fn update_stats_refcount(ctx: &context::Context, state_dir: &str) -> anyhow::Res
         }
     }
 
-    let string = format!("{}\n", count);
-    let path = format!("{}/ref.count", state_dir);
+    let string = format!("{count}\n");
+    let path = format!("{state_dir}/ref.count");
     ctx.get_file_system().write_from_string(&string, &path)
 }
 
@@ -466,21 +466,21 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
-    let csv_path = format!("{}/{}.csv", statedir, today);
+    let csv_path = format!("{statedir}/{today}.csv");
 
     if overpass {
         info!("update_stats: talking to overpass");
         let mut retry = 0;
         while should_retry(retry) {
             if retry > 0 {
-                info!("update_stats: try #{}", retry);
+                info!("update_stats: try #{retry}");
             }
             retry += 1;
             overpass_sleep(ctx);
             let response = match overpass_query::overpass_query(ctx, query.clone()) {
                 Ok(value) => value,
                 Err(err) => {
-                    info!("update_stats: http error: {}", err);
+                    info!("update_stats: http error: {err}");
                     continue;
                 }
             };
@@ -507,7 +507,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
 
         if last_modified.whole_seconds() >= 24_i64 * 3600_i64 * 7_i64 {
             ctx.get_file_system().unlink(&file_name)?;
-            info!("update_stats: removed old {}", file_name);
+            info!("update_stats: removed old {file_name}");
         }
     }
 
@@ -542,13 +542,13 @@ fn our_main_inner(
     }
 
     let pid = std::process::id();
-    let stream = std::fs::File::open(format!("/proc/{}/status", pid))?;
+    let stream = std::fs::File::open(format!("/proc/{pid}/status"))?;
     let reader = std::io::BufReader::new(stream);
     for line in reader.lines() {
         let line = line?.to_string();
         if line.starts_with("VmPeak:") {
             let vm_peak = line.trim();
-            info!("our_main: {}", vm_peak);
+            info!("our_main: {vm_peak}");
             break;
         }
     }
@@ -611,8 +611,8 @@ pub fn our_main(
     let seconds = duration.whole_seconds() % 60;
     let minutes = duration.whole_minutes() % 60;
     let hours = duration.whole_hours();
-    let duration = format!("{}:{:0>2}:{:0>2}", hours, minutes, seconds);
-    info!("main: finished in {}", duration);
+    let duration = format!("{hours}:{minutes:0>2}:{seconds:0>2}");
+    info!("main: finished in {duration}");
 
     Ok(())
 }
@@ -622,7 +622,7 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     match our_main(argv, stream, ctx) {
         Ok(_) => 0,
         Err(err) => {
-            error!("main: unhandled error: {:?}", err);
+            error!("main: unhandled error: {err:?}");
             1
         }
     }

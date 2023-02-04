@@ -229,13 +229,13 @@ impl Context {
     pub fn new(prefix: &str) -> anyhow::Result<Self> {
         let current_dir = std::env::current_dir()?;
         let current_dir_str = current_dir.to_str().context("current_dir() failed")?;
-        let root = format!("{}/{}", current_dir_str, prefix);
+        let root = format!("{current_dir_str}/{prefix}");
         let network = Arc::new(StdNetwork {});
         let time = Arc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
         let file_system: Arc<dyn FileSystem> = Arc::new(StdFileSystem {});
-        let ini = Ini::new(&file_system, &format!("{}/wsgi.ini", root), &root)?;
+        let ini = Ini::new(&file_system, &format!("{root}/wsgi.ini"), &root)?;
         Ok(Context {
             root,
             ini,

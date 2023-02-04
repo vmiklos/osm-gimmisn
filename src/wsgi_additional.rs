@@ -125,10 +125,7 @@ pub fn additional_streets_view_result(
                     "a",
                     &[(
                         "href",
-                        &format!(
-                            "{}/additional-streets/{}/view-result.txt",
-                            prefix, relation_name
-                        ),
+                        &format!("{prefix}/additional-streets/{relation_name}/view-result.txt"),
                     )],
                 );
                 a.text(&tr("Plain text format"));
@@ -139,10 +136,7 @@ pub fn additional_streets_view_result(
                     "a",
                     &[(
                         "href",
-                        &format!(
-                            "{}/additional-streets/{}/view-result.chkl",
-                            prefix, relation_name
-                        ),
+                        &format!("{prefix}/additional-streets/{relation_name}/view-result.chkl"),
                     )],
                 );
                 a.text(&tr("Checklist format"));
@@ -153,7 +147,7 @@ pub fn additional_streets_view_result(
                     "a",
                     &[(
                         "href",
-                        &format!("{}/additional-streets/{}/view-turbo", prefix, relation_name),
+                        &format!("{prefix}/additional-streets/{relation_name}/view-turbo"),
                     )],
                 );
                 a.text(&tr("Overpass turbo query for the below streets"));

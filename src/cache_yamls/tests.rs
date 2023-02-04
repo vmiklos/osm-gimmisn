@@ -74,8 +74,8 @@ fn test_main() {
     let mut guard = stats_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     guard.seek(SeekFrom::Start(0)).unwrap();
-    let mut read = guard.deref_mut();
-    let relation_ids: serde_json::Value = serde_json::from_reader(&mut read).unwrap();
+    let read = guard.deref_mut();
+    let relation_ids: serde_json::Value = serde_json::from_reader(read).unwrap();
     let relation_ids: Vec<_> = relation_ids
         .as_array()
         .unwrap()

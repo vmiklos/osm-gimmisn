@@ -82,10 +82,7 @@ fn fill_header_function(
                     "a",
                     &[(
                         "href",
-                        &format!(
-                            "{}/street-housenumbers/{}/update-result",
-                            prefix, relation_name
-                        ),
+                        &format!("{prefix}/street-housenumbers/{relation_name}/update-result"),
                     )],
                 );
                 a.text(&tr("Update from OSM"));
@@ -101,10 +98,7 @@ fn fill_header_function(
                     "a",
                     &[(
                         "href",
-                        &format!(
-                            "{}/missing-housenumbers/{}/update-result",
-                            prefix, relation_name
-                        ),
+                        &format!("{prefix}/missing-housenumbers/{relation_name}/update-result"),
                     )],
                 );
                 a.text(&tr("Update from reference"));
@@ -122,7 +116,7 @@ fn fill_header_function(
                     "a",
                     &[(
                         "href",
-                        &format!("{}/streets/{}/update-result", prefix, relation_name),
+                        &format!("{prefix}/streets/{relation_name}/update-result"),
                     )],
                 );
                 a.text(&tr("Update from OSM"));
@@ -138,7 +132,7 @@ fn fill_header_function(
                     "a",
                     &[(
                         "href",
-                        &format!("{}/missing-streets/{}/update-result", prefix, relation_name),
+                        &format!("{prefix}/missing-streets/{relation_name}/update-result"),
                     )],
                 );
                 a.text(&tr("Update from reference"));
@@ -154,10 +148,7 @@ fn fill_header_function(
                     "a",
                     &[(
                         "href",
-                        &format!(
-                            "{}/street-housenumbers/{}/update-result",
-                            prefix, relation_name
-                        ),
+                        &format!("{prefix}/street-housenumbers/{relation_name}/update-result"),
                     )],
                 );
                 a.text(&tr("Call Overpass to update"));
@@ -170,10 +161,7 @@ fn fill_header_function(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/street-housenumbers/{}/view-query",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/street-housenumbers/{relation_name}/view-query"),
                 )],
             );
             a.text(&tr("View query"));
@@ -188,7 +176,7 @@ fn fill_header_function(
                     "a",
                     &[(
                         "href",
-                        &format!("{}/streets/{}/update-result", prefix, relation_name),
+                        &format!("{prefix}/streets/{relation_name}/update-result"),
                     )],
                 );
                 a.text(&tr("Call Overpass to update"));
@@ -201,7 +189,7 @@ fn fill_header_function(
                 "a",
                 &[(
                     "href",
-                    &format!("{}/streets/{}/view-query", prefix, relation_name),
+                    &format!("{prefix}/streets/{relation_name}/view-query"),
                 )],
             );
             a.text(&tr("View query"));
@@ -228,10 +216,7 @@ fn fill_missing_header_items(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/missing-housenumbers/{}/view-result",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/missing-housenumbers/{relation_name}/view-result"),
                 )],
             );
             a.text(&tr("Missing house numbers"));
@@ -245,10 +230,7 @@ fn fill_missing_header_items(
                     "a",
                     &[(
                         "href",
-                        &format!(
-                            "{}/additional-housenumbers/{}/view-result",
-                            prefix, relation_name
-                        ),
+                        &format!("{prefix}/additional-housenumbers/{relation_name}/view-result"),
                     )],
                 );
                 a.text(&tr("Additional house numbers"));
@@ -263,7 +245,7 @@ fn fill_missing_header_items(
                 "a",
                 &[(
                     "href",
-                    &format!("{}/missing-streets/{}/view-result", prefix, relation_name),
+                    &format!("{prefix}/missing-streets/{relation_name}/view-result"),
                 )],
             );
             a.text(&tr("Missing streets"));
@@ -275,10 +257,7 @@ fn fill_missing_header_items(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/additional-streets/{}/view-result",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/additional-streets/{relation_name}/view-result"),
                 )],
             );
             a.text(&tr("Additional streets"));
@@ -304,10 +283,7 @@ fn fill_existing_header_items(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/street-housenumbers/{}/view-result",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/street-housenumbers/{relation_name}/view-result"),
                 )],
             );
             a.text(&tr("Existing house numbers"));
@@ -321,7 +297,7 @@ fn fill_existing_header_items(
             "a",
             &[(
                 "href",
-                &format!("{}/streets/{}/view-result", prefix, relation_name),
+                &format!("{prefix}/streets/{relation_name}/view-result"),
             )],
         );
         a.text(&tr("Existing streets"));
@@ -410,7 +386,7 @@ pub fn get_toolbar(
                 "a",
                 &[(
                     "href",
-                    &format!("https://www.openstreetmap.org/relation/{}", relation_osmid),
+                    &format!("https://www.openstreetmap.org/relation/{relation_osmid}"),
                 )],
             );
             a.text(&tr("Area boundary"))
@@ -466,13 +442,13 @@ pub fn handle_static(
     if request_uri.ends_with(".js") {
         let content_type = "application/x-javascript; charset=utf-8";
         let (content, extra_headers) =
-            get_content_with_meta(ctx, &ctx.get_abspath(&format!("target/browser/{}", path)))?;
+            get_content_with_meta(ctx, &ctx.get_abspath(&format!("target/browser/{path}")))?;
         return Ok((content, content_type.into(), extra_headers));
     }
     if request_uri.ends_with(".css") {
         let content_type = "text/css; charset=utf-8";
         let (content, extra_headers) =
-            get_content_with_meta(ctx, &ctx.get_abspath(&format!("target/browser/{}", path)))
+            get_content_with_meta(ctx, &ctx.get_abspath(&format!("target/browser/{path}")))
                 .context("get_content_with_meta() failed")?;
         return Ok((content, content_type.into(), extra_headers));
     }
@@ -584,18 +560,18 @@ fn handle_stats_cityprogress(
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     for result in csv_read.records() {
-        let row = result.context(format!("failed to read row in {}", path))?;
+        let row = result.context(format!("failed to read row in {path}"))?;
         let city = row.get(0).unwrap();
         let count: u64 = row.get(1).unwrap().parse()?;
         osm_citycounts.insert(city.into(), count);
     }
     let ref_cities: Vec<_> = ref_citycounts
-        .iter()
-        .map(|(k, _v)| util::Street::from_string(k))
+        .keys()
+        .map(|k| util::Street::from_string(k))
         .collect();
     let osm_cities: Vec<_> = osm_citycounts
-        .iter()
-        .map(|(k, _v)| util::Street::from_string(k))
+        .keys()
+        .map(|k| util::Street::from_string(k))
         .collect();
     let in_both = util::get_in_both(&ref_cities, &osm_cities);
     let mut cities: Vec<_> = in_both.iter().map(|i| i.get_osm_name()).collect();
@@ -689,18 +665,18 @@ fn handle_stats_zipprogress(
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
     for result in csv_read.records() {
-        let row = result.context(format!("failed to read row in {}", path))?;
+        let row = result.context(format!("failed to read row in {path}"))?;
         let zip = row.get(0).unwrap();
         let count: u64 = row.get(1).unwrap().parse()?;
         osm_zipcounts.insert(zip.into(), count);
     }
     let ref_zips: Vec<_> = ref_zipcounts
-        .iter()
-        .map(|(k, _v)| util::Street::from_string(k))
+        .keys()
+        .map(|k| util::Street::from_string(k))
         .collect();
     let osm_zips: Vec<_> = osm_zipcounts
-        .iter()
-        .map(|(k, _v)| util::Street::from_string(k))
+        .keys()
+        .map(|k| util::Street::from_string(k))
         .collect();
     let in_both = util::get_in_both(&ref_zips, &osm_zips);
     let mut zips: Vec<_> = in_both.iter().map(|i| i.get_osm_name()).collect();
@@ -786,7 +762,7 @@ fn handle_invalid_refstreets(
                     "a",
                     &[(
                         "href",
-                        &format!("{}/streets/{}/view-result", prefix, relation_name),
+                        &format!("{prefix}/streets/{relation_name}/view-result"),
                     )],
                 );
                 a.text(&relation_name);
@@ -928,7 +904,7 @@ pub fn handle_stats(
                     "a",
                     &[(
                         "href",
-                        &format!("{}/housenumber-stats/hungary/cityprogress", prefix),
+                        &format!("{prefix}/housenumber-stats/hungary/cityprogress"),
                     )],
                 );
                 a.text(title);
@@ -939,7 +915,7 @@ pub fn handle_stats(
                     "a",
                     &[(
                         "href",
-                        &format!("{}/housenumber-stats/hungary/zipprogress", prefix),
+                        &format!("{prefix}/housenumber-stats/hungary/zipprogress"),
                     )],
                 );
                 a.text(title);
@@ -950,13 +926,13 @@ pub fn handle_stats(
                     "a",
                     &[(
                         "href",
-                        &format!("{}/housenumber-stats/hungary/invalid-relations", prefix),
+                        &format!("{prefix}/housenumber-stats/hungary/invalid-relations"),
                     )],
                 );
                 a.text(title);
                 continue;
             }
-            let a = li.tag("a", &[("href", &format!("#_{}", identifier))]);
+            let a = li.tag("a", &[("href", &format!("#_{identifier}"))]);
             a.text(title);
         }
     }
@@ -970,7 +946,7 @@ pub fn handle_stats(
             continue;
         }
         {
-            let h2 = doc.tag("h2", &[("id", &format!("_{}", identifier))]);
+            let h2 = doc.tag("h2", &[("id", &format!("_{identifier}"))]);
             h2.text(title);
         }
 
@@ -1008,17 +984,17 @@ pub fn get_request_uri(
     let prefix = ctx.get_ini().get_uri_prefix();
     if !request_uri.is_empty() {
         // Compatibility.
-        if request_uri.starts_with(&format!("{}/suspicious-streets/", prefix)) {
+        if request_uri.starts_with(&format!("{prefix}/suspicious-streets/")) {
             request_uri = request_uri.replace("suspicious-streets", "missing-housenumbers");
-        } else if request_uri.starts_with(&format!("{}/suspicious-relations/", prefix)) {
+        } else if request_uri.starts_with(&format!("{prefix}/suspicious-relations/")) {
             request_uri = request_uri.replace("suspicious-relations", "missing-streets");
         }
 
         // Performance: don't bother with relation aliases for non-relation requests.
-        if !request_uri.starts_with(&format!("{}/streets/", prefix))
-            && !request_uri.starts_with(&format!("{}/missing-streets/", prefix))
-            && !request_uri.starts_with(&format!("{}/street-housenumbers/", prefix))
-            && !request_uri.starts_with(&format!("{}/missing-housenumbers/", prefix))
+        if !request_uri.starts_with(&format!("{prefix}/streets/"))
+            && !request_uri.starts_with(&format!("{prefix}/missing-streets/"))
+            && !request_uri.starts_with(&format!("{prefix}/street-housenumbers/"))
+            && !request_uri.starts_with(&format!("{prefix}/missing-housenumbers/"))
         {
             return Ok(request_uri);
         }
@@ -1044,10 +1020,10 @@ pub fn check_existing_relation(
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     let prefix = ctx.get_ini().get_uri_prefix();
-    if !request_uri.starts_with(&format!("{}/streets/", prefix))
-        && !request_uri.starts_with(&format!("{}/missing-streets/", prefix))
-        && !request_uri.starts_with(&format!("{}/street-housenumbers/", prefix))
-        && !request_uri.starts_with(&format!("{}/missing-housenumbers/", prefix))
+    if !request_uri.starts_with(&format!("{prefix}/streets/"))
+        && !request_uri.starts_with(&format!("{prefix}/missing-streets/"))
+        && !request_uri.starts_with(&format!("{prefix}/street-housenumbers/"))
+        && !request_uri.starts_with(&format!("{prefix}/missing-housenumbers/"))
     {
         return Ok(doc);
     }
@@ -1069,7 +1045,7 @@ pub fn check_existing_relation(
 /// Handles the no-osm-streets error on a page using JS.
 pub fn handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
-    let link = format!("{}/streets/{}/uppdate-result", prefix, relation_name);
+    let link = format!("{prefix}/streets/{relation_name}/uppdate-result");
     {
         let div = doc.tag("div", &[("id", "no-osm-streets")]);
         let a = div.tag("a", &[("href", &link)]);
@@ -1089,10 +1065,7 @@ pub fn handle_no_osm_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
 /// Handles the no-osm-housenumbers error on a page using JS.
 pub fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
-    let link = format!(
-        "{}/street-housenumbers/{}/uppdate-result",
-        prefix, relation_name
-    );
+    let link = format!("{prefix}/street-housenumbers/{relation_name}/uppdate-result");
     {
         let div = doc.tag("div", &[("id", "no-osm-housenumbers")]);
         let a = div.tag("a", &[("href", &link)]);
@@ -1113,10 +1086,7 @@ pub fn handle_no_osm_housenumbers(prefix: &str, relation_name: &str) -> yattag::
 /// Handles the no-ref-housenumbers error on a page using JS.
 pub fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
-    let link = format!(
-        "{}/missing-housenumbers/{}/uppdate-result",
-        prefix, relation_name
-    );
+    let link = format!("{prefix}/missing-housenumbers/{relation_name}/uppdate-result");
     {
         let div = doc.tag("div", &[("id", "no-ref-housenumbers")]);
         let a = div.tag("a", &[("href", &link)]);
@@ -1137,7 +1107,7 @@ pub fn handle_no_ref_housenumbers(prefix: &str, relation_name: &str) -> yattag::
 /// Handles the no-ref-streets error on a page using JS.
 pub fn handle_no_ref_streets(prefix: &str, relation_name: &str) -> yattag::Doc {
     let doc = yattag::Doc::new();
-    let link = format!("{}/missing-streets/{}/update-result", prefix, relation_name);
+    let link = format!("{prefix}/missing-streets/{relation_name}/update-result");
     {
         let div = doc.tag("div", &[("id", "no-ref-streets")]);
         let a = div.tag("a", &[("href", &link)]);

@@ -36,12 +36,11 @@ fn rouille_main(_: &[String], stream: &mut dyn Write, ctx: &osm_gimmisn::context
     let prefix = ctx.get_ini().get_uri_prefix();
     writeln!(
         stream,
-        "Starting the server at <http://127.0.0.1:{}{}/>.",
-        port, prefix
+        "Starting the server at <http://127.0.0.1:{port}{prefix}/>."
     )
     .unwrap();
     osm_gimmisn::context::system::get_tz_offset();
-    rouille::start_server_with_pool(format!("127.0.0.1:{}", port), None, move |request| {
+    rouille::start_server_with_pool(format!("127.0.0.1:{port}"), None, move |request| {
         rouille_app(request)
     });
 }
@@ -115,7 +114,7 @@ fn main() {
     let argv: Vec<String> = args.iter().take(2).cloned().collect();
     let matches = app
         .subcommands(subcommands)
-        .try_get_matches_from(&argv)
+        .try_get_matches_from(argv)
         .unwrap_or_else(|e| e.exit());
     args.remove(1);
     let handler: &Handler = HANDLERS.get(matches.subcommand().unwrap().0).unwrap();

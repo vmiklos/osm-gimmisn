@@ -31,7 +31,7 @@ fn test_handle_static() {
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("target/browser/osm.min.css");
     mtimes.insert(
-        path.to_string(),
+        path,
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_files(&files);
@@ -41,7 +41,7 @@ fn test_handle_static() {
 
     let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
-        handle_static(&ctx, &format!("{}/static/osm.min.css", prefix)).unwrap();
+        handle_static(&ctx, &format!("{prefix}/static/osm.min.css")).unwrap();
 
     assert_eq!(content.is_empty(), false);
     assert_eq!(content_type, "text/css; charset=utf-8");
@@ -55,7 +55,7 @@ fn test_handle_static_generated_javascript() {
     let ctx = context::tests::make_test_context().unwrap();
     let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
-        handle_static(&ctx, &format!("{}/static/bundle.js", prefix)).unwrap();
+        handle_static(&ctx, &format!("{prefix}/static/bundle.js")).unwrap();
     assert_eq!("// bundle.js\n".as_bytes(), content);
     assert_eq!(content_type, "application/x-javascript; charset=utf-8");
     assert_eq!(extra_headers.len(), 1);
@@ -68,7 +68,7 @@ fn test_handle_static_json() {
     let ctx = context::tests::make_test_context().unwrap();
     let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
-        handle_static(&ctx, &format!("{}/static/stats-empty.json", prefix)).unwrap();
+        handle_static(&ctx, &format!("{prefix}/static/stats-empty.json")).unwrap();
     assert_eq!(content.starts_with(b"{"), true);
     assert_eq!(content_type, "application/json; charset=utf-8");
     assert_eq!(extra_headers.len(), 1);
@@ -90,7 +90,7 @@ fn test_handle_static_ico() {
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("favicon.ico");
     mtimes.insert(
-        path.to_string(),
+        path,
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_files(&files);
@@ -121,7 +121,7 @@ fn test_handle_static_svg() {
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("favicon.svg");
     mtimes.insert(
-        path.to_string(),
+        path,
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_files(&files);
@@ -143,7 +143,7 @@ fn test_handle_static_else() {
     let ctx = context::tests::make_test_context().unwrap();
     let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
-        handle_static(&ctx, &format!("{}/static/test.xyz", prefix)).unwrap();
+        handle_static(&ctx, &format!("{prefix}/static/test.xyz")).unwrap();
     assert_eq!(content.is_empty(), true);
     assert_eq!(content_type.is_empty(), true);
     // No last modified non-existing file.
@@ -180,7 +180,7 @@ fn test_handle_error() {
     let unit = context::tests::TestUnit::new();
     let err = unit.make_error();
 
-    let response = handle_error(&request, &format!("{:?}", err));
+    let response = handle_error(&request, &format!("{err:?}"));
     let mut data = Vec::new();
     let (mut reader, _size) = response.data.into_reader_and_size();
     reader.read_to_end(&mut data).unwrap();

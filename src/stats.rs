@@ -32,7 +32,7 @@ fn handle_progress(
     let mut ret = serde_json::json!({});
     let num_ref: f64 = ctx
         .get_file_system()
-        .read_to_string(&format!("{}/ref.count", src_root))
+        .read_to_string(&format!("{src_root}/ref.count"))
         .context("failed to read ref.count")?
         .trim()
         .parse()
@@ -43,7 +43,7 @@ fn handle_progress(
         now.format(&format)?
     };
     let mut num_osm = 0_f64;
-    let count_path = format!("{}/{}.count", src_root, today);
+    let count_path = format!("{src_root}/{today}.count");
     if ctx.get_file_system().path_exists(&count_path) {
         num_osm = ctx
             .get_file_system()
@@ -91,7 +91,7 @@ fn handle_capital_progress(
     let format = time::format_description::parse("[year]-[month]-[day]")?;
     let today = now.format(&format)?;
     let mut osm_count = 0;
-    let osm_path = format!("{}/{}.citycount", src_root, today);
+    let osm_path = format!("{src_root}/{today}.citycount");
     if ctx.get_file_system().path_exists(&osm_path) {
         let stream = ctx.get_file_system().open_read(&osm_path)?;
         let mut guard = stream.borrow_mut();
@@ -137,7 +137,7 @@ fn handle_topusers(
         now.format(&format)?
     };
     let mut ret: Vec<(String, String)> = Vec::new();
-    let topusers_path = format!("{}/{}.topusers", src_root, today);
+    let topusers_path = format!("{src_root}/{today}.topusers");
     if ctx.get_file_system().path_exists(&topusers_path) {
         let stream = ctx.get_file_system().open_read(&topusers_path)?;
         let mut guard = stream.borrow_mut();
@@ -172,12 +172,9 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     let mut old_counts: HashMap<String, i64> = HashMap::new();
     let mut counts: Vec<(String, i64)> = Vec::new();
 
-    let old_count_path = format!("{}/{}.citycount", src_root, old_day);
+    let old_count_path = format!("{src_root}/{old_day}.citycount");
     if !ctx.get_file_system().path_exists(&old_count_path) {
-        info!(
-            "get_topcities: empty result: no such path: {}",
-            old_count_path
-        );
+        info!("get_topcities: empty result: no such path: {old_count_path}");
         return Ok(vec![]);
     }
     let stream = ctx.get_file_system().open_read(&old_count_path)?;
@@ -192,7 +189,7 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
         old_counts.insert(city.into(), count);
     }
 
-    let new_count_path = format!("{}/{}.citycount", src_root, new_day);
+    let new_count_path = format!("{src_root}/{new_day}.citycount");
     if !ctx.get_file_system().path_exists(&new_count_path) {
         return Ok(vec![]);
     }
@@ -243,7 +240,7 @@ fn handle_user_total(
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
         let day = day_delta.format(&ymd)?;
-        let count_path = format!("{}/{}.usercount", src_root, day);
+        let count_path = format!("{src_root}/{day}.usercount");
         if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
@@ -276,7 +273,7 @@ fn handle_daily_new(
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
         let day = day_delta.format(&ymd)?;
-        let count_path = format!("{}/{}.count", src_root, day);
+        let count_path = format!("{src_root}/{day}.count");
         if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
@@ -326,7 +323,7 @@ fn handle_monthly_new(
         let month_delta = get_previous_month(&ctx.get_time().now(), month_offset)?;
         // Get the first day of each month.
         let month = month_delta.replace_day(1).unwrap().format(&ym)?;
-        let count_path = format!("{}/{}-01.count", src_root, month);
+        let count_path = format!("{src_root}/{month}-01.count");
         if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
@@ -346,7 +343,7 @@ fn handle_monthly_new(
     let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     let mut month = now.format(&ymd)?;
-    let count_path = format!("{}/{}.count", src_root, month);
+    let count_path = format!("{src_root}/{month}.count");
     if ctx.get_file_system().path_exists(&count_path) {
         let count: i64 = ctx
             .get_file_system()
@@ -377,7 +374,7 @@ fn handle_daily_total(
     for day_offset in (0..=day_range).rev() {
         let day_delta = now - time::Duration::days(day_offset);
         let day = day_delta.format(&ymd)?;
-        let count_path = format!("{}/{}.count", src_root, day);
+        let count_path = format!("{src_root}/{day}.count");
         if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
@@ -412,7 +409,7 @@ fn handle_monthly_total(
         // Get the first day of each past month.
         let mut month = month_delta.replace_day(1)?.format(&ym)?;
         let prev_month = prev_month_delta.replace_day(1).unwrap().format(&ym)?;
-        let mut count_path = format!("{}/{}-01.count", src_root, month);
+        let mut count_path = format!("{src_root}/{month}-01.count");
         if !ctx.get_file_system().path_exists(&count_path) {
             break;
         }
@@ -426,7 +423,7 @@ fn handle_monthly_total(
         if month_offset == 0 {
             // Current month: show today's count as well.
             month = month_delta.format(&ymd)?;
-            count_path = format!("{}/{}.count", src_root, month);
+            count_path = format!("{src_root}/{month}.count");
             let count: i64 = ctx
                 .get_file_system()
                 .read_to_string(&count_path)?

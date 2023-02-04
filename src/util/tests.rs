@@ -12,7 +12,6 @@
 
 use super::*;
 use std::io::Seek;
-use std::io::SeekFrom;
 use std::io::Write;
 use std::sync::Arc;
 
@@ -24,10 +23,7 @@ fn street_list(streets: &[&str]) -> Vec<Street> {
 /// Tests get_only_in_first().
 #[test]
 fn test_only_in_first() {
-    let ret = get_only_in_first(
-        &street_list(&vec!["1", "2", "3"]),
-        &street_list(&vec!["3", "4"]),
-    );
+    let ret = get_only_in_first(&street_list(&["1", "2", "3"]), &street_list(&["3", "4"]));
     let names: Vec<_> = ret.iter().map(|i| i.get_osm_name()).collect();
     assert_eq!(names, vec!["1", "2"]);
 }
@@ -36,8 +32,8 @@ fn test_only_in_first() {
 #[test]
 fn test_get_in_both() {
     let ret = get_in_both(
-        &street_list(&vec!["1", "2", "3"]),
-        &street_list(&vec!["2", "3", "4"]),
+        &street_list(&["1", "2", "3"]),
+        &street_list(&["2", "3", "4"]),
     );
     let names: Vec<_> = ret.iter().map(|i| i.get_osm_name()).collect();
     assert_eq!(names, vec!["2", "3"]);
@@ -425,7 +421,7 @@ fn test_gen_link() {
 fn test_process_template() {
     let template = "aaa @RELATION@ bbb @AREA@ ccc";
     let expected = "aaa 42 bbb 3600000042 ccc";
-    let actual = process_template(&template, 42);
+    let actual = process_template(template, 42);
     assert_eq!(actual, expected);
 }
 
@@ -710,7 +706,7 @@ fn test_get_street_from_housenumber_addr_place() {
 fn test_get_street_from_housenumber_missing_column() {
     let mut cursor = std::io::Cursor::new(Vec::new());
     cursor.write_all(b"@id\n42\n").unwrap();
-    cursor.seek(SeekFrom::Start(0)).unwrap();
+    cursor.rewind().unwrap();
     let mut csv_reader = make_csv_reader(&mut cursor);
     assert_eq!(get_street_from_housenumber(&mut csv_reader).is_err(), true);
 }
@@ -831,7 +827,7 @@ fn test_get_valid_settlements_error() {
 fn test_house_number_range_debug() {
     let range = HouseNumberRange::new("1", "");
 
-    let ret = format!("{:?}", range);
+    let ret = format!("{range:?}");
 
     assert_eq!(ret.starts_with("HouseNumberRange"), true);
 }
@@ -841,7 +837,7 @@ fn test_house_number_range_debug() {
 fn test_street_debug() {
     let street = Street::from_string("mystreet");
 
-    let ret = format!("{:?}", street);
+    let ret = format!("{street:?}");
 
     assert_eq!(ret.starts_with("Street"), true);
 }
@@ -851,7 +847,7 @@ fn test_street_debug() {
 fn test_house_number_debug() {
     let street = HouseNumber::new("1", "1-3", "");
 
-    let ret = format!("{:?}", street);
+    let ret = format!("{street:?}");
 
     assert_eq!(ret.starts_with("HouseNumber"), true);
 }
@@ -866,7 +862,7 @@ fn test_numbered_street_debug() {
         house_numbers,
     };
 
-    let ret = format!("{:?}", numbered_street);
+    let ret = format!("{numbered_street:?}");
 
     assert_eq!(ret.starts_with("NumberedStreet"), true);
 }

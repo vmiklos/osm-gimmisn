@@ -1101,9 +1101,7 @@ fn test_relation_get_ref_street_from_osm_street_refstreets() {
     let relation_name = "myrelation";
     let relation = relations.get_relation(relation_name).unwrap();
     let refcounty = relation.get_config().get_refcounty();
-    let street = relation
-        .get_config()
-        .get_ref_street_from_osm_street(&street);
+    let street = relation.get_config().get_ref_street_from_osm_street(street);
     assert_eq!(refcounty, "01");
     assert_eq!(
         relation.get_config().get_street_refsettlement(&street),
@@ -1878,7 +1876,7 @@ fn test_relation_write_missing_housenumbers() {
     assert_eq!(todo_street_count, 3);
     assert_eq!(todo_count, 5);
     assert_eq!(done_count, 6);
-    assert_eq!(format!("{0:.2}", percent), "54.55");
+    assert_eq!(format!("{percent:.2}"), "54.55");
     let string_table = table_doc_to_string(&table);
     assert_eq!(
         string_table,
@@ -1948,7 +1946,7 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/cache-budafok.json");
     mtimes.insert(
-        path.to_string(),
+        path,
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
@@ -2065,7 +2063,7 @@ fn test_write_missing_streets() {
 
     assert_eq!(todo_count, 1);
     assert_eq!(done_count, 4);
-    assert_eq!(format!("{0:.2}", percent), "80.00");
+    assert_eq!(format!("{percent:.2}"), "80.00");
     assert_eq!(streets, ["Only In Ref utca"]);
     let mut guard = percent_value.borrow_mut();
     guard.seek(SeekFrom::Start(0)).unwrap();
@@ -2094,7 +2092,7 @@ fn test_write_missing_streets_empty() {
     let mut guard = percent_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     let (_todo_count, _done_count, percent, _streets) = ret;
-    assert_eq!(format!("{0:.2}", percent), "100.00");
+    assert_eq!(format!("{percent:.2}"), "100.00");
 }
 
 /// Tests Relation::build_ref_housenumbers().
@@ -2126,7 +2124,7 @@ fn test_relation_build_ref_housenumbers() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
-    let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
     let relation_name = "myrelation";
     let street = "Törökugrató utca";
@@ -2170,7 +2168,7 @@ fn test_relation_build_ref_housenumbers_missing() {
     ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
     let refdir = ctx.get_abspath("refdir");
-    let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
     let relation_name = "myrelation";
     let street = "mystreet";
@@ -2204,7 +2202,7 @@ fn test_relation_build_ref_streets() {
         ],
     );
     let refdir = ctx.get_abspath("refdir");
-    let refpath = format!("{}/utcak_20190514.tsv", refdir);
+    let refpath = format!("{refdir}/utcak_20190514.tsv");
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let memory_cache = util::build_street_reference_cache(&ctx, &refpath).unwrap();
@@ -2249,8 +2247,8 @@ fn test_relation_writer_ref_housenumbers() {
     let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
     let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
     let refdir = ctx.get_abspath("refdir");
-    let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
-    let refpath2 = format!("{}/hazszamok_kieg_20190808.tsv", refdir);
+    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
+    let refpath2 = format!("{refdir}/hazszamok_kieg_20190808.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -2275,7 +2273,7 @@ fn test_relation_writer_ref_housenumbers() {
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let expected = String::from_utf8(
-        std::fs::read(&ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
+        std::fs::read(ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
             .unwrap(),
     )
     .unwrap();
@@ -2309,7 +2307,7 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
     let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let ref_hns_cache = context::tests::TestFileSystem::make_file();
     let refdir = ctx.get_abspath("refdir");
-    let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -2348,7 +2346,7 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
     let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let ref_hns_cache = context::tests::TestFileSystem::make_file();
     let refdir = ctx.get_abspath("refdir");
-    let refpath = format!("{}/hazszamok_20190511.tsv", refdir);
+    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -2398,12 +2396,12 @@ fn test_relation_write_ref_streets() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let refdir = ctx.get_abspath("refdir");
-    let refpath = format!("{}/utcak_20190514.tsv", refdir);
+    let refpath = format!("{refdir}/utcak_20190514.tsv");
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let relation = relations.get_relation(relation_name).unwrap();
     let expected = String::from_utf8(
-        std::fs::read(&ctx.get_abspath("workdir/streets-reference-gazdagret.lst")).unwrap(),
+        std::fs::read(ctx.get_abspath("workdir/streets-reference-gazdagret.lst")).unwrap(),
     )
     .unwrap();
 
@@ -3039,7 +3037,7 @@ fn test_relation_normalize_invalids() {
     let relation = relations.get_relation("gazdagret").unwrap();
 
     let ret = relation
-        .normalize_invalids("Tűzkő utca", &vec!["5".to_string()])
+        .normalize_invalids("Tűzkő utca", &["5".to_string()])
         .unwrap();
 
     // This is empty because 5 is outside 1-3.

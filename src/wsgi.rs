@@ -71,10 +71,7 @@ fn handle_streets(
                 if streets != "only" {
                     doc.text(&tr("Update successful: "));
                     let prefix = ctx.get_ini().get_uri_prefix();
-                    let link = format!(
-                        "{}/missing-housenumbers/{}/view-result",
-                        prefix, relation_name
-                    );
+                    let link = format!("{prefix}/missing-housenumbers/{relation_name}/view-result");
                     doc.append_value(
                         util::gen_link(&link, &tr("View missing house numbers")).get_value(),
                     );
@@ -143,10 +140,7 @@ fn handle_street_housenumbers(
             Ok(buf) => {
                 relation.get_files().write_osm_housenumbers(ctx, &buf)?;
                 doc.text(&tr("Update successful: "));
-                let link = format!(
-                    "{}/missing-housenumbers/{}/view-result",
-                    prefix, relation_name
-                );
+                let link = format!("{prefix}/missing-housenumbers/{relation_name}/view-result");
                 doc.append_value(
                     util::gen_link(&link, &tr("View missing house numbers")).get_value(),
                 );
@@ -245,10 +239,7 @@ fn missing_housenumbers_view_res_html(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/missing-housenumbers/{}/view-turbo",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/missing-housenumbers/{relation_name}/view-turbo"),
                 )],
             );
             a.text(&tr("Overpass turbo query for the below streets"));
@@ -259,10 +250,7 @@ fn missing_housenumbers_view_res_html(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/missing-housenumbers/{}/view-result.txt",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/missing-housenumbers/{relation_name}/view-result.txt"),
                 )],
             );
             a.text(&tr("Plain text format"));
@@ -273,10 +261,7 @@ fn missing_housenumbers_view_res_html(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/missing-housenumbers/{}/view-result.chkl",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/missing-housenumbers/{relation_name}/view-result.chkl"),
                 )],
             );
             a.text(&tr("Checklist format"));
@@ -381,7 +366,7 @@ fn missing_streets_view_result(
                 "a",
                 &[(
                     "href",
-                    &format!("{}/missing-streets/{}/view-turbo", prefix, relation_name),
+                    &format!("{prefix}/missing-streets/{relation_name}/view-turbo"),
                 )],
             );
             a.text(&tr(
@@ -394,10 +379,7 @@ fn missing_streets_view_result(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/missing-streets/{}/view-result.txt",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/missing-streets/{relation_name}/view-result.txt"),
                 )],
             );
             a.text(&tr("Plain text format"));
@@ -408,10 +390,7 @@ fn missing_streets_view_result(
                 "a",
                 &[(
                     "href",
-                    &format!(
-                        "{}/missing-streets/{}/view-result.chkl",
-                        prefix, relation_name
-                    ),
+                    &format!("{prefix}/missing-streets/{relation_name}/view-result.chkl"),
                 )],
             );
             a.text(&tr("Checklist format"));
@@ -593,9 +572,9 @@ fn missing_streets_view_txt(
         let mut lines: Vec<String> = Vec::new();
         for street in todo_streets {
             if chkl {
-                lines.push(format!("[ ] {}\n", street));
+                lines.push(format!("[ ] {street}\n"));
             } else {
-                lines.push(format!("{}\n", street));
+                lines.push(format!("{street}\n"));
             }
         }
         output = lines.join("");
@@ -615,10 +594,7 @@ fn missing_housenumbers_update(
     let doc = yattag::Doc::new();
     doc.text(&tr("Update successful: "));
     let prefix = ctx.get_ini().get_uri_prefix();
-    let link = format!(
-        "{}/missing-housenumbers/{}/view-result",
-        prefix, relation_name
-    );
+    let link = format!("{prefix}/missing-housenumbers/{relation_name}/view-result");
     doc.append_value(util::gen_link(&link, &tr("View missing house numbers")).get_value());
     Ok(doc)
 }
@@ -1168,7 +1144,7 @@ fn handle_main_filters_refcounty(
             "a",
             &[(
                 "href",
-                &format!("{}/filter-for/refcounty/{}/whole-county", prefix, refcounty),
+                &format!("{prefix}/filter-for/refcounty/{refcounty}/whole-county"),
             )],
         );
         a.text(&name);
@@ -1182,8 +1158,7 @@ fn handle_main_filters_refcounty(
                 let name_doc = yattag::Doc::new();
                 {
                     let href = format!(
-                        "{}/filter-for/refcounty/{}/refsettlement/{}",
-                        prefix, refcounty, refsettlement_id
+                        "{prefix}/filter-for/refcounty/{refcounty}/refsettlement/{refsettlement_id}"
                     );
                     let a = name_doc.tag("a", &[("href", &href)]);
                     a.text(&name);
@@ -1222,10 +1197,7 @@ fn handle_main_filters(
     doc = yattag::Doc::new();
     let prefix = ctx.get_ini().get_uri_prefix();
     {
-        let a = doc.tag(
-            "a",
-            &[("href", &format!("{}/filter-for/everything", prefix))],
-        );
+        let a = doc.tag("a", &[("href", &format!("{prefix}/filter-for/everything"))]);
         a.text(&tr("Show complete areas"));
     }
     items.push(doc);
@@ -1440,7 +1412,7 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
             ("rel", "icon"),
             ("type", "image/vnd.microsoft.icon"),
             ("sizes", "16x12"),
-            ("href", &format!("{}/favicon.ico", prefix)),
+            ("href", &format!("{prefix}/favicon.ico")),
         ],
     );
     head.stag(
@@ -1449,7 +1421,7 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
             ("rel", "icon"),
             ("type", "image/svg+xml"),
             ("sizes", "any"),
-            ("href", &format!("{}/favicon.svg", prefix)),
+            ("href", &format!("{prefix}/favicon.svg")),
         ],
     );
 
@@ -1475,7 +1447,7 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
         "script",
         &[
             ("defer", ""),
-            ("src", &format!("{}/static/bundle.js", prefix)),
+            ("src", &format!("{prefix}/static/bundle.js")),
         ],
     );
     drop(script);
@@ -1497,24 +1469,24 @@ fn our_application_txt(
         chkl = last == &"chkl";
     }
     let data: Vec<u8>;
-    if request_uri.starts_with(&format!("{}/missing-streets/", prefix)) {
+    if request_uri.starts_with(&format!("{prefix}/missing-streets/")) {
         let (output, relation_name) = missing_streets_view_txt(ctx, relations, request_uri, chkl)?;
         if chkl {
             content_type = "application/octet-stream";
             headers.push((
                 "Content-Disposition".into(),
-                format!(r#"attachment;filename="{}.txt""#, relation_name).into(),
+                format!(r#"attachment;filename="{relation_name}.txt""#).into(),
             ));
         }
         data = output.as_bytes().to_vec();
-    } else if request_uri.starts_with(&format!("{}/additional-streets/", prefix)) {
+    } else if request_uri.starts_with(&format!("{prefix}/additional-streets/")) {
         let (output, relation_name) =
             wsgi_additional::additional_streets_view_txt(ctx, relations, request_uri, chkl)?;
         if chkl {
             content_type = "application/octet-stream";
             headers.push((
                 "Content-Disposition".into(),
-                format!(r#"attachment;filename="{}.txt""#, relation_name).into(),
+                format!(r#"attachment;filename="{relation_name}.txt""#).into(),
             ));
         }
         data = output.as_bytes().to_vec();
@@ -1526,7 +1498,7 @@ fn our_application_txt(
             content_type = "application/octet-stream";
             headers.push((
                 "Content-Disposition".into(),
-                format!(r#"attachment;filename="{}.txt""#, relation_name).into(),
+                format!(r#"attachment;filename="{relation_name}.txt""#).into(),
             ));
             data = output.as_bytes().to_vec();
         } else if request_uri.ends_with("robots.txt") {
@@ -1568,7 +1540,7 @@ lazy_static! {
 fn get_handler(ctx: &context::Context, request_uri: &str) -> anyhow::Result<Option<Handler>> {
     let prefix = ctx.get_ini().get_uri_prefix();
     for (key, value) in HANDLERS.iter() {
-        if request_uri.starts_with(&format!("{}{}", prefix, key)) {
+        if request_uri.starts_with(&format!("{prefix}{key}")) {
             return Ok(Some(*value));
         }
     }
@@ -1606,7 +1578,7 @@ fn our_application(
         ));
     }
 
-    if request_uri.starts_with(&format!("{}/static/", prefix))
+    if request_uri.starts_with(&format!("{prefix}/static/"))
         || request_uri.ends_with("favicon.ico")
         || request_uri.ends_with("favicon.svg")
     {
@@ -1636,7 +1608,7 @@ fn our_application(
                 .context("handler() failed")?
                 .get_value();
             body.append_value(value);
-        } else if request_uri.starts_with(&format!("{}/webhooks/github", prefix)) {
+        } else if request_uri.starts_with(&format!("{prefix}/webhooks/github")) {
             body.append_value(webframe::handle_github_webhook(request, ctx)?.get_value());
         } else {
             let doc =
@@ -1658,7 +1630,7 @@ pub fn application(request: &rouille::Request, ctx: &context::Context) -> rouill
     match our_application(request, ctx).context("our_application() failed") {
         // Compress.
         Ok(value) => rouille::content_encoding::apply(request, value),
-        Err(err) => webframe::handle_error(request, &format!("{:?}", err)),
+        Err(err) => webframe::handle_error(request, &format!("{err:?}")),
     }
 }
 

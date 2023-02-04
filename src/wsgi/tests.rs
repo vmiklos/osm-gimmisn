@@ -54,7 +54,7 @@ impl TestWsgi {
     /// Finds all matching subelements, by tag name or path.
     pub fn find_all(package: &sxd_document::Package, path: &str) -> Vec<String> {
         let document = package.as_document();
-        let value = sxd_xpath::evaluate_xpath(&document, &format!("/html/{}", path)).unwrap();
+        let value = sxd_xpath::evaluate_xpath(&document, &format!("/html/{path}")).unwrap();
         let mut ret: Vec<String> = Vec::new();
         if let sxd_xpath::Value::Nodeset(nodeset) = value {
             ret = nodeset.iter().map(|i| i.string_value()).collect();
@@ -69,7 +69,7 @@ impl TestWsgi {
         if self.absolute_path {
             abspath = path.into();
         } else {
-            abspath = format!("{}{}", prefix, path);
+            abspath = format!("{prefix}{path}");
         }
         if self.gzip_compress {
             self.headers
@@ -94,26 +94,28 @@ impl TestWsgi {
         } else {
             output = data;
         }
-        let output_xml =
-            format!("{}", String::from_utf8(output).unwrap()).replace("<!DOCTYPE html>", "");
-        println!("get_dom_for_path: output_xml is '{}'", output_xml);
+        let output_xml = String::from_utf8(output)
+            .unwrap()
+            .to_string()
+            .replace("<!DOCTYPE html>", "");
+        println!("get_dom_for_path: output_xml is '{output_xml}'");
         // Make sure the built-in error catcher is not kicking in.
         assert_eq!(response.status_code, self.expected_status);
-        let package = sxd_document::parser::parse(&output_xml).unwrap();
-        package
+
+        sxd_document::parser::parse(&output_xml).unwrap()
     }
 
     /// Generates a string for a given wsgi path.
     pub fn get_txt_for_path(&mut self, path: &str) -> String {
         let prefix = self.ctx.get_ini().get_uri_prefix();
-        let abspath = format!("{}{}", prefix, path);
+        let abspath = format!("{prefix}{path}");
         let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
         let response = application(&request, &self.ctx);
         let mut data = Vec::new();
         let (mut reader, _size) = response.data.into_reader_and_size();
         reader.read_to_end(&mut data).unwrap();
         let output = String::from_utf8(data).unwrap();
-        println!("get_txt_for_path: output is '{}'", output);
+        println!("get_txt_for_path: output is '{output}'");
         // Make sure the built-in exception catcher is not kicking in.
         assert_eq!(response.status_code, 200);
         let mut headers_map = HashMap::new();
@@ -132,7 +134,7 @@ impl TestWsgi {
     /// Generates an json value for a given wsgi path.
     pub fn get_json_for_path(&mut self, path: &str) -> serde_json::Value {
         let prefix = self.ctx.get_ini().get_uri_prefix();
-        let abspath = format!("{}{}", prefix, path);
+        let abspath = format!("{prefix}{path}");
         let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
         let response = application(&request, &self.ctx);
         let mut data = Vec::new();
@@ -140,7 +142,7 @@ impl TestWsgi {
         reader.read_to_end(&mut data).unwrap();
         assert_eq!(data.is_empty(), false);
         let output = String::from_utf8(data).unwrap();
-        println!("get_json_for_path: output is '{}'", output);
+        println!("get_json_for_path: output is '{output}'");
         // Make sure the built-in exception catcher is not kicking in.
         assert_eq!(response.status_code, 200);
         let headers_map: HashMap<_, _> = response.headers.into_iter().collect();
@@ -155,7 +157,7 @@ impl TestWsgi {
     /// Generates a CSS string for a given wsgi path.
     fn get_css_for_path(&mut self, path: &str) -> String {
         let prefix = self.ctx.get_ini().get_uri_prefix();
-        let abspath = format!("{}{}", prefix, path);
+        let abspath = format!("{prefix}{path}");
         let request = rouille::Request::fake_http("GET", abspath, vec![], vec![]);
         let response = application(&request, &self.ctx);
         let mut data = Vec::new();
@@ -1014,10 +1016,7 @@ fn test_missing_housenumbers_update_result_link() {
     let prefix = test_wsgi.ctx.get_ini().get_uri_prefix();
     let results = TestWsgi::find_all(
         &root,
-        &format!(
-            "body/a[@href='{}/missing-housenumbers/gazdagret/view-result']",
-            prefix
-        ),
+        &format!("body/a[@href='{prefix}/missing-housenumbers/gazdagret/view-result']"),
     );
     assert_eq!(results.len(), 1);
 }
@@ -1047,10 +1046,7 @@ fn test_housenumbers_view_result_update_result_link() {
         "{}/missing-housenumbers/gazdagret/view-result",
         test_wsgi.ctx.get_ini().get_uri_prefix()
     );
-    let results = TestWsgi::find_all(
-        &root,
-        &format!("body/div[@id='toolbar']/a[@href='{}']", uri),
-    );
+    let results = TestWsgi::find_all(&root, &format!("body/div[@id='toolbar']/a[@href='{uri}']"));
     assert_eq!(results.len(), 1);
 }
 
@@ -1845,7 +1841,7 @@ fn test_static_css() {
 
     let result = test_wsgi.get_css_for_path("/static/osm.min.css");
 
-    assert_eq!(result.ends_with("}"), true);
+    assert_eq!(result.ends_with('}'), true);
 }
 
 /// Tests /osm/static/: the plain text case.

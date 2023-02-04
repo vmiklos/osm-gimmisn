@@ -22,10 +22,7 @@ pub fn set_language(ctx: &context::Context, language: &str) {
     // Not using ctx.get_abspath() here, tests/ doesn't have its own dummy translations.
     let current_dir = std::env::current_dir().expect("current_dir() failed");
     let current_dir_str = current_dir.to_str().expect("PathBuf::to_str() failed");
-    let path = format!(
-        "{}/locale/{}/LC_MESSAGES/osm-gimmisn.mo",
-        current_dir_str, language
-    );
+    let path = format!("{current_dir_str}/locale/{language}/LC_MESSAGES/osm-gimmisn.mo");
 
     if ctx.get_file_system().path_exists(&path) {
         // The file exists, so this should not fail.

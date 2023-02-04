@@ -371,12 +371,12 @@ impl Relation {
     ) -> anyhow::Result<Self> {
         let mut my_config = RelationDict::default();
         let file = area_files::RelationFiles::new(&ctx.get_ini().get_workdir(), name);
-        let relation_path = format!("relation-{}.yaml", name);
+        let relation_path = format!("relation-{name}.yaml");
         // Intentionally don't require this cache to be present, it's fine to omit it for simple
         // relations.
         if let Some(value) = yaml_cache.get(&relation_path) {
             my_config = serde_json::from_value(value.clone())
-                .context(format!("failed to parse '{}'", relation_path))?;
+                .context(format!("failed to parse '{relation_path}'"))?;
         }
         let config = RelationConfig::new(parent_config, &my_config);
         // osm street name -> house number list map, so we don't have to read the on-disk list of the
@@ -898,7 +898,7 @@ impl Relation {
         };
 
         // Write the bottom line to a file, so the index page show it fast.
-        let string = format!("{0:.2}", percent);
+        let string = format!("{percent:.2}");
         self.ctx
             .get_file_system()
             .write_from_string(&string, &self.file.get_streets_percent_path())?;
@@ -1017,7 +1017,7 @@ impl Relation {
 
         // Write the bottom line to a file, so the index page show it fast.
         self.ctx.get_file_system().write_from_string(
-            &format!("{0:.2}", percent),
+            &format!("{percent:.2}"),
             &self.file.get_housenumbers_percent_path(),
         )?;
 
@@ -1232,7 +1232,7 @@ impl Relations {
 
     /// Gets a sorted list of relation names.
     pub fn get_names(&self) -> Vec<String> {
-        let mut ret: Vec<String> = self.dict.iter().map(|(key, _value)| key.into()).collect();
+        let mut ret: Vec<String> = self.dict.keys().map(|key| key.into()).collect();
         ret.sort();
         ret.dedup();
         ret
@@ -1323,8 +1323,7 @@ impl Relations {
                 return Ok(());
             }
         };
-        let relation_names: Vec<String> =
-            self.dict.iter().map(|(key, _value)| key.clone()).collect();
+        let relation_names: Vec<String> = self.dict.keys().cloned().collect();
         for relation_name in relation_names {
             let relation = self.get_relation(&relation_name)?;
             if relation.config.get_refcounty() == refcounty {
@@ -1347,8 +1346,7 @@ impl Relations {
                 return Ok(());
             }
         };
-        let relation_names: Vec<String> =
-            self.dict.iter().map(|(key, _value)| key.clone()).collect();
+        let relation_names: Vec<String> = self.dict.keys().cloned().collect();
         for relation_name in relation_names {
             let relation = self.get_relation(&relation_name)?;
             if relation.config.get_refsettlement() == refsettlement {
@@ -1511,8 +1509,8 @@ area(@AREA@)->.searchArea;
 "#;
     let mut query = util::process_template(header, relation.config.get_osmrelation());
     for street in streets {
-        writeln!(query, "way[\"name\"=\"{}\"](r.searchRelation);", street).unwrap();
-        writeln!(query, "way[\"name\"=\"{}\"](area.searchArea);", street).unwrap();
+        writeln!(query, "way[\"name\"=\"{street}\"](r.searchRelation);").unwrap();
+        writeln!(query, "way[\"name\"=\"{street}\"](area.searchArea);").unwrap();
     }
     query += r#");
 out body;
@@ -1539,7 +1537,7 @@ area(@AREA@)->.searchArea;
     ids.sort();
     ids.dedup();
     for (osm_type, osm_id) in ids {
-        writeln!(query, "{}({});", osm_type, osm_id).unwrap();
+        writeln!(query, "{osm_type}({osm_id});").unwrap();
     }
     query += r#");
 out body;

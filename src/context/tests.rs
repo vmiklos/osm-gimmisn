@@ -132,7 +132,7 @@ impl FileSystem for TestFileSystem {
         }
 
         let metadata =
-            std::fs::metadata(path).context(format!("metadata() failed for '{}'", path))?;
+            std::fs::metadata(path).context(format!("metadata() failed for '{path}'"))?;
         Ok(time::OffsetDateTime::try_from(metadata.modified()?)?)
     }
 
@@ -147,7 +147,7 @@ impl FileSystem for TestFileSystem {
             return Ok(ret);
         }
         let ret: Rc<RefCell<dyn Read>> = Rc::new(RefCell::new(
-            std::fs::File::open(path).context(format!("failed to open '{}'", path))?,
+            std::fs::File::open(path).context(format!("failed to open '{path}'"))?,
         ));
         Ok(ret)
     }
@@ -166,7 +166,7 @@ impl FileSystem for TestFileSystem {
             hide_paths.remove(position);
         }
 
-        if let Some(ref value) = self.mtimes.get(path) {
+        if let Some(value) = self.mtimes.get(path) {
             let mut guard = value.borrow_mut();
             *guard = time::OffsetDateTime::now_utc();
         }
@@ -182,13 +182,14 @@ impl FileSystem for TestFileSystem {
             return Err(anyhow::anyhow!("unlink: {}: no such file", path));
         }
 
-        Ok(hide_paths.push(path.to_string()))
+        hide_paths.push(path.to_string());
+        Ok(())
     }
 
     fn listdir(&self, path: &str) -> anyhow::Result<Vec<String>> {
         let mut contents: Vec<String> = Vec::new();
         for file in self.files.iter() {
-            if self.hide_paths.borrow().contains(&file.0) {
+            if self.hide_paths.borrow().contains(file.0) {
                 continue;
             }
 

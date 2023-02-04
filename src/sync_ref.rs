@@ -60,14 +60,14 @@ pub fn our_main(
 
         let mut dests: Vec<String> = Vec::new();
         for path in paths {
-            let url = format!("{}{}", url, path);
-            let dest = ctx.get_abspath(&format!("refdir/{}", path));
+            let url = format!("{url}{path}");
+            let dest = ctx.get_abspath(&format!("refdir/{path}"));
             dests.push(dest.clone());
             if ctx.get_file_system().path_exists(&dest) {
                 continue;
             }
 
-            stream.write_all(format!("sync-ref: downloading '{}'...\n", url).as_bytes())?;
+            stream.write_all(format!("sync-ref: downloading '{url}'...\n").as_bytes())?;
             let buf = ctx.get_network().urlopen(&url, "")?;
             ctx.get_file_system().write_from_string(&buf, &dest)?;
         }
@@ -76,7 +76,7 @@ pub fn our_main(
                 continue;
             }
             let relpath = path.strip_prefix(&ctx.get_abspath("")).unwrap();
-            stream.write_all(format!("sync-ref: removing '{}'...\n", relpath).as_bytes())?;
+            stream.write_all(format!("sync-ref: removing '{relpath}'...\n").as_bytes())?;
             ctx.get_file_system().unlink(&path)?;
         }
 
@@ -156,13 +156,9 @@ pub fn our_main(
     // Write config.
     ctx.get_file_system()
         .write_from_string(&config.join("\n"), &config_file)?;
-    let max = files.iter().map(|(_k, v)| v).max().context("empty files")?;
+    let max = files.values().max().context("empty files")?;
     stream.write_all(
-        format!(
-            "Now you can run: git commit -m 'Update reference to {}'\n",
-            max
-        )
-        .as_bytes(),
+        format!("Now you can run: git commit -m 'Update reference to {max}'\n").as_bytes(),
     )?;
     Ok(())
 }
@@ -173,7 +169,7 @@ pub fn main(args: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     match our_main(args, stream, ctx) {
         Ok(_) => 0,
         Err(err) => {
-            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            stream.write_all(format!("{err:?}\n").as_bytes()).unwrap();
             1
         }
     }
