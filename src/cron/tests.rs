@@ -775,13 +775,10 @@ fn test_update_stats() {
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
-    mtimes.insert(
-        path.to_string(),
-        Rc::new(RefCell::new(ctx.get_time().now())),
-    );
+    mtimes.insert(path, Rc::new(RefCell::new(ctx.get_time().now())));
     let path = ctx.get_abspath("workdir/stats/old.csv");
     mtimes.insert(
-        path.to_string(),
+        path,
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
@@ -791,7 +788,7 @@ fn test_update_stats() {
     let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]").unwrap();
     let today = now.format(&format).unwrap();
-    let path = ctx.get_abspath(&format!("workdir/stats/{}.csv", today));
+    let path = ctx.get_abspath(&format!("workdir/stats/{today}.csv"));
 
     update_stats(&ctx, /*overpass=*/ true).unwrap();
 
@@ -1026,7 +1023,7 @@ fn test_our_main() {
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/cache-gazdagret.json");
     mtimes.insert(
-        path.to_string(),
+        path,
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
@@ -1126,10 +1123,7 @@ fn test_our_main_stats() {
     file_system.set_files(&files);
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
     let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
-    mtimes.insert(
-        path.to_string(),
-        Rc::new(RefCell::new(ctx.get_time().now())),
-    );
+    mtimes.insert(path, Rc::new(RefCell::new(ctx.get_time().now())));
     file_system.set_mtimes(&mtimes);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);

@@ -27,8 +27,7 @@ fn validate_range_missing_keys(
         Ok(value) => value,
         Err(_) => {
             errors.push(format!(
-                "expected value type for '{}.start' is a digit str",
-                parent
+                "expected value type for '{parent}.start' is a digit str"
             ));
             return Ok(());
         }
@@ -37,18 +36,17 @@ fn validate_range_missing_keys(
         Ok(value) => value,
         Err(_) => {
             errors.push(format!(
-                "expected value type for '{}.end' is a digit str",
-                parent
+                "expected value type for '{parent}.end' is a digit str"
             ));
             return Ok(());
         }
     };
     if start > end {
-        errors.push(format!("expected end >= start for '{}'", parent));
+        errors.push(format!("expected end >= start for '{parent}'"));
     }
 
     if filter_data.interpolation.is_none() && start % 2 != end % 2 {
-        errors.push(format!("expected start % 2 == end % 2 for '{}'", parent))
+        errors.push(format!("expected start % 2 == end % 2 for '{parent}'"))
     }
 
     Ok(())
@@ -75,7 +73,7 @@ fn validate_ranges(
     for (index, range_data) in ranges.iter().enumerate() {
         validate_range(
             errors,
-            &format!("{}[{}]", parent, index),
+            &format!("{parent}[{index}]"),
             range_data,
             filter_data,
         )?;
@@ -110,8 +108,7 @@ fn validate_filter_invalid_valid(
             continue;
         }
         errors.push(format!(
-            "expected format for '{}[{}]' is '42', '42a' or '42/1'",
-            parent, index
+            "expected format for '{parent}[{index}]' is '42', '42a' or '42/1'"
         ));
     }
 
@@ -124,9 +121,9 @@ fn validate_filter(
     parent: &str,
     filter_data: &areas::RelationFiltersDict,
 ) -> anyhow::Result<()> {
-    let context = format!("{}.", parent);
+    let context = format!("{parent}.");
     if let Some(ref ranges) = filter_data.ranges {
-        validate_ranges(errors, &format!("{}ranges", context), ranges, filter_data)?;
+        validate_ranges(errors, &format!("{context}ranges"), ranges, filter_data)?;
     }
 
     if let Some(ref invalid) = filter_data.invalid {
@@ -145,9 +142,9 @@ fn validate_filters(
     parent: &str,
     filters: &HashMap<String, areas::RelationFiltersDict>,
 ) -> anyhow::Result<()> {
-    let context = format!("{}.", parent);
+    let context = format!("{parent}.");
     for (key, value) in filters {
-        validate_filter(errors, &format!("{}{}", context, key), value)?;
+        validate_filter(errors, &format!("{context}{key}"), value)?;
     }
 
     Ok(())
@@ -159,22 +156,16 @@ fn validate_refstreets(
     parent: &str,
     refstreets: &HashMap<String, String>,
 ) -> anyhow::Result<()> {
-    let context = format!("{}.", parent);
+    let context = format!("{parent}.");
     for (key, value) in refstreets {
         if value.parse::<i64>().is_ok() {
-            errors.push(format!(
-                "expected value type for '{}{}' is str",
-                context, key
-            ));
+            errors.push(format!("expected value type for '{context}{key}' is str"));
         }
         if key.contains('\'') || key.contains('"') {
-            errors.push(format!("expected no quotes in '{}{}'", context, key));
+            errors.push(format!("expected no quotes in '{context}{key}'"));
         }
         if value.contains('\'') || value.contains('"') {
-            errors.push(format!(
-                "expected no quotes in value of '{}{}'",
-                context, key
-            ));
+            errors.push(format!("expected no quotes in value of '{context}{key}'"));
         }
     }
     let mut reverse: Vec<_> = refstreets
@@ -185,8 +176,7 @@ fn validate_refstreets(
     reverse.dedup();
     if refstreets.keys().len() != reverse.len() {
         errors.push(format!(
-            "osm and ref streets are not a 1:1 mapping in '{}'",
-            parent
+            "osm and ref streets are not a 1:1 mapping in '{parent}'"
         ));
     }
 
@@ -202,8 +192,7 @@ fn validate_street_filters(
     for (index, street_filter) in street_filters.iter().enumerate() {
         if street_filter.parse::<i64>().is_ok() {
             errors.push(format!(
-                "expected value type for '{}[{}]' is str",
-                parent, index
+                "expected value type for '{parent}[{index}]' is str"
             ));
         }
     }
@@ -219,18 +208,18 @@ fn validate_relation(
 ) -> anyhow::Result<()> {
     let mut context: String = "".into();
     if !parent.is_empty() {
-        context = format!("{}.", parent);
+        context = format!("{parent}.");
 
         // Just to be consistent, we require these keys in relations.yaml for now, even if code would
         // handle having them there or in relation-foo.yaml as well.
         if relation.osmrelation.is_none() {
-            errors.push(format!("missing key '{}osmrelation'", context));
+            errors.push(format!("missing key '{context}osmrelation'"));
         }
         if relation.refcounty.is_none() {
-            errors.push(format!("missing key '{}refcounty'", context));
+            errors.push(format!("missing key '{context}refcounty'"));
         }
         if relation.refsettlement.is_none() {
-            errors.push(format!("missing key '{}refsettlement'", context));
+            errors.push(format!("missing key '{context}refsettlement'"));
         }
     }
 
@@ -249,18 +238,14 @@ fn validate_relation(
     }
     if let Some(ref source) = relation.source {
         if source.parse::<i64>().is_ok() {
-            errors.push(format!(
-                "expected value type for '{}source' is str",
-                context
-            ));
+            errors.push(format!("expected value type for '{context}source' is str"));
         }
     }
     if let Some(ref aliases) = relation.alias {
         for (index, alias) in aliases.iter().enumerate() {
             if alias.parse::<i64>().is_ok() {
                 errors.push(format!(
-                    "expected value type for '{}alias[{}]' is str",
-                    context, index
+                    "expected value type for '{context}alias[{index}]' is str"
                 ));
             }
         }
@@ -286,7 +271,7 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     match our_main(argv, stream, ctx) {
         Ok(_) => 0,
         Err(err) => {
-            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            stream.write_all(format!("{err:?}\n").as_bytes()).unwrap();
             1
         }
     }
@@ -313,13 +298,13 @@ pub fn our_main(
         validate_relations(&mut errors, &relations_dict)?;
     } else {
         let relation_dict: areas::RelationDict =
-            serde_yaml::from_str(&data).context(format!("failed to validate {}", yaml_path))?;
+            serde_yaml::from_str(&data).context(format!("failed to validate {yaml_path}"))?;
         let parent = "";
         validate_relation(&mut errors, parent, &relation_dict)?;
     }
     if !errors.is_empty() {
         for error in errors {
-            stream.write_all(format!("{}\n", error).as_bytes())?;
+            stream.write_all(format!("{error}\n").as_bytes())?;
         }
         return Err(anyhow::anyhow!("failed to validate {}", yaml_path));
     }

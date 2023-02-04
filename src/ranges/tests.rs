@@ -14,7 +14,7 @@ use super::*;
 
 /// Factory for Range without specifying interpolation.
 fn make_range(start: i64, end: i64) -> Range {
-    Range::new(start, end, "".into())
+    Range::new(start, end, "")
 }
 
 /// Range: Tests an odd range with an even number.
@@ -65,7 +65,7 @@ fn test_range_interpolation_all() {
 fn test_range_traits() {
     let range = make_range(1, 3);
     assert_eq!(
-        format!("{:?}", range),
+        format!("{range:?}"),
         "Range { start: 1, end: 3, is_odd: Some(true) }"
     );
     let range2 = range.clone();
@@ -105,5 +105,5 @@ fn test_ranges_none() {
 fn test_ranges_traits() {
     let ranges = Ranges::new(vec![make_range(0, 0), make_range(1, 1)]);
     let expected = "Ranges { items: [Range { start: 0, end: 0, is_odd: Some(false) }, Range { start: 1, end: 1, is_odd: Some(true) }] }";
-    assert_eq!(format!("{:?}", ranges), expected);
+    assert_eq!(format!("{ranges:?}"), expected);
 }

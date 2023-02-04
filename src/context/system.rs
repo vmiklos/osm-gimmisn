@@ -43,7 +43,7 @@ impl FileSystem for StdFileSystem {
     fn open_read(&self, path: &str) -> anyhow::Result<Rc<RefCell<dyn Read>>> {
         let ret: Rc<RefCell<dyn Read>> = Rc::new(RefCell::new(
             std::fs::File::open(path)
-                .with_context(|| format!("failed to open {} for reading", path))?,
+                .with_context(|| format!("failed to open {path} for reading"))?,
         ));
         Ok(ret)
     }
@@ -57,7 +57,7 @@ impl FileSystem for StdFileSystem {
 
         let ret: Rc<RefCell<dyn Write>> = Rc::new(RefCell::new(
             std::fs::File::create(path)
-                .with_context(|| format!("failed to open {} for writing", path))?,
+                .with_context(|| format!("failed to open {path} for writing"))?,
         ));
         Ok(ret)
     }

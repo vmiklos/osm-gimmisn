@@ -177,7 +177,7 @@ fn check_top_edited_relations(
 ) -> anyhow::Result<()> {
     let workdir = ctx.get_ini().get_workdir();
     // List of 'city name' <-> '# of new house numbers' pairs.
-    let topcities = stats::get_topcities(ctx, &format!("{}/stats", workdir))?;
+    let topcities = stats::get_topcities(ctx, &format!("{workdir}/stats"))?;
     let topcities: Vec<_> = topcities
         .iter()
         .map(|city| (unidecode::unidecode(&city.0), city.1))
@@ -227,29 +227,21 @@ pub fn our_main(
             if actual {
                 if !is_relation_recently_added(ctx, &relation_create_dates, &relation_name) {
                     stdout.write_all(
-                        format!("data/relation-{}.yaml: set inactive: true\n", relation_name)
+                        format!("data/relation-{relation_name}.yaml: set inactive: true\n")
                             .as_bytes(),
                     )?;
                     removals += 1;
                 }
             } else {
                 stdout.write_all(
-                    format!(
-                        "data/relation-{}.yaml: set inactive: false\n",
-                        relation_name
-                    )
-                    .as_bytes(),
+                    format!("data/relation-{relation_name}.yaml: set inactive: false\n").as_bytes(),
                 )?;
                 additions += 1;
             }
         }
     }
     stdout.write_all(
-        format!(
-            "Suggested {} removals and {} additions.\n",
-            removals, additions
-        )
-        .as_bytes(),
+        format!("Suggested {removals} removals and {additions} additions.\n").as_bytes(),
     )?;
 
     ctx.get_unit().make_error()
@@ -260,7 +252,7 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     match our_main(argv, stream, ctx) {
         Ok(_) => 0,
         Err(err) => {
-            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            stream.write_all(format!("{err:?}\n").as_bytes()).unwrap();
             1
         }
     }

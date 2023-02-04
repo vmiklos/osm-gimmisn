@@ -13,7 +13,6 @@
 use super::*;
 use std::io::Read;
 use std::io::Seek;
-use std::io::SeekFrom;
 use std::sync::Arc;
 
 /// Tests main().
@@ -26,7 +25,7 @@ fn test_main() {
     let ret = main(&argv, &mut buf, &mut ctx);
 
     assert_eq!(ret, 0);
-    buf.seek(SeekFrom::Start(0)).unwrap();
+    buf.rewind().unwrap();
     let mut actual: Vec<u8> = Vec::new();
     buf.read_to_end(&mut actual).unwrap();
     assert_eq!(

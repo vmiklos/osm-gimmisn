@@ -41,7 +41,7 @@ pub fn our_main(
             .as_bytes(),
         )?;
         // only_in_reference items.
-        stream.write_all(format!("{:?}\n", range_strings).as_bytes())?;
+        stream.write_all(format!("{range_strings:?}\n").as_bytes())?;
     }
 
     ctx.get_unit().make_error()
@@ -52,7 +52,7 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     match our_main(argv, stream, ctx) {
         Ok(_) => 0,
         Err(err) => {
-            stream.write_all(format!("{:?}\n", err).as_bytes()).unwrap();
+            stream.write_all(format!("{err:?}\n").as_bytes()).unwrap();
             1
         }
     }

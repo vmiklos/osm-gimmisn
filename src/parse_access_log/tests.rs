@@ -14,7 +14,6 @@ use super::*;
 
 use std::io::Read;
 use std::io::Seek;
-use std::io::SeekFrom;
 use std::sync::Arc;
 
 use context::FileSystem as _;
@@ -117,7 +116,7 @@ fn test_main() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let relations_path = ctx.get_abspath("data/relations.yaml");
     // 2020-05-09, so this will be recent
-    let expected_args = format!("git blame --line-porcelain {}", relations_path);
+    let expected_args = format!("git blame --line-porcelain {relations_path}");
     let expected_out = "\n\
 author-time 1588975200\n\
 \tujbuda:\n"
@@ -156,7 +155,7 @@ author-time 1588975200\n\
     let ret = main(&argv, &mut buf, &ctx);
 
     assert_eq!(ret, 0);
-    buf.seek(SeekFrom::Start(0)).unwrap();
+    buf.rewind().unwrap();
     let mut actual: Vec<u8> = Vec::new();
     buf.read_to_end(&mut actual).unwrap();
     let actual = String::from_utf8(actual).unwrap();

@@ -289,7 +289,7 @@ fn test_missing_housenumbers_view_result_json() {
     let mut file_system = context::tests::TestFileSystem::new();
     let json_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
-        &test_wsgi.get_ctx(),
+        test_wsgi.get_ctx(),
         &[("workdir/cache-budafok.json", &json_cache)],
     );
     file_system.set_files(&files);

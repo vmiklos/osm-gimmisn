@@ -121,7 +121,7 @@ fn test_is_cache_current() {
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
 
-    let ret = is_cache_current(&ctx, &cache_path, &[]).unwrap();
+    let ret = is_cache_current(&ctx, cache_path, &[]).unwrap();
 
     assert_eq!(ret, false);
 }

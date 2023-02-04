@@ -598,7 +598,7 @@ pub fn build_street_reference_cache(
 
 /// Gets the filename of the (house number) reference cache file.
 fn get_reference_cache_path(local: &str, refcounty: &str) -> String {
-    format!("{}-{}-v1.cache", local, refcounty)
+    format!("{local}-{refcounty}-v1.cache")
 }
 
 /// Two strings: first is a range, second is an optional comment.
@@ -651,7 +651,7 @@ pub fn build_reference_cache(
     }
 
     let mut read = std::io::BufReader::new(
-        std::fs::File::open(local).context(format!("failed to open {}", local))?,
+        std::fs::File::open(local).context(format!("failed to open {local}"))?,
     );
     let mut csv_reader = make_csv_reader(&mut read);
     for result in csv_reader.deserialize() {
@@ -921,7 +921,7 @@ pub fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag:
             if let Ok(osm_id) = cells[0].get_value().parse::<u64>() {
                 let osm_type = cells[columns["@type"]].get_value();
                 let doc = yattag::Doc::new();
-                let href = format!("https://www.openstreetmap.org/{}/{}", osm_type, osm_id);
+                let href = format!("https://www.openstreetmap.org/{osm_type}/{osm_id}");
                 {
                     let a = doc.tag("a", &[("href", href.as_str()), ("target", "_blank")]);
                     a.text(&osm_id.to_string());

@@ -11,7 +11,7 @@
 //! The ranges module contains functionality related to the Ranges class.
 
 /// A range object represents an odd or even range of integer numbers.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Range {
     start: i64,
     end: i64,
