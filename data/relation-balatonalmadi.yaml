@@ -118,6 +118,8 @@ filters:
     # 4 = nincs kiírva: 2021-10. RESURVEY 2022
     invalid: ['2', '4']
   Fadrusz János utca:
+    # 17 = Felsőörsi út 2/a
+    invalid: ['17']
     show-refstreet: false
   Fagyöngy utca:
     # 3-5: csak 3 van kiírva
@@ -189,8 +191,9 @@ filters:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
   Jedlik Ányos utca:
+    # 19: 17 van kiírva, de eléggé a jobb szélén van a teleknek, ez és a faház között egy üres telek.
     # 40: 44 van kiírva. 2022-12. RESURVEY 2023
-    invalid: ['40']
+    invalid: ['19', '40']
   József Attila út:
     # 6: régi 2, az van kiírva
     # 8: MÁV üzemi épület? nincs kiírva semmi
@@ -326,6 +329,8 @@ filters:
     # 49-51: csak 49 van kiírva
     invalid: ['51']
   Szabadság-kilátó út:
+    # 28: 24 van kiírva; 24 után nyeles telek szám nélkül és 32
+    invalid: ['28']
     show-refstreet: false
   Szabolcs utca:
     # 1-7 nincs, 9-től indul a számozás
@@ -346,6 +351,9 @@ filters:
   Szent István sétány:
     # 4-6: Wesselényi Strand: csak a 6 van használatban
     invalid: ['4']
+  Szinyei Merse Pál utca:
+    # 12-14: csak 12 van kiírva
+    invalid: ['14']
   Szömörce utca:
     # 9, 30, 62, 64, 82, 84 nincs kiírva 2021-08. RESURVEY 2022
     invalid: ['9', '30', '62', '64', '82', '84']
@@ -483,6 +491,7 @@ refstreets:
   'Madách Imre tér': 'Madách tér'  # nincs tábla, házon Madách Imre tér 5/2
   'Madách Imre utca': 'Madách utca'  # táblán Madách Imre utca
   'Mátyás király utca': 'Mátyás király út'  # táblán Mátyás király utca, házakon út
+  'Mikszáth Kálmán utca': 'Mikszáth utca'  # táblákon Mikszáth Kálmán utca
   'Radnóti utca': 'Radnóti Miklós utca'  # táblán Radnóti utca
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
   'Vöröshegyi utca': 'Vöröshegyi út'  # táblán Vöröshegyi utca
