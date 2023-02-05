@@ -122,8 +122,10 @@ filters:
     # 8-10: még épül. 2022-12. RESURVEY 2023
     invalid: ['8', '10']
   Barabás Miklós utca:
+    # 9, 11: Alsó szakaszon lenne 11 az utolsó ház, de nincs kiírva semmi, most 9-re van állítva. RESURVEY kuka szerda
+    # 13-15: 15 van kiírva
     # 14-16: semmi sincs kiírva, terven 16 van
-    invalid: ['14']
+    invalid: ['13', '14']
   Batthyány utca:
     # 1-3: csak 1 van
     # 28: 26/b után 32 - Tinódi utca 6 lett belőle (KCR)
@@ -178,6 +180,10 @@ filters:
     ranges:
       - {start: '1', end: '131'}
       - {start: '2', end: '72'}
+  Erdőalja utca:
+    # 21-23: csak 21 van kiírva
+    # 26-32: 26 és 28 van kiírva
+    invalid: ['23', '30', '32']
   Fadrusz János utca:
     # 17 = Felsőörsi út 2/a
     invalid: ['17']
@@ -247,6 +253,13 @@ filters:
     # 13-15: csak 15 van kiírva
     # 16-18: csak 16 van kiírva
     invalid: ['13', '18']
+  Kiss Ernő utca:
+    # 3 helyén 6 van kiírva, ami mellesleg a 8 mellett van
+    invalid: ['3']
+  Legenda köz:
+    # 8: ÉTDR. nincs nyoma építkezésnek
+    # 2023-01. RESURVEY 2025-01
+    invalid: ['8']
   Lomb utca:
     # 2022-12. RESURVEY 2023
     # 5: nincs kiírva csak a 11
@@ -262,6 +275,9 @@ filters:
   Őszapó utca:
     # 6-8: még épül, nincs kiírva semmi. 2022-12. RESURVEY 2023
     invalid: ['6', '8']
+  #Paál László utca:
+  #  # 13, 15: alsó részen, nincs kiírva. 2023-01. RESURVEY 2023-07 kuka szerda
+  #  invalid: ['13', '15']
   Park utca:
     # 16 = Baross Gábor út 45
     invalid: ['16']

@@ -41,8 +41,10 @@ filters:
     # 8-10: még épül. 2022-12. RESURVEY 2023
     invalid: ['8', '10']
   Barabás Miklós utca:
+    # 9, 11: Alsó szakaszon lenne 11 az utolsó ház, de nincs kiírva semmi, most 9-re van állítva. RESURVEY kuka szerda
+    # 13-15: 15 van kiírva
     # 14-16: semmi sincs kiírva, terven 16 van
-    invalid: ['14']
+    invalid: ['13', '14']
   Bartók Béla út:
     # 2022-12. RESURVEY 2023
     # 59 helyén 57/b van kírva, a házon és a kukán is
@@ -118,6 +120,10 @@ filters:
     # 2 = Rákóczi 41
     # 4 = nincs kiírva: 2021-10. RESURVEY 2022
     invalid: ['2', '4']
+  Erdőalja utca:
+    # 21-23: csak 21 van kiírva
+    # 26-32: 26 és 28 van kiírva
+    invalid: ['23', '30', '32']
   Fadrusz János utca:
     # 17 = Felsőörsi út 2/a
     invalid: ['17']
@@ -228,6 +234,9 @@ filters:
     # 13-15: csak 15 van kiírva
     # 16-18: csak 16 van kiírva
     invalid: ['13', '18']
+  Kiss Ernő utca:
+    # 3 helyén 6 van kiírva, ami mellesleg a 8 mellett van
+    invalid: ['3']
   Kölcsey Ferenc utca:
     show-refstreet: false
   Könyök utca:
@@ -240,6 +249,10 @@ filters:
     # 3: nincs, 1 után 5
     # 4 és 6: Ungár József utca 4, 6
     invalid: ['3', '4', '6']
+  Legenda köz:
+    # 8: ÉTDR. nincs nyoma építkezésnek
+    # 2023-01. RESURVEY 2025-01
+    invalid: ['8']
   Lóczy Lajos tér:
     interpolation: all
     ranges:
@@ -458,6 +471,8 @@ osm-street-filters:
   - Spirál
   - Szent István park
   - Szent Erzsébet liget
+  # Településrész
+  - Lozsánta
   # Ellenőrzött, létező
   - Fürj köz
   - Géza köz
