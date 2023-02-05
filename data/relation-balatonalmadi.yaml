@@ -54,7 +54,7 @@ filters:
     show-refstreet: false
   Batthyány utca:
     # 1-3: csak 1 van
-    # 28: 26/b után 32
+    # 28: 26/b után 32 - Tinódi utca 6 lett belőle (KCR)
     # 30-32: csak 32 van kiírva
     invalid: ['3', '28', '30']
   Bem utca:
@@ -270,8 +270,9 @@ filters:
     # 15-17: csak 17 van kiírva
     invalid: ['15']
   Mátyás király utca:
+    # 69: még nincs, 63 az utolsó. 2 épül. 2023-01. RESURVEY 2023-07
     # 64: beépítetlen rész. 2022-12. RESURVEY 2023
-    invalid: ['64']
+    invalid: ['64', '69']
   Moha utca:
     # 1: 1 ház kész + 1 még mindig épülőben 2021-08. már majdnem kész 2022-12. RESURVEY 2023
     invalid: ['1']
@@ -394,6 +395,9 @@ filters:
   Városház tér:
     # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
     invalid: ['2']
+  Vécsey Károly utca:
+    # páros oldalon nincsenek számok, más ucákra vannak számozva
+    invalid: ['46']
   Venyige utca:
     # 1-3: csak 3 van kiírva
     invalid: ['1']
