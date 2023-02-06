@@ -16,6 +16,9 @@ filters:
     ranges:
       - {start: '1', end: '9'}
       - {start: '2', end: '8'}
+  Hajnal utca:
+    # 8-10: új ház 2 telken, még a régi 8-as házszám van kint 2023-02. RESURVEY 2023-07
+    invalid: ['10']
   József Attila út:
     # 25 üres telek
     # 27 nincs
