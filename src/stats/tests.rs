@@ -189,15 +189,29 @@ fn test_handle_topcities() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
     let today_citycount = b"budapest_01\t100\n\
-budapest_02\t200\n";
+budapest_02\t200\n
+budapest_03\t300\n";
+    let prevmonth_citycount = b"budapest_01\t10\n\
+budapest_02\t10\n";
     let today_citycount_value = context::tests::TestFileSystem::make_file();
+    let prevmonth_citycount_value = context::tests::TestFileSystem::make_file();
     today_citycount_value
         .borrow_mut()
         .write_all(today_citycount)
         .unwrap();
+    prevmonth_citycount_value
+        .borrow_mut()
+        .write_all(prevmonth_citycount)
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("workdir/stats/2020-05-10.citycount", &today_citycount_value)],
+        &[
+            (
+                "workdir/stats/2020-04-10.citycount",
+                &prevmonth_citycount_value,
+            ),
+            ("workdir/stats/2020-05-10.citycount", &today_citycount_value),
+        ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -378,12 +392,9 @@ fn test_get_previous_month() {
 /// Tests get_topcities(): the case when the old path is missing.
 #[test]
 fn test_get_topcities_test_old_missing() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
+    let ctx = context::tests::make_test_context().unwrap();
+    // workdir/stats/2020-04-10.citycount is missing.
     let src_root = ctx.get_abspath("workdir/stats");
-    file_system.set_hide_paths(&vec![format!("{src_root}/2020-04-10.citycount")]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
     let ret = get_topcities(&ctx, &src_root).unwrap();
     assert_eq!(ret.is_empty(), true);
 }
@@ -392,11 +403,24 @@ fn test_get_topcities_test_old_missing() {
 #[test]
 fn test_get_topcities_test_new_missing() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let mut file_system = context::tests::TestFileSystem::new();
+    // workdir/stats/2020-05-10.citycount is missing.
     let src_root = ctx.get_abspath("workdir/stats");
-    file_system.set_hide_paths(&vec![format!("{src_root}/2020-05-10.citycount")]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let prevmonth_citycount = b"budapest_01\t10\n\
+budapest_02\t10\n";
+    let prevmonth_citycount_value = context::tests::TestFileSystem::make_file();
+    prevmonth_citycount_value
+        .borrow_mut()
+        .write_all(prevmonth_citycount)
+        .unwrap();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[(
+            "workdir/stats/2020-04-10.citycount",
+            &prevmonth_citycount_value,
+        )],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
     let ret = get_topcities(&ctx, &src_root).unwrap();
     assert_eq!(ret.is_empty(), true);
 }
