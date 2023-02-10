@@ -52,16 +52,30 @@ fn test_handle_progress() {
 fn test_handle_capital_progress() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let mut file_system = context::tests::TestFileSystem::new();
-    let city_count = context::tests::TestFileSystem::make_file();
+    let ref_city_count = context::tests::TestFileSystem::make_file();
+    let osm_city_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("refdir/varosok_count_20190717.tsv", &city_count)],
+        &[
+            ("refdir/varosok_count_20190717.tsv", &ref_city_count),
+            ("workdir/stats/2020-05-10.citycount", &osm_city_count),
+        ],
     );
     file_system.set_files(&files);
     file_system
         .write_from_string(
             "VAROS\tCNT\nbudapest_11\t100\nbudapest_12\t200\nmycity\t42\n",
             &ctx.get_abspath("refdir/varosok_count_20190717.tsv"),
+        )
+        .unwrap();
+    file_system
+        .write_from_string(
+            r#"budapest_01	100
+budapest_02	200
+budapest_11	11
+	42
+"#,
+            &ctx.get_abspath("workdir/stats/2020-05-10.citycount"),
         )
         .unwrap();
     let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
