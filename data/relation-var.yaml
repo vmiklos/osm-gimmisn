@@ -6,5 +6,8 @@ filters:
     ranges: []
   Palota út:
     ranges: []
+  Úri utca:
+    # 1-55, 2-72
+    invalid: ['107']
 source: survey
-inactive: true
+inactive: false
