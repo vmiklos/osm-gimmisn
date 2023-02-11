@@ -519,4 +519,4 @@ refstreets:
   # hibás írásmód
   'Szent Család park': 'Szent család park'
 source: survey
-inactive: false
+inactive: true
