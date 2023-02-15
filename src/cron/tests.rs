@@ -1431,7 +1431,7 @@ fn test_write_city_count_path() {
     write_city_count_path(&ctx, &abspath, &cities).unwrap();
 
     let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
-    assert_eq!(content, "mycity1\t2\nmycity2\t2\n");
+    assert_eq!(content, "VAROS\tCNT\nmycity1\t2\nmycity2\t2\n");
 }
 
 /// Tests write_zip_count_path().

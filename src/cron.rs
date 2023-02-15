@@ -293,6 +293,7 @@ fn write_city_count_path(
     let mut cities: Vec<_> = cities.iter().map(|(key, value)| (key, value)).collect();
     cities.sort_by_key(|(key, _value)| util::get_sort_key(key));
     cities.dedup();
+    guard.write_all("VAROS\tCNT\n".as_bytes())?;
     // Locale-aware sort, by key.
     for (key, value) in cities {
         let line = format!("{}\t{}\n", key, value.len());
