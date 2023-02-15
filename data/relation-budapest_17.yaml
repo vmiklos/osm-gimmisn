@@ -24,7 +24,7 @@ refstreets:
   'Pestvidéki utca': 'Pestvidék utca'
   'Riszti János utca': 'Risztics János utca'
   'Thorotzkay Péter gróf utca': 'Thorotzkay Péter utca'
-  'Tói malom utca': 'Tómalom utca'
+  # 'Tói malom utca': 'Tómalom utca'  - utcatábla hibás: Tói malom utca
   # utcajegyzék = REF, OSM kérdéses
   'Homokiszőlő dűlő': 'Homokiszőlő dűlőút'  # nincs tábla
   'Kis-Káros-híd utca': 'Kis Károshíd utca'  # note
