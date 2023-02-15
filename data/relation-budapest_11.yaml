@@ -1869,6 +1869,9 @@ filters:
     invalid: ['3d', '3k']
     ranges:
       - {start: '3', end: '3'}
+  Neumann János utca:
+    # 1/a: Infopark A épület 1-re van számozva
+    invalid: ['1a']
   Október huszonharmadika utca:
     ranges:
       - {start: '1', end: '35'}
