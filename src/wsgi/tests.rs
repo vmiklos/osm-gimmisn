@@ -1874,7 +1874,7 @@ fn test_handle_stats_cityprogress_well_formed() {
     let citycount_value = context::tests::TestFileSystem::make_file();
     citycount_value
         .borrow_mut()
-        .write_all(b"budapest_11\t11\nbudapest_12\t12\n")
+        .write_all(b"VAROS\tCNT\nbudapest_11\t11\nbudapest_12\t12\n")
         .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,

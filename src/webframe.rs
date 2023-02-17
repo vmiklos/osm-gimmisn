@@ -559,7 +559,12 @@ fn handle_stats_cityprogress(
     let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
+    let mut first = true;
     for result in csv_read.records() {
+        if first {
+            first = false;
+            continue;
+        }
         let row = result.context(format!("failed to read row in {path}"))?;
         let city = row.get(0).unwrap();
         let count: u64 = row.get(1).unwrap().parse()?;
@@ -785,7 +790,8 @@ pub fn handle_stats(
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     if request_uri.ends_with("/cityprogress") {
-        return handle_stats_cityprogress(ctx, relations);
+        return handle_stats_cityprogress(ctx, relations)
+            .context("handle_stats_cityprogress() failed");
     }
 
     if request_uri.ends_with("/zipprogress") {
