@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 refstreets:
+  # ellenőrzött
+  'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca
   # kérdéses
   'Báthori István utca': 'Báthory István utca'
   'Kálvin tér': 'Calvin tér'
@@ -16,7 +18,6 @@ refstreets:
   'Tétényi út': 'Tétényi utca'
   'Tokaj utca': 'Tokaji utca'
   # 'Vasútállomás utcája': 'Vasútállomás'
-  'Vízöntő utca': 'Vízöntő út'
   # osm-street-filters:
   # Diósd átlógó
   # - Hegyalja utca
