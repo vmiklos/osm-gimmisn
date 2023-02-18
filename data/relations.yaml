@@ -652,6 +652,10 @@ csomor:
     osmrelation: 1390432
     refcounty: "14"
     refsettlement: "023"
+diosd:
+    osmrelation: 112433
+    refcounty: "14"
+    refsettlement: "029"
 dunabogdany:
     osmrelation: 216165
     refcounty: "14"
@@ -716,6 +720,10 @@ solymar:
     osmrelation: 215945
     refcounty: "14"
     refsettlement: "121"
+szazhalombatta:
+    osmrelation: 112432
+    refcounty: "14"
+    refsettlement: "125"
 szigethalom:
     osmrelation: 222332
     refcounty: "14"
