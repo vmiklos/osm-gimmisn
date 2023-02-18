@@ -1,0 +1,21 @@
+missing-streets: 'yes'
+refstreets:
+   # helyesírás
+  'Röviddűlő': 'Röviddülő'
+  # kérdéses
+  'Árpád út': 'Árpád utca'
+  'Barátság utca': 'Barátság útja'
+  'Bolyai János utca': 'Bólyai János utca'
+  'Csokonai utca': 'Csokonai Vitéz M. utca'
+  'Déligát utca': 'Déli-gát út'
+  'Eötvös Loránd utca': 'Eötvös Lóránd utca'
+  'Franciska puszta': 'Franciskapuszta tanya'
+  'Gesztenyés utca': 'Gesztenyés út'
+  'Géza fejedelem utca': 'Géza fejedelem útja'
+  'Szent László utca': 'Szent László út'
+  'Szondi György utca': 'Szondy György utca'
+  'Vörösmarty utca': 'Vörösmarty Mihály utca'
+  # osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: true

@@ -1,0 +1,22 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Apponyi Albert utca': 'Apponyi utca'
+  'Bartók Béla utca': 'Bartók Béla út'
+  'Határ út': 'Határ utca'
+  'Hunyadi utca': 'Hunyadi út'
+  'Jókai Mór utca': 'Jókai utca'
+  'Kocsis utca': 'Kocsis út'
+  'Kossuth Lajos utca': 'Kossuth Lajos út'
+  'Kölcsey Ferenc utca': 'Kölcsey út'
+  'Pálma utca': 'Pálma út'
+  'Panoráma utca': 'Panoráma út'
+  'Pincesor utca': 'Pince sor'
+  'Sashegyi út': 'Sashegyi utca'
+  'Szabadság út': 'Szabadság utca'
+  'Székely András utca': 'Székely András út'
+  'Vadrózsa utca': 'Vadrózsa út'
+  # osm-street-filters:
+source: survey
+housenumber-letters: true
+inactive: true
