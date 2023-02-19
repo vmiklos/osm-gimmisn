@@ -1367,7 +1367,7 @@ fn test_update_stats_topusers() {
     {
         let abspath = ctx.get_abspath("workdir/stats/2020-05-10.topusers");
         let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
-        assert_eq!(content, "2 myuser1\n1 myuser2\n");
+        assert_eq!(content, "CNT\tUSER\n2\tmyuser1\n1\tmyuser2\n");
     }
     {
         let mut guard = today_usercount_value.borrow_mut();
