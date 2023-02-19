@@ -1883,7 +1883,7 @@ filters:
     # 1: 1/A, 1/C
     ranges:
       - {start: '1', end: '9'}
-  Stoczek József utca:
+  Stoczek utca:
     ranges:
       - {start: '1', end: '1'}
       - {start: '7', end: '19'}
@@ -3012,7 +3012,6 @@ refstreets:
   'Keserűvíz utca': 'Keserűviz utca'
   'Kis Fenyves köz': 'Kis-Fenyves köz'
   'Mesterházi utca': 'Mesterházy utca'
-  'Stoczek József utca': 'Stoczek utca'
   'Új barázda utca': 'Új Barázda utca'
   'Zólyomi köz': 'Zólyom köz'
 osm-street-filters:
