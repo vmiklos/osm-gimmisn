@@ -423,8 +423,9 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
         users.sort_by_key(|i| Reverse(i.1));
         users.dedup();
         users = users[0..std::cmp::min(20, users.len())].to_vec();
+        guard.write_all("CNT\tUSER\n".as_bytes())?;
         for user in users {
-            let line = format!("{} {}\n", user.1, user.0);
+            let line = format!("{}\t{}\n", user.1, user.0);
             guard.write_all(line.as_bytes())?;
         }
     }

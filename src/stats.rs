@@ -142,16 +142,16 @@ fn handle_topusers(
         let stream = ctx.get_file_system().open_read(&topusers_path)?;
         let mut guard = stream.borrow_mut();
         let read = std::io::BufReader::new(guard.deref_mut());
+        let mut first = true;
         for line in read.lines() {
-            let line = line?.trim().to_string();
-            let mut tokens = line.split(' ');
-            let count = tokens.next().unwrap();
-            let user = tokens.next();
-            if user.is_none() {
-                // Busted, skip it.
+            if first {
+                first = false;
                 continue;
             }
-            let user = user.unwrap();
+            let line = line?.trim().to_string();
+            let mut tokens = line.split('\t');
+            let count = tokens.next().unwrap();
+            let user = tokens.next().unwrap();
             ret.push((user.into(), count.into()));
         }
     }
