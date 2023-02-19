@@ -250,12 +250,13 @@ filters:
     # 9: nincs
     invalid: ['9']
   Ibolya utca:
+    # 9: Veolia parkoló
     # 12: 10 után 14-16
     # 38: 36 után 40
     # 52-54: csak 52 van kiírva
     # 126: 124 után 128 2x
     # 134: 132 után 136-138
-    invalid: ['12', '38', '54', '126', '134']
+    invalid: ['9', '12', '38', '54', '126', '134']
   Ifjúság utca:
     invalid: ['2', '37']
   Jókai utca:
@@ -763,7 +764,7 @@ filters:
     # 32: utolsó szám a 6-os
     invalid: ['32']
   Zombori utca:
-    # 44: 42 után 48 jön
+    # 44: 42 után 48 jön. ETDR szerint 46 épül, földhivatal szerint 42-46 RESURVEY 2023.07
     # 57: 55 után 59 jön, az 55 ikerházm de nincs kiírva az 57, inkább 55/a-nak látszik a kukán
     # 72: lebontva, az idősek otthona parkolója van a helyén
     invalid: ['44', '57', '72']
