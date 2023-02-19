@@ -15,7 +15,26 @@ refstreets:
   'Szent László utca': 'Szent László út'
   'Szondi György utca': 'Szondy György utca'
   'Vörösmarty utca': 'Vörösmarty Mihály utca'
-  # osm-street-filters:
+street-filters:
+  # nem igazi utcák
+  - 17/A. vasúti őrház
+  - 17/B. vasúti őrház
+  - Dunai Finomitó vasútállomás
+  - DKV munkásszálló
+  - Szabóház
+osm-street-filters:
+  # parkok
+  - Bagoly úti park
+  - Csónakázó-tó
+  - Derkovits Gyula park
+  - Hajókikötő
+  - Irinyi park
+  - Kacsás sziget
+  - Settenkedő park
+  - Szabó Lőrinc park
+  - Százszorszép park
+  - Tóth László park
+  - 
 source: survey
 housenumber-letters: true
 inactive: true
