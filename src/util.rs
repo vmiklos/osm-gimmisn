@@ -955,7 +955,7 @@ pub fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag:
 }
 
 /// One row in workdir/street-housenumbers-<relation>.csv. Keep this in sync with
-/// data/street-housenumbers-template.txt.
+/// data/street-housenumbers-template.overpassql.
 #[derive(serde::Deserialize)]
 pub struct OsmHouseNumber {
     /// Object ID.

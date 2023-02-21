@@ -464,7 +464,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     info!("update_stats: start, updating whole-country csv");
     let query = ctx
         .get_file_system()
-        .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.txt"))?;
+        .read_to_string(&ctx.get_abspath("data/street-housenumbers-hungary.overpassql"))?;
     let statedir = ctx.get_abspath("workdir/stats");
     let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]")?;

@@ -726,7 +726,7 @@ fn test_relation_get_osm_streets_query() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -759,7 +759,10 @@ fn test_relation_get_osm_housenumbers_query() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/street-housenumbers-template.txt", &overpass_template),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
