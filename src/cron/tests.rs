@@ -458,7 +458,10 @@ fn test_update_osm_housenumbers() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/street-housenumbers-template.txt", &overpass_template),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
             (
                 "workdir/street-housenumbers-gazdagret.csv",
                 &osm_housenumbers_value,
@@ -547,7 +550,10 @@ fn test_update_osm_housenumbers_xml_as_csv() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/street-housenumbers-template.txt", &overpass_template),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -613,7 +619,7 @@ fn test_update_osm_streets() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/streets-gazdagret.csv", &osm_streets_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
         ],
     );
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
@@ -695,7 +701,7 @@ fn test_update_osm_streets_xml_as_csv() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -767,7 +773,10 @@ fn test_update_stats() {
             ("workdir/stats/2020-05-10.usercount", &usercount_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
-            ("data/street-housenumbers-hungary.txt", &overpass_template),
+            (
+                "data/street-housenumbers-hungary.overpassql",
+                &overpass_template,
+            ),
             (old_path, &old_csv),
         ],
     );
@@ -847,7 +856,10 @@ fn test_update_stats_http_error() {
             ("workdir/stats/2020-05-10.topusers", &topusers_value),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
-            ("data/street-housenumbers-hungary.txt", &overpass_template),
+            (
+                "data/street-housenumbers-hungary.overpassql",
+                &overpass_template,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -903,7 +915,10 @@ fn test_update_stats_no_overpass() {
             ("workdir/stats/2020-05-10.count", &today_count),
             ("workdir/stats/ref.count", &ref_count),
             ("workdir/stats/stats.json", &stats_json),
-            ("data/street-housenumbers-hungary.txt", &overpass_template),
+            (
+                "data/street-housenumbers-hungary.overpassql",
+                &overpass_template,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -1014,8 +1029,11 @@ fn test_our_main() {
                 &ref_housenumbers_extra_cache_value,
             ),
             ("workdir/cache-gazdagret.json", &missing_housenumbers_json),
-            ("data/streets-template.txt", &template_value),
-            ("data/street-housenumbers-template.txt", &housenr_template),
+            ("data/streets-template.overpassql", &template_value),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &housenr_template,
+            ),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
@@ -1110,7 +1128,10 @@ fn test_our_main_stats() {
         &ctx,
         &[
             ("workdir/stats/stats.json", &stats_value),
-            ("data/street-housenumbers-hungary.txt", &overpass_template),
+            (
+                "data/street-housenumbers-hungary.overpassql",
+                &overpass_template,
+            ),
             ("workdir/stats/2020-05-10.csv", &today_csv),
             ("workdir/stats/2020-05-10.count", &today_count),
             ("workdir/stats/2020-05-10.citycount", &today_citycount),
@@ -1154,7 +1175,10 @@ fn test_main() {
         &ctx,
         &[
             ("workdir/stats/stats.json", &stats_value),
-            ("data/street-housenumbers-hungary.txt", &overpass_template),
+            (
+                "data/street-housenumbers-hungary.overpassql",
+                &overpass_template,
+            ),
             ("workdir/stats/ref.count", &ref_count),
         ],
     );

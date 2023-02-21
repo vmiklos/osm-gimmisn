@@ -55,7 +55,7 @@ fn test_json_streets_update_result() {
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
             ("workdir/streets-myrelation.csv", &streets_value),
         ],
     );
@@ -98,7 +98,7 @@ fn test_json_streets_update_result_error() {
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -142,7 +142,10 @@ fn test_json_housenumbers_update_result() {
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/street-housenumbers-template.txt", &overpass_template),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
             (
                 "workdir/street-housenumbers-gazdagret.csv",
                 &housenumbers_value,
@@ -191,7 +194,10 @@ fn test_json_housenumbers_update_result_error() {
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/street-housenumbers-template.txt", &overpass_template),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);

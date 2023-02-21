@@ -339,7 +339,7 @@ pub struct MissingHousenumbers {
     pub done_streets: util::NumberedStreets,
 }
 
-/// One row in workdir/streets-<relation>.csv. Keep this in sync with data/streets-template.txt.
+/// One row in workdir/streets-<relation>.csv. Keep this in sync with data/streets-template.overpassql.
 #[derive(serde::Deserialize)]
 pub struct OsmStreet {
     /// Object ID.
@@ -506,7 +506,7 @@ impl Relation {
         let contents = self.ctx.get_file_system().read_to_string(&format!(
             "{}/{}",
             self.ctx.get_abspath("data"),
-            "streets-template.txt"
+            "streets-template.overpassql"
         ))?;
         Ok(util::process_template(
             &contents,
@@ -1099,7 +1099,7 @@ impl Relation {
         let contents = self.ctx.get_file_system().read_to_string(&format!(
             "{}/{}",
             self.ctx.get_abspath("data"),
-            "street-housenumbers-template.txt"
+            "street-housenumbers-template.overpassql"
         ))?;
         Ok(util::process_template(
             &contents,

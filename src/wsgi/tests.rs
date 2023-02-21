@@ -220,7 +220,7 @@ fn test_handle_streets_view_query_well_formed() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -263,7 +263,7 @@ fn test_handle_streets_update_result_well_formed() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/streets-gazdagret.csv", &streets_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -306,7 +306,7 @@ fn test_handle_streets_update_result_error_well_formed() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -352,7 +352,7 @@ fn test_handle_streets_update_result_missing_streets_well_formed() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/streets-template.txt", &template_value),
+            ("data/streets-template.overpassql", &template_value),
             ("workdir/streets-ujbuda.csv", &streets_value),
         ],
     );
@@ -1071,7 +1071,10 @@ fn test_housenumbers_view_query_well_formed() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/street-housenumbers-template.txt", &overpass_template),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -1113,7 +1116,10 @@ fn test_housenumbers_update_result_well_formed() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/street-housenumbers-template.txt", &overpass_template),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
             ("workdir/street-housenumbers-gazdagret.csv", &streets_value),
         ],
     );
@@ -1157,7 +1163,10 @@ fn test_housenumbers_update_result_error_well_formed() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("data/street-housenumbers-template.txt", &overpass_template),
+            (
+                "data/street-housenumbers-template.overpassql",
+                &overpass_template,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
