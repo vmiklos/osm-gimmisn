@@ -669,7 +669,12 @@ fn handle_stats_zipprogress(
     let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
     let mut csv_read = util::CsvRead::new(&mut read);
+    let mut first = true;
     for result in csv_read.records() {
+        if first {
+            first = false;
+            continue;
+        }
         let row = result.context(format!("failed to read row in {path}"))?;
         let zip = row.get(0).unwrap();
         let count: u64 = row.get(1).unwrap().parse()?;
@@ -795,7 +800,8 @@ pub fn handle_stats(
     }
 
     if request_uri.ends_with("/zipprogress") {
-        return handle_stats_zipprogress(ctx, relations);
+        return handle_stats_zipprogress(ctx, relations)
+            .context("handle_stats_zipprogress() failed");
     }
 
     if request_uri.ends_with("/invalid-relations") {
