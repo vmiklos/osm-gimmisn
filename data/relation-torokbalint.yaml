@@ -15,7 +15,7 @@ filters:
   Kékes utca:
     # 9 = Zöldfa utca 5
     invalid: ['9']
-  Margatérta utca:
+  Margaréta utca:
     # hrsz 0164, 0166/6
     invalid: ['164', '166']
   Pistály dűlő:
