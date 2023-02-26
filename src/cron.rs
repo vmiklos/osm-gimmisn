@@ -338,43 +338,34 @@ fn update_stats_count(ctx: &context::Context, today: &str) -> anyhow::Result<()>
     let mut house_numbers: HashSet<String> = HashSet::new();
     let mut cities: HashMap<String, HashSet<String>> = HashMap::new();
     let mut zips: HashMap<String, HashSet<String>> = HashMap::new();
-    let mut first = true;
     let valid_settlements =
         util::get_valid_settlements(ctx).context("get_valid_settlements() failed")?;
     let stream = ctx.get_file_system().open_read(&csv_path)?;
     let mut guard = stream.borrow_mut();
     let mut read = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_read = util::CsvRead::new(&mut read);
-    let mut columns: HashMap<String, usize> = HashMap::new();
-    for result in csv_read.records() {
-        let row = result?;
-        if !row.is_empty() && row[0].starts_with("<?xml") {
-            // Not a CSV, reject.
-            break;
-        }
-        if first {
-            first = false;
-            for (index, label) in row.iter().enumerate() {
-                columns.insert(label.into(), index);
-            }
-            continue;
-        }
-        let post_code = &row[columns["addr:postcode"]];
-        let city = &row[columns["addr:city"]];
-        let street = &row[columns["addr:street"]];
-        let house_number = &row[columns["addr:housenumber"]];
+    let mut csv_reader = util::make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: util::OsmLightHouseNumber = result?;
         // This ignores the @user column.
-        house_numbers.insert([post_code, city, street, house_number].join("\t"));
-        let city_key = util::get_city_key(post_code, city, &valid_settlements)
+        house_numbers.insert(
+            [
+                row.postcode.to_string(),
+                row.city.to_string(),
+                row.street.to_string(),
+                row.housenumber.to_string(),
+            ]
+            .join("\t"),
+        );
+        let city_key = util::get_city_key(&row.postcode, &row.city, &valid_settlements)
             .context("get_city_key() failed")?;
-        let city_value = [street, house_number].join("\t");
+        let city_value = [row.street.to_string(), row.housenumber.to_string()].join("\t");
         let entry = cities.entry(city_key).or_insert_with(HashSet::new);
         entry.insert(city_value);
 
         // Postcode.
-        let zip_key = post_code.to_string();
+        let zip_key = row.postcode.to_string();
         // Street name and housenumber.
-        let zip_value = [street, house_number].join("\t");
+        let zip_value = [row.street, row.housenumber].join("\t");
         let zip_entry = zips.entry(zip_key).or_insert_with(HashSet::new);
         zip_entry.insert(zip_value);
     }
