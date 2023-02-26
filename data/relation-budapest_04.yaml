@@ -16,7 +16,12 @@ osm-street-filters:
   # Farkaserdő
   - Bicikliző domb
   - Cinkék etetőhelye
+  - Off road BMX pálya
+  - Pihenő tisztás
+  - Sütögető hely
   - Szalonnázó hely
+  - Szalonnasütögető hely
+  - Szánkózó út
   # ösvények, parkok
   - Dynamic park
   - Gróf Károlyi István park
