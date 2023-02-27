@@ -390,20 +390,11 @@ fn update_stats_topusers(ctx: &context::Context, today: &str) -> anyhow::Result<
         let stream = ctx.get_file_system().open_read(&csv_path)?;
         let mut guard = stream.borrow_mut();
         let mut read = std::io::BufReader::new(guard.deref_mut());
-        let mut csv_read = util::CsvRead::new(&mut read);
-        let mut columns: HashMap<String, usize> = HashMap::new();
-        let mut first = true;
-        for result in csv_read.records() {
-            let row = result?;
-            if first {
-                first = false;
-                for (index, label) in row.iter().enumerate() {
-                    columns.insert(label.into(), index);
-                }
-                continue;
-            }
+        let mut csv_reader = util::make_csv_reader(&mut read);
+        for result in csv_reader.deserialize() {
+            let row: util::OsmLightHouseNumber = result?;
             // Only care about the last column.
-            let user = row[columns["@user"]].to_string();
+            let user = row.user.to_string();
             let entry = users.entry(user).or_insert(0);
             (*entry) += 1;
         }
