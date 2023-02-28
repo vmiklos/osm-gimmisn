@@ -96,17 +96,11 @@ fn handle_capital_progress(
         let stream = ctx.get_file_system().open_read(&osm_path)?;
         let mut guard = stream.borrow_mut();
         let mut read = guard.deref_mut();
-        let mut csv_read = util::CsvRead::new(&mut read);
-        let mut first = true;
-        for result in csv_read.records() {
-            let row = result?;
-            if first {
-                first = false;
-                continue;
-            }
-
-            if row[0].starts_with("budapest_") {
-                osm_count += row[1].parse::<i32>()?;
+        let mut csv_reader = util::make_csv_reader(&mut read);
+        for result in csv_reader.deserialize() {
+            let row: util::CityCount = result?;
+            if row.city.starts_with("budapest_") {
+                osm_count += row.count;
             }
         }
     }
