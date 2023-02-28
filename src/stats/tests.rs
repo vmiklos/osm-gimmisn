@@ -70,7 +70,7 @@ fn test_handle_capital_progress() {
         .unwrap();
     file_system
         .write_from_string(
-            r#"budapest_01	100
+            r#"VAROS	CNT
 budapest_02	200
 budapest_11	11
 	42
