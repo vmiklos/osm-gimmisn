@@ -22,7 +22,8 @@ use context::FileSystem as _;
 #[test]
 fn test_check_top_edited_relations() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let old_citycount = b"foo\t0\n\
+    let old_citycount = b"VAROS\tCNT\n
+foo\t0\n\
 city1\t0\n\
 city2\t0\n\
 city3\t0\n\
@@ -34,7 +35,8 @@ baz\t0\n";
         .borrow_mut()
         .write_all(old_citycount)
         .unwrap();
-    let new_citycount = b"foo\t1000\n\
+    let new_citycount = b"VAROS\tCNT\n
+foo\t1000\n\
 city1\t1000\n\
 city2\t1000\n\
 city3\t1000\n\

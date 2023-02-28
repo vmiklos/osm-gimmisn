@@ -157,14 +157,14 @@ fn handle_topusers(
 }
 
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
-pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, i64)>> {
+pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, u64)>> {
     let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     let new_day = now.format(&ymd)?;
     let day_delta = now - time::Duration::days(30);
     let old_day = day_delta.format(&ymd)?;
-    let mut old_counts: HashMap<String, i64> = HashMap::new();
-    let mut counts: Vec<(String, i64)> = Vec::new();
+    let mut old_counts: HashMap<String, u64> = HashMap::new();
+    let mut counts: Vec<(String, u64)> = Vec::new();
 
     let old_count_path = format!("{src_root}/{old_day}.citycount");
     if !ctx.get_file_system().path_exists(&old_count_path) {
@@ -174,13 +174,10 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     let stream = ctx.get_file_system().open_read(&old_count_path)?;
     let mut guard = stream.borrow_mut();
     let mut read = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_read = util::CsvRead::new(&mut read);
-    for result in csv_read.records() {
-        let row = result?;
-        let city = &row[0];
-        let count = &row[1];
-        let count: i64 = count.parse()?;
-        old_counts.insert(city.into(), count);
+    let mut csv_reader = util::make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: util::CityCount = result?;
+        old_counts.insert(row.city, row.count);
     }
 
     let new_count_path = format!("{src_root}/{new_day}.citycount");
@@ -190,14 +187,11 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     let stream = ctx.get_file_system().open_read(&new_count_path)?;
     let mut guard = stream.borrow_mut();
     let mut read = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_read = util::CsvRead::new(&mut read);
-    for result in csv_read.records() {
-        let row = result?;
-        let city = &row[0];
-        let count = &row[1];
-        if old_counts.contains_key(city) {
-            let count: i64 = count.parse()?;
-            counts.push((city.into(), count - old_counts[city]));
+    let mut csv_reader = util::make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: util::CityCount = result?;
+        if old_counts.contains_key(&row.city) {
+            counts.push((row.city.to_string(), row.count - old_counts[&row.city]));
         }
     }
     counts.sort_by_key(|x| x.1);
