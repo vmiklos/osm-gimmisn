@@ -15,6 +15,7 @@ street-filters:
   # Szentlélek tér
 osm-street-filters:
   # nem valós utcák
+  - Veresi DH pálya
   # parkok
   - Búcsú tér
   - Iskola előtti park és parkoló
