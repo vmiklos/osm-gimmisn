@@ -661,17 +661,10 @@ fn handle_stats_zipprogress(
     let csv_stream: Rc<RefCell<dyn Read>> = ctx.get_file_system().open_read(&path)?;
     let mut guard = csv_stream.borrow_mut();
     let mut read = guard.deref_mut();
-    let mut csv_read = util::CsvRead::new(&mut read);
-    let mut first = true;
-    for result in csv_read.records() {
-        if first {
-            first = false;
-            continue;
-        }
-        let row = result.context(format!("failed to read row in {path}"))?;
-        let zip = row.get(0).unwrap();
-        let count: u64 = row.get(1).unwrap().parse()?;
-        osm_zipcounts.insert(zip.into(), count);
+    let mut csv_reader = util::make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: util::CityCount = result?;
+        osm_zipcounts.insert(row.city, row.count);
     }
     let ref_zips: Vec<_> = ref_zipcounts
         .keys()
