@@ -768,6 +768,10 @@ visegrad:
     osmrelation: 216166
     refcounty: "14"
     refsettlement: "181"
+zebegeny:
+    osmrelation: 1370260
+    refcounty: "14"
+    refsettlement: "182"
 # 15 - Somogy megye
 balatonboglar:
     osmrelation: 1367832

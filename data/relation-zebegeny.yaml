@@ -1,0 +1,16 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Akác domb': 'Akácdomb utca'
+  'Almáskert utca': 'Almás kert'
+  'Árpád utca': 'Árpád út'
+  'Bajcsy-Zsilinszky Endre út': 'Bajcsy-Zsilinszky út'
+  'Bartóky József utca': 'Bartóky József út'
+  'Börzsöny utca': 'Börzsöny út'
+  'Kossuth Lajos út': 'Kossuth út'
+  'Papp Ferenc út': 'Papp Ferenc tér'
+  'Tátika utca': 'Tátika út'
+  # osm-street-filters:
+source: survey
+housenumber-letters: false
+inactive: true
