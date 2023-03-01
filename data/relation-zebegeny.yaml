@@ -3,14 +3,23 @@ refstreets:
   # kérdéses
   'Akác domb': 'Akácdomb utca'
   'Almáskert utca': 'Almás kert'
+  'Almáskert köz': 'Almás köz'
   'Árpád utca': 'Árpád út'
   'Bajcsy-Zsilinszky Endre út': 'Bajcsy-Zsilinszky út'
   'Bartóky József utca': 'Bartóky József út'
+  'Berényi Róbert utca': 'Berény Róbert út'
   'Börzsöny utca': 'Börzsöny út'
+  'Kacsóh Pongrác utca': 'Kacsóh Pongrác út'
   'Kossuth Lajos út': 'Kossuth út'
   'Papp Ferenc út': 'Papp Ferenc tér'
   'Tátika utca': 'Tátika út'
-  # osm-street-filters:
+osm-street-filters:
+  # parkok, sétányok
+  - Dr. Koperniczky Ferenc Emlékpark
+  - Pazeller Jakab sétány
+  - Pille kert
+  # nem igazi utcák
+  - Vizes-árok
 source: survey
 housenumber-letters: false
 inactive: true
