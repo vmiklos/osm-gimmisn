@@ -2,6 +2,7 @@ missing-streets: 'yes'
 filters: {}
 osm-street-filters:
   - Hármas Körös gát
+  - Sirató-zug Belső  # egy tábla van, de valószínű nem hivatalos
 street-filters:
   # nem igazi utcák
   - Fazekaszugi 5-ös gátőrház
