@@ -12,6 +12,7 @@ from typing import BinaryIO
 from typing import Dict
 from typing import List
 from typing import Tuple
+from cron import warning
 import datetime
 import json
 import os
@@ -106,6 +107,7 @@ def handle_user_total(ctx: context.Context, src_root: str, j: Dict[str, Any], da
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.usercount" % day)
         if not os.path.exists(count_path):
+            warning("file %s not exists, exiting", count_path)
             break
         with open(count_path, "r") as stream:
             count = int(stream.read().strip())
@@ -123,6 +125,7 @@ def handle_daily_new(ctx: context.Context, src_root: str, j: Dict[str, Any], day
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % day)
         if not os.path.exists(count_path):
+            warning("file %s not exists, exiting", count_path)
             break
         with open(count_path, "r") as stream:
             count = int(stream.read().strip())
@@ -154,6 +157,7 @@ def handle_monthly_new(ctx: context.Context, src_root: str, j: Dict[str, Any], m
         month = month_delta.replace(day=1).strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % month)
         if not path_exists(count_path):
+            warning("file %s not exists, exiting", count_path)
             break
         with open(count_path, "r") as stream:
             count = int(stream.read().strip())
@@ -181,6 +185,7 @@ def handle_daily_total(ctx: context.Context, src_root: str, j: Dict[str, Any], d
         day = day_delta.strftime("%Y-%m-%d")
         count_path = os.path.join(src_root, "%s.count" % day)
         if not os.path.exists(count_path):
+            warning("file %s not exists, exiting", count_path)
             break
         with open(count_path, "r") as stream:
             count = int(stream.read().strip())
@@ -200,6 +205,7 @@ def handle_monthly_total(ctx: context.Context, src_root: str, j: Dict[str, Any],
         prev_month = prev_month_delta.replace(day=1).strftime("%Y-%m")
         count_path = os.path.join(src_root, "%s.count" % month)
         if not os.path.exists(count_path):
+            warning("file %s not exists, exiting", count_path)
             break
         with open(count_path, "r") as stream:
             count = int(stream.read().strip())

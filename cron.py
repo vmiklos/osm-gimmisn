@@ -44,8 +44,11 @@ def info(msg: str, *args: Any, **kwargs: Any) -> None:
 
 def error(msg: str, *args: Any, **kwargs: Any) -> None:
     """Wrapper around logging.error()."""
-    logging.error(get_date_prefix() + " ERROR" + msg, *args, **kwargs)
+    logging.error(get_date_prefix() + " ERROR " + msg, *args, **kwargs)
 
+def warning(msg: str, *args: Any, **kwargs: Any) -> None:
+    """Wrapper around logging.warning()."""
+    logging.error(get_date_prefix() + " WARNING " + msg, *args, **kwargs)
 
 def overpass_sleep(ctx: context.Context) -> None:
     """Sleeps to respect overpass rate limit."""
