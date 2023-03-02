@@ -1215,23 +1215,15 @@ pub fn get_valid_settlements(ctx: &context::Context) -> anyhow::Result<HashSet<S
         .context("open_read() failed")?;
     let mut guard = stream.borrow_mut();
     let mut read = guard.deref_mut();
-    let mut csv_read = CsvRead::new(&mut read);
-    let mut first = true;
-    for result in csv_read.records() {
-        if first {
-            first = false;
-            continue;
-        }
-
-        let record = match result {
+    let mut csv_reader = make_csv_reader(&mut read);
+    for result in csv_reader.deserialize() {
+        let row: CityCount = match result {
             Ok(value) => value,
             Err(_) => {
                 continue;
             }
         };
-        if let Some(col) = record.iter().next() {
-            settlements.insert(col.into());
-        }
+        settlements.insert(row.city);
     }
 
     Ok(settlements)
