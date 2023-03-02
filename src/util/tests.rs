@@ -444,8 +444,7 @@ fn test_html_table_from_list() {
 #[test]
 fn test_tsv_to_list() {
     let mut cursor = std::io::Cursor::new(b"h1\th2\n\nv1\tv2\n");
-    let mut csv_read = CsvRead::new(&mut cursor);
-    let ret = tsv_to_list(&mut csv_read).unwrap();
+    let ret = tsv_to_list(&mut cursor).unwrap();
     assert_eq!(ret.len(), 2);
     let row1: Vec<_> = ret[0].iter().map(|cell| cell.get_value()).collect();
     assert_eq!(row1, vec!["h1", "h2"]);
@@ -457,8 +456,7 @@ fn test_tsv_to_list() {
 #[test]
 fn test_tsv_to_list_type() {
     let mut cursor = std::io::Cursor::new(b"@id\t@type\n42\tnode\n");
-    let mut csv_read = CsvRead::new(&mut cursor);
-    let ret = tsv_to_list(&mut csv_read).unwrap();
+    let ret = tsv_to_list(&mut cursor).unwrap();
     assert_eq!(ret.len(), 2);
     let row1: Vec<_> = ret[0].iter().map(|cell| cell.get_value()).collect();
     assert_eq!(row1, vec!["@id", "@type"]);
@@ -471,8 +469,7 @@ fn test_tsv_to_list_type() {
 #[test]
 fn test_tsv_to_list_escape() {
     let mut cursor = std::io::Cursor::new(b"\"h,1\"\th2\n");
-    let mut csv_read = CsvRead::new(&mut cursor);
-    let ret = tsv_to_list(&mut csv_read).unwrap();
+    let ret = tsv_to_list(&mut cursor).unwrap();
     assert_eq!(ret.len(), 1);
     let row1: Vec<_> = ret[0].iter().map(|cell| cell.get_value()).collect();
     // Note how this is just h,1 and not "h,1".
@@ -488,8 +485,7 @@ A street\t1\n\
 A street\t10\n\
 A street\t9",
     );
-    let mut csv_read = CsvRead::new(&mut cursor);
-    let ret = tsv_to_list(&mut csv_read).unwrap();
+    let ret = tsv_to_list(&mut cursor).unwrap();
     // 0th is header
     let row3: Vec<_> = ret[3].iter().map(|cell| cell.get_value()).collect();
     // Note how 10 is ordered after 9.
