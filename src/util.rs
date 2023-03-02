@@ -376,7 +376,7 @@ impl PartialOrd for HouseNumber {
 }
 
 /// Like Read, but for untyped CSV reading.
-pub struct CsvRead<'a> {
+struct CsvRead<'a> {
     reader: csv::Reader<&'a mut dyn Read>,
 }
 
@@ -902,7 +902,8 @@ fn natnum(column: &str) -> u64 {
 }
 
 /// Turns a tab-separated table into a list of lists.
-pub fn tsv_to_list(csv_read: &mut CsvRead<'_>) -> anyhow::Result<Vec<Vec<yattag::Doc>>> {
+pub fn tsv_to_list(read: &mut dyn Read) -> anyhow::Result<Vec<Vec<yattag::Doc>>> {
+    let mut csv_read = CsvRead::new(read);
     let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
 
     let mut first = true;

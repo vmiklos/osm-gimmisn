@@ -88,8 +88,7 @@ fn handle_streets(
         let stream = relation.get_files().get_osm_streets_read_stream(ctx)?;
         let mut guard = stream.borrow_mut();
         let mut read = guard.deref_mut();
-        let mut csv_read = util::CsvRead::new(&mut read);
-        let table = util::tsv_to_list(&mut csv_read)?;
+        let table = util::tsv_to_list(&mut read)?;
         doc.append_value(util::html_table_from_list(&table).get_value());
     }
 
@@ -161,9 +160,8 @@ fn handle_street_housenumbers(
             let stream = relation.get_files().get_osm_housenumbers_read_stream(ctx)?;
             let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
-            let mut csv_read = util::CsvRead::new(&mut read);
             doc.append_value(
-                util::html_table_from_list(&util::tsv_to_list(&mut csv_read)?).get_value(),
+                util::html_table_from_list(&util::tsv_to_list(&mut read)?).get_value(),
             );
         }
     }
