@@ -375,28 +375,6 @@ impl PartialOrd for HouseNumber {
     }
 }
 
-/// Like Read, but for untyped CSV reading.
-struct CsvRead<'a> {
-    reader: csv::Reader<&'a mut dyn Read>,
-}
-
-impl<'a> CsvRead<'a> {
-    /// Creates a new CsvRead.
-    pub fn new(read: &'a mut dyn Read) -> Self {
-        let reader = csv::ReaderBuilder::new()
-            .has_headers(false)
-            .delimiter(b'\t')
-            .double_quote(true)
-            .from_reader(read);
-        CsvRead { reader }
-    }
-
-    /// Gets access to the rows of the CSV.
-    pub fn records(&mut self) -> csv::StringRecordsIter<'_, &'a mut dyn Read> {
-        self.reader.records()
-    }
-}
-
 /// One row in refdir/city_count_<DATE>.tsv.
 #[derive(serde::Deserialize)]
 pub struct CityCount {
@@ -903,7 +881,11 @@ fn natnum(column: &str) -> u64 {
 
 /// Turns a tab-separated table into a list of lists.
 pub fn tsv_to_list(read: &mut dyn Read) -> anyhow::Result<Vec<Vec<yattag::Doc>>> {
-    let mut csv_read = CsvRead::new(read);
+    let mut csv_read = csv::ReaderBuilder::new()
+        .has_headers(false)
+        .delimiter(b'\t')
+        .double_quote(true)
+        .from_reader(read);
     let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
 
     let mut first = true;
