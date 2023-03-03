@@ -64,7 +64,7 @@ fn handle_streets(
         pre.text(&relation.get_osm_streets_query()?);
     } else if action == "update-result" {
         let query = relation.get_osm_streets_query()?;
-        match overpass_query::overpass_query(ctx, query) {
+        match overpass_query::overpass_query(ctx, &query) {
             Ok(buf) => {
                 relation.get_files().write_osm_streets(ctx, &buf)?;
                 let streets = relation.get_config().should_check_missing_streets();
@@ -135,7 +135,7 @@ fn handle_street_housenumbers(
         pre.text(&relation.get_osm_housenumbers_query()?);
     } else if action == "update-result" {
         let query = relation.get_osm_housenumbers_query()?;
-        match overpass_query::overpass_query(ctx, query) {
+        match overpass_query::overpass_query(ctx, &query) {
             Ok(buf) => {
                 relation.get_files().write_osm_housenumbers(ctx, &buf)?;
                 doc.text(&tr("Update successful: "));
