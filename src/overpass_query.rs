@@ -13,10 +13,10 @@
 use crate::context;
 
 /// Posts the query string to the overpass API and returns the result string.
-pub fn overpass_query(ctx: &context::Context, query: String) -> anyhow::Result<String> {
+pub fn overpass_query(ctx: &context::Context, query: &str) -> anyhow::Result<String> {
     let url = ctx.get_ini().get_overpass_uri() + "/api/interpreter";
 
-    ctx.get_network().urlopen(&url, &query)
+    ctx.get_network().urlopen(&url, query)
 }
 
 /// Checks if we need to sleep before executing an overpass query.

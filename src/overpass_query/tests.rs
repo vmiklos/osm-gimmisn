@@ -78,7 +78,7 @@ fn test_overpass_query() {
         .read_to_string("src/fixtures/network/overpass-happy.overpassql")
         .unwrap();
 
-    let buf = overpass_query(&ctx, query).unwrap();
+    let buf = overpass_query(&ctx, &query).unwrap();
 
     assert_eq!(buf.starts_with("@id"), true);
 }

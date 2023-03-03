@@ -32,7 +32,7 @@ fn streets_update_result_json(
         .context("get_relation() failed")?;
     let query = relation.get_osm_streets_query()?;
     let mut ret: HashMap<String, String> = HashMap::new();
-    match overpass_query::overpass_query(ctx, query) {
+    match overpass_query::overpass_query(ctx, &query) {
         Ok(buf) => {
             relation.get_files().write_osm_streets(ctx, &buf)?;
             ret.insert("error".into(), "".into())
@@ -54,7 +54,7 @@ fn street_housenumbers_update_result_json(
     let relation = relations.get_relation(relation_name)?;
     let query = relation.get_osm_housenumbers_query()?;
     let mut ret: HashMap<String, String> = HashMap::new();
-    match overpass_query::overpass_query(ctx, query) {
+    match overpass_query::overpass_query(ctx, &query) {
         Ok(buf) => {
             relation.get_files().write_osm_housenumbers(ctx, &buf)?;
             ret.insert("error".into(), "".into())

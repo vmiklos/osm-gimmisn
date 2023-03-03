@@ -71,7 +71,7 @@ fn update_osm_streets(
             retry += 1;
             overpass_sleep(ctx);
             let query = relation.get_osm_streets_query()?;
-            let buf = match overpass_query::overpass_query(ctx, query) {
+            let buf = match overpass_query::overpass_query(ctx, &query) {
                 Ok(value) => value,
                 Err(err) => {
                     info!("update_osm_streets: http error: {err:?}");
@@ -114,7 +114,7 @@ fn update_osm_housenumbers(
             retry += 1;
             overpass_sleep(ctx);
             let query = relation.get_osm_housenumbers_query()?;
-            let buf = match overpass_query::overpass_query(ctx, query) {
+            let buf = match overpass_query::overpass_query(ctx, &query) {
                 Ok(value) => value,
                 Err(err) => {
                     info!("update_osm_housenumbers: http error: {err:?}");
@@ -462,7 +462,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
             }
             retry += 1;
             overpass_sleep(ctx);
-            let response = match overpass_query::overpass_query(ctx, query.clone()) {
+            let response = match overpass_query::overpass_query(ctx, &query) {
                 Ok(value) => value,
                 Err(err) => {
                     info!("update_stats: http error: {err}");
