@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# Copyright 2020 Miklos Vajna. All rights reserved.
-# Use of this source code is governed by a BSD-style license that can be
-# found in the LICENSE file.
+# Copyright 2020 Miklos Vajna
+#
+# SPDX-License-Identifier: MIT
 #
 
 #
