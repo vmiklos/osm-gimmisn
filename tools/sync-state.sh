@@ -10,6 +10,6 @@
 # all the expensive overpasss queries locally, rather take the existing results via rsync.
 #
 
-rsync -avP --delete-after osm-gimmisn@osm-gimmisn:git/osm-gimmisn/{refdir,workdir} .
+rsync -avP --delete-after osm-gimmisn@osm-gimmisn:git/osm-gimmisn/workdir .
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

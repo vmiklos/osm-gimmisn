@@ -2118,12 +2118,12 @@ fn test_relation_build_ref_housenumbers() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             (
-                "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
                 &ref_housenumbers_cache,
             ),
         ],
     );
-    let refdir = ctx.get_abspath("refdir");
+    let refdir = ctx.get_abspath("workdir/refs");
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
@@ -2162,7 +2162,7 @@ fn test_relation_build_ref_housenumbers_missing() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             (
-                "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
                 &ref_housenumbers_cache,
             ),
         ],
@@ -2170,7 +2170,7 @@ fn test_relation_build_ref_housenumbers_missing() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
-    let refdir = ctx.get_abspath("refdir");
+    let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
     let relation_name = "myrelation";
@@ -2201,10 +2201,10 @@ fn test_relation_build_ref_streets() {
         &ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
         ],
     );
-    let refdir = ctx.get_abspath("refdir");
+    let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/utcak_20190514.tsv");
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -2249,7 +2249,7 @@ fn test_relation_writer_ref_housenumbers() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
     let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
-    let refdir = ctx.get_abspath("refdir");
+    let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let refpath2 = format!("{refdir}/hazszamok_kieg_20190808.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
@@ -2262,11 +2262,11 @@ fn test_relation_writer_ref_housenumbers() {
             ),
             ("data/yamls.cache", &yamls_cache_value),
             (
-                "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
                 &ref_housenumbers_cache,
             ),
             (
-                "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
                 &ref_housenumbers2_cache,
             ),
         ],
@@ -2309,7 +2309,7 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let ref_hns_cache = context::tests::TestFileSystem::make_file();
-    let refdir = ctx.get_abspath("refdir");
+    let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
@@ -2320,8 +2320,11 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
                 &ref_value,
             ),
             ("data/yamls.cache", &yamls_cache_value),
-            ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
-            ("refdir/hazszamok_20190511.tsv-98-v1.cache", &ref_hns_cache),
+            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
+            (
+                "workdir/refs/hazszamok_20190511.tsv-98-v1.cache",
+                &ref_hns_cache,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -2348,7 +2351,7 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let ref_hns_cache = context::tests::TestFileSystem::make_file();
-    let refdir = ctx.get_abspath("refdir");
+    let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
@@ -2359,8 +2362,11 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
                 &ref_value,
             ),
             ("data/yamls.cache", &yamls_cache_value),
-            ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
-            ("refdir/hazszamok_20190511.tsv-01-v1.cache", &ref_hns_cache),
+            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
+            (
+                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
+                &ref_hns_cache,
+            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -2393,12 +2399,12 @@ fn test_relation_write_ref_streets() {
         &[
             ("workdir/streets-reference-gazdagret.lst", &ref_value),
             ("data/yamls.cache", &yamls_cache_value),
-            ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
-    let refdir = ctx.get_abspath("refdir");
+    let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/utcak_20190514.tsv");
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";

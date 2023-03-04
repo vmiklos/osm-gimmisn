@@ -57,7 +57,7 @@ fn test_handle_capital_progress() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("refdir/varosok_count_20190717.tsv", &ref_city_count),
+            ("workdir/refs/varosok_count_20190717.tsv", &ref_city_count),
             ("workdir/stats/2020-05-10.citycount", &osm_city_count),
         ],
     );
@@ -65,7 +65,7 @@ fn test_handle_capital_progress() {
     file_system
         .write_from_string(
             "VAROS\tCNT\nbudapest_11\t100\nbudapest_12\t200\nmycity\t42\n",
-            &ctx.get_abspath("refdir/varosok_count_20190717.tsv"),
+            &ctx.get_abspath("workdir/refs/varosok_count_20190717.tsv"),
         )
         .unwrap();
     file_system

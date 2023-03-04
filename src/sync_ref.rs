@@ -48,20 +48,20 @@ pub fn our_main(
         paths.append(
             &mut values
                 .split(' ')
-                .map(|value| value.strip_prefix("refdir/").unwrap().to_string())
+                .map(|value| value.strip_prefix("workdir/refs/").unwrap().to_string())
                 .collect(),
         );
         let value = config.wsgi.reference_street;
-        paths.push(value.strip_prefix("refdir/").unwrap().to_string());
+        paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
         let value = config.wsgi.reference_citycounts;
-        paths.push(value.strip_prefix("refdir/").unwrap().to_string());
+        paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
         let value = config.wsgi.reference_zipcounts;
-        paths.push(value.strip_prefix("refdir/").unwrap().to_string());
+        paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
 
         let mut dests: Vec<String> = Vec::new();
         for path in paths {
             let url = format!("{url}{path}");
-            let dest = ctx.get_abspath(&format!("refdir/{path}"));
+            let dest = ctx.get_abspath(&format!("workdir/refs/{path}"));
             dests.push(dest.clone());
             if ctx.get_file_system().path_exists(&dest) {
                 continue;
@@ -71,7 +71,10 @@ pub fn our_main(
             let buf = ctx.get_network().urlopen(&url, "")?;
             ctx.get_file_system().write_from_string(&buf, &dest)?;
         }
-        for path in ctx.get_file_system().listdir(&ctx.get_abspath("refdir"))? {
+        for path in ctx
+            .get_file_system()
+            .listdir(&ctx.get_abspath("workdir/refs"))?
+        {
             if dests.contains(&path) {
                 continue;
             }
@@ -136,19 +139,19 @@ pub fn our_main(
     let mut config: Vec<String> = Vec::new();
     config.push("[wsgi]".into());
     config.push(format!(
-        "reference_housenumbers = 'refdir/hazszamok_{}.tsv refdir/hazszamok_kieg_{}.tsv'",
+        "reference_housenumbers = 'workdir/refs/hazszamok_{}.tsv workdir/refs/hazszamok_kieg_{}.tsv'",
         files["hazszamok"], files["hazszamok_kieg"]
     ));
     config.push(format!(
-        "reference_street = 'refdir/utcak_{}.tsv'",
+        "reference_street = 'workdir/refs/utcak_{}.tsv'",
         files["utcak"]
     ));
     config.push(format!(
-        "reference_citycounts = 'refdir/varosok_count_{}.tsv'",
+        "reference_citycounts = 'workdir/refs/varosok_count_{}.tsv'",
         files["varosok_count"]
     ));
     config.push(format!(
-        "reference_zipcounts = 'refdir/irsz_count_{}.tsv'",
+        "reference_zipcounts = 'workdir/refs/irsz_count_{}.tsv'",
         files["irsz_count"]
     ));
     config.push(String::new());

@@ -104,11 +104,11 @@ fn test_update_ref_housenumbers() {
         &ctx,
         &[
             (
-                "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
                 &ref_housenumbers_cache,
             ),
             (
-                "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
                 &ref_housenumbers2_cache,
             ),
             ("data/yamls.cache", &yamls_cache_value),
@@ -191,7 +191,7 @@ fn test_update_ref_streets() {
                 "workdir/streets-reference-gellerthegy.lst",
                 &streets_ref_myrelation2,
             ),
-            ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
         ],
     );
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
@@ -1019,13 +1019,16 @@ fn test_our_main() {
                 "workdir/gazdagret-additional-streets.count",
                 &additional_streets_value,
             ),
-            ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache_value),
             (
-                "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                "workdir/refs/utcak_20190514.tsv.cache",
+                &ref_streets_cache_value,
+            ),
+            (
+                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
                 &ref_housenumbers_cache_value,
             ),
             (
-                "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
                 &ref_housenumbers_extra_cache_value,
             ),
             ("workdir/cache-gazdagret.json", &missing_housenumbers_json),
@@ -1511,11 +1514,11 @@ fn test_update_ref_housenumbers_xml_as_csv() {
         &ctx,
         &[
             (
-                "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
                 &ref_housenumbers_cache,
             ),
             (
-                "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
                 &ref_housenumbers2_cache,
             ),
             ("data/yamls.cache", &yamls_cache_value),

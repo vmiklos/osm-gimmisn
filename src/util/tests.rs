@@ -100,15 +100,15 @@ fn test_format_even_odd_html_multi_odd() {
 #[test]
 fn test_build_street_reference_cache() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let refpath = ctx.get_abspath("refdir/utcak_20190514.tsv");
+    let refpath = ctx.get_abspath("workdir/refs/utcak_20190514.tsv");
     let mut file_system = context::tests::TestFileSystem::new();
     let file_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("refdir/utcak_20190514.tsv.cache", &file_cache)],
+        &[("workdir/refs/utcak_20190514.tsv.cache", &file_cache)],
     );
     file_system.set_files(&files);
-    file_system.set_hide_paths(&[ctx.get_abspath("refdir/utcak_20190514.tsv.cache")]);
+    file_system.set_hide_paths(&[ctx.get_abspath("workdir/refs/utcak_20190514.tsv.cache")]);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
 
@@ -133,12 +133,12 @@ fn test_build_street_reference_cache() {
 #[test]
 fn test_build_street_reference_cache_cached() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let refpath = ctx.get_abspath("refdir/utcak_20190514.tsv");
+    let refpath = ctx.get_abspath("workdir/refs/utcak_20190514.tsv");
     let mut file_system = context::tests::TestFileSystem::new();
     let file_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("refdir/utcak_20190514.tsv.cache", &file_cache)],
+        &[("workdir/refs/utcak_20190514.tsv.cache", &file_cache)],
     );
     file_system.set_files(&files);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -169,15 +169,16 @@ fn test_build_reference_cache() {
     let cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("refdir/hazszamok_20190511.tsv-01-v1.cache", &cache)],
+        &[("workdir/refs/hazszamok_20190511.tsv-01-v1.cache", &cache)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    file_system.set_hide_paths(&[ctx.get_abspath("refdir/hazszamok_20190511.tsv-01-v1.cache")]);
+    file_system
+        .set_hide_paths(&[ctx.get_abspath("workdir/refs/hazszamok_20190511.tsv-01-v1.cache")]);
     let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system);
 
-    let refpath = ctx.get_abspath("refdir/hazszamok_20190511.tsv");
+    let refpath = ctx.get_abspath("workdir/refs/hazszamok_20190511.tsv");
     let memory_cache = build_reference_cache(&ctx, &refpath, "01").unwrap();
 
     let mut streets: HashMap<String, Vec<HouseNumberWithComment>> = HashMap::new();
@@ -224,12 +225,15 @@ fn test_build_reference_cache() {
 #[test]
 fn test_build_reference_cache_cached() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let refpath = ctx.get_abspath("refdir/hazszamok_20190511.tsv");
+    let refpath = ctx.get_abspath("workdir/refs/hazszamok_20190511.tsv");
     let mut file_system = context::tests::TestFileSystem::new();
     let file_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[("refdir/hazszamok_20190511.tsv-01-v1.cache", &file_cache)],
+        &[(
+            "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
+            &file_cache,
+        )],
     );
     file_system.set_files(&files);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
@@ -779,7 +783,7 @@ fn test_split_house_number_by_separator() {
 #[test]
 fn test_get_valid_settlements() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let citycounts_path = "refdir/varosok_count_20190717.tsv";
+    let citycounts_path = "workdir/refs/varosok_count_20190717.tsv";
     let citycounts = context::tests::TestFileSystem::make_file();
     citycounts
         .borrow_mut()
@@ -801,7 +805,7 @@ fn test_get_valid_settlements() {
 #[test]
 fn test_get_valid_settlements_error() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let citycounts_path = "refdir/varosok_count_20190717.tsv";
+    let citycounts_path = "workdir/refs/varosok_count_20190717.tsv";
     let citycounts = context::tests::TestFileSystem::make_file();
     citycounts
         .borrow_mut()

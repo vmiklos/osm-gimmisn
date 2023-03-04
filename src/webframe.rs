@@ -615,7 +615,7 @@ Only cities with house numbers in OSM are considered."#,
     Ok(doc)
 }
 
-/// One row in refdir/zip_count_<DATE>.tsv.
+/// One row in workdir/refs/zip_count_<DATE>.tsv.
 #[derive(serde::Deserialize)]
 struct ZipCount {
     /// Zip name.

@@ -48,10 +48,10 @@ fn test_main() {
         .read_to_string(&ctx.get_abspath("data/wsgi.ini.template"))
         .unwrap();
     let expected = r#"[wsgi]
-reference_housenumbers = 'refdir/hazszamok_20221001.tsv refdir/hazszamok_kieg_20221016.tsv'
-reference_street = 'refdir/utcak_20221016.tsv'
-reference_citycounts = 'refdir/varosok_count_20221001.tsv'
-reference_zipcounts = 'refdir/irsz_count_20221001.tsv'
+reference_housenumbers = 'workdir/refs/hazszamok_20221001.tsv workdir/refs/hazszamok_kieg_20221016.tsv'
+reference_street = 'workdir/refs/utcak_20221016.tsv'
+reference_citycounts = 'workdir/refs/varosok_count_20221001.tsv'
+reference_zipcounts = 'workdir/refs/irsz_count_20221001.tsv'
 "#;
     assert_eq!(actual, expected);
 }
@@ -76,10 +76,10 @@ fn test_main_download() {
         write
             .write_all(
                 r#"[wsgi]
-reference_housenumbers = 'refdir/hazszamok_20190511.tsv refdir/hazszamok_kieg_20190808.tsv'
-reference_street = 'refdir/utcak_20190514.tsv'
-reference_citycounts = 'refdir/varosok_count_20190717.tsv'
-reference_zipcounts = 'refdir/irsz_count_20200717.tsv'
+reference_housenumbers = 'workdir/refs/hazszamok_20190511.tsv workdir/refs/hazszamok_kieg_20190808.tsv'
+reference_street = 'workdir/refs/utcak_20190514.tsv'
+reference_citycounts = 'workdir/refs/varosok_count_20190717.tsv'
+reference_zipcounts = 'workdir/refs/irsz_count_20200717.tsv'
 "#
                 .as_bytes(),
             )
@@ -92,13 +92,13 @@ reference_zipcounts = 'refdir/irsz_count_20200717.tsv'
         &[
             ("data/wsgi.ini.template", &wsgi_ini_template),
             ("workdir/wsgi.ini", &wsgi_ini),
-            ("refdir/irsz_count_20200717.tsv", &zipcount),
-            ("refdir/irsz_count_20190717.tsv", &zipcount_old),
+            ("workdir/refs/irsz_count_20200717.tsv", &zipcount),
+            ("workdir/refs/irsz_count_20190717.tsv", &zipcount_old),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    file_system.set_hide_paths(&[ctx.get_abspath("refdir/irsz_count_20200717.tsv")]);
+    file_system.set_hide_paths(&[ctx.get_abspath("workdir/refs/irsz_count_20200717.tsv")]);
     let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
     ctx.set_file_system(&file_system_arc);
     let routes = vec![context::tests::URLRoute::new(
@@ -116,7 +116,7 @@ reference_zipcounts = 'refdir/irsz_count_20200717.tsv'
     assert_eq!(
         buf,
         r#"sync-ref: downloading 'https://www.example.com/osm/data/irsz_count_20200717.tsv'...
-sync-ref: removing 'refdir/irsz_count_20190717.tsv'...
+sync-ref: removing 'workdir/refs/irsz_count_20190717.tsv'...
 sync-ref: ok
 "#
     );

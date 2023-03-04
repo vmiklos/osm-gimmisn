@@ -375,7 +375,7 @@ impl PartialOrd for HouseNumber {
     }
 }
 
-/// One row in refdir/city_count_<DATE>.tsv.
+/// One row in workdir/refs/city_count_<DATE>.tsv.
 #[derive(serde::Deserialize)]
 pub struct CityCount {
     /// City name.
@@ -516,7 +516,7 @@ pub fn color_house_number(house_number: &HouseNumberRange) -> yattag::Doc {
 /// refcounty -> refsettlement -> streets cache.
 type StreetReferenceCache = HashMap<String, HashMap<String, Vec<String>>>;
 
-/// One row in refdir/streets_<DATE>.tsv.
+/// One row in workdir/refs/streets_<DATE>.tsv.
 #[derive(serde::Deserialize)]
 pub struct RefStreet {
     /// County code.
@@ -586,7 +586,7 @@ type HouseNumberWithComment = Vec<String>;
 pub type HouseNumberReferenceCache =
     HashMap<String, HashMap<String, HashMap<String, Vec<HouseNumberWithComment>>>>;
 
-/// One row in refdir/housenumbers_<DATE>.tsv.
+/// One row in workdir/refs/housenumbers_<DATE>.tsv.
 #[derive(serde::Deserialize)]
 pub struct RefHouseNumber {
     /// County code.
