@@ -1,5 +1,4 @@
 # osm-gimmisn data
-refdir
 *.cache
 *.validyaml
 

@@ -5,5 +5,6 @@
 *.lst
 *.percent
 cron.log
+refs
 stats
 wsgi.ini

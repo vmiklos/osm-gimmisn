@@ -231,11 +231,11 @@ fn test_missing_housenumbers_update_result_json() {
         &[
             ("data/yamls.cache", &yamls_cache_value),
             (
-                "refdir/hazszamok_20190511.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
                 &ref_housenumbers_cache,
             ),
             (
-                "refdir/hazszamok_kieg_20190808.tsv-01-v1.cache",
+                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
                 &ref_housenumbers2_cache,
             ),
             (
@@ -273,7 +273,7 @@ fn test_missing_streets_update_result_json() {
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
-            ("refdir/utcak_20190514.tsv.cache", &ref_streets_cache),
+            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/streets-reference-gazdagret.lst", &streets_value),
         ],
