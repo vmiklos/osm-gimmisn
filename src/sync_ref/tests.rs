@@ -91,7 +91,7 @@ reference_zipcounts = 'refdir/irsz_count_20200717.tsv'
         &ctx,
         &[
             ("data/wsgi.ini.template", &wsgi_ini_template),
-            ("wsgi.ini", &wsgi_ini),
+            ("workdir/wsgi.ini", &wsgi_ini),
             ("refdir/irsz_count_20200717.tsv", &zipcount),
             ("refdir/irsz_count_20190717.tsv", &zipcount_old),
         ],

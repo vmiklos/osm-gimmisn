@@ -81,7 +81,7 @@ pub fn our_main(
         }
 
         ctx.get_file_system()
-            .write_from_string(&config_data, &ctx.get_abspath("wsgi.ini"))?;
+            .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;
         stream.write_all("sync-ref: ok\n".as_bytes())?;
         return Ok(());
     }

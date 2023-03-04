@@ -1,0 +1,9 @@
+# osm-gimmisn data
+*.count
+*.csv
+*.json
+*.lst
+*.percent
+cron.log
+stats
+wsgi.ini

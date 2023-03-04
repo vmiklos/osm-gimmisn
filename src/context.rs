@@ -102,7 +102,7 @@ pub trait Unit {
 
 pub use system::StdUnit;
 
-/// The root of the wsgi.ini config file.
+/// The root of the workdir/wsgi.ini config file.
 #[derive(Clone, Default, serde::Deserialize)]
 pub struct IniConfig {
     /// The wsgi section in the config file.
@@ -235,7 +235,7 @@ impl Context {
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
         let file_system: Arc<dyn FileSystem> = Arc::new(StdFileSystem {});
-        let ini = Ini::new(&file_system, &format!("{root}/wsgi.ini"), &root)?;
+        let ini = Ini::new(&file_system, &format!("{root}/workdir/wsgi.ini"), &root)?;
         Ok(Context {
             root,
             ini,
