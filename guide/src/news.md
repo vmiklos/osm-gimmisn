@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- rouille: new `--host` parameter to specify the bind address
+
 ## 7.5
 
 - New `/missing-housenumbers/.../view-result.json` endpoint, exposing the missing-housenumbers

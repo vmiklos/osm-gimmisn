@@ -31,16 +31,29 @@ fn rouille_app(request: &rouille::Request) -> rouille::Response {
 /// ProxyPassReverse / http://127.0.0.1:8000/
 /// # Default would be 60
 /// ProxyTimeout 120
-fn rouille_main(_: &[String], stream: &mut dyn Write, ctx: &osm_gimmisn::context::Context) -> i32 {
+fn rouille_main(
+    argv: &[String],
+    stream: &mut dyn Write,
+    ctx: &osm_gimmisn::context::Context,
+) -> i32 {
+    let host = clap::Arg::new("host")
+        .long("host")
+        .default_value("127.0.0.1")
+        .help("host address to listen to");
+    let args = [host];
+    let app =
+        clap::Command::new("osm-gimmisn").override_usage("osm-gimmisn rouille [--host 127.0.0.1]");
+    let args = app.args(&args).try_get_matches_from(argv).unwrap();
+    let host = args.get_one::<String>("host").unwrap();
     let port = ctx.get_ini().get_tcp_port().unwrap();
     let prefix = ctx.get_ini().get_uri_prefix();
     writeln!(
         stream,
-        "Starting the server at <http://127.0.0.1:{port}{prefix}/>."
+        "Starting the server at <http://{host}:{port}{prefix}/>."
     )
     .unwrap();
     osm_gimmisn::context::system::get_tz_offset();
-    rouille::start_server_with_pool(format!("127.0.0.1:{port}"), None, move |request| {
+    rouille::start_server_with_pool(format!("{host}:{port}"), None, move |request| {
         rouille_app(request)
     });
 }
