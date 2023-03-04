@@ -19,9 +19,13 @@ use std::ops::DerefMut;
 
 #[cfg(not(test))]
 use log::info;
+#[cfg(not(test))]
+use log::warn;
 
 #[cfg(test)]
 use std::println as info;
+#[cfg(test)]
+use std::println as warn;
 
 /// Generates stats for a global progressbar.
 fn handle_progress(
@@ -230,6 +234,7 @@ fn handle_user_total(
         let day = day_delta.format(&ymd)?;
         let count_path = format!("{src_root}/{day}.usercount");
         if !ctx.get_file_system().path_exists(&count_path) {
+            warn!("handle_user_total: no such path: {count_path}");
             break;
         }
         let count: u64 = ctx
@@ -263,6 +268,7 @@ fn handle_daily_new(
         let day = day_delta.format(&ymd)?;
         let count_path = format!("{src_root}/{day}.count");
         if !ctx.get_file_system().path_exists(&count_path) {
+            warn!("handle_daily_new: no such path: {count_path}");
             break;
         }
         let count: i64 = ctx
@@ -313,6 +319,7 @@ fn handle_monthly_new(
         let month = month_delta.replace_day(1).unwrap().format(&ym)?;
         let count_path = format!("{src_root}/{month}-01.count");
         if !ctx.get_file_system().path_exists(&count_path) {
+            warn!("handle_monthly_new: no such path: {count_path}");
             break;
         }
         let count: i64 = ctx
@@ -364,6 +371,7 @@ fn handle_daily_total(
         let day = day_delta.format(&ymd)?;
         let count_path = format!("{src_root}/{day}.count");
         if !ctx.get_file_system().path_exists(&count_path) {
+            warn!("handle_daily_total: no such path: {count_path}");
             break;
         }
         let count: i64 = ctx
@@ -399,6 +407,7 @@ fn handle_monthly_total(
         let prev_month = prev_month_delta.replace_day(1).unwrap().format(&ym)?;
         let mut count_path = format!("{src_root}/{month}-01.count");
         if !ctx.get_file_system().path_exists(&count_path) {
+            warn!("handle_monthly_total: no such path: {count_path}");
             break;
         }
         let count: i64 = ctx
