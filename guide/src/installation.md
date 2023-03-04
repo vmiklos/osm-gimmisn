@@ -92,7 +92,7 @@ See `osm-gimmisn cron --help` for details on what switches are supported for tha
 
 ## Custom configuration
 
-`wsgi.ini` contains the configuration. Common keys to be customized (showing the defaults):
+`workdir/wsgi.ini` contains the configuration. Common keys to be customized (showing the defaults):
 
 ```toml
 uri_prefix = '/osm'

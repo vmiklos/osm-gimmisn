@@ -1,8 +1,6 @@
 # osm-gimmisn data
 refdir
-workdir
 *.cache
-wsgi.ini
 *.validyaml
 
 # Rust

@@ -399,28 +399,32 @@ fn test_ini_get_with_fallback() {
 fn test_ini_new() {
     let ctx = make_test_context().unwrap();
     let wsgi_ini = TestFileSystem::make_file();
-    let files = TestFileSystem::make_files(&ctx, &[("wsgi.ini", &wsgi_ini)]);
+    let files = TestFileSystem::make_files(&ctx, &[("workdir/wsgi.ini", &wsgi_ini)]);
     let mut file_system = TestFileSystem::new();
     file_system.set_files(&files);
     file_system
-        .write_from_string("[wsgi]\n=", &ctx.get_abspath("wsgi.ini"))
+        .write_from_string("[wsgi]\n=", &ctx.get_abspath("workdir/wsgi.ini"))
         .unwrap();
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
 
-    let ret = Ini::new(&file_system_arc, &ctx.get_abspath("wsgi.ini"), "tests");
+    let ret = Ini::new(
+        &file_system_arc,
+        &ctx.get_abspath("workdir/wsgi.ini"),
+        "tests",
+    );
 
     assert_eq!(ret.is_err(), true);
 }
 
-/// Tests Ini.new() with a non-existing wsgi.ini.
+/// Tests Ini.new() with a non-existing workdir/wsgi.ini.
 #[test]
 fn test_ini_new_no_config() {
     let ctx = make_test_context().unwrap();
     let mut file_system = TestFileSystem::new();
-    file_system.set_hide_paths(&[ctx.get_abspath("wsgi.ini")]);
+    file_system.set_hide_paths(&[ctx.get_abspath("workdir/wsgi.ini")]);
     let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
 
-    let ret = Ini::new(&file_system_arc, &ctx.get_abspath("wsgi.ini"), "");
+    let ret = Ini::new(&file_system_arc, &ctx.get_abspath("workdir/wsgi.ini"), "");
 
     assert_eq!(ret.is_err(), false);
 }

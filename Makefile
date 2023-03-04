@@ -85,7 +85,7 @@ ifndef V
 	QUIET_VALIDATOR = @echo '   ' VALIDATOR $@;
 endif
 
-all: target/browser/bundle.js css wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/osm-gimmisn
+all: target/browser/bundle.js css workdir/wsgi.ini data/yamls.cache locale/hu/LC_MESSAGES/osm-gimmisn.mo target/${TARGET_PATH}/osm-gimmisn
 
 clean:
 	rm -rf target
@@ -108,8 +108,8 @@ target/${TARGET_PATH}/osm-gimmisn: $(RS_OBJECTS) Cargo.toml Makefile
 check-unit: Cargo.toml $(RS_OBJECTS) locale/hu/LC_MESSAGES/osm-gimmisn.mo data/yamls.cache
 	cargo llvm-cov --lib -q --ignore-filename-regex system.rs --show-missing-lines --fail-under-lines 100 ${CARGO_OPTIONS} -- --test-threads=1
 
-src/browser/config.ts: wsgi.ini Makefile
-	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell (grep uri_prefix wsgi.ini || echo "/osm") |sed 's/uri_prefix = //') > $@
+src/browser/config.ts: workdir/wsgi.ini Makefile
+	printf 'const uriPrefix = "%s";\nexport { uriPrefix };\n' $(shell (grep uri_prefix workdir/wsgi.ini || echo "/osm") |sed 's/uri_prefix = //') > $@
 
 ifdef TSDEBUG
 WEBPACK_OPTIONS = --mode=development --devtool inline-source-map
@@ -133,8 +133,9 @@ target/browser/osm.min.css: static/osm.css package-lock.json
 	[ -x "./node_modules/.bin/cleancss" ] && npx cleancss -o $@ $< || cp -a $< $@
 
 # Intentionally don't update this when the source changes.
-wsgi.ini:
-	cp data/wsgi.ini.template wsgi.ini
+workdir/wsgi.ini:
+	mkdir -p workdir
+	cp data/wsgi.ini.template workdir/wsgi.ini
 
 data/yamls.cache: target/${TARGET_PATH}/osm-gimmisn $(YAML_OBJECTS)
 	target/${TARGET_PATH}/osm-gimmisn cache-yamls data workdir
