@@ -498,7 +498,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
 
     info!("update_stats: generating json");
     let json_path = format!("{}/stats.json", &statedir);
-    stats::generate_json(ctx, &statedir, &json_path)?;
+    stats::generate_json(ctx, &statedir, &json_path).context("generate_json() failed")?;
 
     info!("update_stats: end");
 
@@ -514,7 +514,7 @@ fn our_main_inner(
     overpass: bool,
 ) -> anyhow::Result<()> {
     if mode == "all" || mode == "stats" {
-        update_stats(ctx, overpass)?;
+        update_stats(ctx, overpass).context("update_stats failed")?;
     }
     if mode == "all" || mode == "relations" {
         update_osm_streets(ctx, relations, update)?;
@@ -591,7 +591,8 @@ pub fn our_main(
         args.get_one("mode").unwrap(),
         update,
         overpass,
-    )?;
+    )
+    .context("our_main_inner failed")?;
     let duration = ctx.get_time().now() - start;
     let seconds = duration.whole_seconds() % 60;
     let minutes = duration.whole_minutes() % 60;

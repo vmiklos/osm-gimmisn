@@ -161,14 +161,14 @@ fn handle_topusers(
 }
 
 /// Generates a list of cities, sorted by how many new hours numbers they got recently.
-pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, u64)>> {
+pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<Vec<(String, i64)>> {
     let now = ctx.get_time().now();
     let ymd = time::format_description::parse("[year]-[month]-[day]")?;
     let new_day = now.format(&ymd)?;
     let day_delta = now - time::Duration::days(30);
     let old_day = day_delta.format(&ymd)?;
     let mut old_counts: HashMap<String, u64> = HashMap::new();
-    let mut counts: Vec<(String, u64)> = Vec::new();
+    let mut counts: Vec<(String, i64)> = Vec::new();
 
     let old_count_path = format!("{src_root}/{old_day}.citycount");
     if !ctx.get_file_system().path_exists(&old_count_path) {
@@ -180,7 +180,8 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     let mut read = std::io::BufReader::new(guard.deref_mut());
     let mut csv_reader = util::make_csv_reader(&mut read);
     for result in csv_reader.deserialize() {
-        let row: util::CityCount = result?;
+        let row: util::CityCount =
+            result.context(format!("failed to read row in {old_count_path}"))?;
         old_counts.insert(row.city, row.count);
     }
 
@@ -195,7 +196,10 @@ pub fn get_topcities(ctx: &context::Context, src_root: &str) -> anyhow::Result<V
     for result in csv_reader.deserialize() {
         let row: util::CityCount = result?;
         if old_counts.contains_key(&row.city) {
-            counts.push((row.city.to_string(), row.count - old_counts[&row.city]));
+            counts.push((
+                row.city.to_string(),
+                row.count as i64 - old_counts[&row.city] as i64,
+            ));
         }
     }
     counts.sort_by_key(|x| x.1);
@@ -210,7 +214,7 @@ fn handle_topcities(
     src_root: &str,
     j: &mut serde_json::Value,
 ) -> anyhow::Result<()> {
-    let mut ret = get_topcities(ctx, src_root)?;
+    let mut ret = get_topcities(ctx, src_root).context("get_topcities failed")?;
     ret = ret[0..std::cmp::min(20, ret.len())].to_vec();
     j.as_object_mut()
         .unwrap()
@@ -444,15 +448,19 @@ pub fn generate_json(
     json_path: &str,
 ) -> anyhow::Result<()> {
     let mut j = serde_json::json!({});
-    handle_progress(ctx, state_dir, &mut j)?;
-    handle_capital_progress(ctx, state_dir, &mut j)?;
-    handle_topusers(ctx, state_dir, &mut j)?;
-    handle_topcities(ctx, state_dir, &mut j)?;
-    handle_user_total(ctx, state_dir, &mut j, /*day_range=*/ 13)?;
-    handle_daily_new(ctx, state_dir, &mut j, /*day_range=*/ 14)?;
-    handle_daily_total(ctx, state_dir, &mut j, /*day_range=*/ 13)?;
-    handle_monthly_new(ctx, state_dir, &mut j, /*month_range=*/ 12)?;
-    handle_monthly_total(ctx, state_dir, &mut j, /*month_range=*/ 11)?;
+    handle_progress(ctx, state_dir, &mut j).context("handle_progress failed")?;
+    handle_capital_progress(ctx, state_dir, &mut j).context("handle_capital_progress failed")?;
+    handle_topusers(ctx, state_dir, &mut j).context("handle_topusers failed")?;
+    handle_topcities(ctx, state_dir, &mut j).context("handle_topcities failed")?;
+    handle_user_total(ctx, state_dir, &mut j, /*day_range=*/ 13).context("handle_user_total")?;
+    handle_daily_new(ctx, state_dir, &mut j, /*day_range=*/ 14)
+        .context("handle_daily_new failed")?;
+    handle_daily_total(ctx, state_dir, &mut j, /*day_range=*/ 13)
+        .context("handle_daily_total failed")?;
+    handle_monthly_new(ctx, state_dir, &mut j, /*month_range=*/ 12)
+        .context("handle_monthly_new failed")?;
+    handle_monthly_total(ctx, state_dir, &mut j, /*month_range=*/ 11)
+        .context("handle_monthly_total failed")?;
     let stream = ctx.get_file_system().open_write(json_path)?;
     let mut guard = stream.borrow_mut();
     let write = guard.deref_mut();
