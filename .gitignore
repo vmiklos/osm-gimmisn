@@ -1,6 +1,7 @@
 # osm-gimmisn data
 *.cache
 *.validyaml
+workdir
 
 # Rust
 target
