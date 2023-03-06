@@ -386,6 +386,17 @@ pub struct CityCount {
     pub count: u64,
 }
 
+/// One row in workdir/refs/zip_count_<DATE>.tsv.
+#[derive(serde::Deserialize)]
+pub struct ZipCount {
+    /// Zip code.
+    #[serde(rename = "IRSZ")]
+    pub city: String,
+    /// Reference count of all housenumbers.
+    #[serde(rename = "CNT")]
+    pub count: u64,
+}
+
 /// Creates a new typed CSV reader.
 pub fn make_csv_reader(read: &mut dyn Read) -> csv::Reader<&mut dyn Read> {
     let reader = csv::ReaderBuilder::new()
