@@ -13,6 +13,7 @@ from typing import Dict
 from typing import List
 from typing import Tuple
 from cron import warning
+from cron import info
 import datetime
 import json
 import os
@@ -24,6 +25,7 @@ import util
 
 def handle_progress(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for a global progressbar."""
+    info("+ Generating progress")
     ret: Dict[str, Any] = {}
     with open(os.path.join(src_root, "ref.count"), "r") as stream:
         num_ref = int(stream.read().strip())
@@ -40,9 +42,40 @@ def handle_progress(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> N
     ret["osm"] = num_osm
     j["progress"] = ret
 
+def handle_capital_progress(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
+    """Generates status for the progress of the capital."""
+    info("+ Generating capital progress")
+    ret: Dict[str, Any] = {}
+    num_ref = 0
+    num_osm = 0
+    today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
+    ref_citycount_path = ctx.get_ini().get_reference_citycounts_path()
+    osm_citycount_path = os.path.join(src_root, "%s.citycount" % today)
+
+    with ctx.get_file_system().open_read(ref_citycount_path) as stream:
+        for line_bytes in stream.readlines():
+            line = util.from_bytes(line_bytes).strip()
+            city, _, count = line.partition('\t')
+            if city.startswith("budapest_"):
+                num_ref += int(count)
+
+    with ctx.get_file_system().open_read(osm_citycount_path) as stream:
+        for line_bytes in stream.readlines():
+            line = util.from_bytes(line_bytes).strip()
+            city, _, count = line.partition('\t')
+            if city.startswith("budapest_"):
+                num_osm += int(count)
+
+    percentage = round(num_osm * 100 / num_ref, 2)
+    ret["date"] = today
+    ret["percentage"] = percentage
+    ret["reference"] = num_ref
+    ret["osm"] = num_osm
+    j["capital-progress"] = ret
 
 def handle_topusers(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> None:
     """Generates stats for top users."""
+    info("+ Generating topusers")
     today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
     ret = []
     topusers_path = os.path.join(src_root, "%s.topusers" % today)
@@ -59,6 +92,7 @@ def get_topcities(ctx: context.Context, src_root: str) -> List[Tuple[str, int]]:
     """
     Generates a list of cities, sorted by how many new hours numbers they got recently.
     """
+    info("+ Generating topcities")
     ret: List[Tuple[str, int]] = []
     new_day = datetime.date.fromtimestamp(ctx.get_time().now()).strftime("%Y-%m-%d")
     day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(days=30)
@@ -101,6 +135,7 @@ def handle_topcities(ctx: context.Context, src_root: str, j: Dict[str, Any]) -> 
 
 def handle_user_total(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
     """Shows # of total users / day."""
+    info("+ Generating user total")
     ret = []
     for day_offset in range(day_range, -1, -1):
         day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(day_offset)
@@ -117,6 +152,7 @@ def handle_user_total(ctx: context.Context, src_root: str, j: Dict[str, Any], da
 
 def handle_daily_new(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 14) -> None:
     """Shows # of new housenumbers / day."""
+    info("+ Generating daily new")
     ret = []
     prev_count = 0
     prev_day = ""
@@ -147,6 +183,7 @@ def get_previous_month(today: datetime.date, months: int) -> datetime.date:
 
 def handle_monthly_new(ctx: context.Context, src_root: str, j: Dict[str, Any], month_range: int = 12) -> None:
     """Shows # of new housenumbers / month."""
+    info("+ Generating monthly new")
     ret = []
     prev_count = 0
     prev_month = ""
@@ -179,6 +216,7 @@ def handle_monthly_new(ctx: context.Context, src_root: str, j: Dict[str, Any], m
 
 def handle_daily_total(ctx: context.Context, src_root: str, j: Dict[str, Any], day_range: int = 13) -> None:
     """Shows # of total housenumbers / day."""
+    info("+ Generating daily total")
     ret = []
     for day_offset in range(day_range, -1, -1):
         day_delta = datetime.date.fromtimestamp(ctx.get_time().now()) - datetime.timedelta(day_offset)
@@ -195,6 +233,7 @@ def handle_daily_total(ctx: context.Context, src_root: str, j: Dict[str, Any], d
 
 def handle_monthly_total(ctx: context.Context, src_root: str, j: Dict[str, Any], month_range: int = 11) -> None:
     """Shows # of total housenumbers / month."""
+    info("+ Generating monthly total")
     ret = []
     for month_offset in range(month_range, -1, -1):
         today = datetime.date.fromtimestamp(ctx.get_time().now())
@@ -224,6 +263,7 @@ def generate_json(ctx: context.Context, state_dir: str, stream: BinaryIO) -> Non
     """Generates the stats json and writes it to `stream`."""
     j: Dict[str, Any] = {}
     handle_progress(ctx, state_dir, j)
+    handle_capital_progress(ctx, state_dir, j)
     handle_topusers(ctx, state_dir, j)
     handle_topcities(ctx, state_dir, j)
     handle_user_total(ctx, state_dir, j)

@@ -16,7 +16,7 @@ function getString(key: string) {
     return document.getElementById(key).getAttribute("data-value");
 }
 
-// StatsProgress is the "progress" key of workdir/stats/stats.json.
+// StatsProgress is the "progress" / "capital-progress" key of workdir/stats/stats.json.
 interface StatsProgress {
     date: string;
     percentage: number;
@@ -34,6 +34,7 @@ interface Stats {
     topcities: Array<[string, number]>;
     usertotal: Array<[string, number]>;
     progress: StatsProgress;
+    'capital-progress': StatsProgress;
 }
 
 function addCharts(stats: Stats) {
@@ -45,6 +46,7 @@ function addCharts(stats: Stats) {
     const topcities = stats.topcities;
     const usertotal = stats.usertotal;
     const progress = stats.progress;
+    const capitalProgress = stats['capital-progress'];
     const trendlineOptions = {
         style: "rgba(255,105,180, .8)",
         lineStyle: "dotted",
@@ -68,6 +70,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-daily-title").replace("{}", progress.date),
             },
             scales: {
@@ -117,6 +120,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-monthly-title").replace("{}", progress.date),
             },
             scales: {
@@ -166,6 +170,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-monthlytotal-title").replace("{}", progress.date),
             },
             scales: {
@@ -215,6 +220,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-dailytotal-title").replace("{}", progress.date),
             },
             scales: {
@@ -263,6 +269,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-topusers-title").replace("{}", progress.date),
             },
             scales: {
@@ -319,6 +326,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-topcities-title").replace("{}", progress.date),
             },
             scales: {
@@ -368,6 +376,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-usertotal-title").replace("{}", progress.date),
             },
             scales: {
@@ -402,7 +411,7 @@ function addCharts(stats: Stats) {
 
     const progressData = {
         datasets: [{
-            label: "Reference",
+            label: getString("str-reference"),
             backgroundColor: "rgba(255, 0, 0, 0.5)",
             data: [ progress.reference ],
         }, {
@@ -420,6 +429,7 @@ function addCharts(stats: Stats) {
         options: {
             title: {
                 display: true,
+                padding: 30, // default would be 10, which may overlap
                 text: getString("str-progress-title").replace("{1}", progress.percentage.toString()).replace("{2}", progress.date),
             },
             scales: {
@@ -428,6 +438,59 @@ function addCharts(stats: Stats) {
                     scaleLabel: {
                         display: true,
                         labelString: getString("str-progress-x-axis"),
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: getString("str-progress-y-axis"),
+                    },
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    formatter: function(value: number, context: ChartDatalabels.Context) {
+                        // Turn 1000 into '1 000'.
+                        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    }
+                }
+            },
+            tooltips: {
+                enabled: false,
+            }
+        }
+    });
+
+    const capitalProgressData = {
+        datasets: [{
+            label: getString("str-reference"),
+            backgroundColor: "rgba(255, 0, 0, 0.5)",
+            data: [ capitalProgress.reference ],
+        }, {
+            label: "OSM",
+            backgroundColor: "rgba(0, 255, 0, 0.5)",
+            data: [ capitalProgress.osm ],
+        }]
+
+    };
+    const capitalProgressCanvas = <HTMLCanvasElement>document.getElementById("capital-progress");
+    const capitalProgressCtx = capitalProgressCanvas.getContext("2d");
+    new Chart(capitalProgressCtx, {
+        type: "horizontalBar",
+        data: capitalProgressData,
+        options: {
+            title: {
+                display: true,
+                padding: 30, // default would be 10, which may overlap
+                text: getString("str-capital-progress-title").replace("{1}", capitalProgress.percentage.toString()).replace("{2}", capitalProgress.date),
+            },
+            scales: {
+                xAxes: [{
+                    ticks: { min: 0.0, },
+                    scaleLabel: {
+                        display: true,
+                        labelString: getString("str-capital-progress-x-axis"),
                     },
                 }],
                 yAxes: [{

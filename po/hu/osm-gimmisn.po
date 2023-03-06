@@ -106,10 +106,16 @@ msgstr "Város neve"
 msgid "Coverage"
 msgstr "Lefedettség"
 
+msgid "Capital coverage"
+msgstr "A főváros lefedettsége"
+
 #: webframe.py:475
 #, python-brace-format
 msgid "Coverage is {1}%, as of {2}"
 msgstr "A lefedettség {1}%, frissítve: {2}"
+
+msgid "Coverage is {1}% for the capital, as of {2}"
+msgstr "A főváros lefedettsége {1}%, frissítve: {2}"
 
 #: webframe.py:198
 msgid "Creating from reference..."

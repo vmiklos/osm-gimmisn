@@ -479,6 +479,9 @@ def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: 
             ("str-progress-title", tr("Coverage is {1}%, as of {2}")),
             ("str-progress-x-axis", tr("Number of house numbers in database")),
             ("str-progress-y-axis", tr("Data source")),
+            ("str-capital-progress-title", tr("Coverage is {1}% for the capital, as of {2}")),
+            ("str-capital-progress-x-axis",tr("Number of house numbers in database for the capital")),
+            ("str-reference", tr("Reference")),
         ]
         for key, value in string_pairs:
             kwargs: Dict[str, str] = {}
@@ -496,6 +499,7 @@ def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: 
         (tr("Top edited cities"), "topcities"),
         (tr("All house number editors"), "usertotal"),
         (tr("Coverage"), "progress"),
+        (tr("Capital coverage"), "capital-progress"),
         (tr("Per-city coverage"), "cityprogress"),
         (tr("Invalid relation settings"), "invalid-relations"),
     ]
