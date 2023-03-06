@@ -1,0 +1,20 @@
+FROM fedora:37
+
+RUN dnf install -y \
+    cargo \
+    clang-devel \
+    gettext \
+    git \
+    libicu-devel \
+    llvm-devel \
+    make \
+    npm \
+    openssl-devel
+
+RUN git -C /opt clone https://github.com/vmiklos/osm-gimmisn
+
+RUN make -C /opt/osm-gimmisn
+
+COPY /init.sh /
+
+CMD ["/init.sh"]
