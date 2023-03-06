@@ -1907,7 +1907,7 @@ fn test_handle_stats_zipprogress_well_formed() {
     let zips_value = context::tests::TestFileSystem::make_file();
     zips_value
         .borrow_mut()
-        .write_all(b"VAROS\tCNT\n1111\t10\n1121\t20\n")
+        .write_all(b"IRSZ\tCNT\n1111\t10\n1121\t20\n")
         .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,

@@ -663,7 +663,7 @@ fn handle_stats_zipprogress(
     let mut read = guard.deref_mut();
     let mut csv_reader = util::make_csv_reader(&mut read);
     for result in csv_reader.deserialize() {
-        let row: util::CityCount = result?;
+        let row: util::ZipCount = result.context(format!("failed to read row in {path}"))?;
         osm_zipcounts.insert(row.city, row.count);
     }
     let ref_zips: Vec<_> = ref_zipcounts
