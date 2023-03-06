@@ -30,7 +30,7 @@ import i18n
 import overpass_query
 import stats
 import util
-
+from sys import platform
 
 def get_date_prefix() -> str:
     """Generates the current date as a log prefix."""
@@ -209,6 +209,13 @@ def write_city_count_path(ctx: context.Context, city_count_path: str, cities: Di
         for key, value in sorted(cities.items(), key=lambda item: lexical_sort_key(item[0])):
             stream.write(util.to_bytes(key + "\t" + str(len(value)) + "\n"))
 
+def write_zip_count_path(ctx: context.Context, zip_count_path: str, zips: Dict[str, Set[str]]) -> None:
+    """Writes a daily .zipcount file."""
+    with ctx.get_file_system().open_write(zip_count_path) as stream:
+        # Locale-aware sort, by key.
+        lexical_sort_key = util.get_lexical_sort_key()
+        for key, value in sorted(zips.items(), key=lambda item: lexical_sort_key(item[0])):
+            stream.write(util.to_bytes(key + "\t" + str(len(value)) + "\n"))
 
 def update_stats_count(ctx: context.Context, today: str) -> None:
     """Counts the # of all house numbers as of today."""
@@ -218,8 +225,10 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
         return
     count_path = os.path.join(statedir, "%s.count" % today)
     city_count_path = os.path.join(statedir, "%s.citycount" % today)
+    zip_count_path = os.path.join(statedir, "%s.zipcount" % today)
     house_numbers = set()
     cities: Dict[str, Set[str]] = {}
+    zips: Dict[str, Set[str]] = {}
     first = True
     valid_settlements = util.get_valid_settlements(ctx)
     with ctx.get_file_system().open_read(csv_path) as stream:
@@ -239,8 +248,20 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
                 cities[city_key].add(city_value)
             else:
                 cities[city_key] = set([city_value])
+
+            # Postcode.
+            zip_key = cells[0];
+            # Street name and housenumber.
+            zip_value = "\t".join(cells[2:4])
+
+            if zip_key in zips:
+                zips[zip_key].add(zip_value)
+            else:
+                zips[zip_key] = set([zip_value])
+
     write_count_path(ctx, count_path, house_numbers)
     write_city_count_path(ctx, city_count_path, cities)
+    write_zip_count_path(ctx, zip_count_path, zips)
 
 
 def update_stats_topusers(ctx: context.Context, today: str) -> None:
@@ -351,16 +372,18 @@ def our_main(ctx: context.Context, relations: areas.Relations, mode: str, update
             update_missing_housenumbers(ctx, relations, update)
             update_additional_streets(ctx, relations, update)
 
-        pid = str(os.getpid())
-        with open("/proc/" + pid + "/status", "r") as stream:
-            vm_peak = ""
-            while True:
-                line = stream.readline()
-                if line.startswith("VmPeak:"):
-                    vm_peak = line.strip()
-                if vm_peak or not line:
-                    info("our_main: %s", line.strip())
-                    break
+        if platform == 'linux':
+            pid = str(os.getpid())
+            with open("/proc/" + pid + "/status", "r") as stream:
+                vm_peak = ""
+                while True:
+                    line = stream.readline()
+                    if line.startswith("VmPeak:"):
+                        vm_peak = line.strip()
+                    if vm_peak or not line:
+                        info("our_main: %s", line.strip())
+                        break
+
     # pylint: disable=broad-except
     except Exception:  # pragma: no cover
         return traceback.format_exc()

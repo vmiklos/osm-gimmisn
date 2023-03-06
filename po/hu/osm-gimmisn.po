@@ -375,6 +375,9 @@ msgstr "Overpass lekérdezés a lenti utcákra"
 msgid "Per-city coverage"
 msgstr "Városonkénti lefedettség"
 
+msgid "Per-ZIP coverage"
+msgstr "Irányítószámonkénti lefedettség"
+
 #: cache.py:91 wsgi.py:193 wsgi_additional.py:89
 msgid "Plain text format"
 msgstr "Egyszerű szöveg formátum"
@@ -429,6 +432,18 @@ msgstr ""
 "tükrözik a többi OSM szerkesztő munkájának minőségét. Ha arra akarod őket "
 "használni, hogy motiváljad magad, az rendben van, de ne felejtsd, hogy "
 "kevesebb hasznos munka többet ér, mint sok haszontalan munka."
+
+msgid "ZIP code"
+msgstr "Irányítószám"
+
+msgid ""
+"These statistics are estimates, not taking house number filters into "
+"account.\n"
+"Only zip codes with house numbers in OSM are considered."
+msgstr ""
+"Ezek a statisztikák becslések, nem véve figyelembe a házszám szűrőket.\n"
+"Csak olyan irányítószámok szerepelnek benne, amiknek van az OSM-ben "
+"házszámuk."
 
 #: webframe.py:492
 msgid "Top edited cities"

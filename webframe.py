@@ -412,6 +412,64 @@ Only cities with house numbers in OSM are considered."""))
     return doc
 
 
+def handle_stats_zipprogress(ctx: context.Context, relations: areas.Relations) -> yattag.doc.Doc:
+    """Expected request_uri: e.g. /osm/housenumber-stats/hungary/zipprogress."""
+    doc = yattag.doc.Doc()
+    doc.asis(get_toolbar(ctx, relations).getvalue())
+
+    ref_zipcounts: Dict[str, int] = {}
+    with open(ctx.get_ini().get_reference_zipcounts_path(), "r") as stream:
+        first = True
+        for line in stream.readlines():
+            if first:
+                first = False
+                continue
+            cells = line.strip().split('\t')
+            if len(cells) < 2:
+                continue
+            zip = cells[0]
+            count = int(cells[1])
+            ref_zipcounts[zip] = count
+    today = time.strftime("%Y-%m-%d", time.gmtime(ctx.get_time().now()))
+    osm_zipcounts: Dict[str, int] = {}
+    with open(ctx.get_ini().get_workdir() + "/stats/" + today + ".zipcount", "r") as stream:
+        for line in stream.readlines():
+            cells = line.strip().split('\t')
+            if len(cells) < 2:
+                continue
+            zip = cells[0]
+            count = int(cells[1])
+            osm_zipcounts[zip] = count
+    ref_zips = [util.Street(i) for i in ref_zipcounts]
+    osm_zips = [util.Street(i) for i in osm_zipcounts]
+    zips = [i.get_osm_name() for i in util.get_in_both(ref_zips, osm_zips)]
+    zips.sort(key=util.get_lexical_sort_key())
+    table = []
+    table.append([util.html_escape(tr("ZIP code")),
+                  util.html_escape(tr("House number coverage")),
+                  util.html_escape(tr("OSM count")),
+                  util.html_escape(tr("Reference count"))])
+    for zip in zips:
+        percent = "100.00"
+        if ref_zipcounts[zip] > 0 and osm_zipcounts[zip] < ref_zipcounts[zip]:
+            percent = "%.2f" % (osm_zipcounts[zip] / ref_zipcounts[zip] * 100)
+        table.append([util.html_escape(zip),
+                      util.html_escape(util.format_percent(percent)),
+                      util.html_escape(str(osm_zipcounts[zip])),
+                      util.html_escape(str(ref_zipcounts[zip]))])
+    doc.asis(util.html_table_from_list(table).getvalue())
+
+    with doc.tag("h2"):
+        doc.text(tr("Note"))
+    with doc.tag("div"):
+        doc.text(tr("""These statistics are estimates, not taking house number filters into account.
+Only zip codes with house numbers in OSM are considered."""))
+
+    doc.asis(get_footer().getvalue())
+    return doc
+
+
+
 def handle_invalid_refstreets(ctx: context.Context, relations: areas.Relations) -> yattag.doc.Doc:
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
     doc = yattag.doc.Doc()
@@ -441,6 +499,9 @@ def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: 
     """Expected request_uri: e.g. /osm/housenumber-stats/hungary/."""
     if request_uri.endswith("/cityprogress"):
         return handle_stats_cityprogress(ctx, relations)
+
+    if request_uri.endswith("/zipprogress"):
+        return handle_stats_zipprogress(ctx, relations)
 
     if request_uri.endswith("/invalid-relations"):
         return handle_invalid_refstreets(ctx, relations)
@@ -501,6 +562,7 @@ def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: 
         (tr("Coverage"), "progress"),
         (tr("Capital coverage"), "capital-progress"),
         (tr("Per-city coverage"), "cityprogress"),
+        (tr("Per-ZIP coverage"), "zipprogress"),
         (tr("Invalid relation settings"), "invalid-relations"),
     ]
 
@@ -509,6 +571,10 @@ def handle_stats(ctx: context.Context, relations: areas.Relations, request_uri: 
             with doc.tag("li"):
                 if identifier == "cityprogress":
                     with doc.tag("a", href=prefix + "/housenumber-stats/hungary/cityprogress"):
+                        doc.text(title)
+                    continue
+                if identifier == "zipprogress":
+                    with doc.tag("a", href=prefix + "/housenumber-stats/hungary/zipprogress"):
                         doc.text(title)
                     continue
                 if identifier == "invalid-relations":

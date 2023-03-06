@@ -177,6 +177,11 @@ class Ini:
         relpath = self.__config.get("wsgi", "reference_citycounts").strip()
         return os.path.join(self.root, relpath)
 
+    def get_reference_zipcounts_path(self) -> str:
+        """Gets the abs path of ref citycounts."""
+        relpath = self.__config.get("wsgi", "reference_zipcounts").strip()
+        return os.path.join(self.root, relpath)
+
     def get_uri_prefix(self) -> str:
         """Gets the global URI prefix."""
         return self.__config.get("wsgi", "uri_prefix").strip()
