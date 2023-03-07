@@ -1,12 +1,47 @@
 missing-streets: 'yes'
 filters:
+  Akácfa utca:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Béke út:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '149'}
+      - {start: '2', end: '148'}
+  Bercsényi út:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Farkasverem utca:
+    # hrsz szűrés
+    invalid: ['258']
+  Gölödin utca:
+    # hrsz szűrés
+    invalid: ['909']
+  Jókai utca:
+    # hrsz szűrés
+    invalid: ['697']
   Kernstok Károly utca:
     show-refstreet: false
+  Kisfaludy utca:
+    # hrsz szűrés
+    invalid: ['671', '676']
+  Napsugár köz:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Napsugár utca:
     # hrsz szűrés
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Patak sor:
+    # hrsz szűrés
+    invalid: ['465', '896']
   Villasor:
     show-refstreet: false
 osm-street-filters:
