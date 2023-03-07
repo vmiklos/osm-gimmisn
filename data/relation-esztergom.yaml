@@ -240,7 +240,7 @@ refstreets:
   'Gróh József utca': 'Dr. Gróh József utca'
   'Hegytető utca': 'Hegy-tető utca'
   'Kenderesi utca': 'Kenderesi út'
-  'Madách Imre tér': 'Madách Imre út'
+  # 'Madách Imre tér': 'Madách Imre út'
   'Mindszenty tér': 'Mindszenty hercegprímás tér'  # új táblákon Mindszenty tér
   'Siszler utca': 'Siszler út'
   'Szent Tamás utca': 'Szenttamás utca'
