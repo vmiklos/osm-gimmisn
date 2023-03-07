@@ -15,6 +15,11 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Domb utca:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Farkasverem utca:
     # hrsz szűrés
     invalid: ['258']
@@ -42,6 +47,11 @@ filters:
   Patak sor:
     # hrsz szűrés
     invalid: ['465', '896']
+  Semmelweis utca:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Villasor:
     show-refstreet: false
 osm-street-filters:
