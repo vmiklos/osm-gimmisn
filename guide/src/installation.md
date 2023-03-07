@@ -100,3 +100,42 @@ tcp_port = '8000'
 overpass_uri = 'https://z.overpass-api.de'
 cron_update_inactive = 'False'
 ```
+
+## Running within a container
+
+You can try osm-gimmisn in 5 minutes following these basic steps:
+
+1. Clone the repo:
+
+```
+git clone https://github.com/vmiklos/osm-gimmisn
+```
+
+2. Build the container:
+
+```
+cd osm-gimmisn/tools/container && ./build.sh
+```
+
+3. Run the container:
+
+```
+./run.sh
+```
+
+4. Sync the reference data:
+
+```
+podman exec -t -i osm-gimmisn bash -c 'cd /opt/osm-gimmisn && target/release/osm-gimmisn sync-ref --mode download --url https://www.example.com/osm/data/'
+```
+
+5. Go to <http://0.0.0.0:8000/osm/> in your web browser.
+
+Note that the comparison results are not only affected by changes in the OSM database, false
+positives are also silenced by osm-gimmisn filters. To update those filters, run:
+
+```
+podman exec -t -i osm-gimmisn bash -c 'cd /opt/osm-gimmisn && git pull -r && make data/yamls.cache'
+```
+
+from time to time.
