@@ -1,5 +1,12 @@
 missing-streets: 'yes'
 filters:
+  Kernstok Károly utca:
+    show-refstreet: false
+  Napsugár utca:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Villasor:
     show-refstreet: false
 osm-street-filters:
@@ -16,7 +23,7 @@ osm-street-filters:
 refstreets:
   'Duna sor': 'Dunasor'
   # 'Felsőszérűk utca': 'Felsőszérűk dűlő'
-  'Kernstok Károly utca': 'Kernstock Károly utca'
+  'Kernstok Károly utca': 'Kernstock Károly utca'  # táblán Kernstok Károly utca
   'Pisztrángos telep út': 'Pisztrángos telep'
   'Villasor': 'Villa sor'
   'Vöröskő utca': 'Vöröskő út'
