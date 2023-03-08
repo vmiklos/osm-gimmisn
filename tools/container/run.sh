@@ -17,6 +17,6 @@ podman run \
     --rm \
     --tty \
     --volume $PWD/workdir:/opt/osm-gimmisn/workdir \
-    localhost/osm-gimmisn:latest
+    osm-gimmisn:latest
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

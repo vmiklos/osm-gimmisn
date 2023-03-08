@@ -5,6 +5,6 @@
 # SPDX-License-Identifier: MIT
 #
 
-podman build -f Containerfile -t osm-gimmisn
+podman build -f Containerfile -t osm-gimmisn .
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab:

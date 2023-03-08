@@ -139,3 +139,6 @@ podman exec -t -i osm-gimmisn bash -c 'cd /opt/osm-gimmisn && git pull -r && mak
 ```
 
 from time to time.
+
+Also note that you can decide what container manager you want to use. It's not a problem if you
+prefer `docker` instead of `podman`, the commands documented here are still meant to work.
