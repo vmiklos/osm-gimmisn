@@ -283,8 +283,8 @@ pub fn our_main(
     stream: &mut dyn Write,
     ctx: &context::Context,
 ) -> anyhow::Result<()> {
-    let yaml_path = argv[1].clone();
-    let data = ctx.get_file_system().read_to_string(&yaml_path)?;
+    let yaml_path = &argv[1];
+    let data = ctx.get_file_system().read_to_string(yaml_path)?;
     let mut errors: Vec<String> = Vec::new();
 
     if data.contains('\t') {

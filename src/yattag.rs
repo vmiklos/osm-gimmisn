@@ -40,7 +40,7 @@ impl Doc {
 
     /// Gets the escaped value.
     pub fn get_value(&self) -> String {
-        self.value.borrow().clone()
+        self.value.borrow().to_string()
     }
 
     /// Appends escaped content to the value.
