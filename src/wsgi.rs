@@ -1370,16 +1370,16 @@ fn handle_main(
 /// Determines the HTML title for a given function and relation name.
 fn get_html_title(request_uri: &str) -> String {
     let tokens: Vec<String> = request_uri.split('/').map(|i| i.to_string()).collect();
-    let mut function: String = "".into();
-    let mut relation_name: String = "".into();
+    let mut function = "";
+    let mut relation_name = "";
     if tokens.len() > 3 {
-        function = tokens[2].clone();
-        relation_name = tokens[3].clone();
+        function = &tokens[2];
+        relation_name = &tokens[3];
     }
-    match function.as_str() {
+    match function {
         "missing-housenumbers" => format!(
             " - {}",
-            tr("{0} missing house numbers").replace("{0}", &relation_name)
+            tr("{0} missing house numbers").replace("{0}", relation_name)
         ),
         "missing-streets" => format!(" - {} {}", relation_name, tr("missing streets")),
         "street-housenumbers" => format!(" - {} {}", relation_name, tr("existing house numbers")),

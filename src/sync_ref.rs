@@ -62,7 +62,7 @@ pub fn our_main(
         for path in paths {
             let url = format!("{url}{path}");
             let dest = ctx.get_abspath(&format!("workdir/refs/{path}"));
-            dests.push(dest.clone());
+            dests.push(dest.to_string());
             if ctx.get_file_system().path_exists(&dest) {
                 continue;
             }
