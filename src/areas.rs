@@ -1509,8 +1509,8 @@ area(@AREA@)->.searchArea;
 "#;
     let mut query = util::process_template(header, relation.config.get_osmrelation());
     for street in streets {
-        writeln!(query, "way[\"name\"=\"{street}\"](r.searchRelation);").unwrap();
-        writeln!(query, "way[\"name\"=\"{street}\"](area.searchArea);").unwrap();
+        let _ = writeln!(query, "way[\"name\"=\"{street}\"](r.searchRelation);");
+        let _ = writeln!(query, "way[\"name\"=\"{street}\"](area.searchArea);");
     }
     query += r#");
 out body;
@@ -1537,7 +1537,7 @@ area(@AREA@)->.searchArea;
     ids.sort();
     ids.dedup();
     for (osm_type, osm_id) in ids {
-        writeln!(query, "{osm_type}({osm_id});").unwrap();
+        let _ = writeln!(query, "{osm_type}({osm_id});");
     }
     query += r#");
 out body;
