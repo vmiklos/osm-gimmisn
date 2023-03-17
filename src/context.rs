@@ -263,8 +263,8 @@ impl Context {
     }
 
     /// Sets the network implementation.
-    pub fn set_network(&mut self, network: &Arc<dyn Network>) {
-        self.network = network.clone();
+    pub fn set_network(&mut self, network: Arc<dyn Network>) {
+        self.network = network;
     }
 
     /// Gets the time implementation.
