@@ -29,7 +29,7 @@ fn test_overpass_sleep_no_sleep() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     overpass_sleep(&ctx);
 
@@ -59,7 +59,7 @@ fn test_overpass_sleep_need_sleep() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     overpass_sleep(&ctx);
 
@@ -484,7 +484,7 @@ fn test_update_osm_housenumbers() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
     let expected = std::fs::read_to_string(&path).unwrap();
@@ -518,7 +518,7 @@ fn test_update_osm_housenumbers_http_error() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
     let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
@@ -572,7 +572,7 @@ fn test_update_osm_housenumbers_xml_as_csv() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let path = ctx.get_abspath("workdir/street-housenumbers-gazdagret.csv");
     let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
@@ -599,7 +599,7 @@ fn test_update_osm_streets() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -667,7 +667,7 @@ fn test_update_osm_streets_http_error() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
     let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
@@ -720,7 +720,7 @@ fn test_update_osm_streets_xml_as_csv() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let path = ctx.get_abspath("workdir/streets-gazdagret.csv");
     let expected = String::from_utf8(std::fs::read(&path).unwrap()).unwrap();
@@ -749,7 +749,7 @@ fn test_update_stats() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     let citycount_value = context::tests::TestFileSystem::make_file();
     let zipcount_value = context::tests::TestFileSystem::make_file();
@@ -836,7 +836,7 @@ fn test_update_stats_http_error() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     let citycount_value = context::tests::TestFileSystem::make_file();
     let count_value = context::tests::TestFileSystem::make_file();
@@ -891,7 +891,7 @@ fn test_update_stats_no_overpass() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     let citycount_value = context::tests::TestFileSystem::make_file();
     let zipcount_value = context::tests::TestFileSystem::make_file();
@@ -964,7 +964,7 @@ fn test_our_main() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -1116,7 +1116,7 @@ fn test_our_main_stats() {
     ];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let mut file_system = context::tests::TestFileSystem::new();
     let stats_value = context::tests::TestFileSystem::make_file();
     let overpass_template = context::tests::TestFileSystem::make_file();

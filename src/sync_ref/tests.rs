@@ -31,7 +31,7 @@ fn test_main() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let wsgi_ini_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -108,7 +108,7 @@ reference_zipcounts = 'workdir/refs/irsz_count_20200717.tsv'
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     let ret = main(&argv, &mut buf, &mut ctx);
 

@@ -24,7 +24,7 @@ fn test_overpass_query_need_sleep() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     assert_eq!(overpass_query_need_sleep(&ctx), 0);
 }
@@ -40,7 +40,7 @@ fn test_overpass_query_need_sleep_wait() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     assert_eq!(overpass_query_need_sleep(&ctx), 12);
 }
@@ -56,7 +56,7 @@ fn test_overpass_query_need_sleep_wait_negative() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
 
     assert_eq!(overpass_query_need_sleep(&ctx), 1);
 }
@@ -72,7 +72,7 @@ fn test_overpass_query() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let query = ctx
         .get_file_system()
         .read_to_string("src/fixtures/network/overpass-happy.overpassql")

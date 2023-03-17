@@ -354,7 +354,7 @@ fn test_handle_overpass_error_no_sleep() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let doc = handle_overpass_error(&ctx, error);
     let expected = r#"<div id="overpass-error">Overpass error: HTTP Error 404: no such file</div>"#;
     assert_eq!(doc.get_value(), expected);
@@ -372,7 +372,7 @@ fn test_handle_overpass_error_need_sleep() {
     )];
     let network = context::tests::TestNetwork::new(&routes);
     let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(&network_arc);
+    ctx.set_network(network_arc);
     let doc = handle_overpass_error(&ctx, error);
     let expected = r#"<div id="overpass-error">Overpass error: HTTP Error 404: no such file<br />Note: wait for 12 seconds</div>"#;
     assert_eq!(doc.get_value(), expected);
