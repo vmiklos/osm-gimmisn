@@ -1,12 +1,12 @@
 missing-streets: 'yes'
 refstreets:
    # helyesírás
+  'Csokonai Vitéz Mihály utca': 'Csokonai Vitéz M. utca'
   'Röviddűlő': 'Röviddülő'
   # kérdéses
   'Árpád út': 'Árpád utca'
   'Barátság utca': 'Barátság útja'
   'Bolyai János utca': 'Bólyai János utca'
-  'Csokonai utca': 'Csokonai Vitéz M. utca'
   'Déligát utca': 'Déli-gát út'
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Franciska puszta': 'Franciskapuszta tanya'
