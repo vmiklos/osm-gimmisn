@@ -86,7 +86,7 @@ osm-street-filters:
 #street-filters:
   # Tanyák
 refstreets:
-  'Duna sor': 'Dunasor'
+  # 'Duna sor': 'Dunasor' - tábla nincs, tervben Dunasor
   # 'Felsőszérűk utca': 'Felsőszérűk dűlő'
   'Kernstok Károly utca': 'Kernstock Károly utca'  # táblán Kernstok Károly utca
   'Pisztrángos telep út': 'Pisztrángos telep'
