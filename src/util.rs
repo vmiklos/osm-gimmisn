@@ -929,15 +929,14 @@ pub fn tsv_to_list(read: &mut dyn Read) -> anyhow::Result<Vec<Vec<yattag::Doc>>>
     if columns.contains_key("addr:street") && columns.contains_key("addr:housenumber") {
         let header = table[0].clone();
         table.remove(0);
-        //table.sort(key=lambda row: natnum(get_column(row, columns["addr:housenumber"])));
         table.sort_by(|a, b| {
-            let a_key = natnum(&get_column(a, *columns.get("addr:housenumber").unwrap()));
-            let b_key = natnum(&get_column(b, *columns.get("addr:housenumber").unwrap()));
+            let a_key = natnum(&get_column(a, columns["addr:housenumber"]));
+            let b_key = natnum(&get_column(b, columns["addr:housenumber"]));
             a_key.cmp(&b_key)
         });
         table.sort_by(|a, b| {
-            let a_key = natnum(&get_column(a, *columns.get("addr:street").unwrap()));
-            let b_key = natnum(&get_column(b, *columns.get("addr:street").unwrap()));
+            let a_key = natnum(&get_column(a, columns["addr:street"]));
+            let b_key = natnum(&get_column(b, columns["addr:street"]));
             a_key.cmp(&b_key)
         });
         let mut merged = vec![header];
