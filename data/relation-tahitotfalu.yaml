@@ -40,6 +40,9 @@ filters:
   Kisfaludy utca:
     # hrsz szűrés
     invalid: ['671', '676']
+  Kossuth Lajos utca:
+    # páros oldal csak 30-ig van számozva
+    invalid: ['44']
   Napsugár köz:
     # hrsz szűrés
     ranges:
