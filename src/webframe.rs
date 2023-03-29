@@ -582,9 +582,7 @@ fn handle_stats_cityprogress(
     ]];
     for city in cities {
         let mut percent = 100_f64;
-        if *ref_citycounts.get(city).unwrap() > 0
-            && osm_citycounts.get(city).unwrap() < ref_citycounts.get(city).unwrap()
-        {
+        if ref_citycounts[city] > 0 && osm_citycounts[city] < ref_citycounts[city] {
             let osm_count = osm_citycounts[city] as f64;
             let ref_count = ref_citycounts[city] as f64;
             percent = osm_count / ref_count * 100_f64;
@@ -593,8 +591,8 @@ fn handle_stats_cityprogress(
         table.push(vec![
             yattag::Doc::from_text(city),
             yattag::Doc::from_text(&percent),
-            yattag::Doc::from_text(&osm_citycounts.get(city).unwrap().to_string()),
-            yattag::Doc::from_text(&ref_citycounts.get(city).unwrap().to_string()),
+            yattag::Doc::from_text(&osm_citycounts[city].to_string()),
+            yattag::Doc::from_text(&ref_citycounts[city].to_string()),
         ]);
     }
     doc.append_value(util::html_table_from_list(&table).get_value());
