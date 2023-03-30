@@ -3012,6 +3012,7 @@ refstreets:
   'Károly Iréneusz József utca': 'Károly Ireneusz J. utca'
   'Keserűvíz utca': 'Keserűviz utca'
   'Kis Fenyves köz': 'Kis-Fenyves köz'
+  'Madárhegyi út': 'Madárhegy utca'  # hivatalosan Madárhegyi út
   'Mesterházi utca': 'Mesterházy utca'
   'Új barázda utca': 'Új Barázda utca'
   'Zólyomi köz': 'Zólyom köz'
@@ -3057,8 +3058,6 @@ osm-street-filters:
   - Pedellus utca
   - Torockó utca
   - Vörösbegy utca
-  # Lesz itt házszám, csak még nincs kiírva, nemrég épültek/építés alatt az épületek
-  - Madárhegyi út
 source: survey
 housenumber-letters: true
 inactive: false
