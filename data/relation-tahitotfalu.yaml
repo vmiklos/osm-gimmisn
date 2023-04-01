@@ -6,8 +6,11 @@ filters:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
   Bajcsy-Zsilinszky út:
-    # utlsó páratlan a 35
+    # 45: utlsó páratlan a 35
     invalid: ['45']
+  Bartók Béla utca:
+    # 31: utolsó páratlan a 13
+    invalid: ['31']
   Béke út:
     # hrsz szűrés
     ranges:
@@ -18,6 +21,9 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Dankó uta:
+    # 61: utolsó páratlan a 19
+    invalid: ['61']
   Domb utca:
     # hrsz szűrés
     ranges:
@@ -32,6 +38,12 @@ filters:
   Gölödin utca:
     # hrsz szűrés
     invalid: ['909']
+  Gyöngyvirág utca:
+    # 7 az utolsó ház
+    invalid: ['11']
+  Ifjúság út:
+    # 13 nál vége( imaháznál)
+    invalid: ['95']
   Jókai utca:
     # hrsz szűrés
     invalid: ['697']
@@ -42,9 +54,9 @@ filters:
     invalid: ['151']
   Kisfaludy utca:
     # hrsz szűrés
-    invalid: ['671', '676']
+    invalid: ['189', '671', '676']
   Kossuth Lajos utca:
-    # páros oldal csak 30-ig van számozva
+    # 44: páros oldal csak 30-ig van számozva
     invalid: ['44']
   Napsugár köz:
     # hrsz szűrés
@@ -69,15 +81,21 @@ filters:
     # hrsz szűrés
     invalid: ['520']
   Semmelweis utca:
-    # hrsz szűrés
     ranges:
-      - {start: '1', end: '99'}
-      - {start: '2', end: '98'}
+      - {start: '1', end: '17'}
+      - {start: '2', end: '22'}
   Váci-rév:
     # hrsz szűrés
     invalid: ['154']
   Villasor:
     show-refstreet: false
+  Viola utca:
+   # 94 = Sionhegyi utca 1
+    invalid: ['94']
+  Zrínyi köz:
+    # 7 = 8 van a helyén
+    # 27: nincs
+    invalid: ['7', '27']
   Zrínyi utca:
     invalid: ['393']
 osm-street-filters:
