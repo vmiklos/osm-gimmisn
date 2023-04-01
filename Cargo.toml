@@ -6,9 +6,9 @@ license = "MIT"
 
 [dependencies]
 accept-language = "2.0.0"
-anyhow = "1.0.69"
-clap = "4.1.6"
-csv = "1.2.0"
+anyhow = "1.0.70"
+clap = "4.2.1"
+csv = "1.2.1"
 gettext = "0.4.0"
 git-version = "0.3.5"
 html-escape = "0.2.13"
@@ -16,17 +16,17 @@ html_parser = "0.6.3"
 isahc = "1.7.2"
 lazy_static = "1.4.0"
 log = "0.4.17"
-regex = "1.7.1"
+regex = "1.7.3"
 rouille = "3.6.1"
 rust_icu_ucol = { version = "3.0.0", optional = true }
 rust_icu_ustring = { version = "3.0.0", optional = true }
 rust_icu_unumberformatter = { version = "3.0.0", optional = true }
-serde = { version = "1.0.152", features = ["derive"] }
-serde_json = "1.0.93"
-serde_yaml = "0.9.17"
-simplelog = "0.12.0"
+serde = { version = "1.0.159", features = ["derive"] }
+serde_json = "1.0.95"
+serde_yaml = "0.9.19"
+simplelog = "0.12.1"
 time = { version = "0.3.20", features = ["formatting", "macros", "local-offset"] }
-toml = "0.7.2"
+toml = "0.7.3"
 unidecode = "0.3.0"
 url = "2.3.1"
 
