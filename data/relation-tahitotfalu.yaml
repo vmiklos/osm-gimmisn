@@ -21,7 +21,7 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Dankó uta:
+  Dankó utca:
     # 61: utolsó páratlan a 19
     invalid: ['61']
   Domb utca:
