@@ -40,7 +40,7 @@ filters:
     # 4,6-ost lebontották, 4a, 4b lett helyette
     invalid: ['2', '6']
   Arany János utca:
-    # páros felmérendő mégegyszer, nem úgy tűnik, hogy lenne egyáltalán
+    # páros felmérendő mégegyszer, nem úgy tűnik, hogy lenne egyáltalán RESURVEY 2023
     ranges:
       - {start: '1', end: '19'}
       - {start: '2', end: '6'}
@@ -354,8 +354,9 @@ filters:
       - {start: '1', end: '47'}
       - {start: '2', end: '22'}
   Kőfejtő utca:
-    # újraszámozva az utca, ezek a számok nincsenek
-    invalid: ['11', '17', '19', '50']
+    # lényegében csak a hegy felöli oldal van számozva
+    # újraszámozva az utca, ezek a számok nincsenek. RESURVEY 2024
+    invalid: ['11', '17', '19', '40', '50']
   Kőhalom utca:
     interpolation: all
   Kőhát utca:
@@ -514,8 +515,9 @@ filters:
   Panoráma utca:
     # 11: helyén 15 van kiírva. RESURVEY 2024
     # 18-20: csak 20 van kiírva
-    invalid: ['11', '18']
-    # 34-66: átnevezett szakasz, ld. Koszorú utca
+    # 31-66: átnevezett szakasz, ld. Koszorú utca
+    # 31,39,41,47,51,53: Koszorú utcai címen futnak vagy nincsenek kiírva RESURVEY 2024
+    invalid: ['11', '18', '31', '39', '41', '47', '49', '51', '53']
     ranges:
       - {start: '1', end: '61'}
       - {start: '2', end: '66'}
@@ -563,7 +565,7 @@ filters:
       - {start: '2', end: '20'}
   Rubik Ernő utca:
     # 4 a Mol kút, de magát 3-nak hírdeti (Agip utca 4 volt)
-    # 6 földhivatal szerint a felújítás alatt lévő épület. MMV Zrt székhely. ennek nyoma sincs itt. RESURVEY 2022 ősz
+    # 6 földhivatal szerint a felújítás alatt lévő épület. MMV Zrt székhely. ennek nyoma sincs itt. RESURVEY 2024
     invalid: ['4', '6']
   Sas köz:
     invalid: ['1', '5']
