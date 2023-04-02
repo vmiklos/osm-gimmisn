@@ -245,7 +245,7 @@ filters:
   Hurok utca:
     # gyengén van táblázva
     interpolation: all
-    invalid: ['7', '10', '12', '13', '18']
+    invalid: ['7', '10', '12', '13']
   Ibolya köz:
     # 9: nincs
     invalid: ['9']
@@ -347,16 +347,12 @@ filters:
     # 43: 39-41 után 45/1, de van a kettő között egy bejáró
     invalid: ['5', '7', '11', '43']
   Koszorú utca:
-    # teljes káosz az utcában, az egyik részét Panoráma utcára átnevezték, így a hászámok most vegyesen vannak
+    # Az utca egyik részét Panoráma utcára átnevezték, így néhol a régi hászámok is kint vannak, vagy csak azok vannak kint
     # 146/2019. (IX. 18.) Képviselő-testületi határozat Közterület átnevezése (Koszorú utca átnevezése a 11438 hrsz-ú ingatlantól a Lejtő utcáig)
-    # Budaörs Város Önkormányzat Képviselő-testülete a Budaörs, 8348/2 helyrajzi számú, Koszorú utca elnevezésű közutat a 11438 helyrajzi számú ingatlantól a Lejtő utcáig Panoráma utcává nevezi át.
-    # Ez a határozat akkor lép hatályba, amikor a Pest Megyei Kormányhivatal Budakeszi Járási Hivatala Földhivatali Osztálya előtt a telekalakítási eljárás sikeresen és véglegesen befejeződik.
-    # 19: nincs
-    # 30: 11433 hrsz: 58 van kiírva, valójában Panoráma utca 62.
-    # 46 => Panoráma utca 46
-    # 48 => 78 van kiírva, valójában Panoráma utca 44.
-    # 51 => Panormáma utca 59 (földhivatal 61)
-    invalid: ['19', '30', '46', '48']
+    invalid: ['19']
+    ranges:
+      - {start: '1', end: '47'}
+      - {start: '2', end: '22'}
   Kőfejtő utca:
     # újraszámozva az utca, ezek a számok nincsenek
     invalid: ['11', '17', '19', '50']
@@ -516,13 +512,13 @@ filters:
   Patkó utca:
     invalid: ['29']
   Panoráma utca:
-    # 11: helyén 15 van kiírva. RESURVEY 2023
+    # 11: helyén 15 van kiírva. RESURVEY 2024
     # 18-20: csak 20 van kiírva
     invalid: ['11', '18']
-    # 34-58: átnevezett szakasz, ld. Koszorú utca, 2022-01 még Koszorú utcának táblázva
+    # 34-66: átnevezett szakasz, ld. Koszorú utca
     ranges:
-      - {start: '1', end: '25'}
-      - {start: '2', end: '32'}
+      - {start: '1', end: '61'}
+      - {start: '2', end: '66'}
   Petőfi Sándor utca:
     # belváros 2-60, 1-69; ipartelep 71-73, 62-64
     # 7-9: 7-re van számozva
