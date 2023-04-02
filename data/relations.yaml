@@ -510,6 +510,10 @@ gyor:
     osmrelation: 1440627
     refcounty: "08"
     refsettlement: "059"
+nagybajcs:
+    osmrelation: 1492795
+    refcounty: "08"
+    refsettlement: "108"
 # 09 - Hajdú-Bihar
 hosszupalyi:
     osmrelation: 1443909
