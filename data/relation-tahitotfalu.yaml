@@ -29,6 +29,11 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Dózsa György út:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Elekfy Jenő utca:
     # hrsz szűrés
     invalid: ['906']
@@ -40,13 +45,19 @@ filters:
     invalid: ['909']
   Gyöngyvirág utca:
     # 7 az utolsó ház
-    invalid: ['11']
+    invalid: ['11', '17']
+  Háncs utca:
+    invalid: ['84']
   Ifjúság út:
     # 13 nál vége( imaháznál)
     invalid: ['95']
   Jókai utca:
     # hrsz szűrés
     invalid: ['697']
+  Jóság I. dűlő:
+    ranges: []
+  Jóság IV. dűlő:
+    ranges: []
   Kernstok Károly utca:
     show-refstreet: false
   Kis köz:
@@ -58,6 +69,21 @@ filters:
   Kossuth Lajos utca:
     # 44: páros oldal csak 30-ig van számozva
     invalid: ['44']
+  Liget utca:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Málna utca:
+    # 31: nincs
+    invalid: ['31']
+  Móricz Zsigmond út:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
+  Nagykert:
+    invalid: ['292']
   Napsugár köz:
     # hrsz szűrés
     ranges:
@@ -73,10 +99,14 @@ filters:
     invalid: ['468']
   Patak sor:
     # hrsz szűrés
-    invalid: ['465', '896']
+    invalid: ['465', '474', '896']
+  Pisztrángos telep út:
+    invalid: ['83']
   Pollack Mihály utca:
     # hrsz szűrés
     invalid: ['429']
+  Rétföld dűlő:
+    invalid: ['100']
   Rózsa utca:
     # hrsz szűrés
     invalid: ['520']
@@ -84,11 +114,26 @@ filters:
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '22'}
+  Sionhegyi utca:
+    # 1 = Nefelejcs utca 74
+    invalid: ['1']
+  Szállások út:
+    invalid: ['238']
+  Tordák dűlő:
+    invalid: ['91', '153']
+  Tulipán utca:
+    # hrsz szűrés
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Váci-rév:
     # hrsz szűrés
     invalid: ['154']
   Villasor:
     show-refstreet: false
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '98'}
   Viola utca:
    # 94 = Sionhegyi utca 1
     invalid: ['94']
