@@ -1,0 +1,14 @@
+missing-streets: 'yes'
+filters: {}
+# osm-street-filters:
+# street-filters:
+refstreets:
+  'Csekei dűlő': 'Cseke dűlő'
+  'Dózsa György út': 'Dózsa György utca'
+  'Kossuth Lajos utca': 'Kossuth utca'
+  'Madách Imre utca': 'Madách utca'
+  'Petőfi Sándor utca': 'Petőfi út'
+  'Rákóczi utca': 'Rákóczi út'
+  'Váci utca': 'Váci út'
+source: survey
+inactive: false

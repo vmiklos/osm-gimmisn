@@ -716,6 +716,10 @@ pomaz:
     osmrelation: 216159
     refcounty: "14"
     refsettlement: "113"
+rad:
+    osmrelation: 1375471
+    refcounty: "14"
+    refsettlement: "120"
 remeteszolos:
     osmrelation: 215947
     refcounty: "14"
@@ -760,6 +764,10 @@ ujszilvas:
     osmrelation: 1323405
     refcounty: "14"
     refsettlement: "163"
+vac:
+    osmrelation: 1440602
+    refcounty: "14"
+    refsettlement: "169"
 veresegyhaz:
     osmrelation: 1390690
     refcounty: "14"
