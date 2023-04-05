@@ -1,4 +1,10 @@
 missing-streets: 'yes'
+filters:
+  Dózsa György út:
+    # kis páratlan számok igazából helyrajzi számok, ezeket kiszűrtem (1-13), nagyobb nem volt, de még lehet
+    ranges:
+      - {start: '15', end: '199'}
+      - {start: '2', end: '198'}
 refstreets:
   # kérdéses
   'Akác domb': 'Akácdomb utca'
