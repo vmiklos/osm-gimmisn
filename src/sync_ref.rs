@@ -15,6 +15,27 @@ use anyhow::Context as _;
 use std::collections::HashMap;
 use std::io::Write;
 
+fn create_index(ctx: &context::Context) -> anyhow::Result<()> {
+    let path = ctx.get_abspath("workdir/state.db");
+    let conn = rusqlite::Connection::open(path)?;
+    conn.execute(
+        "create table if not exists ref_housenumbers (
+             county_code text not null,
+             settlement_code text not null,
+             street text not null,
+             housenumber text not null,
+             comment text not null
+         )",
+        [],
+    )?;
+    conn.execute(
+        "create index if not exists idx_ref_housenumbers
+            on ref_housenumbers (county_code, settlement_code, street)",
+        [],
+    )?;
+    Ok(())
+}
+
 /// Synchronizes reference data based on config_file from url.
 pub fn download(
     stream: &mut dyn Write,
@@ -63,6 +84,8 @@ pub fn download(
         stream.write_all(format!("sync-ref: removing '{relpath}'...\n").as_bytes())?;
         ctx.get_file_system().unlink(&path)?;
     }
+
+    create_index(ctx)?;
 
     ctx.get_file_system()
         .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;
