@@ -29,6 +29,7 @@ time = { version = "0.3.20", features = ["formatting", "macros", "local-offset"]
 toml = "0.7.3"
 unidecode = "0.3.0"
 url = "2.3.1"
+rusqlite = "0.29.0"
 
 [dev-dependencies]
 flate2 = "1.0.25"
