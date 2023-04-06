@@ -11,7 +11,6 @@
 //! Tests for the sync_ref module.
 
 use super::*;
-use std::ops::DerefMut as _;
 use std::sync::Arc;
 
 /// Tests main().
@@ -117,6 +116,8 @@ reference_zipcounts = 'workdir/refs/irsz_count_20200717.tsv'
         buf,
         r#"sync-ref: downloading 'https://www.example.com/osm/data/irsz_count_20200717.tsv'...
 sync-ref: removing 'workdir/refs/irsz_count_20190717.tsv'...
+sync-ref: indexing hazszamok_20190511.tsv...
+sync-ref: indexing hazszamok_kieg_20190808.tsv...
 sync-ref: ok
 "#
     );
