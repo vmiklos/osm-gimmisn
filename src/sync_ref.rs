@@ -15,6 +15,61 @@ use anyhow::Context as _;
 use std::collections::HashMap;
 use std::io::Write;
 
+/// Synchronizes reference data based on config_file from url.
+pub fn download(
+    stream: &mut dyn Write,
+    ctx: &context::Context,
+    config_file: &str,
+    url: &str,
+) -> anyhow::Result<()> {
+    let config_data = ctx.get_file_system().read_to_string(config_file)?;
+    let config: context::IniConfig = toml::from_str(&config_data)?;
+    let mut paths: Vec<String> = Vec::new();
+    let values = config.wsgi.reference_housenumbers;
+    paths.append(
+        &mut values
+            .split(' ')
+            .map(|value| value.strip_prefix("workdir/refs/").unwrap().to_string())
+            .collect(),
+    );
+    let value = config.wsgi.reference_street;
+    paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
+    let value = config.wsgi.reference_citycounts;
+    paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
+    let value = config.wsgi.reference_zipcounts;
+    paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
+
+    let mut dests: Vec<String> = Vec::new();
+    for path in paths {
+        let url = format!("{url}{path}");
+        let dest = ctx.get_abspath(&format!("workdir/refs/{path}"));
+        dests.push(dest.to_string());
+        if ctx.get_file_system().path_exists(&dest) {
+            continue;
+        }
+
+        stream.write_all(format!("sync-ref: downloading '{url}'...\n").as_bytes())?;
+        let buf = ctx.get_network().urlopen(&url, "")?;
+        ctx.get_file_system().write_from_string(&buf, &dest)?;
+    }
+    for path in ctx
+        .get_file_system()
+        .listdir(&ctx.get_abspath("workdir/refs"))?
+    {
+        if dests.contains(&path) {
+            continue;
+        }
+        let relpath = path.strip_prefix(&ctx.get_abspath("")).unwrap();
+        stream.write_all(format!("sync-ref: removing '{relpath}'...\n").as_bytes())?;
+        ctx.get_file_system().unlink(&path)?;
+    }
+
+    ctx.get_file_system()
+        .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;
+    stream.write_all("sync-ref: ok\n".as_bytes())?;
+    Ok(())
+}
+
 /// Inner main() that is allowed to fail.
 pub fn our_main(
     argv: &[String],
@@ -41,52 +96,7 @@ pub fn our_main(
 
     let config_file = ctx.get_abspath("data/wsgi.ini.template");
     if args.get_one::<String>("mode").unwrap() == "download" {
-        let config_data = ctx.get_file_system().read_to_string(&config_file)?;
-        let config: context::IniConfig = toml::from_str(&config_data)?;
-        let mut paths: Vec<String> = Vec::new();
-        let values = config.wsgi.reference_housenumbers;
-        paths.append(
-            &mut values
-                .split(' ')
-                .map(|value| value.strip_prefix("workdir/refs/").unwrap().to_string())
-                .collect(),
-        );
-        let value = config.wsgi.reference_street;
-        paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
-        let value = config.wsgi.reference_citycounts;
-        paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
-        let value = config.wsgi.reference_zipcounts;
-        paths.push(value.strip_prefix("workdir/refs/").unwrap().to_string());
-
-        let mut dests: Vec<String> = Vec::new();
-        for path in paths {
-            let url = format!("{url}{path}");
-            let dest = ctx.get_abspath(&format!("workdir/refs/{path}"));
-            dests.push(dest.to_string());
-            if ctx.get_file_system().path_exists(&dest) {
-                continue;
-            }
-
-            stream.write_all(format!("sync-ref: downloading '{url}'...\n").as_bytes())?;
-            let buf = ctx.get_network().urlopen(&url, "")?;
-            ctx.get_file_system().write_from_string(&buf, &dest)?;
-        }
-        for path in ctx
-            .get_file_system()
-            .listdir(&ctx.get_abspath("workdir/refs"))?
-        {
-            if dests.contains(&path) {
-                continue;
-            }
-            let relpath = path.strip_prefix(&ctx.get_abspath("")).unwrap();
-            stream.write_all(format!("sync-ref: removing '{relpath}'...\n").as_bytes())?;
-            ctx.get_file_system().unlink(&path)?;
-        }
-
-        ctx.get_file_system()
-            .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;
-        stream.write_all("sync-ref: ok\n".as_bytes())?;
-        return Ok(());
+        return download(stream, ctx, &config_file, &url);
     }
 
     // Download HTML.
