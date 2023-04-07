@@ -60,8 +60,29 @@ pub use system::StdFileSystem;
 
 /// Database interface.
 pub trait Database {
-    /// Opens the connection().
+    /// Opens the connection.
     fn open(&self) -> anyhow::Result<rusqlite::Connection>;
+
+    /// Opens and initializes a new database connection.
+    fn create(&self) -> anyhow::Result<rusqlite::Connection> {
+        let conn = self.open()?;
+        conn.execute(
+            "create table if not exists ref_housenumbers (
+                 county_code text not null,
+                 settlement_code text not null,
+                 street text not null,
+                 housenumber text not null,
+                 comment text not null
+             )",
+            [],
+        )?;
+        conn.execute(
+            "create index if not exists idx_ref_housenumbers
+                on ref_housenumbers (county_code, settlement_code, street)",
+            [],
+        )?;
+        Ok(conn)
+    }
 }
 
 pub use system::StdDatabase;

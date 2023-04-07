@@ -22,22 +22,7 @@ fn create_index(
     ctx: &context::Context,
     paths: &[String],
 ) -> anyhow::Result<()> {
-    let mut conn = ctx.get_database().open()?;
-    conn.execute(
-        "create table if not exists ref_housenumbers (
-             county_code text not null,
-             settlement_code text not null,
-             street text not null,
-             housenumber text not null,
-             comment text not null
-         )",
-        [],
-    )?;
-    conn.execute(
-        "create index if not exists idx_ref_housenumbers
-            on ref_housenumbers (county_code, settlement_code, street)",
-        [],
-    )?;
+    let mut conn = ctx.get_database().create()?;
 
     conn.execute("delete from ref_housenumbers", [])?;
 
