@@ -33,8 +33,20 @@ pub fn make_test_context() -> anyhow::Result<Context> {
     let subprocess = TestSubprocess::new(&HashMap::new());
     let subprocess_arc: Arc<dyn Subprocess> = Arc::new(subprocess);
     ctx.set_subprocess(&subprocess_arc);
+    let database = TestDatabase {};
+    let database_arc: Arc<dyn Database> = Arc::new(database);
+    ctx.set_database(&database_arc);
 
     Ok(ctx)
+}
+
+/// Database implementation, for test purposes.
+pub struct TestDatabase {}
+
+impl Database for TestDatabase {
+    fn open(&self) -> anyhow::Result<rusqlite::Connection> {
+        Ok(rusqlite::Connection::open(":memory:")?)
+    }
 }
 
 /// File system implementation, for test purposes.
