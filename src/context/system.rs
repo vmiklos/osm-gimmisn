@@ -25,6 +25,15 @@ pub fn get_tz_offset() -> time::UtcOffset {
     *TZ_OFFSET
 }
 
+/// Database implementation, backed by sqlite on the filesystem.
+pub struct StdDatabase {}
+
+impl Database for StdDatabase {
+    fn open(&self) -> anyhow::Result<rusqlite::Connection> {
+        Ok(rusqlite::Connection::open("workdir/state.db")?)
+    }
+}
+
 /// File system implementation, backed by the Rust stdlib.
 pub struct StdFileSystem {}
 

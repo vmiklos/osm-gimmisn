@@ -58,6 +58,14 @@ pub trait FileSystem {
 
 pub use system::StdFileSystem;
 
+/// Database interface.
+pub trait Database {
+    /// Opens the connection().
+    fn open(&self) -> anyhow::Result<rusqlite::Connection>;
+}
+
+pub use system::StdDatabase;
+
 /// Network interface.
 pub trait Network {
     /// Opens an URL. Empty data means HTTP GET, otherwise it means a HTTP POST.
@@ -222,6 +230,7 @@ pub struct Context {
     subprocess: Arc<dyn Subprocess>,
     unit: Arc<dyn Unit>,
     file_system: Arc<dyn FileSystem>,
+    database: Arc<dyn Database>,
 }
 
 impl Context {
@@ -235,6 +244,7 @@ impl Context {
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
         let file_system: Arc<dyn FileSystem> = Arc::new(StdFileSystem {});
+        let database: Arc<dyn Database> = Arc::new(StdDatabase {});
         let ini = Ini::new(&file_system, &format!("{root}/workdir/wsgi.ini"), &root)?;
         Ok(Context {
             root,
@@ -244,6 +254,7 @@ impl Context {
             subprocess,
             unit,
             file_system,
+            database,
         })
     }
 
@@ -305,6 +316,16 @@ impl Context {
     /// Sets the file system implementation.
     pub fn set_file_system(&mut self, file_system: &Arc<dyn FileSystem>) {
         self.file_system = file_system.clone();
+    }
+
+    /// Gets the database implementation.
+    pub fn get_database(&self) -> &Arc<dyn Database> {
+        &self.database
+    }
+
+    /// Sets the database implementation.
+    pub fn set_database(&mut self, database: &Arc<dyn Database>) {
+        self.database = database.clone();
     }
 }
 

@@ -22,8 +22,7 @@ fn create_index(
     ctx: &context::Context,
     paths: &[String],
 ) -> anyhow::Result<()> {
-    let db_path = ctx.get_abspath("workdir/state.db");
-    let mut conn = rusqlite::Connection::open(db_path)?;
+    let mut conn = ctx.get_database().open()?;
     conn.execute(
         "create table if not exists ref_housenumbers (
              county_code text not null,
