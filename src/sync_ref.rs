@@ -58,7 +58,7 @@ fn create_index(
                 let row: util::RefHouseNumber = result?;
                 tx.execute(
                         "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values (?1, ?2, ?3, ?4, ?5)",
-                        [row.county, row.settlement, row.street, row.alt_housenumber.unwrap(), row.comment.unwrap_or("".into())],
+                        [row.county, row.settlement, row.street, row.alt_housenumber.unwrap(), row.comment.unwrap_or(" ".into())],
                     )?;
             }
             tx.commit()?;
