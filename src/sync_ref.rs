@@ -15,61 +15,6 @@ use crate::util;
 use anyhow::Context as _;
 use std::collections::HashMap;
 use std::io::Write;
-use std::ops::DerefMut as _;
-
-fn create_index(
-    stream: &mut dyn Write,
-    ctx: &context::Context,
-    paths: &[String],
-) -> anyhow::Result<()> {
-    let mut conn = ctx.get_database().create()?;
-
-    conn.execute("delete from ref_housenumbers", [])?;
-
-    for path in paths {
-        if path.starts_with("hazszamok_kieg") {
-            stream.write_all(format!("sync-ref: indexing {path}...\n").as_bytes())?;
-            let abspath = ctx.get_abspath(&format!("workdir/refs/{path}"));
-            let stream = ctx.get_file_system().open_read(&abspath)?;
-            let mut guard = stream.borrow_mut();
-            let read = std::io::BufReader::new(guard.deref_mut());
-            let mut reader = csv::ReaderBuilder::new()
-                .delimiter(b'\t')
-                .double_quote(true)
-                .from_reader(read);
-            let tx = conn.transaction()?;
-            for result in reader.deserialize() {
-                let row: util::RefHouseNumber = result?;
-                tx.execute(
-                        "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values (?1, ?2, ?3, ?4, ?5)",
-                        [row.county, row.settlement, row.street, row.alt_housenumber.unwrap(), row.comment.unwrap_or(" ".into())],
-                    )?;
-            }
-            tx.commit()?;
-        } else if path.starts_with("hazszamok_") {
-            stream.write_all(format!("sync-ref: indexing {path}...\n").as_bytes())?;
-            let abspath = ctx.get_abspath(&format!("workdir/refs/{path}"));
-            let stream = ctx.get_file_system().open_read(&abspath)?;
-            let mut guard = stream.borrow_mut();
-            let read = std::io::BufReader::new(guard.deref_mut());
-            let mut reader = csv::ReaderBuilder::new()
-                .delimiter(b'\t')
-                .double_quote(true)
-                .from_reader(read);
-            let tx = conn.transaction()?;
-            for result in reader.deserialize() {
-                let row: util::RefHouseNumber = result?;
-                tx.execute(
-                          "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values (?1, ?2, ?3, ?4, '')",
-                          [row.county, row.settlement, row.street, row.housenumber.unwrap()],
-                      )?;
-            }
-            tx.commit()?;
-        }
-    }
-
-    Ok(())
-}
 
 /// Synchronizes reference data based on config_file from url.
 pub fn download(
@@ -120,7 +65,10 @@ pub fn download(
         ctx.get_file_system().unlink(&path)?;
     }
 
-    create_index(stream, ctx, &paths)?;
+    stream.write_all("sync-ref: creating index...\n".as_bytes())?;
+    let mut conn = ctx.get_database().create()?;
+    conn.execute("delete from ref_housenumbers", [])?;
+    util::build_reference_index(ctx, &mut conn, &paths)?;
 
     ctx.get_file_system()
         .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;
