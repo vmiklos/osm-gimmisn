@@ -11,7 +11,6 @@
 //! Synchronizes reference data between a public instance and a local dev instance.
 
 use crate::context;
-use crate::util;
 use anyhow::Context as _;
 use std::collections::HashMap;
 use std::io::Write;
@@ -65,10 +64,9 @@ pub fn download(
         ctx.get_file_system().unlink(&path)?;
     }
 
-    stream.write_all("sync-ref: creating index...\n".as_bytes())?;
-    let mut conn = ctx.get_database().create()?;
+    stream.write_all("sync-ref: removing old index...\n".as_bytes())?;
+    let conn = ctx.get_database().create()?;
     conn.execute("delete from ref_housenumbers", [])?;
-    util::build_reference_index(ctx, &mut conn, &paths)?;
 
     ctx.get_file_system()
         .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;

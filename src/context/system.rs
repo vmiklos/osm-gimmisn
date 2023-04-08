@@ -30,6 +30,7 @@ pub struct StdDatabase {}
 
 impl Database for StdDatabase {
     fn open(&self) -> anyhow::Result<rusqlite::Connection> {
+        // https://rust-lang-nursery.github.io/rust-cookbook/database/sqlite.html
         Ok(rusqlite::Connection::open("workdir/state.db")?)
     }
 }

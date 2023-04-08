@@ -626,10 +626,24 @@ pub fn build_reference_index(
     conn: &mut rusqlite::Connection,
     paths: &[String],
 ) -> anyhow::Result<()> {
-    for path in paths {
+    {
+        // Check if the TSV is imported already.
+        let mut stmt =
+            conn.prepare("select count(*) from (select 0 from ref_housenumbers limit 1)")?;
+        let mut rows = stmt.query([])?;
+        while let Some(row) = rows.next()? {
+            let count: i64 = row.get(0).unwrap();
+            if count > 0 {
+                return Ok(());
+            }
+        }
+    }
+
+    for abspath in paths {
+        let mut tokens = abspath.split('/');
+        let path = tokens.next_back().unwrap();
         if path.starts_with("hazszamok_kieg") {
-            let abspath = ctx.get_abspath(&format!("workdir/refs/{path}"));
-            let stream = ctx.get_file_system().open_read(&abspath)?;
+            let stream = ctx.get_file_system().open_read(abspath)?;
             let mut guard = stream.borrow_mut();
             let read = std::io::BufReader::new(guard.deref_mut());
             let mut reader = csv::ReaderBuilder::new()
@@ -645,9 +659,9 @@ pub fn build_reference_index(
                     )?;
             }
             tx.commit()?;
-        } else if path.starts_with("hazszamok_") {
-            let abspath = ctx.get_abspath(&format!("workdir/refs/{path}"));
-            let stream = ctx.get_file_system().open_read(&abspath)?;
+        } else {
+            // Assume "hazszamok_".
+            let stream = ctx.get_file_system().open_read(abspath)?;
             let mut guard = stream.borrow_mut();
             let read = std::io::BufReader::new(guard.deref_mut());
             let mut reader = csv::ReaderBuilder::new()
