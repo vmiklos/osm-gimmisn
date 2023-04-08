@@ -654,6 +654,8 @@ impl Relation {
     /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
     /// used by get_ref_housenumbers().
     pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
+        let mut conn = self.ctx.get_database().create()?;
+        util::build_reference_index(&self.ctx, &mut conn, references)?;
         let memory_caches =
             util::build_reference_caches(&self.ctx, references, &self.config.get_refcounty())?;
 

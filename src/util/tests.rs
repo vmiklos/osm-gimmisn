@@ -162,6 +162,40 @@ fn test_build_street_reference_cache_cached() {
     assert_eq!(memory_cache, expected);
 }
 
+/// Tests build_reference_index().
+#[test]
+fn test_build_reference_index() {
+    let ctx = context::tests::make_test_context().unwrap();
+    let mut conn = ctx.get_database().create().unwrap();
+    conn.execute("delete from ref_housenumbers", []).unwrap();
+    let refpath = ctx.get_abspath("workdir/refs/hazszamok_20190511.tsv");
+    build_reference_index(&ctx, &mut conn, &[refpath.clone()]).unwrap();
+    {
+        let mut stmt = conn
+            .prepare("select count(*) from ref_housenumbers")
+            .unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        while let Some(row) = rows.next().unwrap() {
+            let count: i64 = row.get(0).unwrap();
+            // Empty table, so changes from 0 to 14.
+            assert_eq!(count, 14);
+        }
+    }
+
+    build_reference_index(&ctx, &mut conn, &[refpath]).unwrap();
+    {
+        let mut stmt = conn
+            .prepare("select count(*) from ref_housenumbers")
+            .unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        while let Some(row) = rows.next().unwrap() {
+            let count: i64 = row.get(0).unwrap();
+            // Early return, so doesn't change from 14 to 28.
+            assert_eq!(count, 14);
+        }
+    }
+}
+
 /// Tests build_reference_cache().
 #[test]
 fn test_build_reference_cache() {
