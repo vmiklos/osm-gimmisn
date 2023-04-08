@@ -620,6 +620,55 @@ pub struct RefHouseNumber {
     pub comment: Option<String>,
 }
 
+/// Builds an in-database index from the reference TSV (house number version).
+pub fn build_reference_index(
+    ctx: &context::Context,
+    conn: &mut rusqlite::Connection,
+    paths: &[String],
+) -> anyhow::Result<()> {
+    for path in paths {
+        if path.starts_with("hazszamok_kieg") {
+            let abspath = ctx.get_abspath(&format!("workdir/refs/{path}"));
+            let stream = ctx.get_file_system().open_read(&abspath)?;
+            let mut guard = stream.borrow_mut();
+            let read = std::io::BufReader::new(guard.deref_mut());
+            let mut reader = csv::ReaderBuilder::new()
+                .delimiter(b'\t')
+                .double_quote(true)
+                .from_reader(read);
+            let tx = conn.transaction()?;
+            for result in reader.deserialize() {
+                let row: RefHouseNumber = result?;
+                tx.execute(
+                        "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values (?1, ?2, ?3, ?4, ?5)",
+                        [row.county, row.settlement, row.street, row.alt_housenumber.unwrap(), row.comment.unwrap_or(" ".into())],
+                    )?;
+            }
+            tx.commit()?;
+        } else if path.starts_with("hazszamok_") {
+            let abspath = ctx.get_abspath(&format!("workdir/refs/{path}"));
+            let stream = ctx.get_file_system().open_read(&abspath)?;
+            let mut guard = stream.borrow_mut();
+            let read = std::io::BufReader::new(guard.deref_mut());
+            let mut reader = csv::ReaderBuilder::new()
+                .delimiter(b'\t')
+                .double_quote(true)
+                .from_reader(read);
+            let tx = conn.transaction()?;
+            for result in reader.deserialize() {
+                let row: RefHouseNumber = result?;
+                tx.execute(
+                          "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values (?1, ?2, ?3, ?4, '')",
+                          [row.county, row.settlement, row.street, row.housenumber.unwrap()],
+                      )?;
+            }
+            tx.commit()?;
+        }
+    }
+
+    Ok(())
+}
+
 /// Builds an in-memory cache from the reference on-disk TSV (house number version).
 pub fn build_reference_cache(
     ctx: &context::Context,
