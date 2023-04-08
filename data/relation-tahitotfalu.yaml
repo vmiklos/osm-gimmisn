@@ -21,6 +21,10 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
+  Cseresznye utca:
+    # területhatár Leányfalu/Tahitótfalu
+    # 1: 36 van kint
+    invalid: ['1']
   Dankó utca:
     # 61: utolsó páratlan a 19
     invalid: ['61']
@@ -97,6 +101,9 @@ filters:
   Nyárfa utca:
     # hrsz szűrés
     invalid: ['468']
+  Orgona utca:
+    # nincs
+    invalid: ['60']
   Patak sor:
     # hrsz szűrés
     invalid: ['465', '474', '896']
@@ -107,10 +114,15 @@ filters:
     invalid: ['429']
   Rétföld dűlő:
     invalid: ['100']
+  Rózsa köz:
+    # hrsz szűrés
+    invalid: ['26']
   Rózsa utca:
     # hrsz szűrés
     invalid: ['520']
   Semmelweis utca:
+    # ezek nincsenek kint, vagy másik utcára vannak számozva
+    invalid: ['11', '15', '17', '22']
     ranges:
       - {start: '1', end: '17'}
       - {start: '2', end: '22'}
@@ -134,9 +146,9 @@ filters:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '98'}
-  Viola utca:
-   # 94 = Sionhegyi utca 1
-    invalid: ['94']
+  Villám utca:
+    # 84/1: hrsz.
+    invalid: ['84']
   Zrínyi köz:
     # 7 = 8 van a helyén
     # 27: nincs
