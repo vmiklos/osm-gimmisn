@@ -10,6 +10,9 @@ filters:
       - {start: '1', end: '11'}
   Bakfark Bálint utca:
     refsettlement: '002'
+  Batthyány utca:
+    # 5-11 között egy park van illetve a Csalogány utca 6-10 társasház
+    invalid: ['5', '7']
   Batthyány tér:
     # 2 = Batthány utca 2
     invalid: ['2']
@@ -63,9 +66,9 @@ filters:
   Gyorskocsi utca:
     ranges:
       - {start: '1', end: '15'}
-      - {start: '2', end: '18'}
+      - {start: '2', end: '20'}
       - {start: '17', end: '31', refsettlement: '002'}
-      - {start: '20', end: '48', refsettlement: '002'}
+      - {start: '22', end: '48', refsettlement: '002'}
   Halász utca:
     ranges:
       - {start: '1', end: '1'}
