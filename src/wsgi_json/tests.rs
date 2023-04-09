@@ -222,22 +222,12 @@ fn test_missing_housenumbers_update_result_json() {
             },
         },
     });
-    let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let housenumbers_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
-                &ref_housenumbers_cache,
-            ),
-            (
-                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
-                &ref_housenumbers2_cache,
-            ),
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &housenumbers_value,
