@@ -585,18 +585,6 @@ pub fn build_street_reference_cache(
     Ok(memory_cache)
 }
 
-/// Gets the filename of the (house number) reference cache file.
-fn get_reference_cache_path(local: &str, refcounty: &str) -> String {
-    format!("{local}-{refcounty}-v1.cache")
-}
-
-/// Two strings: first is a range, second is an optional comment.
-type HouseNumberWithComment = Vec<String>;
-
-/// refcounty -> refsettlement -> street -> housenumbers cache.
-pub type HouseNumberReferenceCache =
-    HashMap<String, HashMap<String, HashMap<String, Vec<HouseNumberWithComment>>>>;
-
 /// One row in workdir/refs/housenumbers_<DATE>.tsv.
 #[derive(serde::Deserialize)]
 pub struct RefHouseNumber {
@@ -681,68 +669,6 @@ pub fn build_reference_index(
     }
 
     Ok(())
-}
-
-/// Builds an in-memory cache from the reference on-disk TSV (house number version).
-pub fn build_reference_cache(
-    ctx: &context::Context,
-    local: &str,
-    refcounty: &str,
-) -> anyhow::Result<HouseNumberReferenceCache> {
-    let mut memory_cache: HouseNumberReferenceCache = HashMap::new();
-
-    let disk_cache = get_reference_cache_path(local, refcounty);
-
-    if ctx.get_file_system().path_exists(&disk_cache) {
-        let stream = ctx.get_file_system().open_read(&disk_cache)?;
-        let mut guard = stream.borrow_mut();
-        // Handle an empty cache file like having no cache.
-        if let Ok(memory_cache) = serde_json::from_reader(guard.deref_mut()) {
-            return Ok(memory_cache);
-        }
-    }
-
-    let mut read = std::io::BufReader::new(
-        std::fs::File::open(local).context(format!("failed to open {local}"))?,
-    );
-    let mut csv_reader = make_csv_reader(&mut read);
-    for result in csv_reader.deserialize() {
-        let row: RefHouseNumber = result?;
-
-        if row.county != refcounty {
-            continue;
-        }
-
-        let housenumber = match row.housenumber {
-            Some(value) => value,
-            None => row.alt_housenumber.context("no alt housenumber")?,
-        };
-        let comment = row.comment.unwrap_or_default();
-        let refcounty_key = memory_cache.entry(row.county).or_insert_with(HashMap::new);
-        let refsettlement_key = refcounty_key
-            .entry(row.settlement)
-            .or_insert_with(HashMap::new);
-        let street_key = refsettlement_key.entry(row.street).or_insert_with(Vec::new);
-        street_key.push(vec![housenumber, comment]);
-    }
-
-    let stream = ctx.get_file_system().open_write(&disk_cache)?;
-    let mut guard = stream.borrow_mut();
-    serde_json::to_writer(guard.deref_mut(), &memory_cache)?;
-
-    Ok(memory_cache)
-}
-
-/// Handles a list of references for build_reference_cache().
-pub fn build_reference_caches(
-    ctx: &context::Context,
-    references: &[String],
-    refcounty: &str,
-) -> anyhow::Result<Vec<HouseNumberReferenceCache>> {
-    references
-        .iter()
-        .map(|reference| build_reference_cache(ctx, reference, refcounty))
-        .collect()
 }
 
 /// Parses a filter description, like 'filter-for', 'refcounty', '42'.

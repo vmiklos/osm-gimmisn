@@ -98,19 +98,9 @@ fn test_update_ref_housenumbers() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let ref_file1 = context::tests::TestFileSystem::make_file();
     let ref_file2 = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            (
-                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
-                &ref_housenumbers_cache,
-            ),
-            (
-                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
-                &ref_housenumbers2_cache,
-            ),
             ("data/yamls.cache", &yamls_cache_value),
             (
                 "workdir/street-housenumbers-reference-gazdagret.lst",
@@ -982,8 +972,6 @@ fn test_our_main() {
     let missing_streets_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_value = context::tests::TestFileSystem::make_file();
     let additional_streets_value = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers_cache_value = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers_extra_cache_value = context::tests::TestFileSystem::make_file();
     let ref_streets_cache_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
@@ -1022,14 +1010,6 @@ fn test_our_main() {
             (
                 "workdir/refs/utcak_20190514.tsv.cache",
                 &ref_streets_cache_value,
-            ),
-            (
-                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
-                &ref_housenumbers_cache_value,
-            ),
-            (
-                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
-                &ref_housenumbers_extra_cache_value,
             ),
             ("workdir/cache-gazdagret.json", &missing_housenumbers_json),
             ("data/streets-template.overpassql", &template_value),
@@ -1494,8 +1474,6 @@ fn test_update_ref_housenumbers_xml_as_csv() {
     let mut file_system = context::tests::TestFileSystem::new();
     let osm_streets_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
     osm_streets_value
         .borrow_mut()
         .write_all(b"@id\n42\n")
@@ -1513,14 +1491,6 @@ fn test_update_ref_housenumbers_xml_as_csv() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            (
-                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
-                &ref_housenumbers_cache,
-            ),
-            (
-                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
-                &ref_housenumbers2_cache,
-            ),
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/streets-gazdagret.csv", &osm_streets_value),
             (

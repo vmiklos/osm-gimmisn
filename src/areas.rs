@@ -602,46 +602,6 @@ impl Relation {
         Ok(())
     }
 
-    /// Builds a list of housenumbers from a reference cache.
-    /// This is serialized to disk by write_ref_housenumbers().
-    fn build_ref_housenumbers(
-        &self,
-        reference: &util::HouseNumberReferenceCache,
-        street: &str,
-        suffix: &str,
-    ) -> Vec<String> {
-        let refcounty = self.config.get_refcounty();
-        let street = self.config.get_ref_street_from_osm_street(street);
-        let mut ret: Vec<String> = Vec::new();
-        for refsettlement in self.config.get_street_refsettlement(&street) {
-            let refcounty_dict = match reference.get(&refcounty) {
-                Some(value) => value,
-                None => {
-                    continue;
-                }
-            };
-
-            let refsettlement_dict = match refcounty_dict.get(&refsettlement) {
-                Some(value) => value,
-                None => {
-                    continue;
-                }
-            };
-            if let Some(value) = refsettlement_dict.get(&street) {
-                let house_numbers = value;
-                // i[0] is number, i[1] is comment
-                ret.append(
-                    &mut house_numbers
-                        .iter()
-                        .map(|i| street.clone() + "\t" + &i[0] + suffix + "\t" + &i[1])
-                        .collect(),
-                );
-            }
-        }
-
-        ret
-    }
-
     /// Determines what suffix should the Nth reference use for hours numbers.
     fn get_ref_suffix(index: usize) -> &'static str {
         match index {
@@ -656,8 +616,6 @@ impl Relation {
     pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
         let mut conn = self.ctx.get_database().create()?;
         util::build_reference_index(&self.ctx, &mut conn, references)?;
-        let memory_caches =
-            util::build_reference_caches(&self.ctx, references, &self.config.get_refcounty())?;
 
         let streets: Vec<String> = self
             .get_osm_streets(/*sorted_results=*/ true)?
@@ -666,10 +624,22 @@ impl Relation {
             .collect();
 
         let mut lst: Vec<String> = Vec::new();
+        let mut stmt = conn.prepare(
+            "select housenumber, comment from ref_housenumbers where county_code = ?1 and settlement_code = ?2 and street = ?3")?;
         for street in streets {
-            for (index, memory_cache) in memory_caches.iter().enumerate() {
-                let suffix = Relation::get_ref_suffix(index);
-                lst.append(&mut self.build_ref_housenumbers(memory_cache, &street, suffix));
+            let street = self.config.get_ref_street_from_osm_street(&street);
+            for refsettlement in self.config.get_street_refsettlement(&street) {
+                let mut rows =
+                    stmt.query([&self.config.get_refcounty(), &refsettlement, &street])?;
+                while let Some(row) = rows.next()? {
+                    let housenumber: String = row.get(0).unwrap();
+                    let mut comment: String = row.get(1).unwrap();
+                    let suffix = Relation::get_ref_suffix(if comment.is_empty() { 0 } else { 1 });
+                    if comment == " " {
+                        comment = "".into();
+                    }
+                    lst.push(street.clone() + "\t" + &housenumber + suffix + "\t" + &comment);
+                }
             }
         }
 

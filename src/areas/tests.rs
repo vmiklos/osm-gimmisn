@@ -2098,90 +2098,6 @@ fn test_write_missing_streets_empty() {
     assert_eq!(format!("{percent:.2}"), "100.00");
 }
 
-/// Tests Relation::build_ref_housenumbers().
-#[test]
-fn test_relation_build_ref_housenumbers() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "myrelation": {
-                "osmrelation": 42,
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
-                &ref_housenumbers_cache,
-            ),
-        ],
-    );
-    let refdir = ctx.get_abspath("workdir/refs");
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let mut relations = Relations::new(&ctx).unwrap();
-    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
-    let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
-    let relation_name = "myrelation";
-    let street = "Törökugrató utca";
-    let relation = relations.get_relation(relation_name).unwrap();
-    let ret = relation.build_ref_housenumbers(&memory_cache, street, "");
-    let expected = [
-        "Törökugrató utca\t1\t",
-        "Törökugrató utca\t10\t",
-        "Törökugrató utca\t11\t",
-        "Törökugrató utca\t12\t",
-        "Törökugrató utca\t2\t",
-        "Törökugrató utca\t7\t",
-    ];
-    assert_eq!(ret, expected);
-}
-
-/// Tests Relation::build_ref_housenumbers(): the case when the street is not in the reference.
-#[test]
-fn test_relation_build_ref_housenumbers_missing() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "myrelation": {
-                "refsettlement": "42",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
-                &ref_housenumbers_cache,
-            ),
-        ],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let mut relations = Relations::new(&ctx).unwrap();
-    let refdir = ctx.get_abspath("workdir/refs");
-    let refpath = format!("{refdir}/hazszamok_20190511.tsv");
-    let memory_cache = util::build_reference_cache(&ctx, &refpath, "01").unwrap();
-    let relation_name = "myrelation";
-    let street = "mystreet";
-    let relation = relations.get_relation(relation_name).unwrap();
-
-    let ret = relation.build_ref_housenumbers(&memory_cache, street, "");
-
-    assert_eq!(ret.is_empty(), true);
-}
-
 /// Tests Relation::build_ref_streets().
 #[test]
 fn test_relation_build_ref_streets() {
@@ -2247,12 +2163,35 @@ fn test_relation_writer_ref_housenumbers() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_housenumbers_cache = context::tests::TestFileSystem::make_file();
-    let ref_housenumbers2_cache = context::tests::TestFileSystem::make_file();
     let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let refpath2 = format!("{refdir}/hazszamok_kieg_20190808.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
+    let ref_housenumbers2 = context::tests::TestFileSystem::make_file();
+    let ref_streets = context::tests::TestFileSystem::make_file();
+    ref_housenumbers2
+        .borrow_mut()
+        .write_all(
+            r#"MEGYEKOD	TELEPULESKOD	KOZTERULET	UPPER(HAZSZAM)	CIM
+01	011	Márton Áron tér	1	comment
+01	011	Márton Áron tér	2	
+"#
+            .as_bytes(),
+        )
+        .unwrap();
+    ref_streets
+        .borrow_mut()
+        .write_all(
+            r#"@id	name
+1	Tűzkő utca
+2	Törökugrató utca
+3	OSM Name 1
+4	Hamzsabégi út
+5	Márton Áron tér
+"#
+            .as_bytes(),
+        )
+        .unwrap();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -2260,26 +2199,34 @@ fn test_relation_writer_ref_housenumbers() {
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &ref_value,
             ),
+            (
+                "workdir/refs/hazszamok_kieg_20190808.tsv",
+                &ref_housenumbers2,
+            ),
+            ("workdir/streets-gazdagret.csv", &ref_streets),
             ("data/yamls.cache", &yamls_cache_value),
-            (
-                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
-                &ref_housenumbers_cache,
-            ),
-            (
-                "workdir/refs/hazszamok_kieg_20190808.tsv-01-v1.cache",
-                &ref_housenumbers2_cache,
-            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
-    let expected = String::from_utf8(
-        std::fs::read(ctx.get_abspath("workdir/street-housenumbers-reference-gazdagret.lst"))
-            .unwrap(),
-    )
-    .unwrap();
+    let expected = r#"Hamzsabégi út	1	
+Márton Áron tér	1*	comment
+Márton Áron tér	2*	
+Ref Name 1	1	
+Ref Name 1	2	
+Törökugrató utca	1	
+Törökugrató utca	10	
+Törökugrató utca	11	
+Törökugrató utca	12	
+Törökugrató utca	2	
+Törökugrató utca	7	
+Tűzkő utca	1	
+Tűzkő utca	10	
+Tűzkő utca	2	
+Tűzkő utca	9	
+"#;
     let relation = relations.get_relation(relation_name).unwrap();
 
     relation
@@ -2308,7 +2255,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let ref_streets_cache = context::tests::TestFileSystem::make_file();
-    let ref_hns_cache = context::tests::TestFileSystem::make_file();
     let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
@@ -2321,10 +2267,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
             ),
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
-            (
-                "workdir/refs/hazszamok_20190511.tsv-98-v1.cache",
-                &ref_hns_cache,
-            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -2350,7 +2292,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let ref_streets_cache = context::tests::TestFileSystem::make_file();
-    let ref_hns_cache = context::tests::TestFileSystem::make_file();
     let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
@@ -2363,10 +2304,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
             ),
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
-            (
-                "workdir/refs/hazszamok_20190511.tsv-01-v1.cache",
-                &ref_hns_cache,
-            ),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
