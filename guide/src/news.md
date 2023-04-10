@@ -2,7 +2,10 @@
 
 ## master
 
-- rouille: new `--host` parameter to specify the bind address
+- Rouille: new `--host` parameter to specify the bind address
+
+- The `/missing-housenumbers/.../update-result` is now about 6 times faster (replaced home-grown
+  JSON cache with SQL indexes)
 
 ## 7.5
 
