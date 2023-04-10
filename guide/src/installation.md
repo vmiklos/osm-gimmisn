@@ -13,14 +13,15 @@
 - Install dependencies, e.g. on Fedora:
 
 ```bash
-dnf install git
-dnf install make
-dnf install npm
 dnf install cargo
-dnf install openssl-devel
+dnf install clang-devel
+dnf install git
 dnf install libicu-devel
 dnf install llvm-devel
-dnf install clang-devel
+dnf install make
+dnf install npm
+dnf install openssl-devel
+dnf install sqlite-devel
 ```
 
 If the `npm` version in your distribution is too old: `sudo npm install -g n && sudo n stable`.

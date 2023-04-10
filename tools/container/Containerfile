@@ -9,6 +9,7 @@ RUN dnf install -y \
     llvm-devel \
     make \
     npm \
+    sqlite-devel \
     openssl-devel
 
 RUN git -C /opt clone https://github.com/vmiklos/osm-gimmisn
