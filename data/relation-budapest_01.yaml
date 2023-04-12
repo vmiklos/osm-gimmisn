@@ -7,9 +7,9 @@ filters:
     # páratlan: XII. kerület
     # 2-38: I. kerület, # 40+: XII. kerület
     # 2: lebontott ház, 20-24 benzinkút. köztes házak a MÁV területen lennénke, de ott nincs kiírva semmi
-    # 32: Cheap cheap csóka a 34-es házszámot használja
-    # 36, 38: nincs, az "intranszmas" az Márvány utca 17-re számozva
-    invalid: ['6', '32', '38']
+    # 28, 32: nincs, 20-24 benzinkút, mellette a Cheap Cheap Csóka a 34-es házszámot használja (földhivatal szerint ez e 32)
+    # 36, 38: nincs, az Intranszmas irodaház a Márvány utca 17-re van számozva
+    invalid: ['6', '28', '32', '38']
     ranges:
      - {start: '2', end: '38'}
   Alsóhegy utca:
