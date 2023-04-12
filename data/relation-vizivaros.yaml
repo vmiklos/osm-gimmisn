@@ -39,6 +39,8 @@ filters:
     ranges:
       - {start: '2', end: '44', refsettlement: '001'}
       - {start: '1', end: '55', refsettlement: '002'}
+  Donáti utca:
+    refsettlement: '001'
   Döbrentei utca:
     ranges: []
   Fazekas utca:
