@@ -25,7 +25,10 @@ filters:
     ranges:
       - {start: '2', end: '24'}
   Bem rakpart:
+    # 1-29: I. kerület, 30+ II. kerület (posta szerint 1-28 I. kerület)
+    # 27: Angelika kiülős rész, Angelika címe Batthyány tér 7
     interpolation: 'all'
+    invalid: ['27']
     ranges:
       - {start: '1', end: '29', refsettlement: '001'}
       - {start: '30', end: '48', refsettlement: '002'}
@@ -36,8 +39,6 @@ filters:
     ranges:
       - {start: '2', end: '44', refsettlement: '001'}
       - {start: '1', end: '55', refsettlement: '002'}
-  Csapláros utca:
-    refsettlement: '002'
   Döbrentei utca:
     ranges: []
   Fazekas utca:
@@ -46,6 +47,10 @@ filters:
       - {start: '2', end: '4', refsettlement: '001'}
       - {start: '5', end: '99', refsettlement: '002'}
       - {start: '6', end: '98', refsettlement: '002'}
+  Fiáth János utca:
+    refsettlement: '001'
+  Franklin utca:
+    refsettlement: '001'
   Fő utca:
     # 54 = Batthány utca 1
     invalid: ['54']
@@ -71,16 +76,26 @@ filters:
   Hattyú utca:
     refsettlement: '001'
     invalid: ['44']
+  Hunfalvy utca:
+    refsettlement: '001'
+  Hunyadi János út:
+    refsettlement: '001'
+  Iskola utca:
+    refsettlement: '001'
   Kacsa utca:
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '22'}
+  Kagyló utca:
+    refsettlement: '001'
   Kapás utca:
     ranges:
       - {start: '1', end: '3', refsettlement: '001'}
       - {start: '2', end: '4', refsettlement: '001'}
       - {start: '5', end: '99', refsettlement: '002'}
       - {start: '6', end: '98', refsettlement: '002'}
+  Kapucinus utca:
+    refsettlement: '001'
   Lánchíd utca:
     refsettlement: '001'
     ranges:
@@ -90,6 +105,10 @@ filters:
       - {start: '40', end: '64'}
   Málna utca:
     ranges: []
+  Ostrom utca:
+    refsettlement: '001'
+  Pala utca:
+    refsettlement: '001'
   Ponty utca:
     refsettlement: '001'
     ranges:
@@ -97,6 +116,10 @@ filters:
       - {start: '2', end: '16'}
   Szász Károly utca:
     invalid: ['221']
+  Szabó Ilonka utca:
+    refsettlement: '001'
+  Szalag utca:
+    refsettlement: '001'
   Székely utca:
     refsettlement: '001'
     ranges:
@@ -109,6 +132,14 @@ filters:
       - {start: '1', end: '2', refsettlement: '001'}
       - {start: '6', end: '7', refsettlement: '001'}
       - {start: '3', end: '3', refsettlement: '002'}
+  Szőnyeg utca:
+    refsettlement: '001'
+  Toldy Ferenc utca:
+    refsettlement: '001'
+  Toldy lépcső:
+    refsettlement: '001'
+  Vám utca:
+    refsettlement: '001'
   Váralja utca:
     ranges: []
   Várfok utca:
