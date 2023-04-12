@@ -6,12 +6,12 @@ filters:
   Alkotás utca:
     # páratlan: XII. kerület
     # 2-38: I. kerület, # 40+: XII. kerület
+    # 2: lebontott ház, 20-24 benzinkút. köztes házak a MÁV területen lennénke, de ott nincs kiírva semmi
+    # 32: Cheap cheap csóka a 34-es házszámot használja
+    # 36, 38: nincs, az "intranszmas" az Márvány utca 17-re számozva
+    invalid: ['6', '32', '38']
     ranges:
      - {start: '2', end: '38'}
-# CHECK
-#      - {start: '2', end: '2'}
-#      - {start: '20', end: '24'}
-#      - {start: '34', end: '36'}
   Alsóhegy utca:
     # területhatár
     # 10-18: Mathias Corvinus Collegium, Somlói útra van számozva
@@ -33,7 +33,8 @@ filters:
     ranges:
       - {start: '2', end: '6'}
   Attila út:
-    invalid: ['4a', '12b', '14a', '16b', '57a', '61a', '65a', '65b']
+    # 1-3 lakóház után 11 templom jön
+    invalid: ['4a', '5', '7', '9', '12b', '14a', '16b', '57a', '61a', '65a', '65b']
   Avar utca:
     # területhatár
     # 4 = Hegyalja út 30
@@ -50,7 +51,9 @@ filters:
     interpolation: 'all'
   Bem rakpart:
     # 1-29: I. kerület, 30+ II. kerület (posta szerint 1-28 I. kerület)
+    # 27: Angelika kiülős rész, Angelika címe Batthyány tér 7
     interpolation: 'all'
+    invalid: ['27']
     ranges:
       - {start: '1', end: '29'}
   Bérc utca:
@@ -82,10 +85,12 @@ filters:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
   Fő utca:
+    # 20-22: Pavilon de Paris csak 20-nak mondja magát
+    # 38: Vám utca 5-7 NFM
     # 47+: II. kerület
     # 54 = Batthány utca 1
     # 62+: II. kerület
-    invalid: ['54']
+    invalid: ['22', '38', '54']
     ranges:
       - {start: '1', end: '45'}
       - {start: '2', end: '60'}
@@ -123,6 +128,8 @@ filters:
     # 1-6
     invalid: ['9', '15']
     interpolation: all
+  Kereszt utca:
+    ranges: []
   Körmöci utca:
     ranges:
       - {start: '3', end: '3'}
@@ -231,8 +238,11 @@ filters:
       - {start: '1', end: '2'}
       - {start: '6', end: '7'}
   Szent Gellért rakpart:
-    interpolation: all
-  #  invalid: ['1a', '1b', '3']
+    interpolation: 'all'
+    # Itt csak ez van: Sziklatemplom és kolostor, 1-es számmal, ez van a honlapon (Ez XI. kerület)
+    # Van olyan forrás amit a kolostort 2-3 számra teszi, de ez máshol nem szerepel
+    # posta szerint 1/a I. kerület, 1/b+ XI. kerület
+    invalid: ['1']
   Szent Sebestyén köz:
     # 1: Mathias Corvinus Collegium, Somlói útra van számozva
     # utcatáblán: 2-6 tartomány, de valóságban csak a 6-os szám van. a 4-es helyén egy üres telek
@@ -240,7 +250,7 @@ filters:
       - {start: '6', end: '6'}
   Szentháromság tér:
     # 1-4: Hess András tér; 9-15: Szentháromság utca
-    invalid: ['1', '3', '4', '9', '11', '15']
+    invalid: ['1', '3', '4', '9', '10', '11', '15']
     interpolation: all
   Szirtes út:
     # 3: 3/a, 3/b
@@ -272,6 +282,10 @@ filters:
       - {start: '2', end: '18'}
   Vérmező:
     ranges: []
+  Vérmező út:
+    # páratlan oldal a Széll Kálmán tér maga
+    ranges:
+      - {start: '2', end: '18'}
   Ybl Miklós tér:
     interpolation: all
   Zerge lépcső:
