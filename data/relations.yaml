@@ -3,6 +3,7 @@ budapest_01:
     osmrelation: 221984
     refcounty: "01"
     refsettlement: "001"
+    alias: ['gellerthegy', 'krisztinavaros', 'taban', 'var']
 budapest_02:
     osmrelation: 221980
     refcounty: "01"
@@ -111,28 +112,8 @@ budapest_23:
     refsettlement: "023"
     inactive: true
 # buda
-# 01
-gellerthegy:
-    osmrelation: 2702687
-    refcounty: "01"
-    refsettlement: "001"
-krisztinavaros:
-    osmrelation: 2786310
-    refcounty: "01"
-    refsettlement: "001"
-taban:
-    osmrelation: 2714681
-    refcounty: "01"
-    refsettlement: "001"
-var:
-    osmrelation: 2786100
-    refcounty: "01"
-    refsettlement: "001"
-vizivaros:
-    osmrelation: 2786368
-    refcounty: "01"
-    refsettlement: "001"
-# 02
+# budapest 01 - kérésre összevonva
+# budapest 02
 adyliget:
     osmrelation: 3256786
     refcounty: "01"
@@ -222,6 +203,10 @@ verhalom:
     osmrelation: 3174429
     refcounty: "01"
     refsettlement: "002"
+vizivaros:
+    osmrelation: 2786368
+    refcounty: "01"
+    refsettlement: "002"
 zoldmal:
     osmrelation: 3174399
     refcounty: "01"
@@ -239,34 +224,33 @@ obuda:
     osmrelation: 3228284
     refcounty: "01"
     refsettlement: "003"
-# 11 - már egyben van, mert kész van
-# 12 - már egyben van, mert kész van
-# 15
-rakospalota:
-    osmrelation: 3237867
+# budapest 04
+nepsziget:
+    osmrelation: 6486007
     refcounty: "01"
-    refsettlement: "015"
-# rakospalota alábontott részei
-pestujhely:
-    osmrelation: 3237893
+    refsettlement: "004"
+istvantelek:
+    osmrelation: 3232053
     refcounty: "01"
-    refsettlement: "015"
-rakospalota-kertvaros:
-    osmrelation: 12331279
+    refsettlement: "004"
+ujpest:
+    osmrelation: 3232068
     refcounty: "01"
-    refsettlement: "015"
-rakospalota-oregfalu:
-    osmrelation: 12353158
+    refsettlement: "004"
+megyer:
+    osmrelation: 3232087
     refcounty: "01"
-    refsettlement: "015"
-ujpalota:
-    osmrelation: 3237889
+    refsettlement: "004"
+kaposztasmegyer:
+    osmrelation: 6485974
     refcounty: "01"
-    refsettlement: "015"
-# 22. kerület kérésre összevonva 
-# pest-belvaros
-# 5. kerület összevonva
-# 8. kerulet szinten eleg, nem kotelezo tovabb bontani
+    refsettlement: "004"
+szekesdulo:
+    osmrelation: 6485975
+    refcounty: "01"
+    refsettlement: "004"
+# budapest 05 - már egyben van, mert kész van
+# budapest 08 - kerulet szinten eleg, nem kotelezo tovabb bontani, ezek csak belvárosi térképezéshez
 palotanegyed:
     osmrelation: 3177466
     refcounty: "01"
@@ -275,11 +259,14 @@ tisztviselotelep:
     osmrelation: 3182106
     refcounty: "01"
     refsettlement: "008"
-# 9. kerulet szinten eleg, nem kotelezo tovabb bontani
+# budapest 09 - kerulet szinten eleg, nem kotelezo tovabb bontani, ezek csak belvárosi térképezéshez
 belso-ferencvaros:
     osmrelation: 3229950
     refcounty: "01"
     refsettlement: "009"
+# budapest 11 - már egyben van, mert kész van
+# budapest 12 - már egyben van, mert kész van
+# budapest 13 - nincs minden szétbontva, csak ahol igény volt rá
 ujlipotvaros:
     osmrelation: 1746619
     refcounty: "01"
@@ -288,7 +275,7 @@ vizafogo:
     osmrelation: 3217068
     refcounty: "01"
     refsettlement: "013"
-# 14
+# budapest 14
 varosliget:
     osmrelation: 3233021
     refcounty: "01"
@@ -329,37 +316,35 @@ rakosfalva:
     refcounty: "01"
     refsettlement: "014"
     missing-streets: 'no'
-# pest-kulvaros
-# 4
-nepsziget:
-    osmrelation: 6486007
+# budapest 15
+rakospalota:
+    osmrelation: 3237867
     refcounty: "01"
-    refsettlement: "004"
-istvantelek:
-    osmrelation: 3232053
+    refsettlement: "015"
+# budapest 15 rakospalota alábontott részei
+pestujhely:
+    osmrelation: 3237893
     refcounty: "01"
-    refsettlement: "004"
-ujpest:
-    osmrelation: 3232068
+    refsettlement: "015"
+rakospalota-kertvaros:
+    osmrelation: 12331279
     refcounty: "01"
-    refsettlement: "004"
-megyer:
-    osmrelation: 3232087
+    refsettlement: "015"
+rakospalota-oregfalu:
+    osmrelation: 12353158
     refcounty: "01"
-    refsettlement: "004"
-kaposztasmegyer:
-    osmrelation: 6485974
+    refsettlement: "015"
+ujpalota:
+    osmrelation: 3237889
     refcounty: "01"
-    refsettlement: "004"
-szekesdulo:
-    osmrelation: 6485975
-    refcounty: "01"
-    refsettlement: "004"
-# 21
+    refsettlement: "015"
+# budapest 21
 csepel-belvaros:
     osmrelation: 3244191
     refcounty: "01"
     refsettlement: "021"
+# budapest 22 - kérésre összevonva
+# ------------------------------
 # 02 - Baranya
 komlo:
     osmrelation: 575200
@@ -933,4 +918,3 @@ keszthely:
     osmrelation: 1360484
     refcounty: "20"
     refsettlement: "093"
-# Egyéb videk

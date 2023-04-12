@@ -1,118 +1,104 @@
 missing-streets: 'no'
 filters:
   Aranyhal utca:
+    refsettlement: '001'
     ranges:
       - {start: '2', end: '6'}
   Bajvívó utca:
-    refsettlement: '002'
     ranges:
       - {start: '2', end: '8'}
       - {start: '1', end: '11'}
-  Bakfark Bálint utca:
-    refsettlement: '002'
   Batthyány utca:
+    refsettlement: '001'
     # 5-11 között egy park van illetve a Csalogány utca 6-10 társasház
     invalid: ['5', '7']
   Batthyány tér:
+    refsettlement: '001'
     # 2 = Batthány utca 2
     invalid: ['2']
     interpolation: 'all'
   Bem József tér:
-    refsettlement: '002'
     interpolation: 'all'
     ranges:
       - {start: '4', end: '5'}
   Bem József utca:
-    refsettlement: '002'
     ranges:
       - {start: '2', end: '24'}
   Bem rakpart:
-    refsettlement: '002'
     interpolation: 'all'
     ranges:
-      - {start: '1', end: '29'}
+      - {start: '1', end: '29', refsettlement: '001'}
       - {start: '30', end: '48', refsettlement: '002'}
   Corvin tér:
+    refsettlement: '001'
     interpolation: 'all'
   Csalogány utca:
     ranges:
-      - {start: '2', end: '44'}
+      - {start: '2', end: '44', refsettlement: '001'}
       - {start: '1', end: '55', refsettlement: '002'}
   Csapláros utca:
     refsettlement: '002'
   Döbrentei utca:
     ranges: []
-  Erőd utca:
-    refsettlement: '002'
   Fazekas utca:
     ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '4'}
+      - {start: '1', end: '3', refsettlement: '001'}
+      - {start: '2', end: '4', refsettlement: '001'}
       - {start: '5', end: '99', refsettlement: '002'}
       - {start: '6', end: '98', refsettlement: '002'}
   Fő utca:
     # 54 = Batthány utca 1
     invalid: ['54']
     ranges:
-      - {start: '1', end: '45'}
-      - {start: '2', end: '20'}
-      - {start: '24', end: '36'}
-      - {start: '40', end: '60'}
+      - {start: '1', end: '45', refsettlement: '001'}
+      - {start: '2', end: '20', refsettlement: '001'}
+      - {start: '24', end: '36', refsettlement: '001'}
+      - {start: '40', end: '60', refsettlement: '001'}
       - {start: '47', end: '51', refsettlement: '002'}
       - {start: '61', end: '83', refsettlement: '002'}
       - {start: '62', end: '92', refsettlement: '002'}
-  Ganz utca:
-    refsettlement: '002'
   Gyorskocsi utca:
     ranges:
-      - {start: '1', end: '15'}
-      - {start: '2', end: '20'}
+      - {start: '1', end: '15', refsettlement: '001'}
+      - {start: '2', end: '20', refsettlement: '001'}
       - {start: '17', end: '31', refsettlement: '002'}
       - {start: '22', end: '48', refsettlement: '002'}
   Halász utca:
+    refsettlement: '001'
     ranges:
       - {start: '1', end: '1'}
       - {start: '2', end: '2'}
   Hattyú utca:
+    refsettlement: '001'
     invalid: ['44']
-  Horvát utca:
-    refsettlement: '002'
-  Jurányi utca:
-    refsettlement: '002'
   Kacsa utca:
-    refsettlement: '002'
     ranges:
       - {start: '1', end: '99'}
       - {start: '2', end: '22'}
-  Kandó Kálmán utca:
-    refsettlement: '002'
   Kapás utca:
     ranges:
-      - {start: '1', end: '3'}
-      - {start: '2', end: '4'}
+      - {start: '1', end: '3', refsettlement: '001'}
+      - {start: '2', end: '4', refsettlement: '001'}
       - {start: '5', end: '99', refsettlement: '002'}
       - {start: '6', end: '98', refsettlement: '002'}
   Lánchíd utca:
+    refsettlement: '001'
     ranges:
       - {start: '5', end: '23'}
   Margit körút:
-    refsettlement: '002'
     ranges:
       - {start: '40', end: '64'}
   Málna utca:
     ranges: []
-  Medve utca:
-    refsettlement: '002'
-  Nagy Imre tér:
-    refsettlement: '002'
   Ponty utca:
+    refsettlement: '001'
     ranges:
       - {start: '3', end: '7'}
       - {start: '2', end: '16'}
   Szász Károly utca:
     invalid: ['221']
-    refsettlement: '002'
   Székely utca:
+    refsettlement: '001'
     ranges:
       - {start: '1', end: '3'}
       - {start: '2', end: '4'}
@@ -120,28 +106,27 @@ filters:
     interpolation: 'all'
     # 1-3,6-7 vizivaros, 4-5 országút
     ranges:
-      - {start: '1', end: '2'}
-      - {start: '6', end: '7'}
+      - {start: '1', end: '2', refsettlement: '001'}
+      - {start: '6', end: '7', refsettlement: '001'}
       - {start: '3', end: '3', refsettlement: '002'}
   Váralja utca:
     ranges: []
   Várfok utca:
+    refsettlement: '001'
     ranges:
       - {start: '1', end: '19'}
   Varsányi Irén utca:
-    refsettlement: '002'
     invalid: ['27', '29']  # parkoló van a helyén
   Varsányi udvar:
     interpolation: 'all'
-    refsettlement: '002'
     ranges:
       - {start: '2', end: '3'}
-  Vitéz utca:
-    refsettlement: '002'
   Vérmező út:
+    refsettlement: '001'
     ranges:
       - {start: '2', end: '14'}
   Ybl Miklós tér:
+    refsettlement: '001'
     interpolation: all
 source: survey
 inactive: true
