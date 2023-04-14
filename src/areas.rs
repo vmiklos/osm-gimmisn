@@ -297,16 +297,6 @@ impl RelationConfig {
         }
     }
 
-    /// Builds a list of streets from a reference cache.
-    fn get_ref_streets<'a>(
-        &self,
-        reference: &'a HashMap<String, HashMap<String, Vec<String>>>,
-    ) -> &'a Vec<String> {
-        let refcounty = self.get_refcounty();
-        let refsettlement = self.get_refsettlement();
-        &reference[&refcounty][&refsettlement]
-    }
-
     /// Maps an OSM street name to a ref street name.
     fn get_ref_street_from_osm_street(&self, osm_street_name: &str) -> String {
         let refstreets = self.get_refstreets();
@@ -587,10 +577,18 @@ impl Relation {
         let mut conn = self.ctx.get_database().create()?;
         util::build_street_reference_index(&self.ctx, &mut conn, reference)?;
 
-        let memory_cache = util::build_street_reference_cache(&self.ctx, reference)
-            .context("build_street_reference_cache() failed")?;
-
-        let mut lst = self.config.get_ref_streets(&memory_cache).clone();
+        let mut lst: Vec<String> = Vec::new();
+        let mut stmt = conn.prepare(
+            "select street from ref_streets where county_code = ?1 and settlement_code = ?2",
+        )?;
+        let mut rows = stmt.query([
+            &self.config.get_refcounty(),
+            &self.config.get_refsettlement(),
+        ])?;
+        while let Some(row) = rows.next()? {
+            let street: String = row.get(0).unwrap();
+            lst.push(street);
+        }
 
         lst.sort();
         lst.dedup();
