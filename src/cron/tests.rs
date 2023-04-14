@@ -168,7 +168,6 @@ fn test_update_ref_streets() {
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let streets_ref_myrelation1 = context::tests::TestFileSystem::make_file();
     let streets_ref_myrelation2 = context::tests::TestFileSystem::make_file();
-    let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -181,7 +180,6 @@ fn test_update_ref_streets() {
                 "workdir/streets-reference-gellerthegy.lst",
                 &streets_ref_myrelation2,
             ),
-            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
         ],
     );
     let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
@@ -972,7 +970,6 @@ fn test_our_main() {
     let missing_streets_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_value = context::tests::TestFileSystem::make_file();
     let additional_streets_value = context::tests::TestFileSystem::make_file();
-    let ref_streets_cache_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
     template_value
@@ -1006,10 +1003,6 @@ fn test_our_main() {
             (
                 "workdir/gazdagret-additional-streets.count",
                 &additional_streets_value,
-            ),
-            (
-                "workdir/refs/utcak_20190514.tsv.cache",
-                &ref_streets_cache_value,
             ),
             ("workdir/cache-gazdagret.json", &missing_housenumbers_json),
             ("data/streets-template.overpassql", &template_value),

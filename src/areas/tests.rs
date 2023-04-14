@@ -2208,7 +2208,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
@@ -2220,7 +2219,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefcounty() {
                 &ref_value,
             ),
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -2245,7 +2243,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let refdir = ctx.get_abspath("workdir/refs");
     let refpath = format!("{refdir}/hazszamok_20190511.tsv");
     let ref_value = context::tests::TestFileSystem::make_file();
@@ -2257,7 +2254,6 @@ fn test_relation_writer_ref_housenumbers_nosuchrefsettlement() {
                 &ref_value,
             ),
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -2284,13 +2280,11 @@ fn test_relation_write_ref_streets() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
             ("workdir/streets-reference-gazdagret.lst", &ref_value),
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
