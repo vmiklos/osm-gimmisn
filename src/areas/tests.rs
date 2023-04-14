@@ -2098,52 +2098,6 @@ fn test_write_missing_streets_empty() {
     assert_eq!(format!("{percent:.2}"), "100.00");
 }
 
-/// Tests Relation::build_ref_streets().
-#[test]
-fn test_relation_build_ref_streets() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let yamls_cache = serde_json::json!({
-        "relations.yaml": {
-            "myrelation": {
-                "refsettlement": "42",
-                "refcounty": "01",
-                "refsettlement": "011",
-            },
-        },
-    });
-    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_streets_cache = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
-        ],
-    );
-    let refdir = ctx.get_abspath("workdir/refs");
-    let refpath = format!("{refdir}/utcak_20190514.tsv");
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
-    let memory_cache = util::build_street_reference_cache(&ctx, &refpath).unwrap();
-    let mut relations = Relations::new(&ctx).unwrap();
-    let relation_name = "myrelation";
-    let relation = relations.get_relation(relation_name).unwrap();
-
-    let ret = relation.config.get_ref_streets(&memory_cache);
-
-    assert_eq!(
-        ret,
-        &[
-            "Törökugrató utca",
-            "Tűzkő utca",
-            "Ref Name 1",
-            "Only In Ref utca",
-            "Only In Ref Nonsense utca",
-            "Hamzsabégi út"
-        ]
-    );
-}
-
 /// Tests Relation::write_ref_housenumbers().
 #[test]
 fn test_relation_writer_ref_housenumbers() {

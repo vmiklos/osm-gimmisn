@@ -524,9 +524,6 @@ pub fn color_house_number(house_number: &HouseNumberRange) -> yattag::Doc {
     doc
 }
 
-/// refcounty -> refsettlement -> streets cache.
-type StreetReferenceCache = HashMap<String, HashMap<String, Vec<String>>>;
-
 /// One row in workdir/refs/streets_<DATE>.tsv.
 #[derive(serde::Deserialize)]
 pub struct RefStreet {
@@ -539,50 +536,6 @@ pub struct RefStreet {
     /// Street name.
     #[serde(rename = "KOZTERULET")]
     pub street: String,
-}
-
-/// Builds an in-memory cache from the reference on-disk TSV (street version).
-pub fn build_street_reference_cache(
-    ctx: &context::Context,
-    local_streets: &str,
-) -> anyhow::Result<StreetReferenceCache> {
-    let mut memory_cache: StreetReferenceCache = HashMap::new();
-
-    let disk_cache = local_streets.to_string() + ".cache";
-    if ctx.get_file_system().path_exists(&disk_cache) {
-        let stream = ctx
-            .get_file_system()
-            .open_read(&disk_cache)
-            .context("open_read() failed")?;
-        let mut guard = stream.borrow_mut();
-        // Handle an empty cache file like having no cache.
-        if let Ok(memory_cache) = serde_json::from_reader(guard.deref_mut()) {
-            return Ok(memory_cache);
-        }
-    }
-
-    let stream = ctx
-        .get_file_system()
-        .open_read(local_streets)
-        .context("open_read() failed")?;
-    let mut guard = stream.borrow_mut();
-    let mut read = std::io::BufReader::new(guard.deref_mut());
-    let mut csv_reader = make_csv_reader(&mut read);
-    for result in csv_reader.deserialize() {
-        let row: RefStreet = result?;
-
-        // Filter out invalid street type.
-        let street = NULL_END.replace(&row.street, "").to_string();
-        let refcounty_key = memory_cache.entry(row.county).or_insert_with(HashMap::new);
-        let refsettlement_key = refcounty_key.entry(row.settlement).or_insert_with(Vec::new);
-        refsettlement_key.push(street);
-    }
-
-    let stream = ctx.get_file_system().open_write(&disk_cache)?;
-    let mut guard = stream.borrow_mut();
-    serde_json::to_writer(guard.deref_mut(), &memory_cache)?;
-
-    Ok(memory_cache)
 }
 
 /// One row in workdir/refs/housenumbers_<DATE>.tsv.
@@ -699,9 +652,10 @@ pub fn build_street_reference_index(
     let tx = conn.transaction()?;
     for result in reader.deserialize() {
         let row: RefStreet = result?;
+        let street = NULL_END.replace(&row.street, "").to_string();
         tx.execute(
             "insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)",
-            [row.county, row.settlement, row.street],
+            [row.county, row.settlement, street],
         )?;
     }
     tx.commit()?;
