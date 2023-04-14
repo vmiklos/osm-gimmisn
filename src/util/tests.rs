@@ -196,6 +196,36 @@ fn test_build_reference_index() {
     }
 }
 
+/// Tests build_street_reference_index().
+#[test]
+fn test_build_street_reference_index() {
+    let ctx = context::tests::make_test_context().unwrap();
+    let mut conn = ctx.get_database().create().unwrap();
+    conn.execute("delete from ref_streets", []).unwrap();
+    let refpath = ctx.get_abspath("workdir/refs/utcak_20190514.tsv");
+    build_street_reference_index(&ctx, &mut conn, &refpath).unwrap();
+    {
+        let mut stmt = conn.prepare("select count(*) from ref_streets").unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        while let Some(row) = rows.next().unwrap() {
+            let count: i64 = row.get(0).unwrap();
+            // Empty table, so changes from 0 to 6.
+            assert_eq!(count, 6);
+        }
+    }
+
+    build_street_reference_index(&ctx, &mut conn, &refpath).unwrap();
+    {
+        let mut stmt = conn.prepare("select count(*) from ref_streets").unwrap();
+        let mut rows = stmt.query([]).unwrap();
+        while let Some(row) = rows.next().unwrap() {
+            let count: i64 = row.get(0).unwrap();
+            // Early return, so doesn't change from 6 to 12.
+            assert_eq!(count, 6);
+        }
+    }
+}
+
 /// Tests split_house_number(): just numbers.
 #[test]
 fn test_split_house_number_only_number() {
