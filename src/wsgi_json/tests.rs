@@ -248,7 +248,6 @@ fn test_missing_housenumbers_update_result_json() {
 #[test]
 fn test_missing_streets_update_result_json() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
-    let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -263,7 +262,6 @@ fn test_missing_streets_update_result_json() {
     let files = context::tests::TestFileSystem::make_files(
         test_wsgi.get_ctx(),
         &[
-            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/streets-reference-gazdagret.lst", &streets_value),
         ],

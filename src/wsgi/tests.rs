@@ -1465,13 +1465,11 @@ fn test_missing_streets_update_result() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let ref_streets_cache = context::tests::TestFileSystem::make_file();
     let streets_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/refs/utcak_20190514.tsv.cache", &ref_streets_cache),
             ("workdir/streets-reference-gazdagret.lst", &streets_value),
         ],
     );
