@@ -81,6 +81,19 @@ pub trait Database {
                 on ref_housenumbers (county_code, settlement_code, street)",
             [],
         )?;
+        conn.execute(
+            "create table if not exists ref_streets (
+                 county_code text not null,
+                 settlement_code text not null,
+                 street text not null
+             )",
+            [],
+        )?;
+        conn.execute(
+            "create index if not exists idx_ref_streets
+                on ref_streets (county_code, settlement_code)",
+            [],
+        )?;
         Ok(conn)
     }
 }

@@ -671,6 +671,44 @@ pub fn build_reference_index(
     Ok(())
 }
 
+/// Builds an in-database index from the reference TSV (street version).
+pub fn build_street_reference_index(
+    ctx: &context::Context,
+    conn: &mut rusqlite::Connection,
+    path: &str,
+) -> anyhow::Result<()> {
+    {
+        // Check if the TSV is imported already.
+        let mut stmt = conn.prepare("select count(*) from (select 0 from ref_streets limit 1)")?;
+        let mut rows = stmt.query([])?;
+        while let Some(row) = rows.next()? {
+            let count: i64 = row.get(0).unwrap();
+            if count > 0 {
+                return Ok(());
+            }
+        }
+    }
+
+    let stream = ctx.get_file_system().open_read(path)?;
+    let mut guard = stream.borrow_mut();
+    let read = std::io::BufReader::new(guard.deref_mut());
+    let mut reader = csv::ReaderBuilder::new()
+        .delimiter(b'\t')
+        .double_quote(true)
+        .from_reader(read);
+    let tx = conn.transaction()?;
+    for result in reader.deserialize() {
+        let row: RefStreet = result?;
+        tx.execute(
+            "insert into ref_streets (county_code, settlement_code, street) values (?1, ?2, ?3)",
+            [row.county, row.settlement, row.street],
+        )?;
+    }
+    tx.commit()?;
+
+    Ok(())
+}
+
 /// Parses a filter description, like 'filter-for', 'refcounty', '42'.
 pub fn parse_filters(tokens: &[String]) -> HashMap<String, String> {
     let mut ret: HashMap<String, String> = HashMap::new();

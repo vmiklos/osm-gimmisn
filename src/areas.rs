@@ -584,6 +584,9 @@ impl Relation {
     /// Gets known streets (not their coordinates) from a reference site, based on relation names
     /// from OSM.
     pub fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
+        let mut conn = self.ctx.get_database().create()?;
+        util::build_street_reference_index(&self.ctx, &mut conn, reference)?;
+
         let memory_cache = util::build_street_reference_cache(&self.ctx, reference)
             .context("build_street_reference_cache() failed")?;
 
