@@ -152,8 +152,8 @@ filters:
   Erdélyi utca:
     invalid: ['9', '9b', '15', '17']
   Erdész utca:
-    # 5, 7 csomó bódé, semmi sincs kiírva a páratlan oldalon
-    invalid: ['5', '7']
+    # 5: csomó bódé, 7-es van csak  kiírva a páratlan oldalon
+    invalid: ['5']
   Erdőalja utca:
     # 2, 12 nincs kiírva, de ez utóbbi egyértelnű
     interpolation: all

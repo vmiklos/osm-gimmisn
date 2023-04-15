@@ -3,63 +3,66 @@ filters: {}
 # osm-street-filters:
 # street-filters:
 refstreets:
-  'Alsó Törökhegy út': 'Alsó-Törökhegy dűlő'
-  'Alsónyulas utca': 'Alsó-nyulas utca'
-  'Báthori utca': 'Báthori Miklós utca'
-  'Belgakert út': 'Belgakert utca'
-  'Bocskai utca': 'Bocskai István utca'
+  # valószínű az utcatáblán is ez van
   'Bottyán utca': 'Bottyán János utca'
   'Csávolszky utca': 'Csávolszky József utca'
-  'Csurgóbánya utca': 'Csurgó bánya utca'
   'Damjanich tér': 'Damjanich János tér'
   'Damjanich utca': 'Damjanich János utca'
-  'Deres utca': 'Deres út'
   'Dombay utca': 'Dombay Sándor utca'
   'Eötvös utca': 'Eötvös József utca'
   'Eszterházy utca': 'Eszterházy Károly utca'
   'Farkasfalvi Imre utca': 'Farkasfalvy Imre utca'
-  'Fekete utca': 'Fekete út'
-  'Felsőnyulas utca': 'Felső-nyulas utca'
   'Földváry tér': 'Földváry Károly tér'
   'Galcsek utca': 'Galcsek György utca'
   'Görgey Artúr utca': 'Görgey Artur utca'
-  'Határ utca': 'Határ út'
-  'Homokdűlő út': 'Homok dűlő'
-  'Horgásztó utca': 'Horgásztói utca'
   'Hunyadi utca': 'Hunyadi János utca'
   'Jókai utca': 'Jókai Mór utca'
-  'Kálvária': 'Kálvária dűlő'
   'Kálvin utca': 'Kálvin János utca'
-  'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'
-  'Kaszálórét': 'Kaszálórét utca'
-  'Kertvárosi utca': 'Kertvárosi út'
-  'Kép utca': 'Kép János utca'
-  'Kórház út': 'Kórház utca'
   'Kossuth tér': 'Kossuth Lajos tér'
   'Kossuth utca': 'Kossuth Lajos utca'
-  'Krakkó köz': 'Krakó köz'
-  'Külső Rádi út': 'Külső-Rádi út'
   'Madách utca': 'Madách Imre utca'
+  'Oswald utca': 'Oswald Gáspár utca'
+  'Pálffy utca': 'Pálffy Miklós utca'
+  'Petróczy utca': 'Petróczy László utca'
+  'Radnóti Miklós utca': 'Radnóti Miklós út'
+  'Somogyi utca': 'Somogyi Imre utca'
+  'Széchenyi utca': 'Széchenyi István utca'
+  'Szilassy utca': 'Szilassy Vince utca'
+  # hibás
   'Makay utca': 'Makay Imre utca'
   'Mátyás utca': 'Mátyás király utca'
   'Mező Imre utca': 'Mező utca'
   'Nagy Sándor József utca': 'Nagysándor József utca'
-  'Ordítóárok utca': 'Ordító-árok utca'
-  'Oswald utca': 'Oswald Gáspár utca'
-  'Pálffy utca': 'Pálffy Miklós utca'
-  'Petróczy utca': 'Petróczy László utca'
   'Qwell Rudolf utca': 'Quell Rudolf utca'
-  'Radnóti Miklós utca': 'Radnóti Miklós út'
-  'Somogyi utca': 'Somogyi Imre utca'
-  'Szederfa sor': 'Szederfasor'
-  'Széchenyi utca': 'Széchenyi István utca'
-  'Szilassy utca': 'Szilassy Vince utca'
-  'Tó utca': 'Tó út'
-  'Törökhegyi utca': 'Törökhegyi út'
   'Ulrich köz': 'Ulrich Károly köz'
-  'Vizimalom utca': 'Vízimalom utca'
   'Vörösmarty tér': 'Vörösmarty Mihály tér'
   'Wolkóber utca': 'Wolkóber János utca'
   'Zrínyi utca': 'Zrínyi Miklós utca'
+  # kérdéses
+  'Alsónyulas utca': 'Alsó-nyulas utca'
+  'Belgakert út': 'Belgakert utca'
+  'Csurgóbánya utca': 'Csurgó bánya utca'
+  'Deres utca': 'Deres út'
+  'Felsőnyulas utca': 'Felső-nyulas utca'
+  'Határ utca': 'Határ út'
+  'Homokdűlő út': 'Homok dűlő'
+  'Horgásztó utca': 'Horgásztói utca'  # táblán talán Horgásztó út
+  'Kálvária': 'Kálvária dűlő'
+  'Kaszálórét': 'Kaszálórét utca'
+  'Kertvárosi utca': 'Kertvárosi út'  # táblán Kertváros
+  'Ordítóárok utca': 'Ordító-árok utca'
+  'Szederfa sor': 'Szederfasor'
+  'Tó utca': 'Tó út'
+  'Törökhegyi utca': 'Törökhegyi út'  # táblák vegyesen?
+  'Vizimalom utca': 'Vízimalom utca'
+  # ellenőrzött
+  'Báthori utca': 'Báthori Miklós utca'  # táblán Báthori utca (2019)
+  'Bocskai utca': 'Bocskai István utca'  # táblán Bocskai utca (2019)
+  'Fekete utca': 'Fekete út'  # táblán Fekete utca (2019)
+  'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'  # táblán Karcsu Arzén utca (2019)
+  'Kép utca': 'Kép János utca'  # táblán Kép utca (2019)
+  'Kórház út': 'Kórház utca'  # táblán Kórház út (2019)
+  'Krakkó köz': 'Krakó köz'  # táblán Krakkó köz (2019)
+  'Külső Rádi út': 'Külső-Rádi út'  # táblán Külső Rádi út (2022)
 source: survey
 inactive: false
