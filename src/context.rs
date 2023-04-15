@@ -11,7 +11,9 @@
 //! Abstractions to help writing unit tests: filesystem, network, etc.
 
 use anyhow::Context as _;
+use once_cell::unsync::OnceCell;
 use std::cell::RefCell;
+use std::cell::RefMut;
 use std::io::Read;
 use std::io::Write;
 use std::path::Path;
@@ -265,6 +267,7 @@ pub struct Context {
     unit: Arc<dyn Unit>,
     file_system: Rc<dyn FileSystem>,
     database: Arc<dyn Database>,
+    connection: OnceCell<Rc<RefCell<rusqlite::Connection>>>,
 }
 
 impl Context {
@@ -280,6 +283,7 @@ impl Context {
         let file_system: Rc<dyn FileSystem> = Rc::new(StdFileSystem {});
         let database: Arc<dyn Database> = Arc::new(StdDatabase {});
         let ini = Ini::new(&file_system, &format!("{root}/workdir/wsgi.ini"), &root)?;
+        let connection = OnceCell::new();
         Ok(Context {
             root,
             ini,
@@ -289,6 +293,7 @@ impl Context {
             unit,
             file_system,
             database,
+            connection,
         })
     }
 
@@ -352,14 +357,19 @@ impl Context {
         self.file_system = file_system.clone();
     }
 
-    /// Gets the database implementation.
-    pub fn get_database(&self) -> &Arc<dyn Database> {
-        &self.database
-    }
-
     /// Sets the database implementation.
     pub fn set_database(&mut self, database: &Arc<dyn Database>) {
         self.database = database.clone();
+    }
+
+    /// Gets the database connection.
+    pub fn get_database_connection(&self) -> anyhow::Result<RefMut<'_, rusqlite::Connection>> {
+        let connection: &Rc<RefCell<rusqlite::Connection>> = self.connection.get_or_try_init(
+            || -> anyhow::Result<Rc<RefCell<rusqlite::Connection>>> {
+                Ok(Rc::new(RefCell::new(self.database.create()?)))
+            },
+        )?;
+        Ok(connection.borrow_mut())
     }
 }
 

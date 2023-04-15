@@ -1253,6 +1253,7 @@ dependencies = [
  "isahc",
  "lazy_static",
  "log",
+ "once_cell",
  "regex",
  "rouille",
  "rusqlite",

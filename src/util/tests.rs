@@ -100,7 +100,7 @@ fn test_format_even_odd_html_multi_odd() {
 #[test]
 fn test_build_reference_index() {
     let ctx = context::tests::make_test_context().unwrap();
-    let mut conn = ctx.get_database().create().unwrap();
+    let mut conn = ctx.get_database_connection().unwrap();
     conn.execute("delete from ref_housenumbers", []).unwrap();
     let refpath = ctx.get_abspath("workdir/refs/hazszamok_20190511.tsv");
     build_reference_index(&ctx, &mut conn, &[refpath.clone()]).unwrap();
@@ -134,7 +134,7 @@ fn test_build_reference_index() {
 #[test]
 fn test_build_street_reference_index() {
     let ctx = context::tests::make_test_context().unwrap();
-    let mut conn = ctx.get_database().create().unwrap();
+    let mut conn = ctx.get_database_connection().unwrap();
     conn.execute("delete from ref_streets", []).unwrap();
     let refpath = ctx.get_abspath("workdir/refs/utcak_20190514.tsv");
     build_street_reference_index(&ctx, &mut conn, &refpath).unwrap();
