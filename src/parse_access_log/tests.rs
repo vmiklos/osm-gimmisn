@@ -14,6 +14,7 @@ use super::*;
 
 use std::io::Read;
 use std::io::Seek;
+use std::rc::Rc;
 use std::sync::Arc;
 
 use context::FileSystem as _;
@@ -98,8 +99,8 @@ fn test_is_complete_relation_complete() {
     file_system
         .write_from_string("100.00", &ctx.get_abspath("workdir/gazdagret.percent"))
         .unwrap();
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     let ret = is_complete_relation(&ctx, &mut relations, "gazdagret").unwrap();

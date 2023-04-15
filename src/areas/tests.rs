@@ -14,7 +14,6 @@ use super::*;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::io::Write;
-use std::sync::Arc;
 
 /// Tests normalize().
 #[test]
@@ -1867,8 +1866,8 @@ fn test_relation_write_missing_housenumbers() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gazdagret";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1918,8 +1917,8 @@ fn test_relation_write_missing_housenumbers_empty() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "empty";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1953,8 +1952,8 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "budafok";
     let mut relation = relations.get_relation(relation_name).unwrap();
@@ -1999,8 +1998,8 @@ fn test_relation_write_missing_housenumbers_sorting() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "gh414";
     let mut relation = relations.get_relation(relation_name).unwrap();

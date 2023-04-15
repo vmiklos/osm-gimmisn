@@ -295,8 +295,8 @@ fn test_missing_housenumbers_view_result_json() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_json_for_path("/missing-housenumbers/budafok/view-result.json");
 
@@ -339,8 +339,8 @@ fn test_additional_housenumbers_view_result_json() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_json_for_path("/additional-housenumbers/budafok/view-result.json");
 

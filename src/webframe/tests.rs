@@ -13,7 +13,6 @@
 use super::*;
 use crate::context::Unit;
 use std::io::Write;
-use std::sync::Arc;
 
 /// Tests handle_static().
 #[test]
@@ -36,8 +35,8 @@ fn test_handle_static() {
     );
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let prefix = ctx.get_ini().get_uri_prefix();
     let (content, content_type, extra_headers) =
@@ -95,8 +94,8 @@ fn test_handle_static_ico() {
     );
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let (content, content_type, extra_headers) = handle_static(&ctx, "/favicon.ico").unwrap();
 
@@ -126,8 +125,8 @@ fn test_handle_static_svg() {
     );
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let (content, content_type, extra_headers) = handle_static(&ctx, "/favicon.svg").unwrap();
 

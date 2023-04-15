@@ -402,8 +402,8 @@ fn test_missing_housenumbers_well_formed() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
 
@@ -458,8 +458,8 @@ fn test_missing_housenumbers_compat() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/suspicious-streets/gazdagret/view-result");
 
@@ -510,8 +510,8 @@ fn test_missing_housenumbers_compat_relation() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/suspicious-streets/budapest_22/view-result");
 
@@ -541,8 +541,8 @@ fn test_missing_housenumbers_no_osm_streets() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
 
@@ -572,8 +572,8 @@ fn test_missing_housenumbers_no_osm_housenumbers() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
 
@@ -603,8 +603,8 @@ fn test_missing_housenumbers_no_ref_housenumbers_well_formed() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/missing-housenumbers/gazdagret/view-result");
 
@@ -629,8 +629,8 @@ fn test_missing_housenumbers_view_result_txt() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/budafok/view-result.txt");
 
@@ -676,8 +676,8 @@ fn test_missing_housenumbers_view_result_txt_even_odd() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
 
@@ -840,8 +840,8 @@ fn test_missing_housenumbers_view_result_chkl_no_osm_streets() {
     let hide_path = relation.get_files().get_osm_streets_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
     assert_eq!(result, "No existing streets");
 }
@@ -855,8 +855,8 @@ fn test_missing_housenumbers_view_result_chkl_no_osm_housenumbers() {
     let hide_path = relation.get_files().get_osm_housenumbers_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
     assert_eq!(result, "No existing house numbers");
 }
@@ -870,8 +870,8 @@ fn test_missing_housenumbers_view_result_chkl_no_ref_housenumbers() {
     let hide_path = relation.get_files().get_ref_housenumbers_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.chkl");
     assert_eq!(result, "No reference house numbers");
 }
@@ -885,8 +885,8 @@ fn test_missing_housenumbers_view_result_txt_no_osm_streets() {
     let hide_path = relation.get_files().get_osm_streets_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
     assert_eq!(result, "No existing streets");
 }
@@ -900,8 +900,8 @@ fn test_missing_housenumbers_view_result_txt_no_osm_housenumbers() {
     let hide_path = relation.get_files().get_osm_housenumbers_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
     assert_eq!(result, "No existing house numbers");
 }
@@ -915,8 +915,8 @@ fn test_missing_housenumbers_view_result_txt_no_ref_housenumbers() {
     let hide_path = relation.get_files().get_ref_housenumbers_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
     let result = test_wsgi.get_txt_for_path("/missing-housenumbers/gazdagret/view-result.txt");
     assert_eq!(result, "No reference house numbers");
 }
@@ -1190,8 +1190,8 @@ fn test_housenumbers_no_osm_streets_well_formed() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
     let root = test_wsgi.get_dom_for_path("/street-housenumbers/gazdagret/view-result");
     let results = TestWsgi::find_all(&root, "body/div[@id='no-osm-housenumbers']");
     assert_eq!(results.len(), 1);
@@ -1292,8 +1292,8 @@ fn test_missing_streets_no_osm_streets_well_formed() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
 
@@ -1323,8 +1323,8 @@ fn test_missing_streets_no_ref_streets_well_formed() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
 
@@ -1400,8 +1400,8 @@ fn test_missing_streets_view_result_txt_no_osm_streets() {
     let hide_path = relation.get_files().get_osm_streets_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
 
@@ -1417,8 +1417,8 @@ fn test_missing_streets_view_result_txt_no_ref_streets() {
     let hide_path = relation.get_files().get_ref_streets_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_txt_for_path("/missing-streets/gazdagret/view-result.txt");
 
@@ -1732,8 +1732,8 @@ fn test_application_error() {
     let files =
         context::tests::TestFileSystem::make_files(&ctx, &[("target/browser/osm.min.css", &css)]);
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let bytes: Vec<u8> = Vec::new();
 
     let abspath: String = "/".into();
@@ -1833,8 +1833,8 @@ fn test_static_css() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_css_for_path("/static/osm.min.css");
 
@@ -1856,8 +1856,8 @@ fn test_static_text() {
         &[("data/robots.txt", &txt_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_txt_for_path("/robots.txt");
 
@@ -1961,8 +1961,8 @@ fn test_handle_invalid_refstreets_no_osm_sreets() {
     file_system.set_files(&files);
     let hide_path = test_wsgi.ctx.get_abspath("workdir/streets-gazdagret.csv");
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.ctx.set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
 
@@ -1991,7 +1991,7 @@ fn test_handle_invalid_refstreets_no_invalids() {
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system);
 
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
@@ -2190,8 +2190,8 @@ fn test_handle_main_housenr_percent() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
 
@@ -2235,8 +2235,8 @@ fn test_handle_main_street_percent() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
 
@@ -2280,8 +2280,8 @@ fn test_handle_main_street_additional_count() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let relation = relations.get_relation("gazdagret").unwrap();
 

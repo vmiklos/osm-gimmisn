@@ -12,6 +12,7 @@
 
 use super::*;
 use std::ops::DerefMut as _;
+use std::rc::Rc;
 use std::sync::Arc;
 
 /// Tests main().
@@ -99,8 +100,8 @@ reference_zipcounts = 'workdir/refs/irsz_count_20200717.tsv'
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_hide_paths(&[ctx.get_abspath("workdir/refs/irsz_count_20200717.tsv")]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let routes = vec![context::tests::URLRoute::new(
         /*url=*/ "https://www.example.com/osm/data/irsz_count_20200717.tsv",
         /*data_path=*/ "",

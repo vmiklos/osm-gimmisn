@@ -22,8 +22,8 @@ pub fn make_test_context() -> anyhow::Result<Context> {
     let mut ctx = Context::new("tests")?;
 
     let file_system = TestFileSystem::new();
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let time = TestTime::new(2020, 5, 10);
     let time_arc: Arc<dyn Time> = Arc::new(time);
     ctx.set_time(&time_arc);
@@ -68,11 +68,11 @@ impl TestFileSystem {
     /// Shorthand for new() + set_files() + cast to trait.
     pub fn from_files(
         files: &HashMap<String, Rc<RefCell<std::io::Cursor<Vec<u8>>>>>,
-    ) -> Arc<dyn FileSystem> {
+    ) -> Rc<dyn FileSystem> {
         let mut file_system = TestFileSystem::new();
         file_system.set_files(files);
-        let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-        file_system_arc
+        let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+        file_system_rc
     }
 
     pub fn make_file() -> Rc<RefCell<std::io::Cursor<Vec<u8>>>> {
@@ -417,10 +417,10 @@ fn test_ini_new() {
     file_system
         .write_from_string("[wsgi]\n=", &ctx.get_abspath("workdir/wsgi.ini"))
         .unwrap();
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
 
     let ret = Ini::new(
-        &file_system_arc,
+        &file_system_rc,
         &ctx.get_abspath("workdir/wsgi.ini"),
         "tests",
     );
@@ -434,9 +434,9 @@ fn test_ini_new_no_config() {
     let ctx = make_test_context().unwrap();
     let mut file_system = TestFileSystem::new();
     file_system.set_hide_paths(&[ctx.get_abspath("workdir/wsgi.ini")]);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
 
-    let ret = Ini::new(&file_system_arc, &ctx.get_abspath("workdir/wsgi.ini"), "");
+    let ret = Ini::new(&file_system_rc, &ctx.get_abspath("workdir/wsgi.ini"), "");
 
     assert_eq!(ret.is_err(), false);
 }
