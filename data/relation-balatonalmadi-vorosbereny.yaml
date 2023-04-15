@@ -110,10 +110,10 @@ filters:
     show-refstreet: false
   Madách Imre utca:
     show-refstreet: false
-  # Magyar utca:
+  Magyar utca:
     # az utcát átszámozták, most vegyesen vannak kint a házszámok és mellesleg az utcának sok mellékága van
     # 12: új épület RESURVEY 2022
-    # invalid: ['25', '45', '55', '75']
+    invalid: ['25', '45', '55', '75']
   Malomvölgyi utca:
     # 25: domboldal, nem látszik épkézláb bejárat lentről
     # 32: tulaj megkérdezve, ok
@@ -139,12 +139,14 @@ filters:
   Szellő utca:
     # 41 nincs, utolsó szám 13
     invalid: ['41']
-  # Szömörce utca:
-    # 30, 62, 64, 82, 84 nincs kiírva 2021-08. RESURVEY 2022
-    # invalid: ['30', '62', '64', '82']
-  # Szürkebarát utca:
-    # 40: Felső vízszintes részen nincsenek kint házszámok 2021-08. RESURVEY 2022
-    # invalid: ['40']
+  Szömörce utca:
+    # 30: az első leágaóz, nincs kiírva 2023-04. RESURVEY 2024
+    #,62, 64 nincs kiírva 2023-04. RESURVEY 2024
+    # 82 új ház, még nincs szám nincs kiírva 2023-04. RESURVEY 2024
+    invalid: ['30', '62', '64', '82']
+  Szürkebarát utca:
+    # 40: Felső vízszintes részen nincsenek kint házszámok és utcanév se: 2023-04. RESURVEY 2024
+    invalid: ['40']
   Templom utca:
     # 4: páros oldal az Erkel Ferencről számozódik
     invalid: ['4']
@@ -157,9 +159,10 @@ filters:
     ranges:
       - {start: '1', end: '21'}
       - {start: '2', end: '26'}
-  # Vidovszky Béla utca:
-    # 25, 26 nincs kiírva, kuka nincs, tervvel nincs összhangban a számozás. eladó telek. 2021-08. RESURVEY 2022
-    # invalid: ['25', '26']
+  Vidovszky Béla utca:
+    # 25: új épület, nincs kiírva 2023-04. RESURVEY 2023-08
+    # 26: Tisza utca 12-14 van kiírva
+    invalid: ['25', '26']
   Vöröshegyi utca:
     # 1 fa táblán, illetve némely házon Vöröshegyi út van, de a hivatalos utcatáblán Vöröshegyi utca
     # külső részen alig vannak táblázva
