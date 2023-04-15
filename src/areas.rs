@@ -574,7 +574,7 @@ impl Relation {
     /// Gets known streets (not their coordinates) from a reference site, based on relation names
     /// from OSM.
     pub fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
-        let mut conn = self.ctx.get_database().create()?;
+        let mut conn = self.ctx.get_database_connection()?;
         util::build_street_reference_index(&self.ctx, &mut conn, reference)?;
 
         let mut lst: Vec<String> = Vec::new();
@@ -615,7 +615,7 @@ impl Relation {
     /// from OSM. Uses build_reference_cache() to build an indexed reference, the result will be
     /// used by get_ref_housenumbers().
     pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
-        let mut conn = self.ctx.get_database().create()?;
+        let mut conn = self.ctx.get_database_connection()?;
         util::build_reference_index(&self.ctx, &mut conn, references)?;
 
         let streets: Vec<String> = self

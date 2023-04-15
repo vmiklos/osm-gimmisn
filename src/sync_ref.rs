@@ -65,7 +65,7 @@ pub fn download(
     }
 
     stream.write_all("sync-ref: removing old index...\n".as_bytes())?;
-    let conn = ctx.get_database().create()?;
+    let conn = ctx.get_database_connection()?;
     conn.execute("delete from ref_housenumbers", [])?;
 
     ctx.get_file_system()
