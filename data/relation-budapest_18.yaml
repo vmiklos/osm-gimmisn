@@ -14,8 +14,6 @@ osm-street-filters:
   - Búbosbanka tanösvény
   - Budapest-Pestszentlőrinc-Erzsébettelep (Szent Erzsébet) Római Katolikus Plébánia
   - Brenner János park
-  - Bókay-kert
-  # - Eötvös Loránd park
   - Ervin park
   - Herrich Károly téri park
   - Hősök tere
@@ -52,6 +50,8 @@ refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás, rövidítés: ref hibás
   'Csontváry Kosztka Tivadar utca': 'Csontváry K. Tivadar utca'
+  'Bókay-kert': 'Bókay kert'
+  'Eötvös Loránd park': 'Eötvös Lóránd park'
   # utcajegyzék = OSM: ref hibás
   'Áchim András utca': 'Achim András utca'
   'Besence utca': 'Besence út'
@@ -69,3 +69,4 @@ refstreets:
   'Rim utca': 'Rím utca'
 source: survey
 inactive: true
+housenumber-letters: true
