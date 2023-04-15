@@ -177,7 +177,7 @@ pub struct Ini {
 
 impl Ini {
     fn new(
-        file_system: &Arc<dyn FileSystem>,
+        file_system: &Rc<dyn FileSystem>,
         config_path: &str,
         root: &str,
     ) -> anyhow::Result<Self> {
@@ -263,7 +263,7 @@ pub struct Context {
     time: Arc<dyn Time>,
     subprocess: Arc<dyn Subprocess>,
     unit: Arc<dyn Unit>,
-    file_system: Arc<dyn FileSystem>,
+    file_system: Rc<dyn FileSystem>,
     database: Arc<dyn Database>,
 }
 
@@ -277,7 +277,7 @@ impl Context {
         let time = Arc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
-        let file_system: Arc<dyn FileSystem> = Arc::new(StdFileSystem {});
+        let file_system: Rc<dyn FileSystem> = Rc::new(StdFileSystem {});
         let database: Arc<dyn Database> = Arc::new(StdDatabase {});
         let ini = Ini::new(&file_system, &format!("{root}/workdir/wsgi.ini"), &root)?;
         Ok(Context {
@@ -343,12 +343,12 @@ impl Context {
     }
 
     /// Gets the file system implementation.
-    pub fn get_file_system(&self) -> &Arc<dyn FileSystem> {
+    pub fn get_file_system(&self) -> &Rc<dyn FileSystem> {
         &self.file_system
     }
 
     /// Sets the file system implementation.
-    pub fn set_file_system(&mut self, file_system: &Arc<dyn FileSystem>) {
+    pub fn set_file_system(&mut self, file_system: &Rc<dyn FileSystem>) {
         self.file_system = file_system.clone();
     }
 

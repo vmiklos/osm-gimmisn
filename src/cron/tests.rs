@@ -121,8 +121,8 @@ fn test_update_ref_housenumbers() {
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     update_ref_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -191,8 +191,8 @@ fn test_update_ref_streets() {
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     update_ref_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -272,20 +272,20 @@ fn test_update_missing_housenumbers() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     // Only one housenumber and it's missing.
     let expected: String = "0.00".into();
 
     update_missing_housenumbers(&ctx, &mut relations, /*update=*/ true).unwrap();
 
-    let expected_mtime = file_system_arc.getmtime(&path1).unwrap();
+    let expected_mtime = file_system_rc.getmtime(&path1).unwrap();
     assert!(expected_mtime > time::OffsetDateTime::UNIX_EPOCH);
 
     update_missing_housenumbers(&ctx, &mut relations, /*update=*/ false).unwrap();
 
-    let actual_mtime = file_system_arc.getmtime(&path1).unwrap();
+    let actual_mtime = file_system_rc.getmtime(&path1).unwrap();
     assert_eq!(actual_mtime, expected_mtime);
     let actual = context::tests::TestFileSystem::get_content(&count_file1);
     assert_eq!(actual, expected);
@@ -337,8 +337,8 @@ fn test_update_missing_streets() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let expected: String = "50.00".into();
 
@@ -405,16 +405,16 @@ fn test_update_additional_streets() {
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let expected: String = "1".into();
     update_additional_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
-    let mtime = file_system_arc.getmtime(&path1).unwrap();
+    let mtime = file_system_rc.getmtime(&path1).unwrap();
 
     update_additional_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
 
-    assert_eq!(file_system_arc.getmtime(&path1).unwrap(), mtime);
+    assert_eq!(file_system_rc.getmtime(&path1).unwrap(), mtime);
     let actual = context::tests::TestFileSystem::get_content(&count_file1);
     assert_eq!(actual, expected);
     // Make sure street stat is not created for the streets=no case.
@@ -619,8 +619,8 @@ fn test_update_osm_streets() {
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     update_osm_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
@@ -779,8 +779,8 @@ fn test_update_stats() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let now = ctx.get_time().now();
     let format = time::format_description::parse("[year]-[month]-[day]").unwrap();
@@ -1021,8 +1021,8 @@ fn test_our_main() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     our_main_inner(
@@ -1122,8 +1122,8 @@ fn test_our_main_stats() {
     let path = ctx.get_abspath("workdir/stats/2020-05-10.csv");
     mtimes.insert(path, Rc::new(RefCell::new(ctx.get_time().now())));
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     our_main_inner(
@@ -1159,8 +1159,8 @@ fn test_main() {
         ],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let argv = vec![
         "".to_string(),
         "--mode".to_string(),
@@ -1205,8 +1205,8 @@ fn test_main_error() {
     file_system
         .write_from_string("300", &ctx.get_abspath("workdir/stats/ref.count"))
         .unwrap();
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let argv = vec![
         "".to_string(),
         "--mode".to_string(),
@@ -1249,8 +1249,8 @@ fn test_update_stats_count() {
         ],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     update_stats_count(&ctx, "2020-05-10").unwrap();
 
@@ -1282,8 +1282,8 @@ fn test_update_stats_count_no_csv() {
     );
     file_system.set_files(&files);
     file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv")]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     update_stats_count(&ctx, "2020-05-10").unwrap();
 
@@ -1321,8 +1321,8 @@ fn test_update_stats_count_xml_as_csv() {
         ],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     update_stats_count(&ctx, "2020-05-10").unwrap();
 
@@ -1359,8 +1359,8 @@ fn test_update_stats_topusers() {
         ],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     update_stats_topusers(&ctx, "2020-05-10").unwrap();
 
@@ -1391,8 +1391,8 @@ fn test_update_stats_topusers_no_csv() {
     );
     file_system.set_files(&files);
     file_system.set_hide_paths(&[ctx.get_abspath("workdir/stats/2020-05-10.csv")]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     update_stats_topusers(&ctx, "2020-05-10").unwrap();
 
@@ -1417,7 +1417,7 @@ fn test_write_city_count_path() {
     let abspath = ctx.get_abspath(relpath);
     let files = context::tests::TestFileSystem::make_files(&ctx, &[(relpath, &file)]);
     file_system.set_files(&files);
-    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system);
     let city1: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
     let city2: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
@@ -1444,7 +1444,7 @@ fn test_write_zip_count_path() {
     let abspath = ctx.get_abspath(relpath);
     let files = context::tests::TestFileSystem::make_files(&ctx, &[(relpath, &file)]);
     file_system.set_files(&files);
-    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system);
     let zip1: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
     let zip2: HashSet<String> = ["mystreet 1".to_string(), "mystreet 2".to_string()].into();
@@ -1493,8 +1493,8 @@ fn test_update_ref_housenumbers_xml_as_csv() {
         ],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
     // When updating ref housenumbers:

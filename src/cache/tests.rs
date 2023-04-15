@@ -15,7 +15,6 @@ use context::FileSystem;
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
-use std::sync::Arc;
 
 /// Tests get_missing_housenumbers_json(): the cached case.
 ///
@@ -54,8 +53,8 @@ fn test_get_missing_housenumbers_json() {
         Rc::new(RefCell::new(time::OffsetDateTime::now_utc())),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let mut relation = relations.get_relation("gazdagret").unwrap();
 
@@ -101,8 +100,8 @@ fn test_get_additional_housenumbers_json() {
         Rc::new(RefCell::new(time::OffsetDateTime::now_utc())),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let mut relation = relations.get_relation("gazdagret").unwrap();
 
@@ -118,8 +117,8 @@ fn test_is_cache_current() {
     let mut file_system = context::tests::TestFileSystem::new();
     let cache_path = "workdir/gazdagret.json.cache";
     file_system.set_hide_paths(&[cache_path.to_string()]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let ret = is_cache_current(&ctx, cache_path, &[]).unwrap();
 

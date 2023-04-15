@@ -13,6 +13,7 @@
 use super::*;
 use std::io::Seek;
 use std::io::SeekFrom;
+use std::rc::Rc;
 use std::sync::Arc;
 
 /// Tests main().
@@ -58,8 +59,8 @@ fn test_main() {
         ],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let ret = main(&argv, &mut buf, &ctx);
 
@@ -107,8 +108,8 @@ fn test_main_error() {
         ],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let ret = main(&argv, &mut buf, &ctx);
 

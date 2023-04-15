@@ -12,6 +12,7 @@
 
 use super::*;
 use std::io::Write;
+use std::rc::Rc;
 use std::sync::Arc;
 
 use crate::context::FileSystem as _;
@@ -34,8 +35,8 @@ fn test_handle_progress() {
     file_system
         .write_from_string("300", &ctx.get_abspath("workdir/stats/ref.count"))
         .unwrap();
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
@@ -78,7 +79,7 @@ budapest_11	11
             &ctx.get_abspath("workdir/stats/2020-05-10.citycount"),
         )
         .unwrap();
-    let file_system: Arc<dyn context::FileSystem> = Arc::new(file_system);
+    let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system);
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
@@ -109,8 +110,8 @@ fn test_handle_progress_old_time() {
     file_system
         .write_from_string("42", &ctx.get_abspath("workdir/stats/ref.count"))
         .unwrap();
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
@@ -286,8 +287,8 @@ fn test_handle_monthly_new_incomplete_last_month() {
     let hide_path = ctx.get_abspath("workdir/stats/2020-05-10.count");
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     handle_monthly_new(&ctx, &src_root, &mut j, /*month_range=*/ 12).unwrap();
     let monthly = &j.as_object().unwrap()["monthly"].as_array().unwrap();

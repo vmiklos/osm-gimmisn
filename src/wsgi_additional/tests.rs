@@ -15,7 +15,6 @@ use std::collections::HashMap;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::rc::Rc;
-use std::sync::Arc;
 
 use crate::areas;
 use crate::context;
@@ -89,8 +88,8 @@ fn test_streets_view_result_txt_no_osm_streets() {
     let hide_path = relation.get_files().get_osm_streets_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.txt");
 
@@ -106,8 +105,8 @@ fn test_streets_view_result_txt_no_ref_streets() {
     let hide_path = relation.get_files().get_ref_streets_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let result = test_wsgi.get_txt_for_path("/additional-streets/gazdagret/view-result.txt");
 
@@ -179,8 +178,8 @@ fn test_handle_main_housenr_additional_count_no_count_file() {
         .get_housenumbers_additional_count_path();
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    ctx.set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    ctx.set_file_system(&file_system_rc);
 
     let actual = wsgi::handle_main_housenr_additional_count(&ctx, &relation).unwrap();
 
@@ -223,8 +222,8 @@ fn test_additional_housenumbers_well_formed() {
         Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
     );
     file_system.set_mtimes(&mtimes);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 
@@ -254,8 +253,8 @@ fn test_additional_housenumbers_no_osm_streets_well_formed() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 
@@ -285,8 +284,8 @@ fn test_additional_housenumbers_no_osm_housenumbers_well_formed() {
     );
     file_system.set_files(&files);
     file_system.set_hide_paths(&[hide_path]);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 
@@ -316,8 +315,8 @@ fn test_additional_housenumbers_no_ref_housenumbers_well_formed() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/additional-housenumbers/gazdagret/view-result");
 
@@ -421,8 +420,8 @@ fn test_streets_no_osm_streets_well_formed() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
 
@@ -452,8 +451,8 @@ fn test_streets_no_ref_streets_well_formed() {
         &[("data/yamls.cache", &yamls_cache_value)],
     );
     file_system.set_files(&files);
-    let file_system_arc: Arc<dyn context::FileSystem> = Arc::new(file_system);
-    test_wsgi.get_ctx().set_file_system(&file_system_arc);
+    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
+    test_wsgi.get_ctx().set_file_system(&file_system_rc);
 
     let root = test_wsgi.get_dom_for_path("/additional-streets/gazdagret/view-result");
 
