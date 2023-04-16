@@ -41,10 +41,10 @@ filters:
     # 8-10: még épül. 2022-12. RESURVEY 2023
     invalid: ['8', '10']
   Barabás Miklós utca:
-    # 9, 11: Alsó szakaszon lenne 11 az utolsó ház, de nincs kiírva semmi, most 9-re van állítva. RESURVEY kuka szerda
+    # 9, 11: Alsó szakaszon lenne 11 az utolsó ház, de nincs kiírva semmi, most 9-re van állítva. RESURVEY 2023-07 kuka szerda
     # 13-15: 15 van kiírva
     # 14-16: semmi sincs kiírva, terven 16 van
-    invalid: ['13', '14']
+    invalid: ['11', '13', '14']
   Bartók Béla út:
     # 2022-12. RESURVEY 2023
     # 59 helyén 57/b van kírva, a házon és a kukán is
@@ -314,6 +314,9 @@ filters:
   Őszapó utca:
     # 6-8: még épül, nincs kiírva semmi. 2022-12. RESURVEY 2023
     invalid: ['6', '8']
+  Paál László utca:
+    # 15: ugyanaz a telek mint a 13, kukán szerepelt a 13.
+    invalid: ['15']
   Pacsirta köz:
     # 20-22: csak 22 van kiírva
     invalid: ['20']
