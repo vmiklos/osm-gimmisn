@@ -150,7 +150,8 @@ filters:
     # 13,15: 1 db házszám van, értelmezhetetlen a 2. karakter, ezt 13-nak vettem fel
     invalid: ['15']
   Erdélyi utca:
-    invalid: ['9', '9b', '15', '17']
+    # 17 helyén 13/b van kiírva
+    invalid: ['17']
   Erdész utca:
     # 5: csomó bódé, 7-es van csak  kiírva a páratlan oldalon
     invalid: ['5']

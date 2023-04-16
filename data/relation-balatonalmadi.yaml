@@ -160,6 +160,9 @@ filters:
   Gesztenye utca:
     # 2: talán ez: w971150527, de nincs kiírva: 2021-10. RESURVEY 2022
     invalid: ['2']
+  Gólya utca:
+    # 7: Egzotikus kert alsó része
+    invalid: ['7']
   Győri utca:
     # 21-23: Vízmeder utca 22 címet használja
     invalid: ['21', '23']
