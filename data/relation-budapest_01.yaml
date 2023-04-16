@@ -199,6 +199,9 @@ filters:
     invalid: ['18', '18c', '20']
     ranges:
       - {start: '4', end: '24'}
+  Ostrom utca:
+    # 1-33, 2-18
+    invalid: ['24']
   Pálya utca:
     invalid: ['2']
     ranges:
