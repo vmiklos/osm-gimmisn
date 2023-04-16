@@ -207,6 +207,9 @@ filters:
   Galamb utca:
     # 18-20: csak 20 van kiírva
     invalid: ['18']
+  Gólya utca:
+    # 7: Egzotikus kert alsó része
+    invalid: ['7']
   Győri utca:
     # 21-23: Vízmeder utca 22 címet használja
     invalid: ['21', '23']
