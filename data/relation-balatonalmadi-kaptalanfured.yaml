@@ -12,7 +12,7 @@ filters:
     # 28: 24 van kiírva; 24 után nyeles telek szám nélkül és 32
     invalid: ['28']
     ranges:
-      - {start: '2', end: '98'}
+      - {start: '4', end: '98'}
     show-refstreet: false
   Szinyei Merse Pál utca:
     ranges:
