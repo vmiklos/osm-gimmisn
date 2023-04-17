@@ -16,7 +16,6 @@ use std::io::Seek;
 use std::io::SeekFrom;
 use std::io::Write as _;
 use std::rc::Rc;
-use std::sync::Arc;
 
 use crate::areas;
 use crate::context;
@@ -33,8 +32,8 @@ fn test_json_streets_update_result() {
         /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.get_ctx().set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.get_ctx().set_network(network_rc);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "myrelation": {
@@ -79,8 +78,8 @@ fn test_json_streets_update_result_error() {
         /*result_path=*/ "",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.get_ctx().set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.get_ctx().set_network(network_rc);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "myrelation": {
@@ -120,8 +119,8 @@ fn test_json_housenumbers_update_result() {
         /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.get_ctx().set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.get_ctx().set_network(network_rc);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -173,8 +172,8 @@ fn test_json_housenumbers_update_result_error() {
         /*result_path=*/ "",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.get_ctx().set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.get_ctx().set_network(network_rc);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
