@@ -13,7 +13,6 @@
 use super::*;
 use std::io::Write;
 use std::rc::Rc;
-use std::sync::Arc;
 
 use crate::context::FileSystem as _;
 
@@ -98,8 +97,8 @@ budapest_11	11
 fn test_handle_progress_old_time() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let time = make_test_time_old();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let time_rc: Rc<dyn context::Time> = Rc::new(time);
+    ctx.set_time(&time_rc);
     let ref_count = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -126,8 +125,8 @@ fn test_handle_progress_old_time() {
 fn test_handle_capital_progress_old_time() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let time = make_test_time_old();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let time_rc: Rc<dyn context::Time> = Rc::new(time);
+    ctx.set_time(&time_rc);
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_capital_progress(&ctx, &src_root, &mut j).unwrap();
@@ -152,8 +151,8 @@ fn test_handle_topusers() {
 fn test_handle_topusers_old_time() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let time = make_test_time_old();
-    let time_arc: Arc<dyn context::Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let time_rc: Rc<dyn context::Time> = Rc::new(time);
+    ctx.set_time(&time_rc);
     let src_root = ctx.get_abspath("workdir/stats");
     let mut j = serde_json::json!({});
     handle_topusers(&ctx, &src_root, &mut j).unwrap();
