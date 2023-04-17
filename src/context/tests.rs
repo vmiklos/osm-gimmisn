@@ -34,8 +34,8 @@ pub fn make_test_context() -> anyhow::Result<Context> {
     let subprocess_arc: Arc<dyn Subprocess> = Arc::new(subprocess);
     ctx.set_subprocess(&subprocess_arc);
     let database = TestDatabase {};
-    let database_arc: Arc<dyn Database> = Arc::new(database);
-    ctx.set_database(&database_arc);
+    let database_rc: Rc<dyn Database> = Rc::new(database);
+    ctx.set_database(&database_rc);
 
     Ok(ctx)
 }
