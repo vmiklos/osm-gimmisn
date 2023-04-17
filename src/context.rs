@@ -266,7 +266,7 @@ pub struct Context {
     subprocess: Arc<dyn Subprocess>,
     unit: Arc<dyn Unit>,
     file_system: Rc<dyn FileSystem>,
-    database: Arc<dyn Database>,
+    database: Rc<dyn Database>,
     connection: OnceCell<Rc<RefCell<rusqlite::Connection>>>,
 }
 
@@ -281,7 +281,7 @@ impl Context {
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
         let file_system: Rc<dyn FileSystem> = Rc::new(StdFileSystem {});
-        let database: Arc<dyn Database> = Arc::new(StdDatabase {});
+        let database: Rc<dyn Database> = Rc::new(StdDatabase {});
         let ini = Ini::new(&file_system, &format!("{root}/workdir/wsgi.ini"), &root)?;
         let connection = OnceCell::new();
         Ok(Context {
@@ -358,7 +358,7 @@ impl Context {
     }
 
     /// Sets the database implementation.
-    pub fn set_database(&mut self, database: &Arc<dyn Database>) {
+    pub fn set_database(&mut self, database: &Rc<dyn Database>) {
         self.database = database.clone();
     }
 
