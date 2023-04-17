@@ -13,7 +13,6 @@
 use super::*;
 use std::ops::DerefMut as _;
 use std::rc::Rc;
-use std::sync::Arc;
 
 /// Tests main().
 #[test]
@@ -31,8 +30,8 @@ fn test_main() {
         /*result_path=*/ "src/fixtures/network/sync-ref.html",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
     let wsgi_ini_template = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
@@ -108,8 +107,8 @@ reference_zipcounts = 'workdir/refs/irsz_count_20200717.tsv'
         /*result_path=*/ "src/fixtures/network/zipcount-new.tsv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
 
     let ret = main(&argv, &mut buf, &mut ctx);
 

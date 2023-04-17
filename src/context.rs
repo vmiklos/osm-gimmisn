@@ -261,7 +261,7 @@ impl Ini {
 pub struct Context {
     root: String,
     ini: Ini,
-    network: Arc<dyn Network>,
+    network: Rc<dyn Network>,
     time: Arc<dyn Time>,
     subprocess: Arc<dyn Subprocess>,
     unit: Arc<dyn Unit>,
@@ -276,7 +276,7 @@ impl Context {
         let current_dir = std::env::current_dir()?;
         let current_dir_str = current_dir.to_str().context("current_dir() failed")?;
         let root = format!("{current_dir_str}/{prefix}");
-        let network = Arc::new(StdNetwork {});
+        let network = Rc::new(StdNetwork {});
         let time = Arc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
@@ -308,12 +308,12 @@ impl Context {
     }
 
     /// Gets the network implementation.
-    pub fn get_network(&self) -> &Arc<dyn Network> {
+    pub fn get_network(&self) -> &Rc<dyn Network> {
         &self.network
     }
 
     /// Sets the network implementation.
-    pub fn set_network(&mut self, network: Arc<dyn Network>) {
+    pub fn set_network(&mut self, network: Rc<dyn Network>) {
         self.network = network;
     }
 

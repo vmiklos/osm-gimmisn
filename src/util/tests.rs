@@ -13,7 +13,7 @@
 use super::*;
 use std::io::Seek;
 use std::io::Write;
-use std::sync::Arc;
+use std::rc::Rc;
 
 /// Convers a string list into a street list.
 fn street_list(streets: &[&str]) -> Vec<Street> {
@@ -231,8 +231,8 @@ fn test_handle_overpass_error_no_sleep() {
         /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
     let doc = handle_overpass_error(&ctx, error);
     let expected = r#"<div id="overpass-error">Overpass error: HTTP Error 404: no such file</div>"#;
     assert_eq!(doc.get_value(), expected);
@@ -249,8 +249,8 @@ fn test_handle_overpass_error_need_sleep() {
         /*result_path=*/ "src/fixtures/network/overpass-status-wait.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
     let doc = handle_overpass_error(&ctx, error);
     let expected = r#"<div id="overpass-error">Overpass error: HTTP Error 404: no such file<br />Note: wait for 12 seconds</div>"#;
     assert_eq!(doc.get_value(), expected);

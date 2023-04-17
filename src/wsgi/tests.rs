@@ -242,8 +242,8 @@ fn test_handle_streets_update_result_well_formed() {
         /*result_path=*/ "src/fixtures/network/overpass-streets-gazdagret.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.ctx.set_network(network_rc);
     let streets_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
@@ -287,8 +287,8 @@ fn test_handle_streets_update_result_error_well_formed() {
         /*result_path=*/ "", // no result -> error
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.ctx.set_network(network_rc);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -329,8 +329,8 @@ fn test_handle_streets_update_result_missing_streets_well_formed() {
         /*result_path=*/ "src/fixtures/network/overpass-streets-ujbuda.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.ctx.set_network(network_rc);
     let streets_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
@@ -1086,8 +1086,8 @@ fn test_housenumbers_update_result_well_formed() {
         /*result_path=*/ "src/fixtures/network/overpass-housenumbers-gazdagret.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.ctx.set_network(network_rc);
     let streets_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
@@ -1134,8 +1134,8 @@ fn test_housenumbers_update_result_error_well_formed() {
         /*result_path=*/ "",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    test_wsgi.ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    test_wsgi.ctx.set_network(network_rc);
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {

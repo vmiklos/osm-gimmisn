@@ -11,7 +11,7 @@
 //! Tests for the overpass_query module.
 
 use super::*;
-use std::sync::Arc;
+use std::rc::Rc;
 
 /// Tests overpass_query_need_sleep().
 #[test]
@@ -23,8 +23,8 @@ fn test_overpass_query_need_sleep() {
         /*result_path=*/ "src/fixtures/network/overpass-status-happy.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
 
     assert_eq!(overpass_query_need_sleep(&ctx), 0);
 }
@@ -39,8 +39,8 @@ fn test_overpass_query_need_sleep_wait() {
         /*result_path=*/ "src/fixtures/network/overpass-status-wait.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
 
     assert_eq!(overpass_query_need_sleep(&ctx), 12);
 }
@@ -55,8 +55,8 @@ fn test_overpass_query_need_sleep_wait_negative() {
         /*result_path=*/ "src/fixtures/network/overpass-status-wait-negative.txt",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
 
     assert_eq!(overpass_query_need_sleep(&ctx), 1);
 }
@@ -71,8 +71,8 @@ fn test_overpass_query() {
         /*result_path=*/ "src/fixtures/network/overpass-happy.csv",
     )];
     let network = context::tests::TestNetwork::new(&routes);
-    let network_arc: Arc<dyn context::Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn context::Network> = Rc::new(network);
+    ctx.set_network(network_rc);
     let query = ctx
         .get_file_system()
         .read_to_string("src/fixtures/network/overpass-happy.overpassql")

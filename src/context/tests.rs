@@ -28,8 +28,8 @@ pub fn make_test_context() -> anyhow::Result<Context> {
     let time_arc: Arc<dyn Time> = Arc::new(time);
     ctx.set_time(&time_arc);
     let network = TestNetwork::new(&[]);
-    let network_arc: Arc<dyn Network> = Arc::new(network);
-    ctx.set_network(network_arc);
+    let network_rc: Rc<dyn Network> = Rc::new(network);
+    ctx.set_network(network_rc);
     let subprocess = TestSubprocess::new(&HashMap::new());
     let subprocess_arc: Arc<dyn Subprocess> = Arc::new(subprocess);
     ctx.set_subprocess(&subprocess_arc);
