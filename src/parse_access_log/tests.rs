@@ -15,7 +15,6 @@ use super::*;
 use std::io::Read;
 use std::io::Seek;
 use std::rc::Rc;
-use std::sync::Arc;
 
 use context::FileSystem as _;
 
@@ -126,8 +125,8 @@ author-time 1588975200\n\
         .to_string();
     let outputs: HashMap<_, _> = vec![(expected_args, expected_out)].into_iter().collect();
     let subprocess = context::tests::TestSubprocess::new(&outputs);
-    let subprocess_arc: Arc<dyn context::Subprocess> = Arc::new(subprocess);
-    ctx.set_subprocess(&subprocess_arc);
+    let subprocess_rc: Rc<dyn context::Subprocess> = Rc::new(subprocess);
+    ctx.set_subprocess(&subprocess_rc);
 
     let yamls_cache = serde_json::json!({
         "relations.yaml": {

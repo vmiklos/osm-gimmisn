@@ -263,7 +263,7 @@ pub struct Context {
     ini: Ini,
     network: Rc<dyn Network>,
     time: Rc<dyn Time>,
-    subprocess: Arc<dyn Subprocess>,
+    subprocess: Rc<dyn Subprocess>,
     unit: Arc<dyn Unit>,
     file_system: Rc<dyn FileSystem>,
     database: Rc<dyn Database>,
@@ -278,7 +278,7 @@ impl Context {
         let root = format!("{current_dir_str}/{prefix}");
         let network = Rc::new(StdNetwork {});
         let time = Rc::new(StdTime {});
-        let subprocess = Arc::new(StdSubprocess {});
+        let subprocess = Rc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
         let file_system: Rc<dyn FileSystem> = Rc::new(StdFileSystem {});
         let database: Rc<dyn Database> = Rc::new(StdDatabase {});
@@ -328,12 +328,12 @@ impl Context {
     }
 
     /// Gets the subprocess implementation.
-    pub fn get_subprocess(&self) -> &Arc<dyn Subprocess> {
+    pub fn get_subprocess(&self) -> &Rc<dyn Subprocess> {
         &self.subprocess
     }
 
     /// Sets the subprocess implementation.
-    pub fn set_subprocess(&mut self, subprocess: &Arc<dyn Subprocess>) {
+    pub fn set_subprocess(&mut self, subprocess: &Rc<dyn Subprocess>) {
         self.subprocess = subprocess.clone();
     }
 
