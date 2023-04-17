@@ -25,8 +25,8 @@ pub fn make_test_context() -> anyhow::Result<Context> {
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let time = TestTime::new(2020, 5, 10);
-    let time_arc: Arc<dyn Time> = Arc::new(time);
-    ctx.set_time(&time_arc);
+    let time_rc: Rc<dyn Time> = Rc::new(time);
+    ctx.set_time(&time_rc);
     let network = TestNetwork::new(&[]);
     let network_rc: Rc<dyn Network> = Rc::new(network);
     ctx.set_network(network_rc);

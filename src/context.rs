@@ -262,7 +262,7 @@ pub struct Context {
     root: String,
     ini: Ini,
     network: Rc<dyn Network>,
-    time: Arc<dyn Time>,
+    time: Rc<dyn Time>,
     subprocess: Arc<dyn Subprocess>,
     unit: Arc<dyn Unit>,
     file_system: Rc<dyn FileSystem>,
@@ -277,7 +277,7 @@ impl Context {
         let current_dir_str = current_dir.to_str().context("current_dir() failed")?;
         let root = format!("{current_dir_str}/{prefix}");
         let network = Rc::new(StdNetwork {});
-        let time = Arc::new(StdTime {});
+        let time = Rc::new(StdTime {});
         let subprocess = Arc::new(StdSubprocess {});
         let unit = Arc::new(StdUnit {});
         let file_system: Rc<dyn FileSystem> = Rc::new(StdFileSystem {});
@@ -318,12 +318,12 @@ impl Context {
     }
 
     /// Gets the time implementation.
-    pub fn get_time(&self) -> &Arc<dyn Time> {
+    pub fn get_time(&self) -> &Rc<dyn Time> {
         &self.time
     }
 
     /// Sets the time implementation.
-    pub fn set_time(&mut self, time: &Arc<dyn Time>) {
+    pub fn set_time(&mut self, time: &Rc<dyn Time>) {
         self.time = time.clone();
     }
 
