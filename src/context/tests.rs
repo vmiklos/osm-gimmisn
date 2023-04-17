@@ -31,8 +31,8 @@ pub fn make_test_context() -> anyhow::Result<Context> {
     let network_rc: Rc<dyn Network> = Rc::new(network);
     ctx.set_network(network_rc);
     let subprocess = TestSubprocess::new(&HashMap::new());
-    let subprocess_arc: Arc<dyn Subprocess> = Arc::new(subprocess);
-    ctx.set_subprocess(&subprocess_arc);
+    let subprocess_rc: Rc<dyn Subprocess> = Rc::new(subprocess);
+    ctx.set_subprocess(&subprocess_rc);
     let database = TestDatabase {};
     let database_rc: Rc<dyn Database> = Rc::new(database);
     ctx.set_database(&database_rc);

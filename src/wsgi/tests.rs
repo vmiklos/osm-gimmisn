@@ -1765,12 +1765,12 @@ fn test_webhooks_github() {
     let expected_args = format!("make -C {} deploy", test_wsgi.ctx.get_abspath(""));
     let outputs: HashMap<_, _> = vec![(expected_args, "".to_string())].into_iter().collect();
     let subprocess = context::tests::TestSubprocess::new(&outputs);
-    let subprocess_arc: Arc<dyn context::Subprocess> = Arc::new(subprocess);
-    test_wsgi.ctx.set_subprocess(&subprocess_arc);
+    let subprocess_rc: Rc<dyn context::Subprocess> = Rc::new(subprocess);
+    test_wsgi.ctx.set_subprocess(&subprocess_rc);
 
     test_wsgi.get_dom_for_path("/webhooks/github");
 
-    let subprocess = subprocess_arc
+    let subprocess = subprocess_rc
         .as_any()
         .downcast_ref::<context::tests::TestSubprocess>()
         .unwrap();
@@ -1784,8 +1784,8 @@ fn test_webhooks_github_branch() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let outputs: HashMap<String, String> = HashMap::new();
     let subprocess = context::tests::TestSubprocess::new(&outputs);
-    let subprocess_arc: Arc<dyn context::Subprocess> = Arc::new(subprocess);
-    ctx.set_subprocess(&subprocess_arc);
+    let subprocess_rc: Rc<dyn context::Subprocess> = Rc::new(subprocess);
+    ctx.set_subprocess(&subprocess_rc);
     let root = serde_json::json!({"ref": "refs/heads/stable"});
     let payload = serde_json::to_string(&root).unwrap();
     let query_string: String = url::form_urlencoded::Serializer::new(String::new())
@@ -1796,7 +1796,7 @@ fn test_webhooks_github_branch() {
 
     webframe::handle_github_webhook(&request, &ctx).unwrap();
 
-    let subprocess = subprocess_arc
+    let subprocess = subprocess_rc
         .as_any()
         .downcast_ref::<context::tests::TestSubprocess>()
         .unwrap();
