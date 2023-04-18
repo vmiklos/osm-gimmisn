@@ -13,7 +13,7 @@
 use super::*;
 use std::io::Read;
 use std::io::Seek;
-use std::sync::Arc;
+use std::rc::Rc;
 
 /// Tests main().
 #[test]
@@ -41,8 +41,8 @@ fn test_main_error() {
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());
     let mut ctx = context::tests::make_test_context().unwrap();
     let unit = context::tests::TestUnit::new();
-    let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
-    ctx.set_unit(&unit_arc);
+    let unit_rc: Rc<dyn context::Unit> = Rc::new(unit);
+    ctx.set_unit(&unit_rc);
 
     let ret = main(&argv, &mut buf, &mut ctx);
 

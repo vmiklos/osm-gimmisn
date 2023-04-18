@@ -1720,8 +1720,8 @@ fn test_main_filter_for_relations_empty() {
 fn test_application_error() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let unit = context::tests::TestUnit::new();
-    let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
-    ctx.set_unit(&unit_arc);
+    let unit_rc: Rc<dyn context::Unit> = Rc::new(unit);
+    ctx.set_unit(&unit_rc);
     let css = context::tests::TestFileSystem::make_file();
     {
         let mut guard = css.borrow_mut();

@@ -14,7 +14,6 @@ use super::*;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::rc::Rc;
-use std::sync::Arc;
 
 /// Tests main().
 #[test]
@@ -91,8 +90,8 @@ fn test_main() {
 fn test_main_error() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let unit = context::tests::TestUnit::new();
-    let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
-    ctx.set_unit(&unit_arc);
+    let unit_rc: Rc<dyn context::Unit> = Rc::new(unit);
+    ctx.set_unit(&unit_rc);
     let cache_path = ctx.get_abspath("data/yamls.cache");
     let argv = vec!["".to_string(), "data".to_string(), "workdir".to_string()];
     let mut buf: std::io::Cursor<Vec<u8>> = std::io::Cursor::new(Vec::new());

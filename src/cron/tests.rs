@@ -16,7 +16,6 @@ use std::cell::RefCell;
 use std::io::Seek;
 use std::io::SeekFrom;
 use std::rc::Rc;
-use std::sync::Arc;
 
 /// Tests overpass_sleep(): the case when no sleep is needed.
 #[test]
@@ -1189,8 +1188,8 @@ fn test_main() {
 fn test_main_error() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let unit = context::tests::TestUnit::new();
-    let unit_arc: Arc<dyn context::Unit> = Arc::new(unit);
-    ctx.set_unit(&unit_arc);
+    let unit_rc: Rc<dyn context::Unit> = Rc::new(unit);
+    ctx.set_unit(&unit_rc);
     let ref_count = context::tests::TestFileSystem::make_file();
     let stats_json = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(

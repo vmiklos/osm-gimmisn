@@ -18,7 +18,6 @@ use std::io::Read;
 use std::io::Write;
 use std::path::Path;
 use std::rc::Rc;
-use std::sync::Arc;
 use std::time::Duration;
 
 /// File system interface.
@@ -264,7 +263,7 @@ pub struct Context {
     network: Rc<dyn Network>,
     time: Rc<dyn Time>,
     subprocess: Rc<dyn Subprocess>,
-    unit: Arc<dyn Unit>,
+    unit: Rc<dyn Unit>,
     file_system: Rc<dyn FileSystem>,
     database: Rc<dyn Database>,
     connection: OnceCell<Rc<RefCell<rusqlite::Connection>>>,
@@ -279,7 +278,7 @@ impl Context {
         let network = Rc::new(StdNetwork {});
         let time = Rc::new(StdTime {});
         let subprocess = Rc::new(StdSubprocess {});
-        let unit = Arc::new(StdUnit {});
+        let unit = Rc::new(StdUnit {});
         let file_system: Rc<dyn FileSystem> = Rc::new(StdFileSystem {});
         let database: Rc<dyn Database> = Rc::new(StdDatabase {});
         let ini = Ini::new(&file_system, &format!("{root}/workdir/wsgi.ini"), &root)?;
@@ -338,12 +337,12 @@ impl Context {
     }
 
     /// Gets the testing interface.
-    pub fn get_unit(&self) -> &Arc<dyn Unit> {
+    pub fn get_unit(&self) -> &Rc<dyn Unit> {
         &self.unit
     }
 
     /// Sets the unit implementation.
-    pub fn set_unit(&mut self, unit: &Arc<dyn Unit>) {
+    pub fn set_unit(&mut self, unit: &Rc<dyn Unit>) {
         self.unit = unit.clone();
     }
 
