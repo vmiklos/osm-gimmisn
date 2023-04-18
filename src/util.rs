@@ -379,7 +379,7 @@ impl PartialOrd for HouseNumber {
 #[derive(serde::Deserialize)]
 pub struct CityCount {
     /// City name.
-    #[serde(rename = "VAROS")]
+    #[serde(rename = "CITY")]
     pub city: String,
     /// Reference count of all housenumbers.
     #[serde(rename = "CNT")]
@@ -390,7 +390,7 @@ pub struct CityCount {
 #[derive(serde::Deserialize)]
 pub struct ZipCount {
     /// Zip code.
-    #[serde(rename = "IRSZ")]
+    #[serde(rename = "ZIP")]
     pub city: String,
     /// Reference count of all housenumbers.
     #[serde(rename = "CNT")]
@@ -528,13 +528,13 @@ pub fn color_house_number(house_number: &HouseNumberRange) -> yattag::Doc {
 #[derive(serde::Deserialize)]
 pub struct RefStreet {
     /// County code.
-    #[serde(rename = "MEGYEKOD")]
+    #[serde(rename = "COUNTY_CODE")]
     pub county: String,
     /// Settlement code.
-    #[serde(rename = "TELEPULESKOD")]
+    #[serde(rename = "SETTLEMENT_CODE")]
     pub settlement: String,
     /// Street name.
-    #[serde(rename = "KOZTERULET")]
+    #[serde(rename = "STREET")]
     pub street: String,
 }
 
@@ -542,22 +542,19 @@ pub struct RefStreet {
 #[derive(serde::Deserialize)]
 pub struct RefHouseNumber {
     /// County code.
-    #[serde(rename = "MEGYEKOD")]
+    #[serde(rename = "COUNTY_CODE")]
     pub county: String,
     /// Settlement code.
-    #[serde(rename = "TELEPULESKOD")]
+    #[serde(rename = "SETTLEMENT_CODE")]
     pub settlement: String,
     /// Street name.
-    #[serde(rename = "KOZTERULET")]
+    #[serde(rename = "STREET")]
     pub street: String,
     /// House number.
-    #[serde(rename = "HAZSZAM")]
-    pub housenumber: Option<String>,
-    /// Alternative house number.
-    #[serde(rename = "UPPER(HAZSZAM)")]
-    pub alt_housenumber: Option<String>,
+    #[serde(rename = "HOUSENUMBER")]
+    pub housenumber: String,
     /// Comment.
-    #[serde(rename = "CIM")]
+    #[serde(rename = "COMMENT")]
     pub comment: Option<String>,
 }
 
@@ -596,7 +593,7 @@ pub fn build_reference_index(
                 let row: RefHouseNumber = result?;
                 tx.execute(
                         "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values (?1, ?2, ?3, ?4, ?5)",
-                        [row.county, row.settlement, row.street, row.alt_housenumber.unwrap(), row.comment.unwrap_or(" ".into())],
+                        [row.county, row.settlement, row.street, row.housenumber, row.comment.unwrap_or(" ".into())],
                     )?;
             }
             tx.commit()?;
@@ -614,7 +611,7 @@ pub fn build_reference_index(
                 let row: RefHouseNumber = result?;
                 tx.execute(
                           "insert into ref_housenumbers (county_code, settlement_code, street, housenumber, comment) values (?1, ?2, ?3, ?4, '')",
-                          [row.county, row.settlement, row.street, row.housenumber.unwrap()],
+                          [row.county, row.settlement, row.street, row.housenumber],
                       )?;
             }
             tx.commit()?;

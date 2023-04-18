@@ -2125,7 +2125,7 @@ fn test_relation_writer_ref_housenumbers() {
     ref_housenumbers2
         .borrow_mut()
         .write_all(
-            r#"MEGYEKOD	TELEPULESKOD	KOZTERULET	UPPER(HAZSZAM)	CIM
+            r#"COUNTY_CODE	SETTLEMENT_CODE	STREET	HOUSENUMBER	COMMENT
 01	011	Márton Áron tér	1	comment
 01	011	Márton Áron tér	2	
 "#

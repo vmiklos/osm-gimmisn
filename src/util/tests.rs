@@ -665,7 +665,7 @@ fn test_get_valid_settlements() {
     let citycounts = context::tests::TestFileSystem::make_file();
     citycounts
         .borrow_mut()
-        .write_all(b"VAROS\tCNT\nmycity1\t1\nmycity2\t2\n")
+        .write_all(b"CITY\tCNT\nmycity1\t1\nmycity2\t2\n")
         .unwrap();
     let files = context::tests::TestFileSystem::make_files(&ctx, &[(citycounts_path, &citycounts)]);
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -687,7 +687,7 @@ fn test_get_valid_settlements_error() {
     let citycounts = context::tests::TestFileSystem::make_file();
     citycounts
         .borrow_mut()
-        .write_all(b"VAROS\tCNT\nmycity1\t1\nmycity2\n")
+        .write_all(b"CITY\tCNT\nmycity1\t1\nmycity2\n")
         .unwrap();
     let files = context::tests::TestFileSystem::make_files(&ctx, &[(citycounts_path, &citycounts)]);
     let file_system = context::tests::TestFileSystem::from_files(&files);
