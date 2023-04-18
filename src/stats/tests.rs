@@ -64,13 +64,13 @@ fn test_handle_capital_progress() {
     file_system.set_files(&files);
     file_system
         .write_from_string(
-            "VAROS\tCNT\nbudapest_11\t100\nbudapest_12\t200\nmycity\t42\n",
+            "CITY\tCNT\nbudapest_11\t100\nbudapest_12\t200\nmycity\t42\n",
             &ctx.get_abspath("workdir/refs/varosok_count_20190717.tsv"),
         )
         .unwrap();
     file_system
         .write_from_string(
-            r#"VAROS	CNT
+            r#"CITY	CNT
 budapest_02	200
 budapest_11	11
 	42
@@ -188,11 +188,11 @@ fn test_handle_topusers_broken_input() {
 fn test_handle_topcities() {
     let mut ctx = context::tests::make_test_context().unwrap();
     let src_root = ctx.get_abspath("workdir/stats");
-    let today_citycount = b"VAROS\tCNT\n\
+    let today_citycount = b"CITY\tCNT\n\
 budapest_01\t100\n\
 budapest_02\t200\n
 budapest_03\t300\n";
-    let prevmonth_citycount = b"VAROS\tCNT\n\
+    let prevmonth_citycount = b"CITY\tCNT\n\
 budapest_01\t10\n\
 budapest_02\t10\n";
     let today_citycount_value = context::tests::TestFileSystem::make_file();
@@ -407,7 +407,7 @@ fn test_get_topcities_test_new_missing() {
     let mut ctx = context::tests::make_test_context().unwrap();
     // workdir/stats/2020-05-10.citycount is missing.
     let src_root = ctx.get_abspath("workdir/stats");
-    let prevmonth_citycount = b"VAROS\tCNT\n
+    let prevmonth_citycount = b"CITY\tCNT\n
 budapest_01\t10\n\
 budapest_02\t10\n";
     let prevmonth_citycount_value = context::tests::TestFileSystem::make_file();

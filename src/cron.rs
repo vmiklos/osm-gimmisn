@@ -293,7 +293,7 @@ fn write_city_count_path(
     let mut cities: Vec<_> = cities.iter().map(|(key, value)| (key, value)).collect();
     cities.sort_by_key(|(key, _value)| util::get_sort_key(key));
     cities.dedup();
-    guard.write_all("VAROS\tCNT\n".as_bytes())?;
+    guard.write_all("CITY\tCNT\n".as_bytes())?;
     // Locale-aware sort, by key.
     for (key, value) in cities {
         let line = format!("{}\t{}\n", key, value.len());
@@ -315,7 +315,7 @@ fn write_zip_count_path(
 
     zips.sort_by_key(|(key, _value)| key.to_string());
     zips.dedup();
-    guard.write_all("IRSZ\tCNT\n".as_bytes())?;
+    guard.write_all("ZIP\tCNT\n".as_bytes())?;
     for (key, value) in zips {
         let key = if key.is_empty() { "_Empty" } else { key };
         let line = format!("{}\t{}\n", key, value.len());

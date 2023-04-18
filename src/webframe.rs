@@ -617,7 +617,7 @@ Only cities with house numbers in OSM are considered."#,
 #[derive(serde::Deserialize)]
 struct ZipCount {
     /// Zip name.
-    #[serde(rename = "IRSZ")]
+    #[serde(rename = "ZIP")]
     pub zip: String,
     /// Reference count of all housenumbers.
     #[serde(rename = "CNT")]

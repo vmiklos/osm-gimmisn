@@ -1430,7 +1430,7 @@ fn test_write_city_count_path() {
     write_city_count_path(&ctx, &abspath, &cities).unwrap();
 
     let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
-    assert_eq!(content, "VAROS\tCNT\nmycity1\t2\nmycity2\t2\n");
+    assert_eq!(content, "CITY\tCNT\nmycity1\t2\nmycity2\t2\n");
 }
 
 /// Tests write_zip_count_path().
@@ -1455,7 +1455,7 @@ fn test_write_zip_count_path() {
     write_zip_count_path(&ctx, &abspath, &cities).unwrap();
 
     let content = ctx.get_file_system().read_to_string(&abspath).unwrap();
-    assert_eq!(content, "IRSZ\tCNT\nmyzip1\t2\nmyzip2\t2\n");
+    assert_eq!(content, "ZIP\tCNT\nmyzip1\t2\nmyzip2\t2\n");
 }
 
 /// Tests update_ref_housenumbers(): the case when we ask for CSV but get XML.
