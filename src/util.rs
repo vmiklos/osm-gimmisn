@@ -391,7 +391,7 @@ pub struct CityCount {
 pub struct ZipCount {
     /// Zip code.
     #[serde(rename = "ZIP")]
-    pub city: String,
+    pub zip: String,
     /// Reference count of all housenumbers.
     #[serde(rename = "CNT")]
     pub count: u64,
