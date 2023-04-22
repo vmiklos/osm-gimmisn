@@ -16,8 +16,6 @@ use std::io::Read;
 use std::io::Seek;
 use std::rc::Rc;
 
-use context::FileSystem as _;
-
 /// Tests check_top_edited_relations().
 #[test]
 fn test_check_top_edited_relations() {
@@ -79,7 +77,7 @@ fn test_is_complete_relation() {
     let ctx = context::tests::make_test_context().unwrap();
     let mut relations = areas::Relations::new(&ctx).unwrap();
     assert_eq!(
-        is_complete_relation(&ctx, &mut relations, "gazdagret").unwrap(),
+        is_complete_relation(&mut relations, "gazdagret").unwrap(),
         false
     );
 }
@@ -87,22 +85,17 @@ fn test_is_complete_relation() {
 /// Tests is_complete_relation_complete(), the complete case.
 #[test]
 fn test_is_complete_relation_complete() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let housenumbers_percent = context::tests::TestFileSystem::make_file();
-    let mut file_system = context::tests::TestFileSystem::new();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/gazdagret.percent", &housenumbers_percent)],
-    );
-    file_system.set_files(&files);
-    file_system
-        .write_from_string("100.00", &ctx.get_abspath("workdir/gazdagret.percent"))
-        .unwrap();
-    let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
-    ctx.set_file_system(&file_system_rc);
+    let ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
+            ["gazdagret", "100.00", ""],
+        ).unwrap();
+    }
     let mut relations = areas::Relations::new(&ctx).unwrap();
 
-    let ret = is_complete_relation(&ctx, &mut relations, "gazdagret").unwrap();
+    let ret = is_complete_relation(&mut relations, "gazdagret").unwrap();
 
     assert_eq!(ret, true);
 }

@@ -989,10 +989,7 @@ impl Relation {
         };
 
         // Write the bottom line to a file, so the index page show it fast.
-        self.ctx.get_file_system().write_from_string(
-            &format!("{percent:.2}"),
-            &self.file.get_housenumbers_percent_path(),
-        )?;
+        self.set_osm_housenumber_coverage(&format!("{percent:.2}"))?;
 
         Ok((
             missing_housenumbers.ongoing_streets.len(),
@@ -1128,6 +1125,49 @@ impl Relation {
     pub fn get_ctx(&mut self) -> &mut context::Context {
         &mut self.ctx
     }
+
+    pub fn has_osm_housenumber_coverage(&self) -> anyhow::Result<bool> {
+        let conn = self.ctx.get_database_connection()?;
+        let mut stmt = conn
+            .prepare("select coverage from osm_housenumber_coverages where relation_name = ?1")?;
+        let mut rows = stmt.query([&self.name])?;
+        let row = rows.next()?;
+        Ok(row.is_some())
+    }
+
+    pub fn set_osm_housenumber_coverage(&self, coverage: &str) -> anyhow::Result<()> {
+        let conn = self.ctx.get_database_connection()?;
+        conn.execute(
+            r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)
+                 on conflict(relation_name) do update set coverage = excluded.coverage, last_modified = excluded.last_modified"#,
+            [&self.name, coverage, &self.ctx.get_time().now().unix_timestamp_nanos().to_string()],
+        )?;
+        Ok(())
+    }
+
+    pub fn get_osm_housenumber_coverage(&self) -> anyhow::Result<String> {
+        let conn = self.ctx.get_database_connection()?;
+        let mut stmt = conn
+            .prepare("select coverage from osm_housenumber_coverages where relation_name = ?1")?;
+        let mut rows = stmt.query([&self.name])?;
+        let row = rows.next()?.context("no next row")?;
+        let percent: String = row.get(0)?;
+        Ok(percent)
+    }
+
+    pub fn get_osm_housenumber_coverage_mtime(&self) -> anyhow::Result<time::OffsetDateTime> {
+        let conn = self.ctx.get_database_connection()?;
+        let mut stmt = conn.prepare(
+            "select last_modified from osm_housenumber_coverages where relation_name = ?1",
+        )?;
+        let mut rows = stmt.query([&self.name])?;
+        let row = rows.next()?.context("no next row")?;
+        let last_modified: String = row.get(0)?;
+        let nanos: i128 = last_modified.parse()?;
+        let modified = time::OffsetDateTime::from_unix_timestamp_nanos(nanos)?;
+        let now = self.ctx.get_time().now();
+        Ok(modified.to_offset(now.offset()))
+    }
 }
 
 /// List of relations from data/relations.yaml.
@@ -1218,12 +1258,13 @@ impl Relations {
 
         let file_system = self.ctx.get_file_system();
         let files = relation.get_files();
+        let osm_housenumber_coverage_exists = relation.has_osm_housenumber_coverage().unwrap();
         if file_system.path_exists(&files.get_osm_streets_path())
             && file_system.path_exists(&files.get_osm_housenumbers_path())
             && file_system.path_exists(&files.get_ref_streets_path())
             && file_system.path_exists(&files.get_ref_housenumbers_path())
             && file_system.path_exists(&files.get_streets_percent_path())
-            && file_system.path_exists(&files.get_housenumbers_percent_path())
+            && osm_housenumber_coverage_exists
         {
             return false;
         }

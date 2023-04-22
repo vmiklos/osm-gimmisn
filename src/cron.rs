@@ -196,7 +196,6 @@ fn update_ref_streets(
 
 /// Update the relation's house number coverage stats.
 fn update_missing_housenumbers(
-    ctx: &context::Context,
     relations: &mut areas::Relations,
     update: bool,
 ) -> anyhow::Result<()> {
@@ -208,11 +207,7 @@ fn update_missing_housenumbers(
         let mut relation = relations
             .get_relation(&relation_name)
             .context("get_relation() failed")?;
-        if !update
-            && ctx
-                .get_file_system()
-                .path_exists(&relation.get_files().get_housenumbers_percent_path())
-        {
+        if !update && relation.has_osm_housenumber_coverage()? {
             continue;
         }
         let streets = relation.get_config().should_check_missing_streets();
@@ -522,7 +517,7 @@ fn our_main_inner(
         update_ref_streets(ctx, relations, update)?;
         update_ref_housenumbers(ctx, relations, update)?;
         update_missing_streets(ctx, relations, update)?;
-        update_missing_housenumbers(ctx, relations, update)?;
+        update_missing_housenumbers(relations, update)?;
         update_additional_streets(ctx, relations, update)?;
     }
 

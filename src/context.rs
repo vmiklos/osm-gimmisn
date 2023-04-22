@@ -95,6 +95,14 @@ pub trait Database {
                 on ref_streets (county_code, settlement_code)",
             [],
         )?;
+        conn.execute(
+            "create table if not exists osm_housenumber_coverages (
+                 relation_name text primary key not null,
+                 coverage text not null,
+                 last_modified text not null
+             )",
+            [],
+        )?;
         Ok(conn)
     }
 }
