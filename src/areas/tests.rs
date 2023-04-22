@@ -1828,7 +1828,6 @@ fn table_doc_to_string(table: &[Vec<yattag::Doc>]) -> Vec<Vec<String>> {
 #[test]
 fn test_relation_write_missing_housenumbers() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let percent_value = context::tests::TestFileSystem::make_file();
     let json_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
@@ -1853,7 +1852,6 @@ fn test_relation_write_missing_housenumbers() {
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
-            ("workdir/gazdagret.percent", &percent_value),
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/cache-gazdagret.json", &json_value),
         ],
@@ -1889,11 +1887,7 @@ fn test_relation_write_missing_housenumbers() {
             ["Hamzsabégi út", "1", "1"]
         ]
     );
-    let mut guard = percent_value.borrow_mut();
-    guard.seek(SeekFrom::Start(0)).unwrap();
-    let mut actual: Vec<u8> = Vec::new();
-    guard.read_to_end(&mut actual).unwrap();
-    assert_eq!(String::from_utf8(actual).unwrap(), "54.55");
+    assert_eq!(relation.get_osm_housenumber_coverage().unwrap(), "54.55");
 }
 
 /// Tests Relation::write_missing_housenumbers(): the case when percent can't be determined.
@@ -1934,14 +1928,10 @@ fn test_relation_write_missing_housenumbers_empty() {
 #[test]
 fn test_relation_write_missing_housenumbers_interpolation_all() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let percent_value = context::tests::TestFileSystem::make_file();
     let json_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/budafok.percent", &percent_value),
-            ("workdir/cache-budafok.json", &json_value),
-        ],
+        &[("workdir/cache-budafok.json", &json_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
@@ -1973,22 +1963,17 @@ fn test_relation_write_missing_housenumbers_interpolation_all() {
             ]
         ]
     );
-    let mut guard = percent_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    assert_eq!(relation.has_osm_housenumber_coverage().unwrap(), true);
 }
 
 /// Tests Relation::write_missing_housenumbers(): sorting is performed after range reduction.
 #[test]
 fn test_relation_write_missing_housenumbers_sorting() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let percent_value = context::tests::TestFileSystem::make_file();
     let json_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/gh414.percent", &percent_value),
-            ("workdir/cache-gh414.json", &json_value),
-        ],
+        &[("workdir/cache-gh414.json", &json_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
@@ -2018,8 +2003,7 @@ fn test_relation_write_missing_housenumbers_sorting() {
             ["A utca", "1", "2-10"]
         ]
     );
-    let mut guard = percent_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    assert_eq!(relation.has_osm_housenumber_coverage().unwrap(), true);
     let mut guard = json_value.borrow_mut();
     assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
 }
@@ -3011,7 +2995,6 @@ fn test_relations_is_new() {
     let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
     let percent_streets_value = context::tests::TestFileSystem::make_file();
-    let percent_housenumbers_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -3029,12 +3012,18 @@ fn test_relations_is_new() {
                 "workdir/street-housenumbers-reference-myrelation.lst",
                 &ref_housenumbers_value,
             ),
-            ("workdir/myrelation.percent", &percent_housenumbers_value),
             ("workdir/myrelation-streets.percent", &percent_streets_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
+            ["myrelation", "", ""],
+        ).unwrap();
+    }
     let mut relations = Relations::new(&ctx).unwrap();
     relations.activate_new();
 

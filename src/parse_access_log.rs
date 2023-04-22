@@ -22,22 +22,15 @@ use crate::stats;
 
 /// Does this relation have 100% house number coverage?
 fn is_complete_relation(
-    ctx: &context::Context,
     relations: &mut areas::Relations,
     relation_name: &str,
 ) -> anyhow::Result<bool> {
     let relation = relations.get_relation(relation_name)?;
-    if !ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_housenumbers_percent_path())
-    {
+    if !relation.has_osm_housenumber_coverage()? {
         return Ok(false);
     }
 
-    let percent = ctx
-        .get_file_system()
-        .read_to_string(&relation.get_files().get_housenumbers_percent_path())?;
-    Ok(percent == "100.00")
+    Ok(relation.get_osm_housenumber_coverage()? == "100.00")
 }
 
 /// Determine if 'line' has a user agent which looks like a search bot.
@@ -222,7 +215,7 @@ pub fn our_main(
         let relation = relations.get_relation(&relation_name)?;
         let actual = relation.get_config().is_active();
         let expected = frequent_relations.contains(&relation_name)
-            && !is_complete_relation(ctx, &mut relations, &relation_name)?;
+            && !is_complete_relation(&mut relations, &relation_name)?;
         if actual != expected {
             if actual {
                 if !is_relation_recently_added(ctx, &relation_create_dates, &relation_name) {

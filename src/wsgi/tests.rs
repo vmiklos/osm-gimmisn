@@ -463,10 +463,9 @@ fn test_missing_housenumbers_compat() {
 
     let root = test_wsgi.get_dom_for_path("/suspicious-streets/gazdagret/view-result");
 
-    {
-        let mut guard = streets_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-    }
+    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+    assert_eq!(relation.has_osm_housenumber_coverage().unwrap(), true);
     {
         let mut guard = jsoncache_value.borrow_mut();
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
@@ -2171,25 +2170,19 @@ fn test_handle_main_housenr_percent() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let percent_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret.percent", &percent_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    file_system
-        .write_from_string("4.2", &ctx.get_abspath("workdir/gazdagret.percent"))
-        .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret.percent"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
+            ["gazdagret", "4.2", "0"],
+        ).unwrap();
+    }
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
