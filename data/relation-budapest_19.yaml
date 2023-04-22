@@ -10,6 +10,18 @@ street-filters:
   # semmilyen forrásban sem találtam
   - Dr. Rákos Ferenc utca
   - Elmű utca
+osm-street-filters:
+  # nem igazi utcák
+  # park, sétány
+  - Bozsik József sétány
+  - Eperfa tér  # https://malnaesmogyoro.blog.hu/2010/04/29/wekerlei_tortenetek_eperfa_teret_avattunk
+  - Hársfavirág tér  # valószínű loc_name
+  # átlógó utcák / kerülethatár
+  - Hengersor utca
+  - Kártoló utca
+  - Lenkei utca
+  - Szentlőrinci út
+  - Vaslemez utca
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás, ref hibás
@@ -17,6 +29,7 @@ refstreets:
   # utcajegyzék = OSM, ref hibás
   'Bóné András utca': 'Bohné András utca'
   'Drágfy köz': 'Drágffy köz'
+  'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
   'Györffy István tér': 'Győrffy István tér'
   'Körös köz': 'Kőrös köz'
   'Petur utca': 'Petúr utca'
