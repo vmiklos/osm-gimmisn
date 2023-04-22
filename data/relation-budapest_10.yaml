@@ -20,6 +20,7 @@ refstreets:
   # utcajegyzék = OSM: ref hibás
   'Ceglédi út': 'Ceglédi utca'
   'Kis Sörgyár utca': 'Kissörgyár utca'
+  'Ferihegyi repülőtérre vezető út': 'Ferihegyi reptérre vezető út'
 osm-street-filters:
   # Nem valós utcák
   - Kincsem Park
