@@ -171,15 +171,13 @@ fn test_handle_main_housenr_additional_count() {
 #[test]
 fn test_handle_main_housenr_additional_count_no_count_file() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let mut relations = areas::Relations::new(&ctx).unwrap();
-    let relation = relations.get_relation("budafok").unwrap();
-    let hide_path = relation
-        .get_files()
-        .get_housenumbers_additional_count_path();
     let mut file_system = context::tests::TestFileSystem::new();
+    let hide_path = ctx.get_abspath("workdir/budafok-additional-housenumbers.count");
     file_system.set_hide_paths(&[hide_path]);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
+    let mut relations = areas::Relations::new(&ctx).unwrap();
+    let relation = relations.get_relation("budafok").unwrap();
 
     let actual = wsgi::handle_main_housenr_additional_count(&ctx, &relation).unwrap();
 

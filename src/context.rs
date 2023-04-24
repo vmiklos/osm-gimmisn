@@ -154,14 +154,14 @@ pub trait Unit {
 pub use system::StdUnit;
 
 /// The root of the workdir/wsgi.ini config file.
-#[derive(Clone, Default, serde::Deserialize)]
+#[derive(Default, serde::Deserialize)]
 pub struct IniConfig {
     /// The wsgi section in the config file.
     pub wsgi: WsgiConfig,
 }
 
 /// The wsgi section in the config file.
-#[derive(Clone, Default, serde::Deserialize)]
+#[derive(Default, serde::Deserialize)]
 pub struct WsgiConfig {
     /// Space-separated list of housenumber references.
     pub reference_housenumbers: String,
@@ -178,7 +178,6 @@ pub struct WsgiConfig {
 }
 
 /// Configuration file reader.
-#[derive(Clone)]
 pub struct Ini {
     config: IniConfig,
     root: String,
@@ -264,7 +263,6 @@ impl Ini {
 }
 
 /// Context owns global state which is set up once and then read everywhere.
-#[derive(Clone)]
 pub struct Context {
     root: String,
     ini: Ini,

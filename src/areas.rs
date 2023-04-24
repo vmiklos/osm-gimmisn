@@ -344,21 +344,21 @@ pub struct OsmStreet {
 
 /// A relation is a closed polygon on the map.
 #[derive(Clone)]
-pub struct Relation {
-    ctx: context::Context,
+pub struct Relation<'a> {
+    ctx: &'a context::Context,
     name: String,
     file: area_files::RelationFiles,
     config: RelationConfig,
     osm_housenumbers: HashMap<String, Vec<util::HouseNumber>>,
 }
 
-impl Relation {
+impl<'a> Relation<'a> {
     fn new(
-        ctx: &context::Context,
+        ctx: &'a context::Context,
         name: &str,
         parent_config: &RelationDict,
         yaml_cache: &HashMap<String, serde_json::Value>,
-    ) -> anyhow::Result<Self> {
+    ) -> anyhow::Result<Relation<'a>> {
         let mut my_config = RelationDict::default();
         let file = area_files::RelationFiles::new(&ctx.get_ini().get_workdir(), name);
         let relation_path = format!("relation-{name}.yaml");
@@ -373,7 +373,7 @@ impl Relation {
         // relation again and again for each street.
         let osm_housenumbers: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
         Ok(Relation {
-            ctx: ctx.clone(),
+            ctx,
             name: name.into(),
             file,
             config,
@@ -456,7 +456,7 @@ impl Relation {
     /// Reads list of streets for an area from OSM.
     fn get_osm_streets(&self, sorted_result: bool) -> anyhow::Result<Vec<util::Street>> {
         let mut ret: Vec<util::Street> = Vec::new();
-        let stream: Rc<RefCell<dyn Read>> = self.file.get_osm_streets_read_stream(&self.ctx)?;
+        let stream: Rc<RefCell<dyn Read>> = self.file.get_osm_streets_read_stream(self.ctx)?;
         let mut guard = stream.borrow_mut();
         let mut read = std::io::BufReader::new(guard.deref_mut());
         let mut csv_reader = util::make_csv_reader(&mut read);
@@ -475,7 +475,7 @@ impl Relation {
         let path = self.file.get_osm_housenumbers_path();
         if self.ctx.get_file_system().path_exists(&path) {
             let stream: Rc<RefCell<dyn Read>> =
-                self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
+                self.file.get_osm_housenumbers_read_stream(self.ctx)?;
             let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
             let mut csv_reader = util::make_csv_reader(&mut read);
@@ -507,7 +507,7 @@ impl Relation {
     /// Gets streets from reference.
     fn get_ref_streets(&self) -> anyhow::Result<Vec<String>> {
         let mut streets: Vec<String> = Vec::new();
-        let read: Rc<RefCell<dyn Read>> = self.file.get_ref_streets_read_stream(&self.ctx)?;
+        let read: Rc<RefCell<dyn Read>> = self.file.get_ref_streets_read_stream(self.ctx)?;
         let mut guard = read.borrow_mut();
         let stream = std::io::BufReader::new(guard.deref_mut());
         for line in stream.lines() {
@@ -529,7 +529,7 @@ impl Relation {
             let street_ranges = self.get_street_ranges()?;
             let mut house_numbers: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
             let stream: Rc<RefCell<dyn Read>> =
-                self.file.get_osm_housenumbers_read_stream(&self.ctx)?;
+                self.file.get_osm_housenumbers_read_stream(self.ctx)?;
             let mut guard = stream.borrow_mut();
             let mut read = guard.deref_mut();
             let mut csv_reader = util::make_csv_reader(&mut read);
@@ -575,7 +575,7 @@ impl Relation {
     /// from OSM.
     pub fn write_ref_streets(&self, reference: &str) -> anyhow::Result<()> {
         let mut conn = self.ctx.get_database_connection()?;
-        util::build_street_reference_index(&self.ctx, &mut conn, reference)?;
+        util::build_street_reference_index(self.ctx, &mut conn, reference)?;
 
         let mut lst: Vec<String> = Vec::new();
         let mut stmt = conn.prepare(
@@ -594,7 +594,7 @@ impl Relation {
         lst.dedup();
         let write = self
             .file
-            .get_ref_streets_write_stream(&self.ctx)
+            .get_ref_streets_write_stream(self.ctx)
             .context("get_ref_streets_write_stream() failed")?;
         let mut guard = write.borrow_mut();
         for line in lst {
@@ -616,7 +616,7 @@ impl Relation {
     /// used by get_ref_housenumbers().
     pub fn write_ref_housenumbers(&self, references: &[String]) -> anyhow::Result<()> {
         let mut conn = self.ctx.get_database_connection()?;
-        util::build_reference_index(&self.ctx, &mut conn, references)?;
+        util::build_reference_index(self.ctx, &mut conn, references)?;
 
         let streets: Vec<String> = self
             .get_osm_streets(/*sorted_results=*/ true)?
@@ -648,7 +648,7 @@ impl Relation {
         lst.dedup();
         let stream = self
             .file
-            .get_ref_housenumbers_write_stream(&self.ctx)
+            .get_ref_housenumbers_write_stream(self.ctx)
             .context("get_ref_housenumbers_write_stream() failed")?;
         let mut guard = stream.borrow_mut();
         let write = guard.deref_mut();
@@ -690,7 +690,7 @@ impl Relation {
     ) -> anyhow::Result<HashMap<String, Vec<util::HouseNumber>>> {
         let mut ret: HashMap<String, Vec<util::HouseNumber>> = HashMap::new();
         let mut lines: HashMap<String, Vec<String>> = HashMap::new();
-        let read: Rc<RefCell<dyn Read>> = self.file.get_ref_housenumbers_read_stream(&self.ctx)?;
+        let read: Rc<RefCell<dyn Read>> = self.file.get_ref_housenumbers_read_stream(self.ctx)?;
         let mut guard = read.borrow_mut();
         let stream = std::io::BufReader::new(guard.deref_mut());
         for line in stream.lines() {
@@ -1122,8 +1122,8 @@ impl Relation {
             .collect())
     }
 
-    pub fn get_ctx(&mut self) -> &mut context::Context {
-        &mut self.ctx
+    pub fn get_ctx(&self) -> &context::Context {
+        self.ctx
     }
 
     pub fn has_osm_housenumber_coverage(&self) -> anyhow::Result<bool> {
@@ -1178,7 +1178,7 @@ pub struct Relations<'a> {
     ctx: &'a context::Context,
     yaml_cache: HashMap<String, serde_json::Value>,
     dict: RelationsDict,
-    relations: HashMap<String, Relation>,
+    relations: HashMap<String, Relation<'a>>,
     activate_all: bool,
     activate_new: bool,
     refcounty_names: HashMap<String, String>,
@@ -1199,7 +1199,7 @@ impl<'a> Relations<'a> {
             dict =
                 serde_json::from_value(value.clone()).context("failed to parse relations.yaml")?;
         }
-        let relations: HashMap<String, Relation> = HashMap::new();
+        let relations: HashMap<String, Relation<'a>> = HashMap::new();
         let activate_all = false;
         let activate_new = false;
         let refcounty_names: HashMap<String, String> = match yaml_cache.get("refcounty-names.yaml")
@@ -1227,7 +1227,7 @@ impl<'a> Relations<'a> {
     }
 
     /// Gets the relation that has the specified name.
-    pub fn get_relation(&mut self, name: &str) -> anyhow::Result<Relation> {
+    pub fn get_relation(&mut self, name: &str) -> anyhow::Result<Relation<'a>> {
         if !self.relations.contains_key(name) {
             let relation = Relation::new(
                 self.ctx,
@@ -1251,7 +1251,7 @@ impl<'a> Relations<'a> {
         ret
     }
 
-    fn is_new(&self, relation: &Relation) -> bool {
+    fn is_new(&self, relation: &Relation<'a>) -> bool {
         if !self.activate_new {
             return false;
         }
@@ -1273,7 +1273,7 @@ impl<'a> Relations<'a> {
 
     /// Gets a sorted list of active relation names.
     pub fn get_active_names(&mut self) -> anyhow::Result<Vec<String>> {
-        let mut active_relations: Vec<Relation> = Vec::new();
+        let mut active_relations: Vec<Relation<'a>> = Vec::new();
         for relation in self.get_relations()? {
             if self.activate_all || relation.config.is_active() || self.is_new(&relation) {
                 active_relations.push(relation.clone())
@@ -1289,8 +1289,8 @@ impl<'a> Relations<'a> {
     }
 
     /// Gets a list of relations.
-    pub fn get_relations(&mut self) -> anyhow::Result<Vec<Relation>> {
-        let mut ret: Vec<Relation> = Vec::new();
+    pub fn get_relations(&mut self) -> anyhow::Result<Vec<Relation<'a>>> {
+        let mut ret: Vec<Relation<'a>> = Vec::new();
         for name in self.get_names() {
             ret.push(self.get_relation(&name)?)
         }
@@ -1444,7 +1444,7 @@ fn normalize_expand(
 /// Strips down string input to bare minimum that can be interpreted as an
 /// actual number. Think about a/b, a-b, and so on.
 fn normalize(
-    relation: &Relation,
+    relation: &Relation<'_>,
     house_numbers: &str,
     street_name: &str,
     street_is_even_odd: bool,
@@ -1515,7 +1515,7 @@ fn normalize_housenumber_letters(
 }
 
 /// Creates an overpass query that shows all streets from a missing housenumbers table.
-pub fn make_turbo_query_for_streets(relation: &Relation, streets: &[String]) -> String {
+pub fn make_turbo_query_for_streets(relation: &Relation<'_>, streets: &[String]) -> String {
     let header = r#"[out:json][timeout:425];
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;
@@ -1538,7 +1538,10 @@ way{color:blue; width:4;}
 }
 
 /// Creates an overpass query that shows all streets from a list.
-pub fn make_turbo_query_for_street_objs(relation: &Relation, streets: &[util::Street]) -> String {
+pub fn make_turbo_query_for_street_objs(
+    relation: &Relation<'_>,
+    streets: &[util::Street],
+) -> String {
     let header = r#"[out:json][timeout:425];
 rel(@RELATION@)->.searchRelation;
 area(@AREA@)->.searchArea;

@@ -37,7 +37,7 @@ fn is_cache_current(
 }
 
 /// Decides if we have an up to date json cache entry or not.
-fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation) -> anyhow::Result<bool> {
+fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation<'_>) -> anyhow::Result<bool> {
     let cache_path = relation.get_files().get_housenumbers_jsoncache_path();
     let datadir = relation.get_ctx().get_abspath("data");
     let relation_path = format!("{}/relation-{}.yaml", datadir, relation.get_name());
@@ -51,7 +51,7 @@ fn is_missing_housenumbers_json_cached(relation: &mut areas::Relation) -> anyhow
 }
 
 /// Gets the cached json of the missing housenumbers for a relation.
-pub fn get_missing_housenumbers_json(relation: &mut areas::Relation) -> anyhow::Result<String> {
+pub fn get_missing_housenumbers_json(relation: &mut areas::Relation<'_>) -> anyhow::Result<String> {
     let output: String;
     let jsoncache_path = relation.get_files().get_housenumbers_jsoncache_path();
     if is_missing_housenumbers_json_cached(relation)? {
@@ -73,7 +73,9 @@ pub fn get_missing_housenumbers_json(relation: &mut areas::Relation) -> anyhow::
 }
 
 /// Decides if we have an up to date additional json cache entry or not.
-fn is_additional_housenumbers_json_cached(relation: &mut areas::Relation) -> anyhow::Result<bool> {
+fn is_additional_housenumbers_json_cached(
+    relation: &mut areas::Relation<'_>,
+) -> anyhow::Result<bool> {
     let cache_path = relation
         .get_files()
         .get_additional_housenumbers_jsoncache_path();
@@ -89,7 +91,9 @@ fn is_additional_housenumbers_json_cached(relation: &mut areas::Relation) -> any
 }
 
 /// Gets the cached json of the additional housenumbers for a relation.
-pub fn get_additional_housenumbers_json(relation: &mut areas::Relation) -> anyhow::Result<String> {
+pub fn get_additional_housenumbers_json(
+    relation: &mut areas::Relation<'_>,
+) -> anyhow::Result<String> {
     let output: String;
     let jsoncache_path = relation
         .get_files()
