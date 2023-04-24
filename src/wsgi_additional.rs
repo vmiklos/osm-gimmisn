@@ -218,7 +218,7 @@ pub fn additional_streets_view_turbo(
 
 /// The actual HTML part of additional_housenumbers_view_result().
 fn additional_housenumbers_view_result_html(
-    relation: &mut areas::Relation,
+    relation: &mut areas::Relation<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     let (todo_street_count, todo_count, table) = relation.write_additional_housenumbers()?;

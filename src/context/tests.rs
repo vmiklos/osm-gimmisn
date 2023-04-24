@@ -36,8 +36,6 @@ pub fn make_test_context() -> anyhow::Result<Context> {
     let database = TestDatabase {};
     let database_rc: Rc<dyn Database> = Rc::new(database);
     ctx.set_database(&database_rc);
-    // Create the shared db before cloning the context, so we can assert the result.
-    ctx.get_database_connection().unwrap();
 
     Ok(ctx)
 }

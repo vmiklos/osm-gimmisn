@@ -35,7 +35,7 @@ fn get_last_modified(ctx: &context::Context, path: &str) -> anyhow::Result<Strin
 /// Gets the update date of streets for a relation.
 fn get_streets_last_modified(
     ctx: &context::Context,
-    relation: &areas::Relation,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<String> {
     get_last_modified(ctx, &relation.get_files().get_osm_streets_path())
 }
@@ -99,7 +99,7 @@ fn handle_streets(
 /// Gets the update date of house numbers for a relation.
 fn get_housenumbers_last_modified(
     ctx: &context::Context,
-    relation: &areas::Relation,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<String> {
     get_last_modified(ctx, &relation.get_files().get_osm_housenumbers_path())
 }
@@ -197,7 +197,7 @@ fn missing_housenumbers_view_turbo(
 /// The actual HTML part of missing_housenumbers_view_res().
 fn missing_housenumbers_view_res_html(
     ctx: &context::Context,
-    relation: &mut areas::Relation,
+    relation: &mut areas::Relation<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     let (todo_street_count, todo_count, done_count, percent, table) = relation
@@ -706,7 +706,7 @@ fn missing_streets_view_turbo(
 /// Gets the update date for missing/additional streets.
 fn relation_streets_get_last_modified(
     ctx: &context::Context,
-    relation: &areas::Relation,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<String> {
     let t_ref = util::get_mtime(ctx, &relation.get_files().get_ref_streets_path());
     let t_osm = util::get_mtime(ctx, &relation.get_files().get_osm_streets_path());
@@ -804,7 +804,7 @@ fn handle_additional_streets(
 /// Gets the update date for missing/additional housenumbers.
 fn relation_housenumbers_get_last_modified(
     ctx: &context::Context,
-    relation: &areas::Relation,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<String> {
     let t_ref = util::get_mtime(ctx, &relation.get_files().get_ref_housenumbers_path());
     let t_osm = util::get_mtime(ctx, &relation.get_files().get_osm_housenumbers_path());
@@ -850,7 +850,7 @@ fn handle_additional_housenumbers(
 /// Handles the house number percent part of the main page.
 fn handle_main_housenr_percent(
     ctx: &context::Context,
-    relation: &areas::Relation,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<(yattag::Doc, f64)> {
     let prefix = ctx.get_ini().get_uri_prefix();
     let url = format!(
@@ -890,7 +890,7 @@ fn handle_main_housenr_percent(
 /// Handles the street percent part of the main page.
 fn handle_main_street_percent(
     ctx: &context::Context,
-    relation: &areas::Relation,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<(yattag::Doc, f64)> {
     let prefix = ctx.get_ini().get_uri_prefix();
     let url = format!(
@@ -935,7 +935,7 @@ fn handle_main_street_percent(
 /// Handles the street additional count part of the main page.
 fn handle_main_street_additional_count(
     ctx: &context::Context,
-    relation: &areas::Relation,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let prefix = ctx.get_ini().get_uri_prefix();
     let url = format!(
@@ -993,7 +993,7 @@ fn get_housenr_additional_count(
 /// Handles the housenumber additional count part of the main page.
 pub fn handle_main_housenr_additional_count(
     ctx: &context::Context,
-    relation: &areas::Relation,
+    relation: &areas::Relation<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     if !relation.get_config().should_check_additional_housenumbers() {
         return Ok(yattag::Doc::new());
@@ -1030,16 +1030,16 @@ pub fn handle_main_housenr_additional_count(
 }
 
 /// Does not filter out anything.
-fn filter_for_everything(_complete: bool, _relation: &areas::Relation) -> bool {
+fn filter_for_everything(_complete: bool, _relation: &areas::Relation<'_>) -> bool {
     true
 }
 
 /// Filters out complete items.
-fn filter_for_incomplete(complete: bool, _relation: &areas::Relation) -> bool {
+fn filter_for_incomplete(complete: bool, _relation: &areas::Relation<'_>) -> bool {
     !complete
 }
 
-type RelationFilter = dyn Fn(bool, &areas::Relation) -> bool;
+type RelationFilter = dyn Fn(bool, &areas::Relation<'_>) -> bool;
 
 /// Creates a function that filters for a single refcounty.
 fn create_filter_for_refcounty(refcounty_filter: &str) -> Box<RelationFilter> {
