@@ -1174,8 +1174,8 @@ impl Relation {
 pub type RelationsDict = HashMap<String, RelationDict>;
 
 /// A relations object is a container of named relation objects.
-pub struct Relations {
-    ctx: context::Context,
+pub struct Relations<'a> {
+    ctx: &'a context::Context,
     yaml_cache: HashMap<String, serde_json::Value>,
     dict: RelationsDict,
     relations: HashMap<String, Relation>,
@@ -1185,8 +1185,8 @@ pub struct Relations {
     refsettlement_names: HashMap<String, HashMap<String, String>>,
 }
 
-impl Relations {
-    pub fn new(ctx: &context::Context) -> anyhow::Result<Self> {
+impl<'a> Relations<'a> {
+    pub fn new(ctx: &'a context::Context) -> anyhow::Result<Relations<'a>> {
         let yamls_cache_path = format!("{}/{}", ctx.get_abspath("data"), "yamls.cache");
         let mut yaml_cache: HashMap<String, serde_json::Value> = HashMap::new();
         if let Ok(stream) = ctx.get_file_system().open_read(&yamls_cache_path) {
@@ -1215,7 +1215,7 @@ impl Relations {
                 None => HashMap::new(),
             };
         Ok(Relations {
-            ctx: ctx.clone(),
+            ctx,
             yaml_cache,
             dict,
             relations,
@@ -1230,7 +1230,7 @@ impl Relations {
     pub fn get_relation(&mut self, name: &str) -> anyhow::Result<Relation> {
         if !self.relations.contains_key(name) {
             let relation = Relation::new(
-                &self.ctx,
+                self.ctx,
                 name,
                 self.dict
                     .entry(name.to_string())

@@ -21,7 +21,7 @@ use std::collections::HashMap;
 /// Expected request_uri: e.g. /osm/streets/ormezo/update-result.json.
 fn streets_update_result_json(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
@@ -45,7 +45,7 @@ fn streets_update_result_json(
 /// Expected request_uri: e.g. /osm/street-housenumbers/ormezo/update-result.json.
 fn street_housenumbers_update_result_json(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
@@ -67,7 +67,7 @@ fn street_housenumbers_update_result_json(
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.json.
 fn missing_housenumbers_update_result_json(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
@@ -83,7 +83,7 @@ fn missing_housenumbers_update_result_json(
 
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.json.
 fn missing_housenumbers_view_result_json(
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
@@ -95,7 +95,7 @@ fn missing_housenumbers_view_result_json(
 
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-result.json.
 fn additional_housenumbers_view_result_json(
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
@@ -108,7 +108,7 @@ fn additional_housenumbers_view_result_json(
 /// Expected request_uri: e.g. /osm/missing-streets/ormezo/update-result.json.
 fn missing_streets_update_result_json(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
@@ -125,7 +125,7 @@ fn missing_streets_update_result_json(
 /// Dispatches json requests based on their URIs.
 pub fn our_application_json(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<rouille::Response> {
     let mut headers: webframe::Headers = Vec::new();

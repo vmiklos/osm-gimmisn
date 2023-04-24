@@ -21,7 +21,7 @@ use anyhow::Context;
 /// Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-result.txt.
 pub fn additional_streets_view_txt(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
     chkl: bool,
 ) -> anyhow::Result<(String, String)> {
@@ -62,7 +62,7 @@ pub fn additional_streets_view_txt(
 /// Expected request_uri: e.g. /osm/additional-streets/budapest_11/view-result.
 pub fn additional_streets_view_result(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -166,7 +166,7 @@ pub fn additional_streets_view_result(
 /// Expected request_uri: e.g. /osm/additional-housenumbers/budapest_11/view-result.
 pub fn additional_housenumbers_view_result(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -199,7 +199,7 @@ pub fn additional_housenumbers_view_result(
 
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ormezo/view-turbo.
 pub fn additional_streets_view_turbo(
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
