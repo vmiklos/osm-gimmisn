@@ -22,7 +22,7 @@ use crate::stats;
 
 /// Does this relation have 100% house number coverage?
 fn is_complete_relation(
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     relation_name: &str,
 ) -> anyhow::Result<bool> {
     let relation = relations.get_relation(relation_name)?;

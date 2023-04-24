@@ -49,7 +49,7 @@ fn should_retry(retry: i32) -> bool {
 /// Update the OSM street list of all relations.
 fn update_osm_streets(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     update: bool,
 ) -> anyhow::Result<()> {
     let active_names = relations.get_active_names();
@@ -93,7 +93,7 @@ fn update_osm_streets(
 /// Update the OSM housenumber list of all relations.
 fn update_osm_housenumbers(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     update: bool,
 ) -> anyhow::Result<()> {
     for relation_name in relations.get_active_names()? {
@@ -136,7 +136,7 @@ fn update_osm_housenumbers(
 /// Update the reference housenumber list of all relations.
 fn update_ref_housenumbers(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     update: bool,
 ) -> anyhow::Result<()> {
     for relation_name in relations.get_active_names()? {
@@ -168,7 +168,7 @@ fn update_ref_housenumbers(
 /// Update the reference street list of all relations.
 fn update_ref_streets(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     update: bool,
 ) -> anyhow::Result<()> {
     for relation_name in relations.get_active_names()? {
@@ -196,7 +196,7 @@ fn update_ref_streets(
 
 /// Update the relation's house number coverage stats.
 fn update_missing_housenumbers(
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     update: bool,
 ) -> anyhow::Result<()> {
     info!("update_missing_housenumbers: start");
@@ -227,7 +227,7 @@ fn update_missing_housenumbers(
 /// Update the relation's street coverage stats.
 fn update_missing_streets(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     update: bool,
 ) -> anyhow::Result<()> {
     info!("update_missing_streets: start");
@@ -255,7 +255,7 @@ fn update_missing_streets(
 /// Update the relation's "additional streets" stats.
 fn update_additional_streets(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     update: bool,
 ) -> anyhow::Result<()> {
     info!("update_additional_streets: start");
@@ -503,7 +503,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
 /// Performs the actual nightly task.
 fn our_main_inner(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     mode: &String,
     update: bool,
     overpass: bool,

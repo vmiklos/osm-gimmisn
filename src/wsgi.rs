@@ -43,7 +43,7 @@ fn get_streets_last_modified(
 /// Expected request_uri: e.g. /osm/streets/ormezo/view-query.
 fn handle_streets(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -107,7 +107,7 @@ fn get_housenumbers_last_modified(
 /// Expected request_uri: e.g. /osm/street-housenumbers/ormezo/view-query.
 fn handle_street_housenumbers(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -173,7 +173,7 @@ fn handle_street_housenumbers(
 
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-turbo.
 fn missing_housenumbers_view_turbo(
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -279,7 +279,7 @@ fn missing_housenumbers_view_res_html(
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.
 fn missing_housenumbers_view_res(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -314,7 +314,7 @@ fn missing_housenumbers_view_res(
 /// Expected request_uri: e.g. /osm/missing-streets/budapest_11/view-result.
 fn missing_streets_view_result(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -407,7 +407,7 @@ fn missing_streets_view_result(
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.txt.
 fn missing_housenumbers_view_txt(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<String> {
     let mut tokens = request_uri.split('/');
@@ -475,7 +475,7 @@ fn missing_housenumbers_view_txt(
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-result.chkl.
 fn missing_housenumbers_view_chkl(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<(String, String)> {
     let mut tokens = request_uri.split('/');
@@ -544,7 +544,7 @@ fn missing_housenumbers_view_chkl(
 /// Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-result.txt.
 fn missing_streets_view_txt(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
     chkl: bool,
 ) -> anyhow::Result<(String, String)> {
@@ -583,7 +583,7 @@ fn missing_streets_view_txt(
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/update-result.
 fn missing_housenumbers_update(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     relation_name: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let references = ctx.get_ini().get_reference_housenumber_paths()?;
@@ -600,7 +600,7 @@ fn missing_housenumbers_update(
 /// Expected request_uri: e.g. /osm/missing-streets/ujbuda/update-result.
 fn missing_streets_update(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     relation_name: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let relation = relations.get_relation(relation_name)?;
@@ -614,7 +614,7 @@ fn missing_streets_update(
 /// Gets the update date for missing house numbers.
 fn ref_housenumbers_last_modified(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     name: &str,
 ) -> anyhow::Result<String> {
     let relation = relations.get_relation(name)?;
@@ -626,7 +626,7 @@ fn ref_housenumbers_last_modified(
 /// Expected request_uri: e.g. /osm/missing-housenumbers/ormezo/view-[result|query].
 fn handle_missing_housenumbers(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -680,7 +680,7 @@ fn handle_missing_housenumbers(
 
 /// Expected request_uri: e.g. /osm/missing-streets/ormezo/view-turbo.
 fn missing_streets_view_turbo(
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -716,7 +716,7 @@ fn relation_streets_get_last_modified(
 /// Expected request_uri: e.g. /osm/missing-streets/ujbuda/view-[result|query].
 fn handle_missing_streets(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -762,7 +762,7 @@ fn handle_missing_streets(
 /// Expected request_uri: e.g. /osm/additional-streets/ujbuda/view-[result|query].
 fn handle_additional_streets(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -814,7 +814,7 @@ fn relation_housenumbers_get_last_modified(
 /// Expected request_uri: e.g. /osm/additional-housenumbers/ujbuda/view-[result|query].
 fn handle_additional_housenumbers(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut tokens = request_uri.split('/');
@@ -1120,7 +1120,7 @@ fn setup_main_filter_for(request_uri: &str) -> anyhow::Result<(Box<RelationFilte
 /// refcounty is one item in the county list.
 fn handle_main_filters_refcounty(
     ctx: &context::Context,
-    relations: &areas::Relations,
+    relations: &areas::Relations<'_>,
     refcounty_id: &str,
     refcounty: &str,
 ) -> anyhow::Result<yattag::Doc> {
@@ -1173,7 +1173,7 @@ fn handle_main_filters_refcounty(
 /// Handlers the filter part of the main wsgi page.
 fn handle_main_filters(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     refcounty_id: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let mut items: Vec<yattag::Doc> = Vec::new();
@@ -1242,7 +1242,7 @@ fn handle_main_filters(
 /// Handles one relation (one table row) on the main page.
 fn handle_main_relation(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     filter_for: &RelationFilter,
     relation_name: &str,
 ) -> anyhow::Result<Vec<yattag::Doc>> {
@@ -1312,7 +1312,7 @@ fn handle_main_relation(
 fn handle_main(
     request_uri: &str,
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let (filter_for, refcounty) = setup_main_filter_for(request_uri)?;
 
@@ -1449,7 +1449,7 @@ fn write_html_head(ctx: &context::Context, doc: &yattag::Tag, title: &str) -> an
 /// Dispatches plain text requests based on their URIs.
 fn our_application_txt(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<rouille::Response> {
     let mut content_type = "text/plain; charset=utf-8";
@@ -1509,7 +1509,8 @@ fn our_application_txt(
     Ok(webframe::make_response(200_u16, headers, data))
 }
 
-type Handler = fn(&context::Context, &mut areas::Relations, &str) -> anyhow::Result<yattag::Doc>;
+type Handler =
+    fn(&context::Context, &mut areas::Relations<'_>, &str) -> anyhow::Result<yattag::Doc>;
 
 lazy_static! {
     static ref HANDLERS: HashMap<String, Handler> = {

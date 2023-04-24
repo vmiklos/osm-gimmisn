@@ -320,7 +320,7 @@ pub fn emit_l10n_strings_for_js(doc: &yattag::Doc, string_pairs: &[(&str, String
 /// content.
 pub fn get_toolbar(
     ctx: &context::Context,
-    relations: Option<&mut areas::Relations>,
+    relations: Option<&mut areas::Relations<'_>>,
     function: &str,
     relation_name: &str,
     relation_osmid: u64,
@@ -525,7 +525,7 @@ pub fn format_timestamp(timestamp: &time::OffsetDateTime) -> anyhow::Result<Stri
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress.
 fn handle_stats_cityprogress(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     doc.append_value(
@@ -616,7 +616,7 @@ Only cities with house numbers in OSM are considered."#,
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/zipprogress.
 fn handle_stats_zipprogress(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     doc.append_value(
@@ -708,7 +708,7 @@ Only zip codes with house numbers in OSM are considered."#,
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
 fn handle_invalid_refstreets(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
     doc.append_value(
@@ -764,7 +764,7 @@ fn handle_invalid_refstreets(
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/.
 pub fn handle_stats(
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     if request_uri.ends_with("/cityprogress") {
@@ -962,7 +962,7 @@ more meaningful than a lot of useless work."#,
 pub fn get_request_uri(
     request: &rouille::Request,
     ctx: &context::Context,
-    relations: &mut areas::Relations,
+    relations: &mut areas::Relations<'_>,
 ) -> anyhow::Result<String> {
     let mut request_uri = request.url();
 
@@ -1000,7 +1000,7 @@ pub fn get_request_uri(
 /// Prevents serving outdated data from a relation that has been renamed.
 pub fn check_existing_relation(
     ctx: &context::Context,
-    relations: &areas::Relations,
+    relations: &areas::Relations<'_>,
     request_uri: &str,
 ) -> anyhow::Result<yattag::Doc> {
     let doc = yattag::Doc::new();
