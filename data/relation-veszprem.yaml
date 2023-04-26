@@ -1,4 +1,9 @@
 missing-streets: 'yes'
+filters:
+  Kórház utca:
+    # páros oldal nincs, páratlanon az egyetlen házszám a kórház
+    ranges:
+      - {start: '1', end: '1'}
 refstreets:
   # kérdéses
   'Alsóújsor utca': 'Alsó-újsor'
