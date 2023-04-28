@@ -103,6 +103,14 @@ pub trait Database {
              )",
             [],
         )?;
+        conn.execute(
+            "create table if not exists osm_street_coverages (
+                 relation_name text primary key not null,
+                 coverage text not null,
+                 last_modified text not null
+             )",
+            [],
+        )?;
         Ok(conn)
     }
 }

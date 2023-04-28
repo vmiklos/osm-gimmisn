@@ -385,13 +385,11 @@ fn test_missing_housenumbers_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let percent_value = context::tests::TestFileSystem::make_file();
     let json_cache_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret.percent", &percent_value),
             ("workdir/cache-gazdagret.json", &json_cache_value),
         ],
     );
@@ -432,7 +430,6 @@ fn test_missing_housenumbers_no_such_relation() {
 fn test_missing_housenumbers_compat() {
     let mut test_wsgi = TestWsgi::new();
     let mut file_system = context::tests::TestFileSystem::new();
-    let streets_value = context::tests::TestFileSystem::make_file();
     let jsoncache_value = context::tests::TestFileSystem::make_file();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
@@ -446,7 +443,6 @@ fn test_missing_housenumbers_compat() {
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret.percent", &streets_value),
             ("workdir/cache-gazdagret.json", &jsoncache_value),
         ],
     );
@@ -492,13 +488,11 @@ fn test_missing_housenumbers_compat_relation() {
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
     let jsoncache_value = context::tests::TestFileSystem::make_file();
-    let percent_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
         &[
             ("data/yamls.cache", &yamls_cache_value),
             ("workdir/cache-budafok.json", &jsoncache_value),
-            ("workdir/budafok.percent", &percent_value),
         ],
     );
     let mut file_system = context::tests::TestFileSystem::new();
@@ -1213,21 +1207,18 @@ fn test_missing_streets_well_formed() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let streets_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret-streets.percent", &streets_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
 
     let root = test_wsgi.get_dom_for_path("/missing-streets/gazdagret/view-result");
 
-    let mut guard = streets_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+    assert_eq!(relation.has_osm_street_coverage().unwrap(), true);
     let mut results = TestWsgi::find_all(&root, "body/table");
     assert_eq!(results.len(), 1);
     // refstreets: >0 invalid osm name
@@ -1250,21 +1241,18 @@ fn test_missing_streets_well_formed_compat() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let streets_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &test_wsgi.ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret-streets.percent", &streets_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
 
     let root = test_wsgi.get_dom_for_path("/suspicious-relations/gazdagret/view-result");
 
-    let mut guard = streets_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    let mut relations = areas::Relations::new(&test_wsgi.ctx).unwrap();
+    let relation = relations.get_relation("gazdagret").unwrap();
+    assert_eq!(relation.has_osm_street_coverage().unwrap(), true);
     let results = TestWsgi::find_all(&root, "body/table");
     assert_eq!(results.len(), 1);
 }
@@ -2198,6 +2186,13 @@ fn test_handle_main_housenr_percent() {
 #[test]
 fn test_handle_main_street_percent() {
     let mut ctx = context::tests::make_test_context().unwrap();
+    {
+        let conn = ctx.get_database_connection().unwrap();
+        conn.execute(
+            r#"insert into osm_street_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
+            ["gazdagret", "80.00", "0"],
+        ).unwrap();
+    }
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
             "gazdagret": {
@@ -2206,28 +2201,12 @@ fn test_handle_main_street_percent() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let percent_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret-streets.percent", &percent_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    file_system
-        .write_from_string(
-            "80.0",
-            &ctx.get_abspath("workdir/gazdagret-streets.percent"),
-        )
-        .unwrap();
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    mtimes.insert(
-        ctx.get_abspath("workdir/gazdagret-streets.percent"),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();

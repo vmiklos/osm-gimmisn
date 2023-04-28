@@ -1894,14 +1894,10 @@ fn test_relation_write_missing_housenumbers() {
 #[test]
 fn test_relation_write_missing_housenumbers_empty() {
     let mut ctx = context::tests::make_test_context().unwrap();
-    let percent_value = context::tests::TestFileSystem::make_file();
     let json_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/empty.percent", &percent_value),
-            ("workdir/cache-empty.json", &json_value),
-        ],
+        &[("workdir/cache-empty.json", &json_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
@@ -2028,13 +2024,9 @@ fn test_write_missing_streets() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let percent_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("workdir/gazdagret-streets.percent", &percent_value),
-            ("data/yamls.cache", &yamls_cache_value),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
     ctx.set_file_system(&file_system);
@@ -2051,32 +2043,20 @@ fn test_write_missing_streets() {
     assert_eq!(done_count, 4);
     assert_eq!(format!("{percent:.2}"), "80.00");
     assert_eq!(streets, ["Only In Ref utca"]);
-    let mut guard = percent_value.borrow_mut();
-    guard.seek(SeekFrom::Start(0)).unwrap();
-    let mut actual: Vec<u8> = Vec::new();
-    guard.read_to_end(&mut actual).unwrap();
-    assert_eq!(String::from_utf8(actual).unwrap(), expected);
+    assert_eq!(relation.get_osm_street_coverage().unwrap(), expected);
 }
 
 /// Tests Relation::write_missing_streets(): the case when percent can't be determined.
 #[test]
 fn test_write_missing_streets_empty() {
-    let mut ctx = context::tests::make_test_context().unwrap();
-    let percent_value = context::tests::TestFileSystem::make_file();
-    let files = context::tests::TestFileSystem::make_files(
-        &ctx,
-        &[("workdir/empty-streets.percent", &percent_value)],
-    );
-    let file_system = context::tests::TestFileSystem::from_files(&files);
-    ctx.set_file_system(&file_system);
+    let ctx = context::tests::make_test_context().unwrap();
     let mut relations = Relations::new(&ctx).unwrap();
     let relation_name = "empty";
     let relation = relations.get_relation(relation_name).unwrap();
 
     let ret = relation.write_missing_streets().unwrap();
 
-    let mut guard = percent_value.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
+    assert_eq!(relation.has_osm_street_coverage().unwrap(), true);
     let (_todo_count, _done_count, percent, _streets) = ret;
     assert_eq!(format!("{percent:.2}"), "100.00");
 }
@@ -2994,7 +2974,6 @@ fn test_relations_is_new() {
     let ref_streets_value = context::tests::TestFileSystem::make_file();
     let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
-    let percent_streets_value = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
         &[
@@ -3012,7 +2991,6 @@ fn test_relations_is_new() {
                 "workdir/street-housenumbers-reference-myrelation.lst",
                 &ref_housenumbers_value,
             ),
-            ("workdir/myrelation-streets.percent", &percent_streets_value),
         ],
     );
     let file_system = context::tests::TestFileSystem::from_files(&files);
@@ -3021,6 +2999,10 @@ fn test_relations_is_new() {
         let conn = ctx.get_database_connection().unwrap();
         conn.execute(
             r#"insert into osm_housenumber_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
+            ["myrelation", "", ""],
+        ).unwrap();
+        conn.execute(
+            r#"insert into osm_street_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)"#,
             ["myrelation", "", ""],
         ).unwrap();
     }
