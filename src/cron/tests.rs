@@ -309,44 +309,32 @@ fn test_update_missing_streets() {
         },
     });
     let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
-    let count_file1 = context::tests::TestFileSystem::make_file();
-    let count_file2 = context::tests::TestFileSystem::make_file();
     let files = context::tests::TestFileSystem::make_files(
         &ctx,
-        &[
-            ("data/yamls.cache", &yamls_cache_value),
-            ("workdir/gazdagret-streets.percent", &count_file1),
-            ("workdir/gellerthegy-streets.percent", &count_file2),
-        ],
+        &[("data/yamls.cache", &yamls_cache_value)],
     );
     let mut file_system = context::tests::TestFileSystem::new();
     file_system.set_files(&files);
-    let mut mtimes: HashMap<String, Rc<RefCell<time::OffsetDateTime>>> = HashMap::new();
-    let path1 = ctx.get_abspath("workdir/gazdagret-streets.percent");
-    mtimes.insert(
-        path1.to_string(),
-        Rc::new(RefCell::new(time::OffsetDateTime::UNIX_EPOCH)),
-    );
-    file_system.set_mtimes(&mtimes);
     let file_system_rc: Rc<dyn FileSystem> = Rc::new(file_system);
     ctx.set_file_system(&file_system_rc);
     let mut relations = areas::Relations::new(&ctx).unwrap();
     let expected: String = "50.00".into();
+    let relation = relations.get_relation("gazdagret").unwrap();
 
-    update_missing_streets(&ctx, &mut relations, /*update=*/ true).unwrap();
+    update_missing_streets(&mut relations, /*update=*/ true).unwrap();
 
-    let expected_mtime = ctx.get_file_system().getmtime(&path1).unwrap();
+    let expected_mtime = relation.get_osm_street_coverage_mtime().unwrap();
     assert!(expected_mtime > time::OffsetDateTime::UNIX_EPOCH);
 
-    update_missing_streets(&ctx, &mut relations, /*update=*/ false).unwrap();
+    update_missing_streets(&mut relations, /*update=*/ false).unwrap();
 
-    let actual_mtime = ctx.get_file_system().getmtime(&path1).unwrap();
+    let actual_mtime = relation.get_osm_street_coverage_mtime().unwrap();
     assert_eq!(actual_mtime, expected_mtime);
-    let actual = context::tests::TestFileSystem::get_content(&count_file1);
+    let actual = relation.get_osm_street_coverage().unwrap();
     assert_eq!(actual, expected);
     // Make sure street stat is not created for the streets=no case.
-    let mut guard = count_file2.borrow_mut();
-    assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, false);
+    let relation2 = relations.get_relation("ujbuda").unwrap();
+    assert_eq!(relation2.has_osm_street_coverage().unwrap(), false);
 }
 
 /// Tests update_additional_streets().
@@ -958,7 +946,6 @@ fn test_our_main() {
     let osm_housenumbers_value = context::tests::TestFileSystem::make_file();
     let ref_streets_value = context::tests::TestFileSystem::make_file();
     let ref_housenumbers_value = context::tests::TestFileSystem::make_file();
-    let missing_streets_value = context::tests::TestFileSystem::make_file();
     let additional_streets_value = context::tests::TestFileSystem::make_file();
     let missing_housenumbers_json = context::tests::TestFileSystem::make_file();
     let template_value = context::tests::TestFileSystem::make_file();
@@ -988,7 +975,6 @@ fn test_our_main() {
                 "workdir/street-housenumbers-reference-gazdagret.lst",
                 &ref_housenumbers_value,
             ),
-            ("workdir/gazdagret-streets.percent", &missing_streets_value),
             (
                 "workdir/gazdagret-additional-streets.count",
                 &additional_streets_value,
@@ -1045,10 +1031,7 @@ fn test_our_main() {
         assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
     }
     // update_missing_streets() is called.
-    {
-        let mut guard = missing_streets_value.borrow_mut();
-        assert_eq!(guard.seek(SeekFrom::Current(0)).unwrap() > 0, true);
-    }
+    assert_eq!(relation.has_osm_street_coverage().unwrap(), true);
     // update_missing_housenumbers() is called.
     assert_eq!(relation.has_osm_housenumber_coverage().unwrap(), true);
     // update_additional_streets() is called.

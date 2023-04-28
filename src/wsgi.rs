@@ -899,19 +899,14 @@ fn handle_main_street_percent(
         relation.get_name()
     );
     let mut percent: Option<f64> = None;
-    if ctx
-        .get_file_system()
-        .path_exists(&relation.get_files().get_streets_percent_path())
-    {
-        let string = ctx
-            .get_file_system()
-            .read_to_string(&relation.get_files().get_streets_percent_path())?;
+    if relation.has_osm_street_coverage()? {
+        let string = relation.get_osm_street_coverage()?;
         percent = Some(string.parse::<f64>().context("parse to f64 failed")?);
     }
 
     let doc = yattag::Doc::new();
     if let Some(percent) = percent {
-        let date = get_last_modified(ctx, &relation.get_files().get_streets_percent_path())?;
+        let date = webframe::format_timestamp(&relation.get_osm_street_coverage_mtime()?)?;
         let strong = doc.tag("strong", &[]);
         let a = strong.tag(
             "a",

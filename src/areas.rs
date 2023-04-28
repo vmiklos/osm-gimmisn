@@ -871,10 +871,7 @@ impl<'a> Relation<'a> {
         };
 
         // Write the bottom line to a file, so the index page show it fast.
-        let string = format!("{percent:.2}");
-        self.ctx
-            .get_file_system()
-            .write_from_string(&string, &self.file.get_streets_percent_path())?;
+        self.set_osm_street_coverage(&format!("{percent:.2}"))?;
 
         Ok((todo_count, done_count, percent, streets))
     }
@@ -1168,6 +1165,48 @@ impl<'a> Relation<'a> {
         let now = self.ctx.get_time().now();
         Ok(modified.to_offset(now.offset()))
     }
+
+    pub fn has_osm_street_coverage(&self) -> anyhow::Result<bool> {
+        let conn = self.ctx.get_database_connection()?;
+        let mut stmt =
+            conn.prepare("select coverage from osm_street_coverages where relation_name = ?1")?;
+        let mut rows = stmt.query([&self.name])?;
+        let row = rows.next()?;
+        Ok(row.is_some())
+    }
+
+    pub fn set_osm_street_coverage(&self, coverage: &str) -> anyhow::Result<()> {
+        let conn = self.ctx.get_database_connection()?;
+        conn.execute(
+            r#"insert into osm_street_coverages (relation_name, coverage, last_modified) values (?1, ?2, ?3)
+                 on conflict(relation_name) do update set coverage = excluded.coverage, last_modified = excluded.last_modified"#,
+            [&self.name, coverage, &self.ctx.get_time().now().unix_timestamp_nanos().to_string()],
+        )?;
+        Ok(())
+    }
+
+    pub fn get_osm_street_coverage(&self) -> anyhow::Result<String> {
+        let conn = self.ctx.get_database_connection()?;
+        let mut stmt =
+            conn.prepare("select coverage from osm_street_coverages where relation_name = ?1")?;
+        let mut rows = stmt.query([&self.name])?;
+        let row = rows.next()?.context("no next row")?;
+        let percent: String = row.get(0)?;
+        Ok(percent)
+    }
+
+    pub fn get_osm_street_coverage_mtime(&self) -> anyhow::Result<time::OffsetDateTime> {
+        let conn = self.ctx.get_database_connection()?;
+        let mut stmt = conn
+            .prepare("select last_modified from osm_street_coverages where relation_name = ?1")?;
+        let mut rows = stmt.query([&self.name])?;
+        let row = rows.next()?.context("no next row")?;
+        let last_modified: String = row.get(0)?;
+        let nanos: i128 = last_modified.parse()?;
+        let modified = time::OffsetDateTime::from_unix_timestamp_nanos(nanos)?;
+        let now = self.ctx.get_time().now();
+        Ok(modified.to_offset(now.offset()))
+    }
 }
 
 /// List of relations from data/relations.yaml.
@@ -1259,11 +1298,12 @@ impl<'a> Relations<'a> {
         let file_system = self.ctx.get_file_system();
         let files = relation.get_files();
         let osm_housenumber_coverage_exists = relation.has_osm_housenumber_coverage().unwrap();
+        let osm_street_coverage_exists = relation.has_osm_street_coverage().unwrap();
         if file_system.path_exists(&files.get_osm_streets_path())
             && file_system.path_exists(&files.get_osm_housenumbers_path())
             && file_system.path_exists(&files.get_ref_streets_path())
             && file_system.path_exists(&files.get_ref_housenumbers_path())
-            && file_system.path_exists(&files.get_streets_percent_path())
+            && osm_street_coverage_exists
             && osm_housenumber_coverage_exists
         {
             return false;
