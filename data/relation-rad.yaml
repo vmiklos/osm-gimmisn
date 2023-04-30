@@ -1,5 +1,19 @@
 missing-streets: 'yes'
-filters: {}
+filters:
+  Kertész utca:
+    # 31: ez helyrajzi szám, nem házszám.
+    invalid: ['31']
+  Kossuth utca:
+    # 211: ez helyrajzi szám, nem házszám.
+    invalid: ['211']
+  Rákóczi út:
+    # 45/4: ez helyrajzi szám, nem házszám.
+    invalid: ['45/4']
+  Viola utca:
+    # 35/4: ez helyrajzi szám, nem házszám.
+    # 44/1: ez helyrajzi szám, nem házszám.
+    # 46/5: ez helyrajzi szám, nem házszám.
+    invalid: ['35/4', '44/1', '46/5']
 # osm-street-filters:
 street-filters:
   - Álomvölgy tanya  # tanyaként fent van https://www.openstreetmap.org/way/1009205806
@@ -12,4 +26,5 @@ refstreets:
   # 'Rákóczi utca': 'Rákóczi út' - táblán Rákóczi út
   # 'Váci utca': 'Váci út' - tábla nincs, házszám táblákon Váci út
 source: survey
+housenumber-letters: true
 inactive: false
