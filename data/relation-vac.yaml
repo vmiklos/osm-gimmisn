@@ -7,7 +7,6 @@ refstreets:
   'Bottyán utca': 'Bottyán János utca'
   'Csávolszky utca': 'Csávolszky József utca'
   'Damjanich tér': 'Damjanich János tér'
-  'Damjanich utca': 'Damjanich János utca'
   'Dombay utca': 'Dombay Sándor utca'
   'Eötvös utca': 'Eötvös József utca'
   'Eszterházy utca': 'Eszterházy Károly utca'
@@ -31,9 +30,7 @@ refstreets:
   # hibás
   'Makay utca': 'Makay Imre utca'
   'Mátyás utca': 'Mátyás király utca'
-  'Mező Imre utca': 'Mező utca'
   'Nagy Sándor József utca': 'Nagysándor József utca'
-  'Qwell Rudolf utca': 'Quell Rudolf utca'
   'Ulrich köz': 'Ulrich Károly köz'
   'Vörösmarty tér': 'Vörösmarty Mihály tér'
   'Wolkóber utca': 'Wolkóber János utca'
@@ -53,16 +50,17 @@ refstreets:
   'Ordítóárok utca': 'Ordító-árok utca'
   'Szederfa sor': 'Szederfasor'
   'Tó utca': 'Tó út'
-  'Törökhegyi utca': 'Törökhegyi út'  # táblák vegyesen?
   'Vizimalom utca': 'Vízimalom utca'
   # ellenőrzött
   'Báthori utca': 'Báthori Miklós utca'  # táblán Báthori utca (2019)
   'Bocskai utca': 'Bocskai István utca'  # táblán Bocskai utca (2019)
+  # 'Damjanich utca': 'Damjanich János utca'  # Az utca egyik végén csak vezetéknévvel, a másik végén teljes névvel van kitáblázva.
   'Fekete utca': 'Fekete út'  # táblán Fekete utca (2019)
   'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'  # táblán Karcsu Arzén utca (2019)
   'Kép utca': 'Kép János utca'  # táblán Kép utca (2019)
   'Kórház út': 'Kórház utca'  # táblán Kórház út (2019)
   'Krakkó köz': 'Krakó köz'  # táblán Krakkó köz (2019)
   'Külső Rádi út': 'Külső-Rádi út'  # táblán Külső Rádi út (2022)
+  'Törökhegyi utca': 'Törökhegyi út'  # A régi utcanévtáblán Törökhegyi út az egyik sarkon, az új utcanévtáblán Törökhegyi utca a másik sarkon, miközben a földhivatal szerint Török-hegyi utca.
 source: survey
 inactive: false
