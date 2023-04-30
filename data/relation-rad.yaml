@@ -9,6 +9,6 @@ refstreets:
   # 'Madách Imre utca': 'Madách utca' - táblán Madách utca
   # 'Petőfi Sándor utca': 'Petőfi út' - táblán Petőfi út
   # 'Rákóczi utca': 'Rákóczi út' - táblán Rákóczi út
-  # 'Váci utca': 'Váci út' - táblán Váci út
+  # 'Váci utca': 'Váci út' - tábla nincs, házászám táblákon Váci út
 source: survey
 inactive: false
