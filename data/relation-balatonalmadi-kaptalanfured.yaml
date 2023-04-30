@@ -1,5 +1,9 @@
 missing-streets: 'no'
 filters:
+  Balatonfüredi út:
+    # 17: talán a susnyában a Perem utca vége alatt - note
+    # 34: 32 után 36
+    invalid: ['17', '34']
   Ferenczy Károly utca:
     ranges:
       - {start: '9', end: '99'}
@@ -8,6 +12,13 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '66'}
+  Hóvirág utca:
+    # 27-29: csak 27 van kiírva
+    # 31-33: csak 31 van kiírva
+    # 44-46: van egy épület, de 44 nincs kiírva
+    # 63-65: csak 63 van kiírva
+    # 68: Halacs-Erdőalja utca részen?
+    invalid: ['29', '33', '44', '65']
   József Attila út:
     # csak az Ecoil a 2-16 és páratlan Almádi
     ranges:
@@ -15,7 +26,10 @@ filters:
   Panoráma sétány:
     # 19-20: csak 20 van kiírva
     invalid: ['19']
-  Sirály uta:
+  Posta utca:
+    # 2: nincs, Sirály apartmanház egy része, nincs külön címe
+    invalid: ['2']
+  Sirály utca:
     # strandok a páros oldal, páratlanon a Vasút van
     invalid: ['1']
   Szabadság-kilátó út:
