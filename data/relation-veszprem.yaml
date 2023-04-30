@@ -1,5 +1,10 @@
 missing-streets: 'yes'
 filters:
+  Bajcsy-Zsilinszky Endre utca:
+    # 26-nál véget ér a páros oldal, talán 28 még lehet
+    ranges:
+      - {start: '1', end: '99'}
+      - {start: '2', end: '28'}
   Kórház utca:
     # páros oldal nincs, páratlanon az egyetlen házszám a kórház
     ranges:
