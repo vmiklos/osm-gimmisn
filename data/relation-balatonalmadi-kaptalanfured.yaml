@@ -8,6 +8,12 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '66'}
+  Panoráma sétány:
+    # 19-20: csak 20 van kiírva
+    invalid: ['19']
+  Sirály uta:
+    # strandok a páros oldal, páratlanon a Vasút van
+    invalid: ['1']
   Szabadság-kilátó út:
     # 28: 24 van kiírva; 24 után nyeles telek szám nélkül és 32
     invalid: ['28']

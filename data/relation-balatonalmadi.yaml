@@ -324,6 +324,9 @@ filters:
     # 9: 7 van kiírva
     # 10: nincs
     invalid: ['9', '10']
+  Panoráma sétány:
+    # 19-20: csak 20 van kiírva
+    invalid: ['19']
   Park utca:
     # 16 = Baross Gábor út 45
     invalid: ['16']
@@ -355,6 +358,9 @@ filters:
   Seregély utca:
     # 9: 9 nincs, 7 az utolsó ami ki van írva
     invalid: ['9']
+  Sirály uta:
+    # strandok a páros oldal, páratlanon a Vasút van
+    invalid: ['1']
   Szabadság út:
     # 49-51: csak 49 van kiírva
     invalid: ['51']
