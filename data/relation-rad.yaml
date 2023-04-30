@@ -1,7 +1,8 @@
 missing-streets: 'yes'
 filters: {}
 # osm-street-filters:
-# street-filters:
+street-filters:
+  - Álomvölgy tanya  # tanyaként fent van https://www.openstreetmap.org/way/1009205806
 refstreets:
   'Csekei dűlő': 'Cseke dűlő'
   # 'Dózsa György út': 'Dózsa György utca' - táblán Dózsa György utca
