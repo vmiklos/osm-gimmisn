@@ -4,11 +4,11 @@ filters: {}
 # street-filters:
 refstreets:
   'Csekei dűlő': 'Cseke dűlő'
-  'Dózsa György út': 'Dózsa György utca'
-  'Kossuth Lajos utca': 'Kossuth utca'
-  'Madách Imre utca': 'Madách utca'
-  'Petőfi Sándor utca': 'Petőfi út'
-  'Rákóczi utca': 'Rákóczi út'
-  'Váci utca': 'Váci út'
+  # 'Dózsa György út': 'Dózsa György utca' - táblán Dózsa György utca
+  # 'Kossuth Lajos utca': 'Kossuth utca' - táblán Kossuth utca
+  # 'Madách Imre utca': 'Madách utca' - táblán Madách utca
+  # 'Petőfi Sándor utca': 'Petőfi út' - táblán Petőfi út
+  # 'Rákóczi utca': 'Rákóczi út' - táblán Rákóczi út
+  # 'Váci utca': 'Váci út' - táblán Váci út
 source: survey
 inactive: false
