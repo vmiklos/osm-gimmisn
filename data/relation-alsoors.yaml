@@ -2,28 +2,31 @@ missing-streets: 'yes'
 refstreets:
   # helyesírás
   'Búzavirág köz': 'Buzavirág köz'
-  # kérdéses
-  'Bihari János utca': 'Bihari utca'
-  'Feketerigó utca': 'Fekete rigó utca'
-  'Felsőmáli út': 'Felső-Máli út'
-  'Halacs-Erdőalja utca': 'Halacs-Erdőalja út'
-  'Hunyadi János utca': 'Hunyadi utca'
-  'Kinizsi Pál utca': 'Kinizsi utca'
-  'Kisloki utca': 'Kisloki út'
-  'Petőfi Sándor köz': 'Petőfi köz'
-  'Táncsics utca': 'Táncsics Mihály utca'
   'Vízöntő utca': 'Vizöntő utca'
+  # kérdéses
+  'Feketerigó utca': 'Fekete rigó utca'  # határozat: Fekete rigó utca
+  'Felsőmáli út': 'Felső-Máli út'  # határozat: Felsőmáli út
+  'Táncsics utca': 'Táncsics Mihály utca'
   # ellenőrzött, osm=utcatábla
   'Köcsitó utca': 'Köcsi tó utca'
+  'Halacs-Erdőalja utca': 'Halacs-Erdőalja út'  # táblán Halacs Erdőalja u.
+  'Kisloki utca': 'Kisloki út'
+  # 119/2018 (IX. 13) határozatban javítva teljes névre, utcatáblák ellenőrizendők
+  'Bihari János utca': 'Bihari utca'
+  'Hunyadi János utca': 'Hunyadi utca'
+  'Kinizsi Pál utca': 'Kinizsi utca'
+  'Petőfi Sándor köz': 'Petőfi köz'
 street-filters:
-  - Halacs dűlő  # már utcákra osztva
-  - Muskotályos utca  # hibás -> Muskotályos köz
+  - Halacs dűlő  # már utcákra osztva - 119/2018 (IX. 13) határozatban törölve
+  - Muskotályos utca  # hibás -> Muskotályos köz - 119/2018 (IX. 13) határozatban törölve
 osm-street-filters:
   # átlógó / területhatár
   - Alsóörsi határút
+  - Felsőörsi út
+  - Határ utca
   - Hóvirág utca  # Halacs-Hóvirág utcán vannak a hászámok
   - Perem utca
-  - Szabadság-kilátó út 
+  - Szabadság-kilátó út
   # nem igazi utcák
   # parkok
 source: survey
