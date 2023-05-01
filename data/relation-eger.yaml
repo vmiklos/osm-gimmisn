@@ -64,7 +64,6 @@ street-filters:
   # - Rizskása malom
 refstreets:
   # helyesírás
-  'Egri csillagok utca': 'Egri Csillagok utca'
   'Vízimolnár utca': 'Vizimolnár utca'
   # Ellenőrzött
   'Csákósor utca': 'Csákó sor utca'  # Az utcanévtábla szerint Csákósor utca
