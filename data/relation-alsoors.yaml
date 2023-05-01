@@ -13,11 +13,17 @@ refstreets:
   'Petőfi Sándor köz': 'Petőfi köz'
   'Táncsics utca': 'Táncsics Mihály utca'
   'Vízöntő utca': 'Vizöntő utca'
+  # ellenőrzött, osm=utcatábla
+  'Köcsitó utca': 'Köcsi tó utca'
 street-filters:
   - Halacs dűlő  # már utcákra osztva
   - Muskotályos utca  # hibás -> Muskotályos köz
 osm-street-filters:
+  # átlógó / területhatár
+  - Alsóörsi határút
   - Hóvirág utca  # Halacs-Hóvirág utcán vannak a hászámok
+  - Perem utca
+  - Szabadság-kilátó út 
   # nem igazi utcák
   # parkok
 source: survey
