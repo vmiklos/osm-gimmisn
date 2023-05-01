@@ -49,6 +49,8 @@ osm-street-filters:
   # XVI. kerület
   - Körvasút sor
   - Szolnoki út
+  # XV. kerület
+  - Rákospalotai körvasút sor
   # vegyes
   - építési forgalom
   - Iskola zug
