@@ -1,13 +1,21 @@
 missing-streets: 'yes'
 # osm-street-filters:
-# street-filters:
+street-filters:
+  # nem igazi utcák
+  - 165 őrház
+  - 171. 172. 173. őrházak
+  - 174. 176. őrházak
+  - Repülőtér
+  - Téglagyári barakképület
+  - Tőzeg-horgásztavak kültelek
+  - Vasutas sportpálya
+  - Vízműtelep
 refstreets:
   'Alagimajor út': 'Alagi majori út'
   'Baross utca': 'Baross Gábor utca'
-  'Csörsz-árok köz': 'Csörsz árok köz'
   'Dessewffy Arisztid park': 'Dessewffy Arisztid utca'
+  'Bayer Emil utca': 'Dr. Bayer Emil utca'
   'Ecsh Győző utca': 'Esch Győző utca'
-  'IV. Béla tér': 'IV. Béla király tér'
   'Jókai Mór utca': 'Jókai utca'
   'Hűtőház utca': 'Hűtőház munkásszálló'
   'Katonadomb sor': 'Katonadomb utca'
