@@ -1,6 +1,10 @@
 missing-streets: 'yes'
 # osm-street-filters:
-# street-filters:
+street-filters:
+  # tanyaként szerepel
+  - Szálender tanya  # https://www.openstreetmap.org/relation/13116364
+  # nem igazi utcák
+  - Vasútállomás
 refstreets:
   # rövidítés
   'Szent István utca': 'Szt. István utca'
@@ -20,7 +24,6 @@ refstreets:
   'Kék Duna utca': 'Kék-Duna utca'
   'Kerekerdő köz': 'Kerek erdő köz'
   'Kerekerdő utca': 'Kerek erdő utca'
-  # 'Kincsem utca': 'Kincsem park'
   'Latabár tér': 'Latabár Kálmán tér'
   'Mayerffy József köz': 'Mayerffy köz'
   'Mihácsi utca': 'Mihácsi György utca'
