@@ -1,0 +1,37 @@
+missing-streets: 'yes'
+# osm-street-filters:
+# street-filters:
+refstreets:
+  # rövidítés
+  'Szent István utca': 'Szt. István utca'
+  'Szent László utca': 'Szt. László utca'
+  # kérdéses
+  'Baitz József altárbornagy utca': 'Baitz József altábornagy utca'
+  'Berzsenyi utca': 'Berzsenyi Dániel utca'
+  'Bischoff házaspár utca': 'Bischof házaspár utca'
+  'Bozóky Gyula tér': 'Bozóki Gyula tér'
+  'Erzsébetliget köz': 'Erzsébet liget köz'
+  'Erzsébetliget utca': 'Erzsébet liget utca'
+  'I. körforgalmi utca': 'I. körforgalmi út'
+  'II. körforgalmi utca': 'II. körforgalmi út'
+  'III. körforgalmi utca': 'III. körforgalmi út'
+  'IV. körforgalmi utca': 'IV. körforgalmi út'
+  'V. körforgalmi utca': 'V. körforgalmi út'
+  'Kék Duna utca': 'Kék-Duna utca'
+  'Kerekerdő köz': 'Kerek erdő köz'
+  'Kerekerdő utca': 'Kerek erdő utca'
+  # 'Kincsem utca': 'Kincsem park'
+  'Latabár tér': 'Latabár Kálmán tér'
+  'Mayerffy József köz': 'Mayerffy köz'
+  'Mihácsi utca': 'Mihácsi György utca'
+  'Nagy László esperes tér': 'Nagy László tér'
+  'Nemeskéri köz': 'Nemeskéri-Kiss Miklós köz'
+  'Oltoványos utca': 'Ojtványos utca'
+  'Poeltenberg Ernő utca': 'Pöltenberg Ernő utca'
+  # 'Száhlender Béla dűlő': 'Szálender tanya'
+  'Táncsics utca': 'Táncsics Mihály utca'
+  'Termál fürdő körút': 'Termálfürdő út'
+  'Új élet utca': 'Újélet utca'
+source: survey
+housenumber-letters: false
+inactive: false

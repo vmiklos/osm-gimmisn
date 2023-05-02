@@ -653,10 +653,18 @@ dunaharaszti:
     osmrelation: 222340
     refcounty: "14"
     refsettlement: "033"
+dunakeszi:
+    osmrelation: 214932
+    refcounty: "14"
+    refsettlement: "034"
 erd:
     osmrelation: 112435
     refcounty: "14"
     refsettlement: "038"
+god:
+    osmrelation: 214933
+    refcounty: "14"
+    refsettlement: "046"
 godollo:
     osmrelation: 1392595
     refcounty: "14"
