@@ -1,0 +1,32 @@
+missing-streets: 'yes'
+# osm-street-filters:
+# street-filters:
+refstreets:
+  'Alagimajor út': 'Alagi majori út'
+  'Baross utca': 'Baross Gábor utca'
+  'Csörsz-árok köz': 'Csörsz árok köz'
+  'Dessewffy Arisztid park': 'Dessewffy Arisztid utca'
+  'Ecsh Győző utca': 'Esch Győző utca'
+  'IV. Béla tér': 'IV. Béla király tér'
+  'Jókai Mór utca': 'Jókai utca'
+  'Hűtőház utca': 'Hűtőház munkásszálló'
+  'Katonadomb sor': 'Katonadomb utca'
+  'Kikerics utca': 'Kikerics köz'
+  'Klapka György utca': 'Klapka utca'
+  'Klimsha Albert utca': 'Klimscha Albert utca'
+  'Kosztolányi utca': 'Kosztolányi Dezső utca'
+  'Kölcsey Ferenc utca': 'Kölcsey utca'
+  'Könyves Kálmán utca': 'Könyves Kálmán út'
+  'Mikszáth Kálmán utca': 'Mikszáth utca'
+  'Óceán-árok utca': 'Óceánárok utca'
+  'Repülőtéri út': 'Repülőtéri utca'
+  'Rév utca': 'Rév út'
+  'Szondi utca': 'Szondy utca'
+  'Teleki Pál utca': 'Teleky Pál utca'
+  'Tetétlen utca': 'Tetétlen dűlő'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  'Zerkovicz Béla utca': 'Zerkovitz Béla utca'
+  'Závodszy Géza utca': 'Závodszky Géza utca'
+source: survey
+housenumber-letters: false
+inactive: false
