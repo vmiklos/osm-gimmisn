@@ -1,5 +1,7 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
+  # átlógó utcák
+  - Bácska utca
 # street-filters:
 # refstreets:
 source: survey
