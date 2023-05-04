@@ -5,6 +5,7 @@ street-filters:
   - 165 őrház
   - 171. 172. 173. őrházak
   - 174. 176. őrházak
+  - Házgyár munkásszálló
   - Repülőtér
   - Téglagyári barakképület
   - Tőzeg-horgásztavak kültelek
@@ -13,6 +14,7 @@ street-filters:
 refstreets:
   'Alagimajor út': 'Alagi majori út'
   'Baross utca': 'Baross Gábor utca'
+  'Csörsz-árok köz': 'Csörsz árok köz'
   'Dessewffy Arisztid park': 'Dessewffy Arisztid utca'
   'Bayer Emil utca': 'Dr. Bayer Emil utca'
   'Ecsh Győző utca': 'Esch Győző utca'
