@@ -1,0 +1,7 @@
+missing-streets: 'yes'
+# osm-street-filters:
+# street-filters:
+# refstreets:
+source: survey
+housenumber-letters: false
+inactive: false
