@@ -9,6 +9,8 @@ street-filters:
   - Szálender tanya  # https://www.openstreetmap.org/relation/13116364
   # nem igazi utcák
   - Vasútállomás
+  # nincs nyoma hogy létezne
+  - Erzsébet liget körút
 refstreets:
   # rövidítés
   'Szent István utca': 'Szt. István utca'
