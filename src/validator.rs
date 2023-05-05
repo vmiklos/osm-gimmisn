@@ -89,22 +89,13 @@ fn validate_filter_invalid_valid(
     invalid: &[String],
 ) -> anyhow::Result<()> {
     for (index, invalid_data) in invalid.iter().enumerate() {
-        if regex::Regex::new(r"^[0-9]+$")
-            .unwrap()
-            .is_match(invalid_data)
-        {
+        if regex::Regex::new(r"^[0-9]+$")?.is_match(invalid_data) {
             continue;
         }
-        if regex::Regex::new(r"^[0-9]+[a-z]$")
-            .unwrap()
-            .is_match(invalid_data)
-        {
+        if regex::Regex::new(r"^[0-9]+[a-z]$")?.is_match(invalid_data) {
             continue;
         }
-        if regex::Regex::new(r"^[0-9]+/[0-9]$")
-            .unwrap()
-            .is_match(invalid_data)
-        {
+        if regex::Regex::new(r"^[0-9]+/[0-9]$")?.is_match(invalid_data) {
             continue;
         }
         errors.push(format!(
@@ -271,7 +262,9 @@ pub fn main(argv: &[String], stream: &mut dyn Write, ctx: &context::Context) -> 
     match our_main(argv, stream, ctx) {
         Ok(_) => 0,
         Err(err) => {
-            stream.write_all(format!("{err:?}\n").as_bytes()).unwrap();
+            stream
+                .write_all(format!("{err:?}\n").as_bytes())
+                .expect("write_all() failed");
             1
         }
     }
