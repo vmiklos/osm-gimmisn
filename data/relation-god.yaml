@@ -1,5 +1,9 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
+  # park
+  - Huzella Kert
+  # átlógó
+  - Kakukk utca
 street-filters:
   # tanyaként szerepel
   - Szálender tanya  # https://www.openstreetmap.org/relation/13116364
@@ -10,31 +14,16 @@ refstreets:
   'Szent István utca': 'Szt. István utca'
   'Szent László utca': 'Szt. László utca'
   # kérdéses
-  'Baitz József altárbornagy utca': 'Baitz József altábornagy utca'
-  'Berzsenyi utca': 'Berzsenyi Dániel utca'
-  'Bischoff házaspár utca': 'Bischof házaspár utca'
-  'Bozóky Gyula tér': 'Bozóki Gyula tér'
-  'Erzsébetliget köz': 'Erzsébet liget köz'
-  'Erzsébetliget utca': 'Erzsébet liget utca'
-  'I. körforgalmi utca': 'I. körforgalmi út'
-  'II. körforgalmi utca': 'II. körforgalmi út'
-  'III. körforgalmi utca': 'III. körforgalmi út'
-  'IV. körforgalmi utca': 'IV. körforgalmi út'
-  'V. körforgalmi utca': 'V. körforgalmi út'
-  'Kék Duna utca': 'Kék-Duna utca'
+  'Bischoff házaspár utca': 'Bischof házaspár utca'  # tábla Bischoff házaspár utca (2014)
+  'Bozóky Gyula tér': 'Bozóki Gyula tér'  # tábla Bozóky Gyula tér (2014)
+  'Kék Duna utca': 'Kék-Duna utca' # tábla Kék Duna utca (2014)
   'Kerekerdő köz': 'Kerek erdő köz'
-  'Kerekerdő utca': 'Kerek erdő utca'
+  'Kerekerdő utca': 'Kerek erdő utca'  # tábla Kerekerdő utca (2014)
   'Latabár tér': 'Latabár Kálmán tér'
-  'Mayerffy József köz': 'Mayerffy köz'
-  'Mihácsi utca': 'Mihácsi György utca'
   'Nagy László esperes tér': 'Nagy László tér'
-  'Nemeskéri köz': 'Nemeskéri-Kiss Miklós köz'
-  'Oltoványos utca': 'Ojtványos utca'
-  'Poeltenberg Ernő utca': 'Pöltenberg Ernő utca'
+  'Nemeskéri köz': 'Nemeskéri-Kiss Miklós köz'  # tábla Új élet utca (2022)
   # 'Száhlender Béla dűlő': 'Szálender tanya'
-  'Táncsics utca': 'Táncsics Mihály utca'
-  'Termál fürdő körút': 'Termálfürdő út'
-  'Új élet utca': 'Újélet utca'
+  'Új élet utca': 'Újélet utca'  # tábla Új élet utca (2014)
 source: survey
 housenumber-letters: false
 inactive: false
