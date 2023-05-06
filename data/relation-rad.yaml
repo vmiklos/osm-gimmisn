@@ -1,11 +1,28 @@
 missing-streets: 'yes'
 filters:
+  Bocskai utca:
+    # 30: a páros oldalon a 18 az utolsó házszám.
+    invalid: ['30']
+  Csekei dűlő:
+    # 130: ez helyrajzi szám, nem házszám.
+    # 161/2: ez helyrajzi szám, nem házszám.
+    # 168: ez helyrajzi szám, nem házszám.
+    # 169/2: ez helyrajzi szám, nem házszám.
+    # 170: ez helyrajzi szám, nem házszám.
+    # 170/9: ez helyrajzi szám, nem házszám.
+    # 185: ez helyrajzi szám, nem házszám.
+    # 185/1: ez helyrajzi szám, nem házszám.
+    invalid: ['130', '161/2', '168', '169/2', '170', '170/9', '185', '185/1']
   Kertész utca:
     # 31: ez helyrajzi szám, nem házszám.
-    invalid: ['31']
+    # 31/2: ez helyrajzi szám, nem házszám.
+    invalid: ['31', '31/2']
   Kossuth utca:
     # 211: ez helyrajzi szám, nem házszám.
     invalid: ['211']
+  Nefelejcs utca:
+    # 24: a páros oldalon a 22 az utolsó házszám.
+    invalid: ['24']
   Rákóczi út:
     # 45/4: ez helyrajzi szám, nem házszám.
     invalid: ['45/4']
