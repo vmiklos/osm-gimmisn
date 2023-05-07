@@ -20,6 +20,9 @@ filters:
   Kossuth utca:
     # 211: ez helyrajzi szám, nem házszám.
     invalid: ['211']
+  Liget utca:
+    # 14/2: ez helyrajzi szám, nem házszám.
+    invalid: ['14/2']
   Nefelejcs utca:
     # 24: a páros oldalon a 22 az utolsó házszám.
     invalid: ['24']
