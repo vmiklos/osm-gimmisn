@@ -1,5 +1,9 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
+  # átlógó
+  - Dunakeszi utca
+  - Hajcsár út
+  - Hortenzia utca
 street-filters:
   # nem igazi utcák
   - 165 őrház
@@ -7,10 +11,13 @@ street-filters:
   - 174. 176. őrházak
   - Házgyár munkásszálló
   - Repülőtér
+  - Réti pálya
   - Téglagyári barakképület
   - Tőzeg-horgásztavak kültelek
   - Vasutas sportpálya
   - Vízműtelep
+  # nincs
+  - Tűzoltó utca
 refstreets:
   'Alagimajor út': 'Alagi majori út'
   'Baross utca': 'Baross Gábor utca'
