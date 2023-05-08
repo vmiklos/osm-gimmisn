@@ -142,6 +142,9 @@ pub fn our_main(
         };
         let tokens: Vec<&str> = href.split('_').collect();
         let file: String = tokens[0..tokens.len() - 1].join("_");
+        if file.is_empty() {
+            continue;
+        }
         let href_date: u64 = tokens[tokens.len() - 1].parse()?;
         files
             .entry(file)
