@@ -4,6 +4,14 @@ osm-street-filters:
   - Dunakeszi utca
   - Hajcsár út
   - Hortenzia utca
+  - Székesdűlő sor
+  - Váci út
+  # park/sétány
+  - Lányi Ferenc park
+  - Március 15-e park
+  - Révész István sétány
+  - Szent István park
+  - Trianon tér
 street-filters:
   # nem igazi utcák
   - 165 őrház
