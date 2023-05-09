@@ -277,9 +277,8 @@ def update_stats_topusers(ctx: context.Context, today: str) -> None:
         for line_bytes in stream.readlines():
             line = util.from_bytes(line_bytes)
             # Only care about the user column.
-            # user = line[line.rfind("\t"):].strip()
             cells = line.split("\t")
-            user=cells[4]            
+            user = cells[4]
             if user in users:
                 users[user] += 1
             else:
