@@ -427,3 +427,40 @@ budapest_02\t10\n";
     let ret = get_topcities(&ctx, &src_root).unwrap();
     assert_eq!(ret.is_empty(), true);
 }
+
+/// Tests update_invalid_addr_cities().
+#[test]
+fn test_update_invalid_addr_cities() {
+    let mut ctx = context::tests::make_test_context().unwrap();
+    let state_dir = ctx.get_abspath("workdir/stats");
+    let today_csv = context::tests::TestFileSystem::make_file();
+    today_csv
+        .borrow_mut()
+        .write_all(
+            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type
+7677	mycity	mystreet	1	myuser	42	way
+7677	budapest_11	mystreet	1	myuser	43	node
+"#
+            .as_bytes(),
+        )
+        .unwrap();
+    let files = context::tests::TestFileSystem::make_files(
+        &ctx,
+        &[("workdir/stats/2020-05-10.csv", &today_csv)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    ctx.set_file_system(&file_system);
+
+    update_invalid_addr_cities(&ctx, &state_dir).unwrap();
+
+    let conn = ctx.get_database_connection().unwrap();
+    let mut stmt = conn
+        .prepare("select count(*) from stats_invalid_addr_cities")
+        .unwrap();
+    let mut rows = stmt.query([]).unwrap();
+    while let Some(row) = rows.next().unwrap() {
+        let count: i64 = row.get(0).unwrap();
+        // mycity not listed in tests/workdir/refs/varosok_count_20190717.tsv as valid.
+        assert_eq!(count, 1);
+    }
+}

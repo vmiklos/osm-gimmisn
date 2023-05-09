@@ -471,6 +471,7 @@ fn update_stats(ctx: &context::Context, overpass: bool) -> anyhow::Result<()> {
     update_stats_topusers(ctx, &today)?;
     info!("update_stats: updating refcount");
     update_stats_refcount(ctx, &statedir)?;
+    stats::update_invalid_addr_cities(ctx, &statedir)?;
 
     // Remove old CSV files as they are created daily and each is around 11M.
     for file_name in ctx.get_file_system().listdir(&statedir)? {
