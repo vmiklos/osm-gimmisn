@@ -968,6 +968,12 @@ pub struct OsmLightHouseNumber {
     /// Last editor.
     #[serde(rename = "@user")]
     pub user: String,
+    /// OSM object ID.
+    #[serde(rename = "@id")]
+    pub osm_id: String,
+    /// OSM object type.
+    #[serde(rename = "@type")]
+    pub osm_type: String,
 }
 
 /// Reads a house number CSV and extracts streets from rows.

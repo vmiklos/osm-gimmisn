@@ -111,6 +111,18 @@ pub trait Database {
              )",
             [],
         )?;
+        conn.execute(
+            "create table if not exists stats_invalid_addr_cities (
+                 osm_id text not null,
+                 osm_type text not null,
+                 postcode text not null,
+                 city text not null,
+                 street text not null,
+                 housenumber text not null,
+                 user text not null
+             )",
+            [],
+        )?;
         Ok(conn)
     }
 }

@@ -1200,8 +1200,8 @@ fn test_update_stats_count() {
     today_csv_value
         .borrow_mut()
         .write_all(
-            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user
-7677	Orfű	Dollár utca	1	mgpx
+            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type
+7677	Orfű	Dollár utca	1	mgpx	42	way
 "#
             .as_bytes(),
         )
@@ -1310,10 +1310,10 @@ fn test_update_stats_topusers() {
     today_csv_value
         .borrow_mut()
         .write_all(
-            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user
-1234	mycity	mystreet1	1	myuser1
-1234	mycity	mystreet1	2	myuser1
-1234	mycity	mystreet2	1	myuser2
+            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type
+1234	mycity	mystreet1	1	myuser1	42	way
+1234	mycity	mystreet1	2	myuser1	43	way
+1234	mycity	mystreet2	1	myuser2	44	way
 "#
             .as_bytes(),
         )
