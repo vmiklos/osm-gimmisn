@@ -3,9 +3,9 @@
 ## master
 
 - Rouille: new `--host` parameter to specify the bind address
-
 - The `/missing-housenumbers/.../update-result` is now about 6 times faster (replaced home-grown
   JSON cache with SQL indexes)
+- New `/housenumber-stats/.../invalid-addr-cities` endpoint, tries to find invalid addr:city values
 
 ## 7.5
 

@@ -705,6 +705,72 @@ Only zip codes with house numbers in OSM are considered."#,
     Ok(doc)
 }
 
+/// Expected request uri: /housenumber-stats/hungary/invalid-addr-cities.
+fn handle_invalid_addr_cities(
+    ctx: &context::Context,
+    relations: &mut areas::Relations<'_>,
+) -> anyhow::Result<yattag::Doc> {
+    let doc = yattag::Doc::new();
+    doc.append_value(
+        get_toolbar(
+            ctx,
+            Some(relations),
+            /*function=*/ "",
+            /*relation_name=*/ "",
+            /*relation_osmid=*/ 0,
+        )?
+        .get_value(),
+    );
+
+    let conn = ctx.get_database_connection()?;
+    let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
+    let mut stmt = conn
+        .prepare("select osm_id, osm_type, postcode, city, street, housenumber, user from stats_invalid_addr_cities")?;
+    let mut invalids = stmt.query([])?;
+    {
+        let cells: Vec<yattag::Doc> = vec![
+            yattag::Doc::from_text(&tr("Identifier")),
+            yattag::Doc::from_text(&tr("Type")),
+            yattag::Doc::from_text(&tr("Postcode")),
+            yattag::Doc::from_text(&tr("City")),
+            yattag::Doc::from_text(&tr("Street")),
+            yattag::Doc::from_text(&tr("Housenumber")),
+            yattag::Doc::from_text(&tr("User")),
+        ];
+        table.push(cells);
+    }
+    while let Some(invalid) = invalids.next()? {
+        let mut cells: Vec<yattag::Doc> = Vec::new();
+        let osm_id: String = invalid.get(0).unwrap();
+        cells.push(yattag::Doc::from_text(&osm_id));
+        let osm_type: String = invalid.get(1).unwrap();
+        {
+            let cell = yattag::Doc::new();
+            let href = format!("https://www.openstreetmap.org/{osm_type}/{osm_id}");
+            {
+                let a = cell.tag("a", &[("href", href.as_str()), ("target", "_blank")]);
+                a.text(&osm_id.to_string());
+            }
+            cells.push(cell);
+        }
+        let postcode: String = invalid.get(2).unwrap();
+        cells.push(yattag::Doc::from_text(&postcode));
+        let city: String = invalid.get(3).unwrap();
+        cells.push(yattag::Doc::from_text(&city));
+        let street: String = invalid.get(4).unwrap();
+        cells.push(yattag::Doc::from_text(&street));
+        let housenumber: String = invalid.get(5).unwrap();
+        cells.push(yattag::Doc::from_text(&housenumber));
+        let user: String = invalid.get(6).unwrap();
+        cells.push(yattag::Doc::from_text(&user));
+        table.push(cells);
+    }
+    doc.append_value(util::html_table_from_list(&table).get_value());
+
+    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    Ok(doc)
+}
+
 /// Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
 fn handle_invalid_refstreets(
     ctx: &context::Context,
@@ -779,6 +845,10 @@ pub fn handle_stats(
 
     if request_uri.ends_with("/invalid-relations") {
         return handle_invalid_refstreets(ctx, relations);
+    }
+
+    if request_uri.ends_with("/invalid-addr-cities") {
+        return handle_invalid_addr_cities(ctx, relations);
     }
 
     let doc = yattag::Doc::new();
@@ -877,6 +947,7 @@ pub fn handle_stats(
         (tr("Per-city coverage"), "cityprogress"),
         (tr("Per-ZIP coverage"), "zipprogress"),
         (tr("Invalid relation settings"), "invalid-relations"),
+        (tr("Invalid addr:city values"), "invalid-addr-cities"),
     ];
 
     {
@@ -917,6 +988,17 @@ pub fn handle_stats(
                 a.text(title);
                 continue;
             }
+            if identifier == "invalid-addr-cities" {
+                let a = li.tag(
+                    "a",
+                    &[(
+                        "href",
+                        &format!("{prefix}/housenumber-stats/hungary/invalid-addr-cities"),
+                    )],
+                );
+                a.text(title);
+                continue;
+            }
             let a = li.tag("a", &[("href", &format!("#_{identifier}"))]);
             a.text(title);
         }
@@ -927,6 +1009,7 @@ pub fn handle_stats(
         if identifier == "cityprogress"
             || identifier == "zipprogress"
             || identifier == "invalid-relations"
+            || identifier == "invalid-addr-cities"
         {
             continue;
         }

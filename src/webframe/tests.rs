@@ -12,6 +12,7 @@
 
 use super::*;
 use crate::context::Unit;
+use crate::wsgi;
 use std::io::Write;
 
 /// Tests handle_static().
@@ -202,4 +203,21 @@ fn test_get_toolbar() {
     let ret = get_toolbar(&ctx, None, "myfunc", "myrel", 42).unwrap();
 
     assert_eq!(ret.get_value().is_empty(), false);
+}
+
+/// Tests handle_invalid_addr_cities().
+#[test]
+fn test_handle_invalid_addr_cities() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    {
+        let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
+        conn.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user) values (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+                   ["42", "type", "1111", "mycity", "mystreet", "myhousenumber", "myuser"]).unwrap();
+    }
+
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-addr-cities");
+
+    let results = wsgi::tests::TestWsgi::find_all(&root, "body/table/tr");
+    // header + 1 row.
+    assert_eq!(results.len(), 2);
 }
