@@ -6,8 +6,8 @@ out;
 // service roads with names, avoid parking ways, drive-through
 way(area.searchArea)[highway=service][name][!"bridge"][service!~"parking_aisle|drive-through|slipway"];
 out;
-// avoid underpass and bridge footways
-way(area.searchArea)["highway"~"footway|steps|pedestrian"][name][layer!~"-"][!"bridge"]["indoor"!="yes"];
+// avoid underpass and bridge footways, platforms
+way(area.searchArea)["highway"~"footway|steps|pedestrian"][name][layer!~"-"][!"bridge"]["indoor"!="yes"][!"bridge"]["public_transport"!="platform"];
 out;
 // path with valid street name, try to exclude hiking path with comments in name tag
 way(area.searchArea)["highway"="path"][name][name~"utca|út|köz|árok|lépcső|gát|part|tér|tere|sétány|park|dűlő|sor|kert"][name!~"garázssor"](area.searchArea);
