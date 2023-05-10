@@ -725,6 +725,10 @@ solymar:
     osmrelation: 215945
     refcounty: "14"
     refsettlement: "121"
+sulysap:
+    osmrelation: 1385347
+    refcounty: "14"
+    refsettlement: "123"
 szazhalombatta:
     osmrelation: 112432
     refcounty: "14"
