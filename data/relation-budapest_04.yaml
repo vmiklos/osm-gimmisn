@@ -50,5 +50,7 @@ refstreets:
   'Óceánárok utca': 'Óceán-árok utca'  # utcatálba Óceánárok utca
   'Ódry Árpád utca': 'Ódry utca'  # utcatábla Ódry Árpád u.
   'Venetiáner utca': 'Venetianer utca'  # utcatábla Venetiáner utca
+  # utcatábla hibás
+  'Lőrincz utca': 'Lőrinc utca'
 source: survey
 inactive: true
