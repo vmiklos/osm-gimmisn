@@ -1,0 +1,20 @@
+missing-streets: 'yes'
+# osm-street-filters:
+  # átlógó
+  # park/sétány
+# street-filters:
+  # nem igazi utcák
+refstreets:
+  'Dankó Pista utca': 'Dankó utca'
+  'Dr. Gáspár István köz': 'Dr Gáspár István köz'
+  'Fő út': 'Fő utca'
+  'Forrói utca': 'Forrói út'
+  'Határ utca': 'Határ út'
+  'Kókai utca': 'Kókai út'
+  'Petőfi Sándor utca': 'Petőfi utca'
+  'Szilvafasor utca': 'Szilvafasor'
+  'Úri utca': 'Úri út'
+  'Vörösmarty Mihály utca': 'Vörösmarty utca'
+source: survey
+housenumber-letters: false
+inactive: false
