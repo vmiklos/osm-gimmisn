@@ -53,8 +53,6 @@ osm-street-filters:
   - Kodály Zoltán park
   - Lukács Miklós út
   - Tóth Aladár út
-  # Tábla már kint van, de hivatalosan még nincs elnevezve
-  - Fábián Juli tér
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # helyesírás
