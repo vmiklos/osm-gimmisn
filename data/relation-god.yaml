@@ -17,7 +17,6 @@ refstreets:
   'Szent László utca': 'Szt. László utca'
   # kérdéses
   'Bischoff házaspár utca': 'Bischof házaspár utca'  # tábla Bischoff házaspár utca (2014)
-  'Bozóky Gyula tér': 'Bozóki Gyula tér'  # tábla Bozóky Gyula tér (2014)
   'Kék Duna utca': 'Kék-Duna utca' # tábla Kék Duna utca (2014)
   'Kerekerdő köz': 'Kerek erdő köz'
   'Kerekerdő utca': 'Kerek erdő utca'  # tábla Kerekerdő utca (2014)
@@ -26,6 +25,8 @@ refstreets:
   'Nemeskéri köz': 'Nemeskéri-Kiss Miklós köz'  # tábla Új élet utca (2022)
   # 'Száhlender Béla dűlő': 'Szálender tanya'
   'Új élet utca': 'Újélet utca'  # tábla Új élet utca (2014)
+  # ellenőrzött 
+  'Bozóky Gyula tér': 'Bozóki Gyula tér'  # tábla Bozóky Gyula tér (2023)
 source: survey
 housenumber-letters: false
 inactive: false

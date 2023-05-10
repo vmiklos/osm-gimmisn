@@ -15,6 +15,7 @@ street-filters:
   # Ökrös köz - Ökrös utca és a Serpenyő köz között félúton. nincs kiépítve, de táblája kell látszódjon
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
+  'Régivám utca': 'Régi vám utca'  # hivatalosan: X. kerület Régi vám utca, XVII. kerület Régivám utca
   # helyesírás, rövidítés: ref hibás
   'Hizlaló tér': 'Hízlaló tér'
   # utcajegyzék = OSM: ref hibás
@@ -44,7 +45,6 @@ osm-street-filters:
   - Fogarasi út
   - Forrásmajori dűlőút
   - Nagy Lajos király útja
-  - Régivám utca
   - Vak Bottyán utca
   # Köztemető belső dolgai
   - 1848-49-es honvédsírok
