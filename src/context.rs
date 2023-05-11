@@ -123,6 +123,7 @@ pub trait Database {
              )",
             [],
         )?;
+        conn.execute("pragma user_version = 1", [])?;
         Ok(conn)
     }
 }
