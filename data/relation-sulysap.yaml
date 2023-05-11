@@ -2,16 +2,25 @@ missing-streets: 'yes'
 # osm-street-filters:
   # átlógó
   # park/sétány
-# street-filters:
+street-filters:
   # nem igazi utcák
+  - Máv vasútállomás
+  - major telep
+  - Vasúti őrház
+  # loc_name
+  - Régi Úri út
 refstreets:
-  'Dankó Pista utca': 'Dankó utca'
+  # helyesírás
   'Dr. Gáspár István köz': 'Dr Gáspár István köz'
+  # kérdéses
+  'Dankó Pista utca': 'Dankó utca'
   'Fő út': 'Fő utca'
   'Forrói utca': 'Forrói út'
+  'Forró köz': 'Forrói köz'
   'Határ utca': 'Határ út'
   'Kókai utca': 'Kókai út'
   'Petőfi Sándor utca': 'Petőfi utca'
+  'Sápi Bekötő út': 'Sápi út'
   'Szilvafasor utca': 'Szilvafasor'
   'Úri utca': 'Úri út'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
