@@ -19,6 +19,7 @@ street-filters:
 osm-street-filters:
   # nem igazi utcák
   - Bányász emlékút
+  - régi üzemi út
   # parkok
   - Arborétum
   - Bányászpark
