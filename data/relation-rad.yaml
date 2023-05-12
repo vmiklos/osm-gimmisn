@@ -1,5 +1,13 @@
 missing-streets: 'yes'
 filters:
+  Ady Endre utca:
+    # 27: a 13 az utolsó épület.
+    # A számozás egyesével indul, majd az utca végén a másik oldalon folytatódik visszafelé. 
+    interpolation: 'all'
+    invalid: ['27']
+  Arany János utca:
+    # 35: a páratlan oldalon csak egyetlen épület van.
+    invalid: ['35']
   Bocskai utca:
     # 30: a páros oldalon a 18 az utolsó házszám.
     invalid: ['30']
@@ -23,6 +31,8 @@ filters:
   Liget utca:
     # 14/2: ez helyrajzi szám, nem házszám.
     invalid: ['14/2']
+  Madách utca:
+    interpolation: 'all'
   Nefelejcs utca:
     # 24: a páros oldalon a 22 az utolsó házszám.
     invalid: ['24']
