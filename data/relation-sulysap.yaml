@@ -1,7 +1,10 @@
 missing-streets: 'yes'
-# osm-street-filters:
+osm-street-filters:
   # átlógó
   # park/sétány
+  # tanyák
+  - Kistelek tanya  # https://www.openstreetmap.org/node/4784248760
+  - Sándorszállás tanya  # https://www.openstreetmap.org/node/4784249731
 street-filters:
   # nem igazi utcák
   - Máv vasútállomás
