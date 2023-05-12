@@ -742,7 +742,6 @@ fn handle_invalid_addr_cities(
     while let Some(invalid) = invalids.next()? {
         let mut cells: Vec<yattag::Doc> = Vec::new();
         let osm_id: String = invalid.get(0).unwrap();
-        cells.push(yattag::Doc::from_text(&osm_id));
         let osm_type: String = invalid.get(1).unwrap();
         {
             let cell = yattag::Doc::new();
@@ -753,6 +752,7 @@ fn handle_invalid_addr_cities(
             }
             cells.push(cell);
         }
+        cells.push(yattag::Doc::from_text(&osm_type));
         let postcode: String = invalid.get(2).unwrap();
         cells.push(yattag::Doc::from_text(&postcode));
         let city: String = invalid.get(3).unwrap();
