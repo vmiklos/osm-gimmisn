@@ -1,5 +1,7 @@
 missing-streets: 'yes'
 refstreets:
+   # kérdéses
+  'Csók István utca': 'Csók utca'
    # helyesírás
   'Bolyai János utca': 'Bólyai János utca'  # nincs tábla
   'Kun utca': 'Kún utca'

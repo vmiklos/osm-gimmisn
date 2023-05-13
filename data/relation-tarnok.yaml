@@ -2,19 +2,21 @@ missing-streets: 'yes'
 refstreets:
   # kérdéses
   # 'Anasztázia utca': 'Anasztázia puszta'
+  'Compó utca': 'Compó köz'  # https://www.openstreetmap.org/note/3688189
   'Dózsa György utca': 'Dózsa György út'
-  'Írisz utca': 'Irisz utca'
   'Jókai Mór utca': 'Jókai utca'
   'Madách Imre utca': 'Madách utca'
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Rákóczi Ferenc út': 'Rákóczi út'
   'Siklósi utca': 'Siklósi út'
-  'Szegfű utca': 'Szegfü utca'
   # 'Szőlőhegyi út': 'Szőlőhegy'
   'Tompa Mihály utca': 'Tompa utca'
-  'Újhegyi út': 'Ujhegyi út'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
   'Zrínyi Miklós utca': 'Zrínyi utca'
+  # helyesírás
+  'Írisz utca': 'Irisz utca'
+  'Szegfű utca': 'Szegfü utca'
+  'Újhegyi út': 'Ujhegyi út'
 source: survey
 housenumber-letters: true
 inactive: true
