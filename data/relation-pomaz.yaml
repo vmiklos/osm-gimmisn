@@ -10,7 +10,8 @@ street-filters:
   - Meselia
   - Pankos tető  # Pankostető
   - Susnyár  # Susnyár dűlőként már fent van
-  # Vróc - még nincs fent
+  # Településrész, még nincs fent
+  - Vróc
   # Budakalász
   - Ország út  # Pomáz Országút utca
 refstreets:
@@ -20,6 +21,7 @@ refstreets:
   'Eötvös Loránd utca': 'Eötvös Lóránd utca'
   'Felsőhegy utca': 'Felső-Hegy utca'
   'Messelia utca': 'Meselia utca'
+  'Naspolya utca': 'Naspolya út'
   'Ugralovica dűlő': 'Uglarovica dűlő'
   'Wattay utca': 'Watthay utca'
 source: survey
