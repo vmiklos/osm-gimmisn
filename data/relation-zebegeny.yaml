@@ -26,6 +26,8 @@ osm-street-filters:
   - Pille kert
   # nem igazi utcák
   - Vizes-árok
+  # 2 oldalon eltérő név
+  - Jánoshegy-Naphegy
 source: survey
 housenumber-letters: false
 inactive: true
