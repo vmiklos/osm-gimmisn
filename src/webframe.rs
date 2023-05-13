@@ -739,6 +739,7 @@ fn handle_invalid_addr_cities(
         ];
         table.push(cells);
     }
+    let mut count = 0;
     while let Some(invalid) = invalids.next()? {
         let mut cells: Vec<yattag::Doc> = Vec::new();
         let osm_id: String = invalid.get(0).unwrap();
@@ -764,6 +765,14 @@ fn handle_invalid_addr_cities(
         let user: String = invalid.get(6).unwrap();
         cells.push(yattag::Doc::from_text(&user));
         table.push(cells);
+        count += 1;
+    }
+    {
+        let p = doc.tag("p", &[]);
+        p.text(
+            &tr("The addr:city key of the below {0} objects probably has an invalid value.")
+                .replace("{0}", &count.to_string()),
+        );
     }
     doc.append_value(util::html_table_from_list(&table).get_value());
 
