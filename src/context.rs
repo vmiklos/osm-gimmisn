@@ -123,6 +123,13 @@ pub trait Database {
              )",
             [],
         )?;
+        conn.execute(
+            "create table if not exists mtimes (
+                 page text primary key not null,
+                 last_modified text not null
+             )",
+            [],
+        )?;
         conn.execute("pragma user_version = 1", [])?;
         Ok(conn)
     }
