@@ -399,7 +399,7 @@ pub fn get_toolbar(
                 "a",
                 &[(
                     "href",
-                    &(ctx.get_ini().get_uri_prefix() + "/housenumber-stats/hungary/"),
+                    &(ctx.get_ini().get_uri_prefix() + "/housenumber-stats/whole-country/"),
                 )],
             );
             a.text(&tr("Statistics"));
@@ -522,7 +522,7 @@ pub fn format_timestamp(timestamp: &time::OffsetDateTime) -> anyhow::Result<Stri
     Ok(timestamp.format(&format)?)
 }
 
-/// Expected request_uri: e.g. /osm/housenumber-stats/hungary/cityprogress.
+/// Expected request_uri: e.g. /osm/housenumber-stats/whole-country/cityprogress.
 fn handle_stats_cityprogress(
     ctx: &context::Context,
     relations: &mut areas::Relations<'_>,
@@ -613,7 +613,7 @@ Only cities with house numbers in OSM are considered."#,
     Ok(doc)
 }
 
-/// Expected request_uri: e.g. /osm/housenumber-stats/hungary/zipprogress.
+/// Expected request_uri: e.g. /osm/housenumber-stats/whole-country/zipprogress.
 fn handle_stats_zipprogress(
     ctx: &context::Context,
     relations: &mut areas::Relations<'_>,
@@ -705,7 +705,7 @@ Only zip codes with house numbers in OSM are considered."#,
     Ok(doc)
 }
 
-/// Expected request uri: /housenumber-stats/hungary/invalid-addr-cities.
+/// Expected request uri: /housenumber-stats/whole-country/invalid-addr-cities.
 fn handle_invalid_addr_cities(
     ctx: &context::Context,
     relations: &mut areas::Relations<'_>,
@@ -780,7 +780,7 @@ fn handle_invalid_addr_cities(
     Ok(doc)
 }
 
-/// Expected request_uri: e.g. /osm/housenumber-stats/hungary/invalid-relations."""
+/// Expected request_uri: e.g. /osm/housenumber-stats/whole-country/invalid-relations."""
 fn handle_invalid_refstreets(
     ctx: &context::Context,
     relations: &mut areas::Relations<'_>,
@@ -836,7 +836,7 @@ fn handle_invalid_refstreets(
     Ok(doc)
 }
 
-/// Expected request_uri: e.g. /osm/housenumber-stats/hungary/.
+/// Expected request_uri: e.g. /osm/housenumber-stats/whole-country/.
 pub fn handle_stats(
     ctx: &context::Context,
     relations: &mut areas::Relations<'_>,
@@ -969,7 +969,7 @@ pub fn handle_stats(
                     "a",
                     &[(
                         "href",
-                        &format!("{prefix}/housenumber-stats/hungary/cityprogress"),
+                        &format!("{prefix}/housenumber-stats/whole-country/cityprogress"),
                     )],
                 );
                 a.text(title);
@@ -980,7 +980,7 @@ pub fn handle_stats(
                     "a",
                     &[(
                         "href",
-                        &format!("{prefix}/housenumber-stats/hungary/zipprogress"),
+                        &format!("{prefix}/housenumber-stats/whole-country/zipprogress"),
                     )],
                 );
                 a.text(title);
@@ -991,7 +991,7 @@ pub fn handle_stats(
                     "a",
                     &[(
                         "href",
-                        &format!("{prefix}/housenumber-stats/hungary/invalid-relations"),
+                        &format!("{prefix}/housenumber-stats/whole-country/invalid-relations"),
                     )],
                 );
                 a.text(title);
@@ -1002,7 +1002,7 @@ pub fn handle_stats(
                     "a",
                     &[(
                         "href",
-                        &format!("{prefix}/housenumber-stats/hungary/invalid-addr-cities"),
+                        &format!("{prefix}/housenumber-stats/whole-country/invalid-addr-cities"),
                     )],
                 );
                 a.text(title);
