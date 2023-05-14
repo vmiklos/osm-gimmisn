@@ -469,6 +469,19 @@ pub fn generate_json(
     Ok(())
 }
 
+fn set_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<()> {
+    let conn = ctx.get_database_connection()?;
+    conn.execute(
+        r#"insert into mtimes (page, last_modified) values (?1, ?2)
+             on conflict(page) do update set last_modified = excluded.last_modified"#,
+        [
+            page,
+            &ctx.get_time().now().unix_timestamp_nanos().to_string(),
+        ],
+    )?;
+    Ok(())
+}
+
 pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
     info!("stats: updating invalid_addr_cities");
     let valid_settlements =
@@ -486,18 +499,22 @@ pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> an
     let mut guard = stream.borrow_mut();
     let mut read = std::io::BufReader::new(guard.deref_mut());
     let mut csv_reader = util::make_csv_reader(&mut read);
-    let mut conn = ctx.get_database_connection()?;
-    conn.execute("delete from stats_invalid_addr_cities", [])?;
-    let tx = conn.transaction()?;
-    for result in csv_reader.deserialize() {
-        let row: util::OsmLightHouseNumber = result?;
-        let city = row.city.to_lowercase();
-        if !valid_settlements.contains(&city) && city != "budapest" {
-            tx.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user) values (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+    {
+        let mut conn = ctx.get_database_connection()?;
+        conn.execute("delete from stats_invalid_addr_cities", [])?;
+        let tx = conn.transaction()?;
+        for result in csv_reader.deserialize() {
+            let row: util::OsmLightHouseNumber = result?;
+            let city = row.city.to_lowercase();
+            if !valid_settlements.contains(&city) && city != "budapest" {
+                tx.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user) values (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
                        [row.osm_id, row.osm_type, row.postcode, row.city, row.street, row.housenumber, row.user])?;
+            }
         }
+        tx.commit()?;
     }
-    tx.commit()?;
+
+    set_sql_mtime(ctx, "stats/invalid-addr-cities")?;
 
     Ok(())
 }
