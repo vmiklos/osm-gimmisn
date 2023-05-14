@@ -1795,7 +1795,7 @@ fn test_webhooks_github_branch() {
 fn test_handle_stats() {
     let mut test_wsgi = TestWsgi::new();
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/");
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/");
 
     let results = TestWsgi::find_all(&root, "body/h2");
     // 9 chart types + note
@@ -1867,7 +1867,7 @@ fn test_handle_stats_cityprogress_well_formed() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/cityprogress");
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/cityprogress");
 
     let results = TestWsgi::find_all(&root, "body/table/tr");
     // header; also budapest_11/budapest_12 are both in ref and osm
@@ -1891,7 +1891,7 @@ fn test_handle_stats_zipprogress_well_formed() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.ctx.set_file_system(&file_system);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/zipprogress");
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/zipprogress");
 
     let results = TestWsgi::find_all(&root, "body/table/tr");
     // header; also 1111/1121 is both in ref and osm
@@ -1922,7 +1922,7 @@ fn test_handle_invalid_refstreets_well_formed() {
     let file_system = context::tests::TestFileSystem::from_files(&files);
     test_wsgi.get_ctx().set_file_system(&file_system);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
 
     let results = TestWsgi::find_all(&root, "body/h1/a");
     assert_eq!(results.is_empty(), false);
@@ -1951,7 +1951,7 @@ fn test_handle_invalid_refstreets_no_osm_sreets() {
     let file_system_rc: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system_rc);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
 
     let results = TestWsgi::find_all(&root, "body");
     assert_eq!(results.is_empty(), false);
@@ -1981,7 +1981,7 @@ fn test_handle_invalid_refstreets_no_invalids() {
     let file_system: Rc<dyn context::FileSystem> = Rc::new(file_system);
     test_wsgi.ctx.set_file_system(&file_system);
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-relations");
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
 
     let results = TestWsgi::find_all(&root, "body/h1/a");
     assert_eq!(results.is_empty(), true);

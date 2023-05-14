@@ -158,7 +158,7 @@
 
 ## 5.0
 
-- A new `/osm/housenumber-stats/hungary/` page featuring new and all-time house number data
+- A new `/osm/housenumber-stats/whole-country/` page featuring new and all-time house number data
 
 - A new `cherry.py` glue layer to help running on top of CherryPy
 

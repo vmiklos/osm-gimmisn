@@ -215,7 +215,7 @@ fn test_handle_invalid_addr_cities() {
                    ["42", "type", "1111", "mycity", "mystreet", "myhousenumber", "myuser"]).unwrap();
     }
 
-    let root = test_wsgi.get_dom_for_path("/housenumber-stats/hungary/invalid-addr-cities");
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-addr-cities");
 
     let results = wsgi::tests::TestWsgi::find_all(&root, "body/table/tr");
     // header + 1 row.
