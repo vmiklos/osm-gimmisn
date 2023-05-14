@@ -12,21 +12,29 @@ street-filters:
   - Vasúti őrház
   # loc_name
   - Régi Úri út
+  # nincs tábla
+  - Szent Erzsébet lépcső
+  - Vachott lépcső
+  - Hegyi köz  # inkább kapubehajtó
 refstreets:
   # helyesírás
   'Dr. Gáspár István köz': 'Dr Gáspár István köz'
   # kérdéses
-  'Dankó Pista utca': 'Dankó utca'
   'Fő út': 'Fő utca'
-  'Forrói utca': 'Forrói út'
-  'Forró köz': 'Forrói köz'
-  'Határ utca': 'Határ út'
   'Kókai utca': 'Kókai út'
-  'Petőfi Sándor utca': 'Petőfi utca'
-  'Sápi Bekötő út': 'Sápi út'
   'Szilvafasor utca': 'Szilvafasor'
   'Úri utca': 'Úri út'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
+  # ellenőrzött
+  # 'Dankó Pista utca': 'Dankó utca' -- táblán Dankó u.
+  # 'Forrói utca': 'Forrói út' -- táblán Forrói út
+  # 'Petőfi Sándor utca': 'Petőfi utca' -- táblán Petőfi u.
+  'Határ utca': 'Határ út'  # táblán Határ u.
+  # nincs tábla
+  'Forró köz': 'Forrói köz'
+  'Sápi Bekötő út': 'Sápi út'  # Nincs kitáblázva semmi és ez a szakasz Kossuth Lajos utca, van is egy ház lejjebb ilyen házszámmal.
+  # Kölcsey Ferenc utca
+  # Dányi út
 source: survey
 housenumber-letters: false
 inactive: false
