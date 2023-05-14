@@ -5,13 +5,13 @@ osm-street-filters:
   # tanyák
   - Kistelek tanya  # https://www.openstreetmap.org/node/4784248760
   - Sándorszállás tanya  # https://www.openstreetmap.org/node/4784249731
+  # loc_name
+  - Régi Úri út
 street-filters:
   # nem igazi utcák
   - Máv vasútállomás
   - major telep
   - Vasúti őrház
-  # loc_name
-  - Régi Úri út
   # nincs tábla
   - Szent Erzsébet lépcső
   - Vachott lépcső
