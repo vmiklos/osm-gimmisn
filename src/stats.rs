@@ -482,6 +482,18 @@ fn set_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<()> {
     Ok(())
 }
 
+pub fn get_sql_mtime(ctx: &context::Context, page: &str) -> anyhow::Result<time::OffsetDateTime> {
+    let conn = ctx.get_database_connection()?;
+    let mut stmt = conn.prepare("select last_modified from mtimes where page = ?1")?;
+    let mut rows = stmt.query([page])?;
+    let row = rows.next()?.context("no next row")?;
+    let last_modified: String = row.get(0)?;
+    let nanos: i128 = last_modified.parse()?;
+    let modified = time::OffsetDateTime::from_unix_timestamp_nanos(nanos)?;
+    let now = ctx.get_time().now();
+    Ok(modified.to_offset(now.offset()))
+}
+
 pub fn update_invalid_addr_cities(ctx: &context::Context, state_dir: &str) -> anyhow::Result<()> {
     info!("stats: updating invalid_addr_cities");
     let valid_settlements =
