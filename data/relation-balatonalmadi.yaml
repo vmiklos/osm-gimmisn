@@ -514,6 +514,8 @@ osm-street-filters:
   - Ipoly köz
   - Madách köz
   - Othelló utca
+  # Teszt
+  - Vadvirág út
 street-filters:
   # Nem igazi utcák
   - Óvári kilátó
