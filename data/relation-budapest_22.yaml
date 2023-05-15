@@ -759,7 +759,9 @@ filters:
     # 19/d: nincs ilyen, csak 19/a, 19/b, 19/c.
     # 27/b: nincs ilyen, csak sima 27 van.
     # 29: sima 29 nincs, csak 29/a, 29/b, 29/c.
-    invalid: ['1', '1c', '13', '13d', '13e', '17a', '17b', '19', '19d', '27b', '29']
+    # 85/b: 85/2 van kitáblázva.
+    # 87/b: nincs ilyen, csak 87 B/1 és 87 B/2.
+    invalid: ['1', '1c', '13', '13d', '13e', '17a', '17b', '19', '19d', '27b', '29', '85b', '87b']
   Rugó utca:
     # 2: ez és a Hollandi utca 35. közös telken van, házszám a Hollandi utcáról van csak.
     invalid: ['2']
