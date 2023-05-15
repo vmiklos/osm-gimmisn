@@ -13,6 +13,7 @@
 use crate::areas;
 use crate::context;
 use crate::i18n::translate as tr;
+use crate::stats;
 use crate::util;
 use crate::yattag;
 use anyhow::Context;
@@ -722,50 +723,52 @@ fn handle_invalid_addr_cities(
         .get_value(),
     );
 
-    let conn = ctx.get_database_connection()?;
     let mut table: Vec<Vec<yattag::Doc>> = Vec::new();
-    let mut stmt = conn
-        .prepare("select osm_id, osm_type, postcode, city, street, housenumber, user from stats_invalid_addr_cities")?;
-    let mut invalids = stmt.query([])?;
-    {
-        let cells: Vec<yattag::Doc> = vec![
-            yattag::Doc::from_text(&tr("Identifier")),
-            yattag::Doc::from_text(&tr("Type")),
-            yattag::Doc::from_text(&tr("Postcode")),
-            yattag::Doc::from_text(&tr("City")),
-            yattag::Doc::from_text(&tr("Street")),
-            yattag::Doc::from_text(&tr("Housenumber")),
-            yattag::Doc::from_text(&tr("User")),
-        ];
-        table.push(cells);
-    }
     let mut count = 0;
-    while let Some(invalid) = invalids.next()? {
-        let mut cells: Vec<yattag::Doc> = Vec::new();
-        let osm_id: String = invalid.get(0).unwrap();
-        let osm_type: String = invalid.get(1).unwrap();
+    {
+        let conn = ctx.get_database_connection()?;
+        let mut stmt = conn
+        .prepare("select osm_id, osm_type, postcode, city, street, housenumber, user from stats_invalid_addr_cities")?;
+        let mut invalids = stmt.query([])?;
         {
-            let cell = yattag::Doc::new();
-            let href = format!("https://www.openstreetmap.org/{osm_type}/{osm_id}");
-            {
-                let a = cell.tag("a", &[("href", href.as_str()), ("target", "_blank")]);
-                a.text(&osm_id.to_string());
-            }
-            cells.push(cell);
+            let cells: Vec<yattag::Doc> = vec![
+                yattag::Doc::from_text(&tr("Identifier")),
+                yattag::Doc::from_text(&tr("Type")),
+                yattag::Doc::from_text(&tr("Postcode")),
+                yattag::Doc::from_text(&tr("City")),
+                yattag::Doc::from_text(&tr("Street")),
+                yattag::Doc::from_text(&tr("Housenumber")),
+                yattag::Doc::from_text(&tr("User")),
+            ];
+            table.push(cells);
         }
-        cells.push(yattag::Doc::from_text(&osm_type));
-        let postcode: String = invalid.get(2).unwrap();
-        cells.push(yattag::Doc::from_text(&postcode));
-        let city: String = invalid.get(3).unwrap();
-        cells.push(yattag::Doc::from_text(&city));
-        let street: String = invalid.get(4).unwrap();
-        cells.push(yattag::Doc::from_text(&street));
-        let housenumber: String = invalid.get(5).unwrap();
-        cells.push(yattag::Doc::from_text(&housenumber));
-        let user: String = invalid.get(6).unwrap();
-        cells.push(yattag::Doc::from_text(&user));
-        table.push(cells);
-        count += 1;
+        while let Some(invalid) = invalids.next()? {
+            let mut cells: Vec<yattag::Doc> = Vec::new();
+            let osm_id: String = invalid.get(0).unwrap();
+            let osm_type: String = invalid.get(1).unwrap();
+            {
+                let cell = yattag::Doc::new();
+                let href = format!("https://www.openstreetmap.org/{osm_type}/{osm_id}");
+                {
+                    let a = cell.tag("a", &[("href", href.as_str()), ("target", "_blank")]);
+                    a.text(&osm_id.to_string());
+                }
+                cells.push(cell);
+            }
+            cells.push(yattag::Doc::from_text(&osm_type));
+            let postcode: String = invalid.get(2).unwrap();
+            cells.push(yattag::Doc::from_text(&postcode));
+            let city: String = invalid.get(3).unwrap();
+            cells.push(yattag::Doc::from_text(&city));
+            let street: String = invalid.get(4).unwrap();
+            cells.push(yattag::Doc::from_text(&street));
+            let housenumber: String = invalid.get(5).unwrap();
+            cells.push(yattag::Doc::from_text(&housenumber));
+            let user: String = invalid.get(6).unwrap();
+            cells.push(yattag::Doc::from_text(&user));
+            table.push(cells);
+            count += 1;
+        }
     }
     {
         let p = doc.tag("p", &[]);
@@ -775,8 +778,8 @@ fn handle_invalid_addr_cities(
         );
     }
     doc.append_value(util::html_table_from_list(&table).get_value());
-
-    doc.append_value(get_footer(/*last_updated=*/ "").get_value());
+    let date = format_timestamp(&stats::get_sql_mtime(ctx, "stats/invalid-addr-cities")?)?;
+    doc.append_value(get_footer(&date).get_value());
     Ok(doc)
 }
 

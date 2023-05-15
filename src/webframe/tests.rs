@@ -209,10 +209,21 @@ fn test_get_toolbar() {
 #[test]
 fn test_handle_invalid_addr_cities() {
     let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    let mtime = test_wsgi
+        .get_ctx()
+        .get_time()
+        .now()
+        .unix_timestamp_nanos()
+        .to_string();
     {
         let conn = test_wsgi.get_ctx().get_database_connection().unwrap();
         conn.execute("insert into stats_invalid_addr_cities (osm_id, osm_type, postcode, city, street, housenumber, user) values (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
                    ["42", "type", "1111", "mycity", "mystreet", "myhousenumber", "myuser"]).unwrap();
+        conn.execute(
+            "insert into mtimes (page, last_modified) values (?1, ?2)",
+            ["stats/invalid-addr-cities", &mtime],
+        )
+        .unwrap();
     }
 
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-addr-cities");
