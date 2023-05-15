@@ -20,7 +20,6 @@ osm-street-filters:
   - Karvaly tanösvény
   - Sportpark
   - Tersánszky Józsi Jenő sétány
-  - Tímea tér
   # kerülethatáron / átlógó
   - Almáskert út  # Vecsés
   - Határ út  # Gyál
@@ -52,6 +51,7 @@ refstreets:
   'Csontváry Kosztka Tivadar utca': 'Csontváry K. Tivadar utca'
   'Bókay-kert': 'Bókay kert'
   'Eötvös Loránd park': 'Eötvös Lóránd park'
+  'Tímea tér': 'Timea tér'
   # utcajegyzék = OSM: ref hibás
   'Áchim András utca': 'Achim András utca'
   'Besence utca': 'Besence út'
