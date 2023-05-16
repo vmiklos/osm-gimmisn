@@ -19,10 +19,10 @@ refstreets:
   'Rigóhegy utca': 'Rigó-hegy utca'
   'Sólyomszigeti út': 'Sólyomsziget utca'
   'Szent Imre herceg tér': 'Szent Imre tér'
-  'Villasor utca': 'Villa sor'
   # Ellenőrizve, osm név jó
   'Béla király sétány': 'Béla sétány'
   'Jókai Mór utca': 'Jókai utca'
+  # 'Villasor utca': 'Villa sor' -- Villa sor a helyes
 osm-street-filters:
   # nem igazi utcák
   - 1-2. vágány peron
@@ -37,6 +37,7 @@ osm-street-filters:
   - Kút-völgy
   - Rizs-völgy
   - Törökmezői tanösvény
+  - Törökmező turistaház-Tanösvény
   # parkok
   - Dám (Loreley/Erzsébet-pihenő)
   - Fűzfa liget
