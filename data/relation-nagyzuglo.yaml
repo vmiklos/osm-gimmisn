@@ -29,6 +29,9 @@ filters:
     interpolation: all
     ranges:
       - {start: '1', end: '6'}
+  Padlizsán utca:
+    # 37: ez és a Fogarasi út 45. ugyanaz az épület, de házszám a Fogarasi útról van csak. Az épület nyugati sarkán van egy Nyisztor utca 37 --> 15 tábla, ez lehetett az utca régi neve.
+    invalid: ['37']
   Róna utca:
     ranges:
       - {start: '1', end: '89'}
