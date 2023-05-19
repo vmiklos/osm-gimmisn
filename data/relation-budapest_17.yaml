@@ -6,11 +6,25 @@ street-filters:
   - Máv vasútállomás
   # megszűnt
   - Forrásföldi utca  # https://www.openstreetmap.org/way/8075296
+  # nincs kiépítve - Diák park van a helyén
+  - Akácerdő utca     # 127594/70
+  - Szőlővessző utca  # 127594/124
+  # hibás
+  - Felső Újlak utca  # 121127/23, 121127/54, 121127/55 - Újlak utcának táblázva
+  # hiányzók - ref ---------------------------------------------
+  # Bóbis Gyula tér - https://www.openstreetmap.org/note/3502967
+  # Madárdomb köz   - https://www.openstreetmap.org/note/3695821
+  # Podmaniczky János sétány - mail ment
+  # Szőlőtőke utca  - mail ment
+  # Wass Albert tér - https://www.openstreetmap.org/note/3695753
+  # hiányzók - egyéb forrásból ---------------------------------
+  # Csordakút köz   - https://www.openstreetmap.org/note/3695684
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   # utcajegyzék = OSM: ref hibás
   'Ároktő út': 'Ároktő utca'
   'Csordakút út': 'Csordakút utca'
+  'Dr. Kósa Pál park': 'Kósa Pál tér'
   'Fülöpszállás utca': 'Fülöpszállás út'
   'Kőhúr utca': 'Kőhur utca'
   'Magyar szárnyak dűlő': 'Magyar Szárnyak utca'
@@ -27,7 +41,7 @@ refstreets:
   # 'Tói malom utca': 'Tómalom utca'  - utcatábla hibás: Tói malom utca
   # utcajegyzék = REF, OSM kérdéses
   'Homokiszőlő dűlő': 'Homokiszőlő dűlőút'  # nincs tábla
-  'Kis-Káros-híd utca': 'Kis Károshíd utca'  # note
+  'Kis-Káros-híd utca': 'Kis Károshíd utca'  # https://www.openstreetmap.org/note/2671588
   'Nagy-Káros-híd dűlő': 'Nagy Károshíd dűlő'  # nincs tábla
 osm-street-filters:
   # nem igazi utcák
@@ -37,7 +51,6 @@ osm-street-filters:
   - Szilas-patak menti kerékpárút
   # parkok, sétányok
   - Dísztó-park
-  - Dr. Kósa Pál park
   - Emlékezés park
   - Karvaly tanösvény
   - Merzse tanösvény
