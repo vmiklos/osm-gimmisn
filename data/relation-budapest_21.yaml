@@ -9,9 +9,8 @@ street-filters:
   - Szállító utca  # Szállitó utcára vannak a hászámok felvéve
   # megszűnt
   - Varjú köz  # Varjú utca/Szent István között volt, Toboz utcával kb. szemben
-  # egyéb
-  # Előd utca - Temetődűlő utca?
 osm-street-filters:
+  # Barkács utca - https://www.openstreetmap.org/note/2969962
   # nem igazi utcák
   - autós tanpálya
   - Dock 2. porta átjáró
@@ -97,5 +96,7 @@ refstreets:
   'Szállító utca': 'Szállitó utca'
   'Szikratávíró utca': 'Szikratáviró utca'
   'Színesfém utca': 'Szinesfém utca'
+  # kérdéses
+  'Temetődűlő utca': 'Előd utca'  # https://www.openstreetmap.org/note/2164029
 source: survey
 inactive: true
