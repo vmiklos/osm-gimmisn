@@ -3,7 +3,6 @@ filters: {}
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Bulcsú vezér utca': 'Bulcsu vezér utca' # Budaliget (Pesthidegkút)
-  'Díszfű utca': 'Diszfű utca'  # Budaliget (Pesthidegkút)
   'Rézsű utca': 'Rézsü utca'  # Adyliget/Máriaremete (Pesthidegkút)
   'Szép Ilona utca': 'Szépilona utca'  # Erzsébettelek (Pesthidegkút)
   'Bocskai utca': 'Bocskai István útja'  # Adyliget
