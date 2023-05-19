@@ -1,7 +1,8 @@
 missing-streets: 'yes'
 refstreets:
-  # kérdéses
-  'Dankó Pista utca': 'Dankó utca'
+   # ellenőrzött
+  'Radnóti utca': 'Radnóti Miklós utca'
+  'Zrínyi utca': 'Zrínyi Miklós utca'
 # street-filters:
 osm-street-filters:
   # átlógó utcák
