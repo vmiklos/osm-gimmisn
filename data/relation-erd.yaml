@@ -5,6 +5,7 @@ refstreets:
   # kérdéses
   'Báthori István utca': 'Báthory István utca'
   'Kálvin tér': 'Calvin tér'
+  'Fehérkereszti út': 'Fehérkereszti utca'
   'Gladiolus utca': 'Gladiólusz utca'
   'Hegyaljai út': 'Hegyaljai utca'
   'Ínfű utca': 'Infű utca'
@@ -18,8 +19,18 @@ refstreets:
   'Tétényi út': 'Tétényi utca'
   'Tokaj utca': 'Tokaji utca'
   # 'Vasútállomás utcája': 'Vasútállomás'
-  # osm-street-filters:
-  # Diósd átlógó
+street-filters:
+  # nem igazi utcák
+  - Belterület
+  - Gátőrház
+  - MÁV állomás
+  - Vasútállomás
+  - Zártkert
+osm-street-filters:
+  # nem igazi utcák
+  - Szent István híd
+  # átlógó
+  - Régi honvédelmi út
   # - Hegyalja utca
 source: survey
 housenumber-letters: true
