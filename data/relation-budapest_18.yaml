@@ -37,6 +37,8 @@ street-filters:
   - Szemere major
   - Szemere Miklós vasútállomás
   - Vasútállomás felső
+  # még nem épült ki
+  - Kiss Ernő köz  # https://www.openstreetmap.org/way/1174147832
   # egyéb
   - Gödör tér  # Ez egy játszótér igazából
   - Újtemető út  # Átnevezték, de a XIX. kerülethez tartozik tejes egészében
