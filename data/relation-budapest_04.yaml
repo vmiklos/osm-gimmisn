@@ -39,7 +39,7 @@ osm-street-filters:
 street-filters:
   # nem igazi utcák / csak hrsz.
   - Landler Jenő MÁV őrházlak
-  # Kilián György tér - Note
+  # Kilián György tér - https://www.openstreetmap.org/node/9152243742
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Gróf Esterházy János tér': 'gróf Esterházy János tér'
