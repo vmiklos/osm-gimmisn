@@ -10,8 +10,9 @@ filters:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
   Alsóörsi határút:
+    # 28-30: 28 van  kiírva
     # 48-50: 50 van kiírva
-    invalid: ['48']
+    invalid: ['30', '48']
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
@@ -371,6 +372,9 @@ filters:
   Sirály utca:
     # strandok a páros oldal, páratlanon a Vasút van
     invalid: ['1']
+  Somfa utca:
+    # 2: 1 van táblázva a helyén
+    invalid: ['2']
   Szabadság út:
     # 49-51: csak 49 van kiírva
     invalid: ['51']
@@ -400,6 +404,10 @@ filters:
   Szinyei Merse Pál utca:
     # 12-14: csak 12 van kiírva
     invalid: ['14']
+  Szigeti József utca:
+    # 38-40: csak 40 van kiírva
+    # 54 = Iskola utca 41.
+    invalid: ['38', '54']
   Szömörce utca:
     # 30: az első leágaóz, nincs kiírva 2023-04. RESURVEY 2024
     #,62, 64 nincs kiírva 2023-04. RESURVEY 2024
