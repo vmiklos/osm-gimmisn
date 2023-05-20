@@ -1,8 +1,9 @@
 missing-streets: 'no'
 filters:
   Alsóörsi határút:
+    # 28-30: 28 van  kiírva
     # 48-50: 50 van kiírva
-    invalid: ['48']
+    invalid: ['30', '48']
   Balatonfüredi út:
     # 17: talán a susnyában a Perem utca vége alatt - note
     # 34: 32 után 36
@@ -35,6 +36,9 @@ filters:
   Sirály utca:
     # strandok a páros oldal, páratlanon a Vasút van
     invalid: ['1']
+  Somfa utca:
+    # 2: 1 van táblázva a helyén
+    invalid: ['2']
   Szabadság-kilátó út:
     # 28: 24 van kiírva; 24 után nyeles telek szám nélkül és 32
     invalid: ['28']
@@ -45,6 +49,10 @@ filters:
     ranges:
       - {start: '1', end: '5'}
       - {start: '2', end: '4'}
+  Szigeti József utca:
+    # 38-40: csak 40 van kiírva
+    # 54 = Iskola utca 41.
+    invalid: ['38', '54']
 refstreets:
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
 source: survey
