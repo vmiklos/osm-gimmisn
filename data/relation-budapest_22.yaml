@@ -1000,6 +1000,8 @@ street-filters:
   - Máv őrház
   # Megszűnt
   - Fazekas forduló
+  - Kása utca  # Régen a Gyöngyszem utca folytatása volt a Fülesbagoly utca felé, most beépített telkek vannak a helyén.
+  - Támfal utca  # Régen a 223938 helyrajzi számú utca volt, most a tőle keletre lévő telekkel van összenyitva és elkerítve.
   # Ismeretlen
   - Száva utca
   - Vízmosás utca
@@ -1028,31 +1030,18 @@ osm-street-filters:
   - Nagytétényi Sváb Emlékhely
   - Szent Donát-hegyi emlékhely
   - Tétény-rét Családi Park
-  # Létező, de házszám nélküli utcák
-  - Barátok köz
-  - Donszky Árpád utca
-  - Híd utca
-  - Konzervgyár utca
-  - Május 1. tér
-  - Pint utca
-  - Seidl lépcső
-  - Tél utca
-  - Tűzoltó utca
-  # Létező utcák, de házszám csak az utcanévtáblán van, az épületek más utcáról számozódnak
-  - Merész utca
-  - Sásfű utca
   # Diósd-Budapest határa, átlógó utca
   - Kavicsos utca
-  # Érd-Budapest határa, a közigazgatási határ a kerítések vonalán fut: az épületek Érden vannak, a Budafoki út és a Tétényi út egy része pedig Budapest területére esik
+  # Érd-Budapest határa, a közigazgatási határ a kerítések vonalán fut: az épületek Érden vannak, a Budafoki út és a Tétényi utca egy része pedig Budapest területére esik
   - Budafoki út
-  - Tétényi út
+  - Tétényi utca
   # Megszűnt
   - Dráva utca  # https://www.openstreetmap.org/node/6779492219
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   'Boros utca': 'Boros út'
-  'Kiskőbánya utca': 'Kis Kőbánya utca'  # utcatáblán Kiskőbánya utca
-  'Nagykőbánya utca': 'Nagy Kőbánya utca'
+  'Kiskőbánya utca': 'Kis Kőbánya utca'  # utcatáblán Kiskőbánya utca (2023-05-20)
+  'Nagykőbánya utca': 'Nagy Kőbánya utca'  # utcatáblán Nagykőbánya utca (2023-05-20)
   'Szentkorona utca': 'Szent korona utca'
 source: survey
 inactive: false
