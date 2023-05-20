@@ -44,7 +44,8 @@ filters:
       - {start: '2', end: '10'}
   Batthyány utca:
     # 5-11 között egy park van illetve a Csalogány utca 6-10 társasház
-    invalid: ['5', '7']
+    # 17-21: Mária tér
+    invalid: ['5', '7', '17', '21']
   Batthyány tér:
     # 2 = Batthány utca 2
     invalid: ['2']
