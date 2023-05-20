@@ -16,7 +16,7 @@ refstreets:
   'Sánchegyi út': 'Sánchegyi utca'
   'Simonpuszta': 'Simon puszta'
   'Szomorodni utca': 'Szamorodni utca'
-  'Tétényi út': 'Tétényi utca'
+  # 'Tétényi út': 'Tétényi utca'  # Új táblák vannak, mindegyiken utca van (2023-05-20)
   'Tokaj utca': 'Tokaji utca'
   # 'Vasútállomás utcája': 'Vasútállomás'
 street-filters:
