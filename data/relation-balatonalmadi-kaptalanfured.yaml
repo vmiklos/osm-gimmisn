@@ -1,5 +1,8 @@
 missing-streets: 'no'
 filters:
+  Alsóörsi határút:
+    # 48-50: 50 van kiírva
+    invalid: ['48']
   Balatonfüredi út:
     # 17: talán a susnyában a Perem utca vége alatt - note
     # 34: 32 után 36

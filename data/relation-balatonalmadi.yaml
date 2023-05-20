@@ -9,6 +9,9 @@ filters:
   Alpár Ignác utca:
     # 3-5: csak 3 van kiírva
     invalid: ['5']
+  Alsóörsi határút:
+    # 48-50: 50 van kiírva
+    invalid: ['48']
   Aranyeső utca:
     # 11-13: csak 11 van
     invalid: ['13']
