@@ -268,6 +268,9 @@ filters:
   Kövesalja utca:
     # 8 helyén 4 van kiírva
     invalid: ['8']
+  Kőbánya utca:
+    # 6 = Mókus lépcső 9
+    invalid: ['6']
   Laposa Dániel utca:
     # 3: nincs, 1 után 5
     # 4 és 6: Ungár József utca 4, 6
@@ -504,6 +507,9 @@ filters:
   Ybl Miklós utca:
     # 2-4: 2/a, 2/b van kiírva
     invalid: ['4']
+  Zerge lépcső:
+    # 2: 4 van táblázva
+    invalid: ['2']
   Zichy Mihály utca:
     # 32-34: csak 32 van kiírva
     invalid: ['34']
