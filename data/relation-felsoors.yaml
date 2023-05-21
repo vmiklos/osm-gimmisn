@@ -4,11 +4,16 @@ refstreets:
   'Dália utca': 'Dália köz'
   'Dr. Szőllőssy Árpád utca': 'Dr.Szőllőssy Árpád utca'
   'Malomvölgyi utca': 'Malomvölgy utca'
-  'Rizling utca': 'Rizling köz'
-  'Szegedy Róza utca': 'Szegedi Róza utca'
-# street-filters:
-# osm-street-filters:
+  # ellenőrzött
+  'Pityorka dűlő': 'Szél utca'  # táblán Pityorka dűlő (2022-10-16)
+  'Szegedy Róza utca': 'Szegedi Róza utca'  # táblán Szegedy Róza utca (2021-09-25)
+street-filters:
+  # területként fent van
+  - Köveskút puszta
+osm-street-filters:
   # átlógó / területhatár
+  - Felsőörsi út
+  - Szabadság-kilátó út
   # nem igazi utcák
   # parkok
 source: survey
