@@ -13,7 +13,7 @@ street-filters:
 osm-street-filters:
   # átlógó / területhatár
   - Felsőörsi út
-  - Szabadság-kilátó út
+  - Halacs-Csere-hegyi kilátó utca
   # nem igazi utcák
   # parkok
 source: survey
