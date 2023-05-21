@@ -177,6 +177,9 @@ filters:
   Hadak útja:
     # 1 = park, 3 = építkezés, 5 = nincs
     invalid: ['1', '3', '5']
+  Halacs utca:
+    # 5: nincs kiírva
+    invalid: ['5']
   Hajnal utca:
     # 8-10: új ház 2 telken, még a régi 8-as házszám van kint 2023-02. RESURVEY 2023-07
     invalid: ['10']

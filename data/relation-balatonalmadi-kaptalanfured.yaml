@@ -16,6 +16,9 @@ filters:
     ranges:
       - {start: '1', end: '39'}
       - {start: '2', end: '66'}
+  Halacs utca:
+    # 5: nincs kiírva
+    invalid: ['5']
   Hóvirág utca:
     # 27-29: csak 27 van kiírva
     # 31-33: csak 31 van kiírva
@@ -50,9 +53,10 @@ filters:
       - {start: '1', end: '5'}
       - {start: '2', end: '4'}
   Szigeti József utca:
+    # 8-10: csak 8 van kiírva
     # 38-40: csak 40 van kiírva
     # 54 = Iskola utca 41.
-    invalid: ['38', '54']
+    invalid: ['10', '38', '54']
 refstreets:
   'Szabadság-kilátó út': 'Szabadságkilátó út'  # táblán Szabadság-kilátó út
 source: survey
