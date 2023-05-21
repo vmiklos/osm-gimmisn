@@ -892,6 +892,10 @@ epleny:
     osmrelation: 1078459
     refcounty: "19"
     refsettlement: "062"
+felsoors:
+    osmrelation: 1078527
+    refcounty: "19"
+    refsettlement: "064"
 nemesgulacs:
     osmrelation: 1078632
     refcounty: "19"

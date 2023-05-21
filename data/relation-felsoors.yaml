@@ -1,0 +1,16 @@
+missing-streets: 'yes'
+refstreets:
+  # kérdéses
+  'Dália utca': 'Dália köz'
+  'Dr. Szőllőssy Árpád utca': 'Dr.Szőllőssy Árpád utca'
+  'Malomvölgyi utca': 'Malomvölgy utca'
+  'Rizling utca': 'Rizling köz'
+  'Szegedy Róza utca': 'Szegedi Róza utca'
+# street-filters:
+# osm-street-filters:
+  # átlógó / területhatár
+  # nem igazi utcák
+  # parkok
+source: survey
+housenumber-letters: false
+inactive: true
