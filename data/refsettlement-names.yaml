@@ -4,7 +4,6 @@
 
 # Budapest
 '01':
-    '001': 'Budavár'
     '002': 'Második'
     '003': 'Óbuda'
     '004': 'Újpest'
@@ -15,5 +14,3 @@
     '202': 'Miskolc'
 '12':
     '028': 'Esztergom'
-'19':
-    '022': 'Balatonalmádi'
