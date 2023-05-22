@@ -1,24 +1,30 @@
 missing-streets: 'yes'
 refstreets:
   # ellenőrzött
+  # 'Tétényi út': 'Tétényi utca'  # Új táblák vannak, mindegyiken utca van (2023-05-20)
   'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca
   # kérdéses
-  'Báthori István utca': 'Báthory István utca'
-  'Kálvin tér': 'Calvin tér'
-  'Fehérkereszti út': 'Fehérkereszti utca'
-  'Gladiolus utca': 'Gladiólusz utca'
-  'Hegyaljai út': 'Hegyaljai utca'
+  'Báthori István utca': 'Báthory István utca'  # https://www.openstreetmap.org/note/3701570
+  'Fehérkereszti út': 'Fehérkereszti utca'  # https://www.openstreetmap.org/note/3701569
+  'Fenyves utca': 'Fenyves köz'  # https://www.openstreetmap.org/note/3701450
+  'Gereblye köz': 'Gereblye utca'  # https://www.openstreetmap.org/note/3701520
+  'Gladiolus utca': 'Gladiólusz utca'  # https://www.openstreetmap.org/note/3701568
+  'Hegyaljai út': 'Hegyaljai utca'  # https://www.openstreetmap.org/note/3701571
+  'Ligetszépe út': 'Ligetszépe utca'  # https://www.openstreetmap.org/note/3701575
+  'Loránd utca': 'Lóránd utca'  # https://www.openstreetmap.org/note/3701578
+  'Mély utca': 'Mély út'  # https://www.openstreetmap.org/note/3701586
+  'Othelló utca': 'Otelló utca'  # https://www.openstreetmap.org/note/3701587
+  'Sánchegyi út': 'Sánchegyi utca'  # https://www.openstreetmap.org/note/3701589
+  'Simonpuszta': 'Simon puszta'  # https://www.openstreetmap.org/note/3701592
+  'Szomorodni utca': 'Szamorodni utca'  # https://www.openstreetmap.org/note/3701613
+  'Tokaj utca': 'Tokaji utca'  # https://www.openstreetmap.org/note/3701615
+  # nem kiszabályozott utcák, kérdéses - https://www.openstreetmap.org/note/3701551
+  'Sárgarigó utca': 'Sárgarigó köz'
+  'Seregély utca': 'Seregély köz'
+  'Sirály utca': 'Sirály köz'
+  'Stiglice utca': 'Stiglic köz'
+  # helyesírás hibás tábla
   'Ínfű utca': 'Infű utca'
-  'Ligetszépe út': 'Ligetszépe utca'
-  'Loránd utca': 'Lóránd utca'
-  'Mély utca': 'Mély út'
-  'Othelló utca': 'Otelló utca'
-  'Sánchegyi út': 'Sánchegyi utca'
-  'Simonpuszta': 'Simon puszta'
-  'Szomorodni utca': 'Szamorodni utca'
-  # 'Tétényi út': 'Tétényi utca'  # Új táblák vannak, mindegyiken utca van (2023-05-20)
-  'Tokaj utca': 'Tokaji utca'
-  # 'Vasútállomás utcája': 'Vasútállomás'
 street-filters:
   # nem igazi utcák
   - Belterület
@@ -26,12 +32,22 @@ street-filters:
   - MÁV állomás
   - Vasútállomás
   - Zártkert
+  # területként fent van
+  - Elvira-puszta  # Elviramajor - https://www.openstreetmap.org/node/3254878288
+  - Mihályi telep  # Mihálytelep - https://www.openstreetmap.org/node/1288887369
+  # tanyák
+  - Gyulyás tanya
+  - Szőke tanya
 osm-street-filters:
   # nem igazi utcák
   - Szent István híd
-  # átlógó
+  # parkok
+  - Klímapark
+  - Múzeumkert
+  - Ötvenhatosok tere
+  # átlógó/területhatár
+  - Hegyalja utca
   - Régi honvédelmi út
-  # - Hegyalja utca
 source: survey
 housenumber-letters: true
 inactive: true
