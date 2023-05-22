@@ -856,22 +856,7 @@ balatonalmadi:
     osmrelation: 1078573
     refcounty: "19"
     refsettlement: "022"
-balatonalmadi-almadi:
-    osmrelation: 13018280
-    refcounty: "19"
-    refsettlement: "022"
-balatonalmadi-budatava:
-    osmrelation: 13018282
-    refcounty: "19"
-    refsettlement: "022"
-balatonalmadi-kaptalanfured:
-    osmrelation: 13018281
-    refcounty: "19"
-    refsettlement: "022"
-balatonalmadi-vorosbereny:
-    osmrelation: 13018283
-    refcounty: "19"
-    refsettlement: "022"
+    alias: ['balatonalmadi-vorosbereny', 'balatonalmadi-kaptananfured', 'balatonalmadi-budatava', 'balatonalmadi-almadi']
 balatoncsicso:
     osmrelation: 1078574
     refcounty: "19"
