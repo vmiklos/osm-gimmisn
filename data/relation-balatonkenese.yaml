@@ -1,13 +1,12 @@
 missing-streets: 'yes'
 refstreets:
-   # kérdéses
-  'Csók István utca': 'Csók utca'
    # helyesírás
   'Bolyai János utca': 'Bólyai János utca'  # nincs tábla
   'Kun utca': 'Kún utca'
   'Rozgonyi Cecília utca': 'Rozgonyi Cecilia utca'
   # tábla = osm
   'Bocskai István utca': 'Bocskay utca'
+  'Csók István utca': 'Csók utca'
 osm-street-filters:
   # nem igazi utcák
   - Régi játszótér
