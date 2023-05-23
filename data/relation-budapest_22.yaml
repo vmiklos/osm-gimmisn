@@ -1039,10 +1039,10 @@ osm-street-filters:
   - Dráva utca  # https://www.openstreetmap.org/node/6779492219
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
-  'Boros utca': 'Boros út'
+  'Boros utca': 'Boros út'  # leszedték az összes utcatáblát (2023-05-23)
   'Kiskőbánya utca': 'Kis Kőbánya utca'  # utcatáblán Kiskőbánya utca (2023-05-20)
   'Nagykőbánya utca': 'Nagy Kőbánya utca'  # utcatáblán Nagykőbánya utca (2023-05-20)
-  'Szentkorona utca': 'Szent korona utca'
+  # 'Szentkorona utca': 'Szent korona utca'  # az északnyugati végén szóközzel van, a délkeleti végén leszedték az utcatáblát (2023-05-23)
 source: survey
 inactive: false
 housenumber-letters: true
