@@ -1,23 +1,23 @@
 missing-streets: 'yes'
 refstreets:
   # ellenőrzött
+  # 'Fenyves utca': 'Fenyves köz'  # táblán Fenyves köz (2023-05-23)
+  # 'Gladiolus utca': 'Gladiólusz utca'  # táblán Gladiólusz utca (2023-05-23)
+  # 'Ligetszépe út': 'Ligetszépe utca'  # táblán Ligetszépe utca (2023-05-23)
+  # 'Othelló utca': 'Otelló utca'  # Új táblákon Otelló utca, régin Othelló utca (2023-05-23)
+  # 'Szomorodni utca': 'Szamorodni utca'  # táblán Szamorodni utca (2023-05-23)
   # 'Tétényi út': 'Tétényi utca'  # Új táblák vannak, mindegyiken utca van (2023-05-20)
-  'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca
+  # 'Tokaj utca': 'Tokaji utca'  #  táblán Tokaji utca (2023-05-23)
+  'Vízöntő utca': 'Vízöntő út'  # Ipari park: táblán Vízöntő utca (2023-02-18)
   # kérdéses
   'Báthori István utca': 'Báthory István utca'  # https://www.openstreetmap.org/note/3701570
   'Fehérkereszti út': 'Fehérkereszti utca'  # https://www.openstreetmap.org/note/3701569
-  'Fenyves utca': 'Fenyves köz'  # https://www.openstreetmap.org/note/3701450
   'Gereblye köz': 'Gereblye utca'  # https://www.openstreetmap.org/note/3701520
-  'Gladiolus utca': 'Gladiólusz utca'  # https://www.openstreetmap.org/note/3701568
   'Hegyaljai út': 'Hegyaljai utca'  # https://www.openstreetmap.org/note/3701571
-  'Ligetszépe út': 'Ligetszépe utca'  # https://www.openstreetmap.org/note/3701575
   'Loránd utca': 'Lóránd utca'  # https://www.openstreetmap.org/note/3701578
   'Mély utca': 'Mély út'  # https://www.openstreetmap.org/note/3701586
-  'Othelló utca': 'Otelló utca'  # https://www.openstreetmap.org/note/3701587
   'Sánchegyi út': 'Sánchegyi utca'  # https://www.openstreetmap.org/note/3701589
   'Simonpuszta': 'Simon puszta'  # https://www.openstreetmap.org/note/3701592
-  'Szomorodni utca': 'Szamorodni utca'  # https://www.openstreetmap.org/note/3701613
-  'Tokaj utca': 'Tokaji utca'  # https://www.openstreetmap.org/note/3701615
   # nem kiszabályozott utcák, kérdéses - https://www.openstreetmap.org/note/3701551
   'Sárgarigó utca': 'Sárgarigó köz'
   'Seregély utca': 'Seregély köz'
@@ -34,7 +34,7 @@ street-filters:
   - Zártkert
   # területként fent van
   - Elvira-puszta  # Elviramajor - https://www.openstreetmap.org/node/3254878288
-  - Mihályi telep  # Mihálytelep - https://www.openstreetmap.org/node/1288887369
+  - Mihályi telep  # Mihálytelep - https://www.openstreetmap.org/Tokaji utca/1288887369
   # tanyák
   - Gulyás tanya
   - Szőke tanya
