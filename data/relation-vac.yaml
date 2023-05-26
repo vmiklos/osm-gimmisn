@@ -1,7 +1,55 @@
 missing-streets: 'yes'
 filters: {}
-# osm-street-filters:
-# street-filters:
+osm-street-filters:
+  # önkormányzat által használt név, tábla nincs
+  - Régi Vácdukai út
+street-filters:
+  # nem igazi utcák
+  - 156-os őrház
+  - 159 őrház
+  - 162. őrház
+  - 164 őrház
+  - Agyagbánya
+  - DCM 39 munkásszálló
+  - DCM B. telep
+  - DCM C. telep
+  - Kertváros  # https://www.openstreetmap.org/note/3673569
+  - MÁV állomás pályaudvar
+  - MÁV laktanya pályaudvar
+  # dűlők - később vissza kell tenni, amikor a normál utcák már rendben vannak, így túl nagy a zaj (2023-05-26)
+  - Alsóspinyér dűlő
+  - Alsó-Törökhegy dűlő
+  - Cindróka dűlő
+  - Csatamező dűlő
+  - Diósvölgy dűlő
+  - Egyházmege dűlő
+  - Egyházmöge dűlő
+  - Felsőspinyér dűlő
+  - Felsőtörökhegy dűlő
+  - Fenyves dűlő
+  - Grónár dűlő
+  - Hermány dűlő
+  - Kisgombás dűlő
+  - Kisrét dűlő
+  - Kissánc dűlő
+  - Kiszsobrák dűlő
+  - Körtvélyes dűlő
+  - Középtörökhegy dűlő
+  - Lágyas dűlő
+  - Látóhegy dűlő
+  - Nyulas dűlő
+  - Öreggombás dűlő
+  - Öregzsobrák dűlő
+  - Papvölgy dűlő
+  - Patakföld dűlő
+  - Patakvölgy dűlő
+  - Sejce dűlő
+  - Székhegy dűlő
+  - Václiget dűlő
+  - Vaskapualja dűlő
+  # tanya/major - később vissza lehet tenni, amikor a normál utcák már rendben vannak
+  - Kláraháza major
+  - Máriaudvar major
 refstreets:
   # helyesírás
   'Görgey Artúr utca': 'Görgey Artur utca'
