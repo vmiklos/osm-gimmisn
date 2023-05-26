@@ -808,6 +808,12 @@ fn handle_invalid_refstreets(
         {
             continue;
         }
+        if !ctx
+            .get_file_system()
+            .path_exists(&relation.get_files().get_ref_streets_path())
+        {
+            continue;
+        }
         let (osm_invalids, ref_invalids) = relation
             .get_invalid_refstreets()
             .context("get_invalid_refstreets() failed")?;

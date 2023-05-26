@@ -1898,9 +1898,9 @@ fn test_handle_stats_zipprogress_well_formed() {
     assert_eq!(results.len(), 3);
 }
 
-/// Tests handle_invalid_refstreets(): if the output is well-formed.
+/// Tests handle_invalid_refstreets().
 #[test]
-fn test_handle_invalid_refstreets_well_formed() {
+fn test_handle_invalid_refstreets() {
     let mut test_wsgi = TestWsgi::new();
     let yamls_cache = serde_json::json!({
         "relations.yaml": {
@@ -1924,8 +1924,12 @@ fn test_handle_invalid_refstreets_well_formed() {
 
     let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
 
-    let results = TestWsgi::find_all(&root, "body/h1/a");
+    let mut results = TestWsgi::find_all(&root, "body/h1/a");
     assert_eq!(results.is_empty(), false);
+
+    // 2 matches: 'OSM Name 1' is in the OSM street list + it's not in the reference.
+    results = TestWsgi::find_all(&root, "body/div[@id='ref-invalids-container']/ul/li");
+    assert_eq!(results.len(), 2);
 }
 
 /// Tests handle_invalid_refstreets(): error handling when osm street list is missing for a relation.

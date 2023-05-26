@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: osm-gimmisn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-13 12:52+0000\n"
-"PO-Revision-Date: 2023-05-13 14:53+0200\n"
+"POT-Creation-Date: 2023-05-26 20:55+0000\n"
+"PO-Revision-Date: 2023-05-26 22:57+0200\n"
 "Last-Translator: Miklos Vajna <osm-gimmisn@vmiklos.hu>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -58,13 +58,16 @@ msgstr ""
 "nevek érvénytelenek:"
 
 #: src/util.rs:825
-msgid "Note: an OSM name is invalid if it's not in the OSM database."
+msgid "Note: an OSM name is invalid if it's not in the OSM database. "
 msgstr ""
-"Megjegyzés: egy OSM név érvénytelen ha nem szerepel az OSM adatbázisban."
+"Megjegyzés: egy OSM név érvénytelen ha nem szerepel az OSM adatbázisban. "
 
 #: src/util.rs:828
-msgid "A reference name is invalid if it's in the OSM database."
-msgstr "Egy referencia név érvénytelen ha szerepel az OSM adatbázisban."
+msgid ""
+"A reference name is invalid if it's in the OSM database or it's not in the "
+"reference."
+msgstr "Egy referencia név érvénytelen ha szerepel az OSM adatbázisban vagy "
+"ha nem szerepel a referenciában."
 
 #: src/util.rs:841
 msgid ""
@@ -76,132 +79,132 @@ msgstr ""
 msgid "housenumber"
 msgstr "házszám"
 
-#: src/webframe.rs:31
+#: src/webframe.rs:32
 msgid "Version: "
 msgstr "Verzió: "
 
-#: src/webframe.rs:41
+#: src/webframe.rs:42
 msgid "OSM data © OpenStreetMap contributors."
 msgstr "OSM adatok © OpenStreetMap közreműködők."
 
-#: src/webframe.rs:45
+#: src/webframe.rs:46
 msgid "Last update: "
 msgstr "Utolsó frissítés: "
 
-#: src/webframe.rs:88 src/webframe.rs:122
+#: src/webframe.rs:89 src/webframe.rs:123
 msgid "Update from OSM"
 msgstr "Frissítés OSM-ből"
 
-#: src/webframe.rs:104 src/webframe.rs:138
+#: src/webframe.rs:105 src/webframe.rs:139
 msgid "Update from reference"
 msgstr "Frissítés referenciából"
 
-#: src/webframe.rs:154 src/webframe.rs:182
+#: src/webframe.rs:155 src/webframe.rs:183
 msgid "Call Overpass to update"
 msgstr "Frissítés Overpass hívásával"
 
-#: src/webframe.rs:167 src/webframe.rs:195
+#: src/webframe.rs:168 src/webframe.rs:196
 msgid "View query"
 msgstr "Lekérdezés megtekintése"
 
-#: src/webframe.rs:222
+#: src/webframe.rs:223
 msgid "Missing house numbers"
 msgstr "Hiányzó házszámok"
 
-#: src/webframe.rs:236 src/wsgi.rs:1330
+#: src/webframe.rs:237 src/wsgi.rs:1330
 msgid "Additional house numbers"
 msgstr "További házszámok"
 
-#: src/webframe.rs:251
+#: src/webframe.rs:252
 msgid "Missing streets"
 msgstr "Hiányzó utcák"
 
-#: src/webframe.rs:263 src/wsgi.rs:1332
+#: src/webframe.rs:264 src/wsgi.rs:1332
 msgid "Additional streets"
 msgstr "További utcák"
 
-#: src/webframe.rs:289
+#: src/webframe.rs:290
 msgid "Existing house numbers"
 msgstr "Meglévő házszámok"
 
-#: src/webframe.rs:303
+#: src/webframe.rs:304
 msgid "Existing streets"
 msgstr "Meglévő utcák"
 
-#: src/webframe.rs:343
+#: src/webframe.rs:344
 msgid "Area list"
 msgstr "Területek listája"
 
-#: src/webframe.rs:366 src/wsgi.rs:1227
+#: src/webframe.rs:367 src/wsgi.rs:1227
 msgid "Waiting for Overpass..."
 msgstr "Overpass: várakozás..."
 
-#: src/webframe.rs:367 src/webframe.rs:1136 src/webframe.rs:1157
+#: src/webframe.rs:368 src/webframe.rs:1145 src/webframe.rs:1166
 #: src/wsgi.rs:1228
 msgid "Error from Overpass: "
 msgstr "Overpass hiba: "
 
-#: src/webframe.rs:370
+#: src/webframe.rs:371
 msgid "Creating from reference..."
 msgstr "Létrehozás referenciából..."
 
-#: src/webframe.rs:372 src/webframe.rs:1178 src/webframe.rs:1198
+#: src/webframe.rs:373 src/webframe.rs:1187 src/webframe.rs:1207
 msgid "Error from reference: "
 msgstr "Hiba a referenciától: "
 
-#: src/webframe.rs:378
+#: src/webframe.rs:379
 msgid "Overpass turbo"
 msgstr "Overpass turbo"
 
-#: src/webframe.rs:392 src/wsgi.rs:1333
+#: src/webframe.rs:393 src/wsgi.rs:1333
 msgid "Area boundary"
 msgstr "Terület határa"
 
-#: src/webframe.rs:405
+#: src/webframe.rs:406
 msgid "Statistics"
 msgstr "Statisztikák"
 
-#: src/webframe.rs:411
+#: src/webframe.rs:412
 msgid "https://vmiklos.hu/osm-gimmisn"
 msgstr "https://wiki.openstreetmap.org/wiki/Hungary/osm-gimmisn"
 
-#: src/webframe.rs:412
+#: src/webframe.rs:413
 msgid "Documentation"
 msgstr "Dokumentáció"
 
-#: src/webframe.rs:487
+#: src/webframe.rs:488
 msgid "Internal error when serving {0}"
 msgstr "Belső hiba a {0} kiszolgálása során"
 
-#: src/webframe.rs:508
+#: src/webframe.rs:509
 msgid "Not Found"
 msgstr "Nem található"
 
-#: src/webframe.rs:512
+#: src/webframe.rs:513
 msgid "The requested URL was not found on this server."
 msgstr "A kért URL nem található ezen a kiszolgálón."
 
-#: src/webframe.rs:578 src/webframe.rs:912
+#: src/webframe.rs:579 src/webframe.rs:921
 msgid "City name"
 msgstr "Város neve"
 
-#: src/webframe.rs:579 src/webframe.rs:669 src/wsgi.rs:1329
+#: src/webframe.rs:580 src/webframe.rs:670 src/wsgi.rs:1329
 msgid "House number coverage"
 msgstr "Házszám lefedettség"
 
-#: src/webframe.rs:580 src/webframe.rs:670
+#: src/webframe.rs:581 src/webframe.rs:671
 msgid "OSM count"
 msgstr "OSM szám"
 
-#: src/webframe.rs:581 src/webframe.rs:671
+#: src/webframe.rs:582 src/webframe.rs:672
 msgid "Reference count"
 msgstr "Referencia szám"
 
-#: src/webframe.rs:602 src/webframe.rs:694 src/webframe.rs:1037
+#: src/webframe.rs:603 src/webframe.rs:695 src/webframe.rs:1046
 msgid "Note"
 msgstr "Megjegyzés"
 
-#: src/webframe.rs:607
+#: src/webframe.rs:608
 msgid ""
 "These statistics are estimates, not taking house number filters into "
 "account.\n"
@@ -210,11 +213,11 @@ msgstr ""
 "Ezek a statisztikák becslések, nem véve figyelembe a házszám szűrőket.\n"
 "Csak olyan városok szerepelnek benne, amiknek van az OSM-ben házszámuk."
 
-#: src/webframe.rs:668
+#: src/webframe.rs:669
 msgid "ZIP code"
 msgstr "Irányítószám"
 
-#: src/webframe.rs:699
+#: src/webframe.rs:700
 msgid ""
 "These statistics are estimates, not taking house number filters into "
 "account.\n"
@@ -224,191 +227,192 @@ msgstr ""
 "Csak olyan irányítószámok szerepelnek benne, amiknek van az OSM-ben "
 "házszámuk."
 
-#: src/webframe.rs:732 src/wsgi_additional.rs:91
+#: src/webframe.rs:735 src/wsgi_additional.rs:91
 msgid "Identifier"
 msgstr "Azonosító"
 
-#: src/webframe.rs:733 src/wsgi_additional.rs:92
+#: src/webframe.rs:736 src/wsgi_additional.rs:92
 msgid "Type"
 msgstr "Típus"
 
-#: src/webframe.rs:734
+#: src/webframe.rs:737
 msgid "Postcode"
 msgstr "Irányítószám"
 
-#: src/webframe.rs:735
+#: src/webframe.rs:738
 msgid "City"
 msgstr "Város"
 
-#: src/webframe.rs:736
+#: src/webframe.rs:739
 msgid "Street"
 msgstr "Utca"
 
-#: src/webframe.rs:737
+#: src/webframe.rs:740
 msgid "Housenumber"
 msgstr "Házszám"
 
-#: src/webframe.rs:738
+#: src/webframe.rs:741
 msgid "User"
 msgstr "Felhasználó neve"
 
-#: src/webframe.rs:773
+#: src/webframe.rs:776
 msgid ""
 "The addr:city key of the below {0} objects probably has an invalid value."
-msgstr "Az alábbi {0} objektum addr:city kulcsának értéke valószínűleg érvénytelen."
+msgstr ""
+"Az alábbi {0} objektum addr:city kulcsának értéke valószínűleg érvénytelen."
 
-#: src/webframe.rs:880
+#: src/webframe.rs:889
 msgid "New house numbers, last 2 weeks, as of {}"
 msgstr "Új házszámok, utolsó 2 hét, frissítve: {}"
 
-#: src/webframe.rs:882
+#: src/webframe.rs:891
 msgid "During this day"
 msgstr "E nap folyamán"
 
-#: src/webframe.rs:883 src/webframe.rs:889 src/webframe.rs:947
+#: src/webframe.rs:892 src/webframe.rs:898 src/webframe.rs:956
 msgid "New house numbers"
 msgstr "Új házszámok"
 
-#: src/webframe.rs:886
+#: src/webframe.rs:895
 msgid "New house numbers, last year, as of {}"
 msgstr "Új házszámok, elmúlt év, frissítve: {}"
 
-#: src/webframe.rs:888
+#: src/webframe.rs:897
 msgid "During this month"
 msgstr "E hónap folyamán"
 
-#: src/webframe.rs:892
+#: src/webframe.rs:901
 msgid "All house numbers, last year, as of {}"
 msgstr "Összes házszám, elmúlt év, frissítve: {}"
 
-#: src/webframe.rs:894
+#: src/webframe.rs:903
 msgid "Latest for this month"
 msgstr "Legutóbbi erre a hónapra"
 
-#: src/webframe.rs:895 src/webframe.rs:901 src/webframe.rs:948
+#: src/webframe.rs:904 src/webframe.rs:910 src/webframe.rs:957
 msgid "All house numbers"
 msgstr "Minden házszám"
 
-#: src/webframe.rs:898
+#: src/webframe.rs:907
 msgid "All house numbers, last 2 weeks, as of {}"
 msgstr "Összes házszám, utolsó 2 hét, frissítve: {}"
 
-#: src/webframe.rs:900
+#: src/webframe.rs:909
 msgid "At the start of this day"
 msgstr "Ennek a napnak a kezdetén"
 
-#: src/webframe.rs:904
+#: src/webframe.rs:913
 msgid "Top house number editors, as of {}"
 msgstr "Legaktívabb házszám szerkesztők, frissítve: {}"
 
-#: src/webframe.rs:906
+#: src/webframe.rs:915
 msgid "User name"
 msgstr "Felhasználó neve"
 
-#: src/webframe.rs:909
+#: src/webframe.rs:918
 msgid "Number of house numbers last changed by this user"
 msgstr "Felhasználó által utoljára módosított házszámok száma"
 
-#: src/webframe.rs:911
+#: src/webframe.rs:920
 msgid "Top edited cities, as of {}"
 msgstr "Legaktívabb városok, frissítve: {}"
 
-#: src/webframe.rs:915
+#: src/webframe.rs:924
 msgid "Number of house numbers added in the past 30 days"
 msgstr "Az elmúlt 30 napban hozzáadott házszámok száma"
 
-#: src/webframe.rs:917
+#: src/webframe.rs:926
 msgid "(empty)"
 msgstr "(üres)"
 
-#: src/webframe.rs:918
+#: src/webframe.rs:927
 msgid "(invalid)"
 msgstr "(hibás)"
 
-#: src/webframe.rs:921
+#: src/webframe.rs:930
 msgid "Number of house number editors, as of {}"
 msgstr "Házszám szerkesztők száma, frissítve: {}"
 
-#: src/webframe.rs:923
+#: src/webframe.rs:932
 msgid "All editors"
 msgstr "Összes szerkesztő"
 
-#: src/webframe.rs:926
+#: src/webframe.rs:935
 msgid ""
 "Number of editors, at least one housenumber is last changed by these users"
 msgstr ""
 "Szerkesztők száma, legalább egy házszámot ezek a szerkesztők változtattak "
 "meg utoljára"
 
-#: src/webframe.rs:928
+#: src/webframe.rs:937
 msgid "Coverage is {1}%, as of {2}"
 msgstr "A lefedettség {1}%, frissítve: {2}"
 
-#: src/webframe.rs:931
+#: src/webframe.rs:940
 msgid "Number of house numbers in database"
 msgstr "Adatbázisban szereplő házszámok száma"
 
-#: src/webframe.rs:933
+#: src/webframe.rs:942
 msgid "Data source"
 msgstr "Adatforrás"
 
-#: src/webframe.rs:936
+#: src/webframe.rs:945
 msgid "Coverage is {1}% for the capital, as of {2}"
 msgstr "A főváros lefedettsége {1}%, frissítve: {2}"
 
-#: src/webframe.rs:940
+#: src/webframe.rs:949
 msgid "Number of house numbers in database for the capital"
 msgstr "Adatbázisban szereplő fővárosi házszámok száma"
 
-#: src/webframe.rs:942
+#: src/webframe.rs:951
 msgid "Reference"
 msgstr "Referencia"
 
-#: src/webframe.rs:949
+#: src/webframe.rs:958
 msgid "New house numbers, monthly"
 msgstr "Új házszámok, havonta"
 
-#: src/webframe.rs:950
+#: src/webframe.rs:959
 msgid "All house numbers, monthly"
 msgstr "Minden házszám, havonta"
 
-#: src/webframe.rs:951
+#: src/webframe.rs:960
 msgid "Top house number editors"
 msgstr "Legaktívabb házszám szerkesztők"
 
-#: src/webframe.rs:952
+#: src/webframe.rs:961
 msgid "Top edited cities"
 msgstr "Legaktívabb városok"
 
-#: src/webframe.rs:953
+#: src/webframe.rs:962
 msgid "All house number editors"
 msgstr "Összes házszám szerkesztő"
 
-#: src/webframe.rs:954
+#: src/webframe.rs:963
 msgid "Coverage"
 msgstr "Lefedettség"
 
-#: src/webframe.rs:955
+#: src/webframe.rs:964
 msgid "Capital coverage"
 msgstr "A főváros lefedettsége"
 
-#: src/webframe.rs:956
+#: src/webframe.rs:965
 msgid "Per-city coverage"
 msgstr "Városonkénti lefedettség"
 
-#: src/webframe.rs:957
+#: src/webframe.rs:966
 msgid "Per-ZIP coverage"
 msgstr "Irányítószámonkénti lefedettség"
 
-#: src/webframe.rs:958
+#: src/webframe.rs:967
 msgid "Invalid relation settings"
 msgstr "Érvénytelen területi beállítások"
 
-#: src/webframe.rs:959
+#: src/webframe.rs:968
 msgid "Invalid addr:city values"
 msgstr "Érvénytelen addr:city értékek"
 
-#: src/webframe.rs:1042
+#: src/webframe.rs:1051
 msgid ""
 "These statistics are provided purely for interested editors, and are not\n"
 "intended to reflect quality of work done by any given editor in OSM. If you "
@@ -422,39 +426,39 @@ msgstr ""
 "használni, hogy motiváljad magad, az rendben van, de ne felejtsd, hogy "
 "kevesebb hasznos munka többet ér, mint sok haszontalan munka."
 
-#: src/webframe.rs:1117
+#: src/webframe.rs:1126
 msgid "No such relation: {0}"
 msgstr "Nincs ilyen reláció: {0}"
 
-#: src/webframe.rs:1129
+#: src/webframe.rs:1138
 msgid "No existing streets: call Overpass to create..."
 msgstr "Nincsenek meglévő utcák: létrehozás Overpass hívásával..."
 
-#: src/webframe.rs:1134
+#: src/webframe.rs:1143
 msgid "No existing streets: waiting for Overpass..."
 msgstr "Nincsenek meglévő utcák: Overpass: várakozás..."
 
-#: src/webframe.rs:1149
+#: src/webframe.rs:1158
 msgid "No existing house numbers: call Overpass to create..."
 msgstr "Nincsenek meglévő házszámok: létrehozás Overpass hívásával..."
 
-#: src/webframe.rs:1155
+#: src/webframe.rs:1164
 msgid "No existing house numbers: waiting for Overpass..."
 msgstr "Nincsenek meglévő házszámok: Overpass: várakozás..."
 
-#: src/webframe.rs:1170
+#: src/webframe.rs:1179
 msgid "No reference house numbers: create from reference..."
 msgstr "Nincsenek referencia házszámok: létrehozás referenciából..."
 
-#: src/webframe.rs:1176
+#: src/webframe.rs:1185
 msgid "No reference house numbers: creating from reference..."
 msgstr "Nincsenek referencia házszámok: létrehozás referenciából..."
 
-#: src/webframe.rs:1191
+#: src/webframe.rs:1200
 msgid "No street list: create from reference..."
 msgstr "Nincsenek referencia utcák: létrehozás referenciából..."
 
-#: src/webframe.rs:1196
+#: src/webframe.rs:1205
 msgid "No reference streets: creating from reference..."
 msgstr "Nincsenek referencia utcák: létrehozás referenciából..."
 
