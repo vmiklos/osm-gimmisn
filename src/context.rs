@@ -20,6 +20,8 @@ use std::path::Path;
 use std::rc::Rc;
 use std::time::Duration;
 
+use crate::sql;
+
 /// File system interface.
 pub trait FileSystem {
     /// Test whether a path exists.
@@ -67,70 +69,7 @@ pub trait Database {
     /// Opens and initializes a new database connection.
     fn create(&self) -> anyhow::Result<rusqlite::Connection> {
         let conn = self.open()?;
-        conn.execute(
-            "create table if not exists ref_housenumbers (
-                 county_code text not null,
-                 settlement_code text not null,
-                 street text not null,
-                 housenumber text not null,
-                 comment text not null
-             )",
-            [],
-        )?;
-        conn.execute(
-            "create index if not exists idx_ref_housenumbers
-                on ref_housenumbers (county_code, settlement_code, street)",
-            [],
-        )?;
-        conn.execute(
-            "create table if not exists ref_streets (
-                 county_code text not null,
-                 settlement_code text not null,
-                 street text not null
-             )",
-            [],
-        )?;
-        conn.execute(
-            "create index if not exists idx_ref_streets
-                on ref_streets (county_code, settlement_code)",
-            [],
-        )?;
-        conn.execute(
-            "create table if not exists osm_housenumber_coverages (
-                 relation_name text primary key not null,
-                 coverage text not null,
-                 last_modified text not null
-             )",
-            [],
-        )?;
-        conn.execute(
-            "create table if not exists osm_street_coverages (
-                 relation_name text primary key not null,
-                 coverage text not null,
-                 last_modified text not null
-             )",
-            [],
-        )?;
-        conn.execute(
-            "create table if not exists stats_invalid_addr_cities (
-                 osm_id text not null,
-                 osm_type text not null,
-                 postcode text not null,
-                 city text not null,
-                 street text not null,
-                 housenumber text not null,
-                 user text not null
-             )",
-            [],
-        )?;
-        conn.execute(
-            "create table if not exists mtimes (
-                 page text primary key not null,
-                 last_modified text not null
-             )",
-            [],
-        )?;
-        conn.execute("pragma user_version = 1", [])?;
+        sql::init(&conn)?;
         Ok(conn)
     }
 }

@@ -47,6 +47,7 @@ RS_OBJECTS = \
 	src/parse_access_log/tests.rs \
 	src/ranges.rs \
 	src/ranges/tests.rs \
+	src/sql.rs \
 	src/stats.rs \
 	src/stats/tests.rs \
 	src/sync_ref.rs \
