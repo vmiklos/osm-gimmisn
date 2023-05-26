@@ -108,7 +108,6 @@ refstreets:
   'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'  # táblán Karcsu Arzén utca (2019) - https://www.openstreetmap.org/note/3673528
   'Kép utca': 'Kép János utca'  # táblán Kép utca (2019) - https://www.openstreetmap.org/note/3673578
   'Kórház út': 'Kórház utca'  # táblán Kórház út (2019) - https://www.openstreetmap.org/note/3673581
-  'Külső Rádi út': 'Külső-Rádi út'  # táblán Külső Rádi út (2022)
   # felmért
   # 'Damjanich utca': 'Damjanich János utca'  # Az utca egyik végén csak vezetéknévvel, a másik végén teljes névvel van kitáblázva. (2023)
   'Törökhegyi utca': 'Törökhegyi út'  # A régi utcanévtáblán Törökhegyi út az egyik sarkon, az új utcanévtáblán Törökhegyi utca a másik sarkon, miközben a földhivatal szerint Török-hegyi utca. (2023) - https://www.openstreetmap.org/note/3643334
