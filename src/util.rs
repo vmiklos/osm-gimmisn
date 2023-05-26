@@ -822,10 +822,10 @@ pub fn invalid_refstreets_to_html(osm_invalids: &[String], ref_invalids: &[Strin
     if !osm_invalids.is_empty() || !ref_invalids.is_empty() {
         doc.stag("br");
         doc.text(&tr(
-            "Note: an OSM name is invalid if it's not in the OSM database.",
+            "Note: an OSM name is invalid if it's not in the OSM database. ",
         ));
         doc.text(&tr(
-            "A reference name is invalid if it's in the OSM database.",
+            "A reference name is invalid if it's in the OSM database or it's not in the reference.",
         ));
     }
     doc

@@ -232,3 +232,32 @@ fn test_handle_invalid_addr_cities() {
     // header + 1 row.
     assert_eq!(results.len(), 2);
 }
+
+/// Tests handle_invalid_refstreets(), the case when a relation has no errors.
+#[test]
+fn test_handle_invalid_refstreets_no_errors() {
+    let mut test_wsgi = wsgi::tests::TestWsgi::new();
+    let yamls_cache = serde_json::json!({
+        "relations.yaml": {
+            "gazdagret": {
+                "osmrelation": 2713748,
+            },
+        },
+        "relation-gazdagret.yaml": {
+            "refstreets": {
+            },
+        },
+    });
+    let yamls_cache_value = context::tests::TestFileSystem::write_json_to_file(&yamls_cache);
+    let files = context::tests::TestFileSystem::make_files(
+        test_wsgi.get_ctx(),
+        &[("data/yamls.cache", &yamls_cache_value)],
+    );
+    let file_system = context::tests::TestFileSystem::from_files(&files);
+    test_wsgi.get_ctx().set_file_system(&file_system);
+
+    let root = test_wsgi.get_dom_for_path("/housenumber-stats/whole-country/invalid-relations");
+
+    let results = wsgi::tests::TestWsgi::find_all(&root, "body/h1/a");
+    assert_eq!(results.is_empty(), true);
+}

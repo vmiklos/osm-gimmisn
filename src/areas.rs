@@ -1079,6 +1079,9 @@ impl<'a> Relation<'a> {
         let mut osm_invalids: Vec<String> = Vec::new();
         let mut ref_invalids: Vec<String> = Vec::new();
         let refstreets = self.config.get_refstreets();
+        if refstreets.is_empty() {
+            return Ok((osm_invalids, ref_invalids));
+        }
         let osm_streets: Vec<String> = self
             .get_osm_streets(/*sorted_result=*/ true)
             .context("get_osm_streets() failed")?
@@ -1086,9 +1089,13 @@ impl<'a> Relation<'a> {
             .map(|i| i.get_osm_name())
             .cloned()
             .collect();
+        let ref_streets: Vec<String> = self.get_ref_streets()?;
         for (osm_name, ref_name) in refstreets {
             if !osm_streets.contains(&osm_name) {
                 osm_invalids.push(osm_name);
+            }
+            if !ref_streets.contains(&ref_name) {
+                ref_invalids.push(ref_name.to_string());
             }
             if osm_streets.contains(&ref_name) {
                 ref_invalids.push(ref_name);
