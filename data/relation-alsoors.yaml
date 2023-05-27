@@ -10,7 +10,9 @@ refstreets:
   # ellenőrzött, osm=utcatábla
   'Köcsitó utca': 'Köcsi tó utca'
   'Halacs-Erdőalja utca': 'Halacs-Erdőalja út'  # táblán Halacs Erdőalja u.
+  'Kajszi út': 'Kajszi utca'
   'Kisloki utca': 'Kisloki út'
+  'Napsugár út': 'Napsugár utca'
   # 119/2018 (IX. 13) határozatban javítva teljes névre, utcatáblák ellenőrizendők
   'Bihari János utca': 'Bihari utca'
   'Hunyadi János utca': 'Hunyadi utca'
