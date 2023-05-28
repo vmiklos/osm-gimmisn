@@ -67,6 +67,7 @@ pub fn download(
     stream.write_all("sync-ref: removing old index...\n".as_bytes())?;
     let conn = ctx.get_database_connection()?;
     conn.execute("delete from ref_housenumbers", [])?;
+    conn.execute("delete from ref_streets", [])?;
 
     ctx.get_file_system()
         .write_from_string(&config_data, &ctx.get_abspath("workdir/wsgi.ini"))?;
