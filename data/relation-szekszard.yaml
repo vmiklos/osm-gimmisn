@@ -21,12 +21,8 @@ street-filters:
   - Kisbödő  # Kis-bödő
   - Ózsák puszta  # Szekszárd-Ózsákpuszta
   - Palánk
-  - Sauli völgy
   - Strázsahegy  # Strázsa-hegy
   - Szőlőhegy
-  # dupla
-  - Faddi völgy  # Faddivölgy-ön jönnek a házszámok
-  - Saul-völgy  # Sauli-völgy
 osm-street-filters:
   # nem igazi utcák
   - Attila Birtok bejárati út
@@ -56,7 +52,6 @@ refstreets:
   'Dr. Hadnagy Albert utca': 'dr. Hadnagy Albert utca'
   'Dr. Szakály Ferenc utca': 'dr. Szakály Ferenc utca'
   'Dűlő utca': 'Dülő utca'
-  'Faddi völgy': 'Faddivölgy'
   'Ferenc-szurdok': 'Ferenc szurdik'
   'Gyűszű-völgy': 'Gyüszüvölgy'
   'Istifán Gödre utca': 'Istifán gödre utca'
@@ -65,7 +60,6 @@ refstreets:
   'Liszt Ferenc tér': 'Liszt tér'
   'Munkácsy Mihály utca': 'Munkácsy utca'
   'Piactér': 'Piac tér'
-  'Sauli völgy': 'Saul-völgy'
   'Semmelweis Ignác utca': 'Semmelweis utca'
   'Szentgáli Gyula utca': 'Dr. Szentgáli Gyula utca'
   'Szalaivölgy': 'Szalai völgy'
