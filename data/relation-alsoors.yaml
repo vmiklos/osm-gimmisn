@@ -31,6 +31,7 @@ osm-street-filters:
   - Hóvirág utca  # Halacs-Hóvirág utcán vannak a hászámok
   - Perem utca
   - Szabadság-kilátó út
+  - Halacs-Csere-hegyi kilátó utca  # https://www.openstreetmap.org/way/1174866032
   # nem igazi utcák
   # parkok
 source: survey
