@@ -22,6 +22,7 @@ refstreets:
 street-filters:
   - Halacs dűlő  # már utcákra osztva - 119/2018 (IX. 13) határozatban törölve
   - Muskotályos utca  # hibás -> Muskotályos köz - 119/2018 (IX. 13) határozatban törölve
+  - Halacs-Csere-hegyi kilátó utca  # https://www.openstreetmap.org/way/1174866032
 osm-street-filters:
   # átlógó / területhatár
   - Alsóörsi határút
@@ -31,7 +32,6 @@ osm-street-filters:
   - Hóvirág utca  # Halacs-Hóvirág utcán vannak a hászámok
   - Perem utca
   - Szabadság-kilátó út
-  - Halacs-Csere-hegyi kilátó utca  # https://www.openstreetmap.org/way/1174866032
   # nem igazi utcák
   # parkok
 source: survey
