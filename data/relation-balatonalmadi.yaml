@@ -547,6 +547,7 @@ osm-street-filters:
   - Vadvirág út
 street-filters:
   # Nem igazi utcák
+  - Kézfogás Európa Szoborpark
   - Óvári kilátó
   - Öreghegy
   - Újhegy
