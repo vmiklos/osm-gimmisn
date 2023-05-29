@@ -3,10 +3,9 @@ refstreets:
   # helyesírás
   'Búzavirág köz': 'Buzavirág köz'
   'Vízöntő utca': 'Vizöntő utca'
-  # kérdéses
-  'Felsőmáli út': 'Felső-Máli út'  # határozat: Felsőmáli út
   # ellenőrzött, osm=utcatábla
   'Feketerigó utca': 'Fekete rigó utca'  # határozat: Fekete rigó utca
+  'Felsőmáli út': 'Felső-Máli út'  # határozat: Felsőmáli út, táblák vegyesen.
   'Köcsitó utca': 'Köcsi tó utca'
   'Halacs-Erdőalja utca': 'Halacs-Erdőalja út'  # táblán Halacs Erdőalja u.
   'Kajszi út': 'Kajszi utca'
