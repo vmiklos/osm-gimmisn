@@ -105,18 +105,19 @@ pub fn our_main(
     }
 
     // Download HTML.
-    let html = ctx.get_network().urlopen(&url, "")?;
+    let mut html = ctx.get_network().urlopen(&url, "")?;
+    // Work around 'expected attribute key' failure.
+    html = html.replace(
+        r#"<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">"#,
+        r#"<!DOCTYPE html>"#,
+    );
 
     // Parse the HTML.
-    let dom = html_parser::Dom::parse(&html)?;
+    let dom = html_parser::Dom::parse(&html).context("failed to parse html")?;
     let mut dom_iter = dom.children.iter();
-    let mut root = dom_iter
+    let root = dom_iter
         .next()
         .context("failed to get first child of dom")?;
-    if root.text().is_some() {
-        // Skip a first-line comment before the real root.
-        root = dom_iter.next().unwrap();
-    }
     let root = root.into_iter();
 
     // The format is type_date.tsv, figure out the latest date for each type.
