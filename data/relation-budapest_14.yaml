@@ -53,7 +53,6 @@ osm-street-filters:
   - Rákospalotai körvasút sor
   # vegyes
   - építési forgalom
-  - Iskola zug
 refstreets:
   # 'OSM Name 1': 'Ref Name 1'
   '56-osok tere': 'Ötvenhatosok tere'
