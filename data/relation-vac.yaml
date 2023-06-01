@@ -17,52 +17,81 @@ street-filters:
   - MÁV állomás pályaudvar
   - MÁV laktanya pályaudvar
   # dűlők - később vissza kell tenni, amikor a normál utcák már rendben vannak, így túl nagy a zaj (2023-05-26)
-  - Alsóspinyér dűlő
-  - Alsó-Törökhegy dűlő
-  - Cindróka dűlő
-  - Csatamező dűlő
-  - Diósvölgy dűlő
-  - Egyházmege dűlő
-  - Egyházmöge dűlő
-  - Felsőspinyér dűlő
+  # Alsókőhídpart (D-42)
+  # Althann (D-46)
+  - Alsóspinyér dűlő  # Alsó-Spinyér (D-17)
+  - Alsó-Törökhegy dűlő  # Alsótörökhegy (D-48)
+  - Cindróka dűlő  # Cindróka (D-47)
+  - Csatamező dűlő  # Csatamező (D-55)
+  # Csipkés (D-21)
+  # Csörögi rétre járó (D-53)
+  # Derecske (D-57)
+  - Diósvölgy dűlő  # Diósvölgy (D-26)
+  # Dukai határ (D-54)
+  - Egyházmege dűlő  # Egyházmöge (D-45)
+  - Egyházmöge dűlő  # Egyházmöge (D-45)
+  # Erős (D-13)
+  # Felsőkőhídpart (D-41)
+  - Felsőspinyér dűlő  # Felső-Spinyér (D-16)
   - Felsőtörökhegy dűlő
   - Fenyves dűlő
-  - Grónár dűlő
-  - Hermány dűlő
-  - Kisgombás dűlő
+  # Forrás (D-52)
+  - Grónár dűlő  # Grónár (D-19)
+  # Gyadairét (D-1)
+  - Hermány dűlő  # Hermány (D-15)
+  # Homok (D-56)
+  - Kisgombás dűlő  # Gombás (D-22)
   - Kisrét dűlő
   - Kissánc dűlő
   - Kiszsobrák dűlő
-  - Körtvélyes dűlő
+  - Körtvélyes dűlő  # Körtvélyes (D-27)
+  # Középmály (D-24)
   - Középtörökhegy dűlő
-  - Lágyas dűlő
-  - Látóhegy dűlő
-  - Nyulas dűlő
-  - Öreggombás dűlő
+  # Kútvölgy (D-10)
+  - Lágyas dűlő  # Lágyas (D-49)
+  - Látóhegy dűlő  # Látóhegy (D-11)
+  # Nagygombhíd (D-51)
+  # Nagyszál (D-2)
+  # Naszályhegy (D-4)
+  - Nyulas dűlő  # Nyulas (D-14)
+  - Öreggombás dűlő  # Öreggombás (D-23)
+  # Öregvasas (D-25)
   - Öregzsobrák dűlő
-  - Papvölgy dűlő
-  - Patakföld dűlő
-  - Patakvölgy dűlő
-  - Sejce dűlő
-  - Székhegy dűlő
-  - Václiget dűlő
+  - Papvölgy dűlő  # Pap (D-29)
+  - Patakföld dűlő  # Patakföld (D-8)
+  - Patakvölgy dűlő  # Patakvölgy (D-20)
+  # Pincevölgy (D-9)
+  - Sejce dűlő  # Sejce (D-7)
+  # Sóskuti (D-50)
+  # Spinyér (D-18)
+  # Szarvashegy (D-5)
+  # Szent László-völgy (D-28)
+  - Székhegy dűlő  # Székhegy (D-40)
+  # Téglaházi (D-43)
+  # Tordai-sutu (D-30)
+  # Vaskapu (D-6)
+  # Vaskapu alja (D-12)
+  - Václiget dűlő  # Václiget (D-59)
   - Vaskapualja dűlő
+  # Zsellér (D-58)
+  # Zsobrák (D-44)
   # tanya/major - később vissza lehet tenni, amikor a normál utcák már rendben vannak
   - Kláraháza major
   - Máriaudvar major
+  # Katalin puszta (D-3)
 refstreets:
-  # helyesírás
-  'Görgey Artúr utca': 'Görgey Artur utca'
+  # helyesírás ----------------------------------------------------------------
+  'Görgey Artúr utca': 'Görgey Artur utca'  # Vác excel: Görgey Artúr utca
   'Krakkó köz': 'Krakó köz'  # táblán Krakkó köz (2019)
   'Vizimalom utca': 'Vízimalom utca'
-  # valószínű az utcatáblán is ez van
+  # valószínű az utcatáblán is ez van -----------------------------------------
   'Bottyán utca': 'Bottyán János utca'  # https://www.openstreetmap.org/note/3673467
   'Csávolszky utca': 'Csávolszky József utca'  # https://www.openstreetmap.org/note/3673487
   'Damjanich tér': 'Damjanich János tér'  # https://www.openstreetmap.org/note/3673491
   'Dombay utca': 'Dombay Sándor utca'  # https://www.openstreetmap.org/note/3673494
   'Eötvös utca': 'Eötvös József utca' # https://www.openstreetmap.org/note/3673495
   'Eszterházy utca': 'Eszterházy Károly utca'  # https://www.openstreetmap.org/note/3673521
-  'Farkasfalvi Imre utca': 'Farkasfalvy Imre utca'  # https://www.openstreetmap.org/note/3673497
+  'Farkasfalvi Imre utca': 'Farkasfalvy Imre utca'  # https://www.openstreetmap.org/note/3673497 - Vác excel: Farkasfalvi Imre utca
   'Földváry tér': 'Földváry Károly tér'  # https://www.openstreetmap.org/note/3673499
   'Galcsek utca': 'Galcsek György utca'  # https://www.openstreetmap.org/note/3673520
   'Hunyadi utca': 'Hunyadi János utca'  # https://www.openstreetmap.org/note/3673523
@@ -78,7 +107,7 @@ refstreets:
   'Somogyi utca': 'Somogyi Imre utca'  # https://www.openstreetmap.org/note/3673517
   'Széchenyi utca': 'Széchenyi István utca'  # https://www.openstreetmap.org/note/3673525
   'Szilassy utca': 'Szilassy Vince utca'  # https://www.openstreetmap.org/note/3673526
-  # hibás
+  # hibás ---------------------------------------------------------------------
   'Makay utca': 'Makay Imre utca'  # https://www.openstreetmap.org/note/3673530
   'Mátyás utca': 'Mátyás király utca'  # https://www.openstreetmap.org/note/3643296
   'Nagy Sándor József utca': 'Nagysándor József utca'  # https://www.openstreetmap.org/note/3643298
@@ -86,8 +115,8 @@ refstreets:
   'Vörösmarty tér': 'Vörösmarty Mihály tér'  # https://www.openstreetmap.org/note/3673558
   'Wolkóber utca': 'Wolkóber János utca'  # https://www.openstreetmap.org/note/3673559
   'Zrínyi utca': 'Zrínyi Miklós utca'  # https://www.openstreetmap.org/note/3673561
-  # kérdéses
-  'Alsónyulas utca': 'Alsó-nyulas utca'  # https://www.openstreetmap.org/note/3643283
+  # kérdéses ------------------------------------------------------------------
+  'Alsónyulas utca': 'Alsó-nyulas utca'  # https://www.openstreetmap.org/note/3643283 - Vác excel: Alsó-Nyulas utca
   'Belgakert út': 'Belgakert utca'  # https://www.openstreetmap.org/note/3643293
   'Csurgóbánya utca': 'Csurgó bánya utca'  # https://www.openstreetmap.org/note/3673562
   'Deres utca': 'Deres út'  # https://www.openstreetmap.org/note/3643305
@@ -101,15 +130,30 @@ refstreets:
   'Ordítóárok utca': 'Ordító-árok utca'  # https://www.openstreetmap.org/note/3643313
   'Szederfa sor': 'Szederfasor'  # https://www.openstreetmap.org/note/3643320
   'Tó utca': 'Tó út'  # https://www.openstreetmap.org/note/3643333
-  # egyéb forrásból ellenőrzött
+  # önkormányzati excel ellenőrizendő -----------------------------------------
+  'Batthyány Lajos tér': 'Batthyányi Lajos tér'
+  'Mogyoróspele utca': 'Mogyorós pele utca'
+  # ref és önkormányzati excel eltérések (ref:excel) - ellenőrizendő ----------
+  # Alsó-nyulas utca: Alsó-Nyulas utca  # https://www.openstreetmap.org/note/3643283
+  # Csukatelep: Csukatelep utca
+  # Görgey Artur utca: Görgey Artúr utca
+  # Gyöngyház lepke utca: Gyöngyházlepke utca
+  # Németh László utca: Németh László út
+  # Oberlander tér: Oberländer Endre tér
+  # Papvölgyi út: Papvölgy út
+  # Spinyér utca: Spinyéri út
+  # Homok dűlő: Homok-dűlő út
+  # egyéb forrásból ellenőrzött  ----------------------------------------------
   'Báthori utca': 'Báthori Miklós utca'  # táblán Báthori utca (2019) - https://www.openstreetmap.org/note/3673572
   'Bocskai utca': 'Bocskai István utca'  # táblán Bocskai utca (2019) - https://www.openstreetmap.org/note/3673573
   'Fekete utca': 'Fekete út'  # táblán Fekete utca (2019) - https://www.openstreetmap.org/note/3673577
   'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'  # táblán Karcsu Arzén utca (2019) - https://www.openstreetmap.org/note/3673528
   'Kép utca': 'Kép János utca'  # táblán Kép utca (2019) - https://www.openstreetmap.org/note/3673578
   'Kórház út': 'Kórház utca'  # táblán Kórház út (2019) - https://www.openstreetmap.org/note/3673581
-  # felmért
+  # felmért -------------------------------------------------------------------
   # 'Damjanich utca': 'Damjanich János utca'  # Az utca egyik végén csak vezetéknévvel, a másik végén teljes névvel van kitáblázva. (2023)
   'Törökhegyi utca': 'Törökhegyi út'  # A régi utcanévtáblán Törökhegyi út az egyik sarkon, az új utcanévtáblán Törökhegyi utca a másik sarkon, miközben a földhivatal szerint Török-hegyi utca. (2023) - https://www.openstreetmap.org/note/3643334
+  # ref és excel eltérések (ref:excel) - ellenőrzött --------------------------
+  # Quell Rudolf utca: Qwell Rudolf utca  # táblán: Quell Rudolf utca (2023)
 source: survey
 inactive: false
