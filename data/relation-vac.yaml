@@ -1,3 +1,4 @@
+# Vác hivatalos közterület nevek excel: https://www.vacarchivum.hu/storage/dokumentumok/Utcanevek_Abonyi_Petertol_2022_02_24.xlsx
 missing-streets: 'yes'
 filters: {}
 osm-street-filters:
@@ -16,6 +17,8 @@ street-filters:
   - Kertváros  # https://www.openstreetmap.org/note/3673569
   - MÁV állomás pályaudvar
   - MÁV laktanya pályaudvar
+  # területként van fent
+  - Buki sziget  # https://www.openstreetmap.org/relation/3974010
   # dűlők - később vissza kell tenni, amikor a normál utcák már rendben vannak, így túl nagy a zaj (2023-05-26)
   # Alsókőhídpart (D-42)
   # Althann (D-46)
@@ -131,17 +134,20 @@ refstreets:
   'Szederfa sor': 'Szederfasor'  # https://www.openstreetmap.org/note/3643320
   'Tó utca': 'Tó út'  # https://www.openstreetmap.org/note/3643333
   # önkormányzati excel ellenőrizendő -----------------------------------------
-  'Batthyány Lajos tér': 'Batthyányi Lajos tér'
-  'Mogyoróspele utca': 'Mogyorós pele utca'
+  'Batthyány Lajos tér': 'Batthyányi Lajos tér'  # https://www.openstreetmap.org/note/3716178
+  'Edison utca': 'Thomas Edison utca'  # https://www.openstreetmap.org/note/3715745
+  'Jávorszky sétány': 'Dr. Jávorszky Ödön sétány'  # https://www.openstreetmap.org/note/3715869
+  'Mogyoróspele utca': 'Mogyorós pele utca'  # https://www.openstreetmap.org/note/3716180
+  'Pasa utca': 'Pasa út'  # https://www.openstreetmap.org/note/3715870
   # ref és önkormányzati excel eltérések (ref:excel) - ellenőrizendő ----------
   # Alsó-nyulas utca: Alsó-Nyulas utca  # https://www.openstreetmap.org/note/3643283
-  # Csukatelep: Csukatelep utca
+  # Csukatelep: Csukatelep utca  # https://www.openstreetmap.org/note/3716209
   # Görgey Artur utca: Görgey Artúr utca
-  # Gyöngyház lepke utca: Gyöngyházlepke utca
-  # Németh László utca: Németh László út
+  # Gyöngyház lepke utca: Gyöngyházlepke utca  # https://www.openstreetmap.org/note/3716210
+  # Németh László utca: Németh László út  # https://www.openstreetmap.org/note/3716215
   # Oberlander tér: Oberländer Endre tér
-  # Papvölgyi út: Papvölgy út
-  # Spinyér utca: Spinyéri út
+  # Papvölgyi út: Papvölgy út  # https://www.openstreetmap.org/note/3716220
+  # Spinyér utca: Spinyéri út  # https://www.openstreetmap.org/note/3716222
   # Homok dűlő: Homok-dűlő út
   # egyéb forrásból ellenőrzött  ----------------------------------------------
   'Báthori utca': 'Báthori Miklós utca'  # táblán Báthori utca (2019) - https://www.openstreetmap.org/note/3673572
@@ -152,7 +158,7 @@ refstreets:
   'Kórház út': 'Kórház utca'  # táblán Kórház út (2019) - https://www.openstreetmap.org/note/3673581
   # felmért -------------------------------------------------------------------
   # 'Damjanich utca': 'Damjanich János utca'  # Az utca egyik végén csak vezetéknévvel, a másik végén teljes névvel van kitáblázva. (2023)
-  'Törökhegyi utca': 'Törökhegyi út'  # A régi utcanévtáblán Törökhegyi út az egyik sarkon, az új utcanévtáblán Törökhegyi utca a másik sarkon, miközben a földhivatal szerint Török-hegyi utca. (2023) - https://www.openstreetmap.org/note/3643334
+  'Törökhegyi utca': 'Törökhegyi út'  # A régi utcanévtáblán Törökhegyi út az egyik sarkon, az új utcanévtáblán Törökhegyi utca a másik sarkon, miközben a földhivatal szerint Török-hegyi utca, Vác excelben Törökhegyi út (2023) - https://www.openstreetmap.org/note/3643334
   # ref és excel eltérések (ref:excel) - ellenőrzött --------------------------
   # Quell Rudolf utca: Qwell Rudolf utca  # táblán: Quell Rudolf utca (2023)
 source: survey
