@@ -531,6 +531,7 @@ osm-street-filters:
   - Kötéssűrű utca  # Szentkirályszabadja
   - Uszodai út  # Balatonfűzfő
   # Sétányok, parkok
+  - Kézfogás Európa Szoborpark
   - Spirál
   - Szent István park
   - Szent Erzsébet liget
@@ -547,7 +548,6 @@ osm-street-filters:
   - Vadvirág út
 street-filters:
   # Nem igazi utcák
-  - Kézfogás Európa Szoborpark
   - Óvári kilátó
   - Öreghegy
   - Újhegy
