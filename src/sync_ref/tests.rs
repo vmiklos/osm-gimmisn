@@ -41,6 +41,10 @@ fn test_main() {
     ctx.set_file_system(&file_system);
 
     let ret = main(&argv, &mut buf, &mut ctx);
+    println!(
+        "test_main: buf is '{}'",
+        String::from_utf8(buf.into_inner()).unwrap()
+    );
 
     assert_eq!(ret, 0);
     let actual = ctx

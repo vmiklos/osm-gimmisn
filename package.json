@@ -1,19 +1,19 @@
 {
   "license": "MIT",
   "dependencies": {
-    "@types/node": "18.16.3",
-    "@typescript-eslint/eslint-plugin": "5.59.1",
-    "@typescript-eslint/parser": "5.59.1",
+    "@types/node": "20.2.5",
+    "@typescript-eslint/eslint-plugin": "5.59.8",
+    "@typescript-eslint/parser": "5.59.8",
     "chart.js": "4.3.0",
     "chartjs-plugin-datalabels": "2.2.0",
-    "chartjs-plugin-trendline": "2.0.1",
+    "chartjs-plugin-trendline": "2.0.3",
     "clean-css-cli": "5.6.2",
-    "eslint": "8.39.0",
+    "eslint": "8.41.0",
     "sorttable": "1.0.2",
-    "ts-loader": "9.4.2",
+    "ts-loader": "9.4.3",
     "typescript": "5.0.4",
-    "webpack": "5.81.0",
-    "webpack-cli": "5.0.2"
+    "webpack": "5.85.0",
+    "webpack-cli": "5.1.1"
   },
   "sideEffects": false,
   "repository": {
