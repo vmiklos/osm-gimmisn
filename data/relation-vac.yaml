@@ -14,6 +14,7 @@ street-filters:
   - DCM 39 munkásszálló
   - DCM B. telep
   - DCM C. telep
+  - Felső Gombás patak
   - Kertváros  # https://www.openstreetmap.org/note/3673569
   - MÁV állomás pályaudvar
   - MÁV laktanya pályaudvar
@@ -148,7 +149,6 @@ refstreets:
   # Németh László utca: Németh László út  # https://www.openstreetmap.org/note/3716215
   # Oberlander tér: Oberländer Endre tér
   # Papvölgyi út: Papvölgy út  # https://www.openstreetmap.org/note/3716220
-  # Spinyér utca: Spinyéri út  # https://www.openstreetmap.org/note/3716222
   # Homok dűlő: Homok-dűlő út
   # egyéb forrásból ellenőrzött  ----------------------------------------------
   'Báthori utca': 'Báthori Miklós utca'  # táblán Báthori utca (2019) - https://www.openstreetmap.org/note/3673572
