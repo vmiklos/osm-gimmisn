@@ -86,7 +86,7 @@ street-filters:
 refstreets:
   # helyesírás ----------------------------------------------------------------
   'Görgey Artúr utca': 'Görgey Artur utca'  # Vác excel: Görgey Artúr utca
-  'Krakkó köz': 'Krakó köz'  # táblán Krakkó köz (2019)
+  'Krakkó köz': 'Krakó köz'  # táblán Krakkó köz (2019)  # https://www.openstreetmap.org/note/3716580
   'Vizimalom utca': 'Vízimalom utca'
   # valószínű az utcatáblán is ez van -----------------------------------------
   'Bottyán utca': 'Bottyán János utca'  # https://www.openstreetmap.org/note/3673467
@@ -140,13 +140,13 @@ refstreets:
   'Edison utca': 'Thomas Edison utca'  # https://www.openstreetmap.org/note/3715745
   'Jávorszky sétány': 'Dr. Jávorszky Ödön sétány'  # https://www.openstreetmap.org/note/3715869
   'Mogyoróspele utca': 'Mogyorós pele utca'  # https://www.openstreetmap.org/note/3716180
+  'Németh László utca': 'Németh László út'  # https://www.openstreetmap.org/note/3716215
   'Pasa utca': 'Pasa út'  # https://www.openstreetmap.org/note/3715870
   # ref és önkormányzati excel eltérések (ref:excel) - ellenőrizendő ----------
   # Alsó-nyulas utca: Alsó-Nyulas utca  # https://www.openstreetmap.org/note/3643283
   # Csukatelep: Csukatelep utca  # https://www.openstreetmap.org/note/3716209
   # Görgey Artur utca: Görgey Artúr utca
   # Gyöngyház lepke utca: Gyöngyházlepke utca  # https://www.openstreetmap.org/note/3716210
-  # Németh László utca: Németh László út  # https://www.openstreetmap.org/note/3716215
   # Oberlander tér: Oberländer Endre tér
   # Papvölgyi út: Papvölgy út  # https://www.openstreetmap.org/note/3716220
   # Homok dűlő: Homok-dűlő út
