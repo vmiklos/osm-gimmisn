@@ -19,7 +19,6 @@ refstreets:
   'Bischoff házaspár utca': 'Bischof házaspár utca'  # tábla Bischoff házaspár utca (2014)
   'Kék Duna utca': 'Kék-Duna utca' # tábla Kék Duna utca (2014)
   'Kerekerdő köz': 'Kerek erdő köz'
-  'Kerekerdő utca': 'Kerek erdő utca'  # tábla Kerekerdő utca (2014)
   'Latabár tér': 'Latabár Kálmán tér'
   'Nagy László esperes tér': 'Nagy László tér'
   'Nemeskéri köz': 'Nemeskéri-Kiss Miklós köz'  # tábla Új élet utca (2022)
@@ -27,6 +26,7 @@ refstreets:
   'Új élet utca': 'Újélet utca'  # tábla Új élet utca (2014)
   # ellenőrzött 
   'Bozóky Gyula tér': 'Bozóki Gyula tér'  # tábla Bozóky Gyula tér (2023)
+  'Kerekerdő utca': 'Kerek erdő utca'  # tábla Kerekerdő utca (2023) - https://www.openstreetmap.org/note/3691526
 source: survey
 housenumber-letters: false
 inactive: false
