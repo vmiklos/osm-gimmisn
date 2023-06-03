@@ -18,6 +18,8 @@ street-filters:
   - Kertváros  # https://www.openstreetmap.org/note/3673569
   - MÁV állomás pályaudvar
   - MÁV laktanya pályaudvar
+  # nem létezik
+  - Görög köz  # A Görög köz (hrsz: 3117/2) nem létezik, ott egy társasház van.
   # területként van fent
   - Buki sziget  # https://www.openstreetmap.org/relation/3974010
   # dűlők - később vissza kell tenni, amikor a normál utcák már rendben vannak, így túl nagy a zaj (2023-05-26)
@@ -142,6 +144,8 @@ refstreets:
   'Mogyoróspele utca': 'Mogyorós pele utca'  # https://www.openstreetmap.org/note/3716180
   'Németh László utca': 'Németh László út'  # https://www.openstreetmap.org/note/3716215
   'Pasa utca': 'Pasa út'  # https://www.openstreetmap.org/note/3715870
+  'Lehotka park': 'Lehotka Gábor park'  # https://www.openstreetmap.org/note/3718932
+  'Gérbics utca': 'Zsellér utca'  # https://www.openstreetmap.org/note/3718949
   # ref és önkormányzati excel eltérések (ref:excel) - ellenőrizendő ----------
   # Alsó-nyulas utca: Alsó-Nyulas utca  # https://www.openstreetmap.org/note/3643283
   # Csukatelep: Csukatelep utca  # https://www.openstreetmap.org/note/3716209
@@ -153,7 +157,6 @@ refstreets:
   # egyéb forrásból ellenőrzött  ----------------------------------------------
   'Báthori utca': 'Báthori Miklós utca'  # táblán Báthori utca (2019) - https://www.openstreetmap.org/note/3673572
   'Bocskai utca': 'Bocskai István utca'  # táblán Bocskai utca (2019) - https://www.openstreetmap.org/note/3673573
-  'Fekete utca': 'Fekete út'  # táblán Fekete utca (2019) - https://www.openstreetmap.org/note/3673577
   'Karcsu Arzén utca': 'Karcsu Antal Arzén utca'  # táblán Karcsu Arzén utca (2019) - https://www.openstreetmap.org/note/3673528
   'Kép utca': 'Kép János utca'  # táblán Kép utca (2019) - https://www.openstreetmap.org/note/3673578
   'Kórház út': 'Kórház utca'  # táblán Kórház út (2019) - https://www.openstreetmap.org/note/3673581
@@ -162,5 +165,7 @@ refstreets:
   'Törökhegyi utca': 'Törökhegyi út'  # A régi utcanévtáblán Törökhegyi út az egyik sarkon, az új utcanévtáblán Törökhegyi utca a másik sarkon, miközben a földhivatal szerint Török-hegyi utca, Vác excelben Törökhegyi út (2023) - https://www.openstreetmap.org/note/3643334
   # ref és excel eltérések (ref:excel) - ellenőrzött --------------------------
   # Quell Rudolf utca: Qwell Rudolf utca  # táblán: Quell Rudolf utca (2023)
+  # egyéb ---------------------------------------------------------------------
+  # Fekete utca -  táblán Fekete utca (2019) - https://www.openstreetmap.org/note/3673577 - ref hiba, Fekete utca + Fekete út is volt, excel szerint a régi név a Fekete út
 source: survey
 inactive: false
