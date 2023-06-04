@@ -4,6 +4,10 @@ filters: {}
 osm-street-filters:
   # önkormányzat által használt név, tábla nincs
   - Régi Vácdukai út
+  # parkok
+  - Kálvária-domb
+  - Liget
+  - Rózsakert
 street-filters:
   # nem igazi utcák
   - 156-os őrház
