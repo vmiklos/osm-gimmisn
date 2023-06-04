@@ -19,7 +19,8 @@ street-filters:
   - MÁV állomás pályaudvar
   - MÁV laktanya pályaudvar
   # nem létezik
-  - Görög köz  # A Görög köz (hrsz: 3117/2) nem létezik, ott egy társasház van.
+  - Görög köz  # A Görög köz (hrsz. 3117/2) nem létezik, ott egy társasház van.
+  - Vörösszőlő utca # A Vörösszőlő utca (hrsz. 0364) nincs kiépítve. - https://www.openstreetmap.org/note/3485462
   # területként van fent
   - Buki sziget  # https://www.openstreetmap.org/relation/3974010
   # dűlők - később vissza kell tenni, amikor a normál utcák már rendben vannak, így túl nagy a zaj (2023-05-26)
