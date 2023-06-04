@@ -81,8 +81,20 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
         )",
             [],
         )?;
-        conn.execute("pragma user_version = 1", [])?;
     }
+    if user_version < 2 {
+        conn.execute(
+            "alter table stats_invalid_addr_cities add column
+            timestamp text not null default ''",
+            [],
+        )?;
+        conn.execute(
+            "alter table stats_invalid_addr_cities add column
+            fixme text not null default ''",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 2", [])?;
     Ok(())
 }
 
