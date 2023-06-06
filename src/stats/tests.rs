@@ -437,9 +437,9 @@ fn test_update_invalid_addr_cities() {
     today_csv
         .borrow_mut()
         .write_all(
-            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type
-7677	mycity	mystreet	1	myuser	42	way
-7677	budapest_11	mystreet	1	myuser	43	node
+            r#"addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type	@timestamp	fixme
+7677	mycity	mystreet	1	myuser	42	way	2020-05-10T22:02:25Z	
+7677	budapest_11	mystreet	1	myuser	43	node	2020-05-10T22:02:25Z	
 "#
             .as_bytes(),
         )
