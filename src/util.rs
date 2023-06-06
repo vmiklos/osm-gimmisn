@@ -974,6 +974,12 @@ pub struct OsmLightHouseNumber {
     /// OSM object type.
     #[serde(rename = "@type")]
     pub osm_type: String,
+    /// OSM object timestamp.
+    #[serde(rename = "@timestamp")]
+    pub timestamp: String,
+    /// Need further attention.
+    #[serde(rename = "fixme")]
+    pub fixme: String,
 }
 
 /// Reads a house number CSV and extracts streets from rows.

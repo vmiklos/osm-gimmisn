@@ -1,3 +1,3 @@
-addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type
-7677	Orfű	Dollár utca	1	vasony	42	node
-7677	Orfű	Dollár utca	2	vasony	43	way
+addr:postcode	addr:city	addr:street	addr:housenumber	@user	@id	@type	@timestamp	fixme
+7677	Orfű	Dollár utca	1	vasony	42	node	2017-03-13T22:02:25Z	
+7677	Orfű	Dollár utca	2	vasony	43	way	2017-03-13T22:02:25Z	
