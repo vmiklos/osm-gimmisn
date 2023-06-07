@@ -4,10 +4,11 @@ filters: {}
 osm-street-filters:
   # önkormányzat által használt név, tábla nincs
   - Régi Vácdukai út
-  # parkok
+  # parkok/udvarok
   - Kálvária-domb
   - Liget
   - Rózsakert
+  - Kalmárok udvara
 street-filters:
   # nem igazi utcák
   - 156-os őrház
@@ -24,7 +25,7 @@ street-filters:
   - MÁV laktanya pályaudvar
   # nem létezik
   - Görög köz  # A Görög köz (hrsz. 3117/2) nem létezik, ott egy társasház van.
-  - Vörösszőlő utca # A Vörösszőlő utca (hrsz. 0364) nincs kiépítve. - https://www.openstreetmap.org/note/3485462
+  # - Vörösszőlő utca # A Vörösszőlő utca (hrsz. 0364) nincs kiépítve. - https://www.openstreetmap.org/note/3485462
   # területként van fent
   - Buki sziget  # https://www.openstreetmap.org/relation/3974010
   # dűlők - később vissza kell tenni, amikor a normál utcák már rendben vannak, így túl nagy a zaj (2023-05-26)
@@ -141,7 +142,7 @@ refstreets:
   'Konstantin tér': 'Schuszter Konstantin tér'  # https://www.openstreetmap.org/note/3716227
   'Ordítóárok utca': 'Ordító-árok utca'  # https://www.openstreetmap.org/note/3643313
   'Szederfa sor': 'Szederfasor'  # https://www.openstreetmap.org/note/3643320
-  'Tó utca': 'Tó út'  # https://www.openstreetmap.org/note/3643333
+  'Tó utca': 'Tó út'  # https://www.openstreetmap.org/note/3643333 - Vác excel: Tó utca
   # önkormányzati excel ellenőrizendő -----------------------------------------
   'Batthyány Lajos tér': 'Batthyányi Lajos tér'  # https://www.openstreetmap.org/note/3716178
   'Edison utca': 'Thomas Edison utca'  # https://www.openstreetmap.org/note/3715745
