@@ -1,0 +1,27 @@
+missing-streets: 'yes'
+# osm-street-filters:
+  # park
+  # átlógó
+street-filters:
+  # nem igazi utcák
+  - 165-ös őrház
+  - 166-os őrház
+  - Borház
+  - Erdészház
+  - Malom
+  - MÁV állomás
+  - Szociális otthon
+  - Trafóház
+refstreets:
+  'Akácos utca': 'Akácos út'  # https://www.openstreetmap.org/note/3724173
+  'Barack köz': 'Barackos köz'  # https://www.openstreetmap.org/note/3724174
+  'Bánya utca': 'Bánya út'  # https://www.openstreetmap.org/note/3724175
+  'Határ utca': 'Határ út'  # https://www.openstreetmap.org/note/3724177
+  'Hunyadi János utca': 'Hunyadi utca'  # https://www.openstreetmap.org/note/3724179
+  'Jókai Mór utca': 'Jókai utca'  # https://www.openstreetmap.org/note/3724181
+  'Klapka György utca': 'Klapka utca'  #https://www.openstreetmap.org/note/3724182
+  'Kossuth utca': 'Kossuth Lajos utca'  # https://www.openstreetmap.org/note/3724184
+  'Árpád-házi Szent Erzsébet sétány': 'Árpádházi Szent Ezsébet sétány'  # https://www.openstreetmap.org/note/3724187
+source: survey
+housenumber-letters: false
+inactive: false
