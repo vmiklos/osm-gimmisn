@@ -1,6 +1,10 @@
 # Vác hivatalos közterület nevek excel: https://www.vacarchivum.hu/storage/dokumentumok/Utcanevek_Abonyi_Petertol_2022_02_24.xlsx
 missing-streets: 'yes'
-filters: {}
+filters:
+  Külső Rádi út:
+    # 238: ez helyrajzi szám, nem házszám.
+    # 288/3: ez helyrajzi szám, nem házszám.
+    invalid: ['238', '288/3']
 osm-street-filters:
   # önkormányzat által használt név, tábla nincs
   - Régi Vácdukai út
@@ -174,4 +178,5 @@ refstreets:
   # egyéb ---------------------------------------------------------------------
   # Fekete utca -  táblán Fekete utca (2019) - https://www.openstreetmap.org/note/3673577 - ref hiba, Fekete utca + Fekete út is volt, excel szerint a régi név a Fekete út
 source: survey
+housenumber-letters: true
 inactive: false
