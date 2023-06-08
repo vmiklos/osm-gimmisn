@@ -59,6 +59,7 @@ refstreets:
   'Kisbödő hegy utca': 'Kisbödő-hegy utca'
   'Liszt Ferenc tér': 'Liszt tér'
   'Munkácsy Mihály utca': 'Munkácsy utca'
+  'Nagy Mihály völgye': 'Nagy Mihály völgy'
   'Piactér': 'Piac tér'
   'Semmelweis Ignác utca': 'Semmelweis utca'
   'Szentgáli Gyula utca': 'Dr. Szentgáli Gyula utca'
@@ -69,7 +70,7 @@ refstreets:
   'TOTÉV Ipartelep': 'TOTÉV ipartelep'
   'Újfalussy Imre utca': 'Ujfalussy Imre utca'
   'Vasvári Pál utca': 'Vasvári utca'
+  'Virág völgy út': 'Virág völgy'
   'Vörösmarty Mihály utca': 'Vörösmarty utca'
-  'Zápor köz': 'Zápor-köz'
 source: survey
 inactive: true

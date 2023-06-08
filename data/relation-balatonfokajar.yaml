@@ -12,6 +12,7 @@ street-filters:
   - Öreghegy  # https://www.openstreetmap.org/node/5446074977
 osm-street-filters:
   # átlógó utcák
+  - Aligai út  # valójában a Lego kiállítás Balatonvilágos-ra számozza magát
   - Sirály utca
 source: survey
 housenumber-letters: false
