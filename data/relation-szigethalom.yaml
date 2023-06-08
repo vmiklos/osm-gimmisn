@@ -1,5 +1,17 @@
 missing-streets: 'yes'
 filters: {}
+street-filters:
+  # Nem igazi utcák
+  - Erdészlak
+  - Gere tanya
+  - Máv őrház
+  # Ledina dűlő
+  # Rejtő köz
+  # Rubicon köz
+  # Váci Mihály köz
+osm-street-filters:
+  # Nem igazi utcák
+  - Emese Park - Középkori Múzeumfalu
 refstreets:
   'Eötvös József utca': 'Eötvös utca'
   'Eszterházy utca': 'Eszterházy Pál utca'
@@ -17,13 +29,5 @@ refstreets:
   'XVII./A utca': 'XVII.A utca'
   'XVIII./A utca': 'XVIII.A utca'
   'Zrínyi Miklós utca': 'Zrínyi utca'
-  # Erdészlak
-  # Gere tanya
-  # Karám köz
-  # Ledina dűlő
-  # Máv őrház
-  # Rejtő köz
-  # Rubicon köz
-  # Váci Mihály köz
 source: survey
 inactive: true
