@@ -1500,7 +1500,7 @@ fn normalize(
     let mut comment: String = "".into();
     let mut house_numbers: String = house_numbers.into();
     if house_numbers.contains('\t') {
-        let tokens = house_numbers.clone();
+        let tokens = house_numbers;
         let mut iter = tokens.split('\t');
         house_numbers = iter.next().unwrap().into();
         comment = iter.next().unwrap().into();
