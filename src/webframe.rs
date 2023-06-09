@@ -728,7 +728,7 @@ fn handle_invalid_addr_cities(
     {
         let conn = ctx.get_database_connection()?;
         let mut stmt = conn
-        .prepare("select osm_id, osm_type, postcode, city, street, housenumber, user from stats_invalid_addr_cities")?;
+        .prepare("select osm_id, osm_type, postcode, city, street, housenumber, user, timestamp, fixme from stats_invalid_addr_cities")?;
         let mut invalids = stmt.query([])?;
         {
             let cells: Vec<yattag::Doc> = vec![
@@ -739,6 +739,8 @@ fn handle_invalid_addr_cities(
                 yattag::Doc::from_text(&tr("Street")),
                 yattag::Doc::from_text(&tr("Housenumber")),
                 yattag::Doc::from_text(&tr("User")),
+                yattag::Doc::from_text(&tr("Timestamp")),
+                yattag::Doc::from_text(&tr("Fixme")),
             ];
             table.push(cells);
         }
@@ -766,6 +768,10 @@ fn handle_invalid_addr_cities(
             cells.push(yattag::Doc::from_text(&housenumber));
             let user: String = invalid.get(6).unwrap();
             cells.push(yattag::Doc::from_text(&user));
+            let timestamp: String = invalid.get(7).unwrap();
+            cells.push(yattag::Doc::from_text(&timestamp));
+            let fixme: String = invalid.get(8).unwrap();
+            cells.push(yattag::Doc::from_text(&fixme));
             table.push(cells);
             count += 1;
         }
