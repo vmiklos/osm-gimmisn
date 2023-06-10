@@ -5,11 +5,8 @@
 # SPDX-License-Identifier: MIT
 #
 
-REF_URL="$1"
-
 mkdir -p workdir
 podman run \
-    --env "REF_URL=$REF_URL" \
     --hostname osm-gimmisn \
     --interactive \
     --name osm-gimmisn \
