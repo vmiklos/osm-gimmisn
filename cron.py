@@ -240,6 +240,9 @@ def update_stats_count(ctx: context.Context, today: str) -> None:
                 continue
             # postcode, city name, street name, house number, user
             cells = line.split("\t")
+            # Ignore line part after CRLF in field
+            if len(cells)<5:
+                continue
             # Ignore last column, which is the user who touched the object last.
             house_numbers.add("\t".join(cells[:4]))
             city_key = util.get_city_key(cells[0], cells[1], valid_settlements)
@@ -278,6 +281,9 @@ def update_stats_topusers(ctx: context.Context, today: str) -> None:
             line = util.from_bytes(line_bytes)
             # Only care about the user column.
             cells = line.split("\t")
+            # Ignore line part after CRLF in field
+            if len(cells)<5:
+                continue
             user = cells[4]
             if user in users:
                 users[user] += 1
@@ -347,7 +353,7 @@ def update_stats(ctx: context.Context, overpass: bool) -> None:
     current_time = time.time()
     for csv in glob.glob(os.path.join(statedir, "*.csv")):
         creation_time = os.path.getmtime(csv)
-        if (current_time - creation_time) // (24 * 3600) >= 7:
+        if (current_time - creation_time) // (24 * 3600) >= 30:
             os.unlink(csv)
             info("update_stats: removed old %s", csv)
 
