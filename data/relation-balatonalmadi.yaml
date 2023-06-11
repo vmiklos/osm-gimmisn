@@ -339,6 +339,9 @@ filters:
   Őszapó utca:
     # 6-8: még épül, nincs kiírva semmi. 2022-12. RESURVEY 2023
     invalid: ['6', '8']
+  Őz utca:
+    # csak 5 és 11 van kiírva. 2023-06. RESURVEY 2024. kuka kedd.
+    invalid: ['6', '7', '8']
   Paál László utca:
     # 15: ugyanaz a telek mint a 13, kukán szerepelt a 13.
     invalid: ['15']
@@ -466,7 +469,8 @@ filters:
       - {start: '2', end: '26'}
   Városház tér:
     # 2: Földhivatal szerint a vasútállomás Városház tér 2-3, MÁV szerint csak 3
-    invalid: ['2']
+    # 7: coop volt. a helyén nyíló DM már az 5-ös házszámot használja, ami ugyanaz mint az étterem (1 telken van).
+    invalid: ['2', '7']
   Vécsey Károly utca:
     # páros oldalon nincsenek számok, más ucákra vannak számozva
     invalid: ['46']
