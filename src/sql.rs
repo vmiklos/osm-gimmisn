@@ -94,7 +94,17 @@ pub fn init(conn: &rusqlite::Connection) -> anyhow::Result<()> {
             [],
         )?;
     }
-    conn.execute("pragma user_version = 2", [])?;
+    if user_version < 3 {
+        // Tracks the number of rows in the stats_invalid_addr_cities table over time.
+        conn.execute(
+            "create table stats_invalid_addr_cities_counts (
+            date text primary key not null,
+            count text not null
+        )",
+            [],
+        )?;
+    }
+    conn.execute("pragma user_version = 3", [])?;
     Ok(())
 }
 
