@@ -27,7 +27,7 @@ filters:
     # 33, 33/1: a kerítésen 33 van, de a ház falán 33/1.
     # 33/b: ez és a Május 1. utca 32. ugyanaz a telek, de házszám a Május 1. utcáról van csak.
     # 10/2: nincs ilyen, csak 10 és 10/a.
-    invalid: ['9a', '33/b', '10/2']
+    invalid: ['9a', '33b', '10/2']
   Kertész utca:
     # 31: ez helyrajzi szám, nem házszám.
     # 31/2: ez helyrajzi szám, nem házszám.
@@ -58,7 +58,7 @@ filters:
     invalid: ['13', '2']
   Temető utca:
     # 54/13: ez helyrajzi szám, nem házszám. Az Álomvölgy tanya helyrajzi száma.
-    invalid: ['54/13']
+    invalid: ['54']
   Váci út:
     # 17/b: nincs ilyen, csak sima 17 van.
     invalid: ['17b']
