@@ -21,6 +21,9 @@ filters:
     # 185: ez helyrajzi szám, nem házszám.
     # 185/1: ez helyrajzi szám, nem házszám.
     invalid: ['130', '161/2', '168', '169/2', '170', '170/9', '185', '185/1']
+  Esze Tamás utca:
+    # 27/b: nincs ilyen, csak 27 és 27/a.
+    invalid: ['27b']
   József Attila utca:
     # 9/a: nincs ilyen, csak sima 9 van.
     # 15/a: két 15-ös házszámú épület van egymás mellett, de egyiken sincs /a alátörés.
@@ -51,7 +54,8 @@ filters:
     invalid: ['91', '20a']
   Rákóczi út:
     # 45/4: ez helyrajzi szám, nem házszám.
-    invalid: ['45/4']
+    # 44/3: nincs ilyen, csak sima 44 van.
+    invalid: ['45/4', '44/3']
   Rózsa utca:
     # 13: a páratlan oldalon a 9 az utolsó házszám.
     # 2: a páros oldalon a 4 az első házszám.
